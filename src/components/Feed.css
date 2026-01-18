@@ -138,3 +138,7 @@
 .action-btn:hover {
     color: var(--color-primary);
 }
+
+.action-btn.liked {
+    color: #e91e63;
+}

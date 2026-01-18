@@ -1,0 +1,49 @@
+{
+    "common": {
+        "loading": "Loading...",
+        "back": "Back",
+        "send": "Send",
+        "write_message": "Write a message...",
+        "online": "Online",
+        "soon": "Coming soon...",
+        "save": "Save",
+        "saved": "Saved!",
+        "search": "Search..."
+    },
+    "nav": {
+        "chats": "Chats",
+        "feed": "Feed",
+        "market": "Market",
+        "towns": "Towns",
+        "profile": "Profile"
+    },
+    "chats": {
+        "title": "Chats",
+        "empty": "No active chats.",
+        "loading_chats": "Loading chats..."
+    },
+    "feed": {
+        "title": "Feed",
+        "placeholder": "What's happening in town?",
+        "empty": "No updates on the feed.",
+        "loading_feed": "Loading feed..."
+    },
+    "market": {
+        "title": "Market",
+        "empty": "No products in the market.",
+        "loading_market": "Loading market..."
+    },
+    "auth": {
+        "login": "Login",
+        "register": "Create Account",
+        "email": "Email",
+        "password": "Password",
+        "fullName": "Full Name",
+        "signIn": "Sign In",
+        "signUp": "Sign Up",
+        "noAccount": "Don't have an account?",
+        "haveAccount": "Already have an account?",
+        "checkEmail": "Success! Please check your email to confirm your account.",
+        "logout": "Logout"
+    }
+}

@@ -1,0 +1,49 @@
+{
+    "common": {
+        "loading": "Carregando...",
+        "back": "Volver",
+        "send": "Enviar",
+        "write_message": "Escribe unha mensaxe...",
+        "online": "En liña",
+        "soon": "Proximamente...",
+        "save": "Gardar",
+        "saved": "Gardado!",
+        "search": "Buscar..."
+    },
+    "nav": {
+        "chats": "Chats",
+        "feed": "Muro",
+        "market": "Mercado",
+        "towns": "Pobos",
+        "profile": "Perfil"
+    },
+    "chats": {
+        "title": "Chats",
+        "empty": "Non hai chats activos.",
+        "loading_chats": "Cargando chats..."
+    },
+    "feed": {
+        "title": "Muro",
+        "placeholder": "Que está a pasar no pobo?",
+        "empty": "Non hai novidades no muro.",
+        "loading_feed": "Cargando o muro..."
+    },
+    "market": {
+        "title": "Mercado",
+        "empty": "Non hai produtos no mercado.",
+        "loading_market": "Cargando o mercado..."
+    },
+    "auth": {
+        "login": "Iniciar Sesión",
+        "register": "Crear Conta",
+        "email": "Correo electrónico",
+        "password": "Contrasinal",
+        "fullName": "Nome completo",
+        "signIn": "Entrar",
+        "signUp": "Rexistrarse",
+        "noAccount": "Non tes conta?",
+        "haveAccount": "Xa tes conta?",
+        "checkEmail": "Rexistro con éxito. Por favor, revisa o teu correo para confirmar.",
+        "logout": "Pechar Sesión"
+    }
+}

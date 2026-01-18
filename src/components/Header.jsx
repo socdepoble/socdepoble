@@ -1,0 +1,40 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { useAppContext } from '../context/AppContext';
+import { User } from 'lucide-react';
+import logo from '../assets/logo.png';
+import './Header.css';
+
+const Header = () => {
+    const { profile, toggleLanguage, language } = useAppContext();
+
+    return (
+        <header className="main-header">
+            <div className="header-content">
+                <Link to="/" className="logo-container">
+                    <img src={logo} alt="Sóc de Poble" className="header-logo" />
+                </Link>
+
+                <div className="header-actions">
+                    <button onClick={toggleLanguage} className="header-lang-switcher">
+                        <span>{language.toUpperCase()}</span>
+                    </button>
+
+                    {profile && (
+                        <Link to="/perfil" className="profile-link">
+                            <div className="user-avatar-small">
+                                {profile.avatar_url ? (
+                                    <img src={profile.avatar_url} alt={profile.full_name} />
+                                ) : (
+                                    <User size={20} color="white" />
+                                )}
+                            </div>
+                        </Link>
+                    )}
+                </div>
+            </div>
+        </header>
+    );
+};
+
+export default Header;

@@ -1,0 +1,49 @@
+{
+    "common": {
+        "loading": "Kargatzen...",
+        "back": "Itzuli",
+        "send": "Bidali",
+        "write_message": "Idatzi mezua...",
+        "online": "Sarean",
+        "soon": "Laster...",
+        "save": "Gorde",
+        "saved": "Gordeta!",
+        "search": "Bilatu..."
+    },
+    "nav": {
+        "chats": "Txatak",
+        "feed": "Harresia",
+        "market": "Merkatua",
+        "towns": "Herriak",
+        "profile": "Profila"
+    },
+    "chats": {
+        "title": "Txatak",
+        "empty": "Ez dago txat aktiborik.",
+        "loading_chats": "Txatak kargatzen..."
+    },
+    "feed": {
+        "title": "Harresia",
+        "placeholder": "Zer gertatzen ari da herrian?",
+        "empty": "Ez dago berririk harresian.",
+        "loading_feed": "Harresia kargatzen..."
+    },
+    "market": {
+        "title": "Merkatua",
+        "empty": "Ez dago produkturik merkatuan.",
+        "loading_market": "Merkatua kargatzen..."
+    },
+    "auth": {
+        "login": "Saioa hasi",
+        "register": "Kontua sortu",
+        "email": "Posta elektronikoa",
+        "password": "Pasahitza",
+        "fullName": "Izen osoa",
+        "signIn": "Sartu",
+        "signUp": "Erregistratu",
+        "noAccount": "Ez duzu konturik?",
+        "haveAccount": "Baduzu kontua?",
+        "checkEmail": "Erregistroa ondo egin da. Mesedez, egiaztatu zure posta elektronikoa berresteko.",
+        "logout": "Saioa itxi"
+    }
+}

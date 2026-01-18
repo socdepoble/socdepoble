@@ -1,14 +1,41 @@
 import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import Header from './components/Header';
 import Layout from './components/Layout';
 import ChatList from './components/ChatList';
 import ChatDetail from './components/ChatDetail';
 import Feed from './components/Feed';
 import Market from './components/Market';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Profile from './pages/Profile';
+import Towns from './pages/Towns';
 import { supabase } from './supabaseClient';
 import { MOCK_CHATS, MOCK_FEED, MOCK_MARKET_ITEMS } from './data';
+import { useAppContext } from './context/AppContext';
+
+// Componente para proteger rutas
+const ProtectedRoute = ({ children }) => {
+  const { user, loading } = useAppContext();
+
+  if (loading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <p>Carregant sessió...</p>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return children;
+};
 
 function App() {
+  const { loading } = useAppContext();
+
   useEffect(() => {
     const checkAndSeed = async () => {
       const { count } = await supabase.from('chats').select('*', { count: 'exact', head: true });
@@ -55,7 +82,7 @@ function App() {
         );
 
         console.log('Seeding completat!');
-        window.location.reload(); // Recargar para ver los cambios
+        window.location.reload();
       }
     };
 
@@ -64,14 +91,26 @@ function App() {
 
   return (
     <BrowserRouter>
+      <Header />
       <Routes>
-        <Route path="/" element={<Layout />}>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <Layout />
+            </ProtectedRoute>
+          }
+        >
           <Route index element={<Navigate to="/chats" replace />} />
           <Route path="chats" element={<ChatList />} />
           <Route path="chats/:id" element={<ChatDetail />} />
           <Route path="mur" element={<Feed />} />
           <Route path="mercat" element={<Market />} />
-          <Route path="pobles" element={<div className="container"><h1>Pobles</h1><p>Funcionalitat pròximament...</p></div>} />
+          <Route path="perfil" element={<Profile />} />
+          <Route path="pobles" element={<Towns />} />
         </Route>
       </Routes>
     </BrowserRouter>

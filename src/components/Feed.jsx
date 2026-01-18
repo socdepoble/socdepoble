@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Heart, MessageCircle, Share2, MoreHorizontal, Building2, Store, Users, User, Loader2 } from 'lucide-react';
-import { supabase } from '../supabaseClient';
+import { supabaseService } from '../services/supabaseService';
+import { useAppContext } from '../context/AppContext';
 import './Feed.css';
 
 const getAvatarIcon = (type) => {
@@ -23,33 +25,62 @@ const getAvatarColor = (type) => {
     }
 };
 
+import CreatePostModal from './CreatePostModal';
+
 const Feed = () => {
+    const { t } = useTranslation();
+    const { user, profile } = useAppContext();
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [userLikes, setUserLikes] = useState({}); // { postId: boolean }
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const fetchPosts = async () => {
+        try {
+            const data = await supabaseService.getPosts();
+            setPosts(data);
+
+            // Si hay usuario, cargar sus likes
+            if (user) {
+                const likesState = {};
+                for (const post of data) {
+                    const likes = await supabaseService.getPostLikes(post.id);
+                    likesState[post.id] = likes.includes(user.id);
+                }
+                setUserLikes(likesState);
+            }
+        } catch (error) {
+            console.error('Error fetching posts:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        const fetchPosts = async () => {
-            const { data, error } = await supabase
-                .from('posts')
-                .select('*')
-                .order('id', { ascending: false });
-
-            if (error) {
-                console.error('Error fetching posts:', error);
-            } else {
-                setPosts(data);
-            }
-            setLoading(false);
-        };
-
         fetchPosts();
-    }, []);
+    }, [user]);
+
+    const handleLike = async (postId) => {
+        if (!user) return alert('Debes iniciar sesión para dar like');
+
+        try {
+            const { liked } = await supabaseService.togglePostLike(postId, user.id);
+            setUserLikes(prev => ({ ...prev, [postId]: liked }));
+
+            // Actualizar contador localmente
+            setPosts(prev => prev.map(p =>
+                p.id === postId ? { ...p, likes: liked ? p.likes + 1 : p.likes - 1 } : p
+            ));
+        } catch (error) {
+            console.error('Error toggling like:', error);
+        }
+    };
 
     if (loading) {
         return (
             <div className="feed-container loading">
                 <Loader2 className="spinner" />
-                <p>Carregant el mur...</p>
+                <p>{t('feed.loading_feed')}</p>
             </div>
         );
     }
@@ -57,19 +88,25 @@ const Feed = () => {
     return (
         <div className="feed-container">
             <header className="page-header">
-                <h1>Mur</h1>
+                <h1>{t('feed.title')}</h1>
             </header>
 
             <div className="feed-list">
-                <div className="feed-input-trigger">
+                <div className="feed-input-trigger" onClick={() => setIsModalOpen(true)}>
                     <div className="user-avatar-small">
-                        <User size={20} />
+                        {profile?.avatar_url ? <img src={profile.avatar_url} alt="Profile" /> : <User size={20} />}
                     </div>
-                    <input type="text" placeholder="Què està passant al poble?" readOnly />
+                    <input type="text" placeholder={t('feed.placeholder')} readOnly />
                 </div>
 
+                <CreatePostModal
+                    isOpen={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    onPostCreated={fetchPosts}
+                />
+
                 {posts.length === 0 ? (
-                    <p className="empty-message">No hi ha novetats al mur.</p>
+                    <p className="empty-message">{t('feed.empty')}</p>
                 ) : (
                     posts.map(post => (
                         <article key={post.id} className="feed-card">

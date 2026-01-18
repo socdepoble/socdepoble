@@ -1,7 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { User, Store, Users, Building2, Loader2 } from 'lucide-react';
-import { supabase } from '../supabaseClient';
+import { supabaseService } from '../services/supabaseService';
 import './ChatList.css';
 
 const getAvatarIcon = (type) => {
@@ -24,23 +25,21 @@ const getAvatarColor = (type) => {
 };
 
 const ChatList = () => {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const [chats, setChats] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchChats = async () => {
-            const { data, error } = await supabase
-                .from('chats')
-                .select('*')
-                .order('id', { ascending: true });
-
-            if (error) {
-                console.error('Error fetching chats:', error);
-            } else {
+            try {
+                const data = await supabaseService.getChats();
                 setChats(data);
+            } catch (error) {
+                console.error('Error fetching chats:', error);
+            } finally {
+                setLoading(false);
             }
-            setLoading(false);
         };
 
         fetchChats();
@@ -50,7 +49,7 @@ const ChatList = () => {
         return (
             <div className="chat-list-container loading">
                 <Loader2 className="spinner" />
-                <p>Carregant xats...</p>
+                <p>{t('chats.loading_chats')}</p>
             </div>
         );
     }
@@ -58,11 +57,11 @@ const ChatList = () => {
     return (
         <div className="chat-list-container">
             <header className="page-header">
-                <h1>Xats</h1>
+                <h1>{t('chats.title')}</h1>
             </header>
             <div className="chat-list">
                 {chats.length === 0 ? (
-                    <p className="empty-message">No hi ha xats actius.</p>
+                    <p className="empty-message">{t('chats.empty')}</p>
                 ) : (
                     chats.map(chat => (
                         <div key={chat.id} className="chat-item" onClick={() => navigate(`/chats/${chat.id}`)}>

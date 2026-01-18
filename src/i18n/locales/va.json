@@ -1,0 +1,47 @@
+{
+    "common": {
+        "loading": "Carregant...",
+        "back": "Tornar",
+        "send": "Enviar",
+        "write_message": "Escriu un missatge...",
+        "online": "En línia",
+        "soon": "Próximament...",
+        "search": "Buscar..."
+    },
+    "nav": {
+        "chats": "Xats",
+        "feed": "Mur",
+        "market": "Mercat",
+        "towns": "Pobles",
+        "profile": "Perfil"
+    },
+    "chats": {
+        "title": "Xats",
+        "empty": "No hi ha xats actius.",
+        "loading_chats": "Carregant xats..."
+    },
+    "feed": {
+        "title": "Mur",
+        "placeholder": "Què està passant al poble?",
+        "empty": "No hi ha novetats al mur.",
+        "loading_feed": "Carregant el mur..."
+    },
+    "market": {
+        "title": "Mercat",
+        "empty": "No hi ha productes en el mercat.",
+        "loading_market": "Carregant el mercat..."
+    },
+    "auth": {
+        "login": "Iniciar Sessió",
+        "register": "Crear Compte",
+        "email": "Correu electrònic",
+        "password": "Contrasenya",
+        "fullName": "Nom complet",
+        "signIn": "Entrar",
+        "signUp": "Registrar-se",
+        "noAccount": "No tens compte?",
+        "haveAccount": "Ja tens compte?",
+        "checkEmail": "Registre amb èxit. Per favor, revisa el teu correu per a confirmar.",
+        "logout": "Eixir"
+    }
+}

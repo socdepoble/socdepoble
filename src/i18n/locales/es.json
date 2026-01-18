@@ -1,0 +1,47 @@
+{
+    "common": {
+        "loading": "Cargando...",
+        "back": "Volver",
+        "send": "Enviar",
+        "write_message": "Escribe un mensaje...",
+        "online": "En línea",
+        "soon": "Próximamente...",
+        "search": "Buscar..."
+    },
+    "nav": {
+        "chats": "Chats",
+        "feed": "Muro",
+        "market": "Mercado",
+        "towns": "Pueblos",
+        "profile": "Perfil"
+    },
+    "chats": {
+        "title": "Chats",
+        "empty": "No hay chats activos.",
+        "loading_chats": "Cargando chats..."
+    },
+    "feed": {
+        "title": "Muro",
+        "placeholder": "¿Qué está pasando en el pueblo?",
+        "empty": "No hay novedades en el muro.",
+        "loading_feed": "Cargando el muro..."
+    },
+    "market": {
+        "title": "Mercado",
+        "empty": "No hay productos en el mercado.",
+        "loading_market": "Cargando el mercado..."
+    },
+    "auth": {
+        "login": "Iniciar Sesión",
+        "register": "Crear Cuenta",
+        "email": "Correo electrónico",
+        "password": "Contraseña",
+        "fullName": "Nombre completo",
+        "signIn": "Entrar",
+        "signUp": "Registrarse",
+        "noAccount": "¿No tienes cuenta?",
+        "haveAccount": "¿Ya tienes cuenta?",
+        "checkEmail": "Registro con éxito. Por favor, revisa tu correo para confirmar.",
+        "logout": "Cerrar Sesión"
+    }
+}
