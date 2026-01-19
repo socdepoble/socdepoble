@@ -64,7 +64,6 @@ const Feed = () => {
         } catch (error) {
             console.error('Error fetching posts:', error);
         } finally {
-            console.log('Fetch posts completed. Count:', data?.length || 0);
             setLoading(false);
         }
     }, [selectedRole, user]);
