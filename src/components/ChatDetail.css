@@ -1,8 +1,7 @@
 .chat-detail-container {
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 124px);
-    /* Combined height of header (60px) and bottom nav (64px) */
+    height: calc(100vh - var(--header-height) - var(--nav-height));
     background-color: var(--color-background);
 }
 

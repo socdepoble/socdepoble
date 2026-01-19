@@ -3,7 +3,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    height: 64px;
+    height: var(--nav-height);
     background-color: var(--color-surface);
     display: flex;
     justify-content: space-around;
