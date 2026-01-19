@@ -36,12 +36,15 @@ const ProtectedRoute = ({ children }) => {
 function App() {
   useEffect(() => {
     const checkAndSeed = async () => {
-      const { count } = await supabase.from('chats').select('*', { count: 'exact', head: true });
+      // Verificar cada tabla individualmente para un seeding más robusto
+      const { count: chatCount } = await supabase.from('chats').select('*', { count: 'exact', head: true });
+      const { count: postCount } = await supabase.from('posts').select('*', { count: 'exact', head: true });
+      const { count: marketCount } = await supabase.from('market_items').select('*', { count: 'exact', head: true });
 
-      if (count === 0) {
-        console.log('Base de dades buida. Iniciant seeding...');
+      let seeded = false;
 
-        // Seed Chats
+      if (chatCount === 0) {
+        console.log('Seeding Chats...');
         await supabase.from('chats').upsert(
           MOCK_CHATS.map(chat => ({
             id: chat.id,
@@ -52,8 +55,11 @@ function App() {
             unread_count: chat.unread
           }))
         );
+        seeded = true;
+      }
 
-        // Seed Muro
+      if (postCount === 0) {
+        console.log('Seeding Muro...');
         await supabase.from('posts').upsert(
           MOCK_FEED.map(post => ({
             id: post.id,
@@ -66,21 +72,74 @@ function App() {
             created_at: new Date().toISOString()
           }))
         );
+        seeded = true;
+      }
 
-        // Seed Mercado
+      if (marketCount === 0) {
+        console.log('Seeding Mercado...');
         await supabase.from('market_items').upsert(
           MOCK_MARKET_ITEMS.map(item => ({
-            id: item.id,
-            title: item.title,
-            price: item.price,
-            seller: item.seller,
-            image_url: item.image,
-            tag: item.tag
-          }))
-        );
+            try {
+              // Verificar cada tabla individualmente para un seeding más robusto
+              const { count: chatCount } = await supabase.from('chats').select('*', { count: 'exact', head: true });
+              const { count: postCount } = await supabase.from('posts').select('*', { count: 'exact', head: true });
+              const { count: marketCount } = await supabase.from('market_items').select('*', { count: 'exact', head: true });
 
-        console.log('Seeding completat!');
-        window.location.reload();
+              let seeded = false;
+
+              if(chatCount === 0) {
+            console.log('Seeding Chats...');
+            await supabase.from('chats').upsert(
+              MOCK_CHATS.map(chat => ({
+                id: chat.id,
+                name: chat.name,
+                last_message: chat.message,
+                time: chat.time,
+                type: chat.type,
+                unread_count: chat.unread
+              }))
+            );
+            seeded = true;
+          }
+
+        if (postCount === 0) {
+          console.log('Seeding Muro...');
+          await supabase.from('posts').upsert(
+            MOCK_FEED.map(post => ({
+              id: post.id,
+              author: post.author,
+              avatar_type: post.avatarType,
+              content: post.content,
+              likes: post.likes,
+              comments_count: post.comments,
+              image_url: post.image,
+              created_at: new Date().toISOString()
+            }))
+          );
+          seeded = true;
+        }
+
+        if (marketCount === 0) {
+          console.log('Seeding Mercado...');
+          await supabase.from('market_items').upsert(
+            MOCK_MARKET_ITEMS.map(item => ({
+              id: item.id,
+              title: item.title,
+              price: item.price,
+              seller: item.seller,
+              image_url: item.image,
+              tag: item.tag
+            }))
+          );
+          seeded = true;
+        }
+
+        if (seeded) {
+          console.log('Seeding completat!');
+          window.location.reload();
+        }
+      } catch (error) {
+        console.error('Error during seeding:', error);
       }
     };
 
