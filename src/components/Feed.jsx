@@ -46,19 +46,20 @@ const Feed = () => {
             setPosts(data);
 
             // Si hay usuario, cargar sus conexiones
-            if (user) {
-                const connectionsState = {};
-                for (const post of data) {
-                    try {
-                        const connections = await supabaseService.getPostConnections(post.id);
-                        const myConn = connections.find(c => c.user_id === user.id);
+            if (user && data.length > 0) {
+                try {
+                    const postIds = data.map(p => p.id);
+                    const allConnections = await supabaseService.getPostConnections(postIds);
+
+                    const connectionsState = {};
+                    data.forEach(post => {
+                        const myConn = allConnections.find(c => c.post_id === post.id && c.user_id === user.id);
                         connectionsState[post.id] = myConn ? (myConn.tags || []) : null;
-                    } catch (error) {
-                        console.error(`Error loading connections for post ${post.id}:`, error);
-                        connectionsState[post.id] = null;
-                    }
+                    });
+                    setUserConnections(connectionsState);
+                } catch (error) {
+                    console.error('Error loading connections bulk:', error);
                 }
-                setUserConnections(connectionsState);
             }
         } catch (error) {
             console.error('Error fetching posts:', error);

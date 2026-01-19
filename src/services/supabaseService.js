@@ -189,13 +189,30 @@ export const supabaseService = {
 
     // Likes
     // Conexiones (Antiguos Likes)
-    async getPostConnections(postId) {
-        const { data, error } = await supabase
-            .from('post_connections')
-            .select('user_id, tags')
-            .eq('post_id', postId);
-        if (error) throw error;
-        return data;
+    async getPostConnections(postIds) {
+        // Soporta tanto un ID único como un array de IDs
+        const ids = Array.isArray(postIds) ? postIds : [postIds];
+
+        try {
+            const { data, error } = await supabase
+                .from('post_connections')
+                .select('post_id, user_id, tags')
+                .in('post_id', ids);
+
+            if (error) {
+                // Si la tabla no existe o la columna no existe, fallamos silenciosamente con array vacío
+                // para no romper la app mientras se aplica el SQL
+                if (error.code === 'PGRST116' || error.code === '42703' || error.code === '42P01') {
+                    console.warn('post_connections table or tags column missing. Run update SQL.');
+                    return [];
+                }
+                throw error;
+            }
+            return data;
+        } catch (err) {
+            console.error('Error fetching connections:', err);
+            return [];
+        }
     },
 
     async getPostUserConnection(postId, userId) {
