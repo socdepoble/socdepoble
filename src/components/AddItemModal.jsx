@@ -73,14 +73,14 @@ const AddItemModal = ({ isOpen, onClose, onItemCreated }) => {
         <div className="modal-overlay" onClick={onClose}>
             <div className="modal-content" onClick={e => e.stopPropagation()}>
                 <header className="modal-header">
-                    <h2>{t('market.sell_title') || 'Vendre Article'}</h2>
+                    <h2>{t('market.sell_title')}</h2>
                     <button className="close-btn" onClick={onClose}>
                         <X size={24} />
                     </button>
                 </header>
 
                 <form onSubmit={handleSubmit} className="market-form">
-                    <div style={{ marginBottom: '16px' }}>
+                    <div className="identity-selector-wrapper">
                         <EntitySelector
                             currentIdentity={selectedIdentity}
                             onSelectIdentity={setSelectedIdentity}
@@ -88,7 +88,7 @@ const AddItemModal = ({ isOpen, onClose, onItemCreated }) => {
                     </div>
 
                     <div className="form-group">
-                        <label>Títol de l'article</label>
+                        <label>{t('market.item_title')}</label>
                         <input
                             type="text"
                             placeholder="Ex: Tomates de l'horta"
@@ -100,7 +100,7 @@ const AddItemModal = ({ isOpen, onClose, onItemCreated }) => {
 
                     <div className="form-row">
                         <div className="form-group">
-                            <label>Preu</label>
+                            <label>{t('market.price')}</label>
                             <input
                                 type="text"
                                 placeholder="Ex: 2€/kg"
@@ -110,7 +110,7 @@ const AddItemModal = ({ isOpen, onClose, onItemCreated }) => {
                             />
                         </div>
                         <div className="form-group">
-                            <label>Categoria</label>
+                            <label>{t('market.category')}</label>
                             <select
                                 value={formData.tag}
                                 onChange={(e) => setFormData({ ...formData, tag: e.target.value })}
@@ -126,7 +126,7 @@ const AddItemModal = ({ isOpen, onClose, onItemCreated }) => {
 
                     <div className="image-upload-box">
                         <Camera size={24} />
-                        <span>Afegeix una foto</span>
+                        <span>{t('market.add_photo')}</span>
                     </div>
 
                     <div className="post-actions">
@@ -136,7 +136,7 @@ const AddItemModal = ({ isOpen, onClose, onItemCreated }) => {
                             disabled={loading}
                         >
                             {loading ? <Loader2 className="spinner" /> : <Send size={20} />}
-                            Publicar Article
+                            {t('market.publish')}
                         </button>
                     </div>
                 </form>

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Heart, Plus, Loader2 } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useAppContext } from '../context/AppContext';
+import AddItemModal from './AddItemModal';
 import CategoryTabs from './CategoryTabs';
 
 const Market = () => {

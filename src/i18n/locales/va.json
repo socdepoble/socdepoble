@@ -21,7 +21,8 @@
         "market": "Mercat",
         "towns": "Pobles",
         "profile": "Perfil",
-        "my_entities": "Les meues Entitats"
+        "my_entities": "Les meues Entitats",
+        "empty_entities": "No gestiones cap grup ni empresa encara."
     },
     "chats": {
         "title": "Xats",
@@ -37,7 +38,13 @@
     "market": {
         "title": "Mercat",
         "empty": "No hi ha productes en el mercat.",
-        "loading_market": "Carregant el mercat..."
+        "loading_market": "Carregant el mercat...",
+        "sell_title": "Vendre Article",
+        "item_title": "Títol de l'article",
+        "price": "Preu",
+        "category": "Categoria",
+        "add_photo": "Afegeix una foto",
+        "publish": "Publicar Article"
     },
     "auth": {
         "login": "Iniciar Sessió",
@@ -45,6 +52,7 @@
         "email": "Correu electrònic",
         "password": "Contrasenya",
         "fullName": "Nom complet",
+        "username": "Nom d'usuari",
         "signIn": "Entrar",
         "signUp": "Registrar-se",
         "noAccount": "No tens compte?",

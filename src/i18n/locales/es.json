@@ -10,14 +10,19 @@
         "role_all": "Todo",
         "role_gent": "Gente",
         "role_grup": "Grupos",
-        "role_empresa": "Empresas"
+        "role_empresa": "Empresas",
+        "role_oficial": "Oficial",
+        "save": "Guardar",
+        "saved": "¡Guardado!"
     },
     "nav": {
         "chats": "Chats",
         "feed": "Muro",
         "market": "Mercado",
         "towns": "Pueblos",
-        "profile": "Perfil"
+        "profile": "Perfil",
+        "my_entities": "Mis Entidades",
+        "empty_entities": "No gestionas ningún grupo ni empresa todavía."
     },
     "chats": {
         "title": "Chats",
@@ -33,7 +38,13 @@
     "market": {
         "title": "Mercado",
         "empty": "No hay productos en el mercado.",
-        "loading_market": "Cargando el mercado..."
+        "loading_market": "Cargando el mercado...",
+        "sell_title": "Vender Artículo",
+        "item_title": "Título del artículo",
+        "price": "Precio",
+        "category": "Categoría",
+        "add_photo": "Añadir una foto",
+        "publish": "Publicar Artículo"
     },
     "auth": {
         "login": "Iniciar Sesión",
@@ -41,6 +52,7 @@
         "email": "Correo electrónico",
         "password": "Contraseña",
         "fullName": "Nombre completo",
+        "username": "Nombre de usuario",
         "signIn": "Entrar",
         "signUp": "Registrarse",
         "noAccount": "¿No tienes cuenta?",

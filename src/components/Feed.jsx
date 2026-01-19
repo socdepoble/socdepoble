@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Link2, MessageCircle, Share2, MoreHorizontal, Building2, Store, Users, User, Loader2 } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useAppContext } from '../context/AppContext';
+import CreatePostModal from './CreatePostModal';
 import './Feed.css';
 
 const getAvatarIcon = (type) => {

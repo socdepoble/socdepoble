@@ -60,3 +60,7 @@
     width: 100%;
     justify-content: center;
 }
+
+.identity-selector-wrapper {
+    margin-bottom: 1rem;
+}

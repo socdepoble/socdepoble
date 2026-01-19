@@ -8,6 +8,8 @@ import './Profile.css';
 const MyEntitiesList = ({ userId }) => {
     const [entities, setEntities] = useState([]);
 
+    const { t } = useTranslation();
+
     useEffect(() => {
         if (userId) {
             supabaseService.getUserEntities(userId).then(setEntities);
@@ -15,16 +17,14 @@ const MyEntitiesList = ({ userId }) => {
     }, [userId]);
 
     if (entities.length === 0) {
-        return <p style={{ color: '#888', fontStyle: 'italic' }}>No gestiones cap grup ni empresa encara.</p>;
+        return <p className="empty-entities-message">{t('nav.empty_entities')}</p>;
     }
 
     return (
         <div className="entities-grid">
             {entities.map(ent => (
                 <div key={ent.id} className="entity-card">
-                    <div className="entity-avatar" style={{
-                        backgroundColor: ent.type === 'empresa' ? '#e3f2fd' : '#f3e5f5'
-                    }}>
+                    <div className={`entity-avatar ${ent.type}`}>
                         {ent.avatar_url ? (
                             <img src={ent.avatar_url} alt={ent.name} />
                         ) : (
@@ -95,9 +95,9 @@ const Profile = () => {
                         <User size={40} color="white" />
                     )}
                 </div>
-                <div>
+                <div className="profile-titles">
                     <h1>{formData.full_name || t('nav.profile')}</h1>
-                    <p style={{ margin: 0, opacity: 0.7 }}>{profile.role?.toUpperCase()}</p>
+                    <span className="profile-role-tag">{profile.role?.toUpperCase()}</span>
                 </div>
             </header>
 
@@ -112,7 +112,7 @@ const Profile = () => {
                     />
                 </div>
                 <div className="form-group">
-                    <label>Username</label>
+                    <label>{t('auth.username')}</label>
                     <input
                         type="text"
                         className="form-input"
