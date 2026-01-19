@@ -60,7 +60,7 @@ const ChatList = () => {
                 <h1>{t('chats.title')}</h1>
             </header>
             <div className="chat-list">
-                {chats.length === 0 ? (
+                {!Array.isArray(chats) || chats.length === 0 ? (
                     <p className="empty-message">{t('chats.empty')}</p>
                 ) : (
                     chats.map(chat => (

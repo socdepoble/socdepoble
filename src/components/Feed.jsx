@@ -64,6 +64,7 @@ const Feed = () => {
         } catch (error) {
             console.error('Error fetching posts:', error);
         } finally {
+            console.log('Fetch posts completed. Count:', data?.length || 0);
             setLoading(false);
         }
     }, [selectedRole, user]);
@@ -146,7 +147,7 @@ const Feed = () => {
                     onPostCreated={fetchPosts}
                 />
 
-                {posts.length === 0 ? (
+                {!Array.isArray(posts) || posts.length === 0 ? (
                     <p className="empty-message">{t('feed.empty')}</p>
                 ) : (
                     posts.map(post => (
