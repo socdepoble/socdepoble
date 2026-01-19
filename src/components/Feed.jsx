@@ -5,6 +5,7 @@ import { supabaseService } from '../services/supabaseService';
 import { useAppContext } from '../context/AppContext';
 import CreatePostModal from './CreatePostModal';
 import TagSelector from './TagSelector';
+import CategoryTabs from './CategoryTabs';
 import './Feed.css';
 
 const getAvatarIcon = (type) => {
@@ -27,8 +28,6 @@ const getAvatarColor = (type) => {
     }
 };
 
-import CategoryTabs from './CategoryTabs';
-
 const Feed = () => {
     const { t } = useTranslation();
     const { user, profile } = useAppContext();
@@ -43,10 +42,10 @@ const Feed = () => {
         setLoading(true);
         try {
             const data = await supabaseService.getPosts(selectedRole);
-            setPosts(data);
+            setPosts(data || []);
 
             // Si hay usuario, cargar sus conexiones
-            if (user && data.length > 0) {
+            if (user && data && data.length > 0) {
                 try {
                     const postIds = data.map(p => p.id);
                     const allConnections = await supabaseService.getPostConnections(postIds);
@@ -76,7 +75,6 @@ const Feed = () => {
         if (!user) return alert(t('auth.login_required') || 'Debes iniciar sesión para conectar');
 
         // Si ya está conectado y el selector de etiquetas está cerrado, lo abrimos en lugar de desconectar inmediatamente
-        // Esto permite al usuario ver sus etiquetas. Si vuelve a pulsar estando abierto, desconecta (si no hay etiquetas).
         if (userConnections[postId] !== null && showTagsFor !== postId) {
             setShowTagsFor(postId);
             return;
@@ -93,7 +91,7 @@ const Feed = () => {
             setPosts(prev => prev.map(p =>
                 p.id === postId ? {
                     ...p,
-                    connections_count: (p.connections_count || 0) + (connected && userConnections[postId] === null ? 1 : (!connected ? -1 : 0))
+                    connections_count: (p.connections_count || 0) + (connected && (userConnections[postId] === null || userConnections[postId] === undefined) ? 1 : (!connected ? -1 : 0))
                 } : p
             ));
 
@@ -116,7 +114,7 @@ const Feed = () => {
         }
     };
 
-    if (loading && posts.length === 0) { // Solo spinner si no hay posts previos (para cambio de tab suave)
+    if (loading && posts.length === 0) {
         return (
             <div className="feed-container loading">
                 <Loader2 className="spinner" />

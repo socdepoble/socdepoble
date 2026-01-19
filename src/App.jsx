@@ -37,6 +37,7 @@ function App() {
   useEffect(() => {
     const checkAndSeed = async () => {
       try {
+        // Verificar cada tabla individualmente para un seeding más robusto
         const { count: chatCount } = await supabase.from('chats').select('*', { count: 'exact', head: true });
         const { count: postCount } = await supabase.from('posts').select('*', { count: 'exact', head: true });
         const { count: marketCount } = await supabase.from('market_items').select('*', { count: 'exact', head: true });
