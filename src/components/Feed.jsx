@@ -178,7 +178,7 @@ const Feed = () => {
                             <div className="card-actions-wrapper">
                                 <div className="card-actions">
                                     <button
-                                        className={`action-btn ${userConnections[post.id] !== null ? 'connected' : ''}`}
+                                        className={`action-btn ${userConnections[post.id] ? 'connected' : ''}`}
                                         onClick={() => handleConnect(post.id)}
                                     >
                                         <Link2 size={20} />
@@ -193,7 +193,7 @@ const Feed = () => {
                                     </button>
                                 </div>
 
-                                {userConnections[post.id] !== null && showTagsFor === post.id && (
+                                {userConnections[post.id] && showTagsFor === post.id && (
                                     <TagSelector
                                         postId={post.id}
                                         currentTags={userConnections[post.id]}
@@ -201,7 +201,7 @@ const Feed = () => {
                                     />
                                 )}
 
-                                {userConnections[post.id] !== null && userConnections[post.id].length > 0 && showTagsFor !== post.id && (
+                                {userConnections[post.id] && userConnections[post.id].length > 0 && showTagsFor !== post.id && (
                                     <div className="post-tags-preview" onClick={() => setShowTagsFor(post.id)}>
                                         {userConnections[post.id].map(tag => (
                                             <span key={tag} className="tag-pill">{tag}</span>
