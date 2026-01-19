@@ -1,15 +1,9 @@
 .chat-detail-container {
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 60px);
-    /* Account for main header (60px) */
-    position: absolute;
-    top: 60px;
-    /* Start below the header */
-    left: 0;
-    right: 0;
+    height: calc(100vh - 124px);
+    /* Combined height of header (60px) and bottom nav (64px) */
     background-color: var(--color-background);
-    z-index: 2000;
 }
 
 .chat-nav-bar {
@@ -20,6 +14,9 @@
     border-bottom: 1px solid var(--color-border);
     gap: var(--spacing-md);
     height: 56px;
+    position: sticky;
+    top: var(--header-height);
+    z-index: 10;
 }
 
 .chat-info h2 {

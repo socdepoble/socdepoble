@@ -11,7 +11,7 @@
     padding-top: var(--spacing-lg);
     border-bottom: 1px solid var(--color-border);
     position: sticky;
-    top: 0;
+    top: var(--header-height);
     z-index: 100;
     /* Z-index alto para asegurar visibilidad */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);

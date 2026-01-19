@@ -46,8 +46,13 @@ const Feed = () => {
             if (user) {
                 const connectionsState = {};
                 for (const post of data) {
-                    const connections = await supabaseService.getPostConnections(post.id);
-                    connectionsState[post.id] = connections.includes(user.id);
+                    try {
+                        const connections = await supabaseService.getPostConnections(post.id);
+                        connectionsState[post.id] = connections.includes(user.id);
+                    } catch (error) {
+                        console.error(`Error loading connections for post ${post.id}:`, error);
+                        connectionsState[post.id] = false;
+                    }
                 }
                 setUserConnections(connectionsState);
             }

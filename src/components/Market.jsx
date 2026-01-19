@@ -23,8 +23,13 @@ const Market = () => {
             if (user) {
                 const favoritesState = {};
                 for (const item of data) {
-                    const favorites = await supabaseService.getMarketFavorites(item.id);
-                    favoritesState[item.id] = favorites.includes(user.id);
+                    try {
+                        const favorites = await supabaseService.getMarketFavorites(item.id);
+                        favoritesState[item.id] = favorites.includes(user.id);
+                    } catch (error) {
+                        console.error(`Error loading favorites for item ${item.id}:`, error);
+                        favoritesState[item.id] = false;
+                    }
                 }
                 setUserFavorites(favoritesState);
             }

@@ -7,6 +7,7 @@ import './Layout.css';
 const Layout = () => {
     return (
         <div className="layout-container">
+            <Header />
             <main className="content-area">
                 <Outlet />
             </main>
