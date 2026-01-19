@@ -12,7 +12,6 @@ import Profile from './pages/Profile';
 import Towns from './pages/Towns';
 import { supabase } from './supabaseClient';
 import { MOCK_CHATS, MOCK_FEED, MOCK_MARKET_ITEMS } from './data';
-import './Navigation.css';
 import { useAppContext } from './context/AppContext';
 
 // Componente para proteger rutas
