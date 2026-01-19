@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Heart, MessageCircle, Share2, MoreHorizontal, Building2, Store, Users, User, Loader2 } from 'lucide-react';
+import { Link2, MessageCircle, Share2, MoreHorizontal, Building2, Store, Users, User, Loader2 } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useAppContext } from '../context/AppContext';
 import './Feed.css';
@@ -32,7 +32,7 @@ const Feed = () => {
     const { user, profile } = useAppContext();
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [userLikes, setUserLikes] = useState({}); // { postId: boolean }
+    const [userConnections, setUserConnections] = useState({}); // { postId: boolean }
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const fetchPosts = async () => {
@@ -40,14 +40,14 @@ const Feed = () => {
             const data = await supabaseService.getPosts();
             setPosts(data);
 
-            // Si hay usuario, cargar sus likes
+            // Si hay usuario, cargar sus conexiones
             if (user) {
-                const likesState = {};
+                const connectionsState = {};
                 for (const post of data) {
-                    const likes = await supabaseService.getPostLikes(post.id);
-                    likesState[post.id] = likes.includes(user.id);
+                    const connections = await supabaseService.getPostConnections(post.id);
+                    connectionsState[post.id] = connections.includes(user.id);
                 }
-                setUserLikes(likesState);
+                setUserConnections(connectionsState);
             }
         } catch (error) {
             console.error('Error fetching posts:', error);
@@ -60,19 +60,22 @@ const Feed = () => {
         fetchPosts();
     }, [user]);
 
-    const handleLike = async (postId) => {
-        if (!user) return alert('Debes iniciar sesión para dar like');
+    const handleConnect = async (postId) => {
+        if (!user) return alert('Debes iniciar sesión para conectar');
 
         try {
-            const { liked } = await supabaseService.togglePostLike(postId, user.id);
-            setUserLikes(prev => ({ ...prev, [postId]: liked }));
+            const { connected } = await supabaseService.togglePostConnection(postId, user.id);
+            setUserConnections(prev => ({ ...prev, [postId]: connected }));
 
-            // Actualizar contador localmente
+            // Actualizar contador localmente (usando el nuevo campo connections_count o fallback a likes si no existe aun)
             setPosts(prev => prev.map(p =>
-                p.id === postId ? { ...p, likes: liked ? p.likes + 1 : p.likes - 1 } : p
+                p.id === postId ? {
+                    ...p,
+                    connections_count: (p.connections_count || 0) + (connected ? 1 : -1)
+                } : p
             ));
         } catch (error) {
-            console.error('Error toggling like:', error);
+            console.error('Error toggling connection:', error);
         }
     };
 
@@ -135,9 +138,12 @@ const Feed = () => {
                             </div>
 
                             <div className="card-actions">
-                                <button className="action-btn">
-                                    <Heart size={20} />
-                                    <span>{post.likes}</span>
+                                <button
+                                    className={`action-btn ${userConnections[post.id] ? 'connected' : ''}`}
+                                    onClick={() => handleConnect(post.id)}
+                                >
+                                    <Link2 size={20} />
+                                    <span>{post.connections_count || 0}</span>
                                 </button>
                                 <button className="action-btn">
                                     <MessageCircle size={20} />

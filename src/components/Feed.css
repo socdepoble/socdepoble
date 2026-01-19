@@ -137,8 +137,17 @@
 
 .action-btn:hover {
     color: var(--color-primary);
+    background-color: rgba(0, 0, 0, 0.05);
 }
 
-.action-btn.liked {
-    color: #e91e63;
+.action-btn.connected {
+    color: var(--color-primary);
+    /* Azul corporativo en lugar de rojo */
+    font-weight: 600;
+}
+
+.action-btn.connected svg {
+    fill: var(--color-primary);
+    /* Opcional: llenar el eslabón o solo colorear */
+    /* fill: none;  Si preferimos solo contorno */
 }

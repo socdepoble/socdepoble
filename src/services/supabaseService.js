@@ -168,41 +168,50 @@ export const supabaseService = {
     },
 
     // Likes
-    async getPostLikes(postId) {
+    // Conexiones (Antiguos Likes)
+    async getPostConnections(postId) {
+        // Obtenemos solo los IDs para saber si YO he conectado
         const { data, error } = await supabase
-            .from('post_likes')
+            .from('post_connections')
             .select('user_id')
             .eq('post_id', postId);
         if (error) throw error;
-        return data.map(like => like.user_id);
+        return data.map(conn => conn.user_id);
     },
 
-    async togglePostLike(postId, userId) {
-        // Verificar si ya existe el like
-        const { data: existingLike } = await supabase
-            .from('post_likes')
+    async togglePostConnection(postId, userId) {
+        // Verificar si ya existe la conexión
+        const { data: existingConnection } = await supabase
+            .from('post_connections')
             .select('*')
             .eq('post_id', postId)
             .eq('user_id', userId)
             .single();
 
-        if (existingLike) {
-            // Quitar like
+        if (existingConnection) {
+            // Desconectar (Borrar)
             await supabase
-                .from('post_likes')
+                .from('post_connections')
                 .delete()
                 .eq('post_id', postId)
                 .eq('user_id', userId);
 
-            // Decrementar contador en post (opcional si usamos count dinámico)
-            return { liked: false };
-        } else {
-            // Añadir like
-            await supabase
-                .from('post_likes')
-                .insert([{ post_id: postId, user_id: userId }]);
+            // Opcional: Borrar también etiquetas privadas asociadas (cascade debería hacerlo, pero por si acaso)
 
-            return { liked: true };
+            return { connected: false };
+        } else {
+            // Conectar (Insertar)
+            await supabase
+                .from('post_connections')
+                .insert([{
+                    post_id: postId,
+                    user_id: userId
+                    // created_at se pone solo
+                }]);
+
+            // Aquí en el futuro podríamos insertar las etiquetas privadas iniciales si el usuario eligió alguna
+
+            return { connected: true };
         }
     },
 
@@ -211,6 +220,39 @@ export const supabaseService = {
             .from('profiles')
             .update(updates)
             .eq('id', userId)
+            .select();
+        if (error) throw error;
+        return data[0];
+    },
+
+    // Fase 6: Lèxic
+    async getLexiconTerms() {
+        const { data, error } = await supabase
+            .from('lexicon')
+            .select('*, towns(name)')
+            .order('term', { ascending: true });
+        if (error) throw error;
+        return data;
+    },
+
+    async getDailyWord() {
+        // En una app real, esto sería aleatorio o rotativo por fecha.
+        // Aquí cogemos uno aleatorio simple.
+        const { data, error } = await supabase
+            .from('lexicon')
+            .select('*');
+
+        if (error) throw error;
+        if (!data || data.length === 0) return null;
+
+        const randomIndex = Math.floor(Math.random() * data.length);
+        return data[randomIndex];
+    },
+
+    async createLexiconEntry(entryData) {
+        const { data, error } = await supabase
+            .from('lexicon')
+            .insert([entryData])
             .select();
         if (error) throw error;
         return data[0];
