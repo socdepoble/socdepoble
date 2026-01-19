@@ -70,7 +70,7 @@ const TagSelector = ({ postId, currentTags = [], onTagsChange }) => {
             </div>
 
             <div className="tags-container">
-                {availableTags.map(tag => (
+                {Array.isArray(availableTags) && availableTags.map(tag => (
                     <button
                         key={tag}
                         className={`tag-item ${currentTags.includes(tag) ? 'selected' : ''}`}

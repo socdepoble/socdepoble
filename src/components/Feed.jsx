@@ -199,7 +199,7 @@ const Feed = () => {
                                     />
                                 )}
 
-                                {userConnections[post.id] && userConnections[post.id].length > 0 && showTagsFor !== post.id && (
+                                {userConnections[post.id] && Array.isArray(userConnections[post.id]) && userConnections[post.id].length > 0 && showTagsFor !== post.id && (
                                     <div className="post-tags-preview" onClick={() => setShowTagsFor(post.id)}>
                                         {userConnections[post.id].map(tag => (
                                             <span key={tag} className="tag-pill">{tag}</span>

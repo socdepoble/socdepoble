@@ -103,9 +103,9 @@ export const supabaseService = {
         const { data, error } = await supabase
             .from('market_favorites')
             .select('user_id')
-            .eq('item_id', itemId);
+            .eq('item_id', itemId); // Added missing .eq()
         if (error) throw error;
-        return data.map(fav => fav.user_id);
+        return (data || []).map(fav => fav.user_id); // Corrected map property
     },
 
     async toggleMarketFavorite(itemId, userId) {
@@ -206,9 +206,10 @@ export const supabaseService = {
                     console.warn('post_connections table or tags column missing. Run update SQL.');
                     return [];
                 }
+                console.error('Error fetching post connections:', error); // Added this line
                 throw error;
             }
-            return data;
+            return data || []; // Added || []
         } catch (err) {
             console.error('Error fetching connections:', err);
             return [];
