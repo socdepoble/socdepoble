@@ -190,49 +190,95 @@ export const supabaseService = {
     // Likes
     // Conexiones (Antiguos Likes)
     async getPostConnections(postId) {
-        // Obtenemos solo los IDs para saber si YO he conectado
         const { data, error } = await supabase
             .from('post_connections')
-            .select('user_id')
+            .select('user_id, tags')
             .eq('post_id', postId);
         if (error) throw error;
-        return data.map(conn => conn.user_id);
+        return data;
     },
 
-    async togglePostConnection(postId, userId) {
-        // Verificar si ya existe la conexión
+    async getPostUserConnection(postId, userId) {
+        const { data, error } = await supabase
+            .from('post_connections')
+            .select('*')
+            .eq('post_id', postId)
+            .eq('user_id', userId)
+            .maybeSingle();
+        if (error) throw error;
+        return data;
+    },
+
+    async togglePostConnection(postId, userId, tags = []) {
         const { data: existingConnection } = await supabase
             .from('post_connections')
             .select('*')
             .eq('post_id', postId)
             .eq('user_id', userId)
-            .single();
+            .maybeSingle();
 
         if (existingConnection) {
-            // Desconectar (Borrar)
-            await supabase
-                .from('post_connections')
-                .delete()
-                .eq('post_id', postId)
-                .eq('user_id', userId);
-
-            // Opcional: Borrar también etiquetas privadas asociadas (cascade debería hacerlo, pero por si acaso)
-
-            return { connected: false };
+            // Si pasamos etiquetas explícitas, asumimos que estamos editando la conexión
+            if (tags.length > 0 || (tags.length === 0 && existingConnection.tags?.length > 0)) {
+                // Si ya había etiquetas y mandamos un array (aunque sea vacío), actualizamos
+                // Esto permite que el componente de etiquetas limpie todas las etiquetas sin desconectar
+                const { data, error } = await supabase
+                    .from('post_connections')
+                    .update({ tags })
+                    .eq('post_id', postId)
+                    .eq('user_id', userId)
+                    .select();
+                if (error) throw error;
+                return { connected: true, tags: data[0].tags };
+            } else {
+                // Toggle simple sin etiquetas: Desconectar
+                await supabase
+                    .from('post_connections')
+                    .delete()
+                    .eq('post_id', postId)
+                    .eq('user_id', userId);
+                return { connected: false, tags: [] };
+            }
         } else {
-            // Conectar (Insertar)
-            await supabase
+            // Conectar nuevo
+            const { data, error } = await supabase
                 .from('post_connections')
                 .insert([{
                     post_id: postId,
-                    user_id: userId
-                    // created_at se pone solo
-                }]);
-
-            // Aquí en el futuro podríamos insertar las etiquetas privadas iniciales si el usuario eligió alguna
-
-            return { connected: true };
+                    user_id: userId,
+                    tags: tags
+                }])
+                .select();
+            if (error) throw error;
+            return { connected: true, tags: data[0].tags };
         }
+    },
+
+    async getUserTags(userId) {
+        const { data, error } = await supabase
+            .from('user_tags')
+            .select('tag_name')
+            .eq('user_id', userId)
+            .order('tag_name', { ascending: true });
+        if (error) throw error;
+        return data.map(t => t.tag_name);
+    },
+
+    async addUserTag(userId, tagName) {
+        // Normalizar etiqueta
+        const name = tagName.trim().toLowerCase();
+        if (!name) return null;
+
+        const { data, error } = await supabase
+            .from('user_tags')
+            .insert([{ user_id: userId, tag_name: name }])
+            .select();
+
+        if (error) {
+            if (error.code === '23505') return { tag_name: name }; // Ya existe
+            throw error;
+        }
+        return data[0];
     },
 
     async updateProfile(userId, updates) {

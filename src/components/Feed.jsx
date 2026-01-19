@@ -4,6 +4,7 @@ import { Link2, MessageCircle, Share2, MoreHorizontal, Building2, Store, Users, 
 import { supabaseService } from '../services/supabaseService';
 import { useAppContext } from '../context/AppContext';
 import CreatePostModal from './CreatePostModal';
+import TagSelector from './TagSelector';
 import './Feed.css';
 
 const getAvatarIcon = (type) => {
@@ -33,9 +34,10 @@ const Feed = () => {
     const { user, profile } = useAppContext();
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [userConnections, setUserConnections] = useState({}); // { postId: boolean }
+    const [userConnections, setUserConnections] = useState({}); // { postId: string[] (tags) | null }
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedRole, setSelectedRole] = useState('tot');
+    const [showTagsFor, setShowTagsFor] = useState(null); // ID del post que tiene el selector abierto
 
     const fetchPosts = useCallback(async () => {
         setLoading(true);
@@ -49,10 +51,11 @@ const Feed = () => {
                 for (const post of data) {
                     try {
                         const connections = await supabaseService.getPostConnections(post.id);
-                        connectionsState[post.id] = connections.includes(user.id);
+                        const myConn = connections.find(c => c.user_id === user.id);
+                        connectionsState[post.id] = myConn ? (myConn.tags || []) : null;
                     } catch (error) {
                         console.error(`Error loading connections for post ${post.id}:`, error);
-                        connectionsState[post.id] = false;
+                        connectionsState[post.id] = null;
                     }
                 }
                 setUserConnections(connectionsState);
@@ -69,21 +72,46 @@ const Feed = () => {
     }, [selectedRole, fetchPosts]);
 
     const handleConnect = async (postId) => {
-        if (!user) return alert('Debes iniciar sesión para conectar');
+        if (!user) return alert(t('auth.login_required') || 'Debes iniciar sesión para conectar');
+
+        // Si ya está conectado y el selector de etiquetas está cerrado, lo abrimos en lugar de desconectar inmediatamente
+        // Esto permite al usuario ver sus etiquetas. Si vuelve a pulsar estando abierto, desconecta (si no hay etiquetas).
+        if (userConnections[postId] !== null && showTagsFor !== postId) {
+            setShowTagsFor(postId);
+            return;
+        }
 
         try {
-            const { connected } = await supabaseService.togglePostConnection(postId, user.id);
-            setUserConnections(prev => ({ ...prev, [postId]: connected }));
+            const { connected, tags } = await supabaseService.togglePostConnection(postId, user.id);
+            setUserConnections(prev => ({
+                ...prev,
+                [postId]: connected ? tags : null
+            }));
 
-            // Actualizar contador localmente (usando el nuevo campo connections_count o fallback a likes si no existe aun)
+            // Actualizar contador localmente
             setPosts(prev => prev.map(p =>
                 p.id === postId ? {
                     ...p,
-                    connections_count: (p.connections_count || 0) + (connected ? 1 : -1)
+                    connections_count: (p.connections_count || 0) + (connected && userConnections[postId] === null ? 1 : (!connected ? -1 : 0))
                 } : p
             ));
+
+            if (connected) {
+                setShowTagsFor(postId);
+            } else {
+                setShowTagsFor(null);
+            }
         } catch (error) {
             console.error('Error toggling connection:', error);
+        }
+    };
+
+    const handleTagsChange = async (postId, newTags) => {
+        try {
+            const { tags } = await supabaseService.togglePostConnection(postId, user.id, newTags);
+            setUserConnections(prev => ({ ...prev, [postId]: tags }));
+        } catch (error) {
+            console.error('Error updating tags:', error);
         }
     };
 
@@ -146,21 +174,39 @@ const Feed = () => {
                                 )}
                             </div>
 
-                            <div className="card-actions">
-                                <button
-                                    className={`action-btn ${userConnections[post.id] ? 'connected' : ''}`}
-                                    onClick={() => handleConnect(post.id)}
-                                >
-                                    <Link2 size={20} />
-                                    <span>{post.connections_count || 0}</span>
-                                </button>
-                                <button className="action-btn">
-                                    <MessageCircle size={20} />
-                                    <span>{post.comments_count}</span>
-                                </button>
-                                <button className="action-btn">
-                                    <Share2 size={20} />
-                                </button>
+                            <div className="card-actions-wrapper">
+                                <div className="card-actions">
+                                    <button
+                                        className={`action-btn ${userConnections[post.id] !== null ? 'connected' : ''}`}
+                                        onClick={() => handleConnect(post.id)}
+                                    >
+                                        <Link2 size={20} />
+                                        <span>{post.connections_count || 0}</span>
+                                    </button>
+                                    <button className="action-btn">
+                                        <MessageCircle size={20} />
+                                        <span>{post.comments_count}</span>
+                                    </button>
+                                    <button className="action-btn">
+                                        <Share2 size={20} />
+                                    </button>
+                                </div>
+
+                                {userConnections[post.id] !== null && showTagsFor === post.id && (
+                                    <TagSelector
+                                        postId={post.id}
+                                        currentTags={userConnections[post.id]}
+                                        onTagsChange={(newTags) => handleTagsChange(post.id, newTags)}
+                                    />
+                                )}
+
+                                {userConnections[post.id] !== null && userConnections[post.id].length > 0 && showTagsFor !== post.id && (
+                                    <div className="post-tags-preview" onClick={() => setShowTagsFor(post.id)}>
+                                        {userConnections[post.id].map(tag => (
+                                            <span key={tag} className="tag-pill">{tag}</span>
+                                        ))}
+                                    </div>
+                                )}
                             </div>
                         </article>
                     ))

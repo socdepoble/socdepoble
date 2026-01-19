@@ -33,7 +33,9 @@
         "title": "Muro",
         "placeholder": "¿Qué está pasando en el pueblo?",
         "empty": "No hay novedades en el muro.",
-        "loading_feed": "Cargando el muro..."
+        "loading_feed": "Cargando el muro...",
+        "personal_tags": "Etiquetas privadas",
+        "new_tag": "Nueva etiqueta..."
     },
     "market": {
         "title": "Mercado",

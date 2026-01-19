@@ -1,0 +1,130 @@
+.tag-selector {
+    margin-top: 12px;
+    padding: 12px;
+    background-color: #f8f9fa;
+    border-radius: 12px;
+    border: 1px dashed var(--color-border);
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.tag-selector-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
+}
+
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.tag-item {
+    padding: 6px 12px;
+    background-color: white;
+    border: 1px solid var(--color-border);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    color: var(--color-text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tag-item:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
+
+.tag-item.selected {
+    background-color: var(--color-primary);
+    color: white;
+    border-color: var(--color-primary);
+    box-shadow: 0 2px 8px rgba(224, 122, 95, 0.3);
+}
+
+.add-tag-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px dashed var(--color-border);
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.add-tag-btn:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+    background-color: rgba(224, 122, 95, 0.05);
+}
+
+.add-tag-form {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: white;
+    padding: 2px 2px 2px 10px;
+    border: 1px solid var(--color-primary);
+    border-radius: 20px;
+    animation: expand 0.2s ease-out;
+}
+
+@keyframes expand {
+    from {
+        width: 40px;
+    }
+
+    to {
+        width: 140px;
+    }
+}
+
+.add-tag-form input {
+    border: none;
+    outline: none;
+    font-size: 0.85rem;
+    width: 80px;
+    background: transparent;
+}
+
+.add-tag-form button {
+    background: none;
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+    color: #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.add-tag-form button:hover {
+    color: var(--color-primary);
+    background-color: #f0f0f0;
+}

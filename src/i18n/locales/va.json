@@ -33,7 +33,9 @@
         "title": "Mur",
         "placeholder": "Què està passant al poble?",
         "empty": "No hi ha novetats al mur.",
-        "loading_feed": "Carregant el mur..."
+        "loading_feed": "Carregant el mur...",
+        "personal_tags": "Etiquetes privades",
+        "new_tag": "Nova etiqueta..."
     },
     "market": {
         "title": "Mercat",
