@@ -6,7 +6,11 @@
         "write_message": "Escribe un mensaje...",
         "online": "En línea",
         "soon": "Próximamente...",
-        "search": "Buscar..."
+        "search": "Buscar...",
+        "role_all": "Todo",
+        "role_gent": "Gente",
+        "role_grup": "Grupos",
+        "role_empresa": "Empresas"
     },
     "nav": {
         "chats": "Chats",

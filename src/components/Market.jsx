@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Heart, Plus, Loader2 } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useAppContext } from '../context/AppContext';
-import AddItemModal from './AddItemModal';
+import CategoryTabs from './CategoryTabs';
 
 const Market = () => {
     const { t } = useTranslation();
@@ -12,30 +12,32 @@ const Market = () => {
     const [loading, setLoading] = useState(true);
     const [userFavorites, setUserFavorites] = useState({}); // { itemId: boolean }
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedRole, setSelectedRole] = useState('tot');
 
-    const fetchItems = async () => {
+    const fetchItems = useCallback(async () => {
+        setLoading(true);
         try {
-            const data = await supabaseService.getMarketItems();
+            const data = await supabaseService.getMarketItems(selectedRole);
             setItems(data);
 
             if (user) {
-                const favState = {};
+                const favoritesState = {};
                 for (const item of data) {
-                    const favs = await supabaseService.getMarketFavorites(item.id);
-                    favState[item.id] = favs.includes(user.id);
+                    const favorites = await supabaseService.getMarketFavorites(item.id);
+                    favoritesState[item.id] = favorites.includes(user.id);
                 }
-                setUserFavorites(favState);
+                setUserFavorites(favoritesState);
             }
         } catch (error) {
-            console.error('Error fetching items:', error);
+            console.error('Error fetching market items:', error);
         } finally {
             setLoading(false);
         }
-    };
+    }, [selectedRole, user]);
 
     useEffect(() => {
         fetchItems();
-    }, [user]);
+    }, [selectedRole, fetchItems]);
 
     const handleFavorite = async (itemId) => {
         if (!user) return alert('Debes iniciar sesión para marcar favoritos');
@@ -48,7 +50,7 @@ const Market = () => {
         }
     };
 
-    if (loading) {
+    if (loading && items.length === 0) {
         return (
             <div className="market-container loading">
                 <Loader2 className="spinner" />
@@ -59,11 +61,18 @@ const Market = () => {
 
     return (
         <div className="market-container">
-            <header className="page-header">
-                <h1>{t('market.title')}</h1>
-                <button className="create-fab" onClick={() => setIsModalOpen(true)}>
-                    <Plus size={24} />
-                </button>
+            <header className="page-header-with-tabs">
+                <div className="header-top">
+                    <h1>{t('market.title')}</h1>
+                    <button className="create-fab-inline" onClick={() => setIsModalOpen(true)}>
+                        <Plus size={24} />
+                    </button>
+                </div>
+                <CategoryTabs
+                    selectedRole={selectedRole}
+                    onSelectRole={setSelectedRole}
+                    exclude={['oficial']}
+                />
             </header>
 
             <AddItemModal

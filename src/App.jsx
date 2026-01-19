@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Header from './components/Header';
 import Layout from './components/Layout';
@@ -12,6 +12,7 @@ import Profile from './pages/Profile';
 import Towns from './pages/Towns';
 import { supabase } from './supabaseClient';
 import { MOCK_CHATS, MOCK_FEED, MOCK_MARKET_ITEMS } from './data';
+import './Navigation.css';
 import { useAppContext } from './context/AppContext';
 
 // Componente para proteger rutas
@@ -34,8 +35,6 @@ const ProtectedRoute = ({ children }) => {
 };
 
 function App() {
-  const { loading } = useAppContext();
-
   useEffect(() => {
     const checkAndSeed = async () => {
       const { count } = await supabase.from('chats').select('*', { count: 'exact', head: true });

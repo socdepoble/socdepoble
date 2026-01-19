@@ -1,15 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { X, Image as ImageIcon, Send, Loader2 } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useAppContext } from '../context/AppContext';
 import './CreatePostModal.css';
 
+import EntitySelector from './EntitySelector';
+
 const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
     const { t } = useTranslation();
     const { profile, user } = useAppContext();
     const [content, setContent] = useState('');
     const [loading, setLoading] = useState(false);
+    const [selectedIdentity, setSelectedIdentity] = useState({
+        id: 'user',
+        name: profile?.full_name || 'Jo',
+        type: 'user',
+        avatar_url: profile?.avatar_url
+    });
+
+    // Use useEffect for resetting identity when profile loads or modal opens
+    useEffect(() => {
+        if (isOpen && profile && selectedIdentity.id === 'user') {
+            setSelectedIdentity({
+                id: 'user',
+                name: profile.full_name || 'Jo',
+                type: 'user',
+                avatar_url: profile.avatar_url
+            });
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isOpen, profile]);
 
     if (!isOpen) return null;
 
@@ -20,12 +41,21 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
         setLoading(true);
         try {
             const newPost = {
-                author: profile?.full_name || 'Usuari',
-                avatar_type: profile?.role === 'admin' ? 'gov' : 'user',
+                author_id: user.id,
                 content: content,
                 likes: 0,
                 comments_count: 0,
-                created_at: new Date().toISOString()
+                created_at: new Date().toISOString(),
+
+                // Multi-Identidad
+                author_type: selectedIdentity.type === 'user' ? 'user' : 'entity',
+                author_entity_id: selectedIdentity.type !== 'user' ? selectedIdentity.id : null,
+                author_role: selectedIdentity.type === 'user' ? 'gent' : selectedIdentity.type,
+
+                // Legacy / Display fallbacks
+                author: selectedIdentity.name,
+                avatar_type: selectedIdentity.type === 'user' ? (profile?.role === 'admin' ? 'gov' : 'user') : selectedIdentity.type,
+                image_url: selectedIdentity.avatar_url
             };
 
             await supabaseService.createPost(newPost);
@@ -52,6 +82,10 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
 
                 <form onSubmit={handleSubmit}>
                     <div className="post-input-container">
+                        <EntitySelector
+                            currentIdentity={selectedIdentity}
+                            onSelectIdentity={setSelectedIdentity}
+                        />
                         <textarea
                             placeholder={t('feed.placeholder')}
                             value={content}

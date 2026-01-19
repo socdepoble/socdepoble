@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { X, Camera, Send, Loader2, Tag } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useAppContext } from '../context/AppContext';
 import './AddItemModal.css';
+
+import EntitySelector from './EntitySelector';
 
 const AddItemModal = ({ isOpen, onClose, onItemCreated }) => {
     const { t } = useTranslation();
@@ -15,6 +17,25 @@ const AddItemModal = ({ isOpen, onClose, onItemCreated }) => {
         tag: 'Producte',
         image_url: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=800&q=80' // Placeholder
     });
+    const [selectedIdentity, setSelectedIdentity] = useState({
+        id: 'user',
+        name: profile?.full_name || 'Jo',
+        type: 'user',
+        avatar_url: profile?.avatar_url
+    });
+
+    // Use useEffect for resetting identity when profile loads or modal opens
+    useEffect(() => {
+        if (isOpen && profile && selectedIdentity.id === 'user') {
+            setSelectedIdentity({
+                id: 'user',
+                name: profile.full_name || 'Jo',
+                type: 'user',
+                avatar_url: profile.avatar_url
+            });
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isOpen, profile]);
 
     if (!isOpen) return null;
 
@@ -27,9 +48,14 @@ const AddItemModal = ({ isOpen, onClose, onItemCreated }) => {
             const newItem = {
                 title: formData.title,
                 price: formData.price.includes('€') ? formData.price : `${formData.price}€`,
-                seller: profile?.full_name || 'Vendedor',
                 image_url: formData.image_url,
-                tag: formData.tag
+                tag: formData.tag,
+
+                // Multi-Identidad Vendedor
+                seller: selectedIdentity.name, // Display legacy
+                seller_type: selectedIdentity.type === 'user' ? 'user' : 'entity',
+                seller_entity_id: selectedIdentity.type !== 'user' ? selectedIdentity.id : null,
+                seller_role: selectedIdentity.type === 'user' ? 'gent' : selectedIdentity.type
             };
 
             await supabaseService.createMarketItem(newItem);
@@ -47,13 +73,20 @@ const AddItemModal = ({ isOpen, onClose, onItemCreated }) => {
         <div className="modal-overlay" onClick={onClose}>
             <div className="modal-content" onClick={e => e.stopPropagation()}>
                 <header className="modal-header">
-                    <h2>Vendre Article</h2>
+                    <h2>{t('market.sell_title') || 'Vendre Article'}</h2>
                     <button className="close-btn" onClick={onClose}>
                         <X size={24} />
                     </button>
                 </header>
 
                 <form onSubmit={handleSubmit} className="market-form">
+                    <div style={{ marginBottom: '16px' }}>
+                        <EntitySelector
+                            currentIdentity={selectedIdentity}
+                            onSelectIdentity={setSelectedIdentity}
+                        />
+                    </div>
+
                     <div className="form-group">
                         <label>Títol de l'article</label>
                         <input

@@ -1,6 +1,6 @@
 .main-header {
-    background-color: #1a1a1a;
-    /* Gris oscuro elegante */
+    background-color: var(--color-text);
+    /* #1a1a1a approximated by color-text */
     padding: 0.5rem 1rem;
     position: sticky;
     top: 0;
@@ -38,17 +38,17 @@
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background-color: #333;
+    background-color: var(--color-background);
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    border: 2px solid #444;
+    border: 2px solid var(--color-border);
     transition: border-color 0.2s;
 }
 
 .user-avatar-small:hover {
-    border-color: #2e7d32;
+    border-color: var(--color-secondary);
 }
 
 .user-avatar-small img {

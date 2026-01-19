@@ -6,14 +6,22 @@
         "write_message": "Escriu un missatge...",
         "online": "En línia",
         "soon": "Próximament...",
-        "search": "Buscar..."
+        "search": "Buscar...",
+        "role_all": "Tot",
+        "role_gent": "Gent",
+        "role_grup": "Grups",
+        "role_empresa": "Empreses",
+        "role_oficial": "Oficial",
+        "save": "Guardar",
+        "saved": "Guardat!"
     },
     "nav": {
         "chats": "Xats",
         "feed": "Mur",
         "market": "Mercat",
         "towns": "Pobles",
-        "profile": "Perfil"
+        "profile": "Perfil",
+        "my_entities": "Les meues Entitats"
     },
     "chats": {
         "title": "Xats",

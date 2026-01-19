@@ -86,15 +86,15 @@ const ChatDetail = () => {
 
     return (
         <div className="chat-detail-container">
-            <header className="chat-header-bar">
+            <div className="chat-nav-bar">
                 <button onClick={() => navigate(-1)} className="back-button">
                     <ArrowLeft size={24} />
                 </button>
-                <div className="header-info">
+                <div className="chat-info">
                     <h2>{chat.name}</h2>
                     <span className="status">{t('common.online')}</span>
                 </div>
-            </header>
+            </div>
 
             <div className="messages-list">
                 {messages.length === 0 ? (

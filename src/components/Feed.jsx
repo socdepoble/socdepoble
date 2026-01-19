@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link2, MessageCircle, Share2, MoreHorizontal, Building2, Store, Users, User, Loader2 } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
@@ -25,7 +25,7 @@ const getAvatarColor = (type) => {
     }
 };
 
-import CreatePostModal from './CreatePostModal';
+import CategoryTabs from './CategoryTabs';
 
 const Feed = () => {
     const { t } = useTranslation();
@@ -34,10 +34,12 @@ const Feed = () => {
     const [loading, setLoading] = useState(true);
     const [userConnections, setUserConnections] = useState({}); // { postId: boolean }
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedRole, setSelectedRole] = useState('tot');
 
-    const fetchPosts = async () => {
+    const fetchPosts = useCallback(async () => {
+        setLoading(true);
         try {
-            const data = await supabaseService.getPosts();
+            const data = await supabaseService.getPosts(selectedRole);
             setPosts(data);
 
             // Si hay usuario, cargar sus conexiones
@@ -54,11 +56,11 @@ const Feed = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [selectedRole, user]);
 
     useEffect(() => {
         fetchPosts();
-    }, [user]);
+    }, [selectedRole, fetchPosts]);
 
     const handleConnect = async (postId) => {
         if (!user) return alert('Debes iniciar sesión para conectar');
@@ -79,7 +81,7 @@ const Feed = () => {
         }
     };
 
-    if (loading) {
+    if (loading && posts.length === 0) { // Solo spinner si no hay posts previos (para cambio de tab suave)
         return (
             <div className="feed-container loading">
                 <Loader2 className="spinner" />
@@ -90,8 +92,9 @@ const Feed = () => {
 
     return (
         <div className="feed-container">
-            <header className="page-header">
+            <header className="page-header-with-tabs">
                 <h1>{t('feed.title')}</h1>
+                <CategoryTabs selectedRole={selectedRole} onSelectRole={setSelectedRole} />
             </header>
 
             <div className="feed-list">
@@ -112,7 +115,7 @@ const Feed = () => {
                     <p className="empty-message">{t('feed.empty')}</p>
                 ) : (
                     posts.map(post => (
-                        <article key={post.id} className="feed-card">
+                        <article key={post.id} className="post-card">
                             <div className="card-header">
                                 <div className="header-left">
                                     <div className="post-avatar" style={{ backgroundColor: getAvatarColor(post.avatar_type) }}>

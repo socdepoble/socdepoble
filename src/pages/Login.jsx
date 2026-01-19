@@ -16,12 +16,12 @@ const Login = () => {
         setLoading(true);
         setError(null);
 
-        const { data, error } = await supabaseService.signIn(email, password);
+        const { error } = await supabaseService.signIn(email, password);
 
         if (error) {
             setError(error.message);
         } else {
-            navigate('/muro');
+            navigate('/mur');
         }
         setLoading(false);
     };

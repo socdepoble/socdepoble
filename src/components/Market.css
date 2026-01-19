@@ -1,26 +1,85 @@
+/* CSS del Mercado */
 .market-container {
-    padding-bottom: var(--spacing-md);
+    padding-bottom: 80px;
+    background-color: var(--color-background);
+    min-height: 100vh;
 }
 
+/* Cabecera idéntica al Feed */
+.page-header-with-tabs {
+    background-color: white;
+    padding-top: var(--spacing-lg);
+    border-bottom: 1px solid var(--color-border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 16px 16px 16px;
+}
+
+.page-header-with-tabs h1 {
+    font-size: 28px;
+    font-weight: 800;
+    margin: 0;
+    color: var(--color-text);
+    letter-spacing: -0.5px;
+}
+
+.create-fab-inline {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--color-primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    box-shadow: var(--shadow-md);
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+
+.create-fab-inline:active {
+    transform: scale(0.95);
+}
+
+/* Grid de 2 columnas estricto */
 .market-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--spacing-md);
-    padding: 0 var(--spacing-md);
+    grid-template-columns: 1fr 1fr;
+    /* Forzar exactamente 2 columnas */
+    gap: 12px;
+    padding: 12px;
 }
 
 .market-item {
     background-color: white;
-    border-radius: var(--radius-md);
+    border-radius: 20px;
     overflow: hidden;
-    box-shadow: var(--shadow-sm);
-    border: 1px solid var(--color-border);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    border: none;
     display: flex;
     flex-direction: column;
+    position: relative;
+    padding-bottom: 8px;
+}
+
+.market-item:active {
+    transform: scale(0.99);
 }
 
 .item-image {
-    aspect-ratio: 1;
+    width: 100%;
+    aspect-ratio: 1 / 1.1;
+    object-fit: cover;
+    background-color: #f3f4f6;
     position: relative;
 }
 
@@ -33,97 +92,103 @@
 .item-tag {
     position: absolute;
     top: 8px;
-    right: 8px;
-    background-color: rgba(0, 0, 0, 0.6);
-    color: white;
-    font-size: 0.7rem;
-    padding: 2px 6px;
-    border-radius: 4px;
-}
-
-.item-details {
-    padding: 10px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-.item-title {
-    font-size: 0.9rem;
-    font-weight: 600;
-    margin-bottom: 4px;
-    line-height: 1.2;
-}
-
-.item-seller {
+    left: 8px;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 4px 8px;
+    border-radius: 12px;
     font-size: 0.75rem;
-    color: #888;
-    margin-bottom: 8px;
-    flex: 1;
-}
-
-.item-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.item-price {
-    font-weight: 700;
-    color: var(--color-primary);
-    font-size: 0.95rem;
-}
-
-.add-btn {
-    background-color: var(--color-secondary);
-    color: white;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    font-weight: 600;
+    color: #333;
+    pointer-events: none;
 }
 
 .fav-btn {
     position: absolute;
-    bottom: 8px;
+    top: 8px;
     right: 8px;
-    background: white;
-    border: none;
+    background: rgba(255, 255, 255, 0.8);
     border-radius: 50%;
     width: 32px;
     height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    color: #ccc;
-    transition: all 0.2s;
-}
-
-.fav-btn.active {
-    color: #e91e63;
-}
-
-.create-fab {
-    background: var(--color-primary);
-    color: white;
     border: none;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(4px);
+    transition: transform 0.2s;
 }
 
-.page-header {
+.fav-btn:active {
+    transform: scale(0.9);
+}
+
+.fav-btn.active svg {
+    fill: #e91e63;
+    stroke: #e91e63;
+}
+
+.item-details {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.item-title {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    /* Compatibilidad estándar */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.item-seller {
+    font-size: 0.8rem;
+    color: #666;
+    margin: 0;
+}
+
+.item-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: var(--spacing-md);
+    margin-top: 4px;
+    padding: 0 4px;
+}
+
+.item-price {
+    font-weight: 900;
+    color: var(--color-primary);
+    /* Azul vibrante */
+    font-size: 1.25rem;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: -0.5px;
+}
+
+.add-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #f3f4f6;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+}
+
+/* Spinner */
+.market-container.loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 50vh;
+    color: #888;
 }

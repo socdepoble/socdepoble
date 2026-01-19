@@ -17,7 +17,7 @@ const Register = () => {
         setLoading(true);
         setError(null);
 
-        const { data, error } = await supabaseService.signUp(email, password, {
+        const { error } = await supabaseService.signUp(email, password, {
             full_name: fullName
         });
 

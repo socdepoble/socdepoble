@@ -1,19 +1,10 @@
 import { NavLink } from 'react-router-dom';
 import { MessageCircle, Newspaper, Store, MapPin, Languages, LogOut, User } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { useAppContext } from '../context/AppContext';
-import { supabaseService } from '../services/supabaseService';
 import './Navigation.css';
 
 const Navigation = () => {
   const { t } = useTranslation();
-  const { toggleLanguage, language, profile } = useAppContext();
-
-  const handleLogout = async () => {
-    if (window.confirm('Vols tancar la sessió?')) {
-      await supabaseService.signOut();
-    }
-  };
 
   return (
     <nav className="bottom-nav">

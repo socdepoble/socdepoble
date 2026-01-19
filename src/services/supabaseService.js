@@ -48,16 +48,24 @@ export const supabaseService = {
     },
 
     // Feed / Muro
-    async getPosts() {
-        const { data, error } = await supabase
+    async getPosts(roleFilter = 'tot') {
+        let query = supabase
             .from('posts')
             .select('*')
             .order('id', { ascending: false });
+
+        if (roleFilter !== 'tot') {
+            query = query.eq('author_role', roleFilter);
+        }
+
+        const { data, error } = await query;
         if (error) throw error;
         return data;
     },
 
     async createPost(postData) {
+        // Aseguramos que el post tenga el rol del usuario actual si no se pasa explícitamente
+        // (Esto idealmente se hace en backend, pero aquí podemos reforzarlo)
         const { data, error } = await supabase
             .from('posts')
             .insert([postData])
@@ -67,11 +75,17 @@ export const supabaseService = {
     },
 
     // Mercado
-    async getMarketItems() {
-        const { data, error } = await supabase
+    async getMarketItems(roleFilter = 'tot') {
+        let query = supabase
             .from('market_items')
             .select('*')
             .order('id', { ascending: false });
+
+        if (roleFilter !== 'tot') {
+            query = query.eq('seller_role', roleFilter);
+        }
+
+        const { data, error } = await query;
         if (error) throw error;
         return data;
     },
@@ -164,7 +178,13 @@ export const supabaseService = {
     },
 
     async getProfile(userId) {
-        // ... (lógica existente)
+        const { data, error } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('id', userId)
+            .single();
+        if (error) throw error;
+        return data;
     },
 
     // Likes
@@ -223,6 +243,30 @@ export const supabaseService = {
             .select();
         if (error) throw error;
         return data[0];
+    },
+
+    // Multi-Identidad (Phase 6)
+    async getUserEntities(userId) {
+        // Obtenemos las entidades donde el usuario es miembro
+        const { data, error } = await supabase
+            .from('entity_members')
+            .select(`
+                role,
+                entities (
+                    id,
+                    name,
+                    type,
+                    avatar_url
+                )
+            `)
+            .eq('user_id', userId);
+
+        if (error) throw error;
+        // Aplanamos la respuesta
+        return data.map(item => ({
+            ...item.entities,
+            member_role: item.role
+        }));
     },
 
     // Fase 6: Lèxic
