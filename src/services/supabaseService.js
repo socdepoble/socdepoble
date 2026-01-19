@@ -279,7 +279,7 @@ export const supabaseService = {
             .eq('user_id', userId)
             .order('tag_name', { ascending: true });
         if (error) throw error;
-        return data.map(t => t.tag_name);
+        return (data || []).map(t => t.tag_name);
     },
 
     async addUserTag(userId, tagName) {
@@ -327,7 +327,7 @@ export const supabaseService = {
 
         if (error) throw error;
         // Aplanamos la respuesta
-        return data.map(item => ({
+        return (data || []).map(item => ({
             ...item.entities,
             member_role: item.role
         }));
