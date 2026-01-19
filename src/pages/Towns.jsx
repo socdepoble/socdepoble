@@ -47,23 +47,34 @@ const Towns = () => {
 
             <div className="towns-grid">
                 {filteredTowns.map(town => (
-                    <div key={town.id} className="town-card">
-                        <div className="town-logo-wrapper">
-                            {town.logo_url ? (
-                                <img src={town.logo_url} alt={town.name} className="town-logo" />
-                            ) : (
-                                <MapPin size={40} color="#666" />
-                            )}
-                        </div>
+                    <div key={town.id} className="town-card" onClick={() => console.log('Ir a detalle de', town.name)}>
+                        {/* Imagen de fondo (si existe, sino placeholder) */}
+                        <img
+                            src={town.image_url || 'https://images.unsplash.com/photo-1541890289-b86df5b6fea1?auto=format&fit=crop&q=80'}
+                            alt={town.name}
+                            className="town-image-bg"
+                        />
+
+                        {/* Overlay oscuro para legibilidad */}
+                        <div className="town-overlay"></div>
+
+                        {/* Contenido sobreimpreso */}
                         <div className="town-info">
-                            <h3>{town.name}</h3>
-                            <p className="town-description">{town.description}</p>
-                            <div className="town-meta">
-                                <span className="population">
-                                    <Users size={16} />
-                                    {town.population?.toLocaleString()}
+                            <div className="town-header">
+                                {town.logo_url && (
+                                    <img src={town.logo_url} alt="Escut" className="town-logo-mini" />
+                                )}
+                                <h3 className="town-name">{town.name}</h3>
+                            </div>
+
+                            <p className="town-desc">{town.description}</p>
+
+                            <div className="town-stats">
+                                <span className="stat-item">
+                                    <Users size={14} />
+                                    {town.population?.toLocaleString()} hab.
                                 </span>
-                                <button className="view-more-btn">Ver Mur</button>
+                                {/* Aquí podríamos poner más stats como temperatura o noticias */}
                             </div>
                         </div>
                     </div>
