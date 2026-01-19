@@ -15,9 +15,10 @@ export const AppProvider = ({ children }) => {
     useEffect(() => {
         // MODO DEMO: Usuario de prueba si no hay sesión real
         const setupDemo = () => {
-            setUser({ id: 'test-user-id', email: 'vei@socdepoble.net' });
+            const demoId = '00000000-0000-0000-0000-000000000000';
+            setUser({ id: demoId, email: 'vei@socdepoble.net' });
             setProfile({
-                id: 'test-user-id',
+                id: demoId,
                 full_name: 'Javi Llinares',
                 username: 'javillinares',
                 role: 'vei',
