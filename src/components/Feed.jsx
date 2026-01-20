@@ -4,7 +4,6 @@ import { Link2, MessageCircle, Share2, MoreHorizontal, Building2, Store, Users, 
 import { supabaseService } from '../services/supabaseService';
 import { useAppContext } from '../context/AppContext';
 import CreatePostModal from './CreatePostModal';
-import TagSelector from './TagSelector';
 import CategoryTabs from './CategoryTabs';
 import './Feed.css';
 
@@ -29,81 +28,34 @@ const getAvatarColor = (type) => {
 };
 
 const Feed = () => {
-    console.log('Feed component rendering...');
+    console.log('[DEBUG] Feed rendering initiation');
     const { t } = useTranslation();
-    const { user, profile } = useAppContext();
+    const { profile } = useAppContext();
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [userConnections, setUserConnections] = useState({});
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedRole, setSelectedRole] = useState('tot');
-    const [showTagsFor, setShowTagsFor] = useState(null);
 
     const fetchPosts = useCallback(async () => {
-        console.log('fetchPosts triggered. role:', selectedRole);
+        console.log('[DEBUG] fetchPosts starting for role:', selectedRole);
         setLoading(true);
         try {
             const data = await supabaseService.getPosts(selectedRole);
-            console.log('Posts fetched:', data?.length || 0);
-            setPosts(data || []);
-
-            if (user && data && Array.isArray(data) && data.length > 0) {
-                try {
-                    const postIds = data.map(p => p.id);
-                    const allConnections = await supabaseService.getPostConnections(postIds);
-                    const connectionsState = {};
-                    data.forEach(post => {
-                        const myConn = (allConnections || []).find(c => c.post_id === post.id && c.user_id === user.id);
-                        connectionsState[post.id] = myConn ? (myConn.tags || []) : null;
-                    });
-                    setUserConnections(connectionsState);
-                } catch (e) {
-                    console.error('Error in connections load:', e);
-                }
-            }
+            console.log('[DEBUG] Posts received:', data?.length || 0);
+            setPosts(Array.isArray(data) ? data : []);
         } catch (error) {
-            console.error('Error fetching posts:', error);
+            console.error('[DEBUG] Error fetching posts:', error);
         } finally {
             setLoading(false);
+            console.log('[DEBUG] fetchPosts finished');
         }
-    }, [selectedRole, user]);
+    }, [selectedRole]);
 
     useEffect(() => {
         fetchPosts();
-    }, [selectedRole, fetchPosts]);
+    }, [fetchPosts]);
 
-    const handleConnect = async (postId) => {
-        if (!user) return alert(t('auth.login_required') || 'Inicia sesió per a conectar');
-
-        if (userConnections[postId] !== null && showTagsFor !== postId) {
-            setShowTagsFor(postId);
-            return;
-        }
-
-        try {
-            const { connected, tags } = await supabaseService.togglePostConnection(postId, user.id);
-            setUserConnections(prev => ({ ...prev, [postId]: connected ? tags : null }));
-            setPosts(prev => prev.map(p => p.id === postId ? {
-                ...p,
-                connections_count: (p.connections_count || 0) + (connected ? 1 : -1)
-            } : p));
-            if (connected) setShowTagsFor(postId);
-            else setShowTagsFor(null);
-        } catch (error) {
-            console.error('Error toggling connection:', error);
-        }
-    };
-
-    const handleTagsChange = async (postId, newTags) => {
-        try {
-            const { tags } = await supabaseService.togglePostConnection(postId, user.id, newTags);
-            setUserConnections(prev => ({ ...prev, [postId]: tags }));
-        } catch (error) {
-            console.error('Error updating tags:', error);
-        }
-    };
-
-    if (loading && posts.length === 0) {
+    if (loading && (!posts || posts.length === 0)) {
         return (
             <div className="feed-container loading">
                 <Loader2 className="spinner" />
@@ -112,33 +64,33 @@ const Feed = () => {
         );
     }
 
-    // Wrap the render in a try-catch to be ultra-safe but AFTER hooks
-    try {
-        return (
-            <div className="feed-container">
-                <header className="page-header-with-tabs">
-                    <h1>{t('feed.title') || 'Mur'}</h1>
-                    <CategoryTabs selectedRole={selectedRole} onSelectRole={setSelectedRole} />
-                </header>
+    return (
+        <div className="feed-container">
+            <header className="page-header-with-tabs">
+                <h1>{t('feed.title') || 'Mur'}</h1>
+                <CategoryTabs selectedRole={selectedRole} onSelectRole={setSelectedRole} />
+            </header>
 
-                <div className="feed-list">
-                    <div className="feed-input-trigger" onClick={() => setIsModalOpen(true)}>
-                        <div className="user-avatar-small">
-                            {profile?.avatar_url ? <img src={profile.avatar_url} alt="Profile" /> : <User size={20} />}
-                        </div>
-                        <input type="text" placeholder={t('feed.placeholder') || 'Què vols compartir?'} readOnly />
+            <div className="feed-list">
+                <div className="feed-input-trigger" onClick={() => setIsModalOpen(true)}>
+                    <div className="user-avatar-small">
+                        {profile?.avatar_url ? <img src={profile.avatar_url} alt="Profile" /> : <User size={20} />}
                     </div>
+                    <input type="text" placeholder={t('feed.placeholder') || 'Què vols compartir?'} readOnly />
+                </div>
 
-                    <CreatePostModal
-                        isOpen={isModalOpen}
-                        onClose={() => setIsModalOpen(false)}
-                        onPostCreated={fetchPosts}
-                    />
+                <CreatePostModal
+                    isOpen={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    onPostCreated={fetchPosts}
+                />
 
-                    {(!posts || posts.length === 0) ? (
-                        <p className="empty-message">{t('feed.empty') || 'No hi ha contingut'}</p>
-                    ) : (
-                        posts.map(post => (
+                {(!posts || posts.length === 0) ? (
+                    <p className="empty-message">{t('feed.empty') || 'No hi ha contingut'}</p>
+                ) : (
+                    posts.map(post => {
+                        if (!post) return null;
+                        return (
                             <article key={post.id} className="post-card">
                                 <div className="card-header">
                                     <div className="header-left">
@@ -147,7 +99,7 @@ const Feed = () => {
                                         </div>
                                         <div className="post-meta">
                                             <span className="post-author">{post.author}</span>
-                                            <span className="post-time">{post.created_at ? new Date(post.created_at).toLocaleDateString() : 'Avui'}</span>
+                                            <span className="post-time">{post.created_at ? new Date(post.created_at).toLocaleDateString() : 'Ara'}</span>
                                         </div>
                                     </div>
                                     <button className="more-btn"><MoreHorizontal size={20} /></button>
@@ -164,10 +116,7 @@ const Feed = () => {
 
                                 <div className="card-actions-wrapper">
                                     <div className="card-actions">
-                                        <button
-                                            className={`action-btn ${userConnections[post.id] ? 'connected' : ''}`}
-                                            onClick={() => handleConnect(post.id)}
-                                        >
+                                        <button className="action-btn">
                                             <Link2 size={20} />
                                             <span>{post.connections_count || 0}</span>
                                         </button>
@@ -177,33 +126,14 @@ const Feed = () => {
                                         </button>
                                         <button className="action-btn"><Share2 size={20} /></button>
                                     </div>
-
-                                    {userConnections[post.id] && showTagsFor === post.id && (
-                                        <TagSelector
-                                            postId={post.id}
-                                            currentTags={userConnections[post.id] || []}
-                                            onTagsChange={(newTags) => handleTagsChange(post.id, newTags)}
-                                        />
-                                    )}
-
-                                    {userConnections[post.id] && Array.isArray(userConnections[post.id]) && userConnections[post.id].length > 0 && showTagsFor !== post.id && (
-                                        <div className="post-tags-preview" onClick={() => setShowTagsFor(post.id)}>
-                                            {userConnections[post.id].map(tag => (
-                                                <span key={tag} className="tag-pill">{tag}</span>
-                                            ))}
-                                        </div>
-                                    )}
                                 </div>
                             </article>
-                        ))
-                    )}
-                </div>
+                        );
+                    })
+                )}
             </div>
-        );
-    } catch (e) {
-        console.error('Critical Render Error in Feed:', e);
-        return <div style={{ padding: '20px', color: 'red' }}>Error de renderitzat: {e.message}</div>;
-    }
+        </div>
+    );
 };
 
 export default Feed;
