@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { supabaseService } from '../services/supabaseService';
 import { useTranslation } from 'react-i18next';
+import { useAppContext } from '../context/AppContext';
 import './Auth.css';
 
 const Login = () => {
     const { t } = useTranslation();
+    const { loginAsGuest } = useAppContext();
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -25,6 +27,11 @@ const Login = () => {
             navigate('/mur');
         }
         setLoading(false);
+    };
+
+    const handleGuestLogin = () => {
+        loginAsGuest();
+        navigate('/mur');
     };
 
     return (
@@ -62,6 +69,14 @@ const Login = () => {
                         {loading ? t('common.loading') : t('auth.signIn')}
                     </button>
                 </form>
+
+                <div className="auth-divider">
+                    <span>o bé</span>
+                </div>
+
+                <button onClick={handleGuestLogin} className="auth-button secondary">
+                    Entrar com a Veí (Demo)
+                </button>
 
                 <div className="auth-footer">
                     {t('auth.noAccount')} <Link to="/register">{t('auth.signUp')}</Link>

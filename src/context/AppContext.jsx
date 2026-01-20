@@ -23,25 +23,27 @@ export const AppProvider = ({ children }) => {
         setTheme(prev => prev === 'light' ? 'dark' : 'light');
     };
 
-    useEffect(() => {
-        // MODO DEMO: Usuario de prueba si no hay sesión real
-        const setupDemo = () => {
-            const demoId = '00000000-0000-0000-0000-000000000000';
-            setUser({ id: demoId, email: 'vei@socdepoble.net' });
-            setProfile({
-                id: demoId,
-                full_name: 'Javi Llinares',
-                username: 'javillinares',
-                role: 'vei',
-                avatar_url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Javi'
-            });
-            setLoading(false);
-        };
+    const loginAsGuest = () => {
+        const demoId = '00000000-0000-0000-0000-000000000000';
+        setUser({ id: demoId, email: 'vei@socdepoble.net', isDemo: true });
+        setProfile({
+            id: demoId,
+            full_name: 'Veí de Prova',
+            username: 'veiprestat',
+            role: 'vei',
+            is_demo: true,
+            avatar_url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Demo'
+        });
+        setLoading(false);
+        localStorage.setItem('isDemoMode', 'true');
+    };
 
+    useEffect(() => {
         // Escuchar cambios de autenticación
         const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
             if (session?.user) {
                 setUser(session.user);
+                localStorage.removeItem('isDemoMode');
                 try {
                     const profileData = await supabaseService.getProfile(session.user.id);
                     setProfile(profileData);
@@ -49,9 +51,12 @@ export const AppProvider = ({ children }) => {
                     console.error('Error loading profile:', error);
                 }
                 setLoading(false);
+            } else if (localStorage.getItem('isDemoMode') === 'true') {
+                loginAsGuest();
             } else {
-                // Si no hay sesión, entramos en modo demo para Javi
-                setupDemo();
+                setUser(null);
+                setProfile(null);
+                setLoading(false);
             }
         });
 
@@ -86,6 +91,7 @@ export const AppProvider = ({ children }) => {
             setProfile,
             loading,
             setUser,
+            loginAsGuest,
             isCreateModalOpen,
             setIsCreateModalOpen
         }}>
