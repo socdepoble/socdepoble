@@ -135,7 +135,7 @@ const TownSelectorModal = ({ isOpen, onClose, onSelect }) => {
                                 onClick={() => { setStep(1); setSearchTerm(''); }}
                                 style={{ cursor: 'pointer' }}
                             >
-                                {t('common.province') || 'Província'}
+                                {t('common.province').includes('.') ? 'Província' : t('common.province')}
                             </span>
                             <ChevronRight size={14} />
                             <span
@@ -143,10 +143,10 @@ const TownSelectorModal = ({ isOpen, onClose, onSelect }) => {
                                 onClick={() => { if (selectedProvince) { setStep(2); setSearchTerm(''); } }}
                                 style={{ cursor: selectedProvince ? 'pointer' : 'default' }}
                             >
-                                {t('common.comarca') || 'Comarca'}
+                                {t('common.comarca').includes('.') ? 'Comarca' : t('common.comarca')}
                             </span>
                             <ChevronRight size={14} />
-                            <span className={step >= 3 ? 'active' : ''}>Poble</span>
+                            <span className={step >= 3 ? 'active' : ''}>{t('common.town').includes('.') ? 'Poble' : t('common.town')}</span>
                         </div>
                     </div>
                     <button className="close-btn" onClick={onClose}>
