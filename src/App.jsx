@@ -92,11 +92,13 @@ function App() {
         }
 
         if (seeded) {
-          console.log('Seeding completat!');
-          window.location.reload();
+          console.log('Seeding completat con éxito.');
+          // Ya no recargamos automáticamente para evitar bucles infinitos.
+          // El usuario verá los datos en el siguiente renderizado si el estado cambia
+          // o puede recargar manualmente si es necesario.
         }
       } catch (error) {
-        console.error('Error during seeding:', error);
+        console.error('Error during seeding process:', error);
       }
     };
 
