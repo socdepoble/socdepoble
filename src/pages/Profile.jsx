@@ -109,6 +109,12 @@ const Profile = () => {
                     </div>
                     <h2>{profile.full_name || 'Usuari'}</h2>
 
+                    {user?.isDemo && (
+                        <div className="demo-badge">
+                            <span>🧪 Mode Demo: Volàtil</span>
+                        </div>
+                    )}
+
                     <div className="profile-town-management">
                         <button className="main-town-btn" onClick={() => setIsEditingTown(true)}>
                             <MapPin size={18} />
