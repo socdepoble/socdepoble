@@ -1,68 +1,53 @@
-/* Towns.css */
 .towns-container {
-    padding: 1rem;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding-bottom: 5rem;
+    padding-bottom: calc(var(--nav-height) + 40px);
+    background-color: var(--bg-main);
+    min-height: 100vh;
 }
 
-.towns-header {
-    margin-bottom: 2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+/* Header style for pages with tabs */
+.page-header-with-tabs {
+    background-color: var(--bg-surface);
+    padding-top: var(--space-xs);
+    border-bottom: 1px solid var(--color-border);
+    position: sticky;
+    top: var(--header-height);
+    z-index: 100;
 }
 
-.towns-header h1 {
-    font-size: 2rem;
-    color: #333;
-    margin: 0;
+.header-tabs-wrapper {
+    padding: var(--space-sm) 0 var(--space-xs);
 }
 
-.search-bar {
-    display: flex;
-    align-items: center;
-    background: white;
-    padding: 0.8rem 1rem;
-    border-radius: 12px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    gap: 0.8rem;
+.towns-content-area {
+    min-height: 400px;
 }
 
-.search-bar input {
-    border: none;
-    outline: none;
-    width: 100%;
-    font-size: 1rem;
-}
-
-/* Tarjetas grandes e impactantes */
 .towns-grid {
+    padding: var(--space-md);
     display: flex;
     flex-direction: column;
-    gap: 24px;
-    padding-bottom: 80px;
+    gap: var(--space-md);
 }
 
 .town-card {
-    background: white;
-    border-radius: 16px;
+    background: var(--bg-surface);
+    border-radius: var(--radius-lg);
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    transition: transform 0.2s;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
-    height: 300px;
-    /* Altura fija para impacto visual */
+    height: 240px;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    cursor: pointer;
+    border: 1px solid var(--color-border);
 }
 
 .town-card:active {
     transform: scale(0.98);
 }
 
-/* Imagen de fondo completa */
 .town-image-bg {
     position: absolute;
     top: 0;
@@ -73,69 +58,132 @@
     z-index: 1;
 }
 
-/* Gradiente para leer el texto */
 .town-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.1) 60%);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.2) 60%);
     z-index: 2;
 }
 
 .town-info {
-    font-size: 1.4rem;
-    color: #1a1a1a;
-}
-
-.town-description {
-    font-size: 0.95rem;
-    color: #666;
-    line-height: 1.5;
-    margin: 0;
-    flex: 1;
-}
-
-.town-meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 1rem;
-    border-top: 1px solid #eee;
-}
-
-.population {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    color: #888;
-    font-size: 0.9rem;
-}
-
-.view-more-btn {
-    background: #2e7d32;
+    position: relative;
+    z-index: 3;
+    padding: var(--space-md);
     color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.2s;
 }
 
-.view-more-btn:hover {
-    background: #1b5e20;
+.town-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
 }
 
-.empty-state {
+.town-logo-mini {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
+.town-name {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 800;
+    font-family: var(--font-heading);
+}
+
+.town-desc {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.4;
+    margin: 0 0 8px 0;
+}
+
+.town-stats {
+    display: flex;
+    gap: 12px;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Empty & Map States */
+.empty-state-full,
+.map-placeholder-container {
+    padding: var(--space-2xl) var(--space-md);
     text-align: center;
-    padding: 3rem;
-    color: #888;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
 }
 
-@media (max-width: 600px) {
-    .towns-grid {
-        grid-template-columns: 1fr;
-    }
+.map-card-placeholder {
+    background-color: var(--bg-card);
+    padding: var(--space-xl);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-md);
+    width: 100%;
+    max-width: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+}
+
+.empty-icon {
+    color: var(--text-muted);
+    opacity: 0.5;
+}
+
+.empty-state-full h3,
+.map-card-placeholder h3 {
+    font-family: var(--font-heading);
+    color: var(--text-main);
+    margin: 0;
+    font-size: 20px;
+}
+
+.empty-state-full p,
+.map-card-placeholder p {
+    color: var(--text-muted);
+    font-size: 15px;
+    max-width: 280px;
+    line-height: 1.4;
+}
+
+.map-mock-points {
+    display: flex;
+    gap: var(--space-xs);
+    margin: var(--space-sm) 0;
+}
+
+.mock-point {
+    padding: 6px 10px;
+    border-radius: var(--radius-full);
+    font-size: 11px;
+    font-weight: 800;
+    color: white;
+}
+
+.mock-point.mur {
+    background-color: var(--color-primary);
+}
+
+.mock-point.mercat {
+    background-color: var(--color-secondary);
+}
+
+.mock-point.event {
+    background-color: var(--color-accent);
 }

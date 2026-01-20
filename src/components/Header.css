@@ -1,20 +1,25 @@
 .main-header {
-    background-color: var(--color-text);
-    /* #1a1a1a approximated by color-text */
-    padding: 0 1rem;
+    background: #171923;
+    /* Dark background locked */
+    padding: 0 var(--space-md);
     position: sticky;
     top: 0;
     z-index: 100;
     height: var(--header-height);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    box-sizing: border-box;
     display: flex;
     align-items: center;
+    border-bottom: 1px solid #2D3748;
+}
+
+/* Optional Glassmorphism effect */
+.main-header.glass {
+    background: rgba(23, 25, 35, 0.8);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
 }
 
 .header-content {
     width: 100%;
-    margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -24,103 +29,91 @@
 .logo-container {
     display: flex;
     align-items: center;
-    height: 100%;
 }
 
 .header-logo {
-    height: 42px;
+    height: 40px;
     object-fit: contain;
+    filter: invert(1) brightness(10);
+    /* Keep it white */
+    transition: filter 0.3s ease;
 }
 
-.profile-link {
+.header-actions {
     display: flex;
     align-items: center;
-    text-decoration: none;
+    gap: 8px;
 }
 
-.user-avatar-small {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background-color: var(--color-background);
+.header-actions button,
+.header-actions .header-notif-btn,
+.header-actions .profile-link {
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
-    border: 2px solid var(--color-border);
-    transition: border-color 0.2s;
+    border-radius: var(--radius-sm);
+    transition: all 0.2s ease;
+    color: #F7FAFC;
+    /* Whiteish icons */
 }
 
-.user-avatar-small:hover {
-    border-color: var(--color-secondary);
+.header-actions button:hover,
+.header-actions .header-notif-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--color-primary);
+}
+
+.header-lang-switcher {
+    width: auto !important;
+    padding: 0 10px !important;
+    font-family: var(--font-heading);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: #F7FAFC !important;
+    border: 1px solid #2D3748 !important;
+}
+
+.header-search-btn svg,
+.header-notif-btn svg {
+    color: #F7FAFC;
+    /* Consistently white */
+}
+
+.header-notif-btn {
+    position: relative;
+}
+
+.notif-badge {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    background-color: #FF5252;
+    color: white;
+    font-size: 9px;
+    font-weight: 800;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #171923;
+}
+
+.user-avatar-small {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    border: 1.5px solid #2D3748;
+    background-color: var(--color-primary-soft);
 }
 
 .user-avatar-small img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-}
-
-.header-actions {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.header-lang-switcher {
-    background: transparent;
-    border: 1px solid #444;
-    color: white;
-    padding: 0.3rem 0.6rem;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.8rem;
-    font-weight: bold;
-    transition: all 0.2s;
-}
-
-.header-lang-switcher:hover {
-    border-color: #2e7d32;
-    background-color: rgba(46, 125, 50, 0.1);
-}
-
-.header-search-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 6px;
-    border-radius: 50%;
-    transition: background-color 0.2s;
-}
-
-.header-search-btn:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-.header-notif-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 6px;
-    border-radius: 50%;
-    position: relative;
-    transition: background-color 0.2s;
-}
-
-.header-notif-btn:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-.notif-badge {
-    position: absolute;
-    top: 0;
-    right: 0;
-    background-color: var(--color-primary);
-    color: white;
-    font-size: 10px;
-    font-weight: 800;
-    padding: 2px 5px;
-    border-radius: 10px;
-    border: 2px solid var(--color-text);
-    transform: translate(25%, -25%);
 }

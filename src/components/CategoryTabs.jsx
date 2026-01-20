@@ -23,7 +23,6 @@ const CategoryTabs = ({ selectedRole, onSelectRole, exclude = [], tabs }) => {
                     key={role.id}
                     className={`category-tab ${selectedRole === role.id ? 'active' : ''}`}
                     onClick={() => onSelectRole(role.id)}
-                    style={{ textTransform: 'uppercase', fontSize: '11px', fontWeight: '800', letterSpacing: '0.5px' }}
                 >
                     {role.label}
                 </button>
@@ -31,7 +30,6 @@ const CategoryTabs = ({ selectedRole, onSelectRole, exclude = [], tabs }) => {
             <button
                 className="category-tab add-tab"
                 onClick={() => console.log('Future management screen')}
-                style={{ fontSize: '16px', fontWeight: '800', padding: '0 8px' }}
             >
                 +
             </button>

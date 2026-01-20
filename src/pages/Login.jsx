@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { supabaseService } from '../services/supabaseService';
 import { useTranslation } from 'react-i18next';
+import './Auth.css';
 
 const Login = () => {
     const { t } = useTranslation();
@@ -27,38 +28,45 @@ const Login = () => {
     };
 
     return (
-        <div className="auth-container" style={{ padding: '2rem', maxWidth: '400px', margin: '0 auto' }}>
-            <h1>{t('auth.login')}</h1>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                <input
-                    type="email"
-                    placeholder={t('auth.email')}
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                />
-                <input
-                    type="password"
-                    placeholder={t('auth.password')}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                />
-                <button type="submit" disabled={loading} style={{
-                    backgroundColor: '#2e7d32',
-                    color: 'white',
-                    padding: '0.8rem',
-                    border: 'none',
-                    borderRadius: '4px',
-                    cursor: 'pointer'
-                }}>
-                    {loading ? t('common.loading') : t('auth.signIn')}
-                </button>
-            </form>
-            <p style={{ marginTop: '1rem', textAlign: 'center' }}>
-                {t('auth.noAccount')} <Link to="/register">{t('auth.signUp')}</Link>
-            </p>
+        <div className="auth-container">
+            <div className="auth-card">
+                <img src="/favicon.png" alt="Logo" className="auth-logo" />
+                <h1>{t('auth.login')}</h1>
+                <p className="auth-subtitle">Benvingut de nou a la teua comunitat</p>
+
+                {error && <div className="auth-error">{error}</div>}
+
+                <form onSubmit={handleLogin}>
+                    <div className="form-group">
+                        <label>{t('auth.email')}</label>
+                        <input
+                            type="email"
+                            placeholder="usuari@exemple.com"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>{t('auth.password')}</label>
+                        <input
+                            type="password"
+                            placeholder="••••••••"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                        />
+                    </div>
+
+                    <button type="submit" className="auth-button" disabled={loading}>
+                        {loading ? t('common.loading') : t('auth.signIn')}
+                    </button>
+                </form>
+
+                <div className="auth-footer">
+                    {t('auth.noAccount')} <Link to="/register">{t('auth.signUp')}</Link>
+                </div>
+            </div>
         </div>
     );
 };

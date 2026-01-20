@@ -11,7 +11,17 @@ export const AppProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [profile, setProfile] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+
+    useEffect(() => {
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+    }, [theme]);
+
+    const toggleTheme = () => {
+        setTheme(prev => prev === 'light' ? 'dark' : 'light');
+    };
 
     useEffect(() => {
         // MODO DEMO: Usuario de prueba si no hay sesión real
@@ -69,6 +79,8 @@ export const AppProvider = ({ children }) => {
             language,
             setLanguage,
             toggleLanguage,
+            theme,
+            toggleTheme,
             user,
             profile,
             setProfile,

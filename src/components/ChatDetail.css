@@ -1,105 +1,114 @@
 .chat-detail-container {
     display: flex;
     flex-direction: column;
-    height: calc(100vh - var(--header-height) - var(--nav-height));
-    background-color: var(--color-background);
+    height: calc(100vh - var(--header-height));
+    background-color: var(--bg-main);
 }
 
 .chat-nav-bar {
     display: flex;
     align-items: center;
-    padding: var(--spacing-sm) var(--spacing-md);
-    background-color: var(--color-surface);
+    padding: var(--space-sm) var(--space-md);
+    background-color: var(--bg-surface);
     border-bottom: 1px solid var(--color-border);
-    gap: var(--spacing-md);
-    height: 56px;
+    gap: var(--space-md);
+    height: 60px;
     position: sticky;
-    top: var(--header-height);
+    top: 0;
     z-index: 10;
 }
 
 .chat-info h2 {
-    font-size: 1rem;
-    font-weight: 600;
+    font-size: 16px;
+    font-weight: 700;
     margin: 0;
+    color: var(--text-main);
+    font-family: var(--font-heading);
 }
 
 .chat-info .status {
-    font-size: 0.75rem;
-    color: var(--color-secondary);
+    font-size: 12px;
+    color: var(--color-primary);
+    font-weight: 600;
 }
 
 .messages-list {
     flex: 1;
     overflow-y: auto;
-    padding: var(--spacing-md);
+    padding: var(--space-md);
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-sm);
+    gap: var(--space-sm);
+    background-color: var(--bg-main);
 }
 
 .message-bubble {
     max-width: 80%;
-    padding: 10px 14px;
-    border-radius: 18px;
-    font-size: 0.95rem;
+    padding: 10px 16px;
+    border-radius: var(--radius-lg);
+    font-size: 15px;
     line-height: 1.4;
     position: relative;
+    box-shadow: var(--shadow-sm);
 }
 
 .message-bubble.other {
     align-self: flex-start;
-    background-color: var(--color-surface);
+    background-color: var(--bg-card);
+    color: var(--text-main);
     border-bottom-left-radius: 4px;
-    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--color-border);
 }
 
 .message-bubble.me {
     align-self: flex-end;
-    background-color: var(--color-primary);
+    background: linear-gradient(135deg, var(--color-primary), #7C7EFF);
     color: white;
     border-bottom-right-radius: 4px;
-    box-shadow: var(--shadow-sm);
 }
 
 .message-time {
     display: block;
-    font-size: 0.7rem;
+    font-size: 10px;
     margin-top: 4px;
-    opacity: 0.7;
+    opacity: 0.8;
     text-align: right;
+    font-weight: 600;
 }
 
 .chat-input-area {
-    padding: var(--spacing-md);
-    background-color: var(--color-surface);
+    padding: var(--space-sm) var(--space-md) calc(var(--space-md) + env(safe-area-inset-bottom));
+    background-color: var(--bg-surface);
     border-top: 1px solid var(--color-border);
     display: flex;
-    gap: var(--spacing-sm);
-    padding-bottom: max(var(--spacing-md), env(safe-area-inset-bottom));
+    align-items: center;
+    gap: var(--space-sm);
 }
 
 .chat-input-area input {
     flex: 1;
     border: 1px solid var(--color-border);
-    border-radius: 20px;
-    padding: 10px 16px;
-    font-size: 1rem;
-    background-color: #FAFAFA;
+    border-radius: var(--radius-full);
+    padding: 12px 18px;
+    font-size: 15px;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    outline: none;
+    transition: border-color 0.2s;
 }
 
 .chat-input-area input:focus {
-    outline: none;
     border-color: var(--color-primary);
 }
 
 .send-button {
     background-color: var(--color-primary);
     color: white;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-full);
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 0 4px 10px var(--color-primary-soft);
 }

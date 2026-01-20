@@ -1,22 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { X, Camera, Send, Loader2, Tag } from 'lucide-react';
+import { X, Camera, Send, Loader2, Tag, Globe, Lock, Users } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useAppContext } from '../context/AppContext';
 import './AddItemModal.css';
 
 import EntitySelector from './EntitySelector';
 
-const AddItemModal = ({ isOpen, onClose, onItemCreated }) => {
+const AddItemModal = ({ isOpen, onClose, onItemCreated, isPrivateInitial = false }) => {
     const { t } = useTranslation();
     const { profile } = useAppContext();
     const [loading, setLoading] = useState(false);
+    const [privacy, setPrivacy] = useState(isPrivateInitial ? 'groups' : 'public');
     const [formData, setFormData] = useState({
         title: '',
         price: '',
         tag: 'Producte',
         image_url: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=800&q=80' // Placeholder
     });
+    useEffect(() => {
+        if (isOpen) {
+            setPrivacy(isPrivateInitial ? 'groups' : 'public');
+        }
+    }, [isOpen, isPrivateInitial]);
     const [selectedIdentity, setSelectedIdentity] = useState({
         id: 'user',
         name: profile?.full_name || 'Jo',
@@ -50,6 +56,8 @@ const AddItemModal = ({ isOpen, onClose, onItemCreated }) => {
                 price: formData.price.includes('€') ? formData.price : `${formData.price}€`,
                 image_url: formData.image_url,
                 tag: formData.tag,
+                privacy: privacy,
+                is_private: privacy !== 'public',
 
                 // Multi-Identidad Vendedor
                 seller: selectedIdentity.name, // Display legacy
@@ -63,7 +71,7 @@ const AddItemModal = ({ isOpen, onClose, onItemCreated }) => {
             onClose();
         } catch (error) {
             console.error('Error adding item:', error);
-            alert('Error al publicar artículo');
+            alert('Error al publicar l\'article');
         } finally {
             setLoading(false);
         }
@@ -91,7 +99,7 @@ const AddItemModal = ({ isOpen, onClose, onItemCreated }) => {
                         <label>{t('market.item_title')}</label>
                         <input
                             type="text"
-                            placeholder="Ex: Tomates de l'horta"
+                            placeholder="Ex: Tomaques de l'horta"
                             value={formData.title}
                             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                             required
@@ -129,10 +137,40 @@ const AddItemModal = ({ isOpen, onClose, onItemCreated }) => {
                         <span>{t('market.add_photo')}</span>
                     </div>
 
+                    <div className="privacy-selector-container">
+                        <label className="form-label-small">{t('common.privacy')}</label>
+                        <div className="privacy-options">
+                            <button
+                                type="button"
+                                className={`privacy-btn ${privacy === 'public' ? 'active' : ''}`}
+                                onClick={() => setPrivacy('public')}
+                            >
+                                <Globe size={16} />
+                                {t('common.public')}
+                            </button>
+                            <button
+                                type="button"
+                                className={`privacy-btn ${privacy === 'groups' ? 'active' : ''}`}
+                                onClick={() => setPrivacy('groups')}
+                            >
+                                <Users size={16} />
+                                {t('common.groups')}
+                            </button>
+                            <button
+                                type="button"
+                                className={`privacy-btn ${privacy === 'private' ? 'active' : ''}`}
+                                onClick={() => setPrivacy('private')}
+                            >
+                                <Lock size={16} />
+                                {t('common.private')}
+                            </button>
+                        </div>
+                    </div>
+
                     <div className="post-actions">
                         <button
                             type="submit"
-                            className="submit-btn full-width"
+                            className="btn-primary full-width"
                             disabled={loading}
                         >
                             {loading ? <Loader2 className="spinner" /> : <Send size={20} />}

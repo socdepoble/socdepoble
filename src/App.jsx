@@ -10,6 +10,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
 import Towns from './pages/Towns';
+import Map from './pages/Map';
 import Notifications from './pages/Notifications';
 import { supabase } from './supabaseClient';
 import { MOCK_CHATS, MOCK_FEED, MOCK_MARKET_ITEMS } from './data';
@@ -102,7 +103,7 @@ function App() {
         }
 
         if (seeded) {
-          console.log('Seeding completat con éxito.');
+          console.log('Seeding completat amb èxit.');
           // Ya no recargamos automáticamente para evitar bucles infinitos.
           // El usuario verá los datos en el siguiente renderizado si el estado cambia
           // o puede recargar manualmente si es necesario.
@@ -137,6 +138,7 @@ function App() {
           <Route path="perfil" element={<Profile />} />
           <Route path="notificacions" element={<Notifications />} />
           <Route path="pobles" element={<Towns />} />
+          <Route path="mapa" element={<Map />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -23,8 +23,8 @@ const getAvatarColor = (type) => {
         case 'gov': return 'var(--color-primary)';
         case 'shop': return 'var(--color-secondary)';
         case 'group': return 'var(--color-accent)';
-        case 'coop': return '#6B705C';
-        default: return '#999';
+        case 'coop': return '#6B705C'; // Standardized cooperativa color
+        default: return 'var(--text-muted)';
     }
 };
 
@@ -39,6 +39,7 @@ const Feed = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedRole, setSelectedRole] = useState('tot');
     const [selectedTag, setSelectedTag] = useState(null);
+    const [initialIsPrivate, setInitialIsPrivate] = useState(false);
     const [error, setError] = useState(null);
 
     const fetchPosts = useCallback(async () => {
@@ -78,7 +79,10 @@ const Feed = () => {
     }, [fetchPosts]);
 
     useEffect(() => {
-        const handleOpenModal = () => setIsModalOpen(true);
+        const handleOpenModal = (e) => {
+            setInitialIsPrivate(e.detail?.isPrivate || false);
+            setIsModalOpen(true);
+        };
         window.addEventListener('open-create-post', handleOpenModal);
         return () => window.removeEventListener('open-create-post', handleOpenModal);
     }, []);
@@ -180,6 +184,7 @@ const Feed = () => {
                     isOpen={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
                     onPostCreated={fetchPosts}
+                    isPrivateInitial={initialIsPrivate}
                 />
 
                 {filteredPosts.length === 0 ? (

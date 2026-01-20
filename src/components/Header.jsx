@@ -7,12 +7,13 @@ import './Header.css';
 
 const Header = () => {
     const { profile, toggleLanguage, language } = useAppContext();
+    const logoSrc = '/logo_dark.png';
 
     return (
         <header className="main-header">
             <div className="header-content">
                 <Link to="/" className="logo-container">
-                    <img src={logo} alt="Sóc de Poble" className="header-logo" />
+                    <img src={logoSrc} alt="Sóc de Poble" className="header-logo" />
                 </Link>
 
                 <div className="header-actions">

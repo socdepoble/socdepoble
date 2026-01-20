@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { supabaseService } from '../services/supabaseService';
 import { useTranslation } from 'react-i18next';
+import './Auth.css';
 
 const Register = () => {
     const { t } = useTranslation();
@@ -24,7 +25,6 @@ const Register = () => {
         if (error) {
             setError(error.message);
         } else {
-            // Éxito - redirigir o mostrar mensaje de confirmación
             alert(t('auth.checkEmail'));
             navigate('/login');
         }
@@ -32,45 +32,55 @@ const Register = () => {
     };
 
     return (
-        <div className="auth-container" style={{ padding: '2rem', maxWidth: '400px', margin: '0 auto' }}>
-            <h1>{t('auth.register')}</h1>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            <form onSubmit={handleRegister} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                <input
-                    type="text"
-                    placeholder={t('auth.fullName')}
-                    value={fullName}
-                    onChange={(e) => setFullName(e.target.value)}
-                    required
-                />
-                <input
-                    type="email"
-                    placeholder={t('auth.email')}
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                />
-                <input
-                    type="password"
-                    placeholder={t('auth.password')}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                />
-                <button type="submit" disabled={loading} style={{
-                    backgroundColor: '#2e7d32',
-                    color: 'white',
-                    padding: '0.8rem',
-                    border: 'none',
-                    borderRadius: '4px',
-                    cursor: 'pointer'
-                }}>
-                    {loading ? t('common.loading') : t('auth.signUp')}
-                </button>
-            </form>
-            <p style={{ marginTop: '1rem', textAlign: 'center' }}>
-                {t('auth.haveAccount')} <Link to="/login">{t('auth.signIn')}</Link>
-            </p>
+        <div className="auth-container">
+            <div className="auth-card">
+                <img src="/favicon.png" alt="Logo" className="auth-logo" />
+                <h1>{t('auth.register')}</h1>
+                <p className="auth-subtitle">Crea el teu compte i connecta amb el poble</p>
+
+                {error && <div className="auth-error">{error}</div>}
+
+                <form onSubmit={handleRegister}>
+                    <div className="form-group">
+                        <label>{t('auth.fullName')}</label>
+                        <input
+                            type="text"
+                            placeholder="Nom i cognoms"
+                            value={fullName}
+                            onChange={(e) => setFullName(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>{t('auth.email')}</label>
+                        <input
+                            type="email"
+                            placeholder="usuari@exemple.com"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>{t('auth.password')}</label>
+                        <input
+                            type="password"
+                            placeholder="Mínim 6 caràcters"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                        />
+                    </div>
+
+                    <button type="submit" className="auth-button" disabled={loading}>
+                        {loading ? t('common.loading') : t('auth.signUp')}
+                    </button>
+                </form>
+
+                <div className="auth-footer">
+                    {t('auth.haveAccount')} <Link to="/login">{t('auth.signIn')}</Link>
+                </div>
+            </div>
         </div>
     );
 };

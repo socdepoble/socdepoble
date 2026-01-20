@@ -1,23 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { X, Image as ImageIcon, Send, Loader2 } from 'lucide-react';
+import { X, Image as ImageIcon, Send, Loader2, Globe, Lock, Users } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useAppContext } from '../context/AppContext';
 import './CreatePostModal.css';
 
 import EntitySelector from './EntitySelector';
 
-const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
+const PREDEFINED_TAGS = ['Esdeveniment', 'Avís', 'Consulta', 'Proposta'];
+
+const CreatePostModal = ({ isOpen, onClose, onPostCreated, isPrivateInitial = false }) => {
     const { t } = useTranslation();
     const { profile, user } = useAppContext();
     const [content, setContent] = useState('');
     const [loading, setLoading] = useState(false);
+    const [selectedTags, setSelectedTags] = useState([]);
+    const [privacy, setPrivacy] = useState(isPrivateInitial ? 'groups' : 'public');
     const [selectedIdentity, setSelectedIdentity] = useState({
         id: 'user',
         name: profile?.full_name || 'Jo',
         type: 'user',
         avatar_url: profile?.avatar_url
     });
+
+    useEffect(() => {
+        if (isOpen) {
+            setPrivacy(isPrivateInitial ? 'groups' : 'public');
+        }
+    }, [isOpen, isPrivateInitial]);
 
     // Use useEffect for resetting identity when profile loads or modal opens
     useEffect(() => {
@@ -34,6 +44,12 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
 
     if (!isOpen) return null;
 
+    const toggleTag = (tag) => {
+        setSelectedTags(prev =>
+            prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]
+        );
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!content.trim()) return;
@@ -46,6 +62,9 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
                 likes: 0,
                 comments_count: 0,
                 created_at: new Date().toISOString(),
+                tags: selectedTags,
+                privacy: privacy, // Changed from is_private boolean to privacy string
+                is_private: privacy !== 'public', // Backward compatibility for boolean checks
 
                 // Multi-Identidad
                 author_type: selectedIdentity.type === 'user' ? 'user' : 'entity',
@@ -61,6 +80,7 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
             await supabaseService.createPost(newPost);
             onPostCreated();
             setContent('');
+            setSelectedTags([]);
             onClose();
         } catch (error) {
             console.error('Error creating post:', error);
@@ -94,14 +114,61 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
                         />
                     </div>
 
+                    <div className="tag-selector-container">
+                        <span className="tag-label">Afegir etiquetes:</span>
+                        <div className="tag-pills">
+                            {PREDEFINED_TAGS.map(tag => (
+                                <button
+                                    key={tag}
+                                    type="button"
+                                    className={`tag-pill ${selectedTags.includes(tag) ? 'active' : ''}`}
+                                    onClick={() => toggleTag(tag)}
+                                >
+                                    {tag}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="privacy-selector-container">
+                        <span className="tag-label">{t('common.privacy')}:</span>
+                        <div className="privacy-options">
+                            <button
+                                type="button"
+                                className={`privacy-btn ${privacy === 'public' ? 'active' : ''}`}
+                                onClick={() => setPrivacy('public')}
+                            >
+                                <Globe size={16} />
+                                {t('common.public')}
+                            </button>
+                            <button
+                                type="button"
+                                className={`privacy-btn ${privacy === 'groups' ? 'active' : ''}`}
+                                onClick={() => setPrivacy('groups')}
+                            >
+                                <Users size={16} />
+                                {t('common.groups')}
+                            </button>
+                            <button
+                                type="button"
+                                className={`privacy-btn ${privacy === 'private' ? 'active' : ''}`}
+                                onClick={() => setPrivacy('private')}
+                            >
+                                <Lock size={16} />
+                                {t('common.private')}
+                            </button>
+                        </div>
+                    </div>
+
                     <div className="post-actions">
                         <button type="button" className="icon-btn">
                             <ImageIcon size={20} />
                         </button>
                         <button
                             type="submit"
-                            className="submit-btn"
+                            className="btn-primary"
                             disabled={!content.trim() || loading}
+                            style={{ borderRadius: 'var(--radius-full)' }}
                         >
                             {loading ? <Loader2 className="spinner" /> : <Send size={20} />}
                             {t('common.send')}

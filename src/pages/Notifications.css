@@ -1,53 +1,51 @@
 .notifications-container {
-    background-color: var(--color-background);
+    background-color: var(--bg-main);
     min-height: 100vh;
     padding-bottom: calc(var(--nav-height) + 20px);
 }
 
 .page-header-simple {
-    background-color: white;
-    padding: 24px 16px 16px 16px;
+    background-color: var(--bg-surface);
+    padding: var(--space-xl) var(--space-md) var(--space-md);
     border-bottom: 1px solid var(--color-border);
-    position: sticky;
-    top: var(--header-height);
-    z-index: 100;
 }
 
 .page-header-simple h1 {
     font-size: 24px;
     font-weight: 800;
     margin: 0;
-    color: var(--color-text);
+    color: var(--text-main);
+    font-family: var(--font-heading);
 }
 
 .notifications-list {
-    background-color: white;
+    background-color: var(--bg-surface);
 }
 
 .notification-item {
     display: flex;
     align-items: flex-start;
-    padding: 16px;
-    border-bottom: 1px solid var(--color-border);
-    gap: 16px;
+    padding: var(--space-md);
+    border-bottom: 1px solid var(--color-divider);
+    gap: var(--space-md);
     position: relative;
     transition: background-color 0.2s;
+    background-color: var(--bg-card);
 }
 
 .notification-item:active {
-    background-color: #f8f9fa;
+    background-color: var(--bg-main);
 }
 
 .notification-item.unread {
-    background-color: rgba(224, 122, 95, 0.03);
-    /* Tiny bit of primary color */
+    background-color: var(--color-primary-soft);
 }
 
 .notif-icon-wrapper {
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
-    background-color: #f8f9fa;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-sm);
+    background-color: var(--bg-main);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -60,8 +58,8 @@
 
 .notif-content p {
     margin: 0;
-    font-size: 0.95rem;
-    color: var(--color-text);
+    font-size: 15px;
+    color: var(--text-main);
     line-height: 1.4;
 }
 
@@ -71,19 +69,20 @@
 
 .notif-time {
     display: block;
-    font-size: 0.75rem;
-    color: #888;
+    font-size: 13px;
+    color: var(--text-muted);
     margin-top: 4px;
     font-weight: 500;
 }
 
 .unread-dot {
-    width: 8px;
-    height: 8px;
+    width: 10px;
+    height: 10px;
     background-color: var(--color-primary);
-    border-radius: 50%;
+    border-radius: var(--radius-full);
     position: absolute;
-    right: 16px;
+    right: var(--space-md);
     top: 50%;
     transform: translateY(-50%);
+    border: 2px solid var(--bg-card);
 }

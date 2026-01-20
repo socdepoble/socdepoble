@@ -1,66 +1,108 @@
 .market-form {
-    padding: 1.5rem;
+    padding: var(--space-lg);
     display: flex;
     flex-direction: column;
-    gap: 1.2rem;
+    gap: var(--space-md);
+    background-color: var(--bg-surface);
 }
 
 .form-group {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: var(--space-xs);
 }
 
 .form-group label {
-    font-weight: bold;
-    font-size: 0.9rem;
-    color: #555;
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--text-secondary);
 }
 
 .form-group input,
 .form-group select {
-    padding: 0.8rem;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 1rem;
+    padding: 12px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-size: 15px;
     outline: none;
+    background-color: var(--bg-card);
+    color: var(--text-main);
 }
 
 .form-group input:focus {
-    border-color: #2e7d32;
+    border-color: var(--color-primary);
 }
 
 .form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1rem;
+    gap: var(--space-md);
 }
 
 .image-upload-box {
-    border: 2px dashed #ddd;
-    border-radius: 12px;
+    border: 2px dashed var(--color-border);
+    border-radius: var(--radius-md);
     height: 120px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
-    color: #888;
+    gap: 8px;
+    color: var(--text-muted);
     cursor: pointer;
     transition: all 0.2s;
+    background-color: var(--bg-main);
 }
 
 .image-upload-box:hover {
-    background: #f9f9f9;
-    border-color: #2e7d32;
-    color: #2e7d32;
+    background-color: var(--color-primary-soft);
+    border-color: var(--color-primary);
+    color: var(--color-primary);
 }
 
 .full-width {
     width: 100%;
-    justify-content: center;
 }
 
 .identity-selector-wrapper {
-    margin-bottom: 1rem;
+    margin-bottom: var(--space-md);
+}
+
+.form-label-small {
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    display: block;
+}
+
+.privacy-selector-container {
+    margin-top: var(--space-xs);
+}
+
+.privacy-options {
+    display: flex;
+    gap: 8px;
+}
+
+.privacy-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px;
+    border-radius: var(--radius-md);
+    background-color: var(--bg-card);
+    border: 1px solid var(--color-border);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    transition: all 0.2s;
+}
+
+.privacy-btn.active {
+    background-color: var(--color-primary);
+    color: white;
+    border-color: var(--color-primary);
 }

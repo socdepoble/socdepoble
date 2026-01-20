@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useAppContext } from '../context/AppContext';
 import { supabaseService } from '../services/supabaseService';
 import { useTranslation } from 'react-i18next';
-import { User, LogOut, Camera, Save, Building2, Store, Settings, Star, Home, Bell, Lock, HelpCircle, Info, ChevronRight, MapPin, MessageCircle, Plus } from 'lucide-react';
+import { User, LogOut, Camera, Save, Building2, Store, Settings, Star, Home, Bell, Lock, HelpCircle, Info, ChevronRight, MapPin, MessageCircle, Plus, Moon, Sun } from 'lucide-react';
 import './Profile.css';
 
 const MyEntitiesList = ({ userId }) => {
@@ -45,7 +45,7 @@ const MyEntitiesList = ({ userId }) => {
 
 const Profile = () => {
     const { t } = useTranslation();
-    const { profile, user } = useAppContext();
+    const { profile, user, theme, toggleTheme } = useAppContext();
 
     const [towns] = useState(['La Torre de les Maçanes']);
     const comarca = "l'Alacantí";
@@ -55,13 +55,21 @@ const Profile = () => {
     const menuItems = [
         { icon: <MessageCircle size={20} />, label: t('nav.my_posts'), id: 'posts' },
         { icon: <Store size={20} />, label: t('nav.my_products'), id: 'products' },
+        { icon: theme === 'light' ? <Moon size={20} /> : <Sun size={20} />, label: theme === 'light' ? 'Modo nit' : 'Modo dia', id: 'theme' },
         { icon: <Star size={20} />, label: t('nav.saved'), id: 'saved' },
         { icon: <Home size={20} />, label: t('nav.my_towns'), id: 'towns' },
         { icon: <Bell size={20} />, label: t('nav.profile_notifications') || 'Notificacions', id: 'notifications' },
-        { icon: <Lock size={20} />, label: t('nav.privacy'), id: 'privacy' },
         { icon: <HelpCircle size={20} />, label: t('nav.support'), id: 'support' },
         { icon: <Info size={20} />, label: t('nav.about'), id: 'about' }
     ];
+
+    const handleMenuClick = (id) => {
+        if (id === 'theme') {
+            toggleTheme();
+        } else {
+            console.log('Clicked menu item:', id);
+        }
+    };
 
     return (
         <div className="profile-container">
@@ -122,7 +130,7 @@ const Profile = () => {
 
             <div className="profile-menu">
                 {menuItems.map(item => (
-                    <button key={item.id} className="menu-item">
+                    <button key={item.id} className="menu-item" onClick={() => handleMenuClick(item.id)}>
                         <div className="menu-item-left">
                             <span className={`menu-icon ${item.id}`}>{item.icon}</span>
                             <span>{item.label}</span>
@@ -142,6 +150,7 @@ const Profile = () => {
                     <LogOut size={18} />
                     {t('auth.logout')}
                 </button>
+                <div className="app-version">v1.1.3</div>
             </div>
         </div>
     );

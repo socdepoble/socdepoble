@@ -1,13 +1,80 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>soc-de-poble</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<html lang="va">
+
+<head>
+  <meta charset="UTF-8" />
+  <!-- Cache Prevention -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+  <!-- SEO & Social Media (Open Graph) -->
+  <title>Sóc de Poble v1.1.3 | Portal de Pobles Connectats</title>
+  <meta name="description"
+    content="La xarxa social dels pobles. Connecta amb la teua gent, descobreix esdeveniments locals i explora el mercat de proximitat." />
+  <meta name="keywords" content="poble, comunitat, esdeveniments, mercat local, proximitat, valència, connectivitat" />
+  <meta name="author" content="Sóc de Poble" />
+
+  <!-- Open Graph / Facebook / WhatsApp -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://socdepoble.vercel.app/" />
+  <meta property="og:title" content="Sóc de Poble v1.1.3 | Portal de Pobles Connectats" />
+  <meta property="og:description"
+    content="Connecta amb la teua comunitat. Notícies, mercat i esdeveniments geolocalitzats al teu poble." />
+  <meta property="og:image" content="https://socdepoble.vercel.app/og-image.png?v=3" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Sóc de Poble - Mapa i rutes connectades" />
+  <meta property="og:site_name" content="Sóc de Poble" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://socdepoble.vercel.app/" />
+  <meta name="twitter:title" content="Sóc de Poble v1.1.3 | Portal de Pobles Connectats" />
+  <meta name="twitter:description"
+    content="Connecta amb la teua comunitat. Notícies, mercat i esdeveniments al teu poble." />
+  <meta name="twitter:image" content="https://socdepoble.vercel.app/og-image.png?v=3" />
+
+  <!-- Mobile Theme -->
+  <meta name="theme-color" content="#5D5FEF" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+  <!-- Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Sóc de Poble",
+      "url": "https://socdepoble.vercel.app/",
+      "description": "La xarxa social dels pobles. Connecta amb la teua gent, descobreix esdeveniments locals i explora el mercat de proximitat.",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://socdepoble.vercel.app/mur?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+  </script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Sóc de Poble",
+      "url": "https://socdepoble.vercel.app/",
+      "logo": "https://socdepoble.vercel.app/og-image.png"
+    }
+  </script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <div class="app-version">v1.1.3</div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+
 </html>

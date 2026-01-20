@@ -42,18 +42,14 @@ const CreationHub = () => {
                         <span>{t('nav.market')}</span>
                     </button>
 
-                    <button className="creation-option" onClick={() => setIsCreateModalOpen(false)}>
-                        <div className="option-icon pobles">
-                            <MapPin size={28} />
-                        </div>
-                        <span>{t('nav.towns')}</span>
-                    </button>
-
-                    <button className="creation-option" onClick={() => setIsCreateModalOpen(false)}>
+                    <button className="creation-option" onClick={() => {
+                        setIsCreateModalOpen(false);
+                        window.dispatchEvent(new CustomEvent('open-create-post', { detail: { isPrivate: true } }));
+                    }}>
                         <div className="option-icon grups">
                             <Users size={28} />
                         </div>
-                        <span>{t('nav.groups') || 'Grups'}</span>
+                        <span>{t('nav.work_groups')}</span>
                     </button>
                 </div>
             </div>

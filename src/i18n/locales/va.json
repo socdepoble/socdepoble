@@ -5,8 +5,9 @@
         "send": "Enviar",
         "write_message": "Escriu un missatge...",
         "online": "En línia",
-        "soon": "Próximament...",
+        "soon": "Pròximament...",
         "search": "Buscar...",
+        "event": "Esdeveniment",
         "role_all": "Mur",
         "role_gent": "Gent",
         "role_grup": "Grups",
@@ -17,15 +18,23 @@
         "role_pobo": "Pobles",
         "role_mercat": "Mercat",
         "save": "Guardar",
-        "saved": "Guardat!"
+        "saved": "Guardat!",
+        "create_new": "Què vols crear?",
+        "public": "Públic",
+        "private": "Privat",
+        "groups": "Grups",
+        "privacy": "Privacitat"
     },
     "nav": {
         "chats": "Xats",
         "feed": "Mur",
         "market": "Mercat",
         "towns": "Pobles",
+        "events": "Esdeveniments",
+        "map_tab": "Mapa",
         "profile": "Perfil",
         "my_entities": "Les meues Entitats",
+        "work_groups": "Grups de treball",
         "empty_entities": "No gestiones cap grup ni empresa encara.",
         "my_posts": "Les meues publicacions",
         "my_products": "Els meus productes",
@@ -81,5 +90,14 @@
         "title": "Notificacions",
         "empty": "No tens cap notificació nova.",
         "loading": "Carregant notificacions..."
+    },
+    "map": {
+        "title": "Mapa Connectat",
+        "info_title": "Informació del Mapa",
+        "info_desc": "Aquest mapa mostra totes les publicacions, productes i esdeveniments geolocalitzats en temps real."
+    },
+    "events": {
+        "title": "Pròxims Esdeveniments",
+        "empty": "No hi ha esdeveniments programats per a aquesta setmana."
     }
 }

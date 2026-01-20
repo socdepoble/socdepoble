@@ -52,7 +52,7 @@ const Market = () => {
     }, []);
 
     const handleFavorite = async (itemId) => {
-        if (!user) return alert('Debes iniciar sesión para marcar favoritos');
+        if (!user) return alert('Has d\'iniciar sessió per a marcar favorits');
 
         try {
             const { favorited } = await supabaseService.toggleMarketFavorite(itemId, user.id);
