@@ -45,6 +45,12 @@ const Market = () => {
         fetchItems();
     }, [selectedRole, fetchItems]);
 
+    useEffect(() => {
+        const handleOpenModal = () => setIsModalOpen(true);
+        window.addEventListener('open-add-market-item', handleOpenModal);
+        return () => window.removeEventListener('open-add-market-item', handleOpenModal);
+    }, []);
+
     const handleFavorite = async (itemId) => {
         if (!user) return alert('Debes iniciar sesión para marcar favoritos');
 
@@ -83,9 +89,6 @@ const Market = () => {
                         onSelectRole={setSelectedRole}
                         tabs={marketTabs}
                     />
-                    <button className="create-fab-compact" onClick={() => setIsModalOpen(true)}>
-                        <Plus size={20} />
-                    </button>
                 </div>
             </header>
 

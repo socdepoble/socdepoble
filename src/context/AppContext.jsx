@@ -11,6 +11,7 @@ export const AppProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [profile, setProfile] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
     useEffect(() => {
         // MODO DEMO: Usuario de prueba si no hay sesión real
@@ -72,7 +73,9 @@ export const AppProvider = ({ children }) => {
             profile,
             setProfile,
             loading,
-            setUser
+            setUser,
+            isCreateModalOpen,
+            setIsCreateModalOpen
         }}>
             {children}
         </AppContext.Provider>

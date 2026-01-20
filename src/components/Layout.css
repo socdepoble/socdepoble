@@ -2,8 +2,8 @@
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    padding-bottom: var(--nav-height);
-    /* Espacio para la navegación inferior */
+    padding-bottom: calc(var(--nav-height) + 20px);
+    /* Espacio para la navegación inferior y el botón flotante */
 }
 
 .content-area {

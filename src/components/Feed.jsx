@@ -31,7 +31,7 @@ const getAvatarColor = (type) => {
 const Feed = () => {
     console.log('[Feed] Component mounting/rendering');
     const { t } = useTranslation();
-    const { profile, user } = useAppContext();
+    const { user } = useAppContext();
     const [posts, setPosts] = useState([]);
     const [userConnections, setUserConnections] = useState([]);
     const [userTags, setUserTags] = useState([]);
@@ -76,6 +76,12 @@ const Feed = () => {
     useEffect(() => {
         fetchPosts();
     }, [fetchPosts]);
+
+    useEffect(() => {
+        const handleOpenModal = () => setIsModalOpen(true);
+        window.addEventListener('open-create-post', handleOpenModal);
+        return () => window.removeEventListener('open-create-post', handleOpenModal);
+    }, []);
 
     const handleConnectionUpdate = (postId, connected, tags) => {
         setUserConnections(prev => {
@@ -169,14 +175,6 @@ const Feed = () => {
             </header>
 
             <div className="feed-list">
-                {!selectedTag && (
-                    <div className="feed-input-trigger" onClick={() => setIsModalOpen(true)}>
-                        <div className="user-avatar-small">
-                            {profile?.avatar_url ? <img src={profile.avatar_url} alt="Profile" /> : <User size={20} />}
-                        </div>
-                        <input type="text" placeholder={t('feed.placeholder') || 'Què vols compartir?'} readOnly />
-                    </div>
-                )}
 
                 <CreatePostModal
                     isOpen={isModalOpen}

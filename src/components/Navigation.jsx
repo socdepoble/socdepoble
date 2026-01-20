@@ -1,10 +1,12 @@
 import { NavLink } from 'react-router-dom';
-import { MessageCircle, Newspaper, Store, MapPin, Languages, LogOut, User } from 'lucide-react';
+import { MessageCircle, Newspaper, Store, MapPin, Plus } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useAppContext } from '../context/AppContext';
 import './Navigation.css';
 
 const Navigation = () => {
   const { t } = useTranslation();
+  const { setIsCreateModalOpen } = useAppContext();
 
   return (
     <nav className="bottom-nav">
@@ -16,6 +18,13 @@ const Navigation = () => {
         <Newspaper size={24} />
         <span>{t('nav.feed')}</span>
       </NavLink>
+
+      <div className="nav-fab-container">
+        <button className="nav-fab" onClick={() => setIsCreateModalOpen(true)}>
+          <Plus size={32} color="white" strokeWidth={3} />
+        </button>
+      </div>
+
       <NavLink to="/mercat" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
         <Store size={24} />
         <span>{t('nav.market')}</span>
