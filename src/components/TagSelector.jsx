@@ -1,33 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Plus, X, Tag as TagIcon, Check, Loader2, Trash2 } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useAppContext } from '../context/AppContext';
 import './TagSelector.css';
 
-const TagSelector = ({ postId, currentTags = [], onTagsChange }) => {
+const TagSelector = ({ currentTags = [], onTagsChange }) => {
     const { t } = useTranslation();
     const { user } = useAppContext();
     const [availableTags, setAvailableTags] = useState([]);
     const [newTagName, setNewTagName] = useState('');
     const [loading, setLoading] = useState(false);
     const [isAdding, setIsAdding] = useState(false);
-    const [showDelete, setShowDelete] = useState(null); // ID del tag a borrar
 
-    useEffect(() => {
-        if (user) {
-            loadUserTags();
-        }
-    }, [user]);
-
-    const loadUserTags = async () => {
+    const loadUserTags = useCallback(async () => {
         try {
             const tags = await supabaseService.getUserTags(user.id);
             setAvailableTags(Array.isArray(tags) ? tags : []);
         } catch (error) {
             console.error('Error loading tags:', error);
         }
-    };
+    }, [user?.id]);
+
+    useEffect(() => {
+        if (user) {
+            loadUserTags();
+        }
+    }, [user, loadUserTags]);
 
     const toggleTag = (tag) => {
         const isSelected = currentTags.includes(tag);
@@ -90,7 +89,6 @@ const TagSelector = ({ postId, currentTags = [], onTagsChange }) => {
                     <div
                         key={tag}
                         className={`tag-item-wrapper ${currentTags.includes(tag) ? 'selected' : ''}`}
-                        onContextMenu={(e) => { e.preventDefault(); setShowDelete(tag); }}
                         onClick={() => toggleTag(tag)}
                     >
                         <button className="tag-item-btn">

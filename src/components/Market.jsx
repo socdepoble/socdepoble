@@ -56,18 +56,14 @@ const Market = () => {
         }
     };
 
-    const getAvatarIcon = (type) => {
-        // Simple mapping based on known types or defaults
-        if (type === 'empresa' || type === 'coop') return <Store size={20} />;
-        if (type === 'oficial') return <Building2 size={20} />;
-        return <User size={20} />;
-    };
 
-    const getAvatarColor = (type) => {
-        if (type === 'empresa' || type === 'coop') return 'var(--color-secondary)';
-        if (type === 'oficial') return 'var(--color-primary)';
-        return '#999';
-    };
+    const marketTabs = [
+        { id: 'tot', label: t('common.role_mercat') },
+        { id: 'gent', label: t('common.role_gent') },
+        { id: 'grup', label: t('common.role_grup') },
+        { id: 'empresa', label: t('common.role_empresa') },
+        { id: 'pobo', label: t('common.role_pobo') }
+    ];
 
     if (loading && items.length === 0) {
         return (
@@ -81,17 +77,16 @@ const Market = () => {
     return (
         <div className="market-container">
             <header className="page-header-with-tabs">
-                <div className="header-top">
-                    <h1>{t('market.title')}</h1>
-                    <button className="create-fab-inline" onClick={() => setIsModalOpen(true)}>
-                        <Plus size={24} />
+                <div className="header-tabs-wrapper-with-fab">
+                    <CategoryTabs
+                        selectedRole={selectedRole}
+                        onSelectRole={setSelectedRole}
+                        tabs={marketTabs}
+                    />
+                    <button className="create-fab-compact" onClick={() => setIsModalOpen(true)}>
+                        <Plus size={20} />
                     </button>
                 </div>
-                <CategoryTabs
-                    selectedRole={selectedRole}
-                    onSelectRole={setSelectedRole}
-                    exclude={['oficial']}
-                />
             </header>
 
             <AddItemModal

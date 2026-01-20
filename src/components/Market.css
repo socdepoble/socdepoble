@@ -8,7 +8,7 @@
 /* Cabecera idéntica al Feed */
 .page-header-with-tabs {
     background-color: white;
-    padding-top: var(--spacing-lg);
+    padding-top: var(--spacing-sm);
     border-bottom: 1px solid var(--color-border);
     position: sticky;
     top: var(--header-height);
@@ -16,24 +16,21 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
 }
 
-.header-top {
+.header-tabs-wrapper-with-fab {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 0 16px 16px 16px;
+    padding-top: 12px;
+    padding-right: 16px;
 }
 
-.page-header-with-tabs h1 {
-    font-size: 28px;
-    font-weight: 800;
-    margin: 0;
-    color: var(--color-text);
-    letter-spacing: -0.5px;
+.header-tabs-wrapper-with-fab .category-tabs {
+    flex: 1;
+    padding-bottom: 12px;
 }
 
-.create-fab-inline {
-    width: 40px;
-    height: 40px;
+.create-fab-compact {
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     background-color: var(--color-primary);
     color: white;
@@ -41,12 +38,14 @@
     align-items: center;
     justify-content: center;
     border: none;
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--shadow-sm);
     cursor: pointer;
     transition: transform 0.1s;
+    margin-bottom: 12px;
+    flex-shrink: 0;
 }
 
-.create-fab-inline:active {
+.create-fab-compact:active {
     transform: scale(0.95);
 }
 
