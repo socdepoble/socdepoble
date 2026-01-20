@@ -26,6 +26,14 @@
     filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
 }
 
+.auth-logo-elongated {
+    width: 220px;
+    height: auto;
+    margin: 0 auto 16px;
+    display: block;
+    border-radius: 12px;
+}
+
 .auth-card h1 {
     color: var(--color-primary);
     font-size: 2rem;
