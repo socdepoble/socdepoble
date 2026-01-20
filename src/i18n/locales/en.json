@@ -8,7 +8,12 @@
         "soon": "Coming soon...",
         "save": "Save",
         "saved": "Saved!",
-        "search": "Search..."
+        "search": "Search...",
+        "role_all": "Feed",
+        "role_gent": "People",
+        "role_grup": "Groups",
+        "role_empresa": "Businesses",
+        "role_oficial": "Entities"
     },
     "nav": {
         "chats": "Chats",

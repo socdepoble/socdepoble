@@ -31,6 +31,15 @@
     box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
 }
 
+.category-tab.add-tab {
+    background-color: #f3f4f6;
+    color: #666;
+}
+
+.category-tab.add-tab:hover {
+    background-color: #e5e7eb;
+}
+
 .category-tab:active {
     transform: scale(0.95);
 }

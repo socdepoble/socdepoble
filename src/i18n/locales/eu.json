@@ -8,7 +8,12 @@
         "soon": "Laster...",
         "save": "Gorde",
         "saved": "Gordeta!",
-        "search": "Bilatu..."
+        "search": "Bilatu...",
+        "role_all": "Harresia",
+        "role_gent": "Jendea",
+        "role_grup": "Taldeak",
+        "role_empresa": "Enpresak",
+        "role_oficial": "Erakundeak"
     },
     "nav": {
         "chats": "Txatak",

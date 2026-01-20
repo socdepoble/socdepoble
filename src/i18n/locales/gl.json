@@ -8,7 +8,12 @@
         "soon": "Proximamente...",
         "save": "Gardar",
         "saved": "Gardado!",
-        "search": "Buscar..."
+        "search": "Buscar...",
+        "role_all": "Muro",
+        "role_gent": "Xente",
+        "role_grup": "Grupos",
+        "role_empresa": "Empresas",
+        "role_oficial": "Entidades"
     },
     "nav": {
         "chats": "Chats",

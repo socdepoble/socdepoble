@@ -27,6 +27,13 @@ const CategoryTabs = ({ selectedRole, onSelectRole, exclude = [] }) => {
                     {role.label}
                 </button>
             ))}
+            <button 
+                className="category-tab add-tab"
+                onClick={() => console.log('Future management screen')}
+                style={{ fontSize: '16px', fontWeight: '800', padding: '0 8px' }}
+            >
+                +
+            </button>
         </div>
     );
 };

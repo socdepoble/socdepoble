@@ -140,11 +140,12 @@ const Feed = () => {
     return (
         <div className="feed-container">
             <header className="page-header-with-tabs">
-                <h1 className="feed-title">{t('feed.title') || 'Mur'}</h1>
-                <CategoryTabs selectedRole={selectedRole} onSelectRole={(role) => {
-                    setSelectedRole(role);
-                    setSelectedTag(null);
-                }} />
+                <div className="header-tabs-wrapper">
+                    <CategoryTabs selectedRole={selectedRole} onSelectRole={(role) => {
+                        setSelectedRole(role);
+                        setSelectedTag(null);
+                    }} />
+                </div>
 
                 {user && userTags.length > 0 && (
                     <div className="personal-tag-bar">
