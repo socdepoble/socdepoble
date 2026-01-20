@@ -2,10 +2,10 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import './CategoryTabs.css';
 
-const CategoryTabs = ({ selectedRole, onSelectRole, exclude = [] }) => {
+const CategoryTabs = ({ selectedRole, onSelectRole, exclude = [], tabs }) => {
     const { t } = useTranslation();
 
-    const allRoles = [
+    const defaultRoles = [
         { id: 'tot', label: t('common.role_all') },
         { id: 'gent', label: t('common.role_gent') },
         { id: 'grup', label: t('common.role_grup') },
@@ -13,6 +13,7 @@ const CategoryTabs = ({ selectedRole, onSelectRole, exclude = [] }) => {
         { id: 'oficial', label: t('common.role_oficial') }
     ];
 
+    const allRoles = tabs || defaultRoles;
     const roles = allRoles.filter(role => !exclude.includes(role.id));
 
     return (
@@ -27,7 +28,7 @@ const CategoryTabs = ({ selectedRole, onSelectRole, exclude = [] }) => {
                     {role.label}
                 </button>
             ))}
-            <button 
+            <button
                 className="category-tab add-tab"
                 onClick={() => console.log('Future management screen')}
                 style={{ fontSize: '16px', fontWeight: '800', padding: '0 8px' }}

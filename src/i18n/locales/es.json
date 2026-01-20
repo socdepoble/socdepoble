@@ -12,6 +12,9 @@
         "role_grup": "Grupos",
         "role_empresa": "Empresas",
         "role_oficial": "Entidades",
+        "role_xat": "Chats",
+        "role_treball": "Trabajo",
+        "role_pobo": "Pueblos",
         "save": "Guardar",
         "saved": "¡Guardado!"
     },

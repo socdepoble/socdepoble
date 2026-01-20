@@ -12,6 +12,9 @@
         "role_grup": "Grups",
         "role_empresa": "Empreses",
         "role_oficial": "Entitats",
+        "role_xat": "Xats",
+        "role_treball": "Treball",
+        "role_pobo": "Pobles",
         "save": "Guardar",
         "saved": "Guardat!"
     },

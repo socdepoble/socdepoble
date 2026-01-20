@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { User, Store, Users, Building2, Loader2 } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
+import CategoryTabs from './CategoryTabs';
 import './ChatList.css';
 
 const getAvatarIcon = (type) => {
@@ -29,6 +30,15 @@ const ChatList = () => {
     const navigate = useNavigate();
     const [chats, setChats] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [selectedCategory, setSelectedCategory] = useState('xat');
+
+    const chatTabs = [
+        { id: 'xat', label: t('common.role_xat') },
+        { id: 'gent', label: t('common.role_gent') },
+        { id: 'grup', label: t('common.role_grup') },
+        { id: 'treball', label: t('common.role_treball') },
+        { id: 'pobo', label: t('common.role_pobo') }
+    ];
 
     useEffect(() => {
         const fetchChats = async () => {
@@ -56,8 +66,14 @@ const ChatList = () => {
 
     return (
         <div className="chat-list-container">
-            <header className="page-header">
-                <h1>{t('chats.title')}</h1>
+            <header className="page-header-with-tabs">
+                <div className="header-tabs-wrapper">
+                    <CategoryTabs
+                        selectedRole={selectedCategory}
+                        onSelectRole={setSelectedCategory}
+                        tabs={chatTabs}
+                    />
+                </div>
             </header>
             <div className="chat-list">
                 {!Array.isArray(chats) || chats.length === 0 ? (
