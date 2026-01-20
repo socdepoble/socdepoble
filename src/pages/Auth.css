@@ -129,6 +129,48 @@
     padding: 0 10px;
 }
 
+.demo-login-wrapper {
+    margin-bottom: 24px;
+    padding: 16px;
+    background: #fdf2f2;
+    border: 1px dashed #feb2b2;
+    border-radius: 20px;
+    transition: all 0.2s ease;
+}
+
+.demo-login-wrapper:hover {
+    background: #fff5f5;
+    transform: translateY(-2px);
+}
+
+.auth-button.secondary-minimal {
+    background: transparent;
+    color: #e53e3e;
+    border: none;
+    font-size: 0.95rem;
+    padding: 8px;
+    margin: 0;
+    text-decoration: underline;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.auth-button.secondary-minimal:hover {
+    color: #c53030;
+    transform: scale(1.02);
+}
+
+.demo-hint {
+    font-size: 0.75rem;
+    color: #9b2c2c;
+    margin-top: 4px;
+    font-weight: 500;
+}
+
+.auth-spacer {
+    height: 32px;
+}
+
 .guest-button {
     background: #f8f9fa;
     color: var(--color-primary);
