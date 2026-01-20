@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useAppContext } from '../context/AppContext';
 import { supabaseService } from '../services/supabaseService';
 import { useTranslation } from 'react-i18next';
-import { User, LogOut, Camera, Save, Building2, Store, Settings, Star, Home, Bell, Lock, HelpCircle, Info, ChevronRight, MapPin, MessageCircle } from 'lucide-react';
+import { User, LogOut, Camera, Save, Building2, Store, Settings, Star, Home, Bell, Lock, HelpCircle, Info, ChevronRight, MapPin, MessageCircle, Plus } from 'lucide-react';
 import './Profile.css';
 
 const MyEntitiesList = ({ userId }) => {
