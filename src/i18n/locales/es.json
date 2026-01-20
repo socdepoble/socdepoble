@@ -65,5 +65,10 @@
         "haveAccount": "¿Ya tienes cuenta?",
         "checkEmail": "Registro con éxito. Por favor, revisa tu correo para confirmar.",
         "logout": "Cerrar Sesión"
+    },
+    "notifications": {
+        "title": "Notificaciones",
+        "empty": "No tienes ninguna notificación nueva.",
+        "loading": "Cargando notificaciones..."
     }
 }

@@ -10,6 +10,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
 import Towns from './pages/Towns';
+import Notifications from './pages/Notifications';
 import { supabase } from './supabaseClient';
 import { MOCK_CHATS, MOCK_FEED, MOCK_MARKET_ITEMS } from './data';
 import { useAppContext } from './context/AppContext';
@@ -134,6 +135,7 @@ function App() {
           <Route path="mur" element={<Feed />} />
           <Route path="mercat" element={<Market />} />
           <Route path="perfil" element={<Profile />} />
+          <Route path="notificacions" element={<Notifications />} />
           <Route path="pobles" element={<Towns />} />
         </Route>
       </Routes>

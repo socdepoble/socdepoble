@@ -65,5 +65,10 @@
         "haveAccount": "Ja tens compte?",
         "checkEmail": "Registre amb èxit. Per favor, revisa el teu correu per a confirmar.",
         "logout": "Eixir"
+    },
+    "notifications": {
+        "title": "Notificacions",
+        "empty": "No tens cap notificació nova.",
+        "loading": "Carregant notificacions..."
     }
 }

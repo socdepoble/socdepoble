@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAppContext } from '../context/AppContext';
-import { User, Search } from 'lucide-react';
+import { User, Search, Bell } from 'lucide-react';
 import logo from '/logo.png';
 import './Header.css';
 
@@ -23,6 +23,11 @@ const Header = () => {
                     <button onClick={toggleLanguage} className="header-lang-switcher">
                         <span>{language.toUpperCase()}</span>
                     </button>
+
+                    <Link to="/notificacions" className="header-notif-btn">
+                        <Bell size={22} color="white" />
+                        <span className="notif-badge">3</span>
+                    </Link>
 
                     {profile && (
                         <Link to="/perfil" className="profile-link">
