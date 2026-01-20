@@ -129,24 +129,22 @@ const TownSelectorModal = ({ isOpen, onClose, onSelect }) => {
                 <header className="modal-header">
                     <div className="header-title">
                         <h3>{t('towns.select_town')}</h3>
-                        <div className="breadcrumb">
-                            <span
-                                className={step >= 1 ? 'active' : ''}
-                                onClick={() => { setStep(1); setSearchTerm(''); }}
-                                style={{ cursor: 'pointer' }}
-                            >
-                                {t('common.province').includes('.') ? 'Província' : t('common.province')}
+                        <div className="selection-path-display">
+                            <span className={`path-step ${step >= 1 ? 'completed' : ''}`} onClick={() => { setStep(1); setSearchTerm(''); }}>
+                                {selectedProvince || (t('common.province').includes('.') ? 'Província' : t('common.province'))}
                             </span>
-                            <ChevronRight size={14} />
-                            <span
-                                className={step >= 2 ? 'active' : ''}
-                                onClick={() => { if (selectedProvince) { setStep(2); setSearchTerm(''); } }}
-                                style={{ cursor: selectedProvince ? 'pointer' : 'default' }}
-                            >
-                                {t('common.comarca').includes('.') ? 'Comarca' : t('common.comarca')}
-                            </span>
-                            <ChevronRight size={14} />
-                            <span className={step >= 3 ? 'active' : ''}>{t('common.town').includes('.') ? 'Poble' : t('common.town')}</span>
+                            {selectedProvince && <ChevronRight size={14} className="path-separator" />}
+                            {selectedProvince && (
+                                <span className={`path-step ${step >= 2 ? 'completed' : ''}`} onClick={() => { setStep(2); setSearchTerm(''); }}>
+                                    {selectedComarca || (t('common.comarca').includes('.') ? 'Comarca' : t('common.comarca'))}
+                                </span>
+                            )}
+                            {selectedComarca && <ChevronRight size={14} className="path-separator" />}
+                            {selectedComarca && (
+                                <span className="path-step current">
+                                    {selectedTown?.name || (t('towns.select_town_short').includes('.') ? 'Poble' : t('towns.select_town_short'))}
+                                </span>
+                            )}
                         </div>
                     </div>
                     <button className="close-btn" onClick={onClose}>
