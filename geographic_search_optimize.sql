@@ -2,6 +2,11 @@
 -- SÓC DE POBLE: OPTIMITZACIÓ DE CERCA GEOGRÀFICA
 -- =========================================================
 
+-- 0. Assegurar que les columnes existeixen
+ALTER TABLE towns ADD COLUMN IF NOT EXISTS province TEXT;
+ALTER TABLE towns ADD COLUMN IF NOT EXISTS comarca TEXT;
+ALTER TABLE towns ADD COLUMN IF NOT EXISTS search_names TEXT;
+
 -- 1. Assegurar que les ciutats principals estan presents
 INSERT INTO towns (name, province, comarca, population) VALUES
 ('Alacant', 'Alacant', 'L''Alacantí', 337000),

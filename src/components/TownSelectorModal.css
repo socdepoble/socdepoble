@@ -54,19 +54,40 @@
     font-size: 20px;
 }
 
-.breadcrumb {
+.selection-path-display {
     display: flex;
     align-items: center;
-    gap: 4px;
-    color: #718096;
-    font-size: 11px;
-    text-transform: uppercase;
-    font-weight: 800;
-    letter-spacing: 0.5px;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 4px;
 }
 
-.breadcrumb .active {
+.path-step {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #4A5568;
+    cursor: default;
+    transition: all 0.2s;
+}
+
+.path-step.completed {
     color: var(--color-primary);
+    cursor: pointer;
+}
+
+.path-step.completed:hover {
+    color: white;
+}
+
+.path-step.current {
+    color: #CBD5E0;
+}
+
+.path-separator {
+    color: #4A5568;
+    opacity: 0.5;
 }
 
 .close-btn {
