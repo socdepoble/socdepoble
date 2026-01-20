@@ -313,6 +313,20 @@ export const supabaseService = {
         return data[0];
     },
 
+    async deleteUserTag(userId, tagName) {
+        console.log(`[SupabaseService] Deleting user tag: ${tagName}`);
+        const { error } = await supabase
+            .from('user_tags')
+            .delete()
+            .match({ user_id: userId, tag_name: tagName.toLowerCase() });
+
+        if (error) {
+            console.error('[SupabaseService] Error deleting user tag:', error);
+            throw error;
+        }
+        return true;
+    },
+
     async updateProfile(userId, updates) {
         const { data, error } = await supabase
             .from('profiles')

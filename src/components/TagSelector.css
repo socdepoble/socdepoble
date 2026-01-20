@@ -37,7 +37,13 @@
     gap: 8px;
 }
 
-.tag-item {
+.tag-item-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.tag-item-btn {
     padding: 6px 12px;
     background-color: white;
     border: 1px solid var(--color-border);
@@ -51,16 +57,38 @@
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.tag-item:hover {
+.tag-item-btn:hover {
     border-color: var(--color-primary);
     color: var(--color-primary);
 }
 
-.tag-item.selected {
+.tag-item-wrapper.selected .tag-item-btn {
     background-color: var(--color-primary);
     color: white;
     border-color: var(--color-primary);
     box-shadow: 0 2px 8px rgba(224, 122, 95, 0.3);
+}
+
+.delete-tag-action {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    width: 18px;
+    height: 18px;
+    background: #ff4d4d;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+    border: 2px solid white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.tag-item-wrapper:hover .delete-tag-action {
+    opacity: 1;
 }
 
 .add-tag-btn {
@@ -121,10 +149,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
 }
 
 .add-tag-form button:hover {
     color: var(--color-primary);
-    background-color: #f0f0f0;
 }

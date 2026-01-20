@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Plus, X, Tag as TagIcon, Check, Loader2 } from 'lucide-react';
+import { Plus, X, Tag as TagIcon, Check, Loader2, Trash2 } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useAppContext } from '../context/AppContext';
 import './TagSelector.css';
@@ -12,6 +12,7 @@ const TagSelector = ({ postId, currentTags = [], onTagsChange }) => {
     const [newTagName, setNewTagName] = useState('');
     const [loading, setLoading] = useState(false);
     const [isAdding, setIsAdding] = useState(false);
+    const [showDelete, setShowDelete] = useState(null); // ID del tag a borrar
 
     useEffect(() => {
         if (user) {
@@ -22,7 +23,7 @@ const TagSelector = ({ postId, currentTags = [], onTagsChange }) => {
     const loadUserTags = async () => {
         try {
             const tags = await supabaseService.getUserTags(user.id);
-            setAvailableTags(tags);
+            setAvailableTags(Array.isArray(tags) ? tags : []);
         } catch (error) {
             console.error('Error loading tags:', error);
         }
@@ -39,10 +40,10 @@ const TagSelector = ({ postId, currentTags = [], onTagsChange }) => {
     const handleAddTag = async (e) => {
         e.preventDefault();
         const name = newTagName.trim().toLowerCase();
-        if (!name || availableTags.includes(name)) {
-            if (name && !currentTags.includes(name)) {
-                toggleTag(name);
-            }
+        if (!name) return;
+
+        if (availableTags.includes(name)) {
+            if (!currentTags.includes(name)) toggleTag(name);
             setNewTagName('');
             setIsAdding(false);
             return;
@@ -62,6 +63,21 @@ const TagSelector = ({ postId, currentTags = [], onTagsChange }) => {
         }
     };
 
+    const handleDeleteTag = async (e, tag) => {
+        e.stopPropagation();
+        if (!window.confirm(t('feed.confirm_delete_tag') || `Vols esborrar l'etiqueta "${tag}" del teu diccionari?`)) return;
+
+        try {
+            await supabaseService.deleteUserTag(user.id, tag);
+            setAvailableTags(prev => prev.filter(t => t !== tag));
+            if (currentTags.includes(tag)) {
+                onTagsChange(currentTags.filter(t => t !== tag));
+            }
+        } catch (error) {
+            console.error('Error deleting tag:', error);
+        }
+    };
+
     return (
         <div className="tag-selector">
             <div className="tag-selector-header">
@@ -71,18 +87,28 @@ const TagSelector = ({ postId, currentTags = [], onTagsChange }) => {
 
             <div className="tags-container">
                 {Array.isArray(availableTags) && availableTags.map(tag => (
-                    <button
+                    <div
                         key={tag}
-                        className={`tag-item ${currentTags.includes(tag) ? 'selected' : ''}`}
+                        className={`tag-item-wrapper ${currentTags.includes(tag) ? 'selected' : ''}`}
+                        onContextMenu={(e) => { e.preventDefault(); setShowDelete(tag); }}
                         onClick={() => toggleTag(tag)}
                     >
-                        {tag}
-                        {currentTags.includes(tag) && <Check size={12} />}
-                    </button>
+                        <button className="tag-item-btn">
+                            {tag}
+                            {currentTags.includes(tag) && <Check size={12} />}
+                        </button>
+                        <button
+                            className="delete-tag-action"
+                            onClick={(e) => handleDeleteTag(e, tag)}
+                            title="Esborrar"
+                        >
+                            <Trash2 size={12} />
+                        </button>
+                    </div>
                 ))}
 
                 {!isAdding ? (
-                    <button className="add-tag-btn" onClick={() => setIsAdding(true)}>
+                    <button className="add-tag-btn" onClick={() => setIsAdding(true)} title="Afegir etiqueta">
                         <Plus size={14} />
                     </button>
                 ) : (
@@ -91,7 +117,7 @@ const TagSelector = ({ postId, currentTags = [], onTagsChange }) => {
                             type="text"
                             value={newTagName}
                             onChange={(e) => setNewTagName(e.target.value)}
-                            placeholder={t('feed.new_tag') || 'Nueva...'}
+                            placeholder={t('feed.new_tag_placeholder') || '...'}
                             autoFocus
                             onBlur={() => !newTagName && setIsAdding(false)}
                         />

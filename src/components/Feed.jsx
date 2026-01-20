@@ -34,9 +34,11 @@ const Feed = () => {
     const { profile, user } = useAppContext();
     const [posts, setPosts] = useState([]);
     const [userConnections, setUserConnections] = useState([]);
+    const [userTags, setUserTags] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedRole, setSelectedRole] = useState('tot');
+    const [selectedTag, setSelectedTag] = useState(null);
     const [error, setError] = useState(null);
 
     const fetchPosts = useCallback(async () => {
@@ -49,12 +51,18 @@ const Feed = () => {
             const postsArray = Array.isArray(data) ? data : [];
             setPosts(postsArray);
 
-            if (user && postsArray.length > 0) {
-                console.log('[Feed] Fetching user connections...');
-                const connections = await supabaseService.getPostConnections(postsArray.map(p => p.id));
-                const userOwnConnections = connections.filter(c => c.user_id === user.id);
-                console.log('[Feed] User connections loaded:', userOwnConnections.length);
-                setUserConnections(userOwnConnections);
+            if (user) {
+                // Cargar etiquetas del usuario para la barra de filtros
+                const tagsRaw = await supabaseService.getUserTags(user.id);
+                setUserTags(Array.isArray(tagsRaw) ? tagsRaw : []);
+
+                if (postsArray.length > 0) {
+                    console.log('[Feed] Fetching user connections...');
+                    const connections = await supabaseService.getPostConnections(postsArray.map(p => p.id));
+                    const userOwnConnections = connections.filter(c => c.user_id === user.id);
+                    console.log('[Feed] User connections loaded:', userOwnConnections.length);
+                    setUserConnections(userOwnConnections);
+                }
             }
         } catch (err) {
             console.error('[Feed] Failed to fetch feed:', err);
@@ -80,6 +88,15 @@ const Feed = () => {
             }
             return prev.filter(c => c.post_id !== postId);
         });
+
+        // Actualizar el diccionario local si hay etiquetas nuevas
+        if (tags && user) {
+            tags.forEach(tag => {
+                if (!userTags.includes(tag)) {
+                    setUserTags(prev => [...prev, tag].sort());
+                }
+            });
+        }
     };
 
     const handleToggleConnection = async (postId) => {
@@ -91,6 +108,14 @@ const Feed = () => {
             console.error('[Feed] Error toggling connection:', error);
         }
     };
+
+    // Filtrado local por etiquetas personales
+    const filteredPosts = selectedTag
+        ? posts.filter(post => {
+            const connection = userConnections.find(c => c.post_id === post.id);
+            return connection && connection.tags && connection.tags.includes(selectedTag);
+        })
+        : posts;
 
     if (loading && posts.length === 0) {
         return (
@@ -112,22 +137,45 @@ const Feed = () => {
         );
     }
 
-    console.log('[Feed] Rendering list with', posts.length, 'posts');
-
     return (
         <div className="feed-container">
             <header className="page-header-with-tabs">
-                <h1>{t('feed.title') || 'Mur'}</h1>
-                <CategoryTabs selectedRole={selectedRole} onSelectRole={setSelectedRole} />
+                <h1 className="feed-title">{t('feed.title') || 'Mur'}</h1>
+                <CategoryTabs selectedRole={selectedRole} onSelectRole={(role) => {
+                    setSelectedRole(role);
+                    setSelectedTag(null);
+                }} />
+
+                {user && userTags.length > 0 && (
+                    <div className="personal-tag-bar">
+                        <button
+                            className={`tag-filter-btn ${!selectedTag ? 'active' : ''}`}
+                            onClick={() => setSelectedTag(null)}
+                        >
+                            {t('feed.all') || 'Tots'}
+                        </button>
+                        {userTags.map(tag => (
+                            <button
+                                key={tag}
+                                className={`tag-filter-btn ${selectedTag === tag ? 'active' : ''}`}
+                                onClick={() => setSelectedTag(tag === selectedTag ? null : tag)}
+                            >
+                                #{tag}
+                            </button>
+                        ))}
+                    </div>
+                )}
             </header>
 
             <div className="feed-list">
-                <div className="feed-input-trigger" onClick={() => setIsModalOpen(true)}>
-                    <div className="user-avatar-small">
-                        {profile?.avatar_url ? <img src={profile.avatar_url} alt="Profile" /> : <User size={20} />}
+                {!selectedTag && (
+                    <div className="feed-input-trigger" onClick={() => setIsModalOpen(true)}>
+                        <div className="user-avatar-small">
+                            {profile?.avatar_url ? <img src={profile.avatar_url} alt="Profile" /> : <User size={20} />}
+                        </div>
+                        <input type="text" placeholder={t('feed.placeholder') || 'Què vols compartir?'} readOnly />
                     </div>
-                    <input type="text" placeholder={t('feed.placeholder') || 'Què vols compartir?'} readOnly />
-                </div>
+                )}
 
                 <CreatePostModal
                     isOpen={isModalOpen}
@@ -135,10 +183,22 @@ const Feed = () => {
                     onPostCreated={fetchPosts}
                 />
 
-                {posts.length === 0 ? (
-                    <p className="empty-message">{t('feed.empty') || 'No hi ha novetats al mur.'}</p>
+                {filteredPosts.length === 0 ? (
+                    <div className="empty-state">
+                        <p className="empty-message">
+                            {selectedTag
+                                ? `${t('feed.no_posts_tag') || 'No hi ha publicacions amb # '}${selectedTag}`
+                                : (t('feed.empty') || 'No hi ha novetats al mur.')
+                            }
+                        </p>
+                        {selectedTag && (
+                            <button className="secondary-btn" onClick={() => setSelectedTag(null)}>
+                                {t('feed.show_all') || 'Veure tot'}
+                            </button>
+                        )}
+                    </div>
                 ) : (
-                    posts.map(post => {
+                    filteredPosts.map(post => {
                         const connection = userConnections.find(c => c.post_id === post.id);
                         const isConnected = !!connection;
 
