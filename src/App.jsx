@@ -13,6 +13,13 @@ import Towns from './pages/Towns';
 import { supabase } from './supabaseClient';
 import { MOCK_CHATS, MOCK_FEED, MOCK_MARKET_ITEMS } from './data';
 import { useAppContext } from './context/AppContext';
+import { supabaseService } from './services/supabaseService';
+
+// Exponer para depuración en consola
+if (typeof window !== 'undefined') {
+  window.supabase = supabase;
+  window.supabaseService = supabaseService;
+}
 
 // Componente para proteger rutas
 const ProtectedRoute = ({ children }) => {
@@ -65,10 +72,12 @@ function App() {
             MOCK_FEED.map(post => ({
               id: post.id,
               author: post.author,
-              avatar_type: post.avatarType,
+              avatar_type: post.avatarType || 'user',
+              author_role: post.authorRole || 'gent',
               content: post.content,
-              likes: post.likes,
-              comments_count: post.comments,
+              likes: post.likes || 0,
+              comments_count: post.comments || 0,
+              connections_count: 0,
               image_url: post.image,
               created_at: new Date().toISOString()
             }))

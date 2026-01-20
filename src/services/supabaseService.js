@@ -49,18 +49,30 @@ export const supabaseService = {
 
     // Feed / Muro
     async getPosts(roleFilter = 'tot') {
-        let query = supabase
-            .from('posts')
-            .select('*')
-            .order('id', { ascending: false });
+        console.log(`[SupabaseService] Fetching posts with roleFilter: ${roleFilter}`);
+        try {
+            let query = supabase
+                .from('posts')
+                .select('*')
+                .order('id', { ascending: false });
 
-        if (roleFilter !== 'tot') {
-            query = query.eq('author_role', roleFilter);
+            if (roleFilter !== 'tot') {
+                query = query.eq('author_role', roleFilter);
+            }
+
+            const { data, error } = await query;
+
+            if (error) {
+                console.error('[SupabaseService] Error in getPosts query:', error);
+                throw error;
+            }
+
+            console.log(`[SupabaseService] getPosts success: ${data?.length || 0} posts found`);
+            return data || [];
+        } catch (err) {
+            console.error('[SupabaseService] Unexpected error in getPosts:', err);
+            return []; // Fallback seguro
         }
-
-        const { data, error } = await query;
-        if (error) throw error;
-        return data;
     },
 
     async createPost(postData) {
@@ -187,12 +199,13 @@ export const supabaseService = {
         return data;
     },
 
-    // Likes
     // Conexiones (Antiguos Likes)
     async getPostConnections(postIds) {
         // Soporta tanto un ID único como un array de IDs
         const ids = Array.isArray(postIds) ? postIds : [postIds];
+        if (ids.length === 0) return [];
 
+        console.log(`[SupabaseService] Fetching connections for ${ids.length} posts`);
         try {
             const { data, error } = await supabase
                 .from('post_connections')
@@ -203,15 +216,16 @@ export const supabaseService = {
                 // Si la tabla no existe o la columna no existe, fallamos silenciosamente con array vacío
                 // para no romper la app mientras se aplica el SQL
                 if (error.code === 'PGRST116' || error.code === '42703' || error.code === '42P01') {
-                    console.warn('post_connections table or tags column missing. Run update SQL.');
+                    console.warn('[SupabaseService] post_connections table or tags column missing. Run update SQL.');
                     return [];
                 }
-                console.error('Error fetching post connections:', error); // Added this line
-                throw error;
+                console.error('[SupabaseService] Error fetching post connections:', error);
+                return [];
             }
-            return data || []; // Added || []
+            console.log(`[SupabaseService] getPostConnections success: ${data?.length || 0} connections found`);
+            return data || [];
         } catch (err) {
-            console.error('Error fetching connections:', err);
+            console.error('[SupabaseService] Unexpected error in getPostConnections:', err);
             return [];
         }
     },

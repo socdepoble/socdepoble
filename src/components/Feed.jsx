@@ -1,10 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link2, MessageCircle, Share2, MoreHorizontal, Building2, Store, Users, User, Loader2 } from 'lucide-react';
+import { Link2, MessageCircle, Share2, MoreHorizontal, Building2, Store, Users, User, Loader2, AlertCircle } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useAppContext } from '../context/AppContext';
 import CreatePostModal from './CreatePostModal';
 import CategoryTabs from './CategoryTabs';
+import TagSelector from './TagSelector';
 import './Feed.css';
 
 const getAvatarIcon = (type) => {
@@ -28,34 +29,71 @@ const getAvatarColor = (type) => {
 };
 
 const Feed = () => {
-    console.log('[DEBUG] Feed rendering initiation');
+    console.log('[Feed] Component mounting/rendering');
     const { t } = useTranslation();
-    const { profile } = useAppContext();
+    const { profile, user } = useAppContext();
     const [posts, setPosts] = useState([]);
+    const [userConnections, setUserConnections] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedRole, setSelectedRole] = useState('tot');
+    const [error, setError] = useState(null);
 
     const fetchPosts = useCallback(async () => {
-        console.log('[DEBUG] fetchPosts starting for role:', selectedRole);
+        console.log('[Feed] fetchPosts triggered for role:', selectedRole);
         setLoading(true);
+        setError(null);
         try {
             const data = await supabaseService.getPosts(selectedRole);
-            console.log('[DEBUG] Posts received:', data?.length || 0);
-            setPosts(Array.isArray(data) ? data : []);
-        } catch (error) {
-            console.error('[DEBUG] Error fetching posts:', error);
+            console.log('[Feed] Posts data received:', data?.length || 0);
+            const postsArray = Array.isArray(data) ? data : [];
+            setPosts(postsArray);
+
+            if (user && postsArray.length > 0) {
+                console.log('[Feed] Fetching user connections...');
+                const connections = await supabaseService.getPostConnections(postsArray.map(p => p.id));
+                const userOwnConnections = connections.filter(c => c.user_id === user.id);
+                console.log('[Feed] User connections loaded:', userOwnConnections.length);
+                setUserConnections(userOwnConnections);
+            }
+        } catch (err) {
+            console.error('[Feed] Failed to fetch feed:', err);
+            setError(err.message);
         } finally {
             setLoading(false);
-            console.log('[DEBUG] fetchPosts finished');
+            console.log('[Feed] Loading sequence finished');
         }
-    }, [selectedRole]);
+    }, [selectedRole, user]);
 
     useEffect(() => {
         fetchPosts();
     }, [fetchPosts]);
 
-    if (loading && (!posts || posts.length === 0)) {
+    const handleConnectionUpdate = (postId, connected, tags) => {
+        setUserConnections(prev => {
+            if (connected) {
+                const existing = prev.find(c => c.post_id === postId);
+                if (existing) {
+                    return prev.map(c => c.post_id === postId ? { ...c, tags } : c);
+                }
+                return [...prev, { post_id: postId, user_id: user.id, tags }];
+            }
+            return prev.filter(c => c.post_id !== postId);
+        });
+    };
+
+    const handleToggleConnection = async (postId) => {
+        if (!user) return;
+        try {
+            const hasConnection = userConnections.some(c => c.post_id === postId);
+            const result = await supabaseService.togglePostConnection(postId, user.id);
+            handleConnectionUpdate(postId, result.connected, result.tags || []);
+        } catch (error) {
+            console.error('[Feed] Error toggling connection:', error);
+        }
+    };
+
+    if (loading && posts.length === 0) {
         return (
             <div className="feed-container loading">
                 <Loader2 className="spinner" />
@@ -63,6 +101,19 @@ const Feed = () => {
             </div>
         );
     }
+
+    if (error) {
+        return (
+            <div className="feed-container error-state">
+                <AlertCircle size={48} color="var(--color-primary)" />
+                <h3>Ha ocurregut un error</h3>
+                <p>{error}</p>
+                <button className="primary-btn" onClick={fetchPosts}>Tornar a intentar</button>
+            </div>
+        );
+    }
+
+    console.log('[Feed] Rendering list with', posts.length, 'posts');
 
     return (
         <div className="feed-container">
@@ -85,11 +136,13 @@ const Feed = () => {
                     onPostCreated={fetchPosts}
                 />
 
-                {(!posts || posts.length === 0) ? (
-                    <p className="empty-message">{t('feed.empty') || 'No hi ha contingut'}</p>
+                {posts.length === 0 ? (
+                    <p className="empty-message">{t('feed.empty') || 'No hi ha novetats al mur.'}</p>
                 ) : (
                     posts.map(post => {
-                        if (!post) return null;
+                        const connection = userConnections.find(c => c.post_id === post.id);
+                        const isConnected = !!connection;
+
                         return (
                             <article key={post.id} className="post-card">
                                 <div className="card-header">
@@ -116,9 +169,12 @@ const Feed = () => {
 
                                 <div className="card-actions-wrapper">
                                     <div className="card-actions">
-                                        <button className="action-btn">
+                                        <button
+                                            className={`action-btn ${isConnected ? 'active' : ''}`}
+                                            onClick={() => handleToggleConnection(post.id)}
+                                        >
                                             <Link2 size={20} />
-                                            <span>{post.connections_count || 0}</span>
+                                            <span>{isConnected ? (post.connections_count + 1 || 1) : (post.connections_count || 0)}</span>
                                         </button>
                                         <button className="action-btn">
                                             <MessageCircle size={20} />
@@ -126,6 +182,14 @@ const Feed = () => {
                                         </button>
                                         <button className="action-btn"><Share2 size={20} /></button>
                                     </div>
+
+                                    {isConnected && (
+                                        <TagSelector
+                                            postId={post.id}
+                                            currentTags={connection.tags || []}
+                                            onTagsChange={(newTags) => handleConnectionUpdate(post.id, true, newTags)}
+                                        />
+                                    )}
                                 </div>
                             </article>
                         );
