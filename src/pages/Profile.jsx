@@ -47,6 +47,9 @@ const Profile = () => {
     const { t } = useTranslation();
     const { profile, user } = useAppContext();
 
+    const [towns] = useState(['La Torre de les Maçanes']);
+    const comarca = "l'Alacantí";
+
     if (!profile) return <div className="profile-container">{t('common.loading')}</div>;
 
     const menuItems = [
@@ -80,9 +83,25 @@ const Profile = () => {
                         </div>
                     </div>
                     <h2>{profile.full_name || 'Usuari'}</h2>
-                    <p className="profile-location">
-                        <MapPin size={14} /> Calp, Alacant
-                    </p>
+
+                    <div className="profile-town-management">
+                        <button className="main-town-btn">
+                            <MapPin size={18} />
+                            {towns[0]}
+                        </button>
+                        <p className="comarca-text">{comarca}</p>
+
+                        <div className="additional-towns-section">
+                            {towns.slice(1).map((town, idx) => (
+                                <div key={idx} className="secondary-town-chip">{town}</div>
+                            ))}
+                            {towns.length < 4 && (
+                                <button className="add-town-btn-inline" onClick={() => console.log('Add town')}>
+                                    <Plus size={14} /> {t('nav.add_town') || 'Afegir poble'}
+                                </button>
+                            )}
+                        </div>
+                    </div>
                 </div>
             </header>
 
