@@ -130,41 +130,44 @@
 }
 
 .demo-login-wrapper {
-    margin-bottom: 24px;
+    margin: 8px 0 32px 0;
     padding: 16px;
-    background: #fdf2f2;
-    border: 1px dashed #feb2b2;
+    background: #f0f4ff;
+    border: 1px solid #dbeafe;
     border-radius: 20px;
     transition: all 0.2s ease;
 }
 
 .demo-login-wrapper:hover {
-    background: #fff5f5;
+    background: #eef2ff;
     transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
 }
 
-.auth-button.secondary-minimal {
-    background: transparent;
-    color: #e53e3e;
+.auth-button.demo-primary {
+    background: var(--color-primary);
+    color: white;
     border: none;
-    font-size: 0.95rem;
-    padding: 8px;
-    margin: 0;
-    text-decoration: underline;
-    font-weight: 800;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 12px;
+    width: 100%;
     cursor: pointer;
+    transition: all 0.2s ease;
 }
 
-.auth-button.secondary-minimal:hover {
-    color: #c53030;
-    transform: scale(1.02);
+.auth-button.demo-primary:hover {
+    background: #152d5b;
+    transform: scale(1.01);
 }
 
 .demo-hint {
     font-size: 0.75rem;
-    color: #9b2c2c;
-    margin-top: 4px;
+    color: var(--color-primary);
+    margin-top: 8px;
     font-weight: 500;
+    opacity: 0.8;
 }
 
 .auth-spacer {
