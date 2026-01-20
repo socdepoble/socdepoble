@@ -7,6 +7,7 @@
         "online": "En línia",
         "soon": "Pròximament...",
         "search": "Buscar...",
+        "search_placeholder": "Cerca poble, comarca o província...",
         "event": "Esdeveniment",
         "role_all": "Mur",
         "role_gent": "Gent",
@@ -18,12 +19,15 @@
         "role_pobo": "Pobles",
         "role_mercat": "Mercat",
         "save": "Guardar",
+        "save_selection": "GUARDAR POBLE",
         "saved": "Guardat!",
         "create_new": "Què vols crear?",
         "public": "Públic",
         "private": "Privat",
         "groups": "Grups",
-        "privacy": "Privacitat"
+        "privacy": "Privacitat",
+        "province": "Província",
+        "comarca": "Comarca"
     },
     "nav": {
         "chats": "Xats",
@@ -104,6 +108,8 @@
         "select_town": "Seleccionar Poble",
         "your_town": "El teu poble",
         "all_towns": "Tots els pobles",
-        "main_town": "Poble Principal"
+        "main_town": "Poble Principal",
+        "no_results_search": "No hem trobat cap resultat per a la teua cerca.",
+        "no_results_list": "No hi ha elements disponibles."
     }
 }

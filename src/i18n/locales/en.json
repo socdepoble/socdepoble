@@ -7,13 +7,17 @@
         "online": "Online",
         "soon": "Coming soon...",
         "save": "Save",
+        "save_selection": "SAVE TOWN",
         "saved": "Saved!",
         "search": "Search...",
+        "search_placeholder": "Search town, comarca or province...",
         "role_all": "Feed",
         "role_gent": "People",
         "role_grup": "Groups",
         "role_empresa": "Businesses",
-        "role_oficial": "Entities"
+        "role_oficial": "Entities",
+        "province": "Province",
+        "comarca": "Comarca"
     },
     "nav": {
         "chats": "Chats",
@@ -55,6 +59,8 @@
         "select_town": "Select Town",
         "your_town": "Your town",
         "all_towns": "All towns",
-        "main_town": "Main Town"
+        "main_town": "Main Town",
+        "no_results_search": "No results found for your search.",
+        "no_results_list": "No elements available."
     }
 }
