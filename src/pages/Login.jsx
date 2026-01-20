@@ -7,7 +7,7 @@ import './Auth.css';
 
 const Login = () => {
     const { t } = useTranslation();
-    const { loginAsGuest } = useAppContext();
+    const { loginAsGuest, loginWithGoogle } = useAppContext();
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -40,6 +40,13 @@ const Login = () => {
                 <img src="/favicon.png" alt="Logo" className="auth-logo" />
                 <h1>{t('auth.login')}</h1>
                 <p className="auth-subtitle">Benvingut de nou a la teua comunitat</p>
+
+                <div className="demo-login-wrapper">
+                    <button onClick={handleGuestLogin} className="auth-button secondary-minimal">
+                        Entrar com a Veí (Proves / Demo)
+                    </button>
+                    <p className="demo-hint">Fes clic ací per a provar l'app sense registrar-te</p>
+                </div>
 
                 {error && <div className="auth-error">{error}</div>}
 
@@ -74,9 +81,21 @@ const Login = () => {
                     <span>o bé</span>
                 </div>
 
-                <button onClick={handleGuestLogin} className="auth-button secondary">
-                    Entrar com a Veí (Demo)
-                </button>
+                <div className="social-auth-section">
+                    <button
+                        onClick={async () => {
+                            try {
+                                await loginWithGoogle();
+                            } catch (err) {
+                                setError(err.message);
+                            }
+                        }}
+                        className="social-button google"
+                    >
+                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" />
+                        Continuar amb Google
+                    </button>
+                </div>
 
                 <div className="auth-footer">
                     {t('auth.noAccount')} <Link to="/register">{t('auth.signUp')}</Link>

@@ -37,6 +37,15 @@ export const AppProvider = ({ children }) => {
         setLoading(false);
         localStorage.setItem('isDemoMode', 'true');
     };
+    const loginWithGoogle = async () => {
+        const { error } = await supabase.auth.signInWithOAuth({
+            provider: 'google',
+            options: {
+                redirectTo: `${window.location.origin}/mur`
+            }
+        });
+        if (error) throw error;
+    };
 
     const logout = async () => {
         localStorage.removeItem('isDemoMode');
@@ -100,6 +109,7 @@ export const AppProvider = ({ children }) => {
             setUser,
             loginAsGuest,
             logout,
+            loginWithGoogle,
             isCreateModalOpen,
             setIsCreateModalOpen
         }}>
