@@ -114,78 +114,80 @@
     gap: 20px;
 }
 
-/* Tarjeta Post PRO */
+/* === POST CARD === */
 .post-card {
-    background: white;
-    border-radius: 16px;
-    padding: 16px;
-    margin: 0 var(--spacing-md) 20px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
-    border: 1px solid rgba(0, 0, 0, 0.02);
+    background-color: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: 0;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--border-color);
+    overflow: hidden;
 }
 
-.post-header {
+.card-header {
+    padding: 1rem 1.5rem;
     display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 12px;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.header-left {
+    display: flex;
+    gap: 1rem;
 }
 
 .post-avatar {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
-    flex-shrink: 0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-weight: bold;
 }
 
 .post-meta {
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
+    justify-content: center;
 }
 
 .post-author {
     font-weight: 600;
-    font-size: 0.95rem;
-    color: var(--color-text);
+    color: var(--text-primary);
+    font-size: 1.05rem;
 }
 
 .post-time {
-    font-size: 0.8rem;
-    color: #888;
+    font-size: 0.85rem;
+    color: var(--text-tertiary);
 }
 
 .more-btn {
-    color: #888;
-    padding: 8px;
-    background: none;
+    background: transparent;
     border: none;
+    color: var(--text-tertiary);
     cursor: pointer;
+    padding: 0.5rem;
 }
 
 .card-content {
-    margin-bottom: 16px;
+    padding: 0 1.5rem 1rem 1.5rem;
 }
 
 .card-content p {
-    margin-bottom: 12px;
-    font-size: 0.95rem;
-    line-height: 1.5;
-    white-space: pre-wrap;
-    color: #333;
+    margin-bottom: 1rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
 }
 
 .post-image {
     width: 100%;
-    border-radius: 12px;
+    border-radius: var(--radius-md);
     overflow: hidden;
-    margin-top: 12px;
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    margin-top: 1rem;
 }
 
 .post-image img {
@@ -195,37 +197,46 @@
 }
 
 .card-actions-wrapper {
+    padding: 0.75rem 1.5rem;
+    border-top: 1px solid var(--border-color);
     display: flex;
-    flex-direction: column;
-    gap: 12px;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fafafa;
 }
 
 .card-actions {
     display: flex;
-    gap: 24px;
-    padding-top: 4px;
+    gap: 1.5rem;
 }
 
 .action-btn {
+    background: transparent;
+    border: none;
     display: flex;
     align-items: center;
-    gap: 6px;
-    color: #666;
-    background: none;
-    border: none;
-    padding: 4px 8px;
+    gap: 0.5rem;
+    color: var(--text-secondary);
     font-size: 0.9rem;
+    font-weight: 500;
     cursor: pointer;
-    border-radius: 4px;
+    padding: 0.5rem;
+    border-radius: var(--radius-md);
+    transition: all 0.2s;
 }
 
 .action-btn:hover {
-    background-color: rgba(0, 0, 0, 0.03);
+    background-color: rgba(0, 0, 0, 0.05);
+    color: var(--text-primary);
 }
 
 .action-btn.active {
     color: var(--color-primary);
-    font-weight: 600;
+}
+
+.action-btn.active svg {
+    fill: var(--color-primary);
+    /* Para iconos rellenos */
 }
 
 .empty-state {

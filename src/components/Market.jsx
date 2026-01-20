@@ -56,6 +56,19 @@ const Market = () => {
         }
     };
 
+    const getAvatarIcon = (type) => {
+        // Simple mapping based on known types or defaults
+        if (type === 'empresa' || type === 'coop') return <Store size={20} />;
+        if (type === 'oficial') return <Building2 size={20} />;
+        return <User size={20} />;
+    };
+
+    const getAvatarColor = (type) => {
+        if (type === 'empresa' || type === 'coop') return 'var(--color-secondary)';
+        if (type === 'oficial') return 'var(--color-primary)';
+        return '#999';
+    };
+
     if (loading && items.length === 0) {
         return (
             <div className="market-container loading">
