@@ -50,5 +50,11 @@
         "haveAccount": "Already have an account?",
         "checkEmail": "Success! Please check your email to confirm your account.",
         "logout": "Logout"
+    },
+    "towns": {
+        "select_town": "Select Town",
+        "your_town": "Your town",
+        "all_towns": "All towns",
+        "main_town": "Main Town"
     }
 }

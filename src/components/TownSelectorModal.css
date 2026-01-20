@@ -130,7 +130,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 14px var(--space-md);
+    padding: 12px var(--space-md);
     background: none;
     border: 1px solid transparent;
     border-radius: var(--radius-lg);
@@ -138,6 +138,24 @@
     text-align: left;
     cursor: pointer;
     transition: all 0.2s;
+}
+
+.item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.item-label {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.item-sublabel {
+    font-size: 11px;
+    color: #718096;
+    text-transform: uppercase;
+    font-weight: 700;
 }
 
 .list-item:hover {

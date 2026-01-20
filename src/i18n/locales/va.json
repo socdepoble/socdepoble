@@ -99,5 +99,11 @@
     "events": {
         "title": "Pròxims Esdeveniments",
         "empty": "No hi ha esdeveniments programats per a aquesta setmana."
+    },
+    "towns": {
+        "select_town": "Seleccionar Poble",
+        "your_town": "El teu poble",
+        "all_towns": "Tots els pobles",
+        "main_town": "Poble Principal"
     }
 }
