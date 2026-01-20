@@ -27,11 +27,12 @@
 }
 
 .auth-logo-elongated {
-    width: 220px;
+    width: 100%;
     height: auto;
-    margin: 0 auto 16px;
+    margin: 0 auto 24px;
     display: block;
-    border-radius: 12px;
+    border-radius: 16px;
+    object-fit: contain;
 }
 
 .auth-card h1 {
