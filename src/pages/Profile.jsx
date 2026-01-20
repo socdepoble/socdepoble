@@ -46,7 +46,7 @@ const MyEntitiesList = ({ userId }) => {
 
 const Profile = () => {
     const { t } = useTranslation();
-    const { profile, setProfile, user, theme, toggleTheme } = useAppContext();
+    const { profile, setProfile, user, theme, toggleTheme, logout } = useAppContext();
 
     const [allTowns, setAllTowns] = useState([]);
     const [isEditingTown, setIsEditingTown] = useState(false);
@@ -173,7 +173,7 @@ const Profile = () => {
             </div>
 
             <div className="logout-wrapper">
-                <button onClick={() => supabaseService.signOut()} className="btn-logout-minimal">
+                <button onClick={logout} className="btn-logout-minimal">
                     <LogOut size={18} />
                     {t('auth.logout')}
                 </button>

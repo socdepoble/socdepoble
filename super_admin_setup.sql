@@ -1,19 +1,33 @@
 -- =========================================================
--- SÓC DE POBLE: SUPER ADMIN SETUP
+-- SÓC DE POBLE: SUPER ADMIN SETUP (CORRECTED)
 -- =========================================================
 
--- 1. Assegurar que el rol existeix
-INSERT INTO roles (name, description) 
-VALUES ('super_admin', 'Administrador amb accés total a la xarxa')
-ON CONFLICT (name) DO NOTHING;
+-- 1. Assegurar que la columna 'role' existeix i permet 'super_admin'
+-- Si tenies un CHECK constraint anterior (profiles_role_check o similar), 
+-- el borrem per poder actualitzar el domini de valors.
+DO $$ 
+BEGIN
+    -- Intentem borrar el constraint si existeix (el nom sol ser taula_columna_check)
+    IF EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'profiles_role_check') THEN
+        ALTER TABLE public.profiles DROP CONSTRAINT profiles_role_check;
+    END IF;
+END $$;
 
--- 2. Snippet per promoure un usuari (Executar desprès del registre)
--- REEMPLAÇA 'correu@exemple.com' pel teu mail real quan t'hagis registrat!
-/*
-UPDATE profiles 
+-- 2. Afegir el nou CHECK constraint que inclou 'super_admin'
+-- Això permet que el camp 'role' accepte el valor de Super Admin.
+ALTER TABLE public.profiles 
+ADD CONSTRAINT profiles_role_check 
+CHECK (role IN ('gent', 'grup', 'empresa', 'vei', 'super_admin', 'administrador', 'comerciant'));
+
+-- 3. Promoure l'usuari a Super Admin
+-- Aquest script ja té el teu correu configurat.
+UPDATE public.profiles 
 SET role = 'super_admin' 
-WHERE id = (SELECT id FROM auth.users WHERE email = 'correu@exemple.com');
-*/
+WHERE id = (SELECT id FROM auth.users WHERE email = 'socdepoblecom@gmail.com');
 
--- 3. Notificació de Mode Demo (Opcional, es pot gestionar per codi)
--- Podem afegir-ho a la taula de configuració si la tinguéssim
+-- 4. Verificació final
+-- Si tot va bé, veuràs el teu nom i el rol 'super_admin' als resultats.
+SELECT p.full_name, p.role, u.email 
+FROM public.profiles p
+JOIN auth.users u ON p.id = u.id
+WHERE u.email = 'socdepoblecom@gmail.com';

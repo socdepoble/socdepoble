@@ -38,6 +38,13 @@ export const AppProvider = ({ children }) => {
         localStorage.setItem('isDemoMode', 'true');
     };
 
+    const logout = async () => {
+        localStorage.removeItem('isDemoMode');
+        await supabase.auth.signOut();
+        setUser(null);
+        setProfile(null);
+    };
+
     useEffect(() => {
         // Escuchar cambios de autenticación
         const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
@@ -92,6 +99,7 @@ export const AppProvider = ({ children }) => {
             loading,
             setUser,
             loginAsGuest,
+            logout,
             isCreateModalOpen,
             setIsCreateModalOpen
         }}>
