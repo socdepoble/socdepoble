@@ -51,6 +51,16 @@ export const supabaseService = {
         return [...new Set(data.map(item => item.comarca))];
     },
 
+    async searchAllTowns(query) {
+        const { data, error } = await supabase
+            .from('towns')
+            .select('*')
+            .ilike('name', `%${query}%`)
+            .limit(10);
+        if (error) throw error;
+        return data;
+    },
+
     async getChatMessages(chatId) {
         const { data, error } = await supabase
             .from('messages')
@@ -187,6 +197,7 @@ export const supabaseService = {
             .channel(`chat:${chatId}`)
             .on(
                 'postgres_changes',
+                'INSERT',
                 {
                     event: 'INSERT',
                     schema: 'public',
