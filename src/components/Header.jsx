@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAppContext } from '../context/AppContext';
 import { User, Search, Bell } from 'lucide-react';
-import logo from '/logo.png';
 import './Header.css';
 
 const Header = () => {
