@@ -1,0 +1,207 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    padding: var(--space-md);
+}
+
+.town-selector-modal {
+    background-color: #1A1D23;
+    width: 100%;
+    max-width: 480px;
+    max-height: 80vh;
+    border-radius: var(--radius-xl);
+    border: 1px solid #2D3748;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    animation: modalAppear 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes modalAppear {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.modal-header {
+    padding: var(--space-lg);
+    border-bottom: 1px solid #2D3748;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.header-title h3 {
+    margin: 0 0 8px 0;
+    color: white;
+    font-family: var(--font-heading);
+    font-size: 20px;
+}
+
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: #718096;
+    font-size: 11px;
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
+.breadcrumb .active {
+    color: var(--color-primary);
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: #A0AEC0;
+    cursor: pointer;
+    padding: 4px;
+    transition: color 0.2s;
+}
+
+.close-btn:hover {
+    color: white;
+}
+
+.search-bar-modal {
+    padding: var(--space-md);
+    position: relative;
+    border-bottom: 1px solid #2D3748;
+}
+
+.search-icon {
+    position: absolute;
+    left: 28px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #718096;
+}
+
+.search-bar-modal input {
+    width: 100%;
+    padding: 12px 12px 12px 42px;
+    background-color: #2D3748;
+    border: 1px solid transparent;
+    border-radius: var(--radius-lg);
+    color: white;
+    font-family: var(--font-main);
+    transition: all 0.2s;
+}
+
+.search-bar-modal input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    background-color: #1A1D23;
+}
+
+.modal-content-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--space-sm);
+    min-height: 300px;
+}
+
+.selection-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px var(--space-md);
+    background: none;
+    border: 1px solid transparent;
+    border-radius: var(--radius-lg);
+    color: #CBD5E0;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.list-item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: white;
+}
+
+.list-item.selected {
+    background-color: rgba(93, 95, 239, 0.1);
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.modal-loading {
+    padding: var(--space-xl);
+    text-align: center;
+    color: #718096;
+}
+
+.modal-footer {
+    padding: var(--space-lg);
+    border-top: 1px solid #2D3748;
+    background-color: #13151A;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.selection-summary {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #A0AEC0;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.save-btn-large {
+    width: 100%;
+    padding: 16px;
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-lg);
+    font-weight: 800;
+    font-size: 15px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(93, 95, 239, 0.3);
+}
+
+.save-btn-large:hover:not(.disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(93, 95, 239, 0.4);
+}
+
+.save-btn-large:active:not(.disabled) {
+    transform: translateY(0);
+}
+
+.save-btn-large.disabled {
+    background-color: #2D3748;
+    color: #718096;
+    box-shadow: none;
+    cursor: not-allowed;
+}

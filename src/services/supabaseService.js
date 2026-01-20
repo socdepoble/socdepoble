@@ -12,13 +12,43 @@ export const supabaseService = {
     },
 
     // Pueblos
-    async getTowns() {
-        const { data, error } = await supabase
+    async getTowns(filters = {}) {
+        let query = supabase
             .from('towns')
             .select('*')
             .order('name', { ascending: true });
+
+        if (filters.province) query = query.eq('province', filters.province);
+        if (filters.comarca) query = query.eq('comarca', filters.comarca);
+
+        const { data, error } = await query;
         if (error) throw error;
         return data;
+    },
+
+    async getProvinces() {
+        const { data, error } = await supabase
+            .from('towns')
+            .select('province')
+            .not('province', 'is', null)
+            .order('province', { ascending: true });
+
+        if (error) throw error;
+        // Distinct values
+        return [...new Set(data.map(item => item.province))];
+    },
+
+    async getComarcas(province) {
+        const { data, error } = await supabase
+            .from('towns')
+            .select('comarca')
+            .eq('province', province)
+            .not('comarca', 'is', null)
+            .order('comarca', { ascending: true });
+
+        if (error) throw error;
+        // Distinct values
+        return [...new Set(data.map(item => item.comarca))];
     },
 
     async getChatMessages(chatId) {

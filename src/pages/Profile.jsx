@@ -3,6 +3,7 @@ import { useAppContext } from '../context/AppContext';
 import { supabaseService } from '../services/supabaseService';
 import { useTranslation } from 'react-i18next';
 import { User, LogOut, Camera, Save, Building2, Store, Settings, Star, Home, Bell, Lock, HelpCircle, Info, ChevronRight, MapPin, MessageCircle, Plus, Moon, Sun } from 'lucide-react';
+import TownSelectorModal from '../components/TownSelectorModal';
 import './Profile.css';
 
 const MyEntitiesList = ({ userId }) => {
@@ -109,26 +110,11 @@ const Profile = () => {
                     <h2>{profile.full_name || 'Usuari'}</h2>
 
                     <div className="profile-town-management">
-                        {isEditingTown ? (
-                            <select
-                                className="town-selector-dropdown"
-                                value={profile.town_id || ''}
-                                onChange={(e) => handleTownChange(e.target.value)}
-                                onBlur={() => setIsEditingTown(false)}
-                                autoFocus
-                            >
-                                <option value="">Selecciona el teu poble...</option>
-                                {allTowns.map(t => (
-                                    <option key={t.id} value={t.id}>{t.name}</option>
-                                ))}
-                            </select>
-                        ) : (
-                            <button className="main-town-btn" onClick={() => setIsEditingTown(true)}>
-                                <MapPin size={18} />
-                                {userTown?.name || 'Selecciona poble'}
-                            </button>
-                        )}
-                        <p className="comarca-text">{userTown ? 'Comarca activada' : 'Sense poble assignat'}</p>
+                        <button className="main-town-btn" onClick={() => setIsEditingTown(true)}>
+                            <MapPin size={18} />
+                            {userTown?.name || 'Selecciona poble'}
+                        </button>
+                        <p className="comarca-text">{userTown ? userTown.comarca : 'Sense poble assignat'}</p>
 
                         <div className="additional-towns-section">
                             {/* Prototipo: Solo mostramos el principal por ahora */}
@@ -139,6 +125,12 @@ const Profile = () => {
                             )}
                         </div>
                     </div>
+
+                    <TownSelectorModal
+                        isOpen={isEditingTown}
+                        onClose={() => setIsEditingTown(false)}
+                        onSelect={(town) => handleTownChange(town.id)}
+                    />
                 </div>
             </header>
 
