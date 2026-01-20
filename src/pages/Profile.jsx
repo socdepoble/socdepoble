@@ -45,12 +45,28 @@ const MyEntitiesList = ({ userId }) => {
 
 const Profile = () => {
     const { t } = useTranslation();
-    const { profile, user, theme, toggleTheme } = useAppContext();
+    const { profile, setProfile, user, theme, toggleTheme } = useAppContext();
 
-    const [towns] = useState(['La Torre de les Maçanes']);
-    const comarca = "l'Alacantí";
+    const [allTowns, setAllTowns] = useState([]);
+    const [isEditingTown, setIsEditingTown] = useState(false);
+
+    useEffect(() => {
+        supabaseService.getTowns().then(setAllTowns);
+    }, []);
+
+    const userTown = allTowns.find(t => t.id === profile?.town_id);
 
     if (!profile) return <div className="profile-container">{t('common.loading')}</div>;
+
+    const handleTownChange = async (townId) => {
+        try {
+            const updated = await supabaseService.updateProfile(user.id, { town_id: parseInt(townId) });
+            setProfile(updated);
+            setIsEditingTown(false);
+        } catch (error) {
+            console.error('Error updating town:', error);
+        }
+    };
 
     const menuItems = [
         { icon: <MessageCircle size={20} />, label: t('nav.my_posts'), id: 'posts' },
@@ -93,18 +109,31 @@ const Profile = () => {
                     <h2>{profile.full_name || 'Usuari'}</h2>
 
                     <div className="profile-town-management">
-                        <button className="main-town-btn">
-                            <MapPin size={18} />
-                            {towns[0]}
-                        </button>
-                        <p className="comarca-text">{comarca}</p>
+                        {isEditingTown ? (
+                            <select
+                                className="town-selector-dropdown"
+                                value={profile.town_id || ''}
+                                onChange={(e) => handleTownChange(e.target.value)}
+                                onBlur={() => setIsEditingTown(false)}
+                                autoFocus
+                            >
+                                <option value="">Selecciona el teu poble...</option>
+                                {allTowns.map(t => (
+                                    <option key={t.id} value={t.id}>{t.name}</option>
+                                ))}
+                            </select>
+                        ) : (
+                            <button className="main-town-btn" onClick={() => setIsEditingTown(true)}>
+                                <MapPin size={18} />
+                                {userTown?.name || 'Selecciona poble'}
+                            </button>
+                        )}
+                        <p className="comarca-text">{userTown ? 'Comarca activada' : 'Sense poble assignat'}</p>
 
                         <div className="additional-towns-section">
-                            {towns.slice(1).map((town, idx) => (
-                                <div key={idx} className="secondary-town-chip">{town}</div>
-                            ))}
-                            {towns.length < 4 && (
-                                <button className="add-town-btn-inline" onClick={() => console.log('Add town')}>
+                            {/* Prototipo: Solo mostramos el principal por ahora */}
+                            {allTowns.length > 0 && !profile.town_id && (
+                                <button className="add-town-btn-inline" onClick={() => setIsEditingTown(true)}>
                                     <Plus size={14} /> {t('nav.add_town') || 'Afegir poble'}
                                 </button>
                             )}

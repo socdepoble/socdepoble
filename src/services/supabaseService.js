@@ -48,8 +48,8 @@ export const supabaseService = {
     },
 
     // Feed / Muro
-    async getPosts(roleFilter = 'tot') {
-        console.log(`[SupabaseService] Fetching posts with roleFilter: ${roleFilter}`);
+    async getPosts(roleFilter = 'tot', townId = null) {
+        console.log(`[SupabaseService] Fetching posts with roleFilter: ${roleFilter}, townId: ${townId}`);
         try {
             let query = supabase
                 .from('posts')
@@ -58,6 +58,10 @@ export const supabaseService = {
 
             if (roleFilter !== 'tot') {
                 query = query.eq('author_role', roleFilter);
+            }
+
+            if (townId) {
+                query = query.eq('town_id', townId);
             }
 
             const { data, error } = await query;
@@ -87,7 +91,7 @@ export const supabaseService = {
     },
 
     // Mercado
-    async getMarketItems(roleFilter = 'tot') {
+    async getMarketItems(roleFilter = 'tot', townId = null) {
         let query = supabase
             .from('market_items')
             .select('*')
@@ -95,6 +99,10 @@ export const supabaseService = {
 
         if (roleFilter !== 'tot') {
             query = query.eq('seller_role', roleFilter);
+        }
+
+        if (townId) {
+            query = query.eq('town_id', townId);
         }
 
         const { data, error } = await query;
