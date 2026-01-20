@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAppContext } from '../context/AppContext';
-import { User } from 'lucide-react';
+import { User, Search } from 'lucide-react';
 import logo from '/logo.png';
 import './Header.css';
 
@@ -16,6 +16,10 @@ const Header = () => {
                 </Link>
 
                 <div className="header-actions">
+                    <button className="header-search-btn" onClick={() => console.log('Open search screen/popup')}>
+                        <Search size={22} color="white" />
+                    </button>
+
                     <button onClick={toggleLanguage} className="header-lang-switcher">
                         <span>{language.toUpperCase()}</span>
                     </button>
