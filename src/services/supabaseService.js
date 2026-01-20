@@ -52,11 +52,14 @@ export const supabaseService = {
     },
 
     async searchAllTowns(query) {
+        // Búsqueda robusta en múltiples columnas
         const { data, error } = await supabase
             .from('towns')
             .select('*')
-            .ilike('name', `%${query}%`)
-            .limit(10);
+            .or(`name.ilike.%${query}%,comarca.ilike.%${query}%,province.ilike.%${query}%`)
+            .order('name', { ascending: true })
+            .limit(20);
+
         if (error) throw error;
         return data;
     },

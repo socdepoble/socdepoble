@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { X, Search, ChevronRight, Check } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { X, Search, ChevronRight, Check, MapPin } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useTranslation } from 'react-i18next';
 import './TownSelectorModal.css';
@@ -19,6 +19,7 @@ const TownSelectorModal = ({ isOpen, onClose, onSelect }) => {
 
     const [loading, setLoading] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
+    const searchInputRef = useRef(null);
 
     useEffect(() => {
         if (isOpen) {
@@ -29,16 +30,22 @@ const TownSelectorModal = ({ isOpen, onClose, onSelect }) => {
             setSelectedProvince('');
             setSelectedComarca('');
             setSelectedTown(null);
+
+            // Focus search input on open
+            setTimeout(() => {
+                searchInputRef.current?.focus();
+            }, 100);
         }
     }, [isOpen]);
 
-    // Búsqueda global interactiva
+    // Búsqueda global interactiva mejorada
     useEffect(() => {
         const timer = setTimeout(async () => {
-            if (searchTerm.length >= 2) {
+            const cleanTerm = searchTerm.trim();
+            if (cleanTerm.length >= 2) {
                 setLoading(true);
                 try {
-                    const data = await supabaseService.searchAllTowns(searchTerm);
+                    const data = await supabaseService.searchAllTowns(cleanTerm);
                     setSearchResults(data);
                 } catch (error) {
                     console.error('Error in global search:', error);
@@ -48,7 +55,7 @@ const TownSelectorModal = ({ isOpen, onClose, onSelect }) => {
             } else {
                 setSearchResults([]);
             }
-        }, 300);
+        }, 200); // Faster debounce
 
         return () => clearTimeout(timer);
     }, [searchTerm]);
@@ -101,7 +108,7 @@ const TownSelectorModal = ({ isOpen, onClose, onSelect }) => {
         setSelectedComarca(town.comarca);
         setSearchTerm('');
         setSearchResults([]);
-        setStep(3);
+        setStep(3); // Result selection confirms the town
     };
 
     const handleSave = () => {
@@ -113,7 +120,8 @@ const TownSelectorModal = ({ isOpen, onClose, onSelect }) => {
 
     if (!isOpen) return null;
 
-    const displayList = searchTerm.length >= 2 ? searchResults : (step === 1 ? provinces : step === 2 ? comarcas : towns);
+    const isSearching = searchTerm.trim().length >= 2;
+    const displayList = isSearching ? searchResults : (step === 1 ? provinces : step === 2 ? comarcas : towns);
 
     return (
         <div className="modal-overlay">
@@ -124,18 +132,18 @@ const TownSelectorModal = ({ isOpen, onClose, onSelect }) => {
                         <div className="breadcrumb">
                             <span
                                 className={step >= 1 ? 'active' : ''}
-                                onClick={() => setStep(1)}
+                                onClick={() => { setStep(1); setSearchTerm(''); }}
                                 style={{ cursor: 'pointer' }}
                             >
-                                Província
+                                {t('common.province') || 'Província'}
                             </span>
                             <ChevronRight size={14} />
                             <span
                                 className={step >= 2 ? 'active' : ''}
-                                onClick={() => selectedProvince && setStep(2)}
+                                onClick={() => { if (selectedProvince) { setStep(2); setSearchTerm(''); } }}
                                 style={{ cursor: selectedProvince ? 'pointer' : 'default' }}
                             >
-                                Comarca
+                                {t('common.comarca') || 'Comarca'}
                             </span>
                             <ChevronRight size={14} />
                             <span className={step >= 3 ? 'active' : ''}>Poble</span>
@@ -149,19 +157,31 @@ const TownSelectorModal = ({ isOpen, onClose, onSelect }) => {
                 <div className="search-bar-modal">
                     <Search size={18} className="search-icon" />
                     <input
+                        ref={searchInputRef}
                         type="text"
-                        placeholder={t('common.search')}
+                        placeholder={t('common.search_placeholder') || 'Cerca poble, comarca o província...'}
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        autoFocus
                     />
+                    {searchTerm && (
+                        <button className="clear-search" onClick={() => setSearchTerm('')}>
+                            <X size={14} />
+                        </button>
+                    )}
                 </div>
 
                 <div className="modal-content-scroll">
                     {loading ? (
-                        <div className="modal-loading">{t('common.loading')}</div>
+                        <div className="modal-loading">
+                            <div className="spinner-small"></div>
+                            <span>{t('common.loading')}</span>
+                        </div>
                     ) : displayList.length === 0 ? (
-                        <div className="modal-no-results">No hi ha resultats.</div>
+                        <div className="modal-no-results">
+                            <MapPin size={32} opacity={0.2} />
+                            <p>{isSearching ? t('towns.no_results_search') || 'No hem trobat cap resultat per a la teua cerca.' : t('towns.no_results_list') || 'No hi ha elements disponibles.'}</p>
+                            {isSearching && <button className="clear-link" onClick={() => setSearchTerm('')}>Veure tots els pobles</button>}
+                        </div>
                     ) : (
                         <div className="selection-list">
                             {displayList.map((item, idx) => {
@@ -176,7 +196,7 @@ const TownSelectorModal = ({ isOpen, onClose, onSelect }) => {
                                         key={isTown ? item.id : idx}
                                         className={`list-item ${isSelected ? 'selected' : ''}`}
                                         onClick={() => {
-                                            if (searchTerm.length >= 2 && isTown) handleSearchResultSelect(item);
+                                            if (isSearching && isTown) handleSearchResultSelect(item);
                                             else if (step === 1) handleProvinceSelect(item);
                                             else if (step === 2) handleComarcaSelect(item);
                                             else setSelectedTown(item);
@@ -184,9 +204,15 @@ const TownSelectorModal = ({ isOpen, onClose, onSelect }) => {
                                     >
                                         <div className="item-info">
                                             <span className="item-label">{label}</span>
-                                            {isTown && <span className="item-sublabel">{item.comarca}, {item.province}</span>}
+                                            {isTown && (
+                                                <span className="item-sublabel">
+                                                    {item.comarca} · {item.province}
+                                                </span>
+                                            )}
                                         </div>
-                                        {isSelected ? <Check size={18} /> : <ChevronRight size={18} opacity={0.5} />}
+                                        <div className="item-action">
+                                            {isSelected ? <Check size={18} className="text-primary" /> : <ChevronRight size={18} opacity={0.3} />}
+                                        </div>
                                     </button>
                                 );
                             })}
@@ -196,15 +222,20 @@ const TownSelectorModal = ({ isOpen, onClose, onSelect }) => {
 
                 <footer className="modal-footer">
                     <div className="selection-summary">
-                        {selectedProvince && <span>{selectedProvince}</span>}
-                        {selectedComarca && <span> <ChevronRight size={12} /> {selectedComarca}</span>}
+                        {selectedProvince && (
+                            <span className="summary-item">
+                                {selectedProvince}
+                                {selectedComarca && <ChevronRight size={12} />}
+                                {selectedComarca && <span>{selectedComarca}</span>}
+                            </span>
+                        )}
                     </div>
                     <button
                         className={`save-btn-large ${!selectedTown ? 'disabled' : ''}`}
                         onClick={handleSave}
                         disabled={!selectedTown}
                     >
-                        {t('common.save').toUpperCase()}
+                        {t('common.save_selection') || 'GUARDAR POBLE'}
                     </button>
                 </footer>
             </div>
