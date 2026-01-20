@@ -1,7 +1,7 @@
 .notifications-container {
     background-color: var(--color-background);
     min-height: 100vh;
-    padding-bottom: 80px;
+    padding-bottom: calc(var(--nav-height) + 20px);
 }
 
 .page-header-simple {

@@ -26,7 +26,17 @@
         "towns": "Pobles",
         "profile": "Perfil",
         "my_entities": "Les meues Entitats",
-        "empty_entities": "No gestiones cap grup ni empresa encara."
+        "empty_entities": "No gestiones cap grup ni empresa encara.",
+        "my_posts": "Les meues publicacions",
+        "my_products": "Els meus productes",
+        "saved": "Guardats",
+        "my_towns": "Els meus pobles",
+        "privacy": "Privadesa i seguretat",
+        "support": "Ajuda i suport",
+        "about": "Sobre Sóc de Poble",
+        "stats_posts": "Publicacions",
+        "stats_sales": "En venda",
+        "stats_connections": "Connexions"
     },
     "chats": {
         "title": "Xats",

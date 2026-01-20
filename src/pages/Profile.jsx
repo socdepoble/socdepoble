@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useAppContext } from '../context/AppContext';
 import { supabaseService } from '../services/supabaseService';
 import { useTranslation } from 'react-i18next';
-import { User, LogOut, Camera, Save, Building2, Store } from 'lucide-react';
+import { User, LogOut, Camera, Save, Building2, Store, Settings, Star, Home, Bell, Lock, HelpCircle, Info, ChevronRight, MapPin } from 'lucide-react';
 import './Profile.css';
 
 const MyEntitiesList = ({ userId }) => {
@@ -45,100 +45,85 @@ const MyEntitiesList = ({ userId }) => {
 
 const Profile = () => {
     const { t } = useTranslation();
-    const { profile, user, setProfile } = useAppContext();
-    const [loading, setLoading] = useState(false);
-    const [formData, setFormData] = useState({
-        full_name: '',
-        username: '',
-        avatar_url: ''
-    });
-
-    // Initialize form data only when profile is loaded or changes
-    // But do it only if fields are different to avoid unnecessary resets if the user is typing
-    useEffect(() => {
-        if (profile) {
-            setFormData(prev => ({
-                full_name: prev.full_name || profile.full_name || '',
-                username: prev.username || profile.username || '',
-                avatar_url: prev.avatar_url || profile.avatar_url || ''
-            }));
-        }
-    }, [profile]);
-
-    const handleUpdateProfile = async (e) => {
-        e.preventDefault();
-        if (!user) return;
-
-        setLoading(true);
-        try {
-            const updatedProfile = await supabaseService.updateProfile(user.id, formData);
-            if (updatedProfile) {
-                setProfile(updatedProfile);
-                alert(t('common.saved'));
-            }
-        } catch (error) {
-            alert(error.message);
-        } finally {
-            setLoading(false);
-        }
-    };
+    const { profile, user } = useAppContext();
 
     if (!profile) return <div className="profile-container">{t('common.loading')}</div>;
 
+    const menuItems = [
+        { icon: <MessageCircle size={20} />, label: t('nav.my_posts'), id: 'posts' },
+        { icon: <Store size={20} />, label: t('nav.my_products'), id: 'products' },
+        { icon: <Star size={20} />, label: t('nav.saved'), id: 'saved' },
+        { icon: <Home size={20} />, label: t('nav.my_towns'), id: 'towns' },
+        { icon: <Bell size={20} />, label: t('nav.profile_notifications') || 'Notificacions', id: 'notifications' },
+        { icon: <Lock size={20} />, label: t('nav.privacy'), id: 'privacy' },
+        { icon: <HelpCircle size={20} />, label: t('nav.support'), id: 'support' },
+        { icon: <Info size={20} />, label: t('nav.about'), id: 'about' }
+    ];
+
     return (
         <div className="profile-container">
-            <header className="profile-header">
-                <div className="avatar-big">
-                    {formData.avatar_url ? (
-                        <img src={formData.avatar_url} alt="Profile" />
-                    ) : (
-                        <User size={40} color="white" />
-                    )}
+            <header className="profile-dashboard-header">
+                <div className="header-top-actions">
+                    <button className="settings-btn" onClick={() => console.log('Open settings')}>
+                        <Settings size={22} />
+                    </button>
                 </div>
-                <div className="profile-titles">
-                    <h1>{formData.full_name || t('nav.profile')}</h1>
-                    <span className="profile-role-tag">{profile.role?.toUpperCase()}</span>
+
+                <div className="profile-main-info">
+                    <div className="avatar-wrapper">
+                        <div className="avatar-big">
+                            {profile.avatar_url ? (
+                                <img src={profile.avatar_url} alt="Profile" />
+                            ) : (
+                                <User size={40} color="white" />
+                            )}
+                        </div>
+                    </div>
+                    <h2>{profile.full_name || 'Usuari'}</h2>
+                    <p className="profile-location">
+                        <MapPin size={14} /> Calp, Alacant
+                    </p>
                 </div>
             </header>
 
-            <form onSubmit={handleUpdateProfile} className="profile-form">
-                <div className="form-group">
-                    <label>{t('auth.fullName')}</label>
-                    <input
-                        type="text"
-                        className="form-input"
-                        value={formData.full_name}
-                        onChange={(e) => setFormData({ ...formData, full_name: e.target.value })}
-                    />
+            <div className="profile-stats-bar">
+                <div className="stat-card">
+                    <span className="stat-value">23</span>
+                    <span className="stat-label">{t('nav.stats_posts')}</span>
                 </div>
-                <div className="form-group">
-                    <label>{t('auth.username')}</label>
-                    <input
-                        type="text"
-                        className="form-input"
-                        value={formData.username}
-                        onChange={(e) => setFormData({ ...formData, username: e.target.value })}
-                    />
+                <div className="stat-card">
+                    <span className="stat-value">5</span>
+                    <span className="stat-label">{t('nav.stats_sales')}</span>
                 </div>
+                <div className="stat-card">
+                    <span className="stat-value">142</span>
+                    <span className="stat-label">{t('nav.stats_connections')}</span>
+                </div>
+            </div>
 
-                <button type="submit" disabled={loading} className="btn-save">
-                    <Save size={20} />
-                    {loading ? t('common.loading') : t('common.save')}
-                </button>
-            </form>
+            <div className="profile-menu">
+                {menuItems.map(item => (
+                    <button key={item.id} className="menu-item">
+                        <div className="menu-item-left">
+                            <span className={`menu-icon ${item.id}`}>{item.icon}</span>
+                            <span>{item.label}</span>
+                        </div>
+                        <ChevronRight size={18} className="chevron" />
+                    </button>
+                ))}
+            </div>
 
-            <div className="entities-section">
-                <h3 className="entities-title">
-                    <Building2 size={20} /> {t('nav.my_entities')}
-                </h3>
-
+            <div className="profile-entities-box">
+                <h3 className="section-subtitle">{t('nav.my_entities')}</h3>
                 <MyEntitiesList userId={user?.id} />
             </div>
 
-            <button onClick={() => supabaseService.signOut()} className="btn-logout">
-                <LogOut size={20} />
-                {t('auth.logout')}
-            </button>
+            <div className="logout-wrapper">
+                <button onClick={() => supabaseService.signOut()} className="btn-logout-minimal">
+                    <LogOut size={18} />
+                    {t('auth.logout')}
+                </button>
+            </div>
         </div>
     );
 };

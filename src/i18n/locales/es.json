@@ -26,7 +26,17 @@
         "towns": "Pueblos",
         "profile": "Perfil",
         "my_entities": "Mis Entidades",
-        "empty_entities": "No gestionas ningún grupo ni empresa todavía."
+        "empty_entities": "Aún no gestionas ningún grupo o empresa.",
+        "my_posts": "Mis publicaciones",
+        "my_products": "Mis productos",
+        "saved": "Guardados",
+        "my_towns": "Mis pueblos",
+        "privacy": "Privacidad y seguridad",
+        "support": "Ayuda y soporte",
+        "about": "Sobre Sóc de Poble",
+        "stats_posts": "Publicaciones",
+        "stats_sales": "En venta",
+        "stats_connections": "Conexiones"
     },
     "chats": {
         "title": "Chats",
