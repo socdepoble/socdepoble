@@ -4,19 +4,7 @@
     min-height: 100vh;
 }
 
-/* Header style for pages with tabs */
-.page-header-with-tabs {
-    background-color: var(--bg-surface);
-    padding-top: var(--space-xs);
-    border-bottom: 1px solid var(--color-border);
-    position: sticky;
-    top: var(--header-height);
-    z-index: 100;
-}
-
-.header-tabs-wrapper {
-    padding: var(--space-sm) 0 var(--space-xs);
-}
+/* Page header styles are now global in index.css */
 
 .towns-content-area {
     min-height: 400px;

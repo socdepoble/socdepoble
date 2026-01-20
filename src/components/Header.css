@@ -9,6 +9,7 @@
     display: flex;
     align-items: center;
     border-bottom: 1px solid #2D3748;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
 }
 
 /* Optional Glassmorphism effect */

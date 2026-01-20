@@ -1,11 +1,18 @@
 .category-tabs {
     display: flex;
+    align-items: center;
     gap: 8px;
     overflow-x: auto;
-    padding: var(--space-xs) var(--space-md) var(--space-md);
+    padding: 0 var(--space-md);
+    height: var(--category-bar-height);
+    background-color: #171923;
+    position: sticky;
+    top: var(--header-height);
+    z-index: 90;
+    border-bottom: 1px solid #2D3748;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     scrollbar-width: none;
     -ms-overflow-style: none;
-    background-color: var(--bg-main);
 }
 
 .category-tabs::-webkit-scrollbar {
@@ -15,9 +22,9 @@
 .category-tab {
     padding: 8px 16px;
     border-radius: var(--radius-full);
-    border: 1px solid var(--color-border);
-    background-color: var(--bg-card);
-    color: var(--text-secondary);
+    border: 1px solid #2D3748;
+    background-color: #2D3748;
+    color: #A0AEC0;
     font-size: 11px;
     text-transform: uppercase;
     font-weight: 800;
@@ -31,11 +38,11 @@
     background-color: var(--color-primary);
     color: white;
     border-color: var(--color-primary);
-    box-shadow: 0 4px 12px var(--color-primary-soft);
+    box-shadow: 0 4px 12px rgba(93, 95, 239, 0.3);
 }
 
 .category-tab.add-tab {
-    background-color: var(--color-primary-soft);
+    background-color: rgba(93, 95, 239, 0.2);
     color: var(--color-primary);
     border-color: transparent;
     font-size: 16px;
@@ -43,9 +50,9 @@
 }
 
 .category-tab:hover:not(.active) {
-    background-color: var(--color-primary-soft);
-    color: var(--color-primary);
-    border-color: var(--color-primary-soft);
+    background-color: #4A5568;
+    color: white;
+    border-color: #4A5568;
 }
 
 .category-tab:active {
