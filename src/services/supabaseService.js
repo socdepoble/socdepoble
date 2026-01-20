@@ -52,16 +52,27 @@ export const supabaseService = {
     },
 
     async searchAllTowns(query) {
-        // Búsqueda robusta en múltiples columnas
-        const { data, error } = await supabase
-            .from('towns')
-            .select('*')
-            .or(`name.ilike.%${query}%,comarca.ilike.%${query}%,province.ilike.%${query}%`)
-            .order('name', { ascending: true })
-            .limit(20);
+        console.log(`[SupabaseService] Performed search for: "${query}"`);
+        try {
+            const { data, error } = await supabase
+                .from('towns')
+                .select('*')
+                .or(`name.ilike.%${query}%,comarca.ilike.%${query}%,province.ilike.%${query}%`)
+                .order('name', { ascending: true })
+                .limit(20);
 
-        if (error) throw error;
-        return data;
+            if (error) throw error;
+            console.log(`[SupabaseService] Search results for "${query}":`, data?.length || 0);
+            return data || [];
+        } catch (err) {
+            console.error('[SupabaseService] Robust search failed, falling back to simple search:', err);
+            const { data } = await supabase
+                .from('towns')
+                .select('*')
+                .ilike('name', `%${query}%`)
+                .limit(10);
+            return data || [];
+        }
     },
 
     async getChatMessages(chatId) {
