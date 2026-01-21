@@ -225,7 +225,6 @@ const Feed = ({ townId = null, hideHeader = false }) => {
                                 </div>
 
                                 <div className="card-content">
-                                    <p className="post-text">{post.content}</p>
                                     {post.image_url && (
                                         <div className="card-image-wrapper">
                                             <img
@@ -239,6 +238,7 @@ const Feed = ({ townId = null, hideHeader = false }) => {
                                             />
                                         </div>
                                     )}
+                                    <p className="post-text">{post.content}</p>
                                 </div>
 
                                 <div className="card-actions-wrapper">

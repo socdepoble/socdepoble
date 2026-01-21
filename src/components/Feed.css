@@ -23,7 +23,8 @@
     font-size: 15px;
     color: var(--text-body);
     line-height: 1.5;
-    margin-bottom: var(--space-sm);
+    margin-top: var(--space-sm);
+    margin-bottom: 0;
 }
 
 .card-header {
