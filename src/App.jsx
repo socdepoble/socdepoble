@@ -13,6 +13,7 @@ import Towns from './pages/Towns';
 import Map from './pages/Map';
 import Notifications from './pages/Notifications';
 import TownDetail from './pages/TownDetail';
+import AdminPanel from './pages/AdminPanel';
 import { supabase } from './supabaseClient';
 import { MOCK_CHATS, MOCK_FEED, MOCK_MARKET_ITEMS } from './data';
 import { useAppContext } from './context/AppContext';
@@ -48,25 +49,17 @@ function App() {
     const checkAndSeed = async () => {
       try {
         // Verificar cada tabla individualmente para un seeding más robusto
-        const { count: chatCount } = await supabase.from('chats').select('*', { count: 'exact', head: true });
+        const { count: chatCount } = await supabase.from('conversations').select('*', { count: 'exact', head: true });
         const { count: postCount } = await supabase.from('posts').select('*', { count: 'exact', head: true });
         const { count: marketCount } = await supabase.from('market_items').select('*', { count: 'exact', head: true });
 
         let seeded = false;
 
         if (chatCount === 0) {
-          console.log('Seeding Chats...');
-          await supabase.from('chats').upsert(
-            MOCK_CHATS.map(chat => ({
-              id: chat.id,
-              name: chat.name,
-              last_message: chat.message,
-              time: chat.time,
-              type: chat.type,
-              unread_count: chat.unread
-            }))
-          );
-          seeded = true;
+          console.log('Seeding Conversations...');
+          // In a real app we wouldn't seed DMs like this, but for demo:
+          // We need valid user IDs. Since we don't have them yet, we'll skip or use placeholders.
+          console.log('Skip seeding conversations for now (requires valid auth IDs)');
         }
 
         if (postCount === 0) {
@@ -144,6 +137,7 @@ function App() {
           <Route path="pobles" element={<Towns />} />
           <Route path="pobles/:id" element={<TownDetail />} />
           <Route path="mapa" element={<Map />} />
+          <Route path="admin" element={<AdminPanel />} />
         </Route>
       </Routes>
     </BrowserRouter>

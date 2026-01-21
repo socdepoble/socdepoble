@@ -1,12 +1,13 @@
-import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { X, Newspaper, Store, MapPin, Users } from 'lucide-react';
+import { X, Newspaper, Store, MapPin, Users, Shield } from 'lucide-react';
 import { useAppContext } from '../context/AppContext';
 import './CreationHub.css';
 
 const CreationHub = () => {
     const { t } = useTranslation();
-    const { isCreateModalOpen, setIsCreateModalOpen } = useAppContext();
+    const { isCreateModalOpen, setIsCreateModalOpen, isSuperAdmin } = useAppContext();
+    const navigate = useNavigate();
 
     if (!isCreateModalOpen) return null;
 
@@ -51,6 +52,18 @@ const CreationHub = () => {
                         </div>
                         <span>{t('nav.work_groups')}</span>
                     </button>
+
+                    {isSuperAdmin && (
+                        <button className="creation-option admin" onClick={() => {
+                            setIsCreateModalOpen(false);
+                            navigate('/admin');
+                        }}>
+                            <div className="option-icon admin">
+                                <Shield size={28} />
+                            </div>
+                            <span>ADMIN</span>
+                        </button>
+                    )}
                 </div>
             </div>
         </div>

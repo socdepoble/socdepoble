@@ -2,14 +2,142 @@ import { supabase } from '../supabaseClient';
 import { ROLES, USER_ROLES } from '../constants';
 
 export const supabaseService = {
-    // Chats
-    async getChats() {
+    // Admin & Seeding
+    async getAllPersonas() {
         const { data, error } = await supabase
-            .from('chats')
+            .from('profiles')
             .select('*')
-            .order('id', { ascending: true });
+            .order('full_name', { ascending: true });
         if (error) throw error;
         return data;
+    },
+
+    async getAdminEntities() {
+        const { data, error } = await supabase
+            .from('entities')
+            .select('*')
+            .order('name', { ascending: true });
+        if (error) throw error;
+        return data;
+    },
+
+    // Chats (Secure Messaging - Phase 4)
+    async getConversations(userIdOrEntityId) {
+        // Obtenemos conversaciones donde el usuario o su entidad sea participante
+        let query = supabase.from('conversations').select('*');
+
+        // Modo Demo: Si no hay ID o es el invitado ('0000...'), mostramos todas las de demo (prefijo c1111000-)
+        if (!userIdOrEntityId || userIdOrEntityId === '00000000-0000-0000-0000-000000000000') {
+            query = query
+                .gte('id', 'c1111000-0000-0000-0000-000000000000')
+                .lte('id', 'c1111000-ffff-ffff-ffff-ffffffffffff');
+        } else {
+            query = query.or(`participant_1_id.eq.${userIdOrEntityId},participant_2_id.eq.${userIdOrEntityId}`);
+        }
+
+        const { data: convs, error } = await query.order('last_message_at', { ascending: false });
+        if (error) throw error;
+        if (!convs || convs.length === 0) return [];
+
+        // HIDRATACIÓN: Traducir UUIDs a nombres y avatares
+        // Obtenemos todos los IDs únicos de participantes
+        const participantIds = new Set();
+        convs.forEach(c => {
+            participantIds.add(c.participant_1_id);
+            participantIds.add(c.participant_2_id);
+        });
+
+        const idList = Array.from(participantIds);
+
+        // Consultar perfiles y entidades en paralelo
+        const [profilesRes, entitiesRes] = await Promise.all([
+            supabase.from('profiles').select('id, full_name, avatar_url').in('id', idList),
+            supabase.from('entities').select('id, name, avatar_url').in('id', idList)
+        ]);
+
+        // Crear mapa de información
+        const infoMap = {};
+        (profilesRes.data || []).forEach(p => {
+            infoMap[p.id] = { name: p.full_name, avatar_url: p.avatar_url };
+        });
+        (entitiesRes.data || []).forEach(e => {
+            infoMap[e.id] = { name: e.name, avatar_url: e.avatar_url };
+        });
+
+        // Enriquecer conversaciones
+        return convs.map(c => ({
+            ...c,
+            p1_info: infoMap[c.participant_1_id] || { name: 'Desconegut', avatar_url: null },
+            p2_info: infoMap[c.participant_2_id] || { name: 'Desconegut', avatar_url: null }
+        }));
+    },
+
+    async getConversationMessages(conversationId) {
+        const { data, error } = await supabase
+            .from('messages')
+            .select('*')
+            .eq('conversation_id', conversationId)
+            .order('created_at', { ascending: true });
+        if (error) throw error;
+        return data || [];
+    },
+
+    async sendSecureMessage(messageData) {
+        const { data, error } = await supabase
+            .from('messages')
+            .insert([{
+                conversation_id: messageData.conversationId,
+                sender_id: messageData.senderId,
+                sender_entity_id: messageData.senderEntityId || null,
+                content: messageData.content
+            }])
+            .select();
+
+        if (error) throw error;
+
+        // Actualizar el resumen en la conversación
+        await supabase
+            .from('conversations')
+            .update({
+                last_message_content: messageData.content,
+                last_message_at: new Date().toISOString()
+            })
+            .eq('id', messageData.conversationId);
+
+        return data[0];
+    },
+
+    async getOrCreateConversation(p1Id, p1Type, p2Id, p2Type) {
+        // Buscar si ya existe la combinación (en cualquier orden)
+        const { data: existing } = await supabase
+            .from('conversations')
+            .select('*')
+            .or(`and(participant_1_id.eq.${p1Id},participant_2_id.eq.${p2Id}),and(participant_1_id.eq.${p2Id},participant_2_id.eq.${p1Id})`)
+            .maybeSingle();
+
+        if (existing) return existing;
+
+        // Crear nueva si no existe
+        const { data, error } = await supabase
+            .from('conversations')
+            .insert([{
+                participant_1_id: p1Id,
+                participant_1_type: p1Type,
+                participant_2_id: p2Id,
+                participant_2_type: p2Type
+            }])
+            .select();
+
+        if (error) throw error;
+        return data[0];
+    },
+
+    async markMessagesAsRead(conversationId, userId) {
+        const { error } = await supabase.rpc('mark_messages_as_read', {
+            conv_id: conversationId,
+            user_id: userId
+        });
+        if (error) throw error;
     },
 
     // Pueblos
@@ -76,30 +204,14 @@ export const supabaseService = {
         }
     },
 
-    async getChatMessages(chatId) {
+    async getChatMessagesLegacy(chatId) {
         const { data, error } = await supabase
-            .from('messages')
+            .from('legacy_messages')
             .select('*')
             .eq('chat_id', chatId)
             .order('created_at', { ascending: true });
         if (error) throw error;
         return data;
-    },
-
-    async sendMessage(chatId, text, sender = 'me') {
-        const { data, error } = await supabase
-            .from('messages')
-            .insert([{ chat_id: chatId, text, sender, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }])
-            .select();
-        if (error) throw error;
-
-        // Opcional: Actualizar el last_message del chat
-        await supabase
-            .from('chats')
-            .update({ last_message: text, time: 'Ara' })
-            .eq('id', chatId);
-
-        return data[0];
     },
 
     // Feed / Muro
@@ -228,24 +340,60 @@ export const supabaseService = {
         }
     },
 
-    // Suscripciones en tiempo real
-    subscribeToMessages(chatId, onNewMessage) {
-        return supabase
-            .channel(`chat:${chatId}`)
+    // Suscripciones en tiempo real y Presencia
+    subscribeToConversation(conversationId, options = {}) {
+        const { onNewMessage, onMessageUpdate } = options;
+
+        const channel = supabase.channel(`conversation:${conversationId}`)
             .on(
                 'postgres_changes',
-                'INSERT',
                 {
-                    event: 'INSERT',
+                    event: '*', // Listen to inserts and updates (read status)
                     schema: 'public',
                     table: 'messages',
-                    filter: `chat_id=eq.${chatId}`
+                    filter: `conversation_id=eq.${conversationId}`
                 },
                 (payload) => {
-                    onNewMessage(payload.new);
+                    if (payload.eventType === 'INSERT' && onNewMessage) onNewMessage(payload.new);
+                    if (payload.eventType === 'UPDATE' && onMessageUpdate) onMessageUpdate(payload.new);
                 }
-            )
-            .subscribe();
+            );
+
+        return channel.subscribe();
+    },
+
+    subscribeToPresence(conversationId, userId, onSync) {
+        const channel = supabase.channel(`presence:${conversationId}`, {
+            config: {
+                presence: {
+                    key: userId,
+                },
+            },
+        });
+
+        channel
+            .on('presence', { event: 'sync' }, () => {
+                const state = channel.presenceState();
+                onSync(state);
+            })
+            .subscribe(async (status) => {
+                if (status === 'SUBSCRIBED') {
+                    await channel.track({
+                        online_at: new Date().toISOString(),
+                        is_typing: false
+                    });
+                }
+            });
+
+        return channel;
+    },
+
+    async updatePresenceTyping(channel, isTyping) {
+        if (!channel) return;
+        return channel.track({
+            online_at: new Date().toISOString(),
+            is_typing: isTyping
+        });
     },
 
     // Autenticación

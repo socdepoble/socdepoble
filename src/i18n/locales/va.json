@@ -5,6 +5,8 @@
         "send": "Enviar",
         "write_message": "Escriu un missatge...",
         "online": "En línia",
+        "offline": "Desconnectat",
+        "typing": "Escrivint...",
         "soon": "Pròximament...",
         "search": "Buscar...",
         "search_placeholder": "Cerca poble, comarca o província...",

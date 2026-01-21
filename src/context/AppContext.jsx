@@ -14,6 +14,8 @@ export const AppProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+    const [impersonatedProfile, setImpersonatedProfile] = useState(null);
+    const [activeEntityId, setActiveEntityId] = useState(null); // Managed entity
 
     useEffect(() => {
         document.documentElement.setAttribute('data-theme', theme);
@@ -139,7 +141,12 @@ export const AppProvider = ({ children }) => {
             logout,
             loginWithGoogle,
             isCreateModalOpen,
-            setIsCreateModalOpen
+            setIsCreateModalOpen,
+            isSuperAdmin: profile?.is_super_admin || user?.email === 'socdepoblecom@gmail.com',
+            impersonatedProfile,
+            setImpersonatedProfile,
+            activeEntityId,
+            setActiveEntityId
         }}>
             {children}
         </AppContext.Provider>

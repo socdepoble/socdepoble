@@ -12,16 +12,16 @@ const PREDEFINED_TAGS = ['Esdeveniment', 'Avís', 'Consulta', 'Proposta'];
 
 const CreatePostModal = ({ isOpen, onClose, onPostCreated, isPrivateInitial = false }) => {
     const { t } = useTranslation();
-    const { profile, user } = useAppContext();
+    const { profile, user, impersonatedProfile } = useAppContext();
     const [content, setContent] = useState('');
     const [loading, setLoading] = useState(false);
     const [selectedTags, setSelectedTags] = useState([]);
     const [privacy, setPrivacy] = useState(isPrivateInitial ? 'groups' : 'public');
     const [selectedIdentity, setSelectedIdentity] = useState({
-        id: 'user',
-        name: profile?.full_name || 'Jo',
-        type: 'user',
-        avatar_url: profile?.avatar_url
+        id: impersonatedProfile ? impersonatedProfile.id : 'user',
+        name: impersonatedProfile ? impersonatedProfile.full_name : (profile?.full_name || 'Jo'),
+        type: impersonatedProfile ? impersonatedProfile.role : 'user',
+        avatar_url: impersonatedProfile ? impersonatedProfile.avatar_url : profile?.avatar_url
     });
 
     useEffect(() => {
@@ -30,18 +30,27 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated, isPrivateInitial = fa
         }
     }, [isOpen, isPrivateInitial]);
 
-    // Use useEffect for resetting identity when profile loads or modal opens
+    // Use useEffect for resetting identity when profile/impersonation loads or modal opens
     useEffect(() => {
-        if (isOpen && profile && selectedIdentity.id === 'user') {
-            setSelectedIdentity({
-                id: 'user',
-                name: profile.full_name || 'Jo',
-                type: 'user',
-                avatar_url: profile.avatar_url
-            });
+        if (isOpen) {
+            if (impersonatedProfile) {
+                setSelectedIdentity({
+                    id: impersonatedProfile.id,
+                    name: impersonatedProfile.full_name,
+                    type: impersonatedProfile.role,
+                    avatar_url: impersonatedProfile.avatar_url
+                });
+            } else if (profile && (selectedIdentity.id === 'user' || !selectedIdentity.id)) {
+                setSelectedIdentity({
+                    id: 'user',
+                    name: profile.full_name || 'Jo',
+                    type: 'user',
+                    avatar_url: profile.avatar_url
+                });
+            }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isOpen, profile]);
+    }, [isOpen, profile, impersonatedProfile]);
 
     if (!isOpen) return null;
 
