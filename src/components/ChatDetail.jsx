@@ -198,12 +198,14 @@ const ChatDetail = () => {
             </div>
 
             <form className="chat-input-area" onSubmit={handleSendMessage}>
-                <input
-                    type="text"
-                    placeholder={t('common.write_message')}
-                    value={newMessage}
-                    onChange={handleTyping}
-                />
+                <div className="chat-input-wrapper">
+                    <input
+                        type="text"
+                        placeholder={t('common.write_message')}
+                        value={newMessage}
+                        onChange={handleTyping}
+                    />
+                </div>
                 <button type="submit" className="send-button" disabled={!newMessage.trim()}>
                     <Send size={20} />
                 </button>
