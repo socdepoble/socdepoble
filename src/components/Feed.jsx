@@ -210,7 +210,7 @@ const Feed = ({ townId = null, hideHeader = false }) => {
                         const isConnected = !!connection;
 
                         return (
-                            <article key={pid} className="post-card">
+                            <article key={pid} className="universal-card post-card">
                                 <div className="card-header">
                                     <div className="header-left">
                                         <div className="post-avatar" style={{ backgroundColor: getAvatarColor(post.author_role) }}>
@@ -225,9 +225,9 @@ const Feed = ({ townId = null, hideHeader = false }) => {
                                 </div>
 
                                 <div className="card-content">
-                                    <p>{post.content}</p>
+                                    <p className="post-text">{post.content}</p>
                                     {post.image_url && (
-                                        <div className="post-image">
+                                        <div className="card-image-wrapper">
                                             <img src={post.image_url} alt="Post content" />
                                         </div>
                                     )}

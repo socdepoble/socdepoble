@@ -109,10 +109,10 @@ const Market = ({ townId = null, hideHeader = false }) => {
                     items.map(item => {
                         const iid = item.uuid || item.id;
                         return (
-                            <div key={iid} className="market-item">
-                                <div className="item-image">
+                            <div key={iid} className="universal-card market-item">
+                                <div className="card-image-wrapper">
                                     <img src={item.image_url} alt={item.title} />
-                                    <span className="item-tag">{item.tag}</span>
+                                    <span className="pill-badge item-tag">{item.tag}</span>
                                     <button
                                         className={`fav-btn ${userFavorites[iid] ? 'active' : ''}`}
                                         onClick={() => handleFavorite(iid)}
@@ -121,8 +121,10 @@ const Market = ({ townId = null, hideHeader = false }) => {
                                     </button>
                                 </div>
                                 <div className="item-details">
-                                    <h3 className="item-title">{item.title}</h3>
-                                    <p className="item-seller">{item.seller}</p>
+                                    <div className="item-header-info">
+                                        <h3 className="item-title">{item.title}</h3>
+                                        <p className="item-seller">{item.seller}</p>
+                                    </div>
                                     <div className="item-footer">
                                         <span className="item-price">{item.price}</span>
                                         <button className="add-btn">

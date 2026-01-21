@@ -90,17 +90,17 @@ const Towns = () => {
                                 to={`/pobles/${town.uuid || town.id}`}
                                 className={`town-card-link ${(town.uuid === profile?.town_uuid || town.id === profile?.town_id) ? 'is-user-town' : ''}`}
                             >
-                                <div className="town-card">
-                                    <img
-                                        src={town.image_url || 'https://images.unsplash.com/photo-1541890289-b86df5b6fea1?auto=format&fit=crop&q=80'}
-                                        alt={town.name}
-                                        className="town-image-bg"
-                                    />
-                                    <div className="town-overlay"></div>
-                                    <div className="town-info">
+                                <div className="universal-card town-card">
+                                    <div className="card-image-wrapper">
+                                        <img
+                                            src={town.image_url || 'https://images.unsplash.com/photo-1541890289-b86df5b6fea1?auto=format&fit=crop&q=80'}
+                                            alt={town.name}
+                                        />
                                         {(town.uuid === profile?.town_uuid || town.id === profile?.town_id) && (
-                                            <div className="user-town-badge">{t('towns.your_town') || 'El teu poble'}</div>
+                                            <div className="pill-badge accent user-town-badge">{t('towns.your_town') || 'El teu poble'}</div>
                                         )}
+                                    </div>
+                                    <div className="town-info">
                                         <div className="town-header">
                                             {town.logo_url && (
                                                 <img src={town.logo_url} alt="Escut" className="town-logo-mini" />
@@ -111,7 +111,7 @@ const Towns = () => {
                                         <div className="town-stats">
                                             <span className="stat-item">
                                                 <Users size={14} />
-                                                {town.population?.toLocaleString()} hab.
+                                                {town.population?.toLocaleString()}
                                             </span>
                                             <ChevronRight size={16} className="card-arrow" />
                                         </div>

@@ -6,7 +6,16 @@
   --color-primary-soft: #EEF2FF;
   --color-secondary: #E07A5F;
   /* Keep the terracotta as brand accent */
-  --color-accent: #FFD166;
+  /* Dribbble Style Tokens */
+  --card-radius: 28px;
+  --image-radius: 20px;
+  --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+  --card-shadow-hover: 0 15px 40px rgba(0, 0, 0, 0.08);
+  --bg-app: #F8F9FB;
+  /* Soft off-white for cards to pop */
+  --text-body: #4A4A4A;
+  --color-pill-bg: #F2F2F7;
+  --color-pill-text: #636366;
   --color-success: #4CAF50;
   --color-warning: #FF9800;
   --color-error: #FF5252;
