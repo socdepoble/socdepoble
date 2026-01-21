@@ -25,10 +25,7 @@ export const AppProvider = ({ children }) => {
     };
 
     const loginAsGuest = () => {
-        if (import.meta.env.PROD) {
-            console.warn('[AppContext] Intent de login com a guest en producció bloquejat.');
-            return;
-        }
+        // Habilitat en producció per a auditoria (Fase 4)
 
         const demoId = DEMO_USER_ID;
         setUser({ id: demoId, email: 'vei@socdepoble.net', isDemo: true });

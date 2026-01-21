@@ -41,66 +41,62 @@ const Login = () => {
 
                 <div className="demo-login-wrapper">
                     <button onClick={handleGuestLogin} className="auth-button demo-primary">
-                        Entrar com a Veí (Proves / Demo)
+                        {t('auth.demo_access') || 'Entrar com a Veí (Demo)'}
                     </button>
-                    <p className="demo-hint">Fes clic ací per a provar l'app sense registrar-te</p>
+                    <p className="demo-hint">{t('auth.demo_hint') || 'Accés ràpid per a revisió sense registre'}</p>
                 </div>
 
-                <h1>{t('auth.login')}</h1>
-                <div className="demo-login-wrapper">
+                <div className="auth-divider">
+                    <span>o bé inicia sessió</span>
+                </div>
 
-                    {error && <div className="auth-error">{error}</div>}
+                {error && <div className="auth-error">{error}</div>}
 
-                    <form onSubmit={handleLogin}>
-                        <div className="form-group">
-                            <label>{t('auth.email')}</label>
-                            <input
-                                type="email"
-                                placeholder="usuari@exemple.com"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                required
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label>{t('auth.password')}</label>
-                            <input
-                                type="password"
-                                placeholder="••••••••"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                required
-                            />
-                        </div>
-
-                        <button type="submit" className="auth-button" disabled={loading}>
-                            {loading ? t('common.loading') : t('auth.signIn')}
-                        </button>
-                    </form>
-
-                    <div className="auth-divider">
-                        <span>o bé</span>
+                <form onSubmit={handleLogin} className="auth-form">
+                    <div className="form-group">
+                        <label>{t('auth.email')}</label>
+                        <input
+                            type="email"
+                            placeholder="usuari@exemple.com"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>{t('auth.password')}</label>
+                        <input
+                            type="password"
+                            placeholder="••••••••"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                        />
                     </div>
 
-                    <div className="social-auth-section">
-                        <button
-                            onClick={async () => {
-                                try {
-                                    await loginWithGoogle();
-                                } catch (err) {
-                                    setError(err.message);
-                                }
-                            }}
-                            className="auth-button google-auth"
-                        >
-                            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" />
-                            Continua amb Google
-                        </button>
-                    </div>
+                    <button type="submit" className="auth-button" disabled={loading}>
+                        {loading ? t('common.loading') : t('auth.signIn')}
+                    </button>
+                </form>
 
-                    <div className="auth-footer">
-                        {t('auth.noAccount')} <Link to="/register">{t('auth.signUp')}</Link>
-                    </div>
+                <div className="social-auth-section">
+                    <button
+                        onClick={async () => {
+                            try {
+                                await loginWithGoogle();
+                            } catch (err) {
+                                setError(err.message);
+                            }
+                        }}
+                        className="auth-button google-auth"
+                    >
+                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" />
+                        {t('auth.continue_google') || 'Continua amb Google'}
+                    </button>
+                </div>
+
+                <div className="auth-footer">
+                    {t('auth.noAccount')} <Link to="/register">{t('auth.signUp')}</Link>
                 </div>
             </div>
         </div>

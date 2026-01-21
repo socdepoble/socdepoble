@@ -3,18 +3,20 @@
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    background: linear-gradient(135deg, var(--color-primary) 0%, #2a5298 100%);
+    background: radial-gradient(circle at center, #1a1b23 0%, #08090a 100%);
     padding: 20px;
 }
 
 .auth-card {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
+    background: rgba(23, 25, 35, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     width: 100%;
     max-width: 400px;
-    padding: 32px;
-    border-radius: 24px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    padding: 40px 32px;
+    border-radius: 32px;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     text-align: center;
 }
 
@@ -36,10 +38,11 @@
 }
 
 .auth-card h1 {
-    color: var(--color-primary);
-    font-size: 2rem;
-    margin-bottom: 8px;
+    color: white;
+    font-size: 1.75rem;
+    margin-bottom: 24px;
     font-weight: 800;
+    letter-spacing: -0.5px;
 }
 
 .auth-subtitle {
@@ -54,25 +57,30 @@
 
 .form-group label {
     display: block;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 600;
     margin-bottom: 8px;
-    color: #444;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .form-group input {
     width: 100%;
-    padding: 12px 16px;
-    border: 2px solid #eee;
-    border-radius: 12px;
+    padding: 14px 18px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
     font-size: 1rem;
-    transition: all 0.3s ease;
+    color: white;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .form-group input:focus {
     outline: none;
     border-color: var(--color-primary);
-    box-shadow: 0 0 0 4px rgba(30, 60, 114, 0.1);
+    background: rgba(255, 255, 255, 0.06);
+    box-shadow: 0 0 0 4px rgba(93, 95, 239, 0.15);
 }
 
 .auth-button {
@@ -130,18 +138,18 @@
 }
 
 .demo-login-wrapper {
-    margin: 4px 0 24px 0;
-    padding: 12px;
-    background: #f0f4ff;
-    border: 1px solid #dbeafe;
-    border-radius: 16px;
-    transition: all 0.2s ease;
+    margin: 4px 0 32px 0;
+    padding: 20px;
+    background: rgba(93, 95, 239, 0.08);
+    border: 1px solid rgba(93, 95, 239, 0.2);
+    border-radius: 20px;
+    transition: all 0.3s ease;
 }
 
 .demo-login-wrapper:hover {
-    background: #eef2ff;
+    background: rgba(93, 95, 239, 0.12);
     transform: translateY(-2px);
-    box-shadow: var(--shadow-sm);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
 }
 
 .auth-button.demo-primary {
@@ -186,15 +194,16 @@
 }
 
 .auth-footer {
-    margin-top: 24px;
+    margin-top: 32px;
     font-size: 0.95rem;
-    color: #666;
+    color: rgba(255, 255, 255, 0.5);
 }
 
 .auth-footer a {
     color: var(--color-primary);
     text-decoration: none;
     font-weight: 700;
+    margin-left: 4px;
 }
 
 .auth-footer a:hover {
