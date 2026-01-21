@@ -185,13 +185,13 @@ const TownSelectorModal = ({ isOpen, onClose, onSelect }) => {
                             {displayList.map((item, idx) => {
                                 const isTown = typeof item === 'object';
                                 const label = isTown ? item.name : item;
-                                const isSelected = isTown ? selectedTown?.id === item.id :
+                                const isSelected = isTown ? (selectedTown?.uuid === item.uuid || selectedTown?.id === item.id) :
                                     (step === 1 && selectedProvince === item) ||
                                     (step === 2 && selectedComarca === item);
 
                                 return (
                                     <button
-                                        key={isTown ? item.id : idx}
+                                        key={isTown ? (item.uuid || item.id) : idx}
                                         className={`list-item ${isSelected ? 'selected' : ''}`}
                                         onClick={() => {
                                             if (isSearching && isTown) handleSearchResultSelect(item);

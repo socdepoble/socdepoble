@@ -55,7 +55,7 @@ const Profile = () => {
         supabaseService.getTowns().then(setAllTowns);
     }, []);
 
-    const userTown = allTowns.find(t => t.id === profile?.town_id);
+    const userTown = allTowns.find(t => t.uuid === profile?.town_uuid || t.id === profile?.town_id);
     const isLoading = !user && !profile;
 
     if (isLoading) return <div className="profile-container">{t('common.loading')}</div>;
@@ -69,7 +69,9 @@ const Profile = () => {
 
     const handleTownChange = async (townId) => {
         try {
-            const updated = await supabaseService.updateProfile(user.id, { town_id: parseInt(townId) });
+            const isUuid = typeof townId === 'string' && townId.includes('-');
+            const updatePayload = isUuid ? { town_uuid: townId } : { town_id: parseInt(townId) };
+            const updated = await supabaseService.updateProfile(user.id, updatePayload);
             setProfile(updated);
             setIsEditingTown(false);
         } catch (error) {
@@ -143,7 +145,7 @@ const Profile = () => {
                     <TownSelectorModal
                         isOpen={isEditingTown}
                         onClose={() => setIsEditingTown(false)}
-                        onSelect={(town) => handleTownChange(town.id)}
+                        onSelect={(town) => handleTownChange(town.uuid || town.id)}
                     />
                 </div>
             </header>

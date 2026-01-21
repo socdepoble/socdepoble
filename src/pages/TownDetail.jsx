@@ -17,8 +17,8 @@ const TownDetail = () => {
     useEffect(() => {
         const fetchTown = async () => {
             try {
-                const data = await supabaseService.getTowns();
-                const found = data.find(t => t.id === parseInt(id));
+                const isUuid = id.includes('-');
+                const found = data.find(t => isUuid ? t.uuid === id : t.id === parseInt(id));
                 setTown(found);
             } catch (error) {
                 console.error('Error loading town:', error);
@@ -69,7 +69,7 @@ const TownDetail = () => {
                             <MessageCircle size={22} />
                             <h3>Muro de {town.name}</h3>
                         </div>
-                        <Feed townId={town.id} hideHeader={true} />
+                        <Feed townId={town.uuid || town.id} hideHeader={true} />
                     </section>
 
                     <section className="town-market-section">
@@ -77,7 +77,7 @@ const TownDetail = () => {
                             <ShoppingBag size={22} />
                             <h3>Mercat de {town.name}</h3>
                         </div>
-                        <Market townId={town.id} hideHeader={true} />
+                        <Market townId={town.uuid || town.id} hideHeader={true} />
                     </section>
                 </div>
             </div>

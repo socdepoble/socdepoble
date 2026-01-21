@@ -43,10 +43,11 @@ const Towns = () => {
         }
 
         // Moure el poble del usuari a la segona posició (si no es la Torre)
-        if (profile?.town_id) {
-            const userTown = list.find(t => t.id === profile.town_id);
+        if (profile?.town_uuid || profile?.town_id) {
+            const userTownId = profile.town_uuid || profile.town_id;
+            const userTown = list.find(t => t.uuid === userTownId || t.id === userTownId);
             if (userTown && userTown.name !== 'La Torre de les Maçanes') {
-                const rest = list.filter(t => t.id !== profile.town_id && t.name !== 'La Torre de les Maçanes');
+                const rest = list.filter(t => (t.uuid !== userTownId && t.id !== userTownId) && t.name !== 'La Torre de les Maçanes');
                 list = [list[0], userTown, ...rest];
             }
         }
@@ -85,9 +86,9 @@ const Towns = () => {
                     <div className="towns-grid">
                         {sortedTowns.map(town => (
                             <Link
-                                key={town.id}
-                                to={`/pobles/${town.id}`}
-                                className={`town-card-link ${town.id === profile?.town_id ? 'is-user-town' : ''}`}
+                                key={town.uuid || town.id}
+                                to={`/pobles/${town.uuid || town.id}`}
+                                className={`town-card-link ${(town.uuid === profile?.town_uuid || town.id === profile?.town_id) ? 'is-user-town' : ''}`}
                             >
                                 <div className="town-card">
                                     <img
@@ -97,7 +98,7 @@ const Towns = () => {
                                     />
                                     <div className="town-overlay"></div>
                                     <div className="town-info">
-                                        {town.id === profile?.town_id && (
+                                        {(town.uuid === profile?.town_uuid || town.id === profile?.town_id) && (
                                             <div className="user-town-badge">{t('towns.your_town') || 'El teu poble'}</div>
                                         )}
                                         <div className="town-header">

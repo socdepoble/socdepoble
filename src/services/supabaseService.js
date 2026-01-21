@@ -116,7 +116,9 @@ export const supabaseService = {
             }
 
             if (townId) {
-                query = query.eq('town_id', townId);
+                // Durante la transición, aceptamos ID numérico o UUID
+                const field = (typeof townId === 'string' && townId.includes('-')) ? 'town_uuid' : 'town_id';
+                query = query.eq(field, townId);
             }
 
             const { data, error } = await query;
@@ -165,7 +167,8 @@ export const supabaseService = {
         }
 
         if (townId) {
-            query = query.eq('town_id', townId);
+            const field = (typeof townId === 'string' && townId.includes('-')) ? 'town_uuid' : 'town_id';
+            query = query.eq(field, townId);
         }
 
         const { data, error } = await query;

@@ -81,7 +81,8 @@ function App() {
               comments_count: post.comments || 0,
               connections_count: 0,
               image_url: post.image,
-              town_id: post.town_id || null,
+              town_id: typeof post.town_id === 'number' ? post.town_id : null,
+              town_uuid: typeof post.town_id === 'string' ? post.town_id : null,
               created_at: new Date().toISOString()
             }))
           );
@@ -98,7 +99,8 @@ function App() {
               seller: item.seller,
               image_url: item.image,
               tag: item.tag,
-              town_id: item.town_id || null
+              town_id: typeof item.town_id === 'number' ? item.town_id : null,
+              town_uuid: typeof item.town_id === 'string' ? item.town_id : null,
             }))
           );
           seeded = true;
