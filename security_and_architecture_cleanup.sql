@@ -192,12 +192,20 @@ CREATE INDEX IF NOT EXISTS idx_market_town ON market_items(town_id);
 -- 7. INTEGRITAT REFERENCIAL ADICIONAL
 -- ---------------------------------------------------------
 
-ALTER TABLE posts 
-    ADD CONSTRAINT fk_posts_town 
-    FOREIGN KEY (town_id) REFERENCES towns(id) ON DELETE SET NULL;
+DO $$ BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'fk_posts_town') THEN
+        ALTER TABLE posts 
+            ADD CONSTRAINT fk_posts_town 
+            FOREIGN KEY (town_id) REFERENCES towns(id) ON DELETE SET NULL;
+    END IF;
+END $$;
     
-ALTER TABLE market_items 
-    ADD CONSTRAINT fk_market_town 
-    FOREIGN KEY (town_id) REFERENCES towns(id) ON DELETE SET NULL;
+DO $$ BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'fk_market_town') THEN
+        ALTER TABLE market_items 
+            ADD CONSTRAINT fk_market_town 
+            FOREIGN KEY (town_id) REFERENCES towns(id) ON DELETE SET NULL;
+    END IF;
+END $$;
 
 COMMIT;
