@@ -253,13 +253,25 @@ export const supabaseService = {
     },
 
     async getProfile(userId) {
-        const { data, error } = await supabase
-            .from('profiles')
-            .select('*')
-            .eq('id', userId)
-            .single();
-        if (error) throw error;
-        return data;
+        try {
+            const { data, error } = await supabase
+                .from('profiles')
+                .select('*')
+                .eq('id', userId)
+                .single();
+
+            if (error) {
+                if (error.code === 'PGRST116') {
+                    console.log(`[SupabaseService] No profile found for user ${userId}, returning null`);
+                    return null;
+                }
+                throw error;
+            }
+            return data;
+        } catch (err) {
+            console.error('[SupabaseService] Error in getProfile:', err);
+            return null;
+        }
     },
 
     // Conexiones (Antiguos Likes)

@@ -56,8 +56,16 @@ const Profile = () => {
     }, []);
 
     const userTown = allTowns.find(t => t.id === profile?.town_id);
+    const isLoading = !user && !profile;
 
-    if (!profile) return <div className="profile-container">{t('common.loading')}</div>;
+    if (isLoading) return <div className="profile-container">{t('common.loading')}</div>;
+
+    // Si no hay perfil pero hay usuario, mostramos una versión "mínima" para que no se cuelgue
+    const displayProfile = profile || {
+        full_name: user?.email?.split('@')[0] || 'Usuari',
+        avatar_url: null,
+        town_id: null
+    };
 
     const handleTownChange = async (townId) => {
         try {
@@ -100,14 +108,14 @@ const Profile = () => {
                 <div className="profile-main-info">
                     <div className="avatar-wrapper">
                         <div className="avatar-big">
-                            {profile.avatar_url ? (
-                                <img src={profile.avatar_url} alt="Profile" />
+                            {displayProfile.avatar_url ? (
+                                <img src={displayProfile.avatar_url} alt="Profile" />
                             ) : (
                                 <User size={40} color="white" />
                             )}
                         </div>
                     </div>
-                    <h2>{profile.full_name || 'Usuari'}</h2>
+                    <h2>{displayProfile.full_name || 'Usuari'}</h2>
 
                     {user?.isDemo && (
                         <div className="demo-badge">
@@ -124,7 +132,7 @@ const Profile = () => {
 
                         <div className="additional-towns-section">
                             {/* Prototipo: Solo mostramos el principal por ahora */}
-                            {allTowns.length > 0 && !profile.town_id && (
+                            {allTowns.length > 0 && !displayProfile.town_id && (
                                 <button className="add-town-btn-inline" onClick={() => setIsEditingTown(true)}>
                                     <Plus size={14} /> {t('nav.add_town') || 'Afegir poble'}
                                 </button>
