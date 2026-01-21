@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAppContext } from '../context/AppContext';
-import { User, Search, Bell } from 'lucide-react';
+import { User, Search, Bell, LogOut } from 'lucide-react';
 import './Header.css';
 
 const Header = () => {
-    const { profile, toggleLanguage, language } = useAppContext();
+    const { profile, toggleLanguage, language, logout } = useAppContext();
     const logoSrc = '/logo_dark.png';
 
     return (
@@ -22,6 +22,10 @@ const Header = () => {
 
                     <button onClick={toggleLanguage} className="header-lang-switcher">
                         <span>{language.toUpperCase()}</span>
+                    </button>
+
+                    <button className="header-logout-btn" onClick={logout} title="Desconnectar">
+                        <LogOut size={22} color="white" />
                     </button>
 
                     <Link to="/notificacions" className="header-notif-btn">

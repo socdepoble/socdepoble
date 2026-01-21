@@ -61,10 +61,13 @@ export const AppProvider = ({ children }) => {
                 setUser(session.user);
                 localStorage.removeItem('isDemoMode');
                 try {
+                    console.log('[AppContext] User logged in, fetching profile for:', session.user.id);
                     const profileData = await supabaseService.getProfile(session.user.id);
                     setProfile(profileData);
+                    console.log('[AppContext] Profile loaded successfully');
                 } catch (error) {
-                    console.error('Error loading profile:', error);
+                    console.error('[AppContext] Error loading profile:', error);
+                    // No bloqueamos la app si falla el perfil, permitimos que siga pero informamos
                 }
                 setLoading(false);
             } else if (localStorage.getItem('isDemoMode') === 'true') {

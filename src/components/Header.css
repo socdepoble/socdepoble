@@ -48,6 +48,7 @@
 
 .header-actions button,
 .header-actions .header-notif-btn,
+.header-actions .header-logout-btn,
 .header-actions .profile-link {
     width: 40px;
     height: 40px;
@@ -61,7 +62,8 @@
 }
 
 .header-actions button:hover,
-.header-actions .header-notif-btn:hover {
+.header-actions .header-notif-btn:hover,
+.header-actions .header-logout-btn:hover {
     background-color: rgba(255, 255, 255, 0.1);
     color: var(--color-primary);
 }
@@ -78,7 +80,8 @@
 }
 
 .header-search-btn svg,
-.header-notif-btn svg {
+.header-notif-btn svg,
+.header-logout-btn svg {
     color: #F7FAFC;
     /* Consistently white */
 }
