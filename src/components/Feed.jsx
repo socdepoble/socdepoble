@@ -29,7 +29,6 @@ const getAvatarColor = (type) => {
 };
 
 const Feed = () => {
-    console.log('[Feed] Component mounting/rendering');
     const { t } = useTranslation();
     const { user } = useAppContext();
     const [posts, setPosts] = useState([]);
@@ -43,7 +42,6 @@ const Feed = () => {
     const [error, setError] = useState(null);
 
     const fetchPosts = useCallback(async () => {
-        console.log('[Feed] fetchPosts triggered for role:', selectedRole);
         setLoading(true);
         setError(null);
         try {

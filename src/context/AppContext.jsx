@@ -55,31 +55,36 @@ export const AppProvider = ({ children }) => {
     };
 
     useEffect(() => {
+        let isMounted = true;
+
         // Escuchar cambios de autenticación
         const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+            console.log('[AppContext] Auth State Change:', event, session?.user?.id);
+
+            if (!isMounted) return;
+
             if (session?.user) {
                 setUser(session.user);
                 localStorage.removeItem('isDemoMode');
                 try {
-                    console.log('[AppContext] User logged in, fetching profile for:', session.user.id);
                     const profileData = await supabaseService.getProfile(session.user.id);
-                    setProfile(profileData);
-                    console.log('[AppContext] Profile loaded successfully');
+                    if (isMounted) setProfile(profileData);
                 } catch (error) {
                     console.error('[AppContext] Error loading profile:', error);
-                    // No bloqueamos la app si falla el perfil, permitimos que siga pero informamos
                 }
-                setLoading(false);
             } else if (localStorage.getItem('isDemoMode') === 'true') {
                 loginAsGuest();
             } else {
                 setUser(null);
                 setProfile(null);
-                setLoading(false);
             }
+
+            // Siempre quitamos el estado de carga después del primer evento
+            setLoading(false);
         });
 
         return () => {
+            isMounted = false;
             subscription.unsubscribe();
         };
     }, []);
