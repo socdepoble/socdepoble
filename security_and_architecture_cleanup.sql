@@ -51,15 +51,15 @@ DROP POLICY IF EXISTS "Users delete items" ON market_items;
 -- Això és necessari perquè les columnes user_id solen ser NOT NULL.
 
 DELETE FROM connection_tags 
-WHERE user_id !~ '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+WHERE user_id::text !~ '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
    OR user_id::UUID NOT IN (SELECT id FROM auth.users);
 
 DELETE FROM post_connections 
-WHERE user_id !~ '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+WHERE user_id::text !~ '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
    OR user_id::UUID NOT IN (SELECT id FROM auth.users);
 
 -- També netegem posts i mercat de dades demo per a la Foreign Key posterior
-UPDATE posts SET author_id = NULL WHERE author_id !~ '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$';
+UPDATE posts SET author_id = NULL WHERE author_id::text !~ '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$';
 
 
 -- 2. CONVERSIÓ DE TIPUS (ARA JA SENSE DADES INVÀLIDES)
@@ -77,7 +77,7 @@ ALTER TABLE IF EXISTS connection_tags
 DO $$ 
 BEGIN
     IF (SELECT data_type FROM information_schema.columns WHERE table_name = 'user_tags' AND column_name = 'user_id') = 'text' THEN
-        DELETE FROM user_tags WHERE user_id !~ '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$';
+        DELETE FROM user_tags WHERE user_id::text !~ '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$';
         ALTER TABLE user_tags ALTER COLUMN user_id TYPE UUID USING user_id::UUID;
     END IF;
 END $$;
