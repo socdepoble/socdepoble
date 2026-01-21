@@ -8,33 +8,35 @@ BEGIN;
 
 -- 0. NETEJA EXHAUSTIVA DE POLÍTIQUES
 -- ---------------------------------------------------------
-DROP POLICY IF EXISTS "Users can insert their own connections" ON post_connections;
-DROP POLICY IF EXISTS "Users can update their own connections" ON post_connections;
-DROP POLICY IF EXISTS "Users can delete their own connections" ON post_connections;
-DROP POLICY IF EXISTS "Users can delete own connections" ON post_connections;
-DROP POLICY IF EXISTS "Anyone can insert connections" ON post_connections;
-DROP POLICY IF EXISTS "Visibility Policy" ON post_connections;
 DROP POLICY IF EXISTS "Users manage own connections" ON post_connections;
 
 DROP POLICY IF EXISTS "Private Tags Access" ON connection_tags;
 DROP POLICY IF EXISTS "Users can manage their own connection tags" ON connection_tags;
 
+DROP POLICY IF EXISTS "Users manage own tags" ON user_tags;
 DROP POLICY IF EXISTS "Users can view their own tags" ON user_tags;
 DROP POLICY IF EXISTS "Users can insert their own tags" ON user_tags;
 DROP POLICY IF EXISTS "Users can delete their own tags" ON user_tags;
-DROP POLICY IF EXISTS "Users manage own tags" ON user_tags;
 
-DROP POLICY IF EXISTS "Profiles are viewable by everyone" ON profiles;
-DROP POLICY IF EXISTS "Users can update their own profile" ON profiles;
 DROP POLICY IF EXISTS "Public profiles" ON profiles;
 DROP POLICY IF EXISTS "Own profile update" ON profiles;
+DROP POLICY IF EXISTS "Profiles are viewable by everyone" ON profiles;
+DROP POLICY IF EXISTS "Users can update their own profile" ON profiles;
 
+DROP POLICY IF EXISTS "Public posts viewable" ON posts;
+DROP POLICY IF EXISTS "Users insert posts" ON posts;
+DROP POLICY IF EXISTS "Users update posts" ON posts;
+DROP POLICY IF EXISTS "Users delete posts" ON posts;
 DROP POLICY IF EXISTS "Public posts are viewable by everyone" ON posts;
 DROP POLICY IF EXISTS "Authenticated users can create posts" ON posts;
 DROP POLICY IF EXISTS "Users can update own posts" ON posts;
 DROP POLICY IF EXISTS "Users can delete own posts" ON posts;
 DROP POLICY IF EXISTS "Users can insert own posts" ON posts;
 
+DROP POLICY IF EXISTS "Public items seeable" ON market_items;
+DROP POLICY IF EXISTS "Users insert items" ON market_items;
+DROP POLICY IF EXISTS "Users update items" ON market_items;
+DROP POLICY IF EXISTS "Users delete items" ON market_items;
 DROP POLICY IF EXISTS "Public market_items are viewable by everyone" ON market_items;
 DROP POLICY IF EXISTS "Authenticated users can create items" ON market_items;
 DROP POLICY IF EXISTS "Users can update own items" ON market_items;
