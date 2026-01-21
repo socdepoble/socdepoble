@@ -60,25 +60,30 @@
     flex: 1;
     overflow-y: auto;
     padding: var(--space-md);
+    padding-bottom: 100px;
+    /* Space for the fixed input area */
     display: flex;
     flex-direction: column;
     gap: var(--space-sm);
     background-color: var(--bg-main);
-    /* Subtle background pattern could go here */
 }
 
-/* WhatsApp-style Input Area */
+/* WhatsApp-style Input Area - Locked to Bottom */
 .chat-input-area {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: var(--mobile-width);
     padding: var(--space-sm);
-    background-color: transparent;
+    background-color: var(--bg-main);
+    /* Match background for seamless look */
     display: flex;
     align-items: flex-end;
     gap: var(--space-sm);
     flex-shrink: 0;
-    width: 100%;
-    max-width: var(--mobile-width);
-    margin: 0 auto;
-    position: relative;
+    z-index: 30;
     padding-bottom: calc(var(--space-sm) + env(safe-area-inset-bottom));
 }
 
