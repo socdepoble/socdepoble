@@ -41,10 +41,23 @@ CREATE TABLE IF NOT EXISTS towns (
 
 INSERT INTO towns (name, description, logo_url, population) 
 VALUES 
-('Altea', 'La cúpula del Mediterrani. Un poble amb encant, cases blanques i carrers empedrats.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Escut_d%27Altea.svg/1200px-Escut_d%27Altea.svg.png', 23000),
-('Dénia', 'Capital de la Marina Alta. Famosa pel seu castell, el port i la seua gastronomia (la gamba roja).', 'https://upload.wikimedia.org/wikipedia/commons/2/2a/Escudo_de_Denia.svg', 43000),
-('Xàbia', 'On surt el sol a la Comunitat Valenciana. Amb cales impressionants i el Montgó dominant el paisatge.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Escut_de_X%C3%A0bia.svg/1200px-Escut_de_X%C3%A0bia.svg.png', 28000),
-('Bocairent', 'Un poble tallat a la roca. Declarat conjunt historicoartístic nacional.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Escut_de_Bocairent.svg/1200px-Escut_de_Bocairent.svg.png', 4200)
+-- Comtat
+('Cocentaina', 'Capital del Comtat. Vila comtal amb una fira mil·lenària i un patrimoni medieval heroic.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Escut_de_Cocentaina.svg/1200px-Escut_de_Cocentaina.svg.png', 11500),
+('Muro d''Alcoi', 'Porta de la Vall d''Albaida. Conegut pel seu esperit emprenedor i les seues festes de Moros i Cristians.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Escut_de_Muro.svg/1200px-Escut_de_Muro.svg.png', 9300),
+('Beniarrés', 'Als peus del Benicadell i vora l''embassament. Un paratge natural incomparable al cor de la serra.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Escut_de_Beniarr%C3%A9s.svg/1200px-Escut_de_Beniarr%C3%A9s.svg.png', 1100),
+('Agres', 'Poble de muntanya famós per la seua cava de neu i el santuari de la Mare de Déu d''Agres.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Escut_d%27Agres.svg/1200px-Escut_d%27Agres.svg.png', 500),
+
+-- L''Alcoià
+('Alcoi', 'La ciutat dels ponts. Bressol de la Revolució Industrial i de la festa de Moros i Cristians més antiga.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Escut_d%27Alcoi.svg/1200px-Escut_d%27Alcoi.svg.png', 59000),
+('Ibi', 'La ciutat del joguet. On la il·lusió es fabrica tot l''any i els Reis Mags tenen casa.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Escut_d%27Ibi.svg/1200px-Escut_d%27Ibi.svg.png', 23500),
+('Banyeres de Mariola', 'El poble més alt de la província d''Alacant, enclavat en el Parc Natural de la Serra Mariola.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Escut_de_Banyeres_de_Mariola.svg/1200px-Escut_de_Banyeres_de_Mariola.svg.png', 7000),
+
+-- Altres regions
+('Ontinyent', 'Capital de la Vall d''Albaida. Ciutat industrial amb un barri antic ple d''història, la Vila.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Escut_d%27Ontinyent.svg/1200px-Escut_d%27Ontinyent.svg.png', 35000),
+('Gandia', 'Cor de la Safor. Ciutat dels Borja amb una platja inmensa i un llegat cultural immens.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Escut_de_Gandia.svg/1200px-Escut_de_Gandia.svg.png', 75000),
+('Dénia', 'Capital de la Marina Alta. Ciutat Creativa de la Gastronomia per la UNESCO i port històric.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Escut_de_D%C3%A9nia.svg/1200px-Escut_de_D%C3%A9nia.svg.png', 43000),
+('València', 'Cap i Casal del Regne. Ciutat de les arts, les falles i la llum del Mediterrani.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Escudo_de_Valencia.svg/1200px-Escudo_de_Valencia.svg.png', 800000),
+('Barcelona', 'Capital de Catalunya. Metròpolis modernista, cultural i vibrant oberta al món.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Escut_de_Barcelona.svg/1200px-Escut_de_Barcelona.svg.png', 1600000)
 ON CONFLICT (id) DO NOTHING;
 
 ALTER TABLE towns ENABLE ROW LEVEL SECURITY;
