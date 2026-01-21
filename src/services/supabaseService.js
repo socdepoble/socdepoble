@@ -182,7 +182,8 @@ export const supabaseService = {
             .insert([{
                 ...itemData,
                 author_user_id: itemData.author_user_id || itemData.seller_id,
-                author_role: itemData.author_role || itemData.seller_role // Compatibility
+                author_role: itemData.author_role || itemData.seller_role, // Compatibility
+                seller_entity_id: itemData.author_entity_id || itemData.seller_entity_id // Internal mapping
             }])
             .select();
         if (error) throw error;
