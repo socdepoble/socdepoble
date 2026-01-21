@@ -47,7 +47,7 @@ const Login = () => {
                 </div>
 
                 <div className="auth-divider">
-                    <span>o bé inicia sessió</span>
+                    <span>{t('auth.or_sign_in')}</span>
                 </div>
 
                 {error && <div className="auth-error">{error}</div>}
@@ -57,7 +57,7 @@ const Login = () => {
                         <label>{t('auth.email')}</label>
                         <input
                             type="email"
-                            placeholder="usuari@exemple.com"
+                            placeholder={t('auth.email_placeholder')}
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required

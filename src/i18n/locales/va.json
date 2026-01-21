@@ -92,7 +92,9 @@
         "logout": "Ix",
         "demo_access": "Entra com a veí (Demo)",
         "demo_hint": "Accés ràpid per a revisió sense registre",
-        "continue_google": "Continua amb Google"
+        "continue_google": "Continua amb Google",
+        "or_sign_in": "o bé inicia sessió",
+        "email_placeholder": "usuari@exemple.com"
     },
     "notifications": {
         "title": "Notificacions",
