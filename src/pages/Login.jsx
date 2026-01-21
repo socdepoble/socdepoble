@@ -37,7 +37,7 @@ const Login = () => {
     return (
         <div className="auth-container">
             <div className="auth-card">
-                <img src="/logo_dark.png" alt="Logo" className="auth-logo-elongated" />
+                <img src="/logo.png" alt="Logo" className="auth-logo-elongated" />
 
                 <div className="demo-login-wrapper">
                     <button onClick={handleGuestLogin} className="auth-button demo-primary">

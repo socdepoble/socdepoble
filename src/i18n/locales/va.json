@@ -78,18 +78,21 @@
         "publish": "Publicar Article"
     },
     "auth": {
-        "login": "Iniciar Sessió",
-        "register": "Crear Compte",
+        "login": "Inicia sessió",
+        "register": "Crea un compte",
         "email": "Correu electrònic",
         "password": "Contrasenya",
         "fullName": "Nom complet",
         "username": "Nom d'usuari",
-        "signIn": "Entrar",
-        "signUp": "Registrar-se",
+        "signIn": "Entra",
+        "signUp": "Registra't",
         "noAccount": "No tens compte?",
         "haveAccount": "Ja tens compte?",
         "checkEmail": "Registre amb èxit. Per favor, revisa el teu correu per a confirmar.",
-        "logout": "Eixir"
+        "logout": "Ix",
+        "demo_access": "Entra com a veí (Demo)",
+        "demo_hint": "Accés ràpid per a revisió sense registre",
+        "continue_google": "Continua amb Google"
     },
     "notifications": {
         "title": "Notificacions",
