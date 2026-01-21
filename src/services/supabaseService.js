@@ -190,33 +190,39 @@ export const supabaseService = {
     },
 
     async getMarketFavorites(itemId) {
+        const isUuid = typeof itemId === 'string' && itemId.includes('-');
+        const field = isUuid ? 'item_uuid' : 'item_id';
+
         const { data, error } = await supabase
             .from('market_favorites')
             .select('user_id')
-            .eq('item_id', itemId); // Added missing .eq()
+            .eq(field, itemId);
         if (error) throw error;
-        return (data || []).map(fav => fav.user_id); // Corrected map property
+        return (data || []).map(fav => fav.user_id);
     },
 
     async toggleMarketFavorite(itemId, userId) {
+        const isUuid = typeof itemId === 'string' && itemId.includes('-');
+        const field = isUuid ? 'item_uuid' : 'item_id';
+
         const { data: existingFav } = await supabase
             .from('market_favorites')
             .select('*')
-            .eq('item_id', itemId)
+            .eq(field, itemId)
             .eq('user_id', userId)
-            .single();
+            .maybeSingle();
 
         if (existingFav) {
             await supabase
                 .from('market_favorites')
                 .delete()
-                .eq('item_id', itemId)
+                .eq(field, itemId)
                 .eq('user_id', userId);
             return { favorited: false };
         } else {
             await supabase
                 .from('market_favorites')
-                .insert([{ item_id: itemId, user_id: userId }]);
+                .insert([{ [field]: itemId, user_id: userId }]);
             return { favorited: true };
         }
     },

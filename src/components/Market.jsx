@@ -25,12 +25,13 @@ const Market = ({ townId = null, hideHeader = false }) => {
             if (user) {
                 const favoritesState = {};
                 for (const item of data) {
+                    const iid = item.uuid || item.id;
                     try {
-                        const favorites = await supabaseService.getMarketFavorites(item.id);
-                        favoritesState[item.id] = favorites.includes(user.id);
+                        const favorites = await supabaseService.getMarketFavorites(iid);
+                        favoritesState[iid] = favorites.includes(user.id);
                     } catch (error) {
-                        console.error(`Error loading favorites for item ${item.id}:`, error);
-                        favoritesState[item.id] = false;
+                        console.error(`Error loading favorites for item ${iid}:`, error);
+                        favoritesState[iid] = false;
                     }
                 }
                 setUserFavorites(favoritesState);
@@ -105,30 +106,33 @@ const Market = ({ townId = null, hideHeader = false }) => {
                 {items.length === 0 ? (
                     <p className="empty-message">{t('market.empty')}</p>
                 ) : (
-                    items.map(item => (
-                        <div key={item.id} className="market-item">
-                            <div className="item-image">
-                                <img src={item.image_url} alt={item.title} />
-                                <span className="item-tag">{item.tag}</span>
-                                <button
-                                    className={`fav-btn ${userFavorites[item.id] ? 'active' : ''}`}
-                                    onClick={() => handleFavorite(item.id)}
-                                >
-                                    <Heart size={20} fill={userFavorites[item.id] ? "#e91e63" : "none"} />
-                                </button>
-                            </div>
-                            <div className="item-details">
-                                <h3 className="item-title">{item.title}</h3>
-                                <p className="item-seller">{item.seller}</p>
-                                <div className="item-footer">
-                                    <span className="item-price">{item.price}</span>
-                                    <button className="add-btn">
-                                        <Plus size={16} />
+                    items.map(item => {
+                        const iid = item.uuid || item.id;
+                        return (
+                            <div key={iid} className="market-item">
+                                <div className="item-image">
+                                    <img src={item.image_url} alt={item.title} />
+                                    <span className="item-tag">{item.tag}</span>
+                                    <button
+                                        className={`fav-btn ${userFavorites[iid] ? 'active' : ''}`}
+                                        onClick={() => handleFavorite(iid)}
+                                    >
+                                        <Heart size={20} fill={userFavorites[iid] ? "#e91e63" : "none"} />
                                     </button>
                                 </div>
+                                <div className="item-details">
+                                    <h3 className="item-title">{item.title}</h3>
+                                    <p className="item-seller">{item.seller}</p>
+                                    <div className="item-footer">
+                                        <span className="item-price">{item.price}</span>
+                                        <button className="add-btn">
+                                            <Plus size={16} />
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    ))
+                        );
+                    })
                 )}
             </div>
         </div>
