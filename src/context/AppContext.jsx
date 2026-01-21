@@ -57,11 +57,9 @@ export const AppProvider = ({ children }) => {
     useEffect(() => {
         let isMounted = true;
 
-        // Escuchar cambios de autenticación
-        const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-            console.log('[AppContext] Auth State Change:', event, session?.user?.id);
-
+        const handleAuth = async (event, session) => {
             if (!isMounted) return;
+            console.log('[AppContext] Auth Event:', event, session?.user?.id);
 
             if (session?.user) {
                 setUser(session.user);
@@ -79,8 +77,20 @@ export const AppProvider = ({ children }) => {
                 setProfile(null);
             }
 
-            // Siempre quitamos el estado de carga después del primer evento
-            setLoading(false);
+            if (isMounted) setLoading(false);
+        };
+
+        // 1. Verificación inicial de sesión explícita
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            handleAuth('INITIAL_SESSION', session);
+        });
+
+        // 2. Suscripción a cambios futuros
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+            // Algunos eventos secundarios no necesitan disparar todo el proceso
+            if (event === 'SIGNED_OUT' || event === 'SIGNED_IN' || event === 'USER_UPDATED') {
+                handleAuth(event, session);
+            }
         });
 
         return () => {
