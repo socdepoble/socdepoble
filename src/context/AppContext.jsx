@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { supabase } from '../supabaseClient';
 import { supabaseService } from '../services/supabaseService';
+import { DEMO_USER_ID, AUTH_EVENTS, USER_ROLES } from '../constants';
 
 const AppContext = createContext();
 
@@ -24,13 +25,18 @@ export const AppProvider = ({ children }) => {
     };
 
     const loginAsGuest = () => {
-        const demoId = '00000000-0000-0000-0000-000000000000';
+        if (import.meta.env.PROD) {
+            console.warn('[AppContext] Intent de login com a guest en producció bloquejat.');
+            return;
+        }
+
+        const demoId = DEMO_USER_ID;
         setUser({ id: demoId, email: 'vei@socdepoble.net', isDemo: true });
         setProfile({
             id: demoId,
             full_name: 'Veí de Prova',
             username: 'veiprestat',
-            role: 'vei',
+            role: USER_ROLES.NEIGHBOR,
             is_demo: true,
             avatar_url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Demo'
         });
@@ -56,6 +62,7 @@ export const AppProvider = ({ children }) => {
 
     useEffect(() => {
         let isMounted = true;
+        let initialCheckDone = false;
 
         const handleAuth = async (event, session) => {
             if (!isMounted) return;
@@ -80,15 +87,21 @@ export const AppProvider = ({ children }) => {
             if (isMounted) setLoading(false);
         };
 
-        // 1. Verificación inicial de sesión explícita
+        // 1. Verificació inicial de sessió explícita
         supabase.auth.getSession().then(({ data: { session } }) => {
-            handleAuth('INITIAL_SESSION', session);
+            initialCheckDone = true;
+            handleAuth(AUTH_EVENTS.INITIAL_SESSION, session);
         });
 
-        // 2. Suscripción a cambios futuros
+        // 2. Suscripció a canvis futurs
         const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-            // Algunos eventos secundarios no necesitan disparar todo el proceso
-            if (event === 'SIGNED_OUT' || event === 'SIGNED_IN' || event === 'USER_UPDATED') {
+            // Ignorar SIGNED_IN durant la càrrega inicial per evitar race conditions
+            if (!initialCheckDone && event === 'SIGNED_IN') {
+                console.log('[AppContext] Ignorant SIGNED_IN duplicat durant la càrrega inicial');
+                return;
+            }
+
+            if (Object.values(AUTH_EVENTS).includes(event) || event === 'SIGNED_IN' || event === 'SIGNED_OUT') {
                 handleAuth(event, session);
             }
         });

@@ -41,23 +41,25 @@ CREATE TABLE IF NOT EXISTS towns (
 
 INSERT INTO towns (name, description, logo_url, population) 
 VALUES 
+-- L''Alacantí (Torre de les Maçanes primero por petición)
+('La Torre de les Maçanes', 'Un poble pintoresc entre muntanyes, famós pel seu pa, mels i la seua pau absoluta.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Escut_de_la_Torre_de_les_Ma%C3%A7anes.svg/1200px-Escut_de_la_Torre_de_les_Ma%C3%A7anes.svg.png', 700),
+
 -- Comtat
 ('Cocentaina', 'Capital del Comtat. Vila comtal amb una fira mil·lenària i un patrimoni medieval heroic.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Escut_de_Cocentaina.svg/1200px-Escut_de_Cocentaina.svg.png', 11500),
 ('Muro d''Alcoi', 'Porta de la Vall d''Albaida. Conegut pel seu esperit emprenedor i les seues festes de Moros i Cristians.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Escut_de_Muro.svg/1200px-Escut_de_Muro.svg.png', 9300),
 ('Beniarrés', 'Als peus del Benicadell i vora l''embassament. Un paratge natural incomparable al cor de la serra.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Escut_de_Beniarr%C3%A9s.svg/1200px-Escut_de_Beniarr%C3%A9s.svg.png', 1100),
-('Agres', 'Poble de muntanya famós per la seua cava de neu i el santuari de la Mare de Déu d''Agres.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Escut_d%27Agres.svg/1200px-Escut_d%27Agres.svg.png', 500),
 
 -- L''Alcoià
 ('Alcoi', 'La ciutat dels ponts. Bressol de la Revolució Industrial i de la festa de Moros i Cristians més antiga.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Escut_d%27Alcoi.svg/1200px-Escut_d%27Alcoi.svg.png', 59000),
-('Ibi', 'La ciutat del joguet. On la il·lusió es fabrica tot l''any i els Reis Mags tenen casa.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Escut_d%27Ibi.svg/1200px-Escut_d%27Ibi.svg.png', 23500),
-('Banyeres de Mariola', 'El poble més alt de la província d''Alacant, enclavat en el Parc Natural de la Serra Mariola.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Escut_de_Banyeres_de_Mariola.svg/1200px-Escut_de_Banyeres_de_Mariola.svg.png', 7000),
+('Banyeres de Mariola', 'El poble més alt de l''Alcoià, enclavat en el Parc Natural de la Serra Mariola.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Escut_de_Banyeres_de_Mariola.svg/1200px-Escut_de_Banyeres_de_Mariola.svg.png', 7100),
 
--- Altres regions
-('Ontinyent', 'Capital de la Vall d''Albaida. Ciutat industrial amb un barri antic ple d''història, la Vila.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Escut_d%27Ontinyent.svg/1200px-Escut_d%27Ontinyent.svg.png', 35000),
-('Gandia', 'Cor de la Safor. Ciutat dels Borja amb una platja inmensa i un llegat cultural immens.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Escut_de_Gandia.svg/1200px-Escut_de_Gandia.svg.png', 75000),
-('Dénia', 'Capital de la Marina Alta. Ciutat Creativa de la Gastronomia per la UNESCO i port històric.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Escut_de_D%C3%A9nia.svg/1200px-Escut_de_D%C3%A9nia.svg.png', 43000),
-('València', 'Cap i Casal del Regne. Ciutat de les arts, les falles i la llum del Mediterrani.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Escudo_de_Valencia.svg/1200px-Escudo_de_Valencia.svg.png', 800000),
-('Barcelona', 'Capital de Catalunya. Metròpolis modernista, cultural i vibrant oberta al món.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Escut_de_Barcelona.svg/1200px-Escut_de_Barcelona.svg.png', 1600000)
+-- Marina
+('Dénia', 'Capital de la Marina Alta. Ciutat Creativa de la Gastronomia per la UNESCO.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Escut_de_D%C3%A9nia.svg/1200px-Escut_de_D%C3%A9nia.svg.png', 43000),
+('Xàbia', 'On surt el sol. Amb el Cap de Sant Antoni i les millors cales del Mediterrani.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Escut_de_X%C3%A0bia.svg/1200px-Escut_de_X%C3%A0bia.svg.png', 28000),
+
+-- Catalunya
+('Barcelona', 'Metròpolis modernista, cultural i vibrant oberta al món.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Escut_de_Barcelona.svg/1200px-Escut_de_Barcelona.svg.png', 1600000),
+('Girona', 'Ciutat dels quatre rius, amb un barri vell espectacular i una història mil·lenària.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Escut_de_Girona.svg/1200px-Escut_de_Girona.svg.png', 100000)
 ON CONFLICT (id) DO NOTHING;
 
 ALTER TABLE towns ENABLE ROW LEVEL SECURITY;

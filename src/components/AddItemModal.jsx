@@ -3,13 +3,14 @@ import { useTranslation } from 'react-i18next';
 import { X, Camera, Send, Loader2, Tag, Globe, Lock, Users } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useAppContext } from '../context/AppContext';
+import { ROLES } from '../constants';
 import './AddItemModal.css';
 
 import EntitySelector from './EntitySelector';
 
 const AddItemModal = ({ isOpen, onClose, onItemCreated, isPrivateInitial = false }) => {
     const { t } = useTranslation();
-    const { profile } = useAppContext();
+    const { profile, user } = useAppContext();
     const [loading, setLoading] = useState(false);
     const [privacy, setPrivacy] = useState(isPrivateInitial ? 'groups' : 'public');
     const [formData, setFormData] = useState({
@@ -59,11 +60,11 @@ const AddItemModal = ({ isOpen, onClose, onItemCreated, isPrivateInitial = false
                 privacy: privacy,
                 is_private: privacy !== 'public',
 
-                // Multi-Identidad Vendedor
-                seller: selectedIdentity.name, // Display legacy
-                seller_type: selectedIdentity.type === 'user' ? 'user' : 'entity',
-                seller_entity_id: selectedIdentity.type !== 'user' ? selectedIdentity.id : null,
-                seller_role: selectedIdentity.type === 'user' ? 'gent' : selectedIdentity.type
+                // Multi-Identidad Vendedor (Unified)
+                seller: selectedIdentity.name,
+                author_user_id: user?.id,
+                author_entity_id: selectedIdentity.type !== 'user' ? selectedIdentity.id : null,
+                author_role: selectedIdentity.type === 'user' ? ROLES.PEOPLE : selectedIdentity.type
             };
 
             await supabaseService.createMarketItem(newItem);

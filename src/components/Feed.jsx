@@ -3,32 +3,31 @@ import { useTranslation } from 'react-i18next';
 import { Link2, MessageCircle, Share2, MoreHorizontal, Building2, Store, Users, User, Loader2, AlertCircle } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useAppContext } from '../context/AppContext';
+import { ROLES } from '../constants';
 import CreatePostModal from './CreatePostModal';
 import CategoryTabs from './CategoryTabs';
 import TagSelector from './TagSelector';
 import './Feed.css';
 
-const getAvatarIcon = (type) => {
-    switch (type) {
-        case 'gov': return <Building2 size={20} />;
-        case 'shop': return <Store size={20} />;
-        case 'group': return <Users size={20} />;
-        case 'coop': return <Store size={20} />;
+const getAvatarIcon = (role) => {
+    switch (role) {
+        case ROLES.OFFICIAL: return <Building2 size={20} />;
+        case ROLES.BUSINESS: return <Store size={20} />;
+        case ROLES.GROUPS: return <Users size={20} />;
         default: return <User size={20} />;
     }
 };
 
-const getAvatarColor = (type) => {
-    switch (type) {
-        case 'gov': return 'var(--color-primary)';
-        case 'shop': return 'var(--color-secondary)';
-        case 'group': return 'var(--color-accent)';
-        case 'coop': return '#6B705C'; // Standardized cooperativa color
+const getAvatarColor = (role) => {
+    switch (role) {
+        case ROLES.OFFICIAL: return 'var(--color-primary)';
+        case ROLES.BUSINESS: return 'var(--color-secondary)';
+        case ROLES.GROUPS: return 'var(--color-accent)';
         default: return 'var(--text-muted)';
     }
 };
 
-const Feed = () => {
+const Feed = ({ townId = null, hideHeader = false }) => {
     const { t } = useTranslation();
     const { user } = useAppContext();
     const [posts, setPosts] = useState([]);
@@ -45,7 +44,7 @@ const Feed = () => {
         setLoading(true);
         setError(null);
         try {
-            const data = await supabaseService.getPosts(selectedRole);
+            const data = await supabaseService.getPosts(selectedRole, townId);
             console.log('[Feed] Posts data received:', data?.length || 0);
             const postsArray = Array.isArray(data) ? data : [];
             setPosts(postsArray);
@@ -70,7 +69,7 @@ const Feed = () => {
             setLoading(false);
             console.log('[Feed] Loading sequence finished');
         }
-    }, [selectedRole, user]);
+    }, [selectedRole, user, townId]);
 
     useEffect(() => {
         fetchPosts();
@@ -147,34 +146,36 @@ const Feed = () => {
 
     return (
         <div className="feed-container">
-            <header className="page-header-with-tabs">
-                <div className="header-tabs-wrapper">
-                    <CategoryTabs selectedRole={selectedRole} onSelectRole={(role) => {
-                        setSelectedRole(role);
-                        setSelectedTag(null);
-                    }} />
-                </div>
-
-                {user && userTags.length > 0 && (
-                    <div className="personal-tag-bar">
-                        <button
-                            className={`tag-filter-btn ${!selectedTag ? 'active' : ''}`}
-                            onClick={() => setSelectedTag(null)}
-                        >
-                            {t('feed.all') || 'Tots'}
-                        </button>
-                        {userTags.map(tag => (
-                            <button
-                                key={tag}
-                                className={`tag-filter-btn ${selectedTag === tag ? 'active' : ''}`}
-                                onClick={() => setSelectedTag(tag === selectedTag ? null : tag)}
-                            >
-                                #{tag}
-                            </button>
-                        ))}
+            {!hideHeader && (
+                <header className="page-header-with-tabs">
+                    <div className="header-tabs-wrapper">
+                        <CategoryTabs selectedRole={selectedRole} onSelectRole={(role) => {
+                            setSelectedRole(role);
+                            setSelectedTag(null);
+                        }} />
                     </div>
-                )}
-            </header>
+
+                    {user && userTags.length > 0 && (
+                        <div className="personal-tag-bar">
+                            <button
+                                className={`tag-filter-btn ${!selectedTag ? 'active' : ''}`}
+                                onClick={() => setSelectedTag(null)}
+                            >
+                                {t('feed.all') || 'Tots'}
+                            </button>
+                            {userTags.map(tag => (
+                                <button
+                                    key={tag}
+                                    className={`tag-filter-btn ${selectedTag === tag ? 'active' : ''}`}
+                                    onClick={() => setSelectedTag(tag === selectedTag ? null : tag)}
+                                >
+                                    #{tag}
+                                </button>
+                            ))}
+                        </div>
+                    )}
+                </header>
+            )}
 
             <div className="feed-list">
 
@@ -208,8 +209,8 @@ const Feed = () => {
                             <article key={post.id} className="post-card">
                                 <div className="card-header">
                                     <div className="header-left">
-                                        <div className="post-avatar" style={{ backgroundColor: getAvatarColor(post.avatar_type) }}>
-                                            {getAvatarIcon(post.avatar_type)}
+                                        <div className="post-avatar" style={{ backgroundColor: getAvatarColor(post.author_role) }}>
+                                            {getAvatarIcon(post.author_role)}
                                         </div>
                                         <div className="post-meta">
                                             <span className="post-author">{post.author}</span>

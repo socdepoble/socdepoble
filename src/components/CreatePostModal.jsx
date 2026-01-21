@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { X, Image as ImageIcon, Send, Loader2, Globe, Lock, Users } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useAppContext } from '../context/AppContext';
+import { ROLES } from '../constants';
 import './CreatePostModal.css';
 
 import EntitySelector from './EntitySelector';
@@ -57,23 +58,21 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated, isPrivateInitial = fa
         setLoading(true);
         try {
             const newPost = {
-                author_id: user.id,
+                author_user_id: user.id,
                 content: content,
                 likes: 0,
                 comments_count: 0,
                 created_at: new Date().toISOString(),
                 tags: selectedTags,
-                privacy: privacy, // Changed from is_private boolean to privacy string
-                is_private: privacy !== 'public', // Backward compatibility for boolean checks
+                privacy: privacy,
+                is_private: privacy !== 'public',
 
-                // Multi-Identidad
-                author_type: selectedIdentity.type === 'user' ? 'user' : 'entity',
+                // Multi-Identidad (Unified identity scheme)
                 author_entity_id: selectedIdentity.type !== 'user' ? selectedIdentity.id : null,
-                author_role: selectedIdentity.type === 'user' ? 'gent' : selectedIdentity.type,
+                author_role: selectedIdentity.type === 'user' ? ROLES.PEOPLE : selectedIdentity.type,
 
-                // Legacy / Display fallbacks
+                // Display fallbacks
                 author: selectedIdentity.name,
-                avatar_type: selectedIdentity.type === 'user' ? (profile?.role === 'admin' ? 'gov' : 'user') : selectedIdentity.type,
                 image_url: selectedIdentity.avatar_url
             };
 

@@ -12,6 +12,7 @@ import Profile from './pages/Profile';
 import Towns from './pages/Towns';
 import Map from './pages/Map';
 import Notifications from './pages/Notifications';
+import TownDetail from './pages/TownDetail';
 import { supabase } from './supabaseClient';
 import { MOCK_CHATS, MOCK_FEED, MOCK_MARKET_ITEMS } from './data';
 import { useAppContext } from './context/AppContext';
@@ -74,13 +75,13 @@ function App() {
             MOCK_FEED.map(post => ({
               id: post.id,
               author: post.author,
-              avatar_type: post.avatarType || 'user',
               author_role: post.authorRole || 'gent',
               content: post.content,
               likes: post.likes || 0,
               comments_count: post.comments || 0,
               connections_count: 0,
               image_url: post.image,
+              town_id: post.town_id || null,
               created_at: new Date().toISOString()
             }))
           );
@@ -96,7 +97,8 @@ function App() {
               price: item.price,
               seller: item.seller,
               image_url: item.image,
-              tag: item.tag
+              tag: item.tag,
+              town_id: item.town_id || null
             }))
           );
           seeded = true;
@@ -138,6 +140,7 @@ function App() {
           <Route path="perfil" element={<Profile />} />
           <Route path="notificacions" element={<Notifications />} />
           <Route path="pobles" element={<Towns />} />
+          <Route path="pobles/:id" element={<TownDetail />} />
           <Route path="mapa" element={<Map />} />
         </Route>
       </Routes>

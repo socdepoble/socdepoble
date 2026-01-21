@@ -3,22 +3,23 @@ import { useTranslation } from 'react-i18next';
 import { Heart, Plus, Loader2 } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useAppContext } from '../context/AppContext';
+import { ROLES } from '../constants';
 import AddItemModal from './AddItemModal';
 import CategoryTabs from './CategoryTabs';
 
-const Market = () => {
+const Market = ({ townId = null, hideHeader = false }) => {
     const { t } = useTranslation();
     const { user } = useAppContext();
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [userFavorites, setUserFavorites] = useState({}); // { itemId: boolean }
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedRole, setSelectedRole] = useState('tot');
+    const [selectedRole, setSelectedRole] = useState(ROLES.ALL);
 
     const fetchItems = useCallback(async () => {
         setLoading(true);
         try {
-            const data = await supabaseService.getMarketItems(selectedRole);
+            const data = await supabaseService.getMarketItems(selectedRole, townId);
             setItems(data);
 
             if (user) {
@@ -39,7 +40,7 @@ const Market = () => {
         } finally {
             setLoading(false);
         }
-    }, [selectedRole, user]);
+    }, [selectedRole, user, townId]);
 
     useEffect(() => {
         fetchItems();
@@ -64,11 +65,11 @@ const Market = () => {
 
 
     const marketTabs = [
-        { id: 'tot', label: t('common.role_mercat') },
-        { id: 'gent', label: t('common.role_gent') },
-        { id: 'grup', label: t('common.role_grup') },
-        { id: 'empresa', label: t('common.role_empresa') },
-        { id: 'pobo', label: t('common.role_pobo') }
+        { id: ROLES.ALL, label: t('common.role_mercat') },
+        { id: ROLES.PEOPLE, label: t('common.role_gent') },
+        { id: ROLES.GROUPS, label: t('common.role_grup') },
+        { id: ROLES.BUSINESS, label: t('common.role_empresa') },
+        { id: ROLES.OFFICIAL, label: t('common.role_oficial') || t('common.role_pobo') }
     ];
 
     if (loading && items.length === 0) {
@@ -82,15 +83,17 @@ const Market = () => {
 
     return (
         <div className="market-container">
-            <header className="page-header-with-tabs">
-                <div className="header-tabs-wrapper-with-fab">
-                    <CategoryTabs
-                        selectedRole={selectedRole}
-                        onSelectRole={setSelectedRole}
-                        tabs={marketTabs}
-                    />
-                </div>
-            </header>
+            {!hideHeader && (
+                <header className="page-header-with-tabs">
+                    <div className="header-tabs-wrapper-with-fab">
+                        <CategoryTabs
+                            selectedRole={selectedRole}
+                            onSelectRole={setSelectedRole}
+                            tabs={marketTabs}
+                        />
+                    </div>
+                </header>
+            )}
 
             <AddItemModal
                 isOpen={isModalOpen}

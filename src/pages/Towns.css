@@ -17,6 +17,12 @@
     gap: var(--space-md);
 }
 
+.town-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
 .town-card {
     background: var(--bg-surface);
     border-radius: var(--radius-lg);
@@ -30,6 +36,10 @@
     justify-content: flex-end;
     cursor: pointer;
     border: 1px solid var(--color-border);
+}
+
+.is-user-town .town-card {
+    border: 2px solid var(--color-primary);
 }
 
 .town-card:active {
@@ -92,6 +102,7 @@
 
 .town-stats {
     display: flex;
+    align-items: center;
     gap: 12px;
 }
 
@@ -102,6 +113,17 @@
     font-size: 12px;
     font-weight: 600;
     color: rgba(255, 255, 255, 0.8);
+    flex: 1;
+}
+
+.card-arrow {
+    opacity: 0.6;
+    transition: transform 0.2s ease;
+}
+
+.town-card:hover .card-arrow {
+    transform: translateX(4px);
+    opacity: 1;
 }
 
 /* Empty & Map States */
@@ -115,63 +137,157 @@
     gap: var(--space-md);
 }
 
-.map-card-placeholder {
-    background-color: var(--bg-card);
-    padding: var(--space-xl);
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--color-border);
-    box-shadow: var(--shadow-md);
-    width: 100%;
-    max-width: 320px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-md);
-}
-
 .empty-icon {
     color: var(--text-muted);
     opacity: 0.5;
 }
 
-.empty-state-full h3,
-.map-card-placeholder h3 {
+.empty-state-full h3 {
     font-family: var(--font-heading);
     color: var(--text-main);
     margin: 0;
     font-size: 20px;
 }
 
-.empty-state-full p,
-.map-card-placeholder p {
+.empty-state-full p {
     color: var(--text-muted);
     font-size: 15px;
     max-width: 280px;
     line-height: 1.4;
 }
 
-.map-mock-points {
+/* Town Detail Page */
+.town-detail-page {
+    padding-bottom: calc(var(--nav-height) + 40px);
+    background-color: var(--bg-main);
+    min-height: 100vh;
+}
+
+.town-detail-hero {
+    position: relative;
+    height: 300px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.town-hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.town-hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0) 40%, var(--bg-main) 95%);
+    z-index: 1;
+}
+
+.town-hero-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: var(--space-md);
     display: flex;
-    gap: var(--space-xs);
-    margin: var(--space-sm) 0;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 2;
 }
 
-.mock-point {
-    padding: 6px 10px;
-    border-radius: var(--radius-full);
-    font-size: 11px;
-    font-weight: 800;
+.back-circle-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
 
-.mock-point.mur {
-    background-color: var(--color-primary);
+.back-circle-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
 }
 
-.mock-point.mercat {
-    background-color: var(--color-secondary);
+.town-title-box {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
 }
 
-.mock-point.event {
-    background-color: var(--color-accent);
+.town-logo-large {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2));
+}
+
+.town-title-text h1 {
+    margin: 0;
+    font-size: 32px;
+    font-family: var(--font-heading);
+    color: var(--text-main);
+    line-height: 1;
+}
+
+.town-subtitle {
+    font-size: 14px;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.town-detail-body {
+    padding: var(--space-md);
+    margin-top: -20px;
+    position: relative;
+    z-index: 3;
+}
+
+.info-card {
+    background: var(--bg-surface);
+    padding: var(--space-md);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+    display: flex;
+    gap: var(--space-sm);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: var(--space-lg);
+}
+
+.info-card p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text-main);
+}
+
+.town-sections-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-md);
+    color: var(--color-primary);
+}
+
+.section-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-family: var(--font-heading);
+    color: var(--text-main);
 }

@@ -31,8 +31,33 @@ export const MOCK_MESSAGES = {
 };
 
 export const MOCK_FEED = [
+    // La Torre de les Maçanes
+    {
+        id: 10,
+        town_id: 1, // La Torre de les Maçanes
+        author: "Ajuntament de la Torre",
+        avatarType: "gov",
+        time: "1h",
+        content: "🍎 Recordeu que aquest cap de setmana tenim la collita de la poma local. Passeu per la plaça a tastar-les!",
+        likes: 42,
+        comments: 5,
+        image: "https://images.unsplash.com/photo-1560806887-1e4cd0b6bccb?auto=format&fit=crop&q=80&w=800"
+    },
+    {
+        id: 11,
+        town_id: 1,
+        author: "Pa de la Torre",
+        avatarType: "shop",
+        time: "3h",
+        content: "Acaben d'eixir els pans de llenya. Tradició pura cada matí!",
+        likes: 28,
+        comments: 2,
+        image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&q=80&w=800"
+    },
+    // Cocentaina
     {
         id: 1,
+        town_id: 2, // Cocentaina
         author: "Ajuntament de Cocentaina",
         avatarType: "gov",
         time: "2h",
@@ -41,8 +66,10 @@ export const MOCK_FEED = [
         comments: 34,
         image: "https://images.unsplash.com/photo-1555881400-74d7acaacd8b?auto=format&fit=crop&q=80&w=800"
     },
+    // Muro d'Alcoi
     {
         id: 2,
+        town_id: 3, // Muro d'Alcoi
         author: "Cooperativa de Muro",
         avatarType: "coop",
         time: "5h",
@@ -64,8 +91,20 @@ export const MOCK_FEED = [
 ];
 
 export const MOCK_MARKET_ITEMS = [
+    // La Torre de les Maçanes
+    {
+        id: 10,
+        town_id: 1,
+        title: "Mel de la Torre (Multiflora)",
+        price: "12.00€ / pot",
+        seller: "Apicultura les Maçanes",
+        image: "https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&q=80&w=800",
+        tag: "Local"
+    },
+    // Cocentaina
     {
         id: 1,
+        town_id: 2,
         title: "Pericana de Cocentaina",
         price: "6.50€ / pot",
         seller: "Sabors del Comtat",
@@ -80,6 +119,16 @@ export const MOCK_MARKET_ITEMS = [
         image: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&q=80&w=800",
         tag: "Artesania"
     },
+    // Muro
+    {
+        id: 4,
+        town_id: 3,
+        title: "Coques de xulla (4 pack)",
+        price: "5.00€",
+        seller: "Forn de Muro",
+        image: "https://images.unsplash.com/photo-1540933655514-e2233da631fa?auto=format&fit=crop&q=80&w=800",
+        tag: "Producte Local"
+    },
     {
         id: 3,
         title: "Mel de la Font Roja",
@@ -87,13 +136,5 @@ export const MOCK_MARKET_ITEMS = [
         seller: "Abelles Mariola",
         image: "https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&q=80&w=800",
         tag: "Frescos"
-    },
-    {
-        id: 4,
-        title: "Coques de xulla (4 pack)",
-        price: "5.00€",
-        seller: "Forn de Muro",
-        image: "https://images.unsplash.com/photo-1540933655514-e2233da631fa?auto=format&fit=crop&q=80&w=800",
-        tag: "Producte Local"
     }
 ];

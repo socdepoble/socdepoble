@@ -1,4 +1,5 @@
 import { supabase } from '../supabaseClient';
+import { ROLES, USER_ROLES } from '../constants';
 
 export const supabaseService = {
     // Chats
@@ -108,9 +109,9 @@ export const supabaseService = {
             let query = supabase
                 .from('posts')
                 .select('*')
-                .order('id', { ascending: false });
+                .order('created_at', { ascending: false }); // Use created_at instead of id
 
-            if (roleFilter !== 'tot') {
+            if (roleFilter !== ROLES.ALL) {
                 query = query.eq('author_role', roleFilter);
             }
 
@@ -128,17 +129,24 @@ export const supabaseService = {
             console.log(`[SupabaseService] getPosts success: ${data?.length || 0} posts found`);
             return data || [];
         } catch (err) {
-            console.error('[SupabaseService] Unexpected error in getPosts:', err);
-            return []; // Fallback seguro
+            if (import.meta.env.DEV) {
+                console.error('[SupabaseService] Error in getPosts:', err);
+            } else {
+                console.error('[SupabaseService] Error fetching posts');
+            }
+            return [];
         }
     },
 
     async createPost(postData) {
-        // Aseguramos que el post tenga el rol del usuario actual si no se pasa explícitamente
-        // (Esto idealmente se hace en backend, pero aquí podemos reforzarlo)
+        // author_user_id is the new standard for RLS
+        // author_role is the target category (gent, grup, empresa, oficial)
         const { data, error } = await supabase
             .from('posts')
-            .insert([postData])
+            .insert([{
+                ...postData,
+                author_user_id: postData.author_user_id || postData.author_id // Fallback for transition
+            }])
             .select();
         if (error) throw error;
         return data[0];
@@ -151,8 +159,9 @@ export const supabaseService = {
             .select('*')
             .order('id', { ascending: false });
 
-        if (roleFilter !== 'tot') {
-            query = query.eq('seller_role', roleFilter);
+        if (roleFilter !== ROLES.ALL) {
+            // Compatibility layer: check both as we migrate
+            query = query.or(`author_role.eq.${roleFilter},seller_role.eq.${roleFilter}`);
         }
 
         if (townId) {
@@ -167,7 +176,11 @@ export const supabaseService = {
     async createMarketItem(itemData) {
         const { data, error } = await supabase
             .from('market_items')
-            .insert([itemData])
+            .insert([{
+                ...itemData,
+                author_user_id: itemData.author_user_id || itemData.seller_id,
+                author_role: itemData.author_role || itemData.seller_role // Compatibility
+            }])
             .select();
         if (error) throw error;
         return data[0];
@@ -269,7 +282,11 @@ export const supabaseService = {
             }
             return data;
         } catch (err) {
-            console.error('[SupabaseService] Error in getProfile:', err);
+            if (import.meta.env.DEV) {
+                console.error('[SupabaseService] Error in getProfile:', err);
+            } else {
+                console.error('[SupabaseService] Error loading profile');
+            }
             return null;
         }
     },
