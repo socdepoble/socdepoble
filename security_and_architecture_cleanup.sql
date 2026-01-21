@@ -131,14 +131,40 @@ END $$;
 -- POSTS
 ALTER TABLE posts ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Public posts viewable" ON posts FOR SELECT USING (true);
-CREATE POLICY "Users insert posts" ON posts FOR INSERT WITH CHECK (auth.uid() = author_user_id);
+CREATE POLICY "Users insert posts" ON posts 
+    FOR INSERT WITH CHECK (
+        auth.uid() = author_user_id 
+        AND (
+            -- Si no se especifica entidad, permitir (post personal)
+            author_entity_id IS NULL 
+            -- Si se especifica entidad, verificar que el usuario es miembro
+            OR EXISTS (
+                SELECT 1 FROM entity_members 
+                WHERE entity_id = author_entity_id 
+                AND user_id = auth.uid()
+            )
+        )
+    );
 CREATE POLICY "Users update posts" ON posts FOR UPDATE USING (auth.uid() = author_user_id);
 CREATE POLICY "Users delete posts" ON posts FOR DELETE USING (auth.uid() = author_user_id);
 
 -- MARKET_ITEMS
 ALTER TABLE market_items ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Public items seeable" ON market_items FOR SELECT USING (true);
-CREATE POLICY "Users insert items" ON market_items FOR INSERT WITH CHECK (auth.uid() = author_user_id);
+CREATE POLICY "Users insert items" ON market_items 
+    FOR INSERT WITH CHECK (
+        auth.uid() = author_user_id 
+        AND (
+            -- Si no se especifica entidad, permitir (venta personal)
+            seller_entity_id IS NULL 
+            -- Si se especifica entidad, verificar que el usuario es miembro
+            OR EXISTS (
+                SELECT 1 FROM entity_members 
+                WHERE entity_id = seller_entity_id 
+                AND user_id = auth.uid()
+            )
+        )
+    );
 CREATE POLICY "Users update items" ON market_items FOR UPDATE USING (auth.uid() = author_user_id);
 CREATE POLICY "Users delete items" ON market_items FOR DELETE USING (auth.uid() = author_user_id);
 
