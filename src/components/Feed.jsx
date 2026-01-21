@@ -228,7 +228,15 @@ const Feed = ({ townId = null, hideHeader = false }) => {
                                     <p className="post-text">{post.content}</p>
                                     {post.image_url && (
                                         <div className="card-image-wrapper">
-                                            <img src={post.image_url} alt="Post content" />
+                                            <img
+                                                src={post.image_url}
+                                                alt={`${post.author} post image`}
+                                                loading="lazy"
+                                                onError={(e) => {
+                                                    e.target.style.display = 'none';
+                                                    e.target.parentElement.style.display = 'none';
+                                                }}
+                                            />
                                         </div>
                                     )}
                                 </div>
