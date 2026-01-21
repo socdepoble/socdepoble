@@ -41,7 +41,7 @@ export const MOCK_FEED = [
         content: "🍎 Recordeu que aquest cap de setmana tenim la collita de la poma local. Passeu per la plaça a tastar-les!",
         likes: 42,
         comments: 5,
-        image: "https://images.unsplash.com/photo-1560806887-1e4cd0b6bccb?auto=format&fit=crop&q=80&w=800"
+        image: "/images/assets/aviso_oficial.png"
     },
     {
         id: 11,
@@ -52,7 +52,7 @@ export const MOCK_FEED = [
         content: "Acaben d'eixir els pans de llenya. Tradició pura cada matí!",
         likes: 28,
         comments: 2,
-        image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&q=80&w=800"
+        image: "/images/assets/coques_premium.png"
     },
     // Cocentaina
     {
@@ -64,7 +64,7 @@ export const MOCK_FEED = [
         content: "🏰 Ja estem preparant la Fira de Tots Sants! Enguany tindrem novetat a la zona del Palau. Estigueu atents!",
         likes: 156,
         comments: 34,
-        image: "https://images.unsplash.com/photo-1555881400-74d7acaacd8b?auto=format&fit=crop&q=80&w=800"
+        image: "/images/assets/palau_cocentaina.png"
     },
     // Muro d'Alcoi
     {
@@ -76,17 +76,17 @@ export const MOCK_FEED = [
         content: "🫒 Ja tenim l'oli nou de la serra Mariola! Passa per la Cooperativa a per la teua garrafa. Or líquid de casa!",
         likes: 92,
         comments: 15,
-        image: "https://images.unsplash.com/photo-1474979266404-7eaacbcdcc4c?auto=format&fit=crop&q=80&w=800"
+        image: "/images/assets/oli_premium.png"
     },
     {
         id: 3,
         author: "Centre Excursionista d'Alcoi",
         avatarType: "group",
         time: "1d",
-        content: "Fotos de la ruta de diumenge passat pel Barranc de l'Infern. Una experiència brutal amb gent de tota la comarca! 🏔️",
+        content: "Fotos de la ruta de diumenge passat pel Barranc de l'Infern. Una experiència brutal amb gent de toda la comarca! 🏔️",
         likes: 210,
         comments: 12,
-        image: "https://images.unsplash.com/photo-1551632811-561732d1e306?auto=format&fit=crop&q=80&w=800"
+        image: "/images/assets/senderisme_aitana.png"
     }
 ];
 
