@@ -200,10 +200,13 @@ const ChatDetail = () => {
             <form className="chat-input-area" onSubmit={handleSendMessage}>
                 <div className="chat-input-wrapper">
                     <input
+                        id="chat-message-input"
+                        name="message"
                         type="text"
                         placeholder={t('common.write_message')}
                         value={newMessage}
                         onChange={handleTyping}
+                        autoComplete="off"
                     />
                 </div>
                 <button type="submit" className="send-button" disabled={!newMessage.trim()}>

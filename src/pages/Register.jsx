@@ -44,6 +44,8 @@ const Register = () => {
                     <div className="form-group">
                         <label>{t('auth.fullName')}</label>
                         <input
+                            id="register-name"
+                            name="full_name"
                             type="text"
                             placeholder="Nom i cognoms"
                             value={fullName}
@@ -54,6 +56,8 @@ const Register = () => {
                     <div className="form-group">
                         <label>{t('auth.email')}</label>
                         <input
+                            id="register-email"
+                            name="email"
                             type="email"
                             placeholder="usuari@exemple.com"
                             value={email}
@@ -64,6 +68,8 @@ const Register = () => {
                     <div className="form-group">
                         <label>{t('auth.password')}</label>
                         <input
+                            id="register-password"
+                            name="password"
                             type="password"
                             placeholder="Mínim 6 caràcters"
                             value={password}

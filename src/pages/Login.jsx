@@ -56,6 +56,8 @@ const Login = () => {
                     <div className="form-group">
                         <label>{t('auth.email')}</label>
                         <input
+                            id="login-email"
+                            name="email"
                             type="email"
                             placeholder={t('auth.email_placeholder')}
                             value={email}
@@ -66,6 +68,8 @@ const Login = () => {
                     <div className="form-group">
                         <label>{t('auth.password')}</label>
                         <input
+                            id="login-password"
+                            name="password"
                             type="password"
                             placeholder="••••••••"
                             value={password}
