@@ -23,54 +23,28 @@ export const supabaseService = {
 
     // Chats (Secure Messaging - Phase 4)
     async getConversations(userIdOrEntityId) {
-        // Obtenemos conversaciones donde el usuario o su entidad sea participante
-        let query = supabase.from('conversations').select('*');
+        // Usamos la vista enriquecida que ya trae nombres y avatares (Optimización Auditoría)
+        let query = supabase.from('view_conversations_enriched').select('*');
 
-        // Modo Mixto: Si está autenticado, mostramos sus chats + los de demo
-        if (!userIdOrEntityId || userIdOrEntityId === '00000000-0000-0000-0000-000000000000') {
-            query = query
-                .gte('id', 'c1111000-0000-0000-0000-000000000000')
-                .lte('id', 'c1111000-ffff-ffff-ffff-ffffffffffff');
+        const isGuest = !userIdOrEntityId || userIdOrEntityId === '00000000-0000-0000-0000-000000000000';
+
+        if (isGuest) {
+            // Solo chats de demo para invitados
+            query = query.eq('is_demo', true);
         } else {
-            // Unimos sus chats Propios con los de Demo para que siempre vea actividad
-            const demoRange = 'and(id.gte.c1111000-0000-0000-0000-000000000000,id.lte.c1111000-ffff-ffff-ffff-ffffffffffff)';
-            query = query.or(`participant_1_id.eq.${userIdOrEntityId},participant_2_id.eq.${userIdOrEntityId},${demoRange}`);
+            // Sus chats propios O cualquier chat de demo (para que siempre vea actividad)
+            query = query.or(`participant_1_id.eq.${userIdOrEntityId},participant_2_id.eq.${userIdOrEntityId},is_demo.eq.true`);
         }
 
         const { data: convs, error } = await query.order('last_message_at', { ascending: false });
         if (error) throw error;
         if (!convs || convs.length === 0) return [];
 
-        // HIDRATACIÓN: Traducir UUIDs a nombres y avatares
-        // Obtenemos todos los IDs únicos de participantes
-        const participantIds = new Set();
-        convs.forEach(c => {
-            participantIds.add(c.participant_1_id);
-            participantIds.add(c.participant_2_id);
-        });
-
-        const idList = Array.from(participantIds);
-
-        // Consultar perfiles y entidades en paralelo
-        const [profilesRes, entitiesRes] = await Promise.all([
-            supabase.from('profiles').select('id, full_name, avatar_url').in('id', idList),
-            supabase.from('entities').select('id, name, avatar_url').in('id', idList)
-        ]);
-
-        // Crear mapa de información
-        const infoMap = {};
-        (profilesRes.data || []).forEach(p => {
-            infoMap[p.id] = { name: p.full_name, avatar_url: p.avatar_url };
-        });
-        (entitiesRes.data || []).forEach(e => {
-            infoMap[e.id] = { name: e.name, avatar_url: e.avatar_url };
-        });
-
-        // Enriquecer conversaciones
+        // Mapeamos los campos de la vista al formato que esperan los componentes (Retrocompatibilidad)
         return convs.map(c => ({
             ...c,
-            p1_info: infoMap[c.participant_1_id] || { name: 'Desconegut', avatar_url: null },
-            p2_info: infoMap[c.participant_2_id] || { name: 'Desconegut', avatar_url: null }
+            p1_info: { name: c.p1_name, avatar_url: c.p1_avatar_url },
+            p2_info: { name: c.p2_name, avatar_url: c.p2_avatar_url }
         }));
     },
 
