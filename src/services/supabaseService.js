@@ -26,13 +26,15 @@ export const supabaseService = {
         // Obtenemos conversaciones donde el usuario o su entidad sea participante
         let query = supabase.from('conversations').select('*');
 
-        // Modo Demo: Si no hay ID o es el invitado ('0000...'), mostramos todas las de demo (prefijo c1111000-)
+        // Modo Mixto: Si está autenticado, mostramos sus chats + los de demo
         if (!userIdOrEntityId || userIdOrEntityId === '00000000-0000-0000-0000-000000000000') {
             query = query
                 .gte('id', 'c1111000-0000-0000-0000-000000000000')
                 .lte('id', 'c1111000-ffff-ffff-ffff-ffffffffffff');
         } else {
-            query = query.or(`participant_1_id.eq.${userIdOrEntityId},participant_2_id.eq.${userIdOrEntityId}`);
+            // Unimos sus chats Propios con los de Demo para que siempre vea actividad
+            const demoRange = 'and(id.gte.c1111000-0000-0000-0000-000000000000,id.lte.c1111000-ffff-ffff-ffff-ffffffffffff)';
+            query = query.or(`participant_1_id.eq.${userIdOrEntityId},participant_2_id.eq.${userIdOrEntityId},${demoRange}`);
         }
 
         const { data: convs, error } = await query.order('last_message_at', { ascending: false });
@@ -95,6 +97,8 @@ export const supabaseService = {
 
         if (error) throw error;
 
+        const message = data[0];
+
         // Actualizar el resumen en la conversación
         await supabase
             .from('conversations')
@@ -104,7 +108,56 @@ export const supabaseService = {
             })
             .eq('id', messageData.conversationId);
 
-        return data[0];
+        // Lógica de Simulación de IA (NPCs)
+        if (messageData.conversationId.startsWith('c1111000')) {
+            this.triggerSimulatedReply(messageData);
+        }
+
+        return message;
+    },
+
+    async triggerSimulatedReply(originalMessage) {
+        // Simular pensamiento (2.5s)
+        setTimeout(async () => {
+            try {
+                const { conversationId, content, senderId } = originalMessage;
+                const { data: conv } = await supabase
+                    .from('conversations')
+                    .select('*')
+                    .eq('id', conversationId)
+                    .single();
+
+                if (!conv) return;
+
+                const isP1Sender = conv.participant_1_id === senderId;
+                const responderId = isP1Sender ? conv.participant_2_id : conv.participant_1_id;
+                const responderType = isP1Sender ? conv.participant_2_type : conv.participant_1_type;
+
+                const replies = [
+                    "Ie! Moltes gràcies pel missatge, ho tindré en compte.",
+                    "Bon dia! Me'n vaig ara a l'hort, però después t'ho mire.",
+                    "Clar que sí, ens veiem per la plaça i ho parlem.",
+                    "Això està fet. Sóc de Poble és el millor que ens ha passat!",
+                    "Ho sento, ara estic un poc liat amb la faena, et dic algo de seguida.",
+                    "Xe, que bona idea! Parlem-ne demà."
+                ];
+                const randomReply = replies[Math.floor(Math.random() * replies.length)];
+
+                await supabase.from('messages').insert([{
+                    conversation_id: conversationId,
+                    sender_id: responderId,
+                    sender_entity_id: responderType === 'entity' ? responderId : null,
+                    content: randomReply
+                }]);
+
+                await supabase.from('conversations').update({
+                    last_message_content: randomReply,
+                    last_message_at: new Date().toISOString()
+                }).eq('id', conversationId);
+            } catch (err) {
+                console.error('[NPC Simulation] Error:', err);
+            }
+        }, 2500);
     },
 
     async getOrCreateConversation(p1Id, p1Type, p2Id, p2Type) {
