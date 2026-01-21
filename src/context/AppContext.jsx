@@ -41,7 +41,7 @@ export const AppProvider = ({ children }) => {
         const { error } = await supabase.auth.signInWithOAuth({
             provider: 'google',
             options: {
-                redirectTo: `${window.location.origin}/mur`
+                redirectTo: `${window.location.origin}/chats`
             }
         });
         if (error) throw error;

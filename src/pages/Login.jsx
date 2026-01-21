@@ -24,14 +24,14 @@ const Login = () => {
         if (error) {
             setError(error.message);
         } else {
-            navigate('/mur');
+            navigate('/chats');
         }
         setLoading(false);
     };
 
     const handleGuestLogin = () => {
         loginAsGuest();
-        navigate('/mur');
+        navigate('/chats');
     };
 
     return (
