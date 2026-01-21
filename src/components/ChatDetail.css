@@ -19,7 +19,8 @@
     background-color: var(--bg-surface);
     border-bottom: 1px solid var(--color-border);
     gap: var(--space-md);
-    height: 60px;
+    height: var(--header-height);
+    /* Standardize header height */
     flex-shrink: 0;
 }
 
@@ -31,7 +32,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #f0f0f0;
+    background-color: var(--bg-main);
+    /* Standardize background */
     flex-shrink: 0;
 }
 
@@ -55,7 +57,8 @@
 }
 
 .chat-info .status.online {
-    color: #4CAF50;
+    color: var(--color-success);
+    /* Use global success color */
     font-weight: 700;
 }
 

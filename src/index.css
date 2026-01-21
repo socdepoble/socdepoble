@@ -7,6 +7,9 @@
   --color-secondary: #E07A5F;
   /* Keep the terracotta as brand accent */
   --color-accent: #FFD166;
+  --color-success: #4CAF50;
+  --color-warning: #FF9800;
+  --color-error: #FF5252;
 
   /* Neutral Palette - Light mode */
   --bg-main: #F4F7F9;
@@ -71,6 +74,9 @@
   --color-border: #2D3748;
   --color-divider: #2D3748;
   --color-primary-soft: rgba(93, 95, 239, 0.1);
+  --color-success: #43A047;
+  --color-warning: #FB8C00;
+  --color-error: #E53935;
 
   --shadow-md: 0 8px 16px -4px rgba(0, 0, 0, 0.3);
   --shadow-lg: 0 20px 40px -12px rgba(0, 0, 0, 0.5);

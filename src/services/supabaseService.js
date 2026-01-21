@@ -281,9 +281,8 @@ export const supabaseService = {
             }
 
             if (townId) {
-                // Durante la transición, aceptamos ID numérico o UUID
-                const field = (typeof townId === 'string' && townId.includes('-')) ? 'town_uuid' : 'town_id';
-                query = query.eq(field, townId);
+                // Now using UUIDs as standard
+                query = query.eq('town_id', townId);
             }
 
             const { data, error } = await query;
@@ -332,8 +331,7 @@ export const supabaseService = {
         }
 
         if (townId) {
-            const field = (typeof townId === 'string' && townId.includes('-')) ? 'town_uuid' : 'town_id';
-            query = query.eq(field, townId);
+            query = query.eq('town_id', townId);
         }
 
         const { data, error } = await query;
@@ -354,27 +352,20 @@ export const supabaseService = {
         if (error) throw error;
         return data[0];
     },
-
     async getMarketFavorites(itemId) {
-        const isUuid = typeof itemId === 'string' && itemId.includes('-');
-        const field = isUuid ? 'item_uuid' : 'item_id';
-
         const { data, error } = await supabase
             .from('market_favorites')
             .select('user_id')
-            .eq(field, itemId);
+            .eq('item_id', itemId);
         if (error) throw error;
         return (data || []).map(fav => fav.user_id);
     },
 
     async toggleMarketFavorite(itemId, userId) {
-        const isUuid = typeof itemId === 'string' && itemId.includes('-');
-        const field = isUuid ? 'item_uuid' : 'item_id';
-
         const { data: existingFav } = await supabase
             .from('market_favorites')
             .select('*')
-            .eq(field, itemId)
+            .eq('item_id', itemId)
             .eq('user_id', userId)
             .maybeSingle();
 
@@ -382,13 +373,13 @@ export const supabaseService = {
             await supabase
                 .from('market_favorites')
                 .delete()
-                .eq(field, itemId)
+                .eq('item_id', itemId)
                 .eq('user_id', userId);
             return { favorited: false };
         } else {
             await supabase
                 .from('market_favorites')
-                .insert([{ [field]: itemId, user_id: userId }]);
+                .insert([{ item_id: itemId, user_id: userId }]);
             return { favorited: true };
         }
     },
@@ -504,23 +495,17 @@ export const supabaseService = {
 
     // Conexiones (Antiguos Likes)
     async getPostConnections(postIds) {
-        // Soporta tanto un ID único como un array de IDs
         const ids = Array.isArray(postIds) ? postIds : [postIds];
         if (ids.length === 0) return [];
 
         console.log(`[SupabaseService] Fetching connections for ${ids.length} posts`);
         try {
-            const isUuid = ids.length > 0 && typeof ids[0] === 'string' && ids[0].includes('-');
-            const field = isUuid ? 'post_uuid' : 'post_id';
-
             const { data, error } = await supabase
                 .from('post_connections')
-                .select('post_id, post_uuid, user_id, tags')
-                .in(field, ids);
+                .select('post_id, user_id, tags')
+                .in('post_id', ids);
 
             if (error) {
-                // Si la tabla no existe o la columna no existe, fallamos silenciosamente con array vacío
-                // para no romper la app mientras se aplica el SQL
                 if (error.code === 'PGRST116' || error.code === '42703' || error.code === '42P01') {
                     console.warn('[SupabaseService] post_connections table or tags column missing. Run update SQL.');
                     return [];
@@ -537,12 +522,10 @@ export const supabaseService = {
     },
 
     async getPostUserConnection(postId, userId) {
-        const isUuid = typeof postId === 'string' && postId.includes('-');
-        const field = isUuid ? 'post_uuid' : 'post_id';
         const { data, error } = await supabase
             .from('post_connections')
             .select('*')
-            .eq(field, postId)
+            .eq('post_id', postId)
             .eq('user_id', userId)
             .maybeSingle();
         if (error) throw error;
@@ -551,13 +534,11 @@ export const supabaseService = {
 
     async togglePostConnection(postId, userId, tags = []) {
         console.log(`[SupabaseService] Toggling connection for post: ${postId}, tags:`, tags);
-        const isUuid = typeof postId === 'string' && postId.includes('-');
-        const field = isUuid ? 'post_uuid' : 'post_id';
 
         const { data: existingConnection } = await supabase
             .from('post_connections')
             .select('*')
-            .eq(field, postId)
+            .eq('post_id', postId)
             .eq('user_id', userId)
             .maybeSingle();
 
@@ -569,7 +550,7 @@ export const supabaseService = {
                 const { data, error } = await supabase
                     .from('post_connections')
                     .update({ tags })
-                    .eq(field, postId)
+                    .eq('post_id', postId)
                     .eq('user_id', userId)
                     .select();
                 if (error) throw error;
@@ -579,7 +560,7 @@ export const supabaseService = {
                 await supabase
                     .from('post_connections')
                     .delete()
-                    .eq(field, postId)
+                    .eq('post_id', postId)
                     .eq('user_id', userId);
                 return { connected: false, tags: [] };
             }
@@ -588,7 +569,7 @@ export const supabaseService = {
             const { data, error } = await supabase
                 .from('post_connections')
                 .insert([{
-                    [field]: postId,
+                    post_id: postId,
                     user_id: userId,
                     tags: tags
                 }])
