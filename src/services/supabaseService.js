@@ -262,8 +262,9 @@ export const supabaseService = {
             }
 
             if (townId) {
-                // Now using UUIDs as standard
-                query = query.eq('town_id', townId);
+                const isUuid = typeof townId === 'string' && townId.includes('-');
+                const field = isUuid ? 'town_uuid' : 'town_id';
+                query = query.eq(field, townId);
             }
 
             const { data, error } = await query;
@@ -312,7 +313,9 @@ export const supabaseService = {
         }
 
         if (townId) {
-            query = query.eq('town_id', townId);
+            const isUuid = typeof townId === 'string' && townId.includes('-');
+            const field = isUuid ? 'town_uuid' : 'town_id';
+            query = query.eq(field, townId);
         }
 
         const { data, error } = await query;
