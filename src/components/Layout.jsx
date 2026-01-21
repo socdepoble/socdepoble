@@ -12,7 +12,7 @@ const Layout = () => {
 
     return (
         <div className="layout-container">
-            {!isChatDetail && <Header />}
+            <Header />
             <main className="content-area">
                 <Outlet />
             </main>
