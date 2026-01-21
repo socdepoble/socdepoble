@@ -302,10 +302,13 @@ export const supabaseService = {
 
         console.log(`[SupabaseService] Fetching connections for ${ids.length} posts`);
         try {
+            const isUuid = ids.length > 0 && typeof ids[0] === 'string' && ids[0].includes('-');
+            const field = isUuid ? 'post_uuid' : 'post_id';
+
             const { data, error } = await supabase
                 .from('post_connections')
-                .select('post_id, user_id, tags')
-                .in('post_id', ids);
+                .select('post_id, post_uuid, user_id, tags')
+                .in(field, ids);
 
             if (error) {
                 // Si la tabla no existe o la columna no existe, fallamos silenciosamente con array vacío
@@ -326,10 +329,12 @@ export const supabaseService = {
     },
 
     async getPostUserConnection(postId, userId) {
+        const isUuid = typeof postId === 'string' && postId.includes('-');
+        const field = isUuid ? 'post_uuid' : 'post_id';
         const { data, error } = await supabase
             .from('post_connections')
             .select('*')
-            .eq('post_id', postId)
+            .eq(field, postId)
             .eq('user_id', userId)
             .maybeSingle();
         if (error) throw error;
@@ -337,10 +342,14 @@ export const supabaseService = {
     },
 
     async togglePostConnection(postId, userId, tags = []) {
+        console.log(`[SupabaseService] Toggling connection for post: ${postId}, tags:`, tags);
+        const isUuid = typeof postId === 'string' && postId.includes('-');
+        const field = isUuid ? 'post_uuid' : 'post_id';
+
         const { data: existingConnection } = await supabase
             .from('post_connections')
             .select('*')
-            .eq('post_id', postId)
+            .eq(field, postId)
             .eq('user_id', userId)
             .maybeSingle();
 
@@ -352,7 +361,7 @@ export const supabaseService = {
                 const { data, error } = await supabase
                     .from('post_connections')
                     .update({ tags })
-                    .eq('post_id', postId)
+                    .eq(field, postId)
                     .eq('user_id', userId)
                     .select();
                 if (error) throw error;
@@ -362,7 +371,7 @@ export const supabaseService = {
                 await supabase
                     .from('post_connections')
                     .delete()
-                    .eq('post_id', postId)
+                    .eq(field, postId)
                     .eq('user_id', userId);
                 return { connected: false, tags: [] };
             }
@@ -371,7 +380,7 @@ export const supabaseService = {
             const { data, error } = await supabase
                 .from('post_connections')
                 .insert([{
-                    post_id: postId,
+                    [field]: postId,
                     user_id: userId,
                     tags: tags
                 }])

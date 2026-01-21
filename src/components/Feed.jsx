@@ -56,7 +56,9 @@ const Feed = ({ townId = null, hideHeader = false }) => {
 
                 if (postsArray.length > 0) {
                     console.log('[Feed] Fetching user connections...');
-                    const connections = await supabaseService.getPostConnections(postsArray.map(p => p.id));
+                    // Intentamos usar UUIDs si están disponibles, si no IDs
+                    const postIdsForConnections = postsArray.map(p => p.uuid || p.id);
+                    const connections = await supabaseService.getPostConnections(postIdsForConnections);
                     const userOwnConnections = connections.filter(c => c.user_id === user.id);
                     console.log('[Feed] User connections loaded:', userOwnConnections.length);
                     setUserConnections(userOwnConnections);
@@ -87,13 +89,14 @@ const Feed = ({ townId = null, hideHeader = false }) => {
     const handleConnectionUpdate = (postId, connected, tags) => {
         setUserConnections(prev => {
             if (connected) {
-                const existing = prev.find(c => c.post_id === postId);
+                const existing = prev.find(c => (c.post_uuid === postId || c.post_id === postId));
                 if (existing) {
-                    return prev.map(c => c.post_id === postId ? { ...c, tags } : c);
+                    return prev.map(c => (c.post_uuid === postId || c.post_id === postId) ? { ...c, tags } : c);
                 }
-                return [...prev, { post_id: postId, user_id: user.id, tags }];
+                const isUuid = typeof postId === 'string' && postId.includes('-');
+                return [...prev, { [isUuid ? 'post_uuid' : 'post_id']: postId, user_id: user.id, tags }];
             }
-            return prev.filter(c => c.post_id !== postId);
+            return prev.filter(c => (c.post_uuid !== postId && c.post_id !== postId));
         });
 
         // Actualizar el diccionario local si hay etiquetas nuevas
@@ -119,7 +122,7 @@ const Feed = ({ townId = null, hideHeader = false }) => {
     // Filtrado local por etiquetas personales
     const filteredPosts = selectedTag
         ? posts.filter(post => {
-            const connection = userConnections.find(c => c.post_id === post.id);
+            const connection = userConnections.find(c => c.post_uuid === post.uuid || c.post_id === post.id);
             return connection && connection.tags && connection.tags.includes(selectedTag);
         })
         : posts;
@@ -202,11 +205,12 @@ const Feed = ({ townId = null, hideHeader = false }) => {
                     </div>
                 ) : (
                     filteredPosts.map(post => {
-                        const connection = userConnections.find(c => c.post_id === post.id);
+                        const pid = post.uuid || post.id;
+                        const connection = userConnections.find(c => c.post_uuid === post.uuid || c.post_id === post.id);
                         const isConnected = !!connection;
 
                         return (
-                            <article key={post.id} className="post-card">
+                            <article key={pid} className="post-card">
                                 <div className="card-header">
                                     <div className="header-left">
                                         <div className="post-avatar" style={{ backgroundColor: getAvatarColor(post.author_role) }}>
@@ -233,7 +237,7 @@ const Feed = ({ townId = null, hideHeader = false }) => {
                                     <div className="card-actions">
                                         <button
                                             className={`action-btn ${isConnected ? 'active' : ''}`}
-                                            onClick={() => handleToggleConnection(post.id)}
+                                            onClick={() => handleToggleConnection(pid)}
                                         >
                                             <Link2 size={20} />
                                             <span>{isConnected ? (post.connections_count + 1 || 1) : (post.connections_count || 0)}</span>
@@ -247,9 +251,9 @@ const Feed = ({ townId = null, hideHeader = false }) => {
 
                                     {isConnected && (
                                         <TagSelector
-                                            postId={post.id}
+                                            postId={pid}
                                             currentTags={connection.tags || []}
-                                            onTagsChange={(newTags) => handleConnectionUpdate(post.id, true, newTags)}
+                                            onTagsChange={(newTags) => handleConnectionUpdate(pid, true, newTags)}
                                         />
                                     )}
                                 </div>
