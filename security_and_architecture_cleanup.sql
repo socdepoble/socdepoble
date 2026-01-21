@@ -137,11 +137,22 @@ CREATE POLICY "Users insert posts" ON posts
         AND (
             -- Si no se especifica entidad, permitir (post personal)
             author_entity_id IS NULL 
-            -- Si se especifica entidad, verificar que el usuario es miembro
-            OR EXISTS (
-                SELECT 1 FROM entity_members 
-                WHERE entity_id = author_entity_id 
-                AND user_id = auth.uid()
+            -- Si se especifica entidad, verificar membresía Y que el rol sea coherente
+            OR (
+                EXISTS (
+                    SELECT 1 FROM entity_members 
+                    WHERE entity_id = author_entity_id 
+                    AND user_id = auth.uid()
+                )
+                AND EXISTS (
+                    SELECT 1 FROM entities
+                    WHERE id = author_entity_id
+                    AND (
+                        (author_role = 'oficial' AND type = 'oficial')
+                        OR (author_role <> 'oficial' AND type <> 'oficial') -- Un oficial no publica como 'gent/grup' y viceversa por coherencia
+                        OR (author_role <> 'oficial') -- Permitir otros roles si no es oficial
+                    )
+                )
             )
         )
     );
@@ -157,11 +168,21 @@ CREATE POLICY "Users insert items" ON market_items
         AND (
             -- Si no se especifica entidad, permitir (venta personal)
             seller_entity_id IS NULL 
-            -- Si se especifica entidad, verificar que el usuario es miembro
-            OR EXISTS (
-                SELECT 1 FROM entity_members 
-                WHERE entity_id = seller_entity_id 
-                AND user_id = auth.uid()
+            -- Si se especifica entidad, verificar membresía Y coherencia
+            OR (
+                EXISTS (
+                    SELECT 1 FROM entity_members 
+                    WHERE entity_id = seller_entity_id 
+                    AND user_id = auth.uid()
+                )
+                AND EXISTS (
+                    SELECT 1 FROM entities
+                    WHERE id = seller_entity_id
+                    AND (
+                        (seller_role = 'oficial' AND type = 'oficial')
+                        OR (seller_role <> 'oficial')
+                    )
+                )
             )
         )
     );
