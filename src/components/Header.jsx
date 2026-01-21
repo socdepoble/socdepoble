@@ -1,11 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAppContext } from '../context/AppContext';
-import { User, Search, Bell, LogOut } from 'lucide-react';
-import './Header.css';
+import { User, Search, Bell } from 'lucide-react';
 
 const Header = () => {
-    const { profile, toggleLanguage, language, logout } = useAppContext();
+    const { user, profile, toggleLanguage, language } = useAppContext();
     const logoSrc = '/logo_dark.png';
 
     return (
@@ -24,19 +23,15 @@ const Header = () => {
                         <span>{language.toUpperCase()}</span>
                     </button>
 
-                    <button className="header-logout-btn" onClick={logout} title="Desconnectar">
-                        <LogOut size={22} color="white" />
-                    </button>
-
                     <Link to="/notificacions" className="header-notif-btn">
                         <Bell size={22} color="white" />
                         <span className="notif-badge">3</span>
                     </Link>
 
-                    {profile && (
+                    {user && (
                         <Link to="/perfil" className="profile-link">
                             <div className="user-avatar-small">
-                                {profile.avatar_url ? (
+                                {profile?.avatar_url ? (
                                     <img src={profile.avatar_url} alt={profile.full_name} />
                                 ) : (
                                     <User size={20} color="white" />
