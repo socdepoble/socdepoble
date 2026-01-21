@@ -83,7 +83,10 @@ export const supabaseService = {
             .eq('id', messageData.conversationId);
 
         // Lógica de Simulación de IA (NPCs)
-        if (messageData.conversationId.startsWith('c1111000')) {
+        // Disparamos si es el rango de demo O si tiene el flag is_demo (más robusto)
+        const { data: convCheck } = await supabase.from('conversations').select('is_demo').eq('id', messageData.conversationId).single();
+
+        if (messageData.conversationId.startsWith('c1111000') || convCheck?.is_demo) {
             this.triggerSimulatedReply(messageData);
         }
 
@@ -108,12 +111,16 @@ export const supabaseService = {
                 const responderType = isP1Sender ? conv.participant_2_type : conv.participant_1_type;
 
                 const replies = [
-                    "Ie! Moltes gràcies pel missatge, ho tindré en compte.",
-                    "Bon dia! Me'n vaig ara a l'hort, però después t'ho mire.",
-                    "Clar que sí, ens veiem per la plaça i ho parlem.",
-                    "Això està fet. Sóc de Poble és el millor que ens ha passat!",
-                    "Ho sento, ara estic un poc liat amb la faena, et dic algo de seguida.",
-                    "Xe, que bona idea! Parlem-ne demà."
+                    "Ie! Moltes gràcies pel missatge, ho tindré en compte. Broadway",
+                    "Bon dia! Me'n vaig ara a l'hort, però después t'ho mire. Broadway",
+                    "Clar que sí, ens veiem per la plaça i ho parlem. Broadway",
+                    "Això està fet. Sóc de Poble és el millor que ens ha passat! Broadway",
+                    "Ho sento, ara estic un poc liat amb la faena, et dic algo de seguida. Broadway",
+                    "Xe, que bona idea! Parlem-ne demà. Broadway",
+                    "Perfecte, ja m'ho dius quan sàpigues algo. Broadway",
+                    "No te preocupes, ja ho arreglem nosaltres. Broadway",
+                    "Això és de categoria! Molt bé. Broadway",
+                    "Ostres, no ho sabia. Gràcies per avisar! Broadway"
                 ];
                 const randomReply = replies[Math.floor(Math.random() * replies.length)];
 
