@@ -179,6 +179,40 @@
     opacity: 0.8;
 }
 
+.language-selector-auth {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 16px;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 14px;
+}
+
+.lang-btn {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.7rem;
+    font-weight: 800;
+    cursor: pointer;
+    padding: 6px 10px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    letter-spacing: 1px;
+}
+
+.lang-btn:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.lang-btn.active {
+    color: white;
+    background: var(--color-primary);
+    box-shadow: 0 4px 12px rgba(93, 95, 239, 0.3);
+}
+
 .auth-spacer {
     height: 32px;
 }

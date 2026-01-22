@@ -13,6 +13,8 @@ import Towns from './pages/Towns';
 import Map from './pages/Map';
 import Notifications from './pages/Notifications';
 import TownDetail from './pages/TownDetail';
+import PublicProfile from './pages/PublicProfile';
+import PublicEntity from './pages/PublicEntity';
 import AdminPanel from './pages/AdminPanel';
 import { supabase } from './supabaseClient';
 import { MOCK_CHATS, MOCK_FEED, MOCK_MARKET_ITEMS } from './data';
@@ -45,73 +47,7 @@ const ProtectedRoute = ({ children }) => {
 };
 
 function App() {
-  useEffect(() => {
-    const checkAndSeed = async () => {
-      try {
-        // Verificar cada tabla individualmente para un seeding más robusto
-        const { count: chatCount } = await supabase.from('conversations').select('*', { count: 'exact', head: true });
-        const { count: postCount } = await supabase.from('posts').select('*', { count: 'exact', head: true });
-        const { count: marketCount } = await supabase.from('market_items').select('*', { count: 'exact', head: true });
 
-        let seeded = false;
-
-        if (chatCount === 0) {
-          console.log('Seeding Conversations...');
-          // In a real app we wouldn't seed DMs like this, but for demo:
-          // We need valid user IDs. Since we don't have them yet, we'll skip or use placeholders.
-          console.log('Skip seeding conversations for now (requires valid auth IDs)');
-        }
-
-        if (postCount === 0) {
-          console.log('Seeding Muro...');
-          await supabase.from('posts').upsert(
-            MOCK_FEED.map(post => ({
-              id: post.id,
-              author: post.author,
-              author_role: post.authorRole || 'gent',
-              content: post.content,
-              likes: post.likes || 0,
-              comments_count: post.comments || 0,
-              connections_count: 0,
-              image_url: post.image,
-              town_id: typeof post.town_id === 'number' ? post.town_id : null,
-              town_uuid: typeof post.town_id === 'string' ? post.town_id : null,
-              created_at: new Date().toISOString()
-            }))
-          );
-          seeded = true;
-        }
-
-        if (marketCount === 0) {
-          console.log('Seeding Mercado...');
-          await supabase.from('market_items').upsert(
-            MOCK_MARKET_ITEMS.map(item => ({
-              id: item.id,
-              title: item.title,
-              price: item.price,
-              seller: item.seller,
-              image_url: item.image,
-              tag: item.tag,
-              town_id: typeof item.town_id === 'number' ? item.town_id : null,
-              town_uuid: typeof item.town_id === 'string' ? item.town_id : null,
-            }))
-          );
-          seeded = true;
-        }
-
-        if (seeded) {
-          console.log('Seeding completat amb èxit.');
-          // Ya no recargamos automáticamente para evitar bucles infinitos.
-          // El usuario verá los datos en el siguiente renderizado si el estado cambia
-          // o puede recargar manualmente si es necesario.
-        }
-      } catch (error) {
-        console.error('Error during seeding process:', error);
-      }
-    };
-
-    checkAndSeed();
-  }, []);
 
   return (
     <BrowserRouter>
@@ -133,6 +69,8 @@ function App() {
           <Route path="mur" element={<Feed />} />
           <Route path="mercat" element={<Market />} />
           <Route path="perfil" element={<Profile />} />
+          <Route path="perfil/:id" element={<PublicProfile />} />
+          <Route path="entitat/:id" element={<PublicEntity />} />
           <Route path="notificacions" element={<Notifications />} />
           <Route path="pobles" element={<Towns />} />
           <Route path="pobles/:id" element={<TownDetail />} />

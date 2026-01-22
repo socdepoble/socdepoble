@@ -20,6 +20,12 @@ i18n
             en: { translation: enTranslations }
         },
         fallbackLng: 'va',
+        // No forzamos 'lng' aquí para que el detector pueda usar localStorage
+        detection: {
+            order: ['localStorage'], // IGNORAMOS el navegador, solo lo que el usuario elija
+            lookupLocalStorage: 'i18nextLng',
+            caches: ['localStorage']
+        },
         interpolation: {
             escapeValue: false
         }

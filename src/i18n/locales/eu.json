@@ -35,8 +35,23 @@
     },
     "market": {
         "title": "Merkatua",
+        "all": "Guztiak",
+        "products": "Produktuak",
+        "services": "Zerbitzuak",
+        "exchange": "Trukea",
+        "search_placeholder": "Bilatu merkatuan...",
         "empty": "Ez dago produkturik merkatuan.",
-        "loading_market": "Merkatua kargatzen..."
+        "no_items": "Oraindik ez dago ezer merkatuan.",
+        "loading": "Merkatua kargatzen...",
+        "loading_market": "Merkatua kargatzen...",
+        "no_description": "Deskribapenik gabe.",
+        "sell_title": "Artikulua Saldu",
+        "item_title": "Artikuluaren izenburua",
+        "price": "Prezioa",
+        "category": "Kategoria",
+        "add_photo": "Argazki bat gehitu",
+        "publish": "Artikulua Publikatu",
+        "interested": "Interesatua"
     },
     "auth": {
         "login": "Saioa hasi",

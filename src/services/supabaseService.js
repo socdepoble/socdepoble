@@ -252,7 +252,7 @@ export const supabaseService = {
         try {
             let query = supabase
                 .from('posts')
-                .select('*')
+                .select('*, towns!fk_posts_town_uuid(name)')
                 .order('created_at', { ascending: false }); // Use created_at instead of id
 
             if (roleFilter !== ROLES.ALL) {
@@ -298,25 +298,33 @@ export const supabaseService = {
     },
 
     // Mercado
-    async getMarketItems(roleFilter = 'tot', townId = null) {
+    async getMarketCategories() {
+        const { data, error } = await supabase
+            .from('market_categories')
+            .select('*')
+            .order('id', { ascending: true });
+        if (error) throw error;
+        return data || [];
+    },
+
+    async getMarketItems(categoryFilter = 'tot', townId = null) {
         let query = supabase
             .from('market_items')
-            .select('*')
-            .order('id', { ascending: false });
+            .select('*, towns!fk_market_town_uuid(name)')
+            .order('created_at', { ascending: false });
 
-        if (roleFilter !== ROLES.ALL) {
-            // Compatibility layer: check both as we migrate
-            query = query.or(`author_role.eq.${roleFilter},seller_role.eq.${roleFilter}`);
+        if (categoryFilter !== 'tot') {
+            query = query.eq('category_slug', categoryFilter);
         }
 
         if (townId) {
-            // Asumimos UUID como estándar
-            query = query.eq('town_uuid', townId);
+            const isUuid = typeof townId === 'string' && townId.includes('-');
+            query = query.eq(isUuid ? 'town_uuid' : 'town_id', townId);
         }
 
         const { data, error } = await query;
         if (error) throw error;
-        return data;
+        return data || [];
     },
 
     async createMarketItem(itemData) {
@@ -324,6 +332,7 @@ export const supabaseService = {
             .from('market_items')
             .insert([{
                 ...itemData,
+                category_slug: itemData.category_slug || itemData.tag || 'tot',
                 author_user_id: itemData.author_user_id || itemData.seller_id,
                 author_role: itemData.author_role || itemData.seller_role, // Compatibility
                 seller_entity_id: itemData.author_entity_id || itemData.seller_entity_id // Internal mapping
@@ -627,6 +636,56 @@ export const supabaseService = {
             ...item.entities,
             member_role: item.role
         }));
+    },
+
+    // Fase 6: Páginas Públicas y Gestión de Entidades
+    async getPublicProfile(userId) {
+        const { data, error } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('id', userId)
+            .single();
+        if (error) throw error;
+        return data;
+    },
+
+    async getPublicEntity(entityId) {
+        const { data, error } = await supabase
+            .from('entities')
+            .select('*')
+            .eq('id', entityId)
+            .single();
+        if (error) throw error;
+        return data;
+    },
+
+    async getEntityMembers(entityId) {
+        const { data, error } = await supabase
+            .from('entity_members')
+            .select('user_id, role, profiles(full_name, avatar_url)')
+            .eq('entity_id', entityId);
+        if (error) throw error;
+        return data;
+    },
+
+    async getUserPosts(userId) {
+        const { data, error } = await supabase
+            .from('posts')
+            .select('*')
+            .eq('author_user_id', userId)
+            .order('created_at', { ascending: false });
+        if (error) throw error;
+        return data || [];
+    },
+
+    async getEntityPosts(entityId) {
+        const { data, error } = await supabase
+            .from('posts')
+            .select('*')
+            .eq('author_entity_id', entityId)
+            .order('created_at', { ascending: false });
+        if (error) throw error;
+        return data || [];
     },
 
     // Fase 6: Lèxic

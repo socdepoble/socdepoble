@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { Link2, MessageCircle, Share2, MoreHorizontal, Building2, Store, Users, User, Loader2, AlertCircle } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useAppContext } from '../context/AppContext';
@@ -29,6 +30,7 @@ const getAvatarColor = (role) => {
 
 const Feed = ({ townId = null, hideHeader = false }) => {
     const { t } = useTranslation();
+    const navigate = useNavigate();
     const { user } = useAppContext();
     const [posts, setPosts] = useState([]);
     const [userConnections, setUserConnections] = useState([]);
@@ -227,8 +229,21 @@ const Feed = ({ townId = null, hideHeader = false }) => {
                                             ) : getAvatarIcon(post.author_role)}
                                         </div>
                                         <div className="post-meta">
-                                            <span className="post-author">{post.author}</span>
-                                            <span className="post-time">{post.created_at ? new Date(post.created_at).toLocaleDateString() : 'Ara'}</span>
+                                            <div className="post-author-row">
+                                                <span
+                                                    className="post-author clickable"
+                                                    onClick={() => {
+                                                        if (post.author_entity_id) navigate(`/entitat/${post.author_entity_id}`);
+                                                        else if (post.author_user_id) navigate(`/perfil/${post.author_user_id}`);
+                                                    }}
+                                                >
+                                                    {post.author}
+                                                </span>
+                                            </div>
+                                            <div className="post-subtitle-row">
+                                                <span className="post-time">{post.created_at ? new Date(post.created_at).toLocaleDateString() : 'Ara'}</span>
+                                                {post.towns?.name && <span className="post-location">• {post.towns.name}</span>}
+                                            </div>
                                         </div>
                                     </div>
                                     <button className="more-btn"><MoreHorizontal size={20} /></button>
@@ -252,29 +267,31 @@ const Feed = ({ townId = null, hideHeader = false }) => {
                                     <p className="post-text">{post.content}</p>
                                 </div>
 
-                                <div className="card-actions-wrapper">
-                                    <div className="card-actions">
-                                        <button
-                                            className={`action-btn ${isConnected ? 'active' : ''}`}
-                                            onClick={() => handleToggleConnection(pid)}
-                                        >
-                                            <Link2 size={20} />
-                                            <span>{isConnected ? (post.connections_count + 1 || 1) : (post.connections_count || 0)}</span>
-                                        </button>
-                                        <button className="action-btn">
-                                            <MessageCircle size={20} />
-                                            <span>{post.comments_count || 0}</span>
-                                        </button>
-                                        <button className="action-btn"><Share2 size={20} /></button>
-                                    </div>
+                                <div className="card-footer-vibrant">
+                                    <div className="card-actions-wrapper" style={{ flex: 1, backgroundColor: "transparent", borderTop: "none" }}>
+                                        <div className="card-actions">
+                                            <button
+                                                className={`action-btn ${isConnected ? 'active' : ''}`}
+                                                onClick={() => handleToggleConnection(pid)}
+                                            >
+                                                <Link2 size={20} />
+                                                <span>{isConnected ? (post.connections_count + 1 || 1) : (post.connections_count || 0)}</span>
+                                            </button>
+                                            <button className="action-btn">
+                                                <MessageCircle size={20} />
+                                                <span>{post.comments_count || 0}</span>
+                                            </button>
+                                            <button className="action-btn"><Share2 size={20} /></button>
+                                        </div>
 
-                                    {isConnected && (
-                                        <TagSelector
-                                            postId={pid}
-                                            currentTags={connection.tags || []}
-                                            onTagsChange={(newTags) => handleConnectionUpdate(pid, true, newTags)}
-                                        />
-                                    )}
+                                        {isConnected && (
+                                            <TagSelector
+                                                postId={pid}
+                                                currentTags={connection.tags || []}
+                                                onTagsChange={(newTags) => handleConnectionUpdate(pid, true, newTags)}
+                                            />
+                                        )}
+                                    </div>
                                 </div>
                             </article>
                         );

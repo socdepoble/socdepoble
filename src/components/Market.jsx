@@ -1,170 +1,167 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Heart, Plus, Loader2, Store } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Plus, Search, Filter, Loader2 } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
-import { useAppContext } from '../context/AppContext';
-import { ROLES } from '../constants';
-import AddItemModal from './AddItemModal';
 import CategoryTabs from './CategoryTabs';
 import './Market.css';
 
-const Market = ({ townId = null, hideHeader = false }) => {
-    const { t } = useTranslation();
-    const { user } = useAppContext();
+const Market = ({ townId = null }) => {
+    const { t, i18n } = useTranslation();
+    const navigate = useNavigate();
     const [items, setItems] = useState([]);
+    const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [userFavorites, setUserFavorites] = useState({}); // { itemId: boolean }
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedRole, setSelectedRole] = useState(ROLES.ALL);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [activeTab, setActiveTab] = useState('tot');
 
-    const fetchItems = useCallback(async () => {
-        setLoading(true);
-        try {
-            const data = await supabaseService.getMarketItems(selectedRole, townId);
-            setItems(data);
-
-            if (user) {
-                const favoritesState = {};
-                for (const item of data) {
-                    const iid = item.uuid || item.id;
-                    try {
-                        const favorites = await supabaseService.getMarketFavorites(iid);
-                        favoritesState[iid] = favorites.includes(user.id);
-                    } catch (error) {
-                        console.error(`Error loading favorites for item ${iid}:`, error);
-                        favoritesState[iid] = false;
-                    }
+    useEffect(() => {
+        const loadInitialData = async () => {
+            setLoading(true);
+            try {
+                // Cargar categorías primero si no están cargadas
+                if (categories.length === 0) {
+                    const cats = await supabaseService.getMarketCategories();
+                    setCategories(cats);
                 }
-                setUserFavorites(favoritesState);
+
+                const data = await supabaseService.getMarketItems(activeTab, townId);
+                setItems(data);
+            } catch (error) {
+                console.error('Error fetching market data:', error);
+            } finally {
+                setLoading(false);
             }
-        } catch (error) {
-            console.error('Error fetching market items:', error);
-        } finally {
-            setLoading(false);
-        }
-    }, [selectedRole, user, townId]);
+        };
+        loadInitialData();
+    }, [activeTab, townId, categories.length]);
 
-    useEffect(() => {
-        fetchItems();
-    }, [selectedRole, fetchItems]);
+    const filteredItems = items.filter(item =>
+        item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.description?.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
-    useEffect(() => {
-        const handleOpenModal = () => setIsModalOpen(true);
-        window.addEventListener('open-add-market-item', handleOpenModal);
-        return () => window.removeEventListener('open-add-market-item', handleOpenModal);
-    }, []);
-
-    const handleFavorite = async (itemId) => {
-        if (!user) return alert('Has d\'iniciar sessió per a marcar favorits');
-
-        try {
-            const { favorited } = await supabaseService.toggleMarketFavorite(itemId, user.id);
-            setUserFavorites(prev => ({ ...prev, [itemId]: favorited }));
-        } catch (error) {
-            console.error('Error toggling favorite:', error);
-        }
-    };
-
-
-    const marketTabs = [
-        { id: ROLES.ALL, label: t('common.role_mercat') },
-        { id: ROLES.PEOPLE, label: t('common.role_gent') },
-        { id: ROLES.GROUPS, label: t('common.role_grup') },
-        { id: ROLES.BUSINESS, label: t('common.role_empresa') },
-        { id: ROLES.OFFICIAL, label: t('common.role_oficial') || t('common.role_pobo') }
-    ];
+    const marketTabs = categories.length > 0
+        ? categories.map(cat => {
+            // Mapeo dinámico de idioma a columna de la DB
+            const langMap = {
+                'va': cat.name_va,
+                'es': cat.name_es,
+                'en': cat.name_en,
+                'gl': cat.name_gl,
+                'eu': cat.name_eu
+            };
+            return {
+                id: cat.slug,
+                label: langMap[i18n.language] || cat.name_va // Fallback a valencià
+            };
+        })
+        : [
+            { id: 'tot', label: t('market.all') || 'Tot' },
+            { id: 'productes', label: t('market.products') || 'Productes' },
+            { id: 'serveis', label: t('market.services') || 'Serveis' },
+            { id: 'intercanvi', label: t('market.exchange') || 'Intercanvi' }
+        ];
 
     if (loading && items.length === 0) {
         return (
             <div className="market-container loading">
                 <Loader2 className="spinner" />
-                <p>{t('market.loading_market')}</p>
+                <p>{t('market.loading') || 'Carregant el mercat...'}</p>
             </div>
         );
     }
 
     return (
         <div className="market-container">
-            {!hideHeader && (
-                <header className="page-header-with-tabs">
-                    <div className="header-tabs-wrapper-with-fab">
-                        <CategoryTabs
-                            selectedRole={selectedRole}
-                            onSelectRole={setSelectedRole}
-                            tabs={marketTabs}
+            <header className="page-header-with-tabs">
+                <div className="header-tabs-wrapper">
+                    <CategoryTabs
+                        selectedRole={activeTab}
+                        onSelectRole={setActiveTab}
+                        tabs={marketTabs}
+                    />
+                </div>
+                <div className="personal-tag-bar">
+                    <div className="search-bar-mini">
+                        <Search size={16} />
+                        <input
+                            type="text"
+                            placeholder={t('market.search_placeholder') || 'Buscar al mercat...'}
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
                         />
                     </div>
-                </header>
-            )}
-
-            <AddItemModal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                onItemCreated={fetchItems}
-            />
+                </div>
+            </header>
 
             <div className="market-grid">
-                {items.length === 0 ? (
-                    <p className="empty-message">{t('market.empty')}</p>
+                {filteredItems.length === 0 ? (
+                    <div className="empty-state">
+                        <p>{t('market.no_items') || 'No hi ha res al mercat encara.'}</p>
+                    </div>
                 ) : (
-                    items.map(item => {
-                        const iid = item.uuid || item.id;
-                        return (
-                            <div key={iid} className="universal-card market-item">
-                                <div className="card-header">
-                                    <div className="header-left">
-                                        <div className="post-avatar" style={{ backgroundColor: 'var(--color-primary-soft)', color: 'var(--color-primary)' }}>
-                                            {item.seller_avatar ? (
-                                                <img
-                                                    src={item.seller_avatar}
-                                                    alt={item.seller}
-                                                    className="post-avatar-img"
-                                                    onError={(e) => {
-                                                        e.target.style.display = 'none';
-                                                        e.target.parentElement.innerHTML = '<div class="avatar-placeholder-mini"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>';
-                                                    }}
-                                                />
-                                            ) : <Store size={20} />}
-                                        </div>
-                                        <div className="post-meta">
-                                            <span className="post-author">{item.seller}</span>
-                                            <span className="post-time">{item.tag}</span>
-                                        </div>
+                    filteredItems.map(item => (
+                        <div key={item.uuid || item.id} className="universal-card market-item">
+                            <div className="card-header">
+                                <div className="header-left">
+                                    <div className="post-avatar" style={{ backgroundColor: 'var(--color-secondary)' }}>
+                                        <Plus size={20} />
                                     </div>
-                                    <button
-                                        className={`fav-btn-clean ${userFavorites[iid] ? 'active' : ''}`}
-                                        onClick={() => handleFavorite(iid)}
-                                    >
-                                        <Heart size={20} fill={userFavorites[iid] ? "#e91e63" : "none"} stroke={userFavorites[iid] ? "#e91e63" : "currentColor"} />
-                                    </button>
-                                </div>
-
-                                <div className="card-image-wrapper">
-                                    <img src={item.image_url} alt={item.title} />
-                                </div>
-
-                                <div className="card-body">
-                                    <div className="item-header-info-row">
-                                        <div className="item-info-left">
-                                            <h3 className="item-title">{item.title}</h3>
-                                            <p className="item-desc-short">{item.description || t('market.no_description')}</p>
+                                    <div className="post-meta">
+                                        <div className="post-author-row">
+                                            <span
+                                                className="post-author clickable"
+                                                onClick={() => {
+                                                    if (item.author_entity_id) navigate(`/entitat/${item.author_entity_id}`);
+                                                    else if (item.author_user_id) navigate(`/perfil/${item.author_user_id}`);
+                                                }}
+                                            >
+                                                {item.seller || item.seller_name || 'Usuari'}
+                                            </span>
                                         </div>
-                                        <div className="item-info-right">
-                                            <span className="price-tag-vibrant">{item.price}</span>
-                                            <span className="category-pill-mini">#{item.tag}</span>
+                                        <div className="post-subtitle-row">
+                                            <span className="post-time">{item.created_at ? new Date(item.created_at).toLocaleDateString() : 'Avui'}</span>
+                                            {item.towns?.name && <span className="post-location">• {item.towns.name}</span>}
                                         </div>
-                                    </div>
-
-                                    <div className="item-footer-unified">
-                                        <button className="add-btn-premium-vibrant">
-                                            <Plus size={18} />
-                                            <span>Interessat</span>
-                                        </button>
                                     </div>
                                 </div>
                             </div>
-                        );
-                    })
+
+                            <div className="card-image-wrapper">
+                                <img src={item.image_url} alt={item.title} />
+                            </div>
+
+                            <div className="card-body">
+                                <div className="item-header-info-row">
+                                    <div className="item-info-left">
+                                        <h3 className="item-title">{item.title}</h3>
+                                        <p className="item-desc-short">{item.description || t('market.no_description')}</p>
+                                    </div>
+                                    <div className="item-info-right">
+                                        <span className="price-tag-vibrant">{item.price}</span>
+                                        {item.category_slug && (
+                                            <span className="category-pill-mini">
+                                                {categories.find(c => c.slug === item.category_slug)?.[
+                                                    i18n.language === 'va' ? 'name_va' :
+                                                        i18n.language === 'es' ? 'name_es' :
+                                                            i18n.language === 'en' ? 'name_en' :
+                                                                i18n.language === 'gl' ? 'name_gl' : 'name_eu'
+                                                ] || item.tag || item.category_slug}
+                                            </span>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="item-footer-unified card-footer-vibrant">
+                                <button className="add-btn-premium-vibrant full-width">
+                                    <Plus size={18} />
+                                    <span>{t('market.interested')}</span>
+                                </button>
+                            </div>
+                        </div>
+                    ))
                 )}
             </div>
         </div>

@@ -6,7 +6,7 @@ import { useAppContext } from '../context/AppContext';
 import './Auth.css';
 
 const Login = () => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const { loginAsGuest, loginWithGoogle } = useAppContext();
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
@@ -44,6 +44,24 @@ const Login = () => {
                         {t('auth.demo_access') || 'Entrar com a Veí (Demo)'}
                     </button>
                     <p className="demo-hint">{t('auth.demo_hint') || 'Accés ràpid per a revisió sense registre'}</p>
+
+                    <div className="language-selector-auth">
+                        {[
+                            { code: 'va', label: 'VA' },
+                            { code: 'es', label: 'ES' },
+                            { code: 'en', label: 'EN' },
+                            { code: 'gl', label: 'GL' },
+                            { code: 'eu', label: 'EU' }
+                        ].map((lang) => (
+                            <button
+                                key={lang.code}
+                                onClick={() => i18n.changeLanguage(lang.code)}
+                                className={`lang-btn ${i18n.language?.startsWith(lang.code) ? 'active' : ''}`}
+                            >
+                                {lang.label}
+                            </button>
+                        ))}
+                    </div>
                 </div>
 
                 <div className="auth-divider">

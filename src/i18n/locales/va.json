@@ -70,14 +70,23 @@
     },
     "market": {
         "title": "Mercat",
+        "all": "Tot",
+        "products": "Productes",
+        "services": "Serveis",
+        "exchange": "Intercanvi",
+        "search_placeholder": "Buscar al mercat...",
         "empty": "No hi ha productes en el mercat.",
+        "no_items": "No hi ha res al mercat encara.",
+        "loading": "Carregant el mercat...",
         "loading_market": "Carregant el mercat...",
+        "no_description": "Sense descripció.",
         "sell_title": "Vendre Article",
         "item_title": "Títol de l'article",
         "price": "Preu",
         "category": "Categoria",
         "add_photo": "Afegeix una foto",
-        "publish": "Publicar Article"
+        "publish": "Publicar Article",
+        "interested": "Interessat"
     },
     "auth": {
         "login": "Inicia sessió",

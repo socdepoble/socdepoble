@@ -70,7 +70,9 @@ const AddItemModal = ({ isOpen, onClose, onItemCreated, isPrivateInitial = false
                 is_private: privacy !== 'public',
 
                 // Multi-Identidad Vendedor (Unified)
-                seller: selectedIdentity.name,
+                seller: selectedIdentity.type === 'user'
+                    ? profile.full_name
+                    : `${selectedIdentity.name} | ${profile.full_name}`,
                 author_user_id: user?.id,
                 author_entity_id: selectedIdentity.type !== 'user' ? selectedIdentity.id : null,
                 author_role: selectedIdentity.type === 'user' ? ROLES.PEOPLE : selectedIdentity.type

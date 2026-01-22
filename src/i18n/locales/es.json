@@ -55,14 +55,23 @@
     },
     "market": {
         "title": "Mercado",
+        "all": "Todo",
+        "products": "Productos",
+        "services": "Servicios",
+        "exchange": "Intercambio",
+        "search_placeholder": "Buscar en el mercado...",
         "empty": "No hay productos en el mercado.",
+        "no_items": "No hay nada en el mercado todavía.",
+        "loading": "Cargando el mercado...",
         "loading_market": "Cargando el mercado...",
+        "no_description": "Sin descripción.",
         "sell_title": "Vender Artículo",
         "item_title": "Título del artículo",
         "price": "Precio",
         "category": "Categoría",
         "add_photo": "Añadir una foto",
-        "publish": "Publicar Artículo"
+        "publish": "Publicar Artículo",
+        "interested": "Interesado"
     },
     "auth": {
         "login": "Iniciar Sesión",

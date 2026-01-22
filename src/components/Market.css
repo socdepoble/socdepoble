@@ -127,27 +127,9 @@
     font-weight: 600;
 }
 
+/* Handled by index.css card-footer-vibrant and add-btn-premium-vibrant */
 .item-footer-unified {
-    margin-top: var(--space-lg);
-    padding-top: var(--space-md);
-    border-top: 1px dashed var(--color-divider);
-}
-
-.add-btn-premium-vibrant {
-    width: 100%;
-    background-color: #000000;
-    /* Solid black button for contrast */
-    color: white;
-    padding: 14px;
-    border-radius: var(--radius-md);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    font-weight: 800;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    border-top: none;
 }
 
 .fav-btn-clean {

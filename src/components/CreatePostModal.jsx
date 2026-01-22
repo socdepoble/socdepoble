@@ -81,7 +81,9 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated, isPrivateInitial = fa
                 author_role: selectedIdentity.type === 'user' ? ROLES.PEOPLE : selectedIdentity.type,
 
                 // Display fallbacks
-                author: selectedIdentity.name,
+                author: selectedIdentity.type === 'user'
+                    ? profile.full_name
+                    : `${selectedIdentity.name} | ${profile.full_name}`,
                 image_url: selectedIdentity.avatar_url
             };
 

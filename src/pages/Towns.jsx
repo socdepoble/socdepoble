@@ -126,17 +126,17 @@ const Towns = () => {
 
                                     <div className="card-body">
                                         <p className="town-desc-short">{town.description}</p>
-                                        <div className="card-flush-footer town-card-footer">
-                                            <div className="item-stats">
-                                                <span className="stat-item">
-                                                    <Users size={16} />
-                                                    {town.population?.toLocaleString()}
-                                                </span>
+                                    </div>
+                                    <div className="card-footer-vibrant">
+                                        <div className="footer-stat-block">
+                                            <div className="stat-item">
+                                                <Users size={18} />
+                                                <span>{town.population?.toLocaleString()}</span>
                                             </div>
-                                            <button className="add-btn-premium-vibrant" style={{ width: 'auto', padding: '8px 20px', fontSize: '14px' }}>
-                                                Explorar
-                                            </button>
                                         </div>
+                                        <button className="add-btn-premium-vibrant">
+                                            Explorar
+                                        </button>
                                     </div>
                                 </div>
                             </Link>

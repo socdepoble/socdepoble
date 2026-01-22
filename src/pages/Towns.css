@@ -131,22 +131,6 @@
     z-index: 20;
 }
 
-.town-card-footer {
-    background-color: var(--bg-warm-card);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-top: 1px solid var(--bg-warm-accent);
-    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
-    /* Match card bottom rounding */
-}
-
-.town-card-footer .stat-item {
-    font-size: 16px;
-    font-weight: 800;
-    color: var(--text-main);
-}
-
 .town-card .town-desc-short {
     font-size: 18px;
     margin-bottom: var(--space-md);

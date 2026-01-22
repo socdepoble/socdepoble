@@ -39,8 +39,23 @@
     },
     "market": {
         "title": "Market",
+        "all": "All",
+        "products": "Products",
+        "services": "Services",
+        "exchange": "Exchange",
+        "search_placeholder": "Search the market...",
         "empty": "No products in the market.",
-        "loading_market": "Loading market..."
+        "no_items": "No items in the market yet.",
+        "loading": "Loading market...",
+        "loading_market": "Loading market...",
+        "no_description": "No description.",
+        "sell_title": "Sell Item",
+        "item_title": "Item title",
+        "price": "Price",
+        "category": "Category",
+        "add_photo": "Add a photo",
+        "publish": "Publish Item",
+        "interested": "Interested"
     },
     "auth": {
         "login": "Login",
