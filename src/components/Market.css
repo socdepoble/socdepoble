@@ -7,7 +7,7 @@
 .market-grid {
     display: flex;
     flex-direction: column;
-    gap: var(--space-xl);
+    gap: 0;
     padding: var(--space-md);
 }
 

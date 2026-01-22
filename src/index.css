@@ -55,6 +55,7 @@
   --space-lg: 24px;
   --space-xl: 32px;
   --space-2xl: 48px;
+  --grid-card-gap: 18px;
 
   /* Radii */
   --radius-xs: 8px;
@@ -337,7 +338,7 @@ a:hover {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  margin-bottom: var(--space-xl);
+  margin-bottom: var(--grid-card-gap);
 }
 
 .avatar-placeholder,
