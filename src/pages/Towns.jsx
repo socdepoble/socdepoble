@@ -91,29 +91,51 @@ const Towns = () => {
                                 className={`town-card-link ${(town.uuid === profile?.town_uuid || town.id === profile?.town_id) ? 'is-user-town' : ''}`}
                             >
                                 <div className="universal-card town-card">
+                                    <div className="card-header">
+                                        <div className="header-left">
+                                            <div className="post-avatar" style={{ backgroundColor: 'var(--bg-surface)', padding: '2px' }}>
+                                                {town.logo_url ? (
+                                                    <img
+                                                        src={town.logo_url}
+                                                        alt="Escut"
+                                                        className="town-logo-mini"
+                                                        onError={(e) => {
+                                                            e.target.style.display = 'none';
+                                                            e.target.parentElement.innerHTML = '<div class="avatar-placeholder"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>';
+                                                        }}
+                                                    />
+                                                ) : <MapIcon size={20} />}
+                                            </div>
+                                            <div className="post-meta">
+                                                <span className="post-author">{town.name}</span>
+                                                <span className="post-time">{town.province}</span>
+                                            </div>
+                                        </div>
+                                        <ChevronRight size={20} className="text-muted" />
+                                    </div>
+
                                     <div className="card-image-wrapper">
                                         <img
-                                            src={town.image_url || 'https://images.unsplash.com/photo-1541890289-b86df5b6fea1?auto=format&fit=crop&q=80'}
+                                            src={town.image_url || '/images/assets/town_square.png'}
                                             alt={town.name}
                                         />
                                         {(town.uuid === profile?.town_uuid || town.id === profile?.town_id) && (
                                             <div className="pill-badge accent user-town-badge">{t('towns.your_town') || 'El teu poble'}</div>
                                         )}
                                     </div>
-                                    <div className="town-info">
-                                        <div className="town-header">
-                                            {town.logo_url && (
-                                                <img src={town.logo_url} alt="Escut" className="town-logo-mini" />
-                                            )}
-                                            <h3 className="town-name">{town.name}</h3>
-                                        </div>
-                                        <p className="town-desc">{town.description}</p>
-                                        <div className="town-stats">
-                                            <span className="stat-item">
-                                                <Users size={14} />
-                                                {town.population?.toLocaleString()}
-                                            </span>
-                                            <ChevronRight size={16} className="card-arrow" />
+
+                                    <div className="card-body">
+                                        <p className="town-desc-short">{town.description}</p>
+                                        <div className="card-actions-wrapper" style={{ borderTop: 'none', padding: 'var(--space-sm) var(--space-md)', backgroundColor: 'var(--bg-warm-card)', margin: 'var(--space-sm) calc(var(--space-md) * -1) calc(var(--space-md) * -1) calc(var(--space-md) * -1)' }}>
+                                            <div className="item-stats" style={{ display: 'flex', gap: 'var(--space-md)' }}>
+                                                <span className="stat-item">
+                                                    <Users size={14} />
+                                                    {town.population?.toLocaleString()}
+                                                </span>
+                                            </div>
+                                            <button className="btn-primary-soft" style={{ borderRadius: 'var(--radius-full)', padding: '6px 16px', fontSize: '13px' }}>
+                                                Explorar
+                                            </button>
                                         </div>
                                     </div>
                                 </div>

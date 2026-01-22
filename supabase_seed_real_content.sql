@@ -26,7 +26,7 @@ description = EXCLUDED.description;
 
 -- C. INSERTAR POSTS (Usando imágenes IA disponibles y roles)
 INSERT INTO posts (id, author, avatar_type, content, image_url, connections_count, created_at, author_id, author_role) VALUES
-(201, 'Ajuntament Torremanzanas', 'gov', '📢 NOTA INFORMATIVA: El servicio de médico de familia pasará consulta este martes y jueves de 9:00 a 13:00. Recordad pedir cita previa.', NULL, 12, NOW() - INTERVAL '1 hour', 'admin-id', 'grup'),
+(201, 'Ajuntament de la Torre', 'gov', '📢 NOTA INFORMATIVA: El servicio de médico de familia pasará consulta este martes y jueves de 9:00 a 13:00. Recordad pedir cita previa.', NULL, 12, NOW() - INTERVAL '1 hour', 'admin-id', 'grup'),
 (202, 'Banda de Música La Lira', 'group', '🎺 Aquest divendres assaig general a la Casa de Cultura. Preparem el concert de Santa Cecília! No falteu, que hem de repassar el pasdoble nou.', NULL, 34, NOW() - INTERVAL '3 hours', 'banda-id', 'grup'),
 (203, 'Bar El Chato', 'shop', '🍲 Avui dijous toca OLLETA DE BLAT! Amb pencas, botifarra i molt d''amor. Reserveu taula o emporteu-vos-la en olla.', '/images/olleta.png', 45, NOW() - INTERVAL '5 hours', 'bar-id', 'empresa'),
 (204, 'Forn de Pa La Plaça', 'shop', '🥖 Acabem de traure les coques de tomaca i les de pericana! També tenim pastissets de moniato fets a mà amb la recepta de la iaia.', '/images/coques.png', 28, NOW() - INTERVAL '6 hours', 'forn-id', 'empresa'),

@@ -89,7 +89,7 @@ ALTER TABLE market_items ADD COLUMN IF NOT EXISTS seller_role TEXT DEFAULT 'gent
 -- Nota: Usamos IDs fijos y UUIDs válidos para los owners (NULL por ahora)
 -- 'Ajuntament' pasa a ser 'oficial'
 INSERT INTO entities (id, name, type, description, avatar_url, owner_id) VALUES
-('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'Ajuntament Torremanzanas', 'oficial', 'Compte oficial de l''Ajuntament.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Escut_de_la_Torre_de_les_Ma%C3%A7anes.svg/300px-Escut_de_la_Torre_de_les_Ma%C3%A7anes.svg.png', NULL),
+('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'Ajuntament de la Torre', 'oficial', 'Compte oficial de l''Ajuntament.', 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Escut_de_la_Torre_de_les_Ma%C3%A7anes.svg/300px-Escut_de_la_Torre_de_les_Ma%C3%A7anes.svg.png', NULL),
 ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a12', 'Banda de Música La Lira', 'grup', 'Societat Musical La Lira.', '/images/banda.jpg', NULL),
 ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a13', 'Bar El Chato', 'empresa', 'El millor esmorzar del poble.', '/images/olleta.png', NULL),
 ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a14', 'Forn de Pa La Plaça', 'empresa', 'Pa artesa i coques.', '/images/coques.png', NULL),

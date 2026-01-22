@@ -22,7 +22,7 @@
 .form-group select {
     padding: 12px;
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-md);
     font-size: 15px;
     outline: none;
     background-color: var(--bg-card);
@@ -41,7 +41,7 @@
 
 .image-upload-box {
     border: 2px dashed var(--color-border);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-lg);
     height: 120px;
     display: flex;
     flex-direction: column;
@@ -92,7 +92,7 @@
     justify-content: center;
     gap: 8px;
     padding: 10px;
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-lg);
     background-color: var(--bg-card);
     border: 1px solid var(--color-border);
     font-size: 14px;

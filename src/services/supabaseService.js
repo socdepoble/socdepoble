@@ -23,24 +23,22 @@ export const supabaseService = {
 
     // Chats (Secure Messaging - Phase 4)
     async getConversations(userIdOrEntityId) {
-        // Usamos la vista enriquecida que ya trae nombres y avatares (Optimización Auditoría)
-        let query = supabase.from('view_conversations_enriched').select('*');
-
         const isGuest = !userIdOrEntityId || userIdOrEntityId === '00000000-0000-0000-0000-000000000000';
 
+        // Usamos la vista enriquecida que ya trae nombres y avatares directamente (Optimización Auditoría V3)
+        let query = supabase.from('view_conversations_enriched').select('*');
+
         if (isGuest) {
-            // Solo chats de demo para invitados
             query = query.eq('is_demo', true);
         } else {
-            // Sus chats propios O cualquier chat de demo (para que siempre vea actividad)
             query = query.or(`participant_1_id.eq.${userIdOrEntityId},participant_2_id.eq.${userIdOrEntityId},is_demo.eq.true`);
         }
 
         const { data: convs, error } = await query.order('last_message_at', { ascending: false });
         if (error) throw error;
-        if (!convs || convs.length === 0) return [];
+        if (!convs) return [];
 
-        // Mapeamos los campos de la vista al formato que esperan los componentes (Retrocompatibilidad)
+        // Mapeamos los campos de la vista al formato que esperan los componentes (Retrocompatibilidad Auditoría V3)
         return convs.map(c => ({
             ...c,
             p1_info: { name: c.p1_name, avatar_url: c.p1_avatar_url },
@@ -262,9 +260,8 @@ export const supabaseService = {
             }
 
             if (townId) {
-                const isUuid = typeof townId === 'string' && townId.includes('-');
-                const field = isUuid ? 'town_uuid' : 'town_id';
-                query = query.eq(field, townId);
+                // Asumimos UUID como estándar (Migración Fase 2 completa)
+                query = query.eq('town_uuid', townId);
             }
 
             const { data, error } = await query;
@@ -313,9 +310,8 @@ export const supabaseService = {
         }
 
         if (townId) {
-            const isUuid = typeof townId === 'string' && townId.includes('-');
-            const field = isUuid ? 'town_uuid' : 'town_id';
-            query = query.eq(field, townId);
+            // Asumimos UUID como estándar
+            query = query.eq('town_uuid', townId);
         }
 
         const { data, error } = await query;
@@ -337,25 +333,19 @@ export const supabaseService = {
         return data[0];
     },
     async getMarketFavorites(itemId) {
-        const isUuid = typeof itemId === 'string' && itemId.includes('-');
-        const field = isUuid ? 'item_uuid' : 'item_id';
-
         const { data, error } = await supabase
             .from('market_favorites')
             .select('user_id')
-            .eq(field, itemId);
+            .eq('item_uuid', itemId);
         if (error) throw error;
         return (data || []).map(fav => fav.user_id);
     },
 
     async toggleMarketFavorite(itemId, userId) {
-        const isUuid = typeof itemId === 'string' && itemId.includes('-');
-        const field = isUuid ? 'item_uuid' : 'item_id';
-
         const { data: existingFav } = await supabase
             .from('market_favorites')
             .select('*')
-            .eq(field, itemId)
+            .eq('item_uuid', itemId)
             .eq('user_id', userId)
             .maybeSingle();
 
@@ -363,13 +353,13 @@ export const supabaseService = {
             await supabase
                 .from('market_favorites')
                 .delete()
-                .eq(field, itemId)
+                .eq('item_uuid', itemId)
                 .eq('user_id', userId);
             return { favorited: false };
         } else {
             await supabase
                 .from('market_favorites')
-                .insert([{ [field]: itemId, user_id: userId }]);
+                .insert([{ item_uuid: itemId, user_id: userId }]);
             return { favorited: true };
         }
     },
@@ -490,13 +480,10 @@ export const supabaseService = {
 
         console.log(`[SupabaseService] Fetching connections for ${ids.length} posts`);
         try {
-            const isUuid = ids.length > 0 && typeof ids[0] === 'string' && ids[0].includes('-');
-            const field = isUuid ? 'post_uuid' : 'post_id';
-
             const { data, error } = await supabase
                 .from('post_connections')
                 .select('post_id, post_uuid, user_id, tags')
-                .in(field, ids);
+                .in('post_uuid', ids);
 
             if (error) {
                 if (error.code === 'PGRST116' || error.code === '42703' || error.code === '42P01') {
@@ -515,13 +502,10 @@ export const supabaseService = {
     },
 
     async getPostUserConnection(postId, userId) {
-        const isUuid = typeof postId === 'string' && postId.includes('-');
-        const field = isUuid ? 'post_uuid' : 'post_id';
-
         const { data, error } = await supabase
             .from('post_connections')
             .select('*')
-            .eq(field, postId)
+            .eq('post_uuid', postId)
             .eq('user_id', userId)
             .maybeSingle();
         if (error) throw error;
@@ -531,44 +515,36 @@ export const supabaseService = {
     async togglePostConnection(postId, userId, tags = []) {
         console.log(`[SupabaseService] Toggling connection for post: ${postId}, tags:`, tags);
 
-        const isUuid = typeof postId === 'string' && postId.includes('-');
-        const field = isUuid ? 'post_uuid' : 'post_id';
-
         const { data: existingConnection } = await supabase
             .from('post_connections')
             .select('*')
-            .eq(field, postId)
+            .eq('post_uuid', postId)
             .eq('user_id', userId)
             .maybeSingle();
 
         if (existingConnection) {
-            // Si pasamos etiquetas explícitas, asumimos que estamos editando la conexión
             if (tags.length > 0 || (tags.length === 0 && existingConnection.tags?.length > 0)) {
-                // Si ya había etiquetas y mandamos un array (aunque sea vacío), actualizamos
-                // Esto permite que el componente de etiquetas limpie todas las etiquetas sin desconectar
                 const { data, error } = await supabase
                     .from('post_connections')
                     .update({ tags })
-                    .eq(field, postId)
+                    .eq('post_uuid', postId)
                     .eq('user_id', userId)
                     .select();
                 if (error) throw error;
                 return { connected: true, tags: data[0].tags };
             } else {
-                // Toggle simple sin etiquetas: Desconectar
                 await supabase
                     .from('post_connections')
                     .delete()
-                    .eq(field, postId)
+                    .eq('post_uuid', postId)
                     .eq('user_id', userId);
                 return { connected: false, tags: [] };
             }
         } else {
-            // Conectar nuevo
             const { data, error } = await supabase
                 .from('post_connections')
                 .insert([{
-                    [field]: postId,
+                    post_uuid: postId,
                     user_id: userId,
                     tags: tags
                 }])

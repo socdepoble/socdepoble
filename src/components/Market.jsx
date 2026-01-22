@@ -1,11 +1,12 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Heart, Plus, Loader2 } from 'lucide-react';
+import { Heart, Plus, Loader2, Store } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useAppContext } from '../context/AppContext';
 import { ROLES } from '../constants';
 import AddItemModal from './AddItemModal';
 import CategoryTabs from './CategoryTabs';
+import './Market.css';
 
 const Market = ({ townId = null, hideHeader = false }) => {
     const { t } = useTranslation();
@@ -110,25 +111,54 @@ const Market = ({ townId = null, hideHeader = false }) => {
                         const iid = item.uuid || item.id;
                         return (
                             <div key={iid} className="universal-card market-item">
-                                <div className="card-image-wrapper">
-                                    <img src={item.image_url} alt={item.title} />
-                                    <span className="pill-badge item-tag">{item.tag}</span>
+                                <div className="card-header">
+                                    <div className="header-left">
+                                        <div className="post-avatar" style={{ backgroundColor: 'var(--color-primary-soft)', color: 'var(--color-primary)' }}>
+                                            {item.seller_avatar ? (
+                                                <img
+                                                    src={item.seller_avatar}
+                                                    alt={item.seller}
+                                                    className="post-avatar-img"
+                                                    onError={(e) => {
+                                                        e.target.style.display = 'none';
+                                                        e.target.parentElement.innerHTML = '<div class="avatar-placeholder-mini"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>';
+                                                    }}
+                                                />
+                                            ) : <Store size={20} />}
+                                        </div>
+                                        <div className="post-meta">
+                                            <span className="post-author">{item.seller}</span>
+                                            <span className="post-time">{item.tag}</span>
+                                        </div>
+                                    </div>
                                     <button
-                                        className={`fav-btn ${userFavorites[iid] ? 'active' : ''}`}
+                                        className={`fav-btn-clean ${userFavorites[iid] ? 'active' : ''}`}
                                         onClick={() => handleFavorite(iid)}
                                     >
-                                        <Heart size={20} fill={userFavorites[iid] ? "#e91e63" : "none"} />
+                                        <Heart size={20} fill={userFavorites[iid] ? "#e91e63" : "none"} stroke={userFavorites[iid] ? "#e91e63" : "currentColor"} />
                                     </button>
                                 </div>
-                                <div className="item-details">
-                                    <div className="item-header-info">
-                                        <h3 className="item-title">{item.title}</h3>
-                                        <p className="item-seller">{item.seller}</p>
+
+                                <div className="card-image-wrapper">
+                                    <img src={item.image_url} alt={item.title} />
+                                </div>
+
+                                <div className="card-body">
+                                    <div className="item-header-info-row">
+                                        <div className="item-info-left">
+                                            <h3 className="item-title">{item.title}</h3>
+                                            <p className="item-desc-short">{item.description || t('market.no_description')}</p>
+                                        </div>
+                                        <div className="item-info-right">
+                                            <span className="price-tag-vibrant">{item.price}</span>
+                                            <span className="category-pill-mini">#{item.tag}</span>
+                                        </div>
                                     </div>
-                                    <div className="item-footer">
-                                        <span className="item-price">{item.price}</span>
-                                        <button className="add-btn">
-                                            <Plus size={16} />
+
+                                    <div className="item-footer-unified">
+                                        <button className="add-btn-premium-vibrant">
+                                            <Plus size={18} />
+                                            <span>Interessat</span>
                                         </button>
                                     </div>
                                 </div>

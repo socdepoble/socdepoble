@@ -214,7 +214,17 @@ const Feed = ({ townId = null, hideHeader = false }) => {
                                 <div className="card-header">
                                     <div className="header-left">
                                         <div className="post-avatar" style={{ backgroundColor: getAvatarColor(post.author_role) }}>
-                                            {getAvatarIcon(post.author_role)}
+                                            {post.author_avatar ? (
+                                                <img
+                                                    src={post.author_avatar}
+                                                    alt={post.author}
+                                                    className="post-avatar-img"
+                                                    onError={(e) => {
+                                                        e.target.style.display = 'none';
+                                                        e.target.parentElement.innerHTML = `<div class="avatar-placeholder-mini">${getAvatarIcon(post.author_role)}</div>`;
+                                                    }}
+                                                />
+                                            ) : getAvatarIcon(post.author_role)}
                                         </div>
                                         <div className="post-meta">
                                             <span className="post-author">{post.author}</span>
@@ -224,20 +234,21 @@ const Feed = ({ townId = null, hideHeader = false }) => {
                                     <button className="more-btn"><MoreHorizontal size={20} /></button>
                                 </div>
 
-                                <div className="card-content">
-                                    {post.image_url && (
-                                        <div className="card-image-wrapper">
-                                            <img
-                                                src={post.image_url}
-                                                alt={`${post.author} post image`}
-                                                loading="lazy"
-                                                onError={(e) => {
-                                                    e.target.style.display = 'none';
-                                                    e.target.parentElement.style.display = 'none';
-                                                }}
-                                            />
-                                        </div>
-                                    )}
+                                {post.image_url && (
+                                    <div className="card-image-wrapper">
+                                        <img
+                                            src={post.image_url}
+                                            alt={`${post.author} post image`}
+                                            loading="lazy"
+                                            onError={(e) => {
+                                                e.target.style.display = 'none';
+                                                e.target.parentElement.style.display = 'none';
+                                            }}
+                                        />
+                                    </div>
+                                )}
+
+                                <div className="card-body">
                                     <p className="post-text">{post.content}</p>
                                 </div>
 

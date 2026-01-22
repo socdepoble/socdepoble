@@ -5,39 +5,35 @@
 }
 
 .market-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
     padding: var(--space-md);
 }
 
 .market-item {
-    background-color: var(--bg-card);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    box-shadow: var(--shadow-sm);
-    border: 1px solid var(--color-border);
-    display: flex;
-    flex-direction: column;
     position: relative;
-    transition: transform 0.2s;
 }
 
 .market-item:active {
     transform: scale(0.98);
 }
 
-.item-image {
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    position: relative;
-    background-color: var(--color-divider);
+/* card-image-wrapper now global */
+.item-badges-right {
+    position: absolute;
+    top: var(--space-sm);
+    right: var(--space-sm);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }
 
-.item-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.item-price-vibrant {
+    background-color: var(--text-main) !important;
+    color: white !important;
+    font-weight: 800;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .item-tag {
@@ -75,16 +71,44 @@
     stroke: #FF5252;
 }
 
-.item-details {
-    padding: var(--space-md);
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
 
 .item-header-info {
     margin-bottom: var(--space-sm);
+}
+
+.item-header-info-row {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-md);
+    align-items: flex-start;
+}
+
+.item-info-left {
+    flex: 1;
+}
+
+.item-info-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+}
+
+.price-tag-vibrant {
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--text-main);
+    font-family: var(--font-heading);
+}
+
+.category-pill-mini {
+    font-size: 11px;
+    background-color: var(--bg-warm-accent);
+    color: var(--text-main);
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+    font-weight: 800;
+    text-transform: uppercase;
 }
 
 .item-title {
@@ -98,33 +122,73 @@
 
 .item-seller {
     font-size: 12px;
-    color: var(--text-muted);
-    font-weight: 500;
+    color: var(--text-secondary);
+    /* Darker for accessibility */
+    font-weight: 600;
 }
 
-.item-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: auto;
+.item-footer-unified {
+    margin-top: var(--space-lg);
+    padding-top: var(--space-md);
+    border-top: 1px dashed var(--color-divider);
 }
 
-.item-price {
-    font-weight: 800;
-    color: var(--color-primary);
-    font-size: 18px;
-    font-family: var(--font-heading);
-}
-
-.add-btn {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background-color: var(--color-primary-soft);
-    color: var(--color-primary);
+.add-btn-premium-vibrant {
+    width: 100%;
+    background-color: #000000;
+    /* Solid black button for contrast */
+    color: white;
+    padding: 14px;
+    border-radius: var(--radius-md);
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 8px;
+    font-weight: 800;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.fav-btn-clean {
+    color: var(--text-muted);
+    padding: 8px;
+    border-radius: var(--radius-sm);
+    transition: all 0.2s;
+}
+
+.fav-btn-clean.active {
+    color: #e91e63;
+}
+
+.item-desc-short {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+    margin-top: 4px;
+}
+
+.item-category-tag {
+    font-size: 13px;
+    color: var(--color-primary);
+    font-weight: 700;
+}
+
+.add-btn-premium {
+    background-color: var(--color-primary);
+    color: white;
+    padding: 10px 16px;
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    font-size: 14px;
+    box-shadow: 0 4px 12px rgba(93, 95, 239, 0.3);
+}
+
+.add-btn-premium:active {
+    transform: scale(0.95);
 }
 
 .market-container.loading {

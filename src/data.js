@@ -41,7 +41,7 @@ export const MOCK_FEED = [
         content: "🍎 Recordeu que aquest cap de setmana tenim la collita de la poma local. Passeu per la plaça a tastar-les!",
         likes: 42,
         comments: 5,
-        image: "/images/assets/aviso_oficial.png"
+        image: "/images/assets/apples_premium.png"
     },
     {
         id: 11,
@@ -95,11 +95,20 @@ export const MOCK_MARKET_ITEMS = [
     {
         id: 10,
         town_id: 1,
-        title: "Mel de la Torre (Multiflora)",
-        price: "12.00€ / pot",
+        title: "Mel de la Torre (Artesana)",
+        price: "12.00€",
         seller: "Apicultura les Maçanes",
-        image: "https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&q=80&w=800",
-        tag: "Local"
+        image: "/images/assets/mel_premium.png",
+        tag: "Alimentació"
+    },
+    {
+        id: 11,
+        town_id: 1,
+        title: "Càntir Tradicional",
+        price: "15.00€",
+        seller: "Artesania de la Torre",
+        image: "/images/assets/cantir_premium.png",
+        tag: "Artesania"
     },
     // Cocentaina
     {
@@ -108,7 +117,7 @@ export const MOCK_MARKET_ITEMS = [
         title: "Pericana de Cocentaina",
         price: "6.50€ / pot",
         seller: "Sabors del Comtat",
-        image: "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&q=80&w=800",
+        image: "/images/assets/tomates_premium.png",
         tag: "Tradició"
     },
     {
@@ -116,7 +125,7 @@ export const MOCK_MARKET_ITEMS = [
         title: "Herbero de la Mariola",
         price: "14.00€ / botella",
         seller: "Destil·leries de la Serra",
-        image: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&q=80&w=800",
+        image: "/images/assets/generic_market.png",
         tag: "Artesania"
     },
     // Muro
@@ -126,7 +135,7 @@ export const MOCK_MARKET_ITEMS = [
         title: "Coques de xulla (4 pack)",
         price: "5.00€",
         seller: "Forn de Muro",
-        image: "https://images.unsplash.com/photo-1540933655514-e2233da631fa?auto=format&fit=crop&q=80&w=800",
+        image: "/images/assets/coques_premium.png",
         tag: "Producte Local"
     },
     {
@@ -134,7 +143,7 @@ export const MOCK_MARKET_ITEMS = [
         title: "Mel de la Font Roja",
         price: "9.00€ / pot",
         seller: "Abelles Mariola",
-        image: "https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&q=80&w=800",
-        tag: "Frescos"
+        image: "/images/assets/mel.png",
+        tag: "Alimentació"
     }
 ];

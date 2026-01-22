@@ -11,6 +11,7 @@
     flex-direction: column;
     gap: var(--space-md);
     padding: var(--space-md);
+    padding-bottom: 120px;
 }
 
 /* === POST CARD (Unified) === */
@@ -23,7 +24,7 @@
     font-size: 15px;
     color: var(--text-body);
     line-height: 1.5;
-    margin-top: var(--space-sm);
+    margin-top: 0;
     margin-bottom: 0;
 }
 
@@ -66,7 +67,7 @@
 }
 
 .post-author {
-    font-weight: 700;
+    font-weight: 800;
     font-family: var(--font-heading);
     color: var(--text-main);
     font-size: 15px;
@@ -74,17 +75,19 @@
 
 .post-time {
     font-size: 12px;
-    color: var(--text-muted);
-}
-
-.card-content {
-    padding: 0 var(--space-md) var(--space-md) var(--space-md);
-}
-
-.card-content p {
-    font-size: 15px;
     color: var(--text-secondary);
+    /* Darker for accessibility */
+    font-weight: 600;
+}
+
+
+
+.card-body p {
+    font-size: 15px;
+    color: #1A1D23;
+    /* Max contrast for accessibility */
     line-height: 1.5;
+    font-weight: 500;
 }
 
 /* card-image-wrapper logic is global */
@@ -92,8 +95,8 @@
 /* Market logic moved to its own file */
 
 .card-actions-wrapper {
-    padding: var(--space-sm) var(--space-md);
-    border-top: 1px solid var(--color-divider);
+    padding: var(--space-xs) var(--space-md);
+    background-color: var(--bg-warm-card);
     display: flex;
     justify-content: space-between;
     align-items: center;
