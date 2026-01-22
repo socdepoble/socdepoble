@@ -1,10 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../context/AppContext';
 import { User, Search, Bell } from 'lucide-react';
 import './Header.css';
 
 const Header = () => {
+    const { t } = useTranslation();
     const { user, profile, toggleLanguage, language } = useAppContext();
     const logoSrc = '/logo_dark.png';
 
