@@ -16,24 +16,37 @@ const Market = ({ townId = null }) => {
     const [activeTab, setActiveTab] = useState('tot');
 
     useEffect(() => {
+        let isMounted = true; // Flag to track if the component is mounted
         const loadInitialData = async () => {
             setLoading(true);
             try {
                 // Cargar categorías primero si no están cargadas
                 if (categories.length === 0) {
                     const cats = await supabaseService.getMarketCategories();
-                    setCategories(cats);
+                    if (isMounted) {
+                        setCategories(cats);
+                    }
                 }
 
                 const data = await supabaseService.getMarketItems(activeTab, townId);
-                setItems(data);
+                if (isMounted) {
+                    setItems(data);
+                }
             } catch (error) {
-                console.error('Error fetching market data:', error);
+                if (isMounted) {
+                    console.error('Error fetching market data:', error);
+                }
             } finally {
-                setLoading(false);
+                if (isMounted) {
+                    setLoading(false);
+                }
             }
         };
         loadInitialData();
+
+        return () => {
+            isMounted = false; // Cleanup function to set isMounted to false when component unmounts
+        };
     }, [activeTab, townId, categories.length]);
 
     const filteredItems = items.filter(item =>
@@ -84,11 +97,13 @@ const Market = ({ townId = null }) => {
                 </div>
                 <div className="personal-tag-bar">
                     <div className="search-bar-mini">
+                        <label htmlFor="market-search" className="sr-only">{t('market.search_placeholder') || 'Buscar al mercat'}</label>
                         <Search size={16} />
                         <input
                             type="text"
                             id="market-search"
                             name="market-search"
+                            autoComplete="on"
                             placeholder={t('market.search_placeholder') || 'Buscar al mercat...'}
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}

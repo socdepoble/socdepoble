@@ -43,10 +43,12 @@ const Feed = ({ townId = null, hideHeader = false }) => {
     const [error, setError] = useState(null);
 
     const fetchPosts = useCallback(async () => {
+        let isMounted = true;
         setLoading(true);
         setError(null);
         try {
             const data = await supabaseService.getPosts(selectedRole, townId);
+            if (!isMounted) return;
             console.log('[Feed] Posts data received:', data?.length || 0);
             const postsArray = Array.isArray(data) ? data : [];
             setPosts(postsArray);
@@ -54,6 +56,7 @@ const Feed = ({ townId = null, hideHeader = false }) => {
             if (user) {
                 // Cargar etiquetas del usuario para la barra de filtros
                 const tagsRaw = await supabaseService.getUserTags(user.id);
+                if (!isMounted) return;
                 setUserTags(Array.isArray(tagsRaw) ? tagsRaw : []);
 
                 if (postsArray.length > 0) {
@@ -61,18 +64,24 @@ const Feed = ({ townId = null, hideHeader = false }) => {
                     // Intentamos usar UUIDs si están disponibles, si no IDs
                     const postIdsForConnections = postsArray.map(p => p.uuid || p.id);
                     const connections = await supabaseService.getPostConnections(postIdsForConnections);
+                    if (!isMounted) return;
                     const userOwnConnections = connections.filter(c => c.user_id === user.id);
                     console.log('[Feed] User connections loaded:', userOwnConnections.length);
                     setUserConnections(userOwnConnections);
                 }
             }
         } catch (err) {
-            console.error('[Feed] Failed to fetch feed:', err);
-            setError(err.message);
+            if (isMounted) {
+                console.error('[Feed] Failed to fetch feed:', err);
+                setError(err.message);
+            }
         } finally {
-            setLoading(false);
-            console.log('[Feed] Loading sequence finished');
+            if (isMounted) {
+                setLoading(false);
+                console.log('[Feed] Loading sequence finished');
+            }
         }
+        return () => { isMounted = false; };
     }, [selectedRole, user, townId]);
 
     useEffect(() => {

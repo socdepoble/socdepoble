@@ -19,14 +19,14 @@ const Login = () => {
         setLoading(true);
         setError(null);
 
-        const { error } = await supabaseService.signIn(email, password);
-
-        if (error) {
-            setError(error.message);
-        } else {
+        try {
+            await supabaseService.signIn(email, password);
             navigate('/chats');
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
         }
-        setLoading(false);
     };
 
     const handleGuestLogin = () => {
@@ -72,11 +72,12 @@ const Login = () => {
 
                 <form onSubmit={handleLogin} className="auth-form">
                     <div className="form-group">
-                        <label>{t('auth.email')}</label>
+                        <label htmlFor="login-email">{t('auth.email')}</label>
                         <input
                             id="login-email"
                             name="email"
                             type="email"
+                            autoComplete="email"
                             placeholder={t('auth.email_placeholder')}
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
@@ -84,11 +85,12 @@ const Login = () => {
                         />
                     </div>
                     <div className="form-group">
-                        <label>{t('auth.password')}</label>
+                        <label htmlFor="login-password">{t('auth.password')}</label>
                         <input
                             id="login-password"
                             name="password"
                             type="password"
+                            autoComplete="current-password"
                             placeholder="••••••••"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}

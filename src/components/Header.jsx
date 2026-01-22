@@ -16,7 +16,11 @@ const Header = () => {
                 </Link>
 
                 <div className="header-actions">
-                    <button className="header-search-btn" onClick={() => console.log('Open search screen/popup')}>
+                    <button
+                        className="header-search-btn"
+                        onClick={() => console.log('Open search screen/popup')}
+                        aria-label={t('common.search') || 'Buscar'}
+                    >
                         <Search size={22} color="white" />
                     </button>
 

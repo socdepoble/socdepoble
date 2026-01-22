@@ -77,21 +77,24 @@ const ChatList = () => {
     const currentId = activeEntityId || (isSuperAdmin && impersonatedProfile ? impersonatedProfile.id : user?.id);
 
     useEffect(() => {
+        let isMounted = true;
         // En modo Demo o Super Admin bypass, permitimos cargar aunque no haya sesión real de auth.uid()
         const fetchChats = async () => {
             console.log('[ChatList] Fetching chats for currentId:', currentId);
             try {
                 const data = await supabaseService.getConversations(currentId);
+                if (!isMounted) return;
                 console.log('[ChatList] Chats fetched:', data?.length || 0);
                 setChats(data);
             } catch (error) {
-                console.error('[ChatList] Error fetching chats:', error);
+                if (isMounted) console.error('[ChatList] Error fetching chats:', error);
             } finally {
-                setLoading(false);
+                if (isMounted) setLoading(false);
             }
         };
 
         fetchChats();
+        return () => { isMounted = false; };
     }, [currentId]);
 
     if (loading) {

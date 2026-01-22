@@ -18,17 +18,17 @@ const Register = () => {
         setLoading(true);
         setError(null);
 
-        const { error } = await supabaseService.signUp(email, password, {
-            full_name: fullName
-        });
-
-        if (error) {
-            setError(error.message);
-        } else {
+        try {
+            await supabaseService.signUp(email, password, {
+                full_name: fullName
+            });
             alert(t('auth.checkEmail'));
             navigate('/login');
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
         }
-        setLoading(false);
     };
 
     return (
@@ -42,11 +42,12 @@ const Register = () => {
 
                 <form onSubmit={handleRegister}>
                     <div className="form-group">
-                        <label>{t('auth.fullName')}</label>
+                        <label htmlFor="register-name">{t('auth.fullName') || 'Nombre Completo'}</label>
                         <input
                             id="register-name"
                             name="full_name"
                             type="text"
+                            autoComplete="name"
                             placeholder="Nom i cognoms"
                             value={fullName}
                             onChange={(e) => setFullName(e.target.value)}
@@ -54,11 +55,12 @@ const Register = () => {
                         />
                     </div>
                     <div className="form-group">
-                        <label>{t('auth.email')}</label>
+                        <label htmlFor="register-email">{t('auth.email')}</label>
                         <input
                             id="register-email"
                             name="email"
                             type="email"
+                            autoComplete="email"
                             placeholder="usuari@exemple.com"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
@@ -66,11 +68,12 @@ const Register = () => {
                         />
                     </div>
                     <div className="form-group">
-                        <label>{t('auth.password')}</label>
+                        <label htmlFor="register-password">{t('auth.password')}</label>
                         <input
                             id="register-password"
                             name="password"
                             type="password"
+                            autoComplete="new-password"
                             placeholder="Mínim 6 caràcters"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}

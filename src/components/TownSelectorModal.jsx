@@ -153,18 +153,20 @@ const TownSelectorModal = ({ isOpen, onClose, onSelect }) => {
                 </header>
 
                 <div className="search-bar-modal">
+                    <label htmlFor="town-search-input" className="sr-only">{t('common.search_placeholder') || 'Cerca poble'}</label>
                     <Search size={18} className="search-icon" />
                     <input
                         ref={searchInputRef}
                         type="text"
                         id="town-search-input"
                         name="town-search"
+                        autoComplete="off"
                         placeholder={t('common.search_placeholder') || 'Cerca poble, comarca o província...'}
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
                     {searchTerm && (
-                        <button className="clear-search" onClick={() => setSearchTerm('')}>
+                        <button className="clear-search" onClick={() => setSearchTerm('')} aria-label={t('common.clear_search') || 'Netejar cerca'}>
                             <X size={14} />
                         </button>
                     )}
