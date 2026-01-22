@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { useAppContext } from '../context/AppContext';
 import { supabaseService } from '../services/supabaseService';
 import { useTranslation } from 'react-i18next';
-import { User, LogOut, Camera, Save, Building2, Store, Settings, Star, Home, Bell, Lock, HelpCircle, Info, ChevronRight, MapPin, MessageCircle, Plus, Moon, Sun } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { User, LogOut, Camera, Save, Building2, Store, Settings, Star, Home, Bell, Lock, HelpCircle, Info, ChevronRight, MapPin, MessageCircle, Plus, Moon, Sun, ArrowLeft } from 'lucide-react';
 import TownSelectorModal from '../components/TownSelectorModal';
 import './Profile.css';
 
@@ -10,6 +11,8 @@ const MyEntitiesList = ({ userId }) => {
     const [entities, setEntities] = useState([]);
 
     const { t } = useTranslation();
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (userId) {
@@ -24,7 +27,7 @@ const MyEntitiesList = ({ userId }) => {
     return (
         <div className="entities-grid">
             {entities.map(ent => (
-                <div key={ent.id} className="entity-card">
+                <div key={ent.id} className="entity-card" onClick={() => navigate(`/entitat/${ent.id}`)}>
                     <div className={`entity-avatar ${ent.type}`}>
                         {ent.avatar_url ? (
                             <img src={ent.avatar_url} alt={ent.name} />
@@ -46,6 +49,7 @@ const MyEntitiesList = ({ userId }) => {
 
 const Profile = () => {
     const { t } = useTranslation();
+    const navigate = useNavigate();
     const { profile, setProfile, user, theme, toggleTheme, logout } = useAppContext();
 
     const [allTowns, setAllTowns] = useState([]);
@@ -102,6 +106,9 @@ const Profile = () => {
         <div className="profile-container">
             <header className="profile-dashboard-header">
                 <div className="header-top-actions">
+                    <button className="giga-back-button" onClick={() => navigate(-1)}>
+                        <ArrowLeft size={30} />
+                    </button>
                     <button className="settings-btn" onClick={() => console.log('Open settings')}>
                         <Settings size={22} />
                     </button>

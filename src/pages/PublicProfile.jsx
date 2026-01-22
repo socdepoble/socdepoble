@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { User, MapPin, Calendar, Layout, Settings, ChevronRight, Loader2, AlertCircle, Building2, Store, Users as UsersIcon } from 'lucide-react';
+import { User, MapPin, Calendar, Layout, Settings, ChevronRight, Loader2, AlertCircle, Building2, Store, Users as UsersIcon, ArrowLeft } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useAppContext } from '../context/AppContext';
 import Feed from '../components/Feed';
@@ -69,6 +69,11 @@ const PublicProfile = () => {
     return (
         <div className="profile-container">
             <div className="profile-header-premium">
+                <div className="header-top-actions floating">
+                    <button className="giga-back-button" onClick={() => navigate(-1)}>
+                        <ArrowLeft size={30} />
+                    </button>
+                </div>
                 <div className="profile-avatar-wrapper">
                     {profile.avatar_url ? (
                         <img src={profile.avatar_url} alt={profile.full_name} className="profile-avatar-large" />

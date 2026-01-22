@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Building2, Store, Users, MapPin, MessageSquare, Share2, Loader2, AlertCircle, Calendar } from 'lucide-react';
+import { Building2, Store, Users, MapPin, MessageSquare, Share2, Loader2, AlertCircle, Calendar, ArrowLeft } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useAppContext } from '../context/AppContext';
 import './Profile.css';
@@ -71,6 +71,11 @@ const PublicEntity = () => {
     return (
         <div className="profile-container">
             <div className="profile-header-premium entity-header">
+                <div className="header-top-actions floating">
+                    <button className="giga-back-button" onClick={() => navigate(-1)}>
+                        <ArrowLeft size={30} />
+                    </button>
+                </div>
                 <div className="profile-avatar-wrapper entity-avatar-wrapper">
                     {entity.avatar_url ? (
                         <img src={entity.avatar_url} alt={entity.name} className="profile-avatar-large entity-thumb" />
