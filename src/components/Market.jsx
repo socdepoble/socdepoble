@@ -95,21 +95,6 @@ const Market = ({ townId = null }) => {
                         tabs={marketTabs}
                     />
                 </div>
-                <div className="personal-tag-bar">
-                    <div className="search-bar-mini">
-                        <label htmlFor="market-search" className="sr-only">{t('market.search_placeholder') || 'Buscar al mercat'}</label>
-                        <Search size={16} />
-                        <input
-                            type="text"
-                            id="market-search"
-                            name="market-search"
-                            autoComplete="on"
-                            placeholder={t('market.search_placeholder') || 'Buscar al mercat...'}
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                        />
-                    </div>
-                </div>
             </header>
 
             <div className="market-grid">

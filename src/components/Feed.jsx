@@ -168,26 +168,6 @@ const Feed = ({ townId = null, hideHeader = false }) => {
                             setSelectedTag(null);
                         }} />
                     </div>
-
-                    {user && userTags.length > 0 && (
-                        <div className="personal-tag-bar">
-                            <button
-                                className={`tag-filter-btn ${!selectedTag ? 'active' : ''}`}
-                                onClick={() => setSelectedTag(null)}
-                            >
-                                {t('feed.all') || 'Tots'}
-                            </button>
-                            {userTags.map(tag => (
-                                <button
-                                    key={tag}
-                                    className={`tag-filter-btn ${selectedTag === tag ? 'active' : ''}`}
-                                    onClick={() => setSelectedTag(tag === selectedTag ? null : tag)}
-                                >
-                                    #{tag}
-                                </button>
-                            ))}
-                        </div>
-                    )}
                 </header>
             )}
 
