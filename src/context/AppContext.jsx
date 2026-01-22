@@ -30,14 +30,14 @@ export const AppProvider = ({ children }) => {
         // Habilitat en producció per a auditoria (Fase 4)
 
         const demoId = DEMO_USER_ID;
-        setUser({ id: demoId, email: 'vei@socdepoble.net', isDemo: true });
+        setUser({ id: demoId, email: 'vferris@socdepoble.net', isDemo: true });
         setProfile({
             id: demoId,
-            full_name: 'Veí de Prova',
-            username: 'veiprestat',
+            full_name: 'Vicent Ferris',
+            username: 'vferris',
             role: USER_ROLES.NEIGHBOR,
             is_demo: true,
-            avatar_url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Demo'
+            avatar_url: '/images/demo/avatar_man_old.png'
         });
         setLoading(false);
         localStorage.setItem('isDemoMode', 'true');

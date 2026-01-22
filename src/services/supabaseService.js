@@ -1,4 +1,5 @@
 import { supabase } from '../supabaseClient';
+import { DEMO_USER_ID } from '../constants';
 import { ROLES, USER_ROLES } from '../constants';
 
 export const supabaseService = {
@@ -23,7 +24,7 @@ export const supabaseService = {
 
     // Chats (Secure Messaging - Phase 4)
     async getConversations(userIdOrEntityId) {
-        const isGuest = !userIdOrEntityId || userIdOrEntityId === '00000000-0000-0000-0000-000000000000';
+        const isGuest = !userIdOrEntityId || userIdOrEntityId === DEMO_USER_ID;
 
         // Usamos la vista enriquecida que ya trae nombres y avatares directamente (Optimización Auditoría V3)
         let query = supabase.from('view_conversations_enriched').select('*');
@@ -41,8 +42,8 @@ export const supabaseService = {
         // Mapeamos los campos de la vista al formato que esperan los componentes (Retrocompatibilidad Auditoría V3)
         return convs.map(c => ({
             ...c,
-            p1_info: { name: c.p1_name, avatar_url: c.p1_avatar_url },
-            p2_info: { name: c.p2_name, avatar_url: c.p2_avatar_url }
+            p1_info: { id: c.participant_1_id, name: c.p1_name, avatar_url: c.p1_avatar_url },
+            p2_info: { id: c.participant_2_id, name: c.p2_name, avatar_url: c.p2_avatar_url }
         }));
     },
 
@@ -682,6 +683,26 @@ export const supabaseService = {
         const { data, error } = await supabase
             .from('posts')
             .select('*')
+            .eq('author_entity_id', entityId)
+            .order('created_at', { ascending: false });
+        if (error) throw error;
+        return data || [];
+    },
+
+    async getUserMarketItems(userId) {
+        const { data, error } = await supabase
+            .from('market_items')
+            .select('*, towns!fk_market_town_uuid(name)')
+            .eq('author_user_id', userId)
+            .order('created_at', { ascending: false });
+        if (error) throw error;
+        return data || [];
+    },
+
+    async getEntityMarketItems(entityId) {
+        const { data, error } = await supabase
+            .from('market_items')
+            .select('*, towns!fk_market_town_uuid(name)')
             .eq('author_entity_id', entityId)
             .order('created_at', { ascending: false });
         if (error) throw error;

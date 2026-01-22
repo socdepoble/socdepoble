@@ -160,14 +160,22 @@ const ChatDetail = () => {
                 <button onClick={() => navigate(-1)} className="back-button">
                     <ArrowLeft size={24} />
                 </button>
-                <div className="chat-header-avatar">
-                    {getAvatarIcon(otherType, otherInfo?.avatar_url)}
-                </div>
-                <div className="chat-info">
-                    <h2>{otherInfo?.name || t('common.unknown')}</h2>
-                    <span className={`status ${isOtherOnline ? 'online' : ''}`}>
-                        {isOtherTyping ? t('common.typing') : (isOtherOnline ? t('common.online') : t('common.offline'))}
-                    </span>
+                <div
+                    className="chat-header-main clickable"
+                    onClick={() => {
+                        if (otherType === 'entity') navigate(`/entitat/${otherInfo?.id || otherInfo?.entity_id}`);
+                        else navigate(`/perfil/${otherInfo?.id || otherInfo?.user_id}`);
+                    }}
+                >
+                    <div className="chat-header-avatar">
+                        {getAvatarIcon(otherType, otherInfo?.avatar_url)}
+                    </div>
+                    <div className="chat-info">
+                        <h2>{otherInfo?.name || t('common.unknown')}</h2>
+                        <span className={`status ${isOtherOnline ? 'online' : ''}`}>
+                            {isOtherTyping ? t('common.typing') : (isOtherOnline ? t('common.online') : t('common.offline'))}
+                        </span>
+                    </div>
                 </div>
             </div>
 

@@ -15,6 +15,7 @@ const PublicProfile = () => {
     const [profile, setProfile] = useState(null);
     const [managedEntities, setManagedEntities] = useState([]);
     const [userPosts, setUserPosts] = useState([]);
+    const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -32,8 +33,13 @@ const PublicProfile = () => {
                     setManagedEntities(entities);
                 }
 
-                const postsData = await supabaseService.getUserPosts(id);
+                const [postsData, itemsData] = await Promise.all([
+                    supabaseService.getUserPosts(id),
+                    supabaseService.getUserMarketItems(id)
+                ]);
+
                 setUserPosts(postsData);
+                setItems(itemsData);
             } catch (err) {
                 console.error('[PublicProfile] Error:', err);
                 setError(err.message);
@@ -72,6 +78,7 @@ const PublicProfile = () => {
                 </div>
                 <div className="profile-info-main">
                     <h1 className="heading-xl">{profile.full_name}</h1>
+                    <p className="profile-bio-vibrant">{profile.bio}</p>
                     <div className="profile-stats-row">
                         <div className="profile-stat-item">
                             <MapPin size={18} />
@@ -111,24 +118,41 @@ const PublicProfile = () => {
 
             <section className="profile-section-premium">
                 <h2 className="section-header-premium">
+                    <Store size={20} />
+                    Mercat
+                </h2>
+                <div className="profile-feed-wrapper">
+                    {items.length > 0 ? (
+                        items.map(item => (
+                            <div key={item.uuid || item.id} className="mini-post-card entity-item-card">
+                                <div className="item-mini-content">
+                                    <div className="item-mini-text">
+                                        <span className="item-mini-title">{item.title}</span>
+                                        <span className="item-mini-price">{item.price}</span>
+                                    </div>
+                                    {item.image_url && <img src={item.image_url} alt={item.title} className="item-mini-img" />}
+                                </div>
+                            </div>
+                        ))
+                    ) : (
+                        <div className="empty-state-mini">
+                            <p>No hi ha articles al mercat de {profile.full_name.split(' ')[0]}</p>
+                        </div>
+                    )}
+                </div>
+            </section>
+
+            <section className="profile-section-premium">
+                <h2 className="section-header-premium">
                     <UsersIcon size={20} />
                     Activitat Recent
                 </h2>
                 <div className="profile-feed-wrapper">
                     {userPosts.length > 0 ? (
-                        userPosts.slice(0, 5).map(post => (
-                            <div key={post.uuid || post.id} className="mini-post-card">
-                                <p>{post.content}</p>
-                                <span className="post-date-small">
-                                    <Calendar size={12} />
-                                    {new Date(post.created_at).toLocaleDateString()}
-                                </span>
-                            </div>
-                        ))
+                        <Feed townId={null} hideHeader={true} customPosts={userPosts} />
                     ) : (
                         <div className="empty-state-mini">
-                            <p>Publicacions de {profile.full_name.split(' ')[0]}</p>
-                            <span className="text-secondary">Pròximament: Historial de lligams i propostes</span>
+                            <p>No hi ha publicacions de {profile.full_name.split(' ')[0]}</p>
                         </div>
                     )}
                 </div>

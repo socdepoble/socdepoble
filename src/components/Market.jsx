@@ -105,20 +105,24 @@ const Market = ({ townId = null }) => {
                 ) : (
                     filteredItems.map(item => (
                         <div key={item.uuid || item.id} className="universal-card market-item">
-                            <div className="card-header">
+                            <div
+                                className="card-header clickable"
+                                onClick={() => {
+                                    if (item.author_entity_id) navigate(`/entitat/${item.author_entity_id}`);
+                                    else if (item.author_user_id) navigate(`/perfil/${item.author_user_id}`);
+                                }}
+                            >
                                 <div className="header-left">
                                     <div className="post-avatar" style={{ backgroundColor: 'var(--color-secondary)' }}>
-                                        <Plus size={20} />
+                                        {item.avatar_url ? (
+                                            <img src={item.avatar_url} alt={item.seller} className="post-avatar-img" />
+                                        ) : (
+                                            <Plus size={20} />
+                                        )}
                                     </div>
                                     <div className="post-meta">
                                         <div className="post-author-row">
-                                            <span
-                                                className="post-author clickable"
-                                                onClick={() => {
-                                                    if (item.author_entity_id) navigate(`/entitat/${item.author_entity_id}`);
-                                                    else if (item.author_user_id) navigate(`/perfil/${item.author_user_id}`);
-                                                }}
-                                            >
+                                            <span className="post-author">
                                                 {item.seller || item.seller_name || 'Usuari'}
                                             </span>
                                         </div>

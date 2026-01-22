@@ -21,7 +21,8 @@
 }
 
 .post-text {
-    font-size: 15px;
+    font-size: 20px;
+    /* Ultra readability standard */
     color: var(--text-body);
     line-height: 1.5;
     margin-top: 0;
@@ -68,7 +69,8 @@
 .post-author {
     font-weight: 800;
     color: var(--text-main);
-    font-size: 1rem;
+    font-size: 21px;
+    /* Match Chat standard */
     line-height: 1.2;
     font-family: var(--font-heading);
 }
@@ -102,7 +104,8 @@
 
 
 .card-body p {
-    font-size: 15px;
+    font-size: 20px;
+    /* Ultra readability standard */
     color: #1A1D23;
     /* Max contrast for accessibility */
     line-height: 1.5;

@@ -14,6 +14,7 @@ const PublicEntity = () => {
     const [entity, setEntity] = useState(null);
     const [members, setMembers] = useState([]);
     const [posts, setPosts] = useState([]);
+    const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -24,11 +25,15 @@ const PublicEntity = () => {
                 const entityData = await supabaseService.getPublicEntity(id);
                 setEntity(entityData);
 
-                const membersData = await supabaseService.getEntityMembers(id);
-                setMembers(membersData);
+                const [membersData, postsData, itemsData] = await Promise.all([
+                    supabaseService.getEntityMembers(id),
+                    supabaseService.getEntityPosts(id),
+                    supabaseService.getEntityMarketItems(id)
+                ]);
 
-                const postsData = await supabaseService.getEntityPosts(id);
+                setMembers(membersData);
                 setPosts(postsData);
+                setItems(itemsData);
             } catch (err) {
                 console.error('[PublicEntity] Error:', err);
                 setError(err.message);
@@ -112,6 +117,30 @@ const PublicEntity = () => {
                             ))
                         ) : (
                             <p className="text-secondary">No hi ha publicacions recents.</p>
+                        )}
+                    </div>
+                </section>
+
+                <section className="profile-section-premium">
+                    <h2 className="section-header-premium">
+                        <Store size={20} />
+                        Mercat
+                    </h2>
+                    <div className="entity-market">
+                        {items.length > 0 ? (
+                            items.map(item => (
+                                <div key={item.uuid || item.id} className="mini-post-card entity-item-card">
+                                    <div className="item-mini-content">
+                                        <div className="item-mini-text">
+                                            <span className="item-mini-title">{item.title}</span>
+                                            <span className="item-mini-price">{item.price}</span>
+                                        </div>
+                                        {item.image_url && <img src={item.image_url} alt={item.title} className="item-mini-img" />}
+                                    </div>
+                                </div>
+                            ))
+                        ) : (
+                            <p className="text-secondary">No hi ha articles al mercat.</p>
                         )}
                     </div>
                 </section>

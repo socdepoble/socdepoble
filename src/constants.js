@@ -2,7 +2,7 @@
  * Constants globals per a l'aplicació Sóc de Poble
  */
 
-export const DEMO_USER_ID = '00000000-0000-0000-0000-000000000000';
+export const DEMO_USER_ID = '11111111-0000-0000-0000-000000000001';
 
 export const ROLES = {
     ALL: 'tot',

@@ -17,7 +17,8 @@
         "role_empresa": "Businesses",
         "role_oficial": "Entities",
         "province": "Province",
-        "comarca": "Comarca"
+        "comarca": "Comarca",
+        "unknown": "Unknown"
     },
     "nav": {
         "chats": "Chats",

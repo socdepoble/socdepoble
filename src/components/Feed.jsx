@@ -202,7 +202,13 @@ const Feed = ({ townId = null, hideHeader = false }) => {
 
                         return (
                             <article key={pid} className="universal-card post-card">
-                                <div className="card-header">
+                                <div
+                                    className="card-header clickable"
+                                    onClick={() => {
+                                        if (post.author_entity_id) navigate(`/entitat/${post.author_entity_id}`);
+                                        else if (post.author_user_id) navigate(`/perfil/${post.author_user_id}`);
+                                    }}
+                                >
                                     <div className="header-left">
                                         <div className="post-avatar" style={{ backgroundColor: getAvatarColor(post.author_role) }}>
                                             {post.author_avatar ? (
@@ -219,15 +225,7 @@ const Feed = ({ townId = null, hideHeader = false }) => {
                                         </div>
                                         <div className="post-meta">
                                             <div className="post-author-row">
-                                                <span
-                                                    className="post-author clickable"
-                                                    onClick={() => {
-                                                        if (post.author_entity_id) navigate(`/entitat/${post.author_entity_id}`);
-                                                        else if (post.author_user_id) navigate(`/perfil/${post.author_user_id}`);
-                                                    }}
-                                                >
-                                                    {post.author}
-                                                </span>
+                                                <span className="post-author">{post.author}</span>
                                             </div>
                                             <div className="post-subtitle-row">
                                                 <span className="post-time">{post.created_at ? new Date(post.created_at).toLocaleDateString() : 'Ara'}</span>
@@ -235,7 +233,15 @@ const Feed = ({ townId = null, hideHeader = false }) => {
                                             </div>
                                         </div>
                                     </div>
-                                    <button className="more-btn"><MoreHorizontal size={20} /></button>
+                                    <button
+                                        className="more-btn"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            // More options logic here if needed
+                                        }}
+                                    >
+                                        <MoreHorizontal size={20} />
+                                    </button>
                                 </div>
 
                                 {post.image_url && (

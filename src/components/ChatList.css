@@ -63,11 +63,11 @@
     margin-bottom: 2px;
 }
 
-.chat-name {
-    font-weight: 700;
-    font-family: var(--font-heading);
-    font-size: 16px;
-    color: var(--text-main);
+.chat-item .chat-name {
+    font-weight: 800 !important;
+    font-family: var(--font-heading) !important;
+    font-size: 21px !important;
+    color: var(--text-main) !important;
 }
 
 .chat-time {
@@ -82,9 +82,9 @@
     align-items: center;
 }
 
-.chat-message {
-    color: var(--text-secondary);
-    font-size: 14px;
+.chat-item .chat-message {
+    color: var(--text-secondary) !important;
+    font-size: 19px !important;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

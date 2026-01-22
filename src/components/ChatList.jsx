@@ -8,24 +8,14 @@ import CategoryTabs from './CategoryTabs';
 import './ChatList.css';
 
 const getParticipantInfo = (chat, currentId, t) => {
-    // Si somos invitados (DEMO_USER_ID), mostramos los nombres de ambos participantes
-    if (!currentId || currentId === '00000000-0000-0000-0000-000000000000') {
-        const p1 = chat.p1_info?.name || '...';
-        const p2 = chat.p2_info?.name || '...';
-        return {
-            name: `${p1} & ${p2}`,
-            type: chat.participant_2_type,
-            avatar: chat.p2_info?.avatar_url
-        };
-    }
-
     // Determine which participant is the "other" one
+    // We prioritize p2 if p1 is the current user/entity
     const isP1Current = chat.participant_1_id === currentId;
     const otherInfo = isP1Current ? chat.p2_info : chat.p1_info;
     const otherType = isP1Current ? chat.participant_2_type : chat.participant_1_type;
 
     return {
-        name: otherInfo?.name || chat.participant_2_id.substring(0, 8),
+        name: otherInfo?.name || t('common.unknown'),
         type: otherType,
         avatar: otherInfo?.avatar_url
     };

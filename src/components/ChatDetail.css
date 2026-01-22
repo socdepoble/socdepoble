@@ -18,53 +18,151 @@
     display: flex;
     align-items: center;
     padding: 0 var(--space-md);
-    background-color: var(--bg-surface);
-    border-bottom: 1px solid var(--color-border);
+    background-color: var(--bg-warm-card);
+    border-bottom: 1px solid var(--bg-warm-accent);
     gap: var(--space-md);
     height: var(--header-height);
     flex-shrink: 0;
     z-index: 10;
-    box-shadow: var(--shadow-sm);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    /* Improved Contrast: Black text over orange as requested */
+    color: #1a1a1a;
+}
+
+.back-button {
+    color: #1a1a1a;
+}
+
+.chat-header-main {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    flex: 1;
+    height: 100%;
+}
+
+.chat-header-main.clickable {
+    cursor: pointer;
+}
+
+.chat-header-main.clickable:active {
+    opacity: 0.7;
 }
 
 .chat-header-avatar {
-    width: 36px;
-    height: 36px;
+    width: 38px;
+    height: 38px;
     border-radius: var(--radius-full);
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--bg-main);
+    background-color: rgba(255, 255, 255, 0.2);
     flex-shrink: 0;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.chat-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
 }
 
 .chat-info h2 {
-    font-size: 15px;
-    font-weight: 700;
+    font-size: 22px;
+    font-weight: 800;
     margin: 0;
-    color: var(--text-main);
+    margin-bottom: -2px;
+    /* Pull status up slightly for harmony */
+    color: #1a1a1a;
     font-family: var(--font-heading);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    letter-spacing: -0.02em;
+    line-height: 1;
 }
 
 .chat-info .status {
-    font-size: 11px;
-    color: var(--text-muted);
+    font-size: 14px;
+    /* Increased for better visibility */
+    color: rgba(0, 0, 0, 0.6);
+    line-height: 1.2;
+}
+
+.chat-info .status.online {
+    color: #059669;
+    /* Darker green for visibility on orange */
+    font-weight: 800;
 }
 
 .messages-list {
     flex: 1;
     overflow-y: auto;
     padding: var(--space-md);
-    padding-bottom: 100px;
-    /* Space for the fixed input area */
+    padding-top: var(--space-md);
+    /* Standard top padding */
+    padding-bottom: 110px;
     display: flex;
     flex-direction: column;
     gap: var(--space-sm);
-    background-color: var(--bg-main);
+    /* WhatsApp Background Styling */
+    background-color: #f0f2f5;
+    background-image: url('/socdepoble_map_pattern_v1.png');
+    /* Generated Wallpaper */
+    background-repeat: repeat;
+    background-size: 300px;
+    background-attachment: local;
+}
+
+.message-bubble {
+    padding: var(--space-xs) var(--space-md);
+    border-radius: 12px;
+    max-width: 80%;
+    position: relative;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    /* Ultra readability override */
+    font-size: 20px !important;
+    line-height: 1.5 !important;
+}
+
+.message-bubble.me {
+    align-self: flex-end;
+    background-color: #dcf8c6;
+    /* WhatsApp Light Green */
+    color: #303030;
+    border-top-right-radius: 4px;
+}
+
+.message-bubble.other {
+    align-self: flex-start;
+    background-color: #ffffff;
+    color: #303030;
+    border-top-left-radius: 4px;
+}
+
+.message-meta {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 4px;
+    margin-top: 2px;
+}
+
+.message-time {
+    font-size: 10px;
+    color: #8696a0;
+}
+
+.message-status {
+    font-size: 12px;
+    line-height: 1;
+}
+
+.message-status.read {
+    color: #53bdeb;
+    /* Blue ticks */
 }
 
 /* WhatsApp-style Input Area - Locked to Bottom */

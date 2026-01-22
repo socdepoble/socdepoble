@@ -118,6 +118,8 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
+  /* Increased base size for community readability */
+  font-size: 18px;
 }
 
 /* Unified Secondary Header */
@@ -146,7 +148,8 @@ article h3,
 .town-name {
   font-family: var(--font-heading) !important;
   font-weight: 800 !important;
-  /* Extra bold for visibility */
+  /* Harmonized to 21px as per Chat List standard */
+  font-size: 21px !important;
   color: var(--text-main);
   letter-spacing: -0.02em;
 }
@@ -218,25 +221,25 @@ a:hover {
 
 .text-body {
   font-size: 20px;
-  /* Large, clear body text */
+  /* Harmonized to 20px (WhatsApp/Chat body standard) */
   line-height: 1.6;
   color: var(--text-main);
 }
 
 .text-secondary {
-  font-size: 17px;
+  font-size: 18px;
   line-height: 1.5;
   color: var(--text-secondary);
 }
 
 .text-small {
-  font-size: 15px;
+  font-size: 17px;
   line-height: 1.4;
   color: var(--text-muted);
 }
 
 .text-micro {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -334,6 +337,14 @@ a:hover {
   /* Strong downward shadow to create depth over the image */
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
   border-bottom: 1px solid var(--bg-warm-accent);
+}
+
+.card-header.clickable {
+  cursor: pointer;
+}
+
+.card-header.clickable:active {
+  background-color: var(--bg-warm-accent);
 }
 
 .card-image-wrapper {

@@ -29,7 +29,8 @@
         "groups": "Grups",
         "privacy": "Privacitat",
         "province": "Província",
-        "comarca": "Comarca"
+        "comarca": "Comarca",
+        "unknown": "Desconegut"
     },
     "nav": {
         "chats": "Xats",
