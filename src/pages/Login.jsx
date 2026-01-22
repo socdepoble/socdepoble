@@ -7,7 +7,7 @@ import './Auth.css';
 
 const Login = () => {
     const { t, i18n } = useTranslation();
-    const { loginAsGuest, loginWithGoogle } = useAppContext();
+    const { loginAsGuest, loginWithGoogle, language, setLanguage } = useAppContext();
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -41,9 +41,9 @@ const Login = () => {
 
                 <div className="demo-login-wrapper">
                     <button onClick={handleGuestLogin} className="auth-button demo-primary">
-                        {t('auth.demo_access') || 'Entrar com a Veí (Demo)'}
+                        {t('auth.demo_access')}
                     </button>
-                    <p className="demo-hint">{t('auth.demo_hint') || 'Accés ràpid per a revisió sense registre'}</p>
+                    <p className="demo-hint">{t('auth.demo_hint')}</p>
 
                     <div className="language-selector-auth">
                         {[
@@ -55,8 +55,8 @@ const Login = () => {
                         ].map((lang) => (
                             <button
                                 key={lang.code}
-                                onClick={() => i18n.changeLanguage(lang.code)}
-                                className={`lang-btn ${i18n.language?.startsWith(lang.code) ? 'active' : ''}`}
+                                onClick={() => setLanguage(lang.code)}
+                                className={`lang-btn ${language?.startsWith(lang.code) ? 'active' : ''}`}
                             >
                                 {lang.label}
                             </button>
@@ -113,7 +113,7 @@ const Login = () => {
                         className="auth-button google-auth"
                     >
                         <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" />
-                        {t('auth.continue_google') || 'Continua amb Google'}
+                        {t('auth.continue_google')}
                     </button>
                 </div>
 

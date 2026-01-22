@@ -64,6 +64,11 @@
         "noAccount": "Non tes conta?",
         "haveAccount": "Xa tes conta?",
         "checkEmail": "Rexistro con éxito. Por favor, revisa o teu correo para confirmar.",
-        "logout": "Pechar Sesión"
+        "logout": "Pechar Sesión",
+        "demo_access": "Entrar como Veciño (Demo)",
+        "demo_hint": "Acceso rápido para revisión sen rexistro",
+        "continue_google": "Continúa con Google",
+        "or_sign_in": "ou ben inicia sesión",
+        "email_placeholder": "usuario@exemplo.com"
     }
 }

@@ -112,15 +112,22 @@ export const AppProvider = ({ children }) => {
     }, []);
 
     useEffect(() => {
-        if (language !== i18n.language) {
+        // Al montar, sincronizar el estado local con i18n (que ya detectó vía localStorage)
+        if (i18n.language && i18n.language !== language) {
+            setLanguage(i18n.language);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (language && language !== i18n.language) {
             i18n.changeLanguage(language);
         }
-        localStorage.setItem('language', language);
+        localStorage.setItem('i18nextLng', language);
     }, [language, i18n]);
 
     const toggleLanguage = () => {
         const languages = ['va', 'es', 'gl', 'eu', 'en'];
-        const currentIndex = languages.indexOf(language);
+        const currentIndex = languages.indexOf(language.split('-')[0]); // Manejar va-ES
         const nextIndex = (currentIndex + 1) % languages.length;
         setLanguage(languages[nextIndex]);
     };

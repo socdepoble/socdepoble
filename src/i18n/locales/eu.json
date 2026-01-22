@@ -64,6 +64,11 @@
         "noAccount": "Ez duzu konturik?",
         "haveAccount": "Baduzu kontua?",
         "checkEmail": "Erregistroa ondo egin da. Mesedez, egiaztatu zure posta elektronikoa berresteko.",
-        "logout": "Saioa itxi"
+        "logout": "Saioa itxi",
+        "demo_access": "Sartu Bizilagun gisa (Demo)",
+        "demo_hint": "Erregistratu gabeko berrikusketarako sarbide azkarra",
+        "continue_google": "Google-rekin jarraitu",
+        "or_sign_in": "edo saioa hasi",
+        "email_placeholder": "erabiltzailea@adibidea.com"
     }
 }

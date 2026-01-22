@@ -85,7 +85,12 @@
         "noAccount": "¿No tienes cuenta?",
         "haveAccount": "¿Ya tienes cuenta?",
         "checkEmail": "Registro con éxito. Por favor, revisa tu correo para confirmar.",
-        "logout": "Cerrar Sesión"
+        "logout": "Cerrar Sesión",
+        "demo_access": "Entrar como Vecino (Demo)",
+        "demo_hint": "Acceso rápido para revisión sin registro",
+        "continue_google": "Continúa con Google",
+        "or_sign_in": "o bien inicia sesión",
+        "email_placeholder": "usuario@ejemplo.com"
     },
     "notifications": {
         "title": "Notificaciones",

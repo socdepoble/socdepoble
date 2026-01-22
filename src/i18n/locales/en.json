@@ -68,7 +68,12 @@
         "noAccount": "Don't have an account?",
         "haveAccount": "Already have an account?",
         "checkEmail": "Success! Please check your email to confirm your account.",
-        "logout": "Logout"
+        "logout": "Logout",
+        "demo_access": "Enter as Guest (Demo)",
+        "demo_hint": "Quick access for review without registration",
+        "continue_google": "Continue with Google",
+        "or_sign_in": "or sign in",
+        "email_placeholder": "user@example.com"
     },
     "towns": {
         "select_town": "Select Town",
