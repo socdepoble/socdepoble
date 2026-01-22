@@ -196,10 +196,9 @@ COMMIT;
 5. **Añadir join de town a entities** para mostrar ubicación real en PublicEntity
 6. **Implementar el botón "Connectar"** en PublicEntity (actualmente es decorativo)
 
-### Prioridad Baja
-7. Implementar búsqueda global (el input ya existe en el header)
-8. Añadir comentarios a los posts
-9. Sistema de notificaciones real
+### Gestión de Scroll y Usabilidad
+8. **Reinicio de Scroll Dinámico**: Implementado un sistema que detecta si la navegación es nueva (va arriba) o si es un "Atrás" (mantiene posición), resolviendo el aterrizaje indefinido.
+9. **Botón de Retorno Rápido**: Añadido botón "Back-to-Top" inteligente que solo aparece al hacer scroll hacia arriba en páginas largas.
 
 ---
 

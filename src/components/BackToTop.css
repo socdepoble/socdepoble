@@ -1,0 +1,39 @@
+.back-to-top {
+    position: fixed;
+    bottom: calc(var(--nav-height) + 24px);
+    right: 24px;
+    width: 48px;
+    height: 48px;
+    background-color: var(--color-primary);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(93, 95, 239, 0.4);
+    z-index: 2000;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    animation: slideIn 0.3s ease-out;
+}
+
+.back-to-top:hover {
+    transform: translateY(-4px) scale(1.1);
+    box-shadow: 0 8px 25px rgba(93, 95, 239, 0.6);
+}
+
+.back-to-top:active {
+    transform: scale(0.9);
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.8);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
