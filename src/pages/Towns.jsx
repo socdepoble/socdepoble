@@ -126,14 +126,14 @@ const Towns = () => {
 
                                     <div className="card-body">
                                         <p className="town-desc-short">{town.description}</p>
-                                        <div className="card-actions-wrapper" style={{ borderTop: 'none', padding: 'var(--space-sm) var(--space-md)', backgroundColor: 'var(--bg-warm-card)', margin: 'var(--space-sm) calc(var(--space-md) * -1) calc(var(--space-md) * -1) calc(var(--space-md) * -1)' }}>
-                                            <div className="item-stats" style={{ display: 'flex', gap: 'var(--space-md)' }}>
+                                        <div className="card-flush-footer town-card-footer">
+                                            <div className="item-stats">
                                                 <span className="stat-item">
-                                                    <Users size={14} />
+                                                    <Users size={16} />
                                                     {town.population?.toLocaleString()}
                                                 </span>
                                             </div>
-                                            <button className="btn-primary-soft" style={{ borderRadius: 'var(--radius-full)', padding: '6px 16px', fontSize: '13px' }}>
+                                            <button className="add-btn-premium-vibrant" style={{ width: 'auto', padding: '8px 20px', fontSize: '14px' }}>
                                                 Explorar
                                             </button>
                                         </div>
