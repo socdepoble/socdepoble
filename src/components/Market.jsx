@@ -87,6 +87,8 @@ const Market = ({ townId = null }) => {
                         <Search size={16} />
                         <input
                             type="text"
+                            id="market-search"
+                            name="market-search"
                             placeholder={t('market.search_placeholder') || 'Buscar al mercat...'}
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}

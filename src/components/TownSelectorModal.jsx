@@ -157,6 +157,8 @@ const TownSelectorModal = ({ isOpen, onClose, onSelect }) => {
                     <input
                         ref={searchInputRef}
                         type="text"
+                        id="town-search-input"
+                        name="town-search"
                         placeholder={t('common.search_placeholder') || 'Cerca poble, comarca o província...'}
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
