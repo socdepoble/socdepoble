@@ -24,7 +24,7 @@ const Towns = () => {
                 const data = await supabaseService.getTowns();
                 setTowns(data);
             } catch (error) {
-                console.error('Error loading towns:', error);
+                logger.error('Error loading towns:', error);
             } finally {
                 setLoading(false);
             }

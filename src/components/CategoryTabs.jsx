@@ -29,7 +29,7 @@ const CategoryTabs = ({ selectedRole, onSelectRole, exclude = [], tabs }) => {
             ))}
             <button
                 className="category-tab add-tab"
-                onClick={() => console.log('Future management screen')}
+                onClick={() => logger.log('Future management screen')}
             >
                 +
             </button>

@@ -2,15 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { X, Camera, Send, Loader2, Tag, Globe, Lock, Users } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
-import { useAppContext } from '../context/AppContext';
+import { useAuth } from '../context/AuthContext';
 import { ROLES } from '../constants';
 import './AddItemModal.css';
 
 import EntitySelector from './EntitySelector';
 
-const AddItemModal = ({ isOpen, onClose, onItemCreated, isPrivateInitial = false }) => {
+const AddItemModal = ({ isOpen, onClose, onItemCreated, isPrivateInitial = false, isPlayground = false }) => {
     const { t } = useTranslation();
-    const { profile, user, impersonatedProfile } = useAppContext();
+    const { profile, user, impersonatedProfile } = useAuth();
     const [loading, setLoading] = useState(false);
     const [privacy, setPrivacy] = useState(isPrivateInitial ? 'groups' : 'public');
     const [formData, setFormData] = useState({
@@ -78,11 +78,11 @@ const AddItemModal = ({ isOpen, onClose, onItemCreated, isPrivateInitial = false
                 author_role: selectedIdentity.type === 'user' ? ROLES.PEOPLE : selectedIdentity.type
             };
 
-            await supabaseService.createMarketItem(newItem);
+            await supabaseService.createMarketItem(newItem, isPlayground);
             onItemCreated();
             onClose();
         } catch (error) {
-            console.error('Error adding item:', error);
+            logger.error('Error adding item:', error);
             alert('Error al publicar l\'article');
         } finally {
             setLoading(false);

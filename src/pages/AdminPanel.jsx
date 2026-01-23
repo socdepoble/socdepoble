@@ -28,7 +28,7 @@ const AdminPanel = () => {
                 setPersonas(pData || []);
                 setEntities(eData || []);
             } catch (error) {
-                console.error('Error fetching admin data:', error);
+                logger.error('Error fetching admin data:', error);
             } finally {
                 setLoading(false);
             }

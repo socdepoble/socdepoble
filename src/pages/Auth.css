@@ -172,11 +172,11 @@
 }
 
 .demo-hint {
-    font-size: 0.75rem;
+    font-size: 0.95rem;
     color: var(--color-primary);
-    margin-top: 8px;
-    font-weight: 500;
-    opacity: 0.8;
+    margin: 16px 0 8px 0;
+    font-weight: 600;
+    opacity: 0.9;
 }
 
 .language-selector-auth {

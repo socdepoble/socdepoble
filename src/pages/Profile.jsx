@@ -4,6 +4,7 @@ import { supabaseService } from '../services/supabaseService';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { User, LogOut, Camera, Save, Building2, Store, Settings, Star, Home, Bell, Lock, HelpCircle, Info, ChevronRight, MapPin, MessageCircle, Plus, Moon, Sun, ArrowLeft } from 'lucide-react';
+import { logger } from '../utils/logger';
 import TownSelectorModal from '../components/TownSelectorModal';
 import './Profile.css';
 
@@ -79,7 +80,7 @@ const Profile = () => {
             setProfile(updated);
             setIsEditingTown(false);
         } catch (error) {
-            console.error('Error updating town:', error);
+            logger.error('Error updating town:', error);
         }
     };
 
@@ -98,7 +99,7 @@ const Profile = () => {
         if (id === 'theme') {
             toggleTheme();
         } else {
-            console.log('Clicked menu item:', id);
+            logger.log('Clicked menu item:', id);
         }
     };
 
@@ -109,7 +110,7 @@ const Profile = () => {
                     <button className="giga-back-button" onClick={() => navigate(-1)}>
                         <ArrowLeft size={30} />
                     </button>
-                    <button className="settings-btn" onClick={() => console.log('Open settings')}>
+                    <button className="settings-btn" onClick={() => logger.log('Open settings')}>
                         <Settings size={22} />
                     </button>
                 </div>

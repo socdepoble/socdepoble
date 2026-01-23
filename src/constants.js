@@ -12,11 +12,28 @@ export const ROLES = {
     OFFICIAL: 'oficial'
 };
 
+/**
+ * Rols d'entitat i usuari per a la lògica de negoci i base de dades
+ */
+export const ENTITY_TYPES = {
+    OFFICIAL: 'oficial',
+    BUSINESS: 'empresa',
+    GROUP: 'grup',
+    PRIVATE: 'personal' // Per a perfils de veïns
+};
+
 export const USER_ROLES = {
     NEIGHBOR: 'vei',
     GROUP: 'grup',
     BUSINESS: 'empresa',
     OFFICIAL: 'oficial'
+};
+
+export const ROLE_LABELS = {
+    [USER_ROLES.NEIGHBOR]: { va: 'Veí', es: 'Vecino' },
+    [USER_ROLES.GROUP]: { va: 'Grup', es: 'Grupo' },
+    [USER_ROLES.BUSINESS]: { va: 'Empresa', es: 'Empresa' },
+    [USER_ROLES.OFFICIAL]: { va: 'Oficial', es: 'Oficial' }
 };
 
 export const AUTH_EVENTS = {

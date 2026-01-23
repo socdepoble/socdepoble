@@ -18,7 +18,7 @@ const TagSelector = ({ currentTags = [], onTagsChange }) => {
             const tags = await supabaseService.getUserTags(user.id);
             setAvailableTags(Array.isArray(tags) ? tags : []);
         } catch (error) {
-            console.error('Error loading tags:', error);
+            logger.error('Error loading tags:', error);
         }
     }, [user?.id]);
 
@@ -56,7 +56,7 @@ const TagSelector = ({ currentTags = [], onTagsChange }) => {
             setNewTagName('');
             setIsAdding(false);
         } catch (error) {
-            console.error('Error adding tag:', error);
+            logger.error('Error adding tag:', error);
         } finally {
             setLoading(false);
         }
@@ -73,7 +73,7 @@ const TagSelector = ({ currentTags = [], onTagsChange }) => {
                 onTagsChange(currentTags.filter(t => t !== tag));
             }
         } catch (error) {
-            console.error('Error deleting tag:', error);
+            logger.error('Error deleting tag:', error);
         }
     };
 

@@ -57,7 +57,7 @@ const ChatDetail = () => {
                 // Marcar como leídos al entrar
                 await supabaseService.markMessagesAsRead(id, currentUserId);
             } catch (error) {
-                console.error('Error fetching chat data:', error);
+                logger.error('Error fetching chat data:', error);
             } finally {
                 setLoading(false);
             }
@@ -130,7 +130,7 @@ const ChatDetail = () => {
                 content: textToSend
             });
         } catch (error) {
-            console.error('Error sending message:', error);
+            logger.error('Error sending message:', error);
             alert('Error al enviar el missatge');
         }
     };

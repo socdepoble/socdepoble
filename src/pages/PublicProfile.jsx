@@ -41,7 +41,7 @@ const PublicProfile = () => {
                 setUserPosts(postsData);
                 setItems(itemsData);
             } catch (err) {
-                console.error('[PublicProfile] Error:', err);
+                logger.error('[PublicProfile] Error:', err);
                 setError(err.message);
             } finally {
                 setLoading(false);

@@ -3,7 +3,14 @@
     flex-direction: column;
     min-height: 100vh;
     padding-bottom: calc(var(--nav-height) + 20px);
-    /* Espacio para la navegación inferior y el botón flotante */
+}
+
+.layout-container.has-playground-banner {
+    padding-top: 40px;
+}
+
+.has-playground-banner .main-header {
+    top: 40px !important;
 }
 
 .content-area {

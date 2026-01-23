@@ -3,24 +3,39 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { Plus, Search, Filter, Loader2 } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
+import { useAuth } from '../context/AuthContext';
+import { useI18n } from '../context/I18nContext';
+import { logger } from '../utils/logger';
 import CategoryTabs from './CategoryTabs';
+import MarketSkeleton from './Skeletons/MarketSkeleton';
+import AddItemModal from './AddItemModal';
 import './Market.css';
 
 const Market = ({ townId = null }) => {
     const { t, i18n } = useTranslation();
+    const { language } = useI18n(); // Usant I18nContext per a reactivitat neta
     const navigate = useNavigate();
+    const { isPlayground, user } = useAuth();
     const [items, setItems] = useState([]);
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [page, setPage] = useState(0);
+    const [hasMore, setHasMore] = useState(true);
+    const [loadingMore, setLoadingMore] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const [activeTab, setActiveTab] = useState('tot');
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
-        let isMounted = true; // Flag to track if the component is mounted
-        const loadInitialData = async () => {
-            setLoading(true);
+        let isMounted = true;
+        const loadInitialData = async (isLoadMore = false) => {
+            if (isLoadMore) setLoadingMore(true);
+            else {
+                setLoading(true);
+                setPage(0);
+            }
+
             try {
-                // Cargar categorías primero si no están cargadas
                 if (categories.length === 0) {
                     const cats = await supabaseService.getMarketCategories();
                     if (isMounted) {
@@ -28,26 +43,43 @@ const Market = ({ townId = null }) => {
                     }
                 }
 
-                const data = await supabaseService.getMarketItems(activeTab, townId);
+                const currentPage = isLoadMore ? page + 1 : 0;
+                const result = await supabaseService.getMarketItems(activeTab, townId, currentPage, 12, isPlayground);
+
                 if (isMounted) {
-                    setItems(data);
+                    if (isLoadMore) {
+                        setItems(prev => [...prev, ...result.data]);
+                        setPage(currentPage);
+                    } else {
+                        setItems(result.data);
+                    }
+                    setHasMore(items.length + result.data.length < result.count);
                 }
             } catch (error) {
                 if (isMounted) {
-                    console.error('Error fetching market data:', error);
+                    logger.error('Error fetching market data:', error);
                 }
             } finally {
                 if (isMounted) {
                     setLoading(false);
+                    setLoadingMore(false);
                 }
             }
         };
         loadInitialData();
 
+        window.loadMoreMarket = () => loadInitialData(true);
+
         return () => {
-            isMounted = false; // Cleanup function to set isMounted to false when component unmounts
+            isMounted = false;
         };
-    }, [activeTab, townId, categories.length]);
+    }, [activeTab, townId, categories.length, page, items.length, isPlayground]);
+
+    useEffect(() => {
+        const handleOpenModal = () => setIsModalOpen(true);
+        window.addEventListener('open-add-market-item', handleOpenModal);
+        return () => window.removeEventListener('open-add-market-item', handleOpenModal);
+    }, []);
 
     const filteredItems = items.filter(item =>
         item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -56,7 +88,6 @@ const Market = ({ townId = null }) => {
 
     const marketTabs = categories.length > 0
         ? categories.map(cat => {
-            // Mapeo dinámico de idioma a columna de la DB
             const langMap = {
                 'va': cat.name_va,
                 'es': cat.name_es,
@@ -66,7 +97,7 @@ const Market = ({ townId = null }) => {
             };
             return {
                 id: cat.slug,
-                label: langMap[i18n.language] || cat.name_va // Fallback a valencià
+                label: langMap[i18n.language] || cat.name_va
             };
         })
         : [
@@ -78,9 +109,10 @@ const Market = ({ townId = null }) => {
 
     if (loading && items.length === 0) {
         return (
-            <div className="market-container loading">
-                <Loader2 className="spinner" />
-                <p>{t('market.loading') || 'Carregant el mercat...'}</p>
+            <div className="market-container">
+                <div className="market-grid">
+                    {[1, 2, 3, 4].map(i => <MarketSkeleton key={i} />)}
+                </div>
             </div>
         );
     }
@@ -104,7 +136,7 @@ const Market = ({ townId = null }) => {
                     </div>
                 ) : (
                     filteredItems.map(item => (
-                        <div key={item.uuid || item.id} className="universal-card market-item">
+                        <div key={item.uuid} className="universal-card market-item">
                             <div
                                 className="card-header clickable"
                                 onClick={() => {
@@ -161,7 +193,14 @@ const Market = ({ townId = null }) => {
                             </div>
 
                             <div className="item-footer-unified card-footer-vibrant">
-                                <button className="add-btn-premium-vibrant full-width">
+                                <button
+                                    className="add-btn-premium-vibrant full-width"
+                                    aria-label={`${t('market.interested')} per ${item.title}`}
+                                    onClick={() => {
+                                        if (!user) navigate('/login');
+                                        // Interest logic to be implemented
+                                    }}
+                                >
                                     <Plus size={18} />
                                     <span>{t('market.interested')}</span>
                                 </button>
@@ -170,6 +209,27 @@ const Market = ({ townId = null }) => {
                     ))
                 )}
             </div>
+
+            {hasMore && items.length > 0 && (
+                <div className="load-more-container">
+                    <button
+                        className="btn-load-more"
+                        onClick={() => window.loadMoreMarket()}
+                        disabled={loadingMore}
+                    >
+                        {loadingMore ? <Loader2 className="spinner" /> : t('common.load_more') || 'Carregar més'}
+                    </button>
+                </div>
+            )}
+
+            {isModalOpen && (
+                <AddItemModal
+                    isOpen={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    onItemCreated={() => window.location.reload()} // For simplicity in market refresh
+                    isPlayground={isPlayground}
+                />
+            )}
         </div>
     );
 };

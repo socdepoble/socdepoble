@@ -35,7 +35,7 @@ const PublicEntity = () => {
                 setPosts(postsData);
                 setItems(itemsData);
             } catch (err) {
-                console.error('[PublicEntity] Error:', err);
+                logger.error('[PublicEntity] Error:', err);
                 setError(err.message);
             } finally {
                 setLoading(false);

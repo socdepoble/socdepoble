@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { X, Image as ImageIcon, Send, Loader2, Globe, Lock, Users } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
-import { useAppContext } from '../context/AppContext';
+import { useAuth } from '../context/AuthContext';
 import { ROLES } from '../constants';
 import './CreatePostModal.css';
 
@@ -10,9 +10,9 @@ import EntitySelector from './EntitySelector';
 
 const PREDEFINED_TAGS = ['Esdeveniment', 'Avís', 'Consulta', 'Proposta'];
 
-const CreatePostModal = ({ isOpen, onClose, onPostCreated, isPrivateInitial = false }) => {
+const CreatePostModal = ({ isOpen, onClose, onPostCreated, isPrivateInitial = false, isPlayground = false }) => {
     const { t } = useTranslation();
-    const { profile, user, impersonatedProfile } = useAppContext();
+    const { profile, user, impersonatedProfile } = useAuth();
     const [content, setContent] = useState('');
     const [loading, setLoading] = useState(false);
     const [selectedTags, setSelectedTags] = useState([]);
@@ -87,13 +87,13 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated, isPrivateInitial = fa
                 image_url: selectedIdentity.avatar_url
             };
 
-            await supabaseService.createPost(newPost);
+            await supabaseService.createPost(newPost, isPlayground);
             onPostCreated();
             setContent('');
             setSelectedTags([]);
             onClose();
         } catch (error) {
-            console.error('Error creating post:', error);
+            logger.error('Error creating post:', error);
             alert('Error al publicar');
         } finally {
             setLoading(false);

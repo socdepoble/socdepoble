@@ -16,9 +16,11 @@ import TownDetail from './pages/TownDetail';
 import PublicProfile from './pages/PublicProfile';
 import PublicEntity from './pages/PublicEntity';
 import AdminPanel from './pages/AdminPanel';
+import PlaygroundPortal from './pages/PlaygroundPortal';
 import { supabase } from './supabaseClient';
 import { MOCK_CHATS, MOCK_FEED, MOCK_MARKET_ITEMS } from './data';
-import { useAppContext } from './context/AppContext';
+import { useAuth } from './context/AuthContext';
+import { useUI } from './context/UIContext';
 import { supabaseService } from './services/supabaseService';
 
 // Exponer para depuración en consola
@@ -29,7 +31,7 @@ if (typeof window !== 'undefined') {
 
 // Componente para proteger rutas
 const ProtectedRoute = ({ children }) => {
-  const { user, loading } = useAppContext();
+  const { user, loading } = useAuth();
 
   if (loading) {
     return (
@@ -54,28 +56,69 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/playground" element={<PlaygroundPortal />} />
 
         <Route
           path="/"
           element={
-            <ProtectedRoute>
-              <Layout />
-            </ProtectedRoute>
+            <Layout />
           }
         >
           <Route index element={<Navigate to="/chats" replace />} />
-          <Route path="chats" element={<ChatList />} />
-          <Route path="chats/:id" element={<ChatDetail />} />
+          <Route
+            path="chats"
+            element={
+              <ProtectedRoute>
+                <ChatList />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="chats/:id"
+            element={
+              <ProtectedRoute>
+                <ChatDetail />
+              </ProtectedRoute>
+            }
+          />
           <Route path="mur" element={<Feed />} />
           <Route path="mercat" element={<Market />} />
-          <Route path="perfil" element={<Profile />} />
+          <Route
+            path="perfil"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
           <Route path="perfil/:id" element={<PublicProfile />} />
           <Route path="entitat/:id" element={<PublicEntity />} />
-          <Route path="notificacions" element={<Notifications />} />
+          <Route
+            path="notificacions"
+            element={
+              <ProtectedRoute>
+                <Notifications />
+              </ProtectedRoute>
+            }
+          />
           <Route path="pobles" element={<Towns />} />
           <Route path="pobles/:id" element={<TownDetail />} />
-          <Route path="mapa" element={<Map />} />
-          <Route path="admin" element={<AdminPanel />} />
+          <Route
+            path="mapa"
+            element={
+              <ProtectedRoute>
+                <Map />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="admin"
+            element={
+              <ProtectedRoute>
+                <AdminPanel />
+              </ProtectedRoute>
+            }
+          />
         </Route>
       </Routes>
     </BrowserRouter>

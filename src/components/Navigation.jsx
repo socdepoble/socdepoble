@@ -1,12 +1,15 @@
-import { NavLink } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 import { MessageCircle, Newspaper, Store, MapPin, Plus } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { useAppContext } from '../context/AppContext';
+import { useUI } from '../context/UIContext';
+import { useAuth } from '../context/AuthContext';
 import './Navigation.css';
 
 const Navigation = () => {
   const { t } = useTranslation();
-  const { setIsCreateModalOpen } = useAppContext();
+  const { setIsCreateModalOpen } = useUI();
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
   return (
     <nav className="bottom-nav">
@@ -20,7 +23,16 @@ const Navigation = () => {
       </NavLink>
 
       <div className="nav-fab-container">
-        <button className="nav-fab" onClick={() => setIsCreateModalOpen(true)}>
+        <button
+          className="nav-fab"
+          onClick={() => {
+            if (!user) {
+              navigate('/login');
+            } else {
+              setIsCreateModalOpen(true);
+            }
+          }}
+        >
           <Plus size={32} color="white" strokeWidth={3} />
         </button>
       </div>

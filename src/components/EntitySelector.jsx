@@ -3,6 +3,7 @@ import { supabaseService } from '../services/supabaseService';
 import { User, Building2, Store, ChevronDown } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../context/AppContext';
+import { ENTITY_TYPES } from '../constants';
 import './EntitySelector.css';
 
 const EntitySelector = ({ currentIdentity, onSelectIdentity }) => {
@@ -16,7 +17,7 @@ const EntitySelector = ({ currentIdentity, onSelectIdentity }) => {
             const userEntities = await supabaseService.getUserEntities(user.id);
             setEntities(userEntities);
         } catch (error) {
-            console.error('Error loading entities:', error);
+            logger.error('Error loading entities:', error);
         }
     };
 
@@ -44,8 +45,8 @@ const EntitySelector = ({ currentIdentity, onSelectIdentity }) => {
     };
 
     const getIcon = (type) => {
-        if (type === 'grup') return <Building2 size={18} />;
-        if (type === 'empresa') return <Store size={18} />;
+        if (type === ENTITY_TYPES.GROUP) return <Building2 size={18} />;
+        if (type === ENTITY_TYPES.BUSINESS) return <Store size={18} />;
         return <User size={18} />;
     };
 
@@ -84,7 +85,11 @@ const EntitySelector = ({ currentIdentity, onSelectIdentity }) => {
                             <div className="identity-info">
                                 <span className="name">{identity.name}</span>
                                 <span className="type-label">
-                                    {identity.isUser ? (t('common.personal_profile') || 'Perfil Personal') : identity.type === 'grup' ? (t('common.role_grup') || 'Grup') : identity.type === 'empresa' ? (t('common.role_empresa') || 'Empresa') : (t('common.role_oficial') || 'Oficial')}
+                                    {identity.isUser ? (t('common.personal_profile') || 'Perfil Personal') : (
+                                        identity.type === ENTITY_TYPES.GROUP ? (t('common.role_grup') || 'Grup') :
+                                            identity.type === ENTITY_TYPES.BUSINESS ? (t('common.role_empresa') || 'Empresa') :
+                                                (t('common.role_oficial') || 'Oficial')
+                                    )}
                                 </span>
                             </div>
                         </div>

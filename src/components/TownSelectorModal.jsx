@@ -48,7 +48,7 @@ const TownSelectorModal = ({ isOpen, onClose, onSelect }) => {
                     const data = await supabaseService.searchAllTowns(cleanTerm);
                     setSearchResults(data);
                 } catch (error) {
-                    console.error('Error in global search:', error);
+                    logger.error('Error in global search:', error);
                 } finally {
                     setLoading(false);
                 }
@@ -66,7 +66,7 @@ const TownSelectorModal = ({ isOpen, onClose, onSelect }) => {
             const data = await supabaseService.getProvinces();
             setProvinces(data);
         } catch (error) {
-            console.error('Error loading provinces:', error);
+            logger.error('Error loading provinces:', error);
         } finally {
             setLoading(false);
         }
@@ -81,7 +81,7 @@ const TownSelectorModal = ({ isOpen, onClose, onSelect }) => {
             setComarcas(data);
             setStep(2);
         } catch (error) {
-            console.error('Error loading comarcas:', error);
+            logger.error('Error loading comarcas:', error);
         } finally {
             setLoading(false);
         }
@@ -96,7 +96,7 @@ const TownSelectorModal = ({ isOpen, onClose, onSelect }) => {
             setTowns(data);
             setStep(3);
         } catch (error) {
-            console.error('Error loading towns:', error);
+            logger.error('Error loading towns:', error);
         } finally {
             setLoading(false);
         }

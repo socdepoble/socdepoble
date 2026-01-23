@@ -1,0 +1,303 @@
+.playground-portal {
+    min-height: 100vh;
+    background: radial-gradient(circle at top right, #1e293b, #08090a);
+    color: white;
+    padding: 32px 20px;
+    font-family: var(--font-body);
+}
+
+.portal-back-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--color-primary);
+    border: none;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 14px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-top: 24px;
+    box-shadow: 0 8px 16px rgba(93, 95, 239, 0.2);
+}
+
+.portal-back-btn-primary:hover {
+    background: #4749d4;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(93, 95, 239, 0.3);
+}
+
+.portal-header {
+    max-width: 800px;
+    margin: 0 auto 32px;
+    text-align: center;
+    animation: fadeInDown 0.8s ease-out;
+}
+
+.portal-logo-large {
+    height: 80px;
+    /* Larger logo like login */
+    width: auto;
+    margin-bottom: 16px;
+    filter: brightness(0) invert(1);
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.portal-title {
+    font-family: var(--font-heading);
+    font-size: clamp(48px, 8vw, 80px);
+    /* Even larger title */
+    margin-bottom: 8px;
+    font-weight: 950;
+    letter-spacing: -0.03em;
+    background: linear-gradient(to bottom, #fff, #cbd5e1);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1;
+}
+
+.portal-description {
+    color: #94a3b8;
+    font-size: 16px;
+    line-height: 1.4;
+    max-width: 550px;
+    margin: 0 auto;
+    font-weight: 500;
+    opacity: 0.9;
+}
+
+.persona-list-container {
+    max-width: 720px;
+    /* Slightly wider */
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 28px;
+    overflow: hidden;
+    animation: fadeInUp 0.8s ease-out;
+    box-shadow: 0 40px 120px rgba(0, 0, 0, 0.6);
+}
+
+.persona-list-item {
+    display: flex;
+    align-items: flex-start;
+    padding: 28px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
+}
+
+.persona-list-item:hover {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.persona-list-avatar {
+    position: relative;
+    width: 72px;
+    /* Slightly larger avatar */
+    height: 72px;
+    margin-right: 24px;
+    flex-shrink: 0;
+}
+
+.persona-list-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 18px;
+    object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+}
+
+.persona-list-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #334155, #1e293b);
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #94a3b8;
+}
+
+.role-dot {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 3px solid #08090a;
+}
+
+.role-dot.veí {
+    background: #3b82f6;
+}
+
+.role-dot.entitat {
+    background: #10b981;
+}
+
+.role-dot.empresa {
+    background: #f59e0b;
+}
+
+.role-dot.oficial {
+    background: #ef4444;
+}
+
+.persona-list-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.persona-list-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+}
+
+.persona-list-name {
+    font-size: 22px;
+    /* Larger name */
+    font-weight: 850;
+    color: white;
+    font-family: var(--font-heading);
+}
+
+.persona-list-town {
+    font-size: 14px;
+    color: var(--color-primary);
+    font-weight: 700;
+}
+
+.role-label-mini {
+    padding: 2px 10px;
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.role-label-mini.veí {
+    color: #60a5fa;
+    background: rgba(59, 130, 246, 0.15);
+}
+
+.role-label-mini.entitat {
+    color: #34d399;
+    background: rgba(16, 185, 129, 0.15);
+}
+
+.role-label-mini.empresa {
+    color: #fbbf24;
+    background: rgba(245, 158, 11, 0.15);
+}
+
+.role-label-mini.oficial {
+    color: #f87171;
+    background: rgba(239, 68, 68, 0.15);
+}
+
+.persona-list-bio-full {
+    color: rgba(255, 255, 255, 0.7);
+    /* More legible white opac */
+    font-size: 15px;
+    line-height: 1.6;
+    margin-top: 4px;
+    word-break: break-word;
+}
+
+.persona-list-action {
+    display: flex;
+    align-items: center;
+    padding-left: 24px;
+    align-self: center;
+    /* Center arrow vertically relative to whole row */
+}
+
+.btn-enter-mini {
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.2s ease;
+}
+
+.persona-list-item:hover .btn-enter-mini {
+    background: var(--color-primary);
+    border-color: transparent;
+    transform: scale(1.1);
+}
+
+.portal-footer {
+    text-align: center;
+    margin-top: 48px;
+    color: #475569;
+    font-size: 14px;
+    font-weight: 500;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 640px) {
+    .persona-list-container {
+        border-radius: 20px;
+        margin: 0 5px;
+    }
+
+    .persona-list-item {
+        padding: 20px;
+    }
+
+    .persona-list-avatar {
+        width: 60px;
+        height: 60px;
+        margin-right: 16px;
+    }
+
+    .portal-title {
+        font-size: 48px;
+    }
+}

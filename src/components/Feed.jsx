@@ -3,11 +3,13 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { Link2, MessageCircle, Share2, MoreHorizontal, Building2, Store, Users, User, Loader2, AlertCircle } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
-import { useAppContext } from '../context/AppContext';
+import { useAuth } from '../context/AuthContext';
 import { ROLES } from '../constants';
+import { logger } from '../utils/logger';
 import CreatePostModal from './CreatePostModal';
 import CategoryTabs from './CategoryTabs';
 import TagSelector from './TagSelector';
+import PostSkeleton from './Skeletons/PostSkeleton';
 import './Feed.css';
 
 const getAvatarIcon = (role) => {
@@ -31,27 +33,42 @@ const getAvatarColor = (role) => {
 const Feed = ({ townId = null, hideHeader = false }) => {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const { user } = useAppContext();
+    const { user, isPlayground } = useAuth();
     const [posts, setPosts] = useState([]);
     const [userConnections, setUserConnections] = useState([]);
     const [userTags, setUserTags] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [page, setPage] = useState(0);
+    const [hasMore, setHasMore] = useState(true);
+    const [loadingMore, setLoadingMore] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedRole, setSelectedRole] = useState('tot');
     const [selectedTag, setSelectedTag] = useState(null);
     const [initialIsPrivate, setInitialIsPrivate] = useState(false);
     const [error, setError] = useState(null);
 
-    const fetchPosts = useCallback(async () => {
+    const fetchPosts = useCallback(async (isLoadMore = false) => {
         let isMounted = true;
-        setLoading(true);
+        if (isLoadMore) setLoadingMore(true);
+        else setLoading(true);
         setError(null);
         try {
-            const data = await supabaseService.getPosts(selectedRole, townId);
+            const currentPage = isLoadMore ? page + 1 : 0;
+            const result = await supabaseService.getPosts(selectedRole, townId, currentPage, 10, isPlayground);
             if (!isMounted) return;
-            console.log('[Feed] Posts data received:', data?.length || 0);
-            const postsArray = Array.isArray(data) ? data : [];
-            setPosts(postsArray);
+
+            const postsArray = result.data;
+            const totalCount = result.count;
+
+            if (isLoadMore) {
+                setPosts(prev => [...prev, ...postsArray]);
+                setPage(currentPage);
+            } else {
+                setPosts(postsArray);
+                setPage(0);
+            }
+
+            setHasMore(posts.length + postsArray.length < totalCount);
 
             if (user) {
                 // Cargar etiquetas del usuario para la barra de filtros
@@ -60,29 +77,29 @@ const Feed = ({ townId = null, hideHeader = false }) => {
                 setUserTags(Array.isArray(tagsRaw) ? tagsRaw : []);
 
                 if (postsArray.length > 0) {
-                    console.log('[Feed] Fetching user connections...');
-                    // Intentamos usar UUIDs si están disponibles, si no IDs
-                    const postIdsForConnections = postsArray.map(p => p.uuid || p.id);
-                    const connections = await supabaseService.getPostConnections(postIdsForConnections);
+                    logger.log('[Feed] Fetching user connections...');
+                    const postUuids = postsArray.map(p => p.uuid);
+                    const connections = await supabaseService.getPostConnections(postUuids);
                     if (!isMounted) return;
                     const userOwnConnections = connections.filter(c => c.user_id === user.id);
-                    console.log('[Feed] User connections loaded:', userOwnConnections.length);
-                    setUserConnections(userOwnConnections);
+                    logger.log('[Feed] User connections loaded:', userOwnConnections.length);
+                    setUserConnections(prev => isLoadMore ? [...prev, ...userOwnConnections] : userOwnConnections);
                 }
             }
         } catch (err) {
             if (isMounted) {
-                console.error('[Feed] Failed to fetch feed:', err);
+                logger.error('[Feed] Failed to fetch feed:', err);
                 setError(err.message);
             }
         } finally {
             if (isMounted) {
                 setLoading(false);
-                console.log('[Feed] Loading sequence finished');
+                setLoadingMore(false);
+                logger.log('[Feed] Loading sequence finished');
             }
         }
         return () => { isMounted = false; };
-    }, [selectedRole, user, townId]);
+    }, [selectedRole, user, townId, page, posts.length]);
 
     useEffect(() => {
         fetchPosts();
@@ -100,14 +117,13 @@ const Feed = ({ townId = null, hideHeader = false }) => {
     const handleConnectionUpdate = (postId, connected, tags) => {
         setUserConnections(prev => {
             if (connected) {
-                const existing = prev.find(c => (c.post_uuid === postId || c.post_id === postId));
+                const existing = prev.find(c => c.post_uuid === postId);
                 if (existing) {
-                    return prev.map(c => (c.post_uuid === postId || c.post_id === postId) ? { ...c, tags } : c);
+                    return prev.map(c => c.post_uuid === postId ? { ...c, tags } : c);
                 }
-                const isUuid = typeof postId === 'string' && postId.includes('-');
-                return [...prev, { [isUuid ? 'post_uuid' : 'post_id']: postId, user_id: user.id, tags }];
+                return [...prev, { post_uuid: postId, user_id: user.id, tags }];
             }
-            return prev.filter(c => (c.post_uuid !== postId && c.post_id !== postId));
+            return prev.filter(c => c.post_uuid !== postId);
         });
 
         // Actualizar el diccionario local si hay etiquetas nuevas
@@ -121,28 +137,32 @@ const Feed = ({ townId = null, hideHeader = false }) => {
     };
 
     const handleToggleConnection = async (postId) => {
-        if (!user) return;
+        if (!user) {
+            navigate('/login');
+            return;
+        }
         try {
-            const result = await supabaseService.togglePostConnection(postId, user.id);
+            const result = await supabaseService.togglePostConnection(postId, user.id, isPlayground);
             handleConnectionUpdate(postId, result.connected, result.tags || []);
         } catch (error) {
-            console.error('[Feed] Error toggling connection:', error);
+            logger.error('[Feed] Error toggling connection:', error);
         }
     };
 
     // Filtrado local por etiquetas personales
     const filteredPosts = selectedTag
         ? posts.filter(post => {
-            const connection = userConnections.find(c => c.post_uuid === post.uuid || c.post_id === post.id);
+            const connection = userConnections.find(c => c.post_uuid === post.uuid);
             return connection && connection.tags && connection.tags.includes(selectedTag);
         })
         : posts;
 
     if (loading && posts.length === 0) {
         return (
-            <div className="feed-container loading">
-                <Loader2 className="spinner" />
-                <p>{t('feed.loading_feed') || 'Carregant el mur...'}</p>
+            <div className="feed-container">
+                <div className="feed-list">
+                    {[1, 2, 3].map(i => <PostSkeleton key={i} />)}
+                </div>
             </div>
         );
     }
@@ -178,6 +198,7 @@ const Feed = ({ townId = null, hideHeader = false }) => {
                     onClose={() => setIsModalOpen(false)}
                     onPostCreated={fetchPosts}
                     isPrivateInitial={initialIsPrivate}
+                    isPlayground={isPlayground}
                 />
 
                 {filteredPosts.length === 0 ? (
@@ -196,8 +217,8 @@ const Feed = ({ townId = null, hideHeader = false }) => {
                     </div>
                 ) : (
                     filteredPosts.map(post => {
-                        const pid = post.uuid || post.id;
-                        const connection = userConnections.find(c => c.post_uuid === post.uuid || c.post_id === post.id);
+                        const pid = post.uuid;
+                        const connection = userConnections.find(c => c.post_uuid === post.uuid);
                         const isConnected = !!connection;
 
                         return (
@@ -235,6 +256,7 @@ const Feed = ({ townId = null, hideHeader = false }) => {
                                     </div>
                                     <button
                                         className="more-btn"
+                                        aria-label={t('common.more_options') || 'Més opcions'}
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             // More options logic here if needed
@@ -268,15 +290,25 @@ const Feed = ({ townId = null, hideHeader = false }) => {
                                             <button
                                                 className={`action-btn ${isConnected ? 'active' : ''}`}
                                                 onClick={() => handleToggleConnection(pid)}
+                                                aria-label={isConnected ? t('feed.disconnect') : t('feed.connect')}
+                                                aria-pressed={isConnected}
                                             >
                                                 <Link2 size={20} />
                                                 <span>{isConnected ? (post.connections_count + 1 || 1) : (post.connections_count || 0)}</span>
                                             </button>
-                                            <button className="action-btn">
+                                            <button
+                                                className="action-btn"
+                                                aria-label={t('feed.comments')}
+                                            >
                                                 <MessageCircle size={20} />
                                                 <span>{post.comments_count || 0}</span>
                                             </button>
-                                            <button className="action-btn"><Share2 size={20} /></button>
+                                            <button
+                                                className="action-btn"
+                                                aria-label={t('feed.share')}
+                                            >
+                                                <Share2 size={20} />
+                                            </button>
                                         </div>
 
                                         {isConnected && (
@@ -291,6 +323,18 @@ const Feed = ({ townId = null, hideHeader = false }) => {
                             </article>
                         );
                     })
+                )}
+
+                {hasMore && posts.length > 0 && !selectedTag && (
+                    <div className="load-more-container">
+                        <button
+                            className="btn-load-more"
+                            onClick={() => fetchPosts(true)}
+                            disabled={loadingMore}
+                        >
+                            {loadingMore ? <Loader2 className="spinner" /> : t('common.load_more') || 'Carregar més'}
+                        </button>
+                    </div>
                 )}
             </div>
         </div>

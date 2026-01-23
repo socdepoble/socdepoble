@@ -1,6 +1,13 @@
 import { supabase } from '../supabaseClient';
-import { DEMO_USER_ID } from '../constants';
-import { ROLES, USER_ROLES } from '../constants';
+import { logger } from '../utils/logger';
+import { DEMO_USER_ID, ROLES, USER_ROLES } from '../constants';
+
+// Cache para detectar columnas disponibles y evitar errores 400 ruidosos
+const columnCache = {
+    profiles_is_demo: null,
+    posts_is_playground: null,
+    market_is_playground: null
+};
 
 export const supabaseService = {
     // Admin & Seeding
@@ -9,8 +16,37 @@ export const supabaseService = {
             .from('profiles')
             .select('*')
             .order('full_name', { ascending: true });
+
         if (error) throw error;
-        return data;
+
+        // Personatges extra del Lore (per fer el joc més gran de forma inmediata)
+        const lorePersonas = [
+            { id: 'lore-1', full_name: 'Vicent Ferris', username: 'vferris', role: 'Fuster', primary_town: 'La Torre de les Maçanes', bio: 'Treballant la fusta amb l\'amor de tres generacions. Artesania de la Torre.', avatar_url: '/images/demo/avatar_man_old.png' },
+            { id: 'lore-2', full_name: 'Lucía Belda', username: 'lubelda', role: 'Farmacèutica', primary_town: 'La Torre de les Maçanes', bio: 'Molt més que vendre remeis; cuidant la salut emocional de les nostres veïnes.', avatar_url: '/images/demo/avatar_woman_3.png' },
+            { id: 'lore-3', full_name: 'Elena Popova', username: 'elenap', role: 'Cuidadora', primary_town: 'La Torre de les Maçanes', bio: 'Vinent de Bulgària, cuidant de la nostra gent gran amb tota la paciència del món.', avatar_url: '/images/demo/avatar_woman_old.png' },
+            { id: 'lore-4', full_name: 'Maria "Mèl"', username: 'mariamel', role: 'Apicultora', primary_town: 'La Torre de les Maçanes', bio: 'Si vols mèl de veritat, puja a la Torre de les Maçanes. Tradició de muntanya.', avatar_url: '/images/demo/avatar_woman_2.png' },
+            { id: 'lore-5', full_name: 'Samir Mensah', username: 'samirm', role: 'Camp i Suport', primary_town: 'Muro d\'Alcoi', bio: 'Treballant a la Cooperativa i ajudant al manteniment de les masies. Nova saba.', avatar_url: '/images/demo/avatar_man_2.png' },
+            { id: 'lore-6', full_name: 'Andreu Soler', username: 'andreus', role: 'Cuina tradicional', primary_town: 'Muro d\'Alcoi', bio: 'Passió per l\'olleta de blat. El secret està en la paciència i el foc lento.', avatar_url: '/images/demo/avatar_man_1.png' },
+            { id: 'lore-7', full_name: 'Beatriz Ortega', username: 'beatrizo', role: 'Guia Turística', primary_town: 'Cocentaina', bio: 'Explicant les històries que amaguen les pedres del Palau Comtal.', avatar_url: '/images/demo/avatar_woman_1.png' },
+            { id: 'lore-8', full_name: 'Joanet Serra', username: 'joanets', role: 'Fotògraf', primary_town: 'Muro d\'Alcoi', bio: 'Revelant la bellesa quotidiana del Comtat en cada instantània.', avatar_url: '/images/demo/avatar_man_3.png' },
+            { id: 'lore-9', full_name: 'Carmen la del Forn', username: 'carmenf', role: 'Fornera', primary_town: 'Relleu', bio: 'El millor pa de llenya de la Marina Baixa, amb recepta de la rebesàvia.', avatar_url: '/images/demo/avatar_woman_old_2.png' }
+        ];
+
+        const dbPersonas = (data || []).filter(p => {
+            const isRealUser = p.full_name?.toLowerCase().includes('javi') ||
+                p.username?.toLowerCase().includes('javillinares');
+            return !isRealUser;
+        });
+
+        // Combinem i evitem duplicats per username
+        const finalPersonas = [...dbPersonas];
+        lorePersonas.forEach(lp => {
+            if (!finalPersonas.find(p => p.username === lp.username)) {
+                finalPersonas.push(lp);
+            }
+        });
+
+        return finalPersonas.sort((a, b) => a.full_name.localeCompare(b.full_name));
     },
 
     async getAdminEntities() {
@@ -29,22 +65,43 @@ export const supabaseService = {
         // Usamos la vista enriquecida que ya trae nombres y avatares directamente (Optimización Auditoría V3)
         let query = supabase.from('view_conversations_enriched').select('*');
 
-        if (isGuest) {
-            query = query.eq('is_demo', true);
-        } else {
-            query = query.or(`participant_1_id.eq.${userIdOrEntityId},participant_2_id.eq.${userIdOrEntityId},is_demo.eq.true`);
+        if (!isGuest) {
+            query = query.or(`participant_1_id.eq.${userIdOrEntityId},participant_2_id.eq.${userIdOrEntityId}`);
         }
 
         const { data: convs, error } = await query.order('last_message_at', { ascending: false });
-        if (error) throw error;
-        if (!convs) return [];
 
-        // Mapeamos los campos de la vista al formato que esperan los componentes (Retrocompatibilidad Auditoría V3)
-        return convs.map(c => ({
+        if (error) {
+            logger.error('[SupabaseService] Error in getConversations:', error);
+            return [];
+        }
+
+        // Mapeamos los campos de la vista al formato que esperan los componentes
+        const dbConvs = (convs || []).map(c => ({
             ...c,
             p1_info: { id: c.participant_1_id, name: c.p1_name, avatar_url: c.p1_avatar_url },
             p2_info: { id: c.participant_2_id, name: c.p2_name, avatar_url: c.p2_avatar_url }
         }));
+
+        // FALLBACK RESTAURADOR: Si no hi ha converses a la DB (o si estem en sandbox buit), 
+        // mostrem els MOCK_CHATS per "omplir" el disseny com vol el user.
+        if (dbConvs.length === 0) {
+            const { MOCK_CHATS } = await import('../data');
+            const currentParticipantId = userIdOrEntityId || 'me';
+            return MOCK_CHATS.map(m => ({
+                id: `mock-${m.id}`,
+                last_message_content: m.message,
+                last_message_at: new Date().toISOString(),
+                p1_info: { id: currentParticipantId, name: 'Jo' },
+                p2_info: { id: `m${m.id}`, name: m.name, avatar_url: `/images/demo/avatar_${m.id}.png` },
+                participant_1_id: currentParticipantId,
+                participant_2_id: `m${m.id}`,
+                participant_1_type: 'user',
+                participant_2_type: m.type === 'shop' || m.type === 'gov' ? 'entity' : 'user'
+            }));
+        }
+
+        return dbConvs;
     },
 
     async getConversationMessages(conversationId) {
@@ -82,10 +139,7 @@ export const supabaseService = {
             .eq('id', messageData.conversationId);
 
         // Lógica de Simulación de IA (NPCs)
-        // Disparamos si es el rango de demo O si tiene el flag is_demo (más robusto)
-        const { data: convCheck } = await supabase.from('conversations').select('is_demo').eq('id', messageData.conversationId).single();
-
-        if (messageData.conversationId.startsWith('c1111000') || convCheck?.is_demo) {
+        if (messageData.conversationId.startsWith('c1111000')) {
             this.triggerSimulatedReply(messageData);
         }
 
@@ -135,7 +189,7 @@ export const supabaseService = {
                     last_message_at: new Date().toISOString()
                 }).eq('id', conversationId);
             } catch (err) {
-                console.error('[NPC Simulation] Error:', err);
+                logger.error('[NPC Simulation] Error:', err);
             }
         }, 2500);
     },
@@ -214,7 +268,7 @@ export const supabaseService = {
     },
 
     async searchAllTowns(query) {
-        console.log(`[SupabaseService] Performed search for: "${query}"`);
+        logger.log(`[SupabaseService] Performed search for: "${query}"`);
         try {
             const { data, error } = await supabase
                 .from('towns')
@@ -224,10 +278,10 @@ export const supabaseService = {
                 .limit(20);
 
             if (error) throw error;
-            console.log(`[SupabaseService] Search results for "${query}":`, data?.length || 0);
+            logger.log(`[SupabaseService] Search results for "${query}":`, data?.length || 0);
             return data || [];
         } catch (err) {
-            console.error('[SupabaseService] Robust search failed, falling back to simple search:', err);
+            logger.error('[SupabaseService] Robust search failed, falling back to simple search:', err);
             const { data } = await supabase
                 .from('towns')
                 .select('*')
@@ -248,52 +302,79 @@ export const supabaseService = {
     },
 
     // Feed / Muro
-    async getPosts(roleFilter = 'tot', townId = null) {
-        console.log(`[SupabaseService] Fetching posts with roleFilter: ${roleFilter}, townId: ${townId}`);
+    async getPosts(roleFilter = 'tot', townId = null, page = 0, pageSize = 10, isPlayground = false) {
+        logger.log(`[SupabaseService] Fetching posts with roleFilter: ${roleFilter}, townId: ${townId}, page: ${page}, playground: ${isPlayground}`);
         try {
             let query = supabase
                 .from('posts')
-                .select('*, towns!fk_posts_town_uuid(name)')
-                .order('created_at', { ascending: false }); // Use created_at instead of id
+                .select('*, towns!fk_posts_town_uuid(name)', { count: 'exact' });
+
+            // Solo aplicamos is_playground si estamos en playground Y la columna existe
+            if (isPlayground && columnCache.posts_is_playground !== false) {
+                try {
+                    query = query.eq('is_playground', true);
+                } catch (e) {
+                    columnCache.posts_is_playground = false;
+                }
+            }
 
             if (roleFilter !== ROLES.ALL) {
                 query = query.eq('author_role', roleFilter);
             }
 
             if (townId) {
-                // Asumimos UUID como estándar (Migración Fase 2 completa)
                 query = query.eq('town_uuid', townId);
             }
 
-            const { data, error } = await query;
+            const from = page * pageSize;
+            const to = from + pageSize - 1;
 
-            if (error) {
-                console.error('[SupabaseService] Error in getPosts query:', error);
-                throw error;
+            const { data, error, count } = await query
+                .order('created_at', { ascending: false })
+                .range(from, to);
+
+            if (error) throw error;
+
+            // FALLBACK RESTAURADOR: Si no hi ha posts a la DB, mostrem els MOCK_FEED
+            if ((!data || data.length === 0) && page === 0) {
+                const { MOCK_FEED } = await import('../data');
+                return { data: MOCK_FEED, count: MOCK_FEED.length };
             }
 
-            console.log(`[SupabaseService] getPosts success: ${data?.length || 0} posts found`);
-            return data || [];
+            return { data: data || [], count: count || 0 };
         } catch (err) {
-            if (import.meta.env.DEV) {
-                console.error('[SupabaseService] Error in getPosts:', err);
-            } else {
-                console.error('[SupabaseService] Error fetching posts');
+            // Si el error es falta de columna is_playground, guardamos en cache y reintentamos
+            if (err.code === '42703' && isPlayground) {
+                columnCache.posts_is_playground = false;
+                logger.warn('[SupabaseService] is_playground column missing in posts, retrying without filter');
+                const { data, count } = await supabase
+                    .from('posts')
+                    .select('*, towns!fk_posts_town_uuid(name)', { count: 'exact' })
+                    .order('created_at', { ascending: false })
+                    .range(page * pageSize, (page * pageSize) + pageSize - 1);
+                return { data: data || [], count: count || 0 };
             }
-            return [];
+            logger.error('[SupabaseService] Error in getPosts:', err);
+            return { data: [], count: 0 };
         }
     },
 
-    async createPost(postData) {
-        // author_user_id is the new standard for RLS
-        // author_role is the target category (gent, grup, empresa, oficial)
+    async createPost(postData, isPlayground = false) {
+        const payload = { ...postData };
+        if (isPlayground) payload.is_playground = true;
+
         const { data, error } = await supabase
             .from('posts')
-            .insert([{
-                ...postData,
-                author_user_id: postData.author_user_id || postData.author_id // Fallback for transition
-            }])
+            .insert([payload])
             .select();
+
+        if (error && error.code === '42703' && isPlayground) {
+            // Fallback si la columna no existe
+            delete payload.is_playground;
+            const { data: retryData, error: retryError } = await supabase.from('posts').insert([payload]).select();
+            if (retryError) throw retryError;
+            return retryData[0];
+        }
         if (error) throw error;
         return data[0];
     },
@@ -308,37 +389,74 @@ export const supabaseService = {
         return data || [];
     },
 
-    async getMarketItems(categoryFilter = 'tot', townId = null) {
-        let query = supabase
-            .from('market_items')
-            .select('*, towns!fk_market_town_uuid(name)')
-            .order('created_at', { ascending: false });
+    async getMarketItems(categoryFilter = 'tot', townId = null, page = 0, pageSize = 12, isPlayground = false) {
+        try {
+            let query = supabase
+                .from('market_items')
+                .select('*, towns!fk_market_town_uuid(name)', { count: 'exact' });
 
-        if (categoryFilter !== 'tot') {
-            query = query.eq('category_slug', categoryFilter);
+            if (isPlayground && columnCache.market_is_playground !== false) {
+                try {
+                    query = query.eq('is_playground', true);
+                } catch (e) {
+                    columnCache.market_is_playground = false;
+                }
+            }
+
+            if (categoryFilter !== 'tot') {
+                query = query.eq('category_slug', categoryFilter);
+            }
+
+            if (townId) {
+                query = query.eq('town_uuid', townId);
+            }
+
+            const from = page * pageSize;
+            const to = from + pageSize - 1;
+
+            const { data, error, count } = await query
+                .order('created_at', { ascending: false })
+                .range(from, to);
+
+            if (error) throw error;
+
+            // FALLBACK RESTAURADOR: Si no hi ha items a la DB, mostrem els MOCK_MARKET_ITEMS
+            if ((!data || data.length === 0) && page === 0) {
+                const { MOCK_MARKET_ITEMS } = await import('../data');
+                return { data: MOCK_MARKET_ITEMS, count: MOCK_MARKET_ITEMS.length };
+            }
+
+            return { data: data || [], count: count || 0 };
+        } catch (err) {
+            if (err.code === '42703' && isPlayground) {
+                columnCache.market_is_playground = false;
+                logger.warn('[SupabaseService] is_playground column missing in market_items, retrying without filter');
+                const { data, count } = await supabase
+                    .from('market_items')
+                    .select('*, towns!fk_market_town_uuid(name)', { count: 'exact' })
+                    .order('created_at', { ascending: false })
+                    .range(page * pageSize, (page * pageSize) + pageSize - 1);
+                return { data: data || [], count: count || 0 };
+            }
+            throw err;
         }
-
-        if (townId) {
-            const isUuid = typeof townId === 'string' && townId.includes('-');
-            query = query.eq(isUuid ? 'town_uuid' : 'town_id', townId);
-        }
-
-        const { data, error } = await query;
-        if (error) throw error;
-        return data || [];
     },
 
-    async createMarketItem(itemData) {
+    async createMarketItem(itemData, isPlayground = false) {
+        const payload = { ...itemData, category_slug: itemData.category_slug || 'tot' };
+        if (isPlayground) payload.is_playground = true;
+
         const { data, error } = await supabase
             .from('market_items')
-            .insert([{
-                ...itemData,
-                category_slug: itemData.category_slug || itemData.tag || 'tot',
-                author_user_id: itemData.author_user_id || itemData.seller_id,
-                author_role: itemData.author_role || itemData.seller_role, // Compatibility
-                seller_entity_id: itemData.author_entity_id || itemData.seller_entity_id // Internal mapping
-            }])
+            .insert([payload])
             .select();
+
+        if (error && error.code === '42703' && isPlayground) {
+            delete payload.is_playground;
+            const { data: retryData, error: retryError } = await supabase.from('market_items').insert([payload]).select();
+            if (retryError) throw retryError;
+            return retryData[0];
+        }
         if (error) throw error;
         return data[0];
     },
@@ -467,7 +585,7 @@ export const supabaseService = {
 
             if (error) {
                 if (error.code === 'PGRST116') {
-                    console.log(`[SupabaseService] No profile found for user ${userId}, returning null`);
+                    logger.log(`[SupabaseService] No profile found for user ${userId}, returning null`);
                     return null;
                 }
                 throw error;
@@ -475,9 +593,9 @@ export const supabaseService = {
             return data;
         } catch (err) {
             if (import.meta.env.DEV) {
-                console.error('[SupabaseService] Error in getProfile:', err);
+                logger.error('[SupabaseService] Error in getProfile:', err);
             } else {
-                console.error('[SupabaseService] Error loading profile');
+                logger.error('[SupabaseService] Error loading profile');
             }
             return null;
         }
@@ -488,25 +606,25 @@ export const supabaseService = {
         const ids = Array.isArray(postIds) ? postIds : [postIds];
         if (ids.length === 0) return [];
 
-        console.log(`[SupabaseService] Fetching connections for ${ids.length} posts`);
+        logger.log(`[SupabaseService] Fetching connections for ${ids.length} posts`);
         try {
             const { data, error } = await supabase
                 .from('post_connections')
-                .select('post_id, post_uuid, user_id, tags')
+                .select('post_uuid, user_id, tags')
                 .in('post_uuid', ids);
 
             if (error) {
                 if (error.code === 'PGRST116' || error.code === '42703' || error.code === '42P01') {
-                    console.warn('[SupabaseService] post_connections table or tags column missing. Run update SQL.');
+                    logger.warn('[SupabaseService] post_connections table error. Check schema.');
                     return [];
                 }
-                console.error('[SupabaseService] Error fetching post connections:', error);
+                logger.error('[SupabaseService] Error fetching post connections:', error);
                 return [];
             }
-            console.log(`[SupabaseService] getPostConnections success: ${data?.length || 0} connections found`);
+            logger.log(`[SupabaseService] getPostConnections success: ${data?.length || 0} connections found`);
             return data || [];
         } catch (err) {
-            console.error('[SupabaseService] Unexpected error in getPostConnections:', err);
+            logger.error('[SupabaseService] Unexpected error in getPostConnections:', err);
             return [];
         }
     },
@@ -523,7 +641,7 @@ export const supabaseService = {
     },
 
     async togglePostConnection(postId, userId, tags = []) {
-        console.log(`[SupabaseService] Toggling connection for post: ${postId}, tags:`, tags);
+        logger.log(`[SupabaseService] Toggling connection for post: ${postId}, tags:`, tags);
 
         const { data: existingConnection } = await supabase
             .from('post_connections')
@@ -592,14 +710,14 @@ export const supabaseService = {
     },
 
     async deleteUserTag(userId, tagName) {
-        console.log(`[SupabaseService] Deleting user tag: ${tagName}`);
+        logger.log(`[SupabaseService] Deleting user tag: ${tagName}`);
         const { error } = await supabase
             .from('user_tags')
             .delete()
             .match({ user_id: userId, tag_name: tagName.toLowerCase() });
 
         if (error) {
-            console.error('[SupabaseService] Error deleting user tag:', error);
+            logger.error('[SupabaseService] Error deleting user tag:', error);
             throw error;
         }
         return true;

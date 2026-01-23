@@ -1,13 +1,15 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useAppContext } from '../context/AppContext';
+import { useAuth } from '../context/AuthContext';
+import { useI18n } from '../context/I18nContext';
+import { logger } from '../utils/logger';
 import { User, Search, Bell } from 'lucide-react';
 import './Header.css';
 
 const Header = () => {
     const { t } = useTranslation();
-    const { user, profile, toggleLanguage, language } = useAppContext();
+    const { user, profile } = useAuth();
+    const { language, toggleLanguage } = useI18n();
     const logoSrc = '/logo_dark.png';
 
     return (
@@ -20,7 +22,7 @@ const Header = () => {
                 <div className="header-actions">
                     <button
                         className="header-search-btn"
-                        onClick={() => console.log('Open search screen/popup')}
+                        onClick={() => logger.log('Open search screen/popup')}
                         aria-label={t('common.search') || 'Buscar'}
                     >
                         <Search size={22} color="white" />
@@ -30,9 +32,12 @@ const Header = () => {
                         <span>{language.toUpperCase()}</span>
                     </button>
 
-                    <Link to="/notificacions" className="header-notif-btn">
+                    <Link
+                        to={user ? "/notificacions" : "/login"}
+                        className="header-notif-btn"
+                    >
                         <Bell size={22} color="white" />
-                        <span className="notif-badge">3</span>
+                        {user && <span className="notif-badge">3</span>}
                     </Link>
 
                     {user && (

@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { supabaseService } from '../services/supabaseService';
 import { useTranslation } from 'react-i18next';
-import { useAppContext } from '../context/AppContext';
+import { useAuth } from '../context/AuthContext';
 import './Auth.css';
 
 const Login = () => {
+    const { adoptPersona, isPlayground, logout, setLanguage, language } = useAuth();
     const { t, i18n } = useTranslation();
-    const { loginAsGuest, loginWithGoogle, language, setLanguage } = useAppContext();
+    const activeLang = language || i18n.language || 'va';
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -40,10 +41,13 @@ const Login = () => {
                 <img src="/logo.png" alt="Logo" className="auth-logo-elongated" />
 
                 <div className="demo-login-wrapper">
-                    <button onClick={handleGuestLogin} className="auth-button demo-primary">
-                        {t('auth.demo_access')}
+                    <button onClick={() => navigate('/playground')} className="auth-button demo-primary">
+                        Simulador interactiu
                     </button>
-                    <p className="demo-hint">{t('auth.demo_hint')}</p>
+                    <p className="demo-hint">Entra sense registre, per provar el sistema.</p>
+                    <button onClick={() => navigate('/mur')} className="auth-button demo-primary">
+                        Mirar sense registre
+                    </button>
 
                     <div className="language-selector-auth">
                         {[
@@ -56,7 +60,7 @@ const Login = () => {
                             <button
                                 key={lang.code}
                                 onClick={() => setLanguage(lang.code)}
-                                className={`lang-btn ${language?.startsWith(lang.code) ? 'active' : ''}`}
+                                className={`lang-btn ${activeLang.startsWith(lang.code) ? 'active' : ''}`}
                             >
                                 {lang.label}
                             </button>

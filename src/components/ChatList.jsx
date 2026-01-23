@@ -3,9 +3,12 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { User, Building2, Loader2 } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
-import { useAppContext } from '../context/AppContext';
+import { useAuth } from '../context/AuthContext';
+import { logger } from '../utils/logger';
 import CategoryTabs from './CategoryTabs';
 import './ChatList.css';
+
+const GUEST_PREVIEW_IMAGE = '/assets/images/chat_preview_guest.png';
 
 const getParticipantInfo = (chat, currentId, t) => {
     // Determine which participant is the "other" one
@@ -50,7 +53,7 @@ const getAvatarColor = (type, avatarUrl) => {
 const ChatList = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const { user, profile, impersonatedProfile, activeEntityId, isSuperAdmin } = useAppContext();
+    const { user, profile, impersonatedProfile, activeEntityId, isSuperAdmin } = useAuth();
     const [chats, setChats] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedCategory, setSelectedCategory] = useState('xat');
@@ -70,14 +73,14 @@ const ChatList = () => {
         let isMounted = true;
         // En modo Demo o Super Admin bypass, permitimos cargar aunque no haya sesión real de auth.uid()
         const fetchChats = async () => {
-            console.log('[ChatList] Fetching chats for currentId:', currentId);
+            logger.log('[ChatList] Fetching chats for currentId:', currentId);
             try {
                 const data = await supabaseService.getConversations(currentId);
                 if (!isMounted) return;
-                console.log('[ChatList] Chats fetched:', data?.length || 0);
+                logger.log('[ChatList] Chats fetched:', data?.length || 0);
                 setChats(data);
             } catch (error) {
-                if (isMounted) console.error('[ChatList] Error fetching chats:', error);
+                if (isMounted) logger.error('[ChatList] Error fetching chats:', error);
             } finally {
                 if (isMounted) setLoading(false);
             }
@@ -92,6 +95,26 @@ const ChatList = () => {
             <div className="chat-list-container loading">
                 <Loader2 className="spinner" />
                 <p>{t('chats.loading_chats')}</p>
+            </div>
+        );
+    }
+
+    if (!user) {
+        return (
+            <div className="chat-list-container guest-view">
+                <div className="guest-overlay">
+                    <div className="guest-content">
+                        <h2>{t('chats.registration_required_title', 'Xateja amb el teu poble')}</h2>
+                        <p>{t('chats.registration_required_desc', 'Registra\'t per a connectar amb els teus veïns, entitats i comerços.')}</p>
+                        <button className="auth-button register-cta" onClick={() => navigate('/register')}>
+                            {t('auth.signUp')}
+                        </button>
+                    </div>
+                </div>
+                <div className="guest-preview-wrapper">
+                    <img src={GUEST_PREVIEW_IMAGE} alt="Chat Preview" className="guest-preview-img" />
+                    <div className="preview-blur-overlay"></div>
+                </div>
             </div>
         );
     }

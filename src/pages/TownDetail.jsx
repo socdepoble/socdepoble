@@ -24,7 +24,7 @@ const TownDetail = () => {
                 const found = allTowns.find(t => isUuid ? t.uuid === id : t.id === parseInt(id));
                 setTown(found);
             } catch (error) {
-                console.error('Error loading town:', error);
+                logger.error('Error loading town:', error);
             } finally {
                 setLoading(false);
             }

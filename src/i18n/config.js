@@ -12,6 +12,7 @@ i18n
     .use(LanguageDetector)
     .use(initReactI18next)
     .init({
+        lng: 'va', // Forzamos Valenciano por defecto
         resources: {
             va: { translation: vaTranslations },
             es: { translation: esTranslations },
