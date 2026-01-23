@@ -5,6 +5,7 @@
   --color-primary: #5D5FEF;
   --color-primary-soft: #EEF2FF;
   --color-secondary: #E07A5F;
+  --gradient-primary: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
   /* Keep the terracotta as brand accent */
   /* Dribbble Style Tokens */
   --card-radius: var(--radius-xl);
