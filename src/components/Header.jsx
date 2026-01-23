@@ -59,9 +59,8 @@ const Header = () => {
 
                     {user && (
                         <Link
-                            to="/perfil"
+                            to={`/perfil/${user.id}`}
                             className="profile-link"
-                            onClick={handleProfileClick}
                             aria-label={t('nav.profile') || 'El meu perfil'}
                             title={t('nav.profile') || 'El meu perfil'}
                         >

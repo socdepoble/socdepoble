@@ -17,7 +17,9 @@ const ProfileHeaderPremium = ({
     stats = [], // [{ label: 'Veïns', value: '1,2k', icon: <Users /> }]
     badges = [], // ['IAIA', 'Oficial', 'Verificat']
     isLive = false, // Per a "Obert ara" en negocis
-    onBack
+    onBack,
+    onAction,
+    actionIcon
 }) => {
     const navigate = useNavigate();
 
@@ -39,10 +41,15 @@ const ProfileHeaderPremium = ({
 
                 {/* Navigation Actions */}
                 <div className="premium-nav-actions">
-                    <button className="premium-back-btn" onClick={handleBack}>
+                    <button className="premium-btn-circle back" onClick={handleBack} title="Tornar">
                         <ArrowLeft size={24} />
                     </button>
-                    {/* Placeholder for future context actions like share or report */}
+
+                    {onAction && (
+                        <button className="premium-btn-circle action" onClick={onAction} title="Panell de Control">
+                            {actionIcon || <Info size={24} />}
+                        </button>
+                    )}
                 </div>
             </div>
 
