@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { User, MapPin, Calendar, Layout, Settings, ChevronRight, Loader2, AlertCircle, Building2, Store, Users as UsersIcon, ArrowLeft } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
+import { logger } from '../utils/logger';
 import Feed from '../components/Feed';
 import './Profile.css'; // Reuse profile base styles
 
@@ -101,7 +102,7 @@ const PublicProfile = () => {
                         </div>
                         <div className="profile-stat-item">
                             <Calendar size={18} />
-                            <span>Membre des de {new Date(profile.created_at).getFullYear()}</span>
+                            <span>Membre des de {profile.created_at ? new Date(profile.created_at).getFullYear() : '2024'}</span>
                         </div>
                     </div>
                 </div>
