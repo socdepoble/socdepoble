@@ -14,7 +14,6 @@ const PlaygroundBanner = () => {
         <div className="playground-banner">
             <div className="banner-content">
                 <div className="banner-left">
-                    <div className="banner-pulse" aria-hidden="true" />
                     <div className="banner-text-stack">
                         <span className="banner-label">PROVANT • ESTÀS PILOTANT A:</span>
                         <span className="banner-persona-name">{profile?.full_name}</span>
