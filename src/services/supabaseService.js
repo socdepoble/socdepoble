@@ -20,7 +20,8 @@ const columnCache = {
     profiles_is_demo: localStorage.getItem('cp_profiles_is_demo') === 'true' ? true : (localStorage.getItem('cp_profiles_is_demo') === 'false' ? false : null),
     posts_is_playground: localStorage.getItem('cp_posts_is_playground') === 'true' ? true : (localStorage.getItem('cp_posts_is_playground') === 'false' ? false : null),
     market_is_playground: localStorage.getItem('cp_market_is_playground') === 'true' ? true : (localStorage.getItem('cp_market_is_playground') === 'false' ? false : null),
-    messages_is_ai: localStorage.getItem('cp_messages_is_ai') === 'true' ? true : (localStorage.getItem('cp_messages_is_ai') === 'false' ? false : null)
+    messages_is_ai: localStorage.getItem('cp_messages_is_ai') === 'true' ? true : (localStorage.getItem('cp_messages_is_ai') === 'false' ? false : null),
+    connections_table: localStorage.getItem('cp_connections_table') === 'true' ? true : (localStorage.getItem('cp_connections_table') === 'false' ? false : null)
 };
 
 const setColumnCache = (key, value) => {
@@ -607,8 +608,10 @@ export const supabaseService = {
 
     async connectWithProfile(followerId, targetId) {
         if (!followerId || !targetId) return false;
+        if (columnCache.connections_table === false) return true; // Simulate success in Sandbox if table missing
+
         try {
-            const { error } = await supabase
+            const { error, status } = await supabase
                 .from('connections')
                 .upsert({
                     follower_id: followerId,
@@ -618,12 +621,14 @@ export const supabaseService = {
                 }, { onConflict: 'follower_id,target_id' });
 
             if (error) {
-                if (error.code === '42P01') {
+                if (error.code === '42P01' || status === 404) {
+                    setColumnCache('connections_table', false);
                     logger.warn('[SupabaseService] connections table missing, simulating connection');
                     return true;
                 }
                 throw error;
             }
+            if (columnCache.connections_table === null) setColumnCache('connections_table', true);
             return true;
         } catch (error) {
             logger.error('[SupabaseService] Error connecting:', error);
@@ -632,14 +637,21 @@ export const supabaseService = {
     },
 
     async disconnectFromProfile(followerId, targetId) {
+        if (columnCache.connections_table === false) return true;
         try {
-            const { error } = await supabase
+            const { error, status } = await supabase
                 .from('connections')
                 .delete()
                 .eq('follower_id', followerId)
                 .eq('target_id', targetId);
 
-            if (error) throw error;
+            if (error) {
+                if (error.code === '42P01' || status === 404) {
+                    setColumnCache('connections_table', false);
+                    return true;
+                }
+                throw error;
+            }
             return true;
         } catch (error) {
             logger.error('[SupabaseService] Error disconnecting:', error);
@@ -649,8 +661,10 @@ export const supabaseService = {
 
     async isFollowing(followerId, targetId) {
         if (!followerId || !targetId) return false;
+        if (columnCache.connections_table === false) return false;
+
         try {
-            const { data, error } = await supabase
+            const { data, error, status } = await supabase
                 .from('connections')
                 .select('*')
                 .eq('follower_id', followerId)
@@ -658,9 +672,13 @@ export const supabaseService = {
                 .maybeSingle();
 
             if (error) {
-                if (error.code === '42P01') return false;
+                if (error.code === '42P01' || status === 404) {
+                    setColumnCache('connections_table', false);
+                    return false;
+                }
                 throw error;
             }
+            if (columnCache.connections_table === null) setColumnCache('connections_table', true);
             return !!data;
         } catch (error) {
             return false;
