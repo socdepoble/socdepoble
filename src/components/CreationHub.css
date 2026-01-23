@@ -55,7 +55,7 @@
     gap: var(--space-md);
 }
 
-.creation-option:nth-child(3) {
+.creation-option.admin {
     grid-column: span 2;
 }
 

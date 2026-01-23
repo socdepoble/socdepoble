@@ -11,6 +11,7 @@ const CreationHub = () => {
         isCreateModalOpen,
         setIsCreateModalOpen,
         openPostModal,
+        setIsEventModalOpen,
         setIsMarketModalOpen
     } = useUI();
     const { isSuperAdmin } = useAuth();
@@ -47,6 +48,16 @@ const CreationHub = () => {
                             <Store size={28} />
                         </div>
                         <span>{t('nav.market')}</span>
+                    </button>
+
+                    <button className="creation-option" onClick={() => {
+                        setIsCreateModalOpen(false);
+                        setIsEventModalOpen(true);
+                    }}>
+                        <div className="option-icon pobles">
+                            <Calendar size={28} />
+                        </div>
+                        <span>{t('nav.events') || 'Esdeveniments'}</span>
                     </button>
 
                     <button className="creation-option" onClick={() => {

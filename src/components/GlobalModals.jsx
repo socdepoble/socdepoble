@@ -3,11 +3,14 @@ import { useUI } from '../context/UIContext';
 import { useAuth } from '../context/AuthContext';
 import CreatePostModal from './CreatePostModal';
 import AddItemModal from './AddItemModal';
+import CreateEventModal from './CreateEventModal';
 
 const GlobalModals = () => {
     const {
         isPostModalOpen,
         setIsPostModalOpen,
+        isEventModalOpen,
+        setIsEventModalOpen,
         isMarketModalOpen,
         setIsMarketModalOpen,
         postModalConfig
@@ -17,6 +20,12 @@ const GlobalModals = () => {
     const handlePostCreated = () => {
         setIsPostModalOpen(false);
         // Dispatch a global event to refresh any mounted feed
+        window.dispatchEvent(new CustomEvent('data-refresh', { detail: { type: 'post' } }));
+    };
+
+    const handleEventCreated = () => {
+        setIsEventModalOpen(false);
+        // Events are also posts in the feed
         window.dispatchEvent(new CustomEvent('data-refresh', { detail: { type: 'post' } }));
     };
 
@@ -34,6 +43,15 @@ const GlobalModals = () => {
                     onClose={() => setIsPostModalOpen(false)}
                     onPostCreated={handlePostCreated}
                     isPrivateInitial={postModalConfig.isPrivate}
+                    isPlayground={isPlayground}
+                />
+            )}
+
+            {isEventModalOpen && (
+                <CreateEventModal
+                    isOpen={isEventModalOpen}
+                    onClose={() => setIsEventModalOpen(false)}
+                    onEventCreated={handleEventCreated}
                     isPlayground={isPlayground}
                 />
             )}

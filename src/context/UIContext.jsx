@@ -6,6 +6,7 @@ export const UIProvider = ({ children }) => {
     const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [isPostModalOpen, setIsPostModalOpen] = useState(false);
+    const [isEventModalOpen, setIsEventModalOpen] = useState(false);
     const [isMarketModalOpen, setIsMarketModalOpen] = useState(false);
     const [postModalConfig, setPostModalConfig] = useState({ isPrivate: false });
 
@@ -31,6 +32,8 @@ export const UIProvider = ({ children }) => {
             setIsCreateModalOpen,
             isPostModalOpen,
             setIsPostModalOpen,
+            isEventModalOpen,
+            setIsEventModalOpen,
             isMarketModalOpen,
             setIsMarketModalOpen,
             postModalConfig,
