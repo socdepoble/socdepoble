@@ -569,7 +569,10 @@ export const supabaseService = {
                 { id: 'm1', name: 'Ajuntament de la Torre', type: 'oficial', town_name: 'La Torre de les Maçanes', description: 'Administració local i serveis al ciutadà.' },
                 { id: 'm2', name: 'Cooperativa de Muro', type: 'empresa', town_name: 'Muro d\'Alcoi', description: 'Oli d\'oliva verge extra de la serra Mariola.' },
                 { id: 'm3', name: 'Centre Excursionista d\'Alcoi', type: 'grup', town_name: 'Alcoi', description: 'Rutes i activitats de muntanya per a tots.' },
-                { id: 'm4', name: 'Forn del Barri', type: 'empresa', town_name: 'La Torre de les Maçanes', description: 'Pa de llenya i coques tradicionals.' }
+                { id: 'm4', name: 'Forn del Barri', type: 'empresa', town_name: 'La Torre de les Maçanes', description: 'Pa de llenya i coques tradicionals.' },
+                { id: 'm5', name: 'Ajuntament de Cocentaina', type: 'oficial', town_name: 'Cocentaina', description: 'Palau Comtal i serveis municipals.' },
+                { id: 'm6', name: 'Diputació d\'Alacant', type: 'institucio', town_name: 'Alacant/Província', description: 'Govern provincial i suport als municipis.' },
+                { id: 'm7', name: 'Hospital Verge dels Lliris', type: 'institucio', town_name: 'Alcoi', description: 'Centre hospitalari de referència a l\'Alcoià.' }
             ];
 
             const filteredMock = mockEntities.filter(e =>

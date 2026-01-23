@@ -247,14 +247,29 @@
     flex-shrink: 0;
 }
 
-.result-avatar.entity {
+.result-avatar.oficial {
+    border-color: #2E7D32;
+    color: #2E7D32;
+}
+
+.result-avatar.empresa {
     border-color: #E65100;
     color: #E65100;
 }
 
+.result-avatar.grup {
+    border-color: #5D5FEF;
+    color: #5D5FEF;
+}
+
+.result-avatar.institucio {
+    border-color: #0288D1;
+    color: #0288D1;
+}
+
 .result-avatar.town {
-    border-color: #2E7D32;
-    color: #2E7D32;
+    border-color: #795548;
+    color: #795548;
 }
 
 .result-avatar img {

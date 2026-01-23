@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, X, Users, Building2, MapPin, ArrowLeft, Loader2, Sparkles, SlidersHorizontal, ChevronRight, User } from 'lucide-react';
+import { Search, X, Users, Building2, MapPin, ArrowLeft, Loader2, Sparkles, SlidersHorizontal, ChevronRight, User, Landmark, Store, Building } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import './SearchDiscover.css';
 
@@ -63,7 +63,10 @@ const SearchDiscover = () => {
     const filters = [
         { id: 'tots', label: 'Tots', icon: <Sparkles size={14} /> },
         { id: 'gent', label: 'Gent', icon: <Users size={14} /> },
-        { id: 'entitats', label: 'Entitats/Grups', icon: <Building2 size={14} /> },
+        { id: 'ajuntaments', label: 'Ajuntaments', icon: <Landmark size={14} />, type: 'oficial' },
+        { id: 'empreses', label: 'Empreses', icon: <Store size={14} />, type: 'empresa' },
+        { id: 'grups', label: 'Grups', icon: <Users size={14} />, type: 'grup' },
+        { id: 'entitats', label: 'Entitats', icon: <Building size={14} />, type: 'institucio' },
         { id: 'pobles', label: 'Pobles', icon: <MapPin size={14} /> }
     ];
 
@@ -162,29 +165,38 @@ const SearchDiscover = () => {
                             </section>
                         )}
 
-                        {(activeFilter === 'tots' || activeFilter === 'entitats') && results.entitats.length > 0 && (
-                            <section className="result-section">
-                                <div className="result-section-header">
-                                    <h3>Entitats i Negocis</h3>
-                                    <span className="count">{results.entitats.length}</span>
-                                </div>
-                                <div className="results-list">
-                                    {results.entitats.map(entity => (
-                                        <div key={entity.id} className="result-item-card" onClick={() => navigate(`/entitat/${entity.id}`)}>
-                                            <div className="result-avatar entity">
-                                                {entity.avatar_url ? <img src={entity.avatar_url} alt="" /> :
-                                                    entity.type === 'empresa' ? <Building2 size={20} /> : <Users size={20} />}
+                        {/* Entities filtering logic */}
+                        {filters.filter(f => !['tots', 'gent', 'pobles'].includes(f.id)).map(filter => {
+                            const filteredEntities = results.entitats.filter(e => e.type === filter.type);
+                            if (filteredEntities.length === 0) return null;
+                            if (activeFilter !== 'tots' && activeFilter !== filter.id) return null;
+
+                            return (
+                                <section key={filter.id} className="result-section">
+                                    <div className="result-section-header">
+                                        <h3>{filter.label}</h3>
+                                        <span className="count">{filteredEntities.length}</span>
+                                    </div>
+                                    <div className="results-list">
+                                        {filteredEntities.map(entity => (
+                                            <div key={entity.id} className="result-item-card" onClick={() => navigate(`/entitat/${entity.id}`)}>
+                                                <div className={`result-avatar entity ${entity.type}`}>
+                                                    {entity.avatar_url ? <img src={entity.avatar_url} alt="" /> :
+                                                        entity.type === 'oficial' ? <Landmark size={20} /> :
+                                                            entity.type === 'empresa' ? <Store size={20} /> :
+                                                                entity.type === 'grup' ? <Users size={20} /> : <Building size={20} />}
+                                                </div>
+                                                <div className="result-info">
+                                                    <strong>{entity.name}</strong>
+                                                    <span>{entity.type.charAt(0).toUpperCase() + entity.type.slice(1)} • {entity.town_name}</span>
+                                                </div>
+                                                <ChevronRight size={18} className="chevron" />
                                             </div>
-                                            <div className="result-info">
-                                                <strong>{entity.name}</strong>
-                                                <span>{entity.type.charAt(0).toUpperCase() + entity.type.slice(1)} • {entity.town_name}</span>
-                                            </div>
-                                            <ChevronRight size={18} className="chevron" />
-                                        </div>
-                                    ))}
-                                </div>
-                            </section>
-                        )}
+                                        ))}
+                                    </div>
+                                </section>
+                            );
+                        })}
 
                         {(activeFilter === 'tots' || activeFilter === 'pobles') && results.pobles.length > 0 && (
                             <section className="result-section">
