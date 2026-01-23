@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { X, Search, ChevronRight, Check, MapPin } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useTranslation } from 'react-i18next';
+import UnifiedStatus from './UnifiedStatus';
 import './TownSelectorModal.css';
 
 const TownSelectorModal = ({ isOpen, onClose, onSelect }) => {
@@ -174,16 +175,13 @@ const TownSelectorModal = ({ isOpen, onClose, onSelect }) => {
 
                 <div className="modal-content-scroll">
                     {loading ? (
-                        <div className="modal-loading">
-                            <div className="spinner-small"></div>
-                            <span>{t('common.loading')}</span>
-                        </div>
+                        <UnifiedStatus type="loading" inline message={t('common.loading')} />
                     ) : displayList.length === 0 ? (
-                        <div className="modal-no-results">
-                            <MapPin size={32} opacity={0.2} />
-                            <p>{isSearching ? t('towns.no_results_search') || 'No hem trobat cap resultat per a la teua cerca.' : t('towns.no_results_list') || 'No hi ha elements disponibles.'}</p>
-                            {isSearching && <button className="clear-link" onClick={() => setSearchTerm('')}>Veure tots els pobles</button>}
-                        </div>
+                        <UnifiedStatus
+                            type="empty"
+                            message={isSearching ? t('towns.no_results_search') : t('towns.no_results_list')}
+                            onRetry={isSearching ? () => setSearchTerm('') : null}
+                        />
                     ) : (
                         <div className="selection-list">
                             {displayList.map((item, idx) => {

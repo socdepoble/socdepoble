@@ -23,8 +23,8 @@ import { useAuth } from './context/AuthContext';
 import { useUI } from './context/UIContext';
 import { supabaseService } from './services/supabaseService';
 
-// Exponer para depuración en consola
-if (typeof window !== 'undefined') {
+// Exponer para depuración en consola solo en desarrollo
+if (typeof window !== 'undefined' && import.meta.env.DEV) {
   window.supabase = supabase;
   window.supabaseService = supabaseService;
 }

@@ -44,9 +44,8 @@ const PlaygroundPortal = () => {
                 </p>
                 <div className="ai-notice-simple">
                     <div className="ai-notice-text multiline">
-                        <span>Interacciona amb humans</span>
-                        <span>o amb la nostra IA local,</span>
-                        <span>segons qui estiga en línia</span>
+                        <span>Interacciona amb humans o amb la nostra</span>
+                        <span>IA local, segons qui estiga en línia</span>
                     </div>
                 </div>
                 <div className="portal-actions">

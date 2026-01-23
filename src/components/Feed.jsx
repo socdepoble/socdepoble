@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { Link2, MessageCircle, Share2, MoreHorizontal, Building2, Store, Users, User, Loader2, AlertCircle } from 'lucide-react';
@@ -10,6 +10,7 @@ import CreatePostModal from './CreatePostModal';
 import CategoryTabs from './CategoryTabs';
 import TagSelector from './TagSelector';
 import PostSkeleton from './Skeletons/PostSkeleton';
+import UnifiedStatus from './UnifiedStatus';
 import './Feed.css';
 
 const getAvatarIcon = (role) => {
@@ -44,16 +45,21 @@ const Feed = ({ townId = null, hideHeader = false }) => {
     const [selectedRole, setSelectedRole] = useState('tot');
     const [selectedTag, setSelectedTag] = useState(null);
     const [error, setError] = useState(null);
+    const isMounted = useRef(true);
+
+    useEffect(() => {
+        isMounted.current = true;
+        return () => { isMounted.current = false; };
+    }, []);
 
     const fetchPosts = useCallback(async (isLoadMore = false) => {
-        let isMounted = true;
         if (isLoadMore) setLoadingMore(true);
         else setLoading(true);
         setError(null);
         try {
             const currentPage = isLoadMore ? page + 1 : 0;
             const result = await supabaseService.getPosts(selectedRole, townId, currentPage, 10, isPlayground);
-            if (!isMounted) return;
+            if (!isMounted.current) return;
 
             const postsArray = result.data;
             const totalCount = result.count;
@@ -71,32 +77,31 @@ const Feed = ({ townId = null, hideHeader = false }) => {
             if (user) {
                 // Cargar etiquetas del usuario para la barra de filtros
                 const tagsRaw = await supabaseService.getUserTags(user.id);
-                if (!isMounted) return;
+                if (!isMounted.current) return;
                 setUserTags(Array.isArray(tagsRaw) ? tagsRaw : []);
 
                 if (postsArray.length > 0) {
                     logger.log('[Feed] Fetching user connections...');
                     const postUuids = postsArray.map(p => p.uuid);
                     const connections = await supabaseService.getPostConnections(postUuids);
-                    if (!isMounted) return;
+                    if (!isMounted.current) return;
                     const userOwnConnections = connections.filter(c => c.user_id === user.id);
                     logger.log('[Feed] User connections loaded:', userOwnConnections.length);
                     setUserConnections(prev => isLoadMore ? [...prev, ...userOwnConnections] : userOwnConnections);
                 }
             }
         } catch (err) {
-            if (isMounted) {
+            if (isMounted.current) {
                 logger.error('[Feed] Failed to fetch feed:', err);
                 setError(err.message);
             }
         } finally {
-            if (isMounted) {
+            if (isMounted.current) {
                 setLoading(false);
                 setLoadingMore(false);
                 logger.log('[Feed] Loading sequence finished');
             }
         }
-        return () => { isMounted = false; };
     }, [selectedRole, townId]); // Removed page, user to avoid infinite loops and redundant triggers
 
     useEffect(() => {
@@ -170,11 +175,12 @@ const Feed = ({ townId = null, hideHeader = false }) => {
 
     if (error) {
         return (
-            <div className="feed-container error-state">
-                <AlertCircle size={48} color="var(--color-primary)" />
-                <h3>Ha ocurregut un error</h3>
-                <p>{error}</p>
-                <button className="primary-btn" onClick={fetchPosts}>Tornar a intentar</button>
+            <div className="feed-container">
+                <UnifiedStatus
+                    type="error"
+                    message={error}
+                    onRetry={() => fetchPosts()}
+                />
             </div>
         );
     }
@@ -196,19 +202,14 @@ const Feed = ({ townId = null, hideHeader = false }) => {
 
 
                 {filteredPosts.length === 0 ? (
-                    <div className="empty-state">
-                        <p className="empty-message">
-                            {selectedTag
-                                ? `${t('feed.no_posts_tag') || 'No hi ha publicacions amb # '}${selectedTag}`
-                                : (t('feed.empty') || 'No hi ha novetats al mur.')
-                            }
-                        </p>
-                        {selectedTag && (
-                            <button className="secondary-btn" onClick={() => setSelectedTag(null)}>
-                                {t('feed.show_all') || 'Veure tot'}
-                            </button>
-                        )}
-                    </div>
+                    <UnifiedStatus
+                        type="empty"
+                        message={selectedTag
+                            ? `${t('feed.no_posts_tag') || 'No hi ha publicacions amb # '}${selectedTag}`
+                            : (t('feed.empty') || 'No hi ha novetats al mur.')
+                        }
+                        onRetry={selectedTag ? () => setSelectedTag(null) : null}
+                    />
                 ) : (
                     filteredPosts.map(post => {
                         const pid = post.uuid;

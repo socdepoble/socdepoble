@@ -6,6 +6,7 @@ import { supabaseService } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
 import { logger } from '../utils/logger';
 import CategoryTabs from './CategoryTabs';
+import UnifiedStatus from './UnifiedStatus';
 import './ChatList.css';
 
 const GUEST_PREVIEW_IMAGE = '/assets/images/chat_preview_guest.png';
@@ -92,9 +93,8 @@ const ChatList = () => {
 
     if (loading) {
         return (
-            <div className="chat-list-container loading">
-                <Loader2 className="spinner" />
-                <p>{t('chats.loading_chats')}</p>
+            <div className="chat-list-container">
+                <UnifiedStatus type="loading" message={t('chats.loading_chats')} />
             </div>
         );
     }
@@ -132,7 +132,7 @@ const ChatList = () => {
             </header>
             <div className="chat-list">
                 {!Array.isArray(chats) || chats.length === 0 ? (
-                    <p className="empty-message">{t('chats.empty')}</p>
+                    <UnifiedStatus type="empty" message={t('chats.empty')} />
                 ) : (
                     chats.map(chat => {
                         const otherParticipant = getParticipantInfo(chat, currentId, t);

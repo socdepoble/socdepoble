@@ -1,6 +1,18 @@
 import { supabase } from '../supabaseClient';
 import { logger } from '../utils/logger';
-import { DEMO_USER_ID, ROLES, USER_ROLES } from '../constants';
+import { DEMO_USER_ID, ROLES, USER_ROLES, ENABLE_MOCKS } from '../constants';
+import { PostSchema, MarketItemSchema, MessageSchema, ProfileSchema } from './schemas';
+
+/**
+ * Sanitizes input strings to prevent common injection patterns 
+ * and remove potentially dangerous characters.
+ */
+const sanitizeInput = (text) => {
+    if (typeof text !== 'string') return '';
+    // Remove characters often used in SQL injection or HTML injection
+    // Keep letters (any lang), numbers, spaces and common punctuation
+    return text.replace(/[<>{}[\]\\^`|%'"?]/g, '').trim();
+};
 
 // Cache para detectar columnas disponibles y evitar errores 400 ruidosos
 // Usamos localStorage para persistir y que solo falle una vez "en la vida" del usuario
@@ -86,7 +98,7 @@ export const supabaseService = {
         const isGuest = !userIdOrEntityId || userIdOrEntityId === DEMO_USER_ID;
 
         // Usamos la vista enriquecida que ya trae nombres y avatares directamente (Optimización Auditoría V3)
-        let query = supabase.from('view_conversations_enriched').select('*');
+        let query = supabase.from('view_conversations_enriched').select('id, participant_1_id, participant_2_id, participant_1_type, participant_2_type, last_message_content, last_message_at, p1_name, p1_avatar_url, p2_name, p2_avatar_url');
 
         if (!isGuest) {
             query = query.or(`participant_1_id.eq.${userIdOrEntityId},participant_2_id.eq.${userIdOrEntityId}`);
@@ -108,7 +120,7 @@ export const supabaseService = {
 
         // FALLBACK RESTAURADOR: Si no hi ha converses a la DB (o si estem en sandbox buit), 
         // mostrem els MOCK_CHATS per "omplir" el disseny com vol el user.
-        if (dbConvs.length === 0) {
+        if (dbConvs.length === 0 && ENABLE_MOCKS) {
             const { MOCK_CHATS } = await import('../data');
             const currentParticipantId = userIdOrEntityId || 'me';
             return MOCK_CHATS.map(m => ({
@@ -138,14 +150,17 @@ export const supabaseService = {
     },
 
     async sendSecureMessage(messageData) {
+        // Validació estructural amb Zod
+        const validated = MessageSchema.parse({
+            conversation_id: messageData.conversationId,
+            sender_id: messageData.senderId,
+            sender_entity_id: messageData.senderEntityId || null,
+            content: messageData.content
+        });
+
         const { data, error } = await supabase
             .from('messages')
-            .insert([{
-                conversation_id: messageData.conversationId,
-                sender_id: messageData.senderId,
-                sender_entity_id: messageData.senderEntityId || null,
-                content: messageData.content
-            }])
+            .insert([validated])
             .select();
 
         if (error) throw error;
@@ -364,12 +379,15 @@ export const supabaseService = {
     },
 
     async searchAllTowns(query) {
-        logger.log(`[SupabaseService] Performed search for: "${query}"`);
+        const sanitizedQuery = sanitizeInput(query);
+        if (!sanitizedQuery || sanitizedQuery.length < 2) return [];
+
+        logger.log(`[SupabaseService] Performed search for: "${sanitizedQuery}"`);
         try {
             const { data, error } = await supabase
                 .from('towns')
                 .select('*')
-                .or(`name.ilike.%${query}%,comarca.ilike.%${query}%,province.ilike.%${query}%`)
+                .or(`name.ilike.%${sanitizedQuery}%,comarca.ilike.%${sanitizedQuery}%,province.ilike.%${sanitizedQuery}%`)
                 .order('name', { ascending: true })
                 .limit(20);
 
@@ -403,7 +421,7 @@ export const supabaseService = {
         try {
             let query = supabase
                 .from('posts')
-                .select('*, towns!fk_posts_town_uuid(name)', { count: 'exact' });
+                .select('id, content, created_at, author_id, author_name, author_avatar_url, author_role, image_url, is_playground, entity_id, towns!fk_posts_town_uuid(name)', { count: 'exact' });
 
             // Si no sabemos si la columna existe, hacemos una comprobación SILENCIOSA (select *)
             if (isPlayground && columnCache.posts_is_playground === null) {
@@ -458,7 +476,7 @@ export const supabaseService = {
             }
 
             // FALLBACK RESTAURADOR: Si no hi ha posts a la DB, mostrem els MOCK_FEED
-            if ((!data || data.length === 0) && page === 0) {
+            if ((!data || data.length === 0) && page === 0 && ENABLE_MOCKS) {
                 const { MOCK_FEED } = await import('../data');
                 return { data: MOCK_FEED, count: MOCK_FEED.length };
             }
@@ -474,9 +492,12 @@ export const supabaseService = {
         const payload = { ...postData };
         if (isPlayground) payload.is_playground = true;
 
+        // Validació estructural amb Zod
+        const validated = PostSchema.parse(payload);
+
         const { data, error } = await supabase
             .from('posts')
-            .insert([payload])
+            .insert([validated])
             .select();
 
         if (error && error.code === '42703' && isPlayground) {
@@ -504,7 +525,7 @@ export const supabaseService = {
         try {
             let query = supabase
                 .from('market_items')
-                .select('*, towns!fk_market_town_uuid(name)', { count: 'exact' });
+                .select('id, title, description, price, category_slug, created_at, author_id, author_name, author_avatar_url, image_url, is_playground, is_active, entity_id, towns!fk_market_town_uuid(name)', { count: 'exact' });
 
             if (isPlayground && columnCache.market_is_playground === null) {
                 if (!activeChecks.market) {
@@ -554,7 +575,7 @@ export const supabaseService = {
             }
 
             // FALLBACK RESTAURADOR: Si no hi ha items a la DB, mostrem els MOCK_MARKET_ITEMS
-            if ((!data || data.length === 0) && page === 0) {
+            if ((!data || data.length === 0) && page === 0 && ENABLE_MOCKS) {
                 const { MOCK_MARKET_ITEMS } = await import('../data');
                 return { data: MOCK_MARKET_ITEMS, count: MOCK_MARKET_ITEMS.length };
             }
@@ -570,9 +591,12 @@ export const supabaseService = {
         const payload = { ...itemData, category_slug: itemData.category_slug || 'tot' };
         if (isPlayground) payload.is_playground = true;
 
+        // Validació estructural amb Zod
+        const validated = MarketItemSchema.parse(payload);
+
         const { data, error } = await supabase
             .from('market_items')
-            .insert([payload])
+            .insert([validated])
             .select();
 
         if (error && error.code === '42703' && isPlayground) {
@@ -703,7 +727,7 @@ export const supabaseService = {
         try {
             const { data, error } = await supabase
                 .from('profiles')
-                .select('*')
+                .select('id, username, full_name, role, avatar_url, bio, primary_town, provinces, comarcas, is_demo, created_at')
                 .eq('id', userId)
                 .single();
 
@@ -848,11 +872,15 @@ export const supabaseService = {
     },
 
     async updateProfile(userId, updates) {
+        // Validació estructural amb Zod (parcial admès per a actualitzacions)
+        const validated = ProfileSchema.partial().parse(updates);
+
         const { data, error } = await supabase
             .from('profiles')
-            .update(updates)
+            .update(validated)
             .eq('id', userId)
             .select();
+
         if (error) {
             logger.error('[SupabaseService] Error updating profile:', error);
             throw error;
@@ -918,43 +946,63 @@ export const supabaseService = {
     },
 
     async getUserPosts(userId) {
-        const { data, error } = await supabase
-            .from('posts')
-            .select('*')
-            .eq('author_user_id', userId)
-            .order('created_at', { ascending: false });
-        if (error) throw error;
-        return data || [];
+        try {
+            const { data, error } = await supabase
+                .from('posts')
+                .select('*')
+                .eq('author_id', userId)
+                .order('created_at', { ascending: false });
+            if (error) throw error;
+            return data || [];
+        } catch (error) {
+            logger.error('[SupabaseService] Error in getUserPosts:', error);
+            return [];
+        }
     },
 
     async getEntityPosts(entityId) {
-        const { data, error } = await supabase
-            .from('posts')
-            .select('*')
-            .eq('author_entity_id', entityId)
-            .order('created_at', { ascending: false });
-        if (error) throw error;
-        return data || [];
+        try {
+            const { data, error } = await supabase
+                .from('posts')
+                .select('*')
+                .eq('entity_id', entityId)
+                .order('created_at', { ascending: false });
+            if (error) throw error;
+            return data || [];
+        } catch (error) {
+            logger.error('[SupabaseService] Error in getEntityPosts:', error);
+            return [];
+        }
     },
 
     async getUserMarketItems(userId) {
-        const { data, error } = await supabase
-            .from('market_items')
-            .select('*, towns!fk_market_town_uuid(name)')
-            .eq('author_user_id', userId)
-            .order('created_at', { ascending: false });
-        if (error) throw error;
-        return data || [];
+        try {
+            const { data, error } = await supabase
+                .from('market_items')
+                .select('*, towns!fk_market_town_uuid(name)')
+                .eq('author_id', userId)
+                .order('created_at', { ascending: false });
+            if (error) throw error;
+            return data || [];
+        } catch (error) {
+            logger.error('[SupabaseService] Error in getUserMarketItems:', error);
+            return [];
+        }
     },
 
     async getEntityMarketItems(entityId) {
-        const { data, error } = await supabase
-            .from('market_items')
-            .select('*, towns!fk_market_town_uuid(name)')
-            .eq('author_entity_id', entityId)
-            .order('created_at', { ascending: false });
-        if (error) throw error;
-        return data || [];
+        try {
+            const { data, error } = await supabase
+                .from('market_items')
+                .select('*, towns!fk_market_town_uuid(name)')
+                .eq('entity_id', entityId)
+                .order('created_at', { ascending: false });
+            if (error) throw error;
+            return data || [];
+        } catch (error) {
+            logger.error('[SupabaseService] Error in getEntityMarketItems:', error);
+            return [];
+        }
     },
 
     // Fase 6: Lèxic

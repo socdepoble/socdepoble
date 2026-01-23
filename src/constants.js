@@ -42,3 +42,5 @@ export const AUTH_EVENTS = {
     USER_UPDATED: 'USER_UPDATED',
     INITIAL_SESSION: 'INITIAL_SESSION'
 };
+
+export const ENABLE_MOCKS = true;

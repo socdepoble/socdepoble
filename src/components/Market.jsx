@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { Plus, Search, Filter, Loader2 } from 'lucide-react';
@@ -9,6 +9,7 @@ import { logger } from '../utils/logger';
 import CategoryTabs from './CategoryTabs';
 import MarketSkeleton from './Skeletons/MarketSkeleton';
 import AddItemModal from './AddItemModal';
+import UnifiedStatus from './UnifiedStatus';
 import './Market.css';
 
 const Market = ({ townId = null }) => {
@@ -25,59 +26,59 @@ const Market = ({ townId = null }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [activeTab, setActiveTab] = useState('tot');
 
+    const isMounted = useRef(true);
+
     useEffect(() => {
-        let isMounted = true;
-        const loadInitialData = async (isLoadMore = false) => {
-            if (authLoading) return; // Gate
+        isMounted.current = true;
+        return () => { isMounted.current = false; };
+    }, []);
 
-            if (isLoadMore) setLoadingMore(true);
-            else {
-                setLoading(true);
-                setPage(0);
-            }
+    const loadMarketData = useCallback(async (isLoadMore = false) => {
+        if (authLoading) return; // Gate
 
-            try {
-                if (categories.length === 0) {
-                    const cats = await supabaseService.getMarketCategories();
-                    if (isMounted) {
-                        setCategories(cats);
-                    }
-                }
-
-                const currentPage = isLoadMore ? page + 1 : 0;
-                const result = await supabaseService.getMarketItems(activeTab, townId, currentPage, 12, isPlayground);
-
-                if (isMounted) {
-                    if (isLoadMore) {
-                        setItems(prev => [...prev, ...result.data]);
-                        setPage(currentPage);
-                    } else {
-                        setItems(result.data);
-                    }
-                    setHasMore(items.length + result.data.length < result.count);
-                }
-            } catch (error) {
-                if (isMounted) {
-                    logger.error('Error fetching market data:', error);
-                }
-            } finally {
-                if (isMounted) {
-                    setLoading(false);
-                    setLoadingMore(false);
-                }
-            }
-        };
-
-        if (!authLoading) {
-            loadInitialData();
+        if (isLoadMore) setLoadingMore(true);
+        else {
+            setLoading(true);
+            setPage(0);
         }
 
-        window.loadMoreMarket = () => loadInitialData(true);
+        try {
+            if (categories.length === 0) {
+                const cats = await supabaseService.getMarketCategories();
+                if (isMounted.current) {
+                    setCategories(cats);
+                }
+            }
 
-        return () => {
-            isMounted = false;
-        };
-    }, [activeTab, townId, isPlayground, authLoading]); // Fixed deps
+            const currentPage = isLoadMore ? page + 1 : 0;
+            const result = await supabaseService.getMarketItems(activeTab, townId, currentPage, 12, isPlayground);
+
+            if (isMounted.current) {
+                if (isLoadMore) {
+                    setItems(prev => [...prev, ...result.data]);
+                    setPage(currentPage);
+                } else {
+                    setItems(result.data);
+                }
+                setHasMore(items.length + result.data.length < result.count);
+            }
+        } catch (error) {
+            if (isMounted.current) {
+                logger.error('Error fetching market data:', error);
+            }
+        } finally {
+            if (isMounted.current) {
+                setLoading(false);
+                setLoadingMore(false);
+            }
+        }
+    }, [authLoading, categories.length, page, activeTab, townId, isPlayground, items.length]);
+
+    useEffect(() => {
+        if (!authLoading) {
+            loadMarketData();
+        }
+    }, [loadMarketData, authLoading]);
     // Removed page, items.length, categories.length to avoid loops
 
     useEffect(() => {
@@ -140,9 +141,11 @@ const Market = ({ townId = null }) => {
 
             <div className="market-grid">
                 {filteredItems.length === 0 ? (
-                    <div className="empty-state">
-                        <p>{t('market.no_items') || 'No hi ha res al mercat encara.'}</p>
-                    </div>
+                    <UnifiedStatus
+                        type="empty"
+                        message={searchTerm ? `No s'ha trobat cap article per a "${searchTerm}"` : t('market.no_items')}
+                        onRetry={searchTerm ? () => setSearchTerm('') : null}
+                    />
                 ) : (
                     filteredItems.map(item => (
                         <div key={item.uuid} className="universal-card market-item">
@@ -223,7 +226,7 @@ const Market = ({ townId = null }) => {
                 <div className="load-more-container">
                     <button
                         className="btn-load-more"
-                        onClick={() => window.loadMoreMarket()}
+                        onClick={() => loadMarketData(true)}
                         disabled={loadingMore}
                     >
                         {loadingMore ? <Loader2 className="spinner" /> : t('common.load_more') || 'Carregar més'}

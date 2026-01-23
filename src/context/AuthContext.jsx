@@ -79,19 +79,31 @@ export const AuthProvider = ({ children }) => {
             if (isMounted) setLoading(false);
         };
 
-        supabase.auth.getSession().then(({ data: { session } }) => {
+        supabase.auth.getSession().then(({ data: { session }, error }) => {
+            if (error) {
+                logger.error('[AuthContext] Error getting session:', error);
+            }
             initialCheckDone = true;
             handleAuth(AUTH_EVENTS.INITIAL_SESSION, session);
+        }).catch(err => {
+            logger.error('[AuthContext] Crash in getSession:', err);
+            initialCheckDone = true;
         });
 
         const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
             if (!initialCheckDone && event === 'SIGNED_IN') return;
+
+            // Handle TOKEN_REFRESHED or USER_UPDATED to avoid stale UI
+            if (event === 'TOKEN_REFRESHED' || event === 'USER_UPDATED') {
+                logger.log(`[AuthContext] Refreshing data for event: ${event}`);
+            }
+
             handleAuth(event, session);
         });
 
         return () => {
             isMounted = false;
-            subscription.unsubscribe();
+            if (subscription) subscription.unsubscribe();
         };
     }, []);
 
