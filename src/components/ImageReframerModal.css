@@ -57,7 +57,7 @@
 .reframer-viewport.aspect-1-1 {
     width: 250px;
     height: 250px;
-    border-radius: var(--radius-full);
+    border-radius: 50% !important;
 }
 
 .reframer-viewport.aspect-16-9 {
@@ -90,10 +90,10 @@
 
 .viewport-overlay.is-circle .mask-guide {
     position: absolute;
-    inset: -50px;
-    border-radius: var(--radius-full);
+    inset: 0;
+    border-radius: 50%;
     box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.5);
 }
 
 .viewport-overlay.is-rect .mask-guide {
