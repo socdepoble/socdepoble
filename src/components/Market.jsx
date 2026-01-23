@@ -24,7 +24,6 @@ const Market = ({ townId = null }) => {
     const [loadingMore, setLoadingMore] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const [activeTab, setActiveTab] = useState('tot');
-    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         let isMounted = true;
@@ -82,9 +81,13 @@ const Market = ({ townId = null }) => {
     // Removed page, items.length, categories.length to avoid loops
 
     useEffect(() => {
-        const handleOpenModal = () => setIsModalOpen(true);
-        window.addEventListener('open-add-market-item', handleOpenModal);
-        return () => window.removeEventListener('open-add-market-item', handleOpenModal);
+        const handleRefresh = (e) => {
+            if (e.detail?.type === 'market') {
+                window.location.reload();
+            }
+        };
+        window.addEventListener('data-refresh', handleRefresh);
+        return () => window.removeEventListener('data-refresh', handleRefresh);
     }, []);
 
     const filteredItems = items.filter(item =>
@@ -228,14 +231,6 @@ const Market = ({ townId = null }) => {
                 </div>
             )}
 
-            {isModalOpen && (
-                <AddItemModal
-                    isOpen={isModalOpen}
-                    onClose={() => setIsModalOpen(false)}
-                    onItemCreated={() => window.location.reload()} // For simplicity in market refresh
-                    isPlayground={isPlayground}
-                />
-            )}
         </div>
     );
 };

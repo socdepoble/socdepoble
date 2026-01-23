@@ -7,7 +7,12 @@ import './CreationHub.css';
 
 const CreationHub = () => {
     const { t } = useTranslation();
-    const { isCreateModalOpen, setIsCreateModalOpen } = useUI();
+    const {
+        isCreateModalOpen,
+        setIsCreateModalOpen,
+        openPostModal,
+        setIsMarketModalOpen
+    } = useUI();
     const { isSuperAdmin } = useAuth();
     const navigate = useNavigate();
 
@@ -26,8 +31,7 @@ const CreationHub = () => {
                 <div className="creation-options">
                     <button className="creation-option" onClick={() => {
                         setIsCreateModalOpen(false);
-                        // Trigger Feed modal - We'll need a way to trigger specific modals
-                        window.dispatchEvent(new CustomEvent('open-create-post'));
+                        openPostModal();
                     }}>
                         <div className="option-icon mur">
                             <Newspaper size={28} />
@@ -37,7 +41,7 @@ const CreationHub = () => {
 
                     <button className="creation-option" onClick={() => {
                         setIsCreateModalOpen(false);
-                        window.dispatchEvent(new CustomEvent('open-add-market-item'));
+                        setIsMarketModalOpen(true);
                     }}>
                         <div className="option-icon mercat">
                             <Store size={28} />
@@ -47,7 +51,7 @@ const CreationHub = () => {
 
                     <button className="creation-option" onClick={() => {
                         setIsCreateModalOpen(false);
-                        window.dispatchEvent(new CustomEvent('open-create-post', { detail: { isPrivate: true } }));
+                        openPostModal({ isPrivate: true });
                     }}>
                         <div className="option-icon grups">
                             <Users size={28} />

@@ -41,10 +41,8 @@ const Feed = ({ townId = null, hideHeader = false }) => {
     const [page, setPage] = useState(0);
     const [hasMore, setHasMore] = useState(true);
     const [loadingMore, setLoadingMore] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedRole, setSelectedRole] = useState('tot');
     const [selectedTag, setSelectedTag] = useState(null);
-    const [initialIsPrivate, setInitialIsPrivate] = useState(false);
     const [error, setError] = useState(null);
 
     const fetchPosts = useCallback(async (isLoadMore = false) => {
@@ -108,13 +106,14 @@ const Feed = ({ townId = null, hideHeader = false }) => {
     }, [fetchPosts, authLoading]);
 
     useEffect(() => {
-        const handleOpenModal = (e) => {
-            setInitialIsPrivate(e.detail?.isPrivate || false);
-            setIsModalOpen(true);
+        const handleRefresh = (e) => {
+            if (e.detail?.type === 'post') {
+                fetchPosts();
+            }
         };
-        window.addEventListener('open-create-post', handleOpenModal);
-        return () => window.removeEventListener('open-create-post', handleOpenModal);
-    }, []);
+        window.addEventListener('data-refresh', handleRefresh);
+        return () => window.removeEventListener('data-refresh', handleRefresh);
+    }, [fetchPosts]);
 
     const handleConnectionUpdate = (postId, connected, tags) => {
         setUserConnections(prev => {
@@ -195,13 +194,6 @@ const Feed = ({ townId = null, hideHeader = false }) => {
 
             <div className="feed-list">
 
-                <CreatePostModal
-                    isOpen={isModalOpen}
-                    onClose={() => setIsModalOpen(false)}
-                    onPostCreated={fetchPosts}
-                    isPrivateInitial={initialIsPrivate}
-                    isPlayground={isPlayground}
-                />
 
                 {filteredPosts.length === 0 ? (
                     <div className="empty-state">

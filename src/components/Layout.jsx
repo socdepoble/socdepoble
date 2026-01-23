@@ -9,6 +9,7 @@ import './Layout.css';
 
 import ScrollToTop from './ScrollToTop';
 import BackToTop from './BackToTop';
+import GlobalModals from './GlobalModals';
 
 const Layout = () => {
     const { isPlayground } = useAuth();
@@ -27,6 +28,7 @@ const Layout = () => {
             <BackToTop />
             {!isChatDetail && <Navigation />}
             {!isChatDetail && <CreationHub />}
+            <GlobalModals />
         </div>
     );
 };

@@ -5,6 +5,9 @@ const UIContext = createContext();
 export const UIProvider = ({ children }) => {
     const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+    const [isPostModalOpen, setIsPostModalOpen] = useState(false);
+    const [isMarketModalOpen, setIsMarketModalOpen] = useState(false);
+    const [postModalConfig, setPostModalConfig] = useState({ isPrivate: false });
 
     useEffect(() => {
         document.documentElement.setAttribute('data-theme', theme);
@@ -15,12 +18,23 @@ export const UIProvider = ({ children }) => {
         setTheme(prev => prev === 'light' ? 'dark' : 'light');
     };
 
+    const openPostModal = (config = { isPrivate: false }) => {
+        setPostModalConfig(config);
+        setIsPostModalOpen(true);
+    };
+
     return (
         <UIContext.Provider value={{
             theme,
             toggleTheme,
             isCreateModalOpen,
-            setIsCreateModalOpen
+            setIsCreateModalOpen,
+            isPostModalOpen,
+            setIsPostModalOpen,
+            isMarketModalOpen,
+            setIsMarketModalOpen,
+            postModalConfig,
+            openPostModal
         }}>
             {children}
         </UIContext.Provider>
