@@ -94,6 +94,17 @@ const SearchDiscover = () => {
             </div>
 
             <div className="search-content">
+                <button className="big-community-btn-xl" onClick={() => navigate('/comunitat')}>
+                    <div className="btn-icon-xl">
+                        <Users size={32} />
+                    </div>
+                    <div className="btn-text-xl">
+                        <strong>La Comunitat</strong>
+                        <span>Descobreix tota la gent i entitats del poble</span>
+                    </div>
+                    <ChevronRight size={24} />
+                </button>
+
                 <div className="filter-chips-scroll">
                     {filters.map(filter => (
                         <button
@@ -117,15 +128,6 @@ const SearchDiscover = () => {
                         <div className="ai-badge">DISCOVER AI</div>
                         <h2>Explora el teu territori</h2>
                         <p>Troba amics, negocis locals, entitats i tot el que passa als teus pobles.</p>
-
-                        <button className="big-community-btn" onClick={() => navigate('/comunitat')}>
-                            <Users size={24} />
-                            <div className="btn-text">
-                                <strong>La Comunitat</strong>
-                                <span>Descobreix tota la gent i entitats del poble</span>
-                            </div>
-                            <ChevronRight size={20} />
-                        </button>
 
                         <div className="recent-searches">
                             <h4>Cerques populars</h4>
