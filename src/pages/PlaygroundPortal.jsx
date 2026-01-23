@@ -62,10 +62,10 @@ const PlaygroundPortal = () => {
                         </div>
 
                         <div className="persona-list-content">
-                            <div className="persona-list-top">
+                            <div className="persona-list-header">
                                 <h3 className="persona-list-name">{persona.full_name}</h3>
                                 {persona.primary_town && (
-                                    <span className="persona-list-town">• {persona.primary_town}</span>
+                                    <span className="persona-list-town">{persona.primary_town}</span>
                                 )}
                             </div>
                             <div className="persona-list-bottom">

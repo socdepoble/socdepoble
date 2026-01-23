@@ -158,12 +158,10 @@
     min-width: 0;
 }
 
-.persona-list-top {
+.persona-list-header {
     display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 8px;
-    flex-wrap: wrap;
+    flex-direction: column;
+    margin-bottom: 6px;
 }
 
 .persona-list-name {
@@ -175,9 +173,10 @@
 }
 
 .persona-list-town {
-    font-size: 14px;
+    font-size: 13px;
     color: var(--color-primary);
     font-weight: 700;
+    margin-top: -2px;
 }
 
 .role-label-mini {
