@@ -22,29 +22,28 @@ export const supabaseService = {
         // Personatges extra del Lore (per fer el joc més gran de forma inmediata)
         const lorePersonas = [
             { id: 'lore-1', full_name: 'Vicent Ferris', username: 'vferris', role: 'Fuster', primary_town: 'La Torre de les Maçanes', bio: 'Treballant la fusta amb l\'amor de tres generacions. Artesania de la Torre.', avatar_url: '/images/demo/avatar_man_old.png' },
-            { id: 'lore-2', full_name: 'Lucía Belda', username: 'lubelda', role: 'Farmacèutica', primary_town: 'La Torre de les Maçanes', bio: 'Molt més que vendre remeis; cuidant la salut emocional de les nostres veïnes.', avatar_url: '/images/demo/avatar_woman_3.png' },
-            { id: 'lore-3', full_name: 'Elena Popova', username: 'elenap', role: 'Cuidadora', primary_town: 'La Torre de les Maçanes', bio: 'Vinent de Bulgària, cuidant de la nostra gent gran amb tota la paciència del món.', avatar_url: '/images/demo/avatar_woman_old.png' },
+            { id: 'lore-2', full_name: 'Lucía Belda', username: 'lubelda', role: 'Farmacèutica', primary_town: 'La Torre de les Maçanes', bio: 'Molt més que vendre remeis; cuidant la salut emocional de les nostres veïnes.', avatar_url: '/images/demo/avatar_lucia.png' },
+            { id: 'lore-3', full_name: 'Elena Popova', username: 'elenap', role: 'Cuidadora', primary_town: 'La Torre de les Maçanes', bio: 'Vinent de Bulgària, cuidant de la nostra gent gran amb tota la paciència del món.', avatar_url: '/images/demo/avatar_elena.png' },
             { id: 'lore-4', full_name: 'Maria "Mèl"', username: 'mariamel', role: 'Apicultora', primary_town: 'La Torre de les Maçanes', bio: 'Si vols mèl de veritat, puja a la Torre de les Maçanes. Tradició de muntanya.', avatar_url: '/images/demo/avatar_woman_2.png' },
-            { id: 'lore-5', full_name: 'Samir Mensah', username: 'samirm', role: 'Camp i Suport', primary_town: 'Muro d\'Alcoi', bio: 'Treballant a la Cooperativa i ajudant al manteniment de les masies. Nova saba.', avatar_url: '/images/demo/avatar_man_2.png' },
+            { id: 'lore-5', full_name: 'Samir Mensah', username: 'samirm', role: 'Camp i Suport', primary_town: 'Muro d\'Alcoi', bio: 'Treballant a la Cooperativa i ajudant al manteniment de les masies. Nova saba.', avatar_url: '/images/demo/avatar_samir.png' },
             { id: 'lore-6', full_name: 'Andreu Soler', username: 'andreus', role: 'Cuina tradicional', primary_town: 'Muro d\'Alcoi', bio: 'Passió per l\'olleta de blat. El secret està en la paciència i el foc lento.', avatar_url: '/images/demo/avatar_man_1.png' },
             { id: 'lore-7', full_name: 'Beatriz Ortega', username: 'beatrizo', role: 'Guia Turística', primary_town: 'Cocentaina', bio: 'Explicant les històries que amaguen les pedres del Palau Comtal.', avatar_url: '/images/demo/avatar_woman_1.png' },
-            { id: 'lore-8', full_name: 'Joanet Serra', username: 'joanets', role: 'Fotògraf', primary_town: 'Muro d\'Alcoi', bio: 'Revelant la bellesa quotidiana del Comtat en cada instantània.', avatar_url: '/images/demo/avatar_man_3.png' },
-            { id: 'lore-9', full_name: 'Carmen la del Forn', username: 'carmenf', role: 'Fornera', primary_town: 'Relleu', bio: 'El millor pa de llenya de la Marina Baixa, amb recepta de la rebesàvia.', avatar_url: '/images/demo/avatar_woman_old_2.png' }
+            { id: 'lore-8', full_name: 'Joanet Serra', username: 'joanets', role: 'Fotògraf', primary_town: 'Muro d\'Alcoi', bio: 'Revelant la bellesa quotidiana del Comtat en cada instantània.', avatar_url: '/images/demo/avatar_joanet.png' },
+            { id: 'lore-9', full_name: 'Carmen la del Forn', username: 'carmenf', role: 'Fornera', primary_town: 'Relleu', bio: 'El millor pa de llenya de la Marina Baixa, amb recepta de la rebesàvia.', avatar_url: '/images/demo/avatar_carmen.png' }
         ];
 
         const dbPersonas = (data || []).filter(p => {
             const isRealUser = p.full_name?.toLowerCase().includes('javi') ||
                 p.username?.toLowerCase().includes('javillinares');
-            return !isRealUser;
+
+            // També filtrem si el nom ja està en lorePersonas per evitar duplicats visuals ruidosos
+            const isLoreCharacter = lorePersonas.some(lp => lp.full_name === p.full_name);
+
+            return !isRealUser && !isLoreCharacter;
         });
 
-        // Combinem i evitem duplicats per username
-        const finalPersonas = [...dbPersonas];
-        lorePersonas.forEach(lp => {
-            if (!finalPersonas.find(p => p.username === lp.username)) {
-                finalPersonas.push(lp);
-            }
-        });
+        // Combinem
+        const finalPersonas = [...dbPersonas, ...lorePersonas];
 
         return finalPersonas.sort((a, b) => a.full_name.localeCompare(b.full_name));
     },
