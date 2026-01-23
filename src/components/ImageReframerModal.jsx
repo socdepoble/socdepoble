@@ -34,6 +34,7 @@ const ImageReframerModal = ({ isOpen, imageSrc, onConfirm, onClose, aspectRatio 
         const viewRect = viewportRef.current.getBoundingClientRect();
 
         if (img.naturalWidth === 0 || img.naturalHeight === 0) {
+            console.log('[Reframer] Image loaded but dimensions are 0, waiting...');
             return;
         }
 
@@ -42,8 +43,9 @@ const ImageReframerModal = ({ isOpen, imageSrc, onConfirm, onClose, aspectRatio 
         const zoomY = viewRect.height / img.naturalHeight;
         const baseZoom = Math.max(zoomX, zoomY);
 
-        console.log(`[Reframer] Success! Fitted ${img.naturalWidth}x${img.naturalHeight}`);
+        console.log(`[Reframer] Success! Fitted ${img.naturalWidth}x${img.naturalHeight} with zoom ${baseZoom}`);
 
+        // State updates are batched, but we set fitted FIRST
         setHasFitted(true);
         setMinZoom(baseZoom);
         setZoom(baseZoom);
@@ -54,13 +56,15 @@ const ImageReframerModal = ({ isOpen, imageSrc, onConfirm, onClose, aspectRatio 
 
     useEffect(() => {
         if (isOpen && lastSrc.current !== imageSrc) {
-            console.log('[Reframer] Initializing/Resetting state');
+            console.log('[Reframer] Source changed or initialized:', imageSrc?.substring(0, 50) + '...');
             setIsLoading(true);
             setLoadError(false);
             setHasFitted(false);
             setOffset({ x: 0, y: 0 });
             setRetryCount(0);
             lastSrc.current = imageSrc;
+        } else if (!isOpen) {
+            lastSrc.current = null; // Clear on close to allow re-opening same image later
         }
     }, [isOpen, imageSrc]);
 
@@ -154,7 +158,7 @@ const ImageReframerModal = ({ isOpen, imageSrc, onConfirm, onClose, aspectRatio 
                 <header className="reframer-header">
                     <div className="header-meta">
                         <h3>Enquadrar imatge</h3>
-                        <span className="aspect-info">{aspectRatio === 1 ? '1:1 Quadrat' : '16:9 Panorama'}</span>
+                        <span className="aspect-info">{aspectRatio === 1 ? '1:1 Quadrat' : 'Panorama'}</span>
                     </div>
                     <button className="close-btn" onClick={onClose}><X size={20} /></button>
                 </header>

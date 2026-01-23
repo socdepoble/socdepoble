@@ -78,23 +78,40 @@ export const AuthProvider = ({ children }) => {
             if (!isMounted) return;
             logger.log('[AuthContext] Auth Event:', event, session?.user?.id);
 
+            const playgroundStored = localStorage.getItem('isPlaygroundMode') === 'true';
+
             if (session?.user) {
                 setRealUser(session.user);
-                setUser(session.user);
-                localStorage.removeItem('isPlaygroundMode');
-                setIsPlayground(false);
-                try {
-                    const profileData = await supabaseService.getProfile(session.user.id);
-                    if (isMounted) {
-                        setRealProfile(profileData);
-                        setProfile(profileData);
-                    }
-                } catch (error) {
-                    logger.error('[AuthContext] Error loading profile:', error);
+
+                // Only force out of playground if specifically signing in now
+                // or if no playground session was active
+                if (event === 'SIGNED_IN' || !playgroundStored) {
+                    setUser(session.user);
+                    localStorage.removeItem('isPlaygroundMode');
+                    setIsPlayground(false);
                 }
-            } else if (localStorage.getItem('isPlaygroundMode') === 'true') {
+
+                // Load profile if we don't have one or if we are NOT in playground
+                if (!profile || (event === 'SIGNED_IN' || !playgroundStored)) {
+                    try {
+                        const profileData = await supabaseService.getProfile(session.user.id);
+                        if (isMounted) {
+                            setRealProfile(profileData);
+                            // Only update visual profile if not in playground
+                            if (!playgroundStored) {
+                                setProfile(profileData);
+                            }
+                        }
+                    } catch (error) {
+                        logger.error('[AuthContext] Error loading profile:', error);
+                    }
+                }
+            } else if (playgroundStored) {
                 // We keep the state in memory if possible, or reload default
-                if (!user) loginAsGuest();
+                if (!user) {
+                    logger.log('[AuthContext] Restoring playground guest session');
+                    loginAsGuest();
+                }
             } else {
                 setUser(null);
                 setProfile(null);
