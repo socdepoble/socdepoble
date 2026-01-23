@@ -32,7 +32,7 @@ const Header = () => {
                 <div className="header-actions">
                     <button
                         className="header-search-btn"
-                        onClick={() => logger.log('Open search screen/popup')}
+                        onClick={() => navigate('/cerca')}
                         aria-label={t('common.search') || 'Buscar'}
                     >
                         <Search size={22} color="white" />

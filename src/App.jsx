@@ -19,6 +19,7 @@ import AdminPanel from './pages/AdminPanel';
 import PlaygroundPortal from './pages/PlaygroundPortal';
 import MediaAlbum from './pages/MediaAlbum';
 import EntityManagement from './pages/EntityManagement';
+import SearchDiscover from './pages/SearchDiscover';
 import { supabase } from './supabaseClient';
 import { MOCK_CHATS, MOCK_FEED, MOCK_MARKET_ITEMS } from './data';
 import { useAuth } from './context/AuthContext';
@@ -121,6 +122,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route path="cerca" element={<SearchDiscover />} />
           <Route path="pobles" element={<Towns />} />
           <Route path="pobles/:id" element={<TownDetail />} />
           <Route

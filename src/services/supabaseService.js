@@ -497,7 +497,6 @@ export const supabaseService = {
                 .limit(20);
 
             if (error) throw error;
-            logger.log(`[SupabaseService] Search results for "${query}":`, data?.length || 0);
             return data || [];
         } catch (err) {
             logger.error('[SupabaseService] Robust search failed, falling back to simple search:', err);
@@ -507,6 +506,82 @@ export const supabaseService = {
                 .ilike('name', `%${query}%`)
                 .limit(10);
             return data || [];
+        }
+    },
+
+    async searchProfiles(query) {
+        if (!query || query.length < 2) return [];
+        try {
+            const { data, error } = await supabase
+                .from('profiles')
+                .select('id, full_name, username, avatar_url, role, town_name, bio')
+                .or(`full_name.ilike.%${query}%,username.ilike.%${query}%,role.ilike.%${query}%,town_name.ilike.%${query}%`)
+                .limit(10);
+
+            if (error) throw error;
+
+            // Include lore personas in search
+            const allPersonas = await this.getAllPersonas();
+            const filteredLore = allPersonas.filter(p =>
+                p.full_name?.toLowerCase().includes(query.toLowerCase()) ||
+                p.username?.toLowerCase().includes(query.toLowerCase()) ||
+                p.role?.toLowerCase().includes(query.toLowerCase()) ||
+                p.primary_town?.toLowerCase().includes(query.toLowerCase())
+            );
+
+            // Merge and deduplicate by full_name
+            const combined = [...(data || []), ...filteredLore];
+            const unique = [];
+            const names = new Set();
+            combined.forEach(p => {
+                const name = p.full_name?.toLowerCase();
+                if (!names.has(name)) {
+                    names.add(name);
+                    // Normalize town field
+                    const normalized = {
+                        ...p,
+                        town_name: p.town_name || p.primary_town
+                    };
+                    unique.push(normalized);
+                }
+            });
+
+            return unique;
+        } catch (error) {
+            logger.error('[SupabaseService] Error in searchProfiles:', error);
+            return [];
+        }
+    },
+
+    async searchEntities(query) {
+        if (!query || query.length < 2) return [];
+        try {
+            const { data, error } = await supabase
+                .from('entities')
+                .select('id, name, type, avatar_url, town_name, description')
+                .or(`name.ilike.%${query}%,type.ilike.%${query}%,town_name.ilike.%${query}%,description.ilike.%${query}%`)
+                .limit(10);
+
+            if (error) throw error;
+
+            // Include mock entities for Sandbox feel
+            const mockEntities = [
+                { id: 'm1', name: 'Ajuntament de la Torre', type: 'oficial', town_name: 'La Torre de les Maçanes', description: 'Administració local i serveis al ciutadà.' },
+                { id: 'm2', name: 'Cooperativa de Muro', type: 'empresa', town_name: 'Muro d\'Alcoi', description: 'Oli d\'oliva verge extra de la serra Mariola.' },
+                { id: 'm3', name: 'Centre Excursionista d\'Alcoi', type: 'grup', town_name: 'Alcoi', description: 'Rutes i activitats de muntanya per a tots.' },
+                { id: 'm4', name: 'Forn del Barri', type: 'empresa', town_name: 'La Torre de les Maçanes', description: 'Pa de llenya i coques tradicionals.' }
+            ];
+
+            const filteredMock = mockEntities.filter(e =>
+                e.name.toLowerCase().includes(query.toLowerCase()) ||
+                e.type.toLowerCase().includes(query.toLowerCase()) ||
+                e.town_name.toLowerCase().includes(query.toLowerCase())
+            );
+
+            return [...(data || []), ...filteredMock];
+        } catch (error) {
+            logger.error('[SupabaseService] Error in searchEntities:', error);
+            return [];
         }
     },
 
