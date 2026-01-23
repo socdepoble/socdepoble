@@ -105,6 +105,10 @@ const SearchDiscover = () => {
                     <ChevronRight size={24} />
                 </button>
 
+                <p className="search-description-text">
+                    Explora el teu territori. Troba amics, negocis locals, entitats i tot el que passa als teus pobles.
+                </p>
+
                 <div className="filter-chips-scroll">
                     {filters.map(filter => (
                         <button
@@ -126,8 +130,6 @@ const SearchDiscover = () => {
                 ) : isEmpty ? (
                     <div className="search-welcome">
                         <div className="ai-badge">DISCOVER AI</div>
-                        <h2>Explora el teu territori</h2>
-                        <p>Troba amics, negocis locals, entitats i tot el que passa als teus pobles.</p>
 
                         <div className="recent-searches">
                             <h4>Cerques populars</h4>
