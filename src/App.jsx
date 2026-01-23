@@ -49,9 +49,9 @@ const ProtectedRoute = ({ children }) => {
   return children;
 };
 
+import ErrorBoundary from './components/ErrorBoundary';
+
 function App() {
-
-
   return (
     <BrowserRouter>
       <Routes>
@@ -62,7 +62,9 @@ function App() {
         <Route
           path="/"
           element={
-            <Layout />
+            <ErrorBoundary>
+              <Layout />
+            </ErrorBoundary>
           }
         >
           <Route index element={<Navigate to="/chats" replace />} />

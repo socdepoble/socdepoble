@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
 import { useI18n } from '../context/I18nContext';
@@ -10,6 +10,16 @@ const Header = () => {
     const { t } = useTranslation();
     const { user, profile } = useAuth();
     const { language, toggleLanguage } = useI18n();
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const handleProfileClick = (e) => {
+        if (location.pathname === '/perfil') {
+            e.preventDefault();
+            navigate(-1);
+        }
+    };
+
     const logoSrc = '/logo_dark.png';
 
     return (
@@ -51,6 +61,7 @@ const Header = () => {
                         <Link
                             to="/perfil"
                             className="profile-link"
+                            onClick={handleProfileClick}
                             aria-label={t('nav.profile') || 'El meu perfil'}
                             title={t('nav.profile') || 'El meu perfil'}
                         >

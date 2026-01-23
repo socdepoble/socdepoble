@@ -5,12 +5,6 @@
     overflow-x: auto;
     padding: 0 var(--space-md);
     height: var(--category-bar-height);
-    background-color: #171923;
-    position: sticky;
-    top: var(--header-height);
-    z-index: 90;
-    border-bottom: 1px solid #2D3748;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     scrollbar-width: none;
     -ms-overflow-style: none;
 }
@@ -22,9 +16,9 @@
 .category-tab {
     padding: 8px 16px;
     border-radius: var(--radius-full);
-    border: 1px solid #2D3748;
-    background-color: #2D3748;
-    color: #A0AEC0;
+    border: 1px solid var(--color-border);
+    background-color: var(--bg-main);
+    color: var(--text-muted);
     font-size: 11px;
     text-transform: uppercase;
     font-weight: 800;
@@ -50,9 +44,9 @@
 }
 
 .category-tab:hover:not(.active) {
-    background-color: #4A5568;
-    color: white;
-    border-color: #4A5568;
+    background-color: var(--color-primary-soft);
+    color: var(--color-primary);
+    border-color: var(--color-primary);
 }
 
 .category-tab:active {

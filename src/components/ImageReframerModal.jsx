@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { X, ZoomIn, ZoomOut, Move, Check, RotateCw } from 'lucide-react';
+import { X, ZoomIn, ZoomOut, Move, Check, RotateCw, Loader2 } from 'lucide-react';
 import './ImageReframerModal.css';
 
 const ImageReframerModal = ({ isOpen, imageSrc, onConfirm, onClose, aspectRatio = 1 }) => {
@@ -8,40 +8,77 @@ const ImageReframerModal = ({ isOpen, imageSrc, onConfirm, onClose, aspectRatio 
     const [offset, setOffset] = useState({ x: 0, y: 0 });
     const [isDragging, setIsDragging] = useState(false);
     const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
-
+    const [isLoading, setIsLoading] = useState(true);
+    const [loadError, setLoadError] = useState(false);
+    const [retryCount, setRetryCount] = useState(0);
+    const [hasFitted, setHasFitted] = useState(false);
+    const lastSrc = useRef(null);
     const containerRef = useRef(null);
+    const viewportRef = useRef(null);
     const imageRef = useRef(null);
+
+    // Construct src with cache busting ONLY when source changes
+    const finalSrc = React.useMemo(() => {
+        if (!imageSrc?.startsWith('http')) return imageSrc;
+        return `${imageSrc}${imageSrc.includes('?') ? '&' : '?'}v=1`;
+    }, [imageSrc]);
+
 
     // Initial setup and minZoom calculation when image is loaded
     const calculateInitialFitting = () => {
-        if (!imageRef.current || !containerRef.current) return;
+        if (!imageRef.current || !viewportRef.current || hasFitted) {
+            return;
+        }
 
         const img = imageRef.current;
-        const viewport = containerRef.current.querySelector('.reframer-viewport');
-        const viewRect = viewport.getBoundingClientRect();
+        const viewRect = viewportRef.current.getBoundingClientRect();
+
+        if (img.naturalWidth === 0 || img.naturalHeight === 0) {
+            return;
+        }
 
         // Calculate crop factor
-        // We want the image to COVER the viewport completely
         const zoomX = viewRect.width / img.naturalWidth;
         const zoomY = viewRect.height / img.naturalHeight;
-
         const baseZoom = Math.max(zoomX, zoomY);
 
+        console.log(`[Reframer] Success! Fitted ${img.naturalWidth}x${img.naturalHeight}`);
+
+        setHasFitted(true);
         setMinZoom(baseZoom);
         setZoom(baseZoom);
         setOffset({ x: 0, y: 0 });
+        setIsLoading(false);
+        setLoadError(false);
     };
 
     useEffect(() => {
-        if (isOpen) {
-            // Reset state, but wait for image load for fitting
+        if (isOpen && lastSrc.current !== imageSrc) {
+            console.log('[Reframer] Initializing/Resetting state');
+            setIsLoading(true);
+            setLoadError(false);
+            setHasFitted(false);
             setOffset({ x: 0, y: 0 });
+            setRetryCount(0);
+            lastSrc.current = imageSrc;
         }
-    }, [isOpen, imageSrc, aspectRatio]);
+    }, [isOpen, imageSrc]);
 
     if (!isOpen) return null;
 
+    const handleImageError = () => {
+        console.error('[Reframer] Error loading image:', imageSrc);
+        if (retryCount < 1) {
+            // Try once without crossOrigin if it fails (might be a CORS issue)
+            setRetryCount(prev => prev + 1);
+        } else {
+            setIsLoading(false);
+            setLoadError(true);
+        }
+    };
+
     const handleMouseDown = (e) => {
+        if (isLoading || loadError) return;
         setIsDragging(true);
         setDragStart({ x: e.clientX - offset.x, y: e.clientY - offset.y });
     };
@@ -52,24 +89,6 @@ const ImageReframerModal = ({ isOpen, imageSrc, onConfirm, onClose, aspectRatio 
         const newX = e.clientX - dragStart.x;
         const newY = e.clientY - dragStart.y;
 
-        // Clamping logic to prevent black gaps
-        if (imageRef.current && containerRef.current) {
-            const img = imageRef.current;
-            const viewport = containerRef.current.querySelector('.reframer-viewport');
-            const viewRect = viewport.getBoundingClientRect();
-
-            const currentWidth = img.naturalWidth * zoom;
-            const currentHeight = img.naturalHeight * zoom;
-
-            // Max allowed offset in each direction:
-            // img is centered by default? No, transform-origin is usually 50% 50% or 0 0.
-            // In our CSS it's likely 0 0 or depends on centering.
-
-            // Let's assume standard centering logic in CSS (top 50% left 50% transform translate -50% -50%)
-            // If the image is centered, the current logic might be slightly different.
-            // Let's use the simplest: clamp based on viewport boundaries.
-        }
-
         setOffset({ x: newX, y: newY });
     };
 
@@ -78,7 +97,7 @@ const ImageReframerModal = ({ isOpen, imageSrc, onConfirm, onClose, aspectRatio 
     };
 
     const handleConfirm = () => {
-        if (!imageRef.current) return;
+        if (!imageRef.current || isLoading || loadError) return;
 
         const canvas = document.createElement('canvas');
         const img = imageRef.current;
@@ -97,11 +116,13 @@ const ImageReframerModal = ({ isOpen, imageSrc, onConfirm, onClose, aspectRatio 
         canvas.height = targetHeight;
         const ctx = canvas.getContext('2d');
 
-        const container = containerRef.current.querySelector('.reframer-viewport');
+        const container = viewportRef.current;
+        if (!container) return;
         const rect = container.getBoundingClientRect();
         const imgRect = img.getBoundingClientRect();
 
         // Ratio between natural size and displayed size (including current zoom)
+        // Note: we use rect.width/height which is the viewport
         const scaleX = img.naturalWidth / imgRect.width;
         const scaleY = img.naturalHeight / imgRect.height;
 
@@ -111,12 +132,21 @@ const ImageReframerModal = ({ isOpen, imageSrc, onConfirm, onClose, aspectRatio 
         const sWidth = rect.width * scaleX;
         const sHeight = rect.height * scaleY;
 
-        ctx.drawImage(img, sx, sy, sWidth, sHeight, 0, 0, targetWidth, targetHeight);
-
-        canvas.toBlob((blob) => {
-            onConfirm(blob);
-        }, 'image/jpeg', 0.95); // High quality
+        try {
+            ctx.drawImage(img, sx, sy, sWidth, sHeight, 0, 0, targetWidth, targetHeight);
+            canvas.toBlob((blob) => {
+                if (blob) {
+                    onConfirm(blob);
+                } else {
+                    alert('Error al generar la imatge retallada.');
+                }
+            }, 'image/jpeg', 0.95);
+        } catch (err) {
+            console.error('[Reframer] Canvas draw error (likely CORS):', err);
+            alert('Error de seguretat al processar la imatge (CORS). Si us plau, prova amb una altra imatge o puja-la de nou.');
+        }
     };
+
 
     return (
         <div className="reframer-overlay">
@@ -137,28 +167,49 @@ const ImageReframerModal = ({ isOpen, imageSrc, onConfirm, onClose, aspectRatio 
                     onMouseLeave={handleMouseUp}
                 >
                     <div
+                        ref={viewportRef}
                         className={`reframer-viewport aspect-${aspectRatio === 1 ? '1-1' : '16-9'}`}
                         onMouseDown={handleMouseDown}
                     >
+                        {isLoading && !loadError && (
+                            <div className="reframer-status-overlay">
+                                <Loader2 className="animate-spin" size={32} />
+                                <span>Carregant editor...</span>
+                            </div>
+                        )}
+
+                        {loadError && (
+                            <div className="reframer-status-overlay is-error">
+                                <X size={32} />
+                                <span>Error al carregar la imatge</span>
+                                <button className="retry-btn" onClick={() => { setRetryCount(0); setIsLoading(true); setLoadError(false); }}>Tornar a provar</button>
+                            </div>
+                        )}
+
                         <img
                             ref={imageRef}
-                            src={imageSrc.startsWith('http') ? `${imageSrc}${imageSrc.includes('?') ? '&' : '?'}t=${Date.now()}` : imageSrc}
+                            src={finalSrc}
                             alt="Reframing"
                             draggable="false"
-                            crossOrigin="anonymous"
+                            crossOrigin={retryCount > 0 ? undefined : "anonymous"}
                             onLoad={calculateInitialFitting}
+                            onError={handleImageError}
                             style={{
-                                transform: `translate(${offset.x}px, ${offset.y}px) scale(${zoom})`,
+                                transform: `translate(-50%, -50%) translate(${offset.x}px, ${offset.y}px) scale(${zoom})`,
                                 cursor: isDragging ? 'grabbing' : 'grab',
-                                transition: isDragging ? 'none' : 'transform 0.1s ease-out'
+                                transition: isDragging ? 'none' : 'transform 0.1s ease-out',
+                                opacity: isLoading || loadError ? 0 : 1
                             }}
                         />
-                        <div className={`viewport-overlay ${aspectRatio === 1 ? 'is-circle' : 'is-rect'}`}>
-                            <div className="mask-guide"></div>
-                            <div className="center-target">
-                                <Move size={24} className="move-icon" />
+
+                        {!isLoading && !loadError && (
+                            <div className={`viewport-overlay ${aspectRatio === 1 ? 'is-circle' : 'is-rect'}`}>
+                                <div className="mask-guide"></div>
+                                <div className="center-target">
+                                    <Move size={24} className="move-icon" />
+                                </div>
                             </div>
-                        </div>
+                        )}
                     </div>
                 </div>
 
@@ -172,16 +223,21 @@ const ImageReframerModal = ({ isOpen, imageSrc, onConfirm, onClose, aspectRatio 
                                 max={minZoom * 5}
                                 step="0.001"
                                 value={zoom}
+                                disabled={isLoading || loadError}
                                 onChange={(e) => setZoom(parseFloat(e.target.value))}
                             />
-                            <div className="slider-track" style={{ width: `${((zoom - minZoom) / (minZoom * 4)) * 100}%` }}></div>
+                            <div className="slider-track" style={{ width: `${((zoom - minZoom) / (minZoom * 4 || 1)) * 100}%` }}></div>
                         </div>
                         <ZoomIn size={18} className="control-icon" />
                     </div>
 
                     <div className="reframer-actions">
                         <button className="btn-cancel" onClick={onClose}>Anul·lar</button>
-                        <button className="btn-confirm" onClick={handleConfirm}>
+                        <button
+                            className="btn-confirm"
+                            onClick={handleConfirm}
+                            disabled={isLoading || loadError}
+                        >
                             <Check size={20} /> Aplicar canvis
                         </button>
                     </div>
@@ -190,5 +246,6 @@ const ImageReframerModal = ({ isOpen, imageSrc, onConfirm, onClose, aspectRatio 
         </div>
     );
 };
+
 
 export default ImageReframerModal;

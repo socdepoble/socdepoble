@@ -1,12 +1,14 @@
-import { useNavigate } from 'react-router-dom';
+import { Building2, Loader2, MapPin, User, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { User, Building2, Loader2 } from 'lucide-react';
-import { supabaseService } from '../services/supabaseService';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useSocial } from '../context/SocialContext';
+import { isFictiveProfile, supabaseService } from '../services/supabaseService';
 import { logger } from '../utils/logger';
 import CategoryTabs from './CategoryTabs';
 import UnifiedStatus from './UnifiedStatus';
+import TownSelectorModal from './TownSelectorModal';
 import './ChatList.css';
 
 const GUEST_PREVIEW_IMAGE = '/assets/images/chat_preview_guest.png';
@@ -73,11 +75,14 @@ const getAvatarColor = (type, avatarUrl) => {
 const ChatList = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const { user, profile, impersonatedProfile, activeEntityId, isSuperAdmin } = useAuth();
+    const { user, profile, impersonatedProfile, activeEntityId, isSuperAdmin, isPlayground } = useAuth();
+    const { activeCategories } = useSocial();
     const [chats, setChats] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState('xat');
+    const [selectedTown, setSelectedTown] = useState(null);
+    const [isTownModalOpen, setIsTownModalOpen] = useState(false);
 
     const chatTabs = [
         { id: 'xat', label: t('common.role_xat') },
@@ -85,7 +90,14 @@ const ChatList = () => {
         { id: 'grup', label: t('common.role_grup') },
         { id: 'treball', label: t('common.role_treball') },
         { id: 'pobo', label: t('common.role_pobo') }
-    ];
+    ].filter(tab => tab.id === 'xat' || activeCategories.includes(tab.id));
+
+    // Fallback logic: if current category is disabled, go back to 'xat'
+    useEffect(() => {
+        if (selectedCategory !== 'xat' && selectedCategory !== 'pobo' && !activeCategories.includes(selectedCategory)) {
+            setSelectedCategory('xat');
+        }
+    }, [activeCategories, selectedCategory]);
 
     // Si somos Super Admin y estamos personificando a alguien, usamos ese ID
     const currentId = activeEntityId || (isSuperAdmin && impersonatedProfile ? impersonatedProfile.id : user?.id);
@@ -104,10 +116,14 @@ const ChatList = () => {
                 // Fetch both real conversations and all possible AI personas
                 const [dbConvs, allPersonas] = await Promise.all([
                     supabaseService.getConversations(currentId),
-                    supabaseService.getAllPersonas()
+                    supabaseService.getAllPersonas(isPlayground)
                 ]);
 
                 if (!isMounted) return;
+
+                // Create a map of personas by ID for quick access
+                const personaMap = {};
+                allPersonas.forEach(p => { personaMap[p.id] = p; });
 
                 // Filter personas that are ambassadors (AI IAIAs)
                 const ambassadors = allPersonas.filter(p =>
@@ -127,9 +143,9 @@ const ChatList = () => {
                     .map(a => ({
                         id: `new-iaia-${a.id}`,
                         last_message_content: t('chats.start_iaia') || `Hola! Sóc la ${a.full_name.split(' ')[0]}, vols que parlem?`,
-                        last_message_at: new Date(0).toISOString(), // Oldest so they go to bottom or after real ones
+                        last_message_at: new Date(0).toISOString(),
                         p1_info: { id: currentId, name: profile?.full_name || 'Jo' },
-                        p2_info: { id: a.id, name: a.full_name, avatar_url: a.avatar_url },
+                        p2_info: { id: a.id, name: a.full_name, avatar_url: a.avatar_url, primary_town: a.primary_town, category: a.category },
                         participant_1_id: currentId,
                         participant_2_id: a.id,
                         participant_1_type: 'user',
@@ -141,13 +157,64 @@ const ChatList = () => {
                         is_iaia: true
                     }));
 
-                // Merge and sort: active chats first, then virtual ambassadors
-                const merged = [...dbConvs, ...virtualConvs].sort((a, b) => {
-                    // Si ambos tienen mensajes reales o ambos son virtuales, por fecha
+                // Merge and filter based on category and playground rules
+                let allMerged = [...dbConvs, ...virtualConvs];
+
+                // Attach persona data to DB conversations for better filtering
+                allMerged = allMerged.map(c => {
+                    const otherInfo = c.participant_1_id === currentId ? c.p2_info : c.p1_info;
+                    const persona = personaMap[otherInfo.id];
+                    if (persona) {
+                        return {
+                            ...c,
+                            other_town: persona.primary_town,
+                            other_category: persona.category || (c.participant_1_id === currentId ? c.participant_2_type : c.participant_1_type)
+                        };
+                    }
+                    return {
+                        ...c,
+                        other_town: otherInfo.primary_town,
+                        other_category: (c.participant_1_id === currentId ? c.participant_2_type : c.participant_1_type)
+                    };
+                });
+
+                // Optimized Filtering Logic (Single Pass)
+                const inProduction = !isPlayground && !profile?.is_demo;
+
+                const filtered = allMerged.filter(c => {
+                    // 1. Production Security Filter
+                    if (inProduction) {
+                        const otherInfo = c.participant_1_id === currentId ? c.p2_info : c.p1_info;
+                        const otherType = c.participant_1_id === currentId ? c.participant_2_type : c.participant_1_type;
+
+                        const fictive = isFictiveProfile(otherInfo);
+                        const isHuman = otherType === 'user' || otherType === 'person' || otherInfo.type === 'person';
+
+                        if (fictive && !isHuman) return false;
+                    }
+                    // 1b. Playground specific NPC filtering
+                    else if (isPlayground || profile?.is_demo) {
+                        const other = getParticipantInfo(c, currentId, t);
+                        const isLore = other.id?.startsWith('11111111-1111-4111-a111-');
+                        if (!other.isAI && !isLore) return false;
+                    }
+
+                    // 2. Category Filter
+                    if (selectedCategory !== 'xat' && selectedCategory !== 'pobo') {
+                        if (c.other_category !== selectedCategory) return false;
+                    }
+
+                    // 3. Town Filter
+                    if (selectedTown && c.other_town !== selectedTown.name) return false;
+
+                    return true;
+                });
+
+                const mergedSorted = filtered.sort((a, b) => {
                     return new Date(b.last_message_at) - new Date(a.last_message_at);
                 });
 
-                setChats(merged);
+                setChats(mergedSorted);
             } catch (error) {
                 if (isMounted) {
                     logger.error('[ChatList] Error fetching chats:', error);
@@ -160,7 +227,7 @@ const ChatList = () => {
 
         fetchChats();
         return () => { isMounted = false; };
-    }, [currentId]);
+    }, [currentId, selectedCategory, selectedTown, isPlayground]);
 
     const handleChatClick = async (chat) => {
         if (chat.id.startsWith('new-iaia-')) {
@@ -178,6 +245,15 @@ const ChatList = () => {
             }
         } else {
             navigate(`/chats/${chat.id}`);
+        }
+    };
+
+    const handleCategorySelect = (categoryId) => {
+        if (categoryId === 'pobo') {
+            setIsTownModalOpen(true);
+        } else {
+            setSelectedCategory(categoryId);
+            setSelectedTown(null); // Clear town filter when switching to other categories
         }
     };
 
@@ -227,14 +303,28 @@ const ChatList = () => {
                 <div className="header-tabs-wrapper">
                     <CategoryTabs
                         selectedRole={selectedCategory}
-                        onSelectRole={setSelectedCategory}
+                        onSelectRole={handleCategorySelect}
                         tabs={chatTabs}
                     />
                 </div>
+                {selectedTown && (
+                    <div className="active-filters">
+                        <div className="filter-badge town">
+                            <MapPin size={12} />
+                            <span>{selectedTown.name}</span>
+                            <button className="remove-filter" onClick={() => setSelectedTown(null)}>
+                                <X size={12} />
+                            </button>
+                        </div>
+                    </div>
+                )}
             </header>
             <div className="chat-list">
                 {!Array.isArray(chats) || chats.length === 0 ? (
-                    <UnifiedStatus type="empty" message={t('chats.empty')} />
+                    <UnifiedStatus
+                        type="empty"
+                        message={selectedTown ? t('chats.empty_town', `No hi ha xats en ${selectedTown.name}`) : t('chats.empty')}
+                    />
                 ) : (
                     chats.map(chat => {
                         const otherParticipant = getParticipantInfo(chat, currentId, t);
@@ -269,6 +359,15 @@ const ChatList = () => {
                     })
                 )}
             </div>
+
+            <TownSelectorModal
+                isOpen={isTownModalOpen}
+                onClose={() => setIsTownModalOpen(false)}
+                onSelect={(town) => {
+                    setSelectedTown(town);
+                    setSelectedCategory('pobo');
+                }}
+            />
         </div>
     );
 };

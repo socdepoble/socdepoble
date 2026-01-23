@@ -6,12 +6,9 @@
 }
 
 .layout-container.has-playground-banner {
-    --banner-height: 40px;
-    padding-top: var(--banner-height);
-}
-
-.has-playground-banner .main-header {
-    top: var(--banner-height) !important;
+    --banner-height: 50px !important;
+    padding-top: var(--banner-height) !important;
+    --total-top-offset: calc(var(--banner-height) + var(--header-height)) !important;
 }
 
 .content-area {

@@ -14,9 +14,10 @@ const PlaygroundBanner = () => {
         <div className="playground-banner">
             <div className="banner-content">
                 <div className="banner-left">
-                    <span className="banner-text">
-                        <strong>PROVANT:</strong> Estàs pilotant a <em>{profile?.full_name}</em>
-                    </span>
+                    <div className="banner-text-stack">
+                        <span className="banner-label">PROVANT, estàs pilotant a:</span>
+                        <span className="banner-persona-name">{profile?.full_name}</span>
+                    </div>
                 </div>
                 <div className="banner-actions">
                     <button className="banner-btn" onClick={() => navigate('/playground')}>

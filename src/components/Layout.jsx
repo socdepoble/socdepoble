@@ -21,7 +21,7 @@ const Layout = () => {
         <div className={`layout-container ${isPlayground ? 'has-playground-banner' : ''}`}>
             <ScrollToTop />
             <PlaygroundBanner />
-            <Header />
+            {!isChatDetail && <Header />}
             <main className="content-area">
                 <Outlet />
             </main>

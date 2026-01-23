@@ -55,7 +55,7 @@ const ProfileStudioModal = ({
                                     <span>Premeu per a afegir portada</span>
                                 </div>
                             )}
-                            <div className="preview-overlay">
+                            <div className="studio-action-bar items-center">
                                 <button
                                     className="studio-btn primary"
                                     onClick={() => coverInputRef.current.click()}
@@ -67,7 +67,7 @@ const ProfileStudioModal = ({
                                 </button>
                                 {displayProfile.cover_url && (
                                     <button
-                                        className="studio-btn secondary highlight"
+                                        className="studio-btn primary light"
                                         onClick={(e) => { e.stopPropagation(); onReposition('cover'); }}
                                         disabled={isUploading}
                                         title="Enquadrar o resituar la imatge actual"
@@ -77,7 +77,7 @@ const ProfileStudioModal = ({
                                     </button>
                                 )}
                                 <button
-                                    className="studio-btn secondary"
+                                    className="studio-btn primary light"
                                     onClick={(e) => { e.stopPropagation(); onAlbumSelect('cover'); }}
                                     disabled={isUploading}
                                 >
@@ -101,51 +101,51 @@ const ProfileStudioModal = ({
                             <h4>Foto de perfil</h4>
                             <span className="aspect-badge">1:1</span>
                         </div>
-                        <div className="studio-preview avatar-studio-preview">
+                        <div className="avatar-studio-section">
                             <div
-                                className="avatar-big-preview"
-                                onClick={() => avatarInputRef.current.click()}
-                                title="Canviar foto de perfil"
+                                className="studio-preview avatar-studio-preview"
+                                onClick={() => !displayProfile.avatar_url && avatarInputRef.current.click()}
+                                title={displayProfile.avatar_url ? "Canviar o resituar foto" : "Afegir foto"}
                                 style={{ cursor: 'pointer' }}
                             >
-                                {displayProfile.avatar_url ? (
-                                    <img src={displayProfile.avatar_url} alt="Avatar Preview" />
-                                ) : (
-                                    <div className="avatar-placeholder">
-                                        <User size={40} color="var(--text-muted)" />
-                                        <div className="add-overlay"><Camera size={16} /></div>
-                                    </div>
-                                )}
+                                <div className="avatar-big-preview">
+                                    {displayProfile.avatar_url ? (
+                                        <img src={displayProfile.avatar_url} alt="Avatar Preview" />
+                                    ) : (
+                                        <div className="avatar-placeholder">
+                                            <User size={40} color="var(--text-muted)" />
+                                        </div>
+                                    )}
+                                </div>
                             </div>
-                            <div className="preview-actions">
+
+                            <div className="studio-action-bar items-center">
                                 <button
                                     className="studio-btn primary"
-                                    onClick={() => avatarInputRef.current.click()}
+                                    onClick={(e) => { e.stopPropagation(); avatarInputRef.current.click(); }}
                                     disabled={isUploading}
                                 >
                                     {isUploading && uploadType === 'avatar' ? <Loader2 className="animate-spin" size={16} /> : <Camera size={16} />}
-                                    <span>Canviar foto</span>
+                                    <span>Nova Foto</span>
                                 </button>
-                                <div className="action-row">
+                                {displayProfile.avatar_url && (
                                     <button
-                                        className="studio-btn secondary"
-                                        onClick={() => onAlbumSelect('avatar')}
+                                        className="studio-btn primary light"
+                                        onClick={(e) => { e.stopPropagation(); onReposition('avatar'); }}
                                         disabled={isUploading}
                                     >
-                                        <ImageIcon size={16} />
-                                        <span>Álbum</span>
+                                        <Maximize size={16} />
+                                        <span>Resituar</span>
                                     </button>
-                                    {displayProfile.avatar_url && (
-                                        <button
-                                            className="studio-btn secondary"
-                                            onClick={() => onReposition('avatar')}
-                                            disabled={isUploading}
-                                        >
-                                            <Maximize size={16} />
-                                            <span>Resituar</span>
-                                        </button>
-                                    )}
-                                </div>
+                                )}
+                                <button
+                                    className="studio-btn primary light"
+                                    onClick={(e) => { e.stopPropagation(); onAlbumSelect('avatar'); }}
+                                    disabled={isUploading}
+                                >
+                                    <ImageIcon size={16} />
+                                    <span>Àlbum</span>
+                                </button>
                             </div>
                         </div>
                         <input

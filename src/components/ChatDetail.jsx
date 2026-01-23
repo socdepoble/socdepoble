@@ -39,7 +39,7 @@ const ChatDetail = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const { t } = useTranslation();
-    const { user, impersonatedProfile, activeEntityId, isSuperAdmin } = useAuth();
+    const { user, profile, impersonatedProfile, activeEntityId, isSuperAdmin } = useAuth();
     const [chat, setChat] = useState(null);
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
@@ -264,6 +264,12 @@ const ChatDetail = () => {
     const otherInfo = isP1Current ? chat.p2_info : chat.p1_info;
     const otherType = isP1Current ? chat.participant_2_type : chat.participant_1_type;
 
+    // Harmonized IAIA Detection Logic
+    const isIAIAConv = chat.is_iaia ||
+        (isP1Current ? chat.p2_is_ai : chat.p1_is_ai) ||
+        (isP1Current ? chat.p2_role : chat.p1_role) === 'ambassador' ||
+        (isP1Current ? chat.participant_2_id : chat.participant_1_id)?.startsWith('11111111-1111-4111-a111-');
+
     return (
         <div className="chat-detail-container">
             <div className="chat-nav-bar">
@@ -283,12 +289,9 @@ const ChatDetail = () => {
                     <div className="chat-info">
                         <div className="chat-name-row">
                             <h2>{otherInfo?.name || t('common.unknown')}</h2>
-                            {(chat.is_iaia ||
-                                (isP1Current ? chat.p2_is_ai : chat.p1_is_ai) ||
-                                (isP1Current ? chat.p2_role : chat.p1_role) === 'ambassador' ||
-                                (isP1Current ? chat.participant_2_id : chat.participant_1_id)?.startsWith('11111111-1111-4111-a111-')) && (
-                                    <span className="identity-badge ai" title="Informació i Acció Artificial">IAIA</span>
-                                )}
+                            {isIAIAConv && (
+                                <span className="identity-badge ai" title="Informació i Acció Artificial">IAIA</span>
+                            )}
                         </div>
                         <span className={`status ${isOtherOnline ? 'online' : ''}`}>
                             {isOtherTyping ? t('common.typing') : (isOtherOnline ? t('common.online') : t('common.offline'))}
@@ -297,8 +300,8 @@ const ChatDetail = () => {
                 </div>
             </div>
 
-            {/* IAIA Notice - Transparencia */}
-            {chat.is_iaia && (
+            {/* IAIA Notice - Transparencia (Visible in Prod and Sandbox) */}
+            {isIAIAConv && (
                 <div className="iaia-transparency-notice">
                     <div className="iaia-icon">🤖</div>
                     <div className="iaia-notice-content">
@@ -315,40 +318,59 @@ const ChatDetail = () => {
                     messages.map(msg => {
                         const isMe = msg.sender_id === humanId &&
                             ((!msg.sender_entity_id && !activeEntityId) || msg.sender_entity_id === activeEntityId);
+
+                        // Determinar l'avatar del remitent
+                        const senderAvatar = isMe
+                            ? (isSuperAdmin && impersonatedProfile ? impersonatedProfile.avatar_url : profile?.avatar_url)
+                            : otherInfo?.avatar_url;
+                        const senderType = isMe ? (activeEntityId ? 'entity' : 'user') : otherType;
+
                         return (
-                            <div key={msg.id} className={`message-bubble ${isMe ? 'me' : 'other'} ${msg.is_ai ? 'ai-bubble' : ''}`}>
-                                <div className="bubble-content-row">
-                                    <div className="message-content-wrapper">
-                                        {msg.attachment_url && (
-                                            <div className="message-attachment">
-                                                {msg.attachment_type === 'image' ? (
-                                                    <img src={msg.attachment_url} alt={msg.attachment_name} className="chat-image" onClick={() => window.open(msg.attachment_url, '_blank')} />
-                                                ) : msg.attachment_type === 'video' ? (
-                                                    <video src={msg.attachment_url} controls className="chat-video" />
-                                                ) : (
-                                                    <a href={msg.attachment_url} target="_blank" rel="noopener noreferrer" className="attachment-link">
-                                                        <FileText size={20} />
-                                                        <span>{msg.attachment_name || 'Document'}</span>
-                                                    </a>
-                                                )}
-                                            </div>
+                            <div key={msg.id} className={`message-row ${isMe ? 'me' : 'other'}`}>
+                                {!isMe && (
+                                    <div className="message-avatar-container">
+                                        {getAvatarIcon(senderType, senderAvatar)}
+                                    </div>
+                                )}
+                                <div className={`message-bubble ${isMe ? 'me' : 'other'} ${msg.is_ai ? 'ai-bubble' : ''}`}>
+                                    <div className="bubble-content-row">
+                                        <div className="message-content-wrapper">
+                                            {msg.attachment_url && (
+                                                <div className="message-attachment">
+                                                    {msg.attachment_type === 'image' ? (
+                                                        <img src={msg.attachment_url} alt={msg.attachment_name} className="chat-image" onClick={() => window.open(msg.attachment_url, '_blank')} />
+                                                    ) : msg.attachment_type === 'video' ? (
+                                                        <video src={msg.attachment_url} controls className="chat-video" />
+                                                    ) : (
+                                                        <a href={msg.attachment_url} target="_blank" rel="noopener noreferrer" className="attachment-link">
+                                                            <FileText size={20} />
+                                                            <span>{msg.attachment_name || 'Document'}</span>
+                                                        </a>
+                                                    )}
+                                                </div>
+                                            )}
+                                            {msg.content && <div className="message-text">{msg.content}</div>}
+                                        </div>
+                                    </div>
+                                    <div className="message-meta">
+                                        {msg.is_ai && (
+                                            <span className="bubble-tag ai">IAIA</span>
                                         )}
-                                        {msg.content && <div className="message-text">{msg.content}</div>}
+                                        <span className="message-time">
+                                            {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                        </span>
+                                        {isMe && (
+                                            <span className={`message-status ${msg.read_at ? 'read' : ''}`}>
+                                                {msg.read_at ? '✓✓' : '✓'}
+                                            </span>
+                                        )}
                                     </div>
                                 </div>
-                                <div className="message-meta">
-                                    <span className={`bubble-tag ${msg.is_ai ? 'ai' : 'human'}`}>
-                                        {msg.is_ai ? 'IAIA' : 'HUMÀ'}
-                                    </span>
-                                    <span className="message-time">
-                                        {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                    </span>
-                                    {isMe && (
-                                        <span className={`message-status ${msg.read_at ? 'read' : ''}`}>
-                                            {msg.read_at ? '✓✓' : '✓'}
-                                        </span>
-                                    )}
-                                </div>
+                                {isMe && (
+                                    <div className="message-avatar-container">
+                                        {getAvatarIcon(senderType, senderAvatar)}
+                                    </div>
+                                )}
                             </div>
                         );
                     })

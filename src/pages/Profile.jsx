@@ -313,11 +313,18 @@ const Profile = () => {
                         </button>
                         <div className="header-right-actions">
                             <button
+                                className="logout-trigger-btn prompt-btn"
+                                onClick={logout}
+                                title="Sortir"
+                            >
+                                <LogOut size={26} />
+                            </button>
+                            <button
                                 className="studio-trigger-btn prompt-btn"
                                 onClick={() => setIsStudioOpen(true)}
                                 title="Estudi de perfil"
                             >
-                                <ImageIcon size={26} />
+                                <Camera size={26} />
                             </button>
                         </div>
                     </div>
@@ -334,13 +341,6 @@ const Profile = () => {
                             <User size={50} color="#cbd5e1" />
                         )}
                     </div>
-                    <button
-                        className="avatar-studio-trigger"
-                        onClick={() => setIsStudioOpen(true)}
-                        title="Estudi de perfil"
-                    >
-                        <Camera size={16} />
-                    </button>
                     <input
                         type="file"
                         ref={avatarInputRef}

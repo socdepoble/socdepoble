@@ -124,7 +124,7 @@
 
 /* BANDO MUNICIPAL */
 .bando-municipal-container {
-    margin: var(--space-lg);
+    padding: 0 var(--page-margin);
     margin-top: -30px;
     /* Overlap with hero */
     position: relative;

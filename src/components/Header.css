@@ -3,7 +3,7 @@
     /* Dark background locked */
     padding: 0 var(--space-md);
     position: sticky;
-    top: 0;
+    top: var(--banner-height);
     z-index: 100;
     height: var(--header-height);
     display: flex;
@@ -21,6 +21,9 @@
 
 .header-content {
     width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--page-margin);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -107,7 +110,7 @@
 .user-avatar-small {
     width: 32px;
     height: 32px;
-    border-radius: var(--radius-sm);
+    border-radius: 50%;
     overflow: hidden;
     border: 1.5px solid #2D3748;
     background-color: var(--color-primary-soft);

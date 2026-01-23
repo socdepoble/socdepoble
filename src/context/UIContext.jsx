@@ -8,6 +8,7 @@ export const UIProvider = ({ children }) => {
     const [isPostModalOpen, setIsPostModalOpen] = useState(false);
     const [isEventModalOpen, setIsEventModalOpen] = useState(false);
     const [isMarketModalOpen, setIsMarketModalOpen] = useState(false);
+    const [isSocialManagerOpen, setIsSocialManagerOpen] = useState(false);
     const [postModalConfig, setPostModalConfig] = useState({ isPrivate: false });
 
     useEffect(() => {
@@ -36,6 +37,8 @@ export const UIProvider = ({ children }) => {
             setIsEventModalOpen,
             isMarketModalOpen,
             setIsMarketModalOpen,
+            isSocialManagerOpen,
+            setIsSocialManagerOpen,
             postModalConfig,
             openPostModal
         }}>

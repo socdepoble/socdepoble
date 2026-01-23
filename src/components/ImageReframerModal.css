@@ -68,12 +68,14 @@
 
 .reframer-viewport img {
     position: absolute;
-    top: 0;
-    left: 0;
-    min-width: 100%;
-    min-height: 100%;
+    top: 50%;
+    left: 50%;
+    transform-origin: 50% 50%;
     user-select: none;
     pointer-events: none;
+    display: block;
+    max-width: none;
+    max-height: none;
 }
 
 .viewport-overlay {
@@ -133,6 +135,42 @@
 
 .reframer-actions button {
     flex: 1;
+}
+
+.reframer-status-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    gap: var(--space-md);
+    z-index: 50;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.reframer-status-overlay.is-error {
+    background: rgba(0, 0, 0, 0.8);
+    color: var(--color-error, #ff4d4f);
+}
+
+.retry-btn {
+    margin-top: var(--space-sm);
+    padding: var(--space-xs) var(--space-md);
+    border-radius: var(--radius-md);
+    border: 1px solid currentColor;
+    background: transparent;
+    color: white;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.retry-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .close-btn {

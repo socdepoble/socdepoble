@@ -34,9 +34,18 @@ const activeChecks = {
     market: null
 };
 
+/**
+ * Centralized logic to detect if a profile is fictive (Lore or Demo)
+ */
+export const isFictiveProfile = (profile) => {
+    if (!profile) return false;
+    // Order of priority: ID prefix (Lore) then explicit flag (Demo)
+    return profile.id?.startsWith('11111111-') || profile.is_demo === true;
+};
+
 export const supabaseService = {
     // Admin & Seeding
-    async getAllPersonas() {
+    async getAllPersonas(isPlayground = false) {
         const { data, error } = await supabase
             .from('profiles')
             .select('*')
@@ -46,23 +55,25 @@ export const supabaseService = {
 
         // Personatges extra del Lore (per fer el joc més gran de forma inmediata)
         const lorePersonas = [
-            { id: '11111111-1111-4111-a111-000000000001', full_name: 'Vicent Ferris', username: 'vferris', role: 'Fuster', primary_town: 'La Torre de les Maçanes', bio: 'Treballant la fusta amb l\'amor de tres generacions. Artesania de la Torre.', avatar_url: '/images/demo/avatar_man_old.png' },
-            { id: '11111111-1111-4111-a111-000000000002', full_name: 'Lucía Belda', username: 'lubelda', role: 'Farmacèutica', primary_town: 'La Torre de les Maçanes', bio: 'Molt més que vendre remeis; cuidant la salut emocional de les nostres veïnes.', avatar_url: '/images/demo/avatar_lucia.png' },
-            { id: '11111111-1111-4111-a111-000000000003', full_name: 'Elena Popova', username: 'elenap', role: 'Cuidadora', primary_town: 'La Torre de les Maçanes', bio: 'Vinent de Bulgària, cuidant de la nostra gent gran amb tota la paciència del món.', avatar_url: '/images/demo/avatar_elena.png' },
-            { id: '11111111-1111-4111-a111-000000000004', full_name: 'Maria "Mèl"', username: 'mariamel', role: 'Apicultora', primary_town: 'La Torre de les Maçanes', bio: 'Si vols mèl de veritat, puja a la Torre de les Maçanes. Tradició de muntanya.', avatar_url: '/images/demo/avatar_mariamel.png' },
-            { id: '11111111-1111-4111-a111-000000000005', full_name: 'Marc Sendra', username: 'marcs', role: 'Ciclisme', primary_town: 'La Torre de les Maçanes', bio: 'Aficionat al ciclisme de muntanya. No hi ha millor port que el de la Carrasqueta.', avatar_url: '/images/demo/avatar_marc.png' },
-            { id: '11111111-1111-4111-a111-000000000011', full_name: 'Carla Soriano', username: 'carlas', role: 'Disseny', primary_town: 'Penàguila', bio: 'Dissenyadora gràfica treballant en remot des de Penàguila. Buscant l\'equilibri.', avatar_url: '/images/demo/avatar_carla.png' },
-            { id: '11111111-1111-4111-a111-000000000006', full_name: 'Samir Mensah', username: 'samirm', role: 'Camp i Suport', primary_town: 'Muro d\'Alcoi', bio: 'Treballant a la Cooperativa i ajudant al manteniment de les masies. Nova saba.', avatar_url: '/images/demo/avatar_samir.png' },
-            { id: '11111111-1111-4111-a111-000000000007', full_name: 'Andreu Soler', username: 'andreus', role: 'Cuina tradicional', primary_town: 'Muro d\'Alcoi', bio: 'Passió per l\'olleta de blat. El secret està en la paciència i el foc lento.', avatar_url: '/images/demo/avatar_man_1.png' },
-            { id: '11111111-1111-4111-a111-000000000008', full_name: 'Beatriz Ortega', username: 'beatrizo', role: 'Guia Turística', primary_town: 'Cocentaina', bio: 'Explicant les històries que amaguen les pedres del Palau Comtal.', avatar_url: '/images/demo/avatar_woman_1.png' },
-            { id: '11111111-1111-4111-a111-000000000009', full_name: 'Joanet Serra', username: 'joanets', role: 'Fotògraf', primary_town: 'Muro d\'Alcoi', bio: 'Revelant la bellesa quotidiana del Comtat en cada instantània.', avatar_url: '/images/demo/avatar_joanet.png' },
-            { id: '11111111-1111-4111-a111-000000000010', full_name: 'Carmen la del Forn', username: 'carmenf', role: 'Fornera', primary_town: 'Relleu', bio: 'El millor pa de llenya de la Marina Baixa, amb recepta de la rebesàvia.', avatar_url: '/images/demo/avatar_carmen.png' },
-            { id: '11111111-1111-4111-a111-000000000012', full_name: 'Joan Batiste', username: 'joanb', role: 'Pastor', primary_town: 'Benifallim', bio: 'Les meues cabres i jo coneixem bé la Serra d\'Aitana. Sempre amb el meu gaito.', avatar_url: '/images/demo/avatar_man_old.png' }
+            { id: '11111111-1111-4111-a111-000000000001', full_name: 'Vicent Ferris', username: 'vferris', role: 'Fuster', primary_town: 'La Torre de les Maçanes', bio: 'Treballant la fusta amb l\'amor de tres generacions. Artesania de la Torre.', avatar_url: '/images/demo/avatar_man_old.png', category: 'treball', type: 'person' },
+            { id: '11111111-1111-4111-a111-000000000002', full_name: 'Lucía Belda', username: 'lubelda', role: 'Farmacèutica', primary_town: 'La Torre de les Maçanes', bio: 'Molt més que vendre remeis; cuidant la salut emocional de les nostres veïnes.', avatar_url: '/images/demo/avatar_lucia.png', category: 'treball', type: 'person' },
+            { id: '11111111-1111-4111-a111-000000000003', full_name: 'Elena Popova', username: 'elenap', role: 'Cuidadora', primary_town: 'La Torre de les Maçanes', bio: 'Vinent de Bulgària, cuidant de la nostra gent gran amb tota la paciència del món.', avatar_url: '/images/demo/avatar_elena.png', category: 'gent', type: 'person' },
+            { id: '11111111-1111-4111-a111-000000000004', full_name: 'Maria "Mèl"', username: 'mariamel', role: 'Apicultora', primary_town: 'La Torre de les Maçanes', bio: 'Si vols mèl de veritat, puja a la Torre de les Maçanes. Tradició de muntanya.', avatar_url: '/images/demo/avatar_mariamel.png', category: 'treball', type: 'person' },
+            { id: '11111111-1111-4111-a111-000000000005', full_name: 'Marc Sendra', username: 'marcs', role: 'Ciclisme', primary_town: 'La Torre de les Maçanes', bio: 'Aficionat al ciclisme de muntanya. No hi ha millor port que el de la Carrasqueta.', avatar_url: '/images/demo/avatar_marc.png', category: 'grup', type: 'person' },
+            { id: '11111111-1111-4111-a111-000000000011', full_name: 'Carla Soriano', username: 'carlas', role: 'Disseny', primary_town: 'Penàguila', bio: 'Dissenyadora gràfica treballant en remot des de Penàguila. Buscant l\'equilibri.', avatar_url: '/images/demo/avatar_carla.png', category: 'treball', type: 'person' },
+            { id: '11111111-1111-4111-a111-000000000006', full_name: 'Samir Mensah', username: 'samirm', role: 'Camp i Suport', primary_town: 'Muro d\'Alcoi', bio: 'Treballant a la Cooperativa i ajudant al manteniment de les masies. Nova saba.', avatar_url: '/images/demo/avatar_samir.png', category: 'treball', type: 'person' },
+            { id: '11111111-1111-4111-a111-000000000007', full_name: 'Andreu Soler', username: 'andreus', role: 'Cuina tradicional', primary_town: 'Muro d\'Alcoi', bio: 'Passió per l\'olleta de blat. El secret està en la paciència i el foc lento.', avatar_url: '/images/demo/avatar_man_1.png', category: 'gent', type: 'person' },
+            { id: '11111111-1111-4111-a111-000000000008', full_name: 'Beatriz Ortega', username: 'beatrizo', role: 'Guia Turística', primary_town: 'Cocentaina', bio: 'Explicant les històries que amaguen les pedres del Palau Comtal.', avatar_url: '/images/demo/avatar_woman_1.png', category: 'treball', type: 'person' },
+            { id: '11111111-1111-4111-a111-000000000009', full_name: 'Joanet Serra', username: 'joanets', role: 'Fotògraf', primary_town: 'Muro d\'Alcoi', bio: 'Revelant la bellesa quotidiana del Comtat en cada instantània.', avatar_url: '/images/demo/avatar_joanet.png', category: 'treball', type: 'person' },
+            { id: '11111111-1111-4111-a111-000000000010', full_name: 'Carmen la del Forn', username: 'carmenf', role: 'Fornera', primary_town: 'Relleu', bio: 'El millor pa de llenya de la Marina Baixa, amb recepta de la rebesàvia.', avatar_url: '/images/demo/avatar_carmen.png', category: 'treball', type: 'person' },
+            { id: '11111111-1111-4111-a111-000000000012', full_name: 'Joan Batiste', username: 'joanb', role: 'Pastor', primary_town: 'Benifallim', bio: 'Les meues cabres i jo coneixem bé la Serra d\'Aitana. Sempre amb el meu gaito.', avatar_url: '/images/demo/avatar_man_old.png', category: 'gent', type: 'person' }
         ];
 
         const dbPersonas = (data || []).filter(p => {
-            const isRealUser = p.full_name?.toLowerCase().includes('javi') ||
-                p.username?.toLowerCase().includes('javillinares');
+            const isRealUser = p.is_demo === false ||
+                p.full_name?.toLowerCase().includes('javi') ||
+                p.username?.toLowerCase().includes('javillinares') ||
+                p.email?.toLowerCase().includes('socdepoblecom');
 
             const isLoreCharacter = lorePersonas.some(lp => lp.full_name === p.full_name);
             return !isRealUser && !isLoreCharacter;
@@ -79,17 +90,42 @@ export const supabaseService = {
         });
 
         // Combinem
-        const finalPersonas = [...dbPersonas, ...lorePersonas];
+        const mergedPersonas = [...dbPersonas, ...lorePersonas];
 
-        return finalPersonas.sort((a, b) => a.full_name.localeCompare(b.full_name));
+        // Lògica de Sincronització de Producció:
+        if (!isPlayground) {
+            // A producció volem:
+            // 1. Persones Reals (de la DB, no demo)
+            // 2. IAIAs/Lore Personatges si són de tipus 'person' (humanes)
+            // BLOQUEGEM: Entitats fictícies (negocis, grups ficticis)
+            return mergedPersonas.filter(p => {
+                const fictive = isFictiveProfile(p);
+                const isHuman = p.type === 'person' || p.type === 'user';
+
+                if (fictive) {
+                    return isHuman; // Només si és humà (IAIA)
+                }
+                return true; // Perfils reals sempre OK
+            }).sort((a, b) => a.full_name.localeCompare(b.full_name));
+        }
+
+        return mergedPersonas.sort((a, b) => a.full_name.localeCompare(b.full_name));
     },
 
-    async getAdminEntities() {
+    async getAdminEntities(isPlayground = false) {
         const { data, error } = await supabase
             .from('entities')
             .select('*')
             .order('name', { ascending: true });
+
         if (error) throw error;
+        if (!data) return [];
+
+        // En producció filtrem les entitats fictícies (demo o Lore-based)
+        if (!isPlayground) {
+            return data.filter(e => !isFictiveProfile(e));
+        }
+
         return data;
     },
 

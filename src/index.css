@@ -57,6 +57,9 @@
   --space-2xl: 48px;
   --grid-card-gap: 18px;
 
+  /* Global Page Margin for alignment */
+  --page-margin: 12px;
+
   /* Radii */
   --radius-xs: 8px;
   --radius-sm: 12px;
@@ -75,11 +78,26 @@
   --logo-filter: none;
 
   /* Layout Constants */
-  --header-height: 64px;
+  --header-height: 72px;
   --category-bar-height: 64px;
   --nav-height: 72px;
+  --banner-height: 0px;
   --mobile-width: 480px;
   --banner-height: 0px;
+  --total-top-offset: calc(var(--banner-height) + var(--header-height));
+
+  /* Z-Index Hierarchy */
+  --z-base: 1;
+  --z-card-image: 8;
+  --z-card-header: 10;
+  --z-tabs: 95;
+  --z-header: 100;
+  --z-nav: 1000;
+  --z-creation-hub: 2000;
+  --z-modal: 3000;
+  --z-social-hub: 8000;
+  --z-unified-status: 9999;
+  --z-playground: 11000;
 }
 
 /* Dark Mode Overrides */
@@ -126,14 +144,17 @@ body {
 
 /* Unified Secondary Header */
 .page-header-with-tabs {
-  background-color: #171923;
   position: sticky;
-  top: var(--header-height);
-  z-index: 95;
+  top: var(--total-top-offset);
+  z-index: var(--z-tabs);
+  background-color: #171923;
   border-bottom: 1px solid #2D3748;
 }
 
 .header-tabs-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--page-margin);
   height: var(--category-bar-height);
   display: flex;
   align-items: center;
@@ -504,7 +525,7 @@ a:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 3000;
+  z-index: var(--z-modal);
   padding: var(--space-md);
   animation: fadeIn 0.2s ease-out;
 }

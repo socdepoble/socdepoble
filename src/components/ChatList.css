@@ -3,10 +3,53 @@
     background-color: var(--bg-main);
 }
 
+.active-filters {
+    padding: 0 var(--page-margin) var(--space-md);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    background-color: #171923;
+}
+
+.filter-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background-color: var(--color-primary);
+    color: white;
+    padding: 4px 12px;
+    border-radius: var(--radius-full);
+    font-size: 12px;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(93, 95, 239, 0.2);
+}
+
+.filter-badge.town {
+    background-color: #4A5568;
+}
+
+.remove-filter {
+    background: transparent;
+    border: none;
+    color: white;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+    margin-left: 2px;
+}
+
+.remove-filter:hover {
+    opacity: 1;
+}
+
 .chat-list {
     display: flex;
     flex-direction: column;
-    padding: var(--space-sm);
+    padding: var(--page-margin);
     gap: 4px;
 }
 

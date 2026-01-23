@@ -7,7 +7,7 @@ import './Navigation.css';
 
 const Navigation = () => {
   const { t } = useTranslation();
-  const { setIsCreateModalOpen } = useUI();
+  const { setIsSocialManagerOpen } = useUI();
   const { user } = useAuth();
   const navigate = useNavigate();
 
@@ -30,7 +30,7 @@ const Navigation = () => {
             if (!user) {
               navigate('/login');
             } else {
-              setIsCreateModalOpen(true);
+              setIsSocialManagerOpen(true);
             }
           }}
         >

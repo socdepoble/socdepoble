@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import CreatePostModal from './CreatePostModal';
 import AddItemModal from './AddItemModal';
 import CreateEventModal from './CreateEventModal';
+import SocialManager from './SocialManager';
 
 const GlobalModals = () => {
     const {
@@ -13,6 +14,8 @@ const GlobalModals = () => {
         setIsEventModalOpen,
         isMarketModalOpen,
         setIsMarketModalOpen,
+        isSocialManagerOpen,
+        setIsSocialManagerOpen,
         postModalConfig
     } = useUI();
     const { isPlayground } = useAuth();
@@ -62,6 +65,13 @@ const GlobalModals = () => {
                     onClose={() => setIsMarketModalOpen(false)}
                     onItemCreated={handleItemCreated}
                     isPlayground={isPlayground}
+                />
+            )}
+
+            {isSocialManagerOpen && (
+                <SocialManager
+                    isOpen={isSocialManagerOpen}
+                    onClose={() => setIsSocialManagerOpen(false)}
                 />
             )}
         </>
