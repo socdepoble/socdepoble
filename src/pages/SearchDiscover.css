@@ -230,6 +230,7 @@
 
 .result-item-card .card-header {
     border: none !important;
+    background: transparent !important;
 }
 
 .result-avatar {

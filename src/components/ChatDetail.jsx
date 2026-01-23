@@ -49,6 +49,7 @@ const ChatDetail = () => {
     const [error, setError] = useState(null);
     const [otherPresence, setOtherPresence] = useState(null);
     const [storageStats, setStorageStats] = useState(null);
+    const [showStorageModal, setShowStorageModal] = useState(false);
     const fileInputRef = useRef(null);
     const presenceChannelRef = useRef(null);
     const messagesEndRef = useRef(null);
@@ -179,6 +180,21 @@ const ChatDetail = () => {
             supabaseService.updatePresenceTyping(presenceChannelRef.current, false);
         }
 
+        // Optimistic Update
+        const tempId = `temp-${Date.now()}`;
+        const optimisticMsg = {
+            id: tempId,
+            conversation_id: id,
+            sender_id: humanId,
+            content: textToSend,
+            attachment_url: fileToSend ? URL.createObjectURL(fileToSend) : null,
+            attachment_type: fileToSend?.type.startsWith('image/') ? 'image' :
+                fileToSend?.type.startsWith('video/') ? 'video' : 'document',
+            created_at: new Date().toISOString(),
+            status: 'sending'
+        };
+        setMessages(prev => [...prev, optimisticMsg]);
+
         try {
             let activeId = id;
             if (id.startsWith('new-iaia-')) {
@@ -201,7 +217,7 @@ const ChatDetail = () => {
                 attachmentUrl = await supabaseService.uploadChatAttachment(fileToSend, activeId, humanId);
             }
 
-            await supabaseService.sendSecureMessage({
+            const result = await supabaseService.sendSecureMessage({
                 conversationId: activeId,
                 senderId: humanId,
                 senderEntityId: activeEntityId,
@@ -210,6 +226,9 @@ const ChatDetail = () => {
                 attachmentType,
                 attachmentName
             });
+
+            // Replace optimistic with real
+            setMessages(prev => prev.map(m => m.id === tempId ? { ...result, status: 'sent' } : m));
             fetchStorageStats();
         } catch (error) {
             logger.error('Error sending message:', error);
@@ -393,9 +412,60 @@ const ChatDetail = () => {
                                 style={{ width: `${Math.min(storageStats.usagePercentage || 0, 100)}%` }}
                             ></div>
                         </div>
-                        <button className="storage-info-trigger" title={t('chats.storage_banner_text')} type="button">
+                        <button
+                            className="storage-info-trigger"
+                            title={t('chats.storage_banner_text')}
+                            type="button"
+                            onClick={() => setShowStorageModal(true)}
+                        >
                             <Info size={14} />
                         </button>
+                    </div>
+                )}
+
+                {/* Storage Info Modal */}
+                {showStorageModal && (
+                    <div className="storage-modal-overlay" onClick={() => setShowStorageModal(false)}>
+                        <div className="storage-modal-content" onClick={e => e.stopPropagation()}>
+                            <div className="storage-modal-header">
+                                <div className="storage-header-icon">
+                                    <Database size={24} color="var(--color-primary)" />
+                                </div>
+                                <div className="storage-header-text">
+                                    <h3>{t('chats.storage_banner_title')}</h3>
+                                    <p>Sistem d'Asset Sostenible</p>
+                                </div>
+                                <button className="modal-close" onClick={() => setShowStorageModal(false)}>
+                                    <X size={20} />
+                                </button>
+                            </div>
+                            <div className="storage-modal-body">
+                                <div className="storage-info-card">
+                                    <Info className="info-icon" size={20} />
+                                    <p>{t('chats.storage_banner_text')}</p>
+                                </div>
+                                <div className="storage-rules">
+                                    <div className="rule-item">
+                                        <strong>10 MB</strong> per fitxer (Imatges, Vídeos, Docs)
+                                    </div>
+                                    <div className="rule-item">
+                                        <strong>1 GB</strong> de quota total compartida per poble
+                                    </div>
+                                    <div className="rule-item">
+                                        Neteja periòdica de fitxers temporals per mantenir el sistema
+                                    </div>
+                                    <div className="rule-item">
+                                        <strong>Privadesa:</strong> Les dades de xat estan xifrades en trànsit
+                                    </div>
+                                </div>
+                                <div className="storage-warning-footer">
+                                    <p>Recorda que al mode Playground les dades es poden esborrar i no estan protegides per la política de permanència final.</p>
+                                </div>
+                            </div>
+                            <button className="storage-modal-confirm" onClick={() => setShowStorageModal(false)}>
+                                ENTÈS
+                            </button>
+                        </div>
                     </div>
                 )}
 

@@ -368,9 +368,17 @@ a:hover {
   justify-content: space-between;
   align-items: center;
   padding: var(--space-md) var(--space-lg);
-  background: transparent;
-  border-bottom: 1px solid var(--color-divider);
+  background: var(--bg-warm-card);
+  border-bottom: 2px solid var(--bg-warm-accent);
+  color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
+
+.card-header * {
+  color: inherit !important;
+}
+
 
 .card-header.clickable {
   cursor: pointer;

@@ -14,10 +14,38 @@ const sanitizeInput = (text) => {
     return text.replace(/[<>{}[\]\\^`|%'"?]/g, '').trim();
 };
 
+/**
+ * Linguistic engine to adjust common Valencian/Catalan terms 
+ * based on the character's gender.
+ */
+const adjustGender = (text, gender) => {
+    if (!text || gender !== 'female') return text;
+    // Map of common masculine to feminine endings or terms
+    const adaptations = {
+        ' un poc liat': ' un poc liada',
+        ' tot sol': ' tota sola',
+        'content ': 'contenta ',
+        ' cansat': ' cansada',
+        'Preparat': 'Preparada',
+        'benvingut': 'benvinguda',
+        'estret': 'estreta',
+        'segur': 'segura',
+        'animat': 'animada'
+    };
+
+    let adjusted = text;
+    for (const [masc, fem] of Object.entries(adaptations)) {
+        adjusted = adjusted.replace(new RegExp(masc, 'g'), fem);
+    }
+    return adjusted;
+};
+
 const columnCache = {
     profiles_is_demo: localStorage.getItem('cp_profiles_is_demo') === 'true' ? true : (localStorage.getItem('cp_profiles_is_demo') === 'false' ? false : null),
     posts_is_playground: localStorage.getItem('cp_posts_is_playground') === 'true' ? true : (localStorage.getItem('cp_posts_is_playground') === 'false' ? false : null),
     market_is_playground: localStorage.getItem('cp_market_is_playground') === 'true' ? true : (localStorage.getItem('cp_market_is_playground') === 'false' ? false : null),
+    messages_is_playground: localStorage.getItem('cp_messages_is_playground') === 'true' ? true : (localStorage.getItem('cp_messages_is_playground') === 'false' ? false : null),
+    conversations_is_playground: localStorage.getItem('cp_conversations_is_playground') === 'true' ? true : (localStorage.getItem('cp_conversations_is_playground') === 'false' ? false : null),
     messages_is_ai: localStorage.getItem('cp_messages_is_ai') === 'true' ? true : (localStorage.getItem('cp_messages_is_ai') === 'false' ? false : null),
     connections_table: localStorage.getItem('cp_connections_table') === 'true' ? true : (localStorage.getItem('cp_connections_table') === 'false' ? false : null)
 };
@@ -67,7 +95,9 @@ const setColumnCache = (key, value) => {
 // Promesas activas para evitar ráfagas de errores 400 en paralelo
 const activeChecks = {
     posts: null,
-    market: null
+    market: null,
+    messages: null,
+    conversations: null
 };
 
 /**
@@ -79,6 +109,24 @@ export const isFictiveProfile = (profile) => {
     return profile.id?.startsWith('11111111-') || profile.is_demo === true;
 };
 
+/**
+ * Hardcoded Lore Personas for Sandbox and AI interaction
+ */
+const LORE_PERSONAS = [
+    { id: '11111111-0000-0000-0000-000000000001', full_name: 'Vicent Ferris', username: 'vferris', gender: 'male', role: 'ambassador', ofici: 'Fuster', primary_town: 'La Torre de les Maçanes', bio: 'Treballant la fusta amb l\'amor de tres generacions. Artesania de la Torre.', avatar_url: '/images/demo/avatar_man_old.png', cover_url: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=2070&auto=format&fit=crop', category: 'treball', type: 'person' },
+    { id: '11111111-1111-4111-a111-000000000002', full_name: 'Lucía Belda', username: 'lubelda', gender: 'female', role: 'ambassador', ofici: 'Farmacèutica', primary_town: 'La Torre de les Maçanes', bio: 'Molt més que vendre remeis; cuidant la salut emocional de les nostres veïnes.', avatar_url: '/images/demo/avatar_lucia.png', cover_url: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=2070&auto=format&fit=crop', category: 'treball', type: 'person' },
+    { id: '11111111-1111-4111-a111-000000000003', full_name: 'Elena Popova', username: 'elenap', gender: 'female', role: 'user', ofici: 'Cuidadora', primary_town: 'La Torre de les Maçanes', bio: 'Vinent de Bulgària, cuidant de la nostra gent gran amb tota la paciència del món.', avatar_url: '/images/demo/avatar_elena.png', cover_url: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=2070&auto=format&fit=crop', category: 'gent', type: 'person' },
+    { id: '11111111-1111-4111-a111-000000000004', full_name: 'Maria "Mèl"', username: 'mariamel', gender: 'female', role: 'user', ofici: 'Apicultora', primary_town: 'La Torre de les Maçanes', bio: 'Si vols mèl de veritat, puja a la Torre de les Maçanes. Tradició de muntanya.', avatar_url: '/images/demo/avatar_mariamel.png', category: 'treball', type: 'person' },
+    { id: '11111111-1111-4111-a111-000000000005', full_name: 'Marc Sendra', username: 'marcs', gender: 'male', role: 'user', ofici: 'Ciclista', primary_town: 'La Torre de les Maçanes', bio: 'Aficionat al ciclisme de muntanya. No hi ha millor port que el de la Carrasqueta.', avatar_url: '/images/demo/avatar_marc.png', category: 'grup', type: 'person' },
+    { id: '11111111-1111-4111-a111-000000000011', full_name: 'Carla Soriano', username: 'carlas', gender: 'female', role: 'user', ofici: 'Dissenyadora', primary_town: 'Penàguila', bio: 'Dissenyadora gràfica treballant en remot des de Penàguila. Buscant l\'equilibri.', avatar_url: '/images/demo/avatar_carla.png', category: 'treball', type: 'person' },
+    { id: '11111111-1111-4111-a111-000000000006', full_name: 'Samir Mensah', username: 'samirm', gender: 'male', role: 'user', ofici: 'Camp i Suport', primary_town: 'Muro d\'Alcoi', bio: 'Treballant a la Cooperativa i ajudant al manteniment de les masies. Nova saba.', avatar_url: '/images/demo/avatar_samir.png', category: 'treball', type: 'person' },
+    { id: '11111111-1111-4111-a111-000000000007', full_name: 'Andreu Soler', username: 'andreus', gender: 'male', role: 'user', ofici: 'Cuina tradicional', primary_town: 'Muro d\'Alcoi', bio: 'Passió per l\'olleta de blat. El secret està en la paciència i el foc lento.', avatar_url: '/images/demo/avatar_man_1.png', cover_url: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=2070&auto=format&fit=crop', category: 'gent', type: 'person' },
+    { id: '11111111-1111-4111-a111-000000000008', full_name: 'Beatriz Ortega', username: 'beatrizo', gender: 'female', role: 'user', ofici: 'Guia Turística', primary_town: 'Cocentaina', bio: 'Explicant les històries que amaguen les pedres del Palau Comtal.', avatar_url: '/images/demo/avatar_woman_1.png', cover_url: 'https://images.unsplash.com/photo-1549412639-66172551000f?q=80&w=2070&auto=format&fit=crop', category: 'treball', type: 'person' },
+    { id: '11111111-1111-4111-a111-000000000009', full_name: 'Joanet Serra', username: 'joanets', gender: 'male', role: 'user', ofici: 'Fotògraf', primary_town: 'Muro d\'Alcoi', bio: 'Revelant la bellesa quotidiana del Comtat en cada instantània.', avatar_url: '/images/demo/avatar_joanet.png', cover_url: 'https://images.unsplash.com/photo-1472396961693-142e6e269027?q=80&w=1952&auto=format&fit=crop', category: 'treball', type: 'person' },
+    { id: '11111111-1111-4111-a111-000000000010', full_name: 'Carmen la del Forn', username: 'carmenf', gender: 'female', role: 'user', ofici: 'Fornera', primary_town: 'Relleu', bio: 'El millor pa de llenya de la Marina Baixa, amb recepta de la rebesàvia.', avatar_url: '/images/demo/avatar_carmen.png', cover_url: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=2072&auto=format&fit=crop', category: 'treball', type: 'person' },
+    { id: '11111111-1111-4111-a111-000000000012', full_name: 'Joan Batiste', username: 'joanb', gender: 'male', role: 'user', ofici: 'Pastor', primary_town: 'Benifallim', bio: 'Les meues cabres i jo coneixem bé la Serra d\'Aitana. Sempre amb el meu gaito.', avatar_url: '/images/demo/avatar_man_old.png', cover_url: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=2064&auto=format&fit=crop', category: 'gent', type: 'person' }
+];
+
 export const supabaseService = {
     // Admin & Seeding
     async getAllPersonas(isPlayground = false) {
@@ -89,29 +137,13 @@ export const supabaseService = {
 
         if (error) throw error;
 
-        // Personatges extra del Lore (per fer el joc més gran de forma inmediata)
-        const lorePersonas = [
-            { id: '11111111-0000-0000-0000-000000000001', full_name: 'Vicent Ferris', username: 'vferris', role: 'ambassador', ofici: 'Fuster', primary_town: 'La Torre de les Maçanes', bio: 'Treballant la fusta amb l\'amor de tres generacions. Artesania de la Torre.', avatar_url: '/images/demo/avatar_man_old.png', cover_url: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=2070&auto=format&fit=crop', category: 'treball', type: 'person' },
-            { id: '11111111-1111-4111-a111-000000000002', full_name: 'Lucía Belda', username: 'lubelda', role: 'ambassador', ofici: 'Farmacèutica', primary_town: 'La Torre de les Maçanes', bio: 'Molt més que vendre remeis; cuidant la salut emocional de les nostres veïnes.', avatar_url: '/images/demo/avatar_lucia.png', cover_url: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=2070&auto=format&fit=crop', category: 'treball', type: 'person' },
-            { id: '11111111-1111-4111-a111-000000000003', full_name: 'Elena Popova', username: 'elenap', role: 'user', ofici: 'Cuidadora', primary_town: 'La Torre de les Maçanes', bio: 'Vinent de Bulgària, cuidant de la nostra gent gran amb tota la paciència del món.', avatar_url: '/images/demo/avatar_elena.png', cover_url: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=2070&auto=format&fit=crop', category: 'gent', type: 'person' },
-            { id: '11111111-1111-4111-a111-000000000004', full_name: 'Maria "Mèl"', username: 'mariamel', role: 'user', ofici: 'Apicultora', primary_town: 'La Torre de les Maçanes', bio: 'Si vols mèl de veritat, puja a la Torre de les Maçanes. Tradició de muntanya.', avatar_url: '/images/demo/avatar_mariamel.png', category: 'treball', type: 'person' },
-            { id: '11111111-1111-4111-a111-000000000005', full_name: 'Marc Sendra', username: 'marcs', role: 'user', ofici: 'Ciclista', primary_town: 'La Torre de les Maçanes', bio: 'Aficionat al ciclisme de muntanya. No hi ha millor port que el de la Carrasqueta.', avatar_url: '/images/demo/avatar_marc.png', category: 'grup', type: 'person' },
-            { id: '11111111-1111-4111-a111-000000000011', full_name: 'Carla Soriano', username: 'carlas', role: 'user', ofici: 'Dissenyadora', primary_town: 'Penàguila', bio: 'Dissenyadora gràfica treballant en remot des de Penàguila. Buscant l\'equilibri.', avatar_url: '/images/demo/avatar_carla.png', category: 'treball', type: 'person' },
-            { id: '11111111-1111-4111-a111-000000000006', full_name: 'Samir Mensah', username: 'samirm', role: 'user', ofici: 'Camp i Suport', primary_town: 'Muro d\'Alcoi', bio: 'Treballant a la Cooperativa i ajudant al manteniment de les masies. Nova saba.', avatar_url: '/images/demo/avatar_samir.png', category: 'treball', type: 'person' },
-            { id: '11111111-1111-4111-a111-000000000007', full_name: 'Andreu Soler', username: 'andreus', role: 'user', ofici: 'Cuina tradicional', primary_town: 'Muro d\'Alcoi', bio: 'Passió per l\'olleta de blat. El secret està en la paciència i el foc lento.', avatar_url: '/images/demo/avatar_man_1.png', cover_url: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=2070&auto=format&fit=crop', category: 'gent', type: 'person' },
-            { id: '11111111-1111-4111-a111-000000000008', full_name: 'Beatriz Ortega', username: 'beatrizo', role: 'user', ofici: 'Guia Turística', primary_town: 'Cocentaina', bio: 'Explicant les històries que amaguen les pedres del Palau Comtal.', avatar_url: '/images/demo/avatar_woman_1.png', cover_url: 'https://images.unsplash.com/photo-1549412639-66172551000f?q=80&w=2070&auto=format&fit=crop', category: 'treball', type: 'person' },
-            { id: '11111111-1111-4111-a111-000000000009', full_name: 'Joanet Serra', username: 'joanets', role: 'user', ofici: 'Fotògraf', primary_town: 'Muro d\'Alcoi', bio: 'Revelant la bellesa quotidiana del Comtat en cada instantània.', avatar_url: '/images/demo/avatar_joanet.png', cover_url: 'https://images.unsplash.com/photo-1472396961693-142e6e269027?q=80&w=1952&auto=format&fit=crop', category: 'treball', type: 'person' },
-            { id: '11111111-1111-4111-a111-000000000010', full_name: 'Carmen la del Forn', username: 'carmenf', role: 'user', ofici: 'Fornera', primary_town: 'Relleu', bio: 'El millor pa de llenya de la Marina Baixa, amb recepta de la rebesàvia.', avatar_url: '/images/demo/avatar_carmen.png', cover_url: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=2072&auto=format&fit=crop', category: 'treball', type: 'person' },
-            { id: '11111111-1111-4111-a111-000000000012', full_name: 'Joan Batiste', username: 'joanb', role: 'user', ofici: 'Pastor', primary_town: 'Benifallim', bio: 'Les meues cabres i jo coneixem bé la Serra d\'Aitana. Sempre amb el meu gaito.', avatar_url: '/images/demo/avatar_man_old.png', cover_url: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=2064&auto=format&fit=crop', category: 'gent', type: 'person' }
-        ];
-
         const dbPersonas = (data || []).filter(p => {
             const isRealUser = p.is_demo === false ||
                 p.full_name?.toLowerCase().includes('javi') ||
                 p.username?.toLowerCase().includes('javillinares') ||
                 p.email?.toLowerCase().includes('socdepoblecom');
 
-            const isLoreCharacter = lorePersonas.some(lp => lp.full_name === p.full_name);
+            const isLoreCharacter = LORE_PERSONAS.some(lp => lp.full_name === p.full_name);
             return !isRealUser && !isLoreCharacter;
         }).map(p => {
             // Aseguramos que siempre tengan un pueblo asignado
@@ -126,7 +158,7 @@ export const supabaseService = {
         });
 
         // Combinem
-        const mergedPersonas = [...dbPersonas, ...lorePersonas];
+        const mergedPersonas = [...dbPersonas, ...LORE_PERSONAS];
 
         // Lògica de Sincronització de Producció:
         if (!isPlayground) {
@@ -290,23 +322,49 @@ export const supabaseService = {
             messageData.senderId?.startsWith('11111111-') ||
             messageData.conversationId?.startsWith('c1111000');
 
-        const validated = MessageSchema.parse({
+        // Check columns silently if in playground
+        if (isPlayground && columnCache.messages_is_playground === null) {
+            if (!activeChecks.messages) {
+                activeChecks.messages = (async () => {
+                    try {
+                        const { data } = await supabase.from('messages').select('*').limit(1);
+                        if (data && data.length > 0) {
+                            setColumnCache('messages_is_playground', 'is_playground' in data[0]);
+                        }
+                    } catch (e) { } finally { activeChecks.messages = null; }
+                })();
+            }
+            await activeChecks.messages;
+        }
+
+        const msgPayload = {
             conversation_id: messageData.conversationId,
             sender_id: messageData.senderId,
             sender_entity_id: messageData.senderEntityId || null,
             content: messageData.content || null,
             attachment_url: messageData.attachmentUrl || null,
             attachment_type: messageData.attachmentType || null,
-            attachment_name: messageData.attachmentName || null,
-            is_playground: isPlayground
-        });
+            attachment_name: messageData.attachmentName || null
+        };
+
+        if (isPlayground && columnCache.messages_is_playground !== false) {
+            msgPayload.is_playground = true;
+        }
+
+        const validated = MessageSchema.parse(msgPayload);
 
         const { data, error } = await supabase
             .from('messages')
             .insert([validated])
             .select();
 
-        if (error) throw error;
+        if (error) {
+            if (error.code === 'PGRST204' && isPlayground && columnCache.messages_is_playground !== false) {
+                setColumnCache('messages_is_playground', false);
+                return this.sendSecureMessage(messageData); // Retry without column
+            }
+            throw error;
+        }
 
         const message = data[0];
 
@@ -320,18 +378,20 @@ export const supabaseService = {
             .eq('id', messageData.conversationId);
 
         // Lógica de Simulación de IA (NPCs / Lore Personas)
-        // Busquem si el receptor és una Lore Persona per activar la IA
         const { data: conv } = await supabase
             .from('conversations')
-            .select('participant_1_id, participant_2_id')
+            .select('participant_1_id, participant_2_id, participant_1_type, participant_2_type')
             .eq('id', messageData.conversationId)
             .single();
 
-        const recipientId = conv?.participant_1_id === messageData.senderId ? conv?.participant_2_id : conv?.participant_1_id;
-        const isToLore = recipientId?.startsWith('11111111-1111-4111-a111-');
+        const responderId = conv?.participant_1_id === messageData.senderId ? conv?.participant_2_id : conv?.participant_1_id;
+        const responderType = conv?.participant_1_id === messageData.senderId ? conv?.participant_2_type : conv?.participant_1_type;
+        const isToLore = responderId?.startsWith('11111111-1111-4111-a111-') || responderId?.startsWith('11111111-0000-0000-0000-');
 
         if (isToLore || messageData.conversationId.startsWith('c1111000')) {
-            this.triggerSimulatedReply({ ...messageData, recipientId });
+            // Buscamos persona de forma SINCRÓNICA para ganar milisegundos
+            const persona = LORE_PERSONAS.find(p => p.id === responderId);
+            this.triggerSimulatedReply({ ...messageData, responderId, responderType, persona });
         }
 
         return message;
@@ -339,29 +399,13 @@ export const supabaseService = {
 
 
     async triggerSimulatedReply(originalMessage) {
-        // Simular pensamiento (1.5s - 4.5s random para que parezca más "humano")
-        const delay = 1500 + Math.random() * 3000;
+        // Respuesta quasi-instantánea para mantener el engagement (Petición usuario)
+        const delay = 50 + Math.random() * 100; // Reducción drástica 50-150ms
 
         setTimeout(async () => {
             try {
-                const { conversationId, content, senderId } = originalMessage;
-
-                // Obtenemos info del chat para saber quién responde
-                const { data: conv } = await supabase
-                    .from('conversations')
-                    .select('*')
-                    .eq('id', conversationId)
-                    .single();
-
-                if (!conv) return;
-
-                const isP1Sender = conv.participant_1_id === senderId;
-                const responderId = isP1Sender ? conv.participant_2_id : conv.participant_1_id;
-                const responderType = isP1Sender ? conv.participant_2_type : conv.participant_1_type;
-
-                // Buscamos si es un personaje del Lore para ajustar la personalidad
-                const allPersonas = await this.getAllPersonas();
-                const persona = allPersonas.find(p => p.id === responderId);
+                const { conversationId, responderId, responderType, persona } = originalMessage;
+                if (!responderId) return;
 
                 let reply = "";
                 const randomVal = Math.random();
@@ -387,7 +431,7 @@ export const supabaseService = {
                     } else if (persona.username === 'elenap') {
                         const eReplies = [
                             "Bon dia. Estic cuidant de la iaia Rosa, té molt poca paciència hui. Et dic algo més tard!",
-                            "Sí, d'acord. Jo ajudar en tot el que pugui al poble.",
+                            "Sí, d'acord. Jo ajudaré en tot el que pugui al poble.",
                             "Xe! Molt bé. Aquí a la Torre la gent és molt bona.",
                             "Tinc molta feina ara, però t'ho agraeixo molt."
                         ];
@@ -401,14 +445,14 @@ export const supabaseService = {
                         ];
                         reply = jReplies[Math.floor(randomVal * jReplies.length)];
                     } else {
-                        // Genérico para otros personajes del Lore
+                        // Genérico para otros personajes del Lore (con ajuste de género automático)
                         const genericReplies = [
                             "Xe, que bona idea! Gràcies per compartir-ho.",
                             "Ara estic un poc liat, però m'ho apunto i et dic alguna cosa.",
                             "Sóc de Poble som tots, així que compte amb el meu suport!",
                             "Perfecte, ja m'ho dius quan sàpigues algo segur."
                         ];
-                        reply = genericReplies[Math.floor(randomVal * genericReplies.length)];
+                        reply = adjustGender(genericReplies[Math.floor(randomVal * genericReplies.length)], persona.gender);
                     }
                 } else {
                     reply = "D'acord! Ho tindré en compte. Gràcies pel missatge.";
@@ -464,20 +508,46 @@ export const supabaseService = {
             p1Id?.startsWith('11111111-') ||
             p2Id?.startsWith('11111111-');
 
-        const validated = ConversationSchema.parse({
+        // Check columns silently if in playground
+        if (isPlayground && columnCache.conversations_is_playground === null) {
+            if (!activeChecks.conversations) {
+                activeChecks.conversations = (async () => {
+                    try {
+                        const { data } = await supabase.from('conversations').select('*').limit(1);
+                        if (data && data.length > 0) {
+                            setColumnCache('conversations_is_playground', 'is_playground' in data[0]);
+                        }
+                    } catch (e) { } finally { activeChecks.conversations = null; }
+                })();
+            }
+            await activeChecks.conversations;
+        }
+
+        const convPayload = {
             participant_1_id: p1Id,
             participant_1_type: p1Type,
             participant_2_id: p2Id,
-            participant_2_type: p2Type,
-            is_playground: isPlayground
-        });
+            participant_2_type: p2Type
+        };
+
+        if (isPlayground && columnCache.conversations_is_playground !== false) {
+            convPayload.is_playground = true;
+        }
+
+        const validated = ConversationSchema.parse(convPayload);
 
         const { data, error } = await supabase
             .from('conversations')
             .insert([validated])
             .select();
 
-        if (error) throw error;
+        if (error) {
+            if (error.code === 'PGRST204' && isPlayground && columnCache.conversations_is_playground !== false) {
+                setColumnCache('conversations_is_playground', false);
+                return this.getOrCreateConversation(p1Id, p1Type, p2Id, p2Type); // Retry without column
+            }
+            throw error;
+        }
         return data[0];
     },
 
