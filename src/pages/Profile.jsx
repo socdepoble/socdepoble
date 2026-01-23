@@ -11,6 +11,7 @@ import MediaDeduplicationModal from '../components/MediaDeduplicationModal';
 import ImageReframerModal from '../components/ImageReframerModal';
 import ProfileStudioModal from '../components/ProfileStudioModal';
 import MediaPickerModal from '../components/MediaPickerModal';
+import ProfileHeaderPremium from '../components/ProfileHeaderPremium';
 import UnifiedStatus from '../components/UnifiedStatus';
 import { exportService } from '../services/exportService';
 import './Profile.css';
@@ -89,11 +90,13 @@ const Profile = () => {
     const [isPickerOpen, setIsPickerOpen] = useState(false);
 
     // Editing state for text fields
-    const [isEditingOfici, setIsEditingOfici] = useState(false);
+    const [isEditingCard, setIsEditingCard] = useState(false);
     const [oficiValue, setOficiValue] = useState(profile?.ofici || '');
+    const [bioValue, setBioValue] = useState(profile?.bio || '');
 
     useEffect(() => {
         if (profile?.ofici) setOficiValue(profile.ofici);
+        if (profile?.bio) setBioValue(profile.bio);
     }, [profile]);
 
     const avatarInputRef = useRef(null);
@@ -145,16 +148,17 @@ const Profile = () => {
         }
     };
 
-    const handleOficiSubmit = async () => {
+    const handleCardSubmit = async () => {
         try {
             const updated = await supabaseService.updateProfile(user.id, {
-                ofici: oficiValue
+                ofici: oficiValue,
+                bio: bioValue
             });
             setProfile(updated);
-            setIsEditingOfici(false);
-            logger.log('[Profile] Ofici updated:', oficiValue);
+            setIsEditingCard(false);
+            logger.log('[Profile] Card info updated:', { oficiValue, bioValue });
         } catch (error) {
-            logger.error('Error updating ofici:', error);
+            logger.error('Error updating card info:', error);
         }
     };
 
@@ -352,123 +356,34 @@ const Profile = () => {
 
     return (
         <div className="profile-container">
-            <header className="profile-dashboard-header">
-                {/* Cover Image Area */}
-                <div className="profile-cover-area">
-                    {displayProfile.cover_url ? (
-                        <img src={displayProfile.cover_url} alt="Cover" className="cover-image" />
-                    ) : (
-                        <div className="cover-placeholder" />
-                    )}
-                    <div className="cover-overlay" />
+            <ProfileHeaderPremium
+                type="person"
+                title={displayProfile.full_name}
+                subtitle={oficiValue}
+                town={userTown?.name}
+                bio={bioValue}
+                avatarUrl={displayProfile.avatar_url}
+                coverUrl={displayProfile.cover_url}
+                isEditing={isEditingCard}
+                onSubtitleChange={setOficiValue}
+                onBioChange={setBioValue}
+                onTownChange={() => setIsEditingTown(true)}
+                onBack={handleBack}
+                onAction={() => isEditingCard ? handleCardSubmit() : setIsEditingCard(true)}
+                actionIcon={isEditingCard ? <Save size={24} /> : <Settings size={24} />}
+            />
 
-                    <div className="header-top-actions">
-                        <button className="giga-back-button" onClick={handleBack}>
-                            <ArrowLeft size={24} />
-                        </button>
-                        <div className="header-right-actions">
-                            <button
-                                className="public-return-btn prompt-btn"
-                                onClick={() => navigate(`/perfil/${user.id}`, { state: { fromProfile: true } })}
-                                title="Veure perfil públic"
-                            >
-                                <Settings size={26} />
-                            </button>
-                        </div>
-                    </div>
-
-                    <button
-                        className="logout-trigger-btn-floating prompt-btn"
-                        onClick={logout}
-                        title="Sortir"
-                    >
-                        <LogOut size={26} />
-                    </button>
-
-                    <button
-                        className="studio-trigger-btn-floating prompt-btn"
-                        onClick={() => setIsStudioOpen(true)}
-                        title="Estudi de perfil"
-                    >
-                        <Camera size={26} />
-                    </button>
+            {user?.isDemo && (
+                <div className="demo-badge-dash">
+                    <span>🧪 Mode Demo: Volàtil</span>
                 </div>
-            </header>
+            )}
 
-            {/* Avatar and Info Overlay - NOW OUTSIDE to fix clipping */}
-            <div className="profile-main-info">
-                <div className="avatar-wrapper">
-                    <div className="avatar-big">
-                        {displayProfile.avatar_url ? (
-                            <img src={displayProfile.avatar_url} alt="Profile" />
-                        ) : (
-                            <User size={50} color="#cbd5e1" />
-                        )}
-                    </div>
-                    <input
-                        type="file"
-                        ref={avatarInputRef}
-                        onChange={(e) => handleFileChange(e, 'avatar')}
-                        style={{ display: 'none' }}
-                        accept="image/*"
-                    />
-                </div>
-            </div>
-
-            <div className="profile-name-section">
-                <h2>{displayProfile.full_name || 'Usuari'}</h2>
-
-                {isEditingOfici ? (
-                    <div className="ofici-edit-wrapper">
-                        <input
-                            type="text"
-                            value={oficiValue}
-                            onChange={(e) => setOficiValue(e.target.value)}
-                            onBlur={handleOficiSubmit}
-                            onKeyDown={(e) => e.key === 'Enter' && handleOficiSubmit()}
-                            placeholder="Quin és el teu ofici? (Ex: Fuster)"
-                            className="ofici-input-premium"
-                            autoFocus
-                        />
-                        <button className="ofici-save-btn" onClick={handleOficiSubmit}>
-                            <Save size={14} />
-                        </button>
-                    </div>
-                ) : (
-                    <div className="ofici-display-wrapper" onClick={() => setIsEditingOfici(true)}>
-                        <span className="ofici-text-premium">{displayProfile.ofici || 'Quin és el teu ofici?'}</span>
-                        <Settings size={12} className="edit-icon-mini" />
-                    </div>
-                )}
-
-                {user?.isDemo && (
-                    <div className="demo-badge">
-                        <span>🧪 Mode Demo: Volàtil</span>
-                    </div>
-                )}
-
-                <div className="profile-town-management">
-                    <button className="main-town-btn" onClick={() => setIsEditingTown(true)}>
-                        <MapPin size={18} />
-                        {userTown?.name || 'Selecciona poble'}
-                    </button>
-                    <p className="comarca-text">{userTown ? userTown.comarca : 'Sense poble assignat'}</p>
-
-                    <div className="additional-towns-section">
-                        {allTowns.length > 0 && !displayProfile.town_id && (
-                            <button className="add-town-btn-inline" onClick={() => setIsEditingTown(true)}>
-                                <Plus size={14} /> {t('nav.add_town') || 'Afegir poble'}
-                            </button>
-                        )}
-                    </div>
-                </div>
-
-                <TownSelectorModal
-                    isOpen={isEditingTown}
-                    onClose={() => setIsEditingTown(false)}
-                    onSelect={(town) => handleTownChange(town.uuid || town.id)}
-                />
-            </div>
+            <TownSelectorModal
+                isOpen={isEditingTown}
+                onClose={() => setIsEditingTown(false)}
+                onSelect={(town) => handleTownChange(town.uuid || town.id)}
+            />
 
             <div className="profile-menu">
                 {menuItems.map(item => (
@@ -567,7 +482,7 @@ const Profile = () => {
                 onConfirm={handleReframerConfirm}
                 onClose={() => setIsReframerOpen(false)}
             />
-        </div>
+        </div >
     );
 };
 

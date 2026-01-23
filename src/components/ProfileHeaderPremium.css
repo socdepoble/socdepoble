@@ -90,13 +90,34 @@
     position: relative;
     margin: -60px 16px 0;
     padding: 24px;
-    background: rgba(var(--bg-card-rgb, 255, 255, 255), 0.8);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: rgba(var(--bg-card-rgb, 255, 255, 255), 0.84);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
     border-radius: 32px;
-    border: 1px solid var(--color-border);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    border: 1.5px solid var(--color-border);
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.12);
     z-index: 60;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.edit-mode-active .premium-identity-card {
+    background: rgba(220, 38, 38, 0.95);
+    /* Rojo potente solicitado */
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 32px 64px rgba(220, 38, 38, 0.4);
+}
+
+.edit-mode-active .premium-title,
+.edit-mode-active .premium-subtitle,
+.edit-mode-active .premium-town-line,
+.edit-mode-active .premium-town-line span,
+.edit-mode-active .premium-bio {
+    color: white !important;
+}
+
+.edit-mode-active .premium-town-line svg {
+    color: white !important;
+    opacity: 1;
 }
 
 .premium-avatar-row {
@@ -284,4 +305,65 @@
 
 .profile-premium-header-container.business .premium-avatar-img {
     border-radius: 50%;
+}
+/* Edit Mode Inputs (Ghost Style) */
+.premium-edit-input,
+.premium-edit-textarea {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px dashed rgba(255, 255, 255, 0.4);
+    border-radius: 8px;
+    color: white;
+    font-family: inherit;
+    padding: 6px 12px;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.premium-edit-input:focus,
+.premium-edit-textarea:focus {
+    background: rgba(255, 255, 255, 0.2);
+    border-style: solid;
+    border-color: white;
+}
+
+.premium-edit-input.subtitle {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.premium-edit-textarea.bio {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.5;
+    margin: 16px 0 10px;
+    resize: none;
+    display: block;
+}
+
+.premium-town-line.editable {
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    transition: all 0.2s ease;
+    border: 1px dashed rgba(255, 255, 255, 0.3);
+    width: fit-content;
+}
+
+.premium-town-line.editable:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: white;
+}
+
+/* Ensure children (stats bar) look good in red mode */
+.edit-mode-active .stat-card {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.edit-mode-active .stat-value,
+.edit-mode-active .stat-label {
+    color: white !important;
 }

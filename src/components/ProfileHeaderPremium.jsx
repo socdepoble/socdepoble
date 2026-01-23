@@ -20,6 +20,11 @@ const ProfileHeaderPremium = ({
     onBack,
     onAction,
     actionIcon,
+    isEditing = false,
+    onTitleChange,
+    onSubtitleChange,
+    onTownChange,
+    onBioChange,
     children
 }) => {
     const navigate = useNavigate();
@@ -30,7 +35,7 @@ const ProfileHeaderPremium = ({
     };
 
     return (
-        <div className={`profile-premium-header-container ${type}`}>
+        <div className={`profile-premium-header-container ${type} ${isEditing ? 'edit-mode-active' : ''}`}>
             {/* Cover Area with Glassmorphism Overlay */}
             <div className="premium-cover-section">
                 {coverUrl ? (
@@ -78,18 +83,46 @@ const ProfileHeaderPremium = ({
                             ))}
                         </div>
                         <div className="premium-meta-stack">
-                            {subtitle && <p className="premium-subtitle">{subtitle}</p>}
-                            {town && (
-                                <p className="premium-town-line">
-                                    <MapPin size={14} />
-                                    <span>{town}</span>
-                                </p>
+                            {isEditing ? (
+                                <>
+                                    <input
+                                        type="text"
+                                        className="premium-edit-input subtitle"
+                                        value={subtitle}
+                                        onChange={(e) => onSubtitleChange?.(e.target.value)}
+                                        placeholder="Quin és el teu ofici?"
+                                    />
+                                    <div className="premium-town-line editable" onClick={() => onTownChange?.()}>
+                                        <MapPin size={14} />
+                                        <span>{town || 'Selecciona poble'}</span>
+                                    </div>
+                                </>
+                            ) : (
+                                <>
+                                    {subtitle && <p className="premium-subtitle">{subtitle}</p>}
+                                    {town && (
+                                        <p className="premium-town-line">
+                                            <MapPin size={14} />
+                                            <span>{town}</span>
+                                        </p>
+                                    )}
+                                </>
                             )}
                         </div>
                     </div>
                 </div>
 
-                {bio && <p className="premium-bio">{bio}</p>}
+                {isEditing ? (
+                    <textarea
+                        className="premium-edit-textarea bio"
+                        value={bio}
+                        onChange={(e) => onBioChange?.(e.target.value)}
+                        placeholder="Escriu la teua frase o lema de marca..."
+                        rows={2}
+                    />
+                ) : (
+                    bio && <p className="premium-bio">{bio}</p>
+                )}
 
                 {/* Slot for Stats Bar or other elements */}
                 {children && (
