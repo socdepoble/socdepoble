@@ -1,38 +1,56 @@
 .category-tabs {
     display: flex;
-    align-items: center;
-    gap: 8px;
-    overflow-x: auto;
-    padding: 0 var(--space-md);
+    align-items: stretch;
+    /* Make items full height */
+    width: 100%;
+    margin: 0;
+    padding: 0;
     height: var(--category-bar-height);
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+    background-color: rgba(0, 0, 0, 0.2);
+    /* Ensure clear bar boundaries */
+    overflow: hidden;
 }
 
 .category-tabs::-webkit-scrollbar {
     display: none;
 }
 
+.category-tabs>* {
+    flex: 1 1 0;
+    /* Force equal expansion */
+    min-width: 0;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .category-tab {
-    padding: 8px 16px;
-    border-radius: var(--radius-full);
-    border: 1px solid var(--color-border);
-    background-color: var(--bg-main);
-    color: var(--text-muted);
+    padding: 0 4px;
+    /* Vertical padding handled by parent stretch & height */
+    border-radius: 0;
+    border: none;
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    background-color: transparent;
+    color: rgba(255, 255, 255, 0.6);
     font-size: 11px;
     text-transform: uppercase;
     font-weight: 800;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.4px;
     white-space: nowrap;
     cursor: pointer;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
 }
 
 .category-tab.active {
-    background-color: var(--color-primary);
-    color: white;
-    border-color: var(--color-primary);
-    box-shadow: 0 4px 12px rgba(93, 95, 239, 0.3);
+    background-color: rgba(93, 95, 239, 0.15);
+    /* Soft primary tint */
+    color: var(--color-primary);
+    border-bottom: 2px solid var(--color-primary);
+    /* Use bottom border for indicator */
+    box-shadow: none;
 }
 
 .category-tab.add-tab {
@@ -44,9 +62,9 @@
 }
 
 .category-tab:hover:not(.active) {
-    background-color: var(--color-primary-soft);
-    color: var(--color-primary);
-    border-color: var(--color-primary);
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    border-color: rgba(255, 255, 255, 0.3);
 }
 
 .category-tab:active {

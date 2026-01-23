@@ -11,25 +11,10 @@ import CategoryTabs from './CategoryTabs';
 import TagSelector from './TagSelector';
 import PostSkeleton from './Skeletons/PostSkeleton';
 import UnifiedStatus from './UnifiedStatus';
+import Avatar from './Avatar';
 import './Feed.css';
 
-const getAvatarIcon = (role) => {
-    switch (role) {
-        case ROLES.OFFICIAL: return <Building2 size={20} />;
-        case ROLES.BUSINESS: return <Store size={20} />;
-        case ROLES.GROUPS: return <Users size={20} />;
-        default: return <User size={20} />;
-    }
-};
 
-const getAvatarColor = (role) => {
-    switch (role) {
-        case ROLES.OFFICIAL: return 'var(--color-primary)';
-        case ROLES.BUSINESS: return 'var(--color-secondary)';
-        case ROLES.GROUPS: return 'var(--color-accent)';
-        default: return 'var(--text-muted)';
-    }
-};
 
 const Feed = ({ townId = null, hideHeader = false }) => {
     const { t } = useTranslation();
@@ -226,21 +211,12 @@ const Feed = ({ townId = null, hideHeader = false }) => {
                                     }}
                                 >
                                     <div className="header-left">
-                                        <div className="post-avatar" style={{ backgroundColor: getAvatarColor(post.author_role) }}>
-                                            {post.author_avatar ? (
-                                                <img
-                                                    src={post.author_avatar}
-                                                    alt={`Avatar de ${post.author}`}
-                                                    className="post-avatar-img"
-                                                    onError={(e) => {
-                                                        e.target.style.display = 'none';
-                                                        e.target.parentElement.innerHTML = `<div class="avatar-placeholder-mini">${getAvatarIcon(post.author_role)}</div>`;
-                                                    }}
-                                                />
-                                            ) : (
-                                                <div aria-hidden="true">{getAvatarIcon(post.author_role)}</div>
-                                            )}
-                                        </div>
+                                        <Avatar
+                                            src={post.author_avatar}
+                                            role={post.author_role}
+                                            name={post.author}
+                                            size={44}
+                                        />
                                         <div className="post-meta">
                                             <div className="post-author-row">
                                                 <span className="post-author">{post.author}</span>

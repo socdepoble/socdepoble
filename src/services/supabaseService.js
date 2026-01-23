@@ -1,7 +1,7 @@
 import { supabase } from '../supabaseClient';
 import { logger } from '../utils/logger';
 import { DEMO_USER_ID, ROLES, USER_ROLES, ENABLE_MOCKS } from '../constants';
-import { PostSchema, MarketItemSchema, MessageSchema, ProfileSchema } from './schemas';
+import { PostSchema, MarketItemSchema, MessageSchema, ProfileSchema, ConversationSchema } from './schemas';
 
 /**
  * Sanitizes input strings to prevent common injection patterns 
@@ -194,7 +194,8 @@ export const supabaseService = {
             participant_1_type, 
             participant_2_type, 
             last_message_content, 
-            last_message_at, 
+            last_message_at,
+            is_playground,
             p1_name, 
             p1_avatar_url, 
             p1_role,
@@ -285,6 +286,10 @@ export const supabaseService = {
         }
 
         // Validació estructural amb Zod
+        const isPlayground = localStorage.getItem('isPlaygroundMode') === 'true' ||
+            messageData.senderId?.startsWith('11111111-') ||
+            messageData.conversationId?.startsWith('c1111000');
+
         const validated = MessageSchema.parse({
             conversation_id: messageData.conversationId,
             sender_id: messageData.senderId,
@@ -292,7 +297,8 @@ export const supabaseService = {
             content: messageData.content || null,
             attachment_url: messageData.attachmentUrl || null,
             attachment_type: messageData.attachmentType || null,
-            attachment_name: messageData.attachmentName || null
+            attachment_name: messageData.attachmentName || null,
+            is_playground: isPlayground
         });
 
         const { data, error } = await supabase
@@ -454,14 +460,21 @@ export const supabaseService = {
         if (existing) return existing;
 
         // Crear nueva si no existe
+        const isPlayground = localStorage.getItem('isPlaygroundMode') === 'true' ||
+            p1Id?.startsWith('11111111-') ||
+            p2Id?.startsWith('11111111-');
+
+        const validated = ConversationSchema.parse({
+            participant_1_id: p1Id,
+            participant_1_type: p1Type,
+            participant_2_id: p2Id,
+            participant_2_type: p2Type,
+            is_playground: isPlayground
+        });
+
         const { data, error } = await supabase
             .from('conversations')
-            .insert([{
-                participant_1_id: p1Id,
-                participant_1_type: p1Type,
-                participant_2_id: p2Id,
-                participant_2_type: p2Type
-            }])
+            .insert([validated])
             .select();
 
         if (error) throw error;

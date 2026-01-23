@@ -23,11 +23,25 @@ const CategoryTabs = ({ selectedRole, onSelectRole, exclude = [], tabs }) => {
 
     const allRoles = tabs || defaultRoles;
 
-    // Filter by activeCategories, but always keep 'tot' and 'xat' if they are the "All" view
-    const roles = allRoles.filter(role =>
-        !exclude.includes(role.id) &&
-        (role.id === 'tot' || activeCategories.includes(role.id))
-    );
+    // Filter by activeCategories, but always keep 'tot' or 'xat' (not both)
+    const roles = allRoles.filter(role => {
+        if (exclude.includes(role.id)) return false;
+
+        // Show 'tot' or 'xat' as the "All" view
+        if (role.id === 'tot' || role.id === 'xat') {
+            return true;
+        }
+
+        return activeCategories.includes(role.id);
+    }).reduce((acc, current) => {
+        // Robust deduplication by label
+        const x = acc.find(item => item.label.toLowerCase().trim() === current.label.toLowerCase().trim());
+        if (!x) {
+            return acc.concat([current]);
+        } else {
+            return acc;
+        }
+    }, []);
 
     return (
         <div className="category-tabs">

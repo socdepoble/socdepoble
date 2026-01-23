@@ -10,6 +10,7 @@ import CategoryTabs from './CategoryTabs';
 import MarketSkeleton from './Skeletons/MarketSkeleton';
 import AddItemModal from './AddItemModal';
 import UnifiedStatus from './UnifiedStatus';
+import Avatar from './Avatar';
 import './Market.css';
 
 const Market = ({ townId = null }) => {
@@ -172,13 +173,12 @@ const Market = ({ townId = null }) => {
                                 }}
                             >
                                 <div className="header-left">
-                                    <div className="post-avatar" style={{ backgroundColor: 'var(--color-secondary)' }}>
-                                        {item.avatar_url ? (
-                                            <img src={item.avatar_url} alt={`Avatar de ${item.seller}`} className="post-avatar-img" />
-                                        ) : (
-                                            <Plus size={20} aria-hidden="true" />
-                                        )}
-                                    </div>
+                                    <Avatar
+                                        src={item.avatar_url}
+                                        role={item.author_role}
+                                        name={item.seller || item.seller_name}
+                                        size={44}
+                                    />
                                     <div className="post-meta">
                                         <div className="post-author-row">
                                             <span className="post-author">

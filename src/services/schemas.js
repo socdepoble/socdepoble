@@ -39,9 +39,21 @@ export const MessageSchema = z.object({
     attachment_type: z.string().nullable().optional(),
     attachment_name: z.string().nullable().optional(),
     is_ai: z.boolean().optional(),
-    is_read: z.boolean().optional()
+    is_read: z.boolean().optional(),
+    is_playground: z.boolean().optional()
 }).refine(data => data.content || data.attachment_url, {
     message: "El missatge no pot estar buit si no hi ha fitxer adjunt"
+});
+
+export const ConversationSchema = z.object({
+    id: z.string().uuid().optional(),
+    participant_1_id: z.string().uuid(),
+    participant_1_type: z.enum(['user', 'entity']),
+    participant_2_id: z.string().uuid(),
+    participant_2_type: z.enum(['user', 'entity']),
+    last_message_content: z.string().nullable().optional(),
+    last_message_at: z.string().optional(),
+    is_playground: z.boolean().optional()
 });
 
 export const ProfileSchema = z.object({

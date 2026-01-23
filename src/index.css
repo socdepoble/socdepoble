@@ -56,7 +56,7 @@
   --space-lg: 24px;
   --space-xl: 32px;
   --space-2xl: 48px;
-  --grid-card-gap: 18px;
+  --grid-card-gap: 12px;
 
   /* Global Page Margin for alignment */
   --page-margin: 12px;
@@ -66,8 +66,8 @@
   --radius-sm: 12px;
   --radius-md: 16px;
   --radius-lg: 24px;
-  --radius-xl: 32px;
-  --radius-2xl: 40px;
+  --radius-xl: 24px;
+  --radius-2xl: 32px;
   --radius-full: 50%;
 
   /* Shadows */
@@ -80,7 +80,7 @@
 
   /* Layout Constants */
   --header-height: 72px;
-  --category-bar-height: 64px;
+  --category-bar-height: 42px;
   --nav-height: 72px;
   --banner-height: 0px;
   --mobile-width: 480px;
@@ -178,14 +178,7 @@ article h3,
   letter-spacing: -0.02em;
 }
 
-.card-header h2,
-.card-header .post-author,
-.card-header .item-title,
-.card-header .back-button,
-.card-header .more-options,
-.card-header svg {
-  color: #FFFFFF !important;
-}
+/* Specific colors for card elements handled by components */
 
 img {
   max-width: 100%;
@@ -650,7 +643,7 @@ a:hover {
   font-size: 11px;
   font-weight: 800;
   padding: 2px 10px;
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-xs);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   display: inline-flex;

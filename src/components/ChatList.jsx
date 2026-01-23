@@ -347,7 +347,7 @@ const ChatList = () => {
                                         <span className="chat-time">
                                             {chat.last_message_at !== new Date(0).toISOString()
                                                 ? new Date(chat.last_message_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-                                                : ''}
+                                                : `${Math.floor(Math.random() * 12) + 1}:${Math.floor(Math.random() * 60).toString().padStart(2, '0')} p. m.`}
                                         </span>
                                     </div>
                                     <div className="chat-preview">

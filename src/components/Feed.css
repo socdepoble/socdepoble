@@ -11,7 +11,8 @@
     flex-direction: column;
     gap: 0;
     padding: var(--page-margin);
-    padding-bottom: 120px;
+    padding-bottom: 24px;
+    /* Reduced from 120px to allow more content flow */
 }
 
 /* === POST CARD (Unified) === */
@@ -35,7 +36,7 @@
 }
 
 .card-header * {
-    color: var(--text-main) !important;
+    color: inherit;
 }
 
 .header-left {
@@ -47,8 +48,9 @@
 
 
 .post-avatar {
-    width: 44px;
-    height: 44px;
+    width: 42px;
+    /* Reduced from 44px */
+    height: 42px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -75,7 +77,7 @@
     color: var(--text-main);
     font-size: 21px;
     /* Match Chat standard */
-    line-height: 1.2;
+    line-height: 1.1;
     font-family: var(--font-heading);
 }
 
@@ -121,7 +123,8 @@
 /* Market logic moved to its own file */
 
 .card-actions-wrapper {
-    padding: var(--space-md) var(--space-lg);
+    padding: 10px var(--space-lg);
+    /* Reduced vertical padding */
     display: flex;
     justify-content: space-between;
     align-items: center;

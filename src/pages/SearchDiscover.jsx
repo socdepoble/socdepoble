@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Search, X, Users, Building2, MapPin, ArrowLeft, Loader2, Sparkles, SlidersHorizontal, ChevronRight, User, Landmark, Store, Building } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import SEO from '../components/SEO';
+import Avatar from '../components/Avatar';
 import './SearchDiscover.css';
 
 const SearchDiscover = () => {
@@ -128,13 +129,12 @@ const SearchDiscover = () => {
                                                 <div key={person.id} className="universal-card result-item-card" onClick={() => navigate(`/perfil/${person.id}`)}>
                                                     <div className="card-header no-border">
                                                         <div className="header-left">
-                                                            <div className="post-avatar">
-                                                                {person.avatar_url ? (
-                                                                    <img src={person.avatar_url} alt="" className="post-avatar-img" />
-                                                                ) : (
-                                                                    <User size={20} />
-                                                                )}
-                                                            </div>
+                                                            <Avatar
+                                                                src={person.avatar_url}
+                                                                role="user"
+                                                                name={person.full_name}
+                                                                size={44}
+                                                            />
                                                             <div className="post-meta">
                                                                 <span className="post-author">{person.full_name}</span>
                                                                 <div className="post-subtitle-row">
@@ -201,12 +201,12 @@ const SearchDiscover = () => {
                                             <div key={entity.id} className={`universal-card result-item-card entity-${entity.type}`} onClick={() => navigate(`/entitat/${entity.id}`)}>
                                                 <div className="card-header no-border">
                                                     <div className="header-left">
-                                                        <div className={`post-avatar entity ${entity.type}`}>
-                                                            {entity.avatar_url ? <img src={entity.avatar_url} alt="" className="post-avatar-img" /> :
-                                                                entity.type === 'oficial' ? <Landmark size={20} /> :
-                                                                    entity.type === 'empresa' ? <Store size={20} /> :
-                                                                        entity.type === 'grup' ? <Users size={20} /> : <Building size={20} />}
-                                                        </div>
+                                                        <Avatar
+                                                            src={entity.avatar_url}
+                                                            role={entity.type}
+                                                            name={entity.name}
+                                                            size={44}
+                                                        />
                                                         <div className="post-meta">
                                                             <span className="post-author">{entity.name}</span>
                                                             <div className="post-subtitle-row">
