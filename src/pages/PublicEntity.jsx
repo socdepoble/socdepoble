@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Building2, Store, Users, MapPin, MessageSquare, Share2, Loader2, AlertCircle, Calendar, ArrowLeft } from 'lucide-react';
+import { Building2, Store, Users, MapPin, MessageSquare, Share2, Loader2, AlertCircle, Calendar, ArrowLeft, UserPlus, UserMinus } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
 import './Profile.css';
@@ -17,6 +17,8 @@ const PublicEntity = () => {
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [isConnected, setIsConnected] = useState(false);
+    const [isConnecting, setIsConnecting] = useState(false);
 
     useEffect(() => {
         const fetchEntityData = async () => {
@@ -42,8 +44,35 @@ const PublicEntity = () => {
             }
         };
 
-        if (id) fetchEntityData();
-    }, [id]);
+        if (id) {
+            fetchEntityData();
+            if (currentUser && id) {
+                supabaseService.isFollowing(currentUser.id, id).then(setIsConnected);
+            }
+        }
+    }, [id, currentUser]);
+
+    const handleConnect = async () => {
+        if (!currentUser) {
+            navigate('/login');
+            return;
+        }
+
+        setIsConnecting(true);
+        try {
+            if (isConnected) {
+                const success = await supabaseService.disconnectFromProfile(currentUser.id, id);
+                if (success) setIsConnected(false);
+            } else {
+                const success = await supabaseService.connectWithProfile(currentUser.id, id);
+                if (success) setIsConnected(true);
+            }
+        } catch (err) {
+            console.error('Error handling connection:', err);
+        } finally {
+            setIsConnecting(false);
+        }
+    };
 
     if (loading) return (
         <div className="profile-container loading">
@@ -107,8 +136,18 @@ const PublicEntity = () => {
                     </div>
                 </div>
                 <div className="entity-actions-header">
-                    <button className="connect-btn-vibrant">
-                        Connectar
+                    <button
+                        className={`connect-btn-vibrant ${isConnected ? 'connected' : ''}`}
+                        onClick={handleConnect}
+                        disabled={isConnecting}
+                    >
+                        {isConnecting ? (
+                            <Loader2 className="spinner" size={18} />
+                        ) : isConnected ? (
+                            <><UserMinus size={18} /> DESCONECTAR</>
+                        ) : (
+                            <><UserPlus size={18} /> CONECTAR</>
+                        )}
                     </button>
                 </div>
             </div>

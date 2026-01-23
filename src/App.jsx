@@ -20,6 +20,7 @@ import PlaygroundPortal from './pages/PlaygroundPortal';
 import MediaAlbum from './pages/MediaAlbum';
 import EntityManagement from './pages/EntityManagement';
 import SearchDiscover from './pages/SearchDiscover';
+import CommunityDirectory from './pages/CommunityDirectory';
 import { supabase } from './supabaseClient';
 import { MOCK_CHATS, MOCK_FEED, MOCK_MARKET_ITEMS } from './data';
 import { useAuth } from './context/AuthContext';
@@ -123,6 +124,7 @@ function App() {
             }
           />
           <Route path="cerca" element={<SearchDiscover />} />
+          <Route path="comunitat" element={<CommunityDirectory />} />
           <Route path="pobles" element={<Towns />} />
           <Route path="pobles/:id" element={<TownDetail />} />
           <Route

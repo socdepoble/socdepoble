@@ -585,6 +585,85 @@ export const supabaseService = {
         }
     },
 
+    async getPublicDirectory() {
+        try {
+            const [profiles, entities] = await Promise.all([
+                this.getAllPersonas(),
+                this.getAdminEntities()
+            ]);
+
+            return {
+                people: profiles || [],
+                entities: entities || []
+            };
+        } catch (error) {
+            logger.error('[SupabaseService] Error in getPublicDirectory:', error);
+            return { people: [], entities: [] };
+        }
+    },
+
+    async connectWithProfile(followerId, targetId) {
+        if (!followerId || !targetId) return false;
+        try {
+            const { error } = await supabase
+                .from('connections')
+                .upsert({
+                    follower_id: followerId,
+                    target_id: targetId,
+                    status: 'connected',
+                    created_at: new Date().toISOString()
+                }, { onConflict: 'follower_id,target_id' });
+
+            if (error) {
+                if (error.code === '42P01') {
+                    logger.warn('[SupabaseService] connections table missing, simulating connection');
+                    return true;
+                }
+                throw error;
+            }
+            return true;
+        } catch (error) {
+            logger.error('[SupabaseService] Error connecting:', error);
+            return false;
+        }
+    },
+
+    async disconnectFromProfile(followerId, targetId) {
+        try {
+            const { error } = await supabase
+                .from('connections')
+                .delete()
+                .eq('follower_id', followerId)
+                .eq('target_id', targetId);
+
+            if (error) throw error;
+            return true;
+        } catch (error) {
+            logger.error('[SupabaseService] Error disconnecting:', error);
+            return false;
+        }
+    },
+
+    async isFollowing(followerId, targetId) {
+        if (!followerId || !targetId) return false;
+        try {
+            const { data, error } = await supabase
+                .from('connections')
+                .select('*')
+                .eq('follower_id', followerId)
+                .eq('target_id', targetId)
+                .maybeSingle();
+
+            if (error) {
+                if (error.code === '42P01') return false;
+                throw error;
+            }
+            return !!data;
+        } catch (error) {
+            return false;
+        }
+    },
+
     async getChatMessagesLegacy(chatId) {
         const { data, error } = await supabase
             .from('legacy_messages')

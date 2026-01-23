@@ -301,3 +301,54 @@
     transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
 }
+/* Public connection buttons */
+.profile-actions-public, 
+.entity-actions-header {
+    margin-top: 20px;
+    padding: 0 24px 24px;
+}
+
+.connect-btn-large, 
+.connect-btn-vibrant {
+    width: 100%;
+    padding: 14px;
+    border-radius: var(--radius-full);
+    border: none;
+    background: var(--color-primary);
+    color: white;
+    font-size: 14px;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(var(--color-primary-rgb), 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.connect-btn-large:hover, 
+.connect-btn-vibrant:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(var(--color-primary-rgb), 0.4);
+}
+
+.connect-btn-large.connected, 
+.connect-btn-vibrant.connected {
+    background: var(--bg-surface);
+    color: var(--text-main);
+    border: 2.5px solid var(--color-primary);
+    box-shadow: none;
+}
+
+/* Spinner adjustment */
+.spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}

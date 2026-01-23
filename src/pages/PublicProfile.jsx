@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { User, MapPin, Calendar, Layout, Settings, ChevronRight, Loader2, AlertCircle, Building2, Store, Users as UsersIcon, ArrowLeft } from 'lucide-react';
+import { User, MapPin, Calendar, Layout, Settings, ChevronRight, Loader2, AlertCircle, Building2, Store, Users as UsersIcon, ArrowLeft, UserPlus, UserMinus } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
 import { logger } from '../utils/logger';
@@ -19,6 +19,8 @@ const PublicProfile = () => {
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [isConnected, setIsConnected] = useState(false);
+    const [isConnecting, setIsConnecting] = useState(false);
 
     const isOwnProfile = currentUser?.id === id;
 
@@ -49,8 +51,35 @@ const PublicProfile = () => {
             }
         };
 
-        if (id) fetchProfileData();
-    }, [id, isOwnProfile]);
+        if (id) {
+            fetchProfileData();
+            if (currentUser && id !== currentUser.id) {
+                supabaseService.isFollowing(currentUser.id, id).then(setIsConnected);
+            }
+        }
+    }, [id, isOwnProfile, currentUser]);
+
+    const handleConnect = async () => {
+        if (!currentUser) {
+            navigate('/login');
+            return;
+        }
+
+        setIsConnecting(true);
+        try {
+            if (isConnected) {
+                const success = await supabaseService.disconnectFromProfile(currentUser.id, id);
+                if (success) setIsConnected(false);
+            } else {
+                const success = await supabaseService.connectWithProfile(currentUser.id, id);
+                if (success) setIsConnected(true);
+            }
+        } catch (err) {
+            logger.error('Error handling connection:', err);
+        } finally {
+            setIsConnecting(false);
+        }
+    };
 
     if (loading) return (
         <div className="profile-container loading">
@@ -105,32 +134,52 @@ const PublicProfile = () => {
                             <span>Membre des de {profile.created_at ? new Date(profile.created_at).getFullYear() : '2024'}</span>
                         </div>
                     </div>
+
+                    {!isOwnProfile && (
+                        <div className="profile-actions-public">
+                            <button
+                                className={`connect-btn-large ${isConnected ? 'connected' : ''}`}
+                                onClick={handleConnect}
+                                disabled={isConnecting}
+                            >
+                                {isConnecting ? (
+                                    <Loader2 className="spinner" size={18} />
+                                ) : isConnected ? (
+                                    <><UserMinus size={18} /> DESCONECTAR</>
+                                ) : (
+                                    <><UserPlus size={18} /> CONECTAR</>
+                                )}
+                            </button>
+                        </div>
+                    )}
                 </div>
             </div>
 
-            {isOwnProfile && managedEntities.length > 0 && (
-                <section className="profile-section-premium">
-                    <h2 className="section-header-premium">
-                        <Layout size={20} />
-                        Gestió de Pàgines
-                    </h2>
-                    <div className="entities-grid-mini">
-                        {managedEntities.map(entity => (
-                            <Link to={`/entitat/${entity.id}`} key={entity.id} className="entity-manage-card">
-                                <div className="entity-icon-small">
-                                    {entity.type === 'oficial' ? <Building2 size={24} /> :
-                                        entity.type === 'negoci' ? <Store size={24} /> : <UsersIcon size={24} />}
-                                </div>
-                                <div className="entity-info-mini">
-                                    <span className="entity-name-mini">{entity.name}</span>
-                                    <span className="entity-role-mini">{entity.member_role}</span>
-                                </div>
-                                <ChevronRight size={20} />
-                            </Link>
-                        ))}
-                    </div>
-                </section>
-            )}
+            {
+                isOwnProfile && managedEntities.length > 0 && (
+                    <section className="profile-section-premium">
+                        <h2 className="section-header-premium">
+                            <Layout size={20} />
+                            Gestió de Pàgines
+                        </h2>
+                        <div className="entities-grid-mini">
+                            {managedEntities.map(entity => (
+                                <Link to={`/entitat/${entity.id}`} key={entity.id} className="entity-manage-card">
+                                    <div className="entity-icon-small">
+                                        {entity.type === 'oficial' ? <Building2 size={24} /> :
+                                            entity.type === 'negoci' ? <Store size={24} /> : <UsersIcon size={24} />}
+                                    </div>
+                                    <div className="entity-info-mini">
+                                        <span className="entity-name-mini">{entity.name}</span>
+                                        <span className="entity-role-mini">{entity.member_role}</span>
+                                    </div>
+                                    <ChevronRight size={20} />
+                                </Link>
+                            ))}
+                        </div>
+                    </section>
+                )
+            }
 
             <section className="profile-section-premium">
                 <h2 className="section-header-premium">
