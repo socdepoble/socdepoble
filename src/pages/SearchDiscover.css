@@ -82,14 +82,9 @@
 
 .filter-chips-scroll {
     display: flex;
+    flex-wrap: wrap;
     gap: 8px;
-    overflow-x: auto;
-    padding: 4px 0 12px;
-    scrollbar-width: none;
-}
-
-.filter-chips-scroll::-webkit-scrollbar {
-    display: none;
+    padding: 8px 0 16px;
 }
 
 .filter-chip {
