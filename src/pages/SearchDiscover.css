@@ -185,6 +185,10 @@
     color: var(--text-main);
 }
 
+.search-results-container {
+    margin-bottom: 24px;
+}
+
 .result-section {
     margin-bottom: 30px;
 }

@@ -97,57 +97,13 @@ const SearchDiscover = () => {
             </div>
 
             <div className="search-content">
-                {query.length > 1 && !isSearching && results.gent.length === 0 && results.entitats.length === 0 && results.pobles.length === 0 && (
-                    <div className="no-results-top-vibrant">
-                        <p>No hem trobat resultats per a "<strong>{query}</strong>"</p>
-                        <span>Prova amb termes més genèrics o revisa l'ortografia.</span>
-                    </div>
-                )}
-
-                <button className="big-community-btn-xl" onClick={() => navigate('/comunitat')}>
-                    <div className="btn-icon-xl">
-                        <Users size={32} />
-                    </div>
-                    <div className="btn-text-xl">
-                        <strong>Explora el teu territori</strong>
-                        <span>Descobreix tota la gent i entitats del poble</span>
-                    </div>
-                    <ChevronRight size={24} />
-                </button>
-
-                <div className="filter-chips-scroll">
-                    {filters.map(filter => (
-                        <button
-                            key={filter.id}
-                            className={`filter-chip ${activeFilter === filter.id ? 'active' : ''}`}
-                            onClick={() => setActiveFilter(filter.id)}
-                        >
-                            {filter.icon}
-                            <span>{filter.label}</span>
-                        </button>
-                    ))}
-                </div>
-
+                {/* 1. Primary Feedback/Results Area (Pushed to the top when searching) */}
                 {isSearching ? (
                     <div className="search-loading">
                         <Loader2 className="animate-spin" size={32} />
                         <p>Analitzant l'ecosistema...</p>
                     </div>
-                ) : isEmpty ? (
-                    <div className="search-welcome">
-                        <div className="recent-searches">
-                            <h4>Cerques populars</h4>
-                            <div className="recent-list">
-                                {recentSearches.map(s => (
-                                    <button key={s} className="recent-item" onClick={() => setQuery(s)}>
-                                        <Search size={14} />
-                                        <span>{s}</span>
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                ) : (
+                ) : !isEmpty ? (
                     <div className="search-results-container">
                         {(activeFilter === 'tots' || activeFilter === 'gent') && results.gent.length > 0 && (
                             <section className="result-section">
@@ -163,7 +119,7 @@ const SearchDiscover = () => {
                                             </div>
                                             <div className="result-info">
                                                 <strong>{person.full_name}</strong>
-                                                <span>{person.role || 'Veí'} • {person.town_name || 'La Torre'}</span>
+                                                <span>{person.role || 'Veí'} • {person.primary_town || 'La Torre'}</span>
                                             </div>
                                             <ChevronRight size={18} className="chevron" />
                                         </div>
@@ -227,8 +183,53 @@ const SearchDiscover = () => {
                                 </div>
                             </section>
                         )}
+                    </div>
+                ) : query.length > 1 && !isSearching && (
+                    <div className="no-results-top-vibrant">
+                        <p>No hem trobat resultats per a "<strong>{query}</strong>"</p>
+                        <span>Prova amb termes més genèrics o revisa l'ortografia.</span>
+                    </div>
+                )}
 
-                        {/* No results handled at the top */}
+                {/* 2. Standard Action Block (Displaced downward when searching) */}
+                <button className="big-community-btn-xl" onClick={() => navigate('/comunitat')}>
+                    <div className="btn-icon-xl">
+                        <Users size={32} />
+                    </div>
+                    <div className="btn-text-xl">
+                        <strong>Explora el teu territori</strong>
+                        <span>Descobreix tota la gent i entitats del poble</span>
+                    </div>
+                    <ChevronRight size={24} />
+                </button>
+
+                <div className="filter-chips-scroll">
+                    {filters.map(filter => (
+                        <button
+                            key={filter.id}
+                            className={`filter-chip ${activeFilter === filter.id ? 'active' : ''}`}
+                            onClick={() => setActiveFilter(filter.id)}
+                        >
+                            {filter.icon}
+                            <span>{filter.label}</span>
+                        </button>
+                    ))}
+                </div>
+
+                {/* 3. Empty State Content (Popular Searches) */}
+                {isEmpty && (
+                    <div className="search-welcome">
+                        <div className="recent-searches">
+                            <h4>Cerques populars</h4>
+                            <div className="recent-list">
+                                {recentSearches.map(s => (
+                                    <button key={s} className="recent-item" onClick={() => setQuery(s)}>
+                                        <Search size={14} />
+                                        <span>{s}</span>
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
                     </div>
                 )}
             </div>
