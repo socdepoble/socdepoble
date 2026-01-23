@@ -145,7 +145,7 @@ const PublicProfile = () => {
             <ProfileHeaderPremium
                 type="person"
                 title={profile.full_name}
-                subtitle={profile.role === 'ambassador' ? 'Ambaixador' : 'Veí'}
+                subtitle={profile.ofici || (profile.role === 'ambassador' ? 'Ambaixador' : (profile.role && profile.role !== 'user' ? profile.role : 'Veí'))}
                 town={profile.town_name || 'La Torre de les Maçanes'}
                 bio={profile.bio}
                 avatarUrl={profile.avatar_url}

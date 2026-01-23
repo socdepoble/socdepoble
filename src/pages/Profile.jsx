@@ -88,6 +88,14 @@ const Profile = () => {
     const [isStudioOpen, setIsStudioOpen] = useState(false);
     const [isPickerOpen, setIsPickerOpen] = useState(false);
 
+    // Editing state for text fields
+    const [isEditingOfici, setIsEditingOfici] = useState(false);
+    const [oficiValue, setOficiValue] = useState(profile?.ofici || '');
+
+    useEffect(() => {
+        if (profile?.ofici) setOficiValue(profile.ofici);
+    }, [profile]);
+
     const avatarInputRef = useRef(null);
 
     useEffect(() => {
@@ -134,6 +142,19 @@ const Profile = () => {
             logger.log('[Profile] Social share preference updated:', preference);
         } catch (error) {
             logger.error('Error updating social preference:', error);
+        }
+    };
+
+    const handleOficiSubmit = async () => {
+        try {
+            const updated = await supabaseService.updateProfile(user.id, {
+                ofici: oficiValue
+            });
+            setProfile(updated);
+            setIsEditingOfici(false);
+            logger.log('[Profile] Ofici updated:', oficiValue);
+        } catch (error) {
+            logger.error('Error updating ofici:', error);
         }
     };
 
@@ -396,6 +417,30 @@ const Profile = () => {
 
             <div className="profile-name-section">
                 <h2>{displayProfile.full_name || 'Usuari'}</h2>
+
+                {isEditingOfici ? (
+                    <div className="ofici-edit-wrapper">
+                        <input
+                            type="text"
+                            value={oficiValue}
+                            onChange={(e) => setOficiValue(e.target.value)}
+                            onBlur={handleOficiSubmit}
+                            onKeyDown={(e) => e.key === 'Enter' && handleOficiSubmit()}
+                            placeholder="Quin és el teu ofici? (Ex: Fuster)"
+                            className="ofici-input-premium"
+                            autoFocus
+                        />
+                        <button className="ofici-save-btn" onClick={handleOficiSubmit}>
+                            <Save size={14} />
+                        </button>
+                    </div>
+                ) : (
+                    <div className="ofici-display-wrapper" onClick={() => setIsEditingOfici(true)}>
+                        <span className="ofici-text-premium">{displayProfile.ofici || 'Quin és el teu ofici?'}</span>
+                        <Settings size={12} className="edit-icon-mini" />
+                    </div>
+                )}
+
                 {user?.isDemo && (
                     <div className="demo-badge">
                         <span>🧪 Mode Demo: Volàtil</span>

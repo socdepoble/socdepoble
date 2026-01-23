@@ -54,5 +54,6 @@ export const ProfileSchema = z.object({
     primary_town: z.string().nullable().optional(),
     town_uuid: z.string().uuid().nullable().optional(),
     role: z.string().optional(),
+    ofici: z.string().nullable().optional(),
     social_image_preference: z.enum(['avatar', 'cover', 'none']).default('none').optional()
 });
