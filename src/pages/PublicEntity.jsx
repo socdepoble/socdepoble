@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { Building2, Store, Users, MapPin, MessageSquare, Share2, Loader2, AlertCircle, Calendar, ArrowLeft, UserPlus, UserMinus } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
+import SEO from '../components/SEO';
+import ProfileHeaderPremium from '../components/ProfileHeaderPremium';
 import './Profile.css';
 
 const PublicEntity = () => {
@@ -19,6 +21,7 @@ const PublicEntity = () => {
     const [error, setError] = useState(null);
     const [isConnected, setIsConnected] = useState(false);
     const [isConnecting, setIsConnecting] = useState(false);
+    const [followersCount, setFollowersCount] = useState(0);
 
     useEffect(() => {
         const fetchEntityData = async () => {
@@ -27,15 +30,17 @@ const PublicEntity = () => {
                 const entityData = await supabaseService.getPublicEntity(id);
                 setEntity(entityData);
 
-                const [membersData, postsData, itemsData] = await Promise.all([
+                const [membersData, postsData, itemsData, followers] = await Promise.all([
                     supabaseService.getEntityMembers(id),
                     supabaseService.getEntityPosts(id),
-                    supabaseService.getEntityMarketItems(id)
+                    supabaseService.getEntityMarketItems(id),
+                    supabaseService.getFollowers(id)
                 ]);
 
-                setMembers(membersData);
-                setPosts(postsData);
-                setItems(itemsData);
+                setMembers(membersData || []);
+                setPosts(postsData || []);
+                setItems(itemsData || []);
+                setFollowersCount(followers?.length || 0);
             } catch (err) {
                 logger.error('[PublicEntity] Error:', err);
                 setError(err.message);
@@ -62,10 +67,16 @@ const PublicEntity = () => {
         try {
             if (isConnected) {
                 const success = await supabaseService.disconnectFromProfile(currentUser.id, id);
-                if (success) setIsConnected(false);
+                if (success) {
+                    setIsConnected(false);
+                    setFollowersCount(prev => Math.max(0, prev - 1));
+                }
             } else {
                 const success = await supabaseService.connectWithProfile(currentUser.id, id);
-                if (success) setIsConnected(true);
+                if (success) {
+                    setIsConnected(true);
+                    setFollowersCount(prev => prev + 1);
+                }
             }
         } catch (err) {
             console.error('Error handling connection:', err);
@@ -99,57 +110,41 @@ const PublicEntity = () => {
 
     return (
         <div className="profile-container">
-            <div className="profile-header-premium entity-header">
-                <div className="header-top-actions floating">
-                    <button className="giga-back-button" onClick={() => navigate(-1)}>
-                        <ArrowLeft size={30} />
-                    </button>
-                </div>
-                <div className="profile-avatar-wrapper entity-avatar-wrapper">
-                    {entity.avatar_url ? (
-                        <img src={entity.avatar_url} alt={entity.name} className="profile-avatar-large entity-thumb" />
+            <SEO
+                title={entity.name}
+                description={entity.description || `${entity.name} a Sóc de Poble. ${entity.type} de la Comunitat Valenciana.`}
+                image={entity.avatar_url}
+                type="article"
+            />
+            <ProfileHeaderPremium
+                type={entity.type === 'negoci' ? 'business' : (entity.type === 'oficial' ? 'official' : 'group')}
+                title={entity.name}
+                subtitle={entity.type === 'oficial' ? 'Canal Oficial' : (entity.type === 'negoci' ? 'Comerç Local' : 'Associació')}
+                bio={entity.description}
+                avatarUrl={entity.avatar_url}
+                coverUrl={entity.cover_url}
+                isLive={entity.type === 'negoci'} // Simplified live status
+                badges={entity.type === 'oficial' ? ['Oficial'] : (entity.is_ai ? ['IAIA'] : [])}
+                stats={[
+                    { label: 'Poble', value: entity.town_name || 'La Torre', icon: <MapPin size={18} /> },
+                    { label: 'Seguidors', value: followersCount.toString(), icon: <Users size={18} /> }
+                ]}
+            />
+
+            <div className="profile-actions-inline">
+                <button
+                    className={`connect-btn-inline-vibrant ${isConnected ? 'connected' : ''}`}
+                    onClick={handleConnect}
+                    disabled={isConnecting}
+                >
+                    {isConnecting ? (
+                        <Loader2 className="spinner" size={18} />
+                    ) : isConnected ? (
+                        <><UserMinus size={18} /> DESCONECTAR</>
                     ) : (
-                        <div className="avatar-placeholder-large">{getEntityIcon(entity.type)}</div>
+                        <><UserPlus size={18} /> CONECTAR</>
                     )}
-                </div>
-                <div className="profile-info-main">
-                    <div className="profile-name-row">
-                        <h1 className="heading-xl">{entity.name}</h1>
-                        {entity.is_ai && (
-                            <span className="identity-badge ai" title="Informació i Acció Artificial">IAIA</span>
-                        )}
-                    </div>
-                    {entity.is_ai && (
-                        <div className="ia-transparency-banner-profile">
-                            🤖 Aquesta entitat està gestionada per una IAIA (Informació i Acció Artificial).
-                        </div>
-                    )}
-                    <div className="profile-stats-row">
-                        <div className="profile-stat-item">
-                            <MapPin size={18} />
-                            <span>La Torre de les Maçanes</span>
-                        </div>
-                        <div className="profile-stat-item">
-                            <Users size={18} />
-                            <span>{members.length} col·laboradors</span>
-                        </div>
-                    </div>
-                </div>
-                <div className="entity-actions-header">
-                    <button
-                        className={`connect-btn-vibrant ${isConnected ? 'connected' : ''}`}
-                        onClick={handleConnect}
-                        disabled={isConnecting}
-                    >
-                        {isConnecting ? (
-                            <Loader2 className="spinner" size={18} />
-                        ) : isConnected ? (
-                            <><UserMinus size={18} /> DESCONECTAR</>
-                        ) : (
-                            <><UserPlus size={18} /> CONECTAR</>
-                        )}
-                    </button>
-                </div>
+                </button>
             </div>
 
             <div className="profile-grid-custom">

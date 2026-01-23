@@ -5,7 +5,10 @@ import { useTranslation } from 'react-i18next';
 import { ArrowLeft, MapPin, Users, Info, MessageCircle, ShoppingBag } from 'lucide-react';
 import Feed from '../components/Feed';
 import Market from '../components/Market';
-import './Towns.css'; // Reusamos estilos o creamos específicos
+import SEO from '../components/SEO';
+import ProfileHeaderPremium from '../components/ProfileHeaderPremium';
+import './Towns.css';
+import { logger } from '../utils/logger';
 
 const TownDetail = () => {
     const { id } = useParams();
@@ -37,42 +40,25 @@ const TownDetail = () => {
 
     return (
         <div className="town-detail-page">
-            <header className="town-detail-hero">
-                <img
-                    src={town.image_url || '/images/assets/town_square.png'}
-                    alt={town.name}
-                    className="town-hero-img"
-                />
-                <div className="town-hero-overlay"></div>
-                <div className="town-hero-content-premium">
-                    <button className="back-circle-btn-glass" onClick={() => navigate(-1)}>
-                        <ArrowLeft size={22} />
-                    </button>
-
-                    <div className="town-identity-block">
-                        <div className="town-logo-wrapper-vibrant">
-                            {town.logo_url ? (
-                                <img src={town.logo_url} alt="" className="town-logo-vibrant" />
-                            ) : (
-                                <div className="town-logo-placeholder">🏛️</div>
-                            )}
-                        </div>
-                        <div className="town-main-info">
-                            <h1 className="town-premium-name">{town.name}</h1>
-                            <div className="town-quick-stats">
-                                <span className="quick-stat-pill">
-                                    <Users size={14} />
-                                    {town.population?.toLocaleString()} veïns
-                                </span>
-                                <span className="quick-stat-pill active-community">
-                                    <MapPin size={14} />
-                                    Comunitat Activa
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </header>
+            <SEO
+                title={town.name}
+                description={town.description || `Descobreix la vida i comunitat a ${town.name}, Comunitat Valenciana.`}
+                image={town.image_url}
+                keywords={`${town.name}, ${town.comarca}, ${town.province}, pobles valencians`}
+            />
+            <ProfileHeaderPremium
+                type="town"
+                title={town.name}
+                subtitle={`${town.comarca}, ${town.province}`}
+                bio={town.description}
+                avatarUrl={town.logo_url}
+                coverUrl={town.image_url}
+                badges={['Activa']}
+                stats={[
+                    { label: 'Veïns', value: town.population?.toLocaleString() || '---', icon: <Users size={18} /> },
+                    { label: 'Ubicació', value: town.comarca || 'Comunitat', icon: <MapPin size={18} /> }
+                ]}
+            />
 
             <div className="town-detail-body">
                 {/* BANDO MUNICIPAL - Official Announcements */}
@@ -91,14 +77,6 @@ const TownDetail = () => {
                     </div>
                 </section>
 
-                <section className="town-info-section-premium">
-                    <div className="info-grid-compact">
-                        <div className="info-bubble">
-                            <Info size={18} />
-                            <p>{town.description}</p>
-                        </div>
-                    </div>
-                </section>
 
                 <section className="town-utilities-row">
                     <div className="utility-card weather-glass">

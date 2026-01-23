@@ -14,14 +14,49 @@ const sanitizeInput = (text) => {
     return text.replace(/[<>{}[\]\\^`|%'"?]/g, '').trim();
 };
 
-// Cache para detectar columnas disponibles y evitar errores 400 ruidosos
-// Usamos localStorage para persistir y que solo falle una vez "en la vida" del usuario
 const columnCache = {
     profiles_is_demo: localStorage.getItem('cp_profiles_is_demo') === 'true' ? true : (localStorage.getItem('cp_profiles_is_demo') === 'false' ? false : null),
     posts_is_playground: localStorage.getItem('cp_posts_is_playground') === 'true' ? true : (localStorage.getItem('cp_posts_is_playground') === 'false' ? false : null),
     market_is_playground: localStorage.getItem('cp_market_is_playground') === 'true' ? true : (localStorage.getItem('cp_market_is_playground') === 'false' ? false : null),
     messages_is_ai: localStorage.getItem('cp_messages_is_ai') === 'true' ? true : (localStorage.getItem('cp_messages_is_ai') === 'false' ? false : null),
     connections_table: localStorage.getItem('cp_connections_table') === 'true' ? true : (localStorage.getItem('cp_connections_table') === 'false' ? false : null)
+};
+
+/**
+ * Intelligent Synonym Dictionary for Towns and Search Terms
+ * Maps historical, informal, or other language variants to canonical names.
+ */
+const SEARCH_SYNONYMS = {
+    'torremanzanas': 'La Torre de les Maçanes',
+    'la torre de las manzanas': 'La Torre de les Maçanes',
+    'la torre': 'La Torre de les Maçanes',
+    'alcoy': 'Alcoi',
+    'alcoià': 'Alcoi',
+    'el mure': 'Muro d\'Alcoi',
+    'muro de alcoy': 'Muro d\'Alcoi',
+    'muro': 'Muro d\'Alcoi',
+    'cocentaina': 'Cocentaina', // Canonical
+    'quincena': 'Cocentaina', // For testing or local context
+    'penaguila': 'Penàguila',
+    'rellen': 'Relleu',
+    'benifallim': 'Benifallim'
+};
+
+/**
+ * Normalizes a search query using the synonym engine.
+ * @param {string} query 
+ * @returns {string} Normalized query
+ */
+const getNormalizedQuery = (query) => {
+    if (!query) return '';
+    const trimmed = query.toLowerCase().trim();
+    // Direct match check
+    if (SEARCH_SYNONYMS[trimmed]) return SEARCH_SYNONYMS[trimmed];
+    // Partial match/Contains check (more dynamic)
+    for (const [key, value] of Object.entries(SEARCH_SYNONYMS)) {
+        if (trimmed.includes(key)) return value;
+    }
+    return query;
 };
 
 const setColumnCache = (key, value) => {
@@ -512,11 +547,12 @@ export const supabaseService = {
 
     async searchProfiles(query) {
         if (!query || query.length < 2) return [];
+        const normalized = getNormalizedQuery(query);
         try {
             const { data, error } = await supabase
                 .from('profiles')
                 .select('id, full_name, username, avatar_url, role, primary_town, bio')
-                .or(`full_name.ilike.%${query}%,username.ilike.%${query}%,role.ilike.%${query}%,primary_town.ilike.%${query}%`)
+                .or(`full_name.ilike.%${query}%,username.ilike.%${query}%,role.ilike.%${query}%,primary_town.ilike.%${query}%,primary_town.ilike.%${normalized}%`)
                 .limit(10);
 
             if (error) throw error;
@@ -556,11 +592,12 @@ export const supabaseService = {
 
     async searchEntities(query) {
         if (!query || query.length < 2) return [];
+        const normalized = getNormalizedQuery(query);
         try {
             const { data, error } = await supabase
                 .from('entities')
                 .select('id, name, type, avatar_url, description')
-                .or(`name.ilike.%${query}%,type.ilike.%${query}%,description.ilike.%${query}%`)
+                .or(`name.ilike.%${query}%,name.ilike.%${normalized}%,type.ilike.%${query}%,description.ilike.%${query}%`)
                 .limit(10);
 
             if (error) throw error;
@@ -578,8 +615,10 @@ export const supabaseService = {
 
             const filteredMock = mockEntities.filter(e =>
                 e.name.toLowerCase().includes(query.toLowerCase()) ||
+                e.name.toLowerCase().includes(normalized.toLowerCase()) ||
                 e.type.toLowerCase().includes(query.toLowerCase()) ||
-                e.town_name.toLowerCase().includes(query.toLowerCase())
+                e.town_name?.toLowerCase().includes(query.toLowerCase()) ||
+                e.town_name?.toLowerCase().includes(normalized.toLowerCase())
             );
 
             return [...(data || []), ...filteredMock];
@@ -682,6 +721,31 @@ export const supabaseService = {
             return !!data;
         } catch (error) {
             return false;
+        }
+    },
+
+    async getFollowers(targetId) {
+        if (!targetId) return [];
+        if (columnCache.connections_table === false) return [];
+
+        try {
+            const { data, error, status } = await supabase
+                .from('connections')
+                .select('follower_id')
+                .eq('target_id', targetId);
+
+            if (error) {
+                if (error.code === '42P01' || status === 404) {
+                    setColumnCache('connections_table', false);
+                    return [];
+                }
+                throw error;
+            }
+            if (columnCache.connections_table === null) setColumnCache('connections_table', true);
+            return data || [];
+        } catch (error) {
+            logger.error('[SupabaseService] Error getting followers:', error);
+            return [];
         }
     },
 

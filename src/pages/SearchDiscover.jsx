@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, X, Users, Building2, MapPin, ArrowLeft, Loader2, Sparkles, SlidersHorizontal, ChevronRight, User, Landmark, Store, Building } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
+import SEO from '../components/SEO';
 import './SearchDiscover.css';
 
 const SearchDiscover = () => {
@@ -63,17 +64,22 @@ const SearchDiscover = () => {
     const filters = [
         { id: 'tots', label: 'Tots', icon: <Sparkles size={14} /> },
         { id: 'gent', label: 'Gent', icon: <Users size={14} /> },
-        { id: 'ajuntaments', label: 'Ajuntaments', icon: <Landmark size={14} />, type: 'oficial' },
-        { id: 'empreses', label: 'Empreses', icon: <Store size={14} />, type: 'empresa' },
         { id: 'grups', label: 'Grups', icon: <Users size={14} />, type: 'grup' },
-        { id: 'entitats', label: 'Entitats', icon: <Building size={14} />, type: 'institucio' },
-        { id: 'pobles', label: 'Pobles', icon: <MapPin size={14} /> }
+        { id: 'empreses', label: 'Empreses', icon: <Store size={14} />, type: 'empresa' },
+        { id: 'pobles', label: 'Pobles', icon: <MapPin size={14} /> },
+        { id: 'ajuntaments', label: 'Ajuntaments', icon: <Landmark size={14} />, type: 'oficial' },
+        { id: 'entitats', label: 'Entitats', icon: <Building size={14} />, type: 'institucio' }
     ];
 
     const isEmpty = !query && results.gent.length === 0 && results.entitats.length === 0 && results.pobles.length === 0;
 
     return (
         <div className="search-discover-page">
+            <SEO
+                title={query ? `Cerca: ${query}` : 'Explora el teu territori'}
+                description={query ? `Resultats de cerca per a ${query} a Sóc de Poble. Troba gent, entitats i pobles de la Comunitat Valenciana.` : 'Descobreix la gent, els pobles i les entitats de la teua comunitat.'}
+                keywords={query ? `${query}, cerca, pobles, comunitat valenciana` : 'pobles, comunitat valenciana, xarxa social, proximitat'}
+            />
             <div className="search-nav-bar">
                 <button className="back-circle" onClick={() => navigate(-1)}>
                     <ArrowLeft size={20} />
@@ -105,34 +111,66 @@ const SearchDiscover = () => {
                     </div>
                 ) : !isEmpty ? (
                     <div className="search-results-container">
-                        {(activeFilter === 'tots' || activeFilter === 'gent') && results.gent.length > 0 && (
-                            <section className="result-section">
-                                <div className="result-section-header">
-                                    <h3>Gent</h3>
-                                    <span className="count">{results.gent.length}</span>
-                                </div>
-                                <div className="results-list">
-                                    {results.gent.map(person => (
-                                        <div key={person.id} className="result-item-card" onClick={() => navigate(`/perfil/${person.id}`)}>
-                                            <div className="result-avatar">
-                                                {person.avatar_url ? <img src={person.avatar_url} alt="" /> : <User size={20} />}
-                                            </div>
-                                            <div className="result-info">
-                                                <strong>{person.full_name}</strong>
-                                                <span>{person.role || 'Veí'} • {person.primary_town || 'La Torre'}</span>
-                                            </div>
-                                            <ChevronRight size={18} className="chevron" />
-                                        </div>
-                                    ))}
-                                </div>
-                            </section>
-                        )}
+                        {filters.filter(f => f.id !== 'tots').map(filter => {
+                            if (activeFilter !== 'tots' && activeFilter !== filter.id) return null;
 
-                        {/* Entities filtering logic */}
-                        {filters.filter(f => !['tots', 'gent', 'pobles'].includes(f.id)).map(filter => {
+                            // Handle People
+                            if (filter.id === 'gent') {
+                                if (results.gent.length === 0) return null;
+                                return (
+                                    <section key="gent" className="result-section">
+                                        <div className="result-section-header">
+                                            <h3>Gent</h3>
+                                            <span className="count">{results.gent.length}</span>
+                                        </div>
+                                        <div className="results-list">
+                                            {results.gent.map(person => (
+                                                <div key={person.id} className="result-item-card" onClick={() => navigate(`/perfil/${person.id}`)}>
+                                                    <div className="result-avatar">
+                                                        {person.avatar_url ? <img src={person.avatar_url} alt="" /> : <User size={20} />}
+                                                    </div>
+                                                    <div className="result-info">
+                                                        <strong>{person.full_name}</strong>
+                                                        <span>{person.role || 'Veí'} • {person.primary_town || 'La Torre'}</span>
+                                                    </div>
+                                                    <ChevronRight size={18} className="chevron" />
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </section>
+                                );
+                            }
+
+                            // Handle Towns
+                            if (filter.id === 'pobles') {
+                                if (results.pobles.length === 0) return null;
+                                return (
+                                    <section key="pobles" className="result-section">
+                                        <div className="result-section-header">
+                                            <h3>Pobles</h3>
+                                            <span className="count">{results.pobles.length}</span>
+                                        </div>
+                                        <div className="results-list">
+                                            {results.pobles.map(town => (
+                                                <div key={town.id} className="result-item-card" onClick={() => navigate(`/pobles/${town.id}`)}>
+                                                    <div className="result-avatar town">
+                                                        <MapPin size={20} />
+                                                    </div>
+                                                    <div className="result-info">
+                                                        <strong>{town.name}</strong>
+                                                        <span>{town.comarca} • {town.province}</span>
+                                                    </div>
+                                                    <ChevronRight size={18} className="chevron" />
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </section>
+                                );
+                            }
+
+                            // Handle Categorized Entities
                             const filteredEntities = results.entitats.filter(e => e.type === filter.type);
                             if (filteredEntities.length === 0) return null;
-                            if (activeFilter !== 'tots' && activeFilter !== filter.id) return null;
 
                             return (
                                 <section key={filter.id} className="result-section">
@@ -160,29 +198,6 @@ const SearchDiscover = () => {
                                 </section>
                             );
                         })}
-
-                        {(activeFilter === 'tots' || activeFilter === 'pobles') && results.pobles.length > 0 && (
-                            <section className="result-section">
-                                <div className="result-section-header">
-                                    <h3>Pobles</h3>
-                                    <span className="count">{results.pobles.length}</span>
-                                </div>
-                                <div className="results-list">
-                                    {results.pobles.map(town => (
-                                        <div key={town.id} className="result-item-card" onClick={() => navigate(`/pobles/${town.id}`)}>
-                                            <div className="result-avatar town">
-                                                <MapPin size={20} />
-                                            </div>
-                                            <div className="result-info">
-                                                <strong>{town.name}</strong>
-                                                <span>{town.comarca} • {town.province}</span>
-                                            </div>
-                                            <ChevronRight size={18} className="chevron" />
-                                        </div>
-                                    ))}
-                                </div>
-                            </section>
-                        )}
                     </div>
                 ) : query.length > 1 && !isSearching && (
                     <div className="no-results-top-vibrant">

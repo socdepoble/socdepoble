@@ -83,8 +83,9 @@
 .filter-chips-scroll {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: 8px;
-    padding: 8px 0 16px;
+    padding: 12px 0 20px;
 }
 
 .filter-chip {
@@ -139,7 +140,7 @@
 }
 
 .recent-searches {
-    text-align: left;
+    text-align: center;
 }
 
 .recent-searches h4 {
@@ -152,20 +153,20 @@
 
 .recent-list {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 8px;
 }
 
 .recent-item {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 12px;
+    gap: 8px;
+    padding: 10px 16px;
     background: var(--bg-card);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-full);
     cursor: pointer;
-    text-align: left;
     transition: all 0.2s;
 }
 

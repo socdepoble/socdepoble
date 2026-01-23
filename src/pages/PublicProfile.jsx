@@ -6,7 +6,9 @@ import { supabaseService } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
 import { logger } from '../utils/logger';
 import Feed from '../components/Feed';
-import './Profile.css'; // Reuse profile base styles
+import SEO from '../components/SEO';
+import ProfileHeaderPremium from '../components/ProfileHeaderPremium';
+import './Profile.css';
 
 const PublicProfile = () => {
     const { id } = useParams();
@@ -21,6 +23,7 @@ const PublicProfile = () => {
     const [error, setError] = useState(null);
     const [isConnected, setIsConnected] = useState(false);
     const [isConnecting, setIsConnecting] = useState(false);
+    const [followersCount, setFollowersCount] = useState(0);
 
     const isOwnProfile = currentUser?.id === id;
 
@@ -36,13 +39,15 @@ const PublicProfile = () => {
                     setManagedEntities(entities);
                 }
 
-                const [postsData, itemsData] = await Promise.all([
+                const [postsData, itemsData, followers] = await Promise.all([
                     supabaseService.getUserPosts(id),
-                    supabaseService.getUserMarketItems(id)
+                    supabaseService.getUserMarketItems(id),
+                    supabaseService.getFollowers(id)
                 ]);
 
-                setUserPosts(postsData);
-                setItems(itemsData);
+                setUserPosts(postsData || []);
+                setItems(itemsData || []);
+                setFollowersCount(followers?.length || 0);
             } catch (err) {
                 logger.error('[PublicProfile] Error:', err);
                 setError(err.message);
@@ -69,10 +74,16 @@ const PublicProfile = () => {
         try {
             if (isConnected) {
                 const success = await supabaseService.disconnectFromProfile(currentUser.id, id);
-                if (success) setIsConnected(false);
+                if (success) {
+                    setIsConnected(false);
+                    setFollowersCount(prev => Math.max(0, prev - 1));
+                }
             } else {
                 const success = await supabaseService.connectWithProfile(currentUser.id, id);
-                if (success) setIsConnected(true);
+                if (success) {
+                    setIsConnected(true);
+                    setFollowersCount(prev => prev + 1);
+                }
             }
         } catch (err) {
             logger.error('Error handling connection:', err);
@@ -98,62 +109,43 @@ const PublicProfile = () => {
 
     return (
         <div className="profile-container">
-            <div className="profile-header-premium">
-                <div className="header-top-actions floating">
-                    <button className="giga-back-button" onClick={() => navigate(-1)}>
-                        <ArrowLeft size={30} />
+            <SEO
+                title={profile.full_name}
+                description={profile.bio || `Perfil de ${profile.full_name} a Sóc de Poble. ${profile.role || 'Veí'} de ${profile.town_name || 'la seua comunitat'}.`}
+                image={profile.avatar_url}
+                type="profile"
+            />
+            <ProfileHeaderPremium
+                type="person"
+                title={profile.full_name}
+                subtitle={profile.role === 'ambassador' ? 'Ambaixadora Digital' : (profile.role || 'Veí de la Comunitat')}
+                bio={profile.bio}
+                avatarUrl={profile.avatar_url}
+                coverUrl={profile.cover_url}
+                badges={profile.role === 'ambassador' ? ['IAIA'] : []}
+                stats={[
+                    { label: 'Poble', value: profile.town_name || 'La Torre', icon: <MapPin size={18} /> },
+                    { label: 'Connexions', value: followersCount.toString(), icon: <UsersIcon size={18} /> }
+                ]}
+            />
+
+            {!isOwnProfile && (
+                <div className="profile-actions-inline">
+                    <button
+                        className={`connect-btn-inline-vibrant ${isConnected ? 'connected' : ''}`}
+                        onClick={handleConnect}
+                        disabled={isConnecting}
+                    >
+                        {isConnecting ? (
+                            <Loader2 className="spinner" size={18} />
+                        ) : isConnected ? (
+                            <><UserMinus size={18} /> DESCONECTAR</>
+                        ) : (
+                            <><UserPlus size={18} /> CONECTAR</>
+                        )}
                     </button>
                 </div>
-                <div className="profile-avatar-wrapper">
-                    {profile.avatar_url ? (
-                        <img src={profile.avatar_url} alt={profile.full_name} className="profile-avatar-large" />
-                    ) : (
-                        <div className="avatar-placeholder-large"><User size={48} /></div>
-                    )}
-                </div>
-                <div className="profile-info-main">
-                    <div className="profile-name-row">
-                        <h1 className="heading-xl">{profile.full_name}</h1>
-                        {profile.role === 'ambassador' && (
-                            <span className="identity-badge ai" title="Informació i Acció Artificial">IAIA</span>
-                        )}
-                    </div>
-                    {profile.role === 'ambassador' && (
-                        <div className="ia-transparency-banner-profile">
-                            🤖 Aquest perfil pertany a una IAIA (Informació i Acció Artificial), l'Ambaixadora Digital de Sóc de Poble.
-                        </div>
-                    )}
-                    <p className="profile-bio-vibrant">{profile.bio}</p>
-                    <div className="profile-stats-row">
-                        <div className="profile-stat-item">
-                            <MapPin size={18} />
-                            <span>{profile.town_name || 'La Torre de les Maçanes'}</span>
-                        </div>
-                        <div className="profile-stat-item">
-                            <Calendar size={18} />
-                            <span>Membre des de {profile.created_at ? new Date(profile.created_at).getFullYear() : '2024'}</span>
-                        </div>
-                    </div>
-
-                    {!isOwnProfile && (
-                        <div className="profile-actions-public">
-                            <button
-                                className={`connect-btn-large ${isConnected ? 'connected' : ''}`}
-                                onClick={handleConnect}
-                                disabled={isConnecting}
-                            >
-                                {isConnecting ? (
-                                    <Loader2 className="spinner" size={18} />
-                                ) : isConnected ? (
-                                    <><UserMinus size={18} /> DESCONECTAR</>
-                                ) : (
-                                    <><UserPlus size={18} /> CONECTAR</>
-                                )}
-                            </button>
-                        </div>
-                    )}
-                </div>
-            </div>
+            )}
 
             {
                 isOwnProfile && managedEntities.length > 0 && (

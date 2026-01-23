@@ -301,18 +301,19 @@
     transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
 }
-/* Public connection buttons */
-.profile-actions-public, 
-.entity-actions-header {
-    margin-top: 20px;
-    padding: 0 24px 24px;
+
+/* Inline action buttons for public view */
+.profile-actions-inline {
+    margin: -10px 16px 24px;
+    display: flex;
+    justify-content: center;
 }
 
-.connect-btn-large, 
-.connect-btn-vibrant {
+.connect-btn-inline-vibrant {
     width: 100%;
-    padding: 14px;
-    border-radius: var(--radius-full);
+    max-width: 320px;
+    padding: 16px 24px;
+    border-radius: 20px;
     border: none;
     background: var(--color-primary);
     color: white;
@@ -321,25 +322,28 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 12px;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 15px rgba(var(--color-primary-rgb), 0.3);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 8px 20px rgba(var(--color-primary-rgb), 0.25);
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
-.connect-btn-large:hover, 
-.connect-btn-vibrant:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(var(--color-primary-rgb), 0.4);
+.connect-btn-inline-vibrant:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(var(--color-primary-rgb), 0.35);
+    filter: brightness(1.05);
 }
 
-.connect-btn-large.connected, 
-.connect-btn-vibrant.connected {
-    background: var(--bg-surface);
+.connect-btn-inline-vibrant:active {
+    transform: translateY(-1px);
+}
+
+.connect-btn-inline-vibrant.connected {
+    background: var(--bg-card);
     color: var(--text-main);
-    border: 2.5px solid var(--color-primary);
+    border: 1.5px solid var(--color-primary);
     box-shadow: none;
 }
 
@@ -349,6 +353,11 @@
 }
 
 @keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
