@@ -161,36 +161,7 @@ const PublicEntity = () => {
                 onShare={handleShare}
             />
 
-            <div className="profile-stats-bar">
-                <div className="stat-card">
-                    <span className="stat-value">{posts.length}</span>
-                    <span className="stat-label">Publicacions</span>
-                </div>
-                <div className="stat-card">
-                    <span className="stat-value">{entity.type === 'negoci' ? items.length : members.length}</span>
-                    <span className="stat-label">{entity.type === 'negoci' ? 'En Venda' : 'Membres'}</span>
-                </div>
-                <div className="stat-card">
-                    <span className="stat-value">{followersCount}</span>
-                    <span className="stat-label">Seguidors</span>
-                </div>
-            </div>
 
-            <div className="profile-actions-inline">
-                <button
-                    className={`connect-btn-inline-vibrant ${isConnected ? 'connected' : ''}`}
-                    onClick={handleConnect}
-                    disabled={isConnecting}
-                >
-                    {isConnecting ? (
-                        <Loader2 className="spinner" size={18} />
-                    ) : isConnected ? (
-                        <><UserMinus size={18} /> DESCONECTAR</>
-                    ) : (
-                        <><UserPlus size={18} /> CONECTAR</>
-                    )}
-                </button>
-            </div>
 
             <div className="profile-grid-custom">
                 <section className="profile-section-premium">

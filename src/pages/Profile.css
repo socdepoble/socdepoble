@@ -349,7 +349,7 @@
 
 /* Inline action buttons for public view */
 .profile-actions-inline {
-    margin: -10px 16px 24px;
+    margin: 16px 0 0;
     display: flex;
     justify-content: center;
 }

@@ -169,25 +169,25 @@ const PublicProfile = () => {
                         <span className="stat-label">Connexions</span>
                     </div>
                 </div>
-            </ProfileHeaderPremium>
 
-            {!isOwnProfile && (
-                <div className="profile-actions-inline">
-                    <button
-                        className={`connect-btn-inline-vibrant ${isConnected ? 'connected' : ''}`}
-                        onClick={handleConnect}
-                        disabled={isConnecting}
-                    >
-                        {isConnecting ? (
-                            <Loader2 className="spinner" size={18} />
-                        ) : isConnected ? (
-                            <><UserMinus size={18} /> DESCONECTAR</>
-                        ) : (
-                            <><UserPlus size={18} /> CONECTAR</>
-                        )}
-                    </button>
-                </div>
-            )}
+                {!isOwnProfile && (
+                    <div className="profile-actions-inline">
+                        <button
+                            className={`connect-btn-inline-vibrant ${isConnected ? 'connected' : ''}`}
+                            onClick={handleConnect}
+                            disabled={isConnecting}
+                        >
+                            {isConnecting ? (
+                                <Loader2 className="spinner" size={18} />
+                            ) : isConnected ? (
+                                <><UserMinus size={18} /> DESCONECTAR</>
+                            ) : (
+                                <><UserPlus size={18} /> CONECTAR</>
+                            )}
+                        </button>
+                    </div>
+                )}
+            </ProfileHeaderPremium>
 
             {
                 isOwnProfile && managedEntities.length > 0 && (
