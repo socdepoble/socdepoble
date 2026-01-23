@@ -18,6 +18,7 @@ import PublicEntity from './pages/PublicEntity';
 import AdminPanel from './pages/AdminPanel';
 import PlaygroundPortal from './pages/PlaygroundPortal';
 import MediaAlbum from './pages/MediaAlbum';
+import EntityManagement from './pages/EntityManagement';
 import { supabase } from './supabaseClient';
 import { MOCK_CHATS, MOCK_FEED, MOCK_MARKET_ITEMS } from './data';
 import { useAuth } from './context/AuthContext';
@@ -109,6 +110,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <MediaAlbum />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="gestio-entitats"
+            element={
+              <ProtectedRoute>
+                <EntityManagement />
               </ProtectedRoute>
             }
           />

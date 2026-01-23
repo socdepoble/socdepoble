@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { supabaseService } from '../services/supabaseService';
-import { Users, Shield, ArrowLeft, Loader2, UserCheck, Store } from 'lucide-react';
+import { Users, Shield, ArrowLeft, Loader2, UserCheck, Store, Plus, Layout, Settings } from 'lucide-react';
 import { logger } from '../utils/logger';
 import './AdminPanel.css';
 
@@ -11,8 +11,12 @@ const AdminPanel = () => {
     const { isSuperAdmin, setImpersonatedProfile, setActiveEntityId } = useAuth();
     const [personas, setPersonas] = useState([]);
     const [entities, setEntities] = useState([]);
+    const [lexicon, setLexicon] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [activeTab, setActiveTab] = useState('gent');
+
+    const params = new URLSearchParams(window.location.search);
+    const initialTab = params.get('tab') || 'gent';
+    const [activeTab, setActiveTab] = useState(initialTab);
 
     useEffect(() => {
         if (!isSuperAdmin) {
@@ -22,12 +26,14 @@ const AdminPanel = () => {
 
         const fetchData = async () => {
             try {
-                const [pData, eData] = await Promise.all([
+                const [pData, eData, lData] = await Promise.all([
                     supabaseService.getAllPersonas(),
-                    supabaseService.getAdminEntities()
+                    supabaseService.getAdminEntities(),
+                    supabaseService.getLexiconTerms()
                 ]);
                 setPersonas(pData || []);
                 setEntities(eData || []);
+                setLexicon(lData || []);
             } catch (error) {
                 logger.error('Error fetching admin data:', error);
             } finally {
@@ -94,6 +100,9 @@ const AdminPanel = () => {
                 </button>
                 <button className={activeTab === 'entitats' ? 'active' : ''} onClick={() => setActiveTab('entitats')}>
                     <Shield size={18} /> Entitats ({officials.length})
+                </button>
+                <button className={activeTab === 'categories' ? 'active' : ''} onClick={() => setActiveTab('categories')}>
+                    <Layout size={18} /> Lèxic ({lexicon.length})
                 </button>
             </nav>
 
@@ -168,6 +177,35 @@ const AdminPanel = () => {
                                 </button>
                             </div>
                         ))}
+                    </div>
+                )}
+
+                {activeTab === 'categories' && (
+                    <div className="lexicon-admin">
+                        <div className="admin-section-header">
+                            <h3>Gestió del Lèxic Local</h3>
+                            <button className="add-btn" onClick={() => alert('Pròximament: Afegir terme')}>
+                                <Plus size={16} /> Nou Terme
+                            </button>
+                        </div>
+                        <div className="lexicon-grid">
+                            {lexicon.length === 0 && <p className="empty-msg">No hi ha termes al lèxic.</p>}
+                            {lexicon.map(term => (
+                                <div key={term.id} className="lexicon-item-card">
+                                    <div className="term-main">
+                                        <span className="term-word">{term.term}</span>
+                                        <span className="term-town">{term.towns?.name || 'Comú'}</span>
+                                    </div>
+                                    <p className="term-def">{term.definition}</p>
+                                    <div className="term-footer">
+                                        <span className="term-cat">{term.category || 'General'}</span>
+                                        <div className="term-actions">
+                                            <button className="icon-btn"><Settings size={14} /></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 )}
             </div>

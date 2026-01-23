@@ -279,6 +279,9 @@ const Profile = () => {
 
     const menuItems = [
         { icon: <ImageIcon size={20} />, label: t('nav.my_album') || 'El meu Àlbum', id: 'photos' },
+        { icon: <User size={20} />, label: 'Veure el meu Mur Públic', id: 'public_profile' },
+        { icon: <Settings size={20} />, label: 'Gestió de Categories i Etiquetes', id: 'categories' },
+        { icon: <Building2 size={20} />, label: 'Crear o Gestionar Entitats', id: 'manage_entities' },
         { icon: <MessageCircle size={20} />, label: t('nav.my_posts'), id: 'posts' },
         { icon: <Store size={20} />, label: t('nav.my_products'), id: 'products' },
         { icon: theme === 'light' ? <Moon size={20} /> : <Sun size={20} />, label: theme === 'light' ? 'Modo nit' : 'Modo dia', id: 'theme' },
@@ -294,6 +297,12 @@ const Profile = () => {
             toggleTheme();
         } else if (id === 'photos') {
             navigate('/fotos');
+        } else if (id === 'public_profile') {
+            navigate(`/perfil/${user.id}`);
+        } else if (id === 'categories') {
+            navigate('/admin?tab=categories');
+        } else if (id === 'manage_entities') {
+            navigate('/gestio-entitats');
         } else {
             logger.log('Clicked menu item:', id);
         }

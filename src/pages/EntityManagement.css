@@ -1,0 +1,217 @@
+.entity-mgmt-page {
+    min-height: 100vh;
+    background: var(--bg-main);
+    padding-bottom: 80px;
+}
+
+.entity-mgmt-header {
+    background: var(--bg-card);
+    padding: 60px 24px 30px;
+    border-bottom: 1px solid var(--color-border);
+    position: relative;
+    text-align: center;
+}
+
+.entity-mgmt-header .back-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: transparent;
+    border: none;
+    color: var(--text-main);
+    cursor: pointer;
+}
+
+.entity-mgmt-header h1 {
+    font-size: 28px;
+    font-weight: 900;
+    margin-bottom: 8px;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.entity-mgmt-header p {
+    color: var(--text-muted);
+    font-size: 15px;
+}
+
+.entity-mgmt-content {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.entity-mgmt-content h3 {
+    font-size: 18px;
+    font-weight: 800;
+    margin-bottom: 16px;
+    color: var(--text-main);
+}
+
+.creation-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.create-card {
+    background: var(--bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    text-align: left;
+}
+
+.create-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl);
+    border-color: var(--color-primary);
+}
+
+.create-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.create-icon.groups {
+    background: rgba(93, 95, 239, 0.1);
+    color: #5D5FEF;
+}
+
+.create-icon.business {
+    background: rgba(230, 81, 0, 0.1);
+    color: #E65100;
+}
+
+.create-icon.official {
+    background: rgba(46, 125, 50, 0.1);
+    color: #2E7D32;
+}
+
+.create-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.create-info strong {
+    font-size: 16px;
+    color: var(--text-main);
+}
+
+.create-info span {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.plus-icon {
+    color: var(--color-border);
+    transition: color 0.2s;
+}
+
+.create-card:hover .plus-icon {
+    color: var(--color-primary);
+}
+
+.managed-entity-item {
+    background: var(--bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    margin-bottom: 12px;
+    transition: all 0.2s;
+}
+
+.managed-entity-item:hover {
+    border-color: var(--color-primary);
+    background: rgba(var(--color-primary-rgb), 0.02);
+}
+
+.entity-avatar-mini {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-main);
+}
+
+.entity-avatar-mini img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.entity-avatar-mini.empresa {
+    color: #E65100;
+}
+
+.entity-avatar-mini.grup {
+    color: #5D5FEF;
+}
+
+.entity-avatar-mini.entitat {
+    color: #2E7D32;
+}
+
+.entity-detail {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.entity-detail strong {
+    font-size: 15px;
+    color: var(--text-main);
+}
+
+.entity-detail span {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.managed-entity-item .chevron {
+    color: var(--color-border);
+}
+
+.empty-entities {
+    text-align: center;
+    padding: 40px;
+    background: rgba(0, 0, 0, 0.02);
+    border: 2px dashed var(--color-border);
+    border-radius: var(--radius-xl);
+    color: var(--text-muted);
+}
+
+.empty-entities p {
+    margin-top: 12px;
+    font-weight: 700;
+}
+
+.empty-entities .sub {
+    font-size: 13px;
+    font-weight: 400;
+}

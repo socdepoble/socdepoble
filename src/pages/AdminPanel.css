@@ -173,3 +173,107 @@
     justify-content: center;
     height: 100vh;
 }
+/* Lexicon Admin Styles */
+.lexicon-admin {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+
+.admin-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.admin-section-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.add-btn {
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: var(--radius-lg);
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.lexicon-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--space-md);
+}
+
+.lexicon-item-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.term-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.term-word {
+    font-size: 16px;
+    font-weight: 900;
+    color: var(--color-primary);
+}
+
+.term-town {
+    font-size: 10px;
+    background: var(--bg-main);
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    font-weight: 800;
+    color: var(--text-muted);
+}
+
+.term-def {
+    font-size: 13px;
+    color: var(--text-main);
+    margin: 0;
+    line-height: 1.5;
+    flex: 1;
+}
+
+.term-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 12px;
+    border-top: 1px solid var(--color-border);
+}
+
+.term-cat {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+}
+
+.icon-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 4px;
+}
+
+.icon-btn:hover {
+    color: var(--color-primary);
+}
