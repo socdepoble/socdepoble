@@ -215,6 +215,8 @@
     display: flex;
     gap: 12px;
     overflow-x: auto;
+    padding-top: 4px;
+    /* Space for hover transform and shadow */
     padding-bottom: 8px;
     scrollbar-width: none;
 }
