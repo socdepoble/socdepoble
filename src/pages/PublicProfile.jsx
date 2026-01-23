@@ -145,34 +145,31 @@ const PublicProfile = () => {
             <ProfileHeaderPremium
                 type="person"
                 title={profile.full_name}
-                subtitle={profile.role === 'ambassador' ? 'Ambaixadora Digital' : (profile.role || 'Veí de la Comunitat')}
+                subtitle={profile.role === 'ambassador' ? 'Ambaixador' : 'Veí'}
+                town={profile.town_name || 'La Torre'}
                 bio={profile.bio}
                 avatarUrl={profile.avatar_url}
                 coverUrl={profile.cover_url}
                 badges={profile.role === 'ambassador' ? ['IAIA'] : []}
-                stats={[
-                    { label: 'Poble', value: profile.town_name || 'La Torre', icon: <MapPin size={18} /> },
-                    { label: 'Connexions', value: followersCount.toString(), icon: <UsersIcon size={18} /> }
-                ]}
                 onAction={isOwnProfile ? () => navigate('/perfil', { state: { fromProfile: true } }) : null}
                 actionIcon={<Settings size={24} />}
                 onShare={handleShare}
-            />
-
-            <div className="profile-stats-bar">
-                <div className="stat-card">
-                    <span className="stat-value">{userPosts.length}</span>
-                    <span className="stat-label">Publicacions</span>
+            >
+                <div className="profile-stats-bar">
+                    <div className="stat-card">
+                        <span className="stat-value">{userPosts.length}</span>
+                        <span className="stat-label">Publicacions</span>
+                    </div>
+                    <div className="stat-card">
+                        <span className="stat-value">{items.length}</span>
+                        <span className="stat-label">En Venda</span>
+                    </div>
+                    <div className="stat-card">
+                        <span className="stat-value">{followersCount}</span>
+                        <span className="stat-label">Connexions</span>
+                    </div>
                 </div>
-                <div className="stat-card">
-                    <span className="stat-value">{items.length}</span>
-                    <span className="stat-label">En Venda</span>
-                </div>
-                <div className="stat-card">
-                    <span className="stat-value">{followersCount}</span>
-                    <span className="stat-label">Connexions</span>
-                </div>
-            </div>
+            </ProfileHeaderPremium>
 
             {!isOwnProfile && (
                 <div className="profile-actions-inline">

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowLeft, MapPin, Users, Calendar, BadgeCheck, Info, Share2 } from 'lucide-react';
+import { ArrowLeft, MapPin, Calendar, BadgeCheck, Info, Share2, Settings } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import './ProfileHeaderPremium.css';
 
@@ -11,15 +11,16 @@ const ProfileHeaderPremium = ({
     type = 'person', // person, group, business, official, town
     title,
     subtitle,
+    town,
     bio,
     avatarUrl,
     coverUrl,
-    stats = [], // [{ label: 'Veïns', value: '1,2k', icon: <Users /> }]
     badges = [], // ['IAIA', 'Oficial', 'Verificat']
     isLive = false, // Per a "Obert ara" en negocis
     onBack,
     onAction,
-    actionIcon
+    actionIcon,
+    children
 }) => {
     const navigate = useNavigate();
 
@@ -46,8 +47,8 @@ const ProfileHeaderPremium = ({
                     </button>
 
                     {onAction && (
-                        <button className="premium-btn-circle action" onClick={onAction} title="Panell de Control">
-                            {actionIcon || <Info size={24} />}
+                        <button className="premium-btn-circle action" onClick={onAction} title="Configuració">
+                            {actionIcon || <Settings size={24} />}
                         </button>
                     )}
                 </div>
@@ -76,24 +77,24 @@ const ProfileHeaderPremium = ({
                                 </span>
                             ))}
                         </div>
-                        {subtitle && <p className="premium-subtitle">{subtitle}</p>}
+                        <div className="premium-meta-stack">
+                            {subtitle && <p className="premium-subtitle">{subtitle}</p>}
+                            {town && (
+                                <p className="premium-town-line">
+                                    <MapPin size={14} />
+                                    <span>{town}</span>
+                                </p>
+                            )}
+                        </div>
                     </div>
                 </div>
 
                 {bio && <p className="premium-bio">{bio}</p>}
 
-                {/* Dynamic Stats Row */}
-                {stats.length > 0 && (
-                    <div className="premium-stats-grid">
-                        {stats.map((stat, idx) => (
-                            <div key={idx} className="premium-stat-pill">
-                                {stat.icon}
-                                <div className="premium-stat-data">
-                                    <span className="premium-stat-value">{stat.value}</span>
-                                    <span className="premium-stat-label">{stat.label}</span>
-                                </div>
-                            </div>
-                        ))}
+                {/* Slot for Stats Bar or other elements */}
+                {children && (
+                    <div className="premium-card-footer-slot">
+                        {children}
                     </div>
                 )}
             </div>

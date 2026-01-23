@@ -219,83 +219,62 @@
 
 .premium-subtitle {
     font-size: 18px;
+    color: var(--text-main);
+    font-weight: 700;
+    margin: 0;
+}
+
+.premium-meta-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 6px;
+}
+
+.premium-town-line {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 15px;
     color: var(--text-muted);
     font-weight: 600;
-    margin-top: 4px;
+}
+
+.premium-town-line svg {
+    color: var(--color-primary);
+    opacity: 0.7;
 }
 
 .premium-bio {
-    font-size: 17px;
+    font-size: 16px;
     line-height: 1.5;
     color: var(--text-secondary);
-    margin: 12px 0 24px;
+    margin: 16px 0 20px;
     font-weight: 500;
 }
 
+.premium-card-footer-slot {
+    margin-top: 12px;
+    padding-top: 20px;
+    border-top: 1px solid var(--color-border);
+}
+
+/* Adjust the global stats bar when inside the premium card */
+.premium-card-footer-slot .profile-stats-bar {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.premium-card-footer-slot .stat-card {
+    border-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Old stats grid removed from JSX, keeping these for potential future use or cleanup */
 .premium-stats-grid {
-    display: flex;
-    gap: 12px;
-    overflow-x: auto;
-    padding-top: 4px;
-    /* Space for hover transform and shadow */
-    padding-bottom: 8px;
-    scrollbar-width: none;
-}
-
-.premium-stats-grid::-webkit-scrollbar {
     display: none;
-}
-
-.premium-stat-pill {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 20px;
-    background: var(--bg-surface);
-    border: 1px solid var(--color-border);
-    border-radius: 24px;
-    transition: all 0.2s;
-    flex: 1;
-    min-width: 0;
-    /* Allow shrinking for text truncation or wrapping */
-}
-
-.premium-stat-pill:first-child {
-    flex: 1.5;
-    /* Give more space to the town name */
-}
-
-.premium-stat-pill:hover {
-    border-color: var(--color-primary);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-sm);
-}
-
-.premium-stat-pill svg {
-    color: var(--color-primary);
-    opacity: 0.6;
-}
-
-.premium-stat-data {
-    display: flex;
-    flex-direction: column;
-}
-
-.premium-stat-value {
-    font-size: 18px;
-    font-weight: 800;
-    color: var(--text-main);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.premium-stat-label {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
 }
 
 /* Entity Types Specifics */
