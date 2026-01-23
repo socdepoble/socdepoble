@@ -3,11 +3,17 @@ import { logger } from '../utils/logger';
 import { DEMO_USER_ID, ROLES, USER_ROLES } from '../constants';
 
 // Cache para detectar columnas disponibles y evitar errores 400 ruidosos
+// Usamos localStorage para persistir y que solo falle una vez "en la vida" del usuario
 const columnCache = {
-    profiles_is_demo: null,
-    posts_is_playground: null,
-    market_is_playground: null,
-    messages_is_ai: null
+    profiles_is_demo: localStorage.getItem('cp_profiles_is_demo') === 'true' ? true : (localStorage.getItem('cp_profiles_is_demo') === 'false' ? false : null),
+    posts_is_playground: localStorage.getItem('cp_posts_is_playground') === 'true' ? true : (localStorage.getItem('cp_posts_is_playground') === 'false' ? false : null),
+    market_is_playground: localStorage.getItem('cp_market_is_playground') === 'true' ? true : (localStorage.getItem('cp_market_is_playground') === 'false' ? false : null),
+    messages_is_ai: localStorage.getItem('cp_messages_is_ai') === 'true' ? true : (localStorage.getItem('cp_messages_is_ai') === 'false' ? false : null)
+};
+
+const setColumnCache = (key, value) => {
+    columnCache[key] = value;
+    localStorage.setItem(`cp_${key}`, value);
 };
 
 // Promesas activas para evitar ráfagas de errores 400 en paralelo
@@ -437,7 +443,7 @@ export const supabaseService = {
 
             if (error) {
                 if (error.code === '42703' && isPlayground) {
-                    columnCache.posts_is_playground = false;
+                    setColumnCache('posts_is_playground', false);
                     logger.warn('[SupabaseService] is_playground missing in posts, retrying silent...');
                     return this.getPosts(roleFilter, townId, page, pageSize, false);
                 }
@@ -530,7 +536,7 @@ export const supabaseService = {
 
             if (error) {
                 if (error.code === '42703' && isPlayground) {
-                    columnCache.market_is_playground = false;
+                    setColumnCache('market_is_playground', false);
                     logger.warn('[SupabaseService] is_playground missing in market, retrying silent...');
                     return this.getMarketItems(categoryFilter, townId, page, pageSize, false);
                 }

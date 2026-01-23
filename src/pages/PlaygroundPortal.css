@@ -102,8 +102,8 @@
     justify-content: center;
     width: 100%;
     max-width: 720px;
-    margin: -12px auto 32px;
-    /* Pull UP further to reduce empty space */
+    margin: -16px auto 32px;
+    /* Pull UP even further */
 }
 
 .persona-list-container {
