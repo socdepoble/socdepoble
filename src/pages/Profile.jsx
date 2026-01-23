@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { User, LogOut, Camera, Save, Building2, Store, Settings, Star, Home, Bell, Lock, HelpCircle, Info, ChevronRight, MapPin, MessageCircle, Plus, Moon, Sun, ArrowLeft, Loader2, Image as ImageIcon, Maximize } from 'lucide-react';
 import { logger } from '../utils/logger';
-import { calculateFileHash } from '../utils/crypto';
 import TownSelectorModal from '../components/TownSelectorModal';
 import MediaDeduplicationModal from '../components/MediaDeduplicationModal';
 import ImageReframerModal from '../components/ImageReframerModal';
@@ -57,7 +56,7 @@ const MyEntitiesList = ({ userId }) => {
 const Profile = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const { profile, setProfile, user, realUser, isPlayground, logout } = useAuth();
+    const { profile, setProfile, user, isPlayground, logout } = useAuth();
     const { theme, toggleTheme } = useUI();
 
     const [allTowns, setAllTowns] = useState([]);
@@ -67,7 +66,6 @@ const Profile = () => {
 
     // Deduplication state
     const [isDedupModalOpen, setIsDedupModalOpen] = useState(false);
-    const [attributionData, setAttributionData] = useState(null);
     const [pendingAsset, setPendingAsset] = useState(null);
     const [pendingType, setPendingType] = useState(null);
 
@@ -82,7 +80,6 @@ const Profile = () => {
     const [isPickerOpen, setIsPickerOpen] = useState(false);
 
     const avatarInputRef = useRef(null);
-    const coverInputRef = useRef(null);
 
     useEffect(() => {
         supabaseService.getTowns().then(setAllTowns);
@@ -446,7 +443,6 @@ const Profile = () => {
                 isOpen={isDedupModalOpen}
                 onClose={() => setIsDedupModalOpen(false)}
                 onConfirm={handleDedupConfirm}
-                attributionData={attributionData}
                 pendingFile={pendingAsset ? { type: pendingAsset.mime_type } : null}
             />
 
