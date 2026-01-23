@@ -40,7 +40,13 @@
     right: 16px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     z-index: 50;
+}
+
+.premium-nav-right {
+    display: flex;
+    gap: 12px;
 }
 
 .premium-btn-circle {

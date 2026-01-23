@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowLeft, MapPin, Users, Calendar, BadgeCheck, Info } from 'lucide-react';
+import { ArrowLeft, MapPin, Users, Calendar, BadgeCheck, Info, Share2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import './ProfileHeaderPremium.css';
 

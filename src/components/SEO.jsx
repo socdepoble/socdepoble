@@ -17,7 +17,7 @@ const SEO = ({
     const siteTitle = 'Sóc de Poble';
     const fullTitle = title ? `${title} | ${siteTitle}` : siteTitle;
     const defaultDesc = 'La plataforma de connexió comunitària per als pobles de la Comunitat Valenciana.';
-    const defaultImage = '/logo-social.png'; // Cal assegurar que existeix o posar una ruta vàlida
+    const defaultImage = '/og-image.png'; // Updated to existing file
     const currentUrl = url || window.location.href;
 
     return (

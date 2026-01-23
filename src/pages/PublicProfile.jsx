@@ -107,12 +107,39 @@ const PublicProfile = () => {
         </div>
     );
 
+    const handleShare = async () => {
+        const shareData = {
+            title: profile.full_name,
+            text: profile.bio || `Mira el perfil de ${profile.full_name} a Sóc de Poble`,
+            url: window.location.href
+        };
+
+        try {
+            if (navigator.share) {
+                await navigator.share(shareData);
+            } else {
+                await navigator.clipboard.writeText(window.location.href);
+                alert('Enllaç copiat al porta-retalls');
+            }
+        } catch (err) {
+            logger.error('Error sharing:', err);
+        }
+    };
+
+    const getSocialImage = () => {
+        switch (profile.social_image_preference) {
+            case 'avatar': return profile.avatar_url;
+            case 'cover': return profile.cover_url;
+            default: return null; // SEO component will use default logo
+        }
+    };
+
     return (
         <div className="profile-container">
             <SEO
                 title={profile.full_name}
-                description={profile.bio || `Perfil de ${profile.full_name} a Sóc de Poble. ${profile.role || 'Veí'} de ${profile.town_name || 'la seua comunitat'}.`}
-                image={profile.avatar_url}
+                description={profile.bio || `${profile.full_name} a Sóc de Poble. ${profile.role || 'Veí de la Comunitat'}.`}
+                image={getSocialImage()}
                 type="profile"
             />
             <ProfileHeaderPremium
@@ -129,6 +156,7 @@ const PublicProfile = () => {
                 ]}
                 onAction={isOwnProfile ? () => navigate('/perfil') : null}
                 actionIcon={<Layout size={24} />}
+                onShare={handleShare}
             />
 
             {!isOwnProfile && (

@@ -116,6 +116,18 @@ const Profile = () => {
         }
     };
 
+    const handleSocialPreferenceChange = async (preference) => {
+        try {
+            const updated = await supabaseService.updateProfile(user.id, {
+                social_image_preference: preference
+            });
+            setProfile(updated);
+            logger.log('[Profile] Social share preference updated:', preference);
+        } catch (error) {
+            logger.error('Error updating social preference:', error);
+        }
+    };
+
     const handleReposition = async (type) => {
         const currentUrl = type === 'avatar' ? displayProfile.avatar_url : displayProfile.cover_url;
         if (!currentUrl) return;
@@ -425,6 +437,34 @@ const Profile = () => {
             <div className="profile-entities-box">
                 <h3 className="section-subtitle">{t('nav.my_entities')}</h3>
                 <MyEntitiesList userId={user?.id} />
+            </div>
+
+            <div className="social-sharing-box">
+                <h3 className="section-subtitle">Configuració de Compartir</h3>
+                <p className="section-description">Tria quina imatge vols que aparega com a miniatura quan compartisques el teu perfil per WhatsApp.</p>
+                <div className="social-preference-grid">
+                    <button
+                        className={`preference-card ${displayProfile.social_image_preference === 'avatar' ? 'active' : ''}`}
+                        onClick={() => handleSocialPreferenceChange('avatar')}
+                    >
+                        <User size={24} />
+                        <span>Foto de Perfil</span>
+                    </button>
+                    <button
+                        className={`preference-card ${displayProfile.social_image_preference === 'cover' ? 'active' : ''}`}
+                        onClick={() => handleSocialPreferenceChange('cover')}
+                    >
+                        <ImageIcon size={24} />
+                        <span>Foto de Portada</span>
+                    </button>
+                    <button
+                        className={`preference-card ${(!displayProfile.social_image_preference || displayProfile.social_image_preference === 'none') ? 'active' : ''}`}
+                        onClick={() => handleSocialPreferenceChange('none')}
+                    >
+                        <Info size={24} />
+                        <span>Logo Sóc de Poble</span>
+                    </button>
+                </div>
             </div>
 
             <div className="sovereignty-box">

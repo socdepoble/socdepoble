@@ -108,12 +108,39 @@ const PublicEntity = () => {
         }
     };
 
+    const handleShare = async () => {
+        const shareData = {
+            title: entity.name,
+            text: entity.description || `Mira l'entitat ${entity.name} a Sóc de Poble`,
+            url: window.location.href
+        };
+
+        try {
+            if (navigator.share) {
+                await navigator.share(shareData);
+            } else {
+                await navigator.clipboard.writeText(window.location.href);
+                alert('Enllaç copiat al porta-retalls');
+            }
+        } catch (err) {
+            logger.error('Error sharing:', err);
+        }
+    };
+
+    const getSocialImage = () => {
+        switch (entity.social_image_preference) {
+            case 'avatar': return entity.avatar_url;
+            case 'cover': return entity.cover_url;
+            default: return null;
+        }
+    };
+
     return (
         <div className="profile-container">
             <SEO
                 title={entity.name}
                 description={entity.description || `${entity.name} a Sóc de Poble. ${entity.type} de la Comunitat Valenciana.`}
-                image={entity.avatar_url}
+                image={getSocialImage()}
                 type="article"
             />
             <ProfileHeaderPremium
@@ -131,6 +158,7 @@ const PublicEntity = () => {
                 ]}
                 onAction={members.some(m => m.user_id === currentUser?.id) ? () => navigate('/gestio-entitats') : null}
                 actionIcon={<Layout size={24} />}
+                onShare={handleShare}
             />
 
             <div className="profile-actions-inline">
