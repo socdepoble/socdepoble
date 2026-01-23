@@ -345,14 +345,22 @@ const Profile = () => {
                                 <LogOut size={26} />
                             </button>
                             <button
-                                className="studio-trigger-btn prompt-btn"
-                                onClick={() => setIsStudioOpen(true)}
-                                title="Estudi de perfil"
+                                className="public-return-btn prompt-btn"
+                                onClick={() => navigate(`/perfil/${user.id}`)}
+                                title="Veure perfil públic"
                             >
-                                <Camera size={26} />
+                                <Settings size={26} />
                             </button>
                         </div>
                     </div>
+
+                    <button
+                        className="studio-trigger-btn-floating prompt-btn"
+                        onClick={() => setIsStudioOpen(true)}
+                        title="Estudi de perfil"
+                    >
+                        <Camera size={26} />
+                    </button>
                 </div>
             </header>
 
