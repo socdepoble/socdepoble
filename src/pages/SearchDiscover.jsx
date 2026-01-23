@@ -125,8 +125,6 @@ const SearchDiscover = () => {
                     </div>
                 ) : isEmpty ? (
                     <div className="search-welcome">
-                        <div className="ai-badge">DISCOVER AI</div>
-
                         <div className="recent-searches">
                             <h4>Cerques populars</h4>
                             <div className="recent-list">
