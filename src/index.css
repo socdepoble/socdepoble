@@ -323,16 +323,25 @@ a:hover {
 }
 
 .universal-card {
-  background: var(--bg-warm-card);
+  background: var(--bg-card);
   border-radius: var(--radius-xl);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
-  /* Deep black shadow */
-  border: 1px solid var(--bg-warm-accent);
-  transition: transform 0.2s;
+  /* 32px */
+  box-shadow: var(--shadow-glass);
+  border: 1.5px solid var(--color-border);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   overflow: hidden;
   display: flex;
   flex-direction: column;
   margin-bottom: var(--grid-card-gap);
+  position: relative;
+}
+
+.universal-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-primary);
 }
 
 .avatar-placeholder,
@@ -362,14 +371,12 @@ a:hover {
 .card-header {
   position: relative;
   z-index: 10;
-  background-color: var(--bg-warm-card);
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: var(--space-md) var(--space-lg);
-  /* Strong downward shadow to create depth over the image */
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
-  border-bottom: 1px solid var(--bg-warm-accent);
+  background: transparent;
+  border-bottom: 1px solid var(--color-divider);
 }
 
 .card-header.clickable {
@@ -423,11 +430,11 @@ a:hover {
   margin: 0 !important;
   padding: 0 !important;
   width: 100% !important;
-  background-color: var(--bg-warm-card);
+  background-color: var(--bg-surface);
   display: flex;
   align-items: center;
   justify-content: stretch;
-  border-top: 1px solid var(--bg-warm-accent);
+  border-top: 1px solid var(--color-divider);
   position: relative;
   z-index: 5;
 }

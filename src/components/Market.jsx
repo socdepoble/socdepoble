@@ -163,7 +163,7 @@ const Market = ({ townId = null }) => {
                     />
                 ) : (
                     filteredItems.map(item => (
-                        <div key={item.uuid || item.id} className="universal-card market-item">
+                        <article key={item.uuid || item.id} className="universal-card market-item-card">
                             <div
                                 className="card-header clickable"
                                 onClick={() => {
@@ -196,51 +196,52 @@ const Market = ({ townId = null }) => {
                                 </div>
                             </div>
 
-                            <div className="card-image-wrapper">
-                                <img src={item.image_url} alt={`${item.title} - venut per ${item.seller}`} />
-                            </div>
+                            {item.image_url && (
+                                <div className="card-image-wrapper">
+                                    <img src={item.image_url} alt={`${item.title} - venut per ${item.seller}`} />
+                                </div>
+                            )}
 
                             <div className="card-body">
-                                <div className="item-header-info-row">
-                                    <div className="item-info-left">
-                                        <h3 className="item-title">{item.title}</h3>
-                                        <p className="item-desc-short">{item.description || t('market.no_description')}</p>
-                                        {(item.author_role === 'ambassador' || item.author_is_ai) && (
-                                            <div className="ia-transparency-note-mini">
-                                                ✨ Producte/Anunci gestionat per IAIA
-                                            </div>
-                                        )}
-                                    </div>
-                                    <div className="item-info-right">
-                                        <span className="price-tag-vibrant">{item.price}</span>
-                                        {item.category_slug && (
-                                            <span className="category-pill-mini">
-                                                {categories.find(c => c.slug === item.category_slug)?.[
-                                                    i18n.language === 'va' ? 'name_va' :
-                                                        i18n.language === 'es' ? 'name_es' :
-                                                            i18n.language === 'en' ? 'name_en' :
-                                                                i18n.language === 'gl' ? 'name_gl' : 'name_eu'
-                                                ] || item.tag || item.category_slug}
-                                            </span>
-                                        )}
-                                    </div>
+                                <div className="market-price-row">
+                                    <h3 className="item-title">{item.title}</h3>
+                                    <span className="price-tag-vibrant">{item.price}</span>
                                 </div>
+                                <p className="item-desc-premium">{item.description || t('market.no_description')}</p>
+
+                                {item.category_slug && (
+                                    <div className="item-tags-row">
+                                        <span className="category-pill-mini">
+                                            {categories.find(c => c.slug === item.category_slug)?.[
+                                                i18n.language === 'va' ? 'name_va' :
+                                                    i18n.language === 'es' ? 'name_es' :
+                                                        i18n.language === 'en' ? 'name_en' :
+                                                            i18n.language === 'gl' ? 'name_gl' : 'name_eu'
+                                            ] || item.tag || item.category_slug}
+                                        </span>
+                                    </div>
+                                )}
+
+                                {(item.author_role === 'ambassador' || item.author_is_ai) && (
+                                    <div className="ia-transparency-note-mini">
+                                        ✨ Producte gestionat per IAIA
+                                    </div>
+                                )}
                             </div>
 
-                            <div className="item-footer-unified card-footer-vibrant">
+                            <div className="card-footer-vibrant">
                                 <button
                                     className="add-btn-premium-vibrant full-width"
-                                    aria-label={`${t('market.interested')} per ${item.title}`}
                                     onClick={() => {
                                         if (!user) navigate('/login');
-                                        // Interest logic to be implemented
+                                        // Interest logic here
                                     }}
                                 >
-                                    <Plus size={18} />
+                                    <Plus size={20} />
                                     <span>{t('market.interested')}</span>
                                 </button>
                             </div>
-                        </div>
+                        </article>
                     ))
                 )}
             </div>

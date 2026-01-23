@@ -103,8 +103,8 @@
 
 .category-pill-mini {
     font-size: 11px;
-    background-color: var(--bg-warm-accent);
-    color: var(--text-main);
+    background-color: var(--color-primary-soft);
+    color: var(--color-primary);
     padding: 4px 10px;
     border-radius: var(--radius-full);
     font-weight: 800;
@@ -130,7 +130,8 @@
 
 /* Handled by index.css card-footer-vibrant and add-btn-premium-vibrant */
 .item-footer-unified {
-    border-top: none;
+    border-top: 1px solid var(--color-divider);
+    background: var(--bg-surface);
 }
 
 .fav-btn-clean {
@@ -179,4 +180,27 @@
     padding: var(--space-2xl);
     text-align: center;
     color: var(--text-muted);
+}
+/* Premium Market Details */
+.market-price-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    gap: 12px;
+}
+
+.item-desc-premium {
+    font-size: 18px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 16px;
+    font-weight: 500;
+}
+
+.item-tags-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
 }

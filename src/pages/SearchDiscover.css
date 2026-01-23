@@ -217,21 +217,19 @@
 }
 
 .result-item-card {
-    background: var(--bg-card);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-xl);
-    padding: 12px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    cursor: pointer;
-    transition: all 0.2s;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    margin-bottom: 8px;
+    padding: 0 !important;
 }
 
 .result-item-card:hover {
-    transform: scale(1.02);
-    border-color: var(--color-primary);
-    box-shadow: var(--shadow-md);
+    transform: none !important;
+}
+
+.result-item-card .card-header {
+    border: none !important;
 }
 
 .result-avatar {
