@@ -3,14 +3,14 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Building2, Store, Users, MapPin, MessageSquare, Share2, Loader2, AlertCircle, Calendar, ArrowLeft } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
-import { useAppContext } from '../context/AppContext';
+import { useAuth } from '../context/AuthContext';
 import './Profile.css';
 
 const PublicEntity = () => {
     const { id } = useParams();
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const { user: currentUser } = useAppContext();
+    const { user: currentUser } = useAuth();
     const [entity, setEntity] = useState(null);
     const [members, setMembers] = useState([]);
     const [posts, setPosts] = useState([]);

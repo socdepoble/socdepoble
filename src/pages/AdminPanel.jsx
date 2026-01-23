@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAppContext } from '../context/AppContext';
+import { useAuth } from '../context/AuthContext';
 import { supabaseService } from '../services/supabaseService';
 import { Users, Shield, ArrowLeft, Loader2, UserCheck, Store } from 'lucide-react';
+import { logger } from '../utils/logger';
 import './AdminPanel.css';
 
 const AdminPanel = () => {
     const navigate = useNavigate();
-    const { isSuperAdmin, setImpersonatedProfile, setActiveEntityId } = useAppContext();
+    const { isSuperAdmin, setImpersonatedProfile, setActiveEntityId } = useAuth();
     const [personas, setPersonas] = useState([]);
     const [entities, setEntities] = useState([]);
     const [loading, setLoading] = useState(true);

@@ -1,12 +1,14 @@
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { X, Newspaper, Store, MapPin, Users, Shield } from 'lucide-react';
-import { useAppContext } from '../context/AppContext';
+import { useAuth } from '../context/AuthContext';
+import { useUI } from '../context/UIContext';
 import './CreationHub.css';
 
 const CreationHub = () => {
     const { t } = useTranslation();
-    const { isCreateModalOpen, setIsCreateModalOpen, isSuperAdmin } = useAppContext();
+    const { isCreateModalOpen, setIsCreateModalOpen } = useUI();
+    const { isSuperAdmin } = useAuth();
     const navigate = useNavigate();
 
     if (!isCreateModalOpen) return null;

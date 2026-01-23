@@ -15,7 +15,7 @@ const Market = ({ townId = null }) => {
     const { t, i18n } = useTranslation();
     const { language } = useI18n(); // Usant I18nContext per a reactivitat neta
     const navigate = useNavigate();
-    const { isPlayground, user } = useAuth();
+    const { isPlayground, user, loading: authLoading } = useAuth();
     const [items, setItems] = useState([]);
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -29,6 +29,8 @@ const Market = ({ townId = null }) => {
     useEffect(() => {
         let isMounted = true;
         const loadInitialData = async (isLoadMore = false) => {
+            if (authLoading) return; // Gate
+
             if (isLoadMore) setLoadingMore(true);
             else {
                 setLoading(true);
@@ -66,14 +68,18 @@ const Market = ({ townId = null }) => {
                 }
             }
         };
-        loadInitialData();
+
+        if (!authLoading) {
+            loadInitialData();
+        }
 
         window.loadMoreMarket = () => loadInitialData(true);
 
         return () => {
             isMounted = false;
         };
-    }, [activeTab, townId, categories.length, page, items.length, isPlayground]);
+    }, [activeTab, townId, isPlayground, authLoading]); // Fixed deps
+    // Removed page, items.length, categories.length to avoid loops
 
     useEffect(() => {
         const handleOpenModal = () => setIsModalOpen(true);

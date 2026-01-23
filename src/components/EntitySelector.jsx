@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { supabaseService } from '../services/supabaseService';
 import { User, Building2, Store, ChevronDown } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { useAppContext } from '../context/AppContext';
+import { useAuth } from '../context/AuthContext';
 import { ENTITY_TYPES } from '../constants';
 import './EntitySelector.css';
 
 const EntitySelector = ({ currentIdentity, onSelectIdentity }) => {
     const { t } = useTranslation();
-    const { user, profile } = useAppContext();
+    const { user, profile } = useAuth();
     const [entities, setEntities] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
 

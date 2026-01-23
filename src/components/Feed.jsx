@@ -33,7 +33,7 @@ const getAvatarColor = (role) => {
 const Feed = ({ townId = null, hideHeader = false }) => {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const { user, isPlayground } = useAuth();
+    const { user, isPlayground, loading: authLoading } = useAuth();
     const [posts, setPosts] = useState([]);
     const [userConnections, setUserConnections] = useState([]);
     const [userTags, setUserTags] = useState([]);
@@ -99,11 +99,13 @@ const Feed = ({ townId = null, hideHeader = false }) => {
             }
         }
         return () => { isMounted = false; };
-    }, [selectedRole, user, townId, page]);
+    }, [selectedRole, townId]); // Removed page, user to avoid infinite loops and redundant triggers
 
     useEffect(() => {
-        fetchPosts();
-    }, [fetchPosts]);
+        if (!authLoading) {
+            fetchPosts();
+        }
+    }, [fetchPosts, authLoading]);
 
     useEffect(() => {
         const handleOpenModal = (e) => {

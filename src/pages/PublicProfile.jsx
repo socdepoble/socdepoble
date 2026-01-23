@@ -3,7 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { User, MapPin, Calendar, Layout, Settings, ChevronRight, Loader2, AlertCircle, Building2, Store, Users as UsersIcon, ArrowLeft } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
-import { useAppContext } from '../context/AppContext';
+import { useAuth } from '../context/AuthContext';
 import Feed from '../components/Feed';
 import './Profile.css'; // Reuse profile base styles
 
@@ -11,7 +11,7 @@ const PublicProfile = () => {
     const { id } = useParams();
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const { user: currentUser } = useAppContext();
+    const { user: currentUser } = useAuth();
     const [profile, setProfile] = useState(null);
     const [managedEntities, setManagedEntities] = useState([]);
     const [userPosts, setUserPosts] = useState([]);

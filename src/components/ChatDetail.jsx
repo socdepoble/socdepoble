@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Send, Loader2, User, Building2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { supabaseService } from '../services/supabaseService';
-import { useAppContext } from '../context/AppContext';
+import { useAuth } from '../context/AuthContext';
 import './ChatDetail.css';
 
 const getAvatarIcon = (type, avatarUrl) => {
@@ -24,7 +24,7 @@ const ChatDetail = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const { t } = useTranslation();
-    const { user, impersonatedProfile, activeEntityId, isSuperAdmin } = useAppContext();
+    const { user, impersonatedProfile, activeEntityId, isSuperAdmin } = useAuth();
     const [chat, setChat] = useState(null);
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');

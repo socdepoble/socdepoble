@@ -3,7 +3,7 @@ import { supabaseService } from '../services/supabaseService';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { Users, Calendar, Map as MapIcon, Info, ArrowLeft, ChevronRight } from 'lucide-react';
-import { useAppContext } from '../context/AppContext';
+import { useAuth } from '../context/AuthContext';
 import CategoryTabs from '../components/CategoryTabs';
 import Feed from '../components/Feed';
 import Market from '../components/Market';
@@ -13,7 +13,7 @@ const Towns = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const location = useLocation();
-    const { profile } = useAppContext();
+    const { profile } = useAuth();
     const [towns, setTowns] = useState([]);
     const [loading, setLoading] = useState(true);
     const [currentTab, setCurrentTab] = useState(location.state?.initialTab || 'pobles');

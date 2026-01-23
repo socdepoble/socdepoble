@@ -2,12 +2,12 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Plus, X, Tag as TagIcon, Check, Loader2, Trash2 } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
-import { useAppContext } from '../context/AppContext';
+import { useAuth } from '../context/AuthContext';
 import './TagSelector.css';
 
 const TagSelector = ({ currentTags = [], onTagsChange }) => {
     const { t } = useTranslation();
-    const { user } = useAppContext();
+    const { user } = useAuth();
     const [availableTags, setAvailableTags] = useState([]);
     const [newTagName, setNewTagName] = useState('');
     const [loading, setLoading] = useState(false);

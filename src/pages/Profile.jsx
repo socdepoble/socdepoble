@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useAppContext } from '../context/AppContext';
+import { useAuth } from '../context/AuthContext';
+import { useUI } from '../context/UIContext';
 import { supabaseService } from '../services/supabaseService';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -51,7 +52,8 @@ const MyEntitiesList = ({ userId }) => {
 const Profile = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const { profile, setProfile, user, theme, toggleTheme, logout } = useAppContext();
+    const { profile, setProfile, user, logout } = useAuth();
+    const { theme, toggleTheme } = useUI();
 
     const [allTowns, setAllTowns] = useState([]);
     const [isEditingTown, setIsEditingTown] = useState(false);

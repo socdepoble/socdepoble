@@ -405,15 +405,22 @@ export const supabaseService = {
                 .from('posts')
                 .select('*, towns!fk_posts_town_uuid(name)', { count: 'exact' });
 
-            // Si no sabemos si la columna existe, hacemos una pequeña comprobación previa o esperamos a una en curso
+            // Si no sabemos si la columna existe, hacemos una comprobación SILENCIOSA (select *)
             if (isPlayground && columnCache.posts_is_playground === null) {
                 if (!activeChecks.posts) {
                     activeChecks.posts = (async () => {
                         try {
-                            const { error } = await supabase.from('posts').select('is_playground').limit(1);
-                            columnCache.posts_is_playground = !error;
+                            // Usar select('*') no falla si falta una columna específica, es silencioso
+                            const { data, error } = await supabase.from('posts').select('*').limit(1);
+                            if (error) throw error;
+                            if (data && data.length > 0) {
+                                setColumnCache('posts_is_playground', 'is_playground' in data[0]);
+                            } else {
+                                // Si no hay datos, no podemos saberlo seguro sin arriesgar un 400.
+                                // Lo dejamos en null para que el catch del fetch principal lo decida.
+                            }
                         } catch (e) {
-                            columnCache.posts_is_playground = false;
+                            // Si falla el select * es un error mayor, pero no de columna faltante
                         } finally {
                             activeChecks.posts = null;
                         }
@@ -503,10 +510,13 @@ export const supabaseService = {
                 if (!activeChecks.market) {
                     activeChecks.market = (async () => {
                         try {
-                            const { error } = await supabase.from('market_items').select('is_playground').limit(1);
-                            columnCache.market_is_playground = !error;
+                            const { data, error } = await supabase.from('market_items').select('*').limit(1);
+                            if (error) throw error;
+                            if (data && data.length > 0) {
+                                setColumnCache('market_is_playground', 'is_playground' in data[0]);
+                            }
                         } catch (e) {
-                            columnCache.market_is_playground = false;
+                            // Silence
                         } finally {
                             activeChecks.market = null;
                         }
