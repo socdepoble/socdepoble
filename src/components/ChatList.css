@@ -60,7 +60,13 @@
 .chat-header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin-bottom: 2px;
+}
+
+.chat-name-row {
+    display: flex;
+    align-items: center;
 }
 
 .chat-item .chat-name {

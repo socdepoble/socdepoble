@@ -57,23 +57,27 @@ const AddItemModal = ({ isOpen, onClose, onItemCreated, isPrivateInitial = false
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!formData.title || !formData.price) return;
+        if (!formData.title || !formData.price || loading) return;
 
         setLoading(true);
         try {
             const newItem = {
                 title: formData.title,
-                price: formData.price.includes('€') ? formData.price : `${formData.price}€`,
                 image_url: formData.image_url,
                 tag: formData.tag,
                 privacy: privacy,
                 is_private: privacy !== 'public',
 
-                // Multi-Identidad Vendedor (Unified)
-                seller: selectedIdentity.type === 'user'
+                // Schema compatibility
+                author_id: user?.id,
+                author_name: selectedIdentity.type === 'user'
                     ? profile.full_name
                     : `${selectedIdentity.name} | ${profile.full_name}`,
-                author_user_id: user?.id,
+                author_avatar_url: selectedIdentity.avatar_url,
+
+                // Parse price to number for Zod
+                price: parseFloat(formData.price.replace(/[^\d.]/g, '')) || 0,
+
                 author_entity_id: selectedIdentity.type !== 'user' ? selectedIdentity.id : null,
                 author_role: selectedIdentity.type === 'user' ? ROLES.PEOPLE : selectedIdentity.type
             };

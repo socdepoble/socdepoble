@@ -62,12 +62,11 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated, isPrivateInitial = fa
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!content.trim()) return;
+        if (!content.trim() || loading) return;
 
         setLoading(true);
         try {
             const newPost = {
-                author_user_id: user.id,
                 content: content,
                 likes: 0,
                 comments_count: 0,
@@ -77,14 +76,16 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated, isPrivateInitial = fa
                 is_private: privacy !== 'public',
 
                 // Multi-Identidad (Unified identity scheme)
+                author_id: user.id,
                 author_entity_id: selectedIdentity.type !== 'user' ? selectedIdentity.id : null,
                 author_role: selectedIdentity.type === 'user' ? ROLES.PEOPLE : selectedIdentity.type,
 
-                // Display fallbacks
-                author: selectedIdentity.type === 'user'
+                // Schema compatibility
+                author_name: selectedIdentity.type === 'user'
                     ? profile.full_name
                     : `${selectedIdentity.name} | ${profile.full_name}`,
-                image_url: selectedIdentity.avatar_url
+                author_avatar_url: selectedIdentity.avatar_url,
+                image_url: null // Reset if no content image
             };
 
             await supabaseService.createPost(newPost, isPlayground);

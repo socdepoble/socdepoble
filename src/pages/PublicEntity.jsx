@@ -84,7 +84,17 @@ const PublicEntity = () => {
                     )}
                 </div>
                 <div className="profile-info-main">
-                    <h1 className="heading-xl">{entity.name}</h1>
+                    <div className="profile-name-row">
+                        <h1 className="heading-xl">{entity.name}</h1>
+                        {entity.is_ai && (
+                            <span className="identity-badge ai" title="Informació i Acció Artificial">IAIA</span>
+                        )}
+                    </div>
+                    {entity.is_ai && (
+                        <div className="ia-transparency-banner-profile">
+                            🤖 Aquesta entitat està gestionada per una IAIA (Informació i Acció Artificial).
+                        </div>
+                    )}
                     <div className="profile-stats-row">
                         <div className="profile-stat-item">
                             <MapPin size={18} />

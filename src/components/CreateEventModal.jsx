@@ -47,12 +47,11 @@ const CreateEventModal = ({ isOpen, onClose, onEventCreated, isPlayground = fals
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!content.trim()) return;
+        if (!content.trim() || loading) return;
 
         setLoading(true);
         try {
             const newEvent = {
-                author_user_id: user.id,
                 content: content,
                 likes: 0,
                 comments_count: 0,
@@ -60,12 +59,17 @@ const CreateEventModal = ({ isOpen, onClose, onEventCreated, isPlayground = fals
                 tags: selectedTags,
                 privacy: privacy,
                 is_private: privacy !== 'public',
-                author_entity_id: selectedIdentity.type !== 'user' ? selectedIdentity.id : null,
-                author_role: selectedIdentity.type === 'user' ? ROLES.PEOPLE : selectedIdentity.type,
-                author: selectedIdentity.type === 'user'
+
+                // Schema compatibility
+                author_id: user.id,
+                author_name: selectedIdentity.type === 'user'
                     ? profile.full_name
                     : `${selectedIdentity.name} | ${profile.full_name}`,
-                image_url: selectedIdentity.avatar_url
+                author_avatar_url: selectedIdentity.avatar_url,
+
+                author_entity_id: selectedIdentity.type !== 'user' ? selectedIdentity.id : null,
+                author_role: selectedIdentity.type === 'user' ? ROLES.PEOPLE : selectedIdentity.type,
+                image_url: null
             };
 
             await supabaseService.createPost(newEvent, isPlayground);

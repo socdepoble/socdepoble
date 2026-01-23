@@ -34,9 +34,14 @@ export const MessageSchema = z.object({
     conversation_id: z.string().uuid(),
     sender_id: z.string().uuid(),
     sender_entity_id: z.string().uuid().nullable().optional(),
-    content: z.string().min(1, "El missatge no pot estar buit"),
+    content: z.string().nullable().optional(), // Now optional if there's an attachment
+    attachment_url: z.string().url().nullable().optional(),
+    attachment_type: z.string().nullable().optional(),
+    attachment_name: z.string().nullable().optional(),
     is_ai: z.boolean().optional(),
     is_read: z.boolean().optional()
+}).refine(data => data.content || data.attachment_url, {
+    message: "El missatge no pot estar buit si no hi ha fitxer adjunt"
 });
 
 export const ProfileSchema = z.object({
@@ -44,7 +49,9 @@ export const ProfileSchema = z.object({
     full_name: z.string().min(1).nullable().optional(),
     username: z.string().min(3).nullable().optional(),
     avatar_url: z.string().url().nullable().optional(),
+    cover_url: z.string().url().nullable().optional(),
     bio: z.string().nullable().optional(),
     primary_town: z.string().nullable().optional(),
+    town_uuid: z.string().uuid().nullable().optional(),
     role: z.string().optional()
 });

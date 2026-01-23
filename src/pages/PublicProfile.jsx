@@ -82,7 +82,17 @@ const PublicProfile = () => {
                     )}
                 </div>
                 <div className="profile-info-main">
-                    <h1 className="heading-xl">{profile.full_name}</h1>
+                    <div className="profile-name-row">
+                        <h1 className="heading-xl">{profile.full_name}</h1>
+                        {profile.role === 'ambassador' && (
+                            <span className="identity-badge ai" title="Informació i Acció Artificial">IAIA</span>
+                        )}
+                    </div>
+                    {profile.role === 'ambassador' && (
+                        <div className="ia-transparency-banner-profile">
+                            🤖 Aquest perfil pertany a una IAIA (Informació i Acció Artificial), l'Ambaixadora Digital de Sóc de Poble.
+                        </div>
+                    )}
                     <p className="profile-bio-vibrant">{profile.bio}</p>
                     <div className="profile-stats-row">
                         <div className="profile-stat-item">

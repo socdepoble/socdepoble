@@ -7,6 +7,8 @@ import { useAuth } from '../context/AuthContext';
 import CategoryTabs from '../components/CategoryTabs';
 import Feed from '../components/Feed';
 import Market from '../components/Market';
+import { logger } from '../utils/logger';
+import UnifiedStatus from '../components/UnifiedStatus';
 import './Towns.css';
 
 const Towns = () => {
@@ -16,15 +18,18 @@ const Towns = () => {
     const { profile } = useAuth();
     const [towns, setTowns] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [currentTab, setCurrentTab] = useState(location.state?.initialTab || 'pobles');
 
     useEffect(() => {
         const fetchTowns = async () => {
+            setError(null);
             try {
                 const data = await supabaseService.getTowns();
                 setTowns(data);
             } catch (error) {
                 logger.error('Error loading towns:', error);
+                setError(error.message);
             } finally {
                 setLoading(false);
             }
@@ -61,7 +66,25 @@ const Towns = () => {
         { id: 'mapa', label: t('nav.map_tab') || 'Mapa' }
     ];
 
-    if (loading) return <div className="loading-container">{t('common.loading')}</div>;
+    if (error) {
+        return (
+            <div className="towns-container">
+                <UnifiedStatus
+                    type="error"
+                    message={error}
+                    onRetry={() => window.location.reload()}
+                />
+            </div>
+        );
+    }
+
+    if (loading) {
+        return (
+            <div className="towns-container">
+                <UnifiedStatus type="loading" />
+            </div>
+        );
+    }
 
     return (
         <div className="towns-container">

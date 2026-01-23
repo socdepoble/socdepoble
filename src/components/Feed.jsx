@@ -212,8 +212,8 @@ const Feed = ({ townId = null, hideHeader = false }) => {
                     />
                 ) : (
                     filteredPosts.map(post => {
-                        const pid = post.uuid;
-                        const connection = userConnections.find(c => c.post_uuid === post.uuid);
+                        const pid = post.uuid || post.id;
+                        const connection = userConnections.find(c => c.post_uuid === (post.uuid || post.id));
                         const isConnected = !!connection;
 
                         return (
@@ -244,6 +244,9 @@ const Feed = ({ townId = null, hideHeader = false }) => {
                                         <div className="post-meta">
                                             <div className="post-author-row">
                                                 <span className="post-author">{post.author}</span>
+                                                {(post.author_role === 'ambassador' || post.author_is_ai) && (
+                                                    <span className="identity-badge ai" title="Informació i Acció Artificial">IAIA</span>
+                                                )}
                                             </div>
                                             <div className="post-subtitle-row">
                                                 <span className="post-time">{post.created_at ? new Date(post.created_at).toLocaleDateString() : 'Ara'}</span>
@@ -279,6 +282,11 @@ const Feed = ({ townId = null, hideHeader = false }) => {
 
                                 <div className="card-body">
                                     <p className="post-text">{post.content}</p>
+                                    {(post.author_role === 'ambassador' || post.author_is_ai) && (
+                                        <div className="ia-transparency-note-mini">
+                                            ✨ Contingut generat per IAIA (Informació i Acció Artificial)
+                                        </div>
+                                    )}
                                 </div>
 
                                 <div className="card-footer-vibrant">

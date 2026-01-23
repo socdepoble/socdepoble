@@ -17,6 +17,7 @@ import PublicProfile from './pages/PublicProfile';
 import PublicEntity from './pages/PublicEntity';
 import AdminPanel from './pages/AdminPanel';
 import PlaygroundPortal from './pages/PlaygroundPortal';
+import MediaAlbum from './pages/MediaAlbum';
 import { supabase } from './supabaseClient';
 import { MOCK_CHATS, MOCK_FEED, MOCK_MARKET_ITEMS } from './data';
 import { useAuth } from './context/AuthContext';
@@ -98,6 +99,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Notifications />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="fotos"
+            element={
+              <ProtectedRoute>
+                <MediaAlbum />
               </ProtectedRoute>
             }
           />

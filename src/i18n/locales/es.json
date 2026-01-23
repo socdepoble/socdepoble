@@ -38,12 +38,19 @@
         "add_town": "Añadir pueblo",
         "stats_posts": "Publicaciones",
         "stats_sales": "En venta",
-        "stats_connections": "Conexiones"
+        "stats_connections": "Conexiones",
+        "my_album": "Mi Álbum"
     },
     "chats": {
         "title": "Chats",
         "empty": "No hay chats activos.",
-        "loading_chats": "Cargando chats..."
+        "loading_chats": "Cargando chats...",
+        "iaia_notice_title": "Estás hablando con una IAIA",
+        "iaia_notice_subtitle": "(Información y Acción Artificial)",
+        "iaia_notice_text": "Estoy inspirada en la sabiduría de nuestros mayores para ayudarte a conectar con el pueblo.",
+        "storage_limit_warning": "Durante el período de pruebas, solo admitimos archivos de 10 MB como máximo.",
+        "storage_banner_title": "Aviso de Almacenamiento",
+        "storage_banner_text": "En pruebas admitimos 10MB máx. Los contenidos pueden ser borrados si superamos límites. No usar en producción. Sabiendo eso, sube lo que quieras."
     },
     "feed": {
         "title": "Muro",
@@ -96,5 +103,13 @@
         "title": "Notificaciones",
         "empty": "No tienes ninguna notificación nueva.",
         "loading": "Cargando notificaciones..."
+    },
+    "media": {
+        "duplicate_title": "Imagen Compartida",
+        "duplicate_desc": "Esta imagen ya está en la red de Sóc de Poble. Para ahorrar espacio y ser más sostenibles, compartiremos el asset original.",
+        "duplicate_desc_generic": "Este archivo ya está en la red de Sóc de Poble. Para ahorrar espacio y ser más sostenibles, compartiremos el asset original.",
+        "type_file": "Archivo",
+        "type_image": "Imagen",
+        "type_video": "Vídeo"
     }
 }

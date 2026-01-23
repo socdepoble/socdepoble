@@ -54,12 +54,19 @@
         "add_town": "Afegir poble",
         "stats_posts": "Publicacions",
         "stats_sales": "En venda",
-        "stats_connections": "Connexions"
+        "stats_connections": "Connexions",
+        "my_album": "El meu Àlbum"
     },
     "chats": {
         "title": "Xats",
         "empty": "No hi ha xats actius.",
-        "loading_chats": "Carregant xats..."
+        "loading_chats": "Carregant xats...",
+        "iaia_notice_title": "Estàs parlant amb una IAIA",
+        "iaia_notice_subtitle": "(Informació i Acció Artificial)",
+        "iaia_notice_text": "Estic inspirada en la saviesa dels nostres majors per a ajudar-te a connectar amb el poble.",
+        "storage_limit_warning": "Durant el període de proves, només admetem fitxers de 10 MB com a màxim.",
+        "storage_banner_title": "Avís d'Emmagatzematge",
+        "storage_banner_text": "En proves admetem 10MB màx. Els continguts poden ser esborrats si superem límits. No fer servir en producció. Sabent això, puja el que vulgues."
     },
     "feed": {
         "title": "Mur",
@@ -130,5 +137,13 @@
         "main_town": "Poble Principal",
         "no_results_search": "No hem trobat cap resultat per a la teua cerca.",
         "no_results_list": "No hi ha elements disponibles."
+    },
+    "media": {
+        "duplicate_title": "Imatge Compartida",
+        "duplicate_desc": "Aquesta imatge ja és a la xarxa de Sóc de Poble. Per a estalviar espai i ser més sostenibles, compartirem l'asset original.",
+        "duplicate_desc_generic": "Aquest fitxer ja és a la xarxa de Sóc de Poble. Per a estalviar espai i ser més sostenibles, compartirem l'asset original.",
+        "type_file": "Fitxer",
+        "type_image": "Imatge",
+        "type_video": "Vídeo"
     }
 }

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { supabaseService } from '../services/supabaseService';
 import { useTranslation } from 'react-i18next';
+import { MapPin } from 'lucide-react';
+import TownSelectorModal from '../components/TownSelectorModal';
 import './Auth.css';
 
 const Register = () => {
@@ -10,6 +12,8 @@ const Register = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [fullName, setFullName] = useState('');
+    const [selectedTown, setSelectedTown] = useState(null);
+    const [isTownModalOpen, setIsTownModalOpen] = useState(false);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
 
@@ -18,9 +22,17 @@ const Register = () => {
         setLoading(true);
         setError(null);
 
+        if (!selectedTown) {
+            setError('Has de seleccionar un poble per a registrar-te.');
+            setLoading(false);
+            return;
+        }
+
         try {
             await supabaseService.signUp(email, password, {
-                full_name: fullName
+                full_name: fullName,
+                town_id: selectedTown.id,
+                town_uuid: selectedTown.uuid
             });
             alert(t('auth.checkEmail'));
             navigate('/login');
@@ -81,6 +93,18 @@ const Register = () => {
                         />
                     </div>
 
+                    <div className="form-group">
+                        <label>El teu poble principal (Obligatori)</label>
+                        <button
+                            type="button"
+                            className={`town-picker-trigger ${!selectedTown ? 'empty' : ''}`}
+                            onClick={() => setIsTownModalOpen(true)}
+                        >
+                            <MapPin size={18} color="var(--color-primary)" />
+                            <span>{selectedTown ? selectedTown.name : 'Prem per a seleccionar poble'}</span>
+                        </button>
+                    </div>
+
                     <button type="submit" className="auth-button" disabled={loading}>
                         {loading ? t('common.loading') : t('auth.signUp')}
                     </button>
@@ -90,6 +114,16 @@ const Register = () => {
                     {t('auth.haveAccount')} <Link to="/login">{t('auth.signIn')}</Link>
                 </div>
             </div>
+
+            <TownSelectorModal
+                isOpen={isTownModalOpen}
+                onClose={() => setIsTownModalOpen(false)}
+                onSelect={(town) => {
+                    setSelectedTown(town);
+                    setIsTownModalOpen(false);
+                    setError(null);
+                }}
+            />
         </div>
     );
 };

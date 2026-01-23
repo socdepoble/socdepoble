@@ -1,0 +1,143 @@
+.reframer-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    backdrop-filter: blur(4px);
+    padding: var(--space-md);
+}
+
+.reframer-content {
+    background: var(--bg-card);
+    width: 100%;
+    max-width: 500px;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow-2xl);
+}
+
+.reframer-header {
+    padding: var(--space-lg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.reframer-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--text-main);
+}
+
+.reframer-viewport-container {
+    padding: var(--space-xl);
+    background: #1a1a1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    height: 350px;
+}
+
+.reframer-viewport {
+    position: relative;
+    overflow: hidden;
+    background: #000;
+    box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.5);
+    border: 2px solid var(--color-primary);
+}
+
+.reframer-viewport.aspect-1-1 {
+    width: 250px;
+    height: 250px;
+    border-radius: var(--radius-full);
+}
+
+.reframer-viewport.aspect-16-9 {
+    width: 100%;
+    aspect-ratio: 16/9;
+    border-radius: var(--radius-md);
+}
+
+.reframer-viewport img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    min-height: 100%;
+    user-select: none;
+    pointer-events: none;
+}
+
+.viewport-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.viewport-overlay.is-circle .mask-guide {
+    position: absolute;
+    inset: -50px;
+    border-radius: var(--radius-full);
+    box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.viewport-overlay.is-rect .mask-guide {
+    position: absolute;
+    inset: 0;
+    box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.move-icon {
+    color: white;
+    opacity: 0.5;
+    z-index: 20;
+}
+
+.reframer-controls {
+    padding: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+
+.zoom-control {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    color: var(--text-secondary);
+}
+
+.zoom-control input {
+    flex: 1;
+    accent-color: var(--color-primary);
+}
+
+.reframer-actions {
+    display: flex;
+    gap: var(--space-md);
+}
+
+.reframer-actions button {
+    flex: 1;
+}
+
+.close-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+}

@@ -25,6 +25,7 @@ const Market = ({ townId = null }) => {
     const [loadingMore, setLoadingMore] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const [activeTab, setActiveTab] = useState('tot');
+    const [error, setError] = useState(null);
 
     const isMounted = useRef(true);
 
@@ -41,6 +42,7 @@ const Market = ({ townId = null }) => {
             setLoading(true);
             setPage(0);
         }
+        setError(null);
 
         try {
             if (categories.length === 0) {
@@ -65,6 +67,7 @@ const Market = ({ townId = null }) => {
         } catch (error) {
             if (isMounted.current) {
                 logger.error('Error fetching market data:', error);
+                setError(error.message);
             }
         } finally {
             if (isMounted.current) {
@@ -84,7 +87,7 @@ const Market = ({ townId = null }) => {
     useEffect(() => {
         const handleRefresh = (e) => {
             if (e.detail?.type === 'market') {
-                window.location.reload();
+                loadMarketData();
             }
         };
         window.addEventListener('data-refresh', handleRefresh);
@@ -117,6 +120,18 @@ const Market = ({ townId = null }) => {
             { id: 'intercanvi', label: t('market.exchange') || 'Intercanvi' }
         ];
 
+    if (error) {
+        return (
+            <div className="market-container">
+                <UnifiedStatus
+                    type="error"
+                    message={error}
+                    onRetry={() => loadMarketData()}
+                />
+            </div>
+        );
+    }
+
     if (loading && items.length === 0) {
         return (
             <div className="market-container">
@@ -148,7 +163,7 @@ const Market = ({ townId = null }) => {
                     />
                 ) : (
                     filteredItems.map(item => (
-                        <div key={item.uuid} className="universal-card market-item">
+                        <div key={item.uuid || item.id} className="universal-card market-item">
                             <div
                                 className="card-header clickable"
                                 onClick={() => {
@@ -169,6 +184,9 @@ const Market = ({ townId = null }) => {
                                             <span className="post-author">
                                                 {item.seller || item.seller_name || 'Usuari'}
                                             </span>
+                                            {(item.author_role === 'ambassador' || item.author_is_ai) && (
+                                                <span className="identity-badge ai" title="Informació i Acció Artificial">IAIA</span>
+                                            )}
                                         </div>
                                         <div className="post-subtitle-row">
                                             <span className="post-time">{item.created_at ? new Date(item.created_at).toLocaleDateString() : 'Avui'}</span>
@@ -187,6 +205,11 @@ const Market = ({ townId = null }) => {
                                     <div className="item-info-left">
                                         <h3 className="item-title">{item.title}</h3>
                                         <p className="item-desc-short">{item.description || t('market.no_description')}</p>
+                                        {(item.author_role === 'ambassador' || item.author_is_ai) && (
+                                            <div className="ia-transparency-note-mini">
+                                                ✨ Producte/Anunci gestionat per IAIA
+                                            </div>
+                                        )}
                                     </div>
                                     <div className="item-info-right">
                                         <span className="price-tag-vibrant">{item.price}</span>

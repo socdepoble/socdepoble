@@ -97,17 +97,64 @@ export const supabaseService = {
     async getConversations(userIdOrEntityId) {
         const isGuest = !userIdOrEntityId || userIdOrEntityId === DEMO_USER_ID;
 
-        // Usamos la vista enriquecida que ya trae nombres y avatares directamente (Optimización Auditoría V3)
-        let query = supabase.from('view_conversations_enriched').select('id, participant_1_id, participant_2_id, participant_1_type, participant_2_type, last_message_content, last_message_at, p1_name, p1_avatar_url, p2_name, p2_avatar_url');
-
-        if (!isGuest) {
-            query = query.or(`participant_1_id.eq.${userIdOrEntityId},participant_2_id.eq.${userIdOrEntityId}`);
+        if (isGuest || (userIdOrEntityId && !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(userIdOrEntityId))) {
+            // Bypass DB for guest or invalid UUID (mock user)
+            const { MOCK_CHATS } = await import('../data');
+            const currentParticipantId = userIdOrEntityId || 'me';
+            return MOCK_CHATS.map(m => ({
+                id: `mock-${m.id}`,
+                last_message_content: m.message,
+                last_message_at: new Date().toISOString(),
+                p1_info: { id: currentParticipantId, name: 'Jo' },
+                p2_info: { id: `m${m.id}`, name: m.name, avatar_url: m.avatar_url || null },
+                participant_1_id: currentParticipantId,
+                participant_2_id: `m${m.id}`,
+                participant_1_type: 'user',
+                participant_2_type: m.type === 'shop' || m.type === 'gov' ? 'entity' : 'user'
+            }));
         }
+
+        // Usamos la vista enriquecida que ya trae nombres y avatares directamente (Optimización Auditoría V3)
+        let query = supabase.from('view_conversations_enriched').select(`
+            id, 
+            participant_1_id, 
+            participant_2_id, 
+            participant_1_type, 
+            participant_2_type, 
+            last_message_content, 
+            last_message_at, 
+            p1_name, 
+            p1_avatar_url, 
+            p1_role,
+            p1_is_ai,
+            p2_name, 
+            p2_avatar_url,
+            p2_role,
+            p2_is_ai
+        `);
+
+        query = query.or(`participant_1_id.eq.${userIdOrEntityId},participant_2_id.eq.${userIdOrEntityId}`);
 
         const { data: convs, error } = await query.order('last_message_at', { ascending: false });
 
         if (error) {
             logger.error('[SupabaseService] Error in getConversations:', error);
+            // Si hay error (posiblemente la vista no existe aún), devolvemos vacío o mocks si habilitado
+            if (ENABLE_MOCKS) {
+                const { MOCK_CHATS } = await import('../data');
+                const currentParticipantId = userIdOrEntityId || 'me';
+                return MOCK_CHATS.map(m => ({
+                    id: `mock-${m.id}`,
+                    last_message_content: m.message,
+                    last_message_at: new Date().toISOString(),
+                    p1_info: { id: currentParticipantId, name: 'Jo' },
+                    p2_info: { id: `m${m.id}`, name: m.name, avatar_url: m.avatar_url || null },
+                    participant_1_id: currentParticipantId,
+                    participant_2_id: `m${m.id}`,
+                    participant_1_type: 'user',
+                    participant_2_type: m.type === 'shop' || m.type === 'gov' ? 'entity' : 'user'
+                }));
+            }
             return [];
         }
 
@@ -118,28 +165,29 @@ export const supabaseService = {
             p2_info: { id: c.participant_2_id, name: c.p2_name, avatar_url: c.p2_avatar_url }
         }));
 
-        // FALLBACK RESTAURADOR: Si no hi ha converses a la DB (o si estem en sandbox buit), 
-        // mostrem els MOCK_CHATS per "omplir" el disseny com vol el user.
-        if (dbConvs.length === 0 && ENABLE_MOCKS) {
-            const { MOCK_CHATS } = await import('../data');
-            const currentParticipantId = userIdOrEntityId || 'me';
-            return MOCK_CHATS.map(m => ({
-                id: `mock-${m.id}`,
-                last_message_content: m.message,
-                last_message_at: new Date().toISOString(),
-                p1_info: { id: currentParticipantId, name: 'Jo' },
-                p2_info: { id: `m${m.id}`, name: m.name, avatar_url: `/images/demo/avatar_${m.id}.png` },
-                participant_1_id: currentParticipantId,
-                participant_2_id: `m${m.id}`,
-                participant_1_type: 'user',
-                participant_2_type: m.type === 'shop' || m.type === 'gov' ? 'entity' : 'user'
-            }));
-        }
-
         return dbConvs;
     },
 
     async getConversationMessages(conversationId) {
+        if (conversationId?.startsWith('mock-')) {
+            try {
+                const mockIdx = conversationId.split('-')[1];
+                const { MOCK_MESSAGES } = await import('../data');
+                const messages = MOCK_MESSAGES[mockIdx] || [];
+                return messages.map(m => ({
+                    id: `msg-mock-${m.id}`,
+                    conversation_id: conversationId,
+                    sender_id: m.sender === 'me' ? 'me' : 'other', // En la UI lo gestionamos
+                    content: m.text,
+                    created_at: new Date().toISOString(),
+                    is_ai: false
+                }));
+            } catch (err) {
+                logger.error('Error loading mock messages:', err);
+                return [];
+            }
+        }
+
         const { data, error } = await supabase
             .from('messages')
             .select('*')
@@ -150,12 +198,29 @@ export const supabaseService = {
     },
 
     async sendSecureMessage(messageData) {
+        if (messageData.conversationId?.startsWith('mock-')) {
+            logger.log('[SupabaseService] Simulated send to mock conversation');
+            return {
+                id: `msg-sent-${Date.now()}`,
+                conversation_id: messageData.conversationId,
+                sender_id: messageData.senderId,
+                content: messageData.content,
+                attachment_url: messageData.attachmentUrl || null,
+                attachment_type: messageData.attachmentType || null,
+                attachment_name: messageData.attachmentName || null,
+                created_at: new Date().toISOString()
+            };
+        }
+
         // Validació estructural amb Zod
         const validated = MessageSchema.parse({
             conversation_id: messageData.conversationId,
             sender_id: messageData.senderId,
             sender_entity_id: messageData.senderEntityId || null,
-            content: messageData.content
+            content: messageData.content || null,
+            attachment_url: messageData.attachmentUrl || null,
+            attachment_type: messageData.attachmentType || null,
+            attachment_name: messageData.attachmentName || null
         });
 
         const { data, error } = await supabase
@@ -171,7 +236,7 @@ export const supabaseService = {
         await supabase
             .from('conversations')
             .update({
-                last_message_content: messageData.content,
+                last_message_content: messageData.attachmentUrl ? `[${messageData.attachmentType || 'Arxiu'}]` : messageData.content,
                 last_message_at: new Date().toISOString()
             })
             .eq('id', messageData.conversationId);
@@ -193,6 +258,7 @@ export const supabaseService = {
 
         return message;
     },
+
 
     async triggerSimulatedReply(originalMessage) {
         // Simular pensamiento (1.5s - 4.5s random para que parezca más "humano")
@@ -331,10 +397,13 @@ export const supabaseService = {
     },
 
     async markMessagesAsRead(conversationId, userId) {
+        if (conversationId?.startsWith('mock-')) return;
+
         const { error } = await supabase.rpc('mark_messages_as_read', {
             conv_id: conversationId,
             user_id: userId
         });
+
         if (error) throw error;
     },
 
@@ -421,7 +490,7 @@ export const supabaseService = {
         try {
             let query = supabase
                 .from('posts')
-                .select('id, content, created_at, author_id, author_name, author_avatar_url, author_role, image_url, is_playground, entity_id, towns!fk_posts_town_uuid(name)', { count: 'exact' });
+                .select('id, uuid:id, content, created_at, author_id, author:author_name, author_avatar:author_avatar_url, image_url, author_role, is_playground, entity_id, towns!fk_posts_town_uuid(name)', { count: 'exact' });
 
             // Si no sabemos si la columna existe, hacemos una comprobación SILENCIOSA (select *)
             if (isPlayground && columnCache.posts_is_playground === null) {
@@ -525,7 +594,7 @@ export const supabaseService = {
         try {
             let query = supabase
                 .from('market_items')
-                .select('id, title, description, price, category_slug, created_at, author_id, author_name, author_avatar_url, image_url, is_playground, is_active, entity_id, towns!fk_market_town_uuid(name)', { count: 'exact' });
+                .select('id, uuid:id, title, description, price, category_slug, created_at, author_id, seller:author_name, avatar_url:author_avatar_url, image_url, is_playground, is_active, entity_id, towns!fk_market_town_uuid(name)', { count: 'exact' });
 
             if (isPlayground && columnCache.market_is_playground === null) {
                 if (!activeChecks.market) {
@@ -642,6 +711,9 @@ export const supabaseService = {
 
     // Suscripciones en tiempo real y Presencia
     subscribeToConversation(conversationId, options = {}) {
+        if (conversationId?.startsWith('mock-')) {
+            return { unsubscribe: () => { } };
+        }
         const { onNewMessage, onMessageUpdate } = options;
 
         const channel = supabase.channel(`conversation:${conversationId}`)
@@ -727,7 +799,7 @@ export const supabaseService = {
         try {
             const { data, error } = await supabase
                 .from('profiles')
-                .select('id, username, full_name, role, avatar_url, bio, primary_town, provinces, comarcas, is_demo, created_at')
+                .select('id, username, full_name, role, avatar_url, cover_url, bio, primary_town, town_uuid, is_demo, created_at')
                 .eq('id', userId)
                 .single();
 
@@ -751,7 +823,9 @@ export const supabaseService = {
 
     // Conexiones (Antiguos Likes)
     async getPostConnections(postIds) {
-        const ids = Array.isArray(postIds) ? postIds : [postIds];
+        const ids = (Array.isArray(postIds) ? postIds : [postIds]).filter(id =>
+            typeof id === 'string' && id.includes('-')
+        );
         if (ids.length === 0) return [];
 
         logger.log(`[SupabaseService] Fetching connections for ${ids.length} posts`);
@@ -945,13 +1019,17 @@ export const supabaseService = {
         return data;
     },
 
-    async getUserPosts(userId) {
+    async getUserPosts(userId, isPlayground = false) {
         try {
-            const { data, error } = await supabase
+            let query = supabase
                 .from('posts')
-                .select('*')
-                .eq('author_id', userId)
-                .order('created_at', { ascending: false });
+                .select('id, content, created_at, author_id, image_url, is_playground, entity_id')
+                .eq('author_id', userId);
+
+            if (isPlayground) query = query.eq('is_playground', true);
+            else query = query.or('is_playground.is.null,is_playground.eq.false');
+
+            const { data, error } = await query.order('created_at', { ascending: false });
             if (error) throw error;
             return data || [];
         } catch (error) {
@@ -960,13 +1038,17 @@ export const supabaseService = {
         }
     },
 
-    async getEntityPosts(entityId) {
+    async getEntityPosts(entityId, isPlayground = false) {
         try {
-            const { data, error } = await supabase
+            let query = supabase
                 .from('posts')
-                .select('*')
-                .eq('entity_id', entityId)
-                .order('created_at', { ascending: false });
+                .select('id, content, created_at, author_id, image_url, is_playground, entity_id')
+                .eq('entity_id', entityId);
+
+            if (isPlayground) query = query.eq('is_playground', true);
+            else query = query.or('is_playground.is.null,is_playground.eq.false');
+
+            const { data, error } = await query.order('created_at', { ascending: false });
             if (error) throw error;
             return data || [];
         } catch (error) {
@@ -975,13 +1057,17 @@ export const supabaseService = {
         }
     },
 
-    async getUserMarketItems(userId) {
+    async getUserMarketItems(userId, isPlayground = false) {
         try {
-            const { data, error } = await supabase
+            let query = supabase
                 .from('market_items')
-                .select('*, towns!fk_market_town_uuid(name)')
-                .eq('author_id', userId)
-                .order('created_at', { ascending: false });
+                .select('id, title, description, price, category_slug, created_at, author_id, image_url, is_playground, is_active, entity_id, towns!fk_market_town_uuid(name)')
+                .eq('author_id', userId);
+
+            if (isPlayground) query = query.eq('is_playground', true);
+            else query = query.or('is_playground.is.null,is_playground.eq.false');
+
+            const { data, error } = await query.order('created_at', { ascending: false });
             if (error) throw error;
             return data || [];
         } catch (error) {
@@ -990,13 +1076,17 @@ export const supabaseService = {
         }
     },
 
-    async getEntityMarketItems(entityId) {
+    async getEntityMarketItems(entityId, isPlayground = false) {
         try {
-            const { data, error } = await supabase
+            let query = supabase
                 .from('market_items')
-                .select('*, towns!fk_market_town_uuid(name)')
-                .eq('entity_id', entityId)
-                .order('created_at', { ascending: false });
+                .select('id, title, description, price, category_slug, created_at, author_id, image_url, is_playground, is_active, entity_id, towns!fk_market_town_uuid(name)')
+                .eq('entity_id', entityId);
+
+            if (isPlayground) query = query.eq('is_playground', true);
+            else query = query.or('is_playground.is.null,is_playground.eq.false');
+
+            const { data, error } = await query.order('created_at', { ascending: false });
             if (error) throw error;
             return data || [];
         } catch (error) {
@@ -1039,5 +1129,235 @@ export const supabaseService = {
             throw error;
         }
         return data[0];
+    },
+
+    // Herramientas de Control de Almacenamiento (Auditoría)
+    async getStorageStats() {
+        try {
+            const bucket = 'chat_attachments';
+            const { data, error } = await supabase.storage.from(bucket).list('', { recursive: true });
+
+            if (error) throw error;
+
+            // Supabase list() returns metadata including size in bytes
+            const totalBytes = data.reduce((acc, file) => acc + (file.metadata?.size || 0), 0);
+            const totalMB = (totalBytes / (1024 * 1024)).toFixed(2);
+
+            return {
+                count: data.length,
+                totalBytes,
+                totalMB,
+                limitMB: 1024, // Supabase Free Tier: 1GB
+                percentage: ((totalBytes / (1024 * 1024 * 1024)) * 100).toFixed(2)
+            };
+        } catch (err) {
+            logger.error('[SupabaseService] Error getting storage stats:', err);
+            return null;
+        }
+    },
+
+    // Subida de imágenes de perfil y portada
+    // --- Media Deduplication & Upload Helpers ---
+
+    /**
+     * Internal helper to process a media upload with deduplication.
+     * Checks hash first, then uploads if necessary, and finally registers usage.
+     */
+    async processMediaUpload(userId, file, bucket, context, isPublic = true, parentId = null) {
+        const { calculateFileHash } = await import('../utils/crypto');
+        const hash = await calculateFileHash(file);
+
+        // 1. Check if asset already exists
+        const existingAsset = await this.getMediaAssetByHash(hash);
+
+        if (existingAsset) {
+            // Already exists! Just register usage
+            await this.registerMediaUsage(existingAsset.id, userId, context, isPublic);
+            return { url: existingAsset.url, deduplicated: true, asset: existingAsset };
+        }
+
+        // 2. No duplicate, perform actual upload
+        const filePath = `${userId}/${context}_${Date.now()}_${file.name}`;
+        const { error: uploadError } = await supabase.storage
+            .from(bucket)
+            .upload(filePath, file);
+
+        if (uploadError) throw uploadError;
+
+        const { data: { publicUrl } } = supabase.storage
+            .from(bucket)
+            .getPublicUrl(filePath);
+
+        // 3. Create the asset record
+        const newAsset = await this.createMediaAsset({
+            hash,
+            url: publicUrl,
+            mime_type: file.type,
+            size_bytes: file.size,
+            parent_id: parentId
+        });
+
+        // 4. Register usage
+        await this.registerMediaUsage(newAsset.id, userId, context, isPublic);
+
+        return { url: publicUrl, deduplicated: false, asset: newAsset };
+    },
+
+    async uploadAvatar(userId, file) {
+        const result = await this.processMediaUpload(userId, file, 'profiles', 'avatar', true);
+        await this.updateProfile(userId, { avatar_url: result.url });
+        return { ...(await this.getProfile(userId)), _deduplicated: result.deduplicated };
+    },
+
+    async uploadCover(userId, file) {
+        const result = await this.processMediaUpload(userId, file, 'profiles', 'cover', true);
+        await this.updateProfile(userId, { cover_url: result.url });
+        return { ...(await this.getProfile(userId)), _deduplicated: result.deduplicated };
+    },
+
+    async uploadChatAttachment(file, conversationId, userId) {
+        const result = await this.processMediaUpload(userId, file, 'chat_attachments', 'chat', true);
+        return result.url;
+    },
+
+    // --- Media Deduplication System ---
+
+    async getMediaAssetByUrl(url) {
+        const { data, error } = await supabase
+            .from('media_assets')
+            .select('*')
+            .eq('url', url)
+            .maybeSingle();
+
+        if (error) throw error;
+        return data;
+    },
+
+    async getUserMediaAssets(userId) {
+        const { data, error } = await supabase
+            .from('media_usage')
+            .select(`
+                asset_id,
+                context,
+                media_assets (*)
+            `)
+            .eq('user_id', userId)
+            .order('created_at', { ascending: false });
+
+        if (error) throw error;
+
+        const assets = [];
+        const seenIds = new Set();
+        const seenHashes = new Set();
+
+        const hasPrimarySource = data?.some(u =>
+            ['raw', 'post', 'chat', 'direct', 'item'].includes(u.context)
+        );
+
+        data?.forEach(usage => {
+            const asset = usage.media_assets;
+            const context = usage.context;
+
+            if (asset && !seenIds.has(asset.id)) {
+                // 1. Never show crops with parents
+                if (asset.parent_id) return;
+
+                // 2. Exact file deduplication (legacy support)
+                if (seenHashes.has(asset.hash)) return;
+
+                // 3. Hide automated contexts if original source exists
+                const isAutomated = context === 'avatar' || context === 'cover';
+                if (hasPrimarySource && isAutomated) return;
+
+                if (asset.mime_type?.startsWith('image/')) {
+                    assets.push(asset);
+                    seenIds.add(asset.id);
+                    seenHashes.add(asset.hash);
+                }
+            }
+        });
+
+        return assets;
+    },
+
+    async getMediaAssetByHash(hash) {
+        const { data, error } = await supabase
+            .from('media_assets')
+            .select('*')
+            .eq('hash', hash)
+            .maybeSingle();
+
+        if (error) throw error;
+        return data;
+    },
+
+    async getParentAsset(assetId) {
+        const { data: asset, error: assetError } = await supabase
+            .from('media_assets')
+            .select('parent_id')
+            .eq('id', assetId)
+            .single();
+
+        if (assetError || !asset.parent_id) return null;
+
+        const { data: parent, error: parentError } = await supabase
+            .from('media_assets')
+            .select('*')
+            .eq('id', asset.parent_id)
+            .single();
+
+        if (parentError) throw parentError;
+        return parent;
+    },
+
+    async createMediaAsset(assetData) {
+        const { data, error } = await supabase
+            .from('media_assets')
+            .insert(assetData)
+            .select()
+            .single();
+
+        if (error) throw error;
+        return data;
+    },
+
+    async registerMediaUsage(assetId, userId, context, isPublic = true) {
+        const { data, error } = await supabase
+            .from('media_usage')
+            .insert({
+                asset_id: assetId,
+                user_id: userId,
+                context,
+                is_public: isPublic
+            })
+            .select()
+            .single();
+
+        if (error) throw error;
+        return data;
+    },
+
+    async getMediaAttribution(assetId) {
+        const { data, error } = await supabase
+            .from('media_attribution')
+            .select('*')
+            .eq('asset_id', assetId);
+
+        if (error) throw error;
+        return data;
+    },
+
+    async getUserMedia(userId) {
+        const { data, error } = await supabase
+            .from('media_usage')
+            .select(`
+                *,
+                asset:media_assets(*)
+            `)
+            .eq('user_id', userId)
+            .order('created_at', { ascending: false });
+
+        if (error) throw error;
+        return data;
     }
 };

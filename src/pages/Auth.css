@@ -84,6 +84,35 @@
     box-shadow: 0 0 0 4px rgba(93, 95, 239, 0.15);
 }
 
+.town-picker-trigger {
+    width: 100%;
+    padding: 16px 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 18px;
+    font-size: 1rem;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: left;
+}
+
+.town-picker-trigger:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--color-primary);
+}
+
+.town-picker-trigger.empty span {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.town-picker-trigger svg {
+    color: var(--color-primary);
+}
+
 .auth-button {
     width: 100%;
     padding: 14px;
