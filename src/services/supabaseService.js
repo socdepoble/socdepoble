@@ -10,6 +10,12 @@ const columnCache = {
     messages_is_ai: null
 };
 
+// Promesas activas para evitar ráfagas de errores 400 en paralelo
+const activeChecks = {
+    posts: null,
+    market: null
+};
+
 export const supabaseService = {
     // Admin & Seeding
     async getAllPersonas() {
@@ -393,7 +399,23 @@ export const supabaseService = {
                 .from('posts')
                 .select('*, towns!fk_posts_town_uuid(name)', { count: 'exact' });
 
-            // Solo aplicamos is_playground si estamos en playground Y la columna existe
+            // Si no sabemos si la columna existe, hacemos una pequeña comprobación previa o esperamos a una en curso
+            if (isPlayground && columnCache.posts_is_playground === null) {
+                if (!activeChecks.posts) {
+                    activeChecks.posts = (async () => {
+                        try {
+                            const { error } = await supabase.from('posts').select('is_playground').limit(1);
+                            columnCache.posts_is_playground = !error;
+                        } catch (e) {
+                            columnCache.posts_is_playground = false;
+                        } finally {
+                            activeChecks.posts = null;
+                        }
+                    })();
+                }
+                await activeChecks.posts;
+            }
+
             if (isPlayground && columnCache.posts_is_playground !== false) {
                 query = query.eq('is_playground', true);
             }
@@ -415,12 +437,8 @@ export const supabaseService = {
 
             if (error) {
                 if (error.code === '42703' && isPlayground) {
-                    const firstTime = columnCache.posts_is_playground !== false;
                     columnCache.posts_is_playground = false;
-                    if (firstTime) {
-                        logger.warn('[SupabaseService] is_playground missing in posts, entering silent fallback mode');
-                    }
-                    // Reintentar sin el filtro de playground pero MANTENIENDO el resto
+                    logger.warn('[SupabaseService] is_playground missing in posts, retrying silent...');
                     return this.getPosts(roleFilter, townId, page, pageSize, false);
                 }
                 throw error;
@@ -475,6 +493,22 @@ export const supabaseService = {
                 .from('market_items')
                 .select('*, towns!fk_market_town_uuid(name)', { count: 'exact' });
 
+            if (isPlayground && columnCache.market_is_playground === null) {
+                if (!activeChecks.market) {
+                    activeChecks.market = (async () => {
+                        try {
+                            const { error } = await supabase.from('market_items').select('is_playground').limit(1);
+                            columnCache.market_is_playground = !error;
+                        } catch (e) {
+                            columnCache.market_is_playground = false;
+                        } finally {
+                            activeChecks.market = null;
+                        }
+                    })();
+                }
+                await activeChecks.market;
+            }
+
             if (isPlayground && columnCache.market_is_playground !== false) {
                 query = query.eq('is_playground', true);
             }
@@ -496,11 +530,8 @@ export const supabaseService = {
 
             if (error) {
                 if (error.code === '42703' && isPlayground) {
-                    const firstTime = columnCache.market_is_playground !== false;
                     columnCache.market_is_playground = false;
-                    if (firstTime) {
-                        logger.warn('[SupabaseService] is_playground missing in market, entering silent fallback mode');
-                    }
+                    logger.warn('[SupabaseService] is_playground missing in market, retrying silent...');
                     return this.getMarketItems(categoryFilter, townId, page, pageSize, false);
                 }
                 throw error;
