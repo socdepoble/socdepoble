@@ -156,7 +156,7 @@ const PublicEntity = () => {
                     { label: 'Poble', value: entity.town_name || 'La Torre', icon: <MapPin size={18} /> },
                     { label: 'Seguidors', value: followersCount.toString(), icon: <Users size={18} /> }
                 ]}
-                onAction={members.some(m => m.user_id === currentUser?.id) ? () => navigate('/gestio-entitats') : null}
+                onAction={members.some(m => m.user_id === currentUser?.id) ? () => navigate('/gestio-entitats', { state: { fromProfile: true } }) : null}
                 actionIcon={<Settings size={24} />}
                 onShare={handleShare}
             />

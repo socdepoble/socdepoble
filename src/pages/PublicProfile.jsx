@@ -154,7 +154,7 @@ const PublicProfile = () => {
                     { label: 'Poble', value: profile.town_name || 'La Torre', icon: <MapPin size={18} /> },
                     { label: 'Connexions', value: followersCount.toString(), icon: <UsersIcon size={18} /> }
                 ]}
-                onAction={isOwnProfile ? () => navigate('/perfil') : null}
+                onAction={isOwnProfile ? () => navigate('/perfil', { state: { fromProfile: true } }) : null}
                 actionIcon={<Settings size={24} />}
                 onShare={handleShare}
             />

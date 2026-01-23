@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useUI } from '../context/UIContext';
 import { supabaseService } from '../services/supabaseService';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 import { User, LogOut, Camera, Save, Building2, Store, Settings, Star, Home, Bell, Lock, HelpCircle, Info, ChevronRight, MapPin, MessageCircle, Plus, Moon, Sun, ArrowLeft, Loader2, Image as ImageIcon, Maximize } from 'lucide-react';
 import { logger } from '../utils/logger';
 import TownSelectorModal from '../components/TownSelectorModal';
@@ -58,6 +58,15 @@ const Profile = () => {
     const navigate = useNavigate();
     const { profile, setProfile, user, isPlayground, logout } = useAuth();
     const { theme, toggleTheme } = useUI();
+    const location = useLocation();
+
+    const handleBack = () => {
+        if (location.state?.fromProfile) {
+            navigate(-2);
+        } else {
+            navigate(-1);
+        }
+    };
 
     const [allTowns, setAllTowns] = useState([]);
     const [isEditingTown, setIsEditingTown] = useState(false);
@@ -333,7 +342,7 @@ const Profile = () => {
                     <div className="cover-overlay" />
 
                     <div className="header-top-actions">
-                        <button className="giga-back-button" onClick={() => navigate(-1)}>
+                        <button className="giga-back-button" onClick={handleBack}>
                             <ArrowLeft size={24} />
                         </button>
                         <div className="header-right-actions">
