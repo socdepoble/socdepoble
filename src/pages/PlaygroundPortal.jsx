@@ -39,7 +39,7 @@ const PlaygroundPortal = () => {
                 <img src="/logo.png" alt="Sóc de Poble" className="portal-logo-large" />
                 <h1 className="portal-title">Playground</h1>
                 <p className="portal-description">
-                    Tria una identitat per entrar al simulador interactiu.<br />
+                    Tria una identitat per entrar al simulador interactiu<br />
                     Tot el que faces aquí és efímer i compartit amb altres "jugadors"
                 </p>
                 <div className="ai-notice-simple">
