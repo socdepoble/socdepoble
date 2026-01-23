@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { X, Newspaper, Store, MapPin, Users, Shield } from 'lucide-react';
+import { X, Newspaper, Store, MapPin, Users, Shield, Calendar } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useUI } from '../context/UIContext';
 import './CreationHub.css';
