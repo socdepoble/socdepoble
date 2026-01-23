@@ -99,15 +99,11 @@ const SearchDiscover = () => {
                         <Users size={32} />
                     </div>
                     <div className="btn-text-xl">
-                        <strong>La Comunitat</strong>
+                        <strong>Explora el teu territori</strong>
                         <span>Descobreix tota la gent i entitats del poble</span>
                     </div>
                     <ChevronRight size={24} />
                 </button>
-
-                <p className="search-description-text">
-                    Explora el teu territori. Troba amics, negocis locals, entitats i tot el que passa als teus pobles.
-                </p>
 
                 <div className="filter-chips-scroll">
                     {filters.map(filter => (
