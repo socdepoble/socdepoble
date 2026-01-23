@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Building2, Store, Users, MapPin, MessageSquare, Share2, Loader2, AlertCircle, Calendar, ArrowLeft, UserPlus, UserMinus, Layout } from 'lucide-react';
+import { Building2, Store, Users, MapPin, MessageSquare, Share2, Loader2, AlertCircle, Calendar, ArrowLeft, UserPlus, UserMinus, Settings } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
 import SEO from '../components/SEO';
@@ -157,7 +157,7 @@ const PublicEntity = () => {
                     { label: 'Seguidors', value: followersCount.toString(), icon: <Users size={18} /> }
                 ]}
                 onAction={members.some(m => m.user_id === currentUser?.id) ? () => navigate('/gestio-entitats') : null}
-                actionIcon={<Layout size={24} />}
+                actionIcon={<Settings size={24} />}
                 onShare={handleShare}
             />
 

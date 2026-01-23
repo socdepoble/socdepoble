@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { User, MapPin, Calendar, Layout, Settings, ChevronRight, Loader2, AlertCircle, Building2, Store, Users as UsersIcon, ArrowLeft, UserPlus, UserMinus } from 'lucide-react';
+import { User, MapPin, Calendar, Settings, ChevronRight, Loader2, AlertCircle, Building2, Store, Users as UsersIcon, ArrowLeft, UserPlus, UserMinus } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
 import { logger } from '../utils/logger';
@@ -155,7 +155,7 @@ const PublicProfile = () => {
                     { label: 'Connexions', value: followersCount.toString(), icon: <UsersIcon size={18} /> }
                 ]}
                 onAction={isOwnProfile ? () => navigate('/perfil') : null}
-                actionIcon={<Layout size={24} />}
+                actionIcon={<Settings size={24} />}
                 onShare={handleShare}
             />
 
