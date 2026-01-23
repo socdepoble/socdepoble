@@ -425,21 +425,6 @@ const Profile = () => {
                 />
             </div>
 
-            <div className="profile-stats-bar">
-                <div className="stat-card">
-                    <span className="stat-value">23</span>
-                    <span className="stat-label">{t('nav.stats_posts')}</span>
-                </div>
-                <div className="stat-card">
-                    <span className="stat-value">5</span>
-                    <span className="stat-label">{t('nav.stats_sales')}</span>
-                </div>
-                <div className="stat-card">
-                    <span className="stat-value">142</span>
-                    <span className="stat-label">{t('nav.stats_connections')}</span>
-                </div>
-            </div>
-
             <div className="profile-menu">
                 {menuItems.map(item => (
                     <button key={item.id} className="menu-item" onClick={() => handleMenuClick(item.id)}>

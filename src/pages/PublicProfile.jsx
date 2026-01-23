@@ -159,6 +159,21 @@ const PublicProfile = () => {
                 onShare={handleShare}
             />
 
+            <div className="profile-stats-bar">
+                <div className="stat-card">
+                    <span className="stat-value">{userPosts.length}</span>
+                    <span className="stat-label">Publicacions</span>
+                </div>
+                <div className="stat-card">
+                    <span className="stat-value">{items.length}</span>
+                    <span className="stat-label">En Venda</span>
+                </div>
+                <div className="stat-card">
+                    <span className="stat-value">{followersCount}</span>
+                    <span className="stat-label">Connexions</span>
+                </div>
+            </div>
+
             {!isOwnProfile && (
                 <div className="profile-actions-inline">
                     <button
