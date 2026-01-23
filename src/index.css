@@ -7,8 +7,8 @@
   --color-secondary: #E07A5F;
   /* Keep the terracotta as brand accent */
   /* Dribbble Style Tokens */
-  --card-radius: 28px;
-  --image-radius: 20px;
+  --card-radius: var(--radius-xl);
+  --image-radius: var(--radius-lg);
   --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
   --card-shadow-hover: 0 15px 40px rgba(0, 0, 0, 0.08);
   --bg-app: #F8F9FB;
@@ -63,6 +63,7 @@
   --radius-md: 16px;
   --radius-lg: 24px;
   --radius-xl: 32px;
+  --radius-2xl: 40px;
   --radius-full: 100px;
 
   /* Shadows */
@@ -291,7 +292,7 @@ a:hover {
 
 .universal-card {
   background: var(--bg-warm-card);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xl);
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
   /* Deep black shadow */
   border: 1px solid var(--bg-warm-accent);
@@ -502,7 +503,7 @@ a:hover {
   background-color: var(--bg-surface);
   width: 100%;
   max-width: 500px;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xl);
   box-shadow: var(--shadow-lg);
   overflow: hidden;
   animation: modalScale 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
@@ -558,6 +559,7 @@ a:hover {
   white-space: nowrap;
   border-width: 0;
 }
+
 /* === PAGINATION === */
 .load-more-container {
   display: flex;

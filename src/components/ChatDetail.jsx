@@ -171,7 +171,12 @@ const ChatDetail = () => {
                         {getAvatarIcon(otherType, otherInfo?.avatar_url)}
                     </div>
                     <div className="chat-info">
-                        <h2>{otherInfo?.name || t('common.unknown')}</h2>
+                        <div className="chat-name-row">
+                            <h2>{otherInfo?.name || t('common.unknown')}</h2>
+                            <span className={`identity-badge ${isOtherOnline ? 'human' : 'ai'}`}>
+                                {isOtherOnline ? 'HUMÀ' : 'IA'}
+                            </span>
+                        </div>
                         <span className={`status ${isOtherOnline ? 'online' : ''}`}>
                             {isOtherTyping ? t('common.typing') : (isOtherOnline ? t('common.online') : t('common.offline'))}
                         </span>
@@ -186,8 +191,13 @@ const ChatDetail = () => {
                     messages.map(msg => {
                         const isMe = msg.sender_id === user.id && (!msg.sender_entity_id || msg.sender_entity_id === activeEntityId);
                         return (
-                            <div key={msg.id} className={`message-bubble ${isMe ? 'me' : 'other'}`}>
-                                <p>{msg.content}</p>
+                            <div key={msg.id} className={`message-bubble ${isMe ? 'me' : 'other'} ${msg.is_ai ? 'ai-bubble' : ''}`}>
+                                <div className="bubble-content-row">
+                                    <p>{msg.content}</p>
+                                    <span className={`bubble-tag ${msg.is_ai ? 'ai' : 'human'}`}>
+                                        {msg.is_ai ? 'IA' : 'HUMÀ'}
+                                    </span>
+                                </div>
                                 <div className="message-meta">
                                     <span className="message-time">
                                         {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}

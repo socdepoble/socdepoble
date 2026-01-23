@@ -224,3 +224,55 @@
     background-color: var(--text-muted);
     box-shadow: none;
 }
+
+/* AI styles */
+.chat-name-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.identity-badge {
+    font-size: 10px;
+    font-weight: 900;
+    padding: 1px 6px;
+    border-radius: 4px;
+}
+
+.identity-badge.human {
+    background: #6366f1;
+    color: white;
+}
+
+.identity-badge.ai {
+    background: #10b981;
+    color: white;
+}
+
+.bubble-content-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.bubble-tag {
+    font-size: 8px;
+    font-weight: 800;
+    padding: 1px 4px;
+    border-radius: 3px;
+}
+
+.bubble-tag.human {
+    border: 1px solid #6366f1;
+    color: #4f46e5;
+}
+
+.bubble-tag.ai {
+    border: 1px solid #10b981;
+    color: #059669;
+}
+
+.ai-bubble {
+    border-left: 3px solid #10b981;
+}

@@ -16,7 +16,7 @@
     padding: var(--space-md);
     gap: var(--space-md);
     background-color: var(--bg-card);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-xl);
     cursor: pointer;
     transition: all 0.2s;
     border: 1px solid transparent;
@@ -193,4 +193,3 @@
         opacity: 1;
     }
 }
-

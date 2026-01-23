@@ -6,7 +6,8 @@ import { DEMO_USER_ID, ROLES, USER_ROLES } from '../constants';
 const columnCache = {
     profiles_is_demo: null,
     posts_is_playground: null,
-    market_is_playground: null
+    market_is_playground: null,
+    messages_is_ai: null
 };
 
 export const supabaseService = {
@@ -21,28 +22,36 @@ export const supabaseService = {
 
         // Personatges extra del Lore (per fer el joc més gran de forma inmediata)
         const lorePersonas = [
-            { id: 'lore-1', full_name: 'Vicent Ferris', username: 'vferris', role: 'Fuster', primary_town: 'La Torre de les Maçanes', bio: 'Treballant la fusta amb l\'amor de tres generacions. Artesania de la Torre.', avatar_url: '/images/demo/avatar_man_old.png' },
-            { id: 'lore-2', full_name: 'Lucía Belda', username: 'lubelda', role: 'Farmacèutica', primary_town: 'La Torre de les Maçanes', bio: 'Molt més que vendre remeis; cuidant la salut emocional de les nostres veïnes.', avatar_url: '/images/demo/avatar_lucia.png' },
-            { id: 'lore-3', full_name: 'Elena Popova', username: 'elenap', role: 'Cuidadora', primary_town: 'La Torre de les Maçanes', bio: 'Vinent de Bulgària, cuidant de la nostra gent gran amb tota la paciència del món.', avatar_url: '/images/demo/avatar_elena.png' },
-            { id: 'lore-4', full_name: 'Maria "Mèl"', username: 'mariamel', role: 'Apicultora', primary_town: 'La Torre de les Maçanes', bio: 'Si vols mèl de veritat, puja a la Torre de les Maçanes. Tradició de muntanya.', avatar_url: '/images/demo/avatar_mariamel.png' },
-            { id: 'lore-5', full_name: 'Marc Sendra', username: 'marcs', role: 'Ciclisme', primary_town: 'La Torre de les Maçanes', bio: 'Aficionat al ciclisme de muntanya. No hi ha millor port que el de la Carrasqueta.', avatar_url: '/images/demo/avatar_marc.png' },
-            { id: 'lore-6', full_name: 'Samir Mensah', username: 'samirm', role: 'Camp i Suport', primary_town: 'Muro d\'Alcoi', bio: 'Treballant a la Cooperativa i ajudant al manteniment de les masies. Nova saba.', avatar_url: '/images/demo/avatar_samir.png' },
-            { id: 'lore-7', full_name: 'Andreu Soler', username: 'andreus', role: 'Cuina tradicional', primary_town: 'Muro d\'Alcoi', bio: 'Passió per l\'olleta de blat. El secret està en la paciència i el foc lento.', avatar_url: '/images/demo/avatar_man_1.png' },
-            { id: 'lore-8', full_name: 'Beatriz Ortega', username: 'beatrizo', role: 'Guia Turística', primary_town: 'Cocentaina', bio: 'Explicant les històries que amaguen les pedres del Palau Comtal.', avatar_url: '/images/demo/avatar_woman_1.png' },
-            { id: 'lore-9', full_name: 'Joanet Serra', username: 'joanets', role: 'Fotògraf', primary_town: 'Muro d\'Alcoi', bio: 'Revelant la bellesa quotidiana del Comtat en cada instantània.', avatar_url: '/images/demo/avatar_joanet.png' },
-            { id: 'lore-10', full_name: 'Carmen la del Forn', username: 'carmenf', role: 'Fornera', primary_town: 'Relleu', bio: 'El millor pa de llenya de la Marina Baixa, amb recepta de la rebesàvia.', avatar_url: '/images/demo/avatar_carmen.png' },
-            { id: 'lore-11', full_name: 'Carla Soriano', username: 'carlas', role: 'Disseny', primary_town: 'Penàguila', bio: 'Dissenyadora gràfica treballant en remot des de Penàguila. Buscant l\'equilibri.', avatar_url: '/images/demo/avatar_woman_3.png' },
-            { id: 'lore-12', full_name: 'Joan Batiste', username: 'joanb', role: 'Pastor', primary_town: 'Benifallim', bio: 'Les meues cabres i jo coneixem bé la Serra d\'Aitana. Sempre amb el meu gaito.', avatar_url: '/images/demo/avatar_man_old.png' }
+            { id: '11111111-1111-4111-a111-000000000001', full_name: 'Vicent Ferris', username: 'vferris', role: 'Fuster', primary_town: 'La Torre de les Maçanes', bio: 'Treballant la fusta amb l\'amor de tres generacions. Artesania de la Torre.', avatar_url: '/images/demo/avatar_man_old.png' },
+            { id: '11111111-1111-4111-a111-000000000002', full_name: 'Lucía Belda', username: 'lubelda', role: 'Farmacèutica', primary_town: 'La Torre de les Maçanes', bio: 'Molt més que vendre remeis; cuidant la salut emocional de les nostres veïnes.', avatar_url: '/images/demo/avatar_lucia.png' },
+            { id: '11111111-1111-4111-a111-000000000003', full_name: 'Elena Popova', username: 'elenap', role: 'Cuidadora', primary_town: 'La Torre de les Maçanes', bio: 'Vinent de Bulgària, cuidant de la nostra gent gran amb tota la paciència del món.', avatar_url: '/images/demo/avatar_elena.png' },
+            { id: '11111111-1111-4111-a111-000000000004', full_name: 'Maria "Mèl"', username: 'mariamel', role: 'Apicultora', primary_town: 'La Torre de les Maçanes', bio: 'Si vols mèl de veritat, puja a la Torre de les Maçanes. Tradició de muntanya.', avatar_url: '/images/demo/avatar_mariamel.png' },
+            { id: '11111111-1111-4111-a111-000000000005', full_name: 'Marc Sendra', username: 'marcs', role: 'Ciclisme', primary_town: 'La Torre de les Maçanes', bio: 'Aficionat al ciclisme de muntanya. No hi ha millor port que el de la Carrasqueta.', avatar_url: '/images/demo/avatar_marc.png' },
+            { id: '11111111-1111-4111-a111-000000000011', full_name: 'Carla Soriano', username: 'carlas', role: 'Disseny', primary_town: 'Penàguila', bio: 'Dissenyadora gràfica treballant en remot des de Penàguila. Buscant l\'equilibri.', avatar_url: '/images/demo/avatar_carla.png' },
+            { id: '11111111-1111-4111-a111-000000000006', full_name: 'Samir Mensah', username: 'samirm', role: 'Camp i Suport', primary_town: 'Muro d\'Alcoi', bio: 'Treballant a la Cooperativa i ajudant al manteniment de les masies. Nova saba.', avatar_url: '/images/demo/avatar_samir.png' },
+            { id: '11111111-1111-4111-a111-000000000007', full_name: 'Andreu Soler', username: 'andreus', role: 'Cuina tradicional', primary_town: 'Muro d\'Alcoi', bio: 'Passió per l\'olleta de blat. El secret està en la paciència i el foc lento.', avatar_url: '/images/demo/avatar_man_1.png' },
+            { id: '11111111-1111-4111-a111-000000000008', full_name: 'Beatriz Ortega', username: 'beatrizo', role: 'Guia Turística', primary_town: 'Cocentaina', bio: 'Explicant les històries que amaguen les pedres del Palau Comtal.', avatar_url: '/images/demo/avatar_woman_1.png' },
+            { id: '11111111-1111-4111-a111-000000000009', full_name: 'Joanet Serra', username: 'joanets', role: 'Fotògraf', primary_town: 'Muro d\'Alcoi', bio: 'Revelant la bellesa quotidiana del Comtat en cada instantània.', avatar_url: '/images/demo/avatar_joanet.png' },
+            { id: '11111111-1111-4111-a111-000000000010', full_name: 'Carmen la del Forn', username: 'carmenf', role: 'Fornera', primary_town: 'Relleu', bio: 'El millor pa de llenya de la Marina Baixa, amb recepta de la rebesàvia.', avatar_url: '/images/demo/avatar_carmen.png' },
+            { id: '11111111-1111-4111-a111-000000000012', full_name: 'Joan Batiste', username: 'joanb', role: 'Pastor', primary_town: 'Benifallim', bio: 'Les meues cabres i jo coneixem bé la Serra d\'Aitana. Sempre amb el meu gaito.', avatar_url: '/images/demo/avatar_man_old.png' }
         ];
 
         const dbPersonas = (data || []).filter(p => {
             const isRealUser = p.full_name?.toLowerCase().includes('javi') ||
                 p.username?.toLowerCase().includes('javillinares');
 
-            // També filtrem si el nom ja està en lorePersonas per evitar duplicats visuals ruidosos
             const isLoreCharacter = lorePersonas.some(lp => lp.full_name === p.full_name);
-
             return !isRealUser && !isLoreCharacter;
+        }).map(p => {
+            // Aseguramos que siempre tengan un pueblo asignado
+            if (!p.primary_town) {
+                // Fallback inteligente para perfiles de la DB que puedan estar incompletos
+                if (p.username === 'vferris') p.primary_town = 'La Torre de les Maçanes';
+                else if (p.username === 'carlas') p.primary_town = 'Penàguila';
+                else if (p.username === 'joanets') p.primary_town = 'Muro d\'Alcoi';
+                else p.primary_town = 'La Torre de les Maçanes'; // Default para la simulación
+            }
+            return p;
         });
 
         // Combinem
@@ -140,19 +149,33 @@ export const supabaseService = {
             })
             .eq('id', messageData.conversationId);
 
-        // Lógica de Simulación de IA (NPCs)
-        if (messageData.conversationId.startsWith('c1111000')) {
-            this.triggerSimulatedReply(messageData);
+        // Lógica de Simulación de IA (NPCs / Lore Personas)
+        // Busquem si el receptor és una Lore Persona per activar la IA
+        const { data: conv } = await supabase
+            .from('conversations')
+            .select('participant_1_id, participant_2_id')
+            .eq('id', messageData.conversationId)
+            .single();
+
+        const recipientId = conv?.participant_1_id === messageData.senderId ? conv?.participant_2_id : conv?.participant_1_id;
+        const isToLore = recipientId?.startsWith('11111111-1111-4111-a111-');
+
+        if (isToLore || messageData.conversationId.startsWith('c1111000')) {
+            this.triggerSimulatedReply({ ...messageData, recipientId });
         }
 
         return message;
     },
 
     async triggerSimulatedReply(originalMessage) {
-        // Simular pensamiento (2.5s)
+        // Simular pensamiento (1.5s - 4.5s random para que parezca más "humano")
+        const delay = 1500 + Math.random() * 3000;
+
         setTimeout(async () => {
             try {
                 const { conversationId, content, senderId } = originalMessage;
+
+                // Obtenemos info del chat para saber quién responde
                 const { data: conv } = await supabase
                     .from('conversations')
                     .select('*')
@@ -165,35 +188,94 @@ export const supabaseService = {
                 const responderId = isP1Sender ? conv.participant_2_id : conv.participant_1_id;
                 const responderType = isP1Sender ? conv.participant_2_type : conv.participant_1_type;
 
-                const replies = [
-                    "Ie! Moltes gràcies pel missatge, ho tindré en compte. Broadway",
-                    "Bon dia! Me'n vaig ara a l'hort, però después t'ho mire. Broadway",
-                    "Clar que sí, ens veiem per la plaça i ho parlem. Broadway",
-                    "Això està fet. Sóc de Poble és el millor que ens ha passat! Broadway",
-                    "Ho sento, ara estic un poc liat amb la faena, et dic algo de seguida. Broadway",
-                    "Xe, que bona idea! Parlem-ne demà. Broadway",
-                    "Perfecte, ja m'ho dius quan sàpigues algo. Broadway",
-                    "No te preocupes, ja ho arreglem nosaltres. Broadway",
-                    "Això és de categoria! Molt bé. Broadway",
-                    "Ostres, no ho sabia. Gràcies per avisar! Broadway"
-                ];
-                const randomReply = replies[Math.floor(Math.random() * replies.length)];
+                // Buscamos si es un personaje del Lore para ajustar la personalidad
+                const allPersonas = await this.getAllPersonas();
+                const persona = allPersonas.find(p => p.id === responderId);
 
-                await supabase.from('messages').insert([{
+                let reply = "";
+                const randomVal = Math.random();
+
+                if (persona) {
+                    // Respuestas con personalidad según el Lore
+                    if (persona.username === 'vferris') {
+                        const vReplies = [
+                            "Ie! Gràcies pel missatge. Ara estic amb la garlopa, t'ho mire en un ratet.",
+                            "Bona vesprada! Recorda que la fusta vol paciència. T'ho conteste després.",
+                            "Això està fet. Si és per a la Torre, compte amb mi!",
+                            "Passa't pel taller quan vullgues i ho mirem amb un café de l'avellà."
+                        ];
+                        reply = vReplies[Math.floor(randomVal * vReplies.length)];
+                    } else if (persona.username === 'mariamel') {
+                        const mReplies = [
+                            "Hola! Les meues abelles estan ara a tope amb el romer. Després parlem!",
+                            "Dolç com la mèl! Gràcies pel missatge, ja et dic algo.",
+                            "Xe, que bona idea. El poble necessita més gent així.",
+                            "Estic per la serra sense cobertura, quan baixe al poble t'ho mire."
+                        ];
+                        reply = mReplies[Math.floor(randomVal * mReplies.length)];
+                    } else if (persona.username === 'elenap') {
+                        const eReplies = [
+                            "Bon dia. Estic cuidant de la iaia Rosa, té molt poca paciència hui. Et dic algo més tard!",
+                            "Sí, d'acord. Jo ajudar en tot el que pugui al poble.",
+                            "Xe! Molt bé. Aquí a la Torre la gent és molt bona.",
+                            "Tinc molta feina ara, però t'ho agraeixo molt."
+                        ];
+                        reply = eReplies[Math.floor(randomVal * eReplies.length)];
+                    } else if (persona.username === 'joanb') {
+                        const jReplies = [
+                            "Ieee! Estic dalt l'Aitana amb el ramat. No se sent res per aquí.",
+                            "Si vols parlar de veres, vine a Benifallim i ho fem amb un bon gaito.",
+                            "Les meues cabres i jo estem d'acord. Bona proposta!",
+                            "Buff, la política de despatxos no és per a mi. Millor parlem a la fresca."
+                        ];
+                        reply = jReplies[Math.floor(randomVal * jReplies.length)];
+                    } else {
+                        // Genérico para otros personajes del Lore
+                        const genericReplies = [
+                            "Xe, que bona idea! Gràcies per compartir-ho.",
+                            "Ara estic un poc liat, però m'ho apunto i et dic alguna cosa.",
+                            "Sóc de Poble som tots, així que compte amb el meu suport!",
+                            "Perfecte, ja m'ho dius quan sàpigues algo segur."
+                        ];
+                        reply = genericReplies[Math.floor(randomVal * genericReplies.length)];
+                    }
+                } else {
+                    reply = "D'acord! Ho tindré en compte. Gràcies pel missatge.";
+                }
+
+                // Insertamos el mensaje marcado como IA (con gestión de errores por si la columna no existe aún)
+                const payload = {
                     conversation_id: conversationId,
                     sender_id: responderId,
                     sender_entity_id: responderType === 'entity' ? responderId : null,
-                    content: randomReply
-                }]);
+                    content: reply
+                };
 
+                // Solo añadimos is_ai si la caché no dice lo contrario
+                if (columnCache.messages_is_ai !== false) {
+                    payload.is_ai = true;
+                }
+
+                const { error: insError } = await supabase.from('messages').insert([payload]);
+
+                if (insError && insError.code === '42703') { // Undefined column
+                    columnCache.messages_is_ai = false;
+                    delete payload.is_ai;
+                    await supabase.from('messages').insert([payload]);
+                } else if (!insError) {
+                    columnCache.messages_is_ai = true;
+                }
+
+                // Actualizamos la conversación
                 await supabase.from('conversations').update({
-                    last_message_content: randomReply,
+                    last_message_content: reply,
                     last_message_at: new Date().toISOString()
                 }).eq('id', conversationId);
+
             } catch (err) {
                 logger.error('[NPC Simulation] Error:', err);
             }
-        }, 2500);
+        }, delay);
     },
 
     async getOrCreateConversation(p1Id, p1Type, p2Id, p2Type) {

@@ -40,12 +40,21 @@ const PlaygroundPortal = () => {
                 <h1 className="portal-title">Playground</h1>
                 <p className="portal-description">
                     Tria una identitat per entrar al simulador interactiu.<br />
-                    Tot el que facis aquí és efímer i compartit amb altres "jugadors".
+                    Tot el que faces aquí és efímer i compartit amb altres "jugadors"
                 </p>
-                <button className="portal-back-btn-primary" onClick={() => navigate('/login')}>
-                    <ArrowLeft size={18} />
-                    <span>Tornar a l'Inici</span>
-                </button>
+                <div className="ai-notice-simple">
+                    <div className="ai-notice-text multiline">
+                        <span>Interacciona amb humans</span>
+                        <span>o amb la nostra IA local,</span>
+                        <span>segons qui estiga en línia</span>
+                    </div>
+                </div>
+                <div className="portal-actions">
+                    <button className="portal-back-btn-primary" onClick={() => navigate('/login')}>
+                        <ArrowLeft size={18} />
+                        <span>Tornar a l'Inici</span>
+                    </button>
+                </div>
             </header>
 
             <div className="persona-list-container">
