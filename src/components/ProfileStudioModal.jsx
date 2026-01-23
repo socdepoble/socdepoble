@@ -41,24 +41,27 @@ const ProfileStudioModal = ({
                             <h4>Imatge de portada</h4>
                             <span className="aspect-badge">16:9</span>
                         </div>
-                        <div
-                            className="studio-preview cover-preview"
-                            onClick={() => !displayProfile.cover_url && coverInputRef.current.click()}
-                            title={displayProfile.cover_url ? "Resituar o canviar portada" : "Afegir portada"}
-                            style={{ cursor: 'pointer' }}
-                        >
-                            {displayProfile.cover_url ? (
-                                <img src={displayProfile.cover_url} alt="Cover Preview" />
-                            ) : (
-                                <div className="empty-preview">
-                                    <ImageIcon size={32} style={{ marginBottom: 8, opacity: 0.5 }} />
-                                    <span>Premeu per a afegir portada</span>
-                                </div>
-                            )}
+                        <div className="cover-studio-section">
+                            <div
+                                className="studio-preview cover-preview"
+                                onClick={() => !displayProfile.cover_url && coverInputRef.current.click()}
+                                title={displayProfile.cover_url ? "Canviar o resituar portada" : "Afegir portada"}
+                                style={{ cursor: 'pointer' }}
+                            >
+                                {displayProfile.cover_url ? (
+                                    <img src={displayProfile.cover_url} alt="Cover Preview" />
+                                ) : (
+                                    <div className="empty-preview">
+                                        <ImageIcon size={32} style={{ marginBottom: 8, opacity: 0.5 }} />
+                                        <span>Premeu per a afegir portada</span>
+                                    </div>
+                                )}
+                            </div>
+
                             <div className="studio-action-bar items-center">
                                 <button
                                     className="studio-btn primary"
-                                    onClick={() => coverInputRef.current.click()}
+                                    onClick={(e) => { e.stopPropagation(); coverInputRef.current.click(); }}
                                     disabled={isUploading}
                                     title="Pujar nova imatge"
                                 >

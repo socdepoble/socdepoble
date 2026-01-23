@@ -144,23 +144,28 @@
     flex-wrap: wrap;
 }
 
-/* Specific for cover: it remains as an overlay but styled consistently */
-.cover-preview .studio-action-bar {
-    position: absolute;
-    bottom: 12px;
-    left: 12px;
-    right: 12px;
-    width: auto;
-    background: rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    flex-wrap: nowrap;
+.cover-studio-section {
+    position: relative;
+    padding: var(--space-md);
+    background: #f8fafc;
+    border-radius: var(--radius-2xl);
+    border: 1px solid #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+}
+
+.cover-studio-section .studio-action-bar {
+    position: relative;
+    background: rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    margin-top: 4px;
+    width: 100%;
 }
 
 .studio-preview:hover .studio-action-bar {
-    background: rgba(255, 255, 255, 0.5);
+    background: rgba(0, 0, 0, 0.05);
 }
 
 .avatar-studio-section {
