@@ -514,8 +514,8 @@ export const supabaseService = {
         try {
             const { data, error } = await supabase
                 .from('profiles')
-                .select('id, full_name, username, avatar_url, role, town_name, bio')
-                .or(`full_name.ilike.%${query}%,username.ilike.%${query}%,role.ilike.%${query}%,town_name.ilike.%${query}%`)
+                .select('id, full_name, username, avatar_url, role, primary_town, bio')
+                .or(`full_name.ilike.%${query}%,username.ilike.%${query}%,role.ilike.%${query}%,primary_town.ilike.%${query}%`)
                 .limit(10);
 
             if (error) throw error;
@@ -558,8 +558,8 @@ export const supabaseService = {
         try {
             const { data, error } = await supabase
                 .from('entities')
-                .select('id, name, type, avatar_url, town_name, description')
-                .or(`name.ilike.%${query}%,type.ilike.%${query}%,town_name.ilike.%${query}%,description.ilike.%${query}%`)
+                .select('id, name, type, avatar_url, description')
+                .or(`name.ilike.%${query}%,type.ilike.%${query}%,description.ilike.%${query}%`)
                 .limit(10);
 
             if (error) throw error;

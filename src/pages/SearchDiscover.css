@@ -298,21 +298,6 @@
     color: var(--color-border);
 }
 
-.no-results {
-    text-align: center;
-    padding: 60px 20px;
-    color: var(--text-muted);
-}
-
-.no-results p {
-    font-size: 16px;
-    margin-bottom: 8px;
-}
-
-.no-results span {
-    font-size: 13px;
-}
-
 @media (max-width: 480px) {
     .search-nav-bar {
         padding: 10px;
@@ -326,6 +311,47 @@
     .search-icon-fixed {
         left: 12px;
     }
+}
+
+.no-results-top-vibrant {
+    padding: 24px 16px;
+    text-align: center;
+    background: var(--bg-surface);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--color-divider);
+    margin-bottom: 24px;
+    animation: slideInDownVibrant 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--shadow-sm);
+}
+
+@keyframes slideInDownVibrant {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+        max-height: 0;
+        padding: 0 16px;
+        margin-bottom: 0;
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        max-height: 200px;
+        padding: 24px 16px;
+        margin-bottom: 24px;
+    }
+}
+
+.no-results-top-vibrant p {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 4px;
+}
+
+.no-results-top-vibrant span {
+    font-size: 14px;
+    color: var(--text-muted);
 }
 
 /* Standardized Extra Large Action Button - The Community Door */

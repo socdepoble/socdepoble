@@ -97,6 +97,13 @@ const SearchDiscover = () => {
             </div>
 
             <div className="search-content">
+                {query.length > 1 && !isSearching && results.gent.length === 0 && results.entitats.length === 0 && results.pobles.length === 0 && (
+                    <div className="no-results-top-vibrant">
+                        <p>No hem trobat resultats per a "<strong>{query}</strong>"</p>
+                        <span>Prova amb termes més genèrics o revisa l'ortografia.</span>
+                    </div>
+                )}
+
                 <button className="big-community-btn-xl" onClick={() => navigate('/comunitat')}>
                     <div className="btn-icon-xl">
                         <Users size={32} />
@@ -221,12 +228,7 @@ const SearchDiscover = () => {
                             </section>
                         )}
 
-                        {results.gent.length === 0 && results.entitats.length === 0 && results.pobles.length === 0 && (
-                            <div className="no-results">
-                                <p>No hem trobat resultats per a "<strong>{query}</strong>"</p>
-                                <span>Prova amb termes més genèrics o revisa l'ortografia.</span>
-                            </div>
-                        )}
+                        {/* No results handled at the top */}
                     </div>
                 )}
             </div>
