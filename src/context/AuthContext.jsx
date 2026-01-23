@@ -10,6 +10,8 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [profile, setProfile] = useState(null);
+    const [realUser, setRealUser] = useState(null);
+    const [realProfile, setRealProfile] = useState(null);
     const [loading, setLoading] = useState(true);
     const [isPlayground, setIsPlayground] = useState(localStorage.getItem('isPlaygroundMode') === 'true');
     const [impersonatedProfile, setImpersonatedProfile] = useState(null);
@@ -25,7 +27,18 @@ export const AuthProvider = ({ children }) => {
     const adoptPersona = (personaProfile) => {
         setIsPlayground(true);
         localStorage.setItem('isPlaygroundMode', 'true');
-        setUser({ id: personaProfile.id, email: `${personaProfile.username}@playground.local`, isDemo: true });
+
+        // DUAL IDENTITY: 
+        // 1. Technical Actor (Supabase Auth) stays as realUser if present
+        // 2. Visual Persona (Profile) becomes the character
+
+        if (realUser) {
+            setUser(realUser); // Supabase expects the real JWT for RLS
+        } else {
+            // Fallback for non-logged users: full mock
+            setUser({ id: personaProfile.id, email: `${personaProfile.username}@playground.local`, isDemo: true });
+        }
+
         setProfile({ ...personaProfile, is_playground_session: true });
         setLoading(false);
     };
@@ -43,11 +56,18 @@ export const AuthProvider = ({ children }) => {
     };
 
     const logout = async () => {
+        if (isPlayground && realUser) {
+            // Cleanup ephemeral data before fully leaving (handled by caller or useEffect)
+            logger.log('[AuthContext] Leaving Playground, triggering cleanup...');
+        }
+
         localStorage.removeItem('isPlaygroundMode');
         setIsPlayground(false);
         await supabase.auth.signOut();
         setUser(null);
         setProfile(null);
+        setRealUser(null);
+        setRealProfile(null);
     };
 
     useEffect(() => {
@@ -59,12 +79,16 @@ export const AuthProvider = ({ children }) => {
             logger.log('[AuthContext] Auth Event:', event, session?.user?.id);
 
             if (session?.user) {
+                setRealUser(session.user);
                 setUser(session.user);
                 localStorage.removeItem('isPlaygroundMode');
                 setIsPlayground(false);
                 try {
                     const profileData = await supabaseService.getProfile(session.user.id);
-                    if (isMounted) setProfile(profileData);
+                    if (isMounted) {
+                        setRealProfile(profileData);
+                        setProfile(profileData);
+                    }
                 } catch (error) {
                     logger.error('[AuthContext] Error loading profile:', error);
                 }
@@ -111,6 +135,8 @@ export const AuthProvider = ({ children }) => {
         <AuthContext.Provider value={{
             user,
             profile,
+            realUser,
+            realProfile,
             loading,
             setProfile,
             adoptPersona,

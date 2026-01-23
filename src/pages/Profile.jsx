@@ -57,7 +57,7 @@ const MyEntitiesList = ({ userId }) => {
 const Profile = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const { profile, setProfile, user, logout } = useAuth();
+    const { profile, setProfile, user, realUser, isPlayground, logout } = useAuth();
     const { theme, toggleTheme } = useUI();
 
     const [allTowns, setAllTowns] = useState([]);
@@ -104,8 +104,15 @@ const Profile = () => {
         try {
             const isUuid = typeof townId === 'string' && townId.includes('-');
             const updatePayload = isUuid ? { town_uuid: townId } : { town_id: parseInt(townId) };
-            const updated = await supabaseService.updateProfile(user.id, updatePayload);
-            setProfile(updated);
+
+            if (isPlayground) {
+                // For playground, we update the local profile state only or a specific ephemeral flag
+                setProfile({ ...profile, ...updatePayload });
+                logger.log('[Profile] Temporary town update for Playground:', updatePayload);
+            } else {
+                const updated = await supabaseService.updateProfile(user.id, updatePayload);
+                setProfile(updated);
+            }
             setIsEditingTown(false);
         } catch (error) {
             logger.error('Error updating town:', error);

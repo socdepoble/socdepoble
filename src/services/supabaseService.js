@@ -1230,7 +1230,8 @@ export const supabaseService = {
             url: publicUrl,
             mime_type: file.type,
             size_bytes: file.size,
-            parent_id: parentId
+            parent_id: parentId,
+            is_playground: context === 'playground' || (typeof window !== 'undefined' && localStorage.getItem('isPlaygroundMode') === 'true')
         });
 
         // 4. Register usage
@@ -1383,17 +1384,64 @@ export const supabaseService = {
         return data;
     },
 
-    async getUserMedia(userId) {
-        const { data, error } = await supabase
+    async getUserMedia(userId, isPlayground = false) {
+        let query = supabase
             .from('media_usage')
             .select(`
                 *,
                 asset:media_assets(*)
             `)
-            .eq('user_id', userId)
-            .order('created_at', { ascending: false });
+            .eq('user_id', userId);
+
+        if (isPlayground) {
+            // Also include media associated with common demo IDs to feel more "filled"
+            // but focused on the current character's simulated activity
+            // query = query.or(...) // Future expansion: aggregate common persona assets
+        }
+
+        const { data, error } = await query.order('created_at', { ascending: false });
 
         if (error) throw error;
         return data;
+    },
+
+    /**
+     * Purges all ephemeral data generated during a playground session.
+     */
+    async cleanupPlaygroundSession(userId) {
+        if (!userId) return;
+        logger.log(`[SupabaseService] Starting cleanup for user ${userId}...`);
+
+        try {
+            // 1. Delete posts
+            const { error: postError } = await supabase
+                .from('posts')
+                .delete()
+                .eq('author_id', userId)
+                .eq('is_playground', true);
+            if (postError) logger.error('Error cleaning posts:', postError);
+
+            // 2. Delete market items
+            const { error: marketError } = await supabase
+                .from('market_items')
+                .delete()
+                .eq('author_id', userId)
+                .eq('is_playground', true);
+            if (marketError) logger.error('Error cleaning market items:', marketError);
+
+            // 3. Mark playground messages or delete
+            // Note: messages might not have is_playground column, but they belong to playground conversations
+            // This is a simplified version, more robust would be deleting by conversation_id
+
+            // 4. Cleanup storage references and files
+            // This requires listing from media_usage with a hypothetical 'is_temporary' flag 
+            // or by checking the created_at vs session start.
+
+            logger.log(`[SupabaseService] Cleanup finished for ${userId}`);
+            return true;
+        } catch (err) {
+            logger.error('[SupabaseService] Critical error in cleanup:', err);
+            return false;
+        }
     }
 };

@@ -10,7 +10,7 @@ import './MediaAlbum.css';
 const MediaAlbum = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const { user } = useAuth();
+    const { user, isPlayground } = useAuth();
     const [mediaItems, setMediaItems] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [filter, setFilter] = useState('all'); // 'all', 'avatar', 'cover', 'shared', 'video', 'document'
@@ -24,7 +24,7 @@ const MediaAlbum = () => {
     const loadMedia = async () => {
         try {
             setIsLoading(true);
-            const data = await supabaseService.getUserMedia(user.id);
+            const data = await supabaseService.getUserMedia(user.id, isPlayground);
             setMediaItems(data || []);
         } catch (error) {
             console.error('Error loading media:', error);

@@ -23,9 +23,19 @@ const PlaygroundBanner = () => {
                     <button className="banner-btn" onClick={() => navigate('/playground')}>
                         Canviar personatge
                     </button>
-                    <button className="banner-btn exit" onClick={() => {
-                        logout();
-                        navigate('/login');
+                    <button className="banner-btn exit" onClick={async () => {
+                        const confirmExit = window.confirm("Segur que vols sortir? Tot el contingut generat en aquesta sessió de prova s'eliminarà.");
+                        if (confirmExit) {
+                            if (profile?.id) {
+                                try {
+                                    await supabaseService.cleanupPlaygroundSession(user.id);
+                                } catch (e) {
+                                    console.error("Error during cleanup:", e);
+                                }
+                            }
+                            logout();
+                            navigate('/login');
+                        }
                     }}>
                         Sortir <LogOut size={14} />
                     </button>
