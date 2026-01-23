@@ -2,10 +2,11 @@ import React from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { Play, LogOut, Terminal } from 'lucide-react';
+import { supabaseService } from '../services/supabaseService';
 import './PlaygroundBanner.css';
 
 const PlaygroundBanner = () => {
-    const { isPlayground, profile, logout } = useAuth();
+    const { isPlayground, profile, user, logout } = useAuth();
     const navigate = useNavigate();
 
     if (!isPlayground) return null;
