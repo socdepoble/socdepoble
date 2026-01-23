@@ -17,7 +17,8 @@
         "role_pobo": "Pueblos",
         "role_mercat": "Mercado",
         "save": "Guardar",
-        "saved": "¡Guardado!"
+        "saved": "¡Guardado!",
+        "load_more": "Cargar más"
     },
     "nav": {
         "chats": "Chats",

@@ -147,19 +147,47 @@ const PublicEntity = () => {
                 type={entity.type === 'negoci' ? 'business' : (entity.type === 'oficial' ? 'official' : 'group')}
                 title={entity.name}
                 subtitle={entity.type === 'oficial' ? 'Canal Oficial' : (entity.type === 'negoci' ? 'Comerç Local' : 'Associació')}
+                town={entity.town_name || 'La Torre de les Maçanes'}
                 bio={entity.description}
                 avatarUrl={entity.avatar_url}
                 coverUrl={entity.cover_url}
-                isLive={entity.type === 'negoci'} // Simplified live status
+                isLive={entity.type === 'negoci'}
                 badges={entity.type === 'oficial' ? ['Oficial'] : (entity.is_ai ? ['IAIA'] : [])}
-                stats={[
-                    { label: 'Poble', value: entity.town_name || 'La Torre', icon: <MapPin size={18} /> },
-                    { label: 'Seguidors', value: followersCount.toString(), icon: <Users size={18} /> }
-                ]}
                 onAction={members.some(m => m.user_id === currentUser?.id) ? () => navigate('/gestio-entitats', { state: { fromProfile: true } }) : null}
                 actionIcon={<Settings size={24} />}
                 onShare={handleShare}
-            />
+            >
+                <div className="profile-actions-inline">
+                    <button
+                        className={`connect-btn-inline-vibrant ${isConnected ? 'connected' : ''}`}
+                        onClick={handleConnect}
+                        disabled={isConnecting}
+                    >
+                        {isConnecting ? (
+                            <Loader2 className="spinner" size={18} />
+                        ) : isConnected ? (
+                            <><UserMinus size={18} /> DESCONECTAR</>
+                        ) : (
+                            <><UserPlus size={18} /> CONECTAR</>
+                        )}
+                    </button>
+                </div>
+
+                <div className="profile-stats-bar">
+                    <div className="stat-card">
+                        <span className="stat-value">{posts.length}</span>
+                        <span className="stat-label">Publicacions</span>
+                    </div>
+                    <div className="stat-card">
+                        <span className="stat-value">{entity.type === 'negoci' ? (items?.length || 0) : members.length}</span>
+                        <span className="stat-label">{entity.type === 'negoci' ? 'En Venda' : 'Membres'}</span>
+                    </div>
+                    <div className="stat-card">
+                        <span className="stat-value">{followersCount}</span>
+                        <span className="stat-label">Seguidors</span>
+                    </div>
+                </div>
+            </ProfileHeaderPremium>
 
 
 

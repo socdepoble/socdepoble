@@ -30,7 +30,8 @@
         "privacy": "Privacitat",
         "province": "Província",
         "comarca": "Comarca",
-        "unknown": "Desconegut"
+        "unknown": "Desconegut",
+        "load_more": "Carregar més"
     },
     "nav": {
         "chats": "Xats",

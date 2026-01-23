@@ -35,7 +35,7 @@ export const MOCK_FEED = [
     {
         id: 10,
         town_id: 1, // La Torre de les Maçanes
-        author: "Ajuntament de la Torre",
+        author: "Ajuntament de la Torre de les Maçanes",
         avatarType: "gov",
         time: "1h",
         content: "🍎 Recordeu que aquest cap de setmana tenim la collita de la poma local. Passeu per la plaça a tastar-les!",
@@ -46,7 +46,7 @@ export const MOCK_FEED = [
     {
         id: 11,
         town_id: 1,
-        author: "Pa de la Torre",
+        author: "Pa de la Torre de les Maçanes",
         avatarType: "shop",
         time: "3h",
         content: "Acaben d'eixir els pans de llenya. Tradició pura cada matí!",
@@ -95,7 +95,7 @@ export const MOCK_MARKET_ITEMS = [
     {
         id: 10,
         town_id: 1,
-        title: "Mel de la Torre (Artesana)",
+        title: "Mel de la Torre de les Maçanes (Artesana)",
         price: "12.00€",
         seller: "Apicultura les Maçanes",
         image: "/images/assets/mel_premium.png",
@@ -106,7 +106,7 @@ export const MOCK_MARKET_ITEMS = [
         town_id: 1,
         title: "Càntir Tradicional",
         price: "15.00€",
-        seller: "Artesania de la Torre",
+        seller: "Artesania de la Torre de les Maçanes",
         image: "/images/assets/cantir_premium.png",
         tag: "Artesania"
     },
