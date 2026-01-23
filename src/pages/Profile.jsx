@@ -347,21 +347,22 @@ const Profile = () => {
                         </button>
                         <div className="header-right-actions">
                             <button
-                                className="logout-trigger-btn prompt-btn"
-                                onClick={logout}
-                                title="Sortir"
-                            >
-                                <LogOut size={26} />
-                            </button>
-                            <button
                                 className="public-return-btn prompt-btn"
-                                onClick={() => navigate(`/perfil/${user.id}`)}
+                                onClick={() => navigate(`/perfil/${user.id}`, { state: { fromProfile: true } })}
                                 title="Veure perfil públic"
                             >
                                 <Settings size={26} />
                             </button>
                         </div>
                     </div>
+
+                    <button
+                        className="logout-trigger-btn-floating prompt-btn"
+                        onClick={logout}
+                        title="Sortir"
+                    >
+                        <LogOut size={26} />
+                    </button>
 
                     <button
                         className="studio-trigger-btn-floating prompt-btn"

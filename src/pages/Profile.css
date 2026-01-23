@@ -140,8 +140,8 @@
 
 .logout-trigger-btn-floating {
     left: var(--page-margin);
-    background: var(--color-primary);
-    box-shadow: 0 4px 12px rgba(93, 95, 239, 0.3);
+    background: var(--color-primary) !important;
+    box-shadow: 0 4px 12px rgba(93, 95, 239, 0.3) !important;
 }
 
 .studio-trigger-btn-floating:hover,
