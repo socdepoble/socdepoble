@@ -395,14 +395,10 @@ export const supabaseService = {
 
             // Solo aplicamos is_playground si estamos en playground Y la columna existe
             if (isPlayground && columnCache.posts_is_playground !== false) {
-                try {
-                    query = query.eq('is_playground', true);
-                } catch (e) {
-                    columnCache.posts_is_playground = false;
-                }
+                query = query.eq('is_playground', true);
             }
 
-            if (roleFilter !== ROLES.ALL) {
+            if (roleFilter && roleFilter !== ROLES.ALL && roleFilter !== 'tot') {
                 query = query.eq('author_role', roleFilter);
             }
 
@@ -417,7 +413,18 @@ export const supabaseService = {
                 .order('created_at', { ascending: false })
                 .range(from, to);
 
-            if (error) throw error;
+            if (error) {
+                if (error.code === '42703' && isPlayground) {
+                    const firstTime = columnCache.posts_is_playground !== false;
+                    columnCache.posts_is_playground = false;
+                    if (firstTime) {
+                        logger.warn('[SupabaseService] is_playground missing in posts, entering silent fallback mode');
+                    }
+                    // Reintentar sin el filtro de playground pero MANTENIENDO el resto
+                    return this.getPosts(roleFilter, townId, page, pageSize, false);
+                }
+                throw error;
+            }
 
             // FALLBACK RESTAURADOR: Si no hi ha posts a la DB, mostrem els MOCK_FEED
             if ((!data || data.length === 0) && page === 0) {
@@ -427,17 +434,6 @@ export const supabaseService = {
 
             return { data: data || [], count: count || 0 };
         } catch (err) {
-            // Si el error es falta de columna is_playground, guardamos en cache y reintentamos
-            if (err.code === '42703' && isPlayground) {
-                columnCache.posts_is_playground = false;
-                logger.warn('[SupabaseService] is_playground column missing in posts, retrying without filter');
-                const { data, count } = await supabase
-                    .from('posts')
-                    .select('*, towns!fk_posts_town_uuid(name)', { count: 'exact' })
-                    .order('created_at', { ascending: false })
-                    .range(page * pageSize, (page * pageSize) + pageSize - 1);
-                return { data: data || [], count: count || 0 };
-            }
             logger.error('[SupabaseService] Error in getPosts:', err);
             return { data: [], count: 0 };
         }
@@ -480,14 +476,10 @@ export const supabaseService = {
                 .select('*, towns!fk_market_town_uuid(name)', { count: 'exact' });
 
             if (isPlayground && columnCache.market_is_playground !== false) {
-                try {
-                    query = query.eq('is_playground', true);
-                } catch (e) {
-                    columnCache.market_is_playground = false;
-                }
+                query = query.eq('is_playground', true);
             }
 
-            if (categoryFilter !== 'tot') {
+            if (categoryFilter && categoryFilter !== 'tot') {
                 query = query.eq('category_slug', categoryFilter);
             }
 
@@ -502,7 +494,17 @@ export const supabaseService = {
                 .order('created_at', { ascending: false })
                 .range(from, to);
 
-            if (error) throw error;
+            if (error) {
+                if (error.code === '42703' && isPlayground) {
+                    const firstTime = columnCache.market_is_playground !== false;
+                    columnCache.market_is_playground = false;
+                    if (firstTime) {
+                        logger.warn('[SupabaseService] is_playground missing in market, entering silent fallback mode');
+                    }
+                    return this.getMarketItems(categoryFilter, townId, page, pageSize, false);
+                }
+                throw error;
+            }
 
             // FALLBACK RESTAURADOR: Si no hi ha items a la DB, mostrem els MOCK_MARKET_ITEMS
             if ((!data || data.length === 0) && page === 0) {
@@ -512,17 +514,8 @@ export const supabaseService = {
 
             return { data: data || [], count: count || 0 };
         } catch (err) {
-            if (err.code === '42703' && isPlayground) {
-                columnCache.market_is_playground = false;
-                logger.warn('[SupabaseService] is_playground column missing in market_items, retrying without filter');
-                const { data, count } = await supabase
-                    .from('market_items')
-                    .select('*, towns!fk_market_town_uuid(name)', { count: 'exact' })
-                    .order('created_at', { ascending: false })
-                    .range(page * pageSize, (page * pageSize) + pageSize - 1);
-                return { data: data || [], count: count || 0 };
-            }
-            throw err;
+            logger.error('[SupabaseService] Error in getMarketItems:', err);
+            return { data: [], count: 0 };
         }
     },
 

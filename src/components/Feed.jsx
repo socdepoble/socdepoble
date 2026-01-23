@@ -99,7 +99,7 @@ const Feed = ({ townId = null, hideHeader = false }) => {
             }
         }
         return () => { isMounted = false; };
-    }, [selectedRole, user, townId, page, posts.length]);
+    }, [selectedRole, user, townId, page]);
 
     useEffect(() => {
         fetchPosts();
