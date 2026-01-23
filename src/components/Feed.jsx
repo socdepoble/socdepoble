@@ -229,14 +229,16 @@ const Feed = ({ townId = null, hideHeader = false }) => {
                                             {post.author_avatar ? (
                                                 <img
                                                     src={post.author_avatar}
-                                                    alt={post.author}
+                                                    alt={`Avatar de ${post.author}`}
                                                     className="post-avatar-img"
                                                     onError={(e) => {
                                                         e.target.style.display = 'none';
                                                         e.target.parentElement.innerHTML = `<div class="avatar-placeholder-mini">${getAvatarIcon(post.author_role)}</div>`;
                                                     }}
                                                 />
-                                            ) : getAvatarIcon(post.author_role)}
+                                            ) : (
+                                                <div aria-hidden="true">{getAvatarIcon(post.author_role)}</div>
+                                            )}
                                         </div>
                                         <div className="post-meta">
                                             <div className="post-author-row">
@@ -292,16 +294,16 @@ const Feed = ({ townId = null, hideHeader = false }) => {
                                             </button>
                                             <button
                                                 className="action-btn"
-                                                aria-label={t('feed.comments')}
+                                                aria-label={`${t('feed.comments') || 'Comentaris'} (${post.comments_count || 0})`}
                                             >
-                                                <MessageCircle size={20} />
+                                                <MessageCircle size={20} aria-hidden="true" />
                                                 <span>{post.comments_count || 0}</span>
                                             </button>
                                             <button
                                                 className="action-btn"
-                                                aria-label={t('feed.share')}
+                                                aria-label={t('feed.share') || 'Compartir'}
                                             >
-                                                <Share2 size={20} />
+                                                <Share2 size={20} aria-hidden="true" />
                                             </button>
                                         </div>
 

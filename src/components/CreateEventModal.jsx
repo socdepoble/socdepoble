@@ -4,6 +4,7 @@ import { X, Image as ImageIcon, Send, Loader2, Globe, Lock, Users, Calendar } fr
 import { supabaseService } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
 import { ROLES } from '../constants';
+import { logger } from '../utils/logger';
 import './CreatePostModal.css'; // Reusing post modal styles for consistency
 
 import EntitySelector from './EntitySelector';
@@ -72,7 +73,7 @@ const CreateEventModal = ({ isOpen, onClose, onEventCreated, isPlayground = fals
             setContent('');
             onClose();
         } catch (error) {
-            console.error('Error creating event:', error);
+            logger.error('Error creating event:', error);
             alert('Error al publicar l\'esdeveniment');
         } finally {
             setLoading(false);
@@ -98,7 +99,9 @@ const CreateEventModal = ({ isOpen, onClose, onEventCreated, isPlayground = fals
                             currentIdentity={selectedIdentity}
                             onSelectIdentity={setSelectedIdentity}
                         />
+                        <label htmlFor="event-content-input" className="sr-only">Contingut de l'esdeveniment</label>
                         <textarea
+                            id="event-content-input"
                             placeholder={t('events.placeholder') || 'Explica de què tracta l\'esdeveniment...'}
                             value={content}
                             onChange={(e) => setContent(e.target.value)}

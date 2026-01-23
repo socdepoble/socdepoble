@@ -108,8 +108,9 @@ const AddItemModal = ({ isOpen, onClose, onItemCreated, isPrivateInitial = false
                     </div>
 
                     <div className="form-group">
-                        <label>{t('market.item_title')}</label>
+                        <label htmlFor="market-item-title">{t('market.item_title')}</label>
                         <input
+                            id="market-item-title"
                             type="text"
                             placeholder="Ex: Tomaques de l'horta"
                             value={formData.title}
@@ -120,8 +121,9 @@ const AddItemModal = ({ isOpen, onClose, onItemCreated, isPrivateInitial = false
 
                     <div className="form-row">
                         <div className="form-group">
-                            <label>{t('market.price')}</label>
+                            <label htmlFor="market-item-price">{t('market.price')}</label>
                             <input
+                                id="market-item-price"
                                 type="text"
                                 placeholder="Ex: 2€/kg"
                                 value={formData.price}
@@ -130,8 +132,9 @@ const AddItemModal = ({ isOpen, onClose, onItemCreated, isPrivateInitial = false
                             />
                         </div>
                         <div className="form-group">
-                            <label>{t('market.category')}</label>
+                            <label htmlFor="market-item-category">{t('market.category')}</label>
                             <select
+                                id="market-item-category"
                                 value={formData.tag}
                                 onChange={(e) => setFormData({ ...formData, tag: e.target.value })}
                             >

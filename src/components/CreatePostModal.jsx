@@ -116,7 +116,9 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated, isPrivateInitial = fa
                             currentIdentity={selectedIdentity}
                             onSelectIdentity={setSelectedIdentity}
                         />
+                        <label htmlFor="post-content-textarea" className="sr-only">Contingut de la publicació</label>
                         <textarea
+                            id="post-content-textarea"
                             placeholder={t('feed.placeholder')}
                             value={content}
                             onChange={(e) => setContent(e.target.value)}

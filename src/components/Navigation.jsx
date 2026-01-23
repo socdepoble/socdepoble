@@ -25,6 +25,7 @@ const Navigation = () => {
       <div className="nav-fab-container">
         <button
           className="nav-fab"
+          aria-label={t('common.create_new') || 'Crear nou'}
           onClick={() => {
             if (!user) {
               navigate('/login');
@@ -33,7 +34,7 @@ const Navigation = () => {
             }
           }}
         >
-          <Plus size={32} color="white" strokeWidth={3} />
+          <Plus size={32} color="white" strokeWidth={3} aria-hidden="true" />
         </button>
       </div>
 

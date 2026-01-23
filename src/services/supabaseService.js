@@ -853,7 +853,10 @@ export const supabaseService = {
             .update(updates)
             .eq('id', userId)
             .select();
-        if (error) throw error;
+        if (error) {
+            logger.error('[SupabaseService] Error updating profile:', error);
+            throw error;
+        }
         return data[0];
     },
 
@@ -907,7 +910,10 @@ export const supabaseService = {
             .from('entity_members')
             .select('user_id, role, profiles(full_name, avatar_url)')
             .eq('entity_id', entityId);
-        if (error) throw error;
+        if (error) {
+            logger.error('[SupabaseService] Error getting entity members:', error);
+            throw error;
+        }
         return data;
     },
 
@@ -980,7 +986,10 @@ export const supabaseService = {
             .from('lexicon')
             .insert([entryData])
             .select();
-        if (error) throw error;
+        if (error) {
+            logger.error('[SupabaseService] Error creating lexicon entry:', error);
+            throw error;
+        }
         return data[0];
     }
 };

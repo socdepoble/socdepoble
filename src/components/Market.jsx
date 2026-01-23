@@ -156,9 +156,9 @@ const Market = ({ townId = null }) => {
                                 <div className="header-left">
                                     <div className="post-avatar" style={{ backgroundColor: 'var(--color-secondary)' }}>
                                         {item.avatar_url ? (
-                                            <img src={item.avatar_url} alt={item.seller} className="post-avatar-img" />
+                                            <img src={item.avatar_url} alt={`Avatar de ${item.seller}`} className="post-avatar-img" />
                                         ) : (
-                                            <Plus size={20} />
+                                            <Plus size={20} aria-hidden="true" />
                                         )}
                                     </div>
                                     <div className="post-meta">
@@ -176,7 +176,7 @@ const Market = ({ townId = null }) => {
                             </div>
 
                             <div className="card-image-wrapper">
-                                <img src={item.image_url} alt={item.title} />
+                                <img src={item.image_url} alt={`${item.title} - venut per ${item.seller}`} />
                             </div>
 
                             <div className="card-body">
