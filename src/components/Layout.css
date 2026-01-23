@@ -6,11 +6,12 @@
 }
 
 .layout-container.has-playground-banner {
-    padding-top: 40px;
+    --banner-height: 40px;
+    padding-top: var(--banner-height);
 }
 
 .has-playground-banner .main-header {
-    top: 40px !important;
+    top: var(--banner-height) !important;
 }
 
 .content-area {

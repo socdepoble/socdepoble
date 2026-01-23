@@ -79,6 +79,7 @@
   --category-bar-height: 64px;
   --nav-height: 72px;
   --mobile-width: 480px;
+  --banner-height: 0px;
 }
 
 /* Dark Mode Overrides */
@@ -485,7 +486,7 @@ a:hover {
 /* Modal System */
 .modal-overlay {
   position: fixed;
-  top: 0;
+  top: var(--banner-height);
   left: 0;
   right: 0;
   bottom: 0;
@@ -503,14 +504,27 @@ a:hover {
   background-color: var(--bg-surface);
   width: 100%;
   max-width: 500px;
+  max-height: calc(100vh - var(--banner-height) - 40px);
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-lg);
-  overflow: hidden;
   animation: modalScale 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
   border: 1px solid var(--color-border);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  /* Added to contain children */
+}
+
+.modal-content form {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .modal-header {
+  flex-shrink: 0;
   padding: var(--space-md) var(--space-lg);
   border-bottom: 1px solid var(--color-divider);
   display: flex;
