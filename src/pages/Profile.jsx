@@ -299,8 +299,15 @@ const Profile = () => {
                 ? { avatar_url: result.url }
                 : { cover_url: result.url };
 
-            const updatedProfile = await supabaseService.updateProfile(user.id, updatePayload);
-            setProfile(updatedProfile);
+            // Update profile
+            await supabaseService.updateProfile(user.id, updatePayload);
+
+            // CRITICAL: Force refresh from DB to ensure we get the complete profile
+            // updateProfile might return incomplete data due to optimistic fallback
+            const freshProfile = await supabaseService.getProfile(user.id);
+            setProfile(freshProfile);
+
+            logger.log(`[Profile] ${type} updated successfully:`, result.url);
         } catch (error) {
             logger.error(`[Profile] Error in ${type} flow:`, error);
             alert(`Error al processar la imatge: ${error.message}`);
@@ -324,8 +331,13 @@ const Profile = () => {
                 ? { avatar_url: pendingAsset.url }
                 : { cover_url: pendingAsset.url };
 
-            const updatedProfile = await supabaseService.updateProfile(user.id, updatePayload);
-            setProfile(updatedProfile);
+            await supabaseService.updateProfile(user.id, updatePayload);
+
+            // Force refresh to get complete profile
+            const freshProfile = await supabaseService.getProfile(user.id);
+            setProfile(freshProfile);
+
+            logger.log(`[Profile] ${pendingType} updated (dedup):`, pendingAsset.url);
         } catch (error) {
             logger.error(`[Profile] Error in deduplication confirm:`, error);
         } finally {
