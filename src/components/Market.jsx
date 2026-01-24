@@ -8,7 +8,7 @@ import { logger } from '../utils/logger';
 import Avatar from './Avatar';
 import CategoryTabs from './CategoryTabs';
 import UnifiedStatus from './UnifiedStatus';
-import MarketSkeleton from './MarketSkeleton';
+import MarketSkeleton from './Skeletons/MarketSkeleton';
 import './Market.css';
 
 const Market = ({ searchTerm = '' }) => {
