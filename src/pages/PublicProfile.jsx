@@ -162,6 +162,7 @@ const PublicProfile = () => {
                 title={profile.full_name}
                 description={profile.bio || `${profile.full_name} a Sóc de Poble. ${profile.role || 'Veí de la Comunitat'}.`}
                 image={getSocialImage()}
+                url={profile.username ? `/@${profile.username}` : `/perfil/${profile.id}`}
                 type="profile"
             />
             <ProfileHeaderPremium

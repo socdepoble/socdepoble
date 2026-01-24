@@ -17,8 +17,12 @@ const SEO = ({
     const siteTitle = 'Sóc de Poble';
     const fullTitle = title ? `${title} | ${siteTitle}` : siteTitle;
     const defaultDesc = 'La plataforma de connexió comunitària per als pobles de la Comunitat Valenciana.';
-    const defaultImage = '/og-image.png'; // Updated to existing file
-    const currentUrl = url || window.location.href;
+    const defaultImage = '/og-image.png';
+    const baseUrl = 'https://socdepoble.vercel.app';
+
+    // Ensure absolute URLs for Open Graph (required by WhatsApp, Telegram, etc.)
+    const absoluteImage = image?.startsWith('http') ? image : `${baseUrl}${image || defaultImage}`;
+    const absoluteUrl = url?.startsWith('http') ? url : `${baseUrl}${url || window.location.pathname}`;
 
     return (
         <>
@@ -31,14 +35,16 @@ const SEO = ({
             <meta property="og:type" content={type} />
             <meta property="og:title" content={fullTitle} />
             <meta property="og:description" content={description || defaultDesc} />
-            <meta property="og:image" content={image || defaultImage} />
-            <meta property="og:url" content={currentUrl} />
+            <meta property="og:image" content={absoluteImage} />
+            <meta property="og:url" content={absoluteUrl} />
+            <meta property="og:image:width" content="1200" />
+            <meta property="og:image:height" content="630" />
 
             {/* Twitter */}
             <meta name="twitter:card" content="summary_large_image" />
             <meta name="twitter:title" content={fullTitle} />
             <meta name="twitter:description" content={description || defaultDesc} />
-            <meta name="twitter:image" content={image || defaultImage} />
+            <meta name="twitter:image" content={absoluteImage} />
 
             {/* Video Support for high-level sharing */}
             {type === 'video.other' && (
@@ -46,7 +52,7 @@ const SEO = ({
             )}
 
             {/* Canonical Link */}
-            <link rel="canonical" href={currentUrl} />
+            <link rel="canonical" href={absoluteUrl} />
         </>
     );
 };
