@@ -186,8 +186,14 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
     const filteredPosts = posts.filter(post => {
         // 1. Vision Mode Filter
         if (visionMode === 'humana') {
-            const isAI = post.author_role === 'ambassador' || post.author_is_ai || (post.author_user_id && post.author_user_id.startsWith('11111111-'));
-            if (isAI) return false;
+            // Check multiple indicators that this is an AI/IAIA post
+            const isAI = post.author_role === 'ambassador' ||
+                post.author_is_ai ||
+                (post.author_user_id && post.author_user_id.startsWith('11111111-')) ||
+                (post.id && post.id.startsWith('iaia-')) ||  // IAIA-generated posts
+                post.creator_entity_id === '00000000-0000-0000-0000-000000000000'; // IAIA entity
+
+            if (isAI) return false; // Hide all AI posts when vision mode is 'humana'
         }
 
         // 2. Tag Filter
