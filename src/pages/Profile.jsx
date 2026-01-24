@@ -179,15 +179,23 @@ const Profile = () => {
 
     const handleCardSubmit = async () => {
         try {
-            const updated = await supabaseService.updateProfile(user.id, {
+            const updates = {
                 ofici: oficiValue,
                 bio: bioValue
-            });
+            };
+
+            // Si s'ha seleccionat un poble, afegir-lo
+            if (userTown?.uuid) {
+                updates.town_uuid = userTown.uuid;
+            }
+
+            const updated = await supabaseService.updateProfile(user.id, updates);
             setProfile(updated);
             setIsEditingCard(false);
-            logger.log('[Profile] Card info updated:', { oficiValue, bioValue });
+            logger.log('[Profile] Card info updated:', updates);
         } catch (error) {
             logger.error('Error updating card info:', error);
+            alert(`Error guardant: ${error.message}`);
         }
     };
 
