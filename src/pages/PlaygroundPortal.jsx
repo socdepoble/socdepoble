@@ -43,9 +43,8 @@ const PlaygroundPortal = () => {
                     Tot el que faces aquí és efímer i compartit amb altres "jugadors"
                 </p>
                 <div className="ai-notice-simple">
-                    <div className="ai-notice-text multiline">
-                        <span>Interacciona amb humans o amb la nostra</span>
-                        <span>IA local, segons qui estiga en línia</span>
+                    <div className="ai-notice-text">
+                        <span>Interacciona amb la nostra IAIA de Poble</span>
                     </div>
                 </div>
                 <div className="portal-actions">

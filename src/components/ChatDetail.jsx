@@ -4,36 +4,11 @@ import { ArrowLeft, Send, Loader2, User, Building2, Paperclip, X, FileText, Imag
 import { useTranslation } from 'react-i18next';
 import { supabaseService } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
+import Avatar from './Avatar';
 import UnifiedStatus from './UnifiedStatus';
 import { logger } from '../utils/logger';
 import './ChatDetail.css';
 
-const getAvatarIcon = (type, avatarUrl) => {
-    if (avatarUrl) {
-        const isUrl = avatarUrl.includes('://') || avatarUrl.includes('/') || avatarUrl.includes('.');
-        if (isUrl) {
-            return (
-                <img
-                    src={avatarUrl}
-                    alt="Avatar"
-                    className="avatar-img"
-                    onError={(e) => {
-                        e.target.style.display = 'none';
-                        const fallback = document.createElement('div');
-                        fallback.className = 'avatar-placeholder';
-                        fallback.innerHTML = type === 'entity' ? '<svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-building-2"><rect width="16" height="20" x="4" y="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M8 10h.01"/><path d="M16 10h.01"/><path d="M8 14h.01"/><path d="M16 14h.01"/></svg>' : '<svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
-                        e.target.parentNode.appendChild(fallback);
-                    }}
-                />
-            );
-        }
-        return <span className="avatar-emoji">{avatarUrl}</span>;
-    }
-    switch (type) {
-        case 'entity': return <Building2 size={24} />;
-        default: return <User size={24} />;
-    }
-};
 
 const ChatDetail = () => {
     const { id } = useParams();
@@ -302,9 +277,12 @@ const ChatDetail = () => {
                         else navigate(`/perfil/${otherInfo?.id || otherInfo?.user_id}`);
                     }}
                 >
-                    <div className="chat-header-avatar">
-                        {getAvatarIcon(otherType, otherInfo?.avatar_url)}
-                    </div>
+                    <Avatar
+                        src={otherInfo?.avatar_url}
+                        role={otherType === 'entity' ? 'oficial' : (chat.p2_role || 'user')}
+                        name={otherInfo?.name}
+                        size={44}
+                    />
                     <div className="chat-info">
                         <div className="chat-name-row">
                             <h2>{otherInfo?.name || t('common.unknown')}</h2>
@@ -322,10 +300,18 @@ const ChatDetail = () => {
             {/* IAIA Notice - Transparencia (Visible in Prod and Sandbox) */}
             {isIAIAConv && (
                 <div className="iaia-transparency-notice">
-                    <div className="iaia-icon">🤖</div>
-                    <div className="iaia-notice-content">
-                        <h4>{t('chats.iaia_notice_title')} <span className="iaia-sub">{t('chats.iaia_notice_subtitle')}</span></h4>
-                        <p>{t('chats.iaia_notice_text')}</p>
+                    <div className="banner-content">
+                        <div className="banner-left">
+                            <div className="iaia-icon">🤖</div>
+                            <div className="banner-text-stack">
+                                <span className="banner-label">
+                                    {t('chats.iaia_notice_title')} • {t('chats.iaia_notice_subtitle')}
+                                </span>
+                                <span className="banner-persona-name">
+                                    {t('chats.iaia_notice_text')}
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             )}
@@ -348,7 +334,12 @@ const ChatDetail = () => {
                             <div key={msg.id} className={`message-row ${isMe ? 'me' : 'other'}`}>
                                 {!isMe && (
                                     <div className="message-avatar-container">
-                                        {getAvatarIcon(senderType, senderAvatar)}
+                                        <Avatar
+                                            src={senderAvatar}
+                                            role={senderType === 'entity' ? 'oficial' : 'user'}
+                                            name={otherInfo?.name}
+                                            size={32}
+                                        />
                                     </div>
                                 )}
                                 <div className={`message-bubble ${isMe ? 'me' : 'other'} ${msg.is_ai ? 'ai-bubble' : ''}`}>
@@ -387,7 +378,12 @@ const ChatDetail = () => {
                                 </div>
                                 {isMe && (
                                     <div className="message-avatar-container">
-                                        {getAvatarIcon(senderType, senderAvatar)}
+                                        <Avatar
+                                            src={senderAvatar}
+                                            role={senderType === 'entity' ? 'oficial' : 'user'}
+                                            name={profile?.full_name}
+                                            size={32}
+                                        />
                                     </div>
                                 )}
                             </div>

@@ -127,7 +127,7 @@ const SearchDiscover = () => {
                                         <div className="results-list">
                                             {results.gent.map(person => (
                                                 <div key={person.id} className="universal-card result-item-card" onClick={() => navigate(`/perfil/${person.id}`)}>
-                                                    <div className="card-header no-border">
+                                                    <div className="card-header clickable">
                                                         <div className="header-left">
                                                             <Avatar
                                                                 src={person.avatar_url}
@@ -136,14 +136,17 @@ const SearchDiscover = () => {
                                                                 size={44}
                                                             />
                                                             <div className="post-meta">
-                                                                <span className="post-author">{person.full_name}</span>
-                                                                <div className="post-subtitle-row">
-                                                                    <span className="post-time">{person.role || 'Veí'}</span>
-                                                                    {person.primary_town && <span className="post-location">• {person.primary_town}</span>}
+                                                                <div className="post-author-row">
+                                                                    <span className="post-author">{person.full_name}</span>
+                                                                </div>
+                                                                <div className="post-town">
+                                                                    {person.role || 'Veí'} {person.primary_town ? `• ${person.primary_town}` : ''}
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <ChevronRight size={18} className="chevron" />
+                                                        <div className="header-right">
+                                                            <ChevronRight size={18} className="chevron" />
+                                                        </div>
                                                     </div>
                                                 </div>
                                             ))}
@@ -164,20 +167,23 @@ const SearchDiscover = () => {
                                         <div className="results-list">
                                             {results.pobles.map(town => (
                                                 <div key={town.id} className="universal-card result-item-card town" onClick={() => navigate(`/pobles/${town.id}`)}>
-                                                    <div className="card-header no-border">
+                                                    <div className="card-header clickable">
                                                         <div className="header-left">
-                                                            <div className="post-avatar town">
-                                                                <MapPin size={20} />
+                                                            <div className="post-avatar town" style={{ backgroundColor: 'white', padding: '2px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', overflow: 'hidden', width: '44px', height: '44px' }}>
+                                                                <MapPin size={24} style={{ color: 'var(--color-primary)' }} />
                                                             </div>
                                                             <div className="post-meta">
-                                                                <span className="post-author">{town.name}</span>
-                                                                <div className="post-subtitle-row">
-                                                                    <span className="post-time">{town.comarca}</span>
-                                                                    {town.province && <span className="post-location">• {town.province}</span>}
+                                                                <div className="post-author-row">
+                                                                    <span className="post-author">{town.name}</span>
+                                                                </div>
+                                                                <div className="post-town">
+                                                                    {town.comarca} {town.province ? `• ${town.province}` : ''}
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <ChevronRight size={18} className="chevron" />
+                                                        <div className="header-right">
+                                                            <ChevronRight size={18} className="chevron" />
+                                                        </div>
                                                     </div>
                                                 </div>
                                             ))}
@@ -199,7 +205,7 @@ const SearchDiscover = () => {
                                     <div className="results-list">
                                         {filteredEntities.map(entity => (
                                             <div key={entity.id} className={`universal-card result-item-card entity-${entity.type}`} onClick={() => navigate(`/entitat/${entity.id}`)}>
-                                                <div className="card-header no-border">
+                                                <div className="card-header clickable">
                                                     <div className="header-left">
                                                         <Avatar
                                                             src={entity.avatar_url}
@@ -208,14 +214,17 @@ const SearchDiscover = () => {
                                                             size={44}
                                                         />
                                                         <div className="post-meta">
-                                                            <span className="post-author">{entity.name}</span>
-                                                            <div className="post-subtitle-row">
-                                                                <span className="post-time">{entity.type.charAt(0).toUpperCase() + entity.type.slice(1)}</span>
-                                                                {entity.town_name && <span className="post-location">• {entity.town_name}</span>}
+                                                            <div className="post-author-row">
+                                                                <span className="post-author">{entity.name}</span>
+                                                            </div>
+                                                            <div className="post-town">
+                                                                {entity.type.charAt(0).toUpperCase() + entity.type.slice(1)} {entity.town_name ? `• ${entity.town_name}` : ''}
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <ChevronRight size={18} className="chevron" />
+                                                    <div className="header-right">
+                                                        <ChevronRight size={18} className="chevron" />
+                                                    </div>
                                                 </div>
                                             </div>
                                         ))}

@@ -20,6 +20,16 @@ const getAvatarColor = (role) => {
     }
 };
 
+const getAvatarFallbackImage = (role) => {
+    switch (role) {
+        case ROLES.OFFICIAL: return '/images/demo/avatar_man_old.png';
+        case ROLES.BUSINESS: return '/images/demo/avatar_lucia.png';
+        case ROLES.GROUPS: return '/images/demo/avatar_man_1.png';
+        case 'ambassador': return '/images/demo/avatar_man_old.png';
+        default: return '/images/demo/avatar_man_1.png'; // Universal fallback
+    }
+};
+
 const Avatar = ({ src, role, name, size = 44, className = "" }) => {
     const [hasError, setHasError] = useState(false);
 
@@ -38,11 +48,13 @@ const Avatar = ({ src, role, name, size = 44, className = "" }) => {
         border: '2px solid rgba(255, 255, 255, 0.1)'
     };
 
-    if (src && !hasError) {
+    const fallbackImage = getAvatarFallbackImage(role);
+
+    if ((src || fallbackImage) && !hasError) {
         return (
             <div style={style} className={`avatar-container ${className}`}>
                 <img
-                    src={src}
+                    src={src || fallbackImage}
                     alt={name ? `Avatar de ${name}` : 'Avatar'}
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                     onError={() => setHasError(true)}

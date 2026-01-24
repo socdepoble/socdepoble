@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { User, MapPin, Calendar, Settings, ChevronRight, Loader2, AlertCircle, Building2, Store, Users as UsersIcon, ArrowLeft, UserPlus, UserMinus } from 'lucide-react';
+import { User, MapPin, Calendar, Settings, ChevronRight, Loader2, AlertCircle, Building2, Store, Users as UsersIcon, ArrowLeft, UserPlus, UserMinus, Plus, Layout } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
 import { logger } from '../utils/logger';
 import Feed from '../components/Feed';
 import SEO from '../components/SEO';
 import ProfileHeaderPremium from '../components/ProfileHeaderPremium';
+import Avatar from '../components/Avatar';
 import './Profile.css';
 
 const PublicProfile = () => {
@@ -176,11 +177,11 @@ const PublicProfile = () => {
                 <div className="profile-stats-bar">
                     <div className="stat-card">
                         <span className="stat-value">{userPosts.length}</span>
-                        <span className="stat-label">Publicacions</span>
+                        <span className="stat-label">{t('profile.publications')}</span>
                     </div>
                     <div className="stat-card">
                         <span className="stat-value">{items.length}</span>
-                        <span className="stat-label">En Venda</span>
+                        <span className="stat-label">{t('nav.stats_sales')}</span>
                     </div>
                     <div className="stat-card">
                         <span className="stat-value">{followersCount}</span>
@@ -217,25 +218,15 @@ const PublicProfile = () => {
 
             <section className="profile-section-premium">
                 <h2 className="section-header-premium">
-                    <Store size={20} />
-                    Mercat
+                    <UsersIcon size={20} />
+                    {t('profile.publications')}
                 </h2>
                 <div className="profile-feed-wrapper">
-                    {items.length > 0 ? (
-                        items.map(item => (
-                            <div key={item.uuid || item.id} className="mini-post-card entity-item-card">
-                                <div className="item-mini-content">
-                                    <div className="item-mini-text">
-                                        <span className="item-mini-title">{item.title}</span>
-                                        <span className="item-mini-price">{item.price}</span>
-                                    </div>
-                                    {item.image_url && <img src={item.image_url} alt={item.title} className="item-mini-img" />}
-                                </div>
-                            </div>
-                        ))
+                    {userPosts.length > 0 ? (
+                        <Feed townId={null} hideHeader={true} customPosts={userPosts} />
                     ) : (
                         <div className="empty-state-mini">
-                            <p>No hi ha articles al mercat de {profile.full_name.split(' ')[0]}</p>
+                            <p>{t('profile.no_publications', { name: profile.full_name.split(' ')[0] })}</p>
                         </div>
                     )}
                 </div>
@@ -243,15 +234,75 @@ const PublicProfile = () => {
 
             <section className="profile-section-premium">
                 <h2 className="section-header-premium">
-                    <UsersIcon size={20} />
-                    Activitat Recent
+                    <Store size={20} />
+                    {t('profile.market')}
                 </h2>
-                <div className="profile-feed-wrapper">
-                    {userPosts.length > 0 ? (
-                        <Feed townId={null} hideHeader={true} customPosts={userPosts} />
+                <div className="profile-feed-wrapper market-grid-profile">
+                    {items.length > 0 ? (
+                        <div className="market-grid">
+                            {items.map(item => (
+                                <article key={item.uuid || item.id} className="universal-card market-item-card">
+                                    <div
+                                        className="card-header clickable"
+                                        onClick={() => {
+                                            if (item.author_entity_id) navigate(`/entitat/${item.author_entity_id}`);
+                                            else if (id) navigate(`/perfil/${id}`);
+                                        }}
+                                    >
+                                        <div className="header-left">
+                                            <Avatar
+                                                src={item.avatar_url || profile.avatar_url}
+                                                role={item.author_role || profile.role}
+                                                name={item.seller || profile.full_name}
+                                                size={44}
+                                            />
+                                            <div className="post-meta">
+                                                <div className="post-author-row">
+                                                    <span className="post-author">
+                                                        {item.seller || item.author_name || profile.full_name || 'Venedor'}
+                                                    </span>
+                                                    {(item.author_role === 'ambassador' || item.author_is_ai || profile.role === 'ambassador') && (
+                                                        <span className="identity-badge ai" title="Informació i Acció Artificial">IAIA</span>
+                                                    )}
+                                                </div>
+                                                <div className="post-town">
+                                                    {item.towns?.name || item.town_name || item.location || profile.town_name}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="header-right">
+                                            <span className="post-time-right">
+                                                {item.created_at ? new Date(item.created_at).toLocaleDateString() : 'Avui'}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    {item.image_url && (
+                                        <div className="card-image-wrapper">
+                                            <img src={item.image_url} alt={item.title} />
+                                        </div>
+                                    )}
+
+                                    <div className="card-body">
+                                        <div className="market-price-row">
+                                            <h3 className="item-title">{item.title}</h3>
+                                            <span className="price-tag-vibrant">{item.price}</span>
+                                        </div>
+                                        <p className="item-desc-premium">{item.description || t('market.no_description')}</p>
+                                    </div>
+
+                                    <div className="card-footer-vibrant">
+                                        <button className="add-btn-premium-vibrant full-width" onClick={() => navigate('/chats')}>
+                                            <Plus size={20} />
+                                            <span>{t('market.interested')}</span>
+                                        </button>
+                                    </div>
+                                </article>
+                            ))}
+                        </div>
                     ) : (
                         <div className="empty-state-mini">
-                            <p>No hi ha publicacions de {profile.full_name.split(' ')[0]}</p>
+                            <p>{t('profile.no_items', { name: profile.full_name.split(' ')[0] })}</p>
                         </div>
                     )}
                 </div>

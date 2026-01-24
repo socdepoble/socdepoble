@@ -63,8 +63,8 @@
         "empty": "No hi ha xats actius.",
         "loading_chats": "Carregant xats...",
         "iaia_notice_title": "Estàs parlant amb una IAIA",
-        "iaia_notice_subtitle": "(Informació i Acció Artificial)",
-        "iaia_notice_text": "Estic inspirada en la saviesa dels nostres majors per a ajudar-te a connectar amb el poble.",
+        "iaia_notice_subtitle": "(Informació Artificial i Acció)",
+        "iaia_notice_text": "Estic inspirada en la saviesa dels nostres majors per a ajudar-te a connectar amb el poble",
         "storage_limit_warning": "Durant el període de proves, només admetem fitxers de 10 MB com a màxim.",
         "storage_banner_title": "Avís d'Emmagatzematge",
         "storage_banner_text": "En proves admetem 10MB màx. Els continguts poden ser esborrats si superem límits. No fer servir en producció. Sabent això, puja el que vulgues."
@@ -146,5 +146,12 @@
         "type_file": "Fitxer",
         "type_image": "Imatge",
         "type_video": "Vídeo"
+    },
+    "profile": {
+        "publications": "Mur",
+        "market": "Mercat",
+        "connections": "Connexions",
+        "no_publications": "No hi ha publicacions de {{name}}",
+        "no_items": "No hi ha articles al mercat de {{name}}"
     }
 }

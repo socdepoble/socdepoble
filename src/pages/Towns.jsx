@@ -37,17 +37,12 @@ const Towns = () => {
         fetchTowns();
     }, []);
 
-    // Ordenar pueblos: La Torre de les Maçanes primer, després el del usuari
     const sortedTowns = useMemo(() => {
         let list = [...towns];
-
-        // Moure La Torre de les Maçanes al principi
         const torre = list.find(t => t.name === 'La Torre de les Maçanes');
         if (torre) {
             list = [torre, ...list.filter(t => t.name !== 'La Torre de les Maçanes')];
         }
-
-        // Moure el poble del usuari a la segona posició (si no es la Torre)
         if (profile?.town_uuid || profile?.town_id) {
             const userTownId = profile.town_uuid || profile.town_id;
             const userTown = list.find(t => t.uuid === userTownId || t.id === userTownId);
@@ -56,7 +51,6 @@ const Towns = () => {
                 list = [list[0], userTown, ...rest];
             }
         }
-
         return list;
     }, [towns, profile]);
 
@@ -69,11 +63,7 @@ const Towns = () => {
     if (error) {
         return (
             <div className="towns-container">
-                <UnifiedStatus
-                    type="error"
-                    message={error}
-                    onRetry={() => window.location.reload()}
-                />
+                <UnifiedStatus type="error" message={error} onRetry={() => window.location.reload()} />
             </div>
         );
     }
@@ -116,25 +106,27 @@ const Towns = () => {
                                 <div className="universal-card town-card">
                                     <div className="card-header">
                                         <div className="header-left">
-                                            <div className="post-avatar" style={{ backgroundColor: 'var(--bg-surface)', padding: '2px' }}>
+                                            <div className="post-avatar" style={{ backgroundColor: 'white', padding: '2px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', overflow: 'hidden', width: '44px', height: '44px' }}>
                                                 {town.logo_url ? (
                                                     <img
                                                         src={town.logo_url}
                                                         alt="Escut"
-                                                        className="town-logo-mini"
+                                                        style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                                                         onError={(e) => {
                                                             e.target.style.display = 'none';
-                                                            e.target.parentElement.innerHTML = '<div class="avatar-placeholder"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>';
+                                                            e.target.parentElement.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>';
                                                         }}
                                                     />
-                                                ) : <MapIcon size={20} />}
+                                                ) : <MapIcon size={24} style={{ color: 'var(--color-primary)' }} />}
                                             </div>
                                             <div className="post-meta">
                                                 <span className="post-author">{town.name}</span>
-                                                <span className="post-time">{town.province}</span>
+                                                <div className="post-town">{town.province}</div>
                                             </div>
                                         </div>
-                                        <ChevronRight size={20} className="text-muted" />
+                                        <div className="header-right">
+                                            <ChevronRight size={24} />
+                                        </div>
                                     </div>
 
                                     <div className="card-image-wrapper">

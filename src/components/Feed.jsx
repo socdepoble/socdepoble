@@ -14,13 +14,11 @@ import UnifiedStatus from './UnifiedStatus';
 import Avatar from './Avatar';
 import './Feed.css';
 
-
-
-const Feed = ({ townId = null, hideHeader = false }) => {
+const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const { user, isPlayground, loading: authLoading } = useAuth();
-    const [posts, setPosts] = useState([]);
+    const [posts, setPosts] = useState(customPosts || []);
     const [userConnections, setUserConnections] = useState([]);
     const [userTags, setUserTags] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -60,18 +58,15 @@ const Feed = ({ townId = null, hideHeader = false }) => {
             setHasMore(posts.length + postsArray.length < totalCount);
 
             if (user) {
-                // Cargar etiquetas del usuario para la barra de filtros
                 const tagsRaw = await supabaseService.getUserTags(user.id);
                 if (!isMounted.current) return;
                 setUserTags(Array.isArray(tagsRaw) ? tagsRaw : []);
 
                 if (postsArray.length > 0) {
-                    logger.log('[Feed] Fetching user connections...');
                     const postUuids = postsArray.map(p => p.uuid);
                     const connections = await supabaseService.getPostConnections(postUuids);
                     if (!isMounted.current) return;
                     const userOwnConnections = connections.filter(c => c.user_id === user.id);
-                    logger.log('[Feed] User connections loaded:', userOwnConnections.length);
                     setUserConnections(prev => isLoadMore ? [...prev, ...userOwnConnections] : userOwnConnections);
                 }
             }
@@ -84,16 +79,22 @@ const Feed = ({ townId = null, hideHeader = false }) => {
             if (isMounted.current) {
                 setLoading(false);
                 setLoadingMore(false);
-                logger.log('[Feed] Loading sequence finished');
             }
         }
-    }, [selectedRole, townId]); // Removed page, user to avoid infinite loops and redundant triggers
+    }, [selectedRole, townId, user, isPlayground]);
 
     useEffect(() => {
-        if (!authLoading) {
+        if (customPosts) {
+            setPosts(customPosts);
+            setLoading(false);
+        }
+    }, [customPosts]);
+
+    useEffect(() => {
+        if (!authLoading && !customPosts) {
             fetchPosts();
         }
-    }, [fetchPosts, authLoading]);
+    }, [fetchPosts, authLoading, customPosts]);
 
     useEffect(() => {
         const handleRefresh = (e) => {
@@ -117,7 +118,6 @@ const Feed = ({ townId = null, hideHeader = false }) => {
             return prev.filter(c => c.post_uuid !== postId);
         });
 
-        // Actualizar el diccionario local si hay etiquetas nuevas
         if (tags && user) {
             tags.forEach(tag => {
                 if (!userTags.includes(tag)) {
@@ -140,7 +140,6 @@ const Feed = ({ townId = null, hideHeader = false }) => {
         }
     };
 
-    // Filtrado local por etiquetas personales
     const filteredPosts = selectedTag
         ? posts.filter(post => {
             const connection = userConnections.find(c => c.post_uuid === post.uuid);
@@ -161,11 +160,7 @@ const Feed = ({ townId = null, hideHeader = false }) => {
     if (error) {
         return (
             <div className="feed-container">
-                <UnifiedStatus
-                    type="error"
-                    message={error}
-                    onRetry={() => fetchPosts()}
-                />
+                <UnifiedStatus type="error" message={error} onRetry={() => fetchPosts()} />
             </div>
         );
     }
@@ -184,8 +179,6 @@ const Feed = ({ townId = null, hideHeader = false }) => {
             )}
 
             <div className="feed-list">
-
-
                 {filteredPosts.length === 0 ? (
                     <UnifiedStatus
                         type="empty"
@@ -219,27 +212,19 @@ const Feed = ({ townId = null, hideHeader = false }) => {
                                         />
                                         <div className="post-meta">
                                             <div className="post-author-row">
-                                                <span className="post-author">{post.author}</span>
+                                                <span className="post-author">{post.author || post.author_name || 'Usuari'}</span>
                                                 {(post.author_role === 'ambassador' || post.author_is_ai) && (
                                                     <span className="identity-badge ai" title="Informació i Acció Artificial">IAIA</span>
                                                 )}
                                             </div>
-                                            <div className="post-subtitle-row">
-                                                <span className="post-time">{post.created_at ? new Date(post.created_at).toLocaleDateString() : 'Ara'}</span>
-                                                {post.towns?.name && <span className="post-location">• {post.towns.name}</span>}
+                                            <div className="post-town">
+                                                {post.towns?.name || post.town_name || post.location || 'Al teu poble'}
                                             </div>
                                         </div>
                                     </div>
-                                    <button
-                                        className="more-btn"
-                                        aria-label={t('common.more_options') || 'Més opcions'}
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            // More options logic here if needed
-                                        }}
-                                    >
-                                        <MoreHorizontal size={20} />
-                                    </button>
+                                    <div className="header-right">
+                                        <span className="post-time-right">{post.created_at ? new Date(post.created_at).toLocaleDateString() : 'Ara'}</span>
+                                    </div>
                                 </div>
 
                                 {post.image_url && (
@@ -291,15 +276,15 @@ const Feed = ({ townId = null, hideHeader = false }) => {
                                                 <Share2 size={20} aria-hidden="true" />
                                             </button>
                                         </div>
-
-                                        {isConnected && (
-                                            <TagSelector
-                                                postId={pid}
-                                                currentTags={connection.tags || []}
-                                                onTagsChange={(newTags) => handleConnectionUpdate(pid, true, newTags)}
-                                            />
-                                        )}
                                     </div>
+
+                                    {isConnected && (
+                                        <TagSelector
+                                            postId={pid}
+                                            currentTags={connection.tags || []}
+                                            onTagsChange={(newTags) => handleConnectionUpdate(pid, true, newTags)}
+                                        />
+                                    )}
                                 </div>
                             </article>
                         );

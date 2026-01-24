@@ -69,6 +69,8 @@
   --radius-xl: 24px;
   --radius-2xl: 32px;
   --radius-full: 50%;
+  --radius-avatar: 50%;
+  /* Centralized control for all avatars */
 
   /* Shadows */
   --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.02);
@@ -367,12 +369,60 @@ a:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--space-md) var(--space-lg);
+  padding: 13px var(--space-lg);
   background: var(--bg-warm-card);
-  border-bottom: 2px solid var(--bg-warm-accent);
-  color: white;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  border-bottom: 2px solid #000000;
+  color: #000000;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  min-height: 70px;
+}
+
+.post-meta {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+}
+
+.post-author-row {
+  display: flex;
+  align-items: center;
+}
+
+.post-author {
+  font-weight: 800;
+  color: var(--text-main);
+  font-size: 21px;
+  line-height: 1.1;
+  font-family: var(--font-heading);
+}
+
+.post-town {
+  font-size: 14px;
+  font-weight: 600;
+  opacity: 0.9;
+  line-height: 1.1;
+  color: inherit !important;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-left: auto;
+}
+
+.post-time-right {
+  font-size: 14px;
+  font-weight: 700;
+  opacity: 0.8;
+  white-space: nowrap;
 }
 
 .card-header * {

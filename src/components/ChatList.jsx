@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useSocial } from '../context/SocialContext';
+import Avatar from './Avatar';
 import { isFictiveProfile, supabaseService } from '../services/supabaseService';
 import { logger } from '../utils/logger';
 import CategoryTabs from './CategoryTabs';
@@ -32,45 +33,6 @@ const getParticipantInfo = (chat, currentId, t) => {
     };
 };
 
-const getAvatarIcon = (type, avatarUrl) => {
-    if (avatarUrl) {
-        // Robust check: if it looks like a URL/path, render img. If it's short (emoji), render as text.
-        const isUrl = avatarUrl.includes('://') || avatarUrl.includes('/') || avatarUrl.includes('.');
-        if (isUrl) {
-            return (
-                <img
-                    src={avatarUrl}
-                    alt="Avatar"
-                    className="avatar-img"
-                    onError={(e) => {
-                        e.target.style.display = 'none';
-                        // We use the parent element to inject the fallback icon
-                        const fallback = document.createElement('div');
-                        fallback.className = 'avatar-placeholder';
-                        fallback.innerHTML = type === 'entity' ? '<svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-building-2"><rect width="16" height="20" x="4" y="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M8 10h.01"/><path d="M16 10h.01"/><path d="M8 14h.01"/><path d="M16 14h.01"/></svg>' : '<svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
-                        e.target.parentNode.appendChild(fallback);
-                    }}
-                />
-            );
-        }
-        return <span className="avatar-emoji">{avatarUrl}</span>;
-    }
-    switch (type) {
-        case 'entity': return <Building2 size={24} />;
-        default: return <User size={24} />;
-    }
-};
-
-const getAvatarColor = (type, avatarUrl) => {
-    if (avatarUrl) {
-        const isUrl = avatarUrl.includes('://') || avatarUrl.includes('/') || avatarUrl.includes('.');
-        return isUrl ? 'transparent' : '#f0f0f0';
-    }
-    switch (type) {
-        case 'entity': return 'var(--color-primary)';
-        default: return '#999';
-    }
-};
 
 const ChatList = () => {
     const { t } = useTranslation();
@@ -214,7 +176,31 @@ const ChatList = () => {
                     return new Date(b.last_message_at) - new Date(a.last_message_at);
                 });
 
-                setChats(mergedSorted);
+                // Metadata Recovery: If some conversations have null content, fetch actual last messages
+                const needsRecovery = mergedSorted.filter(c => !c.last_message_content || c.last_message_content === t('common.write_message'));
+                if (needsRecovery.length > 0) {
+                    logger.log(`[ChatList] Recovering metadata for ${needsRecovery.length} chats`);
+                    try {
+                        const { data: lastMsgs } = await supabaseService.getLatestMessages(needsRecovery.map(c => c.id));
+                        if (lastMsgs && lastMsgs.length > 0) {
+                            const msgMap = {};
+                            lastMsgs.forEach(m => {
+                                if (!msgMap[m.conversation_id]) msgMap[m.conversation_id] = m;
+                            });
+
+                            mergedSorted.forEach(c => {
+                                if (msgMap[c.id]) {
+                                    c.last_message_content = msgMap[c.id].content;
+                                    c.last_message_at = msgMap[c.id].created_at;
+                                }
+                            });
+                        }
+                    } catch (recErr) {
+                        logger.error('[ChatList] Metadata recovery error:', recErr);
+                    }
+                }
+
+                setChats([...mergedSorted]);
             } catch (error) {
                 if (isMounted) {
                     logger.error('[ChatList] Error fetching chats:', error);
@@ -335,9 +321,12 @@ const ChatList = () => {
 
                         return (
                             <div key={chat.id} className="chat-item" onClick={() => handleChatClick(chat)}>
-                                <div className="chat-avatar" style={{ backgroundColor: getAvatarColor(otherParticipant.type, otherParticipant.avatar) }}>
-                                    {getAvatarIcon(otherParticipant.type, otherParticipant.avatar)}
-                                </div>
+                                <Avatar
+                                    src={otherParticipant.avatar}
+                                    role={otherParticipant.type === 'entity' ? 'oficial' : (otherParticipant.role || 'user')}
+                                    name={otherParticipant.name}
+                                    size={48}
+                                />
                                 <div className="chat-content">
                                     <div className="chat-header">
                                         <div className="chat-name-row">
@@ -351,7 +340,9 @@ const ChatList = () => {
                                         </span>
                                     </div>
                                     <div className="chat-preview">
-                                        <span className="chat-message">{chat.last_message_content || t('common.write_message')}</span>
+                                        <span className={`chat-message ${(!chat.last_message_content || chat.last_message_content === t('common.write_message')) ? 'is-placeholder' : ''}`}>
+                                            {chat.last_message_content || t('chats.start_iaia') || t('common.write_message')}
+                                        </span>
                                     </div>
                                 </div>
                             </div>

@@ -76,7 +76,7 @@
     width: 48px;
     /* Slightly more compact */
     height: 48px;
-    border-radius: 50%;
+    border-radius: var(--radius-avatar);
     display: flex;
     align-items: center;
     justify-content: center;

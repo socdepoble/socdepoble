@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Users, Building2, ArrowLeft, Loader2, UserPlus, ChevronRight, User } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import UnifiedStatus from '../components/UnifiedStatus';
+import Avatar from '../components/Avatar';
 import './CommunityDirectory.css';
 
 const CommunityDirectory = () => {
@@ -72,14 +73,12 @@ const CommunityDirectory = () => {
                                 className="directory-card"
                                 onClick={() => navigate(activeTab === 'gent' ? `/perfil/${item.id}` : `/entitat/${item.id}`)}
                             >
-                                <div className={`card-avatar ${activeTab !== 'gent' ? item.type : ''}`}>
-                                    {item.avatar_url ? (
-                                        <img src={item.avatar_url} alt={item.full_name || item.name} />
-                                    ) : (
-                                        activeTab === 'gent' ? <User size={24} /> :
-                                            item.type === 'empresa' ? <Building2 size={24} /> : <Users size={24} />
-                                    )}
-                                </div>
+                                <Avatar
+                                    src={item.avatar_url}
+                                    role={activeTab === 'gent' ? 'user' : item.type}
+                                    name={item.full_name || item.name}
+                                    size={60}
+                                />
                                 <div className="card-info">
                                     <h3>{item.full_name || item.name}</h3>
                                     <p>{item.role || item.type} • {item.town_name || item.primary_town}</p>

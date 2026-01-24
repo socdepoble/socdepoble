@@ -2,6 +2,23 @@ import { supabase } from '../supabaseClient';
 import { logger } from '../utils/logger';
 import { DEMO_USER_ID, ROLES, USER_ROLES, ENABLE_MOCKS } from '../constants';
 import { PostSchema, MarketItemSchema, MessageSchema, ProfileSchema, ConversationSchema } from './schemas';
+import { MOCK_LORE_POSTS, MOCK_LORE_ITEMS } from '../data/mockLoreData';
+
+/**
+ * Helper for time-aware greetings
+ */
+const getTimeAwareGreeting = (lang = 'va') => {
+    const hour = new Date().getHours();
+    if (lang === 'es') {
+        if (hour >= 6 && hour < 14) return "¡Buenos días!";
+        if (hour >= 14 && hour < 20) return "¡Buenas tardes!";
+        return "¡Buenas noches!";
+    } else { // Valencian/Default
+        if (hour >= 6 && hour < 14) return "Bon dia!";
+        if (hour >= 14 && hour < 20) return "Bona vesprada!";
+        return "Bona nit!";
+    }
+};
 
 /**
  * Sanitizes input strings to prevent common injection patterns 
@@ -113,7 +130,7 @@ export const isFictiveProfile = (profile) => {
  * Hardcoded Lore Personas for Sandbox and AI interaction
  */
 const LORE_PERSONAS = [
-    { id: '11111111-0000-0000-0000-000000000001', full_name: 'Vicent Ferris', username: 'vferris', gender: 'male', role: 'ambassador', ofici: 'Fuster', primary_town: 'La Torre de les Maçanes', bio: 'Treballant la fusta amb l\'amor de tres generacions. Artesania de la Torre.', avatar_url: '/images/demo/avatar_man_old.png', cover_url: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=2070&auto=format&fit=crop', category: 'treball', type: 'person' },
+    { id: '11111111-1111-4111-a111-000000000001', full_name: 'Vicent Ferris', username: 'vferris', gender: 'male', role: 'ambassador', ofici: 'Fuster', primary_town: 'La Torre de les Maçanes', bio: 'Treballant la fusta amb l\'amor de tres generacions. Artesania de la Torre.', avatar_url: '/images/demo/avatar_man_old.png', cover_url: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=2070&auto=format&fit=crop', category: 'treball', type: 'person' },
     { id: '11111111-1111-4111-a111-000000000002', full_name: 'Lucía Belda', username: 'lubelda', gender: 'female', role: 'ambassador', ofici: 'Farmacèutica', primary_town: 'La Torre de les Maçanes', bio: 'Molt més que vendre remeis; cuidant la salut emocional de les nostres veïnes.', avatar_url: '/images/demo/avatar_lucia.png', cover_url: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=2070&auto=format&fit=crop', category: 'treball', type: 'person' },
     { id: '11111111-1111-4111-a111-000000000003', full_name: 'Elena Popova', username: 'elenap', gender: 'female', role: 'user', ofici: 'Cuidadora', primary_town: 'La Torre de les Maçanes', bio: 'Vinent de Bulgària, cuidant de la nostra gent gran amb tota la paciència del món.', avatar_url: '/images/demo/avatar_elena.png', cover_url: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=2070&auto=format&fit=crop', category: 'gent', type: 'person' },
     { id: '11111111-1111-4111-a111-000000000004', full_name: 'Maria "Mèl"', username: 'mariamel', gender: 'female', role: 'user', ofici: 'Apicultora', primary_town: 'La Torre de les Maçanes', bio: 'Si vols mèl de veritat, puja a la Torre de les Maçanes. Tradició de muntanya.', avatar_url: '/images/demo/avatar_mariamel.png', category: 'treball', type: 'person' },
@@ -302,6 +319,18 @@ export const supabaseService = {
         return data || [];
     },
 
+    async getLatestMessages(conversationIds) {
+        if (!conversationIds || conversationIds.length === 0) return { data: [] };
+
+        // Fetch most recent message for each conversation
+        // Auditoría V3: Recuperación manual cuando las columnas resumen fallan
+        return supabase
+            .from('messages')
+            .select('conversation_id, content, created_at')
+            .in('conversation_id', conversationIds)
+            .order('created_at', { ascending: false });
+    },
+
     async sendSecureMessage(messageData) {
         if (messageData.conversationId?.startsWith('mock-')) {
             logger.log('[SupabaseService] Simulated send to mock conversation');
@@ -369,6 +398,7 @@ export const supabaseService = {
         const message = data[0];
 
         // Actualizar el resumen en la conversación
+        // Auditoría V3: Forzamos el update directo para evitar inconsistencias en la vista
         await supabase
             .from('conversations')
             .update({
@@ -377,18 +407,24 @@ export const supabaseService = {
             })
             .eq('id', messageData.conversationId);
 
-        // Lógica de Simulación de IA (NPCs / Lore Personas)
+        // Detect if responder is AI/Lore (Harmonized with UI logic)
         const { data: conv } = await supabase
-            .from('conversations')
-            .select('participant_1_id, participant_2_id, participant_1_type, participant_2_type')
+            .from('view_conversations_enriched')
+            .select('*')
             .eq('id', messageData.conversationId)
             .single();
 
         const responderId = conv?.participant_1_id === messageData.senderId ? conv?.participant_2_id : conv?.participant_1_id;
         const responderType = conv?.participant_1_id === messageData.senderId ? conv?.participant_2_type : conv?.participant_1_type;
-        const isToLore = responderId?.startsWith('11111111-1111-4111-a111-') || responderId?.startsWith('11111111-0000-0000-0000-');
 
-        if (isToLore || messageData.conversationId.startsWith('c1111000')) {
+        const isToLore = responderId?.startsWith('11111111-1111-4111-a111-') ||
+            responderId?.startsWith('11111111-0000-0000-0000-') ||
+            responderId?.startsWith('11111111-1111-4111-7');
+
+        const responderIsAI = conv?.p1_is_ai || conv?.p2_is_ai ||
+            conv?.p1_role === 'ambassador' || conv?.p2_role === 'ambassador';
+
+        if (isToLore || responderIsAI || messageData.conversationId.startsWith('c1111000')) {
             // Buscamos persona de forma SINCRÓNICA para ganar milisegundos
             const persona = LORE_PERSONAS.find(p => p.id === responderId);
             this.triggerSimulatedReply({ ...messageData, responderId, responderType, persona });
@@ -400,97 +436,96 @@ export const supabaseService = {
 
     async triggerSimulatedReply(originalMessage) {
         // Respuesta quasi-instantánea para mantener el engagement (Petición usuario)
-        const delay = 50 + Math.random() * 100; // Reducción drástica 50-150ms
+        try {
+            const { conversationId, responderId, responderType, persona } = originalMessage;
+            if (!responderId) return;
 
-        setTimeout(async () => {
-            try {
-                const { conversationId, responderId, responderType, persona } = originalMessage;
-                if (!responderId) return;
+            let reply = "";
+            const randomVal = Math.random();
 
-                let reply = "";
-                const randomVal = Math.random();
+            if (persona) {
+                // Respuestas con personalidad según el Lore
+                const greeting = getTimeAwareGreeting();
 
-                if (persona) {
-                    // Respuestas con personalidad según el Lore
-                    if (persona.username === 'vferris') {
-                        const vReplies = [
-                            "Ie! Gràcies pel missatge. Ara estic amb la garlopa, t'ho mire en un ratet.",
-                            "Bona vesprada! Recorda que la fusta vol paciència. T'ho conteste després.",
-                            "Això està fet. Si és per a la Torre, compte amb mi!",
-                            "Passa't pel taller quan vullgues i ho mirem amb un café de l'avellà."
-                        ];
-                        reply = vReplies[Math.floor(randomVal * vReplies.length)];
-                    } else if (persona.username === 'mariamel') {
-                        const mReplies = [
-                            "Hola! Les meues abelles estan ara a tope amb el romer. Després parlem!",
-                            "Dolç com la mèl! Gràcies pel missatge, ja et dic algo.",
-                            "Xe, que bona idea. El poble necessita més gent així.",
-                            "Estic per la serra sense cobertura, quan baixe al poble t'ho mire."
-                        ];
-                        reply = mReplies[Math.floor(randomVal * mReplies.length)];
-                    } else if (persona.username === 'elenap') {
-                        const eReplies = [
-                            "Bon dia. Estic cuidant de la iaia Rosa, té molt poca paciència hui. Et dic algo més tard!",
-                            "Sí, d'acord. Jo ajudaré en tot el que pugui al poble.",
-                            "Xe! Molt bé. Aquí a la Torre la gent és molt bona.",
-                            "Tinc molta feina ara, però t'ho agraeixo molt."
-                        ];
-                        reply = eReplies[Math.floor(randomVal * eReplies.length)];
-                    } else if (persona.username === 'joanb') {
-                        const jReplies = [
-                            "Ieee! Estic dalt l'Aitana amb el ramat. No se sent res per aquí.",
-                            "Si vols parlar de veres, vine a Benifallim i ho fem amb un bon gaito.",
-                            "Les meues cabres i jo estem d'acord. Bona proposta!",
-                            "Buff, la política de despatxos no és per a mi. Millor parlem a la fresca."
-                        ];
-                        reply = jReplies[Math.floor(randomVal * jReplies.length)];
-                    } else {
-                        // Genérico para otros personajes del Lore (con ajuste de género automático)
-                        const genericReplies = [
-                            "Xe, que bona idea! Gràcies per compartir-ho.",
-                            "Ara estic un poc liat, però m'ho apunto i et dic alguna cosa.",
-                            "Sóc de Poble som tots, així que compte amb el meu suport!",
-                            "Perfecte, ja m'ho dius quan sàpigues algo segur."
-                        ];
-                        reply = adjustGender(genericReplies[Math.floor(randomVal * genericReplies.length)], persona.gender);
-                    }
+                // Respuestas con personalidad según el Lore (Integrando saludos neutros solicitados)
+                if (persona.username === 'vferris') {
+                    const vReplies = [
+                        `${greeting} Gràcies pel missatge. Ara estic amb la garlopa, t'ho mire en un ratet.`,
+                        `${greeting} Recorda que la fusta vol paciència. T'ho conteste després!`,
+                        `${greeting} Això està fet. Si és per a la Torre, compte amb mi.`,
+                        `${greeting} Passa't pel taller quan vullgues i ho mirem.`
+                    ];
+                    reply = vReplies[Math.floor(randomVal * vReplies.length)];
+                } else if (persona.username === 'mariamel') {
+                    const mReplies = [
+                        `${greeting} Les meues abelles estan ara a tope amb el romer. Después parlem.`,
+                        `${greeting} Dolç com la mèl! Gràcies pel missatge.`,
+                        `${greeting} Xe, que bona idea. El poble necessita més gent així!`,
+                        `${greeting} Estic per la serra sense cobertura, quan baixe t'ho mire.`
+                    ];
+                    reply = mReplies[Math.floor(randomVal * mReplies.length)];
+                } else if (persona.username === 'elenap') {
+                    const eReplies = [
+                        `${greeting} Ja saps que qualsevol cosa em pots preguntar.`,
+                        `${greeting} Sí, d'acord. Jo ajudaré en tot el que pugui al poble.`,
+                        `${greeting} Com va tot per allí? Estic ací per a ajudar-te.`,
+                        `${greeting} Tinc molta feina ara, però t'ho agraeixo molt!`
+                    ];
+                    reply = eReplies[Math.floor(randomVal * eReplies.length)];
+                } else if (persona.username === 'joanb') {
+                    const jReplies = [
+                        `${greeting} Estic dalt l'Aitana amb el ramat. No se sent res por aquí.`,
+                        `${greeting} Si vols parlar de veres, vine a Benifallim!`,
+                        `${greeting} Les meues cabres i jo estem d'acord. Bona proposta!`,
+                        `${greeting} Buff, millor parlem a la fresca un altre ratet.`
+                    ];
+                    reply = jReplies[Math.floor(randomVal * jReplies.length)];
                 } else {
-                    reply = "D'acord! Ho tindré en compte. Gràcies pel missatge.";
+                    // Genérico para otros personajes del Lore (con ajuste de género automático y saludos)
+                    const genericReplies = [
+                        `${greeting} Xe, que bona idea! Gràcies por compartir-ho.`,
+                        `${greeting} Ara estic un poc liat, però m'ho apunte!`,
+                        `${greeting} Sóc de Poble som tots, compte amb mi.`,
+                        `${greeting} Perfecte, ja m'ho dius quan sàpigues algo.`
+                    ];
+                    reply = adjustGender(genericReplies[Math.floor(randomVal * genericReplies.length)], persona.gender);
                 }
-
-                // Insertamos el mensaje marcado como IA (con gestión de errores por si la columna no existe aún)
-                const payload = {
-                    conversation_id: conversationId,
-                    sender_id: responderId,
-                    sender_entity_id: responderType === 'entity' ? responderId : null,
-                    content: reply
-                };
-
-                // Solo añadimos is_ai si la caché no dice lo contrario
-                if (columnCache.messages_is_ai !== false) {
-                    payload.is_ai = true;
-                }
-
-                const { error: insError } = await supabase.from('messages').insert([payload]);
-
-                if (insError && insError.code === '42703') { // Undefined column
-                    columnCache.messages_is_ai = false;
-                    delete payload.is_ai;
-                    await supabase.from('messages').insert([payload]);
-                } else if (!insError) {
-                    columnCache.messages_is_ai = true;
-                }
-
-                // Actualizamos la conversación
-                await supabase.from('conversations').update({
-                    last_message_content: reply,
-                    last_message_at: new Date().toISOString()
-                }).eq('id', conversationId);
-
-            } catch (err) {
-                logger.error('[NPC Simulation] Error:', err);
+            } else {
+                reply = "D'acord! Ho tindré en compte. Gràcies pel missatge.";
             }
-        }, delay);
+
+            // Insertamos el mensaje marcado como IA (con gestión de errores por si la columna no existe aún)
+            const payload = {
+                conversation_id: conversationId,
+                sender_id: responderId,
+                sender_entity_id: responderType === 'entity' ? responderId : null,
+                content: reply
+            };
+
+            // Solo añadimos is_ai si la caché no dice lo contrario
+            if (columnCache.messages_is_ai !== false) {
+                payload.is_ai = true;
+            }
+
+            const { error: insError } = await supabase.from('messages').insert([payload]);
+
+            if (insError && insError.code === '42703') { // Undefined column
+                columnCache.messages_is_ai = false;
+                delete payload.is_ai;
+                await supabase.from('messages').insert([payload]);
+            } else if (!insError) {
+                columnCache.messages_is_ai = true;
+            }
+
+            // Actualizamos la conversación
+            await supabase.from('conversations').update({
+                last_message_content: reply,
+                last_message_at: new Date().toISOString()
+            }).eq('id', conversationId);
+
+        } catch (err) {
+            logger.error('[NPC Simulation] Error:', err);
+        }
     },
 
     async getOrCreateConversation(p1Id, p1Type, p2Id, p2Type) {
@@ -905,10 +940,33 @@ export const supabaseService = {
             // FALLBACK RESTAURADOR: Si no hi ha posts a la DB, mostrem els MOCK_FEED
             if ((!data || data.length === 0) && page === 0 && ENABLE_MOCKS) {
                 const { MOCK_FEED } = await import('../data');
-                return { data: MOCK_FEED, count: MOCK_FEED.length };
+                const townsMap = {
+                    1: 'La Torre de les Maçanes',
+                    2: 'Cocentaina',
+                    3: 'Muro d\'Alcoi',
+                    'la-torre': 'La Torre de les Maçanes',
+                    'cocentaina': 'Cocentaina',
+                    'muro': 'Muro d\'Alcoi'
+                };
+                const normalized = MOCK_FEED.map(p => ({
+                    ...p,
+                    author: p.author || p.author_name || 'Algu del poble',
+                    author_avatar: p.author_avatar || p.author_avatar_url || '/images/demo/avatar_man_1.png',
+                    author_user_id: p.author_user_id || (p.author_role === 'user' ? p.author_id : null),
+                    author_entity_id: p.author_entity_id || (p.author_role !== 'user' ? p.author_id : null),
+                    towns: p.towns || { name: townsMap[p.town_id] || p.town_name || 'Al teu poble' }
+                }));
+                return { data: normalized, count: normalized.length };
             }
 
-            return { data: data || [], count: count || 0 };
+            const normalizedData = (data || []).map(p => ({
+                ...p,
+                author: p.author || p.author_name || 'Algu del poble',
+                author_avatar: p.author_avatar || p.author_avatar_url || '/images/demo/avatar_man_1.png',
+                towns: p.towns || { name: p.town_name || 'Al teu poble' }
+            }));
+
+            return { data: normalizedData, count: count || 0 };
         } catch (err) {
             logger.error('[SupabaseService] Error in getPosts:', err);
             return { data: [], count: 0 };
@@ -1004,10 +1062,34 @@ export const supabaseService = {
             // FALLBACK RESTAURADOR: Si no hi ha items a la DB, mostrem els MOCK_MARKET_ITEMS
             if ((!data || data.length === 0) && page === 0 && ENABLE_MOCKS) {
                 const { MOCK_MARKET_ITEMS } = await import('../data');
-                return { data: MOCK_MARKET_ITEMS, count: MOCK_MARKET_ITEMS.length };
+                const townsMap = {
+                    1: 'La Torre de les Maçanes',
+                    2: 'Cocentaina',
+                    3: 'Muro d\'Alcoi',
+                    'la-torre': 'La Torre de les Maçanes',
+                    'cocentaina': 'Cocentaina',
+                    'muro': 'Muro d\'Alcoi'
+                };
+                const normalized = MOCK_MARKET_ITEMS.map(item => ({
+                    ...item,
+                    seller: item.seller || item.seller_name || item.author_name || 'Venedor',
+                    avatar_url: item.avatar_url || item.author_avatar_url || '/images/demo/avatar_man_1.png',
+                    author_role: item.author_role || 'business',
+                    author_user_id: item.author_user_id || (item.author_role === 'user' ? item.author_id : null),
+                    author_entity_id: item.author_entity_id || (item.author_role !== 'user' ? item.author_id : null),
+                    towns: item.towns || { name: townsMap[item.town_id] || item.town_name || 'Al teu poble' }
+                }));
+                return { data: normalized, count: normalized.length };
             }
 
-            return { data: data || [], count: count || 0 };
+            const normalizedData = (data || []).map(item => ({
+                ...item,
+                seller: item.seller || item.author_name || 'Venedor',
+                avatar_url: item.avatar_url || item.author_avatar_url || '/images/demo/avatar_man_1.png',
+                towns: item.towns || { name: item.town_name || 'Al teu poble' }
+            }));
+
+            return { data: normalizedData, count: count || 0 };
         } catch (err) {
             logger.error('[SupabaseService] Error in getMarketItems:', err);
             return { data: [], count: 0 };
@@ -1407,7 +1489,7 @@ export const supabaseService = {
         try {
             let query = supabase
                 .from('posts')
-                .select('id, content, created_at, author_id, image_url, is_playground, entity_id')
+                .select('id, uuid:id, content, created_at, author_id, author:author_name, author_avatar:author_avatar_url, image_url, author_role, is_playground, entity_id, towns!fk_posts_town_uuid(name)')
                 .eq('author_id', userId);
 
             if (isPlayground) query = query.eq('is_playground', true);
@@ -1415,7 +1497,27 @@ export const supabaseService = {
 
             const { data, error } = await query.order('created_at', { ascending: false });
             if (error) throw error;
-            return data || [];
+
+            // Inyectamos contenido de Lore si existe (Auditoría V3)
+            const lorePosts = (MOCK_LORE_POSTS[userId] || []).map(p => {
+                const persona = LORE_PERSONAS.find(lp => lp.id === userId);
+                return {
+                    ...p,
+                    author: p.author_name || persona?.full_name || 'Usuari',
+                    author_avatar: persona?.avatar_url,
+                    author_role: p.author_role || persona?.role,
+                    towns: p.towns || { name: persona?.primary_town || 'La Torre de les Maçanes' }
+                };
+            });
+            const dbData = (data || []).map(p => ({
+                ...p,
+                author: p.author || p.author_name || 'Usuari',
+                author_avatar: p.author_avatar || p.author_avatar_url || '/images/demo/avatar_man_1.png',
+                author_role: p.author_role || 'user',
+                towns: p.towns || { name: p.town_name || 'Al teu poble' }
+            }));
+
+            return [...lorePosts, ...dbData];
         } catch (error) {
             logger.error('[SupabaseService] Error in getUserPosts:', error);
             return [];
@@ -1426,7 +1528,7 @@ export const supabaseService = {
         try {
             let query = supabase
                 .from('posts')
-                .select('id, content, created_at, author_id, image_url, is_playground, entity_id')
+                .select('id, uuid:id, content, created_at, author_id, author:author_name, author_avatar:author_avatar_url, author_role, image_url, is_playground, entity_id, towns!fk_posts_town_uuid(name)')
                 .eq('entity_id', entityId);
 
             if (isPlayground) query = query.eq('is_playground', true);
@@ -1434,7 +1536,13 @@ export const supabaseService = {
 
             const { data, error } = await query.order('created_at', { ascending: false });
             if (error) throw error;
-            return data || [];
+
+            return (data || []).map(p => ({
+                ...p,
+                author: p.author || p.author_name || 'Entitat',
+                author_avatar: p.author_avatar || p.author_avatar_url || '/images/demo/avatar_man_1.png',
+                towns: p.towns || { name: p.town_name || 'Al teu poble' }
+            }));
         } catch (error) {
             logger.error('[SupabaseService] Error in getEntityPosts:', error);
             return [];
@@ -1445,7 +1553,7 @@ export const supabaseService = {
         try {
             let query = supabase
                 .from('market_items')
-                .select('id, title, description, price, category_slug, created_at, author_id, image_url, is_playground, is_active, entity_id, towns!fk_market_town_uuid(name)')
+                .select('id, uuid:id, title, description, price, category_slug, created_at, author_id, avatar_url:author_avatar_url, seller:author_name, author_role, image_url, is_playground, is_active, entity_id, towns!fk_market_town_uuid(name)')
                 .eq('author_id', userId);
 
             if (isPlayground) query = query.eq('is_playground', true);
@@ -1453,18 +1561,36 @@ export const supabaseService = {
 
             const { data, error } = await query.order('created_at', { ascending: false });
             if (error) throw error;
-            return data || [];
+
+            // Inyectamos artículos de Lore si existe (Auditoría V3)
+            const loreItems = (MOCK_LORE_ITEMS[userId] || []).map(item => {
+                const persona = LORE_PERSONAS.find(p => p.id === userId);
+                return {
+                    ...item,
+                    seller: persona?.full_name || 'Venedor',
+                    avatar_url: persona?.avatar_url,
+                    author_role: persona?.role,
+                    towns: { name: persona?.primary_town || 'Al teu poble' }
+                };
+            });
+            const dbData = (data || []).map(item => ({
+                ...item,
+                seller: item.seller || item.author_name || 'Venedor',
+                avatar_url: item.avatar_url || item.author_avatar_url || '/images/demo/avatar_man_1.png',
+                author_role: item.author_role || 'business',
+                towns: item.towns || { name: item.town_name || 'Al teu poble' }
+            }));
+
+            return [...loreItems, ...dbData];
         } catch (error) {
             logger.error('[SupabaseService] Error in getUserMarketItems:', error);
             return [];
         }
-    },
-
-    async getEntityMarketItems(entityId, isPlayground = false) {
+    }, async getEntityMarketItems(entityId, isPlayground = false) {
         try {
             let query = supabase
                 .from('market_items')
-                .select('id, title, description, price, category_slug, created_at, author_id, image_url, is_playground, is_active, entity_id, towns!fk_market_town_uuid(name)')
+                .select('id, uuid:id, title, description, price, category_slug, created_at, author_id, avatar_url:author_avatar_url, seller:author_name, author_role, image_url, is_playground, is_active, entity_id, towns!fk_market_town_uuid(name)')
                 .eq('entity_id', entityId);
 
             if (isPlayground) query = query.eq('is_playground', true);
@@ -1472,36 +1598,49 @@ export const supabaseService = {
 
             const { data, error } = await query.order('created_at', { ascending: false });
             if (error) throw error;
-            return data || [];
+            return (data || []).map(item => ({
+                ...item,
+                seller: item.seller || item.author_name || 'Entitat',
+                avatar_url: item.avatar_url || item.author_avatar_url || '/images/demo/avatar_man_1.png',
+                towns: item.towns || { name: item.town_name || 'Al teu poble' }
+            }));
         } catch (error) {
             logger.error('[SupabaseService] Error in getEntityMarketItems:', error);
             return [];
         }
     },
 
-    // Fase 6: Lèxic
     async getLexiconTerms() {
-        const { data, error } = await supabase
-            .from('lexicon')
-            .select('*, towns(name)')
-            .order('term', { ascending: true });
-        if (error) throw error;
-        return data;
+        try {
+            const { data, error } = await supabase
+                .from('lexicon')
+                .select('*, towns(name)')
+                .order('term', { ascending: true });
+            if (error) throw error;
+            return data;
+        } catch (error) {
+            logger.error('[SupabaseService] Error in getLexiconTerms:', error);
+            return [];
+        }
     },
 
     async getDailyWord() {
-        // En una app real, esto sería aleatorio o rotativo por fecha.
-        // Aquí cogemos uno aleatorio simple.
-        const { data, error } = await supabase
-            .from('lexicon')
-            .select('*');
+        try {
+            const { data, error } = await supabase
+                .from('lexicon')
+                .select('*');
 
-        if (error) throw error;
-        if (!data || data.length === 0) return null;
+            if (error) throw error;
+            if (!data || data.length === 0) return null;
 
-        const randomIndex = Math.floor(Math.random() * data.length);
-        return data[randomIndex];
+            const randomIndex = Math.floor(Math.random() * data.length);
+            return data[randomIndex];
+        } catch (error) {
+            logger.error('[SupabaseService] Error in getDailyWord:', error);
+            return null;
+        }
     },
+
 
     async createLexiconEntry(entryData) {
         const { data, error } = await supabase

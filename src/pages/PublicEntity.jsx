@@ -200,13 +200,38 @@ const PublicEntity = () => {
                     <div className="entity-feed">
                         {posts.length > 0 ? (
                             posts.map(post => (
-                                <div key={post.uuid || post.id} className="mini-post-card">
-                                    <p>{post.content}</p>
-                                    <span className="post-date-small">
-                                        <Calendar size={12} />
-                                        {new Date(post.created_at).toLocaleDateString()}
-                                    </span>
-                                </div>
+                                <article key={post.uuid || post.id} className="universal-card social-post">
+                                    <div className="card-header">
+                                        <div className="header-left">
+                                            <Avatar
+                                                src={post.author_avatar || entity.avatar_url}
+                                                role={post.author_role || entity.type}
+                                                name={post.author || entity.name}
+                                                size={44}
+                                            />
+                                            <div className="post-meta">
+                                                <div className="post-author-row">
+                                                    <span className="post-author">{post.author || entity.name}</span>
+                                                    {(post.author_role === 'ambassador' || post.author_is_ai || entity.is_ai) && (
+                                                        <span className="identity-badge ai">IAIA</span>
+                                                    )}
+                                                </div>
+                                                <div className="post-town">{entity.town_name || 'La Comunitat'}</div>
+                                            </div>
+                                        </div>
+                                        <div className="header-right">
+                                            <span className="post-time-right">{new Date(post.created_at).toLocaleDateString()}</span>
+                                        </div>
+                                    </div>
+                                    <div className="card-body">
+                                        <p>{post.content}</p>
+                                    </div>
+                                    {post.image_url && (
+                                        <div className="card-image-wrapper">
+                                            <img src={post.image_url} alt="Post image" />
+                                        </div>
+                                    )}
+                                </article>
                             ))
                         ) : (
                             <p className="text-secondary">No hi ha publicacions recents.</p>
@@ -222,15 +247,39 @@ const PublicEntity = () => {
                     <div className="entity-market">
                         {items.length > 0 ? (
                             items.map(item => (
-                                <div key={item.uuid || item.id} className="mini-post-card entity-item-card">
-                                    <div className="item-mini-content">
-                                        <div className="item-mini-text">
-                                            <span className="item-mini-title">{item.title}</span>
-                                            <span className="item-mini-price">{item.price}</span>
+                                <article key={item.uuid || item.id} className="universal-card market-item-card">
+                                    <div className="card-header">
+                                        <div className="header-left">
+                                            <Avatar
+                                                src={item.avatar_url || entity.avatar_url}
+                                                role={item.author_role || entity.type}
+                                                name={item.seller || entity.name}
+                                                size={44}
+                                            />
+                                            <div className="post-meta">
+                                                <div className="post-author-row">
+                                                    <span className="post-author">{item.seller || entity.name}</span>
+                                                    {entity.is_ai && <span className="identity-badge ai">IAIA</span>}
+                                                </div>
+                                                <div className="post-town">{entity.town_name || 'La Comunitat'}</div>
+                                            </div>
                                         </div>
-                                        {item.image_url && <img src={item.image_url} alt={item.title} className="item-mini-img" />}
+                                        <div className="header-right">
+                                            <span className="post-time-right">{new Date(item.created_at).toLocaleDateString()}</span>
+                                        </div>
                                     </div>
-                                </div>
+                                    <div className="card-body">
+                                        <div className="market-price-row">
+                                            <h3 className="item-title">{item.title}</h3>
+                                            <span className="price-tag-vibrant">{item.price}</span>
+                                        </div>
+                                        {item.image_url && (
+                                            <div className="card-image-wrapper">
+                                                <img src={item.image_url} alt={item.title} />
+                                            </div>
+                                        )}
+                                    </div>
+                                </article>
                             ))
                         ) : (
                             <p className="text-secondary">No hi ha articles al mercat.</p>
