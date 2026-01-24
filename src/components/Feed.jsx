@@ -199,8 +199,14 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
                                 <div
                                     className="card-header clickable"
                                     onClick={() => {
-                                        if (post.author_entity_id) navigate(`/entitat/${post.author_entity_id}`);
-                                        else if (post.author_user_id) navigate(`/perfil/${post.author_user_id}`);
+                                        const targetId = post.author_entity_id || post.author_user_id;
+                                        const type = post.author_entity_id ? 'entitat' : 'perfil';
+
+                                        if (!targetId || (typeof targetId === 'string' && targetId.startsWith('mock-'))) {
+                                            console.warn('Navegació a perfil fictici no disponible:', targetId);
+                                            return;
+                                        }
+                                        navigate(`/${type}/${targetId}`);
                                     }}
                                 >
                                     <div className="header-left">
@@ -218,7 +224,7 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
                                                 )}
                                             </div>
                                             <div className="post-town">
-                                                {post.towns?.name || post.town_name || post.location || 'Al teu poble'}
+                                                {post.towns?.name || 'Al teu poble'}
                                             </div>
                                         </div>
                                     </div>

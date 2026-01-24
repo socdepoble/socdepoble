@@ -43,4 +43,4 @@ export const AUTH_EVENTS = {
     INITIAL_SESSION: 'INITIAL_SESSION'
 };
 
-export const ENABLE_MOCKS = true;
+export const ENABLE_MOCKS = import.meta.env.VITE_ENABLE_MOCKS === 'true' || import.meta.env.MODE === 'development';

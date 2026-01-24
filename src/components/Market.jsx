@@ -122,8 +122,14 @@ const Market = ({ searchTerm = '' }) => {
                             <div
                                 className="card-header clickable"
                                 onClick={() => {
-                                    if (item.author_entity_id) navigate(`/entitat/${item.author_entity_id}`);
-                                    else if (item.author_user_id) navigate(`/perfil/${item.author_user_id}`);
+                                    const targetId = item.author_entity_id || item.author_user_id;
+                                    const type = item.author_entity_id ? 'entitat' : 'perfil';
+
+                                    if (!targetId || (typeof targetId === 'string' && targetId.startsWith('mock-'))) {
+                                        console.warn('Navegació a perfil fictici no disponible:', targetId);
+                                        return;
+                                    }
+                                    navigate(`/${type}/${targetId}`);
                                 }}
                             >
                                 <div className="header-left">
@@ -143,7 +149,7 @@ const Market = ({ searchTerm = '' }) => {
                                             )}
                                         </div>
                                         <div className="post-town">
-                                            {item.towns?.name || item.town_name || item.location || 'Al teu poble'}
+                                            {item.towns?.name || 'Al teu poble'}
                                         </div>
                                     </div>
                                 </div>

@@ -144,6 +144,63 @@ const LORE_PERSONAS = [
     { id: '11111111-1111-4111-a111-000000000012', full_name: 'Joan Batiste', username: 'joanb', gender: 'male', role: 'user', ofici: 'Pastor', primary_town: 'Benifallim', bio: 'Les meues cabres i jo coneixem bé la Serra d\'Aitana. Sempre amb el meu gaito.', avatar_url: '/images/demo/avatar_man_old.png', cover_url: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=2064&auto=format&fit=crop', category: 'gent', type: 'person' }
 ];
 
+const LAST_ACTION_TIMES = {};
+
+/**
+ * Verifica si una acción es demasiado frecuente (Throttling)
+ * @param {string} userId
+ * @param {string} actionType
+ * @param {number} limitMs
+ */
+const checkThrottling = (userId, actionType, limitMs = 3000) => {
+    const now = Date.now();
+    const key = `${userId}_${actionType}`;
+    const lastTime = LAST_ACTION_TIMES[key] || 0;
+    if (now - lastTime < limitMs) {
+        throw new Error(`Acció massa ràpida. Espera ${Math.ceil((limitMs - (now - lastTime)) / 1000)} segons.`);
+    }
+    LAST_ACTION_TIMES[key] = now;
+};
+
+const TOWNS_MAP = {
+    1: 'La Torre de les Maçanes',
+    2: 'Cocentaina',
+    3: 'Muro d\'Alcoi',
+    'la-torre': 'La Torre de les Maçanes',
+    'cocentaina': 'Cocentaina',
+    'muro': 'Muro d\'Alcoi'
+};
+
+/**
+ * Normaliza un item de feed/market con fallbacks robustos
+ */
+const normalizeContentItem = (item, type = 'post') => {
+    const authorName = item.author || item.author_name || item.seller || item.seller_name || (type === 'market' ? 'Venedor' : 'Algu del poble');
+    const avatarUrl = item.avatar_url || item.author_avatar || item.author_avatar_url || '/images/demo/avatar_man_1.png';
+
+    // Resolución de pueblos con validación
+    let townName = 'Al teu poble';
+    if (item.towns?.name) {
+        townName = item.towns.name;
+    } else if (item.town_id && TOWNS_MAP[item.town_id]) {
+        townName = TOWNS_MAP[item.town_id];
+    } else if (item.town_name) {
+        townName = item.town_name;
+    }
+
+    return {
+        ...item,
+        author: authorName,
+        seller: type === 'market' ? authorName : undefined,
+        author_avatar: avatarUrl,
+        avatar_url: avatarUrl,
+        author_role: item.author_role || (type === 'market' ? 'business' : 'user'),
+        author_user_id: item.author_user_id || (item.author_role === 'user' ? item.author_id : (item.author_user_id || null)),
+        author_entity_id: item.author_entity_id || (item.author_role !== 'user' ? (item.entity_id || item.author_id) : (item.author_entity_id || null)),
+        towns: { name: townName }
+    };
+};
+
 export const supabaseService = {
     // Admin & Seeding
     async getAllPersonas(isPlayground = false) {
@@ -940,32 +997,11 @@ export const supabaseService = {
             // FALLBACK RESTAURADOR: Si no hi ha posts a la DB, mostrem els MOCK_FEED
             if ((!data || data.length === 0) && page === 0 && ENABLE_MOCKS) {
                 const { MOCK_FEED } = await import('../data');
-                const townsMap = {
-                    1: 'La Torre de les Maçanes',
-                    2: 'Cocentaina',
-                    3: 'Muro d\'Alcoi',
-                    'la-torre': 'La Torre de les Maçanes',
-                    'cocentaina': 'Cocentaina',
-                    'muro': 'Muro d\'Alcoi'
-                };
-                const normalized = MOCK_FEED.map(p => ({
-                    ...p,
-                    author: p.author || p.author_name || 'Algu del poble',
-                    author_avatar: p.author_avatar || p.author_avatar_url || '/images/demo/avatar_man_1.png',
-                    author_user_id: p.author_user_id || (p.author_role === 'user' ? p.author_id : null),
-                    author_entity_id: p.author_entity_id || (p.author_role !== 'user' ? p.author_id : null),
-                    towns: p.towns || { name: townsMap[p.town_id] || p.town_name || 'Al teu poble' }
-                }));
+                const normalized = MOCK_FEED.map(p => normalizeContentItem(p, 'post'));
                 return { data: normalized, count: normalized.length };
             }
 
-            const normalizedData = (data || []).map(p => ({
-                ...p,
-                author: p.author || p.author_name || 'Algu del poble',
-                author_avatar: p.author_avatar || p.author_avatar_url || '/images/demo/avatar_man_1.png',
-                towns: p.towns || { name: p.town_name || 'Al teu poble' }
-            }));
-
+            const normalizedData = (data || []).map(p => normalizeContentItem(p, 'post'));
             return { data: normalizedData, count: count || 0 };
         } catch (err) {
             logger.error('[SupabaseService] Error in getPosts:', err);
@@ -976,6 +1012,11 @@ export const supabaseService = {
     async createPost(postData, isPlayground = false) {
         const payload = { ...postData };
         if (isPlayground) payload.is_playground = true;
+
+        // Rate limiting / Throttling
+        if (payload.author_id) {
+            checkThrottling(payload.author_id, 'create_post');
+        }
 
         // Validació estructural amb Zod
         const validated = PostSchema.parse(payload);
@@ -1062,33 +1103,11 @@ export const supabaseService = {
             // FALLBACK RESTAURADOR: Si no hi ha items a la DB, mostrem els MOCK_MARKET_ITEMS
             if ((!data || data.length === 0) && page === 0 && ENABLE_MOCKS) {
                 const { MOCK_MARKET_ITEMS } = await import('../data');
-                const townsMap = {
-                    1: 'La Torre de les Maçanes',
-                    2: 'Cocentaina',
-                    3: 'Muro d\'Alcoi',
-                    'la-torre': 'La Torre de les Maçanes',
-                    'cocentaina': 'Cocentaina',
-                    'muro': 'Muro d\'Alcoi'
-                };
-                const normalized = MOCK_MARKET_ITEMS.map(item => ({
-                    ...item,
-                    seller: item.seller || item.seller_name || item.author_name || 'Venedor',
-                    avatar_url: item.avatar_url || item.author_avatar_url || '/images/demo/avatar_man_1.png',
-                    author_role: item.author_role || 'business',
-                    author_user_id: item.author_user_id || (item.author_role === 'user' ? item.author_id : null),
-                    author_entity_id: item.author_entity_id || (item.author_role !== 'user' ? item.author_id : null),
-                    towns: item.towns || { name: townsMap[item.town_id] || item.town_name || 'Al teu poble' }
-                }));
+                const normalized = MOCK_MARKET_ITEMS.map(item => normalizeContentItem(item, 'market'));
                 return { data: normalized, count: normalized.length };
             }
 
-            const normalizedData = (data || []).map(item => ({
-                ...item,
-                seller: item.seller || item.author_name || 'Venedor',
-                avatar_url: item.avatar_url || item.author_avatar_url || '/images/demo/avatar_man_1.png',
-                towns: item.towns || { name: item.town_name || 'Al teu poble' }
-            }));
-
+            const normalizedData = (data || []).map(item => normalizeContentItem(item, 'market'));
             return { data: normalizedData, count: count || 0 };
         } catch (err) {
             logger.error('[SupabaseService] Error in getMarketItems:', err);
@@ -1096,9 +1115,23 @@ export const supabaseService = {
         }
     },
 
+    async getMarketFavorites(itemId) {
+        const { data, error } = await supabase
+            .from('market_favorites')
+            .select('user_id')
+            .eq('item_uuid', itemId);
+        if (error) throw error;
+        return (data || []).map(fav => fav.user_id);
+    },
+
     async createMarketItem(itemData, isPlayground = false) {
         const payload = { ...itemData, category_slug: itemData.category_slug || 'tot' };
         if (isPlayground) payload.is_playground = true;
+
+        // Rate limiting / Throttling
+        if (payload.author_id) {
+            checkThrottling(payload.author_id, 'create_market_item');
+        }
 
         // Validació estructural amb Zod
         const validated = MarketItemSchema.parse(payload);
@@ -1109,21 +1142,13 @@ export const supabaseService = {
             .select();
 
         if (error && error.code === '42703' && isPlayground) {
-            delete payload.is_playground;
-            const { data: retryData, error: retryError } = await supabase.from('market_items').insert([payload]).select();
+            delete validated.is_playground;
+            const { data: retryData, error: retryError } = await supabase.from('market_items').insert([validated]).select();
             if (retryError) throw retryError;
             return retryData[0];
         }
         if (error) throw error;
         return data[0];
-    },
-    async getMarketFavorites(itemId) {
-        const { data, error } = await supabase
-            .from('market_favorites')
-            .select('user_id')
-            .eq('item_uuid', itemId);
-        if (error) throw error;
-        return (data || []).map(fav => fav.user_id);
     },
 
     async toggleMarketFavorite(itemId, userId) {
@@ -1501,22 +1526,16 @@ export const supabaseService = {
             // Inyectamos contenido de Lore si existe (Auditoría V3)
             const lorePosts = (MOCK_LORE_POSTS[userId] || []).map(p => {
                 const persona = LORE_PERSONAS.find(lp => lp.id === userId);
-                return {
+                return normalizeContentItem({
                     ...p,
-                    author: p.author_name || persona?.full_name || 'Usuari',
-                    author_avatar: persona?.avatar_url,
+                    author_name: p.author_name || persona?.full_name,
+                    author_avatar_url: persona?.avatar_url,
                     author_role: p.author_role || persona?.role,
-                    towns: p.towns || { name: persona?.primary_town || 'La Torre de les Maçanes' }
-                };
+                    town_name: persona?.primary_town
+                }, 'post');
             });
-            const dbData = (data || []).map(p => ({
-                ...p,
-                author: p.author || p.author_name || 'Usuari',
-                author_avatar: p.author_avatar || p.author_avatar_url || '/images/demo/avatar_man_1.png',
-                author_role: p.author_role || 'user',
-                towns: p.towns || { name: p.town_name || 'Al teu poble' }
-            }));
 
+            const dbData = (data || []).map(p => normalizeContentItem(p, 'post'));
             return [...lorePosts, ...dbData];
         } catch (error) {
             logger.error('[SupabaseService] Error in getUserPosts:', error);
@@ -1537,12 +1556,7 @@ export const supabaseService = {
             const { data, error } = await query.order('created_at', { ascending: false });
             if (error) throw error;
 
-            return (data || []).map(p => ({
-                ...p,
-                author: p.author || p.author_name || 'Entitat',
-                author_avatar: p.author_avatar || p.author_avatar_url || '/images/demo/avatar_man_1.png',
-                towns: p.towns || { name: p.town_name || 'Al teu poble' }
-            }));
+            return (data || []).map(p => normalizeContentItem(p, 'post'));
         } catch (error) {
             logger.error('[SupabaseService] Error in getEntityPosts:', error);
             return [];
@@ -1565,22 +1579,15 @@ export const supabaseService = {
             // Inyectamos artículos de Lore si existe (Auditoría V3)
             const loreItems = (MOCK_LORE_ITEMS[userId] || []).map(item => {
                 const persona = LORE_PERSONAS.find(p => p.id === userId);
-                return {
+                return normalizeContentItem({
                     ...item,
-                    seller: persona?.full_name || 'Venedor',
-                    avatar_url: persona?.avatar_url,
+                    seller_name: persona?.full_name,
+                    author_avatar_url: persona?.avatar_url,
                     author_role: persona?.role,
-                    towns: { name: persona?.primary_town || 'Al teu poble' }
-                };
+                    town_name: persona?.primary_town
+                }, 'market');
             });
-            const dbData = (data || []).map(item => ({
-                ...item,
-                seller: item.seller || item.author_name || 'Venedor',
-                avatar_url: item.avatar_url || item.author_avatar_url || '/images/demo/avatar_man_1.png',
-                author_role: item.author_role || 'business',
-                towns: item.towns || { name: item.town_name || 'Al teu poble' }
-            }));
-
+            const dbData = (data || []).map(item => normalizeContentItem(item, 'market'));
             return [...loreItems, ...dbData];
         } catch (error) {
             logger.error('[SupabaseService] Error in getUserMarketItems:', error);
@@ -1598,12 +1605,7 @@ export const supabaseService = {
 
             const { data, error } = await query.order('created_at', { ascending: false });
             if (error) throw error;
-            return (data || []).map(item => ({
-                ...item,
-                seller: item.seller || item.author_name || 'Entitat',
-                avatar_url: item.avatar_url || item.author_avatar_url || '/images/demo/avatar_man_1.png',
-                towns: item.towns || { name: item.town_name || 'Al teu poble' }
-            }));
+            return (data || []).map(item => normalizeContentItem(item, 'market'));
         } catch (error) {
             logger.error('[SupabaseService] Error in getEntityMarketItems:', error);
             return [];
@@ -1687,8 +1689,25 @@ export const supabaseService = {
      * Checks hash first, then uploads if necessary, and finally registers usage.
      */
     async processMediaUpload(userId, file, bucket, context, isPublic = true, parentId = null) {
+        let processedFile = file;
+
+        // 0. Compress image if it's an image and too large (>500KB)
+        if (file.type.startsWith('image/') && file.size > 500 * 1024) {
+            try {
+                const imageCompression = (await import('browser-image-compression')).default;
+                processedFile = await imageCompression(file, {
+                    maxSizeMB: 1,
+                    maxWidthOrHeight: 1920,
+                    useWebWorker: true,
+                    fileType: file.type
+                });
+            } catch (err) {
+                logger.error('[SupabaseService] Error compressing image:', err);
+            }
+        }
+
         const { calculateFileHash } = await import('../utils/crypto');
-        const hash = await calculateFileHash(file);
+        const hash = await calculateFileHash(processedFile);
 
         // 1. Check if asset already exists
         const existingAsset = await this.getMediaAssetByHash(hash);
@@ -1700,10 +1719,11 @@ export const supabaseService = {
         }
 
         // 2. No duplicate, perform actual upload
-        const filePath = `${userId}/${context}_${Date.now()}_${file.name}`;
+        const fileName = `${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
+        const filePath = `${userId}/${context}_${fileName}`;
         const { error: uploadError } = await supabase.storage
             .from(bucket)
-            .upload(filePath, file);
+            .upload(filePath, processedFile);
 
         if (uploadError) throw uploadError;
 
@@ -1711,12 +1731,11 @@ export const supabaseService = {
             .from(bucket)
             .getPublicUrl(filePath);
 
-        // 3. Create the asset record
         const newAsset = await this.createMediaAsset({
             hash,
             url: publicUrl,
-            mime_type: file.type,
-            size_bytes: file.size,
+            mime_type: processedFile.type,
+            size_bytes: processedFile.size,
             parent_id: parentId,
             is_playground: context === 'playground' || (typeof window !== 'undefined' && localStorage.getItem('isPlaygroundMode') === 'true')
         });
@@ -1813,6 +1832,46 @@ export const supabaseService = {
 
         if (error) throw error;
         return data;
+    },
+
+    /**
+     * Finds and removes media assets that are no longer referenced in media_usage.
+     * This is a "blindage" feature to keep storage clean.
+     */
+    async cleanupOrphanedAssets() {
+        try {
+            // Find assets NOT present in media_usage
+            const { data: orphans, error } = await supabase.rpc('get_orphaned_assets');
+
+            // If RPC is not available, we use a slower query-based approach
+            let targetOrphans = orphans;
+            if (error) {
+                const { data: qOrphans, error: qError } = await supabase
+                    .from('media_assets')
+                    .select('id, url')
+                    .not('id', 'in', supabase.from('media_usage').select('asset_id'));
+                if (qError) throw qError;
+                targetOrphans = qOrphans;
+            }
+
+            if (!targetOrphans || targetOrphans.length === 0) return { count: 0 };
+
+            let deletedCount = 0;
+            for (const asset of targetOrphans) {
+                // Delete from DB (Storage deletion should be handled by a DB trigger or separate process for safety)
+                const { error: delError } = await supabase
+                    .from('media_assets')
+                    .delete()
+                    .eq('id', asset.id);
+
+                if (!delError) deletedCount++;
+            }
+
+            return { count: deletedCount };
+        } catch (err) {
+            logger.error('[SupabaseService] Error in cleanupOrphanedAssets:', err);
+            return { count: 0, error: err };
+        }
     },
 
     async getParentAsset(assetId) {
