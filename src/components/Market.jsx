@@ -184,11 +184,9 @@ const Market = ({ searchTerm = '' }) => {
                                     </div>
                                 )}
 
-                                {(item.author_role === 'ambassador' || item.author_is_ai) && (
-                                    <div className="ia-transparency-note-mini">
-                                        ✨ {t('profile.transparency_market') || 'Producte gestionat per la IAIA (Informació Artificial i Acció)'}
-                                    </div>
-                                )}
+                                <div className="ia-transparency-note-mini">
+                                    ✨ {t('profile.transparency_market') || 'Producte gestionat per la IAIA (Informació Artificial i Acció)'}
+                                </div>
                             </div>
 
                             <div className="card-footer-vibrant">

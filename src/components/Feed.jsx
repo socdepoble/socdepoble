@@ -249,11 +249,9 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
 
                                 <div className="card-body">
                                     <p className="post-text">{post.content}</p>
-                                    {(post.author_role === 'ambassador' || post.author_is_ai) && (
-                                        <div className="ia-transparency-note-mini">
-                                            ✨ {t('profile.transparency_post') || 'Contingut generat per la IAIA (Informació Artificial i Acció)'}
-                                        </div>
-                                    )}
+                                    <div className="ia-transparency-note-mini">
+                                        ✨ {t('profile.transparency_post') || 'Contingut generat per la IAIA (Informació Artificial i Acció)'}
+                                    </div>
                                 </div>
 
                                 <div className="card-footer-vibrant">
