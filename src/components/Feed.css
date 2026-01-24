@@ -122,15 +122,19 @@
 
 .card-actions-wrapper {
     padding: 10px var(--space-lg);
-    /* Reduced vertical padding */
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    /* Centered icons */
     align-items: center;
+    border-top: 1px solid var(--color-divider);
 }
 
 .card-actions {
     display: flex;
-    gap: var(--space-md);
+    justify-content: center;
+    gap: var(--space-xl);
+    /* Increased spacing */
+    width: 100%;
 }
 
 .action-btn {
