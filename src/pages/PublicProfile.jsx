@@ -13,7 +13,7 @@ import Avatar from '../components/Avatar';
 import './Profile.css';
 
 const PublicProfile = () => {
-    const { id } = useParams();
+    const { id, username } = useParams();
     const { t } = useTranslation();
     const navigate = useNavigate();
     const { user: currentUser } = useAuth();
@@ -28,14 +28,30 @@ const PublicProfile = () => {
     const [isConnecting, setIsConnecting] = useState(false);
     const [followersCount, setFollowersCount] = useState(0);
 
-    const isOwnProfile = currentUser?.id === id;
+    const isOwnProfile = currentUser?.id === id || currentUser?.username === username;
 
     useEffect(() => {
         const fetchProfileData = async () => {
             setLoading(true);
             try {
-                const data = await supabaseService.getPublicProfile(id);
-                setProfile(data);
+                // Determine if we have a username or ID
+                let profileId = id;
+
+                if (username) {
+                    // Fetch by username
+                    const profileData = await supabaseService.getUserByUsername(username);
+                    if (!profileData) {
+                        setError('Usuari no trobat');
+                        setLoading(false);
+                        return;
+                    }
+                    profileId = profileData.id;
+                    setProfile(profileData);
+                } else {
+                    // Fetch by ID
+                    const data = await supabaseService.getPublicProfile(profileId);
+                    setProfile(data);
+                }
 
                 if (isOwnProfile) {
                     const entities = await supabaseService.getUserEntities(id);

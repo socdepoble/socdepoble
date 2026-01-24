@@ -1516,6 +1516,38 @@ export const supabaseService = {
         return data;
     },
 
+    async getUserByUsername(username) {
+        if (!username) throw new Error('Username is required');
+
+        const { data, error } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('username_lower', username.toLowerCase())
+            .single();
+
+        if (error) {
+            if (error.code === 'PGRST116') {
+                return null; // Not found
+            }
+            throw error;
+        }
+
+        return data;
+    },
+
+    async updateProfileBio(userId, bio) {
+        const { data, error } = await supabase
+            .from('profiles')
+            .update({ bio: bio?.substring(0, 160) || null })
+            .eq('id', userId)
+            .select()
+            .single();
+
+        if (error) throw error;
+        logger.log('[SupabaseService] Bio updated');
+        return data;
+    },
+
     async getPublicEntity(entityId) {
         const { data, error } = await supabase
             .from('entities')
@@ -1764,8 +1796,7 @@ export const supabaseService = {
             url: publicUrl,
             mime_type: processedFile.type,
             size_bytes: processedFile.size,
-            parent_id: parentId,
-            is_playground: context === 'playground' || (typeof window !== 'undefined' && localStorage.getItem('isPlaygroundMode') === 'true')
+            parent_id: parentId
         });
 
         // 4. Register usage
