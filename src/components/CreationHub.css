@@ -103,6 +103,11 @@
     background: linear-gradient(135deg, #9b51e0, #BB86FC);
 }
 
+.option-icon.iaia-accent {
+    background-color: #fef3c7;
+    color: #d97706;
+}
+
 .option-icon.grups {
     background: linear-gradient(135deg, #FFD166, #FF9F1C);
 }

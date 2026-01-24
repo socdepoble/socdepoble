@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { X, Newspaper, Store, MapPin, Users, Shield, Calendar } from 'lucide-react';
+import { X, Newspaper, Store, MapPin, Users, Shield, Calendar, Bot } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useUI } from '../context/UIContext';
 import './CreationHub.css';
@@ -62,12 +62,12 @@ const CreationHub = () => {
 
                     <button className="creation-option" onClick={() => {
                         setIsCreateModalOpen(false);
-                        openPostModal({ isPrivate: true });
+                        navigate('/iaia');
                     }}>
-                        <div className="option-icon grups">
-                            <Users size={28} />
+                        <div className="option-icon iaia-accent">
+                            <Bot size={28} />
                         </div>
-                        <span>{t('nav.work_groups')}</span>
+                        <span>{t('iaia_page.title')}</span>
                     </button>
 
                     {isSuperAdmin && (
