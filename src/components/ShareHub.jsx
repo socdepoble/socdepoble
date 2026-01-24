@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Share2, MessageCircle, Send, Facebook, Twitter, Link as LinkIcon, X } from 'lucide-react';
 import './ShareHub.css';
+import { logger } from '../utils/logger';
 
 /**
  * Component ShareHub
@@ -29,7 +30,7 @@ const ShareHub = ({ title, text, url, onShareSuccess }) => {
             if (onShareSuccess) onShareSuccess();
         } catch (err) {
             if (err.name !== 'AbortError') {
-                console.error('Error sharing:', err);
+                logger.error('Error sharing:', err);
                 setIsModalOpen(true); // Fallback to modal on error
             }
         }

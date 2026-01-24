@@ -116,7 +116,7 @@ const ChatDetail = () => {
             if (subscription) subscription.unsubscribe();
             if (presenceChannelRef.current) presenceChannelRef.current.unsubscribe();
         };
-    }, [id, user, activeEntityId, currentUserId]);
+    }, [id, currentUserId]);
 
     useEffect(() => {
         if (messages.length > 0) {

@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Grid, Image as ImageIcon, Layout, Users, MoreVertical, Trash2, ExternalLink, Loader2, Film, FileText, File } from 'lucide-react';
 import UnifiedStatus from '../components/UnifiedStatus';
 import './MediaAlbum.css';
+import { logger } from '../utils/logger';
 
 const MediaAlbum = () => {
     const { t } = useTranslation();
@@ -27,7 +28,7 @@ const MediaAlbum = () => {
             const data = await supabaseService.getUserMedia(user.id, isPlayground);
             setMediaItems(data || []);
         } catch (error) {
-            console.error('Error loading media:', error);
+            logger.error('Error loading media:', error);
         } finally {
             setIsLoading(false);
         }

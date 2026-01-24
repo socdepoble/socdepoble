@@ -4,6 +4,7 @@ import { Users, Building2, ArrowLeft, Loader2, UserPlus, ChevronRight, User } fr
 import { supabaseService } from '../services/supabaseService';
 import UnifiedStatus from '../components/UnifiedStatus';
 import Avatar from '../components/Avatar';
+import { logger } from '../utils/logger';
 import './CommunityDirectory.css';
 
 const CommunityDirectory = () => {
@@ -22,7 +23,7 @@ const CommunityDirectory = () => {
             const data = await supabaseService.getPublicDirectory();
             setDirectory(data);
         } catch (error) {
-            console.error('Error loading directory:', error);
+            logger.error('Error loading directory:', error);
         } finally {
             setIsLoading(false);
         }

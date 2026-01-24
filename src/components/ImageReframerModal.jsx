@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { X, ZoomIn, ZoomOut, Move, Check, RotateCw, Loader2 } from 'lucide-react';
 import './ImageReframerModal.css';
+import { logger } from '../utils/logger';
 
 const ImageReframerModal = ({ isOpen, imageSrc, onConfirm, onClose, aspectRatio = 1 }) => {
     const [zoom, setZoom] = useState(1);
@@ -34,7 +35,7 @@ const ImageReframerModal = ({ isOpen, imageSrc, onConfirm, onClose, aspectRatio 
         const viewRect = viewportRef.current.getBoundingClientRect();
 
         if (img.naturalWidth === 0 || img.naturalHeight === 0) {
-            console.log('[Reframer] Image loaded but dimensions are 0, waiting...');
+            logger.info('[Reframer] Image loaded but dimensions are 0, waiting...');
             return;
         }
 
@@ -43,7 +44,7 @@ const ImageReframerModal = ({ isOpen, imageSrc, onConfirm, onClose, aspectRatio 
         const zoomY = viewRect.height / img.naturalHeight;
         const baseZoom = Math.max(zoomX, zoomY);
 
-        console.log(`[Reframer] Success! Fitted ${img.naturalWidth}x${img.naturalHeight} with zoom ${baseZoom}`);
+        logger.info(`[Reframer] Success! Fitted ${img.naturalWidth}x${img.naturalHeight} with zoom ${baseZoom}`);
 
         // State updates are batched, but we set fitted FIRST
         setHasFitted(true);
@@ -56,7 +57,7 @@ const ImageReframerModal = ({ isOpen, imageSrc, onConfirm, onClose, aspectRatio 
 
     useEffect(() => {
         if (isOpen && lastSrc.current !== imageSrc) {
-            console.log('[Reframer] Source changed or initialized:', imageSrc?.substring(0, 50) + '...');
+            logger.info('[Reframer] Source changed or initialized:', imageSrc?.substring(0, 50) + '...');
             setIsLoading(true);
             setLoadError(false);
             setHasFitted(false);
@@ -71,7 +72,7 @@ const ImageReframerModal = ({ isOpen, imageSrc, onConfirm, onClose, aspectRatio 
     if (!isOpen) return null;
 
     const handleImageError = () => {
-        console.error('[Reframer] Error loading image:', imageSrc);
+        logger.error('[Reframer] Error loading image:', imageSrc);
         if (retryCount < 1) {
             // Try once without crossOrigin if it fails (might be a CORS issue)
             setRetryCount(prev => prev + 1);
@@ -146,7 +147,7 @@ const ImageReframerModal = ({ isOpen, imageSrc, onConfirm, onClose, aspectRatio 
                 }
             }, 'image/jpeg', 0.95);
         } catch (err) {
-            console.error('[Reframer] Canvas draw error (likely CORS):', err);
+            logger.error('[Reframer] Canvas draw error (likely CORS):', err);
             alert('Error de seguretat al processar la imatge (CORS). Si us plau, prova amb una altra imatge o puja-la de nou.');
         }
     };

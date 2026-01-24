@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { Play, LogOut, Terminal } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
+import { logger } from '../utils/logger';
 import './PlaygroundBanner.css';
 
 const PlaygroundBanner = () => {
@@ -31,7 +32,7 @@ const PlaygroundBanner = () => {
                                 try {
                                     await supabaseService.cleanupPlaygroundSession(user.id);
                                 } catch (e) {
-                                    console.error("Error during cleanup:", e);
+                                    logger.error("Error during cleanup:", e);
                                 }
                             }
                             logout();

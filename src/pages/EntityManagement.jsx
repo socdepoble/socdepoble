@@ -5,6 +5,7 @@ import { supabaseService } from '../services/supabaseService';
 import { Building2, Store, Users, ArrowLeft, Plus, ChevronRight, Layout, Shield } from 'lucide-react';
 import UnifiedStatus from '../components/UnifiedStatus';
 import './EntityManagement.css';
+import { logger } from '../utils/logger';
 
 const EntityManagement = () => {
     const navigate = useNavigate();
@@ -24,7 +25,7 @@ const EntityManagement = () => {
             const data = await supabaseService.getUserEntities(user.id);
             setEntities(data || []);
         } catch (error) {
-            console.error('Error loading entities:', error);
+            logger.error('Error loading entities:', error);
         } finally {
             setIsLoading(false);
         }

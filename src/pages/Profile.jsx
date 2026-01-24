@@ -147,7 +147,7 @@ const Profile = () => {
         town_id: null
     };
 
-    const handleTownChange = async (townId) => {
+    const handleTownChange = useCallback(async (townId) => {
         try {
             const isUuid = typeof townId === 'string' && townId.includes('-');
             const updatePayload = isUuid ? { town_uuid: townId } : { town_id: parseInt(townId) };
@@ -163,9 +163,9 @@ const Profile = () => {
         } catch (error) {
             logger.error('Error updating town:', error);
         }
-    };
+    }, [user?.id, profile, isPlayground]);
 
-    const handleSocialPreferenceChange = async (preference) => {
+    const handleSocialPreferenceChange = useCallback(async (preference) => {
         try {
             const updated = await supabaseService.updateProfile(user.id, {
                 social_image_preference: preference
@@ -175,9 +175,9 @@ const Profile = () => {
         } catch (error) {
             logger.error('Error updating social preference:', error);
         }
-    };
+    }, [user?.id]);
 
-    const handleCardSubmit = async () => {
+    const handleCardSubmit = useCallback(async () => {
         try {
             const updates = {
                 ofici: oficiValue,
@@ -197,7 +197,7 @@ const Profile = () => {
             logger.error('Error updating card info:', error);
             alert(`Error guardant: ${error.message}`);
         }
-    };
+    }, [user?.id, oficiValue, bioValue, userTown]);
 
     const handleReposition = async (type) => {
         const currentUrl = type === 'avatar' ? displayProfile.avatar_url : displayProfile.cover_url;
@@ -264,7 +264,7 @@ const Profile = () => {
         setIsReframerOpen(true);
     };
 
-    const handleReframerConfirm = async (croppedBlob) => {
+    const handleReframerConfirm = useCallback(async (croppedBlob) => {
         setIsReframerOpen(false);
         const type = pendingType;
         const originalFile = pendingFile;
@@ -317,9 +317,9 @@ const Profile = () => {
             setPendingFile(null);
             setPendingParentId(null);
         }
-    };
+    }, [user?.id, pendingType, pendingFile, pendingParentId]);
 
-    const handleDedupConfirm = async () => {
+    const handleDedupConfirm = useCallback(async () => {
         try {
             setIsDedupModalOpen(false);
             setIsUploading(true);
@@ -346,7 +346,7 @@ const Profile = () => {
             setPendingAsset(null);
             setPendingType(null);
         }
-    };
+    }, [user?.id, pendingType, pendingAsset]);
 
     const renderTabContent = () => {
         switch (activeTab) {

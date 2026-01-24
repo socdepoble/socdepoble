@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { X, Search, Image as ImageIcon, Loader2 } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
+import { logger } from '../utils/logger';
 import './MediaPickerModal.css';
 
 const MediaPickerModal = ({ isOpen, onClose, onSelect }) => {
@@ -22,7 +23,7 @@ const MediaPickerModal = ({ isOpen, onClose, onSelect }) => {
             const data = await supabaseService.getUserMediaAssets(user.id);
             setAssets(data);
         } catch (error) {
-            console.error('Error loading assets:', error);
+            logger.error('Error loading assets:', error);
         } finally {
             setLoading(false);
         }

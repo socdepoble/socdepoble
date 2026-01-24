@@ -7,6 +7,7 @@ import { useAuth } from '../context/AuthContext';
 import SEO from '../components/SEO';
 import ProfileHeaderPremium from '../components/ProfileHeaderPremium';
 import './Profile.css';
+import { logger } from '../utils/logger';
 
 const PublicEntity = () => {
     const { id } = useParams();
@@ -79,7 +80,7 @@ const PublicEntity = () => {
                 }
             }
         } catch (err) {
-            console.error('Error handling connection:', err);
+            logger.error('Error handling connection:', err);
         } finally {
             setIsConnecting(false);
         }

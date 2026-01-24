@@ -4,6 +4,7 @@ import { Search, X, Users, Building2, MapPin, ArrowLeft, Loader2, Sparkles, Slid
 import { supabaseService } from '../services/supabaseService';
 import SEO from '../components/SEO';
 import Avatar from '../components/Avatar';
+import { logger } from '../utils/logger';
 import './SearchDiscover.css';
 
 const SearchDiscover = () => {
@@ -50,7 +51,7 @@ const SearchDiscover = () => {
                 pobles: pobles || []
             });
         } catch (error) {
-            console.error('Search error:', error);
+            logger.error('Search error:', error);
         } finally {
             setIsSearching(false);
         }

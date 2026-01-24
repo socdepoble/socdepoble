@@ -145,7 +145,7 @@ const Market = ({ searchTerm = '' }) => {
                                     const type = item.author_entity_id ? 'entitat' : 'perfil';
 
                                     if (!targetId || (typeof targetId === 'string' && targetId.startsWith('mock-'))) {
-                                        console.warn('Navegació a perfil fictici no disponible:', targetId);
+                                        logger.warn('Navegació a perfil fictici no disponible:', targetId);
                                         return;
                                     }
                                     navigate(`/${type}/${targetId}`);
