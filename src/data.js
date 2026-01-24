@@ -43,20 +43,22 @@ export const MOCK_FEED = [
         content: "🍎 Recordeu que aquest cap de setmana tenim la collita de la poma local. Passeu per la plaça a tastar-les!",
         likes: 42,
         comments: 5,
-        image: "/images/assets/apples_premium.png"
+        image: "/images/assets/apples_premium.png",
+        created_at: new Date(Date.now() - 3600000 * 1).toISOString()
     },
     {
         id: 11,
         town_id: 1,
-        author: "Pa de la Torre de les Maçanes",
-        author_avatar: "/images/demo/avatar_woman_old.png",
-        author_role: "business",
-        author_entity_id: 'mock-business-1',
+        author: "Vicent Ferris",
+        author_avatar: "/images/demo/avatar_man_old.png",
+        author_role: "ambassador",
+        author_entity_id: '11111111-1111-4111-a111-000000000001',
         time: "3h",
-        content: "Acaben d'eixir els pans de llenya. Tradició pura cada matí!",
+        content: "Acabant de restaurar la porta principal de la Masia del Pi. La fusta de roure té una vida eterna si se sap cuidar. #Artesania #LaTorre",
         likes: 28,
         comments: 2,
-        image: "/images/assets/coques_premium.png"
+        image: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=2070&auto=format&fit=crop",
+        created_at: new Date(Date.now() - 3600000 * 3).toISOString()
     },
     // Cocentaina
     {
@@ -70,7 +72,8 @@ export const MOCK_FEED = [
         content: "🏰 Visita el Palau Comtal aquest cap de setmana. Horari especial de 10h a 14h.",
         likes: 56,
         comments: 8,
-        image: "/images/assets/tomates_premium.png" // Reused asset
+        image: "/images/assets/tomates_premium.png",
+        created_at: new Date(Date.now() - 3600000 * 5).toISOString()
     },
     // Muro
     {
@@ -84,7 +87,8 @@ export const MOCK_FEED = [
         content: "📚 Club de lectura: Dilluns vinent comentarem 'L'últim patriarca'. T'hi esperem!",
         likes: 15,
         comments: 2,
-        image: "/images/assets/generic_market.png"
+        image: "/images/assets/generic_market.png",
+        created_at: new Date(Date.now() - 86400000).toISOString()
     }
 ];
 
@@ -94,24 +98,28 @@ export const MOCK_MARKET_ITEMS = [
         id: 5,
         town_id: 1,
         title: "Pomes de la Torre (caixa 5kg)",
+        description: "Pomes fresques collides a la Cooperativa de la Torre. Qualitat premium de muntanya.",
         price: "12.00€",
         seller: "Cooperativa de la Torre",
         avatar_url: "/images/demo/avatar_man_1.png",
         author_role: "business",
         author_entity_id: 'mock-business-torre-1',
         image: "/images/assets/apples_premium.png",
+        category_slug: "producte-local",
         tag: "Alimentació"
     },
     {
         id: 6,
         town_id: 1,
-        title: "Cistella de vímet artesana",
-        price: "35.00€",
-        seller: "Artesanies de la Torre",
-        avatar_url: "/images/demo/avatar_beatriz.png",
-        author_role: "business",
-        author_entity_id: 'mock-business-torre-2',
-        image: "/images/assets/generic_market.png",
+        title: "Taula de centre en olivera",
+        description: "Taula de centre única, feta a mà pel fuster Vicent Ferris amb fusta d'olivera local. Acabat natural.",
+        price: "180€",
+        seller: "Vicent Ferris",
+        avatar_url: "/images/demo/avatar_man_old.png",
+        author_role: "ambassador",
+        author_entity_id: '11111111-1111-4111-a111-000000000001',
+        image: "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?q=80&w=2069&auto=format&fit=crop",
+        category_slug: "artesania",
         tag: "Artesania"
     },
     // Cocentaina
@@ -119,24 +127,28 @@ export const MOCK_MARKET_ITEMS = [
         id: 1,
         town_id: 2,
         title: "Pericana de Cocentaina",
+        description: "Pericana tradicional feta amb pimentons assecats i bacallà de primera qualitat. Receta de l'àvia.",
         price: "6.50€ / pot",
         seller: "Sabors del Comtat",
         avatar_url: "/images/demo/avatar_lucia.png",
         author_role: "business",
         author_entity_id: 'mock-business-cocentaina-1',
         image: "/images/assets/tomates_premium.png",
+        category_slug: "producte-local",
         tag: "Tradició"
     },
     {
         id: 2,
         town_id: 2,
         title: "Herbero de la Mariola",
+        description: "Licor d'herbes macerat amb plantes de la Serra Mariola. Digestiu i tradicional.",
         price: "14.00€ / botella",
         seller: "Destil·leries de la Serra",
         avatar_url: "/images/demo/avatar_joanet.png",
         author_role: "business",
         author_entity_id: 'mock-business-cocentaina-2',
         image: "/images/assets/generic_market.png",
+        category_slug: "artesania",
         tag: "Artesania"
     },
     // Muro
@@ -144,24 +156,28 @@ export const MOCK_MARKET_ITEMS = [
         id: 4,
         town_id: 3,
         title: "Coques de xulla (4 pack)",
+        description: "Les famoses coques de xulla de Muro, acabades d'eixir del forn de llenya.",
         price: "5.00€",
         seller: "Forn de Muro",
         avatar_url: "/images/demo/avatar_marc.png",
         author_role: "business",
         author_entity_id: 'mock-business-muro-1',
         image: "/images/assets/coques_premium.png",
+        category_slug: "producte-local",
         tag: "Producte Local"
     },
     {
         id: 3,
         town_id: 3,
         title: "Mel de la Font Roja",
+        description: "Mel pura de les abelles de la Mariola. Un regal de la natura a casa teua.",
         price: "9.00€ / pot",
         seller: "Abelles Mariola",
         avatar_url: "/images/demo/avatar_woman_1.png",
         author_role: "business",
         author_entity_id: 'mock-business-muro-2',
         image: "/images/assets/mel.png",
+        category_slug: "producte-local",
         tag: "Alimentació"
     }
 ];

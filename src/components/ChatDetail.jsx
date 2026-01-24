@@ -287,7 +287,7 @@ const ChatDetail = () => {
                         <div className="chat-name-row">
                             <h2>{otherInfo?.name || t('common.unknown')}</h2>
                             {isIAIAConv && (
-                                <span className="identity-badge ai" title="Informació i Acció Artificial">IAIA</span>
+                                <span className="identity-badge ai" title="Informació Artificial i Acció">IAIA</span>
                             )}
                         </div>
                         <span className={`status ${isOtherOnline ? 'online' : ''}`}>

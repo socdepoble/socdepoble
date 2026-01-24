@@ -62,7 +62,7 @@
         "title": "Xats",
         "empty": "No hi ha xats actius.",
         "loading_chats": "Carregant xats...",
-        "iaia_notice_title": "Estàs parlant amb una IAIA",
+        "iaia_notice_title": "Estàs parlant amb la IAIA",
         "iaia_notice_subtitle": "(Informació Artificial i Acció)",
         "iaia_notice_text": "Estic inspirada en la saviesa dels nostres majors per a ajudar-te a connectar amb el poble",
         "storage_limit_warning": "Durant el període de proves, només admetem fitxers de 10 MB com a màxim.",
@@ -79,6 +79,12 @@
     },
     "market": {
         "title": "Mercat",
+        "tabs": {
+            "all": "Tot",
+            "local": "Producte local",
+            "crafts": "Artesania",
+            "secondhand": "Segona mà"
+        },
         "all": "Tot",
         "products": "Productes",
         "services": "Serveis",
@@ -152,6 +158,8 @@
         "market": "Mercat",
         "connections": "Connexions",
         "no_publications": "No hi ha publicacions de {{name}}",
-        "no_items": "No hi ha articles al mercat de {{name}}"
+        "no_items": "No hi ha articles al mercat de {{name}}",
+        "transparency_post": "Contingut generat per la IAIA (Informació Artificial i Acció)",
+        "transparency_market": "Producte gestionat per la IAIA (Informació Artificial i Acció)"
     }
 }

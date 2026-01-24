@@ -251,7 +251,7 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
                                     <p className="post-text">{post.content}</p>
                                     {(post.author_role === 'ambassador' || post.author_is_ai) && (
                                         <div className="ia-transparency-note-mini">
-                                            ✨ Contingut generat per IAIA (Informació i Acció Artificial)
+                                            ✨ {t('profile.transparency_post') || 'Contingut generat per la IAIA (Informació Artificial i Acció)'}
                                         </div>
                                     )}
                                 </div>

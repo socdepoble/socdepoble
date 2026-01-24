@@ -186,7 +186,7 @@ const Market = ({ searchTerm = '' }) => {
 
                                 {(item.author_role === 'ambassador' || item.author_is_ai) && (
                                     <div className="ia-transparency-note-mini">
-                                        ✨ Producte gestionat per IAIA
+                                        ✨ {t('profile.transparency_market') || 'Producte gestionat per la IAIA (Informació Artificial i Acció)'}
                                     </div>
                                 )}
                             </div>
