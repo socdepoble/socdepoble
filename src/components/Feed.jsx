@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { Link2, MessageCircle, Share2, MoreHorizontal, Building2, Store, Users, User, Loader2, AlertCircle } from 'lucide-react';
+import { Link2, MessageCircle, Share2, MoreHorizontal, Building2, Store, Users, User, Loader2, AlertCircle, Info } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
 import { ROLES } from '../constants';
@@ -12,6 +12,7 @@ import TagSelector from './TagSelector';
 import PostSkeleton from './Skeletons/PostSkeleton';
 import UnifiedStatus from './UnifiedStatus';
 import Avatar from './Avatar';
+import { iaiaService } from '../services/iaiaService';
 import './Feed.css';
 
 const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
@@ -105,6 +106,30 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
         window.addEventListener('data-refresh', handleRefresh);
         return () => window.removeEventListener('data-refresh', handleRefresh);
     }, [fetchPosts]);
+
+    // IAIA Autonomous Growth Loop Simulation
+    useEffect(() => {
+        if (!isPlayground) return;
+
+        const triggerAutonomousInteraction = async () => {
+            const newPost = await iaiaService.generateAutonomousInteraction();
+            if (newPost && isMounted.current) {
+                setPosts(prev => [newPost, ...prev]);
+                logger.info('[Feed] IAIA autonomous post injected:', newPost.author);
+            }
+        };
+
+        // First one after 10s
+        const initialTimer = setTimeout(triggerAutonomousInteraction, 10000);
+
+        // Then every 2 minutes
+        const interval = setInterval(triggerAutonomousInteraction, 120000);
+
+        return () => {
+            clearTimeout(initialTimer);
+            clearInterval(interval);
+        };
+    }, [isPlayground]);
 
     const handleConnectionUpdate = (postId, connected, tags) => {
         setUserConnections(prev => {
@@ -249,7 +274,7 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
 
                                 <div className="card-body">
                                     <p className="post-text">{post.content}</p>
-                                    <div className="ia-transparency-note-mini">
+                                    <div className="ia-transparency-note-mini clickable" onClick={() => navigate('/iaia')}>
                                         ✨ {t('profile.transparency_post') || 'Contingut generat per la IAIA (Informació Artificial i Acció)'}
                                     </div>
                                 </div>

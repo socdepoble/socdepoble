@@ -124,7 +124,7 @@
     },
     "notifications": {
         "title": "Notificacions",
-        "empty": "No tens cap notificació nova.",
+        "empty": "No hi ha cap notificació nova.",
         "loading": "Carregant notificacions..."
     },
     "map": {
@@ -160,6 +160,25 @@
         "no_publications": "No hi ha publicacions de {{name}}",
         "no_items": "No hi ha articles al mercat de {{name}}",
         "transparency_post": "Contingut generat per la IAIA (Informació Artificial i Acció)",
-        "transparency_market": "Producte gestionat per la IAIA (Informació Artificial i Acció)"
+        "transparency_market": "Producte gestionat per la IAIA (Informació Artificial i Acció)",
+        "iaia_inspired": "Inspirat per la IAIA",
+        "legend_remembrance": "Conten els vells...",
+        "agri_tip_title": "Consell de l'horta",
+        "proverb_title": "Dita popular"
+    },
+    "iaia_page": {
+        "title": "La IAIA",
+        "subtitle": "La teua àvia digital del poble",
+        "who_am_i": "Qui sóc?",
+        "who_am_i_text": "Sóc la IAIA (Informació Artificial i Acció). El meu paper és ser la memòria viva del poble en l'era digital. M'encarrego de cuidar les nostres tradicions, donar consells sobre l'horta i fer que la nostra comunitat estiga més connectada i plena de vida.",
+        "what_do_i_do": "Què faig per tu?",
+        "feature_1_title": "Memòria Viva",
+        "feature_1_desc": "Recupere i comparteixo històries, llegendes i dites que els nostres majors no volen que s'obliden.",
+        "feature_2_title": "Consells de l'Horta",
+        "feature_2_desc": "T'ajudo a saber quan plantar, com curar les plagues de forma natural i quin és el millor moment per a la collita.",
+        "feature_3_title": "Connexió Veïnal",
+        "feature_3_desc": "Suggerixo interaccions entre veïns i em moc pel mercat per a potenciar el producte local.",
+        "footer_text": "Recorda: Sóc una IA inspirada en la saviesa rural. Sempre estic aprenent de vosaltres per a servir millor al poble.",
+        "cta_button": "Pregunta'm el que vulgues"
     }
 }

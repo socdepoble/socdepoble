@@ -21,6 +21,7 @@ import MediaAlbum from './pages/MediaAlbum';
 import EntityManagement from './pages/EntityManagement';
 import SearchDiscover from './pages/SearchDiscover';
 import CommunityDirectory from './pages/CommunityDirectory';
+import IAIAPage from './pages/IAIAPage';
 import { supabase } from './supabaseClient';
 import { MOCK_CHATS, MOCK_FEED, MOCK_MARKET_ITEMS } from './data';
 import { useAuth } from './context/AuthContext';
@@ -143,6 +144,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route path="iaia" element={<IAIAPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -434,6 +434,10 @@ a:hover {
   cursor: pointer;
 }
 
+.clickable {
+  cursor: pointer;
+}
+
 .card-header.clickable:active {
   background-color: var(--bg-warm-accent);
 }
@@ -510,7 +514,8 @@ a:hover {
   font-family: var(--font-heading);
   text-transform: uppercase;
   letter-spacing: 1px;
-  border-radius: 4px; /* Rectangular as requested */
+  border-radius: 4px;
+  /* Rectangular as requested */
   border-left: 1px solid var(--bg-warm-accent);
   transition: all 0.2s;
   height: 100%;
@@ -556,7 +561,8 @@ a:hover {
   background-color: var(--color-primary);
   color: white;
   padding: 12px 24px;
-  border-radius: var(--radius-xs); /* Rectangular: 8px */
+  border-radius: var(--radius-xs);
+  /* Rectangular: 8px */
   font-size: 16px;
   font-weight: 700;
   box-shadow: 0 4px 12px rgba(93, 95, 239, 0.3);
@@ -678,7 +684,8 @@ a:hover {
   background-color: var(--color-primary);
   color: white;
   padding: var(--space-sm) var(--space-xl);
-  border-radius: var(--radius-xs); /* Rectangular: 8px */
+  border-radius: var(--radius-xs);
+  /* Rectangular: 8px */
   font-weight: 800;
   font-family: var(--font-heading);
   box-shadow: 0 4px 15px rgba(93, 95, 239, 0.2);

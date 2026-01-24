@@ -25,6 +25,7 @@ const ChatDetail = () => {
     const [otherPresence, setOtherPresence] = useState(null);
     const [storageStats, setStorageStats] = useState(null);
     const [showStorageModal, setShowStorageModal] = useState(false);
+    const [isThinking, setIsThinking] = useState(false);
     const fileInputRef = useRef(null);
     const presenceChannelRef = useRef(null);
     const messagesEndRef = useRef(null);
@@ -213,6 +214,12 @@ const ChatDetail = () => {
             alert(errorMsg);
         } finally {
             setUploading(false);
+            if (isIAIAConv) {
+                setIsThinking(true);
+                setTimeout(() => {
+                    if (isMounted.current) setIsThinking(false);
+                }, 2000);
+            }
         }
     };
 
@@ -299,7 +306,7 @@ const ChatDetail = () => {
 
             {/* IAIA Notice - Transparencia (Visible in Prod and Sandbox) */}
             {isIAIAConv && (
-                <div className="iaia-transparency-notice">
+                <div className="iaia-transparency-notice clickable" onClick={() => navigate('/iaia')}>
                     <div className="banner-content">
                         <div className="banner-left">
                             <div className="iaia-icon">🤖</div>
@@ -389,6 +396,25 @@ const ChatDetail = () => {
                             </div>
                         );
                     })
+                )}
+                {isThinking && (
+                    <div className="message-row other thinking">
+                        <div className="message-avatar-container">
+                            <Avatar
+                                src={otherInfo?.avatar_url}
+                                role="ambassador"
+                                name="IAIA"
+                                size={32}
+                            />
+                        </div>
+                        <div className="message-bubble other thinking-bubble">
+                            <div className="thinking-dots">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
+                    </div>
                 )}
                 <div ref={messagesEndRef} />
             </div>

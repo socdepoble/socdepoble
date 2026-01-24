@@ -184,7 +184,7 @@ const Market = ({ searchTerm = '' }) => {
                                     </div>
                                 )}
 
-                                <div className="ia-transparency-note-mini">
+                                <div className="ia-transparency-note-mini clickable" onClick={() => navigate('/iaia')}>
                                     ✨ {t('profile.transparency_market') || 'Producte gestionat per la IAIA (Informació Artificial i Acció)'}
                                 </div>
                             </div>
