@@ -12,6 +12,23 @@ import UnifiedStatus from '../components/UnifiedStatus';
 import SEO from '../components/SEO';
 import './Towns.css';
 
+const TownLogo = ({ url, name }) => {
+    const [error, setError] = useState(false);
+
+    if (!url || error) {
+        return <MapIcon size={24} style={{ color: 'var(--color-primary)' }} />;
+    }
+
+    return (
+        <img
+            src={url}
+            alt={`Escut de ${name}`}
+            style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+            onError={() => setError(true)}
+        />
+    );
+};
+
 const Towns = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
@@ -113,17 +130,7 @@ const Towns = () => {
                                     <div className="card-header">
                                         <div className="header-left">
                                             <div className="post-avatar" style={{ backgroundColor: 'white', padding: '2px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', overflow: 'hidden', width: '44px', height: '44px' }}>
-                                                {town.logo_url ? (
-                                                    <img
-                                                        src={town.logo_url}
-                                                        alt="Escut"
-                                                        style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-                                                        onError={(e) => {
-                                                            e.target.style.display = 'none';
-                                                            e.target.parentElement.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>';
-                                                        }}
-                                                    />
-                                                ) : <MapIcon size={24} style={{ color: 'var(--color-primary)' }} />}
+                                                <TownLogo url={town.logo_url} name={town.name} />
                                             </div>
                                             <div className="post-meta">
                                                 <span className="post-author">{town.name}</span>

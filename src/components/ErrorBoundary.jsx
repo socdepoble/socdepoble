@@ -18,34 +18,16 @@ class ErrorBoundary extends React.Component {
     render() {
         if (this.state.hasError) {
             return (
-                <div style={{
-                    padding: '40px',
-                    textAlign: 'center',
-                    background: 'var(--bg-card)',
-                    borderRadius: 'var(--radius-xl)',
-                    margin: '20px',
-                    border: '1px solid var(--color-border)',
-                    color: 'var(--text-main)'
-                }}>
-                    <h2 style={{ color: 'var(--color-primary)' }}>Ups! Alguna cosa ha fallat.</h2>
-                    <p style={{ color: 'var(--text-secondary)' }}>
-                        {this.props.fallbackMessage || 'Hi ha hagut un error en carregar aquesta part de l\'aplicació.'}
+                <div className="error-boundary-container" style={{ padding: '40px 20px', textAlign: 'center' }}>
+                    <UnifiedStatus
+                        type="error"
+                        message={this.props.fallbackMessage || "Vaja! Alguna cosa ha anat malament."}
+                        onRetry={() => window.location.reload()}
+                    />
+                    <p style={{ marginTop: '20px', color: 'var(--color-text-muted)', fontSize: '14px' }}>
+                        Hem registrat l'error i estem treballant per solucionar-ho.
+                        Pots provar de recarregar la pàgina.
                     </p>
-                    <button
-                        onClick={() => window.location.reload()}
-                        style={{
-                            marginTop: '20px',
-                            padding: '12px 24px',
-                            background: 'var(--color-primary)',
-                            color: 'white',
-                            border: 'none',
-                            borderRadius: 'var(--radius-md)',
-                            fontWeight: '800',
-                            cursor: 'pointer'
-                        }}
-                    >
-                        Recarregar pàgina
-                    </button>
                 </div>
             );
         }

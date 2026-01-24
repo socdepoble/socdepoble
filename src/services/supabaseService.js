@@ -57,17 +57,22 @@ const adjustGender = (text, gender) => {
     return adjusted;
 };
 
-const columnCache = {
-    profiles_is_demo: localStorage.getItem('cp_profiles_is_demo') === 'true' ? true : (localStorage.getItem('cp_profiles_is_demo') === 'false' ? false : null),
-    posts_is_playground: localStorage.getItem('cp_posts_is_playground') === 'true' ? true : (localStorage.getItem('cp_posts_is_playground') === 'false' ? false : null),
-    market_is_playground: localStorage.getItem('cp_market_is_playground') === 'true' ? true : (localStorage.getItem('cp_market_is_playground') === 'false' ? false : null),
-    messages_is_playground: localStorage.getItem('cp_messages_is_playground') === 'true' ? true : (localStorage.getItem('cp_messages_is_playground') === 'false' ? false : null),
-    conversations_is_playground: localStorage.getItem('cp_conversations_is_playground') === 'true' ? true : (localStorage.getItem('cp_conversations_is_playground') === 'false' ? false : null),
-    messages_is_ai: localStorage.getItem('cp_messages_is_ai') === 'true' ? true : (localStorage.getItem('cp_messages_is_ai') === 'false' ? false : null),
-    connections_table: localStorage.getItem('cp_connections_table') === 'true' ? true : (localStorage.getItem('cp_connections_table') === 'false' ? false : null),
-    profiles_has_premium: localStorage.getItem('cp_profiles_has_premium') === 'true' ? true : (localStorage.getItem('cp_profiles_has_premium') === 'false' ? false : null),
-    messages_post_uuid: localStorage.getItem('cp_messages_post_uuid') === 'true' ? true : (localStorage.getItem('cp_messages_post_uuid') === 'false' ? false : null)
-};
+/**
+ * columnCache implementation using a Proxy to read/write dynamically from localStorage.
+ * This ensures that if localStorage changes (e.g., in another tab), the service always uses fresh values.
+ */
+const columnCache = new Proxy({}, {
+    get: (target, prop) => {
+        const val = localStorage.getItem(`cp_${prop}`);
+        if (val === 'true') return true;
+        if (val === 'false') return false;
+        return null;
+    },
+    set: (target, prop, value) => {
+        localStorage.setItem(`cp_${prop}`, String(value));
+        return true;
+    }
+});
 
 /**
  * Intelligent Synonym Dictionary for Towns and Search Terms
@@ -108,7 +113,6 @@ const getNormalizedQuery = (query) => {
 
 const setColumnCache = (key, value) => {
     columnCache[key] = value;
-    localStorage.setItem(`cp_${key}`, value);
 };
 
 // Promesas activas para evitar ráfagas de errores 400 en paralelo
