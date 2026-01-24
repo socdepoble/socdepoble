@@ -1,4 +1,45 @@
 {
+    "share": {
+        "title": "Compartir",
+        "copy_link": "Copiar enllaç",
+        "link_copied": "Enllaç copiat!",
+        "whatsapp": "WhatsApp",
+        "telegram": "Telegram",
+        "facebook": "Facebook",
+        "twitter": "X (Twitter)",
+        "email": "Correu electrònic"
+    },
+    "groups": {
+        "create_group": "Crear Grup",
+        "group_name": "Nom del Grup",
+        "group_description": "Descripció",
+        "add_members": "Afegir Membres",
+        "search_members": "Cercar persones...",
+        "selected_count": "{{count}} membre seleccionat",
+        "selected_count_plural": "{{count}} membres seleccionats",
+        "no_selection": "Selecciona almenys un membre per al grup",
+        "create": "Crear Grup",
+        "creating": "Creant...",
+        "next": "Següent",
+        "back": "Enrere",
+        "cancel": "Cancel·lar",
+        "group_info": "Informació del Grup",
+        "members": "Membres",
+        "admin": "Administrador",
+        "member": "Membre",
+        "leave_group": "Sortir del Grup",
+        "delete_group": "Eliminar Grup",
+        "add_member": "Afegir Membre",
+        "remove_member": "Eliminar Membre"
+    },
+    "push": {
+        "enable_notifications": "Activar Notificacions",
+        "notifications_enabled": "Notificacions activades",
+        "notifications_blocked": "Notificacions bloquejades",
+        "new_message": "Missatge nou",
+        "new_comment": "Comentari nou",
+        "group_message": "Missatge al grup"
+    },
     "common": {
         "loading": "Carregant...",
         "back": "Tornar",

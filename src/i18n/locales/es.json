@@ -1,4 +1,45 @@
 {
+    "share": {
+        "title": "Compartir",
+        "copy_link": "Copiar enlace",
+        "link_copied": "¡Enlace copiado!",
+        "whatsapp": "WhatsApp",
+        "telegram": "Telegram",
+        "facebook": "Facebook",
+        "twitter": "X (Twitter)",
+        "email": "Correo electrónico"
+    },
+    "groups": {
+        "create_group": "Crear Grupo",
+        "group_name": "Nombre del Grupo",
+        "group_description": "Descripción",
+        "add_members": "Añadir Miembros",
+        "search_members": "Buscar personas...",
+        "selected_count": "{{count}} miembro seleccionado",
+        "selected_count_plural": "{{count}} miembros seleccionados",
+        "no_selection": "Selecciona al menos un miembro para el grupo",
+        "create": "Crear Grupo",
+        "creating": "Creando...",
+        "next": "Siguiente",
+        "back": "Atrás",
+        "cancel": "Cancelar",
+        "group_info": "Información del Grupo",
+        "members": "Miembros",
+        "admin": "Administrador",
+        "member": "Miembro",
+        "leave_group": "Salir del Grupo",
+        "delete_group": "Eliminar Grupo",
+        "add_member": "Añadir Miembro",
+        "remove_member": "Eliminar Miembro"
+    },
+    "push": {
+        "enable_notifications": "Activar Notificaciones",
+        "notifications_enabled": "Notificaciones activadas",
+        "notifications_blocked": "Notificaciones bloqueadas",
+        "new_message": "Mensaje nuevo",
+        "new_comment": "Comentario nuevo",
+        "group_message": "Mensaje en el grupo"
+    },
     "common": {
         "loading": "Cargando...",
         "back": "Volver",
