@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Plus, Loader2, MapPin } from 'lucide-react';
+import { Plus, Loader2, MapPin, Sparkles } from 'lucide-react';
+import { useUI } from '../context/UIContext';
 import { supabaseService } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
 import { logger } from '../utils/logger';
@@ -9,11 +10,13 @@ import Avatar from './Avatar';
 import CategoryTabs from './CategoryTabs';
 import UnifiedStatus from './UnifiedStatus';
 import MarketSkeleton from './Skeletons/MarketSkeleton';
+import SEO from './SEO';
 import './Market.css';
 
 const Market = ({ searchTerm = '' }) => {
     const { t, i18n } = useTranslation();
     const { user } = useAuth();
+    const { visionMode } = useUI();
     const navigate = useNavigate();
     const [items, setItems] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -78,14 +81,25 @@ const Market = ({ searchTerm = '' }) => {
     };
 
     const filteredItems = useMemo(() => {
-        if (!searchTerm) return items;
+        let baseItems = items;
+
+        // 1. Vision Mode Filter
+        if (visionMode === 'humana') {
+            baseItems = baseItems.filter(item => {
+                const isAI = item.author_role === 'ambassador' || item.author_is_ai || (item.author_user_id && item.author_user_id.startsWith('11111111-'));
+                return !isAI;
+            });
+        }
+
+        // 2. Search Filter
+        if (!searchTerm) return baseItems;
         const normalizedSearch = searchTerm.toLowerCase();
-        return items.filter(item =>
+        return baseItems.filter(item =>
             item.title?.toLowerCase().includes(normalizedSearch) ||
             item.description?.toLowerCase().includes(normalizedSearch) ||
             item.seller?.toLowerCase().includes(normalizedSearch)
         );
-    }, [items, searchTerm]);
+    }, [items, searchTerm, visionMode]);
 
     if (loading && items.length === 0) {
         return (
@@ -99,6 +113,11 @@ const Market = ({ searchTerm = '' }) => {
 
     return (
         <div className="market-container">
+            <SEO
+                title={t('market.title') || 'El Mercat'}
+                description={t('market.description') || 'Productes de proximitat, artesania i segona mà directament dels teus veïns.'}
+                image="/og-mercat.png"
+            />
             <header className="page-header-with-tabs">
                 <div className="header-tabs-wrapper">
                     <CategoryTabs

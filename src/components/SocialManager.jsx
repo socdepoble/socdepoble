@@ -1,12 +1,19 @@
-import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { X, Check, Eye, EyeOff, Hash, Layers, Settings2, Sparkles } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+import { X, Check, Eye, EyeOff, Hash, Layers, Settings2, Sparkles, Loader2 } from 'lucide-react';
 import { useSocial } from '../context/SocialContext';
+import { useUI } from '../context/UIContext';
+import { supabaseService } from '../services/supabaseService';
+import { logger } from '../utils/logger';
 import './SocialManager.css';
 
 const SocialManager = ({ isOpen, onClose }) => {
     const { t } = useTranslation();
+    const { user } = useAuth();
     const { activeCategories, toggleCategory, followedTags, savePreferences } = useSocial();
+    const { socialManagerContext } = useUI();
+    const [privateTags, setPrivateTags] = useState([]);
+    const [isSaving, setIsSaving] = useState(false);
 
     const availableCategories = [
         { id: 'xat', label: t('common.role_xat'), icon: <Layers size={18} /> },
@@ -34,6 +41,44 @@ const SocialManager = ({ isOpen, onClose }) => {
                 </header>
 
                 <div className="sm-scroll-body">
+                    {socialManagerContext && (
+                        <section className="sm-section connection-tagging">
+                            <div className="sm-section-header">
+                                <Sparkles size={20} className="sm-section-icon highlight" />
+                                <div className="sm-section-text">
+                                    <h3>Etiqueta a {socialManagerContext.name}</h3>
+                                    <p>Com vols recordar a este veí? (Privat)</p>
+                                </div>
+                            </div>
+                            <div className="sm-tags-cloud">
+                                {['Veí', 'Amic', 'Família', 'Treball', 'Interès Comú', 'Referent'].map(tag => {
+                                    const isSelected = privateTags.includes(tag);
+                                    return (
+                                        <button
+                                            key={tag}
+                                            className={`sm-tag-pill ${isSelected ? 'followed' : ''}`}
+                                            onClick={() => {
+                                                const updated = isSelected
+                                                    ? privateTags.filter(t => t !== tag)
+                                                    : [...privateTags, tag];
+                                                setPrivateTags(updated);
+                                                setIsSaving(true);
+                                                // Sync with DB
+                                                supabaseService.connectWithProfile(
+                                                    user?.id,
+                                                    socialManagerContext.id,
+                                                    updated
+                                                ).finally(() => setIsSaving(false));
+                                            }}
+                                            disabled={isSaving}
+                                        >
+                                            {isSaving && isSelected ? <Loader2 size={12} className="spinner" /> : tag}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        </section>
+                    )}
                     <section className="sm-section">
                         <div className="sm-section-header">
                             <Layers size={20} className="sm-section-icon" />

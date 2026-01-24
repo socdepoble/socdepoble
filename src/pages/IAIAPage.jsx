@@ -1,27 +1,67 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, BookOpen, Sprout, Users, MessageCircle, Heart } from 'lucide-react';
+import { ArrowLeft, BookOpen, Sprout, Users, MessageCircle, Heart, Sparkles, User } from 'lucide-react';
+import { useUI } from '../context/UIContext';
+import SEO from '../components/SEO';
 import './IAIAPage.css';
 
 const IAIAPage = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
+    const { visionMode, setVisionMode } = useUI();
 
     return (
         <div className="iaia-page-container">
+            <SEO
+                title={t('iaia_page.title') || 'La IAIA'}
+                description={t('iaia_page.subtitle') || 'Memòria viva i acció artificial al servici del poble.'}
+                image="/og-image.png"
+            />
             <header className="iaia-page-header">
                 <button onClick={() => navigate(-1)} className="back-btn-iaia">
                     <ArrowLeft size={24} />
                 </button>
                 <div className="iaia-header-hero">
-                    <div className="iaia-avatar-huge">🤖</div>
+                    <div className="iaia-avatar-huge">👵✨</div>
                     <h1>{t('iaia_page.title')}</h1>
                     <p className="iaia-subtitle">{t('iaia_page.subtitle')}</p>
                 </div>
             </header>
 
             <main className="iaia-page-content">
+                <section className="vision-mode-selector-premium">
+                    <div className="vision-selector-header">
+                        <h2>Tria la teua experiència</h2>
+                        <p>Com vols viure Sóc de Poble hui?</p>
+                    </div>
+
+                    <div className="vision-options-grid">
+                        <button
+                            className={`vision-option-card ${visionMode === 'hibrida' ? 'active' : ''}`}
+                            onClick={() => setVisionMode('hibrida')}
+                        >
+                            <div className="option-icon"><Sparkles size={32} /></div>
+                            <div className="option-info">
+                                <h3>Mode Híbrid</h3>
+                                <p>Viu la història del poble amb la IAIA i els seus personatges.</p>
+                            </div>
+                            <div className="status-indicator"></div>
+                        </button>
+
+                        <button
+                            className={`vision-option-card ${visionMode === 'humana' ? 'active' : ''}`}
+                            onClick={() => setVisionMode('humana')}
+                        >
+                            <div className="option-icon"><User size={32} /></div>
+                            <div className="option-info">
+                                <h3>Mode Humà</h3>
+                                <p>Conecta només amb els teus veïns reals, sense ficció.</p>
+                            </div>
+                            <div className="status-indicator"></div>
+                        </button>
+                    </div>
+                </section>
                 <section className="iaia-section intro-card">
                     <div className="section-icon"><Heart size={32} color="var(--color-primary)" /></div>
                     <h2>{t('iaia_page.who_am_i')}</h2>

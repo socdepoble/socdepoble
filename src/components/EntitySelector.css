@@ -24,6 +24,23 @@
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.selector-trigger.mini {
+    padding: 0.4rem 0.6rem;
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+}
+
+.selector-trigger.mini .identity-name {
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.selector-trigger.mini .identity-avatar-small {
+    width: 28px;
+    height: 28px;
+}
+
 .selector-trigger:hover {
     border-color: var(--color-primary);
     background-color: var(--bg-surface);

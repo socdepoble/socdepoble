@@ -4,9 +4,10 @@ import { User, Building2, Store, ChevronDown } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
 import { ENTITY_TYPES } from '../constants';
+import { logger } from '../utils/logger';
 import './EntitySelector.css';
 
-const EntitySelector = ({ currentIdentity, onSelectIdentity }) => {
+const EntitySelector = ({ currentIdentity, onSelectIdentity, mini = false }) => {
     const { t } = useTranslation();
     const { user, profile } = useAuth();
     const [entities, setEntities] = useState([]);
@@ -51,9 +52,9 @@ const EntitySelector = ({ currentIdentity, onSelectIdentity }) => {
     };
 
     return (
-        <div className="entity-selector-container">
-            <label>{t('common.publish_as') || 'Publicar com a:'}</label>
-            <div className="selector-trigger" onClick={() => setIsOpen(!isOpen)}>
+        <div className={`entity-selector-container ${mini ? 'mini' : ''}`}>
+            {!mini && <label>{t('common.publish_as') || 'Publicar com a:'}</label>}
+            <div className={`selector-trigger ${mini ? 'mini' : ''}`} onClick={() => setIsOpen(!isOpen)}>
                 <div className="selected-identity">
                     {currentIdentity.avatar_url ? (
                         <img src={currentIdentity.avatar_url} alt="" className="identity-avatar-small" />
@@ -64,7 +65,7 @@ const EntitySelector = ({ currentIdentity, onSelectIdentity }) => {
                     )}
                     <span className="identity-name">{currentIdentity.name}</span>
                 </div>
-                <ChevronDown size={16} className={`chevron ${isOpen ? 'open' : ''}`} />
+                <ChevronDown size={14} className={`chevron ${isOpen ? 'open' : ''}`} />
             </div>
 
             {isOpen && (

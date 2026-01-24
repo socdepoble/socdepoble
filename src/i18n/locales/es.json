@@ -18,7 +18,10 @@
         "role_mercat": "Mercado",
         "save": "Guardar",
         "saved": "¡Guardado!",
-        "load_more": "Cargar más"
+        "load_more": "Cargar más",
+        "product": "Producto",
+        "publish": "Publicar",
+        "change_language": "Cambiar idioma"
     },
     "nav": {
         "chats": "Chats",
@@ -36,6 +39,7 @@
         "support": "Ayuda y soporte",
         "about": "Sobre Sóc de Poble",
         "profile_notifications": "Notificaciones",
+        "notifications": "Notificaciones",
         "add_town": "Añadir pueblo",
         "stats_posts": "Publicaciones",
         "stats_sales": "En venta",
@@ -49,6 +53,7 @@
         "iaia_notice_title": "Estás hablando con una IAIA",
         "iaia_notice_subtitle": "(Información Artificial y Acción)",
         "iaia_notice_text": "Estoy inspirada en la sabiduría de nuestros mayores para ayudarte a conectar con el pueblo",
+        "start_iaia": "¡Hola! ¿Quieres que hablemos?",
         "storage_limit_warning": "Durante el período de pruebas, solo admitimos archivos de 10 MB como máximo.",
         "storage_banner_title": "Aviso de Almacenamiento",
         "storage_banner_text": "En pruebas admitimos 10MB máx. Los contenidos pueden ser borrados si superamos límites. No usar en producción. Sabiendo eso, sube lo que quieras."
@@ -59,7 +64,10 @@
         "empty": "No hay novedades en el muro.",
         "loading_feed": "Cargando el muro...",
         "personal_tags": "Etiquetas privadas",
-        "new_tag": "Nueva etiqueta..."
+        "new_tag": "Nueva etiqueta...",
+        "connect": "Conectar",
+        "comments": "Comentarios",
+        "share": "Compartir"
     },
     "market": {
         "title": "Mercado",

@@ -25,7 +25,7 @@ const getAvatarFallbackImage = (role) => {
         case ROLES.OFFICIAL: return '/images/demo/avatar_man_old.png';
         case ROLES.BUSINESS: return '/images/demo/avatar_lucia.png';
         case ROLES.GROUPS: return '/images/demo/avatar_man_1.png';
-        case 'ambassador': return '/images/demo/avatar_man_old.png';
+        case 'ambassador': return '/logo.png'; // Use official logo
         default: return '/images/demo/avatar_man_1.png'; // Universal fallback
     }
 };

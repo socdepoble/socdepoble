@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { X, Newspaper, Store, MapPin, Users, Shield, Calendar, Bot } from 'lucide-react';
+import { X, Newspaper, Store, MapPin, Users, Shield, Calendar, Bot, Share2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useUI } from '../context/UIContext';
 import './CreationHub.css';
@@ -28,6 +28,36 @@ const CreationHub = () => {
                         <X size={24} />
                     </button>
                 </header>
+
+                <div className="creation-hub-main-actions">
+                    <button className="share-full-frame" onClick={() => {
+                        setIsCreateModalOpen(false);
+                        const shareData = {
+                            title: 'Sóc de Poble',
+                            text: 'Connecta amb la teua comunitat. Notícies, mercat i esdeveniments al teu poble.',
+                            url: window.location.origin
+                        };
+                        if (navigator.share) {
+                            navigator.share(shareData);
+                        } else {
+                            navigator.clipboard.writeText(shareData.url);
+                            alert('Enllaç del portal copiat!');
+                        }
+                    }}>
+                        <Share2 size={24} />
+                        <span>Compartir en altres xarxes socials</span>
+                    </button>
+
+                    {isSuperAdmin && (
+                        <button className="share-full-frame admin-btn-styled" onClick={() => {
+                            setIsCreateModalOpen(false);
+                            navigate('/admin');
+                        }}>
+                            <Shield size={24} />
+                            <span>ACCÉS ADMINISTRACIÓ</span>
+                        </button>
+                    )}
+                </div>
 
                 <div className="creation-options">
                     <button className="creation-option" onClick={() => {
@@ -69,18 +99,6 @@ const CreationHub = () => {
                         </div>
                         <span>{t('iaia_page.title')}</span>
                     </button>
-
-                    {isSuperAdmin && (
-                        <button className="creation-option admin" onClick={() => {
-                            setIsCreateModalOpen(false);
-                            navigate('/admin');
-                        }}>
-                            <div className="option-icon admin">
-                                <Shield size={28} />
-                            </div>
-                            <span>ADMIN</span>
-                        </button>
-                    )}
                 </div>
             </div>
         </div>

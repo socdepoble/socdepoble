@@ -1,25 +1,85 @@
 {
-    "short_name": "Sóc de Poble",
     "name": "Sóc de Poble - Portal de Pobles Connectats",
+    "short_name": "Sóc de Poble",
+    "description": "La xarxa social que connecta els pobles valencians",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "background_color": "#1A1D23",
+    "theme_color": "#FF6B35",
+    "orientation": "portrait-primary",
     "icons": [
         {
-            "src": "favicon.png",
-            "sizes": "64x64 32x32 24x24 16x16",
-            "type": "image/png"
+            "src": "/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
         },
         {
-            "src": "og-image.png",
+            "src": "/icon-512.png",
+            "sizes": "512x512",
             "type": "image/png",
-            "sizes": "192x192"
-        },
-        {
-            "src": "og-image.png",
-            "type": "image/png",
-            "sizes": "512x512"
+            "purpose": "any maskable"
         }
     ],
-    "start_url": ".",
-    "display": "standalone",
-    "theme_color": "#5D5FEF",
-    "background_color": "#ffffff"
+    "categories": [
+        "social",
+        "lifestyle",
+        "news",
+        "productivity"
+    ],
+    "lang": "ca-ES",
+    "dir": "ltr",
+    "shortcuts": [
+        {
+            "name": "Mur",
+            "short_name": "Mur",
+            "description": "Obre el mur de publicacions",
+            "url": "/mur",
+            "icons": [
+                {
+                    "src": "/icon-192.png",
+                    "sizes": "192x192"
+                }
+            ]
+        },
+        {
+            "name": "Xats",
+            "short_name": "Xats",
+            "description": "Obre els xats",
+            "url": "/chats",
+            "icons": [
+                {
+                    "src": "/icon-192.png",
+                    "sizes": "192x192"
+                }
+            ]
+        },
+        {
+            "name": "Mercat",
+            "short_name": "Mercat",
+            "description": "Obre el mercat local",
+            "url": "/mercat",
+            "icons": [
+                {
+                    "src": "/icon-192.png",
+                    "sizes": "192x192"
+                }
+            ]
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "/screenshot-wide.png",
+            "sizes": "1280x720",
+            "type": "image/png",
+            "form_factor": "wide"
+        },
+        {
+            "src": "/screenshot-narrow.png",
+            "sizes": "750x1334",
+            "type": "image/png",
+            "form_factor": "narrow"
+        }
+    ]
 }

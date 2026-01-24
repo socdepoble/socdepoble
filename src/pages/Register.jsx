@@ -34,8 +34,8 @@ const Register = () => {
                 town_id: selectedTown.id,
                 town_uuid: selectedTown.uuid
             });
-            alert(t('auth.checkEmail'));
-            navigate('/login');
+            // Mostrar un missatge d'èxit més clar en lloc d'un simple alert
+            navigate('/login', { state: { message: '¡Compte creat! Revisa el teu correu per a verificar l\'adreça abans d\'entrar.' } });
         } catch (err) {
             setError(err.message);
         } finally {
@@ -48,7 +48,11 @@ const Register = () => {
             <div className="auth-card">
                 <img src="/favicon.png" alt="Logo" className="auth-logo" />
                 <h1>{t('auth.register')}</h1>
-                <p className="auth-subtitle">Crea el teu compte i connecta amb el poble</p>
+                <p className="auth-subtitle">Registra't per a formar part del teu poble.</p>
+
+                <div className="auth-onboarding-hint">
+                    <p>✨ Rebràs un correu per a confirmar la teua identitat.</p>
+                </div>
 
                 {error && <div className="auth-error">{error}</div>}
 

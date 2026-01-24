@@ -65,8 +65,8 @@
     width: 56px;
     height: 56px;
     background-color: var(--color-primary);
-    border-radius: 20px;
-    /* Modern square-round */
+    border-radius: 50%;
+    /* Pure circle */
     display: flex;
     align-items: center;
     justify-content: center;

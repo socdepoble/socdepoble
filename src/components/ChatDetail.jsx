@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Send, Loader2, User, Building2, Paperclip, X, FileText, Image as ImageIcon, Film, Database, Info } from 'lucide-react';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { ArrowLeft, Send, Loader2, User, Building2, Paperclip, X, FileText, Image as ImageIcon, Film, Database, Info, MessageSquare } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { supabaseService } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
@@ -8,11 +8,13 @@ import Avatar from './Avatar';
 import UnifiedStatus from './UnifiedStatus';
 import { logger } from '../utils/logger';
 import './ChatDetail.css';
+import './Comments.css';
 
 
 const ChatDetail = () => {
     const { id } = useParams();
     const navigate = useNavigate();
+    const location = useLocation();
     const { t } = useTranslation();
     const { user, profile, impersonatedProfile, activeEntityId, isSuperAdmin } = useAuth();
     const [chat, setChat] = useState(null);
@@ -29,6 +31,8 @@ const ChatDetail = () => {
     const fileInputRef = useRef(null);
     const presenceChannelRef = useRef(null);
     const messagesEndRef = useRef(null);
+    const isMounted = useRef(true);
+    const commentingOn = location.state?.commentingOn || null;
 
     const humanId = isSuperAdmin && impersonatedProfile ? impersonatedProfile.id : user?.id;
     const currentUserId = activeEntityId || humanId;
@@ -40,8 +44,8 @@ const ChatDetail = () => {
     useEffect(() => {
         if (!user || !currentUserId) return;
 
-        if (id.startsWith('new-iaia-') || id.startsWith('mock-')) {
-            const personaId = id.replace('new-iaia-', '').replace('mock-', '');
+        if (id.startsWith('new-iaia-') || id.startsWith('mock-') || id.startsWith('iaia-')) {
+            const personaId = id.replace('new-iaia-', '').replace('mock-', '').replace('iaia-post-', '');
             const fetchVirtualData = async () => {
                 try {
                     const persona = await supabaseService.getPublicProfile(personaId);
@@ -200,12 +204,20 @@ const ChatDetail = () => {
                 content: textToSend,
                 attachmentUrl,
                 attachmentType,
-                attachmentName
+                attachmentName,
+                postUuid: commentingOn?.uuid || commentingOn?.id
             });
 
             // Replace optimistic with real
             setMessages(prev => prev.map(m => m.id === tempId ? { ...result, status: 'sent' } : m));
             fetchStorageStats();
+
+            // If it was a comment, return to previous page after small delay
+            if (commentingOn) {
+                setTimeout(() => {
+                    navigate(-1);
+                }, 1000);
+            }
         } catch (error) {
             logger.error('Error sending message:', error);
             const errorMsg = error.message?.includes('bucket not found')
@@ -320,6 +332,22 @@ const ChatDetail = () => {
                             </div>
                         </div>
                     </div>
+                </div>
+            )}
+
+            {/* Commenting Context Banner */}
+            {commentingOn && (
+                <div className="commenting-context-banner">
+                    <div className="context-icon">
+                        <MessageSquare size={18} />
+                    </div>
+                    <div className="context-info">
+                        <span className="context-label">Escribint comentari per a la publicació:</span>
+                        <span className="context-preview">"{commentingOn.content?.substring(0, 50)}..."</span>
+                    </div>
+                    <button className="context-close" onClick={() => navigate(location.pathname, { replace: true, state: {} })}>
+                        <X size={16} />
+                    </button>
                 </div>
             )}
 

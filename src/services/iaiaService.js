@@ -44,7 +44,7 @@ class IAIAService {
             logger.info(`IAIA encourages ${chosenOne} to share: ${content}`);
 
             return {
-                id: `iaia-auto-${Date.now()}`,
+                id: `iaia-post-${Date.now()}`,
                 author: chosenOne,
                 author_avatar: lore.avatar_url,
                 content: content,

@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { Link2, MessageCircle, Share2, MoreHorizontal, Building2, Store, Users, User, Loader2, AlertCircle, Info } from 'lucide-react';
+import { Link2, MessageCircle, Share2, MoreHorizontal, Building2, Store, Users, User, Loader2, AlertCircle, Info, Sparkles, UserPlus, UserCheck } from 'lucide-react';
+import { useUI } from '../context/UIContext';
 import { supabaseService } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
 import { ROLES } from '../constants';
@@ -12,13 +13,17 @@ import TagSelector from './TagSelector';
 import PostSkeleton from './Skeletons/PostSkeleton';
 import UnifiedStatus from './UnifiedStatus';
 import Avatar from './Avatar';
+import SEO from './SEO';
+import ShareHub from './ShareHub';
 import { iaiaService } from '../services/iaiaService';
 import './Feed.css';
+import './Comments.css';
 
 const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const { user, isPlayground, loading: authLoading } = useAuth();
+    const { visionMode } = useUI();
     const [posts, setPosts] = useState(customPosts || []);
     const [userConnections, setUserConnections] = useState([]);
     const [userTags, setUserTags] = useState([]);
@@ -26,6 +31,7 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
     const [page, setPage] = useState(0);
     const [hasMore, setHasMore] = useState(true);
     const [loadingMore, setLoadingMore] = useState(false);
+    const [postComments, setPostComments] = useState({});
     const [selectedRole, setSelectedRole] = useState('tot');
     const [selectedTag, setSelectedTag] = useState(null);
     const [error, setError] = useState(null);
@@ -75,6 +81,18 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
             if (isMounted.current) {
                 logger.error('[Feed] Failed to fetch feed:', err);
                 setError(err.message);
+            }
+
+            // Fetch comments for all visible posts
+            if (data && data.length > 0) {
+                const commentsMap = {};
+                await Promise.all(data.map(async (p) => {
+                    const comments = await supabaseService.getPostComments(p.uuid || p.id);
+                    if (comments.length > 0) {
+                        commentsMap[p.uuid || p.id] = comments;
+                    }
+                }));
+                setPostComments(prev => ({ ...prev, ...commentsMap }));
             }
         } finally {
             if (isMounted.current) {
@@ -165,12 +183,21 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
         }
     };
 
-    const filteredPosts = selectedTag
-        ? posts.filter(post => {
+    const filteredPosts = posts.filter(post => {
+        // 1. Vision Mode Filter
+        if (visionMode === 'humana') {
+            const isAI = post.author_role === 'ambassador' || post.author_is_ai || (post.author_user_id && post.author_user_id.startsWith('11111111-'));
+            if (isAI) return false;
+        }
+
+        // 2. Tag Filter
+        if (selectedTag) {
             const connection = userConnections.find(c => c.post_uuid === post.uuid);
             return connection && connection.tags && connection.tags.includes(selectedTag);
-        })
-        : posts;
+        }
+
+        return true;
+    });
 
     if (loading && posts.length === 0) {
         return (
@@ -192,6 +219,11 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
 
     return (
         <div className="feed-container">
+            <SEO
+                title={t('mur.title') || 'El Mur'}
+                description={t('mur.description') || 'Connecta amb la teua comunitat i descobreix les darreres novetats del teu poble.'}
+                image="/og-mur.png"
+            />
             {!hideHeader && (
                 <header className="page-header-with-tabs">
                     <div className="header-tabs-wrapper">
@@ -283,27 +315,29 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
                                     <div className="card-actions-wrapper" style={{ flex: 1, backgroundColor: "transparent", borderTop: "none" }}>
                                         <div className="card-actions">
                                             <button
-                                                className={`action-btn ${isConnected ? 'active' : ''}`}
+                                                className={`action-btn principal-connect ${isConnected ? 'active' : ''}`}
                                                 onClick={() => handleToggleConnection(pid)}
                                                 aria-label={isConnected ? t('feed.disconnect') : t('feed.connect')}
                                                 aria-pressed={isConnected}
                                             >
-                                                <Link2 size={20} />
+                                                {isConnected ? <UserCheck size={24} /> : <UserPlus size={24} />}
                                                 <span>{isConnected ? (post.connections_count + 1 || 1) : (post.connections_count || 0)}</span>
                                             </button>
                                             <button
                                                 className="action-btn"
-                                                aria-label={`${t('feed.comments') || 'Comentaris'} (${post.comments_count || 0})`}
+                                                onClick={() => navigate(`/chats/${post.author_user_id || post.author_id}`, {
+                                                    state: { commentingOn: post }
+                                                })}
+                                                title={t('feed.comments') || 'Xateja amb l\'autor'}
                                             >
-                                                <MessageCircle size={20} aria-hidden="true" />
+                                                <MessageCircle size={24} />
                                                 <span>{post.comments_count || 0}</span>
                                             </button>
-                                            <button
-                                                className="action-btn"
-                                                aria-label={t('feed.share') || 'Compartir'}
-                                            >
-                                                <Share2 size={20} aria-hidden="true" />
-                                            </button>
+                                            <ShareHub
+                                                title={`Post de ${post.author} a Sóc de Poble`}
+                                                text={post.content}
+                                                url={`${window.location.origin}/post/${pid}`}
+                                            />
                                         </div>
                                     </div>
 
@@ -315,6 +349,21 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
                                         />
                                     )}
                                 </div>
+
+                                {/* Secció de Comentaris Integrats */}
+                                {postComments[post.uuid || post.id] && postComments[post.uuid || post.id].length > 0 && (
+                                    <div className="post-integrated-comments">
+                                        {postComments[post.uuid || post.id].map(comment => (
+                                            <div key={comment.id} className="mini-comment">
+                                                <Avatar src={comment.profiles?.avatar_url} size={24} name={comment.profiles?.full_name} />
+                                                <div className="comment-bubble">
+                                                    <span className="comment-author">{comment.profiles?.full_name}</span>
+                                                    <p className="comment-text">{comment.content}</p>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
                             </article>
                         );
                     })

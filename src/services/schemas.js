@@ -44,7 +44,8 @@ export const MessageSchema = z.object({
     attachment_name: z.string().nullable().optional(),
     is_ai: z.boolean().optional(),
     is_read: z.boolean().optional(),
-    is_playground: z.boolean().optional()
+    is_playground: z.boolean().optional(),
+    post_uuid: z.string().regex(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i).nullable().optional()
 }).refine(data => data.content || data.attachment_url, {
     message: "El missatge no pot estar buit si no hi ha fitxer adjunt"
 });

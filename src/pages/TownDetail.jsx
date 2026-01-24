@@ -58,6 +58,11 @@ const TownDetail = () => {
                     { label: 'Veïns', value: town.population?.toLocaleString() || '---', icon: <Users size={18} /> },
                     { label: 'Ubicació', value: town.comarca || 'Comunitat', icon: <MapPin size={18} /> }
                 ]}
+                shareData={{
+                    title: town.name,
+                    text: town.description || `Vine a conèixer ${town.name} a Sóc de Poble!`,
+                    url: window.location.href
+                }}
             />
 
             <div className="town-detail-body">

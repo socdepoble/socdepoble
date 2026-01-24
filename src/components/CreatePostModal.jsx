@@ -111,13 +111,31 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated, isPrivateInitial = fa
                     </button>
                 </header>
 
-                <form onSubmit={handleSubmit}>
-                    <div className="post-input-container">
+                <form onSubmit={handleSubmit} className="post-form-compact">
+                    <div className="post-identity-bar">
                         <EntitySelector
                             currentIdentity={selectedIdentity}
                             onSelectIdentity={setSelectedIdentity}
+                            mini={true}
                         />
-                        <label htmlFor="post-content-textarea" className="sr-only">Contingut de la publicació</label>
+                        <div className="post-privacy-mini">
+                            <button
+                                type="button"
+                                className={`privacy-toggle ${privacy}`}
+                                onClick={() => {
+                                    const flow = ['public', 'groups', 'private'];
+                                    const next = flow[(flow.indexOf(privacy) + 1) % 3];
+                                    setPrivacy(next);
+                                }}
+                                title={t(`common.${privacy}`)}
+                            >
+                                {privacy === 'public' ? <Globe size={18} /> :
+                                    privacy === 'groups' ? <Users size={18} /> : <Lock size={18} />}
+                            </button>
+                        </div>
+                    </div>
+
+                    <div className="post-content-area">
                         <textarea
                             id="post-content-textarea"
                             placeholder={t('feed.placeholder')}
@@ -127,64 +145,31 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated, isPrivateInitial = fa
                         />
                     </div>
 
-                    <div className="tag-selector-container">
-                        <span className="tag-label">Afegir etiquetes:</span>
-                        <div className="tag-pills">
-                            {PREDEFINED_TAGS.map(tag => (
-                                <button
-                                    key={tag}
-                                    type="button"
-                                    className={`tag-pill ${selectedTags.includes(tag) ? 'active' : ''}`}
-                                    onClick={() => toggleTag(tag)}
-                                >
-                                    {tag}
-                                </button>
-                            ))}
+                    <div className="post-footer-tools">
+                        <div className="tools-left">
+                            <button type="button" className="tool-btn">
+                                <ImageIcon size={20} />
+                            </button>
+                            <div className="tag-scroller">
+                                {PREDEFINED_TAGS.map(tag => (
+                                    <button
+                                        key={tag}
+                                        type="button"
+                                        className={`tag-pill-mini ${selectedTags.includes(tag) ? 'active' : ''}`}
+                                        onClick={() => toggleTag(tag)}
+                                    >
+                                        {tag}
+                                    </button>
+                                ))}
+                            </div>
                         </div>
-                    </div>
 
-                    <div className="privacy-selector-container">
-                        <span className="tag-label">{t('common.privacy')}:</span>
-                        <div className="privacy-options">
-                            <button
-                                type="button"
-                                className={`privacy-btn ${privacy === 'public' ? 'active' : ''}`}
-                                onClick={() => setPrivacy('public')}
-                            >
-                                <Globe size={16} />
-                                {t('common.public')}
-                            </button>
-                            <button
-                                type="button"
-                                className={`privacy-btn ${privacy === 'groups' ? 'active' : ''}`}
-                                onClick={() => setPrivacy('groups')}
-                            >
-                                <Users size={16} />
-                                {t('common.groups')}
-                            </button>
-                            <button
-                                type="button"
-                                className={`privacy-btn ${privacy === 'private' ? 'active' : ''}`}
-                                onClick={() => setPrivacy('private')}
-                            >
-                                <Lock size={16} />
-                                {t('common.private')}
-                            </button>
-                        </div>
-                    </div>
-
-                    <div className="post-actions">
-                        <button type="button" className="icon-btn">
-                            <ImageIcon size={20} />
-                        </button>
                         <button
                             type="submit"
-                            className="btn-primary"
+                            className="btn-send-round"
                             disabled={!content.trim() || loading}
-                            style={{ borderRadius: 'var(--radius-full)' }}
                         >
-                            {loading ? <Loader2 className="spinner" /> : <Send size={20} />}
-                            {t('common.send')}
+                            {loading ? <Loader2 className="spinner" size={20} /> : <Send size={20} />}
                         </button>
                     </div>
                 </form>

@@ -64,7 +64,9 @@ const columnCache = {
     messages_is_playground: localStorage.getItem('cp_messages_is_playground') === 'true' ? true : (localStorage.getItem('cp_messages_is_playground') === 'false' ? false : null),
     conversations_is_playground: localStorage.getItem('cp_conversations_is_playground') === 'true' ? true : (localStorage.getItem('cp_conversations_is_playground') === 'false' ? false : null),
     messages_is_ai: localStorage.getItem('cp_messages_is_ai') === 'true' ? true : (localStorage.getItem('cp_messages_is_ai') === 'false' ? false : null),
-    connections_table: localStorage.getItem('cp_connections_table') === 'true' ? true : (localStorage.getItem('cp_connections_table') === 'false' ? false : null)
+    connections_table: localStorage.getItem('cp_connections_table') === 'true' ? true : (localStorage.getItem('cp_connections_table') === 'false' ? false : null),
+    profiles_has_premium: localStorage.getItem('cp_profiles_has_premium') === 'true' ? true : (localStorage.getItem('cp_profiles_has_premium') === 'false' ? false : null),
+    messages_post_uuid: localStorage.getItem('cp_messages_post_uuid') === 'true' ? true : (localStorage.getItem('cp_messages_post_uuid') === 'false' ? false : null)
 };
 
 /**
@@ -190,6 +192,8 @@ const normalizeContentItem = (item, type = 'post') => {
 
     return {
         ...item,
+        id: item.uuid || item.id, // Prioritize real UUID
+        uuid: item.uuid || item.id,
         author: authorName,
         seller: type === 'market' ? authorName : undefined,
         author_avatar: avatarUrl,
@@ -348,7 +352,8 @@ export const supabaseService = {
     },
 
     async getConversationMessages(conversationId) {
-        if (conversationId?.startsWith('mock-')) {
+        const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(conversationId);
+        if (!isUUID || conversationId?.startsWith('mock-')) {
             try {
                 const mockIdx = conversationId.split('-')[1];
                 const { MOCK_MESSAGES } = await import('../data');
@@ -430,8 +435,14 @@ export const supabaseService = {
             content: messageData.content || null,
             attachment_url: messageData.attachmentUrl || null,
             attachment_type: messageData.attachmentType || null,
-            attachment_name: messageData.attachmentName || null
+            attachment_name: messageData.attachmentName || null,
+            post_uuid: messageData.postUuid || null
         };
+
+        // Auditoría V3: Silenciador de errores por falta de columna post_uuid
+        if (columnCache.messages_post_uuid === false) {
+            delete msgPayload.post_uuid;
+        }
 
         if (isPlayground && columnCache.messages_is_playground !== false) {
             msgPayload.is_playground = true;
@@ -449,7 +460,15 @@ export const supabaseService = {
                 setColumnCache('messages_is_playground', false);
                 return this.sendSecureMessage(messageData); // Retry without column
             }
+            if (error.code === '42703' && msgPayload.post_uuid) {
+                setColumnCache('messages_post_uuid', false);
+                return this.sendSecureMessage(messageData); // Retry without post_uuid
+            }
             throw error;
+        }
+
+        if (msgPayload.post_uuid && columnCache.messages_post_uuid === null) {
+            setColumnCache('messages_post_uuid', true);
         }
 
         const message = data[0];
@@ -831,6 +850,7 @@ export const supabaseService = {
                     follower_id: followerId,
                     target_id: targetId,
                     status: 'connected',
+                    tags: tags,
                     created_at: new Date().toISOString()
                 }, { onConflict: 'follower_id,target_id' });
 
@@ -940,7 +960,7 @@ export const supabaseService = {
         try {
             let query = supabase
                 .from('posts')
-                .select('id, uuid:id, content, created_at, author_id, author:author_name, author_avatar:author_avatar_url, image_url, author_role, is_playground, entity_id, towns!fk_posts_town_uuid(name)', { count: 'exact' });
+                .select('id, uuid, content, created_at, author_id, author:author_name, author_avatar:author_avatar_url, image_url, author_role, is_playground, entity_id, towns!fk_posts_town_uuid(name)', { count: 'exact' });
 
             // Si no sabemos si la columna existe, hacemos una comprobación SILENCIOSA (select *)
             if (isPlayground && columnCache.posts_is_playground === null) {
@@ -1261,27 +1281,35 @@ export const supabaseService = {
     },
 
     async getProfile(userId) {
+        if (!userId) return null;
         try {
-            const { data, error } = await supabase
+            const hasPremium = columnCache.profiles_has_premium !== false;
+            const fullSelect = 'id, username, full_name, role, avatar_url, cover_url, bio, primary_town, town_uuid, is_demo, created_at, ofici, social_image_preference';
+            const baseSelect = 'id, username, full_name, role, avatar_url, cover_url, bio, primary_town, town_uuid, is_demo, created_at';
+
+            const select = hasPremium ? fullSelect : baseSelect;
+
+            let { data, error } = await supabase
                 .from('profiles')
-                .select('id, username, full_name, role, avatar_url, cover_url, bio, primary_town, town_uuid, is_demo, created_at')
+                .select(select)
                 .eq('id', userId)
-                .single();
+                .maybeSingle();
 
             if (error) {
-                if (error.code === 'PGRST116') {
-                    logger.log(`[SupabaseService] No profile found for user ${userId}, returning null`);
-                    return null;
+                if (hasPremium && (error.code === 'PGRST116' || error.code === '42703' || error.message?.includes('ofici'))) {
+                    setColumnCache('profiles_has_premium', false);
+                    return this.getProfile(userId); // Silent retry with base
                 }
                 throw error;
             }
+
+            if (hasPremium && data && columnCache.profiles_has_premium === null) {
+                setColumnCache('profiles_has_premium', true);
+            }
+
             return data;
         } catch (err) {
-            if (import.meta.env.DEV) {
-                logger.error('[SupabaseService] Error in getProfile:', err);
-            } else {
-                logger.error('[SupabaseService] Error loading profile');
-            }
+            logger.error('[SupabaseService] Critical error in getProfile:', err);
             return null;
         }
     },
@@ -1293,7 +1321,6 @@ export const supabaseService = {
         );
         if (ids.length === 0) return [];
 
-        logger.log(`[SupabaseService] Fetching connections for ${ids.length} posts`);
         try {
             const { data, error } = await supabase
                 .from('post_connections')
@@ -1308,7 +1335,6 @@ export const supabaseService = {
                 logger.error('[SupabaseService] Error fetching post connections:', error);
                 return [];
             }
-            logger.log(`[SupabaseService] getPostConnections success: ${data?.length || 0} connections found`);
             return data || [];
         } catch (err) {
             logger.error('[SupabaseService] Unexpected error in getPostConnections:', err);
@@ -1328,7 +1354,12 @@ export const supabaseService = {
     },
 
     async togglePostConnection(postId, userId, tags = []) {
-        logger.log(`[SupabaseService] Toggling connection for post: ${postId}, tags:`, tags);
+        if (!userId) throw new Error('UserId is required for connection');
+        const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(postId);
+        if (!isUUID) {
+            logger.warn('[SupabaseService] togglePostConnection blocked for non-UUID postId:', postId);
+            return { connected: false, tags: [] };
+        }
 
         const { data: existingConnection } = await supabase
             .from('post_connections')
@@ -1411,16 +1442,13 @@ export const supabaseService = {
     },
 
     async updateProfile(userId, updates) {
-        // Personatges del Lore (Playground) - Les actualitzacions són efímeres (volàtils)
         const isLoreCharacter = userId && userId.startsWith('11111111');
 
         if (isLoreCharacter) {
             logger.log('[SupabaseService] Simulated update for Lore character:', { userId, updates });
-            // Retornem l'objecte "actualitzat" per a la sessió local
             return { id: userId, ...updates };
         }
 
-        // Validació estructural amb Zod
         const validated = ProfileSchema.partial().parse(updates);
 
         try {
@@ -1431,17 +1459,17 @@ export const supabaseService = {
                 .select();
 
             if (error) {
-                // Si la columna 'ofici' no existeix encara a la DB, informem per log però permetem seguir si és possible
                 if (error.code === 'PGRST204' || error.message?.includes('ofici')) {
-                    logger.warn('[SupabaseService] Column missing in DB. Run SQL migration.');
-                    return { id: userId, ...updates }; // Fallback optimista
+                    logger.warn('[SupabaseService] Missing column (ofici) detected. Using optimistic fallback.');
+                    // Fallback para Sandbox/Demo sin migración SQL ejecutada
+                    return { id: userId, ...updates };
                 }
                 throw error;
             }
             return data[0];
         } catch (error) {
             logger.error('[SupabaseService] Error updating profile:', error);
-            // Fallback per a no tallar l'experiència de l'usuari en mode dev
+            // Optimistic success for UI to feel fast and handle transient/schema errors
             return { id: userId, ...updates };
         }
     },

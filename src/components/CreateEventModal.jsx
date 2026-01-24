@@ -89,7 +89,7 @@ const CreateEventModal = ({ isOpen, onClose, onEventCreated, isPlayground = fals
             <div className="modal-content" onClick={e => e.stopPropagation()}>
                 <header className="modal-header">
                     <div className="title-with-icon">
-                        <Calendar size={24} className="accent-icon" />
+                        <Calendar size={20} className="accent-icon" style={{ color: 'var(--color-primary)', marginRight: '8px' }} />
                         <h2>{t('events.create_title') || 'Crear Esdeveniment'}</h2>
                     </div>
                     <button className="close-btn" onClick={onClose}>
@@ -97,13 +97,31 @@ const CreateEventModal = ({ isOpen, onClose, onEventCreated, isPlayground = fals
                     </button>
                 </header>
 
-                <form onSubmit={handleSubmit}>
-                    <div className="post-input-container">
+                <form onSubmit={handleSubmit} className="post-form-compact">
+                    <div className="post-identity-bar">
                         <EntitySelector
                             currentIdentity={selectedIdentity}
                             onSelectIdentity={setSelectedIdentity}
+                            mini={true}
                         />
-                        <label htmlFor="event-content-input" className="sr-only">Contingut de l'esdeveniment</label>
+                        <div className="post-privacy-mini">
+                            <button
+                                type="button"
+                                className={`privacy-toggle ${privacy}`}
+                                onClick={() => {
+                                    const flow = ['public', 'groups', 'private'];
+                                    const next = flow[(flow.indexOf(privacy) + 1) % 3];
+                                    setPrivacy(next);
+                                }}
+                                title={t(`common.${privacy}`)}
+                            >
+                                {privacy === 'public' ? <Globe size={18} /> :
+                                    privacy === 'groups' ? <Users size={18} /> : <Lock size={18} />}
+                            </button>
+                        </div>
+                    </div>
+
+                    <div className="post-content-area">
                         <textarea
                             id="event-content-input"
                             placeholder={t('events.placeholder') || 'Explica de què tracta l\'esdeveniment...'}
@@ -113,40 +131,28 @@ const CreateEventModal = ({ isOpen, onClose, onEventCreated, isPlayground = fals
                         />
                     </div>
 
-                    <div className="privacy-selector-container">
-                        <span className="tag-label">{t('common.privacy')}:</span>
-                        <div className="privacy-options">
-                            <button
-                                type="button"
-                                className={`privacy-btn ${privacy === 'public' ? 'active' : ''}`}
-                                onClick={() => setPrivacy('public')}
-                            >
-                                <Globe size={16} />
-                                {t('common.public')}
+                    <div className="post-footer-tools">
+                        <div className="tools-left">
+                            <button type="button" className="tool-btn">
+                                <ImageIcon size={20} />
                             </button>
-                            <button
-                                type="button"
-                                className={`privacy-btn ${privacy === 'groups' ? 'active' : ''}`}
-                                onClick={() => setPrivacy('groups')}
-                            >
-                                <Users size={16} />
-                                {t('common.groups')}
-                            </button>
+                            <div className="tag-scroller">
+                                <button
+                                    type="button"
+                                    className="tag-pill-mini active"
+                                    disabled
+                                >
+                                    {t('common.event') || 'Esdeveniment'}
+                                </button>
+                            </div>
                         </div>
-                    </div>
 
-                    <div className="post-actions">
-                        <button type="button" className="icon-btn">
-                            <ImageIcon size={20} />
-                        </button>
                         <button
                             type="submit"
-                            className="btn-primary"
+                            className="btn-send-round"
                             disabled={!content.trim() || loading}
-                            style={{ borderRadius: 'var(--radius-full)' }}
                         >
-                            {loading ? <Loader2 className="spinner" /> : <Send size={20} />}
-                            {t('common.publish') || 'Publicar'}
+                            {loading ? <Loader2 className="spinner" size={20} /> : <Send size={20} />}
                         </button>
                     </div>
                 </form>

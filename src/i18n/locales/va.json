@@ -23,7 +23,7 @@
         "save": "Guardar",
         "save_selection": "GUARDAR POBLE",
         "saved": "Guardat!",
-        "create_new": "Què vols crear?",
+        "create_new": "Què vols fer?",
         "public": "Públic",
         "private": "Privat",
         "groups": "Grups",
@@ -31,7 +31,10 @@
         "province": "Província",
         "comarca": "Comarca",
         "unknown": "Desconegut",
-        "load_more": "Carregar més"
+        "load_more": "Carregar més",
+        "product": "Producte",
+        "publish": "Publicar",
+        "change_language": "Canviar idioma"
     },
     "nav": {
         "chats": "Xats",
@@ -52,6 +55,7 @@
         "support": "Ajuda i suport",
         "about": "Sobre Sóc de Poble",
         "profile_notifications": "Notificacions",
+        "notifications": "Notificacions",
         "add_town": "Afegir poble",
         "stats_posts": "Publicacions",
         "stats_sales": "En venda",
@@ -65,6 +69,7 @@
         "iaia_notice_title": "Estàs parlant amb la IAIA",
         "iaia_notice_subtitle": "(Informació Artificial i Acció)",
         "iaia_notice_text": "Estic inspirada en la saviesa dels nostres majors per a ajudar-te a connectar amb el poble",
+        "start_iaia": "Hola! Vols que parlem?",
         "storage_limit_warning": "Durant el període de proves, només admetem fitxers de 10 MB com a màxim.",
         "storage_banner_title": "Avís d'Emmagatzematge",
         "storage_banner_text": "En proves admetem 10MB màx. Els continguts poden ser esborrats si superem límits. No fer servir en producció. Sabent això, puja el que vulgues."
@@ -75,7 +80,10 @@
         "empty": "No hi ha novetats al mur.",
         "loading_feed": "Carregant el mur...",
         "personal_tags": "Etiquetes privades",
-        "new_tag": "Nova etiqueta..."
+        "new_tag": "Nova etiqueta...",
+        "connect": "Connectar",
+        "comments": "Comentaris",
+        "share": "Compartir"
     },
     "market": {
         "title": "Mercat",
@@ -134,7 +142,9 @@
     },
     "events": {
         "title": "Pròxims Esdeveniments",
-        "empty": "No hi ha esdeveniments programats per a aquesta setmana."
+        "empty": "No hi ha esdeveniments programats per a aquesta setmana.",
+        "create_title": "Nou Esdeveniment",
+        "placeholder": "Explica de què tracta l'esdeveniment..."
     },
     "towns": {
         "select_town": "Seleccionar Poble",

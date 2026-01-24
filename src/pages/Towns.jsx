@@ -9,6 +9,7 @@ import Feed from '../components/Feed';
 import Market from '../components/Market';
 import { logger } from '../utils/logger';
 import UnifiedStatus from '../components/UnifiedStatus';
+import SEO from '../components/SEO';
 import './Towns.css';
 
 const Towns = () => {
@@ -77,8 +78,13 @@ const Towns = () => {
     }
 
     return (
-        <div className="towns-container">
-            <header className="page-header-with-tabs">
+        <div className="towns-page-container">
+            <SEO
+                title={t('towns.title') || 'Els Pobles'}
+                description={t('towns.description') || 'Explora la xarxa de pobles connectats i descobreix el que els fa únics.'}
+                image="/og-pobles.png"
+            />
+            <header className="towns-header">
                 <div className="header-tabs-wrapper">
                     <CategoryTabs
                         selectedRole={currentTab}

@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useUI } from '../context/UIContext';
 import { useSocial } from '../context/SocialContext';
 import Avatar from './Avatar';
 import { isFictiveProfile, supabaseService } from '../services/supabaseService';
@@ -38,6 +39,7 @@ const ChatList = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const { user, profile, impersonatedProfile, activeEntityId, isSuperAdmin, isPlayground } = useAuth();
+    const { visionMode } = useUI();
     const { activeCategories } = useSocial();
     const [chats, setChats] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -144,6 +146,15 @@ const ChatList = () => {
                 const inProduction = !isPlayground && !profile?.is_demo;
 
                 const filtered = allMerged.filter(c => {
+                    const other = getParticipantInfo(c, currentId, t);
+
+                    // 0. Vision Mode Filter (Hide AI/Lore chars in human mode)
+                    if (visionMode === 'humana') {
+                        // Check if other is AI or a Lore character (ID prefix)
+                        const isAI = other.isAI || (other.id && other.id.startsWith('11111111-'));
+                        if (isAI) return false;
+                    }
+
                     // 1. Production Security Filter
                     if (inProduction) {
                         const otherInfo = c.participant_1_id === currentId ? c.p2_info : c.p1_info;
@@ -156,7 +167,6 @@ const ChatList = () => {
                     }
                     // 1b. Playground specific NPC filtering
                     else if (isPlayground || profile?.is_demo) {
-                        const other = getParticipantInfo(c, currentId, t);
                         const isLore = other.id?.startsWith('11111111-1111-4111-a111-');
                         if (!other.isAI && !isLore) return false;
                     }
@@ -213,7 +223,7 @@ const ChatList = () => {
 
         fetchChats();
         return () => { isMounted = false; };
-    }, [currentId, selectedCategory, selectedTown, isPlayground]);
+    }, [currentId, selectedCategory, selectedTown, isPlayground, visionMode, profile]);
 
     const handleChatClick = async (chat) => {
         if (chat.id.startsWith('new-iaia-')) {

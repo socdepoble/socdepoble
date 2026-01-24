@@ -9,12 +9,18 @@ export const UIProvider = ({ children }) => {
     const [isEventModalOpen, setIsEventModalOpen] = useState(false);
     const [isMarketModalOpen, setIsMarketModalOpen] = useState(false);
     const [isSocialManagerOpen, setIsSocialManagerOpen] = useState(false);
+    const [socialManagerContext, setSocialManagerContext] = useState(null); // { type, id, name }
     const [postModalConfig, setPostModalConfig] = useState({ isPrivate: false });
+    const [visionMode, setVisionMode] = useState(localStorage.getItem('visionMode') || 'hibrida');
 
     useEffect(() => {
         document.documentElement.setAttribute('data-theme', theme);
         localStorage.setItem('theme', theme);
     }, [theme]);
+
+    useEffect(() => {
+        localStorage.setItem('visionMode', visionMode);
+    }, [visionMode]);
 
     const toggleTheme = () => {
         setTheme(prev => prev === 'light' ? 'dark' : 'light');
@@ -39,8 +45,12 @@ export const UIProvider = ({ children }) => {
             setIsMarketModalOpen,
             isSocialManagerOpen,
             setIsSocialManagerOpen,
+            socialManagerContext,
+            setSocialManagerContext,
             postModalConfig,
-            openPostModal
+            openPostModal,
+            visionMode,
+            setVisionMode
         }}>
             {children}
         </UIContext.Provider>

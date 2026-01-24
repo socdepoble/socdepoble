@@ -57,7 +57,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: var(--radius-sm);
+    border-radius: 50%;
+    /* Force perfect circle */
     transition: all 0.2s ease;
     color: #F7FAFC;
     /* Whiteish icons */
@@ -70,14 +71,21 @@
 }
 
 .header-lang-switcher {
-    width: auto !important;
-    padding: 0 10px !important;
+    width: 40px !important;
+    /* Force square for circle */
+    height: 40px !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
     font-family: var(--font-heading);
     font-size: 13px;
     font-weight: 700;
     letter-spacing: 0.5px;
     color: #F7FAFC !important;
     border: 1px solid #2D3748 !important;
+    border-radius: 50% !important;
+    /* No more ovals */
 }
 
 .header-search-btn svg,
@@ -120,4 +128,32 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+.header-vision-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    /* Force circle */
+    background: transparent;
+    border: 1px solid #2D3748;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin: 0 4px;
+}
+
+.header-vision-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.header-vision-toggle.hibrida {
+    background: rgba(var(--color-primary-rgb), 0.1);
+    border-color: var(--color-primary-soft);
+}
+
+.header-vision-toggle.hibrida svg {
+    filter: drop-shadow(0 0 4px var(--color-primary-soft));
 }

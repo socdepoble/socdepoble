@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { User, MapPin, Calendar, Settings, ChevronRight, Loader2, AlertCircle, Building2, Store, Users as UsersIcon, ArrowLeft, UserPlus, UserMinus, Plus, Layout } from 'lucide-react';
+import { User, MapPin, Calendar, Settings, ChevronRight, Loader2, AlertCircle, Building2, Store, Users as UsersIcon, ArrowLeft, UserPlus, UserMinus, Plus, Layout, Activity } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
+import { useUI } from '../context/UIContext';
 import { logger } from '../utils/logger';
 import Feed from '../components/Feed';
 import SEO from '../components/SEO';
@@ -16,6 +17,7 @@ const PublicProfile = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const { user: currentUser } = useAuth();
+    const { setIsSocialManagerOpen, setSocialManagerContext } = useUI();
     const [profile, setProfile] = useState(null);
     const [managedEntities, setManagedEntities] = useState([]);
     const [userPosts, setUserPosts] = useState([]);
@@ -84,6 +86,9 @@ const PublicProfile = () => {
                 if (success) {
                     setIsConnected(true);
                     setFollowersCount(prev => prev + 1);
+                    // Proactive UX: Open social manager to tag the new connection
+                    setSocialManagerContext({ type: 'person', id: profile.id, name: profile.full_name });
+                    setIsSocialManagerOpen(true);
                 }
             }
         } catch (err) {
@@ -154,7 +159,11 @@ const PublicProfile = () => {
                 badges={profile.role === 'ambassador' ? ['IAIA'] : []}
                 onAction={isOwnProfile ? () => navigate('/perfil', { state: { fromProfile: true } }) : null}
                 actionIcon={<Settings size={24} />}
-                onShare={handleShare}
+                shareData={{
+                    title: profile.full_name,
+                    text: profile.bio || `Mira el perfil de ${profile.full_name} a Sóc de Poble`,
+                    url: window.location.href
+                }}
             >
                 {!isOwnProfile && (
                     <div className="profile-actions-inline">
@@ -225,8 +234,10 @@ const PublicProfile = () => {
                     {userPosts.length > 0 ? (
                         <Feed townId={null} hideHeader={true} customPosts={userPosts} />
                     ) : (
-                        <div className="empty-state-mini">
-                            <p>{t('profile.no_publications', { name: profile.full_name.split(' ')[0] })}</p>
+                        <div className="empty-state-premium">
+                            <Activity size={40} className="empty-icon" />
+                            <p>El mur de {profile.full_name.split(' ')[0]} encara està tranquil.</p>
+                            <span className="empty-subtext">Torna prompte per a veure novetats!</span>
                         </div>
                     )}
                 </div>
@@ -301,8 +312,10 @@ const PublicProfile = () => {
                             ))}
                         </div>
                     ) : (
-                        <div className="empty-state-mini">
-                            <p>{t('profile.no_items', { name: profile.full_name.split(' ')[0] })}</p>
+                        <div className="empty-state-premium">
+                            <Store size={40} className="empty-icon" />
+                            <p>{profile.full_name.split(' ')[0]} no té res a la venda ara mateix.</p>
+                            <span className="empty-subtext">Descobreix més joies en el Mercat general.</span>
                         </div>
                     )}
                 </div>

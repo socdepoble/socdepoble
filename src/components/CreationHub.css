@@ -49,14 +49,50 @@
     color: var(--text-main);
 }
 
+.creation-hub-main-actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    margin-bottom: var(--space-xl);
+}
+
+.share-full-frame {
+    width: 100% !important;
+    padding: 18px !important;
+    border-radius: var(--radius-md) !important;
+    background-color: var(--color-primary) !important;
+    color: white !important;
+    box-shadow: 0 8px 24px rgba(93, 95, 239, 0.3) !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-family: var(--font-heading);
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.share-full-frame:active {
+    transform: scale(0.97);
+}
+
+.share-full-frame svg {
+    filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.3));
+}
+
+.admin-btn-styled {
+    background: linear-gradient(135deg, #2D3748, #1A202C) !important;
+    border: 1.5px solid var(--color-primary) !important;
+}
+
 .creation-options {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: var(--space-md);
-}
-
-.creation-option.admin {
-    grid-column: span 2;
 }
 
 .creation-option {
@@ -106,10 +142,6 @@
 .option-icon.iaia-accent {
     background-color: #fef3c7;
     color: #d97706;
-}
-
-.option-icon.grups {
-    background: linear-gradient(135deg, #FFD166, #FF9F1C);
 }
 
 .creation-option span {

@@ -1,0 +1,106 @@
+/* Integrated Comments under the Post Card */
+.post-integrated-comments {
+    padding: 12px 20px 20px;
+    background: rgba(255, 255, 255, 0.02);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.mini-comment {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    animation: fadeIn 0.3s ease;
+}
+
+.comment-bubble {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 8px 14px;
+    border-radius: 18px;
+    border-top-left-radius: 4px;
+    max-width: 85%;
+}
+
+.comment-author {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--color-primary-light);
+    margin-bottom: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.comment-text {
+    margin: 0;
+    font-size: 13px;
+    color: var(--text-primary);
+    line-height: 1.4;
+}
+
+/* Commenting Context Banner in ChatDetail */
+.commenting-context-banner {
+    background: linear-gradient(90deg, var(--color-primary-dark), #1a1a1a);
+    border-bottom: 1px solid var(--color-primary-soft);
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 10;
+    animation: slideDown 0.3s ease;
+}
+
+.context-icon {
+    width: 32px;
+    height: 32px;
+    background: rgba(var(--color-primary-rgb), 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-primary);
+}
+
+.context-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.context-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--color-primary-light);
+    text-transform: uppercase;
+}
+
+.context-preview {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-style: italic;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.context-close {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 4px;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

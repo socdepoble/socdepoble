@@ -3,13 +3,15 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
 import { useI18n } from '../context/I18nContext';
 import { logger } from '../utils/logger';
-import { User, Search, Bell } from 'lucide-react';
+import { User, Search, Bell, Sparkles, UserCheck } from 'lucide-react';
+import { useUI } from '../context/UIContext';
 import './Header.css';
 
 const Header = () => {
     const { t } = useTranslation();
     const { user, profile } = useAuth();
     const { language, toggleLanguage } = useI18n();
+    const { visionMode, setVisionMode } = useUI();
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -47,6 +49,15 @@ const Header = () => {
                         <span aria-hidden="true">{language.toUpperCase()}</span>
                     </button>
 
+                    <button
+                        className={`header-vision-toggle ${visionMode}`}
+                        onClick={() => setVisionMode(prev => prev === 'hibrida' ? 'humana' : 'hibrida')}
+                        aria-label="Canviar mode de visió"
+                        title={visionMode === 'hibrida' ? 'Mode Híbrid actiu' : 'Mode Humà actiu'}
+                    >
+                        {visionMode === 'hibrida' ? <Sparkles size={20} color="var(--color-primary)" /> : <UserCheck size={20} color="#888" />}
+                    </button>
+
                     <Link
                         to={user ? "/notificacions" : "/login"}
                         className="header-notif-btn"
@@ -59,7 +70,7 @@ const Header = () => {
 
                     {user && (
                         <Link
-                            to={`/perfil/${user.id}`}
+                            to="/perfil"
                             className="profile-link"
                             aria-label={t('nav.profile') || 'El meu perfil'}
                             title={t('nav.profile') || 'El meu perfil'}

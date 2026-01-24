@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowLeft, MapPin, Calendar, BadgeCheck, Info, Share2, Settings } from 'lucide-react';
+import ShareHub from './ShareHub';
 import { useNavigate } from 'react-router-dom';
 import './ProfileHeaderPremium.css';
 
@@ -21,6 +22,7 @@ const ProfileHeaderPremium = ({
     onAction,
     actionIcon,
     isEditing = false,
+    shareData = null, // { title, text, url }
     onTitleChange,
     onSubtitleChange,
     onTownChange,
@@ -55,6 +57,17 @@ const ProfileHeaderPremium = ({
                         <button className="premium-btn-circle action" onClick={onAction} title="Configuració">
                             {actionIcon || <Settings size={24} />}
                         </button>
+                    )}
+
+                    {shareData && (
+                        <div className="premium-share-wrapper">
+                            <ShareHub
+                                title={shareData.title}
+                                text={shareData.text}
+                                url={shareData.url}
+                                className="premium-btn-circle share"
+                            />
+                        </div>
                     )}
                 </div>
             </div>

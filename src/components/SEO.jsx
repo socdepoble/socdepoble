@@ -40,6 +40,11 @@ const SEO = ({
             <meta name="twitter:description" content={description || defaultDesc} />
             <meta name="twitter:image" content={image || defaultImage} />
 
+            {/* Video Support for high-level sharing */}
+            {type === 'video.other' && (
+                <meta property="og:video" content={url} />
+            )}
+
             {/* Canonical Link */}
             <link rel="canonical" href={currentUrl} />
         </>

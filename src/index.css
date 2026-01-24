@@ -65,10 +65,10 @@
   --radius-xs: 8px;
   --radius-sm: 12px;
   --radius-md: 16px;
-  --radius-lg: 24px;
-  --radius-xl: 24px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
   --radius-2xl: 32px;
-  --radius-full: 50%;
+  --radius-full: 9999px;
   --radius-avatar: 50%;
   /* Centralized control for all avatars */
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { supabaseService } from '../services/supabaseService';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
@@ -10,9 +10,11 @@ const Login = () => {
     const { t, i18n } = useTranslation();
     const activeLang = language || i18n.language || 'va';
     const navigate = useNavigate();
+    const location = useLocation();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
+    const [successMessage, setSuccessMessage] = useState(location.state?.message || null);
     const [loading, setLoading] = useState(false);
 
     const handleLogin = async (e) => {
@@ -40,14 +42,13 @@ const Login = () => {
             <div className="auth-card">
                 <img src="/logo.png" alt="Logo" className="auth-logo-elongated" />
 
+                {successMessage && <div className="auth-success-alert">{successMessage}</div>}
+
                 <div className="demo-login-wrapper">
-                    <button onClick={() => navigate('/playground')} className="auth-button demo-primary">
-                        Simulador interactiu
+                    <button onClick={() => navigate('/playground')} className="auth-button demo-secondary">
+                        Explorar com a Veí (Demo)
                     </button>
-                    <p className="demo-hint">Entra sense registre, per provar el sistema.</p>
-                    <button onClick={() => navigate('/mur')} className="auth-button demo-primary">
-                        Mirar sense registre
-                    </button>
+                    <p className="demo-hint">Accés ràpid per a provar, sense registre.</p>
 
                     <div className="language-selector-auth">
                         {[
