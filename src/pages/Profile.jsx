@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useUI } from '../context/UIContext';
@@ -8,7 +8,7 @@ import {
     User, LogOut, Camera, Save, Building2, Store, Settings, Star, Home,
     Bell, Lock, HelpCircle, Info, ChevronRight, MapPin, MessageCircle,
     Plus, Moon, Sun, ArrowLeft, Loader2, Image as ImageIcon, Maximize,
-    LayoutGrid, Activity, ShieldCheck, Globe
+    LayoutGrid, Activity, ShieldCheck, Globe, Edit2
 } from 'lucide-react';
 import { logger } from '../utils/logger';
 import TownSelectorModal from '../components/TownSelectorModal';
@@ -17,8 +17,9 @@ import ImageReframerModal from '../components/ImageReframerModal';
 import ProfileStudioModal from '../components/ProfileStudioModal';
 import MediaPickerModal from '../components/MediaPickerModal';
 import ProfileHeaderPremium from '../components/ProfileHeaderPremium';
-import UnifiedStatus from '../components/UnifiedStatus';
+import StatusLoader from '../components/StatusLoader';
 import { exportService } from '../services/exportService';
+import IAIATamagotchiSettings from '../components/IAIATamagotchiSettings';
 import './Profile.css';
 
 const MyEntitiesList = ({ userId }) => {
@@ -32,33 +33,40 @@ const MyEntitiesList = ({ userId }) => {
         }
     }, [userId]);
 
-    if (entities.length === 0) {
-        return (
-            <div className="empty-entities-container">
-                <p className="empty-entities-message">{t('nav.empty_entities')}</p>
-                <button className="btn-secondary-sm" onClick={() => navigate('/gestio-entitats')}>
-                    <Plus size={16} /> Crear Entitat
-                </button>
-            </div>
-        );
-    }
-
     return (
-        <div className="entities-grid">
+        <div className="entities-scroll-container">
+            {/* Create New Card (Always First) */}
+            <div className="entity-card-create" onClick={() => navigate('/gestio-entitats')}>
+                <div className="create-icon-area">
+                    <Plus size={24} />
+                </div>
+                <div className="entity-info">
+                    <h4>Nova Entitat</h4>
+                    <span className="entity-role">Empresa o Grup</span>
+                </div>
+            </div>
+
+            {/* Existing Entities */}
             {entities.map(ent => (
-                <div key={ent.id} className="entity-card" onClick={() => navigate(`/entitat/${ent.id}`)}>
-                    <div className={`entity-avatar ${ent.type}`}>
+                <div key={ent.id} className="entity-card-modern" onClick={() => navigate(`/entitat/${ent.id}`)}>
+                    <div className={`entity-avatar-modern ${ent.type}`}>
                         {ent.avatar_url ? (
                             <img src={ent.avatar_url} alt={ent.name} />
                         ) : (
-                            ent.type === 'empresa' ? <Store size={20} /> : <Building2 size={20} />
+                            ent.type === 'empresa' ? <Store size={22} /> : <Building2 size={22} />
                         )}
+                        <span className="manage-badge"><Settings size={12} /></span>
                     </div>
                     <div className="entity-info">
                         <h4>{ent.name}</h4>
                         <span className="entity-role">
-                            {ent.type} • {ent.member_role}
+                            {ent.type === 'empresa' ? 'Negoci Local' : 'Associació'}
                         </span>
+                        <div className="entity-meta">
+                            <span className={`role-pill ${ent.member_role}`}>
+                                {ent.member_role === 'admin' ? 'Administrador' : 'Membre'}
+                            </span>
+                        </div>
                     </div>
                 </div>
             ))}
@@ -69,7 +77,7 @@ const MyEntitiesList = ({ userId }) => {
 const Profile = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const { profile, setProfile, user, isPlayground, logout } = useAuth();
+    const { profile, setProfile, user, isPlayground } = useAuth();
     const { theme, toggleTheme } = useUI();
     const location = useLocation();
 
@@ -86,6 +94,8 @@ const Profile = () => {
 
     const [allTowns, setAllTowns] = useState([]);
     const [isEditingTown, setIsEditingTown] = useState(false);
+    const [townEditMode, setTownEditMode] = useState('primary'); // 'primary' or 'secondary'
+    const [editingSecondaryIdx, setEditingSecondaryIdx] = useState(null);
     const [isUploading, setIsUploading] = useState(false);
     const [uploadType, setUploadType] = useState(null); // 'avatar' or 'cover'
 
@@ -106,15 +116,20 @@ const Profile = () => {
 
     // Editing state for text fields
     const [isEditingCard, setIsEditingCard] = useState(false);
-    const [oficiValue, setOficiValue] = useState(profile?.ofici || '');
-    const [bioValue, setBioValue] = useState(profile?.bio || '');
+    const [oficiValue, setOficiValue] = useState('');
+    const [bioValue, setBioValue] = useState('');
+    const [secondaryTowns, setSecondaryTowns] = useState([]);
 
     // Stats State
     const [stats, setStats] = useState({ posts: 0, items: 0, connections: 0 });
 
     useEffect(() => {
-        if (profile?.ofici) setOficiValue(profile.ofici);
-        if (profile?.bio) setBioValue(profile.bio);
+        // Només actualitzar valors si NO estem editant per evitar sobreescriure canvis actius
+        if (profile && !isEditingCard) {
+            setOficiValue(profile.ofici || '');
+            setBioValue(profile.bio || '');
+            setSecondaryTowns(profile.secondary_towns || []);
+        }
 
         if (user?.id) {
             Promise.all([
@@ -129,41 +144,49 @@ const Profile = () => {
                 });
             });
         }
-    }, [profile, user]);
+    }, [profile, user, isEditingCard]);
 
     useEffect(() => {
         supabaseService.getTowns().then(setAllTowns);
     }, []);
 
-    const userTown = allTowns.find(t => t.uuid === profile?.town_uuid || t.id === profile?.town_id);
-    const isLoading = !user && !profile;
+    // --- HOOKS & HANDLERS (Must be unconditional) ---
 
-    if (isLoading) return <UnifiedStatus type="loading" />;
-
-    const displayProfile = profile || {
-        full_name: user?.email?.split('@')[0] || 'Usuari',
-        avatar_url: null,
-        cover_url: null,
-        town_id: null
-    };
-
+    // Define all callbacks first
     const handleTownChange = useCallback(async (townId) => {
         try {
             const isUuid = typeof townId === 'string' && townId.includes('-');
-            const updatePayload = isUuid ? { town_uuid: townId } : { town_id: parseInt(townId) };
+            const finalTownId = isUuid ? townId : parseInt(townId);
 
-            if (isPlayground) {
-                setProfile({ ...profile, ...updatePayload });
-                logger.log('[Profile] Temporary town update for Playground:', updatePayload);
+            if (townEditMode === 'primary') {
+                const updatePayload = isUuid ? { town_uuid: finalTownId } : { town_id: finalTownId };
+                if (isPlayground) {
+                    setProfile({ ...profile, ...updatePayload });
+                } else {
+                    const updated = await supabaseService.updateProfile(user.id, updatePayload);
+                    setProfile(updated);
+                }
             } else {
-                const updated = await supabaseService.updateProfile(user.id, updatePayload);
-                setProfile(updated);
+                // Secondary town logic
+                let updatedSecondary = [...secondaryTowns];
+                if (editingSecondaryIdx !== null) {
+                    updatedSecondary[editingSecondaryIdx] = finalTownId;
+                } else {
+                    updatedSecondary.push(finalTownId);
+                }
+                setSecondaryTowns(updatedSecondary);
+
+                if (!isPlayground) {
+                    const updated = await supabaseService.updateProfile(user.id, { secondary_towns: updatedSecondary });
+                    setProfile(updated);
+                }
             }
             setIsEditingTown(false);
+            setEditingSecondaryIdx(null);
         } catch (error) {
             logger.error('Error updating town:', error);
         }
-    }, [user?.id, profile, isPlayground]);
+    }, [user?.id, profile, isPlayground, townEditMode, secondaryTowns, editingSecondaryIdx]);
 
     const handleSocialPreferenceChange = useCallback(async (preference) => {
         try {
@@ -181,12 +204,19 @@ const Profile = () => {
         try {
             const updates = {
                 ofici: oficiValue,
-                bio: bioValue
+                bio: bioValue,
+                secondary_towns: secondaryTowns
             };
 
             // Si s'ha seleccionat un poble, afegir-lo
-            if (userTown?.uuid) {
-                updates.town_uuid = userTown.uuid;
+            if (userTown) {
+                if (userTown.uuid) {
+                    updates.town_uuid = userTown.uuid;
+                } else if (userTown.id) {
+                    // Legacy support
+                    updates.town_id = userTown.id;
+                    updates.town_uuid = null; // Clear UUID if switching to legacy ID (optional, but cleaner)
+                }
             }
 
             const updated = await supabaseService.updateProfile(user.id, updates);
@@ -197,72 +227,7 @@ const Profile = () => {
             logger.error('Error updating card info:', error);
             alert(`Error guardant: ${error.message}`);
         }
-    }, [user?.id, oficiValue, bioValue, userTown]);
-
-    const handleReposition = async (type) => {
-        const currentUrl = type === 'avatar' ? displayProfile.avatar_url : displayProfile.cover_url;
-        if (!currentUrl) return;
-
-        setIsUploading(true);
-        try {
-            const asset = await supabaseService.getMediaAssetByUrl(currentUrl);
-            if (asset) {
-                const parent = await supabaseService.getParentAsset(asset.id);
-                if (parent) {
-                    setTempImageSrc(parent.url);
-                    setPendingParentId(parent.id);
-                } else {
-                    setTempImageSrc(asset.url);
-                    setPendingParentId(asset.id);
-                }
-            } else {
-                setTempImageSrc(currentUrl);
-                setPendingParentId(null);
-            }
-
-            setPendingFile(new File([], 'repositioning.jpg', { type: 'image/jpeg' }));
-            setPendingType(type);
-            setIsReframerOpen(true);
-        } catch (error) {
-            logger.error('Error in handleReposition:', error);
-            setTempImageSrc(currentUrl);
-            setPendingFile(new File([], 'repositioning.jpg', { type: 'image/jpeg' }));
-            setPendingParentId(null);
-            setPendingType(type);
-            setIsReframerOpen(true);
-        } finally {
-            setIsUploading(false);
-        }
-    };
-
-    const handleFileChange = async (event, type) => {
-        const file = event.target.files[0];
-        if (!file) return;
-
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            setTempImageSrc(e.target.result);
-            setPendingFile(file);
-            setPendingType(type);
-            setPendingParentId(null);
-            setIsReframerOpen(true);
-        };
-        reader.readAsDataURL(file);
-        event.target.value = '';
-    };
-
-    const handlePickerSelect = async (asset) => {
-        setIsPickerOpen(false);
-        setUploadType(pendingType);
-        setTempImageSrc(asset.url);
-        if (asset.parent_id) {
-            setPendingParentId(asset.parent_id);
-        } else {
-            setPendingParentId(asset.id);
-        }
-        setPendingFile(new File([], asset.url.split('/').pop() || 'image.jpg', { type: asset.mime_type }));
-        setIsReframerOpen(true);
-    };
+    }, [user?.id, oficiValue, bioValue, userTown, secondaryTowns]);
 
     const handleReframerConfirm = useCallback(async (croppedBlob) => {
         setIsReframerOpen(false);
@@ -348,6 +313,84 @@ const Profile = () => {
         }
     }, [user?.id, pendingType, pendingAsset]);
 
+    // Regular functions (not hooks, but used in render)
+    const handleReposition = async (type) => {
+        const currentUrl = type === 'avatar' ? displayProfile.avatar_url : displayProfile.cover_url;
+        if (!currentUrl) return;
+
+        setIsUploading(true);
+        try {
+            const asset = await supabaseService.getMediaAssetByUrl(currentUrl);
+            if (asset) {
+                const parent = await supabaseService.getParentAsset(asset.id);
+                if (parent) {
+                    setTempImageSrc(parent.url);
+                    setPendingParentId(parent.id);
+                } else {
+                    setTempImageSrc(asset.url);
+                    setPendingParentId(asset.id);
+                }
+            } else {
+                setTempImageSrc(currentUrl);
+                setPendingParentId(null);
+            }
+
+            setPendingFile(new File([], 'repositioning.jpg', { type: 'image/jpeg' }));
+            setPendingType(type);
+            setIsReframerOpen(true);
+        } catch (error) {
+            logger.error('Error in handleReposition:', error);
+            setTempImageSrc(currentUrl);
+            setPendingFile(new File([], 'repositioning.jpg', { type: 'image/jpeg' }));
+            setPendingParentId(null);
+            setPendingType(type);
+            setIsReframerOpen(true);
+        } finally {
+            setIsUploading(false);
+        }
+    };
+
+    const handleFileChange = async (event, type) => {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            setTempImageSrc(e.target.result);
+            setPendingFile(file);
+            setPendingType(type);
+            setPendingParentId(null);
+            setIsReframerOpen(true);
+        };
+        reader.readAsDataURL(file);
+        event.target.value = '';
+    };
+
+    const handlePickerSelect = async (asset) => {
+        setIsPickerOpen(false);
+        setUploadType(pendingType);
+        setTempImageSrc(asset.url);
+        if (asset.parent_id) {
+            setPendingParentId(asset.parent_id);
+        } else {
+            setPendingParentId(asset.id);
+        }
+        setPendingFile(new File([], asset.url.split('/').pop() || 'image.jpg', { type: asset.mime_type }));
+        setIsReframerOpen(true);
+    };
+
+    const displayProfile = profile || {
+        full_name: user?.email?.split('@')[0] || 'Usuari',
+        avatar_url: null,
+        cover_url: null,
+        town_id: null
+    };
+
+    const userTown = allTowns.find(t => t.uuid === profile?.town_uuid || t.id === profile?.town_id);
+    const isLoading = !user && !profile;
+
+    if (isLoading) return <StatusLoader type="loading" />;
+
     const renderTabContent = () => {
         switch (activeTab) {
             case 'info':
@@ -357,14 +400,16 @@ const Profile = () => {
                             <div className="section-header-compact">
                                 <h3>Dades de Veí</h3>
                                 <button className="btn-icon-sm" onClick={() => setIsEditingCard(!isEditingCard)}>
-                                    {isEditingCard ? <Save size={18} /> : <Settings size={18} />}
+                                    {isEditingCard ? <Save size={18} /> : <Edit2 size={18} />}
                                 </button>
                             </div>
 
                             <div className="edit-grid">
                                 <div className="field-group">
-                                    <label>Ofici</label>
+                                    <label htmlFor="ofici-input">Ofici</label>
                                     <input
+                                        id="ofici-input"
+                                        name="ofici"
                                         type="text"
                                         value={oficiValue}
                                         onChange={(e) => setOficiValue(e.target.value)}
@@ -373,10 +418,15 @@ const Profile = () => {
                                     />
                                 </div>
                                 <div className="field-group">
-                                    <label>Poble</label>
+                                    <span className="form-label">Poble Principal</span>
                                     <button
                                         className={`town-picker-btn ${isEditingCard ? 'active' : ''}`}
-                                        onClick={() => isEditingCard && setIsEditingTown(true)}
+                                        onClick={() => {
+                                            if (isEditingCard) {
+                                                setTownEditMode('primary');
+                                                setIsEditingTown(true);
+                                            }
+                                        }}
                                         disabled={!isEditingCard}
                                     >
                                         <MapPin size={16} />
@@ -384,8 +434,40 @@ const Profile = () => {
                                     </button>
                                 </div>
                                 <div className="field-group full-width">
-                                    <label>Frase / Bio</label>
+                                    <span className="form-label">Pobles de Cor (Secundaris)</span>
+                                    <div className="secondary-towns-grid">
+                                        {secondaryTowns.map((tUuid, idx) => {
+                                            const t = allTowns.find(town => town.uuid === tUuid || town.id === tUuid);
+                                            return (
+                                                <div key={tUuid} className="secondary-town-chip">
+                                                    <span>{t?.name || 'Carregant...'}</span>
+                                                    {isEditingCard && (
+                                                        <button className="remove-secondary" onClick={() => {
+                                                            const updated = secondaryTowns.filter((_, i) => i !== idx);
+                                                            setSecondaryTowns(updated);
+                                                        }}>
+                                                            <X size={14} />
+                                                        </button>
+                                                    )}
+                                                </div>
+                                            );
+                                        })}
+                                        {isEditingCard && secondaryTowns.length < 3 && (
+                                            <button className="add-secondary-btn" onClick={() => {
+                                                setTownEditMode('secondary');
+                                                setEditingSecondaryIdx(null);
+                                                setIsEditingTown(true);
+                                            }}>
+                                                <Plus size={16} /> Afegir Poble
+                                            </button>
+                                        )}
+                                    </div>
+                                </div>
+                                <div className="field-group full-width">
+                                    <label htmlFor="bio-input">Frase / Bio</label>
                                     <textarea
+                                        id="bio-input"
+                                        name="bio"
                                         value={bioValue}
                                         onChange={(e) => setBioValue(e.target.value)}
                                         disabled={!isEditingCard}
@@ -401,11 +483,19 @@ const Profile = () => {
                             )}
                         </section>
 
+                        {/* SECCIÓ ENTITATS (Moved here for better visibility) */}
+                        <section className="entities-preview-section" style={{ padding: '0 20px 20px' }}>
+                            <div className="section-header-compact">
+                                <h3>Les meues Empreses i Grups</h3>
+                            </div>
+                            <MyEntitiesList userId={user?.id} />
+                        </section>
+
                         <section className="action-cards-grid">
                             <div className="action-card-mini" onClick={() => navigate(`/perfil/${user.id}`)}>
                                 <div className="card-icon blue"><Globe size={24} /></div>
                                 <div className="card-text">
-                                    <h4>Veure Muro Públic</h4>
+                                    <h4>Veure Mur Públic</h4>
                                     <p>Com et veuen els altres veïns</p>
                                 </div>
                                 <ChevronRight size={18} />
@@ -536,6 +626,33 @@ const Profile = () => {
                                 </div>
                             </div>
 
+                            <div className="privacy-toggle-row" onClick={async () => {
+                                const currentSettings = displayProfile.privacy_settings || { show_read_receipts: true };
+                                const startValue = currentSettings.show_read_receipts !== false; // Default true
+                                const newSettings = { ...currentSettings, show_read_receipts: !startValue };
+
+                                try {
+                                    const updated = await supabaseService.updateProfile(user.id, { privacy_settings: newSettings });
+                                    setProfile(updated);
+                                    // Feedback visual
+                                    const action = !startValue ? 'activada' : 'desactivada';
+                                    alert(`Confirmació de lectura ${action}.`);
+                                } catch (err) {
+                                    logger.error('Error updating privacy:', err);
+                                }
+                            }}>
+                                <div className="setting-info">
+                                    <ShieldCheck size={18} />
+                                    <div className="setting-text-stack">
+                                        <span>Confirmació de Lectura</span>
+                                        <small>Si ho desactives, no veuràs quan els altres et llegeixen ni ells quan tu ho fas.</small>
+                                    </div>
+                                </div>
+                                <div className="toggle-switch">
+                                    <div className={`switch-knob ${(displayProfile.privacy_settings?.show_read_receipts !== false) ? 'on' : 'off'}`} />
+                                </div>
+                            </div>
+
                             <div className="gdpr-actions">
                                 <h4>Sobirania de Dades</h4>
                                 <div className="btn-group-sm">
@@ -545,10 +662,16 @@ const Profile = () => {
                             </div>
                         </section>
 
-                        <button onClick={logout} className="btn-logout-danger mt-xl">
-                            <LogOut size={18} />
-                            Sortir de la sessió
-                        </button>
+                        <section className="settings-section">
+                            <h3 className="section-title">El teu Tamagotchi Rural</h3>
+                            <IAIATamagotchiSettings
+                                userId={user?.id}
+                                profile={profile}
+                                onUpdate={(updated) => setProfile(updated)}
+                            />
+                        </section>
+
+
 
                         <div className="app-footer">
                             <HelpCircle size={14} /> Ajuda i Suport • v1.2.0
@@ -559,6 +682,31 @@ const Profile = () => {
                 return null;
         }
     };
+
+    const [renderError, setRenderError] = useState(null);
+
+    // Error catching effect
+    useEffect(() => {
+        try {
+            // Self-check critical variables
+            if (!navigate) throw new Error("Navigation not available");
+        } catch (e) {
+            setRenderError(e);
+        }
+    }, []);
+
+    if (renderError) {
+        return (
+            <div className="profile-container optimized-profile">
+                <div style={{ padding: 40, textAlign: 'center' }}>
+                    <h3>Error al carregar perfil</h3>
+                    <p>{renderError.message}</p>
+                    <button onClick={() => window.location.reload()} className="btn-primary">Recarregar</button>
+                    <button onClick={() => navigate('/chats')} className="btn-secondary-sm mt-md">Tornar a Xats</button>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="profile-container optimized-profile">
