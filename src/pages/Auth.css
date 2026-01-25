@@ -84,6 +84,75 @@
     box-shadow: 0 0 0 4px rgba(93, 95, 239, 0.15);
 }
 
+/* Autofill Fix for Dark Mode */
+.form-group input:-webkit-autofill,
+.form-group input:-webkit-autofill:hover,
+.form-group input:-webkit-autofill:focus,
+.form-group input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px #1e2230 inset !important;
+    -webkit-text-fill-color: white !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Phone Input specific styling */
+.phone-input-wrapper {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 18px;
+    padding: 0 16px;
+    /* Custom padding for wrapper */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.phone-input-wrapper:focus-within {
+    border-color: var(--color-primary);
+    background: rgba(255, 255, 255, 0.06);
+    box-shadow: 0 0 0 4px rgba(93, 95, 239, 0.15);
+}
+
+.phone-prefix {
+    font-size: 1rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.8);
+    margin-right: 12px;
+    padding-right: 12px;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    height: 24px;
+}
+
+.phone-input-field {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 1.1rem;
+    /* Slightly larger for numbers */
+    font-weight: 700;
+    padding: 16px 0;
+    /* Vertical padding matching wrapper */
+    outline: none;
+    width: 100%;
+    letter-spacing: 1px;
+}
+
+.phone-input-field::placeholder {
+    color: rgba(255, 255, 255, 0.2);
+    font-weight: 400;
+}
+
+.otp-input-field {
+    text-align: center;
+    letter-spacing: 8px;
+    font-size: 1.5rem !important;
+    font-weight: 800;
+}
+
 .town-picker-trigger {
     width: 100%;
     padding: 16px 20px;
@@ -252,6 +321,8 @@
 .language-selector-auth {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
+    /* Allow wrapping for multiple languages */
     gap: 12px;
     margin-top: 16px;
     padding: 8px;
@@ -325,7 +396,10 @@
     align-items: center;
     justify-content: center;
     gap: 12px;
-    padding: 10px 14px;
+    padding: 14px;
+    height: auto;
+    min-height: 52px;
+    /* Ensure visual parity */
 }
 
 .auth-button.google-auth:hover {

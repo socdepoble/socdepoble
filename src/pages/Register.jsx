@@ -83,11 +83,16 @@ const Register = () => {
 
         // Email flow
         try {
-            await supabaseService.signUp(email, password, {
-                full_name: fullName,
-                town_id: selectedTown.id,
-                town_uuid: selectedTown.uuid
-            });
+            await supabaseService.signUp(
+                email,
+                password,
+                {
+                    full_name: fullName,
+                    town_id: selectedTown.id,
+                    town_uuid: selectedTown.uuid
+                },
+                'https://socdepoble.vercel.app/login' // URL de redirección explícita
+            );
             navigate('/login', { state: { message: '¡Compte creat! Revisa el teu correu per a verificar l\'adreça abans d\'entrar.' } });
         } catch (err) {
             setError(err.message);
@@ -112,6 +117,13 @@ const Register = () => {
                     full_name: fullName,
                     town_id: selectedTown?.id, // Legacy compatibility
                     town_uuid: selectedTown?.uuid,
+                    primary_town: selectedTown?.name
+                });
+
+                // Notify Admins
+                supabaseService.notifyAdminsNewUser({
+                    id: user.id,
+                    full_name: fullName,
                     primary_town: selectedTown?.name
                 });
             }

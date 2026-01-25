@@ -356,3 +356,144 @@
 .icon-btn:hover {
     color: var(--color-primary);
 }
+
+/* Broadcast Styles */
+.dashboard-card .dash-icon.red {
+    background: linear-gradient(135deg, #E53935, #FF5252);
+}
+
+.broadcast-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.broadcast-card {
+    padding: 24px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.card-header-simple {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-header-simple h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 800;
+}
+
+.badge-beta {
+    background: #FFF3E0;
+    color: #F57C00;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.form-group-admin {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group-admin label {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-family: var(--font-heading);
+    margin-left: 4px;
+}
+
+.form-group-admin input,
+.form-group-admin textarea {
+    padding: 12px;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    background: var(--bg-main);
+    font-family: inherit;
+    font-size: 14px;
+}
+
+.broadcast-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: auto;
+}
+
+.btn-secondary {
+    flex: 1;
+    padding: 12px;
+    background: var(--bg-surface);
+    border: 1px solid var(--color-border);
+    color: var(--text-main);
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-primary-danger {
+    flex: 1;
+    padding: 12px;
+    background: linear-gradient(135deg, #E53935, #D32F2F);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(229, 57, 53, 0.3);
+}
+
+.btn-outline-primary {
+    padding: 14px;
+    background: transparent;
+    border: 2px solid var(--color-primary);
+    color: var(--color-primary);
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-outline-primary:hover {
+    background: var(--color-primary-soft);
+}
+
+.full-width {
+    width: 100%;
+}
+
+.card-desc {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+.spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}

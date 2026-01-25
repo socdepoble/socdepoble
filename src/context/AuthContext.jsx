@@ -124,10 +124,26 @@ export const AuthProvider = ({ children }) => {
             if (error) {
                 logger.error('[AuthContext] Error getting session:', error);
             }
+
+            // EMERGENCY RESCUE MODE CHECK
+            const isSimulation = localStorage.getItem('sb-simulation-mode') === 'true';
+            if (!session && isSimulation) {
+                logger.log('[AuthContext] Simulation Mode Detected. Restoring session...');
+                loginAsGuest(); // Use guest login flow for simulation
+                initialCheckDone = true;
+                return;
+            }
+
             initialCheckDone = true;
             handleAuth(AUTH_EVENTS.INITIAL_SESSION, session);
         }).catch(err => {
             logger.error('[AuthContext] Crash in getSession:', err);
+
+            // Fallback for simulation even on crash
+            if (localStorage.getItem('sb-simulation-mode') === 'true') {
+                loginAsGuest();
+            }
+
             initialCheckDone = true;
         });
 

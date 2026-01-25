@@ -20,7 +20,7 @@ const Header = () => {
     const handleProfileClick = (e) => {
         if (location.pathname === '/perfil') {
             e.preventDefault();
-            navigate(-1);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     };
 

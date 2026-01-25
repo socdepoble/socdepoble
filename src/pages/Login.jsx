@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { supabase } from '../supabaseClient';
 import { supabaseService } from '../services/supabaseService';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
 import { Phone, Mail, ArrowRight, Loader2 } from 'lucide-react';
+import { logger } from '../utils/logger';
 import './Auth.css';
 
 /* Inline styles for forgot password link */
@@ -21,7 +23,7 @@ import './Auth.css';
 // }
 
 const Login = () => {
-    const { adoptPersona, isPlayground, logout, setLanguage, language } = useAuth();
+    const { adoptPersona, isPlayground, logout, setLanguage, language, user } = useAuth();
     const { t, i18n } = useTranslation();
     const activeLang = language || i18n.language || 'va';
     const navigate = useNavigate();
@@ -64,6 +66,25 @@ const Login = () => {
             };
         }
     }, [step]);
+
+    // Auto-redirect if already logged in (Simulation or Real)
+    useEffect(() => {
+        const checkSession = async () => {
+            // Check context user first (fastest for simulation)
+            if (user) {
+                logger.log('[Login] User already authenticated, redirecting...');
+                navigate('/chats', { replace: true });
+                return;
+            }
+
+            // Fallback: Check Supabase session explicitly (for hard refresh scenarios)
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session) {
+                navigate('/chats', { replace: true });
+            }
+        };
+        checkSession();
+    }, [navigate, user]);
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -304,7 +325,10 @@ const Login = () => {
                     {[
                         { code: 'va', label: 'VA' },
                         { code: 'es', label: 'ES' },
-                        { code: 'en', label: 'EN' }
+                        { code: 'en', label: 'EN' },
+                        { code: 'fr', label: 'FR' },
+                        { code: 'de', label: 'DE' },
+                        { code: 'it', label: 'IT' }
                     ].map((lang) => (
                         <button
                             key={lang.code}

@@ -1,0 +1,48 @@
+{
+    "common": {
+        "loading": "Chargement...",
+        "back": "Retour",
+        "send": "Envoyer",
+        "write_message": "Écrire un message...",
+        "online": "En ligne",
+        "soon": "Bientôt...",
+        "save": "Enregistrer",
+        "saved": "Enregistré !",
+        "search": "Rechercher...",
+        "role_all": "Mur",
+        "role_gent": "Gens",
+        "role_grup": "Groupes",
+        "role_empresa": "Entreprises",
+        "role_oficial": "Entités",
+        "change_language": "Changer de langue"
+    },
+    "nav": {
+        "chats": "Chats",
+        "feed": "Mur",
+        "market": "Marché",
+        "towns": "Villages",
+        "profile": "Profil",
+        "notifications": "Notifications"
+    },
+    "auth": {
+        "login": "Connexion",
+        "register": "Créer un compte",
+        "email": "Email",
+        "password": "Mot de passe",
+        "fullName": "Nom complet",
+        "signIn": "Se connecter",
+        "signUp": "S'inscrire",
+        "noAccount": "Pas de compte ?",
+        "haveAccount": "Déjà un compte ?",
+        "checkEmail": "Succès ! Vérifiez votre email.",
+        "logout": "Déconnexion",
+        "demo_access": "Entrer en Invité (Démo)",
+        "demo_hint": "Accès rapide sans inscription",
+        "continue_google": "Continuer avec Google",
+        "or_sign_in": "ou connectez-vous"
+    },
+    "notifications": {
+        "title": "Notifications",
+        "empty": "Aucune nouvelle notification."
+    }
+}

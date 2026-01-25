@@ -116,8 +116,11 @@ const Market = ({ searchTerm = '' }) => {
 
                 if (isMock && !isOfficialSdP) return false;
 
-                // 3. Filter out 0000 reserved IDs except the main system one
-                if (idToCheck.startsWith('00000000-') && idToCheck !== '00000000-0000-0000-0000-000000000000') return false;
+                // 3. Filter out IAIA specific IDs
+                if ((item.uuid && String(item.uuid).startsWith('iaia-')) || (item.id && String(item.id).startsWith('iaia-'))) return false;
+
+                // 4. Filter out ALL 0000 reserved IDs including the main system one (IAIA)
+                if (idToCheck.startsWith('00000000-')) return false;
 
                 return true;
             });

@@ -10,10 +10,9 @@
     <title>Rescat Sóc de Poble</title>
     <style>
         body {
-            background-color: #2563EB;
-            /* BLUE for distinction */
+            background: radial-gradient(circle at center, #1a1b23 0%, #08090a 100%);
             color: #fff;
-            font-family: system-ui, -apple-system, sans-serif;
+            font-family: 'Outfit', system-ui, -apple-system, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -25,39 +24,47 @@
         }
 
         .card {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 30px;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(23, 25, 35, 0.7);
+            padding: 40px 30px;
+            border-radius: 24px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             max-width: 400px;
             width: 100%;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 24px 64px rgba(0, 0, 0, 0.4);
         }
 
         h1 {
-            margin: 0 0 15px 0;
-            font-size: 1.8rem;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            margin: 0 0 16px 0;
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff 0%, #a5a5a5 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         p {
-            margin-bottom: 25px;
-            line-height: 1.5;
-            color: #DBEAFE;
+            margin-bottom: 32px;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.95rem;
         }
 
         .btn {
-            display: block;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             width: 100%;
             padding: 16px;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
             border: none;
-            border-radius: 12px;
+            border-radius: 16px;
             font-size: 1rem;
-            font-weight: bold;
+            font-weight: 700;
             cursor: pointer;
-            transition: transform 0.1s, box-shadow 0.1s;
+            transition: all 0.2s ease;
+            gap: 10px;
         }
 
         .btn:active {
@@ -65,45 +72,51 @@
         }
 
         .btn-primary {
-            background: #fff;
-            color: #2563EB;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background: #5D5FEF;
+            color: white;
+            box-shadow: 0 4px 12px rgba(93, 95, 239, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: #4A4CBF;
+            transform: translateY(-2px);
         }
 
         .btn-success {
             background: #10B981;
             color: white;
             display: none;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
         }
 
         #console {
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 8px;
-            padding: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 16px;
             text-align: left;
-            font-family: monospace;
-            font-size: 0.8rem;
-            margin-top: 20px;
-            min-height: 80px;
+            font-family: 'Menlo', monospace;
+            font-size: 0.75rem;
+            margin-top: 24px;
+            min-height: 100px;
             display: none;
-            border-left: 4px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.7);
         }
 
         .log-line {
-            margin-bottom: 6px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            padding-bottom: 2px;
+            margin-bottom: 4px;
         }
 
         .success {
             color: #4ADE80;
-            font-weight: bold;
         }
 
         .error {
             color: #F87171;
-            font-weight: bold;
+        }
+
+        .info {
+            color: #9CA3AF;
         }
     </style>
 </head>

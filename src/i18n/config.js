@@ -7,6 +7,9 @@ import esTranslations from './locales/es.json';
 import glTranslations from './locales/gl.json';
 import euTranslations from './locales/eu.json';
 import enTranslations from './locales/en.json';
+import frTranslations from './locales/fr.json';
+import deTranslations from './locales/de.json';
+import itTranslations from './locales/it.json';
 
 i18n
     .use(LanguageDetector)
@@ -18,7 +21,10 @@ i18n
             es: { translation: esTranslations },
             gl: { translation: glTranslations },
             eu: { translation: euTranslations },
-            en: { translation: enTranslations }
+            en: { translation: enTranslations },
+            fr: { translation: frTranslations },
+            de: { translation: deTranslations },
+            it: { translation: itTranslations }
         },
         fallbackLng: 'va',
         // No forzamos 'lng' aquí para que el detector pueda usar localStorage

@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { supabaseService } from '../services/supabaseService';
-import { Users, Shield, ArrowLeft, Loader2, UserCheck, Store, Plus, Layout, Settings } from 'lucide-react';
+import { Users, Shield, ArrowLeft, Loader2, UserCheck, Store, Plus, Layout, Settings, Bell } from 'lucide-react';
 import { logger } from '../utils/logger';
+import { pushService } from '../services/pushService';
+import { pushNotifications } from '../services/pushNotifications';
 import './AdminPanel.css';
 
 const AdminPanel = () => {
@@ -115,6 +117,13 @@ const AdminPanel = () => {
                         <h3>Bústia de Propostes</h3>
                         <p>Noves funcionalitats i suggeriments.</p>
                         <span className="dash-badge">Futur</span>
+                    </div>
+
+                    <div className="dashboard-card red" onClick={() => setSubModule('broadcast')}>
+                        <div className="dash-icon red"><Bell size={32} /></div>
+                        <h3>Centre de Difusió</h3>
+                        <p>Notificacions i Newsletter.</p>
+                        <span className="dash-badge">Admin</span>
                     </div>
 
                     <div className="dashboard-card orange" onClick={() => alert('Pròximament: Estadístiques detallades')}>
@@ -301,6 +310,123 @@ const AdminPanel = () => {
                     </div>
                 </div>
             )}
+
+            {/* BROADCAST MODULE */}
+            {subModule === 'broadcast' && (
+                <div className="admin-content">
+                    <BroadcastManager user={personas.find(p => p.id === useAuth().user?.id)} allUsers={personas} />
+                </div>
+            )}
+        </div>
+    );
+};
+
+// --- SUBCOMPONENTS ---
+
+const BroadcastManager = ({ user, allUsers }) => {
+    const [title, setTitle] = useState('🌟 Nova Versió 1.3.0 Disponible!');
+    const [body, setBody] = useState('Hem millorat el rendiment i solucionat errors. Actualitza ara!');
+    const [sending, setSending] = useState(false);
+
+    const handleTestPush = async () => {
+        if (!user) return alert('No puc enviar-te push perquè no trobe el teu usuari.');
+        try {
+            setSending(true);
+            const success = await pushNotifications.triggerNotification(user.id, {
+                title: "🔔 Test de Push",
+                body: "Si llegeixes això, el sistema funciona perfectament.",
+                icon: "/icon-192.png",
+                tag: "test-push",
+                url: "/admin"
+            });
+            if (success) alert('✅ Notificació enviada! Revisa el teu mòbil/centre de notificacions.');
+            else alert('❌ Error enviant. Revisa els logs.');
+        } catch (e) {
+            console.error(e);
+            alert('Error: ' + e.message);
+        } finally {
+            setSending(false);
+        }
+    };
+
+    const handleBroadcastPush = async () => {
+        if (!window.confirm(`⚠️ SEGUR? Això enviarà una alerta a TOTS els usuaris (${allUsers.length}).`)) return;
+
+        try {
+            setSending(true);
+            let count = 0;
+            // MVP Loop: Send one by one (idealment això es faria al backend en batch)
+            // Filtrem usuaris "reals" o amb ID vàlid
+            const targets = allUsers.filter(u => u.id && u.id !== 'demo-user');
+
+            for (const target of targets) {
+                // Fire and One-way (no esperem resposta de cadascun per a no bloquejar UI massa temps)
+                pushNotifications.triggerNotification(target.id, {
+                    title: title,
+                    body: body,
+                    icon: "/icon-192.png",
+                    tag: "version-update",
+                    url: "/" // Reload app
+                });
+                count++;
+            }
+            alert(`✅ Broadcast iniciat per a ${count} usuaris.`);
+        } catch (e) {
+            alert('Error: ' + e.message);
+        } finally {
+            setSending(false);
+        }
+    };
+
+    const handleCopyEmails = () => {
+        // Filter out emails that look fake or demo
+        const emails = allUsers
+            .map(u => u.email)
+            .filter(e => e && e.includes('@') && !e.includes('example.com') && !e.includes('playground.local'))
+            .join(', ');
+
+        navigator.clipboard.writeText(emails);
+        alert(`✅ ${emails.split(', ').length} emails copiats al porta-retalls!`);
+    };
+
+    return (
+        <div className="broadcast-container">
+            <div className="broadcast-card glass">
+                <div className="card-header-simple">
+                    <h3>📲 Push Notifications</h3>
+                    <span className="badge-beta">Beta</span>
+                </div>
+
+                <div className="form-group-admin">
+                    <label>Títol de l'Alerta</label>
+                    <input type="text" value={title} onChange={e => setTitle(e.target.value)} />
+                </div>
+
+                <div className="form-group-admin">
+                    <label>Missatge</label>
+                    <textarea value={body} onChange={e => setBody(e.target.value)} rows={3} />
+                </div>
+
+                <div className="broadcast-actions">
+                    <button className="btn-secondary" onClick={handleTestPush} disabled={sending}>
+                        {sending ? <Loader2 className="spin" /> : '🔔 Provar en el meu mòbil'}
+                    </button>
+                    <button className="btn-primary-danger" onClick={handleBroadcastPush} disabled={sending}>
+                        🚀 ENVIAR A TOTS
+                    </button>
+                </div>
+            </div>
+
+            <div className="broadcast-card glass">
+                <div className="card-header-simple">
+                    <h3>💌 Newsletter Email</h3>
+                </div>
+                <p className="card-desc">Copia tots els correus dels usuaris registrats per a enviar la newsletter de l'actualització des del teu gestor de correu preferit.</p>
+
+                <button className="btn-outline-primary full-width" onClick={handleCopyEmails}>
+                    📋 Copiar Llista de Correus (CCO)
+                </button>
+            </div>
         </div>
     );
 };
