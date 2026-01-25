@@ -685,8 +685,37 @@ const Profile = () => {
 
 
 
+                        <div className="settings-section logout-section" style={{ marginTop: '24px', marginBottom: '40px' }}>
+                            <button
+                                className="btn-logout-danger full-width"
+                                onClick={async () => {
+                                    if (window.confirm('Segur que vols tancar la sessió?')) {
+                                        await supabaseService.signOut();
+                                        window.location.href = '/login';
+                                    }
+                                }}
+                                style={{
+                                    background: '#fee2e2',
+                                    color: '#ef4444',
+                                    border: 'none',
+                                    padding: '16px',
+                                    borderRadius: '12px',
+                                    fontWeight: '600',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    gap: '8px',
+                                    width: '100%',
+                                    fontSize: '1rem'
+                                }}
+                            >
+                                <LogOut size={20} />
+                                Tancar Sessió
+                            </button>
+                        </div>
+
                         <div className="app-footer">
-                            <HelpCircle size={14} /> Ajuda i Suport • v1.2.0
+                            <HelpCircle size={14} /> Ajuda i Suport • v1.2.1
                         </div>
                     </div>
                 );

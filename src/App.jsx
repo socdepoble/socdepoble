@@ -27,6 +27,7 @@ const IAIAPage = lazy(() => import('./pages/IAIAPage'));
 const ProjectPresentation = lazy(() => import('./pages/ProjectPresentation'));
 const MakingOf = lazy(() => import('./pages/MakingOf'));
 const LegalNotice = lazy(() => import('./pages/LegalNotice'));
+const ResetPage = lazy(() => import('./pages/ResetPage'));
 import { supabase } from './supabaseClient';
 import { MOCK_CHATS, MOCK_FEED, MOCK_MARKET_ITEMS } from './data';
 import { useAuth } from './context/AuthContext';
@@ -164,6 +165,7 @@ function App() {
               <Route path="projecte" element={<ProjectPresentation />} />
               <Route path="elemental" element={<MakingOf />} />
               <Route path="legal" element={<LegalNotice />} />
+              <Route path="reset" element={<ResetPage />} />
             </Route>
           </Routes>
         </ErrorBoundary>
