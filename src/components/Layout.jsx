@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Navigation from './Navigation';
 import Header from './Header';
 import CreationHub from './CreationHub';
 import PlaygroundBanner from './PlaygroundBanner';
 import { useAuth } from '../context/AuthContext';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { logger } from '../utils/logger';
 import './Layout.css';
 
 import ScrollToTop from './ScrollToTop';
@@ -26,6 +27,35 @@ const Layout = () => {
         // Force suffix
         document.title = `${cleanTitle} (v1.3.1) | Sóc de Poble`;
     }, [location]);
+
+    // [Interactive Push] Deep Linking to IAIA Chat
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        const iaiaContext = params.get('iaia_context');
+
+        if (iaiaContext) {
+            // Find IAIA persona and redirect
+            import('../services/supabaseService').then(async ({ supabaseService }) => {
+                try {
+                    const personas = await supabaseService.getAllPersonas(isPlayground);
+                    const iaia = personas.find(p => p.full_name?.toUpperCase().includes('IAIA') || p.role === 'ambassador');
+
+                    if (iaia) {
+                        logger.log('[Layout] Redirecting to IAIA chat with context:', iaiaContext);
+                        navigate(`/chats/${iaia.id}`, {
+                            state: { injectedMessage: iaiaContext },
+                            replace: true
+                        });
+                    } else {
+                        logger.warn('[Layout] IAIA persona not found for deep link');
+                        navigate('/chats');
+                    }
+                } catch (err) {
+                    logger.error('[Layout] Error deep linking to IAIA:', err);
+                }
+            });
+        }
+    }, [location.search, navigate, isPlayground]);
 
     return (
         <div className={`layout-container ${isPlayground ? 'has-playground-banner' : ''}`}>

@@ -137,7 +137,15 @@ self.addEventListener('notificationclick', (event) => {
     console.log('[SW] Notification clicked');
     event.notification.close();
 
-    const urlToOpen = event.notification.data?.url || '/chats';
+    let urlToOpen = event.notification.data?.url || '/chats';
+
+    // [Interactive Push] If it's the IAIA, we append the message context so the app can open the chat dynamically
+    if (event.notification.data?.isIAIA) {
+        const messageBody = event.notification.body;
+        // Check if URL already has params
+        const separator = urlToOpen.includes('?') ? '&' : '?';
+        urlToOpen = `${urlToOpen}${separator}iaia_context=${encodeURIComponent(messageBody)}`;
+    }
 
     event.waitUntil(
         clients.matchAll({ type: 'window', includeUncontrolled: true })

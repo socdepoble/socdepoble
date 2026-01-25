@@ -217,6 +217,71 @@ const normalizeContentItem = (item, type = 'post') => {
 };
 
 export const supabaseService = {
+    // New Feature: Persistent Notifications
+    async createNotification(payload) {
+        try {
+            const { error } = await supabase.from('notifications').insert([{
+                user_id: payload.user_id,
+                type: payload.type || 'system',
+                content: payload.content,
+                is_read: false,
+                created_at: new Date().toISOString(),
+                // Optional fields if schema supports them
+                // meta: payload.meta 
+            }]);
+            if (error) {
+                // Ignore table missing errors for now
+                if (error.code === '42P01') console.warn('Notifications table missing');
+                else console.error('Error creating notification:', error);
+            }
+        } catch (e) {
+            console.error('Create notification exception:', e);
+        }
+    },
+
+    // Admin Stats (Live)
+    async getAdminStats() {
+        try {
+            const now = new Date();
+            const yesterday = new Date(now.getTime() - (24 * 60 * 60 * 1000)).toISOString();
+
+            // Total Real Users
+            const { count: totalUsers, error: countError } = await supabase
+                .from('profiles')
+                .select('*', { count: 'exact', head: true })
+                .eq('is_demo', false)
+                .not('id', 'ilike', '11111111-%'); // Exclude Lore
+
+            // New Users (24h)
+            const { data: newUsers, error: newError } = await supabase
+                .from('profiles')
+                .select('id, full_name, created_at')
+                .eq('is_demo', false)
+                .gte('created_at', yesterday)
+                .order('created_at', { ascending: false });
+
+            // System Health (Check if any critical errors logged - using notifications for now)
+            const { count: errorCount } = await supabase
+                .from('notifications')
+                .select('*', { count: 'exact', head: true })
+                .eq('type', 'system_error')
+                .gte('created_at', yesterday);
+
+            // Latest User
+            const latestUser = newUsers?.[0] || null;
+
+            return {
+                totalUsers: totalUsers || 0,
+                newUsers24h: newUsers?.length || 0,
+                latestUser,
+                errorCount: errorCount || 0
+            };
+        } catch (e) {
+            logger.error('Error fetching admin stats:', e);
+            return { totalUsers: 0, newUsers24h: 0, errorCount: 0 };
+        }
+    },
+
     // Admin & Seeding
     async getAllPersonas(isPlayground = false) {
         const { data, error } = await supabase

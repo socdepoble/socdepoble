@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ca">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sóc de Poble - Rescat Mòbil</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #FFD700;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: #FF4500;
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 69, 0, 0.4);
+            margin-top: 20px;
+            width: 100%;
+            max-width: 300px;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        p {
+            color: #aaa;
+            line-height: 1.5;
+        }
+
+        .success {
+            color: #4CAF50;
+            font-weight: bold;
+            display: none;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🛠️ RESCAT MÒBIL</h1>
+    <p>Si la pantalla es queda en blanc, prem el botó vermell per esborrar la memòria.</p>
+
+    <button onclick="nukeIt()" id="btn">ESBORRAR TOT</button>
+    <p id="msg" class="success">✅ Fet! Reiniciant...</p>
+
+    <script>
+        async function nukeIt() {
+            const btn = document.getElementById('btn');
+            const msg = document.getElementById('msg');
+
+            btn.innerText = "Netejant...";
+            btn.disabled = true;
+
+            try {
+                // 1. Service Workers (The Killer)
+                if (navigator.serviceWorker) {
+                    const registrations = await navigator.serviceWorker.getRegistrations();
+                    for (const registration of registrations) {
+                        await registration.unregister();
+                    }
+                }
+
+                // 2. Caches
+                if (window.caches) {
+                    const keys = await caches.keys();
+                    await Promise.all(keys.map(key => caches.delete(key)));
+                }
+
+                // 3. Storage
+                localStorage.clear();
+                sessionStorage.clear();
+
+                // 4. Cookies (Brute Force)
+                document.cookie.split(";").forEach(function (c) {
+                    document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+                });
+
+                msg.style.display = 'block';
+                btn.style.display = 'none';
+
+                // 5. Redirect Force
+                setTimeout(() => {
+                    window.location.href = '/login?ts=' + Date.now();
+                }, 1500);
+
+            } catch (e) {
+                alert("Error: " + e.message);
+                // Fallback redirect
+                window.location.href = '/login?ts=' + Date.now();
+            }
+        }
+    </script>
+</body>
+
+</html>

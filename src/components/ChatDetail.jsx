@@ -166,6 +166,33 @@ const ChatDetail = () => {
         fetchStorageStats();
     }, []);
 
+    // [Interactive Push] Handle injected message (from Push Notification click)
+    useEffect(() => {
+        if (location.state?.injectedMessage && chat) {
+            const contextMsg = location.state.injectedMessage;
+
+            // Avoid duplicates
+            if (messages.some(m => m.content === contextMsg)) return;
+
+            logger.log('[ChatDetail] Injecting context message:', contextMsg);
+
+            const injectedMsg = {
+                id: `injected-${Date.now()}`,
+                conversation_id: id,
+                sender_id: chat.participant_2_id, // The IAIA/Partner
+                content: contextMsg,
+                created_at: new Date().toISOString(),
+                is_ai: true,
+                read_at: null
+            };
+
+            setMessages(prev => [...prev, injectedMsg]);
+
+            // Clear state to prevent re-injection on refresh
+            navigate(location.pathname, { replace: true, state: {} });
+        }
+    }, [location.state, chat, messages, navigate, location.pathname]);
+
     // NEW: Fetch other user's privacy settings
     useEffect(() => {
         if (!chat) return;
