@@ -47,6 +47,11 @@ self.addEventListener('fetch', (event) => {
         return;
     }
 
+    // Ignore non-GET requests (POST, PUT, DELETE, HEAD, etc.) - they cannot be cached
+    if (event.request.method !== 'GET') {
+        return;
+    }
+
     event.respondWith(
         fetch(event.request)
             .then(response => {
