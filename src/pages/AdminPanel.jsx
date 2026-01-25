@@ -8,7 +8,7 @@ import './AdminPanel.css';
 
 const AdminPanel = () => {
     const navigate = useNavigate();
-    const { isSuperAdmin, setImpersonatedProfile, setActiveEntityId } = useAuth();
+    const { isSuperAdmin, isAdmin, setImpersonatedProfile, setActiveEntityId } = useAuth();
     const [personas, setPersonas] = useState([]);
     const [entities, setEntities] = useState([]);
     const [lexicon, setLexicon] = useState([]);
@@ -19,7 +19,7 @@ const AdminPanel = () => {
     const [activeTab, setActiveTab] = useState(initialTab);
 
     useEffect(() => {
-        if (!isSuperAdmin) {
+        if (!isAdmin) {
             navigate('/');
             return;
         }
@@ -118,9 +118,11 @@ const AdminPanel = () => {
                                     <p>@{p.username}</p>
                                     <span className="location-tag">{p.role === 'vei' ? 'Veí' : p.role}</span>
                                 </div>
-                                <button className="impersonate-btn" onClick={() => handleImpersonate(p, 'user')}>
-                                    ACTUAR COM
-                                </button>
+                                {isSuperAdmin && (
+                                    <button className="impersonate-btn" onClick={() => handleImpersonate(p, 'user')}>
+                                        ACTUAR COM
+                                    </button>
+                                )}
                             </div>
                         ))}
                     </div>
