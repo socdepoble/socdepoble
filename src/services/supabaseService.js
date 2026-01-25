@@ -1635,6 +1635,11 @@ export const supabaseService = {
 
     async getUserPosts(userId, isPlayground = false) {
         try {
+            if (isPlayground || userId?.startsWith('11111111-')) {
+                // Simplified mock return for safety in playground/demo
+                return [];
+            }
+
             let query = supabase
                 .from('posts')
                 .select('id, uuid:id, content, created_at, author_id, author:author_name, author_avatar:author_avatar_url, image_url, author_role, is_playground, entity_id, towns!fk_posts_town_uuid(name)')
