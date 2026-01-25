@@ -94,7 +94,7 @@ const AdminPanel = () => {
                 <div className="title-area">
                     <h1>
                         <Shield className="text-cyan-400" size={24} />
-                        ANTIGRAVITY <span style={{ opacity: 0.5 }}>//</span> CORE
+                        ANTIGRAVITY <span style={{ opacity: 0.5 }}>//</span> CORE v1.5
                     </h1>
                     <p>SUPERVISOR DEL SISTEMA: {isSuperAdmin ? 'NIVELL 5 (GOD MODE)' : 'NIVELL 3 (OPERADOR)'}</p>
                 </div>
