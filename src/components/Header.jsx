@@ -1,5 +1,14 @@
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { useAuth } from '../context/AuthContext';
+import { useI18n } from '../context/I18nContext';
+import { logger } from '../utils/logger';
+import { User, Search, Bell, Sparkles, UserCheck, Download } from 'lucide-react';
+import { useUI } from '../context/UIContext';
+import { pushService } from '../services/pushService';
+import { pushNotifications } from '../services/pushNotifications';
 import { usePWAInstall } from '../hooks/usePWAInstall';
-import { Download } from 'lucide-react';
+import './Header.css';
 
 const Header = () => {
     const { t } = useTranslation();
