@@ -1517,26 +1517,35 @@ export const supabaseService = {
 
     // Multi-Identidad (Phase 6)
     async getUserEntities(userId) {
-        // Obtenemos las entidades donde el usuario es miembro
-        const { data, error } = await supabase
-            .from('entity_members')
-            .select(`
-                role,
-                entities (
-                    id,
-                    name,
-                    type,
-                    avatar_url
-                )
-            `)
-            .eq('user_id', userId);
+        try {
+            // Obtenemos las entidades donde el usuario es miembro
+            const { data, error } = await supabase
+                .from('entity_members')
+                .select(`
+                    role,
+                    entities (
+                        id,
+                        name,
+                        type,
+                        avatar_url
+                    )
+                `)
+                .eq('user_id', userId);
 
-        if (error) throw error;
-        // Aplanamos la respuesta
-        return (data || []).map(item => ({
-            ...item.entities,
-            member_role: item.role
-        }));
+            if (error) {
+                logger.warn('[SupabaseService] Error loading entities (returning empty):', error);
+                return [];
+            }
+
+            // Aplanamos la respuesta
+            return (data || []).map(item => ({
+                ...item.entities,
+                member_role: item.role
+            }));
+        } catch (err) {
+            logger.error('[SupabaseService] Critical error in getUserEntities:', err);
+            return []; // Fail safe to avoid white screen
+        }
     },
 
     // Fase 6: Páginas Públicas y Gestión de Entidades
