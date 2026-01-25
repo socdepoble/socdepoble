@@ -85,18 +85,6 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
                 logger.error('[Feed] Failed to fetch feed:', err);
                 setError(err.message);
             }
-
-            // Fetch comments for all visible posts
-            if (data && data.length > 0) {
-                const commentsMap = {};
-                await Promise.all(data.map(async (p) => {
-                    const comments = await supabaseService.getPostComments(p.uuid || p.id);
-                    if (comments.length > 0) {
-                        commentsMap[p.uuid || p.id] = comments;
-                    }
-                }));
-                setPostComments(prev => ({ ...prev, ...commentsMap }));
-            }
         } finally {
             if (isMounted.current) {
                 setLoading(false);
@@ -104,6 +92,26 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
             }
         }
     }, [selectedRole, townId, user, isPlayground]);
+
+    // Fetch comments separately when posts change
+    useEffect(() => {
+        const fetchCommentsForPosts = async () => {
+            if (posts.length > 0) {
+                const commentsMap = {};
+                await Promise.all(posts.map(async (p) => {
+                    const comments = await supabaseService.getPostComments(p.uuid || p.id);
+                    if (comments.length > 0) {
+                        commentsMap[p.uuid || p.id] = comments;
+                    }
+                }));
+                if (isMounted.current) {
+                    setPostComments(prev => ({ ...prev, ...commentsMap }));
+                }
+            }
+        };
+        fetchCommentsForPosts();
+    }, [posts]);
+
 
     useEffect(() => {
         if (customPosts) {
@@ -264,223 +272,187 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
                         const connection = userConnections.find(c => c.post_uuid === (post.uuid || post.id));
                         const isConnected = !!connection;
 
-                        return (
-                            {/* Comentaris existents... */ }
-                                    {
-                            postComments[post.uuid || post.id] && postComments[post.uuid || post.id].length > 0 && (
-                                <div className="post-integrated-comments">
-                                    {postComments[post.uuid || post.id].map(comment => (
-                                        <div key={comment.id} className="mini-comment">
-                                            <Avatar src={comment.profiles?.avatar_url} size={24} name={comment.profiles?.full_name} />
-                                            <div className="comment-bubble">
-                                                <span className="comment-author">{comment.profiles?.full_name}</span>
-                                                <p className="comment-text">{comment.content}</p>
+                        // HANDLING INTERNAL REPORTS (WORK GROUP)
+                        if (post.type === 'internal_report') {
+                            const isAdmin = user && (user.email === 'socdepoblecom@gmail.com' || user.email === 'javillinares@gmail.com' || user.role === 'admin' || isPlayground);
+                            if (!isAdmin) return null;
+
+                            return (
+                                <article key={pid} className="universal-card post-card internal-report-card" style={{ border: '2px solid #FFD700', background: '#FFFBE6' }}>
+                                    <div className="card-header">
+                                        <div className="header-left">
+                                            <Avatar src={post.author_avatar} role="ambassador" name="IAIA" size={44} />
+                                            <div className="post-meta">
+                                                <div className="post-author-row">
+                                                    <span className="post-author" style={{ color: '#B45309' }}>Grup de Treball: Sóc de Poble</span>
+                                                    <span className="identity-badge" style={{ background: '#FFD700', color: 'black' }}>CONFIDENCIAL</span>
+                                                </div>
+                                                <div className="post-town">Visible només per a la Direcció</div>
                                             </div>
                                         </div>
-                                    ))}
-                                </div>
-                            )
-                        }
+                                        <div className="header-right">
+                                            <span className="post-time-right">{new Date(post.created_at).toLocaleDateString()}</span>
+                                        </div>
+                                    </div>
+
+                                    <div className="card-body">
+                                        <div style={{ display: 'flex', gap: '15px', alignItems: 'center', marginBottom: '15px' }}>
+                                            <div style={{ fontSize: '40px' }}>🍌</div>
+                                            <div style={{ flex: 1 }}>
+                                                <h3 style={{ margin: '0 0 5px 0', fontSize: '18px' }}>Informe Tècnic: {post.metadata?.title || 'Document de Treball'}</h3>
+                                                <p style={{ margin: 0, color: '#666', fontSize: '14px' }}>Generat per Nano Banana & IAIA</p>
+                                            </div>
+                                        </div>
+
+                                        <p className="post-text" style={{ whiteSpace: 'pre-wrap' }}>{post.content}</p>
+
+                                        <button
+                                            className="action-btn principal-connect"
+                                            style={{ width: '100%', marginTop: '15px', justifyContent: 'center', background: '#000', color: '#FFD700', border: 'none' }}
+                                            onClick={() => window.open(post.metadata?.document_url || '#', '_blank')}
+                                        >
+                                            <span style={{ marginRight: '8px' }}>📄</span>
+                                            LLEGIR DOCUMENT COMPLET
+                                        </button>
+                                    </div>
                                 </article>
-            );
+                            );
                         }
 
-            // HANDLING INTERNAL REPORTS (WORK GROUP)
-            if (post.type === 'internal_report') {
-                             // Security Check: Only show to Admins (or if we are in playground)
-                             // Note: In a real app, strict filtering should happen on backend (RLS).
-                             // Here we do a UI filter for the MVP.
-                             const isAdmin = user && (user.email === 'socdepoblecom@gmail.com' || user.email === 'javillinares@gmail.com' || user.role === 'admin' || isPlayground);
+                        // STANDARD POSTS
+                        return (
+                            <article key={pid} className="universal-card post-card">
+                                <div
+                                    className="card-header clickable"
+                                    onClick={() => {
+                                        const targetId = post.author_entity_id || post.author_user_id;
+                                        const type = post.author_entity_id ? 'entitat' : 'perfil';
 
-            if (!isAdmin) return null;
-
-            return (
-            <article key={pid} className="universal-card post-card internal-report-card" style={{ border: '2px solid #FFD700', background: '#FFFBE6' }}>
-                <div className="card-header">
-                    <div className="header-left">
-                        <Avatar src={post.author_avatar} role="ambassador" name="IAIA" size={44} />
-                        <div className="post-meta">
-                            <div className="post-author-row">
-                                <span className="post-author" style={{ color: '#B45309' }}>Grup de Treball: Sóc de Poble</span>
-                                <span className="identity-badge" style={{ background: '#FFD700', color: 'black' }}>CONFIDENCIAL</span>
-                            </div>
-                            <div className="post-town">Visible només per a la Direcció</div>
-                        </div>
-                    </div>
-                    <div className="header-right">
-                        <span className="post-time-right">{new Date(post.created_at).toLocaleDateString()}</span>
-                    </div>
-                </div>
-
-                <div className="card-body">
-                    <div style={{ display: 'flex', gap: '15px', alignItems: 'center', marginBottom: '15px' }}>
-                        <div style={{ fontSize: '40px' }}>🍌</div>
-                        <div style={{ flex: 1 }}>
-                            <h3 style={{ margin: '0 0 5px 0', fontSize: '18px' }}>Informe Tècnic: {post.metadata?.title || 'Document de Treball'}</h3>
-                            <p style={{ margin: 0, color: '#666', fontSize: '14px' }}>Generat per Nano Banana & IAIA</p>
-                        </div>
-                    </div>
-
-                    <p className="post-text" style={{ whiteSpace: 'pre-wrap' }}>{post.content}</p>
-
-                    <button
-                        className="action-btn principal-connect"
-                        style={{ width: '100%', marginTop: '15px', justifyContent: 'center', background: '#000', color: '#FFD700', border: 'none' }}
-                        onClick={() => window.open(post.metadata?.document_url || '#', '_blank')}
-                    >
-                        <span style={{ marginRight: '8px' }}>📄</span>
-                        LLEGIR DOCUMENT COMPLET
-                    </button>
-                </div>
-            </article>
-            );
-                        }
-
-            return (
-            <article key={pid} className="universal-card post-card">
-                {/* Standard Post Rendering (Legacy fallback if needed, but the first block covers standard posts) */}
-                {/* ... This fallback is unreachable if the first block's 'return' works correctly. 
-                                    Wait, I closed the 'if (!post.type ...)' block above with '}' 
-                                    So I need to be careful with the replacement. 
-                                    The original code iterated `filteredPosts.map`. 
-                                    My replacement targets the END of the map function effectively.
-                                    Let's look at the original code structure.
-                                    It returns `<article>` directly.
-                                    I need to wrap that return in a check for `type`.
-                                */}
-
-                <div
-                    className="card-header clickable"
-
-                    onClick={() => {
-                        const targetId = post.author_entity_id || post.author_user_id;
-                        const type = post.author_entity_id ? 'entitat' : 'perfil';
-
-                        if (!targetId || (typeof targetId === 'string' && targetId.startsWith('mock-'))) {
-                            logger.warn('Navegació a perfil fictici no disponible:', targetId);
-                            return;
-                        }
-                        navigate(`/${type}/${targetId}`);
-                    }}
-                >
-                    <div className="header-left">
-                        <Avatar
-                            src={post.author_avatar}
-                            role={post.author_role}
-                            name={post.author}
-                            size={44}
-                        />
-                        <div className="post-meta">
-                            <div className="post-author-row">
-                                <span className="post-author">{post.author || post.author_name || 'Usuari'}</span>
-                                {(post.author_role === 'ambassador' || post.author_is_ai) && (
-                                    <span className="identity-badge ai" title="Informació i Acció Artificial">IAIA</span>
-                                )}
-                            </div>
-                            <div className="post-town">
-                                {post.towns?.name || 'Al teu poble'}
-                            </div>
-                        </div>
-                    </div>
-                    <div className="header-right">
-                        <span className="post-time-right">{post.created_at ? new Date(post.created_at).toLocaleDateString() : 'Ara'}</span>
-                    </div>
-                </div>
-
-                {post.image_url && (
-                    <div className="card-image-wrapper">
-                        <img
-                            src={post.image_url}
-                            alt={`${post.author} post image`}
-                            loading="lazy"
-                            onError={(e) => {
-                                e.target.style.display = 'none';
-                                e.target.parentElement.style.display = 'none';
-                            }}
-                        />
-                    </div>
-                )}
-
-                <div className="card-body">
-                    <p className="post-text">{post.content}</p>
-                    {(post.author_role === 'ambassador' || post.author_is_ai || post.is_iaia_inspired) && (
-                        <div className="ia-transparency-note-mini clickable" onClick={() => navigate('/iaia')}>
-                            ✨ {t('profile.transparency_post') || 'Contingut generat per la IAIA (Informació Artificial i Acció)'}
-                        </div>
-                    )}
-                </div>
-
-                <div className="card-footer-vibrant">
-                    <div className="card-actions-wrapper" style={{ flex: 1, backgroundColor: "transparent", borderTop: "none" }}>
-                        <div className="card-actions">
-                            <button
-                                className={`action-btn principal-connect ${isConnected ? 'active' : ''}`}
-                                onClick={() => handleToggleConnection(pid)}
-                                aria-label={isConnected ? t('feed.disconnect') : t('feed.connect')}
-                                aria-pressed={isConnected}
-                            >
-                                {isConnected ? <UserCheck size={24} /> : <UserPlus size={24} />}
-                                <span>{isConnected ? (post.connections_count + 1 || 1) : (post.connections_count || 0)}</span>
-                            </button>
-                            <button
-                                className="action-btn"
-                                onClick={() => navigate(`/chats/${post.author_user_id || post.author_id}`, {
-                                    state: { commentingOn: post }
-                                })}
-                                title={t('feed.comments') || 'Xateja amb l\'autor'}
-                            >
-                                <MessageCircle size={24} />
-                                <span>{post.comments_count || 0}</span>
-                            </button>
-                            <ShareHub
-                                title={`Post de ${post.author} a Sóc de Poble`}
-                                text={post.content}
-                                url={`${window.location.origin}/post/${pid}`}
-                            />
-                        </div>
-                    </div>
-
-                    {isConnected && (
-                        <TagSelector
-                            postId={pid}
-                            currentTags={connection.tags || []}
-                            onTagsChange={(newTags) => handleConnectionUpdate(pid, true, newTags)}
-                        />
-                    )}
-                </div>
-
-                {/* Secció de Comentaris Integrats */}
-                {postComments[post.uuid || post.id] && postComments[post.uuid || post.id].length > 0 && (
-                    <div className="post-integrated-comments">
-                        {postComments[post.uuid || post.id].map(comment => (
-                            <div key={comment.id} className="mini-comment">
-                                <Avatar src={comment.profiles?.avatar_url} size={24} name={comment.profiles?.full_name} />
-                                <div className="comment-bubble">
-                                    <span className="comment-author">{comment.profiles?.full_name}</span>
-                                    <p className="comment-text">{comment.content}</p>
+                                        if (!targetId || (typeof targetId === 'string' && targetId.startsWith('mock-'))) {
+                                            logger.warn('Navegació a perfil fictici no disponible:', targetId);
+                                            return;
+                                        }
+                                        navigate(`/${type}/${targetId}`);
+                                    }}
+                                >
+                                    <div className="header-left">
+                                        <Avatar
+                                            src={post.author_avatar}
+                                            role={post.author_role}
+                                            name={post.author}
+                                            size={44}
+                                        />
+                                        <div className="post-meta">
+                                            <div className="post-author-row">
+                                                <span className="post-author">{post.author || post.author_name || 'Usuari'}</span>
+                                                {(post.author_role === 'ambassador' || post.author_is_ai) && (
+                                                    <span className="identity-badge ai" title="Informació i Acció Artificial">IAIA</span>
+                                                )}
+                                            </div>
+                                            <div className="post-town">
+                                                {post.towns?.name || 'Al teu poble'}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="header-right">
+                                        <span className="post-time-right">{post.created_at ? new Date(post.created_at).toLocaleDateString() : 'Ara'}</span>
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
-                    </div>
-                )}
-            </article>
-            );
+
+                                {post.image_url && (
+                                    <div className="card-image-wrapper">
+                                        <img
+                                            src={post.image_url}
+                                            alt={`${post.author} post image`}
+                                            loading="lazy"
+                                            onError={(e) => {
+                                                e.target.style.display = 'none';
+                                                e.target.parentElement.style.display = 'none';
+                                            }}
+                                        />
+                                    </div>
+                                )}
+
+                                <div className="card-body">
+                                    <p className="post-text">{post.content}</p>
+                                    {(post.author_role === 'ambassador' || post.author_is_ai || post.is_iaia_inspired) && (
+                                        <div className="ia-transparency-note-mini clickable" onClick={() => navigate('/iaia')}>
+                                            ✨ {t('profile.transparency_post') || 'Contingut generat per la IAIA (Informació Artificial i Acció)'}
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div className="card-footer-vibrant">
+                                    <div className="card-actions-wrapper" style={{ flex: 1, backgroundColor: "transparent", borderTop: "none" }}>
+                                        <div className="card-actions">
+                                            <button
+                                                className={`action-btn principal-connect ${isConnected ? 'active' : ''}`}
+                                                onClick={() => handleToggleConnection(pid)}
+                                                aria-label={isConnected ? t('feed.disconnect') : t('feed.connect')}
+                                                aria-pressed={isConnected}
+                                            >
+                                                {isConnected ? <UserCheck size={24} /> : <UserPlus size={24} />}
+                                                <span>{isConnected ? (post.connections_count + 1 || 1) : (post.connections_count || 0)}</span>
+                                            </button>
+                                            <button
+                                                className="action-btn"
+                                                onClick={() => navigate(`/chats/${post.author_user_id || post.author_id}`, {
+                                                    state: { commentingOn: post }
+                                                })}
+                                                title={t('feed.comments') || 'Xateja amb l\'autor'}
+                                            >
+                                                <MessageCircle size={24} />
+                                                <span>{post.comments_count || 0}</span>
+                                            </button>
+                                            <ShareHub
+                                                title={`Post de ${post.author} a Sóc de Poble`}
+                                                text={post.content}
+                                                url={`${window.location.origin}/post/${pid}`}
+                                            />
+                                        </div>
+                                    </div>
+
+                                    {isConnected && (
+                                        <TagSelector
+                                            postId={pid}
+                                            currentTags={connection.tags || []}
+                                            onTagsChange={(newTags) => handleConnectionUpdate(pid, true, newTags)}
+                                        />
+                                    )}
+                                </div>
+
+                                {/* Secció de Comentaris Integrats */}
+                                {postComments[post.uuid || post.id] && postComments[post.uuid || post.id].length > 0 && (
+                                    <div className="post-integrated-comments">
+                                        {postComments[post.uuid || post.id].map(comment => (
+                                            <div key={comment.id} className="mini-comment">
+                                                <Avatar src={comment.profiles?.avatar_url} size={24} name={comment.profiles?.full_name} />
+                                                <div className="comment-bubble">
+                                                    <span className="comment-author">{comment.profiles?.full_name}</span>
+                                                    <p className="comment-text">{comment.content}</p>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </article>
+                        );
                     })
                 )}
 
-            {hasMore && posts.length > 0 && !selectedTag && (
-                <div className="load-more-container">
-                    <button
-                        className="btn-load-more"
-                        onClick={() => fetchPosts(true)}
-                        disabled={loadingMore}
-                    >
-                        {loadingMore ? <Loader2 className="spinner" /> : t('common.load_more') || 'Carregar més'}
-                    </button>
-                </div>
-            )}
+                {hasMore && posts.length > 0 && !selectedTag && (
+                    <div className="load-more-container">
+                        <button
+                            className="btn-load-more"
+                            onClick={() => fetchPosts(true)}
+                            disabled={loadingMore}
+                        >
+                            {loadingMore ? <Loader2 className="spinner" /> : t('common.load_more') || 'Carregar més'}
+                        </button>
+                    </div>
+                )}
+            </div>
         </div>
-        </div >
     );
 };
 
