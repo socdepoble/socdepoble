@@ -1,5 +1,5 @@
 /* Service Worker for Sóc de Poble PWA */
-const CACHE_VERSION = 'v1.1.6';
+const CACHE_VERSION = 'v1.1.7';
 const CACHE_NAME = `socdepoble-${CACHE_VERSION}`;
 
 const STATIC_ASSETS = [
