@@ -1,5 +1,5 @@
 /* Service Worker for Sóc de Poble PWA */
-const CACHE_VERSION = 'v1.1.3';
+const CACHE_VERSION = 'v1.1.6';
 const CACHE_NAME = `socdepoble-${CACHE_VERSION}`;
 
 const STATIC_ASSETS = [
@@ -96,16 +96,32 @@ self.addEventListener('push', (event) => {
     if (event.data) {
         try {
             const data = event.data.json();
+            const isIAIA = data.type === 'iaia' || data.is_iaia_notification || data.title?.includes('IAIA');
+
+            // Stratospheric IAIA Logic: Distinct Identity
+            const iaiaAvatar = '/images/demo/avatar_woman_old.png'; // Fallback to Grandma avatar
+
             notificationData = {
-                title: data.title || notificationData.title,
+                title: data.title || (isIAIA ? '👵 La teua IAIA et diu...' : notificationData.title),
                 body: data.body || data.message || notificationData.body,
-                icon: data.icon || notificationData.icon,
+                icon: data.icon || (isIAIA ? iaiaAvatar : notificationData.icon),
                 badge: data.badge || notificationData.badge,
-                tag: data.tag || data.conversationId || 'default',
-                data: data,
-                requireInteraction: data.requireInteraction || false,
-                actions: data.actions || []
+                image: data.image || null, // Allow big images in notifications
+                tag: data.tag || (isIAIA ? 'iaia-chat' : 'general'),
+                data: { ...data, isIAIA }, // Pass down for click handling
+                requireInteraction: isIAIA, // IAIA messages are important!
+                actions: data.actions || [],
+                // "Stratospheric" Haptic Feedback
+                // IAIA = Double heartbeat (bum-bum... bum-bum)
+                // Human = Standard quick buzz
+                vibrate: isIAIA ? [100, 50, 100, 400, 100, 50, 100] : [200, 100, 200]
             };
+
+            // Custom sound support (browsers support varies)
+            if (isIAIA) {
+                // If we had a sound: notificationData.sound = '/sounds/iaia_notification.mp3';
+                // For now, relies on vibration to be distinct
+            }
         } catch (e) {
             console.error('[SW] Error parsing push data:', e);
         }
