@@ -150,6 +150,13 @@ export const AuthProvider = ({ children }) => {
         const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
             if (!initialCheckDone && event === 'SIGNED_IN') return;
 
+            // SAFETY: In Rescue Mode, ignore SIGNED_OUT events from Supabase (since we have no real session)
+            const isSimulation = localStorage.getItem('sb-simulation-mode') === 'true';
+            if (isSimulation && event === 'SIGNED_OUT') {
+                logger.log('[AuthContext] Ignoring SIGNED_OUT event in Rescue Mode');
+                return;
+            }
+
             // Handle TOKEN_REFRESHED or USER_UPDATED to avoid stale UI
             if (event === 'TOKEN_REFRESHED' || event === 'USER_UPDATED') {
                 logger.log(`[AuthContext] Refreshing data for event: ${event}`);
