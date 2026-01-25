@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { X, Image as ImageIcon, Send, Loader2, Globe, Lock, Users, Calendar } from 'lucide-react';
+import { X, Image as ImageIcon, Send, Loader2, Globe, Lock, Users, Calendar, Sparkles } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
 import { ROLES } from '../constants';
 import { logger } from '../utils/logger';
+import { iaiaService } from '../services/iaiaService';
 import './CreatePostModal.css'; // Reusing post modal styles for consistency
+import './CreateEventModal.css'; // New dedicated styles
 
 import EntitySelector from './EntitySelector';
 
@@ -16,12 +18,27 @@ const CreateEventModal = ({ isOpen, onClose, onEventCreated, isPlayground = fals
     const [loading, setLoading] = useState(false);
     const [selectedTags, setSelectedTags] = useState(['Esdeveniment']);
     const [privacy, setPrivacy] = useState('public');
+    const [generating, setGenerating] = useState(false);
+
     const [selectedIdentity, setSelectedIdentity] = useState({
         id: impersonatedProfile ? impersonatedProfile.id : 'user',
         name: impersonatedProfile ? impersonatedProfile.full_name : (profile?.full_name || 'Jo'),
         type: impersonatedProfile ? impersonatedProfile.role : 'user',
         avatar_url: impersonatedProfile ? impersonatedProfile.avatar_url : profile?.avatar_url
     });
+
+    const handleAIGenerate = async () => {
+        if (!content.trim() || generating) return;
+        setGenerating(true);
+        try {
+            const improvedContent = await iaiaService.generateEventDescription(content);
+            setContent(improvedContent);
+        } catch (error) {
+            alert('La IAIA està fent la migdiada... Torna-ho a provar més tard.');
+        } finally {
+            setGenerating(false);
+        }
+    };
 
     useEffect(() => {
         if (isOpen) {
@@ -128,7 +145,19 @@ const CreateEventModal = ({ isOpen, onClose, onEventCreated, isPlayground = fals
                             value={content}
                             onChange={(e) => setContent(e.target.value)}
                             autoFocus
+                            disabled={loading || generating}
                         />
+                        {/* AI FAB */}
+                        <button
+                            type="button"
+                            className={`ai-magic-btn ${generating ? 'generating' : ''}`}
+                            onClick={handleAIGenerate}
+                            disabled={!content.trim() || loading || generating}
+                            title="Millorar amb IAIA"
+                        >
+                            {generating ? <Loader2 className="spinner" size={16} /> : <Sparkles size={16} />}
+                            <span>{generating ? 'Pensant...' : 'Millorar'}</span>
+                        </button>
                     </div>
 
                     <div className="post-footer-tools">

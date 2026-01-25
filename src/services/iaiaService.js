@@ -219,6 +219,33 @@ class IAIAService {
             throw e;
         }
     }
+
+    /**
+     * Millora un esborrany d'esdeveniment utilitzant la veu de la IAIA (Mock Vertex AI).
+     */
+    async generateEventDescription(draft) {
+        try {
+            await new Promise(resolve => setTimeout(resolve, 2000)); // Simular espera de xarxa
+
+            const emojis = ['🎉', '🥘', '📍', '👇', '✨', '👵'];
+
+            // Lògica simple de "mock" per a la demo
+            if (draft.toLowerCase().includes('paell')) {
+                return `🥘 **Dia de Paelles al Poble!**\n\nAquest esdeveniment no us el podeu perdre. La tradició mana i la panxa ho agraeix!\n\n📍 **Lloc:** Al Poliesportiu (o on siga que es faça, confirmeu!)\n🕒 **Hora:** A partir de les 14:00h.\n\nVeniu amb gana i ganes de festa. La IAIA recomana portar barret per al sol! ☀️\n\n#Paelles2026 #Germanor #SócDePoble`;
+            }
+
+            if (draft.toLowerCase().includes('concert') || draft.toLowerCase().includes('música')) {
+                return `🎵 **Música en Directe!**\n\nPrepareu les orelles perquè tenim concertassa. Res millor que la música per alegrar l'ànima.\n\n📍 **On:** A la Plaça Major.\n✨ **Ambient:** Immillorable.\n\nNo falteu, que després us ho conten i us fa enveja! 💃\n\n#CulturaPopular #MúsicaAlCarrer`;
+            }
+
+            // Fallback genèric
+            return `📢 **Atenció Veïnat!**\n\n${draft}\n\nAixò pinta molt bé. Jo de vosaltres no m'ho perdria per res del món.\n\n📍 **Més info:** Pregunteu a l'organització.\n👇 **Apunteu-vos ací baix!**\n\n#VidaDePoble #FemPoble`;
+
+        } catch (e) {
+            logger.error('[IAIA] Error generant descripció:', e);
+            throw e; // L'UI ha de gestionar l'error
+        }
+    }
 }
 
 export const iaiaService = new IAIAService();
