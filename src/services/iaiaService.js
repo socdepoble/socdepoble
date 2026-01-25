@@ -63,7 +63,7 @@ class IAIAService {
 
             if (p1.id && p2.id) {
                 const conv = await supabaseService.getOrCreateConversation(p1.id, 'user', p2.id, 'user');
-                await supabaseService.sendMessage({
+                await supabaseService.sendSecureMessage({
                     conversationId: conv.id,
                     senderId: p1.id,
                     content: `Hola ${p2Name}, com va tot?`
