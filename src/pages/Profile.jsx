@@ -84,6 +84,17 @@ const Profile = () => {
     // Tab state
     const [activeTab, setActiveTab] = useState('info'); // info, activity, community, settings
 
+    // [CRITICAL FIX] Define derived state variables EARLY to avoid TDZ (Temporal Dead Zone) in hooks
+    const displayProfile = profile || {
+        full_name: user?.email?.split('@')[0] || 'Usuari',
+        avatar_url: null,
+        cover_url: null,
+        town_id: null
+    };
+
+    // allTowns is state, so this recalculates on render. Safe.
+    const userTown = allTowns.find(t => t.uuid === profile?.town_uuid || t.id === profile?.town_id);
+
     const handleBack = () => {
         if (location.state?.fromProfile) {
             navigate(-2);
@@ -395,14 +406,6 @@ const Profile = () => {
         setIsReframerOpen(true);
     };
 
-    const displayProfile = profile || {
-        full_name: user?.email?.split('@')[0] || 'Usuari',
-        avatar_url: null,
-        cover_url: null,
-        town_id: null
-    };
-
-    const userTown = allTowns.find(t => t.uuid === profile?.town_uuid || t.id === profile?.town_id);
     const isLoading = !user && !profile;
 
     if (isLoading) return <StatusLoader type="loading" />;
@@ -719,7 +722,7 @@ const Profile = () => {
                         </div>
 
                         <div className="app-footer">
-                            <HelpCircle size={14} /> Ajuda i Suport • v1.2.1
+                            <HelpCircle size={14} /> Ajuda i Suport • v1.3.1
                         </div>
                     </div>
                 );
