@@ -7,7 +7,6 @@ import { User, Search, Bell, Sparkles, UserCheck, Download } from 'lucide-react'
 import { useUI } from '../context/UIContext';
 import { pushService } from '../services/pushService';
 import { pushNotifications } from '../services/pushNotifications';
-import { usePWAInstall } from '../hooks/usePWAInstall';
 import './Header.css';
 
 const Header = () => {
@@ -17,7 +16,6 @@ const Header = () => {
     const { visionMode, setVisionMode } = useUI();
     const navigate = useNavigate();
     const location = useLocation();
-    const { isInstallable, promptInstall } = usePWAInstall(); // Custom Hook
 
     const handleProfileClick = (e) => {
         if (location.pathname === '/perfil') {
@@ -36,31 +34,6 @@ const Header = () => {
                 </Link>
 
                 <div className="header-actions">
-                    {/* Botó d'Instal·lació PWA (Visible només si available) */}
-                    {isInstallable && (
-                        <button
-                            className="header-install-btn"
-                            onClick={promptInstall}
-                            aria-label="Instal·lar Aplicació"
-                            title="Instal·lar Sóc de Poble al dispositiu"
-                            style={{
-                                background: '#FF6B35',
-                                border: 'none',
-                                borderRadius: '50%',
-                                width: '36px',
-                                height: '36px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                marginRight: '8px',
-                                cursor: 'pointer',
-                                boxShadow: '0 2px 8px rgba(255, 107, 53, 0.4)'
-                            }}
-                        >
-                            <Download size={20} color="white" />
-                        </button>
-                    )}
-
                     <button
                         className="header-search-btn"
                         onClick={() => navigate('/cerca')}

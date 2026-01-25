@@ -61,11 +61,13 @@ const ProtectedRoute = ({ children }) => {
 
 import ErrorBoundary from './components/ErrorBoundary';
 import { usePushNotifications } from './hooks/usePushNotifications'; // Import hook
+import PWAPrompt from './components/PWAPrompt';
 
 function App() {
   usePushNotifications(); // Activate Push System
   return (
     <BrowserRouter>
+      <PWAPrompt />
       <Suspense fallback={
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', flexDirection: 'column', gap: '16px' }}>
           <div className="spinner-simple" style={{ width: '40px', height: '40px', border: '3px solid #f3f3f3', borderTop: '3px solid #333', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
