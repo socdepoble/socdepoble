@@ -65,6 +65,26 @@ async function generateNewsletterContent(recentEvents) {
     const result = await model.generateContent(prompt);
     const response = await result.response;
     return response.candidates[0].content.parts[0].text;
+    return response.candidates[0].content.parts[0].text;
+}
+
+// 1.b Generate Event Description
+async function generateEventDescription(draft) {
+    const prompt = `
+    Actua com la IAIA de "Sóc de Poble", una experta en comunicació rural i dinamització de pobles.
+    
+    Tasques:
+    1. Llegeix aquest esborrany d'esdeveniment: "${draft}"
+    2. Reescriu-lo per a que siga atractiu, divertit i clar.
+    3. Fes servir emojis (però sense passar-se, estil "boomer entranyable").
+    4. Estructura'l amb Markdown (Negretes per a lloc/hora).
+    5. Si falta informació (hora/lloc), inventa-t'ho amb gràcia (p.ex: "Al lloc de sempre", "Quan caiga el sol") o posa un placeholder clar.
+    6. Afegeix hashtags rurals valencians (#PobleViu, #LaMevaGent).
+    `;
+
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    return response.candidates[0].content.parts[0].text;
 }
 
 // 2. Send Email via Gmail API
@@ -100,6 +120,14 @@ functions.http('marketingBrain', async (req, res) => {
         }
 
         const { campaignType } = req.body;
+
+        if (campaignType === 'event_description') {
+            const { draft } = req.body;
+            if (!draft) return res.status(400).send('Draft content missing');
+
+            const aiContent = await generateEventDescription(draft);
+            return res.status(200).json({ status: 'success', aiContent });
+        }
 
         if (campaignType === 'weekly_newsletter') {
             // ... (existing newsletter logic) ...

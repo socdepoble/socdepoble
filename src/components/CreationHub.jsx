@@ -14,7 +14,7 @@ const CreationHub = () => {
         setIsEventModalOpen,
         setIsMarketModalOpen
     } = useUI();
-    const { isSuperAdmin, logout } = useAuth();
+    const { isSuperAdmin, isAdmin, logout } = useAuth();
     const navigate = useNavigate();
 
     if (!isCreateModalOpen) return null;
@@ -57,7 +57,7 @@ const CreationHub = () => {
                         <span>Compartir en altres xarxes socials</span>
                     </button>
 
-                    {isSuperAdmin && (
+                    {(isSuperAdmin || isAdmin) && (
                         <button className="share-full-frame admin-btn-styled" onClick={() => {
                             setIsCreateModalOpen(false);
                             navigate('/admin');
