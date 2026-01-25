@@ -84,6 +84,12 @@ const Profile = () => {
     // Tab state
     const [activeTab, setActiveTab] = useState('info'); // info, activity, community, settings
 
+    const [allTowns, setAllTowns] = useState([]);
+    const [isEditingTown, setIsEditingTown] = useState(false);
+    const [townEditMode, setTownEditMode] = useState('primary'); // 'primary' or 'secondary'
+    const [editingSecondaryIdx, setEditingSecondaryIdx] = useState(null);
+    const [isUploading, setIsUploading] = useState(false);
+
     // [CRITICAL FIX] Define derived state variables EARLY to avoid TDZ (Temporal Dead Zone) in hooks
     const displayProfile = profile || {
         full_name: user?.email?.split('@')[0] || 'Usuari',
@@ -102,12 +108,6 @@ const Profile = () => {
             navigate(-1);
         }
     };
-
-    const [allTowns, setAllTowns] = useState([]);
-    const [isEditingTown, setIsEditingTown] = useState(false);
-    const [townEditMode, setTownEditMode] = useState('primary'); // 'primary' or 'secondary'
-    const [editingSecondaryIdx, setEditingSecondaryIdx] = useState(null);
-    const [isUploading, setIsUploading] = useState(false);
     const [uploadType, setUploadType] = useState(null); // 'avatar' or 'cover'
 
     // Deduplication state
