@@ -38,6 +38,10 @@ const MakingOf = () => {
                                 <span>Ideador, Catalitzador Rural i ànima del projecte.</span>
                             </li>
                             <li>
+                                <strong>🎓 Damià (Little Manager)</strong>
+                                <span>Gestor júnior i suport operatiu en el desplegament.</span>
+                            </li>
+                            <li>
                                 <strong>⚡ Flash/Antigravity (L'Arquitecte)</strong>
                                 <span>Intel·ligència Agentica que entén el *context* i executa la visió.</span>
                             </li>
