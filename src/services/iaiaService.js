@@ -184,6 +184,41 @@ class IAIAService {
 
         return "Pregunta-li a la IAIA directament, ella sap quan és el moment de cada llavor segons el temps i la lluna.";
     }
+    /**
+     * Publica un informe intern per al Grup de Treball (Damià & Javi).
+     */
+    async publishInternalReport(title, summary, documentUrl) {
+        try {
+            logger.info('[IAIA] Publicant informe intern top secret...');
+
+            // ID del grup "Sóc de Poble" (Simulat o Real)
+            // En un entorn real, això seria un ID de la taula 'entities'
+            const WORK_GROUP_ID = '00000000-0000-0000-0000-000000000005';
+
+            const postPayload = {
+                author_id: '11111111-0000-0000-0000-000000000000', // IAIA
+                author_name: 'IAIA (Secretària)',
+                author_avatar_url: '/assets/avatars/iaia.png', // Assegurar que existeix o utilitzar URL externa
+                author_role: 'ambassador',
+                author_entity_id: WORK_GROUP_ID, // Publicat "en nom de" o "en el grup"
+                content: `📁 **NOU DOCUMENT DE TREBALL**\n\n**${title}**\n\n${summary}\n\n👇 Prem per llegir el document complet.`,
+                image_url: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=1000&auto=format&fit=crop', // Nano Banana placeholder for now (or local asset)
+                town_uuid: 'global',
+                is_playground: false,
+                type: 'internal_report', // Custom type for Feed handling
+                metadata: {
+                    document_url: documentUrl,
+                    access_level: 'admin_only'
+                }
+            };
+
+            await supabaseService.createPost(postPayload);
+            return true;
+        } catch (e) {
+            logger.error('[IAIA] Error publicant informe:', e);
+            throw e;
+        }
+    }
 }
 
 export const iaiaService = new IAIAService();

@@ -142,6 +142,70 @@ const AdminPanel = () => {
     const officials = entities.filter(e => e.type === 'entitat');
 
     // SUB-MODULE VIEWS
+    if (params.get('view') === 'report') {
+        return (
+            <div className="admin-container" style={{ background: '#f5f5f5', minHeight: '100vh', padding: '20px' }}>
+                <header className="admin-header" style={{ marginBottom: '20px' }}>
+                    <button onClick={() => navigate('/admin')} className="back-btn">
+                        <ArrowLeft size={24} /> Tancar Informe
+                    </button>
+                    <div className="title-area">
+                        <h1>📄 INFORME TÈCNIC</h1>
+                        <p>Document Confidencial - Grup de Treball</p>
+                    </div>
+                </header>
+                <div className="admin-content" style={{ maxWidth: '800px', margin: '0 auto', background: 'white', padding: '40px', borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
+                    <div style={{ textAlign: 'center', marginBottom: '30px' }}>
+                        <img src="/assets/avatars/iaia.png" alt="IAIA" style={{ width: '80px', height: '80px', borderRadius: '50%' }} />
+                        <h2 style={{ marginTop: '10px' }}>UNITAT TÈCNICA ANTIGRAVITY</h2>
+                        <span style={{ background: '#FFD700', padding: '4px 8px', borderRadius: '4px', fontSize: '12px', fontWeight: 'bold' }}>TOP SECRET</span>
+                    </div>
+
+                    <div className="markdown-body">
+                        <h1>📋 INFORME D'INCIDÈNCIA: OPERACIÓ "RESCAT"</h1>
+                        <p><strong>Per a:</strong> Damià & Equip de Direcció<br />
+                            <strong>De:</strong> Unitat Tècnica (Antigravity & GPT-OSS)<br />
+                            <strong>Data:</strong> 25 de Gener de 2026<br />
+                            <strong>Assumpte:</strong> Resolució del conflicte de versions (v1.1.8 persistent) i bucle d'autenticació.</p>
+                        <hr />
+                        <h2>1. Resum Executiu</h2>
+                        <p>El sistema "Sóc de Poble" ha experimentat una incidència crítica durant les últimes 4 hores on els usuaris (especialment en dispositius mòbils/Safari) quedaven atrapats en una versió antiga de l'aplicació (<code>v1.1.8</code>), impedint l'accés a les noves funcionalitats i causant un bucle de reinicis. <strong>La incidència ha estat completament resolta.</strong> La versió actual en producció és la <strong>v1.3.1</strong>.</p>
+
+                        <h2>2. Descripció del Problema</h2>
+                        <ul>
+                            <li><strong>Símptomes:</strong> Pantalla blanca, títol de pestanya incorrecte, bucle infinit de "recarregant sessió" en entrar al mode de rescat (codi 123456).</li>
+                            <li><strong>Impacte:</strong> Els canvis que fèiem (arreglar errors) no arribaven als dispositius perquè els navegadors estaven "aferrats" a la versió antiga de forma agressiva.</li>
+                        </ul>
+
+                        <h2>3. Causa Arrel (Diagnòstic)</h2>
+                        <p>Després d'una auditoria profunda (Protocol "Elite Team"), hem identificat dos factors:</p>
+                        <ol>
+                            <li><strong>Caché "Zombie":</strong> El mecanisme de l'aplicació que guarda dades per funcionar sense internet (Service Worker) no s'adonava que hi havia una nova versió i seguia servint l'antiga.</li>
+                            <li><strong>Error de Desplegament (Factor Humà/IA):</strong> El codi específic dissenyat per "matar" aquesta caché antiga es va quedar en l'entorn de proves i no es va enviar al servidor central fins a l'últim moment.</li>
+                        </ol>
+
+                        <h2>4. Solució Aplicada</h2>
+                        <p>Hem executat una intervenció d'emergència en tres passos:</p>
+                        <ul>
+                            <li>✅ <strong>Protocol "Terra Cremada":</strong> Hem injectat un codi especial a l'arrencada de l'app que detecta versions antigues i força al navegador a esborrar-ho tot i baixar la nova versió.</li>
+                            <li>✅ <strong>Blindatge del Login:</strong> Hem reprogramat el sistema d'autenticació per a ser immune als errors de "fals tancament de sessió" durant les demos.</li>
+                            <li>✅ <strong>Activació "Màgia de Poble":</strong> Hem aprofitat el desplegament per activar el "Simulador de Vida" (IAIA + Nano Banana), que ara es pot controlar des del Panell d'Admin.</li>
+                        </ul>
+
+                        <h2>5. Estat Actual</h2>
+                        <ul>
+                            <li><strong>Versió:</strong> v1.3.1 (Estable)</li>
+                            <li><strong>Accés:</strong> Restaurat.</li>
+                            <li><strong>Recomanació:</strong> La pròxima vegada que obriu l'app, s'actualitzarà automàticament. Si persisteix algun problema, l'eina <code>/tools/rescue.html</code> segueix disponible com a salvavides.</li>
+                        </ul>
+                        <hr />
+                        <p><em>Fi de l'Informe.</em></p>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="admin-container">
             <header className="admin-header">
@@ -445,6 +509,28 @@ const BroadcastManager = ({ user, allUsers }) => {
                     }
                 }} style={{ background: 'linear-gradient(135deg, #FFD700 0%, #FF8C00 100%)', color: 'black', fontWeight: 'bold' }}>
                     🍌✨ GENERAR VIDA
+                </button>
+
+                <button className="btn-secondary full-width" onClick={async () => {
+                    if (!window.confirm("Publicar l'informe d'incidència al grup de treball?")) return;
+                    try {
+                        const iaia = await import('../services/iaiaService').then(m => m.iaiaService);
+                        // We point to a hosted version or a local path if we had the PDF. Since it's MD, we point to the repo raw or create a viewer link.
+                        // For MVP: We point to the GitHub raw URL or a placeholder.
+                        // User document: INCIDENT_REPORT_RESCUE.md
+                        // We can encode it in data URI but it's too big.
+                        // We will link to: /admin?view=report (We can add a simple viewer in Admin)
+                        await iaia.publishInternalReport(
+                            "Informe Incidència: Rescat v1.3.1",
+                            "Resum executiu sobre la resolució del conflicte de versions i el bucle de login.",
+                            "/admin?view=report" // Self-link to Admin viewer
+                        );
+                        alert("✅ Informe publicat al Mur (Confidencial)");
+                    } catch (e) {
+                        alert("Error: " + e.message);
+                    }
+                }} style={{ marginTop: '10px', background: '#333', color: '#FFF' }}>
+                    📁 PUBLICAR INFORME TÈCNIC
                 </button>
             </div>
         </div>
