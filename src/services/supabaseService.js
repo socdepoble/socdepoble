@@ -2160,6 +2160,8 @@ export const supabaseService = {
 
             logger.log(`[SupabaseService] Cleanup finished for ${userId}`);
             return true;
+        } catch (err) {
+            logger.error('[SupabaseService] Critical error in cleanup:', err);
             return false;
         }
     },
