@@ -15,6 +15,7 @@ import GlobalModals from './GlobalModals';
 const Layout = () => {
     const { isPlayground } = useAuth();
     const location = useLocation();
+    const navigate = useNavigate();
     // Ocultamos la navegación y el HUB de creación en el detalle de chat
     const isChatDetail = location.pathname.startsWith('/chats/') && location.pathname !== '/chats';
 
