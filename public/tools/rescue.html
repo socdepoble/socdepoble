@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ca">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Rescat Sóc de Poble</title>
+    <style>
+        body {
+            background-color: #2563EB;
+            /* BLUE for distinction */
+            color: #fff;
+            font-family: system-ui, -apple-system, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            margin: 0 0 15px 0;
+            font-size: 1.8rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        p {
+            margin-bottom: 25px;
+            line-height: 1.5;
+            color: #DBEAFE;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            margin-bottom: 12px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.1s, box-shadow 0.1s;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-primary {
+            background: #fff;
+            color: #2563EB;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-success {
+            background: #10B981;
+            color: white;
+            display: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        #console {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 8px;
+            padding: 12px;
+            text-align: left;
+            font-family: monospace;
+            font-size: 0.8rem;
+            margin-top: 20px;
+            min-height: 80px;
+            display: none;
+            border-left: 4px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .log-line {
+            margin-bottom: 6px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 2px;
+        }
+
+        .success {
+            color: #4ADE80;
+            font-weight: bold;
+        }
+
+        .error {
+            color: #F87171;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <div style="font-size: 56px; margin-bottom: 15px;">🛠️</div>
+        <h1>Eina de Rescat</h1>
+        <p>Aquesta pantalla està protegida contra errors. Fes clic per netejar el teu dispositiu de versions antigues.
+        </p>
+
+        <button id="cleanBtn" class="btn btn-primary" onclick="startRescue()">
+            ⚡ EXECUTAR NETEJA TOTAL
+        </button>
+
+        <button id="homeBtn" class="btn btn-success" onclick="goHome()">
+            🏠 TORNAR A L'INICI
+        </button>
+
+        <div id="console"></div>
+    </div>
+
+    <script>
+        function log(msg, type = 'info') {
+            const el = document.getElementById('console');
+            el.style.display = 'block';
+            const line = document.createElement('div');
+            line.className = 'log-line ' + type;
+            line.innerText = '> ' + msg;
+            el.appendChild(line);
+            el.scrollTop = el.scrollHeight;
+        }
+
+        async function startRescue() {
+            const btn = document.getElementById('cleanBtn');
+            btn.disabled = true;
+            btn.style.opacity = '0.5';
+            btn.innerText = 'Processant...';
+
+            log('Iniciant protocol de neteja...', 'info');
+
+            try {
+                // 1. Storage
+                localStorage.clear();
+                sessionStorage.clear();
+                log('Local Storage: OK', 'success');
+
+                // 2. Caches
+                if ('caches' in window) {
+                    const keys = await caches.keys();
+                    log(`Escanejant ${keys.length} cachés...`);
+                    await Promise.all(keys.map(k => {
+                        log(`Esborrant: ${k}`);
+                        return caches.delete(k);
+                    }));
+                    log('Cache Storage: NETEJADA', 'success');
+                }
+
+                // 3. Service Workers (The Real Enemy)
+                if ('serviceWorker' in navigator) {
+                    const regs = await navigator.serviceWorker.getRegistrations();
+                    log(`Trobats ${regs.length} Service Workers.`);
+
+                    if (regs.length > 0) {
+                        for (const reg of regs) {
+                            const unreg = await reg.unregister();
+                            log(`Desregistrant SW (${reg.scope}): ${unreg ? 'OK' : 'FAIL'}`);
+                        }
+                        log('Service Workers: ELIMINATS', 'success');
+                    } else {
+                        log('Cap Service Worker actiu.', 'info');
+                    }
+                }
+
+                document.getElementById('cleanBtn').style.display = 'none';
+                document.getElementById('homeBtn').style.display = 'block';
+                log('--------------------------------', 'info');
+                log('TOT NET. JA POTS REINICIAR.', 'success');
+
+            } catch (e) {
+                log('ERROR CRÍTIC: ' + e.message, 'error');
+                log('Intenta entrar igualment.', 'info');
+                document.getElementById('homeBtn').style.display = 'block';
+            }
+        }
+
+        function goHome() {
+            window.location.href = '/login?fresh_start=' + Date.now();
+        }
+    </script>
+</body>
+
+</html>

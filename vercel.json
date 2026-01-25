@@ -1,6 +1,6 @@
     "rewrites": [
         {
-            "source": "/((?!reset\\.html|fix\\.html).*)",
+            "source": "/((?!tools/.*).*)",
             "destination": "/index.html"
         }
     ],
@@ -15,7 +15,7 @@
             ]
         },
         {
-            "source": "/(reset|fix).html",
+            "source": "/tools/(.*)",
             "headers": [
                 {
                     "key": "Clear-Site-Data",
