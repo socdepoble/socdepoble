@@ -4,92 +4,169 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reparació Sóc de Poble</title>
+    <title>Rescat Sóc de Poble</title>
     <style>
         body {
-            background-color: #DC2626;
-            /* RED for visibility */
+            background-color: #7C3AED;
+            /* VIOLET for distinction */
             color: #fff;
             font-family: system-ui, -apple-system, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
             text-align: center;
             padding: 20px;
         }
 
-        h1 {
-            margin-bottom: 10px;
-            font-size: 2rem;
-        }
-
         .card {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 20px;
-            border-radius: 16px;
-            backdrop-filter: blur(5px);
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-width: 400px;
+            width: 100%;
         }
 
-        button {
-            background: white;
-            color: #DC2626;
+        h1 {
+            margin: 0 0 15px 0;
+            font-size: 1.8rem;
+        }
+
+        p {
+            margin-bottom: 25px;
+            line-height: 1.5;
+            color: #E9D5FF;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            margin-bottom: 12px;
             border: none;
-            padding: 12px 24px;
-            font-size: 1.1rem;
+            border-radius: 12px;
+            font-size: 1rem;
             font-weight: bold;
-            border-radius: 99px;
-            margin-top: 20px;
             cursor: pointer;
+            transition: transform 0.1s;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-primary {
+            background: #fff;
+            color: #7C3AED;
+        }
+
+        .btn-success {
+            background: #10B981;
+            color: white;
+            display: none;
+        }
+
+        #console {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 10px;
+            text-align: left;
+            font-family: monospace;
+            font-size: 0.8rem;
+            margin-top: 20px;
+            min-height: 60px;
+            display: none;
+        }
+
+        .log-line {
+            margin-bottom: 4px;
+        }
+
+        .success {
+            color: #4ADE80;
+        }
+
+        .error {
+            color: #F87171;
         }
     </style>
 </head>
 
 <body>
     <div class="card">
-        <div style="font-size: 48px; margin-bottom: 10px;">🚑</div>
-        <h1>Reparació d'Emergència</h1>
-        <p>Si veus això, l'arxiu està carregant correctament.</p>
-        <p id="status">Esperant acció...</p>
+        <div style="font-size: 48px; margin-bottom: 15px;">🛡️</div>
+        <h1>Mode Rescat</h1>
+        <p>Si l'App es queda en blanc, fes servir aquest botó per netejar-ho tot manualment.</p>
 
-        <button onclick="performFix()">Fes clic per corregir</button>
+        <button id="cleanBtn" class="btn btn-primary" onclick="startRescue()">
+            🧹 NETEJAR SISTEMA
+        </button>
+
+        <button id="homeBtn" class="btn btn-success" onclick="goHome()">
+            🚀 OBRIR APP (ARA SÍ)
+        </button>
+
+        <div id="console"></div>
     </div>
 
     <script>
-        async function performFix() {
-            const status = document.getElementById('status');
-            status.innerText = "Netejant dades antigues...";
+        function log(msg, type = 'info') {
+            const el = document.getElementById('console');
+            el.style.display = 'block';
+            const line = document.createElement('div');
+            line.className = 'log-line ' + type;
+            line.innerText = '> ' + msg;
+            el.appendChild(line);
+        }
+
+        async function startRescue() {
+            const btn = document.getElementById('cleanBtn');
+            btn.disabled = true;
+            btn.style.opacity = '0.5';
+            btn.innerText = 'Netejant...';
 
             try {
+                // 1. Storage
                 localStorage.clear();
                 sessionStorage.clear();
+                log('Local Storage: OK', 'success');
 
+                // 2. Caches
                 if ('caches' in window) {
                     const keys = await caches.keys();
-                    await Promise.all(keys.map(key => caches.delete(key)));
+                    await Promise.all(keys.map(k => caches.delete(k)));
+                    log('Cache Storage: OK (' + keys.length + ')', 'success');
                 }
 
+                // 3. Service Workers
                 if ('serviceWorker' in navigator) {
                     const regs = await navigator.serviceWorker.getRegistrations();
-                    for (const reg of regs) await reg.unregister();
+                    let count = 0;
+                    for (const reg of regs) {
+                        await reg.unregister();
+                        count++;
+                    }
+                    log('Service Workers Killed: ' + count, 'success');
                 }
 
-                status.innerText = "FET! Redirigint...";
-
-                setTimeout(() => {
-                    window.location.href = '/login?fixed=true&t=' + Date.now();
-                }, 1000);
+                document.getElementById('cleanBtn').style.display = 'none';
+                document.getElementById('homeBtn').style.display = 'block';
+                log('NETEJA COMPLETADA. Ja pots entrar.', 'success');
 
             } catch (e) {
-                alert("Error: " + e.message);
+                log('Error: ' + e.message, 'error');
+                alert('Hi ha hagut un error, però intenta entrar igualment.');
+                document.getElementById('homeBtn').style.display = 'block';
             }
         }
 
-        // Auto-run if param present
-        if (window.location.search.includes('auto=true')) {
-            performFix();
+        function goHome() {
+            // Force location change with random param to bypass any caching
+            window.location.href = '/login?rescued=' + Date.now();
         }
     </script>
 </body>
