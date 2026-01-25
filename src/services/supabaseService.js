@@ -279,8 +279,11 @@ export const supabaseService = {
         if (!data) return [];
 
         // En producció filtrem les entitats fictícies (demo o Lore-based)
+        // I per petició legal, ocultem qualsevol entitat que no sigui del sistema si no estem en mode Playground
         if (!isPlayground) {
-            return data.filter(e => !isFictiveProfile(e));
+            // Només mostrem entitats verificades o del sistema (Sóc de Poble)
+            // Això elimina duplicats visuals o entitats de prova ("Forn de Carmen", etc.)
+            return data.filter(e => e.type === 'system' || e.verified === true);
         }
 
         return data;
