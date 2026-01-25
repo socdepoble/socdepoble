@@ -61,7 +61,7 @@ const MakingOf = () => {
                                 <span className="stat-lbl">Dies de Treball</span>
                             </div>
                             <div className="stat-box">
-                                <span className="stat-val">>5k</span>
+                                <span className="stat-val">&gt;5k</span>
                                 <span className="stat-lbl">Línies de Codi</span>
                             </div>
                         </div>
