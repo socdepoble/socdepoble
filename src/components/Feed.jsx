@@ -1,12 +1,13 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { Link2, MessageCircle, Share2, MoreHorizontal, Building2, Store, Users, User, Loader2, AlertCircle, Info, Sparkles, UserPlus, UserCheck } from 'lucide-react';
+import { Link2, MessageCircle, Share2, MoreHorizontal, Building2, Store, Users, User, Loader2, AlertCircle, Info, Sparkles, UserPlus, UserCheck, Volume2, StopCircle } from 'lucide-react';
 import { useUI } from '../context/UIContext';
 import { supabaseService } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
 import { ROLES } from '../constants';
 import { logger } from '../utils/logger';
+import { useTextToSpeech } from '../hooks/useTextToSpeech';
 import CreatePostModal from './CreatePostModal';
 import CategoryTabs from './CategoryTabs';
 import TagSelector from './TagSelector';
@@ -39,6 +40,9 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
     const [selectedTag, setSelectedTag] = useState(null);
     const [error, setError] = useState(null);
     const isMounted = useRef(true);
+
+    const { speak, stop, isPlaying } = useTextToSpeech();
+    const [speakingPostId, setSpeakingPostId] = useState(null);
 
     useEffect(() => {
         isMounted.current = true;
@@ -256,6 +260,9 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
                 </header>
             )}
 
+            {/* Semantic Heading for SEO/A11y */}
+            <h1 className="sr-only">{t('mur.title') || 'Mur d\'Activitat i Notícies'}</h1>
+
             <div className="feed-list">
                 {filteredPosts.length === 0 ? (
                     <StatusLoader
@@ -409,6 +416,23 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
                                                 text={post.content}
                                                 url={`${window.location.origin}/post/${pid}`}
                                             />
+                                            <button
+                                                className={`action-btn ${speakingPostId === pid ? 'active-voice' : ''}`}
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    if (speakingPostId === pid) {
+                                                        stop();
+                                                        setSpeakingPostId(null);
+                                                    } else {
+                                                        const textToRead = `Publicació de ${post.author}. ${post.content}`;
+                                                        speak(textToRead);
+                                                        setSpeakingPostId(pid);
+                                                    }
+                                                }}
+                                                title="Llegir en veu alta"
+                                            >
+                                                {speakingPostId === pid ? <StopCircle size={24} className="pulse-red" /> : <Volume2 size={24} />}
+                                            </button>
                                         </div>
                                     </div>
 

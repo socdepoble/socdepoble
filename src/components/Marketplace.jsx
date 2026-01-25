@@ -152,7 +152,27 @@ const Market = ({ searchTerm = '' }) => {
                 title={t('market.title') || 'El Mercat'}
                 description={t('market.description') || 'Productes de proximitat, artesania i segona mà directament dels teus veïns.'}
                 image="/og-mercat.png"
+                structuredData={{
+                    "@type": "OfferCatalog",
+                    "name": "Mercat de Sóc de Poble",
+                    "itemListElement": filteredItems.slice(0, 5).map((item, index) => ({
+                        "@type": "Product",
+                        "position": index + 1,
+                        "name": item.title,
+                        "description": item.description,
+                        "image": item.image_url,
+                        "offers": {
+                            "@type": "Offer",
+                            "price": item.price?.replace('€', '').trim(),
+                            "priceCurrency": "EUR",
+                            "availability": "https://schema.org/InStock"
+                        }
+                    }))
+                }}
             />
+            {/* Semantic Heading for SEO/A11y */}
+            <h1 className="sr-only">{t('market.title') || 'Mercat de Proximitat'}</h1>
+
             <header className="page-header-with-tabs">
                 <div className="header-tabs-wrapper">
                     <CategoryTabs

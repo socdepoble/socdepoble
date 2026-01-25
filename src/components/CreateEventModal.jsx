@@ -138,6 +138,18 @@ const CreateEventModal = ({ isOpen, onClose, onEventCreated, isPlayground = fals
                         </div>
                     </div>
 
+                    <div className="ai-suggestion-bar">
+                        <button
+                            type="button"
+                            className={`ai-magic-pill ${generating ? 'generating' : ''}`}
+                            onClick={handleAIGenerate}
+                            disabled={!content.trim() || loading || generating}
+                        >
+                            {generating ? <Loader2 className="spinner" size={16} /> : <Sparkles size={16} />}
+                            <span>{generating ? 'Pensant...' : '✨ Millorar amb la IAIA'}</span>
+                        </button>
+                    </div>
+
                     <div className="post-content-area">
                         <textarea
                             id="event-content-input"
@@ -147,17 +159,6 @@ const CreateEventModal = ({ isOpen, onClose, onEventCreated, isPlayground = fals
                             autoFocus
                             disabled={loading || generating}
                         />
-                        {/* AI FAB */}
-                        <button
-                            type="button"
-                            className={`ai-magic-btn ${generating ? 'generating' : ''}`}
-                            onClick={handleAIGenerate}
-                            disabled={!content.trim() || loading || generating}
-                            title="Millorar amb IAIA"
-                        >
-                            {generating ? <Loader2 className="spinner" size={16} /> : <Sparkles size={16} />}
-                            <span>{generating ? 'Pensant...' : 'Millorar'}</span>
-                        </button>
                     </div>
 
                     <div className="post-footer-tools">

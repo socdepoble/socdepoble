@@ -35,6 +35,10 @@ const PlaygroundBanner = () => {
                                     logger.error("Error during cleanup:", e);
                                 }
                             }
+                            // ESCAPE HATCH: Clear all simulation flags
+                            localStorage.removeItem('sb-simulation-mode');
+                            localStorage.removeItem('isPlaygroundMode');
+
                             logout();
                             navigate('/login');
                         }

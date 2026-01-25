@@ -228,3 +228,30 @@
 .action-btn.principal-connect span {
     font-size: 14px;
 }
+
+/* Voice Animation */
+@keyframes pulse-red {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.2);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.pulse-red {
+    animation: pulse-red 1.5s infinite;
+    color: #ef4444;
+}
+
+.active-voice {
+    background-color: #fee2e2 !important;
+}

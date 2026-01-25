@@ -221,13 +221,39 @@ class IAIAService {
     }
 
     /**
-     * Millora un esborrany d'esdeveniment utilitzant la veu de la IAIA (Mock Vertex AI).
+     * Millora un esborrany d'esdeveniment utilitzant la veu de la IAIA (Vertex AI).
      */
     async generateEventDescription(draft) {
         try {
-            await new Promise(resolve => setTimeout(resolve, 2000)); // Simular espera de xarxa
+            const API_URL = import.meta.env.VITE_GOOGLE_CLOUD_FUNCTION_URL;
 
-            const emojis = ['🎉', '🥘', '📍', '👇', '✨', '👵'];
+            // 1. Check for real backend
+            if (API_URL) {
+                logger.log('[IAIA] Connecting to Vertex AI Backend:', API_URL);
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        campaignType: 'event_description',
+                        draft: draft
+                    })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    return data.aiContent;
+                } else {
+                    logger.error('[IAIA] Backend returned error:', response.status);
+                    // Fallback to mock if server fails? No, better show error.
+                    // throw new Error('AI Backend Error');
+                }
+            }
+
+            // 2. Mock Fallback (if no URL or error strategy)
+            logger.warn('[IAIA] No Backend URL configured. Using Mock Mode.');
+            await new Promise(resolve => setTimeout(resolve, 1500));
 
             // Lògica simple de "mock" per a la demo
             if (draft.toLowerCase().includes('paell')) {

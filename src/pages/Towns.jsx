@@ -100,7 +100,24 @@ const Towns = () => {
                 title={t('towns.title') || 'Els Pobles'}
                 description={t('towns.description') || 'Explora la xarxa de pobles connectats i descobreix el que els fa únics.'}
                 image="/og-pobles.png"
+                structuredData={{
+                    "@type": "ItemList",
+                    "name": "Pobles de la Comunitat",
+                    "itemListElement": towns.slice(0, 10).map((town, index) => ({
+                        "@type": "ListItem",
+                        "position": index + 1,
+                        "item": {
+                            "@type": "AdministrativeArea",
+                            "name": town.name,
+                            "url": `https://socdepoble.vercel.app/pobles/${town.uuid || town.id}`,
+                            "image": town.image_url
+                        }
+                    }))
+                }}
             />
+            {/* Semantic Heading for SEO/A11y */}
+            <h1 className="sr-only">{t('towns.title') || 'Xarxa de Pobles Connectats'}</h1>
+
             <header className="towns-header">
                 <div className="header-tabs-wrapper">
                     <CategoryTabs

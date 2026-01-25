@@ -12,7 +12,8 @@ const SEO = ({
     image,
     url,
     type = 'website',
-    author = 'Sóc de Poble'
+    author = 'Sóc de Poble',
+    structuredData = {} // New: JSON-LD Object
 }) => {
     const siteTitle = 'Sóc de Poble';
     const fullTitle = title ? `${title} | ${siteTitle}` : siteTitle;
@@ -53,6 +54,15 @@ const SEO = ({
 
             {/* Canonical Link */}
             <link rel="canonical" href={absoluteUrl} />
+
+            {/* Structured Data (JSON-LD) - Dynamic Injection */}
+            {/* This enables "Rich Results" for Events, Profiles, and Local Businesses */}
+            <script type="application/ld+json">
+                {JSON.stringify({
+                    "@context": "https://schema.org",
+                    ...structuredData
+                })}
+            </script>
         </>
     );
 };

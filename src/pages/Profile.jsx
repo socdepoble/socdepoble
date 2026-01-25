@@ -697,6 +697,10 @@ const Profile = () => {
                                 className="btn-logout-danger full-width"
                                 onClick={async () => {
                                     if (window.confirm('Segur que vols tancar la sessió?')) {
+                                        // ESCAPE HATCH: Clear all simulation flags
+                                        localStorage.removeItem('sb-simulation-mode');
+                                        localStorage.removeItem('isPlaygroundMode');
+
                                         await supabaseService.signOut();
                                         window.location.href = '/login';
                                     }

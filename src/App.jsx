@@ -116,6 +116,10 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/playground" element={<PlaygroundPortal />} />
 
+            {/* SEARCH COMPATIBILITY REDIRECTS */}
+            <Route path="/Admin/Broadcast" element={<Navigate to="/admin?tab=broadcast" replace />} />
+            <Route path="/admin/broadcast" element={<Navigate to="/admin?tab=broadcast" replace />} />
+
             <Route
               path="/"
               element={

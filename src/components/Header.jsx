@@ -11,7 +11,7 @@ import './Header.css';
 
 const Header = () => {
     const { t } = useTranslation();
-    const { user, profile } = useAuth();
+    const { user, profile, isAdmin } = useAuth();
     const { language, toggleLanguage } = useI18n();
     const { visionMode, setVisionMode } = useUI();
     const navigate = useNavigate();
@@ -41,6 +41,18 @@ const Header = () => {
                     >
                         <Search size={22} color="white" />
                     </button>
+
+                    {isAdmin && (
+                        <button
+                            className="header-admin-btn"
+                            onClick={() => navigate('/admin')}
+                            aria-label="Admin Panel"
+                            title="Panell d'Administració"
+                            style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '8px' }}
+                        >
+                            <UserCheck size={22} color="#FFD700" />
+                        </button>
+                    )}
 
 
                     <button

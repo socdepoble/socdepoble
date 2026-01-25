@@ -147,6 +147,18 @@ const PublicProfile = () => {
                 image={getSocialImage()}
                 url={profile.username ? `/@${profile.username}` : `/perfil/${profile.id}`}
                 type="profile"
+                structuredData={{
+                    "@type": profile.role === 'admin' || profile.role === 'entitat' ? "Organization" : "Person",
+                    "name": profile.full_name,
+                    "description": profile.bio,
+                    "image": getSocialImage() || profile.avatar_url,
+                    "url": window.location.href,
+                    "jobTitle": profile.ofici || profile.role,
+                    "address": {
+                        "@type": "PostalAddress",
+                        "addressLocality": profile.town_name || "Comunitat Valenciana"
+                    }
+                }}
             />
             <ProfileHeaderPremium
                 type="person"

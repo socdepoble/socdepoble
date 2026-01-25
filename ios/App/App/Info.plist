@@ -10,6 +10,14 @@
     <string>Per mostrar esdeveniments, comerços i amics propers al teu poble.</string>
     <key>NSLocationAlwaysUsageDescription</key>
     <string>Per mostrar esdeveniments i avisos rellevants segons la teua ubicació.</string>
+    <key>NSCameraUsageDescription</key>
+    <string>Per a fer fotos de perfil o publicar imatges d'esdeveniments al Mur.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Per a pujar imatges de la teua galeria al teu perfil o al Mur.</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>Per a guardar imatges generades o descarregades al teu dispositiu.</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Per a gravar notes de veu als xats o descriure esdeveniments.</string>
 	<key>CFBundleDisplayName</key>
         <string>Sóc de Poble</string>
 	<key>CFBundleExecutable</key>

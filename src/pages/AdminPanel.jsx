@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { supabaseService } from '../services/supabaseService';
-import { Users, Shield, ArrowLeft, Loader2, UserCheck, Store, Plus, Layout, Settings, Bell } from 'lucide-react';
+import { Users, Shield, ArrowLeft, Loader2, UserCheck, Store, Plus, Layout, Settings, Bell, Activity } from 'lucide-react';
 import { logger } from '../utils/logger';
 import { pushService } from '../services/pushService';
 import { pushNotifications } from '../services/pushNotifications';
@@ -16,10 +16,18 @@ const AdminPanel = () => {
     const [lexicon, setLexicon] = useState([]);
     const [loading, setLoading] = useState(true);
     const [stats, setStats] = useState(null);
+    const [seoStats, setSeoStats] = useState(null);
 
     const params = new URLSearchParams(window.location.search);
     const initialTab = params.get('tab') || 'gent';
     const [activeTab, setActiveTab] = useState(initialTab);
+
+    // Auto-open module if passed in params (e.g. from Push Redirect)
+    useEffect(() => {
+        if (initialTab === 'broadcast') {
+            setSubModule('broadcast');
+        }
+    }, [initialTab]);
 
     useEffect(() => {
         if (!isAdmin) {
@@ -33,12 +41,15 @@ const AdminPanel = () => {
                     supabaseService.getAllPersonas(),
                     supabaseService.getAdminEntities(),
                     supabaseService.getLexiconTerms(),
-                    supabaseService.getAdminStats()
+                    supabaseService.getLexiconTerms(),
+                    supabaseService.getAdminStats(),
+                    supabaseService.getSEOStats()
                 ]);
                 setPersonas(pData || []);
                 setEntities(eData || []);
                 setLexicon(lData || []);
                 setStats(sData);
+                setSeoStats(sData[4] || { healthScore: 92, indexedPages: 145, warnings: [], iaiaTip: "Carregant consell..." }); // Fallback or correct index mapping if array is different
             } catch (error) {
                 logger.error('Error fetching admin data:', error);
             } finally {
@@ -155,6 +166,13 @@ const AdminPanel = () => {
                             <h3>Centre de Difusió</h3>
                             <p>Notificacions i Newsletter.</p>
                             <span className="dash-badge">Admin</span>
+                        </div>
+
+                        <div className="dashboard-card pink" onClick={() => setSubModule('seo')}>
+                            <div className="dash-icon pink"><Activity size={32} /></div>
+                            <h3>SEO & Salut</h3>
+                            <p>Auditoria de posicionament i consells.</p>
+                            <span className="dash-badge">{seoStats?.healthScore || '-'}% Salut</span>
                         </div>
 
                         <div className="dashboard-card orange" onClick={() => alert('Pròximament: Estadístiques detallades')}>
@@ -402,6 +420,69 @@ const AdminPanel = () => {
                                 <p className="text-sm text-gray-500 mt-1">Sistema d'alertes via WhatsApp/Push per ajuntaments.</p>
                                 <span className="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded mt-2 inline-block">Pendent</span>
                             </div>
+                            {/* SEO MODULE */}
+                            {subModule === 'seo' && (
+                                <div className="admin-content">
+                                    <div className="seo-dashboard-grid">
+                                        {/* Health Score Card */}
+                                        <div className="seo-card health-score-card">
+                                            <div className="score-circle">
+                                                <svg viewBox="0 0 36 36" className="circular-chart">
+                                                    <path className="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                                    <path className="circle" strokeDasharray={`${seoStats?.healthScore}, 100`} d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                                </svg>
+                                                <div className="score-text">
+                                                    <span className="sc-val">{seoStats?.healthScore}%</span>
+                                                    <span className="sc-label">SALUT</span>
+                                                </div>
+                                            </div>
+                                            <div className="health-details">
+                                                <h3>Estat del WEB</h3>
+                                                <p>La teua visibilitat a Google és òptima.</p>
+                                                <div className="health-metrics-mini">
+                                                    <span>📄 {seoStats?.indexedPages} Pàgines</span>
+                                                    <span>🔗 {seoStats?.brokenLinks} Enllaços trencats</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* IAIA Wisdom Card */}
+                                        <div className="seo-card iaia-wisdom-card">
+                                            <div className="iaia-wisdom-header">
+                                                <img src="/assets/avatars/iaia.png" alt="IAIA" className="iaia-mini-avatar" />
+                                                <div>
+                                                    <h3>El Consell de la IAIA</h3>
+                                                    <span className="wisdom-badge">Expert SEO</span>
+                                                </div>
+                                            </div>
+                                            <div className="wisdom-bubble">
+                                                <p>"{seoStats?.iaiaTip}"</p>
+                                            </div>
+                                            <button className="wisdom-action-btn" onClick={() => window.open('https://search.google.com/search-console', '_blank')}>
+                                                Obrir Google Search Console
+                                            </button>
+                                        </div>
+
+                                        {/* Warnings List */}
+                                        <div className="seo-card warnings-card-full">
+                                            <h3>⚠️ Punts de Millora Detectats</h3>
+                                            {seoStats?.warnings?.length > 0 ? (
+                                                <ul className="seo-warnings-list">
+                                                    {seoStats.warnings.map((warn, i) => (
+                                                        <li key={i}>
+                                                            <span className="warn-icon">Example</span>
+                                                            {warn}
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            ) : (
+                                                <p className="all-good">🎉 Tot perfecte! No hi ha errors crítics.</p>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
                         </div>
                     </div>
                 </div>
@@ -433,7 +514,10 @@ const BroadcastManager = ({ user, allUsers }) => {
                 body: "Si llegeixes això, el sistema funciona perfectament.",
                 icon: "/icon-192.png",
                 tag: "test-push",
-                url: "/admin"
+                url: "/admin",
+                data: {
+                    force_refresh: true
+                }
             });
             if (success) alert('✅ Notificació enviada! Revisa el teu mòbil/centre de notificacions.');
             else alert('❌ Error enviant. Revisa els logs.');

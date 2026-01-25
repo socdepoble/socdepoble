@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /chats
+Disallow: /profile
+Disallow: /settings
+
+# Sitemaps
+Sitemap: https://socdepoble.vercel.app/sitemap.xml

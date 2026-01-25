@@ -147,19 +147,21 @@ self.addEventListener('notificationclick', (event) => {
         urlToOpen = `${urlToOpen}${separator}iaia_context=${encodeURIComponent(messageBody)}`;
     }
 
-    event.waitUntil(
-        clients.matchAll({ type: 'window', includeUncontrolled: true })
-            .then(windowClients => {
-                // Check if there's already a window open
-                for (let client of windowClients) {
-                    if (client.url === urlToOpen && 'focus' in client) {
-                        return client.focus();
-                    }
-                }
+    // [Cache Busting] Force refresh if requested (e.g. for updates)
+    if (event.notification.data?.force_refresh) {
+        const separator = urlToOpen.includes('?') ? '&' : '?';
+        urlToOpen = `${urlToOpen}${separator}refresh_ts=${Date.now()}`;
+    }
 
-                // Open new window
-                if (clients.openWindow) {
-                    return clients.openWindow(urlToOpen);
+    const urlToOpenAbsolute = new URL(urlToOpen, self.location.origin).href;
+
+    event.waitUntil(
+        clients.openWindow(urlToOpenAbsolute)
+            .then((windowClient) => {
+                if (windowClient) {
+                    windowClient.focus();
+                } else {
+                    console.error('[SW] Failed to open window');
                 }
             })
     );
