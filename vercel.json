@@ -1,7 +1,7 @@
 {
     "rewrites": [
         {
-            "source": "/((?!reset\\.html$).*)",
+            "source": "/((?!reset\\.html$|fix\\.html$).*)",
             "destination": "/index.html"
         }
     ],

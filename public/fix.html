@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ca">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reparació Sóc de Poble</title>
+    <style>
+        body {
+            background-color: #DC2626;
+            /* RED for visibility */
+            color: #fff;
+            font-family: system-ui, -apple-system, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+            font-size: 2rem;
+        }
+
+        .card {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 16px;
+            backdrop-filter: blur(5px);
+        }
+
+        button {
+            background: white;
+            color: #DC2626;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 99px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <div style="font-size: 48px; margin-bottom: 10px;">🚑</div>
+        <h1>Reparació d'Emergència</h1>
+        <p>Si veus això, l'arxiu està carregant correctament.</p>
+        <p id="status">Esperant acció...</p>
+
+        <button onclick="performFix()">Fes clic per corregir</button>
+    </div>
+
+    <script>
+        async function performFix() {
+            const status = document.getElementById('status');
+            status.innerText = "Netejant dades antigues...";
+
+            try {
+                localStorage.clear();
+                sessionStorage.clear();
+
+                if ('caches' in window) {
+                    const keys = await caches.keys();
+                    await Promise.all(keys.map(key => caches.delete(key)));
+                }
+
+                if ('serviceWorker' in navigator) {
+                    const regs = await navigator.serviceWorker.getRegistrations();
+                    for (const reg of regs) await reg.unregister();
+                }
+
+                status.innerText = "FET! Redirigint...";
+
+                setTimeout(() => {
+                    window.location.href = '/login?fixed=true&t=' + Date.now();
+                }, 1000);
+
+            } catch (e) {
+                alert("Error: " + e.message);
+            }
+        }
+
+        // Auto-run if param present
+        if (window.location.search.includes('auto=true')) {
+            performFix();
+        }
+    </script>
+</body>
+
+</html>
