@@ -3,6 +3,7 @@ import { logger } from '../utils/logger';
 import { DEMO_USER_ID, ROLES, USER_ROLES, ENABLE_MOCKS } from '../constants';
 import { PostSchema, MarketItemSchema, MessageSchema, ProfileSchema, ConversationSchema } from './schemas';
 import { MOCK_LORE_POSTS, MOCK_LORE_ITEMS } from '../data/mockLoreData';
+import { pushNotifications } from './pushNotifications';
 
 /**
  * Helper for time-aware greetings
@@ -102,13 +103,19 @@ const SEARCH_SYNONYMS = {
 const getNormalizedQuery = (query) => {
     if (!query) return '';
     const trimmed = query.toLowerCase().trim();
+
+    // Accents normalization (Damia -> Damià)
+    const normalized = trimmed.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
     // Direct match check
     if (SEARCH_SYNONYMS[trimmed]) return SEARCH_SYNONYMS[trimmed];
+    if (SEARCH_SYNONYMS[normalized]) return SEARCH_SYNONYMS[normalized];
+
     // Partial match/Contains check (more dynamic)
     for (const [key, value] of Object.entries(SEARCH_SYNONYMS)) {
-        if (trimmed.includes(key)) return value;
+        if (trimmed.includes(key) || normalized.includes(key)) return value;
     }
-    return query;
+    return normalized;
 };
 
 const setColumnCache = (key, value) => {
@@ -382,6 +389,35 @@ export const supabaseService = {
             .eq('conversation_id', conversationId)
             .order('created_at', { ascending: true });
         if (error) throw error;
+
+        // Hydrate Voice Messages with Metadata
+        if (data && data.length > 0) {
+            const voiceMessageIds = data.filter(m => m.attachment_type === 'voice').map(m => m.id);
+            if (voiceMessageIds.length > 0) {
+                const { data: voiceMeta } = await supabase
+                    .from('voice_messages')
+                    .select('message_id, duration_seconds, waveform_data')
+                    .in('message_id', voiceMessageIds);
+
+                if (voiceMeta) {
+                    const metaMap = new Map(voiceMeta.map(v => [v.message_id, v]));
+                    return data.map(m => {
+                        if (m.attachment_type === 'voice') {
+                            const meta = metaMap.get(m.id);
+                            return {
+                                ...m,
+                                voice_meta: meta ? {
+                                    duration: meta.duration_seconds,
+                                    waveform: meta.waveform_data
+                                } : null
+                            };
+                        }
+                        return m;
+                    });
+                }
+            }
+        }
+
         return data || [];
     },
 
@@ -426,7 +462,9 @@ export const supabaseService = {
                         if (data && data.length > 0) {
                             setColumnCache('messages_is_playground', 'is_playground' in data[0]);
                         }
-                    } catch (e) { } finally { activeChecks.messages = null; }
+                    } catch (e) {
+                        logger.error('[SupabaseService] Error checking playground column:', e);
+                    } finally { activeChecks.messages = null; }
                 })();
             }
             await activeChecks.messages;
@@ -632,7 +670,9 @@ export const supabaseService = {
                         if (data && data.length > 0) {
                             setColumnCache('conversations_is_playground', 'is_playground' in data[0]);
                         }
-                    } catch (e) { } finally { activeChecks.conversations = null; }
+                    } catch (e) {
+                        logger.error('[SupabaseService] Error checking definitions for conversations:', e);
+                    } finally { activeChecks.conversations = null; }
                 })();
             }
             await activeChecks.conversations;
@@ -745,12 +785,14 @@ export const supabaseService = {
 
     async searchProfiles(query) {
         if (!query || query.length < 2) return [];
-        const normalized = getNormalizedQuery(query);
+        const normalizedName = getNormalizedQuery(query);
+        const cleanQuery = query.toLowerCase().trim();
+
         try {
             const { data, error } = await supabase
                 .from('profiles')
                 .select('id, full_name, username, avatar_url, role, primary_town, bio')
-                .or(`full_name.ilike.%${query}%,username.ilike.%${query}%,role.ilike.%${query}%,primary_town.ilike.%${query}%,primary_town.ilike.%${normalized}%`)
+                .or(`full_name.ilike.%${cleanQuery}%,full_name.ilike.%${normalizedName}%,username.ilike.%${cleanQuery}%,role.ilike.%${cleanQuery}%,primary_town.ilike.%${cleanQuery}%,primary_town.ilike.%${normalizedName}%`)
                 .limit(10);
 
             if (error) throw error;
@@ -773,11 +815,11 @@ export const supabaseService = {
                 if (!names.has(name)) {
                     names.add(name);
                     // Normalize town field
-                    const normalized = {
+                    const item = {
                         ...p,
                         town_name: p.town_name || p.primary_town
                     };
-                    unique.push(normalized);
+                    unique.push(item);
                 }
             });
 
@@ -843,7 +885,7 @@ export const supabaseService = {
         }
     },
 
-    async connectWithProfile(followerId, targetId) {
+    async connectWithProfile(followerId, targetId, tags = []) {
         if (!followerId || !targetId) return false;
         if (columnCache.connections_table === false) return true; // Simulate success in Sandbox if table missing
 
@@ -866,6 +908,18 @@ export const supabaseService = {
                 }
                 throw error;
             }
+
+            // Automate Push Notification to targetId (e.g. Damià)
+            const followerProfile = await this.getProfile(followerId);
+            if (followerProfile) {
+                pushNotifications.triggerNotification(targetId, {
+                    title: `Nova connexió!`,
+                    body: `${followerProfile.full_name} s'ha connectat amb tu.`,
+                    url: `/perfil/${followerId}`,
+                    tag: `connect-${followerId}`
+                }).catch(() => { }); // Silence if push fails/not configured
+            }
+
             if (columnCache.connections_table === null) setColumnCache('connections_table', true);
             return true;
         } catch (error) {
@@ -959,36 +1013,13 @@ export const supabaseService = {
     },
 
     // Feed / Muro
+    // Feed / Muro
     async getPosts(roleFilter = 'tot', townId = null, page = 0, pageSize = 10, isPlayground = false) {
         logger.log(`[SupabaseService] Fetching posts with roleFilter: ${roleFilter}, townId: ${townId}, page: ${page}, playground: ${isPlayground}`);
         try {
             let query = supabase
                 .from('posts')
-                .select('id, uuid, content, created_at, author_id, author:author_name, author_avatar:author_avatar_url, image_url, author_role, is_playground, entity_id, towns!fk_posts_town_uuid(name)', { count: 'exact' });
-
-            // Si no sabemos si la columna existe, hacemos una comprobación SILENCIOSA (select *)
-            if (isPlayground && columnCache.posts_is_playground === null) {
-                if (!activeChecks.posts) {
-                    activeChecks.posts = (async () => {
-                        try {
-                            // Usar select('*') no falla si falta una columna específica, es silencioso
-                            const { data, error } = await supabase.from('posts').select('*').limit(1);
-                            if (error) throw error;
-                            if (data && data.length > 0) {
-                                setColumnCache('posts_is_playground', 'is_playground' in data[0]);
-                            } else {
-                                // Si no hay datos, no podemos saberlo seguro sin arriesgar un 400.
-                                // Lo dejamos en null para que el catch del fetch principal lo decida.
-                            }
-                        } catch (e) {
-                            // Si falla el select * es un error mayor, pero no de columna faltante
-                        } finally {
-                            activeChecks.posts = null;
-                        }
-                    })();
-                }
-                await activeChecks.posts;
-            }
+                .select('id, uuid, content, created_at, author, author_avatar, image_url, author_role, is_playground, author_user_id, author_entity_id, towns!fk_posts_town_uuid(name)', { count: 'exact' });
 
             if (isPlayground && columnCache.posts_is_playground !== false) {
                 query = query.eq('is_playground', true);
@@ -1075,26 +1106,7 @@ export const supabaseService = {
         try {
             let query = supabase
                 .from('market_items')
-                .select('id, uuid:id, title, description, price, category_slug, created_at, author_id, seller:author_name, avatar_url:author_avatar_url, image_url, is_playground, is_active, entity_id, towns!fk_market_town_uuid(name)', { count: 'exact' });
-
-            if (isPlayground && columnCache.market_is_playground === null) {
-                if (!activeChecks.market) {
-                    activeChecks.market = (async () => {
-                        try {
-                            const { data, error } = await supabase.from('market_items').select('*').limit(1);
-                            if (error) throw error;
-                            if (data && data.length > 0) {
-                                setColumnCache('market_is_playground', 'is_playground' in data[0]);
-                            }
-                        } catch (e) {
-                            // Silence
-                        } finally {
-                            activeChecks.market = null;
-                        }
-                    })();
-                }
-                await activeChecks.market;
-            }
+                .select('id, uuid, title, description, price, category_slug, created_at, author_user_id, seller, avatar_url, image_url, is_playground, seller_entity_id, towns!fk_market_town_uuid(name)', { count: 'exact' });
 
             if (isPlayground && columnCache.market_is_playground !== false) {
                 query = query.eq('is_playground', true);
@@ -1124,8 +1136,8 @@ export const supabaseService = {
                 throw error;
             }
 
-            // FALLBACK RESTAURADOR: Si no hi ha items a la DB, mostrem els MOCK_MARKET_ITEMS
-            if ((!data || data.length === 0) && page === 0 && ENABLE_MOCKS) {
+            // FALLBACK RESTAURADOR: Si no hi ha items a la DB, mostrem els MOCK_MARKET_ITEMS sempre (Cold Start)
+            if ((!data || data.length === 0) && page === 0) {
                 const { MOCK_MARKET_ITEMS } = await import('../data');
                 const normalized = MOCK_MARKET_ITEMS.map(item => normalizeContentItem(item, 'market'));
                 return { data: normalized, count: normalized.length };
@@ -1274,6 +1286,14 @@ export const supabaseService = {
         const { data, error } = await supabase.auth.signInWithPassword({
             email,
             password
+        });
+        if (error) throw error;
+        return data;
+    },
+
+    async resetPasswordForEmail(email) {
+        const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+            redirectTo: window.location.origin + '/reset-password',
         });
         if (error) throw error;
         return data;
@@ -1473,8 +1493,7 @@ export const supabaseService = {
             return data[0];
         } catch (error) {
             logger.error('[SupabaseService] Error updating profile:', error);
-            // Optimistic success for UI to feel fast and handle transient/schema errors
-            return { id: userId, ...updates };
+            throw error;
         }
     },
 
@@ -1553,6 +1572,19 @@ export const supabaseService = {
     },
 
     async getPublicEntity(entityId) {
+        // Intercept System/Mock entities
+        const adminEntities = await this.getAdminEntities(); // Mocks including system entities
+        const existingMock = adminEntities.find(e => e.id === entityId);
+
+        if (existingMock) {
+            return {
+                ...existingMock,
+                // Add default fields if missing to match DB schema
+                created_at: new Date().toISOString(),
+                is_active: true
+            };
+        }
+
         const { data, error } = await supabase
             .from('entities')
             .select('*')
@@ -2012,6 +2044,68 @@ export const supabaseService = {
 
         if (error) throw error;
         return data;
+    },
+
+    // --- Voice Messages ---
+
+    async uploadVoiceMessage(audioBlob, duration, userId) {
+        // Upload logic: user_id / conversation_id (optional) / timestamp
+        const timestamp = Date.now();
+        const fileName = `${userId}/${timestamp}.webm`;
+
+        const { data, error: uploadError } = await supabase.storage
+            .from('voice-messages')
+            .upload(fileName, audioBlob, {
+                cacheControl: '3600',
+                upsert: false
+            });
+
+        if (uploadError) throw uploadError;
+
+        const { data: { publicUrl } } = supabase.storage
+            .from('voice-messages')
+            .getPublicUrl(fileName);
+
+        return { url: publicUrl, path: fileName };
+    },
+
+    async sendVoiceMessage(conversationId, senderId, audioBlob, duration, waveform) {
+        try {
+            // 1. Upload
+            const { url } = await this.uploadVoiceMessage(audioBlob, duration, senderId);
+
+            // 2. Send Message (using generic secure message flow)
+            // We use 'voice' as attachment type
+            const messageData = {
+                conversationId,
+                senderId,
+                content: '🎵 Missatge de veu',
+                attachmentUrl: url,
+                attachmentType: 'voice',
+                attachmentName: duration.toString() // Store duration in name for quick access
+            };
+
+            const message = await this.sendSecureMessage(messageData);
+
+            // 3. Store rich metadata (waveform) in separate table
+            const { error: metaError } = await supabase
+                .from('voice_messages')
+                .insert({
+                    message_id: message.id,
+                    duration_seconds: Math.round(duration),
+                    waveform_data: waveform
+                });
+
+            if (metaError) {
+                logger.error('[SupabaseService] Error saving voice metadata (waveform):', metaError);
+                // Continue, as the message itself is sent and playable (metadata is progressive enhancement)
+            }
+
+            return { ...message, voice_meta: { duration, waveform } };
+        } catch (error) {
+            logger.error('[SupabaseService] Error sending voice message:', error);
+            throw error;
+        }
     },
 
     /**

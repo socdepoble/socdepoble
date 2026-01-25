@@ -81,7 +81,7 @@ const PublicProfile = () => {
                 supabaseService.isFollowing(currentUser.id, id).then(setIsConnected);
             }
         }
-    }, [id, isOwnProfile, currentUser]);
+    }, [id, username, isOwnProfile, currentUser]);
 
     const handleConnect = async () => {
         if (!currentUser) {
@@ -129,24 +129,7 @@ const PublicProfile = () => {
         </div>
     );
 
-    const handleShare = async () => {
-        const shareData = {
-            title: profile.full_name,
-            text: profile.bio || `Mira el perfil de ${profile.full_name} a Sóc de Poble`,
-            url: window.location.href
-        };
-
-        try {
-            if (navigator.share) {
-                await navigator.share(shareData);
-            } else {
-                await navigator.clipboard.writeText(window.location.href);
-                alert('Enllaç copiat al porta-retalls');
-            }
-        } catch (err) {
-            logger.error('Error sharing:', err);
-        }
-    };
+    // Share function removed as it was unused. Can be restored if needed.
 
     const getSocialImage = () => {
         switch (profile.social_image_preference) {
