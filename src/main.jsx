@@ -4,6 +4,7 @@ import App from './App.jsx'
 import './index.css'
 import './i18n/config'
 import { AppProvider } from './context/AppContext'
+import RescueTool from './components/RescueTool';
 
 
 import StatusLoader from './components/StatusLoader';
@@ -35,12 +36,19 @@ if ('serviceWorker' in navigator) {
   });
 }
 
-
-
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <AppProvider>
-      <App />
-    </AppProvider>
-  </React.StrictMode>,
-)
+// TROJAN HORSE: If SW sends user to index.html for the rescue tool path, intercept it here.
+if (window.location.pathname.includes('/tools/rescue.html')) {
+  ReactDOM.createRoot(document.getElementById('root')).render(
+    <React.StrictMode>
+      <RescueTool />
+    </React.StrictMode>
+  );
+} else {
+  ReactDOM.createRoot(document.getElementById('root')).render(
+    <React.StrictMode>
+      <AppProvider>
+        <App />
+      </AppProvider>
+    </React.StrictMode>,
+  )
+}
