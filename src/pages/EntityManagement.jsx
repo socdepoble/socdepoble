@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { supabaseService } from '../services/supabaseService';
 import { Building2, Store, Users, ArrowLeft, Plus, ChevronRight, Layout, Shield } from 'lucide-react';
-import UnifiedStatus from '../components/UnifiedStatus';
+import StatusLoader from '../components/StatusLoader';
 import './EntityManagement.css';
 import { logger } from '../utils/logger';
 
@@ -14,24 +14,24 @@ const EntityManagement = () => {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
+        const loadEntities = async () => {
+            try {
+                setIsLoading(true);
+                const data = await supabaseService.getUserEntities(user.id);
+                setEntities(data || []);
+            } catch (error) {
+                logger.error('Error loading entities:', error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
         if (user) {
             loadEntities();
         }
     }, [user]);
 
-    const loadEntities = async () => {
-        try {
-            setIsLoading(true);
-            const data = await supabaseService.getUserEntities(user.id);
-            setEntities(data || []);
-        } catch (error) {
-            logger.error('Error loading entities:', error);
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    if (isLoading) return <UnifiedStatus type="loading" />;
+    if (isLoading) return <StatusLoader type="loading" />;
 
     return (
         <div className="entity-mgmt-page">

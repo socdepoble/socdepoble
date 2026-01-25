@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { X, Search, ChevronRight, Check, MapPin } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useTranslation } from 'react-i18next';
-import UnifiedStatus from './UnifiedStatus';
+import { logger } from '../utils/logger';
+import StatusLoader from './StatusLoader';
 import './TownSelectorModal.css';
 
 const TownSelectorModal = ({ isOpen, onClose, onSelect }) => {
@@ -175,12 +176,11 @@ const TownSelectorModal = ({ isOpen, onClose, onSelect }) => {
 
                 <div className="modal-content-scroll">
                     {loading ? (
-                        <UnifiedStatus type="loading" inline message={t('common.loading')} />
+                        <StatusLoader type="loading" message={t('common.loading')} />
                     ) : displayList.length === 0 ? (
-                        <UnifiedStatus
+                        <StatusLoader
                             type="empty"
                             message={isSearching ? t('towns.no_results_search') : t('towns.no_results_list')}
-                            onRetry={isSearching ? () => setSearchTerm('') : null}
                         />
                     ) : (
                         <div className="selection-list">

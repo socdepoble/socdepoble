@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { X, Newspaper, Store, MapPin, Users, Shield, Calendar, Bot, Share2 } from 'lucide-react';
+import { X, Newspaper, Store, MapPin, Users, Shield, Calendar, Bot, Share2, Rocket, LogOut } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useUI } from '../context/UIContext';
 import './CreationHub.css';
@@ -14,7 +14,7 @@ const CreationHub = () => {
         setIsEventModalOpen,
         setIsMarketModalOpen
     } = useUI();
-    const { isSuperAdmin } = useAuth();
+    const { isSuperAdmin, logout } = useAuth();
     const navigate = useNavigate();
 
     if (!isCreateModalOpen) return null;
@@ -30,6 +30,15 @@ const CreationHub = () => {
                 </header>
 
                 <div className="creation-hub-main-actions">
+                    <button className="logout-hub-top-btn" onClick={() => {
+                        setIsCreateModalOpen(false);
+                        logout();
+                        navigate('/login');
+                    }}>
+                        <LogOut size={24} />
+                        <span>Eixir d'aquesta xarxa social</span>
+                    </button>
+
                     <button className="share-full-frame" onClick={() => {
                         setIsCreateModalOpen(false);
                         const shareData = {
@@ -57,6 +66,14 @@ const CreationHub = () => {
                             <span>ACCÉS ADMINISTRACIÓ</span>
                         </button>
                     )}
+
+                    <button className="share-full-frame project-btn-styled" onClick={() => {
+                        setIsCreateModalOpen(false);
+                        navigate('/projecte');
+                    }}>
+                        <Rocket size={24} />
+                        <span>SÓC DE POBLE: PROJECTE</span>
+                    </button>
                 </div>
 
                 <div className="creation-options">
@@ -100,6 +117,8 @@ const CreationHub = () => {
                         <span>{t('iaia_page.title')}</span>
                     </button>
                 </div>
+
+
             </div>
         </div>
     );

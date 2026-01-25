@@ -5,6 +5,8 @@ import { useI18n } from '../context/I18nContext';
 import { logger } from '../utils/logger';
 import { User, Search, Bell, Sparkles, UserCheck } from 'lucide-react';
 import { useUI } from '../context/UIContext';
+import { pushService } from '../services/pushService';
+import { pushNotifications } from '../services/pushNotifications';
 import './Header.css';
 
 const Header = () => {
@@ -51,7 +53,23 @@ const Header = () => {
 
                     <button
                         className={`header-vision-toggle ${visionMode}`}
-                        onClick={() => setVisionMode(prev => prev === 'hibrida' ? 'humana' : 'hibrida')}
+                        onClick={async () => {
+                            const nextMode = visionMode === 'hibrida' ? 'humana' : 'hibrida';
+                            setVisionMode(nextMode);
+
+                            if (nextMode === 'humana' && user) {
+                                try {
+                                    const subscription = await pushService.getSubscription();
+                                    if (subscription) {
+                                        await pushNotifications.removeSubscription(user.id, subscription.endpoint);
+                                        await pushService.unsubscribe();
+                                        logger.info('[Header] Push subscription cleaned up after disabling IAIA');
+                                    }
+                                } catch (err) {
+                                    logger.error('[Header] Error cleaning up push:', err);
+                                }
+                            }
+                        }}
                         aria-label="Canviar mode de visió"
                         title={visionMode === 'hibrida' ? 'Mode Híbrid actiu' : 'Mode Humà actiu'}
                     >

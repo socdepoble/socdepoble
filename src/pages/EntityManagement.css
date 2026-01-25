@@ -215,3 +215,78 @@
     font-size: 13px;
     font-weight: 400;
 }
+
+/* --- TABLET / DESKTOP ADAPTATION (iPad Mode) --- */
+@media (min-width: 768px) {
+    .entity-mgmt-content {
+        max-width: 1000px;
+        /* Use more screen real estate */
+        padding: 40px;
+        gap: 60px;
+    }
+
+    .entity-mgmt-header h1 {
+        font-size: 36px;
+        /* Bigger title */
+    }
+
+    /* Creation Grid: 3 columns */
+    .creation-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+    }
+
+    .create-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 32px 24px;
+        height: 100%;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    .create-icon {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 8px;
+    }
+
+    .create-icon svg {
+        width: 40px;
+        height: 40px;
+    }
+
+    .create-info {
+        align-items: center;
+    }
+
+    .create-info strong {
+        font-size: 18px;
+        margin-bottom: 4px;
+    }
+
+    .plus-icon {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+    }
+
+    /* My Entities List: 2 columns */
+    .entities-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .managed-entity-item {
+        margin-bottom: 0;
+        /* Remove bottom margin in grid */
+        padding: 20px;
+    }
+
+    .entity-avatar-mini {
+        width: 56px;
+        height: 56px;
+    }
+}

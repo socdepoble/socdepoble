@@ -8,14 +8,15 @@ import { useAuth } from '../context/AuthContext';
 import { logger } from '../utils/logger';
 import Avatar from './Avatar';
 import CategoryTabs from './CategoryTabs';
-import UnifiedStatus from './UnifiedStatus';
+import StatusLoader from './StatusLoader';
 import MarketSkeleton from './Skeletons/MarketSkeleton';
 import SEO from './SEO';
-import './Market.css';
+import Carousel from './Carousel';
+import './Marketplace.css';
 
 const Market = ({ searchTerm = '' }) => {
     const { t, i18n } = useTranslation();
-    const { user } = useAuth();
+    const { user, isPlayground } = useAuth();
     const { visionMode } = useUI();
     const navigate = useNavigate();
     const [items, setItems] = useState([]);
@@ -25,7 +26,7 @@ const Market = ({ searchTerm = '' }) => {
     const [hasMore, setHasMore] = useState(true);
     const [activeTab, setActiveTab] = useState('tot');
     const [page, setPage] = useState(0);
-    const PAGE_SIZE = 12;
+    const PAGE_SIZE = 100;
 
     const marketTabs = [
         { id: 'tot', label: t('market.tabs.all') || 'Tot', role: 'tot' },
@@ -61,7 +62,7 @@ const Market = ({ searchTerm = '' }) => {
                 null,
                 currentPage,
                 PAGE_SIZE,
-                true // isPlayground
+                isPlayground
             );
 
             if (append) {
@@ -86,8 +87,39 @@ const Market = ({ searchTerm = '' }) => {
         // 1. Vision Mode Filter
         if (visionMode === 'humana') {
             baseItems = baseItems.filter(item => {
-                const isAI = item.author_role === 'ambassador' || item.author_is_ai || (item.author_user_id && item.author_user_id.startsWith('11111111-'));
-                return !isAI;
+                const idToCheck = String(item.seller_entity_id || item.author_entity_id || item.author_user_id || '');
+                const nameToCheck = item.seller || item.seller_name || item.author_name || '';
+
+                // 0. Explicit Name Blacklist (Ambassadors & Mock Businesses)
+                // This captures cases where role/ID might be missing in DB items
+                const BLACKLIST_NAMES = [
+                    'Vicent Ferris', 'Lucía Belda', 'Elena Popova', 'Maria "Mèl"', 'Marc Sendra',
+                    'Samir Mensah', 'Andreu Soler', 'Beatriz Ortega', 'Joanet Serra',
+                    'Carmen la del Forn', 'Joan Batiste', 'Carla Soriano',
+                    'Formatgeria la Vall', 'Cooperativa de la Torre', 'Sabors del Comtat',
+                    'Destil·leries de la Serra', 'Forn de Muro', 'Abelles Mariola', 'Abelles de la Serra',
+                    'Hort del Tio Pep'
+                ];
+                if (BLACKLIST_NAMES.some(name => nameToCheck.includes(name))) return false;
+
+                // 1. Filter out AI/Ambassadors by Role/ID
+                const isAI = item.author_role === 'ambassador' ||
+                    item.author_is_ai ||
+                    item.is_iaia_inspired ||
+                    idToCheck.startsWith('11111111-');
+
+                if (isAI) return false;
+
+                // 2. Filter out Mock Data (Fake businesses) BUT keep Sóc de Poble official items
+                const isMock = idToCheck.startsWith('mock-');
+                const isOfficialSdP = idToCheck === 'mock-business-sdp-1' || item.seller === 'Sóc de Poble' || item.title?.includes('Camiseta');
+
+                if (isMock && !isOfficialSdP) return false;
+
+                // 3. Filter out 0000 reserved IDs except the main system one
+                if (idToCheck.startsWith('00000000-') && idToCheck !== '00000000-0000-0000-0000-000000000000') return false;
+
+                return true;
             });
         }
 
@@ -130,10 +162,10 @@ const Market = ({ searchTerm = '' }) => {
 
             <div className="market-grid">
                 {filteredItems.length === 0 ? (
-                    <UnifiedStatus
+                    <StatusLoader
                         type="empty"
                         message={searchTerm ? `No s'ha trobat cap article per a "${searchTerm}"` : t('market.no_items')}
-                        onRetry={searchTerm ? () => setSearchTerm('') : null}
+                        onRetry={null}
                     />
                 ) : (
                     filteredItems.map(item => (
@@ -177,10 +209,25 @@ const Market = ({ searchTerm = '' }) => {
                                 </div>
                             </div>
 
-                            {item.image_url && (
-                                <div className="card-image-wrapper">
-                                    <img src={item.image_url} alt={`${item.title} - venut per ${item.seller}`} />
-                                </div>
+                            {item.title?.includes('Camiseta Oficial') ? (
+                                <Carousel
+                                    images={[
+                                        item.image_url,
+                                        '/images/campaign/iaia_tshirt.png',
+                                        '/images/campaign/young_man_tshirt.png',
+                                        '/images/campaign/group_tshirt.png',
+                                        '/images/campaign/hiker.png',
+                                        '/images/campaign/rustic_detail.png',
+                                        '/images/campaign/night_party.png'
+                                    ]}
+                                    height="280px"
+                                />
+                            ) : (
+                                item.image_url && (
+                                    <div className="card-image-wrapper">
+                                        <img src={item.image_url} alt={`${item.title} - venut per ${item.seller}`} />
+                                    </div>
+                                )
                             )}
 
                             <div className="card-body">
@@ -203,9 +250,11 @@ const Market = ({ searchTerm = '' }) => {
                                     </div>
                                 )}
 
-                                <div className="ia-transparency-note-mini clickable" onClick={() => navigate('/iaia')}>
-                                    ✨ {t('profile.transparency_market') || 'Producte gestionat per la IAIA (Informació Artificial i Acció)'}
-                                </div>
+                                {(item.author_role === 'ambassador' || item.author_is_ai || item.is_iaia_inspired) && (
+                                    <div className="ia-transparency-note-mini clickable" onClick={() => navigate('/iaia')}>
+                                        ✨ {t('profile.transparency_market') || 'Producte gestionat per la IAIA (Informació Artificial i Acció)'}
+                                    </div>
+                                )}
                             </div>
 
                             <div className="card-footer-vibrant">

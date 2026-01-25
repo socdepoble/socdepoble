@@ -1304,6 +1304,24 @@ export const supabaseService = {
         if (error) throw error;
     },
 
+    async signInWithOtp(phone) {
+        const { data, error } = await supabase.auth.signInWithOtp({
+            phone: phone,
+        });
+        if (error) throw error;
+        return data;
+    },
+
+    async verifyOtp(phone, token) {
+        const { data, error } = await supabase.auth.verifyOtp({
+            phone: phone,
+            token: token,
+            type: 'sms',
+        });
+        if (error) throw error;
+        return data;
+    },
+
     async getProfile(userId) {
         if (!userId) return null;
         try {

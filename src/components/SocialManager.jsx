@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
 import { X, Check, Eye, EyeOff, Hash, Layers, Settings2, Sparkles, Loader2 } from 'lucide-react';

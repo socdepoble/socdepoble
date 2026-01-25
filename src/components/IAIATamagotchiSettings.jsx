@@ -140,6 +140,12 @@ const IAIATamagotchiSettings = ({ userId, profile, onUpdate }) => {
                 </button>
             </div>
 
+            <div style={{ textAlign: 'center', marginBottom: '16px' }}>
+                <a href="/elemental" style={{ fontSize: '0.8rem', color: '#666', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                    <Sparkles size={12} /> Com es va fer això?
+                </a>
+            </div>
+
             {settings.enabled && (
                 <div className="iaia-settings-body">
                     <section className="settings-block">

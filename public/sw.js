@@ -114,7 +114,7 @@ self.addEventListener('push', (event) => {
                 // "Stratospheric" Haptic Feedback
                 // IAIA = Double heartbeat (bum-bum... bum-bum)
                 // Human = Standard quick buzz
-                vibrate: isIAIA ? [100, 50, 100, 400, 100, 50, 100] : [200, 100, 200]
+                vibrate: data.vibrate || (isIAIA ? [100, 50, 100, 400, 100, 50, 100] : [200, 100, 200])
             };
 
             // Custom sound support (browsers support varies)

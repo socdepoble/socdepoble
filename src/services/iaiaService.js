@@ -43,18 +43,39 @@ class IAIAService {
 
             logger.info(`IAIA encourages ${chosenOne} to share: ${content}`);
 
-            return {
-                id: `iaia-post-${Date.now()}`,
-                author: chosenOne,
-                author_avatar: lore.avatar_url,
+            const postPayload = {
+                author_id: lore.id || '11111111-0000-0000-0000-000000000000', // ID segur per a Lore
+                author_name: chosenOne,
+                author_avatar_url: lore.avatar_url,
+                author_role: 'user', // O 'ambassador' si volem distingir
                 content: content,
-                is_iaia_inspired: true,
-                created_at: new Date().toISOString(),
-                likes: Math.floor(Math.random() * 15),
-                comments: Math.floor(Math.random() * 5),
-                type: type
+                image_url: null,
+                town_uuid: 'd2ce2024-5d8f-4a00-9e00-888888888801', // La Torre per defecte o lògica de poble
+                is_playground: false
             };
 
+            // PER SISTÈNCIA REAL (Correcció Flash/GPT Audit)
+            try {
+                const savedPost = await supabaseService.createPost(postPayload);
+                if (savedPost) {
+                    logger.info(`[IAIA] Mirau! La IAIA ha fet màgia i ha guardat el post: ${savedPost.id}`);
+                    return {
+                        ...savedPost,
+                        is_iaia_inspired: true,
+                        type: type
+                    };
+                }
+            } catch (dbError) {
+                logger.error('[IAIA] Error persistint el missatge de la IAIA:', dbError);
+                // Retornem l'objecte en memòria com a fallback per a no trencar la UI immediata
+                return {
+                    id: `iaia-mem-${Date.now()}`,
+                    ...postPayload,
+                    created_at: new Date().toISOString(),
+                    is_iaia_inspired: true,
+                    type: type
+                };
+            }
         } catch (error) {
             logger.error('IAIA encountered a problem:', error);
         } finally {

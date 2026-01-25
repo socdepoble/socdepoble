@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Plus, X, Tag as TagIcon, Check, Loader2, Trash2 } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
+import { logger } from '../utils/logger';
 import './TagSelector.css';
 
 const TagSelector = ({ currentTags = [], onTagsChange }) => {

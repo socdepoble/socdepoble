@@ -4,7 +4,7 @@ import { supabaseService } from '../services/supabaseService';
 import { useTranslation } from 'react-i18next';
 import { ArrowLeft, MapPin, Users, Info, MessageCircle, ShoppingBag } from 'lucide-react';
 import Feed from '../components/Feed';
-import Market from '../components/Market';
+import Marketplace from '../components/Marketplace';
 import SEO from '../components/SEO';
 import ProfileHeaderPremium from '../components/ProfileHeaderPremium';
 import './Towns.css';
@@ -119,7 +119,7 @@ const TownDetail = () => {
                                 <ShoppingBag size={18} />
                                 <h3>Productes Locals</h3>
                             </div>
-                            <Market townId={town.uuid || town.id} hideHeader={true} />
+                            <Marketplace townId={town.uuid || town.id} hideHeader={true} />
                         </section>
                     </div>
                 </div>

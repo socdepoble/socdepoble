@@ -9,7 +9,7 @@ import Avatar from './Avatar';
 import { isFictiveProfile, supabaseService } from '../services/supabaseService';
 import { logger } from '../utils/logger';
 import CategoryTabs from './CategoryTabs';
-import UnifiedStatus from './UnifiedStatus';
+import StatusLoader from './StatusLoader';
 import TownSelectorModal from './TownSelectorModal';
 import './ChatList.css';
 
@@ -163,7 +163,10 @@ const ChatList = () => {
                         const fictive = isFictiveProfile(otherInfo);
                         const isHuman = otherType === 'user' || otherType === 'person' || otherInfo.type === 'person';
 
-                        if (fictive && !isHuman) return false;
+                        // Allow AI/Fictive if Hybrid Mode is active
+                        const isAllowedAI = visionMode === 'hibrida' && (other.isAI || other.role === 'ambassador');
+
+                        if (fictive && !isHuman && !isAllowedAI) return false;
                     }
                     // 1b. Playground specific NPC filtering
                     else if (isPlayground || profile?.is_demo) {
@@ -256,7 +259,7 @@ const ChatList = () => {
     if (error) {
         return (
             <div className="chat-list-container">
-                <UnifiedStatus
+                <StatusLoader
                     type="error"
                     message={error}
                     onRetry={() => window.location.reload()}
@@ -268,7 +271,7 @@ const ChatList = () => {
     if (loading) {
         return (
             <div className="chat-list-container">
-                <UnifiedStatus type="loading" message={t('chats.loading_chats')} />
+                <StatusLoader type="loading" message={t('chats.loading_chats')} />
             </div>
         );
     }
@@ -317,7 +320,7 @@ const ChatList = () => {
             </header>
             <div className="chat-list">
                 {!Array.isArray(chats) || chats.length === 0 ? (
-                    <UnifiedStatus
+                    <StatusLoader
                         type="empty"
                         message={selectedTown ? t('chats.empty_town', `No hi ha xats en ${selectedTown.name}`) : t('chats.empty')}
                     />

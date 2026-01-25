@@ -1,8 +1,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, BookOpen, Sprout, Users, MessageCircle, Heart, Sparkles, User } from 'lucide-react';
+import { ArrowLeft, BookOpen, Sprout, Users, MessageCircle, Heart, Sparkles, User, Clock, BellRing, Shield } from 'lucide-react';
 import { useUI } from '../context/UIContext';
+import ShareHub from '../components/ShareHub';
 import SEO from '../components/SEO';
 import './IAIAPage.css';
 
@@ -10,6 +11,7 @@ const IAIAPage = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const { visionMode, setVisionMode } = useUI();
+    const shareUrl = `${window.location.origin}/iaia`;
 
     return (
         <div className="iaia-page-container">
@@ -17,13 +19,27 @@ const IAIAPage = () => {
                 title={t('iaia_page.title') || 'La IAIA'}
                 description={t('iaia_page.subtitle') || 'Memòria viva i acció artificial al servici del poble.'}
                 image="/og-image.png"
+                url="/iaia"
             />
             <header className="iaia-page-header">
                 <button onClick={() => navigate(-1)} className="back-btn-iaia">
                     <ArrowLeft size={24} />
                 </button>
+                <div className="iaia-share-btn-wrapper">
+                    <ShareHub
+                        title="La IAIA - Sóc de Poble"
+                        text="Coneix a la IAIA, la memòria viva i digital del nostre poble. 👵✨"
+                        url={shareUrl}
+                    />
+                </div>
                 <div className="iaia-header-hero">
-                    <div className="iaia-avatar-huge">👵✨</div>
+                    <div className="iaia-avatar-container">
+                        <img
+                            src="/iaia_digital_matriarch.png"
+                            alt="La IAIA - Sóc de Poble"
+                            className="iaia-premium-portrait"
+                        />
+                    </div>
                     <h1>{t('iaia_page.title')}</h1>
                     <p className="iaia-subtitle">{t('iaia_page.subtitle')}</p>
                 </div>
@@ -87,6 +103,24 @@ const IAIAPage = () => {
                         <Users size={28} />
                         <h3>{t('iaia_page.feature_3_title')}</h3>
                         <p>{t('iaia_page.feature_3_desc')}</p>
+                    </div>
+
+                    <div className="feature-item highlight">
+                        <Clock size={28} />
+                        <h3>{t('iaia_page.tamagotchi_title')}</h3>
+                        <p>{t('iaia_page.tamagotchi_desc')}</p>
+                    </div>
+
+                    <div className="feature-item highlight">
+                        <BellRing size={28} />
+                        <h3>{t('iaia_page.push_notif_title')}</h3>
+                        <p>{t('iaia_page.push_notif_desc')}</p>
+                    </div>
+
+                    <div className="feature-item highlight">
+                        <Shield size={28} />
+                        <h3>{t('iaia_page.transparency_title')}</h3>
+                        <p>{t('iaia_page.transparency_desc')}</p>
                     </div>
                 </section>
 

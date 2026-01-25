@@ -1,12 +1,15 @@
 import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { ArrowLeft, Send, Loader2, User, Building2, Paperclip, X, FileText, Image as ImageIcon, Film, Database, Info, MessageSquare } from 'lucide-react';
+import { ArrowLeft, Send, Loader2, User, Building2, Paperclip, X, FileText, Image as ImageIcon, Film, Database, Info, MessageSquare, Mic, Video, StopCircle, Smile, ShieldCheck } from 'lucide-react';
+import EmojiPicker from 'emoji-picker-react';
 import { useTranslation } from 'react-i18next';
 import { supabaseService } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
 import Avatar from './Avatar';
-import UnifiedStatus from './UnifiedStatus';
+import StatusLoader from './StatusLoader';
 import { logger } from '../utils/logger';
+import VoiceRecorder from './VoiceRecorder';
+import VoiceMessage from './VoiceMessage';
 import './ChatDetail.css';
 import './Comments.css';
 
@@ -33,6 +36,18 @@ const ChatDetail = () => {
     const messagesEndRef = useRef(null);
     const isMounted = useRef(true);
     const commentingOn = location.state?.commentingOn || null;
+    const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+    const [showVoiceRecorder, setShowVoiceRecorder] = useState(false);
+
+    // Media Recording States
+    const [isRecording, setIsRecording] = useState(false); // Kept for Video if needed
+    const [recordingType, setRecordingType] = useState(null); // 'audio' | 'video'
+    const [recordingTime, setRecordingTime] = useState(0);
+    const [mediaStream, setMediaStream] = useState(null);
+    const mediaRecorderRef = useRef(null);
+    const videoPreviewRef = useRef(null);
+    const chunksRef = useRef([]);
+    const timerRef = useRef(null);
 
     const humanId = isSuperAdmin && impersonatedProfile ? impersonatedProfile.id : user?.id;
     const currentUserId = activeEntityId || humanId;
@@ -44,10 +59,23 @@ const ChatDetail = () => {
     useEffect(() => {
         if (!user || !currentUserId) return;
 
-        if (id.startsWith('new-iaia-') || id.startsWith('mock-') || id.startsWith('iaia-')) {
+        if (id.startsWith('new-iaia-') || id.startsWith('mock-') || id.startsWith('iaia-') || id === 'rentonar') {
             const personaId = id.replace('new-iaia-', '').replace('mock-', '').replace('iaia-post-', '');
             const fetchVirtualData = async () => {
                 try {
+                    // Check if it's a mock chat first
+                    const chats = await supabaseService.getConversations(currentUserId);
+                    const existingMock = chats.find(c => c.id === id);
+
+                    if (existingMock) {
+                        setChat(existingMock);
+                        const msgs = await supabaseService.getConversationMessages(id);
+                        setMessages(msgs);
+                        await supabaseService.markMessagesAsRead(id, currentUserId);
+                        return;
+                    }
+
+                    // Fallback for new personas
                     const persona = await supabaseService.getPublicProfile(personaId);
                     setChat({
                         id,
@@ -62,6 +90,14 @@ const ChatDetail = () => {
                     setMessages([]);
                 } catch (error) {
                     logger.error('Error fetching virtual persona:', error);
+                    // Use mock data if available
+                    const chats = await supabaseService.getConversations(currentUserId);
+                    const mock = chats.find(c => c.id === id);
+                    if (mock) {
+                        setChat(mock);
+                        const msgs = await supabaseService.getConversationMessages(id);
+                        setMessages(msgs);
+                    }
                 } finally {
                     setLoading(false);
                 }
@@ -124,9 +160,39 @@ const ChatDetail = () => {
         }
     }, [messages.length]);
 
+    const [otherPrivacy, setOtherPrivacy] = useState(null);
+
     useEffect(() => {
         fetchStorageStats();
     }, []);
+
+    // NEW: Fetch other user's privacy settings
+    useEffect(() => {
+        if (!chat) return;
+
+        const fetchPrivacy = async () => {
+            const isP1Current = chat.participant_1_id === currentUserId;
+            const otherId = isP1Current ? chat.participant_2_id : chat.participant_1_id;
+            const otherType = isP1Current ? chat.participant_2_type : chat.participant_1_type;
+
+            if (otherType === 'user') {
+                try {
+                    const profile = await supabaseService.getPublicProfile(otherId);
+                    // Default to true if not set
+                    const settings = profile?.privacy_settings || { show_read_receipts: true };
+                    setOtherPrivacy(settings);
+                } catch (err) {
+                    logger.error('Error fetching privacy:', err);
+                    setOtherPrivacy({ show_read_receipts: true });
+                }
+            } else {
+                // Entities always show read receipts
+                setOtherPrivacy({ show_read_receipts: true });
+            }
+        };
+
+        fetchPrivacy();
+    }, [chat, currentUserId]);
 
     const fetchStorageStats = async () => {
         try {
@@ -247,10 +313,146 @@ const ChatDetail = () => {
         }
     };
 
+    const handleEmojiClick = (emojiData) => {
+        setNewMessage(prev => prev + emojiData.emoji);
+        if (presenceChannelRef.current) {
+            supabaseService.updatePresenceTyping(presenceChannelRef.current, true);
+        }
+        // No auto-close for better UX (adding multiple emojis)
+    };
+
+    // Media Recording Logic
+    const startRecording = async (type) => {
+        try {
+            const constraints = type === 'video'
+                ? { video: { facingMode: "user", width: 320 }, audio: true }
+                : { audio: true };
+
+            const stream = await navigator.mediaDevices.getUserMedia(constraints);
+            setMediaStream(stream);
+
+            if (type === 'video' && videoPreviewRef.current) {
+                videoPreviewRef.current.srcObject = stream;
+            }
+
+            const mediaRecorder = new MediaRecorder(stream);
+            mediaRecorderRef.current = mediaRecorder;
+            chunksRef.current = [];
+
+            mediaRecorder.ondataavailable = (e) => {
+                if (e.data.size > 0) chunksRef.current.push(e.data);
+            };
+
+            mediaRecorder.onstop = () => {
+                const blob = new Blob(chunksRef.current, { type: type === 'video' ? 'video/webm' : 'audio/webm' });
+                const fileName = `rec_${Date.now()}.${type === 'video' ? 'webm' : 'webm'}`; // WebM container
+                const file = new File([blob], fileName, { type: type === 'video' ? 'video/webm' : 'audio/webm' });
+
+                setSelectedFile(file);
+
+                // Stop tracks
+                stream.getTracks().forEach(track => track.stop());
+                setMediaStream(null);
+                setRecordingType(null);
+                setIsRecording(false);
+                setRecordingTime(0);
+                if (timerRef.current) clearInterval(timerRef.current);
+            };
+
+            mediaRecorder.start();
+            setIsRecording(true);
+            setRecordingType(type);
+
+            timerRef.current = setInterval(() => {
+                setRecordingTime(prev => {
+                    if (prev >= 60) { // Max 60s
+                        stopRecording();
+                        return 60;
+                    }
+                    return prev + 1;
+                });
+            }, 1000);
+
+        } catch (err) {
+            logger.error('Error starting recording:', err);
+            alert('No hem pogut accedir al micròfon o càmera.');
+        }
+    };
+
+    const stopRecording = () => {
+        if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
+            mediaRecorderRef.current.stop();
+        }
+    };
+
+    const cancelRecording = () => {
+        if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
+            mediaRecorderRef.current.stop();
+            // Clear data afterwards logic handled by check
+        }
+        if (mediaStream) {
+            mediaStream.getTracks().forEach(track => track.stop());
+        }
+        setMediaStream(null);
+        setRecordingType(null);
+        setIsRecording(false);
+        setRecordingTime(0);
+        if (timerRef.current) clearInterval(timerRef.current);
+        chunksRef.current = [];
+    };
+
+    const formatTime = (seconds) => {
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    };
+
+    const handleVoiceSend = async (audioBlob, duration) => {
+        if (!user) return;
+
+        try {
+            setUploading(true);
+
+            // Optimistic Update
+            const tempId = `temp-voice-${Date.now()}`;
+            const optimisticMsg = {
+                id: tempId,
+                conversation_id: id,
+                sender_id: humanId,
+                content: '🎵 Missatge de veu',
+                attachment_type: 'voice',
+                attachment_url: URL.createObjectURL(audioBlob),
+                created_at: new Date().toISOString(),
+                voice_meta: { duration, waveform: Array(30).fill(0.5) }
+            };
+            setMessages(prev => [...prev, optimisticMsg]);
+
+            // Simple Waveform Simulation (Real one should come from AudioContext in Recorder)
+            const waveform = Array(30).fill(0).map(() => Math.random());
+
+            const result = await supabaseService.sendVoiceMessage(
+                id,
+                humanId,
+                audioBlob,
+                duration,
+                waveform
+            );
+
+            setMessages(prev => prev.map(m => m.id === tempId ? { ...result, status: 'sent' } : m));
+            setShowVoiceRecorder(false);
+
+        } catch (error) {
+            logger.error('Error sending voice:', error);
+            alert('Error enviant nota de veu');
+        } finally {
+            setUploading(false);
+        }
+    };
+
     if (error) {
         return (
             <div className="chat-detail-container">
-                <UnifiedStatus type="error" message={error} onRetry={() => window.location.reload()} />
+                <StatusLoader type="error" message={error} />
             </div>
         );
     }
@@ -258,7 +460,7 @@ const ChatDetail = () => {
     if (loading) {
         return (
             <div className="chat-detail-container">
-                <UnifiedStatus type="loading" message={t('common.loading')} />
+                <StatusLoader type="loading" message={t('common.loading')} />
             </div>
         );
     }
@@ -266,7 +468,7 @@ const ChatDetail = () => {
     if (!chat) {
         return (
             <div className="chat-detail-container">
-                <UnifiedStatus type="empty" message={t('chats.empty')} />
+                <StatusLoader type="empty" message={t('chats.empty')} />
             </div>
         );
     }
@@ -305,13 +507,28 @@ const ChatDetail = () => {
                     <div className="chat-info">
                         <div className="chat-name-row">
                             <h2>{otherInfo?.name || t('common.unknown')}</h2>
+                            {chat.verified && (
+                                <span className="verified-badge-icon" title={`Entitat Verificada - CIF: ${chat.cif}`}>
+                                    <ShieldCheck size={14} fill="#3b82f6" color="white" />
+                                </span>
+                            )}
                             {isIAIAConv && (
                                 <span className="identity-badge ai" title="Informació Artificial i Acció">IAIA</span>
                             )}
                         </div>
-                        <span className={`status ${isOtherOnline ? 'online' : ''}`}>
-                            {isOtherTyping ? t('common.typing') : (isOtherOnline ? t('common.online') : t('common.offline'))}
-                        </span>
+
+                        {/* Status / Role Line */}
+                        <div className="status-line">
+                            {chat.user_role ? (
+                                <span className="user-role-badge">
+                                    {chat.user_role}
+                                </span>
+                            ) : (
+                                <span className={`status ${isOtherOnline ? 'online' : ''}`}>
+                                    {isOtherTyping ? t('common.typing') : (isOtherOnline ? t('common.online') : t('common.offline'))}
+                                </span>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -394,7 +611,18 @@ const ChatDetail = () => {
                                                     )}
                                                 </div>
                                             )}
-                                            {msg.content && <div className="message-text">{msg.content}</div>}
+                                            {msg.attachment_type === 'voice' ? (
+                                                <div className="voice-message-container">
+                                                    <VoiceMessage
+                                                        url={msg.attachment_url}
+                                                        duration={msg.voice_meta?.duration || parseInt(msg.attachment_name) || 0}
+                                                        waveform={msg.voice_meta?.waveform}
+                                                        isOwnMessage={isMe}
+                                                    />
+                                                </div>
+                                            ) : (
+                                                msg.content && <div className="message-text">{msg.content}</div>
+                                            )}
                                         </div>
                                     </div>
                                     <div className="message-meta">
@@ -405,8 +633,8 @@ const ChatDetail = () => {
                                             {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                         </span>
                                         {isMe && (
-                                            <span className={`message-status ${msg.read_at ? 'read' : ''}`}>
-                                                {msg.read_at ? '✓✓' : '✓'}
+                                            <span className={`message-status ${msg.read_at && otherPrivacy?.show_read_receipts !== false ? 'read' : ''}`}>
+                                                {msg.read_at && otherPrivacy?.show_read_receipts !== false ? '✓✓' : '✓'}
                                             </span>
                                         )}
                                     </div>
@@ -520,9 +748,40 @@ const ChatDetail = () => {
                 )}
 
                 <form className="chat-input-form-new" onSubmit={handleSendMessage}>
+                    {showEmojiPicker && (
+                        <div className="emoji-picker-wrapper">
+                            <button
+                                className="close-emoji-btn"
+                                type="button"
+                                onClick={() => setShowEmojiPicker(false)}
+                            >
+                                <X size={20} />
+                            </button>
+                            <EmojiPicker
+                                onEmojiClick={handleEmojiClick}
+                                autoFocusSearch={false}
+                                width="100%"
+                                height="350px"
+                                searchDisabled={false}
+                                skinTonesDisabled={true}
+                                previewConfig={{ showPreview: false }}
+                                emojiStyle="native" // Use native OS emojis for performance and "official" look
+                            />
+                        </div>
+                    )}
                     <div className="input-actions-left">
-                        <label className="attachment-trigger" title="Adjuntar archivo (Máx 10MB)">
+                        <button
+                            type="button"
+                            className={`attachment-trigger ${showEmojiPicker ? 'active' : ''}`}
+                            onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+                            title="Afegir emoji"
+                        >
+                            <Smile size={20} />
+                        </button>
+                        <label className="attachment-trigger" htmlFor="file-upload" title="Adjuntar archivo (Máx 10MB)">
                             <input
+                                id="file-upload"
+                                name="attachment"
                                 type="file"
                                 onChange={handleFileSelect}
                                 style={{ display: 'none' }}
@@ -533,35 +792,84 @@ const ChatDetail = () => {
                     </div>
 
                     <div className="input-main-area">
-                        {selectedFile && (
-                            <div className="attachment-preview">
-                                {selectedFile.type.startsWith('image/') ? <ImageIcon size={16} /> :
-                                    selectedFile.type.startsWith('video/') ? <Film size={16} /> : <FileText size={16} />}
-                                <span className="file-name">{selectedFile.name}</span>
-                                <button type="button" onClick={() => setSelectedFile(null)} className="clear-attachment">×</button>
-                            </div>
+                        {showVoiceRecorder ? (
+                            <VoiceRecorder
+                                onSend={handleVoiceSend}
+                                onCancel={() => setShowVoiceRecorder(false)}
+                            />
+                        ) : (
+                            <>
+                                {selectedFile && (
+                                    <div className="attachment-preview">
+                                        {selectedFile.type.startsWith('image/') ? <ImageIcon size={16} /> :
+                                            selectedFile.type.startsWith('video/') ? <Film size={16} /> : <FileText size={16} />}
+                                        <span className="file-name">{selectedFile.name}</span>
+                                        <button type="button" onClick={() => setSelectedFile(null)} className="clear-attachment">×</button>
+                                    </div>
+                                )}
+
+                                {isRecording ? (
+                                    <div className="recording-status-panel">
+                                        <div className="recording-indicator">
+                                            <div className="rec-dot"></div>
+                                            <span>{recordingType === 'audio' ? 'Gravant Àudio...' : 'Gravant Vídeo...'}</span>
+                                        </div>
+                                        <span className="recording-timer">{formatTime(recordingTime)} / 01:00</span>
+                                        {recordingType === 'video' && (
+                                            <video ref={videoPreviewRef} autoPlay muted playsInline className="video-recording-preview" />
+                                        )}
+                                        <button type="button" onClick={cancelRecording} className="cancel-rec-btn">
+                                            <X size={18} />
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <input
+                                        name="message"
+                                        type="text"
+                                        value={newMessage}
+                                        onChange={handleTyping}
+                                        placeholder={t('common.write_message')}
+                                        disabled={uploading}
+                                        autoComplete="off"
+                                    />
+                                )}
+                            </>
                         )}
-                        <input
-                            type="text"
-                            value={newMessage}
-                            onChange={handleTyping}
-                            placeholder={t('common.write_message')}
-                            disabled={uploading}
-                            autoComplete="off"
-                        />
                     </div>
 
-                    <button
-                        type="submit"
-                        className="send-button-new"
-                        disabled={(!newMessage.trim() && !selectedFile) || uploading}
-                    >
-                        {uploading ? (
-                            <Loader2 className="animate-spin" size={20} />
-                        ) : (
-                            <Send size={20} />
-                        )}
-                    </button>
+                    {isRecording ? (
+                        <button
+                            type="button"
+                            className="stop-rec-button"
+                            onClick={stopRecording}
+                        >
+                            <StopCircle size={24} color="red" />
+                        </button>
+                    ) : (
+                        <>
+                            {!newMessage && !selectedFile && !showVoiceRecorder && (
+                                <div className="media-buttons-row">
+                                    <button type="button" className="media-trigger-btn" onClick={() => setShowVoiceRecorder(true)}>
+                                        <Mic size={20} />
+                                    </button>
+                                    <button type="button" className="media-trigger-btn" onClick={() => startRecording('video')}>
+                                        <Video size={20} />
+                                    </button>
+                                </div>
+                            )}
+                            <button
+                                type="submit"
+                                className="send-button-new"
+                                disabled={(!newMessage.trim() && !selectedFile) || uploading}
+                            >
+                                {uploading ? (
+                                    <Loader2 className="animate-spin" size={20} />
+                                ) : (
+                                    <Send size={20} />
+                                )}
+                            </button>
+                        </>
+                    )}
                 </form>
             </div>
         </div>

@@ -230,6 +230,16 @@
         "feature_3_title": "Connexió Veïnal",
         "feature_3_desc": "Suggerixo interaccions entre veïns i em moc pel mercat per a potenciar el producte local.",
         "footer_text": "Recorda: Sóc una IA inspirada en la saviesa rural. Sempre estic aprenent de vosaltres per a servir millor al poble.",
-        "cta_button": "Pregunta'm el que vulgues"
+        "cta_button": "Pregunta'm el que vulgues",
+        "tamagotchi_title": "El teu Tamagotchi Rural",
+        "tamagotchi_desc": "Pots personalitzar el meu joc de rol al teu perfil. Tria quan vols que et desperte, quins dies vols interactuar amb el teu personatge digital i viu una experiència única bategant amb el poble.",
+        "push_notif_title": "Notificacions amb Ànima",
+        "push_notif_desc": "Les meues notificacions tenen el seu propi so i vibració. Sabràs quan soc jo demanant-te atenció per al nostre joc de rol rural.",
+        "transparency_title": "Transparència i Privadesa",
+        "transparency_desc": "Tu decideixes. Pots viure en Mode Híbrid (amb el meu joc de rol) o en Mode Humà (només veïns reals). Quan desactives el joc, netege tota la meua activitat per a respectar el teu espai.",
+        "vision_hybrid_title": "Mode Híbrid",
+        "vision_hybrid_desc": "Viu la història del poble amb la IAIA i els seus personatges.",
+        "vision_human_title": "Mode Humà",
+        "vision_human_desc": "Conecta només amb els teus veïns reals, sense ficció."
     }
 }

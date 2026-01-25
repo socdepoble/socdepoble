@@ -11,13 +11,16 @@ import CreatePostModal from './CreatePostModal';
 import CategoryTabs from './CategoryTabs';
 import TagSelector from './TagSelector';
 import PostSkeleton from './Skeletons/PostSkeleton';
-import UnifiedStatus from './UnifiedStatus';
+import StatusLoader from './StatusLoader';
 import Avatar from './Avatar';
 import SEO from './SEO';
 import ShareHub from './ShareHub';
 import { iaiaService } from '../services/iaiaService';
 import './Feed.css';
 import './Comments.css';
+
+const IAIA_INITIAL_DELAY_MS = 10000;
+const IAIA_INTERVAL_MS = 120000;
 
 const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
     const { t } = useTranslation();
@@ -138,10 +141,10 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
         };
 
         // First one after 10s
-        const initialTimer = setTimeout(triggerAutonomousInteraction, 10000);
+        const initialTimer = setTimeout(triggerAutonomousInteraction, IAIA_INITIAL_DELAY_MS);
 
         // Then every 2 minutes
-        const interval = setInterval(triggerAutonomousInteraction, 120000);
+        const interval = setInterval(triggerAutonomousInteraction, IAIA_INTERVAL_MS);
 
         return () => {
             clearTimeout(initialTimer);
@@ -189,8 +192,12 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
             // Check multiple indicators that this is an AI/IAIA post
             const isAI = post.author_role === 'ambassador' ||
                 post.author_is_ai ||
-                (post.author_user_id && post.author_user_id.startsWith('11111111-')) ||
-                (post.id && post.id.startsWith('iaia-')) ||  // IAIA-generated posts
+                post.is_iaia_inspired || // Loose check equivalent to UI
+                (post.author_user_id && String(post.author_user_id).startsWith('11111111-')) ||
+                (post.author_id && String(post.author_id).startsWith('11111111-')) ||
+                (post.author_entity_id && String(post.author_entity_id).startsWith('11111111-')) ||
+                (post.author_entity_id && String(post.author_entity_id).startsWith('00000000-')) ||
+                (post.id && String(post.id).startsWith('iaia-')) ||  // IAIA-generated posts
                 post.creator_entity_id === '00000000-0000-0000-0000-000000000000'; // IAIA entity
 
             if (isAI) return false; // Hide all AI posts when vision mode is 'humana'
@@ -218,7 +225,7 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
     if (error) {
         return (
             <div className="feed-container">
-                <UnifiedStatus type="error" message={error} onRetry={() => fetchPosts()} />
+                <StatusLoader type="error" message={error} onRetry={() => fetchPosts()} />
             </div>
         );
     }
@@ -243,7 +250,7 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
 
             <div className="feed-list">
                 {filteredPosts.length === 0 ? (
-                    <UnifiedStatus
+                    <StatusLoader
                         type="empty"
                         message={selectedTag
                             ? `${t('feed.no_posts_tag') || 'No hi ha publicacions amb # '}${selectedTag}`
@@ -312,9 +319,11 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
 
                                 <div className="card-body">
                                     <p className="post-text">{post.content}</p>
-                                    <div className="ia-transparency-note-mini clickable" onClick={() => navigate('/iaia')}>
-                                        ✨ {t('profile.transparency_post') || 'Contingut generat per la IAIA (Informació Artificial i Acció)'}
-                                    </div>
+                                    {(post.author_role === 'ambassador' || post.author_is_ai || post.is_iaia_inspired) && (
+                                        <div className="ia-transparency-note-mini clickable" onClick={() => navigate('/iaia')}>
+                                            ✨ {t('profile.transparency_post') || 'Contingut generat per la IAIA (Informació Artificial i Acció)'}
+                                        </div>
+                                    )}
                                 </div>
 
                                 <div className="card-footer-vibrant">

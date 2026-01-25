@@ -10,10 +10,24 @@ import { logger } from '../utils/logger';
 const ShareHub = ({ title, text, url, onShareSuccess }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
+    // Netejar URL de paràmetres innecessaris (tracking facebook, google, etc.)
+    const cleanUrl = (rawUrl) => {
+        try {
+            const u = new URL(rawUrl || window.location.href);
+            // Mantenim només el pathname, netejant query params bruts
+            // Excepte si hi ha algun paràmetre clau que vulguem mantenir (de moment cap)
+            return `${u.origin}${u.pathname}`; // Retorna URL neta: domain.com/post/123
+        } catch (e) {
+            return rawUrl || window.location.href;
+        }
+    };
+
+    const finalUrl = cleanUrl(url);
+
     const shareData = {
         title: title || 'Sóc de Poble',
-        text: text || 'Mira el que he trobat a Sóc de Poble!',
-        url: url || window.location.href
+        text: text || 'Mira el que he trobat a Sóc de Poble! 🥘',
+        url: finalUrl
     };
 
     const handleOpenModal = () => {
@@ -38,20 +52,21 @@ const ShareHub = ({ title, text, url, onShareSuccess }) => {
 
     const copyToClipboard = () => {
         navigator.clipboard.writeText(shareData.url);
-        alert('Enllaç copiat al porta-retalls!');
+        alert('Enllaç copiat!');
     };
 
     const socialLinks = [
         {
             name: 'WhatsApp',
             icon: <MessageCircle size={20} />,
-            url: `https://wa.me/?text=${encodeURIComponent(shareData.text + ' ' + shareData.url)}`,
+            // WhatsApp millora si el text i l'URL estan separats per espai o intro
+            url: `https://wa.me/?text=${encodeURIComponent(`*${shareData.title}*\n${shareData.text}\n\n🔗 ${shareData.url}`)}`,
             color: '#25D366'
         },
         {
             name: 'Telegram',
             icon: <Send size={20} />,
-            url: `https://t.me/share/url?url=${encodeURIComponent(shareData.url)}&text=${encodeURIComponent(shareData.text)}`,
+            url: `https://t.me/share/url?url=${encodeURIComponent(shareData.url)}&text=${encodeURIComponent(shareData.title + ' - ' + shareData.text)}`,
             color: '#0088cc'
         },
         {

@@ -6,9 +6,9 @@ import { Users, Calendar, Map as MapIcon, Info, ArrowLeft, ChevronRight } from '
 import { useAuth } from '../context/AuthContext';
 import CategoryTabs from '../components/CategoryTabs';
 import Feed from '../components/Feed';
-import Market from '../components/Market';
+import Marketplace from '../components/Marketplace';
 import { logger } from '../utils/logger';
-import UnifiedStatus from '../components/UnifiedStatus';
+import StatusLoader from '../components/StatusLoader';
 import SEO from '../components/SEO';
 import './Towns.css';
 
@@ -81,7 +81,7 @@ const Towns = () => {
     if (error) {
         return (
             <div className="towns-container">
-                <UnifiedStatus type="error" message={error} onRetry={() => window.location.reload()} />
+                <StatusLoader type="error" message={error} />
             </div>
         );
     }
@@ -89,7 +89,7 @@ const Towns = () => {
     if (loading) {
         return (
             <div className="towns-container">
-                <UnifiedStatus type="loading" />
+                <StatusLoader type="loading" />
             </div>
         );
     }

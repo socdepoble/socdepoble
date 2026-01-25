@@ -17,17 +17,39 @@ class ErrorBoundary extends React.Component {
 
     render() {
         if (this.state.hasError) {
+            const errorText = `${this.state.error?.toString() || ''}\n${this.state.errorInfo?.componentStack || ''}`;
+
             return (
-                <div className="error-boundary-container" style={{ padding: '40px 20px', textAlign: 'center' }}>
-                    <UnifiedStatus
-                        type="error"
-                        message={this.props.fallbackMessage || "Vaja! Alguna cosa ha anat malament."}
-                        onRetry={() => window.location.reload()}
-                    />
+                <div className="error-boundary-container" style={{ padding: '40px 20px', textAlign: 'center', color: '#666' }}>
+                    <div style={{ marginBottom: '16px', fontSize: '32px' }}>⚠️</div>
+                    <h3>{this.props.fallbackMessage || "Vaja! Alguna cosa ha anat malament."}</h3>
+
+                    <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', marginTop: '16px' }}>
+                        <button
+                            onClick={() => window.location.reload()}
+                            style={{ padding: '8px 16px', borderRadius: '8px', border: 'none', background: '#333', color: 'white', cursor: 'pointer', fontWeight: 600 }}
+                        >
+                            Tornar a intentar
+                        </button>
+                        <button
+                            onClick={() => {
+                                navigator.clipboard.writeText(errorText);
+                                alert('Error copiat al porta-retalls!');
+                            }}
+                            title="Copiar error"
+                            style={{ padding: '8px 16px', borderRadius: '8px', border: '1px solid #ddd', background: 'white', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}
+                        >
+                            📋 Copiar
+                        </button>
+                    </div>
                     <p style={{ marginTop: '20px', color: 'var(--color-text-muted)', fontSize: '14px' }}>
-                        Hem registrat l'error i estem treballant per solucionar-ho.
-                        Pots provar de recarregar la pàgina.
+                        {this.state.error && this.state.error.toString()}
                     </p>
+                    {this.state.errorInfo && (
+                        <pre style={{ textAlign: 'left', fontSize: '10px', overflow: 'auto', background: '#eee', padding: 10 }}>
+                            {this.state.errorInfo.componentStack}
+                        </pre>
+                    )}
                 </div>
             );
         }

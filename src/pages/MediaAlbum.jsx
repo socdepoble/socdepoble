@@ -4,7 +4,7 @@ import { supabaseService } from '../services/supabaseService';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Grid, Image as ImageIcon, Layout, Users, MoreVertical, Trash2, ExternalLink, Loader2, Film, FileText, File } from 'lucide-react';
-import UnifiedStatus from '../components/UnifiedStatus';
+import StatusLoader from '../components/StatusLoader';
 import './MediaAlbum.css';
 import { logger } from '../utils/logger';
 
@@ -17,22 +17,22 @@ const MediaAlbum = () => {
     const [filter, setFilter] = useState('all'); // 'all', 'avatar', 'cover', 'shared', 'video', 'document'
 
     useEffect(() => {
+        const loadMedia = async () => {
+            try {
+                setIsLoading(true);
+                const data = await supabaseService.getUserMedia(user.id, isPlayground);
+                setMediaItems(data || []);
+            } catch (error) {
+                logger.error('Error loading media:', error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
         if (user?.id) {
             loadMedia();
         }
-    }, [user?.id]);
-
-    const loadMedia = async () => {
-        try {
-            setIsLoading(true);
-            const data = await supabaseService.getUserMedia(user.id, isPlayground);
-            setMediaItems(data || []);
-        } catch (error) {
-            logger.error('Error loading media:', error);
-        } finally {
-            setIsLoading(false);
-        }
-    };
+    }, [user?.id, isPlayground]);
 
     const filteredItems = mediaItems.filter(item => {
         if (filter === 'all') return true;
@@ -49,7 +49,7 @@ const MediaAlbum = () => {
         return <File size={24} />;
     };
 
-    if (isLoading) return <UnifiedStatus type="loading" />;
+    if (isLoading) return <StatusLoader type="loading" />;
 
     return (
         <div className="photos-page">

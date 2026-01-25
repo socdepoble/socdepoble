@@ -4,6 +4,18 @@ export const MOCK_CHATS = [
     { id: 3, name: "Centre Excursionista d'Alcoi", message: "Què vos pareix pujar al Montcabrer el diumenge?", time: "Ahir", type: "group", unread: 5, avatar_url: "🏔️" },
     { id: 4, name: "Cooperativa de Muro", message: "Iniciem la recollida de l'oliva demà", time: "Ahir", type: "coop", unread: 0, avatar_url: "🫒" },
     { id: 5, name: "Vicent (Fuster del Barri)", message: "Et passe ara mateix la foto del moble", time: "Dimarts", type: "shop", unread: 0, avatar_url: "🪵" },
+    {
+        id: 'rentonar',
+        name: "Associació Cultural El Rentonar",
+        message: "Junta Directiva: Revisió de comptes trimestrals aprovada. ✅",
+        time: "Ara",
+        type: "group",
+        unread: 1,
+        avatar_url: "/images/demo/rentonar_logo.png",
+        verified: true,
+        cif: "G-54321987",
+        user_role: "Tresorer i Membre Fundador"
+    },
 ];
 
 export const MOCK_MESSAGES = {
@@ -27,6 +39,11 @@ export const MOCK_MESSAGES = {
     5: [
         { id: 1, text: "Hola Vicent, com va el moble del menjador?", sender: "me", time: "Dilluns" },
         { id: 2, text: "Molt bé! Et passe ara mateix la foto de com està quedant.", sender: "other", time: "Dimarts" },
+    ],
+    'rentonar': [
+        { id: 1, text: "Bon dia Javi! Com a tresorer, necessitem que signes l'acta de l'última reunió.", sender: "other", time: "09:00" },
+        { id: 2, text: "Ah, i recorda que tenim el CIF G-54321987 verificat al sistema. Tot en ordre amb Hisenda.", sender: "other", time: "09:05" },
+        { id: 3, text: "Perfecte, ho signe ara mateix. Com a membre fundador és un orgull veure com creixem! 🏛️", sender: "me", time: "09:10" },
     ]
 };
 
@@ -93,6 +110,21 @@ export const MOCK_FEED = [
 ];
 
 export const MOCK_MARKET_ITEMS = [
+    // Sóc de Poble (Oficial)
+    {
+        id: 999,
+        town_id: 1, // Visible arreu
+        title: "Camiseta Oficial Sóc de Poble",
+        description: "La samarreta que connecta pobles. Disseny exclusiu 'Ruta del Poble'. Cotó 100% orgànic.",
+        price: "15.00€",
+        seller: "Sóc de Poble",
+        avatar_url: "/images/icon-192x192.png", // Logo de l'app
+        author_role: "business",
+        author_entity_id: 'mock-business-sdp-1',
+        image: "/images/samarreta-soc-de-poble.png",
+        category_slug: "roba",
+        tag: "Merchandising"
+    },
     // La Torre
     {
         id: 5,

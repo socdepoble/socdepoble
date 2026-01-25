@@ -58,6 +58,7 @@ const ImageReframerModal = ({ isOpen, imageSrc, onConfirm, onClose, aspectRatio 
     useEffect(() => {
         if (isOpen && lastSrc.current !== imageSrc) {
             logger.info('[Reframer] Source changed or initialized:', imageSrc?.substring(0, 50) + '...');
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setIsLoading(true);
             setLoadError(false);
             setHasFitted(false);

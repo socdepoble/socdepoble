@@ -69,8 +69,10 @@ export const ProfileSchema = z.object({
     cover_url: z.string().url().nullable().optional(),
     bio: z.string().nullable().optional().transform(sanitize),
     primary_town: z.string().nullable().optional().transform(sanitize),
-    town_uuid: z.string().regex(uuidRegex).nullable().optional(),
+    town_uuid: z.union([z.string(), z.number()]).nullable().optional(),
+    secondary_towns: z.array(z.union([z.string(), z.number()])).optional(),
     role: z.string().optional(),
     ofici: z.string().nullable().optional().transform(sanitize),
-    social_image_preference: z.enum(['avatar', 'cover', 'none']).default('none').optional()
+    social_image_preference: z.enum(['avatar', 'cover', 'none']).default('none').optional(),
+    iaia_settings: z.record(z.any()).nullable().optional()
 });

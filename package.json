@@ -7,12 +7,22 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy:brain": "cd google-cloud-backend && gcloud functions deploy marketingBrain --runtime nodejs20 --trigger-http --allow-unauthenticated --region europe-west1"
   },
   "dependencies": {
+    "@capacitor/android": "^8.0.1",
+    "@capacitor/assets": "^3.0.5",
+    "@capacitor/cli": "^8.0.1",
+    "@capacitor/core": "^8.0.1",
+    "@capacitor/ios": "^8.0.1",
     "@supabase/supabase-js": "^2.90.1",
+    "axios": "^1.13.2",
     "browser-image-compression": "^2.0.2",
+    "cheerio": "^1.2.0",
     "dompurify": "^3.3.1",
+    "dotenv": "^17.2.3",
+    "emoji-picker-react": "^4.17.1",
     "i18next": "^25.7.4",
     "i18next-browser-languagedetector": "^8.2.0",
     "lucide-react": "^0.562.0",
@@ -20,6 +30,7 @@
     "react-dom": "^19.2.0",
     "react-i18next": "^16.5.3",
     "react-router-dom": "^7.12.0",
+    "xml2js": "^0.6.2",
     "zod": "^4.3.6"
   },
   "devDependencies": {

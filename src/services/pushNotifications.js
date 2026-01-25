@@ -17,11 +17,14 @@ export const pushNotifications = {
         }
 
         try {
+            // Asegurar que treballem amb el JSON de la subscripció
+            const subData = subscription.toJSON ? subscription.toJSON() : subscription;
+
             const subscriptionData = {
                 user_id: userId,
-                endpoint: subscription.endpoint,
-                p256dh: subscription.keys.p256dh,
-                auth: subscription.keys.auth,
+                endpoint: subData.endpoint,
+                p256dh: subData.keys?.p256dh,
+                auth: subData.keys?.auth,
                 device_info: {
                     userAgent: navigator.userAgent,
                     platform: navigator.platform,

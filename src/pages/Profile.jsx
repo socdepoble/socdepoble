@@ -146,6 +146,18 @@ const Profile = () => {
         }
     }, [profile, user, isEditingCard]);
 
+    const [renderError, setRenderError] = useState(null);
+
+    // Error catching effect (MOVED UP to avoid conditional hook violation)
+    useEffect(() => {
+        try {
+            // Self-check critical variables
+            if (!navigate) throw new Error("Navigation not available");
+        } catch (e) {
+            setRenderError(e);
+        }
+    }, [navigate]);
+
     useEffect(() => {
         supabaseService.getTowns().then(setAllTowns);
     }, []);
@@ -683,17 +695,8 @@ const Profile = () => {
         }
     };
 
-    const [renderError, setRenderError] = useState(null);
+    // Hooks moved to top
 
-    // Error catching effect
-    useEffect(() => {
-        try {
-            // Self-check critical variables
-            if (!navigate) throw new Error("Navigation not available");
-        } catch (e) {
-            setRenderError(e);
-        }
-    }, []);
 
     if (renderError) {
         return (

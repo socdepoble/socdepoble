@@ -8,6 +8,7 @@ import SEO from '../components/SEO';
 import ProfileHeaderPremium from '../components/ProfileHeaderPremium';
 import './Profile.css';
 import { logger } from '../utils/logger';
+import Avatar from '../components/Avatar';
 
 const PublicEntity = () => {
     const { id } = useParams();

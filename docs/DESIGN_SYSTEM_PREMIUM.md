@@ -56,6 +56,11 @@ Para pantallas con muchos elementos (como la selección de personajes), se prefi
 - **Estilo:** Botón minimalista, semitransparente (`rgba(255, 255, 255, 0.05)`), con icono `ArrowLeft` y texto.
 - **Principio:** El usuario nunca debe sentirse "atrapado" en un flujo. Siempre debe haber una salida segura a la pantalla anterior.
 
+### Visibilidad de Acciones Críticas
+- **Botón de Compartir:** Debe estar **siempre visible** en las vistas de detalle (Posts, Mercado, Perfil).
+- **Ubicación:** Accesible en la zona superior (barra de navegación) o flotante en la zona inferior.
+- **Estilo:** Icono claro (`Share2` de Lucide), con contraste suficiente. No ocultar dentro de menús de "más opciones" si es una acción primaria.
+
 ## 🛡️ Directivas de Desarrollo (Workflow)
 
 ### Playground-First (Promoción Segura)

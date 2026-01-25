@@ -26,36 +26,40 @@ export const usePushNotifications = () => {
                 }
 
                 // Check if already subscribed
-                const existingSubscription = await pushService.getSubscription();
-                if (existingSubscription) {
-                    logger.log('[usePushNotifications] Already subscribed');
-                    isInitialized.current = true;
-                    return;
+                // Check if already subscribed
+                let subscription = await pushService.getSubscription();
+
+                if (!subscription) {
+                    // Get VAPID public key from environment
+                    const vapidKey = import.meta.env.VITE_VAPID_PUBLIC_KEY;
+                    if (!vapidKey) {
+                        logger.warn('[usePushNotifications] VAPID key not configured');
+                        return;
+                    }
+
+                    // Request permission (only after user is logged in)
+                    const permission = await pushService.requestPermission();
+                    if (permission !== 'granted') {
+                        logger.log('[usePushNotifications] Permission denied');
+                        return;
+                    }
+
+                    // Subscribe to push notifications
+                    subscription = await pushService.subscribe(vapidKey);
+                    logger.log('[usePushNotifications] Subscribed successfully');
+                } else {
+                    logger.log('[usePushNotifications] Already subscribed (Syncing with DB)');
                 }
 
-                // Get VAPID public key from environment
-                const vapidKey = import.meta.env.VITE_VAPID_PUBLIC_KEY;
-                if (!vapidKey) {
-                    logger.warn('[usePushNotifications] VAPID key not configured');
-                    return;
+                // Save subscription to database (ALWAYS SYNC)
+                if (subscription) {
+                    await pushNotifications.saveSubscription(user.id, subscription);
+                    logger.log('[usePushNotifications] Subscription synced to DB');
                 }
-
-                // Request permission (only after user is logged in)
-                const permission = await pushService.requestPermission();
-                if (permission !== 'granted') {
-                    logger.log('[usePushNotifications] Permission denied');
-                    return;
-                }
-
-                // Subscribe to push notifications
-                const subscription = await pushService.subscribe(vapidKey);
-                logger.log('[usePushNotifications] Subscribed successfully');
-
-                // Save subscription to database
-                await pushNotifications.saveSubscription(user.id, subscription);
-                logger.log('[usePushNotifications] Subscription saved to DB');
 
                 isInitialized.current = true;
+
+
             } catch (error) {
                 logger.error('[usePushNotifications] Initialization error:', error);
             }

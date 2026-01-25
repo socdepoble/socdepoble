@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Users, Building2, ArrowLeft, Loader2, UserPlus, ChevronRight, User } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
-import UnifiedStatus from '../components/UnifiedStatus';
+import StatusLoader from '../components/StatusLoader';
 import Avatar from '../components/Avatar';
 import { logger } from '../utils/logger';
 import './CommunityDirectory.css';
@@ -29,7 +29,7 @@ const CommunityDirectory = () => {
         }
     };
 
-    if (isLoading) return <UnifiedStatus type="loading" />;
+    if (isLoading) return <StatusLoader type="loading" />;
 
     const items = activeTab === 'gent' ? directory.people : directory.entities;
 
