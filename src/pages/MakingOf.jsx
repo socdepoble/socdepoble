@@ -45,6 +45,10 @@ const MakingOf = () => {
                                 <strong>🍌 Nano Banana (L'Artista)</strong>
                                 <span>Creador visual contextual. Capaç de capturar l'essència rural en píxels.</span>
                             </li>
+                            <li>
+                                <strong>🧠 Claude & GPT (Els Savis)</strong>
+                                <span>Models de llenguatge que han aportat coneixement i raonament.</span>
+                            </li>
                         </ul>
                     </div>
 
