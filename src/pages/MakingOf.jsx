@@ -31,37 +31,55 @@ const MakingOf = () => {
                 <section className="impact-grid">
                     <div className="impact-card">
                         <Users className="card-icon" />
-                        <h3>Equip Tradicional</h3>
-                        <p>Normalment caldrien:</p>
-                        <ul>
-                            <li>👨‍💻 2 Programadors</li>
-                            <li>🎨 1 Dissenyador</li>
-                            <li>☁️ 1 Expert en Núvol</li>
+                        <h3>L'Equip "Impossible"</h3>
+                        <ul className="team-list">
+                            <li>
+                                <strong>👱 Javi (El Visionari)</strong>
+                                <span>Ideador, Catalitzador Rural i ànima del projecte.</span>
+                            </li>
+                            <li>
+                                <strong>⚡ Flash/Antigravity (L'Arquitecte)</strong>
+                                <span>Intel·ligència Agentica que entén el *context* i executa la visió.</span>
+                            </li>
+                            <li>
+                                <strong>🍌 Nano Banana (L'Artista)</strong>
+                                <span>Creador visual contextual. Capaç de capturar l'essència rural en píxels.</span>
+                            </li>
                         </ul>
-                        <span className="cost-tag">Cost: ~50.000€</span>
                     </div>
 
                     <div className="impact-card highlight">
-                        <Cpu className="card-icon" />
-                        <h3>Equip Sóc de Poble</h3>
-                        <p>Hem necessitat:</p>
-                        <ul>
-                            <li>👱 Javi (Ideas + Direcció)</li>
-                            <li>🤖 Antigravity (Codi + IA)</li>
-                        </ul>
-                        <span className="cost-tag savings">Cost: 10x Menys</span>
+                        <TrendingUp className="card-icon" />
+                        <h3>Full de Serveis (v1.0)</h3>
+                        <div className="stats-grid">
+                            <div className="stat-box">
+                                <span className="stat-val">~60h</span>
+                                <span className="stat-lbl">Temps de Creació</span>
+                            </div>
+                            <div className="stat-box">
+                                <span className="stat-val">8</span>
+                                <span className="stat-lbl">Dies de Treball</span>
+                            </div>
+                            <div className="stat-box">
+                                <span className="stat-val">>5k</span>
+                                <span className="stat-lbl">Línies de Codi</span>
+                            </div>
+                        </div>
+                        <p className="stats-note">
+                            El que abans costava mesos i equips sencers, ara és possible en una setmana quan tens l'eina adequada.
+                        </p>
                     </div>
                 </section>
 
                 <section className="mission-section">
                     <div className="mission-content">
                         <Zap className="section-icon" />
-                        <h3>Democratitzant la Tecnologia</h3>
+                        <h3>El Potencial Real</h3>
                         <p>
-                            Aquest projecte demostra que <strong>els pobles menuts</strong> poden tenir la mateixa tecnologia que les grans capitals.
+                            Aquest projecte és la prova vivent del que passa quan una idea clara troba la tecnologia capaç d'entendre-la.
                         </p>
                         <p>
-                            No necessitem pressupostos milionaris. Necessitem bones idees i la tecnologia adequada per fer-les realitat.
+                            No hem programat només una app; hem traduït <strong>30 anys de context social</strong> a una plataforma digital viva. Gràcies a la capacitat contextual de l'IA (Flash & Nano Banana), la barrera entre "tindre una idea" i "fer-la realitat" ha desaparegut.
                         </p>
                     </div>
                 </section>
