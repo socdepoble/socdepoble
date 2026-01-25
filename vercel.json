@@ -1,7 +1,6 @@
-{
     "rewrites": [
         {
-            "source": "/((?!reset\\.html$|fix\\.html$).*)",
+            "source": "/((?!reset\\.html|fix\\.html).*)",
             "destination": "/index.html"
         }
     ],
@@ -16,7 +15,7 @@
             ]
         },
         {
-            "source": "/reset.html",
+            "source": "/(reset|fix).html",
             "headers": [
                 {
                     "key": "Clear-Site-Data",
@@ -24,7 +23,7 @@
                 },
                 {
                     "key": "Cache-Control",
-                    "value": "no-store"
+                    "value": "no-store, no-cache, must-revalidate, proxy-revalidate"
                 }
             ]
         }
