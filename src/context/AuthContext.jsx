@@ -162,7 +162,7 @@ export const AuthProvider = ({ children }) => {
             isPlayground,
             setIsPlayground,
             isSuperAdmin: profile?.is_super_admin || user?.email === 'socdepoblecom@gmail.com',
-            isAdmin: profile?.is_admin || profile?.is_super_admin || user?.email === 'socdepoblecom@gmail.com',
+            isAdmin: profile?.is_admin || profile?.is_super_admin || user?.email === 'socdepoblecom@gmail.com' || user?.email === 'damimus@gmail.com',
             impersonatedProfile,
             setImpersonatedProfile,
             activeEntityId,
