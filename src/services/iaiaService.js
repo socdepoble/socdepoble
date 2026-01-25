@@ -8,6 +8,83 @@ class IAIAService {
     }
 
     /**
+     * Genera un producte del mercat aleatoriament.
+     */
+    async generateMarketActivity() {
+        try {
+            const residents = Object.keys(RESIDENT_LORE);
+            const chosenOne = residents[Math.floor(Math.random() * residents.length)];
+            const lore = RESIDENT_LORE[chosenOne];
+
+            const items = [
+                { title: 'Tomates de la rosa', price: 3, category: 'alimentacio' },
+                { title: 'Bicicleta antiga', price: 45, category: 'objectes' },
+                { title: 'Ous de gallina feliç (dotzena)', price: 4, category: 'alimentacio' },
+                { title: 'Llenya de carrasca', price: 0, category: 'serveis' }, // 0 = A convenir
+                { title: 'Classes de repàs', price: 10, category: 'serveis' }
+            ];
+            const item = items[Math.floor(Math.random() * items.length)];
+
+            const marketPayload = {
+                title: item.title,
+                price: item.price,
+                description: `Venc ${item.title.toLowerCase()}. En perfecte estat. Pregunteu per privat.`,
+                category: item.category,
+                seller_id: lore.id || '11111111-0000-0000-0000-000000000000',
+                town: 'La Torre', // Simplificat
+                image_url: null,
+                is_playground: false
+            };
+
+            await supabaseService.createMarketItem(marketPayload);
+            logger.info(`[IAIA] ${chosenOne} ha posat a la venda: ${item.title}`);
+        } catch (e) {
+            logger.error('[IAIA] Error al mercat:', e);
+        }
+    }
+
+    /**
+     * Inicia una conversa entre dos avatars.
+     */
+    async generateChatActivity() {
+        try {
+            const residents = Object.keys(RESIDENT_LORE);
+            const p1Name = residents[Math.floor(Math.random() * residents.length)];
+            let p2Name = residents[Math.floor(Math.random() * residents.length)];
+
+            while (p1Name === p2Name) {
+                p2Name = residents[Math.floor(Math.random() * residents.length)];
+            }
+
+            const p1 = RESIDENT_LORE[p1Name];
+            const p2 = RESIDENT_LORE[p2Name];
+
+            logger.info(`[IAIA] Fent que ${p1Name} parle amb ${p2Name}...`);
+
+            if (p1.id && p2.id) {
+                const conv = await supabaseService.getOrCreateConversation(p1.id, 'user', p2.id, 'user');
+                await supabaseService.sendMessage({
+                    conversationId: conv.id,
+                    senderId: p1.id,
+                    content: `Hola ${p2Name}, com va tot?`
+                });
+            }
+        } catch (e) {
+            logger.error('[IAIA] Error al xat:', e);
+        }
+    }
+
+    /**
+     * Activa a Nano Banana per "fer algo bonic".
+     */
+    async wakeUpNanoBanana() {
+        logger.info('[NanoBanana] 🍌 A pintar el món de colors!');
+        // Nano Banana simplement reactiva el cicle de la IAIA amb més intensitat per ara
+        await this.generateAutonomousInteraction();
+        await this.generateMarketActivity();
+    }
+
+    /**
      * Algoritmo de Crecimiento Autónomo:
      * Detecta si hay poca actividad y genera una interacción de un residente basada en su Lore.
      */
@@ -44,17 +121,16 @@ class IAIAService {
             logger.info(`IAIA encourages ${chosenOne} to share: ${content}`);
 
             const postPayload = {
-                author_id: lore.id || '11111111-0000-0000-0000-000000000000', // ID segur per a Lore
+                author_id: lore.id || '11111111-0000-0000-0000-000000000000',
                 author_name: chosenOne,
                 author_avatar_url: lore.avatar_url,
-                author_role: 'user', // O 'ambassador' si volem distingir
+                author_role: 'user',
                 content: content,
                 image_url: null,
-                town_uuid: 'd2ce2024-5d8f-4a00-9e00-888888888801', // La Torre per defecte o lògica de poble
+                town_uuid: 'd2ce2024-5d8f-4a00-9e00-888888888801',
                 is_playground: false
             };
 
-            // PER SISTÈNCIA REAL (Correcció Flash/GPT Audit)
             try {
                 const savedPost = await supabaseService.createPost(postPayload);
                 if (savedPost) {
@@ -67,7 +143,6 @@ class IAIAService {
                 }
             } catch (dbError) {
                 logger.error('[IAIA] Error persistint el missatge de la IAIA:', dbError);
-                // Retornem l'objecte en memòria com a fallback per a no trencar la UI immediata
                 return {
                     id: `iaia-mem-${Date.now()}`,
                     ...postPayload,

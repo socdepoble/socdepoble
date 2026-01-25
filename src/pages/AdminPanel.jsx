@@ -427,6 +427,26 @@ const BroadcastManager = ({ user, allUsers }) => {
                     📋 Copiar Llista de Correus (CCO)
                 </button>
             </div>
+
+            <div className="broadcast-card glass" style={{ borderColor: '#FFD700' }}>
+                <div className="card-header-simple">
+                    <h3>✨ Màgia de Poble (IAIA + NanoBanana)</h3>
+                </div>
+                <p className="card-desc">Invoca a la IAIA i a Nano Banana perquè donen vida al poble (Posts, Mercat, Xats).</p>
+
+                <button className="btn-primary full-width" onClick={async () => {
+                    if (!window.confirm("Vols despertar a tot el poble? Això generarà activitat aleatòria.")) return;
+                    try {
+                        alert("🍌 Nano Banana està pintant el poble... Espera uns segons!");
+                        await import('../services/iaiaService').then(m => m.iaiaService.wakeUpNanoBanana());
+                        alert("✨ Màgia completada! Revisa el Mur, el Mercat i els Xats.");
+                    } catch (e) {
+                        alert("Error màgic: " + e.message);
+                    }
+                }} style={{ background: 'linear-gradient(135deg, #FFD700 0%, #FF8C00 100%)', color: 'black', fontWeight: 'bold' }}>
+                    🍌✨ GENERAR VIDA
+                </button>
+            </div>
         </div>
     );
 };

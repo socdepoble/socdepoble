@@ -56,6 +56,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     const logout = async () => {
+        console.trace('[AuthContext] WHO IS CALLING LOGOUT?!');
         if (isPlayground && realUser) {
             // Cleanup ephemeral data before fully leaving (handled by caller or useEffect)
             logger.log('[AuthContext] Leaving Playground, triggering cleanup...');
