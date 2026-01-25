@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ca">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sóc de Poble - Reset d'Emergència</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: system-ui, -apple-system, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+
+        .icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #FF6B35;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #888;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="icon">🧹</div>
+    <h1>Netejant Sistema...</h1>
+    <p>Estem esborrant la memòria antiga.</p>
+    <p id="status">Processant...</p>
+
+    <script>
+        async function performReset() {
+            const status = document.getElementById('status');
+
+            try {
+                // 1. Clear Local Storage & Session Storage
+                localStorage.clear();
+                sessionStorage.clear();
+                console.log('Storage cleared');
+
+                // 2. Clear Caches
+                if ('caches' in window) {
+                    const keys = await caches.keys();
+                    await Promise.all(keys.map(key => caches.delete(key)));
+                    console.log('Caches cleared');
+                }
+
+                // 3. Unregister Service Workers
+                if ('serviceWorker' in navigator) {
+                    const registrations = await navigator.serviceWorker.getRegistrations();
+                    for (const registration of registrations) {
+                        await registration.unregister();
+                        console.log('Service Worker unregistered');
+                    }
+                }
+
+                status.innerText = "Fet! Redirigint...";
+
+                // 4. Force Redirect to Home with a timestamp to bust cache
+                setTimeout(() => {
+                    window.location.href = '/login?t=' + Date.now();
+                }, 1000);
+
+            } catch (e) {
+                console.error(e);
+                status.innerText = "Error: " + e.message;
+                // Try redirect anyway
+                setTimeout(() => {
+                    window.location.href = '/login?t=' + Date.now();
+                }, 2000);
+            }
+        }
+
+        performReset();
+    </script>
+</body>
+
+</html>
