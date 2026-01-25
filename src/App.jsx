@@ -42,12 +42,47 @@ if (typeof window !== 'undefined' && import.meta.env.DEV) {
 
 // Componente para proteger rutas
 const ProtectedRoute = ({ children }) => {
-  const { user, loading } = useAuth();
+  const { user, loading, logout } = useAuth(); // Ensure logout is extracted
+  const [showRescue, setShowRescue] = React.useState(false);
+
+  React.useEffect(() => {
+    let timer;
+    if (loading) {
+      // If loading takes more than 5 seconds, show rescue button
+      timer = setTimeout(() => setShowRescue(true), 5000);
+    }
+    return () => clearTimeout(timer);
+  }, [loading]);
 
   if (loading) {
     return (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-        <p>Carregant sessió...</p>
+      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh', gap: '20px', padding: '20px', textAlign: 'center' }}>
+        <div className="spinner-simple" style={{ width: '40px', height: '40px', border: '3px solid #f3f3f3', borderTop: '3px solid #333', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
+        <p style={{ fontFamily: 'system-ui', color: '#666' }}>
+          {showRescue ? "Està costant més del previst..." : "Carregant sessió..."}
+        </p>
+
+        {showRescue && (
+          <button
+            onClick={() => {
+              logout();
+              window.location.href = '/login';
+            }}
+            style={{
+              padding: '12px 24px',
+              backgroundColor: '#FF4444',
+              color: 'white',
+              border: 'none',
+              borderRadius: '8px',
+              fontWeight: 'bold',
+              cursor: 'pointer',
+              boxShadow: '0 4px 12px rgba(255, 68, 68, 0.3)'
+            }}
+          >
+            🚨 Reiniciar Sessió (Emergència)
+          </button>
+        )}
+        <style>{`@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}</style>
       </div>
     );
   }

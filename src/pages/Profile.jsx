@@ -142,6 +142,10 @@ const Profile = () => {
                     items: items?.length || 0,
                     connections: followers?.length || 0
                 });
+            }).catch(err => {
+                logger.error('Error fetching profile stats:', err);
+                // Safe defaults on error
+                setStats({ posts: 0, items: 0, connections: 0 });
             });
         }
     }, [profile, user, isEditingCard]);

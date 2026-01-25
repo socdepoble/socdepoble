@@ -41,7 +41,7 @@ const Register = () => {
                     handleVerifyOtp(null, otp.code); // Auto-submit
                 }
             }).catch(err => {
-                console.log('WebOTP not available or timed out', err);
+                logger.warn('WebOTP not available or timed out', err);
             });
 
             return () => {
