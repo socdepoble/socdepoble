@@ -34,7 +34,7 @@ const MakingOf = () => {
                         <h3>L'Equip "Impossible"</h3>
                         <ul className="team-list">
                             <li>
-                                <strong>👱 Javi (El Visionari)</strong>
+                                <strong>👱 Javi (Coordinador del Projecte)</strong>
                                 <span>Ideador, Catalitzador Rural i ànima del projecte.</span>
                             </li>
                             <li>
