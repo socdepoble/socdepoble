@@ -20,6 +20,7 @@ import ProfileHeaderPremium from '../components/ProfileHeaderPremium';
 import StatusLoader from '../components/StatusLoader';
 import { exportService } from '../services/exportService';
 import IAIATamagotchiSettings from '../components/IAIATamagotchiSettings';
+import UnifiedStatus from '../components/UnifiedStatus';
 import './Profile.css';
 
 const MyEntitiesList = ({ userId }) => {
