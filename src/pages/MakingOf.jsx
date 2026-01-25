@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Cpu, Users, Zap, TrendingUp, Award, Heart } from 'lucide-react';
+import LiveStats from '../components/LiveStats';
 import './MakingOf.css';
 
 const MakingOf = () => {
@@ -28,8 +29,10 @@ const MakingOf = () => {
                     </p>
                 </section>
 
+                <LiveStats />
+
                 <section className="impact-grid">
-                    <div className="impact-card">
+                    <div className="impact-card full-width">
                         <Users className="card-icon" />
                         <h3>L'Equip "Impossible"</h3>
                         <ul className="team-list">

@@ -1,0 +1,147 @@
+.live-stats-container {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 20px;
+    margin: 24px 0;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+}
+
+.live-stats-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.live-stats-header h3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.live-badge {
+    background: #FF3B30;
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 4px 8px;
+    border-radius: 99px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.stats-grid-dashboard {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.stat-card {
+    background: white;
+    padding: 16px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: transform 0.2s;
+    border: 1px solid transparent;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+}
+
+.stat-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.stat-card.blue .stat-icon {
+    background: #E3F2FD;
+    color: #1976D2;
+}
+
+.stat-card.green .stat-icon {
+    background: #E8F5E9;
+    color: #388E3C;
+}
+
+.stat-card.orange .stat-icon {
+    background: #FFF3E0;
+    color: #F57C00;
+}
+
+.stat-card.purple .stat-icon {
+    background: #F3E5F5;
+    color: #7B1FA2;
+}
+
+.stat-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-value {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #333;
+    line-height: 1.1;
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    color: #666;
+    margin-top: 2px;
+}
+
+.stats-footer-note {
+    font-size: 0.75rem;
+    color: #888;
+    text-align: center;
+    margin-top: 16px;
+    margin-bottom: 0;
+}
+
+.live-stats-loading {
+    padding: 40px;
+    text-align: center;
+    color: #666;
+}
+
+@media (max-width: 480px) {
+    .stats-grid-dashboard {
+        gap: 12px;
+    }
+
+    .stat-card {
+        padding: 12px;
+        gap: 10px;
+    }
+
+    .stat-value {
+        font-size: 1.1rem;
+    }
+}
