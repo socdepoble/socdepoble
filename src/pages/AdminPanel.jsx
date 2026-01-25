@@ -104,6 +104,9 @@ const AdminPanel = () => {
                 <button className={activeTab === 'categories' ? 'active' : ''} onClick={() => setActiveTab('categories')}>
                     <Layout size={18} /> Lèxic ({lexicon.length})
                 </button>
+                <button className={activeTab === 'propostes' ? 'active' : ''} onClick={() => setActiveTab('propostes')}>
+                    <Settings size={18} /> Propostes (Futur)
+                </button>
             </nav>
 
             <div className="admin-content">
@@ -207,6 +210,26 @@ const AdminPanel = () => {
                                     </div>
                                 </div>
                             ))}
+                            {activeTab === 'propostes' && (
+                                <div className="proposals-section text-center p-8 bg-white/50 rounded-xl">
+                                    <div className="empty-state-icon text-4xl mb-4">🚀</div>
+                                    <h3 className="text-xl font-bold mb-2">Bústia de Noves Implementacions</h3>
+                                    <p className="text-gray-600 mb-6">Aquest espai està reservat per al futur. Ací podrem gestionar les noves idees que vagen sorgint.</p>
+
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left max-w-2xl mx-auto">
+                                        <div className="p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
+                                            <h4 className="font-bold flex items-center gap-2">🛒 E-Commerce Local</h4>
+                                            <p className="text-sm text-gray-500 mt-1">Gestió centralitzada de comandes per a botigues.</p>
+                                            <span className="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded mt-2 inline-block">Pendent</span>
+                                        </div>
+                                        <div className="p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
+                                            <h4 className="font-bold flex items-center gap-2">📢 Ban Municipal 2.0</h4>
+                                            <p className="text-sm text-gray-500 mt-1">Sistema d'alertes via WhatsApp/Push per ajuntaments.</p>
+                                            <span className="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded mt-2 inline-block">Pendent</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
                 )}
