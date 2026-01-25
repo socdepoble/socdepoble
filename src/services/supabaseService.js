@@ -282,6 +282,35 @@ export const supabaseService = {
         }
     },
 
+    // SEO / Health Stats (Admin)
+    async getSEOStats() {
+        try {
+            // Simulated SEO Metrics for now (until we integrate Google Search Console API)
+            // Real checks for sitemap and robots
+            const hasSitemap = await fetch('/sitemap.xml', { method: 'HEAD' }).then(r => r.ok).catch(() => false);
+            const hasRobots = await fetch('/robots.txt', { method: 'HEAD' }).then(r => r.ok).catch(() => false);
+
+            return {
+                healthScore: hasSitemap && hasRobots ? 98 : 85, // Mock score based on basic checks
+                indexedPages: 142, // Mock
+                issues: !hasSitemap ? 1 : 0,
+                lastCrawl: new Date().toISOString(),
+                hasSitemap,
+                hasRobots
+            };
+        } catch (error) {
+            logger.warn('Error checking SEO stats:', error);
+            return {
+                healthScore: 0,
+                indexedPages: 0,
+                issues: 0,
+                lastCrawl: null,
+                hasSitemap: false,
+                hasRobots: false
+            };
+        }
+    },
+
     // Admin & Seeding
     async getAllPersonas(isPlayground = false) {
         const { data, error } = await supabase
