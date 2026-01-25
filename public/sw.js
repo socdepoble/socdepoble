@@ -161,12 +161,25 @@ self.addEventListener('notificationclick', (event) => {
     const urlToOpenAbsolute = new URL(urlToOpen, self.location.origin).href;
 
     event.waitUntil(
-        clients.openWindow(urlToOpenAbsolute)
-            .then((windowClient) => {
-                if (windowClient) {
-                    windowClient.focus();
-                } else {
-                    console.error('[SW] Failed to open window');
+        clients.matchAll({ type: 'window', includeUncontrolled: true })
+            .then((windowClients) => {
+                // 1. Try to find an existing window to focus
+                for (let client of windowClients) {
+                    if (client.url === urlToOpenAbsolute || (client.url.startsWith(self.location.origin) && 'focus' in client)) {
+                        // If it's the exact URL, just focus. If it's the app but different page, maybe navigate?
+                        // For simplicity/robustness, we'll confirm it's our origin and focus it.
+                        // Ideally we navigate it too:
+                        return client.focus().then(focusedClient => {
+                            if (focusedClient.navigate) {
+                                return focusedClient.navigate(urlToOpenAbsolute);
+                            }
+                            return focusedClient;
+                        });
+                    }
+                }
+                // 2. If no window found, open a new one
+                if (clients.openWindow) {
+                    return clients.openWindow(urlToOpenAbsolute);
                 }
             })
     );
