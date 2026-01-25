@@ -63,6 +63,15 @@ const AdminPanel = () => {
         return <img src={url} alt={name} className="avatar-img" />;
     };
 
+    // Dashboard Mode vs Module Mode
+    const [subModule, setSubModule] = useState(null); // null = Dashboard, 'identities', 'lexicon', 'stats', 'proposals'
+
+    // Return to dashboard handler
+    const goHome = () => {
+        setSubModule(null);
+        setActiveTab('gent'); // Reset identities tab default
+    };
+
     if (loading) {
         return (
             <div className="admin-loading">
@@ -72,120 +81,174 @@ const AdminPanel = () => {
         );
     }
 
+    // MAIN DASHBOARD VIEW
+    if (!subModule) {
+        return (
+            <div className="admin-container">
+                <header className="admin-header">
+                    <button onClick={() => navigate(-1)} className="back-btn">
+                        <ArrowLeft size={24} />
+                    </button>
+                    <div className="title-area">
+                        <h1><Shield size={24} /> PANELL DE CONTROL</h1>
+                        <p>Benvingut, {isSuperAdmin ? 'Super Admin' : 'Administrador'}</p>
+                    </div>
+                </header>
+
+                <div className="admin-content dashboard-grid">
+                    <div className="dashboard-card" onClick={() => setSubModule('identities')}>
+                        <div className="dash-icon blue"><Users size={32} /></div>
+                        <h3>Gestió d'Identitats</h3>
+                        <p>Control de veïns, grups, empreses i entitats.</p>
+                        <span className="dash-badge">{personas.length + entities.length} actius</span>
+                    </div>
+
+                    <div className="dashboard-card purple" onClick={() => setSubModule('lexicon')}>
+                        <div className="dash-icon purple"><Layout size={32} /></div>
+                        <h3>Diccionari Local</h3>
+                        <p>Gestió del lèxic i paraules clau del poble.</p>
+                        <span className="dash-badge">{lexicon.length} termes</span>
+                    </div>
+
+                    <div className="dashboard-card green" onClick={() => setSubModule('proposals')}>
+                        <div className="dash-icon green"><Settings size={32} /></div>
+                        <h3>Bústia de Propostes</h3>
+                        <p>Noves funcionalitats i suggeriments.</p>
+                        <span className="dash-badge">Futur</span>
+                    </div>
+
+                    <div className="dashboard-card orange" onClick={() => alert('Pròximament: Estadístiques detallades')}>
+                        <div className="dash-icon orange"><Store size={32} /></div>
+                        <h3>Estadístiques</h3>
+                        <p>Mètriques d'ús i activitat de la xarxa.</p>
+                        <span className="dash-badge">En construcció</span>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     const groups = entities.filter(e => e.type === 'grup');
     const businesses = entities.filter(e => e.type === 'empresa');
     const officials = entities.filter(e => e.type === 'entitat');
 
+    // SUB-MODULE VIEWS
     return (
         <div className="admin-container">
             <header className="admin-header">
-                <button onClick={() => navigate(-1)} className="back-btn">
+                <button onClick={goHome} className="back-btn">
                     <ArrowLeft size={24} />
                 </button>
                 <div className="title-area">
-                    <h1><Shield size={24} /> PANELL DE CONTROL</h1>
-                    <p>Gestió d'ecosistema i identitats</p>
+                    <h1>
+                        {subModule === 'identities' && 'Gestió d\'Identitats'}
+                        {subModule === 'lexicon' && 'Diccionari Local'}
+                        {subModule === 'proposals' && 'Propostes'}
+                    </h1>
+                    <p>Panell de Control &gt; {subModule}</p>
                 </div>
             </header>
 
-            <nav className="admin-tabs">
-                <button className={activeTab === 'gent' ? 'active' : ''} onClick={() => setActiveTab('gent')}>
-                    <Users size={18} /> Gent ({personas.length})
-                </button>
-                <button className={activeTab === 'grups' ? 'active' : ''} onClick={() => setActiveTab('grups')}>
-                    <Users size={18} /> Grups ({groups.length})
-                </button>
-                <button className={activeTab === 'empreses' ? 'active' : ''} onClick={() => setActiveTab('empreses')}>
-                    <Store size={18} /> Empreses ({businesses.length})
-                </button>
-                <button className={activeTab === 'entitats' ? 'active' : ''} onClick={() => setActiveTab('entitats')}>
-                    <Shield size={18} /> Entitats ({officials.length})
-                </button>
-                <button className={activeTab === 'categories' ? 'active' : ''} onClick={() => setActiveTab('categories')}>
-                    <Layout size={18} /> Lèxic ({lexicon.length})
-                </button>
-                <button className={activeTab === 'propostes' ? 'active' : ''} onClick={() => setActiveTab('propostes')}>
-                    <Settings size={18} /> Propostes (Futur)
-                </button>
-            </nav>
+            {/* IDENTITY MANAGEMENT MODULE */}
+            {subModule === 'identities' && (
+                <>
+                    <nav className="admin-tabs">
+                        <button className={activeTab === 'gent' ? 'active' : ''} onClick={() => setActiveTab('gent')}>
+                            <Users size={18} /> Gent ({personas.length})
+                        </button>
+                        <button className={activeTab === 'grups' ? 'active' : ''} onClick={() => setActiveTab('grups')}>
+                            <Users size={18} /> Grups ({groups.length})
+                        </button>
+                        <button className={activeTab === 'empreses' ? 'active' : ''} onClick={() => setActiveTab('empreses')}>
+                            <Store size={18} /> Empreses ({businesses.length})
+                        </button>
+                        <button className={activeTab === 'entitats' ? 'active' : ''} onClick={() => setActiveTab('entitats')}>
+                            <Shield size={18} /> Entitats ({officials.length})
+                        </button>
+                    </nav>
 
-            <div className="admin-content">
-                {activeTab === 'gent' && (
-                    <div className="persona-grid">
-                        {personas.length === 0 && <p className="empty-msg">No s'han trobat persones.</p>}
-                        {personas.map(p => (
-                            <div key={p.id} className="persona-card">
-                                <div className="persona-avatar">{renderAvatar(p.avatar_url, p.full_name)}</div>
-                                <div className="persona-info">
-                                    <h3>{p.full_name}</h3>
-                                    <p>@{p.username}</p>
-                                    <span className="location-tag">{p.role === 'vei' ? 'Veí' : p.role}</span>
-                                </div>
-                                {isSuperAdmin && (
-                                    <button className="impersonate-btn" onClick={() => handleImpersonate(p, 'user')}>
-                                        ACTUAR COM
-                                    </button>
-                                )}
+                    <div className="admin-content">
+                        {activeTab === 'gent' && (
+                            <div className="persona-grid">
+                                {personas.length === 0 && <p className="empty-msg">No s'han trobat persones.</p>}
+                                {personas.map(p => (
+                                    <div key={p.id} className="persona-card">
+                                        <div className="persona-avatar">{renderAvatar(p.avatar_url, p.full_name)}</div>
+                                        <div className="persona-info">
+                                            <h3>{p.full_name}</h3>
+                                            <p>@{p.username}</p>
+                                            <span className="location-tag">{p.role === 'vei' ? 'Veí' : p.role}</span>
+                                        </div>
+                                        {isSuperAdmin && (
+                                            <button className="impersonate-btn" onClick={() => handleImpersonate(p, 'user')}>
+                                                ACTUAR COM
+                                            </button>
+                                        )}
+                                    </div>
+                                ))}
                             </div>
-                        ))}
-                    </div>
-                )}
+                        )}
 
-                {activeTab === 'grups' && (
-                    <div className="entity-grid">
-                        {groups.length === 0 && <p className="empty-msg">No s'han trobat grups.</p>}
-                        {groups.map(e => (
-                            <div key={e.id} className="persona-card entity">
-                                <div className="persona-avatar">{renderAvatar(e.avatar_url, e.name)}</div>
-                                <div className="persona-info">
-                                    <h3>{e.name}</h3>
-                                    <p>{e.description || 'Grup social/cultural'}</p>
-                                </div>
-                                <button className="impersonate-btn" onClick={() => handleImpersonate(e, 'entity')}>
-                                    GESTIONAR
-                                </button>
+                        {activeTab === 'grups' && (
+                            <div className="entity-grid">
+                                {groups.length === 0 && <p className="empty-msg">No s'han trobat grups.</p>}
+                                {groups.map(e => (
+                                    <div key={e.id} className="persona-card entity">
+                                        <div className="persona-avatar">{renderAvatar(e.avatar_url, e.name)}</div>
+                                        <div className="persona-info">
+                                            <h3>{e.name}</h3>
+                                            <p>{e.description || 'Grup social/cultural'}</p>
+                                        </div>
+                                        <button className="impersonate-btn" onClick={() => handleImpersonate(e, 'entity')}>
+                                            GESTIONAR
+                                        </button>
+                                    </div>
+                                ))}
                             </div>
-                        ))}
-                    </div>
-                )}
+                        )}
 
-                {activeTab === 'empreses' && (
-                    <div className="entity-grid">
-                        {businesses.length === 0 && <p className="empty-msg">No s'han trobat empreses.</p>}
-                        {businesses.map(e => (
-                            <div key={e.id} className="persona-card entity work">
-                                <div className="persona-avatar">{renderAvatar(e.avatar_url, e.name)}</div>
-                                <div className="persona-info">
-                                    <h3>{e.name}</h3>
-                                    <p>{e.description || 'Comerç local / Empresa'}</p>
-                                </div>
-                                <button className="impersonate-btn" onClick={() => handleImpersonate(e, 'entity')}>
-                                    GESTIONAR
-                                </button>
+                        {activeTab === 'empreses' && (
+                            <div className="entity-grid">
+                                {businesses.length === 0 && <p className="empty-msg">No s'han trobat empreses.</p>}
+                                {businesses.map(e => (
+                                    <div key={e.id} className="persona-card entity work">
+                                        <div className="persona-avatar">{renderAvatar(e.avatar_url, e.name)}</div>
+                                        <div className="persona-info">
+                                            <h3>{e.name}</h3>
+                                            <p>{e.description || 'Comerç local / Empresa'}</p>
+                                        </div>
+                                        <button className="impersonate-btn" onClick={() => handleImpersonate(e, 'entity')}>
+                                            GESTIONAR
+                                        </button>
+                                    </div>
+                                ))}
                             </div>
-                        ))}
-                    </div>
-                )}
+                        )}
 
-                {activeTab === 'entitats' && (
-                    <div className="entity-grid">
-                        {officials.length === 0 && <p className="empty-msg">No s'han trobat entitats.</p>}
-                        {officials.map(e => (
-                            <div key={e.id} className="persona-card entity official">
-                                <div className="persona-avatar">{renderAvatar(e.avatar_url, e.name)}</div>
-                                <div className="persona-info">
-                                    <h3>{e.name}</h3>
-                                    <p>{e.description || 'Entitat institucional'}</p>
-                                </div>
-                                <button className="impersonate-btn" onClick={() => handleImpersonate(e, 'entity')}>
-                                    GESTIONAR
-                                </button>
+                        {activeTab === 'entitats' && (
+                            <div className="entity-grid">
+                                {officials.length === 0 && <p className="empty-msg">No s'han trobat entitats.</p>}
+                                {officials.map(e => (
+                                    <div key={e.id} className="persona-card entity official">
+                                        <div className="persona-avatar">{renderAvatar(e.avatar_url, e.name)}</div>
+                                        <div className="persona-info">
+                                            <h3>{e.name}</h3>
+                                            <p>{e.description || 'Entitat institucional'}</p>
+                                        </div>
+                                        <button className="impersonate-btn" onClick={() => handleImpersonate(e, 'entity')}>
+                                            GESTIONAR
+                                        </button>
+                                    </div>
+                                ))}
                             </div>
-                        ))}
+                        )}
                     </div>
-                )}
+                </>
+            )}
 
-                {activeTab === 'categories' && (
+            {/* LEXICON MODULE */}
+            {subModule === 'lexicon' && (
+                <div className="admin-content">
                     <div className="lexicon-admin">
                         <div className="admin-section-header">
                             <h3>Gestió del Lèxic Local</h3>
@@ -210,30 +273,34 @@ const AdminPanel = () => {
                                     </div>
                                 </div>
                             ))}
-                            {activeTab === 'propostes' && (
-                                <div className="proposals-section text-center p-8 bg-white/50 rounded-xl">
-                                    <div className="empty-state-icon text-4xl mb-4">🚀</div>
-                                    <h3 className="text-xl font-bold mb-2">Bústia de Noves Implementacions</h3>
-                                    <p className="text-gray-600 mb-6">Aquest espai està reservat per al futur. Ací podrem gestionar les noves idees que vagen sorgint.</p>
-
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left max-w-2xl mx-auto">
-                                        <div className="p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
-                                            <h4 className="font-bold flex items-center gap-2">🛒 E-Commerce Local</h4>
-                                            <p className="text-sm text-gray-500 mt-1">Gestió centralitzada de comandes per a botigues.</p>
-                                            <span className="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded mt-2 inline-block">Pendent</span>
-                                        </div>
-                                        <div className="p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
-                                            <h4 className="font-bold flex items-center gap-2">📢 Ban Municipal 2.0</h4>
-                                            <p className="text-sm text-gray-500 mt-1">Sistema d'alertes via WhatsApp/Push per ajuntaments.</p>
-                                            <span className="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded mt-2 inline-block">Pendent</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
                         </div>
                     </div>
-                )}
-            </div>
+                </div>
+            )}
+
+            {/* PROPOSALS MODULE */}
+            {subModule === 'proposals' && (
+                <div className="admin-content">
+                    <div className="proposals-section text-center p-8 bg-white/50 rounded-xl">
+                        <div className="empty-state-icon text-4xl mb-4">🚀</div>
+                        <h3 className="text-xl font-bold mb-2">Bústia de Noves Implementacions</h3>
+                        <p className="text-gray-600 mb-6">Aquest espai està reservat per al futur. Ací podrem gestionar les noves idees que vagen sorgint.</p>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left max-w-2xl mx-auto">
+                            <div className="p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
+                                <h4 className="font-bold flex items-center gap-2">🛒 E-Commerce Local</h4>
+                                <p className="text-sm text-gray-500 mt-1">Gestió centralitzada de comandes per a botigues.</p>
+                                <span className="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded mt-2 inline-block">Pendent</span>
+                            </div>
+                            <div className="p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
+                                <h4 className="font-bold flex items-center gap-2">📢 Ban Municipal 2.0</h4>
+                                <p className="text-sm text-gray-500 mt-1">Sistema d'alertes via WhatsApp/Push per ajuntaments.</p>
+                                <span className="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded mt-2 inline-block">Pendent</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
