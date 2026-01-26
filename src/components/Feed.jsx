@@ -261,19 +261,6 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
                             setSelectedRole(role);
                             setSelectedTag(null);
                         }} />
-                        <button
-                            className={`noise-filter-toggle ${isNoiseFiltered ? 'active' : ''}`}
-                            onClick={() => {
-                                const newVal = !isNoiseFiltered;
-                                setIsNoiseFiltered(newVal);
-                                localStorage.setItem('isNoiseFiltered', String(newVal));
-                                logger.info(`[Feed] Filtre de soroll ${newVal ? 'ACTIVAT' : 'DESACTIVAT'}`);
-                            }}
-                            title={isNoiseFiltered ? "Mostra tot el contingut (soroll inclòs)" : "Activa filtre de soroll (contingut de baixa qualitat)"}
-                        >
-                            {isNoiseFiltered ? <EyeOff size={16} /> : <Sparkles size={16} />}
-                            <span className="ml-1.5">{isNoiseFiltered ? "SOROLL OCULT" : "FILTRE SOROLL"}</span>
-                        </button>
                     </div>
                 </header>
             )}
