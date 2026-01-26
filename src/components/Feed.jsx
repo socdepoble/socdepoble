@@ -187,7 +187,7 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
         }
     };
 
-    const displayedPosts = useMemo(() => {
+    const filteredPosts = useMemo(() => {
         const filtered = posts.filter(post => {
             // 1. Vision Mode Filter
             if (visionMode === 'humana') {
