@@ -189,7 +189,7 @@ const SYSTEM_ENTITIES = [
         type: 'persona',
         town_name: 'Global',
         description: 'Arquitecte i Fundador de Sóc de Poble. Dissenyant el futur de la connexió rural.',
-        avatar_url: '/images/agents/damia_head.png',
+        avatar_url: '/Users/javillinares/.gemini/antigravity/brain/493388f8-1740-4544-959f-ae5585256501/architect_collection_portrait_1769437639992.png',
         cover_url: '/images/campaign/night_party.png',
         category: 'Tecnologia',
         is_active: true,
@@ -230,7 +230,7 @@ const LORE_PERSONAS = [
     { id: '11111111-1111-4111-a111-000000000009', full_name: 'Joanet Serra', username: 'joanets', gender: 'male', role: 'user', ofici: 'Fotògraf', primary_town: 'Muro d\'Alcoi', bio: 'Revelant la bellesa quotidiana del Comtat en cada instantània.', avatar_url: '/images/demo/avatar_joanet.png', cover_url: 'https://images.unsplash.com/photo-1472396961693-142e6e269027?q=80&w=1952&auto=format&fit=crop', category: 'treball', type: 'person' },
     { id: '11111111-1111-4111-a111-000000000010', full_name: 'Carmen la del Forn', username: 'carmenf', gender: 'female', role: 'user', ofici: 'Fornera', primary_town: 'Relleu', bio: 'El millor pa de llenya de la Marina Baixa, amb recepta de la rebesàvia.', avatar_url: '/images/demo/avatar_carmen.png', cover_url: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=2072&auto=format&fit=crop', category: 'treball', type: 'person' },
     { id: '11111111-1111-4111-a111-000000000012', full_name: 'Joan Batiste', username: 'joanb', gender: 'male', role: 'user', ofici: 'Pastor', primary_town: 'Benifallim', bio: 'Les meues cabres i jo coneixem bé la Serra d\'Aitana. Sempre amb el meu gaito.', avatar_url: '/images/demo/avatar_man_old.png', cover_url: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=2064&auto=format&fit=crop', category: 'gent', type: 'person' },
-    { id: 'damia-arq-1', full_name: 'Damià', username: 'damimus', gender: 'male', role: 'official', ofici: 'Arquitecte Genius', primary_town: 'Global', bio: 'Arquitecte i Fundador de Sóc de Poble. Dissenyant el futur de la connexió rural.', avatar_url: '/images/agents/damia_head.png', category: 'gent', type: 'person' }
+    { id: 'damia-arq-1', full_name: 'Damià', username: 'damimus', gender: 'male', role: 'official', ofici: 'Arquitecte Genius', primary_town: 'Global', bio: 'Arquitecte i Fundador de Sóc de Poble. Dissenyant el futur de la connexió rural.', avatar_url: '/Users/javillinares/.gemini/antigravity/brain/493388f8-1740-4544-959f-ae5585256501/architect_collection_portrait_1769437639992.png', category: 'gent', type: 'person' }
 ];
 
 const LAST_ACTION_TIMES = {};

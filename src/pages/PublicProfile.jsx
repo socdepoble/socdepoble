@@ -59,9 +59,9 @@ const PublicProfile = () => {
                 }
 
                 const [postsData, itemsData, followers] = await Promise.all([
-                    supabaseService.getUserPosts(id),
-                    supabaseService.getUserMarketItems(id),
-                    supabaseService.getFollowers(id)
+                    supabaseService.getUserPosts(profileId),
+                    supabaseService.getUserMarketItems(profileId),
+                    supabaseService.getFollowers(profileId)
                 ]);
 
                 setUserPosts(postsData || []);
@@ -75,13 +75,17 @@ const PublicProfile = () => {
             }
         };
 
-        if (id) {
+        if (id || username) {
             fetchProfileData();
-            if (currentUser && id !== currentUser.id) {
-                supabaseService.isFollowing(currentUser.id, id).then(setIsConnected);
-            }
         }
     }, [id, username, isOwnProfile, currentUser]);
+
+    // Separate effect for follow status that depends on profile being loaded
+    useEffect(() => {
+        if (currentUser && profile && profile.id !== currentUser.id) {
+            supabaseService.isFollowing(currentUser.id, profile.id).then(setIsConnected);
+        }
+    }, [currentUser, profile]);
 
     const handleConnect = async () => {
         if (!currentUser) {

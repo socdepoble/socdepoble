@@ -87,7 +87,7 @@ export const MOCK_LORE_POSTS = {
             author_id: 'damia-arq-1',
             author_name: 'Damià',
             author_role: 'official',
-            image_url: 'https://images.unsplash.com/photo-1503387762-592dea58ef21?q=80&w=2000&auto=format&fit=crop'
+            image_url: '/Users/javillinares/.gemini/antigravity/brain/493388f8-1740-4544-959f-ae5585256501/architect_collection_portrait_1769437639992.png'
         },
         {
             id: 'lp-d2',
