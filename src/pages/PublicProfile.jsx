@@ -177,34 +177,6 @@ const PublicProfile = () => {
                     url: window.location.href
                 }}
             >
-                {!isOwnProfile && !profile.id?.startsWith('11111111-') && (
-                    <div className="profile-actions-premium-container" style={{ width: '100%', marginBottom: '20px' }}>
-                        <button
-                            className={`connect-btn-premium-full ${isConnected ? 'connected' : ''}`}
-                            onClick={handleConnect}
-                            disabled={isConnecting}
-                        >
-                            {isConnecting ? (
-                                <Loader2 className="spinner" size={24} />
-                            ) : isConnected ? (
-                                <><UserMinus size={22} /> DESCONECTAR</>
-                            ) : (
-                                <><UserPlus size={22} /> CONNECTAR AMB {profile.full_name?.split(' ')[0].toUpperCase()}</>
-                            )}
-                        </button>
-
-                        <div className={`noise-filter-manager ${isConnected ? 'active' : ''}`}>
-                            <div className="filter-info-stack">
-                                <h4>Filtre de Soroll</h4>
-                                <p>Oculta posts promocionals d'aquest perfil al mur.</p>
-                            </div>
-                            <button className={`filter-action-btn ${isConnected ? 'active' : ''}`}>
-                                {isConnected ? 'ACTIU' : 'INACTIU'}
-                            </button>
-                        </div>
-                    </div>
-                )}
-
                 <div className="profile-stats-bar">
                     <div className="stat-card">
                         <span className="stat-value">{userPosts.length}</span>
@@ -220,6 +192,38 @@ const PublicProfile = () => {
                     </div>
                 </div>
             </ProfileHeaderPremium>
+
+            {
+                !isOwnProfile && (
+                    <div className="profile-actions-premium-fullwidth">
+                        <button
+                            className={`connect-btn-premium-full ${isConnected ? 'connected' : ''}`}
+                            onClick={handleConnect}
+                            disabled={isConnecting}
+                        >
+                            {isConnecting ? (
+                                <Loader2 className="spinner" size={24} />
+                            ) : isConnected ? (
+                                <><UserMinus size={22} /> DESCONECTAR</>
+                            ) : (
+                                <><UserPlus size={22} /> CONNECTAR AMB {profile.full_name?.split(' ')[0].toUpperCase()}</>
+                            )}
+                        </button>
+
+                        <div className="noise-filter-manager-container">
+                            <div className={`noise-filter-manager ${isConnected ? 'active' : ''}`}>
+                                <div className="filter-info-stack">
+                                    <h4>Filtre de Soroll</h4>
+                                    <p>Oculta posts promocionals d'aquest perfil al mur.</p>
+                                </div>
+                                <button className={`filter-action-btn ${isConnected ? 'active' : ''}`}>
+                                    {isConnected ? 'ACTIU' : 'INACTIU'}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )
+            }
 
             {
                 isOwnProfile && managedEntities.length > 0 && (
@@ -362,7 +366,7 @@ const PublicProfile = () => {
                     )}
                 </div>
             </section>
-        </div>
+        </div >
     );
 };
 

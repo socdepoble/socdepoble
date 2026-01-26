@@ -77,6 +77,26 @@ export const MOCK_LORE_POSTS = {
             author_name: 'Lucía Belda',
             author_role: 'ambassador'
         }
+    ],
+    // Damià (Arquitecte)
+    'damia-arq-1': [
+        {
+            id: 'lp-d1',
+            content: "Revisitant les mides de la Masia de l'Arquitecte. El futur de Sóc de Poble es construeix sobre fonaments sòlids i identitat de terra. Gràcies per la vostra confiança!",
+            created_at: new Date(Date.now() - 3600000 * 3).toISOString(),
+            author_id: 'damia-arq-1',
+            author_name: 'Damià',
+            author_role: 'official',
+            image_url: 'https://images.unsplash.com/photo-1503387762-592dea58ef21?q=80&w=2000&auto=format&fit=crop'
+        },
+        {
+            id: 'lp-d2',
+            content: "Dissenyant el nou sistema de xat de proximitat. Volem que la tecnologia se senta com una conversa a la fresca de la plaça. #Arquitecte #Genius",
+            created_at: new Date(Date.now() - 86400000).toISOString(),
+            author_id: 'damia-arq-1',
+            author_name: 'Damià',
+            author_role: 'official'
+        }
     ]
 };
 

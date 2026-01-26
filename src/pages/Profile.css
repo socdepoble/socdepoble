@@ -784,14 +784,18 @@
     background: var(--bg-surface);
     color: var(--text-muted);
 }
+
 /* [PREMIUM] Connection Button - Full Width & Rectangular */
 .connect-btn-premium-full {
     width: 100%;
     padding: 20px;
-    background: #2563eb; /* Blue */
-    color: white;
+    background: #00f2ff;
+    /* Blue (Normative/Primary) */
+    color: #000000;
+    /* Black (Normative) */
     border: none;
-    border-radius: 8px; /* Rectangular */
+    border-radius: 8px;
+    /* Rectangular */
     font-size: 18px;
     font-weight: 800;
     font-family: var(--font-heading);
@@ -868,4 +872,31 @@
     background: #ef4444;
     color: white;
     border-color: #ef4444;
+}
+/* [PREMIUM] Full-Width Action Container (De parte a parte) */
+.profile-actions-premium-fullwidth {
+    width: 100%;
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 20px;
+}
+
+.profile-actions-premium-fullwidth .connect-btn-premium-full {
+    margin: 0;
+    border-radius: 0; /* Full edge to edge */
+    padding: 24px;
+    font-size: 20px;
+}
+
+.noise-filter-manager-container {
+    padding: 0 var(--page-margin);
+    background: var(--bg-main);
+}
+
+.profile-actions-premium-fullwidth .noise-filter-manager {
+    border-radius: 0;
+    margin: 0;
+    border-left: none;
+    border-right: none;
+    background: transparent;
 }
