@@ -96,13 +96,13 @@ const PublicProfile = () => {
         setIsConnecting(true);
         try {
             if (isConnected) {
-                const success = await supabaseService.disconnectFromProfile(currentUser.id, id);
+                const success = await supabaseService.disconnectFromProfile(currentUser.id, profile.id);
                 if (success) {
                     setIsConnected(false);
                     setFollowersCount(prev => Math.max(0, prev - 1));
                 }
             } else {
-                const success = await supabaseService.connectWithProfile(currentUser.id, id);
+                const success = await supabaseService.connectWithProfile(currentUser.id, profile.id);
                 if (success) {
                     setIsConnected(true);
                     setFollowersCount(prev => prev + 1);
