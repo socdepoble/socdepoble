@@ -505,7 +505,12 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
                                         />
                                         <div className="post-meta">
                                             <div className="post-author-row">
-                                                <span className="post-author">{post.author || post.author_name || 'Usuari'}</span>
+                                                <span className="post-author">
+                                                    {(post.author === 'Algú del poble' || !post.author)
+                                                        ? (post.author_user_id === 'd6325f44-7277-4d20-b020-166c010995ab' ? 'Javi Llinares' : 'Veí de la Comunitat')
+                                                        : post.author
+                                                    }
+                                                </span>
                                                 {(post.is_pinned || post.metadata?.is_pinned) && <span className="pin-badge" title="Fichado al muro">📌</span>}
                                                 {(post.author_role === 'ambassador' || post.author_is_ai) && (
                                                     <span className="identity-badge ai" title="Informació i Acció Artificial">IAIA</span>

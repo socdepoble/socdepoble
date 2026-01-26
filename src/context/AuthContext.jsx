@@ -126,6 +126,36 @@ export const AuthProvider = ({ children }) => {
         window.location.href = '/login?nuked=true&v=' + Date.now();
     };
 
+    const switchContext = async (entityId = null) => {
+        logger.log('[AuthContext] Switching context to:', entityId || 'Personal Profile');
+        setActiveEntityId(entityId);
+
+        if (!entityId) {
+            // Restore personal profile
+            setProfile(realProfile);
+            setImpersonatedProfile(null);
+            return;
+        }
+
+        try {
+            // Fetch entity profile to impersonate
+            const entityData = await supabaseService.getPublicEntity(entityId);
+            if (entityData) {
+                const impersonated = {
+                    ...entityData,
+                    full_name: entityData.name,
+                    id: entityData.id,
+                    role: entityData.type === 'oficial' ? 'official' : (entityData.type === 'negoci' ? 'business' : 'group'),
+                    is_impersonated: true
+                };
+                setImpersonatedProfile(impersonated);
+                setProfile(impersonated);
+            }
+        } catch (err) {
+            logger.error('[AuthContext] Error switching context:', err);
+        }
+    };
+
     const logout = async () => {
         logger.log('[AuthContext] Executing secure logout sequence...');
         if (isPlayground) {
@@ -301,6 +331,7 @@ export const AuthProvider = ({ children }) => {
             setImpersonatedProfile,
             activeEntityId,
             setActiveEntityId,
+            switchContext,
             language,
             setLanguage
         }}>

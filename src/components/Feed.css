@@ -28,6 +28,12 @@
     line-height: 1.5;
     margin-top: 0;
     margin-bottom: 0;
+    /* [RESILIENCE] Text Clamping for scannability */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 /* card-header styles are now global in index.css */

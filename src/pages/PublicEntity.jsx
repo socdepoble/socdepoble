@@ -159,20 +159,30 @@ const PublicEntity = () => {
                 actionIcon={<Settings size={24} />}
                 onShare={handleShare}
             >
-                <div className="profile-actions-inline">
+                <div className="profile-actions-premium-container" style={{ width: '100%', marginBottom: '20px' }}>
                     <button
-                        className={`connect-btn-inline-vibrant ${isConnected ? 'connected' : ''}`}
+                        className={`connect-btn-premium-full ${isConnected ? 'connected' : ''}`}
                         onClick={handleConnect}
                         disabled={isConnecting}
                     >
                         {isConnecting ? (
-                            <Loader2 className="spinner" size={18} />
+                            <Loader2 className="spinner" size={24} />
                         ) : isConnected ? (
-                            <><UserMinus size={18} /> DESCONECTAR</>
+                            <><UserMinus size={22} /> DESCONECTAR</>
                         ) : (
-                            <><UserPlus size={18} /> CONECTAR</>
+                            <><UserPlus size={22} /> CONNECTAR AMB {entity.name.toUpperCase()}</>
                         )}
                     </button>
+
+                    <div className={`noise-filter-manager ${isConnected ? 'active' : ''}`}>
+                        <div className="filter-info-stack">
+                            <h4>Filtre de Soroll</h4>
+                            <p>Oculta posts promocionals d'aquesta entitat al mur.</p>
+                        </div>
+                        <button className={`filter-action-btn ${isConnected ? 'active' : ''}`}>
+                            {isConnected ? 'ACTIU' : 'INACTIU'}
+                        </button>
+                    </div>
                 </div>
 
                 <div className="profile-stats-bar">
