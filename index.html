@@ -33,6 +33,10 @@
       return false;
     };
     window.addEventListener('unhandledrejection', function (event) {
+      if (event.reason && (event.reason.name === 'AbortError' || event.reason.toString().includes('AbortError'))) {
+        console.warn('[Benign] AbortError suppressed in global overlay.');
+        return;
+      }
       var container = document.getElementById('global-error-overlay');
       if (!container) {
         container = document.createElement('div');
@@ -46,7 +50,7 @@
 
   <!-- SEO & Social Media (Open Graph) -->
   <!-- SEO & Social Media (Open Graph) -->
-  <title>Sóc de Poble v1.5.1-Genius | Portal de Pobles Connectats</title>
+  <title>Sóc de Poble v1.5.2-Genius | Portal de Pobles Connectats</title>
 
   <!-- ... (rest of head) ... -->
 
@@ -59,7 +63,7 @@
   <!-- Open Graph / Facebook / WhatsApp -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://socdepoble.vercel.app/" />
-  <meta property="og:title" content="Sóc de Poble v1.5.1-Genius | Portal de Pobles Connectats" />
+  <meta property="og:title" content="Sóc de Poble v1.5.2-Genius | Portal de Pobles Connectats" />
   <meta property="og:description"
     content="Connecta amb la teua comunitat. Notícies, mercat local i esdeveniments geolocalitzats." />
   <meta property="og:image" content="https://socdepoble.vercel.app/og-image.png" />
@@ -72,7 +76,7 @@
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:url" content="https://socdepoble.vercel.app/" />
-  <meta name="twitter:title" content="Sóc de Poble v1.5.1-Genius | Portal de Pobles Connectats" />
+  <meta name="twitter:title" content="Sóc de Poble v1.5.2-Genius | Portal de Pobles Connectats" />
   <meta name="twitter:description"
     content="Connecta amb la teua comunitat. Notícies, mercat i esdeveniments al teu poble." />
   <meta name="twitter:image" content="https://socdepoble.vercel.app/og-image.png?v=3" />
@@ -126,8 +130,8 @@
       </a>
     </div>
   </div>
-  <div class="app-version">v1.5.1 (Genius Edition)</div>
-  <script type="module" src="/src/main.jsx?v=Genesis151"></script>
+  <div class="app-version">v1.5.2 (Genius Edition)</div>
+  <script type="module" src="/src/main.jsx?v=Genesis152"></script>
 </body>
 
 </html>

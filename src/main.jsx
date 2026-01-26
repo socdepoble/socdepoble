@@ -34,7 +34,7 @@ import { ToastProvider } from './components/ToastProvider';
 // ROBUST SERVICE WORKER REGISTRATION (v1.5.1-resilience)
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js?v=Genesis-1.5.1').then(registration => {
+    navigator.serviceWorker.register('/sw.js?v=Genesis-1.5.2').then(registration => {
       console.log('[SW] Registered with scope:', registration.scope);
 
       registration.onupdatefound = () => {
