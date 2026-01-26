@@ -202,8 +202,12 @@ const SYSTEM_ENTITIES = [
  */
 export const isFictiveProfile = (profile) => {
     if (!profile) return false;
-    // Order of priority: ID prefix (Lore) then explicit flag (Demo)
-    return profile.id?.startsWith('11111111-') || profile.is_demo === true;
+    const pid = profile.id || '';
+    // Order of priority: ID prefix (Lore), System IDs, then explicit flag (Demo)
+    return pid.startsWith('11111111-') ||
+        pid.startsWith('damia-') ||
+        pid.startsWith('sdp-') ||
+        profile.is_demo === true;
 };
 
 /**
@@ -1899,12 +1903,13 @@ export const supabaseService = {
 
     // Fase 6: Páginas Públicas y Gestión de Entidades
     async getPublicProfile(userId) {
-        // If it's a Lore character ID, return mock data
-        if (userId && userId.startsWith('11111111-')) {
-            const personas = await this.getAllPersonas();
-            const found = personas.find(p => p.id === userId);
-            if (found) return found;
-        }
+        // [OMNISCIENT] Universal Resolver for System Entities and Lore Personas
+        const personas = await this.getAllPersonas();
+        const foundPersona = personas.find(p => p.id === userId);
+        if (foundPersona) return foundPersona;
+
+        const system = SYSTEM_ENTITIES.find(e => e.id === userId);
+        if (system) return system;
 
         const { data, error } = await supabase
             .from('profiles')
@@ -1917,11 +1922,17 @@ export const supabaseService = {
 
     async getUserByUsername(username) {
         if (!username) throw new Error('Username is required');
+        const cleanUsername = username.toLowerCase();
+
+        // [OMNISCIENT] Search in virtual personas first
+        const personas = await this.getAllPersonas();
+        const foundPersona = personas.find(p => p.username?.toLowerCase() === cleanUsername);
+        if (foundPersona) return foundPersona;
 
         const { data, error } = await supabase
             .from('profiles')
             .select('*')
-            .eq('username_lower', username.toLowerCase())
+            .eq('username_lower', cleanUsername)
             .single();
 
         if (error) {
