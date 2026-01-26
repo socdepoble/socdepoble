@@ -49,6 +49,12 @@ const MediaViewerModal = ({ isOpen, onClose, src, title, type = 'image' }) => {
                         src={src}
                         alt={title}
                         className="viewer-main-media"
+                        draggable="true"
+                        onDragStart={(e) => {
+                            // Specifically allow dragging the source URL
+                            e.dataTransfer.setData('text/uri-list', src);
+                            e.dataTransfer.setData('text/plain', src);
+                        }}
                     />
                 ) : (
                     <video src={src} controls className="viewer-main-media" autoPlay />

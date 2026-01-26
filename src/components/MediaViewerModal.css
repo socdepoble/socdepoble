@@ -28,29 +28,45 @@
     letter-spacing: 0.5px;
 }
 
+.toolbar-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    /* More breathing room */
+}
+
 .toolbar-btn {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.5);
+    /* Darker for contrast */
+    border: 1.5px solid rgba(255, 255, 255, 0.3);
     color: white;
-    width: 44px;
-    height: 44px;
+    width: 48px;
+    /* Larger touch target */
+    height: 48px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: all 0.2s ease;
-    margin-left: 10px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .toolbar-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: scale(1.1);
+    background: rgba(0, 242, 255, 0.2);
+    border-color: var(--color-primary);
+    transform: scale(1.05);
 }
 
 .toolbar-btn.close {
-    background: var(--color-danger, #ff4444);
+    background: #ff4444;
     border: none;
+    box-shadow: 0 4px 12px rgba(255, 68, 68, 0.4);
+}
+
+.toolbar-btn.close:hover {
+    background: #ff6666;
+    transform: scale(1.05);
 }
 
 .media-viewer-content {
