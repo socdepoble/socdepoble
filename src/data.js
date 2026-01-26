@@ -48,6 +48,48 @@ export const MOCK_MESSAGES = {
 };
 
 export const MOCK_FEED = [
+    // Anna Calvo Presentation (Project Model)
+    {
+        id: 'anna-calvo-presentation',
+        town_id: 1, // Global or La Torre
+        author: "Sóc de Poble (Oficial)",
+        author_avatar: "/iaia_digital_matriarch.png",
+        author_role: "official",
+        author_entity_id: 'sdp-oficial-1',
+        time: "Ara",
+        content: "# 🎥 Presentació del Projecte: Sóc de Poble\n\n## Per Anna Calvo\n\nAquest vídeo resumeix l'essència de la nostra plataforma: connectar arrels rurals amb tecnologia de futur. La IAIA i en Nano Banana ja formen part d'aquest ecosistema.\n\nPremeu el botó per veure la presentació completa i entendre com estem transformant l'economia local.",
+        likes: 124,
+        comments: 12,
+        video_url: "https://www.youtube.com/watch?v=Fadaa7Kyxm0",
+        type: "didactic_presentation",
+        metadata: {
+            title: "Presentació Anna Calvo",
+            didactic_text: "Aquest és un exemple d'article didàctic. En la següent fase, aquest text s'obrirà en un modal accessible per facilitar la lectura a persones amb dificultats visuals o cognitives, seguint les regles de la IAIA.",
+        },
+        created_at: new Date().toISOString()
+    },
+    {
+        id: 'busquem-socis-tecnologics',
+        town_id: 1,
+        author: "Sóc de Poble (Oficial)",
+        author_avatar: "/iaia_digital_matriarch.png",
+        author_role: "official",
+        author_entity_id: 'sdp-oficial-1',
+        time: "Ara",
+        content: "# 🍎 Busquem Socis Tecnològics!\n\n## Per al Projecte Sóc de Poble\n\nNecessitem desenvolupadors valents que vulguen formar part del nostre **Grup de Treball**. Si t'agrada la tecnologia i estimes les nostres arrels, aquest és el teu lloc.\n\nFes clic per veure com pots unir-te a l'equip i ajudar-nos a fer créixer els nostres pobles.",
+        likes: 89,
+        comments: 4,
+        image_url: [
+            "https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=1000&auto=format&fit=crop", // Tech placeholder
+            "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=1000&auto=format&fit=crop"
+        ],
+        type: "didactic_presentation",
+        metadata: {
+            title: "Busquem Socis Tecnològics",
+            didactic_text: "Aquest cartell és un clàssic de la nostra història. Estem buscant programadors, dissenyadors i creatius que vulguen treballar en un entorn rural i tecnològic real. Participa en el Grup de Treball de Sóc de Poble!",
+        },
+        created_at: new Date().toISOString()
+    },
     // La Torre de les Maçanes
     {
         id: 10,
@@ -115,15 +157,18 @@ export const MOCK_MARKET_ITEMS = [
         id: 999,
         town_id: 1, // Visible arreu
         title: "Camiseta Oficial Sóc de Poble",
-        description: "La samarreta que connecta pobles. Disseny exclusiu 'Ruta del Poble'. Cotó 100% orgànic.",
+        description: "La samarreta que connecta pobles. Disseny exclusiu 'Ruta del Poble'. Cotó 100% orgànic. #SócDePoble #MerchandisingOficial",
         price: "15.00€",
         seller: "Sóc de Poble",
         avatar_url: "/images/icon-192x192.png", // Logo de l'app
         author_role: "business",
-        author_entity_id: 'mock-business-sdp-1',
+        author_id: 'sdp-oficial-1', // Enforced official ID
+        author_entity_id: 'sdp-oficial-1',
         image: "/images/samarreta-soc-de-poble.png",
         category_slug: "roba",
-        tag: "Merchandising"
+        tag: "Merchandising",
+        is_pinned: true, // PINNED TO TOP
+        created_at: new Date().toISOString()
     },
     // La Torre
     {

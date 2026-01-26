@@ -38,8 +38,6 @@
 .header-logo {
     height: 40px;
     object-fit: contain;
-    filter: invert(1) brightness(10);
-    /* Keep it white */
     transition: filter 0.3s ease;
 }
 

@@ -7,10 +7,10 @@ import { logger } from '../utils/logger';
 import './PlaygroundBanner.css';
 
 const PlaygroundBanner = () => {
-    const { isPlayground, profile, user, logout } = useAuth();
+    const { isPlayground, isAdmin, profile, forceNukeSimulation, exitPlayground } = useAuth();
     const navigate = useNavigate();
 
-    if (!isPlayground) return null;
+    if (!isPlayground || isAdmin) return null;
 
     return (
         <div className="playground-banner">
@@ -26,24 +26,12 @@ const PlaygroundBanner = () => {
                         Canviar personatge
                     </button>
                     <button className="banner-btn exit" onClick={async () => {
-                        const confirmExit = window.confirm("Segur que vols sortir? Tot el contingut generat en aquesta sessió de prova s'eliminarà.");
+                        const confirmExit = window.confirm("Segur que vols tornar al món real (Producció)?");
                         if (confirmExit) {
-                            if (profile?.id) {
-                                try {
-                                    await supabaseService.cleanupPlaygroundSession(user.id);
-                                } catch (e) {
-                                    logger.error("Error during cleanup:", e);
-                                }
-                            }
-                            // ESCAPE HATCH: Clear all simulation flags
-                            localStorage.removeItem('sb-simulation-mode');
-                            localStorage.removeItem('isPlaygroundMode');
-
-                            logout();
-                            navigate('/login');
+                            await exitPlayground();
                         }
                     }}>
-                        Sortir <LogOut size={14} />
+                        TORNAR A PRODUCCIÓ <LogOut size={14} />
                     </button>
                 </div>
             </div>

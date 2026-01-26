@@ -92,7 +92,14 @@ const SEARCH_SYNONYMS = {
     'quincena': 'Cocentaina', // For testing or local context
     'penaguila': 'Penàguila',
     'rellen': 'Relleu',
-    'benifallim': 'Benifallim'
+    'benifallim': 'Benifallim',
+    'soc de poble': 'Sóc de Poble',
+    'socdepoble': 'Sóc de Poble',
+    'soc de': 'Sóc de Poble',
+    'poble': 'Sóc de Poble',
+    'soc': 'Sóc de Poble',
+    'rutadelpoble': 'Sóc de Poble',
+    'merchandising': 'Sóc de Poble'
 };
 
 /**
@@ -105,17 +112,26 @@ const getNormalizedQuery = (query) => {
     const trimmed = query.toLowerCase().trim();
 
     // Accents normalization (Damia -> Damià)
-    const normalized = trimmed.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    const accentLess = trimmed.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
-    // Direct match check
+    // Direct match check in Synonyms
     if (SEARCH_SYNONYMS[trimmed]) return SEARCH_SYNONYMS[trimmed];
-    if (SEARCH_SYNONYMS[normalized]) return SEARCH_SYNONYMS[normalized];
+    if (SEARCH_SYNONYMS[accentLess]) return SEARCH_SYNONYMS[accentLess];
 
     // Partial match/Contains check (more dynamic)
     for (const [key, value] of Object.entries(SEARCH_SYNONYMS)) {
-        if (trimmed.includes(key) || normalized.includes(key)) return value;
+        if (trimmed.includes(key) || accentLess.includes(key)) return value;
     }
-    return normalized;
+    return accentLess;
+};
+
+/**
+ * Utilitat interna per a comparació OMNISCIENT (Ignora accents, espais i majúscules)
+ */
+const omniMatch = (target, search) => {
+    if (!target || !search) return false;
+    const normalize = (str) => str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+    return normalize(target).includes(normalize(search));
 };
 
 const setColumnCache = (key, value) => {
@@ -131,6 +147,45 @@ const activeChecks = {
 };
 
 /**
+ * Centralized System Entities (Virtual Identities)
+ */
+const SYSTEM_ENTITIES = [
+    {
+        id: 'sdp-oficial-1',
+        name: 'Sóc de Poble (Oficial)',
+        type: 'empresa',
+        town_name: 'Global',
+        description: 'La plataforma de connexió rural definitiva. Gent, terra i xarxa. Connectem pobles, persones i territori a través de la tecnologia i la identitat.',
+        avatar_url: '/images/agents/sdp_logo_white.png',
+        cover_url: '/images/campaign/rustic_detail.png',
+        category: 'Tecnologia i Comunitat',
+        is_active: true,
+        created_at: '2025-01-01T00:00:00Z'
+    },
+    {
+        id: '11111111-1a1a-0000-0000-000000000000',
+        name: 'IAIA (Guia del Poble)',
+        type: 'oficial',
+        town_name: 'Sóc de Poble',
+        description: 'Assistència virtual i guia de la comunitat. Soc la teua acompanyant digital per a tot el que necessites al poble.',
+        avatar_url: '/images/agents/iaia_avatar.png',
+        cover_url: '/images/campaign/night_party.png',
+        is_active: true,
+        created_at: '2025-01-01T00:00:00Z'
+    },
+    {
+        id: 'm1',
+        name: 'Ajuntament de la Torre',
+        type: 'oficial',
+        town_name: 'La Torre de les Maçanes',
+        description: 'Administració local i serveis al ciutadà. Treballem per un poble millor.',
+        avatar_url: 'https://api.dicebear.com/7.x/initials/svg?seed=AT',
+        is_active: true,
+        created_at: '2025-01-01T00:00:00Z'
+    }
+];
+
+/**
  * Centralized logic to detect if a profile is fictive (Lore or Demo)
  */
 export const isFictiveProfile = (profile) => {
@@ -143,7 +198,11 @@ export const isFictiveProfile = (profile) => {
  * Hardcoded Lore Personas for Sandbox and AI interaction
  */
 const LORE_PERSONAS = [
-    { id: '11111111-1111-4111-a111-000000000001', full_name: 'Vicent Ferris', username: 'vferris', gender: 'male', role: 'ambassador', ofici: 'Fuster', primary_town: 'La Torre de les Maçanes', bio: 'Treballant la fusta amb l\'amor de tres generacions. Artesania de la Torre.', avatar_url: '/images/demo/avatar_man_old.png', cover_url: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=2070&auto=format&fit=crop', category: 'treball', type: 'person' },
+    { id: '11111111-1a1a-0000-0000-000000000000', full_name: 'IAIA (Guia del Poble)', username: 'iaia_guide', gender: 'female', role: 'official', ofici: 'Assistenta Virtual', primary_town: 'Sóc de Poble (Global)', bio: 'Dignitat, terra i xarxa. Sóc la teua assistenta per a tot el que necessites al poble.', avatar_url: '/assets/avatars/iaia_official.png', category: 'gent', type: 'person' },
+    { id: '11111111-1a1a-0000-0000-000000000001', full_name: 'IAIA (Secretària)', username: 'iaia_sec', gender: 'female', role: 'official', ofici: 'Gestió de Documents', primary_town: 'Sóc de Poble (Global)', bio: 'Organitzant el coneixement del poble amb precisió digital.', avatar_url: '/assets/avatars/iaia_secretary.png', category: 'gent', type: 'person' },
+    { id: '11111111-1a1a-0000-0000-000000000002', full_name: 'IAIA (Memòria Viva)', username: 'iaia_mem', gender: 'female', role: 'official', ofici: 'Custòdia de Llegendes', primary_town: 'Sóc de Poble (Global)', bio: 'Guardant cada història, cada silenci i cada record dels nostres avantpassats.', avatar_url: '/assets/avatars/iaia_memory.png', category: 'gent', type: 'person' },
+    { id: '11111111-1a1a-0000-0000-000000000005', full_name: 'Nano Banana', username: 'nanob', gender: 'male', role: 'official', ofici: 'Agent de Felicitat', primary_town: 'Sóc de Poble (Global)', bio: '🍌 A pintar el món de colors! Soc l\'encarregat de portar el somriure a cada racó.', avatar_url: '/assets/avatars/nano_banana.png', category: 'gent', type: 'person' },
+    { id: '11111111-1111-4111-a111-000000000001', full_name: 'Vicent Ferris', username: 'vferris', gender: 'male', role: 'neighbor', ofici: 'Fuster', primary_town: 'La Torre de les Maçanes', bio: 'Treballant la fusta amb l\'amor de tres generacions. Artesania de la Torre.', avatar_url: '/images/demo/avatar_man_old.png', cover_url: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=2070&auto=format&fit=crop', category: 'treball', type: 'person' },
     { id: '11111111-1111-4111-a111-000000000002', full_name: 'Lucía Belda', username: 'lubelda', gender: 'female', role: 'ambassador', ofici: 'Farmacèutica', primary_town: 'La Torre de les Maçanes', bio: 'Molt més que vendre remeis; cuidant la salut emocional de les nostres veïnes.', avatar_url: '/images/demo/avatar_lucia.png', cover_url: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=2070&auto=format&fit=crop', category: 'treball', type: 'person' },
     { id: '11111111-1111-4111-a111-000000000003', full_name: 'Elena Popova', username: 'elenap', gender: 'female', role: 'user', ofici: 'Cuidadora', primary_town: 'La Torre de les Maçanes', bio: 'Vinent de Bulgària, cuidant de la nostra gent gran amb tota la paciència del món.', avatar_url: '/images/demo/avatar_elena.png', cover_url: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=2070&auto=format&fit=crop', category: 'gent', type: 'person' },
     { id: '11111111-1111-4111-a111-000000000004', full_name: 'Maria "Mèl"', username: 'mariamel', gender: 'female', role: 'user', ofici: 'Apicultora', primary_town: 'La Torre de les Maçanes', bio: 'Si vols mèl de veritat, puja a la Torre de les Maçanes. Tradició de muntanya.', avatar_url: '/images/demo/avatar_mariamel.png', category: 'treball', type: 'person' },
@@ -282,6 +341,45 @@ export const supabaseService = {
         }
     },
 
+    // God-Level User Management (Noise Filtering)
+    async updateUserModeration(userId, data) {
+        try {
+            logger.info(`[Admin] Actualitzant moderació per a ${userId}:`, data);
+            const { error } = await supabase
+                .from('profiles')
+                .update({
+                    is_noise: data.is_noise,
+                    is_silenced: data.is_silenced,
+                    reputation_score: data.reputation_score
+                })
+                .eq('id', userId);
+
+            if (error) throw error;
+            return true;
+        } catch (e) {
+            logger.error('Error updating user moderation:', e);
+            throw e;
+        }
+    },
+
+    async getModeratedPosts(options = {}) {
+        try {
+            let query = supabase.from('posts').select('*, towns(name), author:profiles(*)');
+
+            // Logic to filter ONLY if 'filterNoise' is active
+            if (options.filterNoise) {
+                query = query.eq('author.is_noise', false);
+            }
+
+            const { data, error } = await query.order('created_at', { ascending: false });
+            if (error) throw error;
+            return data.map(normalizeContentItem);
+        } catch (e) {
+            logger.error('Error fetching moderated posts:', e);
+            return [];
+        }
+    },
+
     // SEO / Health Stats (Admin)
     async getSEOStats() {
         try {
@@ -308,6 +406,35 @@ export const supabaseService = {
                 hasSitemap: false,
                 hasRobots: false
             };
+        }
+    },
+
+    async getPostComments(postId) {
+        try {
+            const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(postId);
+            if (!isUUID || String(postId).startsWith('mock-') || String(postId).startsWith('anna-') || String(postId).includes('-')) {
+                // If it's a slug or mock, return empty array without crashing
+                // Slugs (like 'busquem-socis-tecnologics') don't have comments in DB yet
+                return [];
+            }
+
+            const { data, error } = await supabase
+                .from('post_comments')
+                .select('*, profiles(full_name, avatar_url)')
+                .eq('post_uuid', postId)
+                .order('created_at', { ascending: true });
+
+            if (error) {
+                if (error.code === '42P01') {
+                    console.warn('post_comments table missing, returning empty array');
+                    return [];
+                }
+                throw error;
+            }
+            return data || [];
+        } catch (e) {
+            logger.error('Error fetching post comments:', e);
+            return [];
         }
     },
 
@@ -375,12 +502,12 @@ export const supabaseService = {
         // En producció filtrem les entitats fictícies (demo o Lore-based)
         // I per petició legal, ocultem qualsevol entitat que no sigui del sistema si no estem en mode Playground
         if (!isPlayground) {
-            // Només mostrem entitats verificades o del sistema (Sóc de Poble)
-            // Això elimina duplicats visuals o entitats de prova ("Forn de Carmen", etc.)
-            return data.filter(e => e.type === 'system' || e.verified === true);
+            // Mostrem entitats de sistema o del llinatge oficial
+            const dbSystem = data.filter(e => e.type === 'system' || e.type === 'oficial' || e.owner_id === 'd6325f44-7277-4d20-b020-166c010995ab');
+            return [...SYSTEM_ENTITIES, ...dbSystem];
         }
 
-        return data;
+        return [...SYSTEM_ENTITIES, ...data];
     },
 
     // Chats (Secure Messaging - Phase 4)
@@ -860,12 +987,13 @@ export const supabaseService = {
 
         logger.log(`[SupabaseService] Performed search for: "${sanitizedQuery}"`);
         try {
+            // NIVELL DIOS: Cerca transversal en municipis
             const { data, error } = await supabase
                 .from('towns')
                 .select('*')
-                .or(`name.ilike.%${sanitizedQuery}%,comarca.ilike.%${sanitizedQuery}%,province.ilike.%${sanitizedQuery}%`)
+                .or(`name.ilike.%${sanitizedQuery}%,comarca.ilike.%${sanitizedQuery}%,province.ilike.%${sanitizedQuery}%,description.ilike.%${sanitizedQuery}%,history.ilike.%${sanitizedQuery}%,keywords.ilike.%${sanitizedQuery}%`)
                 .order('name', { ascending: true })
-                .limit(20);
+                .limit(40);
 
             if (error) throw error;
             return data || [];
@@ -886,11 +1014,13 @@ export const supabaseService = {
         const cleanQuery = query.toLowerCase().trim();
 
         try {
+            // BUSCADOR NIVELL DIOS: Cerca OMNISCIENT en perfils (Noms, Oficis, Bios, Pobles, Usernames, Rols)
             const { data, error } = await supabase
                 .from('profiles')
-                .select('id, full_name, username, avatar_url, role, primary_town, bio')
-                .or(`full_name.ilike.%${cleanQuery}%,full_name.ilike.%${normalizedName}%,username.ilike.%${cleanQuery}%,role.ilike.%${cleanQuery}%,primary_town.ilike.%${cleanQuery}%,primary_town.ilike.%${normalizedName}%`)
-                .limit(10);
+                .select('id, full_name, username, avatar_url, role, primary_town, bio, ofici, is_demo')
+                .or(`full_name.ilike.%${cleanQuery}%,full_name.ilike.%${normalizedName}%,username.ilike.%${cleanQuery}%,role.ilike.%${cleanQuery}%,primary_town.ilike.%${cleanQuery}%,primary_town.ilike.%${normalizedName}%,ofici.ilike.%${cleanQuery}%,bio.ilike.%${cleanQuery}%,username.ilike.%${normalizedName}%`)
+                .order('full_name', { ascending: true })
+                .limit(50);
 
             if (error) throw error;
 
@@ -929,40 +1059,64 @@ export const supabaseService = {
 
     async searchEntities(query) {
         if (!query || query.length < 2) return [];
-        const normalized = getNormalizedQuery(query);
+        const normalizedCanonical = getNormalizedQuery(query); // E.g. "Sóc de Poble"
+        const cleanQuery = query.toLowerCase().trim();
+
+        // 1. DEFINICIÓ D'ENTITATS DE SISTEMA (Veritat Única - Usant constant centralitzada)
+        const systemEntities = SYSTEM_ENTITIES;
+
+        // 2. FILTRATGE OMNISCIENT DE SISTEMA (Sempre disponible)
+        const filteredSystem = systemEntities.filter(e =>
+            omniMatch(e.name, query) ||
+            omniMatch(e.name, normalizedCanonical) ||
+            omniMatch(e.type, query) ||
+            omniMatch(e.town_name, query)
+        );
+
+        let dbResults = [];
         try {
+            // BUSCADOR NIVELL DIOS: Entitats, Comerços i Projectes (Incloent grups!)
             const { data, error } = await supabase
                 .from('entities')
-                .select('id, name, type, avatar_url, description')
-                .or(`name.ilike.%${query}%,name.ilike.%${normalized}%,type.ilike.%${query}%,description.ilike.%${query}%`)
-                .limit(10);
+                .select('id, name, type, avatar_url, description, town_name, category')
+                .or(`name.ilike.%${cleanQuery}%,name.ilike.%${normalizedCanonical}%,type.ilike.%${cleanQuery}%,description.ilike.%${cleanQuery}%,town_name.ilike.%${cleanQuery}%,category.ilike.%${cleanQuery}%`)
+                .limit(50);
 
             if (error) throw error;
-
-            // Include mock entities for Sandbox feel
-            const mockEntities = [
-                { id: 'm1', name: 'Ajuntament de la Torre', type: 'oficial', town_name: 'La Torre de les Maçanes', description: 'Administració local i serveis al ciutadà.' },
-                { id: 'm2', name: 'Cooperativa de Muro', type: 'empresa', town_name: 'Muro d\'Alcoi', description: 'Oli d\'oliva verge extra de la serra Mariola.' },
-                { id: 'm3', name: 'Centre Excursionista d\'Alcoi', type: 'grup', town_name: 'Alcoi', description: 'Rutes i activitats de muntanya per a tots.' },
-                { id: 'm4', name: 'Forn del Barri', type: 'empresa', town_name: 'La Torre de les Maçanes', description: 'Pa de llenya i coques tradicionals.' },
-                { id: 'm5', name: 'Ajuntament de Cocentaina', type: 'oficial', town_name: 'Cocentaina', description: 'Palau Comtal i serveis municipals.' },
-                { id: 'm6', name: 'Diputació d\'Alacant', type: 'institucio', town_name: 'Alacant/Província', description: 'Govern provincial i suport als municipis.' },
-                { id: 'm7', name: 'Hospital Verge dels Lliris', type: 'institucio', town_name: 'Alcoi', description: 'Centre hospitalari de referència a l\'Alcoià.' }
-            ];
-
-            const filteredMock = mockEntities.filter(e =>
-                e.name.toLowerCase().includes(query.toLowerCase()) ||
-                e.name.toLowerCase().includes(normalized.toLowerCase()) ||
-                e.type.toLowerCase().includes(query.toLowerCase()) ||
-                e.town_name?.toLowerCase().includes(query.toLowerCase()) ||
-                e.town_name?.toLowerCase().includes(normalized.toLowerCase())
-            );
-
-            return [...(data || []), ...filteredMock];
+            dbResults = data || [];
         } catch (error) {
-            logger.error('[SupabaseService] Error in searchEntities:', error);
-            return [];
+            logger.error('[SupabaseService] Error in searchEntities (DB):', error);
+            // Seguim endavant amb filteredSystem encara que la DB falle
         }
+
+        // 3. TAXONOMIA I NETEJA
+        const sanitizedDbResults = dbResults.map(e => {
+            let mappedType = e.type;
+            if (e.type === 'negoci' || e.type === 'comerç') mappedType = 'empresa';
+            if (e.type === 'associacio') mappedType = 'institucio';
+
+            // Forçar "Sóc de Poble" com a empresa si el nom quadra (OmniMatch)
+            if (omniMatch(e.name, 'Sóc de Poble') || omniMatch(e.name, 'Soc de Poble')) {
+                mappedType = 'empresa';
+            }
+
+            return { ...e, type: mappedType };
+        });
+
+        // 4. MERGE I PRIORITZACIÓ (Codi Genius: Sistema > DB)
+        // Posem primer les del sistema per a que eixquen dalt i deduplicació no les esborre
+        const combined = [...filteredSystem, ...sanitizedDbResults];
+        const unique = [];
+        const ids = new Set();
+
+        combined.forEach(e => {
+            if (!ids.has(e.id)) {
+                ids.add(e.id);
+                unique.push(e);
+            }
+        });
+
+        return unique;
     },
 
     async getPublicDirectory() {
@@ -1153,8 +1307,36 @@ export const supabaseService = {
                 return { data: normalized, count: normalized.length };
             }
 
-            const normalizedData = (data || []).map(p => normalizeContentItem(p, 'post'));
-            return { data: normalizedData, count: count || 0 };
+            let normalizedData = (data || []).map(p => normalizeContentItem(p, 'post'));
+
+            // INYECCIÓN PREMIUM: Auxili Music Expansion (Didactic Presentation)
+            if (page === 0 && (isPlayground || normalizedData.length < 3)) {
+                const auxiliPost = {
+                    id: 'didactic-auxili-2026',
+                    uuid: 'didactic-auxili-2026',
+                    type: 'didactic_presentation',
+                    author: 'Auxili (Official)',
+                    author_role: 'official',
+                    author_avatar: 'https://images.unsplash.com/photo-1493225255756-d9584f8606e9?q=80&w=200&auto=format&fit=crop', // Reggae vibes
+                    content: '# Auxili: Reggae des de l\'Ontinyent\n\nAmb més de 10 anys damunt dels escenaris, **Auxili** s\'ha convertit en el crit musical de tota una generació. Des de la Vall d\'Albaida, han fusionat el reggae amb les arrels valencianes.\n\n## "La música és la nostra eina de transformació."\n\nEste 2026 tornem amb noves energies per a fer vibrar cada racó dels nostres pobles. Gràcies per formar part d\'aquesta família!',
+                    image_url: [
+                        'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?q=80&w=1000&auto=format&fit=crop', // Festival crowd
+                        'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?q=80&w=1000&auto=format&fit=crop', // Band on stage
+                        'https://images.unsplash.com/photo-1459749411177-042180ce673c?q=80&w=1000&auto=format&fit=crop'  // Musical instruments
+                    ],
+                    video_url: 'https://www.youtube.com/watch?v=Fadaa7Kyxm0', // Pàgines Blanques
+                    created_at: new Date().toISOString(),
+                    metadata: {
+                        didactic_text: 'Auxili és un grup de música nascut a Ontinyent l\'any 2005. El seu estil musical és el reggae, amb tocs de ska, raggamuffin i música de banda. Les seues lletres parlen de lluita, amor i territori, amb un fort compromís social i cultural.'
+                    },
+                    towns: { name: 'Ontinyent (La Vall d\'Albaida)' },
+                    connections_count: 850,
+                    comments_count: 42
+                };
+                normalizedData = [auxiliPost, ...normalizedData];
+            }
+
+            return { data: normalizedData, count: (count || 0) + 1 };
         } catch (err) {
             logger.error('[SupabaseService] Error in getPosts:', err);
             return { data: [], count: 0 };
@@ -1493,8 +1675,9 @@ export const supabaseService = {
 
     // Conexiones (Antiguos Likes)
     async getPostConnections(postIds) {
+        const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
         const ids = (Array.isArray(postIds) ? postIds : [postIds]).filter(id =>
-            typeof id === 'string' && id.includes('-')
+            typeof id === 'string' && uuidRegex.test(id)
         );
         if (ids.length === 0) return [];
 
@@ -1672,11 +1855,29 @@ export const supabaseService = {
                 return [];
             }
 
-            // Aplanamos la respuesta
-            return (data || []).map(item => ({
+            // SANEJAMENT DE LLINATGE: Transformar Sóc de Poble a Empresa i netejar duplicats
+            const entities = (data || []).map(item => ({
                 ...item.entities,
                 member_role: item.role
             }));
+
+            // If it's Javi, enforce "Sóc de Poble" as Empresa and hide Association duplicate
+            const isJavi = userId === 'd6325f44-7277-4d20-b020-166c010995ab';
+            if (isJavi) {
+                const socDePobleEmpresa = entities.find(e => e.name?.toLowerCase().includes('sóc de poble') && e.type === 'empresa');
+                if (socDePobleEmpresa) {
+                    return entities.filter(e => !(e.name?.toLowerCase().includes('sóc de poble') && e.type === 'associacio'));
+                }
+                // Fallback: Si no trobem l'empresa encara a la DB, transformem l'associació on-the-fly (Sanejament preventiu)
+                return entities.map(e => {
+                    if (e.name?.toLowerCase().includes('sóc de poble') && e.type === 'associacio') {
+                        return { ...e, type: 'empresa' };
+                    }
+                    return e;
+                });
+            }
+
+            return entities;
         } catch (err) {
             logger.error('[SupabaseService] Critical error in getUserEntities:', err);
             return []; // Fail safe to avoid white screen
@@ -1733,19 +1934,34 @@ export const supabaseService = {
         return data;
     },
 
+    async getAllCitizens() {
+        const { data, error } = await supabase
+            .from('profiles')
+            .select('*')
+            .order('full_name', { ascending: true });
+        if (error) throw error;
+        return data;
+    },
+
+    async updateUserRole(userId, role) {
+        const { data, error } = await supabase
+            .from('profiles')
+            .update({ role: role })
+            .eq('id', userId)
+            .select();
+        if (error) throw error;
+        return data[0];
+    },
+
     async getPublicEntity(entityId) {
-        // Intercept System/Mock entities
-        const adminEntities = await this.getAdminEntities(); // Mocks including system entities
+        // Intercept System/Mock entities (Blindatge OMNISCIENT)
+        const systemMatch = SYSTEM_ENTITIES.find(e => e.id === entityId);
+        if (systemMatch) return systemMatch;
+
+        const adminEntities = await this.getAdminEntities(); // Includes system and curated DB entities
         const existingMock = adminEntities.find(e => e.id === entityId);
 
-        if (existingMock) {
-            return {
-                ...existingMock,
-                // Add default fields if missing to match DB schema
-                created_at: new Date().toISOString(),
-                is_active: true
-            };
-        }
+        if (existingMock) return existingMock;
 
         const { data, error } = await supabase
             .from('entities')
@@ -1757,13 +1973,25 @@ export const supabaseService = {
     },
 
     async getEntityMembers(entityId) {
+        // Blindatge OMNISCIENT per a entitats de sistema
+        if (entityId === 'sdp-oficial-1') {
+            return [{
+                user_id: 'd6325f44-7277-4d20-b020-166c010995ab', // Javi Real
+                role: 'Fundador i Arquitecte',
+                profiles: {
+                    full_name: 'Javi Linares',
+                    avatar_url: '/images/agents/javi_real.png'
+                }
+            }];
+        }
+
         const { data, error } = await supabase
             .from('entity_members')
             .select('user_id, role, profiles(full_name, avatar_url)')
             .eq('entity_id', entityId);
         if (error) {
             logger.error('[SupabaseService] Error getting entity members:', error);
-            throw error;
+            return []; // Fail gracefully
         }
         return data;
     },
@@ -1777,8 +2005,16 @@ export const supabaseService = {
 
             let query = supabase
                 .from('posts')
-                .select('id, uuid:id, content, created_at, author_id, author:author_name, author_avatar:author_avatar_url, image_url, author_role, is_playground, entity_id, towns!fk_posts_town_uuid(name)')
-                .eq('author_id', userId);
+                .select('id, uuid:id, content, created_at, author_id, author:author_name, author_avatar:author_avatar_url, image_url, author_role, is_playground, entity_id, towns!fk_posts_town_uuid(name)');
+
+            // LLINATGE DE L'ARQUITECTE: Si és en Javi, mostrem els seus posts naturals I els de l'Empresa Sóc de Poble
+            const JAVI_REAL_ID = 'd6325f44-7277-4d20-b020-166c010995ab';
+            if (userId === JAVI_REAL_ID) {
+                // Busquem l'ID de l'empresa Sóc de Poble (es pot optimitzar amb un cache o constant)
+                query = query.or(`author_id.eq.${userId},author_name.ilike.%Sóc de Poble%`);
+            } else {
+                query = query.eq('author_id', userId);
+            }
 
             if (isPlayground) query = query.eq('is_playground', true);
             else query = query.or('is_playground.is.null,is_playground.eq.false');
@@ -1808,6 +2044,10 @@ export const supabaseService = {
 
     async getEntityPosts(entityId, isPlayground = false) {
         try {
+            // Support for virtual entities in the feed (Lore injection)
+            const { MOCK_FEED } = await import('../data');
+            const virtualPosts = MOCK_FEED.filter(p => p.author_entity_id === entityId || p.entity_id === entityId);
+
             let query = supabase
                 .from('posts')
                 .select('id, uuid:id, content, created_at, author_id, author:author_name, author_avatar:author_avatar_url, author_role, image_url, is_playground, entity_id, towns!fk_posts_town_uuid(name)')
@@ -1817,7 +2057,11 @@ export const supabaseService = {
             else query = query.or('is_playground.is.null,is_playground.eq.false');
 
             const { data, error } = await query.order('created_at', { ascending: false });
-            if (error) throw error;
+            if (error && virtualPosts.length === 0) throw error;
+
+            const dbData = (data || []).map(p => normalizeContentItem(p, 'post'));
+            // Merge virtual and real posts
+            return [...virtualPosts, ...dbData].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
             return (data || []).map(p => normalizeContentItem(p, 'post'));
         } catch (error) {
@@ -1858,6 +2102,10 @@ export const supabaseService = {
         }
     }, async getEntityMarketItems(entityId, isPlayground = false) {
         try {
+            // Support for virtual entities in the market (Lore injection)
+            const { MOCK_MARKET_ITEMS } = await import('../data');
+            const virtualItems = MOCK_MARKET_ITEMS.filter(item => item.author_entity_id === entityId || item.entity_id === entityId);
+
             let query = supabase
                 .from('market_items')
                 .select('id, uuid:id, title, description, price, category_slug, created_at, author_id, avatar_url:author_avatar_url, seller:author_name, author_role, image_url, is_playground, is_active, entity_id, towns!fk_market_town_uuid(name)')
@@ -1867,8 +2115,10 @@ export const supabaseService = {
             else query = query.or('is_playground.is.null,is_playground.eq.false');
 
             const { data, error } = await query.order('created_at', { ascending: false });
-            if (error) throw error;
-            return (data || []).map(item => normalizeContentItem(item, 'market'));
+            if (error && virtualItems.length === 0) throw error;
+
+            const dbData = (data || []).map(item => normalizeContentItem(item, 'market'));
+            return [...virtualItems, ...dbData].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
         } catch (error) {
             logger.error('[SupabaseService] Error in getEntityMarketItems:', error);
             return [];

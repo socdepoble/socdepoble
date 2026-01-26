@@ -1,21 +1,27 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Rocket, Cpu, Users, Globe, Database, ShieldCheck, TrendingUp, Mail, Briefcase, MessageCircle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import ShareHub from '../components/ShareHub';
 import SEO from '../components/SEO';
+import NanoSplashScreen from '../components/NanoSplashScreen';
 import './ProjectPresentation.css';
 
 const ProjectPresentation = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const { user } = useAuth();
+    const [showIntro, setShowIntro] = useState(true);
     const shareUrl = `${window.location.origin}/projecte`;
 
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
+
+    if (showIntro) {
+        return <NanoSplashScreen onComplete={() => setShowIntro(false)} />;
+    }
 
     return (
         <div className="project-pitch-container">
@@ -29,9 +35,11 @@ const ProjectPresentation = () => {
             <nav className="pitch-nav compact-nav">
                 <button className="nav-btn-large primary" onClick={() => navigate('/chats')}>
                     <MessageCircle size={24} />
-                    <span>Anar als Xats</span>
+                    <span>Anar al Xat</span>
                 </button>
-                <div className="pitch-logo">SÓC DE POBLE <span className="beta-tag">BETA</span></div>
+                <div className="pitch-logo" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
+                    <img src="/logo.png" alt="Sóc de Poble" style={{ height: '32px', filter: 'drop-shadow(0 0 10px rgba(0, 242, 255, 0.4))' }} />
+                </div>
                 <div className="nav-actions-right">
                     <ShareHub
                         title="Sóc de Poble: El Projecte"
@@ -84,7 +92,21 @@ const ProjectPresentation = () => {
                                 <ShieldCheck className="backer-icon" size={20} />
                                 <div>
                                     <strong>Associació Cultural El Rentonar</strong>
-                                    <span>Memòria i Patrimoni</span>
+                                    <span>Padrinos de Memòria i Patrimoni</span>
+                                </div>
+                            </div>
+                            <div className="backer-item">
+                                <Users className="backer-icon" size={20} />
+                                <div>
+                                    <strong>Comunitat de Pobles Connectats</strong>
+                                    <span>Padrinos de Xarxa i Territori</span>
+                                </div>
+                            </div>
+                            <div className="backer-item">
+                                <Rocket className="backer-icon" size={20} />
+                                <div>
+                                    <strong>Antigravity Core</strong>
+                                    <span>Padrinos de Tecnologia i Futur</span>
                                 </div>
                             </div>
                         </div>
@@ -134,7 +156,7 @@ const ProjectPresentation = () => {
                     <button className="action-btn-huge primary" onClick={() => navigate('/chats')}>
                         <MessageCircle size={32} />
                         <div>
-                            <span className="btn-title">Obrir Xats de Treball</span>
+                            <span className="btn-title">Obrir Xat de Treball</span>
                             <span className="btn-desc">Grup de Coordinació</span>
                         </div>
                     </button>

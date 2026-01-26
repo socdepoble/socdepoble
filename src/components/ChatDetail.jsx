@@ -434,7 +434,7 @@ const ChatDetail = () => {
         return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
     };
 
-    const handleVoiceSend = async (audioBlob, duration) => {
+    const handleVoiceSend = async (audioBlob, duration, transcript) => {
         if (!user) return;
 
         try {
@@ -467,6 +467,31 @@ const ChatDetail = () => {
 
             setMessages(prev => prev.map(m => m.id === tempId ? { ...result, status: 'sent' } : m));
             setShowVoiceRecorder(false);
+
+            // Projecte JARVIS: Si és la IAIA i hi ha transcripció, analitzem ordres
+            if (isIAIAConv && transcript) {
+                const { commandProtocol } = await import('../services/commandProtocol');
+                // Passem l'idioma actiu de l'app (i18n.language)
+                const analysis = commandProtocol.analyze(transcript, i18n.language || 'va');
+
+                if (analysis && analysis.type !== 'neutral') {
+                    setIsThinking(true);
+                    setTimeout(() => {
+                        setIsThinking(false);
+                        const jarvisResponse = {
+                            id: `jarvis-${Date.now()}`,
+                            conversation_id: id,
+                            sender_id: chat.participant_2_id,
+                            content: analysis.message,
+                            created_at: new Date().toISOString(),
+                            is_ai: true,
+                            status: 'sent'
+                        };
+                        setMessages(prev => [...prev, jarvisResponse]);
+                        logger.log('[ProjectJARVIS] Ordre executada:', analysis.intent);
+                    }, 1500);
+                }
+            }
 
         } catch (error) {
             logger.error('Error sending voice:', error);
@@ -821,8 +846,9 @@ const ChatDetail = () => {
                     <div className="input-main-area">
                         {showVoiceRecorder ? (
                             <VoiceRecorder
-                                onSend={handleVoiceSend}
+                                onSend={(blob, duration, transcript) => handleVoiceSend(blob, duration, transcript)}
                                 onCancel={() => setShowVoiceRecorder(false)}
+                                lang={i18n.language}
                             />
                         ) : (
                             <>

@@ -14,10 +14,12 @@
 }
 
 :root {
-  /* Brand Colors */
-  --color-primary: #5D5FEF;
-  --color-primary-soft: #EEF2FF;
+  /* Brand Colors - Premium Rural-Tech Audit */
+  --color-primary: #00f2ff;
+  --color-primary-rgb: 0, 242, 255;
+  --color-primary-soft: rgba(0, 242, 255, 0.1);
   --color-secondary: #E07A5F;
+  --color-secondary-rgb: 224, 122, 95;
   --gradient-primary: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
   /* Keep the terracotta as brand accent */
   /* Dribbble Style Tokens */
@@ -44,6 +46,7 @@
   --bg-main: #F4F7F9;
   --bg-surface: #FFFFFF;
   --bg-card: #FFFFFF;
+  --bg-card-rgb: 255, 255, 255;
   --bg-overlay: rgba(255, 255, 255, 0.8);
 
   --text-main: #000000;
@@ -120,7 +123,8 @@
 [data-theme='dark'] {
   --bg-main: #0F1115;
   --bg-surface: #171923;
-  --bg-card: #222531;
+  --bg-card: #1C1E26;
+  --bg-card-rgb: 28, 30, 38;
   --bg-overlay: rgba(23, 25, 35, 0.8);
 
   --text-main: #F7FAFC;
@@ -591,37 +595,86 @@ a:hover {
   cursor: not-allowed;
 }
 
-/* Modal System */
+/* Modal System - Bottom Sheet Optimized for Mobile */
 .modal-overlay {
   position: fixed;
-  top: var(--banner-height);
+  top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: var(--z-modal);
   padding: var(--space-md);
-  animation: fadeIn 0.2s ease-out;
+  transition: opacity 0.3s ease;
 }
 
 .modal-content {
   background-color: var(--bg-surface);
   width: 100%;
   max-width: 500px;
-  max-height: calc(100vh - var(--banner-height) - 40px);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-lg);
-  animation: modalScale 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  max-height: calc(100vh - 40px);
+  border-radius: 32px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   border: 1px solid var(--color-border);
   position: relative;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  /* Added to contain children */
+  animation: modalScaleUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (max-width: 768px) {
+  .modal-overlay {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  .modal-content {
+    max-width: 100%;
+    max-height: 92vh;
+    border-radius: 32px 32px 0 0;
+    border-bottom: none;
+    animation: modalSlideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    padding-bottom: env(safe-area-inset-bottom, 20px);
+  }
+
+  /* Rule 2: Vertical Optimization */
+  .modal-header {
+    padding: 24px !important;
+  }
+
+  .modal-body {
+    padding: 0 24px 24px 24px !important;
+  }
+}
+
+@keyframes modalSlideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes modalScaleUp {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .modal-content form {
@@ -752,4 +805,153 @@ a:hover {
   border-radius: var(--radius-md);
   border-left: 3px solid #10b981;
   display: inline-block;
+}
+
+/* Service Worker Update Toast - GENIUS HUD REDESIGN */
+.sw-update-toast {
+  background: linear-gradient(165deg, rgba(15, 20, 35, 0.95) 0%, rgba(5, 5, 15, 0.98) 100%);
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
+  border: 1px solid rgba(0, 242, 255, 0.5);
+  border-radius: 28px;
+  padding: 24px;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.9), 0 0 40px rgba(0, 242, 255, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 360px;
+  animation: slideUpHUD 1s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+  margin: 0 16px 30px 16px;
+}
+
+.sw-update-toast::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #00f2ff, transparent);
+  box-shadow: 0 0 20px rgba(0, 242, 255, 0.8);
+}
+
+.sw-update-icon {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.pulse-circle {
+  width: 12px;
+  height: 12px;
+  background: #00f2ff;
+  border-radius: 50%;
+  box-shadow: 0 0 20px #00f2ff;
+  animation: pulseNeonGenius 2.5s infinite ease-in-out;
+}
+
+@keyframes pulseNeonGenius {
+  0% {
+    transform: scale(1);
+    opacity: 0.7;
+    box-shadow: 0 0 10px #00f2ff;
+  }
+
+  50% {
+    transform: scale(1.4);
+    opacity: 1;
+    box-shadow: 0 0 30px #00f2ff;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 0.7;
+    box-shadow: 0 0 10px #00f2ff;
+  }
+}
+
+.icon-main {
+  font-size: 20px;
+  filter: drop-shadow(0 0 10px rgba(0, 242, 255, 0.5));
+}
+
+.sw-update-content h3 {
+  color: #00f2ff !important;
+  font-size: 15px !important;
+  letter-spacing: 4px !important;
+  text-transform: uppercase !important;
+  margin: 0 0 10px 0 !important;
+  font-weight: 900 !important;
+  text-shadow: 0 0 15px rgba(0, 242, 255, 0.5);
+  font-family: 'JetBrains Mono', 'Roboto Condensed', sans-serif !important;
+}
+
+.sw-update-content p {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-size: 14px !important;
+  line-height: 1.6 !important;
+  margin: 0 !important;
+  font-weight: 500 !important;
+}
+
+.sw-update-actions {
+  display: flex;
+  gap: 15px;
+}
+
+.sw-update-btn {
+  flex: 1;
+  height: 54px;
+  border-radius: 16px;
+  font-weight: 900;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+}
+
+.sw-update-btn.refresh {
+  background: #00f2ff;
+  color: #000;
+  box-shadow: 0 12px 25px rgba(0, 242, 255, 0.4);
+}
+
+.sw-update-btn.refresh:hover {
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 0 20px 40px rgba(0, 242, 255, 0.6), 0 0 15px rgba(0, 242, 255, 0.3);
+  background: #fff;
+}
+
+.sw-update-btn.later {
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.sw-update-btn.later:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  border-color: rgba(0, 242, 255, 0.5);
+  transform: translateY(-2px);
+}
+
+@keyframes slideUpHUD {
+  from {
+    transform: translateY(120px) scale(0.8);
+    opacity: 0;
+    filter: blur(10px);
+  }
+
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    filter: blur(0);
+  }
 }

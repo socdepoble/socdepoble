@@ -30,7 +30,10 @@
     gap: 2px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
-    padding: 8px 0;
+    padding: 8px 12px;
+    min-width: 44px;
+    /* EXACT 44px Rule #3 */
+    min-height: 44px;
     flex: 1;
 }
 
@@ -65,14 +68,19 @@
     width: 56px;
     height: 56px;
     background-color: var(--color-primary);
-    border-radius: 50%;
-    /* Pure circle */
+    min-height: 44px;
+    /* EXACT 44px Rule #3 */
+    min-width: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 8px 24px rgba(93, 95, 239, 0.4);
     cursor: pointer;
-    transition: transform 0.2s, background-color 0.2s;
+    border-radius: 16px;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    gap: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    box-shadow: 0 8px 24px rgba(93, 95, 239, 0.4);
 }
 
 .nav-fab:active {

@@ -199,6 +199,11 @@ const Market = ({ searchTerm = '' }) => {
                                     const targetId = item.author_entity_id || item.author_user_id;
                                     const type = item.author_entity_id ? 'entitat' : 'perfil';
 
+                                    if (item.seller === 'Sóc de Poble' || targetId === 'sdp-core' || String(targetId).startsWith('mock-business-sdp')) {
+                                        navigate('/entitat/sdp-oficial-1');
+                                        return;
+                                    }
+
                                     if (!targetId || (typeof targetId === 'string' && targetId.startsWith('mock-'))) {
                                         logger.warn('Navegació a perfil fictici no disponible:', targetId);
                                         return;
@@ -235,13 +240,14 @@ const Market = ({ searchTerm = '' }) => {
                             {item.title?.includes('Camiseta Oficial') ? (
                                 <Carousel
                                     images={[
-                                        item.image_url,
-                                        '/images/campaign/iaia_tshirt.png',
+                                        '/images/campaign/night_party.png',
                                         '/images/campaign/young_man_tshirt.png',
+                                        '/images/campaign/iaia_tshirt.png',
+                                        item.image_url,
+                                        '/images/agents/javi_real.png',
                                         '/images/campaign/group_tshirt.png',
                                         '/images/campaign/hiker.png',
-                                        '/images/campaign/rustic_detail.png',
-                                        '/images/campaign/night_party.png'
+                                        '/images/campaign/rustic_detail.png'
                                     ]}
                                     height="280px"
                                 />

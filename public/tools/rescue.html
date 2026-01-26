@@ -7,12 +7,22 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>Rescat Sóc de Poble</title>
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <title>GOD MODE // RECOVERY</title>
     <style>
+        :root {
+            --bg: #0f172a;
+            --glass: rgba(15, 23, 42, 0.8);
+            --border: rgba(255, 255, 255, 0.1);
+            --neon: #00f2ff;
+            --danger: #ff0055;
+            --success: #00ff9d;
+        }
+
         body {
-            background: radial-gradient(circle at center, #1a1b23 0%, #08090a 100%);
+            background: radial-gradient(circle at top right, #1e293b 0%, #000 100%);
             color: #fff;
-            font-family: 'Outfit', system-ui, -apple-system, sans-serif;
+            font-family: system-ui, -apple-system, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -125,87 +135,24 @@
     <div class="card">
         <div style="font-size: 56px; margin-bottom: 15px;">🛠️</div>
         <h1>Eina de Rescat</h1>
-        <p>Aquesta pantalla està protegida contra errors. Fes clic per netejar el teu dispositiu de versions antigues.
-        </p>
-
-        <button id="cleanBtn" class="btn btn-primary" onclick="startRescue()">
-            ⚡ EXECUTAR NETEJA TOTAL
-        </button>
-
-        <button id="homeBtn" class="btn btn-success" onclick="goHome()">
-            🏠 TORNAR A L'INICI
-        </button>
-
+        <p>Aquesta pantalla està protegida contra errors (Versió Neta). Fes clic per netejar el teu dispositiu.</p>
+        <button id="cleanBtn" class="btn btn-primary" onclick="startRescue()">⚡ EXECUTAR NETEJA TOTAL</button>
+        <button id="homeBtn" class="btn btn-success" onclick="goHome()">🏠 TORNAR A L'INICI</button>
         <div id="console"></div>
     </div>
-
     <script>
-        function log(msg, type = 'info') {
-            const el = document.getElementById('console');
-            el.style.display = 'block';
-            const line = document.createElement('div');
-            line.className = 'log-line ' + type;
-            line.innerText = '> ' + msg;
-            el.appendChild(line);
-            el.scrollTop = el.scrollHeight;
-        }
-
+        function log(msg, type = 'info') { const el = document.getElementById('console'); el.style.display = 'block'; const line = document.createElement('div'); line.className = 'log-line ' + type; line.innerText = '> ' + msg; el.appendChild(line); el.scrollTop = el.scrollHeight; }
         async function startRescue() {
-            const btn = document.getElementById('cleanBtn');
-            btn.disabled = true;
-            btn.style.opacity = '0.5';
-            btn.innerText = 'Processant...';
-
+            const btn = document.getElementById('cleanBtn'); btn.disabled = true; btn.style.opacity = '0.5'; btn.innerText = 'Processant...';
             log('Iniciant protocol de neteja...', 'info');
-
             try {
-                // 1. Storage
-                localStorage.clear();
-                sessionStorage.clear();
-                log('Local Storage: OK', 'success');
-
-                // 2. Caches
-                if ('caches' in window) {
-                    const keys = await caches.keys();
-                    log(`Escanejant ${keys.length} cachés...`);
-                    await Promise.all(keys.map(k => {
-                        log(`Esborrant: ${k}`);
-                        return caches.delete(k);
-                    }));
-                    log('Cache Storage: NETEJADA', 'success');
-                }
-
-                // 3. Service Workers (The Real Enemy)
-                if ('serviceWorker' in navigator) {
-                    const regs = await navigator.serviceWorker.getRegistrations();
-                    log(`Trobats ${regs.length} Service Workers.`);
-
-                    if (regs.length > 0) {
-                        for (const reg of regs) {
-                            const unreg = await reg.unregister();
-                            log(`Desregistrant SW (${reg.scope}): ${unreg ? 'OK' : 'FAIL'}`);
-                        }
-                        log('Service Workers: ELIMINATS', 'success');
-                    } else {
-                        log('Cap Service Worker actiu.', 'info');
-                    }
-                }
-
-                document.getElementById('cleanBtn').style.display = 'none';
-                document.getElementById('homeBtn').style.display = 'block';
-                log('--------------------------------', 'info');
-                log('TOT NET. JA POTS REINICIAR.', 'success');
-
-            } catch (e) {
-                log('ERROR CRÍTIC: ' + e.message, 'error');
-                log('Intenta entrar igualment.', 'info');
-                document.getElementById('homeBtn').style.display = 'block';
-            }
+                localStorage.clear(); sessionStorage.clear(); log('Local Storage: NETEJA OK', 'success');
+                if ('caches' in window) { const keys = await caches.keys(); await Promise.all(keys.map(k => caches.delete(k))); log('Cache Storage: NETEJA OK', 'success'); }
+                if ('serviceWorker' in navigator) { const regs = await navigator.serviceWorker.getRegistrations(); for (const reg of regs) { await reg.unregister(); } log('Service Workers: ELIMINATS', 'success'); }
+                document.getElementById('cleanBtn').style.display = 'none'; document.getElementById('homeBtn').style.display = 'block'; log('--------------------------------', 'info'); log('SISTEMA NETEJAT. JA POTS REINICIAR.', 'success');
+            } catch (e) { log('ERROR CRÍTIC: ' + e.message, 'error'); document.getElementById('homeBtn').style.display = 'block'; }
         }
-
-        function goHome() {
-            window.location.href = '/login?fresh_start=' + Date.now();
-        }
+        function goHome() { window.location.href = '/?fresh_start=' + Date.now(); }
     </script>
 </body>
 

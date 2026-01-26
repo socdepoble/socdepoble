@@ -146,24 +146,34 @@ const Carousel = ({ images, height = '300px', interval = 5000, autoPlay = false 
                     className="carousel-track"
                     style={{ transform: `translateX(-${currentIndex * 100}%)` }}
                 >
-                    {validImages.map((img, index) => (
-                        <div className="carousel-slide" key={index} onClick={openLightbox}>
-                            <img
-                                src={img}
-                                alt={`Slide ${index + 1}`}
-                                draggable="false"
-                                className="carousel-image zoomable"
-                            />
-                            <div className="attribution-badge">
-                                <span>© Sóc de Poble (Fet per la IAIA)</span>
-                                <span style={{ opacity: 0.6 }}>|</span>
-                                <span>Gratis (No Comercial)</span>
+                    {validImages.map((img, index) => {
+                        const isRealHuman = img.includes('javi_head') || img.includes('avatars/') || !img.includes('campaign/') && !img.includes('iaia');
+                        return (
+                            <div className={`carousel-slide ${isRealHuman ? 'is-human' : ''}`} key={index} onClick={openLightbox}>
+                                <img
+                                    src={img}
+                                    alt={`Slide ${index + 1}`}
+                                    draggable="false"
+                                    className="carousel-image zoomable"
+                                />
+                                {!isRealHuman && (
+                                    <div className="attribution-badge">
+                                        <span>© Sóc de Poble (Fet per la IAIA)</span>
+                                        <span style={{ opacity: 0.6 }}>|</span>
+                                        <span>Gratis (No Comercial)</span>
+                                    </div>
+                                )}
+                                {isRealHuman && (
+                                    <div className="attribution-badge human">
+                                        <span>© Arquitecte de Sóc de Poble</span>
+                                    </div>
+                                )}
+                                <div className="carousel-overlay-hint">
+                                    <Maximize2 size={16} />
+                                </div>
                             </div>
-                            <div className="carousel-overlay-hint">
-                                <Maximize2 size={16} />
-                            </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
 
                 <button

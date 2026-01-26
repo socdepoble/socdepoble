@@ -7,8 +7,16 @@ import TownSelectorModal from '../components/TownSelectorModal';
 import './Auth.css';
 
 const Register = () => {
+    const { adoptPersona, setIsPlayground, user } = useAuth();
     const { t } = useTranslation();
     const navigate = useNavigate();
+
+    // [DIRECTIVA 1] Auto-redirect already authenticated users
+    useEffect(() => {
+        if (user && !user.isDemo) {
+            navigate('/chats', { replace: true });
+        }
+    }, [user, navigate]);
 
     // State for auth modes
     const [authMethod, setAuthMethod] = useState('phone'); // 'phone' | 'email'
@@ -128,6 +136,8 @@ const Register = () => {
                 });
             }
 
+            // [DIRECTIVA 1] Force production landing
+            setIsPlayground(false);
             navigate('/chats');
         } catch (err) {
             setError(err.message || 'Codi invàlid');

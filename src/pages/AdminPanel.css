@@ -1,23 +1,277 @@
-/* Dashboard Styles */
-.dashboard-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
-    padding: 10px;
+/* ANTIGRAVITY ADMIN CORE - HARMONY EDITION */
+.admin-container {
+    min-height: 100vh;
+    padding: 0;
+    font-family: var(--font-main);
+    transition: all 0.5s ease;
 }
 
-.dashboard-card {
-    background: white;
-    border-radius: 16px;
-    padding: 24px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    transition: transform 0.2s, box-shadow 0.2s;
-    cursor: pointer;
+/* THEME DUALITY */
+.admin-container[data-admin-theme='dark'],
+.admin-loading[data-admin-theme='dark'] {
+    background: #0f172a;
+    color: #f8fafc;
+    --admin-surface: rgba(30, 41, 59, 0.7);
+    --admin-border: rgba(255, 255, 255, 0.1);
+    --admin-bg-alt: #020617;
+}
+
+.admin-container[data-admin-theme='light'],
+.admin-loading[data-admin-theme='light'] {
+    background: #f8fafc;
+    color: #0f172a;
+    --admin-surface: #ffffff;
+    --admin-border: #e2e8f0;
+    --admin-bg-alt: #f1f5f9;
+}
+
+.admin-header {
+    background: var(--admin-surface);
+    backdrop-filter: blur(20px);
+    border-bottom: 2px solid var(--color-primary);
+    padding: 20px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.title-area h1 {
+    font-size: 21px !important;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--color-primary) !important;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0;
+}
+
+.title-area p {
+    font-size: 10px;
+    opacity: 0.6;
+    margin: 4px 0 0;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-family: monospace;
+}
+
+.admin-content {
+    padding: 32px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.dashboard-layout {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 32px;
+}
+
+@media (max-width: 1024px) {
+    .dashboard-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+.neural-core-panel {
+    background: var(--admin-surface);
+    border: 1px solid var(--admin-border);
+    border-radius: var(--radius-2xl);
+    padding: 32px;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
+    gap: 24px;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+}
+
+.brain-visualizer {
+    height: 160px;
+    background: var(--admin-bg-alt);
+    border-radius: var(--radius-xl);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+        box-shadow: 0 0 60px var(--color-primary);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+}
+
+.core-stats-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.stat-item {
+    background: var(--admin-bg-alt);
+    padding: 16px;
+    border-radius: var(--radius-lg);
+    text-align: center;
+    border: 1px solid var(--admin-border);
+}
+
+.stat-val {
+    font-size: 28px;
+    font-weight: 800;
+    display: block;
+}
+
+.stat-label {
+    font-size: 10px;
+    opacity: 0.5;
+    text-transform: uppercase;
+}
+
+.core-status-text {
+    font-family: monospace;
+    font-size: 11px;
+    opacity: 0.7;
+    margin-top: 12px;
+}
+
+.system-logs {
+    background: var(--admin-bg-alt);
+    border-radius: var(--radius-xl);
+    padding: 24px;
+    font-family: monospace;
+    font-size: 11px;
+    height: 250px;
+    overflow-y: auto;
+    border: 1px solid var(--admin-border);
+    margin-top: 24px;
+}
+
+.log-entry {
+    margin-bottom: 6px;
+    display: flex;
+    gap: 8px;
+}
+
+.log-entry.success {
+    color: var(--color-success);
+}
+
+.log-entry.error {
+    color: var(--color-error);
+}
+
+.log-entry.warn {
+    color: var(--color-warning);
+}
+
+.log-time {
+    opacity: 0.4;
+}
+
+.modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+.module-card {
+    background: var(--admin-surface);
+    border: 1px solid var(--admin-border);
+    border-radius: var(--radius-2xl);
+    padding: 32px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-md);
+    display: flex;
+    flex-direction: column;
+}
+
+.module-card:hover {
+    border-color: var(--color-primary);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.module-icon-wrapper {
+    width: 60px;
+    height: 60px;
+    border-radius: var(--radius-xl);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    background: var(--admin-bg-alt);
+}
+
+.module-card.red .module-icon-wrapper {
+    color: var(--color-error);
+}
+
+.module-card.blue .module-icon-wrapper {
+    color: var(--color-primary);
+}
+
+.module-card.cyan .module-icon-wrapper {
+    color: #00f2ff;
+}
+
+.module-card.purple .module-icon-wrapper {
+    color: #a855f7;
+}
+
+.module-card.gold .module-icon-wrapper {
+    color: var(--color-warning);
+}
+
+.module-card h3 {
+    font-size: 18px !important;
+    margin: 0 0 8px 0;
+    font-weight: 800 !important;
+}
+
+.module-card p {
+    font-size: 14px;
+    opacity: 0.6;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.admin-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.spin {
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .dashboard-card:hover {
@@ -482,18 +736,4 @@
     font-size: 14px;
     color: var(--text-muted);
     line-height: 1.5;
-}
-
-.spin {
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    from {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg);
-    }
 }

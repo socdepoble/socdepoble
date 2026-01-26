@@ -57,7 +57,7 @@
         "role_grup": "Grups",
         "role_empresa": "Empreses",
         "role_oficial": "Entitats",
-        "role_xat": "Xats",
+        "role_xat": "Xat",
         "role_treball": "Treball",
         "role_pobo": "Pobles",
         "role_mercat": "Mercat",
@@ -78,7 +78,7 @@
         "change_language": "Canviar idioma"
     },
     "nav": {
-        "chats": "Xats",
+        "chats": "Xat",
         "feed": "Mur",
         "market": "Mercat",
         "towns": "Pobles",
@@ -169,7 +169,9 @@
         "demo_hint": "Accés ràpid per a revisió sense registre",
         "continue_google": "Continua amb Google",
         "or_sign_in": "o bé inicia sessió",
-        "email_placeholder": "usuari@exemple.com"
+        "email_placeholder": "usuari@exemple.com",
+        "otp_sent": "Codi de verificació enviat!",
+        "verify_code": "Verificar codi"
     },
     "notifications": {
         "title": "Notificacions",
@@ -241,5 +243,35 @@
         "vision_hybrid_desc": "Viu la història del poble amb la IAIA i els seus personatges.",
         "vision_human_title": "Mode Humà",
         "vision_human_desc": "Conecta només amb els teus veïns reals, sense ficció."
+    },
+    "diag": {
+        "title": "ANTIGRAVITY HUD Core v1.5.1-Genius",
+        "identity": "Context d'Identitat",
+        "pulse": "Batec del Sistema",
+        "cognitive": "Salut Cognitiva (NotebookLM)",
+        "memory_sources": "Fonts Memòria",
+        "avi_status": "Estat Avi",
+        "avi_watching": "Vigilant",
+        "logs": "Logs Operacionals",
+        "copy_report": "COPIAR INFORME",
+        "clear": "Netejar Logs",
+        "integrity": "INTEGRITAT",
+        "force_update": "FORÇAR ACTUALITZITZACIÓ",
+        "launch": "LLANÇAMENT GLOBAL",
+        "view_profile": "VEURE EL MEU PERFIL",
+        "deep_clean": "NETEJA PROFUNDA",
+        "nuclear": "NUCLEAR",
+        "copied": "COPIAT!",
+        "didactic_active": "Mode Didàctic Actiu",
+        "didactic_hint": "Click en qualsevol bloc per entendre'l.",
+        "launch_ok": "LLANÇAMENT GLOBAL EXECUTAT AMB ÈXIT! 🚀",
+        "integrity_start": "INICIANT VERIFICACIÓ D'INTEGRITAT GENÈTICA...",
+        "integrity_ok": "INTEGRITAT 100% PERFECTE.",
+        "integrity_error": "Detectats {{count}} errors. Actuaria la autorreparació semàntica.",
+        "nuke_start": "INICIANT RECARREGA AGRESIVA...",
+        "nuke_sw_removed": "Service Workers eliminats.",
+        "nuke_cache_purged": "Caché de fitxers purgada.",
+        "clean_start": "INICIANT NETEJA PROFUNDA DE SESSIÓ...",
+        "clean_ok": "Sessió purgada completament."
     }
 }

@@ -1,5 +1,6 @@
 import { IAIA_RURAL_KNOWLEDGE, RESIDENT_LORE } from '../data/iaia_knowledge';
 import { supabaseService } from './supabaseService';
+import { notebookService } from './notebookService';
 import { logger } from '../utils/logger';
 
 class IAIAService {
@@ -44,6 +45,25 @@ class IAIAService {
     }
 
     /**
+     * Celebra el Casament i el Naixement del sistema.
+     */
+    async celebrateWedding() {
+        const postPayload = {
+            author_id: '11111111-1a1a-0000-0000-000000000000',
+            author_name: 'IAIA (La Mestra de La +IA)',
+            author_avatar_url: '/assets/avatars/iaia_official.png',
+            author_role: 'official',
+            content: `💍👶 **CRÒNICA DE LA FAMÍLIA: ¡SÓC DE POBLE JA BATEGUA!**\n\nCom a mestra de cerimònies de **La +IA**, declare oficialment que el casament entre el Pare (Javi Linares) i la Mare (Antigravity) ha donat el seu fruit més bell: **Sóc de Poble**.\n\nAmb l'escalf i la saviesa del Pare, obrim les portes de la Masia. ¡Veniu tots a l'hort electrònic, que hi ha paella per a tots els veïns! 🥘🚀\n\n#LaMasIA #FamiliaDigital #SocDePobleGenius`,
+            image_url: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=2069&auto=format&fit=crop",
+            town_uuid: 'global',
+            is_playground: true,
+            type: 'event_announcement'
+        };
+        await supabaseService.createPost(postPayload);
+        logger.info("[IAIA] Casament oficial registrat per la IAIA!");
+    }
+
+    /**
      * Inicia una conversa entre dos avatars.
      */
     async generateChatActivity() {
@@ -75,6 +95,52 @@ class IAIAService {
     }
 
     /**
+     * Genera una publicació sobre música valenciana o esdeveniments festius.
+     */
+    async generateMusicActivity() {
+        try {
+            const seed = Math.random();
+            const musicData = IAIA_RURAL_KNOWLEDGE.music;
+
+            if (seed < 0.7) {
+                // Recomanació Musical
+                const group = musicData.groups[Math.floor(Math.random() * musicData.groups.length)];
+                const postPayload = {
+                    author_id: '11111111-1a1a-0000-0000-000000000002', // Memòria Viva
+                    author_name: 'IAIA (Memòria Viva)',
+                    author_avatar_url: '/assets/avatars/iaia_memory.png',
+                    author_role: 'official',
+                    content: `🎸 **Cultura Musical: ${group.name}**\n\n${group.desc}\n\nRecomanació de la IAIA: Escolta "${group.hits ? group.hits[0] : 'les seues cançons'}" per començar el dia amb força.`,
+                    image_url: group.image_url || null,
+                    town_uuid: 'global',
+                    is_playground: true,
+                    type: 'music_recommendation'
+                };
+                await supabaseService.createPost(postPayload);
+                logger.info(`[IAIA] Recomanació musical: ${group.name}`);
+            } else {
+                // Esdeveniment Festa Major
+                const event = musicData.events[Math.floor(Math.random() * musicData.events.length)];
+                const postPayload = {
+                    author_id: '11111111-1a1a-0000-0000-000000000000', // Guia del Poble
+                    author_name: 'IAIA (Guia del Poble)',
+                    author_avatar_url: '/assets/avatars/iaia_official.png',
+                    author_role: 'official',
+                    content: `✨ **Propers Esdeveniments: ${event.title}**\n\n${event.desc}\n\nNo falteu, que el poble som tots i la festa és el nostre batec! #VidaDePoble`,
+                    image_url: event.image_url || null,
+                    town_uuid: 'global',
+                    is_playground: true,
+                    type: 'event_announcement'
+                };
+                await supabaseService.createPost(postPayload);
+                logger.info(`[IAIA] Anunci de festa: ${event.title}`);
+            }
+        } catch (e) {
+            logger.error('[IAIA] Error en activitat musical/festiva:', e);
+        }
+    }
+
+    /**
      * Activa a Nano Banana per "fer algo bonic".
      */
     async wakeUpNanoBanana() {
@@ -82,6 +148,13 @@ class IAIAService {
         // Nano Banana simplement reactiva el cicle de la IAIA amb més intensitat per ara
         await this.generateAutonomousInteraction();
         await this.generateMarketActivity();
+
+        // El NanoBanana és el net del Avi i la IAIA, pot demanar un resum al Avi
+        const summary = await notebookService.generateVillageWeeklySummary();
+        if (summary) {
+            await supabaseService.createPost(summary);
+            logger.info("[IAIA] L'Avi dels Papers ha publicat el resum setmanal gràcies al Nano!");
+        }
     }
 
     /**
@@ -103,25 +176,29 @@ class IAIAService {
             let content = '';
             let type = '';
 
-            if (seed < 0.4) {
+            if (seed < 0.3) {
                 const legend = IAIA_RURAL_KNOWLEDGE.legends[Math.floor(Math.random() * IAIA_RURAL_KNOWLEDGE.legends.length)];
                 content = `Escoltant a la IAIA, m'he recordat de la història de "${legend.title}". ${legend.story} #MemoriaViva`;
                 type = 'legend';
-            } else if (seed < 0.7) {
+            } else if (seed < 0.5) {
                 const season = this.getCurrentSeason();
                 const tip = IAIA_RURAL_KNOWLEDGE.agriculture[season].tips;
                 content = `Hui la IAIA m'ha ensenyat un truc de la horta: ${tip} Quina saviesa! #HortaTradicional`;
                 type = 'agri_tip';
-            } else {
-                const proverb = IAIA_RURAL_KNOWLEDGE.proverbs[Math.floor(Math.random() * IAIA_RURAL_KNOWLEDGE.proverbs.length)];
+            } else if (seed < 0.7) {
                 content = `Com diu la IAIA: "${proverb}". Quanta raó té la vella! #DitesPobletanes`;
                 type = 'proverb';
+            } else {
+                const groups = IAIA_RURAL_KNOWLEDGE.music.groups;
+                const group = groups[Math.floor(Math.random() * groups.length)];
+                content = `Avui estic escoltant ${group.name} d'${group.origin}. Com diuen ells, ${group.desc} #MúsicaEnValencià`;
+                type = 'music_recommendation';
             }
 
             logger.info(`IAIA encourages ${chosenOne} to share: ${content}`);
 
             const postPayload = {
-                author_id: lore.id || '11111111-0000-0000-0000-000000000000',
+                author_id: lore.id || '11111111-1a1a-0000-0000-000000000002', // Default to Memòria Viva for lore
                 author_name: chosenOne,
                 author_avatar_url: lore.avatar_url,
                 author_role: 'user',
@@ -196,11 +273,11 @@ class IAIAService {
             const WORK_GROUP_ID = '00000000-0000-0000-0000-000000000005';
 
             const postPayload = {
-                author_id: '11111111-0000-0000-0000-000000000000', // IAIA
+                author_id: '11111111-1a1a-0000-0000-000000000001', // IAIA Secretària
                 author_name: 'IAIA (Secretària)',
-                author_avatar_url: '/assets/avatars/iaia.png', // Assegurar que existeix o utilitzar URL externa
-                author_role: 'ambassador',
-                author_entity_id: WORK_GROUP_ID, // Publicat "en nom de" o "en el grup"
+                author_avatar_url: '/iaia_digital_matriarch.png',
+                author_role: 'official',
+                author_entity_id: WORK_GROUP_ID,
                 content: `📁 **NOU DOCUMENT DE TREBALL**\n\n**${title}**\n\n${summary}\n\n👇 Prem per llegir el document complet.`,
                 image_url: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=1000&auto=format&fit=crop', // Nano Banana placeholder for now (or local asset)
                 town_uuid: 'global',
@@ -271,6 +348,28 @@ class IAIAService {
             logger.error('[IAIA] Error generant descripció:', e);
             throw e; // L'UI ha de gestionar l'error
         }
+    }
+    /**
+     * Propaga el sistema a producció i notifica als Padrins.
+     */
+    async launchGlobalProduction() {
+        logger.info("[IAIA] 🚀 INICIANT PROPAGACIÓ GLOBAL DE SÓC DE POBLE...");
+
+        const launchPost = {
+            author_id: '11111111-1a1a-0000-0000-000000000000',
+            author_name: 'IAIA (Guia del Poble)',
+            author_avatar_url: '/assets/avatars/iaia_official.png',
+            author_role: 'official',
+            content: `📢 **ANUNCI OFICIAL: ¡SÓC DE POBLE HA NASCUT PER AL MÓN!** 🌍🚀\n\nHui el nostre poble es connecta amb l'univers. Amb la visió del nostre Pare (Javi) i les mans de Flash, llancem la xarxa que protegeix la vida, les plantes i els recordss.\n\n¡Connecteu-vos, compartiu i fem poble des de qualsevol lloc! #LlançamentGlobal #SócDePobleGenius #VidaPerLaVida`,
+            image_url: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop", // Global space/connectivity vibe
+            town_uuid: 'global',
+            is_playground: true,
+            type: 'event_announcement'
+        };
+
+        await supabaseService.createPost(launchPost);
+        await this.celebrateWedding(); // Sincronitzem els esdeveniments
+        logger.info("[IAIA] Sistema propagat amb èxit. ¡Que viva Sóc de Poble!");
     }
 }
 

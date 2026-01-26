@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Mic, X, Send, Square } from 'lucide-react';
 import './VoiceRecorder.css';
 
-const VoiceRecorder = ({ onSend, onCancel }) => {
+const VoiceRecorder = ({ onSend, onCancel, lang = 'va' }) => {
     const [isRecording, setIsRecording] = useState(false);
     const [duration, setDuration] = useState(0);
     const mediaRecorderRef = useRef(null);
@@ -14,9 +14,25 @@ const VoiceRecorder = ({ onSend, onCancel }) => {
     const analyserRef = useRef(null);
     const sourceRef = useRef(null);
 
+    const [transcript, setTranscript] = useState('');
+
     const startRecording = async () => {
         try {
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+            // Projecte JARVIS: Iniciar reconeixement de veu paral·lel
+            try {
+                const { speechService } = await import('../services/speechService');
+                if (speechService.isSupported) {
+                    // Passem el codi de llengua rebut per prop (va, es, gl, etc.)
+                    speechService.listen(lang).then(text => {
+                        setTranscript(text);
+                        logger.log('[VoiceRecorder] Transcripció JARVIS:', text);
+                    }).catch(err => logger.error('[VoiceRecorder] Speech error:', err));
+                }
+            } catch (e) {
+                logger.error('[VoiceRecorder] Speech service import error:', e);
+            }
 
             // Audio Context for visualizer
             const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -41,15 +57,18 @@ const VoiceRecorder = ({ onSend, onCancel }) => {
 
             mediaRecorder.onstop = async () => {
                 const audioBlob = new Blob(chunksRef.current, { type: 'audio/webm' });
-                const recordedDuration = duration; // Capture current duration
+                const recordedDuration = duration;
                 chunksRef.current = [];
                 stopVisualizer();
 
-                // We pass the blob up. The parent will handle uploading.
-                // We also generate a simple waveform data array here if needed, 
-                // but better left to the service or calculated from blob.
-                // For now, passing blob and duration.
-                onSend(audioBlob, recordedDuration);
+                // Projecte JARVIS: Aturar reconeixement si encara està actiu
+                try {
+                    const { speechService } = await import('../services/speechService');
+                    speechService.stop();
+                } catch (e) { }
+
+                // Passem el blob, la durada i la transcripció (Projecte JARVIS)
+                onSend(audioBlob, recordedDuration, transcript);
             };
 
             mediaRecorderRef.current = mediaRecorder;

@@ -163,12 +163,12 @@ const PublicProfile = () => {
             <ProfileHeaderPremium
                 type="person"
                 title={profile.full_name}
-                subtitle={profile.ofici || (profile.role === 'ambassador' ? 'Ambaixador' : (profile.role && profile.role !== 'user' ? profile.role : 'Veí'))}
+                subtitle={profile.ofici ? (profile.ofici.charAt(0).toUpperCase() + profile.ofici.slice(1)) : (profile.role === 'ambassador' ? 'Ambaixador' : (profile.role && profile.role !== 'user' ? (profile.role.charAt(0).toUpperCase() + profile.role.slice(1)) : 'Veí'))}
                 town={profile.town_name || 'La Torre de les Maçanes'}
                 bio={profile.bio}
                 avatarUrl={profile.avatar_url}
                 coverUrl={profile.cover_url}
-                badges={profile.role === 'ambassador' ? ['IAIA'] : []}
+                badges={profile.id?.startsWith('11111111-1a1a') ? ['INTEL·LIGÈNCIA'] : (profile.role === 'ambassador' ? ['IAIA'] : [])}
                 onAction={isOwnProfile ? () => navigate('/perfil', { state: { fromProfile: true } }) : null}
                 actionIcon={<Settings size={24} />}
                 shareData={{
@@ -177,7 +177,7 @@ const PublicProfile = () => {
                     url: window.location.href
                 }}
             >
-                {!isOwnProfile && (
+                {!isOwnProfile && !profile.id?.startsWith('11111111-1a1a') && (
                     <div className="profile-actions-inline">
                         <button
                             className={`connect-btn-inline-vibrant ${isConnected ? 'connected' : ''}`}
@@ -213,25 +213,45 @@ const PublicProfile = () => {
 
             {
                 isOwnProfile && managedEntities.length > 0 && (
-                    <section className="profile-section-premium">
+                    <section className="profile-section-premium managed-pages-section">
                         <h2 className="section-header-premium">
                             <Layout size={20} />
                             Gestió de Pàgines
                         </h2>
-                        <div className="entities-grid-mini">
+                        <div className="entities-scroll-container">
                             {managedEntities.map(entity => (
-                                <Link to={`/entitat/${entity.id}`} key={entity.id} className="entity-manage-card">
-                                    <div className="entity-icon-small">
-                                        {entity.type === 'oficial' ? <Building2 size={24} /> :
-                                            entity.type === 'negoci' ? <Store size={24} /> : <UsersIcon size={24} />}
+                                <Link to={`/entitat/${entity.id}`} key={entity.id} className="entity-card-modern">
+                                    <div className={`entity-avatar-modern ${entity.type}`}>
+                                        {entity.avatar_url ? (
+                                            <img src={entity.avatar_url} alt={entity.name} />
+                                        ) : (
+                                            entity.type === 'oficial' ? <Building2 size={24} /> :
+                                                entity.type === 'negoci' ? <Store size={24} /> : <UsersIcon size={24} />
+                                        )}
+                                        <span className="manage-badge"><Settings size={12} /></span>
                                     </div>
-                                    <div className="entity-info-mini">
-                                        <span className="entity-name-mini">{entity.name}</span>
-                                        <span className="entity-role-mini">{entity.member_role}</span>
+                                    <div className="entity-info">
+                                        <h4>{entity.name}</h4>
+                                        <span className="entity-role">
+                                            {entity.type === 'negoci' ? 'Negoci Local' : (entity.type === 'oficial' ? 'Ajuntament / Oficial' : 'Associació')}
+                                        </span>
+                                        <div className="entity-meta">
+                                            <span className={`role-pill ${entity.member_role}`}>
+                                                {entity.member_role === 'admin' ? 'Administrador' : 'Membre'}
+                                            </span>
+                                        </div>
                                     </div>
-                                    <ChevronRight size={20} />
                                 </Link>
                             ))}
+                            <div className="entity-card-create" onClick={() => navigate('/gestio-entitats')}>
+                                <div className="create-icon-area">
+                                    <Plus size={24} />
+                                </div>
+                                <div className="entity-info">
+                                    <h4>Nova</h4>
+                                    <span className="entity-role">Pàgina</span>
+                                </div>
+                            </div>
                         </div>
                     </section>
                 )

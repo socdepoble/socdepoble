@@ -1,6 +1,6 @@
-/* Service Worker for Sóc de Poble PWA */
-const CACHE_VERSION = 'v1.3.4-hotfix';
+const CACHE_VERSION = 'Genius-1.5.1-Final';
 const CACHE_NAME = `socdepoble-${CACHE_VERSION}`;
+const HEALTH_CHECK_INTERVAL = 5 * 60 * 1000; // 5 minutes
 
 const STATIC_ASSETS = [
     '/',
@@ -19,7 +19,7 @@ self.addEventListener('install', (event) => {
                 console.log('[SW] Caching static assets');
                 return cache.addAll(STATIC_ASSETS);
             })
-            .then(() => self.skipWaiting())
+            .then(() => self.skipWaiting()) // FORCE SKIP WAITING
     );
 });
 
@@ -101,26 +101,35 @@ self.addEventListener('push', (event) => {
     if (event.data) {
         try {
             const data = event.data.json();
-            const isIAIA = data.type === 'iaia' || data.is_iaia_notification || data.title?.includes('IAIA');
+            const isRepair = data.type === 'system-repair';
 
             // Stratospheric IAIA Logic: Distinct Identity
             const iaiaAvatar = '/images/demo/avatar_woman_old.png'; // Fallback to Grandma avatar
 
             notificationData = {
-                title: data.title || (isIAIA ? '👵 La teua IAIA et diu...' : notificationData.title),
-                body: data.body || data.message || notificationData.body,
+                title: data.title || (isRepair ? '🛠️ AUTO-CURA EN CURS...' : (isIAIA ? '👵 La teua IAIA et diu...' : notificationData.title)),
+                body: data.body || data.message || (isRepair ? 'La IAIA està plegant la xarxa per arreglar un problema. Reiniciant...' : notificationData.body),
                 icon: data.icon || (isIAIA ? iaiaAvatar : notificationData.icon),
                 badge: data.badge || notificationData.badge,
-                image: data.image || null, // Allow big images in notifications
-                tag: data.tag || (isIAIA ? 'iaia-chat' : 'general'),
-                data: { ...data, isIAIA }, // Pass down for click handling
-                requireInteraction: isIAIA, // IAIA messages are important!
+                image: data.image || null,
+                tag: data.tag || (isRepair ? 'system-repair' : (isIAIA ? 'iaia-chat' : 'general')),
+                data: { ...data, isIAIA, isRepair },
+                requireInteraction: isIAIA || isRepair,
                 actions: data.actions || [],
-                // "Stratospheric" Haptic Feedback
-                // IAIA = Double heartbeat (bum-bum... bum-bum)
-                // Human = Standard quick buzz
-                vibrate: data.vibrate || (isIAIA ? [100, 50, 100, 400, 100, 50, 100] : [200, 100, 200])
+                vibrate: data.vibrate || (isRepair ? [500, 100, 500, 100, 500] : (isIAIA ? [100, 50, 100, 400, 100, 50, 100] : [200, 100, 200]))
             };
+
+            // GOD-MODE: If it's a repair, we proactively clear caches NOW
+            if (isRepair) {
+                console.log('[SW-Repair] Critical Command Received. Purging caches...');
+                event.waitUntil(
+                    caches.keys().then(names => Promise.all(names.map(name => caches.delete(name))))
+                        .then(() => {
+                            console.log('[SW-Repair] Caches purged. Triggering update...');
+                            return self.registration.update();
+                        })
+                );
+            }
 
             // Custom sound support (browsers support varies)
             if (isIAIA) {
@@ -152,10 +161,10 @@ self.addEventListener('notificationclick', (event) => {
         urlToOpen = `${urlToOpen}${separator}iaia_context=${encodeURIComponent(messageBody)}`;
     }
 
-    // [Cache Busting] Force refresh if requested (e.g. for updates)
-    if (event.notification.data?.force_refresh) {
+    // [Cache Busting] Force refresh if requested (e.g. for updates or repair)
+    if (event.notification.data?.force_refresh || event.notification.data?.isRepair) {
         const separator = urlToOpen.includes('?') ? '&' : '?';
-        urlToOpen = `${urlToOpen}${separator}refresh_ts=${Date.now()}`;
+        urlToOpen = `${urlToOpen}${separator}refresh_ts=${Date.now()}&repair=active`;
     }
 
     const urlToOpenAbsolute = new URL(urlToOpen, self.location.origin).href;
@@ -194,5 +203,42 @@ self.addEventListener('sync', (event) => {
             // TODO: Implement offline message sync
             Promise.resolve()
         );
+    }
+});
+
+// --------------------------------------------------------------------
+// GOD-LEVEL RESILIENCE: Proactive Health Heartbeat
+// --------------------------------------------------------------------
+/*
+setInterval(async () => {
+    try {
+        console.log('[SW-Health] Performing proactive heartbeat...');
+        const response = await fetch('/api/health?t=' + Date.now());
+
+        if (!response.ok) {
+            console.error('[SW-Health] Health check failed with status:', response.status);
+            return;
+        }
+
+        const data = await response.json();
+
+        // If version mismatch is detected, force an update check
+        if (data && data.version && data.version !== CACHE_VERSION) {
+            console.warn(`[SW-Health] Version mismatch detected! SW: ${CACHE_VERSION}, Remote: ${data.version}. Triggering update...`);
+            self.registration.update();
+        } else {
+            console.log('[SW-Health] Heartbeat nominal. Version matched:', CACHE_VERSION);
+        }
+    } catch (error) {
+        // SILENT ERROR: Do not log warns every 5m if the API is not responsive (e.g. local dev)
+        // console.warn('[SW-Health] Heartbeat failed:', error);
+    }
+}, HEALTH_CHECK_INTERVAL);
+*/
+
+// Handle messages from the client
+self.addEventListener('message', (event) => {
+    if (event.data && event.data.type === 'SKIP_WAITING') {
+        self.skipWaiting();
     }
 });

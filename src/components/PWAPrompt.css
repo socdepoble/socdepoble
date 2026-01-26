@@ -1,8 +1,9 @@
 .pwa-prompt-overlay {
     position: fixed;
-    bottom: 20px;
-    left: 20px;
-    right: 20px;
+    bottom: 0px;
+    /* Anchored to bottom */
+    left: 0px;
+    right: 0px;
     z-index: 9999;
     animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     display: flex;
@@ -10,15 +11,18 @@
 }
 
 .pwa-prompt-container {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-    border-radius: 20px;
-    padding: 20px;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.15);
+    border-radius: 24px 24px 0 0;
+    /* Bottom sheet radius */
+    padding: 24px;
+    padding-bottom: calc(24px + env(safe-area-inset-bottom));
     width: 100%;
-    max-width: 400px;
+    max-width: 100%;
+    /* Full width on mobile */
     position: relative;
     overflow: hidden;
 }
@@ -97,13 +101,14 @@
 }
 
 .btn-pwa-secondary {
-    background: transparent;
-    border: 2px solid #ddd;
+    background: rgba(0, 0, 0, 0.05);
+    border: none;
     border-radius: 12px;
-    padding: 12px;
+    padding: 14px;
     font-size: 0.95rem;
-    font-weight: 600;
-    color: #666;
+    font-weight: 700;
+    color: #444;
+    /* Higher contrast */
     cursor: pointer;
     transition: all 0.2s ease;
 }
@@ -155,6 +160,10 @@
     }
 
     .pwa-prompt-container {
-        width: 360px;
+        width: 380px;
+        max-width: 400px;
+        border-radius: 24px;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        box-shadow: 0 12px 48px rgba(0, 0, 0, 0.2);
     }
 }

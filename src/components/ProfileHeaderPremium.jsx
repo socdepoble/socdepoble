@@ -1,7 +1,8 @@
 import React from 'react';
-import { ArrowLeft, MapPin, Calendar, BadgeCheck, Info, Share2, Settings } from 'lucide-react';
+import { ArrowLeft, MapPin, Calendar, BadgeCheck, Info, Share2, Settings, Globe } from 'lucide-react';
 import ShareHub from './ShareHub';
 import { useNavigate } from 'react-router-dom';
+import MediaViewerModal from './MediaViewerModal';
 import './ProfileHeaderPremium.css';
 
 /**
@@ -27,9 +28,16 @@ const ProfileHeaderPremium = ({
     onSubtitleChange,
     onTownChange,
     onBioChange,
+    website,
     children
 }) => {
     const navigate = useNavigate();
+    const [viewerData, setViewerData] = React.useState({ isOpen: false, src: '', title: '' });
+
+    const openViewer = (src, title) => {
+        if (!src) return;
+        setViewerData({ isOpen: true, src, title });
+    };
 
     const handleBack = () => {
         if (onBack) onBack();
@@ -39,7 +47,7 @@ const ProfileHeaderPremium = ({
     return (
         <div className={`profile-premium-header-container ${type} ${isEditing ? 'edit-mode-active' : ''}`}>
             {/* Cover Area with Glassmorphism Overlay */}
-            <div className="premium-cover-section">
+            <div className={`premium-cover-section ${coverUrl ? 'clickable' : ''}`} onClick={() => openViewer(coverUrl, 'Imatge de portada')}>
                 {coverUrl ? (
                     <img src={coverUrl} alt="" className="premium-cover-img" />
                 ) : (
@@ -75,12 +83,12 @@ const ProfileHeaderPremium = ({
             {/* Identity Info Area */}
             <div className="premium-identity-card">
                 <div className="premium-avatar-row">
-                    <div className="premium-avatar-wrapper">
+                    <div className={`premium-avatar-wrapper ${avatarUrl ? 'clickable' : ''}`} onClick={() => openViewer(avatarUrl, title)}>
                         {avatarUrl ? (
                             <img src={avatarUrl} alt={title} className="premium-avatar-img" />
                         ) : (
                             <div className="premium-avatar-placeholder">
-                                {title?.charAt(0) || '?'}
+                                {(title || '?').trim().charAt(0).toUpperCase()}
                             </div>
                         )}
                         {isLive && <span className="live-indicator-pulse" title="Actiu / Obert ara" />}
@@ -119,6 +127,12 @@ const ProfileHeaderPremium = ({
                                             <span>{town}</span>
                                         </p>
                                     )}
+                                    {website && (
+                                        <a href={website} target="_blank" rel="noopener noreferrer" className="premium-town-line website-link">
+                                            <Globe size={14} />
+                                            <span>{website.replace('https://', '').replace(/\/$/, '')}</span>
+                                        </a>
+                                    )}
                                 </>
                             )}
                         </div>
@@ -144,6 +158,13 @@ const ProfileHeaderPremium = ({
                     </div>
                 )}
             </div>
+
+            <MediaViewerModal
+                isOpen={viewerData.isOpen}
+                onClose={() => setViewerData({ ...viewerData, isOpen: false })}
+                src={viewerData.src}
+                title={viewerData.title}
+            />
         </div>
     );
 };

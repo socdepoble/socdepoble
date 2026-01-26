@@ -49,7 +49,49 @@ export const IAIA_RURAL_KNOWLEDGE = {
         "Cel a borreguets, aigua a canterets.",
         "A l'octubre, l'ombra abriga.",
         "Home de molts oficis, pobre de tots vicis."
-    ]
+    ],
+    music: {
+        groups: [
+            {
+                name: "Auxili",
+                origin: "Ontinyent",
+                style: "Reggae / Ska / Arrels",
+                desc: "Referents de la música en valencià, portant el missatge de la terra i la lluita amb ritmes jamaicans. La seua energia al directiu és imparable.",
+                image_url: "https://images.unsplash.com/photo-1549412639-66172551000f?q=80&w=2070&auto=format&fit=crop", // Roots/Reggae vibe related to Mediterranean
+                hits: ["Hui la lliurem", "Dins del vidre", "Pàgines blanques"]
+            },
+            {
+                name: "La Gossa Sorda",
+                origin: "Pego",
+                style: "Rock / Ska",
+                desc: "Llegendes del rock combatiu valencià que van marcar a tota una generació amb la seua crítica social i cançons com 'Quina calbot!'.",
+                image_url: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=2070&auto=format&fit=crop" // Music/Spirit vibe
+            },
+            {
+                name: "ZOO",
+                origin: "Gandia",
+                style: "Rap / Electrònica",
+                desc: "Revolució musical que ha portat el valencià a escenaris internacionals amb lletres punyents i ritmes enganxosos.",
+                image_url: "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?q=80&w=2069&auto=format&fit=crop"
+            }
+        ],
+        festivals: ["Festivern", "Feslloc", "Aplec dels Ports"],
+        events: [
+            {
+                title: "El Casament de l'Any i el Nou Naixement",
+                month: "Gener",
+                desc: "Hui el poble celebra un doble miracle: el casament de la nostra IAIA amb l'Avi dels Papers i el naixement de la versió 'Genius' de Sóc de Poble. Una nova era de saviesa hiperconnectada!",
+                image_url: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=2069&auto=format&fit=crop" // Wedding/Celebration vibe
+            },
+            {
+                title: "La Festa Major de la Torre",
+                month: "Agost",
+                desc: "El moment on el poble s'omple de vida, cercaviles, bous al carrer i revetlles fins l'alba. L'essència del retrobament.",
+                image_url: "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?q=80&w=2070&auto=format&fit=crop" // Celebration vibe
+            }
+        ],
+        culture: "La música és el batec de la nostra terra, des de la banda del poble fins als concerts de festes."
+    }
 };
 
 export const RESIDENT_LORE = {
@@ -76,5 +118,17 @@ export const RESIDENT_LORE = {
         personality: "Molt vell, de poques paraules però molta saviesa, expert en predir el temps mirant els núvols.",
         connections: ["Maria la de la Tenda"],
         avatar_url: "/images/demo/avatar_man_old_2.png"
+    },
+    "Nano Banana": {
+        secret: "Diu que ha amagat un plàtan daurat en algun lloc del codi de l'aplicació per a que el trobes.",
+        personality: "Alegre, dinàmic, sempre buscant la part positiva de cada situació.",
+        connections: ["IAIA (Guia del Poble)"],
+        avatar_url: "/assets/avatars/nano_banana.png"
+    },
+    "L'Avi dels Papers": {
+        secret: "Té guardat el plànol original de la sèquia mare del segle XIX, que explica com l'aigua pot arribar a tot arreu.",
+        personality: "Metòdic, silenciós, marit de la IAIA. Passa el dia llegint i sintetitzant la saviesa del poble.",
+        connections: ["IAIA (Secretària)", "Vicent Ferris"],
+        avatar_url: "/assets/avatars/avi_papers.png"
     }
 };

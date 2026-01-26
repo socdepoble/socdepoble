@@ -56,33 +56,30 @@ const ProtectedRoute = ({ children }) => {
 
   if (loading) {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh', gap: '20px', padding: '20px', textAlign: 'center' }}>
-        <div className="spinner-simple" style={{ width: '40px', height: '40px', border: '3px solid #f3f3f3', borderTop: '3px solid #333', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
-        <p style={{ fontFamily: 'system-ui', color: '#666' }}>
-          {showRescue ? "Està costant més del previst..." : "Carregant sessió..."}
-        </p>
-
+      <div style={{ position: 'relative', height: '100vh' }}>
+        <NanoLoader message={showRescue ? "Està costant més del previst..." : "Carregant sessió..."} />
         {showRescue && (
-          <button
-            onClick={() => {
-              logout();
-              window.location.href = '/login';
-            }}
-            style={{
-              padding: '12px 24px',
-              backgroundColor: '#FF4444',
-              color: 'white',
-              border: 'none',
-              borderRadius: '8px',
-              fontWeight: 'bold',
-              cursor: 'pointer',
-              boxShadow: '0 4px 12px rgba(255, 68, 68, 0.3)'
-            }}
-          >
-            🚨 Reiniciar Sessió (Emergència)
-          </button>
+          <div style={{ position: 'absolute', bottom: '100px', left: '0', width: '100%', display: 'flex', justifyContent: 'center', zIndex: 1001 }}>
+            <button
+              onClick={() => {
+                logout();
+                window.location.href = '/login';
+              }}
+              style={{
+                padding: '12px 24px',
+                backgroundColor: '#FF4444',
+                color: 'white',
+                border: 'none',
+                borderRadius: '8px',
+                fontWeight: 'bold',
+                cursor: 'pointer',
+                boxShadow: '0 4px 12px rgba(255, 68, 68, 0.3)'
+              }}
+            >
+              🚨 Reiniciar Sessió (Emergència)
+            </button>
+          </div>
         )}
-        <style>{`@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}</style>
       </div>
     );
   }
@@ -97,19 +94,17 @@ const ProtectedRoute = ({ children }) => {
 import ErrorBoundary from './components/ErrorBoundary';
 import { usePushNotifications } from './hooks/usePushNotifications'; // Import hook
 import PWAPrompt from './components/PWAPrompt';
+import DiagnosticConsole from './components/DiagnosticConsole';
+import NanoLoader from './components/NanoLoader';
 
 function App() {
   usePushNotifications(); // Activate Push System
+
   return (
     <BrowserRouter>
       <PWAPrompt />
-      <Suspense fallback={
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', flexDirection: 'column', gap: '16px' }}>
-          <div className="spinner-simple" style={{ width: '40px', height: '40px', border: '3px solid #f3f3f3', borderTop: '3px solid #333', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
-          <p style={{ fontFamily: 'system-ui', color: '#666' }}>Carregant Sóc de Poble...</p>
-          <style>{`@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}</style>
-        </div>
-      }>
+      <DiagnosticConsole />
+      <Suspense fallback={<NanoLoader message="Preparant Sóc de Poble..." />}>
         <ErrorBoundary fallbackMessage="Error crític de l'aplicació">
           <Routes>
             <Route path="/login" element={<Login />} />

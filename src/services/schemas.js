@@ -74,5 +74,8 @@ export const ProfileSchema = z.object({
     role: z.string().optional(),
     ofici: z.string().nullable().optional().transform(sanitize),
     social_image_preference: z.enum(['avatar', 'cover', 'none']).default('none').optional(),
-    iaia_settings: z.record(z.any()).nullable().optional()
+    iaia_settings: z.record(z.any()).nullable().optional(),
+    is_noise: z.boolean().default(false).optional(),
+    is_silenced: z.boolean().default(false).optional(),
+    reputation_score: z.number().min(0).max(100).default(50).optional()
 });

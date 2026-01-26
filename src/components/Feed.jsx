@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { Link2, MessageCircle, Share2, MoreHorizontal, Building2, Store, Users, User, Loader2, AlertCircle, Info, Sparkles, UserPlus, UserCheck, Volume2, StopCircle } from 'lucide-react';
+import { Link2, MessageCircle, Share2, MoreHorizontal, Building2, Store, Users, User, Loader2, AlertCircle, Info, Sparkles, UserPlus, UserCheck, Volume2, StopCircle, EyeOff } from 'lucide-react';
 import { useUI } from '../context/UIContext';
 import { supabaseService } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
@@ -19,6 +19,7 @@ import ShareHub from './ShareHub';
 import { iaiaService } from '../services/iaiaService';
 import './Feed.css';
 import './Comments.css';
+import ImageCarousel from './ImageCarousel';
 
 const IAIA_INITIAL_DELAY_MS = 10000;
 const IAIA_INTERVAL_MS = 120000;
@@ -38,6 +39,7 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
     const [postComments, setPostComments] = useState({});
     const [selectedRole, setSelectedRole] = useState('tot');
     const [selectedTag, setSelectedTag] = useState(null);
+    const [isNoiseFiltered, setIsNoiseFiltered] = useState(localStorage.getItem('isNoiseFiltered') === 'true');
     const [error, setError] = useState(null);
     const isMounted = useRef(true);
 
@@ -185,44 +187,47 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
         }
     };
 
-    const handleToggleConnection = async (postId) => {
-        if (!user) {
-            navigate('/login');
-            return;
-        }
-        try {
-            const result = await supabaseService.togglePostConnection(postId, user.id, isPlayground);
-            handleConnectionUpdate(postId, result.connected, result.tags || []);
-        } catch (error) {
-            logger.error('[Feed] Error toggling connection:', error);
-        }
-    };
+    const displayedPosts = useMemo(() => {
+        const filtered = posts.filter(post => {
+            // 1. Vision Mode Filter
+            if (visionMode === 'humana') {
+                const isAI = post.author_role === 'ambassador' ||
+                    post.author_is_ai ||
+                    post.is_iaia_inspired ||
+                    (post.author_user_id && String(post.author_user_id).startsWith('11111111-')) ||
+                    (post.author_id && String(post.author_id).startsWith('11111111-')) ||
+                    (post.author_entity_id && String(post.author_entity_id).startsWith('11111111-')) ||
+                    (post.author_entity_id && String(post.author_entity_id).startsWith('00000000-')) ||
+                    (post.id && String(post.id).startsWith('iaia-')) ||
+                    post.creator_entity_id === '00000000-0000-0000-0000-000000000000';
 
-    const filteredPosts = posts.filter(post => {
-        // 1. Vision Mode Filter
-        if (visionMode === 'humana') {
-            // Check multiple indicators that this is an AI/IAIA post
-            const isAI = post.author_role === 'ambassador' ||
-                post.author_is_ai ||
-                post.is_iaia_inspired || // Loose check equivalent to UI
-                (post.author_user_id && String(post.author_user_id).startsWith('11111111-')) ||
-                (post.author_id && String(post.author_id).startsWith('11111111-')) ||
-                (post.author_entity_id && String(post.author_entity_id).startsWith('11111111-')) ||
-                (post.author_entity_id && String(post.author_entity_id).startsWith('00000000-')) ||
-                (post.id && String(post.id).startsWith('iaia-')) ||  // IAIA-generated posts
-                post.creator_entity_id === '00000000-0000-0000-0000-000000000000'; // IAIA entity
+                if (isAI) return false;
+            }
 
-            if (isAI) return false; // Hide all AI posts when vision mode is 'humana'
-        }
+            // 2. Tag Filter
+            if (selectedTag) {
+                const connection = userConnections.find(c => c.post_uuid === (post.uuid || post.id));
+                return connection && connection.tags && connection.tags.includes(selectedTag);
+            }
 
-        // 2. Tag Filter
-        if (selectedTag) {
-            const connection = userConnections.find(c => c.post_uuid === post.uuid);
-            return connection && connection.tags && connection.tags.includes(selectedTag);
-        }
+            // 3. Noise Filter
+            if (isNoiseFiltered) {
+                const isNoisy = post.author_is_noise || post.author?.is_noise || post.is_noise;
+                if (isNoisy) return false;
+            }
 
-        return true;
-    });
+            return true;
+        });
+
+        // 4. Sorting logic OMNISCIENT (Pins first)
+        return [...filtered].sort((a, b) => {
+            const aPinned = a.is_pinned || a.metadata?.is_pinned;
+            const bPinned = b.is_pinned || b.metadata?.is_pinned;
+            if (aPinned && !bPinned) return -1;
+            if (!aPinned && bPinned) return 1;
+            return 0; // Maintain original time order for the rest
+        });
+    }, [posts, visionMode, selectedTag, isNoiseFiltered, userConnections]);
 
     if (loading && posts.length === 0) {
         return (
@@ -256,6 +261,19 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
                             setSelectedRole(role);
                             setSelectedTag(null);
                         }} />
+                        <button
+                            className={`noise-filter-toggle ${isNoiseFiltered ? 'active' : ''}`}
+                            onClick={() => {
+                                const newVal = !isNoiseFiltered;
+                                setIsNoiseFiltered(newVal);
+                                localStorage.setItem('isNoiseFiltered', String(newVal));
+                                logger.info(`[Feed] Filtre de soroll ${newVal ? 'ACTIVAT' : 'DESACTIVAT'}`);
+                            }}
+                            title={isNoiseFiltered ? "Mostra tot el contingut (soroll inclòs)" : "Activa filtre de soroll (contingut de baixa qualitat)"}
+                        >
+                            {isNoiseFiltered ? <EyeOff size={16} /> : <Sparkles size={16} />}
+                            <span className="ml-1.5">{isNoiseFiltered ? "SOROLL OCULT" : "FILTRE SOROLL"}</span>
+                        </button>
                     </div>
                 </header>
             )}
@@ -286,7 +304,11 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
 
                             return (
                                 <article key={pid} className="universal-card post-card internal-report-card" style={{ border: '2px solid #FFD700', background: '#FFFBE6' }}>
-                                    <div className="card-header">
+                                    <div className="card-header clickable" onClick={() => {
+                                        const targetId = post.author_entity_id || post.author_user_id || post.author_id;
+                                        const type = post.author_entity_id ? 'entitat' : 'perfil';
+                                        if (targetId) navigate(`/${type}/${targetId}`);
+                                    }}>
                                         <div className="header-left">
                                             <Avatar src={post.author_avatar} role="ambassador" name="IAIA" size={44} />
                                             <div className="post-meta">
@@ -326,14 +348,146 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
                             );
                         }
 
+                        // HANDLING DIDACTIC PRESENTATION (Anna Calvo / Project News)
+                        if (post.type === 'didactic_presentation') {
+                            return (
+                                <article key={pid} className="universal-card post-card didactic-card">
+                                    <div className="card-header clickable" onClick={() => {
+                                        const targetId = post.author_entity_id || post.author_user_id || post.author_id;
+                                        const type = post.author_entity_id ? 'entitat' : 'perfil';
+                                        if (targetId) navigate(`/${type}/${targetId}`);
+                                    }}>
+                                        <div className="header-left">
+                                            <Avatar src={post.author_avatar} role="official" name={post.author} size={44} />
+                                            <div className="post-meta">
+                                                <div className="post-author-row">
+                                                    <span className="post-author">{post.author}</span>
+                                                    <span className="identity-badge official">PROJECTE</span>
+                                                </div>
+                                                <div className="post-town">Innovació Rural</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="card-body">
+                                        <div className="video-embed-wrapper mb-4">
+                                            {post.video_url && (
+                                                <iframe
+                                                    width="100%"
+                                                    height="215"
+                                                    src={`https://www.youtube.com/embed/${post.video_url.split('v=')[1]?.split('&')[0] || 'Fadaa7Kyxm0'}`}
+                                                    title="Anna Calvo Presentation"
+                                                    frameBorder="0"
+                                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                    allowFullScreen
+                                                    style={{ borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.2)' }}
+                                                ></iframe>
+                                            )}
+                                        </div>
+
+                                        {post.image_url && (
+                                            <div className="card-image-wrapper mb-4">
+                                                {Array.isArray(post.image_url) ? (
+                                                    <ImageCarousel images={post.image_url} />
+                                                ) : (
+                                                    <img
+                                                        src={post.image_url}
+                                                        alt={`${post.author} post image`}
+                                                        loading="lazy"
+                                                        style={{ borderRadius: '12px' }}
+                                                        onError={(e) => {
+                                                            e.target.style.display = 'none';
+                                                            e.target.parentElement.style.display = 'none';
+                                                        }}
+                                                    />
+                                                )}
+                                            </div>
+                                        )}
+
+                                        <div className="didactic-content">
+                                            {post.content.split('\n').map((line, idx) => {
+                                                if (line.startsWith('# ')) return <h1 key={idx} className="didactic-h1">{line.replace('# ', '')}</h1>;
+                                                if (line.startsWith('## ')) return <h2 key={idx} className="didactic-h2">{line.replace('## ', '')}</h2>;
+                                                return <p key={idx} className="didactic-p">{line}</p>;
+                                            })}
+                                        </div>
+
+                                        <button
+                                            className="action-btn didactic-modal-trigger mt-4"
+                                            onClick={() => alert(`MODAL DIDÀCTIC ACCESSIBLE:\n\n${post.metadata?.didactic_text}`)}
+                                            style={{
+                                                width: '100%',
+                                                justifyContent: 'center',
+                                                background: 'linear-gradient(135deg, #00f2ff, #00d4ff)',
+                                                color: '#000',
+                                                fontWeight: 'bold',
+                                                borderRadius: '12px',
+                                                padding: '12px'
+                                            }}
+                                        >
+                                            <Sparkles size={18} className="mr-2" />
+                                            LLEGIR EN MODE ACCESSIBLE
+                                        </button>
+                                    </div>
+                                </article>
+                            );
+                        }
+
+                        // HANDLING EVENT ANNOUNCEMENTS
+                        if (post.type === 'event_announcement') {
+                            return (
+                                <article key={pid} className={`universal-card post-card event-announcement-card animate-in`}>
+                                    <div className="card-header clickable" onClick={() => {
+                                        const targetId = post.author_entity_id || post.author_user_id || post.author_id;
+                                        const type = post.author_entity_id ? 'entitat' : 'perfil';
+                                        if (targetId) navigate(`/${type}/${targetId}`);
+                                    }}>
+                                        <div className="header-left">
+                                            <Avatar src={post.author_avatar} role="official" name={post.author} size={44} />
+                                            <div className="post-meta">
+                                                <div className="post-author-row">
+                                                    <span className="post-author">{post.author}</span>
+                                                    <span className="event-badge">ESDEVENIMENT</span>
+                                                </div>
+                                                <div className="post-town">{post.towns?.name || 'Vida de Poble'}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="card-body">
+                                        {post.image_url && (
+                                            <div className="card-image-wrapper mb-4">
+                                                <img src={post.image_url} alt={post.content} style={{ borderRadius: '12px' }} />
+                                            </div>
+                                        )}
+                                        <p className="post-text" style={{ fontWeight: '600' }}>{post.content}</p>
+                                    </div>
+
+                                    <div className="card-footer-vibrant">
+                                        <div className="card-actions">
+                                            <button className="action-btn principal-connect active" style={{ width: '100%', background: '#ff0055' }}>
+                                                M'INTERESSA EL PLAN!
+                                            </button>
+                                        </div>
+                                    </div>
+                                </article>
+                            );
+                        }
+
                         // STANDARD POSTS
                         return (
-                            <article key={pid} className="universal-card post-card">
+                            <article key={pid} className={`universal-card post-card ${post.is_iaia_inspired ? 'animate-in' : ''}`}>
                                 <div
                                     className="card-header clickable"
                                     onClick={() => {
                                         const targetId = post.author_entity_id || post.author_user_id;
                                         const type = post.author_entity_id ? 'entitat' : 'perfil';
+
+                                        // BLINDATGE DE LLINATGE: Si és Sóc de Poble, forcem l'ID canònic
+                                        if (post.author?.includes('Sóc de Poble') || post.author_name?.includes('Sóc de Poble') || targetId === 'sdp-core' || targetId === 'mock-business-sdp-1') {
+                                            navigate('/entitat/sdp-oficial-1');
+                                            return;
+                                        }
 
                                         if (!targetId || (typeof targetId === 'string' && targetId.startsWith('mock-'))) {
                                             logger.warn('Navegació a perfil fictici no disponible:', targetId);
@@ -352,6 +506,7 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
                                         <div className="post-meta">
                                             <div className="post-author-row">
                                                 <span className="post-author">{post.author || post.author_name || 'Usuari'}</span>
+                                                {(post.is_pinned || post.metadata?.is_pinned) && <span className="pin-badge" title="Fichado al muro">📌</span>}
                                                 {(post.author_role === 'ambassador' || post.author_is_ai) && (
                                                     <span className="identity-badge ai" title="Informació i Acció Artificial">IAIA</span>
                                                 )}
@@ -368,15 +523,19 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
 
                                 {post.image_url && (
                                     <div className="card-image-wrapper">
-                                        <img
-                                            src={post.image_url}
-                                            alt={`${post.author} post image`}
-                                            loading="lazy"
-                                            onError={(e) => {
-                                                e.target.style.display = 'none';
-                                                e.target.parentElement.style.display = 'none';
-                                            }}
-                                        />
+                                        {Array.isArray(post.image_url) ? (
+                                            <ImageCarousel images={post.image_url} />
+                                        ) : (
+                                            <img
+                                                src={post.image_url}
+                                                alt={`${post.author} post image`}
+                                                loading="lazy"
+                                                onError={(e) => {
+                                                    e.target.style.display = 'none';
+                                                    e.target.parentElement.style.display = 'none';
+                                                }}
+                                            />
+                                        )}
                                     </div>
                                 )}
 

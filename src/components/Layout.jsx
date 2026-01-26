@@ -13,7 +13,7 @@ import BackToTop from './BackToTop';
 import GlobalModals from './GlobalModals';
 
 const Layout = () => {
-    const { isPlayground } = useAuth();
+    const { isPlayground, isAdmin } = useAuth();
     const location = useLocation();
     const navigate = useNavigate();
     // Ocultamos la navegación y el HUB de creación en el detalle de chat
@@ -21,12 +21,12 @@ const Layout = () => {
 
     // [CRITICAL] Ensure version is always visible in browser tab for screenshots
     useEffect(() => {
-        const baseTitle = document.title.split(' | ')[0].split('(')[0].trim();
-        // Remove old versions just in case
-        const cleanTitle = baseTitle.replace(/v\d+\.\d+\.\d+/, '').trim();
+        const baseTitle = "Sóc de Poble";
+        const pageTitle = location.pathname === '/' ? "Inici" :
+            location.pathname.startsWith('/chats') ? "Xat" :
+                location.pathname.split('/').filter(Boolean).pop() || "Portal";
 
-        // Force suffix
-        document.title = `${cleanTitle} (v1.3.1) | Sóc de Poble`;
+        document.title = `${pageTitle.charAt(0).toUpperCase() + pageTitle.slice(1)} | ${baseTitle} v1.5.2-Genius`;
     }, [location]);
 
     // [Interactive Push] Deep Linking to IAIA Chat
@@ -58,10 +58,14 @@ const Layout = () => {
         }
     }, [location.search, navigate, isPlayground]);
 
+    // ALLIBERAMENT TOTAL (Directiva de l'Arquitecte): El banner taronja s'elimina de tot el sistema
+    const showBanner = false;
+
     return (
-        <div className={`layout-container ${isPlayground ? 'has-playground-banner' : ''}`}>
+        <div className={`layout-container ${showBanner ? 'has-playground-banner' : ''}`}>
             <ScrollToTop />
-            <PlaygroundBanner />
+            {/* PlaygroundBanner ocult per directiva de l'Arquitecte */}
+            {showBanner && <PlaygroundBanner />}
             {!isChatDetail && <Header />}
             <main className="content-area">
                 <Outlet />

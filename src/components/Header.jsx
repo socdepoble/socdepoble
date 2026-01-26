@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
 import { useI18n } from '../context/I18nContext';
 import { logger } from '../utils/logger';
-import { User, Search, Bell, Sparkles, UserCheck, Download } from 'lucide-react';
+import { User, Search, Bell, Sparkles, UserCheck, Download, Activity } from 'lucide-react';
 import { useUI } from '../context/UIContext';
 import { pushService } from '../services/pushService';
 import { pushNotifications } from '../services/pushNotifications';
@@ -24,12 +24,21 @@ const Header = () => {
         }
     };
 
-    const logoSrc = '/logo_dark.png';
+    const logoSrc = '/logo.png';
 
     return (
         <header className="main-header">
             <div className="header-content">
-                <Link to="/" className="logo-container">
+                <Link
+                    to="/"
+                    className="logo-container"
+                    onClick={(e) => {
+                        if (e.detail >= 3) {
+                            e.preventDefault();
+                            window.dispatchEvent(new CustomEvent('open-diagnostic-hud'));
+                        }
+                    }}
+                >
                     <img src={logoSrc} alt="Sóc de Poble" className="header-logo" />
                 </Link>
 
@@ -98,6 +107,16 @@ const Header = () => {
                         <Bell size={22} color="white" aria-hidden="true" />
                         {user && <span className="notif-badge" aria-label="3 notificacions pendents">3</span>}
                     </Link>
+
+                    <button
+                        className="header-diagnostic-btn"
+                        onClick={() => window.dispatchEvent(new CustomEvent('open-diagnostic-hud'))}
+                        aria-label="Obrir Consola de Diagnòstic"
+                        title="Consola Didàctica"
+                        style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '8px', display: 'flex', alignItems: 'center' }}
+                    >
+                        <Activity size={22} color="#00f2ff" />
+                    </button>
 
                     {user && (
                         <Link

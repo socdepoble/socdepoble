@@ -1,5 +1,6 @@
 import { supabase } from '../supabaseClient';
 import { logger } from '../utils/logger';
+import { notificationService } from './notificationService';
 
 /**
  * Funcions d'utilitat per gestionar les subscripcions push
@@ -109,38 +110,16 @@ export const pushNotifications = {
         }
     },
 
-    /**
-     * Disparar notificació via Edge Function
-     * Aquesta funció crida l'Edge Function de Supabase
-     */
     async triggerNotification(userId, payload) {
-        const { title, body, url, icon, tag, data } = payload;
-
-        try {
-            const { data: response, error } = await supabase.functions.invoke('send-push-notification', {
-                body: {
-                    userId,
-                    title,
-                    body,
-                    url,
-                    icon,
-                    tag,
-                    data
-                }
-            });
-
-            if (error) {
-                logger.error('[Push] Error triggering notification:', error);
-                return false;
-            }
-
-            logger.log('[Push] Notification triggered:', response);
-            return true;
-        } catch (error) {
-            logger.error('[Push] Failed to trigger notification:', error);
-            return false;
-        }
+        return notificationService.send(userId, {
+            type: payload.tag || 'general',
+            title: payload.title,
+            body: payload.body,
+            url: payload.url,
+            data: payload.data
+        });
     }
 };
+
 
 export default pushNotifications;
