@@ -28,7 +28,7 @@ const PublicProfile = () => {
     const [isConnecting, setIsConnecting] = useState(false);
     const [followersCount, setFollowersCount] = useState(0);
 
-    const isOwnProfile = currentUser?.id === id || currentUser?.username === username;
+    const isOwnProfile = !!currentUser && (currentUser.id === id || currentUser.username === username);
 
     useEffect(() => {
         const fetchProfileData = async () => {
