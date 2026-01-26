@@ -157,7 +157,11 @@ const PublicEntity = () => {
                 badges={entity.type === 'oficial' ? ['Oficial'] : (entity.is_ai ? ['IAIA'] : [])}
                 onAction={members.some(m => m.user_id === currentUser?.id) ? () => navigate('/gestio-entitats', { state: { fromProfile: true } }) : null}
                 actionIcon={<Settings size={24} />}
-                onShare={handleShare}
+                shareData={{
+                    title: entity.name,
+                    text: entity.description || `Mira la pàgina de ${entity.name} a Sóc de Poble`,
+                    url: window.location.href
+                }}
             >
                 <div className="profile-stats-bar">
                     <div className="stat-card">

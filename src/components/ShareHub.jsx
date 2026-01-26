@@ -7,7 +7,7 @@ import { logger } from '../utils/logger';
  * Component ShareHub
  * Gestiona la compartició de contingut utilitzant l'API nativa o fallback a xarxes socials.
  */
-const ShareHub = ({ title, text, url, onShareSuccess }) => {
+const ShareHub = ({ title, text, url, onShareSuccess, customTrigger }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     // Netejar URL de paràmetres innecessaris (tracking facebook, google, etc.)
@@ -85,9 +85,18 @@ const ShareHub = ({ title, text, url, onShareSuccess }) => {
 
     return (
         <div className="share-hub-container">
-            <button onClick={handleOpenModal} className="share-main-btn" title="Compartir">
-                <Share2 size={24} />
-            </button>
+            {customTrigger ? (
+                React.cloneElement(customTrigger, {
+                    onClick: (e) => {
+                        if (customTrigger.props.onClick) customTrigger.props.onClick(e);
+                        handleOpenModal();
+                    }
+                })
+            ) : (
+                <button onClick={handleOpenModal} className="share-main-btn" title="Compartir">
+                    <Share2 size={24} />
+                </button>
+            )}
 
             {isModalOpen && (
                 <div className="share-modal-overlay" onClick={() => setIsModalOpen(false)}>

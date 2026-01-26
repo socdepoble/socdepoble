@@ -24,6 +24,7 @@ const ProfileHeaderPremium = ({
     actionIcon,
     isEditing = false,
     shareData = null, // { title, text, url }
+    onShare, // High priority if provided
     onTitleChange,
     onSubtitleChange,
     onTownChange,
@@ -67,14 +68,24 @@ const ProfileHeaderPremium = ({
                         </button>
                     )}
 
-                    {shareData && (
+                    {(shareData || onShare) && (
                         <div className="premium-share-wrapper">
-                            <ShareHub
-                                title={shareData.title}
-                                text={shareData.text}
-                                url={shareData.url}
-                                className="premium-btn-circle share"
-                            />
+                            {onShare ? (
+                                <button className="premium-btn-circle share" onClick={onShare} title="Compartir">
+                                    <Share2 size={24} />
+                                </button>
+                            ) : (
+                                <ShareHub
+                                    title={shareData.title}
+                                    text={shareData.text}
+                                    url={shareData.url}
+                                    customTrigger={
+                                        <button className="premium-btn-circle share" title="Compartir">
+                                            <Share2 size={24} />
+                                        </button>
+                                    }
+                                />
+                            )}
                         </div>
                     )}
                 </div>
