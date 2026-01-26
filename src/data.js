@@ -164,7 +164,7 @@ export const MOCK_MARKET_ITEMS = [
         author_role: "business",
         author_id: 'sdp-oficial-1', // Enforced official ID
         author_entity_id: 'sdp-oficial-1',
-        image: "/images/samarreta-soc-de-poble.png",
+        image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=2000&auto=format&fit=crop",
         category_slug: "roba",
         tag: "Merchandising",
         is_pinned: true, // PINNED TO TOP
