@@ -8,6 +8,10 @@ class ErrorBoundary extends React.Component {
     }
 
     static getDerivedStateFromError(error) {
+        // [RESILIENCE] AbortError is benign (usually search cancellation or SW updates)
+        if (error?.name === 'AbortError' || error?.toString().includes('AbortError')) {
+            return { hasError: false, error: null };
+        }
         return { hasError: true, error };
     }
 
