@@ -8,10 +8,23 @@ class ErrorBoundary extends React.Component {
     }
 
     static getDerivedStateFromError(error) {
+        const errorMsg = error?.toString() || '';
+
         // [RESILIENCE] AbortError is benign (usually search cancellation or SW updates)
-        if (error?.name === 'AbortError' || error?.toString().includes('AbortError')) {
+        if (error?.name === 'AbortError' || errorMsg.includes('AbortError')) {
             return { hasError: false, error: null };
         }
+
+        // [RESILIENCE] ChunkLoadError / Failed to fetch dynamic module:
+        // This happens after a deployment when the user has an old version open.
+        // We force a reload to get the new version.
+        if (errorMsg.includes('Failed to fetch dynamically imported module') ||
+            errorMsg.includes('ChunkLoadError')) {
+            logger.warn('[ErrorBoundary] Dynamic import failed. Forcing reload to sync with production.');
+            window.location.reload();
+            return { hasError: false, error: null };
+        }
+
         return { hasError: true, error };
     }
 
