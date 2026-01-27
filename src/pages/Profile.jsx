@@ -37,22 +37,21 @@ import './ProfileDuality.css';
 const Profile = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const { profile, setProfile, user, isPlayground, realProfile, isAdmin, realUser } = useAuth();
+    const { profile, setProfile, user, isPlayground, realProfile, isAdmin, isSuperAdmin, realUser } = useAuth();
     const { theme, toggleTheme } = useUI();
     const location = useLocation();
 
     // Identity Duality State
     // THE CREATOR RULE: Javi and Damià should see their real identity by default.
-    const isPare = realUser?.email === 'socdepoblecom@gmail.com' || user?.email === 'socdepoblecom@gmail.com' || profile?.email === 'socdepoblecom@gmail.com';
-    const isDamia = realUser?.email === 'damimus@gmail.com' || user?.email === 'damimus@gmail.com' || profile?.email === 'damimus@gmail.com';
-    const [viewRealIdentity, setViewRealIdentity] = useState(isPare || isDamia);
+    const isCreator = CREATOR_EMAILS.includes(realUser?.email || user?.email);
+    const [viewRealIdentity, setViewRealIdentity] = useState(isCreator);
 
     // Derived State: Duality Engine
     const finalProfile = (viewRealIdentity) ? (realProfile || { full_name: 'Javi', id: user?.id }) : (profile || realProfile);
 
     // Calculem les medalles (badges) de forma dinàmica
     const badges = [];
-    if (finalProfile?.role === 'super_admin' || isPare || isDamia) badges.push('Super Padrino');
+    if (isSuperAdmin) badges.push('Super Padrino');
     if (finalProfile?.role === 'official' || finalProfile?.role === 'admin') badges.push('Oficial');
     if (finalProfile?.reputation_score > 80) badges.push('Verificat');
     if (isPlayground && !viewRealIdentity) badges.push('IAIA');
@@ -63,7 +62,7 @@ const Profile = () => {
     }
 
     const displayProfileSafe = finalProfile || {
-        full_name: isPare ? 'Javi' : ((realUser?.email || user?.email)?.split('@')[0] || 'Usuari'),
+        full_name: isCreator ? (realUser?.email?.split('@')[0] || 'Creador') : ((realUser?.email || user?.email)?.split('@')[0] || 'Usuari'),
         avatar_url: null,
         cover_url: null,
         town_id: null

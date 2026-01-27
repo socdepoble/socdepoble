@@ -26,6 +26,14 @@ export const USER_ROLES = {
     GUEST: 'convidat'           // Sense registre
 };
 
+/**
+ * Emails dels creadors amb poders de Super Padrino (Hardcoded Safety)
+ */
+export const CREATOR_EMAILS = [
+    'socdepoblecom@gmail.com',
+    'damimus@gmail.com'
+];
+
 export const ENTITY_TYPES = {
     OFFICIAL: 'oficial',
     BUSINESS: 'empresa',

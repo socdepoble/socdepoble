@@ -1,7 +1,10 @@
 # 🏛️ Sóc de Poble: Brand & UX Manual (DIOS Level)
 
-## 🎨 Design Philosophy: "Rural-Tech Immersion"
+## 🎨 Design Philosophy: "Rural-Tech Immersion" (Mobile-First 📱)
 Sóc de Poble is not just a tool; it's a sanctuary for rural identity. The design must feel **rooted** (rústic) but **empowered** (tecnològic).
+
+> [!IMPORTANT]
+> **MOVIL-FIRST (Ley de Vida)**: El diseño y la funcionalidad se conciben, prueban y validan **primero en móvil y tablet**. No se aprueba ninguna característica que no sea 100% fluida en dispositivos táctiles.
 
 ### 🧿 Design Tokens (Premium Palette)
 | Token | Value | Application | Effect |
@@ -53,6 +56,7 @@ Users must be able to see any image at its original scale.
 ---
 
 ## 🏁 Quality Checklist for Antigravity
+- [ ] **MOBILE-FIRST**: ¿Se ve y funciona perfecto en móvil/tablet? (Sin scroll lateral, sin cortes).
 - [ ] Are all buttons ≥ 44px?
 - [ ] Is contrast according to Arrels standards?
 - [ ] Does the element have a hover/active state?

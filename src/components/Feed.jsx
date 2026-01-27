@@ -27,7 +27,7 @@ const IAIA_INTERVAL_MS = 120000;
 const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const { user, isPlayground, loading: authLoading } = useAuth();
+    const { user, isPlayground, loading: authLoading, isAdmin, isSuperAdmin } = useAuth();
     const { visionMode } = useUI();
     const [posts, setPosts] = useState(customPosts || []);
     const [userConnections, setUserConnections] = useState([]);
@@ -286,7 +286,6 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
 
                         // HANDLING INTERNAL REPORTS (WORK GROUP)
                         if (post.type === 'internal_report') {
-                            const isAdmin = user && (user.email === 'socdepoblecom@gmail.com' || user.email === 'javillinares@gmail.com' || user.role === 'admin' || isPlayground);
                             if (!isAdmin) return null;
 
                             return (
@@ -494,7 +493,7 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
                                             <div className="post-author-row">
                                                 <span className="post-author">
                                                     {(post.author === 'Algú del poble' || !post.author)
-                                                        ? (post.author_user_id === 'd6325f44-7277-4d20-b020-166c010995ab' ? 'Javi Llinares' : 'Veí de la Comunitat')
+                                                        ? (isAdmin && post.author_user_id === 'd6325f44-7277-4d20-b020-166c010995ab' ? 'Javi Llinares' : 'Veí de la Comunitat')
                                                         : post.author
                                                     }
                                                 </span>

@@ -3,7 +3,7 @@ import { supabase } from '../supabaseClient';
 import { supabaseService } from '../services/supabaseService';
 import { logger } from '../utils/logger';
 import i18n from '../i18n/config';
-import { DEMO_USER_ID, IAIA_ID, AUTH_EVENTS, USER_ROLES } from '../constants';
+import { DEMO_USER_ID, IAIA_ID, AUTH_EVENTS, USER_ROLES, CREATOR_EMAILS } from '../constants';
 
 const AuthContext = createContext();
 
@@ -207,16 +207,15 @@ export const AuthProvider = ({ children }) => {
 
                     // BUSCADOR DEL COR (v2): Si és un Padrino/Admin i el perfil és buit, busquem l'original
                     const JAVI_REAL_ID = 'd6325f44-7277-4d20-b020-166c010995ab';
-                    const isJavi = session.user.email === 'socdepoblecom@gmail.com';
-                    const isDamia = session.user.email === 'damimus@gmail.com';
-                    const isPadrino = isJavi || isDamia;
+                    const isCreator = CREATOR_EMAILS.includes(session.user.email);
+                    const isPadrino = isCreator; // All creators are Padrinos by definition
 
                     // If profileData is empty but it's a Padrino, search by name/username
                     if (isPadrino && !profileData) {
                         const { data: adminProfiles } = await supabase
                             .from('profiles')
                             .select('*')
-                            .or(`id.eq.${JAVI_REAL_ID},full_name.ilike.%Javi Llinares%,username.eq.javillinares,username.eq.socdepoble`)
+                            .or(`id.eq.${JAVI_REAL_ID},full_name.ilike.%Javi Llinares%,username.eq.javillinares,username.eq.socdepoble,email.eq.${session.user.email}`)
                             .not('avatar_url', 'is', null)
                             .order('created_at', { ascending: true })
                             .limit(1);
@@ -227,16 +226,12 @@ export const AuthProvider = ({ children }) => {
                     }
 
                     if (isMounted) {
-                        if (profileData && isJavi) {
-                            profileData.full_name = 'Javi';
-                        }
-
                         // [DIRECTIVA 1] Fallback profile must NEVER be IAIA for a real session
                         const fallbackProfile = {
                             id: session.user.id,
-                            full_name: isJavi ? 'Javi' : (isDamia ? 'Damià' : (session.user.email?.split('@')[0] || 'Veí')),
-                            role: 'vei',
-                            avatar_url: null
+                            full_name: profileData?.full_name || (session.user.email?.split('@')[0] || 'Veí'),
+                            role: isCreator ? USER_ROLES.SUPER_ADMIN : (profileData?.role || USER_ROLES.NEIGHBOR),
+                            avatar_url: profileData?.avatar_url || null
                         };
 
                         const effectiveProfile = profileData || fallbackProfile;
@@ -247,13 +242,11 @@ export const AuthProvider = ({ children }) => {
                     }
                 } catch (error) {
                     logger.error('[AuthContext] Error loading profile:', error);
-                    const isJavi = session.user.email === 'socdepoblecom@gmail.com';
-                    const isDamia = session.user.email === 'damimus@gmail.com';
                     if (isMounted) {
                         const fallback = {
                             id: session.user.id,
-                            full_name: isJavi ? 'Javi' : (isDamia ? 'Damià' : (session.user.email?.split('@')[0] || 'Veí')),
-                            role: 'vei'
+                            full_name: session.user.email?.split('@')[0] || 'Veí',
+                            role: isCreator ? USER_ROLES.SUPER_ADMIN : USER_ROLES.NEIGHBOR
                         };
                         setRealProfile(fallback);
                         setProfile(fallback);
@@ -324,9 +317,9 @@ export const AuthProvider = ({ children }) => {
             forceNukeSimulation,
             isPlayground,
             setIsPlayground,
-            isSuperAdmin: (realUser?.email === 'socdepoblecom@gmail.com' || realUser?.email === 'damimus@gmail.com') || profile?.role === USER_ROLES.SUPER_ADMIN,
-            isAdmin: (realUser?.email === 'socdepoblecom@gmail.com' || realUser?.email === 'damimus@gmail.com') || [USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN].includes(profile?.role),
-            isEditor: (realUser?.email === 'socdepoblecom@gmail.com' || realUser?.email === 'damimus@gmail.com') || [USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN, USER_ROLES.EDITOR].includes(profile?.role),
+            isSuperAdmin: CREATOR_EMAILS.includes(realUser?.email) || profile?.role === USER_ROLES.SUPER_ADMIN,
+            isAdmin: CREATOR_EMAILS.includes(realUser?.email) || [USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN].includes(profile?.role),
+            isEditor: CREATOR_EMAILS.includes(realUser?.email) || [USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN, USER_ROLES.EDITOR].includes(profile?.role),
             impersonatedProfile,
             setImpersonatedProfile,
             activeEntityId,

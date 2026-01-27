@@ -8,7 +8,11 @@
     height: var(--category-bar-height);
     background-color: rgba(0, 0, 0, 0.2);
     /* Ensure clear bar boundaries */
-    overflow: hidden;
+    /* Allow horizontal scrolling on mobile */
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
 }
 
 .category-tabs::-webkit-scrollbar {
@@ -16,9 +20,9 @@
 }
 
 .category-tabs>* {
-    flex: 1 1 0;
-    /* Force equal expansion */
-    min-width: 0;
+    flex: 0 0 auto;
+    /* Prevent items from shrinking too much */
+    min-width: 80px;
     text-align: center;
     display: flex;
     align-items: center;

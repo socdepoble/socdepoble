@@ -1,6 +1,6 @@
 import { supabase } from '../supabaseClient';
 import { logger } from '../utils/logger';
-import { DEMO_USER_ID, ROLES, USER_ROLES, ENABLE_MOCKS } from '../constants';
+import { DEMO_USER_ID, ROLES, USER_ROLES, ENABLE_MOCKS, CREATOR_EMAILS } from '../constants';
 import { PostSchema, MarketItemSchema, MessageSchema, ProfileSchema, ConversationSchema } from './schemas';
 import { MOCK_LORE_POSTS, MOCK_LORE_ITEMS } from '../data/mockLoreData';
 import { pushNotifications } from './pushNotifications';
@@ -203,9 +203,12 @@ const SYSTEM_ENTITIES = [
 export const isFictiveProfile = (profile) => {
     if (!profile) return false;
     const pid = profile.id || '';
-    // Order of priority: ID prefix (Lore), System IDs, then explicit flag (Demo)
+    const email = profile.email || '';
+
+    // Order of priority: Creator account (NEVER fictive), ID prefix (Lore), System IDs, then explicit flag (Demo)
+    if (CREATOR_EMAILS.includes(email)) return false;
+
     return pid.startsWith('11111111-') ||
-        pid.startsWith('damia-') ||
         pid.startsWith('sdp-') ||
         profile.is_demo === true;
 };
@@ -466,9 +469,9 @@ export const supabaseService = {
 
         const dbPersonas = (data || []).filter(p => {
             const isRealUser = p.is_demo === false ||
-                p.full_name?.toLowerCase().includes('javi') ||
+                CREATOR_EMAILS.includes(p.email) ||
                 p.username?.toLowerCase().includes('javillinares') ||
-                p.email?.toLowerCase().includes('socdepoblecom');
+                p.username?.toLowerCase().includes('socdepoble');
 
             const isLoreCharacter = LORE_PERSONAS.some(lp => lp.full_name === p.full_name);
             return !isRealUser && !isLoreCharacter;

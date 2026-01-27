@@ -44,7 +44,14 @@
 .header-actions {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 4px;
+    /* Tighter gap on mobile */
+}
+
+@media (min-width: 768px) {
+    .header-actions {
+        gap: 8px;
+    }
 }
 
 .header-actions button,
@@ -155,6 +162,7 @@
 .header-vision-toggle.hibrida svg {
     filter: drop-shadow(0 0 4px var(--color-primary-soft));
 }
+
 /* [OMNISCIENT] Context Switcher Styles */
 .context-switcher-wrapper {
     position: relative;
@@ -243,11 +251,32 @@
     font-weight: 500;
 }
 
+/* Mobile Specific Header Refinements */
+@media (max-width: 480px) {
+
+    .header-vision-toggle,
+    .header-lang-switcher,
+    .header-diagnostic-btn {
+        display: none !important;
+        /* Hide less critical tools on tiny screens */
+    }
+
+    .header-content {
+        padding: 0 8px;
+    }
+
+    .header-logo {
+        height: 32px;
+        /* Slightly smaller logo */
+    }
+}
+
 @keyframes slideUpFade {
     from {
         opacity: 0;
         transform: translateY(10px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
