@@ -144,7 +144,8 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
 
     // IAIA Autonomous Growth Loop Simulation
     useEffect(() => {
-        if (!isPlayground) return;
+        // [AUDITORIA V4] Permetem que la IAIA interaccione també per a Superadmins en sessió real
+        if (!isPlayground && !isSuperAdmin) return;
 
         const triggerAutonomousInteraction = async () => {
             const newPost = await iaiaService.generateAutonomousInteraction();
@@ -164,7 +165,7 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
             clearTimeout(initialTimer);
             clearInterval(interval);
         };
-    }, [isPlayground]);
+    }, [isPlayground, isSuperAdmin]);
 
     const handleConnectionUpdate = (postId, connected, tags) => {
         setUserConnections(prev => {
@@ -190,7 +191,7 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
     const filteredPosts = useMemo(() => {
         const filtered = posts.filter(post => {
             // 1. Vision Mode Filter
-            if (visionMode === 'humana') {
+            if (visionMode === 'humana' && !isSuperAdmin) {
                 const isAI = post.author_role === 'ambassador' ||
                     post.author_is_ai ||
                     post.is_iaia_inspired ||
@@ -227,7 +228,35 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
             if (!aPinned && bPinned) return 1;
             return 0; // Maintain original time order for the rest
         });
-    }, [posts, visionMode, selectedTag, isNoiseFiltered, userConnections]);
+    }, [posts, visionMode, selectedTag, isNoiseFiltered, userConnections, isSuperAdmin]);
+
+    const handleHeaderClick = useCallback((post) => {
+        const targetId = post.author_entity_id || post.author_user_id || post.author_id;
+        const type = post.author_entity_id ? 'entitat' : 'perfil';
+
+        // BLINDATGE DE LLINATGE: Si és Sóc de Poble, forcem l'ID canònic
+        if (post.author?.toLowerCase().includes('sóc de poble') ||
+            post.author_name?.toLowerCase().includes('sóc de poble') ||
+            targetId === 'sdp-core' ||
+            targetId === 'mock-business-sdp-1' ||
+            targetId === 'sdp-oficial-1') {
+            navigate('/entitat/sdp-oficial-1');
+            return;
+        }
+
+        // Si és la IAIA i estem en sessió real, la portem a la seua pàgina de transparència
+        if (post.author_role === 'ambassador' || post.author_is_ai || post.is_iaia_inspired || targetId === IAIA_ID) {
+            navigate('/iaia');
+            return;
+        }
+
+        if (!targetId || (typeof targetId === 'string' && targetId.startsWith('mock-'))) {
+            logger.warn('Navegació a perfil fictici no disponible:', targetId);
+            return;
+        }
+
+        navigate(`/${type}/${targetId}`);
+    }, [navigate]);
 
     if (loading && posts.length === 0) {
         return (
@@ -290,11 +319,7 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
 
                             return (
                                 <article key={pid} className="universal-card post-card internal-report-card" style={{ border: '2px solid #FFD700', background: '#FFFBE6' }}>
-                                    <div className="card-header clickable" onClick={() => {
-                                        const targetId = post.author_entity_id || post.author_user_id || post.author_id;
-                                        const type = post.author_entity_id ? 'entitat' : 'perfil';
-                                        if (targetId) navigate(`/${type}/${targetId}`);
-                                    }}>
+                                    <div className="card-header clickable" onClick={() => handleHeaderClick(post)}>
                                         <div className="header-left">
                                             <Avatar src={post.author_avatar} role="ambassador" name="IAIA" size={44} />
                                             <div className="post-meta">
@@ -338,11 +363,7 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
                         if (post.type === 'didactic_presentation') {
                             return (
                                 <article key={pid} className="universal-card post-card didactic-card">
-                                    <div className="card-header clickable" onClick={() => {
-                                        const targetId = post.author_entity_id || post.author_user_id || post.author_id;
-                                        const type = post.author_entity_id ? 'entitat' : 'perfil';
-                                        if (targetId) navigate(`/${type}/${targetId}`);
-                                    }}>
+                                    <div className="card-header clickable" onClick={() => handleHeaderClick(post)}>
                                         <div className="header-left">
                                             <Avatar src={post.author_avatar} role="official" name={post.author} size={44} />
                                             <div className="post-meta">
@@ -423,11 +444,7 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
                         if (post.type === 'event_announcement') {
                             return (
                                 <article key={pid} className={`universal-card post-card event-announcement-card animate-in`}>
-                                    <div className="card-header clickable" onClick={() => {
-                                        const targetId = post.author_entity_id || post.author_user_id || post.author_id;
-                                        const type = post.author_entity_id ? 'entitat' : 'perfil';
-                                        if (targetId) navigate(`/${type}/${targetId}`);
-                                    }}>
+                                    <div className="card-header clickable" onClick={() => handleHeaderClick(post)}>
                                         <div className="header-left">
                                             <Avatar src={post.author_avatar} role="official" name={post.author} size={44} />
                                             <div className="post-meta">
@@ -465,22 +482,7 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
                             <article key={pid} className={`universal-card post-card ${post.is_iaia_inspired ? 'animate-in' : ''}`}>
                                 <div
                                     className="card-header clickable"
-                                    onClick={() => {
-                                        const targetId = post.author_entity_id || post.author_user_id;
-                                        const type = post.author_entity_id ? 'entitat' : 'perfil';
-
-                                        // BLINDATGE DE LLINATGE: Si és Sóc de Poble, forcem l'ID canònic
-                                        if (post.author?.includes('Sóc de Poble') || post.author_name?.includes('Sóc de Poble') || targetId === 'sdp-core' || targetId === 'mock-business-sdp-1') {
-                                            navigate('/entitat/sdp-oficial-1');
-                                            return;
-                                        }
-
-                                        if (!targetId || (typeof targetId === 'string' && targetId.startsWith('mock-'))) {
-                                            logger.warn('Navegació a perfil fictici no disponible:', targetId);
-                                            return;
-                                        }
-                                        navigate(`/${type}/${targetId}`);
-                                    }}
+                                    onClick={() => handleHeaderClick(post)}
                                 >
                                     <div className="header-left">
                                         <Avatar

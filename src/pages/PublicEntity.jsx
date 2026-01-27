@@ -129,6 +129,28 @@ const PublicEntity = () => {
         }
     };
 
+    const handleHeaderClick = (item) => {
+        const targetId = item.author_entity_id || item.author_user_id || item.author_id || item.entity_id || id;
+        const type = (item.author_entity_id || item.entity_id) ? 'entitat' : 'perfil';
+
+        if (item.author?.toLowerCase().includes('sóc de poble') ||
+            item.name?.toLowerCase().includes('sóc de poble') ||
+            targetId === 'sdp-core' ||
+            targetId === 'sdp-oficial-1') {
+            navigate('/entitat/sdp-oficial-1');
+            return;
+        }
+
+        if (item.author_role === 'ambassador' || item.author_is_ai || item.is_ai) {
+            navigate('/iaia');
+            return;
+        }
+
+        if (targetId && targetId !== id) {
+            navigate(`/${type}/${targetId}`);
+        }
+    };
+
     const getSocialImage = () => {
         switch (entity.social_image_preference) {
             case 'avatar': return entity.avatar_url;
@@ -219,7 +241,7 @@ const PublicEntity = () => {
                         {posts.length > 0 ? (
                             posts.map(post => (
                                 <article key={post.uuid || post.id} className="universal-card social-post">
-                                    <div className="card-header">
+                                    <div className="card-header clickable" onClick={() => handleHeaderClick(post)}>
                                         <div className="header-left">
                                             <Avatar
                                                 src={post.author_avatar || entity.avatar_url}
@@ -266,7 +288,7 @@ const PublicEntity = () => {
                         {items.length > 0 ? (
                             items.map(item => (
                                 <article key={item.uuid || item.id} className="universal-card market-item-card">
-                                    <div className="card-header">
+                                    <div className="card-header clickable" onClick={() => handleHeaderClick(item)}>
                                         <div className="header-left">
                                             <Avatar
                                                 src={item.avatar_url || entity.avatar_url}

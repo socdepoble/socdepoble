@@ -118,6 +118,27 @@ const PublicProfile = () => {
         }
     };
 
+    const handleHeaderClick = (item) => {
+        const targetId = item.author_entity_id || item.author_user_id || item.author_id || id;
+        const type = item.author_entity_id ? 'entitat' : 'perfil';
+
+        if (item.seller?.toLowerCase().includes('sóc de poble') ||
+            targetId === 'sdp-core' ||
+            targetId === 'sdp-oficial-1') {
+            navigate('/entitat/sdp-oficial-1');
+            return;
+        }
+
+        if (item.author_role === 'ambassador' || item.author_is_ai || profile.role === 'ambassador') {
+            navigate('/iaia');
+            return;
+        }
+
+        if (targetId && targetId !== profile.id) {
+            navigate(`/${type}/${targetId}`);
+        }
+    };
+
     if (loading) return (
         <div className="profile-container loading">
             <Loader2 className="spinner" />
@@ -305,10 +326,7 @@ const PublicProfile = () => {
                                 <article key={item.uuid || item.id} className="universal-card market-item-card">
                                     <div
                                         className="card-header clickable"
-                                        onClick={() => {
-                                            if (item.author_entity_id) navigate(`/entitat/${item.author_entity_id}`);
-                                            else if (id) navigate(`/perfil/${id}`);
-                                        }}
+                                        onClick={() => handleHeaderClick(item)}
                                     >
                                         <div className="header-left">
                                             <Avatar

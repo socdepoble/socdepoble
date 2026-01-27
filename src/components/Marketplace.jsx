@@ -16,7 +16,7 @@ import './Marketplace.css';
 
 const Market = ({ searchTerm = '' }) => {
     const { t, i18n } = useTranslation();
-    const { user, isPlayground } = useAuth();
+    const { user, isPlayground, isAdmin, isSuperAdmin } = useAuth();
     const { visionMode } = useUI();
     const navigate = useNavigate();
     const [items, setItems] = useState([]);
@@ -85,7 +85,7 @@ const Market = ({ searchTerm = '' }) => {
         let baseItems = items;
 
         // 1. Vision Mode Filter
-        if (visionMode === 'humana') {
+        if (visionMode === 'humana' && !isSuperAdmin) {
             baseItems = baseItems.filter(item => {
                 const idToCheck = String(item.seller_entity_id || item.author_entity_id || item.author_user_id || '');
                 const nameToCheck = item.seller || item.seller_name || item.author_name || '';
@@ -135,6 +135,33 @@ const Market = ({ searchTerm = '' }) => {
             item.seller?.toLowerCase().includes(normalizedSearch)
         );
     }, [items, searchTerm, visionMode]);
+
+    const handleHeaderClick = (item) => {
+        const targetId = item.author_entity_id || item.author_user_id || item.id;
+        const type = item.author_entity_id ? 'entitat' : 'perfil';
+
+        // BLINDATGE DE LLINATGE: Si és Sóc de Poble, forcem l'ID canònic
+        if (item.seller?.toLowerCase().includes('sóc de poble') ||
+            targetId === 'sdp-core' ||
+            String(targetId).startsWith('mock-business-sdp') ||
+            targetId === 'sdp-oficial-1') {
+            navigate('/entitat/sdp-oficial-1');
+            return;
+        }
+
+        const IAIA_ID = '00000000-0000-0000-0000-000000000000'; // Define IAIA_ID if not already available or use role check
+        // Si és la IAIA i estem en sessió real, la portem a la seua pàgina de transparència
+        if (item.author_role === 'ambassador' || item.author_is_ai || item.is_iaia_inspired || targetId === IAIA_ID) {
+            navigate('/iaia');
+            return;
+        }
+
+        if (!targetId || (typeof targetId === 'string' && targetId.startsWith('mock-'))) {
+            logger.warn('Navegació a perfil fictici no disponible:', targetId);
+            return;
+        }
+        navigate(`/${type}/${targetId}`);
+    };
 
     if (loading && items.length === 0) {
         return (
@@ -195,21 +222,7 @@ const Market = ({ searchTerm = '' }) => {
                         <article key={item.uuid || item.id} className="universal-card market-item-card">
                             <div
                                 className="card-header clickable"
-                                onClick={() => {
-                                    const targetId = item.author_entity_id || item.author_user_id;
-                                    const type = item.author_entity_id ? 'entitat' : 'perfil';
-
-                                    if (item.seller === 'Sóc de Poble' || targetId === 'sdp-core' || String(targetId).startsWith('mock-business-sdp')) {
-                                        navigate('/entitat/sdp-oficial-1');
-                                        return;
-                                    }
-
-                                    if (!targetId || (typeof targetId === 'string' && targetId.startsWith('mock-'))) {
-                                        logger.warn('Navegació a perfil fictici no disponible:', targetId);
-                                        return;
-                                    }
-                                    navigate(`/${type}/${targetId}`);
-                                }}
+                                onClick={() => handleHeaderClick(item)}
                             >
                                 <div className="header-left">
                                     <Avatar
