@@ -62,7 +62,7 @@
     border-radius: var(--radius-md) !important;
     background-color: var(--color-primary) !important;
     color: white !important;
-    box-shadow: 0 8px 24px rgba(93, 95, 239, 0.3) !important;
+    box-shadow: 0 8px 24px rgba(0, 242, 255, 0.3) !important;
     display: flex;
     align-items: center;
     justify-content: center;
