@@ -29,10 +29,10 @@ const DiagnosticConsole = () => {
     const terminalRef = useRef(null);
 
     const [verifyingIntegrity, setVerifyingIntegrity] = useState(false);
-    const VERSION = "v1.5.4-Genius-Absolut";
+    const VERSION = "v1.5.5-NUCLEAR";
 
     const addHudLog = (type, args) => {
-        const VERSION = "v1.5.4-Genius-Absolut";
+        const VERSION = "v1.5.5-NUCLEAR";
         const msg = args.map(arg =>
             typeof arg === 'object' ? JSON.stringify(arg).substring(0, 100) : String(arg)
         ).join(' ');
@@ -207,7 +207,7 @@ const DiagnosticConsole = () => {
             <div className={`diagnostic-hud ${!isOpen ? 'hidden' : ''} ${screenshotMode ? 'screenshot-mode' : ''}`}>
                 <div className="hud-header">
                     <div className="hud-title-zone">
-                        <div className="hud-badge">V1.5.4-GENIUS-ABSOLUT</div>
+                        <div className="hud-badge">V1.5.5-NUCLEAR</div>
                         <h2>ANTIGRAVITY HUD CORE</h2>
                     </div>
                     <div className="hud-header-actions">
@@ -274,7 +274,7 @@ const DiagnosticConsole = () => {
                                 <div className="panel-header"><Shield size={14} /> <h3>{t('diag.identity')}</h3></div>
                                 <div className="panel-content">
                                     <div className="data-row"><span>ID:</span> <strong>{user?.id?.substring(0, 8) || 'GUEST'}</strong></div>
-                                    <div className="stat-value">v1.5.4-Genius-Absolut</div>
+                                    <div className="stat-value">v1.5.5-NUCLEAR</div>
                                 </div>
                             </section>
 
