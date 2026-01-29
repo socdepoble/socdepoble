@@ -12,6 +12,8 @@ import StatusLoader from './StatusLoader';
 import MarketSkeleton from './Skeletons/MarketSkeleton';
 import SEO from './SEO';
 import Carousel from './Carousel';
+import { iaiaService } from '../services/iaiaService';
+import ShareHub from './ShareHub';
 import './Marketplace.css';
 
 const Market = ({ searchTerm = '' }) => {
@@ -149,8 +151,8 @@ const Market = ({ searchTerm = '' }) => {
             return;
         }
 
-        const IAIA_ID = '00000000-0000-0000-0000-000000000000'; // Define IAIA_ID if not already available or use role check
-        // Si és la IAIA i estem en sessió real, la portem a la seua pàgina de transparència
+        const IAIA_ID = '11111111-1111-4111-a111-000000000010'; // MArIA ID
+        // Si és MArIA i estem en sessió real, la portem a la seua pàgina de transparència
         if (item.author_role === 'ambassador' || item.author_is_ai || item.is_iaia_inspired || targetId === IAIA_ID) {
             navigate('/iaia');
             return;
@@ -179,10 +181,13 @@ const Market = ({ searchTerm = '' }) => {
                 title={t('market.title') || 'El Mercat'}
                 description={t('market.description') || 'Productes de proximitat, artesania i segona mà directament dels teus veïns.'}
                 image="/og-mercat.png"
+                url="/mercat"
+                type="website"
                 structuredData={{
+                    "@context": "https://schema.org",
                     "@type": "OfferCatalog",
                     "name": "Mercat de Sóc de Poble",
-                    "itemListElement": filteredItems.slice(0, 5).map((item, index) => ({
+                    "itemListElement": filteredItems.slice(0, 10).map((item, index) => ({
                         "@type": "Product",
                         "position": index + 1,
                         "name": item.title,
@@ -237,7 +242,7 @@ const Market = ({ searchTerm = '' }) => {
                                                 {item.seller || item.seller_name || item.author_name || 'Venedor'}
                                             </span>
                                             {(item.author_role === 'ambassador' || item.author_is_ai) && (
-                                                <span className="identity-badge ai" title="Informació i Acció Artificial">IAIA</span>
+                                                <span className="identity-badge ai" title="Memòria Artificial i Acció">MArIA</span>
                                             )}
                                         </div>
                                         <div className="post-town">
@@ -294,23 +299,49 @@ const Market = ({ searchTerm = '' }) => {
 
                                 {(item.author_role === 'ambassador' || item.author_is_ai || item.is_iaia_inspired) && (
                                     <div className="ia-transparency-note-mini clickable" onClick={() => navigate('/iaia')}>
-                                        ✨ {t('profile.transparency_market') || 'Producte gestionat per la IAIA (Informació Artificial i Acció)'}
+                                        ✨ {t('profile.transparency_market') || 'Producte gestionat per MArIA (Memòria Artificial i Acció)'}
                                     </div>
                                 )}
+
+                                {/* Cistella Intel·ligent Suggestion */}
+                                {(() => {
+                                    const suggestion = iaiaService.getHealthySuggestion(item.title, item.description);
+                                    if (suggestion && visionMode !== 'humana') {
+                                        return (
+                                            <div className="healthy-suggestion-card" onClick={() => navigate('/iaia')}>
+                                                <div className="suggestion-icon">🍎</div>
+                                                <div className="suggestion-content">
+                                                    <span className="suggestion-label">MArIA suggerix amb Anna Climent:</span>
+                                                    <span className="suggestion-text">Prova l'<strong>{suggestion.title}</strong> amb aquest ingredient!</span>
+                                                </div>
+                                            </div>
+                                        );
+                                    }
+                                    return null;
+                                })()}
                             </div>
 
                             <div className="card-footer-vibrant">
                                 <button
-                                    className="add-btn-premium-vibrant full-width"
+                                    className="add-btn-premium-vibrant"
+                                    style={{ flex: 1 }}
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         if (!user) navigate('/login');
-                                        // Interest logic here
+                                        // Interés logic
+                                        navigate(`/chats/${item.seller_entity_id || item.author_user_id || item.author_id}`, {
+                                            state: { interestedIn: item }
+                                        });
                                     }}
                                 >
                                     <Plus size={20} />
                                     <span>{t('market.interested') || 'M\'interessa'}</span>
                                 </button>
+                                <ShareHub
+                                    title={`${item.title} - El Mercat de Sóc de Poble`}
+                                    text={`Mira aquest producte de proximitat: ${item.title} per ${item.price}. Bateguem pel comerç local!`}
+                                    url={`${window.location.origin}/mercat?id=${item.uuid || item.id}`}
+                                />
                             </div>
                         </article>
                     ))

@@ -201,7 +201,7 @@ const Login = () => {
             <button
                 className="login-diagnostic-trigger"
                 onClick={() => window.dispatchEvent(new CustomEvent('open-diagnostic-hud'))}
-                title="Consola Didàctica"
+                title={t('nav.support')}
                 style={{
                     position: 'fixed',
                     top: '20px',

@@ -4,11 +4,12 @@ import { supabaseService } from '../services/supabaseService';
 import { useTranslation } from 'react-i18next';
 import { MapPin, Phone, Mail, ArrowRight, Loader2 } from 'lucide-react';
 import TownSelectorModal from '../components/TownSelectorModal';
+import { useAuth } from '../context/AuthContext';
 import './Auth.css';
 
 const Register = () => {
     const { adoptPersona, setIsPlayground, user } = useAuth();
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const navigate = useNavigate();
 
     // [DIRECTIVA 1] Auto-redirect already authenticated users

@@ -1,0 +1,124 @@
+.manual-page-container {
+    padding: var(--space-xl) var(--space-lg);
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    line-height: 1.6;
+}
+
+.manual-header {
+    text-align: center;
+    margin-bottom: var(--space-2xl);
+    padding: var(--space-xl) 0;
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    border-radius: var(--radius-lg);
+    color: white;
+}
+
+.manual-icon {
+    color: var(--color-primary);
+    margin-bottom: var(--space-md);
+}
+
+.manual-header h1 {
+    font-size: 28px;
+    font-weight: 800;
+    margin: 0;
+    font-family: var(--font-heading);
+}
+
+.version-tag {
+    font-size: 14px;
+    opacity: 0.7;
+    font-family: var(--font-mono);
+}
+
+.manual-section {
+    margin-bottom: var(--space-2xl);
+}
+
+.manual-section h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--color-primary);
+    border-bottom: 2px solid var(--color-divider);
+    padding-bottom: var(--space-xs);
+    margin-bottom: var(--space-md);
+}
+
+.manual-status-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-lg);
+    margin-bottom: var(--space-2xl);
+}
+
+@media (max-width: 600px) {
+    .manual-status-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.status-card {
+    padding: var(--space-lg);
+    border-radius: var(--radius-md);
+    background-color: var(--bg-card);
+    border: 1px solid var(--color-divider);
+}
+
+.status-card.stable {
+    border-top: 4px solid #10b981;
+}
+
+.status-card.experimental {
+    border-top: 4px solid #f59e0b;
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-md);
+}
+
+.stable .card-header svg {
+    color: #10b981;
+}
+
+.experimental .card-header svg {
+    color: #f59e0b;
+}
+
+.status-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.status-card li {
+    margin-bottom: var(--space-xs);
+    font-size: 14px;
+}
+
+.philosophy-box {
+    background-color: var(--color-primary-soft);
+    padding: var(--space-xl);
+    border-radius: var(--radius-lg);
+    text-align: center;
+    border: 1px dashed var(--color-primary);
+}
+
+.heart-icon {
+    color: #ef4444;
+    margin-bottom: var(--space-sm);
+}
+
+.manual-footer {
+    text-align: center;
+    margin-top: var(--space-2xl);
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--color-divider);
+    font-style: italic;
+    color: var(--text-muted);
+}

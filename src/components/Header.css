@@ -3,7 +3,7 @@
     /* Dark background locked */
     padding: 0 var(--space-md);
     position: sticky;
-    top: var(--banner-height);
+    top: 0;
     z-index: 100;
     height: var(--header-height);
     display: flex;

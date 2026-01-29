@@ -5,7 +5,7 @@ import { Link2, MessageCircle, Share2, MoreHorizontal, Building2, Store, Users, 
 import { useUI } from '../context/UIContext';
 import { supabaseService } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
-import { ROLES } from '../constants';
+import { ROLES, CREATOR_EMAILS, IAIA_ID } from '../constants';
 import { logger } from '../utils/logger';
 import { useTextToSpeech } from '../hooks/useTextToSpeech';
 import CreatePostModal from './CreatePostModal';
@@ -20,6 +20,7 @@ import { iaiaService } from '../services/iaiaService';
 import './Feed.css';
 import './Comments.css';
 import ImageCarousel from './ImageCarousel';
+import Carousel from './Carousel';
 
 const IAIA_INITIAL_DELAY_MS = 10000;
 const IAIA_INTERVAL_MS = 120000;
@@ -103,15 +104,23 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
     useEffect(() => {
         const fetchCommentsForPosts = async () => {
             if (posts.length > 0) {
-                const commentsMap = {};
-                await Promise.all(posts.map(async (p) => {
-                    const comments = await supabaseService.getPostComments(p.uuid || p.id);
-                    if (comments.length > 0) {
-                        commentsMap[p.uuid || p.id] = comments;
+                try {
+                    const commentsMap = {};
+                    await Promise.all(posts.map(async (p) => {
+                        try {
+                            const comments = await supabaseService.getPostComments(p.uuid || p.id);
+                            if (comments && comments.length > 0) {
+                                commentsMap[p.uuid || p.id] = comments;
+                            }
+                        } catch (e) {
+                            logger.warn(`[Feed] Error fetching comments for post ${p.id}:`, e);
+                        }
+                    }));
+                    if (isMounted.current) {
+                        setPostComments(prev => ({ ...prev, ...commentsMap }));
                     }
-                }));
-                if (isMounted.current) {
-                    setPostComments(prev => ({ ...prev, ...commentsMap }));
+                } catch (e) {
+                    logger.error('[Feed] Failed to fetch comments map:', e);
                 }
             }
         };
@@ -166,6 +175,25 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
             clearInterval(interval);
         };
     }, [isPlayground, isSuperAdmin]);
+
+    const handleToggleConnection = async (postId) => {
+        if (!user) {
+            navigate('/login');
+            return;
+        }
+        try {
+            const isConnected = userConnections.some(c => c.post_uuid === postId);
+            if (isConnected) {
+                await supabaseService.removeConnection(user.id, postId);
+                handleConnectionUpdate(postId, false);
+            } else {
+                await supabaseService.addConnection(user.id, postId);
+                handleConnectionUpdate(postId, true, []);
+            }
+        } catch (err) {
+            logger.error('[Feed] Error toggling connection:', err);
+        }
+    };
 
     const handleConnectionUpdate = (postId, connected, tags) => {
         setUserConnections(prev => {
@@ -495,7 +523,7 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
                                             <div className="post-author-row">
                                                 <span className="post-author">
                                                     {(post.author === 'Algú del poble' || !post.author)
-                                                        ? (isAdmin && post.author_user_id === 'd6325f44-7277-4d20-b020-166c010995ab' ? 'Javi Llinares' : 'Veí de la Comunitat')
+                                                        ? (((typeof CREATOR_EMAILS !== 'undefined' ? CREATOR_EMAILS : []).includes(post.author_email)) || post.author_user_id === 'd6325f44-7277-4d20-b020-166c010995ab' || post.author_user_id === '11111111-0000-0000-0000-000000000001' ? post.author_name || 'Javi Llinares' : 'Veí de la Comunitat')
                                                         : post.author
                                                     }
                                                 </span>
@@ -537,6 +565,9 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
                                     {(post.author_role === 'ambassador' || post.author_is_ai || post.is_iaia_inspired) && (
                                         <div className="ia-transparency-note-mini clickable" onClick={() => navigate('/iaia')}>
                                             ✨ {t('profile.transparency_post') || 'Contingut generat per la IAIA (Informació Artificial i Acció)'}
+                                            <div style={{ fontSize: '10px', marginTop: '4px', opacity: 0.7 }}>
+                                                Directiva [Master]: Aquest contingut és fruit de la col·laboració entre veïns i intel·ligència artificial per a la preservació de la memòria del poble.
+                                            </div>
                                         </div>
                                     )}
                                 </div>

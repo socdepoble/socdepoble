@@ -26,7 +26,7 @@ const Layout = () => {
             location.pathname.startsWith('/chats') ? "Xat" :
                 location.pathname.split('/').filter(Boolean).pop() || "Portal";
 
-        document.title = `${pageTitle.charAt(0).toUpperCase() + pageTitle.slice(1)} | ${baseTitle} v1.5.2-Genius`;
+        document.title = `${pageTitle.charAt(0).toUpperCase() + pageTitle.slice(1)} | ${baseTitle} v1.5.4-Genius-Absolut`;
     }, [location]);
 
     // [Interactive Push] Deep Linking to IAIA Chat
@@ -58,7 +58,7 @@ const Layout = () => {
         }
     }, [location.search, navigate, isPlayground]);
 
-    // ALLIBERAMENT TOTAL (Directiva de l'Arquitecte): El banner taronja s'elimina de tot el sistema
+    // ALLIBERAMENT TOTAL: El banner taronja s'elimina de tot el sistema
     const showBanner = false;
 
     return (
@@ -66,7 +66,7 @@ const Layout = () => {
             <ScrollToTop />
             {/* PlaygroundBanner ocult per directiva de l'Arquitecte */}
             {showBanner && <PlaygroundBanner />}
-            {!isChatDetail && <Header />}
+            <Header />
             <main className="content-area">
                 <Outlet />
             </main>

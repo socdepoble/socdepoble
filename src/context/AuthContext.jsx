@@ -207,7 +207,8 @@ export const AuthProvider = ({ children }) => {
 
                     // BUSCADOR DEL COR (v2): Si és un Padrino/Admin i el perfil és buit, busquem l'original
                     const JAVI_REAL_ID = 'd6325f44-7277-4d20-b020-166c010995ab';
-                    const isCreator = CREATOR_EMAILS.includes(session.user.email);
+                    const masters = (typeof CREATOR_EMAILS !== 'undefined') ? CREATOR_EMAILS : [];
+                    const isCreator = masters.includes(session.user.email);
                     const isPadrino = isCreator; // All creators are Padrinos by definition
 
                     // If profileData is empty but it's a Padrino, search by name/username
@@ -317,9 +318,11 @@ export const AuthProvider = ({ children }) => {
             forceNukeSimulation,
             isPlayground,
             setIsPlayground,
-            isSuperAdmin: CREATOR_EMAILS.includes(realUser?.email) || profile?.role === USER_ROLES.SUPER_ADMIN,
-            isAdmin: CREATOR_EMAILS.includes(realUser?.email) || [USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN].includes(profile?.role),
-            isEditor: CREATOR_EMAILS.includes(realUser?.email) || [USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN, USER_ROLES.EDITOR].includes(profile?.role),
+            isSuperAdmin: ((typeof CREATOR_EMAILS !== 'undefined' ? CREATOR_EMAILS : [])).includes(realUser?.email) ||
+                profile?.role === USER_ROLES.SUPER_ADMIN ||
+                profile?.phone === '+34635082813',
+            isAdmin: ((typeof CREATOR_EMAILS !== 'undefined' ? CREATOR_EMAILS : [])).includes(realUser?.email) || [USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN].includes(profile?.role),
+            isEditor: ((typeof CREATOR_EMAILS !== 'undefined' ? CREATOR_EMAILS : [])).includes(realUser?.email) || [USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN, USER_ROLES.EDITOR].includes(profile?.role),
             impersonatedProfile,
             setImpersonatedProfile,
             activeEntityId,

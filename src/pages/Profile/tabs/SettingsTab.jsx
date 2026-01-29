@@ -1,5 +1,5 @@
 import React from 'react';
-import { Moon, Sun, Bell, ChevronRight, ShieldCheck, LogOut, HelpCircle, User, Globe, Download, FileText } from 'lucide-react';
+import { Moon, Sun, Bell, ChevronRight, ShieldCheck, LogOut, HelpCircle, User, Globe, Download, FileText, Info, Sparkles } from 'lucide-react';
 import IAIATamagotchiSettings from '../../../components/IAIATamagotchiSettings';
 import { exportService } from '../../../services/exportService';
 import { supabaseService } from '../../../services/supabaseService';
@@ -141,6 +141,39 @@ const SettingsTab = ({
                 </div>
             </section>
 
+            {/* TRANSPARENCY & LEGAL */}
+            <section className="settings-section-premium">
+                <h3 className="settings-group-title">
+                    <Info size={16} /> Transparència i Legalitat
+                </h3>
+
+                <div className="premium-setting-item" onClick={() => navigate('/iaia')}>
+                    <div className="setting-content-left">
+                        <div className="setting-icon-wrapper">
+                            <Sparkles size={20} />
+                        </div>
+                        <div className="setting-text-bundle">
+                            <span>Crèdits i Equip</span>
+                            <small>Qui batea darrere de Sóc de Poble</small>
+                        </div>
+                    </div>
+                    <ChevronRight size={20} className="text-muted" />
+                </div>
+
+                <div className="premium-setting-item" onClick={() => navigate('/legal')}>
+                    <div className="setting-content-left">
+                        <div className="setting-icon-wrapper">
+                            <FileText size={20} />
+                        </div>
+                        <div className="setting-text-bundle">
+                            <span>Avisos Legals</span>
+                            <small>Protecció de dades i condicions</small>
+                        </div>
+                    </div>
+                    <ChevronRight size={20} className="text-muted" />
+                </div>
+            </section>
+
             {/* TAMAGOTCHI */}
             <section className="settings-section-premium">
                 <IAIATamagotchiSettings
@@ -168,7 +201,7 @@ const SettingsTab = ({
 
             <div className="premium-footer">
                 <div className="premium-footer-line" />
-                <span>v1.5.1-Genius • Sóc de Poble</span>
+                <span>v1.5.4-Genius-Absolut • Sóc de Poble</span>
                 <HelpCircle size={14} />
             </div>
         </div>

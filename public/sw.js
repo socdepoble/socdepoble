@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'Genius-1.5.2-Final';
+const CACHE_VERSION = 'Genius-1.5.4-Final-Absolute-Consolidated';
 const CACHE_NAME = `socdepoble-${CACHE_VERSION}`;
 const HEALTH_CHECK_INTERVAL = 5 * 60 * 1000; // 5 minutes
 

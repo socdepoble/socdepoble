@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { supabaseService } from '../services/supabaseService';
 import {
     Users, Shield, ArrowLeft, Loader2, Store, Activity,
-    Bell, Cpu, Terminal, Zap, CheckCircle, AlertTriangle, Brain
+    Bell, Cpu, Terminal, Zap, CheckCircle, AlertTriangle, Brain, MessageSquare
 } from 'lucide-react';
 import { logger } from '../utils/logger';
 import pushNotifications from '../services/pushNotifications';
@@ -56,7 +56,7 @@ const AdminPanel = () => {
                     setTimeout(() => {
                         addLog('Executant correcció automàtica de sitemap...', 'action');
                         setHealth(100);
-                        addLog('Incidències resoltes per IA.', 'success');
+                        addLog('Caché cognitiva actualitzada amb v1.5.4-Genius-Absolut.', 'success');
                     }, 2000);
                 }
 
@@ -101,15 +101,15 @@ const AdminPanel = () => {
                 <div className="title-area">
                     <h1>
                         <Shield className="text-cyan-400" size={24} />
-                        ANTIGRAVITY <span style={{ opacity: 0.5 }}>//</span> CORE v1.5.1-Genius
+                        ANTIGRAVITY <span style={{ opacity: 0.5 }}>//</span> CORE v1.5.4-Genius-Absolut
                     </h1>
                     <p>SUPERVISOR DEL SISTEMA: {isSuperAdmin ? 'NIVELL 5 (GOD MODE)' : 'NIVELL 3 (OPERADOR)'}</p>
                 </div>
                 <div className="flex gap-2">
                     <button
                         onClick={() => window.dispatchEvent(new CustomEvent('open-diagnostic-hud'))}
-                        className="btn-hud-small"
-                        title="Obrir Consola de Diagnòstic (HUD)"
+                        className="header-diagnostic-btn"
+                        title={t('nav.support')}
                     >
                         <Terminal size={18} />
                     </button>
@@ -257,9 +257,9 @@ const AdminPanel = () => {
                             {/* MODULE 6: DIAGNOSIS (New) */}
                             <div className="module-card red" onClick={() => window.dispatchEvent(new CustomEvent('open-diagnostic-hud'))}>
                                 <div className="module-icon-wrapper" style={{ background: 'var(--color-error)', color: '#fff' }}>
-                                    <Terminal size={24} />
+                                    <Activity size={24} />
                                 </div>
-                                <h3>Diagnosi Global</h3>
+                                <h3>Suport Tècnic</h3>
                                 <p>Consola de depuració forjada en temps real (HUD).</p>
                             </div>
 
@@ -353,9 +353,44 @@ const BroadcastModule = ({ user, addLog }) => {
                     </div>
                 </div>
                 <div className="p-4 border border-gray-700 rounded-xl bg-black/20">
-                    <h3 className="font-bold text-lg mb-2 text-cyan-400">✨ MÀGIA</h3>
-                    <p className="text-sm text-gray-400 mb-4">Invoca a la IAIA per generar vida al poble.</p>
-                    <button className="btn-primary w-full" onClick={() => addLog('Generant activitat sintètica...', 'info')}>
+                    <h3 className="font-bold text-lg mb-2 text-cyan-400">✨ GESTIÓ DE CONTINGUT</h3>
+                    <p className="text-sm text-gray-400 mb-4">Publica manualment col·leccions de contingut premium.</p>
+                    <button
+                        className="btn-primary w-full"
+                        onClick={async () => {
+                            addLog('Detectant script de notícies de l\'Anna...', 'info');
+                            try {
+                                const { publishAnnaNews } = await import('../utils/publishAnnaNews');
+                                await publishAnnaNews();
+                                addLog('Notícies d\'Anna Climent publicades amb èxit.', 'success');
+                                alert("8 notícies saludables han sigut introduïdes al sistema.");
+                            } catch (err) {
+                                logger.error('Error publicant des d\'admin:', err);
+                                addLog('Fallada en publicació d\'Anna Climent.', 'error');
+                            }
+                        }}
+                    >
+                        🍎 PUBLICAR MENÚS ANNA
+                    </button>
+                    <button
+                        className="btn-primary w-full mt-2"
+                        style={{ background: 'var(--color-primary-soft)', color: 'var(--color-primary)' }}
+                        onClick={async () => {
+                            addLog('Preparant feedback per a Anna Climent...', 'info');
+                            try {
+                                const { sendFeedbackToAnna } = await import('../utils/feedbackToAnna');
+                                await sendFeedbackToAnna();
+                                addLog('Feedback enviat a Anna Climent.', 'success');
+                                alert("Missatge de feedback enviat a l'Anna Climent des de MArIA.");
+                            } catch (err) {
+                                logger.error('Error enviant feedback des d\'admin:', err);
+                                addLog('Fallada en enviament de feedback.', 'error');
+                            }
+                        }}
+                    >
+                        <MessageSquare size={14} /> ENVIAR FEEDBACK A ANNA
+                    </button>
+                    <button className="btn-primary w-full mt-2" onClick={() => addLog('Generant activitat sintètica...', 'info')}>
                         ACTIVAR SIMULACIÓ
                     </button>
                 </div>

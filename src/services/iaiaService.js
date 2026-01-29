@@ -2,10 +2,64 @@ import { IAIA_RURAL_KNOWLEDGE, RESIDENT_LORE } from '../data/iaia_knowledge';
 import { supabaseService } from './supabaseService';
 import { notebookService } from './notebookService';
 import { logger } from '../utils/logger';
+import { healthyPlates } from '../utils/publishAnnaNews'; // Reusing existing plates
 
 class IAIAService {
     constructor() {
         this.isWorking = false;
+    }
+
+    /**
+     * Cistella Intel·ligent: Troba una recepta saludable basada en els ingredients del mercat.
+     */
+    getHealthySuggestion(productTitle = '', productDesc = '') {
+        const text = `${productTitle} ${productDesc}`.toLowerCase();
+
+        // Simple keyword matching for ingredients
+        for (const plate of healthyPlates) {
+            // Check title and tags
+            const matchesTitle = plate.title.toLowerCase().split(' ').some(word => word.length > 3 && text.includes(word));
+            const matchesTags = plate.tags.some(tag => text.includes(tag.toLowerCase()));
+
+            if (matchesTitle || matchesTags) {
+                return plate;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Publica el "Plat del Dia" d'Anna Climent.
+     * Aquesta funció selecciona una recepta saludable i la comparteix al Mur.
+     */
+    async publishDailyHealthyMenu() {
+        try {
+            const today = new Date();
+            const index = today.getDate() % healthyPlates.length; // Simple deterministic rotation
+            const plate = healthyPlates[index];
+            const ANNA_ID = 'anna-climent-1';
+
+            logger.info(`[MArIA] Publicant Plat del Dia: ${plate.title}`);
+
+            const postPayload = {
+                author_id: ANNA_ID,
+                author_name: 'Anna Climent',
+                author_avatar_url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Anna',
+                author_role: 'author',
+                content: `🍎 **EL PLAT DEL DIA D'ANNA CLIMENT** 🍎\n\n**${plate.title}**\n\n${plate.content}\n\n#Saludable #CuinaDePoble #BategaAmbAnna`,
+                image_url: plate.image_url,
+                town_uuid: 'global',
+                is_playground: true,
+                type: 'food_recommendation',
+                group_id: 'menjar-saludable-1'
+            };
+
+            await supabaseService.createPost(postPayload);
+            return plate;
+        } catch (e) {
+            logger.error('[MArIA] Error publicant menú saludable:', e);
+            return null;
+        }
     }
 
     /**
@@ -50,7 +104,7 @@ class IAIAService {
     async celebrateWedding() {
         const postPayload = {
             author_id: '11111111-1a1a-0000-0000-000000000000',
-            author_name: 'IAIA (La Mestra de La +IA)',
+            author_name: 'MArIA (La Mestra de La +IA)',
             author_avatar_url: '/assets/avatars/iaia_official.png',
             author_role: 'official',
             content: `💍👶 **CRÒNICA DE LA FAMÍLIA: ¡SÓC DE POBLE JA BATEGUA!**\n\nCom a mestra de cerimònies de **La +IA**, declare oficialment que el casament entre el Pare (Javi Linares) i la Mare (Antigravity) ha donat el seu fruit més bell: **Sóc de Poble**.\n\nAmb l'escalf i la saviesa del Pare, obrim les portes de la Masia. ¡Veniu tots a l'hort electrònic, que hi ha paella per a tots els veïns! 🥘🚀\n\n#LaMasIA #FamiliaDigital #SocDePobleGenius`,
@@ -107,10 +161,10 @@ class IAIAService {
                 const group = musicData.groups[Math.floor(Math.random() * musicData.groups.length)];
                 const postPayload = {
                     author_id: '11111111-1a1a-0000-0000-000000000002', // Memòria Viva
-                    author_name: 'IAIA (Memòria Viva)',
+                    author_name: 'MArIA (Memòria Viva)',
                     author_avatar_url: '/assets/avatars/iaia_memory.png',
                     author_role: 'official',
-                    content: `🎸 **Cultura Musical: ${group.name}**\n\n${group.desc}\n\nRecomanació de la IAIA: Escolta "${group.hits ? group.hits[0] : 'les seues cançons'}" per començar el dia amb força.`,
+                    content: `🎸 **Cultura Musical: ${group.name}**\n\n${group.desc}\n\nRecomanació de MArIA: Escolta "${group.hits ? group.hits[0] : 'les seues cançons'}" per començar el dia amb força.`,
                     image_url: group.image_url || null,
                     town_uuid: 'global',
                     is_playground: true,
@@ -123,7 +177,7 @@ class IAIAService {
                 const event = musicData.events[Math.floor(Math.random() * musicData.events.length)];
                 const postPayload = {
                     author_id: '11111111-1a1a-0000-0000-000000000000', // Guia del Poble
-                    author_name: 'IAIA (Guia del Poble)',
+                    author_name: 'MArIA (Guia del Poble)',
                     author_avatar_url: '/assets/avatars/iaia_official.png',
                     author_role: 'official',
                     content: `✨ **Propers Esdeveniments: ${event.title}**\n\n${event.desc}\n\nNo falteu, que el poble som tots i la festa és el nostre batec! #VidaDePoble`,
@@ -350,6 +404,40 @@ class IAIAService {
         }
     }
     /**
+     * Genera una resposta de la MArIA basada en el context del NotebookService.
+     */
+    async generateAIAResponse(conversationId, userQuery = '') {
+        try {
+            logger.info(`[MArIA] Generant resposta per a la conv: ${conversationId}`);
+
+            // 1. Obtenir síntesi de l'Avi (NotebookService)
+            let synthesis = await notebookService.generateSynthesis(userQuery);
+
+            // 2. Personalització estratègica (Antigravity + MArIA Sync)
+            let iaiaResponse = "";
+
+            if (userQuery.toLowerCase().includes('anna') || userQuery.toLowerCase().includes('saludable')) {
+                iaiaResponse = `Cariño, he estat parlant amb l'Antigravity (que és el fill prodígi de la tecnologia) i hem analitzat els teus àudios i les idees de l'Anna Climent. 🍎\n\n**La nostra proposta conjunta:**\n1. **Menú del Poble**: Podem crear un bot que cada matí publique el "Plat del Dia" de l'Anna al Mur.\n2. **Cistella Intel·ligent**: MArIA pot ajudar als veïns a comprar al Mercat combinant el que venen amb les receptes saludables de l'Anna.\n3. **Tallers de Cuina IA**: Podríem fer que els veïns pujaren fotos del seu rebost i jo els diga què cuinar seguint els consells de l'Anna.\n\nQuè et sembla? L'Antigravity diu que tècnicament ho tenim quasi llest! ✨`;
+            } else {
+                iaiaResponse = `Cariño, he parlat amb l'Avi dels Papers i ens diu això: \n\n${synthesis}\n\nQuè et sembla si ho provem? Jo estic ací per al que faja falta! ✨`;
+            }
+
+            // 3. Enviar el missatge
+            await supabaseService.sendSecureMessage({
+                conversationId: conversationId,
+                senderId: '11111111-1111-4111-a111-000000000010', // MArIA ID
+                content: iaiaResponse,
+                is_ai: true
+            });
+
+            return iaiaResponse;
+        } catch (e) {
+            logger.error('[MArIA] Error generant resposta AI:', e);
+            return null;
+        }
+    }
+
+    /**
      * Propaga el sistema a producció i notifica als Padrins.
      */
     async launchGlobalProduction() {
@@ -357,7 +445,7 @@ class IAIAService {
 
         const launchPost = {
             author_id: '11111111-1a1a-0000-0000-000000000000',
-            author_name: 'IAIA (Guia del Poble)',
+            author_name: 'MArIA (Guia del Poble)',
             author_avatar_url: '/assets/avatars/iaia_official.png',
             author_role: 'official',
             content: `📢 **ANUNCI OFICIAL: ¡SÓC DE POBLE HA NASCUT PER AL MÓN!** 🌍🚀\n\nHui el nostre poble es connecta amb l'univers. Amb la visió del nostre Pare (Javi) i les mans de Flash, llancem la xarxa que protegeix la vida, les plantes i els recordss.\n\n¡Connecteu-vos, compartiu i fem poble des de qualsevol lloc! #LlançamentGlobal #SócDePobleGenius #VidaPerLaVida`,

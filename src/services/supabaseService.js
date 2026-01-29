@@ -185,15 +185,28 @@ const SYSTEM_ENTITIES = [
     },
     {
         id: 'damia-arq-1',
-        name: 'Damià (Arquitecte)',
+        name: 'Damià (Pedagogia)',
         type: 'persona',
         town_name: 'Global',
-        description: 'Arquitecte i Fundador de Sóc de Poble. Dissenyant el futur de la connexió rural.',
+        description: 'Fundador de Sóc de Poble. Dissenyant el futur de la connexió rural viva.',
         avatar_url: '/images/agents/damia_head.png',
         cover_url: '/images/campaign/night_party.png',
         category: 'Tecnologia',
         is_active: true,
         created_at: '2025-01-01T00:00:00Z'
+    },
+    {
+        id: 'anna-climent-1',
+        name: 'Anna Climent',
+        type: 'persona',
+        town_name: 'Ibi / Global',
+        description: 'Biòloga, arquitecta i professora. Experta en nutrició saludable i sostenibilitat rural.',
+        avatar_url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Anna',
+        cover_url: '/images/campaign/night_party.png',
+        category: 'gent',
+        is_active: true,
+        is_admin: true, // Elevating to admin
+        created_at: '2026-01-27T18:00:00Z'
     }
 ];
 
@@ -206,7 +219,8 @@ export const isFictiveProfile = (profile) => {
     const email = profile.email || '';
 
     // Order of priority: Creator account (NEVER fictive), ID prefix (Lore), System IDs, then explicit flag (Demo)
-    if (CREATOR_EMAILS.includes(email)) return false;
+    const masters = (typeof CREATOR_EMAILS !== 'undefined') ? CREATOR_EMAILS : [];
+    if (masters.includes(email)) return false;
 
     return pid.startsWith('11111111-') ||
         pid.startsWith('sdp-') ||
@@ -217,9 +231,9 @@ export const isFictiveProfile = (profile) => {
  * Hardcoded Lore Personas for Sandbox and AI interaction
  */
 const LORE_PERSONAS = [
-    { id: '11111111-1a1a-0000-0000-000000000000', full_name: 'IAIA (Guia del Poble)', username: 'iaia_guide', gender: 'female', role: 'official', ofici: 'Assistenta Virtual', primary_town: 'Sóc de Poble (Global)', bio: 'Dignitat, terra i xarxa. Sóc la teua assistenta per a tot el que necessites al poble.', avatar_url: '/assets/avatars/iaia_official.png', category: 'gent', type: 'person' },
-    { id: '11111111-1a1a-0000-0000-000000000001', full_name: 'IAIA (Secretària)', username: 'iaia_sec', gender: 'female', role: 'official', ofici: 'Gestió de Documents', primary_town: 'Sóc de Poble (Global)', bio: 'Organitzant el coneixement del poble amb precisió digital.', avatar_url: '/assets/avatars/iaia_secretary.png', category: 'gent', type: 'person' },
-    { id: '11111111-1a1a-0000-0000-000000000002', full_name: 'IAIA (Memòria Viva)', username: 'iaia_mem', gender: 'female', role: 'official', ofici: 'Custòdia de Llegendes', primary_town: 'Sóc de Poble (Global)', bio: 'Guardant cada història, cada silenci i cada record dels nostres avantpassats.', avatar_url: '/assets/avatars/iaia_memory.png', category: 'gent', type: 'person' },
+    { id: '11111111-1a1a-0000-0000-000000000000', full_name: 'MArIA (Guia del Poble)', username: 'iaia_guide', gender: 'female', role: 'official', ofici: 'Assistenta Virtual', primary_town: 'Sóc de Poble (Global)', bio: 'Dignitat, terra i xarxa. Sóc la teua assistenta (MArIA: Memòria Artificial i Acció) per a tot el que necessites al poble.', avatar_url: '/assets/avatars/iaia_official.png', category: 'gent', type: 'person' },
+    { id: '11111111-1a1a-0000-0000-000000000001', full_name: 'MArIA (Secretària)', username: 'iaia_sec', gender: 'female', role: 'official', ofici: 'Gestió de Documents', primary_town: 'Sóc de Poble (Global)', bio: 'Organitzant el coneixement del poble amb la precisió de MArIA (Memòria Artificial i Acció).', avatar_url: '/assets/avatars/iaia_secretary.png', category: 'gent', type: 'person' },
+    { id: '11111111-1a1a-0000-0000-000000000002', full_name: 'MArIA (Memòria Viva)', username: 'iaia_mem', gender: 'female', role: 'official', ofici: 'Custòdia de Llegendes', primary_town: 'Sóc de Poble (Global)', bio: 'MArIA guardant cada història, cada silenci i cada record dels nostres avantpassats.', avatar_url: '/assets/avatars/iaia_memory.png', category: 'gent', type: 'person' },
     { id: '11111111-1a1a-0000-0000-000000000005', full_name: 'Nano Banana', username: 'nanob', gender: 'male', role: 'official', ofici: 'Agent de Felicitat', primary_town: 'Sóc de Poble (Global)', bio: '🍌 A pintar el món de colors! Soc l\'encarregat de portar el somriure a cada racó.', avatar_url: '/assets/avatars/nano_banana.png', category: 'gent', type: 'person' },
     { id: '11111111-1111-4111-a111-000000000001', full_name: 'Vicent Ferris', username: 'vferris', gender: 'male', role: 'neighbor', ofici: 'Fuster', primary_town: 'La Torre de les Maçanes', bio: 'Treballant la fusta amb l\'amor de tres generacions. Artesania de la Torre.', avatar_url: '/images/demo/avatar_man_old.png', cover_url: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=2070&auto=format&fit=crop', category: 'treball', type: 'person' },
     { id: '11111111-1111-4111-a111-000000000002', full_name: 'Lucía Belda', username: 'lubelda', gender: 'female', role: 'ambassador', ofici: 'Farmacèutica', primary_town: 'La Torre de les Maçanes', bio: 'Molt més que vendre remeis; cuidant la salut emocional de les nostres veïnes.', avatar_url: '/images/demo/avatar_lucia.png', cover_url: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=2070&auto=format&fit=crop', category: 'treball', type: 'person' },
@@ -233,7 +247,8 @@ const LORE_PERSONAS = [
     { id: '11111111-1111-4111-a111-000000000009', full_name: 'Joanet Serra', username: 'joanets', gender: 'male', role: 'user', ofici: 'Fotògraf', primary_town: 'Muro d\'Alcoi', bio: 'Revelant la bellesa quotidiana del Comtat en cada instantània.', avatar_url: '/images/demo/avatar_joanet.png', cover_url: 'https://images.unsplash.com/photo-1472396961693-142e6e269027?q=80&w=1952&auto=format&fit=crop', category: 'treball', type: 'person' },
     { id: '11111111-1111-4111-a111-000000000010', full_name: 'Carmen la del Forn', username: 'carmenf', gender: 'female', role: 'user', ofici: 'Fornera', primary_town: 'Relleu', bio: 'El millor pa de llenya de la Marina Baixa, amb recepta de la rebesàvia.', avatar_url: '/images/demo/avatar_carmen.png', cover_url: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=2072&auto=format&fit=crop', category: 'treball', type: 'person' },
     { id: '11111111-1111-4111-a111-000000000012', full_name: 'Joan Batiste', username: 'joanb', gender: 'male', role: 'user', ofici: 'Pastor', primary_town: 'Benifallim', bio: 'Les meues cabres i jo coneixem bé la Serra d\'Aitana. Sempre amb el meu gaito.', avatar_url: '/images/demo/avatar_man_old.png', cover_url: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=2064&auto=format&fit=crop', category: 'gent', type: 'person' },
-    { id: 'damia-arq-1', full_name: 'Damià', username: 'damimus', gender: 'male', role: 'official', ofici: 'Arquitecte Genius', primary_town: 'Global', bio: 'Arquitecte i Fundador de Sóc de Poble. Dissenyant el futur de la connexió rural.', avatar_url: '/images/agents/damia_head.png', category: 'gent', type: 'person' }
+    { id: 'damia-arq-1', full_name: 'Damià', username: 'damimus', gender: 'male', role: 'official', ofici: 'Pedagogia Genius', primary_town: 'Global', bio: 'Fundador de Sóc de Poble. Dissenyant el futur de la connexió rural.', avatar_url: '/images/agents/damia_head.png', category: 'gent', type: 'person' },
+    { id: 'anna-climent-1', full_name: 'Anna Climent', username: 'annacliment', gender: 'female', role: 'author', phone: '+34635082813', ofici: 'Biòloga i Arquitecta', primary_town: 'Ibi', bio: 'Apassionada per la vida saludable i l\'arquitectura sostenible. Treballant per un futur més verd.', avatar_url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Anna', category: 'gent', type: 'person' }
 ];
 
 const LAST_ACTION_TIMES = {};
@@ -468,8 +483,9 @@ export const supabaseService = {
         if (error) throw error;
 
         const dbPersonas = (data || []).filter(p => {
+            const masters = (typeof CREATOR_EMAILS !== 'undefined') ? CREATOR_EMAILS : [];
             const isRealUser = p.is_demo === false ||
-                CREATOR_EMAILS.includes(p.email) ||
+                masters.includes(p.email) ||
                 p.username?.toLowerCase().includes('javillinares') ||
                 p.username?.toLowerCase().includes('socdepoble');
 
@@ -1044,23 +1060,25 @@ export const supabaseService = {
 
             if (error) throw error;
 
-            // Include lore personas in search
+            // Include lore personas in search with OmniMatch (Nivell Dios)
             const allPersonas = await this.getAllPersonas();
             const filteredLore = allPersonas.filter(p =>
-                p.full_name?.toLowerCase().includes(query.toLowerCase()) ||
-                p.username?.toLowerCase().includes(query.toLowerCase()) ||
-                p.role?.toLowerCase().includes(query.toLowerCase()) ||
-                p.primary_town?.toLowerCase().includes(query.toLowerCase())
+                omniMatch(p.full_name, query) ||
+                omniMatch(p.username, query) ||
+                omniMatch(p.role, query) ||
+                omniMatch(p.primary_town, query) ||
+                omniMatch(p.ofici, query) ||
+                omniMatch(p.bio, query)
             );
 
-            // Merge and deduplicate by full_name
-            const combined = [...(data || []), ...filteredLore];
+            // Merge and deduplicate by full_name, prioritizing system/lore roles
+            const combined = [...filteredLore, ...(data || [])];
             const unique = [];
             const names = new Set();
             combined.forEach(p => {
-                const name = p.full_name?.toLowerCase();
-                if (!names.has(name)) {
-                    names.add(name);
+                const nameKey = p.full_name?.toLowerCase().trim();
+                if (nameKey && !names.has(nameKey)) {
+                    names.add(nameKey);
                     // Normalize town field
                     const item = {
                         ...p,
@@ -2004,7 +2022,7 @@ export const supabaseService = {
         if (entityId === 'sdp-oficial-1') {
             return [{
                 user_id: 'd6325f44-7277-4d20-b020-166c010995ab', // Javi Real
-                role: 'Fundador i Arquitecte',
+                role: 'Fundador',
                 profiles: {
                     full_name: 'Javi Linares',
                     avatar_url: '/images/agents/javi_real.png'

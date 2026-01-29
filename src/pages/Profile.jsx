@@ -8,7 +8,7 @@ import {
     User, LogOut, Camera, Save, Building2, Store, Settings, Star, Home,
     Bell, Lock, HelpCircle, Info, ChevronRight, MapPin, MessageCircle,
     Plus, Moon, Sun, ArrowLeft, Loader2, Image as ImageIcon, Maximize,
-    LayoutGrid, Activity, ShieldCheck, Globe, Edit2, BookOpen, Share2
+    LayoutGrid, Activity, ShieldCheck, Globe, Edit2, BookOpen, Share2, Beaker
 } from 'lucide-react';
 import { logger } from '../utils/logger';
 
@@ -31,6 +31,7 @@ import SettingsTab from './Profile/tabs/SettingsTab';
 import ManualTab from './Profile/tabs/ManualTab';
 import KnowledgeHub from '../components/KnowledgeHub';
 
+import { CREATOR_EMAILS } from '../constants';
 import './Profile.css';
 import './ProfileDuality.css';
 
@@ -42,8 +43,9 @@ const Profile = () => {
     const location = useLocation();
 
     // Identity Duality State
-    // THE CREATOR RULE: Javi and Damià should see their real identity by default.
-    const isCreator = CREATOR_EMAILS.includes(realUser?.email || user?.email);
+    // [SAFETY SHIELD]: Evitem ReferenceError si el fitxer de constants no ha carregat bé en versions velles
+    const masters = (typeof CREATOR_EMAILS !== 'undefined') ? CREATOR_EMAILS : (window.CREATOR_EMAILS || []);
+    const isCreator = masters.includes(realUser?.email || user?.email);
     const [viewRealIdentity, setViewRealIdentity] = useState(isCreator);
 
     // Derived State: Duality Engine
@@ -58,7 +60,7 @@ const Profile = () => {
 
     // Safety fallback for UI rendering
     if (!finalProfile && !user) {
-        return <StatusLoader message="Verificant identitat de l'Arquitecte..." />;
+        return <StatusLoader message="Verificant identitat..." />;
     }
 
     const displayProfileSafe = finalProfile || {
@@ -79,7 +81,7 @@ const Profile = () => {
     const [bioValue, setBioValue] = useState('');
     const [secondaryTowns, setSecondaryTowns] = useState([]);
 
-    // Logic Hooks - Use finalProfile?.id to fetch stats safely
+    // Logic Hooks
     const { stats, isLoading: isLoadingQueries } = useProfileQueries(finalProfile?.id || user?.id);
     const media = useProfileMedia(finalProfile || profile, setProfile);
 
@@ -89,8 +91,6 @@ const Profile = () => {
     }, []);
 
     useEffect(() => {
-        // Only update local values if we are NOT viewing the real identity 
-        // OR if the identity being viewed matches the current profile.
         const targetData = finalProfile || profile;
         if (targetData && !isEditingCard) {
             setOficiValue(targetData.ofici || '');
@@ -163,15 +163,6 @@ const Profile = () => {
                 secondary_towns: secondaryTowns
             };
 
-            if (userTown) {
-                if (userTown.uuid) {
-                    updates.town_uuid = userTown.uuid;
-                } else if (userTown.id) {
-                    updates.town_id = userTown.id;
-                    updates.town_uuid = null;
-                }
-            }
-
             const updated = await supabaseService.updateProfile(user.id, updates);
             setProfile(updated);
             setIsEditingCard(false);
@@ -181,7 +172,7 @@ const Profile = () => {
         }
     };
 
-    // LOADING STATE: Bypass if in playground to avoid infinite spinners with mock IDs
+    // LOADING STATE
     const shouldShowLoader = isLoadingQueries && !isPlayground;
     if ((!user && !profile) || shouldShowLoader) return <StatusLoader type="loading" />;
 
@@ -256,6 +247,7 @@ const Profile = () => {
                     url: `${window.location.origin}/perfil/${displayProfileSafe?.id || user?.id}`
                 }}
             >
+                {/* Stats bar integrated into the header children */}
                 <div className="profile-stats-bar">
                     <div className="stat-card">
                         <span className="stat-value">{stats.posts}</span>
@@ -272,7 +264,7 @@ const Profile = () => {
                 </div>
             </ProfileHeaderPremium>
 
-            {/* DUALITY FAB - thumb zone optimized */}
+            {/* DUALITY FAB */}
             {isPlayground && isAdmin && (
                 <div className="identity-duality-fab">
                     <div className="duality-status-tag">
@@ -283,12 +275,6 @@ const Profile = () => {
                         onClick={() => {
                             const newMode = !viewRealIdentity;
                             setViewRealIdentity(newMode);
-                            if (window.addHudLog) {
-                                window.addHudLog('info', [
-                                    `Identitat canviada a: ${newMode ? 'REAL' : 'PERSONATGE'}`,
-                                    `Perfil: ${newMode ? (realProfile?.full_name || 'Javi') : (profile?.full_name || 'IAIA')}`
-                                ]);
-                            }
                         }}
                     >
                         {viewRealIdentity ? <ShieldCheck size={20} /> : <User size={20} />}
@@ -297,35 +283,69 @@ const Profile = () => {
                 </div>
             )}
 
-            <nav className="profile-tabs-nav horizontal-scroll">
-                <button className={activeTab === 'info' ? 'active' : ''} onClick={() => setActiveTab('info')}>
-                    <User size={18} />
-                    <span>Perfil</span>
-                </button>
-                <button className={activeTab === 'activity' ? 'active' : ''} onClick={() => setActiveTab('activity')}>
-                    <Activity size={18} />
-                    <span>Activitat</span>
-                </button>
-                <button className={activeTab === 'community' ? 'active' : ''} onClick={() => setActiveTab('community')}>
-                    <Building2 size={18} />
-                    <span>Comunitat</span>
-                </button>
-                <button className={activeTab === 'settings' ? 'active' : ''} onClick={() => setActiveTab('settings')}>
-                    <Settings size={18} />
-                    <span>Ajustos</span>
-                </button>
-                <button className={activeTab === 'manual' ? 'active' : ''} onClick={() => setActiveTab('manual')}>
-                    <BookOpen size={18} />
-                    <span>Guia</span>
-                </button>
-                <button className={activeTab === 'hub' ? 'active' : ''} onClick={() => setActiveTab('hub')}>
-                    <Share2 size={18} />
-                    <span>Connexió</span>
-                </button>
-            </nav>
+            <div className="profile-main-content">
+                {/* Beta Tester Section - Visible in Settings or main profile? Let's put it here for prominence as requested */}
+                <div className="profile-section-card beta-tester-card">
+                    <div className="section-header">
+                        <div className="section-icon-bg beta">
+                            <Beaker size={20} />
+                        </div>
+                        <div className="section-title-stack">
+                            <h3>Vols ser Beta Tester?</h3>
+                            <p>Ajuda'ns a bategar el poble!</p>
+                        </div>
+                        <div className="section-action">
+                            <label className="switch">
+                                <input
+                                    type="checkbox"
+                                    checked={profile?.is_beta_tester || false}
+                                    onChange={async (e) => {
+                                        const val = e.target.checked;
+                                        setProfile(prev => ({ ...prev, is_beta_tester: val }));
+                                        if (!isPlayground) {
+                                            await supabaseService.updateProfile(user.id, { is_beta_tester: val });
+                                        }
+                                    }}
+                                />
+                                <span className="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div className="beta-explanation">
+                        <p>Com a <strong>Beta Tester</strong>, ajudes a bategar el poble trobant errors i proposant millores directament a l'equip tècnic.</p>
+                    </div>
+                </div>
 
-            <div className="profile-tab-content">
-                {renderTabContent()}
+                <nav className="profile-tabs-nav horizontal-scroll">
+                    <button className={activeTab === 'info' ? 'active' : ''} onClick={() => setActiveTab('info')}>
+                        <User size={18} />
+                        <span>Perfil</span>
+                    </button>
+                    <button className={activeTab === 'activity' ? 'active' : ''} onClick={() => setActiveTab('activity')}>
+                        <Activity size={18} />
+                        <span>Activitat</span>
+                    </button>
+                    <button className={activeTab === 'community' ? 'active' : ''} onClick={() => setActiveTab('community')}>
+                        <Building2 size={18} />
+                        <span>Comunitat</span>
+                    </button>
+                    <button className={activeTab === 'settings' ? 'active' : ''} onClick={() => setActiveTab('settings')}>
+                        <Settings size={18} />
+                        <span>Ajustos</span>
+                    </button>
+                    <button className={activeTab === 'manual' ? 'active' : ''} onClick={() => setActiveTab('manual')}>
+                        <BookOpen size={18} />
+                        <span>Guia</span>
+                    </button>
+                    <button className={activeTab === 'hub' ? 'active' : ''} onClick={() => setActiveTab('hub')}>
+                        <Share2 size={18} />
+                        <span>Connexió</span>
+                    </button>
+                </nav>
+
+                <div className="profile-tab-content">
+                    {renderTabContent()}
+                </div>
             </div>
 
             {/* MODALS */}

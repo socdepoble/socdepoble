@@ -8,65 +8,41 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
 
-  <link rel="icon" type="image/png" href="/favicon.png?v=GeniusV2" />
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=GeniusV2" />
-  <link rel="manifest" href="/manifest.json?v=GeniusV2" />
+  <link rel="icon" type="image/png" href="/favicon.png?v=Genius_154" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=Genius_154" />
+  <link rel="manifest" href="/manifest.json?v=Genius_154" />
 
   <!-- Performance Preloads -->
-  <link rel="preload" as="image" href="/rural_tech_future_valencia.png" />
-  <link rel="preload" as="image" href="/logo_dark.png" />
+  <link rel="preload" as="image" href="/logo.png" />
+  <link rel="preload" as="image" href="/favicon.png?v=Genius_154" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <script>
-    // Emergency Error Logger for White Screen debugging
-    window.onerror = function (msg, url, lineNo, columnNo, error) {
-      if (msg.includes('ResizeObserver')) return; // Ignore common benign error
-      var container = document.getElementById('global-error-overlay');
-      if (!container) {
-        container = document.createElement('div');
-        container.id = 'global-error-overlay';
-        container.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:white;z-index:99999;padding:20px;overflow:auto;font-family:monospace;';
-        document.body.appendChild(container);
-      }
-      var msgText = "Global Error: " + msg + "\n" + url + ":" + lineNo + ":" + columnNo + "\n" + (error ? error.stack : '');
-      container.innerText += "\n\n" + msgText;
-      return false;
-    };
-    window.addEventListener('unhandledrejection', function (event) {
-      if (event.reason && (event.reason.name === 'AbortError' || event.reason.toString().includes('AbortError'))) {
-        console.warn('[Benign] AbortError suppressed in global overlay.');
-        return;
-      }
-      var container = document.getElementById('global-error-overlay');
-      if (!container) {
-        container = document.createElement('div');
-        container.id = 'global-error-overlay';
-        container.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:white;z-index:99999;padding:20px;overflow:auto;font-family:monospace;';
-        document.body.appendChild(container);
-      }
-      container.innerText += "\n\nUnhandled Promise Rejection: " + event.reason;
-    });
+    // EMERGENCY SERVICE WORKER NUKE: Force update to v1.5.4
+    if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function (registrations) {
+        for (let registration of registrations) {
+          console.warn('[Cavalleria] Nuking stale SW:', registration.active ? registration.active.scriptURL : 'unknown');
+          registration.unregister();
+        }
+      });
+    }
+    // Emergency Fallback for Global Constants (Fix ReferenceError)
+    window.CREATOR_EMAILS = window.CREATOR_EMAILS || ['socdepoblecom@gmail.com', 'damimus@gmail.com'];
+    window.APP_VERSION = '1.5.4-Genius-Absolut';
   </script>
 
-  <!-- SEO & Social Media (Open Graph) -->
-  <!-- SEO & Social Media (Open Graph) -->
-  <title>Sóc de Poble v1.5.2-Genius | Portal de Pobles Connectats</title>
-
-  <!-- ... (rest of head) ... -->
-
-  <!-- FORCE CACHE BUST of Main Bundle -->
+  <title>Sóc de Poble | El Portal de les Teues Arrels v1.5.4-Genius-Absolut</title>
   <meta name="description"
-    content="La xarxa social dels pobles. Connecta amb la teua gent, descobreix esdeveniments locals i explora el mercat de proximitat." />
+    content="Sóc de Poble: Connectant territoris i persones. Versió de producció v1.5.4-Genius-Absolut.">
   <meta name="keywords" content="poble, comunitat, esdeveniments, mercat local, proximitat, valència, connectivitat" />
   <meta name="author" content="Sóc de Poble" />
 
-  <!-- Open Graph / Facebook / WhatsApp -->
+  <!-- Open Graph / WhatsApp Agressiu Cache Busting -->
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://socdepoble.vercel.app/" />
-  <meta property="og:title" content="Sóc de Poble v1.5.2-Genius | Portal de Pobles Connectats" />
-  <meta property="og:description"
-    content="Connecta amb la teua comunitat. Notícies, mercat local i esdeveniments geolocalitzats." />
-  <meta property="og:image" content="https://socdepoble.vercel.app/og-image.png" />
+  <meta property="og:url" content="https://socdepoble.vercel.app/?v=Genesis_1_5_4_Final" />
+  <meta property="og:title" content="Sóc de Poble v1.5.4-Genius-Absolut 🏘️✨" />
+  <meta property="og:description" content="Connecta amb la teua comunitat. Versió Genius Absolut Consolidada v1.5.4." />
+  <meta property="og:image" content="https://socdepoble.vercel.app/og-image.png?v=Genius_1_5_4_Final_Consolidated" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="Sóc de Poble - Portal de Pobles Connectats" />
@@ -76,10 +52,10 @@
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:url" content="https://socdepoble.vercel.app/" />
-  <meta name="twitter:title" content="Sóc de Poble v1.5.2-Genius | Portal de Pobles Connectats" />
+  <meta name="twitter:title" content="Sóc de Poble v1.5.4-Genius-Absolut 🏘️✨" />
   <meta name="twitter:description"
     content="Connecta amb la teua comunitat. Notícies, mercat i esdeveniments al teu poble." />
-  <meta name="twitter:image" content="https://socdepoble.vercel.app/og-image.png?v=3" />
+  <meta name="twitter:image" content="https://socdepoble.vercel.app/og-image.png?v=Genius_1_5_4_Final_Consolidated" />
 
   <!-- Mobile Theme -->
   <meta name="theme-color" content="#5D5FEF" />
@@ -101,37 +77,26 @@
       }
     }
   </script>
-  <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "GovernmentOrganization",
-      "name": "Sóc de Poble",
-      "url": "https://socdepoble.vercel.app/",
-      "logo": "https://socdepoble.vercel.app/og-image.png",
-      "sameAs": [
-        "https://www.facebook.com/socdepoble",
-        "https://www.instagram.com/socdepoble"
-      ]
-    }
-  </script>
 </head>
 
 <body>
   <div id="root">
     <div
-      style="font-family:system-ui,sans-serif;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;background:#f5f5f5;padding:20px;text-align:center;">
-      <img src="/favicon.png?v=Genius" alt="Logo"
-        style="width:100px;height:100px;margin-bottom:20px;border-radius:24px;box-shadow:0 10px 25px rgba(16,185,129,0.3)" />
-      <h2 style="color:#333;margin-bottom:10px">Carregant Sóc de Poble Genius...</h2>
-      <p style="color:#666;margin-bottom:30px">Preu el botó si bategua massa temps:</p>
+      style="font-family:system-ui,sans-serif;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;background:#0a0a0a;padding:20px;text-align:center;color:white;">
+      <img src="/favicon.png?v=Genius_154" alt="Logo"
+        style="width:100px;height:100px;margin-bottom:20px;border-radius:24px;box-shadow:0 10px 25px rgba(0,242,255,0.3)" />
+      <h2 style="margin-bottom:10px">Iniciant Sóc de Poble Genius Absolut...</h2>
+      <p style="opacity:0.7;margin-bottom:30px">Preparant la teua comunitat rural tech v1.5.4</p>
       <a href="/tools/rescue.html"
-        style="background:#dc2626;color:white;padding:12px 24px;border-radius:99px;text-decoration:none;font-weight:bold;box-shadow:0 4px 6px rgba(0,0,0,0.1)">
-        🚑 CLICA ACÍ PER ARREGLAR-HO
+        style="background:rgba(255,255,255,0.1);color:white;padding:12px 24px;border-radius:99px;text-decoration:none;font-weight:bold;backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.2);">
+        🚑 CONSOLA DE RESCAT
       </a>
     </div>
   </div>
-  <div class="app-version">v1.5.2 (Genius Edition)</div>
-  <script type="module" src="/src/main.jsx?v=Genesis152"></script>
+  <div class="app-version"
+    style="position:fixed;bottom:10px;right:10px;font-size:10px;opacity:0.3;pointer-events:none;">v1.5.4-Genius-Absolut
+  </div>
+  <script type="module" src="/src/main.jsx?v=Genesis154_Final"></script>
 </body>
 
 </html>

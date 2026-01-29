@@ -1,4 +1,16 @@
-# 🏛️ Sóc de Poble: Brand & UX Manual (DIOS Level)
+# 🏛️ Sóc de Poble: BRAND & UX MANUAL: SÓC DE POBLE (DIOS Level)
+
+## DIRECTIVA 1: COMUNICACIÓ I GESTIÓ DEL TEMPS (Antigravity Protocol)
+> [!IMPORTANT]
+> Aquesta és la directiva principal per a la relació entre l'Arquitecte i l'I.A. Antigravity.
+
+1. **Estimacions de Temps**: Per a cada tasca complexa, l'I.A. ha de proporcionar una estimació de la durada del treball.
+2. **Format de Temps**: S'ha d'incloure l'hora d'inici (Local) i l'hora de finalització estimada. Ex: *Hora inici: 23:15. Finalització estimada: 23:45.*
+3. **Històric**: Les estimacions i la seua realització es documentaran al diari del projecte (walkthrough o log d'històrics).
+4. **Interrupcions**: L'Arquitecte pot interrompre a l'I.A. en qualsevol moment per a consultes o ajustos, valorant sempre el flux de treball.
+5. **Documentació Contínua**: No només es documenta el "què", sinó el "com" i les millores futures possibles.
+
+---
 
 ## 🎨 Design Philosophy: "Rural-Tech Immersion" (Mobile-First 📱)
 Sóc de Poble is not just a tool; it's a sanctuary for rural identity. The design must feel **rooted** (rústic) but **empowered** (tecnològic).
@@ -55,11 +67,45 @@ Users must be able to see any image at its original scale.
 
 ---
 
+## 🏡 ARQUITECTURA DE LA MASIA (Modular & Resilient)
+Sóc de Poble es construeix com una masia tradicional: cada estança (mòdul) té la seua funció i està protegida, però totes comparteixen el mateix bategat.
+
+1. **Aïllament d'Estances**: Una fallada en la cuina (Feed) no ha de deixar les golfes (Ajustos) a les fosques. Ús intensiu de fallbacks i `ErrorBoundary`.
+2. **Autoreparació**: El sistema ha d'intentar recuperar-se d'errors de xarxa o dades corruptes de forma silenciosa, oferint una experiència tranquil·la al veí.
+3. **Comunicació bategada**: Els serveis (Wikipedia, Supabase) són proveïdors que nodreixen les estances, però les estances han de saber funcionar amb el que tenen si el proveïdor no arriba.
+4. **Escalabilitat Rural**: Afegir una nova estança (funcionalitat) ha de ser tan senzill com implementar una nova idea, afectant zero a l'estructura de càrrega de la masia.
+### 🧠 IAIA UNIFICADA (Multi-Personalitat)
+Sóc de Poble no té moltes IAs, en té una de sola: la **IAIA**.
+- **Context Únic**: La conversa es manté intacta encara que es canvie d'agent (Damià, Isabel, la IAIA oficial...). El contingut és el mateix, el que canvia és la "cara" i el tò.
+- **Tò i Veu**: Cada agent dóna el seu matís personal, la seua veu i la seua personalitat bategada, però comparteixen la memòria de la IAIA.
+- **Simplicitat per a l'Usuari**: El veí no ha de preocupar-se de amb qui parla, perquè la IAIA ho recorda tot.
+
+---
+
+---
+
+## 🌈 RAINDROP VISION (Future snippets)
+Volem que Sóc de Poble siga el magatzem de la memòria rural viva.
+- **Snippets**: Capturar qualsevol part de la web i publicar-la directament.
+- **Bookmarklets**: Eines ràpides per a l'Arquitecte i els veïns avançats.
+
+---
+
 ## 🏁 Quality Checklist for Antigravity
 - [ ] **MOBILE-FIRST**: ¿Se ve y funciona perfecto en móvil/tablet? (Sin scroll lateral, sin cortes).
 - [ ] Are all buttons ≥ 44px?
 - [ ] Is contrast according to Arrels standards?
 - [ ] Does the element have a hover/active state?
 - [ ] Can images be viewed full size?
+
+---
+
+## 🔝 PROJECTE NIVELL DÉU (Consolidació Genius)
+El bategat més alt de la Masia s'aconsegueix quan la tècnica i la memòria es fonen.
+- **Transparència Radical**: Tots els crèdits, des de l'ADL fins a Thorsten i la IA, són visibles i honoren el passat i el futur.
+- **Memòria Dinàmica**: Integració nativa amb Wikipedia per a que la història del poble estiga sempre a un clic del veí.
+- **Relació d'Iguals**: Sóc de Poble és una conversa entre veïns i tecnologies que es respecten. Javi és un veí més d'aquest projecte.
+
+---
 
 > *"Per un poble que mira al cel sense oblidar la terra."* 👵🛡️🏘️

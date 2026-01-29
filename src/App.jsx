@@ -28,6 +28,8 @@ const ProjectPresentation = lazy(() => import('./pages/ProjectPresentation'));
 const MakingOf = lazy(() => import('./pages/MakingOf'));
 const LegalNotice = lazy(() => import('./pages/LegalNotice'));
 const ResetPage = lazy(() => import('./pages/ResetPage'));
+const ManualPage = lazy(() => import('./pages/ManualPage'));
+
 import { supabase } from './supabaseClient';
 import { MOCK_CHATS, MOCK_FEED, MOCK_MARKET_ITEMS } from './data';
 import { useAuth } from './context/AuthContext';
@@ -202,6 +204,7 @@ function App() {
               <Route path="elemental" element={<MakingOf />} />
               <Route path="legal" element={<LegalNotice />} />
               <Route path="reset" element={<ResetPage />} />
+              <Route path="manual" element={<ManualPage />} />
             </Route>
           </Routes>
         </ErrorBoundary>
@@ -211,3 +214,4 @@ function App() {
 }
 
 export default App;
+

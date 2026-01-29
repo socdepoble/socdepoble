@@ -165,7 +165,7 @@ const Carousel = ({ images, height = '300px', interval = 5000, autoPlay = false 
                                 )}
                                 {isRealHuman && (
                                     <div className="attribution-badge human">
-                                        <span>© Arquitecte de Sóc de Poble</span>
+                                        <span>© Sóc de Poble</span>
                                     </div>
                                 )}
                                 <div className="carousel-overlay-hint">
@@ -216,11 +216,17 @@ const Carousel = ({ images, height = '300px', interval = 5000, autoPlay = false 
                     </button>
 
                     <div className="lightbox-content" onClick={e => e.stopPropagation()}>
-                        <img
-                            src={validImages[currentIndex]}
-                            alt={`Full size ${currentIndex + 1}`}
-                            className="lightbox-image"
-                        />
+                        <div className="lightbox-carousel-track">
+                            <img
+                                src={validImages[currentIndex]}
+                                alt={`Full size ${currentIndex + 1}`}
+                                className="lightbox-image scale-up-center"
+                            />
+                        </div>
+
+                        <div className="lightbox-counter">
+                            {currentIndex + 1} / {validImages.length}
+                        </div>
                     </div>
 
                     <button className="lightbox-btn next" onClick={nextSlide}>

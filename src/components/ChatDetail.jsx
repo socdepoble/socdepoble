@@ -10,6 +10,7 @@ import StatusLoader from './StatusLoader';
 import { logger } from '../utils/logger';
 import VoiceRecorder from './VoiceRecorder';
 import VoiceMessage from './VoiceMessage';
+import { syncService } from '../services/syncService';
 import './ChatDetail.css';
 import './Comments.css';
 
@@ -23,7 +24,7 @@ const ChatDetail = () => {
     const [chat, setChat] = useState(null);
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
-    const [selectedFile, setSelectedFile] = useState(null);
+    const [selectedFiles, setSelectedFiles] = useState([]);
     const [uploading, setUploading] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -31,6 +32,7 @@ const ChatDetail = () => {
     const [storageStats, setStorageStats] = useState(null);
     const [showStorageModal, setShowStorageModal] = useState(false);
     const [isThinking, setIsThinking] = useState(false);
+    const [otherPrivacy, setOtherPrivacy] = useState({ show_read_receipts: true });
     const fileInputRef = useRef(null);
     const presenceChannelRef = useRef(null);
     const messagesEndRef = useRef(null);
@@ -38,6 +40,7 @@ const ChatDetail = () => {
     const commentingOn = location.state?.commentingOn || null;
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
     const [showVoiceRecorder, setShowVoiceRecorder] = useState(false);
+    const [thinkingTime, setThinkingTime] = useState(30);
 
     // Media Recording States
     const [isRecording, setIsRecording] = useState(false); // Kept for Video if needed
@@ -52,6 +55,15 @@ const ChatDetail = () => {
     const humanId = isSuperAdmin && impersonatedProfile ? impersonatedProfile.id : user?.id;
     const currentUserId = activeEntityId || humanId;
 
+    // Harmonized IAIA Detection Logic at component level
+    const isP1Current = chat?.participant_1_id === currentUserId;
+    const isIAIAConv = chat?.is_iaia ||
+        id.startsWith('new-iaia-') ||
+        id.startsWith('iaia-') ||
+        (isP1Current ? chat?.p2_is_ai : chat?.p1_is_ai) ||
+        (isP1Current ? chat?.p2_role : chat?.p1_role) === 'ambassador' ||
+        (isP1Current ? chat?.participant_2_id : chat?.participant_1_id)?.startsWith('11111111-1111-4111-a111-');
+
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     };
@@ -63,10 +75,24 @@ const ChatDetail = () => {
             const personaId = id.replace('new-iaia-', '').replace('mock-', '').replace('iaia-post-', '');
             const fetchVirtualData = async () => {
                 try {
-                    // Check if it's a mock chat first
                     const chats = await supabaseService.getConversations(currentUserId);
-                    const existingMock = chats.find(c => c.id === id);
 
+                    // 1. Check if there's already a real conversation with this persona
+                    const realChat = chats.find(c =>
+                        (c.participant_1_id === personaId || c.participant_2_id === personaId) &&
+                        !c.id.startsWith('mock-')
+                    );
+
+                    if (realChat) {
+                        setChat(realChat);
+                        const msgs = await supabaseService.getConversationMessages(realChat.id);
+                        setMessages(msgs);
+                        await supabaseService.markMessagesAsRead(realChat.id, currentUserId);
+                        return;
+                    }
+
+                    // 2. Check if there's a mock conversation
+                    const existingMock = chats.find(c => c.id === id);
                     if (existingMock) {
                         setChat(existingMock);
                         const msgs = await supabaseService.getConversationMessages(id);
@@ -75,7 +101,7 @@ const ChatDetail = () => {
                         return;
                     }
 
-                    // Fallback for new personas
+                    // 3. Fallback for new personas
                     const persona = await supabaseService.getPublicProfile(personaId);
                     setChat({
                         id,
@@ -160,11 +186,16 @@ const ChatDetail = () => {
         }
     }, [messages.length]);
 
-    const [otherPrivacy, setOtherPrivacy] = useState(null);
 
     useEffect(() => {
         fetchStorageStats();
-    }, []);
+        // [NEW] Recovery of backup content
+        const backups = JSON.parse(localStorage.getItem('sp_chat_backups') || '{}');
+        if (backups[id]) {
+            setNewMessage(backups[id].text);
+            logger.log(`[Sync] S'ha recuperat un borrador per a la conv: ${id}`);
+        }
+    }, [id]);
 
     // [Interactive Push] Handle injected message (from Push Notification click)
     useEffect(() => {
@@ -195,9 +226,16 @@ const ChatDetail = () => {
 
     // NEW: Fetch other user's privacy settings
     useEffect(() => {
-        if (!chat) return;
+        if (!user) return;
+
+        // Request Notification Permission
+        if ('Notification' in window && Notification.permission === 'default') {
+            Notification.requestPermission();
+        }
 
         const fetchPrivacy = async () => {
+            if (!chat) return; // Moved this check inside loadMessages
+
             const isP1Current = chat.participant_1_id === currentUserId;
             const otherId = isP1Current ? chat.participant_2_id : chat.participant_1_id;
             const otherType = isP1Current ? chat.participant_2_type : chat.participant_1_type;
@@ -231,42 +269,31 @@ const ChatDetail = () => {
     };
 
     const handleTyping = (e) => {
-        setNewMessage(e.target.value);
+        const val = e.target.value;
+        setNewMessage(val);
+
+        // [NEW] Backup the input
+        syncService.backupChatInput(id, val);
+
         if (presenceChannelRef.current) {
-            supabaseService.updatePresenceTyping(presenceChannelRef.current, e.target.value.length > 0);
+            supabaseService.updatePresenceTyping(presenceChannelRef.current, true);
         }
     };
 
     const handleSendMessage = async (e) => {
         e.preventDefault();
-        if (!newMessage.trim() && !selectedFile) return;
         if (!user) return;
 
-        const textToSend = newMessage;
-        const fileToSend = selectedFile;
+        const filesToProcess = [...selectedFiles];
+        const textToSend = newMessage.trim();
 
-        setNewMessage('');
-        setSelectedFile(null);
-        setUploading(!!fileToSend);
+        if (textToSend.length === 0 && filesToProcess.length === 0) return;
+
+        setUploading(filesToProcess.length > 0);
 
         if (presenceChannelRef.current) {
             supabaseService.updatePresenceTyping(presenceChannelRef.current, false);
         }
-
-        // Optimistic Update
-        const tempId = `temp-${Date.now()}`;
-        const optimisticMsg = {
-            id: tempId,
-            conversation_id: id,
-            sender_id: humanId,
-            content: textToSend,
-            attachment_url: fileToSend ? URL.createObjectURL(fileToSend) : null,
-            attachment_type: fileToSend?.type.startsWith('image/') ? 'image' :
-                fileToSend?.type.startsWith('video/') ? 'video' : 'document',
-            created_at: new Date().toISOString(),
-            status: 'sending'
-        };
-        setMessages(prev => [...prev, optimisticMsg]);
 
         try {
             let activeId = id;
@@ -279,63 +306,123 @@ const ChatDetail = () => {
                 navigate(`/chats/${activeId}`, { replace: true });
             }
 
-            let attachmentUrl = null;
-            let attachmentType = null;
-            let attachmentName = null;
-
-            if (fileToSend) {
-                attachmentName = fileToSend.name;
-                attachmentType = fileToSend.type.startsWith('image/') ? 'image' :
-                    fileToSend.type.startsWith('video/') ? 'video' : 'document';
-                attachmentUrl = await supabaseService.uploadChatAttachment(fileToSend, activeId, humanId);
+            // If we have text AND files, send text first (optional design choice, usually better)
+            // Or send text with the first file. Let's send text first if any.
+            if (textToSend && filesToProcess.length === 0) {
+                await supabaseService.sendSecureMessage({
+                    conversationId: activeId,
+                    senderId: humanId,
+                    senderEntityId: activeEntityId,
+                    content: textToSend,
+                });
             }
 
-            const result = await supabaseService.sendSecureMessage({
-                conversationId: activeId,
-                senderId: humanId,
-                senderEntityId: activeEntityId,
-                content: textToSend,
-                attachmentUrl,
-                attachmentType,
-                attachmentName,
-                postUuid: commentingOn?.uuid || commentingOn?.id
-            });
+            // Process each file as a separate message (matches current system architecture best)
+            for (let i = 0; i < filesToProcess.length; i++) {
+                const file = filesToProcess[i];
+                const isFirstFile = i === 0;
 
-            // Replace optimistic with real
-            setMessages(prev => prev.map(m => m.id === tempId ? { ...result, status: 'sent' } : m));
+                const attachmentType = file.type.startsWith('image/') ? 'image' :
+                    file.type.startsWith('video/') ? 'video' : 'document';
+
+                const attachmentUrl = await supabaseService.uploadChatAttachment(file, activeId, humanId);
+
+                // Send message with first file and text, or just file for subsequent ones
+                const result = await supabaseService.sendSecureMessage({
+                    conversationId: activeId,
+                    senderId: humanId,
+                    senderEntityId: activeEntityId,
+                    content: isFirstFile && textToSend ? textToSend : null,
+                    attachmentUrl,
+                    attachmentType,
+                    attachmentName: file.name,
+                });
+
+                // [Optimistic Update] If it's a new conversation, add to local list as sub won't catch it yet
+                if (id.startsWith('new-iaia-')) {
+                    setMessages(prev => [...prev, result]);
+                }
+
+                // NotebookLM ingestion
+                if (isIAIAConv) {
+                    try {
+                        const { notebookService } = await import('../services/notebookService');
+                        await notebookService.ingestSource(
+                            attachmentType,
+                            `Font: ${file.name}. URL: ${attachmentUrl}`,
+                            { title: file.name, url: attachmentUrl, sender_id: humanId }
+                        );
+                    } catch (nbErr) {
+                        logger.error('[Notebook] Error ingesting:', nbErr);
+                    }
+                }
+            }
+
+            setNewMessage('');
+            setSelectedFiles([]);
+            syncService.clearDraft(`chat_input_${id}`); // Clear specific draft if used
+            localStorage.removeItem('sp_chat_backups'); // Clear general backup
             fetchStorageStats();
-
-            // If it was a comment, return to previous page after small delay
-            if (commentingOn) {
-                setTimeout(() => {
-                    navigate(-1);
-                }, 1000);
-            }
         } catch (error) {
-            logger.error('Error sending message:', error);
-            const errorMsg = error.message?.includes('bucket not found')
-                ? 'Error: El bucket "chat_attachments" no existe en Supabase Storage.'
-                : 'Error al enviar el mensaje. Revisa la consola para más detalles.';
-            alert(errorMsg);
+            logger.error('Error sending message(s):', error);
+            alert('Error al enviar. Revisa la consola.');
         } finally {
             setUploading(false);
             if (isIAIAConv) {
                 setIsThinking(true);
-                setTimeout(() => {
-                    if (isMounted.current) setIsThinking(false);
-                }, 2000);
+                setThinkingTime(30);
+
+                // Interval to update thinking time
+                const thinkingInterval = setInterval(() => {
+                    setThinkingTime(prev => (prev > 1 ? prev - 1 : 1));
+                }, 1000);
+
+                // Trigger actual AI response after a more natural delay
+                setTimeout(async () => {
+                    try {
+                        const { iaiaService } = await import('../services/iaiaService');
+                        await iaiaService.generateAIAResponse(activeId, textToSend);
+
+                        // Push Notification Logic (Simulated for Demo if backgrounded)
+                        if (document.visibilityState === 'hidden') {
+                            if ('Notification' in window && Notification.permission === 'granted') {
+                                new Notification("MArIA (Sóc de Poble)", {
+                                    body: "Tinc una resposta per a les teues idees sobre l'Anna Climent.",
+                                    icon: '/assets/avatars/iaia_official.png'
+                                });
+                            }
+                        }
+                    } catch (err) {
+                        logger.error('Error triggering MArIA response:', err);
+                    } finally {
+                        clearInterval(thinkingInterval);
+                        if (isMounted.current) setIsThinking(false);
+                    }
+                }, 8000); // 8 seconds of "thinking" for dramatic/analytical effect
             }
         }
     };
 
-    const handleFileSelect = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            if (file.size > 10 * 1024 * 1024) {
-                alert(t('chats.storage_limit_warning'));
-                return;
+    const handleFileSelect = async (e) => {
+        const files = Array.from(e.target.files);
+        if (files.length > 0) {
+            const newFiles = [];
+            const { audioConverter } = await import('../utils/audioConverter');
+
+            for (let file of files) {
+                if (file.size > 10 * 1024 * 1024) {
+                    alert(`${file.name}: ${t('chats.storage_limit_warning')}`);
+                    continue;
+                }
+
+                // Support for WhatsApp .opus
+                if (audioConverter.isWhatsAppAudio(file)) {
+                    file = await audioConverter.prepareForUpload(file);
+                }
+                newFiles.push(file);
             }
-            setSelectedFile(file);
+
+            setSelectedFiles(prev => [...prev, ...newFiles]);
             fetchStorageStats();
         }
     };
@@ -527,15 +614,8 @@ const ChatDetail = () => {
 
     const isOtherOnline = !!otherPresence;
     const isOtherTyping = otherPresence?.is_typing;
-    const isP1Current = chat.participant_1_id === currentUserId;
     const otherInfo = isP1Current ? chat.p2_info : chat.p1_info;
     const otherType = isP1Current ? chat.participant_2_type : chat.participant_1_type;
-
-    // Harmonized IAIA Detection Logic
-    const isIAIAConv = chat.is_iaia ||
-        (isP1Current ? chat.p2_is_ai : chat.p1_is_ai) ||
-        (isP1Current ? chat.p2_role : chat.p1_role) === 'ambassador' ||
-        (isP1Current ? chat.participant_2_id : chat.participant_1_id)?.startsWith('11111111-1111-4111-a111-');
 
     return (
         <div className="chat-detail-container">
@@ -565,7 +645,7 @@ const ChatDetail = () => {
                                 </span>
                             )}
                             {isIAIAConv && (
-                                <span className="identity-badge ai" title="Informació Artificial i Acció">IAIA</span>
+                                <span className="identity-badge ai" title="Memòria Artificial i Acció">MArIA</span>
                             )}
                         </div>
 
@@ -587,18 +667,16 @@ const ChatDetail = () => {
 
             {/* IAIA Notice - Transparencia (Visible in Prod and Sandbox) */}
             {isIAIAConv && (
-                <div className="iaia-transparency-notice clickable" onClick={() => navigate('/iaia')}>
+                <div className="iaia-transparency-notice" onClick={() => navigate('/iaia')}>
                     <div className="banner-content">
-                        <div className="banner-left">
-                            <div className="iaia-icon">🤖</div>
-                            <div className="banner-text-stack">
-                                <span className="banner-label">
-                                    {t('chats.iaia_notice_title')} • {t('chats.iaia_notice_subtitle')}
-                                </span>
-                                <span className="banner-persona-name">
-                                    {t('chats.iaia_notice_text')}
-                                </span>
-                            </div>
+                        <div className="iaia-icon">👵✨</div>
+                        <div className="banner-text-stack">
+                            <span className="banner-label">
+                                {t('chats.iaia_notice_title')} • {t('chats.iaia_notice_subtitle')}
+                            </span>
+                            <span className="banner-persona-name">
+                                {t('chats.iaia_notice_text')}
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -679,7 +757,7 @@ const ChatDetail = () => {
                                     </div>
                                     <div className="message-meta">
                                         {msg.is_ai && (
-                                            <span className="bubble-tag ai">IAIA</span>
+                                            <span className="bubble-tag ai">MArIA</span>
                                         )}
                                         <span className="message-time">
                                             {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
@@ -711,15 +789,18 @@ const ChatDetail = () => {
                             <Avatar
                                 src={otherInfo?.avatar_url}
                                 role="ambassador"
-                                name="IAIA"
+                                name="MArIA"
                                 size={32}
                             />
                         </div>
                         <div className="message-bubble other thinking-bubble">
-                            <div className="thinking-dots">
-                                <span></span>
-                                <span></span>
-                                <span></span>
+                            <div className="thinking-content">
+                                <div className="thinking-dots">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                                <span className="thinking-timer">MArIA està pensant... (aprox {thinkingTime}s)</span>
                             </div>
                         </div>
                     </div>
@@ -821,29 +902,33 @@ const ChatDetail = () => {
                             />
                         </div>
                     )}
-                    <div className="input-actions-left">
-                        <button
-                            type="button"
-                            className={`attachment-trigger ${showEmojiPicker ? 'active' : ''}`}
-                            onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-                            title="Afegir emoji"
-                        >
-                            <Smile size={20} />
-                        </button>
-                        <label className="attachment-trigger" htmlFor="file-upload" title="Adjuntar archivo (Máx 10MB)">
-                            <input
-                                id="file-upload"
-                                name="attachment"
-                                type="file"
-                                onChange={handleFileSelect}
-                                style={{ display: 'none' }}
-                                accept="image/*,video/*,.pdf,.doc,.docx"
-                            />
-                            <Paperclip size={20} />
-                        </label>
-                    </div>
+                    {/* Redundant triggers removed for WhatsApp-style internal triggers */}
 
-                    <div className="input-main-area">
+                    <div className="input-main-area-wa">
+                        {selectedFiles.length > 0 && (
+                            <div className="wa-attachments-preview">
+                                {selectedFiles.map((file, idx) => (
+                                    <div key={idx} className="wa-attachment-tag">
+                                        <div className="wa-tag-icon">
+                                            {file.type.startsWith('image/') ? <ImageIcon size={14} /> :
+                                                file.type.startsWith('video/') ? <Film size={14} /> : <FileText size={14} />}
+                                        </div>
+                                        <span className="wa-tag-name">{file.name}</span>
+                                        <button
+                                            type="button"
+                                            onClick={() => setSelectedFiles(prev => prev.filter((_, i) => i !== idx))}
+                                            className="wa-tag-remove"
+                                        >
+                                            <X size={14} />
+                                        </button>
+                                    </div>
+                                ))}
+                                <div className="wa-attachments-count">
+                                    {selectedFiles.length} {selectedFiles.length === 1 ? 'arxiu llistat' : 'arxius llistats'}
+                                </div>
+                            </div>
+                        )}
+
                         {showVoiceRecorder ? (
                             <VoiceRecorder
                                 onSend={(blob, duration, transcript) => handleVoiceSend(blob, duration, transcript)}
@@ -851,46 +936,41 @@ const ChatDetail = () => {
                                 lang={i18n.language}
                             />
                         ) : (
-                            <>
-                                {selectedFile && (
-                                    <div className="attachment-preview">
-                                        {selectedFile.type.startsWith('image/') ? <ImageIcon size={16} /> :
-                                            selectedFile.type.startsWith('video/') ? <Film size={16} /> : <FileText size={16} />}
-                                        <span className="file-name">{selectedFile.name}</span>
-                                        <button type="button" onClick={() => setSelectedFile(null)} className="clear-attachment">×</button>
-                                    </div>
-                                )}
+                            <div className="whatsapp-input-wrapper">
+                                <button
+                                    type="button"
+                                    className="wa-action-btn"
+                                    onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+                                >
+                                    <Smile size={24} />
+                                </button>
 
-                                {isRecording ? (
-                                    <div className="recording-status-panel">
-                                        <div className="recording-indicator">
-                                            <div className="rec-dot"></div>
-                                            <span>{recordingType === 'audio' ? 'Gravant Àudio...' : 'Gravant Vídeo...'}</span>
-                                        </div>
-                                        <span className="recording-timer">{formatTime(recordingTime)} / 01:00</span>
-                                        {recordingType === 'video' && (
-                                            <video ref={videoPreviewRef} autoPlay muted playsInline className="video-recording-preview" />
-                                        )}
-                                        <button type="button" onClick={cancelRecording} className="cancel-rec-btn">
-                                            <X size={18} />
-                                        </button>
-                                    </div>
-                                ) : (
+                                <input
+                                    name="message"
+                                    type="text"
+                                    value={newMessage}
+                                    onChange={handleTyping}
+                                    placeholder={t('common.write_message')}
+                                    disabled={uploading}
+                                    autoComplete="off"
+                                />
+
+                                <label className="wa-action-btn" htmlFor="file-upload">
                                     <input
-                                        name="message"
-                                        type="text"
-                                        value={newMessage}
-                                        onChange={handleTyping}
-                                        placeholder={t('common.write_message')}
-                                        disabled={uploading}
-                                        autoComplete="off"
+                                        id="file-upload"
+                                        name="attachment"
+                                        type="file"
+                                        multiple
+                                        onChange={handleFileSelect}
+                                        style={{ display: 'none' }}
+                                        accept="image/*,video/*,.pdf,.doc,.docx,.opus,.ogg,.mp3,.wav"
                                     />
-                                )}
-                            </>
+                                    <Paperclip size={22} className="wa-clip-icon" />
+                                </label>
+                            </div>
                         )}
                     </div>
-
-                    {isRecording ? (
+                    {(isRecording && recordingType === 'video') ? (
                         <button
                             type="button"
                             className="stop-rec-button"
@@ -900,7 +980,7 @@ const ChatDetail = () => {
                         </button>
                     ) : (
                         <>
-                            {!newMessage && !selectedFile && !showVoiceRecorder && (
+                            {!newMessage && selectedFiles.length === 0 && !showVoiceRecorder && (
                                 <div className="media-buttons-row">
                                     <button type="button" className="media-trigger-btn" onClick={() => setShowVoiceRecorder(true)}>
                                         <Mic size={20} />
@@ -913,7 +993,7 @@ const ChatDetail = () => {
                             <button
                                 type="submit"
                                 className="send-button-new"
-                                disabled={(!newMessage.trim() && !selectedFile) || uploading}
+                                disabled={(!newMessage.trim() && selectedFiles.length === 0) || uploading}
                             >
                                 {uploading ? (
                                     <Loader2 className="animate-spin" size={20} />

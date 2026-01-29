@@ -46,6 +46,12 @@ const Navigation = () => {
         <MapPin size={24} />
         <span>{t('nav.towns')}</span>
       </NavLink>
+
+      {/* DIRECTIVA MASTER: Marca i Llicència al centre del peu de pàgina */}
+      <div className="nav-master-footer">
+        <a href="https://socdepoble.org" target="_blank" rel="noopener noreferrer">socdepoble.org</a>
+        <span className="cc-license"> (CC BY-NC-SA 4.0)</span>
+      </div>
     </nav>
   );
 };

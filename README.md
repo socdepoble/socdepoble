@@ -3,13 +3,16 @@
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
+# Sóc de Poble v1.5.4-Genius-Absolut 🏘️⚖️✨
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+> **Directiva [Master]**: Aquest projecte segueix el **Protocol del Trastombat**. Tota informació en aquest repositori ha sigut purificada des del Xat de Treball per a garantir la màxima "flor de l'oli" informativa.
 
-## React Compiler
+## 🏺 El Trastombat Informativament
+A la nostra almàssera digital, el xat és la basseta on generem idees. El **Copiar i Pegar** és l'acció solemne de trastombar l'oli, separant la morca (errors, dubtes) de la informació neta i vàlida que es guarda ací.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## ⚖️ Llicència
+Tots els continguts i dissenys d'aquesta Masia Digital estan protegits sota la llicència **Creative Commons Reconeixement-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA 4.0)**.
+his documentation](https://react.dev/learn/react-compiler/installation).
 
 ## Expanding the ESLint configuration
 

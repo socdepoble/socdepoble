@@ -45,7 +45,7 @@ const MakingOf = () => {
                                 <span>Gestor júnior i suport operatiu en el desplegament.</span>
                             </li>
                             <li>
-                                <strong>⚡ Flash/Antigravity (L'Arquitecte)</strong>
+                                <strong>⚡ Flash/Antigravity (Equip)</strong>
                                 <span>Intel·ligència Agentica que entén el *context* i executa la visió.</span>
                             </li>
                             <li>

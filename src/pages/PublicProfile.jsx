@@ -6,10 +6,12 @@ import { supabaseService } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
 import { useUI } from '../context/UIContext';
 import { logger } from '../utils/logger';
+import { CREATOR_EMAILS } from '../constants';
 import Feed from '../components/Feed';
 import SEO from '../components/SEO';
 import ProfileHeaderPremium from '../components/ProfileHeaderPremium';
 import Avatar from '../components/Avatar';
+import ShareHub from '../components/ShareHub';
 import './Profile.css';
 
 const PublicProfile = () => {
@@ -46,6 +48,8 @@ const PublicProfile = () => {
                         return;
                     }
                     profileId = profileData.id;
+                    const masters = (typeof CREATOR_EMAILS !== 'undefined') ? CREATOR_EMAILS : [];
+                    const isCreator = masters.includes(profileData.email);
                     setProfile(profileData);
                 } else {
                     // Fetch by ID
@@ -219,35 +223,41 @@ const PublicProfile = () => {
             </ProfileHeaderPremium>
 
             {
-                !isOwnProfile && (
-                    <div className="profile-actions-premium-fullwidth">
-                        <button
-                            className={`connect-btn-premium-full ${isConnected ? 'connected' : ''}`}
-                            onClick={handleConnect}
-                            disabled={isConnecting}
-                        >
-                            {isConnecting ? (
-                                <Loader2 className="spinner" size={24} />
-                            ) : isConnected ? (
-                                <><UserMinus size={22} /> DESCONECTAR</>
-                            ) : (
-                                <><UserPlus size={22} /> CONNECTAR AMB {profile.full_name?.split(' ')[0].toUpperCase()}</>
-                            )}
-                        </button>
+                (() => {
+                    const masters = (typeof CREATOR_EMAILS !== 'undefined') ? CREATOR_EMAILS : (window.CREATOR_EMAILS || []);
+                    const canSeeActions = !isOwnProfile || (currentUser && (masters.includes(currentUser.email) || currentUser.role === 'admin' || currentUser.role === 'superadmin'));
 
-                        <div className="noise-filter-manager-container">
-                            <div className={`noise-filter-manager ${isConnected ? 'active' : ''}`}>
-                                <div className="filter-info-stack">
-                                    <h4>Filtre de Soroll</h4>
-                                    <p>Oculta posts promocionals d'aquest perfil al mur.</p>
-                                </div>
-                                <button className={`filter-action-btn ${isConnected ? 'active' : ''}`}>
-                                    {isConnected ? 'ACTIU' : 'INACTIU'}
-                                </button>
-                            </div>
+                    return canSeeActions && (
+                        <div className="profile-actions-premium-fullwidth">
+                            <button
+                                className={`connect-btn-premium-full ${isConnected ? 'connected' : ''}`}
+                                onClick={handleConnect}
+                                disabled={isConnecting}
+                            >
+                                {isConnecting ? (
+                                    <Loader2 size={20} className="animate-spin" />
+                                ) : isConnected ? (
+                                    <>
+                                        <UserMinus size={20} />
+                                        <span>Seguint</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <UserPlus size={20} />
+                                        <span>Seguir</span>
+                                    </>
+                                )}
+                            </button>
+                            <button
+                                className="chat-btn-premium-full"
+                                onClick={() => navigate(`/chats/${profile.id}`)}
+                            >
+                                <MessageCircle size={20} />
+                                <span>Missatge</span>
+                            </button>
                         </div>
-                    </div>
-                )
+                    );
+                })()
             }
 
             {
@@ -371,10 +381,24 @@ const PublicProfile = () => {
                                     </div>
 
                                     <div className="card-footer-vibrant">
-                                        <button className="add-btn-premium-vibrant full-width" onClick={() => navigate('/chats')}>
+                                        <button
+                                            className="add-btn-premium-vibrant"
+                                            style={{ flex: 1 }}
+                                            onClick={() => {
+                                                if (!currentUser) navigate('/login');
+                                                navigate(`/chats/${profile.id}`, {
+                                                    state: { interestedIn: item }
+                                                });
+                                            }}
+                                        >
                                             <Plus size={20} />
                                             <span>{t('market.interested')}</span>
                                         </button>
+                                        <ShareHub
+                                            title={`${item.title} - Sóc de Poble`}
+                                            text={`Mira aquest producte de proximitat de ${profile.full_name}: ${item.title}`}
+                                            url={`${window.location.origin}/mercat?id=${item.uuid || item.id}`}
+                                        />
                                     </div>
                                 </article>
                             ))}

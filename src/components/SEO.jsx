@@ -17,7 +17,7 @@ const SEO = ({
 }) => {
     const siteTitle = 'Sóc de Poble';
     const fullTitle = title ? `${title} | ${siteTitle}` : siteTitle;
-    const defaultDesc = 'La plataforma de connexió comunitària per als pobles de la Comunitat Valenciana.';
+    const defaultDesc = 'La teva comunitat, els teus veïns. Connecta amb la vida del teu poble.';
     const defaultImage = '/og-image.png';
     const baseUrl = 'https://socdepoble.vercel.app';
 
@@ -38,6 +38,8 @@ const SEO = ({
             <meta property="og:description" content={description || defaultDesc} />
             <meta property="og:image" content={absoluteImage} />
             <meta property="og:url" content={absoluteUrl} />
+            <meta property="og:site_name" content="Sóc de Poble" />
+            <meta property="og:locale" content="ca_ES" />
             <meta property="og:image:width" content="1200" />
             <meta property="og:image:height" content="630" />
 
@@ -46,6 +48,8 @@ const SEO = ({
             <meta name="twitter:title" content={fullTitle} />
             <meta name="twitter:description" content={description || defaultDesc} />
             <meta name="twitter:image" content={absoluteImage} />
+            <meta name="twitter:site" content="@socdepoble" />
+            <meta name="twitter:creator" content="@javillinares" />
 
             {/* Video Support for high-level sharing */}
             {type === 'video.other' && (

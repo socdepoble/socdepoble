@@ -9,6 +9,7 @@ import { pushService } from '../services/pushService';
 import { pushNotifications } from '../services/pushNotifications';
 import { supabaseService } from '../services/supabaseService';
 import { useState, useEffect } from 'react';
+import MasterConsole from './MasterConsole';
 import './Header.css';
 
 const ContextMenu = () => {
@@ -99,6 +100,7 @@ const Header = () => {
     const { visionMode, setVisionMode } = useUI();
     const navigate = useNavigate();
     const location = useLocation();
+    const [isMasterOpen, setIsMasterOpen] = useState(false);
 
     const handleProfileClick = (e) => {
         if (location.pathname === '/perfil') {
@@ -194,8 +196,12 @@ const Header = () => {
                     <button
                         className="header-diagnostic-btn"
                         onClick={() => window.dispatchEvent(new CustomEvent('open-diagnostic-hud'))}
+                        onContextMenu={(e) => {
+                            e.preventDefault();
+                            setIsMasterOpen(true);
+                        }}
                         aria-label="Obrir Consola de Diagnòstic"
-                        title="Consola Didàctica"
+                        title="Clic: Diagnòstic | Dreta: MASTER"
                         style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '8px', display: 'flex', alignItems: 'center' }}
                     >
                         <Activity size={22} color="#00f2ff" />
@@ -234,6 +240,7 @@ const Header = () => {
                     )}
                 </div>
             </div>
+            <MasterConsole isOpen={isMasterOpen} onClose={() => setIsMasterOpen(false)} />
         </header>
     );
 };

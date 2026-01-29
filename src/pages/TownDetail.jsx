@@ -9,23 +9,38 @@ import SEO from '../components/SEO';
 import ProfileHeaderPremium from '../components/ProfileHeaderPremium';
 import './Towns.css';
 import { logger } from '../utils/logger';
+import { wikipediaService } from '../services/wikipediaService';
+import ShareHub from '../components/ShareHub';
 
 const TownDetail = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const { t } = useTranslation();
     const [town, setTown] = useState(null);
+    const [wikiData, setWikiData] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchTown = async () => {
             setLoading(true);
             try {
-                // Get all towns and find the specific one by ID or UUID
                 const allTowns = await supabaseService.getTowns();
                 const isUuid = id.includes('-');
                 const found = allTowns.find(t => isUuid ? t.uuid === id : t.id === parseInt(id));
                 setTown(found);
+
+                if (found) {
+                    const wiki = await wikipediaService.getTownSummary(found.name);
+                    setWikiData(wiki);
+
+                    // Si no tenim escut al DB, el busquem a Commons
+                    if (!found.logo_url) {
+                        const shield = await wikipediaService.getTownShield(found.name);
+                        if (shield) {
+                            setTown(prev => ({ ...prev, logo_url: shield }));
+                        }
+                    }
+                }
             } catch (error) {
                 logger.error('Error loading town:', error);
             } finally {
@@ -82,6 +97,24 @@ const TownDetail = () => {
                     </div>
                 </section>
 
+                {/* MEMÒRIA UNIVERSAL (WIKIPEDIA) */}
+                {wikiData && (
+                    <section className="town-wiki-section-premium">
+                        <div className="section-header-premium">
+                            <Info size={18} />
+                            <h3>Memòria Universal (Wikipedia)</h3>
+                        </div>
+                        <div className="wiki-card-glass">
+                            <p className="wiki-extract">{wikiData.extract}</p>
+                            <div className="wiki-footer">
+                                <a href={wikiData.page_url} target="_blank" rel="noopener noreferrer" className="wiki-link">
+                                    Llegir més a la Wikipedia
+                                </a>
+                                <span className="wiki-attribution">Font: Wikimedia Foundation</span>
+                            </div>
+                        </div>
+                    </section>
+                )}
 
                 <section className="town-utilities-row">
                     <div className="utility-card weather-glass">

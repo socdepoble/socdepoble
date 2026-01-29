@@ -78,11 +78,11 @@ export const MOCK_LORE_POSTS = {
             author_role: 'ambassador'
         }
     ],
-    // Damià (Arquitecte)
+    // Damià (Pedagogia)
     'damia-arq-1': [
         {
             id: 'lp-d1',
-            content: "Revisitant les mides de la Masia de l'Arquitecte. El futur de Sóc de Poble es construeix sobre fonaments sòlids i identitat de terra. Gràcies per la vostra confiança!",
+            content: "Revisitant les mides de la Masia. El futur de Sóc de Poble es construeix sobre fonaments sòlids i identitat de terra. Gràcies per la vostra confiança!",
             created_at: new Date(Date.now() - 3600000 * 3).toISOString(),
             author_id: 'damia-arq-1',
             author_name: 'Damià',

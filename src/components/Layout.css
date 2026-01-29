@@ -3,12 +3,13 @@
     flex-direction: column;
     min-height: 100vh;
     padding-bottom: calc(var(--nav-height) + 20px);
+    padding-top: var(--header-height);
+    /* Offset for sticky header */
 }
 
 .layout-container.has-playground-banner {
-    --banner-height: 50px !important;
-    padding-top: var(--banner-height) !important;
-    --total-top-offset: calc(var(--banner-height) + var(--header-height)) !important;
+    --banner-height: 50px;
+    padding-top: calc(var(--banner-height) + var(--header-height)) !important;
 }
 
 .content-area {

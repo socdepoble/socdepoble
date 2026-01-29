@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Mic, X, Send, Square } from 'lucide-react';
+import { logger } from '../utils/logger';
 import './VoiceRecorder.css';
 
 const VoiceRecorder = ({ onSend, onCancel, lang = 'va' }) => {

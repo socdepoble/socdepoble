@@ -31,8 +31,20 @@ export const USER_ROLES = {
  */
 export const CREATOR_EMAILS = [
     'socdepoblecom@gmail.com',
-    'damimus@gmail.com'
+    'damimus@gmail.com',
+    'javillinares@gmail.com' // Javi Llinares - Coordinador [Master]
 ];
+
+// ENTITATS MESTRE [ADMIN RECONEGUT]
+export const MANAGED_ENTITIES = {
+    OLI_LA_TORRE: 'olidelatorre.com',
+    SOC_DE_POBLE: 'socdepoble.org'
+};
+
+// Force attachment to window immediately for global accessibility
+if (typeof window !== 'undefined') {
+    window.CREATOR_EMAILS = CREATOR_EMAILS;
+}
 
 export const ENTITY_TYPES = {
     OFFICIAL: 'oficial',

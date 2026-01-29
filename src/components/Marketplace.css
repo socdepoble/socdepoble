@@ -207,3 +207,68 @@
     gap: 8px;
     margin-bottom: 12px;
 }
+
+/* Healthy Suggestion Card - Rural Tech Style */
+.healthy-suggestion-card {
+    background: linear-gradient(135deg, #fff9f0 0%, #fff4e5 100%);
+    border: 1px solid #ffe4bc;
+    border-radius: 12px;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px rgba(234, 88, 12, 0.05);
+}
+
+.healthy-suggestion-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(234, 88, 12, 0.1);
+    border-color: #f6ad55;
+    background: #fffdfa;
+}
+
+.suggestion-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    animation: bounce-subtle 2s infinite ease-in-out;
+}
+
+@keyframes bounce-subtle {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-3px);
+    }
+}
+
+.suggestion-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.suggestion-label {
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: #c05621;
+    letter-spacing: 0.05em;
+}
+
+.suggestion-text {
+    font-size: 13px;
+    color: #2d3748;
+    line-height: 1.3;
+}
+
+.suggestion-text strong {
+    color: #c05621;
+    font-weight: 700;
+}

@@ -15,6 +15,8 @@ import UnifiedStatus from './components/UnifiedStatus';
 // --------------------------------------------------------------------
 if (typeof window !== 'undefined') {
   window.UnifiedStatus = UnifiedStatus;
+  // GLOBAL DEFENSE: Ensure CREATOR_EMAILS is never undefined
+  window.CREATOR_EMAILS = window.CREATOR_EMAILS || ['socdepoblecom@gmail.com', 'damimus@gmail.com'];
 }
 
 const queryClient = new QueryClient({
@@ -32,9 +34,20 @@ import StatusLoader from './components/StatusLoader';
 import { ToastProvider } from './components/ToastProvider';
 
 // ROBUST SERVICE WORKER REGISTRATION (v1.5.1-resilience)
+// [OPERACIÓ CAVALLERIA] Force SW Nuke for v1.5.4 update
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then(registrations => {
+    for (const registration of registrations) {
+      registration.unregister();
+      console.log('[Cavalleria] SW Unregistered successfully');
+    }
+  });
+}
+
+// Register new SW with cache busting
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js?v=Genesis-1.5.2').then(registration => {
+    navigator.serviceWorker.register('/sw.js?v=Genius-1.5.4-Final-Consolidated').then(registration => {
       console.log('[SW] Registered with scope:', registration.scope);
 
       registration.onupdatefound = () => {
