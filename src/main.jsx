@@ -33,7 +33,7 @@ const queryClient = new QueryClient({
 import StatusLoader from './components/StatusLoader';
 import { ToastProvider } from './components/ToastProvider';
 
-// ROBUST SERVICE WORKER REGISTRATION (v1.5.1-resilience)
+// ROBUST SERVICE WORKER REGISTRATION (v1.5.4-resilience-absolute)
 // [OPERACIÓ CAVALLERIA] Force SW Nuke for v1.5.4 update
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.getRegistrations().then(registrations => {

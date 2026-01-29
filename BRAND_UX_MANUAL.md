@@ -19,12 +19,27 @@ Sóc de Poble is not just a tool; it's a sanctuary for rural identity. The desig
 > **MOVIL-FIRST (Ley de Vida)**: El diseño y la funcionalidad se conciben, prueban y validan **primero en móvil y tablet**. No se aprueba ninguna característica que no sea 100% fluida en dispositivos táctiles.
 
 ### 🧿 Design Tokens (Premium Palette)
-| Token | Value | Application | Effect |
+| Token | Value (Genius) | Application | Effect |
 | :--- | :--- | :--- | :--- |
 | **Primary** | `#00f2ff` | Actions, Neons, HUD | High-tech pulse |
 | **Secondary** | `#E07A5F` | Human touch, Warm accents | Rural clay / Earth |
-| **Background** | `rgba(10, 15, 30, 0.95)` | Glassmorphism base | Midnight over the village |
+| **Glass** | `rgba(10, 15, 30, 0.95)` | Glassmorphism base | Midnight over the village |
 | **Danger** | `#ff0055` | Deletions, Nuclear | Urgent warning |
+
+## 🌈 Visions Simbiòtiques v1.6 (Themes) 🎨✨
+Sóc de Poble permet canviar l'estètica completa segons el bategat del moment.
+
+### 1. GENIUS (Cyber-Rural) [Default]
+- **Vibe**: Futurista, neon, dark, glassmorphism agressiu.
+- **Tokens**: Blau Cian (#00f2ff), Negre Carboni, Glassmorphism 85%.
+
+### 2. ARTESÀ (Minimalist Earth)
+- **Vibe**: Tradicional, paper, tons terra, calidesa.
+- **Tokens**: Terracota, Blanc Crema, Tipografia amb Serif (Merriweather/Roboto Serif).
+
+### 3. NATURA (Tech-Nature)
+- **Vibe**: Frescor, bosc, orgànic, aerodinàmic.
+- **Tokens**: Verd Esmeralda, Blanc Pur, Radis de curvatura més grans (32px+).
 
 ---
 
@@ -105,6 +120,29 @@ El bategat més alt de la Masia s'aconsegueix quan la tècnica i la memòria es 
 - **Transparència Radical**: Tots els crèdits, des de l'ADL fins a Thorsten i la IA, són visibles i honoren el passat i el futur.
 - **Memòria Dinàmica**: Integració nativa amb Wikipedia per a que la història del poble estiga sempre a un clic del veí.
 - **Relació d'Iguals**: Sóc de Poble és una conversa entre veïns i tecnologies que es respecten. Javi és un veí més d'aquest projecte.
+
+---
+
+---
+
+## 🏛️ Visions Estratègiques de v1.6 (Noves Idees) 🎨🏺
+
+### A. El Sistema d'Espaiat "HORTA" 🌿
+En lloc de graelles rígides, l'espaiat ha de "bategar" com els cultius.
+- **Micro-espais**: 4px y 8px (Llavors).
+- **Macro-espais**: 32px y 48px (Solcs).
+- **Llei del Solc**: Els elements relacionats han d'estar en el mateix "solc" visual, separats per espais buits generosos que permeten respirar a la dada, com si fóra un camp en guaret.
+
+### B. Iconografia de Patrimoni 🏺⚒️
+Tots els icones de l'aplicació han de tenir una variant "Heritage":
+- **Configuració**: S'adapta a una Clau Anglesa o una d'antiga de ferro.
+- **Mercat**: Una cistella de vímet en lloc d'un carret de compra.
+- **IAIA**: No és un robot, és un fil daurat que connecta el passat amb el futur.
+
+### C. Sistema de Retícula "MOSAIC" 🧱
+Inspirat en els taulells de Nolla i la fusta de les cases antigues.
+- Les targetes (Cards) no han de ser sempre iguals. 
+- Introduirem un sistema de *Masonry* que adapte el tamany de la card a la importància del contingut (Algoritme de Prioritat de l'Arquitecte).
 
 ---
 

@@ -1,0 +1,54 @@
+/* 🌈 SÓC DE POBLE: MASTER THEMES v1.6 */
+
+:root {
+    /* Default: GENIUS (Cyber-Rural) */
+    --vibe-primary: #00f2ff;
+    --vibe-secondary: #E07A5F;
+    --vibe-bg: #0F1115;
+    --vibe-surface: #171923;
+    --vibe-card: #1C1E26;
+    --vibe-glass: rgba(10, 15, 30, 0.8);
+    --vibe-text: #F7FAFC;
+    --vibe-radius: 16px;
+    --vibe-font-main: 'Roboto Condensed', sans-serif;
+    --vibe-font-heading: 'Roboto Condensed', sans-serif;
+    --vibe-glow: 0 0 15px rgba(0, 242, 255, 0.4);
+}
+
+/* 🏺 VISIÓ: ARTESÀ (Artesanal Minimal) */
+[data-vibe='artesa'] {
+    --vibe-primary: #E07A5F;
+    /* Terracota */
+    --vibe-secondary: #3D405B;
+    /* Blau profund */
+    --vibe-bg: #F4F1DE;
+    /* Paper vell / Sorra */
+    --vibe-surface: #F2E9E4;
+    --vibe-card: #FFFFFF;
+    --vibe-glass: rgba(255, 255, 255, 0.7);
+    --vibe-text: #3D405B;
+    --vibe-radius: 4px;
+    /* Més rectangular */
+    --vibe-font-main: 'Roboto Serif', serif;
+    --vibe-font-heading: 'Roboto Serif', serif;
+    --vibe-glow: none;
+    --logo-filter: none;
+}
+
+/* 🌿 VISIÓ: NATURA (Tech-Nature) */
+[data-vibe='natura'] {
+    --vibe-primary: #10b981;
+    /* Verd esmeralda */
+    --vibe-secondary: #059669;
+    --vibe-bg: #F0FDF4;
+    /* Blanc verdós */
+    --vibe-surface: #FFFFFF;
+    --vibe-card: #FFFFFF;
+    --vibe-glass: rgba(16, 185, 129, 0.05);
+    --vibe-text: #064E3B;
+    --vibe-radius: 32px;
+    /* Molt orgànic */
+    --vibe-font-main: 'Outfit', sans-serif;
+    --vibe-font-heading: 'Outfit', sans-serif;
+    --vibe-glow: 0 8px 20px rgba(16, 185, 129, 0.1);
+}

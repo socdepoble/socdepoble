@@ -12,11 +12,17 @@ export const UIProvider = ({ children }) => {
     const [socialManagerContext, setSocialManagerContext] = useState(null); // { type, id, name }
     const [postModalConfig, setPostModalConfig] = useState({ isPrivate: false });
     const [visionMode, setVisionMode] = useState(localStorage.getItem('visionMode') || 'hibrida');
+    const [vibe, setVibe] = useState(localStorage.getItem('app-vibe') || 'genius');
 
     useEffect(() => {
         document.documentElement.setAttribute('data-theme', theme);
         localStorage.setItem('theme', theme);
     }, [theme]);
+
+    useEffect(() => {
+        document.documentElement.setAttribute('data-vibe', vibe);
+        localStorage.setItem('app-vibe', vibe);
+    }, [vibe]);
 
     useEffect(() => {
         localStorage.setItem('visionMode', visionMode);
@@ -50,7 +56,9 @@ export const UIProvider = ({ children }) => {
             postModalConfig,
             openPostModal,
             visionMode,
-            setVisionMode
+            setVisionMode,
+            vibe,
+            setVibe
         }}>
             {children}
         </UIContext.Provider>

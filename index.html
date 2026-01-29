@@ -16,20 +16,30 @@
   <link rel="preload" as="image" href="/logo.png" />
   <link rel="preload" as="image" href="/favicon.png?v=Genius_154" />
 
-  <script>
-    // EMERGENCY SERVICE WORKER NUKE: Force update to v1.5.4
-    if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
-      navigator.serviceWorker.getRegistrations().then(function (registrations) {
-        for (let registration of registrations) {
-          console.warn('[Cavalleria] Nuking stale SW:', registration.active ? registration.active.scriptURL : 'unknown');
-          registration.unregister();
-        }
-      });
-    }
-    // Emergency Fallback for Global Constants (Fix ReferenceError)
-    window.CREATOR_EMAILS = window.CREATOR_EMAILS || ['socdepoblecom@gmail.com', 'damimus@gmail.com'];
-    window.APP_VERSION = '1.5.4-Genius-Absolut';
-  </script>
+  // ATOMIC VERSION ENFORCEMENT (v1.5.4)
+  (function() {
+  const REQUIRED_VERSION = '1.5.4-Genius-Absolut';
+  const lastNuke = localStorage.getItem('last_nuclear_nuke');
+
+  if (lastNuke !== REQUIRED_VERSION) {
+  console.warn('[NUCLEAR] Version mismatch or first run of v1.5.4. PURGING EVERYTHING...');
+  localStorage.clear();
+  sessionStorage.clear();
+  localStorage.setItem('last_nuclear_nuke', REQUIRED_VERSION);
+
+  if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then(regs => {
+  for(let r of regs) r.unregister();
+  window.location.reload(true);
+  });
+  } else {
+  window.location.reload(true);
+  }
+  }
+  })();
+
+  window.CREATOR_EMAILS = window.CREATOR_EMAILS || ['socdepoblecom@gmail.com', 'damimus@gmail.com'];
+  window.APP_VERSION = '1.5.4-Genius-Absolut';
 
   <title>Sóc de Poble | El Portal de les Teues Arrels v1.5.4-Genius-Absolut</title>
   <meta name="description"
@@ -96,7 +106,7 @@
   <div class="app-version"
     style="position:fixed;bottom:10px;right:10px;font-size:10px;opacity:0.3;pointer-events:none;">v1.5.4-Genius-Absolut
   </div>
-  <script type="module" src="/src/main.jsx?v=Genesis154_Final"></script>
+  <script type="module" src="/src/main.jsx?v=Genesis154_Absolute_Force_v1"></script>
 </body>
 
 </html>

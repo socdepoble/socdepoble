@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import { X, Send, Sparkles, Shield, Trash2 } from 'lucide-react';
+import { useUI } from '../context/UIContext';
 import './MasterConsole.css';
 
 const MasterConsole = ({ isOpen, onClose }) => {
     const { profile, user } = useAuth();
     const { t } = useTranslation();
+    const { vibe, setVibe } = useUI();
     const [target, setTarget] = useState('iaia_brain');
     const [mode, setMode] = useState('refine'); // refine, audit, purify, chronicle
     const [content, setContent] = useState('');
@@ -74,6 +76,18 @@ const MasterConsole = ({ isOpen, onClose }) => {
 
                     <div className="master-bottom-controls">
                         <div className="master-field">
+                            <label>Visió Simbiòtica (Vibe)</label>
+                            <select
+                                value={vibe}
+                                onChange={(e) => setVibe(e.target.value)}
+                            >
+                                <option value="genius">GENIUS (Cyber-Rural)</option>
+                                <option value="artesa">ARTESÀ (Minimal Earth)</option>
+                                <option value="natura">NATURA (Tech-Nature)</option>
+                            </select>
+                        </div>
+
+                        <div className="console-field">
                             <label>Visibilitat de l'Esdeveniment</label>
                             <select value={visibility} onChange={(e) => setVisibility(e.target.value)}>
                                 <option value="team">NOMÉS EQUIP (Privat)</option>

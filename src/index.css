@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&family=Roboto+Serif:wght@300;400;500;600;700&display=swap');
+@import './styles/themes.css';
 
 /* Global Accessibility Utils */
 .sr-only {
@@ -14,24 +15,35 @@
 }
 
 :root {
-  /* Brand Colors - Premium Rural-Tech Audit */
-  --color-primary: #00f2ff;
-  --color-primary-rgb: 0, 242, 255;
-  --color-primary-soft: rgba(0, 242, 255, 0.1);
-  --color-secondary: #E07A5F;
-  --color-secondary-rgb: 224, 122, 95;
+  /* Brand Colors - Now Controlled by Vibes */
+  --color-primary: var(--vibe-primary);
+  --color-primary-soft: rgba(var(--vibe-primary-rgb), 0.1);
+  --color-secondary: var(--vibe-secondary);
   --gradient-primary: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
-  /* Keep the terracotta as brand accent */
-  /* Dribbble Style Tokens */
-  --card-radius: var(--radius-xl);
-  --image-radius: var(--radius-lg);
-  --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
-  --card-shadow-hover: 0 15px 40px rgba(0, 0, 0, 0.08);
-  --bg-app: #F8F9FB;
-  /* Soft off-white for cards to pop */
-  --text-body: #4A4A4A;
-  --color-pill-bg: #F2F2F7;
-  --color-pill-text: #636366;
+
+  --bg-app: var(--vibe-bg);
+  --bg-main: var(--vibe-bg);
+  --bg-surface: var(--vibe-surface);
+  --bg-card: var(--vibe-card);
+  --bg-overlay: var(--vibe-glass);
+
+  --text-main: var(--vibe-text);
+  --text-body: var(--vibe-text);
+
+  /* Radii - Now Controlled by Vibes */
+  --radius-xs: calc(var(--vibe-radius) / 2);
+  --radius-sm: calc(var(--vibe-radius) * 0.75);
+  --radius-md: var(--vibe-radius);
+  --radius-lg: calc(var(--vibe-radius) * 1.25);
+  --radius-xl: calc(var(--vibe-radius) * 1.75);
+  --radius-2xl: calc(var(--vibe-radius) * 2);
+
+  /* Typography System */
+  --font-main: var(--vibe-font-main);
+  --font-accent: 'Outfit', sans-serif;
+  --font-heading: var(--vibe-font-heading);
+  --font-body: var(--vibe-font-main);
+
   --color-success: #4CAF50;
   --color-warning: #FF9800;
   --color-error: #FF5252;
