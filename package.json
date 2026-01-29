@@ -1,7 +1,7 @@
 {
   "name": "soc-de-poble",
   "private": true,
-  "version": "1.5.4-Genius-Absolut",
+  "version": "1.5.5-NUCLEAR",
   "type": "module",
   "scripts": {
     "dev": "vite",

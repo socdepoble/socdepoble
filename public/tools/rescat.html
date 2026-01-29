@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="va">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sóc de Poble | Protocol de Rescat Atòmic 🚑☢️</title>
+    <style>
+        body {
+            font-family: system-ui, sans-serif;
+            background: #0a0a0c;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+
+        .nuclear-card {
+            background: rgba(255, 0, 85, 0.1);
+            border: 2px solid #ff0055;
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 0 50px rgba(255, 0, 85, 0.2);
+            max-width: 400px;
+        }
+
+        h1 {
+            color: #ff0055;
+            margin-bottom: 10px;
+        }
+
+        p {
+            opacity: 0.8;
+            line-height: 1.5;
+        }
+
+        .btn-nuke {
+            background: #ff0055;
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 99px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            font-size: 1.1rem;
+            box-shadow: 0 5px 15px rgba(255, 0, 85, 0.4);
+        }
+
+        .log-area {
+            margin-top: 20px;
+            font-family: monospace;
+            font-size: 0.8rem;
+            text-align: left;
+            width: 100%;
+            max-height: 100px;
+            overflow-y: auto;
+            color: #00f2ff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="nuclear-card">
+        <h1>RESUMEN NUCLEAR</h1>
+        <p>S'està aplicant el Protocol de Rescat Atòmic per a eradicar les versions antigues (v1.5.1/1.5.2).</p>
+        <button id="nukeBtn" class="btn-nuke">INICIAR ERADICACIÓ ATÒMICA ☢️</button>
+        <div id="logs" class="log-area"></div>
+    </div>
+
+    <script>
+        const logs = document.getElementById('logs');
+        const btn = document.getElementById('nukeBtn');
+
+        function addLog(msg) {
+            const div = document.createElement('div');
+            div.textContent = `> ${msg}`;
+            logs.appendChild(div);
+        }
+
+        btn.onclick = async () => {
+            btn.disabled = true;
+            btn.textContent = "ERADICANT...";
+
+            addLog("Iniciant purga de localStorage...");
+            localStorage.clear();
+
+            addLog("Purgant sessionStorage...");
+            sessionStorage.clear();
+
+            addLog("Eliminant bases de dades IndexedDB...");
+            try {
+                const dbs = await window.indexedDB.databases();
+                dbs.forEach(db => window.indexedDB.deleteDatabase(db.name));
+            } catch (e) { addLog("Error IDB: " + e.message); }
+
+            if ('caches' in window) {
+                addLog("Detectada Cache API. Eradicant...");
+                const keys = await caches.keys();
+                await Promise.all(keys.map(key => {
+                    addLog(`Eliminant cache: ${key}`);
+                    return caches.delete(key);
+                }));
+            }
+
+            if ('serviceWorker' in navigator) {
+                addLog("Detectat Service Worker. Unregistering...");
+                const regs = await navigator.serviceWorker.getRegistrations();
+                await Promise.all(regs.map(r => {
+                    addLog(`Unregistered: ${r.active ? r.active.scriptURL : 'unknown'}`);
+                    return r.unregister();
+                }));
+            }
+
+            addLog("Eradicació completada. Reiniciant en 3s...");
+            setTimeout(() => {
+                window.location.href = window.location.origin + '/?v_nuclear=' + Date.now();
+            }, 3000);
+        };
+    </script>
+</body>
+
+</html>
