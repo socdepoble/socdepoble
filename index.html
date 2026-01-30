@@ -16,30 +16,32 @@
   <link rel="preload" as="image" href="/logo.png" />
   <link rel="preload" as="image" href="/favicon.png?v=Genius_154" />
 
-  // ATOMIC VERSION ENFORCEMENT (v1.5.5-NUCLEAR)
-  (function() {
-  const REQUIRED_VERSION = '1.5.5-NUCLEAR';
-  const lastNuke = localStorage.getItem('last_nuclear_nuke');
+  <script>
+    // ATOMIC VERSION ENFORCEMENT (v1.5.5-NUCLEAR)
+    (function () {
+      const REQUIRED_VERSION = '1.5.5-NUCLEAR';
+      const lastNuke = localStorage.getItem('last_nuclear_nuke');
 
-  if (lastNuke !== REQUIRED_VERSION) {
-  console.warn('[NUCLEAR] Version mismatch or first run of v1.5.5. PURGING EVERYTHING...');
-  localStorage.clear();
-  sessionStorage.clear();
-  localStorage.setItem('last_nuclear_nuke', REQUIRED_VERSION);
+      if (lastNuke !== REQUIRED_VERSION) {
+        console.warn('[NUCLEAR] Version mismatch or first run of v1.5.5. PURGING EVERYTHING...');
+        localStorage.clear();
+        sessionStorage.clear();
+        localStorage.setItem('last_nuclear_nuke', REQUIRED_VERSION);
 
-  if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.getRegistrations().then(regs => {
-  for(let r of regs) r.unregister();
-  window.location.reload(true);
-  });
-  } else {
-  window.location.reload(true);
-  }
-  }
-  })();
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.getRegistrations().then(regs => {
+            for (let r of regs) r.unregister();
+            window.location.reload(true);
+          });
+        } else {
+          window.location.reload(true);
+        }
+      }
+    })();
 
-  window.CREATOR_EMAILS = window.CREATOR_EMAILS || ['socdepoblecom@gmail.com', 'damimus@gmail.com'];
-  window.APP_VERSION = '1.5.5-NUCLEAR';
+    window.CREATOR_EMAILS = window.CREATOR_EMAILS || ['socdepoblecom@gmail.com', 'damimus@gmail.com'];
+    window.APP_VERSION = '1.5.5-NUCLEAR';
+  </script>
 
   <title>Sóc de Poble | v1.5.5-NUCLEAR 🏘️☢️</title>
   <meta name="description"
@@ -62,9 +64,8 @@
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:url" content="https://socdepoble.vercel.app/" />
-  <meta name="twitter:title" content="Sóc de Poble v1.5.4-Genius-Absolut 🏘️✨" />
-  <meta name="twitter:description"
-    content="Connecta amb la teua comunitat. Notícies, mercat i esdeveniments al teu poble." />
+  <meta name="twitter:title" content="Sóc de Poble v1.5.5-NUCLEAR 🏘️☢️" />
+  <meta name="twitter:description" content="Connecta amb la teua comunitat. Versió NUCLEAR 1.5.5." />
   <meta name="twitter:image" content="https://socdepoble.vercel.app/og-image.png?v=Genius_1_5_4_Final_Consolidated" />
 
   <!-- Mobile Theme -->
