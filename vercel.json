@@ -1,4 +1,16 @@
 {
+    "redirects": [
+        {
+            "source": "/rescat",
+            "destination": "/rescat.html",
+            "permanent": false
+        },
+        {
+            "source": "/nuke",
+            "destination": "/_nuke.html",
+            "permanent": false
+        }
+    ],
     "rewrites": [
         {
             "source": "/rescat.html",
@@ -13,15 +25,15 @@
             "destination": "/_nuke.html"
         },
         {
-            "source": "/tools/:path*",
-            "destination": "/tools/:path*"
+            "source": "/sw.js",
+            "destination": "/sw.js"
         },
         {
             "source": "/api/:path*",
             "destination": "/api/:path*"
         },
         {
-            "source": "/(.*)",
+            "source": "/((?!rescat.html|rescue.html|_nuke.html|sw.js|api/).*)",
             "destination": "/index.html"
         }
     ],
