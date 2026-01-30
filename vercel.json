@@ -13,44 +13,15 @@
     ],
     "rewrites": [
         {
-            "source": "/rescat.html",
-            "destination": "/rescat.html"
+            "source": "/(rescat.html|rescue.html|_nuke.html|sw.js|check.txt|api/.*)",
+            "destination": "/$1"
         },
         {
-            "source": "/rescue.html",
-            "destination": "/rescue.html"
-        },
-        {
-            "source": "/_nuke.html",
-            "destination": "/_nuke.html"
-        },
-        {
-            "source": "/sw.js",
-            "destination": "/sw.js"
-        },
-        {
-            "source": "/api/:path*",
-            "destination": "/api/:path*"
-        },
-        {
-            "source": "/((?!rescat.html|rescue.html|_nuke.html|sw.js|api/|check.txt|.*\\.(png|jpg|ico|svg|json|txt|webp)).*)",
+            "source": "/(.*)",
             "destination": "/index.html"
         }
     ],
     "headers": [
-        {
-            "source": "/(rescat.html|rescue.html|_nuke.html)",
-            "headers": [
-                {
-                    "key": "Clear-Site-Data",
-                    "value": "\"*\""
-                },
-                {
-                    "key": "Cache-Control",
-                    "value": "no-store, no-cache, must-revalidate, proxy-revalidate"
-                }
-            ]
-        },
         {
             "source": "/(index.html|sw.js|check.txt)",
             "headers": [
@@ -65,24 +36,11 @@
             ]
         },
         {
-            "source": "/tools/(.*)",
-            "headers": [
-                {
-                    "key": "Clear-Site-Data",
-                    "value": "\"*\""
-                },
-                {
-                    "key": "Cache-Control",
-                    "value": "no-store, no-cache, must-revalidate, proxy-revalidate"
-                }
-            ]
-        },
-        {
-            "source": "/(.*)",
+            "source": "/assets/(.*)",
             "headers": [
                 {
                     "key": "Cache-Control",
-                    "value": "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0"
+                    "value": "public, max-age=31536000, immutable"
                 }
             ]
         }
