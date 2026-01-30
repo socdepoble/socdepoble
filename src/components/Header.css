@@ -41,6 +41,22 @@
     transition: filter 0.3s ease;
 }
 
+.header-version-tag {
+    font-size: 8px;
+    background: #ff0055;
+    color: white;
+    padding: 1px 4px;
+    border-radius: 4px;
+    font-weight: 800;
+    text-transform: uppercase;
+    margin-left: 4px;
+    align-self: flex-start;
+    margin-top: 4px;
+    box-shadow: 0 0 10px rgba(255, 0, 85, 0.3);
+    pointer-events: none;
+    white-space: nowrap;
+}
+
 .header-actions {
     display: flex;
     align-items: center;
