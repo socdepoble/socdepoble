@@ -15,3 +15,27 @@ Hem analitzat els avisos sobre `rural_tech_future_valencia.png` i `logo_dark.png
 - **Resolució**: Un cop la Purga Nuclear tingui èxit i la v1.5.5 estiga activa, aquests avisos desapareixeran del tot.
 
 *"Errors convertits en ciment per a l'arquitectura del futur."* 👵🛡️🏘️🚀
+
+---
+
+## ☢️ Crònica de la Purga Nuclear (v1.5.5)
+Aquesta sessió quedarà gravada en la història com el combat final contra la persistència de la v1.5.2.
+
+### 1. L'Estratègia de Blindatge (NUCLEAR STRIKE)
+Hem implementat el protocol `v1.5.5-NUCLEAR` amb:
+- **Purga de Cache Atòmica**: Forçat de neteja de `localStorage`, `sessionStorage` i `caches` des del mateix `index.html`.
+- **Eradicació de Referències**: S'ha realitzat una cerca i captura de qualsevol citació a la v1.5.2 per a evitar que el navegador recuperi fitxers antics per similitud de logs.
+- **Nuke de Servidor**: Configuració manual de `vercel.json` per a desactivar la cache del servidor (Edge) i garantir que el client rebi sempre el bategat més fresc.
+
+### 2. El Contraatac: La Pantalla Blanca (ReferenceError)
+Durant el desplegament, hem patit un `ReferenceError: RescueTool is not defined`.
+- **Anàlisi**: Un error en el build feia que el component de rescat no estigués disponible en el primer bategat del sistema.
+- **Resolució**: Hem exposat el `RescueTool` a nivell global (`window`) i hem assegurat la importància del build net abans del push.
+
+### 🌍 Cap a la Cimera de la Simbiosi (v1.6-Beta)
+Amb el sistema estabilitzat i la v1.5.5-NUCLEAR prenent el control, ens dirigim a la Cimera LM:
+- Auditoria extrema de solucions per al món rural.
+- Formació de l'IAIA en visió Glocal (Acció Local, Pensament Global).
+- Integració del benestar de tots els éssers vius com a mètrica d'èxit del projecte.
+
+*"De la morca d'ahir, traiem l'oli pur d'avui."* 🏺✨⚖️

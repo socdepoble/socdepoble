@@ -15,6 +15,7 @@ import UnifiedStatus from './components/UnifiedStatus';
 // --------------------------------------------------------------------
 if (typeof window !== 'undefined') {
   window.UnifiedStatus = UnifiedStatus;
+  window.RescueTool = RescueTool; // GLOBAL DEFENSE
   // GLOBAL DEFENSE: Ensure CREATOR_EMAILS is never undefined
   window.CREATOR_EMAILS = window.CREATOR_EMAILS || ['socdepoblecom@gmail.com', 'damimus@gmail.com'];
 }

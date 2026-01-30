@@ -56,7 +56,7 @@ const AdminPanel = () => {
                     setTimeout(() => {
                         addLog('Executant correcció automàtica de sitemap...', 'action');
                         setHealth(100);
-                        addLog('Caché cognitiva actualitzada amb v1.5.4-Genius-Absolut.', 'success');
+                        addLog('Caché cognitiva actualitzada amb v1.5.5-NUCLEAR.', 'success');
                     }, 2000);
                 }
 
@@ -101,7 +101,7 @@ const AdminPanel = () => {
                 <div className="title-area">
                     <h1>
                         <Shield className="text-cyan-400" size={24} />
-                        ANTIGRAVITY <span style={{ opacity: 0.5 }}>//</span> CORE v1.5.4-Genius-Absolut
+                        ANTIGRAVITY <span style={{ opacity: 0.5 }}>//</span> CORE v1.5.5-NUCLEAR
                     </h1>
                     <p>SUPERVISOR DEL SISTEMA: {isSuperAdmin ? 'NIVELL 5 (GOD MODE)' : 'NIVELL 3 (OPERADOR)'}</p>
                 </div>

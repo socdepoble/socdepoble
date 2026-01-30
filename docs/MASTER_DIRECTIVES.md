@@ -15,7 +15,7 @@
 - Es realitzarà una auditoria diària del sistema per part de la família Antigravity.
 - **Context Integral**: Es tindran en compte TOTS els dubtes i preguntes (passades i presents) que en Javi haja fet a **NotebookLM**.
 - **Millora i Reparació**: L'auditoria proposarà millores, funcions innovadores i solucions d'autoreparació basades en aquestes interaccions.
-- **Execució**: Es realitzarà diàriament, quan el sistema ho necessite o quan un superadministrador ho sol·licite.
+- **Execució**: Es realitzarà diàriament, quan el sistema ho necessite o quan un superadministrador ho sol·licite. S'integra directament amb la **Cimera de la Simbiosi** per a una auditoria extrema.
 
 ## 🧠 Directiva de la Simbiosi Mental ⚖️✨
 L'IAIA no és un agent extern, és el **Segon Cervell** d'en **Javi**.
