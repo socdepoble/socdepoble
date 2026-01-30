@@ -65,6 +65,8 @@
 - [x] **[IAIA]**: FAQ dinàmic amb preguntes de NotebookLM integrat al llibre. 🧠💡
 - [x] **[PRODUCCIÓ]**: Desplegament final v1.5.4-Genius-Absolut (Operació Nuke v1.5.2). 🚀☢️
 - [x] **[ALERTA]**: Implementar Directiva "Bell of Attention" per a crides d'atenció sonores. 🔔📢
+- [x] **[IDENTITAT]**: Actualitzar directives per a anomenar a l'usuari com a "Javi". 🤝
+- [x] **[AUDIT]**: Protocol d'Auditoria Diària LM (NotebookLM integration). 🤖📊
 - [/] **[BOOK]**: Redactar capítols sobre el "Village Controller" i comunicació Home-Màquina. 📖
 - [x] **[MANIFEST]**: Crear el "Manifest de la Simbiosi" sobre el potencial de l'IAIA i el rumb futur. 🧠✨
 - [x] **[DOCS]**: Centralitzar tota la documentació MASTER al directori `docs/` del projecte. 📂🛡️
