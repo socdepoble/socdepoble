@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'Genius-1.5.5-NUCLEAR-STRIKE-POLISHED-v2';
+const CACHE_VERSION = 'Genius-1.5.5-NUCLEAR-STRIKE-PURGATORY-v1';
 const CACHE_NAME = `socdepoble-${CACHE_VERSION}`;
 const HEALTH_CHECK_INTERVAL = 5 * 60 * 1000; // 5 minutes
 
