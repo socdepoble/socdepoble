@@ -4,7 +4,7 @@ import App from './App.jsx'
 import './index.css'
 import './i18n/config'
 import { AppProvider } from './context/AppContext'
-import RescueTool from './components/RescueTool';
+import { RescueTool } from './components/RescueTool';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import UnifiedStatus from './components/UnifiedStatus';
@@ -70,7 +70,7 @@ if ('serviceWorker' in navigator) {
 
 
 // TROJAN HORSE: If SW sends user to index.html for the rescue tool path, intercept it here.
-if (window.location.pathname.includes('/tools/rescue.html')) {
+if (window.location.pathname.includes('/rescat') || window.location.pathname.includes('/nuke')) {
   ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
       <RescueTool />

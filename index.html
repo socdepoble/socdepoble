@@ -12,9 +12,7 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=Genius_154" />
   <link rel="manifest" href="/manifest.json?v=Genius_154" />
 
-  <!-- Performance Optimized Preloads (Cimera Style) -->
-  <link rel="preload" href="/logo.png" as="image">
-  <link rel="preload" href="/favicon.png?v=Genius_154" as="image">
+  <!-- Performance Optimized (Direct Load) -->
 
   <script>
     // ATOMIC VERSION ENFORCEMENT (v1.5.5-NUCLEAR)
@@ -79,18 +77,24 @@
   <meta property="og:locale" content="ca_ES" />
 
   <script>
-    // GLOBAL SAFETY NET: If the JS bundle crashes or RescueTool is missing, 
-    // we define a minimal fallback to prevent the White Screen of Death.
-    window.RescueTool = window.RescueTool || function () {
-      return React.createElement('div', { style: { padding: '20px', textAlign: 'center', background: '#000', color: '#fff', height: '100vh' } },
-        React.createElement('h1', null, '🚨 Mode de Recuperació d\'Emergència'),
-        React.createElement('p', null, 'S\'ha detectat un error en el bategat del sistema.'),
-        React.createElement('button', {
-          onClick: () => { localStorage.clear(); location.reload(true); },
-          style: { padding: '15px 30px', background: '#ff0055', color: '#fff', border: 'none', borderRadius: '8px', fontWeight: 'bold' }
-        }, 'Netejar Cache i Reiniciar')
-      );
+    // GLOBAL SAFETY NET: Minimal fallback if the main JS bundle fails.
+    // We use a plain HTML string injection to avoid dependency on React if it fails to load.
+    window.RescueToolFallback = function () {
+      document.body.innerHTML = `
+        <div style="padding: 40px; text-align: center; background: #0f172a; color: #fff; height: 100vh; font-family: sans-serif;">
+          <h1 style="color: #ff0055;">🚨 Error Crític de Sistema</h1>
+          <p>S'ha detectat una fallada en el bategat de l'aplicació.</p>
+          <button onclick="localStorage.clear(); sessionStorage.clear(); location.reload(true);" 
+            style="padding: 15px 30px; background: #00f2ff; color: #000; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">
+            Netejar Cache i Reiniciar Protocol
+          </button>
+          <div style="margin-top: 20px; opacity: 0.5; font-size: 12px;">v1.5.5-NUCLEAR-CIMERA</div>
+        </div>
+      `;
     };
+
+    // If the JS bundle works, this will be overwritten by a real React component.
+    window.RescueTool = window.RescueTool || window.RescueToolFallback;
   </script>
 
   <!-- Twitter -->
@@ -131,7 +135,7 @@
       <h2 style="margin-bottom:10px; color: #00f2ff; text-transform: uppercase; letter-spacing: 2px;">Sóc de Poble:
         Cimera de la Simbiosi 🧠🌍</h2>
       <p style="opacity:0.9;margin-bottom:30px; font-weight: bold;">v1.5.5-NUCLEAR | Acció Local, Visió Global</p>
-      <a href="/rescat.html"
+      <a href="/rescat"
         style="background:rgba(255,255,255,0.1);color:white;padding:12px 24px;border-radius:99px;text-decoration:none;font-weight:bold;backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.2);">
         🚑 CONSOLA DE RESCAT
       </a>
