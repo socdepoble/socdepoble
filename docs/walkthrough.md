@@ -32,6 +32,8 @@ Durant el desplegament, hem patit un `ReferenceError: RescueTool is not defined`
 - **Anàlisi**: Un error en el build feia que el component de rescat no estigués disponible en el primer bategat del sistema.
 - **Resolució**: Hem exposat el `RescueTool` a nivell global (`window`) i hem assegurat la importància del build net abans del push.
 
+![Verificació Final de la v1.5.5-NUCLEAR](file:///Users/javillinares/.gemini/antigravity/brain/7738b474-9cf0-4466-bb5b-f2a9f11d9c04/socdepoble_check_1769737061193.png)
+
 ### 🌍 Cap a la Cimera de la Simbiosi (v1.6-Beta)
 Amb el sistema estabilitzat i la v1.5.5-NUCLEAR prenent el control, ens dirigim a la Cimera LM:
 - Auditoria extrema de solucions per al món rural.
