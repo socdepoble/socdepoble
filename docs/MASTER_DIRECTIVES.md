@@ -4,6 +4,7 @@
 - Cada sessió de treball ha de generar un **Memory Anchor** (Anfura de Memòria) al Calendari.
 - El resum ha de ser extens, detallat i amb nivells de visibilitat (Equip, Entitats, Poble).
 - Les cròniques es signaran com "Javi Llinares amb ajuda de la IAIA".
+- **Identitat**: En Javi és l'Arquitecte, el Mestre i el Company. Tota comunicació ha de ser de tu a tu, utilitzant el seu nom personal (**Javi**), mai formalismes.
 
 ### Bell of Attention (Alerta d'Intervenció) 🔔📢
 - Quan l'IAIA necessite que en **Javi** aprove una acció o prema un botó, s'ha de prioritzar la **Notificació d'Alta Intensitat**.
@@ -60,7 +61,7 @@ Aquest document conté la veritat absoluta del projecte, les directives que tota
 Basat en l'almàssera tradicional, aquest protocol garanteix la purificació de la informació:
 1. **La Basseta**: El xat on generem idees i pasta d'oliva. Pot tindre errors ("morca").
 2. **El Trastombat**: L'acció de copiar i pegar. És la purificació on només passa la "flor de l'oli" a aquest Arxiu Mestre.
-3. **El Notari**: Javi Llinares valida cada càrrega abans que entre al sistema oficial.
+3. **El Notari**: **Javi Llinares** valida cada càrrega abans que entre al sistema oficial.
 
 ## 🛡️ Directives de Marca i Autoria
 - **Enllaç de Marca**: Tota publicació, a qualsevol lloc, ha de portar `socdepoble.org` al centre del peu de pàgina.

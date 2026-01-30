@@ -13,11 +13,32 @@
             "destination": "/_nuke.html"
         },
         {
-            "source": "/((?!rescat.html|rescue.html|_nuke.html|api/|tools/).*)",
+            "source": "/tools/:path*",
+            "destination": "/tools/:path*"
+        },
+        {
+            "source": "/api/:path*",
+            "destination": "/api/:path*"
+        },
+        {
+            "source": "/(.*)",
             "destination": "/index.html"
         }
     ],
     "headers": [
+        {
+            "source": "/(rescat.html|rescue.html|_nuke.html)",
+            "headers": [
+                {
+                    "key": "Clear-Site-Data",
+                    "value": "\"*\""
+                },
+                {
+                    "key": "Cache-Control",
+                    "value": "no-store, no-cache, must-revalidate, proxy-revalidate"
+                }
+            ]
+        },
         {
             "source": "/index.html",
             "headers": [
