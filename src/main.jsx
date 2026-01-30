@@ -33,8 +33,8 @@ const queryClient = new QueryClient({
 import StatusLoader from './components/StatusLoader';
 import { ToastProvider } from './components/ToastProvider';
 
-// ROBUST SERVICE WORKER REGISTRATION (v1.5.4-resilience-absolute)
-// [OPERACIÓ CAVALLERIA] Force SW Nuke for v1.5.4 update
+// ROBUST SERVICE WORKER REGISTRATION (v1.5.5-resilience-absolute)
+// [OPERACIÓ NUCLEAR] Force SW Nuke for v1.5.5 update
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.getRegistrations().then(registrations => {
     for (const registration of registrations) {
@@ -47,7 +47,7 @@ if ('serviceWorker' in navigator) {
 // Register new SW with cache busting
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js?v=Genius-1.5.4-Final-Consolidated').then(registration => {
+    navigator.serviceWorker.register('/sw.js?v=NUCLEAR-STRIKE-1.5.5-Absolute-Force').then(registration => {
       console.log('[SW] Registered with scope:', registration.scope);
 
       registration.onupdatefound = () => {

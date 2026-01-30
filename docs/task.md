@@ -70,7 +70,7 @@
 - [/] **[BOOK]**: Redactar capítols sobre el "Village Controller" i comunicació Home-Màquina. 📖
 - [x] **[MANIFEST]**: Crear el "Manifest de la Simbiosi" sobre el potencial de l'IAIA i el rumb futur. 🧠✨
 - [x] **[DOCS]**: Centralitzar tota la documentació MASTER al directori `docs/` del projecte. 📂🛡️
-- [ ] **[DEBUG]**: Protocol de "Hard Reset" per a usuaris bloquejats en versions fòssils. 🚑☢️
+- [ ] **[DEBUG]**: Protocol de "Hard Reset" (Lluitant contra SW v1.5.2 zombi). 🧟‍♂️☢️
 - [ ] **[ROADMAP]**: Crear llista de funcionalitats (Operativa/Beta/Idea) a les pàgines de presentació. 📜🏷️
 - [ ] **[CALENDAR]**: Implementar Calendari MASTER (estil Google) amb esdeveniments de Rol i Reals. 🗓️🕹️
 - [ ] **[CHRONICLE]**: Protocol de Cròniques de Sessió automatitzat i prompts NotebookLM. ✍️🤖
