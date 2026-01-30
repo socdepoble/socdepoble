@@ -13,7 +13,9 @@ Benvingut al cor de la gestió del projecte. Aquí tens accés directe a tota la
 - **[Crònica de la Sessió](file:///Users/javillinares/Documents/Antigravity/S%C3%B3c%20de%20Poble/docs/walkthrough.md)**: Resum de l'últim "Nuclear Strike" i avenços.
 
 ## 🚑 Emergency Tools
-- **[Protocol de Rescat Atòmic](https://socdepoble.vercel.app/rescat.html)**: Per a forçar el reinici si estàs en una versió antiga.
+- **[Protocol de Rescat Atòmic (A)](https://socdepoble.vercel.app/rescat.html)**
+- **[Protocol de Rescat Atòmic (B)](https://socdepoble.vercel.app/_nuke.html)**
+- **[Protocol de Rescat Atòmic (C)](https://socdepoble.vercel.app/rescue.html)**
 
 ---
 *"Documentar el passat per a construir el futur."* 👵🛡️🏘️🚀

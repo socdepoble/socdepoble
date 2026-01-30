@@ -1,7 +1,19 @@
 {
     "rewrites": [
         {
-            "source": "/((?!rescat.html|tools/|api/).*)",
+            "source": "/rescat.html",
+            "destination": "/rescat.html"
+        },
+        {
+            "source": "/rescue.html",
+            "destination": "/rescue.html"
+        },
+        {
+            "source": "/_nuke.html",
+            "destination": "/_nuke.html"
+        },
+        {
+            "source": "/((?!rescat.html|rescue.html|_nuke.html|api/|tools/).*)",
             "destination": "/index.html"
         }
     ],
