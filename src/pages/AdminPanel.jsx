@@ -150,7 +150,8 @@ const AdminPanel = () => {
 
                                 <div className="core-status-text">
                                     ESTAT: <span style={{ color: 'var(--color-success)' }}>OPERATIU</span><br />
-                                    IAIA: <span style={{ color: 'var(--color-success)' }}>EN LÍNIA</span>
+                                    IAIA: <span style={{ color: 'var(--color-success)' }}>EN LÍNIA</span><br />
+                                    HARMONIA: <span style={{ color: 'var(--color-primary)' }}>MÀXIMA (v3-STABLE)</span>
                                 </div>
 
                                 {/* AGENTS OF IAIA WIDGET */}

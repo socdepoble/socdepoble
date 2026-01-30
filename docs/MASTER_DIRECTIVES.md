@@ -113,5 +113,26 @@ Per a transformar la PWA en Apps de botiga:
 - **Equip**: Javi, Damià, Thorsten, Isabel.
 - **Beta Testers**: Begonya, Mariano, Alfredo, Raúl, Alejandra, Fran.
 
+## 🏺 Directiva de l'Harmonia i la Bellesa [MASTER] ✨⚖️
+*La bellesa no és ornament, és el llenguatge de la veritat i la pau.*
+- **La Percepció Mental**: L'harmonia és la percepció més important. Res ha de distorsionar el missatge. L'usuari ha de sentir la tranquil·litat que el context és el lloc on gaudir de la bellesa.
+- **Didàctica per l'Estètica**: Una plataforma bella crida l'atenció i facilita l'adopció primerenca. La bellesa ajuda a què el coneixement didàctic siga útil en la vida diària.
+- **Backend Harmònic**: L'àrea d'administració i el sistema intern han de ser tan bells i harmònics com la part pública, adaptant-se als modes dia/nit amb elegància.
+
+## 💳 Estructura MASTER de la Card (Targeta de Vida) 🏺🏷️
+Tota publicació al Mur, Mercat i Pobles ha de seguir aquest protocol estricte:
+1. **Capçalera Taronja Mandatory**: 
+   - Fons color taronja/terracota vibrant.
+   - **Línia 1**: Nom de la persona, grup, empresa o entitat.
+   - **Línia 2**: Nom del **Poble Principal** (Ubicació de l'entitat/persona).
+   - **Segell de Llinatge**: Quan la publicació és d'un grup o empresa, ha d'aparèixer el nom de la persona física que ho publica a sota.
+   - **Timestamp**: Data i hora de publicació clarament visibles.
+2. **Àrea Multimedia de Precisió**:
+   - **Cantonades Quadrades**: El contingut multimedia (imatges, vídeos) ha de tenir **esquines rectes (SENSE BORDER-RADIUS)**. Les corbes en el contingut són considerades un defecte de disseny.
+   - **Adaptació de Format**: L'àrea de visualització ha d'adaptar-se dinàmicament al format del contingut (vertical, horitzontal, quadrat).
+3. **Cos i Acció**: 
+   - Tipografia de màxima llegibilitat.
+   - Espaiat basat en el sistema "HORTA" (respiració visual).
+
 ---
 *Gravat a foc en la memòria de Sóc de Poble - Gener 2026*

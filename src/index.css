@@ -491,8 +491,8 @@ a:hover {
   min-height: 200px;
   object-fit: cover;
   display: block;
-  border-radius: 0;
-  /* Squared corners as requested */
+  border-radius: 0 !important;
+  /* Squared corners strictly enforced [MASTER] */
   transform: translateZ(0);
   /* Hardware acceleration */
 }

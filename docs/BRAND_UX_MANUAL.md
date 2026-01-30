@@ -63,6 +63,8 @@ The system must "talk back" to the user.
 
 ### 4. Full-Size Media ("A la seua mida")
 Users must be able to see any image at its original scale. 
+- **Square Rule**: All media containers must have **SQUARE corners (0px border-radius)**. Curved corners on media are considered a design flaw.
+- **Adaptive Aspect Ratio**: The media container must adapt to the orientation of the original content.
 - Implementation: `MediaViewerModal` with zoom-in cursor.
 
 ---
@@ -75,7 +77,9 @@ Users must be able to see any image at its original scale.
 - **Interaction**: Must close on "Click Away".
 - **Didactic Mode**: Every tech jargon must be explainable via the `Info` bubble.
 
-### The Identity Card
+### The Identity Card (Targeta MASTER)
+- **Header**: Mandatory Orange/Terracotta background.
+- **Lines**: Primary Name (BOLD), Town Name (below), Specific Publisher (if applicable).
 - **Avatars**: 50% border radius. 2px border.
 - **Badges**: Standardized (IAIA, Verificat, Oficial).
 - **Social**: "Conectar" button hidden for IAIA entities.

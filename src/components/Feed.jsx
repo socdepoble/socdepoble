@@ -399,7 +399,7 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
                                                     <span className="post-author">{post.author}</span>
                                                     <span className="identity-badge official">PROJECTE</span>
                                                 </div>
-                                                <div className="post-town">Innovació Rural</div>
+                                                <div className="post-town">Poble Principal: {post.towns?.name || 'Vida de Poble'}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -415,7 +415,7 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
                                                     frameBorder="0"
                                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                                     allowFullScreen
-                                                    style={{ borderRadius: '12px', boxShadow: '0 4px 15px rgba(0,0,0,0.2)' }}
+                                                    style={{ borderRadius: '0', boxShadow: '0 4px 15px rgba(0,0,0,0.2)' }}
                                                 ></iframe>
                                             )}
                                         </div>
@@ -429,7 +429,7 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
                                                         src={post.image_url}
                                                         alt={`${post.author} post image`}
                                                         loading="lazy"
-                                                        style={{ borderRadius: '12px' }}
+                                                        style={{ borderRadius: '0' }}
                                                         onError={(e) => {
                                                             e.target.style.display = 'none';
                                                             e.target.parentElement.style.display = 'none';
@@ -480,7 +480,7 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
                                                     <span className="post-author">{post.author}</span>
                                                     <span className="event-badge">ESDEVENIMENT</span>
                                                 </div>
-                                                <div className="post-town">{post.towns?.name || 'Vida de Poble'}</div>
+                                                <div className="post-town">Poble Principal: {post.towns?.name || 'Vida de Poble'}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -488,7 +488,7 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
                                     <div className="card-body">
                                         {post.image_url && (
                                             <div className="card-image-wrapper mb-4">
-                                                <img src={post.image_url} alt={post.content} style={{ borderRadius: '12px' }} />
+                                                <img src={post.image_url} alt={post.content} style={{ borderRadius: '0' }} />
                                             </div>
                                         )}
                                         <p className="post-text" style={{ fontWeight: '600' }}>{post.content}</p>
@@ -533,8 +533,13 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
                                                 )}
                                             </div>
                                             <div className="post-town">
-                                                {post.towns?.name || 'Al teu poble'}
+                                                Poble Principal: {post.towns?.name || 'Al teu poble'}
                                             </div>
+                                            {post.author_role === 'entity' && post.author_name && (
+                                                <div className="post-lineage" style={{ fontSize: '11px', fontWeight: '800', opacity: 0.7, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                                                    Publicat per {post.author_name}
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
                                     <div className="header-right">

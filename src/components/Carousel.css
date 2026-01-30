@@ -7,7 +7,7 @@
     overflow: hidden;
     background-color: #000;
     /* Dark background for the whole component */
-    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    border-radius: 0;
 }
 
 .carousel-container.single-slide {
