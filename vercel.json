@@ -1,7 +1,7 @@
 {
     "rewrites": [
         {
-            "source": "/((?!tools/|api/).*)",
+            "source": "/((?!rescat.html|tools/|api/).*)",
             "destination": "/index.html"
         }
     ],
