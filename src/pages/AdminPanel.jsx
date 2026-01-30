@@ -372,6 +372,7 @@ const BroadcastModule = ({ user, addLog }) => {
                     >
                         🍎 PUBLICAR MENÚS ANNA
                     </button>
+                    {/* 
                     <button
                         className="btn-primary w-full mt-2"
                         style={{ background: 'var(--color-primary-soft)', color: 'var(--color-primary)' }}
@@ -390,6 +391,7 @@ const BroadcastModule = ({ user, addLog }) => {
                     >
                         <MessageSquare size={14} /> ENVIAR FEEDBACK A ANNA
                     </button>
+                    */}
                     <button className="btn-primary w-full mt-2" onClick={() => addLog('Generant activitat sintètica...', 'info')}>
                         ACTIVAR SIMULACIÓ
                     </button>
