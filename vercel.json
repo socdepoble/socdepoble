@@ -33,7 +33,7 @@
             "destination": "/api/:path*"
         },
         {
-            "source": "/((?!rescat.html|rescue.html|_nuke.html|sw.js|api/).*)",
+            "source": "/((?!rescat.html|rescue.html|_nuke.html|sw.js|api/|check.txt|.*\\.(png|jpg|ico|svg|json|txt|webp)).*)",
             "destination": "/index.html"
         }
     ],
