@@ -11,6 +11,7 @@ import pushNotifications from '../services/pushNotifications';
 import MemexModule from '../components/admin/MemexModule';
 import IdentitiesModule from '../components/admin/IdentitiesModule';
 import CitizensModule from '../components/admin/CitizensModule';
+import StoreManagementModule from '../components/admin/StoreManagementModule';
 import { useUI } from '../context/UIContext';
 import './AdminPanel.css';
 
@@ -281,6 +282,15 @@ const AdminPanel = () => {
                                 <p>Caché cognitiva i historial de decisions del projecte.</p>
                             </div>
 
+                            {/* MODULE 7: STORES (New) */}
+                            <div className="module-card status-active" onClick={() => setActiveModule('stores')} style={{ borderColor: 'var(--color-primary)', borderStyle: 'double' }}>
+                                <div className="module-icon-wrapper" style={{ background: 'var(--color-primary)', color: '#000' }}>
+                                    <Store size={24} />
+                                </div>
+                                <h3>Gestió Stores</h3>
+                                <p>Estat de Google Play i Apple App Store (v1.x).</p>
+                            </div>
+
                         </div>
                     </div>
                 ) : (
@@ -290,6 +300,7 @@ const AdminPanel = () => {
                         {activeModule === 'identities' && <IdentitiesModule />}
                         {activeModule === 'citizens' && <CitizensModule />}
                         {activeModule === 'memex' && <MemexModule addLog={addLog} />}
+                        {activeModule === 'stores' && <StoreManagementModule addLog={addLog} />}
                         {/* More modules can be added here */}
                     </div>
                 )}

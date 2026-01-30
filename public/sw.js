@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'Genius-1.5.5-NUCLEAR-STRIKE-PURGATORY-v1';
+const CACHE_VERSION = 'Genius-1.5.5-NUCLEAR-STRIKE-PURGATORY-v3-ULTIMATE';
 const CACHE_NAME = `socdepoble-${CACHE_VERSION}`;
 const HEALTH_CHECK_INTERVAL = 5 * 60 * 1000; // 5 minutes
 
@@ -10,16 +10,22 @@ const STATIC_ASSETS = [
     '/icon-512.png'
 ];
 
-// Install event - cache static assets
+// Install event - cache static assets individually for maximum resilience
 self.addEventListener('install', (event) => {
-    console.log('[SW-PURGATORI-ACTIU] Instal·lant bategat forçat...');
+    console.log('[SW-PURGATORI-ACTIU] Iniciant bategat de resiliència...');
     event.waitUntil(
-        caches.open(CACHE_NAME)
-            .then(cache => {
-                console.log('[SW] Caching static assets');
-                return cache.addAll(STATIC_ASSETS);
-            })
-            .then(() => self.skipWaiting()) // FORCE SKIP WAITING
+        caches.open(CACHE_NAME).then(async (cache) => {
+            console.log('[SW] Protegint actius estàtics...');
+            for (const asset of STATIC_ASSETS) {
+                try {
+                    await cache.add(asset);
+                    console.log(`[SW-Cura] Actiu guardat: ${asset}`);
+                } catch (err) {
+                    console.warn(`[SW-Alerta] No s'ha pogut guardar ${asset}. El bategat continua.`, err);
+                }
+            }
+            return self.skipWaiting();
+        })
     );
 });
 
@@ -102,13 +108,14 @@ self.addEventListener('push', (event) => {
         try {
             const data = event.data.json();
             const isRepair = data.type === 'system-repair';
+            const isIAIA = data.is_iaia || data.type === 'iaia-chat';
 
             // Stratospheric IAIA Logic: Distinct Identity
             const iaiaAvatar = '/images/demo/avatar_woman_old.png'; // Fallback to Grandma avatar
 
             notificationData = {
                 title: data.title || (isRepair ? '🛠️ AUTO-CURA EN CURS...' : (isIAIA ? '👵 La teua IAIA et diu...' : notificationData.title)),
-                body: data.body || data.message || (isRepair ? 'La IAIA està plegant la xarxa per arreglar un problema. Reiniciant...' : notificationData.body),
+                body: data.body || data.message || (isRepair ? 'La IAIA està plegt la xarxa per arreglar un problema. Reiniciant...' : notificationData.body),
                 icon: data.icon || (isIAIA ? iaiaAvatar : notificationData.icon),
                 badge: data.badge || notificationData.badge,
                 image: data.image || null,

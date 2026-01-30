@@ -19,6 +19,7 @@ const DiagnosticConsole = () => {
     const [showVoiceFeedback, setShowVoiceFeedback] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [feedbackSent, setFeedbackSent] = useState(false);
+    const [didacticAlert, setDidacticAlert] = useState(null);
     const { t, i18n } = useTranslation();
     const navigate = useNavigate();
     const { user, profile, isAdmin, forceNukeSimulation } = useAuth();

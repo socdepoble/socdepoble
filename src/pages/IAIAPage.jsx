@@ -9,6 +9,8 @@ import './IAIAPage.css';
 
 import { feedbackService } from '../services/feedbackService';
 import VoiceRecorder from '../components/VoiceRecorder';
+import MasterMediaGallery from '../components/MasterMediaGallery';
+import { MASTER_ASSETS } from '../constants/masterAssets';
 
 const IAIAPage = () => {
     const { t, i18n } = useTranslation();
@@ -156,12 +158,36 @@ const IAIAPage = () => {
                         <h3>{t('iaia_page.push_notif_title')}</h3>
                         <p>{t('iaia_page.push_notif_desc')}</p>
                     </div>
+                </section>
 
-                    <div className="feature-item highlight">
-                        <Shield size={28} />
-                        <h3>{t('iaia_page.transparency_title')}</h3>
-                        <p>{t('iaia_page.transparency_desc')}</p>
+                <section className="iaia-section transparency-costs-card highlight-tech">
+                    <div className="section-icon"><Shield size={32} color="var(--color-primary)" /></div>
+                    <h2>Transparència i Eficiència</h2>
+                    <p>L'ús de la IA permet que Sóc de Poble siga viable i professional amb un cost mínim.</p>
+                    <div className="costs-comparison-grid">
+                        <div className="cost-item">
+                            <span className="label">Inversió Real</span>
+                            <span className="value">~300€/any</span>
+                        </div>
+                        <div className="cost-item">
+                            <span className="label">Valor Humà Estimat</span>
+                            <span className="value">~23.000€</span>
+                        </div>
+                        <div className="cost-item highlight">
+                            <span className="label">Estalvi en Temps</span>
+                            <span className="value">+90% 🚀</span>
+                        </div>
                     </div>
+                    <button className="btn-text" onClick={() => navigate('/docs/AMAZON_BOOK_ABSTRACTIONS.md')}>
+                        Llegir més sobre l'abstracció Master 📖
+                    </button>
+                </section>
+
+                <section className="iaia-section media-creations-card">
+                    <MasterMediaGallery
+                        items={MASTER_ASSETS}
+                        title="Galeria de Creacions Master"
+                    />
                 </section>
 
                 <section className="iaia-section project-credits-card">

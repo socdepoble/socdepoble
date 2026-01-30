@@ -7,6 +7,7 @@ import { ArrowLeft, Grid, Image as ImageIcon, Layout, Users, MoreVertical, Trash
 import StatusLoader from '../components/StatusLoader';
 import './MediaAlbum.css';
 import { logger } from '../utils/logger';
+import MasterMediaGallery from '../components/MasterMediaGallery';
 
 const MediaAlbum = () => {
     const { t } = useTranslation();
@@ -63,85 +64,13 @@ const MediaAlbum = () => {
                 </div>
             </header>
 
-            <nav className="photos-filter-bar">
-                <button
-                    className={filter === 'all' ? 'active' : ''}
-                    onClick={() => setFilter('all')}
-                >
-                    Tots
-                </button>
-                <button
-                    className={filter === 'avatar' ? 'active' : ''}
-                    onClick={() => setFilter('avatar')}
-                >
-                    Perfil
-                </button>
-                <button
-                    className={filter === 'cover' ? 'active' : ''}
-                    onClick={() => setFilter('cover')}
-                >
-                    Portada
-                </button>
-                <button
-                    className={filter === 'video' ? 'active' : ''}
-                    onClick={() => setFilter('video')}
-                >
-                    <Film size={14} /> Vídeos
-                </button>
-                <button
-                    className={filter === 'document' ? 'active' : ''}
-                    onClick={() => setFilter('document')}
-                >
-                    <FileText size={14} /> Docs
-                </button>
-                <button
-                    className={filter === 'shared' ? 'active' : ''}
-                    onClick={() => setFilter('shared')}
-                >
-                    <Users size={14} /> Compartits
-                </button>
-            </nav>
-
-            {filteredItems.length === 0 ? (
-                <div className="empty-album">
-                    <ImageIcon size={48} color="var(--color-border)" />
-                    <p>No hi ha arxius en aquesta categoria</p>
-                </div>
-            ) : (
-                <div className="photos-grid">
-                    {filteredItems.map(item => (
-                        <div key={item.id} className="photo-card">
-                            <div className="photo-wrapper">
-                                {item.asset.mime_type?.startsWith('image/') ? (
-                                    <img src={item.asset.url} alt={item.context} loading="lazy" />
-                                ) : item.asset.mime_type?.startsWith('video/') ? (
-                                    <div className="video-placeholder">
-                                        <Film size={40} color="var(--color-primary)" />
-                                        <span className="file-type-label">VÍDEO</span>
-                                    </div>
-                                ) : (
-                                    <div className="file-placeholder">
-                                        <FileText size={40} color="var(--color-primary)" />
-                                        <span className="file-type-label">DOCUMENT</span>
-                                    </div>
-                                )}
-                                <div className="photo-overlay">
-                                    <span className="photo-badge">{item.context}</span>
-                                    {item.is_public && <div className="shared-badge" title="Compartit"><Users size={12} /></div>}
-                                </div>
-                            </div>
-                            <div className="photo-info">
-                                <span className="photo-date">
-                                    {new Date(item.created_at).toLocaleDateString()}
-                                </span>
-                                <button className="photo-menu-btn">
-                                    <MoreVertical size={16} />
-                                </button>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            )}
+            <MasterMediaGallery
+                items={mediaItems.map(item => ({
+                    ...item,
+                    permissions: item.is_public ? 'public' : 'private'
+                }))}
+                title="El Teu Àlbum Personal"
+            />
         </div>
     );
 };

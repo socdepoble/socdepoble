@@ -6,6 +6,8 @@ import { useAuth } from '../context/AuthContext';
 import ShareHub from '../components/ShareHub';
 import SEO from '../components/SEO';
 import NanoSplashScreen from '../components/NanoSplashScreen';
+import MasterMediaGallery from '../components/MasterMediaGallery';
+import { MASTER_ASSETS } from '../constants/masterAssets';
 import './ProjectPresentation.css';
 
 const ProjectPresentation = () => {
@@ -146,6 +148,14 @@ const ProjectPresentation = () => {
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <div className="pitch-media-vault" style={{ marginTop: '40px' }}>
+                    <MasterMediaGallery
+                        items={MASTER_ASSETS}
+                        title="Actius i Memòria del Projecte"
+                        showFilters={true}
+                    />
                 </div>
             </section>
 

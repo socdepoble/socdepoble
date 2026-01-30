@@ -1,4 +1,4 @@
-# [MASTER] Sóc de Poble: Arxiu d'Or i Directives 🏛️🛡️⚖️✨
+Bien# [MASTER] Sóc de Poble: Arxiu d'Or i Directives 🏛️🛡️⚖️✨
 
 ### 🗓️ Protocol de### Cròniques de Sessió i Memòria del Padrino
 - Cada sessió de treball ha de generar un **Memory Anchor** (Anfura de Memòria) al Calendari.
@@ -82,6 +82,13 @@ Basat en l'almàssera tradicional, aquest protocol garanteix la purificació de 
   - El logo verd quadrat (plano de La Torre) s'utilitza quan convinga per a referències territorials.
 - **Segell de l'IAIA**: Tot contingut generat per IA ha d'incloure l'avís ministerial: *"Contingut generat per l'IAIA (Informació Artificial i Acció)"*.
 
+## 📂 Repositori d'Actius Master (Arxiu d'Or) 🖼️🛡️
+Tots els actius crítics de marca es guarden a `/public/assets/master/` per a garantir la seua persistència eterna:
+- `logo_socdepoble_white_full.png`: Logo oficial blanc amb tagline.
+- `logo_el_carrero.png`: Marca del Centre d'Immersió Cultural i Tecnològic.
+- `personatge_excursionista.jpg`: Avatar de l'explorador de la memòria viva.
+- `infografia_master_amazon_flash.png`: Síntesi de la Simbiosi (v1.5.5).
+
 ## ⚖️ Llicència i Drets d'Autor
 - **Creative Commons**: Tots els continguts d'aquest sistema es distribueixen sota la llicència **Creative Commons Reconeixement-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA 4.0)**.
 - **Trellat**: Tota producció ha de ser revisada per a garantir un valencià culte i pur, sense errors lingüístics.
@@ -90,6 +97,16 @@ Basat en l'almàssera tradicional, aquest protocol garanteix la purificació de 
 - **Preservació Total**: S'han de guardar TOTS els xats i interaccions per a que el context de l'IAIA siga un autèntic Rhizome.
 - **Detecció de Duplicats**: Implementació d'un paràmetre automàtic per a evitar la repetició de continguts idèntics.
 - **Publicació Multimedia**: Tota peça multimedia creada s'ha de publicar automàticament segons els paràmetres del sistema.
+
+## 🚀 Protocol de Publicació en Tiendes [MASTER] 🤖🏷️
+Per a transformar la PWA en Apps de botiga:
+1. **Android (Google Play)**: Utilitzar **Bubblewrap (TWA)** per a generar l'APK/AAB sense perdre les virtuts de la PWA.
+2. **iOS (Apple Store)**: Utilitzar **Capacitor** o un wrapper WKWebView que complisca les directives de disseny de Apple (Sóc de Poble ja té prou funcionalitat per a ser acceptada).
+3. **Automatització**: GitHub Actions ha de generar el build de producció i, si és possible, enviar el bundle a les plataformes de test (TestFlight/Google Beta).
+
+## 🛠️ Protocol de manteniment Autònom
+- **Purgat de Caché**: Implementar un `version_check` al `AdminPanel` que permeta als SuperAdmins activar un "Hard Reload" remot per a tots els clients.
+- **Visibilitat Pública**: L'estat de les versions d'App Store (v1.x.x) apareixerà al `LiveStats` de la consola d'administració.
 
 ## 🏘️ Memòria de l'Equip Base
 - **Carmen Chaves Gastaldo**: Administradora i Investigadora de Cultura (Memòria Viva).

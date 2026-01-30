@@ -17,7 +17,7 @@
   <script>
     // ATOMIC VERSION ENFORCEMENT (v1.5.5-NUCLEAR)
     (function () {
-      const REQUIRED_VERSION = '1.5.5-NUCLEAR';
+      const REQUIRED_VERSION = '1.5.5-NUCLEAR-FIX';
       const lastNuke = localStorage.getItem('last_nuclear_nuke');
 
       if (lastNuke !== REQUIRED_VERSION) {
@@ -55,7 +55,9 @@
     };
 
     window.CREATOR_EMAILS = window.CREATOR_EMAILS || ['socdepoblecom@gmail.com', 'damimus@gmail.com'];
-    window.APP_VERSION = '1.5.5-NUCLEAR-CIMERA';
+    window.APP_VERSION = '1.5.5-NUCLEAR-CIMERA-FIX';
+    console.log('[NUCLEAR] Bategat nominal. Versió ' + window.APP_VERSION);
+    console.log('[INFO] Qualsevol error de "shadow host" a la consola prové de l\'assistent d\'IA de Chrome i no afecta a Sóc de Poble.');
   </script>
 
   <title>Sóc de Poble | Cimera de la Simbiosi 🧠🌍</title>

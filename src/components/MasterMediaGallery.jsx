@@ -1,0 +1,105 @@
+import React, { useState } from 'react';
+import { Search, Filter, Grid, List, Shield, Users, Lock, Globe, Maximize2 } from 'lucide-react';
+import ImageProjector from './ImageProjector';
+import './MasterMediaGallery.css';
+
+const MasterMediaGallery = ({ items = [], title, showFilters = true, layout = 'grid' }) => {
+    const [selectedFilter, setSelectedFilter] = useState('all');
+    const [searchQuery, setSearchQuery] = useState('');
+    const [projectorIndex, setProjectorIndex] = useState(null);
+
+    const filteredItems = items.filter(item => {
+        const matchesFilter = selectedFilter === 'all' || item.context === selectedFilter || item.permissions === selectedFilter;
+        const matchesSearch = !searchQuery ||
+            (item.description?.toLowerCase().includes(searchQuery.toLowerCase())) ||
+            (item.context?.toLowerCase().includes(searchQuery.toLowerCase()));
+        return matchesFilter && matchesSearch;
+    });
+
+    const getPermissionIcon = (perm) => {
+        switch (perm) {
+            case 'private': return <Lock size={12} />;
+            case 'workgroup': return <Users size={12} />;
+            case 'public': return <Globe size={12} />;
+            default: return <Shield size={12} />;
+        }
+    };
+
+    return (
+        <div className="master-gallery-container">
+            {(title || showFilters) && (
+                <div className="gallery-header">
+                    {title && <h2>{title}</h2>}
+                    {showFilters && (
+                        <div className="gallery-controls">
+                            <div className="gallery-search">
+                                <Search size={18} />
+                                <input
+                                    type="text"
+                                    placeholder="Cercar actius..."
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                />
+                            </div>
+                            <div className="gallery-filter-chips">
+                                <button className={selectedFilter === 'all' ? 'active' : ''} onClick={() => setSelectedFilter('all')}>Tots</button>
+                                <button className={selectedFilter === 'public' ? 'active' : ''} onClick={() => setSelectedFilter('public')}>Públics</button>
+                                <button className={selectedFilter === 'workgroup' ? 'active' : ''} onClick={() => setSelectedFilter('workgroup')}>Grup</button>
+                                <button className={selectedFilter === 'private' ? 'active' : ''} onClick={() => setSelectedFilter('private')}>Privats</button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            )}
+
+            <div className={`gallery-content ${layout}-view`}>
+                {filteredItems.length > 0 ? (
+                    filteredItems.map((item, index) => (
+                        <div
+                            key={item.id || index}
+                            className="gallery-item-card"
+                            onClick={() => setProjectorIndex(index)}
+                        >
+                            <div className="item-preview">
+                                {item.asset.mime_type?.startsWith('image/') ? (
+                                    <img src={item.asset.url} alt={item.context} loading="lazy" />
+                                ) : (
+                                    <div className="file-avatar">
+                                        <span>{item.asset.mime_type?.split('/')[1]?.toUpperCase() || 'FILE'}</span>
+                                    </div>
+                                )}
+                                <div className="item-overlay">
+                                    <Maximize2 size={24} />
+                                </div>
+                                <div className="item-badges">
+                                    <span className={`perm-badge ${item.permissions}`}>
+                                        {getPermissionIcon(item.permissions)}
+                                    </span>
+                                </div>
+                            </div>
+                            <div className="item-info">
+                                <h3>{item.context || 'Actiu Multimedia'}</h3>
+                                <p>{item.description || 'Sense descripció'}</p>
+                            </div>
+                        </div>
+                    ))
+                ) : (
+                    <div className="gallery-empty">
+                        <p>No s'han trobat actius que coincideixin amb la cerca.</p>
+                    </div>
+                )}
+            </div>
+
+            {projectorIndex !== null && (
+                <ImageProjector
+                    items={filteredItems}
+                    currentIndex={projectorIndex}
+                    onClose={() => setProjectorIndex(null)}
+                    onNavigate={(newIndex) => setProjectorIndex(newIndex)}
+                />
+            )}
+        </div>
+    );
+};
+
+export default MasterMediaGallery;
