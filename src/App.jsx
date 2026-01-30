@@ -30,7 +30,7 @@ const MakingOf = lazy(() => import('./pages/MakingOf'));
 const LegalNotice = lazy(() => import('./pages/LegalNotice'));
 const ResetPage = lazy(() => import('./pages/ResetPage'));
 const ManualPage = lazy(() => import('./pages/ManualPage'));
-const RescueTool = lazy(() => import('./components/RescueTool'));
+import RescueTool from './components/RescueTool';
 
 import { supabase } from './supabaseClient';
 import { MOCK_CHATS, MOCK_FEED, MOCK_MARKET_ITEMS } from './data';
