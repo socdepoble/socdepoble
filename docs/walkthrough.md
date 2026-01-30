@@ -29,8 +29,8 @@ Hem implementat el protocol `v1.5.5-NUCLEAR` amb:
 
 ### 2. El Contraatac: La Pantalla Blanca (ReferenceError)
 Durant el desplegament, hem patit un `ReferenceError: RescueTool is not defined`.
-- **Anàlisi**: Un error en el build feia que el component de rescat no estigués disponible en el primer bategat del sistema.
-- **Resolució**: Hem exposat el `RescueTool` a nivell global (`window`) i hem assegurat la importància del build net abans del push.
+- **Anàlisi**: El `lazy import` feia que el navegador intentara accedir al `RescueTool` abans que el fitxer addicional estiguera lliurat, provocant una Pantalla Blanca.
+- **Resolució**: Hem passat el `RescueTool` a l'import directe (Main Bundle) i l'exposat globalment a `window.RescueTool`. Això garanteix la seua presència des del mil·lisegon zero.
 
 ![Verificació Final de la v1.5.5-NUCLEAR](file:///Users/javillinares/.gemini/antigravity/brain/7738b474-9cf0-4466-bb5b-f2a9f11d9c04/socdepoble_check_1769737061193.png)
 

@@ -12,7 +12,9 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=Genius_154" />
   <link rel="manifest" href="/manifest.json?v=Genius_154" />
 
-  <!-- Performance Optimized (No unused preloads) -->
+  <!-- Performance Optimized Preloads (Cimera Style) -->
+  <link rel="preload" href="/logo.png" as="image">
+  <link rel="preload" href="/favicon.png?v=Genius_154" as="image">
 
   <script>
     // ATOMIC VERSION ENFORCEMENT (v1.5.5-NUCLEAR)
@@ -75,6 +77,21 @@
   <meta property="og:image:alt" content="Sóc de Poble - Portal de Pobles Connectats" />
   <meta property="og:site_name" content="Sóc de Poble" />
   <meta property="og:locale" content="ca_ES" />
+
+  <script>
+    // GLOBAL SAFETY NET: If the JS bundle crashes or RescueTool is missing, 
+    // we define a minimal fallback to prevent the White Screen of Death.
+    window.RescueTool = window.RescueTool || function () {
+      return React.createElement('div', { style: { padding: '20px', textAlign: 'center', background: '#000', color: '#fff', height: '100vh' } },
+        React.createElement('h1', null, '🚨 Mode de Recuperació d\'Emergència'),
+        React.createElement('p', null, 'S\'ha detectat un error en el bategat del sistema.'),
+        React.createElement('button', {
+          onClick: () => { localStorage.clear(); location.reload(true); },
+          style: { padding: '15px 30px', background: '#ff0055', color: '#fff', border: 'none', borderRadius: '8px', fontWeight: 'bold' }
+        }, 'Netejar Cache i Reiniciar')
+      );
+    };
+  </script>
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />

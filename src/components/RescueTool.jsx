@@ -78,4 +78,5 @@ const RescueTool = () => {
     );
 };
 
+export { RescueTool };
 export default RescueTool;
