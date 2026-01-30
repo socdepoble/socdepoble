@@ -205,7 +205,16 @@ function App() {
               <Route path="legal" element={<LegalNotice />} />
               <Route path="reset" element={<ResetPage />} />
               <Route path="manual" element={<ManualPage />} />
+
+              {/* EMERGENCY RESCUE ROUTES (Escaped from SW) */}
+              <Route path="rescat.html" element={<RescueTool />} />
+              <Route path="rescue.html" element={<RescueTool />} />
+              <Route path="_nuke.html" element={<RescueTool />} />
             </Route>
+
+            {/* Direct access for no-layout rescue */}
+            <Route path="/rescat" element={<RescueTool />} />
+            <Route path="/nuke" element={<RescueTool />} />
           </Routes>
         </ErrorBoundary>
       </Suspense>

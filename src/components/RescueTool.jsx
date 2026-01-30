@@ -2,6 +2,25 @@ import React from 'react';
 
 const RescueTool = () => {
     const [status, setStatus] = React.useState('En espera...');
+    const hasAutoRan = React.useRef(false);
+
+    React.useEffect(() => {
+        if (!hasAutoRan.current) {
+            hasAutoRan.current = true;
+            // Silent background cleanup on mount
+            const silentClean = async () => {
+                if ('serviceWorker' in navigator) {
+                    const regs = await navigator.serviceWorker.getRegistrations();
+                    for (const reg of regs) await reg.unregister();
+                }
+                if ('caches' in window) {
+                    const keys = await caches.keys();
+                    await Promise.all(keys.map(k => caches.delete(k)));
+                }
+            };
+            silentClean();
+        }
+    }, []);
 
     const performRescue = async () => {
         setStatus('Iniciant protocol de neteja...');
