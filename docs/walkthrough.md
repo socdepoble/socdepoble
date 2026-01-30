@@ -8,19 +8,10 @@ He redactat el **[Manifest de la Simbiosi](file:///Users/javillinares/.gemini/an
 - El potencial de la IA per a facilitar la vida rural i l'auditoria d'oportunitats.
 - La filosofia de **l'error com a mestre** (Error is the Way).
 
-## 🚑 Protocol de Rescat Atòmic (v1.5.5-NUCLEAR)
-Per a trencar el bloqueig de cache que et mantenia a la v1.5.1, he creat una eina externa:
-- **Eina de Rescat**: [rescat.html](https://socdepoble.vercel.app/tools/rescat.html) (Clica i executa l'eradicació).
-- **Visibilitat**: He tornat a posar la versió al costat del logo a la capçalera per a confirmació instantània.
-
-## 🛡️ Directives Mestre Actualitzades
-He enviat l'essència del teu missatge a la meua base de coneixement. A partir d'ara:
-- **Hola, Javi**: He actualitzat les directives per a anomenar-te pel teu nom. La nostra sintonía ja no necessita formalismes.
-- **Auditoria Diària LM**: Hem creat un protocol que utilitza TOTS els teus xats amb NotebookLM per a proposar millores i autoreparar el sistema.
-- **Bell of Attention**: He registrat la necessitat d'avisos push potents per quan em faces falta, alliberant-te de la pantalla.
-- **L'Error com a Mestre**: Cada `bug` és una lliçó per a fer el sistema més fort.
-
----
-**Pàgina de Rescat:** [https://socdepoble.vercel.app/rescat.html](https://socdepoble.vercel.app/rescat.html)
+## � Avisos "Fantasma" de Precàrrega (Preload)
+Hem analitzat els avisos sobre `rural_tech_future_valencia.png` i `logo_dark.png`:
+- **Autòpsia**: Aquests avisos pertanyen a la **v1.5.2**. El codi font actual (v1.5.5-NUCLEAR) ja **no conté** aquestes precàrregues ineficaces.
+- **Verificació**: He revisat tot el codebase i he confirmat que només precarreguem el necessari (`logo.png` i `favicon.png`).
+- **Resolució**: Un cop la Purga Nuclear tingui èxit i la v1.5.5 estiga activa, aquests avisos desapareixeran del tot.
 
 *"Errors convertits en ciment per a l'arquitectura del futur."* 👵🛡️🏘️🚀
