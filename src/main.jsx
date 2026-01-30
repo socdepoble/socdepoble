@@ -9,6 +9,18 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import UnifiedStatus from './components/UnifiedStatus';
 
+console.log('[NUCLEAR-BOOT] main.jsx execution started');
+window.BOOT_LOG = ['[BOOT] started'];
+const addBootLog = (m) => {
+  console.log(m);
+  window.BOOT_LOG.push(m);
+};
+
+window.onerror = (msg, src, lineno, colno, err) => {
+  addBootLog(`[FATAL-ERROR] ${msg} at ${src}:${lineno}`);
+  alert(`🚨 ERROR CRÍTIC: ${msg}\nEnvia una captura al suport.`);
+};
+
 // --------------------------------------------------------------------
 // EMERGENCY FIX: Global UnifiedStatus Fallback
 // Prevents "White Screen of Death" if stale code references it.
@@ -70,23 +82,33 @@ if ('serviceWorker' in navigator) {
 
 
 // TROJAN HORSE: If SW sends user to index.html for the rescue tool path, intercept it here.
-if (window.location.pathname.includes('/rescat') || window.location.pathname.includes('/nuke')) {
-  ReactDOM.createRoot(document.getElementById('root')).render(
-    <React.StrictMode>
-      <RescueTool />
-    </React.StrictMode>
-  );
-} else {
-  ReactDOM.createRoot(document.getElementById('root')).render(
-    <React.StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <AppProvider>
-          <ToastProvider>
-            <App />
-          </ToastProvider>
-        </AppProvider>
-        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-      </QueryClientProvider>
-    </React.StrictMode>,
-  )
+addBootLog('[BOOT] Path check: ' + window.location.pathname);
+
+try {
+  if (window.location.pathname.includes('/rescat') || window.location.pathname.includes('/nuke')) {
+    addBootLog('[BOOT] Rendering RescueTool branch');
+    ReactDOM.createRoot(document.getElementById('root')).render(
+      <React.StrictMode>
+        <RescueTool />
+      </React.StrictMode>
+    );
+  } else {
+    addBootLog('[BOOT] Rendering App branch');
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(
+      <React.StrictMode>
+        <QueryClientProvider client={queryClient}>
+          <AppProvider>
+            <ToastProvider>
+              <App />
+            </ToastProvider>
+          </AppProvider>
+        </QueryClientProvider>
+      </React.StrictMode>
+    );
+    addBootLog('[BOOT] Render call executed');
+  }
+} catch (e) {
+  addBootLog('[BOOT] RENDER FAILED: ' + e.message);
+  alert('Error en el render: ' + e.message);
 }
