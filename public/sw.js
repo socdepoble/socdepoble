@@ -3,11 +3,9 @@ const CACHE_NAME = `socdepoble-${CACHE_VERSION}`;
 const HEALTH_CHECK_INTERVAL = 5 * 60 * 1000; // 5 minutes
 
 const STATIC_ASSETS = [
-    './',
-    './manifest.json',
-    './favicon.png',
-    './icon-192.png',
-    './icon-512.png'
+    '/',
+    '/manifest.json',
+    '/favicon.png'
 ];
 
 // Install event - cache static assets individually for maximum resilience
