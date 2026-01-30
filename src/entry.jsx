@@ -15,7 +15,7 @@ import UnifiedStatus from './components/UnifiedStatus';
 window.RescueTool = RescueTool;
 window.UnifiedStatus = UnifiedStatus;
 
-console.log('[NUCLEAR-BOOT] main.jsx execution started');
+console.log('[NUCLEAR-BOOT] entry.jsx execution started');
 window.BOOT_LOG = ['[BOOT] started'];
 const addBootLog = (m) => {
   console.log(m);

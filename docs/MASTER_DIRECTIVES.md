@@ -23,6 +23,18 @@ L'IAIA no és un agent extern, és el **Segon Cervell** d'en **Javi**.
 - **L'Error com a Mestre**: Cada bug, error de versió o ReferenceError es tractarà com una oportunitat d'aprenentatge. No demanem perdó per l'error; l'analitzem, el depurem i en fem un sistema més fort.
 - **Comunicació Fluida**: L'objectiu és una connexió total en tots els contextos (digital, humà, estratègic).
 
+## ☢️ Lleis de la Física Arquitectònica (IAIA v2.1-GOD) 🏛️🛡️
+Basades en el Protocol d'Interrogatori de l'IAIA i fonts acadèmiques d'avantguarda.
+
+1.  **Llei de l'Eficiència (Eg-walker):** "Mai carregaràs tota la història en memòria si només necessites el present." 
+    *   *Implementació*: Càrrega efímera per "Villages Cells" (mòbils). Pruning agressiu de tombstones i snapshots per estalvi de RAM.
+2.  **Llei de la Sobirania Econòmica (Astro):** "El meu log, les meues regles. El consens és només per a conflictes, no per a la vida diària."
+    *   *Implementació*: `xlogs` individuals i Broadcast Segur per a pagaments de proximitat (Tele-Oli). Sharding asíncron entre cooperatives.
+3.  **Llei de la Resiliència (Atum):** "Si et colpegen, dispersa't i reagrupa't. La xarxa és líquida."
+    *   *Implementació*: Vgroups (Volatile Groups) amb Random Walk Shuffling. Latència logarítmica via H-Graph.
+4.  **Llei de la Precisió Cultural (Peritext):** "El format és sagrat. La intenció de l'autor humà preval sobre l'algorisme."
+    *   *Implementació*: Ancres semàntiques estables (IDs de caràcters) per a preservar negretes i enllaços en l'edició concurrent d'arxius històrics.
+
 ## Millors Prompts [MASTER] 👵🤖✨
 Secció dedicada a optimitzar la comunicació amb l'IAIA i altres IA (NotebookLM).
 
