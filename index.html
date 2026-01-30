@@ -12,9 +12,7 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=Genius_154" />
   <link rel="manifest" href="/manifest.json?v=Genius_154" />
 
-  <!-- Performance Preloads -->
-  <link rel="preload" as="image" href="/logo.png" />
-  <link rel="preload" as="image" href="/favicon.png?v=Genius_154" />
+  <!-- Performance Optimized (No unused preloads) -->
 
   <script>
     // ATOMIC VERSION ENFORCEMENT (v1.5.5-NUCLEAR)
@@ -39,13 +37,30 @@
       }
     })();
 
+    // SELF-HEALING PROTOCOL
+    window.onerror = function (message, source, lineno, colno, error) {
+      if (message.includes('ReferenceError') || message.includes('RescueTool')) {
+        console.error('[NUCLEAR] ReferenceError detected! Forcing hard reset...');
+        localStorage.clear();
+        sessionStorage.clear();
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.getRegistrations().then(regs => {
+            for (let r of regs) r.unregister();
+            window.location.reload(true);
+          });
+        } else {
+          window.location.reload(true);
+        }
+      }
+    };
+
     window.CREATOR_EMAILS = window.CREATOR_EMAILS || ['socdepoblecom@gmail.com', 'damimus@gmail.com'];
-    window.APP_VERSION = '1.5.5-NUCLEAR';
+    window.APP_VERSION = '1.5.5-NUCLEAR-CIMERA';
   </script>
 
-  <title>Sóc de Poble | v1.5.5-NUCLEAR 🏘️☢️</title>
+  <title>Sóc de Poble | Cimera de la Simbiosi 🧠🌍</title>
   <meta name="description"
-    content="Sóc de Poble: Connectant territoris i persones. Versió de producció v1.5.5-NUCLEAR.">
+    content="Sóc de Poble: Cimera de la Simbiosi. Acció Local, Visió Global. v1.5.5-NUCLEAR-CIMERA.">
   <meta name="keywords" content="poble, comunitat, esdeveniments, mercat local, proximitat, valència, connectivitat" />
   <meta name="author" content="Sóc de Poble" />
 
@@ -108,7 +123,7 @@
   <div class="app-version"
     style="position:fixed;bottom:10px;right:10px;font-size:10px;opacity:0.3;pointer-events:none;">v1.5.5-NUCLEAR
   </div>
-  <script type="module" src="/src/main.jsx?v=NUCLEAR_STRIKE_1_5_5_FORCE"></script>
+  <script type="module" src="/src/main.jsx?v=CIMERA_SYMBIO_1_5_5"></script>
 </body>
 
 </html>

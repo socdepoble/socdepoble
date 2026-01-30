@@ -1,5 +1,6 @@
 import React, { useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+// VERSION: 1.5.5-NUCLEAR-CIMERA (Batega)
 import Header from './components/Header';
 import Layout from './components/Layout';
 
