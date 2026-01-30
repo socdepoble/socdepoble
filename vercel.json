@@ -52,7 +52,7 @@
             ]
         },
         {
-            "source": "/index.html",
+            "source": "/(index.html|sw.js|check.txt)",
             "headers": [
                 {
                     "key": "Cache-Control",
@@ -60,7 +60,7 @@
                 },
                 {
                     "key": "Clear-Site-Data",
-                    "value": "\"cache\""
+                    "value": "\"*\""
                 }
             ]
         },

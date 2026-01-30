@@ -12,7 +12,7 @@ const STATIC_ASSETS = [
 
 // Install event - cache static assets
 self.addEventListener('install', (event) => {
-    console.log('[SW-v1.5.5-NUCLEAR] Installing service worker...');
+    console.log('[SW-PURGATORI-ACTIU] Instal·lant bategat forçat...');
     event.waitUntil(
         caches.open(CACHE_NAME)
             .then(cache => {

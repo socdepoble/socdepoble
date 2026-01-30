@@ -9,6 +9,12 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import UnifiedStatus from './components/UnifiedStatus';
 
+// --------------------------------------------------------------------
+// ANCORA DE SEGURETAT GLOBAL: Evita el ReferenceError si el bundle es carrega parcialment.
+// --------------------------------------------------------------------
+window.RescueTool = RescueTool;
+window.UnifiedStatus = UnifiedStatus;
+
 console.log('[NUCLEAR-BOOT] main.jsx execution started');
 window.BOOT_LOG = ['[BOOT] started'];
 const addBootLog = (m) => {
