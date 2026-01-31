@@ -73,10 +73,10 @@ export const AuthProvider = ({ children }) => {
             id: IAIA_ID,
             full_name: 'IAIA (Guia del Poble)',
             username: 'iaia_guide',
-            role: USER_ROLES.OFFICIAL,
+            role: USER_ROLES.ADMIN,
             is_demo: true,
             is_admin: true,
-            avatar_url: '/assets/avatars/iaia.png'
+            avatar_url: '/assets/avatars/iaia_official.png'
         });
     };
 
@@ -228,11 +228,14 @@ export const AuthProvider = ({ children }) => {
 
                     if (isMounted) {
                         // [DIRECTIVA 1] Fallback profile must NEVER be IAIA for a real session
+                        const isOfficialCreator = masters.includes(session.user.email) || session.user.email?.includes('javillinares');
                         const fallbackProfile = {
                             id: session.user.id,
-                            full_name: profileData?.full_name || (session.user.email?.split('@')[0] || 'Veí'),
+                            full_name: profileData?.full_name || (isOfficialCreator ? 'Javi Llinares (Project Lead)' : (session.user.email?.split('@')[0] || 'Veí')),
                             role: isCreator ? USER_ROLES.SUPER_ADMIN : (profileData?.role || USER_ROLES.NEIGHBOR),
-                            avatar_url: profileData?.avatar_url || null
+                            avatar_url: profileData?.avatar_url || (isOfficialCreator ? '/assets/master/javi_avatar_cinematic.png' : null),
+                            ofici: isOfficialCreator ? 'Dissenyador Gràfic & Art Director' : null,
+                            profession: isOfficialCreator ? 'Dissenyador Gràfic & Art Director' : null
                         };
 
                         const effectiveProfile = profileData || fallbackProfile;

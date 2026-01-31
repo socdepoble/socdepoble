@@ -98,8 +98,8 @@ const ProfileHeaderPremium = ({
                         {avatarUrl ? (
                             <img src={avatarUrl} alt={title} className="premium-avatar-img" />
                         ) : (
-                            <div className="premium-avatar-placeholder">
-                                {(title || '?').trim().charAt(0).toUpperCase()}
+                            <div className="premium-avatar-placeholder-pulse">
+                                <img src="/assets/logo_socdepoble_white_full.png" alt="Sóc de Poble" className="pulse-logo" />
                             </div>
                         )}
                         {isLive && <span className="live-indicator-pulse" title="Actiu / Obert ara" />}

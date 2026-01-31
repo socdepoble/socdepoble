@@ -16,13 +16,19 @@ const SEO = ({
     structuredData = {} // New: JSON-LD Object
 }) => {
     const siteTitle = 'Sóc de Poble';
-    const fullTitle = title ? `${title} | ${siteTitle}` : siteTitle;
+    const showVersion = typeof window !== 'undefined' && !window.HIDE_SEO_VERSION;
+    const versionString = 'v1.5.6-BATEGA';
+
+    const displayTitle = title ? title : siteTitle;
+    const fullTitle = showVersion ? `${displayTitle} | ${siteTitle} ${versionString}` : `${displayTitle} | ${siteTitle}`;
+
     const defaultDesc = 'La teva comunitat, els teus veïns. Connecta amb la vida del teu poble.';
     const defaultImage = '/og-image.png';
     const baseUrl = 'https://socdepoble.vercel.app';
 
     // Ensure absolute URLs for Open Graph (required by WhatsApp, Telegram, etc.)
-    const absoluteImage = image?.startsWith('http') ? image : `${baseUrl}${image || defaultImage}`;
+    const cacheBuster = `?v=${versionString}-${new Date().getTime()}`;
+    const absoluteImage = image?.startsWith('http') ? image : `${baseUrl}${image || defaultImage}${cacheBuster}`;
     const absoluteUrl = url?.startsWith('http') ? url : `${baseUrl}${url || window.location.pathname}`;
 
     return (

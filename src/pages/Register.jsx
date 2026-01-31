@@ -35,6 +35,7 @@ const Register = () => {
     const [isTownModalOpen, setIsTownModalOpen] = useState(false);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [resendCountdown, setResendCountdown] = useState(0);
 
     // WebOTP API Integration
     useEffect(() => {
@@ -59,6 +60,17 @@ const Register = () => {
         }
     }, [step]);
 
+    // Resend countdown timer
+    useEffect(() => {
+        let timer;
+        if (resendCountdown > 0) {
+            timer = setInterval(() => {
+                setResendCountdown(prev => prev - 1);
+            }, 1000);
+        }
+        return () => clearInterval(timer);
+    }, [resendCountdown]);
+
     const handleRegister = async (e) => {
         e.preventDefault();
         setLoading(true);
@@ -82,6 +94,7 @@ const Register = () => {
 
                 await supabaseService.signInWithOtp(formattedPhone);
                 setStep('verify');
+                setResendCountdown(60);
             } catch (err) {
                 setError(err.message);
             } finally {
@@ -103,6 +116,21 @@ const Register = () => {
                 'https://socdepoble.vercel.app/login' // URL de redirección explícita
             );
             navigate('/login', { state: { message: '¡Compte creat! Revisa el teu correu per a verificar l\'adreça abans d\'entrar.' } });
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleResendOtp = async () => {
+        if (resendCountdown > 0 || loading) return;
+        setLoading(true);
+        setError(null);
+        try {
+            const formattedPhone = phone.startsWith('+') ? phone : `+34${phone}`;
+            await supabaseService.resendOtp(formattedPhone);
+            setResendCountdown(60);
         } catch (err) {
             setError(err.message);
         } finally {
@@ -181,11 +209,29 @@ const Register = () => {
                         <button type="submit" className="auth-button" disabled={loading}>
                             {loading ? <Loader2 className="animate-spin" /> : 'Verificar i Entrar'}
                         </button>
+
+                        <div className="otp-resend-wrapper" style={{ marginTop: '16px', fontSize: '0.85rem', textAlign: 'center' }}>
+                            {resendCountdown > 0 ? (
+                                <span className="opacity-50">Pots reenviar l'SMS en {resendCountdown}s</span>
+                            ) : (
+                                <button
+                                    type="button"
+                                    className="text-btn"
+                                    onClick={handleResendOtp}
+                                    disabled={loading}
+                                    style={{ color: '#00f2ff', fontWeight: 'bold' }}
+                                >
+                                    No has rebut el codi? Reenviar SMS
+                                </button>
+                            )}
+                        </div>
+
                         <button
                             type="button"
                             className="text-btn secondary-action"
                             onClick={() => setStep('input')}
                             disabled={loading}
+                            style={{ marginTop: '24px', width: '100%', opacity: 0.6 }}
                         >
                             Tornar enrere
                         </button>

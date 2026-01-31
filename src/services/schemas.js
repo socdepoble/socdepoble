@@ -1,20 +1,33 @@
 import { z } from 'zod';
 import DOMPurify from 'dompurify';
 
-const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{12}$/i;
-const sanitize = (val) => typeof val === 'string' ? DOMPurify.sanitize(val, { ALLOWED_TAGS: [], ALLOWED_ATTR: [] }) : val;
+const uuidRegex = /^([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|[a-z0-9-]+)$/i;
+const MASTER_ALLOWED_TAGS = ['h1', 'h2', 'p', 'ul', 'ol', 'li', 'br', 'strong', 'em'];
+const sanitize = (val) => typeof val === 'string' ? DOMPurify.sanitize(val, {
+    ALLOWED_TAGS: MASTER_ALLOWED_TAGS,
+    ALLOWED_ATTR: []
+}) : val;
 
 export const PostSchema = z.object({
     id: z.string().regex(uuidRegex).optional(),
     content: z.string().min(1, "El contingut no pot estar buit").transform(sanitize),
     author_id: z.string().regex(uuidRegex, "ID d'autor invàlid"),
     author_name: z.string().min(1),
-    author_avatar_url: z.string().nullable().optional(), // Allow relative paths
+    author_avatar_url: z.string().nullable().optional(),
     author_role: z.string().optional(),
     town_uuid: z.string().regex(uuidRegex).nullable().optional(),
-    image_url: z.string().nullable().optional(), // Allow relative paths
+    image_url: z.string().nullable().optional(),
     is_playground: z.boolean().optional(),
-    entity_id: z.string().regex(uuidRegex).nullable().optional()
+    entity_id: z.string().regex(uuidRegex).nullable().optional(),
+    type: z.enum(['post', 'book', 'event_announcement', 'internal_report', 'food_recommendation']).default('post'),
+    book_id: z.string().nullable().optional(),
+    book_title: z.string().nullable().optional(),
+    chapter_number: z.number().nullable().optional(),
+    ai_percentage: z.number().min(0).max(100).default(0).optional(),
+    human_percentage: z.number().min(0).max(100).default(100).optional(),
+    time_saved_minutes: z.number().min(0).default(0).optional(),
+    economic_value_saved: z.number().min(0).default(0).optional(),
+    is_iaia_inspired: z.boolean().default(false).optional()
 });
 
 export const MarketItemSchema = z.object({
@@ -45,7 +58,7 @@ export const MessageSchema = z.object({
     is_ai: z.boolean().optional(),
     is_read: z.boolean().optional(),
     is_playground: z.boolean().optional(),
-    post_uuid: z.string().regex(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i).nullable().optional()
+    post_uuid: z.string().regex(uuidRegex).nullable().optional()
 }).refine(data => data.content || data.attachment_url, {
     message: "El missatge no pot estar buit si no hi ha fitxer adjunt"
 });

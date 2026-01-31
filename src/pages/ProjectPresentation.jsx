@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Rocket, Cpu, Users, Globe, Database, ShieldCheck, TrendingUp, Mail, Briefcase, MessageCircle } from 'lucide-react';
+import { ArrowLeft, Rocket, Cpu, Users, Globe, Database, ShieldCheck, TrendingUp, Mail, Briefcase, MessageCircle, Newspaper } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import ShareHub from '../components/ShareHub';
 import SEO from '../components/SEO';
 import NanoSplashScreen from '../components/NanoSplashScreen';
 import MasterMediaGallery from '../components/MasterMediaGallery';
 import { MASTER_ASSETS } from '../constants/masterAssets';
+import { PROVERBS } from '../data/proverbs';
 import './ProjectPresentation.css';
 
 const ProjectPresentation = () => {
@@ -157,6 +158,100 @@ const ProjectPresentation = () => {
                         showFilters={true}
                     />
                 </div>
+
+                <div className="proverbs-showcase" style={{ marginTop: '40px' }}>
+                    <h2 style={{ color: 'var(--color-primary)', marginBottom: '20px' }}>La Saviesa del Poble (Cànon [MASTER])</h2>
+                    <div className="proverbs-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '20px' }}>
+                        {PROVERBS.slice(0, 6).map((proverb, idx) => (
+                            <div key={idx} className="proverb-card-presentation" style={{ background: 'var(--bg-surface-soft)', padding: '20px', borderRadius: '16px', border: '1px solid var(--color-divider)' }}>
+                                <p style={{ fontWeight: '800', fontSize: '1.1rem', marginBottom: '8px' }}>"{proverb.text}"</p>
+                                <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>{proverb.meaning}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="simbiosi-protocol-showcase" style={{ marginTop: '50px', padding: '30px', background: 'linear-gradient(135deg, var(--bg-surface) 0%, var(--color-primary-soft) 100%)', borderRadius: '24px', border: '1px solid var(--color-primary-soft)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '20px' }}>
+                        <ShieldCheck size={32} color="var(--color-primary)" />
+                        <h2 style={{ margin: 0, fontSize: '1.8rem' }}>Directiva Primària: Utilitat Social [GOD MODE] ⚖️</h2>
+                    </div>
+                    <p style={{ fontSize: '1.1rem', lineHeight: '1.6', marginBottom: '25px' }}>
+                        Gravat en el cor del sistema: <strong>"Tot bategat ha de servir a la comunitat"</strong>. Sóc de Poble no és només codi, és una eina de canvi social per a que la tecnologia deixe de ser soroll i passe a ser bategat útil.
+                    </p>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px' }}>
+                        <div style={{ background: 'white', padding: '20px', borderRadius: '16px', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
+                            <span style={{ display: 'block', fontSize: '0.8rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 700 }}>Sobirania del Temps</span>
+                            <span style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--color-primary)' }}>+95% Eficiència</span>
+                        </div>
+                        <div style={{ background: 'white', padding: '20px', borderRadius: '16px', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
+                            <span style={{ display: 'block', fontSize: '0.8rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 700 }}>Valor de la Col·laboració</span>
+                            <span style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--color-primary)' }}>Simbiosi 50/50</span>
+                        </div>
+                        <div style={{ background: 'white', padding: '20px', borderRadius: '16px', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
+                            <span style={{ display: 'block', fontSize: '0.8rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 700 }}>Destí del Temps</span>
+                            <span style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--color-primary)' }}>Cuidar la Família</span>
+                        </div>
+                    </div>
+                    <p style={{ marginTop: '25px', fontSize: '0.9rem', fontStyle: 'italic', opacity: 0.8 }}>
+                        "La màquina s'encarrega de l'estructura; l'humà s'encarrega del batec." 🏺⚖️✨
+                    </p>
+                </div>
+
+                <section className="pitch-section smart-villages" style={{ marginTop: '60px', borderTop: '1px solid var(--color-divider)', paddingTop: '40px' }}>
+                    <div className="section-grid dense-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '40px', alignItems: 'center' }}>
+                        <div className="text-col">
+                            <h2 style={{ display: 'flex', alignItems: 'center', gap: '15px', color: 'var(--color-primary-dark)' }}>
+                                <Globe size={32} color="var(--color-primary)" />
+                                Smart Villages: Acció Local 🇪🇺
+                            </h2>
+                            <p style={{ fontSize: '1.1rem', lineHeight: '1.6', marginBottom: '20px' }}>
+                                Transformem la visió europea de les <strong>Viles Intel·ligents</strong> en una infraestructura vital per al Mas. Apliquem el rigor de l'IAIA en 5 lliçons fonamentals:
+                            </p>
+                            <ul style={{ listStyle: 'none', padding: 0, margin: '20px 0' }}>
+                                {[
+                                    "Impuls Local i Participatiu",
+                                    "Solucions Digitals Realistes",
+                                    "Innovació sobre Fortaleses Locals",
+                                    "Convivència Equilibrada Analògic-Dig",
+                                    "Sobirania y Governança de Dades"
+                                ].map((step, i) => (
+                                    <li key={i} style={{ marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '10px', fontSize: '1rem' }}>
+                                        <TrendingUp size={18} color="var(--color-primary)" /> {step}
+                                    </li>
+                                ))}
+                            </ul>
+                            <div className="flex-buttons-didactic" style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                                <button
+                                    className="btn-dafo-mini"
+                                    onClick={() => navigate('/dafo/smart-villages')}
+                                    style={{ background: 'var(--bg-surface-soft)', border: '1px solid var(--color-primary)', color: 'var(--color-primary)', padding: '12px 24px', borderRadius: '12px', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', flex: 1 }}
+                                >
+                                    <Database size={18} /> ANÀLISI DAFO
+                                </button>
+                                <button
+                                    className="btn-didactic-mini"
+                                    onClick={() => navigate('/didactica/smart-villages-master-presentation')}
+                                    style={{ background: 'var(--color-primary)', border: 'none', color: '#000', padding: '12px 24px', borderRadius: '12px', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', flex: 1.5 }}
+                                >
+                                    <BookOpen size={18} /> VEURE DETALL DIDÀCTIC
+                                </button>
+                            </div>
+                        </div>
+                        <div className="card-col">
+                            <div style={{ position: 'relative', borderRadius: '24px', overflow: 'hidden', boxShadow: '0 20px 40px rgba(0,0,0,0.3)', border: '1px solid var(--color-primary-soft)' }}>
+                                <img
+                                    src="/assets/infographies/smart_villages_master.png"
+                                    alt="Lliçons Smart Villages"
+                                    style={{ width: '100%', display: 'block' }}
+                                />
+                                <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '15px', background: 'linear-gradient(transparent, rgba(0,0,0,0.8))', color: '#fff', fontSize: '0.8rem', textAlign: 'center' }}>
+                                    De la Visió Europea a l'Acció Local [MASTER]
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </section>
 
             <section className="pitch-footer compact-footer">
@@ -170,12 +265,29 @@ const ProjectPresentation = () => {
                             <span className="btn-desc">Grup de Coordinació</span>
                         </div>
                     </button>
+                    <button className="action-btn-huge news-btn" onClick={() => navigate('/mur')} style={{ background: 'rgba(0, 242, 255, 0.1)', border: '1px solid var(--color-primary)' }}>
+                        <Newspaper size={32} color="var(--color-primary)" />
+                        <div>
+                            <span className="btn-title">Últimes Novetats</span>
+                            <span className="btn-desc">El bategat del dia a dia</span>
+                        </div>
+                    </button>
                     <button className="action-btn-huge secondary" onClick={() => navigate(-1)}>
                         <ArrowLeft size={32} />
                         <div>
                             <span className="btn-title">Tornar Enrere</span>
                             <span className="btn-desc">Seguir navegant</span>
                         </div>
+                    </button>
+                </div>
+
+                <div className="dafo-cta-section" style={{ marginTop: '30px', textAlign: 'center' }}>
+                    <button
+                        className="btn-dafo-master"
+                        onClick={() => navigate('/dafo/projecte')}
+                        style={{ background: 'var(--bg-surface-soft)', border: '1px solid var(--color-primary)', color: 'var(--color-primary)', padding: '15px 30px', borderRadius: '50px', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '10px', margin: '0 auto' }}
+                    >
+                        <ShieldCheck size={20} /> VEURE DAFO ESTRATÈGIC DEL PROJECTE
                     </button>
                 </div>
 

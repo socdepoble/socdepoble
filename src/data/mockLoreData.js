@@ -13,7 +13,7 @@ export const MOCK_LORE_POSTS = {
             author_id: '11111111-1111-4111-a111-000000000001',
             author_name: 'Vicent Ferris',
             author_role: 'ambassador',
-            image_url: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=2070&auto=format&fit=crop'
+            image_url: '/assets/master/vicent_workshop.png'
         },
         {
             id: 'lp-v2',
@@ -33,7 +33,7 @@ export const MOCK_LORE_POSTS = {
             author_id: '11111111-1111-4111-a111-000000000004',
             author_name: 'Maria "Mèl"',
             author_role: 'user',
-            image_url: 'https://images.unsplash.com/photo-1587334274328-64186a80aeee?q=80&w=2081&auto=format&fit=crop'
+            image_url: '/assets/master/maria_mel.png'
         },
         {
             id: 'lp-m2',
@@ -87,7 +87,7 @@ export const MOCK_LORE_POSTS = {
             author_id: 'damia-arq-1',
             author_name: 'Damià',
             author_role: 'official',
-            image_url: 'https://images.unsplash.com/photo-1503387762-592dea58ef21?q=80&w=2000&auto=format&fit=crop'
+            image_url: '/assets/master/damia_architect.png'
         },
         {
             id: 'lp-d2',
@@ -96,6 +96,21 @@ export const MOCK_LORE_POSTS = {
             author_id: 'damia-arq-1',
             author_name: 'Damià',
             author_role: 'official'
+        }
+    ],
+    // Sóc de Poble (Oficial)
+    'sdp-oficial-1': [
+        {
+            id: 'lp-sdp-1',
+            content: "<h1>PRESENTACIÓ DEL PROJECTE</h1>\n<h2>La memòria viva de la nostra terra bategant en digital.</h2>\n<p>Tenim el plaer de presentar el vídeo oficial de Sóc de Poble. Una obra bategada des de l'arrel per l'equip master.</p>\n<p>Creativitat i Art: <strong>Anna Calvo</strong> (Artista Oficial)\nDirecció i Visió: <strong>Javi Llinares</strong> (Project Lead)</p>",
+            created_at: new Date().toISOString(),
+            author_id: 'sdp-oficial-1',
+            author_name: 'Sóc de Poble',
+            author_role: 'official',
+            town_name: 'La Torre de les Maçanes',
+            video_url: 'https://www.youtube.com/watch?v=Fadaa7Kyxm0',
+            is_pinned: true,
+            is_iaia_inspired: true
         }
     ]
 };

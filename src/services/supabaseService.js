@@ -99,7 +99,9 @@ const SEARCH_SYNONYMS = {
     'poble': 'Sóc de Poble',
     'soc': 'Sóc de Poble',
     'rutadelpoble': 'Sóc de Poble',
-    'merchandising': 'Sóc de Poble'
+    'merchandising': 'Sóc de Poble',
+    'xixona': 'Xixona',
+    'jijona': 'Xixona'
 };
 
 /**
@@ -138,6 +140,11 @@ const setColumnCache = (key, value) => {
     columnCache[key] = value;
 };
 
+const isValidUUID = (id) => {
+    if (!id || typeof id !== 'string') return false;
+    return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
+};
+
 // Promesas activas para evitar ráfagas de errores 400 en paralelo
 const activeChecks = {
     posts: null,
@@ -156,7 +163,7 @@ const SYSTEM_ENTITIES = [
         type: 'empresa',
         town_name: 'Global',
         description: 'La plataforma de connexió rural definitiva. Gent, terra i xarxa. Connectem pobles, persones i territori a través de la tecnologia i la identitat.',
-        avatar_url: '/images/agents/sdp_logo_white.png',
+        avatar_url: '/assets/master/logo_socdepoble_green_square.png',
         cover_url: '/images/campaign/rustic_detail.png',
         category: 'Tecnologia i Comunitat',
         is_active: true,
@@ -373,6 +380,35 @@ export const supabaseService = {
         } catch (e) {
             logger.error('Error fetching admin stats:', e);
             return { totalUsers: 0, newUsers24h: 0, errorCount: 0 };
+        }
+    },
+
+    // Global OverView (Total Vision for UCC)
+    async getGlobalOverview() {
+        try {
+            const [stats, seo, { data: recentPosts }, { data: recentMarket }, { data: recentProfiles }] = await Promise.all([
+                this.getAdminStats(),
+                this.getSEOStats(),
+                supabase.from('posts').select('id, title, content, created_at, profiles(full_name)').order('created_at', { ascending: false }).limit(10),
+                supabase.from('market_items').select('id, title, price, created_at, profiles(full_name)').order('created_at', { ascending: false }).limit(10),
+                supabase.from('profiles').select('id, full_name, created_at').eq('is_demo', false).order('created_at', { ascending: false }).limit(10)
+            ]);
+
+            // Combine and normalize for Activity Pipeline
+            const timeline = [
+                ...(recentPosts || []).map(p => ({ ...p, type: 'post', label: 'Nou Post al Mur' })),
+                ...(recentMarket || []).map(m => ({ ...m, type: 'market', label: 'Nou Producte' })),
+                ...(recentProfiles || []).map(u => ({ ...u, type: 'user', label: 'Nou Ciutadà', title: u.full_name }))
+            ].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+            return {
+                stats,
+                seo,
+                timeline: timeline.slice(0, 20)
+            };
+        } catch (err) {
+            logger.error('Error fetching global overview:', err);
+            return null;
         }
     },
 
@@ -623,8 +659,7 @@ export const supabaseService = {
     },
 
     async getConversationMessages(conversationId) {
-        const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(conversationId);
-        if (!isUUID || conversationId?.startsWith('mock-')) {
+        if (!isValidUUID(conversationId) || conversationId?.startsWith('mock-')) {
             try {
                 const mockIdx = conversationId.split('-')[1];
                 const { MOCK_MESSAGES } = await import('../data');
@@ -1529,7 +1564,7 @@ export const supabaseService = {
 
     // Suscripciones en tiempo real y Presencia
     subscribeToConversation(conversationId, options = {}) {
-        if (conversationId?.startsWith('mock-')) {
+        if (!isValidUUID(conversationId) || conversationId?.startsWith('mock-')) {
             return { unsubscribe: () => { } };
         }
         const { onNewMessage, onMessageUpdate } = options;
@@ -1553,6 +1588,9 @@ export const supabaseService = {
     },
 
     subscribeToPresence(conversationId, userId, onSync) {
+        if (!isValidUUID(conversationId) || conversationId?.startsWith('mock-')) {
+            return { unsubscribe: () => { } };
+        }
         const channel = supabase.channel(`presence:${conversationId}`, {
             config: {
                 presence: {
@@ -1628,7 +1666,7 @@ export const supabaseService = {
         const { data, error } = await supabase.auth.signInWithOAuth({
             provider: 'google',
             options: {
-                redirectTo: 'https://socdepoble.vercel.app/chats'
+                redirectTo: window.location.origin + '/chats'
             }
         });
         if (error) throw error;
@@ -1650,6 +1688,14 @@ export const supabaseService = {
             }
             throw error;
         }
+    },
+
+    async resendOtp(phone) {
+        const { data, error } = await supabase.auth.signInWithOtp({
+            phone: phone,
+        });
+        if (error) throw error;
+        return data;
     },
 
     async verifyOtp(phone, token) {
@@ -1931,6 +1977,10 @@ export const supabaseService = {
 
         const system = SYSTEM_ENTITIES.find(e => e.id === userId);
         if (system) return system;
+
+        if (!isValidUUID(userId)) {
+            return null; // Silent fail for malformed IDs
+        }
 
         const { data, error } = await supabase
             .from('profiles')
@@ -2628,6 +2678,25 @@ export const supabaseService = {
         } catch (error) {
             logger.error('[SupabaseService] Error fetching stats:', error);
             return { users: 24, entities: 5, posts: 153, towns: 3 }; // Fallback values
+        }
+    },
+
+    /**
+     * Obté una publicació específica per ID [MASTER]
+     */
+    async getPostById(postId) {
+        try {
+            const { data, error } = await supabase
+                .from('posts_universal_view')
+                .select('*, profiles(*), towns(*)')
+                .eq('id', postId)
+                .single();
+
+            if (error) throw error;
+            return data;
+        } catch (err) {
+            logger.error(`[SupabaseService] Error fetching post ${postId}:`, err);
+            return null;
         }
     }
 };

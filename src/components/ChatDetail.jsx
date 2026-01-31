@@ -60,6 +60,7 @@ const ChatDetail = () => {
     const isIAIAConv = chat?.is_iaia ||
         id.startsWith('new-iaia-') ||
         id.startsWith('iaia-') ||
+        id === 'iaia' ||
         (isP1Current ? chat?.p2_is_ai : chat?.p1_is_ai) ||
         (isP1Current ? chat?.p2_role : chat?.p1_role) === 'ambassador' ||
         (isP1Current ? chat?.participant_2_id : chat?.participant_1_id)?.startsWith('11111111-1111-4111-a111-');
@@ -71,8 +72,8 @@ const ChatDetail = () => {
     useEffect(() => {
         if (!user || !currentUserId) return;
 
-        if (id.startsWith('new-iaia-') || id.startsWith('mock-') || id.startsWith('iaia-') || id === 'rentonar') {
-            const personaId = id.replace('new-iaia-', '').replace('mock-', '').replace('iaia-post-', '');
+        if (id.startsWith('new-iaia-') || id.startsWith('mock-') || id.startsWith('iaia-') || id === 'iaia' || id === 'rentonar') {
+            const personaId = id === 'iaia' ? IAIA_ID : id.replace('new-iaia-', '').replace('mock-', '').replace('iaia-post-', '');
             const fetchVirtualData = async () => {
                 try {
                     const chats = await supabaseService.getConversations(currentUserId);

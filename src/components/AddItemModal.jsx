@@ -9,6 +9,7 @@ import './CreatePostModal.css'; // Use unified modal styles
 import './AddItemModal.css';
 
 import EntitySelector from './EntitySelector';
+import MasterEditor from './MasterEditor';
 
 const AddItemModal = ({ isOpen, onClose, onItemCreated, isPrivateInitial = false, isPlayground = false }) => {
     const { t } = useTranslation();
@@ -17,6 +18,7 @@ const AddItemModal = ({ isOpen, onClose, onItemCreated, isPrivateInitial = false
     const [privacy, setPrivacy] = useState(isPrivateInitial ? 'groups' : 'public');
     const [formData, setFormData] = useState({
         title: '',
+        description: '',
         price: '',
         tag: 'Producte',
         image_url: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=800&q=80' // Placeholder
@@ -65,6 +67,7 @@ const AddItemModal = ({ isOpen, onClose, onItemCreated, isPrivateInitial = false
         try {
             const newItem = {
                 title: formData.title,
+                description: formData.description,
                 image_url: formData.image_url,
                 tag: formData.tag,
                 privacy: privacy,
@@ -161,6 +164,14 @@ const AddItemModal = ({ isOpen, onClose, onItemCreated, isPrivateInitial = false
                                 </select>
                             </div>
                         </div>
+                    </div>
+
+                    <div className="post-content-area" style={{ minHeight: '180px', marginTop: '10px' }}>
+                        <MasterEditor
+                            value={formData.description}
+                            onChange={(val) => setFormData({ ...formData, description: val })}
+                            placeholder={t('market.description_placeholder') || 'Descripció detallada de l\'article...'}
+                        />
                     </div>
 
                     <div className="post-footer-tools">

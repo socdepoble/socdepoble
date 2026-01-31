@@ -18,6 +18,20 @@ export const pushNotifications = {
         }
 
         try {
+            // [MASTER] Simulem èxit en mode Playground per evitar errors 401 (Unauthorized)
+            const isPlayground = localStorage.getItem('isPlaygroundMode') === 'true';
+            if (isPlayground) {
+                logger.log('[Push] Mode Playground detectat. Simulant guardat de subscripció...');
+                return { id: 'demo-sub', user_id: userId, is_demo: true };
+            }
+
+            // [MASTER] AUTO-HEALING: Verifiquem sessió activa abans de procedir
+            const { data: { session } } = await supabase.auth.getSession();
+            if (!session) {
+                logger.warn('[Push] No active session. Skipping DB sync to avoid 401.');
+                return null;
+            }
+
             // Asegurar que treballem amb el JSON de la subscripció
             const subData = subscription.toJSON ? subscription.toJSON() : subscription;
 

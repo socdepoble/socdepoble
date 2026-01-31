@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { Link2, MessageCircle, Share2, MoreHorizontal, Building2, Store, Users, User, Loader2, AlertCircle, Info, Sparkles, UserPlus, UserCheck, Volume2, StopCircle, EyeOff } from 'lucide-react';
+import { Link2, MessageCircle, Share2, MoreHorizontal, Building2, Store, Users, User, Loader2, AlertCircle, Info, Sparkles, UserPlus, UserCheck, Volume2, StopCircle, EyeOff, BookOpen, ChevronLeft, ChevronRight, Check } from 'lucide-react';
 import { useUI } from '../context/UIContext';
 import { supabaseService } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
@@ -113,7 +113,7 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
                                 commentsMap[p.uuid || p.id] = comments;
                             }
                         } catch (e) {
-                            logger.warn(`[Feed] Error fetching comments for post ${p.id}:`, e);
+                            logger.warn(`[Feed] Error fetching comments for post ${p.id}: `, e);
                         }
                     }));
                     if (isMounted.current) {
@@ -372,7 +372,7 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
                                             </div>
                                         </div>
 
-                                        <p className="post-text" style={{ whiteSpace: 'pre-wrap' }}>{post.content}</p>
+                                        <div className="post-text-rich" dangerouslySetInnerHTML={{ __html: post.content }} />
 
                                         <button
                                             className="action-btn principal-connect"
@@ -387,87 +387,6 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
                             );
                         }
 
-                        // HANDLING DIDACTIC PRESENTATION (Anna Calvo / Project News)
-                        if (post.type === 'didactic_presentation') {
-                            return (
-                                <article key={pid} className="universal-card post-card didactic-card">
-                                    <div className="card-header clickable" onClick={() => handleHeaderClick(post)}>
-                                        <div className="header-left">
-                                            <Avatar src={post.author_avatar} role="official" name={post.author} size={44} />
-                                            <div className="post-meta">
-                                                <div className="post-author-row">
-                                                    <span className="post-author">{post.author}</span>
-                                                    <span className="identity-badge official">PROJECTE</span>
-                                                </div>
-                                                <div className="post-town">Poble Principal: {post.towns?.name || 'Vida de Poble'}</div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="card-body">
-                                        <div className="video-embed-wrapper mb-4">
-                                            {post.video_url && (
-                                                <iframe
-                                                    width="100%"
-                                                    height="215"
-                                                    src={`https://www.youtube.com/embed/${post.video_url.split('v=')[1]?.split('&')[0] || 'Fadaa7Kyxm0'}`}
-                                                    title="Anna Calvo Presentation"
-                                                    frameBorder="0"
-                                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                                    allowFullScreen
-                                                    style={{ borderRadius: '0', boxShadow: '0 4px 15px rgba(0,0,0,0.2)' }}
-                                                ></iframe>
-                                            )}
-                                        </div>
-
-                                        {post.image_url && (
-                                            <div className="card-image-wrapper mb-4">
-                                                {Array.isArray(post.image_url) ? (
-                                                    <ImageCarousel images={post.image_url} />
-                                                ) : (
-                                                    <img
-                                                        src={post.image_url}
-                                                        alt={`${post.author} post image`}
-                                                        loading="lazy"
-                                                        style={{ borderRadius: '0' }}
-                                                        onError={(e) => {
-                                                            e.target.style.display = 'none';
-                                                            e.target.parentElement.style.display = 'none';
-                                                        }}
-                                                    />
-                                                )}
-                                            </div>
-                                        )}
-
-                                        <div className="didactic-content">
-                                            {post.content.split('\n').map((line, idx) => {
-                                                if (line.startsWith('# ')) return <h1 key={idx} className="didactic-h1">{line.replace('# ', '')}</h1>;
-                                                if (line.startsWith('## ')) return <h2 key={idx} className="didactic-h2">{line.replace('## ', '')}</h2>;
-                                                return <p key={idx} className="didactic-p">{line}</p>;
-                                            })}
-                                        </div>
-
-                                        <button
-                                            className="action-btn didactic-modal-trigger mt-4"
-                                            onClick={() => alert(`MODAL DIDÀCTIC ACCESSIBLE:\n\n${post.metadata?.didactic_text}`)}
-                                            style={{
-                                                width: '100%',
-                                                justifyContent: 'center',
-                                                background: 'linear-gradient(135deg, #00f2ff, #00d4ff)',
-                                                color: '#000',
-                                                fontWeight: 'bold',
-                                                borderRadius: '12px',
-                                                padding: '12px'
-                                            }}
-                                        >
-                                            <Sparkles size={18} className="mr-2" />
-                                            LLEGIR EN MODE ACCESSIBLE
-                                        </button>
-                                    </div>
-                                </article>
-                            );
-                        }
-
                         // HANDLING EVENT ANNOUNCEMENTS
                         if (post.type === 'event_announcement') {
                             return (
@@ -475,13 +394,7 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
                                     <div className="card-header clickable" onClick={() => handleHeaderClick(post)}>
                                         <div className="header-left">
                                             <Avatar src={post.author_avatar} role="official" name={post.author} size={44} />
-                                            <div className="post-meta">
-                                                <div className="post-author-row">
-                                                    <span className="post-author">{post.author}</span>
-                                                    <span className="event-badge">ESDEVENIMENT</span>
-                                                </div>
-                                                <div className="post-town">Poble Principal: {post.towns?.name || 'Vida de Poble'}</div>
-                                            </div>
+                                            <div className="post-town">{post.towns?.name || 'Vida de Poble'}</div>
                                         </div>
                                     </div>
 
@@ -491,7 +404,7 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
                                                 <img src={post.image_url} alt={post.content} style={{ borderRadius: '0' }} />
                                             </div>
                                         )}
-                                        <p className="post-text" style={{ fontWeight: '600' }}>{post.content}</p>
+                                        <div className="post-text-rich" dangerouslySetInnerHTML={{ __html: post.content }} />
                                     </div>
 
                                     <div className="card-footer-vibrant">
@@ -533,7 +446,7 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
                                                 )}
                                             </div>
                                             <div className="post-town">
-                                                Poble Principal: {post.towns?.name || 'Al teu poble'}
+                                                {post.towns?.name || post.town_name || 'La Torre de les Maçanes'}
                                             </div>
                                             {post.author_role === 'entity' && post.author_name && (
                                                 <div className="post-lineage" style={{ fontSize: '11px', fontWeight: '800', opacity: 0.7, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
@@ -566,12 +479,35 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
                                 )}
 
                                 <div className="card-body">
-                                    <p className="post-text">{post.content}</p>
+                                    <PostContent content={post.content} postId={pid} />
                                     {(post.author_role === 'ambassador' || post.author_is_ai || post.is_iaia_inspired) && (
                                         <div className="ia-transparency-note-mini clickable" onClick={() => navigate('/iaia')}>
-                                            ✨ {t('profile.transparency_post') || 'Contingut generat per la IAIA (Informació Artificial i Acció)'}
-                                            <div style={{ fontSize: '10px', marginTop: '4px', opacity: 0.7 }}>
-                                                Directiva [Master]: Aquest contingut és fruit de la col·laboració entre veïns i intel·ligència artificial per a la preservació de la memòria del poble.
+                                            <div className="simbiosi-header" style={{ display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 800, fontSize: '12px' }}>
+                                                <Sparkles size={14} />
+                                                <span>{t('profile.transparency_post') || 'SIMBIOSI [IAIA + VEÍ]'}</span>
+                                            </div>
+
+                                            {post.ai_percentage > 0 && (
+                                                <div className="simbiosi-metrics" style={{ marginTop: '8px' }}>
+                                                    <div className="simbiosi-bar" style={{ height: '4px', background: 'rgba(0,0,0,0.1)', borderRadius: '2px', overflow: 'hidden', display: 'flex' }}>
+                                                        <div className="ai-fill" style={{ width: `${post.ai_percentage}%`, background: 'var(--color-primary)' }}></div>
+                                                        <div className="human-fill" style={{ width: `${post.human_percentage}%`, background: '#f59e0b' }}></div>
+                                                    </div>
+                                                    <div className="simbiosi-labels" style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', marginTop: '4px', fontWeight: 600 }}>
+                                                        <span>🤖 IA: {post.ai_percentage}%</span>
+                                                        <span>👤 Humà: {post.human_percentage}%</span>
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            {post.time_saved_minutes > 0 && (
+                                                <div className="simbiosi-impact" style={{ fontSize: '11px', marginTop: '6px', color: 'var(--color-primary)', fontWeight: 700 }}>
+                                                    ⏳ <strong>+{post.time_saved_minutes} minuts</strong> regalats a la teua família
+                                                </div>
+                                            )}
+
+                                            <div className="simbiosi-footer" style={{ fontSize: '10px', marginTop: '6px', opacity: 0.7, fontStyle: 'italic' }}>
+                                                Directiva [MASTER]: {t('feed.simbiosi_footer') || 'La saviesa ancestral i el futur digital bategant junts por el bé de la comunitat.'}
                                             </div>
                                         </div>
                                     )}
@@ -579,6 +515,15 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
 
                                 <div className="card-footer-vibrant">
                                     <div className="card-actions-wrapper" style={{ flex: 1, backgroundColor: "transparent", borderTop: "none" }}>
+                                        {post.type === 'didactic_presentation' && (
+                                            <button
+                                                className="btn-didactic-master-cta"
+                                                onClick={() => navigate(`/didactica/${pid}`)}
+                                                style={{ width: '100%', marginBottom: '12px', background: 'var(--color-primary)', color: '#000', border: 'none', padding: '12px', borderRadius: '12px', fontWeight: '900', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', cursor: 'pointer' }}
+                                            >
+                                                <BookOpen size={20} /> VEURE DETALL DIDÀCTIC Master
+                                            </button>
+                                        )}
                                         <div className="card-actions">
                                             <button
                                                 className={`action-btn principal-connect ${isConnected ? 'active' : ''}`}
@@ -647,23 +592,110 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
                                         ))}
                                     </div>
                                 )}
+
+                                {/* BOOK SEQUENCE FOOTER [MASTER] */}
+                                {post.type === 'book' && (
+                                    <div className="book-sequence-footer animate-in" style={{
+                                        padding: '12px 20px',
+                                        background: 'var(--bg-surface-soft)',
+                                        borderTop: '1px solid var(--color-divider)',
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        gap: '12px'
+                                    }}>
+                                        <div className="book-ident-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                            <div className="book-title-tag" style={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: '8px',
+                                                color: 'var(--color-primary)',
+                                                fontWeight: '800',
+                                                fontSize: '14px',
+                                                textTransform: 'uppercase'
+                                            }}>
+                                                <BookOpen size={18} />
+                                                <span>{post.book_title || 'Llibre sense títol'}</span>
+                                            </div>
+                                            <div className="chapter-badge" style={{
+                                                background: 'var(--color-primary)',
+                                                color: '#000',
+                                                padding: '2px 10px',
+                                                borderRadius: '20px',
+                                                fontSize: '12px',
+                                                fontWeight: '900'
+                                            }}>
+                                                CAP. {post.chapter_number || '?'}
+                                            </div>
+                                        </div>
+
+                                        <div className="book-nav-controls" style={{ display: 'flex', gap: '8px' }}>
+                                            <button className="book-nav-btn" style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', padding: '10px', borderRadius: '12px', background: 'var(--bg-surface)', border: '1px solid var(--color-divider)', color: 'var(--text-main)', fontSize: '13px', fontWeight: '700' }}>
+                                                <ChevronLeft size={18} />
+                                                Anterior
+                                            </button>
+                                            <button
+                                                className="book-read-check"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    alert('Capítol marcat com a llegit! Batega amb la saviesa del poble. ✨');
+                                                }}
+                                                style={{ flex: 1.5, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', padding: '10px', borderRadius: '12px', background: 'var(--color-primary-soft)', border: '1px solid var(--color-primary)', color: 'var(--color-primary)', fontSize: '14px', fontWeight: '800' }}
+                                            >
+                                                <Check size={18} />
+                                                Llegit
+                                            </button>
+                                            <button className="book-nav-btn" style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', padding: '10px', borderRadius: '12px', background: 'var(--bg-surface)', border: '1px solid var(--color-divider)', color: 'var(--text-main)', fontSize: '13px', fontWeight: '700' }}>
+                                                Següent
+                                                <ChevronRight size={18} />
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
                             </article>
                         );
                     })
                 )}
 
-                {hasMore && posts.length > 0 && !selectedTag && (
-                    <div className="load-more-container">
-                        <button
-                            className="btn-load-more"
-                            onClick={() => fetchPosts(true)}
-                            disabled={loadingMore}
-                        >
-                            {loadingMore ? <Loader2 className="spinner" /> : t('common.load_more') || 'Carregar més'}
-                        </button>
-                    </div>
-                )}
-            </div>
+                {
+                    hasMore && posts.length > 0 && !selectedTag && (
+                        <div className="load-more-container">
+                            <button
+                                className="btn-load-more"
+                                onClick={() => fetchPosts(true)}
+                                disabled={loadingMore}
+                            >
+                                {loadingMore ? <Loader2 className="spinner" /> : t('common.load_more') || 'Carregar més'}
+                            </button>
+                        </div>
+                    )
+                }
+            </div >
+        </div >
+    );
+};
+
+const PostContent = ({ content, postId }) => {
+    const navigate = useNavigate();
+    const CHAR_LIMIT = 500;
+    const isTooLong = content.length > CHAR_LIMIT;
+
+    // Simple truncation for HTML (could be improved with a proper parser)
+    const displayContent = isTooLong ? content.substring(0, CHAR_LIMIT) + '...' : content;
+
+    return (
+        <div className="post-text-area-wrapper">
+            <div className={`post-text-rich ${isTooLong ? 'truncated' : ''}`} dangerouslySetInnerHTML={{ __html: displayContent }} />
+            {isTooLong && (
+                <button
+                    className="read-more-btn"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(`/post/${postId}`);
+                    }}
+                >
+                    Llegir més 🏺📖
+                </button>
+            )}
         </div>
     );
 };

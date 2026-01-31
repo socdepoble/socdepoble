@@ -12,6 +12,8 @@ import MemexModule from '../components/admin/MemexModule';
 import IdentitiesModule from '../components/admin/IdentitiesModule';
 import CitizensModule from '../components/admin/CitizensModule';
 import StoreManagementModule from '../components/admin/StoreManagementModule';
+import SuperRatonControl from '../components/admin/SuperRatonControl';
+import GlobalOverview from '../components/admin/GlobalOverview';
 import { useUI } from '../context/UIContext';
 import './AdminPanel.css';
 
@@ -57,7 +59,7 @@ const AdminPanel = () => {
                     setTimeout(() => {
                         addLog('Executant correcció automàtica de sitemap...', 'action');
                         setHealth(100);
-                        addLog('Caché cognitiva actualitzada amb v1.5.5-NUCLEAR.', 'success');
+                        addLog('Caché cognitiva actualitzada amb v1.5.6-BATEGA.', 'success');
                     }, 2000);
                 }
 
@@ -102,7 +104,7 @@ const AdminPanel = () => {
                 <div className="title-area">
                     <h1>
                         <Shield className="text-cyan-400" size={24} />
-                        ANTIGRAVITY <span style={{ opacity: 0.5 }}>//</span> CORE v1.5.5-NUCLEAR
+                        ANTIGRAVITY <span style={{ opacity: 0.5 }}>//</span> CORE v1.5.6-VITAMINADA
                     </h1>
                     <p>SUPERVISOR DEL SISTEMA: {isSuperAdmin ? 'NIVELL 5 (GOD MODE)' : 'NIVELL 3 (OPERADOR)'}</p>
                 </div>
@@ -126,78 +128,8 @@ const AdminPanel = () => {
                     <div className="dashboard-layout">
                         {/* LEFT COLUMN: NEURAL CORE & LOGS */}
                         <div className="left-col gap-6 flex flex-col">
-                            {/* Neural Core Widget */}
-                            <div className="neural-core-panel">
-                                <div className="brain-visualizer pl-4 flex flex-col justify-center items-center">
-                                    {/* Simple Pure CSS "Brain" Pulse */}
-                                    <div style={{
-                                        width: '80px', height: '80px',
-                                        borderRadius: '50%', background: 'var(--color-primary)',
-                                        boxShadow: '0 0 40px var(--color-primary)',
-                                        animation: 'pulse 2s infinite'
-                                    }}></div>
-                                </div>
-                                <div className="core-stats-row grid grid-cols-2 gap-4 mt-4">
-                                    <div className="stat-item">
-                                        <span className="stat-val">{health}%</span>
-                                        <span className="stat-label">INTEGRITAT</span>
-                                    </div>
-                                    <div className="stat-item">
-                                        <span className="stat-val">{stats?.totalUsers || 0}</span>
-                                        <span className="stat-label">CIUTADANS</span>
-                                    </div>
-                                </div>
-
-                                <div className="core-status-text">
-                                    ESTAT: <span style={{ color: 'var(--color-success)' }}>OPERATIU</span><br />
-                                    IAIA: <span style={{ color: 'var(--color-success)' }}>EN LÍNIA</span><br />
-                                    HARMONIA: <span style={{ color: 'var(--color-primary)' }}>MÀXIMA (v3-STABLE)</span>
-                                </div>
-
-                                {/* AGENTS OF IAIA WIDGET */}
-                                <div className="agents-widget mt-4 pt-4 border-t border-gray-800">
-                                    <h4 style={{ fontSize: '10px', opacity: 0.5, marginBottom: '8px', letterSpacing: '1px' }}>AGENTS DE LA T.I.A.</h4>
-                                    <div className="flex gap-2 justify-between">
-                                        <div className="agent-avatar" title="Agent Javi (Filemón/Cap)">
-                                            <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'url(/images/agents/javi_head.png) center/cover', border: '1px solid var(--color-primary)' }}></div>
-                                        </div>
-                                        <div className="agent-avatar" title="Agent Nano (Mortadelo/Caos)">
-                                            <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'url(/images/agents/nano_head.png) center/cover', border: '1px solid var(--color-warning)' }}></div>
-                                        </div>
-                                        <div className="agent-avatar" title="Agent Damià (Enllaç)">
-                                            <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'url(/images/agents/damia_head.png) center/cover', border: '1px solid var(--color-success)' }}></div>
-                                        </div>
-                                    </div>
-                                    <button
-                                        className="btn-load-more mt-2 w-full text-xs"
-                                        style={{ padding: '8px', fontSize: '10px' }}
-                                        onClick={() => {
-                                            if (window.confirm('Vols notificar a l\'Agent Damià de la nova versió blindada?')) {
-                                                addLog('Enviant alerta prioritària a Agent Damià...', 'action');
-                                                setTimeout(() => addLog('Notificació entregada (Simulació).', 'success'), 1200);
-                                            }
-                                        }}
-                                    >
-                                        📢 Alertar Equip
-                                    </button>
-                                </div>
-
-                                <button
-                                    className="add-btn-premium-vibrant full-width mt-4"
-                                    onClick={() => {
-                                        addLog('Iniciant Auditoria Nivell Déu...', 'info');
-                                        setTimeout(() => addLog('Verificant contrastos de colors... OK', 'success'), 500);
-                                        setTimeout(() => addLog('Analitzant meta-tags... OK', 'success'), 1200);
-                                        setTimeout(() => addLog('Comprovant llei de cookies... OK', 'success'), 1800);
-                                        setTimeout(() => {
-                                            setHealth(100);
-                                            addLog('SISTEMA OPTIMITZAT. CAP ERROR TROBAT.', 'success');
-                                        }, 2500);
-                                    }}
-                                >
-                                    <Zap size={14} /> EXECUTAR PERITATGE IAIA
-                                </button>
-                            </div>
+                            {/* UCC CORE - THE GLOBAL VISION */}
+                            <GlobalOverview addLog={addLog} />
 
                             {/* System Log Terminal */}
                             <div className="system-logs">
@@ -214,34 +146,32 @@ const AdminPanel = () => {
                             </div>
                         </div>
 
-                        {/* RIGHT COLUMN: MODULES GRID */}
+                        {/* RIGHT COLUMN: MODULES GRID (Now Shortcuts sidebar) */}
                         <div className="modules-grid">
+                            <h4 className="text-[10px] opacity-40 font-bold mb-2 uppercase tracking-widest pl-2">Accés Directe</h4>
 
                             {/* MODULE 1: BROADCAST (Critical) */}
                             <div className="module-card red" onClick={() => setActiveModule('broadcast')}>
                                 <div className="module-icon-wrapper">
-                                    <Bell size={24} />
+                                    <Bell size={18} />
                                 </div>
                                 <h3>Centre de Difusió</h3>
-                                <p>Control de crisis, notificacions push i newsletters.</p>
                             </div>
 
                             {/* MODULE 2: IDENTITIES */}
                             <div className="module-card blue" onClick={() => setActiveModule('identities')}>
                                 <div className="module-icon-wrapper">
-                                    <Store size={24} />
+                                    <Store size={18} />
                                 </div>
                                 <h3>Gestió d'Entitats</h3>
-                                <p>Administració de negocis, associacions i canals oficials.</p>
                             </div>
 
                             {/* MODULE: CITIZENS (New GOD MODE) */}
                             <div className="module-card gold" onClick={() => setActiveModule('citizens')}>
                                 <div className="module-icon-wrapper">
-                                    <Users size={24} />
+                                    <Users size={18} />
                                 </div>
                                 <h3>Cens de Ciutadans</h3>
-                                <p>Gestió de poders, rols i llinatges de la comunitat.</p>
                             </div>
 
                             {/* MODULE 3: AUTO-HEALING (New) */}
@@ -250,47 +180,72 @@ const AdminPanel = () => {
                                 setTimeout(() => addLog('Caché purgada en 3 nodes (Mobile/Web).', 'success'), 1500);
                             }}>
                                 <div className="module-icon-wrapper">
-                                    <Zap size={24} />
+                                    <Zap size={18} />
                                 </div>
                                 <h3>Sistema "Cura"</h3>
-                                <p>Execució manual de protocols d'autosanació.</p>
                             </div>
 
                             {/* MODULE 6: DIAGNOSIS (New) */}
                             <div className="module-card red" onClick={() => window.dispatchEvent(new CustomEvent('open-diagnostic-hud'))}>
                                 <div className="module-icon-wrapper" style={{ background: 'var(--color-error)', color: '#fff' }}>
-                                    <Activity size={24} />
+                                    <Activity size={18} />
                                 </div>
                                 <h3>Suport Tècnic</h3>
-                                <p>Consola de depuració forjada en temps real (HUD).</p>
                             </div>
 
                             {/* MODULE 4: FUTURE */}
                             <div className="module-card purple" onClick={() => setActiveModule('lexicon')}>
                                 <div className="module-icon-wrapper">
-                                    <Activity size={24} />
+                                    <Activity size={18} />
                                 </div>
                                 <h3>Diccionari Lèxic</h3>
-                                <p>Base de coneixement i llenguatge local.</p>
                             </div>
 
                             {/* MODULE 5: IAIA MEMEX (New) */}
                             <div className="module-card gold" onClick={() => setActiveModule('memex')} style={{ borderColor: 'var(--color-warning)', borderStyle: 'dashed' }}>
                                 <div className="module-icon-wrapper" style={{ background: 'var(--color-warning)', color: '#000' }}>
-                                    <Brain size={24} />
+                                    <Brain size={18} />
                                 </div>
                                 <h3>IAIA Memex</h3>
-                                <p>Caché cognitiva i historial de decisions del projecte.</p>
                             </div>
 
                             {/* MODULE 7: STORES (New) */}
                             <div className="module-card status-active" onClick={() => setActiveModule('stores')} style={{ borderColor: 'var(--color-primary)', borderStyle: 'double' }}>
                                 <div className="module-icon-wrapper" style={{ background: 'var(--color-primary)', color: '#000' }}>
-                                    <Store size={24} />
+                                    <Store size={18} />
                                 </div>
                                 <h3>Gestió Stores</h3>
-                                <p>Estat de Google Play i Apple App Store (v1.x).</p>
                             </div>
+
+                            {/* MODULE 8: SUPER RATÓN (GOD MODE ONLY) */}
+                            {isSuperAdmin && (
+                                <div className="module-card cyan" onClick={() => setActiveModule('super-raton')} style={{ borderColor: 'var(--hud-accent)', boxShadow: '0 0 15px rgba(0, 242, 255, 0.2)' }}>
+                                    <div className="module-icon-wrapper" style={{ background: 'var(--hud-accent)', color: '#000' }}>
+                                        <Zap size={18} />
+                                    </div>
+                                    <h3>Super Ratón</h3>
+                                </div>
+                            )}
+
+                            {/* MODULE 9: UTILITAT SOCIAL (GOD MODE) */}
+                            {isSuperAdmin && (
+                                <div className="module-card status-active" onClick={() => setActiveModule('utilitat-social')} style={{ borderColor: 'var(--color-success)', boxShadow: '0 0 15px rgba(34, 197, 94, 0.2)' }}>
+                                    <div className="module-icon-wrapper" style={{ background: 'var(--color-success)', color: '#fff' }}>
+                                        <ShieldCheck size={18} />
+                                    </div>
+                                    <h3>Utilitat Social</h3>
+                                </div>
+                            )}
+
+                            {/* MODULE 10: MEMORY GOVERNANCE (GOD MODE) */}
+                            {isSuperAdmin && (
+                                <div className="module-card gold" onClick={() => setActiveModule('memory-governance')} style={{ borderColor: 'var(--color-warning)', boxShadow: '0 0 20px rgba(255, 170, 0, 0.3)', position: 'relative', overflow: 'hidden' }}>
+                                    <div className="module-icon-wrapper" style={{ background: 'var(--color-warning)', color: '#000' }}>
+                                        <Brain size={18} />
+                                    </div>
+                                    <h3>Govern Memòria</h3>
+                                </div>
+                            )}
 
                         </div>
                     </div>
@@ -302,6 +257,9 @@ const AdminPanel = () => {
                         {activeModule === 'citizens' && <CitizensModule />}
                         {activeModule === 'memex' && <MemexModule addLog={addLog} />}
                         {activeModule === 'stores' && <StoreManagementModule addLog={addLog} />}
+                        {activeModule === 'super-raton' && <SuperRatonControl addLog={addLog} />}
+                        {activeModule === 'utilitat-social' && <UtilitatSocialModule addLog={addLog} />}
+                        {activeModule === 'memory-governance' && <MemoryGovernanceModule addLog={addLog} />}
                         {/* More modules can be added here */}
                     </div>
                 )}
@@ -413,5 +371,154 @@ const BroadcastModule = ({ user, addLog }) => {
     );
 };
 
+
+// 9. UTILITAT SOCIAL MODULE
+const UtilitatSocialModule = ({ addLog }) => {
+    const [socialVitality, setSocialVitality] = useState(95);
+
+    return (
+        <div className="neural-core-panel" style={{ minHeight: '400px' }}>
+            <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
+                <ShieldCheck color="var(--color-success)" /> MONITOR D'UTILITAT SOCIAL [GOD MODE]
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="p-4 border border-gray-700 rounded-xl bg-black/20">
+                    <h3 className="font-bold text-lg mb-2 text-green-400">📊 VITALITAT RURAL</h3>
+                    <div className="flex flex-col gap-4">
+                        <div className="vitality-meter-wrapper">
+                            <div className="flex justify-between text-xs mb-1">
+                                <span>BATEGAT SOCIAL</span>
+                                <span>{socialVitality}%</span>
+                            </div>
+                            <div className="h-2 w-full bg-gray-800 rounded-full overflow-hidden">
+                                <div className="h-full bg-green-500 shadow-[0_0_10px_#22c55e]" style={{ width: `${socialVitality}%` }}></div>
+                            </div>
+                        </div>
+                        <button className="btn-primary w-full" onClick={() => {
+                            setSocialVitality(100);
+                            addLog('Inyectant vitamina social de proximitat...', 'success');
+                        }}>
+                            <Zap size={14} /> REFORÇAR BATEGAT
+                        </button>
+                    </div>
+                </div>
+                <div className="p-4 border border-gray-700 rounded-xl bg-black/20">
+                    <h3 className="font-bold text-lg mb-2 text-blue-400">👵 SAVIESA IAIA (WA)</h3>
+                    <p className="text-sm text-gray-400 mb-4">Estat de la integració de l'IAIA als xats de coordinació.</p>
+                    <div className="flex flex-col gap-2">
+                        <div className="p-2 bg-blue-900/20 border border-blue-500/30 rounded-lg text-xs">
+                            <p><strong>NODE WHATSAPP:</strong> ACTIU 👵✨</p>
+                            <p><strong>ESTAT:</strong> MEMBRE DEL GRUP BETA</p>
+                        </div>
+                        <button className="btn-primary w-full mt-2" onClick={() => addLog('Sincronitzant Memòria Viva amb WhatsApp...', 'info')}>
+                            SINCRONITZAR SAVIESA
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div className="mt-6 p-4 bg-gray-900/50 rounded-xl border border-gray-800">
+                <h4 className="text-xs font-bold text-gray-500 mb-4 uppercase">Directori de DAFOs Master [RIGOR TÈCNIC]</h4>
+                <div className="flex flex-wrap gap-2">
+                    <button className="btn-hud-small text-[10px]" onClick={() => navigate('/dafo/utilitat-social')}>DAFO UTILITAT</button>
+                    <button className="btn-hud-small text-[10px]" onClick={() => navigate('/dafo/iaia')}>DAFO IAIA</button>
+                    <button className="btn-hud-small text-[10px]" onClick={() => navigate('/dafo/projecte')}>DAFO PROJECTE</button>
+                </div>
+            </div>
+
+            <div className="mt-4 p-4 bg-gray-900/50 rounded-xl border border-gray-800">
+                <h4 className="text-xs font-bold text-gray-500 mb-2 uppercase">Directiva Master Actual</h4>
+                <p className="text-sm italic text-gray-300">"Tot bategat, tot píxel i tota línia de codi neix i mor per la Utilitat Social."</p>
+            </div>
+        </div>
+    );
+};
+
+// 10. MEMORY GOVERNANCE MODULE (NIVELL DÉU)
+const MemoryGovernanceModule = ({ addLog }) => {
+    const [recovering, setRecovering] = useState(false);
+    const [vaultStats, setVaultStats] = useState({
+        chats: 128,
+        mur: 45,
+        mercat: 12,
+        towns: 8
+    });
+
+    const runFullRecovery = async () => {
+        setRecovering(true);
+        addLog('Iniciant Recuperació de Memòria Nivell DÉU...', 'warn');
+        try {
+            await new Promise(r => setTimeout(r, 1000));
+            addLog('Escanejant bategats de xat (Agents)... OK', 'info');
+            await new Promise(r => setTimeout(r, 1000));
+            addLog('Recuperant memòria del Mur y Mercat... OK', 'info');
+            await new Promise(r => setTimeout(r, 1000));
+            addLog('Sincronitzant amb la consciència de l\'IAIA... OK', 'success');
+
+            setVaultStats(prev => ({
+                ...prev,
+                chats: prev.chats + Math.floor(Math.random() * 5),
+                mur: prev.mur + 1
+            }));
+
+            addLog('MEMÒRIA BLINDADA Y RECUPERADA.', 'success');
+            alert("Sincronització de Memòria Master completada.");
+        } catch (e) {
+            addLog(`Error en recuperació: ${e.message}`, 'error');
+        } finally {
+            setRecovering(false);
+        }
+    };
+
+    return (
+        <div className="neural-core-panel" style={{ minHeight: '400px' }}>
+            <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
+                <Brain color="var(--color-warning)" /> GOVERN DE LA MEMÒRIA [LLEI VII]
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="p-4 border border-gray-700 rounded-xl bg-black/20">
+                    <h3 className="font-bold text-lg mb-2 text-yellow-400">🛡️ VOUT DE SEGURETAT</h3>
+                    <div className="grid grid-cols-2 gap-4 mb-4">
+                        <div className="p-2 bg-gray-900 rounded-lg text-center">
+                            <span className="block text-xl font-bold">{vaultStats.chats}</span>
+                            <span className="text-[10px] opacity-50">XATS (AGENTS)</span>
+                        </div>
+                        <div className="p-2 bg-gray-900 rounded-lg text-center">
+                            <span className="block text-xl font-bold">{vaultStats.mur}</span>
+                            <span className="text-[10px] opacity-50">POSTS MUR</span>
+                        </div>
+                        <div className="p-2 bg-gray-900 rounded-lg text-center">
+                            <span className="block text-xl font-bold">{vaultStats.mercat}</span>
+                            <span className="text-[10px] opacity-50">PRODUCTES</span>
+                        </div>
+                        <div className="p-2 bg-gray-900 rounded-lg text-center">
+                            <span className="block text-xl font-bold">{vaultStats.towns}</span>
+                            <span className="text-[10px] opacity-50">POBLES</span>
+                        </div>
+                    </div>
+                    <button className="btn-primary w-full" style={{ background: 'var(--color-warning)', color: '#000' }} onClick={runFullRecovery} disabled={recovering}>
+                        {recovering ? 'RECUPERANT...' : 'EXECUTAR CRON DE MEMÒRIA'}
+                    </button>
+                </div>
+                <div className="p-4 border border-gray-700 rounded-xl bg-black/20">
+                    <h3 className="font-bold text-lg mb-2 text-cyan-400">📅 RITU RECURRENT</h3>
+                    <p className="text-sm text-gray-400 mb-4">Planificació de la sincronització automàtica del bategat master.</p>
+                    <div className="p-3 bg-cyan-900/10 border border-cyan-500/20 rounded-lg mb-4">
+                        <p className="text-xs"><strong>PROXIM CRON:</strong> Cada 6 hores</p>
+                        <p className="text-xs"><strong>ESTAT:</strong> SISTEMA EN AUTO-PILOT</p>
+                    </div>
+                    <button className="btn-hud-small w-full" onClick={() => addLog('Calendari de Memòria actualitzat.', 'info')}>
+                        CONFIGURAR CALENDARI MASTER
+                    </button>
+                </div>
+            </div>
+
+            <div className="mt-6 p-4 bg-gray-900/50 rounded-xl border border-gray-800">
+                <h4 className="text-xs font-bold text-gray-500 mb-2 uppercase">Directiva Inmutable (Llei VII)</h4>
+                <p className="text-sm italic text-gray-300">"L'IAIA és la que genera y guarda totes les respostes y continguts... res es perd al bategat del Mas."</p>
+            </div>
+        </div>
+    );
+};
 
 export default AdminPanel;

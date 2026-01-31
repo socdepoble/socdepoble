@@ -58,7 +58,16 @@
 /* Tab Content Transitions */
 .profile-tab-content {
     padding: var(--page-margin);
-    animation: slideInUp 0.3s ease-out;
+    animation: slideInUp 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    background: rgba(var(--bg-card-rgb), 0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: var(--radius-3xl) var(--radius-3xl) 0 0;
+    margin-top: -20px;
+    z-index: 10;
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    min-height: 60vh;
 }
 
 @keyframes slideInUp {
@@ -240,6 +249,70 @@
 
 .activity-card:active {
     transform: scale(0.98);
+}
+
+/* [PREMIUM] Beta Tester Card Overhaul */
+.beta-tester-card {
+    background: linear-gradient(135deg, rgba(var(--color-primary-rgb), 0.1) 0%, rgba(var(--bg-card-rgb), 0.8) 100%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1.5px solid rgba(var(--color-primary-rgb), 0.2);
+    border-radius: var(--radius-3xl);
+    padding: 24px;
+    margin: 16px 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.beta-tester-card:hover {
+    transform: translateY(-4px);
+}
+
+.beta-tester-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(var(--color-primary-rgb), 0.1) 0%, transparent 80%);
+    pointer-events: none;
+}
+
+.premium-avatar-placeholder-pulse {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--gradient-primary);
+    border-radius: inherit;
+    animation: pulseBategat 3s infinite ease-in-out;
+}
+
+.pulse-logo {
+    width: 60%;
+    height: auto;
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8));
+}
+
+@keyframes pulseBategat {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(var(--color-primary-rgb), 0.4);
+    }
+
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 20px rgba(var(--color-primary-rgb), 0);
+    }
+
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(var(--color-primary-rgb), 0.4);
+    }
 }
 
 @media (max-width: 768px) {
@@ -838,6 +911,59 @@
     background: rgba(239, 68, 68, 0.03);
 }
 
+/* [PREMIUM] Floating Action Button (FAB) - Ergonomia Tàctil */
+.profile-fab-premium {
+    position: fixed;
+    bottom: 90px;
+    /* Above the main nav */
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: var(--radius-xl);
+    background: var(--gradient-primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 25px rgba(var(--color-primary-rgb), 0.4);
+    z-index: 1000;
+    /* Below creation hub but above content */
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    animation: fabAppear 0.5s backwards 0.3s;
+}
+
+.profile-fab-premium:hover {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 15px 30px rgba(var(--color-primary-rgb), 0.5);
+}
+
+.profile-fab-premium:active {
+    transform: scale(0.9);
+}
+
+@keyframes fabAppear {
+    from {
+        transform: scale(0) translateY(100px);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-fab-premium {
+        bottom: 85px;
+        right: 16px;
+        width: 56px;
+        height: 56px;
+    }
+}
+
 .filter-info-stack {
     display: flex;
     flex-direction: column;
@@ -873,6 +999,7 @@
     color: white;
     border-color: #ef4444;
 }
+
 /* [PREMIUM] Full-Width Action Container (De parte a parte) */
 .profile-actions-premium-fullwidth {
     width: 100%;
@@ -883,7 +1010,8 @@
 
 .profile-actions-premium-fullwidth .connect-btn-premium-full {
     margin: 0;
-    border-radius: 0; /* Full edge to edge */
+    border-radius: 0;
+    /* Full edge to edge */
     padding: 24px;
     font-size: 20px;
 }

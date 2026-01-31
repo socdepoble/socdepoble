@@ -16,12 +16,20 @@ const SOURCES = [
     {
         name: 'Sóc de Poble (General)',
         rss: 'https://socdepoble.net/feed/',
-        default_entity: 'Sóc de Poble' // We will resolve ID later
+        default_entity: 'Sóc de Poble (Oficial)',
+        category: 'Cultura'
     },
     {
         name: 'El Rentonar (Categoria)',
         rss: 'https://socdepoble.net/category/el-rentonar/feed/',
-        default_entity: 'El Rentonar'
+        default_entity: 'El Rentonar',
+        category: 'El Rentonar'
+    },
+    {
+        name: 'El Rentonar (Blogger Historique)',
+        rss: 'https://rentonar.blogspot.com/feeds/posts/default?alt=rss',
+        default_entity: 'El Rentonar',
+        category: 'El Rentonar'
     }
 ];
 
@@ -115,7 +123,7 @@ async function processFeed(source) {
 
             const postContent = `**${title}**\n\n${cleanContent}\n\n🔗 [Llegir original](${link})`;
 
-            const { error: insertError } = await supabase
+            const { data: postData, error: insertError } = await supabase
                 .from('posts')
                 .insert({
                     content: postContent,
@@ -124,12 +132,53 @@ async function processFeed(source) {
                     created_at: pubDate,
                     image_url: imageUrl,
                     is_playground: false
-                });
+                })
+                .select('id')
+                .single();
 
             if (insertError) {
                 console.error(`   ❌ Failed to insert: ${insertError.message}`);
             } else {
                 console.log(`   ✨ Imported: ${title}`);
+
+                // Taxonomy Assignment
+                if (source.category) {
+                    const { data: term } = await supabase
+                        .from('taxonomy_terms')
+                        .select('id')
+                        .eq('name', source.category)
+                        .eq('type', 'category')
+                        .single();
+
+                    if (term) {
+                        await supabase.from('post_taxonomy').insert({
+                            post_id: postData.id,
+                            term_id: term.id
+                        });
+                        console.log(`     🏷️  Linked to category: ${source.category}`);
+                    }
+                }
+
+                // Process Tags
+                for (const tagName of categories) {
+                    const slug = tagName.toLowerCase()
+                        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+                        .replace(/\s+/g, '-')
+                        .replace(/[^\w-]+/g, '');
+
+                    const { data: tag, error: tagError } = await supabase
+                        .from('taxonomy_terms')
+                        .upsert({ name: tagName, slug, type: 'tag' }, { onConflict: 'slug,type' })
+                        .select('id')
+                        .single();
+
+                    if (tag) {
+                        await supabase.from('post_taxonomy').insert({
+                            post_id: postData.id,
+                            term_id: tag.id
+                        }, { onConflict: 'post_id,term_id' });
+                    }
+                }
             }
         }
 

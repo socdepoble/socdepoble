@@ -32,10 +32,32 @@ Si ja l'has enviat a la paperera:
 
 ---
 
-## 🛠️ 3. Manteniment i Suport
-Si l'app es queda bloquejada o no carrega bé:
-1. **Hard Reset**: Desinstal·la com hem explicat dalt i torna-la a instal·lar.
-2. **Neteja Interna**: Des del menú de l'App (si pots entrar), busca el botó de **"Rescat"** o **"Nuke"** per a purgar la memòria cau.
+## 🏺 4. Publicació Multimèdia Intel·ligent [IAIA+NANO] ✨📸
+Ara pots crear publicacions professionals amb l'ajuda de la nostra memòria digital:
+1. **Pujar Multimèdia**: En crear un post, tria una foto o vídeo.
+2. **Consultar l'IAIA**: Prem el botó **"Preguntar a l'IAIA"**. Ella i el Nano Banana analitzaran la teva imatge i et suggeriran un títol i un refrany adequat.
+3. **Formatat Automàtic**: El sistema estructurarà el teu text amb títols i proverbis per a un acabat premium.
+
+## 📜 5. Cànon de Refranys Populars 👵💎
+La saviesa ancestral està al teu abast:
+- Pots explorar el **Cànon de Refranys** a la pàgina de l'IAIA o a la presentació del Projecte.
+- Utilitza aquests proverbis per il·lustrar les teues publicacions i mantenir viu el batec del nostre lèxic.
+
+## 📖 6. Lectura Seqüencial i Profunda 🏺📚
+Per als continguts que requereixen més calma:
+- **Llegir més**: Si un post és molt llarg, veuràs un botó per a obrir la lectura a pantalla completa.
+- **Sistema de Llibres**: Moltes publicacions formen part de llibres seqüencials. Podràs navegar entre capítols i marcar-los com a "Llegits".
+
+---
+
+## 🛠️ 7. Manteniment i Protocol d'Auto-Sanejament [MASTER] 🏺🛡️🚀✨
+
+Sóc de Poble és un sistema resilient i immortal. Si l'apliació no bategua amb tota la seua força (interfície comprimida o errors de càrrega):
+
+1. **Botó SOS (Reset Total)**: A la pantalla de Login, prem `🆘 SOS: RESET TOTAL`. Purga caches, sessions i memòria en un segon. **No cal desinstal·lar l'App**.
+2. **Auto-Sanejament [MASTER]**: Obre la Consola de Diagnòstic (`Ctrl+Shift+D` o 3 clics en l'ajuda) i prem `Auto-Sanejament [MASTER]`. L'IAIA diagnosticarà i repararà el sistema per tu.
+3. **Consulta a l'IAIA**: Ella analitza cada bategat i t'aconsellarà directament a la consola si detecta que el mur o la ràdio del poble necessiten un ajustament.
 
 ---
 *"De la morca d'ahir, traiem l'oli pur d'avui."* 🏺⚖️✨
+*Sóc de Poble v1.5.5-NUCLEAR-CIMERA*

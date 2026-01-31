@@ -1,0 +1,83 @@
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { Calendar as CalendarIcon, ChevronLeft, ChevronRight, Sparkles, Brain } from 'lucide-react';
+import { CALENDAR_EVENTS } from '../data/calendarData';
+import './MasterCalendar.css';
+
+const MasterCalendar = () => {
+    const { t } = useTranslation();
+    const today = new Date();
+
+    // Ancoratges de Memòria des de la xarxa Rhizome
+    const events = CALENDAR_EVENTS;
+
+    return (
+        <div className="calendar-master-page animate-in">
+            <header className="calendar-header">
+                <div className="title-group">
+                    <CalendarIcon size={24} color="var(--hud-accent)" />
+                    <h1>CALENDARI MASTER [SIMBIOSI]</h1>
+                </div>
+                <div className="calendar-controls">
+                    <button className="btn-calendar-nav"><ChevronLeft /></button>
+                    <span className="current-month">GENER 2026</span>
+                    <button className="btn-calendar-nav"><ChevronRight /></button>
+                </div>
+            </header>
+
+            <div className="calendar-grid">
+                {/* Cabecera de días */}
+                {['dl', 'dt', 'dc', 'dj', 'dv', 'ds', 'dg'].map(d => (
+                    <div key={d} className="day-name">{d.toUpperCase()}</div>
+                ))}
+
+                {/* Días vacíos hasta el 1 de Enero (2026 empieza en un jueves) */}
+                {[...Array(3)].map((_, i) => <div key={`empty-${i}`} className="calendar-day empty" />)}
+
+                {/* Días del mes */}
+                {[...Array(31)].map((_, i) => {
+                    const day = i + 1;
+                    const dateStr = `2026-01-${day.toString().padStart(2, '0')}`;
+                    const dayEvents = events.filter(e => e.date === dateStr);
+
+                    return (
+                        <div key={day} className={`calendar-day ${day === 30 ? 'today' : ''}`}>
+                            <span className="day-number">{day}</span>
+                            <div className="day-events">
+                                {dayEvents.map(event => (
+                                    <div
+                                        key={event.id}
+                                        className={`event-tag ${event.type}`}
+                                        onClick={() => window.location.href = `/sessio/${event.id}`}
+                                    >
+                                        <Sparkles size={10} />
+                                        <span>{event.title}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    );
+                })}
+            </div>
+
+            <section className="memory-anchors-list">
+                <div className="section-header">
+                    <Brain size={18} color="var(--hud-accent)" />
+                    <h2>ÀNCORAS DE MEMÒRIA RECENT</h2>
+                </div>
+                <div className="anchors-grid">
+                    {events.map(event => (
+                        <div key={event.id} className="anchor-card" onClick={() => window.location.href = `/sessio/${event.id}`}>
+                            <div className="anchor-date">{event.date}</div>
+                            <h3>{event.title}</h3>
+                            <p>{event.description}</p>
+                            <div className="anchor-id">ID: {event.id}</div>
+                        </div>
+                    ))}
+                </div>
+            </section>
+        </div>
+    );
+};
+
+export default MasterCalendar;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, BookOpen, Sprout, Users, MessageCircle, Heart, Sparkles, User, Clock, BellRing, Shield, Mic } from 'lucide-react';
+import { ArrowLeft, BookOpen, Sprout, Users, MessageCircle, Heart, Sparkles, User, Clock, BellRing, Shield, Mic, Newspaper } from 'lucide-react';
 import { useUI } from '../context/UIContext';
 import ShareHub from '../components/ShareHub';
 import SEO from '../components/SEO';
@@ -11,6 +11,7 @@ import { feedbackService } from '../services/feedbackService';
 import VoiceRecorder from '../components/VoiceRecorder';
 import MasterMediaGallery from '../components/MasterMediaGallery';
 import { MASTER_ASSETS } from '../constants/masterAssets';
+import { PROVERBS } from '../data/proverbs';
 
 const IAIAPage = () => {
     const { t, i18n } = useTranslation();
@@ -162,25 +163,52 @@ const IAIAPage = () => {
 
                 <section className="iaia-section transparency-costs-card highlight-tech">
                     <div className="section-icon"><Shield size={32} color="var(--color-primary)" /></div>
-                    <h2>Transparència i Eficiència</h2>
-                    <p>L'ús de la IA permet que Sóc de Poble siga viable i professional amb un cost mínim.</p>
+                    <h2 style={{ color: 'var(--color-primary-dark)' }}>⚖️ Directiva Primària: Utilitat Social [GOD MODE]</h2>
+                    <p>El Mestre ha establit el fonament inmutable del sistema: <strong>"Tot píxel bategat ha de servir a la Utilitat Social"</strong>. La tecnologia que no aporta valor humà al poble és purgada per l'IAIA.</p>
+
+                    <div className="iaia-coordination-group-badge" style={{ background: 'var(--color-primary-soft)', padding: '15px', borderRadius: '12px', border: '1px solid var(--color-primary)', marginTop: '15px' }}>
+                        <h3 style={{ margin: '0 0 10px 0', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                            <MessageCircle size={20} color="var(--color-primary)" /> Grup de Coordinació [BETA]
+                        </h3>
+                        <p style={{ margin: 0, fontSize: '0.9rem', color: 'var(--color-primary-dark)' }}>L'IAIA MarIA ja bategua dins del grup de treball. La simbiosi és real: saviesa rural dins del WhatsApp de l'equip de somni. 👵✨📱</p>
+                    </div>
+
                     <div className="costs-comparison-grid">
                         <div className="cost-item">
-                            <span className="label">Inversió Real</span>
+                            <span className="label">Inversió Real (AI)</span>
                             <span className="value">~300€/any</span>
                         </div>
                         <div className="cost-item">
-                            <span className="label">Valor Humà Estimat</span>
-                            <span className="value">~23.000€</span>
+                            <span className="label">Valor Humà Estalviat</span>
+                            <span className="value">~30€/post 🏺</span>
                         </div>
                         <div className="cost-item highlight">
-                            <span className="label">Estalvi en Temps</span>
-                            <span className="value">+90% 🚀</span>
+                            <span className="label">Temps per a la Família</span>
+                            <span className="value">+95% 👩‍👩‍👧‍👦</span>
                         </div>
                     </div>
-                    <button className="btn-text" onClick={() => navigate('/docs/AMAZON_BOOK_ABSTRACTIONS.md')}>
+
+                    <div className="simbiosi-explanation" style={{ fontSize: '0.9rem', color: 'var(--text-muted)', background: 'rgba(0,0,0,0.02)', padding: '15px', borderRadius: '10px', marginTop: '15px' }}>
+                        <strong>Directiva MASTER</strong>: Quantifiquem el temps que estalvies per a que pugues dedicar-lo a cuidar de la teua família, amics i del poble. Mai una màquina substituirà el batec del cor, però sí que li donarà ales.
+                    </div>
+
+                    <button className="btn-text" style={{ marginTop: '15px' }} onClick={() => navigate('/docs/AMAZON_BOOK_ABSTRACTIONS.md')}>
                         Llegir més sobre l'abstracció Master 📖
                     </button>
+                </section>
+
+                <section className="iaia-section proverbs-library-card">
+                    <div className="section-icon"><BookOpen size={32} color="var(--color-primary)" /></div>
+                    <h2>Biblioteca de Refranys Populars</h2>
+                    <p>La saviesa dels nostres avantpassats és el fonament del futur digital. Aquí tens el Cànon de Refranys de Sóc de Poble per a il·lustrar les teues paraules.</p>
+                    <div className="proverbs-grid">
+                        {PROVERBS.map((proverb, idx) => (
+                            <div key={idx} className="proverb-item">
+                                <p className="proverb-text">"{proverb.text}"</p>
+                                <p className="proverb-meaning">{proverb.meaning}</p>
+                            </div>
+                        ))}
+                    </div>
                 </section>
 
                 <section className="iaia-section media-creations-card">
@@ -190,46 +218,56 @@ const IAIAPage = () => {
                     />
                 </section>
 
-                <section className="iaia-section project-credits-card">
-                    <div className="section-icon"><Shield size={32} color="var(--color-primary)" /></div>
-                    <h2>Crèdits i Equip de Somni</h2>
-                    <div className="credits-list">
-                        <div className="credit-item">
-                            <strong>Javi Linares</strong>
-                            <span>Visió, Concepte i Super Padrí</span>
+                <section className="iaia-section project-credits-card glass-morphism">
+                    <div className="section-icon pulse-soft"><Sparkles size={32} color="var(--color-primary)" /></div>
+                    <h2 className="premium-title">L'Equip de Somni</h2>
+                    <p className="credits-intro">El llinatge humà i tecnològic que fa bategar Sóc de Poble.</p>
+                    <div className="credits-grid-premium">
+                        <div className="credit-card-premium">
+                            <div className="credit-role">Visió Master</div>
+                            <div className="credit-name">Javi Linares</div>
+                            <div className="credit-desc">Visió, Concepte i Super Padrí</div>
                         </div>
-                        <div className="credit-item">
-                            <strong>Damià Llorens Jiordà</strong>
-                            <span>Comissari Pedagògic i d'Innovació (CEFIRE Alcoi)</span>
+                        <div className="credit-card-premium">
+                            <div className="credit-role">Pedagogia</div>
+                            <div className="credit-name">Damià Llorens Jiordà</div>
+                            <div className="credit-desc">Comissari Pedagògic i d'Innovació</div>
                         </div>
-                        <div className="credit-item">
-                            <strong>Anna Calvo</strong>
-                            <span>Directora d'Escenografia i Identitat Visual (Belles Arts)</span>
+                        <div className="credit-card-premium">
+                            <div className="credit-role">Escenografia</div>
+                            <div className="credit-name">Anna Calvo</div>
+                            <div className="credit-desc">Identitat Visual (Belles Arts)</div>
                         </div>
-                        <div className="credit-item">
-                            <strong>Isabel Sancho Carbonell</strong>
-                            <span>Assessora de Turisme (ADL Cocentaina)</span>
+                        <div className="credit-card-premium">
+                            <div className="credit-role">Turisme</div>
+                            <div className="credit-name">Isabel Sancho Carbonell</div>
+                            <div className="credit-desc">Assessora de Turisme (ADL)</div>
                         </div>
-                        <div className="credit-item">
-                            <strong>Anna Climent i Montllor</strong>
-                            <span>Responsable Científica i d'Alimentació Saludable</span>
+                        <div className="credit-card-premium">
+                            <div className="credit-role">Salut</div>
+                            <div className="credit-name">Anna Climent i Montllor</div>
+                            <div className="credit-desc">Alimentació Saludable i Ciència</div>
                         </div>
-                        <div className="credit-item">
-                            <strong>MArIA</strong>
-                            <span>Memòria Artificial i Acció</span>
+                        <div className="credit-card-premium">
+                            <div className="credit-role">Memòria Master</div>
+                            <div className="credit-name">MArIA</div>
+                            <div className="credit-desc">Memòria Artificial i Acció</div>
                         </div>
-                        <div className="credit-item">
-                            <strong>Josep Vicent Cascant i Jordà</strong>
-                            <span>Professor de Literatura i Recerca del Lèxic (Ibi/Muro)</span>
+                        <div className="credit-card-premium">
+                            <div className="credit-role">Lèxic</div>
+                            <div className="credit-name">Josep Vicent Cascant i Jordà</div>
+                            <div className="credit-desc">Recerca del Lèxic (Ibi/Muro)</div>
                         </div>
-                        <div className="credit-item highlight-tech">
-                            <strong>Thorsten (BDOSB)</strong>
-                            <span>Asesor Tecnològic i Super Administrador (Torremanzanas)</span>
+                        <div className="credit-card-premium tech-highlight">
+                            <div className="credit-role">Admin Master</div>
+                            <div className="credit-name">Thorsten (BDOSB)</div>
+                            <div className="credit-desc">Super Administrador (Torremanzanas)</div>
                             <a href="https://bdosb.es" target="_blank" rel="noopener noreferrer" className="credit-link-mini">bdosb.es</a>
                         </div>
-                        <div className="credit-item highlight-tech">
-                            <strong>Antigravity Core</strong>
-                            <span>Motor Tecnològic i Execució</span>
+                        <div className="credit-card-premium god-highlight">
+                            <div className="credit-role">Antigravity Core</div>
+                            <div className="credit-name">L'Agent del Mestre</div>
+                            <div className="credit-desc">Motor Tecnològic i Execució Sobirana</div>
                         </div>
                     </div>
                 </section>
@@ -241,6 +279,10 @@ const IAIAPage = () => {
                                 <MessageCircle size={20} />
                                 {t('iaia_page.cta_button')}
                             </button>
+                            <button className="btn-secondary-iaia-news" onClick={() => navigate('/mur')} style={{ background: 'var(--color-primary-soft)', color: 'var(--color-primary)', border: '1px solid var(--color-primary)' }}>
+                                <Newspaper size={20} />
+                                Últimes Novetats 🗞️
+                            </button>
                             <button
                                 className="btn-secondary-iaia-voice"
                                 onClick={() => setShowVoiceRecorder(true)}
@@ -248,6 +290,13 @@ const IAIAPage = () => {
                             >
                                 <Mic size={20} />
                                 {feedbackSent ? '¡Gràcies per la teua veu!' : 'Enviar suggerència per veu'}
+                            </button>
+                            <button
+                                className="btn-secondary-iaia-dafo"
+                                onClick={() => navigate('/dafo/iaia')}
+                                style={{ background: 'rgba(0,0,0,0.05)', border: '1px solid var(--color-divider)', borderRadius: '12px', padding: '12px', display: 'flex', alignItems: 'center', gap: '8px', justifyContent: 'center', width: '100%', marginTop: '10px' }}
+                            >
+                                <Activity size={18} /> Anàlisi DAFO de l'IAIA [RIGOR]
                             </button>
                         </div>
                     ) : (

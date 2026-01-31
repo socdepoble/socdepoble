@@ -96,36 +96,42 @@ export const IAIA_RURAL_KNOWLEDGE = {
 
 export const RESIDENT_LORE = {
     "Vicent Ferris": {
+        id: "11111111-1111-4111-a111-000000000003",
         secret: "Coneix el lloc exacte on brolla el pou secret que mai s'asseca a la serra.",
         personality: "Prudent, estimat per tots, fill d'una de les families més antigues de la Torre.",
         connections: ["Samir Mensah", "Maria la de la Tenda"],
         avatar_url: "/images/demo/avatar_man_old.png"
     },
     "Samir Mensah": {
+        id: "11111111-1111-4111-a111-000000000004",
         secret: "Guarda la recepta secreta del cuscús de l'Alt Atles que portarà al proper mercat.",
         personality: "Treballador, curiós, li agrada escoltar les històries de Vicent mentre apren fusteria.",
         connections: ["Vicent Ferris"],
         avatar_url: "/images/demo/avatar_man_1.png"
     },
     "Maria la de la Tenda": {
+        id: "11111111-1111-4111-a111-000000000005",
         secret: "En el seu rebost guarda una llibreta amb totes les cobles que cantava sa mare.",
         personality: "Xarradora, coneix tots els secrets del poble, sempre té un caramel per als xiquets.",
         connections: ["Vicent Ferris", "Tio Colau"],
         avatar_url: "/images/demo/avatar_woman_1.png"
     },
     "Tio Colau": {
+        id: "11111111-1111-4111-a111-000000000006",
         secret: "Encara guarda les claus del vell molí que ja ningú sap on està.",
         personality: "Molt vell, de poques paraules però molta saviesa, expert en predir el temps mirant els núvols.",
         connections: ["Maria la de la Tenda"],
         avatar_url: "/images/demo/avatar_man_old_2.png"
     },
     "Nano Banana": {
+        id: "11111111-1111-4111-a111-000000000007",
         secret: "Diu que ha amagat un plàtan daurat en algun lloc del codi de l'aplicació per a que el trobes.",
         personality: "Alegre, dinàmic, sempre buscant la part positiva de cada situació.",
         connections: ["IAIA (Guia del Poble)"],
         avatar_url: "/assets/avatars/nano_banana.png"
     },
     "L'Avi dels Papers": {
+        id: "11111111-1111-4111-a111-000000000008",
         secret: "Té guardat el plànol original de la sèquia mare del segle XIX, que explica com l'aigua pot arribar a tot arreu.",
         personality: "Metòdic, silenciós, marit de la IAIA. Passa el dia llegint i sintetitzant la saviesa del poble.",
         connections: ["IAIA (Secretària)", "Vicent Ferris"],

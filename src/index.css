@@ -25,6 +25,7 @@
   --bg-main: var(--vibe-bg);
   --bg-surface: var(--vibe-surface);
   --bg-card: var(--vibe-card);
+  --bg-card-body: var(--vibe-card);
   --bg-overlay: var(--vibe-glass);
 
   --text-main: var(--vibe-text);
@@ -52,7 +53,7 @@
   --bg-warm-card: #FF6D00;
   /* Direct vibrant Amber/Orange */
   --bg-warm-accent: #E65100;
-  --bg-card-body: #FFFFFF;
+  --bg-card-body: var(--vibe-card);
 
   /* Neutral Palette - Light mode */
   --bg-main: #F4F7F9;
@@ -161,6 +162,13 @@
   margin: 0;
   padding: 0;
   -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  overflow-x: hidden;
+  width: 100%;
+  position: relative;
 }
 
 body {

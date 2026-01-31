@@ -15,7 +15,7 @@ import UnifiedStatus from './components/UnifiedStatus';
 window.RescueTool = RescueTool;
 window.UnifiedStatus = UnifiedStatus;
 
-console.log('[NUCLEAR-BOOT] entry.jsx execution started');
+console.log('[NUCLEAR-BOOT] entry.jsx execution started. Version: v1.5.6-BATEGA');
 window.BOOT_LOG = ['[BOOT] started'];
 const addBootLog = (m) => {
   console.log(m);
@@ -66,7 +66,7 @@ if ('serviceWorker' in navigator) {
 // Register new SW with cache busting
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js?v=NUCLEAR-STRIKE-1.5.5-Absolute-Force').then(registration => {
+    navigator.serviceWorker.register('/sw.js?v=BATEGA-1.5.6-Master-Force').then(registration => {
       console.log('[SW] Registered with scope:', registration.scope);
 
       registration.onupdatefound = () => {

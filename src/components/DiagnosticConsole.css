@@ -1,84 +1,114 @@
-/* SÓC DE POBLE - HUD PREMIUM UI REDESIGN */
+/* SÓC DE POBLE - HUD PREMIUM UI REDESIGN - SCI-FI CANON [MASTER] */
 :root {
-    --hud-bg: rgba(255, 255, 255, 0.95);
-    --hud-text: #1a1a1a;
-    --hud-accent: var(--color-primary);
-    --hud-border: rgba(0, 0, 0, 0.08);
-    --hud-shadow: 0 20px 80px rgba(0, 0, 0, 0.15);
+    --hud-bg: rgba(5, 10, 20, 0.85);
+    /* Deep Galactic Glass */
+    --hud-text: #e0e7ff;
+    --hud-accent: #00f2ff;
+    /* Cyber Cyan */
+    --hud-accent-alt: #ff0055;
+    /* Neon Pulse */
+    --hud-border: rgba(0, 242, 255, 0.3);
+    --hud-shadow: 0 0 50px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 242, 255, 0.1);
+    --hud-glow: 0 0 15px rgba(0, 242, 255, 0.4);
 }
 
 .diagnostic-hud {
     position: fixed;
-    top: 20px;
-    right: 20px;
-    bottom: 20px;
-    width: 420px;
+    top: 30px;
+    right: 30px;
+    bottom: 30px;
+    width: 480px;
+    /* Expanded for breathing room */
     background: var(--hud-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(40px) saturate(200%);
+    -webkit-backdrop-filter: blur(40px) saturate(200%);
     border: 1px solid var(--hud-border);
-    border-radius: 32px;
+    border-radius: 40px;
     z-index: 10002;
     color: var(--hud-text);
-    font-family: var(--font-body);
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    /* Control Panel Font */
     display: flex;
     flex-direction: column;
     box-shadow: var(--hud-shadow);
-    transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
     overflow: hidden;
+    letter-spacing: 0.5px;
+}
+
+/* Sci-fi Overlay Effect */
+.diagnostic-hud::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%),
+        linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+    background-size: 100% 4px, 3px 100%;
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0.3;
 }
 
 .diagnostic-hud.hidden {
-    transform: translateX(120%) scale(0.95);
+    transform: translateX(120%) skewX(-5deg);
     opacity: 0;
     pointer-events: none;
 }
 
 /* Header */
 .hud-header {
-    padding: 24px 32px;
-    background: rgba(255, 255, 255, 0.5);
+    padding: 32px 40px;
+    background: rgba(0, 0, 0, 0.3);
     border-bottom: 1px solid var(--hud-border);
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.hud-title-group {
+.hud-title-zone {
     display: flex;
-    align-items: center;
-    gap: 12px;
+    flex-direction: column;
+    gap: 4px;
 }
 
-.hud-title-icon {
-    color: var(--color-primary);
+.hud-badge {
+    font-size: 9px;
+    background: var(--hud-accent);
+    color: #000;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 900;
+    width: fit-content;
+    text-transform: uppercase;
+    box-shadow: var(--hud-glow);
 }
 
 .hud-header h2 {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 800;
     margin: 0;
-    font-family: var(--font-heading);
-    color: #333;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
 .hud-header-actions {
     display: flex;
-    gap: 8px;
+    gap: 12px;
 }
 
 .btn-hud-tool {
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    background: transparent;
+    width: 48px;
+    height: 48px;
+    border-radius: 16px;
+    border: 1px solid rgba(0, 242, 255, 0.2);
+    background: rgba(255, 255, 255, 0.05);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: all 0.2s;
-    color: #666;
+    transition: all 0.3s;
+    color: rgba(0, 242, 255, 0.6);
 }
 
 .btn-hud-tool:hover {
@@ -100,41 +130,59 @@
 /* Body */
 .hud-body {
     flex: 1;
-    padding: 24px 32px;
+    padding: 32px 40px;
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    /* Increased breathing room */
 }
 
 .hud-educational-banner {
     display: flex;
     align-items: center;
-    gap: 12px;
-    background: var(--color-primary-soft);
-    padding: 16px;
-    border-radius: 16px;
-    margin-bottom: 24px;
+    gap: 16px;
+    background: rgba(0, 242, 255, 0.05);
+    padding: 20px;
+    border-radius: 20px;
     font-size: 11px;
-    color: #007791;
-    font-weight: 600;
-    border: 1px dashed var(--color-primary);
+    color: var(--hud-accent);
+    font-weight: 700;
+    border: 1px dashed var(--hud-border);
+    text-transform: uppercase;
 }
 
 .hud-sections-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 16px;
+    gap: 24px;
 }
 
 .hud-panel {
-    background: #fff;
-    border: 1px solid var(--hud-border);
-    border-radius: 20px;
-    padding: 16px;
-    transition: all 0.2s;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(0, 242, 255, 0.1);
+    border-radius: 24px;
+    padding: 24px;
+    transition: all 0.4s;
+    position: relative;
+    overflow: hidden;
+}
+
+.hud-panel::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background: var(--hud-accent);
+    opacity: 0.3;
 }
 
 .hud-panel:hover {
-    border-color: var(--color-primary);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+    border-color: var(--hud-accent);
+    background: rgba(0, 242, 255, 0.05);
+    box-shadow: 0 0 20px rgba(0, 242, 255, 0.1);
 }
 
 .hud-panel.full-width {
@@ -144,52 +192,56 @@
 .panel-header {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-bottom: 12px;
-    color: #999;
+    gap: 12px;
+    margin-bottom: 20px;
+    color: var(--hud-accent);
+    opacity: 0.8;
 }
 
 .panel-header h3 {
-    font-size: 10px;
+    font-size: 11px;
     text-transform: uppercase;
     font-weight: 800;
     margin: 0;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
 }
 
 .data-row {
     display: flex;
     justify-content: space-between;
-    font-size: 12px;
-    margin-bottom: 4px;
+    font-size: 13px;
+    margin-bottom: 8px;
 }
 
 .data-row span {
-    color: #888;
+    color: rgba(255, 255, 255, 0.5);
 }
 
 .data-row strong {
-    color: #333;
-    font-weight: 600;
+    color: #fff;
+    font-weight: 700;
 }
 
 .status-ok {
-    color: #00b894 !important;
+    color: #00ffaa !important;
+    text-shadow: 0 0 10px rgba(0, 255, 170, 0.3);
 }
 
 /* Terminal */
 .hud-terminal-container {
-    background: #f8f9fa;
-    border-radius: 12px;
-    padding: 12px;
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 20px;
+    padding: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
 .hud-terminal {
-    height: 120px;
+    height: 180px;
     overflow-y: auto;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
+    font-size: 11px;
+    line-height: 1.6;
 }
 
 .log-line {
@@ -246,126 +298,145 @@
 
 /* Footer */
 .hud-actions-footer {
-    padding: 24px 32px;
-    background: #fff;
+    padding: 32px 40px;
+    background: rgba(0, 0, 0, 0.5);
     border-top: 1px solid var(--hud-border);
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 16px;
 }
 
 .main-actions,
 .secondary-actions,
 .danger-zone {
     display: flex;
-    gap: 8px;
+    gap: 12px;
 }
 
-.btn-hud-primary {
-    width: 100%;
+/* Level Hierarchy [MASTER] */
+.btn-hud-primary.level-1 {
+    background: linear-gradient(90deg, #00f2ff 0%, #0099ff 100%);
+    box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
+}
+
+.btn-hud-primary.level-2 {
+    background: linear-gradient(90deg, #d400ff 0%, #ff0055 100%);
+    box-shadow: 0 0 20px rgba(212, 0, 255, 0.2);
+    color: white !important;
+}
+
+.btn-hud-primary.level-3 {
+    background: linear-gradient(90deg, #ff6b00 0%, #ff0000 100%);
+    box-shadow: 0 0 20px rgba(255, 107, 0, 0.2);
+    color: white !important;
+}
+
+.btn-hud-outline.level-1 {
+    border-color: rgba(0, 242, 255, 0.5);
+    color: #00f2ff;
+}
+
+.btn-hud-danger.level-3 {
+    border-color: rgba(255, 0, 0, 0.5);
+    color: #ff4444;
+    background: rgba(255, 0, 0, 0.05);
+}
+
+.btn-hud-primary:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 0 50px rgba(0, 242, 255, 0.4);
+}
+
+.btn-hud-outline {
+    flex: 1;
     height: 52px;
-    background: var(--color-primary);
-    border: none;
-    border-radius: 16px;
-    color: #000;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(0, 242, 255, 0.3);
+    border-radius: 18px;
+    color: var(--hud-accent);
+    font-size: 11px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.2s;
+}
+
+.btn-hud-outline:hover {
+    background: rgba(0, 242, 255, 0.1);
+    border-color: var(--hud-accent);
+}
+
+.btn-hud-danger {
+    flex: 1;
+    height: 52px;
+    background: rgba(255, 0, 85, 0.05);
+    border: 1px solid rgba(255, 0, 85, 0.3);
+    border-radius: 18px;
+    color: #ff0055;
+    font-size: 11px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.btn-hud-danger:hover {
+    background: rgba(255, 0, 85, 0.15);
+    border-color: #ff0055;
+    box-shadow: 0 0 20px rgba(255, 0, 85, 0.2);
+}
+
+.btn-hud-restore {
+    width: 100%;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    color: #fff;
     font-weight: 800;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 12px;
     cursor: pointer;
-    font-size: 14px;
-}
-
-.btn-hud-outline {
-    flex: 1;
-    height: 48px;
-    background: #fff;
-    border: 1px solid var(--hud-border);
-    border-radius: 14px;
-    color: #666;
-    font-size: 11px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    cursor: pointer;
-}
-
-.btn-hud-outline:hover {
-    background: #f8f9fa;
-    border-color: #ddd;
-    color: #000;
-}
-
-.btn-hud-danger {
-    flex: 1;
-    height: 48px;
-    background: rgba(214, 48, 49, 0.05);
-    border: 1px solid rgba(214, 48, 49, 0.2);
-    border-radius: 14px;
-    color: #d63031;
-    font-size: 11px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    cursor: pointer;
-}
-
-.btn-hud-danger:hover {
-    background: rgba(214, 48, 49, 0.1);
-    border-color: #d63031;
-}
-
-.btn-hud-danger.dark {
-    background: #1a1a1a;
-    color: #fff;
-    border: none;
-}
-
-.btn-hud-restore {
-    width: 100%;
-    height: 52px;
-    background: #f0fdfa;
-    border: 1px solid rgba(0, 242, 255, 0.3);
-    border-radius: 16px;
-    color: #007791;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    cursor: pointer;
-    margin-top: 4px;
+    margin-top: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 /* Launcher Button */
 .btn-icon-hud {
     position: fixed;
-    bottom: 24px;
-    right: 24px;
-    padding: 12px 20px;
-    background: #fff;
-    border: 1px solid var(--hud-border);
+    bottom: 32px;
+    right: 32px;
+    padding: 16px 28px;
+    background: var(--hud-bg);
+    border: 1px solid var(--hud-accent);
     border-radius: 50px;
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-weight: 800;
-    font-size: 11px;
-    color: #333;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    gap: 12px;
+    font-weight: 900;
+    font-size: 12px;
+    color: var(--hud-accent);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 242, 255, 0.2);
     cursor: pointer;
     z-index: 10001;
-    transition: all 0.3s;
+    transition: all 0.4s;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
 .btn-icon-hud:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    transform: translateY(-5px) rotate(2deg);
+    box-shadow: 0 0 50px rgba(0, 242, 255, 0.4);
 }
 
 /* Mobile */
@@ -394,16 +465,135 @@
 /* Animations */
 @keyframes slideUp {
     from {
-        transform: translateY(20px);
+        transform: translateY(40px) scale(0.95);
         opacity: 0;
     }
 
     to {
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
         opacity: 1;
     }
 }
 
 .animate-slide-up {
-    animation: slideUp 0.4s ease-out;
+    animation: slideUp 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+/* Master Heal Button [MASTER] */
+.btn-hud-primary.master-heal {
+    color: white !important;
+    background: linear-gradient(90deg, #d400ff 0%, #9d00ff 100%);
+    box-shadow: 0 0 30px rgba(212, 0, 255, 0.3);
+}
+
+.btn-hud-primary.master-heal:hover:not(:disabled) {
+    box-shadow: 0 0 60px rgba(212, 0, 255, 0.6);
+}
+
+.btn-hud-primary.master-heal.healing {
+    animation: pulseGlowLila 1.5s infinite;
+}
+
+@keyframes pulseGlowLila {
+    0% {
+        filter: brightness(1) drop-shadow(0 0 5px rgba(212, 0, 255, 0.4));
+    }
+
+    50% {
+        filter: brightness(1.3) drop-shadow(0 0 25px rgba(212, 0, 255, 0.9));
+    }
+
+    100% {
+        filter: brightness(1) drop-shadow(0 0 5px rgba(212, 0, 255, 0.4));
+    }
+}
+
+.animate-in {
+    animation: fadeIn 0.8s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Didactic Triggers [MASTER] */
+.hud-info-trigger {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: var(--hud-bg);
+    border: 1px solid var(--hud-border);
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--hud-accent);
+    cursor: pointer;
+    z-index: 10;
+    box-shadow: 0 0 10px rgba(0, 242, 255, 0.2);
+    transition: all 0.3s;
+}
+
+.hud-info-trigger:hover {
+    transform: scale(1.2);
+    border-color: var(--hud-accent);
+    box-shadow: 0 0 15px var(--hud-accent);
+}
+
+.hud-info-trigger.small {
+    width: 20px;
+    height: 20px;
+    top: -6px;
+    right: -6px;
+}
+
+.hud-didactic-card {
+    background: rgba(10, 20, 40, 0.95);
+    border: 1px solid var(--hud-accent);
+    border-radius: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 0 40px rgba(0, 242, 255, 0.2);
+    position: relative;
+    z-index: 1001;
+}
+
+.hud-card-header {
+    padding: 16px 24px;
+    border-bottom: 1px solid rgba(0, 242, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.didactic-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.didactic-list li {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.7);
+    padding-left: 20px;
+    position: relative;
+}
+
+.didactic-list li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: var(--hud-accent);
 }

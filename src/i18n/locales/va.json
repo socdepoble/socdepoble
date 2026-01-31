@@ -75,7 +75,8 @@
         "load_more": "Carregar més",
         "product": "Producte",
         "publish": "Publicar",
-        "change_language": "Canviar idioma"
+        "change_language": "Canviar idioma",
+        "support_short": "Suport"
     },
     "nav": {
         "chats": "Xat",
@@ -115,6 +116,9 @@
         "storage_banner_title": "Avís d'Emmagatzematge",
         "storage_banner_text": "En proves admetem 10MB màx. Els continguts poden ser esborrats si superem límits. No fer servir en producció. Sabent això, puja el que vulgues."
     },
+    "mur": {
+        "title": "Mur"
+    },
     "feed": {
         "title": "Mur",
         "placeholder": "Què està passant al poble?",
@@ -124,7 +128,8 @@
         "new_tag": "Nova etiqueta...",
         "connect": "Connectar",
         "comments": "Comentaris",
-        "share": "Compartir"
+        "share": "Compartir",
+        "simbiosi_footer": "🎨 Simbiosi: {{human}}% Humà | {{ai}}% IA"
     },
     "market": {
         "title": "Mercat",

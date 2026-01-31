@@ -6,6 +6,8 @@ import { pushService } from '../services/pushService';
 import pushNotifications from '../services/pushNotifications';
 import { logger } from '../utils/logger';
 import Avatar from './Avatar';
+import { Zap } from 'lucide-react';
+import { SUPER_RATON_MOTTO } from '../data/superRatonData';
 import './IAIATamagotchiSettings.css';
 
 const IAIATamagotchiSettings = ({ userId, profile, onUpdate }) => {
@@ -18,7 +20,8 @@ const IAIATamagotchiSettings = ({ userId, profile, onUpdate }) => {
             morning_alert: "08:00",
             night_alert: "22:00"
         },
-        roleplay_level: 1
+        roleplay_level: 1,
+        super_raton_guardian: true // Activat per defecte pel llinatge Master
     });
     const [isSaving, setIsSaving] = useState(false);
     const [personas, setPersonas] = useState([]);
@@ -73,10 +76,10 @@ const IAIATamagotchiSettings = ({ userId, profile, onUpdate }) => {
                     setIsPushEnabled(true);
 
                     // Stratospheric Welcome
-                    await pushService.showLocalNotification('👵 La IAIA ja està ací!', {
-                        body: 'Notes això? És el batec del poble. Ja estem connectats!',
+                    await pushService.showLocalNotification('👵 La IAIA i Super Ratón!', {
+                        body: `Ja estem ací! ${SUPER_RATON_MOTTO}`,
                         icon: '/images/demo/avatar_woman_old.png',
-                        vibrate: [100, 50, 100, 400, 100, 50, 100], // Double heartbeat
+                        vibrate: [100, 50, 100, 400, 100, 50, 100], // Bategat doble
                         data: { isIAIA: true, type: 'iaia' }
                     });
                 } else {
@@ -208,6 +211,23 @@ const IAIATamagotchiSettings = ({ userId, profile, onUpdate }) => {
                                 aria-label="Hora del missatge de bona nit"
                             />
                         </div>
+                    </section>
+
+                    <section className="settings-block super-raton-block" style={{ border: '1px solid var(--hud-accent)', background: 'rgba(0, 242, 255, 0.05)', padding: '16px', borderRadius: '12px', marginTop: '16px', marginBottom: '16px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                            <label style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--hud-accent)', fontWeight: 'bold', fontSize: '0.9rem' }}>
+                                <Zap size={18} /> Guàrdia Vitaminada de Super Ratón
+                            </label>
+                            <input
+                                type="checkbox"
+                                checked={settings.super_raton_guardian}
+                                onChange={(e) => setSettings({ ...settings, super_raton_guardian: e.target.checked })}
+                                style={{ width: '20px', height: '20px', cursor: 'pointer' }}
+                            />
+                        </div>
+                        <p style={{ fontSize: '0.75rem', marginTop: '8px', opacity: 0.7, color: 'var(--hud-accent)' }}>
+                            En actiu, Super Ratón protegirà el teu bategat contra els **Gatos Digitales** y la distracció del soroll digital.
+                        </p>
                     </section>
 
                     <button

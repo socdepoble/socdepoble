@@ -9,7 +9,7 @@ import { logger } from '../utils/logger';
  * S'executa automàticament quan l'usuari està logged in
  */
 export const usePushNotifications = () => {
-    const { user } = useAuth();
+    const { user, realUser } = useAuth();
     const isInitialized = useRef(false);
 
     useEffect(() => {
@@ -53,8 +53,9 @@ export const usePushNotifications = () => {
 
                 // Save subscription to database (ALWAYS SYNC)
                 if (subscription) {
-                    await pushNotifications.saveSubscription(user.id, subscription);
-                    logger.log('[usePushNotifications] Subscription synced to DB');
+                    const targetId = realUser ? realUser.id : user?.id;
+                    await pushNotifications.saveSubscription(targetId, subscription);
+                    logger.log('[usePushNotifications] Subscription synced to DB for:', targetId);
                 }
 
                 isInitialized.current = true;

@@ -36,7 +36,7 @@ const MasterConsole = ({ isOpen, onClose }) => {
                 <div className="master-header">
                     <div className="master-title">
                         <Shield size={18} color="#00f2ff" />
-                        <span>IAIA MASTER CONSOLE v1.5.4 [CONSOLIDATED]</span>
+                        <span>IAIA MASTER CONSOLE v1.5.6 [BATEGA]</span>
                     </div>
                     <X className="clickable" onClick={onClose} />
                 </div>

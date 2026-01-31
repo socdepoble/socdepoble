@@ -21,19 +21,43 @@
     /* Action bar handles its own padding */
 }
 
-.post-text {
+.post-text,
+.post-text-rich {
     font-size: 20px;
-    /* Ultra readability standard */
     color: var(--text-body);
     line-height: 1.5;
-    margin-top: 0;
-    margin-bottom: 0;
-    /* [RESILIENCE] Text Clamping for scannability */
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    font-weight: 500;
+    white-space: pre-wrap;
+}
+
+.post-text h1,
+.post-text-rich h1 {
+    font-size: 26px;
+    font-weight: 800;
+    margin: 12px 0 8px 0;
+    color: var(--color-primary);
+    font-family: var(--font-heading);
+}
+
+.post-text h2,
+.post-text-rich h2 {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 10px 0 6px 0;
+    color: var(--text-main);
+    font-family: var(--font-heading);
+}
+
+.post-text ul,
+.post-text-rich ul,
+.post-text ol,
+.post-text-rich ol {
+    margin: 8px 0 12px 20px;
+}
+
+.post-text li,
+.post-text-rich li {
+    margin-bottom: 4px;
 }
 
 /* card-header styles are now global in index.css */

@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { X, Image as ImageIcon, Send, Loader2, Globe, Lock, Users } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
-import { ROLES } from '../constants';
+import { ROLES, IAIA_ID } from '../constants';
+import { iaiaService } from '../services/iaiaService';
+import { getRandomProverb } from '../data/proverbs';
+import { logger } from '../utils/logger';
+import { X, Image as ImageIcon, Send, Loader2, Globe, Lock, Users, BookOpen, MessageSquare, Sparkles } from 'lucide-react';
 import './CreatePostModal.css';
 
 import EntitySelector from './EntitySelector';
+import MasterEditor from './MasterEditor';
 
 const PREDEFINED_TAGS = ['Esdeveniment', 'Avís', 'Consulta', 'Proposta'];
 
@@ -23,6 +27,13 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated, isPrivateInitial = fa
         type: impersonatedProfile ? impersonatedProfile.role : 'user',
         avatar_url: impersonatedProfile ? impersonatedProfile.avatar_url : profile?.avatar_url
     });
+    const [postType, setPostType] = useState('post'); // post, book
+    const [bookTitle, setBookTitle] = useState('');
+    const [chapterNumber, setChapterNumber] = useState('');
+    const [multimediaFile, setMultimediaFile] = useState(null);
+    const [multimediaPreview, setMultimediaPreview] = useState(null);
+    const [iaiaAnalyzing, setIaiaAnalyzing] = useState(false);
+    const [simbiosiMetrics, setSimbiosiMetrics] = useState(null);
 
     useEffect(() => {
         if (isOpen) {
@@ -60,6 +71,52 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated, isPrivateInitial = fa
         );
     };
 
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setMultimediaFile(file);
+            const reader = new FileReader();
+            reader.onloadend = () => setMultimediaPreview(reader.result);
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const analyzeWithIAIA = async () => {
+        if (!multimediaFile) return;
+        setIaiaAnalyzing(true);
+        try {
+            const context = await iaiaService.studyMultimediaContext(multimediaFile, multimediaFile.name);
+            const result = await iaiaService.generateMultimediaPublication(context, content);
+            setContent(result.content);
+            setSimbiosiMetrics(result.metrics);
+        } catch (error) {
+            logger.error('[IAIA] Error analyzing multimedia:', error);
+        } finally {
+            setIaiaAnalyzing(false);
+        }
+    };
+
+    const formatWithIAIA = async () => {
+        if (!content.trim()) return;
+        setIaiaAnalyzing(true);
+        try {
+            // IAIA call to format single paragraph into Master Post
+            const context = {
+                detectedObjects: ["narrativa de poble"],
+                suggestedTitle: "Crònica del Veïnat",
+                suggestedMotto: getRandomProverb().text,
+                contextTone: "proller i autèntic"
+            };
+            const result = await iaiaService.generateMultimediaPublication(context, content);
+            setContent(result.content);
+            setSimbiosiMetrics(result.metrics);
+        } catch (error) {
+            logger.error('[IAIA] Error formatting text:', error);
+        } finally {
+            setIaiaAnalyzing(false);
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!content.trim() || loading) return;
@@ -85,7 +142,19 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated, isPrivateInitial = fa
                     ? profile.full_name
                     : `${selectedIdentity.name} | ${profile.full_name}`,
                 author_avatar_url: selectedIdentity.avatar_url,
-                image_url: null // Reset if no content image
+                image_url: null, // Reset if no content image
+
+                // Book/CMS Logic
+                type: postType,
+                book_title: postType === 'book' ? bookTitle : null,
+                chapter_number: postType === 'book' ? parseInt(chapterNumber) || null : null,
+
+                // Symbiosis Protocol [MASTER]
+                ai_percentage: simbiosiMetrics?.ai_percentage || 0,
+                human_percentage: simbiosiMetrics?.human_percentage || 100,
+                time_saved_minutes: simbiosiMetrics?.time_saved_minutes || 0,
+                economic_value_saved: simbiosiMetrics?.economic_value_saved || 0,
+                is_iaia_inspired: !!simbiosiMetrics
             };
 
             await supabaseService.createPost(newPost, isPlayground);
@@ -133,21 +202,89 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated, isPrivateInitial = fa
                                     privacy === 'groups' ? <Users size={18} /> : <Lock size={18} />}
                             </button>
                         </div>
+                        <div className="post-type-selector">
+                            <button
+                                type="button"
+                                className={`type-btn ${postType === 'post' ? 'active' : ''}`}
+                                onClick={() => setPostType('post')}
+                                title="Publicació estàndard"
+                            >
+                                <MessageSquare size={18} />
+                            </button>
+                            <button
+                                type="button"
+                                className={`type-btn ${postType === 'book' ? 'active' : ''}`}
+                                onClick={() => setPostType('book')}
+                                title="Capítol de Llibre"
+                            >
+                                <BookOpen size={18} />
+                            </button>
+                        </div>
                     </div>
 
+                    {postType === 'book' && (
+                        <div className="book-fields-grid animate-in" style={{ padding: '0 15px 10px 15px', display: 'flex', gap: '10px' }}>
+                            <input
+                                type="text"
+                                placeholder="Títol del Llibre (Etiqueta)"
+                                value={bookTitle}
+                                onChange={(e) => setBookTitle(e.target.value)}
+                                style={{ flex: 2, padding: '8px', borderRadius: '8px', border: '1px solid var(--color-divider)', background: 'var(--bg-surface)', color: 'var(--text-main)' }}
+                            />
+                            <input
+                                type="number"
+                                placeholder="Cap."
+                                value={chapterNumber}
+                                onChange={(e) => setChapterNumber(e.target.value)}
+                                style={{ flex: 0.5, padding: '8px', borderRadius: '8px', border: '1px solid var(--color-divider)', background: 'var(--bg-surface)', color: 'var(--text-main)', textAlign: 'center' }}
+                            />
+                        </div>
+                    )}
+
+                    {multimediaPreview && (
+                        <div className="multimedia-preview-container animate-in">
+                            <img src={multimediaPreview} alt="Preview" className="preview-img" />
+                            <button className="remove-preview" onClick={() => { setMultimediaPreview(null); setMultimediaFile(null); }}>
+                                <X size={16} />
+                            </button>
+                            {!iaiaAnalyzing ? (
+                                <button type="button" className="iaia-analyze-btn" onClick={analyzeWithIAIA}>
+                                    <Sparkles size={16} />
+                                    Preguntar a l'IAIA
+                                </button>
+                            ) : (
+                                <div className="iaia-working-badge">
+                                    <Loader2 className="spinner" size={16} />
+                                    L'IAIA i el Nano Banana estan estudiant la teua imatge...
+                                </div>
+                            )}
+                        </div>
+                    )}
+
                     <div className="post-content-area">
-                        <textarea
-                            id="post-content-textarea"
-                            placeholder={t('feed.placeholder')}
+                        <MasterEditor
                             value={content}
-                            onChange={(e) => setContent(e.target.value)}
-                            autoFocus
+                            onChange={setContent}
+                            placeholder={t('feed.placeholder')}
                         />
+                        {content.trim() && !content.includes('<h1>') && !iaiaAnalyzing && (
+                            <button type="button" className="iaia-floating-help-btn animate-in" onClick={formatWithIAIA}>
+                                <Sparkles size={14} />
+                                Ajuda'm a bategar el text
+                            </button>
+                        )}
                     </div>
 
                     <div className="post-footer-tools">
                         <div className="tools-left">
-                            <button type="button" className="tool-btn">
+                            <input
+                                type="file"
+                                id="post-multimedia"
+                                hidden
+                                onChange={handleFileChange}
+                                accept="image/*,video/*"
+                            />
+                            <button type="button" className="tool-btn" onClick={() => document.getElementById('post-multimedia').click()}>
                                 <ImageIcon size={20} />
                             </button>
                             <div className="tag-scroller">

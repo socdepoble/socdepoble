@@ -282,7 +282,7 @@ const Market = ({ searchTerm = '' }) => {
                                     <h3 className="item-title">{item.title}</h3>
                                     <span className="price-tag-vibrant">{item.price}</span>
                                 </div>
-                                <p className="item-desc-premium">{item.description || t('market.no_description') || 'Sense descripció'}</p>
+                                <div className="item-desc-premium" dangerouslySetInnerHTML={{ __html: item.description || t('market.no_description') || 'Sense descripció' }} />
 
                                 {item.category_slug && (
                                     <div className="item-tags-row">

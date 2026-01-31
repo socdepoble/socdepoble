@@ -125,7 +125,7 @@ const Header = () => {
                     }}
                 >
                     <img src={logoSrc} alt="Sóc de Poble" className="header-logo" />
-                    <span className="header-version-tag">v1.5.5-NUCLEAR</span>
+                    <span className="header-version-tag">v1.5.6-BATEGA</span>
                 </Link>
 
                 <div className="header-actions">

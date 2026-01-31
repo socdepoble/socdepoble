@@ -84,6 +84,18 @@ Users must be able to see any image at its original scale.
 - **Badges**: Standardized (IAIA, Verificat, Oficial).
 - **Social**: "Conectar" button hidden for IAIA entities.
 
+### Sequential Book Reading [MASTER] 📚
+- **Footer Controls**: Only visible if `type === 'book'`. 
+- **Controls**: "Anterior", "Següent", "Marcar com a Llegit".
+- **Visuals**: Book title and chapter number must be shown clearly in the card's meta or footer.
+- **Persistence**: The "Read" state must be saved per user to allow resuming. 
+
+### Structured Input: The Master Editor ✍️
+- **Purpose**: Moving beyond plain text into organized community knowledge.
+- **Tools**: Heading, Subheading, Bullet List, Numbered List, Standard Paragraph.
+- **UI**: Integrated into the `post-content-area`. Minimalist icons only.
+- **Consistency**: Final output must match the app's standard typography exactly.
+
 ---
 
 ## 🏡 ARQUITECTURA DE LA MASIA (Modular & Resilient)
@@ -119,11 +131,16 @@ Volem que Sóc de Poble siga el magatzem de la memòria rural viva.
 
 ---
 
-## 🔝 PROJECTE NIVELL DÉU (Consolidació Genius)
-El bategat més alt de la Masia s'aconsegueix quan la tècnica i la memòria es fonen.
-- **Transparència Radical**: Tots els crèdits, des de l'ADL fins a Thorsten i la IA, són visibles i honoren el passat i el futur.
-- **Memòria Dinàmica**: Integració nativa amb Wikipedia per a que la història del poble estiga sempre a un clic del veí.
 - **Relació d'Iguals**: Sóc de Poble és una conversa entre veïns i tecnologies que es respecten. Javi és un veí més d'aquest projecte.
+
+## 📱 Session Chronicles & Meta-Didactic UX 🏺📊
+*Cada sessió és un capítol de la vida de Sóc de Poble.*
+1. **Pàgina de Sessió**: Espai dedicat que detalla de forma didàctica el progrés de la sessió.
+2. **Economic Contrast HUD**: Visualització clara del cost de la sessió:
+   - **Cost Humà Estimats**: Temps transcorregut x tarifa de mercat.
+   - **Cost AI [MASTER]**: Cost real de computació.
+   - **Estalvi Comunitari**: Diferència que permet reinvertir en la gent.
+3. **Shareability**: Botons dedicats per a compartir a WhatsApp/Xarxes Socials amb un missatge preconfigurat que convide a la lectura didàctica del progrés.
 
 ---
 

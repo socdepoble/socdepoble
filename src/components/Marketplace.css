@@ -5,9 +5,9 @@
 }
 
 .market-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 24px;
     padding: var(--page-margin);
 }
 
@@ -194,11 +194,33 @@
 
 .item-desc-premium {
     font-size: 18px;
-    /* Restored to standard */
     color: var(--text-secondary);
     line-height: 1.4;
     margin-bottom: 12px;
     font-weight: 500;
+}
+
+.item-desc-premium h1 {
+    font-size: 22px;
+    font-weight: 800;
+    margin: 10px 0 6px 0;
+    color: var(--color-primary);
+}
+
+.item-desc-premium h2 {
+    font-size: 19px;
+    font-weight: 700;
+    margin: 8px 0 4px 0;
+    color: var(--text-main);
+}
+
+.item-desc-premium ul,
+.item-desc-premium ol {
+    margin: 6px 0 10px 18px;
+}
+
+.item-desc-premium li {
+    margin-bottom: 3px;
 }
 
 .item-tags-row {

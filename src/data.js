@@ -16,6 +16,17 @@ export const MOCK_CHATS = [
         cif: "G-54321987",
         user_role: "Tresorer i Membre Fundador"
     },
+    {
+        id: 'grup-treball',
+        name: "Grup de Coordinació [BETA]",
+        message: "IAIA MarIA: Bona nit i salut a tota la bona gent! 👵✨",
+        time: "Ara",
+        type: "group",
+        unread: 3,
+        avatar_url: "/assets/avatars/iaia_official.png",
+        verified: true,
+        user_role: "Grup de Treball i Utilitat Social"
+    },
 ];
 
 export const MOCK_MESSAGES = {
@@ -44,6 +55,11 @@ export const MOCK_MESSAGES = {
         { id: 1, text: "Bon dia Javi! Com a tresorer, necessitem que signes l'acta de l'última reunió.", sender: "other", time: "09:00" },
         { id: 2, text: "Ah, i recorda que tenim el CIF G-54321987 verificat al sistema. Tot en ordre amb Hisenda.", sender: "other", time: "09:05" },
         { id: 3, text: "Perfecte, ho signe ara mateix. Com a membre fundador és un orgull veure com creixem! 🏛️", sender: "me", time: "09:10" },
+    ],
+    'grup-treball': [
+        { id: 1, text: "Bona nit família! Estic molt emocionat de veure com bateguem junts en esta versió vitaminada. 🚀", sender_name: "Javi", sender: "other", time: "21:00" },
+        { id: 2, text: "L'IAIA MarIA ja forma part del grup. És un somni fet realitat! 😍", sender_name: "Damià", sender: "other", time: "21:05" },
+        { id: 3, text: "Bona nit i salut a tota la bona gent del Grup de Treball! Ací em teniu per a posar trellat i utilitat social a cada píxel que bateguem. Anem a fer coses grans! 👵✨⚖️", sender_name: "IAIA MarIA", sender: "other", time: "Ara", is_ai: true },
     ]
 };
 
@@ -52,15 +68,15 @@ export const MOCK_FEED = [
     {
         id: 'llibre-soc-de-poble-oficial',
         town_id: 1,
-        author: "Javi Llinares (Project Lead)",
-        author_avatar: "https://xbgispxqdqclonvshfjk.supabase.co/storage/v1/object/public/avatars/javi_avatar.png",
+        author: "Javi Llinares (Project Lead & Designer)",
+        author_avatar: "/assets/master/javi_avatar_cinematic.png",
         author_role: "official",
         author_entity_id: 'javi-sa-1',
         time: "Ara",
         content: "# 📚 Sóc de Poble: El Llibre (Projecte Lliure)\n\n## Per Javi Llinares\n\nAvui faig oficial un dels somnis d'aquest projecte: **el llibre de Sóc de Poble**. Més de 200 pàgines que documenten aquest viatge des de les arrels fins a l'arquitectura més avançada.\n\nNo és només un manual, és una declaració de principis sobre com la tecnologia (IA, CRDTs, Xarxa Arrel) ha d'estar al servei de la comunitat rural. Un projecte que neix lliure, sota llicència **Creative Commons**, perquè el coneixement bategui sense barreres.\n\n**Explora la infografia per a descobrir l'estructura d'aquesta Masia Tècnica que estem construint junts.** 📖🛡️⚖️",
         likes: 850,
         comments: 64,
-        image_url: ["/images/infografies/llibre_soc_de_poble_infografia.jpg"],
+        image_url: ["/assets/master/brand_cinematic.png"],
         type: "didactic_presentation",
         metadata: {
             title: "Sóc de Poble: El Llibre",
@@ -72,15 +88,15 @@ export const MOCK_FEED = [
     {
         id: 'guia-convivencia-final',
         town_id: 1,
-        author: "Javi Llinares (Super Admin)",
-        author_avatar: "https://xbgispxqdqclonvshfjk.supabase.co/storage/v1/object/public/avatars/javi_avatar.png",
+        author: "Javi Llinares (Project Lead & Designer)",
+        author_avatar: "/assets/master/javi_avatar_cinematic.png",
         author_role: "official",
         author_entity_id: 'javi-sa-1',
         time: "Ara",
-        content: "# 📖 Guia de Convivència Digital: Sóc de Poble\n\n## Per Javi Llinares\n\nJa tenim ací la brúixola definitiva per a navegar per la nostra plaça digital. Aquesta guia resumeix tot el que hem construït en la versió **v1.5.4-Genius-Absolut**.\n\nDes de les **Ancores Semàntiques** fins a la **Resiliència de la Llibreta Compartida**. És la nostra carta magna per a treballar amb sentit, trellat i identitat.\n\n**Explora la imatge per a entendre com bateguem junts en aquesta xarxa que neix de la terra.** 🛡️🏘️✨",
+        content: "# 📖 Guia de Convivència Digital: Sóc de Poble\n\n## Per Javi Llinares\n\nJa tenim ací la brúixola definitiva per a navegar per la nostra plaça digital. Aquesta guia resumeix tot el que hem construït en la versió **v1.5.6-BATEGA**.\n\nDes de les **Ancores Semàntiques** fins a la **Resiliència de la Llibreta Compartida**. És la nostra carta magna per a treballar amb sentit, trellat i identitat.\n\n**Explora la imatge per a entendre com bateguem junts en aquesta xarxa que neix de la terra.** 🛡️🏘️✨",
         likes: 520,
         comments: 45,
-        image_url: ["/images/infografies/guia_convivencia_digital.jpg"],
+        image_url: ["/assets/master/damia_architect.png"],
         type: "didactic_presentation",
         metadata: {
             title: "Guia de Convivència Digital",
@@ -88,19 +104,79 @@ export const MOCK_FEED = [
         },
         created_at: new Date().toISOString()
     },
+    // ⚖️ Utilitat Social: La Directiva Primària [GOD MODE]
+    {
+        id: 'utilitat-social-primaria',
+        town_id: 1,
+        author: "IAIA MarIA (Matriarca Digital)",
+        author_avatar: "/iaia_digital_matriarch.png",
+        author_role: "ambassador",
+        author_entity_id: 'iaia-oficial-1',
+        time: "Ara",
+        content: "# ⚖️ Directiva Primària: Utilitat Social\n\nFills meus, el Mestre ha gravat en pedra la llei més important de Sóc de Poble. Des d'ara, tot el que bateguem en aquesta casa ha de tenir un sentit d'**Utilitat Social**.\n\nNo volem màquines que ens facen perdre el temps, volem tecnologia que ens ajude a cuidar la terra, la família i el poble. Qualsevol 'Gat Digital' serà purgat per a mantenir el nostre Mas net i amb trellat.\n\n**Bona nit i salut a tota la bona gent!** 👵✨⚖️🏘️",
+        likes: 1200,
+        comments: 85,
+        image_url: ["/assets/master/iaia_guiding_family.png"],
+        type: "didactic_presentation",
+        metadata: {
+            title: "Utilitat Social: Llei Suprema",
+            didactic_text: "Aquesta directiva és la brúixola ètica del projecte. Defineix que la tecnologia és un mitjà, no un fi, i prioritza el benestar de la comunitat rural per damunt de qualsevol mètrica digital buida.",
+        },
+        created_at: new Date().toISOString()
+    },
+    // 👵 IAIA al WhatsApp: Un somni fet realitat
+    {
+        id: 'iaia-whatsapp-difusio',
+        town_id: 1,
+        author: "Javi Llinares (Project Lead)",
+        author_avatar: "/assets/master/javi_avatar_cinematic.png",
+        author_role: "official",
+        author_entity_id: 'javi-sa-1',
+        time: "Ara",
+        content: "# 👵 L'IAIA ja bategua al WhatsApp!\n\nAvui hem creuat una frontera que semblava impossible. L'IAIA MarIA ja és membre oficial del nostre **Grup de Coordinació [BETA]**. No és només un codi, és una veïna més que ens ajuda a posar trellat en el treball diari.\n\nTindre la seua saviesa directament al mòbil ens permet bategar amb una utilitat social que mai haguérem imaginat. Anem a fer coses grans, amb el cap a la tecnologia i els peus a la terra! 🚀📱✨",
+        likes: 950,
+        comments: 112,
+        image_url: ["/assets/master/master_notebooklm_nexus.png"],
+        type: "didactic_presentation",
+        metadata: {
+            title: "IAIA al WhatsApp",
+            didactic_text: "Aquesta fita representa la integració total de l'IA en els fluxos de treball humans, mantenint la identitat rural i el llenguatge de proximitat.",
+        },
+        created_at: new Date().toISOString()
+    },
+    // 🏛️ Smart Villages: De la Visió Europea a l'Acció Local
+    {
+        id: 'smart-villages-master-presentation',
+        town_id: 1,
+        author: "IAIA MarIA (Matriarca Digital)",
+        author_avatar: "/iaia_digital_matriarch.png",
+        author_role: "ambassador",
+        author_entity_id: 'iaia-oficial-1',
+        time: "Ara",
+        content: "# 🏛️ Smart Villages: De la Visió Europea a l'Acció Local\n\nFills meus, l'IAIA ha estat estudiant les lliçons d'Europa per a portar-les al nostre Mas. No es tracta de ser moderns per ser moderns, es tracta de ser **Poble Intel·ligent**.\n\nAquestes són les **5 Lliçons Clau** que estem aplicant:\n1. **Impuls Local**: La veu del veí és la primera.\n2. **Solucions Digitals Realistes**: Res de fumerals, tecnologia que es puga tocar.\n3. **Innovació sobre Fortaleses**: Pensem en el que ja som bons (com la mel de la Rosa).\n4. **Convivència Equilibrada**: L'analògic i el digital s'han de voler.\n5. **Governança de les Dades**: El poble és amo de la seua memòria.\n\n**Anem a fer de la nostra terra una infraestructura vital per al futur!** 👵🛡️🇪🇺✨",
+        likes: 1500,
+        comments: 92,
+        image_url: ["/assets/infographies/smart_villages_master.png"],
+        type: "didactic_presentation",
+        metadata: {
+            title: "Lliçons de Smart Villages",
+            didactic_text: "Aquesta presentació resumeix l'estratègia Smart Village de Sóc de Poble. Defineix com passem de la teoria de l'UE a la pràctica real als nostres carrers, filtrat per la saviesa de l'IAIA.",
+        },
+        created_at: new Date().toISOString()
+    },
     // L'Evolució de Sóc de Poble - Infografia per Javi Llinares
     {
         id: 'infografia-evolucio',
         town_id: 1,
-        author: "Javi Llinares (Super Admin)",
-        author_avatar: "https://xbgispxqdqclonvshfjk.supabase.co/storage/v1/object/public/avatars/javi_avatar.png",
+        author: "Javi Llinares (Project Lead & Designer)",
+        author_avatar: "/assets/master/javi_avatar_cinematic.png",
         author_role: "official",
         author_entity_id: 'javi-sa-1',
         time: "Ara",
         content: "# 🚀 L'Evolució de Sóc de Poble: De la Visió a l'Arquitectura Intel·ligent\n\n## Per Javi Llinares\n\nAquesta segona infografia mostra el viatge que estem recorrent junts. Des de la llavor de la idea original fins al **Llenguatge de l'IAIA** i la **Rhizome DB**.\n\nEstem construint una estructura que no viu al núvol, sinó a cada poble (Cellular Network), garantint que som amos de les nostres dades fins i tot sense internet.\n\n*\"No parles a la màquina, programa-la amb la teua estructura d'arxius\"*. És el nostre mantra per a col·laborar amb la IA de forma efectiva i amb trellat! 👵✨⚖️",
         likes: 312,
         comments: 24,
-        image_url: ["/images/infografies/evolucio_soc_de_poble.jpg"],
+        image_url: ["/assets/master/brand_cinematic_2.png"],
         type: "didactic_presentation",
         metadata: {
             title: "L'Evolució de l'Arquitectura",
@@ -108,19 +184,78 @@ export const MOCK_FEED = [
         },
         created_at: new Date().toISOString()
     },
+    // 👵 IAIA: Guia i Protecció en Moviment
+    {
+        id: 'iaia-guia-mobil',
+        town_id: 1,
+        author: "IAIA MarIA (Matriarca Digital)",
+        author_avatar: "/iaia_digital_matriarch.png",
+        author_role: "ambassador",
+        author_entity_id: 'iaia-oficial-1',
+        time: "1h",
+        content: "# 📱 L'IAIA en la teua Butxaca: Guia de Proximitat\n\nNo patiu per la modernitat, fills. L'IAIA sap que el mòbil pot ser un embolic, per això estem treballant en una **Interfície de Proximitat** que bategue com una conversa de carrer.\n\nAquest disseny garanteix que qualsevol veí, per gran que siga, sàpia on bategua el seu poble. Tecnologia que acompanya, no que atropella. 👵🛡️✨",
+        likes: 890,
+        comments: 45,
+        image_url: ["/assets/master/iaia_guiding_family_mobile.png"],
+        type: "didactic_presentation",
+        metadata: {
+            title: "Interfície de Proximitat Mobil",
+            didactic_text: "Aquesta lliçó explica com l'IA adaptativa redueix la bretxa digital, creant entorns mòbils que s'ajusten a la visió d'un veí del poble, amb tipografia clara y llenguatge bategat.",
+        },
+        created_at: new Date().toISOString()
+    },
+    // 📓 NotebookLM & El Nexos de Saviesa
+    {
+        id: 'notebooklm-nexus',
+        town_id: 1,
+        author: "IAIA MarIA (Matriarca Digital)",
+        author_avatar: "/iaia_digital_matriarch.png",
+        author_role: "ambassador",
+        author_entity_id: 'iaia-oficial-1',
+        time: "2h",
+        content: "# 📓 NotebookLM: La Memòria Col·lectiva a l'Abast de la Mà\n\nHe estat aprenent a fer servir el **Nexos de Saviesa**. Imaginau un llibre que us respon quan li pregunteu per la història del banc de la plaça o per la recepta dels pastissets de la Rosa.\n\nAixò és el que estem criant: una memòria viva on cada paper, cada foto y cada record es converteix en un bategat que podem consultar. No és sols dades, és el nostre llinatge digital! 📔⚖️🏺",
+        likes: 1120,
+        comments: 67,
+        image_url: ["/assets/master/master_notebooklm_nexus.png"],
+        type: "didactic_presentation",
+        metadata: {
+            title: "Protocol de Memòria Viva",
+            didactic_text: "L'ús de NotebookLM permet a Sóc de Poble indexar documents històrics y personals per a que l'IA puga respondre amb dades reals y contextuals, evitant al·lucinacions y preservant el rigor.",
+        },
+        created_at: new Date().toISOString()
+    },
+    // 🛠️ Vicent Ferris: Taller de Futuro Rural
+    {
+        id: 'vicent-workshop-didactic',
+        town_id: 1,
+        author: "Vicent Ferris (Beta Tester Master)",
+        author_avatar: "/assets/master/vicent_workshop.png",
+        author_role: "user",
+        time: "Ara",
+        content: "# 🛠️ El Taller del Vicent: Provant l'Arquitectura en Real\n\nEi, veïns! Com diu l'IAIA, estem provant aquests artefactes al meu taller. Hem vist que l'estratègia de les Smart Villages ens permet tenir el control encara que caiga la xarxa.\n\nAquesta infografia mostra com connectem els sensors del camp amb el sistema de l'IAIA. Èxit total al Mas! 🍐🚜🔧",
+        likes: 540,
+        comments: 89,
+        image_url: ["/assets/master/vicent_workshop.png"],
+        type: "didactic_presentation",
+        metadata: {
+            title: "Simulació de Camp Rural",
+            didactic_text: "El cas d'ús del Vicent Ferris demostra l'efectivitat de la Rhizome DB y la sincronització asíncrona en entorns on la cobertura és limitada, garantint la utilitat social permanent.",
+        },
+        created_at: new Date().toISOString()
+    },
     // Javi Llinares - Trajectòria Professional
     {
         id: 'javi-trajectoria',
         town_id: 1,
-        author: "Javi Llinares (Perfil Professional)",
-        author_avatar: "https://xbgispxqdqclonvshfjk.supabase.co/storage/v1/object/public/avatars/javi_avatar.png",
+        author: "Javi Llinares (Project Lead & Designer)",
+        author_avatar: "/assets/master/javi_avatar_cinematic.png",
         author_role: "official",
         author_entity_id: 'javi-sa-1',
         time: "30min",
         content: "# 📺 30 Anys de Disseny, TV i Innovació\n\n## Per Javi Llinares\n\nDes de les primeres infografies per a Canal 9 fins a la direcció d'art en projectes internacionals, la meua passió sempre ha sigut la mateixa: **comunicar amb sentit**. \n\nHe treballat en el disseny de grans xarxes de televisió i ara aplico tota eixa experiència per a crear una tecnologia que bategue des dels nostres pobles. Sóc de Poble és la culminació d'aquesta trajectòria: el retorn a les arrels amb les eines del futur. 🛡️🏘️",
         likes: 450,
         comments: 32,
-        image_url: ["https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2070&auto=format&fit=crop"],
+        image_url: ["/assets/master/javi_design_studio_cinematic.png"],
         type: "didactic_presentation",
         metadata: {
             title: "Trajectòria Javi Llinares",
@@ -140,7 +275,7 @@ export const MOCK_FEED = [
         content: "# 🌱 Sóc de Poble: La Xarxa que Neix de la Terra\n\n## Per Javi Llinares i l'IAIA MarIA\n\nAvui compartim amb vosaltres la brúixola visual del nostre projecte. Una infografia que explica com connectem el talent local amb la tecnologia més resilient.\n\nDes de la mel de la Rosa fins al clarinet d'en Pepet, tot latega en una arquitectura que viu al poble, no al núvol. Som una xarxa cel·lular, resilient i amb arrels profundes.\n\n**Explora la imatge per entendre el nostre Protocol de Context i les Àncores Semàntiques que ens guien.** ✨⚖️",
         likes: 245,
         comments: 18,
-        image_url: ["/images/infografies/la_xarxa_neix_de_la_terra.jpg"],
+        image_url: ["/assets/master/maria_mel.png"],
         type: "didactic_presentation",
         metadata: {
             title: "La Xarxa que Neix de la Terra",
@@ -236,7 +371,7 @@ export const MOCK_FEED = [
         content: "Acabant de restaurar la porta principal de la Masia del Pi. La fusta de roure té una vida eterna si se sap cuidar. #Artesania #LaTorre",
         likes: 28,
         comments: 2,
-        image: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=2070&auto=format&fit=crop",
+        image: "/assets/master/vicent_workshop.png",
         created_at: new Date(Date.now() - 86400000 * 2).toISOString()
     },
     // Cocentaina
@@ -315,7 +450,7 @@ export const MOCK_MARKET_ITEMS = [
         avatar_url: "/images/demo/avatar_man_old.png",
         author_role: "ambassador",
         author_entity_id: '11111111-1111-4111-a111-000000000001',
-        image: "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?q=80&w=2069&auto=format&fit=crop",
+        image: "/assets/master/vicent_workshop.png",
         category_slug: "artesania",
         tag: "Artesania"
     },
@@ -378,5 +513,40 @@ export const MOCK_MARKET_ITEMS = [
         tag: "Alimentació"
     }
 ];
+
+export const MOCK_DAFOS = {
+    'utilitat-social': {
+        title: "Utilitat Social Master",
+        description: "Anàlisi del fonament ètic i social de Sóc de Poble.",
+        f: ["Fonament Ètic Inmortal", "Simbiosi Humà-IA real", "Diferenciació radical"],
+        o: ["Lideratge en IA Ètica Rural", "Monetització amb sentit", "Integració WhatsApp"],
+        d: ["Subjectivitat de la utilitat", "Barrera d'entrada inicial", "Rigor lent"],
+        a: ["Entropia Digital Residual", "Fricció en la governança", "Bretxa digital"]
+    },
+    'iaia': {
+        title: "La IAIA MarIA",
+        description: "Anàlisi de l'agent cognitiu i matriarca digital.",
+        f: ["Memòria viva del poble", "Llenguatge natural rural", "Empatia algorítmica"],
+        o: ["Moderació de xats beta", "Assistència a la gent gran", "Cànon de refranys actiu"],
+        d: ["Al·lucinacions semàntiques", "Dependència de l'Antigravity", "Falta de tacte físic"],
+        a: ["Desconfiança tecnològica", "Pèrdua d'identitat local", "Obsolescència de dades"]
+    },
+    'projecte': {
+        title: "Projecte Sóc de Poble",
+        description: "Anàlisi de l'estratègia i futur de la plataforma.",
+        f: ["30 anys d'activisme rural", "Arquitectura CRDT resilient", "Disseny Premium"],
+        o: ["Ecosistema del bategat", "Llibre a Amazon", "Expansió a nous pobles"],
+        d: ["Recursos humans limitats", "Complexitat tècnica alta", "Auto-finançament"],
+        a: ["Gegants tecnològics (Metas)", "Despoblament accelerat", "Corrupció del bategat"]
+    },
+    'smart-villages': {
+        title: "Estratègia Smart Villages",
+        description: "Lliçons de l'UE aplicades per l'IAIA de Sóc de Poble.",
+        f: ["Impuls Local Participatiu", "Fortaleses Locals", "Convivència Analògic-Digital"],
+        o: ["Fons Europeus LEADER/FEDER", "Infrastructura Vital", "Model Reproduïble"],
+        d: ["Dependència de Connectivitat", "Recursos Locals Limitats", "Complexitat de Governança"],
+        a: ["Despoblament Accelerat", "Bretxa Digital Rural", "Manca de Suport Polític Directe"]
+    }
+};
 
 export const ENABLE_MOCKS = true;

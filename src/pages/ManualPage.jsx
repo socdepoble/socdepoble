@@ -8,7 +8,7 @@ const ManualPage = () => {
             <header className="manual-header">
                 <BookOpen size={48} className="manual-icon" />
                 <h1>Manual d'Usuari Didàctic</h1>
-                <p className="version-tag">v1.5.4-Genius-Absolut</p>
+                <p className="version-tag">v1.5.6-BATEGA</p>
             </header>
 
             <section className="manual-section">

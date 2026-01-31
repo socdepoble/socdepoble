@@ -26,7 +26,7 @@ const Layout = () => {
             location.pathname.startsWith('/chats') ? "Xat" :
                 location.pathname.split('/').filter(Boolean).pop() || "Portal";
 
-        document.title = `${pageTitle.charAt(0).toUpperCase() + pageTitle.slice(1)} | ${baseTitle} v1.5.4-Genius-Absolut`;
+        document.title = `${pageTitle.charAt(0).toUpperCase() + pageTitle.slice(1)} | ${baseTitle} v1.5.6-BATEGA`;
     }, [location]);
 
     // [Interactive Push] Deep Linking to IAIA Chat

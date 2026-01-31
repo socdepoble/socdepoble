@@ -73,7 +73,8 @@
         "load_more": "Cargar más",
         "product": "Producto",
         "publish": "Publicar",
-        "change_language": "Cambiar idioma"
+        "change_language": "Cambiar idioma",
+        "support_short": "Soporte"
     },
     "nav": {
         "chats": "Chats",
@@ -113,6 +114,9 @@
         "storage_banner_title": "Aviso de Almacenamiento",
         "storage_banner_text": "En pruebas admitimos 10MB máx. Los contenidos pueden ser borrados si superamos límites. No usar en producción. Sabiendo eso, sube lo que quieras."
     },
+    "mur": {
+        "title": "Muro"
+    },
     "feed": {
         "title": "Muro",
         "placeholder": "¿Qué está pasando en el pueblo?",
@@ -122,7 +126,8 @@
         "new_tag": "Nueva etiqueta...",
         "connect": "Conectar",
         "comments": "Comentarios",
-        "share": "Compartir"
+        "share": "Compartir",
+        "simbiosi_footer": "🎨 Simbiosis: {{human}}% Humano | {{ai}}% IA"
     },
     "market": {
         "title": "Mercado",

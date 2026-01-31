@@ -10,6 +10,7 @@ import './CreatePostModal.css'; // Reusing post modal styles for consistency
 import './CreateEventModal.css'; // New dedicated styles
 
 import EntitySelector from './EntitySelector';
+import MasterEditor from './MasterEditor';
 
 const CreateEventModal = ({ isOpen, onClose, onEventCreated, isPlayground = false }) => {
     const { t } = useTranslation();
@@ -151,13 +152,10 @@ const CreateEventModal = ({ isOpen, onClose, onEventCreated, isPlayground = fals
                     </div>
 
                     <div className="post-content-area">
-                        <textarea
-                            id="event-content-input"
-                            placeholder={t('events.placeholder') || 'Explica de què tracta l\'esdeveniment...'}
+                        <MasterEditor
                             value={content}
-                            onChange={(e) => setContent(e.target.value)}
-                            autoFocus
-                            disabled={loading || generating}
+                            onChange={setContent}
+                            placeholder={t('events.placeholder') || 'Explica de què tracta l\'esdeveniment...'}
                         />
                     </div>
 

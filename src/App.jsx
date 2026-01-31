@@ -1,6 +1,6 @@
 import React, { useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-// VERSION: 1.5.5-NUCLEAR-CIMERA (Batega)
+// VERSION: 1.5.6-BATEGA (Harmonia Master)
 import Header from './components/Header';
 import Layout from './components/Layout';
 
@@ -30,6 +30,11 @@ const MakingOf = lazy(() => import('./pages/MakingOf'));
 const LegalNotice = lazy(() => import('./pages/LegalNotice'));
 const ResetPage = lazy(() => import('./pages/ResetPage'));
 const ManualPage = lazy(() => import('./pages/ManualPage'));
+const SessionChronicle = lazy(() => import('./pages/SessionChronicle'));
+const PostDetail = lazy(() => import('./pages/PostDetail'));
+const MasterCalendar = lazy(() => import('./pages/MasterCalendar'));
+const DAFOPage = lazy(() => import('./pages/DAFOPage'));
+const DidacticPage = lazy(() => import('./pages/DidacticPage'));
 import { RescueTool } from './components/RescueTool';
 
 import { supabase } from './supabaseClient';
@@ -157,6 +162,7 @@ function App() {
               <Route path="/@:username" element={<PublicProfile />} />
               <Route path="perfil/:id" element={<PublicProfile />} />
               <Route path="entitat/:id" element={<PublicEntity />} />
+              <Route path="post/:id" element={<PostDetail />} />
               <Route
                 path="notificacions"
                 element={
@@ -207,6 +213,10 @@ function App() {
               <Route path="legal" element={<LegalNotice />} />
               <Route path="reset" element={<ResetPage />} />
               <Route path="manual" element={<ManualPage />} />
+              <Route path="sessio/:id" element={<SessionChronicle />} />
+              <Route path="calendari" element={<MasterCalendar />} />
+              <Route path="dafo/:id" element={<DAFOPage />} />
+              <Route path="didactica/:id" element={<DidacticPage />} />
 
               {/* EMERGENCY RESCUE ROUTES (Escaped from SW) */}
               <Route path="rescat.html" element={<RescueTool />} />
@@ -217,6 +227,13 @@ function App() {
             {/* Direct access for no-layout rescue */}
             <Route path="/rescat" element={<RescueTool />} />
             <Route path="/nuke" element={<RescueTool />} />
+
+            {/* [MASTER] AUTO-HEALING: Captura de rutes de documentació mal formades */}
+            <Route path="/docs/*" element={<Navigate to="/projecte" replace />} />
+            <Route path="/artifacts/*" element={<Navigate to="/admin" replace />} />
+
+            {/* Fallback 404 compatible amb l'estètica Master */}
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </ErrorBoundary>
       </Suspense>

@@ -171,8 +171,8 @@ const PublicProfile = () => {
     return (
         <div className="profile-container">
             <SEO
-                title={profile.full_name}
-                description={profile.bio || `${profile.full_name} a Sóc de Poble. ${profile.role || 'Veí de la Comunitat'}.`}
+                title={`${profile.full_name} | Perfil`}
+                description={`${profile.full_name}: ${profile.bio || profile.ofici || 'Veí de la Comunitat'}. Bategant a Sóc de Poble.`}
                 image={getSocialImage()}
                 url={profile.username ? `/@${profile.username}` : `/perfil/${profile.id}`}
                 type="profile"

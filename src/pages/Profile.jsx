@@ -8,7 +8,7 @@ import {
     User, LogOut, Camera, Save, Building2, Store, Settings, Star, Home,
     Bell, Lock, HelpCircle, Info, ChevronRight, MapPin, MessageCircle,
     Plus, Moon, Sun, ArrowLeft, Loader2, Image as ImageIcon, Maximize,
-    LayoutGrid, Activity, ShieldCheck, Globe, Edit2, BookOpen, Share2, Beaker
+    LayoutGrid, Activity, ShieldCheck, Globe, Edit2, BookOpen, Share2, Beaker, Calendar, Newspaper
 } from 'lucide-react';
 import { logger } from '../utils/logger';
 
@@ -30,6 +30,7 @@ import CommunityTab from './Profile/tabs/CommunityTab';
 import SettingsTab from './Profile/tabs/SettingsTab';
 import ManualTab from './Profile/tabs/ManualTab';
 import KnowledgeHub from '../components/KnowledgeHub';
+import MasterCalendar from '../pages/MasterCalendar';
 
 import { CREATOR_EMAILS } from '../constants';
 import './Profile.css';
@@ -220,6 +221,8 @@ const Profile = () => {
                 return <ManualTab />;
             case 'hub':
                 return <KnowledgeHub />;
+            case 'calendari':
+                return <MasterCalendar />;
             default:
                 return null;
         }
@@ -314,6 +317,13 @@ const Profile = () => {
                     <div className="beta-explanation">
                         <p>Com a <strong>Beta Tester</strong>, ajudes a bategar el poble trobant errors i proposant millores directament a l'equip tècnic.</p>
                     </div>
+                    <button
+                        className="btn-news-vitamin"
+                        onClick={() => navigate('/mur')}
+                        style={{ width: '100%', marginTop: '16px', padding: '12px', borderRadius: '12px', background: 'rgba(0, 242, 255, 0.1)', border: '1px solid var(--hud-accent)', color: 'var(--hud-accent)', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
+                    >
+                        <Newspaper size={18} /> Últimes Novetats Vitaminades 🐭💊
+                    </button>
                 </div>
 
                 <nav className="profile-tabs-nav horizontal-scroll">
@@ -341,6 +351,10 @@ const Profile = () => {
                         <Share2 size={18} />
                         <span>Connexió</span>
                     </button>
+                    <button className={activeTab === 'calendari' ? 'active' : ''} onClick={() => setActiveTab('calendari')}>
+                        <Calendar size={18} />
+                        <span>Calendari</span>
+                    </button>
                 </nav>
 
                 <div className="profile-tab-content">
@@ -355,6 +369,15 @@ const Profile = () => {
                 onSelect={handleTownChange}
                 currentTownId={townEditMode === 'primary' ? (profile?.town_uuid || profile?.town_id) : null}
             />
+
+            {/* Thumb-Zone Strategy: Floating Action Button (FAB) */}
+            <button
+                className="profile-fab-premium"
+                onClick={() => media.setIsStudioOpen(true)}
+                title="Obrir Estudi de Perfil"
+            >
+                <Camera size={24} />
+            </button>
 
             <ProfileStudioModal
                 isOpen={media.isStudioOpen}

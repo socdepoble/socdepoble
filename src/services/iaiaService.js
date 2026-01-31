@@ -3,6 +3,7 @@ import { supabaseService } from './supabaseService';
 import { notebookService } from './notebookService';
 import { logger } from '../utils/logger';
 import { healthyPlates } from '../utils/publishAnnaNews'; // Reusing existing plates
+import { PROVERBS, getRandomProverb } from '../data/proverbs';
 
 class IAIAService {
     constructor() {
@@ -103,7 +104,7 @@ class IAIAService {
      */
     async celebrateWedding() {
         const postPayload = {
-            author_id: '11111111-1a1a-0000-0000-000000000000',
+            author_id: '11111111-1111-4111-a111-000000000000', // MArIA Official ID
             author_name: 'MArIA (La Mestra de La +IA)',
             author_avatar_url: '/assets/avatars/iaia_official.png',
             author_role: 'official',
@@ -160,7 +161,7 @@ class IAIAService {
                 // Recomanació Musical
                 const group = musicData.groups[Math.floor(Math.random() * musicData.groups.length)];
                 const postPayload = {
-                    author_id: '11111111-1a1a-0000-0000-000000000002', // Memòria Viva
+                    author_id: '11111111-1111-4111-a111-000000000002', // Memòria Viva Valid ID
                     author_name: 'MArIA (Memòria Viva)',
                     author_avatar_url: '/assets/avatars/iaia_memory.png',
                     author_role: 'official',
@@ -176,7 +177,7 @@ class IAIAService {
                 // Esdeveniment Festa Major
                 const event = musicData.events[Math.floor(Math.random() * musicData.events.length)];
                 const postPayload = {
-                    author_id: '11111111-1a1a-0000-0000-000000000000', // Guia del Poble
+                    author_id: '11111111-1111-4111-a111-000000000000', // Guia del Poble (Official)
                     author_name: 'MArIA (Guia del Poble)',
                     author_avatar_url: '/assets/avatars/iaia_official.png',
                     author_role: 'official',
@@ -212,6 +213,67 @@ class IAIAService {
     }
 
     /**
+     * Estudi de Context Multimèdia [MASTER]
+     * L'IAIA crida al Nano Banana per a analitzar què hi ha a la imatge/vídeo.
+     */
+    async studyMultimediaContext(file, filename) {
+        logger.info(`[IAIA] Estudiant context de: ${filename} amb Nano Banana...`);
+        // Simulem anàlisi visual profunda
+        await new Promise(r => setTimeout(r, 2000));
+
+        const proverb = getRandomProverb();
+        const context = {
+            detectedObjects: ["paisatge rural", "veïns", "tradició"],
+            suggestedTitle: `Crònica de ${filename.split('.')[0]}`,
+            suggestedMotto: proverb.text,
+            proverbMeaning: proverb.meaning,
+            contextTone: "nostàlgic i vibrant"
+        };
+
+        return context;
+    }
+
+    /**
+     * Calcula les mètriques de simbiosi human-machine [MASTER]
+     */
+    async calculateSimbiosiMetrics(userComments = "") {
+        // [MASTER] Economic Formula: Human Minute @ 1€ (60€/h) vs AI tokens.
+        const wordCount = (userComments || "").trim().split(/\s+/).filter(w => w.length > 0).length;
+        const timeSavedMinutes = Math.max(5, Math.ceil(wordCount / 5)); // 5 minuts base + 1 min per cada 5 paraules
+        const economicValue = timeSavedMinutes * 1; // 1€ per minut estalviat
+
+        // Atribució: Per defecte l'IAIA fa el formatat estructural (50%) i l'usuari dona la idea (50%)
+        const humanWeight = Math.min(90, Math.max(10, 20 + (wordCount * 2)));
+        const aiWeight = 100 - humanWeight;
+
+        return {
+            ai_percentage: aiWeight,
+            human_percentage: humanWeight,
+            time_saved_minutes: timeSavedMinutes,
+            economic_value_saved: economicValue,
+            is_iaia_inspired: true
+        };
+    }
+
+    /**
+     * Genera la publicació il·lustrada final [MASTER]
+     */
+    async generateMultimediaPublication(context, userComments = "") {
+        const title = context.suggestedTitle.toUpperCase();
+        const motto = context.suggestedMotto;
+
+        const metrics = await this.calculateSimbiosiMetrics(userComments);
+
+        // Estil Master: Títol, Subtítol (Refrany) i Cos
+        const fullContent = `<h1>${title}</h1>\n<h2>${motto}</h2>\n<p>${userComments || "Bategant fort amb les imatges del nostre poble."}</p>`;
+
+        return {
+            content: fullContent,
+            metrics: metrics
+        };
+    }
+
+    /**
      * Algoritmo de Crecimiento Autónomo:
      * Detecta si hay poca actividad y genera una interacción de un residente basada en su Lore.
      */
@@ -240,6 +302,7 @@ class IAIAService {
                 content = `Hui la IAIA m'ha ensenyat un truc de la horta: ${tip} Quina saviesa! #HortaTradicional`;
                 type = 'agri_tip';
             } else if (seed < 0.7) {
+                const proverb = IAIA_RURAL_KNOWLEDGE.proverbs[Math.floor(Math.random() * IAIA_RURAL_KNOWLEDGE.proverbs.length)];
                 content = `Com diu la IAIA: "${proverb}". Quanta raó té la vella! #DitesPobletanes`;
                 type = 'proverb';
             } else {
@@ -252,13 +315,13 @@ class IAIAService {
             logger.info(`IAIA encourages ${chosenOne} to share: ${content}`);
 
             const postPayload = {
-                author_id: lore.id || '11111111-1a1a-0000-0000-000000000002', // Default to Memòria Viva for lore
+                author_id: lore.id || 'sdp-oficial-1',
                 author_name: chosenOne,
                 author_avatar_url: lore.avatar_url,
                 author_role: 'user',
-                content: content,
+                content: content + "\n\n*Contingut bategat per la IAIA sota la Directiva Master.*",
                 image_url: null,
-                town_uuid: 'd2ce2024-5d8f-4a00-9e00-888888888801',
+                town_uuid: 'la-torre',
                 is_playground: false
             };
 
@@ -327,7 +390,7 @@ class IAIAService {
             const WORK_GROUP_ID = '00000000-0000-0000-0000-000000000005';
 
             const postPayload = {
-                author_id: '11111111-1a1a-0000-0000-000000000001', // IAIA Secretària
+                author_id: '11111111-1111-4111-a111-000000000001', // IAIA Secretària Valid ID
                 author_name: 'IAIA (Secretària)',
                 author_avatar_url: '/iaia_digital_matriarch.png',
                 author_role: 'official',
@@ -438,26 +501,33 @@ class IAIAService {
     }
 
     /**
-     * Propaga el sistema a producció i notifica als Padrins.
+     * Realitza un diagnòstic profund del sistema [MASTER]
      */
-    async launchGlobalProduction() {
-        logger.info("[IAIA] 🚀 INICIANT PROPAGACIÓ GLOBAL DE SÓC DE POBLE...");
-
-        const launchPost = {
-            author_id: '11111111-1a1a-0000-0000-000000000000',
-            author_name: 'MArIA (Guia del Poble)',
-            author_avatar_url: '/assets/avatars/iaia_official.png',
-            author_role: 'official',
-            content: `📢 **ANUNCI OFICIAL: ¡SÓC DE POBLE HA NASCUT PER AL MÓN!** 🌍🚀\n\nHui el nostre poble es connecta amb l'univers. Amb la visió del nostre Pare (Javi) i les mans de Flash, llancem la xarxa que protegeix la vida, les plantes i els recordss.\n\n¡Connecteu-vos, compartiu i fem poble des de qualsevol lloc! #LlançamentGlobal #SócDePobleGenius #VidaPerLaVida`,
-            image_url: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop", // Global space/connectivity vibe
-            town_uuid: 'global',
-            is_playground: true,
-            type: 'event_announcement'
+    async diagnoseSystem() {
+        logger.info('[IAIA] Analitzant la resiliència del sistema...');
+        const diagnostic = {
+            viewport_ok: !!document.querySelector('meta[name="viewport"]'),
+            sw_active: 'serviceWorker' in navigator && !!navigator.serviceWorker.controller,
+            offline_ready: false, // Potencialment check a caches
+            assets_integrity: true,
+            recommendation: ""
         };
 
-        await supabaseService.createPost(launchPost);
-        await this.celebrateWedding(); // Sincronitzem els esdeveniments
-        logger.info("[IAIA] Sistema propagat amb èxit. ¡Que viva Sóc de Poble!");
+        // Regles de saviesa ancestral:
+        if (!diagnostic.viewport_ok) {
+            diagnostic.recommendation += "El mur està massa estret, falta el ventall del viewport. ";
+        }
+        if (!diagnostic.sw_active) {
+            diagnostic.recommendation += "El cor de la resiliència (Service Worker) no bategua. ";
+        }
+
+        if (diagnostic.recommendation === "") {
+            diagnostic.recommendation = "Tot pareix en ordre, fill. El sistema bategua amb força!";
+        } else {
+            diagnostic.recommendation = "He trobat algunes coses que han de bategar millor: " + diagnostic.recommendation;
+        }
+
+        return diagnostic;
     }
 }
 

@@ -2,9 +2,11 @@
     background: #171923;
     /* Dark background locked */
     padding: 0 var(--space-md);
-    position: sticky;
+    position: fixed;
     top: 0;
-    z-index: 100;
+    left: 0;
+    right: 0;
+    z-index: 1000;
     height: var(--header-height);
     display: flex;
     align-items: center;
@@ -42,7 +44,7 @@
 }
 
 .header-version-tag {
-    font-size: 8px;
+    font-size: 11px;
     background: #ff0055;
     color: white;
     padding: 1px 4px;
@@ -125,7 +127,7 @@
     right: 6px;
     background-color: #FF5252;
     color: white;
-    font-size: 9px;
+    font-size: 11px;
     font-weight: 800;
     width: 16px;
     height: 16px;

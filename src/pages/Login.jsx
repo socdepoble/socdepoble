@@ -43,6 +43,7 @@ const Login = () => {
     const [error, setError] = useState(null);
     const [successMessage, setSuccessMessage] = useState(location.state?.message || null);
     const [loading, setLoading] = useState(false);
+    const [resendCountdown, setResendCountdown] = useState(0);
 
     // WebOTP API Integration
     useEffect(() => {
@@ -66,6 +67,17 @@ const Login = () => {
             };
         }
     }, [step]);
+
+    // Resend countdown timer
+    useEffect(() => {
+        let timer;
+        if (resendCountdown > 0) {
+            timer = setInterval(() => {
+                setResendCountdown(prev => prev - 1);
+            }, 1000);
+        }
+        return () => clearInterval(timer);
+    }, [resendCountdown]);
 
     // Auto-redirect if already logged in (Simulation or Real)
     useEffect(() => {
@@ -133,7 +145,24 @@ const Login = () => {
 
             await supabaseService.signInWithOtp(formattedPhone);
             setStep('verify');
+            setResendCountdown(60);
             setSuccessMessage(t('auth.otp_sent') || 'Codi enviat per SMS');
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleResendOtp = async () => {
+        if (resendCountdown > 0 || loading) return;
+        setLoading(true);
+        setError(null);
+        try {
+            const formattedPhone = phone.startsWith('+') ? phone : `+34${phone}`;
+            await supabaseService.resendOtp(formattedPhone);
+            setResendCountdown(60);
+            setSuccessMessage(t('auth.otp_resent') || 'Codi reenviat per SMS');
         } catch (err) {
             setError(err.message);
         } finally {
@@ -270,11 +299,29 @@ const Login = () => {
                                 <button type="submit" className="auth-button" disabled={loading}>
                                     {loading ? <Loader2 className="animate-spin" /> : 'Verificar'}
                                 </button>
+
+                                <div className="otp-resend-wrapper" style={{ marginTop: '16px', fontSize: '0.85rem' }}>
+                                    {resendCountdown > 0 ? (
+                                        <span className="opacity-50">Pots reenviar l'SMS en {resendCountdown}s</span>
+                                    ) : (
+                                        <button
+                                            type="button"
+                                            className="text-btn"
+                                            onClick={handleResendOtp}
+                                            disabled={loading}
+                                            style={{ color: '#00f2ff', fontWeight: 'bold' }}
+                                        >
+                                            No has rebut el codi? Reenviar SMS
+                                        </button>
+                                    )}
+                                </div>
+
                                 <button
                                     type="button"
                                     className="text-btn secondary-action"
                                     onClick={() => setStep('input')}
                                     disabled={loading}
+                                    style={{ marginTop: '24px', opacity: 0.6 }}
                                 >
                                     Canviar número
                                 </button>
@@ -370,15 +417,15 @@ const Login = () => {
                     </button>
                     <button
                         onClick={async () => {
-                            if (confirm('Això tancarà totes les sessions, esborrarà la cache i expulsarà qualsevol simulació de la IAIA. Estàs segur?')) {
-                                logger.warn('SOS ACTIVAT: Neteja nuclear en marxa...');
+                            if (confirm('Això restaurarà la pau del Mas tancat les sessions i netejant la memòria temporal. Vols recuperar l\'harmonia del sistema?')) {
+                                logger.warn('[MASTER] Restauració d\'harmonia iniciada...');
                                 forceNukeSimulation();
                             }
                         }}
                         className="auth-button"
-                        style={{ backgroundColor: 'transparent', border: '1px solid #ff0055', color: '#ff0055', fontSize: '0.8rem' }}
+                        style={{ backgroundColor: 'transparent', border: '1px solid #ff0055', color: '#ff0055', fontSize: '0.8rem', fontWeight: '800' }}
                     >
-                        🆘 SOS: RESET TOTAL (EXPULSAR IAIA I NETEJAR)
+                        🆘 SOS: RESTAURAR HARMONIA (SANEJAR I REINICIAR)
                     </button>
                 </div>
 

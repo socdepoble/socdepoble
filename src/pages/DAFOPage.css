@@ -1,0 +1,88 @@
+.dafo-page-container {
+    min-height: 100vh;
+    background: var(--bg-main);
+    padding: 20px;
+    padding-top: calc(env(safe-area-inset-top) + 20px);
+}
+
+.dafo-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.back-btn-dafo {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-main);
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.back-btn-dafo:active {
+    transform: scale(0.9);
+}
+
+.dafo-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.action-btn-mini {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-muted);
+    padding: 8px;
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+.dafo-main-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.dafo-didactic-footer {
+    margin-top: 40px;
+    padding: 30px;
+    background: var(--bg-surface-soft);
+    border-radius: 20px;
+    border: 1px dashed var(--color-divider);
+}
+
+.dafo-didactic-footer h3 {
+    color: var(--color-primary);
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+.dafo-didactic-footer p {
+    color: var(--text-muted);
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+.dafo-page-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    padding: 40px;
+    text-align: center;
+}
+
+.dafo-page-error h2 {
+    margin: 20px 0 10px;
+}
+
+.dafo-page-error p {
+    color: var(--text-muted);
+    margin-bottom: 30px;
+}

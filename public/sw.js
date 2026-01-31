@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'Genius-1.5.5-NUCLEAR-STRIKE-PURGATORY-v3-ULTIMATE';
+const CACHE_VERSION = 'Vitamin-1.5.6-BATEGA-MASTER-v1';
 const CACHE_NAME = `socdepoble-${CACHE_VERSION}`;
 const HEALTH_CHECK_INTERVAL = 5 * 60 * 1000; // 5 minutes
 
