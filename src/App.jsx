@@ -1,6 +1,6 @@
 import React, { useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-// VERSION: 1.5.6-BATEGA (Harmonia Master)
+// VERSION: 1.5.6-VITAMINADA (Master Resilience)
 import Header from './components/Header';
 import Layout from './components/Layout';
 

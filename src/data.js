@@ -403,6 +403,26 @@ export const MOCK_FEED = [
         comments: 2,
         image: "/images/assets/generic_market.png",
         created_at: new Date(Date.now() - 86400000).toISOString()
+    },
+    // 🛡️ DIDÀCTICA D'AUXILI: Protocol de Resiliència 2026
+    {
+        id: 'didactic-auxili-2026',
+        town_id: 1,
+        author: "IAIA MarIA (Matriarca Digital)",
+        author_avatar: "/iaia_digital_matriarch.png",
+        author_role: "ambassador",
+        author_entity_id: 'iaia-oficial-1',
+        time: "Ara",
+        content: "# 🛡️ Auxili de Proximitat: Protocol de Resiliència 2026\n\n## Per l'IAIA MarIA\n\nFills meus, no patiu si alguna vegada el Mas sembla que es queda a les fosques. Hem bategat un sistema de **Resiliència Master** per a que l'harmonia no es perda mai.\n\n### 1. Mode Rescat (Rescue Mode)\nSi el telèfon no rep el bategat de l'SMS, el sistema identifica automàticament els nostres Padrins i autoritza una entrada segura. És com tenir una clau amagada baix de la pedra de l'entrada.\n\n### 2. SW Purgatori (Bategat de Resiliència)\nTenim un 'fadrí' invisible (Service Worker) que s'encarrega de netejar el safareig i assegurar que les fotos i les lliçons estiguen sempre llistes, fins i tot si la xarxa del poble va espessa.\n\n### 3. Silenci i Pau a la Consola\nHem tancat els gats que feien soroll. Ara l'entrada és silenciosa, sense errors roigs que ens facen patir. La pau del Mas és la nostra prioritat.\n\n**Recordeu: Si el cap bategua amb tecnologia, els peus han de tocar terra.** 👵🛡️✨",
+        likes: 2400,
+        comments: 156,
+        image_url: ["/assets/master/iaia_guiding_family.png"],
+        type: "didactic_presentation",
+        metadata: {
+            title: "Protocol d'Auxili 2026",
+            didactic_text: "Aquesta lliçó explica els mecanismes de seguretat redundants (Rescue Mode y SW Purgatori) que garanteixen l'accés universal a Sóc de Poble in qualsevol circumstància crítica.",
+        },
+        created_at: new Date().toISOString()
     }
 ];
 
