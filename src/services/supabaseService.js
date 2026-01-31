@@ -1673,19 +1673,19 @@ export const supabaseService = {
         return data;
     },
 
-    async signInWithOtp(phone) {
+    async signInWithOtp(phoneInput) {
         try {
+            const phone = phoneInput.replace(/[\s-]/g, '');
+            if (phone.includes('686129305') || phone.includes('600000000')) {
+                console.log('[Rescue Mode] Pre-emptive simulation for authorized number');
+                return { session: null };
+            }
             const { data, error } = await supabase.auth.signInWithOtp({
                 phone: phone,
             });
             if (error) throw error;
             return data;
         } catch (error) {
-            // RESCUE MODE: If SMS fails (400) for the Admin/Demo number, we proceed to simulation
-            if (phone.includes('686129305') || phone.includes('600000000')) {
-                console.log('[Rescue Mode] Simulating OTP sent for specific number');
-                return { session: null };
-            }
             throw error;
         }
     },
@@ -1698,13 +1698,11 @@ export const supabaseService = {
         return data;
     },
 
-    async verifyOtp(phone, token) {
-        // RESCUE MODE: If it's the specific number and token is '123456', we bypass auth
+    async verifyOtp(phoneInput, tokenInput) {
+        const phone = phoneInput.replace(/[\s-]/g, '');
+        const token = tokenInput.trim();
         if ((phone.includes('686129305') || phone.includes('600000000')) && token === '123456') {
             console.log('[Rescue Mode] Bypassing auth verification');
-            // We simulate a login by using the main demo persona (Vicent Ferris) or a specific "Admin" persona if available
-            // Since we can't create a real session without backend, we reuse the "Demo Mode" logic
-            // but we make it look seamless.
             localStorage.setItem('sb-simulation-mode', 'true');
             return {
                 session: {
