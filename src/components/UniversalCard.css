@@ -159,3 +159,99 @@
 .universal-card .card-image-wrapper img {
     border-radius: 0 !important;
 }
+
+/* MASTER ACTION SYSTEM [VILLAGE OS] */
+.card-actions-wrapper {
+    width: 100%;
+}
+
+.card-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 8px 12px;
+    gap: 8px;
+    width: 100%;
+}
+
+.action-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    background: transparent;
+    border: none;
+    color: var(--text-main);
+    padding: 8px;
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    opacity: 0.8;
+    flex: 1;
+    min-height: 56px;
+    /* MOBILE ACCESSIBILITY [PROTOCOL FLASH] */
+}
+
+.action-btn:active {
+    transform: scale(0.9);
+    opacity: 1;
+    color: var(--color-primary);
+}
+
+.action-btn.active {
+    color: var(--color-primary);
+    opacity: 1;
+}
+
+.action-btn.principal-connect {
+    background: var(--color-primary-soft);
+    border: 1px solid var(--color-primary);
+    border-radius: 8px;
+    color: var(--color-primary);
+    animation: pulse-border 2s infinite ease-in-out;
+}
+
+.action-btn.principal-connect.active {
+    background: var(--color-primary);
+    color: #000;
+}
+
+@keyframes pulse-border {
+    0% {
+        border-color: rgba(204, 85, 0, 0.3);
+    }
+
+    50% {
+        border-color: rgba(204, 85, 0, 1);
+    }
+
+    100% {
+        border-color: rgba(204, 85, 0, 0.3);
+    }
+}
+
+.action-btn span {
+    font-size: 11px;
+}
+
+.active-voice {
+    color: var(--color-error) !important;
+    animation: flash-red 1s infinite;
+}
+
+@keyframes flash-red {
+    0% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.5;
+    }
+}

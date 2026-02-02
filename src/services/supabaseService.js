@@ -1963,7 +1963,7 @@ export const supabaseService = {
         try {
             const phone = phoneInput.replace(/[\s-]/g, '');
             // SIMULATION MODE: Numbers starting with 600 or specific rescue numbers
-            if (phone.includes('686129305') || phone.startsWith('+34600') || phone.includes('600000000')) {
+            if (phone.startsWith('+34600') || phone.includes('600000000')) {
                 logger.log('[Simulation Mode] Pre-emptive success for demo number:', phone);
                 // We simulate a 1-second delay for realism
                 await new Promise(resolve => setTimeout(resolve, 1000));
@@ -1992,7 +1992,7 @@ export const supabaseService = {
         const token = tokenInput.trim();
 
         // SIMULATION MODE OTP: Default code 123456 for demo numbers
-        if ((phone.includes('686129305') || phone.startsWith('+34600') || phone.includes('600000000')) && token === '123456') {
+        if ((phone.startsWith('+34600') || phone.includes('600000000')) && token === '123456') {
             logger.log('[Simulation Mode] Bypassing auth verification with master token');
             localStorage.setItem('sb-simulation-mode', 'true');
 

@@ -930,40 +930,54 @@
     color: var(--text-muted);
 }
 
-/* [PREMIUM] Connection Button - Full Width & Rectangular */
+/* [PREMIUM] Connection Button - Full Width & Rectangular [MASTER TERRACOTTA] */
 .connect-btn-premium-full {
     width: 100%;
-    padding: 20px;
-    background: #00f2ff;
-    /* Blue (Normative/Primary) */
-    color: #000000;
-    /* Black (Normative) */
+    padding: 24px;
+    background: var(--color-primary);
+    color: #FFFFFF;
     border: none;
-    border-radius: 8px;
-    /* Rectangular */
-    font-size: 18px;
-    font-weight: 800;
+    border-radius: 0;
+    /* DIRECTIVA FLASH: ZERO RADIUS */
+    font-size: 20px;
+    font-weight: 900;
     font-family: var(--font-heading);
     text-transform: uppercase;
-    letter-spacing: 1.5px;
+    letter-spacing: 2px;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 12px;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
-    margin: 20px 0;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 10px 30px rgba(154, 108, 99, 0.4);
+    margin: 0;
+    animation: pulse-border-premium 3s infinite ease-in-out;
 }
 
 .connect-btn-premium-full:active {
     transform: scale(0.98);
+    background: var(--color-primary-dark);
 }
 
 .connect-btn-premium-full.connected {
     background: var(--bg-surface);
-    color: var(--text-muted);
-    border: 2px solid var(--color-border);
+    color: var(--color-primary);
+    border: 2px solid var(--color-primary);
     box-shadow: none;
+}
+
+@keyframes pulse-border-premium {
+    0% {
+        box-shadow: 0 10px 30px rgba(154, 108, 99, 0.4);
+    }
+
+    50% {
+        box-shadow: 0 15px 45px rgba(154, 108, 99, 0.7);
+    }
+
+    100% {
+        box-shadow: 0 10px 30px rgba(154, 108, 99, 0.4);
+    }
 }
 
 /* Noise Filter Management */

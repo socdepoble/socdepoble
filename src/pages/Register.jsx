@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { supabaseService } from '../services/supabaseService';
 import { useTranslation } from 'react-i18next';
@@ -14,8 +14,8 @@ import './Auth.css';
  * La millor pàgina de registre del món: ràpida, premium i sobirana.
  */
 const Register = () => {
-    const { adoptPersona, setIsPlayground, user } = useAuth();
-    const { t, i18n } = useTranslation();
+    const { setIsPlayground, user } = useAuth();
+    const { i18n } = useTranslation();
     const navigate = useNavigate();
 
     // [DIRECTIVA 1] Auto-redirect already authenticated users
@@ -29,33 +29,6 @@ const Register = () => {
     const [authMethod, setAuthMethod] = useState('phone'); // 'phone' | 'email'
     const [step, setStep] = useState('identity'); // 'identity' | 'verify'
 
-    // [AUTOMATITZACIÓ] Auto-submit quan el codi està complet
-    useEffect(() => {
-        if (otp && otp.length === 6 && step === 'verify') {
-            handleVerifyOtp(null, otp);
-        }
-    }, [otp, step]);
-
-    // [AUTOMATITZACIÓ] WebOTP API per a lectura automàtica d'SMS
-    useEffect(() => {
-        if ('OTPCredential' in window && step === 'verify') {
-            const ac = new AbortController();
-            navigator.credentials.get({
-                otp: { transport: ['sms'] },
-                signal: ac.signal
-            }).then(otp => {
-                if (otp && otp.code) {
-                    setOtp(otp.code);
-                    // L'auto-submit de dalt s'encarregarà d'enviar-lo
-                }
-            }).catch(err => {
-                logger.log('[WebOTP] Reading cancelled or not supported', err);
-            });
-
-            return () => ac.abort();
-        }
-    }, [step]);
-
     // Form states
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -67,27 +40,67 @@ const Register = () => {
     // UI states
     const [isTownModalOpen, setIsTownModalOpen] = useState(false);
     const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(false);
     const [resendCountdown, setResendCountdown] = useState(0);
+    const [loading, setLoading] = useState(false);
 
-    // WebOTP API Integration
+    const handleVerifyOtp = useCallback(async (e, codeToVerify = null) => {
+        e?.preventDefault();
+        setLoading(true);
+        setError(null);
+        const code = codeToVerify || otp;
+
+        try {
+            const formattedPhone = phone.startsWith('+') ? phone : `+34${phone}`;
+            const { user: verifiedUser } = await supabaseService.verifyOtp(formattedPhone, code);
+
+            if (verifiedUser) {
+                await supabaseService.updateProfile(verifiedUser.id, {
+                    full_name: fullName,
+                    town_id: selectedTown?.id,
+                    town_uuid: selectedTown?.uuid,
+                    primary_town: selectedTown?.name
+                });
+
+                // Track activation
+                logger.log('[Registration] Success for:', fullName);
+            }
+
+            setIsPlayground(false);
+            navigate('/chats');
+        } catch (err) {
+            setError(err.message || 'Codi de seguretat invàlid.');
+        } finally {
+            setLoading(false);
+        }
+    }, [otp, phone, fullName, selectedTown, setIsPlayground, navigate]);
+
     useEffect(() => {
-        if (step === 'verify' && 'OTPCredential' in window) {
+        if (otp && otp.length === 6 && step === 'verify') {
+            handleVerifyOtp(null, otp);
+        }
+    }, [step, handleVerifyOtp, otp]);
+
+    // [V1.5.8 - ZERO-CLICK LOGIN] WebOTP API per a lectura automàtica d'SMS
+    useEffect(() => {
+        if ('OTPCredential' in window && step === 'verify') {
             const ac = new AbortController();
             navigator.credentials.get({
                 otp: { transport: ['sms'] },
                 signal: ac.signal
-            }).then(otp => {
-                if (otp && otp.code) {
-                    setOtp(otp.code);
-                    handleVerifyOtp(null, otp.code); // Auto-submit
+            }).then(otpData => {
+                if (otpData && otpData.code) {
+                    logger.log('[WebOTP] Codi detectat automàticament:', otpData.code);
+                    setOtp(otpData.code);
                 }
             }).catch(err => {
-                logger.warn('WebOTP not available or timed out', err);
+                if (err.name !== 'AbortError') {
+                    logger.warn('[WebOTP] Error o cancel·lat', err);
+                }
             });
+
             return () => ac.abort();
         }
-    }, [step]);
+    }, [otp, handleVerifyOtp, step]);
 
     // Resend countdown timer
     useEffect(() => {
@@ -106,7 +119,7 @@ const Register = () => {
         setError(null);
 
         if (!selectedTown) {
-            setError('Selecciona el teu poble per a continuar el bategat.');
+            setError('Selecciona el teu poble per a continuar el procés.');
             setLoading(false);
             return;
         }
@@ -139,7 +152,7 @@ const Register = () => {
                     town_uuid: selectedTown.uuid
                 }
             );
-            navigate('/login', { state: { message: '¡Ecosistema creat! Revisa el teu correu per a bategar la teua entrada.' } });
+            navigate('/login', { state: { message: '¡Compte creat! Revisa el teu correu per a confirmar la teua entrada.' } });
         } catch (err) {
             setError(err.message);
         } finally {
@@ -147,36 +160,6 @@ const Register = () => {
         }
     };
 
-    const handleVerifyOtp = async (e, codeToVerify = null) => {
-        e?.preventDefault();
-        setLoading(true);
-        setError(null);
-        const code = codeToVerify || otp;
-
-        try {
-            const formattedPhone = phone.startsWith('+') ? phone : `+34${phone}`;
-            const { user } = await supabaseService.verifyOtp(formattedPhone, code);
-
-            if (user) {
-                await supabaseService.updateProfile(user.id, {
-                    full_name: fullName,
-                    town_id: selectedTown?.id,
-                    town_uuid: selectedTown?.uuid,
-                    primary_town: selectedTown?.name
-                });
-
-                // Track activation
-                logger.log('[Registration] Success for:', fullName);
-            }
-
-            setIsPlayground(false);
-            navigate('/chats');
-        } catch (err) {
-            setError(err.message || 'Codi de seguretat invàlid.');
-        } finally {
-            setLoading(false);
-        }
-    };
 
     return (
         <div className="auth-container premium-onboarding">
@@ -200,16 +183,16 @@ const Register = () => {
                         </div>
                         <div className="iaia-speech-bubble">
                             {step === 'identity'
-                                ? "Hola, bonica! Soc la IAIA. Tria el teu nom i el teu poble per a començar a bategar junts. 👵✨"
-                                : "T'he enviat un bategat al mòbil. Posa el codi ací baix i entrarem a la plaça! 📱🏘️"}
+                                ? <>Hola, bonica! Soc la IAIA. Tria el teu nom i el teu poble.<br />Vine al redol, que ací xategem tots els veïns! 🗣️🏘️</>
+                                : "T'he enviat el codi de seguretat al mòbil. Posa'l ací baix i entrarem a la plaça! 📱🏘️"}
                         </div>
                     </div>
 
                     <h1>{step === 'identity' ? 'Crea la teua Identitat' : 'Verifica el teu accés'}</h1>
                     <p className="auth-subtitle">
                         {step === 'identity'
-                            ? 'Connecta amb els teus veïns al futur digital del Mas.'
-                            : `T'hem enviat un bategat SMS al +34 ${phone}.`}
+                            ? 'Connecta amb els teus veïns d\'avui i de sempre.'
+                            : `T'hem enviat un SMS al +34 ${phone}.`}
                     </p>
                 </header>
 
@@ -235,7 +218,7 @@ const Register = () => {
                         </div>
 
                         <button type="submit" className="auth-button v2" disabled={loading}>
-                            {loading ? <MeshStar size={28} color="#00f2ff" /> : 'BATEGAR ENTRADA'}
+                            {loading ? <MeshStar size={28} color="#ffffff" /> : 'CONFIRMAR ENTRADA'}
                         </button>
 
                         <div className="otp-helper">

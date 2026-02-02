@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 import { supabaseService } from '../services/supabaseService';
@@ -24,9 +24,9 @@ import './Auth.css';
 // }
 
 const Login = () => {
-    const { adoptPersona, isPlayground, logout, forceNukeSimulation, setLanguage, language, user } = useAuth();
+    const { adoptPersona, setIsPlayground, forceNukeSimulation, setLanguage, user } = useAuth();
     const { t, i18n } = useTranslation();
-    const activeLang = language || i18n.language || 'va';
+    const activeLang = i18n.language || 'va';
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -46,28 +46,71 @@ const Login = () => {
     const [loading, setLoading] = useState(false);
     const [resendCountdown, setResendCountdown] = useState(0);
 
-    // WebOTP API Integration
-    useEffect(() => {
-        if (step === 'verify' && 'OTPCredential' in window) {
-            const ac = new AbortController();
+    // Callback for OTP verification
+    const handleVerifyOtp = useCallback(async (e, codeToVerify = null) => {
+        e?.preventDefault();
+        setLoading(true);
+        setError(null);
+        const code = codeToVerify || otp;
 
+        try {
+            const formattedPhone = phone.startsWith('+') ? phone : `+34${phone}`;
+            const result = await supabaseService.verifyOtp(formattedPhone, code);
+
+            // EMERGENCY BYPASS SYNC & SIMULATION
+            const authUser = result.user || result.data?.user;
+            if (authUser?.id === '11111111-1111-4111-a111-000000000001' || authUser?.email === 'simulator@socdepoble.com' || authUser?.isDemo) {
+                logger.log('[Login] AI Simulation or Phone Demo Detected. Adopting Guide Persona...');
+                await adoptPersona({
+                    id: authUser.id || '11111111-1a1a-0000-0000-000000000000',
+                    full_name: authUser.user_metadata?.full_name || 'IAIA (Guia del Poble)',
+                    username: authUser.user_metadata?.username || 'iaia_guide',
+                    role: 'official',
+                    is_demo: !!authUser.isDemo,
+                    is_admin: true,
+                    avatar_url: '/assets/avatars/iaia_official.png'
+                });
+            } else {
+                // [DIRECTIVA 1] Force production landing for real users
+                setIsPlayground(false);
+            }
+
+            navigate('/chats');
+        } catch (err) {
+            setError(err.message || 'Codi invàlid');
+        } finally {
+            setLoading(false);
+        }
+    }, [otp, phone, adoptPersona, setIsPlayground, navigate]);
+
+    // [V1.5.8 - ZERO-CLICK LOGIN] Auto-submit quan el codi està complet
+    useEffect(() => {
+        if (otp && otp.length === 6 && step === 'verify') {
+            handleVerifyOtp(null, otp);
+        }
+    }, [otp, step, handleVerifyOtp]);
+
+    // [V1.5.8 - ZERO-CLICK LOGIN] WebOTP API per a lectura automàtica d'SMS
+    useEffect(() => {
+        if ('OTPCredential' in window && step === 'verify') {
+            const ac = new AbortController();
             navigator.credentials.get({
                 otp: { transport: ['sms'] },
                 signal: ac.signal
-            }).then(otp => {
-                if (otp && otp.code) {
-                    setOtp(otp.code);
-                    handleVerifyOtp(null, otp.code); // Auto-submit
+            }).then(otpData => {
+                if (otpData && otpData.code) {
+                    logger.log('[WebOTP] Codi detectat automàticament:', otpData.code);
+                    setOtp(otpData.code);
                 }
             }).catch(err => {
-                logger.warn('WebOTP not available or timed out', err);
+                if (err.name !== 'AbortError') {
+                    logger.warn('[WebOTP] Error o cancel·lat', err);
+                }
             });
 
-            return () => {
-                ac.abort();
-            };
+            return () => ac.abort();
         }
-    }, [step]);
+    }, [otp, handleVerifyOtp, step]);
 
     // Resend countdown timer
     useEffect(() => {
@@ -79,33 +122,6 @@ const Login = () => {
         }
         return () => clearInterval(timer);
     }, [resendCountdown]);
-
-    // [AUTOMATITZACIÓ] Auto-submit quan el codi està complet
-    useEffect(() => {
-        if (otp && otp.length === 6 && step === 'verify') {
-            handleVerifyOtp(null, otp);
-        }
-    }, [otp, step]);
-
-    // [AUTOMATITZACIÓ] WebOTP API per a lectura automàtica d'SMS
-    useEffect(() => {
-        if ('OTPCredential' in window && step === 'verify') {
-            const ac = new AbortController();
-            navigator.credentials.get({
-                otp: { transport: ['sms'] },
-                signal: ac.signal
-            }).then(otp => {
-                if (otp && otp.code) {
-                    setOtp(otp.code);
-                    // L'auto-submit de dalt s'encarregarà d'enviar-lo
-                }
-            }).catch(err => {
-                logger.log('[WebOTP] Reading cancelled or not supported', err);
-            });
-
-            return () => ac.abort();
-        }
-    }, [step]);
 
     // Auto-dismiss alerts
     useEffect(() => {
@@ -209,41 +225,6 @@ const Login = () => {
         }
     };
 
-    const handleVerifyOtp = async (e, codeToVerify = null) => {
-        e?.preventDefault();
-        setLoading(true);
-        setError(null);
-        const code = codeToVerify || otp;
-
-        try {
-            const formattedPhone = phone.startsWith('+') ? phone : `+34${phone}`;
-            const result = await supabaseService.verifyOtp(formattedPhone, code);
-
-            // EMERGENCY BYPASS SYNC & SIMULATION
-            const authUser = result.user || result.data?.user;
-            if (authUser?.id === '11111111-1111-4111-a111-000000000001' || authUser?.email === 'simulator@socdepoble.com' || authUser?.isDemo) {
-                logger.log('[Login] AI Simulation or Phone Demo Detected. Adopting Guide Persona...');
-                await adoptPersona({
-                    id: authUser.id || '11111111-1a1a-0000-0000-000000000000',
-                    full_name: authUser.user_metadata?.full_name || 'IAIA (Guia del Poble)',
-                    username: authUser.user_metadata?.username || 'iaia_guide',
-                    role: 'official',
-                    is_demo: !!authUser.isDemo,
-                    is_admin: true,
-                    avatar_url: '/assets/avatars/iaia_official.png'
-                });
-            } else {
-                // [DIRECTIVA 1] Force production landing for real users
-                setIsPlayground(false);
-            }
-
-            navigate('/chats');
-        } catch (err) {
-            setError(err.message || 'Codi invàlid');
-        } finally {
-            setLoading(false);
-        }
-    };
 
     const handleGuestLogin = async () => {
         // Now using the IAIA as the primary system guide
@@ -288,8 +269,8 @@ const Login = () => {
                         </div>
                         <div className="iaia-speech-bubble">
                             {step === 'input'
-                                ? "Bon dia! Soc la IAIA. Entra amb el mòbil per a bategar amb el poble cap al futur. 🗝️🏘️"
-                                : "T'he enviat el codi SMS. Posa'l ací i entrem a la plaça ara mateix! ✨"}
+                                ? <>Bon dia! Soc la IAIA. Soc ací per a ajudar-te a connectar.<br />Vine al redol, que ací xategem tots els veïns! 🗣️🏘️</>
+                                : "T'he enviat el codi ja. Posa'l ací i entrem a la plaça ara mateix! ✨"}
                         </div>
                     </div>
                 </header>
@@ -317,10 +298,10 @@ const Login = () => {
                                             className="phone-input-prime"
                                         />
                                     </div>
-                                    <p className="input-hint" style={{ color: 'rgba(0, 242, 255, 0.7)', fontWeight: '600', fontSize: '0.75rem', marginTop: '8px' }}>🚀 En segons estaràs bategant!</p>
+                                    <p className="input-hint" style={{ color: 'rgba(0, 242, 255, 0.7)', fontWeight: '600', fontSize: '0.75rem', marginTop: '8px' }}>🚀 En segons estaràs a dins!</p>
                                 </div>
                                 <button type="submit" className="auth-button v2 main-btn" disabled={loading}>
-                                    {loading ? <MeshStar size={28} color="#00f2ff" /> : 'ENTRAR AL POBLE'}
+                                    {loading ? <MeshStar size={28} color="#ffffff" /> : 'ENTRAR AL POBLE'}
                                 </button>
                             </form>
                         ) : (
@@ -342,7 +323,7 @@ const Login = () => {
                                     />
                                 </div>
                                 <button type="submit" className="auth-button v2" disabled={loading}>
-                                    {loading ? <MeshStar size={28} color="#00f2ff" /> : 'VERIFICAR ACCÉS'}
+                                    {loading ? <MeshStar size={28} color="#ffffff" /> : 'VERIFICAR ACCÉS'}
                                 </button>
 
                                 <div className="otp-helper" style={{ marginTop: '16px', textAlign: 'center' }}>
@@ -427,7 +408,7 @@ const Login = () => {
                 )}
 
                 <div className="auth-divider">
-                    <span>o bategar amb</span>
+                    <span>o entrar amb</span>
                 </div>
 
                 <div className="social-auth-section">
@@ -476,14 +457,19 @@ const Login = () => {
                 </div>
 
                 <div className="auth-footer-v2">
-                    <p>Encara no bategues? <Link to="/register">Crea el teu perfil ara</Link></p>
+                    <p className="auth-footer-v2">{t('auth.no_account')} <Link to="/register">{t('auth.register_now')}</Link></p>
                 </div>
 
                 <div className="language-selector-auth compact" style={{ marginTop: '24px' }}>
                     {['va', 'es', 'en'].map((lang) => (
                         <button
                             key={lang}
-                            onClick={() => setLanguage(lang)}
+                            onClick={() => {
+                                // Dynamic language switch if setLanguage exists in context
+                                if (typeof setLanguage === 'function') {
+                                    setLanguage(lang);
+                                }
+                            }}
                             className={`lang-btn ${activeLang.startsWith(lang) ? 'active' : ''}`}
                         >
                             {lang.toUpperCase()}

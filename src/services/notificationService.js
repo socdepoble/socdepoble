@@ -43,6 +43,33 @@ export const notificationService = {
     },
 
     /**
+     * Send a WhatsApp message via Twilio Edge Function
+     */
+    async sendWhatsApp(userId, message) {
+        if (!userId || !message) {
+            logger.error('[NotificationService] Missing userId or message for WhatsApp');
+            return false;
+        }
+
+        try {
+            const { data, error } = await supabase.functions.invoke('send-whatsapp-notification', {
+                body: { userId, message }
+            });
+
+            if (error) {
+                logger.error('[NotificationService] WhatsApp Edge Function error:', error);
+                return false;
+            }
+
+            logger.log('[NotificationService] WhatsApp message sent:', data);
+            return true;
+        } catch (error) {
+            logger.error('[NotificationService] Unexpected WhatsApp error:', error);
+            return false;
+        }
+    },
+
+    /**
      * Standardize payloads based on type
      */
     preparePayload(type, { title, body, url, data, actions }) {
