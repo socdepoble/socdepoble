@@ -1926,6 +1926,18 @@ export const supabaseService = {
         return data;
     },
 
+    /**
+     * [MASTER REDIRECT] Get robust redirect URL
+     */
+    getRedirectUrl(path = '/chats') {
+        const origin = window.location.origin;
+        // Si estem en producció (vercel), forcem la URL de producció oficial si detectem un origin estrany (com localhost al mòbil)
+        const isVercel = origin.includes('vercel.app') || origin.includes('socdepoble.org');
+        const baseUrl = isVercel ? origin : (import.meta.env.VITE_SITE_URL || origin);
+
+        return `${baseUrl}${path}`;
+    },
+
     async signIn(email, password) {
         const { data, error } = await supabase.auth.signInWithPassword({
             email,
@@ -1937,7 +1949,7 @@ export const supabaseService = {
 
     async resetPasswordForEmail(email) {
         const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-            redirectTo: window.location.origin + '/reset-password',
+            redirectTo: this.getRedirectUrl('/reset-password'),
         });
         if (error) throw error;
         return data;
@@ -1952,7 +1964,7 @@ export const supabaseService = {
         const { data, error } = await supabase.auth.signInWithOAuth({
             provider: 'google',
             options: {
-                redirectTo: window.location.origin + '/chats'
+                redirectTo: this.getRedirectUrl('/chats')
             }
         });
         if (error) throw error;
