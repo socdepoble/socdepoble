@@ -430,7 +430,7 @@ const DiagnosticConsole = () => {
                         <h2>CONSOLA DE COMANDAMENT SOLATGE</h2>
                         <span className={`auto-heal-badge ${autoHealEnabled ? 'active' : ''}`}>
                             {autoHealEnabled && !isHealing ? <Check size={10} className="mr-1 inline" /> : null}
-                            {autoHealEnabled ? 'ESTAT: NOMINAL' : 'AUTO-HEAL: OFF'}
+                            {autoHealEnabled ? 'ESTAT: HARMÒNIC' : 'HARMÒNIA: PAUSA'}
                         </span>
                         <div className="peace-signal-container" title="Senyal de Pau (Manteniment OK)">
                             <div className="peace-led"></div>
@@ -479,7 +479,7 @@ const DiagnosticConsole = () => {
                     {showHelp && !didacticAlert && !showVoiceFeedback && !iaiaAdvice && (
                         <div className="hud-educational-banner">
                             <Brain size={16} />
-                            <span>{t('diag.didactic_hint')}</span>
+                            <span>{t('diag.didactic_hint') || "Aprofita la saviesa del bategat per a entendre el sistema."}</span>
                         </div>
                     )}
 
@@ -794,7 +794,7 @@ const DiagnosticConsole = () => {
                         </div>
                         <div style={{ flex: 1, position: 'relative' }}>
                             <button className="btn-hud-danger level-3" onClick={nuclearReload} style={{ width: '100%' }}>
-                                <Zap size={16} /> <span>RESEMBRA TOTAL (RESET)</span>
+                                <Zap size={16} /> <span>RESEMBRA TOTAL (RENOVAR)</span>
                             </button>
                             <Info size={12} className="hud-info-trigger small" onClick={() => setDidacticAlert(didacticData.actions.nuclear_reset)} />
                         </div>

@@ -1981,6 +1981,8 @@ export const supabaseService = {
     async signInWithOtp(phoneInput) {
         try {
             const phone = phoneInput.replace(/[\s-]/g, '');
+            logger.log('[Auth] Bategant intent d\'SMS per a:', phone);
+
             // SIMULATION MODE: Numbers starting with 600 or specific rescue numbers
             if (phone.startsWith('+34600') || phone.includes('600000000')) {
                 logger.log('[Simulation Mode] Pre-emptive success for demo number:', phone);
@@ -1990,8 +1992,15 @@ export const supabaseService = {
             }
             const { data, error } = await supabase.auth.signInWithOtp({
                 phone: phone,
+                options: {
+                    shouldCreateUser: true
+                }
             });
-            if (error) throw error;
+            if (error) {
+                logger.error('[Auth] Error real d\'SMS:', error.message);
+                throw error;
+            }
+            logger.log('[Auth] SMS enviat amb èxit a Supabase:', data);
             return data;
         } catch (error) {
             throw error;

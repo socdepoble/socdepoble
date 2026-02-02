@@ -43,7 +43,7 @@ const IAIAPage = () => {
         <div className="iaia-page-container">
             <SEO
                 title={t('iaia_page.title') || 'La IAIA'}
-                description={t('iaia_page.subtitle') || 'Memòria viva i acció artificial al servici del poble.'}
+                description={t('iaia_page.subtitle') || 'Memòria viva i acompanyament sobirà al servici del poble.'}
                 image="/og-image.png"
                 url="/iaia"
             />
@@ -251,9 +251,9 @@ const IAIAPage = () => {
                             <div className="credit-desc">Alimentació Saludable i Ciència</div>
                         </div>
                         <div className="credit-card-premium">
-                            <div className="credit-role">Memòria Master</div>
-                            <div className="credit-name">MArIA</div>
-                            <div className="credit-desc">Memòria Artificial i Acció</div>
+                            <div className="credit-role">Memòria Viva</div>
+                            <div className="credit-name">MarIA</div>
+                            <div className="credit-desc">Memòria Viva i Acompanyament Sovint</div>
                         </div>
                         <div className="credit-card-premium">
                             <div className="credit-role">Lèxic</div>

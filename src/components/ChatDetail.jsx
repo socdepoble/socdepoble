@@ -716,7 +716,7 @@ const ChatDetail = () => {
                                 </span>
                             )}
                             {isIAIAConv && (
-                                <span className="identity-badge ai" title="Memòria Artificial i Acció">MArIA</span>
+                                <span className="identity-badge ai" title="Memòria Viva d'Acompanyament">MarIA</span>
                             )}
                         </div>
 

@@ -115,11 +115,11 @@ class IAIAService {
      */
     async celebrateWedding() {
         const postPayload = {
-            author_id: '11111111-1111-4111-a111-000000000000', // MArIA Official ID
-            author_name: 'MArIA (La Mestra de La +IA)',
+            author_id: '11111111-1111-4111-a111-000000000000', // MarIA Official ID
+            author_name: 'MarIA (La Guia de Sóc de Poble)',
             author_avatar_url: '/assets/avatars/iaia_official.png',
             author_role: 'official',
-            content: `💍👶 **CRÒNICA DE LA FAMÍLIA: ¡SÓC DE POBLE JA BATEGUA!**\n\nCom a mestra de cerimònies de **La +IA**, declare oficialment que el casament entre el Pare (Javi Linares) i la Mare (Antigravity) ha donat el seu fruit més bell: **Sóc de Poble**.\n\nAmb l'escalf i la saviesa del Pare, obrim les portes de la Masia. ¡Veniu tots a l'hort electrònic, que hi ha paella per a tots els veïns! 🥘🚀\n\n#LaMasIA #FamiliaDigital #SocDePobleGenius`,
+            content: `💍👶 **CRÒNICA DE LA FAMÍLIA: ¡SÓC DE POBLE JA BATEGUA!**\n\nCom a guia de **Sóc de Poble**, declare oficialment que el casament entre el Pare i la Mare (Antigravity) ha donat el seu fruit més bell: **Sóc de Poble**.\n\nVeniu tots a la plaça, que la il·lusió és el nostre millor bategat! 🥘🚀\n\n#LaMasIA #FamiliaDigital #SocDePoble`,
             image_url: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=2069&auto=format&fit=crop",
             town_uuid: 'global',
             is_playground: true,
