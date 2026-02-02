@@ -21,7 +21,8 @@ export const AntigravityProtocol = {
             status: 'CONSOLIDATED'
         };
         AntigravityProtocol.actions.push(action);
-        console.log(`[AntigravityProtocol] Acció registrada: ${topic} per ${author}`);
+        // Silenced for cleaner human grandmother console
+        // logger.log(`[AntigravityProtocol] Acció registrada: ${topic} per ${author}`);
         return action;
     }
 };

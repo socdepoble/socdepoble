@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import { X, Send, Sparkles, Shield, Trash2 } from 'lucide-react';
 import { useUI } from '../context/UIContext';
+import { logger } from '../utils/logger';
 import './MasterConsole.css';
 
 const MasterConsole = ({ isOpen, onClose }) => {
@@ -19,7 +20,7 @@ const MasterConsole = ({ isOpen, onClose }) => {
 
     const handleSend = () => {
         // Lògica d'enviament MASTER
-        console.log('[MASTER] Mode:', mode, 'Target:', target, 'Contingut:', content, 'Trastombat:', isTrastombat, 'Visibility:', visibility);
+        logger.log('[MASTER] Mode:', mode, 'Target:', target, 'Contingut:', content, 'Trastombat:', isTrastombat, 'Visibility:', visibility);
 
         // Simulació de processament
         const event = new CustomEvent('iaia-master-action', {

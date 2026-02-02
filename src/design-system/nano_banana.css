@@ -1,0 +1,87 @@
+/* 
+  MODE TRENCADÍS (MASONRY) - MOBILE FIRST
+  DIRECTIVA: [Source 197] - Disseny de Marge de Pedra Seca
+  ESTÈTICA: NANO BANANA [Source 122, 123]
+*/
+
+.trencadis-container {
+    column-count: 2;
+    /* Dues columnes de pedres */
+    column-gap: 8px;
+    /* Separació estreta entre columnes [Source 197] */
+    padding: 8px;
+    width: 100%;
+}
+
+.trencadis-card {
+    break-inside: avoid;
+    /* Evita que una pedra es trenque entre columnes */
+    margin-bottom: 8px;
+    /* Separació vertical */
+    position: relative;
+    /* Per a posicionar el text damunt */
+    background-color: var(--color-surface, #FDFCF5);
+
+    /* ESTÈTICA NANO BANANA [Source 123] */
+    border-radius: 0px !important;
+    /* ZERO RADIUS ABSOLUT */
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.trencadis-card:active {
+    transform: scale(0.98);
+}
+
+.trencadis-card img {
+    width: 100%;
+    height: auto;
+    /* Manté la proporció original [Source 265] */
+    display: block;
+    border-radius: 0px !important;
+    /* Confirmació de duresa */
+}
+
+/* EL TEXT SUPERPOSAT [Source 197] */
+.trencadis-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    /* Gradient negre suau per a llegibilitat Weber Class 6 */
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent);
+    padding: 24px 12px 12px 12px;
+    color: #FFFFFF;
+    font-family: 'DM Sans', sans-serif;
+}
+
+.trencadis-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1.2;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+    margin: 0;
+}
+
+.trencadis-context {
+    font-size: 0.7rem;
+    opacity: 0.8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 4px;
+    display: block;
+}
+
+/* Adaptació per a escriptori (opcional, seguint la lògica masonry) */
+@media (min-width: 768px) {
+    .trencadis-container {
+        column-count: 3;
+    }
+}
+
+@media (min-width: 1200px) {
+    .trencadis-container {
+        column-count: 4;
+    }
+}

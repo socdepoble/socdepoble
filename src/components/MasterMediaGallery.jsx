@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Search, Filter, Grid, List, Shield, Users, Lock, Globe, Maximize2 } from 'lucide-react';
 import ImageProjector from './ImageProjector';
 import './MasterMediaGallery.css';
+import '../design-system/nano_banana.css';
 
 const MasterMediaGallery = ({ items = [], title, showFilters = true, layout = 'grid' }) => {
     const [selectedFilter, setSelectedFilter] = useState('all');
@@ -52,36 +53,56 @@ const MasterMediaGallery = ({ items = [], title, showFilters = true, layout = 'g
                 </div>
             )}
 
-            <div className={`gallery-content ${layout}-view`}>
+            <div className={`gallery-content ${layout}-view ${layout === 'trencadis' ? 'trencadis-container' : ''}`}>
                 {filteredItems.length > 0 ? (
                     filteredItems.map((item, index) => (
-                        <div
-                            key={item.id || index}
-                            className="gallery-item-card"
-                            onClick={() => setProjectorIndex(index)}
-                        >
-                            <div className="item-preview">
-                                {item.asset.mime_type?.startsWith('image/') ? (
+                        layout === 'trencadis' ? (
+                            <div
+                                key={item.id || index}
+                                className="trencadis-card"
+                                onClick={() => setProjectorIndex(index)}
+                            >
+                                {item.asset?.url ? (
                                     <img src={item.asset.url} alt={item.context} loading="lazy" />
                                 ) : (
                                     <div className="file-avatar">
-                                        <span>{item.asset.mime_type?.split('/')[1]?.toUpperCase() || 'FILE'}</span>
+                                        <span>{item.asset?.mime_type?.split('/')[1]?.toUpperCase() || 'FILE'}</span>
                                     </div>
                                 )}
-                                <div className="item-overlay">
-                                    <Maximize2 size={24} />
-                                </div>
-                                <div className="item-badges">
-                                    <span className={`perm-badge ${item.permissions}`}>
-                                        {getPermissionIcon(item.permissions)}
-                                    </span>
+                                <div className="trencadis-overlay">
+                                    <h3 className="trencadis-title">{item.context || 'Actiu'}</h3>
+                                    {item.description && <span className="trencadis-context">{item.description}</span>}
                                 </div>
                             </div>
-                            <div className="item-info">
-                                <h3>{item.context || 'Actiu Multimedia'}</h3>
-                                <p>{item.description || 'Sense descripció'}</p>
+                        ) : (
+                            <div
+                                key={item.id || index}
+                                className="gallery-item-card"
+                                onClick={() => setProjectorIndex(index)}
+                            >
+                                <div className="item-preview">
+                                    {item.asset?.mime_type?.startsWith('image/') ? (
+                                        <img src={item.asset.url} alt={item.context} loading="lazy" />
+                                    ) : (
+                                        <div className="file-avatar">
+                                            <span>{item.asset?.mime_type?.split('/')[1]?.toUpperCase() || 'FILE'}</span>
+                                        </div>
+                                    )}
+                                    <div className="item-overlay">
+                                        <Maximize2 size={24} />
+                                    </div>
+                                    <div className="item-badges">
+                                        <span className={`perm-badge ${item.permissions}`}>
+                                            {getPermissionIcon(item.permissions)}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="item-info">
+                                    <h3>{item.context || 'Actiu Multimedia'}</h3>
+                                    <p>{item.description || 'Sense descripció'}</p>
+                                </div>
                             </div>
-                        </div>
+                        )
                     ))
                 ) : (
                     <div className="gallery-empty">

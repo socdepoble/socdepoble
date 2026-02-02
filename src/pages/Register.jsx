@@ -2,11 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { supabaseService } from '../services/supabaseService';
 import { useTranslation } from 'react-i18next';
-import { MapPin, Phone, Mail, ArrowRight, Loader2 } from 'lucide-react';
+import { MapPin, Phone, Mail, ArrowRight, Loader2, User, ShieldCheck, CheckCircle2, ChevronRight, Globe, Zap } from 'lucide-react';
+import MeshStar from '../components/MeshStar';
 import TownSelectorModal from '../components/TownSelectorModal';
 import { useAuth } from '../context/AuthContext';
+import { logger } from '../utils/logger';
 import './Auth.css';
 
+/**
+ * [FLASH MASTERPIECE] Register.jsx v2.0
+ * La millor pàgina de registre del món: ràpida, premium i sobirana.
+ */
 const Register = () => {
     const { adoptPersona, setIsPlayground, user } = useAuth();
     const { t, i18n } = useTranslation();
@@ -19,9 +25,36 @@ const Register = () => {
         }
     }, [user, navigate]);
 
-    // State for auth modes
+    // State for auth modes & steps
     const [authMethod, setAuthMethod] = useState('phone'); // 'phone' | 'email'
-    const [step, setStep] = useState('input'); // 'input' | 'verify'
+    const [step, setStep] = useState('identity'); // 'identity' | 'verify'
+
+    // [AUTOMATITZACIÓ] Auto-submit quan el codi està complet
+    useEffect(() => {
+        if (otp && otp.length === 6 && step === 'verify') {
+            handleVerifyOtp(null, otp);
+        }
+    }, [otp, step]);
+
+    // [AUTOMATITZACIÓ] WebOTP API per a lectura automàtica d'SMS
+    useEffect(() => {
+        if ('OTPCredential' in window && step === 'verify') {
+            const ac = new AbortController();
+            navigator.credentials.get({
+                otp: { transport: ['sms'] },
+                signal: ac.signal
+            }).then(otp => {
+                if (otp && otp.code) {
+                    setOtp(otp.code);
+                    // L'auto-submit de dalt s'encarregarà d'enviar-lo
+                }
+            }).catch(err => {
+                logger.log('[WebOTP] Reading cancelled or not supported', err);
+            });
+
+            return () => ac.abort();
+        }
+    }, [step]);
 
     // Form states
     const [email, setEmail] = useState('');
@@ -41,7 +74,6 @@ const Register = () => {
     useEffect(() => {
         if (step === 'verify' && 'OTPCredential' in window) {
             const ac = new AbortController();
-
             navigator.credentials.get({
                 otp: { transport: ['sms'] },
                 signal: ac.signal
@@ -53,10 +85,7 @@ const Register = () => {
             }).catch(err => {
                 logger.warn('WebOTP not available or timed out', err);
             });
-
-            return () => {
-                ac.abort();
-            };
+            return () => ac.abort();
         }
     }, [step]);
 
@@ -77,21 +106,17 @@ const Register = () => {
         setError(null);
 
         if (!selectedTown) {
-            setError('Has de seleccionar un poble per a registrar-te.');
+            setError('Selecciona el teu poble per a continuar el bategat.');
             setLoading(false);
             return;
         }
 
         if (authMethod === 'phone') {
             try {
-                // Basic phone validation
                 if (!phone || phone.length < 9) {
-                    throw new Error(t('auth.invalid_phone') || 'Introdueix un número vàlid');
+                    throw new Error('Introdueix un número de mòbil vàlid.');
                 }
-
-                // Ensure international format
                 const formattedPhone = phone.startsWith('+') ? phone : `+34${phone}`;
-
                 await supabaseService.signInWithOtp(formattedPhone);
                 setStep('verify');
                 setResendCountdown(60);
@@ -112,25 +137,9 @@ const Register = () => {
                     full_name: fullName,
                     town_id: selectedTown.id,
                     town_uuid: selectedTown.uuid
-                },
-                'https://socdepoble.vercel.app/login' // URL de redirección explícita
+                }
             );
-            navigate('/login', { state: { message: '¡Compte creat! Revisa el teu correu per a verificar l\'adreça abans d\'entrar.' } });
-        } catch (err) {
-            setError(err.message);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    const handleResendOtp = async () => {
-        if (resendCountdown > 0 || loading) return;
-        setLoading(true);
-        setError(null);
-        try {
-            const formattedPhone = phone.startsWith('+') ? phone : `+34${phone}`;
-            await supabaseService.resendOtp(formattedPhone);
-            setResendCountdown(60);
+            navigate('/login', { state: { message: '¡Ecosistema creat! Revisa el teu correu per a bategar la teua entrada.' } });
         } catch (err) {
             setError(err.message);
         } finally {
@@ -148,52 +157,71 @@ const Register = () => {
             const formattedPhone = phone.startsWith('+') ? phone : `+34${phone}`;
             const { user } = await supabaseService.verifyOtp(formattedPhone, code);
 
-            // Update profile with name and town immediately after verification
             if (user) {
                 await supabaseService.updateProfile(user.id, {
                     full_name: fullName,
-                    town_id: selectedTown?.id, // Legacy compatibility
+                    town_id: selectedTown?.id,
                     town_uuid: selectedTown?.uuid,
                     primary_town: selectedTown?.name
                 });
 
-                // Notify Admins
-                supabaseService.notifyAdminsNewUser({
-                    id: user.id,
-                    full_name: fullName,
-                    primary_town: selectedTown?.name
-                });
+                // Track activation
+                logger.log('[Registration] Success for:', fullName);
             }
 
-            // [DIRECTIVA 1] Force production landing
             setIsPlayground(false);
             navigate('/chats');
         } catch (err) {
-            setError(err.message || 'Codi invàlid');
+            setError(err.message || 'Codi de seguretat invàlid.');
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <div className="auth-container">
-            <div className="auth-card">
-                <img src="/favicon.png" alt="Logo" className="auth-logo" />
-                <h1>{t('auth.register')}</h1>
-                <p className="auth-subtitle">Registra't per a formar part del teu poble.</p>
+        <div className="auth-container premium-onboarding">
+            <div className="auth-hero-overlay"></div>
 
-                <div className="auth-onboarding-hint">
-                    <p>✨ {authMethod === 'phone' ? 'Rebràs un codi SMS.' : 'Rebràs un correu per confirmar.'}</p>
+            <div className="auth-card register-card-v2 animate-in-up">
+                {/* Visual Progress Bar */}
+                <div className="onboarding-progress">
+                    <div className={`progress-segment ${step === 'identity' ? 'active' : 'completed'}`}></div>
+                    <div className={`progress-segment ${step === 'verify' ? 'active' : ''}`}></div>
                 </div>
 
-                {error && <div className="auth-error">{error}</div>}
+                <header className="auth-header">
+                    <img src="/logo.png" alt="Sóc de Poble" className="auth-logo-v2" />
+
+                    {/* [MASTER GUIDANCE] La IAIA sempre guia el bategat */}
+                    <div className="auth-iaia-guidance" style={{ marginTop: '0', marginBottom: '24px' }}>
+                        <div className="iaia-avatar-wrapper">
+                            <img src="/assets/avatars/iaia_official.png" alt="MArIA" className="iaia-mini-avatar" />
+                            <div className="iaia-pulse"></div>
+                        </div>
+                        <div className="iaia-speech-bubble">
+                            {step === 'identity'
+                                ? "Hola, bonica! Soc la IAIA. Tria el teu nom i el teu poble per a començar a bategar junts. 👵✨"
+                                : "T'he enviat un bategat al mòbil. Posa el codi ací baix i entrarem a la plaça! 📱🏘️"}
+                        </div>
+                    </div>
+
+                    <h1>{step === 'identity' ? 'Crea la teua Identitat' : 'Verifica el teu accés'}</h1>
+                    <p className="auth-subtitle">
+                        {step === 'identity'
+                            ? 'Connecta amb els teus veïns al futur digital del Mas.'
+                            : `T'hem enviat un bategat SMS al +34 ${phone}.`}
+                    </p>
+                </header>
+
+                {error && <div className="auth-error shake">{error}</div>}
 
                 {step === 'verify' ? (
-                    <form onSubmit={handleVerifyOtp} className="auth-form">
+                    <form onSubmit={handleVerifyOtp} className="auth-form glass-form">
                         <div className="form-group">
-                            <label htmlFor="otp-input">Codi de Verificació</label>
+                            <label htmlFor="otp-input-reg">Codi de 6 dígits</label>
                             <input
-                                id="otp-input"
+                                id="otp-input-reg"
+                                name="otp_code"
                                 type="text"
                                 placeholder="123456"
                                 value={otp}
@@ -202,137 +230,142 @@ const Register = () => {
                                 inputMode="numeric"
                                 maxLength={6}
                                 required
-                                className="otp-input-field"
+                                className="otp-input-field big"
                             />
-                            <p className="input-hint">Introdueix el codi que has rebut al {phone}.</p>
                         </div>
-                        <button type="submit" className="auth-button" disabled={loading}>
-                            {loading ? <Loader2 className="animate-spin" /> : 'Verificar i Entrar'}
+
+                        <button type="submit" className="auth-button v2" disabled={loading}>
+                            {loading ? <MeshStar size={28} color="#00f2ff" /> : 'BATEGAR ENTRADA'}
                         </button>
 
-                        <div className="otp-resend-wrapper" style={{ marginTop: '16px', fontSize: '0.85rem', textAlign: 'center' }}>
+                        <div className="otp-helper">
                             {resendCountdown > 0 ? (
-                                <span className="opacity-50">Pots reenviar l'SMS en {resendCountdown}s</span>
+                                <span>Nou codi disponible en <strong style={{ color: 'var(--color-primary)' }}>{resendCountdown}s</strong></span>
                             ) : (
-                                <button
-                                    type="button"
-                                    className="text-btn"
-                                    onClick={handleResendOtp}
-                                    disabled={loading}
-                                    style={{ color: '#00f2ff', fontWeight: 'bold' }}
-                                >
-                                    No has rebut el codi? Reenviar SMS
+                                <button type="button" className="text-btn accent" onClick={handleRegister}>
+                                    No he rebut res. Reenviar SMS 🔁
                                 </button>
                             )}
                         </div>
 
-                        <button
-                            type="button"
-                            className="text-btn secondary-action"
-                            onClick={() => setStep('input')}
-                            disabled={loading}
-                            style={{ marginTop: '24px', width: '100%', opacity: 0.6 }}
-                        >
-                            Tornar enrere
+                        <button type="button" className="text-btn back-btn" onClick={() => setStep('identity')}>
+                            Tornar a començar
                         </button>
                     </form>
                 ) : (
-                    <form onSubmit={handleRegister}>
-                        <div className="form-group">
-                            <label htmlFor="register-name">{t('auth.fullName') || 'Nombre Completo'}</label>
-                            <input
-                                id="register-name"
-                                name="full_name"
-                                type="text"
-                                autoComplete="name"
-                                placeholder="Nom i cognoms"
-                                value={fullName}
-                                onChange={(e) => setFullName(e.target.value)}
-                                required
-                            />
+                    <form onSubmit={handleRegister} className="auth-form">
+                        {/* Step 1: Basic Identity */}
+                        <div className="form-group animate-in" style={{ animationDelay: '0.1s' }}>
+                            <label htmlFor="reg-fullname">Nom i Cognoms</label>
+                            <div className="input-with-icon">
+                                <User size={18} className="input-icon" />
+                                <input
+                                    id="reg-fullname"
+                                    name="full_name"
+                                    type="text"
+                                    placeholder="Javi Llinares"
+                                    value={fullName}
+                                    onChange={(e) => setFullName(e.target.value)}
+                                    autoComplete="name"
+                                    required
+                                />
+                            </div>
                         </div>
 
-                        {authMethod === 'email' ? (
-                            <>
-                                <div className="form-group">
-                                    <label htmlFor="register-email">{t('auth.email')}</label>
+                        {authMethod === 'phone' ? (
+                            <div className="form-group animate-in" style={{ animationDelay: '0.2s' }}>
+                                <label htmlFor="reg-phone">Telèfon Mòbil</label>
+                                <div className="phone-input-wrapper-v2">
+                                    <span className="prefix-badge">🇪🇸 +34</span>
                                     <input
-                                        id="register-email"
-                                        name="email"
-                                        type="email"
-                                        autoComplete="email"
-                                        placeholder="usuari@exemple.com"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        required
-                                    />
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="register-password">{t('auth.password')}</label>
-                                    <input
-                                        id="register-password"
-                                        name="password"
-                                        type="password"
-                                        autoComplete="new-password"
-                                        placeholder="Mínim 6 caràcters"
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        required
-                                    />
-                                </div>
-                            </>
-                        ) : (
-                            <div className="form-group">
-                                <label htmlFor="phone-input">Mòbil</label>
-                                <div className="phone-input-wrapper">
-                                    <span className="phone-prefix">🇪🇸 +34</span>
-                                    <input
-                                        id="phone-input"
+                                        id="reg-phone"
+                                        name="phone"
                                         type="tel"
                                         placeholder="600 000 000"
                                         value={phone}
                                         onChange={(e) => setPhone(e.target.value.replace(/[^0-9]/g, ''))}
-                                        autoComplete="tel-national"
+                                        autoComplete="tel"
                                         required
-                                        className="phone-input-field"
+                                        className="phone-input-prime"
                                     />
                                 </div>
-                                <p className="input-hint">T'enviarem un SMS per verificar.</p>
                             </div>
+                        ) : (
+                            <>
+                                <div className="form-group animate-in" style={{ animationDelay: '0.2s' }}>
+                                    <label htmlFor="reg-email">Correu Electrònic</label>
+                                    <div className="input-with-icon">
+                                        <Mail size={18} className="input-icon" />
+                                        <input
+                                            id="reg-email"
+                                            name="email"
+                                            type="email"
+                                            placeholder="correu@poble.cat"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            autoComplete="email"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                                <div className="form-group animate-in" style={{ animationDelay: '0.3s' }}>
+                                    <label htmlFor="reg-password">Contrasenya</label>
+                                    <div className="input-with-icon">
+                                        <ShieldCheck size={18} className="input-icon" />
+                                        <input
+                                            id="reg-password"
+                                            name="password"
+                                            type="password"
+                                            placeholder="Mínim 6 caràcters"
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                            autoComplete="new-password"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                            </>
                         )}
 
-                        <div className="form-group">
-                            <label>El teu poble principal (Obligatori)</label>
+                        <div className="form-group animate-in" style={{ animationDelay: '0.4s' }}>
+                            <label>Poble de Primera Residència</label>
                             <button
                                 type="button"
-                                className={`town-picker-trigger ${!selectedTown ? 'empty' : ''}`}
+                                className={`town-picker-v2 ${selectedTown ? 'selected' : ''}`}
                                 onClick={() => setIsTownModalOpen(true)}
                             >
-                                <MapPin size={18} color="var(--color-primary)" />
-                                <span>{selectedTown ? selectedTown.name : 'Prem per a seleccionar poble'}</span>
+                                <div className="picker-left">
+                                    <MapPin size={20} />
+                                    <span>{selectedTown ? selectedTown.name : 'Tria el teu poble...'}</span>
+                                </div>
+                                <ChevronRight size={18} />
                             </button>
                         </div>
 
-                        <button type="submit" className="auth-button" disabled={loading}>
-                            {loading ? <Loader2 className="animate-spin" /> : (authMethod === 'email' ? t('auth.signUp') : 'Continuar')}
+                        <div className="onboarding-iaia-tip animate-in" style={{ animationDelay: '0.5s' }}>
+                            <div className="tip-icon">✨</div>
+                            <p><strong>IAIA Diu:</strong> "Triar bé el poble és triar la teua família digital. Un cop a dins, ja tindràs el xat de la plaça disponible!"</p>
+                        </div>
+
+                        <button type="submit" className="auth-button v2 main-btn" disabled={loading}>
+                            {loading ? <MeshStar size={28} color="#00f2ff" /> : (
+                                <>
+                                    <span>{authMethod === 'phone' ? 'ENVIAR CODI SMS' : 'CREAR COMPTE'}</span>
+                                    <Zap size={18} fill="currentColor" />
+                                </>
+                            )}
                         </button>
 
-                        <div className="auth-alt-methods centered" style={{ marginTop: '16px' }}>
-                            {authMethod === 'email' ? (
-                                <button type="button" className="text-btn small" onClick={() => setAuthMethod('phone')}>
-                                    <Phone size={14} /> Registrar-se amb Mòbil
-                                </button>
-                            ) : (
-                                <button type="button" className="text-btn small" onClick={() => setAuthMethod('email')}>
-                                    <Mail size={14} /> Registrar-se amb Email
-                                </button>
-                            )}
+                        <div className="auth-method-switcher">
+                            <button type="button" className="text-btn" onClick={() => setAuthMethod(authMethod === 'phone' ? 'email' : 'phone')}>
+                                {authMethod === 'phone' ? 'Registrar-se amb correu' : 'Registrar-se amb mòbil'}
+                            </button>
                         </div>
                     </form>
                 )}
 
-                <div className="auth-footer">
-                    {t('auth.haveAccount')} <Link to="/login">{t('auth.signIn')}</Link>
+                <div className="auth-footer-v2">
+                    <p>Ja tens compte? <Link to="/login">Entra ara</Link></p>
                 </div>
             </div>
 
@@ -345,6 +378,10 @@ const Register = () => {
                     setError(null);
                 }}
             />
+
+            <footer className="onboarding-legal">
+                <p>En bategar, acceptes que Sóc de Poble és un experiment de sobirania digital. <Link to="/legal">Avisos Legals</Link></p>
+            </footer>
         </div>
     );
 };

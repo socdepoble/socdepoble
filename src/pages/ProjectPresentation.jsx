@@ -1,26 +1,74 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Rocket, Cpu, Users, Globe, Database, ShieldCheck, TrendingUp, Mail, Briefcase, MessageCircle, Newspaper } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { ArrowLeft, Rocket, Cpu, Users, Globe, Database, ShieldCheck, TrendingUp, Mail, Briefcase, MessageCircle, Newspaper, BookOpen, Smartphone, UserCheck, Sparkles, Volume2, Headphones } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { speechService } from '../services/speechService';
+import { notebookService } from '../services/notebookService';
 import ShareHub from '../components/ShareHub';
 import SEO from '../components/SEO';
 import NanoSplashScreen from '../components/NanoSplashScreen';
 import MasterMediaGallery from '../components/MasterMediaGallery';
 import { MASTER_ASSETS } from '../constants/masterAssets';
 import { PROVERBS } from '../data/proverbs';
+import { logger } from '../utils/logger';
 import './ProjectPresentation.css';
 
 const ProjectPresentation = () => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const navigate = useNavigate();
+    const location = useLocation();
+    const jumpToPage = location.state?.jumpToPage;
     const { user } = useAuth();
     const [showIntro, setShowIntro] = useState(true);
+    const [techReport, setTechReport] = useState(null);
+    const [reportLang, setReportLang] = useState(i18n.language === 'es' ? 'es' : 'ca');
     const shareUrl = `${window.location.origin}/projecte`;
 
     useEffect(() => {
-        window.scrollTo(0, 0);
-    }, []);
+        const fetchReport = async () => {
+            try {
+                const suffix = reportLang === 'es' ? '_ES' : '';
+                const response = await fetch(`/TECHNICAL_REPORT_VIVO${suffix}.md`);
+                const text = await response.text();
+                setTechReport(text);
+            } catch (error) {
+                logger.error('Error fetching tech report:', error);
+            }
+        };
+        fetchReport();
+    }, [reportLang]);
+
+    const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+
+    const handleAudioOverview = async () => {
+        if (isPlayingAudio) {
+            window.speechSynthesis.cancel();
+            setIsPlayingAudio(false);
+            return;
+        }
+
+        setIsPlayingAudio(true);
+        const script = await notebookService.generateAudioOverview("Sóc de Poble");
+        speechService.speak(script, i18n.language === 'es' ? 'es' : 'va');
+
+        // Simple timeout for UI feedback since TTS doesn't provide easy 'end' event here
+        setTimeout(() => setIsPlayingAudio(false), 20000);
+    };
+
+    useEffect(() => {
+        if (jumpToPage && techReport) {
+            // Esperar un moment a que el DOM s'actualitze
+            setTimeout(() => {
+                const pageId = `page-${jumpToPage}`;
+                const element = document.getElementById(pageId);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    element.classList.add('highlight-flash');
+                }
+            }, 500);
+        }
+    }, [jumpToPage, techReport]);
 
     if (showIntro) {
         return <NanoSplashScreen onComplete={() => setShowIntro(false)} />;
@@ -56,74 +104,112 @@ const ProjectPresentation = () => {
                 </div>
             </nav>
 
-            <header className="pitch-hero compact-hero" style={{ backgroundImage: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), url('/rural_tech_future_valencia.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+            <header className="pitch-hero cinematic-hero" style={{ backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.9)), url('/rural_tech_future_valencia.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
                 <div className="hero-content">
-                    <div className="hero-badge">
-                        <Rocket size={14} />
-                        <span>TECH FOR RURAL IMPACT</span>
+                    <div className="hero-badge-premium">
+                        <Rocket size={16} />
+                        <span>SOBIRANIA DIGITAL & MEMÒRIA VIVA</span>
+                    </div>
+                    <div className="sovereign-seal animate-float">
+                        <img src="/socdepoble_map_pattern_v1.png" alt="Soberania" className="green-square-logo" />
                     </div>
                     <h1>Connectant l'Essència Rural<br />amb el Futur Digital</h1>
                     <p className="hero-subtitle">
-                        La plataforma que revitalitza el teixit social i econòmic dels nostres pobles.
+                        La plataforma que revitalitza el teixit social i econòmic dels nostres pobles mitjançant el control sobirà de les dades.
                     </p>
-                    <div className="hero-stats compact-stats">
-                        <div className="stat-item">
-                            <span className="stat-number">React 19</span>
-                            <span className="stat-label">Core</span>
+                    <div className="hero-stats premium-stats">
+                        <div className="stat-item-glass">
+                            <span className="stat-number">Local-First</span>
+                            <span className="stat-label">Arquitectura</span>
                         </div>
-                        <div className="stat-item">
-                            <span className="stat-number">IAIA</span>
-                            <span className="stat-label">Agentic</span>
+                        <div className="stat-item-glass">
+                            <span className="stat-number">Byzantine</span>
+                            <span className="stat-label">Resiliència</span>
                         </div>
-                        <div className="stat-item">
-                            <span className="stat-number">PWA</span>
-                            <span className="stat-label">Mobile</span>
+                        <div className="stat-item-glass">
+                            <span className="stat-number">Atum</span>
+                            <span className="stat-label">Protocol</span>
                         </div>
+                    </div>
+                    <div className="hero-actions-sovereign">
+                        <button
+                            className={`btn-audio-overview ${isPlayingAudio ? 'playing' : ''}`}
+                            onClick={handleAudioOverview}
+                        >
+                            {isPlayingAudio ? <Headphones size={20} /> : <Volume2 size={20} />}
+                            <span>{isPlayingAudio ? "Escoltant Resum..." : "Audio Overview (IAIA & Avi)"}</span>
+                        </button>
                     </div>
                 </div>
             </header>
 
-            <section className="pitch-section roots compact-section">
-                <div className="section-grid dense-grid">
-                    <div className="text-col">
-                        <h2>Arrels i Legitimitat</h2>
-                        <p className="roots-desc">
-                            Més de <strong>30 anys d'activisme rural</strong> convertits en codi.
-                        </p>
-                        <div className="legal-backers compact-backers">
-                            <div className="backer-item">
-                                <ShieldCheck className="backer-icon" size={20} />
-                                <div>
-                                    <strong>Associació Cultural El Rentonar</strong>
-                                    <span>Padrinos de Memòria i Patrimoni</span>
-                                </div>
-                            </div>
-                            <div className="backer-item">
-                                <Users className="backer-icon" size={20} />
-                                <div>
-                                    <strong>Comunitat de Pobles Connectats</strong>
-                                    <span>Padrinos de Xarxa i Territori</span>
-                                </div>
-                            </div>
-                            <div className="backer-item">
-                                <Rocket className="backer-icon" size={20} />
-                                <div>
-                                    <strong>Antigravity Core</strong>
-                                    <span>Padrinos de Tecnologia i Futur</span>
-                                </div>
-                            </div>
-                        </div>
+            {/* ROBUST ARCHITECTURE SECTION - FEEDBACK INTEGRATION */}
+            <section className="pitch-section stability-section animate-fade-in">
+                <div className="glass-card-premium architecture-integrity-card">
+                    <div className="section-header-mini">
+                        <ShieldCheck size={20} color="var(--color-primary)" />
+                        <h2>Arquitectura de Ferro: Referències Immutables</h2>
                     </div>
-                    <div className="card-col activism-card-col">
-                        <div className="activism-card compact-card">
-                            <h3>De la Pancarta al Pixel</h3>
-                            <p>
-                                Defensem la nostra <strong>sobirania digital</strong> amb la mateixa força que el territori.
-                            </p>
+                    <p className="architecture-intro">
+                        Per garantir que el <strong>Rebost Digital</strong> siga robust, Sóc de Poble utilitza una estratègia de preservació històrica ("The Long Now").
+                    </p>
+                    <div className="tech-pills-grid">
+                        <div className="tech-pill-item">
+                            <h3>DIDs (DNI Digital)</h3>
+                            <p>Els enllaços no apunten a carpetes, sinó a l'<b>ànima del document</b>. Si el contingut es mou, la cita es mou amb ell.</p>
+                        </div>
+                        <div className="tech-pill-item">
+                            <h3>Ancoratge Semàntic</h3>
+                            <p>Utilitzem <b>Peritext</b> per a que les cites viatgen amb el text. Encara que el document s'edite, la referència mai es perd.</p>
+                        </div>
+                        <div className="tech-pill-item">
+                            <h3>Visions del Passat</h3>
+                            <p>Immutabilitat per defecte. Cada versió es preserva en un graf (DAG), evitant el <b>Link Rot</b> o la pèrdua de memòria.</p>
                         </div>
                     </div>
                 </div>
             </section>
+
+            {/* HUMAN FACTOR SECTION - Javi's Contact */}
+            <section className="pitch-section human-factor-section animate-fade-in">
+                <div className="glass-card-premium contact-card-sovereign">
+                    <div className="card-header-status">
+                        <div className="status-dot-pulse"></div>
+                        <span>LÍNIA DIRECTA AMB L'ARQUITECTE</span>
+                    </div>
+                    <div className="profile-contact-row">
+                        <div className="avatar-frame-gold">
+                            <img src="/images/demo/avatar_man_1.png" alt="Javi Llinares" className="avatar-img-premium" />
+                        </div>
+                        <div className="contact-info-text">
+                            <h3>Javi Llinares</h3>
+                            <p className="role-badge">Arquitecte del Sistema & Coordinador</p>
+                            <p className="manifesto-quote">"La tecnologia serveix a les persones; les persones parlen amb persones. Parlem de tu a tu."</p>
+                        </div>
+                    </div>
+                    <div className="contact-actions-premium">
+                        <a href="https://wa.me/34686129305" target="_blank" rel="noopener noreferrer" className="btn-whatsapp-premium">
+                            <Smartphone size={24} />
+                            <span>Parla amb Javi (WhatsApp)</span>
+                        </a>
+                        <div className="direct-phone">686 12 93 05</div>
+                    </div>
+                </div>
+            </section>
+
+            <div className="section-grid dense-grid">
+                <div className="text-col">
+                    <h2>El Cor del Projecte: Pepet i la Rosa</h2>
+                    <p className="roots-desc">
+                        No es tracta de codi, es tracta de <strong>temps</strong>.
+                    </p>
+                    <div className="narrative-box" style={{ background: 'rgba(204, 85, 0, 0.1)', padding: '24px', borderRadius: '20px', borderLeft: '4px solid var(--color-terracotta)', marginTop: '20px' }}>
+                        <p style={{ fontSize: '1.2rem', lineHeight: '1.6', fontStyle: 'italic', color: 'var(--color-terracotta-light)' }}>
+                            "Pepet ja no puja al mercat amb el seu cabàs de tomates, li fan mal els genolls. La Rosa vol comprar tomates de veritat, però només troba les de plàstic del supermercat. Sóc de Poble és el bategat que torna a unir el cabàs del Pepet amb la cuina de la Rosa."
+                        </p>
+                    </div>
+                </div>
+            </div>
 
             <section className="pitch-section problem-solution compact-section">
                 <div className="section-grid dense-grid">
@@ -249,6 +335,93 @@ const ProjectPresentation = () => {
                                     De la Visió Europea a l'Acció Local [MASTER]
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section className="pitch-section iaia-librarian-section" style={{ marginTop: '60px', borderTop: '1px solid var(--color-divider)', paddingTop: '40px' }}>
+                    <div className="glass-card-premium iaia-librarian-card">
+                        <div className="iaia-avatar-badge">
+                            <img src="/iaia_digital_matriarch.png" alt="IAIA" />
+                            <div className="badge-glow"></div>
+                        </div>
+                        <div className="iaia-content">
+                            <h2>Pregunta a la Guia Major (IAIA)</h2>
+                            <p>Tens dubtes sobre el manifest o vols saber com recuperem la Memòria Viva? La nostra secretària notarial té totes les dades bategades.</p>
+                            <button className="btn-iaia-librarian" onClick={() => navigate('/iaia', { state: { mode: 'librarian' } })}>
+                                <Sparkles size={20} />
+                                <span>Invocar la Bibliotecària</span>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                {/* LIVING WHITEPAPER SECTION [MASTER ARCHITECTURE] */}
+                <section className="pitch-section tech-deep-dive-section" style={{ marginTop: '60px', borderTop: '1px solid var(--color-divider)', paddingTop: '40px' }}>
+                    <div className="glass-card-premium tech-report-card-horizontal" style={{ background: 'linear-gradient(135deg, rgba(0, 242, 255, 0.1) 0%, rgba(204, 85, 0, 0.05) 100%)', border: '1px solid var(--color-primary-soft)' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '15px' }}>
+                            <Cpu size={40} color="var(--color-primary)" />
+                            <div>
+                                <h2 style={{ margin: 0 }}>Technical Deep Dive: The Living Whitepaper</h2>
+                                <span style={{ fontSize: '0.8rem', textTransform: 'uppercase', color: 'var(--color-primary)', fontWeight: 800 }}>Protocol Local-First & Rhizome DB</span>
+                            </div>
+                        </div>
+                        <p style={{ fontSize: '1.1rem', marginBottom: '25px', color: 'var(--text-main)' }}>
+                            Explora l'enginyeria darrera de Sóc de Poble: Sincronització CRDT (Eg-walker), Identitat Sobirana (DIDs) i ergonomia "Bancal-Ready".
+                        </p>
+                        <div className="tech-cta-row" style={{ display: 'flex', gap: '15px' }}>
+                            <a href="/docs/tech-report/index.md" target="_blank" className="btn-pitch-cta primary" style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 24px', background: 'var(--color-primary)', color: '#000', borderRadius: '12px', fontWeight: 800, textDecoration: 'none' }}>
+                                <BookOpen size={20} /> LLEGIR WHITEPAPER
+                            </a>
+                            <button onClick={() => navigate('/docs/tech-report/roadmap')} className="btn-pitch-cta secondary" style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 24px', background: 'rgba(255,255,255,0.05)', color: '#fff', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', fontWeight: 800 }}>
+                                <TrendingUp size={20} /> VEURE ROADMAP
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <section className="pitch-section tech-report-section" style={{ marginTop: '60px', borderTop: '1px solid var(--color-divider)', paddingTop: '40px' }}>
+                    <div className="section-header-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                            <Database size={32} color="var(--color-primary)" />
+                            <h2 style={{ margin: 0 }}>{reportLang === 'es' ? 'Informe Técnico Vivido' : 'Informe Tècnic Vivid'}</h2>
+                        </div>
+                        <div className="report-controls" style={{ display: 'flex', gap: '10px' }}>
+                            <div className="lang-toggle-minimal">
+                                <button className={reportLang === 'ca' ? 'active' : ''} onClick={() => setReportLang('ca')}>CA</button>
+                                <button className={reportLang === 'es' ? 'active' : ''} onClick={() => setReportLang('es')}>ES</button>
+                            </div>
+                            <button className="btn-print-report" onClick={() => window.print()}>
+                                <ShieldCheck size={16} /> {reportLang === 'es' ? 'Imprimir / PDF' : 'Imprimir / PDF'}
+                            </button>
+                        </div>
+                    </div>
+
+                    <div className="tech-report-web-view" style={{ background: 'var(--bg-surface-soft)', padding: '40px', borderRadius: '24px', border: '1px solid var(--color-divider)', boxShadow: 'inset 0 2px 10px rgba(0,0,0,0.05)' }}>
+                        <div className="report-markdown-content" style={{ fontSize: '1.05rem', lineHeight: '1.7', color: 'var(--text-main)', maxWidth: '800px', margin: '0 auto' }}>
+                            {techReport ? (
+                                <div className="report-text" dangerouslySetInnerHTML={{
+                                    __html: techReport
+                                        .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+                                        .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+                                        .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+                                        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                                        .replace(/^- (.*$)/gim, '<li>$1</li>')
+                                        .split('\n').map((line, index) => {
+                                            // Simulem pàgines cada 5 paràgrafs per a la demo
+                                            const pageNum = Math.floor(index / 5) + 1;
+                                            const idAttr = line.trim() ? `id="page-${pageNum}"` : '';
+                                            return line.startsWith('<li>') ? line : `<p ${idAttr}>${line}</p>`;
+                                        }).join('')
+                                }} />
+                            ) : (
+                                <p className="pulse-slow">{reportLang === 'es' ? 'Sincronizando informe...' : 'Sincronitzant informe...'}</p>
+                            )}
+                        </div>
+                        <div style={{ marginTop: '30px', textAlign: 'center', borderTop: '1px solid var(--color-divider)', paddingTop: '20px' }}>
+                            <span style={{ fontSize: '0.8rem', opacity: 0.6 }}>
+                                {reportLang === 'es' ? 'Este documento es autoactualizable y refleja el estado real del sistema.' : 'Aquest document és autoactualitzable i reflecteix l\'estat real del sistema.'}
+                            </span>
                         </div>
                     </div>
                 </section>

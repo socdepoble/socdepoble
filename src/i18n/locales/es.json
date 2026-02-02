@@ -193,6 +193,8 @@
         "placeholder": "Explica de qué trata el evento..."
     },
     "towns": {
+        "title": "Los Pueblos",
+        "description": "Explora la red de pueblos conectados y descubre lo que los hace únicos.",
         "select_town": "Seleccionar Pueblo",
         "select_town_short": "Pueblo",
         "your_town": "Tu pueblo",

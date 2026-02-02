@@ -1,135 +1,56 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&family=Roboto+Serif:wght@300;400;500;600;700&display=swap');
-@import './styles/themes.css';
-
-/* Global Accessibility Utils */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Outfit:wght@100..900&display=swap');
 
 :root {
-  /* Brand Colors - Now Controlled by Vibes */
-  --color-primary: var(--vibe-primary);
-  --color-primary-soft: rgba(var(--vibe-primary-rgb), 0.1);
-  --color-secondary: var(--vibe-secondary);
-  --gradient-primary: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  /* --- GOOGLE DE PAGÈS [V2.5 - FLASH PROTOCOL] --- */
+  /* Source: MASTER_DIRECTIVES.md & Manual d'Estil */
 
-  --bg-app: var(--vibe-bg);
-  --bg-main: var(--vibe-bg);
-  --bg-surface: var(--vibe-surface);
-  --bg-card: var(--vibe-card);
-  --bg-card-body: var(--vibe-card);
-  --bg-overlay: var(--vibe-glass);
+  --md-sys-color-primary: #9A6C63;
+  /* Terracotta (Argila) */
+  --md-sys-color-on-primary: #FFFFFF;
+  --md-sys-color-primary-container: #FFDAD5;
 
-  --text-main: var(--vibe-text);
-  --text-body: var(--vibe-text);
+  --md-sys-color-secondary: #556B2F;
+  /* Verd Serra (Olivera) */
+  --md-sys-color-on-secondary: #FFFFFF;
 
-  /* Radii - Now Controlled by Vibes */
-  --radius-xs: calc(var(--vibe-radius) / 2);
-  --radius-sm: calc(var(--vibe-radius) * 0.75);
-  --radius-md: var(--vibe-radius);
-  --radius-lg: calc(var(--vibe-radius) * 1.25);
-  --radius-xl: calc(var(--vibe-radius) * 1.75);
-  --radius-2xl: calc(var(--vibe-radius) * 2);
+  --md-sys-color-surface: #FDFCF5;
+  /* Crema (Pedra/Calç) */
+  --md-sys-color-on-surface: #454746;
+  /* Gris Pissarra (Text) */
+  --md-sys-color-on-surface-variant: #1A1C19;
+  /* Contrast Extrem per al Sol */
 
-  /* Typography System */
-  --font-main: var(--vibe-font-main);
-  --font-accent: 'Outfit', sans-serif;
-  --font-heading: var(--vibe-font-heading);
-  --font-body: var(--vibe-font-main);
+  --md-sys-color-tertiary: #00F2FF;
+  /* Teal Tecnològic (IA) */
+  --md-sys-color-on-tertiary: #000000;
 
-  --color-success: #4CAF50;
-  --color-warning: #FF9800;
-  --color-error: #FF5252;
+  --font-headline: 'DM Sans', sans-serif;
+  --font-body: 'Open Sans', sans-serif;
 
-  /* True Complementary Vibrancy */
-  --bg-warm-card: #FF6D00;
-  /* Direct vibrant Amber/Orange */
-  --bg-warm-accent: #E65100;
-  --bg-card-body: var(--vibe-card);
+  --radius-container: 16px;
+  /* GEOMETRY: DIRECTIVA ZERO RADIUS */
+  --radius-media: 0px !important;
+  --radius-card: 4px;
+  --radius-button: 2px;
+  --radius-organic: 16px;
+  /* Mantingut per a retrocompatibilitat */
 
-  /* Neutral Palette - Light mode */
-  --bg-main: #F4F7F9;
-  --bg-surface: #FFFFFF;
-  --bg-card: #FFFFFF;
-  --bg-card-rgb: 255, 255, 255;
-  --bg-overlay: rgba(255, 255, 255, 0.8);
+  /* TYPOGRAPHY: LLEGIBILITAT MILITAR */
+  --font-main: 'Inter', system-ui, sans-serif;
+  --font-heading: 'Inter', system-ui, sans-serif;
+  --weight-regular: 400;
+  --weight-bold: 700;
 
-  --text-main: #000000;
-  --text-secondary: #171923;
-  --text-muted: #2D3748;
-  /* Dark gray for visibility */
+  /* INTERACTION */
+  --transition-fast: 0.15s ease-out;
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.1);
 
-  --color-border: #EDF2F7;
-  --color-divider: #F1F3F5;
-
-  /* Typography System (Easy to swap) */
-  --font-main: 'Roboto Condensed', sans-serif;
-  --font-accent: 'Outfit', sans-serif;
-
-  --font-heading: var(--font-main);
-  --font-body: var(--font-main);
-
-  /* Spacing Scale */
-  --space-unit: 8px;
-  --space-xs: 4px;
-  --space-sm: 8px;
-  --space-md: 16px;
-  --space-lg: 24px;
-  --space-xl: 32px;
-  --space-2xl: 48px;
-  --grid-card-gap: 12px;
-
-  /* Global Page Margin for alignment */
-  --page-margin: 12px;
-
-  /* Radii */
-  --radius-xs: 8px;
-  --radius-sm: 12px;
-  --radius-md: 16px;
-  --radius-lg: 20px;
-  --radius-xl: 28px;
-  --radius-2xl: 32px;
-  --radius-full: 9999px;
-  --radius-avatar: 50%;
-  /* Centralized control for all avatars */
-
-  /* Shadows */
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.02);
-  --shadow-md: 0 8px 16px -4px rgba(0, 0, 0, 0.05);
-  --shadow-lg: 0 20px 40px -12px rgba(0, 0, 0, 0.1);
-  --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
-
-  --logo-filter: none;
-
-  /* Layout Constants */
   --header-height: 72px;
-  --category-bar-height: 42px;
   --nav-height: 72px;
-  --banner-height: 0px;
   --mobile-width: 480px;
-  --banner-height: 0px;
-  --total-top-offset: calc(var(--banner-height) + var(--header-height));
 
-  /* Z-Index Hierarchy */
-  --z-base: 1;
-  --z-card-image: 8;
-  --z-card-header: 10;
-  --z-tabs: 95;
-  --z-header: 100;
-  --z-nav: 1000;
-  --z-creation-hub: 2000;
-  --z-modal: 3000;
-  --z-social-hub: 8000;
-
-  --z-playground: 11000;
+  /* AI PULSE [V1.2] */
+  --ai-pulse-color: rgba(0, 242, 255, 0.4);
 }
 
 /* Dark Mode Overrides */
@@ -173,13 +94,13 @@ body {
 
 body {
   font-family: var(--font-body);
-  background-color: var(--bg-main);
-  color: var(--text-main);
-  line-height: 1.5;
+  background-color: var(--md-sys-color-surface);
+  color: var(--md-sys-color-on-surface);
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
-  /* Increased base size for community readability */
   font-size: 18px;
+  /* Llegibilitat Rural */
 }
 
 /* Unified Secondary Header */
@@ -210,19 +131,28 @@ article h3,
 .post-author,
 .town-name {
   font-family: var(--font-heading) !important;
-  font-weight: 800 !important;
+  font-weight: 200 !important;
+  /* LIGHT REFLOW */
   /* Harmonized to 21px as per Chat List standard */
   font-size: 21px !important;
   color: var(--text-main);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.04em;
+  /* TIGHTER FOR PREMIUM LOOK */
+  text-transform: uppercase;
+  border-radius: 0 !important;
+  /* DIRECTIVA FLASH */
 }
 
 /* Specific colors for card elements handled by components */
 
-img {
+img,
+video,
+iframe,
+canvas {
   max-width: 100%;
   display: block;
-  border-radius: var(--radius-md);
+  border-radius: 0 !important;
+  /* DIRECTIVA FLASH: GEOMETRIA SAGRADA */
 }
 
 button {
@@ -230,11 +160,13 @@ button {
   border: none;
   background: none;
   font-family: inherit;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  /* SUPREME USABILITY: Bategat Bezier */
+  transition: all 0.3s cubic-bezier(.16, 1, 0.3, 1);
 }
 
 button:active {
-  transform: scale(0.96);
+  transform: scale(0.92);
+  /* Més tàctil */
 }
 
 a {
@@ -263,11 +195,12 @@ a:hover {
 /* Typography Utility Classes - Scaled for visibility (>45 users) */
 .heading-xl {
   font-family: var(--font-heading);
-  font-size: 36px;
+  font-size: 42px;
   /* High visibility */
-  font-weight: 800;
-  line-height: 1.1;
-  letter-spacing: -0.5px;
+  font-weight: 100;
+  /* ULTRA THIN FOR CONTRAST */
+  line-height: 1.0;
+  letter-spacing: -1.5px;
 }
 
 .heading-lg {
@@ -285,9 +218,10 @@ a:hover {
 }
 
 .text-body {
-  font-size: 20px;
-  /* Harmonized to 20px (WhatsApp/Chat body standard) */
-  line-height: 1.6;
+  font-family: var(--font-main);
+  font-size: 19px;
+  font-weight: 400;
+  line-height: 1.5;
   color: var(--text-main);
 }
 
@@ -308,6 +242,49 @@ a:hover {
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 1px;
+}
+
+/* MASONRY SYSTEM [SITSTEMA RIZOMA] */
+.mur-masonry {
+  column-count: 1;
+  column-gap: 12px;
+  /* Reduït per a millor encaix */
+  padding: 12px;
+  width: 100%;
+  max-width: 100vw;
+  box-sizing: border-box;
+}
+
+@media (min-width: 500px) {
+  .mur-masonry {
+    column-count: 2;
+  }
+}
+
+@media (min-width: 900px) {
+  .mur-masonry {
+    column-count: 3;
+  }
+}
+
+.card-rizoma-wrapper {
+  break-inside: avoid;
+  margin-bottom: 20px;
+  display: inline-block;
+  width: 100%;
+  background: rgba(var(--bg-card-rgb), 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 242, 255, 0.15);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s cubic-bezier(.16, 1, 0.3, 1);
+}
+
+.card-rizoma-wrapper:hover {
+  transform: translateY(-4px);
+  border-color: rgba(0, 242, 255, 0.4);
+  box-shadow: 0 8px 30px rgba(0, 242, 255, 0.15);
 }
 
 /* Surface Utility Classes */
@@ -346,35 +323,68 @@ a:hover {
   gap: var(--space-md);
 }
 
-/* Global Component Classes */
-.glass {
-  background: var(--bg-overlay);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--color-border);
+/* [V1.2/2.5] GLASSMORPHISM IA CARDS [FLASH PROTOCOL] */
+.glass-ia {
+  background: rgba(15, 17, 21, 0.85) !important;
+  /* Força Vidre Fosc */
+  backdrop-filter: blur(28px) saturate(180%) !important;
+  /* Ultra-Blur */
+  -webkit-backdrop-filter: blur(28px) saturate(180%) !important;
+  border: 1px solid rgba(0, 242, 255, 0.3);
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.6);
+  color: white !important;
 }
 
-.universal-card {
-  background: var(--bg-card);
-  border-radius: var(--radius-xl);
-  /* 32px */
-  box-shadow: var(--shadow-glass);
-  border: 1.5px solid var(--color-border);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  margin-bottom: var(--grid-card-gap);
-  position: relative;
+.glass-ia * {
+  color: white !important;
 }
 
-.universal-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
-  border-color: var(--color-primary);
+/* LA LLUMETA (AI Pulsing Icon) */
+.llumeta {
+  color: var(--color-accent);
+  filter: drop-shadow(0 0 5px var(--color-accent));
+  animation: llumeta-pulse 2s infinite ease-in-out;
 }
+
+@keyframes llumeta-pulse {
+  0% {
+    opacity: 0.4;
+    transform: scale(0.9);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 10px var(--color-accent));
+  }
+
+  100% {
+    opacity: 0.4;
+    transform: scale(0.9);
+  }
+}
+
+.status-pulse {
+  animation: text-pulse 1.5s infinite;
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
+@keyframes text-pulse {
+  0% {
+    opacity: 0.6;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.6;
+  }
+}
+
+/* Old card definition removed to enforce Master Directive */
 
 .avatar-placeholder,
 .avatar-placeholder-mini {
@@ -400,135 +410,75 @@ a:hover {
   object-fit: cover;
 }
 
+/* [MASTER] UNIVERSAL CARD STANDARDS [CINEMATOGRAPHIC RURALISM] */
+.universal-card {
+  background: rgba(15, 15, 15, 0.85);
+  /* Purified Noir */
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(0, 242, 255, 0.15);
+  /* Neó Cian */
+  border-radius: 0 !important;
+  /* DIRECTIVA FLASH */
+  overflow: hidden;
+  margin-bottom: 24px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  transition: all 0.5s cubic-bezier(.16, 1, 0.3, 1);
+}
+
+.universal-card:hover {
+  transform: translateY(-8px) scale(1.01);
+  border-color: rgba(0, 242, 255, 0.3);
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 242, 255, 0.1);
+}
+
 .card-header {
-  position: relative;
-  z-index: 10;
+  padding: 18px var(--space-bancal);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 13px var(--space-lg);
-  background: var(--bg-warm-card);
-  border-bottom: 2px solid #000000;
-  color: #000000;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  min-height: 70px;
-}
-
-.post-meta {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 2px;
-}
-
-.post-author-row {
-  display: flex;
-  align-items: center;
-}
-
-.post-author {
-  font-weight: 800;
-  color: var(--text-main);
-  font-size: 21px;
-  line-height: 1.1;
-  font-family: var(--font-heading);
-}
-
-.post-town {
-  font-size: 14px;
-  font-weight: 600;
-  opacity: 0.9;
-  line-height: 1.1;
-  color: inherit !important;
-}
-
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-}
-
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
-  margin-left: auto;
-}
-
-.post-time-right {
-  font-size: 14px;
-  font-weight: 700;
-  opacity: 0.8;
-  white-space: nowrap;
-}
-
-.card-header * {
-  color: inherit !important;
-}
-
-
-.card-header.clickable {
+  background: linear-gradient(135deg, rgba(204, 85, 0, 0.9), rgba(204, 85, 0, 0.6));
+  backdrop-filter: blur(4px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  /* THE EARTH POWER */
+  color: #FFFFFF;
   cursor: pointer;
+  transition: filter 0.2s;
 }
 
-.clickable {
-  cursor: pointer;
-}
-
-.card-header.clickable:active {
-  background-color: var(--bg-warm-accent);
+.card-header:active {
+  filter: brightness(1.2);
 }
 
 .card-image-wrapper {
   width: 100%;
-  position: relative;
   background-color: #000;
-  /* Black background to prevent any light bleed */
   line-height: 0;
   overflow: hidden;
-  /* Replicating main-header shadow for depth */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
-  z-index: 8;
+  border-radius: 0 !important;
+  /* CANTONS RECTES INNEGOCIABLES */
 }
 
 .card-image-wrapper img {
-  width: 100.2%;
-  /* Slight overshoot to kill white lines */
-  margin-left: -0.1%;
+  width: 100%;
   height: auto;
   min-height: 200px;
   object-fit: cover;
-  display: block;
   border-radius: 0 !important;
-  /* Squared corners strictly enforced [MASTER] */
-  transform: translateZ(0);
-  /* Hardware acceleration */
 }
 
 .card-body {
-  padding: var(--space-md) var(--space-lg) !important;
-  /* Extra air on sides */
-  background-color: var(--bg-card-body);
-  display: block;
-  width: 100% !important;
-  box-sizing: border-box !important;
-  position: relative;
-  z-index: 5;
+  padding: var(--space-bancal);
+  color: var(--text-main);
 }
 
-/* Helper for footers that must touch edges */
-.card-flush-footer,
-.card-footer-vibrant {
-  margin: 0 !important;
-  padding: 0 !important;
-  width: 100% !important;
-  background-color: var(--bg-surface);
+.card-footer {
+  padding: 12px var(--space-bancal);
+  border-top: var(--border-subtle);
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: stretch;
-  border-top: 1px solid var(--color-divider);
-  position: relative;
-  z-index: 5;
+  background: rgba(255, 255, 255, 0.02);
 }
 
 .footer-stat-block {
@@ -589,30 +539,55 @@ a:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--radius-sm);
+  border-radius: 0 !important;
+  /* DIRECTIVA FLASH */
   background-color: var(--color-primary-soft);
   color: var(--color-primary);
 }
 
+/* Desktop Reflow [PROTOCOL FLASH] */
+@media (min-width: 1024px) {
+  #root {
+    max-width: 100% !important;
+    flex-direction: row !important;
+  }
+
+  .desktop-master-reflow #root {
+    background: #000;
+  }
+
+  /* Force square everywhere in desktop */
+  * {
+    border-radius: 0 !important;
+  }
+}
+
 .btn-primary {
-  background-color: var(--color-primary);
+  background: var(--color-terracotta);
   color: white;
-  padding: 12px 24px;
-  border-radius: var(--radius-xs);
-  /* Rectangular: 8px */
+  padding: 14px 28px;
+  border-radius: 0 !important;
+  /* DIRECTIVA FLASH */
   font-size: 16px;
-  font-weight: 700;
-  box-shadow: 0 4px 12px rgba(93, 95, 239, 0.3);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 15px rgba(204, 85, 0, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 10px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.btn-primary:disabled {
-  background-color: var(--text-muted);
-  box-shadow: none;
-  cursor: not-allowed;
+.btn-primary:hover {
+  transform: scale(1.02) translateY(-2px);
+  box-shadow: 0 8px 25px rgba(204, 85, 0, 0.5);
+  background: #E65500;
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
 }
 
 /* Modal System - Bottom Sheet Optimized for Mobile */
@@ -638,14 +613,152 @@ a:hover {
   width: 100%;
   max-width: 500px;
   max-height: calc(100vh - 40px);
-  border-radius: 32px;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border-radius: 0 !important;
+  /* DIRECTIVA FLASH */
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
   border: 1px solid var(--color-border);
   position: relative;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   animation: modalScaleUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* [MASTER] UNIVERSAL CARD STANDARDS */
+/* [MASTER] UNIVERSAL CARD STANDARDS [ATOMIC RURALISM] */
+.universal-card {
+  background-color: #0c0c0c;
+  border: 2px solid #00f2ff;
+  /* Neó Cian forjat */
+  border-radius: 0px !important;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  box-shadow: 6px 6px 0px rgba(0, 242, 255, 0.2);
+  margin-bottom: 20px;
+}
+
+.universal-card:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 9px 9px 0px #000;
+}
+
+/* MASTER SIMBIOSI & TRANSPARENCY */
+.ia-transparency-note-mini {
+  background: rgba(var(--vibe-primary-rgb), 0.05);
+  border: 1.5px dashed var(--color-primary);
+  padding: 12px;
+  margin-bottom: 16px;
+  transition: all 0.2s ease;
+}
+
+.simbiosi-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-heading);
+  font-weight: 900;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--text-main);
+}
+
+.simbiosi-bar-container {
+  height: 6px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+  display: flex;
+  margin-top: 8px;
+}
+
+.simbiosi-bar-ai {
+  background: var(--color-primary);
+}
+
+.simbiosi-bar-human {
+  background: #f59e0b;
+}
+
+.simbiosi-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  font-weight: 800;
+  margin-top: 4px;
+  opacity: 0.8;
+}
+
+.simbiosi-impact {
+  font-size: 11px;
+  font-weight: 900;
+  margin-top: 8px;
+  color: var(--color-primary);
+}
+
+/* MASTER BUTTONS & ANIMATIONS */
+.btn-astro-payment {
+  background: var(--color-primary);
+  color: #000;
+  border: 2px solid #000;
+  box-shadow: 4px 4px 0px #000;
+  font-weight: 900;
+  transition: all 0.2s cubic-bezier(.16, 1, 0.3, 1);
+}
+
+.btn-astro-payment:active:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px #000;
+}
+
+.btn-astro-payment.paid {
+  background: var(--color-success);
+  color: #fff;
+  box-shadow: none;
+  transform: translate(2px, 2px);
+}
+
+.animate-bategat {
+  animation: bategatIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes bategatIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.card-header-vibrant {
+  background: linear-gradient(135deg, rgba(20, 20, 20, 0.8), rgba(40, 40, 40, 0.6));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.card-image-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background-color: var(--bg-main);
+  overflow: hidden;
+  /* IMATGES AMB CANTONS QUADRATS */
+  border-radius: 0 !important;
+}
+
+.card-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @media (max-width: 768px) {
@@ -657,10 +770,25 @@ a:hover {
   .modal-content {
     max-width: 100%;
     max-height: 92vh;
-    border-radius: 32px 32px 0 0;
+    border-radius: 28px 28px 0 0;
     border-bottom: none;
-    animation: modalSlideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    padding-bottom: env(safe-area-inset-bottom, 20px);
+    /* SUPREME USABILITY: Slide Up Bezier */
+    animation: modalSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    padding-bottom: calc(env(safe-area-inset-bottom, 20px) + 16px);
+  }
+
+  /* Handle de Bottom Sheet */
+  .modal-content::before {
+    content: '';
+    width: 40px;
+    height: 4px;
+    background: var(--color-divider);
+    border-radius: 2px;
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0.6;
   }
 
   /* Rule 2: Vertical Optimization */
@@ -974,4 +1102,85 @@ a:hover {
     opacity: 1;
     filter: blur(0);
   }
+}
+
+/* === EMERGENCY RESCUE SYSTEM === */
+.emergency-rescue-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(20px);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+}
+
+.rescue-card {
+  background: #1a1a1a;
+  border: 4px solid #FF4444;
+  padding: 40px 30px;
+  text-align: center;
+  max-width: 400px;
+  box-shadow: 0 0 50px rgba(255, 68, 68, 0.3);
+  border-radius: 0 !important;
+}
+
+.rescue-card h3 {
+  color: #FF4444 !important;
+  font-size: 28px !important;
+  margin-bottom: 15px;
+  border-radius: 0 !important;
+}
+
+.rescue-card p {
+  color: #fff;
+  font-size: 18px;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+.rescue-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.btn-rescue-nuclear {
+  background: #FF4444;
+  color: white;
+  padding: 20px;
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: 16px;
+  letter-spacing: 1px;
+  border-radius: 0 !important;
+}
+
+.btn-rescue-soft {
+  background: #333;
+  color: #aaa;
+  padding: 15px;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 14px;
+  border-radius: 0 !important;
+}
+
+@keyframes animate-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-in {
+  animation: animate-in 0.5s ease forwards;
 }

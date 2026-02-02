@@ -1,18 +1,18 @@
 .category-tabs {
     display: flex;
     align-items: stretch;
-    /* Make items full height */
     width: 100%;
     margin: 0;
     padding: 0;
     height: var(--category-bar-height);
-    background-color: rgba(0, 0, 0, 0.2);
-    /* Ensure clear bar boundaries */
-    /* Allow horizontal scrolling on mobile */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* SUPREME USABILITY: Smooth Lateral Scroll */
     overflow-x: auto;
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
-    scrollbar-width: none; /* Firefox */
+    scrollbar-width: none;
+    mask-image: linear-gradient(to right, black 90%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, black 90%, transparent 100%);
 }
 
 .category-tabs::-webkit-scrollbar {

@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Play, Pause } from 'lucide-react';
+import { logger } from '../utils/logger';
 
 const VoiceMessage = ({ url, duration, waveform, isOwnMessage }) => {
     const [isPlaying, setIsPlaying] = useState(false);

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import Navigation from './Navigation';
+import NavigationRail from './NavigationRail';
 import Header from './Header';
 import CreationHub from './CreationHub';
 import PlaygroundBanner from './PlaygroundBanner';
@@ -11,15 +12,16 @@ import './Layout.css';
 import ScrollToTop from './ScrollToTop';
 import BackToTop from './BackToTop';
 import GlobalModals from './GlobalModals';
+import OmniscientViewer from './OmniscientViewer';
+import { useUI } from '../context/UIContext';
 
 const Layout = () => {
     const { isPlayground, isAdmin } = useAuth();
+    const { isViewerOpen } = useUI();
     const location = useLocation();
     const navigate = useNavigate();
-    // Ocultamos la navegación y el HUB de creación en el detalle de chat
     const isChatDetail = location.pathname.startsWith('/chats/') && location.pathname !== '/chats';
 
-    // [CRITICAL] Ensure version is always visible in browser tab for screenshots
     useEffect(() => {
         const baseTitle = "Sóc de Poble";
         const pageTitle = location.pathname === '/' ? "Inici" :
@@ -29,51 +31,53 @@ const Layout = () => {
         document.title = `${pageTitle.charAt(0).toUpperCase() + pageTitle.slice(1)} | ${baseTitle} v1.5.6-BATEGA`;
     }, [location]);
 
-    // [Interactive Push] Deep Linking to IAIA Chat
+    // [Interactive Push] Deep Linking
     useEffect(() => {
         const params = new URLSearchParams(location.search);
         const iaiaContext = params.get('iaia_context');
 
         if (iaiaContext) {
-            // Find IAIA persona and redirect
             import('../services/supabaseService').then(async ({ supabaseService }) => {
                 try {
                     const personas = await supabaseService.getAllPersonas(isPlayground);
                     const iaia = personas.find(p => p.full_name?.toUpperCase().includes('IAIA') || p.role === 'ambassador');
 
                     if (iaia) {
-                        logger.log('[Layout] Redirecting to IAIA chat with context:', iaiaContext);
+                        logger.log('[Layout] Redirecting to IAIA chat:', iaiaContext);
                         navigate(`/chats/${iaia.id}`, {
                             state: { injectedMessage: iaiaContext },
                             replace: true
                         });
-                    } else {
-                        logger.warn('[Layout] IAIA persona not found for deep link');
-                        navigate('/chats');
                     }
                 } catch (err) {
-                    logger.error('[Layout] Error deep linking to IAIA:', err);
+                    logger.error('[Layout] Error deep linking:', err);
                 }
             });
         }
     }, [location.search, navigate, isPlayground]);
 
-    // ALLIBERAMENT TOTAL: El banner taronja s'elimina de tot el sistema
     const showBanner = false;
 
     return (
-        <div className={`layout-container ${showBanner ? 'has-playground-banner' : ''}`}>
-            <ScrollToTop />
-            {/* PlaygroundBanner ocult per directiva de l'Arquitecte */}
-            {showBanner && <PlaygroundBanner />}
-            <Header />
-            <main className="content-area">
-                <Outlet />
-            </main>
-            <BackToTop />
-            {!isChatDetail && <Navigation />}
-            {!isChatDetail && <CreationHub />}
-            <GlobalModals />
+        <div className={`layout-shell ${isViewerOpen ? 'viewer-mode-active' : ''}`}>
+            {!isChatDetail && <NavigationRail />}
+
+            <div className={`layout-main-scroll ${showBanner ? 'has-playground-banner' : ''}`}>
+                <ScrollToTop />
+                <Header />
+
+                <div className="main-wrapper">
+                    <main className="content-area">
+                        <Outlet />
+                    </main>
+                    <OmniscientViewer />
+                </div>
+
+                <BackToTop />
+                {!isChatDetail && <Navigation />}
+                {!isChatDetail && <CreationHub />}
+                <GlobalModals />
+            </div>
         </div>
     );
 };

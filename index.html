@@ -14,16 +14,20 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=Genius_154" />
   <link rel="manifest" href="/manifest.json?v=Genius_154" />
 
-  <!-- Performance Optimized (Direct Load) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&display=swap"
+    rel="stylesheet">
 
   <script>
     // ATOMIC VERSION ENFORCEMENT (v1.5.6-BATEGA)
     (function () {
-      const REQUIRED_VERSION = '1.5.6-BATEGA-FINAL';
+      const REQUIRED_VERSION = '1.5.6-MASTER-BATEGA-REFLOW';
       const lastNuke = localStorage.getItem('last_nuclear_nuke');
 
       if (lastNuke !== REQUIRED_VERSION) {
-        console.warn('[NUCLEAR] Version mismatch or first run of v1.5.5. PURGING EVERYTHING...');
+        console.warn('[NUCLEAR] Version mismatch or first run of v1.5.6. PURGING EVERYTHING...');
         localStorage.clear();
         sessionStorage.clear();
         localStorage.setItem('last_nuclear_nuke', REQUIRED_VERSION);
@@ -57,10 +61,10 @@
     };
 
     window.CREATOR_EMAILS = window.CREATOR_EMAILS || ['socdepoblecom@gmail.com', 'damimus@gmail.com'];
-    window.APP_VERSION = '1.5.6-BATEGA-MASTER';
+    window.APP_VERSION = '1.5.6-MASTER-BATEGA-REFLOW';
     window.HIDE_SEO_VERSION = false; // Set to true for maintenance/screenshots
-    console.log('[MASTER] Bategat nominal. Versió ' + window.APP_VERSION);
-    console.log('[INFO] Qualsevol error de "shadow host" a la consola prové de l\'assistent d\'IA de Chrome i no afecta a Sóc de Poble.');
+    // console.log('[MASTER] Bategat nominal. Versió ' + window.APP_VERSION);
+    // console.log('[INFO] Qualsevol error de "shadow host" a la consola prové de l\'assistent d\'IA de Chrome i no afecta a Sóc de Poble.');
   </script>
 
   <title>Sóc de Poble | El Portal dels Pobles Connectats 🏘️⚖️✨</title>
@@ -110,9 +114,12 @@
   <meta name="twitter:image" content="https://socdepoble.vercel.app/og-image.png?v=Genius_1_5_4_Final_Consolidated" />
 
   <!-- Mobile Theme -->
-  <meta name="theme-color" content="#5D5FEF" />
+  <meta name="theme-color" content="#00f2ff" />
   <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Sóc de Poble" />
+  <link rel="apple-touch-startup-image" href="/splash_screen.png">
 
   <!-- Structured Data (JSON-LD) -->
   <script type="application/ld+json">
@@ -178,9 +185,9 @@
   </div>
   <div class="app-version"
     style="position:fixed;bottom:10px;right:10px;font-size:10px;opacity:0.3;pointer-events:none;">
-    v1.5.6-BATEGA-MASTER
+    v1.5.6-MASTER-BATEGA-REFLOW
   </div>
-  <script type="module" src="/src/entry.jsx?v=BATEGA_1_5_6"></script>
+  <script type="module" src="/src/entry.jsx?v=BATEGA_1_5_6_REFLOW"></script>
 </body>
 
 </html>

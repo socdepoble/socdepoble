@@ -1,6 +1,6 @@
 import React, { useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-// VERSION: 1.5.6-VITAMINADA (Master Resilience)
+// VERSION: 1.5.7-BATEGA (Batec Territorial & Sobirania Visual)
 import Header from './components/Header';
 import Layout from './components/Layout';
 
@@ -35,6 +35,11 @@ const PostDetail = lazy(() => import('./pages/PostDetail'));
 const MasterCalendar = lazy(() => import('./pages/MasterCalendar'));
 const DAFOPage = lazy(() => import('./pages/DAFOPage'));
 const DidacticPage = lazy(() => import('./pages/DidacticPage'));
+const Archive = lazy(() => import('./pages/Archive'));
+const SellSurplus = lazy(() => import('./pages/SellSurplus'));
+const RuralIntelligence = lazy(() => import('./components/RuralIntelligence'));
+const DidacticManual = lazy(() => import('./pages/DidacticManual'));
+const SolatgeConsole = lazy(() => import('./pages/SolatgeConsole'));
 import { RescueTool } from './components/RescueTool';
 
 import { supabase } from './supabaseClient';
@@ -51,13 +56,12 @@ if (typeof window !== 'undefined' && import.meta.env.DEV) {
 
 // Componente para proteger rutas
 const ProtectedRoute = ({ children }) => {
-  const { user, loading, logout } = useAuth(); // Ensure logout is extracted
+  const { user, loading, logout } = useAuth();
   const [showRescue, setShowRescue] = React.useState(false);
 
   React.useEffect(() => {
     let timer;
     if (loading) {
-      // If loading takes more than 5 seconds, show rescue button
       timer = setTimeout(() => setShowRescue(true), 5000);
     }
     return () => clearTimeout(timer);
@@ -68,32 +72,36 @@ const ProtectedRoute = ({ children }) => {
       <div style={{ position: 'relative', height: '100vh' }}>
         <NanoLoader message={showRescue ? "Està costant més del previst..." : "Carregant sessió..."} />
         {showRescue && (
-          <div style={{ position: 'absolute', bottom: '100px', left: '0', width: '100%', display: 'flex', justifyContent: 'center', zIndex: 1001 }}>
-            <button
-              onClick={() => {
-                logout();
-                window.location.href = '/login';
-              }}
-              style={{
-                padding: '12px 24px',
-                backgroundColor: '#FF4444',
-                color: 'white',
-                border: 'none',
-                borderRadius: '8px',
-                fontWeight: 'bold',
-                cursor: 'pointer',
-                boxShadow: '0 4px 12px rgba(255, 68, 68, 0.3)'
-              }}
-            >
-              🚨 Reiniciar Sessió (Emergència)
-            </button>
+          <div className="emergency-rescue-overlay animate-in">
+            <div className="rescue-card">
+              <h3>🚨 Protocol de Rescat</h3>
+              <p>Està costant més del previst. Vols forçar el reinici?</p>
+              <div className="rescue-actions">
+                <button
+                  onClick={() => {
+                    logout();
+                    window.location.href = '/login?rescue=true';
+                  }}
+                  className="btn-rescue-nuclear"
+                >
+                  Reiniciar Sessió (Neteja Total)
+                </button>
+                <button
+                  onClick={() => window.location.reload()}
+                  className="btn-rescue-soft"
+                >
+                  Recarregar Pàgina
+                </button>
+              </div>
+            </div>
           </div>
         )}
       </div>
     );
   }
 
-  if (!user) {
+  // [CRYPTO GENESIS] Els usuaris sobirans (Forasters) entren directament
+  if (!user && !localStorage.getItem('sp_sovereign_identity')) {
     return <Navigate to="/login" replace />;
   }
 
@@ -108,6 +116,26 @@ import NanoLoader from './components/NanoLoader';
 
 function App() {
   usePushNotifications(); // Activate Push System
+
+  useEffect(() => {
+    // [VERSION CHECK: PROTOCOLO FLASH]
+    const APP_VERSION = "1.5.6-MASTER-BATEGA-REFLOW";
+    const lastVersion = localStorage.getItem('sp_app_version');
+
+    if (lastVersion && lastVersion !== APP_VERSION) {
+      logger.log('[FLASH] Nova versió detectada. Executant Hard Reload...');
+      localStorage.setItem('sp_app_version', APP_VERSION);
+      window.location.reload(true);
+    } else {
+      localStorage.setItem('sp_app_version', APP_VERSION);
+    }
+
+    // [PILLAR 1] Rhizome Pruning (Eg-walker)
+    // Activat per a resiliència de memòria i velocitat extrema [MASTER]
+    import('./services/rhizomeManager').then(({ rhizomeManager }) => {
+      rhizomeManager.pruneHistory();
+    });
+  }, []);
 
   return (
     <BrowserRouter>
@@ -132,7 +160,7 @@ function App() {
                 </ErrorBoundary>
               }
             >
-              <Route index element={<Navigate to="/chats" replace />} />
+              <Route index element={<Navigate to="/mur" replace />} />
               <Route
                 path="chats"
                 element={
@@ -162,6 +190,7 @@ function App() {
               <Route path="/@:username" element={<PublicProfile />} />
               <Route path="perfil/:id" element={<PublicProfile />} />
               <Route path="entitat/:id" element={<PublicEntity />} />
+              <Route path="vendre-excedent" element={<SellSurplus />} />
               <Route path="post/:id" element={<PostDetail />} />
               <Route
                 path="notificacions"
@@ -188,6 +217,7 @@ function App() {
                 }
               />
               <Route path="cerca" element={<SearchDiscover />} />
+              <Route path="arxiu" element={<Archive />} />
               <Route path="comunitat" element={<CommunityDirectory />} />
               <Route path="pobles" element={<Towns />} />
               <Route path="pobles/:id" element={<TownDetail />} />
@@ -217,6 +247,9 @@ function App() {
               <Route path="calendari" element={<MasterCalendar />} />
               <Route path="dafo/:id" element={<DAFOPage />} />
               <Route path="didactica/:id" element={<DidacticPage />} />
+              <Route path="intel·ligencia" element={<RuralIntelligence />} />
+              <Route path="tutorial-didactica" element={<DidacticManual />} />
+              <Route path="solatge" element={<SolatgeConsole />} />
 
               {/* EMERGENCY RESCUE ROUTES (Escaped from SW) */}
               <Route path="rescat.html" element={<RescueTool />} />

@@ -43,7 +43,11 @@ export const MarketItemSchema = z.object({
     image_url: z.string().nullable().optional(),
     is_playground: z.boolean().optional(),
     entity_id: z.string().regex(uuidRegex).nullable().optional(),
-    is_active: z.boolean().default(true)
+    is_active: z.boolean().default(true),
+    ai_percentage: z.number().min(0).max(100).default(0).optional(),
+    human_percentage: z.number().min(0).max(100).default(100).optional(),
+    time_saved_minutes: z.number().min(0).default(0).optional(),
+    is_iaia_inspired: z.boolean().default(false).optional()
 });
 
 export const MessageSchema = z.object({

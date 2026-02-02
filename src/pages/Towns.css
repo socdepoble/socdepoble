@@ -265,10 +265,110 @@
     color: var(--text-main);
 }
 
+/* AGRARIAN HUD SIGNES VITALS */
+.agrarian-hud-container {
+    padding: 12px 16px;
+    background: #000;
+    margin-bottom: var(--space-lg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 4px solid var(--color-primary);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.hud-metric {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.hud-metric-label {
+    font-size: 8px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.hud-indicator-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    box-shadow: 0 0 10px currentColor;
+    animation: pulse-hud 2s infinite;
+}
+
+.hud-status-text {
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.hud-indicator-indicator {
+    display: flex;
+    gap: 2px;
+}
+
+.hud-indicator-indicator .bar {
+    width: 12px;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.hud-indicator-indicator .bar.active {
+    background: var(--color-primary);
+}
+
+@keyframes pulse-hud {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.5;
+        transform: scale(1.2);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* TIME LAYER EXPLORER */
+.time-layer-explorer {
+    display: flex;
+    gap: 12px;
+    padding: 16px;
+    background: rgba(0, 0, 0, 0.05);
+    border-bottom: 1px solid var(--color-divider);
+    margin-bottom: var(--space-lg);
+}
+
+.layer-btn {
+    flex: 1;
+    border: none;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    height: 40px;
+}
+
+.layer-btn:active {
+    transform: scale(0.95);
+}
+
 .town-content-explorer {
-    background: white;
-    border-radius: 32px 32px 0 0;
-    padding-top: var(--space-xl);
+    background: var(--bg-main);
+    border-radius: 0;
+    /* Forced Zero Radius */
+    padding-top: 0;
 }
 
 .explorer-tabs {

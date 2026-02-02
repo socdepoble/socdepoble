@@ -10,12 +10,7 @@ export const logger = {
         if (isDev) console.log(...args);
     },
     error: (...args) => {
-        // En producció podríem enviar-ho a un servei extern (Sentry, etc.)
-        if (isDev) {
-            console.error(...args);
-        } else {
-            // Log mínim o silenci
-        }
+        if (isDev) console.error(...args);
     },
     warn: (...args) => {
         if (isDev) console.warn(...args);
@@ -27,5 +22,16 @@ export const logger = {
         if (isDev) console.debug(...args);
     }
 };
+
+/**
+ * Creates a prefixed logger for a specific component.
+ */
+export const createLogger = (prefix) => ({
+    log: (...args) => logger.log(`[${prefix}]`, ...args),
+    error: (...args) => logger.error(`[${prefix}]`, ...args),
+    warn: (...args) => logger.warn(`[${prefix}]`, ...args),
+    info: (...args) => logger.info(`[${prefix}]`, ...args),
+    debug: (...args) => logger.debug(`[${prefix}]`, ...args),
+});
 
 export default logger;

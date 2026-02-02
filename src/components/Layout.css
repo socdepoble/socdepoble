@@ -1,20 +1,57 @@
-.layout-container {
+/* Google-Style Shell Layout */
+.layout-shell {
     display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    padding-bottom: calc(var(--nav-height) + 20px);
-    padding-top: var(--header-height);
-    /* Offset for sticky header */
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: var(--sdp-bg-dark);
 }
 
-.layout-container.has-playground-banner {
-    --banner-height: 50px;
-    padding-top: calc(var(--banner-height) + var(--header-height)) !important;
+.layout-main-scroll {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+    background-color: var(--sdp-bg-dark);
+}
+
+.main-wrapper {
+    flex: 1;
+    display: flex;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: var(--sdp-space-md);
 }
 
 .content-area {
     flex: 1;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
+    min-width: 0;
+}
+
+/* Scrollbar styling for a cleaner look */
+.layout-main-scroll::-webkit-scrollbar {
+    width: 8px;
+}
+
+.layout-main-scroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.layout-main-scroll::-webkit-scrollbar-thumb {
+    background: var(--sdp-glass-border);
+    border-radius: 4px;
+}
+
+.layout-main-scroll::-webkit-scrollbar-thumb:hover {
+    background: var(--sdp-text-med);
+}
+
+@media (max-width: 1024px) {
+    .main-wrapper {
+        padding: 0;
+        max-width: 100%;
+    }
 }

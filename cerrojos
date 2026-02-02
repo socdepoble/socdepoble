@@ -1,12 +1,4 @@
--- Permitir lectura y escritura pública en las tablas (para el prototipo)
-alter table chats enable row level security;
-create policy "Public Access" on chats for all using (true) with check (true);
-
-alter table posts enable row level security;
-create policy "Public Access" on posts for all using (true) with check (true);
-
-alter table market_items enable row level security;
-create policy "Public Access" on market_items for all using (true) with check (true);
-
-alter table messages enable row level security;
-create policy "Public Access" on messages for all using (true) with check (true);
+-- [!] ARXIU DESEGURITZAT - NOMÉS PER A EMERGÈNCIES DE PROTOTIPAT
+-- Aquest fitxer obre totes les portes (ALL USING TRUE). 
+-- NO EXECUTAR EN PRODUCCIÓ.
+-- Useu resolve_supabase_warnings.sql per tancar les portes.

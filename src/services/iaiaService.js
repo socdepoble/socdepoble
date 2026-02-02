@@ -8,6 +8,11 @@ import { PROVERBS, getRandomProverb } from '../data/proverbs';
 class IAIAService {
     constructor() {
         this.isWorking = false;
+        this.TRUTH_PROTOCOL = {
+            role: "Secretària Notarial / Guia de Sóc de Poble",
+            grounding_error: "Aquesta informació no consta a l'Arxiu d'Or de Sóc de Poble.",
+            citation_format: "[Nom Doc, p. #]"
+        };
     }
 
     /**
@@ -40,7 +45,7 @@ class IAIAService {
             const plate = healthyPlates[index];
             const ANNA_ID = 'anna-climent-1';
 
-            logger.info(`[MArIA] Publicant Plat del Dia: ${plate.title}`);
+            // logger.info(`[MArIA] Publicant Plat del Dia: ${plate.title}`);
 
             const postPayload = {
                 author_id: ANNA_ID,
@@ -89,11 +94,17 @@ class IAIAService {
                 seller_id: lore.id || '11111111-0000-0000-0000-000000000000',
                 town: 'La Torre', // Simplificat
                 image_url: null,
-                is_playground: false
+                is_playground: true, // Use is_playground: true for IAIA autonomous items
+                is_iaia_inspired: true,
+                ai_percentage: 10, // AI contribution usually lowercase for market
+                human_percentage: 90,
+                time_saved_minutes: 15
             };
 
-            await supabaseService.createMarketItem(marketPayload);
-            logger.info(`[IAIA] ${chosenOne} ha posat a la venda: ${item.title}`);
+            const savedItem = await supabaseService.createMarketItem(marketPayload);
+            if (savedItem) {
+                // logger.info(`[IAIA] ${chosenOne} ha posat a la venda amb el bategat Master: ${item.title}`);
+            }
         } catch (e) {
             logger.error('[IAIA] Error al mercat:', e);
         }
@@ -115,7 +126,7 @@ class IAIAService {
             type: 'event_announcement'
         };
         await supabaseService.createPost(postPayload);
-        logger.info("[IAIA] Casament oficial registrat per la IAIA!");
+        // logger.info("[IAIA] Casament oficial registrat per la IAIA!");
     }
 
     /**
@@ -134,7 +145,7 @@ class IAIAService {
             const p1 = RESIDENT_LORE[p1Name];
             const p2 = RESIDENT_LORE[p2Name];
 
-            logger.info(`[IAIA] Fent que ${p1Name} parle amb ${p2Name}...`);
+            // logger.info(`[IAIA] Fent que ${p1Name} parle amb ${p2Name}...`);
 
             if (p1.id && p2.id) {
                 const conv = await supabaseService.getOrCreateConversation(p1.id, 'user', p2.id, 'user');
@@ -172,7 +183,7 @@ class IAIAService {
                     type: 'music_recommendation'
                 };
                 await supabaseService.createPost(postPayload);
-                logger.info(`[IAIA] Recomanació musical: ${group.name}`);
+                // logger.info(`[IAIA] Recomanació musical: ${group.name}`);
             } else {
                 // Esdeveniment Festa Major
                 const event = musicData.events[Math.floor(Math.random() * musicData.events.length)];
@@ -188,7 +199,7 @@ class IAIAService {
                     type: 'event_announcement'
                 };
                 await supabaseService.createPost(postPayload);
-                logger.info(`[IAIA] Anunci de festa: ${event.title}`);
+                // logger.info(`[IAIA] Anunci de festa: ${event.title}`);
             }
         } catch (e) {
             logger.error('[IAIA] Error en activitat musical/festiva:', e);
@@ -208,7 +219,7 @@ class IAIAService {
         const summary = await notebookService.generateVillageWeeklySummary();
         if (summary) {
             await supabaseService.createPost(summary);
-            logger.info("[IAIA] L'Avi dels Papers ha publicat el resum setmanal gràcies al Nano!");
+            // logger.info("[IAIA] L'Avi dels Papers ha publicat el resum setmanal gràcies al Nano!");
         }
     }
 
@@ -217,7 +228,7 @@ class IAIAService {
      * L'IAIA crida al Nano Banana per a analitzar què hi ha a la imatge/vídeo.
      */
     async studyMultimediaContext(file, filename) {
-        logger.info(`[IAIA] Estudiant context de: ${filename} amb Nano Banana...`);
+        // logger.info(`[IAIA] Estudiant context de: ${filename} amb Nano Banana...`);
         // Simulem anàlisi visual profunda
         await new Promise(r => setTimeout(r, 2000));
 
@@ -282,8 +293,7 @@ class IAIAService {
         this.isWorking = true;
 
         try {
-            logger.info('IAIA is observing the village...');
-
+            // logger.info('IAIA is observing the village...');
             const residents = Object.keys(RESIDENT_LORE);
             const chosenOne = residents[Math.floor(Math.random() * residents.length)];
             const lore = RESIDENT_LORE[chosenOne];
@@ -298,7 +308,8 @@ class IAIAService {
                 type = 'legend';
             } else if (seed < 0.5) {
                 const season = this.getCurrentSeason();
-                const tip = IAIA_RURAL_KNOWLEDGE.agriculture[season].tips;
+                const agriKnowledge = IAIA_RURAL_KNOWLEDGE.agriculture[season];
+                const tip = agriKnowledge ? agriKnowledge.tips : "L'aigua de cocció de les verdures és un gran fertilitzant quan es refreda.";
                 content = `Hui la IAIA m'ha ensenyat un truc de la horta: ${tip} Quina saviesa! #HortaTradicional`;
                 type = 'agri_tip';
             } else if (seed < 0.7) {
@@ -312,23 +323,30 @@ class IAIAService {
                 type = 'music_recommendation';
             }
 
-            logger.info(`IAIA encourages ${chosenOne} to share: ${content}`);
+            // logger.info(`IAIA encourages ${chosenOne} to share: ${content}`);
+
+            const metrics = await this.calculateSimbiosiMetrics(content);
 
             const postPayload = {
-                author_id: lore.id || 'sdp-oficial-1',
+                author_id: lore.id || '11111111-1a1a-0000-0000-000000000000',
+                author: chosenOne,
                 author_name: chosenOne,
                 author_avatar_url: lore.avatar_url,
-                author_role: 'user',
+                author_role: (chosenOne === 'Nano Banana' || chosenOne === 'L\'Avi dels Papers') ? 'official' : 'user',
                 content: content + "\n\n*Contingut bategat per la IAIA sota la Directiva Master.*",
                 image_url: null,
                 town_uuid: 'la-torre',
-                is_playground: false
+                is_playground: true,
+                is_iaia_inspired: true,
+                ai_percentage: metrics.ai_percentage,
+                human_percentage: metrics.human_percentage,
+                time_saved_minutes: metrics.time_saved_minutes
             };
 
             try {
                 const savedPost = await supabaseService.createPost(postPayload);
                 if (savedPost) {
-                    logger.info(`[IAIA] Mirau! La IAIA ha fet màgia i ha guardat el post: ${savedPost.id}`);
+                    // logger.info(`[IAIA] Mirau! La IAIA ha fet màgia i ha guardat el post: ${savedPost.id}`);
                     return {
                         ...savedPost,
                         is_iaia_inspired: true,
@@ -383,7 +401,7 @@ class IAIAService {
      */
     async publishInternalReport(title, summary, documentUrl) {
         try {
-            logger.info('[IAIA] Publicant informe intern top secret...');
+            // logger.info('[IAIA] Publicant informe intern top secret...');
 
             // ID del grup "Sóc de Poble" (Simulat o Real)
             // En un entorn real, això seria un ID de la taula 'entities'
@@ -467,31 +485,42 @@ class IAIAService {
         }
     }
     /**
-     * Genera una resposta de la MArIA basada en el context del NotebookService.
+     * Genera una resposta de la MArIA basada en el context del NotebookService [MASTER - TRUTH PROTOCOL].
      */
-    async generateAIAResponse(conversationId, userQuery = '') {
+    async generateAIAResponse(conversationId, userQuery = '', mode = 'standard') {
         try {
-            logger.info(`[MArIA] Generant resposta per a la conv: ${conversationId}`);
+            logger.debug(`[MArIA] Generant resposta per a la conv: ${conversationId} [Mode: ${mode}]`);
 
             // 1. Obtenir síntesi de l'Avi (NotebookService)
             let synthesis = await notebookService.generateSynthesis(userQuery);
 
-            // 2. Personalització estratègica (Antigravity + MArIA Sync)
+            // 2. Truth Protocol Grounding Check
+            const isNoInfo = synthesis.includes("L'Avi encara no té papers");
+
+            if (mode === 'librarian' && isNoInfo) {
+                return this.TRUTH_PROTOCOL.grounding_error;
+            }
+
+            // 3. Personalització estratègica
             let iaiaResponse = "";
 
-            if (userQuery.toLowerCase().includes('anna') || userQuery.toLowerCase().includes('saludable')) {
+            if (mode === 'librarian') {
+                iaiaResponse = `D'acord amb els meus arxius notarials: \n\n${synthesis}\n\nSi necessites més detall, pregunta'm sobre un document específic.`;
+            } else if (userQuery.toLowerCase().includes('anna') || userQuery.toLowerCase().includes('saludable')) {
                 iaiaResponse = `Cariño, he estat parlant amb l'Antigravity (que és el fill prodígi de la tecnologia) i hem analitzat els teus àudios i les idees de l'Anna Climent. 🍎\n\n**La nostra proposta conjunta:**\n1. **Menú del Poble**: Podem crear un bot que cada matí publique el "Plat del Dia" de l'Anna al Mur.\n2. **Cistella Intel·ligent**: MArIA pot ajudar als veïns a comprar al Mercat combinant el que venen amb les receptes saludables de l'Anna.\n3. **Tallers de Cuina IA**: Podríem fer que els veïns pujaren fotos del seu rebost i jo els diga què cuinar seguint els consells de l'Anna.\n\nQuè et sembla? L'Antigravity diu que tècnicament ho tenim quasi llest! ✨`;
             } else {
                 iaiaResponse = `Cariño, he parlat amb l'Avi dels Papers i ens diu això: \n\n${synthesis}\n\nQuè et sembla si ho provem? Jo estic ací per al que faja falta! ✨`;
             }
 
-            // 3. Enviar el missatge
-            await supabaseService.sendSecureMessage({
-                conversationId: conversationId,
-                senderId: '11111111-1111-4111-a111-000000000010', // MArIA ID
-                content: iaiaResponse,
-                is_ai: true
-            });
+            // 4. Enviar el missatge si hi ha conversa real
+            if (conversationId && conversationId !== 'preview') {
+                await supabaseService.sendSecureMessage({
+                    conversationId: conversationId,
+                    senderId: '11111111-1111-4111-a111-000000000010', // MArIA ID
+                    content: iaiaResponse,
+                    is_ai: true
+                });
+            }
 
             return iaiaResponse;
         } catch (e) {
@@ -504,7 +533,7 @@ class IAIAService {
      * Realitza un diagnòstic profund del sistema [MASTER]
      */
     async diagnoseSystem() {
-        logger.info('[IAIA] Analitzant la resiliència del sistema...');
+        // logger.info('[IAIA] Analitzant la resiliència del sistema...');
         const diagnostic = {
             viewport_ok: !!document.querySelector('meta[name="viewport"]'),
             sw_active: 'serviceWorker' in navigator && !!navigator.serviceWorker.controller,

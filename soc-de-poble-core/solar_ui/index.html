@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ca">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sóc de Poble - Village OS</title>
+
+    <!-- DNI DIGITAL (MANIFEST PWA) -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- DEFINICIÓ DE COLORS DE SISTEMA (PER AL NAVAGADOR) -->
+    <meta name="theme-color" content="#9A6C63">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Sóc de Poble">
+
+    <!-- ICONA DE PESTANYA (FAVICON) -->
+    <link rel="icon" type="image/png" href="assets/master/logo_socdepoble_square_192.png">
+
+    <link rel="stylesheet" href="static/css/nano_banana.css">
+</head>
+
+<body class="village-os">
+    <div id="app">
+        <!-- El cor de la interfície es carregarà ací -->
+        <header class="m3-app-bar">
+            <h1>Sóc de Poble</h1>
+            <p>Village OS v1.0</p>
+        </header>
+        <main>
+            <p>Carregant el rebost de dades...</p>
+        </main>
+    </div>
+
+    <script src="static/js/app.js"></script>
+    <script src="static/js/haptics.js"></script>
+    <script>
+        // REGISTRE DEL SERVICE WORKER (El Contracte del Masover)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./service-worker.js')
+                    .then((reg) => {
+                        console.log('✅ [Sóc de Poble] Rebost Digital actiu. Àmbit:', reg.scope);
+                    })
+                    .catch((err) => {
+                        console.error('❌ [Sóc de Poble] Error al registrar el rebost:', err);
+                    });
+            });
+        }
+    </script>
+</body>
+
+</html>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Plus, Loader2, MapPin, Sparkles } from 'lucide-react';
+import { Plus, Loader2, MapPin, Sparkles, Filter, Zap, Check } from 'lucide-react';
 import { useUI } from '../context/UIContext';
 import { supabaseService } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
@@ -13,6 +13,9 @@ import MarketSkeleton from './Skeletons/MarketSkeleton';
 import SEO from './SEO';
 import Carousel from './Carousel';
 import { iaiaService } from '../services/iaiaService';
+import { rhizomeManager } from '../services/rhizomeManager';
+import { paymentService } from '../services/paymentService';
+import { hapticService } from '../services/hapticService';
 import ShareHub from './ShareHub';
 import './Marketplace.css';
 
@@ -28,13 +31,15 @@ const Market = ({ searchTerm = '' }) => {
     const [hasMore, setHasMore] = useState(true);
     const [activeTab, setActiveTab] = useState('tot');
     const [page, setPage] = useState(0);
+    const [isIAIAFiltering, setIsIAIAFiltering] = useState(localStorage.getItem('isIAIAFiltering') === 'true');
     const PAGE_SIZE = 100;
 
     const marketTabs = [
         { id: 'tot', label: t('market.tabs.all') || 'Tot', role: 'tot' },
         { id: 'producte-local', label: t('market.tabs.local') || 'Producte local', role: 'producte-local' },
         { id: 'artesania', label: t('market.tabs.crafts') || 'Artesania', role: 'artesania' },
-        { id: 'segona-ma', label: t('market.tabs.secondhand') || 'Segona mà', role: 'segona-ma' }
+        { id: 'segona-ma', label: t('market.tabs.secondhand') || 'Segona mà', role: 'segona-ma' },
+        { id: 'excedents', label: 'Excedents (Km 0)', role: 'excedents' }
     ];
 
     useEffect(() => {
@@ -50,6 +55,21 @@ const Market = ({ searchTerm = '' }) => {
     }, []);
 
     useEffect(() => {
+        // [PILAR 1: INSTANT LOAD] - Bategat immediat des de la memòria local
+        const cacheKey = `market_${activeTab}_global_0`;
+        const localData = localStorage.getItem(`lc_${cacheKey}`);
+        if (localData) {
+            try {
+                const parsed = JSON.parse(localData);
+                if (parsed && parsed.data && Array.isArray(parsed.data)) {
+                    logger.log('[Market] Instant Load: Bategant dades des del solatge local...');
+                    setItems(parsed.data);
+                    setLoading(false);
+                }
+            } catch (e) {
+                logger.warn('[Market] Error en Instant Load:', e);
+            }
+        }
         loadMarketData(false);
     }, [activeTab]);
 
@@ -92,8 +112,6 @@ const Market = ({ searchTerm = '' }) => {
                 const idToCheck = String(item.seller_entity_id || item.author_entity_id || item.author_user_id || '');
                 const nameToCheck = item.seller || item.seller_name || item.author_name || '';
 
-                // 0. Explicit Name Blacklist (Ambassadors & Mock Businesses)
-                // This captures cases where role/ID might be missing in DB items
                 const BLACKLIST_NAMES = [
                     'Vicent Ferris', 'Lucía Belda', 'Elena Popova', 'Maria "Mèl"', 'Marc Sendra',
                     'Samir Mensah', 'Andreu Soler', 'Beatriz Ortega', 'Joanet Serra',
@@ -104,7 +122,6 @@ const Market = ({ searchTerm = '' }) => {
                 ];
                 if (BLACKLIST_NAMES.some(name => nameToCheck.includes(name))) return false;
 
-                // 1. Filter out AI/Ambassadors by Role/ID
                 const isAI = item.author_role === 'ambassador' ||
                     item.author_is_ai ||
                     item.is_iaia_inspired ||
@@ -112,23 +129,26 @@ const Market = ({ searchTerm = '' }) => {
 
                 if (isAI) return false;
 
-                // 2. Filter out Mock Data (Fake businesses) BUT keep Sóc de Poble official items
                 const isMock = idToCheck.startsWith('mock-');
                 const isOfficialSdP = idToCheck === 'mock-business-sdp-1' || item.seller === 'Sóc de Poble' || item.title?.includes('Camiseta');
 
                 if (isMock && !isOfficialSdP) return false;
-
-                // 3. Filter out IAIA specific IDs
-                if ((item.uuid && String(item.uuid).startsWith('iaia-')) || (item.id && String(item.id).startsWith('iaia-'))) return false;
-
-                // 4. Filter out ALL 0000 reserved IDs including the main system one (IAIA)
                 if (idToCheck.startsWith('00000000-')) return false;
 
                 return true;
             });
         }
 
-        // 2. Search Filter
+        // 2. IAIA Portera (Cognitive Filter Km 0) [PILLAR 4]
+        if (isIAIAFiltering) {
+            const userPrefs = {
+                primary_town_id: 1, // La Torre
+                anchors: ['oli', 'mel', 'farina', 'proximitat', 'producte-local']
+            };
+            baseItems = rhizomeManager.cognitiveFilter(baseItems, userPrefs);
+        }
+
+        // 3. Search Filter
         if (!searchTerm) return baseItems;
         const normalizedSearch = searchTerm.toLowerCase();
         return baseItems.filter(item =>
@@ -136,13 +156,58 @@ const Market = ({ searchTerm = '' }) => {
             item.description?.toLowerCase().includes(normalizedSearch) ||
             item.seller?.toLowerCase().includes(normalizedSearch)
         );
-    }, [items, searchTerm, visionMode]);
+    }, [items, searchTerm, visionMode, isIAIAFiltering]);
+
+    const [payingItemId, setPayingItemId] = useState(null);
+    const [paidItems, setPaidItems] = useState(new Set());
+
+    const handleAstroPayment = async (item) => {
+        const confirm = window.confirm(`Vols activar un Bategat Econòmic (Astro) de ${item.price} per ${item.title}? L'IAIA segellarà la transacció immediatament al teu mòbil.`);
+        if (!confirm) return;
+
+        const itemId = item.uuid || item.id;
+        setPayingItemId(itemId);
+
+        // [SUPREME USABILITY] Confiança Optimista: Bateguem ràpid!
+        try {
+            const result = await paymentService.sendEconomicBeat({
+                amount: parseFloat(item.price.replace('€', '').replace(',', '.').trim()) || 0,
+                receiver_id: item.seller_entity_id || item.author_id,
+                reference: `Tele-Oli: ${item.title}`
+            });
+
+            if (result.success) {
+                // Vibració de confirmació segons el nou mandament [MASTER]
+                hapticService.notifySuccess();
+
+                setPaidItems(prev => new Set([...prev, itemId]));
+
+                // Mostrem l'èxit bategat per un moment abans de netejar el loader si n'hi hagués
+                setTimeout(() => {
+                    setPayingItemId(null);
+                    // Mantenim el check verd un moment més per a satisfacció de l'usuari
+                    setTimeout(() => {
+                        setPaidItems(prev => {
+                            const next = new Set(prev);
+                            next.delete(itemId);
+                            return next;
+                        });
+                    }, 3000);
+                }, 500);
+            } else {
+                alert(`Error en el bategat: ${result.error}`);
+                setPayingItemId(null);
+            }
+        } catch (err) {
+            logger.error('[Market] Payment error:', err);
+            setPayingItemId(null);
+        }
+    };
 
     const handleHeaderClick = (item) => {
         const targetId = item.author_entity_id || item.author_user_id || item.id;
         const type = item.author_entity_id ? 'entitat' : 'perfil';
 
-        // BLINDATGE DE LLINATGE: Si és Sóc de Poble, forcem l'ID canònic
         if (item.seller?.toLowerCase().includes('sóc de poble') ||
             targetId === 'sdp-core' ||
             String(targetId).startsWith('mock-business-sdp') ||
@@ -151,8 +216,6 @@ const Market = ({ searchTerm = '' }) => {
             return;
         }
 
-        const IAIA_ID = '11111111-1111-4111-a111-000000000010'; // MArIA ID
-        // Si és MArIA i estem en sessió real, la portem a la seua pàgina de transparència
         if (item.author_role === 'ambassador' || item.author_is_ai || item.is_iaia_inspired || targetId === IAIA_ID) {
             navigate('/iaia');
             return;
@@ -183,30 +246,25 @@ const Market = ({ searchTerm = '' }) => {
                 image="/og-mercat.png"
                 url="/mercat"
                 type="website"
-                structuredData={{
-                    "@context": "https://schema.org",
-                    "@type": "OfferCatalog",
-                    "name": "Mercat de Sóc de Poble",
-                    "itemListElement": filteredItems.slice(0, 10).map((item, index) => ({
-                        "@type": "Product",
-                        "position": index + 1,
-                        "name": item.title,
-                        "description": item.description,
-                        "image": item.image_url,
-                        "offers": {
-                            "@type": "Offer",
-                            "price": item.price?.replace('€', '').trim(),
-                            "priceCurrency": "EUR",
-                            "availability": "https://schema.org/InStock"
-                        }
-                    }))
-                }}
             />
             {/* Semantic Heading for SEO/A11y */}
             <h1 className="sr-only">{t('market.title') || 'Mercat de Proximitat'}</h1>
 
             <header className="page-header-with-tabs">
-                <div className="header-tabs-wrapper">
+                <div className="header-top-actions px-4 pt-4 flex justify-between items-center">
+                    <h2 className="text-xl font-black text-white uppercase tracking-tighter">Mercat Rural</h2>
+                    <button
+                        className="btn-vendre-sobrants bg-orange-500 text-black font-black px-4 py-2 rounded-xl flex items-center gap-2 text-sm shadow-[0_5px_15px_rgba(249,115,22,0.3)] hover:scale-105 active:scale-95 transition-all"
+                        onClick={() => {
+                            hapticService.notifySuccess();
+                            navigate('/vendre-excedent');
+                        }}
+                    >
+                        <Plus size={18} strokeWidth={3} />
+                        VENDRE SOBRANTS
+                    </button>
+                </div>
+                <div className="header-tabs-wrapper mt-4">
                     <CategoryTabs
                         selectedRole={activeTab}
                         onSelectRole={setActiveTab}
@@ -214,6 +272,24 @@ const Market = ({ searchTerm = '' }) => {
                     />
                 </div>
             </header>
+
+            {/* IAIA PORTERA TOGGLE [PILLAR 4] */}
+            <div className="iaia-filter-bar px-4 py-2 flex justify-between items-center text-xs font-bold border-b border-white/5 bg-black/40 backdrop-blur-xl sticky top-14 z-20">
+                <div className="flex items-center gap-2">
+                    <Sparkles size={14} className={isIAIAFiltering ? "text-primary animate-pulse" : "text-gray-300"} />
+                    <span className={isIAIAFiltering ? "text-primary" : "text-gray-400"}>IAIA PORTERA: {isIAIAFiltering ? "KM 0" : "SENSE FILTRE"}</span>
+                </div>
+                <button
+                    onClick={() => {
+                        const next = !isIAIAFiltering;
+                        setIsIAIAFiltering(next);
+                        localStorage.setItem('isIAIAFiltering', next);
+                    }}
+                    className={`px-3 py-1 rounded-full transition-all ${isIAIAFiltering ? 'bg-primary text-black' : 'bg-gray-100 text-gray-500'}`}
+                >
+                    {isIAIAFiltering ? "PAU RURAL" : "VEURE TOT"}
+                </button>
+            </div>
 
             <div className="market-grid">
                 {filteredItems.length === 0 ? (
@@ -224,141 +300,121 @@ const Market = ({ searchTerm = '' }) => {
                     />
                 ) : (
                     filteredItems.map(item => (
-                        <article key={item.uuid || item.id} className="universal-card market-item-card">
-                            <div
-                                className="card-header clickable"
-                                onClick={() => handleHeaderClick(item)}
-                            >
-                                <div className="header-left">
-                                    <Avatar
-                                        src={item.avatar_url}
-                                        role={item.author_role}
-                                        name={item.seller || item.seller_name}
-                                        size={44}
-                                    />
-                                    <div className="post-meta">
-                                        <div className="post-author-row">
-                                            <span className="post-author">
-                                                {item.seller || item.seller_name || item.author_name || 'Venedor'}
-                                            </span>
-                                            {(item.author_role === 'ambassador' || item.author_is_ai) && (
-                                                <span className="identity-badge ai" title="Memòria Artificial i Acció">MArIA</span>
-                                            )}
-                                        </div>
-                                        <div className="post-town">
-                                            {item.towns?.name || 'Al teu poble'}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="header-right">
-                                    <span className="post-time-right">{item.created_at ? new Date(item.created_at).toLocaleDateString() : 'Avui'}</span>
+                        <article key={item.uuid || item.id} className="universal-card market-item group">
+                            {/* CARD IMAGE [MASTER] */}
+                            <div className="card-image-wrapper">
+                                <img
+                                    src={item.image_url || '/assets/placeholders/market_default.jpg'}
+                                    alt={item.title}
+                                    className="group-hover:scale-105 transition-transform duration-500"
+                                />
+                                <div className="item-badges-right">
+                                    <span className="category-pill-mini bg-black text-white">
+                                        {item.category || 'Vessant'}
+                                    </span>
                                 </div>
                             </div>
 
-                            {item.title?.includes('Camiseta Oficial') ? (
-                                <Carousel
-                                    images={[
-                                        '/images/campaign/night_party.png',
-                                        '/images/campaign/young_man_tshirt.png',
-                                        '/images/campaign/iaia_tshirt.png',
-                                        item.image_url,
-                                        '/images/agents/javi_real.png',
-                                        '/images/campaign/group_tshirt.png',
-                                        '/images/campaign/hiker.png',
-                                        '/images/campaign/rustic_detail.png'
-                                    ]}
-                                    height="280px"
-                                />
-                            ) : (
-                                item.image_url && (
-                                    <div className="card-image-wrapper">
-                                        <img src={item.image_url} alt={`${item.title} - venut per ${item.seller}`} />
-                                    </div>
-                                )
-                            )}
-
-                            <div className="card-body">
-                                <div className="market-price-row">
+                            {/* CARD HEADER NOIR-NEON */}
+                            <div className="card-header-vibrant bg-black/40 backdrop-blur-md">
+                                <div className="flex justify-between items-start mb-1">
                                     <h3 className="item-title">{item.title}</h3>
                                     <span className="price-tag-vibrant">{item.price}</span>
                                 </div>
-                                <div className="item-desc-premium" dangerouslySetInnerHTML={{ __html: item.description || t('market.no_description') || 'Sense descripció' }} />
-
-                                {item.category_slug && (
-                                    <div className="item-tags-row">
-                                        <span className="category-pill-mini">
-                                            {categories.find(c => c.slug === item.category_slug)?.[
-                                                i18n.language === 'va' ? 'name_va' :
-                                                    i18n.language === 'es' ? 'name_es' :
-                                                        i18n.language === 'en' ? 'name_en' :
-                                                            i18n.language === 'gl' ? 'name_gl' : 'name_eu'
-                                            ] || item.tag || item.category_slug}
-                                        </span>
-                                    </div>
-                                )}
-
-                                {(item.author_role === 'ambassador' || item.author_is_ai || item.is_iaia_inspired) && (
-                                    <div className="ia-transparency-note-mini clickable" onClick={() => navigate('/iaia')}>
-                                        ✨ {t('profile.transparency_market') || 'Producte gestionat per MArIA (Memòria Artificial i Acció)'}
-                                    </div>
-                                )}
-
-                                {/* Cistella Intel·ligent Suggestion */}
-                                {(() => {
-                                    const suggestion = iaiaService.getHealthySuggestion(item.title, item.description);
-                                    if (suggestion && visionMode !== 'humana') {
-                                        return (
-                                            <div className="healthy-suggestion-card" onClick={() => navigate('/iaia')}>
-                                                <div className="suggestion-icon">🍎</div>
-                                                <div className="suggestion-content">
-                                                    <span className="suggestion-label">MArIA suggerix amb Anna Climent:</span>
-                                                    <span className="suggestion-text">Prova l'<strong>{suggestion.title}</strong> amb aquest ingredient!</span>
-                                                </div>
-                                            </div>
-                                        );
-                                    }
-                                    return null;
-                                })()}
+                                <p className="item-seller">{item.seller_name || 'Veí de la Torre'}</p>
                             </div>
 
-                            <div className="card-footer-vibrant">
-                                <button
-                                    className="add-btn-premium-vibrant"
-                                    style={{ flex: 1 }}
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        if (!user) navigate('/login');
-                                        // Interés logic
-                                        navigate(`/chats/${item.seller_entity_id || item.author_user_id || item.author_id}`, {
-                                            state: { interestedIn: item }
-                                        });
-                                    }}
-                                >
-                                    <Plus size={20} />
-                                    <span>{t('market.interested') || 'M\'interessa'}</span>
-                                </button>
-                                <ShareHub
-                                    title={`${item.title} - El Mercat de Sóc de Poble`}
-                                    text={`Mira aquest producte de proximitat: ${item.title} per ${item.price}. Bateguem pel comerç local!`}
-                                    url={`${window.location.origin}/mercat?id=${item.uuid || item.id}`}
-                                />
+                            <div className="p-4 flex-1 flex flex-col">
+                                <p className="item-desc-short line-clamp-2 mb-4">
+                                    {item.description}
+                                </p>
+
+                                {/* IAIA SYMBIOSIS [MASTER] */}
+                                {item.is_iaia_inspired && (
+                                    <div className="ia-transparency-note-mini mb-4 cursor-pointer bg-white/5 border border-white/5 rounded-lg p-2 hover:bg-white/10 transition-all" onClick={(e) => { e.stopPropagation(); navigate('/iaia'); }}>
+                                        <div className="simbiosi-header flex items-center gap-2 font-black text-[10px] uppercase tracking-tighter text-cyan-400">
+                                            <Sparkles size={12} className="text-primary" />
+                                            <span>SIMBIOSI Master [IAIA + VEÍ]</span>
+                                        </div>
+                                        <div className="simbiosi-metrics mt-1">
+                                            <div className="simbiosi-bar h-1 bg-white/10 rounded-full overflow-hidden flex">
+                                                <div className="ai-fill h-full bg-primary" style={{ width: `${item.ai_percentage}%` }}></div>
+                                                <div className="human-fill h-full bg-cyan-400" style={{ width: `${item.human_percentage}%` }}></div>
+                                            </div>
+                                            <div className="simbiosi-labels flex justify-between text-[9px] mt-1 font-bold opacity-70">
+                                                <span>🤖 IA: {item.ai_percentage}%</span>
+                                                <span>👤 Humà: {item.human_percentage}%</span>
+                                            </div>
+                                        </div>
+                                        <div className="simbiosi-impact text-[9px] mt-1 text-primary font-black">
+                                            ⏳ +{item.time_saved_minutes} minuts regalats
+                                        </div>
+                                    </div>
+                                )}
+
+                                <div className="card-footer-vibrant mt-auto flex flex-col gap-2">
+                                    <div className="flex gap-2 w-full">
+                                        <button
+                                            className="add-btn-premium-vibrant flex-1 bg-primary text-white font-bold p-3 rounded-xl flex items-center justify-center gap-2"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                if (!user) navigate('/login');
+                                                navigate(`/chats/${item.seller_entity_id || item.author_user_id || item.author_id}`, {
+                                                    state: { interestedIn: item }
+                                                });
+                                            }}
+                                        >
+                                            <Plus size={20} />
+                                            <span>M'INTERESSA</span>
+                                        </button>
+
+                                        {/* ASTRO PAYMENT BUTTON [PILLAR 3] */}
+                                        <button
+                                            className={`btn-astro-payment flex-1 font-black rounded-xl p-3 flex items-center justify-center gap-2 transition-all border-2 border-white/10 ${paidItems.has(item.uuid || item.id) ? 'bg-green-500/20 text-green-400' : 'bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/20'}`}
+                                            style={{ boxShadow: paidItems.has(item.uuid || item.id) ? 'none' : '0 10px 30px rgba(0, 242, 255, 0.1)', transform: paidItems.has(item.uuid || item.id) ? 'translate(2px, 2px)' : 'none' }}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleAstroPayment(item);
+                                            }}
+                                            disabled={payingItemId === (item.uuid || item.id)}
+                                        >
+                                            {payingItemId === (item.uuid || item.id) ? (
+                                                <Loader2 className="animate-spin" size={20} />
+                                            ) : paidItems.has(item.uuid || item.id) ? (
+                                                <Check size={20} strokeWidth={3} />
+                                            ) : (
+                                                <Zap size={20} fill="currentColor" />
+                                            )}
+                                            <span>{payingItemId === (item.uuid || item.id) ? 'BATEGANT...' : paidItems.has(item.uuid || item.id) ? 'BATEGAT OK!' : 'TELE-OLI (ASTRO)'}</span>
+                                        </button>
+                                    </div>
+                                    <div className="w-full flex justify-center">
+                                        <ShareHub
+                                            title={`${item.title} - El Mercat de Sóc de Poble`}
+                                            text={`Mira aquest producte de proximitat: ${item.title} per ${item.price}. Bateguem pel comerç local!`}
+                                            url={`${window.location.origin}/mercat?id=${item.uuid || item.id}`}
+                                        />
+                                    </div>
+                                </div>
                             </div>
                         </article>
                     ))
                 )}
             </div>
 
-            {hasMore && items.length > 0 && (
-                <div className="load-more-container">
-                    <button
-                        className="btn-load-more"
-                        onClick={() => loadMarketData(true)}
-                        disabled={loadingMore}
-                    >
-                        {loadingMore ? <Loader2 className="spinner" size={20} /> : t('common.load_more') || 'Carregar més'}
-                    </button>
-                </div>
-            )}
+            {
+                hasMore && items.length > 0 && (
+                    <div className="load-more-container">
+                        <button
+                            className="btn-load-more"
+                            onClick={() => loadMarketData(true)}
+                            disabled={loadingMore}
+                        >
+                            {loadingMore ? <Loader2 className="spinner" size={20} /> : t('common.load_more') || 'Carregar més'}
+                        </button>
+                    </div>
+                )
+            }
         </div>
     );
 };

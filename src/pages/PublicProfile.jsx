@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { User, MapPin, Calendar, Settings, ChevronRight, Loader2, AlertCircle, Building2, Store, Users as UsersIcon, ArrowLeft, UserPlus, UserMinus, Plus, Layout, Activity } from 'lucide-react';
+import { User, MapPin, Calendar, Settings, ChevronRight, Loader2, AlertCircle, Building2, Store, Users as UsersIcon, ArrowLeft, UserPlus, UserMinus, Plus, Layout, Activity, MessageCircle } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
 import { useUI } from '../context/UIContext';
@@ -412,6 +412,42 @@ const PublicProfile = () => {
                     )}
                 </div>
             </section>
+
+            {/* GALERIA TRENCADÍS [NANO BANANA] */}
+            {(() => {
+                const galleryItems = [
+                    ...userPosts.filter(p => p.image_url).map(p => ({
+                        id: p.id,
+                        asset: { url: p.image_url, mime_type: 'image/jpeg' },
+                        context: p.content?.substring(0, 30) + (p.content?.length > 30 ? '...' : '') || 'Publicació',
+                        description: p.location || profile.town_name,
+                        permissions: 'public'
+                    })),
+                    ...items.filter(i => i.image_url).map(i => ({
+                        id: i.uuid || i.id,
+                        asset: { url: i.image_url, mime_type: 'image/jpeg' },
+                        context: i.title,
+                        description: i.price,
+                        permissions: 'public'
+                    }))
+                ];
+
+                return galleryItems.length > 0 && (
+                    <section className="profile-section-premium" style={{ marginTop: '0', paddingTop: '0' }}>
+                        <h2 className="section-header-premium">
+                            <Sparkles size={20} />
+                            Mode Trencadís
+                        </h2>
+                        <div className="profile-gallery-wrapper" style={{ padding: '0 8px' }}>
+                            <MasterMediaGallery
+                                items={galleryItems}
+                                showFilters={false}
+                                layout="trencadis"
+                            />
+                        </div>
+                    </section>
+                );
+            })()}
         </div >
     );
 };

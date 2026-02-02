@@ -34,31 +34,50 @@ const Map = () => {
             </header>
 
             <div className="map-view-mock">
+                <div className="map-header-hud">
+                    <span className="hud-badge">VISTA TÀCTICA: ON</span>
+                    <span className="hud-metric">LAT: 38.6183 N</span>
+                    <span className="hud-metric">LON: 0.4189 W</span>
+                </div>
+
                 <div className="map-controls">
+                    <button className="map-control-btn gold" title="Saviesa de l'IAIA"><MapPin size={22} /></button>
                     <button className="map-control-btn"><Layers size={20} /></button>
                     <button className="map-control-btn"><Navigation size={20} /></button>
                 </div>
 
                 {/* Mock Map Background */}
                 <div className="map-background">
+                    {/* IAIA Gold Pin - The Soul of the Village */}
+                    <div className="map-ping gold" style={{ top: '48%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+                        <div className="ping-wave"></div>
+                        <div className="ping-dot"></div>
+                        <div className="ping-label">IAIA: Memòria Viva</div>
+                    </div>
+
                     <div className="map-ping mur" style={{ top: '30%', left: '40%' }}>
                         <div className="ping-wave"></div>
                         <div className="ping-dot"></div>
+                        <div className="ping-label">Mur: Nova Collita</div>
                     </div>
-                    <div className="map-ping mercat" style={{ top: '55%', left: '60%' }}>
+
+                    <div className="map-ping mercat" style={{ top: '65%', left: '60%' }}>
                         <div className="ping-wave"></div>
                         <div className="ping-dot"></div>
+                        <div className="ping-label">Mercat: Mel de la Torre</div>
                     </div>
-                    <div className="map-ping event" style={{ top: '45%', left: '25%' }}>
+
+                    <div className="map-ping event" style={{ top: '35%', left: '25%' }}>
                         <div className="ping-wave"></div>
                         <div className="ping-dot"></div>
+                        <div className="ping-label">Festa Major</div>
                     </div>
                 </div>
 
-                <div className="map-legend">
-                    <div className="legend-item"><span className="dot mur"></span> Mur</div>
-                    <div className="legend-item"><span className="dot mercat"></span> Mercat</div>
-                    <div className="legend-item"><span className="dot event"></span> {t('common.event') || 'Esdeveniment'}</div>
+                <div className="map-legend tactical-legend">
+                    <div className="legend-item"><span className="dot gold"></span> Saviesa</div>
+                    <div className="legend-item"><span className="dot mur"></span> Bategat</div>
+                    <div className="legend-item"><span className="dot mercat"></span> Comerç</div>
                 </div>
             </div>
 

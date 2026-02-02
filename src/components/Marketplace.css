@@ -160,10 +160,11 @@
 }
 
 .add-btn-premium {
-    background-color: var(--color-primary);
-    color: white;
+    background: rgba(0, 242, 255, 0.1);
+    border: 1px solid #00f2ff;
+    color: #00f2ff;
     padding: 10px 16px;
-    border-radius: var(--radius-xs);
+    border-radius: 8px;
     /* Rectangular */
     display: flex;
     align-items: center;
@@ -232,8 +233,8 @@
 
 /* Healthy Suggestion Card - Rural Tech Style */
 .healthy-suggestion-card {
-    background: linear-gradient(135deg, #fff9f0 0%, #fff4e5 100%);
-    border: 1px solid #ffe4bc;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
     padding: 10px 14px;
     display: flex;
@@ -280,13 +281,13 @@
     font-size: 10px;
     font-weight: 800;
     text-transform: uppercase;
-    color: #c05621;
-    letter-spacing: 0.05em;
+    color: #00f2ff;
+    letter-spacing: 0.1em;
 }
 
 .suggestion-text {
     font-size: 13px;
-    color: #2d3748;
+    color: rgba(255, 255, 255, 0.8);
     line-height: 1.3;
 }
 

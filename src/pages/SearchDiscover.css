@@ -435,3 +435,39 @@
     margin-right: auto;
     font-weight: 600;
 }
+
+/* === EXTERNAL FEDERATION === */
+.external-federation {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px dashed var(--hud-border);
+}
+
+.result-item-card.external {
+    border-color: var(--color-primary);
+    background: rgba(0, 242, 255, 0.05);
+    cursor: pointer;
+}
+
+.result-item-card.external:hover {
+    background: rgba(0, 242, 255, 0.1);
+    transform: translateX(4px);
+}
+
+.post-avatar.external {
+    background: rgba(0, 242, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+.badge-iaia {
+    background: var(--color-primary);
+    color: #000;
+    font-size: 10px;
+    font-weight: 900;
+    padding: 2px 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}

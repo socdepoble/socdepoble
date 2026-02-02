@@ -37,15 +37,72 @@
 
 .modal-header {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
     padding: 1rem 1.5rem;
     border-bottom: 1px solid var(--color-border);
+    position: relative;
+}
+
+.modal-pull-handle {
+    width: 40px;
+    height: 4px;
+    background: var(--color-divider);
+    border-radius: 2px;
+    margin-bottom: 12px;
+}
+
+.modal-header-row {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .modal-header h2 {
     font-size: 1.25rem;
     font-weight: 700;
+}
+
+.modal-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.btn-presentation-sovereign {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--color-primary-soft);
+    padding: 6px 12px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 4px 15px rgba(0, 242, 255, 0.1);
+}
+
+.btn-presentation-sovereign:hover {
+    transform: scale(1.05) translateY(-2px);
+    background: var(--color-primary-soft);
+    border-color: var(--color-primary);
+    box-shadow: 0 8px 25px rgba(0, 242, 255, 0.2);
+}
+
+.logo-sovereign {
+    height: 20px;
+    width: 20px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 5px var(--color-primary));
+}
+
+.btn-presentation-sovereign span {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-main);
+    letter-spacing: 0.5px;
 }
 
 .post-form-compact {
@@ -96,6 +153,48 @@
     justify-content: space-between;
     align-items: center;
     gap: 1rem;
+}
+
+.post-town-selector {
+    padding: 0 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.selector-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: 800;
+    opacity: 0.5;
+    letter-spacing: 0.5px;
+}
+
+.town-pills-container {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.town-pill {
+    white-space: nowrap;
+    padding: 6px 12px;
+    border-radius: 12px;
+    background: var(--bg-surface-soft);
+    border: 1px solid var(--color-divider);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.town-pill.active {
+    background: var(--color-primary-soft);
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+    box-shadow: 0 0 10px rgba(0, 242, 255, 0.1);
 }
 
 .post-privacy-mini {
@@ -329,4 +428,19 @@
         border-radius: 24px;
         min-height: 400px;
     }
+}
+
+.post-legal-disclaimer {
+    font-size: 10px;
+    color: var(--text-muted);
+    opacity: 0.6;
+    padding: 0 15px;
+    flex: 1;
+    line-height: 1.3;
+    font-weight: 500;
+}
+
+.post-legal-disclaimer strong {
+    color: var(--color-primary);
+    font-weight: 700;
 }

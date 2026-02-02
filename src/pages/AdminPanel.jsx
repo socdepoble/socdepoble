@@ -59,7 +59,7 @@ const AdminPanel = () => {
                     setTimeout(() => {
                         addLog('Executant correcció automàtica de sitemap...', 'action');
                         setHealth(100);
-                        addLog('Caché cognitiva actualitzada amb v1.5.6-BATEGA.', 'success');
+                        addLog('Caché cognitiva actualitzada amb v1.5.7-BATEGA.', 'success');
                     }, 2000);
                 }
 
@@ -104,7 +104,7 @@ const AdminPanel = () => {
                 <div className="title-area">
                     <h1>
                         <Shield className="text-cyan-400" size={24} />
-                        ANTIGRAVITY <span style={{ opacity: 0.5 }}>//</span> CORE v1.5.6-VITAMINADA
+                        ANTIGRAVITY <span style={{ opacity: 0.5 }}>//</span> CORE v1.5.7-BATEGA
                     </h1>
                     <p>SUPERVISOR DEL SISTEMA: {isSuperAdmin ? 'NIVELL 5 (GOD MODE)' : 'NIVELL 3 (OPERADOR)'}</p>
                 </div>

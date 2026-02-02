@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { supabaseService } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
 import { ROLES, IAIA_ID } from '../constants';
@@ -16,6 +17,7 @@ const PREDEFINED_TAGS = ['Esdeveniment', 'Avís', 'Consulta', 'Proposta'];
 
 const CreatePostModal = ({ isOpen, onClose, onPostCreated, isPrivateInitial = false, isPlayground = false }) => {
     const { t } = useTranslation();
+    const navigate = useNavigate();
     const { profile, user, impersonatedProfile } = useAuth();
     const [content, setContent] = useState('');
     const [loading, setLoading] = useState(false);
@@ -34,12 +36,24 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated, isPrivateInitial = fa
     const [multimediaPreview, setMultimediaPreview] = useState(null);
     const [iaiaAnalyzing, setIaiaAnalyzing] = useState(false);
     const [simbiosiMetrics, setSimbiosiMetrics] = useState(null);
+    const [selectedTowns, setSelectedTowns] = useState([]); // Array per a Multilocalitat
 
     useEffect(() => {
         if (isOpen) {
             setPrivacy(isPrivateInitial ? 'groups' : 'public');
+
+            // ARCHIVE DEBATE CONTEXT [MASTER FLOW]
+            if (postModalConfig?.initialContext) {
+                const ctx = postModalConfig.initialContext;
+                const template = `<h1>Debat: ${ctx.sourceTitle}</h1>\n\n<blockquote>"${ctx.selectedText}"</blockquote>\n\nEstem perdent els referents o les dades oficials estan obsoletes? 🤔 #ArxiuActiu #VeritatDeFerro`;
+                setContent(template);
+                if (ctx.imageUrl) {
+                    setMultimediaPreview(ctx.imageUrl);
+                }
+                setPostType('archive_debate');
+            }
         }
-    }, [isOpen, isPrivateInitial]);
+    }, [isOpen, isPrivateInitial, postModalConfig]);
 
     // Use useEffect for resetting identity when profile/impersonation loads or modal opens
     useEffect(() => {
@@ -58,6 +72,11 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated, isPrivateInitial = fa
                     type: 'user',
                     avatar_url: profile.avatar_url
                 });
+
+                // Inicialitzem amb el poble principal si existeix
+                if (profile.town_uuid || profile.town_id) {
+                    setSelectedTowns([profile.town_uuid || profile.town_id]);
+                }
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -154,10 +173,26 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated, isPrivateInitial = fa
                 human_percentage: simbiosiMetrics?.human_percentage || 100,
                 time_saved_minutes: simbiosiMetrics?.time_saved_minutes || 0,
                 economic_value_saved: simbiosiMetrics?.economic_value_saved || 0,
-                is_iaia_inspired: !!simbiosiMetrics
+                is_iaia_inspired: !!simbiosiMetrics,
+
+                // Archive Debate Metadata
+                metadata: {
+                    ...postModalConfig?.initialContext,
+                    is_archive_debate: postType === 'archive_debate'
+                },
+
+                // Multilocalitat
+                town_ids: selectedTowns,
+                town_id: selectedTowns[0] || null // Fallback per a schema antic
             };
 
             await supabaseService.createPost(newPost, isPlayground);
+
+            // [BATEC TERRITORIAL] Registrem l'activitat en els pobles seleccionats
+            if (selectedTowns.length > 0) {
+                localStorage.setItem('last_active_town_id', selectedTowns[0]);
+            }
+
             onPostCreated();
             setContent('');
             setSelectedTags([]);
@@ -174,10 +209,23 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated, isPrivateInitial = fa
         <div className="modal-overlay" onClick={onClose}>
             <div className="modal-content" onClick={e => e.stopPropagation()}>
                 <header className="modal-header">
-                    <h2>{t('feed.title')}</h2>
-                    <button className="close-btn" onClick={onClose}>
-                        <X size={24} />
-                    </button>
+                    <div className="modal-pull-handle"></div>
+                    <div className="modal-header-row">
+                        <div className="modal-header-actions">
+                            <button
+                                className="btn-presentation-sovereign"
+                                onClick={() => navigate('/projecte')}
+                                title="Conèixer Sóc de Poble"
+                            >
+                                <img src="/socdepoble_map_pattern_v1.png" alt="Sóc de Poble" className="logo-sovereign" />
+                                <span>Presentació Oficial</span>
+                            </button>
+                            <h2>{t('feed.title')}</h2>
+                        </div>
+                        <button className="close-btn" onClick={onClose}>
+                            <X size={24} />
+                        </button>
+                    </div>
                 </header>
 
                 <form onSubmit={handleSubmit} className="post-form-compact">
@@ -219,6 +267,36 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated, isPrivateInitial = fa
                             >
                                 <BookOpen size={18} />
                             </button>
+                        </div>
+                    </div>
+
+                    {/* SELECTOR D'ARRELAMENT (Pobles) */}
+                    <div className="post-town-selector">
+                        <span className="selector-label">Publicar a:</span>
+                        <div className="town-pills-container">
+                            {profile?.town_name && (
+                                <button
+                                    type="button"
+                                    className={`town-pill ${selectedTowns.includes(profile.town_uuid || profile.town_id) ? 'active' : ''}`}
+                                    onClick={() => {
+                                        const id = profile.town_uuid || profile.town_id;
+                                        setSelectedTowns(prev => prev.includes(id) ? prev.filter(t => t !== id) : [...prev, id]);
+                                    }}
+                                >
+                                    {profile.town_name} (Principal)
+                                </button>
+                            )}
+                            {profile?.secondary_towns?.map(townId => (
+                                <button
+                                    key={townId}
+                                    type="button"
+                                    className={`town-pill ${selectedTowns.includes(townId) ? 'active' : ''}`}
+                                    onClick={() => setSelectedTowns(prev => prev.includes(townId) ? prev.filter(t => t !== townId) : [...prev, townId])}
+                                >
+                                    {/* Aquí ens caldria el nom del poble, de moment usem l'ID o un placeholder */}
+                                    Poble Secundari
+                                </button>
+                            ))}
                         </div>
                     </div>
 
@@ -299,6 +377,11 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated, isPrivateInitial = fa
                                     </button>
                                 ))}
                             </div>
+                        </div>
+
+                        {/* CC BY-NC-SA 4.0 DISCLAIMER [FLASH] */}
+                        <div className="post-legal-disclaimer">
+                            En bategar, acceptes compartir el teu contingut sota llicència <strong>CC BY-NC-SA 4.0</strong> (Reconeixement-NoComercial-CompartirIgual).
                         </div>
 
                         <button

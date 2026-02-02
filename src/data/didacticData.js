@@ -62,5 +62,23 @@ export const didacticData = {
             when: "Només quan res més funcione i l'app se senta 'espessa'.",
             effect: "Ho torna a posar tot en ordre des de la base (cache, SW, sessions), com un despertar nou."
         }
+    },
+    master_faq: {
+        title: "👵 AGÈNDA DE DUBTES (FAQ IAIA)",
+        explanation: "Preguntes que els veïns solen fer a la fresca. L'IAIA respon amb la saviesa del Mas.",
+        details: [
+            "**Com funciona l'algoritme per triar la foto més connectada?**\nL'IAIA mira quina imatge ha rebut més 'batecs' (m'agrada) durant els últims 30 dies. És la meritocràcia del poble: la foto més estimada esdevé la caràtula oficial.",
+            "**Quines diferències hi ha entre el mur social i l'institucional?**\nEl mur social (Poble) és la vida dels veïns, rumors i mercat. El mur institucional (Ajuntament) és per a la llei, els bandos i el servei públic. Zero Radius!",
+            "**Com es gestiona la doble identitat en pobles amb tràmits?**\nTu ets un veí (Identitat Personal), però quan vas a l'Ajuntament et relaciones amb la Llei. L'app canvia el 'xip' visual per a que sàpigues on estàs.",
+            "**Com es gestionaran els drets de les imatges reals utilitzades?**\nPer a les fotos de la comunitat i el Mercat, apliquem el **Blindatge CC BY-NC-SA 4.0**: reconeixement de l'autor, ús no comercial i compartir igual. Les fotos de Wikipedia mantenen la seua **CC BY-SA**. El poble cuida el seu patrimoni!",
+            "**Quines tecnologies permeten carregar les fotos ràpidament sense cobertura?**\nUtilitzem el sistema **Rhizome** (Local-First) i **PWA**. Les fotos es guarden al 'solatge' (cache) del teu mòbil per a que les pugues vore encara que estigues al mig de la muntanya.",
+            "**Com afecta el realisme de les imatges a l'ordre del rànquing?**\nCom més real i bategada siga la foto, més 'Connectats' (likes) rep de la comunitat. Això puja la força del 'Batec Territorial' i fa que el poble destaque en la graella principal.",
+            "**Com es verifica que algú és realment veí d'un poble?**\nNo demanem papers oficials, fill, ací l'oficialitat és el 'Batec'. El sistema mira la teua activitat, les teues connexions amb altres veïns i si t'has marcat eixe poble com a 'Casa' (Principal). El territori et reconeix per la teua presència.",
+            "**Què passa si hi ha un conflicte de drets d'autor?**\nApliquem el **Protocol CC 4.0**. Si algú publica una foto que no és seua, la comunitat pot avisar. El sistema respecta l'autoria original i, si cal, es retira la imatge per protegir el bon nom del veí i de l'artista.",
+            "**Com s'actualitza el logo si canvia el sentiment del poble?**\nL'app és viva! La imatge representativa no és estàtica; si el poble canvia d'ànim (per festes, per una fita nova), la foto que reba més 'Connectats' en els últims 30 dies passarà a ser la nova cara del poble. El sentiment mana.",
+            "**Com es visualitzarà la informació sobre plagues i sequera?**\nMitjançant el **HUD Agrari** a la fitxa del poble. Veuràs indicadors de color (verd, taronja, roig) que t'avisaran del risc de 'Repilo' o si el bosc està molt sec. El mur no és només per parlar, és per cuidar la terra.",
+            "**Com funcionarà exactament el mode d'arxiu per al patrimoni?**\nAmb l'interruptor 'Arrel', el mur es transforma en un museu. Només veuràs les fitxes d'arbres vells, històries del passat i lèxic perdut. És la memòria del poble que mai s'enfonsa en el temps.",
+            "**Quins avantatges té la vibració diferenciada en l'ús diari?**\nÉs la 'Textura Digital'. Sabràs si estàs tocant terra viva (Poble) o pedra oficial (Ajuntament) sense ni tan sols mirar la pantalla. El teu cos entendrà on es troba per la vibració del mòbil."
+        ]
     }
 };

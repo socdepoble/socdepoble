@@ -1,372 +1,65 @@
-.feed-container {
-    padding-bottom: calc(var(--nav-height) + 40px);
-    background-color: var(--bg-main);
-    min-height: 100vh;
-}
-
-/* Page header and tag bar styles are now global in index.css */
-
-.feed-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    padding: var(--page-margin);
-    padding-bottom: 24px;
-    /* Reduced from 120px to allow more content flow */
-}
-
-/* === POST CARD (Unified) === */
-.post-card {
-    padding-bottom: 0;
-    /* Action bar handles its own padding */
-}
-
-.post-text,
-.post-text-rich {
-    font-size: 20px;
-    color: var(--text-body);
-    line-height: 1.5;
-    font-weight: 500;
-    white-space: pre-wrap;
-}
-
-.post-text h1,
-.post-text-rich h1 {
-    font-size: 26px;
-    font-weight: 800;
-    margin: 12px 0 8px 0;
-    color: var(--color-primary);
-    font-family: var(--font-heading);
-}
-
-.post-text h2,
-.post-text-rich h2 {
-    font-size: 22px;
-    font-weight: 700;
-    margin: 10px 0 6px 0;
-    color: var(--text-main);
-    font-family: var(--font-heading);
-}
-
-.post-text ul,
-.post-text-rich ul,
-.post-text ol,
-.post-text-rich ol {
-    margin: 8px 0 12px 20px;
-}
-
-.post-text li,
-.post-text-rich li {
-    margin-bottom: 4px;
-}
-
-/* card-header styles are now global in index.css */
-
-
-.card-header * {
-    color: inherit;
-}
-
-.header-left {
-    display: flex;
-    align-items: center;
-    gap: var(--space-sm);
-}
-
-
-
-.post-avatar {
-    width: 42px;
-    /* Reduced from 44px */
-    height: 42px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-weight: 800;
-    font-family: var(--font-heading);
-}
-
-.post-meta {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 2px;
-}
-
-.post-author-row {
-    display: flex;
-    align-items: center;
-}
-
-.post-author {
-    font-weight: 800;
-    color: var(--text-main);
-    font-size: 21px;
-    /* Match Chat standard */
-    line-height: 1.1;
-    font-family: var(--font-heading);
-}
-
-.post-author.clickable {
-    cursor: pointer;
-    transition: color 0.2s;
-}
-
-.post-author.clickable:hover {
-    color: var(--bg-warm-accent);
-}
-
-.post-subtitle-row {
-    display: flex;
-    align-items: center;
-    gap: var(--space-xs);
-    font-size: 0.8rem;
-    color: var(--text-secondary);
-    opacity: 0.8;
-}
-
-.post-time {
-    font-weight: 600;
-}
-
-.post-location {
-    font-weight: 500;
-}
-
-
-
-.card-body p {
-    font-size: 20px;
-    /* Ultra readability standard */
-    color: #1A1D23;
-    /* Max contrast for accessibility */
-    line-height: 1.5;
-    font-weight: 500;
-}
-
-/* card-image-wrapper logic is global */
-
-/* Market logic moved to its own file */
-
-.card-actions-wrapper {
-    padding: 10px var(--space-lg);
-    display: flex;
-    justify-content: center;
-    /* Centered icons */
-    align-items: center;
-    border-top: 1px solid var(--color-divider);
-}
-
-.header-tabs-wrapper {
+.sovereign-nudge-box {
+    background: linear-gradient(135deg, rgba(204, 85, 0, 0.1) 0%, rgba(18, 18, 18, 0.9) 100%);
+    border: 1px dashed var(--color-terracotta);
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 24px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 12px;
-    width: 100%;
+    gap: 16px;
+    animation: nudge-fade-in 0.8s ease-out;
 }
 
-.noise-filter-toggle {
-    display: flex;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: rgba(255, 255, 255, 0.5);
-    padding: 6px 12px;
-    border-radius: 10px;
-    font-size: 10px;
+.nudge-content h3 {
+    color: var(--color-terracotta);
+    font-size: 16px;
+    margin-bottom: 4px;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    white-space: nowrap;
 }
 
-.noise-filter-toggle:hover {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.2);
+.nudge-content p {
+    color: var(--text-muted);
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.nudge-cta {
+    background: var(--color-terracotta);
     color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 800;
+    cursor: pointer;
+    white-space: nowrap;
+    box-shadow: 0 4px 15px rgba(204, 85, 0, 0.3);
+    transition: all 0.2s;
 }
 
-.noise-filter-toggle.active {
-    background: rgba(255, 215, 0, 0.1);
-    border-color: rgba(255, 215, 0, 0.4);
-    color: #ffd700;
-    box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);
+.nudge-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(204, 85, 0, 0.5);
 }
 
-.card-actions {
-    display: flex;
-    justify-content: center;
-    gap: var(--space-xl);
-    /* Increased spacing */
-    width: 100%;
-}
-
-.action-btn {
-    display: flex;
-    flex-direction: column;
-    /* Stack for vertical alignment if needed */
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-    color: var(--text-main);
-    font-size: 12px;
-    font-weight: 700;
-    padding: 10px;
-    width: 60px;
-    /* Fixed width */
-    height: 60px;
-    /* Fixed height for circle */
-    border-radius: 16px;
-    /* High radius squircle */
-    transition: all 0.3s ease;
-}
-
-.action-btn.active {
-    color: var(--color-primary);
-    background-color: var(--color-primary-soft);
-}
-
-.action-btn.active svg {
-    fill: var(--color-primary);
-}
-
-.empty-state {
-    padding: var(--space-2xl) var(--space-md);
-    text-align: center;
-    color: var(--text-muted);
-}
-
-.feed-container.loading {
-    padding: var(--space-2xl);
-    text-align: center;
-    color: var(--text-muted);
-}
-
-.spinner {
-    animation: spin 1s linear infinite;
-    margin-bottom: var(--space-md);
-    color: var(--color-primary);
-}
-
-@keyframes spin {
+@keyframes nudge-fade-in {
     from {
-        transform: rotate(0deg);
+        opacity: 0;
+        transform: translateY(-10px);
     }
 
     to {
-        transform: rotate(360deg);
-    }
-}
-
-.action-btn.principal-connect {
-    color: var(--color-primary);
-    background: rgba(var(--color-primary-rgb), 0.08);
-    border-radius: 12px;
-    padding: 8px 16px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    border: 1px solid transparent;
-}
-
-.action-btn.principal-connect.active {
-    background: var(--color-primary);
-    color: white !important;
-    box-shadow: 0 4px 15px rgba(var(--color-primary-rgb), 0.4);
-    border-color: rgba(255, 255, 255, 0.2);
-}
-
-.action-btn.principal-connect:hover {
-    background: rgba(var(--color-primary-rgb), 0.15);
-    transform: translateY(-2px);
-    border-color: var(--color-primary);
-}
-
-.action-btn.principal-connect.active:hover {
-    filter: brightness(1.1);
-    transform: translateY(-2px) scale(1.02);
-}
-
-.action-btn.principal-connect span {
-    font-size: 14px;
-}
-
-/* Voice Animation */
-@keyframes pulse-red {
-    0% {
-        transform: scale(1);
         opacity: 1;
-    }
-
-    50% {
-        transform: scale(1.2);
-        opacity: 0.8;
-    }
-
-    100% {
-        transform: scale(1);
-        opacity: 1;
+        transform: translateY(0);
     }
 }
 
-.pulse-red {
-    animation: pulse-red 1.5s infinite;
-    color: #ef4444;
-}
-
-.active-voice {
-    background-color: #fee2e2 !important;
-}
-
-/* Didactic Card Styles */
-.didactic-card {
-    border: 2px solid var(--cc-cyan, #00f2ff) !important;
-    background: linear-gradient(180deg, rgba(10, 15, 30, 0.95) 0%, rgba(20, 30, 60, 0.9) 100%) !important;
-    border-radius: 20px !important;
-    padding: 20px !important;
-    margin-bottom: 20px !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
-}
-
-.didactic-h1 {
-    font-size: 26px !important;
-    font-weight: 900 !important;
-    color: #fff !important;
-    margin: 15px 0 10px 0 !important;
-    letter-spacing: -0.5px;
-}
-
-.didactic-h2 {
-    font-size: 20px !important;
-    font-weight: 700 !important;
-    color: var(--cc-cyan, #00f2ff) !important;
-    margin: 10px 0 15px 0 !important;
-}
-
-.didactic-p {
-    font-size: 16px !important;
-    line-height: 1.6 !important;
-    color: rgba(255, 255, 255, 0.8) !important;
-    margin-bottom: 12px !important;
-}
-
-.video-embed-wrapper {
-    overflow: hidden;
-    position: relative;
-    z-index: 1;
-    margin-bottom: 16px;
-}
-
-.didactic-modal-trigger {
-    transition: all 0.3s ease;
-}
-
-.didactic-modal-trigger:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0, 242, 255, 0.4);
+@media (max-width: 480px) {
+    .sovereign-nudge-box {
+        flex-direction: column;
+        text-align: center;
+    }
 }

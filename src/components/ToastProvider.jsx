@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { getToastRegistry, toast } from '../utils/toast';
+import { logger } from '../utils/logger';
 
 const ToastContext = createContext();
 
@@ -43,7 +44,7 @@ export const ToastProvider = ({ children }) => {
                         </button>
                         <button
                             onClick={async () => {
-                                console.log('[EMERGENCY] Full reset triggered');
+                                logger.log('[EMERGENCY] Full reset triggered');
                                 const { supabase } = await import('../supabaseClient');
                                 await supabase.auth.signOut();
                                 localStorage.clear();
@@ -70,7 +71,7 @@ export const ToastProvider = ({ children }) => {
 
         // Ensure reload when service worker takes control
         const handleControllerChange = () => {
-            console.log('[SW] Controller changed. Automatic reload disabled for stability.');
+            logger.log('[SW] Controller changed. Automatic reload disabled for stability.');
             // window.location.reload(); // DISABLED TO PREVENT LOOP
         };
 

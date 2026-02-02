@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Building2, Store, Users, MapPin, MessageSquare, Share2, Loader2, AlertCircle, Calendar, ArrowLeft, UserPlus, UserMinus, Settings } from 'lucide-react';
+import { Building2, Store, Users, MapPin, MessageSquare, Share2, Loader2, AlertCircle, Calendar, ArrowLeft, UserPlus, UserMinus, Settings, Landmark } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
 import SEO from '../components/SEO';
@@ -9,6 +9,7 @@ import ProfileHeaderPremium from '../components/ProfileHeaderPremium';
 import './Profile.css';
 import { logger } from '../utils/logger';
 import Avatar from '../components/Avatar';
+import ArmariDigital from '../components/ArmariDigital';
 
 const PublicEntity = () => {
     const { id } = useParams();
@@ -24,6 +25,7 @@ const PublicEntity = () => {
     const [isConnected, setIsConnected] = useState(false);
     const [isConnecting, setIsConnecting] = useState(false);
     const [followersCount, setFollowersCount] = useState(0);
+    const [activeTab, setActiveTab] = useState('feed'); // feed, market, admin
 
     useEffect(() => {
         const fetchEntityData = async () => {
@@ -43,6 +45,9 @@ const PublicEntity = () => {
                 setPosts(postsData || []);
                 setItems(itemsData || []);
                 setFollowersCount(followers?.length || 0);
+                if (entityData.type === 'oficial') {
+                    setActiveTab('admin');
+                }
             } catch (err) {
                 logger.error('[PublicEntity] Error:', err);
                 setError(err.message);
@@ -231,101 +236,135 @@ const PublicEntity = () => {
 
 
 
-            <div className="profile-grid-custom">
-                <section className="profile-section-premium">
-                    <h2 className="section-header-premium">
-                        <MessageSquare size={20} />
-                        Publicacions
-                    </h2>
-                    <div className="entity-feed">
-                        {posts.length > 0 ? (
-                            posts.map(post => (
-                                <article key={post.uuid || post.id} className="universal-card social-post">
-                                    <div className="card-header clickable" onClick={() => handleHeaderClick(post)}>
-                                        <div className="header-left">
-                                            <Avatar
-                                                src={post.author_avatar || entity.avatar_url}
-                                                role={post.author_role || entity.type}
-                                                name={post.author || entity.name}
-                                                size={44}
-                                            />
-                                            <div className="post-meta">
-                                                <div className="post-author-row">
-                                                    <span className="post-author">{post.author || entity.name}</span>
-                                                    {(post.author_role === 'ambassador' || post.author_is_ai || entity.is_ai) && (
-                                                        <span className="identity-badge ai">IAIA</span>
-                                                    )}
-                                                </div>
-                                                <div className="post-town">{entity.town_name || 'La Comunitat'}</div>
-                                            </div>
-                                        </div>
-                                        <div className="header-right">
-                                            <span className="post-time-right">{new Date(post.created_at).toLocaleDateString()}</span>
-                                        </div>
-                                    </div>
-                                    <div className="card-body">
-                                        <p>{post.content}</p>
-                                    </div>
-                                    {post.image_url && (
-                                        <div className="card-image-wrapper">
-                                            <img src={post.image_url} alt="Post image" />
-                                        </div>
-                                    )}
-                                </article>
-                            ))
-                        ) : (
-                            <p className="text-secondary">No hi ha publicacions recents.</p>
-                        )}
-                    </div>
-                </section>
+            <div className="profile-tabs-premium">
+                {entity.type === 'oficial' && (
+                    <button
+                        className={`tab-btn ${activeTab === 'admin' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('admin')}
+                    >
+                        <Landmark size={18} /> Administració
+                    </button>
+                )}
+                <button
+                    className={`tab-btn ${activeTab === 'feed' ? 'active' : ''}`}
+                    onClick={() => setActiveTab('feed')}
+                >
+                    <MessageSquare size={18} /> {entity.type === 'oficial' ? 'Bàndols' : 'Mur'}
+                </button>
+                {(entity.type === 'negoci' || items.length > 0) && (
+                    <button
+                        className={`tab-btn ${activeTab === 'market' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('market')}
+                    >
+                        <Store size={18} /> {entity.type === 'negoci' ? 'Botiga' : 'Mercat'}
+                    </button>
+                )}
+            </div>
 
-                <section className="profile-section-premium">
-                    <h2 className="section-header-premium">
-                        <Store size={20} />
-                        Mercat
-                    </h2>
-                    <div className="entity-market">
-                        {items.length > 0 ? (
-                            items.map(item => (
-                                <article key={item.uuid || item.id} className="universal-card market-item-card">
-                                    <div className="card-header clickable" onClick={() => handleHeaderClick(item)}>
-                                        <div className="header-left">
-                                            <Avatar
-                                                src={item.avatar_url || entity.avatar_url}
-                                                role={item.author_role || entity.type}
-                                                name={item.seller || entity.name}
-                                                size={44}
-                                            />
-                                            <div className="post-meta">
-                                                <div className="post-author-row">
-                                                    <span className="post-author">{item.seller || entity.name}</span>
-                                                    {entity.is_ai && <span className="identity-badge ai">IAIA</span>}
+            <div className="profile-grid-custom-single">
+                {activeTab === 'admin' && (
+                    <section className="profile-section-premium animate-in">
+                        <ArmariDigital townName={entity.town_name || 'La Torre'} />
+                    </section>
+                )}
+
+                {activeTab === 'feed' && (
+                    <section className="profile-section-premium animate-in">
+                        <div className="entity-feed">
+                            {posts.length > 0 ? (
+                                posts.map(post => {
+                                    const isOfficial = entity.type === 'oficial';
+                                    return (
+                                        <article key={post.uuid || post.id} className={`universal-card social-post ${isOfficial ? 'official-zero-radius' : ''}`}>
+                                            <div className="card-header clickable" onClick={() => handleHeaderClick(post)}>
+                                                <div className="header-left">
+                                                    <Avatar
+                                                        src={post.author_avatar || entity.avatar_url}
+                                                        role={post.author_role || entity.type}
+                                                        name={post.author || entity.name}
+                                                        size={44}
+                                                    />
+                                                    <div className="post-meta">
+                                                        <div className="post-author-row">
+                                                            <span className="post-author">{post.author || entity.name}</span>
+                                                            {isOfficial && <span className="identity-badge official">OFICIAL</span>}
+                                                            {(post.author_role === 'ambassador' || post.author_is_ai || entity.is_ai) && (
+                                                                <span className="identity-badge ai">IAIA</span>
+                                                            )}
+                                                        </div>
+                                                        <div className="post-town">{entity.town_name || 'La Comunitat'}</div>
+                                                    </div>
                                                 </div>
-                                                <div className="post-town">{entity.town_name || 'La Comunitat'}</div>
+                                                <div className="header-right">
+                                                    <span className="post-time-right">{new Date(post.created_at).toLocaleDateString()}</span>
+                                                </div>
+                                            </div>
+                                            <div className="card-body">
+                                                <p>{post.content}</p>
+                                            </div>
+                                            {post.image_url && (
+                                                <div className="card-image-wrapper" style={{ borderRadius: isOfficial ? '0' : 'inherit' }}>
+                                                    <img src={post.image_url} alt="Post image" style={{ borderRadius: isOfficial ? '0' : 'inherit' }} />
+                                                </div>
+                                            )}
+                                        </article>
+                                    );
+                                })
+                            ) : (
+                                <p className="text-secondary">No hi ha {entity.type === 'oficial' ? 'bàndols' : 'publicacions'} recents.</p>
+                            )}
+                        </div>
+                    </section>
+                )}
+
+                {activeTab === 'market' && (
+                    <section className="profile-section-premium animate-in">
+                        <div className="entity-market">
+                            {items.length > 0 ? (
+                                items.map(item => (
+                                    <article key={item.uuid || item.id} className="universal-card market-item-card">
+                                        <div className="card-header clickable" onClick={() => handleHeaderClick(item)}>
+                                            <div className="header-left">
+                                                <Avatar
+                                                    src={item.avatar_url || entity.avatar_url}
+                                                    role={item.author_role || entity.type}
+                                                    name={item.seller || entity.name}
+                                                    size={44}
+                                                />
+                                                <div className="post-meta">
+                                                    <div className="post-author-row">
+                                                        <span className="post-author">{item.seller || entity.name}</span>
+                                                        {entity.is_ai && <span className="identity-badge ai">IAIA</span>}
+                                                    </div>
+                                                    <div className="post-town">{entity.town_name || 'La Comunitat'}</div>
+                                                </div>
+                                            </div>
+                                            <div className="header-right">
+                                                <span className="post-time-right">{new Date(item.created_at).toLocaleDateString()}</span>
                                             </div>
                                         </div>
-                                        <div className="header-right">
-                                            <span className="post-time-right">{new Date(item.created_at).toLocaleDateString()}</span>
-                                        </div>
-                                    </div>
-                                    <div className="card-body">
-                                        <div className="market-price-row">
-                                            <h3 className="item-title">{item.title}</h3>
-                                            <span className="price-tag-vibrant">{item.price}</span>
-                                        </div>
-                                        {item.image_url && (
-                                            <div className="card-image-wrapper">
-                                                <img src={item.image_url} alt={item.title} />
+                                        <div className="card-body">
+                                            <div className="market-price-row">
+                                                <h3 className="item-title">{item.title}</h3>
+                                                <span className="price-tag-vibrant">{item.price}</span>
                                             </div>
-                                        )}
-                                    </div>
-                                </article>
-                            ))
-                        ) : (
-                            <p className="text-secondary">No hi ha articles al mercat.</p>
-                        )}
-                    </div>
-                </section>
+                                            {item.image_url && (
+                                                <div className="card-image-wrapper">
+                                                    <img src={item.image_url} alt={item.title} />
+                                                </div>
+                                            )}
+                                        </div>
+                                    </article>
+                                ))
+                            ) : (
+                                <p className="text-secondary">No hi ha articles al mercat.</p>
+                            )}
+                        </div>
+                    </section>
+                )}
+            </div>
+
+            <div className="profile-grid-custom">
 
                 <aside className="profile-sidebar">
                     <section className="profile-section-premium">

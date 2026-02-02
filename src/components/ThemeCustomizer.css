@@ -1,0 +1,134 @@
+.theme-customizer {
+    padding: 24px;
+    background: var(--bg-surface);
+    border: 2px solid var(--color-primary);
+    box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.15);
+}
+
+.customizer-header {
+    margin-bottom: 24px;
+}
+
+.customizer-header h3 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 900;
+    text-transform: uppercase;
+    color: var(--text-main);
+}
+
+.customizer-header p {
+    margin: 4px 0 0 0;
+    font-size: 14px;
+    opacity: 0.7;
+    color: var(--text-secondary);
+}
+
+.themes-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.theme-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    border: 1px solid var(--border-subtle);
+    background: var(--bg-surface);
+    color: var(--text-main);
+    text-align: left;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.theme-card:hover {
+    border-color: var(--color-primary);
+    transform: translateX(4px);
+}
+
+.theme-card.active {
+    border-color: var(--color-primary);
+    background: var(--color-primary-soft);
+}
+
+.theme-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.1);
+    color: var(--color-primary);
+}
+
+.theme-info {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.theme-name {
+    font-weight: 800;
+    font-size: 16px;
+}
+
+.active-check {
+    color: var(--color-primary);
+}
+
+/* Theme specifics for preview */
+.theme-card.theme-bancal .theme-icon {
+    background: #000;
+    color: #fff;
+}
+
+.theme-card.theme-fadrins .theme-icon {
+    background: #00F2FF;
+    color: #000;
+}
+
+.theme-card.theme-solemne .theme-icon {
+    background: #CC5500;
+    color: #fff;
+}
+
+.customizer-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.btn-reset-theme {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px;
+    font-size: 13px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    border: 1px dashed var(--text-muted);
+    opacity: 0.6;
+    transition: all 0.2s;
+}
+
+.btn-reset-theme:hover {
+    opacity: 1;
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.btn-close-customizer {
+    background: var(--color-primary);
+    color: #000;
+    padding: 14px;
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: 14px;
+}

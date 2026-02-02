@@ -3,12 +3,125 @@
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    background: radial-gradient(circle at center, rgba(16, 20, 40, 1) 0%, rgba(5, 5, 15, 1) 100%);
+    background: #05050f;
     position: relative;
     overflow: hidden;
     padding: 16px;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+}
+
+.auth-hero-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.4) saturate(1.2);
+    z-index: 1;
+    transform: scale(1.05);
+    animation: slowZoom 30s infinite alternate;
+}
+
+@keyframes slowZoom {
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(1.1);
+    }
+}
+
+.login-diagnostic-trigger {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(0, 242, 255, 0.1);
+    border: 1px solid #00f2ff;
+    border-radius: 50%;
+    padding: 8px;
+    cursor: pointer;
+    z-index: 1000;
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+}
+
+.login-diagnostic-trigger:hover {
+    background: rgba(0, 242, 255, 0.3);
+    box-shadow: 0 0 15px #00f2ff;
+}
+
+/* IAIA Guidance at Login - RESTRUCTURED FOR SMART CITY */
+.auth-iaia-guidance {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin: 16px 0 24px;
+    padding: 16px;
+    background: rgba(0, 242, 255, 0.05);
+    border-radius: 20px;
+    border: 1px solid rgba(0, 242, 255, 0.15);
+    position: relative;
+}
+
+.iaia-avatar-wrapper {
+    position: relative;
+    width: 70px;
+    height: 70px;
+}
+
+.iaia-mini-avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2px solid #00f2ff;
+    object-fit: cover;
+    background: #000;
+    z-index: 2;
+    position: relative;
+}
+
+.iaia-pulse {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: #00f2ff;
+    opacity: 0.5;
+    z-index: 1;
+    animation: iaiaPulse 2s infinite;
+}
+
+@keyframes iaiaPulse {
+    0% {
+        transform: translate(-50%, -50%) scale(0.95);
+        opacity: 0.5;
+    }
+
+    70% {
+        transform: translate(-50%, -50%) scale(1.4);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(0.95);
+        opacity: 0;
+    }
+}
+
+.iaia-speech-bubble {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 500;
+    line-height: 1.4;
+    text-align: center;
+    max-width: 100%;
 }
 
 .auth-container::before {
@@ -25,20 +138,34 @@
 }
 
 .auth-card {
-    background: linear-gradient(135deg, rgba(10, 15, 30, 0.7) 0%, rgba(5, 5, 15, 0.8) 100%);
-    backdrop-filter: blur(32px) saturate(180%);
-    -webkit-backdrop-filter: blur(32px) saturate(180%);
+    background: rgba(10, 15, 30, 0.65);
+    backdrop-filter: blur(40px) saturate(200%);
+    -webkit-backdrop-filter: blur(40px) saturate(200%);
     width: 100%;
-    max-width: 420px;
-    padding: 32px 24px;
-    border-radius: 28px;
+    max-width: 440px;
+    padding: 40px 32px;
+    border-radius: 32px;
     box-shadow:
-        0 20px 40px rgba(0, 0, 0, 0.6),
-        0 0 20px rgba(0, 242, 255, 0.05);
-    border: 1px solid rgba(0, 242, 255, 0.2);
+        0 30px 60px rgba(0, 0, 0, 0.8),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+        0 0 20px rgba(0, 242, 255, 0.1);
+    border: 1px solid rgba(0, 242, 255, 0.35);
     text-align: center;
     position: relative;
     z-index: 10;
+    animation: cardEnter 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes cardEnter {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
 @media (max-width: 380px) {
@@ -235,11 +362,9 @@
 .auth-button {
     width: 100%;
     height: 52px;
-    /* Standard 44px+ rule */
     padding: 0 24px;
     background: linear-gradient(90deg, #00f2ff 0%, #0099ff 100%);
     color: #000;
-    /* High contrast on neon */
     border: none;
     border-radius: 16px;
     font-size: 1.05rem;
@@ -252,11 +377,30 @@
     align-items: center;
     justify-content: center;
     box-shadow: 0 10px 20px rgba(0, 242, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.auth-button::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 20%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.4);
+    transform: rotate(30deg);
+    transition: all 0.5s ease;
+    filter: blur(5px);
+}
+
+.auth-button:hover::after {
+    left: 120%;
 }
 
 .auth-button:hover {
     transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 15px 30px rgba(0, 242, 255, 0.4);
+    box-shadow: 0 15px 30px rgba(0, 242, 255, 0.5);
     filter: brightness(1.1);
 }
 
@@ -303,6 +447,256 @@
     }
 }
 
+/* [FLASH MASTER PIECE] PREMIUM ONBOARDING & REGISTER V2.0 */
+.premium-onboarding {
+    background: radial-gradient(circle at top right, #0a0a1f 0%, #05050f 100%);
+    perspective: 1000px;
+}
+
+.auth-hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('https://images.unsplash.com/photo-1518005020251-58296d8f8bca?q=80&w=2000&auto=format&fit=crop') center/cover;
+    opacity: 0.15;
+    mix-blend-mode: overlay;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.register-card-v2 {
+    background: rgba(10, 15, 30, 0.45) !important;
+    border: 1px solid rgba(0, 242, 255, 0.25) !important;
+    padding: 32px 24px !important;
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.9), inset 0 0 40px rgba(0, 242, 255, 0.05) !important;
+}
+
+.onboarding-progress {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 32px;
+}
+
+.progress-segment {
+    flex: 1;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-segment.active::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 60%;
+    height: 100%;
+    background: var(--color-primary);
+    box-shadow: 0 0 10px var(--color-primary);
+    animation: loadingBar 2s infinite ease-in-out;
+}
+
+.progress-segment.completed {
+    background: var(--color-primary);
+}
+
+@keyframes loadingBar {
+    0% {
+        left: -60%;
+    }
+
+    100% {
+        left: 100%;
+    }
+}
+
+.auth-logo-v2 {
+    width: 120px;
+    height: auto;
+    margin: 0 auto 16px;
+    display: block;
+    filter: drop-shadow(0 0 15px rgba(0, 242, 255, 0.4));
+}
+
+.input-with-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon {
+    position: absolute;
+    left: 16px;
+    color: rgba(255, 255, 255, 0.4);
+    pointer-events: none;
+}
+
+.input-with-icon input {
+    padding-left: 48px !important;
+}
+
+.phone-input-wrapper-v2 {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 18px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.phone-input-wrapper-v2:focus-within {
+    border-color: var(--color-primary);
+    background: rgba(0, 242, 255, 0.08);
+}
+
+.prefix-badge {
+    padding: 0 16px;
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+    font-weight: 700;
+    font-size: 0.9rem;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.phone-input-prime {
+    flex: 1;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    font-size: 1.1rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 1px;
+}
+
+.town-picker-v2 {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 18px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.town-picker-v2.selected {
+    color: white;
+    border-color: var(--color-primary);
+    background: rgba(0, 242, 255, 0.05);
+}
+
+.picker-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.picker-left svg {
+    color: var(--color-primary);
+}
+
+.onboarding-iaia-tip {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px dashed rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 12px 16px;
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.tip-icon {
+    font-size: 1.2rem;
+}
+
+.onboarding-iaia-tip p {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.65);
+    line-height: 1.4;
+    text-align: left;
+    margin: 0;
+}
+
+.auth-button.v2 {
+    height: 56px;
+    border-radius: 20px;
+    font-size: 1.1rem;
+    gap: 12px;
+}
+
+.auth-button.v2:active {
+    transform: scale(0.98);
+}
+
+.auth-method-switcher {
+    margin-top: 16px;
+}
+
+.text-btn.accent {
+    color: var(--color-primary);
+    font-weight: 800;
+}
+
+.back-btn {
+    margin-top: 32px;
+    width: 100%;
+    opacity: 0.5;
+    font-size: 0.8rem !important;
+}
+
+.auth-footer-v2 {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.auth-footer-v2 a {
+    color: var(--color-primary);
+    font-weight: 700;
+}
+
+.onboarding-legal {
+    position: fixed;
+    bottom: 20px;
+    left: 0;
+    width: 100%;
+    padding: 0 20px;
+    text-align: center;
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.25);
+    z-index: 5;
+}
+
+.animate-in {
+    opacity: 0;
+    transform: translateY(10px);
+    animation: slideInUp 0.5s ease forwards;
+}
+
+@keyframes slideInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-in-up {
+    animation: cardEnter 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 .auth-onboarding-hint {
     background: rgba(255, 255, 255, 0.03);
     padding: 12px;
@@ -322,8 +716,13 @@
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 .auth-divider {
@@ -380,9 +779,9 @@
 }
 
 .auth-button.demo-secondary {
-    background: transparent;
-    color: var(--color-primary);
-    border: 2px solid var(--color-primary);
+    background: rgba(0, 242, 255, 0.05);
+    color: #00f2ff;
+    border: 2px solid #00f2ff;
     border-radius: 12px;
     font-size: 1rem;
     font-weight: 700;
@@ -390,10 +789,13 @@
     width: 100%;
     cursor: pointer;
     transition: all 0.2s ease;
+    text-transform: none;
+    letter-spacing: normal;
 }
 
 .auth-button.demo-secondary:hover {
-    background: rgba(93, 95, 239, 0.1);
+    background: rgba(0, 242, 255, 0.15);
+    box-shadow: 0 0 15px rgba(0, 242, 255, 0.3);
     transform: scale(1.01);
 }
 
@@ -409,12 +811,13 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 24px;
-    padding: 12px;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 18px;
+    gap: 12px;
+    margin-top: 32px;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    backdrop-filter: blur(8px);
 }
 
 .lang-btn {
@@ -500,4 +903,77 @@
     padding: 6px;
     border-radius: 8px;
     display: block;
+}
+
+/* Premium Animations */
+.heartbeat-subtle {
+    animation: heartbeat 3s infinite ease-in-out;
+}
+
+@keyframes heartbeat {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.02);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.4s ease forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.shake {
+    animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both;
+}
+
+@keyframes shake {
+
+    10%,
+    90% {
+        transform: translate3d(-1px, 0, 0);
+    }
+
+    20%,
+    80% {
+        transform: translate3d(2px, 0, 0);
+    }
+
+    30%,
+    50%,
+    70% {
+        transform: translate3d(-4px, 0, 0);
+    }
+
+    40%,
+    60% {
+        transform: translate3d(4px, 0, 0);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }

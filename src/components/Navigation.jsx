@@ -1,5 +1,5 @@
 import { useNavigate, NavLink } from 'react-router-dom';
-import { MessageCircle, Newspaper, Store, MapPin, Plus } from 'lucide-react';
+import { Newspaper, MapPin, Store, MessageCircle, User, Plus } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useUI } from '../context/UIContext';
 import { useAuth } from '../context/AuthContext';
@@ -12,46 +12,46 @@ const Navigation = () => {
   const navigate = useNavigate();
 
   return (
-    <nav className="bottom-nav">
-      <NavLink to="/chats" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
-        <MessageCircle size={24} />
-        <span>{t('nav.chats')}</span>
-      </NavLink>
-      <NavLink to="/mur" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
-        <Newspaper size={24} />
-        <span>{t('nav.feed')}</span>
+    <nav className="m3-bottom-nav">
+      <NavLink to="/chats" className={({ isActive }) => `m3-nav-item ${isActive ? 'active' : ''}`}>
+        <div className="m3-icon-indicator">
+          <MessageCircle size={24} />
+        </div>
+        <span className="m3-nav-label">Xat</span>
       </NavLink>
 
-      <div className="nav-fab-container">
+      <NavLink to="/mur" className={({ isActive }) => `m3-nav-item ${isActive ? 'active' : ''}`}>
+        <div className="m3-icon-indicator">
+          <Newspaper size={24} />
+        </div>
+        <span className="m3-nav-label">Mur</span>
+      </NavLink>
+
+      <div className="m3-fab-item">
         <button
-          className="nav-fab"
-          aria-label={t('common.create_new') || 'Crear nou'}
+          className="m3-fab"
           onClick={() => {
-            if (!user) {
-              navigate('/login');
-            } else {
-              setIsCreateModalOpen(true);
-            }
+            if (!user) navigate('/login');
+            else setIsCreateModalOpen(true);
           }}
         >
-          <Plus size={32} color="white" strokeWidth={3} aria-hidden="true" />
+          <Plus size={24} strokeWidth={3} />
         </button>
       </div>
 
-      <NavLink to="/mercat" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
-        <Store size={24} />
-        <span>{t('nav.market')}</span>
-      </NavLink>
-      <NavLink to="/pobles" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
-        <MapPin size={24} />
-        <span>{t('nav.towns')}</span>
+      <NavLink to="/mercat" className={({ isActive }) => `m3-nav-item ${isActive ? 'active' : ''}`}>
+        <div className="m3-icon-indicator">
+          <Store size={24} />
+        </div>
+        <span className="m3-nav-label">Mercat</span>
       </NavLink>
 
-      {/* DIRECTIVA MASTER: Marca i Llicència al centre del peu de pàgina */}
-      <div className="nav-master-footer">
-        <a href="https://socdepoble.org" target="_blank" rel="noopener noreferrer">socdepoble.org</a>
-        <span className="cc-license"> (CC BY-NC-SA 4.0)</span>
-      </div>
+      <NavLink to="/pobles" className={({ isActive }) => `m3-nav-item ${isActive ? 'active' : ''}`}>
+        <div className="m3-icon-indicator">
+          <MapPin size={24} />
+        </div>
+        <span className="m3-nav-label">Pobles</span>
+      </NavLink>
     </nav>
   );
 };

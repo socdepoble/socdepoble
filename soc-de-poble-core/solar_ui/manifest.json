@@ -1,0 +1,39 @@
+{
+    "name": "Sóc de Poble - Village OS",
+    "short_name": "Sóc de Poble",
+    "start_url": "./index.html",
+    "display": "standalone",
+    "background_color": "#050505",
+    "theme_color": "#9A6C63",
+    "description": "Sistema Operatiu Rural per a la sobirania digital i la gestió agrària. Local-First.",
+    "lang": "ca",
+    "orientation": "any",
+    "categories": [
+        "productivity",
+        "utilities",
+        "social"
+    ],
+    "icons": [
+        {
+            "src": "assets/master/logo_socdepoble_square_192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "assets/master/logo_socdepoble_square_512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "assets/master/screenshot_mobile_hud.jpg",
+            "sizes": "1080x1920",
+            "type": "image/jpg",
+            "form_factor": "wide",
+            "label": "Consola de Comandament Solatge"
+        }
+    ]
+}

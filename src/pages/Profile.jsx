@@ -8,7 +8,7 @@ import {
     User, LogOut, Camera, Save, Building2, Store, Settings, Star, Home,
     Bell, Lock, HelpCircle, Info, ChevronRight, MapPin, MessageCircle,
     Plus, Moon, Sun, ArrowLeft, Loader2, Image as ImageIcon, Maximize,
-    LayoutGrid, Activity, ShieldCheck, Globe, Edit2, BookOpen, Share2, Beaker, Calendar, Newspaper
+    LayoutGrid, Activity, ShieldCheck, Globe, Edit2, BookOpen, Share2, Beaker, Calendar, Newspaper, Users, Archive
 } from 'lucide-react';
 import { logger } from '../utils/logger';
 
@@ -31,6 +31,7 @@ import SettingsTab from './Profile/tabs/SettingsTab';
 import ManualTab from './Profile/tabs/ManualTab';
 import KnowledgeHub from '../components/KnowledgeHub';
 import MasterCalendar from '../pages/MasterCalendar';
+import RebostVault from '../components/RebostVault';
 
 import { CREATOR_EMAILS } from '../constants';
 import './Profile.css';
@@ -223,6 +224,8 @@ const Profile = () => {
                 return <KnowledgeHub />;
             case 'calendari':
                 return <MasterCalendar />;
+            case 'rebost':
+                return <RebostVault />;
             default:
                 return null;
         }
@@ -300,6 +303,8 @@ const Profile = () => {
                         <div className="section-action">
                             <label className="switch">
                                 <input
+                                    id="beta-tester-toggle"
+                                    name="beta-tester-toggle"
                                     type="checkbox"
                                     checked={profile?.is_beta_tester || false}
                                     onChange={async (e) => {
@@ -314,6 +319,48 @@ const Profile = () => {
                             </label>
                         </div>
                     </div>
+                    <div className="profile-identity-card" style={{ background: 'var(--hud-bg)', border: '1px solid var(--hud-border)', borderRadius: '24px', padding: '24px', marginTop: '20px', position: 'relative', overflow: 'hidden' }}>
+                        <div className="federation-badge" style={{ position: 'absolute', top: '12px', right: '12px', display: 'flex', alignItems: 'center', gap: '6px', background: 'rgba(0, 242, 255, 0.1)', padding: '4px 12px', borderRadius: '20px', border: '1px solid #00f2ff', cursor: 'pointer' }} onClick={() => {
+                            const node = prompt('A quin Node de la Federació vols connectar-te? (ex: Benifallim, Penàguila, La Torre)', 'La Torre');
+                            if (node) alert(`Sincronitzant amb el Node ${node.toUpperCase()}...`);
+                        }}>
+                            <Globe size={12} color="#00f2ff" />
+                            <span style={{ fontSize: '10px', color: '#00f2ff', fontWeight: 'bold', letterSpacing: '0.05em' }}>NODE LA TORRE (PILOT) ▾</span>
+                        </div>
+
+                        <div className="profile-main-content">
+                            <div className="profile-avatar-stack">
+                                <div className="profile-avatar-ring">
+                                    <img
+                                        src={user?.avatar_url || '/assets/master/javi_avatar_cinematic.png'}
+                                        alt="Avatar"
+                                        className="profile-avatar-img"
+                                    />
+                                </div>
+                                <div className="status-indicator online"></div>
+                            </div>
+                            <div className="profile-naming">
+                                <h2>{user?.full_name || 'Ciutadà de La Torre'}</h2>
+                                <p className="profile-handle">@{user?.username || 'vei_sobirà'}</p>
+                                <div className="profile-badges">
+                                    <span className="profile-badge-pill role-official">
+                                        <ShieldCheck size={12} /> {user?.role || 'Veí'}
+                                    </span>
+                                    <span className="profile-badge-pill" style={{ background: 'rgba(16, 185, 129, 0.1)', color: '#10B981', border: '1px solid #10B981' }}>
+                                        <Lock size={12} /> Rhizome Active
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="coopyleft-notice" style={{ marginTop: '16px', padding: '8px 12px', background: 'rgba(255,255,255,0.03)', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <div style={{ fontSize: '14px' }}>🛡️</div>
+                            <div style={{ fontSize: '9px', opacity: 0.7 }}>
+                                <strong>Llicència CoopyLeft (CC BY-NC-SA 4.0):</strong> Dades protegides per la comunitat. Lliure per al poble, prohibit per a l'extractivisme.
+                            </div>
+                        </div>
+                    </div>
+
                     <div className="beta-explanation">
                         <p>Com a <strong>Beta Tester</strong>, ajudes a bategar el poble trobant errors i proposant millores directament a l'equip tècnic.</p>
                     </div>
@@ -324,6 +371,127 @@ const Profile = () => {
                     >
                         <Newspaper size={18} /> Últimes Novetats Vitaminades 🐭💊
                     </button>
+                </div>
+
+                {/* CÀPSULA DEL TEMPS [PILLAR 5] */}
+                <div className="profile-section-card time-capsule-card" style={{ marginTop: '16px', border: '1px solid #FFD700', background: 'rgba(255, 215, 0, 0.05)' }}>
+                    <div className="section-header">
+                        <div className="section-icon-bg" style={{ background: '#FFD700' }}>
+                            <Lock size={20} color="black" />
+                        </div>
+                        <div className="section-title-stack">
+                            <h3>Càpsula del Temps</h3>
+                            <p style={{ color: '#B45309' }}>Protocol Long Now (Sobirania Total)</p>
+                        </div>
+                        <button
+                            className="btn-primary"
+                            style={{ background: '#000', color: '#FFD700', fontSize: '12px', padding: '8px 16px' }}
+                            onClick={() => {
+                                import('../services/rhizomeManager').then(({ rhizomeManager }) => {
+                                    rhizomeManager.generateTimeCapsule();
+                                    alert('🏺¡Càpsula bategada! El teu historial i identitats estan segellats en un fitxer sobirà al teu dispositiu.');
+                                });
+                            }}
+                        >
+                            BATEGAR EXPORTACIÓ
+                        </button>
+                    </div>
+                    <div className="beta-explanation" style={{ fontSize: '11px', opacity: 0.8, marginTop: '10px' }}>
+                        Exporta tota la teua activitat en un format lliure que podràs obrir d'ací a 50 anys, fins i tot si el núvol desapareix. Tu ets l'amo.
+                    </div>
+                </div>
+
+                {/* CUSTÒDIA SOCIAL [PILLAR 3] */}
+                <div className="profile-section-card social-custody-card" style={{ marginTop: '16px', border: '1px solid #10B981', background: 'rgba(16, 185, 129, 0.05)' }}>
+                    <div className="section-header">
+                        <div className="section-icon-bg" style={{ background: '#10B981' }}>
+                            <Users size={20} color="white" />
+                        </div>
+                        <div className="section-title-stack">
+                            <h3>Custòdia Social (Padrins)</h3>
+                            <p style={{ color: '#047857' }}>La teua xarxa de seguretat humana</p>
+                        </div>
+                    </div>
+
+                    {/* PENDING RECOVERY REQUEST BANNER (SIMULATION) */}
+                    {(() => {
+                        const request = JSON.parse(localStorage.getItem('sp_recovery_request'));
+                        if (request && request.status === 'pending_social_validation') {
+                            return (
+                                <div className="recovery-signature-banner" style={{ marginTop: '12px', padding: '12px', background: '#000', borderRadius: '12px', border: '1px solid #10B981' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#10B981', fontWeight: 'bold', fontSize: '13px' }}>
+                                        <Zap size={16} fill="currentColor" />
+                                        <span>PETICIÓ DE RECUPERACIÓ ACTIVA</span>
+                                    </div>
+                                    <p style={{ color: 'white', fontSize: '11px', marginTop: '4px' }}>
+                                        L'usuari <strong>{request.user_id}</strong> ha perdut el mòbil i demana la teua signatura social.
+                                    </p>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px' }}>
+                                        <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: '10px' }}>Signatures: {request.current_signatures} / {request.required_signatures}</span>
+                                        <button
+                                            className="btn-primary"
+                                            style={{ background: '#10B981', color: 'black', fontSize: '10px', padding: '6px 12px', fontWeight: '900' }}
+                                            onClick={() => {
+                                                import('../services/identityService').then(({ identityService }) => {
+                                                    identityService.signRecoveryRequest('padrin-local', Date.now()).then(res => {
+                                                        if (res.success) {
+                                                            alert(`⚖️ ¡Signatura bategada! Has validat la identitat del teu veí. (${res.current}/${request.required_signatures})`);
+                                                            window.location.reload();
+                                                        }
+                                                    });
+                                                });
+                                            }}
+                                        >
+                                            SIGNAR CONTRACTE SOCIAL
+                                        </button>
+                                    </div>
+                                </div>
+                            );
+                        }
+                        if (request && request.status === 'validated_by_social_contract') {
+                            return (
+                                <div style={{ marginTop: '12px', padding: '10px', background: 'rgba(16, 185, 129, 0.2)', borderRadius: '10px', textAlign: 'center', color: '#047857', fontSize: '11px', fontWeight: 'bold' }}>
+                                    ✅ ¡IDENTITAT RESTAURADA! El Contracte Social s'ha executat amb èxit.
+                                </div>
+                            );
+                        }
+                        return null;
+                    })()}
+
+                    <div className="padrins-list" style={{ marginTop: '15px' }}>
+                        <div style={{ display: 'flex', gap: '8px', overflowX: 'auto', paddingBottom: '10px' }}>
+                            <button
+                                className="add-padrin-btn"
+                                style={{ minWidth: '100px', height: '100px', borderRadius: '15px', border: '2px dashed #10B981', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '8px', color: '#10B981', padding: '10px' }}
+                                onClick={() => {
+                                    const name = prompt('Nom del Padrin/a:');
+                                    if (name) {
+                                        import('../services/paymentService').then(({ paymentService }) => {
+                                            paymentService.addPadrin({ name, role: 'Padrí Confiança' });
+                                            window.location.reload(); // Refresh to show
+                                        });
+                                    }
+                                }}
+                            >
+                                <Plus size={24} />
+                                <span style={{ fontSize: '10px', fontWeight: 'bold' }}>AFEGIR PADRÍ</span>
+                            </button>
+                            {/* Render existing padrins - simplify for now */}
+                            {(() => {
+                                const padrins = JSON.parse(localStorage.getItem('sp_padrins') || '[]');
+                                return padrins.map(p => (
+                                    <div key={p.id} style={{ minWidth: '100px', height: '100px', borderRadius: '15px', background: 'white', border: '1px solid #e5e7eb', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '5px' }}>
+                                        <div style={{ width: '40px', height: '40px', borderRadius: '20px', background: '#10B981', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' }}>{p.name[0]}</div>
+                                        <span style={{ fontSize: '11px', fontWeight: 'bold', textAlign: 'center' }}>{p.name}</span>
+                                        <span style={{ fontSize: '9px', opacity: 0.6 }}>SEGURAT</span>
+                                    </div>
+                                ));
+                            })()}
+                        </div>
+                    </div>
+                    <div className="beta-explanation" style={{ fontSize: '11px', opacity: 0.8, marginTop: '10px' }}>
+                        Si perds el dispositiu, els teus Padrins poden bategar la restauració del teu <strong>xlog</strong> (llibre de comptes). La teua comunitat és la teua millor còpia de seguretat.
+                    </div>
                 </div>
 
                 <nav className="profile-tabs-nav horizontal-scroll">
@@ -354,6 +522,10 @@ const Profile = () => {
                     <button className={activeTab === 'calendari' ? 'active' : ''} onClick={() => setActiveTab('calendari')}>
                         <Calendar size={18} />
                         <span>Calendari</span>
+                    </button>
+                    <button className={activeTab === 'rebost' ? 'active' : ''} onClick={() => setActiveTab('rebost')}>
+                        <Archive size={18} />
+                        <span>El Rebost</span>
                     </button>
                 </nav>
 

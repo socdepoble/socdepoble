@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { supabaseService } from '../services/supabaseService';
 import { Users, Store, MessageSquare, MapPin, Database, RefreshCw } from 'lucide-react';
+import { logger } from '../utils/logger';
 import './LiveStats.css';
 
 const LiveStats = () => {
@@ -13,7 +14,7 @@ const LiveStats = () => {
                 const data = await supabaseService.getPublicStats();
                 setStats(data);
             } catch (error) {
-                console.error('Failed to load stats', error);
+                logger.error('Failed to load stats', error);
             } finally {
                 setLoading(false);
             }

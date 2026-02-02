@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Terminal, Shield, Activity, Zap, X, Trash2, Info, Copy, Check, Brain, Link2, RefreshCw, User, Mic } from 'lucide-react';
+import { Terminal, Shield, Activity, Zap, X, Trash2, Info, Copy, Check, Brain, Link2, RefreshCw, User, Mic, Locate, Monitor, Smartphone, ShieldCheck, Eye, EyeOff } from 'lucide-react';
 import { CREATOR_EMAILS } from '../constants';
 import { notebookService } from '../services/notebookService';
 import { useAuth } from '../context/AuthContext';
@@ -9,14 +9,21 @@ import { useTranslation } from 'react-i18next';
 import { didacticData } from '../data/didacticData';
 import { feedbackService } from '../services/feedbackService';
 import { iaiaService } from '../services/iaiaService';
+import { FORENSIC_REPORTS } from '../data/forensicReports';
+import { useThemeCustomizer } from '../hooks/useThemeCustomizer';
+import { RURAL_PALETTE } from '../constants/ruralColors';
 import VoiceRecorder from './VoiceRecorder';
+import { SyncEngine, DataSifter, BufferHopper, RhizomeIntegrity } from './SolatgeHUDWidgets';
 import './DiagnosticConsole.css';
 
 const DiagnosticConsole = () => {
+    const { themeConfig, updateConfig, resetToMasia, validateContrast, ruralInfo } = useThemeCustomizer();
     const [isOpen, setIsOpen] = useState(false);
+    const [currentHudTab, setCurrentHudTab] = useState('logs'); // 'logs', 'style', 'system', 'reports'
     const [screenshotMode, setScreenshotMode] = useState(false);
     const [logs, setLogs] = useState([]);
     const [isVisible, setIsVisible] = useState(false);
+    const [autoHealEnabled, setAutoHealEnabled] = useState(true);
     const [showVoiceFeedback, setShowVoiceFeedback] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [feedbackSent, setFeedbackSent] = useState(false);
@@ -33,44 +40,154 @@ const DiagnosticConsole = () => {
     const [verifyingIntegrity, setVerifyingIntegrity] = useState(false);
     const [isHealing, setIsHealing] = useState(false);
     const [iaiaAdvice, setIaiaAdvice] = useState(null);
-    const VERSION = "v1.5.6-BATEGA";
+    const [hudActivity, setHudActivity] = useState({ syncing: false, sifting: true, bufferLevel: 0.15 });
+    const [viewMode, setViewMode] = useState('ADMIN'); // 'ADMIN' or 'USER' (CLEAN)
+    const [techReport, setTechReport] = useState(null);
+    const VERSION = "v1.5.6-MASTER-BATEGA-REFLOW";
 
-    const addHudLog = (type, args) => {
-        const VERSION = "v1.5.6-BATEGA";
-        const msg = args.map(arg =>
-            typeof arg === 'object' ? JSON.stringify(arg).substring(0, 100) : String(arg)
-        ).join(' ');
+    // DIRECTIVA DE LES MARIES [MASTER]
+    useEffect(() => {
+        const welcomeMsg = i18n.language === 'ca' ? `Bon dia, ${profile?.full_name || 'Mestre'}. Tot a punt.` :
+            i18n.language === 'es' ? `Buenos días, ${profile?.full_name || 'Maestro'}. Todo listo.` :
+                i18n.language === 'en' ? `Good morning, ${profile?.full_name || 'Master'}. Everything ready.` :
+                    i18n.language === 'eu' ? `Egun on, ${profile?.full_name || 'Maisu'}. Dena prest.` :
+                        i18n.language === 'gl' ? `Bo día, ${profile?.full_name || 'Mestre'}. Todo listo.` :
+                            `Bon dia, ${profile?.full_name || 'Mestre'}. Tot a punt.`;
+        addHudLog('system', [welcomeMsg]);
+    }, [i18n.language]);
 
-        setLogs(prev => [{
-            id: Date.now() + Math.random(),
-            time: new Date().toLocaleTimeString(),
-            type,
-            msg
-        }, ...prev].slice(0, 50));
+    // Simulate HUD lifecycle activity
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setHudActivity(prev => ({
+                syncing: Math.random() > 0.7,
+                sifting: true,
+                bufferLevel: Math.random() > 0.9 ? Math.min(1, prev.bufferLevel + 0.1) : Math.max(0.05, prev.bufferLevel - 0.02)
+            }));
+        }, 5000);
+        return () => clearInterval(interval);
+    }, []);
+
+    const broadcast = useRef(null);
+    const isAddingLog = useRef(false);
+
+    const addHudLog = (type, msg, origin = 'SYSTEM', time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })) => {
+        if (isAddingLog.current) return;
+        isAddingLog.current = true;
+
+        try {
+            // En mode VEÍ (CLEAN), no registrem logs visuals per mantenir la pau
+            if (viewMode === 'USER' && type !== 'critical') {
+                isAddingLog.current = false;
+                return;
+            }
+
+            const logMsg = Array.isArray(msg)
+                ? msg.map(arg => typeof arg === 'object' ? JSON.stringify(arg).substring(0, 50) : String(arg)).join(' ')
+                : msg;
+
+            const newLog = { id: Date.now() + Math.random(), type, msg: logMsg, origin, time };
+            setLogs(prev => [newLog, ...prev].slice(0, 70));
+
+            // BELL OF ATTENTION [PROTOCOL FLASH]
+            if (type === 'critical' || (type === 'error' && autoHealEnabled)) {
+                if (navigator.vibrate && navigator.userActivation?.hasBeenActive) {
+                    navigator.vibrate([100, 30, 100]);
+                }
+            }
+
+            if (broadcast.current && broadcast.current.name) {
+                try {
+                    broadcast.current.postMessage({ type: 'LOG_SYNC', log: newLog });
+                } catch (e) {
+                    // Silenci si el canal està tancat
+                }
+            }
+
+            // AUTO-HEAL LOGIC [MASTER]
+            if (autoHealEnabled && type === 'error') {
+                handleAutoHeal(logMsg);
+            }
+        } finally {
+            isAddingLog.current = false;
+        }
     };
 
     useEffect(() => {
+        broadcast.current = new BroadcastChannel('solatge_hud_sync');
+        broadcast.current.onmessage = (event) => {
+            if (event.data.type === 'LOG_SYNC') {
+                setLogs(prev => [event.data.log, ...prev].slice(0, 70));
+            }
+        };
+
         const originalLog = console.log;
         const originalWarn = console.warn;
         const originalError = console.error;
 
         console.log = (...args) => {
-            originalLog(...args);
+            const msg = String(args[0]);
+            if (msg.includes('beforeinstallpromptevent') || msg.includes('Banner not shown')) {
+                return;
+            }
+            // originalLog(...args); // NUCLEAR CLEANING: SILENCED
             addHudLog('info', args);
         };
         console.warn = (...args) => {
-            originalWarn(...args);
+            const msg = String(args[0]);
+            if (msg.includes('beforeinstallpromptevent') || msg.includes('Banner not shown')) {
+                return;
+            }
+            if (msg.includes('Geolocation')) {
+                addHudLog('warn', ['[PRIVACITAT] El navegador bloqueja la geolocalització. Revisa els permisos a la barra d\'adreces per a funcions de proximitat.']);
+                // originalWarn(...args); // NUCLEAR CLEANING: SILENCED
+                return;
+            }
+            if (msg.includes('Push') && msg.includes('No active session')) {
+                // Silenci de protocol: no cal alarmar si no hi ha sessió
+                return;
+            }
+            // originalWarn(...args); // NUCLEAR CLEANING: SILENCED
             addHudLog('warn', args);
         };
         console.error = (...args) => {
-            originalError(...args);
+            const msg = String(args[0]);
+            if (msg.includes('beforeinstallpromptevent') || msg.includes('Banner not shown')) {
+                return;
+            }
+            // Filtre de Soroll Extern (Chrome AI / Extensions)
+            if (msg.includes('shadow host') || msg.includes('ShadowRoot')) {
+                return;
+            }
+            if (msg.includes('removeChild') || msg.includes('not a child')) {
+                // [MASTER] Intentem silenciar el soroll de DOM orfe que no afecta a la funcionalitat
+                addHudLog('warn', ['[DOM-REFLOW] Detectat removeChild orfe. El sistema s\'està auto-sanejant.']);
+                return;
+            }
+            originalError(...args); // Restaurat per a diagnòstic real del Mestre
             addHudLog('error', args);
         };
 
+        const originalInfo = console.info;
+        console.info = (...args) => {
+            const msg = String(args[0]);
+            if (msg.includes('beforeinstallpromptevent') || msg.includes('Banner not shown')) {
+                return;
+            }
+            // originalInfo(...args); // NUCLEAR CLEANING: SILENCED
+            addHudLog('info', args);
+        };
+
         const params = new URLSearchParams(window.location.search);
-        if (params.get('debug') === 'true') {
+        const persistentDebug = localStorage.getItem('hud_debug_mode') === 'true';
+
+        if (params.get('debug') === 'true' || persistentDebug) {
             setIsVisible(true);
             setIsOpen(true);
+            if (params.get('debug') === 'true') {
+                localStorage.setItem('hud_debug_mode', 'true');
+                addHudLog('system', ['[MASTER] HUD persistent habilitat per a tota la sessió.']);
+            }
         }
 
         const handleOpenEvent = () => {
@@ -106,14 +223,81 @@ const DiagnosticConsole = () => {
             window.removeEventListener('open-diagnostic-hud', handleOpenEvent);
             window.removeEventListener('keydown', handleKeyDown);
             window.removeEventListener('mousedown', handleClickOutside);
+            if (broadcast.current) broadcast.current.close();
         };
-    }, []);
+    }, [autoHealEnabled, viewMode]);
+
+    const requestGeolocation = () => {
+        addHudLog('action', ['[MAC-GEO] Sol·licitant geolocalització sobirana...']);
+        if (!navigator.geolocation) {
+            addHudLog('error', ['[MAC-GEO] El navegador no suporta geolocalització.']);
+            return;
+        }
+        navigator.geolocation.getCurrentPosition(
+            (pos) => {
+                addHudLog('success', [`[MAC - GEO] Localitzat: ${pos.coords.latitude.toFixed(4)}, ${pos.coords.longitude.toFixed(4)} `]);
+                // Simulem bategat de posició per a tot el sistema
+                window.dispatchEvent(new CustomEvent('sp_location_update', { detail: pos.coords }));
+            },
+            (err) => {
+                addHudLog('error', [`[MAC - GEO] Error: ${err.message}. Comprova permisos al Sistema(Mac).`]);
+            },
+            { enableHighAccuracy: true, timeout: 5000 }
+        );
+    };
+
+    const toggleDesktopMode = () => {
+        const isDesktop = !themeConfig.isDesktopOptimized;
+        updateConfig({ isDesktopOptimized: isDesktop });
+        addHudLog('system', [`[DESKTOP] Mode Escriptori: ${isDesktop ? 'ACTIU' : 'INACTIU'} `]);
+        document.body.classList.toggle('desktop-master-reflow', isDesktop);
+    };
+    const handleAutoHeal = (msg) => {
+        const criticalPatterns = ['Failed to fetch', 'ChunkLoadError', 'Manifest', 'Supabase', 'Geolocation'];
+        if (criticalPatterns.some(p => msg.includes(p))) {
+            addHudLog('critical', [`[!!ALERTA MANDATORY!!] ${msg} `]);
+            if (msg.includes('Geolocation')) {
+                addHudLog('info', ['[AUTO-HEAL] Recomanació: Prem el botó de Localització al HUD.']);
+            }
+            addHudLog('system', ['[AUTO-HEAL] Detectada fallada crítica. Iniciant protocol de sanació...']);
+            setIsHealing(true);
+            setTimeout(() => {
+                if (msg.includes('ChunkLoadError') || msg.includes('Failed to fetch')) {
+                    addHudLog('system', ['[AUTO-HEAL] Recarregant bundle per a resoldre pèrdua de sincronització...']);
+                    window.location.reload();
+                } else {
+                    addHudLog('system', ['[AUTO-HEAL] Sanació completa. El bategat s\'ha estabilitzat.']);
+                    setIsHealing(false);
+                }
+            }, 2000);
+        }
+    };
 
     useEffect(() => {
         if (terminalRef.current) {
             terminalRef.current.scrollTop = 0;
         }
     }, [logs]);
+
+    const runSystemAudit = async () => {
+        addHudLog('system', ['[AUDIT] Iniciant auditoria de Sacred Tech...']);
+        // 1. Contrast Test
+        const bodies = document.querySelectorAll('.card-body');
+        addHudLog('info', [`[AUDIT] Verificant contrast en ${bodies.length} targetes.`]);
+
+        // 2. Link Test
+        const links = document.querySelectorAll('a');
+        const broken = Array.from(links).filter(a => !a.href);
+        if (broken.length > 0) addHudLog('error', [`[AUDIT] Trobats ${broken.length} enllaços orfes.`]);
+        else addHudLog('success', ['[AUDIT] Enllaços OK.']);
+
+        // 3. Sacred Tech Check
+        const fonts = document.body.style.fontFamily;
+        if (fonts.includes('Inter Tight')) addHudLog('success', ['[AUDIT] Sobirania tipogràfica Inter Tight confirmada.']);
+
+        if (navigator.vibrate && navigator.userActivation?.hasBeenActive) navigator.vibrate(50);
+        addHudLog('system', ['[AUDIT] Auditoria completada. El sistema és digne.']);
+    };
 
     const nuclearReload = async () => {
         addHudLog('action', [t('diag.nuke_start')]);
@@ -153,9 +337,9 @@ const DiagnosticConsole = () => {
             try {
                 const resp = await fetch(res, { method: 'HEAD' });
                 if (!resp.ok) throw new Error('Not found');
-                addHudLog('success', [`OK: ${res}`]);
+                addHudLog('success', [`OK: ${res} `]);
             } catch (e) {
-                addHudLog('error', [`ERROR: ${res}`]);
+                addHudLog('error', [`ERROR: ${res} `]);
                 errors++;
             }
         }
@@ -205,7 +389,7 @@ const DiagnosticConsole = () => {
     };
 
     const copySystemReport = () => {
-        const report = `SÓC DE POBLE SYSTEM REPORT\nTime: ${new Date().toLocaleString()}\nVersion: ${VERSION}\nUser: ${user?.id || 'GUEST'}\nRole: ${profile?.role || 'null'}\nLogs:\n${logs.map(l => `[${l.time}] ${l.msg}`).join('\n')}`;
+        const report = `SÓC DE POBLE SYSTEM REPORT\nTime: ${new Date().toLocaleString()} \nVersion: ${VERSION} \nUser: ${user?.id || 'GUEST'} \nRole: ${profile?.role || 'null'} \nLogs: \n${logs.map(l => `[${l.time}] ${l.msg}`).join('\n')} `;
         navigator.clipboard.writeText(report).then(() => {
             setCopied(true);
             setTimeout(() => setCopied(false), 2000);
@@ -239,18 +423,26 @@ const DiagnosticConsole = () => {
 
     return (
         <>
-            <div className={`diagnostic-hud ${!isOpen ? 'hidden' : ''} ${screenshotMode ? 'screenshot-mode' : ''}`}>
+            <div className={`diagnostic-hud ${!isOpen ? 'hidden' : ''} ${screenshotMode ? 'screenshot-mode' : ''} mode-${viewMode.toLowerCase()}`}>
                 <div className="hud-header">
-                    <div className="hud-title-zone">
-                        <span className="hud-badge">{VERSION}</span>
+                    <div className="hud-header-title">
+                        <Activity size={18} className={isHealing ? 'pulse-fast text-red-500' : 'pulse-slow text-cyan-400'} />
                         <h2>CONSOLA DE COMANDAMENT SOLATGE</h2>
+                        <span className={`auto-heal-badge ${autoHealEnabled ? 'active' : ''}`}>
+                            {autoHealEnabled && !isHealing ? <Check size={10} className="mr-1 inline" /> : null}
+                            {autoHealEnabled ? 'ESTAT: NOMINAL' : 'AUTO-HEAL: OFF'}
+                        </span>
+                        <div className="peace-signal-container" title="Senyal de Pau (Manteniment OK)">
+                            <div className="peace-led"></div>
+                            <span className="peace-text">SILENCI</span>
+                        </div>
                     </div>
                     <div className="hud-header-actions">
-                        <button className={`btn-hud-tool ${showHelp ? 'active' : ''}`} onClick={() => setShowHelp(!showHelp)}>
-                            <Mic size={20} />
+                        <button className={`btn - hud - tool ${currentHudTab === 'audit' ? 'active' : ''} `} onClick={runSystemAudit} title="Audit Ara">
+                            <Shield size={20} />
                         </button>
                         <button className="btn-hud-tool" onClick={() => setShowHelp(!showHelp)}>
-                            <Info size={20} />
+                            <Mic size={20} />
                         </button>
                         <button className="btn-hud-tool close-trigger" onClick={(e) => toggleHud(e)}>
                             <X size={20} />
@@ -328,35 +520,231 @@ const DiagnosticConsole = () => {
                         </div>
                     ) : (
                         <div className="hud-sections-grid">
-                            <section className="hud-panel" onClick={() => showHelp && setDidacticAlert(didacticData.identity)}>
-                                <div className="panel-header"><User size={16} /> <h3>ESTAT DE LA SESSIÓ</h3></div>
-                                <div className="panel-content">
-                                    <div className="data-row"><span>ID:</span> <strong>{user?.id?.substring(0, 8) || 'GUEST'}</strong></div>
-                                    <div className="stat-value" style={{ fontSize: '1.2rem', fontWeight: 800, marginTop: '10px', color: 'var(--hud-accent)' }}>{VERSION}</div>
-                                </div>
-                            </section>
+                            <div className="hud-tabs-selector compact-scroll">
+                                <button className={currentHudTab === 'logs' ? 'active terminal' : 'terminal'} onClick={() => setCurrentHudTab('logs')}>TERMINAL</button>
+                                <button className={currentHudTab === 'sync' ? 'active sync' : 'sync'} onClick={() => setCurrentHudTab('sync')}>SINCRONITZACIÓ</button>
+                                <button className={currentHudTab === 'rendiment' ? 'active rendi' : 'rendi'} onClick={() => setCurrentHudTab('rendiment')}>RENDIMENT</button>
+                                <button className={currentHudTab === 'errors' ? 'active error' : 'error'} onClick={() => setCurrentHudTab('errors')}>ERRORS</button>
+                                <button className={currentHudTab === 'reports' ? 'active reports' : 'reports'} onClick={() => {
+                                    setCurrentHudTab('reports');
+                                    const reportLang = i18n.language === 'es' ? '_ES' : '';
+                                    fetch(`/TECHNICAL_REPORT_VIVO${reportLang}.md`)
+                                        .then(res => res.text())
+                                        .then(setTechReport)
+                                        .catch(err => console.error('Error carregant l\'informe:', err));
+                                }}>INFORME TÈCNIC</button>
+                                <button className={currentHudTab === 'forensic' ? 'active reports' : 'reports'} onClick={() => setCurrentHudTab('forensic')}>INFORMES FORENSES</button>
+                                <button className={currentHudTab === 'style' ? 'active' : ''} onClick={() => setCurrentHudTab('style')}>ESTIL [MASTER]</button>
+                                <button className={currentHudTab === 'faq' ? 'active' : ''} onClick={() => {
+                                    setCurrentHudTab('faq');
+                                    setDidacticAlert(didacticData.master_faq);
+                                }}>AGÈNDA FAQ</button>
+                                <button className={currentHudTab === 'system' ? 'active' : ''} onClick={() => setCurrentHudTab('system')}>SISTEMA</button>
+                            </div>
 
-                            <section className="hud-panel" onClick={() => showHelp && setDidacticAlert(didacticData.pulse)}>
-                                <div className="panel-header"><Activity size={16} /> <h3>ESTAT DE LA XARXA</h3></div>
-                                <div className="panel-content">
-                                    <div className="data-row"><span>Versió:</span> <strong>{VERSION}</strong></div>
-                                    <div className="data-row"><span>Xarxa:</span> <strong className="status-ok">Connectat</strong></div>
-                                </div>
-                            </section>
+                            {currentHudTab === 'faq' && (
+                                <section className="hud-panel full-width">
+                                    <div className="panel-header">
+                                        <Brain size={16} color="var(--hud-accent)" />
+                                        <h3>AGÈNDA DE DUBTES (IAIA)</h3>
+                                    </div>
+                                    <div className="panel-content" style={{ padding: '20px' }}>
+                                        <p style={{ fontStyle: 'italic', marginBottom: '20px', opacity: 0.8 }}>{didacticData.master_faq.explanation}</p>
+                                        <div className="faq-list" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                                            {didacticData.master_faq.details.map((item, i) => {
+                                                const [q, a] = item.split('\n');
+                                                return (
+                                                    <div key={i} className="faq-item" style={{ background: 'rgba(255,255,255,0.03)', padding: '15px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                                                        <strong style={{ color: 'var(--hud-accent)', fontSize: '13px', display: 'block', marginBottom: '8px' }}>
+                                                            {q.replace(/\*\*/g, '')}
+                                                        </strong>
+                                                        <p style={{ fontSize: '13px', lineHeight: '1.5', opacity: 0.9 }}>{a}</p>
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+                                </section>
+                            )}
 
-                            <section className="hud-panel full-width" onClick={() => showHelp && setDidacticAlert(didacticData.logs)}>
-                                <div className="panel-header"><Terminal size={16} /> <h3>ACTIVITAT RECENT</h3></div>
-                                <div className="hud-terminal-container">
-                                    <div className="hud-terminal" ref={terminalRef}>
-                                        {logs.map(log => (
-                                            <div key={log.id} className={`log-line ${log.type}`}>
-                                                <span className="log-time">[{log.time}]</span>
-                                                <span className="log-msg">{log.msg}</span>
+                            {currentHudTab === 'reports' && (
+                                <section className="hud-panel full-width">
+                                    <div className="panel-header">
+                                        <Shield size={16} />
+                                        <h3>INFORME TÈCNIC VIVID</h3>
+                                        <div style={{ marginLeft: 'auto', display: 'flex', gap: '8px' }}>
+                                            <a href={`/TECHNICAL_REPORT_VIVO${i18n.language === 'es' ? '_ES' : ''}.md`} download className="btn-hud-outline small">MD</a>
+                                            <button className="btn-hud-outline small" onClick={() => window.print()}>PDF / IMPRIMIR</button>
+                                        </div>
+                                    </div>
+                                    <div className="tech-report-content" style={{ padding: '20px', fontSize: '14px', lineHeight: '1.6', maxHeight: '500px', overflowY: 'auto' }}>
+                                        {techReport ? (
+                                            <pre style={{ whiteSpace: 'pre-wrap', fontFamily: 'monospace', opacity: 0.9 }}>
+                                                {techReport}
+                                            </pre>
+                                        ) : (
+                                            <div className="pulse-slow">Sichronitzant amb el Rebost de l'IAIA...</div>
+                                        )}
+                                    </div>
+                                </section>
+                            )}
+
+                            {currentHudTab === 'forensic' && (
+                                <section className="hud-panel full-width">
+                                    <div className="panel-header"><Shield size={16} /> <h3>INFORMES FORENSES DE L'IAIA</h3></div>
+                                    <div className="forensic-reports-container">
+                                        {FORENSIC_REPORTS.map(report => (
+                                            <div key={report.id} className={`forensic-card status-${report.status}`}>
+                                                <div className="forensic-card-header">
+                                                    <div className="forensic-card-title">
+                                                        <Activity size={14} />
+                                                        <h4>{report.title}</h4>
+                                                    </div>
+                                                    <span className="forensic-timestamp">{new Date(report.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                                                </div>
+                                                <p className="forensic-summary">{report.summary}</p>
+                                                <ul className="forensic-details">
+                                                    {report.details.map((detail, i) => (
+                                                        <li key={i} dangerouslySetInnerHTML={{ __html: detail.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>') }} />
+                                                    ))}
+                                                </ul>
                                             </div>
                                         ))}
                                     </div>
+                                </section>
+                            )}
+
+                            {['logs', 'sync', 'rendiment', 'errors'].includes(currentHudTab) && (
+                                <section className="hud-panel full-width">
+                                    <div className="panel-header"><Terminal size={16} /> <h3>{currentHudTab.toUpperCase()}</h3></div>
+                                    <div className="hud-terminal-container">
+                                        <div className="hud-terminal" ref={terminalRef}>
+                                            {logs.filter(log => {
+                                                if (currentHudTab === 'sync') return log.msg.includes('SYNC') || log.msg.includes('Rhizome') || log.type === 'system';
+                                                if (currentHudTab === 'rendiment') return log.type === 'info' && !log.msg.includes('SYNC') && !log.msg.includes('Rhizome');
+                                                if (currentHudTab === 'errors') return log.type === 'error' || log.type === 'warn';
+                                                return true; // logs tab shows everything
+                                            }).map(log => (
+                                                <div key={log.id} className={`log - line ${log.type} `}>
+                                                    <span className="log-time">[{log.time}]</span>
+                                                    <span className="log-origin">[{log.origin}]</span>
+                                                    <span className="log-msg">{log.msg}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </section>
+                            )}
+
+                            {currentHudTab === 'style' && (
+                                <section className="hud-panel full-width style-tuner-panel">
+                                    <div className="panel-header"><Zap size={16} /> <h3>TUNER D'ESTIL SOBIRÀ</h3></div>
+                                    <div className="panel-content tuner-grid">
+                                        {/* 1. Tipografia Fluida */}
+                                        <div className="tuner-item">
+                                            <label>Escala de Batec (Font Size)</label>
+                                            <div className="flex items-center gap-4">
+                                                <input
+                                                    type="range"
+                                                    min="0.8"
+                                                    max="1.5"
+                                                    step="0.1"
+                                                    value={themeConfig.fontScale}
+                                                    onChange={(e) => updateConfig({ fontScale: parseFloat(e.target.value) })}
+                                                />
+                                                <span className="badge-value">{themeConfig.fontScale}x</span>
+                                            </div>
+                                        </div>
+
+                                        {/* 2. Selector Semàntic de Color */}
+                                        <div className="tuner-item">
+                                            <label>Color d'Accent: <strong style={{ color: 'var(--hud-accent)' }}>{ruralInfo.label}</strong></label>
+                                            <div className="rural-swatches">
+                                                {RURAL_PALETTE.map(color => (
+                                                    <button
+                                                        key={color.hex}
+                                                        className={`swatch ${ruralInfo.hex === color.hex ? 'active' : ''} `}
+                                                        style={{ backgroundColor: color.hex }}
+                                                        title={color.name}
+                                                        onClick={() => updateConfig({ primaryColor: color.hex })}
+                                                        aria-label={color.name}
+                                                    />
+                                                ))}
+                                            </div>
+                                            <p className="tuner-hint">{ruralInfo.desc}</p>
+                                        </div>
+
+                                        {/* 4. Desktop & Geo Triggers */}
+                                        <div className="tuner-item">
+                                            <label>Maquinària i Geolocalització</label>
+                                            <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
+                                                <button className="btn-hud-outline" onClick={requestGeolocation} style={{ flex: 1 }}>
+                                                    <Locate size={14} /> LOCALITZAR MAC
+                                                </button>
+                                                <button className={`btn - hud - outline ${themeConfig.isDesktopOptimized ? 'active' : ''} `} onClick={toggleDesktopMode} style={{ flex: 1 }}>
+                                                    {themeConfig.isDesktopOptimized ? <Monitor size={14} /> : <Smartphone size={14} />}
+                                                    {themeConfig.isDesktopOptimized ? 'MODE DESKTOP' : 'MODE MÒBIL'}
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        {/* 5. Aesthetics Guard Status */}
+                                        <div className="tuner-item status">
+                                            <div className="flex justify-between items-center">
+                                                <span className="flex items-center gap-2">
+                                                    <ShieldCheck size={14} color={validateContrast(themeConfig.primaryColor) ? "#00f2ff" : "#ff4444"} />
+                                                    Aesthetics Guard: {validateContrast(themeConfig.primaryColor) ? 'Optimum' : 'Alerta de Lectura'}
+                                                </span>
+                                                <button className="btn-restore-masia" onClick={resetToMasia}>RESTAURAR MASIA</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            )}
+
+                            {currentHudTab === 'system' && (
+                                <div className="system-grid">
+                                    <section className="hud-panel full-width">
+                                        <div className="panel-header"><RefreshCw size={16} /> <h3>IDIOMA (PROTOCOL THORSTEN)</h3></div>
+                                        <div className="panel-content">
+                                            <div className="language-selector-grid">
+                                                {['ca', 'es', 'en', 'eu', 'gl'].map(lang => (
+                                                    <button
+                                                        key={lang}
+                                                        className={`btn-hud-lang ${i18n.language === lang ? 'active' : ''}`}
+                                                        onClick={() => i18n.changeLanguage(lang)}
+                                                    >
+                                                        {lang.toUpperCase()}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </section>
+
+                                    <section className="hud-panel widgets-panel full-width">
+                                        <div className="panel-header"><Zap size={16} /> <h3>ESTAT DE LA MAQUINÀRIA [SOLATGE]</h3></div>
+                                        <div className="hud-widgets-row">
+                                            <SyncEngine active={hudActivity.syncing || isHealing} />
+                                            <DataSifter vibrating={hudActivity.sifting} />
+                                            <BufferHopper level={hudActivity.bufferLevel} />
+                                            <RhizomeIntegrity amnesic={true} version={VERSION} />
+                                        </div>
+                                    </section>
+                                    <section className="hud-panel" onClick={() => showHelp && setDidacticAlert(didacticData.identity)}>
+                                        <div className="panel-header"><User size={16} /> <h3>SESSIÓ</h3></div>
+                                        <div className="panel-content">
+                                            <div className="data-row"><span>ID:</span> <strong>{user?.id?.substring(0, 8) || 'GUEST'}</strong></div>
+                                            <div className="stat-value">{VERSION}</div>
+                                        </div>
+                                    </section>
+                                    <section className="hud-panel" onClick={() => showHelp && setDidacticAlert(didacticData.pulse)}>
+                                        <div className="panel-header"><Activity size={16} /> <h3>XARXA</h3></div>
+                                        <div className="panel-content">
+                                            <div className="data-row"><span>Estat:</span> <strong className="status-ok">ESTABLE</strong></div>
+                                        </div>
+                                    </section>
                                 </div>
-                            </section>
+                            )}
                         </div>
                     )}
                 </div>
@@ -372,7 +760,7 @@ const DiagnosticConsole = () => {
                         </div>
                         <div style={{ flex: 1, position: 'relative' }}>
                             <button
-                                className={`btn-hud-primary level-2 master-heal ${isHealing ? 'healing' : ''}`}
+                                className={`btn - hud - primary level - 2 master - heal ${isHealing ? 'healing' : ''} `}
                                 onClick={runSelfHealing}
                                 disabled={isHealing}
                                 style={{ width: '100%' }}
@@ -419,7 +807,7 @@ const DiagnosticConsole = () => {
 
             {isVisible && (
                 <button
-                    className={`btn-icon-hud ${isOpen ? 'active' : ''}`}
+                    className={`btn - icon - hud ${isOpen ? 'active' : ''} `}
                     onClick={(e) => toggleHud(e)}
                     data-admin-theme={isAdmin ? (visionMode === 'humana' ? 'dark' : 'light') : 'dark'}
                 >

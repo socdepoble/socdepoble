@@ -3,13 +3,14 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
 import { useI18n } from '../context/I18nContext';
 import { logger } from '../utils/logger';
-import { User, Search, Bell, Sparkles, UserCheck, Download, Activity, ChevronRight, Store, Building2, Users } from 'lucide-react';
+import { User, Search, Bell, Sparkles, UserCheck, Download, Activity, ChevronRight, Store, Building2, Users, Zap, Book } from 'lucide-react';
 import { useUI } from '../context/UIContext';
 import { pushService } from '../services/pushService';
 import { pushNotifications } from '../services/pushNotifications';
 import { supabaseService } from '../services/supabaseService';
 import { useState, useEffect } from 'react';
 import MasterConsole from './MasterConsole';
+import MeshStar from './MeshStar';
 import './Header.css';
 
 const ContextMenu = () => {
@@ -101,145 +102,51 @@ const Header = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [isMasterOpen, setIsMasterOpen] = useState(false);
-
-    const handleProfileClick = (e) => {
-        if (location.pathname === '/perfil') {
-            e.preventDefault();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-    };
+    const { status = 'synced', hops = 3 } = user?.is_sovereign ? { status: 'offline', hops: 0 } : {};
 
     const logoSrc = '/logo.png';
 
     return (
-        <header className="main-header">
-            <div className="header-content">
-                <Link
-                    to="/"
-                    className="logo-container"
-                    onClick={(e) => {
-                        if (e.detail >= 3) {
-                            e.preventDefault();
-                            window.dispatchEvent(new CustomEvent('open-diagnostic-hud'));
-                        }
-                    }}
-                >
-                    <img src={logoSrc} alt="Sóc de Poble" className="header-logo" />
-                    <span className="header-version-tag">v1.5.6-BATEGA</span>
+        <header className="m3-top-app-bar">
+            <div className="bar-leading">
+                <Link to="/" className="bar-logo-link">
+                    <img src={logoSrc} alt="Sóc de Poble" className="bar-logo" />
                 </Link>
+            </div>
 
-                <div className="header-actions">
-                    <button
-                        className="header-search-btn"
-                        onClick={() => navigate('/cerca')}
-                        aria-label={t('common.search') || 'Buscar'}
-                    >
-                        <Search size={22} color="white" />
+            <div className="bar-trailing">
+                <button className="bar-icon-btn" onClick={() => navigate('/cerca')}>
+                    <Search size={24} />
+                </button>
+
+                <button className="bar-icon-btn llumeta" onClick={() => navigate('/intel·ligencia')}>
+                    <Sparkles size={24} />
+                </button>
+
+                {user && (
+                    <button className="bar-icon-btn" onClick={() => navigate('/notificacions')}>
+                        <Bell size={24} />
+                        <span className="bar-badge">3</span>
                     </button>
+                )}
 
-                    {isAdmin && (
-                        <button
-                            className="header-admin-btn"
-                            onClick={() => navigate('/admin')}
-                            aria-label="Admin Panel"
-                            title="Panell d'Administració"
-                            style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '8px' }}
-                        >
-                            <UserCheck size={22} color="#FFD700" />
-                        </button>
-                    )}
+                <button className="bar-status-btn" onClick={() => window.dispatchEvent(new CustomEvent('open-diagnostic-hud'))}>
+                    <MeshStar status={status} hops={hops} />
+                </button>
 
-
-                    <button
-                        onClick={toggleLanguage}
-                        className="header-lang-switcher"
-                        aria-label={t('common.change_language') || 'Canviar idioma'}
-                        title={t('common.change_language') || 'Canviar idioma'}
-                    >
-                        <span aria-hidden="true">{language.toUpperCase()}</span>
-                    </button>
-
-                    <button
-                        className={`header-vision-toggle ${visionMode}`}
-                        onClick={async () => {
-                            const nextMode = visionMode === 'hibrida' ? 'humana' : 'hibrida';
-                            setVisionMode(nextMode);
-
-                            if (nextMode === 'humana' && user) {
-                                try {
-                                    const subscription = await pushService.getSubscription();
-                                    if (subscription) {
-                                        await pushNotifications.removeSubscription(user.id, subscription.endpoint);
-                                        await pushService.unsubscribe();
-                                        logger.info('[Header] Push subscription cleaned up after disabling IAIA');
-                                    }
-                                } catch (err) {
-                                    logger.error('[Header] Error cleaning up push:', err);
-                                }
-                            }
-                        }}
-                        aria-label="Canviar mode de visió"
-                        title={visionMode === 'hibrida' ? 'Mode Híbrid actiu' : 'Mode Humà actiu'}
-                    >
-                        {visionMode === 'hibrida' ? <Sparkles size={20} color="var(--color-primary)" /> : <UserCheck size={20} color="#888" />}
-                    </button>
-
-                    <Link
-                        to={user ? "/notificacions" : "/login"}
-                        className="header-notif-btn"
-                        aria-label={t('nav.notifications') || 'Notificacions'}
-                        title={t('nav.notifications') || 'Notificacions'}
-                    >
-                        <Bell size={22} color="white" aria-hidden="true" />
-                        {user && <span className="notif-badge" aria-label="3 notificacions pendents">3</span>}
-                    </Link>
-
-                    <button
-                        className="header-diagnostic-btn"
-                        onClick={() => window.dispatchEvent(new CustomEvent('open-diagnostic-hud'))}
-                        onContextMenu={(e) => {
-                            e.preventDefault();
-                            setIsMasterOpen(true);
-                        }}
-                        aria-label="Obrir Consola de Diagnòstic"
-                        title="Clic: Diagnòstic | Dreta: MASTER"
-                        style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '8px', display: 'flex', alignItems: 'center' }}
-                    >
-                        <Activity size={22} color="#00f2ff" />
-                    </button>
-
-                    {user && (
-                        <div className="context-switcher-wrapper">
-                            <Link
-                                to="/perfil"
-                                className={`profile-link ${activeEntityId ? 'active-context' : ''}`}
-                                onClick={(e) => {
-                                    handleProfileClick(e);
-                                    // Toggle context menu on avatar click
-                                    const evt = new CustomEvent('toggle-context-menu');
-                                    window.dispatchEvent(evt);
-                                }}
-                                aria-label={t('nav.profile') || 'El meu perfil'}
-                                title={t('nav.profile') || 'El meu perfil'}
-                                onContextMenu={(e) => {
-                                    e.preventDefault();
-                                    const evt = new CustomEvent('toggle-context-menu');
-                                    window.dispatchEvent(evt);
-                                }}
-                            >
-                                <div className="user-avatar-small">
-                                    {profile?.avatar_url ? (
-                                        <img src={profile.avatar_url} alt={profile.full_name || 'Usuari'} />
-                                    ) : (
-                                        <User size={20} color="white" aria-hidden="true" />
-                                    )}
-                                </div>
-                            </Link>
-
-                            <ContextMenu />
-                        </div>
-                    )}
-                </div>
+                {user && (
+                    <div className="bar-avatar-wrapper">
+                        <Link to="/perfil" className="bar-avatar-link">
+                            <div className="bar-avatar">
+                                {profile?.avatar_url ? (
+                                    <img src={profile.avatar_url} alt="Perfil" />
+                                ) : (
+                                    <User size={20} />
+                                )}
+                            </div>
+                        </Link>
+                    </div>
+                )}
             </div>
             <MasterConsole isOpen={isMasterOpen} onClose={() => setIsMasterOpen(false)} />
         </header>

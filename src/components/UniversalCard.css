@@ -1,0 +1,161 @@
+/* UNIVERSAL CARD STANDARDS [SISTEMA RIZOMA] */
+.universal-card {
+    background: var(--bg-surface);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: var(--border-subtle);
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.universal-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.card-header {
+    padding: 12px 16px;
+    background: var(--bg-main);
+    border-bottom: var(--border-subtle);
+    color: var(--text-main);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.2s ease;
+}
+
+/* THEMED HEADERS */
+.card-header.terracotta,
+.card-header.default {
+    background: var(--color-primary);
+    color: #FFFFFF;
+}
+
+.card-header.raindrop {
+    background: var(--bg-surface);
+    color: var(--color-primary);
+    border-bottom: 2px solid var(--color-primary);
+}
+
+.card-header.orange {
+    background: #FF6D00;
+    color: #FFFFFF;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.card-title {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 16px;
+    margin: 0;
+    color: inherit;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-subtitle {
+    font-size: 11px;
+    opacity: 0.8;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.card-image-wrapper {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background-color: #000;
+    border-radius: 0 !important;
+}
+
+.card-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0 !important;
+    transition: transform 0.5s ease;
+}
+
+.universal-card:hover .card-image-wrapper img {
+    transform: scale(1.05);
+}
+
+.card-body {
+    padding: 16px;
+    color: var(--text-main);
+    flex-grow: 1;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.card-excerpt {
+    opacity: 0.9;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.card-footer {
+    padding: 12px 16px;
+    border-top: var(--border-subtle);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.02);
+}
+
+/* AGRO-BRUTALISTA OVERRIDES */
+[data-user-theme="agro"] .universal-card {
+    border: 3px solid #000000;
+    box-shadow: 6px 6px 0px #000000;
+}
+
+/* ANIMACIÓ DEL BATEC [MASTER] */
+.animate-bategat {
+    border-color: var(--color-primary) !important;
+    box-shadow: 0 0 20px rgba(0, 242, 255, 0.4) !important;
+    animation: pulse-batec 3s infinite ease-in-out;
+}
+
+@keyframes pulse-batec {
+    0% {
+        box-shadow: 0 0 10px rgba(0, 242, 255, 0.2);
+    }
+
+    50% {
+        box-shadow: 0 0 25px rgba(0, 242, 255, 0.5);
+    }
+
+    100% {
+        box-shadow: 0 0 10px rgba(0, 242, 255, 0.2);
+    }
+}
+
+.universal-card .card-image-wrapper {
+    border-radius: 0 !important;
+}
+
+.universal-card .card-image-wrapper img {
+    border-radius: 0 !important;
+}

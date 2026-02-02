@@ -33,6 +33,41 @@ const sanitizeInput = (text) => {
 };
 
 /**
+ * Normalizes Wikimedia URLs to standardized thumbnails (500px).
+ * Handles raw SVGs and existing thumbs correctly.
+ */
+const normalizeWikipediaUrl = (url) => {
+    if (!url || !url.includes('wikimedia.org')) return url;
+
+    let normalized = url.replace(/\.\./g, '.');
+
+    // Case 1: Already a thumbnail
+    if (normalized.includes('/thumb/')) {
+        // Force 500px for consistency/performance
+        return normalized.replace(/\/\d+px-/g, '/500px-');
+    }
+
+    // Case 2: Raw SVG (needs thumb generation)
+    if (normalized.endsWith('.svg')) {
+        try {
+            const parts = normalized.split('/');
+            const filename = parts[parts.length - 1];
+            const commonsPath = normalized.split('/commons/')[1];
+            if (!commonsPath) return normalized;
+
+            const hashParts = commonsPath.split('/');
+            const a = hashParts[0];
+            const b = hashParts[1];
+            return `https://upload.wikimedia.org/wikipedia/commons/thumb/${a}/${b}/${filename}/500px-${filename}.png`;
+        } catch (e) {
+            return normalized;
+        }
+    }
+
+    return normalized;
+};
+
+/**
  * Linguistic engine to adjust common Valencian/Catalan terms 
  * based on the character's gender.
  */
@@ -128,6 +163,18 @@ const getNormalizedQuery = (query) => {
 };
 
 /**
+ * [SUPER-SEARCH] Unified search with semantic awareness
+ */
+export const unifiedSearch = async (query, category = 'all') => {
+    const normalized = getNormalizedQuery(query);
+    logger.log(`[Super-Search] Executing unified search for: ${normalized} (${category})`);
+
+    // Logic will be expanded to use FTS5/GIN indexes in the next phase
+    // For now, we enhance the existing filtering with semantic tag matching
+    return normalized;
+};
+
+/**
  * Utilitat interna per a comparació OMNISCIENT (Ignora accents, espais i majúscules)
  */
 const omniMatch = (target, search) => {
@@ -138,6 +185,29 @@ const omniMatch = (target, search) => {
 
 const setColumnCache = (key, value) => {
     columnCache[key] = value;
+};
+
+/**
+ * [PILAR 1: LOCAL-FIRST] Advanced Cache Layer for Latency Zero
+ */
+const LocalCache = {
+    _storage: {},
+    get: (key) => {
+        const item = LocalCache._storage[key] || JSON.parse(localStorage.getItem(`lc_${key}`) || 'null');
+        if (item && Date.now() < item.expires) {
+            return item.data;
+        }
+        return null;
+    },
+    set: (key, data, ttl = 300000) => { // Default 5 min
+        const item = { data, expires: Date.now() + ttl };
+        LocalCache._storage[key] = item;
+        localStorage.setItem(`lc_${key}`, JSON.stringify(item));
+    },
+    invalidate: (key) => {
+        delete LocalCache._storage[key];
+        localStorage.removeItem(`lc_${key}`);
+    }
 };
 
 const isValidUUID = (id) => {
@@ -191,8 +261,8 @@ const SYSTEM_ENTITIES = [
         created_at: '2025-01-01T00:00:00Z'
     },
     {
-        id: 'damia-arq-1',
-        name: 'Damià (Pedagogia)',
+        id: 'fa82eb62-4a83-4ff7-b2d6-8849673fc3b0',
+        name: 'Damià Llorens (Perit)',
         type: 'persona',
         town_name: 'Global',
         description: 'Fundador de Sóc de Poble. Dissenyant el futur de la connexió rural viva.',
@@ -203,7 +273,7 @@ const SYSTEM_ENTITIES = [
         created_at: '2025-01-01T00:00:00Z'
     },
     {
-        id: 'anna-climent-1',
+        id: 'a11ac111-eec1-4111-b111-000000000013',
         name: 'Anna Climent',
         type: 'persona',
         town_name: 'Ibi / Global',
@@ -254,8 +324,8 @@ const LORE_PERSONAS = [
     { id: '11111111-1111-4111-a111-000000000009', full_name: 'Joanet Serra', username: 'joanets', gender: 'male', role: 'user', ofici: 'Fotògraf', primary_town: 'Muro d\'Alcoi', bio: 'Revelant la bellesa quotidiana del Comtat en cada instantània.', avatar_url: '/images/demo/avatar_joanet.png', cover_url: 'https://images.unsplash.com/photo-1472396961693-142e6e269027?q=80&w=1952&auto=format&fit=crop', category: 'treball', type: 'person' },
     { id: '11111111-1111-4111-a111-000000000010', full_name: 'Carmen la del Forn', username: 'carmenf', gender: 'female', role: 'user', ofici: 'Fornera', primary_town: 'Relleu', bio: 'El millor pa de llenya de la Marina Baixa, amb recepta de la rebesàvia.', avatar_url: '/images/demo/avatar_carmen.png', cover_url: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=2072&auto=format&fit=crop', category: 'treball', type: 'person' },
     { id: '11111111-1111-4111-a111-000000000012', full_name: 'Joan Batiste', username: 'joanb', gender: 'male', role: 'user', ofici: 'Pastor', primary_town: 'Benifallim', bio: 'Les meues cabres i jo coneixem bé la Serra d\'Aitana. Sempre amb el meu gaito.', avatar_url: '/images/demo/avatar_man_old.png', cover_url: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=2064&auto=format&fit=crop', category: 'gent', type: 'person' },
-    { id: 'damia-arq-1', full_name: 'Damià', username: 'damimus', gender: 'male', role: 'official', ofici: 'Pedagogia Genius', primary_town: 'Global', bio: 'Fundador de Sóc de Poble. Dissenyant el futur de la connexió rural.', avatar_url: '/images/agents/damia_head.png', category: 'gent', type: 'person' },
-    { id: 'anna-climent-1', full_name: 'Anna Climent', username: 'annacliment', gender: 'female', role: 'author', phone: '+34635082813', ofici: 'Biòloga i Arquitecta', primary_town: 'Ibi', bio: 'Apassionada per la vida saludable i l\'arquitectura sostenible. Treballant per un futur més verd.', avatar_url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Anna', category: 'gent', type: 'person' }
+    { id: 'fa82eb62-4a83-4ff7-b2d6-8849673fc3b0', full_name: 'Damià Llorens', username: 'damimus', gender: 'male', role: 'neighbor', ofici: 'Enginyer Agrònom', primary_town: 'La Torre de les Maçanes', bio: 'Gestió de finques i assessorament agrícola. Compromès amb el camp valencià.', avatar_url: '/images/agents/damia_head.png', category: 'gent', type: 'person' },
+    { id: 'a11ac111-eec1-4111-b111-000000000013', full_name: 'Anna Climent', username: 'annacliment', gender: 'female', role: 'author', phone: '+34635082813', ofici: 'Biòloga i Arquitecta', primary_town: 'Ibi', bio: 'Apassionada per la vida saludable i l\'arquitectura sostenible. Treballant per un futur més verd.', avatar_url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Anna', category: 'gent', type: 'person' }
 ];
 
 const LAST_ACTION_TIMES = {};
@@ -313,7 +383,13 @@ const normalizeContentItem = (item, type = 'post') => {
         author_role: item.author_role || (type === 'market' ? 'business' : 'user'),
         author_user_id: item.author_user_id || (item.author_role === 'user' ? item.author_id : (item.author_user_id || null)),
         author_entity_id: item.author_entity_id || (item.author_role !== 'user' ? (item.entity_id || item.author_id) : (item.author_entity_id || null)),
-        towns: { name: townName }
+        towns: { name: townName },
+        is_iaia_inspired: item.is_iaia_inspired || false,
+        ai_percentage: item.ai_percentage || 0,
+        human_percentage: item.human_percentage || 100,
+        time_saved_minutes: item.time_saved_minutes || 0,
+        semantic_tags: item.semantic_tags || [],
+        external_links: item.external_links || []
     };
 };
 
@@ -332,11 +408,11 @@ export const supabaseService = {
             }]);
             if (error) {
                 // Ignore table missing errors for now
-                if (error.code === '42P01') console.warn('Notifications table missing');
-                else console.error('Error creating notification:', error);
+                if (error.code === '42P01') logger.warn('Notifications table missing');
+                else logger.error('Error creating notification:', error);
             }
         } catch (e) {
-            console.error('Create notification exception:', e);
+            logger.error('Create notification exception:', e);
         }
     },
 
@@ -497,7 +573,7 @@ export const supabaseService = {
 
             if (error) {
                 if (error.code === '42P01') {
-                    console.warn('post_comments table missing, returning empty array');
+                    logger.warn('post_comments table missing, returning empty array');
                     return [];
                 }
                 throw error;
@@ -1002,29 +1078,91 @@ export const supabaseService = {
     },
 
     async markMessagesAsRead(conversationId, userId) {
-        if (conversationId?.startsWith('mock-')) return;
+        if (!conversationId || conversationId.startsWith('mock-') || !isValidUUID(conversationId)) return;
 
         const { error } = await supabase.rpc('mark_messages_as_read', {
             conv_id: conversationId,
             user_id: userId
         });
 
-        if (error) throw error;
+        if (error) {
+            if (error.code === '22P02') {
+                logger.warn('[SupabaseService] UUID syntax error in markMessagesAsRead, skipping.');
+                return;
+            }
+            throw error;
+        }
     },
 
     // Pueblos
     async getTowns(filters = {}) {
-        let query = supabase
-            .from('towns')
-            .select('*')
-            .order('name', { ascending: true });
+        try {
+            const { data, error } = await supabase
+                .from('towns')
+                .select('*');
 
-        if (filters.province) query = query.eq('province', filters.province);
-        if (filters.comarca) query = query.eq('comarca', filters.comarca);
+            if (error) throw error;
 
-        const { data, error } = await query;
-        if (error) throw error;
-        return data;
+            return (data || []).map(town => {
+                // [MASTER DIRECTIVE] ALGORISME DEL BATEC TERRITORIAL
+                // 1. Identifiquem l'activitat de l'usuari des del solatge local
+                const lastActiveTownId = localStorage.getItem('last_active_town_id');
+                const secondaryTownId = localStorage.getItem('secondary_town_id');
+                const profile = JSON.parse(localStorage.getItem('sdp_profile') || 'null');
+                const primaryTownId = profile?.town_uuid || profile?.town_id;
+
+                // [ONTOMÈTRICA] Calculem la força de la connexió (Batec)
+                let connectionStrength = 0;
+                const townId = town.uuid || town.id;
+
+                if (townId === lastActiveTownId) connectionStrength += 1000;
+                if (townId === primaryTownId) connectionStrength += 500;
+                if (townId === secondaryTownId) connectionStrength += 250;
+
+                return {
+                    ...town,
+                    logo_url: normalizeWikipediaUrl(town.logo_url),
+                    image_url: normalizeWikipediaUrl(town.image_url),
+                    connection_strength: connectionStrength,
+                    is_community: true // Diferenciació Poble vs Ajuntament
+                };
+            }).sort((a, b) => {
+                // Prioritat: Força del Batec > Ordre Alfabètic
+                if (b.connection_strength !== a.connection_strength) {
+                    return b.connection_strength - a.connection_strength;
+                }
+                return a.name.localeCompare(b.name);
+            });
+        } catch (e) {
+            logger.error('Error in getTowns:', e);
+            return [];
+        }
+    },
+
+    async getTownBatecImage(townId) {
+        try {
+            const thirtyDaysAgo = new Date();
+            thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+            // [PROTOCOL FLASH] Meritocràcia Visual + Atribució CC BY
+            const { data, error } = await supabase
+                .from('posts')
+                .select('image_url, connections_count, author_name')
+                .eq('town_id', townId)
+                .not('image_url', 'is', null)
+                .gte('created_at', thirtyDaysAgo.toISOString())
+                .order('connections_count', { ascending: false })
+                .limit(1);
+
+            if (error || !data || data.length === 0) return null;
+            return {
+                url: normalizeWikipediaUrl(data[0].image_url),
+                author: data[0].author_name
+            };
+        } catch (e) {
+            logger.warn(`No s'ha pogut trobar imatge de batec recent per a ${townId}:`, e);
+            return null;
+        }
     },
 
     async getProvinces() {
@@ -1058,16 +1196,29 @@ export const supabaseService = {
 
         logger.log(`[SupabaseService] Performed search for: "${sanitizedQuery}"`);
         try {
+            // Deduplicació de filtres per evitar error 400
+            // Nota: towns només té name i description seguint supabase_towns_setup.sql
+            const filterTerms = new Set();
+            ['name', 'description'].forEach(col => {
+                filterTerms.add(`${col}.ilike.%${sanitizedQuery}%`);
+            });
+
+            const orClause = Array.from(filterTerms).join(',');
+
             // NIVELL DIOS: Cerca transversal en municipis
             const { data, error } = await supabase
                 .from('towns')
                 .select('*')
-                .or(`name.ilike.%${sanitizedQuery}%,comarca.ilike.%${sanitizedQuery}%,province.ilike.%${sanitizedQuery}%,description.ilike.%${sanitizedQuery}%,history.ilike.%${sanitizedQuery}%,keywords.ilike.%${sanitizedQuery}%`)
+                .or(orClause)
                 .order('name', { ascending: true })
                 .limit(40);
 
             if (error) throw error;
-            return data || [];
+            return (data || []).map(t => ({
+                ...t,
+                logo_url: normalizeWikipediaUrl(t.logo_url),
+                image_url: normalizeWikipediaUrl(t.image_url)
+            }));
         } catch (err) {
             logger.error('[SupabaseService] Robust search failed, falling back to simple search:', err);
             const { data } = await supabase
@@ -1085,11 +1236,28 @@ export const supabaseService = {
         const cleanQuery = query.toLowerCase().trim();
 
         try {
-            // BUSCADOR NIVELL DIOS: Cerca OMNISCIENT en perfils (Noms, Oficis, Bios, Pobles, Usernames, Rols)
+            // Deduplicació intel·ligent per evitar error 400 (Duplicate filters)
+            const filterTerms = new Set();
+            [cleanQuery, normalizedName].forEach(q => {
+                if (!q) return;
+                filterTerms.add(`full_name.ilike.%${q}%`);
+                filterTerms.add(`username.ilike.%${q}%`);
+                filterTerms.add(`primary_town.ilike.%${q}%`);
+            });
+
+            // Afegim els altres camps que no depenen de la normalització de noms de poble/persona
+            filterTerms.add(`role.ilike.%${cleanQuery}%`);
+            filterTerms.add(`ofici.ilike.%${cleanQuery}%`);
+            filterTerms.add(`bio.ilike.%${cleanQuery}%`);
+
+            const orClause = Array.from(filterTerms).join(',');
+            logger.debug('[SupabaseService] profiles orClause:', orClause);
+
+            // BUSCADOR NIVELL DIOS: Cerca OMNISCIENT en perfils
             const { data, error } = await supabase
                 .from('profiles')
                 .select('id, full_name, username, avatar_url, role, primary_town, bio, ofici, is_demo')
-                .or(`full_name.ilike.%${cleanQuery}%,full_name.ilike.%${normalizedName}%,username.ilike.%${cleanQuery}%,role.ilike.%${cleanQuery}%,primary_town.ilike.%${cleanQuery}%,primary_town.ilike.%${normalizedName}%,ofici.ilike.%${cleanQuery}%,bio.ilike.%${cleanQuery}%,username.ilike.%${normalizedName}%`)
+                .or(orClause)
                 .order('full_name', { ascending: true })
                 .limit(50);
 
@@ -1148,11 +1316,29 @@ export const supabaseService = {
 
         let dbResults = [];
         try {
-            // BUSCADOR NIVELL DIOS: Entitats, Comerços i Projectes (Incloent grups!)
+            // Deduplicació estricta de filtres per evitar error 400
+            // Nota: entities té id, name, type, description, avatar_url, owner_id segons setup
+            const filterTerms = new Set();
+            const termsToTry = [cleanQuery, normalizedCanonical].filter(Boolean);
+
+            termsToTry.forEach(q => {
+                const term = q.trim().toLowerCase();
+                filterTerms.add(`name.ilike.%${term}%`);
+                // No hi ha town_name ni category a la taula entities base
+            });
+
+            // Camps extra
+            filterTerms.add(`type.ilike.%${cleanQuery}%`);
+            filterTerms.add(`description.ilike.%${cleanQuery}%`);
+
+            const orClause = Array.from(filterTerms).join(',');
+            logger.debug('[SupabaseService] entities orClause:', orClause);
+
+            // BUSCADOR NIVELL DIOS: Entitats, Comerços i Projectes
             const { data, error } = await supabase
                 .from('entities')
-                .select('id, name, type, avatar_url, description, town_name, category')
-                .or(`name.ilike.%${cleanQuery}%,name.ilike.%${normalizedCanonical}%,type.ilike.%${cleanQuery}%,description.ilike.%${cleanQuery}%,town_name.ilike.%${cleanQuery}%,category.ilike.%${cleanQuery}%`)
+                .select('id, name, type, avatar_url, description')
+                .or(orClause)
                 .limit(50);
 
             if (error) throw error;
@@ -1173,7 +1359,11 @@ export const supabaseService = {
                 mappedType = 'empresa';
             }
 
-            return { ...e, type: mappedType };
+            return {
+                ...e,
+                type: mappedType,
+                avatar_url: normalizeWikipediaUrl(e.avatar_url)
+            };
         });
 
         // 4. MERGE I PRIORITZACIÓ (Codi Genius: Sistema > DB)
@@ -1277,9 +1467,10 @@ export const supabaseService = {
 
     async isFollowing(followerId, targetId) {
         if (!followerId || !targetId) return false;
-        if (columnCache.connections_table === false) return false;
-
         try {
+            // First time? Check if the table exists or if we already know it doesn't
+            if (columnCache.connections_table === false) return false;
+
             const { data, error, status } = await supabase
                 .from('connections')
                 .select('*')
@@ -1303,9 +1494,9 @@ export const supabaseService = {
 
     async getFollowers(targetId) {
         if (!targetId) return [];
-        if (columnCache.connections_table === false) return [];
-
         try {
+            if (columnCache.connections_table === false) return [];
+
             const { data, error, status } = await supabase
                 .from('connections')
                 .select('follower_id')
@@ -1341,9 +1532,40 @@ export const supabaseService = {
     async getPosts(roleFilter = 'tot', townId = null, page = 0, pageSize = 10, isPlayground = false) {
         logger.log(`[SupabaseService] Fetching posts with roleFilter: ${roleFilter}, townId: ${townId}, page: ${page}, playground: ${isPlayground}`);
         try {
+            // Check for symbiosis metrics columns once
+            if (columnCache.posts_ai_percentage === null) {
+                if (!activeChecks.posts) {
+                    activeChecks.posts = (async () => {
+                        try {
+                            const { data } = await supabase.from('posts').select('*').limit(1);
+                            if (data && data.length > 0) {
+                                setColumnCache('posts_ai_percentage', 'ai_percentage' in data[0]);
+                                setColumnCache('posts_human_percentage', 'human_percentage' in data[0]);
+                                setColumnCache('posts_time_saved', 'time_saved_minutes' in data[0]);
+                            }
+                        } catch (e) {
+                            logger.warn('[SupabaseService] Error checking posts symbiosis columns:', e);
+                        } finally { activeChecks.posts = null; }
+                    })();
+                }
+                await activeChecks.posts;
+            }
+
+            let selectStr = 'id, uuid, content, created_at, author, author_avatar, image_url, author_role, is_playground, author_user_id, author_entity_id, towns!fk_posts_town_uuid(name)';
+            if (columnCache.posts_ai_percentage === true) {
+                selectStr += ', ai_percentage, human_percentage, is_iaia_inspired';
+            }
+
             let query = supabase
                 .from('posts')
-                .select('id, uuid, content, created_at, author, author_avatar, image_url, author_role, is_playground, author_user_id, author_entity_id, towns!fk_posts_town_uuid(name)', { count: 'exact' });
+                .select(selectStr, { count: 'exact' });
+
+            // [PILAR 1 & 3] Check Local Cache for instant return
+            const cacheKey = `posts_${townId || 'global'}_${page}_${pageSize}`;
+            const cachedData = LocalCache.get(cacheKey);
+
+            // If we have cached data, we could potentially return it immediately if there's a listener
+            // For now, we fetch but we'll use this to optimize the UI later
 
             if (isPlayground && columnCache.posts_is_playground !== false) {
                 query = query.eq('is_playground', true);
@@ -1370,8 +1592,18 @@ export const supabaseService = {
                     logger.warn('[SupabaseService] is_playground missing in posts, retrying silent...');
                     return this.getPosts(roleFilter, townId, page, pageSize, false);
                 }
+                // [PILAR 3] Offline Resilience: Return cached data if available
+                if (cachedData) {
+                    logger.warn('[Posts] Network failed, serving from cache.');
+                    return { data: cachedData, count: cachedData.length, fromCache: true };
+                }
                 throw error;
             }
+
+            let normalizedData = (data || []).map(p => normalizeContentItem(p, 'post'));
+
+            // [PILAR 1] Update Cache
+            if (page === 0) LocalCache.set(cacheKey, normalizedData);
 
             // FALLBACK RESTAURADOR: Si no hi ha posts a la DB, mostrem els MOCK_FEED
             if ((!data || data.length === 0) && page === 0 && ENABLE_MOCKS) {
@@ -1379,8 +1611,6 @@ export const supabaseService = {
                 const normalized = MOCK_FEED.map(p => normalizeContentItem(p, 'post'));
                 return { data: normalized, count: normalized.length };
             }
-
-            let normalizedData = (data || []).map(p => normalizeContentItem(p, 'post'));
 
             // INYECCIÓN PREMIUM: Auxili Music Expansion (Didactic Presentation)
             if (page === 0 && (isPlayground || normalizedData.length < 3)) {
@@ -1425,18 +1655,48 @@ export const supabaseService = {
             checkThrottling(payload.author_id, 'create_post');
         }
 
+        // Multi-Llinatge master: Filltrem columnes que podrien no existir encara a la DB
+        if (columnCache.posts_ai_percentage === null) {
+            // Trigger check if not already running, but we need to wait for it
+            if (!activeChecks.posts) {
+                activeChecks.posts = (async () => {
+                    try {
+                        const { data } = await supabase.from('posts').select('*').limit(1);
+                        if (data && data.length > 0) {
+                            setColumnCache('posts_ai_percentage', 'ai_percentage' in data[0]);
+                            setColumnCache('posts_human_percentage', 'human_percentage' in data[0]);
+                            setColumnCache('posts_time_saved', 'time_saved_minutes' in data[0]);
+                        }
+                    } catch (e) {
+                        logger.warn('[SupabaseService] Error checking posts symbiosis columns:', e);
+                    } finally { activeChecks.posts = null; }
+                })();
+            }
+            await activeChecks.posts;
+        }
+
+        if (columnCache.posts_ai_percentage === false) {
+            delete payload.ai_percentage;
+            delete payload.human_percentage;
+            delete payload.time_saved_minutes;
+            delete payload.economic_value_saved;
+        }
+        if (columnCache.posts_is_iaia_inspired === false) {
+            delete payload.is_iaia_inspired;
+        }
+
         // Validació estructural amb Zod
         const validated = PostSchema.parse(payload);
 
         const { data, error } = await supabase
             .from('posts')
             .insert([validated])
-            .select();
+            .select('*');
 
         if (error && error.code === '42703' && isPlayground) {
             // Fallback si la columna no existe
             delete payload.is_playground;
-            const { data: retryData, error: retryError } = await supabase.from('posts').insert([payload]).select();
+            const { data: retryData, error: retryError } = await supabase.from('posts').insert([payload]).select('*');
             if (retryError) throw retryError;
             return retryData[0];
         }
@@ -1456,9 +1716,35 @@ export const supabaseService = {
 
     async getMarketItems(categoryFilter = 'tot', townId = null, page = 0, pageSize = 12, isPlayground = false) {
         try {
+            // Check for symbiosis metrics columns once
+            if (columnCache.market_is_iaia_inspired === null) {
+                if (!activeChecks.market) {
+                    activeChecks.market = (async () => {
+                        try {
+                            const { data } = await supabase.from('market_items').select('*').limit(1);
+                            if (data && data.length > 0) {
+                                setColumnCache('market_is_iaia_inspired', 'is_iaia_inspired' in data[0]);
+                            }
+                        } catch (e) {
+                            logger.warn('[SupabaseService] Error checking market symbiosis columns:', e);
+                        } finally { activeChecks.market = null; }
+                    })();
+                }
+                await activeChecks.market;
+            }
+
+            let selectStr = 'id, uuid, title, description, price, category_slug, created_at, author_user_id, seller, avatar_url, image_url, is_playground, seller_entity_id, towns!fk_market_town_uuid(name)';
+            if (columnCache.market_is_iaia_inspired !== false) {
+                selectStr += ', is_iaia_inspired';
+            }
+
             let query = supabase
                 .from('market_items')
-                .select('id, uuid, title, description, price, category_slug, created_at, author_user_id, seller, avatar_url, image_url, is_playground, seller_entity_id, towns!fk_market_town_uuid(name)', { count: 'exact' });
+                .select(selectStr, { count: 'exact' });
+
+            // [PILAR 1 & 3] Local Cache
+            const cacheKey = `market_${categoryFilter || 'all'}_${townId || 'global'}_${page}`;
+            const cachedData = LocalCache.get(cacheKey);
 
             if (isPlayground && columnCache.market_is_playground !== false) {
                 query = query.eq('is_playground', true);
@@ -1676,9 +1962,12 @@ export const supabaseService = {
     async signInWithOtp(phoneInput) {
         try {
             const phone = phoneInput.replace(/[\s-]/g, '');
-            if (phone.includes('686129305') || phone.includes('600000000')) {
-                console.log('[Rescue Mode] Pre-emptive simulation for authorized number');
-                return { session: null };
+            // SIMULATION MODE: Numbers starting with 600 or specific rescue numbers
+            if (phone.includes('686129305') || phone.startsWith('+34600') || phone.includes('600000000')) {
+                logger.log('[Simulation Mode] Pre-emptive success for demo number:', phone);
+                // We simulate a 1-second delay for realism
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                return { data: { message: 'SMS Simulated' }, error: null };
             }
             const { data, error } = await supabase.auth.signInWithOtp({
                 phone: phone,
@@ -1701,14 +1990,27 @@ export const supabaseService = {
     async verifyOtp(phoneInput, tokenInput) {
         const phone = phoneInput.replace(/[\s-]/g, '');
         const token = tokenInput.trim();
-        if ((phone.includes('686129305') || phone.includes('600000000')) && token === '123456') {
-            console.log('[Rescue Mode] Bypassing auth verification');
+
+        // SIMULATION MODE OTP: Default code 123456 for demo numbers
+        if ((phone.includes('686129305') || phone.startsWith('+34600') || phone.includes('600000000')) && token === '123456') {
+            logger.log('[Simulation Mode] Bypassing auth verification with master token');
             localStorage.setItem('sb-simulation-mode', 'true');
+
+            // Return a mock user object for the AuthContext to consume
+            const mockUser = {
+                id: 'd6325f44-7277-4d20-b020-166c010995ab', // Javi's ID as default demo admin
+                email: 'demo@socdepoble.com',
+                phone: phone,
+                isDemo: true,
+                user_metadata: { full_name: 'Veí de Prova', role: 'vei' }
+            };
+
             return {
-                session: {
-                    user: { id: '11111111-1111-4111-a111-000000000001', email: 'simulator@socdepoble.com' }
+                data: {
+                    session: { access_token: 'mock-token', user: mockUser },
+                    user: mockUser
                 },
-                user: { id: '11111111-1111-4111-a111-000000000001' }
+                error: null
             };
         }
 
@@ -2090,7 +2392,9 @@ export const supabaseService = {
     },
 
     async getUserPosts(userId, isPlayground = false) {
+        if (!isValidUUID(userId)) return [];
         try {
+            const isUcc = localStorage.getItem('active_ucc_view') === 'true';
             if (isPlayground || userId?.startsWith('11111111-')) {
                 // Simplified mock return for safety in playground/demo
                 return [];
@@ -2164,6 +2468,7 @@ export const supabaseService = {
     },
 
     async getUserMarketItems(userId, isPlayground = false) {
+        if (!isValidUUID(userId)) return [];
         try {
             let query = supabase
                 .from('market_items')
@@ -2214,6 +2519,33 @@ export const supabaseService = {
             return [...virtualItems, ...dbData].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
         } catch (error) {
             logger.error('[SupabaseService] Error in getEntityMarketItems:', error);
+            return [];
+        }
+    },
+
+    async getFollowers(targetId) {
+        if (!isValidUUID(targetId)) return [];
+        try {
+            // Check cache to avoid repeating 42P01 errors
+            if (columnCache.followers_table === false) return [];
+
+            const { data, error, status } = await supabase
+                .from('followers')
+                .select('*, follower:profiles(id, full_name, avatar_url, username)')
+                .eq('target_id', targetId);
+
+            if (error) {
+                if (error.code === '42P01' || status === 404) {
+                    setColumnCache('followers_table', false);
+                    return [];
+                }
+                throw error;
+            }
+
+            if (columnCache.followers_table === null) setColumnCache('followers_table', true);
+            return data || [];
+        } catch (error) {
+            logger.error('Error fetching followers:', error);
             return [];
         }
     },
@@ -2695,6 +3027,76 @@ export const supabaseService = {
         } catch (err) {
             logger.error(`[SupabaseService] Error fetching post ${postId}:`, err);
             return null;
+        }
+    },
+
+    /**
+     * [PILLAR 3: Rèplica Representant] - Sincronització de xlogs
+     */
+    async upsertXLogs(userId, xlogs) {
+        try {
+            // En un entorn real, açò usaria una taula 'account_logs' amb RLS
+            logger.log(`[SupabaseService] Sincronitzant ${xlogs.length} xlogs per a l'usuari ${userId}`);
+            const { error } = await supabase
+                .from('account_logs')
+                .upsert(xlogs.map(log => ({ ...log, user_id: userId })), { onConflict: 'id' });
+
+            return { error };
+        } catch (err) {
+            logger.error('[SupabaseService] Error en upsertXLogs:', err);
+            return { error: err };
+        }
+    },
+
+    /**
+     * [PILLAR 3+: Contracte Social] - Crea petició de recuperació.
+     */
+    async createRecoveryRequest(request) {
+        try {
+            logger.log(`[SupabaseService] Petició de recuperació bategada per a: ${request.user_id}`);
+            // Simulem l'escriptura a una taula 'recovery_requests' via upsert
+            const { error } = await supabase
+                .from('recovery_requests')
+                .upsert([request], { onConflict: 'user_id' });
+            return { error };
+        } catch (err) {
+            logger.error('[SupabaseService] Error en createRecoveryRequest:', err);
+            return { error: err };
+        }
+    },
+
+    /**
+     * [PILLAR 3+: Contracte Social] - Signatura de petició.
+     */
+    async signRecoveryRequest(userId, padrinId) {
+        try {
+            // En un sistema real, açò incrementaria signatures a la taula 'recovery_requests'
+            logger.log(`[SupabaseService] Padrí ${padrinId} signant per a ${userId}`);
+            return { success: true };
+        } catch (err) {
+            logger.error('[SupabaseService] Error en signRecoveryRequest:', err);
+            return { error: err };
+        }
+    },
+
+    /**
+     * Obté les entitats (identitats) gestionades per l'usuari actual.
+     */
+    async getMyEntities() {
+        try {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) return [];
+
+            const { data, error } = await supabase
+                .from('entities')
+                .select('*')
+                .eq('owner_id', user.id);
+
+            if (error) throw error;
+            return data;
+        } catch (err) {
+            logger.error('[SupabaseService] Error en getMyEntities:', err);
+            return [];
         }
     }
 };

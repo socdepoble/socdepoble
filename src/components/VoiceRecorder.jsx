@@ -87,7 +87,7 @@ const VoiceRecorder = ({ onSend, onCancel, lang = 'va' }) => {
             }, 1000);
 
         } catch (error) {
-            console.error('Error accessing microphone:', error);
+            logger.error('Error accessing microphone:', error);
             alert('No es pot accedir al micròfon. Comprova els permisos.');
             onCancel();
         }

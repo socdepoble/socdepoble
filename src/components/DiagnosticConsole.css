@@ -23,17 +23,50 @@
     backdrop-filter: blur(40px) saturate(200%);
     -webkit-backdrop-filter: blur(40px) saturate(200%);
     border: 1px solid var(--hud-border);
-    border-radius: 40px;
+    border-radius: 0 !important;
+    /* DIRECTIVA FLASH */
     z-index: 10002;
     color: var(--hud-text);
-    font-family: 'JetBrains Mono', 'Fira Code', monospace;
-    /* Control Panel Font */
+    font-family: 'Inter Tight', 'JetBrains Mono', monospace;
     display: flex;
     flex-direction: column;
     box-shadow: var(--hud-shadow);
     transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
     overflow: hidden;
     letter-spacing: 0.5px;
+}
+
+/* Side-HUD Desktop Mode [PROTOCOL FLASH] */
+@media (min-width: 1440px) {
+    .desktop-master-reflow .diagnostic-hud {
+        left: auto;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        height: 100vh;
+        width: 380px;
+        border-right: none;
+        border-top: none;
+        border-bottom: none;
+    }
+}
+
+/* User Mode (Clean View) [ROLE-MASKING] */
+.diagnostic-hud.mode-user {
+    width: 60px;
+    height: 60px;
+    bottom: 20px;
+    right: 20px;
+    top: auto;
+    border-radius: 50% !important;
+    padding: 0;
+}
+
+.diagnostic-hud.mode-user .hud-header-title,
+.diagnostic-hud.mode-user .hud-tabs-selector,
+.diagnostic-hud.mode-user .terminal-container,
+.diagnostic-hud.mode-user .hud-footer {
+    display: none !important;
 }
 
 /* Sci-fi Overlay Effect */
@@ -65,6 +98,36 @@
     align-items: center;
 }
 
+/* Language Selector [PROTOCOL THORSTEN] */
+.language-selector-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.btn-hud-lang {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--hud-border);
+    color: var(--hud-text);
+    padding: 8px 4px;
+    font-size: 11px;
+    font-weight: 800;
+    transition: all 0.3s ease;
+    border-radius: 0 !important;
+}
+
+.btn-hud-lang:hover {
+    background: rgba(0, 242, 255, 0.1);
+    border-color: var(--hud-accent);
+}
+
+.btn-hud-lang.active {
+    background: var(--hud-accent);
+    color: #000;
+    border-color: var(--hud-accent);
+}
+
 .hud-title-zone {
     display: flex;
     flex-direction: column;
@@ -90,6 +153,50 @@
     color: #fff;
     text-transform: uppercase;
     letter-spacing: 2px;
+}
+
+/* Peace Signal (La Llumeta Verda) [MASTER] */
+.peace-signal-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: 15px;
+    padding: 2px 10px;
+    background: rgba(0, 255, 170, 0.05);
+    border: 1px solid rgba(0, 255, 170, 0.2);
+    border-radius: 40px;
+}
+
+.peace-led {
+    width: 8px;
+    height: 8px;
+    background: #00ffaa;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #00ffaa;
+    animation: ledBreath 3s infinite ease-in-out;
+}
+
+.peace-text {
+    font-size: 8px;
+    font-weight: 900;
+    color: #00ffaa;
+    letter-spacing: 1px;
+}
+
+@keyframes ledBreath {
+
+    0%,
+    100% {
+        opacity: 0.4;
+        transform: scale(0.9);
+        box-shadow: 0 0 5px #00ffaa;
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.1);
+        box-shadow: 0 0 15px #00ffaa;
+    }
 }
 
 .hud-header-actions {
@@ -153,9 +260,167 @@
 }
 
 .hud-sections-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.hud-tabs-selector {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgba(0, 242, 255, 0.1);
+    padding-bottom: 10px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.hud-tabs-selector::-webkit-scrollbar {
+    display: none;
+}
+
+.hud-tabs-selector button {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 9px;
+    font-weight: 800;
+    padding: 6px 8px;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: all 0.3s;
+    border-radius: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.hud-tabs-selector button.active {
+    color: var(--hud-accent);
+    background: rgba(0, 242, 255, 0.1);
+    border-bottom: 2px solid var(--hud-accent);
+    text-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
+}
+
+.hud-tabs-selector button.sync.active {
+    color: #00f2ff;
+    border-color: #00f2ff;
+    background: rgba(0, 242, 255, 0.1);
+}
+
+.hud-tabs-selector button.rendi.active {
+    color: #ffcc00;
+    border-color: #ffcc00;
+    background: rgba(255, 204, 0, 0.1);
+}
+
+.hud-tabs-selector button.error.active {
+    color: #ff3300;
+    border-color: #ff3300;
+    background: rgba(255, 51, 0, 0.1);
+}
+
+.tuner-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.tuner-item {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.tuner-item label {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.badge-value {
+    background: var(--hud-accent);
+    color: #000;
+    padding: 2px 8px;
+    border-radius: 40px;
+    font-size: 10px;
+    font-weight: 900;
+}
+
+.rural-swatches {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.swatch {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.swatch:hover {
+    transform: scale(1.2);
+}
+
+.swatch.active {
+    border-color: #fff;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+    transform: scale(1.2);
+}
+
+.tuner-hint {
+    font-size: 11px;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.tuner-item.status {
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 15px;
+    font-size: 11px;
+}
+
+.btn-restore-masia {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    font-size: 9px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 800;
+}
+
+.btn-restore-masia:hover {
+    background: #FF4444;
+    border-color: #FF4444;
+}
+
+.system-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 24px;
+    gap: 15px;
+}
+
+.hud-widgets-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+}
+
+.hud-panel.widgets-panel {
+    background: rgba(0, 242, 255, 0.05);
+    border: 1px solid var(--hud-border);
+}
+
+.hud-panel.widgets-panel .panel-header {
+    margin-bottom: 24px;
 }
 
 .hud-panel {
@@ -193,9 +458,6 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-bottom: 20px;
-    color: var(--hud-accent);
-    opacity: 0.8;
 }
 
 .panel-header h3 {
@@ -204,6 +466,40 @@
     font-weight: 800;
     margin: 0;
     letter-spacing: 2px;
+}
+
+.panel.hud-header-title h2 {
+    font-size: 11px;
+    letter-spacing: 2px;
+    font-weight: 900;
+    margin: 0;
+}
+
+.auto-heal-badge {
+    font-size: 8px;
+    font-weight: 800;
+    padding: 2px 6px;
+    background: rgba(0, 255, 170, 0.1);
+    color: #00ffaa;
+    border: 1px solid rgba(0, 255, 170, 0.3);
+    border-radius: 4px;
+    margin-left: 10px;
+    letter-spacing: 0.5px;
+    text-shadow: 0 0 5px rgba(0, 255, 170, 0.5);
+}
+
+.auto-heal-badge.active {
+    animation: glowSuccess 2s infinite alternate;
+}
+
+@keyframes glowSuccess {
+    from {
+        box-shadow: 0 0 2px rgba(0, 255, 170, 0.2);
+    }
+
+    to {
+        box-shadow: 0 0 10px rgba(0, 255, 170, 0.4);
+    }
 }
 
 .data-row {
@@ -252,25 +548,69 @@
 }
 
 .log-time {
-    color: #999;
+    color: var(--hud-accent);
+    opacity: 0.6;
+    font-weight: 900;
+}
+
+.log-origin {
+    color: #ff0055;
+    opacity: 0.8;
+    background: rgba(255, 0, 85, 0.1);
+    padding: 1px 4px;
+    border-radius: 4px;
+    font-size: 9px;
+    text-transform: uppercase;
 }
 
 .log-msg {
-    color: #555;
+    color: rgba(255, 255, 255, 0.9);
 }
 
 .log-line.error .log-msg {
-    color: #d63031;
+    color: #ff3300;
     font-weight: 700;
+    text-shadow: 0 0 5px rgba(255, 51, 0, 0.2);
 }
 
 .log-line.warn .log-msg {
-    color: #e17055;
+    color: #ffcc00;
+}
+
+.log-item.critical {
+    background: linear-gradient(90deg, #ff4400 0%, transparent 100%);
+    border-left: 4px solid #ffffff;
+    padding: 8px 12px;
+    margin: 4px 0;
+    color: #ffffff;
+    font-weight: 900;
+    animation: firePulse 1s infinite alternate;
+}
+
+@keyframes firePulse {
+    from {
+        filter: brightness(1) drop-shadow(0 0 2px #ff4400);
+    }
+
+    to {
+        filter: brightness(1.5) drop-shadow(0 0 10px #ff4400);
+    }
+}
+
+.log-item.error {
+    color: #ff00ff;
 }
 
 .log-line.success .log-msg {
-    color: #00b894;
+    color: #00ffaa;
     font-weight: 600;
+    text-shadow: 0 0 5px rgba(0, 255, 170, 0.2);
+}
+
+.log-line.system .log-msg {
+    color: #00f2ff;
+    font-weight: 800;
+    text-shadow: 0 0 10px rgba(0, 242, 255, 0.4);
 }
 
 /* Voice Feedback Panel in HUD */
@@ -463,6 +803,94 @@
 }
 
 /* Animations */
+/* Forensic Reports Tab [MASTER] */
+.forensic-reports-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 15px;
+}
+
+.forensic-card {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 242, 255, 0.1);
+    border-radius: 16px;
+    padding: 16px;
+    transition: all 0.3s;
+}
+
+.forensic-card:hover {
+    border-color: var(--hud-accent);
+    background: rgba(0, 242, 255, 0.05);
+}
+
+.forensic-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.forensic-card-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--hud-accent);
+}
+
+.forensic-card-title h4 {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.forensic-timestamp {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.4);
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.forensic-summary {
+    font-size: 12px;
+    color: #fff;
+    margin: 0 0 10px 0;
+    font-weight: 600;
+}
+
+.forensic-details {
+    margin: 0;
+    padding: 0 0 0 18px;
+    list-style: square;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.5;
+}
+
+.forensic-details li {
+    margin-bottom: 4px;
+}
+
+.forensic-details b {
+    color: var(--hud-accent);
+}
+
+.forensic-card.status-healing {
+    border-left: 3px solid #d400ff;
+}
+
+.forensic-card.status-locked {
+    border-left: 3px solid #ff0055;
+}
+
+.forensic-card.status-optimized {
+    border-left: 3px solid #00ffaa;
+}
+
+.forensic-card.status-success {
+    border-left: 3px solid #00f2ff;
+}
+
 @keyframes slideUp {
     from {
         transform: translateY(40px) scale(0.95);

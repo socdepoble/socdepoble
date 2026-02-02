@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, BookOpen, Sprout, Users, MessageCircle, Heart, Sparkles, User, Clock, BellRing, Shield, Mic, Newspaper } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { ArrowLeft, BookOpen, Sprout, Users, MessageCircle, Heart, Sparkles, User, Clock, BellRing, Shield, Mic, Newspaper, Activity } from 'lucide-react';
 import { useUI } from '../context/UIContext';
 import ShareHub from '../components/ShareHub';
 import SEO from '../components/SEO';
@@ -16,6 +16,8 @@ import { PROVERBS } from '../data/proverbs';
 const IAIAPage = () => {
     const { t, i18n } = useTranslation();
     const navigate = useNavigate();
+    const location = useLocation();
+    const isLibrarianMode = location.state?.mode === 'librarian';
     const { visionMode, setVisionMode } = useUI();
     const [showVoiceRecorder, setShowVoiceRecorder] = React.useState(false);
     const [isSubmitting, setIsSubmitting] = React.useState(false);
@@ -64,8 +66,8 @@ const IAIAPage = () => {
                             className="iaia-premium-portrait"
                         />
                     </div>
-                    <h1>{t('iaia_page.title')}</h1>
-                    <p className="iaia-subtitle">{t('iaia_page.subtitle')}</p>
+                    <h1>{isLibrarianMode ? "Bibliotecària Major" : t('iaia_page.title')}</h1>
+                    <p className="iaia-subtitle">{isLibrarianMode ? "Custòdia de l'Arxiu d'Or i la Memòria Notarial" : t('iaia_page.subtitle')}</p>
                 </div>
             </header>
 

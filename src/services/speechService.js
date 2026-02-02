@@ -84,6 +84,36 @@ class SpeechService {
             this.recognition.stop();
         }
     }
+
+    /**
+     * Converteix text en veu (TTS).
+     * @param {string} text - El text a parlar.
+     * @param {string} langCode - Codi d'idioma.
+     */
+    speak(text, langCode = 'va') {
+        if (typeof window === 'undefined' || !window.speechSynthesis) {
+            logger.warn('[SpeechService] La síntesi de veu no és compatible.');
+            return;
+        }
+
+        // Cancel·lar locucions prèvies
+        window.speechSynthesis.cancel();
+
+        const utterance = new SpeechSynthesisUtterance(text);
+
+        // Mapeig de codis
+        const langMap = {
+            'va': 'ca-ES',
+            'es': 'es-ES',
+            'en': 'en-US'
+        };
+
+        utterance.lang = langMap[langCode] || 'ca-ES';
+        utterance.rate = 1.0;
+        utterance.pitch = 1.0;
+
+        window.speechSynthesis.speak(utterance);
+    }
 }
 
 export const speechService = new SpeechService();

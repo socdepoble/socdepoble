@@ -1,9 +1,12 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import { preferenceService } from '../services/preferenceService';
 
 const UIContext = createContext();
 
 export const UIProvider = ({ children }) => {
-    const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
+    const [prefs, setPrefsState] = useState(preferenceService.getPrefs());
+
+    const [theme, setTheme] = useState(prefs.theme);
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [isPostModalOpen, setIsPostModalOpen] = useState(false);
     const [isEventModalOpen, setIsEventModalOpen] = useState(false);
@@ -11,22 +14,35 @@ export const UIProvider = ({ children }) => {
     const [isSocialManagerOpen, setIsSocialManagerOpen] = useState(false);
     const [socialManagerContext, setSocialManagerContext] = useState(null); // { type, id, name }
     const [postModalConfig, setPostModalConfig] = useState({ isPrivate: false });
-    const [visionMode, setVisionMode] = useState(localStorage.getItem('visionMode') || 'hibrida');
-    const [vibe, setVibe] = useState(localStorage.getItem('app-vibe') || 'genius');
+    const [visionMode, setVisionMode] = useState(prefs.visionMode);
+    const [vibe, setVibe] = useState(prefs.vibe);
+    const [gloveMode, setGloveMode] = useState(prefs.gloveMode);
+    const [landingPage, setLandingPage] = useState(prefs.landingPage);
+    const [isViewerOpen, setIsViewerOpen] = useState(false);
+    const [viewerConfig, setViewerConfig] = useState(null); // { did, anchor, label, type }
 
     useEffect(() => {
         document.documentElement.setAttribute('data-theme', theme);
-        localStorage.setItem('theme', theme);
-    }, [theme]);
-
-    useEffect(() => {
         document.documentElement.setAttribute('data-vibe', vibe);
-        localStorage.setItem('app-vibe', vibe);
-    }, [vibe]);
+        if (gloveMode) {
+            document.body.classList.add('mode-guants');
+        } else {
+            document.body.classList.remove('mode-guants');
+        }
 
-    useEffect(() => {
-        localStorage.setItem('visionMode', visionMode);
-    }, [visionMode]);
+        // Sincronitzar amb el servei
+        preferenceService.setPrefs({
+            theme,
+            vibe,
+            visionMode,
+            gloveMode,
+            landingPage
+        });
+    }, [theme, vibe, visionMode, gloveMode, landingPage]);
+
+    const resetToNaturalOrder = () => {
+        preferenceService.resetToNaturalOrder();
+    };
 
     const toggleTheme = () => {
         setTheme(prev => prev === 'light' ? 'dark' : 'light');
@@ -35,6 +51,16 @@ export const UIProvider = ({ children }) => {
     const openPostModal = (config = { isPrivate: false }) => {
         setPostModalConfig(config);
         setIsPostModalOpen(true);
+    };
+
+    const openViewer = (config) => {
+        setViewerConfig(config);
+        setIsViewerOpen(true);
+    };
+
+    const closeViewer = () => {
+        setIsViewerOpen(false);
+        setViewerConfig(null);
     };
 
     return (
@@ -58,7 +84,18 @@ export const UIProvider = ({ children }) => {
             visionMode,
             setVisionMode,
             vibe,
-            setVibe
+            setVibe,
+            gloveMode,
+            setGloveMode,
+            toggleGloveMode: () => setGloveMode(prev => !prev),
+            isViewerOpen,
+            setIsViewerOpen,
+            viewerConfig,
+            openViewer,
+            closeViewer,
+            landingPage,
+            setLandingPage,
+            resetToNaturalOrder
         }}>
             {children}
         </UIContext.Provider>

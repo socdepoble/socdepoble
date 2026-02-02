@@ -2,6 +2,7 @@
  * Script to populate Anna Climent's Healthy Menu News.
  */
 import { supabaseService } from '../services/supabaseService';
+import { logger } from './logger';
 
 export const healthyPlates = [
 
@@ -72,9 +73,9 @@ export const publishAnnaNews = async () => {
                 tags: plate.tags,
                 group_id: 'menjar-saludable-1' // Correct ID for the healthy food group
             });
-            console.log(`Publicada: ${plate.title}`);
+            logger.log(`Publicada: ${plate.title}`);
         } catch (e) {
-            console.error(`Error publicant ${plate.title}:`, e);
+            logger.error(`Error publicant ${plate.title}:`, e);
         }
     }
 };

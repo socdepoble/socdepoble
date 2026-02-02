@@ -30,7 +30,7 @@ const getParticipantInfo = (chat, currentId, t) => {
         type: otherType,
         avatar: otherInfo?.avatar_url,
         role: otherRole,
-        isAI: isOtherAI || otherRole === 'ambassador' || otherId?.startsWith('11111111-1111-4111-a111-')
+        isAI: isOtherAI || otherRole === 'ambassador' || String(otherId || '').startsWith('11111111-1111-4111-a111-')
     };
 };
 
@@ -91,7 +91,7 @@ const ChatList = () => {
 
                 // Filter personas that are ambassadors (AI IAIAs)
                 const ambassadors = allPersonas.filter(p =>
-                    p.id.startsWith('11111111-1111-4111-a111-') || p.role === 'ambassador'
+                    String(p.id || '').startsWith('11111111-1111-4111-a111-') || p.role === 'ambassador'
                 );
 
                 // Create a map of existing participant IDs to avoid duplicates
@@ -151,7 +151,7 @@ const ChatList = () => {
                     // 0. Vision Mode Filter (Hide AI/Lore chars in human mode)
                     if (visionMode === 'humana') {
                         // Check if other is AI or a Lore character (ID prefix)
-                        const isAI = other.isAI || (other.id && other.id.startsWith('11111111-'));
+                        const isAI = other.isAI || (other.id && String(other.id).startsWith('11111111-'));
                         if (isAI) return false;
                     }
 
@@ -170,7 +170,7 @@ const ChatList = () => {
                     }
                     // 1b. Playground specific NPC filtering
                     else if (isPlayground || profile?.is_demo) {
-                        const isLore = other.id?.startsWith('11111111-1111-4111-a111-');
+                        const isLore = String(other.id || '').startsWith('11111111-1111-4111-a111-');
                         if (!other.isAI && !isLore) return false;
                     }
 
@@ -229,7 +229,7 @@ const ChatList = () => {
     }, [currentId, selectedCategory, selectedTown, isPlayground, visionMode, profile]);
 
     const handleChatClick = async (chat) => {
-        if (chat.id.startsWith('new-iaia-')) {
+        if (String(chat.id || '').startsWith('new-iaia-')) {
             const ambassadorId = chat.participant_2_id;
             try {
                 // Create a real conversation in DB when first clicked
@@ -280,6 +280,12 @@ const ChatList = () => {
         return (
             <div className="chat-list-container guest-view">
                 <div className="guest-overlay">
+                    <div className="auth-iaia-guidance" style={{ marginBottom: '20px' }}>
+                        <img src="/assets/avatars/iaia_official.png" alt="MArIA" className="iaia-mini-avatar" />
+                        <div className="iaia-speech-bubble" style={{ color: 'white' }}>
+                            Encara no t'has registrat? Vine al redol, que ací xategem tots els veïns! 🗣️🏘️
+                        </div>
+                    </div>
                     <div className="guest-content">
                         <h2>{t('chats.registration_required_title', 'Xateja amb el teu poble')}</h2>
                         <p>{t('chats.registration_required_desc', 'Registra\'t per a connectar amb els teus veïns, entitats i comerços.')}</p>
@@ -330,7 +336,7 @@ const ChatList = () => {
                         const isIAIA = chat.is_iaia ||
                             otherParticipant.isAI ||
                             otherParticipant.name?.includes('IAIA') ||
-                            otherParticipant.id?.startsWith('11111111-1111-4111-a111-');
+                            String(otherParticipant.id || '').startsWith('11111111-1111-4111-a111-');
 
                         return (
                             <div key={chat.id} className="chat-item" onClick={() => handleChatClick(chat)}>

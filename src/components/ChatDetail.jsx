@@ -10,6 +10,7 @@ import StatusLoader from './StatusLoader';
 import { logger } from '../utils/logger';
 import VoiceRecorder from './VoiceRecorder';
 import VoiceMessage from './VoiceMessage';
+import UniversalCitation from './UniversalCitation';
 import { syncService } from '../services/syncService';
 import './ChatDetail.css';
 import './Comments.css';
@@ -58,12 +59,12 @@ const ChatDetail = () => {
     // Harmonized IAIA Detection Logic at component level
     const isP1Current = chat?.participant_1_id === currentUserId;
     const isIAIAConv = chat?.is_iaia ||
-        id.startsWith('new-iaia-') ||
-        id.startsWith('iaia-') ||
+        String(id || '').startsWith('new-iaia-') ||
+        String(id || '').startsWith('iaia-') ||
         id === 'iaia' ||
         (isP1Current ? chat?.p2_is_ai : chat?.p1_is_ai) ||
         (isP1Current ? chat?.p2_role : chat?.p1_role) === 'ambassador' ||
-        (isP1Current ? chat?.participant_2_id : chat?.participant_1_id)?.startsWith('11111111-1111-4111-a111-');
+        String(isP1Current ? chat?.participant_2_id : chat?.participant_1_id).startsWith('11111111-1111-4111-a111-');
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -72,8 +73,13 @@ const ChatDetail = () => {
     useEffect(() => {
         if (!user || !currentUserId) return;
 
-        if (id.startsWith('new-iaia-') || id.startsWith('mock-') || id.startsWith('iaia-') || id === 'iaia' || id === 'rentonar') {
-            const personaId = id === 'iaia' ? IAIA_ID : id.replace('new-iaia-', '').replace('mock-', '').replace('iaia-post-', '');
+        const isVirtual = String(id || '').startsWith('new-iaia-') ||
+            String(id || '').startsWith('mock-') ||
+            String(id || '').startsWith('iaia-') ||
+            id === 'iaia' || id === 'rentonar' ||
+            !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
+        if (isVirtual) {
+            const personaId = id === 'iaia' ? '11111111-1a1a-0000-0000-000000000000' : id.replace('new-iaia-', '').replace('mock-', '').replace('iaia-post-', '');
             const fetchVirtualData = async () => {
                 try {
                     const chats = await supabaseService.getConversations(currentUserId);
@@ -81,7 +87,7 @@ const ChatDetail = () => {
                     // 1. Check if there's already a real conversation with this persona
                     const realChat = chats.find(c =>
                         (c.participant_1_id === personaId || c.participant_2_id === personaId) &&
-                        !c.id.startsWith('mock-')
+                        !String(c.id || '').startsWith('mock-')
                     );
 
                     if (realChat) {
@@ -134,12 +140,26 @@ const ChatDetail = () => {
         }
 
         const fetchChatData = async () => {
+            // [PILAR 3: INSTANT LOAD CHAT]
+            const cachedMsgs = localStorage.getItem(`chat_cache_${id}`);
+            if (cachedMsgs) {
+                try {
+                    const parsed = JSON.parse(cachedMsgs);
+                    setMessages(parsed);
+                    setLoading(false);
+                } catch (e) {
+                    logger.warn('[Chat] Error reading cache:', e);
+                }
+            }
+
             try {
                 const chats = await supabaseService.getConversations(currentUserId);
                 const currentChat = chats.find(c => c.id === id);
                 setChat(currentChat);
                 const msgs = await supabaseService.getConversationMessages(id);
                 setMessages(msgs);
+                // Save for next time
+                localStorage.setItem(`chat_cache_${id}`, JSON.stringify(msgs.slice(-50)));
                 await supabaseService.markMessagesAsRead(id, currentUserId);
             } catch (error) {
                 logger.error('Error fetching chat data:', error);
@@ -298,7 +318,7 @@ const ChatDetail = () => {
 
         try {
             let activeId = id;
-            if (id.startsWith('new-iaia-')) {
+            if (String(id || '').startsWith('new-iaia-')) {
                 const otherParticipantId = chat.participant_2_id;
                 const newConv = await supabaseService.getOrCreateConversation(
                     currentUserId, 'user', otherParticipantId, 'user'
@@ -307,15 +327,29 @@ const ChatDetail = () => {
                 navigate(`/chats/${activeId}`, { replace: true });
             }
 
-            // If we have text AND files, send text first (optional design choice, usually better)
-            // Or send text with the first file. Let's send text first if any.
+            // [PILAR 1: OPTIMISTIC UI] - Bategat immediat a la pantalla
             if (textToSend && filesToProcess.length === 0) {
-                await supabaseService.sendSecureMessage({
+                const tempId = `temp-${Date.now()}`;
+                const optimisticMsg = {
+                    id: tempId,
+                    conversation_id: activeId,
+                    sender_id: humanId,
+                    sender_entity_id: activeEntityId,
+                    content: textToSend,
+                    created_at: new Date().toISOString(),
+                    status: 'sending'
+                };
+                setMessages(prev => [...prev, optimisticMsg]);
+
+                const result = await supabaseService.sendSecureMessage({
                     conversationId: activeId,
                     senderId: humanId,
                     senderEntityId: activeEntityId,
                     content: textToSend,
                 });
+
+                // Update temporary message with real one
+                setMessages(prev => prev.map(m => m.id === tempId ? { ...result, status: 'sent' } : m));
             }
 
             // Process each file as a separate message (matches current system architecture best)
@@ -340,7 +374,7 @@ const ChatDetail = () => {
                 });
 
                 // [Optimistic Update] If it's a new conversation, add to local list as sub won't catch it yet
-                if (id.startsWith('new-iaia-')) {
+                if (String(id || '').startsWith('new-iaia-')) {
                     setMessages(prev => [...prev, result]);
                 }
 
@@ -589,6 +623,42 @@ const ChatDetail = () => {
         }
     };
 
+    const renderMessageContent = (content) => {
+        if (!content) return null;
+
+        // Regex para capturar etiquetas <cite data-did="..." data-anchor="...">[Label]</cite>
+        const citeRegex = /<cite data-did="([^"]+)" data-anchor="([^"]+)">([^<]+)<\/cite>/g;
+        const parts = [];
+        let lastIndex = 0;
+        let match;
+
+        while ((match = citeRegex.exec(content)) !== null) {
+            // Texto antes de la cita
+            if (match.index > lastIndex) {
+                parts.push(content.substring(lastIndex, match.index));
+            }
+
+            const [fullMatch, did, anchor, label] = match;
+            parts.push(
+                <UniversalCitation
+                    key={`cite-${match.index}`}
+                    did={did}
+                    anchor={anchor}
+                    label={label}
+                />
+            );
+
+            lastIndex = match.index + fullMatch.length;
+        }
+
+        // Texto restante
+        if (lastIndex < content.length) {
+            parts.push(content.substring(lastIndex));
+        }
+
+        return parts.length > 0 ? parts : content;
+    };
+
     if (error) {
         return (
             <div className="chat-detail-container">
@@ -752,7 +822,7 @@ const ChatDetail = () => {
                                                     />
                                                 </div>
                                             ) : (
-                                                msg.content && <div className="message-text">{msg.content}</div>
+                                                msg.content && <div className="message-text">{renderMessageContent(msg.content)}</div>
                                             )}
                                         </div>
                                     </div>

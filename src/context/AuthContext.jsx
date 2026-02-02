@@ -1,11 +1,35 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
 import { supabaseService } from '../services/supabaseService';
+import { identityService } from '../services/identityService';
 import { logger } from '../utils/logger';
 import i18n from '../i18n/config';
 import { DEMO_USER_ID, IAIA_ID, AUTH_EVENTS, USER_ROLES, CREATOR_EMAILS } from '../constants';
 
 const AuthContext = createContext();
+
+/**
+ * [PILAR 2: CONTEXT PRE-WARM]
+ * Passive geolocation and context preparation.
+ */
+const preWarmContext = async () => {
+    try {
+        if ("geolocation" in navigator && "permissions" in navigator) {
+            const status = await navigator.permissions.query({ name: 'geolocation' });
+            if (status.state === 'granted') {
+                navigator.geolocation.getCurrentPosition((pos) => {
+                    const { latitude, longitude } = pos.coords;
+                    logger.log('[PreWarm] Passive Geo detected:', latitude, longitude);
+                    localStorage.setItem('last_known_geo', JSON.stringify({ lat: latitude, lon: longitude, ts: Date.now() }));
+                }, null, { enableHighAccuracy: false, timeout: 5000 });
+            } else {
+                logger.log('[PreWarm] Geolocation not granted or prompt needed, skipping passive pre-warm.');
+            }
+        }
+    } catch (e) {
+        // Silent catch for pre-warm
+    }
+};
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
@@ -180,11 +204,17 @@ export const AuthProvider = ({ children }) => {
         let isMounted = true;
         let initialCheckDone = false;
 
+        // [PILAR 2] Pre-warm context in background
+        preWarmContext();
+
         const handleAuth = async (event, session) => {
             if (!isMounted) return;
             logger.log('[AuthContext] Auth Event:', event, session?.user?.id);
 
-            const isSimulation = localStorage.getItem('isPlaygroundMode') === 'true' || localStorage.getItem('sb-simulation-mode') === 'true';
+            const isSobiraSession = !session?.user && !!identityService.getStoredIdentity();
+            const isSimulation = localStorage.getItem('isPlaygroundMode') === 'true' ||
+                localStorage.getItem('sb-simulation-mode') === 'true' ||
+                (session?.user?.id === IAIA_ID);
 
             if (session?.user) {
                 // DIRECTIVA 1: L'usuari registrat sempre aterra a PRODUCCIÓ (Xat Real)
@@ -261,6 +291,18 @@ export const AuthProvider = ({ children }) => {
                     logger.log('[AuthContext] Restoring playground guest session');
                     loginAsGuest();
                 }
+                setRealUser(null);
+                setRealProfile(null);
+            } else if (isSobiraSession) {
+                const sobira = identityService.getStoredIdentity();
+                logger.log('[AuthContext] Recovering Sovereign Identity (0ms entry):', sobira.username);
+                setUser({ ...sobira, is_sovereign: true });
+                setProfile(sobira);
+            } else if (!session?.user) {
+                // [CRYPTO GENESIS] Si no hi ha res, bateguem una nova identitat ara mateix
+                const genesis = identityService.generateSovereignIdentity();
+                setUser({ ...genesis, is_sovereign: true });
+                setProfile(genesis);
             } else {
                 setUser(null);
                 setProfile(null);
@@ -291,9 +333,15 @@ export const AuthProvider = ({ children }) => {
         const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
             if (!initialCheckDone && event === 'SIGNED_IN') return;
 
-            const isSimulation = localStorage.getItem('isPlaygroundMode') === 'true' || localStorage.getItem('sb-simulation-mode') === 'true';
+            const isSimulation = localStorage.getItem('isPlaygroundMode') === 'true' ||
+                localStorage.getItem('sb-simulation-mode') === 'true' ||
+                (session?.user?.id === IAIA_ID);
+
+            // [MASTER RESILIENCE] Si estem en simulació i l'esdeveniment és un SIGNED_OUT extern
+            // (per exemple, per un tancament de pestanya o timeout de Supabase), 
+            // no expulsem a l'usuari si realment està visitant el poble en "Modo Lectura/Plau".
             if (isSimulation && event === 'SIGNED_OUT') {
-                logger.log('[AuthContext] Ignoring SIGNED_OUT event in Rescue Mode');
+                logger.log('[AuthContext] Ignorant SIGNED_OUT en mode Simulació per a mantenir l\'harmonia.');
                 return;
             }
 

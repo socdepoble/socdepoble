@@ -50,11 +50,13 @@ const Avatar = ({ src, role, name, size = 44, className = "" }) => {
 
     const fallbackImage = getAvatarFallbackImage(role);
 
-    if ((src || fallbackImage) && !hasError) {
+    const normalizedSrc = (src && !src.startsWith('http') && !src.startsWith('/')) ? `/${src}` : src;
+
+    if ((normalizedSrc || fallbackImage) && !hasError) {
         return (
             <div style={style} className={`avatar-container ${className}`}>
                 <img
-                    src={src || fallbackImage}
+                    src={normalizedSrc || fallbackImage}
                     alt={name ? `Avatar de ${name}` : 'Avatar'}
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                     onError={() => setHasError(true)}

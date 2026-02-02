@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { supabaseService } from '../services/supabaseService';
+import UniversalCard from '../components/UniversalCard';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { Users, Calendar, Map as MapIcon, Info, ArrowLeft, ChevronRight } from 'lucide-react';
@@ -16,13 +17,25 @@ const TownLogo = ({ url, name }) => {
     const [error, setError] = useState(false);
 
     if (!url || error) {
-        return <MapIcon size={24} style={{ color: 'var(--color-primary)' }} />;
+        return (
+            <div
+                className="flex items-center justify-center w-full h-full"
+                style={{
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    borderRadius: '8px',
+                    border: '1px solid var(--sdp-glass-border)'
+                }}
+            >
+                <MapIcon size={24} style={{ color: 'var(--color-primary)', opacity: 0.5 }} />
+            </div>
+        );
     }
 
     return (
         <img
             src={url}
             alt={`Escut de ${name}`}
+            className="town-logo-img"
             style={{ width: '100%', height: '100%', objectFit: 'contain' }}
             onError={() => setError(true)}
         />
@@ -42,9 +55,27 @@ const Towns = () => {
     useEffect(() => {
         const fetchTowns = async () => {
             setError(null);
+
+            // [PILAR 1: INSTANT LOAD TOWNS]
+            const localData = localStorage.getItem('lc_towns_all');
+            if (localData) {
+                try {
+                    const parsed = JSON.parse(localData);
+                    if (parsed && Array.isArray(parsed)) {
+                        logger.log('[Towns] Instant Load: Bategant llista de pobles des del solatge...');
+                        setTowns(parsed);
+                        setLoading(false);
+                    }
+                } catch (e) {
+                    logger.warn('[Towns] Error en Instant Load:', e);
+                }
+            }
+
             try {
                 const data = await supabaseService.getTowns();
                 setTowns(data);
+                // Save for next time
+                localStorage.setItem('lc_towns_all', JSON.stringify(data));
             } catch (error) {
                 logger.error('Error loading towns:', error);
                 setError(error.message);
@@ -56,21 +87,9 @@ const Towns = () => {
     }, []);
 
     const sortedTowns = useMemo(() => {
-        let list = [...towns];
-        const torre = list.find(t => t.name === 'La Torre de les Maçanes');
-        if (torre) {
-            list = [torre, ...list.filter(t => t.name !== 'La Torre de les Maçanes')];
-        }
-        if (profile?.town_uuid || profile?.town_id) {
-            const userTownId = profile.town_uuid || profile.town_id;
-            const userTown = list.find(t => t.uuid === userTownId || t.id === userTownId);
-            if (userTown && userTown.name !== 'La Torre de les Maçanes') {
-                const rest = list.filter(t => (t.uuid !== userTownId && t.id !== userTownId) && t.name !== 'La Torre de les Maçanes');
-                list = [list[0], userTown, ...rest];
-            }
-        }
-        return list;
-    }, [towns, profile]);
+        // L'ordenació ja ve definida pel "Batec" des del supabaseService
+        return towns;
+    }, [towns]);
 
     const townTabs = [
         { id: 'pobles', label: t('nav.towns') || 'Pobles' },
@@ -143,47 +162,45 @@ const Towns = () => {
                                 to={`/pobles/${town.uuid || town.id}`}
                                 className={`town-card-link ${(town.uuid === profile?.town_uuid || town.id === profile?.town_id) ? 'is-user-town' : ''}`}
                             >
-                                <div className="universal-card town-card">
-                                    <div className="card-header">
-                                        <div className="header-left">
-                                            <div className="post-avatar" style={{ backgroundColor: 'white', padding: '2px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', overflow: 'hidden', width: '44px', height: '44px' }}>
-                                                <TownLogo url={town.logo_url} name={town.name} />
-                                            </div>
-                                            <div className="post-meta">
-                                                <span className="post-author">{town.name}</span>
-                                                <div className="post-town">{town.province}</div>
-                                            </div>
-                                        </div>
-                                        <div className="header-right">
-                                            <ChevronRight size={24} />
-                                        </div>
-                                    </div>
-
-                                    <div className="card-image-wrapper">
-                                        <img
-                                            src={town.image_url || '/images/assets/town_square.png'}
-                                            alt={town.name}
-                                        />
-                                        {(town.uuid === profile?.town_uuid || town.id === profile?.town_id) && (
-                                            <div className="pill-badge accent user-town-badge">{t('towns.your_town') || 'El teu poble'}</div>
-                                        )}
-                                    </div>
-
-                                    <div className="card-body">
-                                        <p className="town-desc-short">{town.description}</p>
-                                    </div>
-                                    <div className="card-footer-vibrant">
-                                        <div className="footer-stat-block">
-                                            <div className="stat-item">
-                                                <Users size={18} />
-                                                <span>{town.population?.toLocaleString()}</span>
+                                <UniversalCard
+                                    title={town.name}
+                                    subtitle={`${town.posts_count || 0} veïns bategant`}
+                                    avatarSrc={town.logo_url}
+                                    avatarName={town.name}
+                                    headerTheme="terracotta"
+                                    className="town-card animate-in-up"
+                                    image={town.image_url}
+                                    isBating={town.uuid === localStorage.getItem('last_active_town_id') || town.id === parseInt(localStorage.getItem('last_active_town_id'))}
+                                    isOfficial={town.is_official}
+                                    footer={
+                                        <div className="town-card-footer flex justify-between items-center w-full px-2" style={{ padding: '8px 4px' }}>
+                                            <span className="town-post-count flex items-center gap-1 opacity-70">
+                                                <Users size={16} />
+                                                {town.population?.toLocaleString() || 0}
+                                            </span>
+                                            <div
+                                                className="btn-enter-town-premium"
+                                                style={{
+                                                    background: 'var(--color-primary)',
+                                                    color: '#000',
+                                                    padding: '6px 14px',
+                                                    borderRadius: '20px',
+                                                    fontSize: '12px',
+                                                    fontWeight: '900',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    gap: '4px'
+                                                }}
+                                            >
+                                                ENTRAR <ChevronRight size={14} />
                                             </div>
                                         </div>
-                                        <button className="add-btn-premium-vibrant">
-                                            Explorar
-                                        </button>
+                                    }
+                                >
+                                    <div className="town-description-mini text-sm italic opacity-80 line-clamp-2" style={{ padding: '10px 0' }}>
+                                        {town.description || 'Explora la saviesa i el batec d\'aquest poble.'}
                                     </div>
-                                </div>
+                                </UniversalCard>
                             </Link>
                         ))}
                     </div>

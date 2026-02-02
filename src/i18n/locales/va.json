@@ -195,6 +195,8 @@
         "placeholder": "Explica de què tracta l'esdeveniment..."
     },
     "towns": {
+        "title": "Els Pobles",
+        "description": "Explora la xarxa de pobles connectats i descobreix el que els fa únics.",
         "select_town": "Seleccionar Poble",
         "select_town_short": "Poble",
         "your_town": "El teu poble",

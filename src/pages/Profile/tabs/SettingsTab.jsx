@@ -1,13 +1,17 @@
-import React from 'react';
-import { Moon, Sun, Bell, ChevronRight, ShieldCheck, LogOut, HelpCircle, User, Globe, Download, FileText, Info, Sparkles } from 'lucide-react';
+import { Moon, Sun, Bell, ChevronRight, ShieldCheck, LogOut, HelpCircle, User, Globe, Download, FileText, Info, Sparkles, Palette, Zap, Database, RefreshCw, Wind, Book, Terminal } from 'lucide-react';
+import { useUI } from '../../../context/UIContext';
 import IAIATamagotchiSettings from '../../../components/IAIATamagotchiSettings';
+import ThemeCustomizer from '../../../components/ThemeCustomizer';
 import { exportService } from '../../../services/exportService';
 import { supabaseService } from '../../../services/supabaseService';
+import { raindropService } from '../../../services/raindropService';
+import { logger } from '../../../utils/logger';
 import { useAuth } from '../../../context/AuthContext';
+import { useTheme } from '../../../context/ThemeContext';
 import './PremiumSettings.css';
 
 const SettingsTab = ({
-    theme,
+    theme: legacyTheme,
     toggleTheme,
     navigate,
     displayProfile,
@@ -17,28 +21,130 @@ const SettingsTab = ({
     setProfile
 }) => {
     const { logout } = useAuth();
+    const { theme, setTheme, availableThemes } = useTheme();
+    const { gloveMode, setGloveMode, toggleGloveMode, landingPage, setLandingPage, resetToNaturalOrder } = useUI();
 
     return (
         <div className="tab-pane-fade-in settings-pane">
+            {/* THEME TOKENS ENGINE [FLASH PROTOCOL] */}
+            <section className="settings-section-premium">
+                <h3 className="settings-group-title">
+                    <Palette size={16} /> Pell de l'App (Design Tokens)
+                </h3>
+                <div className="theme-token-selector horizontal-scroll" style={{ padding: '10px 0', gap: '12px' }}>
+                    {availableThemes.map(t => (
+                        <button
+                            key={t.id}
+                            className={`theme-token-btn ${theme === t.id ? 'active' : ''}`}
+                            onClick={() => setTheme(t.id)}
+                            style={{
+                                background: t.variables['--bg-surface'],
+                                color: t.variables['--text-main'],
+                                border: theme === t.id ? `2px solid var(--color-primary)` : `1px solid var(--border-subtle)`,
+                                padding: '12px 20px',
+                                borderRadius: t.variables['--radius-organic'],
+                                minWidth: '140px',
+                                fontSize: '11px',
+                                fontWeight: '900',
+                                letterSpacing: '0.05em',
+                                boxShadow: theme === t.id ? '0 10px 20px rgba(0,0,0,0.1)' : 'none',
+                                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                                whiteSpace: 'nowrap'
+                            }}
+                        >
+                            <span style={{ display: 'block', opacity: 0.6, fontSize: '8px', marginBottom: '4px' }}>TEMA</span>
+                            {t.name.toUpperCase()}
+                        </button>
+                    ))}
+                </div>
+            </section>
+
             {/* APP PREFERENCES */}
             <section className="settings-section-premium">
                 <h3 className="settings-group-title">
                     <Globe size={16} /> Preferències de l'App
                 </h3>
 
-                <div className="premium-setting-item" onClick={toggleTheme}>
+                <div className="premium-setting-item no-hover" style={{ cursor: 'default', display: 'block', padding: '0' }}>
+                    <ThemeCustomizer />
+                </div>
+
+                <div className="premium-setting-item" onClick={toggleGloveMode}>
                     <div className="setting-content-left">
-                        <div className="setting-icon-wrapper">
-                            {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
+                        <div className="setting-icon-wrapper" style={{
+                            background: gloveMode ? 'var(--color-primary)' : 'rgba(0,0,0,0.05)',
+                            color: gloveMode ? 'white' : 'var(--text-muted)'
+                        }}>
+                            <Wind size={20} />
                         </div>
                         <div className="setting-text-bundle">
-                            <span>Mode Visual</span>
-                            <small>{theme === 'light' ? 'Mode Nit' : 'Mode Dia'}</small>
+                            <span className="setting-title">Mode Guants (Hivern)</span>
+                            <span className="setting-desc">Icones més grans i vibració forta per a ús amb guants.</span>
                         </div>
                     </div>
-                    <div className={`premium-toggle-track ${theme === 'dark' ? 'active' : ''}`}>
-                        <div className="premium-toggle-thumb" />
+                    <div className={`sp-toggle ${gloveMode ? 'active' : ''}`}>
+                        <div className="sp-toggle-inner"></div>
                     </div>
+                </div>
+
+                <div className="premium-setting-item no-hover" style={{ cursor: 'default', display: 'block' }}>
+                    <div className="setting-content-left" style={{ marginBottom: '12px' }}>
+                        <div className="setting-icon-wrapper" style={{ background: 'var(--color-terracotta, #E2725B)', color: 'white' }}>
+                            <Wind size={20} />
+                        </div>
+                        <div className="setting-text-bundle">
+                            <span className="setting-title">On vols despertar-te?</span>
+                            <span className="setting-desc">Tria la teua porta oficial d'entrada.</span>
+                        </div>
+                    </div>
+                    <select
+                        id="landing-page-selector"
+                        name="landing-page-selector"
+                        className="premium-input-glass w-full"
+                        value={landingPage}
+                        onChange={(e) => setLandingPage(e.target.value)}
+                        style={{
+                            width: '100%',
+                            padding: '12px',
+                            background: 'rgba(255, 255, 255, 0.05)',
+                            border: '1px solid var(--border-subtle)',
+                            borderRadius: '12px',
+                            color: 'var(--text-main)',
+                            fontSize: '14px',
+                            outline: 'none'
+                        }}
+                    >
+                        <option value="mur">📰 Mur (Notícies)</option>
+                        <option value="chats">💬 Xat (La Plaça)</option>
+                        <option value="mercat">🛒 Mercat (Producte)</option>
+                        <option value="pobles">📍 Pobles (Territori)</option>
+                    </select>
+                </div>
+
+                <div className="premium-setting-item" onClick={() => navigate('/solatge')}>
+                    <div className="setting-content-left">
+                        <div className="setting-icon-wrapper" style={{ background: 'var(--bg-deep, #050505)', color: 'var(--color-accent, #00F2FF)' }}>
+                            <Terminal size={20} />
+                        </div>
+                        <div className="setting-text-bundle">
+                            <span className="setting-title">Consola Solatge (v1.6)</span>
+                            <span className="setting-desc">Panel de comandament Tier GOD by Nano Banana.</span>
+                        </div>
+                    </div>
+                    <ChevronRight size={20} className="setting-chevron" />
+                </div>
+
+                <div className="premium-setting-item" onClick={() => navigate('/tutorial-didactica')}>
+                    <div className="setting-content-left">
+                        <div className="setting-icon-wrapper" style={{ background: 'var(--color-primary)', color: 'white' }}>
+                            <Book size={20} />
+                        </div>
+                        <div className="setting-text-bundle">
+                            <span className="setting-title">Manual Didàctic</span>
+                            <span className="setting-desc">Consulta l'estat de les funcionalitats i la guia tècnica.</span>
+                        </div>
+                    </div>
+                    <ChevronRight size={20} className="setting-chevron" />
                 </div>
 
                 <div className="premium-setting-item" onClick={() => navigate('/notificacions')}>
@@ -97,7 +203,7 @@ const SettingsTab = ({
                         const updated = await supabaseService.updateProfile(user.id, { privacy_settings: newSettings });
                         setProfile(updated);
                     } catch (err) {
-                        console.error('Error updating privacy:', err);
+                        logger.error('Error updating privacy:', err);
                     }
                 }}>
                     <div className="setting-content-left">
@@ -111,6 +217,95 @@ const SettingsTab = ({
                     </div>
                     <div className={`premium-toggle-track ${(displayProfile?.privacy_settings?.show_read_receipts !== false) ? 'active' : ''}`}>
                         <div className="premium-toggle-thumb" />
+                    </div>
+                </div>
+
+                {/* GEMINI SOVEREIGNTY [FLASH PROTOCOL] */}
+                <div className="premium-setting-item no-hover" style={{ cursor: 'default', flexDirection: 'column', alignItems: 'flex-start', gap: '12px', padding: '16px' }}>
+                    <div className="setting-content-left">
+                        <div className="setting-icon-wrapper" style={{ background: 'var(--color-accent)', color: 'black' }}>
+                            <Sparkles size={20} className="llumeta" />
+                        </div>
+                        <div className="setting-text-bundle">
+                            <span>Clau de l'Expert (Gemini API)</span>
+                            <small>Sovereign AI: La teua clau, les teues dades.</small>
+                        </div>
+                    </div>
+                    <div className="w-full flex flex-col gap-2">
+                        <input
+                            id="gemini-api-key"
+                            name="gemini-api-key"
+                            type="password"
+                            placeholder="Introduïx la teua clau API..."
+                            defaultValue={localStorage.getItem('sp_gemini_api_key') || ""}
+                            onBlur={(e) => {
+                                localStorage.setItem('sp_gemini_api_key', e.target.value);
+                                window.dispatchEvent(new CustomEvent('gemini-key-updated'));
+                            }}
+                            className="premium-input-glass"
+                            style={{
+                                width: '100%',
+                                padding: '12px',
+                                background: 'rgba(255, 255, 255, 0.05)',
+                                border: '1px solid var(--border-subtle)',
+                                borderRadius: '8px',
+                                color: 'var(--text-main)',
+                                fontSize: '14px'
+                            }}
+                        />
+                        <a
+                            href="https://aistudio.google.com/app/apikey"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{ fontSize: '10px', color: 'var(--color-accent)', textDecoration: 'underline' }}
+                        >
+                            Obtenir clau gratuïta a Google AI Studio
+                        </a>
+                    </div>
+                </div>
+
+                <div className="premium-setting-item" onClick={async () => {
+                    if (window.confirm('Vols importar les teues col·leccions de Raindrop?')) {
+                        const mockResources = raindropService.getMockData();
+                        logger.log('[Raindrop] Integrant dades sobiranes:', mockResources);
+
+                        // Simulem l'entrada al feed injectant un event de refresh o guardant en local
+                        const existing = JSON.parse(localStorage.getItem('lc_posts_global_0_10') || '{"data":[]}');
+                        const updated = { data: [...mockResources, ...existing.data] };
+                        localStorage.setItem('lc_posts_global_0_10', JSON.stringify(updated));
+
+                        window.dispatchEvent(new CustomEvent('data-refresh', { detail: { type: 'post' } }));
+                        alert('Col·leccions SDP, SOS i PER importades amb èxit! Revisa el Mur.');
+                    }
+                }}>
+                    <div className="setting-content-left">
+                        <div className="setting-icon-wrapper" style={{ background: 'var(--color-primary-soft)', color: 'var(--color-primary)' }}>
+                            <RefreshCw size={20} />
+                        </div>
+                        <div className="setting-text-bundle">
+                            <span>Sincronitzar Raindrop</span>
+                            <small>Importa col·leccions SDP, SOS, PER i GEO</small>
+                        </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <span className="premium-badge-vibrant">CONECTAR</span>
+                        <ChevronRight size={20} className="text-muted" />
+                    </div>
+                </div>
+
+                <div className="premium-setting-item" onClick={() => navigate('/arxiu')}>
+                    <div className="setting-content-left">
+                        <div className="setting-icon-wrapper" style={{ background: 'var(--color-primary-soft)', color: 'var(--color-primary)' }}>
+                            <Database size={20} />
+                        </div>
+                        <div className="setting-text-bundle">
+                            <span>El Rebost Digital</span>
+                            <small>Arxiu sobirà estil Raindrop/NotebookLM</small>
+                        </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <span className="premium-badge-vibrant">NOU</span>
+                        <ChevronRight size={20} className="text-muted" />
                     </div>
                 </div>
 
@@ -184,13 +379,38 @@ const SettingsTab = ({
             </section>
 
             {/* LOGOUT */}
-            <div className="logout-box">
+            <div className="logout-box" style={{ gap: '16px' }}>
+                <button
+                    className="btn-restore-natural-order"
+                    style={{
+                        width: '100%',
+                        padding: '14px',
+                        background: 'transparent',
+                        border: '2px dashed #D946EF',
+                        color: '#D946EF',
+                        fontFamily: 'var(--font-heading)',
+                        fontWeight: '900',
+                        borderRadius: '16px',
+                        fontSize: '12px',
+                        letterSpacing: '0.05em',
+                        cursor: 'pointer',
+                        transition: 'all 0.3s ease',
+                        marginBottom: '16px'
+                    }}
+                    onClick={() => {
+                        if (window.confirm('Vols restaurar l\'Ordre Natural? Això netejarà totes les teues preferències locals.')) {
+                            resetToNaturalOrder();
+                        }
+                    }}
+                >
+                    ↺ RESTAURAR L'ORDRE NATURAL
+                </button>
                 <button
                     className="btn-logout-premium"
                     onClick={async () => {
                         if (window.confirm('Segur que vols tancar la sessió?')) {
                             await logout();
-                            window.location.href = '/login';
+                            navigate('/login');
                         }
                     }}
                 >

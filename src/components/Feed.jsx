@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { Link2, MessageCircle, Share2, MoreHorizontal, Building2, Store, Users, User, Loader2, AlertCircle, Info, Sparkles, UserPlus, UserCheck, Volume2, StopCircle, EyeOff, BookOpen, ChevronLeft, ChevronRight, Check } from 'lucide-react';
+import { Link2, MessageCircle, Share2, MoreHorizontal, Building2, Store, Users, User, Loader2, AlertCircle, Info, Sparkles, UserPlus, UserCheck, Volume2, StopCircle, EyeOff, BookOpen, ChevronLeft, ChevronRight, Check, Filter } from 'lucide-react';
 import { useUI } from '../context/UIContext';
 import { supabaseService } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
@@ -17,19 +17,23 @@ import Avatar from './Avatar';
 import SEO from './SEO';
 import ShareHub from './ShareHub';
 import { iaiaService } from '../services/iaiaService';
+import { rhizomeManager } from '../services/rhizomeManager';
 import './Feed.css';
 import './Comments.css';
 import ImageCarousel from './ImageCarousel';
 import Carousel from './Carousel';
+import AttributionBadge from './AttributionBadge';
+import UniversalCard from './UniversalCard';
 
 const IAIA_INITIAL_DELAY_MS = 10000;
 const IAIA_INTERVAL_MS = 120000;
 
-const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
+const Feed = ({ townId = null, hideHeader = false, customPosts = null, contentMode = 'batec' }) => {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const { user, isPlayground, loading: authLoading, isAdmin, isSuperAdmin } = useAuth();
-    const { visionMode } = useUI();
+    const { user, profile, isPlayground, loading: authLoading, isAdmin, isSuperAdmin } = useAuth();
+    const isSovereign = user?.is_sovereign;
+    const { visionMode, gloveMode } = useUI();
     const [posts, setPosts] = useState(customPosts || []);
     const [userConnections, setUserConnections] = useState([]);
     const [userTags, setUserTags] = useState([]);
@@ -40,7 +44,7 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
     const [postComments, setPostComments] = useState({});
     const [selectedRole, setSelectedRole] = useState('tot');
     const [selectedTag, setSelectedTag] = useState(null);
-    const [isNoiseFiltered, setIsNoiseFiltered] = useState(localStorage.getItem('isNoiseFiltered') === 'true');
+    const [isIAIAFiltering, setIsIAIAFiltering] = useState(localStorage.getItem('isIAIAFiltering') === 'true');
     const [error, setError] = useState(null);
     const isMounted = useRef(true);
 
@@ -107,8 +111,10 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
                 try {
                     const commentsMap = {};
                     await Promise.all(posts.map(async (p) => {
+                        const postId = p.uuid || p.id;
+                        if (!postId) return;
                         try {
-                            const comments = await supabaseService.getPostComments(p.uuid || p.id);
+                            const comments = await supabaseService.getPostComments(postId);
                             if (comments && comments.length > 0) {
                                 commentsMap[p.uuid || p.id] = comments;
                             }
@@ -132,8 +138,25 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
         if (customPosts) {
             setPosts(customPosts);
             setLoading(false);
+            return;
         }
-    }, [customPosts]);
+
+        // [PILAR 1: INSTANT LOAD] - Bategat immediat des de la memòria local
+        const cacheKey = `posts_${townId || 'global'}_0_10`;
+        const localData = localStorage.getItem(`lc_${cacheKey}`);
+        if (localData) {
+            try {
+                const parsed = JSON.parse(localData);
+                if (parsed && parsed.data && Array.isArray(parsed.data)) {
+                    logger.log('[Feed] Instant Load: Bategant dades des del solatge local...');
+                    setPosts(parsed.data);
+                    setLoading(false);
+                }
+            } catch (e) {
+                logger.warn('[Feed] Error en Instant Load:', e);
+            }
+        }
+    }, [customPosts, townId]);
 
     useEffect(() => {
         if (!authLoading && !customPosts) {
@@ -160,7 +183,7 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
             const newPost = await iaiaService.generateAutonomousInteraction();
             if (newPost && isMounted.current) {
                 setPosts(prev => [newPost, ...prev]);
-                logger.info('[Feed] IAIA autonomous post injected:', newPost.author);
+                // logger.info('[Feed] IAIA autonomous post injected:', newPost.author);
             }
         };
 
@@ -217,16 +240,18 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
     };
 
     const filteredPosts = useMemo(() => {
-        const filtered = posts.filter(post => {
+        let filtered = posts.filter(post => {
+            // 0. Content Mode Filter (Ara vs Arrel)
+            const isArchive = post.metadata?.is_archive_debate || post.type === 'book' || post.category === 'Heritage';
+            if (contentMode === 'batec' && isArchive) return false;
+            if (contentMode === 'arrel' && !isArchive) return false;
+
             // 1. Vision Mode Filter
             if (visionMode === 'humana' && !isSuperAdmin) {
                 const isAI = post.author_role === 'ambassador' ||
                     post.author_is_ai ||
                     post.is_iaia_inspired ||
                     (post.author_user_id && String(post.author_user_id).startsWith('11111111-')) ||
-                    (post.author_id && String(post.author_id).startsWith('11111111-')) ||
-                    (post.author_entity_id && String(post.author_entity_id).startsWith('11111111-')) ||
-                    (post.author_entity_id && String(post.author_entity_id).startsWith('00000000-')) ||
                     (post.id && String(post.id).startsWith('iaia-')) ||
                     post.creator_entity_id === '00000000-0000-0000-0000-000000000000';
 
@@ -239,14 +264,17 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
                 return connection && connection.tags && connection.tags.includes(selectedTag);
             }
 
-            // 3. Noise Filter
-            if (isNoiseFiltered) {
-                const isNoisy = post.author_is_noise || post.author?.is_noise || post.is_noise;
-                if (isNoisy) return false;
-            }
-
             return true;
         });
+
+        // 3. IAIA Portera (Cognitive Filter Km 0) [PILLAR 4]
+        if (isIAIAFiltering) {
+            const userPrefs = {
+                primary_town_id: townId || 1, // Default to La Torre
+                anchors: ['mel', 'poma', 'fusta', 'tradició', 'IAIA', 'Master']
+            };
+            filtered = rhizomeManager.cognitiveFilter(filtered, userPrefs);
+        }
 
         // 4. Sorting logic OMNISCIENT (Pins first)
         return [...filtered].sort((a, b) => {
@@ -256,7 +284,7 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
             if (!aPinned && bPinned) return 1;
             return 0; // Maintain original time order for the rest
         });
-    }, [posts, visionMode, selectedTag, isNoiseFiltered, userConnections, isSuperAdmin]);
+    }, [posts, visionMode, selectedTag, isIAIAFiltering, townId, userConnections, isSuperAdmin]);
 
     const handleHeaderClick = useCallback((post) => {
         const targetId = post.author_entity_id || post.author_user_id || post.author_id;
@@ -325,7 +353,25 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
             {/* Semantic Heading for SEO/A11y */}
             <h1 className="sr-only">{t('mur.title') || 'Mur d\'Activitat i Notícies'}</h1>
 
-            <div className="feed-list">
+            {/* IAIA PORTERA TOGGLE [PILLAR 4] */}
+            <div className="iaia-filter-bar px-4 py-2 flex justify-between items-center text-xs font-bold border-b border-gray-100 bg-white sticky top-14 z-20">
+                <div className="flex items-center gap-2">
+                    <Sparkles size={14} className={isIAIAFiltering ? "text-primary animate-pulse" : "text-gray-300"} />
+                    <span className={isIAIAFiltering ? "text-primary" : "text-gray-400"}>IAIA PORTERA: {isIAIAFiltering ? "SENTIT KM 0" : "SENSE FILTRE"}</span>
+                </div>
+                <button
+                    onClick={() => {
+                        const next = !isIAIAFiltering;
+                        setIsIAIAFiltering(next);
+                        localStorage.setItem('isIAIAFiltering', next);
+                    }}
+                    className={`px-3 py-1 rounded-full transition-all ${isIAIAFiltering ? 'bg-primary text-black' : 'bg-gray-100 text-gray-500'}`}
+                >
+                    {isIAIAFiltering ? "PAU RURAL" : "VEURE TOT"}
+                </button>
+            </div>
+
+            <div className="feed-list mur-masonry">
                 {filteredPosts.length === 0 ? (
                     <StatusLoader
                         type="empty"
@@ -336,247 +382,293 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
                         onRetry={selectedTag ? () => setSelectedTag(null) : null}
                     />
                 ) : (
-                    filteredPosts.map(post => {
-                        const pid = post.uuid || post.id;
+                    filteredPosts.map((post, index) => {
+                        const pid = post.uuid || post.id || `post-${index}`;
                         const connection = userConnections.find(c => c.post_uuid === (post.uuid || post.id));
                         const isConnected = !!connection;
 
-                        // HANDLING INTERNAL REPORTS (WORK GROUP)
+                        // OPTIMISTIC & DISSOLVE LOGIC [Q1]
+                        const isOptimistic = post.metadata?.isOptimistic;
+                        const isDissolving = post.metadata?.isDissolving;
+
+                        // 1. Capçalera (Header): Navegació i Metadades
+                        const headerTitle = (post.author === 'Algú del poble' || !post.author)
+                            ? (((typeof CREATOR_EMAILS !== 'undefined' ? CREATOR_EMAILS : []).includes(post.author_email)) ||
+                                post.author_user_id === 'd6325f44-7277-4d20-b020-166c010995ab' ||
+                                post.author_user_id === '333bd9f1-21ab-41fe-b856-2340ce6dc96c' ||
+                                post.author_user_id === 'a11ac111-eec1-4111-b111-000000000013' ||
+                                post.author_user_id === 'fa82eb62-4a83-4ff7-b2d6-8849673fc3b0' ||
+                                post.author_user_id === '031adc10-ce8c-4ec9-8672-330473033a91' ||
+                                post.author_user_id === '11111111-0000-0000-0000-000000000001'
+                                ? post.author_name || (
+                                    post.author_user_id === '333bd9f1-21ab-41fe-b856-2340ce6dc96c' ? 'Lidia Espí' :
+                                        post.author_user_id === 'a11ac111-eec1-4111-b111-000000000013' ? 'Anna Climent' :
+                                            post.author_user_id === 'fa82eb62-4a83-4ff7-b2d6-8849673fc3b0' ? 'Damià Llorens' :
+                                                post.author_user_id === '031adc10-ce8c-4ec9-8672-330473033a91' ? 'Nando Llinares' :
+                                                    'Javi Llinares'
+                                )
+                                : 'Veí de la Comunitat')
+                            : (post.author?.name || post.author); // Handle author object from Raindrop mappings
+
+                        const headerSubtitle = post.towns?.name || post.town_name || post.location?.town || 'La Torre de les Maçanes';
+
+                        const HeaderAction = () => (
+                            <div className="header-right flex items-center gap-2">
+                                {(post.is_pinned || post.metadata?.is_pinned) && <span className="pin-badge" title="Fichado al muro">📌</span>}
+                                {(post.author_role === 'ambassador' || post.author_is_ai || String(post.id || '').includes('rd-')) && (
+                                    <span className="identity-badge ai" style={{ background: 'rgba(0, 242, 255, 0.2)', border: '1px solid var(--color-teal-sci)', color: 'var(--color-teal-sci)' }}>{String(post.id || '').includes('rd-') ? 'RD' : 'IAIA'}</span>
+                                )}
+                                <span className="post-time-right">{post.created_at || post.timestamp ? new Date(post.created_at || post.timestamp).toLocaleDateString() : 'Ara'}</span>
+                            </div>
+                        );
+
+                        // Render post content
+                        const renderContent = () => (
+                            <>
+                                <PostContent content={post.content || post.excerpt || ''} postId={pid} />
+                                {(post.author_role === 'ambassador' || post.author_is_ai || post.is_iaia_inspired) && (
+                                    <div className="ia-transparency-note-mini clickable mt-4" onClick={() => navigate('/iaia')}>
+                                        <div className="simbiosi-header" style={{ display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 800, fontSize: '12px' }}>
+                                            <Sparkles size={14} />
+                                            <span>{t('profile.transparency_post') || 'SIMBIOSI [IAIA + VEÍ]'}</span>
+                                        </div>
+
+                                        {post.ai_percentage > 0 && (
+                                            <div className="simbiosi-metrics mt-2">
+                                                <div className="simbiosi-bar h-1 bg-black/20 rounded-full overflow-hidden flex">
+                                                    <div className="ai-fill h-full bg-teal-400" style={{ width: `${post.ai_percentage}%` }}></div>
+                                                    <div className="human-fill h-full bg-amber-600" style={{ width: `${post.human_percentage}%` }}></div>
+                                                </div>
+                                                <div className="simbiosi-labels" style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', marginTop: '4px', fontWeight: 600 }}>
+                                                    <span>🤖 IA: {post.ai_percentage}%</span>
+                                                    <span>👤 Humà: {post.human_percentage}%</span>
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {post.time_saved_minutes > 0 && (
+                                            <div className="simbiosi-impact" style={{ fontSize: '11px', marginTop: '6px', color: 'var(--color-primary)', fontWeight: 700 }}>
+                                                ⏳ <strong>+{post.time_saved_minutes} minuts</strong> regalats a la teua família
+                                            </div>
+                                        )}
+
+                                        <div className="simbiosi-footer" style={{ fontSize: '10px', marginTop: '6px', opacity: 0.7, fontStyle: 'italic' }}>
+                                            Directiva [MASTER]: {t('feed.simbiosi_footer') || 'La saviesa ancestral i el futur digital bategant junts por el bé de la comunitat.'}
+                                        </div>
+                                    </div>
+                                )}
+                            </>
+                        );
+
+                        const FooterActions = () => (
+                            <div className="card-actions-wrapper w-full" style={{ backgroundColor: "transparent", borderTop: "none" }}>
+                                {post.url && String(post.id || '').includes('rd-') && (
+                                    <a
+                                        href={post.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="btn-didactic-master-cta"
+                                        style={{ width: '100%', marginBottom: '12px', background: 'var(--color-primary)', color: '#000', border: 'none', padding: '10px', borderRadius: '4px', fontWeight: '900', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', cursor: 'pointer', textDecoration: 'none' }}
+                                    >
+                                        <Share2 size={16} /> VISITAR FONT RAINDROP
+                                    </a>
+                                )}
+                                <div className="card-actions">
+                                    <button
+                                        className={`action-btn principal-connect ${isConnected ? 'active' : ''}`}
+                                        onClick={() => handleToggleConnection(pid)}
+                                        aria-label={isConnected ? t('feed.disconnect') : t('feed.connect')}
+                                        aria-pressed={isConnected}
+                                    >
+                                        {isConnected ? <UserCheck size={24} /> : <UserPlus size={24} />}
+                                        <span>{isConnected ? (post.connections_count + 1 || 1) : (post.connections_count || 0)}</span>
+                                    </button>
+                                    <button
+                                        className="action-btn"
+                                        onClick={() => navigate(`/chats/${post.author_user_id || post.author_id}`, {
+                                            state: { commentingOn: post }
+                                        })}
+                                        title={t('feed.comments') || 'Xateja amb l\'autor'}
+                                    >
+                                        <MessageCircle size={24} />
+                                        <span>{post.comments_count || 0}</span>
+                                    </button>
+                                    <ShareHub
+                                        title={`Post de ${post.author?.name || post.author} a Sóc de Poble`}
+                                        text={post.content || post.excerpt}
+                                        url={post.url || `${window.location.origin}/post/${pid}`}
+                                    />
+                                    <button
+                                        className={`action-btn ${speakingPostId === pid ? 'active-voice' : ''}`}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            if (speakingPostId === pid) {
+                                                stop();
+                                                setSpeakingPostId(null);
+                                            } else {
+                                                const textToRead = `Publicació de ${post.author?.name || post.author}. ${post.content || post.excerpt}`;
+                                                speak(textToRead);
+                                                setSpeakingPostId(pid);
+                                            }
+                                        }}
+                                        title="Llegir en veu alta"
+                                    >
+                                        {speakingPostId === pid ? <StopCircle size={24} className="pulse-red" /> : <Volume2 size={24} />}
+                                    </button>
+                                </div>
+
+                                {isConnected && (
+                                    <TagSelector
+                                        postId={pid}
+                                        currentTags={connection.tags || []}
+                                        onTagsChange={(newTags) => handleConnectionUpdate(pid, true, newTags)}
+                                    />
+                                )}
+                            </div>
+                        );
+
+                        // Logic for wrapping in card-rizoma-wrapper for Masonry
+                        const renderInMasonry = (content) => (
+                            <div key={pid} className="card-rizoma-wrapper animate-in">
+                                {content}
+                            </div>
+                        );
+
+                        // Handling Internal Reports
                         if (post.type === 'internal_report') {
                             if (!isAdmin) return null;
 
-                            return (
-                                <article key={pid} className="universal-card post-card internal-report-card" style={{ border: '2px solid #FFD700', background: '#FFFBE6' }}>
-                                    <div className="card-header clickable" onClick={() => handleHeaderClick(post)}>
-                                        <div className="header-left">
-                                            <Avatar src={post.author_avatar} role="ambassador" name="IAIA" size={44} />
-                                            <div className="post-meta">
-                                                <div className="post-author-row">
-                                                    <span className="post-author" style={{ color: '#B45309' }}>Grup de Treball: Sóc de Poble</span>
-                                                    <span className="identity-badge" style={{ background: '#FFD700', color: 'black' }}>CONFIDENCIAL</span>
-                                                </div>
-                                                <div className="post-town">Visible només per a la Direcció</div>
-                                            </div>
-                                        </div>
-                                        <div className="header-right">
-                                            <span className="post-time-right">{new Date(post.created_at).toLocaleDateString()}</span>
+                            return renderInMasonry(
+                                <UniversalCard
+                                    avatarSrc={post.author_avatar}
+                                    avatarRole="ambassador"
+                                    avatarName="IAIA"
+                                    title="Grup de Treball: Sóc de Poble"
+                                    subtitle="Visible només per a la Direcció"
+                                    onHeaderClick={() => handleHeaderClick(post)}
+                                    headerAction={<span className="identity-badge" style={{ background: 'var(--color-terracotta-light)', color: 'var(--color-terracotta-dark)' }}>CONFIDENCIAL</span>}
+                                    headerTheme="terracotta"
+                                    className={`${isOptimistic ? 'optimistic' : ''} ${isDissolving ? 'dissolve' : ''}`}
+                                >
+                                    <div style={{ display: 'flex', gap: '15px', alignItems: 'center', marginBottom: '15px' }}>
+                                        <div style={{ fontSize: '40px' }}>🍌</div>
+                                        <div style={{ flex: 1 }}>
+                                            <h3 style={{ margin: '0 0 5px 0', fontSize: '18px' }}>Informe Tècnic: {post.metadata?.title || 'Document de Treball'}</h3>
+                                            <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '14px' }}>Generat per Nano Banana & IAIA</p>
                                         </div>
                                     </div>
+                                    <div className="post-text-rich" dangerouslySetInnerHTML={{ __html: post.content }} />
+                                    <button
+                                        className="action-btn principal-connect"
+                                        style={{ width: '100%', marginTop: '15px', justifyContent: 'center', background: 'var(--color-terracotta-dark)', color: 'var(--color-terracotta-light)', border: 'none' }}
+                                        onClick={() => window.open(post.metadata?.document_url || '#', '_blank')}
+                                    >
+                                        <span style={{ marginRight: '8px' }}>📄</span>
+                                        LLEGIR DOCUMENT COMPLET
+                                    </button>
+                                </UniversalCard>
+                            );
+                        }
 
-                                    <div className="card-body">
-                                        <div style={{ display: 'flex', gap: '15px', alignItems: 'center', marginBottom: '15px' }}>
-                                            <div style={{ fontSize: '40px' }}>🍌</div>
-                                            <div style={{ flex: 1 }}>
-                                                <h3 style={{ margin: '0 0 5px 0', fontSize: '18px' }}>Informe Tècnic: {post.metadata?.title || 'Document de Treball'}</h3>
-                                                <p style={{ margin: 0, color: '#666', fontSize: '14px' }}>Generat per Nano Banana & IAIA</p>
+                        // Handling Event Announcements
+                        if (post.type === 'event_announcement') {
+                            return renderInMasonry(
+                                <UniversalCard
+                                    avatarSrc={post.author_avatar}
+                                    avatarRole="official"
+                                    avatarName={post.author}
+                                    title={post.author}
+                                    subtitle={post.towns?.name || 'Vida de Poble'}
+                                    onHeaderClick={() => handleHeaderClick(post)}
+                                    headerTheme="terracotta"
+                                    image={post.image_url}
+                                    footer={
+                                        <div className="card-actions-wrapper w-full">
+                                            <div className="card-actions">
+                                                <button className="action-btn principal-connect active" style={{ width: '100%', background: 'var(--color-terracotta-dark)', color: 'var(--color-terracotta-light)' }}>
+                                                    M'INTERESSA EL PLAN!
+                                                </button>
                                             </div>
                                         </div>
+                                    }
+                                >
+                                    <div className="post-text-rich" dangerouslySetInnerHTML={{ __html: post.content }} />
+                                </UniversalCard>
+                            );
+                        }
 
-                                        <div className="post-text-rich" dangerouslySetInnerHTML={{ __html: post.content }} />
+                        // TIER GOD PLACEHOLDER LOGIC [NANO BANANA]
+                        const postImage = Array.isArray(post.image_url) ? null : (post.image_url || post.coverImage);
+                        const hasNoImage = !postImage && !Array.isArray(post.image_url);
 
+                        // Cinematic Placeholder for Tier GOD posts
+                        const cinematicPlaceholder = "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=1000";
+
+                        // STANDARD POSTS & RAINDROP RESOURCES
+                        return renderInMasonry(
+                            <UniversalCard
+                                avatarSrc={post.author?.avatar || post.author_avatar}
+                                avatarRole={post.author_role}
+                                avatarName={post.author?.name || post.author}
+                                title={headerTitle}
+                                subtitle={headerSubtitle}
+                                isVerifiedNeighbor={post.author_role === 'neighbor' || post.author_is_neighbor || post.author_user_id === 'fa82eb62-4a83-4ff7-b2d6-8849673fc3b0'} // Damià etc
+                                isLocalProducer={post.author_role === 'producer' || post.author_role === 'entity' || post.author_name?.toLowerCase().includes('almàssera')}
+                                onHeaderClick={() => handleHeaderClick(post)}
+                                headerAction={<HeaderAction />}
+                                theme={post.metadata?.is_archive_debate ? 'orange' : (String(post.id || '').includes('rd-') ? 'raindrop' : 'terracotta')}
+                                image={hasNoImage ? cinematicPlaceholder : postImage}
+                                className={`${isOptimistic ? 'optimistic' : ''} ${isDissolving ? 'dissolve' : ''} ${post.is_iaia_inspired ? 'animate-bategat' : ''} ${gloveMode ? 'mode-guants' : ''}`}
+                                footer={<FooterActions />}
+                                excerpt={post.excerpt}
+                                source={post.source}
+                                collection={post.collection}
+                                syncState={post.syncState}
+                            >
+                                {post.metadata?.is_archive_debate && (
+                                    <div className="archive-verifiable-badge animate-in" style={{ marginBottom: '15px' }}>
                                         <button
-                                            className="action-btn principal-connect"
-                                            style={{ width: '100%', marginTop: '15px', justifyContent: 'center', background: '#000', color: '#FFD700', border: 'none' }}
-                                            onClick={() => window.open(post.metadata?.document_url || '#', '_blank')}
+                                            className="btn-verificar-font"
+                                            onClick={() => openViewer({
+                                                did: post.metadata.did,
+                                                anchor: post.metadata.anchor,
+                                                label: post.metadata.sourceTitle,
+                                                type: post.metadata.imageUrl ? 'IMAGE' : 'PDF'
+                                            })}
+                                            style={{
+                                                width: '100%',
+                                                padding: '12px',
+                                                background: 'rgba(255, 120, 0, 0.1)',
+                                                border: '1px solid #ff7800',
+                                                borderRadius: '8px',
+                                                color: '#ff7800',
+                                                fontWeight: '900',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                gap: '8px',
+                                                fontSize: '13px',
+                                                cursor: 'pointer'
+                                            }}
                                         >
-                                            <span style={{ marginRight: '8px' }}>📄</span>
-                                            LLEGIR DOCUMENT COMPLET
+                                            <ShieldCheck size={18} /> VERIFICAR FONT (ARXIU MASTER)
                                         </button>
                                     </div>
-                                </article>
-                            );
-                        }
-
-                        // HANDLING EVENT ANNOUNCEMENTS
-                        if (post.type === 'event_announcement') {
-                            return (
-                                <article key={pid} className={`universal-card post-card event-announcement-card animate-in`}>
-                                    <div className="card-header clickable" onClick={() => handleHeaderClick(post)}>
-                                        <div className="header-left">
-                                            <Avatar src={post.author_avatar} role="official" name={post.author} size={44} />
-                                            <div className="post-town">{post.towns?.name || 'Vida de Poble'}</div>
-                                        </div>
-                                    </div>
-
-                                    <div className="card-body">
-                                        {post.image_url && (
-                                            <div className="card-image-wrapper mb-4">
-                                                <img src={post.image_url} alt={post.content} style={{ borderRadius: '0' }} />
-                                            </div>
-                                        )}
-                                        <div className="post-text-rich" dangerouslySetInnerHTML={{ __html: post.content }} />
-                                    </div>
-
-                                    <div className="card-footer-vibrant">
-                                        <div className="card-actions">
-                                            <button className="action-btn principal-connect active" style={{ width: '100%', background: '#ff0055' }}>
-                                                M'INTERESSA EL PLAN!
-                                            </button>
-                                        </div>
-                                    </div>
-                                </article>
-                            );
-                        }
-
-                        // STANDARD POSTS
-                        return (
-                            <article key={pid} className={`universal-card post-card ${post.is_iaia_inspired ? 'animate-in' : ''}`}>
-                                <div
-                                    className="card-header clickable"
-                                    onClick={() => handleHeaderClick(post)}
-                                >
-                                    <div className="header-left">
-                                        <Avatar
-                                            src={post.author_avatar}
-                                            role={post.author_role}
-                                            name={post.author}
-                                            size={44}
-                                        />
-                                        <div className="post-meta">
-                                            <div className="post-author-row">
-                                                <span className="post-author">
-                                                    {(post.author === 'Algú del poble' || !post.author)
-                                                        ? (((typeof CREATOR_EMAILS !== 'undefined' ? CREATOR_EMAILS : []).includes(post.author_email)) || post.author_user_id === 'd6325f44-7277-4d20-b020-166c010995ab' || post.author_user_id === '11111111-0000-0000-0000-000000000001' ? post.author_name || 'Javi Llinares' : 'Veí de la Comunitat')
-                                                        : post.author
-                                                    }
-                                                </span>
-                                                {(post.is_pinned || post.metadata?.is_pinned) && <span className="pin-badge" title="Fichado al muro">📌</span>}
-                                                {(post.author_role === 'ambassador' || post.author_is_ai) && (
-                                                    <span className="identity-badge ai" title="Informació i Acció Artificial">IAIA</span>
-                                                )}
-                                            </div>
-                                            <div className="post-town">
-                                                {post.towns?.name || post.town_name || 'La Torre de les Maçanes'}
-                                            </div>
-                                            {post.author_role === 'entity' && post.author_name && (
-                                                <div className="post-lineage" style={{ fontSize: '11px', fontWeight: '800', opacity: 0.7, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                                                    Publicat per {post.author_name}
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                    <div className="header-right">
-                                        <span className="post-time-right">{post.created_at ? new Date(post.created_at).toLocaleDateString() : 'Ara'}</span>
-                                    </div>
-                                </div>
-
-                                {post.image_url && (
-                                    <div className="card-image-wrapper">
-                                        {Array.isArray(post.image_url) ? (
-                                            <ImageCarousel images={post.image_url} />
-                                        ) : (
-                                            <img
-                                                src={post.image_url}
-                                                alt={`${post.author} post image`}
-                                                loading="lazy"
-                                                onError={(e) => {
-                                                    e.target.style.display = 'none';
-                                                    e.target.parentElement.style.display = 'none';
-                                                }}
-                                            />
-                                        )}
+                                )}
+                                {post.author_role === 'entity' && post.author_name && (
+                                    <div className="post-lineage" style={{ fontSize: '11px', fontWeight: '800', opacity: 0.7, textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '8px' }}>
+                                        Publicat per {post.author_name}
                                     </div>
                                 )}
-
-                                <div className="card-body">
-                                    <PostContent content={post.content} postId={pid} />
-                                    {(post.author_role === 'ambassador' || post.author_is_ai || post.is_iaia_inspired) && (
-                                        <div className="ia-transparency-note-mini clickable" onClick={() => navigate('/iaia')}>
-                                            <div className="simbiosi-header" style={{ display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 800, fontSize: '12px' }}>
-                                                <Sparkles size={14} />
-                                                <span>{t('profile.transparency_post') || 'SIMBIOSI [IAIA + VEÍ]'}</span>
-                                            </div>
-
-                                            {post.ai_percentage > 0 && (
-                                                <div className="simbiosi-metrics" style={{ marginTop: '8px' }}>
-                                                    <div className="simbiosi-bar" style={{ height: '4px', background: 'rgba(0,0,0,0.1)', borderRadius: '2px', overflow: 'hidden', display: 'flex' }}>
-                                                        <div className="ai-fill" style={{ width: `${post.ai_percentage}%`, background: 'var(--color-primary)' }}></div>
-                                                        <div className="human-fill" style={{ width: `${post.human_percentage}%`, background: '#f59e0b' }}></div>
-                                                    </div>
-                                                    <div className="simbiosi-labels" style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', marginTop: '4px', fontWeight: 600 }}>
-                                                        <span>🤖 IA: {post.ai_percentage}%</span>
-                                                        <span>👤 Humà: {post.human_percentage}%</span>
-                                                    </div>
-                                                </div>
-                                            )}
-
-                                            {post.time_saved_minutes > 0 && (
-                                                <div className="simbiosi-impact" style={{ fontSize: '11px', marginTop: '6px', color: 'var(--color-primary)', fontWeight: 700 }}>
-                                                    ⏳ <strong>+{post.time_saved_minutes} minuts</strong> regalats a la teua família
-                                                </div>
-                                            )}
-
-                                            <div className="simbiosi-footer" style={{ fontSize: '10px', marginTop: '6px', opacity: 0.7, fontStyle: 'italic' }}>
-                                                Directiva [MASTER]: {t('feed.simbiosi_footer') || 'La saviesa ancestral i el futur digital bategant junts por el bé de la comunitat.'}
-                                            </div>
-                                        </div>
-                                    )}
-                                </div>
-
-                                <div className="card-footer-vibrant">
-                                    <div className="card-actions-wrapper" style={{ flex: 1, backgroundColor: "transparent", borderTop: "none" }}>
-                                        {post.type === 'didactic_presentation' && (
-                                            <button
-                                                className="btn-didactic-master-cta"
-                                                onClick={() => navigate(`/didactica/${pid}`)}
-                                                style={{ width: '100%', marginBottom: '12px', background: 'var(--color-primary)', color: '#000', border: 'none', padding: '12px', borderRadius: '12px', fontWeight: '900', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', cursor: 'pointer' }}
-                                            >
-                                                <BookOpen size={20} /> VEURE DETALL DIDÀCTIC Master
-                                            </button>
-                                        )}
-                                        <div className="card-actions">
-                                            <button
-                                                className={`action-btn principal-connect ${isConnected ? 'active' : ''}`}
-                                                onClick={() => handleToggleConnection(pid)}
-                                                aria-label={isConnected ? t('feed.disconnect') : t('feed.connect')}
-                                                aria-pressed={isConnected}
-                                            >
-                                                {isConnected ? <UserCheck size={24} /> : <UserPlus size={24} />}
-                                                <span>{isConnected ? (post.connections_count + 1 || 1) : (post.connections_count || 0)}</span>
-                                            </button>
-                                            <button
-                                                className="action-btn"
-                                                onClick={() => navigate(`/chats/${post.author_user_id || post.author_id}`, {
-                                                    state: { commentingOn: post }
-                                                })}
-                                                title={t('feed.comments') || 'Xateja amb l\'autor'}
-                                            >
-                                                <MessageCircle size={24} />
-                                                <span>{post.comments_count || 0}</span>
-                                            </button>
-                                            <ShareHub
-                                                title={`Post de ${post.author} a Sóc de Poble`}
-                                                text={post.content}
-                                                url={`${window.location.origin}/post/${pid}`}
-                                            />
-                                            <button
-                                                className={`action-btn ${speakingPostId === pid ? 'active-voice' : ''}`}
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    if (speakingPostId === pid) {
-                                                        stop();
-                                                        setSpeakingPostId(null);
-                                                    } else {
-                                                        const textToRead = `Publicació de ${post.author}. ${post.content}`;
-                                                        speak(textToRead);
-                                                        setSpeakingPostId(pid);
-                                                    }
-                                                }}
-                                                title="Llegir en veu alta"
-                                            >
-                                                {speakingPostId === pid ? <StopCircle size={24} className="pulse-red" /> : <Volume2 size={24} />}
-                                            </button>
-                                        </div>
+                                {Array.isArray(post.image_url) && (
+                                    <div className="card-image-wrapper">
+                                        <ImageCarousel images={post.image_url} />
                                     </div>
-
-                                    {isConnected && (
-                                        <TagSelector
-                                            postId={pid}
-                                            currentTags={connection.tags || []}
-                                            onTagsChange={(newTags) => handleConnectionUpdate(pid, true, newTags)}
-                                        />
-                                    )}
-                                </div>
+                                )}
+                                {post.image_url && !Array.isArray(post.image_url) && (
+                                    <AttributionBadge filename={post.image_url} />
+                                )}
+                                {renderContent()}
 
                                 {/* Secció de Comentaris Integrats */}
                                 {postComments[post.uuid || post.id] && postComments[post.uuid || post.id].length > 0 && (
@@ -651,25 +743,25 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null }) => {
                                         </div>
                                     </div>
                                 )}
-                            </article>
+                            </UniversalCard>
                         );
                     })
                 )}
+            </div>
 
-                {
-                    hasMore && posts.length > 0 && !selectedTag && (
-                        <div className="load-more-container">
-                            <button
-                                className="btn-load-more"
-                                onClick={() => fetchPosts(true)}
-                                disabled={loadingMore}
-                            >
-                                {loadingMore ? <Loader2 className="spinner" /> : t('common.load_more') || 'Carregar més'}
-                            </button>
-                        </div>
-                    )
-                }
-            </div >
+            {
+                hasMore && posts.length > 0 && !selectedTag && (
+                    <div className="load-more-container">
+                        <button
+                            className="btn-load-more"
+                            onClick={() => fetchPosts(true)}
+                            disabled={loadingMore}
+                        >
+                            {loadingMore ? <Loader2 className="spinner" /> : t('common.load_more') || 'Carregar més'}
+                        </button>
+                    </div>
+                )
+            }
         </div >
     );
 };

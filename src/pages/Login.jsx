@@ -5,6 +5,7 @@ import { supabaseService } from '../services/supabaseService';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
 import { Phone, Mail, ArrowRight, Loader2, Activity } from 'lucide-react';
+import MeshStar from '../components/MeshStar';
 import { logger } from '../utils/logger';
 import './Auth.css';
 
@@ -78,6 +79,44 @@ const Login = () => {
         }
         return () => clearInterval(timer);
     }, [resendCountdown]);
+
+    // [AUTOMATITZACIÓ] Auto-submit quan el codi està complet
+    useEffect(() => {
+        if (otp && otp.length === 6 && step === 'verify') {
+            handleVerifyOtp(null, otp);
+        }
+    }, [otp, step]);
+
+    // [AUTOMATITZACIÓ] WebOTP API per a lectura automàtica d'SMS
+    useEffect(() => {
+        if ('OTPCredential' in window && step === 'verify') {
+            const ac = new AbortController();
+            navigator.credentials.get({
+                otp: { transport: ['sms'] },
+                signal: ac.signal
+            }).then(otp => {
+                if (otp && otp.code) {
+                    setOtp(otp.code);
+                    // L'auto-submit de dalt s'encarregarà d'enviar-lo
+                }
+            }).catch(err => {
+                logger.log('[WebOTP] Reading cancelled or not supported', err);
+            });
+
+            return () => ac.abort();
+        }
+    }, [step]);
+
+    // Auto-dismiss alerts
+    useEffect(() => {
+        if (successMessage || error) {
+            const timer = setTimeout(() => {
+                setSuccessMessage(null);
+                setError(null);
+            }, 5000);
+            return () => clearTimeout(timer);
+        }
+    }, [successMessage, error]);
 
     // Auto-redirect if already logged in (Simulation or Real)
     useEffect(() => {
@@ -180,17 +219,18 @@ const Login = () => {
             const formattedPhone = phone.startsWith('+') ? phone : `+34${phone}`;
             const result = await supabaseService.verifyOtp(formattedPhone, code);
 
-            // EMERGENCY BYPASS SYNC
-            if (result.user.id === '11111111-1111-4111-a111-000000000001' || result.user.email === 'simulator@socdepoble.com') {
-                logger.log('[Login] AI Simulation Detected. Adopting IAIA (System Guide)...');
+            // EMERGENCY BYPASS SYNC & SIMULATION
+            const authUser = result.user || result.data?.user;
+            if (authUser?.id === '11111111-1111-4111-a111-000000000001' || authUser?.email === 'simulator@socdepoble.com' || authUser?.isDemo) {
+                logger.log('[Login] AI Simulation or Phone Demo Detected. Adopting Guide Persona...');
                 await adoptPersona({
-                    id: '11111111-1a1a-0000-0000-000000000000',
-                    full_name: 'IAIA (Guia del Poble)',
-                    username: 'iaia_guide',
+                    id: authUser.id || '11111111-1a1a-0000-0000-000000000000',
+                    full_name: authUser.user_metadata?.full_name || 'IAIA (Guia del Poble)',
+                    username: authUser.user_metadata?.username || 'iaia_guide',
                     role: 'official',
+                    is_demo: !!authUser.isDemo,
                     is_admin: true,
-                    is_super_admin: false,
-                    avatar_url: '/assets/avatars/iaia.png'
+                    avatar_url: '/assets/avatars/iaia_official.png'
                 });
             } else {
                 // [DIRECTIVA 1] Force production landing for real users
@@ -226,64 +266,70 @@ const Login = () => {
     };
 
     return (
-        <div className="auth-container">
+        <div className="auth-container premium-onboarding">
+            <div className="auth-hero-overlay"></div>
+
             <button
                 className="login-diagnostic-trigger"
                 onClick={() => window.dispatchEvent(new CustomEvent('open-diagnostic-hud'))}
                 title={t('nav.support')}
-                style={{
-                    position: 'fixed',
-                    top: '20px',
-                    right: '20px',
-                    background: 'rgba(0, 242, 255, 0.1)',
-                    border: '1px solid #00f2ff',
-                    borderRadius: '50%',
-                    padding: '8px',
-                    cursor: 'pointer',
-                    zIndex: 1000
-                }}
             >
                 <Activity size={20} color="#00f2ff" />
             </button>
-            <div className="auth-card">
-                <img src="/logo.png" alt="Logo" className="auth-logo-elongated" />
 
-                {successMessage && <div className="auth-success-alert">{successMessage}</div>}
+            <div className="auth-card register-card-v2 animate-in-up">
+                <header className="auth-header">
+                    <img src="/logo.png" alt="Sóc de Poble" className="auth-logo-v2" />
 
-                {/* Primary Auth Method Switcher logic can go here or implicit via UI tabs */}
+                    <div className="auth-iaia-guidance" style={{ marginTop: '0', marginBottom: '24px' }}>
+                        <div className="iaia-avatar-wrapper">
+                            <img src="/assets/avatars/iaia_official.png" alt="MArIA" className="iaia-mini-avatar" />
+                            <div className="iaia-pulse"></div>
+                        </div>
+                        <div className="iaia-speech-bubble">
+                            {step === 'input'
+                                ? "Bon dia! Soc la IAIA. Entra amb el mòbil per a bategar amb el poble cap al futur. 🗝️🏘️"
+                                : "T'he enviat el codi SMS. Posa'l ací i entrem a la plaça ara mateix! ✨"}
+                        </div>
+                    </div>
+                </header>
+
+                {successMessage && <div className="auth-success-alert fade-in">{successMessage}</div>}
+                {error && <div className="auth-error shake">{error}</div>}
 
                 {authMethod === 'phone' ? (
                     <div className="phone-auth-section">
                         {step === 'input' ? (
-                            <form onSubmit={handlePhoneLogin} className="auth-form">
+                            <form onSubmit={handlePhoneLogin} className="auth-form glass-form">
                                 <div className="form-group">
-                                    <label htmlFor="phone-input">Mòbil</label>
-                                    <div className="phone-input-wrapper">
-                                        <span className="phone-prefix">🇪🇸 +34</span>
+                                    <label htmlFor="login-phone">Telèfon Mòbil</label>
+                                    <div className="phone-input-wrapper-v2">
+                                        <span className="prefix-badge">🇪🇸 +34</span>
                                         <input
-                                            id="phone-input"
+                                            id="login-phone"
+                                            name="phone"
                                             type="tel"
                                             placeholder="600 000 000"
                                             value={phone}
                                             onChange={(e) => setPhone(e.target.value.replace(/[^0-9]/g, ''))}
-                                            autoComplete="tel-national"
+                                            autoComplete="tel"
                                             required
-                                            className="phone-input-field"
+                                            className="phone-input-prime"
                                         />
                                     </div>
-                                    <p className="input-hint" style={{ color: 'rgba(255,255,255,0.8)', fontWeight: '500' }}>T'enviarem un SMS per verificar.</p>
+                                    <p className="input-hint" style={{ color: 'rgba(0, 242, 255, 0.7)', fontWeight: '600', fontSize: '0.75rem', marginTop: '8px' }}>🚀 En segons estaràs bategant!</p>
                                 </div>
-                                <button type="submit" className="auth-button" disabled={loading}>
-                                    {loading ? <Loader2 className="animate-spin" /> : 'Continuar'}
-                                    {!loading && <ArrowRight size={18} style={{ marginLeft: '8px' }} />}
+                                <button type="submit" className="auth-button v2 main-btn" disabled={loading}>
+                                    {loading ? <MeshStar size={28} color="#00f2ff" /> : 'ENTRAR AL POBLE'}
                                 </button>
                             </form>
                         ) : (
-                            <form onSubmit={handleVerifyOtp} className="auth-form">
+                            <form onSubmit={handleVerifyOtp} className="auth-form glass-form">
                                 <div className="form-group">
-                                    <label htmlFor="otp-input">Codi de Verificació</label>
+                                    <label htmlFor="otp-input-login">Codi de Verificació</label>
                                     <input
-                                        id="otp-input"
+                                        id="otp-input-login"
+                                        name="otp_code"
                                         type="text"
                                         placeholder="123456"
                                         value={otp}
@@ -292,69 +338,58 @@ const Login = () => {
                                         inputMode="numeric"
                                         maxLength={6}
                                         required
-                                        className="otp-input-field"
+                                        className="otp-input-field big"
                                     />
-                                    <p className="input-hint" style={{ color: 'rgba(255,255,255,0.8)', fontWeight: '500' }}>Introdueix el codi de 6 dígits que has rebut.</p>
                                 </div>
-                                <button type="submit" className="auth-button" disabled={loading}>
-                                    {loading ? <Loader2 className="animate-spin" /> : 'Verificar'}
+                                <button type="submit" className="auth-button v2" disabled={loading}>
+                                    {loading ? <MeshStar size={28} color="#00f2ff" /> : 'VERIFICAR ACCÉS'}
                                 </button>
 
-                                <div className="otp-resend-wrapper" style={{ marginTop: '16px', fontSize: '0.85rem' }}>
+                                <div className="otp-helper" style={{ marginTop: '16px', textAlign: 'center' }}>
                                     {resendCountdown > 0 ? (
-                                        <span className="opacity-50">Pots reenviar l'SMS en {resendCountdown}s</span>
+                                        <span className="opacity-50">Nou SMS en {resendCountdown}s</span>
                                     ) : (
-                                        <button
-                                            type="button"
-                                            className="text-btn"
-                                            onClick={handleResendOtp}
-                                            disabled={loading}
-                                            style={{ color: '#00f2ff', fontWeight: 'bold' }}
-                                        >
-                                            No has rebut el codi? Reenviar SMS
+                                        <button type="button" className="text-btn accent" onClick={handleResendOtp}>
+                                            No he rebut res. Reenviar SMS 🔁
                                         </button>
                                     )}
                                 </div>
 
-                                <button
-                                    type="button"
-                                    className="text-btn secondary-action"
-                                    onClick={() => setStep('input')}
-                                    disabled={loading}
-                                    style={{ marginTop: '24px', opacity: 0.6 }}
-                                >
+                                <button type="button" className="text-btn back-btn" onClick={() => setStep('input')}>
                                     Canviar número
                                 </button>
                             </form>
                         )}
 
-                        <div className="auth-alt-methods">
+                        <div className="auth-alt-methods-v2" style={{ marginTop: '16px', textAlign: 'center' }}>
                             <button className="text-btn small" onClick={() => setAuthMethod('email')}>
-                                <Mail size={14} /> Entrar amb Email
+                                <Mail size={14} /> O entrar amb Email
                             </button>
                         </div>
                     </div>
                 ) : (
-                    <>
-                        {/* Legacy Email Login */}
-                        <form onSubmit={handleLogin} className="auth-form">
+                    <div className="email-auth-section animate-in">
+                        <form onSubmit={handleLogin} className="auth-form glass-form">
                             <div className="form-group">
-                                <label htmlFor="login-email">{t('auth.email')}</label>
-                                <input
-                                    id="login-email"
-                                    name="email"
-                                    type="email"
-                                    autoComplete="email"
-                                    placeholder={t('auth.email_placeholder')}
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    required
-                                />
+                                <label htmlFor="login-email">Correu Electrònic</label>
+                                <div className="input-with-icon">
+                                    <Mail size={18} className="input-icon" />
+                                    <input
+                                        id="login-email"
+                                        name="email"
+                                        type="email"
+                                        autoComplete="email"
+                                        placeholder="correu@poble.cat"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        required
+                                    />
+                                </div>
                             </div>
 
                             {!isResetMode && (
                                 <div className="form-group">
-                                    <label htmlFor="login-password">{t('auth.password')}</label>
+                                    <label htmlFor="login-password">Contrasenya</label>
                                     <input
                                         id="login-password"
                                         name="password"
@@ -367,32 +402,32 @@ const Login = () => {
                                     />
                                     <div className="forgot-password-link">
                                         <button type="button" onClick={() => setIsResetMode(true)} className="text-btn">
-                                            {t('auth.forgot_password') || 'Has oblidat la contrasenya?'}
+                                            L'has oblidat? Recupera-la
                                         </button>
                                     </div>
                                 </div>
                             )}
 
-                            <button type="submit" className="auth-button" disabled={loading}>
-                                {loading ? t('common.loading') : (isResetMode ? (t('auth.send_reset_link') || 'Enviar enllaç de recuperació') : t('auth.signIn'))}
+                            <button type="submit" className="auth-button v2" disabled={loading}>
+                                {loading ? <MeshStar size={28} color="#00f2ff" /> : (isResetMode ? 'ENVIAR RECUPERACIÓ' : 'ENTRAR AMB EMAIL')}
                             </button>
 
                             {isResetMode && (
-                                <button type="button" className="auth-button secondary" onClick={() => setIsResetMode(false)}>
-                                    {t('common.cancel') || 'Cancel·lar'}
+                                <button type="button" className="text-btn back-btn" onClick={() => setIsResetMode(false)}>
+                                    Tornar al login
                                 </button>
                             )}
                         </form>
-                        <div className="auth-alt-methods">
+                        <div className="auth-alt-methods-v2" style={{ marginTop: '16px', textAlign: 'center' }}>
                             <button className="text-btn small" onClick={() => setAuthMethod('phone')}>
-                                <Phone size={14} /> Entrar amb Mòbil
+                                <Phone size={14} /> O entrar amb Mòbil
                             </button>
                         </div>
-                    </>
+                    </div>
                 )}
 
                 <div className="auth-divider">
-                    <span>o continuar amb</span>
+                    <span>o bategar amb</span>
                 </div>
 
                 <div className="social-auth-section">
@@ -404,67 +439,54 @@ const Login = () => {
                                 setError(err.message);
                             }
                         }}
-                        className="auth-button google-auth"
+                        className="auth-button google-auth v2"
+                        style={{ height: '52px' }}
                     >
-                        <img src="/assets/google-logo.svg" onError={(e) => e.target.style.display = 'none'} alt="" />
-                        {t('auth.continue_google')}
+                        <img src="/assets/google-logo.svg" onError={(e) => e.target.style.display = 'none'} alt="" style={{ width: '20px' }} />
+                        Google
                     </button>
                 </div>
 
-                <div className="demo-login-wrapper compact" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                    <button onClick={handleGuestLogin} className="auth-button demo-secondary">
-                        Explorar (Demo)
+                <div className="demo-login-wrapper-v2" style={{ marginTop: '24px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                    <button onClick={handleGuestLogin} className="auth-button demo-secondary v2">
+                        Explorar (Mode Demo) 🏛️
                     </button>
-                    <button
-                        onClick={async () => {
-                            if (confirm('Això restaurarà la pau del Mas tancat les sessions i netejant la memòria temporal. Vols recuperar l\'harmonia del sistema?')) {
-                                logger.warn('[MASTER] Restauració d\'harmonia iniciada...');
-                                forceNukeSimulation();
-                            }
-                        }}
-                        className="auth-button"
-                        style={{ backgroundColor: 'transparent', border: '1px solid #ff0055', color: '#ff0055', fontSize: '0.8rem', fontWeight: '800' }}
-                    >
-                        🆘 SOS: RESTAURAR HARMONIA (SANEJAR I REINICIAR)
-                    </button>
-                </div>
 
-                <div className="auth-footer">
-                    {t('auth.noAccount')} <Link to="/register">{t('auth.signUp')}</Link>
-                </div>
-
-                <div className="padrinos-blessing" style={{ marginTop: '20px', textAlign: 'center', opacity: 0.6, fontSize: '0.7rem' }}>
-                    <p>Protegit pels Padrinos de Sóc de Poble 🛡️</p>
-                    <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '5px' }}>
-                        <span>El Rentonar</span> • <span>Claude & GPT Padrinos</span> • <span>Antigravity Core</span>
+                    <div className="emergency-actions" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                        <button
+                            onClick={() => {
+                                if (confirm('Aquest bategat SOS netejarà tota la memòria temporal. Segur?')) forceNukeSimulation();
+                            }}
+                            className="emergency-btn sos"
+                            title="Restaurar Harmonia"
+                        >
+                            🆘 SOS
+                        </button>
+                        <button
+                            onClick={() => {
+                                const id = prompt('Correu o telèfon per a recuperar:');
+                                if (id) alert('S\'ha bategat la teua sol·licitud a la IAIA.');
+                            }}
+                            className="emergency-btn recovery"
+                            title="Recuperació Social"
+                        >
+                            🎭 RECUPERAR
+                        </button>
                     </div>
                 </div>
 
-                <div className="auth-didactic-help" style={{ marginTop: '12px' }}>
-                    <button
-                        onClick={() => window.dispatchEvent(new CustomEvent('open-diagnostic-hud'))}
-                        className="text-btn small opacity-70 hover-opacity-100"
-                        style={{ fontSize: '0.75rem', textDecoration: 'underline' }}
-                    >
-                        Vols ajuda per entrar? (Guia Didàctica)
-                    </button>
+                <div className="auth-footer-v2">
+                    <p>Encara no bategues? <Link to="/register">Crea el teu perfil ara</Link></p>
                 </div>
 
-                <div className="language-selector-auth compact">
-                    {[
-                        { code: 'va', label: 'VA' },
-                        { code: 'es', label: 'ES' },
-                        { code: 'en', label: 'EN' },
-                        { code: 'fr', label: 'FR' },
-                        { code: 'de', label: 'DE' },
-                        { code: 'it', label: 'IT' }
-                    ].map((lang) => (
+                <div className="language-selector-auth compact" style={{ marginTop: '24px' }}>
+                    {['va', 'es', 'en'].map((lang) => (
                         <button
-                            key={lang.code}
-                            onClick={() => setLanguage(lang.code)}
-                            className={`lang-btn ${activeLang.startsWith(lang.code) ? 'active' : ''}`}
+                            key={lang}
+                            onClick={() => setLanguage(lang)}
+                            className={`lang-btn ${activeLang.startsWith(lang) ? 'active' : ''}`}
                         >
-                            {lang.label}
+                            {lang.toUpperCase()}
                         </button>
                     ))}
                 </div>

@@ -1,0 +1,133 @@
+.rural-ia-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background: var(--md-sys-color-surface);
+    min-height: calc(100vh - var(--header-height));
+    padding-top: calc(var(--header-height) + 20px);
+}
+
+.rural-ia-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.rural-ia-header h2 {
+    font-size: 24px;
+    letter-spacing: -0.04em;
+    color: var(--text-main);
+    text-transform: uppercase;
+}
+
+.persona-selector {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.persona-chip {
+    padding: 8px 16px;
+    border-radius: 8px;
+    /* Material Design 3 Chip style */
+    border: 1px solid var(--md-sys-color-outline);
+    background: white;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--md-sys-color-on-surface);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.persona-chip.active {
+    background: var(--md-sys-color-primary);
+    color: white;
+    border-color: var(--md-sys-color-primary);
+    box-shadow: 0 4px 12px rgba(154, 108, 99, 0.3);
+}
+
+.query-box {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    border-radius: 0 !important;
+}
+
+.query-box textarea {
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 16px;
+    resize: none;
+    outline: none;
+    padding: 12px;
+}
+
+.consult-btn {
+    background: var(--md-sys-color-tertiary);
+    color: black;
+    padding: 12px 24px;
+    border-radius: 0;
+    /* ZERO RADIUS DIRECTIVE */
+    font-weight: 800;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    margin-top: 12px;
+}
+
+.consult-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.error-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 24px;
+    text-align: center;
+    border-color: var(--color-primary);
+}
+
+.btn-setup {
+    background: var(--color-primary);
+    color: white;
+    padding: 8px 16px;
+    font-size: 14px;
+}
+
+.response-card {
+    padding: 20px;
+    border-radius: 0;
+    /* ZERO RADIUS */
+    border-left: 4px solid var(--md-sys-color-tertiary);
+}
+
+.response-header {
+    margin-bottom: 12px;
+    opacity: 0.7;
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--md-sys-color-tertiary);
+}
+
+.response-content {
+    line-height: 1.8;
+    font-size: 16px;
+    color: white;
+    font-family: var(--font-main);
+    white-space: pre-wrap;
+}
+
+/* Animations from index.css are reused here (animate-bategat, status-pulse, llumeta) */

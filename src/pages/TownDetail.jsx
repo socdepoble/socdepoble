@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { supabaseService } from '../services/supabaseService';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft, MapPin, Users, Info, MessageCircle, ShoppingBag } from 'lucide-react';
+import { ArrowLeft, MapPin, Users, Info, MessageCircle, ShoppingBag, Sparkles, BookOpen } from 'lucide-react';
 import Feed from '../components/Feed';
 import Marketplace from '../components/Marketplace';
 import SEO from '../components/SEO';
@@ -18,7 +18,16 @@ const TownDetail = () => {
     const { t } = useTranslation();
     const [town, setTown] = useState(null);
     const [wikiData, setWikiData] = useState(null);
+    const [officialEntity, setOfficialEntity] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [contentMode, setContentMode] = useState('batec'); // 'batec' (Ara) vs 'arrel' (Patrimoni)
+
+    const triggerHaptic = (style) => {
+        if ('vibrate' in navigator) {
+            if (style === 'light') navigator.vibrate(10); // "Crunchy" earthy feel
+            else if (style === 'heavy') navigator.vibrate([30, 10, 30]); // "Solid" stone feel
+        }
+    };
 
     useEffect(() => {
         const fetchTown = async () => {
@@ -33,13 +42,23 @@ const TownDetail = () => {
                     const wiki = await wikipediaService.getTownSummary(found.name);
                     setWikiData(wiki);
 
-                    // Si no tenim escut al DB, el busquem a Commons
-                    if (!found.logo_url) {
-                        const shield = await wikipediaService.getTownShield(found.name);
-                        if (shield) {
-                            setTown(prev => ({ ...prev, logo_url: shield }));
-                        }
+                    // [MERITOCRÀCIA VISUAL] La gent decideix la cara del poble
+                    const batecImage = await supabaseService.getTownBatecImage(found.uuid || found.id);
+                    if (batecImage) {
+                        setTown(prev => ({ ...prev, image_url: batecImage.url }));
                     }
+
+                    // [DUALITAT ONTOLÒGICA] Busquem l'entitat oficial (Ajuntament)
+                    try {
+                        const entities = await supabaseService.searchEntities(`Ajuntament ${found.name}`);
+                        const official = entities.find(e => e.type === 'oficial' || e.name.toLowerCase().includes('ajuntament'));
+                        setOfficialEntity(official);
+                    } catch (e) {
+                        logger.warn(`No s'ha pogut carregar l'entitat oficial per a ${found.name}`);
+                    }
+
+                    // [BATEC TERRITORIAL] Guardem aquest poble com l'últim visitat
+                    localStorage.setItem('last_active_town_id', found.uuid || found.id);
                 }
             } catch (error) {
                 logger.error('Error loading town:', error);
@@ -49,6 +68,12 @@ const TownDetail = () => {
         };
         if (id) fetchTown();
     }, [id]);
+
+    const handleActionClick = (mode, action) => {
+        if (mode === 'oficial') triggerHaptic('heavy');
+        else triggerHaptic('light');
+        action();
+    };
 
     if (loading) return <div className="loading-container">{t('common.loading')}</div>;
     if (!town) return <div className="error-container">Poble no trobat</div>;
@@ -64,7 +89,7 @@ const TownDetail = () => {
             <ProfileHeaderPremium
                 type="town"
                 title={town.name}
-                subtitle={`${town.comarca}, ${town.province}`}
+                subtitle={`${(town.comarca && town.comarca !== 'null') ? town.comarca : 'Comunitat'} • ${(town.province && town.province !== 'null') ? town.province : 'Alacant'}`}
                 bio={town.description}
                 avatarUrl={town.logo_url}
                 coverUrl={town.image_url}
@@ -81,8 +106,31 @@ const TownDetail = () => {
             />
 
             <div className="town-detail-body">
+                {/* HUD AGRARI & CLIMÀTIC (Signes Vitals) */}
+                <section className="agrarian-hud-container animate-in">
+                    <div className="hud-metric" title="Risc de Mosca de l'Olivera">
+                        <span className="hud-metric-label">🪰 PLAGUES</span>
+                        <div className="hud-indicator-dot" style={{ background: '#FF4C4C' }}></div>
+                        <span className="hud-status-text" style={{ color: '#FF4C4C' }}>RISC ALT</span>
+                    </div>
+                    <div className="hud-metric" title="Estat de sequera del sòl">
+                        <span className="hud-metric-label">🪵 SEQUERA</span>
+                        <div className="hud-indicator-dot" style={{ background: '#FFA500' }}></div>
+                        <span className="hud-status-text" style={{ color: '#FFA500' }}>ALERTA</span>
+                    </div>
+                    <div className="hud-metric" title="Context d'humitat">
+                        <span className="hud-metric-label">💧 SAÓ</span>
+                        <div className="hud-indicator-indicator" style={{ display: 'flex', gap: '2px' }}>
+                            <div className="bar active"></div>
+                            <div className="bar"></div>
+                            <div className="bar"></div>
+                        </div>
+                        <span className="hud-status-text">BAIXA</span>
+                    </div>
+                </section>
+
                 {/* BANDO MUNICIPAL - Official Announcements */}
-                <section className="bando-municipal-container">
+                <section className="bando-municipal-container" onClick={() => triggerHaptic('heavy')}>
                     <div className="bando-header">
                         <div className="bando-title">
                             <div className="bando-icon-pulse">📢</div>
@@ -96,6 +144,8 @@ const TownDetail = () => {
                         <span className="bando-date">Publicat avui a les 09:30</span>
                     </div>
                 </section>
+
+                {/* ... (WIKIPEDIA section follows) */}
 
                 {/* MEMÒRIA UNIVERSAL (WIKIPEDIA) */}
                 {wikiData && (
@@ -117,43 +167,70 @@ const TownDetail = () => {
                 )}
 
                 <section className="town-utilities-row">
-                    <div className="utility-card weather-glass">
+                    <div
+                        className="utility-card institution-glass"
+                        onClick={() => handleActionClick('oficial', () => officialEntity ? navigate(`/entitat/${officialEntity.uuid || officialEntity.id}`) : navigate(`/search?q=Ajuntament ${town.name}`))}
+                        style={{ border: '1px solid var(--color-primary)', background: 'rgba(0, 122, 255, 0.05)' }}
+                    >
+                        <div className="utility-icon">🏛️</div>
+                        <div className="utility-info">
+                            <span className="utility-label" style={{ color: 'var(--color-primary)' }}>Ajuntament</span>
+                            <span className="utility-value">Seu Electrònica</span>
+                        </div>
+                    </div>
+                    <div className="utility-card weather-glass" onClick={() => triggerHaptic('light')}>
                         <div className="utility-icon">☀️</div>
                         <div className="utility-info">
                             <span className="utility-label">El Temps</span>
                             <span className="utility-value">12°C - Clar</span>
                         </div>
                     </div>
-                    <div className="utility-card events-glass">
+                    <div className="utility-card events-glass" onClick={() => triggerHaptic('light')}>
                         <div className="utility-icon">📅</div>
                         <div className="utility-info">
-                            <span className="utility-label">Proxims Actes</span>
-                            <span className="utility-value">Fira de Sant Antoni</span>
+                            <span className="utility-label">Propers Actes</span>
+                            <span className="utility-value">Bategant...</span>
                         </div>
                     </div>
                 </section>
 
                 <div className="town-content-explorer">
-                    <div className="explorer-tabs">
-                        <h3 className="active-tab-indicator">Tot el poble</h3>
+                    {/* INTERRUPTOR DE CAPES DE TEMPS (Ara vs Arrel) */}
+                    <div className="time-layer-explorer flex gap-4 p-4 border-b border-white/5">
+                        <button
+                            className={`layer-btn flex items-center gap-2 p-2 px-4 rounded-lg transition-all ${contentMode === 'batec' ? 'bg-primary text-black' : 'bg-white/5 text-white/40'}`}
+                            onClick={() => { triggerHaptic('light'); setContentMode('batec'); }}
+                        >
+                            <Sparkles size={16} />
+                            <span>ARA (Batec)</span>
+                        </button>
+                        <button
+                            className={`layer-btn flex items-center gap-2 p-2 px-4 rounded-lg transition-all ${contentMode === 'arrel' ? 'bg-amber-600 text-black' : 'bg-white/5 text-white/40'}`}
+                            onClick={() => { triggerHaptic('light'); setContentMode('arrel'); }}
+                        >
+                            <BookOpen size={16} />
+                            <span>ARREL (Arxiu)</span>
+                        </button>
                     </div>
 
                     <div className="town-sections-grid">
                         <section className="town-wall-section">
                             <div className="section-header-premium">
                                 <MessageCircle size={18} />
-                                <h3>Mur de la Comunitat</h3>
+                                <h3>{contentMode === 'batec' ? 'Mur de la Comunitat' : 'Memòria de l\'Arxiu'}</h3>
                             </div>
-                            <Feed townId={town.uuid || town.id} hideHeader={true} />
+                            <Feed townId={town.uuid || town.id} hideHeader={true} contentMode={contentMode} />
                         </section>
 
-                        <section className="town-market-section">
-                            <div className="section-header-premium">
-                                <ShoppingBag size={18} />
-                                <h3>Productes Locals</h3>
-                            </div>
-                            <Marketplace townId={town.uuid || town.id} hideHeader={true} />
-                        </section>
+                        {contentMode === 'batec' && (
+                            <section className="town-market-section animate-in">
+                                <div className="section-header-premium">
+                                    <ShoppingBag size={18} />
+                                    <h3>Productes Locals</h3>
+                                </div>
+                                <Marketplace townId={town.uuid || town.id} hideHeader={true} />
+                            </section>
+                        )}
                     </div>
                 </div>
             </div>

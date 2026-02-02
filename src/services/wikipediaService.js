@@ -47,23 +47,46 @@ export const wikipediaService = {
      */
     async getTownShield(townName) {
         try {
-            // Exemple de cerca professional en Commons API
-            // En el futur, això buscarà fitxers que continguen "Escut de [Poble].svg"
-            const query = `File:Escut de ${townName}.svg`;
-            const endpoint = `https://commons.wikimedia.org/w/api.php?action=query&titles=${encodeURIComponent(query)}&prop=imageinfo&iiprop=url&format=json&origin=*`;
+            // Cerca més flexible: Primer intentem el format estàndard
+            const queries = [
+                `File:Escut de ${townName}.svg`,
+                `File:Escut de ${townName}.png`,
+                `File:Shield of ${townName}.svg`,
+                `File:Coats of arms of ${townName}.svg`
+            ];
 
-            const response = await fetch(endpoint);
-            const data = await response.json();
+            for (const query of queries) {
+                const endpoint = `https://commons.wikimedia.org/w/api.php?action=query&titles=${encodeURIComponent(query)}&prop=imageinfo&iiprop=url&format=json&origin=*`;
+                const response = await fetch(endpoint);
+                const data = await response.json();
 
-            const pages = data.query?.pages;
-            if (pages) {
-                const pageId = Object.keys(pages)[0];
-                if (pageId !== '-1') {
+                const pages = data.query?.pages;
+                if (pages) {
+                    const pageId = Object.keys(pages)[0];
+                    if (pageId !== '-1') {
+                        const url = pages[pageId].imageinfo?.[0]?.url;
+                        if (url) return url;
+                    }
+                }
+            }
+
+            // Si tot falla, provem una cerca general a Commons
+            const searchEndpoint = `https://commons.wikimedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent('Escut ' + townName)}&format=json&origin=*`;
+            const searchRes = await fetch(searchEndpoint);
+            const searchData = await searchRes.json();
+
+            if (searchData.query?.search?.[0]) {
+                const firstResult = searchData.query.search[0].title;
+                const infoEndpoint = `https://commons.wikimedia.org/w/api.php?action=query&titles=${encodeURIComponent(firstResult)}&prop=imageinfo&iiprop=url&format=json&origin=*`;
+                const infoRes = await fetch(infoEndpoint);
+                const infoData = await infoRes.json();
+                const pages = infoData.query?.pages;
+                if (pages) {
+                    const pageId = Object.keys(pages)[0];
                     return pages[pageId].imageinfo?.[0]?.url;
                 }
             }
 
-            // Fallback a PNG si no troba SVG
             return null;
         } catch (error) {
             logger.error(`[Wikipedia/Commons] Error fetching shield for ${townName}:`, error);

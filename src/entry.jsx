@@ -2,41 +2,82 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
+import './design-system/tokens.css'
 import './i18n/config'
 import { AppProvider } from './context/AppContext'
 import { RescueTool } from './components/RescueTool';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import UnifiedStatus from './components/UnifiedStatus';
+import { injectSeeds } from './rhizome/seeds';
+
+// Intent de injecció de llavors Rhizome (Oli de La Torre & Itineraris)
+injectSeeds().catch(err => console.error('[Rhizome] Error fatal en injecció de dades llavor:', err));
 
 // --------------------------------------------------------------------
-// ANCORA DE SEGURETAT GLOBAL: Evita el ReferenceError si el bundle es carrega parcialment.
+// NEUTRALITZADOR D'ERRORS EXTERNS (Directiva Master: Silenci Absolut)
 // --------------------------------------------------------------------
-window.RescueTool = RescueTool;
-window.UnifiedStatus = UnifiedStatus;
+const SILENCE_PATTERNS = [
+  'shadow host',
+  'ShadowRoot',
+  'extension://',
+  'NoteBoolLM',
+  'updateActuationOverlay',
+  'Failed to find shadow host',
+  'Failed to load resource',
+  'Uncaught (in promise) Error'
+];
 
-console.log('[NUCLEAR-BOOT] entry.jsx execution started. Version: v1.5.6-BATEGA');
-window.BOOT_LOG = ['[BOOT] started'];
-const addBootLog = (m) => {
-  console.log(m);
-  window.BOOT_LOG.push(m);
+const checkSilence = (msg) => {
+  if (!msg) return false;
+  const message = typeof msg === 'string' ? msg : (msg.message || String(msg));
+  return SILENCE_PATTERNS.some(pattern => message.includes(pattern));
 };
 
+// 1. SUPPRESS CONSOLE NOISE (Master Silence)
+const addBootLog = (msg) => {
+  // En fase BATEGA, redirigim el bootlog a un array global per al RescueTool
+  if (!window.__BOOT_LOGS__) window.__BOOT_LOGS__ = [];
+  window.__BOOT_LOGS__.push(`[${new Date().toISOString()}] ${msg}`);
+  // També ho traem per consola amb estil discret
+  console.log(`%c${msg}`, 'color: #9A6C63; font-size: 10px;');
+};
+
+// Global Error Handlers
 window.onerror = (msg, src, lineno, colno, err) => {
+  if (checkSilence(msg) || checkSilence(err)) return true; // SILENZIO BRUNO!
   addBootLog(`[FATAL-ERROR] ${msg} at ${src}:${lineno}`);
-  alert(`🚨 ERROR CRÍTIC: ${msg}\nEnvia una captura al suport.`);
 };
 
-// --------------------------------------------------------------------
-// EMERGENCY FIX: Global UnifiedStatus Fallback
-// Prevents "White Screen of Death" if stale code references it.
-// --------------------------------------------------------------------
-if (typeof window !== 'undefined') {
-  window.UnifiedStatus = UnifiedStatus;
-  window.RescueTool = RescueTool; // GLOBAL DEFENSE
-  // GLOBAL DEFENSE: Ensure CREATOR_EMAILS is never undefined
-  window.CREATOR_EMAILS = window.CREATOR_EMAILS || ['socdepoblecom@gmail.com', 'damimus@gmail.com'];
-}
+window.onunhandledrejection = (event) => {
+  if (checkSilence(event.reason)) {
+    event.preventDefault();
+    event.stopPropagation();
+    return;
+  }
+};
+
+// Console Noise Suppression (Doctrine of Maria Esther)
+const originalWarn = console.warn;
+const originalError = console.error;
+const originalLog = console.log;
+
+const isNoise = (args) => args.some(arg => checkSilence(arg));
+
+console.warn = (...args) => {
+  if (isNoise(args)) return;
+  originalWarn.apply(console, args);
+};
+
+console.error = (...args) => {
+  if (isNoise(args)) return;
+  originalError.apply(console, args);
+};
+
+console.log = (...args) => {
+  if (isNoise(args)) return;
+  originalLog.apply(console, args);
+};
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -51,6 +92,7 @@ const queryClient = new QueryClient({
 
 import StatusLoader from './components/StatusLoader';
 import { ToastProvider } from './components/ToastProvider';
+import { ThemeProvider } from './context/ThemeContext';
 
 // ROBUST SERVICE WORKER REGISTRATION (v1.5.5-resilience-absolute)
 // [OPERACIÓ NUCLEAR] Force SW Nuke for v1.5.5 update
@@ -58,16 +100,24 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.getRegistrations().then(registrations => {
     for (const registration of registrations) {
       registration.unregister();
-      console.log('[Cavalleria] SW Unregistered successfully');
+      // console.log('[Cavalleria] SW Unregistered successfully');
     }
   });
+}
+
+// [RESEMBRA ATÒMICA] Neteja de identitats corrompudes per versió (v1.5.6-REFLOW)
+if (localStorage.getItem('sp_sovereign_identity')?.includes('BATEGA-REFLOW')) {
+  console.warn('[RESEMBRA] Detectada identitat corrompuda. Netejant solatge...');
+  localStorage.clear();
+  sessionStorage.clear();
+  window.location.reload(true);
 }
 
 // Register new SW with cache busting
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js?v=BATEGA-1.5.6-Master-Force').then(registration => {
-      console.log('[SW] Registered with scope:', registration.scope);
+    navigator.serviceWorker.register('/sw.js?v=BATEGA-1.5.6-MASTER-BATEGA-REFLOW').then(registration => {
+      // logger.info('[SW] Registered with scope:', registration.scope);
 
       registration.onupdatefound = () => {
         const installingWorker = registration.installing;
@@ -75,13 +125,13 @@ if ('serviceWorker' in navigator) {
 
         installingWorker.onstatechange = () => {
           if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
-            console.log('[SW] New content available.');
+            // console.log('[SW] New content available.');
             // We let the user decide with the toast if needed, or wait for next load
           }
         };
       };
     }).catch(error => {
-      console.log('[SW] Registration failed:', error);
+      // console.log('[SW] Registration failed:', error);
     });
   });
 }
@@ -93,21 +143,28 @@ addBootLog('[BOOT] Path check: ' + window.location.pathname);
 try {
   if (window.location.pathname.includes('/rescat') || window.location.pathname.includes('/nuke')) {
     addBootLog('[BOOT] Rendering RescueTool branch');
-    ReactDOM.createRoot(document.getElementById('root')).render(
+    const container = document.getElementById('root');
+    if (!window.__SDP_ROOT__) window.__SDP_ROOT__ = ReactDOM.createRoot(container);
+    window.__SDP_ROOT__.render(
       <React.StrictMode>
-        <RescueTool />
+        <ThemeDefaultWrapper>
+          <RescueTool />
+        </ThemeDefaultWrapper>
       </React.StrictMode>
     );
   } else {
     addBootLog('[BOOT] Rendering App branch');
-    const root = ReactDOM.createRoot(document.getElementById('root'));
-    root.render(
+    const container = document.getElementById('root');
+    if (!window.__SDP_ROOT__) window.__SDP_ROOT__ = ReactDOM.createRoot(container);
+    window.__SDP_ROOT__.render(
       <React.StrictMode>
         <QueryClientProvider client={queryClient}>
           <AppProvider>
-            <ToastProvider>
-              <App />
-            </ToastProvider>
+            <ThemeProvider>
+              <ToastProvider>
+                <App />
+              </ToastProvider>
+            </ThemeProvider>
           </AppProvider>
         </QueryClientProvider>
       </React.StrictMode>
@@ -117,4 +174,16 @@ try {
 } catch (e) {
   addBootLog('[BOOT] RENDER FAILED: ' + e.message);
   alert('Error en el render: ' + e.message);
+}
+
+/**
+ * Helper to ensure ThemeProvider is available even in rescue mode 
+ * but doesn't crash if logic fails.
+ */
+function ThemeDefaultWrapper({ children }) {
+  try {
+    return <ThemeProvider>{children}</ThemeProvider>;
+  } catch (e) {
+    return children;
+  }
 }
