@@ -1914,7 +1914,7 @@ export const supabaseService = {
     async signUp(email, password, metadata, redirectTo) {
         const options = { data: metadata };
         if (redirectTo) {
-            options.emailRedirectTo = redirectTo;
+            options.emailRedirectTo = this.getRedirectUrl(redirectTo);
         }
 
         const { data, error } = await supabase.auth.signUp({
