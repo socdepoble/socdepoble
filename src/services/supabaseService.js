@@ -1928,14 +1928,21 @@ export const supabaseService = {
 
     /**
      * [MASTER REDIRECT] Get robust redirect URL
+     * Ensures we don't end up in localhost:3000 or other local environments when in production/mobile
      */
     getRedirectUrl(path = '/chats') {
         const origin = window.location.origin;
-        // Si estem en producció (vercel), forcem la URL de producció oficial si detectem un origin estrany (com localhost al mòbil)
-        const isVercel = origin.includes('vercel.app') || origin.includes('socdepoble.org');
-        const baseUrl = isVercel ? origin : (import.meta.env.VITE_SITE_URL || origin);
+        const isLocal = origin.includes('localhost') || origin.includes('127.0.0.1');
+        const isCapacitor = origin.includes('capacitor://');
 
-        return `${baseUrl}${path}`;
+        // Si estem en local REAL (navegador dev), respectem l'origin per a facilitar el debug
+        if (isLocal && !isCapacitor && !origin.includes(':3000')) {
+            return `${origin}${path}`;
+        }
+
+        // En qualsevol altre cas (Vercel o Mòbil), forcem la URL de producció oficial
+        const prodUrl = 'https://socdepoble.vercel.app';
+        return `${prodUrl}${path}`;
     },
 
     async signIn(email, password) {
