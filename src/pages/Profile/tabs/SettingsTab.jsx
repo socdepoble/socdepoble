@@ -1,4 +1,4 @@
-import { Moon, Sun, Bell, ChevronRight, ShieldCheck, LogOut, HelpCircle, User, Globe, Download, FileText, Info, Sparkles, Palette, Zap, Database, RefreshCw, Wind, Book, Terminal } from 'lucide-react';
+import { Moon, Sun, Bell, ChevronRight, ShieldCheck, LogOut, HelpCircle, User, Globe, Download, FileText, Info, Sparkles, Palette, Zap, Database, RefreshCw, Wind, BookOpen, Terminal } from 'lucide-react';
 import { useUI } from '../../../context/UIContext';
 import IAIATamagotchiSettings from '../../../components/IAIATamagotchiSettings';
 import ThemeCustomizer from '../../../components/ThemeCustomizer';

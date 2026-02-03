@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { Book, Share2, Image as ImageIcon, FileText, Database, Plus, Search, ExternalLink, MessageCircle } from 'lucide-react';
+import { BookOpen, Share2, Image as ImageIcon, FileText, Database, Plus, Search, ExternalLink, MessageCircle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const KnowledgeHub = () => {

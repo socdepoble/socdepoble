@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { MessageCircle, Newspaper, Store, MapPin, User, Settings, Info, Plus, Hash, Folder, Archive, Book, Star, ChevronRight } from 'lucide-react';
+import { MessageCircle, Newspaper, Store, MapPin, User, Settings, Info, Plus, Hash, Folder, Archive, BookOpen, Star, ChevronRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
 import { useUI } from '../context/UIContext';
