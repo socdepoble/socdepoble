@@ -22,6 +22,10 @@ const Layout = () => {
     const navigate = useNavigate();
     const isChatDetail = location.pathname.startsWith('/chats/') && location.pathname !== '/chats';
 
+    const isInstitutional = location.pathname.startsWith('/admin') ||
+        location.pathname.startsWith('/gestio-entitats') ||
+        location.pathname === '/calendari';
+
     useEffect(() => {
         const baseTitle = "Sóc de Poble";
         const pageTitle = location.pathname === '/' ? "Inici" :
@@ -59,7 +63,7 @@ const Layout = () => {
     const showBanner = false;
 
     return (
-        <div className={`layout-shell ${isViewerOpen ? 'viewer-mode-active' : ''}`}>
+        <div className={`layout-shell ${isViewerOpen ? 'viewer-mode-active' : ''} ${isInstitutional ? 'institutional-theme' : 'rural-theme'}`}>
             {!isChatDetail && <NavigationRail />}
 
             <div className={`layout-main-scroll ${showBanner ? 'has-playground-banner' : ''}`}>

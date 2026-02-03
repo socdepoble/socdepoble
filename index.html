@@ -3,6 +3,53 @@
 
 <head>
   <meta charset="UTF-8" />
+
+  <!-- [MASTER MARKETING] Google Tag Manager -->
+  <script>(function (w, d, s, l, i) {
+      w[l] = w[l] || []; w[l].push({
+        'gtm.start':
+          new Date().getTime(), event: 'gtm.js'
+      }); var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+          'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-XXXXXXX');</script>
+  <!-- End Google Tag Manager -->
+
+  <!-- [MASTER MARKETING] Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX', {
+      'custom_map': {
+        'dimension1': 'wisdom_mode',
+        'dimension2': 'primary_town',
+        'dimension3': 'identity_role'
+      }
+    });
+  </script>
+
+  <script>
+    // [MASTER NUCLEAR OVERRIDE] v1.5.6-BATEGA-FINAL
+    (function () {
+      const V = 'v1.5.6-BATEGA';
+      if (localStorage.getItem('sp_app_version') !== V) {
+        console.error('[NUCLEAR] VERSION MISMATCH! PURGING...');
+        localStorage.clear();
+        sessionStorage.clear();
+        localStorage.setItem('sp_app_version', V);
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.getRegistrations().then(rs => {
+            for (let r of rs) r.unregister();
+            window.location.reload(true);
+          });
+        } else {
+          window.location.reload(true);
+        }
+      }
+    })();
+  </script>
   <meta name="viewport"
     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover" />
   <!-- Cache Prevention -->
@@ -23,14 +70,14 @@
   <script>
     // ATOMIC VERSION ENFORCEMENT (v1.5.6-BATEGA)
     (function () {
-      const REQUIRED_VERSION = '1.5.6-MASTER-BATEGA-REFLOW';
-      const lastNuke = localStorage.getItem('last_nuclear_nuke');
+      const REQUIRED_VERSION = 'v1.5.6-BATEGA';
+      const lastNuke = localStorage.getItem('sp_app_version');
 
       if (lastNuke !== REQUIRED_VERSION) {
         console.warn('[NUCLEAR] Version mismatch or first run of v1.5.6. PURGING EVERYTHING...');
         localStorage.clear();
         sessionStorage.clear();
-        localStorage.setItem('last_nuclear_nuke', REQUIRED_VERSION);
+        localStorage.setItem('sp_app_version', REQUIRED_VERSION);
 
         if ('serviceWorker' in navigator) {
           navigator.serviceWorker.getRegistrations().then(regs => {
@@ -43,25 +90,18 @@
       }
     })();
 
-    // SELF-HEALING PROTOCOL
+    // SELF-HEALING PROTOCOL (v1.5.6-RELAXED)
     window.onerror = function (message, source, lineno, colno, error) {
-      if (message.includes('ReferenceError') || message.includes('RescueTool')) {
-        console.error('[NUCLEAR] ReferenceError detected! Forcing hard reset...');
+      if (message.includes('RescueTool')) {
+        console.error('[NUCLEAR] Critical component missing! Forcing hard reset...');
         localStorage.clear();
         sessionStorage.clear();
-        if ('serviceWorker' in navigator) {
-          navigator.serviceWorker.getRegistrations().then(regs => {
-            for (let r of regs) r.unregister();
-            window.location.reload(true);
-          });
-        } else {
-          window.location.reload(true);
-        }
+        window.location.reload(true);
       }
     };
 
     window.CREATOR_EMAILS = window.CREATOR_EMAILS || ['socdepoblecom@gmail.com', 'damimus@gmail.com'];
-    window.APP_VERSION = '1.5.6-MASTER-BATEGA-REFLOW';
+    window.APP_VERSION = 'v1.5.6-BATEGA';
     window.HIDE_SEO_VERSION = false; // Set to true for maintenance/screenshots
     // console.log('[MASTER] Bategat nominal. Versió ' + window.APP_VERSION);
     // console.log('[INFO] Qualsevol error de "shadow host" a la consola prové de l\'assistent d\'IA de Chrome i no afecta a Sóc de Poble.');
@@ -97,7 +137,7 @@
             style="padding: 15px 30px; background: #00f2ff; color: #000; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">
             Netejar Cache i Reiniciar Protocol
           </button>
-          <div style="margin-top: 20px; opacity: 0.5; font-size: 12px;">v1.5.5-NUCLEAR-CIMERA</div>
+          <div style="margin-top: 20px; opacity: 0.5; font-size: 12px;">v1.5.6-BATEGA-RESCUE</div>
         </div>
       `;
     };
@@ -139,6 +179,11 @@
 </head>
 
 <body>
+  <!-- [MASTER MARKETING] Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX" height="0" width="0"
+      style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
   <div id="root">
     <!-- CRITICAL FALLBACK UI: Visible only if React fails to mount -->
     <div id="loader-fallback"
@@ -160,9 +205,9 @@
         <p style="color: #ff0055; font-weight: bold; margin-bottom: 15px;">⚠️ S'ha detectat un retard en l'arrancada.
         </p>
         <button
-          onclick="localStorage.clear(); sessionStorage.clear(); if('serviceWorker' in navigator) { navigator.serviceWorker.getRegistrations().then(rs => { for(let r of rs) r.unregister(); location.reload(true); }); } else { location.reload(true); }"
+          onclick="localStorage.clear(); sessionStorage.clear(); localStorage.setItem('sp_app_version', 'v1.5.6-BATEGA'); location.reload(true);"
           style="background:#ff0055; color:white; padding:15px 30px; border-radius:12px; border:none; font-weight:bold; cursor:pointer; box-shadow: 0 4px 15px rgba(255,0,85,0.3);">
-          FORÇAR REPARACIÓ NUCLEAR
+          FORÇAR REPARACIÓ NUCLEAR (v1.5.6)
         </button>
       </div>
 
@@ -184,8 +229,8 @@
     </div>
   </div>
   <div class="app-version"
-    style="position:fixed;bottom:10px;right:10px;font-size:10px;opacity:0.3;pointer-events:none;">
-    v1.5.6-MASTER-BATEGA-REFLOW
+    style="position:fixed;bottom:10px;right:10px;font-size:10px;opacity:0.3;z-index:9999;user-select:all;">
+    v1.5.6-BATEGA
   </div>
   <script type="module" src="/src/entry.jsx?v=BATEGA_1_5_6_REFLOW"></script>
 </body>

@@ -1,56 +1,123 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Outfit:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&display=swap');
 
 :root {
-  /* --- GOOGLE DE PAGÈS [V2.5 - FLASH PROTOCOL] --- */
-  /* Source: MASTER_DIRECTIVES.md & Manual d'Estil */
+  /* --- 1. REFERENCE TOKENS (Edició Terra - GENESIS) --- */
+  --md-ref-palette-terracotta-40: #9A6C63;
+  /* Primary */
+  --md-ref-palette-terracotta-10: #210F0C;
+  --md-ref-palette-terracotta-20: #3D1F1A;
+  --md-ref-palette-terracotta-30: #57322B;
+  --md-ref-palette-terracotta-80: #E6B6AD;
+  --md-ref-palette-terracotta-90: #FFDBCF;
+  --md-ref-palette-terracotta-95: #FFEDE8;
 
-  --md-sys-color-primary: #9A6C63;
-  /* Terracotta (Argila) */
+  --md-ref-palette-olive-40: #556B2F;
+  /* Secondary */
+  --md-ref-palette-olive-90: #D8E7CB;
+
+  --md-ref-palette-cream: #FDFCF5;
+  --md-ref-palette-stone: #1C1B1F;
+
+  /* --- 2. SYSTEM TOKENS (Material You: Rural Modernism) --- */
+  /* Primary: La Força de la Terra (Terracotta) */
+  --md-sys-color-primary: var(--md-ref-palette-terracotta-40);
   --md-sys-color-on-primary: #FFFFFF;
-  --md-sys-color-primary-container: #FFDAD5;
+  --md-sys-color-primary-container: var(--md-ref-palette-terracotta-90);
+  --md-sys-color-on-primary-container: var(--md-ref-palette-terracotta-10);
 
-  --md-sys-color-secondary: #556B2F;
-  /* Verd Serra (Olivera) */
+  /* Secondary: L'Olivera */
+  --md-sys-color-secondary: var(--md-ref-palette-olive-40);
   --md-sys-color-on-secondary: #FFFFFF;
+  --md-sys-color-secondary-container: var(--md-ref-palette-olive-90);
+  --md-sys-color-on-secondary-container: #131F0E;
 
-  --md-sys-color-surface: #FDFCF5;
-  /* Crema (Pedra/Calç) */
-  --md-sys-color-on-surface: #454746;
-  /* Gris Pissarra (Text) */
-  --md-sys-color-on-surface-variant: #1A1C19;
-  /* Contrast Extrem per al Sol */
+  /* Neutrals & Surfaces (Tinted with Primary for warmth) */
+  --md-sys-color-surface: var(--md-ref-palette-cream);
+  --md-sys-color-on-surface: var(--md-ref-palette-stone);
+  --md-sys-color-surface-variant: #E7E0EC;
+  --md-sys-color-on-surface-variant: #49454F;
+  --md-sys-color-outline: #79747E;
+  --md-sys-color-outline-variant: #C4C7C5;
 
-  --md-sys-color-tertiary: #00F2FF;
-  /* Teal Tecnològic (IA) */
-  --md-sys-color-on-tertiary: #000000;
+  /* Surface Tints (MD3 elevations) */
+  --md-sys-color-surface-container-low: #F7F2FA;
+  --md-sys-color-surface-container: #F3EDF7;
+  --md-sys-color-surface-container-high: #ECE6F0;
 
-  --font-headline: 'DM Sans', sans-serif;
-  --font-body: 'Open Sans', sans-serif;
+  /* Typography: Google Sans style */
+  --font-display: 'Outfit', 'Inter Tight', sans-serif;
+  --font-headline: 'Outfit', 'Inter Tight', sans-serif;
+  --font-title: 'Outfit', 'Inter Tight', sans-serif;
+  --font-body: 'Open Sans', 'Inter', sans-serif;
+  --font-label: 'Outfit', 'Open Sans', sans-serif;
 
-  --radius-container: 16px;
-  /* GEOMETRY: DIRECTIVA ZERO RADIUS */
-  --radius-media: 0px !important;
-  --radius-card: 4px;
-  --radius-button: 2px;
-  --radius-organic: 16px;
-  /* Mantingut per a retrocompatibilitat */
+  /* --- 3. SHAPE SYSTEM (MD3 Standard) --- */
+  --radius-none: 0px;
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  /* Small components */
+  --radius-md: 12px;
+  /* Medium components / Cards list */
+  --radius-lg: 16px;
+  /* Regular Cards */
+  --radius-xl: 28px;
+  /* Dialogs / Large Cards (MD3 standard) */
+  --radius-full: 9999px;
+  /* FABs / Chips */
 
-  /* TYPOGRAPHY: LLEGIBILITAT MILITAR */
-  --font-main: 'Inter', system-ui, sans-serif;
-  --font-heading: 'Inter', system-ui, sans-serif;
-  --weight-regular: 400;
-  --weight-bold: 700;
+  /* Elevation (MD3) */
+  --shadow-1: 0px 1px 3px 1px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.3);
+  --shadow-2: 0px 2px 6px 2px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.3);
+  --shadow-3: 0px 4px 8px 3px rgba(0, 0, 0, 0.15), 0px 1px 3px 0px rgba(0, 0, 0, 0.3);
+  --shadow-4: 0px 6px 10px 4px rgba(0, 0, 0, 0.15), 0px 2px 3px 0px rgba(0, 0, 0, 0.3);
 
-  /* INTERACTION */
-  --transition-fast: 0.15s ease-out;
-  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --page-margin: 16px;
+  --space-bancal: 24px;
+  /* M3 Spacing Standard */
 
-  --header-height: 72px;
-  --nav-height: 72px;
-  --mobile-width: 480px;
+  /* bridge variables for compatibility */
+  --sdp-bg-dark: var(--md-sys-color-surface-container);
+  --sdp-bg-surface: var(--md-sys-color-surface);
+  --sdp-text-high: var(--md-sys-color-on-surface);
+  --sdp-text-med: var(--md-sys-color-on-surface-variant);
+  --sdp-glass-border: var(--md-sys-color-outline-variant);
+  --sdp-terracotta: var(--md-sys-color-primary);
+  --sdp-radius-lg: var(--radius-lg);
+  --sdp-space-md: 16px;
+  --sdp-space-lg: 24px;
+  --sdp-space-xl: 32px;
 
-  /* AI PULSE [V1.2] */
-  --ai-pulse-color: rgba(0, 242, 255, 0.4);
+  /* COMIC AESTHETIC [MASTER GENESIS] */
+  --comic-border: 1.5px solid #1a1a1a;
+  --comic-shadow: 6px 6px 0px rgba(26, 26, 26, 0.85);
+  --comic-shadow-hover: 10px 10px 0px #1a1a1a;
+
+  /* RURAL GRAIN TEXTURE */
+  --grain-opacity: 0.03;
+  --bg-texture: url("https://www.transparenttextures.com/patterns/natural-paper.png");
+}
+
+/* --- DUALITAT ONTOLÒGICA: INSTITUCIONAL (AJUNTAMENT) --- */
+.institutional-theme {
+  --md-sys-color-primary: #1B4B79;
+  /* Blau Sòlid (Institucional) */
+  --md-sys-color-primary-container: #D1E4FF;
+  --md-sys-color-surface: #F8F9FA;
+  /* Gris Neutre Notaria */
+  --md-sys-color-secondary: #454746;
+
+  --radius-md: 0px;
+  /* Línies rectes Institucionals */
+  --radius-xl: 0px;
+  --radius-lg: 0px;
+
+  --shadow-1: 0 1px 1px rgba(0, 0, 0, 0.1);
+  --shadow-2: 0 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+.institutional-theme .m3-bottom-nav {
+  background-color: #F1F3F4;
+  border-top: 1px solid #DADCE0;
 }
 
 /* Dark Mode Overrides */
@@ -85,6 +152,14 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+/* Llei del Zero Radius (Flash Protocol) */
+img,
+video,
+iframe,
+canvas {
+  border-radius: var(--radius-none) !important;
+}
+
 html,
 body {
   overflow-x: hidden;
@@ -95,12 +170,27 @@ body {
 body {
   font-family: var(--font-body);
   background-color: var(--md-sys-color-surface);
+  background-image: var(--bg-texture);
   color: var(--md-sys-color-on-surface);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
   font-size: 18px;
   /* Llegibilitat Rural */
+  position: relative;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("https://www.transparenttextures.com/patterns/stardust.png");
+  opacity: var(--grain-opacity);
+  pointer-events: none;
+  z-index: 9999;
 }
 
 /* Unified Secondary Header */
@@ -130,17 +220,25 @@ article h3,
 .item-title,
 .post-author,
 .town-name {
-  font-family: var(--font-heading) !important;
-  font-weight: 200 !important;
-  /* LIGHT REFLOW */
-  /* Harmonized to 21px as per Chat List standard */
-  font-size: 21px !important;
-  color: var(--text-main);
-  letter-spacing: -0.04em;
-  /* TIGHTER FOR PREMIUM LOOK */
-  text-transform: uppercase;
+  font-family: var(--font-headline) !important;
+  font-weight: 800 !important;
+  /* Premium Heavy */
+  font-size: 24px !important;
+  color: var(--md-sys-color-on-surface);
+  letter-spacing: -0.01em;
+  text-transform: none;
   border-radius: 0 !important;
-  /* DIRECTIVA FLASH */
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--md-sys-color-surface);
+  color: var(--md-sys-color-on-surface);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  font-size: 16px;
+  /* Standard M3 body size */
 }
 
 /* Specific colors for card elements handled by components */
@@ -159,14 +257,13 @@ button {
   cursor: pointer;
   border: none;
   background: none;
-  font-family: inherit;
-  /* SUPREME USABILITY: Bategat Bezier */
-  transition: all 0.3s cubic-bezier(.16, 1, 0.3, 1);
+  font-family: var(--font-label);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: var(--radius-full);
 }
 
 button:active {
-  transform: scale(0.92);
-  /* Més tàctil */
+  transform: scale(0.95) translateY(1px);
 }
 
 a {
@@ -412,24 +509,21 @@ a:hover {
 
 /* [MASTER] UNIVERSAL CARD STANDARDS [CINEMATOGRAPHIC RURALISM] */
 .universal-card {
-  background: rgba(15, 15, 15, 0.85);
-  /* Purified Noir */
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border: 1px solid rgba(0, 242, 255, 0.15);
-  /* Neó Cian */
-  border-radius: 0 !important;
-  /* DIRECTIVA FLASH */
+  background: var(--md-sys-color-surface);
+  background-image: var(--bg-texture);
+  border: var(--comic-border);
+  border-radius: var(--radius-xl) !important;
+  /* M3 Standard 28px */
   overflow: hidden;
   margin-bottom: 24px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
-  transition: all 0.5s cubic-bezier(.16, 1, 0.3, 1);
+  box-shadow: var(--comic-shadow);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
 }
 
 .universal-card:hover {
-  transform: translateY(-8px) scale(1.01);
-  border-color: rgba(0, 242, 255, 0.3);
-  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 242, 255, 0.1);
+  transform: translate(-3px, -3px);
+  box-shadow: var(--comic-shadow-hover);
 }
 
 .card-header {
@@ -562,32 +656,90 @@ a:hover {
   }
 }
 
-.btn-primary {
-  background: var(--color-terracotta);
-  color: white;
+/* --- [MASTER] MD3 BUTTON SYSTEM (GENESIS) --- */
+.btn-filled {
+  background: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
   padding: 14px 28px;
-  border-radius: 0 !important;
-  /* DIRECTIVA FLASH */
+  border-radius: var(--radius-lg);
   font-size: 16px;
   font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  box-shadow: 0 4px 15px rgba(204, 85, 0, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  gap: 12px;
+  box-shadow: var(--comic-shadow);
+  border: var(--comic-border);
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.btn-filled:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: var(--comic-shadow-hover);
+  filter: brightness(1.1);
+}
+
+.btn-tonal {
+  background: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+  padding: 14px 28px;
+  border-radius: var(--radius-lg);
+  font-size: 16px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  box-shadow: var(--comic-shadow);
+  border: var(--comic-border);
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.btn-tonal:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: var(--comic-shadow-hover);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--md-sys-color-primary);
+  padding: 12px 24px;
+  border-radius: var(--radius-lg);
+  font-size: 16px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border: var(--comic-border);
+  transition: all 0.2s;
+}
+
+.btn-outline:hover {
+  background: var(--md-sys-color-surface-variant);
+  transform: translateY(-2px);
+}
+
+.btn-primary {
+  background: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+  padding: 14px 28px;
+  border-radius: var(--radius-lg);
+  font-size: 16px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  box-shadow: var(--comic-shadow);
+  border: var(--comic-border);
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .btn-primary:hover {
-  transform: scale(1.02) translateY(-2px);
-  box-shadow: 0 8px 25px rgba(204, 85, 0, 0.5);
-  background: #E65500;
-}
-
-.btn-primary:active {
-  transform: scale(0.98);
+  transform: translate(-3px, -3px);
+  box-shadow: var(--comic-shadow-hover);
+  filter: brightness(1.1);
 }
 
 /* Modal System - Bottom Sheet Optimized for Mobile */

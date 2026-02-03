@@ -1,15 +1,11 @@
-/* SÓC DE POBLE - HUD PREMIUM UI REDESIGN - SCI-FI CANON [MASTER] */
 :root {
-    --hud-bg: rgba(5, 10, 20, 0.85);
-    /* Deep Galactic Glass */
-    --hud-text: #e0e7ff;
-    --hud-accent: #00f2ff;
-    /* Cyber Cyan */
-    --hud-accent-alt: #ff0055;
-    /* Neon Pulse */
-    --hud-border: rgba(0, 242, 255, 0.3);
-    --hud-shadow: 0 0 50px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 242, 255, 0.1);
-    --hud-glow: 0 0 15px rgba(0, 242, 255, 0.4);
+    --hud-bg: var(--md-sys-color-surface);
+    --hud-text: var(--md-sys-color-on-surface);
+    --hud-accent: var(--md-sys-color-primary);
+    --hud-accent-alt: var(--md-sys-color-secondary);
+    --hud-border: var(--md-sys-color-outline);
+    --hud-shadow: var(--shadow-3);
+    --hud-glow: 0 0 15px var(--md-sys-color-primary-container);
 }
 
 .diagnostic-hud {
@@ -18,22 +14,18 @@
     right: 30px;
     bottom: 30px;
     width: 480px;
-    /* Expanded for breathing room */
     background: var(--hud-bg);
-    backdrop-filter: blur(40px) saturate(200%);
-    -webkit-backdrop-filter: blur(40px) saturate(200%);
     border: 1px solid var(--hud-border);
-    border-radius: 0 !important;
-    /* DIRECTIVA FLASH */
+    border-radius: var(--radius-md) !important;
+    /* 16px per Flash */
     z-index: 10002;
     color: var(--hud-text);
-    font-family: 'Inter Tight', 'JetBrains Mono', monospace;
+    font-family: var(--font-body);
     display: flex;
     flex-direction: column;
     box-shadow: var(--hud-shadow);
     transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
     overflow: hidden;
-    letter-spacing: 0.5px;
 }
 
 /* Side-HUD Desktop Mode [PROTOCOL FLASH] */
@@ -69,17 +61,9 @@
     display: none !important;
 }
 
-/* Sci-fi Overlay Effect */
 .diagnostic-hud::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%),
-        linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
-    background-size: 100% 4px, 3px 100%;
-    pointer-events: none;
-    z-index: 100;
-    opacity: 0.3;
+    display: none;
+    /* Eliminem efecte Scanline sci-fi */
 }
 
 .diagnostic-hud.hidden {

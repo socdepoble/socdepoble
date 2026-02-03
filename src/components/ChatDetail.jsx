@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { ArrowLeft, Send, Loader2, User, Building2, Paperclip, X, FileText, Image as ImageIcon, Film, Database, Info, MessageSquare, Mic, Video, StopCircle, Smile, ShieldCheck } from 'lucide-react';
+import { ArrowLeft, Send, Loader2, User, Building2, Paperclip, X, FileText, Image as ImageIcon, Film, Database, Info, MessageSquare, Mic, Video, StopCircle, Smile, ShieldCheck, ChevronDown, Users } from 'lucide-react';
 import EmojiPicker from 'emoji-picker-react';
 import { useTranslation } from 'react-i18next';
 import { supabaseService } from '../services/supabaseService';
@@ -41,6 +41,7 @@ const ChatDetail = () => {
     const commentingOn = location.state?.commentingOn || null;
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
     const [showVoiceRecorder, setShowVoiceRecorder] = useState(false);
+    const [showConsellModal, setShowConsellModal] = useState(false);
     const [thinkingTime, setThinkingTime] = useState(30);
 
     // Media Recording States
@@ -734,6 +735,19 @@ const ChatDetail = () => {
                         </div>
                     </div>
                 </div>
+
+                {/* Consell de les Sàvies - Invite Button */}
+                {isIAIAConv && (
+                    <div className="chat-actions-wa">
+                        <button
+                            className="wa-header-btn"
+                            onClick={() => setShowConsellModal(true)}
+                            title="Invitar al Consell de les Sàvies"
+                        >
+                            <Users size={20} />
+                        </button>
+                    </div>
+                )}
             </div>
 
             {/* IAIA Notice - Transparencia (Visible in Prod and Sandbox) */}
@@ -777,25 +791,18 @@ const ChatDetail = () => {
                         const isMe = msg.sender_id === humanId &&
                             ((!msg.sender_entity_id && !activeEntityId) || msg.sender_entity_id === activeEntityId);
 
-                        // Determinar l'avatar del remitent
-                        const senderAvatar = isMe
-                            ? (isSuperAdmin && impersonatedProfile ? impersonatedProfile.avatar_url : profile?.avatar_url)
-                            : otherInfo?.avatar_url;
                         const senderType = isMe ? (activeEntityId ? 'entity' : 'user') : otherType;
 
                         return (
-                            <div key={msg.id} className={`message-row ${isMe ? 'me' : 'other'}`}>
-                                {!isMe && (
-                                    <div className="message-avatar-container">
-                                        <Avatar
-                                            src={senderAvatar}
-                                            role={senderType === 'entity' ? 'oficial' : 'user'}
-                                            name={otherInfo?.name}
-                                            size={32}
-                                        />
-                                    </div>
-                                )}
-                                <div className={`message-bubble ${isMe ? 'me' : 'other'} ${msg.is_ai ? 'ai-bubble' : ''}`}>
+                            <div key={msg.id} className={`message-row wa-style ${isMe ? 'me' : 'other'} ${msg.is_ai ? 'ai-iaia' : ''}`}>
+                                <div className={`message-bubble wa-bubble ${isMe ? 'me' : 'other'} ${msg.is_ai ? 'ai-bubble' : ''}`}>
+                                    {/* Sender name for group vibes or AI disclosure */}
+                                    {!isMe && (msg.author_name || otherInfo?.name) && (
+                                        <div className="wa-sender-name">
+                                            {msg.author_name || otherInfo?.name}
+                                        </div>
+                                    )}
+
                                     <div className="bubble-content-row">
                                         <div className="message-content-wrapper">
                                             {msg.attachment_url && (
@@ -826,30 +833,28 @@ const ChatDetail = () => {
                                             )}
                                         </div>
                                     </div>
-                                    <div className="message-meta">
-                                        {msg.is_ai && (
-                                            <span className="bubble-tag ai">MArIA</span>
-                                        )}
+                                    <div className="message-meta-wa">
                                         <span className="message-time">
                                             {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                         </span>
                                         {isMe && (
-                                            <span className={`message-status ${msg.read_at && otherPrivacy?.show_read_receipts !== false ? 'read' : ''}`}>
+                                            <span className={`wa-status ${msg.read_at && otherPrivacy?.show_read_receipts !== false ? 'read' : ''}`}>
                                                 {msg.read_at && otherPrivacy?.show_read_receipts !== false ? '✓✓' : '✓'}
                                             </span>
                                         )}
                                     </div>
+
+                                    {/* Action button floating like WA */}
+                                    <button
+                                        className="wa-message-actions"
+                                        onClick={() => {
+                                            navigator.clipboard.writeText(msg.content);
+                                            hapticService.batec();
+                                        }}
+                                    >
+                                        <ChevronDown size={14} />
+                                    </button>
                                 </div>
-                                {isMe && (
-                                    <div className="message-avatar-container">
-                                        <Avatar
-                                            src={senderAvatar}
-                                            role={senderType === 'entity' ? 'oficial' : 'user'}
-                                            name={profile?.full_name}
-                                            size={32}
-                                        />
-                                    </div>
-                                )}
                             </div>
                         );
                     })
@@ -1038,6 +1043,28 @@ const ChatDetail = () => {
                                     />
                                     <Paperclip size={22} className="wa-clip-icon" />
                                 </label>
+
+                                <button
+                                    type="button"
+                                    className={`wa-action-btn iaia-magic-btn ${isThinking ? 'thinking' : ''}`}
+                                    onClick={async () => {
+                                        if (!newMessage.trim()) return;
+                                        setIsThinking(true);
+                                        try {
+                                            const { iaiaService } = await import('../services/iaiaService');
+                                            const res = await iaiaService.generateMultimediaPublication({ contextTone: 'proller' }, newMessage);
+                                            setNewMessage(res.content);
+                                            hapticService.notifyAIReady();
+                                        } catch (e) {
+                                            hapticService.notifyError();
+                                        } finally {
+                                            setIsThinking(false);
+                                        }
+                                    }}
+                                    title="IAIA Batec (Millorar text)"
+                                >
+                                    <Sparkles size={22} />
+                                </button>
                             </div>
                         )}
                     </div>
@@ -1076,6 +1103,32 @@ const ChatDetail = () => {
                     )}
                 </form>
             </div>
+            {/* Consell de les Sàvies Modal (Hybrid UI) */}
+            {showConsellModal && (
+                <div className="wa-modal-overlay" onClick={() => setShowConsellModal(false)}>
+                    <div className="wa-modal-content animate-wa-slide-up" onClick={e => e.stopPropagation()}>
+                        <div className="wa-modal-header">
+                            <h3>Consell de les Sàvies</h3>
+                            <button className="wa-close-btn" onClick={() => setShowConsellModal(false)}>
+                                <X size={20} />
+                            </button>
+                        </div>
+                        <div className="wa-modal-body">
+                            <p className="wa-modal-hint">A qui vols invitar al xat?</p>
+                            <div className="wa-agents-grid">
+                                <button className="wa-agent-item" onClick={() => { setShowConsellModal(false); }}>
+                                    <Avatar src="/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_prop_1_traditional_1770058264776.png" size={50} />
+                                    <span>CLAUDE (Escriptora)</span>
+                                </button>
+                                <button className="wa-agent-item" onClick={() => { setShowConsellModal(false); }}>
+                                    <Avatar src="/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_prop_2_gadgets_1770058280096.png" size={50} />
+                                    <span>GPT (Pragmàtica)</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

@@ -91,3 +91,32 @@
 .master-editor-content li {
     margin-bottom: 6px;
 }
+
+.iaia-btn {
+    color: var(--color-teal) !important;
+    background: rgba(0, 242, 255, 0.05) !important;
+}
+
+.iaia-btn:hover {
+    background: rgba(0, 242, 255, 0.15) !important;
+    transform: scale(1.1);
+}
+
+.iaia-btn.thinking {
+    background: var(--color-teal) !important;
+    color: black !important;
+}
+
+.spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}

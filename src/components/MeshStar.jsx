@@ -46,7 +46,7 @@ const MeshStar = ({ status = 'offline', hops = 1 }) => {
             </svg>
 
             {status === 'offline' && (
-                <div className="mesh-star-status-tag">MODE SOBIRÀ</div>
+                <div className="mesh-star-status-tag">MODO NOMINAL</div>
             )}
         </div>
     );

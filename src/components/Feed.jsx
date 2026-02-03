@@ -24,6 +24,7 @@ import ImageCarousel from './ImageCarousel';
 import Carousel from './Carousel';
 import AttributionBadge from './AttributionBadge';
 import UniversalCard from './UniversalCard';
+import { MOCK_EVENTS } from '../data';
 
 const IAIA_INITIAL_DELAY_MS = 10000;
 const IAIA_INTERVAL_MS = 120000;
@@ -231,6 +232,11 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null, contentMo
         });
 
         if (tags && user) {
+            // Persist to DB
+            supabaseService.updateConnectionTags(user.id, postId, tags).catch(e =>
+                logger.error('[Feed] Error persisting connection tags:', e)
+            );
+
             tags.forEach(tag => {
                 if (!userTags.includes(tag)) {
                     setUserTags(prev => [...prev, tag].sort());
@@ -284,7 +290,22 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null, contentMo
             if (!aPinned && bPinned) return 1;
             return 0; // Maintain original time order for the rest
         });
-    }, [posts, visionMode, selectedTag, isIAIAFiltering, townId, userConnections, isSuperAdmin]);
+
+        // 5. EVENT INTERLEAVING (Agenda Viva) [VOS]
+        // Inyectamos eventos en posiciones estratégicas
+        if (contentMode === 'batec' && !selectedTag) {
+            const resultWithEvents = [...sorted];
+            MOCK_EVENTS.forEach((event, idx) => {
+                const position = (idx + 1) * 3; // Cada 3 posts
+                if (position < resultWithEvents.length) {
+                    resultWithEvents.splice(position, 0, { ...event, is_event_interleaved: true });
+                }
+            });
+            return resultWithEvents;
+        }
+
+        return sorted;
+    }, [posts, visionMode, selectedTag, isIAIAFiltering, townId, userConnections, isSuperAdmin, contentMode]);
 
     const handleHeaderClick = useCallback((post) => {
         const targetId = post.author_entity_id || post.author_user_id || post.author_id;
@@ -476,7 +497,18 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null, contentMo
                                 <div className="card-actions">
                                     <button
                                         className={`action-btn principal-connect ${isConnected ? 'active' : ''}`}
-                                        onClick={() => handleToggleConnection(pid)}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleToggleConnection(pid);
+                                            // [VOS] Obrim la modal per a etiquetar immediatament si es connecta
+                                            if (!isConnected) {
+                                                openConnectionModal({
+                                                    postId: pid,
+                                                    currentTags: connection?.tags || [],
+                                                    onUpdate: (newTags) => handleConnectionUpdate(pid, true, newTags)
+                                                });
+                                            }
+                                        }}
                                         aria-label={isConnected ? t('feed.disconnect') : t('feed.connect')}
                                         aria-pressed={isConnected}
                                     >
@@ -485,9 +517,14 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null, contentMo
                                     </button>
                                     <button
                                         className="action-btn"
-                                        onClick={() => navigate(`/chats/${post.author_user_id || post.author_id}`, {
-                                            state: { commentingOn: post }
-                                        })}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            openAgentSelector({
+                                                postId: pid,
+                                                authorId: post.author_user_id || post.author_id,
+                                                context: post
+                                            });
+                                        }}
                                         title={t('feed.comments') || 'Xateja amb l\'autor'}
                                     >
                                         <MessageCircle size={24} />
@@ -603,6 +640,39 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null, contentMo
 
                         // Cinematic Placeholder for Tier GOD posts
                         const cinematicPlaceholder = "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=1000";
+
+                        // Handling Interleaved Events
+                        if (post.is_event_interleaved) {
+                            return renderInMasonry(
+                                <UniversalCard
+                                    key={pid}
+                                    title={post.title}
+                                    subtitle={`${post.location} • ${post.start_time}`}
+                                    avatarSrc={post.author_avatar}
+                                    avatarName={post.author}
+                                    headerTheme="terracotta"
+                                    className="event-interleaved-card animate-bategat"
+                                    headerAction={<span className="identity-badge" style={{ background: 'var(--color-primary)', color: '#000' }}>📅 AGENDA</span>}
+                                    image={post.image_url?.[0] || "https://images.unsplash.com/photo-1506784919141-93b4840bc35e?auto=format&fit=crop&q=80&w=1000"}
+                                    footer={
+                                        <div className="px-4 py-2 flex justify-between items-center bg-black/5 rounded-b-xl">
+                                            <span className="text-xs font-bold">{new Date(post.date).toLocaleDateString('ca-ES', { weekday: 'long', day: 'numeric', month: 'long' })}</span>
+                                            <button
+                                                className="text-xs font-black text-primary uppercase"
+                                                onClick={() => navigate('/mapa', { state: { center: post.coordinates } })}
+                                            >
+                                                VEURE LLOC
+                                            </button>
+                                        </div>
+                                    }
+                                >
+                                    <div className="text-sm font-medium py-2">
+                                        {post.description}
+                                    </div>
+                                </UniversalCard>
+                            );
+                        }
+
 
                         // STANDARD POSTS & RAINDROP RESOURCES
                         return renderInMasonry(
@@ -747,7 +817,7 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null, contentMo
                         );
                     })
                 )}
-            </div>
+            </div >
 
             {
                 hasMore && posts.length > 0 && !selectedTag && (

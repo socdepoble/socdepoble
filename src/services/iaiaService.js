@@ -13,6 +13,15 @@ class IAIAService {
             grounding_error: "Aquesta informació no consta a l'Arxiu d'Or de Sóc de Poble.",
             citation_format: "[Nom Doc, p. #]"
         };
+
+        // Escenaris visuals de la IAIA Dinàmica
+        this.AVATARS = {
+            OFFICIAL: "/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_oficial_vosc_v2_1770060040751.png",
+            ARXIU: "/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_arxiu_vosc_v2_1770060070010.png",
+            MERCAT: "/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_mercat_vosc_v2_1770060056125.png",
+            HORTA: "/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_horta_tia_style_1770059300082.png",
+            BENVINGUDA: "/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_benvinguda_tia_style_1770059315291.png"
+        };
     }
 
     /**
@@ -514,11 +523,27 @@ class IAIAService {
 
             // 4. Enviar el missatge si hi ha conversa real
             if (conversationId && conversationId !== 'preview') {
+                let avatarUrl = this.AVATARS.OFFICIAL;
+                let senderName = "MArIA (La IAIA Dinàmica)";
+
+                if (mode === 'librarian') {
+                    avatarUrl = this.AVATARS.ARXIU;
+                    senderName = "MArIA (L'Arxivera Daurada)";
+                } else if (userQuery.toLowerCase().includes('horta') || userQuery.toLowerCase().includes('planta')) {
+                    avatarUrl = this.AVATARS.HORTA;
+                    senderName = "MArIA (La de l'Horta)";
+                } else if (userQuery.toLowerCase().includes('mercat') || userQuery.toLowerCase().includes('compra')) {
+                    avatarUrl = this.AVATARS.MERCAT;
+                    senderName = "MArIA (La del Mercat)";
+                }
+
                 await supabaseService.sendSecureMessage({
                     conversationId: conversationId,
                     senderId: '11111111-1111-4111-a111-000000000010', // MArIA ID
                     content: iaiaResponse,
-                    is_ai: true
+                    is_ai: true,
+                    author_name: senderName,
+                    author_avatar_url: avatarUrl
                 });
             }
 

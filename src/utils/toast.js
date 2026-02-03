@@ -1,4 +1,5 @@
 import { toast as hotToast } from 'react-hot-toast';
+import { hapticService } from '../services/hapticService';
 
 // Simple registry for "Read Later" functionality
 let toastRegistry = [];
@@ -29,17 +30,21 @@ const logToRegistry = (message, type, options = {}) => {
 export const toast = {
     success: (message, options = {}) => {
         logToRegistry(message, 'success', options);
+        hapticService.batec();
         return hotToast.success(message, options);
     },
     error: (message, options = {}) => {
         logToRegistry(message, 'error', options);
+        hapticService.notifyError();
         return hotToast.error(message, options);
     },
     loading: (message, options = {}) => {
+        hapticService.notifyThinking();
         return hotToast.loading(message, options);
     },
     custom: (message, options = {}) => {
         logToRegistry(message, 'custom', options);
+        hapticService.batec();
         return hotToast(message, options);
     },
     dismiss: (id) => hotToast.dismiss(id),

@@ -1,9 +1,8 @@
 import React from 'react';
 
 /**
- * Component per a la gestió dinàmica de l'SEO i metadades.
- * Aprofitant les capacitats de React 19, aquests elements es mouran
- * automàticament al <head> del document.
+ * SEO [VIRAL TIERS GOD]
+ * Gestió dinàmica de l'SEO per a previsualitzacions d'alt impacte.
  */
 const SEO = ({
     title,
@@ -13,7 +12,7 @@ const SEO = ({
     url,
     type = 'website',
     author = 'Sóc de Poble',
-    structuredData = {} // New: JSON-LD Object
+    structuredData = {}
 }) => {
     const siteTitle = 'Sóc de Poble';
     const showVersion = typeof window !== 'undefined' && !window.HIDE_SEO_VERSION;
@@ -23,12 +22,11 @@ const SEO = ({
     const fullTitle = showVersion ? `${displayTitle} | ${siteTitle} ${versionString}` : `${displayTitle} | ${siteTitle}`;
 
     const defaultDesc = 'La teva comunitat, els teus veïns. Connecta amb la vida del teu poble.';
-    const defaultImage = '/og-image.png';
+    const defaultImage = '/og-image.png?v=batega-1';
     const baseUrl = 'https://socdepoble.vercel.app';
 
     // Ensure absolute URLs for Open Graph (required by WhatsApp, Telegram, etc.)
-    const cacheBuster = `?v=${versionString}-${new Date().getTime()}`;
-    const absoluteImage = image?.startsWith('http') ? image : `${baseUrl}${image || defaultImage}${cacheBuster}`;
+    const absoluteImage = image?.startsWith('http') ? image : `${baseUrl}${image || defaultImage}`;
     const absoluteUrl = url?.startsWith('http') ? url : `${baseUrl}${url || window.location.pathname}`;
 
     return (
@@ -38,11 +36,13 @@ const SEO = ({
             {keywords && <meta name="keywords" content={keywords} />}
             <meta name="author" content={author} />
 
-            {/* Open Graph / Facebook */}
+            {/* Open Graph / Facebook / WhatsApp */}
             <meta property="og:type" content={type} />
             <meta property="og:title" content={fullTitle} />
             <meta property="og:description" content={description || defaultDesc} />
             <meta property="og:image" content={absoluteImage} />
+            <meta property="og:image:secure_url" content={absoluteImage} />
+            <meta property="og:image:alt" content={fullTitle} />
             <meta property="og:url" content={absoluteUrl} />
             <meta property="og:site_name" content="Sóc de Poble" />
             <meta property="og:locale" content="ca_ES" />
@@ -54,22 +54,27 @@ const SEO = ({
             <meta name="twitter:title" content={fullTitle} />
             <meta name="twitter:description" content={description || defaultDesc} />
             <meta name="twitter:image" content={absoluteImage} />
+            <meta name="twitter:image:alt" content={fullTitle} />
             <meta name="twitter:site" content="@socdepoble" />
             <meta name="twitter:creator" content="@javillinares" />
 
-            {/* Video Support for high-level sharing */}
-            {type === 'video.other' && (
-                <meta property="og:video" content={url} />
-            )}
+            {/* App specific headers */}
+            <meta name="apple-mobile-web-app-title" content="Sóc de Poble" />
+            <meta name="application-name" content="Sóc de Poble" />
+            <meta name="theme-color" content="#9c4221" />
 
             {/* Canonical Link */}
             <link rel="canonical" href={absoluteUrl} />
 
             {/* Structured Data (JSON-LD) - Dynamic Injection */}
-            {/* This enables "Rich Results" for Events, Profiles, and Local Businesses */}
             <script type="application/ld+json">
                 {JSON.stringify({
                     "@context": "https://schema.org",
+                    "@type": type === 'profile' ? 'ProfilePage' : (type === 'article' ? 'NewsArticle' : 'WebSite'),
+                    "name": fullTitle,
+                    "description": description || defaultDesc,
+                    "url": absoluteUrl,
+                    "image": absoluteImage,
                     ...structuredData
                 })}
             </script>

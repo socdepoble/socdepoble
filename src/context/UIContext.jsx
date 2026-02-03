@@ -20,6 +20,12 @@ export const UIProvider = ({ children }) => {
     const [landingPage, setLandingPage] = useState(prefs.landingPage);
     const [isViewerOpen, setIsViewerOpen] = useState(false);
     const [viewerConfig, setViewerConfig] = useState(null); // { did, anchor, label, type }
+    const [isConnectionModalOpen, setIsConnectionModalOpen] = useState(false);
+    const [connectionConfig, setConnectionConfig] = useState(null); // { postId, currentTags, onUpdate }
+    const [isAgentSelectorOpen, setIsAgentSelectorOpen] = useState(false);
+    const [agentSelectorConfig, setAgentSelectorConfig] = useState(null); // { postId, authorId, context }
+    const [isLegalModalOpen, setIsLegalModalOpen] = useState(false);
+    const [legalConfig, setLegalConfig] = useState(null); // { title, content, type }
 
     useEffect(() => {
         document.documentElement.setAttribute('data-theme', theme);
@@ -95,7 +101,41 @@ export const UIProvider = ({ children }) => {
             closeViewer,
             landingPage,
             setLandingPage,
-            resetToNaturalOrder
+            resetToNaturalOrder,
+            isConnectionModalOpen,
+            setIsConnectionModalOpen,
+            connectionConfig,
+            setConnectionConfig,
+            openConnectionModal: (config) => {
+                setConnectionConfig(config);
+                setIsConnectionModalOpen(true);
+            },
+            closeConnectionModal: () => {
+                setIsConnectionModalOpen(false);
+                setConnectionConfig(null);
+            },
+            isAgentSelectorOpen,
+            setIsAgentSelectorOpen,
+            agentSelectorConfig,
+            openAgentSelector: (config) => {
+                setAgentSelectorConfig(config);
+                setIsAgentSelectorOpen(true);
+            },
+            closeAgentSelector: () => {
+                setIsAgentSelectorOpen(false);
+                setAgentSelectorConfig(null);
+            },
+            isLegalModalOpen,
+            setIsLegalModalOpen,
+            legalConfig,
+            openLegalModal: (config) => {
+                setLegalConfig(config);
+                setIsLegalModalOpen(true);
+            },
+            closeLegalModal: () => {
+                setIsLegalModalOpen(false);
+                setLegalConfig(null);
+            }
         }}>
             {children}
         </UIContext.Provider>

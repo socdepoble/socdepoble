@@ -29,15 +29,47 @@ export const wikipediaService = {
             if (!data) return null;
 
             return {
+                title: data.title,
                 extract: data.extract,
                 extract_html: data.extract_html,
                 thumbnail: data.thumbnail?.source,
                 original_image: data.originalimage?.source,
-                page_url: data.content_urls?.mobile?.page
+                page_url: data.content_urls?.mobile?.page,
+                coordinates: data.coordinates,
+                description: data.description
             };
         } catch (error) {
             logger.error(`[Wikipedia] Error fetching summary for ${townName}:`, error);
             return null;
+        }
+    },
+
+    /**
+     * Obté una llista de totes les imatges d'una pàgina de Wikipedia
+     * @param {string} townName 
+     * @param {string} lang 
+     */
+    async getTownImages(townName, lang = 'ca') {
+        try {
+            const endpoint = `https://${lang}.wikipedia.org/api/rest_v1/page/media-list/${encodeURIComponent(townName)}`;
+            const response = await fetch(endpoint);
+            if (!response.ok) return [];
+
+            const data = await response.json();
+            const items = data.items || [];
+
+            // Filtrem només imatges vàlides i de qualitat
+            return items
+                .filter(item => item.type === 'image')
+                .map(item => ({
+                    url: item.srcset?.[0]?.src || item.title,
+                    title: item.caption?.text || 'Imatge del poble',
+                    author: item.artist?.text || 'Wikimedia Commons'
+                }))
+                .filter(img => img.url && img.url.startsWith('http'));
+        } catch (error) {
+            logger.error(`[Wikipedia] Error fetching media list for ${townName}:`, error);
+            return [];
         }
     },
 

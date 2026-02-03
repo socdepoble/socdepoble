@@ -4,10 +4,12 @@ import { useTranslation } from 'react-i18next';
 import { Building2, Store, Users, MapPin, MessageSquare, Share2, Loader2, AlertCircle, Calendar, ArrowLeft, UserPlus, UserMinus, Settings, Landmark } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
+import { useUI } from '../context/UIContext';
 import SEO from '../components/SEO';
 import ProfileHeaderPremium from '../components/ProfileHeaderPremium';
 import './Profile.css';
 import { logger } from '../utils/logger';
+import { ShieldCheck } from 'lucide-react';
 import Avatar from '../components/Avatar';
 import ArmariDigital from '../components/ArmariDigital';
 
@@ -16,6 +18,7 @@ const PublicEntity = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const { user: currentUser } = useAuth();
+    const { openLegalModal } = useUI();
     const [entity, setEntity] = useState(null);
     const [members, setMembers] = useState([]);
     const [posts, setPosts] = useState([]);
@@ -191,17 +194,20 @@ const PublicEntity = () => {
                 }}
             >
                 <div className="profile-stats-bar">
-                    <div className="stat-card">
+                    <div className="stat-card clickable" onClick={() => logger.info('Historial de Publicacions en fase Beta')}>
                         <span className="stat-value">{posts.length}</span>
                         <span className="stat-label">Publicacions</span>
+                        <div className="beta-dot"></div>
                     </div>
-                    <div className="stat-card">
+                    <div className="stat-card clickable" onClick={() => logger.info(entity.type === 'negoci' ? 'Botiga en fase de desplegament' : 'Llista de Membres en fase Beta')}>
                         <span className="stat-value">{entity.type === 'negoci' ? (items?.length || 0) : members.length}</span>
                         <span className="stat-label">{entity.type === 'negoci' ? 'En Venda' : 'Membres'}</span>
+                        <div className="beta-dot"></div>
                     </div>
-                    <div className="stat-card">
+                    <div className="stat-card clickable" onClick={() => logger.info('Llista de Connexions en fase Beta')}>
                         <span className="stat-value">{followersCount}</span>
-                        <span className="stat-label">Seguidors</span>
+                        <span className="stat-label">Connexions</span>
+                        <div className="beta-dot"></div>
                     </div>
                 </div>
             </ProfileHeaderPremium>
@@ -215,11 +221,25 @@ const PublicEntity = () => {
                     {isConnecting ? (
                         <Loader2 className="spinner" size={24} />
                     ) : isConnected ? (
-                        <><UserMinus size={22} /> DESCONECTAR</>
+                        <><UserMinus size={22} /> DESCONNECTAR</>
                     ) : (
                         <><UserPlus size={22} /> CONNECTAR AMB {entity.name.toUpperCase()}</>
                     )}
                 </button>
+
+                {/* BOTÓ LEGAL (Dinàmic per a l'Associació) */}
+                {(entity.name?.toLowerCase().includes('rentonar') || entity.id === 'entitat-rentonar') && (
+                    <button
+                        className="legal-doc-btn-premium"
+                        onClick={() => openLegalModal({
+                            title: `Estatuts: ${entity.name}`,
+                            content: `# Estatuts de l'Associació El Rentonar ⚖️📜\n\n**Denominació**: RENTONAR, GRUP PER LA CONSERVACIÓ DE LA NATURA I EL PATRIMONI\n**NIF**: G03967668\n**Inscripció**: Número 4444 de la Secció PRIMERA del Registre d'Associacions de la CV.\n**Adaptació**: Adaptats a la Llei Orgànica 1/2002 el 17 de novembre de 2006.\n\n---\n\n## Capítol I: Denominació i Fins\n\n### Art. 1º Denominació\nL'associació es constitueix per temps indefinit, sense ànim de lucre, sota la denominació actualitzada el 2006.\n\n### Art. 4º Fins de l'Associació\n- **Conservar i protegir** el nostre entorn natural i cultural.\n- **Fomentar la conscienciació ciutadana** per a protegir i conèixer l'entorn natural de La Torre de les Maçanes.\n- **Conèixer el nostre patrimoni** cultural i històric lligat al medi natural.\n- **Crear una consciència col·lectiva** de protecció, respecte i recuperació dels valors mediambientals del nostre terme.\n\n---\n\n## Capítol II: Activitats\n\n- Activitats adreçades a la població escolar i col·lectius del poble (xarrades, excursions).\n- Treballs de camp per a diagnosticar problemàtiques mediambientals.\n- Treballs de recuperació de determinades fonts degradades.\n- Accions puntuals per al millor coneixement del patrimoni.\n- Creació d'un planter d'espècies autòctones.\n\n---\n\n## Capítol III: L'Òrgan de Govern\n\nL'Assemblea General és l'òrgan suprem de govern, integrada pels associats per dret propi irrenunciable i en igualtat absoluta.\n\n## Capítol VI: Dissolució i Liquidació\n\nEn cas de dissolució, si existira sobrant líquid, es destinarà a fins que no desvirtuen el caràcter no lucratiu de l'entitat, concretament a **GREENPEACE ESPAÑA**.\n\n---\n\n**Certificació Final**: Document adaptat i visat a La Torre de les Maçanes el 8 de març de 2007 per la Direcció Territorial de Justícia.🏛️⚡️🏺`,
+                            type: 'estatuts'
+                        })}
+                    >
+                        <ShieldCheck size={20} /> DOCUMENTACIÓ LEGAL I ESTATUTS
+                    </button>
+                )}
 
                 <div className="noise-filter-manager-container">
                     <div className={`noise-filter-manager ${isConnected ? 'active' : ''}`}>
@@ -227,7 +247,10 @@ const PublicEntity = () => {
                             <h4>Filtre de Soroll</h4>
                             <p>Oculta posts promocionals d'aquesta entitat al mur.</p>
                         </div>
-                        <button className={`filter-action-btn ${isConnected ? 'active' : ''}`}>
+                        <button
+                            className={`filter-action-btn ${isConnected ? 'active' : ''}`}
+                            onClick={() => logger.info('Filtre de Soroll actiu per defecte en fase Beta')}
+                        >
                             {isConnected ? 'ACTIU' : 'INACTIU'}
                         </button>
                     </div>

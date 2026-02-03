@@ -27,8 +27,8 @@ const CategoryTabs = ({ selectedRole, onSelectRole, exclude = [], tabs }) => {
     const roles = allRoles.filter(role => {
         if (exclude.includes(role.id)) return false;
 
-        // Show 'tot' or 'xat' as the "All" view
-        if (role.id === 'tot' || role.id === 'xat') {
+        // Show 'tot', 'xat' or 'esdeveniments' as standard views
+        if (role.id === 'tot' || role.id === 'xat' || role.id === 'esdeveniments' || role.id === 'pobles') {
             return true;
         }
 

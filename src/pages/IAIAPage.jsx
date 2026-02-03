@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ArrowLeft, BookOpen, Sprout, Users, MessageCircle, Heart, Sparkles, User, Clock, BellRing, Shield, Mic, Newspaper, Activity } from 'lucide-react';
+import { ArrowLeft, BookOpen, Sprout, Users, MessageCircle, Heart, Sparkles, User, Clock, BellRing, Shield, Mic, Newspaper, Activity, Archive, Calendar, Terminal, Settings, Layout } from 'lucide-react';
 import { useUI } from '../context/UIContext';
 import ShareHub from '../components/ShareHub';
 import SEO from '../components/SEO';
@@ -213,6 +213,38 @@ const IAIAPage = () => {
                     </div>
                 </section>
 
+                <section className="iaia-section sovereignty-hub-card highlight-tech">
+                    <div className="section-icon"><Terminal size={32} color="var(--color-primary)" /></div>
+                    <h2>Eines de Sobirania [HUB]</h2>
+                    <p>Accés ràpid a les funcionalitats avançades de l'Atall Territorial.</p>
+                    <div className="hub-tools-grid">
+                        <div className="hub-tool-item" onClick={() => navigate('/arxiu')}>
+                            <Archive size={24} />
+                            <span>Arxiu d'Or</span>
+                        </div>
+                        <div className="hub-tool-item" onClick={() => navigate('/calendari')}>
+                            <Calendar size={24} />
+                            <span>Master Calendar</span>
+                        </div>
+                        <div className="hub-tool-item" onClick={() => navigate('/solatge')}>
+                            <Terminal size={24} />
+                            <span>Consola Solatge</span>
+                        </div>
+                        <div className="hub-tool-item" onClick={() => navigate('/tutorial-didactica')}>
+                            <BookOpen size={24} />
+                            <span>Manual Didàctic</span>
+                        </div>
+                        <div className="hub-tool-item" onClick={() => navigate('/gestio-entitats')}>
+                            <Layout size={24} />
+                            <span>Gestió d'Entitats</span>
+                        </div>
+                        <div className="hub-tool-item" onClick={() => navigate('/perfil')}>
+                            <Settings size={24} />
+                            <span>Configuració</span>
+                        </div>
+                    </div>
+                </section>
+
                 <section className="iaia-section media-creations-card">
                     <MasterMediaGallery
                         items={MASTER_ASSETS}
@@ -277,16 +309,16 @@ const IAIAPage = () => {
                 <div className="iaia-cta-box">
                     {!showVoiceRecorder ? (
                         <div className="iaia-cta-group">
-                            <button className="btn-primary rectangular" onClick={() => navigate('/chats')}>
+                            <button className="btn-filled" onClick={() => navigate('/chats')}>
                                 <MessageCircle size={20} />
                                 {t('iaia_page.cta_button')}
                             </button>
-                            <button className="btn-secondary-iaia-news" onClick={() => navigate('/mur')} style={{ background: 'var(--color-primary-soft)', color: 'var(--color-primary)', border: '1px solid var(--color-primary)' }}>
+                            <button className="btn-tonal" onClick={() => navigate('/mur')}>
                                 <Newspaper size={20} />
                                 Últimes Novetats 🗞️
                             </button>
                             <button
-                                className="btn-secondary-iaia-voice"
+                                className="btn-tonal"
                                 onClick={() => setShowVoiceRecorder(true)}
                                 disabled={isSubmitting}
                             >
@@ -294,9 +326,9 @@ const IAIAPage = () => {
                                 {feedbackSent ? '¡Gràcies per la teua veu!' : 'Enviar suggerència per veu'}
                             </button>
                             <button
-                                className="btn-secondary-iaia-dafo"
+                                className="btn-outline"
                                 onClick={() => navigate('/dafo/iaia')}
-                                style={{ background: 'rgba(0,0,0,0.05)', border: '1px solid var(--color-divider)', borderRadius: '12px', padding: '12px', display: 'flex', alignItems: 'center', gap: '8px', justifyContent: 'center', width: '100%', marginTop: '10px' }}
+                                style={{ width: '100%', marginTop: '10px' }}
                             >
                                 <Activity size={18} /> Anàlisi DAFO de l'IAIA [RIGOR]
                             </button>

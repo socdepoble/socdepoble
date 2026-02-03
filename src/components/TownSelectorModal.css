@@ -14,17 +14,19 @@
 }
 
 .town-selector-modal {
-    background-color: #1A1D23;
+    background: rgba(10, 15, 30, 0.95);
     width: 100%;
     max-width: 480px;
     max-height: 80vh;
-    border-radius: var(--radius-xl);
-    border: 1px solid #2D3748;
+    border-radius: 0;
+    /* DIRECTIVA ZERO RADIUS */
+    border: 1px solid rgba(0, 242, 255, 0.3);
     display: flex;
     flex-direction: column;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.9);
     overflow: hidden;
-    animation: modalAppear 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: modalAppear 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    backdrop-filter: blur(20px);
 }
 
 @keyframes modalAppear {
@@ -50,8 +52,11 @@
 .header-title h3 {
     margin: 0 0 8px 0;
     color: white;
-    font-family: var(--font-heading);
-    font-size: 20px;
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 200;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 1.25rem;
 }
 
 .selection-path-display {
@@ -119,13 +124,14 @@
 
 .search-bar-modal input {
     width: 100%;
-    padding: 12px 12px 12px 42px;
-    background-color: #2D3748;
-    border: 1px solid transparent;
-    border-radius: var(--radius-lg);
+    padding: 14px 14px 14px 46px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0;
+    /* DIRECTIVA ZERO RADIUS */
     color: white;
-    font-family: var(--font-main);
-    transition: all 0.2s;
+    font-family: 'Outfit', sans-serif;
+    transition: all 0.3s ease;
 }
 
 .search-bar-modal input:focus {
@@ -289,17 +295,20 @@
 
 .save-btn-large {
     width: 100%;
-    padding: 16px;
-    background-color: var(--color-primary);
-    color: white;
+    padding: 18px;
+    background: linear-gradient(90deg, #00f2ff 0%, #00d2ff 100%);
+    color: #000;
     border: none;
-    border-radius: var(--radius-lg);
-    font-weight: 800;
-    font-size: 15px;
-    letter-spacing: 1px;
+    border-radius: 0;
+    /* DIRECTIVA ZERO RADIUS */
+    font-weight: 900;
+    font-size: 1.1rem;
+    font-family: 'Inter Tight', sans-serif;
+    letter-spacing: 2px;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 15px rgba(93, 95, 239, 0.3);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
+    text-transform: uppercase;
 }
 
 .save-btn-large:hover:not(.disabled) {

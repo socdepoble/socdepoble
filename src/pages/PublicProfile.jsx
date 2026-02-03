@@ -207,17 +207,20 @@ const PublicProfile = () => {
                 }}
             >
                 <div className="profile-stats-bar">
-                    <div className="stat-card">
+                    <div className="stat-card clickable" onClick={() => logger.info('Funcionalitat de Mur en fase Beta')}>
                         <span className="stat-value">{userPosts.length}</span>
                         <span className="stat-label">{t('profile.publications')}</span>
+                        <div className="beta-dot"></div>
                     </div>
-                    <div className="stat-card">
+                    <div className="stat-card clickable" onClick={() => logger.info('Mercat en fase de desplegament')}>
                         <span className="stat-value">{items.length}</span>
                         <span className="stat-label">{t('nav.stats_sales')}</span>
+                        <div className="beta-dot"></div>
                     </div>
-                    <div className="stat-card">
+                    <div className="stat-card clickable" onClick={() => logger.info('Llista de Connexions en fase Beta')}>
                         <span className="stat-value">{followersCount}</span>
                         <span className="stat-label">Connexions</span>
+                        <div className="beta-dot"></div>
                     </div>
                 </div>
             </ProfileHeaderPremium>
@@ -239,12 +242,12 @@ const PublicProfile = () => {
                                 ) : isConnected ? (
                                     <>
                                         <UserMinus size={20} />
-                                        <span>Seguint</span>
+                                        <span>Connectat</span>
                                     </>
                                 ) : (
                                     <>
                                         <UserPlus size={20} />
-                                        <span>Seguir</span>
+                                        <span>Connectar</span>
                                     </>
                                 )}
                             </button>
@@ -255,6 +258,21 @@ const PublicProfile = () => {
                                 <MessageCircle size={20} />
                                 <span>Missatge</span>
                             </button>
+
+                            {/* BOTÓ PROFESSIONAL (Dinàmic per a Autònoms/Creadors) */}
+                            {(masters.includes(profile.email) || profile.ofici) && (
+                                <button
+                                    className="legal-doc-btn-premium professional"
+                                    onClick={() => openLegalModal({
+                                        title: `Dossier: ${profile.full_name}`,
+                                        content: `# Dossier Professional: ${profile.full_name} 💼⚖️🏺\n\n**Especialitat**: ${profile.ofici || 'Dissenyador Gràfic i Estratègia Digital'}\n**Ubicació**: C/ Sant Isidre Llaurador, 16, La Torre de les Maçanes 🏠\n**Activitat (CNAE)**: 7410 - Disseny Especialitzat ✅\n**Certificació**: Professional Verificat per la Xarxa Rhizome de Sóc de Poble.\n\n---\n\n## Perfil Professional\nSóc un professional compromès amb el territori i la sobirania tecnològica. La meua activitat es centra en crear eines que empoderen la comunitat local a través del disseny, el codi i la memòria.\n\n## Serveis i Competències\n- **Disseny Gràfic i Comunicació**: Especialista en identitat visual i estratègia DirCom.\n- **Desenvolupament Web i Mòbil**: Frameworks moderns i arquitectures sobiranes.\n- **Consultoria Tecnològica**: Assessorament en la digitalització de col·lectius i petites produccions.\n\n---\n\n## El Compromís Sóc de Poble\nCom a autònom verificat, em comprometo a oferir serveis de proximitat, amb transparència total i respecte per la privacitat i les dades dels nostres veïns.\n\n---\n\n**Validat per**: Administració Superior de Sóc de Poble (Core Team).🏛️🏺✨`,
+                                        type: 'professional',
+                                        authorName: profile.full_name
+                                    })}
+                                >
+                                    <Landmark size={20} /> DOSSIER PROFESSIONAL VERIFICAT
+                                </button>
+                            )}
                         </div>
                     );
                 })()

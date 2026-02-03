@@ -1,6 +1,6 @@
 import React, { useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-// VERSION: 1.5.7-BATEGA (Batec Territorial & Sobirania Visual)
+// VERSION: v1.5.8-GENESIS-MASTER-NUKE (Batec Territorial & Sobirania Visual)
 import Header from './components/Header';
 import Layout from './components/Layout';
 
@@ -40,6 +40,8 @@ const SellSurplus = lazy(() => import('./pages/SellSurplus'));
 const RuralIntelligence = lazy(() => import('./components/RuralIntelligence'));
 const DidacticManual = lazy(() => import('./pages/DidacticManual'));
 const SolatgeConsole = lazy(() => import('./pages/SolatgeConsole'));
+const HabitantsDelMas = lazy(() => import('./components/HabitantsDelMas'));
+const AyuntamientoPage = lazy(() => import('./pages/AyuntamientoPage'));
 import { RescueTool } from './components/RescueTool';
 
 import { supabase } from './supabaseClient';
@@ -110,7 +112,6 @@ const ProtectedRoute = ({ children }) => {
 
 import ErrorBoundary from './components/ErrorBoundary';
 import { usePushNotifications } from './hooks/usePushNotifications'; // Import hook
-import PWAPrompt from './components/PWAPrompt';
 import DiagnosticConsole from './components/DiagnosticConsole';
 import NanoLoader from './components/NanoLoader';
 
@@ -119,11 +120,11 @@ function App() {
 
   useEffect(() => {
     // [VERSION CHECK: PROTOCOLO FLASH]
-    const APP_VERSION = "1.5.6-MASTER-BATEGA-REFLOW";
+    const APP_VERSION = "v1.5.6-BATEGA";
     const lastVersion = localStorage.getItem('sp_app_version');
 
     if (lastVersion && lastVersion !== APP_VERSION) {
-      logger.log('[FLASH] Nova versió detectada. Executant Hard Reload...');
+      console.log('[FLASH] Nova versió detectada. Executant Hard Reload...');
       localStorage.setItem('sp_app_version', APP_VERSION);
       window.location.reload(true);
     } else {
@@ -135,11 +136,28 @@ function App() {
     import('./services/rhizomeManager').then(({ rhizomeManager }) => {
       rhizomeManager.pruneHistory();
     });
+
+    // [CAPACITOR NATIVE] Inicialització de la Barra d'Estat i Splash Screen
+    const initNative = async () => {
+      try {
+        const { StatusBar, Style } = await import('@capacitor/status-bar');
+        const { SplashScreen } = await import('@capacitor/splash-screen');
+
+        // Adaptem la barra d'estat a l'estètica MD3 (Surface color)
+        await StatusBar.setStyle({ style: Style.Light });
+        await StatusBar.setBackgroundColor({ color: '#fdfbff' }); // md-sys-color-surface aprox
+
+        // Amaguem la splash screen quan el bategat web estiga llest
+        await SplashScreen.hide();
+      } catch (e) {
+        console.log('[Capacitor] No native environment detected or plugins missing.');
+      }
+    };
+    initNative();
   }, []);
 
   return (
     <BrowserRouter>
-      <PWAPrompt />
       <DiagnosticConsole />
       <Suspense fallback={<NanoLoader message="Preparant Sóc de Poble..." />}>
         <ErrorBoundary fallbackMessage="Error crític de l'aplicació">
@@ -160,7 +178,7 @@ function App() {
                 </ErrorBoundary>
               }
             >
-              <Route index element={<Navigate to="/mur" replace />} />
+              <Route index element={<Navigate to="/chats" replace />} />
               <Route
                 path="chats"
                 element={
@@ -221,6 +239,7 @@ function App() {
               <Route path="comunitat" element={<CommunityDirectory />} />
               <Route path="pobles" element={<Towns />} />
               <Route path="pobles/:id" element={<TownDetail />} />
+              <Route path="ajuntament/:id" element={<AyuntamientoPage />} />
               <Route
                 path="mapa"
                 element={
@@ -247,7 +266,8 @@ function App() {
               <Route path="calendari" element={<MasterCalendar />} />
               <Route path="dafo/:id" element={<DAFOPage />} />
               <Route path="didactica/:id" element={<DidacticPage />} />
-              <Route path="intel·ligencia" element={<RuralIntelligence />} />
+              <Route path="/ia" element={<RuralIntelligence />} />
+              <Route path="/ia/habitants" element={<HabitantsDelMas />} />
               <Route path="tutorial-didactica" element={<DidacticManual />} />
               <Route path="solatge" element={<SolatgeConsole />} />
 

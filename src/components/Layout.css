@@ -4,7 +4,7 @@
     width: 100vw;
     height: 100vh;
     overflow: hidden;
-    background-color: var(--sdp-bg-dark);
+    background-color: var(--md-sys-color-surface);
 }
 
 .layout-main-scroll {
@@ -14,7 +14,7 @@
     overflow-y: auto;
     overflow-x: hidden;
     position: relative;
-    background-color: var(--sdp-bg-dark);
+    background-color: var(--md-sys-color-surface);
 }
 
 .main-wrapper {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Upload, Plus, Search, Archive, AlertCircle, Share2, Grid, List, CheckCircle2, ShieldCheck } from 'lucide-react';
 import { migrationService } from '../services/MigrationService';
+import { notionService } from '../services/notionService';
 import { supabaseService } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
 import ResourceCard from './ResourceCard';
@@ -60,14 +61,18 @@ const RebostVault = () => {
 
             if (file.name.endsWith('.html')) {
                 items = migrationService.parseRaindropHTML(text);
+            } else if (file.name.endsWith('.json')) {
+                // Suposem que Notion o l'usuari puja un JSON estructurat
+                const rawItems = migrationService.parseNotionJSON(text);
+                items = rawItems.map(item => notionService.mapToResource(item));
             } else {
-                alert('Format no suportat. Usa l\'exportació HTML de Raindrop.');
+                alert('Format no suportat. Usa HTML (Raindrop) o JSON (Notion).');
                 setIsImporting(false);
                 return;
             }
 
             if (items.length === 0) {
-                alert('No s\'han trobat enllaços al fitxer.');
+                alert('No s\'han trobat dades vàlides al fitxer.');
                 setIsImporting(false);
                 return;
             }
@@ -81,6 +86,14 @@ const RebostVault = () => {
         } finally {
             setIsImporting(false);
         }
+    };
+
+    const handleExport = async () => {
+        if (resources.length === 0) {
+            alert('No hi ha res a exportar encara, el rebost és buit.');
+            return;
+        }
+        await migrationService.exportRebostData(resources);
     };
 
     const handleShare = async (resource) => {
@@ -125,15 +138,19 @@ const RebostVault = () => {
                         <ShieldCheck size={14} />
                         <span>Veritat de Ferro</span>
                     </div>
+                    <button className="btn-export-sovereign" onClick={handleExport} title="Exporta tota la teua memòria">
+                        <Share2 size={18} />
+                        <span>Exportació Total</span>
+                    </button>
                     <button className="btn-import" onClick={() => fileInputRef.current?.click()}>
                         <Upload size={18} />
-                        <span>Importar Raindrop</span>
+                        <span>Importar (Raindrop/Notion)</span>
                     </button>
                     <input
                         type="file"
                         ref={fileInputRef}
                         style={{ display: 'none' }}
-                        accept=".html"
+                        accept=".html,.json"
                         onChange={handleFileSelect}
                     />
                 </div>

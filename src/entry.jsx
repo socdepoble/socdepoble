@@ -105,18 +105,48 @@ if ('serviceWorker' in navigator) {
   });
 }
 
-// [RESEMBRA ATÒMICA] Neteja de identitats corrompudes per versió (v1.5.6-REFLOW)
-if (localStorage.getItem('sp_sovereign_identity')?.includes('BATEGA-REFLOW')) {
-  console.warn('[RESEMBRA] Detectada identitat corrompuda. Netejant solatge...');
-  localStorage.clear();
-  sessionStorage.clear();
-  window.location.reload(true);
+// [RESEMBRA ATÒMICA/MASTER] Neteja total de Service Workers i Caches per a resiliència
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then(registrations => {
+    for (const registration of registrations) {
+      registration.unregister();
+      addBootLog('[SW] Purgant Service Worker actiu per a sincronització Master');
+    }
+  });
+}
+
+if ('caches' in window) {
+  caches.keys().then(names => {
+    for (let name of names) caches.delete(name);
+    addBootLog('[CACHE] Memòria cau del navegador purgada');
+  });
+}
+
+// [RESEMBRA ATÒMICA] Lògica de Sincronització de Versió Segura (v1.5.6-BATEGA)
+const CURRENT_MASTER_VERSION = 'v1.5.6-BATEGA';
+const savedVersion = localStorage.getItem('sp_app_version');
+
+if (savedVersion !== CURRENT_MASTER_VERSION) {
+  addBootLog(`[MASTER] Transició de versió: ${savedVersion || 'null'} -> ${CURRENT_MASTER_VERSION}`);
+
+  if (savedVersion) {
+    // Si venim d'una versió anterior, netegem però guardem la nova versió immediatament
+    addBootLog('[MASTER] Detectada versió antiga. Purgant memòria residual...');
+    localStorage.clear();
+    sessionStorage.clear();
+    localStorage.setItem('sp_app_version', CURRENT_MASTER_VERSION);
+    window.location.reload(true);
+  } else {
+    // Primera vegada o neteja prèvia, simplement fixem la versió
+    localStorage.setItem('sp_app_version', CURRENT_MASTER_VERSION);
+    addBootLog('[MASTER] Versió fixada correctament. Bategat nominal.');
+  }
 }
 
 // Register new SW with cache busting
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js?v=BATEGA-1.5.6-MASTER-BATEGA-REFLOW').then(registration => {
+    navigator.serviceWorker.register('/sw.js?nuke=v1.5.6-BATEGA').then(registration => {
       // logger.info('[SW] Registered with scope:', registration.scope);
 
       registration.onupdatefound = () => {

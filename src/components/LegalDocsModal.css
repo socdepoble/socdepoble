@@ -1,0 +1,258 @@
+.legal-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    padding: 1rem;
+}
+
+.legal-modal-content {
+    width: 100%;
+    max-width: 800px;
+    height: 90vh;
+    background: #fffdf9;
+    /* Paper color */
+    display: flex;
+    flex-direction: column;
+    border: 4px solid var(--color-terracotta);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+    position: relative;
+    border-radius: 0 !important;
+}
+
+.legal-modal-header {
+    padding: 1.5rem 2rem;
+    background: var(--color-terracotta);
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    position: relative;
+}
+
+.header-icon-badge {
+    width: 56px;
+    height: 56px;
+    background: rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+}
+
+.header-text h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 800;
+}
+
+.official-timestamp {
+    font-size: 0.75rem;
+    opacity: 0.8;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.close-btn {
+    margin-left: auto;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+    transition: transform 0.2s;
+}
+
+.close-btn:hover {
+    transform: scale(1.1) rotate(90deg);
+}
+
+.legal-document-body {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+    padding: 4rem 3rem;
+    background-image:
+        linear-gradient(rgba(200, 160, 140, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(200, 160, 140, 0.05) 1px, transparent 1px);
+    background-size: 30px 30px;
+}
+
+.watermark-logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-35deg);
+    font-size: 6rem;
+    font-weight: 900;
+    color: rgba(0, 0, 0, 0.03);
+    pointer-events: none;
+    white-space: nowrap;
+    user-select: none;
+}
+
+.doc-scroll-area {
+    height: 100%;
+    overflow-y: auto;
+    padding-right: 1.5rem;
+    position: relative;
+    z-index: 2;
+}
+
+.legal-text-content {
+    font-family: 'Inter Tight', serif;
+    color: #2c2c2c;
+    line-height: 1.8;
+    font-size: 1.1rem;
+}
+
+.legal-text-content h1 {
+    font-size: 2.2rem;
+    border-bottom: 2px solid var(--color-terracotta);
+    padding-bottom: 1rem;
+    margin-top: 0;
+    color: var(--color-terracotta);
+}
+
+.legal-text-content h2 {
+    font-size: 1.6rem;
+    margin-top: 2.5rem;
+    text-transform: uppercase;
+    color: #444;
+}
+
+.legal-text-content h3 {
+    font-size: 1.25rem;
+    margin-top: 1.5rem;
+    font-weight: 800;
+}
+
+.legal-text-content p {
+    margin: 1.2rem 0;
+    text-align: justify;
+}
+
+.legal-text-content hr {
+    margin: 3rem 0;
+    border: none;
+    border-top: 2px dashed #ddd;
+}
+
+.legal-text-content li {
+    margin: 0.5rem 0 0.5rem 1.5rem;
+}
+
+.legal-modal-footer {
+    padding: 1.5rem 2rem;
+    background: #f0f0f0;
+    border-top: 2px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.protection-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.75rem;
+    background: #ddd;
+    padding: 4px 12px;
+    font-weight: 700;
+    border-radius: 4px;
+    color: #666;
+}
+
+.footer-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.legal-utility-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: var(--color-terracotta);
+    color: white;
+    border: none;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.legal-utility-btn.secondary {
+    background: #444;
+}
+
+.legal-utility-btn:hover {
+    filter: brightness(1.1);
+}
+
+/* Scrollbar styling */
+.doc-scroll-area::-webkit-scrollbar {
+    width: 6px;
+}
+
+.doc-scroll-area::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.doc-scroll-area::-webkit-scrollbar-thumb {
+    background: var(--color-terracotta);
+}
+
+@media (max-width: 600px) {
+    .legal-modal-content {
+        height: 100vh;
+        max-height: 100vh;
+    }
+
+    .legal-document-body {
+        padding: 2rem 1.5rem;
+    }
+
+    .footer-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .legal-utility-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Professional Mode Overrides */
+.legal-modal-content.mode-professional {
+    border-color: #2563eb;
+    /* Business Blue */
+}
+
+.legal-modal-content.mode-professional .legal-modal-header {
+    background: #2563eb;
+}
+
+.legal-modal-content.mode-professional .legal-text-content h1 {
+    border-color: #2563eb;
+    color: #2563eb;
+}
+
+.legal-modal-content.mode-professional .legal-utility-btn {
+    background: #2563eb;
+}
+
+.legal-modal-content.mode-professional .doc-scroll-area::-webkit-scrollbar-thumb {
+    background: #2563eb;
+}

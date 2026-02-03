@@ -44,20 +44,28 @@ const MediaViewerModal = ({ isOpen, onClose, src, title, type = 'image' }) => {
             </div>
 
             <div className="media-viewer-content" onClick={(e) => e.stopPropagation()}>
-                {type === 'image' ? (
+                {type === 'image' && (
                     <img
                         src={src}
                         alt={title}
                         className="viewer-main-media"
                         draggable="true"
                         onDragStart={(e) => {
-                            // Specifically allow dragging the source URL
                             e.dataTransfer.setData('text/uri-list', src);
                             e.dataTransfer.setData('text/plain', src);
                         }}
                     />
-                ) : (
+                )}
+                {type === 'video' && (
                     <video src={src} controls className="viewer-main-media" autoPlay />
+                )}
+                {(type === 'pdf' || type === 'document' || type === 'presentation') && (
+                    <iframe
+                        src={src}
+                        title={title}
+                        className="viewer-main-iframe"
+                        style={{ width: '100%', height: '100%', border: 'none', background: 'white' }}
+                    />
                 )}
             </div>
 

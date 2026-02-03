@@ -46,7 +46,7 @@ const InfoTab = ({
                     <div className="field-group">
                         <span className="form-label">Poble Principal</span>
                         <button
-                            className={`town-picker-btn ${isEditingCard ? 'active' : ''}`}
+                            className={`town-picker-btn ${isEditingCard ? 'active edit-mode' : ''}`}
                             onClick={() => {
                                 if (isEditingCard) {
                                     setTownEditMode('primary');
@@ -54,9 +54,11 @@ const InfoTab = ({
                                 }
                             }}
                             disabled={!isEditingCard}
+                            title={isEditingCard ? "Prem per canviar el teu poble de residència" : "Activa l'edició per canviar de poble"}
                         >
                             <MapPin size={16} />
-                            <span>{userTown?.name || 'Selecciona el teu poble'}</span>
+                            <span>{userTown?.name || profile?.town_name || 'Selecciona el teu poble'}</span>
+                            {isEditingCard && <Edit2 size={12} style={{ marginLeft: 'auto', opacity: 0.7 }} />}
                         </button>
                     </div>
                     <div className="field-group full-width">

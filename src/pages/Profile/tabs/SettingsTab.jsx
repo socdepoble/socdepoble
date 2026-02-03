@@ -421,7 +421,7 @@ const SettingsTab = ({
 
             <div className="premium-footer">
                 <div className="premium-footer-line" />
-                <span>v1.5.6-BATEGA • Sóc de Poble</span>
+                <span>v1.5.6-BATEGA</span>
                 <HelpCircle size={14} />
             </div>
         </div>

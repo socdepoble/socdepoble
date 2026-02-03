@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Search, X, Users, Building2, MapPin, ArrowLeft, Loader2, Sparkles, SlidersHorizontal, ChevronRight, User, Landmark, Store, Building, Link2 } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { raindropService } from '../services/raindropService';
+import { MOCK_EVENTS } from '../data';
 import { hapticService } from '../services/hapticService';
 import SEO from '../components/SEO';
 import Avatar from '../components/Avatar';
@@ -12,8 +13,8 @@ import './SearchDiscover.css';
 const SearchDiscover = () => {
     const navigate = useNavigate();
     const [query, setQuery] = useState('');
-    const [activeFilter, setActiveFilter] = useState('tots'); // tots, gent, entitats, pobles
-    const [results, setResults] = useState({ gent: [], entitats: [], pobles: [], arxiu: [] });
+    const [activeFilter, setActiveFilter] = useState('tots'); // tots, gent, entitats, pobles, esdeveniments
+    const [results, setResults] = useState({ gent: [], entitats: [], pobles: [], arxiu: [], esdeveniments: [] });
     const [raindropResults, setRaindropResults] = useState([]);
     const [isSearching, setIsSearching] = useState(false);
     const [recentSearches] = useState(['Cocentaina', 'Vicent Ferris', 'Mercat de Muro']);
@@ -30,7 +31,7 @@ const SearchDiscover = () => {
             if (query.length > 1) {
                 performSearch(query);
             } else {
-                setResults({ gent: [], entitats: [], pobles: [], arxiu: [] });
+                setResults({ gent: [], entitats: [], pobles: [], arxiu: [], esdeveniments: [] });
             }
         }, 300); // Faster debouncing for "in-typing" feel
 
@@ -42,11 +43,16 @@ const SearchDiscover = () => {
         try {
             // Simulated AI-reinforced global search
             // In a real app, this would call a dedicated edge function with embeddings or similar
-            const [gent, entitats, pobles, archive] = await Promise.all([
+            const [gent, entitats, pobles, archive, filteredEvents] = await Promise.all([
                 supabaseService.searchProfiles(q),
                 supabaseService.searchEntities(q),
                 supabaseService.searchAllTowns(q),
-                raindropService.getCollection('all') // Unified Archive for now
+                raindropService.getCollection('all'), // Unified Archive for now
+                Promise.resolve(MOCK_EVENTS.filter(e =>
+                    e.title.toLowerCase().includes(q.toLowerCase()) ||
+                    e.description.toLowerCase().includes(q.toLowerCase()) ||
+                    e.location.toLowerCase().includes(q.toLowerCase())
+                ))
             ]);
 
             // Filter archive locally if needed (mock or real)
@@ -59,7 +65,8 @@ const SearchDiscover = () => {
                 gent: gent || [],
                 entitats: entitats || [],
                 pobles: pobles || [],
-                arxiu: filteredArchive || []
+                arxiu: filteredArchive || [],
+                esdeveniments: filteredEvents || []
             });
         } catch (error) {
             logger.error('Search error:', error);
@@ -70,7 +77,7 @@ const SearchDiscover = () => {
 
     const clearSearch = () => {
         setQuery('');
-        setResults({ gent: [], entitats: [], pobles: [], arxiu: [] });
+        setResults({ gent: [], entitats: [], pobles: [], arxiu: [], esdeveniments: [] });
         hapticService.notifySuccess();
         inputRef.current.focus();
     };
@@ -81,6 +88,7 @@ const SearchDiscover = () => {
         { id: 'grups', label: 'Grups', icon: <Users size={14} />, type: 'grup' },
         { id: 'empreses', label: 'Empreses', icon: <Store size={14} />, type: 'empresa' },
         { id: 'pobles', label: 'Pobles', icon: <MapPin size={14} /> },
+        { id: 'esdeveniments', label: 'Esdeveniments', icon: <Sparkles size={14} /> },
         { id: 'ajuntaments', label: 'Ajuntaments', icon: <Landmark size={14} />, type: 'oficial' },
         { id: 'entitats', label: 'Entitats', icon: <Building size={14} />, type: 'institucio' },
         { id: 'arxiu', label: 'Arxiu', icon: <Link2 size={14} /> }
@@ -202,6 +210,43 @@ const SearchDiscover = () => {
                                                         </div>
                                                         <div className="header-right">
                                                             <ChevronRight size={18} className="chevron" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </section>
+                                );
+                            }
+
+                            // Handle Events
+                            if (filter.id === 'esdeveniments') {
+                                if (results.esdeveniments.length === 0) return null;
+                                return (
+                                    <section key="esdeveniments" className="result-section">
+                                        <div className="result-section-header">
+                                            <h3>Agenda Festera</h3>
+                                            <span className="count">{results.esdeveniments.length}</span>
+                                        </div>
+                                        <div className="results-list">
+                                            {results.esdeveniments.map(event => (
+                                                <div key={event.id} className="universal-card result-item-card event" onClick={() => navigate('/pobles', { state: { initialTab: 'esdeveniments' } })}>
+                                                    <div className="card-header clickable" style={{ background: 'var(--color-terracotta)' }}>
+                                                        <div className="header-left">
+                                                            <div className="post-avatar event" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', backgroundColor: 'rgba(255,255,255,0.2)', width: '44px', height: '44px' }}>
+                                                                <Sparkles size={20} color="#fff" />
+                                                            </div>
+                                                            <div className="post-meta">
+                                                                <div className="post-author-row">
+                                                                    <span className="post-author" style={{ color: '#fff' }}>{event.title}</span>
+                                                                </div>
+                                                                <div className="post-town" style={{ color: 'rgba(255,255,255,0.8)' }}>
+                                                                    {event.location} • {new Date(event.date).toLocaleDateString('ca-ES', { day: 'numeric', month: 'long' })}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="header-right">
+                                                            <ChevronRight size={18} className="chevron" color="#fff" />
                                                         </div>
                                                     </div>
                                                 </div>

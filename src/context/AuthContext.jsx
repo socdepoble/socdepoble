@@ -34,6 +34,10 @@ const preWarmContext = async () => {
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [profile, setProfile] = useState(null);
+
+    useEffect(() => {
+        logger.log('[AuthProvider] Montat. El context d\'autenticació ja està disponible en l\'arbre.');
+    }, []);
     const [realUser, setRealUser] = useState(null);
     const [realProfile, setRealProfile] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -181,23 +185,47 @@ export const AuthProvider = ({ children }) => {
     };
 
     const logout = async () => {
-        logger.log('[AuthContext] Executing secure logout sequence...');
+        logger.log('[AuthContext] !!! COMENÇANT SEQÜÈNCIA DE SORTIDA RESILIENT !!!');
+        alert('Eixint de la xarxa...'); // Alert temporal per a depuració visual de l'usuari
+        logger.log('[AuthContext] Executing resilient logout sequence...');
+
+        // [MASTER OPTIMISTIC UI] Netejem l'estat local primer per alliberar l'usuari a l'instant
+        const clearLocalState = () => {
+            localStorage.removeItem('isPlaygroundMode');
+            localStorage.removeItem('sb-simulation-mode');
+            localStorage.removeItem('nuke_in_progress');
+            localStorage.removeItem('sp_sovereign_identity'); // També identitats sobiranes si cal
+
+            setIsPlayground(false);
+            setUser(null);
+            setProfile(null);
+            setRealUser(null);
+            setRealProfile(null);
+            setImpersonatedProfile(null);
+            setActiveEntityId(null);
+            setLoading(false);
+        };
+
         if (isPlayground) {
             await forceNukeSimulation();
             return;
         }
 
-        localStorage.removeItem('isPlaygroundMode');
-        localStorage.removeItem('sb-simulation-mode');
-        localStorage.removeItem('nuke_in_progress');
-        setIsPlayground(false);
-        await supabase.auth.signOut();
-        setUser(null);
-        setProfile(null);
-        setRealUser(null);
-        setRealProfile(null);
-        setImpersonatedProfile(null);
-        setActiveEntityId(null);
+        try {
+            // Intentem tancar sessió a Supabase amb un timeout o catch ràpid
+            // No esperem eternament si la xarxa falla (Rural Resilience)
+            const logoutPromise = supabase.auth.signOut();
+            const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('Logout Timeout')), 3000));
+
+            await Promise.race([logoutPromise, timeoutPromise]).catch(err => {
+                logger.warn('[AuthContext] Supabase signOut failed or timed out, but proceeding with local logout:', err);
+            });
+        } catch (err) {
+            logger.error('[AuthContext] Error during Supabase signOut:', err);
+        } finally {
+            clearLocalState();
+            logger.log('[AuthContext] Local state cleared. User is now out of the network.');
+        }
     };
 
     useEffect(() => {

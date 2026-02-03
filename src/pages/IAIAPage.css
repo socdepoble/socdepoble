@@ -621,3 +621,55 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* HUB TOOLS GRID [MASTER] */
+.hub-tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.hub-tool-item {
+    background: var(--md-sys-color-surface);
+    background-image: var(--bg-texture);
+    padding: 2rem 1rem;
+    border-radius: var(--radius-lg);
+    border: var(--comic-border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    text-align: center;
+    box-shadow: var(--comic-shadow);
+}
+
+.hub-tool-item:hover {
+    transform: translate(-4px, -4px);
+    border-color: var(--md-sys-color-primary);
+    background-color: var(--md-sys-color-primary-container);
+    box-shadow: var(--comic-shadow-hover);
+}
+
+.hub-tool-item svg {
+    color: var(--color-primary);
+    transition: transform 0.3s;
+}
+
+.hub-tool-item:hover svg {
+    transform: rotate(10deg);
+}
+
+.hub-tool-item span {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.sovereignty-hub-card {
+    border-bottom: 8px solid var(--md-sys-color-primary);
+    background-color: var(--md-sys-color-primary-container) !important;
+    background-image: var(--bg-texture);
+}

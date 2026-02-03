@@ -7,6 +7,7 @@ import { useAuth } from '../context/AuthContext';
 import { Phone, Mail, ArrowRight, Loader2, Activity } from 'lucide-react';
 import MeshStar from '../components/MeshStar';
 import { logger } from '../utils/logger';
+import { hapticService } from '../services/hapticService';
 import './Auth.css';
 
 /* Inline styles for forgot password link */
@@ -78,19 +79,20 @@ const Login = () => {
             navigate('/chats');
         } catch (err) {
             setError(err.message || 'Codi invàlid');
+            hapticService.notifyError();
         } finally {
             setLoading(false);
         }
     }, [otp, phone, adoptPersona, setIsPlayground, navigate]);
 
-    // [V1.5.8 - ZERO-CLICK LOGIN] Auto-submit quan el codi està complet
+    // [V1.5.6 - ZERO-CLICK LOGIN] Auto-submit quan el codi està complet
     useEffect(() => {
         if (otp && otp.length === 6 && step === 'verify') {
             handleVerifyOtp(null, otp);
         }
     }, [otp, step, handleVerifyOtp]);
 
-    // [V1.5.8 - ZERO-CLICK LOGIN] WebOTP API per a lectura automàtica d'SMS
+    // [V1.5.6 - ZERO-CLICK LOGIN] WebOTP API per a lectura automàtica d'SMS
     useEffect(() => {
         if ('OTPCredential' in window && step === 'verify') {
             const ac = new AbortController();
@@ -179,6 +181,7 @@ const Login = () => {
             }
         } catch (err) {
             setError(err.message);
+            hapticService.notifyError();
         } finally {
             setLoading(false);
         }
@@ -204,6 +207,7 @@ const Login = () => {
             setSuccessMessage(t('auth.otp_sent') || 'Codi enviat per SMS');
         } catch (err) {
             setError(err.message);
+            hapticService.notifyError();
         } finally {
             setLoading(false);
         }
@@ -322,7 +326,7 @@ const Login = () => {
                                         className="otp-input-field big"
                                     />
                                 </div>
-                                <button type="submit" className="auth-button v2" disabled={loading}>
+                                <button type="submit" className="auth-button v2" disabled={loading} onClick={() => hapticService.batec()}>
                                     {loading ? <MeshStar size={28} color="#ffffff" /> : 'VERIFICAR ACCÉS'}
                                 </button>
 
@@ -365,6 +369,25 @@ const Login = () => {
                                         onChange={(e) => setEmail(e.target.value)}
                                         required
                                     />
+                                </div>
+                                <div className="iaia-portal-hero animate-fade-in">
+                                    <div className="iaia-portrait-glow large">
+                                        <img
+                                            src="/iaia_digital_matriarch.png"
+                                            alt="La IAIA"
+                                            className="iaia-portrait-main dynamic-focus"
+                                            onError={(e) => {
+                                                e.target.src = "https://api.dicebear.com/7.x/avataaars/svg?seed=IAIA";
+                                            }}
+                                        />
+                                        <div className="iaia-motto-overlay">
+                                            <p>"Pensant en global, treballant en local."</p>
+                                        </div>
+                                    </div>
+                                    <div className="iaia-speech-bubble">
+                                        <p>{t('login.iaia_welcome')}</p>
+                                        <span className="iaia-emojis">👵✨</span>
+                                    </div>
                                 </div>
                             </div>
 
@@ -475,6 +498,9 @@ const Login = () => {
                             {lang.toUpperCase()}
                         </button>
                     ))}
+                </div>
+                <div className="auth-version-footer" style={{ marginTop: '20px', opacity: 0.3, fontSize: '0.7rem', userSelect: 'all' }}>
+                    v1.5.6-BATEGA
                 </div>
             </div>
         </div>

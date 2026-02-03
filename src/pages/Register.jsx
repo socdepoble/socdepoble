@@ -7,6 +7,7 @@ import MeshStar from '../components/MeshStar';
 import TownSelectorModal from '../components/TownSelectorModal';
 import { useAuth } from '../context/AuthContext';
 import { logger } from '../utils/logger';
+import { hapticService } from '../services/hapticService';
 import './Auth.css';
 
 /**
@@ -14,7 +15,10 @@ import './Auth.css';
  * La millor pàgina de registre del món: ràpida, premium i sobirana.
  */
 const Register = () => {
-    const { setIsPlayground, user } = useAuth();
+    logger.log('[Register] Inicialitzant component...');
+    const auth = useAuth();
+    logger.log('[Register] Context d\'autenticació obtingut:', !!auth);
+    const { setIsPlayground, user } = auth;
     const { i18n } = useTranslation();
     const navigate = useNavigate();
 
@@ -42,6 +46,13 @@ const Register = () => {
     const [error, setError] = useState(null);
     const [resendCountdown, setResendCountdown] = useState(0);
     const [loading, setLoading] = useState(false);
+    const [focusedField, setFocusedField] = useState(null); // 'name' | 'phone' | 'email' | 'town' | 'otp'
+    const [isCelebrating, setIsCelebrating] = useState(false);
+
+    // Real-time validation visual cues
+    const isPhoneValid = phone.length >= 9;
+    const isNameValid = fullName.trim().length >= 3;
+    const isFormPreValid = authMethod === 'phone' ? (isPhoneValid && isNameValid && selectedTown) : (email.includes('@') && isNameValid && selectedTown);
 
     const handleVerifyOtp = useCallback(async (e, codeToVerify = null) => {
         e?.preventDefault();
@@ -63,12 +74,19 @@ const Register = () => {
 
                 // Track activation
                 logger.log('[Registration] Success for:', fullName);
-            }
+                hapticService.notifySuccess();
 
-            setIsPlayground(false);
-            navigate('/chats');
+                // [VICTORY SEQUENCE]
+                setIsCelebrating(true);
+                setStep('welcome');
+                setTimeout(() => {
+                    setIsPlayground(false);
+                    navigate('/chats');
+                }, 3000);
+            }
         } catch (err) {
             setError(err.message || 'Codi de seguretat invàlid.');
+            hapticService.notifyError();
         } finally {
             setLoading(false);
         }
@@ -80,7 +98,7 @@ const Register = () => {
         }
     }, [step, handleVerifyOtp, otp]);
 
-    // [V1.5.8 - ZERO-CLICK LOGIN] WebOTP API per a lectura automàtica d'SMS
+    // [V1.5.6 - ZERO-CLICK LOGIN] WebOTP API per a lectura automàtica d'SMS
     useEffect(() => {
         if ('OTPCredential' in window && step === 'verify') {
             const ac = new AbortController();
@@ -133,8 +151,10 @@ const Register = () => {
                 await supabaseService.signInWithOtp(formattedPhone);
                 setStep('verify');
                 setResendCountdown(60);
+                hapticService.notifyThinking();
             } catch (err) {
                 setError(err.message);
+                hapticService.notifyError();
             } finally {
                 setLoading(false);
             }
@@ -172,73 +192,44 @@ const Register = () => {
                     <div className={`progress-segment ${step === 'verify' ? 'active' : ''}`}></div>
                 </div>
 
-                <header className="auth-header">
+                <header className="auth-header glass-header">
                     <img src="/logo.png" alt="Sóc de Poble" className="auth-logo-v2" />
 
                     {/* [MASTER GUIDANCE] La IAIA sempre guia el bategat */}
-                    <div className="auth-iaia-guidance" style={{ marginTop: '0', marginBottom: '24px' }}>
-                        <div className="iaia-avatar-wrapper">
+                    <div className="auth-iaia-guidance interstellar-iaia" style={{ marginTop: '0', marginBottom: '32px' }}>
+                        <div className="iaia-avatar-wrapper" onClick={() => hapticService.batec()}>
                             <img src="/assets/avatars/iaia_official.png" alt="MArIA" className="iaia-mini-avatar" />
+                            <div className="iaia-pulse-outer"></div>
                             <div className="iaia-pulse"></div>
                         </div>
-                        <div className="iaia-speech-bubble">
-                            {step === 'identity'
-                                ? <>Hola, bonica! Soc la IAIA. Tria el teu nom i el teu poble.<br />Vine al redol, que ací xategem tots els veïns! 🗣️🏘️</>
-                                : "T'he enviat el codi de seguretat al mòbil. Posa'l ací baix i entrarem a la plaça! 📱🏘️"}
+                        <div className="iaia-speech-bubble-interstellar">
+                            {step === 'identity' ? (
+                                focusedField === 'name' ? "Posa el teu nom tal com vols que et coneguen al poble, bonico! ✨" :
+                                    "Hola, bonica! Soc la IAIA. Com t'hem de dir per ací?"
+                            ) : step === 'town' ? (
+                                "Dime on vius, que t'he de posar al cor del territori! 📍"
+                            ) : step === 'connection' ? (
+                                "El número de mòbil és la teua clau de la plaça. Posa'l amb trellat! 📱"
+                            ) : step === 'verify' ? (
+                                "T'he enviat el bategat de seguretat al mòbil. Posa'l ací i entrarem a la plaça! 📱🏛️"
+                            ) : "Benvingut a la plaça, veí! Ja som un més a la comunitat! 🎊"}
                         </div>
                     </div>
 
-                    <h1>{step === 'identity' ? 'Crea la teua Identitat' : 'Verifica el teu accés'}</h1>
-                    <p className="auth-subtitle">
-                        {step === 'identity'
-                            ? 'Connecta amb els teus veïns d\'avui i de sempre.'
-                            : `T'hem enviat un SMS al +34 ${phone}.`}
-                    </p>
+                    <h1 className="interstellar-h1">
+                        {step === 'identity' ? 'Qui eres?' :
+                            step === 'town' ? 'D\'on eres?' :
+                                step === 'connection' ? 'Connexió' :
+                                    step === 'verify' ? 'Seguretat' : 'Benvinguda'}
+                    </h1>
                 </header>
 
                 {error && <div className="auth-error shake">{error}</div>}
 
-                {step === 'verify' ? (
-                    <form onSubmit={handleVerifyOtp} className="auth-form glass-form">
+                {/* STEP 1: IDENTITY */}
+                {step === 'identity' && (
+                    <div className="auth-step-container animate-fade-in-right">
                         <div className="form-group">
-                            <label htmlFor="otp-input-reg">Codi de 6 dígits</label>
-                            <input
-                                id="otp-input-reg"
-                                name="otp_code"
-                                type="text"
-                                placeholder="123456"
-                                value={otp}
-                                onChange={(e) => setOtp(e.target.value)}
-                                autoComplete="one-time-code"
-                                inputMode="numeric"
-                                maxLength={6}
-                                required
-                                className="otp-input-field big"
-                            />
-                        </div>
-
-                        <button type="submit" className="auth-button v2" disabled={loading}>
-                            {loading ? <MeshStar size={28} color="#ffffff" /> : 'CONFIRMAR ENTRADA'}
-                        </button>
-
-                        <div className="otp-helper">
-                            {resendCountdown > 0 ? (
-                                <span>Nou codi disponible en <strong style={{ color: 'var(--color-primary)' }}>{resendCountdown}s</strong></span>
-                            ) : (
-                                <button type="button" className="text-btn accent" onClick={handleRegister}>
-                                    No he rebut res. Reenviar SMS 🔁
-                                </button>
-                            )}
-                        </div>
-
-                        <button type="button" className="text-btn back-btn" onClick={() => setStep('identity')}>
-                            Tornar a començar
-                        </button>
-                    </form>
-                ) : (
-                    <form onSubmit={handleRegister} className="auth-form">
-                        {/* Step 1: Basic Identity */}
-                        <div className="form-group animate-in" style={{ animationDelay: '0.1s' }}>
                             <label htmlFor="reg-fullname">Nom i Cognoms</label>
                             <div className="input-with-icon">
                                 <User size={18} className="input-icon" />
@@ -248,71 +239,37 @@ const Register = () => {
                                     type="text"
                                     placeholder="Javi Llinares"
                                     value={fullName}
-                                    onChange={(e) => setFullName(e.target.value)}
+                                    onChange={(e) => {
+                                        setFullName(e.target.value);
+                                        if (e.target.value.length === 3) hapticService.batec();
+                                    }}
+                                    onFocus={() => setFocusedField('name')}
+                                    onBlur={() => setFocusedField(null)}
                                     autoComplete="name"
                                     required
+                                    className={fullName && !isNameValid ? 'input-error' : (isNameValid ? 'input-success' : '')}
                                 />
                             </div>
                         </div>
+                        <button
+                            className={`auth-button v2 main-btn ${!isNameValid ? 'btn-dimmed' : ''}`}
+                            disabled={!isNameValid}
+                            onClick={() => { hapticService.batec(); setStep('town'); }}
+                        >
+                            <span>CONTINUAR CAP AL POBLE</span>
+                            <ChevronRight size={20} />
+                        </button>
+                    </div>
+                )}
 
-                        {authMethod === 'phone' ? (
-                            <div className="form-group animate-in" style={{ animationDelay: '0.2s' }}>
-                                <label htmlFor="reg-phone">Telèfon Mòbil</label>
-                                <div className="phone-input-wrapper-v2">
-                                    <span className="prefix-badge">🇪🇸 +34</span>
-                                    <input
-                                        id="reg-phone"
-                                        name="phone"
-                                        type="tel"
-                                        placeholder="600 000 000"
-                                        value={phone}
-                                        onChange={(e) => setPhone(e.target.value.replace(/[^0-9]/g, ''))}
-                                        autoComplete="tel"
-                                        required
-                                        className="phone-input-prime"
-                                    />
-                                </div>
-                            </div>
-                        ) : (
-                            <>
-                                <div className="form-group animate-in" style={{ animationDelay: '0.2s' }}>
-                                    <label htmlFor="reg-email">Correu Electrònic</label>
-                                    <div className="input-with-icon">
-                                        <Mail size={18} className="input-icon" />
-                                        <input
-                                            id="reg-email"
-                                            name="email"
-                                            type="email"
-                                            placeholder="correu@poble.cat"
-                                            value={email}
-                                            onChange={(e) => setEmail(e.target.value)}
-                                            autoComplete="email"
-                                            required
-                                        />
-                                    </div>
-                                </div>
-                                <div className="form-group animate-in" style={{ animationDelay: '0.3s' }}>
-                                    <label htmlFor="reg-password">Contrasenya</label>
-                                    <div className="input-with-icon">
-                                        <ShieldCheck size={18} className="input-icon" />
-                                        <input
-                                            id="reg-password"
-                                            name="password"
-                                            type="password"
-                                            placeholder="Mínim 6 caràcters"
-                                            value={password}
-                                            onChange={(e) => setPassword(e.target.value)}
-                                            autoComplete="new-password"
-                                            required
-                                        />
-                                    </div>
-                                </div>
-                            </>
-                        )}
-
-                        <div className="form-group animate-in" style={{ animationDelay: '0.4s' }}>
-                            <label>Poble de Primera Residència</label>
+                {/* STEP 2: TOWN */}
+                {step === 'town' && (
+                    <div className="auth-step-container animate-fade-in-right">
+                        <div className="form-group">
+                            <label htmlFor="town-picker-reg">Poble de Primera Residència</label>
                             <button
+                                id="town-picker-reg"
+                                name="town_picker"
                                 type="button"
                                 className={`town-picker-v2 ${selectedTown ? 'selected' : ''}`}
                                 onClick={() => setIsTownModalOpen(true)}
@@ -324,31 +281,124 @@ const Register = () => {
                                 <ChevronRight size={18} />
                             </button>
                         </div>
-
-                        <div className="onboarding-iaia-tip animate-in" style={{ animationDelay: '0.5s' }}>
-                            <div className="tip-icon">✨</div>
-                            <p><strong>IAIA Diu:</strong> "Triar bé el poble és triar la teua família digital. Un cop a dins, ja tindràs el xat de la plaça disponible!"</p>
-                        </div>
-
-                        <button type="submit" className="auth-button v2 main-btn" disabled={loading}>
-                            {loading ? <MeshStar size={28} color="#00f2ff" /> : (
-                                <>
-                                    <span>{authMethod === 'phone' ? 'ENVIAR CODI SMS' : 'CREAR COMPTE'}</span>
-                                    <Zap size={18} fill="currentColor" />
-                                </>
-                            )}
-                        </button>
-
-                        <div className="auth-method-switcher">
-                            <button type="button" className="text-btn" onClick={() => setAuthMethod(authMethod === 'phone' ? 'email' : 'phone')}>
-                                {authMethod === 'phone' ? 'Registrar-se amb correu' : 'Registrar-se amb mòbil'}
+                        <div className="flex gap-4">
+                            <button className="text-btn back-btn-step" onClick={() => setStep('identity')}>Enrere</button>
+                            <button
+                                className={`auth-button v2 main-btn ${!selectedTown ? 'btn-dimmed' : ''}`}
+                                disabled={!selectedTown}
+                                onClick={() => { hapticService.batec(); setStep('connection'); }}
+                            >
+                                <span>TRIAR AQUEST POBLE</span>
+                                <CheckCircle2 size={20} />
                             </button>
                         </div>
+                    </div>
+                )}
+
+                {/* STEP 3: CONNECTION */}
+                {step === 'connection' && (
+                    <div className="auth-step-container animate-fade-in-right">
+                        <div className="form-group">
+                            <label htmlFor="reg-phone">Telèfon Mòbil</label>
+                            <div className="phone-input-wrapper-v2">
+                                <span className="prefix-badge">🇪🇸 +34</span>
+                                <input
+                                    id="reg-phone"
+                                    name="phone"
+                                    type="tel"
+                                    placeholder="600 000 000"
+                                    value={phone}
+                                    onChange={(e) => {
+                                        const val = e.target.value.replace(/[^0-9]/g, '');
+                                        setPhone(val);
+                                        if (val.length === 9) hapticService.batec();
+                                    }}
+                                    onFocus={() => setFocusedField('phone')}
+                                    onBlur={() => setFocusedField(null)}
+                                    autoComplete="tel"
+                                    inputMode="numeric"
+                                    required
+                                    className={`phone-input-prime ${phone && !isPhoneValid ? 'input-error' : (isPhoneValid ? 'input-success' : '')}`}
+                                />
+                            </div>
+                        </div>
+                        <div className="flex gap-4">
+                            <button className="text-btn back-btn-step" onClick={() => setStep('town')}>Enrere</button>
+                            <button
+                                className={`auth-button v2 main-btn ${!isPhoneValid ? 'btn-dimmed' : ''}`}
+                                disabled={loading || !isPhoneValid}
+                                onClick={handleRegister}
+                            >
+                                {loading ? <MeshStar size={28} color="#00f2ff" /> : (
+                                    <>
+                                        <span>ENVIAR CODI SMS</span>
+                                        <Zap size={18} fill="currentColor" />
+                                    </>
+                                )}
+                            </button>
+                        </div>
+                    </div>
+                )}
+
+                {/* STEP 4: VERIFY */}
+                {step === 'verify' && (
+                    <form onSubmit={handleVerifyOtp} className="auth-form glass-form animate-fade-in-right">
+                        <div className="form-group">
+                            <label htmlFor="otp-input-reg">Codi de 6 dígits</label>
+                            <input
+                                id="otp-input-reg"
+                                name="otp_code"
+                                type="text"
+                                placeholder="123456"
+                                value={otp}
+                                onChange={(e) => setOtp(e.target.value)}
+                                onFocus={() => setFocusedField('otp')}
+                                onBlur={() => setFocusedField(null)}
+                                autoComplete="one-time-code"
+                                inputMode="numeric"
+                                maxLength={6}
+                                required
+                                className="otp-input-field big"
+                            />
+                        </div>
+
+                        <button type="submit" className="auth-button v2" disabled={loading || otp.length < 6} onClick={() => hapticService.batec()}>
+                            {loading ? <Loader2 className="animate-spin" size={28} /> : 'CONFIRMAR ENTRADA'}
+                        </button>
+
+                        <div className="otp-helper" style={{ marginTop: '16px' }}>
+                            {resendCountdown > 0 ? (
+                                <span>Nou codi disponible en <strong style={{ color: 'var(--color-primary)' }}>{resendCountdown}s</strong></span>
+                            ) : (
+                                <button type="button" className="text-btn accent" onClick={handleRegister}>
+                                    No he rebut res. Reenviar SMS 🔁
+                                </button>
+                            )}
+                        </div>
+
+                        <button type="button" className="text-btn back-btn" onClick={() => setStep('connection')}>
+                            Canviar número
+                        </button>
                     </form>
                 )}
 
+                {/* STEP 5: WELCOME CELEBRATION */}
+                {step === 'welcome' && (
+                    <div className="auth-step-container celebration-step animate-zoom-in">
+                        <div className="celebration-icon">🎊</div>
+                        <h2 className="victory-text">Benvingut a casa, {fullName.split(' ')[0]}!</h2>
+                        <div className="iaia-final-blessing">
+                            <p>"Ja eres un dels nostres. Cor de poble, bategat digital. Ens veiem a la plaça!"</p>
+                            <span className="iaia-signature">- L'IAIA 👵✨</span>
+                        </div>
+                        <div className="loading-dots-premium">
+                            <span></span><span></span><span></span>
+                        </div>
+                    </div>
+                )}
+
                 <div className="auth-footer-v2">
-                    <p>Ja tens compte? <Link to="/login">Entra ara</Link></p>
+                    {step !== 'welcome' && <p>Ja tens compte? <Link to="/login">Entra ara</Link></p>}
                 </div>
             </div>
 
@@ -359,11 +409,15 @@ const Register = () => {
                     setSelectedTown(town);
                     setIsTownModalOpen(false);
                     setError(null);
+                    hapticService.batec();
                 }}
             />
 
             <footer className="onboarding-legal">
                 <p>En bategar, acceptes que Sóc de Poble és un experiment de sobirania digital. <Link to="/legal">Avisos Legals</Link></p>
+                <div className="auth-version-footer" style={{ marginTop: '10px', opacity: 0.3, fontSize: '0.7rem', userSelect: 'all' }}>
+                    v1.5.6-BATEGA
+                </div>
             </footer>
         </div>
     );

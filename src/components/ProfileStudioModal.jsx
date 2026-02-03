@@ -1,5 +1,6 @@
-import React, { useRef } from 'react';
-import { X, Camera, Maximize, User, Loader2, Image as ImageIcon } from 'lucide-react';
+import React, { useRef, useState } from 'react';
+import { X, Camera, Maximize, User, Loader2, Image as ImageIcon, Video } from 'lucide-react';
+import CaptureStudio from './CaptureStudio';
 import './ProfileStudioModal.css';
 
 const ProfileStudioModal = ({
@@ -10,12 +11,26 @@ const ProfileStudioModal = ({
     uploadType,
     onFileSelect,
     onReposition,
-    onAlbumSelect
+    onAlbumSelect,
+    onCaptureComplete // Prop per a gestionar la captura
 }) => {
     const avatarInputRef = useRef(null);
     const coverInputRef = useRef(null);
+    const [isCaptureOpen, setIsCaptureOpen] = React.useState(false);
+    const [captureTarget, setCaptureTarget] = React.useState(null); // 'avatar' | 'cover'
 
     if (!isOpen) return null;
+
+    const handleCameraClick = (target) => {
+        setCaptureTarget(target);
+        setIsCaptureOpen(true);
+    };
+
+    const handleCapture = (media) => {
+        if (onCaptureComplete) {
+            onCaptureComplete(media, captureTarget);
+        }
+    };
 
     const displayProfile = profile || {};
 
@@ -63,10 +78,18 @@ const ProfileStudioModal = ({
                                     className="studio-btn primary"
                                     onClick={(e) => { e.stopPropagation(); coverInputRef.current.click(); }}
                                     disabled={isUploading}
-                                    title="Pujar nova imatge"
+                                    title="Pujar de l'arxiu"
                                 >
-                                    {isUploading && uploadType === 'cover' ? <Loader2 className="animate-spin" size={16} /> : <Camera size={16} />}
-                                    <span>Nova Portada</span>
+                                    {isUploading && uploadType === 'cover' ? <Loader2 className="animate-spin" size={16} /> : <ImageIcon size={16} />}
+                                    <span>Fitxer</span>
+                                </button>
+                                <button
+                                    className="studio-btn primary-batec"
+                                    onClick={(e) => { e.stopPropagation(); handleCameraClick('cover'); }}
+                                    disabled={isUploading}
+                                >
+                                    <Camera size={16} />
+                                    <span>Càmera</span>
                                 </button>
                                 {displayProfile.cover_url && (
                                     <button
@@ -128,8 +151,16 @@ const ProfileStudioModal = ({
                                     onClick={(e) => { e.stopPropagation(); avatarInputRef.current.click(); }}
                                     disabled={isUploading}
                                 >
-                                    {isUploading && uploadType === 'avatar' ? <Loader2 className="animate-spin" size={16} /> : <Camera size={16} />}
-                                    <span>Nova Foto</span>
+                                    {isUploading && uploadType === 'avatar' ? <Loader2 className="animate-spin" size={16} /> : <ImageIcon size={16} />}
+                                    <span>Fitxer</span>
+                                </button>
+                                <button
+                                    className="studio-btn primary-batec"
+                                    onClick={(e) => { e.stopPropagation(); handleCameraClick('avatar'); }}
+                                    disabled={isUploading}
+                                >
+                                    <Camera size={16} />
+                                    <span>Càmera</span>
                                 </button>
                                 {displayProfile.avatar_url && (
                                     <button
@@ -165,6 +196,13 @@ const ProfileStudioModal = ({
                     <button className="done-btn" onClick={onClose}>Fet</button>
                 </footer>
             </div>
+
+            <CaptureStudio
+                isOpen={isCaptureOpen}
+                onClose={() => setIsCaptureOpen(false)}
+                onCapture={handleCapture}
+                mode="photo"
+            />
         </div>
     );
 };

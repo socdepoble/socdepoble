@@ -1,10 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { X, Camera, Send, Loader2, Tag, Globe, Lock, Users } from 'lucide-react';
-import { supabaseService } from '../services/supabaseService';
-import { useAuth } from '../context/AuthContext';
-import { ROLES } from '../constants';
-import { logger } from '../utils/logger';
+import { X, Camera, Send, Loader2, Tag, Globe, Lock, Users, Video } from 'lucide-react';
+import CaptureStudio from './CaptureStudio';
 import './CreatePostModal.css'; // Use unified modal styles
 import './AddItemModal.css';
 
@@ -21,8 +16,11 @@ const AddItemModal = ({ isOpen, onClose, onItemCreated, isPrivateInitial = false
         description: '',
         price: '',
         tag: 'Producte',
-        image_url: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=800&q=80' // Placeholder
+        image_url: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=800&q=80', // Placeholder
+        video_url: null
     });
+    const [isCaptureOpen, setIsCaptureOpen] = useState(false);
+    const [capturedMedia, setCapturedMedia] = useState(null);
 
     useEffect(() => {
         if (isOpen) {
@@ -68,7 +66,8 @@ const AddItemModal = ({ isOpen, onClose, onItemCreated, isPrivateInitial = false
             const newItem = {
                 title: formData.title,
                 description: formData.description,
-                image_url: formData.image_url,
+                image_url: capturedMedia?.type === 'photo' ? capturedMedia.url : formData.image_url,
+                video_url: capturedMedia?.type === 'video' ? capturedMedia.url : formData.video_url,
                 tag: formData.tag,
                 privacy: privacy,
                 is_private: privacy !== 'public',
@@ -176,11 +175,19 @@ const AddItemModal = ({ isOpen, onClose, onItemCreated, isPrivateInitial = false
 
                     <div className="post-footer-tools">
                         <div className="tools-left">
-                            <button type="button" className="tool-btn">
+                            <button type="button" className="tool-btn" onClick={() => setIsCaptureOpen(true)}>
                                 <Camera size={20} />
                             </button>
-                            <span className="tool-label-mini">{t('market.add_photo')}</span>
+                            <span className="tool-label-mini">Captura Bategada (Foto/Vídeo)</span>
                         </div>
+
+                        {capturedMedia && (
+                            <div className="capture-badge animate-in">
+                                {capturedMedia.type === 'photo' ? <ImageIcon size={14} /> : <Video size={14} />}
+                                <span>Media List!</span>
+                                <button type="button" onClick={() => setCapturedMedia(null)} className="ml-1"><X size={12} /></button>
+                            </div>
+                        )}
 
                         <button
                             type="submit"
@@ -192,6 +199,13 @@ const AddItemModal = ({ isOpen, onClose, onItemCreated, isPrivateInitial = false
                     </div>
                 </form>
             </div>
+
+            <CaptureStudio
+                isOpen={isCaptureOpen}
+                onClose={() => setIsCaptureOpen(false)}
+                onCapture={handleCapture}
+                mode="all"
+            />
         </div>
     );
 };

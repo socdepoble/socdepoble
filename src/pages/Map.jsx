@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { MapPin, Navigation, Layers, Info } from 'lucide-react';
 import CategoryTabs from '../components/CategoryTabs';
+import { MOCK_EVENTS } from '../data';
 import './Map.css';
 
 const Map = () => {
@@ -67,11 +68,24 @@ const Map = () => {
                         <div className="ping-label">Mercat: Mel de la Torre</div>
                     </div>
 
-                    <div className="map-ping event" style={{ top: '35%', left: '25%' }}>
-                        <div className="ping-wave"></div>
-                        <div className="ping-dot"></div>
-                        <div className="ping-label">Festa Major</div>
-                    </div>
+                    {/* DYNAMIC EVENTS [VOS] */}
+                    {MOCK_EVENTS.map(event => (
+                        <div
+                            key={event.id}
+                            className="map-ping event-dynamic animate-bategat"
+                            style={{
+                                top: `${35 + (Math.random() * 20)}%`, // Mock positions around center
+                                left: `${25 + (Math.random() * 20)}%`
+                            }}
+                            onClick={() => navigate('/pobles', { state: { initialTab: 'esdeveniments' } })}
+                        >
+                            <div className="ping-wave"></div>
+                            <div className="ping-dot" style={{ backgroundColor: 'var(--color-terracotta)' }}></div>
+                            <div className="ping-label" style={{ backgroundColor: 'var(--color-terracotta-dark)' }}>
+                                {event.title}
+                            </div>
+                        </div>
+                    ))}
                 </div>
 
                 <div className="map-legend tactical-legend">

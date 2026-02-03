@@ -110,7 +110,7 @@ const Header = () => {
         <header className="m3-top-app-bar">
             <div className="bar-leading">
                 <Link to="/" className="bar-logo-link">
-                    <img src={logoSrc} alt="Sóc de Poble" className="bar-logo" />
+                    <img src={logoSrc} alt="Logo" className="bar-logo" />
                 </Link>
             </div>
 
@@ -119,7 +119,7 @@ const Header = () => {
                     <Search size={24} />
                 </button>
 
-                <button className="bar-icon-btn llumeta" onClick={() => navigate('/intel·ligencia')}>
+                <button className="bar-icon-btn llumeta" onClick={() => navigate('/ia')}>
                     <Sparkles size={24} />
                 </button>
 

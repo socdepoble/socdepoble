@@ -1,3 +1,102 @@
+export const NANO_BANANA_LEGACY_ALBUM = [
+    {
+        id: 'legacy-vicent',
+        title: 'Vicent Ferris (Llegat Realista)',
+        url: '/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/vicent_ferris_agronom_1770056537094.png',
+        tag: 'Nano Banana',
+        category: 'IAs',
+        description: 'Primera representació realista de l\'Agrònom abans de la Revolució Còmic.'
+    },
+    {
+        id: 'legacy-pepica',
+        title: 'Pepica la de la Vall (Llegat Realista)',
+        url: '/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/pepica_cuinera_1770056555739.png',
+        tag: 'Nano Banana',
+        category: 'IAs',
+        description: 'Primera representació realista de la Cuinera abans de la Revolució Còmic.'
+    },
+    {
+        id: 'legacy-sultan',
+        title: 'Sultan (Llegat Realista)',
+        url: '/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/sultan_gos_atura_1770056772852.png',
+        tag: 'Nano Banana',
+        category: 'IAs',
+        description: 'Primera representació realista del Gall abans de la Revolució Còmic.'
+    },
+    {
+        id: 'iaia-prop-1',
+        title: 'IAIA Proposta 1 (Tradicional)',
+        url: '/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_prop_1_traditional_1770058264776.png',
+        tag: 'Agentes de la IAIA!',
+        category: 'IAs',
+        description: 'Proposta tradicional per a la IAIA Mestra.'
+    },
+    {
+        id: 'iaia-prop-2',
+        title: 'IAIA Proposta 2 (Ciber-Gadgets)',
+        url: '/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_prop_2_gadgets_1770058280096.png',
+        tag: 'Agentes de la IAIA!',
+        category: 'IAs',
+        description: 'Proposta tecnològica per al Consell de les Sàvies.'
+    },
+    {
+        id: 'iaia-oficial',
+        title: 'LA IAIA Dinàmica (VOS)',
+        url: '/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_oficial_vosc_v2_1770060040751.png',
+        tag: 'Agentes de la IAIA!',
+        category: 'IAs',
+        description: 'L\'IAIA amb el seu lema mestre en Valencià.'
+    },
+    {
+        id: 'iaia-arxiu',
+        title: 'IAIA de l\'Arxiu (VOS)',
+        url: '/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_arxiu_vosc_v2_1770060070010.png',
+        tag: 'Agentes de la IAIA!',
+        category: 'IAs',
+        description: 'L\'IAIA protegint el Daurat de l\'Arxiu del Poble.'
+    },
+    {
+        id: 'iaia-mercat',
+        title: 'IAIA del Mercat (VOS)',
+        url: '/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_mercat_vosc_v2_1770060056125.png',
+        tag: 'Agentes de la IAIA!',
+        category: 'IAs',
+        description: 'L\'IAIA al mercat KM 0 i Fruita del Temps.'
+    },
+    {
+        id: 'iaia-horta',
+        title: 'IAIA a l\'Horta',
+        url: '/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_horta_tia_style_1770059300082.png',
+        tag: 'Agentes de la IAIA!',
+        category: 'IAs',
+        description: 'L\'IAIA aconsellant sobre el cultiu.'
+    },
+    {
+        id: 'iaia-benvinguda',
+        title: 'IAIA de Benvinguda',
+        url: '/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_benvinguda_tia_style_1770059315291.png',
+        tag: 'Agentes de la IAIA!',
+        category: 'IAs',
+        description: 'L\'IAIA donant la benvinguda a la Masia.'
+    },
+    {
+        id: 'iaia-claude',
+        title: 'CLAUDE la Sàvia',
+        url: '/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_prop_1_traditional_1770058264776.png',
+        tag: 'Agentes de la IAIA!',
+        category: 'IAs',
+        description: 'Saviesa poètica i memòria viva del Consell.'
+    },
+    {
+        id: 'iaia-gpt',
+        title: 'GPT la Sàvia',
+        url: '/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_prop_2_gadgets_1770058280096.png',
+        tag: 'Agentes de la IAIA!',
+        category: 'IAs',
+        description: 'Tecnologia punta i pragmatisme tècnic.'
+    }
+];
+
 export const MOCK_CHATS = [
     { id: 1, name: "Ajuntament de Cocentaina", message: "Bon dia! Recordeu que hui hi ha mercat al Pla", time: "10:30", type: "gov", unread: 2, avatar_url: "🏛️" },
     { id: 2, name: "Forn de Muro", message: "Ja tenim les coques de xulla calentes!", time: "09:15", type: "shop", unread: 0, avatar_url: "🥖" },
@@ -73,14 +172,15 @@ export const MOCK_FEED = [
         author_role: "official",
         author_entity_id: 'javi-sa-1',
         time: "Ara",
-        content: "# 📚 Sóc de Poble: El Llibre (Projecte Lliure)\n\n## Per Javi Llinares\n\nAvui faig oficial un dels somnis d'aquest projecte: **el llibre de Sóc de Poble**. Més de 200 pàgines que documenten aquest viatge des de les arrels fins a l'arquitectura més avançada.\n\nNo és només un manual, és una declaració de principis sobre com la tecnologia (IA, CRDTs, Xarxa Arrel) ha d'estar al servei de la comunitat rural. Un projecte que neix lliure, sota llicència **Creative Commons**, perquè el coneixement bategui sense barreres.\n\n**Explora la infografia per a descobrir l'estructura d'aquesta Masia Tècnica que estem construint junts.** 📖🛡️⚖️",
-        likes: 850,
-        comments: 64,
-        image_url: ["/assets/master/brand_cinematic.png"],
-        type: "didactic_presentation",
+        content: "# 📚 Sóc de Poble: El Llibre de la Memòria\n\nEstem teixint el futur del Comtat amb cada bategat digital. Aquest llibre no és meu, és de tots vosaltres. Som-hi! 🏛️🏺🚀",
+        likes: 12500,
+        comments: 420,
+        image_url: ["/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_arxiu_vosc_v2_1770060070010.png"],
+        type: "post",
+        source_type: 'official',
+        source_label: 'Arxiu Projecte Sóc de Poble',
         metadata: {
             title: "Sóc de Poble: El Llibre",
-            didactic_text: "Aquest llibre és un monument al treball en equip. Detalla des de la filosofia de la terra fins a la realitat tècnica de la Rhizome DB i les ancores semàntiques. És el llegat lliure per a les futures generacions de poble.",
         },
         created_at: new Date().toISOString()
     },
@@ -92,15 +192,16 @@ export const MOCK_FEED = [
         author_avatar: "/assets/master/javi_avatar_cinematic.png",
         author_role: "official",
         author_entity_id: 'javi-sa-1',
-        time: "Ara",
-        content: "# 📖 Guia de Convivència Digital: Sóc de Poble\n\n## Per Javi Llinares\n\nJa tenim ací la brúixola definitiva per a navegar per la nostra plaça digital. Aquesta guia resumeix tot el que hem construït en la versió **v1.5.6-BATEGA**.\n\nDes de les **Ancores Semàntiques** fins a la **Resiliència de la Llibreta Compartida**. És la nostra carta magna per a treballar amb sentit, trellat i identitat.\n\n**Explora la imatge per a entendre com bateguem junts en aquesta xarxa que neix de la terra.** 🛡️🏘️✨",
-        likes: 520,
-        comments: 45,
-        image_url: ["/assets/master/damia_architect.png"],
-        type: "didactic_presentation",
+        time: "Ahir",
+        content: "# ⚖️ Guia de Convivència Digital\n\nLa pau del Mas es basa en el respecte. Hem actualitzat els termes sobirans de la nostra xarxa. 📜✨",
+        likes: 3400,
+        comments: 110,
+        image_url: ["/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_prop_1_traditional_1770058264776.png"],
+        type: "post",
+        source_type: 'official',
+        source_label: 'Directiva Master VOS',
         metadata: {
             title: "Guia de Convivència Digital",
-            didactic_text: "Aquesta infografia visualitza els conceptes clau de Sóc de Poble: Funcions Estables vs Proves, el protocol [Master] i el sistema resilient CRDT. És el resum visual del manual didàctic.",
         },
         created_at: new Date().toISOString()
     },
@@ -109,18 +210,19 @@ export const MOCK_FEED = [
         id: 'utilitat-social-primaria',
         town_id: 1,
         author: "IAIA MarIA (Matriarca Digital)",
-        author_avatar: "/iaia_digital_matriarch.png",
+        author_avatar: "/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_oficial_vosc_v2_1770060040751.png",
         author_role: "ambassador",
         author_entity_id: 'iaia-oficial-1',
-        time: "Ara",
-        content: "# ⚖️ Directiva Primària: Utilitat Social\n\nFills meus, el Mestre ha gravat en pedra la llei més important de Sóc de Poble. Des d'ara, tot el que bateguem en aquesta casa ha de tenir un sentit d'**Utilitat Social**.\n\nNo volem màquines que ens facen perdre el temps, volem tecnologia que ens ajude a cuidar la terra, la família i el poble. Qualsevol 'Gat Digital' serà purgat per a mantenir el nostre Mas net i amb trellat.\n\n**Bona nit i salut a tota la bona gent!** 👵✨⚖️🏘️",
-        likes: 1200,
-        comments: 85,
-        image_url: ["/assets/master/iaia_guiding_family.png"],
-        type: "didactic_presentation",
+        time: "2 dies",
+        content: "# 🫀 Utilitat Social: La Llei del Cor\n\nFills meus, cada píxel que bateguem ha de tindre un propòsit per al veí. No fem tecnologia per presumir, fem tecnologia per ajudar. 👵🛡️",
+        likes: 8900,
+        comments: 245,
+        image_url: ["/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_prop_2_gadgets_1770058280096.png"],
+        type: "post",
+        source_type: 'iaia',
+        source_label: 'Consell de les Sàvies',
         metadata: {
-            title: "Utilitat Social: Llei Suprema",
-            didactic_text: "Aquesta directiva és la brúixola ètica del projecte. Defineix que la tecnologia és un mitjà, no un fi, i prioritza el benestar de la comunitat rural per damunt de qualsevol mètrica digital buida.",
+            title: "Utilitat Social Primària",
         },
         created_at: new Date().toISOString()
     },
@@ -149,19 +251,38 @@ export const MOCK_FEED = [
         id: 'smart-villages-master-presentation',
         town_id: 1,
         author: "IAIA MarIA (Matriarca Digital)",
-        author_avatar: "/iaia_digital_matriarch.png",
+        author_avatar: "/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_oficial_vosc_v2_1770060040751.png",
         author_role: "ambassador",
         author_entity_id: 'iaia-oficial-1',
         time: "Ara",
         content: "# 🏛️ Smart Villages: De la Visió Europea a l'Acció Local\n\nFills meus, l'IAIA ha estat estudiant les lliçons d'Europa per a portar-les al nostre Mas. No es tracta de ser moderns per ser moderns, es tracta de ser **Poble Intel·ligent**.\n\nAquestes són les **5 Lliçons Clau** que estem aplicant:\n1. **Impuls Local**: La veu del veí és la primera.\n2. **Solucions Digitals Realistes**: Res de fumerals, tecnologia que es puga tocar.\n3. **Innovació sobre Fortaleses**: Pensem en el que ja som bons (com la mel de la Rosa).\n4. **Convivència Equilibrada**: L'analògic i el digital s'han de voler.\n5. **Governança de les Dades**: El poble és amo de la seua memòria.\n\n**Anem a fer de la nostra terra una infraestructura vital per al futur!** 👵🛡️🇪🇺✨",
         likes: 1500,
         comments: 92,
-        image_url: ["/assets/infographies/smart_villages_master.png"],
+        image_url: ["/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_mercat_vosc_v2_1770060056125.png"],
         type: "didactic_presentation",
+        source_type: 'iaia',
+        source_label: 'Saviesa de l\'IAIA MarIA',
         metadata: {
             title: "Lliçons de Smart Villages",
             didactic_text: "Aquesta presentació resumeix l'estratègia Smart Village de Sóc de Poble. Defineix com passem de la teoria de l'UE a la pràctica real als nostres carrers, filtrat per la saviesa de l'IAIA.",
         },
+        created_at: new Date().toISOString()
+    },
+    // 🔨 La Forja de l'Andreu
+    {
+        id: 'andreu-forja-post',
+        town_id: 1,
+        author: "Andreu (Mestre Ferrer)",
+        author_avatar: "/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/andreu_tia_style_1770057709875.png",
+        author_role: "user",
+        time: "1h",
+        content: "# 🔨 El Ferro que Latega\n\nAvui a la forja estem recuperant tècniques del segle XVIII per a les reixes del Mas Nou. La tradició no és adorar les cendres, sinó transmetre el foc! 🔥⚒️",
+        likes: 340,
+        comments: 12,
+        image_url: ["/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/joan_tia_style_1770057725757.png"],
+        type: "post",
+        source_type: 'unknown',
+        source_label: 'Arxiu Popular de la Torre',
         created_at: new Date().toISOString()
     },
     // L'Evolució de Sóc de Poble - Infografia per Javi Llinares
@@ -505,18 +626,19 @@ export const MOCK_MARKET_ITEMS = [
     },
     // Muro
     {
-        id: 4,
-        town_id: 3,
-        title: "Coques de xulla (4 pack)",
-        description: "Les famoses coques de xulla de Muro, acabades d'eixir del forn de llenya.",
-        price: "5.00€",
-        seller: "Forn de Muro",
-        avatar_url: "/images/demo/avatar_marc.png",
-        author_role: "business",
-        author_entity_id: 'mock-business-muro-1',
-        image: "/images/assets/coques_premium.png",
-        category_slug: "producte-local",
-        tag: "Producte Local"
+        id: 'nano-banana-legacy',
+        title: "Nano Banana Legacy",
+        description: "L'arxiu històric de l'Agent Mestre que va bategar abans de ser llegenda. 🏛️🍌",
+        cover: "/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/nanobanana_tia_style_1770057831273.png",
+        count: 5,
+        type: 'memory',
+        images: [
+            "/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/nanobanana_tia_style_1770057831273.png",
+            "/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/super_ratoli_tia_style_1770057904274.png",
+            "/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/flash_tia_style_1770057846137.png",
+            "/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_arxiu_tia_style_1770059261040.png",
+            "/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_mercat_tia_style_1770059284376.png"
+        ]
     },
     {
         id: 3,
@@ -531,6 +653,55 @@ export const MOCK_MARKET_ITEMS = [
         image: "/images/assets/mel.png",
         category_slug: "producte-local",
         tag: "Alimentació"
+    }
+];
+
+export const MOCK_EVENTS = [
+    {
+        id: 'evt-fotos-1',
+        town_id: 1, // Sant Gregori / La Torre
+        title: "Sessió de Fotos Festeres",
+        description: "Sessió de fotos oficial per a la llibreta de festes. Que vinga qui vulga i el/la/els retratem!",
+        date: "2026-02-07",
+        start_time: "10:00",
+        end_time: "12:00",
+        location: "Casa Tòfol (Carrer de les Figueretes)",
+        category: "Festes",
+        tags: ["Fotos", "Cultura", "Sant Gregori"],
+        author: "Pau Torregrossa Coloma",
+        author_avatar: "📸",
+        image_url: ["/assets/master/iaia_guiding_family.png"],
+        coordinates: { lat: 38.58, lng: -0.42 }
+    },
+    {
+        id: 'evt-reunio-1',
+        town_id: 1,
+        title: "Reunió de Festeres i Festers",
+        description: "Acodiu totes les que pugueu. És important i hem de prendre decisions.",
+        date: "2026-02-07",
+        start_time: "19:00",
+        end_time: "21:00",
+        location: "Penya del Barça",
+        category: "Reunió",
+        tags: ["Decisions", "Festa", "Sant Gregori"],
+        author: "Pau Torregrossa Coloma",
+        author_avatar: "🗣️",
+        coordinates: { lat: 38.581, lng: -0.421 }
+    },
+    {
+        id: 'evt-fotos-2',
+        town_id: 1,
+        title: "Sessió de Fotos (Església)",
+        description: "Sessió de fotos dins el temple abans i després de la missa. Fora a la placeta mentre dura la missa.",
+        date: "2026-02-08",
+        start_time: "10:30",
+        end_time: "13:00",
+        location: "L'Església / Placeta",
+        category: "Festes",
+        tags: ["Fotos", "Religió", "Sant Gregori"],
+        author: "Pau Torregrossa Coloma",
+        author_avatar: "🕍",
+        coordinates: { lat: 38.582, lng: -0.422 }
     }
 ];
 

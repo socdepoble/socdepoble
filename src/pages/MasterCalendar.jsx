@@ -2,6 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Calendar as CalendarIcon, ChevronLeft, ChevronRight, Sparkles, Brain } from 'lucide-react';
 import { CALENDAR_EVENTS } from '../data/calendarData';
+import { MOCK_EVENTS } from '../data';
 import './MasterCalendar.css';
 
 const MasterCalendar = () => {
@@ -9,7 +10,7 @@ const MasterCalendar = () => {
     const today = new Date();
 
     // Ancoratges de Memòria des de la xarxa Rhizome
-    const events = CALENDAR_EVENTS;
+    const events = [...CALENDAR_EVENTS, ...MOCK_EVENTS];
 
     return (
         <div className="calendar-master-page animate-in">
@@ -20,7 +21,7 @@ const MasterCalendar = () => {
                 </div>
                 <div className="calendar-controls">
                     <button className="btn-calendar-nav"><ChevronLeft /></button>
-                    <span className="current-month">GENER 2026</span>
+                    <span className="current-month">FEBRER 2026</span>
                     <button className="btn-calendar-nav"><ChevronRight /></button>
                 </div>
             </header>
@@ -31,17 +32,17 @@ const MasterCalendar = () => {
                     <div key={d} className="day-name">{d.toUpperCase()}</div>
                 ))}
 
-                {/* Días vacíos hasta el 1 de Enero (2026 empieza en un jueves) */}
-                {[...Array(3)].map((_, i) => <div key={`empty-${i}`} className="calendar-day empty" />)}
+                {/* Días vacíos hasta el 1 de Febrero (2026 empieza en un domingo) */}
+                {[...Array(0)].map((_, i) => <div key={`empty-${i}`} className="calendar-day empty" />)}
 
                 {/* Días del mes */}
-                {[...Array(31)].map((_, i) => {
+                {[...Array(28)].map((_, i) => {
                     const day = i + 1;
-                    const dateStr = `2026-01-${day.toString().padStart(2, '0')}`;
+                    const dateStr = `2026-02-${day.toString().padStart(2, '0')}`;
                     const dayEvents = events.filter(e => e.date === dateStr);
 
                     return (
-                        <div key={day} className={`calendar-day ${day === 30 ? 'today' : ''}`}>
+                        <div key={day} className={`calendar-day ${day === today.getDate() && today.getMonth() === 1 ? 'today' : ''}`}>
                             <span className="day-number">{day}</span>
                             <div className="day-events">
                                 {dayEvents.map(event => (

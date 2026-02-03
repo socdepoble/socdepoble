@@ -43,7 +43,7 @@ const DiagnosticConsole = () => {
     const [hudActivity, setHudActivity] = useState({ syncing: false, sifting: true, bufferLevel: 0.15 });
     const [viewMode, setViewMode] = useState('ADMIN'); // 'ADMIN' or 'USER' (CLEAN)
     const [techReport, setTechReport] = useState(null);
-    const VERSION = "v1.5.6-MASTER-BATEGA-REFLOW";
+    const VERSION = 'v1.5.6-BATEGA';
 
     // DIRECTIVA DE LES MARIES [MASTER]
     useEffect(() => {

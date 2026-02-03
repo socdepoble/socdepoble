@@ -205,7 +205,7 @@ FROM towns WHERE name = 'La Torre de les Maçanes' LIMIT 1;
 
 -- 6. PRODUCTES DEL MERCAT
 -- ---------------------------------------------------------
-INSERT INTO public.market_items (title, description, price, category_slug, is_active, town_id, author_id)
+INSERT INTO public.market_items (title, description, price, category_slug, is_active, town_id, author_id, image_url)
 SELECT 
     'Mel de Muntanya (La Torre)',
     'Mel 100% natural recolectada a les serres de la Torre de les Maçanes.',
@@ -213,10 +213,11 @@ SELECT
     'alimentacio',
     true,
     id,
-    'fa82eb62-4a83-4ff7-b2d6-8849673fc3b0' -- Damià
+    'fa82eb62-4a83-4ff7-b2d6-8849673fc3b0', -- Damià
+    '/images/assets/mel_premium.png'
 FROM towns WHERE name = 'La Torre de les Maçanes' LIMIT 1;
 
-INSERT INTO public.market_items (title, description, price, category_slug, is_active, town_id, author_id, seller_type, seller_entity_id)
+INSERT INTO public.market_items (title, description, price, category_slug, is_active, town_id, author_id, seller_type, seller_entity_id, image_url)
 SELECT 
     'Oli d''Oliva Verge Extra (5L)',
     'Primera premsada en fred de les olives de secà de la Torre.',
@@ -226,7 +227,8 @@ SELECT
     id,
     'fa82eb62-4a83-4ff7-b2d6-8849673fc3b0',
     'entity',
-    'b192eb99-9c0b-4ef8-bb6d-6bb9bd380a03'
+    'b192eb99-9c0b-4ef8-bb6d-6bb9bd380a03',
+    '/images/assets/oli_premium.png'
 FROM towns WHERE name = 'La Torre de les Maçanes' LIMIT 1;
 
 COMMIT;

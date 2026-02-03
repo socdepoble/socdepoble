@@ -1,6 +1,9 @@
-import { MoreHorizontal, Heart, MessageCircle, Share2, Tag, Zap, ShieldCheck, Beaker, Sparkles } from 'lucide-react';
+import { MoreHorizontal, Heart, MessageCircle, Share2, Tag, Zap, ShieldCheck, Beaker, Sparkles, Edit, Trash2 } from 'lucide-react';
 import { useUI } from '../context/UIContext';
+import { useAuth } from '../context/AuthContext';
 import Avatar from './Avatar';
+import AttributionBadge from './AttributionBadge';
+import ShareHub from './ShareHub';
 import './UniversalCard.css';
 
 /**
@@ -32,7 +35,8 @@ const UniversalCard = ({
     collection,        // New: Category/Collection
     syncState          // New: local, synced
 }) => {
-    const { gloveMode } = useUI();
+    const { gloveMode, openViewer } = useUI();
+    const { isSuperAdmin } = useAuth();
 
     // Cinematic Placeholder for Tier GOD aesthetic
     const cinematicPlaceholder = "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=1000";
@@ -41,10 +45,9 @@ const UniversalCard = ({
     const currentStatus = item?.is_experimental ? 'experimental' : (item?.is_beta ? 'beta' : status);
 
     const renderBadge = () => {
-        if (isOfficial) return <span className="card-badge official" style={{ background: 'var(--color-primary)', color: 'black', fontSize: '8px', padding: '2px 6px', borderRadius: '4px', fontWeight: '900', marginLeft: '8px', letterSpacing: '0.5px' }}>INSTITUCIÓ OFICIAL</span>;
-        if (className?.includes('town-card')) return <span className="card-badge community" style={{ background: 'rgba(255,255,255,0.1)', color: 'white', fontSize: '8px', padding: '2px 6px', borderRadius: '4px', fontWeight: '700', marginLeft: '8px', border: '1px solid rgba(255,255,255,0.2)' }}>COMUNITAT VEÏNAL</span>;
-        if (currentStatus === 'experimental') return <span className="card-badge exp" style={{ background: '#7C3AED', color: 'white', fontSize: '8px', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold', marginLeft: '8px' }}>LABS</span>;
-        if (currentStatus === 'beta') return <span className="card-badge beta" style={{ background: '#F59E0B', color: 'white', fontSize: '8px', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold', marginLeft: '8px' }}>BETA</span>;
+        if (isOfficial) return <span className="card-badge official" style={{ background: 'var(--md-sys-color-primary)', color: 'var(--md-sys-color-on-primary)', fontSize: '10px', padding: '4px 10px', borderRadius: 'var(--radius-full)', fontWeight: '700', marginLeft: '8px', letterSpacing: '0.5px' }}>INSTITUCIÓ OFICIAL</span>;
+        if (className?.includes('town-card')) return <span className="card-badge community" style={{ background: 'var(--md-sys-color-secondary-container)', color: 'var(--md-sys-color-on-secondary-container)', fontSize: '10px', padding: '4px 10px', borderRadius: 'var(--radius-full)', fontWeight: '700', marginLeft: '8px' }}>Poble</span>;
+        if (currentStatus === 'experimental') return <span className="card-badge exp" style={{ background: 'var(--md-sys-color-tertiary-container)', color: 'var(--md-sys-color-on-tertiary-container)', fontSize: '10px', padding: '4px 10px', borderRadius: 'var(--radius-full)', fontWeight: 'bold', marginLeft: '8px' }}>LABS</span>;
         return null;
     };
 
@@ -69,20 +72,67 @@ const UniversalCard = ({
                                 {renderBadge()}
                                 {renderSyncIndicator()}
                             </h3>
-                            <div className="card-meta-row" style={{ display: 'flex', gap: '8px', alignItems: 'center', marginTop: '2px' }}>
-                                {collection && <span className="card-collection-tag" style={{ fontSize: '10px', background: 'rgba(255,255,255,0.2)', padding: '1px 6px', borderRadius: '2px', fontWeight: '800' }}>{collection}</span>}
-                                {(subtitle || source) && <span className="card-subtitle">{subtitle || source}</span>}
+                            <div className="card-meta-row" style={{ display: 'flex', gap: '8px', alignItems: 'center', marginTop: '4px' }}>
+                                {collection && <span className="card-collection-tag" style={{ fontSize: '11px', background: 'var(--md-sys-color-primary-container)', color: 'var(--md-sys-color-on-primary-container)', padding: '2px 8px', borderRadius: 'var(--radius-xs)', fontWeight: '700' }}>{collection}</span>}
+                                {(subtitle || source) && <span className="card-subtitle" style={{ fontSize: '12px', color: 'inherit', opacity: 0.8 }}>{subtitle || source}</span>}
                             </div>
                         </div>
                     </div>
-                    {headerAction && <div className="header-right">{headerAction}</div>}
+                    <div className="header-right-container" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        {isSuperAdmin && (
+                            <button
+                                className="admin-rectify-btn"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    alert("Protocol de Rectificació Master: L'edició del bategat estarà disponible al següent cicle.");
+                                }}
+                                style={{
+                                    background: 'var(--color-terracotta-dark)',
+                                    color: 'white',
+                                    border: 'none',
+                                    borderRadius: '50%',
+                                    width: '32px',
+                                    height: '32px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    cursor: 'pointer',
+                                    boxShadow: '0 2px 8px rgba(0,0,0,0.2)'
+                                }}
+                                title="Super Admin: Rectificar Publicació"
+                            >
+                                <Edit size={16} />
+                            </button>
+                        )}
+                        <ShareHub
+                            title={title}
+                            text={excerpt || subtitle || title}
+                            image={displayImage}
+                            url={item?.url || `${window.location.origin}${window.location.pathname}`}
+                        />
+                        {headerAction && <div className="header-right">{headerAction}</div>}
+                    </div>
                 </div>
             )}
 
-            {/* 2. Multimèdia: Imatges amb border-radius: 0px. */}
+            {/* 2. Multimèdia: [MASTER] Acció Multimèdia (Funció Plena) */}
             {displayImage && (
-                <div className="card-image-wrapper" style={{ borderRadius: '0px !important' }}>
-                    <img src={displayImage} alt={title || "Shared content"} loading="lazy" style={{ borderRadius: '0px !important' }} />
+                <div
+                    className="card-image-wrapper"
+                    onClick={() => {
+                        const type = displayImage.endsWith('.pdf') ? 'pdf' :
+                            (displayImage.endsWith('.mp4') || displayImage.endsWith('.webm') ? 'video' : 'image');
+                        openViewer({ src: displayImage, title, type });
+                    }}
+                    style={{ cursor: 'zoom-in' }}
+                >
+                    <img src={displayImage} alt={title || "Shared content"} loading="lazy" />
+                    <AttributionBadge
+                        filename={displayImage}
+                        sourceType={item?.source_type}
+                        sourceLabel={item?.source_label}
+                        sourceUrl={item?.source_url}
+                    />
                 </div>
             )}
 

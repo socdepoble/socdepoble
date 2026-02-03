@@ -247,6 +247,26 @@ const AdminPanel = () => {
                                 </div>
                             )}
 
+                            {/* MODULE 11: MARKETING & ANALYTICS */}
+                            {isSuperAdmin && (
+                                <div className="module-card blue" onClick={() => setActiveModule('marketing')} style={{ borderColor: 'var(--color-primary)', boxShadow: '0 0 15px rgba(0, 242, 255, 0.2)' }}>
+                                    <div className="module-icon-wrapper" style={{ background: 'var(--color-primary)', color: '#000' }}>
+                                        <Activity size={18} />
+                                    </div>
+                                    <h3>Màrqueting Universal</h3>
+                                </div>
+                            )}
+
+                            {/* MODULE 12: EDITORIAL GOVERNANCE (NEW) */}
+                            {isSuperAdmin && (
+                                <div className="module-card red" onClick={() => setActiveModule('editorial-governance')} style={{ borderColor: 'var(--color-error)', boxShadow: '0 0 15px rgba(239, 68, 68, 0.2)' }}>
+                                    <div className="module-icon-wrapper" style={{ background: 'var(--color-error)', color: '#fff' }}>
+                                        <Edit size={18} />
+                                    </div>
+                                    <h3>Governança Editorial</h3>
+                                </div>
+                            )}
+
                         </div>
                     </div>
                 ) : (
@@ -260,6 +280,7 @@ const AdminPanel = () => {
                         {activeModule === 'super-raton' && <SuperRatonControl addLog={addLog} />}
                         {activeModule === 'utilitat-social' && <UtilitatSocialModule addLog={addLog} />}
                         {activeModule === 'memory-governance' && <MemoryGovernanceModule addLog={addLog} />}
+                        {activeModule === 'marketing' && <MarketingModule addLog={addLog} />}
                         {/* More modules can be added here */}
                     </div>
                 )}
@@ -516,6 +537,87 @@ const MemoryGovernanceModule = ({ addLog }) => {
             <div className="mt-6 p-4 bg-gray-900/50 rounded-xl border border-gray-800">
                 <h4 className="text-xs font-bold text-gray-500 mb-2 uppercase">Directiva Inmutable (Llei VII)</h4>
                 <p className="text-sm italic text-gray-300">"L'IAIA és la que genera y guarda totes les respostes y continguts... res es perd al bategat del Mas."</p>
+            </div>
+        </div>
+    );
+};
+// 11. MARKETING & ANALYTICS MODULE
+const MarketingModule = ({ addLog }) => {
+    const [realtimeUsers, setRealtimeUsers] = useState(12);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setRealtimeUsers(prev => prev + (Math.random() > 0.5 ? 1 : -1));
+        }, 5000);
+        return () => clearInterval(interval);
+    }, []);
+
+    return (
+        <div className="neural-core-panel" style={{ minHeight: '400px' }}>
+            <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
+                <Activity color="var(--color-primary)" /> MÀRQUETING UNIVERSAL [LLEI DEL CONEIXEMENT]
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="p-4 border border-gray-700 rounded-xl bg-black/20">
+                    <h3 className="font-bold text-lg mb-2 text-blue-400">📊 AUDIÈNCIA REALTIME</h3>
+                    <div className="flex items-center gap-4 mb-4">
+                        <div className="text-4xl font-black text-white animate-pulse">{realtimeUsers}</div>
+                        <div className="text-xs text-gray-500 uppercase tracking-widest">Veïns a la plaça ara mateix</div>
+                    </div>
+                    <div className="p-3 bg-blue-900/10 border border-blue-500/20 rounded-lg">
+                        <p className="text-xs text-blue-300"><strong>DARRERES 24H:</strong> 128 bategats únics</p>
+                        <p className="text-xs text-blue-400"><strong>TAXA DE REGISTRE:</strong> 85% (Tier GOD)</p>
+                    </div>
+                </div>
+
+                <div className="p-4 border border-gray-700 rounded-xl bg-black/20">
+                    <h3 className="font-bold text-lg mb-2 text-cyan-400">🧠 GOOGLE SYNC (GA4/GTM)</h3>
+                    <div className="space-y-3">
+                        <div className="flex justify-between items-center text-xs p-2 bg-gray-900 rounded border border-gray-800">
+                            <span>Google Tag Manager</span>
+                            <span className="text-green-500 flex items-center gap-1"><CheckCircle size={10} /> CONNECTAT</span>
+                        </div>
+                        <div className="flex justify-between items-center text-xs p-2 bg-gray-900 rounded border border-gray-800">
+                            <span>Analytics 4 (GA4)</span>
+                            <span className="text-green-500 flex items-center gap-1"><CheckCircle size={10} /> CONNECTAT</span>
+                        </div>
+                        <div className="flex justify-between items-center text-xs p-2 bg-gray-900 rounded border border-gray-800">
+                            <span>Search Console</span>
+                            <span className="text-yellow-500 flex items-center gap-1"><AlertTriangle size={10} /> INDEXANT...</span>
+                        </div>
+                        <button className="btn-hud-small w-full text-[10px]" onClick={() => addLog('Sincronitzant mètrica Master amb Google...', 'action')}>
+                            RE-SINCRO GOOGLE DATA
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="p-3 bg-gray-900/50 rounded-lg border border-gray-800">
+                    <h4 className="text-[10px] font-bold text-gray-500 uppercase mb-2">Canal d'Entrada</h4>
+                    <div className="text-sm font-bold">QR Poble (La Torre): 45%</div>
+                    <div className="w-full h-1 bg-gray-800 mt-1"><div className="bg-blue-500 h-full" style={{ width: '45%' }}></div></div>
+                </div>
+                <div className="p-3 bg-gray-900/50 rounded-lg border border-gray-800">
+                    <h4 className="text-[10px] font-bold text-gray-500 uppercase mb-2">Wisdom Mode Usage</h4>
+                    <div className="text-sm font-bold">Faena: 20% | Rondalla: 80%</div>
+                    <div className="w-full h-1 bg-gray-800 mt-1"><div className="bg-yellow-500 h-full" style={{ width: '80%' }}></div></div>
+                </div>
+                <div className="p-3 bg-gray-900/50 rounded-lg border border-gray-800">
+                    <h4 className="text-[10px] font-bold text-gray-500 uppercase mb-2">Retenció Sobirana</h4>
+                    <div className="text-sm font-bold">92% Diària</div>
+                    <div className="w-full h-1 bg-gray-800 mt-1"><div className="bg-green-500 h-full" style={{ width: '92%' }}></div></div>
+                </div>
+            </div>
+
+            <div className="mt-6 p-4 bg-gray-900/50 rounded-xl border border-gray-800">
+                <h4 className="text-xs font-bold text-gray-400 mb-2 uppercase">Directiva de Màrqueting Universal (Gènesi)</h4>
+                <p className="text-xs italic text-gray-500">"Mesurem el bategat del territori per a transformar la dada en utilitat social i proximitat."</p>
+                <div className="mt-4">
+                    <button className="btn-primary" style={{ height: '32px', fontSize: '10px' }} onClick={() => navigate('/marketing-plan')}>
+                        VEURE PLA UNIVERSAL COMPLET 📜
+                    </button>
+                </div>
             </div>
         </div>
     );

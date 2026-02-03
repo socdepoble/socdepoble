@@ -1,173 +1,167 @@
 .share-hub-container {
-    display: inline-flex;
+    display: flex;
+    align-items: center;
 }
 
 .share-main-btn {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background: rgba(var(--color-primary-rgb), 0.1);
-    color: var(--color-primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background: none;
     border: none;
+    color: inherit;
     cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: background 0.2s;
 }
 
 .share-main-btn:hover {
-    background: var(--color-primary);
-    color: white;
-    transform: translateY(-2px) scale(1.05);
-    box-shadow: 0 4px 12px rgba(var(--color-primary-rgb), 0.3);
+    background: rgba(0, 0, 0, 0.05);
 }
 
-/* Modal Overlay */
 .share-modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(8px);
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 10000;
-    animation: fadeIn 0.3s ease;
+    z-index: 9999;
 }
 
-/* Modal Content */
 .share-modal-content {
-    background: var(--bg-card);
     width: 90%;
     max-width: 400px;
-    border-radius: 28px;
+    background: var(--bg-surface);
+    border-radius: 24px;
     overflow: hidden;
-    position: relative;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    animation: slideUp 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    border: 1px solid var(--sdp-glass-border);
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
 }
 
 .share-modal-header {
-    padding: 24px;
+    padding: 20px;
+    background: var(--color-terracotta);
+    color: white;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    gap: 15px;
+    position: relative;
 }
 
-.share-modal-header h3 {
+.header-icon-hub {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-info h3 {
     margin: 0;
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--text-primary);
+    font-size: 16px;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.header-info p {
+    margin: 0;
+    font-size: 12px;
+    opacity: 0.8;
 }
 
 .share-close-btn {
-    background: rgba(255, 255, 255, 0.05);
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
     border: none;
-    color: var(--text-muted);
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+    color: white;
+    cursor: pointer;
+}
+
+.share-modal-body {
+    padding: 20px;
+}
+
+.share-url-preview {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    margin-bottom: 25px;
+    border: 1px solid var(--sdp-glass-border);
+}
+
+.share-url-preview span {
+    flex: 1;
+    font-size: 12px;
+    opacity: 0.7;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.share-url-preview button {
+    background: var(--color-primary);
+    color: #000;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.2s;
 }
 
-.share-close-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: var(--text-primary);
-    transform: rotate(90deg);
-}
-
-.share-modal-body {
-    padding: 24px;
-}
-
-.share-modal-text {
-    color: var(--text-muted);
-    font-size: 14px;
-    margin-bottom: 24px;
-    line-height: 1.5;
+.share-url-preview button.copied {
+    background: #2E7D32;
+    color: white;
 }
 
 .share-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
+    gap: 15px;
 }
 
-.share-option-card {
+.share-option-btn {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 8px;
     text-decoration: none;
-    background: rgba(255, 255, 255, 0.03);
-    padding: 16px 8px;
-    border-radius: 20px;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 1px solid transparent;
+    color: inherit;
+    transition: transform 0.2s;
 }
 
-.share-option-card:hover {
-    background: rgba(255, 255, 255, 0.08);
-    transform: translateY(-4px);
-    border-color: var(--hover-color, var(--color-primary));
+.share-option-btn:hover {
+    transform: translateY(-5px);
 }
 
-.share-icon-wrapper {
-    width: 48px;
-    height: 48px;
-    border-radius: 16px;
+.share-icon-circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--brand-color);
+    color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.05);
-    color: var(--hover-color, var(--color-primary));
-    transition: all 0.2s ease;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
-.share-option-card:hover .share-icon-wrapper {
-    background: var(--hover-color, var(--color-primary));
-    color: white;
-}
-
-.share-option-card span {
+.share-label {
     font-size: 12px;
-    font-weight: 500;
-    color: var(--text-muted);
-}
-
-.share-option-card:hover span {
-    color: var(--text-primary);
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes slideUp {
-    from {
-        transform: translateY(30px);
-        opacity: 0;
-    }
-
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
+    font-weight: 800;
+    text-transform: uppercase;
+    opacity: 0.8;
 }

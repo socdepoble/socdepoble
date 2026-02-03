@@ -1,11 +1,12 @@
 .m3-top-app-bar {
     height: 64px;
     padding: 0 var(--sdp-space-md);
-    background-color: var(--sdp-bg-dark);
+    background-color: var(--md-sys-color-surface);
+    background-image: var(--bg-texture);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid var(--sdp-glass-border);
+    border-bottom: 1.5px solid #1a1a1a;
     position: sticky;
     top: 0;
     z-index: 1000;

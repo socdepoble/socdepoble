@@ -359,8 +359,23 @@ const TOWNS_MAP = {
  * Normaliza un item de feed/market con fallbacks robustos
  */
 const normalizeContentItem = (item, type = 'post') => {
+    if (!item) return null;
+
     const authorName = item.author || item.author_name || item.seller || item.seller_name || (type === 'market' ? 'Venedor' : 'Algu del poble');
     const avatarUrl = item.avatar_url || item.author_avatar || item.author_avatar_url || '/images/demo/avatar_man_1.png';
+
+    // [MASTER HEALER] Fallback d'imatges intel·ligent per al Mercat
+    let imageUrl = item.image_url || item.image;
+    if (!imageUrl && type === 'market') {
+        const title = (item.title || '').toLowerCase();
+        if (title.includes('mel')) imageUrl = '/images/assets/mel_premium.png';
+        else if (title.includes('oli')) imageUrl = '/images/assets/oli_premium.png';
+        else if (title.includes('poma') || title.includes('apple')) imageUrl = '/images/assets/apples_premium.png';
+        else if (title.includes('tomate')) imageUrl = '/images/assets/tomates_premium.png';
+        else if (title.includes('coque')) imageUrl = '/images/assets/coques_premium.png';
+        else if (title.includes('formatge')) imageUrl = '/images/assets/formatge.png';
+        else imageUrl = '/images/assets/generic_market.png';
+    }
 
     // Resolución de pueblos con validación
     let townName = 'Al teu poble';
@@ -374,7 +389,7 @@ const normalizeContentItem = (item, type = 'post') => {
 
     return {
         ...item,
-        id: item.uuid || item.id, // Prioritize real UUID
+        id: item.uuid || item.id,
         uuid: item.uuid || item.id,
         author: authorName,
         seller: type === 'market' ? authorName : undefined,
@@ -384,6 +399,7 @@ const normalizeContentItem = (item, type = 'post') => {
         author_user_id: item.author_user_id || (item.author_role === 'user' ? item.author_id : (item.author_user_id || null)),
         author_entity_id: item.author_entity_id || (item.author_role !== 'user' ? (item.entity_id || item.author_id) : (item.author_entity_id || null)),
         towns: { name: townName },
+        image_url: imageUrl,
         is_iaia_inspired: item.is_iaia_inspired || false,
         ai_percentage: item.ai_percentage || 0,
         human_percentage: item.human_percentage || 100,
@@ -616,26 +632,43 @@ export const supabaseService = {
         });
 
         // Combinem
-        const mergedPersonas = [...dbPersonas, ...LORE_PERSONAS];
+        const rawPersonas = [...dbPersonas, ...LORE_PERSONAS];
+
+        // Deduplicació real vs fictici per ID (Prioritat al Real/DB)
+        const uniqueById = new Map();
+        rawPersonas.forEach(p => {
+            const pid = p.id;
+            if (!pid) return;
+            // Si ja existeix, donem prioritat al perfil que NO siga fictici o que tinga més info
+            if (!uniqueById.has(pid)) {
+                uniqueById.set(pid, p);
+            } else {
+                const existing = uniqueById.get(pid);
+                const isExistingFictive = isFictiveProfile(existing);
+                const isNewFictive = isFictiveProfile(p);
+
+                if (isExistingFictive && !isNewFictive) {
+                    uniqueById.set(pid, p);
+                }
+            }
+        });
+
+        const mergedPersonas = Array.from(uniqueById.values());
 
         // Lògica de Sincronització de Producció:
         if (!isPlayground) {
-            // A producció volem:
-            // 1. Persones Reals (de la DB, no demo)
-            // 2. IAIAs/Lore Personatges si són de tipus 'person' (humanes)
-            // BLOQUEGEM: Entitats fictícies (negocis, grups ficticis)
             return mergedPersonas.filter(p => {
                 const fictive = isFictiveProfile(p);
                 const isHuman = p.type === 'person' || p.type === 'user';
 
                 if (fictive) {
-                    return isHuman; // Només si és humà (IAIA)
+                    return isHuman;
                 }
-                return true; // Perfils reals sempre OK
-            }).sort((a, b) => a.full_name.localeCompare(b.full_name));
+                return true;
+            }).sort((a, b) => (a.full_name || '').localeCompare(b.full_name || ''));
         }
 
-        return mergedPersonas.sort((a, b) => a.full_name.localeCompare(b.full_name));
+        return mergedPersonas.sort((a, b) => (a.full_name || '').localeCompare(b.full_name || ''));
     },
 
     async getAdminEntities(isPlayground = false) {
@@ -1274,20 +1307,34 @@ export const supabaseService = {
                 omniMatch(p.bio, query)
             );
 
-            // Merge and deduplicate by full_name, prioritizing system/lore roles
-            const combined = [...filteredLore, ...(data || [])];
+            // Merge and deduplicate by ID and full_name, prioritizing DB/Real
             const unique = [];
-            const names = new Set();
-            combined.forEach(p => {
+            const seenIds = new Set();
+            const seenNames = new Set();
+
+            const combined = [...filteredLore, ...(data || [])];
+
+            // Prioritzem data (DB) al final del merge si volem que "machaque", 
+            // però aquí la lògica de .forEach d'un array barrejant-los un a un és clau.
+            // Millor: Processar primer els Reals (DB) i després Lore si no s'han vist.
+
+            const profilesToProcess = [
+                ...(data || []), // DB first (Priority)
+                ...filteredLore  // Lore second
+            ];
+
+            profilesToProcess.forEach(p => {
+                const id = p.id;
                 const nameKey = p.full_name?.toLowerCase().trim();
-                if (nameKey && !names.has(nameKey)) {
-                    names.add(nameKey);
-                    // Normalize town field
-                    const item = {
+
+                if (!seenIds.has(id) && !seenNames.has(nameKey)) {
+                    seenIds.add(id);
+                    if (nameKey) seenNames.add(nameKey);
+
+                    unique.push({
                         ...p,
                         town_name: p.town_name || p.primary_town
-                    };
-                    unique.push(item);
+                    });
                 }
             });
 
@@ -1401,7 +1448,23 @@ export const supabaseService = {
 
     async connectWithProfile(followerId, targetId, tags = []) {
         if (!followerId || !targetId) return false;
-        if (columnCache.connections_table === false) return true; // Simulate success in Sandbox if table missing
+        if (columnCache.connections_table === false) return true;
+
+        const isRealFollower = isValidUUID(followerId);
+        const isRealTarget = isValidUUID(targetId);
+
+        // Simulation for System/Lore entities that don't have valid UUIDs or aren't in auth.users
+        if (!isRealFollower || !isRealTarget || isFictiveProfile({ id: targetId })) {
+            logger.info(`[SupabaseService] Virtual Connection detected for ${targetId}. Simulating...`);
+            // Store virtually in localStorage for current session persistence
+            const virtualKey = `v_conn_${followerId}`;
+            const connections = JSON.parse(localStorage.getItem(virtualKey) || '[]');
+            if (!connections.includes(targetId)) {
+                connections.push(targetId);
+                localStorage.setItem(virtualKey, JSON.stringify(connections));
+            }
+            return true;
+        }
 
         try {
             const { error, status } = await supabase
@@ -1415,15 +1478,26 @@ export const supabaseService = {
                 }, { onConflict: 'follower_id,target_id' });
 
             if (error) {
+                // Handle 409 Conflict (Key not in users) gracefully by falling back to virtual
+                if (error.code === '23503' || error.code === '409') {
+                    logger.warn(`[SupabaseService] Foreign key constraint for connection ${targetId}. Falling back to virtual.`);
+                    const virtualKey = `v_conn_${followerId}`;
+                    const connections = JSON.parse(localStorage.getItem(virtualKey) || '[]');
+                    if (!connections.includes(targetId)) {
+                        connections.push(targetId);
+                        localStorage.setItem(virtualKey, JSON.stringify(connections));
+                    }
+                    return true;
+                }
+
                 if (error.code === '42P01' || status === 404) {
                     setColumnCache('connections_table', false);
-                    logger.warn('[SupabaseService] connections table missing, simulating connection');
                     return true;
                 }
                 throw error;
             }
 
-            // Automate Push Notification to targetId (e.g. Damià)
+            // Automate Push Notification
             const followerProfile = await this.getProfile(followerId);
             if (followerProfile) {
                 pushNotifications.triggerNotification(targetId, {
@@ -1431,7 +1505,7 @@ export const supabaseService = {
                     body: `${followerProfile.full_name} s'ha connectat amb tu.`,
                     url: `/perfil/${followerId}`,
                     tag: `connect-${followerId}`
-                }).catch(() => { }); // Silence if push fails/not configured
+                }).catch(() => { });
             }
 
             if (columnCache.connections_table === null) setColumnCache('connections_table', true);
@@ -1443,7 +1517,18 @@ export const supabaseService = {
     },
 
     async disconnectFromProfile(followerId, targetId) {
+        if (!followerId || !targetId) return false;
+
+        // 1. Remove from Virtual Persistence
+        const virtualKey = `v_conn_${followerId}`;
+        const virtualConns = JSON.parse(localStorage.getItem(virtualKey) || '[]');
+        if (virtualConns.includes(targetId)) {
+            const filtered = virtualConns.filter(id => id !== targetId);
+            localStorage.setItem(virtualKey, JSON.stringify(filtered));
+        }
+
         if (columnCache.connections_table === false) return true;
+
         try {
             const { error, status } = await supabase
                 .from('connections')
@@ -1467,10 +1552,15 @@ export const supabaseService = {
 
     async isFollowing(followerId, targetId) {
         if (!followerId || !targetId) return false;
-        try {
-            // First time? Check if the table exists or if we already know it doesn't
-            if (columnCache.connections_table === false) return false;
 
+        // 1. Check Virtual Persistence first
+        const virtualKey = `v_conn_${followerId}`;
+        const virtualConns = JSON.parse(localStorage.getItem(virtualKey) || '[]');
+        if (virtualConns.includes(targetId)) return true;
+
+        if (columnCache.connections_table === false) return false;
+
+        try {
             const { data, error, status } = await supabase
                 .from('connections')
                 .select('*')
@@ -1514,6 +1604,98 @@ export const supabaseService = {
         } catch (error) {
             logger.error('[SupabaseService] Error getting followers:', error);
             return [];
+        }
+    },
+
+    async addConnection(userId, postId) {
+        if (!userId || !postId) return false;
+        try {
+            const { error } = await supabase
+                .from('post_connections')
+                .upsert({ user_id: userId, post_uuid: postId }, { onConflict: 'user_id,post_uuid' });
+            if (error) {
+                if (error.code === '42P01') {
+                    logger.warn('Table post_connections missing, simulating connection');
+                    return true;
+                }
+                throw error;
+            }
+            return true;
+        } catch (e) {
+            logger.error('[SupabaseService] Error addConnection:', e);
+            return false;
+        }
+    },
+
+    async removeConnection(userId, postId) {
+        if (!userId || !postId) return false;
+        try {
+            const { error } = await supabase
+                .from('post_connections')
+                .delete()
+                .eq('user_id', userId)
+                .eq('post_uuid', postId);
+            if (error) throw error;
+            return true;
+        } catch (e) {
+            logger.error('[SupabaseService] Error removeConnection:', e);
+            return false;
+        }
+    },
+
+    async getPostConnections(postUuids) {
+        if (!postUuids || postUuids.length === 0) return [];
+        try {
+            const { data, error } = await supabase
+                .from('post_connections')
+                .select('*')
+                .in('post_uuid', postUuids);
+            if (error) {
+                if (error.code === '42P01') return [];
+                throw error;
+            }
+            return data || [];
+        } catch (e) {
+            logger.error('[SupabaseService] Error getPostConnections:', e);
+            return [];
+        }
+    },
+
+    async getUserTags(userId) {
+        if (!userId) return [];
+        try {
+            const { data, error } = await supabase
+                .from('post_connections')
+                .select('tags')
+                .eq('user_id', userId)
+                .not('tags', 'is', null);
+            if (error) return [];
+            const allTags = data.flatMap(d => d.tags || []);
+            return [...new Set(allTags)].sort();
+        } catch (e) {
+            return [];
+        }
+    },
+
+    async updateConnectionTags(userId, postId, tags) {
+        if (!userId || !postId) return false;
+        try {
+            const { error } = await supabase
+                .from('post_connections')
+                .update({ tags })
+                .eq('user_id', userId)
+                .eq('post_uuid', postId);
+            if (error) {
+                if (error.code === '42P01') {
+                    logger.warn('Table post_connections missing, cannot update tags');
+                    return true;
+                }
+                throw error;
+            }
+            return true;
+        } catch (e) {
+            logger.error('[SupabaseService] Error updateConnectionTags:', e);
+            return false;
         }
     },
 
@@ -2487,8 +2669,6 @@ export const supabaseService = {
             const dbData = (data || []).map(p => normalizeContentItem(p, 'post'));
             // Merge virtual and real posts
             return [...virtualPosts, ...dbData].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-
-            return (data || []).map(p => normalizeContentItem(p, 'post'));
         } catch (error) {
             logger.error('[SupabaseService] Error in getEntityPosts:', error);
             return [];
@@ -2551,32 +2731,6 @@ export const supabaseService = {
         }
     },
 
-    async getFollowers(targetId) {
-        if (!isValidUUID(targetId)) return [];
-        try {
-            // Check cache to avoid repeating 42P01 errors
-            if (columnCache.followers_table === false) return [];
-
-            const { data, error, status } = await supabase
-                .from('followers')
-                .select('*, follower:profiles(id, full_name, avatar_url, username)')
-                .eq('target_id', targetId);
-
-            if (error) {
-                if (error.code === '42P01' || status === 404) {
-                    setColumnCache('followers_table', false);
-                    return [];
-                }
-                throw error;
-            }
-
-            if (columnCache.followers_table === null) setColumnCache('followers_table', true);
-            return data || [];
-        } catch (error) {
-            logger.error('Error fetching followers:', error);
-            return [];
-        }
-    },
 
     async getLexiconTerms() {
         try {

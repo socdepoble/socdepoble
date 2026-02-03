@@ -78,9 +78,6 @@ class MigrationService {
         };
     }
 
-    /**
-     * Enriquiment "Nano Banana": Genera una caràtula visual si no n'hi ha.
-     */
     async enrichResource(resource) {
         // En una versió real, aquí cridaríem a un scraper o API de metadades.
         // Per ara, simulem l'enriquiment de Nano Banana.
@@ -91,6 +88,41 @@ class MigrationService {
             thumbnail_url: `https://api.screenshotmachine.com/?key=DEMO&url=${encodeURIComponent(resource.url)}&dimension=1024x768`, // Placeholder
             enriched: true
         };
+    }
+
+    /**
+     * EXPORTACIÓ SOBIRANA: Descarrega tota la informació de l'usuari.
+     * @param {Array} resources 
+     */
+    async exportRebostData(resources) {
+        logger.info('[Sovereignty] Iniciant exportació total de dades...');
+
+        const dataStr = JSON.stringify(resources, null, 2);
+        const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
+
+        const exportFileDefaultName = `meua_memoria_sdp_${new Date().toISOString().split('T')[0]}.json`;
+
+        const linkElement = document.createElement('a');
+        linkElement.setAttribute('href', dataUri);
+        linkElement.setAttribute('download', exportFileDefaultName);
+        linkElement.click();
+
+        logger.log('[Sovereignty] Exportació culminada amb èxit.');
+    }
+
+    /**
+     * Parseja un fitxer JSON de Notion (simulat o exportat).
+     */
+    parseNotionJSON(jsonContent) {
+        try {
+            const data = JSON.parse(jsonContent);
+            const items = Array.isArray(data) ? data : [data];
+            // Importem el servei de mapeig dinàmicament o l'usem si està disponible
+            return items;
+        } catch (e) {
+            logger.error('[Migration] Error parsejant Notion JSON:', e);
+            return [];
+        }
     }
 }
 

@@ -5,6 +5,10 @@ import CreatePostModal from './CreatePostModal';
 import AddItemModal from './AddItemModal';
 import CreateEventModal from './CreateEventModal';
 import SocialManager from './SocialManager';
+import ConnectionSelectorModal from './ConnectionSelectorModal';
+import AgentSelectorModal from './AgentSelectorModal';
+import MediaViewerModal from './MediaViewerModal';
+import LegalDocsModal from './LegalDocsModal';
 
 const GlobalModals = () => {
     const {
@@ -16,9 +20,24 @@ const GlobalModals = () => {
         setIsMarketModalOpen,
         isSocialManagerOpen,
         setIsSocialManagerOpen,
-        postModalConfig
+        postModalConfig,
+        isConnectionModalOpen,
+        setIsConnectionModalOpen,
+        connectionConfig,
+        closeConnectionModal,
+        isAgentSelectorOpen,
+        closeAgentSelector,
+        agentSelectorConfig,
+        isViewerOpen,
+        closeViewer,
+        viewerConfig,
+        isLegalModalOpen,
+        closeLegalModal,
+        legalConfig
     } = useUI();
     const { isPlayground } = useAuth();
+
+    // Import ConnectionSelectorModal inside if needed or at top
 
     const handlePostCreated = () => {
         setIsPostModalOpen(false);
@@ -72,6 +91,46 @@ const GlobalModals = () => {
                 <SocialManager
                     isOpen={isSocialManagerOpen}
                     onClose={() => setIsSocialManagerOpen(false)}
+                />
+            )}
+
+            {isConnectionModalOpen && connectionConfig && (
+                <ConnectionSelectorModal
+                    isOpen={isConnectionModalOpen}
+                    onClose={closeConnectionModal}
+                    postId={connectionConfig.postId}
+                    currentTags={connectionConfig.currentTags || []}
+                    onUpdate={connectionConfig.onUpdate}
+                />
+            )}
+
+            {isAgentSelectorOpen && agentSelectorConfig && (
+                <AgentSelectorModal
+                    isOpen={isAgentSelectorOpen}
+                    onClose={closeAgentSelector}
+                    postId={agentSelectorConfig.postId}
+                    authorId={agentSelectorConfig.authorId}
+                    context={agentSelectorConfig.context}
+                />
+            )}
+
+            {isViewerOpen && viewerConfig && (
+                <MediaViewerModal
+                    isOpen={isViewerOpen}
+                    onClose={closeViewer}
+                    src={viewerConfig.src}
+                    title={viewerConfig.title}
+                    type={viewerConfig.type}
+                />
+            )}
+
+            {isLegalModalOpen && legalConfig && (
+                <LegalDocsModal
+                    isOpen={isLegalModalOpen}
+                    onClose={closeLegalModal}
+                    title={legalConfig.title}
+                    content={legalConfig.content}
+                    type={legalConfig.type}
                 />
             )}
         </>

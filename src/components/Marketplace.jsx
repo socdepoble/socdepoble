@@ -17,6 +17,7 @@ import { rhizomeManager } from '../services/rhizomeManager';
 import { paymentService } from '../services/paymentService';
 import { hapticService } from '../services/hapticService';
 import ShareHub from './ShareHub';
+import ItemDetailModal from './ItemDetailModal';
 import './Marketplace.css';
 
 const Market = ({ searchTerm = '' }) => {
@@ -160,6 +161,7 @@ const Market = ({ searchTerm = '' }) => {
 
     const [payingItemId, setPayingItemId] = useState(null);
     const [paidItems, setPaidItems] = useState(new Set());
+    const [selectedItemForDetail, setSelectedItemForDetail] = useState(null);
 
     const handleAstroPayment = async (item) => {
         const confirm = window.confirm(`Vols activar un Bategat Econòmic (Astro) de ${item.price} per ${item.title}? L'IAIA segellarà la transacció immediatament al teu mòbil.`);
@@ -304,7 +306,7 @@ const Market = ({ searchTerm = '' }) => {
                             {/* CARD IMAGE [MASTER] */}
                             <div className="card-image-wrapper">
                                 <img
-                                    src={item.image_url || '/assets/placeholders/market_default.jpg'}
+                                    src={item.image_url || '/images/assets/generic_market.png'}
                                     alt={item.title}
                                     className="group-hover:scale-105 transition-transform duration-500"
                                 />
@@ -358,10 +360,8 @@ const Market = ({ searchTerm = '' }) => {
                                             className="add-btn-premium-vibrant flex-1 bg-primary text-white font-bold p-3 rounded-xl flex items-center justify-center gap-2"
                                             onClick={(e) => {
                                                 e.stopPropagation();
-                                                if (!user) navigate('/login');
-                                                navigate(`/chats/${item.seller_entity_id || item.author_user_id || item.author_id}`, {
-                                                    state: { interestedIn: item }
-                                                });
+                                                hapticService.notifySuccess();
+                                                setSelectedItemForDetail(item);
                                             }}
                                         >
                                             <Plus size={20} />
@@ -415,6 +415,14 @@ const Market = ({ searchTerm = '' }) => {
                     </div>
                 )
             }
+
+            {selectedItemForDetail && (
+                <ItemDetailModal
+                    item={selectedItemForDetail}
+                    onClose={() => setSelectedItemForDetail(null)}
+                    onAstroPayment={handleAstroPayment}
+                />
+            )}
         </div>
     );
 };

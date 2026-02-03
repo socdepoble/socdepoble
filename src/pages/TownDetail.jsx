@@ -129,14 +129,31 @@ const TownDetail = () => {
                     </div>
                 </section>
 
+                {/* PORTAL DE PAS: AJUNTAMENT VS POBLE */}
+                <div className="dual-portal-notice community-glass border border-primary/30 p-4 rounded-2xl flex items-start gap-4 mb-6">
+                    <div className="icon-wrapper text-primary">
+                        <Users size={32} />
+                    </div>
+                    <div className="text-sm">
+                        <h4 className="font-black text-primary mb-1 uppercase tracking-tighter">La Veu de la Gent</h4>
+                        <p className="opacity-80">Benvingut al Mur de {town.name}. Aquest és un espai comunitari on bateguen els veïns. Per a tràmits oficials, visita la Seu de l'Ajuntament.</p>
+                        <Link
+                            to={`/ajuntament/${id}`}
+                            className="inline-flex items-center gap-2 mt-3 p-2 px-4 bg-blue-600 text-white font-black rounded-lg text-xs"
+                        >
+                            <Landmark size={14} /> ANAR A L'AJUNTAMENT
+                        </Link>
+                    </div>
+                </div>
+
                 {/* BANDO MUNICIPAL - Official Announcements */}
-                <section className="bando-municipal-container" onClick={() => triggerHaptic('heavy')}>
+                <section className="bando-municipal-container" onClick={() => navigate(`/ajuntament/${id}`)}>
                     <div className="bando-header">
                         <div className="bando-title">
                             <div className="bando-icon-pulse">📢</div>
                             <h3>Bando Municipal</h3>
                         </div>
-                        <span className="bando-tag">Oficial</span>
+                        <span className="bando-tag" style={{ background: 'var(--color-primary)', color: 'black' }}>VEURE TOTS</span>
                     </div>
                     <div className="bando-content-card">
                         <h4 className="bando-subject">⚠️ Avís: Tall de subministrament</h4>
