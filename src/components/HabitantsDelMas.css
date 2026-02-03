@@ -6,7 +6,7 @@
 }
 
 .habitants-container {
-    background-color: #f8f5f0;
+    background-color: var(--bg-surface);
     /* Paper vell / pergami rural */
     background-image: radial-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 0);
     background-size: 20px 20px;
@@ -45,7 +45,7 @@
     margin: 0 auto;
     font-size: 1.2rem;
     line-height: 1.4;
-    font-weight: 500;
+    font-weight: var(--font-weight-bold);
 }
 
 .habitants-grid {
@@ -154,7 +154,7 @@
     right: -25px;
     background: #ff0055;
     color: white;
-    font-size: 10px;
+    font-size: var(--font-size-base);
     padding: 4px 30px;
     font-weight: 900;
     transform: rotate(35deg);
@@ -177,7 +177,7 @@
     position: relative;
     padding: 10px;
     background: rgba(255, 255, 255, 0.8);
-    border-radius: 10px;
+    border-radius: 0px;
     margin: 0;
 }
 

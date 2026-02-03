@@ -9,7 +9,7 @@
 }
 
 .rural-ia-header {
-    background: var(--md-sys-color-primary);
+    background: var(--accent);
     color: white;
     padding: 0 1.25rem;
     display: flex;
@@ -49,7 +49,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
+    border-radius: 0px;
     cursor: pointer;
     transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -91,14 +91,14 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    font-size: 14px;
-    font-weight: 600;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-bold);
     color: var(--text-secondary);
     transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .persona-chip.active {
-    background: var(--md-sys-color-primary);
+    background: var(--accent);
     color: white;
     border-color: var(--md-sys-color-primary);
     box-shadow: 0 4px 12px rgba(154, 108, 99, 0.3);
@@ -112,13 +112,13 @@
 }
 
 .persona-label {
-    font-size: 10px;
+    font-size: var(--font-size-base);
     opacity: 0.7;
     text-transform: uppercase;
 }
 
 .persona-name {
-    font-size: 14px;
+    font-size: var(--font-size-base);
     font-weight: 800;
 }
 
@@ -135,7 +135,7 @@
     background: transparent;
     border: none;
     color: white;
-    font-size: 16px;
+    font-size: var(--font-size-base);
     resize: none;
     outline: none;
     padding: 12px;
@@ -176,7 +176,7 @@
     background: var(--color-primary);
     color: white;
     padding: 8px 16px;
-    font-size: 14px;
+    font-size: var(--font-size-base);
 }
 
 .history-container {
@@ -200,7 +200,7 @@
     align-items: center;
     margin-bottom: 12px;
     opacity: 0.9;
-    font-size: 12px;
+    font-size: var(--font-size-base);
     font-weight: 800;
     text-transform: uppercase;
 }
@@ -233,7 +233,7 @@
     text-transform: uppercase;
     font-weight: 800;
     letter-spacing: 0.05em;
-    border-radius: 2px;
+    border-radius: 0px;
 }
 
 .header-label {
@@ -243,7 +243,7 @@
 }
 
 .header-avatar-name {
-    font-size: 13px;
+    font-size: var(--font-size-base);
     color: white;
 }
 
@@ -255,7 +255,7 @@
 
 .timestamp {
     opacity: 0.5;
-    font-size: 10px;
+    font-size: var(--font-size-base);
 }
 
 .copy-btn-mini {
@@ -263,7 +263,7 @@
     border: 1px solid var(--color-teal);
     color: var(--color-teal);
     padding: 4px 10px;
-    font-size: 10px;
+    font-size: var(--font-size-base);
     font-weight: 800;
     display: flex;
     align-items: center;
@@ -279,7 +279,7 @@
 
 .response-query {
     font-style: italic;
-    font-size: 14px;
+    font-size: var(--font-size-base);
     color: rgba(255, 255, 255, 0.6);
     margin-bottom: 12px;
     padding-left: 12px;
@@ -288,7 +288,7 @@
 
 .response-content {
     line-height: 1.8;
-    font-size: 16px;
+    font-size: var(--font-size-base);
     color: white;
     font-family: var(--font-main);
     white-space: pre-wrap;

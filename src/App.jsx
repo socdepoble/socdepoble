@@ -25,6 +25,7 @@ const EntityManagement = lazy(() => import('./pages/EntityManagement'));
 const SearchDiscover = lazy(() => import('./pages/SearchDiscover'));
 const CommunityDirectory = lazy(() => import('./pages/CommunityDirectory'));
 const IAIAPage = lazy(() => import('./pages/IAIAPage'));
+const AlbumMemoria = lazy(() => import('./pages/AlbumMemoria'));
 const ProjectPresentation = lazy(() => import('./pages/ProjectPresentation'));
 const MakingOf = lazy(() => import('./pages/MakingOf'));
 const LegalNotice = lazy(() => import('./pages/LegalNotice'));
@@ -257,6 +258,7 @@ function App() {
                 }
               />
               <Route path="iaia" element={<IAIAPage />} />
+              <Route path="album" element={<AlbumMemoria />} />
               <Route path="projecte" element={<ProjectPresentation />} />
               <Route path="elemental" element={<MakingOf />} />
               <Route path="legal" element={<LegalNotice />} />

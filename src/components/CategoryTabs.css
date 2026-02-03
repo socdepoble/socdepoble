@@ -37,7 +37,7 @@
     border-right: 1px solid rgba(255, 255, 255, 0.05);
     background-color: transparent;
     color: rgba(255, 255, 255, 0.6);
-    font-size: 11px;
+    font-size: var(--font-size-base);
     text-transform: uppercase;
     font-weight: 800;
     letter-spacing: 0.4px;
@@ -61,7 +61,7 @@
     background-color: rgba(93, 95, 239, 0.2);
     color: var(--color-primary);
     border-color: transparent;
-    font-size: 16px;
+    font-size: var(--font-size-base);
     padding: 6px 14px;
 }
 

@@ -32,8 +32,8 @@
 /* THEMED HEADERS */
 .card-header.terracotta,
 .card-header.default {
-    background: var(--md-sys-color-primary);
-    color: var(--md-sys-color-on-primary);
+    background: var(--accent);
+    color: #000000;
 }
 
 .card-header.raindrop {
@@ -71,7 +71,7 @@
 }
 
 .card-subtitle {
-    font-size: 11px;
+    font-size: var(--font-size-base);
     opacity: 0.8;
     font-weight: 700;
     text-transform: uppercase;
@@ -82,7 +82,7 @@
     width: 100%;
     /* [MASTER] Llei de la Integritat Multimèdia: No aspect-ratio fixed */
     overflow: hidden;
-    background-color: #000;
+    background-color: var(--bg-canvas);
     border-radius: 0 !important;
     position: relative;
 }
@@ -109,7 +109,7 @@
     backdrop-filter: blur(4px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     padding: 6px 12px;
-    border-radius: 4px;
+    border-radius: 0px;
     color: white;
     pointer-events: none;
     z-index: 10;
@@ -125,7 +125,7 @@
 }
 
 .watermark-logo {
-    font-size: 10px;
+    font-size: var(--font-size-base);
     font-weight: 900;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -134,7 +134,7 @@
 
 .watermark-author {
     font-size: 8px;
-    font-weight: 600;
+    font-weight: var(--font-weight-bold);
     opacity: 0.9;
     white-space: nowrap;
 }
@@ -143,7 +143,7 @@
     padding: 20px;
     color: var(--md-sys-color-on-surface);
     flex-grow: 1;
-    font-size: 16px;
+    font-size: var(--font-size-base);
     line-height: 1.6;
 }
 
@@ -224,7 +224,7 @@
     border: none;
     color: var(--text-main);
     padding: 8px;
-    font-size: 10px;
+    font-size: var(--font-size-base);
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -249,14 +249,14 @@
 .action-btn.principal-connect {
     background: var(--color-primary-soft);
     border: 1px solid var(--color-primary);
-    border-radius: 8px;
+    border-radius: 0px;
     color: var(--color-primary);
     animation: pulse-border 2s infinite ease-in-out;
 }
 
 .action-btn.principal-connect.active {
     background: var(--color-primary);
-    color: #000;
+    color: var(--bg-canvas);
 }
 
 @keyframes pulse-border {
@@ -274,7 +274,7 @@
 }
 
 .action-btn span {
-    font-size: 11px;
+    font-size: var(--font-size-base);
 }
 
 .active-voice {

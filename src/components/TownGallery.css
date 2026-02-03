@@ -14,13 +14,13 @@
 .m3-title-large {
     font-family: var(--font-headline);
     font-size: 22px;
-    font-weight: 400;
+    font-weight: var(--font-weight-bold);
     color: var(--md-sys-color-on-surface);
 }
 
 .m3-label-medium {
     font-family: var(--font-label);
-    font-size: 12px;
+    font-size: var(--font-size-base);
     color: var(--md-sys-color-on-surface-variant);
     letter-spacing: 0.5px;
 }
@@ -120,7 +120,7 @@
 .m3-icon-button {
     width: 48px;
     height: 48px;
-    border-radius: 50%;
+    border-radius: 0px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -140,8 +140,8 @@
 }
 
 .m3-title-medium {
-    font-size: 16px;
-    font-weight: 500;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-bold);
     max-width: 250px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -149,7 +149,7 @@
 }
 
 .m3-label-small {
-    font-size: 11px;
+    font-size: var(--font-size-base);
     opacity: 0.7;
 }
 
@@ -195,7 +195,7 @@
     height: 40px;
     border: 3px solid var(--md-sys-color-primary-container);
     border-top-color: var(--md-sys-color-primary);
-    border-radius: 50%;
+    border-radius: 0px;
     animation: spin 1s linear infinite;
 }
 

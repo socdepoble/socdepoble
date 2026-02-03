@@ -58,7 +58,7 @@
 
 .notif-content p {
     margin: 0;
-    font-size: 15px;
+    font-size: var(--font-size-base);
     color: var(--text-main);
     line-height: 1.4;
 }
@@ -69,10 +69,10 @@
 
 .notif-time {
     display: block;
-    font-size: 13px;
+    font-size: var(--font-size-base);
     color: var(--text-muted);
     margin-top: 4px;
-    font-weight: 500;
+    font-weight: var(--font-weight-bold);
 }
 
 .unread-dot {

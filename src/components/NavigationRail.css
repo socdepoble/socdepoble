@@ -44,7 +44,7 @@
     border-radius: var(--radius-lg);
     border: var(--comic-border);
     font-weight: 800;
-    font-size: 14px;
+    font-size: var(--font-size-base);
     box-shadow: var(--comic-shadow);
     cursor: pointer;
     transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -75,7 +75,7 @@
 }
 
 .drawer-section-title {
-    font-size: 11px;
+    font-size: var(--font-size-base);
     text-transform: uppercase;
     letter-spacing: 0.8px;
     color: var(--md-sys-color-on-surface-variant);
@@ -93,7 +93,7 @@
     /* MD3 Standard for drawer items */
     color: var(--md-sys-color-on-surface-variant);
     text-decoration: none;
-    font-size: 15px;
+    font-size: var(--font-size-base);
     font-weight: 700;
     transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     cursor: pointer;
@@ -164,7 +164,7 @@
 
 .drawer-scroll-area::-webkit-scrollbar-thumb {
     background: transparent;
-    border-radius: 10px;
+    border-radius: 0px;
 }
 
 .drawer-scroll-area:hover::-webkit-scrollbar-thumb {

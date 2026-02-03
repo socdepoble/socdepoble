@@ -18,7 +18,7 @@
     padding: 10px 12px;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
-    font-size: 15px;
+    font-size: var(--font-size-base);
     outline: none;
     background-color: var(--bg-main);
     color: var(--text-main);
@@ -41,7 +41,7 @@
 .tool-label-mini {
     font-size: 0.85rem;
     color: var(--text-secondary);
-    font-weight: 500;
+    font-weight: var(--font-weight-bold);
 }
 
 .image-upload-box {
@@ -75,7 +75,7 @@
 
 .form-label-small {
     font-weight: 700;
-    font-size: 13px;
+    font-size: var(--font-size-base);
     color: var(--text-secondary);
     margin-bottom: 8px;
     display: block;
@@ -100,8 +100,8 @@
     border-radius: var(--radius-lg);
     background-color: var(--bg-card);
     border: 1px solid var(--color-border);
-    font-size: 14px;
-    font-weight: 600;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-bold);
     color: var(--text-secondary);
     transition: all 0.2s;
 }

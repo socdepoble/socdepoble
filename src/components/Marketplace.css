@@ -44,7 +44,7 @@
     backdrop-filter: blur(4px);
     padding: 4px 10px;
     border-radius: var(--radius-xs);
-    font-size: 11px;
+    font-size: var(--font-size-base);
     font-weight: 800;
     color: var(--text-main);
     text-transform: uppercase;
@@ -57,7 +57,7 @@
     right: 10px;
     background: var(--bg-overlay);
     backdrop-filter: blur(4px);
-    border-radius: 50%;
+    border-radius: 0px;
     width: 32px;
     height: 32px;
     display: flex;
@@ -102,7 +102,7 @@
 }
 
 .category-pill-mini {
-    font-size: 11px;
+    font-size: var(--font-size-base);
     background-color: var(--color-primary-soft);
     color: var(--color-primary);
     padding: 4px 10px;
@@ -122,10 +122,10 @@
 }
 
 .item-seller {
-    font-size: 12px;
+    font-size: var(--font-size-base);
     color: var(--text-secondary);
     /* Darker for accessibility */
-    font-weight: 600;
+    font-weight: var(--font-weight-bold);
 }
 
 /* Handled by index.css card-footer-vibrant and add-btn-premium-vibrant */
@@ -154,7 +154,7 @@
 }
 
 .item-category-tag {
-    font-size: 13px;
+    font-size: var(--font-size-base);
     color: var(--color-primary);
     font-weight: 700;
 }
@@ -164,13 +164,13 @@
     border: 1px solid #00f2ff;
     color: #00f2ff;
     padding: 10px 16px;
-    border-radius: 8px;
+    border-radius: 0px;
     /* Rectangular */
     display: flex;
     align-items: center;
     gap: 8px;
     font-weight: 700;
-    font-size: 14px;
+    font-size: var(--font-size-base);
     box-shadow: 0 4px 12px rgba(93, 95, 239, 0.3);
 }
 
@@ -198,7 +198,7 @@
     color: var(--text-secondary);
     line-height: 1.4;
     margin-bottom: 12px;
-    font-weight: 500;
+    font-weight: var(--font-weight-bold);
 }
 
 .item-desc-premium h1 {
@@ -235,7 +235,7 @@
 .healthy-suggestion-card {
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
+    border-radius: 0px;
     padding: 10px 14px;
     display: flex;
     align-items: center;
@@ -278,7 +278,7 @@
 }
 
 .suggestion-label {
-    font-size: 10px;
+    font-size: var(--font-size-base);
     font-weight: 800;
     text-transform: uppercase;
     color: #00f2ff;
@@ -286,7 +286,7 @@
 }
 
 .suggestion-text {
-    font-size: 13px;
+    font-size: var(--font-size-base);
     color: rgba(255, 255, 255, 0.8);
     line-height: 1.3;
 }

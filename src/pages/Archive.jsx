@@ -6,7 +6,7 @@ import {
     FileText, Image as ImageIcon, MessageSquare,
     User, Store, Box, LayoutGrid, Tag, Inbox,
     Folder, ExternalLink, MoreVertical, Trash2,
-    ShieldCheck, Zap, BookOpen, Clock
+    ShieldCheck, Zap, BookOpen, Clock, ArrowLeft, Filter, Calendar, MapPin, Download, Eye
 } from 'lucide-react';
 import StatusLoader from '../components/StatusLoader';
 import { useTheme } from '../context/ThemeContext';

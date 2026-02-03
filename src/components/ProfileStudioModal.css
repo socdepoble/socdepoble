@@ -68,7 +68,7 @@
 
 .studio-advice p {
     margin: 0;
-    font-size: 13px;
+    font-size: var(--font-size-base);
     color: var(--text-main);
     line-height: 1.5;
 }
@@ -87,13 +87,13 @@
 
 .section-header h4 {
     margin: 0;
-    font-size: 15px;
+    font-size: var(--font-size-base);
     font-weight: 700;
     color: var(--text-main);
 }
 
 .aspect-badge {
-    font-size: 11px;
+    font-size: var(--font-size-base);
     font-weight: 800;
     color: var(--text-muted);
     background: var(--bg-main);
@@ -127,9 +127,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 13px;
+    font-size: var(--font-size-base);
     color: var(--text-muted);
-    font-weight: 600;
+    font-weight: var(--font-weight-bold);
 }
 
 .studio-action-bar {
@@ -257,7 +257,7 @@
 .studio-btn {
     padding: 8px 12px;
     border-radius: var(--radius-md);
-    font-size: 12px;
+    font-size: var(--font-size-base);
     /* Smaller font to ensure 3 buttons fit */
     font-weight: 700;
     display: flex;
@@ -307,7 +307,7 @@
     border: none;
     padding: 12px 32px;
     border-radius: var(--radius-full);
-    font-size: 15px;
+    font-size: var(--font-size-base);
     font-weight: 800;
     cursor: pointer;
     transition: all 0.2s;

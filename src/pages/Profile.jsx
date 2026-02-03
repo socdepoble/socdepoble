@@ -9,7 +9,7 @@ import {
     User, LogOut, Camera, Save, Building2, Store, Settings, Star, Home,
     Bell, Lock, HelpCircle, Info, ChevronRight, MapPin, MessageCircle,
     Plus, Moon, Sun, ArrowLeft, Loader2, Image as ImageIcon, Maximize,
-    LayoutGrid, Activity, ShieldCheck, Globe, Edit2, BookOpen, Share2, Beaker, Calendar, Newspaper, Users, Archive
+    LayoutGrid, Activity, ShieldCheck, Globe, Edit2, BookOpen, Share2, Beaker, Calendar, Newspaper, Users, Archive, Landmark
 } from 'lucide-react';
 import { logger } from '../utils/logger';
 

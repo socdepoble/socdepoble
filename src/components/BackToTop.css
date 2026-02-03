@@ -6,7 +6,7 @@
     height: 48px;
     background-color: var(--color-primary);
     color: white;
-    border-radius: 50%;
+    border-radius: 0px;
     display: flex;
     align-items: center;
     justify-content: center;

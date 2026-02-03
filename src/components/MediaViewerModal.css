@@ -23,7 +23,7 @@
 }
 
 .viewer-title {
-    font-weight: 600;
+    font-weight: var(--font-weight-bold);
     font-size: 1.1rem;
     letter-spacing: 0.5px;
 }
@@ -43,7 +43,7 @@
     width: 48px;
     /* Larger touch target */
     height: 48px;
-    border-radius: 50%;
+    border-radius: 0px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -83,7 +83,7 @@
     max-height: 100%;
     object-fit: contain;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-    border-radius: 4px;
+    border-radius: 0px;
     image-rendering: auto;
     /* Ensure high quality */
 }
@@ -91,7 +91,7 @@
 .viewer-main-iframe {
     width: 90vw;
     height: 80vh;
-    border-radius: 12px;
+    border-radius: 0px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
     background: white;
 }

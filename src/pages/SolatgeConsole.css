@@ -31,7 +31,7 @@
 }
 
 .solatge-header .subtitle {
-    font-size: 10px;
+    font-size: var(--font-size-base);
     font-weight: 700;
     letter-spacing: 4px;
     color: var(--sdp-terracotta);
@@ -43,7 +43,7 @@
     display: flex;
     align-items: center;
     gap: var(--sdp-space-sm);
-    font-size: 12px;
+    font-size: var(--font-size-base);
     font-weight: 900;
 }
 
@@ -72,7 +72,7 @@
 }
 
 .metric-card .label {
-    font-size: 10px;
+    font-size: var(--font-size-base);
     font-weight: 700;
     color: var(--sdp-text-med);
 }
@@ -104,7 +104,7 @@
     display: flex;
     align-items: center;
     gap: var(--sdp-space-sm);
-    font-size: 10px;
+    font-size: var(--font-size-base);
     font-weight: 700;
     letter-spacing: 1px;
 }
@@ -112,7 +112,7 @@
 .logs {
     padding: var(--sdp-space-md);
     font-family: 'Courier New', Courier, monospace;
-    font-size: 12px;
+    font-size: var(--font-size-base);
     display: flex;
     flex-direction: column;
     gap: 4px;
@@ -152,7 +152,7 @@
     justify-content: center;
     gap: var(--sdp-space-sm);
     font-weight: 900;
-    font-size: 12px;
+    font-size: var(--font-size-base);
     border: 2px solid transparent;
 }
 
@@ -173,7 +173,7 @@
     right: 8px;
     background: rgba(255, 255, 255, 0.1);
     border: none;
-    border-radius: 50%;
+    border-radius: 0px;
     width: 24px;
     height: 24px;
     display: flex;
@@ -196,7 +196,7 @@
     border-top: 1px solid var(--sdp-glass-border);
     display: flex;
     justify-content: space-between;
-    font-size: 10px;
+    font-size: var(--font-size-base);
     font-weight: 700;
     color: var(--sdp-text-med);
 }

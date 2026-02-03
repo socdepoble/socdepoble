@@ -111,7 +111,7 @@
     /* Forçat Dark Glass */
     backdrop-filter: blur(25px) saturate(180%);
     -webkit-backdrop-filter: blur(25px) saturate(180%);
-    border-radius: 32px;
+    border-radius: 0px;
     border: 1px solid rgba(0, 242, 255, 0.2);
     /* Neó Cian subtil */
     box-shadow: 0 40px 100px rgba(0, 0, 0, 0.4), inset 0 0 40px rgba(0, 242, 255, 0.05);
@@ -245,8 +245,8 @@
 
 .premium-badge {
     padding: 3px 10px;
-    border-radius: 8px;
-    font-size: 10px;
+    border-radius: 0px;
+    font-size: var(--font-size-base);
     font-weight: 900;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -259,7 +259,7 @@
 
 .premium-badge.oficial {
     background: var(--color-primary);
-    color: #000;
+    color: var(--bg-canvas);
     font-weight: 900;
     border: none;
 }
@@ -272,7 +272,7 @@
 
 .premium-subtitle {
     font-size: 18px;
-    color: #ffffff;
+    color: var(--text-main)fff;
     font-weight: 700;
     margin: 0;
     opacity: 0.9;
@@ -289,9 +289,9 @@
     display: flex;
     align-items: center;
     gap: 6px;
-    font-size: 15px;
+    font-size: var(--font-size-base);
     color: var(--text-muted);
-    font-weight: 600;
+    font-weight: var(--font-weight-bold);
 }
 
 .premium-town-line svg {
@@ -312,11 +312,11 @@
 }
 
 .premium-bio {
-    font-size: 16px;
+    font-size: var(--font-size-base);
     line-height: 1.5;
     color: rgba(255, 255, 255, 0.75);
     margin: 16px 0 20px;
-    font-weight: 400;
+    font-weight: var(--font-weight-bold);
 }
 
 .premium-card-footer-slot {
@@ -364,7 +364,7 @@
     width: 100%;
     background: rgba(255, 255, 255, 0.1);
     border: 1px dashed rgba(255, 255, 255, 0.4);
-    border-radius: 8px;
+    border-radius: 0px;
     color: white;
     font-family: inherit;
     padding: 6px 12px;
@@ -386,8 +386,8 @@
 }
 
 .premium-edit-textarea.bio {
-    font-size: 16px;
-    font-weight: 500;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-bold);
     line-height: 1.5;
     margin: 16px 0 10px;
     resize: none;
@@ -397,7 +397,7 @@
 .premium-town-line.editable {
     cursor: pointer;
     padding: 4px 8px;
-    border-radius: 6px;
+    border-radius: 0px;
     background: rgba(255, 255, 255, 0.1);
     transition: all 0.2s ease;
     border: 1px dashed rgba(255, 255, 255, 0.3);

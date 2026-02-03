@@ -61,7 +61,7 @@ const KnowledgeHub = () => {
                         <p className="text-sm text-gray-400 mb-4 line-clamp-2">{source.description}</p>
 
                         <div className="flex items-center gap-4 text-xs text-gray-500 mb-6">
-                            <span className="flex items-center gap-1"><Book size={12} /> {source.provider}</span>
+                            <span className="flex items-center gap-1"><BookOpen size={12} /> {source.provider}</span>
                             <span className="flex items-center gap-1"><Share2 size={12} /> Compartit</span>
                         </div>
 

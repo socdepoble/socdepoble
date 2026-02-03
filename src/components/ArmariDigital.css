@@ -36,18 +36,18 @@
 
 .seu-text p {
     margin: 5px 0 0 0;
-    font-size: 13px;
+    font-size: var(--font-size-base);
     opacity: 0.7;
     line-height: 1.4;
 }
 
 .btn-seu-direct {
     background: var(--color-primary);
-    color: #000;
+    color: var(--bg-canvas);
     border: none;
     padding: 12px;
     font-weight: 900;
-    font-size: 14px;
+    font-size: var(--font-size-base);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -71,7 +71,7 @@
 }
 
 .docs-title {
-    font-size: 14px;
+    font-size: var(--font-size-base);
     text-transform: uppercase;
     font-weight: 800;
     opacity: 0.5;
@@ -92,8 +92,8 @@
 }
 
 .doc-size {
-    font-size: 11px;
-    font-weight: 600;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-bold);
     opacity: 0.6;
 }
 
@@ -102,7 +102,7 @@
     color: var(--color-primary);
     border: 1px solid var(--color-primary-soft);
     padding: 6px 12px;
-    font-size: 11px;
+    font-size: var(--font-size-base);
     font-weight: 800;
     display: flex;
     align-items: center;
@@ -123,7 +123,7 @@
 }
 
 .hub-title {
-    font-size: 14px;
+    font-size: var(--font-size-base);
     font-weight: 800;
     margin-bottom: 15px;
 }
@@ -150,14 +150,14 @@
 
 .hub-tool-card h5 {
     margin: 0;
-    font-size: 13px;
+    font-size: var(--font-size-base);
     font-weight: 700;
     color: var(--color-primary);
 }
 
 .hub-tool-card p {
     margin: 8px 0 0 0;
-    font-size: 11px;
+    font-size: var(--font-size-base);
     opacity: 0.6;
     line-height: 1.3;
 }

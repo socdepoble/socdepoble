@@ -1,5 +1,5 @@
 import React from 'react';
-import { Book, Users, Tractor, Brain, HardDrive, Package, Info, ChevronRight, Sparkles } from 'lucide-react';
+import { Users, Tractor, Brain, HardDrive, Package, Info, ChevronRight, Sparkles } from 'lucide-react';
 import './DidacticManual.css';
 
 /**
@@ -57,7 +57,7 @@ const DidacticManual = () => {
     return (
         <div className="manual-container animate-bategat">
             <header className="manual-header">
-                <Book size={32} className="header-icon" />
+                <BookOpen size={32} className="header-icon" />
                 <div className="header-text">
                     <h1>Manual Didàctic</h1>
                     <p className="subtitle">L'estat de la Cristal·lització [v1.6-BATEGA]</p>

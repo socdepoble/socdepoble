@@ -36,7 +36,7 @@
     /* CRITICAL: Never crop, always fit */
     user-select: none;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
-    border-radius: 4px;
+    border-radius: 0px;
 }
 
 .lightbox-close {
@@ -48,7 +48,7 @@
     color: white;
     width: 48px;
     height: 48px;
-    border-radius: 50%;
+    border-radius: 0px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -70,7 +70,7 @@
     border: none;
     width: 56px;
     height: 56px;
-    border-radius: 50%;
+    border-radius: 0px;
     display: flex;
     justify-content: center;
     align-items: center;

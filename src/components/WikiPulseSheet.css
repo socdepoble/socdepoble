@@ -1,6 +1,6 @@
 .wiki-pulse-container {
     padding: 24px;
-    border-radius: 24px;
+    border-radius: 0px;
     border-left: 4px solid #3b82f6;
     background: rgba(15, 23, 42, 0.4);
     margin: 16px 0;
@@ -17,14 +17,14 @@
     width: 40px;
     height: 40px;
     background: rgba(59, 130, 246, 0.1);
-    border-radius: 12px;
+    border-radius: 0px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .pulse-extract {
-    font-size: 14px;
+    font-size: var(--font-size-base);
     line-height: 1.6;
     color: rgba(255, 255, 255, 0.9);
     margin-bottom: 24px;
@@ -43,7 +43,7 @@
     gap: 10px;
     background: rgba(255, 255, 255, 0.03);
     padding: 12px;
-    border-radius: 16px;
+    border-radius: 0px;
 }
 
 .stat-info {
@@ -61,8 +61,8 @@
 }
 
 .stat-value {
-    font-size: 11px;
-    font-weight: 600;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-bold);
 }
 
 .pulse-link-btn {
@@ -74,9 +74,9 @@
     padding: 12px;
     background: rgba(59, 130, 246, 0.15);
     border: 1px solid rgba(59, 130, 246, 0.3);
-    border-radius: 14px;
+    border-radius: 0px;
     color: #93c5fd;
-    font-size: 11px;
+    font-size: var(--font-size-base);
     font-weight: 900;
     letter-spacing: 1px;
     text-decoration: none;

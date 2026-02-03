@@ -54,11 +54,11 @@
     right: 8px;
     background-color: var(--sdp-terracotta);
     color: white;
-    font-size: 10px;
+    font-size: var(--font-size-base);
     font-weight: 700;
     min-width: 16px;
     height: 16px;
-    border-radius: 8px;
+    border-radius: 0px;
     display: flex;
     align-items: center;
     justify-content: center;

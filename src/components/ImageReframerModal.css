@@ -57,7 +57,7 @@
 .reframer-viewport.aspect-1-1 {
     width: 250px;
     height: 250px;
-    border-radius: 50% !important;
+    border-radius: 0px !important;
 }
 
 .reframer-viewport.aspect-16-9 {
@@ -91,7 +91,7 @@
 .viewport-overlay.is-circle .mask-guide {
     position: absolute;
     inset: 0;
-    border-radius: 50%;
+    border-radius: 0px;
     box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.4);
     border: 2px solid rgba(255, 255, 255, 0.5);
 }
@@ -148,8 +148,8 @@
     color: white;
     gap: var(--space-md);
     z-index: 50;
-    font-size: 14px;
-    font-weight: 600;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-bold);
 }
 
 .reframer-status-overlay.is-error {
@@ -164,7 +164,7 @@
     border: 1px solid currentColor;
     background: transparent;
     color: white;
-    font-size: 12px;
+    font-size: var(--font-size-base);
     cursor: pointer;
     transition: all 0.2s;
 }

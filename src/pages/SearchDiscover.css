@@ -51,8 +51,8 @@
     border: 1px solid var(--md-sys-color-outline);
     background: var(--md-sys-color-surface);
     color: var(--md-sys-color-on-surface);
-    font-size: 16px;
-    font-weight: 500;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-bold);
     transition: all 0.2s;
 }
 
@@ -92,8 +92,8 @@
     border: 1px solid var(--md-sys-color-outline);
     background: var(--md-sys-color-surface-variant);
     color: var(--md-sys-color-on-surface-variant);
-    font-size: 13px;
-    font-weight: 600;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-bold);
     display: flex;
     align-items: center;
     gap: 8px;
@@ -132,7 +132,7 @@
 
 .search-welcome p {
     color: var(--text-muted);
-    font-size: 15px;
+    font-size: var(--font-size-base);
     line-height: 1.5;
     margin-bottom: 40px;
 }
@@ -142,7 +142,7 @@
 }
 
 .recent-searches h4 {
-    font-size: 14px;
+    font-size: var(--font-size-base);
     text-transform: uppercase;
     color: var(--text-muted);
     letter-spacing: 1px;
@@ -174,8 +174,8 @@
 }
 
 .recent-item span {
-    font-size: 14px;
-    font-weight: 600;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-bold);
     color: var(--text-main);
 }
 
@@ -195,14 +195,14 @@
 }
 
 .result-section-header h3 {
-    font-size: 15px;
+    font-size: var(--font-size-base);
     font-weight: 800;
     color: var(--text-muted);
     text-transform: uppercase;
 }
 
 .result-section-header .count {
-    font-size: 12px;
+    font-size: var(--font-size-base);
     background: var(--bg-surface);
     padding: 2px 8px;
     border-radius: var(--radius-xs);
@@ -282,12 +282,12 @@
 }
 
 .result-info strong {
-    font-size: 15px;
+    font-size: var(--font-size-base);
     color: var(--text-main);
 }
 
 .result-info span {
-    font-size: 12px;
+    font-size: var(--font-size-base);
     color: var(--text-muted);
 }
 
@@ -301,7 +301,7 @@
     }
 
     .main-search-input {
-        font-size: 14px;
+        font-size: var(--font-size-base);
         padding: 10px 35px 10px 40px;
     }
 
@@ -340,21 +340,21 @@
 }
 
 .no-results-top-vibrant p {
-    font-size: 16px;
+    font-size: var(--font-size-base);
     font-weight: 700;
     color: var(--text-main);
     margin-bottom: 4px;
 }
 
 .no-results-top-vibrant span {
-    font-size: 14px;
+    font-size: var(--font-size-base);
     color: var(--text-muted);
 }
 
 /* Standardized Extra Large Action Button - The Community Door */
 .big-community-btn-xl {
     width: 100%;
-    background: var(--md-sys-color-primary);
+    background: var(--accent);
     border: none;
     border-radius: var(--radius-xl);
     padding: 24px;
@@ -365,7 +365,7 @@
     cursor: pointer;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     text-align: left;
-    color: var(--md-sys-color-on-primary);
+    color: #000000;
     box-shadow: var(--shadow-3);
     position: relative;
     overflow: hidden;
@@ -418,9 +418,9 @@
 }
 
 .btn-text-xl span {
-    font-size: 14px;
+    font-size: var(--font-size-base);
     opacity: 0.9;
-    font-weight: 600;
+    font-weight: var(--font-weight-bold);
 }
 
 .big-community-btn-xl .chevron {
@@ -428,7 +428,7 @@
 }
 
 .search-description-text {
-    font-size: 15px;
+    font-size: var(--font-size-base);
     color: var(--text-muted);
     line-height: 1.6;
     margin-bottom: 24px;
@@ -436,7 +436,7 @@
     max-width: 90%;
     margin-left: auto;
     margin-right: auto;
-    font-weight: 600;
+    font-weight: var(--font-weight-bold);
 }
 
 /* === EXTERNAL FEDERATION === */
@@ -467,8 +467,8 @@
 
 .badge-iaia {
     background: var(--color-primary);
-    color: #000;
-    font-size: 10px;
+    color: var(--bg-canvas);
+    font-size: var(--font-size-base);
     font-weight: 900;
     padding: 2px 8px;
     text-transform: uppercase;

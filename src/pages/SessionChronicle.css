@@ -25,7 +25,7 @@
     align-items: center;
     gap: 6px;
     color: var(--text-muted);
-    font-size: 14px;
+    font-size: var(--font-size-base);
     margin-top: 4px;
 }
 
@@ -41,7 +41,7 @@
 .session-summary-card {
     background: var(--bg-surface-soft);
     padding: 24px;
-    border-radius: 20px;
+    border-radius: 0px;
     border: 1px solid var(--color-divider);
 }
 
@@ -78,7 +78,7 @@
 /* ECONOMIC CONTRAST HUD */
 .economic-contrast-hud {
     background: #000;
-    border-radius: 24px;
+    border-radius: 0px;
     padding: 30px;
     border: 2px solid var(--color-primary);
     box-shadow: 0 0 30px rgba(0, 242, 255, 0.1);
@@ -107,7 +107,7 @@
 
 .stat-card {
     padding: 20px;
-    border-radius: 16px;
+    border-radius: 0px;
     background: rgba(255, 255, 255, 0.05);
     display: flex;
     gap: 16px;
@@ -124,12 +124,12 @@
 .stat-icon {
     width: 44px;
     height: 44px;
-    border-radius: 12px;
+    border-radius: 0px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: rgba(255, 255, 255, 0.1);
-    color: #fff;
+    color: var(--text-main);
 }
 
 .stat-card.ai .stat-icon {
@@ -138,7 +138,7 @@
 }
 
 .stat-label {
-    font-size: 12px;
+    font-size: var(--font-size-base);
     text-transform: uppercase;
     color: var(--text-muted);
     margin-bottom: 4px;
@@ -147,11 +147,11 @@
 .stat-value {
     font-size: 24px;
     font-weight: 800;
-    color: #fff;
+    color: var(--text-main);
 }
 
 .stat-card small {
-    font-size: 10px;
+    font-size: var(--font-size-base);
     opacity: 0.7;
     color: var(--text-muted);
 }
@@ -159,11 +159,11 @@
 .savings-banner {
     background: var(--color-primary);
     padding: 24px;
-    border-radius: 16px;
+    border-radius: 0px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: #000;
+    color: var(--bg-canvas);
 }
 
 .savings-content {
@@ -173,7 +173,7 @@
 }
 
 .savings-label {
-    font-size: 14px;
+    font-size: var(--font-size-base);
     font-weight: 700;
     text-transform: uppercase;
     opacity: 0.8;
@@ -188,9 +188,9 @@
     background: #000;
     color: var(--color-primary);
     padding: 6px 14px;
-    border-radius: 100px;
+    border-radius: 0px;
     font-weight: 900;
-    font-size: 14px;
+    font-size: var(--font-size-base);
 }
 
 .share-actions {
@@ -200,8 +200,8 @@
 .btn-share {
     width: 100%;
     padding: 16px;
-    border-radius: 16px;
-    font-size: 16px;
+    border-radius: 0px;
+    font-size: var(--font-size-base);
     font-weight: 800;
     display: flex;
     align-items: center;

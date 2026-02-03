@@ -1,5 +1,5 @@
 import React from 'react';
-import { BookOpen, ExternalLink, MapPin, Users, Landmark } from 'lucide-react';
+import { ExternalLink, MapPin, Users, Landmark } from 'lucide-react';
 import './WikiPulseSheet.css';
 
 const WikiPulseSheet = ({ wikiData, status }) => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ArrowLeft, BookOpen, Sprout, Users, MessageCircle, Heart, Sparkles, User, Clock, BellRing, Shield, Mic, Newspaper, Activity, Archive, Calendar, Terminal, Settings, Layout } from 'lucide-react';
+import { ArrowLeft, BookOpen, Sprout, Users, MessageCircle, Heart, Sparkles, User, Clock, BellRing, Shield, Mic, Newspaper, Activity, Archive, Calendar, Terminal, Settings, Layout, Image as ImageIcon, Store } from 'lucide-react';
 import { useUI } from '../context/UIContext';
 import ShareHub from '../components/ShareHub';
 import SEO from '../components/SEO';
@@ -12,6 +12,7 @@ import VoiceRecorder from '../components/VoiceRecorder';
 import MasterMediaGallery from '../components/MasterMediaGallery';
 import { MASTER_ASSETS } from '../constants/masterAssets';
 import { PROVERBS } from '../data/proverbs';
+import { memoriaVivaService } from '../services/MemoriaVivaService';
 
 const IAIAPage = () => {
     const { t, i18n } = useTranslation();
@@ -72,59 +73,41 @@ const IAIAPage = () => {
             </header>
 
             <main className="iaia-page-content">
-                <section className="vision-mode-selector-premium">
-                    <div className="vision-selector-header">
-                        <h2>Tria la teua experiència</h2>
-                        <p>Com vols viure Sóc de Poble hui?</p>
+                <section className="iaia-page-bento-grid">
+                    {/* BENTO CARD 1: EXPERIENCE (LARGE) */}
+                    <div className={`bento-item experience ${visionMode === 'hibrida' ? 'active' : ''}`} onClick={() => setVisionMode('hibrida')}>
+                        <div className="bento-icon"><Sparkles size={32} /></div>
+                        <div className="bento-content">
+                            <h3>Mode Híbrid</h3>
+                            <p>Viu la història del poble amb la IAIA i els seus personatges.</p>
+                        </div>
+                        {visionMode === 'hibrida' && <div className="bento-badge">ACTIU</div>}
                     </div>
 
-                    <div className="vision-options-grid">
-                        <button
-                            className={`vision-option-card ${visionMode === 'hibrida' ? 'active' : ''}`}
-                            onClick={() => setVisionMode('hibrida')}
-                        >
-                            <div className="option-icon"><Sparkles size={32} /></div>
-                            <div className="option-info">
-                                <h3>Mode Híbrid</h3>
-                                <p>Viu la història del poble amb la IAIA i els seus personatges.</p>
-                            </div>
-                            <div className="status-indicator"></div>
-                        </button>
-
-                        <button
-                            className={`vision-option-card ${visionMode === 'humana' ? 'active' : ''}`}
-                            onClick={() => setVisionMode('humana')}
-                        >
-                            <div className="option-icon"><User size={32} /></div>
-                            <div className="option-info">
-                                <h3>Mode Humà</h3>
-                                <p>Conecta només amb els teus veïns reals, sense ficció.</p>
-                            </div>
-                            <div className="status-indicator"></div>
-                        </button>
+                    {/* BENTO CARD 2: HUMAN MODE (MEDIUM) */}
+                    <div className={`bento-item human ${visionMode === 'humana' ? 'active' : ''}`} onClick={() => setVisionMode('humana')}>
+                        <div className="bento-icon"><User size={28} /></div>
+                        <div className="bento-content">
+                            <h3>Mode Humà</h3>
+                            <p>Només veïns reals.</p>
+                        </div>
+                        {visionMode === 'humana' && <div className="bento-badge">ACTIU</div>}
                     </div>
-                </section>
-                <section className="iaia-section intro-card">
-                    <div className="section-icon"><Heart size={32} color="var(--color-primary)" /></div>
-                    <h2>{t('iaia_page.who_am_i')}</h2>
-                    <p>{t('iaia_page.who_am_i_text')}</p>
-                </section>
 
-                <section className="iaia-section healthy-menus-preview">
-                    <div className="section-icon"><Sprout size={32} color="var(--color-primary)" /></div>
-                    <h2>Propostes Saludables d'Anna Climent</h2>
-                    <p>En col·laboració amb Anna, hem preparat una selecció de menús i entrepans que cuiden de la teua salut i de la tradició del poble.</p>
-                    <div className="healthy-menus-grid">
-                        <div className="menu-card">
-                            <h3>Entrepans de bar</h3>
-                            <ul>
-                                <li>Pà integral amb calamars i bajoca</li>
-                                <li>Esgarraret premium amb oli d'oliva</li>
-                                <li>Sèpia a la planxa amb tomaca</li>
-                            </ul>
-                            <button className="btn-text" onClick={() => navigate('/chats/iaia')}>
-                                Demana'm la recepta completa 👵✨
-                            </button>
+                    {/* BENTO CARD 3: HEALTHY (MEDIUM) */}
+                    <div className="bento-item healthy" onClick={() => navigate('/chats/iaia')}>
+                        <div className="bento-icon"><Sprout size={28} /></div>
+                        <div className="bento-content">
+                            <h3>Salut</h3>
+                            <p>Menús i entrepans d'Anna Climent.</p>
+                        </div>
+                    </div>
+
+                    {/* BENTO CARD 4: ABOUT (SMALL) */}
+                    <div className="bento-item about" onClick={() => navigate('/dafo/iaia')}>
+                        <div className="bento-icon"><Heart size={24} /></div>
+                        <div className="bento-content">
+                            <h3>Qui sóc?</h3>
                         </div>
                     </div>
                 </section>
@@ -214,9 +197,9 @@ const IAIAPage = () => {
                 </section>
 
                 <section className="iaia-section proverbs-library-card">
-                    <div className="section-icon"><Book size={28} color="var(--color-primary)" /></div>
+                    <div className="section-icon"><BookOpen size={28} color="var(--color-primary)" /></div>
                     <h2>Llegat de l'Artista: Nano Banana</h2>
-                    <p>L'arxiu històric de l'Agent Mestre que va bategar abans de ser llegenda.</p>
+                    <p>L'arxiu històric de l'Agent Mestre que va bategat abans de ser llegenda.</p>
                     <div className="hub-tools-grid">
                         <div className="hub-tool-item" onClick={() => navigate('/arxiu')}>
                             <Archive size={20} />
@@ -226,19 +209,6 @@ const IAIAPage = () => {
                             <Store size={20} />
                             <span>Col·lecció Legacy</span>
                         </div>
-                    </div>
-
-                    <div className="drawer-divider mt-8 mb-4"></div>
-
-                    <h3>{t('iaia_page.proverbs_title')}</h3>
-                    <p>{t('iaia_page.proverbs_desc')}</p>
-                    <div className="proverbs-grid">
-                        {proverbs.map((p, i) => (
-                            <div key={i} className="proverb-item">
-                                <div className="proverb-text">"{p.text}"</div>
-                                <div className="proverb-meaning">{p.meaning}</div>
-                            </div>
-                        ))}
                     </div>
                 </section>
 
@@ -266,6 +236,10 @@ const IAIAPage = () => {
                         <div className="hub-tool-item" onClick={() => navigate('/gestio-entitats')}>
                             <Layout size={24} />
                             <span>Gestió d'Entitats</span>
+                        </div>
+                        <div className="hub-tool-item" onClick={() => navigate('/album')}>
+                            <ImageIcon size={24} />
+                            <span>Àlbum de Memòria</span>
                         </div>
                         <div className="hub-tool-item" onClick={() => navigate('/perfil')}>
                             <Settings size={24} />

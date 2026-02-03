@@ -35,7 +35,7 @@
 
 .directory-header p {
     color: var(--text-muted);
-    font-size: 15px;
+    font-size: var(--font-size-base);
     margin-bottom: 24px;
 }
 
@@ -54,7 +54,7 @@
     background: var(--bg-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
-    font-size: 13px;
+    font-size: var(--font-size-base);
     font-weight: 800;
     color: var(--text-muted);
     cursor: pointer;
@@ -138,7 +138,7 @@
 }
 
 .card-info h3 {
-    font-size: 16px;
+    font-size: var(--font-size-base);
     font-weight: 800;
     margin-bottom: 2px;
     color: var(--text-main);
@@ -148,14 +148,14 @@
 }
 
 .card-info p {
-    font-size: 13px;
+    font-size: var(--font-size-base);
     color: var(--text-muted);
     margin-bottom: 8px;
-    font-weight: 600;
+    font-weight: var(--font-weight-bold);
 }
 
 .bio-mini {
-    font-size: 12px;
+    font-size: var(--font-size-base);
     color: var(--text-muted);
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -170,7 +170,7 @@
     color: white;
     border: none;
     border-radius: var(--radius-full);
-    font-size: 11px;
+    font-size: var(--font-size-base);
     font-weight: 900;
     cursor: pointer;
     transition: transform 0.2s;

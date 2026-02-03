@@ -62,7 +62,7 @@ const NavigationRail = () => {
                         <span>Arxiu d'Or</span>
                     </NavLink>
                     <NavLink to="/calendari" className="drawer-item">
-                        <Book size={20} />
+                        <BookOpen size={20} />
                         <span>Calendari Master</span>
                     </NavLink>
                 </div>

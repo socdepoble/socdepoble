@@ -137,7 +137,7 @@ const SettingsTab = ({
                 <div className="premium-setting-item" onClick={() => navigate('/tutorial-didactica')}>
                     <div className="setting-content-left">
                         <div className="setting-icon-wrapper" style={{ background: 'var(--color-primary)', color: 'white' }}>
-                            <Book size={20} />
+                            <BookOpen size={20} />
                         </div>
                         <div className="setting-text-bundle">
                             <span className="setting-title">Manual Didàctic</span>

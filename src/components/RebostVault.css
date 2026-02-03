@@ -23,7 +23,7 @@
     padding: 6px 12px;
     background: rgba(0, 242, 255, 0.05);
     border: 1px solid var(--color-primary-soft);
-    border-radius: 50px;
+    border-radius: 0px;
     color: var(--color-primary);
     font-size: 0.75rem;
     font-weight: 700;
@@ -46,7 +46,7 @@
 .rebost-title-section p {
     margin: 4px 0 0;
     opacity: 0.6;
-    font-size: 14px;
+    font-size: var(--font-size-base);
 }
 
 .btn-import {
@@ -54,7 +54,7 @@
     color: white;
     border: none;
     padding: 10px 20px;
-    border-radius: 12px;
+    border-radius: 0px;
     font-weight: 700;
     display: flex;
     align-items: center;
@@ -75,12 +75,12 @@
     border: 1px solid rgba(16, 185, 129, 0.2);
     color: #10B981;
     padding: 12px 16px;
-    border-radius: 12px;
+    border-radius: 0px;
     display: flex;
     align-items: center;
     gap: 12px;
-    font-size: 13px;
-    font-weight: 600;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-bold);
 }
 
 .import-success-banner button {
@@ -106,7 +106,7 @@
     flex: 1;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 14px;
+    border-radius: 0px;
     padding: 10px 16px;
     display: flex;
     align-items: center;
@@ -118,7 +118,7 @@
     border: none;
     color: white;
     width: 100%;
-    font-size: 15px;
+    font-size: var(--font-size-base);
 }
 
 .rebost-search input:focus {
@@ -128,8 +128,8 @@
 .rebost-stats-chip {
     background: rgba(255, 255, 255, 0.05);
     padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 12px;
+    border-radius: 0px;
+    font-size: var(--font-size-base);
     white-space: nowrap;
 }
 
@@ -154,7 +154,7 @@
 
 .rebost-empty-state p {
     margin: 0;
-    font-size: 14px;
+    font-size: var(--font-size-base);
     opacity: 0.6;
 }
 

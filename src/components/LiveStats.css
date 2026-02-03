@@ -1,7 +1,7 @@
 .live-stats-container {
     background: rgba(255, 255, 255, 0.7);
     backdrop-filter: blur(10px);
-    border-radius: 16px;
+    border-radius: 0px;
     padding: 20px;
     margin: 24px 0;
     border: 1px solid rgba(0, 0, 0, 0.05);
@@ -30,7 +30,7 @@
     font-size: 0.7rem;
     font-weight: 800;
     padding: 4px 8px;
-    border-radius: 99px;
+    border-radius: 0px;
     animation: pulse 2s infinite;
 }
 
@@ -57,7 +57,7 @@
 .stat-card {
     background: white;
     padding: 16px;
-    border-radius: 12px;
+    border-radius: 0px;
     display: flex;
     align-items: center;
     gap: 12px;
@@ -72,7 +72,7 @@
 .stat-icon {
     width: 40px;
     height: 40px;
-    border-radius: 10px;
+    border-radius: 0px;
     display: flex;
     align-items: center;
     justify-content: center;

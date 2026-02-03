@@ -17,7 +17,7 @@
     padding: var(--space-md) var(--space-xl);
     border-radius: var(--radius-xl);
     font-weight: 700;
-    font-size: 16px;
+    font-size: var(--font-size-base);
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     width: 100%;
@@ -64,11 +64,11 @@
 
 .portal-description {
     color: #94a3b8;
-    font-size: 16px;
+    font-size: var(--font-size-base);
     line-height: 1.4;
     max-width: 550px;
     margin: 0 auto;
-    font-weight: 500;
+    font-weight: var(--font-weight-bold);
     opacity: 0.9;
 }
 
@@ -84,9 +84,9 @@
     flex-direction: column;
     text-align: center;
     line-height: 1.6;
-    font-size: 15px;
+    font-size: var(--font-size-base);
     color: #f59e0b;
-    font-weight: 500;
+    font-weight: var(--font-weight-bold);
     /* Increased for legibility */
     letter-spacing: 0.02em;
     opacity: 0.85;
@@ -141,7 +141,7 @@
 .persona-list-img {
     width: 100%;
     height: 100%;
-    border-radius: 18px;
+    border-radius: 0px;
     object-fit: cover;
     border: 2px solid rgba(255, 255, 255, 0.15);
 }
@@ -150,7 +150,7 @@
     width: 100%;
     height: 100%;
     background: linear-gradient(135deg, #334155, #1e293b);
-    border-radius: 18px;
+    border-radius: 0px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -163,7 +163,7 @@
     right: -2px;
     width: 16px;
     height: 16px;
-    border-radius: 50%;
+    border-radius: 0px;
     border: 3px solid #08090a;
 }
 
@@ -203,7 +203,7 @@
 }
 
 .persona-list-town {
-    font-size: 13px;
+    font-size: var(--font-size-base);
     color: var(--color-primary);
     font-weight: 700;
     margin-top: -2px;
@@ -211,8 +211,8 @@
 
 .role-label-mini {
     padding: 2px 10px;
-    border-radius: 8px;
-    font-size: 10px;
+    border-radius: 0px;
+    font-size: var(--font-size-base);
     font-weight: 900;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -242,7 +242,7 @@
 .persona-list-bio-full {
     color: rgba(255, 255, 255, 0.7);
     /* More legible white opac */
-    font-size: 15px;
+    font-size: var(--font-size-base);
     line-height: 1.6;
     margin-top: 4px;
     word-break: break-word;
@@ -261,7 +261,7 @@
     color: white;
     width: 48px;
     height: 48px;
-    border-radius: 14px;
+    border-radius: 0px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -279,8 +279,8 @@
     text-align: center;
     margin-top: 48px;
     color: #475569;
-    font-size: 14px;
-    font-weight: 500;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-bold);
     max-width: 500px;
     margin-left: auto;
     margin-right: auto;
@@ -312,7 +312,7 @@
 
 @media (max-width: 640px) {
     .persona-list-container {
-        border-radius: 20px;
+        border-radius: 0px;
         margin: 0 5px;
     }
 

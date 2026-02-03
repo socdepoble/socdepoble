@@ -50,7 +50,7 @@
     height: 44px;
     background: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(10px);
-    border-radius: 50%;
+    border-radius: 0px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -109,7 +109,7 @@
     backdrop-filter: blur(8px);
     border-radius: var(--radius-full);
     color: white;
-    font-size: 13px;
+    font-size: var(--font-size-base);
     font-weight: 700;
     display: flex;
     align-items: center;
@@ -157,7 +157,7 @@
 }
 
 .bando-title h3 {
-    font-size: 14px;
+    font-size: var(--font-size-base);
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -167,10 +167,10 @@
 .bando-tag {
     background: #FF5252;
     color: white;
-    font-size: 10px;
+    font-size: var(--font-size-base);
     font-weight: 900;
     padding: 2px 8px;
-    border-radius: 4px;
+    border-radius: 0px;
     text-transform: uppercase;
 }
 
@@ -191,7 +191,7 @@
 }
 
 .bando-content-card p {
-    font-size: 14px;
+    font-size: var(--font-size-base);
     line-height: 1.6;
     color: rgba(255, 255, 255, 0.9);
 }
@@ -199,8 +199,8 @@
 .bando-date {
     display: block;
     margin-top: 15px;
-    font-size: 11px;
-    font-weight: 600;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-bold);
     color: rgba(255, 255, 255, 0.5);
 }
 
@@ -219,7 +219,7 @@
 }
 
 .info-bubble p {
-    font-size: 15px;
+    font-size: var(--font-size-base);
     line-height: 1.5;
     color: var(--text-secondary);
 }
@@ -253,14 +253,14 @@
 }
 
 .utility-label {
-    font-size: 11px;
+    font-size: var(--font-size-base);
     font-weight: 700;
     text-transform: uppercase;
     color: var(--text-muted);
 }
 
 .utility-value {
-    font-size: 14px;
+    font-size: var(--font-size-base);
     font-weight: 800;
     color: var(--text-main);
 }
@@ -293,13 +293,13 @@
 .hud-indicator-dot {
     width: 6px;
     height: 6px;
-    border-radius: 50%;
+    border-radius: 0px;
     box-shadow: 0 0 10px currentColor;
     animation: pulse-hud 2s infinite;
 }
 
 .hud-status-text {
-    font-size: 11px;
+    font-size: var(--font-size-base);
     font-weight: 800;
 }
 
@@ -348,7 +348,7 @@
 .layer-btn {
     flex: 1;
     border: none;
-    font-size: 11px;
+    font-size: var(--font-size-base);
     font-weight: 900;
     letter-spacing: 0.5px;
     display: flex;
@@ -393,7 +393,7 @@
     right: 0;
     height: 4px;
     background: var(--color-primary);
-    border-radius: 2px;
+    border-radius: 0px;
 }
 
 .section-header-premium {
@@ -405,7 +405,7 @@
 }
 
 .section-header-premium h3 {
-    font-size: 15px;
+    font-size: var(--font-size-base);
     font-weight: 800;
     color: var(--text-main);
     text-transform: uppercase;
@@ -459,19 +459,19 @@
 }
 
 .town-desc-short {
-    font-size: 14px;
+    font-size: var(--font-size-base);
     color: var(--text-main);
     /* High contrast */
     line-height: 1.5;
     margin-bottom: var(--space-sm);
-    font-weight: 500;
+    font-weight: var(--font-weight-bold);
 }
 
 .stat-item {
     display: flex;
     align-items: center;
     gap: 6px;
-    font-size: 13px;
+    font-size: var(--font-size-base);
     font-weight: 800;
     /* Bolder */
     color: var(--text-secondary);
@@ -514,7 +514,7 @@
 
 .empty-state-full p {
     color: var(--text-muted);
-    font-size: 15px;
+    font-size: var(--font-size-base);
     max-width: 280px;
     line-height: 1.4;
 }
@@ -565,7 +565,7 @@
 .back-circle-btn {
     width: 40px;
     height: 40px;
-    border-radius: 50%;
+    border-radius: 0px;
     background: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(8px);
     border: 1px solid rgba(255, 255, 255, 0.3);
@@ -604,9 +604,9 @@
 }
 
 .town-subtitle {
-    font-size: 14px;
+    font-size: var(--font-size-base);
     color: var(--text-muted);
-    font-weight: 600;
+    font-weight: var(--font-weight-bold);
 }
 
 .town-detail-body {
@@ -629,7 +629,7 @@
 
 .info-card p {
     margin: 0;
-    font-size: 14px;
+    font-size: var(--font-size-base);
     line-height: 1.5;
     color: var(--text-main);
 }

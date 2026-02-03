@@ -25,7 +25,7 @@
     flex-shrink: 0;
     z-index: 10;
     box-shadow: var(--shadow-2);
-    color: var(--md-sys-color-on-primary);
+    color: #000000;
 }
 
 .back-button {
@@ -79,9 +79,9 @@
 
 .chat-info h2 {
     font-size: 1.1rem;
-    font-weight: 500;
+    font-weight: var(--font-weight-bold);
     margin: 0;
-    color: var(--md-sys-color-on-primary);
+    color: #000000;
     font-family: var(--font-headline);
     white-space: nowrap;
     overflow: hidden;
@@ -90,7 +90,7 @@
 
 .chat-info .status {
     font-size: 0.8rem;
-    color: var(--md-sys-color-on-primary);
+    color: #000000;
     opacity: 0.8;
 }
 
@@ -100,7 +100,7 @@
     width: 6px;
     height: 6px;
     background: #4a5568;
-    border-radius: 50%;
+    border-radius: 0px;
 }
 
 .chat-info .status.online {
@@ -141,7 +141,7 @@
 
 .wa-bubble {
     padding: 6px 7px 8px 9px;
-    border-radius: 7.5px;
+    border-radius: 0px;
     max-width: 85%;
     position: relative;
     box-shadow: 0 1px 0.5px rgba(0, 0, 0, 0.13);
@@ -158,7 +158,7 @@
 }
 
 .wa-bubble.other {
-    background-color: #ffffff;
+    background-color: var(--bg-surface);
     color: #111b21;
     border-top-left-radius: 0;
 }
@@ -180,7 +180,7 @@
 }
 
 .wa-status {
-    font-size: 14px;
+    font-size: var(--font-size-base);
     color: #8696a0;
 }
 
@@ -234,7 +234,7 @@
 }
 
 .message-avatar-container .avatar-emoji {
-    font-size: 16px;
+    font-size: var(--font-size-base);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -243,7 +243,7 @@
 
 .message-bubble {
     padding: 12px 16px;
-    border-radius: 20px;
+    border-radius: 0px;
     max-width: 85%;
     position: relative;
     box-shadow: var(--shadow-1);
@@ -273,10 +273,10 @@
 }
 
 .thinking-timer {
-    font-size: 11px;
+    font-size: var(--font-size-base);
     color: #718096;
     font-style: italic;
-    font-weight: 500;
+    font-weight: var(--font-weight-bold);
 }
 
 .message-meta {
@@ -289,11 +289,11 @@
 }
 
 .message-time {
-    font-size: 11px;
+    font-size: var(--font-size-base);
 }
 
 .message-status {
-    font-size: 14px;
+    font-size: var(--font-size-base);
     line-height: 1;
 }
 
@@ -303,7 +303,7 @@
     font-size: 9px;
     font-weight: 800;
     padding: 1px 6px;
-    border-radius: 3px;
+    border-radius: 0px;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     line-height: 1;
@@ -313,9 +313,9 @@
     background: linear-gradient(135deg, #128c7e 0%, #075e54 100%);
     /* IAIA is now MArIA (WhatsApp Green Tech) */
     color: white;
-    font-size: 10px;
+    font-size: var(--font-size-base);
     padding: 2px 8px;
-    border-radius: 6px;
+    border-radius: 0px;
     font-weight: 800;
     letter-spacing: 0.5px;
     box-shadow: 0 2px 4px rgba(18, 140, 126, 0.2);
@@ -323,7 +323,7 @@
 }
 
 .bubble-tag {
-    font-size: 10px;
+    font-size: var(--font-size-base);
     font-weight: 800;
     opacity: 0.6;
     letter-spacing: 0.05em;
@@ -368,7 +368,7 @@
     border-radius: var(--radius-sm);
     color: inherit;
     text-decoration: none;
-    font-size: 14px;
+    font-size: var(--font-size-base);
 }
 
 .me .attachment-link {
@@ -394,7 +394,7 @@
     gap: 8px;
     padding: 10px;
     background: rgba(255, 255, 255, 0.05);
-    border-radius: 12px;
+    border-radius: 0px;
     margin-bottom: 8px;
     max-height: 150px;
     overflow-y: auto;
@@ -407,7 +407,7 @@
     gap: 8px;
     background: var(--glass-bg);
     padding: 6px 12px;
-    border-radius: 20px;
+    border-radius: 0px;
     font-size: 0.85rem;
     color: var(--text-primary);
     border: 1px solid var(--primary-color);
@@ -479,7 +479,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 8px 16px;
-    font-size: 12px;
+    font-size: var(--font-size-base);
     color: #0369a1;
     cursor: pointer;
     transition: background 0.2s;
@@ -494,7 +494,7 @@
     margin: 0 12px;
     background: #e0f2fe;
     height: 6px;
-    border-radius: 3px;
+    border-radius: 0px;
     overflow: hidden;
 }
 
@@ -511,7 +511,7 @@
 }
 
 .storage-label {
-    font-weight: 600;
+    font-weight: var(--font-weight-bold);
     color: var(--color-primary);
 }
 
@@ -519,7 +519,7 @@
     flex: 1;
     height: 6px;
     background: #e2e8f0;
-    border-radius: 3px;
+    border-radius: 0px;
     overflow: hidden;
 }
 
@@ -576,7 +576,7 @@
     display: flex;
     align-items: center;
     background: white;
-    border-radius: 24px;
+    border-radius: 0px;
     padding: 2px 8px;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
     border: 1px solid #e2e8f0;
@@ -620,7 +620,7 @@
     gap: 8px;
     padding: 8px 12px;
     background: #f0f2f5;
-    border-radius: 12px;
+    border-radius: 0px;
     border-left: 4px solid #128c7e;
     animation: wa-slide-up 0.2s ease-out;
 }
@@ -643,7 +643,7 @@
     gap: 6px;
     background: white;
     padding: 4px 10px;
-    border-radius: 16px;
+    border-radius: 0px;
     font-size: 0.8rem;
     color: #54656f;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
@@ -680,7 +680,7 @@
     width: 100%;
     font-size: 0.75rem;
     color: #128c7e;
-    font-weight: 600;
+    font-weight: var(--font-weight-bold);
     margin-top: 2px;
 }
 
@@ -721,7 +721,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-weight: 500;
+    font-weight: var(--font-weight-bold);
 }
 
 .clear-attachment {
@@ -743,7 +743,7 @@
     /* WhatsApp Send Green */
     color: white;
     border: none;
-    border-radius: 50%;
+    border-radius: 0px;
     /* Circle send button */
     cursor: pointer;
     transition: all 0.2s;
@@ -777,7 +777,7 @@
     background: #fff9f0;
     border: 1px solid #ffe4bc;
     padding: 12px 16px;
-    border-radius: 12px;
+    border-radius: 0px;
     display: flex;
     align-items: flex-start;
     gap: 12px;
@@ -800,7 +800,7 @@
     width: 32px;
     height: 32px;
     background: white;
-    border-radius: 50%;
+    border-radius: 0px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -818,7 +818,7 @@
 
 .iaia-transparency-notice .banner-label {
     color: #c05621;
-    font-size: 10px;
+    font-size: var(--font-size-base);
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.12em;
@@ -826,7 +826,7 @@
 }
 
 .iaia-transparency-notice .banner-persona-name {
-    font-size: 13px;
+    font-size: var(--font-size-base);
     font-weight: 550;
     line-height: 1.5;
     color: #2d3748;
@@ -892,7 +892,7 @@
     margin: 0;
     font-size: 0.8rem;
     color: #64748b;
-    font-weight: 500;
+    font-weight: var(--font-weight-bold);
 }
 
 .modal-close {
@@ -1006,7 +1006,7 @@
 
 /* Thinking Dots Animation */
 .thinking-bubble {
-    background-color: #f1f5f9 !important;
+    background-color: var(--bg-surface) !important;
     border: 1px solid #e2e8f0;
     padding: 0.8rem 1rem !important;
     min-width: 60px;
@@ -1024,7 +1024,7 @@
     width: 6px;
     height: 6px;
     background-color: #94a3b8;
-    border-radius: 50%;
+    border-radius: 0px;
     display: inline-block;
     animation: thinking-bounce 1.4s infinite ease-in-out both;
 }
@@ -1074,7 +1074,7 @@
     background: rgba(0, 0, 0, 0.5);
     color: white;
     border: none;
-    border-radius: 50%;
+    border-radius: 0px;
     width: 32px;
     height: 32px;
     display: flex;

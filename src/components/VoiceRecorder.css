@@ -5,7 +5,7 @@
     width: 100%;
     padding: 0 10px;
     background-color: var(--bg-secondary, #f5f5f5);
-    border-radius: 20px;
+    border-radius: 0px;
     height: 50px;
 }
 
@@ -19,7 +19,7 @@
 .recording-dot {
     width: 10px;
     height: 10px;
-    border-radius: 50%;
+    border-radius: 0px;
     background-color: #ef4444;
     animation: pulse 1s infinite;
 }
@@ -45,13 +45,13 @@
 .btn-cancel-voice:hover {
     transform: scale(1.1);
     background-color: rgba(239, 68, 68, 0.1);
-    border-radius: 50%;
+    border-radius: 0px;
 }
 
 .btn-send-voice {
     background-color: #25D366;
     color: white;
-    border-radius: 50%;
+    border-radius: 0px;
     width: 40px;
     height: 40px;
     display: flex;

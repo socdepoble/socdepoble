@@ -16,7 +16,7 @@
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
+    border-radius: 0px;
     padding: 4px 10px;
     color: rgba(255, 255, 255, 0.9);
     transition: all 0.2s ease;
@@ -34,7 +34,7 @@
 }
 
 .compact-author {
-    font-size: 10px;
+    font-size: var(--font-size-base);
     font-weight: 700;
     letter-spacing: 0.02em;
     max-width: 120px;
@@ -53,7 +53,7 @@
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 12px;
+    border-radius: 0px;
     padding: 12px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
     z-index: 60;
@@ -67,7 +67,7 @@
 
 .popover-line {
     margin: 0;
-    font-size: 11px;
+    font-size: var(--font-size-base);
     color: rgba(255, 255, 255, 0.8);
     line-height: 1.4;
 }
@@ -83,7 +83,7 @@
     margin-top: 4px;
     color: var(--color-primary, #f59e0b);
     text-decoration: none;
-    font-size: 11px;
+    font-size: var(--font-size-base);
     font-weight: 800;
     transition: opacity 0.2s;
 }

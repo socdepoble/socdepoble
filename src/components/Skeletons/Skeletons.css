@@ -37,7 +37,7 @@
 .skeleton-avatar {
     width: 40px;
     height: 40px;
-    border-radius: 50%;
+    border-radius: 0px;
     background-color: var(--color-border);
 }
 
@@ -57,7 +57,7 @@
 .skeleton-line {
     height: 12px;
     background-color: var(--color-border);
-    border-radius: 4px;
+    border-radius: 0px;
 }
 
 .skeleton-line.full {
@@ -98,7 +98,7 @@
     width: 60px;
     height: 24px;
     background-color: var(--color-border);
-    border-radius: 4px;
+    border-radius: 0px;
 }
 
 .skeleton-button-full {

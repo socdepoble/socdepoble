@@ -1,118 +1,64 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&display=swap');
 
 :root {
-  /* --- 1. REFERENCE TOKENS (Edició Terra - GENESIS) --- */
-  --md-ref-palette-terracotta-40: #9A6C63;
-  /* Primary */
-  --md-ref-palette-terracotta-10: #210F0C;
-  --md-ref-palette-terracotta-20: #3D1F1A;
-  --md-ref-palette-terracotta-30: #57322B;
-  --md-ref-palette-terracotta-80: #E6B6AD;
-  --md-ref-palette-terracotta-90: #FFDBCF;
-  --md-ref-palette-terracotta-95: #FFEDE8;
+  /* --- 1. CONSTITUCIÓ MASTER (Edició Atum - v5.0) --- */
+  /* Paleta "Sunlight Safe" (Weber Class 6) */
+  --bg-canvas: #000000;
+  /* Fons Global (OLED Save) */
+  --bg-surface: #161616;
+  /* Targetes (IBM Carbon) */
+  --text-main: #FFFFFF;
+  /* Text Principal (Contrast 123:1) */
+  --accent: #CCFF00;
+  /* Groc Reflectant (Accions) */
+  --alert: #FF3333;
+  /* Roig Seguretat (Errors) */
 
-  --md-ref-palette-olive-40: #556B2F;
-  /* Secondary */
-  --md-ref-palette-olive-90: #D8E7CB;
+  /* bridge variables for Material System */
+  --md-sys-color-primary: var(--accent);
+  --md-sys-color-on-primary: #000000;
+  --md-sys-color-surface: var(--bg-canvas);
+  --md-sys-color-on-surface: var(--text-main);
+  --md-sys-color-surface-container: var(--bg-surface);
+  --md-sys-color-outline: #FFFFFF;
 
-  --md-ref-palette-cream: #FDFCF5;
-  --md-ref-palette-stone: #1C1B1F;
-
-  /* --- 2. SYSTEM TOKENS (Material You: Rural Modernism) --- */
-  /* Primary: La Força de la Terra (Terracotta) */
-  --md-sys-color-primary: var(--md-ref-palette-terracotta-40);
-  --md-sys-color-on-primary: #FFFFFF;
-  --md-sys-color-primary-container: var(--md-ref-palette-terracotta-90);
-  --md-sys-color-on-primary-container: var(--md-ref-palette-terracotta-10);
-
-  /* Secondary: L'Olivera */
-  --md-sys-color-secondary: var(--md-ref-palette-olive-40);
-  --md-sys-color-on-secondary: #FFFFFF;
-  --md-sys-color-secondary-container: var(--md-ref-palette-olive-90);
-  --md-sys-color-on-secondary-container: #131F0E;
-
-  /* Neutrals & Surfaces (Tinted with Primary for warmth) */
-  --md-sys-color-surface: var(--md-ref-palette-cream);
-  --md-sys-color-on-surface: var(--md-ref-palette-stone);
-  --md-sys-color-surface-variant: #E7E0EC;
-  --md-sys-color-on-surface-variant: #49454F;
-  --md-sys-color-outline: #79747E;
-  --md-sys-color-outline-variant: #C4C7C5;
-
-  /* Surface Tints (MD3 elevations) */
-  --md-sys-color-surface-container-low: #F7F2FA;
-  --md-sys-color-surface-container: #F3EDF7;
-  --md-sys-color-surface-container-high: #ECE6F0;
-
-  /* Typography: Google Sans style */
-  --font-display: 'Outfit', 'Inter Tight', sans-serif;
-  --font-headline: 'Outfit', 'Inter Tight', sans-serif;
-  --font-title: 'Outfit', 'Inter Tight', sans-serif;
-  --font-body: 'Open Sans', 'Inter', sans-serif;
-  --font-label: 'Outfit', 'Open Sans', sans-serif;
-
-  /* --- 3. SHAPE SYSTEM (MD3 Standard) --- */
+  /* --- 2. LLEI DEL ZERO RADIUS (Geometria Industrial) --- */
   --radius-none: 0px;
-  --radius-xs: 4px;
-  --radius-sm: 8px;
-  /* Small components */
-  --radius-md: 12px;
-  /* Medium components / Cards list */
-  --radius-lg: 16px;
-  /* Regular Cards */
-  --radius-xl: 28px;
-  /* Dialogs / Large Cards (MD3 standard) */
-  --radius-full: 9999px;
-  /* FABs / Chips */
+  --radius-xs: 0px;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-full: 0px;
+  /* Fins i tot els FABs són ara sobirans */
 
-  /* Elevation (MD3) */
-  --shadow-1: 0px 1px 3px 1px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.3);
-  --shadow-2: 0px 2px 6px 2px rgba(0, 0, 0, 0.15), 0px 1px 2px 0px rgba(0, 0, 0, 0.3);
-  --shadow-3: 0px 4px 8px 3px rgba(0, 0, 0, 0.15), 0px 1px 3px 0px rgba(0, 0, 0, 0.3);
-  --shadow-4: 0px 6px 10px 4px rgba(0, 0, 0, 0.15), 0px 2px 3px 0px rgba(0, 0, 0, 0.3);
+  /* --- 3. TIPOGRAFIA (Norma Iaia-Proof / GOV.UK) --- */
+  --font-body: 'Inter', 'Roboto', 'Open Sans', sans-serif;
+  --font-display: 'Inter', 'Roboto', sans-serif;
+  --font-size-base: 19px;
+  /* Mínim absolut per a llegibilitat rural */
+  --font-weight-bold: 800;
+
+  /* Elevation (Industrial Shadow - No drop shadows) */
+  --shadow-1: 0px 0px 0px 2px #333;
+  /* Bento Border */
+  --shadow-2: 0px 0px 0px 3px #444;
+  --shadow-3: 0px 0px 0px 4px #555;
 
   --page-margin: 16px;
   --space-bancal: 24px;
-  /* M3 Spacing Standard */
-
-  /* bridge variables for compatibility */
-  --sdp-bg-dark: var(--md-sys-color-surface-container);
-  --sdp-bg-surface: var(--md-sys-color-surface);
-  --sdp-text-high: var(--md-sys-color-on-surface);
-  --sdp-text-med: var(--md-sys-color-on-surface-variant);
-  --sdp-glass-border: var(--md-sys-color-outline-variant);
-  --sdp-terracotta: var(--md-sys-color-primary);
-  --sdp-radius-lg: var(--radius-lg);
-  --sdp-space-md: 16px;
-  --sdp-space-lg: 24px;
-  --sdp-space-xl: 32px;
 
   /* COMIC AESTHETIC [MASTER GENESIS] */
-  --comic-border: 1.5px solid #1a1a1a;
-  --comic-shadow: 6px 6px 0px rgba(26, 26, 26, 0.85);
-  --comic-shadow-hover: 10px 10px 0px #1a1a1a;
-
-  /* RURAL GRAIN TEXTURE */
-  --grain-opacity: 0.03;
-  --bg-texture: url("https://www.transparenttextures.com/patterns/natural-paper.png");
+  --comic-border: 2px solid #FFFFFF;
+  --comic-shadow: 8px 8px 0px #333;
+  --comic-shadow-hover: 12px 12px 0px var(--accent);
 }
 
 /* --- DUALITAT ONTOLÒGICA: INSTITUCIONAL (AJUNTAMENT) --- */
 .institutional-theme {
-  --md-sys-color-primary: #1B4B79;
-  /* Blau Sòlid (Institucional) */
-  --md-sys-color-primary-container: #D1E4FF;
-  --md-sys-color-surface: #F8F9FA;
-  /* Gris Neutre Notaria */
-  --md-sys-color-secondary: #454746;
-
-  --radius-md: 0px;
-  /* Línies rectes Institucionals */
-  --radius-xl: 0px;
-  --radius-lg: 0px;
-
-  --shadow-1: 0 1px 1px rgba(0, 0, 0, 0.1);
-  --shadow-2: 0 2px 2px rgba(0, 0, 0, 0.1);
+  --accent: #D1E4FF;
+  --bg-surface: #F8F9FA;
+  --text-main: #1B4B79;
 }
 
 .institutional-theme .m3-bottom-nav {
@@ -145,6 +91,45 @@
   --logo-filter: invert(1) brightness(10);
 }
 
+/* --- [MASTER] MODE SOLAR (WEBER CLASS 6 - GENESIS ENGINE) --- */
+.solar-mode {
+  --md-sys-color-surface: #000000 !important;
+  /* Negre Absolut (L_base) */
+  --md-sys-color-on-surface: #FFFFFF !important;
+  /* Blanc Absolut (L_top) -> Contrast Weber 100.0 */
+  --md-sys-color-primary: #CCFF00 !important;
+  /* Groc Jupetí Reflectant (Lletra de l'Enginyer) */
+  --md-sys-color-on-primary: #000000 !important;
+  --md-sys-color-secondary: #00F2FF !important;
+  /* Teal Tecnològic (Dades) */
+  --md-sys-color-on-secondary: #000000 !important;
+  --md-sys-color-outline: #FFFFFF !important;
+  --bg-texture: none !important;
+  --grain-opacity: 0 !important;
+
+  /* Forçar contrast extrem en tipografia (GOV.UK + Master) */
+  --font-weight-display: 900 !important;
+  --font-weight-body: 700 !important;
+}
+
+.solar-mode .universal-card {
+  border: 4px solid #FFFFFF !important;
+  box-shadow: 12px 12px 0px #FFFF00 !important;
+  background: #000000 !important;
+}
+
+.solar-mode .card-header {
+  background: #FFFF00 !important;
+  color: var(--bg-canvas)000 !important;
+}
+
+.solar-mode .card-title,
+.solar-mode .card-body,
+.solar-mode .text-body {
+  color: #FFFFFF !important;
+  font-weight: 900 !important;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -175,8 +160,8 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
-  font-size: 18px;
-  /* Llegibilitat Rural */
+  font-size: var(--font-size-base);
+  /* Llegibilitat Rural Master */
   position: relative;
 }
 
@@ -191,6 +176,7 @@ body::after {
   opacity: var(--grain-opacity);
   pointer-events: none;
   z-index: 9999;
+  border-radius: 0 !important;
 }
 
 /* Unified Secondary Header */
@@ -198,8 +184,8 @@ body::after {
   position: sticky;
   top: var(--total-top-offset);
   z-index: var(--z-tabs);
-  background-color: #171923;
-  border-bottom: 1px solid #2D3748;
+  background-color: var(--bg-canvas)000;
+  border-bottom: 2px solid var(--accent);
 }
 
 .header-tabs-wrapper {
@@ -220,12 +206,12 @@ article h3,
 .item-title,
 .post-author,
 .town-name {
-  font-family: var(--font-headline) !important;
-  font-weight: 800 !important;
-  /* Premium Heavy */
-  font-size: 24px !important;
-  color: var(--md-sys-color-on-surface);
-  letter-spacing: -0.01em;
+  font-family: var(--font-display) !important;
+  font-weight: 900 !important;
+  /* ULTRA HEAVY */
+  font-size: 26px !important;
+  color: var(--text-main);
+  letter-spacing: -0.02em;
   text-transform: none;
   border-radius: 0 !important;
 }
@@ -237,7 +223,7 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
-  font-size: 16px;
+  font-size: var(--font-size-base);
   /* Standard M3 body size */
 }
 
@@ -317,7 +303,7 @@ a:hover {
 .text-body {
   font-family: var(--font-main);
   font-size: 19px;
-  font-weight: 400;
+  font-weight: var(--font-weight-bold);
   line-height: 1.5;
   color: var(--text-main);
 }
@@ -329,13 +315,13 @@ a:hover {
 }
 
 .text-small {
-  font-size: 17px;
+  font-size: var(--font-size-base);
   line-height: 1.4;
   color: var(--text-muted);
 }
 
 .text-micro {
-  font-size: 14px;
+  font-size: var(--font-size-base);
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -373,7 +359,7 @@ a:hover {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(0, 242, 255, 0.15);
-  border-radius: 12px;
+  border-radius: 0px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
   transition: all 0.3s cubic-bezier(.16, 1, 0.3, 1);
 }
@@ -509,54 +495,52 @@ a:hover {
 
 /* [MASTER] UNIVERSAL CARD STANDARDS [CINEMATOGRAPHIC RURALISM] */
 .universal-card {
-  background: var(--md-sys-color-surface);
-  background-image: var(--bg-texture);
+  background: var(--bg-surface);
   border: var(--comic-border);
-  border-radius: var(--radius-xl) !important;
-  /* M3 Standard 28px */
+  border-radius: 0 !important;
+  /* LLEI DEL ZERO RADIUS MASTER */
   overflow: hidden;
-  margin-bottom: 24px;
+  margin-bottom: 32px;
   box-shadow: var(--comic-shadow);
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
 }
 
 .universal-card:hover {
-  transform: translate(-3px, -3px);
+  transform: translate(-4px, -4px);
   box-shadow: var(--comic-shadow-hover);
 }
 
 .card-header {
-  padding: 18px var(--space-bancal);
+  padding: 20px var(--space-bancal);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: linear-gradient(135deg, rgba(204, 85, 0, 0.9), rgba(204, 85, 0, 0.6));
-  backdrop-filter: blur(4px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  /* THE EARTH POWER */
-  color: #FFFFFF;
+  background: var(--accent);
+  /* WEBER CLASS 6 ACCENT */
+  border-bottom: 2px solid #000000;
+  color: var(--bg-canvas)000;
+  /* HIGH CONTRAST ON ACCENT */
   cursor: pointer;
   transition: filter 0.2s;
 }
 
 .card-header:active {
-  filter: brightness(1.2);
+  filter: brightness(1.3);
 }
 
 .card-image-wrapper {
   width: 100%;
-  background-color: #000;
+  background-color: var(--bg-canvas);
   line-height: 0;
   overflow: hidden;
   border-radius: 0 !important;
-  /* CANTONS RECTES INNEGOCIABLES */
 }
 
 .card-image-wrapper img {
   width: 100%;
   height: auto;
-  min-height: 200px;
+  min-height: 250px;
   object-fit: cover;
   border-radius: 0 !important;
 }
@@ -564,15 +548,16 @@ a:hover {
 .card-body {
   padding: var(--space-bancal);
   color: var(--text-main);
+  background: var(--bg-surface);
 }
 
 .card-footer {
-  padding: 12px var(--space-bancal);
-  border-top: var(--border-subtle);
+  padding: 16px var(--space-bancal);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: rgba(255, 255, 255, 0.02);
+  background: #000000;
 }
 
 .footer-stat-block {
@@ -584,20 +569,20 @@ a:hover {
 }
 
 .add-btn-premium-vibrant {
-  background-color: #000000;
-  color: white;
-  padding: 18px 24px;
+  background-color: var(--accent);
+  color: var(--bg-canvas)000;
+  padding: 20px 32px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  font-weight: 800;
-  font-family: var(--font-heading);
+  gap: 12px;
+  font-weight: 900;
+  font-family: var(--font-display);
   text-transform: uppercase;
-  letter-spacing: 1px;
-  border-radius: 4px;
-  /* Rectangular as requested */
-  border-left: 1px solid var(--bg-warm-accent);
+  letter-spacing: 2px;
+  border-radius: 0 !important;
+  /* BENTO RECTANGLE */
+  border: 2px solid #000000;
   transition: all 0.2s;
   height: 100%;
 }
@@ -623,8 +608,8 @@ a:hover {
 .pill {
   padding: 6px 16px;
   border-radius: var(--radius-full);
-  font-size: 14px;
-  font-weight: 600;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
 }
 
 .icon-btn {
@@ -658,11 +643,11 @@ a:hover {
 
 /* --- [MASTER] MD3 BUTTON SYSTEM (GENESIS) --- */
 .btn-filled {
-  background: var(--md-sys-color-primary);
-  color: var(--md-sys-color-on-primary);
+  background: var(--accent);
+  color: #000000;
   padding: 14px 28px;
   border-radius: var(--radius-lg);
-  font-size: 16px;
+  font-size: var(--font-size-base);
   font-weight: 800;
   display: flex;
   align-items: center;
@@ -684,7 +669,7 @@ a:hover {
   color: var(--md-sys-color-on-primary-container);
   padding: 14px 28px;
   border-radius: var(--radius-lg);
-  font-size: 16px;
+  font-size: var(--font-size-base);
   font-weight: 800;
   display: flex;
   align-items: center;
@@ -705,7 +690,7 @@ a:hover {
   color: var(--md-sys-color-primary);
   padding: 12px 24px;
   border-radius: var(--radius-lg);
-  font-size: 16px;
+  font-size: var(--font-size-base);
   font-weight: 800;
   display: flex;
   align-items: center;
@@ -721,11 +706,11 @@ a:hover {
 }
 
 .btn-primary {
-  background: var(--md-sys-color-primary);
-  color: var(--md-sys-color-on-primary);
+  background: var(--accent);
+  color: #000000;
   padding: 14px 28px;
   border-radius: var(--radius-lg);
-  font-size: 16px;
+  font-size: var(--font-size-base);
   font-weight: 800;
   display: flex;
   align-items: center;
@@ -812,7 +797,7 @@ a:hover {
   gap: 8px;
   font-family: var(--font-heading);
   font-weight: 900;
-  font-size: 11px;
+  font-size: var(--font-size-base);
   text-transform: uppercase;
   color: var(--text-main);
 }
@@ -820,7 +805,7 @@ a:hover {
 .simbiosi-bar-container {
   height: 6px;
   background: rgba(0, 0, 0, 0.1);
-  border-radius: 3px;
+  border-radius: 0px;
   overflow: hidden;
   display: flex;
   margin-top: 8px;
@@ -837,14 +822,14 @@ a:hover {
 .simbiosi-labels {
   display: flex;
   justify-content: space-between;
-  font-size: 10px;
+  font-size: var(--font-size-base);
   font-weight: 800;
   margin-top: 4px;
   opacity: 0.8;
 }
 
 .simbiosi-impact {
-  font-size: 11px;
+  font-size: var(--font-size-base);
   font-weight: 900;
   margin-top: 8px;
   color: var(--color-primary);
@@ -853,7 +838,7 @@ a:hover {
 /* MASTER BUTTONS & ANIMATIONS */
 .btn-astro-payment {
   background: var(--color-primary);
-  color: #000;
+  color: var(--bg-canvas);
   border: 2px solid #000;
   box-shadow: 4px 4px 0px #000;
   font-weight: 900;
@@ -867,7 +852,7 @@ a:hover {
 
 .btn-astro-payment.paid {
   background: var(--color-success);
-  color: #fff;
+  color: var(--text-main);
   box-shadow: none;
   transform: translate(2px, 2px);
 }
@@ -922,7 +907,7 @@ a:hover {
   .modal-content {
     max-width: 100%;
     max-height: 92vh;
-    border-radius: 28px 28px 0 0;
+    border-radius: 0px 28px 0 0;
     border-bottom: none;
     /* SUPREME USABILITY: Slide Up Bezier */
     animation: modalSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
@@ -935,7 +920,7 @@ a:hover {
     width: 40px;
     height: 4px;
     background: var(--color-divider);
-    border-radius: 2px;
+    border-radius: 0px;
     position: absolute;
     top: 12px;
     left: 50%;
@@ -1071,7 +1056,7 @@ a:hover {
 
 /* Identity Badges (Transparency System) */
 .identity-badge {
-  font-size: 11px;
+  font-size: var(--font-size-base);
   font-weight: 800;
   padding: 2px 10px;
   border-radius: var(--radius-xs);
@@ -1097,8 +1082,8 @@ a:hover {
 
 .ia-transparency-note-mini {
   margin-top: 12px;
-  font-size: 11px;
-  font-weight: 600;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
   color: #10b981;
   background: rgba(16, 185, 129, 0.05);
   padding: 6px 12px;
@@ -1113,7 +1098,7 @@ a:hover {
   backdrop-filter: blur(40px) saturate(200%);
   -webkit-backdrop-filter: blur(40px) saturate(200%);
   border: 1px solid rgba(0, 242, 255, 0.5);
-  border-radius: 28px;
+  border-radius: 0px;
   padding: 24px;
   box-shadow: 0 40px 100px rgba(0, 0, 0, 0.9), 0 0 40px rgba(0, 242, 255, 0.15);
   display: flex;
@@ -1147,7 +1132,7 @@ a:hover {
   width: 12px;
   height: 12px;
   background: #00f2ff;
-  border-radius: 50%;
+  border-radius: 0px;
   box-shadow: 0 0 20px #00f2ff;
   animation: pulseNeonGenius 2.5s infinite ease-in-out;
 }
@@ -1179,7 +1164,7 @@ a:hover {
 
 .sw-update-content h3 {
   color: #00f2ff !important;
-  font-size: 15px !important;
+  font-size: var(--font-size-base) !important;
   letter-spacing: 4px !important;
   text-transform: uppercase !important;
   margin: 0 0 10px 0 !important;
@@ -1190,10 +1175,10 @@ a:hover {
 
 .sw-update-content p {
   color: rgba(255, 255, 255, 0.9) !important;
-  font-size: 14px !important;
+  font-size: var(--font-size-base) !important;
   line-height: 1.6 !important;
   margin: 0 !important;
-  font-weight: 500 !important;
+  font-weight: var(--font-weight-bold) !important;
 }
 
 .sw-update-actions {
@@ -1204,9 +1189,9 @@ a:hover {
 .sw-update-btn {
   flex: 1;
   height: 54px;
-  border-radius: 16px;
+  border-radius: 0px;
   font-weight: 900;
-  font-size: 12px;
+  font-size: var(--font-size-base);
   text-transform: uppercase;
   letter-spacing: 2px;
   cursor: pointer;
@@ -1219,7 +1204,7 @@ a:hover {
 
 .sw-update-btn.refresh {
   background: #00f2ff;
-  color: #000;
+  color: var(--bg-canvas);
   box-shadow: 0 12px 25px rgba(0, 242, 255, 0.4);
 }
 
@@ -1237,7 +1222,7 @@ a:hover {
 
 .sw-update-btn.later:hover {
   background: rgba(255, 255, 255, 0.15);
-  color: #fff;
+  color: var(--text-main);
   border-color: rgba(0, 242, 255, 0.5);
   transform: translateY(-2px);
 }
@@ -1290,7 +1275,7 @@ a:hover {
 }
 
 .rescue-card p {
-  color: #fff;
+  color: var(--text-main);
   font-size: 18px;
   line-height: 1.6;
   margin-bottom: 30px;
@@ -1308,7 +1293,7 @@ a:hover {
   padding: 20px;
   font-weight: 900;
   text-transform: uppercase;
-  font-size: 16px;
+  font-size: var(--font-size-base);
   letter-spacing: 1px;
   border-radius: 0 !important;
 }
@@ -1317,9 +1302,9 @@ a:hover {
   background: #333;
   color: #aaa;
   padding: 15px;
-  font-weight: 600;
+  font-weight: var(--font-weight-bold);
   text-transform: uppercase;
-  font-size: 14px;
+  font-size: var(--font-size-base);
   border-radius: 0 !important;
 }
 

@@ -18,7 +18,7 @@
     max-width: 900px;
     max-height: 90vh;
     background: var(--bg-surface);
-    border-radius: 32px;
+    border-radius: 0px;
     position: relative;
     overflow: hidden;
     border: 1px solid var(--sdp-glass-border);
@@ -34,7 +34,7 @@
     border: none;
     width: 44px;
     height: 44px;
-    border-radius: 50%;
+    border-radius: 0px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -81,7 +81,7 @@
     background: var(--color-primary);
     color: white;
     padding: 15px 25px;
-    border-radius: 20px;
+    border-radius: 0px;
     font-size: 24px;
     font-weight: 900;
     letter-spacing: -1px;
@@ -100,7 +100,7 @@
 }
 
 .item-detail-category {
-    font-size: 12px;
+    font-size: var(--font-size-base);
     font-weight: 900;
     text-transform: uppercase;
     color: var(--color-primary);
@@ -122,7 +122,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 14px;
+    font-size: var(--font-size-base);
     font-weight: 700;
     opacity: 0.6;
 }
@@ -132,7 +132,7 @@
 }
 
 .item-detail-description {
-    font-size: 16px;
+    font-size: var(--font-size-base);
     line-height: 1.6;
     opacity: 0.9;
 }
@@ -155,9 +155,9 @@
 
 .item-detail-actions-grid button {
     padding: 20px;
-    border-radius: 20px;
+    border-radius: 0px;
     font-weight: 900;
-    font-size: 13px;
+    font-size: var(--font-size-base);
     text-transform: uppercase;
     letter-spacing: 1px;
     display: flex;

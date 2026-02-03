@@ -1,6 +1,6 @@
 import React from 'react';
 import './ManualPage.css';
-import { BookOpen, CheckCircle, AlertTriangle, Heart } from 'lucide-react';
+import { CheckCircle, AlertTriangle, Heart } from 'lucide-react';
 
 const ManualPage = () => {
     return (

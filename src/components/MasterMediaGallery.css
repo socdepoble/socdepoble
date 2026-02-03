@@ -41,7 +41,7 @@
 .gallery-search input {
     width: 100%;
     padding: 10px 15px 10px 40px;
-    border-radius: 12px;
+    border-radius: 0px;
     border: 1px solid var(--color-border);
     background: var(--color-surface);
     color: var(--color-text-primary);
@@ -63,7 +63,7 @@
 
 .gallery-filter-chips button {
     padding: 8px 16px;
-    border-radius: 20px;
+    border-radius: 0px;
     border: 1px solid var(--color-border);
     background: var(--color-surface);
     color: var(--color-text-secondary);
@@ -77,7 +77,7 @@
     background: var(--color-primary);
     color: black;
     border-color: var(--color-primary);
-    font-weight: 600;
+    font-weight: var(--font-weight-bold);
 }
 
 .grid-view {
@@ -88,7 +88,7 @@
 
 .gallery-item-card {
     background: var(--color-surface);
-    border-radius: 16px;
+    border-radius: 0px;
     overflow: hidden;
     border: 1px solid var(--color-border);
     cursor: pointer;
@@ -147,7 +147,7 @@
 
 .perm-badge {
     padding: 4px;
-    border-radius: 50%;
+    border-radius: 0px;
     display: flex;
     align-items: center;
     justify-content: center;

@@ -23,7 +23,7 @@
     display: flex;
     align-items: center;
     gap: 6px;
-    font-size: 11px;
+    font-size: var(--font-size-base);
     font-weight: 800;
     text-transform: uppercase;
     color: var(--text-muted);
@@ -48,8 +48,8 @@
     background-color: var(--bg-card);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-xs);
-    font-size: 13px;
-    font-weight: 600;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-bold);
     color: var(--text-secondary);
     cursor: pointer;
     display: flex;
@@ -137,7 +137,7 @@
 .add-tag-form input {
     border: none;
     outline: none;
-    font-size: 13px;
+    font-size: var(--font-size-base);
     width: 80px;
     background: transparent;
     color: var(--text-main);

@@ -25,7 +25,7 @@
     margin: 4px 0 0 0;
     color: var(--md-sys-color-on-surface);
     opacity: 0.7;
-    font-size: 14px;
+    font-size: var(--font-size-base);
 }
 
 .header-icon {
@@ -54,7 +54,7 @@
 
 .iaia-note p {
     font-style: italic;
-    font-size: 16px;
+    font-size: var(--font-size-base);
     line-height: 1.6;
     color: var(--md-sys-color-on-surface);
     opacity: 0.9;
@@ -87,7 +87,7 @@
 }
 
 .section-desc {
-    font-size: 14px;
+    font-size: var(--font-size-base);
     color: var(--md-sys-color-on-surface);
     opacity: 0.7;
     margin-bottom: 20px;
@@ -101,7 +101,7 @@
 .manual-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 14px;
+    font-size: var(--font-size-base);
 }
 
 .manual-table th,
@@ -114,25 +114,25 @@
 .manual-table th {
     font-weight: 700;
     text-transform: uppercase;
-    font-size: 12px;
+    font-size: var(--font-size-base);
     color: var(--md-sys-color-secondary);
 }
 
 .item-name {
-    font-weight: 600;
+    font-weight: var(--font-weight-bold);
 }
 
 .tech-name {
     font-family: monospace;
-    font-size: 12px;
+    font-size: var(--font-size-base);
     opacity: 0.8;
 }
 
 /* Status Pills */
 .status-pill {
     padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 10px;
+    border-radius: 0px;
+    font-size: var(--font-size-base);
     font-weight: 800;
     text-transform: uppercase;
 }
@@ -177,7 +177,7 @@
     align-items: center;
     gap: 8px;
     padding: 8px 0;
-    font-size: 14px;
+    font-size: var(--font-size-base);
     border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
 }
 
@@ -193,7 +193,7 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
-    font-size: 12px;
+    font-size: var(--font-size-base);
     color: var(--md-sys-color-on-surface);
     opacity: 0.5;
 }

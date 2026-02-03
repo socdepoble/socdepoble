@@ -29,7 +29,7 @@
 }
 
 .version-tag {
-    font-size: 14px;
+    font-size: var(--font-size-base);
     opacity: 0.7;
     font-family: var(--font-mono);
 }
@@ -98,7 +98,7 @@
 
 .status-card li {
     margin-bottom: var(--space-xs);
-    font-size: 14px;
+    font-size: var(--font-size-base);
 }
 
 .philosophy-box {

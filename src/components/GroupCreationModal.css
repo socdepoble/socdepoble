@@ -21,7 +21,7 @@
     font-weight: 700;
     margin-bottom: 8px;
     color: var(--text-main);
-    font-size: 14px;
+    font-size: var(--font-size-base);
 }
 
 .group-info-step input,
@@ -29,8 +29,8 @@
     width: 100%;
     padding: 12px;
     border: 1px solid var(--color-divider);
-    border-radius: 8px;
-    font-size: 16px;
+    border-radius: 0px;
+    font-size: var(--font-size-base);
     font-family: inherit;
     transition: border-color 0.2s;
 }
@@ -49,7 +49,7 @@
 .group-info-step small {
     display: block;
     margin-top: 4px;
-    font-size: 12px;
+    font-size: var(--font-size-base);
     color: var(--text-muted);
     text-align: right;
 }
@@ -67,24 +67,24 @@
     gap: 8px;
     padding: 10px 12px;
     border: 1px solid var(--color-divider);
-    border-radius: 8px;
+    border-radius: 0px;
 }
 
 .search-box input {
     flex: 1;
     border: none;
     outline: none;
-    font-size: 14px;
+    font-size: var(--font-size-base);
 }
 
 .selected-members-preview {
     padding: 12px;
     background: rgba(var(--color-primary-rgb), 0.05);
-    border-radius: 8px;
+    border-radius: 0px;
 }
 
 .selected-count {
-    font-size: 13px;
+    font-size: var(--font-size-base);
     font-weight: 700;
     color: var(--color-primary);
     margin: 0 0 8px 0;
@@ -102,8 +102,8 @@
     gap: 6px;
     padding: 4px 8px 4px 4px;
     background: white;
-    border-radius: 20px;
-    font-size: 13px;
+    border-radius: 0px;
+    font-size: var(--font-size-base);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
@@ -113,7 +113,7 @@
     justify-content: center;
     width: 18px;
     height: 18px;
-    border-radius: 50%;
+    border-radius: 0px;
     background: rgba(0, 0, 0, 0.1);
     border: none;
     cursor: pointer;
@@ -126,7 +126,7 @@
 
 .no-selection {
     margin: 0;
-    font-size: 13px;
+    font-size: var(--font-size-base);
     color: var(--text-muted);
     font-style: italic;
 }
@@ -135,7 +135,7 @@
     max-height: 300px;
     overflow-y: auto;
     border: 1px solid var(--color-divider);
-    border-radius: 8px;
+    border-radius: 0px;
 }
 
 .user-item {
@@ -166,14 +166,14 @@
 
 .user-name {
     margin: 0;
-    font-weight: 600;
-    font-size: 15px;
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-base);
     color: var(--text-main);
 }
 
 .user-username {
     margin: 2px 0 0 0;
-    font-size: 13px;
+    font-size: var(--font-size-base);
     color: var(--text-muted);
 }
 
@@ -223,9 +223,9 @@
     justify-content: center;
     gap: 8px;
     padding: 12px 24px;
-    border-radius: 8px;
+    border-radius: 0px;
     font-weight: 700;
-    font-size: 14px;
+    font-size: var(--font-size-base);
     cursor: pointer;
     transition: all 0.2s;
     border: none;

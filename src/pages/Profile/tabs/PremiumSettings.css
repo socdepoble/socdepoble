@@ -11,7 +11,7 @@
     background: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border-radius: 24px;
+    border-radius: 0px;
     padding: 24px;
     border: 1px solid rgba(255, 255, 255, 0.5);
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
@@ -23,7 +23,7 @@
 }
 
 .settings-group-title {
-    font-size: 13px;
+    font-size: var(--font-size-base);
     font-weight: 800;
     color: var(--color-primary);
     text-transform: uppercase;
@@ -40,7 +40,7 @@
     justify-content: space-between;
     padding: 16px;
     background: var(--bg-main);
-    border-radius: 16px;
+    border-radius: 0px;
     margin-bottom: 12px;
     border: 1px solid var(--color-border);
     transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -66,7 +66,7 @@
 .setting-icon-wrapper {
     width: 40px;
     height: 40px;
-    border-radius: 12px;
+    border-radius: 0px;
     background: var(--color-primary-soft);
     color: var(--color-primary);
     display: flex;
@@ -85,16 +85,16 @@
 }
 
 .setting-text-bundle small {
-    font-size: 11px;
+    font-size: var(--font-size-base);
     color: var(--text-muted);
-    font-weight: 500;
+    font-weight: var(--font-weight-bold);
 }
 
 .premium-toggle-track {
     width: 44px;
     height: 24px;
     background: #e2e8f0;
-    border-radius: 12px;
+    border-radius: 0px;
     padding: 3px;
     transition: all 0.3s;
     position: relative;
@@ -112,7 +112,7 @@
     width: 18px;
     height: 18px;
     background: white;
-    border-radius: 50%;
+    border-radius: 0px;
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
@@ -125,7 +125,7 @@
     display: flex;
     background: var(--bg-main);
     padding: 4px;
-    border-radius: 12px;
+    border-radius: 0px;
     border: 1px solid var(--color-border);
     margin-top: 12px;
 }
@@ -135,8 +135,8 @@
     padding: 8px;
     border: none;
     background: transparent;
-    border-radius: 8px;
-    font-size: 11px;
+    border-radius: 0px;
+    font-size: var(--font-size-base);
     font-weight: 800;
     color: var(--text-muted);
     cursor: pointer;
@@ -157,12 +157,12 @@
 .btn-logout-premium {
     width: 100%;
     padding: 22px;
-    border-radius: 24px;
+    border-radius: 0px;
     border: 2px solid rgba(239, 68, 68, 0.2);
     background: linear-gradient(135deg, rgba(254, 226, 226, 0.6) 0%, rgba(254, 202, 202, 0.4) 100%);
     backdrop-filter: blur(10px);
     color: #ef4444;
-    font-size: 15px;
+    font-size: var(--font-size-base);
     letter-spacing: 1px;
     font-weight: 900;
     display: flex;
@@ -198,10 +198,10 @@
     width: 40px;
     height: 2px;
     background: var(--color-primary);
-    border-radius: 1px;
+    border-radius: 0px;
 }
 
 .premium-footer span {
-    font-size: 11px;
+    font-size: var(--font-size-base);
     font-weight: 700;
 }

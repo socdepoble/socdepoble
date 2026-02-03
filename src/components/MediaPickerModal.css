@@ -68,7 +68,7 @@
     flex: 1;
     background: transparent;
     border: none;
-    font-size: 14px;
+    font-size: var(--font-size-base);
     color: var(--text-main);
     outline: none;
 }
@@ -132,7 +132,7 @@
 
 .item-overlay span {
     color: white;
-    font-size: 11px;
+    font-size: var(--font-size-base);
     font-weight: 800;
     text-transform: uppercase;
     background: var(--color-primary);

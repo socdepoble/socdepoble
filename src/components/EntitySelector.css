@@ -6,7 +6,7 @@
 
 .entity-selector-container label {
     display: block;
-    font-size: 13px;
+    font-size: var(--font-size-base);
     font-weight: 700;
     color: var(--text-secondary);
     margin-bottom: 8px;
@@ -33,7 +33,7 @@
 
 .selector-trigger.mini .identity-name {
     font-size: 0.95rem;
-    font-weight: 600;
+    font-weight: var(--font-weight-bold);
 }
 
 .selector-trigger.mini .identity-avatar-small {
@@ -72,7 +72,7 @@
 
 .identity-name {
     font-weight: 700;
-    font-size: 14px;
+    font-size: var(--font-size-base);
     color: var(--text-main);
 }
 
@@ -132,13 +132,13 @@
 
 .identity-info .name {
     font-weight: 700;
-    font-size: 14px;
+    font-size: var(--font-size-base);
     color: var(--text-main);
 }
 
 .type-label {
-    font-size: 11px;
-    font-weight: 600;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-bold);
     color: var(--text-muted);
     text-transform: uppercase;
 }
