@@ -65,7 +65,8 @@ La interfície no és una galeria d'art, és una caixa d'eines.
 
 ## 6. 🛡️ SEGURETAT I ARQUITECTURA "RHIZOME" 🏗️
 *   **Local-First:** La dada és del veí. El núvol és només backup.
-*   **Mesh Network:** Connexió directa entre dispositius (HyParView) quan no hi ha cobertura.
+*   **Mesh Network:** Connexió directa entre dispositius via **HyParView** (gestió de veïns) i **Plumtree** (gossip protocol optimitzat).
+*   **Economia Sobirana:** Pagaments i transaccions via **Byzantine Reliable Broadcast** (BRB). Validació local instantània sense latència de blockchain.
 *   **Llicència Patrimonial:** CC BY-NC-SA 4.0. Protegim el llegat del poble.
 
 ---
