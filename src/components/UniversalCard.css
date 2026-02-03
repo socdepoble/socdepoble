@@ -83,7 +83,8 @@
     /* [MASTER] Llei de la Integritat Multimèdia: No aspect-ratio fixed */
     overflow: hidden;
     background-color: #000;
-    border-radius: var(--radius-none) !important;
+    border-radius: 0 !important;
+    position: relative;
 }
 
 .card-image-wrapper img {
@@ -98,6 +99,44 @@
 
 .universal-card:hover .card-image-wrapper img {
     transform: scale(1.05);
+}
+
+.card-watermark {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 6px 12px;
+    border-radius: 4px;
+    color: white;
+    pointer-events: none;
+    z-index: 10;
+    font-family: var(--font-headline);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.watermark-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+}
+
+.watermark-logo {
+    font-size: 10px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--color-primary-light);
+}
+
+.watermark-author {
+    font-size: 8px;
+    font-weight: 600;
+    opacity: 0.9;
+    white-space: nowrap;
 }
 
 .card-body {

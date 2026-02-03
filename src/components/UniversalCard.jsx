@@ -127,6 +127,19 @@ const UniversalCard = ({
                     style={{ cursor: 'zoom-in' }}
                 >
                     <img src={displayImage} alt={title || "Shared content"} loading="lazy" />
+
+                    {/* MASTER WATERMARK [GENESIS 4.0] */}
+                    <div className="card-watermark">
+                        <div className="watermark-content">
+                            <span className="watermark-logo">🏺 Sóc de Poble</span>
+                            <span className="watermark-author">
+                                {item?.author_is_ai || avatarRole === 'ambassador'
+                                    ? "Generat per l'IAIA"
+                                    : `Compartida per ${avatarName || 'Veí'}`}
+                            </span>
+                        </div>
+                    </div>
+
                     <AttributionBadge
                         filename={displayImage}
                         sourceType={item?.source_type}

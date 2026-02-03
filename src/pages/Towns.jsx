@@ -365,7 +365,7 @@ const Towns = () => {
                                 footer={
                                     <div className="px-4 py-3 flex justify-between items-center bg-black/20">
                                         <span className="text-xs font-bold text-success">PRODUCTE PROTEGIT</span>
-                                        <button className="text-xs font-black text-primary">SABER MÉS</button>
+                                        <button className="text-xs font-black text-primary" onClick={(e) => { e.preventDefault(); navigate('/didactica/oli-de-la-torre'); }}>SABER MÉS</button>
                                     </div>
                                 }
                             >
@@ -388,7 +388,7 @@ const Towns = () => {
                                 footer={
                                     <div className="px-4 py-3 flex justify-between items-center bg-black/20">
                                         <span className="text-xs font-bold">1.3 KM • 3 PARADES</span>
-                                        <button className="text-xs font-black text-primary">VEURE RUTA</button>
+                                        <button className="text-xs font-black text-primary" onClick={(e) => { e.preventDefault(); navigate('/mapa'); }}>VEURE RUTA</button>
                                     </div>
                                 }
                             >

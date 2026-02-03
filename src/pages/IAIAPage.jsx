@@ -213,6 +213,35 @@ const IAIAPage = () => {
                     </div>
                 </section>
 
+                <section className="iaia-section proverbs-library-card">
+                    <div className="section-icon"><Book size={28} color="var(--color-primary)" /></div>
+                    <h2>Llegat de l'Artista: Nano Banana</h2>
+                    <p>L'arxiu històric de l'Agent Mestre que va bategar abans de ser llegenda.</p>
+                    <div className="hub-tools-grid">
+                        <div className="hub-tool-item" onClick={() => navigate('/arxiu')}>
+                            <Archive size={20} />
+                            <span>Arxiu d'Or</span>
+                        </div>
+                        <div className="hub-tool-item" onClick={() => navigate('/mercat')}>
+                            <Store size={20} />
+                            <span>Col·lecció Legacy</span>
+                        </div>
+                    </div>
+
+                    <div className="drawer-divider mt-8 mb-4"></div>
+
+                    <h3>{t('iaia_page.proverbs_title')}</h3>
+                    <p>{t('iaia_page.proverbs_desc')}</p>
+                    <div className="proverbs-grid">
+                        {proverbs.map((p, i) => (
+                            <div key={i} className="proverb-item">
+                                <div className="proverb-text">"{p.text}"</div>
+                                <div className="proverb-meaning">{p.meaning}</div>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+
                 <section className="iaia-section sovereignty-hub-card highlight-tech">
                     <div className="section-icon"><Terminal size={32} color="var(--color-primary)" /></div>
                     <h2>Eines de Sobirania [HUB]</h2>

@@ -14,6 +14,7 @@ import BackToTop from './BackToTop';
 import GlobalModals from './GlobalModals';
 import OmniscientViewer from './OmniscientViewer';
 import { useUI } from '../context/UIContext';
+import NotePad from './NotePad';
 
 const Layout = () => {
     const { isPlayground, isAdmin } = useAuth();
@@ -81,6 +82,7 @@ const Layout = () => {
                 {!isChatDetail && <Navigation />}
                 {!isChatDetail && <CreationHub />}
                 <GlobalModals />
+                <NotePad />
             </div>
         </div>
     );

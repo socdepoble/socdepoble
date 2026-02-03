@@ -1,0 +1,141 @@
+.notepad-trigger {
+    position: fixed;
+    right: 20px;
+    bottom: 100px;
+    width: 56px;
+    height: 56px;
+    background: var(--md-sys-color-primary);
+    color: white;
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--comic-shadow);
+    border: var(--comic-border);
+    z-index: 10001;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.notepad-trigger:hover {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: var(--comic-shadow-hover);
+}
+
+.notepad-container {
+    position: fixed;
+    right: 20px;
+    bottom: 100px;
+    width: 320px;
+    height: 400px;
+    background: rgba(26, 26, 26, 0.85);
+    backdrop-filter: blur(20px);
+    border: var(--comic-border);
+    box-shadow: var(--comic-shadow-hover);
+    z-index: 10001;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: slideInUp 0.3s ease-out;
+}
+
+.notepad-container.minimized {
+    height: 48px;
+    width: 180px;
+}
+
+.notepad-header {
+    background: #000;
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #333;
+}
+
+.notepad-textarea {
+    flex: 1;
+    background: transparent;
+    color: #eee;
+    padding: 16px;
+    border: none;
+    resize: none;
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.notepad-textarea:focus {
+    outline: none;
+}
+
+.notepad-footer {
+    background: #000;
+    padding: 8px 16px;
+    display: flex;
+    gap: 8px;
+    border-top: 1px solid #333;
+}
+
+.notepad-action-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px;
+    font-size: 10px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 4px;
+    background: #333;
+    color: #fff;
+    transition: all 0.2s;
+}
+
+.notepad-action-btn:hover {
+    background: #444;
+}
+
+.notepad-action-btn.delete:hover {
+    background: #991b1b;
+}
+
+.btn-icon-mini {
+    color: #666;
+    transition: color 0.2s;
+}
+
+.btn-icon-mini:hover {
+    color: #fff;
+}
+
+@keyframes slideInUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.animate-bounce-slow {
+    animation: bounce 3s infinite;
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(-5%);
+        animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+    }
+
+    50% {
+        transform: translateY(0);
+        animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    }
+}

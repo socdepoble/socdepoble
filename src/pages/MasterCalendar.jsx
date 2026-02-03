@@ -20,9 +20,13 @@ const MasterCalendar = () => {
                     <h1>CALENDARI MASTER [SIMBIOSI]</h1>
                 </div>
                 <div className="calendar-controls">
-                    <button className="btn-calendar-nav"><ChevronLeft /></button>
+                    <button className="btn-calendar-nav" onClick={() => alert('Funció de navegació de mesos en procés de bategat [GENESIS]')}>
+                        <ChevronLeft />
+                    </button>
                     <span className="current-month">FEBRER 2026</span>
-                    <button className="btn-calendar-nav"><ChevronRight /></button>
+                    <button className="btn-calendar-nav" onClick={() => alert('Funció de navegació de mesos en procés de bategat [GENESIS]')}>
+                        <ChevronRight />
+                    </button>
                 </div>
             </header>
 
