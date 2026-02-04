@@ -311,10 +311,9 @@ const Market = ({ searchTerm = '' }) => {
                             subtitle={item.seller_name || item.seller || 'Veí de la Torre'}
                             image={item.image_url || '/images/assets/generic_market.png'}
                             onHeaderClick={() => handleHeaderClick(item)}
+                            mode="mercat"
                             className="market-item-standard"
-                        >
-                            {/* Additional market-specific logic if needed */}
-                        </UniversalCard>
+                        />
                     ))
                 )}
             </div>

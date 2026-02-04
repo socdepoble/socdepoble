@@ -180,39 +180,14 @@ const Towns = () => {
                                 className={`town-card-link ${(town.uuid === profile?.town_uuid || town.id === profile?.town_id) ? 'is-user-town' : ''}`}
                             >
                                 <UniversalCard
-                                    title={town.name}
-                                    subtitle={`${town.posts_count || 0} veïns bategant`}
+                                    item={town}
+                                    subtitle={town.name}
                                     avatarSrc={town.logo_url}
                                     avatarName={town.name}
-                                    headerTheme="terracotta"
                                     className="town-card animate-in-up"
                                     image={town.image_url}
+                                    mode="pobles"
                                     isBating={town.uuid === localStorage.getItem('last_active_town_id') || town.id === parseInt(localStorage.getItem('last_active_town_id'))}
-                                    isOfficial={town.is_official}
-                                    footer={
-                                        <div className="town-card-footer flex justify-between items-center w-full px-2" style={{ padding: '8px 4px' }}>
-                                            <span className="town-post-count flex items-center gap-1 opacity-70">
-                                                <Users size={16} />
-                                                {town.population?.toLocaleString() || 0}
-                                            </span>
-                                            <div
-                                                className="btn-enter-town-premium"
-                                                style={{
-                                                    background: 'var(--color-primary)',
-                                                    color: '#000',
-                                                    padding: '6px 14px',
-                                                    borderRadius: '20px',
-                                                    fontSize: '12px',
-                                                    fontWeight: '900',
-                                                    display: 'flex',
-                                                    alignItems: 'center',
-                                                    gap: '4px'
-                                                }}
-                                            >
-                                                ENTRAR <ChevronRight size={14} />
-                                            </div>
-                                        </div>
-                                    }
                                 >
                                     <div className="town-description-mini text-sm italic opacity-80 line-clamp-2" style={{ padding: '10px 0' }}>
                                         {town.description || 'Explora la saviesa i el batec d\'aquest poble.'}
@@ -290,41 +265,14 @@ const Towns = () => {
                                 {filteredEvents.map(event => (
                                     <UniversalCard
                                         key={event.id}
+                                        item={event}
                                         title={event.title}
                                         subtitle={`${event.location} • ${event.start_time} - ${event.end_time}`}
                                         avatarSrc={event.author_avatar}
                                         avatarName={event.author}
-                                        headerTheme="terracotta"
                                         className="event-card animate-in-up"
                                         image={event.image_url?.[0] || "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&q=80&w=1000"}
-                                        footer={
-                                            <div className="event-card-footer flex justify-between items-center w-full px-2" style={{ padding: '12px 0' }}>
-                                                <div className="event-date-badge" style={{
-                                                    background: 'var(--color-primary-soft)',
-                                                    color: 'var(--color-primary)',
-                                                    padding: '4px 12px',
-                                                    borderRadius: '8px',
-                                                    fontSize: '14px',
-                                                    fontWeight: '800'
-                                                }}>
-                                                    {new Date(event.date).toLocaleDateString('ca-ES', { day: 'numeric', month: 'long' })}
-                                                </div>
-                                                <button
-                                                    className="btn-enter-town-premium"
-                                                    onClick={() => navigate(`/mapa`, { state: { center: event.coordinates } })}
-                                                    style={{
-                                                        background: 'var(--color-primary)',
-                                                        color: '#000',
-                                                        padding: '8px 16px',
-                                                        borderRadius: '20px',
-                                                        fontSize: '12px',
-                                                        fontWeight: '900'
-                                                    }}
-                                                >
-                                                    VEURE AL MAPA <MapIcon size={14} style={{ marginLeft: '4px' }} />
-                                                </button>
-                                            </div>
-                                        }
+                                        mode="mur"
                                     >
                                         <div className="event-description text-sm opacity-90" style={{ padding: '10px 0', minHeight: '60px' }}>
                                             {event.description}

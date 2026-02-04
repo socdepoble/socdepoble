@@ -6,9 +6,16 @@
 
 .market-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 24px;
-    padding: var(--page-margin);
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    padding: 16px;
+}
+
+@media (max-width: 600px) {
+    .market-grid {
+        gap: 10px;
+        padding: 10px;
+    }
 }
 
 .market-item {

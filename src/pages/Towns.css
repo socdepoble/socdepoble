@@ -430,10 +430,17 @@
 }
 
 .towns-grid {
-    padding: var(--space-md);
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-md);
+    padding: 16px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+@media (max-width: 600px) {
+    .towns-grid {
+        gap: 10px;
+        padding: 10px;
+    }
 }
 
 .town-card-link {

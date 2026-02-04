@@ -69,26 +69,29 @@ const TownDetail = () => {
         if (id) fetchTown();
     }, [id]);
 
-    const handleActionClick = (mode, action) => {
-        if (mode === 'oficial') triggerHaptic('heavy');
-        else triggerHaptic('light');
-        action();
+    // Lògica "Gent de..." MASTER GENESIS
+    const getGentDePage = (townName) => {
+        if (!townName) return "Gent de Poble";
+        if (townName.includes("La Torre de les Maçanes")) return "Gent de La Torre";
+        return `Gent de ${townName}`;
     };
 
     if (loading) return <div className="loading-container">{t('common.loading')}</div>;
     if (!town) return <div className="error-container">Poble no trobat</div>;
 
+    const gentTitle = getGentDePage(town.name);
+
     return (
         <div className="town-detail-page">
             <SEO
-                title={town.name}
-                description={town.description || `Descobreix la vida i comunitat a ${town.name}, Comunitat Valenciana.`}
+                title={gentTitle}
+                description={town.description || `Espai comunitari de la ${gentTitle}.`}
                 image={town.image_url}
-                keywords={`${town.name}, ${town.comarca}, ${town.province}, pobles valencians`}
+                keywords={`${town.name}, Gent de la Torre, ${town.comarca}, ${town.province}, pobles valencians`}
             />
             <ProfileHeaderPremium
                 type="town"
-                title={town.name}
+                title={gentTitle}
                 subtitle={`${(town.comarca && town.comarca !== 'null') ? town.comarca : 'Comunitat'} • ${(town.province && town.province !== 'null') ? town.province : 'Alacant'}`}
                 bio={town.description}
                 avatarUrl={town.logo_url}
@@ -99,8 +102,8 @@ const TownDetail = () => {
                     { label: 'Ubicació', value: town.comarca || 'Comunitat', icon: <MapPin size={18} /> }
                 ]}
                 shareData={{
-                    title: town.name,
-                    text: town.description || `Vine a conèixer ${town.name} a Sóc de Poble!`,
+                    title: gentTitle,
+                    text: town.description || `Benvingut a la ${gentTitle} a Sóc de Poble!`,
                     url: window.location.href
                 }}
             />
@@ -135,14 +138,14 @@ const TownDetail = () => {
                         <Users size={32} />
                     </div>
                     <div className="text-sm">
-                        <h4 className="font-black text-primary mb-1 uppercase tracking-tighter">La Veu de la Gent</h4>
-                        <p className="opacity-80">Benvingut al Mur de {town.name}. Aquest és un espai comunitari on bateguen els veïns. Per a tràmits oficials, visita la Seu de l'Ajuntament.</p>
-                        <Link
-                            to={`/ajuntament/${id}`}
+                        <h4 className="font-black text-primary mb-1 uppercase tracking-tighter">{gentTitle}</h4>
+                        <p className="opacity-80">Aquest és l'espai comunitari on bateguen els veïns. Per a tràmits oficials i bans municipals, visita la Seu de l'Ajuntament.</p>
+                        <button
+                            onClick={() => navigate(`/ajuntament/${town.uuid || town.id}`)}
                             className="inline-flex items-center gap-2 mt-3 p-2 px-4 bg-blue-600 text-white font-black rounded-lg text-xs"
                         >
-                            <Landmark size={14} /> ANAR A L'AJUNTAMENT
-                        </Link>
+                            ANAR A L'AJUNTAMENT
+                        </button>
                     </div>
                 </div>
 

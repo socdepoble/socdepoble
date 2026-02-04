@@ -1,4 +1,4 @@
-import { MoreHorizontal, Heart, MessageCircle, Share2, Tag, Zap, ShieldCheck, Beaker, Sparkles, Edit, Trash2, Plus, FileText, ChevronRight } from 'lucide-react';
+import { MoreHorizontal, Heart, MessageCircle, Share2, Tag, Zap, ShieldCheck, Beaker, Sparkles, Edit, Trash2, Plus, FileText, ChevronRight, UserPlus } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useUI } from '../context/UIContext';
 import { useAuth } from '../context/AuthContext';
@@ -26,69 +26,70 @@ const UniversalCard = ({
     children,
     footer,
     className = "",
-    theme = "default", // default, orange, terracotta
-    status = 'operative', // operative, beta, experimental
-    isOfficial = false, // New: For Administrative vs Cultural distinction
-    isVerifiedNeighbor = false, // New: Leaf icon for neighbors
-    isLocalProducer = false,    // New: Basket icon for producers
-    isBating = false,   // New: Visual feedback for active town
-    excerpt,           // New: For Raindrop items
-    source,            // New: Domain info
-    collection,        // New: Category/Collection
-    syncState,          // New: local, synced
-    images              // New: For carousels
+    mode = "mur", // mur, mercat, pobles
+    isBating = false,
+    excerpt,
+    images
 }) => {
-    const { gloveMode, openViewer, openEditModal } = useUI();
-    const { isSuperAdmin, isAdmin } = useAuth();
+    const { gloveMode, openViewer } = useUI();
     const navigate = useNavigate();
 
     const TRUNCATE_LENGTH = 280;
 
-    // Cinematic Placeholder for Tier GOD aesthetic
-    const cinematicPlaceholder = "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=1000";
-
-    // MULTIMEDIA RESOLUTION: Priority for arrays
+    // MULTIMEDIA RESOLUTION
     const mediaList = images || item?.images || (Array.isArray(item?.image_url) ? item.image_url : null) || (Array.isArray(image) ? image : null);
+    const displayImage = image || item?.image_url || item?.image || (mediaList ? mediaList[0] : null);
 
-    // IMAGE RECOVERY: Ensure we don't lose photos
-    const displayImage = image || item?.image_url || item?.image || item?.url || (mediaList ? mediaList[0] : null) || (className?.includes('animate-bategat') ? cinematicPlaceholder : null);
-
-    const displayTitle = title || item?.title || "Sóc de Poble Content";
-    const displayPrice = item?.price || "";
-    const displayAuthor = subtitle || item?.seller || item?.author_name || item?.author || "Veí de la Torre";
+    const displayTitle = title || item?.title || "Sóc de Poble";
+    const displayPrice = item?.price || (mode === 'mercat' ? (item?.price || "15.00€") : ""); // Mock price if missing in market
+    const displayAuthor = avatarName || item?.author_name || item?.author || item?.seller || "Sóc de Poble";
     const displayExcerpt = excerpt || item?.description || item?.content || "";
+    const displayTown = subtitle || item?.location?.town || item?.town_name || 'La Torre de les Maçanes';
+    const displayDate = item?.created_at ? new Date(item.created_at).toLocaleDateString() : (item?.date || "30/1/2026");
+
+    // Lògica "Gent de..." MASTER GENESIS
+    const getGentDePage = (townName) => {
+        if (!townName) return "Gent de Poble";
+        if (townName.includes("La Torre de les Maçanes")) return "Gent de La Torre";
+        return `Gent de ${townName}`;
+    };
+
+    const handleCardClick = () => {
+        if (mode === 'pobles') {
+            const townId = item?.uuid || item?.id;
+            navigate(`/pobles/${townId}`);
+        }
+    };
 
     return (
-        <article className={`universal-card ${className} sync-${syncState} ${isBating ? 'animate-bategat' : ''} ${gloveMode ? 'mode-guants' : ''}`}>
-            {/* 0. Header: Orange Section */}
-            <div
-                className="card-header-genesis"
-                onClick={onHeaderClick}
-            >
+        <article
+            className={`universal-card card-mode-${mode} ${className} ${isBating ? 'animate-bategat' : ''} ${gloveMode ? 'mode-guants' : ''}`}
+            onClick={handleCardClick}
+            style={{ cursor: mode === 'pobles' ? 'pointer' : 'default' }}
+        >
+            {/* CABECERA TERRACOTA MASTER GENESIS */}
+            <div className="card-header-genesis">
                 <div className="header-left">
                     <Avatar
-                        src={avatarSrc || item?.author_avatar}
-                        name={avatarName || displayAuthor}
+                        src={avatarSrc || item?.author_avatar || item?.logo_url}
+                        name={displayAuthor}
                         role={avatarRole || item?.author_role}
-                        size="md"
+                        size="sm"
                         className="genesis-avatar"
                     />
                     <div className="header-text">
-                        <h3>{displayAuthor}</h3>
+                        <h3 className="master-author-name">{displayAuthor}</h3>
                         <div className="location-text">
-                            {subtitle || item?.location?.town || 'La Torre de les Maçanes'}
+                            {displayTown}
                         </div>
                     </div>
                 </div>
-
-                {item?.created_at && (
-                    <div className="header-date">
-                        {new Date(item.created_at).toLocaleDateString()}
-                    </div>
-                )}
+                <div className="header-date">
+                    {displayDate}
+                </div>
             </div>
 
-            {/* 1. Multimèdia: Clean Image or Carousel */}
+            {/* MULTIMÈDIA */}
             {mediaList && mediaList.length > 1 ? (
                 <div className="card-carousel-wrapper">
                     <ImageCarousel images={mediaList} />
@@ -96,18 +97,21 @@ const UniversalCard = ({
             ) : displayImage && (
                 <div
                     className="card-image-wrapper"
-                    onClick={() => {
+                    onClick={(e) => {
+                        e.stopPropagation();
                         const src = typeof displayImage === 'string' ? displayImage : (Array.isArray(displayImage) ? displayImage[0] : '');
-                        const type = src.endsWith('.pdf') ? 'pdf' :
-                            (src.endsWith('.mp4') || src.endsWith('.webm') ? 'video' : 'image');
-                        openViewer({ src, title: displayTitle, type });
+                        openViewer({ src, title: displayTitle, type: 'image' });
                     }}
                 >
                     <img src={displayImage} alt={displayTitle} loading="lazy" />
+                    {/* Overlay informatiu si cal */}
+                    <div className="image-overlay-credits">
+                        © SÓC DE POBLE (FET PER LA IAIA) / GRATIS (NO COMERCIAL)
+                    </div>
                 </div>
             )}
 
-            {/* 2. Cos: Genesis Cream Content */}
+            {/* COS DE LA TARGETA */}
             <div className="card-body">
                 <div className="title-price-row">
                     <h2 className="genesis-title">{displayTitle}</h2>
@@ -140,48 +144,55 @@ const UniversalCard = ({
                     </div>
                 )}
 
-                {children}
+                {/* TAGS PILL STYLE */}
+                <div className="card-tags-row">
+                    {item?.tags?.map((tag, idx) => (
+                        <span key={idx} className="genesis-tag-pill">{tag}</span>
+                    ))}
+                    {mode === 'mercat' && <span className="genesis-tag-pill roba">ROBA</span>}
+                </div>
 
-                <div className="card-primary-action">
+                {children}
+            </div>
+
+            {/* FOOTER ADAPTAT PER MODE */}
+            <div className={`card-footer-master mode-${mode}`}>
+                {mode === 'mur' && (
+                    <div className="footer-actions-mur">
+                        <button className="master-action-btn" onClick={(e) => e.stopPropagation()}>
+                            <UserPlus size={24} />
+                            <span>Connectar</span>
+                        </button>
+                        <button className="master-action-btn" onClick={(e) => { e.stopPropagation(); navigate(`/post/${item.id}#comments`); }}>
+                            <MessageCircle size={24} />
+                            <span>Comentar</span>
+                        </button>
+                        <button className="master-action-btn" onClick={(e) => e.stopPropagation()}>
+                            <Share2 size={24} />
+                            <span>Compartir</span>
+                        </button>
+                    </div>
+                )}
+
+                {mode === 'mercat' && (
                     <button
-                        className="btn-interessat"
+                        className="btn-master-primary"
                         onClick={(e) => {
                             e.stopPropagation();
+                            navigate(`/mercat/${item.id || 'item'}`);
                         }}
                     >
                         <Plus size={22} strokeWidth={3} />
-                        <span>INTERESSAT</span>
+                        <span>SABER MÉS</span>
                     </button>
+                )}
 
-                    <div className="astro-tag">
-                        <Zap size={14} fill="#FF6D00" />
-                        <span>TELE-OLI (ASTRO)</span>
+                {mode === 'pobles' && (
+                    <div className="pobles-footer-info">
+                        <span>{getGentDePage(displayTown)}</span>
+                        <ChevronRight size={18} />
                     </div>
-                </div>
-            </div>
-
-            {/* 3. Footer: Simple Actions */}
-            <div className="card-footer-genesis">
-                <button
-                    className="share-btn"
-                    title="Pedagogia Social"
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        navigate('/aula-rural');
-                    }}
-                >
-                    <Share2 size={24} />
-                </button>
-                <div
-                    className="edit-icon-box"
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        if (isAdmin) openEditModal({ postData: item });
-                        else navigate('/aula-rural');
-                    }}
-                >
-                    <FileText size={20} />
-                </div>
+                )}
             </div>
         </article>
     );

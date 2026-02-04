@@ -512,6 +512,7 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null, contentMo
                                     excerpt={post.type === 'book' ? '' : (post.content || post.excerpt)}
                                     image={hasNoImage ? cinematicPlaceholder : postImage}
                                     onHeaderClick={() => handleHeaderClick(post)}
+                                    mode="mur"
                                     className={`${isOptimistic ? 'optimistic' : ''} ${isDissolving ? 'dissolve' : ''} ${post.is_iaia_inspired ? 'animate-bategat' : ''} ${gloveMode ? 'mode-guants' : ''}`}
                                     syncState={post.syncState}
                                 >

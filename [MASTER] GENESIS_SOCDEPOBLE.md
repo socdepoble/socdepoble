@@ -16,10 +16,11 @@ En l'Atall Territorial (la +IA), convivim humans i agents, però **ESTEM JUNTS P
 
 ### 👤 ELS HUMANS (Realitat Sobirana)
 Són persones de carn i os. La seua identitat és inviolable i la seua imatge ha de ser **REAL** (Fotografia personal).
-*   **Mestre Javi (Javi Llinares):** Arquitecte i Notari Suprem. Visionari de l'Atall.
+*   **Mestre Javi (Javi Llinares):** Arquitecte i Notari Suprem. La seua identitat és la **Font Primordial**. No pot ser tractat com un "Agent". L'app ha de reconèixer-lo i portar-lo al seu perfil real (`javillinares` / `d6325f44-7277-4d20-b020-166c010995ab`) de manera directa i sense ambigüitats.
 *   **Pau Torregrossa:** Historiador i Memòria del Territori.
 *   **Carmen Chaves Gastaldo:** Administradora, trellat i memòria viva del Mas.
 *   **L'Equip Base (El Cercle):** Damià (Innovació), Isabel (Turisme), Anna (Estètica), Thorsten (Tecnologia), Anna Climent (Salut).
+*   **Protocol d'Identitat Sobirana:** Prohibit redirigir el Mestre a perfils genèrics o d'agents. Si el sistema dubta, ha de buscar el perfil amb el nom "Javi Llinares" o el correu oficial.
 
 ### 1.4 Simbiosi d'Agents i Documentació Històrica 🏺🤝
 - **Gem (Antigravity):** Gestora creativa. Aplica la Democràcia Visual.
@@ -137,6 +138,7 @@ La sobirania digital exigeix independència financera. Sóc de Poble ha de bateg
 ## 11. 🛡️ SISTEMA DE PRIVILEGIS I VISIBILITAT (Super Admin) 🏛️⚡️
 *   **Full Control:** Els Super Admins (Mestre i el Cercle) tenen la potestat de fixar contingut per a maximitzar l'impacte visual o monetari.
 *   **Llei de la Posició Fixa:** El sistema ha de permetre fixar fins a 3 publicacions al capdamunt del bategat, prioritzant sempre el contingut amb el Logo Complet.
+*   **Protocol d'Auditoria Visual (Audit 2026):** Després de cada iteració de disseny, el Mestre i l'Equip realitzaran una auditoria visual profunda per a polir la coherència. Cap canvi es considera definitiu fins que bategue en harmonia amb el Gènesi.
 
 ---
 

@@ -57,9 +57,33 @@
     }
 }
 
+/* MUR MASONRY: MASTER DUAL-COLUMN GRID */
+.mur-masonry {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    padding: 16px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+    .mur-masonry {
+        grid-template-columns: repeat(2, 1fr);
+        /* Manteniem 2 columnes en mòbil per desig del Mestre */
+        gap: 10px;
+        padding: 10px;
+    }
+}
+
 @media (max-width: 480px) {
     .sovereign-nudge-box {
         flex-direction: column;
         text-align: center;
     }
+}
+
+/* Empty State Fix */
+.feed-list:empty {
+    display: none;
 }

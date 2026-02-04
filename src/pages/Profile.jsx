@@ -175,8 +175,8 @@ const Profile = () => {
     }
 
     const displayProfileSafe = finalProfile || {
-        full_name: isCreator ? (realUser?.email?.split('@')[0] || 'Creador') : ((realUser?.email || user?.email)?.split('@')[0] || 'Agent'),
-        avatar_url: null,
+        full_name: isCreator ? 'Javi Llinares' : ((realUser?.email || user?.email)?.split('@')[0] || 'Veí de la Torre'),
+        avatar_url: isCreator ? '/assets/master/javi_avatar_cinematic.png' : null,
         cover_url: null,
         town_id: null
     };
@@ -295,7 +295,7 @@ const Profile = () => {
             <ProfileHeaderPremium
                 type="person"
                 title={displayProfileSafe.full_name}
-                subtitle={viewRealIdentity ? (displayProfileSafe.ofici ? (displayProfileSafe.ofici.charAt(0).toUpperCase() + displayProfileSafe.ofici.slice(1)) : "EL PARE DE LA +IA") : (oficiValue ? (oficiValue.charAt(0).toUpperCase() + oficiValue.slice(1)) : 'Agent')}
+                subtitle={viewRealIdentity ? (displayProfileSafe.ofici ? (displayProfileSafe.ofici.charAt(0).toUpperCase() + displayProfileSafe.ofici.slice(1)) : "EL PARE DE LA +IA") : (oficiValue ? (oficiValue.charAt(0).toUpperCase() + oficiValue.slice(1)) : 'Veí de la Torre')}
                 town={userTown?.name}
                 bio={viewRealIdentity ? (displayProfileSafe.bio || "Creador de Sóc de Poble.") : bioValue}
                 avatarUrl={displayProfileSafe.avatar_url}
