@@ -52,6 +52,27 @@
   --comic-border: 2px solid #FFFFFF;
   --comic-shadow: 8px 8px 0px #333;
   --comic-shadow-hover: 12px 12px 0px var(--accent);
+
+  /* --- 4. AB TESTING: ÀLBUM TOKENS (Democràcia Visual) --- */
+  --album-radius: var(--radius-none);
+  --album-border: var(--comic-border);
+  --album-shadow: var(--comic-shadow);
+  --album-overlay-bg: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+}
+
+/* TEMA: PEDRA SECA (Industrial/Zero Radius) */
+.theme-pedra-seca {
+  --album-radius: 0px;
+  --album-border: 2px solid var(--accent);
+  --album-shadow: 6px 6px 0px #000;
+}
+
+/* TEMA: OLI SUAU (Orgànic/MD3) */
+.theme-oli-suau {
+  --album-radius: 16px;
+  --album-border: 1px solid rgba(255, 255, 255, 0.1);
+  --album-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --album-overlay-bg: linear-gradient(transparent, rgba(0, 0, 0, 0.6));
 }
 
 /* --- DUALITAT ONTOLÒGICA: INSTITUCIONAL (AJUNTAMENT) --- */

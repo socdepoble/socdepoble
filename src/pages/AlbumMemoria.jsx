@@ -10,6 +10,7 @@ const AlbumMemoria = () => {
     const [items, setItems] = useState([]);
     const [filter, setFilter] = useState('');
     const [selectedTag, setSelectedTag] = useState(null);
+    const [theme, setTheme] = useState('pedra-seca');
 
     useEffect(() => {
         // Consolidem tot el bategat visual per a l'àlbum
@@ -47,7 +48,22 @@ const AlbumMemoria = () => {
                 <p className="subtitle">Tot el bategat del Mas, arxivat per Nano Banana</p>
             </header>
 
-            <div className="album-controls">
+            <div className={`album-controls ${theme === 'oli-suau' ? 'm3-styled' : ''}`}>
+                <div className="theme-selector">
+                    <button
+                        className={`theme-btn ${theme === 'pedra-seca' ? 'active' : ''}`}
+                        onClick={() => setTheme('pedra-seca')}
+                    >
+                        Pedra Seca
+                    </button>
+                    <button
+                        className={`theme-btn ${theme === 'oli-suau' ? 'active' : ''}`}
+                        onClick={() => setTheme('oli-suau')}
+                    >
+                        Oli Suau
+                    </button>
+                </div>
+
                 <div className="search-box">
                     <Search size={20} />
                     <input
@@ -76,7 +92,7 @@ const AlbumMemoria = () => {
                 </div>
             </div>
 
-            <div className="album-grid bento-style">
+            <div className={`album-grid bento-style theme-${theme}`}>
                 {filteredItems.map((item, idx) => (
                     <div key={idx} className="album-item-card">
                         <img src={item.url} alt={item.title} loading="lazy" />

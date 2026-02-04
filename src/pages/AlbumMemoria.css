@@ -30,7 +30,8 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    sticky: top;
+    position: sticky;
+    top: 0;
     z-index: 10;
     border-bottom: 1px solid var(--md-sys-color-outline-variant);
 }
@@ -98,9 +99,11 @@
     position: relative;
     aspect-ratio: 1;
     overflow: hidden;
-    border: var(--comic-border);
+    border: var(--album-border);
+    border-radius: var(--album-radius) !important;
     background: #000;
-    transition: transform 0.3s;
+    box-shadow: var(--album-shadow);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .album-item-card:hover {
@@ -119,7 +122,7 @@
     left: 0;
     right: 0;
     padding: 12px;
-    background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+    background: var(--album-overlay-bg);
     color: white;
     display: flex;
     flex-direction: column;
@@ -144,7 +147,40 @@
     font-size: 8px;
     background: rgba(255, 255, 255, 0.2);
     padding: 2px 4px;
-    border-radius: 0px;
+    border-radius: var(--album-radius);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.theme-selector {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+}
+
+.theme-btn {
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 800;
+    border: 2px solid var(--md-sys-color-outline);
+    background: transparent;
+    color: var(--text-main);
+    transition: all 0.2s;
+}
+
+.theme-btn.active {
+    background: var(--accent);
+    color: #000;
+    border-color: var(--accent);
+    box-shadow: 4px 4px 0px #000;
+}
+
+.m3-styled .tag-pill {
+    border-radius: 20px;
+}
+
+.m3-styled .search-box {
+    border-radius: 24px;
 }
 
 .empty-state {
@@ -155,8 +191,4 @@
     flex-direction: column;
     align-items: center;
     gap: 1rem;
-}
-
-. солнечная совместимость {
-    /* Weber Class 6 handles this via .solar-mode globally */
 }
