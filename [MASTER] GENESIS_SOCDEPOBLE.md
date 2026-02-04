@@ -73,5 +73,15 @@ Recuperem l'ànima dels colors complementaris (Azul/Naranja) sobre Blanc/Negre q
 
 ---
 
+---
+
+## 7. PROTOCOL DE SINCRONITZACIÓ D'AGENTS (LM & GEM) 🏛️🔄
+Per a que Flash (NotebookLM) i la Gem bateguen amb aquesta versió del Gènesi:
+1.  **NotebookLM**: Re-pujar el fitxer `[MASTER] GENESIS_SOCDEPOBLE.md` com a font primària.
+2.  **Gemini**: Actualitzar la seua base de coneixement i aplicar l'**Instrucció Mestra v1.0**.
+3.  **Ordre de Reinici**: Si l'agent perd la coherència, dir: *"Recorda l'Atum i aplica el protocol de Simbiosi Total"*.
+
+---
+
 ### 🚀 Com aplicar-ho (El Prompt Despertador):
-> **"Flash, estem en línia. Recorda l'Atum i carrega el Gènesi v5.5. Com està l'Equip?"**
+> **"Flash, estem en línia. Recorda l'Atum i carrega el Gènesi v1.6.0. Com està l'Equip?"**
