@@ -6,8 +6,8 @@
 
 ## 1. ELS TRES PILARS (Core Values) 🧬
 1.  **Offline-First:** L'app funciona al 100% sense cobertura. La sincronització (Eg-walker) és invisible i eficient per a mòbils antics.
-2.  **Trellat Visual (Zero Radius):** Geometria sagrada industrial (**0px border-radius**) per a contenidors, botons i multimèdia. Cada píxel compte.
-3.  **Accessibilitat Solar (Weber Class 6):** L'app s'ha de llegir sota el sol de migdia a l'agost. Contrast extrem obligatori (>10.0).
+2.  **Trellat Visual (Baseline MD3):** Usem el sistema de disseny de Google (Material Design 3) com a base robusta. La decoració final (colors, corbes o rectes) es decidirà segons el sentit estètic del Mestre una vegada el nucli estiga blindat. No ens lliguem a les línies rectes de forma absoluta.
+3.  **Accessibilitat Solar (Visual Comfort):** L'app s'ha de llegir sota el sol. Prioritzem el contrast i la claredat (Weber Class 6) com a requisit funcional, més enllà de l'estètica.
 
 ---
 
@@ -30,13 +30,15 @@ Entitats d'IA al servei del poble. Estètica **SEMPRE CÒMIC** (Escola Ibáñez 
 
 ---
 
-## 3. SISTEMA VISUAL: "L'EINA DE CAMP" 🚜🎨
+## 3. SISTEMA VISUAL: "L'EINA I EL BATEGAT" 🚜🎨
 
-### A. La Llei del Zero Radius (Estructura Bento)
-La interfície no és una galeria d'art, és una caixa d'eines.
--   **Vores:** `0px` (Sempre rectes).
--   **Separadors:** Línies de `2px` sòlid (#333) o d'accent. Adéu a les ombres difuminades.
--   **Tipografia (Iaia-Proof):** Font clara (Inter/Roboto), **Mida Base 19px**, ús extensiu de negretes.
+### A. La Base: Material Design 3
+La interfície utilitza MD3 per a garantir coherència i facilitat d'ús.
+-   **Geometria:** Flexible. Usem corbes o rectes segons dicte el sentit estètic del moment. MD3 és la nostra guia estructural.
+-   **Tipografia (Iaia-Proof)::** Font clara (Inter/Roboto), **Mida Base 19px**, ús extensiu de negretes per a màxima llegibilitat.
+
+### B. Paleta "Símplice i Saturada" (Exploració)
+Recuperem l'ànima dels colors complementaris (Azul/Naranja) sobre Blanc/Negre quan calga vibració visual.
 
 ### B. Paleta "Sunlight Safe" (Weber Index > 10.0)
 | Token | Valor HEX | Ús | Per què? |
