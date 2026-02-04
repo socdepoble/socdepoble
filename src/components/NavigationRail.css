@@ -23,6 +23,39 @@
     background: linear-gradient(180deg, rgba(var(--md-ref-palette-terracotta-40-rgb), 0.05) 0%, transparent 100%);
 }
 
+.visual-democracy-rail-switcher {
+    display: flex;
+    background: rgba(0, 0, 0, 0.05);
+    padding: 4px;
+    border-radius: 12px;
+    border: 1.5px solid #1a1a1a;
+    gap: 4px;
+}
+
+.rail-theme-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border: none;
+    background: transparent;
+    border-radius: 8px;
+    color: var(--md-sys-color-on-surface-variant);
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.rail-theme-btn.active {
+    background: var(--md-sys-color-primary);
+    color: white;
+    box-shadow: 2px 2px 0px #000;
+}
+
+.rail-theme-btn:hover:not(.active) {
+    background: rgba(0, 0, 0, 0.1);
+}
+
 .drawer-logo-container {
     height: 48px;
     display: flex;

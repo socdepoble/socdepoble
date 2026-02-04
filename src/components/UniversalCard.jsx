@@ -35,8 +35,8 @@ const UniversalCard = ({
     collection,        // New: Category/Collection
     syncState          // New: local, synced
 }) => {
-    const { gloveMode, openViewer } = useUI();
-    const { isSuperAdmin } = useAuth();
+    const { gloveMode, openViewer, openEditModal } = useUI();
+    const { isSuperAdmin, isAdmin } = useAuth();
 
     // Cinematic Placeholder for Tier GOD aesthetic
     const cinematicPlaceholder = "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=1000";
@@ -79,12 +79,12 @@ const UniversalCard = ({
                         </div>
                     </div>
                     <div className="header-right-container" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        {isSuperAdmin && (
+                        {isAdmin && (
                             <button
                                 className="admin-rectify-btn"
                                 onClick={(e) => {
                                     e.stopPropagation();
-                                    alert("Protocol de Rectificació Master: L'edició del bategat estarà disponible al següent cicle.");
+                                    openEditModal({ postData: item || { title, subtitle, content: excerpt, image_url: image } });
                                 }}
                                 style={{
                                     background: 'var(--color-terracotta-dark)',
@@ -99,7 +99,7 @@ const UniversalCard = ({
                                     cursor: 'pointer',
                                     boxShadow: '0 2px 8px rgba(0,0,0,0.2)'
                                 }}
-                                title="Super Admin: Rectificar Publicació"
+                                title="Admin: Rectificar Publicació"
                             >
                                 <Edit size={16} />
                             </button>

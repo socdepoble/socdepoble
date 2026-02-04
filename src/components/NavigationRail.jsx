@@ -5,12 +5,14 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
 import { useUI } from '../context/UIContext';
 import { useSocial } from '../context/SocialContext';
+import BatecMonitor from './BatecMonitor';
+import { Layout, Activity, Sparkles } from 'lucide-react';
 import './NavigationRail.css';
 
 const NavigationRail = () => {
     const { t } = useTranslation();
     const { user } = useAuth();
-    const { setIsCreateModalOpen } = useUI();
+    const { setIsCreateModalOpen, visualDemocracy, setVisualDemocracy } = useUI();
     const { activeCategories } = useSocial();
 
     return (
@@ -19,6 +21,25 @@ const NavigationRail = () => {
                 <div className="drawer-logo-container">
                     <img src="/logo.png" alt="Sóc de Poble" className="drawer-logo" />
                 </div>
+                <BatecMonitor />
+
+                <div className="visual-democracy-rail-switcher">
+                    <button
+                        className={`rail-theme-btn ${visualDemocracy === 'pedra-seca' ? 'active' : ''}`}
+                        onClick={() => setVisualDemocracy('pedra-seca')}
+                        title="Roba de Treball (Pedra Seca)"
+                    >
+                        <Layout size={20} />
+                    </button>
+                    <button
+                        className={`rail-theme-btn ${visualDemocracy === 'oli-suau' ? 'active' : ''}`}
+                        onClick={() => setVisualDemocracy('oli-suau')}
+                        title="Roba de Mudar (Oli Suau)"
+                    >
+                        <Sparkles size={20} />
+                    </button>
+                </div>
+
                 <button
                     className="drawer-fab"
                     onClick={() => setIsCreateModalOpen(true)}

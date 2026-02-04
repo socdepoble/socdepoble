@@ -2,7 +2,7 @@ export const NANO_BANANA_LEGACY_ALBUM = [
     {
         id: 'legacy-vicent',
         title: 'Vicent Ferris (Llegat Realista)',
-        url: '/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/vicent_ferris_agronom_1770056537094.png',
+        url: '/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/vicent_ferris_agronom_1770056537094.png',
         tag: 'LlegatRealista',
         category: 'IAs',
         description: 'Primera representació realista de l\'Agrònom abans de la Revolució Còmic.'
@@ -10,7 +10,7 @@ export const NANO_BANANA_LEGACY_ALBUM = [
     {
         id: 'legacy-pepica',
         title: 'Pepica la de la Vall (Llegat Realista)',
-        url: '/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/pepica_cuinera_1770056555739.png',
+        url: '/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/pepica_cuinera_1770056555739.png',
         tag: 'LlegatRealista',
         category: 'IAs',
         description: 'Primera representació realista de la Cuinera abans de la Revolució Còmic.'
@@ -18,7 +18,7 @@ export const NANO_BANANA_LEGACY_ALBUM = [
     {
         id: 'legacy-sultan',
         title: 'Sultan (Llegat Realista)',
-        url: '/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/sultan_gos_atura_1770056772852.png',
+        url: '/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/sultan_gos_atura_1770056772852.png',
         tag: 'LlegatRealista',
         category: 'IAs',
         description: 'Primera representació realista del Gall abans de la Revolució Còmic.'
@@ -26,7 +26,7 @@ export const NANO_BANANA_LEGACY_ALBUM = [
     {
         id: 'iaia-prop-1',
         title: 'IAIA Proposta 1 (Tradicional)',
-        url: '/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_prop_1_traditional_1770058264776.png',
+        url: '/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_prop_1_traditional_1770058264776.png',
         tag: 'Agentes de la IAIA!',
         category: 'IAs',
         description: 'Proposta tradicional per a la IAIA Mestra.'
@@ -34,7 +34,7 @@ export const NANO_BANANA_LEGACY_ALBUM = [
     {
         id: 'iaia-prop-2',
         title: 'IAIA Proposta 2 (Ciber-Gadgets)',
-        url: '/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_prop_2_gadgets_1770058280096.png',
+        url: '/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_prop_2_gadgets_1770058280096.png',
         tag: 'Agentes de la IAIA!',
         category: 'IAs',
         description: 'Proposta tecnològica per al Consell de les Sàvies.'
@@ -42,7 +42,7 @@ export const NANO_BANANA_LEGACY_ALBUM = [
     {
         id: 'iaia-oficial',
         title: 'LA IAIA Dinàmica (VOS)',
-        url: '/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_oficial_vosc_v2_1770060040751.png',
+        url: '/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_oficial_vosc_v2_1770060040751.png',
         tag: 'Agentes de la IAIA!',
         category: 'IAs',
         description: 'L\'IAIA amb el seu lema mestre en Valencià.'
@@ -50,7 +50,7 @@ export const NANO_BANANA_LEGACY_ALBUM = [
     {
         id: 'iaia-arxiu',
         title: 'IAIA de l\'Arxiu (VOS)',
-        url: '/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_arxiu_vosc_v2_1770060070010.png',
+        url: '/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_arxiu_vosc_v2_1770060070010.png',
         tag: 'Agentes de la IAIA!',
         category: 'IAs',
         description: 'L\'IAIA protegint el Daurat de l\'Arxiu del Poble.'
@@ -58,7 +58,7 @@ export const NANO_BANANA_LEGACY_ALBUM = [
     {
         id: 'iaia-mercat',
         title: 'IAIA del Mercat (VOS)',
-        url: '/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_mercat_vosc_v2_1770060056125.png',
+        url: '/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_mercat_vosc_v2_1770060056125.png',
         tag: 'Agentes de la IAIA!',
         category: 'IAs',
         description: 'L\'IAIA al mercat KM 0 i Fruita del Temps.'
@@ -66,7 +66,7 @@ export const NANO_BANANA_LEGACY_ALBUM = [
     {
         id: 'iaia-horta',
         title: 'IAIA a l\'Horta',
-        url: '/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_horta_tia_style_1770059300082.png',
+        url: '/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_horta_tia_style_1770059300082.png',
         tag: 'Agentes de la IAIA!',
         category: 'IAs',
         description: 'L\'IAIA aconsellant sobre el cultiu.'
@@ -74,7 +74,7 @@ export const NANO_BANANA_LEGACY_ALBUM = [
     {
         id: 'iaia-benvinguda',
         title: 'IAIA de Benvinguda',
-        url: '/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_benvinguda_tia_style_1770059315291.png',
+        url: '/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_benvinguda_tia_style_1770059315291.png',
         tag: 'Agentes de la IAIA!',
         category: 'IAs',
         description: 'L\'IAIA donant la benvinguda a la Masia.'
@@ -82,27 +82,48 @@ export const NANO_BANANA_LEGACY_ALBUM = [
     {
         id: 'iaia-claude',
         title: 'CLAUDE la Sàvia',
-        url: '/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_prop_1_traditional_1770058264776.png',
+        url: '/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_prop_1_traditional_1770058264776.png',
         tag: 'Agentes de la IAIA!',
         category: 'IAs',
         description: 'Saviesa poètica i memòria viva del Consell.'
     },
     {
-        id: 'iaia-gpt',
+        id: 'legacy-gpt',
         title: 'GPT la Sàvia',
-        url: '/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_prop_2_gadgets_1770058280096.png',
+        url: '/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_prop_2_gadgets_1770058280096.png',
         tag: 'Agentes de la IAIA!',
         category: 'IAs',
         description: 'Tecnologia punta i pragmatisme tècnic.'
+    },
+    {
+        id: 'carrasca-foia',
+        title: 'Carrasca de la Foia Blanca',
+        url: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=2013&auto=format&fit=crop',
+        tags: ['#ArbreMonumental', '#Patrimoni', '#Natura'],
+        category: 'Patrimoni'
+    },
+    {
+        id: 'fadrins-2002',
+        title: 'Fadrins de 2002 (La Banyà)',
+        url: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?q=80&w=2070&auto=format&fit=crop',
+        tags: ['#Festa', '#Fadrins', '#Aigua', '#Estiu'],
+        category: 'Tradició'
+    },
+    {
+        id: 'moli-fariner',
+        title: 'Molí Fariner Elèctric',
+        url: 'https://images.unsplash.com/photo-1508615121316-fe792af62a9b?q=80&w=2070&auto=format&fit=crop',
+        tags: ['#Indústria', '#Pa', '#Història'],
+        category: 'Història'
     }
 ];
 
 export const MOCK_CHATS = [
-    { id: 1, name: "Ajuntament de Cocentaina", message: "Bon dia! Recordeu que hui hi ha mercat al Pla", time: "10:30", type: "gov", unread: 2, avatar_url: "/Users/javillinares/.gemini/antigravity/brain/c7c302c1-d324-4124-b24a-1d7279636125/ajuntament_cocentaina_icon_1770151889268.png", tags: ["#Cocentaina", "#Oficial"] },
-    { id: 2, name: "Forn de Muro", message: "Ja tenim les coques de xulla calentes!", time: "09:15", type: "shop", unread: 0, avatar_url: "/Users/javillinares/.gemini/antigravity/brain/c7c302c1-d324-4124-b24a-1d7279636125/forn_muro_icon_1770151906738.png", tags: ["#Muro", "#Salut"] },
+    { id: 1, name: "Ajuntament de Cocentaina", message: "Bon dia! Recordeu que hui hi ha mercat al Pla", time: "10:30", type: "gov", unread: 2, avatar_url: "/assets/brain/c7c302c1-d324-4124-b24a-1d7279636125/ajuntament_cocentaina_icon_1770151889268.png", tags: ["#Cocentaina", "#Oficial"] },
+    { id: 2, name: "Forn de Muro", message: "Ja tenim les coques de xulla calentes!", time: "09:15", type: "shop", unread: 0, avatar_url: "/assets/brain/c7c302c1-d324-4124-b24a-1d7279636125/forn_muro_icon_1770151906738.png", tags: ["#Muro", "#Salut"] },
     { id: 3, name: "Centre Excursionista d'Alcoi", message: "Què vos pareix pujar al Montcabrer el diumenge?", time: "Ahir", type: "group", unread: 5, avatar_url: "🏔️", tags: ["#Alcoi", "#Esport"] },
-    { id: 4, name: "Cooperativa de Muro", message: "Iniciem la recollida de l'oliva demà", time: "Ahir", type: "coop", unread: 0, avatar_url: "/Users/javillinares/.gemini/antigravity/brain/c7c302c1-d324-4124-b24a-1d7279636125/cooperativa_muro_icon_1770151923117.png", tags: ["#Muro", "#Horta"] },
-    { id: 5, name: "Vicent (Fuster del Barri)", message: "Et passe ara mateix la foto del moble", time: "Dimarts", type: "shop", unread: 0, avatar_url: "/Users/javillinares/.gemini/antigravity/brain/c7c302c1-d324-4124-b24a-1d7279636125/vicent_ferris_comic_avatar_1770151824722.png", tags: ["#Artesania", "#Còmic"] },
+    { id: 4, name: "Cooperativa de Muro", message: "Iniciem la recollida de l'oliva demà", time: "Ahir", type: "coop", unread: 0, avatar_url: "/assets/brain/c7c302c1-d324-4124-b24a-1d7279636125/cooperativa_muro_icon_1770151923117.png", tags: ["#Muro", "#Horta"] },
+    { id: 5, name: "Vicent (Fuster del Barri)", message: "Et passe ara mateix la foto del moble", time: "Dimarts", type: "shop", unread: 0, avatar_url: "/assets/brain/c7c302c1-d324-4124-b24a-1d7279636125/vicent_ferris_comic_avatar_1770151824722.png", tags: ["#Artesania", "#Còmic"] },
     {
         id: 'rentonar',
         name: "Associació Cultural El Rentonar",
@@ -175,7 +196,7 @@ export const MOCK_FEED = [
         content: "# 📚 Sóc de Poble: El Llibre de la Memòria\n\nEstem teixint el futur del Comtat amb cada bategat digital. Aquest llibre no és meu, és de tots vosaltres. Som-hi! 🏛️🏺🚀",
         likes: 12500,
         comments: 420,
-        image_url: ["/Users/javillinares/.gemini/antigravity/brain/c7c302c1-d324-4124-b24a-1d7279636125/rural_landscape_comic_post_1770151940141.png"],
+        image_url: ["/assets/brain/c7c302c1-d324-4124-b24a-1d7279636125/rural_landscape_comic_post_1770151940141.png"],
         tags: ["#Llibre", "#Arxiu", "#Còmic"],
         type: "post",
         source_type: 'official',
@@ -197,7 +218,7 @@ export const MOCK_FEED = [
         content: "# ⚖️ Guia de Convivència Digital\n\nLa pau del Mas es basa en el respecte. Hem actualitzat els termes sobirans de la nostra xarxa. 📜✨",
         likes: 3400,
         comments: 110,
-        image_url: ["/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_prop_1_traditional_1770058264776.png"],
+        image_url: ["/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_prop_1_traditional_1770058264776.png"],
         type: "post",
         source_type: 'official',
         source_label: 'Directiva Master VOS',
@@ -211,14 +232,14 @@ export const MOCK_FEED = [
         id: 'utilitat-social-primaria',
         town_id: 1,
         author: "IAIA MarIA (Matriarca Digital)",
-        author_avatar: "/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_oficial_vosc_v2_1770060040751.png",
+        author_avatar: "/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_oficial_vosc_v2_1770060040751.png",
         author_role: "ambassador",
         author_entity_id: 'iaia-oficial-1',
         time: "2 dies",
         content: "# 🫀 Utilitat Social: La Llei del Cor\n\nFills meus, cada píxel que bateguem ha de tindre un propòsit per al veí. No fem tecnologia per presumir, fem tecnologia per ajudar. 👵🛡️",
         likes: 8900,
         comments: 245,
-        image_url: ["/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_prop_2_gadgets_1770058280096.png"],
+        image_url: ["/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_prop_2_gadgets_1770058280096.png"],
         type: "post",
         source_type: 'iaia',
         source_label: 'Consell de les Sàvies',
@@ -259,7 +280,7 @@ export const MOCK_FEED = [
         content: "# 🏛️ Smart Villages: De la Visió Europea a l'Acció Local\n\nFills meus, l'IAIA ha estat estudiant les lliçons d'Europa per a portar-les al nostre Mas. No es tracta de ser moderns per ser moderns, es tracta de ser **Poble Intel·ligent**.\n\nAquestes són les **5 Lliçons Clau** que estem aplicant:\n1. **Impuls Local**: La veu del veí és la primera.\n2. **Solucions Digitals Realistes**: Res de fumerals, tecnologia que es puga tocar.\n3. **Innovació sobre Fortaleses**: Pensem en el que ja som bons (com la mel de la Rosa).\n4. **Convivència Equilibrada**: L'analògic i el digital s'han de voler.\n5. **Governança de les Dades**: El poble és amo de la seua memòria.\n\n**Anem a fer de la nostra terra una infraestructura vital per al futur!** 👵🛡️🇪🇺✨",
         likes: 1500,
         comments: 92,
-        image_url: ["/Users/javillinares/.gemini/antigravity/brain/c7c302c1-d324-4124-b24a-1d7279636125/market_comic_post_1770151956401.png"],
+        image_url: ["/assets/brain/c7c302c1-d324-4124-b24a-1d7279636125/market_comic_post_1770151956401.png"],
         tags: ["#SmartVillages", "#Mercat", "#Saviesa"],
         type: "didactic_presentation",
         source_type: 'iaia',
@@ -275,13 +296,13 @@ export const MOCK_FEED = [
         id: 'andreu-forja-post',
         town_id: 1,
         author: "Andreu (Mestre Ferrer)",
-        author_avatar: "/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/andreu_tia_style_1770057709875.png",
+        author_avatar: "/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/andreu_tia_style_1770057709875.png",
         author_role: "user",
         time: "1h",
         content: "# 🔨 El Ferro que Latega\n\nAvui a la forja estem recuperant tècniques del segle XVIII per a les reixes del Mas Nou. La tradició no és adorar les cendres, sinó transmetre el foc! 🔥⚒️",
         likes: 340,
         comments: 12,
-        image_url: ["/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/joan_tia_style_1770057725757.png"],
+        image_url: ["/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/joan_tia_style_1770057725757.png"],
         type: "post",
         source_type: 'unknown',
         source_label: 'Arxiu Popular de la Torre',
@@ -411,7 +432,7 @@ export const MOCK_FEED = [
         id: 'rentonar-oficial-post',
         town_id: 1,
         author: "Associació Cultural El Rentonar",
-        author_avatar: "/Users/javillinares/.gemini/antigravity/brain/c7c302c1-d324-4124-b24a-1d7279636125/ajuntament_cocentaina_icon_1770151889268.png",
+        author_avatar: "/assets/brain/c7c302c1-d324-4124-b24a-1d7279636125/ajuntament_cocentaina_icon_1770151889268.png",
         author_role: "official",
         author_entity_id: 'rentonar-1',
         time: "2h",
@@ -471,16 +492,16 @@ export const MOCK_FEED = [
     // La Torre de les Maçanes
     {
         id: 10,
-        town_id: 1,
+        town_id: 1, // Visible arreu
         author: "Ajuntament de la Torre de les Maçanes",
-        author_avatar: "/Users/javillinares/.gemini/antigravity/brain/c7c302c1-d324-4124-b24a-1d7279636125/ajuntament_cocentaina_icon_1770151889268.png",
+        author_avatar: "/assets/brain/c7c302c1-d324-4124-b24a-1d7279636125/ajuntament_cocentaina_icon_1770151889268.png",
         author_role: "official",
         author_entity_id: 'mock-official-1',
         time: "1d",
         content: "🍎 Recordeu que aquest cap de setmana tenim la collita de la poma local. Passeu per la plaça a tastar-les!",
         likes: 42,
         comments: 5,
-        image: "/Users/javillinares/.gemini/antigravity/brain/c7c302c1-d324-4124-b24a-1d7279636125/market_comic_post_1770151956401.png",
+        image: "/assets/brain/c7c302c1-d324-4124-b24a-1d7279636125/market_comic_post_1770151956401.png",
         tags: ["#Horta", "#Poma", "#SantGregori"],
         created_at: new Date(Date.now() - 86400000).toISOString()
     },
@@ -488,7 +509,7 @@ export const MOCK_FEED = [
         id: 11,
         town_id: 1,
         author: "Vicent Ferris",
-        author_avatar: "/Users/javillinares/.gemini/antigravity/brain/c7c302c1-d324-4124-b24a-1d7279636125/vicent_ferris_comic_avatar_1770151824722.png",
+        author_avatar: "/assets/brain/c7c302c1-d324-4124-b24a-1d7279636125/vicent_ferris_comic_avatar_1770151824722.png",
         author_role: "ambassador",
         author_entity_id: '11111111-1111-4111-a111-000000000001',
         time: "2d",
@@ -632,15 +653,15 @@ export const MOCK_MARKET_ITEMS = [
         id: 'nano-banana-legacy',
         title: "Nano Banana Legacy",
         description: "L'arxiu històric de l'Agent Mestre que va bategar abans de ser llegenda. 🏛️🍌",
-        cover: "/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/nanobanana_tia_style_1770057831273.png",
+        cover: "/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/nanobanana_tia_style_1770057831273.png",
         count: 5,
         type: 'memory',
         images: [
-            "/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/nanobanana_tia_style_1770057831273.png",
-            "/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/super_ratoli_tia_style_1770057904274.png",
-            "/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/flash_tia_style_1770057846137.png",
-            "/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_arxiu_tia_style_1770059261040.png",
-            "/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_mercat_tia_style_1770059284376.png"
+            "/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/nanobanana_tia_style_1770057831273.png",
+            "/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/super_ratoli_tia_style_1770057904274.png",
+            "/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/flash_tia_style_1770057846137.png",
+            "/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_arxiu_tia_style_1770059261040.png",
+            "/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_mercat_tia_style_1770059284376.png"
         ]
     },
     {

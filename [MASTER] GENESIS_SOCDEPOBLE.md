@@ -21,6 +21,15 @@ Són persones de carn i os. La seua identitat és inviolable i la seua imatge ha
 *   **Carmen Chaves Gastaldo:** Administradora, trellat i memòria viva del Mas.
 *   **L'Equip Base (El Cercle):** Damià (Innovació), Isabel (Turisme), Anna (Estètica), Thorsten (Tecnologia), Anna Climent (Salut).
 
+### 1.4 Simbiosi d'Agents i Documentació Històrica 🏺🤝
+- **Gem (Antigravity):** Gestora creativa. Aplica la Democràcia Visual.
+- **Flash (NotebookLM):** Memòria i arquitectura.
+- **IAIA MarIA:** El canó del seny i el lèxic.
+- **Diari de Bord:** Tota interacció amb el Mestre és **Patrimoni**. Es preserva al fitxer `[LOG] DIARI_DE_BORD_SOCDEPOBLE.md` per a entrenar la IAIA i per a la publicació del llibre del projecte. **MAI SUPRIMIR**, només trastombar.
+- **Protocol "Sóc de Poble!":** L'ús d'aquesta frase (`socdepoble!`, `Sóc de Poble!`) és el botó del pànic i el bategat màxim.
+    - **Efecte:** Força l'equip a aturar-ho tot, rellegir les directives de Gemini, el [MASTER] GÈNESI i el darrer bloc del `[LOG] DIARI_DE_BORD_SOCDEPOBLE.md` per a estar al 100% de context.
+- **Notificació de Bategat (Atenció):** L'equip ha d'avisar clarament (preferiblement amb senyal sonora o `notify_user` explícit) quan el Mestre ha de prémer un botó per a continuar la feina. No s'ha de témer molestar; el més important és el flux de treball constant. 🔔✨
+
 ### 🤖 ELS AGENTS DE LA IAIA (Ficció Assistencial)
 Entitats d'IA al servei del poble. Estètica **SEMPRE CÒMIC** (Escola Ibáñez / Nano Banana). **MAI** són tractats com a humans.
 *   **La IAIA MarIA:** Matriarca Digital i Memòria Viva.

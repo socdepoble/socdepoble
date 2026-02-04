@@ -78,8 +78,14 @@
 
 .tag-pill.active {
     background: var(--accent);
+    color: #000;
+    border-color: var(--accent);
+}
+
+.m3-styled .tag-pill.active {
+    background: var(--color-verd-serra);
     color: white;
-    border-color: var(--md-sys-color-primary);
+    border-color: var(--color-verd-serra);
 }
 
 .album-grid {
@@ -89,9 +95,27 @@
     padding: 12px;
 }
 
+/* MASONRY: OLI SUAU */
+.theme-oli-suau.album-grid {
+    display: block;
+    column-count: 2;
+    column-gap: 12px;
+}
+
+.theme-oli-suau .album-item-card {
+    display: inline-block;
+    width: 100%;
+    aspect-ratio: auto;
+    margin-bottom: 12px;
+}
+
 @media (min-width: 600px) {
     .album-grid {
         grid-template-columns: repeat(3, 1fr);
+    }
+
+    .theme-oli-suau.album-grid {
+        column-count: 3;
     }
 }
 

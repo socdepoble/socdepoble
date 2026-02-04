@@ -37,7 +37,7 @@ export const manualData = {
         {
             id: "actualitat",
             title: "📅 Actualitat i Agenda",
-            image: "/Users/javillinares/.gemini/antigravity/brain/493388f8-1740-4544-959f-ae5585256501/uploaded_media_1769391061964.png",
+            image: "/assets/brain/493388f8-1740-4544-959f-ae5585256501/uploaded_media_1769391061964.png",
             caption: "El pols del sistema: Dades contrastades en temps real.",
             items: [
                 "**Pols de Sistema**: Usa `Cmd+Shift+D` per obrir la Consola de Diagnòstic.",

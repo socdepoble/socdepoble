@@ -33,7 +33,11 @@ const GlobalModals = () => {
         viewerConfig,
         isLegalModalOpen,
         closeLegalModal,
-        legalConfig
+        legalConfig,
+        isEditModalOpen,
+        setIsEditModalOpen,
+        editConfig,
+        closeEditModal
     } = useUI();
     const { isPlayground } = useAuth();
 
@@ -131,6 +135,16 @@ const GlobalModals = () => {
                     title={legalConfig.title}
                     content={legalConfig.content}
                     type={legalConfig.type}
+                />
+            )}
+            {isEditModalOpen && editConfig && (
+                <CreatePostModal
+                    isOpen={isEditModalOpen}
+                    onClose={closeEditModal}
+                    editMode={true}
+                    postData={editConfig.postData}
+                    onPostCreated={handlePostCreated}
+                    isPlayground={isPlayground}
                 />
             )}
         </>

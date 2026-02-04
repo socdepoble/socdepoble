@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Search, Tag, Image as ImageIcon, Camera } from 'lucide-react';
+import { ArrowLeft, Search, ExternalLink, BookOpen, ChevronRight, Share2, Heart, MessageCircle, Layers } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+import { useUI } from '../context/UIContext';
 import { memoriaVivaService } from '../services/MemoriaVivaService';
 import { MOCK_FEED, NANO_BANANA_LEGACY_ALBUM } from '../data';
 import './AlbumMemoria.css';
 
 const AlbumMemoria = () => {
+    const { user } = useAuth();
+    const { visualDemocracy, setVisualDemocracy } = useUI();
     const navigate = useNavigate();
     const [items, setItems] = useState([]);
     const [filter, setFilter] = useState('');
-    const [selectedTag, setSelectedTag] = useState(null);
-    const [theme, setTheme] = useState('pedra-seca');
+    const [activeTag, setActiveTag] = useState('Tot');
+    // Removed: const [theme, setTheme] = useState('pedra-seca');
 
     useEffect(() => {
         // Consolidem tot el bategat visual per a l'àlbum
@@ -34,7 +38,7 @@ const AlbumMemoria = () => {
 
     const filteredItems = items.filter(item => {
         const matchesSearch = item.title?.toLowerCase().includes(filter.toLowerCase());
-        const matchesTag = selectedTag ? item.tags.includes(selectedTag) : true;
+        const matchesTag = activeTag && activeTag !== 'Tot' ? item.tags.includes(activeTag) : true;
         return matchesSearch && matchesTag;
     });
 
@@ -48,17 +52,17 @@ const AlbumMemoria = () => {
                 <p className="subtitle">Tot el bategat del Mas, arxivat per Nano Banana</p>
             </header>
 
-            <div className={`album-controls ${theme === 'oli-suau' ? 'm3-styled' : ''}`}>
-                <div className="theme-selector">
+            <div className={`album-controls ${visualDemocracy === 'oli-suau' ? 'm3-styled' : ''}`}>
+                <div className="theme-switcher">
                     <button
-                        className={`theme-btn ${theme === 'pedra-seca' ? 'active' : ''}`}
-                        onClick={() => setTheme('pedra-seca')}
+                        className={`theme-btn ${visualDemocracy === 'pedra-seca' ? 'active' : ''}`}
+                        onClick={() => setVisualDemocracy('pedra-seca')}
                     >
                         Pedra Seca
                     </button>
                     <button
-                        className={`theme-btn ${theme === 'oli-suau' ? 'active' : ''}`}
-                        onClick={() => setTheme('oli-suau')}
+                        className={`theme-btn ${visualDemocracy === 'oli-suau' ? 'active' : ''}`}
+                        onClick={() => setVisualDemocracy('oli-suau')}
                     >
                         Oli Suau
                     </button>
@@ -75,16 +79,16 @@ const AlbumMemoria = () => {
                 </div>
                 <div className="tags-scroll">
                     <button
-                        className={`tag-pill ${!selectedTag ? 'active' : ''}`}
-                        onClick={() => setSelectedTag(null)}
+                        className={`tag-pill ${activeTag === 'Tot' ? 'active' : ''}`}
+                        onClick={() => setActiveTag('Tot')}
                     >
                         Tots
                     </button>
                     {allTags.map(tag => (
                         <button
                             key={tag}
-                            className={`tag-pill ${selectedTag === tag ? 'active' : ''}`}
-                            onClick={() => setSelectedTag(tag)}
+                            className={`tag-pill ${activeTag === tag ? 'active' : ''}`}
+                            onClick={() => setActiveTag(tag)}
                         >
                             {tag}
                         </button>
@@ -92,7 +96,7 @@ const AlbumMemoria = () => {
                 </div>
             </div>
 
-            <div className={`album-grid bento-style theme-${theme}`}>
+            <div className={`album-grid bento-style theme-${visualDemocracy}`}>
                 {filteredItems.map((item, idx) => (
                     <div key={idx} className="album-item-card">
                         <img src={item.url} alt={item.title} loading="lazy" />

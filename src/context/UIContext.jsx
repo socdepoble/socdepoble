@@ -18,6 +18,7 @@ export const UIProvider = ({ children }) => {
     const [vibe, setVibe] = useState(prefs.vibe);
     const [gloveMode, setGloveMode] = useState(prefs.gloveMode);
     const [landingPage, setLandingPage] = useState(prefs.landingPage);
+    const [visualDemocracy, setVisualDemocracy] = useState(prefs.visualDemocracy || 'pedra-seca');
     const [isViewerOpen, setIsViewerOpen] = useState(false);
     const [viewerConfig, setViewerConfig] = useState(null); // { did, anchor, label, type }
     const [isConnectionModalOpen, setIsConnectionModalOpen] = useState(false);
@@ -26,10 +27,18 @@ export const UIProvider = ({ children }) => {
     const [agentSelectorConfig, setAgentSelectorConfig] = useState(null); // { postId, authorId, context }
     const [isLegalModalOpen, setIsLegalModalOpen] = useState(false);
     const [legalConfig, setLegalConfig] = useState(null); // { title, content, type }
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [editConfig, setEditConfig] = useState(null); // { postData, onUpdate }
 
     useEffect(() => {
         document.documentElement.setAttribute('data-theme', theme);
         document.documentElement.setAttribute('data-vibe', vibe);
+        document.documentElement.setAttribute('data-visual-democracy', visualDemocracy);
+
+        // Apliquem class per a compatibilitat amb CSS tokens
+        document.documentElement.classList.remove('theme-pedra-seca', 'theme-oli-suau');
+        document.documentElement.classList.add(`theme-${visualDemocracy}`);
+
         if (gloveMode) {
             document.body.classList.add('mode-guants');
         } else {
@@ -42,9 +51,10 @@ export const UIProvider = ({ children }) => {
             vibe,
             visionMode,
             gloveMode,
-            landingPage
+            landingPage,
+            visualDemocracy
         });
-    }, [theme, vibe, visionMode, gloveMode, landingPage]);
+    }, [theme, vibe, visionMode, gloveMode, landingPage, visualDemocracy]);
 
     const resetToNaturalOrder = () => {
         preferenceService.resetToNaturalOrder();
@@ -101,6 +111,8 @@ export const UIProvider = ({ children }) => {
             closeViewer,
             landingPage,
             setLandingPage,
+            visualDemocracy,
+            setVisualDemocracy,
             resetToNaturalOrder,
             isConnectionModalOpen,
             setIsConnectionModalOpen,
@@ -135,6 +147,17 @@ export const UIProvider = ({ children }) => {
             closeLegalModal: () => {
                 setIsLegalModalOpen(false);
                 setLegalConfig(null);
+            },
+            isEditModalOpen,
+            setIsEditModalOpen,
+            editConfig,
+            openEditModal: (config) => {
+                setEditConfig(config);
+                setIsEditModalOpen(true);
+            },
+            closeEditModal: () => {
+                setIsEditModalOpen(false);
+                setEditConfig(null);
             }
         }}>
             {children}

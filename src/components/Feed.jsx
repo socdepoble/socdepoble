@@ -677,6 +677,7 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null, contentMo
                         // STANDARD POSTS & RAINDROP RESOURCES
                         return renderInMasonry(
                             <UniversalCard
+                                item={post}
                                 avatarSrc={post.author?.avatar || post.author_avatar}
                                 avatarRole={post.author_role}
                                 avatarName={post.author?.name || post.author}

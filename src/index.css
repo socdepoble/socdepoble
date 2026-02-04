@@ -58,6 +58,35 @@
   --album-border: var(--comic-border);
   --album-shadow: var(--comic-shadow);
   --album-overlay-bg: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+
+  /* --- 5. BATEC VEÏNAL TOKENS (Rhizome Monitoring) --- */
+  --batec-ok: #CCFF00;
+  /* Super Ratolí / Online */
+  --batec-mesh: #FF9900;
+  /* Vicent & Pepica / Mesh */
+  --batec-offline: #888888;
+  /* Nano Banana / Local */
+
+  /* Nous colors de Flash */
+  --color-terracotta: #E2725B;
+  --color-verd-serra: #556B2F;
+}
+
+@keyframes batec-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 /* TEMA: PEDRA SECA (Industrial/Zero Radius) */
@@ -65,6 +94,15 @@
   --album-radius: 0px;
   --album-border: 2px solid var(--accent);
   --album-shadow: 6px 6px 0px #000;
+
+  /* Global Overrides */
+  --radius-organic: 0px;
+  --radius-card: 0px;
+  --radius-media: 0px;
+  --sdp-radius-lg: 0px;
+  --sdp-radius-full: 0px;
+  --md-sys-shape-corner-large: 0px;
+  --md-sys-shape-corner-medium: 0px;
 }
 
 /* TEMA: OLI SUAU (Orgànic/MD3) */
@@ -73,6 +111,19 @@
   --album-border: 1px solid rgba(255, 255, 255, 0.1);
   --album-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
   --album-overlay-bg: linear-gradient(transparent, rgba(0, 0, 0, 0.6));
+  --accent: var(--color-terracotta);
+
+  /* Global Overrides */
+  --radius-organic: 24px;
+  --radius-card: 16px;
+  --radius-media: 12px;
+  --sdp-radius-lg: 16px;
+  --sdp-radius-full: 100px;
+  --md-sys-shape-corner-large: 28px;
+  --md-sys-shape-corner-medium: 16px;
+
+  /* Tipografia Suau sugerida per Flash */
+  --font-heading: 'DM Sans', system-ui, sans-serif;
 }
 
 /* --- DUALITAT ONTOLÒGICA: INSTITUCIONAL (AJUNTAMENT) --- */

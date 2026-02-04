@@ -11,19 +11,19 @@ import './CreatePostModal.css';
 
 const PREDEFINED_TAGS = ['Esdeveniment', 'Avís', 'Consulta', 'Proposta'];
 
-const CreatePostModal = ({ isOpen, onClose, initialPobles = [] }) => {
+const CreatePostModal = ({ isOpen, onClose, initialPobles = [], editMode = false, postData = null }) => {
     const { user, profile } = useAuth();
-    const [content, setContent] = useState('');
-    const [selectedIdentity, setSelectedIdentity] = useState('user');
-    const [selectedTowns, setSelectedTowns] = useState(initialPobles);
-    const [isPlayground, setIsPlayground] = useState(false);
+    const [content, setContent] = useState(editMode && postData ? postData.content : '');
+    const [selectedIdentity, setSelectedIdentity] = useState(editMode && postData ? postData.entity_id || 'user' : 'user');
+    const [selectedTowns, setSelectedTowns] = useState(editMode && postData ? postData.town_ids || [postData.town_id] : initialPobles);
+    const [isPlayground, setIsPlayground] = useState(editMode && postData ? postData.is_playground : false);
     const [loading, setLoading] = useState(false);
     const [entities, setEntities] = useState([]);
-    const [postType, setPostType] = useState('post');
-    const [bookTitle, setBookTitle] = useState('');
-    const [chapterNumber, setChapterNumber] = useState('');
-    const [selectedTags, setSelectedTags] = useState([]);
-    const [multimediaPreview, setMultimediaPreview] = useState(null);
+    const [postType, setPostType] = useState(editMode && postData ? postData.type || 'post' : 'post');
+    const [bookTitle, setBookTitle] = useState(editMode && postData ? postData.book_title || '' : '');
+    const [chapterNumber, setChapterNumber] = useState(editMode && postData ? postData.chapter_number || '' : '');
+    const [selectedTags, setSelectedTags] = useState(editMode && postData ? postData.tags || [] : []);
+    const [multimediaPreview, setMultimediaPreview] = useState(editMode && postData ? postData.image_url : null);
     const [multimediaFile, setMultimediaFile] = useState(null);
     const [iaiaAnalyzing, setIaiaAnalyzing] = useState(false);
     const [isCaptureOpen, setIsCaptureOpen] = useState(false);
@@ -32,12 +32,22 @@ const CreatePostModal = ({ isOpen, onClose, initialPobles = [] }) => {
         if (isOpen && user) {
             hapticService.bategat();
             loadEntities();
-            if (profile && selectedTowns.length === 0) {
+            if (profile && selectedTowns.length === 0 && !editMode) {
                 const id = profile.town_uuid || profile.town_id;
                 if (id) setSelectedTowns([id]);
             }
+            if (editMode && postData) {
+                setContent(postData.content);
+                setSelectedIdentity(postData.entity_id || 'user');
+                setSelectedTowns(postData.town_ids || [postData.town_id]);
+                setPostType(postData.type || 'post');
+                setBookTitle(postData.book_title || '');
+                setChapterNumber(postData.chapter_number || '');
+                setSelectedTags(postData.tags || []);
+                setMultimediaPreview(postData.image_url);
+            }
         }
-    }, [isOpen, user, profile]);
+    }, [isOpen, user, profile, editMode, postData]);
 
     const loadEntities = async () => {
         try {
@@ -57,7 +67,7 @@ const CreatePostModal = ({ isOpen, onClose, initialPobles = [] }) => {
         setLoading(true);
         try {
             hapticService.notifySuccess();
-            const newPost = {
+            const postPayload = {
                 content: content,
                 author_id: user.id,
                 author_name: profile.full_name,
@@ -69,22 +79,31 @@ const CreatePostModal = ({ isOpen, onClose, initialPobles = [] }) => {
                 town_ids: selectedTowns,
                 type: postType,
                 tags: selectedTags,
-                ai_percentage: 0,
-                human_percentage: 100,
+                ai_percentage: editMode && postData ? postData.ai_percentage : 0,
+                human_percentage: editMode && postData ? postData.human_percentage : 100,
                 is_playground: isPlayground,
                 book_title: postType === 'book' ? bookTitle : null,
                 chapter_number: postType === 'book' ? parseInt(chapterNumber) || null : null
             };
 
-            await supabaseService.createPost(newPost, isPlayground);
+            if (editMode && postData) {
+                await supabaseService.updatePost(postData.id || postData.uuid, postPayload, isPlayground);
+                logger.info('[CreatePostModal] Post actualitzat amb èxit.');
+            } else {
+                await supabaseService.createPost(postPayload, isPlayground);
+                logger.info('[CreatePostModal] Post creat amb èxit.');
+            }
+
             hapticService.bategat();
             onClose();
-            setContent('');
-            setMultimediaPreview(null);
-            setMultimediaFile(null);
+            if (!editMode) {
+                setContent('');
+                setMultimediaPreview(null);
+                setMultimediaFile(null);
+            }
         } catch (error) {
             logger.error('[CreatePostModal] Error:', error);
-            alert('Error al publicar. Revisa el teu bategat territorial.');
+            alert(editMode ? 'Error al actualitzar. Revisa el teu bategat.' : 'Error al publicar. Revisa el teu bategat territorial.');
         } finally {
             setLoading(false);
         }

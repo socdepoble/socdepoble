@@ -11,9 +11,12 @@ import {
     ChevronRight,
     RefreshCw,
     Box,
-    Info
+    Info,
+    Layout,
+    Layers
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useUI } from '../context/UIContext';
 import { rhizomeDb } from '../rhizome/db-core';
 import { egWalker } from '../rhizome/crdt/eg-walker';
 import './SolatgeConsole.css';
@@ -26,6 +29,7 @@ import Haptics from '../utils/HapticFeedback';
  */
 const SolatgeConsole = () => {
     const { user, profile } = useAuth();
+    const { visualDemocracy, setVisualDemocracy } = useUI();
     const [dbStatus, setDbStatus] = useState('loading');
     const [stats, setStats] = useState({ ops: 0, snapshots: 0, size: '0MB', peritext: { marksCount: 0, stableAnchors: 0 } });
     const [logs, setLogs] = useState([
@@ -212,6 +216,39 @@ const SolatgeConsole = () => {
                         <button className="info-trigger" onClick={(e) => { e.stopPropagation(); showInfo('snapshot'); }}>
                             <Info size={16} />
                         </button>
+                    </div>
+
+                    <div className="drawer-divider" style={{ margin: '1rem 0', opacity: 0.2 }}></div>
+
+                    <div className="visual-democracy-panel">
+                        <div className="panel-label">
+                            <Layers size={18} />
+                            <span>DEMOCRÀCIA VISUAL (A/B)</span>
+                        </div>
+                        <div className="democracy-switcher">
+                            <button
+                                className={`demo-btn ${visualDemocracy === 'pedra-seca' ? 'active' : ''}`}
+                                onClick={() => {
+                                    setVisualDemocracy('pedra-seca');
+                                    Haptics.trigger(Haptics.light);
+                                    addLog('Estètica "Roba de Treball" (Pedra Seca) activada', 'info');
+                                }}
+                            >
+                                <Layout size={18} />
+                                <span>Roba de Treball</span>
+                            </button>
+                            <button
+                                className={`demo-btn ${visualDemocracy === 'oli-suau' ? 'active' : ''}`}
+                                onClick={() => {
+                                    setVisualDemocracy('oli-suau');
+                                    Haptics.trigger(Haptics.success);
+                                    addLog('Estètica "Roba de Mudar" (Oli Suau) activada', 'success');
+                                }}
+                            >
+                                <Activity size={18} />
+                                <span>Roba de Mudar</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
