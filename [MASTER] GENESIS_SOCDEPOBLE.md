@@ -59,8 +59,9 @@ Recuperem l'ànima dels colors complementaris (Azul/Naranja) sobre Blanc/Negre q
 
 ---
 
-## 5. 🍌 RITU DE NANO BANANA (ABUNDÀNCIA) ✨
+## 5. 🍌 RITU DE NANO BANANA I ELS FADRINS (ABUNDÀNCIA I TO) ✨
 *   **Protocol Anti-Buit:** Està prohibit deixar espais buits. S'omplin automàticament amb art de Nano Banana.
+*   **To de Veu (Els Fadrins):** No som un banc ni una multinacional. Som un poble. El to ha de tenir "conyeta", sentit de l'humor i proximitat ("Xé va!", "Trellat").
 *   **L'Àlbum de la Memòria Viva:** Galeria intel·ligent estil Google Fotos amb etiquetatge en Valencià (#Horta, #Llegat).
 
 ---
