@@ -9,11 +9,13 @@ import StatusLoader from './StatusLoader';
 import { logger } from '../utils/logger';
 import './RebostVault.css';
 
+import { historicalRecoveryService } from '../services/HistoricalRecoveryService';
+
 /**
  * RebostVault [PRIVATE VAULT]
  * Magatzem sobirà per a recursos personals i importacions de Raindrop.
  */
-const RebostVault = () => {
+const RebostVault = ({ onClose }) => {
     const { user, isPlayground } = useAuth();
     const [resources, setResources] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -30,19 +32,28 @@ const RebostVault = () => {
         if (!user) return;
         setLoading(true);
         try {
-            // A producció usaríem una crida a la taula resources
-            // En playground o si la taula no existeix, simulem/fallback
+            // Priority 1: Supabase
             const { data, error } = await supabaseService.supabase
                 .from('resources')
                 .select('*')
                 .eq('owner_id', user.id)
                 .order('created_at', { ascending: false });
 
-            if (error) throw error;
-            setResources(data || []);
+            if (error && error.code !== '42P01') throw error; // 42P01 = table not found
+
+            let finalResources = data || [];
+
+            // Priority 2: Injected Mocks (Raindrop/Notion)
+            if (finalResources.length === 0) {
+                const { raindropService } = await import('../services/raindropService');
+                const raindropMocks = await raindropService.getCollection();
+                const notionMocks = notionService.getMockVolume(5);
+                finalResources = [...raindropMocks, ...notionMocks];
+            }
+
+            setResources(finalResources);
         } catch (err) {
             logger.warn('[Rebost] Error obtenint recursos, usant mocks:', err);
-            // Fallback mock dades per a la demo si cal
         } finally {
             setLoading(false);
         }
@@ -62,11 +73,25 @@ const RebostVault = () => {
             if (file.name.endsWith('.html')) {
                 items = migrationService.parseRaindropHTML(text);
             } else if (file.name.endsWith('.json')) {
-                // Suposem que Notion o l'usuari puja un JSON estructurat
                 const rawItems = migrationService.parseNotionJSON(text);
                 items = rawItems.map(item => notionService.mapToResource(item));
+            } else if (file.name.endsWith('.xml')) {
+                // WordPress or Blogger
+                try {
+                    if (text.includes('xmlns:wp="http://wordpress.org/export/')) {
+                        items = historicalRecoveryService.parseWordPressXML(text);
+                    } else if (text.includes('type="text/html"') && text.includes('<entry>')) {
+                        items = historicalRecoveryService.parseBloggerXML(text);
+                    } else {
+                        throw new Error('Fitxer XML no reconegut com a WordPress o Blogger.');
+                    }
+                } catch (xmlErr) {
+                    alert('Error parsejant el fitxer XML: ' + xmlErr.message);
+                    setIsImporting(false);
+                    return;
+                }
             } else {
-                alert('Format no suportat. Usa HTML (Raindrop) o JSON (Notion).');
+                alert('Format no suportat. Usa HTML (Raindrop), JSON (Notion) o XML (WordPress/Blogger).');
                 setIsImporting(false);
                 return;
             }
@@ -78,12 +103,18 @@ const RebostVault = () => {
             }
 
             const result = await migrationService.importToRebost(items, user.id);
-            setImportStats(result);
-            fetchResources();
+
+            // Simulem el "refinament" de MArIA per a donar sensació premium
+            setIsImporting(true); // Ens mantenim en càrrega un moment més
+            setTimeout(() => {
+                setImportStats(result);
+                setIsImporting(false);
+                fetchResources();
+            }, 1500);
+
         } catch (err) {
             logger.error('[Rebost] Error en la importació:', err);
             alert('Error important: ' + err.message);
-        } finally {
             setIsImporting(false);
         }
     };
@@ -117,7 +148,7 @@ const RebostVault = () => {
     const filteredResources = resources.filter(r =>
         r.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         (r.description && r.description.toLowerCase().includes(searchQuery.toLowerCase())) ||
-        r.semantic_tags.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()))
+        (r.semantic_tags && r.semantic_tags.some(t => t.toLowerCase().includes(searchQuery.toLowerCase())))
     );
 
     if (loading && resources.length === 0) return <StatusLoader message="Obrint el Rebost..." />;
@@ -126,6 +157,9 @@ const RebostVault = () => {
         <div className="rebost-vault animate-in">
             <header className="rebost-header">
                 <div className="rebost-title-section">
+                    <button className="rebost-back-btn" onClick={onClose} aria-label="Tornar">
+                        <Plus size={24} style={{ transform: 'rotate(45deg)' }} />
+                    </button>
                     <Archive size={24} className="text-terracotta" />
                     <div>
                         <h2>El Rebost Sobirà</h2>
@@ -144,13 +178,13 @@ const RebostVault = () => {
                     </button>
                     <button className="btn-import" onClick={() => fileInputRef.current?.click()}>
                         <Upload size={18} />
-                        <span>Importar (Raindrop/Notion)</span>
+                        <span>Importar (Raindrop/Notion/Blogs)</span>
                     </button>
                     <input
                         type="file"
                         ref={fileInputRef}
                         style={{ display: 'none' }}
-                        accept=".html,.json"
+                        accept=".html,.json,.xml"
                         onChange={handleFileSelect}
                     />
                 </div>
@@ -187,7 +221,7 @@ const RebostVault = () => {
                 <div className="resource-grid-masonry">
                     {filteredResources.map(resource => (
                         <ResourceCard
-                            key={resource.id}
+                            key={resource.id || resource.uuid}
                             resource={resource}
                             onShare={handleShare}
                         />

@@ -8,7 +8,7 @@ import './Navigation.css';
 const Navigation = () => {
   const { t } = useTranslation();
   const { setIsCreateModalOpen } = useUI();
-  const { user } = useAuth();
+  const { user, isSuperAdmin } = useAuth();
   const navigate = useNavigate();
 
   return (
@@ -28,6 +28,16 @@ const Navigation = () => {
         <span className="m3-nav-label">Mur</span>
         {location.pathname === '/mur' && <div className="active-dot" />}
       </NavLink>
+
+      {isSuperAdmin && (
+        <NavLink to="/admin" className={({ isActive }) => `m3-nav-item ${isActive ? 'active' : ''}`}>
+          <div className="m3-icon-indicator">
+            <Shield size={28} />
+          </div>
+          <span className="m3-nav-label">Admin</span>
+          {location.pathname === '/admin' && <div className="active-dot" />}
+        </NavLink>
+      )}
 
       <div className="m3-fab-item">
         <button

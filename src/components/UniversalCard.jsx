@@ -1,10 +1,12 @@
-import { MoreHorizontal, Heart, MessageCircle, Share2, Tag, Zap, ShieldCheck, Beaker, Sparkles, Edit, Trash2 } from 'lucide-react';
+import { MoreHorizontal, Heart, MessageCircle, Share2, Tag, Zap, ShieldCheck, Beaker, Sparkles, Edit, Trash2, Plus, FileText, ChevronRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useUI } from '../context/UIContext';
 import { useAuth } from '../context/AuthContext';
 import Avatar from './Avatar';
 import AttributionBadge from './AttributionBadge';
 import ShareHub from './ShareHub';
-import './UniversalCard.css';
+import Carousel from './Carousel';
+import ImageCarousel from './ImageCarousel';
 
 /**
  * UniversalCard [CINEMATOGRAPHIC RURALISM]
@@ -33,147 +35,154 @@ const UniversalCard = ({
     excerpt,           // New: For Raindrop items
     source,            // New: Domain info
     collection,        // New: Category/Collection
-    syncState          // New: local, synced
+    syncState,          // New: local, synced
+    images              // New: For carousels
 }) => {
     const { gloveMode, openViewer, openEditModal } = useUI();
     const { isSuperAdmin, isAdmin } = useAuth();
+    const navigate = useNavigate();
+
+    const TRUNCATE_LENGTH = 280;
 
     // Cinematic Placeholder for Tier GOD aesthetic
     const cinematicPlaceholder = "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=1000";
-    const displayImage = image || (className?.includes('animate-bategat') ? cinematicPlaceholder : null);
-    // Determine badge based on item content or explicit prop
-    const currentStatus = item?.is_experimental ? 'experimental' : (item?.is_beta ? 'beta' : status);
 
-    const renderBadge = () => {
-        if (isOfficial) return <span className="card-badge official" style={{ background: 'var(--md-sys-color-primary)', color: 'var(--md-sys-color-on-primary)', fontSize: '10px', padding: '4px 10px', borderRadius: 'var(--radius-full)', fontWeight: '700', marginLeft: '8px', letterSpacing: '0.5px' }}>INSTITUCIÓ OFICIAL</span>;
-        if (className?.includes('town-card')) return <span className="card-badge community" style={{ background: 'var(--md-sys-color-secondary-container)', color: 'var(--md-sys-color-on-secondary-container)', fontSize: '10px', padding: '4px 10px', borderRadius: 'var(--radius-full)', fontWeight: '700', marginLeft: '8px' }}>Poble</span>;
-        if (currentStatus === 'experimental') return <span className="card-badge exp" style={{ background: 'var(--md-sys-color-tertiary-container)', color: 'var(--md-sys-color-on-tertiary-container)', fontSize: '10px', padding: '4px 10px', borderRadius: 'var(--radius-full)', fontWeight: 'bold', marginLeft: '8px' }}>LABS</span>;
-        return null;
-    };
+    // MULTIMEDIA RESOLUTION: Priority for arrays
+    const mediaList = images || item?.images || (Array.isArray(item?.image_url) ? item.image_url : null) || (Array.isArray(image) ? image : null);
 
-    const renderSyncIndicator = () => {
-        if (!syncState) return null;
-        const color = syncState === 'synced' ? '#2E7D32' : '#FF6D00';
-        return <div className="sync-indicator" style={{ width: '6px', height: '6px', borderRadius: '50%', background: color, marginLeft: '8px' }} title={syncState} />;
-    };
+    // IMAGE RECOVERY: Ensure we don't lose photos
+    const displayImage = image || item?.image_url || item?.image || item?.url || (mediaList ? mediaList[0] : null) || (className?.includes('animate-bategat') ? cinematicPlaceholder : null);
+
+    const displayTitle = title || item?.title || "Sóc de Poble Content";
+    const displayPrice = item?.price || "";
+    const displayAuthor = subtitle || item?.seller || item?.author_name || item?.author || "Veí de la Torre";
+    const displayExcerpt = excerpt || item?.description || item?.content || "";
 
     return (
-        <article className={`universal-card ${className} theme-${theme} sync-${syncState} ${isBating ? 'animate-bategat' : ''} ${gloveMode ? 'mode-guants' : ''}`}>
-            {/* 1. Capçalera (Header): Fons --color-terracotta. Text blanc. Clicable. */}
-            {(title || avatarSrc || collection) && (
-                <div className={`card-header ${theme}`} onClick={onHeaderClick}>
-                    <div className="header-left">
-                        {avatarSrc && <Avatar src={avatarSrc} role={avatarRole} name={avatarName} size={44} />}
-                        <div className="header-text">
-                            <h3 className="card-title" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                                {title}
-                                {isVerifiedNeighbor && <span className="credential-icon neighbor" title="Veí Verificat" style={{ color: '#2E7D32', fontSize: '14px' }}>🌿</span>}
-                                {isLocalProducer && <span className="credential-icon producer" title="Productor Local" style={{ color: '#D84315', fontSize: '14px' }}>🧺</span>}
-                                {renderBadge()}
-                                {renderSyncIndicator()}
-                            </h3>
-                            <div className="card-meta-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '4px' }}>
-                                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                                    {collection && <span className="card-collection-tag" style={{ fontSize: '11px', background: 'rgba(0,0,0,0.1)', color: '#000000', padding: '2px 8px', borderRadius: 'var(--radius-xs)', fontWeight: '800' }}>{collection}</span>}
-                                    {(subtitle || source) && <span className="card-subtitle" style={{ fontSize: '12px', color: 'inherit', opacity: 0.9 }}>{subtitle || source}</span>}
-                                </div>
-                                {item?.created_at && (
-                                    <span className="card-date" style={{ fontSize: '12px', fontWeight: '800', opacity: 0.9 }}>
-                                        {new Date(item.created_at).toLocaleDateString()}
-                                    </span>
-                                )}
-                            </div>
+        <article className={`universal-card ${className} sync-${syncState} ${isBating ? 'animate-bategat' : ''} ${gloveMode ? 'mode-guants' : ''}`}>
+            {/* 0. Header: Orange Section */}
+            <div
+                className="card-header-genesis"
+                onClick={onHeaderClick}
+            >
+                <div className="header-left">
+                    <Avatar
+                        src={avatarSrc || item?.author_avatar}
+                        name={avatarName || displayAuthor}
+                        role={avatarRole || item?.author_role}
+                        size="md"
+                        className="genesis-avatar"
+                    />
+                    <div className="header-text">
+                        <h3>{displayAuthor}</h3>
+                        <div className="location-text">
+                            {subtitle || item?.location?.town || 'La Torre de les Maçanes'}
                         </div>
                     </div>
-                    <div className="header-right-container" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        {isAdmin && (
-                            <button
-                                className="admin-rectify-btn"
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    openEditModal({ postData: item || { title, subtitle, content: excerpt, image_url: image } });
-                                }}
-                                style={{
-                                    background: 'var(--accent)',
-                                    color: 'var(--bg-canvas)',
-                                    border: '2px solid #000',
-                                    borderRadius: '0',
-                                    width: '44px',
-                                    height: '44px',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    cursor: 'pointer',
-                                    boxShadow: '4px 4px 0px rgba(0,0,0,1)',
-                                    fontSize: '20px',
-                                    transition: 'all 0.1s active'
-                                }}
-                                title="Admin: Rectificar Amb Trellat (🏺)"
-                            >
-                                🏺
-                            </button>
-                        )}
-                        <ShareHub
-                            title={title}
-                            text={excerpt || subtitle || title}
-                            image={displayImage}
-                            url={item?.url || `${window.location.origin}${window.location.pathname}`}
-                        />
-                        {headerAction && <div className="header-right">{headerAction}</div>}
-                    </div>
                 </div>
-            )}
 
-            {/* 2. Multimèdia: [MASTER] Acció Multimèdia (Funció Plena) */}
-            {displayImage && (
+                {item?.created_at && (
+                    <div className="header-date">
+                        {new Date(item.created_at).toLocaleDateString()}
+                    </div>
+                )}
+            </div>
+
+            {/* 1. Multimèdia: Clean Image or Carousel */}
+            {mediaList && mediaList.length > 1 ? (
+                <div className="card-carousel-wrapper">
+                    <ImageCarousel images={mediaList} />
+                </div>
+            ) : displayImage && (
                 <div
                     className="card-image-wrapper"
                     onClick={() => {
-                        const type = displayImage.endsWith('.pdf') ? 'pdf' :
-                            (displayImage.endsWith('.mp4') || displayImage.endsWith('.webm') ? 'video' : 'image');
-                        openViewer({ src: displayImage, title, type });
+                        const src = typeof displayImage === 'string' ? displayImage : (Array.isArray(displayImage) ? displayImage[0] : '');
+                        const type = src.endsWith('.pdf') ? 'pdf' :
+                            (src.endsWith('.mp4') || src.endsWith('.webm') ? 'video' : 'image');
+                        openViewer({ src, title: displayTitle, type });
                     }}
-                    style={{ cursor: 'zoom-in' }}
                 >
-                    <img src={displayImage} alt={title || "Shared content"} loading="lazy" />
-
-                    {/* MASTER WATERMARK [GENESIS 4.0] */}
-                    <div className="card-watermark">
-                        <div className="watermark-content">
-                            <span className="watermark-logo">🏺 Sóc de Poble</span>
-                            <span className="watermark-author">
-                                {item?.author_is_ai || avatarRole === 'ambassador'
-                                    ? "Generat per l'IAIA"
-                                    : `Compartida per ${avatarName || 'Veí'}`}
-                            </span>
-                        </div>
-                    </div>
-
-                    <AttributionBadge
-                        filename={displayImage}
-                        sourceType={item?.source_type}
-                        sourceLabel={item?.source_label}
-                        sourceUrl={item?.source_url}
-                    />
+                    <img src={displayImage} alt={displayTitle} loading="lazy" />
                 </div>
             )}
 
-            {/* 3. Cos: Glassmorphism effect. */}
-            <div className="card-body" style={{ background: '#FFFFFF', color: '#000000', padding: '24px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
-                    <h2 style={{ fontSize: '24px', fontWeight: '900', color: '#000000', margin: 0, flex: 1 }}>{title}</h2>
-                    {item?.price && <span style={{ fontSize: '24px', fontWeight: '900', color: '#000000' }}>{item.price}€</span>}
+            {/* 2. Cos: Genesis Cream Content */}
+            <div className="card-body">
+                <div className="title-price-row">
+                    <h2 className="genesis-title">{displayTitle}</h2>
+                    {displayPrice && (
+                        <div className="card-price">
+                            {displayPrice}
+                        </div>
+                    )}
                 </div>
-                {excerpt && <p className="card-excerpt" style={{ margin: '0 0 16px 0', fontSize: '18px', fontWeight: '500', lineHeight: '1.4', color: '#333333' }}>{excerpt}</p>}
+
+                {displayExcerpt && (
+                    <div className="card-excerpt-container">
+                        <p className="card-excerpt">
+                            {displayExcerpt.length > TRUNCATE_LENGTH
+                                ? `${displayExcerpt.substring(0, TRUNCATE_LENGTH)}...`
+                                : displayExcerpt}
+                        </p>
+                        {displayExcerpt.length > TRUNCATE_LENGTH && (
+                            <button
+                                className="read-more-btn"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    const id = item.uuid || item.id;
+                                    if (id) navigate(`/post/${id}`);
+                                }}
+                            >
+                                Llegir més <ChevronRight size={14} />
+                            </button>
+                        )}
+                    </div>
+                )}
+
                 {children}
+
+                <div className="card-primary-action">
+                    <button
+                        className="btn-interessat"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                        }}
+                    >
+                        <Plus size={22} strokeWidth={3} />
+                        <span>INTERESSAT</span>
+                    </button>
+
+                    <div className="astro-tag">
+                        <Zap size={14} fill="#FF6D00" />
+                        <span>TELE-OLI (ASTRO)</span>
+                    </div>
+                </div>
             </div>
 
-            {/* 4. Accions / Footer */}
-            {footer && (
-                <div className="card-footer">
-                    {footer}
+            {/* 3. Footer: Simple Actions */}
+            <div className="card-footer-genesis">
+                <button
+                    className="share-btn"
+                    title="Pedagogia Social"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        navigate('/aula-rural');
+                    }}
+                >
+                    <Share2 size={24} />
+                </button>
+                <div
+                    className="edit-icon-box"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        if (isAdmin) openEditModal({ postData: item });
+                        else navigate('/aula-rural');
+                    }}
+                >
+                    <FileText size={20} />
                 </div>
-            )}
+            </div>
         </article>
     );
 };

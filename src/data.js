@@ -184,6 +184,56 @@ export const MOCK_MESSAGES = {
 };
 
 export const MOCK_FEED = [
+    // [HISTÒRIC] Recuperació de El Rentonar (Wordpress/Blogger)
+    {
+        id: 'blog-rentonar-1',
+        town_id: 1,
+        author: "El Rentonar (Associació)",
+        author_avatar: "/assets/master/logo_socdepoble_green_square.png",
+        author_role: "business",
+        author_entity_id: 'rentonar-1',
+        time: "Importat",
+        content: "# 🛖 La Barraca de la Memòria\n\nRecuperar l'arquitectura de pedra seca no és només una qüestió estètica, és una qüestió de resistència cultural. Des del Rentonar portem anys documentant cada marge, cada pou i cada bosc de la nostra terra. \n\nAquest bategat històric ara viu a Sóc de Poble per a que cap veí n'oblide les arrels. Durant les properes setmanes importarem tot el nostre arxiu fotogràfic i els articles que durant dècades han bategat a Wordpress i Blogger. Perquè el futur del Mas es construeix sobre les pedres del passat. 🏺🌳⚖️",
+        image_url: ["https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&q=80&w=1000"],
+        tags: ["#Patrimoni", "#ElRentonar", "#MemòriaViva"],
+        type: "post",
+        source_label: "Arxiu El Rentonar",
+        created_at: "2024-12-20T10:00:00Z"
+    },
+    // [HISTÒRIC] Crònica de la Sega
+    {
+        id: 'blog-rentonar-2',
+        town_id: 1,
+        author: "El Rentonar (Cultura Local)",
+        author_avatar: "/assets/master/logo_socdepoble_green_square.png",
+        author_role: "business",
+        author_entity_id: 'rentonar-1',
+        time: "Importat",
+        content: "# 🌾 Crònica de la Sega: De la Falç al Bategat Digital\n\nRecordeu quan el sol encara no havia eixit i ja estàvem al camp? Aquella olor a palla seca i suor compartit. El bategat de la sega era el ritme del poble. \n\nAvui, en un món de pantalles, recuperar aquestes cròniques ens recorda que la tecnologia ha de servir per a connectar-nos amb el territori, no per a aïllar-nos-en. Estem treballant per a que tota la nostra visió de la sobirania alimentària estiga a l'abast de qualsevol habitant de la Torre de les Maçanes. Benvinguts a la Memòria Inmutable! 🏺⚖️✨",
+        image_url: ["https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?auto=format&fit=crop&q=80&w=1000"],
+        tags: ["#Cultura", "#Tradició", "#Sega"],
+        type: "post",
+        source_label: "Blogger Historical Import",
+        created_at: "2024-11-15T12:00:00Z"
+    },
+    {
+        id: 'post-merch-pinned-1',
+        town_id: 1,
+        author: "Sóc de Poble (Oficial)",
+        author_avatar: "/assets/master/logo_socdepoble_green_square.png",
+        author_role: "business",
+        author_entity_id: 'sdp-oficial-1',
+        time: "Ara",
+        content: "# 🏺 El Mapa del Tresor al teu pit\n\nJa està disponible la nova **Camiseta Granate (Roly 57)** amb el logotip complet. No és només roba, és la identitat del nostre territori bategant en blanc pur sobre granate. \n\nTroba-la al Mercat i ajuda a mantenir bategant Sóc de Poble! 🗺️✨",
+        likes: 1240,
+        comments: 45,
+        image_url: ["/Users/javillinares/.gemini/antigravity/brain/e1b6e544-2f87-4f23-b187-d802a30c0ca1/shirt_maroon_lifestyle_full_logo_v2_1770235755326.png"],
+        type: "post",
+        is_pinned: true,
+        pinned_position: 1,
+        created_at: new Date().toISOString()
+    },
+    // Altres posts...
     // 📚 Sóc de Poble: El Llibre (Projecte Lliure) - NUEVA PUBLICACIÓN JAVI LLINARES
     {
         id: 'llibre-soc-de-poble-oficial',
@@ -572,23 +622,51 @@ export const MOCK_FEED = [
 ];
 
 export const MOCK_MARKET_ITEMS = [
-    // Sóc de Poble (Oficial)
+    // Sóc de Poble (Oficial) - MAROON EDITION FIRST
     {
-        id: 999,
-        town_id: 1, // Visible arreu
-        title: "Camiseta Oficial Sóc de Poble",
-        description: "La samarreta que connecta pobles. Disseny exclusiu 'Ruta del Poble'. Cotó 100% orgànic. #SócDePoble #MerchandisingOficial",
-        price: "15.00€",
+        id: 9991, // Maroon ID
+        town_id: 1,
+        title: "Camiseta Sóc de Poble - Edició Granate",
+        description: "L'edició definitiva amb el Logotip Complet (Mapa del Tresor). Cotó Roly Granate 57 de màxima qualitat. #MapaDelTresor #SócDePoble",
+        price: "18.00€",
         seller: "Sóc de Poble",
-        avatar_url: "/images/icon-192x192.png", // Logo de l'app
+        avatar_url: "/assets/master/logo_socdepoble_green_square.png",
         author_role: "business",
-        author_id: 'sdp-oficial-1', // Enforced official ID
+        author_id: 'sdp-oficial-1',
         author_entity_id: 'sdp-oficial-1',
-        image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=2000&auto=format&fit=crop",
+        images: [
+            "/Users/javillinares/.gemini/antigravity/brain/e1b6e544-2f87-4f23-b187-d802a30c0ca1/shirt_maroon_front_full_logo_v2_1770235736579.png",
+            "/Users/javillinares/.gemini/antigravity/brain/e1b6e544-2f87-4f23-b187-d802a30c0ca1/shirt_maroon_lifestyle_full_logo_v2_1770235755326.png",
+            "/Users/javillinares/.gemini/antigravity/brain/e1b6e544-2f87-4f23-b187-d802a30c0ca1/shirt_maroon_market_full_logo_v2_1770235769546.png",
+            "/Users/javillinares/.gemini/antigravity/brain/e1b6e544-2f87-4f23-b187-d802a30c0ca1/shirt_maroon_folded_full_logo_v2_1770235783687.png",
+            "/Users/javillinares/.gemini/antigravity/brain/e1b6e544-2f87-4f23-b187-d802a30c0ca1/shirt_maroon_flatlay_full_logo_v2_1770235798882.png",
+            "/Users/javillinares/.gemini/antigravity/brain/e1b6e544-2f87-4f23-b187-d802a30c0ca1/shirt_maroon_detail_full_logo_v2_1770235812705.png",
+            "/Users/javillinares/.gemini/antigravity/brain/e1b6e544-2f87-4f23-b187-d802a30c0ca1/shirt_maroon_action_full_logo_v2_1770235827400.png"
+        ],
         category_slug: "roba",
         tag: "Merchandising",
-        is_pinned: true, // PINNED TO TOP
+        is_pinned: true,
+        pinned_position: 1,
         created_at: new Date().toISOString()
+    },
+    {
+        id: 999,
+        town_id: 1,
+        title: "Camiseta Oficial (Clàssica)",
+        description: "La samarreta blanca original amb el text sketch. #SócDePoble",
+        price: "15.00€",
+        seller: "Sóc de Poble",
+        avatar_url: "/images/icon-192x192.png",
+        author_role: "business",
+        author_id: 'sdp-oficial-1',
+        author_entity_id: 'sdp-oficial-1',
+        images: [
+            "/assets/master/logo_socdepoble_white_clean.png"
+        ],
+        category_slug: "roba",
+        tag: "Merchandising",
+        is_pinned: false,
+        created_at: new Date(Date.now() - 3600000).toISOString()
     },
     // La Torre
     {

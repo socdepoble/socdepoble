@@ -27,6 +27,8 @@ const CommunityDirectory = lazy(() => import('./pages/CommunityDirectory'));
 const IAIAPage = lazy(() => import('./pages/IAIAPage'));
 const AlbumMemoria = lazy(() => import('./pages/AlbumMemoria'));
 const ProjectPresentation = lazy(() => import('./pages/ProjectPresentation'));
+const DesignCanon = lazy(() => import('./pages/DesignCanon'));
+const GenesisViewer = lazy(() => import('./pages/GenesisViewer'));
 const MakingOf = lazy(() => import('./pages/MakingOf'));
 const LegalNotice = lazy(() => import('./pages/LegalNotice'));
 const ResetPage = lazy(() => import('./pages/ResetPage'));
@@ -38,6 +40,7 @@ const DAFOPage = lazy(() => import('./pages/DAFOPage'));
 const DidacticPage = lazy(() => import('./pages/DidacticPage'));
 const Archive = lazy(() => import('./pages/Archive'));
 const SellSurplus = lazy(() => import('./pages/SellSurplus'));
+const AulaRural = lazy(() => import('./pages/AulaRural'));
 const RuralIntelligence = lazy(() => import('./components/RuralIntelligence'));
 const DidacticManual = lazy(() => import('./pages/DidacticManual'));
 const SolatgeConsole = lazy(() => import('./pages/SolatgeConsole'));
@@ -238,6 +241,7 @@ function App() {
               <Route path="cerca" element={<SearchDiscover />} />
               <Route path="arxiu" element={<Archive />} />
               <Route path="comunitat" element={<CommunityDirectory />} />
+              <Route path="aula-rural" element={<AulaRural />} />
               <Route path="pobles" element={<Towns />} />
               <Route path="pobles/:id" element={<TownDetail />} />
               <Route path="ajuntament/:id" element={<AyuntamientoPage />} />
@@ -260,6 +264,8 @@ function App() {
               <Route path="iaia" element={<IAIAPage />} />
               <Route path="album" element={<AlbumMemoria />} />
               <Route path="projecte" element={<ProjectPresentation />} />
+              <Route path="disseny" element={<DesignCanon />} />
+              <Route path="visor" element={<GenesisViewer />} />
               <Route path="elemental" element={<MakingOf />} />
               <Route path="legal" element={<LegalNotice />} />
               <Route path="reset" element={<ResetPage />} />
@@ -288,7 +294,8 @@ function App() {
             <Route path="/artifacts/*" element={<Navigate to="/admin" replace />} />
 
             {/* Fallback 404 compatible amb l'estètica Master */}
-            <Route path="*" element={<Navigate to="/" replace />} />
+            {/* PEDAGOGICAL FALLBACK: Orphan links lead to Aula Rural */}
+            <Route path="*" element={<Navigate to="/aula-rural" replace />} />
           </Routes>
         </ErrorBoundary>
       </Suspense>

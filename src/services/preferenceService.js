@@ -4,7 +4,7 @@ const PREFS_KEY = 'socdepoble_prefs';
 
 const DEFAULT_CONFIG = {
     landingPage: 'mur',       // Pàgina d'inici per defecte
-    theme: 'dark',           // Estètica mestra
+    theme: 'light',           // Estètica mestra
     visionMode: 'hibrida',   // Mode de visió per defecte
     vibe: 'genius',          // Ambientació
     gloveMode: false         // Mode guants desactivat

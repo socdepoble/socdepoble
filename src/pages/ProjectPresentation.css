@@ -437,6 +437,30 @@
     transform: scale(1.05);
 }
 
+.btn-design-canon {
+    background: rgba(0, 242, 255, 0.1);
+    color: var(--color-primary);
+    border: 1px solid var(--color-primary);
+    padding: 12px 24px;
+    border-radius: 0px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    font-weight: 800;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-left: 12px;
+}
+
+.btn-design-canon:hover {
+    background: var(--color-primary);
+    color: var(--bg-canvas);
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
+}
+
 .btn-audio-overview.playing {
     border-color: #ff9f43;
     color: #ff9f43;

@@ -1734,6 +1734,9 @@ export const supabaseService = {
             }
 
             let selectStr = 'id, uuid, content, created_at, author, author_avatar, image_url, author_role, is_playground, author_user_id, author_entity_id, towns!fk_posts_town_uuid(name)';
+            if (columnCache.posts_pinned_position !== false) {
+                selectStr += ', pinned_position';
+            }
             if (columnCache.posts_ai_percentage === true) {
                 selectStr += ', ai_percentage, human_percentage, is_iaia_inspired';
             }
@@ -1769,6 +1772,11 @@ export const supabaseService = {
                 .range(from, to);
 
             if (error) {
+                if (error.code === '42703' && error.message?.includes('pinned_position')) {
+                    setColumnCache('posts_pinned_position', false);
+                    logger.warn('[SupabaseService] pinned_position missing in posts, retrying...');
+                    return this.getPosts(roleFilter, townId, page, pageSize, isPlayground);
+                }
                 if (error.code === '42703' && isPlayground) {
                     setColumnCache('posts_is_playground', false);
                     logger.warn('[SupabaseService] is_playground missing in posts, retrying silent...');
@@ -1916,6 +1924,12 @@ export const supabaseService = {
             }
 
             let selectStr = 'id, uuid, title, description, price, category_slug, created_at, author_user_id, seller, avatar_url, image_url, is_playground, seller_entity_id, towns!fk_market_town_uuid(name)';
+            if (columnCache.market_is_pinned !== false) {
+                selectStr += ', is_pinned';
+            }
+            if (columnCache.market_pinned_position !== false) {
+                selectStr += ', pinned_position';
+            }
             if (columnCache.market_is_iaia_inspired !== false) {
                 selectStr += ', is_iaia_inspired';
             }
@@ -1948,6 +1962,12 @@ export const supabaseService = {
                 .range(from, to);
 
             if (error) {
+                if (error.code === '42703' && (error.message?.includes('is_pinned') || error.message?.includes('pinned_position'))) {
+                    if (error.message?.includes('is_pinned')) setColumnCache('market_is_pinned', false);
+                    if (error.message?.includes('pinned_position')) setColumnCache('market_pinned_position', false);
+                    logger.warn('[SupabaseService] missing columns in market_items, retrying...');
+                    return this.getMarketItems(categoryFilter, townId, page, pageSize, isPlayground);
+                }
                 if (error.code === '42703' && isPlayground) {
                     setColumnCache('market_is_playground', false);
                     logger.warn('[SupabaseService] is_playground missing in market, retrying silent...');
@@ -2117,14 +2137,20 @@ export const supabaseService = {
         const isLocal = origin.includes('localhost') || origin.includes('127.0.0.1');
         const isCapacitor = origin.includes('capacitor://');
 
-        // Si estem en local REAL (navegador dev), respectem l'origin per a facilitar el debug
-        if (isLocal && !isCapacitor && !origin.includes(':3000')) {
+        // [MASTER DYNAMIC REDIRECT] 
+        // Si estem en producció (Vercel, domini propi, etc), usem l'origin actual.
+        // Només forcem si estem en un entorn que Supabase no puga detectar bé.
+        if (!isLocal && !isCapacitor) {
             return `${origin}${path}`;
         }
 
-        // En qualsevol altre cas (Vercel o Mòbil), forcem la URL de producció oficial
-        const prodUrl = 'https://socdepoble.vercel.app';
-        return `${prodUrl}${path}`;
+        // Per a Capacitor, sí que cal una URL de producció oficial ja que l'origin és local a l'App
+        if (isCapacitor) {
+            return `https://socdepoble.vercel.app${path}`;
+        }
+
+        // Per a local dev
+        return `${origin}${path}`;
     },
 
     async signIn(email, password) {

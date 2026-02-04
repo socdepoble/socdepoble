@@ -419,6 +419,22 @@ const SettingsTab = ({
                 </button>
             </div>
 
+            {/* ADMIN TRACKING (DUNS) */}
+            <div className="duns-tracking-note" style={{
+                margin: '20px 0',
+                padding: '12px',
+                background: 'rgba(0,0,0,0.05)',
+                border: '1px solid var(--border-subtle)',
+                borderRadius: '8px',
+                fontSize: '10px',
+                opacity: 0.6,
+                textAlign: 'center',
+                fontFamily: 'monospace'
+            }}>
+                ID SOLVÈNCIA (DUNS): CA-00704568 <br />
+                ESTAT: SOL·LICITUD REBUDA - PENDENT PROCESSAMENT
+            </div>
+
             <div className="premium-footer">
                 <div className="premium-footer-line" />
                 <span>v1.5.6-BATEGA</span>

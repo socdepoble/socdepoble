@@ -807,9 +807,8 @@ const DiagnosticConsole = () => {
 
             {isVisible && (
                 <button
-                    className={`btn - icon - hud ${isOpen ? 'active' : ''} `}
+                    className={`btn-icon-hud ${isOpen ? 'active' : ''}`}
                     onClick={(e) => toggleHud(e)}
-                    data-admin-theme={isAdmin ? (visionMode === 'humana' ? 'dark' : 'light') : 'dark'}
                 >
                     <Terminal size={14} /> <span>{t('common.support_short') || 'DIAG'}</span>
                 </button>

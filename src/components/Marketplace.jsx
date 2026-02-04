@@ -18,6 +18,7 @@ import { paymentService } from '../services/paymentService';
 import { hapticService } from '../services/hapticService';
 import ShareHub from './ShareHub';
 import ItemDetailModal from './ItemDetailModal';
+import UniversalCard from './UniversalCard';
 import './Marketplace.css';
 
 const Market = ({ searchTerm = '' }) => {
@@ -302,102 +303,18 @@ const Market = ({ searchTerm = '' }) => {
                     />
                 ) : (
                     filteredItems.map(item => (
-                        <article key={item.uuid || item.id} className="universal-card market-item group">
-                            {/* CARD IMAGE [MASTER] */}
-                            <div className="card-image-wrapper">
-                                <img
-                                    src={item.image_url || '/images/assets/generic_market.png'}
-                                    alt={item.title}
-                                    className="group-hover:scale-105 transition-transform duration-500"
-                                />
-                                <div className="item-badges-right">
-                                    <span className="category-pill-mini bg-black text-white">
-                                        {item.category || 'Vessant'}
-                                    </span>
-                                </div>
-                            </div>
-
-                            {/* CARD HEADER NOIR-NEON */}
-                            <div className="card-header-vibrant bg-black/40 backdrop-blur-md">
-                                <div className="flex justify-between items-start mb-1">
-                                    <h3 className="item-title">{item.title}</h3>
-                                    <span className="price-tag-vibrant">{item.price}</span>
-                                </div>
-                                <p className="item-seller">{item.seller_name || 'Veí de la Torre'}</p>
-                            </div>
-
-                            <div className="p-4 flex-1 flex flex-col">
-                                <p className="item-desc-short line-clamp-2 mb-4">
-                                    {item.description}
-                                </p>
-
-                                {/* IAIA SYMBIOSIS [MASTER] */}
-                                {item.is_iaia_inspired && (
-                                    <div className="ia-transparency-note-mini mb-4 cursor-pointer bg-white/5 border border-white/5 rounded-lg p-2 hover:bg-white/10 transition-all" onClick={(e) => { e.stopPropagation(); navigate('/iaia'); }}>
-                                        <div className="simbiosi-header flex items-center gap-2 font-black text-[10px] uppercase tracking-tighter text-cyan-400">
-                                            <Sparkles size={12} className="text-primary" />
-                                            <span>SIMBIOSI Master [IAIA + VEÍ]</span>
-                                        </div>
-                                        <div className="simbiosi-metrics mt-1">
-                                            <div className="simbiosi-bar h-1 bg-white/10 rounded-full overflow-hidden flex">
-                                                <div className="ai-fill h-full bg-primary" style={{ width: `${item.ai_percentage}%` }}></div>
-                                                <div className="human-fill h-full bg-cyan-400" style={{ width: `${item.human_percentage}%` }}></div>
-                                            </div>
-                                            <div className="simbiosi-labels flex justify-between text-[9px] mt-1 font-bold opacity-70">
-                                                <span>🤖 IA: {item.ai_percentage}%</span>
-                                                <span>👤 Humà: {item.human_percentage}%</span>
-                                            </div>
-                                        </div>
-                                        <div className="simbiosi-impact text-[9px] mt-1 text-primary font-black">
-                                            ⏳ +{item.time_saved_minutes} minuts regalats
-                                        </div>
-                                    </div>
-                                )}
-
-                                <div className="card-footer-vibrant mt-auto flex flex-col gap-2">
-                                    <div className="flex gap-2 w-full">
-                                        <button
-                                            className="add-btn-premium-vibrant flex-1 bg-primary text-white font-bold p-3 rounded-xl flex items-center justify-center gap-2"
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                hapticService.notifySuccess();
-                                                setSelectedItemForDetail(item);
-                                            }}
-                                        >
-                                            <Plus size={20} />
-                                            <span>M'INTERESSA</span>
-                                        </button>
-
-                                        {/* ASTRO PAYMENT BUTTON [PILLAR 3] */}
-                                        <button
-                                            className={`btn-astro-payment flex-1 font-black rounded-xl p-3 flex items-center justify-center gap-2 transition-all border-2 border-white/10 ${paidItems.has(item.uuid || item.id) ? 'bg-green-500/20 text-green-400' : 'bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/20'}`}
-                                            style={{ boxShadow: paidItems.has(item.uuid || item.id) ? 'none' : '0 10px 30px rgba(0, 242, 255, 0.1)', transform: paidItems.has(item.uuid || item.id) ? 'translate(2px, 2px)' : 'none' }}
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                handleAstroPayment(item);
-                                            }}
-                                            disabled={payingItemId === (item.uuid || item.id)}
-                                        >
-                                            {payingItemId === (item.uuid || item.id) ? (
-                                                <Loader2 className="animate-spin" size={20} />
-                                            ) : paidItems.has(item.uuid || item.id) ? (
-                                                <Check size={20} strokeWidth={3} />
-                                            ) : (
-                                                <Zap size={20} fill="currentColor" />
-                                            )}
-                                            <span>{payingItemId === (item.uuid || item.id) ? 'BATEGANT...' : paidItems.has(item.uuid || item.id) ? 'BATEGAT OK!' : 'TELE-OLI (ASTRO)'}</span>
-                                        </button>
-                                    </div>
-                                    <div className="w-full flex justify-center">
-                                        <ShareHub
-                                            title={`${item.title} - El Mercat de Sóc de Poble`}
-                                            text={`Mira aquest producte de proximitat: ${item.title} per ${item.price}. Bateguem pel comerç local!`}
-                                            url={`${window.location.origin}/mercat?id=${item.uuid || item.id}`}
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        </article>
+                        <UniversalCard
+                            key={item.uuid || item.id}
+                            item={item}
+                            title={item.title}
+                            excerpt={item.description}
+                            subtitle={item.seller_name || item.seller || 'Veí de la Torre'}
+                            image={item.image_url || '/images/assets/generic_market.png'}
+                            onHeaderClick={() => handleHeaderClick(item)}
+                            className="market-item-standard"
+                        >
+                            {/* Additional market-specific logic if needed */}
+                        </UniversalCard>
                     ))
                 )}
             </div>

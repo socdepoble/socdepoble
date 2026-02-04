@@ -47,9 +47,18 @@ class MigrationService {
         logger.info(`[Migration] Important ${items.length} items al Rebost de l'usuari ${userId}...`);
 
         const preparedItems = items.map(item => ({
-            ...item,
+            title: item.title || 'Sense títol',
+            url: item.url || '',
+            description: item.description || '',
+            excerpt: item.excerpt || item.description || '',
+            content_type: item.content_type || 'link',
+            semantic_tags: item.semantic_tags || [],
+            source: item.source || 'Importació',
+            metadata: item.metadata || {},
             owner_id: userId,
-            created_at: item.created_at || new Date().toISOString()
+            created_at: item.created_at || new Date().toISOString(),
+            is_public: item.is_public || false,
+            scope: item.scope || 'private'
         }));
 
         // Podríem fer un batch de 50 en 50 per no saturar Supabase
@@ -111,17 +120,20 @@ class MigrationService {
     }
 
     /**
-     * Parseja un fitxer JSON de Notion (simulat o exportat).
+     * Parseja un fitxer JSON de Notion (exportació estàndard).
      */
     parseNotionJSON(jsonContent) {
         try {
             const data = JSON.parse(jsonContent);
-            const items = Array.isArray(data) ? data : [data];
-            // Importem el servei de mapeig dinàmicament o l'usem si està disponible
+
+            // Notion pot exportar un array o un objecte amb un camp 'results'
+            const items = Array.isArray(data) ? data : (data.results || [data]);
+
+            logger.info(`[Migration] Parsejats ${items.length} items de Notion.`);
             return items;
         } catch (e) {
             logger.error('[Migration] Error parsejant Notion JSON:', e);
-            return [];
+            throw new Error('El fitxer JSON de Notion no és vàlid o està corrupte.');
         }
     }
 }

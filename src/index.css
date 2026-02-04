@@ -2,77 +2,65 @@
 
 :root {
   /* --- 1. CONSTITUCIÓ MASTER (Edició Atum - v5.0) --- */
-  /* Paleta "Sunlight Safe" (Weber Class 6) */
-  --bg-canvas: #000000;
-  /* Fons Global (OLED Save) */
-  --bg-surface: #0a0a0a;
-  /* Targetes (IBM Carbon) */
-  --bg-card: #161616;
-  --text-main: #FFFFFF;
-  /* Text Principal (Contrast 123:1) */
-  --accent: #FF6D00;
-  /* Taronja Sóc de Poble (Vibrant) */
-  --accent-alt: #CCFF00;
-  /* Groc Reflectant (Accions Secundàries) */
-  --alert: #FF3333;
-  /* Roig Seguretat (Errors) */
+  /* Paleta "Sunlight Safe" (Weber Class 6) - Gem & Flash Optimized */
+  --bg-page: #fdfaf5;
+  --bg-canvas: var(--bg-page);
+  --bg-card: #ffffff;
+  --bg-surface: #ffffff;
 
-  /* bridge variables for Material System */
-  --md-sys-color-primary: var(--accent);
-  --md-sys-color-on-primary: #000000;
-  --md-sys-color-surface: var(--bg-canvas);
-  --md-sys-color-on-surface: var(--text-main);
-  --md-sys-color-surface-container: var(--bg-surface);
-  --md-sys-color-outline: #FFFFFF;
+  --text-primary: #1c1c1e;
+  --text-main: var(--text-primary);
+  --text-secondary: #48484a;
+  --text-muted: #6b7280;
 
-  /* --- 2. LLEI DEL ZERO RADIUS (Geometria Industrial) --- */
+  --color-primary: #007aff;
+  --color-accent: #ff6d00;
+  --accent: var(--color-accent);
+
+  --header-bg: var(--color-primary);
+  --color-alert: #ff3333;
+
+  /* bridge variables for Material System compatibility */
+  --md-sys-color-primary: var(--color-primary);
+  --md-sys-color-on-primary: #ffffff;
+  --md-sys-color-secondary: var(--color-accent);
+  --md-sys-color-on-secondary: #000000;
+  --md-sys-color-surface: var(--bg-page);
+  --md-sys-color-on-surface: var(--text-primary);
+  --md-sys-color-outline: var(--color-primary);
+
+  /* --- 2. LLEI DE LA DEMOCRÀCIA VISUAL (Tokens dinàmics) --- */
+  --radius-raw: 16px;
+  /* Gem's default curvature */
   --radius-none: 0px;
-  --radius-xs: 0px;
-  --radius-sm: 0px;
-  --radius-md: 0px;
-  --radius-lg: 0px;
-  --radius-xl: 0px;
-  --radius-full: 0px;
-  /* Fins i tot els FABs són ara sobirans */
+  --radius-sm: calc(var(--radius-raw) * 0.5);
+  --radius-md: var(--radius-raw);
+  --radius-lg: calc(var(--radius-raw) * 1.5);
+  --radius-xl: calc(var(--radius-raw) * 2);
+  --radius-full: 9999px;
 
-  /* --- 3. TIPOGRAFIA (Norma Iaia-Proof / GOV.UK) --- */
-  --font-body: 'Inter', 'Roboto', 'Open Sans', sans-serif;
-  --font-display: 'Inter', 'Roboto', sans-serif;
+  /* --- 3. TIPOGRAFIA (Iaia-Proof / GOV.UK) --- */
+  --font-body: 'Inter', 'Roboto', 'Open Sans', 'Segoe UI', system-ui, sans-serif;
+  --font-display: 'Inter', 'Outfit', sans-serif;
   --font-size-base: 19px;
-  /* Mínim absolut per a llegibilitat rural */
+  /* Mínim absolut rural */
   --font-weight-bold: 800;
 
-  /* Elevation (Industrial Shadow - No drop shadows) */
-  --shadow-1: 0px 0px 0px 2px #333;
-  /* Bento Border */
-  --shadow-2: 0px 0px 0px 3px #444;
-  --shadow-3: 0px 0px 0px 4px #555;
+  /* Shadows (Democratic Softness) */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.15), 0 3px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.08);
 
   --page-margin: 16px;
   --space-bancal: 24px;
 
-  /* COMIC AESTHETIC [MASTER GENESIS] */
-  --comic-border: 2px solid #FFFFFF;
-  --comic-shadow: 8px 8px 0px #333;
-  --comic-shadow-hover: 12px 12px 0px var(--accent);
-
-  /* --- 4. AB TESTING: ÀLBUM TOKENS (Democràcia Visual) --- */
-  --album-radius: var(--radius-none);
-  --album-border: var(--comic-border);
-  --album-shadow: var(--comic-shadow);
-  --album-overlay-bg: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
-
   /* --- 5. BATEC VEÏNAL TOKENS (Rhizome Monitoring) --- */
-  --batec-ok: #CCFF00;
-  /* Super Ratolí / Online */
-  --batec-mesh: #FF9900;
-  /* Vicent & Pepica / Mesh */
+  --batec-ok: #166534;
+  /* Green-700 (Success) */
+  --batec-mesh: #ff9900;
+  /* Orange (Syncing) */
   --batec-offline: #888888;
-  /* Nano Banana / Local */
-
-  /* Nous colors de Flash */
-  --color-terracotta: #E2725B;
-  --color-verd-serra: #556B2F;
+  /* Gray (Local) */
 }
 
 @keyframes batec-pulse {
@@ -142,26 +130,25 @@
 }
 
 /* Dark Mode Overrides */
+/* Night Mode (Strict Black) */
 [data-theme='dark'] {
-  --bg-main: #0F1115;
-  --bg-surface: #171923;
-  --bg-card: #1C1E26;
-  --bg-card-rgb: 28, 30, 38;
-  --bg-overlay: rgba(23, 25, 35, 0.8);
+  --bg-page: #000000;
+  --bg-canvas: #000000;
+  --bg-surface: #121212;
+  --bg-card: #1c1c1e;
 
-  --text-main: #F7FAFC;
-  --text-secondary: #E2E8F0;
-  --text-muted: #718096;
+  --text-primary: #ffffff;
+  --text-main: var(--text-primary);
+  --text-secondary: #a1a1aa;
+  --text-muted: #71717a;
 
-  --color-border: #2D3748;
-  --color-divider: #2D3748;
-  --color-primary-soft: rgba(93, 95, 239, 0.1);
-  --color-success: #43A047;
-  --color-warning: #FB8C00;
-  --color-error: #E53935;
+  --md-sys-color-surface: var(--bg-page);
+  --md-sys-color-on-surface: var(--text-primary);
+  --md-sys-color-outline: var(--color-primary);
 
-  --shadow-md: 0 8px 16px -4px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 20px 40px -12px rgba(0, 0, 0, 0.5);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.7);
+  --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.8);
 
   --logo-filter: invert(1) brightness(10);
 }
@@ -240,18 +227,9 @@ body {
   position: relative;
 }
 
+/* [MASTER] Neteja de la Llei de l'Espai (No estrelles) */
 body::after {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url("https://www.transparenttextures.com/patterns/stardust.png");
-  opacity: var(--grain-opacity);
-  pointer-events: none;
-  z-index: 9999;
-  border-radius: 0 !important;
+  display: none;
 }
 
 /* Unified Secondary Header */
@@ -288,7 +266,7 @@ article h3,
   color: var(--text-main);
   letter-spacing: -0.02em;
   text-transform: none;
-  border-radius: 0 !important;
+  border-radius: var(--radius-md);
 }
 
 body {
@@ -310,7 +288,7 @@ iframe,
 canvas {
   max-width: 100%;
   display: block;
-  border-radius: 0 !important;
+  border-radius: var(--radius-md);
   /* DIRECTIVA FLASH: GEOMETRIA SAGRADA */
 }
 
@@ -572,7 +550,7 @@ a:hover {
 .universal-card {
   background: var(--bg-surface);
   border: var(--comic-border);
-  border-radius: 0 !important;
+  border-radius: var(--radius-md);
   /* LLEI DEL ZERO RADIUS MASTER */
   overflow: hidden;
   margin-bottom: 32px;
@@ -609,7 +587,7 @@ a:hover {
   background-color: var(--bg-canvas);
   line-height: 0;
   overflow: hidden;
-  border-radius: 0 !important;
+  border-radius: var(--radius-md);
 }
 
 .card-image-wrapper img {
@@ -617,7 +595,7 @@ a:hover {
   height: auto;
   min-height: 250px;
   object-fit: cover;
-  border-radius: 0 !important;
+  border-radius: var(--radius-md);
 }
 
 .card-body {
@@ -655,7 +633,7 @@ a:hover {
   font-family: var(--font-display);
   text-transform: uppercase;
   letter-spacing: 2px;
-  border-radius: 0 !important;
+  border-radius: var(--radius-md);
   /* BENTO RECTANGLE */
   border: 2px solid #000000;
   transition: all 0.2s;
@@ -693,7 +671,7 @@ a:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 0 !important;
+  border-radius: var(--radius-md);
   /* DIRECTIVA FLASH */
   background-color: var(--color-primary-soft);
   color: var(--color-primary);
@@ -712,7 +690,7 @@ a:hover {
 
   /* Force square everywhere in desktop */
   * {
-    border-radius: 0 !important;
+    border-radius: var(--radius-md);
   }
 }
 
@@ -825,7 +803,7 @@ a:hover {
   width: 100%;
   max-width: 500px;
   max-height: calc(100vh - 40px);
-  border-radius: 0 !important;
+  border-radius: var(--radius-md);
   /* DIRECTIVA FLASH */
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
   border: 1px solid var(--color-border);
@@ -963,7 +941,7 @@ a:hover {
   background-color: var(--bg-main);
   overflow: hidden;
   /* IMATGES AMB CANTONS QUADRATS */
-  border-radius: 0 !important;
+  border-radius: var(--radius-md);
 }
 
 .card-image-wrapper img {
@@ -1339,14 +1317,14 @@ a:hover {
   text-align: center;
   max-width: 400px;
   box-shadow: 0 0 50px rgba(255, 68, 68, 0.3);
-  border-radius: 0 !important;
+  border-radius: var(--radius-md);
 }
 
 .rescue-card h3 {
   color: #FF4444 !important;
   font-size: 28px !important;
   margin-bottom: 15px;
-  border-radius: 0 !important;
+  border-radius: var(--radius-md);
 }
 
 .rescue-card p {
@@ -1370,7 +1348,7 @@ a:hover {
   text-transform: uppercase;
   font-size: var(--font-size-base);
   letter-spacing: 1px;
-  border-radius: 0 !important;
+  border-radius: var(--radius-md);
 }
 
 .btn-rescue-soft {
@@ -1380,7 +1358,7 @@ a:hover {
   font-weight: var(--font-weight-bold);
   text-transform: uppercase;
   font-size: var(--font-size-base);
-  border-radius: 0 !important;
+  border-radius: var(--radius-md);
 }
 
 @keyframes animate-in {

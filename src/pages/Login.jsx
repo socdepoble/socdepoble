@@ -4,8 +4,7 @@ import { supabase } from '../supabaseClient';
 import { supabaseService } from '../services/supabaseService';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
-import { Phone, Mail, ArrowRight, Loader2, Activity } from 'lucide-react';
-import MeshStar from '../components/MeshStar';
+import { Phone, Mail, ArrowRight, CheckCircle2, AlertCircle, Loader2, Activity } from 'lucide-react';
 import { logger } from '../utils/logger';
 import { hapticService } from '../services/hapticService';
 import './Auth.css';
@@ -305,7 +304,7 @@ const Login = () => {
                                     <p className="input-hint" style={{ color: 'rgba(0, 242, 255, 0.7)', fontWeight: '600', fontSize: '0.75rem', marginTop: '8px' }}>🚀 En segons estaràs a dins!</p>
                                 </div>
                                 <button type="submit" className="auth-button v2 main-btn" disabled={loading}>
-                                    {loading ? <MeshStar size={28} color="#ffffff" /> : 'ENTRAR AL POBLE'}
+                                    {loading ? <Loader2 className="animate-spin" size={28} color="#ffffff" /> : 'ENTRAR AL POBLE'}
                                 </button>
                             </form>
                         ) : (
@@ -327,7 +326,7 @@ const Login = () => {
                                     />
                                 </div>
                                 <button type="submit" className="auth-button v2" disabled={loading} onClick={() => hapticService.batec()}>
-                                    {loading ? <MeshStar size={28} color="#ffffff" /> : 'VERIFICAR ACCÉS'}
+                                    {loading ? <Loader2 className="animate-spin" size={28} color="#ffffff" /> : 'VERIFICAR ACCÉS'}
                                 </button>
 
                                 <div className="otp-helper" style={{ marginTop: '16px', textAlign: 'center' }}>
@@ -413,7 +412,7 @@ const Login = () => {
                             )}
 
                             <button type="submit" className="auth-button v2" disabled={loading}>
-                                {loading ? <MeshStar size={28} color="#00f2ff" /> : (isResetMode ? 'ENVIAR RECUPERACIÓ' : 'ENTRAR AMB EMAIL')}
+                                {loading ? <Loader2 className="animate-spin" size={28} color="#00f2ff" /> : (isResetMode ? 'ENVIAR RECUPERACIÓ' : 'ENTRAR AMB EMAIL')}
                             </button>
 
                             {isResetMode && (

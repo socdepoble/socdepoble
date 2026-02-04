@@ -1,0 +1,187 @@
+.aula-rural-container {
+    min-height: 100vh;
+    background: var(--bg-canvas);
+    color: var(--text-main);
+    padding: 40px 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    font-family: inherit;
+    padding-bottom: 120px;
+}
+
+.aula-header {
+    text-align: center;
+    margin-bottom: 60px;
+    border-bottom: 2px solid var(--accent);
+    padding-bottom: 40px;
+}
+
+.header-meta {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.badge-rural {
+    background: var(--accent);
+    color: black;
+    padding: 4px 12px;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 2px;
+}
+
+.version {
+    font-family: monospace;
+    font-size: 10px;
+    opacity: 0.5;
+}
+
+.aula-title {
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    font-weight: 900;
+    line-height: 0.9;
+    letter-spacing: -3px;
+    text-transform: uppercase;
+    margin: 0 0 20px 0;
+}
+
+.aula-subtitle {
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin: 0 auto;
+    opacity: 0.8;
+    font-weight: 500;
+}
+
+.aula-manifest {
+    margin-bottom: 60px;
+}
+
+.manifest-card {
+    background: var(--bg-surface);
+    padding: 40px;
+    border-left: 8px solid var(--accent);
+    box-shadow: 20px 20px 0px rgba(255, 109, 0, 0.1);
+}
+
+.icon-main {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 20px;
+}
+
+.manifest-card h2 {
+    font-size: 2rem;
+    font-weight: 900;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.manifest-card p {
+    line-height: 1.6;
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+.aula-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.didactic-card {
+    background: var(--bg-surface);
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+}
+
+.didactic-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-5px);
+}
+
+.didactic-card.highlighted {
+    background: var(--bg-surface);
+    border: 2px solid var(--accent);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--accent);
+}
+
+.card-header h3 {
+    font-weight: 900;
+    text-transform: uppercase;
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.didactic-card p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    opacity: 0.8;
+    margin: 0;
+}
+
+.status-badge {
+    margin-top: auto;
+    font-size: 9px;
+    font-weight: 800;
+    opacity: 0.4;
+    letter-spacing: 1px;
+}
+
+.didactic-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.didactic-list li {
+    font-size: 0.9rem;
+    position: relative;
+    padding-left: 20px;
+}
+
+.didactic-list li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+}
+
+.aula-footer {
+    margin-top: 80px;
+    text-align: center;
+    opacity: 0.4;
+    font-size: 0.8rem;
+}
+
+.footer-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+@media (max-width: 600px) {
+    .aula-title {
+        font-size: 2.5rem;
+    }
+
+    .manifest-card {
+        padding: 25px;
+    }
+}

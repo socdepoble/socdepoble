@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ArrowLeft, Rocket, Cpu, Users, Globe, Database, ShieldCheck, TrendingUp, Mail, Briefcase, MessageCircle, Newspaper, BookOpen, Smartphone, UserCheck, Sparkles, Volume2, Headphones } from 'lucide-react';
+import { ArrowLeft, Rocket, Cpu, Users, Globe, Database, ShieldCheck, TrendingUp, Mail, Briefcase, MessageCircle, Newspaper, BookOpen, Smartphone, UserCheck, Sparkles, Volume2, Headphones, Palette } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { speechService } from '../services/speechService';
 import { notebookService } from '../services/notebookService';
@@ -138,6 +138,20 @@ const ProjectPresentation = () => {
                         >
                             {isPlayingAudio ? <Headphones size={20} /> : <Volume2 size={20} />}
                             <span>{isPlayingAudio ? "Escoltant Resum..." : "Audio Overview (IAIA & Avi)"}</span>
+                        </button>
+                        <button
+                            className="btn-design-canon"
+                            onClick={() => navigate('/disseny')}
+                        >
+                            <Palette size={20} />
+                            <span>Cànon de Disseny</span>
+                        </button>
+                        <button
+                            className="btn-genesis-viewer"
+                            onClick={() => navigate('/visor')}
+                        >
+                            <Sparkles size={20} />
+                            <span>Visor del Gènesi</span>
                         </button>
                     </div>
                 </div>

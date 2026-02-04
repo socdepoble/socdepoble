@@ -175,7 +175,7 @@ const Profile = () => {
     }
 
     const displayProfileSafe = finalProfile || {
-        full_name: isCreator ? (realUser?.email?.split('@')[0] || 'Creador') : ((realUser?.email || user?.email)?.split('@')[0] || 'Usuari'),
+        full_name: isCreator ? (realUser?.email?.split('@')[0] || 'Creador') : ((realUser?.email || user?.email)?.split('@')[0] || 'Agent'),
         avatar_url: null,
         cover_url: null,
         town_id: null
@@ -251,6 +251,12 @@ const Profile = () => {
                                         <span>Labs</span>
                                     </div>
                                 )}
+                                {isSuperAdmin && (
+                                    <div className="mini-eina-card admin-special" onClick={() => { hapticService.bategat(); navigate('/admin'); }}>
+                                        <ShieldCheck size={24} />
+                                        <span>Panell Admin</span>
+                                    </div>
+                                )}
                                 <div className="mini-eina-card" onClick={() => { hapticService.bategat(); setActiveTab('settings_view'); }}>
                                     <Settings size={24} />
                                     <span>Ajustos</span>
@@ -289,7 +295,7 @@ const Profile = () => {
             <ProfileHeaderPremium
                 type="person"
                 title={displayProfileSafe.full_name}
-                subtitle={viewRealIdentity ? (displayProfileSafe.ofici ? (displayProfileSafe.ofici.charAt(0).toUpperCase() + displayProfileSafe.ofici.slice(1)) : "EL PARE DE LA +IA") : (oficiValue ? (oficiValue.charAt(0).toUpperCase() + oficiValue.slice(1)) : 'Veí')}
+                subtitle={viewRealIdentity ? (displayProfileSafe.ofici ? (displayProfileSafe.ofici.charAt(0).toUpperCase() + displayProfileSafe.ofici.slice(1)) : "EL PARE DE LA +IA") : (oficiValue ? (oficiValue.charAt(0).toUpperCase() + oficiValue.slice(1)) : 'Agent')}
                 town={userTown?.name}
                 bio={viewRealIdentity ? (displayProfileSafe.bio || "Creador de Sóc de Poble.") : bioValue}
                 avatarUrl={displayProfileSafe.avatar_url}
@@ -308,17 +314,17 @@ const Profile = () => {
             >
                 {/* Stats bar integrated into the header children */}
                 < div className="profile-stats-bar" >
-                    <div className="stat-card clickable" onClick={() => logger.info('Funcionalitat de Mur en fase Beta')}>
+                    <div className="stat-card clickable" onClick={() => navigate('/aula-rural')}>
                         <span className="stat-value">{stats.posts}</span>
                         <span className="stat-label">Mur</span>
                         <div className="beta-dot"></div>
                     </div>
-                    <div className="stat-card clickable" onClick={() => logger.info('Mercat en fase de desplegament')}>
+                    <div className="stat-card clickable" onClick={() => navigate('/aula-rural')}>
                         <span className="stat-value">{stats.items}</span>
                         <span className="stat-label">Venda</span>
                         <div className="beta-dot"></div>
                     </div>
-                    <div className="stat-card clickable" onClick={() => logger.info('Llista de Veïns en fase Beta')}>
+                    <div className="stat-card clickable" onClick={() => navigate('/aula-rural')}>
                         <span className="stat-value">{stats.connections}</span>
                         <span className="stat-label">Veïns</span>
                         <div className="beta-dot"></div>

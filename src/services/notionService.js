@@ -9,26 +9,41 @@ export const notionService = {
      * Mapeja un objecte de Notion (CSV/JSON) al schema de Sóc de Poble.
      */
     mapToResource(notionItem) {
-        // Notion sol exportar propietats com 'Name', 'Tags', 'Created', 'URL'
-        const title = notionItem.Name || notionItem.title || 'Document sense títol';
+        // Notion exports can have properties like 'Name', 'Tags', 'Created', 'URL', 'Content', 'Description'
+        const title = notionItem.Name || notionItem.title || notionItem.Title || 'Document de Notion';
+        const content = notionItem.Content || notionItem.content || notionItem.Description || notionItem.description || '';
+        const url = notionItem.URL || notionItem.url || '';
+
         const rawTags = notionItem.Tags || notionItem.tags || '';
-        const tags = Array.isArray(rawTags)
+        let tags = Array.isArray(rawTags)
             ? rawTags
-            : rawTags.split(',').map(t => t.trim()).filter(t => t);
+            : typeof rawTags === 'string' ? rawTags.split(',').map(t => t.trim()).filter(t => t) : [];
+
+        // Detecció intel·ligent de categoria basada en el títol o contingut
+        let category = notionItem.Category || notionItem.category || 'Arxiu Personal';
+        const lowerTitle = title.toLowerCase();
+        if (lowerTitle.includes('projecte') || lowerTitle.includes('proposta')) category = 'Projectes';
+        else if (lowerTitle.includes('idea') || lowerTitle.includes('pensament')) category = 'Pensaments';
+        else if (lowerTitle.includes('comunitat') || lowerTitle.includes('veïns')) category = 'Comunitat';
 
         return {
             uuid: notionItem.id || `nt-${Math.random().toString(36).substr(2, 9)}`,
             title: title,
-            excerpt: notionItem.excerpt || notionItem.content || '',
+            excerpt: notionItem.excerpt || (content ? content.substring(0, 280) : ''),
             content_type: 'document',
             source: 'Notion',
-            url: notionItem.URL || notionItem.url || '',
-            collection: notionItem.Category || 'Arxiu Personal',
-            semantic_tags: ['#notion', ...tags],
+            url: url,
+            collection: category,
+            semantic_tags: ['#notion', ...tags.map(t => t.startsWith('#') ? t : `#${t}`)],
             created_at: notionItem.Created || notionItem.created_time || new Date().toISOString(),
             owner_id: null, // S'assigna en la importació
             is_public: false,
-            scope: 'private'
+            scope: 'private',
+            metadata: {
+                full_content: content,
+                import_date: new Date().toISOString(),
+                original_source: 'Notion Export'
+            }
         };
     },
 

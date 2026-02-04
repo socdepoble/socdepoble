@@ -6,23 +6,14 @@
     transition: all 0.5s ease;
 }
 
-/* THEME DUALITY */
-.admin-container[data-admin-theme='dark'],
-.admin-loading[data-admin-theme='dark'] {
-    background: #0f172a;
-    color: #f8fafc;
-    --admin-surface: rgba(30, 41, 59, 0.7);
-    --admin-border: rgba(255, 255, 255, 0.1);
-    --admin-bg-alt: #020617;
-}
-
-.admin-container[data-admin-theme='light'],
-.admin-loading[data-admin-theme='light'] {
-    background: #f8fafc;
-    color: #0f172a;
-    --admin-surface: #ffffff;
-    --admin-border: #e2e8f0;
-    --admin-bg-alt: #f1f5f9;
+/* THEME UNIFIED (Admin now follows global) */
+.admin-container,
+.admin-loading {
+    background: var(--bg-page);
+    color: var(--text-primary);
+    --admin-surface: var(--bg-card);
+    --admin-border: var(--md-sys-color-outline);
+    --admin-bg-alt: var(--bg-surface);
 }
 
 .admin-header {

@@ -3,7 +3,6 @@ import { useNavigate, Link } from 'react-router-dom';
 import { supabaseService } from '../services/supabaseService';
 import { useTranslation } from 'react-i18next';
 import { MapPin, Phone, Mail, ArrowRight, Loader2, User, ShieldCheck, CheckCircle2, ChevronRight, Globe, Zap } from 'lucide-react';
-import MeshStar from '../components/MeshStar';
 import TownSelectorModal from '../components/TownSelectorModal';
 import { useAuth } from '../context/AuthContext';
 import { logger } from '../utils/logger';
@@ -61,7 +60,7 @@ const Register = () => {
         const code = codeToVerify || otp;
 
         try {
-            const formattedPhone = phone.startsWith('+') ? phone : `+34${phone}`;
+            const formattedPhone = phone.startsWith('+') ? phone : `+ 34${phone} `;
             const { user: verifiedUser } = await supabaseService.verifyOtp(formattedPhone, code);
 
             if (verifiedUser) {
@@ -147,7 +146,7 @@ const Register = () => {
                 if (!phone || phone.length < 9) {
                     throw new Error('Introdueix un número de mòbil vàlid.');
                 }
-                const formattedPhone = phone.startsWith('+') ? phone : `+34${phone}`;
+                const formattedPhone = phone.startsWith('+') ? phone : `+ 34${phone} `;
                 await supabaseService.signInWithOtp(formattedPhone);
                 setStep('verify');
                 setResendCountdown(60);
@@ -188,8 +187,8 @@ const Register = () => {
             <div className="auth-card register-card-v2 animate-in-up">
                 {/* Visual Progress Bar */}
                 <div className="onboarding-progress">
-                    <div className={`progress-segment ${step === 'identity' ? 'active' : 'completed'}`}></div>
-                    <div className={`progress-segment ${step === 'verify' ? 'active' : ''}`}></div>
+                    <div className={`progress - segment ${step === 'identity' ? 'active' : 'completed'} `}></div>
+                    <div className={`progress - segment ${step === 'verify' ? 'active' : ''} `}></div>
                 </div>
 
                 <header className="auth-header glass-header">
@@ -252,7 +251,7 @@ const Register = () => {
                             </div>
                         </div>
                         <button
-                            className={`auth-button v2 main-btn ${!isNameValid ? 'btn-dimmed' : ''}`}
+                            className={`auth - button v2 main - btn ${!isNameValid ? 'btn-dimmed' : ''} `}
                             disabled={!isNameValid}
                             onClick={() => { hapticService.batec(); setStep('town'); }}
                         >
@@ -271,7 +270,7 @@ const Register = () => {
                                 id="town-picker-reg"
                                 name="town_picker"
                                 type="button"
-                                className={`town-picker-v2 ${selectedTown ? 'selected' : ''}`}
+                                className={`town - picker - v2 ${selectedTown ? 'selected' : ''} `}
                                 onClick={() => setIsTownModalOpen(true)}
                             >
                                 <div className="picker-left">
@@ -284,7 +283,7 @@ const Register = () => {
                         <div className="flex gap-4">
                             <button className="text-btn back-btn-step" onClick={() => setStep('identity')}>Enrere</button>
                             <button
-                                className={`auth-button v2 main-btn ${!selectedTown ? 'btn-dimmed' : ''}`}
+                                className={`auth - button v2 main - btn ${!selectedTown ? 'btn-dimmed' : ''} `}
                                 disabled={!selectedTown}
                                 onClick={() => { hapticService.batec(); setStep('connection'); }}
                             >
@@ -318,14 +317,14 @@ const Register = () => {
                                     autoComplete="tel"
                                     inputMode="numeric"
                                     required
-                                    className={`phone-input-prime ${phone && !isPhoneValid ? 'input-error' : (isPhoneValid ? 'input-success' : '')}`}
+                                    className={`phone - input - prime ${phone && !isPhoneValid ? 'input-error' : (isPhoneValid ? 'input-success' : '')} `}
                                 />
                             </div>
                         </div>
                         <div className="flex gap-4">
                             <button className="text-btn back-btn-step" onClick={() => setStep('town')}>Enrere</button>
                             <button
-                                className={`auth-button v2 main-btn ${!isPhoneValid ? 'btn-dimmed' : ''}`}
+                                className={`auth - button v2 main - btn ${!isPhoneValid ? 'btn-dimmed' : ''} `}
                                 disabled={loading || !isPhoneValid}
                                 onClick={handleRegister}
                             >

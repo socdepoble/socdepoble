@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { supabaseService } from '../services/supabaseService';
 import {
     Users, Shield, ArrowLeft, Loader2, Store, Activity,
-    Bell, Cpu, Terminal, Zap, CheckCircle, AlertTriangle, Brain, MessageSquare
+    Bell, Cpu, Terminal, Zap, CheckCircle, AlertTriangle, Brain, MessageSquare, Pin, Edit, ShieldCheck
 } from 'lucide-react';
 import { logger } from '../utils/logger';
 import pushNotifications from '../services/pushNotifications';
@@ -14,6 +14,7 @@ import CitizensModule from '../components/admin/CitizensModule';
 import StoreManagementModule from '../components/admin/StoreManagementModule';
 import SuperRatonControl from '../components/admin/SuperRatonControl';
 import GlobalOverview from '../components/admin/GlobalOverview';
+import AdminPinnedManager from '../components/AdminPinnedManager';
 import { useUI } from '../context/UIContext';
 import './AdminPanel.css';
 
@@ -85,12 +86,10 @@ const AdminPanel = () => {
 
     // --- Sub-Components Containers ---
 
-    const { theme } = useUI();
-    const adminTheme = theme === 'light' ? 'dark' : 'light';
 
     if (loading) {
         return (
-            <div className="admin-loading" data-admin-theme={adminTheme}>
+            <div className="admin-loading">
                 <Cpu className="spin" size={48} />
                 <p>INICIANT NUCLI...</p>
             </div>
@@ -98,7 +97,7 @@ const AdminPanel = () => {
     }
 
     return (
-        <div className="admin-container" data-admin-theme={adminTheme}>
+        <div className="admin-container">
             {/* TOP FLOATING HEADER */}
             <header className="admin-header">
                 <div className="title-area">
@@ -281,6 +280,7 @@ const AdminPanel = () => {
                         {activeModule === 'utilitat-social' && <UtilitatSocialModule addLog={addLog} />}
                         {activeModule === 'memory-governance' && <MemoryGovernanceModule addLog={addLog} />}
                         {activeModule === 'marketing' && <MarketingModule addLog={addLog} />}
+                        {activeModule === 'editorial-governance' && <EditorialGovernanceModule addLog={addLog} />}
                         {/* More modules can be added here */}
                     </div>
                 )}
@@ -618,6 +618,48 @@ const MarketingModule = ({ addLog }) => {
                         VEURE PLA UNIVERSAL COMPLET 📜
                     </button>
                 </div>
+            </div>
+        </div>
+    );
+};
+
+// 12. EDITORIAL GOVERNANCE MODULE
+const EditorialGovernanceModule = ({ addLog }) => {
+    const [view, setView] = useState('posts');
+
+    return (
+        <div className="neural-core-panel" style={{ minHeight: '500px' }}>
+            <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
+                <Pin color="var(--color-error)" /> GOVERNANÇA EDITORIAL [LLEI DE POSICIÓ]
+            </h2>
+
+            <div className="flex gap-2 mb-6">
+                <button
+                    className={`btn-hud-small ${view === 'posts' ? 'active' : ''}`}
+                    onClick={() => setView('posts')}
+                    style={{ background: view === 'posts' ? 'var(--color-error)' : 'transparent' }}
+                >
+                    MUR (PINS)
+                </button>
+                <button
+                    className={`btn-hud-small ${view === 'market' ? 'active' : ''}`}
+                    onClick={() => setView('market')}
+                    style={{ background: view === 'market' ? 'var(--color-error)' : 'transparent' }}
+                >
+                    MERCAT (PINS)
+                </button>
+            </div>
+
+            <AdminPinnedManager
+                type={view === 'posts' ? 'post' : 'market'}
+                onClose={() => addLog(`Configuració de pins pel ${view} bategada.`, 'success')}
+            />
+
+            <div className="mt-6 p-4 bg-gray-900/50 rounded-xl border border-gray-800">
+                <h4 className="text-xs font-bold text-gray-500 mb-2 uppercase">Llei de la Posició Fixa (Gènesi v1.6.1)</h4>
+                <p className="text-sm italic text-gray-400">
+                    "La visibilitat és un bategat que el Super Admin distribueix segons la utilitat social o la solvència del Mas."
+                </p>
             </div>
         </div>
     );

@@ -22,7 +22,7 @@ export const identityService = {
             id: crypto.randomUUID(),
             public_key: Array.from(pubBuf).map(b => b.toString(16).padStart(2, '0')).join(''),
             private_key: Array.from(privBuf).map(b => b.toString(16).padStart(2, '0')).join(''),
-            full_name: 'Veí Foraster',
+            full_name: `Agent ${Math.random().toString(36).substring(7).toUpperCase()}`,
             username: `sobe_${Math.random().toString(36).substring(7)}`,
             role: 'neighbor',
             status: 'sovereign_init', // Pendent de validació P2P
