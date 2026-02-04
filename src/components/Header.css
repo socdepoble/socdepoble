@@ -1,12 +1,11 @@
 .m3-top-app-bar {
     height: 64px;
-    padding: 0 var(--sdp-space-md);
-    background-color: var(--md-sys-color-surface);
-    background-image: var(--bg-texture);
+    padding: 0 var(--page-margin);
+    background-color: #000000 !important;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1.5px solid #1a1a1a;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -18,9 +17,9 @@
 }
 
 .bar-logo {
-    height: 32px;
-    filter: brightness(0) invert(1);
-    opacity: 0.9;
+    height: 38px;
+    filter: none;
+    opacity: 1;
 }
 
 .bar-trailing {
@@ -30,13 +29,13 @@
 }
 
 .bar-icon-btn {
-    width: 48px;
-    height: 48px;
-    border-radius: var(--sdp-radius-full);
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-full);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--sdp-text-high);
+    color: #FFFFFF;
     border: none;
     background: transparent;
     cursor: pointer;

@@ -5,12 +5,15 @@
   /* Paleta "Sunlight Safe" (Weber Class 6) */
   --bg-canvas: #000000;
   /* Fons Global (OLED Save) */
-  --bg-surface: #161616;
+  --bg-surface: #0a0a0a;
   /* Targetes (IBM Carbon) */
+  --bg-card: #161616;
   --text-main: #FFFFFF;
   /* Text Principal (Contrast 123:1) */
-  --accent: #CCFF00;
-  /* Groc Reflectant (Accions) */
+  --accent: #FF6D00;
+  /* Taronja Sóc de Poble (Vibrant) */
+  --accent-alt: #CCFF00;
+  /* Groc Reflectant (Accions Secundàries) */
   --alert: #FF3333;
   /* Roig Seguretat (Errors) */
 
@@ -254,10 +257,10 @@ body::after {
 /* Unified Secondary Header */
 .page-header-with-tabs {
   position: sticky;
-  top: var(--total-top-offset);
-  z-index: var(--z-tabs);
-  background-color: var(--bg-canvas)000;
-  border-bottom: 2px solid var(--accent);
+  top: 0;
+  z-index: 1000;
+  background-color: #000000;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .header-tabs-wrapper {

@@ -1,15 +1,14 @@
 .universal-card {
-    background: var(--md-sys-color-surface);
-    border: 1px solid var(--md-sys-color-outline);
-    border-radius: var(--radius-md) !important;
-    /* 16px per Flash */
+    background: var(--bg-card);
+    border: 1.5px solid rgba(255, 255, 255, 0.1);
+    border-radius: 28px !important;
     overflow: hidden;
-    box-shadow: var(--shadow-1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     display: flex;
     flex-direction: column;
     height: 100%;
-    margin-bottom: 24px;
+    margin-bottom: 32px;
 }
 
 .universal-card:hover {
@@ -29,11 +28,12 @@
     transition: background 0.2s ease;
 }
 
-/* THEMED HEADERS */
 .card-header.terracotta,
 .card-header.default {
     background: var(--accent);
     color: #000000;
+    padding: 20px 24px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .card-header.raindrop {
@@ -60,14 +60,12 @@
 }
 
 .card-title {
-    font-family: var(--font-headline);
-    font-weight: 700;
-    font-size: 1.1rem;
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 1.4rem;
     margin: 0;
     color: inherit;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    letter-spacing: -0.5px;
 }
 
 .card-subtitle {
@@ -247,16 +245,20 @@
 }
 
 .action-btn.principal-connect {
-    background: var(--color-primary-soft);
-    border: 1px solid var(--color-primary);
+    background: #000000;
+    color: #FFFFFF;
     border-radius: 0px;
-    color: var(--color-primary);
-    animation: pulse-border 2s infinite ease-in-out;
-}
-
-.action-btn.principal-connect.active {
-    background: var(--color-primary);
-    color: var(--bg-canvas);
+    height: 64px;
+    font-size: 18px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    border: none;
+    width: 100% !important;
+    text-transform: uppercase;
 }
 
 @keyframes pulse-border {

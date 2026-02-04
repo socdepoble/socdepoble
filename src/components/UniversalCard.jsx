@@ -72,9 +72,16 @@ const UniversalCard = ({
                                 {renderBadge()}
                                 {renderSyncIndicator()}
                             </h3>
-                            <div className="card-meta-row" style={{ display: 'flex', gap: '8px', alignItems: 'center', marginTop: '4px' }}>
-                                {collection && <span className="card-collection-tag" style={{ fontSize: '11px', background: 'var(--md-sys-color-primary-container)', color: 'var(--md-sys-color-on-primary-container)', padding: '2px 8px', borderRadius: 'var(--radius-xs)', fontWeight: '700' }}>{collection}</span>}
-                                {(subtitle || source) && <span className="card-subtitle" style={{ fontSize: '12px', color: 'inherit', opacity: 0.8 }}>{subtitle || source}</span>}
+                            <div className="card-meta-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '4px' }}>
+                                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                                    {collection && <span className="card-collection-tag" style={{ fontSize: '11px', background: 'rgba(0,0,0,0.1)', color: '#000000', padding: '2px 8px', borderRadius: 'var(--radius-xs)', fontWeight: '800' }}>{collection}</span>}
+                                    {(subtitle || source) && <span className="card-subtitle" style={{ fontSize: '12px', color: 'inherit', opacity: 0.9 }}>{subtitle || source}</span>}
+                                </div>
+                                {item?.created_at && (
+                                    <span className="card-date" style={{ fontSize: '12px', fontWeight: '800', opacity: 0.9 }}>
+                                        {new Date(item.created_at).toLocaleDateString()}
+                                    </span>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -87,21 +94,23 @@ const UniversalCard = ({
                                     openEditModal({ postData: item || { title, subtitle, content: excerpt, image_url: image } });
                                 }}
                                 style={{
-                                    background: 'var(--color-terracotta-dark)',
-                                    color: 'white',
-                                    border: 'none',
-                                    borderRadius: '50%',
-                                    width: '32px',
-                                    height: '32px',
+                                    background: 'var(--accent)',
+                                    color: 'var(--bg-canvas)',
+                                    border: '2px solid #000',
+                                    borderRadius: '0',
+                                    width: '44px',
+                                    height: '44px',
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
                                     cursor: 'pointer',
-                                    boxShadow: '0 2px 8px rgba(0,0,0,0.2)'
+                                    boxShadow: '4px 4px 0px rgba(0,0,0,1)',
+                                    fontSize: '20px',
+                                    transition: 'all 0.1s active'
                                 }}
-                                title="Admin: Rectificar Publicació"
+                                title="Admin: Rectificar Amb Trellat (🏺)"
                             >
-                                <Edit size={16} />
+                                🏺
                             </button>
                         )}
                         <ShareHub
@@ -150,8 +159,12 @@ const UniversalCard = ({
             )}
 
             {/* 3. Cos: Glassmorphism effect. */}
-            <div className="card-body">
-                {excerpt && <p className="card-excerpt" style={{ margin: '0 0 12px 0', fontSize: '14px', lineHeight: '1.4', opacity: 0.9 }}>{excerpt}</p>}
+            <div className="card-body" style={{ background: '#FFFFFF', color: '#000000', padding: '24px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
+                    <h2 style={{ fontSize: '24px', fontWeight: '900', color: '#000000', margin: 0, flex: 1 }}>{title}</h2>
+                    {item?.price && <span style={{ fontSize: '24px', fontWeight: '900', color: '#000000' }}>{item.price}€</span>}
+                </div>
+                {excerpt && <p className="card-excerpt" style={{ margin: '0 0 16px 0', fontSize: '18px', fontWeight: '500', lineHeight: '1.4', color: '#333333' }}>{excerpt}</p>}
                 {children}
             </div>
 

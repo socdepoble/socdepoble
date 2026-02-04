@@ -134,10 +134,14 @@ const Header = () => {
                     <MeshStar status={status} hops={hops} />
                 </button>
 
+                <button className="bar-icon-btn lang-pill" onClick={toggleLanguage} style={{ fontSize: '14px', fontWeight: '800', border: '1px solid rgba(255,255,255,0.3)', width: 'auto', padding: '0 10px', borderRadius: '4px', height: '32px' }}>
+                    {language?.toUpperCase()}
+                </button>
+
                 {user && (
                     <div className="bar-avatar-wrapper">
                         <Link to="/perfil" className="bar-avatar-link">
-                            <div className="bar-avatar">
+                            <div className="bar-avatar" style={{ border: '1.5px solid #FFFFFF' }}>
                                 {profile?.avatar_url ? (
                                     <img src={profile.avatar_url} alt="Perfil" />
                                 ) : (

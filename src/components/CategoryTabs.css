@@ -4,65 +4,54 @@
     width: 100%;
     margin: 0;
     padding: 0;
-    height: var(--category-bar-height);
-    background-color: rgba(0, 0, 0, 0.4);
-    /* SUPREME USABILITY: Smooth Lateral Scroll */
+    height: 48px;
+    background-color: #161923;
     overflow-x: auto;
     overflow-y: hidden;
-    -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
-    mask-image: linear-gradient(to right, black 90%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to right, black 90%, transparent 100%);
-}
-
-.category-tabs::-webkit-scrollbar {
-    display: none;
-}
-
-.category-tabs>* {
-    flex: 0 0 auto;
-    /* Prevent items from shrinking too much */
-    min-width: 80px;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    border-bottom: 2px solid #000000;
 }
 
 .category-tab {
-    padding: 0 4px;
-    /* Vertical padding handled by parent stretch & height */
-    border-radius: 0;
+    flex: 1;
+    min-width: 0;
+    padding: 0 16px;
     border: none;
-    border-right: 1px solid rgba(255, 255, 255, 0.05);
     background-color: transparent;
     color: rgba(255, 255, 255, 0.6);
-    font-size: var(--font-size-base);
+    font-size: 14px;
     text-transform: uppercase;
-    font-weight: 800;
-    letter-spacing: 0.4px;
+    font-weight: 900;
+    letter-spacing: 1px;
     white-space: nowrap;
     cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    transition: all 0.2s;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .category-tab.active {
-    background-color: rgba(93, 95, 239, 0.15);
-    /* Soft primary tint */
-    color: var(--color-primary);
-    border-bottom: 2px solid var(--color-primary);
-    /* Use bottom border for indicator */
-    box-shadow: none;
+    color: #FFFFFF;
+}
+
+.category-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background-color: #00F2FF;
 }
 
 .category-tab.add-tab {
-    background-color: rgba(93, 95, 239, 0.2);
-    color: var(--color-primary);
-    border-color: transparent;
-    font-size: var(--font-size-base);
-    padding: 6px 14px;
+    background-color: #1C1E26;
+    color: #FFFFFF;
+    font-size: 20px;
+    max-width: 60px;
 }
 
 .category-tab:hover:not(.active) {
