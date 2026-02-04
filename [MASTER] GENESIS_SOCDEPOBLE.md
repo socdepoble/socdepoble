@@ -6,7 +6,7 @@
 
 ## 1. ELS TRES PILARS (Core Values) 🧬
 1.  **Offline-First:** L'app funciona al 100% sense cobertura. La sincronització (Eg-walker) és invisible i eficient per a mòbils antics.
-2.  **Trellat Visual (Baseline MD3):** Usem el sistema de disseny de Google (Material Design 3) com a base robusta. La decoració final (colors, corbes o rectes) es decidirà segons el sentit estètic del Mestre una vegada el nucli estiga blindat. No ens lliguem a les línies rectes de forma absoluta.
+2.  **Trellat Visual (Democràcia Estètica):** Rebutgem el dogma visual. Usem **Material Design 3** com a estructura de tokens, però la forma final (corbes o rectes) és una decisió de l'usuari/Mestre. Oferim plantilles viues per a testar la millor UX.
 3.  **Accessibilitat Solar (Visual Comfort):** L'app s'ha de llegir sota el sol. Prioritzem el contrast i la claredat (Weber Class 6) com a requisit funcional, més enllà de l'estètica.
 
 ---
@@ -32,9 +32,11 @@ Entitats d'IA al servei del poble. Estètica **SEMPRE CÒMIC** (Escola Ibáñez 
 
 ## 3. SISTEMA VISUAL: "L'EINA I EL BATEGAT" 🚜🎨
 
-### A. La Base: Material Design 3
-La interfície utilitza MD3 per a garantir coherència i facilitat d'ús.
--   **Geometria:** Flexible. Usem corbes o rectes segons dicte el sentit estètic del moment. MD3 és la nostra guia estructural.
+### A. La Base: Directiva de Plantilles Viues
+La interfície no és una presó, és un espai de prova. 
+-   **Multi-tema:** El sistema ha de permetre triar entre estils (ex: "Pedra Seca" de 0px vs "Oli Suau" de 16px).
+-   **Design Tokens:** Tot (radi, color, espai) s'ha de definir amb variables (.css tokens) per a permetre el canvi instantani.
+-   **A/B Testing:** Dissenyem per a rebre feedback. ¿Què bategua millor? El veí ho dirà.
 -   **Tipografia (Iaia-Proof)::** Font clara (Inter/Roboto), **Mida Base 19px**, ús extensiu de negretes per a màxima llegibilitat.
 
 ### B. Paleta "Símplice i Saturada" (Exploració)

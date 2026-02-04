@@ -1,7 +1,7 @@
 {
   "name": "soc-de-poble",
   "private": true,
-  "version": "1.5.12-BATEGA",
+  "version": "1.5.13-BATEGA",
   "type": "module",
   "scripts": {
     "dev": "vite",
