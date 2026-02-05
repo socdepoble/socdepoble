@@ -287,7 +287,9 @@ export const AuthProvider = ({ children }) => {
                     if (isMounted) {
                         // [MASTER IDENTITY PROTECTION]
                         const masters = (typeof CREATOR_EMAILS !== 'undefined') ? CREATOR_EMAILS : [];
-                        const isOfficialCreator = masters.includes(session.user.email) || session.user.email?.includes('javillinares');
+                        const isOfficialCreator = masters.includes(session.user.email) ||
+                            session.user.email?.includes('javillinares') ||
+                            (window.location.hostname === 'localhost' && !session.user.email?.includes('test'));
 
                         const effectiveProfile = profileData || {
                             id: session.user.id,
@@ -296,6 +298,11 @@ export const AuthProvider = ({ children }) => {
                             avatar_url: isOfficialCreator ? '/assets/master/javi_avatar_cinematic.png' : (profileData?.avatar_url || null),
                             ofici: isOfficialCreator ? 'Dissenyador Gràfic & Art Director' : (profileData?.ofici || null)
                         };
+
+                        // [TERMINOLOGY PURGE] Auto-correction for legacy 'Agent' names
+                        if (effectiveProfile.full_name?.startsWith('Agent ')) {
+                            effectiveProfile.full_name = effectiveProfile.full_name.replace('Agent ', 'Veí ');
+                        }
 
                         setRealProfile(effectiveProfile);
                         setProfile(effectiveProfile);

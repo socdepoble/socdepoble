@@ -266,6 +266,16 @@ const AdminPanel = () => {
                                 </div>
                             )}
 
+                            {/* MODULE 13: PERMISSIONS GOVERNANCE (NEW) */}
+                            {isSuperAdmin && (
+                                <div className="module-card blue" onClick={() => setActiveModule('permissions')} style={{ borderColor: 'var(--color-primary)', boxShadow: '0 0 15px rgba(0, 122, 255, 0.2)' }}>
+                                    <div className="module-icon-wrapper" style={{ background: 'var(--color-primary)', color: '#fff' }}>
+                                        <Shield size={18} />
+                                    </div>
+                                    <h3>Permisos i Rols</h3>
+                                </div>
+                            )}
+
                         </div>
                     </div>
                 ) : (
@@ -281,6 +291,7 @@ const AdminPanel = () => {
                         {activeModule === 'memory-governance' && <MemoryGovernanceModule addLog={addLog} />}
                         {activeModule === 'marketing' && <MarketingModule addLog={addLog} />}
                         {activeModule === 'editorial-governance' && <EditorialGovernanceModule addLog={addLog} />}
+                        {activeModule === 'permissions' && <PermissionsGovernanceModule addLog={addLog} />}
                         {/* More modules can be added here */}
                     </div>
                 )}
@@ -659,6 +670,63 @@ const EditorialGovernanceModule = ({ addLog }) => {
                 <h4 className="text-xs font-bold text-gray-500 mb-2 uppercase">Llei de la Posició Fixa (Gènesi v1.6.1)</h4>
                 <p className="text-sm italic text-gray-400">
                     "La visibilitat és un bategat que el Super Admin distribueix segons la utilitat social o la solvència del Mas."
+                </p>
+            </div>
+        </div>
+    );
+};
+
+// 13. PERMISSIONS GOVERNANCE MODULE
+const PermissionsGovernanceModule = ({ addLog }) => {
+    const [roles, setRoles] = useState([
+        { id: 'super_admin', label: 'Super Admin', access: 'Total (God Mode)', color: 'var(--hud-accent)' },
+        { id: 'admin', label: 'Administrador', access: 'Gestió de Poble', color: 'var(--color-primary)' },
+        { id: 'editor', label: 'Editor', access: 'Contingu i Pins', color: 'var(--color-error)' },
+        { id: 'author', label: 'Autor Verificat', access: 'Publicació Directa', color: 'var(--color-warning)' },
+        { id: 'neighbor', label: 'Veí', access: 'Estàndard', color: 'var(--text-muted)' }
+    ]);
+
+    return (
+        <div className="neural-core-panel" style={{ minHeight: '500px' }}>
+            <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
+                <Shield color="var(--color-primary)" /> JERARQUIA D'HABITANTS [PROTOCOL VALENTIA]
+            </h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="p-4 border border-gray-700 rounded-xl bg-black/20">
+                    <h3 className="font-bold text-lg mb-4 text-blue-400">🛡️ DEFINICIÓ DE ROLS</h3>
+                    <div className="space-y-3">
+                        {roles.map(role => (
+                            <div key={role.id} className="flex justify-between items-center p-3 bg-gray-900/50 rounded-lg border border-gray-800">
+                                <div>
+                                    <div className="font-bold text-sm" style={{ color: role.color }}>{role.label}</div>
+                                    <div className="text-[10px] opacity-50 uppercase">{role.access}</div>
+                                </div>
+                                <button className="btn-hud-small text-[10px]">CONFIGURAR</button>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="p-4 border border-gray-700 rounded-xl bg-black/20">
+                    <h3 className="font-bold text-lg mb-4 text-cyan-400">⚡ ACCIONS DE SEGURETAT</h3>
+                    <div className="space-y-3">
+                        <div className="p-3 bg-red-900/10 border border-red-500/20 rounded-lg">
+                            <p className="text-xs font-bold text-red-400 mb-1">BLINDATGE MASTER</p>
+                            <p className="text-[10px] opacity-70 mb-3">Només el Mestre i el Cercle poden elevar un usuari a Super Admin.</p>
+                            <button className="btn-primary w-full bg-red-600 text-white text-[10px] h-8">AUDITAR ACCESOS CRÍTICS</button>
+                        </div>
+                        <button className="btn-hud-small w-full" onClick={() => addLog('Protocol de permisos bategat.', 'info')}>
+                            REESTABLIR PERMISOS PER DEFECTE
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div className="mt-6 p-4 bg-gray-900/50 rounded-xl border border-gray-800">
+                <h4 className="text-xs font-bold text-gray-500 mb-2 uppercase">Llei de la Sobirania Administrativa (Gènesi v1.6.2)</h4>
+                <p className="text-sm italic text-gray-400">
+                    "L'accés és una responsabilitat compartida, però la font de veritat resideix en el Mestre."
                 </p>
             </div>
         </div>
