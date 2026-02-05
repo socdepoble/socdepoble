@@ -1,7 +1,7 @@
 {
   "name": "soc-de-poble",
   "private": true,
-  "version": "1.6.3-BATEGA",
+  "version": "1.6.6-NUCLEAR",
   "type": "module",
   "scripts": {
     "dev": "vite",

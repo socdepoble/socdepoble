@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'v1.5.6-BATEGA';
+const CACHE_VERSION = 'v1.6.6-NUCLEAR';
 
 self.addEventListener('install', (event) => {
     self.skipWaiting();

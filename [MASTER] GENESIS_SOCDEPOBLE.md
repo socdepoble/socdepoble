@@ -1,4 +1,4 @@
-# [MASTER] GÉNESIS: DOCTRINA SUPREMA DE SÓC DE POBLE (v5.8 - DESIGN CANON 1.6.5) 🏛️🏺⚡️
+# [MASTER] GÉNESIS: DOCTRINA SUPREMA DE SÓC DE POBLE (v5.9 - CANÓ NUCLEAR 1.6.6) 🏛️🏺☢️
 
 **ESTAT:** FONT DE VERITAT ÚNICA I IMMUTABLE. Protocol **"Foc i Aigua"** en fase de plenitud.
 
@@ -11,6 +11,7 @@
 4.  **Zero Radius Monolith:** Res de puntes romes. El món rural és dur i sòlid. 0px de radi a tot arreu.
 5.  **Contrast Foc i Aigua:** Taronja (#FF6D23) per a la identitat bategant i Cian Elèctric (#00F2FF) per a l'acció digital. Base en Blanc i Negre pur.
 6.  **Llei de la Vora Dura:** Tota eina ha de portat vores negres de 2px i ombres mòltes (Hard Shadows) de 4px. La suavitat és debilitat.
+7.  **Llei de la Sincronització Immediata (Directiva Atum):** L'app bategua amb un sol cor. Qualsevol desviació de versió o cache obsoleta ha de ser purgada immediatament. L'usuari mai ha de carregar codi prehistòric. Cada bategat de versió forta (NUCLEAR) implica una purga total per a garantir la sorpresa i l'excel·lència visual.
 
 ---
 

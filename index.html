@@ -31,13 +31,19 @@
   </script>
 
   <script>
-    // [MASTER NUCLEAR OVERRIDE] v1.5.6-BATEGA-FINAL
+    // [MASTER NUCLEAR OVERRIDE] v1.6.6-NUCLEAR
     (function () {
-      const V = 'v1.5.6-BATEGA';
+      const V = 'v1.6.6-NUCLEAR';
       if (localStorage.getItem('sp_app_version') !== V) {
-        console.error('[NUCLEAR] VERSION MISMATCH! PURGING...');
+        console.error('[NUCLEAR] VERSION MISMATCH! PURGING PREHISTORIC CACHE...');
         localStorage.clear();
         sessionStorage.clear();
+        // Clear all caches
+        if ('caches' in window) {
+            caches.keys().then(names => {
+                for (let name of names) caches.delete(name);
+            });
+        }
         localStorage.setItem('sp_app_version', V);
         if ('serviceWorker' in navigator) {
           navigator.serviceWorker.getRegistrations().then(rs => {
@@ -67,32 +73,9 @@
     href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&display=swap"
     rel="stylesheet">
 
-  <script>
-    // ATOMIC VERSION ENFORCEMENT (v1.5.6-BATEGA)
-    (function () {
-      const REQUIRED_VERSION = 'v1.5.6-BATEGA';
-      const lastNuke = localStorage.getItem('sp_app_version');
-
-      if (lastNuke !== REQUIRED_VERSION) {
-        console.warn('[NUCLEAR] Version mismatch or first run of v1.5.6. PURGING EVERYTHING...');
-        localStorage.clear();
-        sessionStorage.clear();
-        localStorage.setItem('sp_app_version', REQUIRED_VERSION);
-
-        if ('serviceWorker' in navigator) {
-          navigator.serviceWorker.getRegistrations().then(regs => {
-            for (let r of regs) r.unregister();
-            window.location.reload(true);
-          });
-        } else {
-          window.location.reload(true);
-        }
-      }
-    })();
-
-    // SELF-HEALING PROTOCOL (v1.5.6-RELAXED)
+    // SELF-HEALING PROTOCOL (v1.6.6-STABLE)
     window.onerror = function (message, source, lineno, colno, error) {
-      if (message.includes('RescueTool')) {
+      if (message && message.includes('RescueTool')) {
         console.error('[NUCLEAR] Critical component missing! Forcing hard reset...');
         localStorage.clear();
         sessionStorage.clear();
@@ -101,15 +84,12 @@
     };
 
     window.CREATOR_EMAILS = window.CREATOR_EMAILS || ['socdepoblecom@gmail.com', 'damimus@gmail.com'];
-    window.APP_VERSION = 'v1.5.6-BATEGA';
-    window.HIDE_SEO_VERSION = false; // Set to true for maintenance/screenshots
-    // console.log('[MASTER] Bategat nominal. Versió ' + window.APP_VERSION);
-    // console.log('[INFO] Qualsevol error de "shadow host" a la consola prové de l\'assistent d\'IA de Chrome i no afecta a Sóc de Poble.');
+    window.APP_VERSION = 'v1.6.6-NUCLEAR';
   </script>
 
   <title>Sóc de Poble | El Portal dels Pobles Connectats 🏘️⚖️✨</title>
   <meta name="description"
-    content="Connecta amb la teua comunitat. El bategat de la terra en format digital. v1.5.6-BATEGA [MASTER].">
+    content="Connecta amb la teua comunitat. El bategat de la terra en format digital. v1.6.6-NUCLEAR [MASTER].">
   <meta name="keywords" content="poble, comunitat, esdeveniments, mercat local, proximitat, valència, connectivitat" />
   <meta name="author" content="Sóc de Poble" />
 
@@ -205,9 +185,9 @@
         <p style="color: #ff0055; font-weight: bold; margin-bottom: 15px;">⚠️ S'ha detectat un retard en l'arrancada.
         </p>
         <button
-          onclick="localStorage.clear(); sessionStorage.clear(); localStorage.setItem('sp_app_version', 'v1.5.6-BATEGA'); location.reload(true);"
+          onclick="localStorage.clear(); sessionStorage.clear(); localStorage.setItem('sp_app_version', 'v1.6.6-NUCLEAR'); location.reload(true);"
           style="background:#ff0055; color:white; padding:15px 30px; border-radius:12px; border:none; font-weight:bold; cursor:pointer; box-shadow: 0 4px 15px rgba(255,0,85,0.3);">
-          FORÇAR REPARACIÓ NUCLEAR (v1.5.6)
+          FORÇAR REPARACIÓ NUCLEAR (v1.6.6)
         </button>
       </div>
 
@@ -230,9 +210,9 @@
   </div>
   <div class="app-version"
     style="position:fixed;bottom:10px;right:10px;font-size:10px;opacity:0.3;z-index:9999;user-select:all;">
-    v1.5.6-BATEGA
+    v1.6.6-NUCLEAR
   </div>
-  <script type="module" src="/src/entry.jsx?v=BATEGA_1_5_6_REFLOW"></script>
+  <script type="module" src="/src/entry.jsx?v=NUCLEAR_1_6_6"></script>
 </body>
 
 </html>

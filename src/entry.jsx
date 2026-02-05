@@ -122,18 +122,24 @@ if ('caches' in window) {
   });
 }
 
-// [RESEMBRA ATÒMICA] Lògica de Sincronització de Versió Segura (v1.6.4-TOTAL-PROPAGATION)
-const CURRENT_MASTER_VERSION = 'v1.6.4-TOTAL-PROPAGATION';
+// [RESEMBRA ATÒMICA] Lògica de Sincronització de Versió Segura (v1.6.6-NUCLEAR)
+const CURRENT_MASTER_VERSION = 'v1.6.6-NUCLEAR';
 const savedVersion = localStorage.getItem('sp_app_version');
 
 // EMERGENCY ATUM: Manual rescue function
 window.RecordaAtum = () => {
-  console.log('%c[ATUM] PURGA TOTAL FOC I AIGUA ACTIVADA...', 'color: #FF6D23; font-weight: bold; font-size: 14px;');
+  console.log('%c[ATUM] PURGA TOTAL NUCLEAR FOC I AIGUA ACTIVADA...', 'color: #FF6D23; font-weight: bold; font-size: 16px;');
   localStorage.clear();
   sessionStorage.clear();
   if ('caches' in window) {
     caches.keys().then(names => {
       for (let name of names) caches.delete(name);
+    });
+  }
+  // Unregister all SWs
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then(rs => {
+      for (let r of rs) r.unregister();
     });
   }
   localStorage.setItem('sp_app_version', 'ATUM_RESET');
@@ -173,7 +179,7 @@ if (justReloaded) {
 // Register new SW with cache busting
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js?nuke=v1.6.3-BATEGA').then(registration => {
+    navigator.serviceWorker.register(`/sw.js?nuke=${CURRENT_MASTER_VERSION}`).then(registration => {
       // logger.info('[SW] Registered with scope:', registration.scope);
 
       registration.onupdatefound = () => {
