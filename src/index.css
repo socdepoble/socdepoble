@@ -76,6 +76,10 @@
   --safe-bottom: env(safe-area-inset-bottom, 0px);
   --safe-left: env(safe-area-inset-left, 0px);
   --safe-right: env(safe-area-inset-right, 0px);
+
+  /* [MASTER] System Tokens - Protocol Botiga de Diumenge */
+  --sys-spacing-safe-top: env(safe-area-inset-top, 20px);
+  --sys-spacing-safe-bottom: env(safe-area-inset-bottom, 20px);
 }
 
 @keyframes batec-pulse {
@@ -322,6 +326,8 @@ a:hover {
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
+  padding-top: var(--sys-spacing-safe-top);
+  padding-bottom: var(--sys-spacing-safe-bottom);
 }
 
 /* Typography Utility Classes - Scaled for visibility (>45 users) */

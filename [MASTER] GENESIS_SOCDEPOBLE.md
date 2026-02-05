@@ -1,4 +1,4 @@
-# [MASTER] GÉNESIS: DOCTRINA SUPREMA DE SÓC DE POBLE (v5.13 - EL BATEGAT CIENTÍFIC) 🏛️🧪🧬☢️🧼🌅✂️
+# [MASTER] GÉNESIS: DOCTRINA SUPREMA DE SÓC DE POBLE (v5.14 - BOTIGA DE DIUMENGE) 🏛️👔📱☢️🧼🌅✂️
 
 **ESTAT:** FONT DE VERITAT ÚNICA I IMMUTABLE. Protocol **"Foc i Aigua"** en fase de plenitud.
 
@@ -120,9 +120,14 @@ Per a que Flash (NotebookLM) i la Gem bateguen amb aquesta versió del Gènesi:
         - **Auditoria de Tokens:** Assegurar que la font de veritat JSON arriba al codi final via CI/CD.
         - **Pla d'Acció:** Soft Deletion o neteja de dades locals en conflicte.
 
+*   **Protocol Botiga de Diumenge (Native/ASO):** 👔 L'app ha de vestir-se de gala per a les Stores. 
+    1. **Safe Area Insets**: Ús obligatori de `var(--sys-spacing-safe-*)` per a que el notch i els controls del mòbil no bloquegen l'experiència.
+    2. **Privacitat Contextual**: La càmera i el GPS només demanen permís en el moment de l'acció (Ritu de l'🏺), mai abans.
+    3. **Narrativa Visual (ASO)**: Screenshots que conten històries de sobirania i utilitat, no només interfície.
+
 ---
 
-## 10. 📐 DIRECTIVES PRIMÀRIES D'ESTRUCTURA I MULTIMÈDIA (Llei Mestra) 🏛️
+## 12. 📐 DIRECTIVES PRIMÀRIES D'ESTRUCTURA I MULTIMÈDIA (Llei Mestra) 🏛️
 Aquestes regles són pilar fonamental per a la coherència del bategat:
 *   **Protocol d'Imatge Única:** Prohibit repetir imatges en publicacions distintes. Cada post ha de bategar amb identitat visual pròpia.
 *   **Llei de l'Identitat Suprema (Pilar del Mapa del Tresor):** Directiva primària i absoluta. 
