@@ -376,74 +376,7 @@
     letter-spacing: 0.5px;
 }
 
-.footer-btn {
-    background: none;
-    border: none;
-    color: #000000;
-    opacity: 0.8;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 12px;
-    font-weight: 800;
-    cursor: pointer;
-    padding: 4px;
-    transition: all 0.2s ease;
-}
-
-.footer-btn:hover {
-    opacity: 1;
-    color: var(--genesis-orange);
-}
-
-.footer-btn.active {
-    color: var(--genesis-orange);
-    opacity: 1;
-}
-
-/* MODE MERCAT: PRIMARY BUTTON */
-.btn-master-primary {
-    width: 100%;
-    height: 48px;
-    background: var(--color-primary);
-    /* Cyan */
-    color: #000000;
-    border: var(--border-master);
-    border-radius: 0px;
-    font-size: 14px;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    transition: all 0.1s ease;
-}
-
-.btn-master-primary:hover {
-    background: var(--genesis-orange);
-    color: var(--genesis-black);
-}
-
-/* MODE POBLES: INFO ROW */
-.pobles-footer-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: var(--genesis-orange);
-    font-weight: 900;
-    font-size: 13px;
-}
-
-.enter-poble-row {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    text-transform: uppercase;
-    font-size: 11px;
-}
+/* MASONRY / GRID ADAPTATION (Expected parent classes) */
 
 /* ANIMATIONS */
 .animate-bategat {

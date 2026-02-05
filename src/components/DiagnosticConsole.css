@@ -61,10 +61,7 @@
     display: none !important;
 }
 
-.diagnostic-hud::after {
-    display: none;
-    /* Eliminem efecte Scanline sci-fi */
-}
+/* SCANLINE EFFECT PURGED */
 
 .diagnostic-hud.hidden {
     transform: translateX(120%) skewX(-5deg);
@@ -453,12 +450,7 @@
     letter-spacing: 2px;
 }
 
-.panel.hud-header-title h2 {
-    font-size: var(--font-size-base);
-    letter-spacing: 2px;
-    font-weight: 900;
-    margin: 0;
-}
+/* REDUNDANT PANEL HEADER REMOVED */
 
 .auto-heal-badge {
     font-size: 8px;

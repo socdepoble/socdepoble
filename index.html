@@ -40,9 +40,9 @@
         sessionStorage.clear();
         // Clear all caches
         if ('caches' in window) {
-            caches.keys().then(names => {
-                for (let name of names) caches.delete(name);
-            });
+          caches.keys().then(names => {
+            for (let name of names) caches.delete(name);
+          });
         }
         localStorage.setItem('sp_app_version', V);
         if ('serviceWorker' in navigator) {
@@ -73,18 +73,18 @@
     href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&display=swap"
     rel="stylesheet">
 
-    // SELF-HEALING PROTOCOL (v1.6.6-STABLE)
-    window.onerror = function (message, source, lineno, colno, error) {
-      if (message && message.includes('RescueTool')) {
-        console.error('[NUCLEAR] Critical component missing! Forcing hard reset...');
-        localStorage.clear();
-        sessionStorage.clear();
-        window.location.reload(true);
-      }
-    };
+  // SELF-HEALING PROTOCOL (v1.6.6-STABLE)
+  window.onerror = function (message, source, lineno, colno, error) {
+  if (message && message.includes('RescueTool')) {
+  console.error('[NUCLEAR] Critical component missing! Forcing hard reset...');
+  localStorage.clear();
+  sessionStorage.clear();
+  window.location.reload(true);
+  }
+  };
 
-    window.CREATOR_EMAILS = window.CREATOR_EMAILS || ['socdepoblecom@gmail.com', 'damimus@gmail.com'];
-    window.APP_VERSION = 'v1.6.6-NUCLEAR';
+  window.CREATOR_EMAILS = window.CREATOR_EMAILS || ['socdepoblecom@gmail.com', 'damimus@gmail.com'];
+  window.APP_VERSION = 'v1.6.6-NUCLEAR';
   </script>
 
   <title>Sóc de Poble | El Portal dels Pobles Connectats 🏘️⚖️✨</title>
@@ -95,9 +95,9 @@
 
   <!-- Open Graph / WhatsApp Agressiu Cache Busting -->
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://socdepoble.vercel.app/?v=BATEGA_1_5_6" />
-  <meta property="og:title" content="Sóc de Poble v1.5.6-BATEGA 🏘️⚖️✨" />
-  <meta property="og:description" content="La teva comunitat, els teus veïns. Versió MASTER 1.5.6." />
+  <meta property="og:url" content="https://socdepoble.vercel.app/?v=NUCLEAR_1_6_6" />
+  <meta property="og:title" content="Sóc de Poble v1.6.6-NUCLEAR 🏘️⚖️✨" />
+  <meta property="og:description" content="La teva comunitat, els teus veïns. Versió MASTER 1.6.6." />
   <meta property="og:image" content="https://socdepoble.vercel.app/og-image.png?v=Genius_1_5_4_Final_Consolidated" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
@@ -117,7 +117,7 @@
             style="padding: 15px 30px; background: #00f2ff; color: #000; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">
             Netejar Cache i Reiniciar Protocol
           </button>
-          <div style="margin-top: 20px; opacity: 0.5; font-size: 12px;">v1.5.6-BATEGA-RESCUE</div>
+          <div style="margin-top: 20px; opacity: 0.5; font-size: 12px;">v1.6.6-NUCLEAR-RESCUE</div>
         </div>
       `;
     };
@@ -129,8 +129,8 @@
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:url" content="https://socdepoble.vercel.app/" />
-  <meta name="twitter:title" content="Sóc de Poble v1.5.6-BATEGA 🏘️⚖️✨" />
-  <meta name="twitter:description" content="Connecta amb la teua comunitat. Versió MASTER 1.5.6." />
+  <meta name="twitter:title" content="Sóc de Poble v1.6.6-NUCLEAR 🏘️⚖️✨" />
+  <meta name="twitter:description" content="Connecta amb la teua comunitat. Versió MASTER 1.6.6." />
   <meta name="twitter:image" content="https://socdepoble.vercel.app/og-image.png?v=Genius_1_5_4_Final_Consolidated" />
 
   <!-- Mobile Theme -->

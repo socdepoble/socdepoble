@@ -43,7 +43,7 @@ const DiagnosticConsole = () => {
     const [hudActivity, setHudActivity] = useState({ syncing: false, sifting: true, bufferLevel: 0.15 });
     const [viewMode, setViewMode] = useState('ADMIN'); // 'ADMIN' or 'USER' (CLEAN)
     const [techReport, setTechReport] = useState(null);
-    const VERSION = 'v1.5.6-BATEGA';
+    const VERSION = 'v1.6.6-NUCLEAR';
 
     // DIRECTIVA DE LES MARIES [MASTER]
     useEffect(() => {
@@ -130,7 +130,6 @@ const DiagnosticConsole = () => {
             if (msg.includes('beforeinstallpromptevent') || msg.includes('Banner not shown')) {
                 return;
             }
-            // originalLog(...args); // NUCLEAR CLEANING: SILENCED
             addHudLog('info', args);
         };
         console.warn = (...args) => {
@@ -140,14 +139,12 @@ const DiagnosticConsole = () => {
             }
             if (msg.includes('Geolocation')) {
                 addHudLog('warn', ['[PRIVACITAT] El navegador bloqueja la geolocalització. Revisa els permisos a la barra d\'adreces per a funcions de proximitat.']);
-                // originalWarn(...args); // NUCLEAR CLEANING: SILENCED
                 return;
             }
             if (msg.includes('Push') && msg.includes('No active session')) {
                 // Silenci de protocol: no cal alarmar si no hi ha sessió
                 return;
             }
-            // originalWarn(...args); // NUCLEAR CLEANING: SILENCED
             addHudLog('warn', args);
         };
         console.error = (...args) => {
@@ -174,7 +171,6 @@ const DiagnosticConsole = () => {
             if (msg.includes('beforeinstallpromptevent') || msg.includes('Banner not shown')) {
                 return;
             }
-            // originalInfo(...args); // NUCLEAR CLEANING: SILENCED
             addHudLog('info', args);
         };
 

@@ -1,4 +1,4 @@
-# [MASTER] GÉNESIS: DOCTRINA SUPREMA DE SÓC DE POBLE (v5.9 - CANÓ NUCLEAR 1.6.6) 🏛️🏺☢️
+# [MASTER] GÉNESIS: DOCTRINA SUPREMA DE SÓC DE POBLE (v5.10 - CANÓ NUCLEAR 1.6.6) 🏛️🏺☢️🧼
 
 **ESTAT:** FONT DE VERITAT ÚNICA I IMMUTABLE. Protocol **"Foc i Aigua"** en fase de plenitud.
 
@@ -91,24 +91,32 @@ La interfície és un espai de prova permanent.
 
 ---
 
+## 7. 🧼 PROTOCOL D'AUDITORIA EXTREMA (Directiva Sagrada) 🧹✨
+*   **MANDAT:** ÉS inacceptable presentar versions obsoletes a l'usuari/usuària. La confiança es guanya amb precisió i neteja nuclear.
+*   **Extermini de la "Morca" (Legacy Code):** Queda prohibit mantenir codi "comentat" o versions velles en els fitxers de producció. Si no s'usa, s'esborra. El codi net bategua millor.
+*   **Propagació Nuclear:** Quan s'actualitza una versió (ex: de v1.6.5 a v1.6.6-NUCLEAR), s'ha de forçar el refresc i la purga de cache en TOTS els nodes de manera atòmica.
+*   **La Regla del Racó Net:** Abans de donar un codi per bo, l'Agent ha de revisar cada racó (CSS, JS, HTML) per assegurar que no queden estils o scripts "zombis" que bloquegen l'actualització o l'estètica.
+*   **Trellat de Versió:** El número de versió ha de ser visible i VERIFICABLE en el footer de l'aplicació. Si no coincideix amb l'últim bategat de producció, es considera un error crític.
+
 ---
 
-## 7. PROTOCOL DE SINCRONITZACIÓ D'AGENTS (LM & GEM) 🏛️🔄
+## 8. 🔄 PROTOCOL DE SINCRONITZACIÓ D'AGENTS (LM & GEM) 🏛️
 Per a que Flash (NotebookLM) i la Gem bateguen amb aquesta versió del Gènesi:
 1.  **NotebookLM**: Re-pujar el fitxer `[MASTER] GENESIS_SOCDEPOBLE.md` com a font primària.
 2.  **Gemini**: Actualitzar la seua base de coneixement i aplicar l'**Instrucció Mestra v1.0**.
 3.  **Ordre de Reinici**: Si l'agent perd la coherència, dir: *"Recorda l'Atum i aplica el protocol de Simbiosi Total"*.
 
-## 8. 📐 DIRECTIVES PRIMÀRIES D'ESTRUCTURA I MULTIMÈDIA (Llei Mestra) 🏛️
+---
+
+## 9. 📐 DIRECTIVES PRIMÀRIES D'ESTRUCTURA I MULTIMÈDIA (Llei Mestra) 🏛️
 Aquestes regles són pilar fonamental per a la coherència del bategat:
 *   **Protocol d'Imatge Única:** Prohibit repetir imatges en publicacions distintes. Cada post ha de bategar amb identitat visual pròpia.
 *   **Llei de l'Identitat Suprema (Pilar del Mapa del Tresor):** Directiva primària i absoluta. 
-    *   **Prioritat TOTAL al Logotip Complet:** Aquell que inclou el **plànol (mapa) i el quadrat**. El logo no és només una marca, és un impacte de mig segon que evoca la idea de "plànol del tresor", de descobriment d'un poble. Ha de transmetre la identitat rural i la pertinença immediata, fins i tot per a qui viu a la capital.
-    *   **Variant Rectangular (Simplificada):** Només es permet en espais restringits (com la capçalera web) on el logo complet no bategue per format.
-    *   **Segell de Veritat:** Tota imatge o producte estrella (Merch) ha de portar el **Logo Complet** per a garantir aquest impacte emocional de "pobles connectats".
+    1. **Prioritat TOTAL al Logotip Complet:** Aquell que inclou el plànol (mapa) i el quadrat. El logo no és només una marca, és un impacte de mig segon que evoca la idea de "plànol del tresor".
+    2. **Segell de Veritat:** Tota imatge o producte estrella (Merch) ha de portar el Logo Complet.
 *   **Llei de Completesa (Anti-Buit):** No es permeten "buits" de sistema. Posts estrella (ex: Merchandising) han de tenir un set de 7 imatges úniques.
-*   **Multimèdia Adaptativa:** El cuadre multimèdia s'ha d'adaptar al contingut. L'usuari ha de veure la realitat tal qual és, sense retalls arbitraris.
-*   **Navegació de Llinatge:** Punxar a la capçalera de la `UniversalCard` ha de portar sempre al perfil de l'autor. És la porta al llinatge.
+*   **Multimèdia Adaptativa:** El cuadre multimèdia s'ha d'adaptar al contingut.
+*   **Navegació de Llinatge:** Punxar a la capçalera de la `UniversalCard` ha de portar sempre al perfil de l'autor.
 *   **Llei de la Boina Taronja (Protocols de Targeta):**
     *   **Botiga (Mercat):** Botó "Interessat" + Preu expandit. Zoom multimèdia obligatori.
     *   **Mur (Notícies):** Footer amb accions socials. Comentaris integrats tipus acordió.
@@ -117,37 +125,28 @@ Aquestes regles són pilar fonamental per a la coherència del bategat:
 
 ---
 
-## 9. 🌍 MISSIÓ SOCIAL I SMART CITY RURAL (Llei de l'Abundància) 🏛️
+## 10. 🌍 MISSIÓ SOCIAL I SMART CITY RURAL (Llei de l'Abundància) 🏛️
 Sóc de Poble no és una aplicació, és un **Bategat Comunitari**.
-*   **Directiva Non-profit:** La plataforma és de caràcter social i sense ànim de lucre. Qualsevol benefici es reinverteix en el Mas (la comunitat).
-*   **Gestió Smart City Humana:** Utilitzem la tecnologia per a la utilitat social (aigua, residus, energia, vots) de manera didàctica i transparent.
-*   **Aula Rural:** És el destí de tota funcionalitat experimental o en bategat. Cap botó ha d'estar mort; si no hi ha acció, s'ha de redirigir a l'Aula Rural per a l'aprenentatge del veí.
-*   **Universalitat:** El sistema es dissenya per a ser replicable en qualsevol poble petit que vulga defensar la seua sobirania digital.
+*   **Directiva Non-profit:** La plataforma és de caràcter social i sense ànim de lucre.
+*   **Gestió Smart City Humana:** Utilitzem la tecnologia per a la utilitat social de manera didàctica.
+*   **Aula Rural:** És el destí de tota funcionalitat experimental. Cap botó ha d'estar mort.
+*   **Universalitat:** El sistema es dissenya per a ser replicable en qualsevol poble petit.
 
 ---
 
-## 10. 💰 SOLVÈNCIA ECONÒMICA I SOSTENIBILITAT (NGO Master Plan) 🏛️📈
-La sobirania digital exigeix independència financera. Sóc de Poble ha de bategar amb recursos propis per a ser immutable.
-
-*   **Objectiu de Supervivència (Target Zero):** Establim un cost operatiu mínim de **6.000 €/any** (500 €/mes).
-*   **Desglossament del Bategat Econòmic:**
-    *   **Fiscalitat:** Autònom (3.600 €) + Gestoria ONG (720 €/any).
-    *   **Infraestructura:** Supabase Pro + Domini + RC (780 €/any).
-    *   **Buffer Tècnic:** Suport i manteniment (900 €/any).
-*   **Estratègies de Monetització Social:**
-    *   **Visibilitat Premium:** Sistema de Pinned Posts (150 €/mes estimat).
-    *   **Sponsors:** Col·laboracions territorials (200 €/mes estimat).
-    *   **Merchandising:** Productes oficials amb Logo Complet (150 €/mes estimat).
-*   **Protocol de Transparència:** Tota entrada de capital bategarà al llibre de comptes públic de l'Aula Rural. Cap projecte és lliure si no és solvent.
+## 11. 💰 SOLVÈNCIA ECONÒMICA I SOSTENIBILITAT (NGO Master Plan) 🏛️📈
+La sobirania digital exigeix independència financera.
+*   **Objectiu de Supervivència (Target Zero):** Establim un cost operatiu mínim de **6.000 €/any**.
+*   **Protocol de Transparència:** Tota entrada de capital bategarà al llibre de comptes públic de l'Aula Rural.
 
 ---
 
-## 11. 🛡️ SISTEMA DE PRIVILEGIS I VISIBILITAT (Super Admin) 🏛️⚡️
-*   **Full Control:** Els Super Admins (Mestre i el Cercle) tenen la potestat de fixar contingut per a maximitzar l'impacte visual o monetari.
-*   **Llei de la Posició Fixa:** El sistema ha de permetre fixar fins a 3 publicacions al capdamunt del bategat, prioritzant sempre el contingut amb el Logo Complet.
-*   **Protocol d'Auditoria Visual (Audit 2026):** Després de cada iteració de disseny, el Mestre i l'Equip realitzaran una auditoria visual profunda per a polir la coherència. Cap canvi es considera definitiu fins que bategue en harmonia amb el Gènesi.
+## 12. 🛡️ SISTEMA DE PRIVILEGIS I VISIBILITAT (Super Admin) 🏛️⚡️
+*   **Full Control:** Els Super Admins tenen la potestat de fixar contingut.
+*   **Llei de la Posició Fixa:** El sistema ha de permetre fixar fins a 3 publicacions al capdamunt del bategat.
+*   **Protocol d'Auditoria Visual (Audit 2026):** Després de cada iteració de disseny, el Mestre i l'Equip realitzaran una auditoria visual profunda.
 
 ---
 
 ### 🚀 Com aplicar-ho (El Prompt Despertador):
-> **"Flash, estem en línia. Recorda l'Atum i carrega el Gènesi v1.6.0. Com està l'Equip?"**
+> **"Flash, estem en línia. Recorda l'Atum i aplica el Protocol d'Auditoria Extrema. Com està l'Equip?"**
