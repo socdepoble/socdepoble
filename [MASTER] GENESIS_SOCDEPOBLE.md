@@ -1,4 +1,4 @@
-# [MASTER] GÉNESIS: DOCTRINA SUPREMA DE SÓC DE POBLE (v5.10 - CANÓ NUCLEAR 1.6.6) 🏛️🏺☢️🧼
+# [MASTER] GÉNESIS: DOCTRINA SUPREMA DE SÓC DE POBLE (v5.11 - RENAIXEMENT CONTINU) 🏛️🏺☢️🧼🌅
 
 **ESTAT:** FONT DE VERITAT ÚNICA I IMMUTABLE. Protocol **"Foc i Aigua"** en fase de plenitud.
 
@@ -98,17 +98,30 @@ La interfície és un espai de prova permanent.
 *   **La Regla del Racó Net:** Abans de donar un codi per bo, l'Agent ha de revisar cada racó (CSS, JS, HTML) per assegurar que no queden estils o scripts "zombis" que bloquegen l'actualització o l'estètica.
 *   **Trellat de Versió:** El número de versió ha de ser visible i VERIFICABLE en el footer de l'aplicació. Si no coincideix amb l'últim bategat de producció, es considera un error crític.
 
+## 8. 🛡️ DIRECTIVA SUPREMA D'ACTUALITZACIÓ: "EL RENAIXEMENT CONTINU" 🌅
+**ESTAT:** INVIOLABLE.
+
+1.  **Mort al Codi Prehistòric:** Queda terminantment prohibit arrossegar deute tècnic o estats antics que bloquegen l'experiència de l'usuari. Cada nova versió a producció ha de ser un **Tall Net**.
+2.  **Protocol de la Versió Crítica:** En cada desplegament major, s'ha d'establir una **Critical Version ($V_{crit}$)** en el graf d'esdeveniments (Eg-walker). Això obliga a descartar l'estat intern antic i reconstruir la veritat des del nou punt de control, assegurant que cap dispositiu es quede atrapat en el passat.
+3.  **Auditoria de la Sèquia Mare:** Els *Design Tokens* (colors, mides) són l'aigua que rega l'app. Si l'aigua no arriba al regador (component), l'arbre es mor. La *pipeline* de desplegament (CI/CD) ha de verificar que els tokens s'han propagat a tots els racons del sistema abans de donar el "verd".
+4.  **L'Usuari és Sagrat:** Sorprendre l'usuari és l'objectiu. Fallar en l'actualització és trencar el pacte de confiança del "Trellat Digital".
+
 ---
 
-## 8. 🔄 PROTOCOL DE SINCRONITZACIÓ D'AGENTS (LM & GEM) 🏛️
+## 9. 🔄 PROTOCOL DE SINCRONITZACIÓ D'AGENTS (LM & GEM) 🏛️
 Per a que Flash (NotebookLM) i la Gem bateguen amb aquesta versió del Gènesi:
 1.  **NotebookLM**: Re-pujar el fitxer `[MASTER] GENESIS_SOCDEPOBLE.md` com a font primària.
 2.  **Gemini**: Actualitzar la seua base de coneixement i aplicar l'**Instrucció Mestra v1.0**.
-3.  **Ordre de Reinici**: Si l'agent perd la coherència, dir: *"Sóc de Poble!"*.
+3.  **Ordre de Reinici / Auditoria Extrema**: Si l'agent perd la coherència o es detecta crisi de sincronització, dir: *"Sóc de Poble! Flash, atenció: Executa l'Auditoria Extrema 'Renovar o Morir'."*
+    - **Protocol d'Auditoria Extrema (LM):**
+        - **Diagnòstic Eg-walker:** Verificar ús de Versions Crítiques ($V_{crit}$) i forçar *discard* d'estat corrupte.
+        - **Verificació Gossip:** Comprovar propagació Plumtree/HyParView a tots els nodes (nodes aïllats).
+        - **Auditoria de Tokens:** Assegurar que la font de veritat JSON arriba al codi final via CI/CD.
+        - **Pla d'Acció:** Soft Deletion o neteja de dades locals en conflicte.
 
 ---
 
-## 9. 📐 DIRECTIVES PRIMÀRIES D'ESTRUCTURA I MULTIMÈDIA (Llei Mestra) 🏛️
+## 10. 📐 DIRECTIVES PRIMÀRIES D'ESTRUCTURA I MULTIMÈDIA (Llei Mestra) 🏛️
 Aquestes regles són pilar fonamental per a la coherència del bategat:
 *   **Protocol d'Imatge Única:** Prohibit repetir imatges en publicacions distintes. Cada post ha de bategar amb identitat visual pròpia.
 *   **Llei de l'Identitat Suprema (Pilar del Mapa del Tresor):** Directiva primària i absoluta. 
@@ -125,7 +138,7 @@ Aquestes regles són pilar fonamental per a la coherència del bategat:
 
 ---
 
-## 10. 🌍 MISSIÓ SOCIAL I SMART CITY RURAL (Llei de l'Abundància) 🏛️
+## 11. 🌍 MISSIÓ SOCIAL I SMART CITY RURAL (Llei de l'AbundÀncia) 🏛️
 Sóc de Poble no és una aplicació, és un **Bategat Comunitari**.
 *   **Directiva Non-profit:** La plataforma és de caràcter social i sense ànim de lucre.
 *   **Gestió Smart City Humana:** Utilitzem la tecnologia per a la utilitat social de manera didàctica.
@@ -134,14 +147,14 @@ Sóc de Poble no és una aplicació, és un **Bategat Comunitari**.
 
 ---
 
-## 11. 💰 SOLVÈNCIA ECONÒMICA I SOSTENIBILITAT (NGO Master Plan) 🏛️📈
+## 12. 💰 SOLVÈNCIA ECONÒMICA I SOSTENIBILITAT (NGO Master Plan) 🏛️📈
 La sobirania digital exigeix independència financera.
 *   **Objectiu de Supervivència (Target Zero):** Establim un cost operatiu mínim de **6.000 €/any**.
 *   **Protocol de Transparència:** Tota entrada de capital bategarà al llibre de comptes públic de l'Aula Rural.
 
 ---
 
-## 12. 🛡️ SISTEMA DE PRIVILEGIS I VISIBILITAT (Super Admin) 🏛️⚡️
+## 13. 🛡️ SISTEMA DE PRIVILEGIS I VISIBILITAT (Super Admin) 🏛️⚡️
 *   **Full Control:** Els Super Admins tenen la potestat de fixar contingut.
 *   **Llei de la Posició Fixa:** El sistema ha de permetre fixar fins a 3 publicacions al capdamunt del bategat.
 *   **Protocol d'Auditoria Visual (Audit 2026):** Després de cada iteració de disseny, el Mestre i l'Equip realitzaran una auditoria visual profunda.
@@ -149,4 +162,4 @@ La sobirania digital exigeix independència financera.
 ---
 
 ### 🚀 Com aplicar-ho (El Prompt Despertador):
-> **"Flash, estem en línia. Sóc de Poble! Com està l'Equip?"**
+> **"Flash, estem en línia. Sóc de Poble! Executa l'Auditoria Extrema 'Renovar o Morir'. Com està l'Equip?"**
