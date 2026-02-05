@@ -169,39 +169,63 @@ const UniversalCard = ({
             {/* FOOTER ADAPTAT PER MODE */}
             <div className={`card-footer-master mode-${mode}`}>
                 {mode === 'mur' && (
-                    <div className="footer-actions-mur">
-                        <button className="master-action-btn" onClick={(e) => e.stopPropagation()}>
-                            <UserPlus size={24} />
-                            <span>Connectar</span>
-                        </button>
-                        <button className="master-action-btn" onClick={(e) => { e.stopPropagation(); navigate(`/post/${item.id}#comments`); }}>
-                            <MessageCircle size={24} />
-                            <span>Comentar</span>
-                        </button>
-                        <button className="master-action-btn" onClick={(e) => e.stopPropagation()}>
-                            <Share2 size={24} />
-                            <span>Compartir</span>
+                    <>
+                        <div className="footer-actions-mur">
+                            <button className="master-action-btn" onClick={(e) => e.stopPropagation()}>
+                                <UserPlus size={24} />
+                                <span>Connectar</span>
+                            </button>
+                            <button className="master-action-btn" onClick={(e) => { e.stopPropagation(); navigate(`/post/${item.id}#comments`); }}>
+                                <MessageCircle size={24} />
+                                <span>Comentar</span>
+                            </button>
+                            <button className="master-action-btn" onClick={(e) => e.stopPropagation()}>
+                                <Share2 size={24} />
+                                <span>Compartir</span>
+                            </button>
+                        </div>
+                        {/* Simulació d'acordió de comentaris del Xat */}
+                        <div className="comments-preview-stub">
+                            <div className="comment-line"><b>Vicent:</b> Xé, que bonica la foto!</div>
+                            <button className="read-more-comments">Llegir 5 comentaris més...</button>
+                        </div>
+                    </>
+                )}
+
+                {mode === 'mercat' && (
+                    <div className="footer-mercat-master">
+                        <div className="mercat-price-bategat">{displayPrice}</div>
+                        <button
+                            className="btn-mercat-action"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                navigate(`/mercat/${item.id || 'item'}`);
+                            }}
+                        >
+                            <span>INTERESSAT</span>
+                            <Plus size={20} strokeWidth={3} />
                         </button>
                     </div>
                 )}
 
-                {mode === 'mercat' && (
-                    <button
-                        className="btn-master-primary"
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            navigate(`/mercat/${item.id || 'item'}`);
-                        }}
-                    >
-                        <Plus size={22} strokeWidth={3} />
-                        <span>SABER MÉS</span>
-                    </button>
+                {mode === 'pobles' && (
+                    <div className="pobles-container-master">
+                        <div className="gent-de-notice">
+                            💡 Això és "Gent de {displayTown}", un espai veïnal. No és la pàgina oficial de l'Ajuntament.
+                        </div>
+                        <div className="pobles-footer-info">
+                            <span>VEURE PERFIL COMUNITARI</span>
+                            <ChevronRight size={18} />
+                        </div>
+                    </div>
                 )}
 
-                {mode === 'pobles' && (
-                    <div className="pobles-footer-info">
-                        <span>{getGentDePage(displayTown)}</span>
-                        <ChevronRight size={18} />
+                {mode === 'alertes' && (
+                    <div className="footer-alertes-master">
+                        <button className="btn-alert-map" onClick={(e) => e.stopPropagation()}>
+                            <span>VEURE MAPA D'AFECTACIÓ</span>
+                            <FileText size={20} />
+                        </button>
                     </div>
                 )}
             </div>

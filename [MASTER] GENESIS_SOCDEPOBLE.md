@@ -1,15 +1,16 @@
-# [MASTER] GÉNESIS: DOCTRINA SUPREMA DE SÓC DE POBLE (v5.7 - CANÓ TOTAL 1.6.4) 🏛️🏺⚡️
+# [MASTER] GÉNESIS: DOCTRINA SUPREMA DE SÓC DE POBLE (v5.8 - DESIGN CANON 1.6.5) 🏛️🏺⚡️
 
-**ESTAT:** FONT DE VERITAT ÚNICA I IMMUTABLE. Protocol **"Foc i Aigua"** en fase de propagació total.
+**ESTAT:** FONT DE VERITAT ÚNICA I IMMUTABLE. Protocol **"Foc i Aigua"** en fase de plenitud.
 
 ---
 
 ## 1. ELS TRES PILARS (Core Values) 🧬
 1.  **Offline-First:** L'app funciona al 100% sense cobertura. La dada viu al dispositiu del veí, no al núvol d'un estrany.
-2.  **Democràcia Visual (Puchero Mental):** El sistema és flexible i en constant cocció. No ens posem límits. Estem en fase creativa.
-3.  **Paleta Sagrada (Foc i Aigua):** Taronja Sanc de Falles (**#FF6D23**) i Cian Elèctric (**#00F2FF**). El Cian és la spark tecnològica, el Taronja és la vida del poble. Base en Blanc i Negre pur. 
-4.  **Llei del Monòlit (Radi Zero):** Prohibit qualsevol `border-radius`. Tot píxel ha de ser afilat i sòlid com la pedra seca.
-5.  **Llei de la Vora Dura:** Tota eina ha de portat vores negres de 2px i ombres mòltes (Hard Shadows) de 4px. La suavitat és debilitat.
+2.  **Llei de la Boina Taronja (Universal Architecture):** Tota targeta bategua amb una capçalera de color Taronja (#FF6D23). Estructura triple: Entitat + Poble (Esquerra) i Temps (Dreta).
+3.  **Protocol "Gent de [Poble]":** Diferenciació total entre la veu del veïnat i la veu oficial. Tota pàgina comunitària bategua com a "Gent de...".
+4.  **Zero Radius Monolith:** Res de puntes romes. El món rural és dur i sòlid. 0px de radi a tot arreu.
+5.  **Contrast Foc i Aigua:** Taronja (#FF6D23) per a la identitat bategant i Cian Elèctric (#00F2FF) per a l'acció digital. Base en Blanc i Negre pur.
+6.  **Llei de la Vora Dura:** Tota eina ha de portat vores negres de 2px i ombres mòltes (Hard Shadows) de 4px. La suavitat és debilitat.
 
 ---
 
@@ -107,9 +108,11 @@ Aquestes regles són pilar fonamental per a la coherència del bategat:
 *   **Llei de Completesa (Anti-Buit):** No es permeten "buits" de sistema. Posts estrella (ex: Merchandising) han de tenir un set de 7 imatges úniques.
 *   **Multimèdia Adaptativa:** El cuadre multimèdia s'ha d'adaptar al contingut. L'usuari ha de veure la realitat tal qual és, sense retalls arbitraris.
 *   **Navegació de Llinatge:** Punxar a la capçalera de la `UniversalCard` ha de portar sempre al perfil de l'autor. És la porta al llinatge.
-*   **Robustesa Visual:** 
-    *   **Carrusel:** Obligatori i fluid en cas de múltiples imatges.
-    *   **Visor:** Tota imatge ha de ser ampliable a tamany complet (Lightbox) en ser polsada.
+*   **Llei de la Boina Taronja (Protocols de Targeta):**
+    *   **Botiga (Mercat):** Botó "Interessat" + Preu expandit. Zoom multimèdia obligatori.
+    *   **Mur (Notícies):** Footer amb accions socials. Comentaris integrats tipus acordió.
+    *   **Pobles (Gent de):** Tota la targeta és un portal al perfil del poble.
+    *   **Alertes (Bandos):** Identitat d'avís amb botó de "Veure Mapa".
 
 ---
 

@@ -227,6 +227,117 @@
     background: #FFFFFF;
 }
 
+/* MODE MUR: COMMENTS PREVIEW */
+.comments-preview-stub {
+    background: #fdfdfd;
+    padding: 12px 16px;
+    border-top: 1px solid #eee;
+}
+
+.comment-line {
+    font-size: 13px;
+    color: #333;
+    margin-bottom: 4px;
+}
+
+.read-more-comments {
+    background: none;
+    border: none;
+    color: var(--color-primary);
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 0;
+}
+
+/* MODE MERCAT: PRICE & ACTION */
+.footer-mercat-master {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    background: #000;
+}
+
+.mercat-price-bategat {
+    color: var(--color-primary);
+    /* Cyan */
+    font-size: 24px;
+    font-weight: 900;
+    letter-spacing: -1px;
+}
+
+.btn-mercat-action {
+    background: var(--color-accent);
+    /* Orange */
+    border: 2px solid #000;
+    color: #000;
+    font-weight: 900;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    box-shadow: 4px 4px 0px #FFF;
+    /* Inverted hard shadow */
+}
+
+/* MODE POBLES / GENT DE */
+.pobles-container-master {
+    background: #FFFFFF;
+}
+
+.gent-de-notice {
+    background: #FFF9C4;
+    /* Yellow note */
+    padding: 10px 16px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #666;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.pobles-footer-info {
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #000;
+    color: #FFF;
+}
+
+.pobles-footer-info span {
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+/* MODE ALERTES (BANDO) */
+.card-mode-alertes .card-header-genesis {
+    background: #ff3333;
+    /* Red for alerts */
+}
+
+.footer-alertes-master {
+    padding: 12px;
+}
+
+.btn-alert-map {
+    width: 100%;
+    background: #000;
+    color: var(--color-primary);
+    border: var(--border-master);
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    font-weight: 900;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
 /* MODE MUR: ICON ACTIONS */
 .footer-actions-mur {
     display: flex;
