@@ -54,11 +54,18 @@ const UniversalCard = ({
         return `Gent de ${townName}`;
     };
 
-    const handleCardClick = () => {
+    const handleCardClick = (e) => {
         if (mode === 'pobles') {
             const townId = item?.uuid || item?.id;
-            navigate(`/pobles/${townId}`);
+            // Redirecció a la pàgina de "Gent de Poble"
+            navigate(`/gent/${townId}`);
         }
+    };
+
+    const handleAuthorClick = (e) => {
+        e.stopPropagation();
+        const authorId = item?.author_id || item?.user_id || item?.id;
+        if (authorId) navigate(`/perfil/${authorId}`);
     };
 
     return (
@@ -67,25 +74,29 @@ const UniversalCard = ({
             onClick={handleCardClick}
             style={{ cursor: mode === 'pobles' ? 'pointer' : 'default' }}
         >
-            {/* CABECERA TERRACOTA MASTER GENESIS */}
-            <div className="card-header-genesis">
+            <div className="card-header-genesis" onClick={handleAuthorClick}>
                 <div className="header-left">
                     <Avatar
                         src={avatarSrc || item?.author_avatar || item?.logo_url}
                         name={displayAuthor}
                         role={avatarRole || item?.author_role}
-                        size="sm"
+                        size="md"
                         className="genesis-avatar"
                     />
                     <div className="header-text">
-                        <h3 className="master-author-name">{displayAuthor}</h3>
+                        <h3 className="master-author-name">
+                            {mode === 'pobles' ? getGentDePage(displayTown) : displayAuthor}
+                        </h3>
                         <div className="location-text">
                             {displayTown}
                         </div>
                     </div>
                 </div>
-                <div className="header-date">
-                    {displayDate}
+                <div className="header-right-meta">
+                    <div className="header-date">
+                        {displayDate}
+                    </div>
+                    {/* Espai per a futurs indicadors mestres */}
                 </div>
             </div>
 
