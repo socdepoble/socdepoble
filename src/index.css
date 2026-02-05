@@ -61,12 +61,11 @@
   --space-bancal: 24px;
 
   /* --- 5. BATEC VEÏNAL TOKENS (Rhizome Monitoring) --- */
-  --batec-ok: #166534;
-  /* Green-700 (Success) */
-  --batec-mesh: #ff9900;
-  /* Orange (Syncing) */
-  --batec-offline: #888888;
-  /* Gray (Local) */
+  --batec-ok: var(--color-primary);
+  /* Blue */
+  --batec-mesh: var(--color-accent);
+  /* Orange */
+  --batec-offline: #666666;
 }
 
 @keyframes batec-pulse {

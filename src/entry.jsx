@@ -126,27 +126,54 @@ if ('caches' in window) {
 const CURRENT_MASTER_VERSION = 'v1.6.3-BATEGA';
 const savedVersion = localStorage.getItem('sp_app_version');
 
-if (savedVersion !== CURRENT_MASTER_VERSION) {
-  addBootLog(`[MASTER] Transició de versió: ${savedVersion || 'null'} -> ${CURRENT_MASTER_VERSION}`);
+// EMERGENCY ATUM: Manual rescue function
+window.RecordaAtum = () => {
+  console.log('%c[ATUM] Iniciant purga manual de memòria...', 'color: #FF6D23; font-weight: bold;');
+  localStorage.clear();
+  sessionStorage.clear();
+  if ('caches' in window) {
+    caches.keys().then(names => {
+      for (let name of names) caches.delete(name);
+    });
+  }
+  localStorage.setItem('sp_app_version', 'ATUM_RESET');
+  window.location.reload(true);
+};
+
+// Detect if we just performed a nuke reload to avoid infinite loops
+const justReloaded = sessionStorage.getItem('sp_nuke_reload_active');
+
+if (savedVersion !== CURRENT_MASTER_VERSION && !justReloaded) {
+  addBootLog(`[MASTER] Transició de versió detectada: ${savedVersion || 'null'} -> ${CURRENT_MASTER_VERSION}`);
 
   if (savedVersion) {
-    // Si venim d'una versió anterior, netegem però guardem la nova versió immediatament
-    addBootLog('[MASTER] Detectada versió antiga. Purgant memòria residual...');
+    addBootLog('[MASTER] Purgant memòria residual per a nova versió...');
+
+    // Set reload flag for this session to break the loop
+    sessionStorage.setItem('sp_nuke_reload_active', 'true');
+
     localStorage.clear();
-    sessionStorage.clear();
     localStorage.setItem('sp_app_version', CURRENT_MASTER_VERSION);
-    window.location.reload(true);
+
+    // Small delay before reload to ensure storage is committed
+    setTimeout(() => {
+      window.location.reload(true);
+    }, 500);
   } else {
-    // Primera vegada o neteja prèvia, simplement fixem la versió
     localStorage.setItem('sp_app_version', CURRENT_MASTER_VERSION);
-    addBootLog('[MASTER] Versió fixada correctament. Bategat nominal.');
+    addBootLog('[MASTER] Versió fixada. Bategat nominal.');
   }
+}
+
+// Clear the reload flag after a successful load to allow future upgrades
+if (justReloaded) {
+  setTimeout(() => sessionStorage.removeItem('sp_nuke_reload_active'), 1000);
 }
 
 // Register new SW with cache busting
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js?nuke=v1.5.6-BATEGA').then(registration => {
+    navigator.serviceWorker.register('/sw.js?nuke=v1.6.3-BATEGA').then(registration => {
       // logger.info('[SW] Registered with scope:', registration.scope);
 
       registration.onupdatefound = () => {
