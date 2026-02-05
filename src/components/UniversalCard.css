@@ -11,21 +11,21 @@
 }
 
 .universal-card {
-    background: var(--genesis-surface);
-    border: 1px solid var(--genesis-border);
-    border-radius: var(--genesis-radius);
+    background: #FFFFFF;
+    border: var(--border-master);
+    border-radius: 0px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     height: 100%;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--shadow-hard);
     position: relative;
 }
 
 .universal-card:hover {
-    transform: translateY(-4px);
-    border-color: var(--genesis-orange);
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px #000;
 }
 
 /* HEADER: MASTER ORANGE */
@@ -139,7 +139,7 @@
 }
 
 .genesis-title {
-    color: var(--genesis-text);
+    color: #000000;
     font-size: 16px;
     font-weight: 900;
     margin: 0;
@@ -158,7 +158,7 @@
 }
 
 .card-excerpt {
-    color: rgba(255, 255, 255, 0.7);
+    color: #1a1a1a;
     font-size: 13px;
     line-height: 1.4;
     margin: 0;
@@ -192,21 +192,21 @@
 }
 
 .genesis-tag-pill {
-    background: rgba(255, 255, 255, 0.05);
-    color: var(--genesis-orange);
+    background: #000000;
+    color: #FFFFFF;
     font-size: 9px;
     font-weight: 900;
     padding: 2px 8px;
-    border-radius: 100px;
+    border-radius: 0px;
     text-transform: uppercase;
-    border: 1px solid rgba(255, 109, 35, 0.2);
+    border: 1px solid #000;
 }
 
 /* FOOTERS MASTER ADAPTATS */
 .card-footer-master {
     padding: 16px;
-    border-top: 1px solid var(--genesis-border);
-    background: rgba(255, 255, 255, 0.02);
+    border-top: var(--border-master);
+    background: #FFFFFF;
 }
 
 /* MODE MUR: ICON ACTIONS */
@@ -219,8 +219,8 @@
 .footer-btn {
     background: none;
     border: none;
-    color: var(--genesis-text);
-    opacity: 0.6;
+    color: #000000;
+    opacity: 0.8;
     display: flex;
     align-items: center;
     gap: 6px;
@@ -245,10 +245,11 @@
 .btn-master-primary {
     width: 100%;
     height: 48px;
-    background: var(--genesis-black);
-    color: var(--genesis-text);
-    border: 2px solid var(--genesis-orange);
-    border-radius: 8px;
+    background: var(--color-primary);
+    /* Cyan */
+    color: #000000;
+    border: var(--border-master);
+    border-radius: 0px;
     font-size: 14px;
     font-weight: 900;
     text-transform: uppercase;
@@ -258,7 +259,7 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
-    transition: all 0.2s ease;
+    transition: all 0.1s ease;
 }
 
 .btn-master-primary:hover {
@@ -306,25 +307,7 @@
 
 /* MASONRY / GRID ADAPTATION (Expected parent classes) */
 @media (max-width: 600px) {
-
-    /* Al pare (Feed.css, etc) caldrà posar grid-cols-2 */
     .universal-card {
-        border-radius: 12px;
-    }
-
-    .card-header-genesis {
-        padding: 8px 12px;
-    }
-
-    .master-author-name {
-        font-size: 12px;
-    }
-
-    .genesis-title {
-        font-size: 14px;
-    }
-
-    .card-body {
-        padding: 12px;
+        border-radius: 0px;
     }
 }

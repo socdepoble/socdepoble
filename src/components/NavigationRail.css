@@ -3,11 +3,10 @@
     height: 100vh;
     background-color: #000000;
     /* Forced Black Canvas */
-    background-image: var(--bg-texture);
     display: flex;
     flex-direction: column;
     padding: 0;
-    border-right: 1.5px solid #1a1a1a;
+    border-right: var(--border-master);
     position: sticky;
     top: 0;
     z-index: 100;
@@ -26,11 +25,11 @@
 
 .visual-democracy-rail-switcher {
     display: flex;
-    background: rgba(0, 0, 0, 0.05);
-    padding: 4px;
-    border-radius: 12px;
-    border: 1.5px solid #1a1a1a;
-    gap: 4px;
+    background: #000000;
+    padding: 2px;
+    border-radius: 0px;
+    border: var(--border-master);
+    gap: 0px;
 }
 
 .rail-theme-btn {
@@ -41,16 +40,17 @@
     padding: 8px;
     border: none;
     background: transparent;
-    border-radius: 8px;
-    color: var(--md-sys-color-on-surface-variant);
+    border-radius: 0px;
+    color: white;
     cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.1s ease;
 }
 
 .rail-theme-btn.active {
-    background: var(--md-sys-color-primary);
-    color: white;
-    box-shadow: 2px 2px 0px #000;
+    background: var(--color-primary);
+    /* Cyan */
+    color: #000;
+    box-shadow: none;
 }
 
 .rail-theme-btn:hover:not(.active) {
@@ -71,18 +71,21 @@
 .drawer-fab {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 12px;
-    background-color: var(--md-sys-color-primary-container);
-    color: var(--md-sys-color-on-primary-container);
+    background-color: var(--color-primary);
+    /* Cyan */
+    color: #000;
     padding: 18px 24px;
-    border-radius: var(--radius-lg);
-    border: var(--comic-border);
-    font-weight: 800;
+    border-radius: 0px;
+    border: var(--border-master);
+    font-weight: 900;
     font-size: var(--font-size-base);
-    box-shadow: var(--comic-shadow);
+    box-shadow: var(--shadow-hard);
     cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    width: fit-content;
+    transition: all 0.1s ease;
+    width: 100%;
+    text-transform: uppercase;
 }
 
 .drawer-fab:hover {
@@ -123,27 +126,27 @@
     align-items: center;
     gap: 16px;
     padding: 14px 20px;
-    border-radius: var(--radius-lg);
+    border-radius: 0px;
     color: #FFFFFF;
     text-decoration: none;
     font-size: var(--font-size-base);
-    font-weight: 700;
-    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    font-weight: 900;
+    transition: all 0.1s ease;
     cursor: pointer;
-    margin: 2px 0;
+    margin: 4px 0;
+    border: 1px solid transparent;
 }
 
 .drawer-item:hover {
-    background-color: var(--md-sys-color-primary-container);
-    color: var(--md-sys-color-primary);
+    background-color: rgba(255, 255, 255, 0.1);
     transform: translateX(4px);
 }
 
 .drawer-item.active {
-    background-color: var(--md-sys-color-primary);
-    color: white;
-    box-shadow: var(--comic-shadow);
-    border: var(--comic-border);
+    background-color: var(--color-accent);
+    /* Orange */
+    color: #000;
+    border: var(--border-master);
 }
 
 .drawer-divider {

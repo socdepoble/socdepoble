@@ -1,4 +1,4 @@
-# [MASTER] GÉNESIS: DOCTRINA SUPREMA DE SÓC DE POBLE (v5.5 - FUSIÓ TOTAL) 🏛️🏺⚡️
+# [MASTER] GÉNESIS: DOCTRINA SUPREMA DE SÓC DE POBLE (v5.6 - DESIGN CANON 1.6.3) 🏛️🏺⚡️
 
 **ESTAT:** FONT DE VERITAT ÚNICA I IMMUTABLE. Si hi ha dubtes, aplica el protocol "Recorda l'Atum".
 
@@ -54,9 +54,9 @@ La interfície és un espai de prova permanent.
 | :--- | :--- | :--- |
 | `bg-canvas` | `#000000` | Fons Global (Black Canvas) |
 | `accent-orange` | `#FF6D23` | El Bategat (Taronja Master) |
-| `accent-blue` | `#007AFF` | La Tecnologia (Blau Pur) |
+| `accent-cyan` | `#00F2FF` | La Tecnologia (Cian Elèctric) |
 | `text-main` | `#FFFFFF` | Claredat Absoluta |
-| `surface` | `#161616` | Perfil i Contenidors |
+| `surface` | `#161616` | Perfil i Contenidors (0px Radius) |
 
 **PROHIBICIONS:** Color Crema, colors apagats o pastels sense saturació.
 

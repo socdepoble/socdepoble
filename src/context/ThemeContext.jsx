@@ -10,24 +10,24 @@ const ThemeContext = createContext();
 export const THEMES = {
     BATEGA: {
         id: 'batega',
-        name: 'Batega Master (OLED)',
+        name: 'Batega Master (Foc i Aigua)',
         variables: {
-            '--bg-app': '#000000',
+            '--bg-app': '#FFFFFF', // Clear white base to make orange "sting"
             '--bg-page': '#FFFFFF',
             '--bg-canvas': '#000000',
             '--bg-surface': '#FFFFFF',
             '--bg-card': '#FFFFFF',
             '--text-main': '#000000',
-            '--text-secondary': '#333333',
-            '--text-muted': '#666666',
-            '--color-primary': '#007AFF', // Blau Pur
-            '--color-accent': '#FF6D23',  // Taronja [MASTER]
-            '--glass-panel': 'rgba(255, 255, 255, 0.9)',
-            '--glass-blur': 'blur(20px)',
+            '--text-secondary': '#121212',
+            '--text-muted': '#444444',
+            '--color-primary': '#00F2FF', // Cian Elèctric
+            '--color-accent': '#FF6D23',  // Taronja Foc
+            '--glass-panel': 'rgba(255, 255, 255, 0.95)',
+            '--glass-blur': '0px',
             '--radius-organic': '0px',
             '--radius-card': '0px',
-            '--border-subtle': '1px solid #1a1a1a',
-            '--shadow-card': '0 4px 12px rgba(0,0,0,0.1)'
+            '--border-subtle': '2px solid #000000',
+            '--shadow-card': '4px 4px 0px #000000'
         }
     },
     NIT: {

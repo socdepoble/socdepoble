@@ -15,14 +15,17 @@
   --text-secondary: #333333;
   --text-muted: #666666;
 
-  --color-primary: #007AFF;
-  /* Blau Pur */
+  --color-primary: #00F2FF;
+  /* Cian Elèctric (Aigua/Séquia) */
   --color-accent: #FF6D23;
-  /* Taronja [MASTER] */
+  /* Taronja [MASTER] (Foc/Horta) */
   --accent: var(--color-accent);
   --color-terracotta: #FF6D23;
 
-  --header-bg: var(--color-primary);
+  --border-master: 2px solid #000000;
+  --shadow-hard: 4px 4px 0px #000000;
+  --header-bg: var(--color-accent);
+  /* Orange Header for energy */
   --color-alert: #ff3333;
 
   /* bridge variables for Material System compatibility */
