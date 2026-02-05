@@ -51,7 +51,7 @@
 
 .gallery-search input:focus {
     border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(0, 242, 255, 0.1);
+    box-shadow: var(--shadow-hard);
 }
 
 .gallery-filter-chips {
@@ -98,7 +98,7 @@
 .gallery-item-card:hover {
     transform: translateY(-5px);
     border-color: var(--color-primary);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--shadow-hard);
 }
 
 .item-preview {

@@ -15,7 +15,7 @@
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border: 1px solid rgba(0, 0, 0, 0.1);
-    box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.15);
+    box-shadow: var(--shadow-hard);
     border-radius: 0px 24px 0 0;
     /* Bottom sheet radius */
     padding: 24px;
@@ -69,7 +69,7 @@
     width: 56px;
     height: 56px;
     border-radius: 0px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-hard);
 }
 
 .pwa-text h3 {
@@ -131,7 +131,7 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
-    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+    box-shadow: var(--shadow-hard);
     transition: all 0.2s ease;
 }
 
@@ -164,6 +164,6 @@
         max-width: 400px;
         border-radius: 0px;
         border: 1px solid rgba(0, 0, 0, 0.08);
-        box-shadow: 0 12px 48px rgba(0, 0, 0, 0.2);
+        box-shadow: var(--shadow-hard);
     }
 }

@@ -151,7 +151,7 @@ const IAIAPage = () => {
                     <h2 style={{ color: 'var(--color-primary-dark)' }}>⚖️ Directiva Primària: Utilitat Social [GOD MODE]</h2>
                     <p>El Mestre ha establit el fonament inmutable del sistema: <strong>"Tot píxel bategat ha de servir a la Utilitat Social"</strong>. La tecnologia que no aporta valor humà al poble és purgada per l'IAIA.</p>
 
-                    <div className="iaia-coordination-group-badge" style={{ background: 'var(--color-primary-soft)', padding: '15px', borderRadius: '12px', border: '1px solid var(--color-primary)', marginTop: '15px' }}>
+                    <div className="iaia-coordination-group-badge" style={{ background: 'var(--color-primary-soft)', padding: '15px', borderRadius: '0px', border: '1px solid var(--color-primary)', marginTop: '15px' }}>
                         <h3 style={{ margin: '0 0 10px 0', display: 'flex', alignItems: 'center', gap: '10px' }}>
                             <MessageCircle size={20} color="var(--color-primary)" /> Grup de Coordinació [BETA]
                         </h3>
@@ -173,7 +173,7 @@ const IAIAPage = () => {
                         </div>
                     </div>
 
-                    <div className="simbiosi-explanation" style={{ fontSize: '0.9rem', color: 'var(--text-muted)', background: 'rgba(0,0,0,0.02)', padding: '15px', borderRadius: '10px', marginTop: '15px' }}>
+                    <div className="simbiosi-explanation" style={{ fontSize: '0.9rem', color: 'var(--text-muted)', background: 'rgba(0,0,0,0.02)', padding: '15px', borderRadius: '0px', marginTop: '15px' }}>
                         <strong>Directiva MASTER</strong>: Quantifiquem el temps que estalvies per a que pugues dedicar-lo a cuidar de la teua família, amics i del poble. Mai una màquina substituirà el batec del cor, però sí que li donarà ales.
                     </div>
 

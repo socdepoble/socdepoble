@@ -5,11 +5,12 @@
     flex-direction: column;
     align-items: center;
     gap: 8px;
-    padding: 10px;
+    padding: 12px;
     border-radius: 0px;
-    background: rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(0, 242, 255, 0.1);
-    transition: all 0.3s ease;
+    background: #000000;
+    border: var(--border-master);
+    transition: all 0.1s ease;
+    box-shadow: 4px 4px 0px var(--color-primary);
 }
 
 .hud-svg {

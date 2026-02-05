@@ -36,13 +36,13 @@
     font-weight: 800;
     cursor: pointer;
     white-space: nowrap;
-    box-shadow: 0 4px 15px rgba(204, 85, 0, 0.3);
+    box-shadow: var(--shadow-hard);
     transition: all 0.2s;
 }
 
 .nudge-cta:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(204, 85, 0, 0.5);
+    box-shadow: var(--shadow-hard);
 }
 
 @keyframes nudge-fade-in {

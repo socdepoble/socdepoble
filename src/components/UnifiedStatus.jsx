@@ -46,7 +46,7 @@ const UnifiedStatus = ({ status, type = 'user', size = 'md' }) => {
             alignItems: 'center',
             gap: '4px',
             padding: size === 'sm' ? '2px 6px' : '4px 8px',
-            borderRadius: '99px',
+            borderRadius: '0px',
             backgroundColor: config.bg,
             color: config.color,
             fontSize: size === 'sm' ? '0.75rem' : '0.875rem',

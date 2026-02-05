@@ -18,7 +18,7 @@
     background: #0a0a0c;
     border: 1px solid rgba(0, 242, 255, 0.3);
     border-radius: 0px;
-    box-shadow: 0 0 40px rgba(0, 242, 255, 0.15);
+    box-shadow: var(--shadow-hard);
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -151,7 +151,7 @@
 
 .btn-master-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(0, 242, 255, 0.3);
+    box-shadow: var(--shadow-hard);
 }
 
 .btn-master-secondary {

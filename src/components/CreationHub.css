@@ -17,9 +17,9 @@
     background-color: var(--bg-surface);
     width: 100%;
     max-width: var(--mobile-width);
-    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    border-radius: 0px var(--radius-xl) 0 0;
     padding: var(--space-xl) var(--space-lg) calc(var(--space-2xl) + 20px);
-    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-hard);
     animation: slideUp 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
@@ -44,7 +44,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: var(--radius-full);
+    border-radius: 0px;
     background-color: var(--color-divider);
     color: var(--text-main);
 }
@@ -59,10 +59,10 @@
 .share-full-frame {
     width: 100% !important;
     padding: 18px !important;
-    border-radius: var(--radius-md) !important;
+    border-radius: 0px !important;
     background-color: var(--color-primary) !important;
     color: white !important;
-    box-shadow: 0 8px 24px rgba(0, 242, 255, 0.3) !important;
+    box-shadow: var(--shadow-hard);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -98,7 +98,7 @@
 
 .project-btn-styled {
     background: linear-gradient(135deg, #00f2ff, #0099ff) !important;
-    box-shadow: 0 8px 24px rgba(0, 242, 255, 0.4) !important;
+    box-shadow: var(--shadow-hard);
 }
 
 .creation-options {
@@ -114,7 +114,7 @@
     gap: 12px;
     padding: var(--space-lg);
     background-color: var(--bg-card);
-    border-radius: var(--radius-lg);
+    border-radius: 0px;
     border: 1px solid var(--color-border);
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -131,12 +131,12 @@
 .option-icon {
     width: 64px;
     height: 64px;
-    border-radius: var(--radius-md);
+    border-radius: 0px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
-    box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-hard);
 }
 
 .option-icon.mur {
@@ -190,7 +190,7 @@
     background-color: var(--bg-main);
     border: 1.5px solid var(--color-border);
     color: var(--text-muted);
-    border-radius: var(--radius-lg);
+    border-radius: 0px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -218,7 +218,7 @@
     background-color: var(--bg-canvas)000;
     border: 1.5px solid #000000;
     color: #FFD700;
-    border-radius: var(--radius-md);
+    border-radius: 0px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -229,7 +229,7 @@
     letter-spacing: 1px;
     cursor: pointer;
     transition: all 0.2s;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    box-shadow: var(--shadow-hard);
 }
 
 .logout-hub-top-btn:active {

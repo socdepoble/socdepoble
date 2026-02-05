@@ -81,12 +81,12 @@
     gap: 10px;
     cursor: pointer;
     transition: all 0.2s ease;
-    box-shadow: 0 4px 12px rgba(var(--color-terracotta-rgb), 0.3);
+    box-shadow: var(--shadow-hard);
 }
 
 .btn-import:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(var(--color-terracotta-rgb), 0.4);
+    box-shadow: var(--shadow-hard);
 }
 
 .import-success-banner {

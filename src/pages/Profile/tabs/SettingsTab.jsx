@@ -108,7 +108,7 @@ const SettingsTab = ({
                             padding: '12px',
                             background: 'rgba(255, 255, 255, 0.05)',
                             border: '1px solid var(--border-subtle)',
-                            borderRadius: '12px',
+                            borderRadius: '0px',
                             color: 'var(--text-main)',
                             fontSize: '14px',
                             outline: 'none'
@@ -248,7 +248,7 @@ const SettingsTab = ({
                                 padding: '12px',
                                 background: 'rgba(255, 255, 255, 0.05)',
                                 border: '1px solid var(--border-subtle)',
-                                borderRadius: '8px',
+                                borderRadius: '0px',
                                 color: 'var(--text-main)',
                                 fontSize: '14px'
                             }}
@@ -390,7 +390,7 @@ const SettingsTab = ({
                         color: '#D946EF',
                         fontFamily: 'var(--font-heading)',
                         fontWeight: '900',
-                        borderRadius: '16px',
+                        borderRadius: '0px',
                         fontSize: '12px',
                         letterSpacing: '0.05em',
                         cursor: 'pointer',
@@ -425,7 +425,7 @@ const SettingsTab = ({
                 padding: '12px',
                 background: 'rgba(0,0,0,0.05)',
                 border: '1px solid var(--border-subtle)',
-                borderRadius: '8px',
+                borderRadius: '0px',
                 fontSize: '10px',
                 opacity: 0.6,
                 textAlign: 'center',

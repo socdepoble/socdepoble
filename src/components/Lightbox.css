@@ -35,7 +35,7 @@
     object-fit: contain;
     /* CRITICAL: Never crop, always fit */
     user-select: none;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+    box-shadow: var(--shadow-hard);
     border-radius: 0px;
 }
 

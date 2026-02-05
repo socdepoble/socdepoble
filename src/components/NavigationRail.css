@@ -50,7 +50,7 @@
     background: var(--color-primary);
     /* Cyan */
     color: #000;
-    box-shadow: none;
+    box-shadow: var(--shadow-hard);
 }
 
 .rail-theme-btn:hover:not(.active) {
@@ -89,7 +89,7 @@
 }
 
 .drawer-fab:hover {
-    box-shadow: var(--comic-shadow-hover);
+    box-shadow: var(--shadow-hard);
     transform: translate(-2px, -2px);
     background-color: var(--md-sys-color-primary);
     color: white;

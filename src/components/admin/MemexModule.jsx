@@ -94,7 +94,7 @@ const MemexModule = ({ addLog }) => {
                     background: rgba(255, 255, 255, 0.03);
                     border: 1px solid rgba(255, 255, 255, 0.1);
                     padding: 20px;
-                    border-radius: 16px;
+                    border-radius: 0px;
                     transition: all 0.3s ease;
                     position: relative;
                     overflow: hidden;
@@ -144,7 +144,7 @@ const MemexModule = ({ addLog }) => {
                     font-size: 10px;
                     font-weight: 700;
                     padding: 2px 8px;
-                    border-radius: 4px;
+                    border-radius: 0px;
                     text-transform: uppercase;
                 }
                 .priority-tag.crítica { background: #ff005522; color: #ff0055; }
@@ -154,7 +154,7 @@ const MemexModule = ({ addLog }) => {
                 .stat-node-compact {
                     background: rgba(0, 0, 0, 0.3);
                     padding: 16px;
-                    border-radius: 12px;
+                    border-radius: 0px;
                     border: 1px solid rgba(255, 255, 255, 0.05);
                     display: flex;
                     flex-direction: column;

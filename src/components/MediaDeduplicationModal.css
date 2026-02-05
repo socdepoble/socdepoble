@@ -14,10 +14,10 @@
     background: var(--bg-card);
     width: 100%;
     max-width: 400px;
-    border-radius: var(--radius-xl);
+    border-radius: 0px;
     padding: var(--space-xl);
     position: relative;
-    box-shadow: var(--shadow-2xl);
+    box-shadow: var(--shadow-hard);
     border: 1px solid var(--color-border);
     animation: modalPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
@@ -43,7 +43,7 @@
     color: var(--text-muted);
     cursor: pointer;
     padding: 8px;
-    border-radius: var(--radius-full);
+    border-radius: 0px;
 }
 
 .dedup-header {
@@ -59,7 +59,7 @@
     width: 56px;
     height: 56px;
     background: var(--color-primary-light);
-    border-radius: var(--radius-full);
+    border-radius: 0px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -88,7 +88,7 @@
 .attribution-card {
     background: var(--bg-main);
     padding: var(--space-md);
-    border-radius: var(--radius-lg);
+    border-radius: 0px;
     border: 1px dashed var(--color-border);
 }
 
@@ -132,7 +132,7 @@
 .dedup-footer button {
     flex: 1;
     padding: 12px;
-    border-radius: var(--radius-md);
+    border-radius: 0px;
     font-weight: 700;
     display: flex;
     align-items: center;

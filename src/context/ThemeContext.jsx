@@ -42,13 +42,13 @@ export const THEMES = {
             '--text-main': '#FFFFFF',
             '--text-secondary': '#E5E5E5',
             '--text-muted': '#A1A1AA',
-            '--color-primary': '#007AFF',
+            '--color-primary': '#00F2FF', // Cian Elèctric
             '--color-accent': '#FF6D23',
             '--glass-panel': 'rgba(0, 0, 0, 0.8)',
             '--glass-blur': 'blur(24px)',
             '--radius-organic': '0px',
             '--radius-card': '0px',
-            '--border-subtle': '1px solid #333333',
+            '--border-subtle': '2px solid #333333',
             '--shadow-card': 'none'
         }
     }
@@ -62,7 +62,7 @@ export const ThemeProvider = ({ children }) => {
 
     // Aplicar el tema al :root
     useEffect(() => {
-        const theme = Object.values(THEMES).find(t => t.id === currentThemeId) || THEMES.SOLEMNE;
+        const theme = Object.values(THEMES).find(t => t.id === currentThemeId) || THEMES.BATEGA;
 
         logger.log(`[ThemeEngine] Aplicant tema sobirà: ${theme.name}`);
 

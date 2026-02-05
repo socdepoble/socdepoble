@@ -193,7 +193,7 @@ const GlobalOverview = ({ addLog }) => {
                 .kpi-card {
                     background: var(--admin-surface);
                     padding: 20px;
-                    border-radius: 16px;
+                    border-radius: 0px;
                     display: flex;
                     align-items: center;
                     gap: 16px;
@@ -204,7 +204,7 @@ const GlobalOverview = ({ addLog }) => {
                     width: 40px;
                     height: 40px;
                     background: rgba(255,255,255,0.03);
-                    border-radius: 12px;
+                    border-radius: 0px;
                     display: flex;
                     align-items: center;
                     justify-content: center;
@@ -239,7 +239,7 @@ const GlobalOverview = ({ addLog }) => {
                 
                 .ucc-column {
                     background: var(--admin-surface);
-                    border-radius: 24px;
+                    border-radius: 0px;
                     padding: 24px;
                     border: 1px solid rgba(255,255,255,0.05);
                 }
@@ -264,7 +264,7 @@ const GlobalOverview = ({ addLog }) => {
                     font-size: 8px;
                     font-weight: 900;
                     padding: 2px 6px;
-                    border-radius: 4px;
+                    border-radius: 0px;
                     animation: pulse-red 2s infinite;
                 }
                 
@@ -285,7 +285,7 @@ const GlobalOverview = ({ addLog }) => {
                 
                 .pipeline-item {
                     background: rgba(255,255,255,0.03);
-                    border-radius: 16px;
+                    border-radius: 0px;
                     padding: 16px;
                     display: flex;
                     gap: 16px;
@@ -302,7 +302,7 @@ const GlobalOverview = ({ addLog }) => {
                 .item-icon {
                     width: 36px;
                     height: 36px;
-                    border-radius: 10px;
+                    border-radius: 0px;
                     background: rgba(0,0,0,0.2);
                     display: flex;
                     align-items: center;
@@ -354,7 +354,7 @@ const GlobalOverview = ({ addLog }) => {
                 
                 .ucc-node-card {
                     background: rgba(0,0,0,0.15);
-                    border-radius: 20px;
+                    border-radius: 0px;
                     padding: 20px;
                     border: 1px solid rgba(255,255,255,0.05);
                 }
@@ -374,7 +374,7 @@ const GlobalOverview = ({ addLog }) => {
                     font-size: 9px;
                     font-weight: 800;
                     padding: 4px 10px;
-                    border-radius: 6px;
+                    border-radius: 0px;
                     background: rgba(255,255,255,0.03);
                     text-transform: uppercase;
                 }
@@ -387,7 +387,7 @@ const GlobalOverview = ({ addLog }) => {
                     padding: 12px;
                     background: rgba(255,255,255,0.05);
                     border: 1px solid rgba(255,255,255,0.1);
-                    border-radius: 12px;
+                    border-radius: 0px;
                     color: white;
                     font-size: 11px;
                     font-weight: 700;

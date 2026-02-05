@@ -63,7 +63,7 @@
     background: var(--bg-surface);
     padding: 40px;
     border-left: 8px solid var(--accent);
-    box-shadow: 20px 20px 0px rgba(255, 109, 0, 0.1);
+    box-shadow: var(--shadow-hard);
 }
 
 .icon-main {

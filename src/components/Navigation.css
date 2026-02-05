@@ -13,7 +13,7 @@
     z-index: 1000;
     border-top: 1px solid rgba(255, 255, 255, 0.15);
     padding-bottom: env(safe-area-inset-bottom);
-    border-radius: 28px 28px 0 0;
+    border-radius: 0px 28px 0 0;
 }
 
 .m3-nav-item {
@@ -32,7 +32,7 @@
     width: 64px;
     height: 40px;
     /* Augmentat de 32 a 40 per a accessibilitat */
-    border-radius: var(--radius-full);
+    border-radius: 0px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -81,13 +81,13 @@
 .m3-fab {
     width: 68px;
     height: 68px;
-    border-radius: 24px !important;
+    border-radius: 0px !important;
     background-color: #00F2FF;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #000000;
-    box-shadow: 0 8px 25px rgba(0, 242, 255, 0.4);
+    box-shadow: var(--shadow-hard);
     border: none;
     cursor: pointer;
     margin-top: -34px;
@@ -110,7 +110,7 @@
         border-radius: 0px;
         padding: 0 24px;
         border: 1px solid var(--md-sys-color-surface-variant);
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        box-shadow: var(--shadow-hard);
         gap: 32px;
     }
 

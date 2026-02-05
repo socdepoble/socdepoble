@@ -11,7 +11,7 @@
     border-radius: 0px;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
+    box-shadow: var(--shadow-hard);
     border: 1px solid rgba(0, 242, 255, 0.2);
 }
 
@@ -40,12 +40,12 @@
     height: 40px;
     background-color: var(--bg-surface);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
+    border-radius: 0px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--text-main);
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--shadow-hard);
 }
 
 .map-legend {
@@ -55,7 +55,7 @@
     background-color: var(--bg-overlay);
     backdrop-filter: blur(8px);
     padding: 8px 12px;
-    border-radius: var(--radius-md);
+    border-radius: 0px;
     display: flex;
     gap: 12px;
     z-index: 10;
@@ -106,7 +106,7 @@
 /* [SACRED TECH] TACTICAL PINS & WAVES */
 .map-ping.gold .ping-dot {
     background-color: #FFD700;
-    box-shadow: 0 0 15px #FFD700, 0 0 5px white;
+    box-shadow: var(--shadow-hard);
     border-color: #FFF;
 }
 
@@ -116,7 +116,7 @@
 
 .mur .ping-dot {
     background-color: var(--color-teal-sci, #00f2ff);
-    box-shadow: 0 0 10px var(--color-teal-sci);
+    box-shadow: var(--shadow-hard);
 }
 
 .mur .ping-wave {
@@ -125,7 +125,7 @@
 
 .mercat .ping-dot {
     background-color: var(--color-terracotta);
-    box-shadow: 0 0 10px var(--color-terracotta);
+    box-shadow: var(--shadow-hard);
 }
 
 .mercat .ping-wave {
@@ -226,7 +226,7 @@
     margin: 0 var(--space-md);
     padding: var(--space-md);
     background-color: var(--bg-card);
-    border-radius: var(--radius-md);
+    border-radius: 0px;
     border: 1px solid var(--color-border);
 }
 

@@ -18,7 +18,7 @@
     font-size: var(--font-size-base);
     font-weight: var(--font-weight-bold);
     cursor: pointer;
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+    box-shadow: var(--shadow-hard);
     transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     background-size: 200% auto;
 }
@@ -26,7 +26,7 @@
 .ai-magic-pill:hover:not(:disabled) {
     background-position: right center;
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
+    box-shadow: var(--shadow-hard);
 }
 
 .ai-magic-pill:disabled {
@@ -34,7 +34,7 @@
     cursor: not-allowed;
     background: #e2e8f0;
     color: #94a3b8;
-    box-shadow: none;
+    box-shadow: var(--shadow-hard);
     transform: none;
 }
 

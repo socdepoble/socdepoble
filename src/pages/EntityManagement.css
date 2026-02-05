@@ -62,7 +62,7 @@
 .create-card {
     background: var(--bg-card);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-xl);
+    border-radius: 0px;
     padding: 16px;
     display: flex;
     align-items: center;
@@ -76,14 +76,14 @@
 
 .create-card:hover {
     transform: translateY(-4px);
-    box-shadow: var(--shadow-xl);
+    box-shadow: var(--shadow-hard);
     border-color: var(--color-primary);
 }
 
 .create-icon {
     width: 64px;
     height: 64px;
-    border-radius: var(--radius-lg);
+    border-radius: 0px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -133,7 +133,7 @@
 .managed-entity-item {
     background: var(--bg-card);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
+    border-radius: 0px;
     padding: 12px 16px;
     display: flex;
     align-items: center;
@@ -151,7 +151,7 @@
 .entity-avatar-mini {
     width: 44px;
     height: 44px;
-    border-radius: var(--radius-md);
+    border-radius: 0px;
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -202,7 +202,7 @@
     padding: 40px;
     background: rgba(0, 0, 0, 0.02);
     border: 2px dashed var(--color-border);
-    border-radius: var(--radius-xl);
+    border-radius: 0px;
     color: var(--text-muted);
 }
 

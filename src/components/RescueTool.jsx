@@ -67,7 +67,7 @@ const RescueTool = () => {
                 onClick={performRescue}
                 style={{
                     background: '#ff0055', color: 'white', border: 'none', padding: '15px 30px',
-                    borderRadius: '12px', fontSize: '18px', fontWeight: 'bold', cursor: 'pointer',
+                    borderRadius: '0px', fontSize: '18px', fontWeight: 'bold', cursor: 'pointer',
                     boxShadow: '0 4px 15px rgba(255, 0, 85, 0.4)'
                 }}
             >

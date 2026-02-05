@@ -27,7 +27,7 @@
     font-size: var(--font-size-base);
     font-weight: 800;
     letter-spacing: 0.5px;
-    box-shadow: 0 10px 30px rgba(0, 123, 255, 0.5);
+    box-shadow: var(--shadow-hard);
     /* Brillantor blava */
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     backdrop-filter: blur(8px);
@@ -37,7 +37,7 @@
     background: #00f2ff;
     /* Tornem al cian (diamant) quan s'activa el perfil real */
     color: black;
-    box-shadow: 0 10px 30px rgba(0, 242, 255, 0.6);
+    box-shadow: var(--shadow-hard);
     border-color: rgba(0, 0, 0, 0.1);
 }
 
@@ -97,7 +97,7 @@
     background: var(--color-primary);
     color: black;
     border-color: var(--color-primary);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-hard);
 }
 
 @keyframes fadeIn {

@@ -14,17 +14,17 @@
     right: 30px;
     bottom: 30px;
     width: 480px;
-    background: var(--hud-bg);
-    border: 1px solid var(--hud-border);
-    border-radius: var(--radius-md) !important;
-    /* 16px per Flash */
+    background: #000000;
+    /* Black Canvas */
+    border: var(--border-master);
+    border-radius: 0px !important;
     z-index: 10002;
-    color: var(--hud-text);
-    font-family: var(--font-body);
+    color: #FFFFFF;
+    font-family: 'JetBrains Mono', monospace;
     display: flex;
     flex-direction: column;
-    box-shadow: var(--hud-shadow);
-    transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+    box-shadow: var(--shadow-hard);
+    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
     overflow: hidden;
 }
 
@@ -74,9 +74,9 @@
 
 /* Header */
 .hud-header {
-    padding: 32px 40px;
-    background: rgba(0, 0, 0, 0.3);
-    border-bottom: 1px solid var(--hud-border);
+    padding: 24px 32px;
+    background: #000000;
+    border-bottom: var(--border-master);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -107,9 +107,10 @@
 }
 
 .btn-hud-lang.active {
-    background: var(--hud-accent);
-    color: var(--bg-canvas);
-    border-color: var(--hud-accent);
+    background: var(--color-primary);
+    /* Cyan */
+    color: #000;
+    border-color: #000;
 }
 
 .hud-title-zone {
@@ -127,7 +128,7 @@
     font-weight: 900;
     width: fit-content;
     text-transform: uppercase;
-    box-shadow: var(--hud-glow);
+    box-shadow: var(--shadow-hard);
 }
 
 .hud-header h2 {
@@ -156,7 +157,7 @@
     height: 8px;
     background: #00ffaa;
     border-radius: 0px;
-    box-shadow: 0 0 10px #00ffaa;
+    box-shadow: var(--shadow-hard);
     animation: ledBreath 3s infinite ease-in-out;
 }
 
@@ -173,13 +174,13 @@
     100% {
         opacity: 0.4;
         transform: scale(0.9);
-        box-shadow: 0 0 5px #00ffaa;
+        box-shadow: var(--shadow-hard);
     }
 
     50% {
         opacity: 1;
         transform: scale(1.1);
-        box-shadow: 0 0 15px #00ffaa;
+        box-shadow: var(--shadow-hard);
     }
 }
 
@@ -354,7 +355,7 @@
 
 .swatch.active {
     border-color: var(--text-main);
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+    box-shadow: var(--shadow-hard);
     transform: scale(1.2);
 }
 
@@ -431,7 +432,7 @@
 .hud-panel:hover {
     border-color: var(--hud-accent);
     background: rgba(0, 242, 255, 0.05);
-    box-shadow: 0 0 20px rgba(0, 242, 255, 0.1);
+    box-shadow: var(--shadow-hard);
 }
 
 .hud-panel.full-width {
@@ -478,11 +479,11 @@
 
 @keyframes glowSuccess {
     from {
-        box-shadow: 0 0 2px rgba(0, 255, 170, 0.2);
+        box-shadow: var(--shadow-hard);
     }
 
     to {
-        box-shadow: 0 0 10px rgba(0, 255, 170, 0.4);
+        box-shadow: var(--shadow-hard);
     }
 }
 
@@ -513,7 +514,7 @@
     border-radius: 0px;
     padding: 24px;
     border: 1px solid rgba(255, 255, 255, 0.05);
-    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+    box-shadow: var(--shadow-hard);
 }
 
 .hud-terminal {
@@ -604,7 +605,7 @@
     border-radius: 0px;
     padding: 16px;
     margin-bottom: 20px;
-    box-shadow: 0 8px 32px rgba(0, 242, 255, 0.1);
+    box-shadow: var(--shadow-hard);
 }
 
 .hud-voice-feedback-panel .hud-card-header {
@@ -639,20 +640,24 @@
 
 /* Level Hierarchy [MASTER] */
 .btn-hud-primary.level-1 {
-    background: linear-gradient(90deg, #00f2ff 0%, #0099ff 100%);
-    box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
+    background: var(--color-primary);
+    color: #000 !important;
+    border: var(--border-master);
+    box-shadow: var(--shadow-hard);
 }
 
 .btn-hud-primary.level-2 {
-    background: linear-gradient(90deg, #d400ff 0%, #ff0055 100%);
-    box-shadow: 0 0 20px rgba(212, 0, 255, 0.2);
-    color: white !important;
+    background: var(--color-accent);
+    color: #000 !important;
+    border: var(--border-master);
+    box-shadow: var(--shadow-hard);
 }
 
 .btn-hud-primary.level-3 {
-    background: linear-gradient(90deg, #ff6b00 0%, #ff0000 100%);
-    box-shadow: 0 0 20px rgba(255, 107, 0, 0.2);
-    color: white !important;
+    background: #FF0000;
+    color: #FFF !important;
+    border: var(--border-master);
+    box-shadow: var(--shadow-hard);
 }
 
 .btn-hud-outline.level-1 {
@@ -668,7 +673,7 @@
 
 .btn-hud-primary:hover {
     transform: translateY(-4px) scale(1.02);
-    box-shadow: 0 0 50px rgba(0, 242, 255, 0.4);
+    box-shadow: var(--shadow-hard);
 }
 
 .btn-hud-outline {
@@ -714,7 +719,7 @@
 .btn-hud-danger:hover {
     background: rgba(255, 0, 85, 0.15);
     border-color: #ff0055;
-    box-shadow: 0 0 20px rgba(255, 0, 85, 0.2);
+    box-shadow: var(--shadow-hard);
 }
 
 .btn-hud-restore {
@@ -750,7 +755,7 @@
     font-weight: 900;
     font-size: var(--font-size-base);
     color: var(--hud-accent);
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 242, 255, 0.2);
+    box-shadow: var(--shadow-hard);
     cursor: pointer;
     z-index: 10001;
     transition: all 0.4s;
@@ -760,7 +765,7 @@
 
 .btn-icon-hud:hover {
     transform: translateY(-5px) rotate(2deg);
-    box-shadow: 0 0 50px rgba(0, 242, 255, 0.4);
+    box-shadow: var(--shadow-hard);
 }
 
 /* Mobile */
@@ -895,11 +900,11 @@
 .btn-hud-primary.master-heal {
     color: white !important;
     background: linear-gradient(90deg, #d400ff 0%, #9d00ff 100%);
-    box-shadow: 0 0 30px rgba(212, 0, 255, 0.3);
+    box-shadow: var(--shadow-hard);
 }
 
 .btn-hud-primary.master-heal:hover:not(:disabled) {
-    box-shadow: 0 0 60px rgba(212, 0, 255, 0.6);
+    box-shadow: var(--shadow-hard);
 }
 
 .btn-hud-primary.master-heal.healing {
@@ -952,14 +957,14 @@
     color: var(--hud-accent);
     cursor: pointer;
     z-index: 10;
-    box-shadow: 0 0 10px rgba(0, 242, 255, 0.2);
+    box-shadow: var(--shadow-hard);
     transition: all 0.3s;
 }
 
 .hud-info-trigger:hover {
     transform: scale(1.2);
     border-color: var(--hud-accent);
-    box-shadow: 0 0 15px var(--hud-accent);
+    box-shadow: var(--shadow-hard);
 }
 
 .hud-info-trigger.small {
@@ -974,7 +979,7 @@
     border: 1px solid var(--hud-accent);
     border-radius: 0px;
     margin-bottom: 24px;
-    box-shadow: 0 0 40px rgba(0, 242, 255, 0.2);
+    box-shadow: var(--shadow-hard);
     position: relative;
     z-index: 1001;
 }

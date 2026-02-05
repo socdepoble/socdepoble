@@ -201,7 +201,7 @@
 .video-btn.recording {
     background: #ff0000;
     border-color: #ff0000;
-    box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+    box-shadow: var(--shadow-hard);
 }
 
 .confirm-controls {

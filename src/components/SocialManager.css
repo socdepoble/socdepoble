@@ -23,7 +23,7 @@
     flex-direction: column;
     animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     padding-bottom: env(safe-area-inset-bottom);
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow-hard);
 }
 
 .sm-header {
@@ -59,7 +59,7 @@
     color: var(--color-primary);
     width: 44px;
     height: 44px;
-    border-radius: var(--radius-md);
+    border-radius: 0px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -112,7 +112,7 @@
 .sm-category-card {
     background: var(--bg-main);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
+    border-radius: 0px;
     padding: 16px 8px;
     display: flex;
     flex-direction: column;
@@ -133,7 +133,7 @@
 .sm-cat-icon-wrapper {
     width: 44px;
     height: 44px;
-    border-radius: var(--radius-md);
+    border-radius: 0px;
     background: var(--bg-surface);
     display: flex;
     align-items: center;
@@ -165,7 +165,7 @@
 .sm-tag-pill {
     background: var(--bg-main);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
+    border-radius: 0px;
     padding: 10px 18px;
     font-size: var(--font-size-base);
     font-weight: 700;
@@ -181,7 +181,7 @@
     background: var(--color-primary);
     color: white !important;
     border-color: var(--color-primary);
-    box-shadow: 0 4px 12px rgba(93, 95, 239, 0.2);
+    box-shadow: var(--shadow-hard);
 }
 
 .sm-spark {
@@ -198,12 +198,12 @@
     color: white !important;
     border: none;
     padding: 18px;
-    border-radius: var(--radius-xl);
+    border-radius: 0px;
     font-size: var(--font-size-base);
     font-weight: 800;
     letter-spacing: 1px;
     cursor: pointer;
-    box-shadow: 0 10px 25px rgba(93, 95, 239, 0.3);
+    box-shadow: var(--shadow-hard);
 }
 
 @keyframes slideUp {

@@ -53,7 +53,7 @@
     padding: 12px;
     background: var(--bg-surface);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
+    border-radius: 0px;
     font-size: var(--font-size-base);
     font-weight: 800;
     color: var(--text-muted);
@@ -65,7 +65,7 @@
     background: var(--color-primary);
     color: white;
     border-color: var(--color-primary);
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--shadow-hard);
 }
 
 .directory-content {
@@ -83,7 +83,7 @@
 .directory-card {
     background: var(--bg-card);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-xl);
+    border-radius: 0px;
     padding: 16px;
     display: flex;
     align-items: center;
@@ -95,13 +95,13 @@
 .directory-card:hover {
     transform: translateY(-2px);
     border-color: var(--color-primary);
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--shadow-hard);
 }
 
 .card-avatar {
     width: 60px;
     height: 60px;
-    border-radius: var(--radius-full);
+    border-radius: 0px;
     background: var(--bg-surface);
     border: 2px solid var(--color-border);
     overflow: hidden;
@@ -169,7 +169,7 @@
     background: var(--color-primary);
     color: white;
     border: none;
-    border-radius: var(--radius-full);
+    border-radius: 0px;
     font-size: var(--font-size-base);
     font-weight: 900;
     cursor: pointer;

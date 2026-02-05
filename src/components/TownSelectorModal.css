@@ -23,7 +23,7 @@
     border: 1px solid rgba(0, 242, 255, 0.3);
     display: flex;
     flex-direction: column;
-    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.9);
+    box-shadow: var(--shadow-hard);
     overflow: hidden;
     animation: modalAppear 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     backdrop-filter: blur(20px);
@@ -182,7 +182,7 @@
     padding: 12px var(--space-md);
     background: none;
     border: 1px solid transparent;
-    border-radius: var(--radius-lg);
+    border-radius: 0px;
     color: #CBD5E0;
     text-align: left;
     cursor: pointer;
@@ -307,13 +307,13 @@
     letter-spacing: 2px;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
+    box-shadow: var(--shadow-hard);
     text-transform: uppercase;
 }
 
 .save-btn-large:hover:not(.disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(93, 95, 239, 0.4);
+    box-shadow: var(--shadow-hard);
 }
 
 .save-btn-large:active:not(.disabled) {
@@ -323,6 +323,6 @@
 .save-btn-large.disabled {
     background-color: #2D3748;
     color: #718096;
-    box-shadow: none;
+    box-shadow: var(--shadow-hard);
     cursor: not-allowed;
 }

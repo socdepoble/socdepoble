@@ -475,7 +475,7 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null, contentMo
                                                     <BookOpen size={18} />
                                                     <span>{post.book_title || 'Llibre'}</span>
                                                 </div>
-                                                <div className="chapter-badge" style={{ background: '#FF6D00', color: '#fff', padding: '2px 10px', borderRadius: '20px', fontSize: '12px', fontWeight: '900' }}>
+                                                <div className="chapter-badge" style={{ background: '#FF6D00', color: '#fff', padding: '2px 10px', borderRadius: '0px', fontSize: '12px', fontWeight: '900' }}>
                                                     CAP. {post.chapter_number || '?'}
                                                 </div>
                                             </div>

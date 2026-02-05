@@ -44,7 +44,7 @@
 .notif-icon-wrapper {
     width: 44px;
     height: 44px;
-    border-radius: var(--radius-sm);
+    border-radius: 0px;
     background-color: var(--bg-main);
     display: flex;
     align-items: center;
@@ -79,7 +79,7 @@
     width: 10px;
     height: 10px;
     background-color: var(--color-primary);
-    border-radius: var(--radius-full);
+    border-radius: 0px;
     position: absolute;
     right: var(--space-md);
     top: 50%;

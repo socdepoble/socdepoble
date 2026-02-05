@@ -66,7 +66,7 @@
     flex-direction: column;
     transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     cursor: pointer;
-    box-shadow: 8px 8px 0px var(--comic-border);
+    box-shadow: var(--shadow-hard);
     position: relative;
     overflow: hidden;
     min-height: 400px;
@@ -85,7 +85,7 @@
 
 .habitant-card:hover {
     transform: scale(1.02) rotate(1deg);
-    box-shadow: 12px 12px 0px var(--color-primary);
+    box-shadow: var(--shadow-hard);
     border-color: var(--color-primary);
 }
 
@@ -124,7 +124,7 @@
     justify-content: center;
     z-index: 2;
     transform: rotate(-3deg);
-    box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-hard);
 }
 
 .habitant-card:hover .card-icon {
@@ -158,7 +158,7 @@
     padding: 4px 30px;
     font-weight: 900;
     transform: rotate(35deg);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--shadow-hard);
 }
 
 .card-bio {

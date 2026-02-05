@@ -92,7 +92,7 @@
 .calendar-day.today {
     border-color: var(--hud-accent);
     background: rgba(0, 242, 255, 0.05);
-    box-shadow: 0 0 20px rgba(0, 242, 255, 0.1);
+    box-shadow: var(--shadow-hard);
 }
 
 .day-number {
@@ -168,7 +168,7 @@
 .anchor-card:hover {
     transform: translateY(-5px);
     border-color: var(--hud-accent);
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow-hard);
 }
 
 .anchor-date {

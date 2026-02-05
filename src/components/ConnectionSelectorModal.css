@@ -5,7 +5,7 @@
     border-radius: 0px;
     overflow: hidden;
     position: relative;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    box-shadow: var(--shadow-hard);
     border: 1px solid var(--sdp-glass-border);
 }
 

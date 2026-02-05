@@ -122,13 +122,13 @@ if ('caches' in window) {
   });
 }
 
-// [RESEMBRA ATÒMICA] Lògica de Sincronització de Versió Segura (v1.6.3-BATEGA)
-const CURRENT_MASTER_VERSION = 'v1.6.3-BATEGA';
+// [RESEMBRA ATÒMICA] Lògica de Sincronització de Versió Segura (v1.6.4-TOTAL-PROPAGATION)
+const CURRENT_MASTER_VERSION = 'v1.6.4-TOTAL-PROPAGATION';
 const savedVersion = localStorage.getItem('sp_app_version');
 
 // EMERGENCY ATUM: Manual rescue function
 window.RecordaAtum = () => {
-  console.log('%c[ATUM] Iniciant purga manual de memòria...', 'color: #FF6D23; font-weight: bold;');
+  console.log('%c[ATUM] PURGA TOTAL FOC I AIGUA ACTIVADA...', 'color: #FF6D23; font-weight: bold; font-size: 14px;');
   localStorage.clear();
   sessionStorage.clear();
   if ('caches' in window) {

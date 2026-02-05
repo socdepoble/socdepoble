@@ -99,7 +99,7 @@ export const ToastProvider = ({ children }) => {
                         background: 'var(--card-bg, #ffffff)',
                         color: 'var(--text-primary, #1e293b)',
                         boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-                        borderRadius: '12px',
+                        borderRadius: '0px',
                         padding: '12px 16px',
                         border: '1px solid var(--border-color, #e2e8f0)',
                         fontSize: '14px',

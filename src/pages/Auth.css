@@ -3,8 +3,8 @@
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    background: #FFFFFF;
-    /* [MASTER] Blanc Pur */
+    background: #000000;
+    /* Black Canvas */
     position: relative;
     overflow-x: hidden;
     padding: 16px;
@@ -51,7 +51,7 @@
 
 .login-diagnostic-trigger:hover {
     background: rgba(0, 242, 255, 0.3);
-    box-shadow: 0 0 15px #00f2ff;
+    box-shadow: var(--shadow-hard);
 }
 
 /* IAIA Guidance at Login - RESTRUCTURED FOR SMART CITY */
@@ -192,23 +192,17 @@
 }
 
 .auth-card {
-    background: rgba(10, 15, 30, 0.3) !important;
-    backdrop-filter: blur(40px) saturate(200%) !important;
-    border: 1px solid rgba(0, 242, 255, 0.4) !important;
+    background: #FFFFFF !important;
+    border: var(--border-master) !important;
     width: 100%;
     max-width: 440px;
-    padding: 60px 40px;
-    box-shadow:
-        0 40px 100px rgba(0, 0, 0, 0.9),
-        inset 0 0 120px rgba(0, 242, 255, 0.05),
-        0 0 30px rgba(0, 242, 255, 0.1) !important;
+    padding: 48px 40px;
+    box-shadow: var(--shadow-hard) !important;
     border-radius: 0 !important;
-    /* DIRECTIVA ZERO RADIUS */
     text-align: center;
     position: relative;
     z-index: 10;
-    animation: cardEnter 1s cubic-bezier(0.16, 1, 0.3, 1);
-    border-right: 2px solid var(--color-primary);
+    color: #000;
 }
 
 .auth-card::before {
@@ -318,7 +312,7 @@
     padding: 16px 20px;
     background: var(--md-sys-color-surface);
     border: 1px solid var(--md-sys-color-outline);
-    border-radius: var(--radius-xs);
+    border-radius: 0px;
     font-size: 1rem;
     color: var(--md-sys-color-on-surface);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -327,26 +321,26 @@
 .form-group input:focus {
     outline: none;
     border-color: var(--md-sys-color-primary);
-    box-shadow: 0 0 0 4px var(--md-sys-color-primary-container);
+    box-shadow: var(--shadow-hard);
 }
 
 .input-success {
     border-color: #00f2ff !important;
     background: rgba(0, 242, 255, 0.05) !important;
-    box-shadow: 0 0 10px rgba(0, 242, 255, 0.1) !important;
+    box-shadow: var(--shadow-hard);
 }
 
 .input-error {
     border-color: #ff5252 !important;
     background: rgba(255, 82, 82, 0.05) !important;
-    box-shadow: 0 0 10px rgba(255, 82, 82, 0.1) !important;
+    box-shadow: var(--shadow-hard);
 }
 
 .btn-dimmed {
     opacity: 0.4 !important;
     filter: grayscale(0.8) !important;
     cursor: not-allowed !important;
-    box-shadow: none !important;
+    box-shadow: var(--shadow-hard);
 }
 
 .btn-dimmed:hover {
@@ -358,7 +352,7 @@
 .form-group input:-webkit-autofill:hover,
 .form-group input:-webkit-autofill:focus,
 .form-group input:-webkit-autofill:active {
-    -webkit-box-shadow: 0 0 0 30px #1e2230 inset !important;
+    -webkit-box-shadow: var(--shadow-hard);
     -webkit-text-fill-color: white !important;
     transition: background-color 5000s ease-in-out 0s;
 }
@@ -374,13 +368,13 @@
     padding: 0 16px;
     /* Custom padding for wrapper */
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-hard);
 }
 
 .phone-input-wrapper:focus-within {
     border-color: var(--color-primary);
     background: rgba(0, 242, 255, 0.08);
-    box-shadow: 0 0 15px rgba(0, 242, 255, 0.2);
+    box-shadow: var(--shadow-hard);
 }
 
 .phone-prefix {
@@ -468,43 +462,26 @@
     width: 100%;
     height: 52px;
     padding: 0 24px;
-    background: var(--accent);
+    background: var(--color-accent);
+    /* Orange Foc */
     color: #000000;
-    border: none;
-    border-radius: 12px;
-    font-size: 1.05rem;
-    font-weight: var(--font-weight-bold);
+    border: var(--border-master);
+    border-radius: 0px;
+    font-size: 1.1rem;
+    font-weight: 900;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: all 0.1s;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: var(--shadow-1);
-    position: relative;
-    overflow: hidden;
-}
-
-.auth-button::after {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -60%;
-    width: 20%;
-    height: 200%;
-    background: rgba(255, 255, 255, 0.4);
-    transform: rotate(30deg);
-    transition: all 0.5s ease;
-    filter: blur(5px);
-}
-
-.auth-button:hover::after {
-    left: 120%;
+    box-shadow: var(--shadow-hard);
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .auth-button:hover {
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 15px 30px rgba(0, 242, 255, 0.5);
-    filter: brightness(1.1);
+    transform: translate(-3px, -3px);
+    box-shadow: 8px 8px 0px #000;
 }
 
 .auth-button:disabled {
@@ -608,13 +585,13 @@
     width: 60%;
     height: 100%;
     background: var(--color-primary);
-    box-shadow: 0 0 10px var(--color-primary);
+    box-shadow: var(--shadow-hard);
     animation: loadingBar 2s infinite ease-in-out;
 }
 
 .progress-segment.completed {
     background: var(--color-primary);
-    box-shadow: 0 0 10px var(--color-primary);
+    box-shadow: var(--shadow-hard);
 }
 
 .glass-header {
@@ -674,7 +651,7 @@
 .phone-input-wrapper-v2:focus-within {
     border-color: var(--color-primary);
     background: rgba(0, 242, 255, 0.08);
-    box-shadow: 0 0 15px rgba(0, 242, 255, 0.2);
+    box-shadow: var(--shadow-hard);
 }
 
 .prefix-badge {
@@ -693,7 +670,7 @@
     flex: 1;
     background: transparent !important;
     border: none !important;
-    box-shadow: none !important;
+    box-shadow: var(--shadow-hard);
     font-size: 1.1rem !important;
     font-weight: 700 !important;
     letter-spacing: 1px;
@@ -778,14 +755,14 @@
     color: var(--bg-canvas);
     font-weight: 900;
     border: none;
-    box-shadow: 0 10px 30px rgba(0, 242, 255, 0.2);
+    box-shadow: var(--shadow-hard);
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 .auth-button.v2:focus {
     outline: none;
-    box-shadow: 0 0 0 3px #000, 0 0 0 6px #00f2ff;
+    box-shadow: var(--shadow-hard);
 }
 
 .auth-button.v2:active {
@@ -1070,7 +1047,7 @@
 .demo-login-wrapper:hover {
     background: rgba(93, 95, 239, 0.12);
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    box-shadow: var(--shadow-hard);
 }
 
 .auth-button.demo-primary {
@@ -1108,7 +1085,7 @@
 
 .auth-button.demo-secondary:hover {
     background: rgba(0, 242, 255, 0.15);
-    box-shadow: 0 0 15px rgba(0, 242, 255, 0.3);
+    box-shadow: var(--shadow-hard);
     transform: scale(1.01);
 }
 
@@ -1154,7 +1131,7 @@
 .lang-btn.active {
     color: white;
     background: var(--color-primary);
-    box-shadow: 0 4px 12px rgba(93, 95, 239, 0.3);
+    box-shadow: var(--shadow-hard);
 }
 
 .auth-spacer {

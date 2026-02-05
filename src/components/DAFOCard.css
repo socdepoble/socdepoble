@@ -5,7 +5,7 @@
     border-radius: 0px;
     padding: 24px;
     color: var(--text-main);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--shadow-hard);
     margin: 20px 0;
 }
 

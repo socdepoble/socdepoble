@@ -44,7 +44,7 @@ class ErrorBoundary extends React.Component {
                     <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', marginTop: '16px' }}>
                         <button
                             onClick={() => window.location.reload()}
-                            style={{ padding: '8px 16px', borderRadius: '8px', border: 'none', background: '#333', color: 'white', cursor: 'pointer', fontWeight: 600 }}
+                            style={{ padding: '8px 16px', borderRadius: '0px', border: 'none', background: '#333', color: 'white', cursor: 'pointer', fontWeight: 600 }}
                         >
                             Tornar a intentar
                         </button>
@@ -54,7 +54,7 @@ class ErrorBoundary extends React.Component {
                                 alert('Error copiat al porta-retalls!');
                             }}
                             title="Copiar error"
-                            style={{ padding: '8px 16px', borderRadius: '8px', border: '1px solid #ddd', background: 'white', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}
+                            style={{ padding: '8px 16px', borderRadius: '0px', border: '1px solid #ddd', background: 'white', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}
                         >
                             📋 Copiar
                         </button>

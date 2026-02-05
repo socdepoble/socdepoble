@@ -94,7 +94,7 @@
     backdrop-filter: none;
     padding: 0;
     border: none;
-    box-shadow: none;
+    box-shadow: var(--shadow-hard);
     border-radius: 0;
 
     /* Photoshop Style Blend Mode */
@@ -146,7 +146,7 @@
     border: 2px solid rgba(255, 255, 255, 0.4);
     background: transparent;
     cursor: pointer;
-    box-shadow: none;
+    box-shadow: var(--shadow-hard);
 
     /* Maintain large touch target */
     position: relative;
@@ -168,7 +168,7 @@
     background: #fb923c;
     border-color: #fb923c;
     transform: scale(1.2);
-    box-shadow: 0 0 8px rgba(251, 146, 60, 0.4);
+    box-shadow: var(--shadow-hard);
 }
 
 /* Mobile Enhancements */

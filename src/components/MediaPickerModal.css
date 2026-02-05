@@ -19,11 +19,11 @@
     width: 100%;
     max-width: 550px;
     height: 80vh;
-    border-radius: var(--radius-2xl);
+    border-radius: 0px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    box-shadow: var(--shadow-2xl);
+    box-shadow: var(--shadow-hard);
     border: 1px solid var(--color-border);
 }
 
@@ -98,7 +98,7 @@
 .picker-item {
     position: relative;
     aspect-ratio: 1;
-    border-radius: var(--radius-md);
+    border-radius: 0px;
     overflow: hidden;
     cursor: pointer;
     background: var(--bg-main);
@@ -137,7 +137,7 @@
     text-transform: uppercase;
     background: var(--color-primary);
     padding: 4px 8px;
-    border-radius: var(--radius-sm);
+    border-radius: 0px;
 }
 
 .picker-footer {
@@ -149,7 +149,7 @@
 
 .cancel-btn {
     padding: 8px 24px;
-    border-radius: var(--radius-full);
+    border-radius: 0px;
     border: 1px solid var(--color-border);
     background: transparent;
     color: var(--text-secondary);

@@ -50,7 +50,7 @@ const VoiceMessage = ({ url, duration, waveform, isOwnMessage }) => {
                             width: '3px',
                             height: `${Math.max(20, amp * 100)}%`,
                             backgroundColor: isOwnMessage ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.4)',
-                            borderRadius: '2px'
+                            borderRadius: '0px'
                         }}
                     />
                 ))}

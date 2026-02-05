@@ -32,7 +32,7 @@
 .bar-icon-btn {
     width: 44px;
     height: 44px;
-    border-radius: var(--radius-full);
+    border-radius: 0px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -70,7 +70,7 @@
 .bar-avatar {
     width: 32px;
     height: 32px;
-    border-radius: var(--sdp-radius-full);
+    border-radius: 0px;
     overflow: hidden;
     background-color: var(--sdp-glass-border);
     display: flex;

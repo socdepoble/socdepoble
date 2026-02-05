@@ -213,7 +213,7 @@ const IAIATamagotchiSettings = ({ userId, profile, onUpdate }) => {
                         </div>
                     </section>
 
-                    <section className="settings-block super-raton-block" style={{ border: '1px solid var(--hud-accent)', background: 'rgba(0, 242, 255, 0.05)', padding: '16px', borderRadius: '12px', marginTop: '16px', marginBottom: '16px' }}>
+                    <section className="settings-block super-raton-block" style={{ border: '1px solid var(--hud-accent)', background: 'rgba(0, 242, 255, 0.05)', padding: '16px', borderRadius: '0px', marginTop: '16px', marginBottom: '16px' }}>
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                             <label style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--hud-accent)', fontWeight: 'bold', fontSize: '0.9rem' }}>
                                 <Zap size={18} /> Guàrdia Vitaminada de Super Ratón

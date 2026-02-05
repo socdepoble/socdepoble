@@ -38,14 +38,15 @@
   --md-sys-color-surface-container: var(--bg-surface-container);
   --md-sys-color-outline: var(--color-primary);
 
-  /* --- 2. LLEI DE LA DEMOCRÀCIA VISUAL (Tokens dinàmics) --- */
-  --radius-raw: 16px;
-  /* Gem's default curvature */
+  /* --- 2. LLEI DEL MONÒLIT (Radi Zero Brutalista) --- */
+  --radius-raw: 0px;
   --radius-none: 0px;
-  --radius-sm: calc(var(--radius-raw) * 0.5);
-  --radius-md: var(--radius-raw);
-  --radius-lg: calc(var(--radius-raw) * 1.5);
-  --radius-xl: calc(var(--radius-raw) * 2);
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-full: 9999px;
+  /* Only for icons or perfect circles */
   --radius-full: 9999px;
 
   /* --- 3. TIPOGRAFIA (Iaia-Proof / GOV.UK) --- */
@@ -185,7 +186,7 @@
 
 .solar-mode .universal-card {
   border: 4px solid #FFFFFF !important;
-  box-shadow: 12px 12px 0px #FFFF00 !important;
+  box-shadow: var(--shadow-hard);
   background: #000000 !important;
 }
 
@@ -213,7 +214,7 @@ img,
 video,
 iframe,
 canvas {
-  border-radius: var(--radius-none) !important;
+  border-radius: 0px !important;
 }
 
 html,
@@ -275,7 +276,7 @@ article h3,
   color: var(--text-main);
   letter-spacing: -0.02em;
   text-transform: none;
-  border-radius: var(--radius-md);
+  border-radius: 0px;
 }
 
 body {
@@ -297,7 +298,7 @@ iframe,
 canvas {
   max-width: 100%;
   display: block;
-  border-radius: var(--radius-md);
+  border-radius: 0px;
   /* DIRECTIVA FLASH: GEOMETRIA SAGRADA */
 }
 
@@ -307,7 +308,7 @@ button {
   background: none;
   font-family: var(--font-label);
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  border-radius: var(--radius-full);
+  border-radius: 0px;
 }
 
 button:active {
@@ -331,7 +332,7 @@ a:hover {
   background-color: var(--bg-surface);
   min-height: 100vh;
   position: relative;
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow-hard);
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
@@ -422,14 +423,14 @@ a:hover {
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(0, 242, 255, 0.15);
   border-radius: 0px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-hard);
   transition: all 0.3s cubic-bezier(.16, 1, 0.3, 1);
 }
 
 .card-rizoma-wrapper:hover {
   transform: translateY(-4px);
   border-color: rgba(0, 242, 255, 0.4);
-  box-shadow: 0 8px 30px rgba(0, 242, 255, 0.15);
+  box-shadow: var(--shadow-hard);
 }
 
 /* Surface Utility Classes */
@@ -476,7 +477,7 @@ a:hover {
   /* Ultra-Blur */
   -webkit-backdrop-filter: blur(28px) saturate(180%) !important;
   border: 1px solid rgba(0, 242, 255, 0.3);
-  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.6);
+  box-shadow: var(--shadow-hard);
   color: white !important;
 }
 
@@ -559,18 +560,18 @@ a:hover {
 .universal-card {
   background: var(--bg-surface);
   border: var(--comic-border);
-  border-radius: var(--radius-md);
+  border-radius: 0px;
   /* LLEI DEL ZERO RADIUS MASTER */
   overflow: hidden;
   margin-bottom: 32px;
-  box-shadow: var(--comic-shadow);
+  box-shadow: var(--shadow-hard);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
 }
 
 .universal-card:hover {
   transform: translate(-4px, -4px);
-  box-shadow: var(--comic-shadow-hover);
+  box-shadow: var(--shadow-hard);
 }
 
 .card-header {
@@ -596,7 +597,7 @@ a:hover {
   background-color: var(--bg-canvas);
   line-height: 0;
   overflow: hidden;
-  border-radius: var(--radius-md);
+  border-radius: 0px;
 }
 
 .card-image-wrapper img {
@@ -604,7 +605,7 @@ a:hover {
   height: auto;
   min-height: 250px;
   object-fit: cover;
-  border-radius: var(--radius-md);
+  border-radius: 0px;
 }
 
 .card-body {
@@ -642,7 +643,7 @@ a:hover {
   font-family: var(--font-display);
   text-transform: uppercase;
   letter-spacing: 2px;
-  border-radius: var(--radius-md);
+  border-radius: 0px;
   /* BENTO RECTANGLE */
   border: 2px solid #000000;
   transition: all 0.2s;
@@ -661,15 +662,15 @@ a:hover {
 
 .card {
   background: var(--bg-card);
-  border-radius: var(--radius-lg);
+  border-radius: 0px;
   padding: var(--space-md);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-hard);
   border: 1px solid var(--color-border);
 }
 
 .pill {
   padding: 6px 16px;
-  border-radius: var(--radius-full);
+  border-radius: 0px;
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-bold);
 }
@@ -680,7 +681,7 @@ a:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--radius-md);
+  border-radius: 0px;
   /* DIRECTIVA FLASH */
   background-color: var(--color-primary-soft);
   color: var(--color-primary);
@@ -699,7 +700,7 @@ a:hover {
 
   /* Force square everywhere in desktop */
   * {
-    border-radius: var(--radius-md);
+    border-radius: 0px;
   }
 }
 
@@ -708,21 +709,21 @@ a:hover {
   background: var(--accent);
   color: #000000;
   padding: 14px 28px;
-  border-radius: var(--radius-lg);
+  border-radius: 0px;
   font-size: var(--font-size-base);
   font-weight: 800;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 12px;
-  box-shadow: var(--comic-shadow);
+  box-shadow: var(--shadow-hard);
   border: var(--comic-border);
   transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .btn-filled:hover {
   transform: translate(-3px, -3px);
-  box-shadow: var(--comic-shadow-hover);
+  box-shadow: var(--shadow-hard);
   filter: brightness(1.1);
 }
 
@@ -730,28 +731,28 @@ a:hover {
   background: var(--md-sys-color-primary-container);
   color: var(--md-sys-color-on-primary-container);
   padding: 14px 28px;
-  border-radius: var(--radius-lg);
+  border-radius: 0px;
   font-size: var(--font-size-base);
   font-weight: 800;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 12px;
-  box-shadow: var(--comic-shadow);
+  box-shadow: var(--shadow-hard);
   border: var(--comic-border);
   transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .btn-tonal:hover {
   transform: translate(-3px, -3px);
-  box-shadow: var(--comic-shadow-hover);
+  box-shadow: var(--shadow-hard);
 }
 
 .btn-outline {
   background: transparent;
   color: var(--md-sys-color-primary);
   padding: 12px 24px;
-  border-radius: var(--radius-lg);
+  border-radius: 0px;
   font-size: var(--font-size-base);
   font-weight: 800;
   display: flex;
@@ -771,21 +772,21 @@ a:hover {
   background: var(--accent);
   color: #000000;
   padding: 14px 28px;
-  border-radius: var(--radius-lg);
+  border-radius: 0px;
   font-size: var(--font-size-base);
   font-weight: 800;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 12px;
-  box-shadow: var(--comic-shadow);
+  box-shadow: var(--shadow-hard);
   border: var(--comic-border);
   transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .btn-primary:hover {
   transform: translate(-3px, -3px);
-  box-shadow: var(--comic-shadow-hover);
+  box-shadow: var(--shadow-hard);
   filter: brightness(1.1);
 }
 
@@ -812,9 +813,9 @@ a:hover {
   width: 100%;
   max-width: 500px;
   max-height: calc(100vh - 40px);
-  border-radius: var(--radius-md);
+  border-radius: 0px;
   /* DIRECTIVA FLASH */
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  box-shadow: var(--shadow-hard);
   border: 1px solid var(--color-border);
   position: relative;
   display: flex;
@@ -835,13 +836,13 @@ a:hover {
   display: flex;
   flex-direction: column;
   min-width: 0;
-  box-shadow: 6px 6px 0px rgba(0, 242, 255, 0.2);
+  box-shadow: var(--shadow-hard);
   margin-bottom: 20px;
 }
 
 .universal-card:hover {
   transform: translate(-3px, -3px);
-  box-shadow: 9px 9px 0px #000;
+  box-shadow: var(--shadow-hard);
 }
 
 /* MASTER SIMBIOSI & TRANSPARENCY */
@@ -902,20 +903,20 @@ a:hover {
   background: var(--color-primary);
   color: var(--bg-canvas);
   border: 2px solid #000;
-  box-shadow: 4px 4px 0px #000;
+  box-shadow: var(--shadow-hard);
   font-weight: 900;
   transition: all 0.2s cubic-bezier(.16, 1, 0.3, 1);
 }
 
 .btn-astro-payment:active:not(:disabled) {
   transform: translate(2px, 2px);
-  box-shadow: 2px 2px 0px #000;
+  box-shadow: var(--shadow-hard);
 }
 
 .btn-astro-payment.paid {
   background: var(--color-success);
   color: var(--text-main);
-  box-shadow: none;
+  box-shadow: var(--shadow-hard);
   transform: translate(2px, 2px);
 }
 
@@ -950,7 +951,7 @@ a:hover {
   background-color: var(--bg-main);
   overflow: hidden;
   /* IMATGES AMB CANTONS QUADRATS */
-  border-radius: var(--radius-md);
+  border-radius: 0px;
 }
 
 .card-image-wrapper img {
@@ -1097,11 +1098,11 @@ a:hover {
   background-color: var(--color-primary);
   color: white;
   padding: var(--space-sm) var(--space-xl);
-  border-radius: var(--radius-xs);
+  border-radius: 0px;
   /* Rectangular: 8px */
   font-weight: 800;
   font-family: var(--font-heading);
-  box-shadow: 0 4px 15px rgba(93, 95, 239, 0.2);
+  box-shadow: var(--shadow-hard);
   transition: transform 0.2s, background-color 0.2s;
 }
 
@@ -1121,7 +1122,7 @@ a:hover {
   font-size: var(--font-size-base);
   font-weight: 800;
   padding: 2px 10px;
-  border-radius: var(--radius-xs);
+  border-radius: 0px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   display: inline-flex;
@@ -1149,7 +1150,7 @@ a:hover {
   color: #10b981;
   background: rgba(16, 185, 129, 0.05);
   padding: 6px 12px;
-  border-radius: var(--radius-md);
+  border-radius: 0px;
   border-left: 3px solid #10b981;
   display: inline-block;
 }
@@ -1162,7 +1163,7 @@ a:hover {
   border: 1px solid rgba(0, 242, 255, 0.5);
   border-radius: 0px;
   padding: 24px;
-  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.9), 0 0 40px rgba(0, 242, 255, 0.15);
+  box-shadow: var(--shadow-hard);
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -1181,7 +1182,7 @@ a:hover {
   width: 100%;
   height: 3px;
   background: linear-gradient(90deg, transparent, #00f2ff, transparent);
-  box-shadow: 0 0 20px rgba(0, 242, 255, 0.8);
+  box-shadow: var(--shadow-hard);
 }
 
 .sw-update-icon {
@@ -1195,7 +1196,7 @@ a:hover {
   height: 12px;
   background: #00f2ff;
   border-radius: 0px;
-  box-shadow: 0 0 20px #00f2ff;
+  box-shadow: var(--shadow-hard);
   animation: pulseNeonGenius 2.5s infinite ease-in-out;
 }
 
@@ -1203,19 +1204,19 @@ a:hover {
   0% {
     transform: scale(1);
     opacity: 0.7;
-    box-shadow: 0 0 10px #00f2ff;
+    box-shadow: var(--shadow-hard);
   }
 
   50% {
     transform: scale(1.4);
     opacity: 1;
-    box-shadow: 0 0 30px #00f2ff;
+    box-shadow: var(--shadow-hard);
   }
 
   100% {
     transform: scale(1);
     opacity: 0.7;
-    box-shadow: 0 0 10px #00f2ff;
+    box-shadow: var(--shadow-hard);
   }
 }
 
@@ -1267,12 +1268,12 @@ a:hover {
 .sw-update-btn.refresh {
   background: #00f2ff;
   color: var(--bg-canvas);
-  box-shadow: 0 12px 25px rgba(0, 242, 255, 0.4);
+  box-shadow: var(--shadow-hard);
 }
 
 .sw-update-btn.refresh:hover {
   transform: translateY(-5px) scale(1.03);
-  box-shadow: 0 20px 40px rgba(0, 242, 255, 0.6), 0 0 15px rgba(0, 242, 255, 0.3);
+  box-shadow: var(--shadow-hard);
   background: #fff;
 }
 
@@ -1325,15 +1326,15 @@ a:hover {
   padding: 40px 30px;
   text-align: center;
   max-width: 400px;
-  box-shadow: 0 0 50px rgba(255, 68, 68, 0.3);
-  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-hard);
+  border-radius: 0px;
 }
 
 .rescue-card h3 {
   color: #FF4444 !important;
   font-size: 28px !important;
   margin-bottom: 15px;
-  border-radius: var(--radius-md);
+  border-radius: 0px;
 }
 
 .rescue-card p {
@@ -1357,7 +1358,7 @@ a:hover {
   text-transform: uppercase;
   font-size: var(--font-size-base);
   letter-spacing: 1px;
-  border-radius: var(--radius-md);
+  border-radius: 0px;
 }
 
 .btn-rescue-soft {
@@ -1367,7 +1368,7 @@ a:hover {
   font-weight: var(--font-weight-bold);
   text-transform: uppercase;
   font-size: var(--font-size-base);
-  border-radius: var(--radius-md);
+  border-radius: 0px;
 }
 
 @keyframes animate-in {

@@ -1,14 +1,15 @@
-# [MASTER] GÉNESIS: DOCTRINA SUPREMA DE SÓC DE POBLE (v5.6 - DESIGN CANON 1.6.3) 🏛️🏺⚡️
+# [MASTER] GÉNESIS: DOCTRINA SUPREMA DE SÓC DE POBLE (v5.7 - CANÓ TOTAL 1.6.4) 🏛️🏺⚡️
 
-**ESTAT:** FONT DE VERITAT ÚNICA I IMMUTABLE. Si hi ha dubtes, aplica el protocol "Recorda l'Atum".
+**ESTAT:** FONT DE VERITAT ÚNICA I IMMUTABLE. Protocol **"Foc i Aigua"** en fase de propagació total.
 
 ---
 
 ## 1. ELS TRES PILARS (Core Values) 🧬
 1.  **Offline-First:** L'app funciona al 100% sense cobertura. La dada viu al dispositiu del veí, no al núvol d'un estrany.
 2.  **Democràcia Visual (Puchero Mental):** El sistema és flexible i en constant cocció. No ens posem límits. Estem en fase creativa.
-3.  **Paleta Sagrada (Saturació Complementària):** Només **Taronja, Blau, Blanc i Negre**. Prohibit el color Crema. Busquem un disseny colorit, saturat i simple.
-4.  **Accessibilitat Solar:** El contrast suprem queda en segon pla per ara; tindrà el seu propi tema específic més endavant.
+3.  **Paleta Sagrada (Foc i Aigua):** Taronja Sanc de Falles (**#FF6D23**) i Cian Elèctric (**#00F2FF**). El Cian és la spark tecnològica, el Taronja és la vida del poble. Base en Blanc i Negre pur. 
+4.  **Llei del Monòlit (Radi Zero):** Prohibit qualsevol `border-radius`. Tot píxel ha de ser afilat i sòlid com la pedra seca.
+5.  **Llei de la Vora Dura:** Tota eina ha de portat vores negres de 2px i ombres mòltes (Hard Shadows) de 4px. La suavitat és debilitat.
 
 ---
 
@@ -58,7 +59,7 @@ La interfície és un espai de prova permanent.
 | `text-main` | `#FFFFFF` | Claredat Absoluta |
 | `surface` | `#161616` | Perfil i Contenidors (0px Radius) |
 
-**PROHIBICIONS:** Color Crema, colors apagats o pastels sense saturació.
+**PROHIBICIONS:** Color Crema, degradats tous, ombres suaus, radis > 0px. El minimalisme Silicon Valley es purga en favor del Brutalisme Rural.
 
 ---
 

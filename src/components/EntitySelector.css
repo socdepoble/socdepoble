@@ -14,7 +14,7 @@
 
 .selector-trigger {
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
+    border-radius: 0px;
     padding: 10px 14px;
     display: flex;
     justify-content: space-between;
@@ -55,14 +55,14 @@
 .identity-avatar-small {
     width: 32px;
     height: 32px;
-    border-radius: var(--radius-full);
+    border-radius: 0px;
     object-fit: cover;
 }
 
 .identity-icon-placeholder {
     width: 32px;
     height: 32px;
-    border-radius: var(--radius-full);
+    border-radius: 0px;
     background-color: var(--color-primary-soft);
     color: var(--color-primary);
     display: flex;
@@ -93,8 +93,8 @@
     right: 0;
     background-color: var(--bg-surface);
     border: 1px solid var(--color-primary);
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-lg);
+    border-radius: 0px;
+    box-shadow: var(--shadow-hard);
     margin-top: 8px;
     overflow: hidden;
     max-height: 250px;

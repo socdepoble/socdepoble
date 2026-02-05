@@ -12,7 +12,7 @@
     margin-bottom: var(--space-2xl);
     padding: var(--space-xl) 0;
     background: linear-gradient(135deg, #1e293b, #0f172a);
-    border-radius: var(--radius-lg);
+    border-radius: 0px;
     color: white;
 }
 
@@ -62,7 +62,7 @@
 
 .status-card {
     padding: var(--space-lg);
-    border-radius: var(--radius-md);
+    border-radius: 0px;
     background-color: var(--bg-card);
     border: 1px solid var(--color-divider);
 }
@@ -104,7 +104,7 @@
 .philosophy-box {
     background-color: var(--color-primary-soft);
     padding: var(--space-xl);
-    border-radius: var(--radius-lg);
+    border-radius: 0px;
     text-align: center;
     border: 1px dashed var(--color-primary);
 }

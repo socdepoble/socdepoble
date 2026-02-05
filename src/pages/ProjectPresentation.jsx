@@ -217,7 +217,7 @@ const ProjectPresentation = () => {
                     <p className="roots-desc">
                         No es tracta de codi, es tracta de <strong>temps</strong>.
                     </p>
-                    <div className="narrative-box" style={{ background: 'rgba(204, 85, 0, 0.1)', padding: '24px', borderRadius: '20px', borderLeft: '4px solid var(--color-terracotta)', marginTop: '20px' }}>
+                    <div className="narrative-box" style={{ background: 'rgba(204, 85, 0, 0.1)', padding: '24px', borderRadius: '0px', borderLeft: '4px solid var(--color-terracotta)', marginTop: '20px' }}>
                         <p style={{ fontSize: '1.2rem', lineHeight: '1.6', fontStyle: 'italic', color: 'var(--color-terracotta-light)' }}>
                             "Pepet ja no puja al mercat amb el seu cabàs de tomates, li fan mal els genolls. La Rosa vol comprar tomates de veritat, però només troba les de plàstic del supermercat. Sóc de Poble és el bategat que torna a unir el cabàs del Pepet amb la cuina de la Rosa."
                         </p>
@@ -263,7 +263,7 @@ const ProjectPresentation = () => {
                     <h2 style={{ color: 'var(--color-primary)', marginBottom: '20px' }}>La Saviesa del Poble (Cànon [MASTER])</h2>
                     <div className="proverbs-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '20px' }}>
                         {PROVERBS.slice(0, 6).map((proverb, idx) => (
-                            <div key={idx} className="proverb-card-presentation" style={{ background: 'var(--bg-surface-soft)', padding: '20px', borderRadius: '16px', border: '1px solid var(--color-divider)' }}>
+                            <div key={idx} className="proverb-card-presentation" style={{ background: 'var(--bg-surface-soft)', padding: '20px', borderRadius: '0px', border: '1px solid var(--color-divider)' }}>
                                 <p style={{ fontWeight: '800', fontSize: '1.1rem', marginBottom: '8px' }}>"{proverb.text}"</p>
                                 <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>{proverb.meaning}</p>
                             </div>
@@ -271,7 +271,7 @@ const ProjectPresentation = () => {
                     </div>
                 </div>
 
-                <div className="simbiosi-protocol-showcase" style={{ marginTop: '50px', padding: '30px', background: 'linear-gradient(135deg, var(--bg-surface) 0%, var(--color-primary-soft) 100%)', borderRadius: '24px', border: '1px solid var(--color-primary-soft)' }}>
+                <div className="simbiosi-protocol-showcase" style={{ marginTop: '50px', padding: '30px', background: 'linear-gradient(135deg, var(--bg-surface) 0%, var(--color-primary-soft) 100%)', borderRadius: '0px', border: '1px solid var(--color-primary-soft)' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '20px' }}>
                         <ShieldCheck size={32} color="var(--color-primary)" />
                         <h2 style={{ margin: 0, fontSize: '1.8rem' }}>Directiva Primària: Utilitat Social [GOD MODE] ⚖️</h2>
@@ -280,15 +280,15 @@ const ProjectPresentation = () => {
                         Gravat en el cor del sistema: <strong>"Tot bategat ha de servir a la comunitat"</strong>. Sóc de Poble no és només codi, és una eina de canvi social per a que la tecnologia deixe de ser soroll i passe a ser bategat útil.
                     </p>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px' }}>
-                        <div style={{ background: 'white', padding: '20px', borderRadius: '16px', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
+                        <div style={{ background: 'white', padding: '20px', borderRadius: '0px', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
                             <span style={{ display: 'block', fontSize: '0.8rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 700 }}>Sobirania del Temps</span>
                             <span style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--color-primary)' }}>+95% Eficiència</span>
                         </div>
-                        <div style={{ background: 'white', padding: '20px', borderRadius: '16px', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
+                        <div style={{ background: 'white', padding: '20px', borderRadius: '0px', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
                             <span style={{ display: 'block', fontSize: '0.8rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 700 }}>Valor de la Col·laboració</span>
                             <span style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--color-primary)' }}>Simbiosi 50/50</span>
                         </div>
-                        <div style={{ background: 'white', padding: '20px', borderRadius: '16px', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
+                        <div style={{ background: 'white', padding: '20px', borderRadius: '0px', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
                             <span style={{ display: 'block', fontSize: '0.8rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 700 }}>Destí del Temps</span>
                             <span style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--color-primary)' }}>Cuidar la Família</span>
                         </div>
@@ -325,21 +325,21 @@ const ProjectPresentation = () => {
                                 <button
                                     className="btn-dafo-mini"
                                     onClick={() => navigate('/dafo/smart-villages')}
-                                    style={{ background: 'var(--bg-surface-soft)', border: '1px solid var(--color-primary)', color: 'var(--color-primary)', padding: '12px 24px', borderRadius: '12px', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', flex: 1 }}
+                                    style={{ background: 'var(--bg-surface-soft)', border: '1px solid var(--color-primary)', color: 'var(--color-primary)', padding: '12px 24px', borderRadius: '0px', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', flex: 1 }}
                                 >
                                     <Database size={18} /> ANÀLISI DAFO
                                 </button>
                                 <button
                                     className="btn-didactic-mini"
                                     onClick={() => navigate('/didactica/smart-villages-master-presentation')}
-                                    style={{ background: 'var(--color-primary)', border: 'none', color: '#000', padding: '12px 24px', borderRadius: '12px', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', flex: 1.5 }}
+                                    style={{ background: 'var(--color-primary)', border: 'none', color: '#000', padding: '12px 24px', borderRadius: '0px', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', flex: 1.5 }}
                                 >
                                     <BookOpen size={18} /> VEURE DETALL DIDÀCTIC
                                 </button>
                             </div>
                         </div>
                         <div className="card-col">
-                            <div style={{ position: 'relative', borderRadius: '24px', overflow: 'hidden', boxShadow: '0 20px 40px rgba(0,0,0,0.3)', border: '1px solid var(--color-primary-soft)' }}>
+                            <div style={{ position: 'relative', borderRadius: '0px', overflow: 'hidden', boxShadow: '0 20px 40px rgba(0,0,0,0.3)', border: '1px solid var(--color-primary-soft)' }}>
                                 <img
                                     src="/assets/infographies/smart_villages_master.png"
                                     alt="Lliçons Smart Villages"
@@ -384,10 +384,10 @@ const ProjectPresentation = () => {
                             Explora l'enginyeria darrera de Sóc de Poble: Sincronització CRDT (Eg-walker), Identitat Sobirana (DIDs) i ergonomia "Bancal-Ready".
                         </p>
                         <div className="tech-cta-row" style={{ display: 'flex', gap: '15px' }}>
-                            <a href="/docs/tech-report/index.md" target="_blank" className="btn-pitch-cta primary" style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 24px', background: 'var(--color-primary)', color: '#000', borderRadius: '12px', fontWeight: 800, textDecoration: 'none' }}>
+                            <a href="/docs/tech-report/index.md" target="_blank" className="btn-pitch-cta primary" style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 24px', background: 'var(--color-primary)', color: '#000', borderRadius: '0px', fontWeight: 800, textDecoration: 'none' }}>
                                 <BookOpen size={20} /> LLEGIR WHITEPAPER
                             </a>
-                            <button onClick={() => navigate('/docs/tech-report/roadmap')} className="btn-pitch-cta secondary" style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 24px', background: 'rgba(255,255,255,0.05)', color: '#fff', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', fontWeight: 800 }}>
+                            <button onClick={() => navigate('/docs/tech-report/roadmap')} className="btn-pitch-cta secondary" style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 24px', background: 'rgba(255,255,255,0.05)', color: '#fff', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '0px', fontWeight: 800 }}>
                                 <TrendingUp size={20} /> VEURE ROADMAP
                             </button>
                         </div>
@@ -411,7 +411,7 @@ const ProjectPresentation = () => {
                         </div>
                     </div>
 
-                    <div className="tech-report-web-view" style={{ background: 'var(--bg-surface-soft)', padding: '40px', borderRadius: '24px', border: '1px solid var(--color-divider)', boxShadow: 'inset 0 2px 10px rgba(0,0,0,0.05)' }}>
+                    <div className="tech-report-web-view" style={{ background: 'var(--bg-surface-soft)', padding: '40px', borderRadius: '0px', border: '1px solid var(--color-divider)', boxShadow: 'inset 0 2px 10px rgba(0,0,0,0.05)' }}>
                         <div className="report-markdown-content" style={{ fontSize: '1.05rem', lineHeight: '1.7', color: 'var(--text-main)', maxWidth: '800px', margin: '0 auto' }}>
                             {techReport ? (
                                 <div className="report-text" dangerouslySetInnerHTML={{
@@ -472,7 +472,7 @@ const ProjectPresentation = () => {
                     <button
                         className="btn-dafo-master"
                         onClick={() => navigate('/dafo/projecte')}
-                        style={{ background: 'var(--bg-surface-soft)', border: '1px solid var(--color-primary)', color: 'var(--color-primary)', padding: '15px 30px', borderRadius: '50px', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '10px', margin: '0 auto' }}
+                        style={{ background: 'var(--bg-surface-soft)', border: '1px solid var(--color-primary)', color: 'var(--color-primary)', padding: '15px 30px', borderRadius: '0px', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '10px', margin: '0 auto' }}
                     >
                         <ShieldCheck size={20} /> VEURE DAFO ESTRATÈGIC DEL PROJECTE
                     </button>

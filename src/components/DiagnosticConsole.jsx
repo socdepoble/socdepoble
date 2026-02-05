@@ -467,7 +467,7 @@ const DiagnosticConsole = () => {
                     )}
 
                     {iaiaAdvice && (
-                        <div className="hud-iaia-advice animate-in" style={{ background: 'rgba(0, 242, 255, 0.1)', padding: '12px', borderRadius: '12px', border: '1px solid #00f2ff', marginBottom: '15px' }}>
+                        <div className="hud-iaia-advice animate-in" style={{ background: 'rgba(0, 242, 255, 0.1)', padding: '12px', borderRadius: '0px', border: '1px solid #00f2ff', marginBottom: '15px' }}>
                             <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '4px' }}>
                                 <Brain size={16} color="#00f2ff" />
                                 <strong style={{ fontSize: '12px', color: '#00f2ff' }}>CONSELL DE LA IAIA (Auto-Cura)</strong>
@@ -554,7 +554,7 @@ const DiagnosticConsole = () => {
                                             {didacticData.master_faq.details.map((item, i) => {
                                                 const [q, a] = item.split('\n');
                                                 return (
-                                                    <div key={i} className="faq-item" style={{ background: 'rgba(255,255,255,0.03)', padding: '15px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                                                    <div key={i} className="faq-item" style={{ background: 'rgba(255,255,255,0.03)', padding: '15px', borderRadius: '0px', border: '1px solid rgba(255,255,255,0.05)' }}>
                                                         <strong style={{ color: 'var(--hud-accent)', fontSize: '13px', display: 'block', marginBottom: '8px' }}>
                                                             {q.replace(/\*\*/g, '')}
                                                         </strong>

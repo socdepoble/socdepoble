@@ -41,7 +41,7 @@ const LabsTab = ({ profile, setProfile, user, isPlayground, isAdmin }) => {
                 <button
                     className="btn-news-vitamin"
                     onClick={() => navigate('/mur')}
-                    style={{ width: '100%', marginTop: '16px', padding: '12px', borderRadius: '12px', background: 'rgba(0, 242, 255, 0.1)', border: '1px solid var(--hud-accent)', color: 'var(--hud-accent)', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
+                    style={{ width: '100%', marginTop: '16px', padding: '12px', borderRadius: '0px', background: 'rgba(0, 242, 255, 0.1)', border: '1px solid var(--hud-accent)', color: 'var(--hud-accent)', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
                 >
                     <Newspaper size={18} /> Últimes Novetats Vitaminades 🐭💊
                 </button>
@@ -91,7 +91,7 @@ const LabsTab = ({ profile, setProfile, user, isPlayground, isAdmin }) => {
                     <div style={{ display: 'flex', gap: '8px', overflowX: 'auto', paddingBottom: '10px' }}>
                         <button
                             className="add-padrin-btn"
-                            style={{ minWidth: '100px', height: '100px', borderRadius: '15px', border: '2px dashed #10B981', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '8px', color: '#10B981', padding: '10px' }}
+                            style={{ minWidth: '100px', height: '100px', borderRadius: '0px', border: '2px dashed #10B981', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '8px', color: '#10B981', padding: '10px' }}
                             onClick={() => {
                                 const name = prompt('Nom del Padrin/a:');
                                 if (name) {

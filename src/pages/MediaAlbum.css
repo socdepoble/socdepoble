@@ -55,7 +55,7 @@
     background: var(--bg-surface);
     border: 1px solid var(--color-border);
     padding: 8px 16px;
-    border-radius: var(--radius-full);
+    border-radius: 0px;
     font-size: var(--font-size-base);
     font-weight: 700;
     color: var(--text-secondary);
@@ -82,9 +82,9 @@
 
 .photo-card {
     background: var(--bg-card);
-    border-radius: var(--radius-lg);
+    border-radius: 0px;
     overflow: hidden;
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--shadow-hard);
     border: 1px solid var(--color-border);
 }
 
@@ -148,7 +148,7 @@
     color: white;
     width: 20px;
     height: 20px;
-    border-radius: var(--radius-full);
+    border-radius: 0px;
     display: flex;
     align-items: center;
     justify-content: center;

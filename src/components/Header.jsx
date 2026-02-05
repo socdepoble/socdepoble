@@ -133,7 +133,7 @@ const Header = () => {
                     <Activity status={status} size={20} color={status === 'synced' ? '#00f2ff' : '#888'} />
                 </button>
 
-                <button className="bar-icon-btn lang-pill" onClick={toggleLanguage} style={{ fontSize: '14px', fontWeight: '800', border: '1px solid rgba(255,255,255,0.3)', width: 'auto', padding: '0 10px', borderRadius: '4px', height: '32px' }}>
+                <button className="bar-icon-btn lang-pill" onClick={toggleLanguage} style={{ fontSize: '14px', fontWeight: '800', border: '1px solid rgba(255,255,255,0.3)', width: 'auto', padding: '0 10px', borderRadius: '0px', height: '32px' }}>
                     {language?.toUpperCase()}
                 </button>
 

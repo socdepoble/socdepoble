@@ -18,13 +18,14 @@
     display: flex;
     align-items: center;
     padding: 0 var(--page-margin);
-    background-color: var(--md-sys-color-primary);
-    border-bottom: 1px solid var(--md-sys-color-outline);
+    background-color: var(--color-accent);
+    /* Orange Foc */
+    border-bottom: var(--border-master);
     gap: var(--space-md);
     height: 64px;
     flex-shrink: 0;
     z-index: 10;
-    box-shadow: var(--shadow-2);
+    box-shadow: var(--shadow-hard);
     color: #000000;
 }
 
@@ -52,7 +53,7 @@
 .chat-header-avatar {
     width: 40px;
     height: 40px;
-    border-radius: var(--radius-avatar);
+    border-radius: 0px;
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -110,7 +111,7 @@
 
 .chat-info .status.online::before {
     background: #10b981;
-    box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
+    box-shadow: var(--shadow-hard);
 }
 
 .messages-list {
@@ -144,23 +145,22 @@
     border-radius: 0px;
     max-width: 85%;
     position: relative;
-    box-shadow: 0 1px 0.5px rgba(0, 0, 0, 0.13);
+    box-shadow: var(--shadow-hard);
     font-size: 0.95rem;
     line-height: 1.5;
     word-break: break-word;
 }
 
 .wa-bubble.me {
-    background-color: #d9fdd3;
-    /* WhatsApp Light Green */
-    color: #111b21;
-    border-top-right-radius: 0;
+    background-color: var(--color-primary);
+    /* Cyan Aigua */
+    color: #000000;
 }
 
 .wa-bubble.other {
-    background-color: var(--bg-surface);
-    color: #111b21;
-    border-top-left-radius: 0;
+    background-color: #FFFFFF;
+    color: #000000;
+    border: var(--border-master);
 }
 
 .wa-sender-name {
@@ -216,14 +216,14 @@
 .message-avatar-container {
     width: 40px;
     height: 40px;
-    border-radius: var(--radius-avatar);
+    border-radius: 0px;
     overflow: hidden;
     flex-shrink: 0;
     align-self: flex-end;
     background-color: var(--bg-card);
     border: 1px solid var(--color-border);
     margin-bottom: 2px;
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--shadow-hard);
 }
 
 .message-avatar-container img,
@@ -246,7 +246,7 @@
     border-radius: 0px;
     max-width: 85%;
     position: relative;
-    box-shadow: var(--shadow-1);
+    box-shadow: var(--shadow-hard);
     font-size: 0.95rem;
     line-height: 1.5;
     width: fit-content;
@@ -310,16 +310,16 @@
 }
 
 .identity-badge.ai {
-    background: linear-gradient(135deg, #128c7e 0%, #075e54 100%);
-    /* IAIA is now MArIA (WhatsApp Green Tech) */
-    color: white;
-    font-size: var(--font-size-base);
+    background: var(--color-accent);
+    /* Orange Foc */
+    color: #000;
+    font-size: 10px;
     padding: 2px 8px;
     border-radius: 0px;
-    font-weight: 800;
+    font-weight: 900;
     letter-spacing: 0.5px;
-    box-shadow: 0 2px 4px rgba(18, 140, 126, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: var(--shadow-hard);
+    border: 1px solid #000;
 }
 
 .bubble-tag {
@@ -338,7 +338,7 @@
 }
 
 .message-attachment {
-    border-radius: var(--radius-sm);
+    border-radius: 0px;
     overflow: hidden;
     margin-bottom: 4px;
 }
@@ -349,14 +349,14 @@
     object-fit: cover;
     display: block;
     cursor: pointer;
-    border-radius: var(--radius-none) !important;
+    border-radius: 0px !important;
     /* Llei del Zero Radius */
 }
 
 .chat-video {
     max-width: 100%;
     max-height: 300px;
-    border-radius: var(--radius-none) !important;
+    border-radius: 0px !important;
 }
 
 .attachment-link {
@@ -365,7 +365,7 @@
     gap: var(--space-sm);
     background: rgba(0, 0, 0, 0.05);
     padding: var(--space-sm);
-    border-radius: var(--radius-sm);
+    border-radius: 0px;
     color: inherit;
     text-decoration: none;
     font-size: var(--font-size-base);
@@ -384,7 +384,7 @@
     flex-direction: column;
     gap: 12px;
     z-index: 30;
-    box-shadow: var(--shadow-3);
+    box-shadow: var(--shadow-hard);
 }
 
 /* [NEW] Multiple Attachments Preview */
@@ -466,7 +466,7 @@
     padding: 0.5rem 0.75rem;
     background: #f8fafc;
     border: 1px solid #f1f5f9;
-    border-radius: var(--radius-lg);
+    border-radius: 0px;
     font-size: 0.75rem;
     color: #64748b;
 }
@@ -555,7 +555,7 @@
     height: 44px;
     color: #64748b;
     cursor: pointer;
-    border-radius: var(--radius-md);
+    border-radius: 0px;
     transition: all 0.2s;
     background: #f1f5f9;
 }
@@ -578,7 +578,7 @@
     background: white;
     border-radius: 0px;
     padding: 2px 8px;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-hard);
     border: 1px solid #e2e8f0;
 }
 
@@ -607,7 +607,7 @@
     flex: 1 !important;
     border: none !important;
     background: transparent !important;
-    box-shadow: none !important;
+    box-shadow: var(--shadow-hard);
     padding: 10px 8px !important;
     font-size: 1rem;
     color: #1a202c;
@@ -646,7 +646,7 @@
     border-radius: 0px;
     font-size: 0.8rem;
     color: #54656f;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--shadow-hard);
     border: 1px solid #d1d7db;
 }
 
@@ -688,7 +688,7 @@
     width: 100%;
     padding: 12px 20px;
     border: 1px solid var(--md-sys-color-outline);
-    border-radius: var(--radius-full);
+    border-radius: 0px;
     font-size: 1rem;
     transition: all 0.2s;
     background: var(--md-sys-color-surface-variant);
@@ -699,7 +699,7 @@
 .chat-input-form-new input:focus {
     border-color: var(--md-sys-color-primary);
     background: var(--md-sys-color-surface);
-    box-shadow: 0 0 0 3px var(--md-sys-color-primary-container);
+    box-shadow: var(--shadow-hard);
 }
 
 .attachment-preview {
@@ -709,7 +709,7 @@
     padding: 0.5rem 1rem;
     background: #eff6ff;
     border: 1px solid #bfdbfe;
-    border-radius: var(--radius-lg);
+    border-radius: 0px;
     font-size: 0.85rem;
     color: var(--color-primary);
     max-width: 100%;
@@ -739,27 +739,26 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #128c7e;
-    /* WhatsApp Send Green */
-    color: white;
-    border: none;
+    background: var(--color-accent);
+    /* Orange Foc */
+    color: #000;
+    border: var(--border-master);
     border-radius: 0px;
-    /* Circle send button */
     cursor: pointer;
     transition: all 0.2s;
     flex-shrink: 0;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--shadow-hard);
 }
 
 .send-button-new:hover:not(:disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    box-shadow: var(--shadow-hard);
 }
 
 .send-button-new:disabled {
     background: #cbd5e1;
     cursor: not-allowed;
-    box-shadow: none;
+    box-shadow: var(--shadow-hard);
 }
 
 /* IAIA Transparency Notice Refined - Premium Rural-Tech Audit */
@@ -781,7 +780,7 @@
     display: flex;
     align-items: flex-start;
     gap: 12px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--shadow-hard);
     width: 100%;
     /* Take full width of parent padding */
     max-width: 500px;
@@ -805,7 +804,7 @@
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-hard);
 }
 
 .iaia-transparency-notice .banner-text-stack {
@@ -855,8 +854,8 @@
     background: white;
     width: 100%;
     max-width: 400px;
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-2xl);
+    border-radius: 0px;
+    box-shadow: var(--shadow-hard);
     overflow: hidden;
     animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -875,7 +874,7 @@
     width: 48px;
     height: 48px;
     background: #eff6ff;
-    border-radius: var(--radius-xs);
+    border-radius: 0px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -916,7 +915,7 @@
     padding: 1rem;
     background: #eff6ff;
     border: 1px solid #bfdbfe;
-    border-radius: var(--radius-xs);
+    border-radius: 0px;
     margin-bottom: 1.5rem;
 }
 
@@ -1059,7 +1058,7 @@
     left: 0;
     width: 100%;
     z-index: 50;
-    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+    box-shadow: var(--shadow-hard);
     border-top-left-radius: 12px;
     border-top-right-radius: 12px;
     overflow: hidden;

@@ -42,7 +42,7 @@
 .m3-card-outlined {
     background-color: var(--md-sys-color-surface);
     border: 1px solid var(--md-sys-color-outline-variant);
-    border-radius: var(--radius-xl);
+    border-radius: 0px;
     /* 28px for MD3 */
     padding: 20px;
 }
@@ -50,7 +50,7 @@
 .m3-card-tonal {
     background-color: var(--md-sys-color-secondary-container);
     color: var(--md-sys-color-on-secondary-container);
-    border-radius: var(--radius-xl);
+    border-radius: 0px;
     padding: 24px;
 }
 
@@ -104,7 +104,7 @@
     justify-content: center;
     gap: 8px;
     font-weight: var(--font-weight-bold);
-    box-shadow: var(--shadow-1);
+    box-shadow: var(--shadow-hard);
     width: 100%;
     max-width: 400px;
     border: none;

@@ -23,7 +23,7 @@ const TownLogo = ({ url, name }) => {
                 className="flex items-center justify-center w-full h-full"
                 style={{
                     background: 'rgba(255, 255, 255, 0.05)',
-                    borderRadius: '8px',
+                    borderRadius: '0px',
                     border: '1px solid var(--sdp-glass-border)'
                 }}
             >
@@ -219,7 +219,7 @@ const Towns = () => {
                                         padding: '12px 16px 12px 40px',
                                         background: 'rgba(255, 255, 255, 0.05)',
                                         border: '1px solid var(--sdp-glass-border)',
-                                        borderRadius: '12px',
+                                        borderRadius: '0px',
                                         color: '#fff',
                                         fontSize: '14px'
                                     }}
@@ -234,7 +234,7 @@ const Towns = () => {
                                         className={`tag-btn ${activeEventTag === tag ? 'active' : ''}`}
                                         style={{
                                             padding: '6px 16px',
-                                            borderRadius: '20px',
+                                            borderRadius: '0px',
                                             fontSize: '12px',
                                             fontWeight: '700',
                                             whiteSpace: 'nowrap',
@@ -282,7 +282,7 @@ const Towns = () => {
                                                 <span key={tag} className="tag-pill" style={{
                                                     background: 'rgba(255, 255, 255, 0.05)',
                                                     padding: '2px 8px',
-                                                    borderRadius: '4px',
+                                                    borderRadius: '0px',
                                                     fontSize: '10px',
                                                     textTransform: 'uppercase',
                                                     letterSpacing: '0.5px'

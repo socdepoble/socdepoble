@@ -1,11 +1,11 @@
 .admin-pinned-manager {
     background: var(--m3-surface);
-    border-radius: 28px 28px 0 0;
+    border-radius: 0px 28px 0 0;
     display: flex;
     flex-direction: column;
     max-height: 90vh;
     width: 100%;
-    box-shadow: var(--m3-elevation-5);
+    box-shadow: var(--shadow-hard);
     z-index: 1000;
 }
 
@@ -51,7 +51,7 @@
     align-items: center;
     gap: 12px;
     padding: 12px;
-    border-radius: 12px;
+    border-radius: 0px;
     border: 2px dashed var(--m3-outline);
     background: var(--m3-surface-variant);
 }
@@ -85,7 +85,7 @@
 .item-thumb {
     width: 48px;
     height: 48px;
-    border-radius: 8px;
+    border-radius: 0px;
     object-fit: cover;
 }
 
@@ -105,7 +105,7 @@
 
 .m3-search-bar {
     background: var(--m3-surface-container-high);
-    border-radius: 28px;
+    border-radius: 0px;
     padding: 8px 16px;
     display: flex;
     align-items: center;
@@ -134,7 +134,7 @@
     gap: 12px;
     padding: 8px;
     background: var(--m3-surface-container-low);
-    border-radius: 12px;
+    border-radius: 0px;
 }
 
 .slot-assign-btn {

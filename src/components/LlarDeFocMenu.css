@@ -17,9 +17,9 @@
     background: var(--bg-card);
     width: 100%;
     max-width: var(--mobile-width);
-    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    border-radius: 0px var(--radius-lg) 0 0;
     padding: 1.5rem;
-    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
+    box-shadow: var(--shadow-hard);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-bottom: none;
 }
@@ -41,7 +41,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 12px rgba(154, 108, 99, 0.3);
+    box-shadow: var(--shadow-hard);
 }
 
 .llar-foc-header .header-text h3 {
@@ -104,7 +104,7 @@
 .mode-option.active {
     background: rgba(0, 242, 255, 0.05);
     border-color: var(--color-teal);
-    box-shadow: 0 4px 15px rgba(0, 242, 255, 0.1);
+    box-shadow: var(--shadow-hard);
 }
 
 .option-icon {

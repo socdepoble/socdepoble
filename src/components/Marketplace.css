@@ -40,7 +40,7 @@
     background-color: var(--text-main) !important;
     color: white !important;
     font-weight: 800;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    box-shadow: var(--shadow-hard);
 }
 
 .item-tag {
@@ -50,7 +50,7 @@
     background-color: var(--bg-overlay);
     backdrop-filter: blur(4px);
     padding: 4px 10px;
-    border-radius: var(--radius-xs);
+    border-radius: 0px;
     font-size: var(--font-size-base);
     font-weight: 800;
     color: var(--text-main);
@@ -113,7 +113,7 @@
     background-color: var(--color-primary-soft);
     color: var(--color-primary);
     padding: 4px 10px;
-    border-radius: var(--radius-xs);
+    border-radius: 0px;
     font-weight: 800;
     text-transform: uppercase;
 }
@@ -144,7 +144,7 @@
 .fav-btn-clean {
     color: var(--text-muted);
     padding: 8px;
-    border-radius: var(--radius-sm);
+    border-radius: 0px;
     transition: all 0.2s;
 }
 
@@ -178,7 +178,7 @@
     gap: 8px;
     font-weight: 700;
     font-size: var(--font-size-base);
-    box-shadow: 0 4px 12px rgba(93, 95, 239, 0.3);
+    box-shadow: var(--shadow-hard);
 }
 
 .add-btn-premium:active {
@@ -250,12 +250,12 @@
     margin-top: 8px;
     cursor: pointer;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 2px 8px rgba(234, 88, 12, 0.05);
+    box-shadow: var(--shadow-hard);
 }
 
 .healthy-suggestion-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(234, 88, 12, 0.1);
+    box-shadow: var(--shadow-hard);
     border-color: #f6ad55;
     background: #fffdfa;
 }

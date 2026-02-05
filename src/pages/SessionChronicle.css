@@ -81,7 +81,7 @@
     border-radius: 0px;
     padding: 30px;
     border: 2px solid var(--color-primary);
-    box-shadow: 0 0 30px rgba(0, 242, 255, 0.1);
+    box-shadow: var(--shadow-hard);
 }
 
 .hud-header {

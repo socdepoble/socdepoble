@@ -20,7 +20,7 @@
     padding: 4px 10px;
     color: rgba(255, 255, 255, 0.9);
     transition: all 0.2s ease;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: var(--shadow-hard);
 }
 
 .attribution-badge-container:hover .badge-pill {
@@ -55,7 +55,7 @@
     border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 0px;
     padding: 12px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    box-shadow: var(--shadow-hard);
     z-index: 60;
 }
 

@@ -22,7 +22,7 @@
     position: relative;
     overflow: hidden;
     border: 1px solid var(--sdp-glass-border);
-    box-shadow: 0 50px 150px rgba(0, 0, 0, 0.8);
+    box-shadow: var(--shadow-hard);
 }
 
 .item-detail-close {
@@ -85,7 +85,7 @@
     font-size: 24px;
     font-weight: 900;
     letter-spacing: -1px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    box-shadow: var(--shadow-hard);
 }
 
 .item-detail-info {
@@ -171,7 +171,7 @@
 
 .item-detail-actions-grid button:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--shadow-hard);
 }
 
 .item-detail-actions-grid button:active {
