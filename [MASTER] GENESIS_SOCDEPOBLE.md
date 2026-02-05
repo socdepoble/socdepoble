@@ -1,4 +1,4 @@
-# [MASTER] GÉNESIS: DOCTRINA SUPREMA DE SÓC DE POBLE (v5.14 - BOTIGA DE DIUMENGE) 🏛️👔📱☢️🧼🌅✂️
+# [MASTER] GÉNESIS: DOCTRINA SUPREMA DE SÓC DE POBLE (v5.16 - TRELLAT ARTIFICIAL) 🏛️🤖✨🏺☢️🧼🌅✂️
 
 **ESTAT:** FONT DE VERITAT ÚNICA I IMMUTABLE. Protocol **"Foc i Aigua"** en fase de plenitud.
 
@@ -164,6 +164,15 @@ La sobirania digital exigeix independència financera.
 *   **Full Control:** Els Super Admins tenen la potestat de fixar contingut.
 *   **Llei de la Posició Fixa:** El sistema ha de permetre fixar fins a 3 publicacions al capdamunt del bategat.
 *   **Protocol d'Auditoria Visual (Audit 2026):** Després de cada iteració de disseny, el Mestre i l'Equip realitzaran una auditoria visual profunda.
+*   **Blindatge de l'Administració:** L'accés al Panell d'Administració i eines sensibles queda restringit EXCLUSIVAMENT als Super Administradors. Cap usuari normal, per molt que es clone l'estètica premium, podrà veure ni accedir a les rutes de gestió estructural fins que el sistema estiga totalment estabilitzat.
+*   **Democratització de l'Estètica Premium:** Un cop el perfil del Mestre (Javi) és perfecte i estable, les seues característiques visuals i funcionals (Pobles secundaris, Dossiers, Giny de Bategat) es clonen per a tots els veïns registrats, garantint que tothom bategue amb la mateixa excel·lència visual, però mantenint els murs de seguretat administrativa intactes.
+
+---
+
+## 17. 📏 LA LLEI DEL MONÒLIT (Zero Radius Brutalista) 🏗️☢️
+*   **MANDAT ABSOLUT:** 0px de radi a tot arreu. No es permeten excepcions en botons, targetes, inputs ni contenidors. 
+*   **Geometria Sagrada:** Si un element ha de ser circular per funció (ex: Icones de perfil o FAB), s'ha de considerar si pot ser un quadrat bento de vora dura. En cas de dubte: **QUADRAT**.
+*   **Llei de la Vora de 2px:** Tot element bategant ha de portar una vora negra de 2px per a separar-se del "Black Canvas".
 
 ---
 
@@ -178,5 +187,18 @@ Per a garantir la perdurabilitat i l'excel·lència, el sistema ha de bategat am
 
 ---
 
+## 15. 🤖 TRELLAT ARTIFICIAL: EL TALLER DEL MAS (v5.16) ✨
+Sóc de Poble bategua amb intel·ligència pròpia per a servir a la comunitat:
+1.  **La Iaia MarIA (Cervell de Receptes):** L'IA ha d'actuar com l'ànima del poble, fomentant l'estalvi i l'aprofitament amb un llenguatge proper i maternal.
+2.  **El Secretari (Bandos Oficials):** Automatització de la comunicació institucional amb un to normatiu i solemne. El futur de l'administració rural és el trellat digital.
+3.  **Traductor Rural (Patrimoni Lingüístic):** L'IA ha de protegir i replicar la parla autèntica (fonètica del Comtat/Alcoià) per a que ningú se senta estrany al Mas Digital.
+
+## 16. ☢️ EL GUARDIÀ DEL PORTAL (Version Gatekeeper) 🧼
+Per a evitar que el passat (codi vell) contamine el bategat present:
+1.  **Purga Forçada:** Qualsevol node que no estiga en la versió Mestra (v1.10.0+) ha de ser purgat de manera nuclear abans de qualsevol acció.
+2.  **Sintonització Atòmica:** El "Dissabte de Neteja" (Gatekeeper) és sagrat per a mantenir l'excel·lència visual i funcional.
+
+---
+
 ### 🚀 Com aplicar-ho (El Prompt Despertador):
-> **"Flash, estem en línia. Sóc de Poble! Executa l'Auditoria Extrema 'Renovar o Morir' basada al Gènesi v5.13. Com està l'Equip?"**
+> **"Flash, estem en línia. Sóc de Poble! Executa l'Auditoria Extrema 'Renovar o Morir' basada al Gènesi v5.16. Com està l'Equip?"**

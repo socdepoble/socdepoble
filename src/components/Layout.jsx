@@ -33,7 +33,7 @@ const Layout = () => {
             location.pathname.startsWith('/chats') ? "Xat" :
                 location.pathname.split('/').filter(Boolean).pop() || "Portal";
 
-        document.title = `${pageTitle.charAt(0).toUpperCase() + pageTitle.slice(1)} | ${baseTitle} v1.5.6-BATEGA`;
+        document.title = `${pageTitle.charAt(0).toUpperCase() + pageTitle.slice(1)} | ${baseTitle} v1.13.0-AI-FULL`;
     }, [location]);
 
     // [Interactive Push] Deep Linking
@@ -69,7 +69,7 @@ const Layout = () => {
 
             <div className={`layout-main-scroll ${showBanner ? 'has-playground-banner' : ''}`}>
                 <ScrollToTop />
-                <Header />
+                {!isChatDetail && <Header />}
 
                 <div className="main-wrapper">
                     <main className="content-area">

@@ -1957,7 +1957,15 @@ export const supabaseService = {
             const from = page * pageSize;
             const to = from + pageSize - 1;
 
-            const { data, error, count } = await query
+            let queryBuilder = query;
+            if (columnCache.market_is_pinned !== false) {
+                queryBuilder = queryBuilder.order('is_pinned', { ascending: false });
+            }
+            if (columnCache.market_pinned_position !== false) {
+                queryBuilder = queryBuilder.order('pinned_position', { ascending: true });
+            }
+
+            const { data, error, count } = await queryBuilder
                 .order('created_at', { ascending: false })
                 .range(from, to);
 

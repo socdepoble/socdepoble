@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { ArrowLeft, Send, Loader2, User, Building2, Paperclip, X, FileText, Image as ImageIcon, Film, Database, Info, MessageSquare, Mic, Video, StopCircle, Smile, ShieldCheck, ChevronDown, Users } from 'lucide-react';
+import { ArrowLeft, Send, Loader2, User, Building2, Paperclip, X, FileText, Image as ImageIcon, Film, Database, Info, MessageSquare, Mic, Video, StopCircle, Smile, ShieldCheck, ChevronDown, Users, Sparkles } from 'lucide-react';
 import EmojiPicker from 'emoji-picker-react';
 import { useTranslation } from 'react-i18next';
 import { supabaseService } from '../services/supabaseService';

@@ -1,6 +1,6 @@
 .admin-pinned-manager {
     background: var(--m3-surface);
-    border-radius: 0px 28px 0 0;
+    border-radius: 0px !important;
     display: flex;
     flex-direction: column;
     max-height: 90vh;
@@ -65,7 +65,7 @@
 .slot-badge {
     width: 32px;
     height: 32px;
-    border-radius: 50%;
+    border-radius: 0px;
     background: var(--m3-primary);
     color: var(--m3-on-primary);
     display: flex;

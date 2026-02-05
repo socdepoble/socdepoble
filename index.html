@@ -33,7 +33,7 @@
   <script>
     // [MASTER NUCLEAR OVERRIDE] v1.6.6-NUCLEAR
     (function () {
-      const V = 'v1.6.6-NUCLEAR';
+      const V = 'v1.13.0-AI-FULL';
       if (localStorage.getItem('sp_app_version') !== V) {
         console.error('[NUCLEAR] VERSION MISMATCH! PURGING PREHISTORIC CACHE...');
         localStorage.clear();
@@ -65,12 +65,12 @@
 
   <link rel="icon" type="image/png" href="/favicon.png?v=Genius_154" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=Genius_154" />
-  <link rel="manifest" href="/manifest.json?v=Genius_154" />
+  <!-- PWA Disabled (Protocol Sobirà Native) -->
+  <!-- <link rel="manifest" href="/manifest.json?v=Genius_154" /> -->
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap"
     rel="stylesheet">
   <script>
     // SELF-HEALING PROTOCOL (v1.6.6-STABLE)
@@ -84,20 +84,20 @@
     };
 
     window.CREATOR_EMAILS = window.CREATOR_EMAILS || ['socdepoblecom@gmail.com', 'damimus@gmail.com'];
-    window.APP_VERSION = 'v1.6.6-NUCLEAR';
+    window.APP_VERSION = 'v1.13.0-AI-FULL';
   </script>
 
   <title>Sóc de Poble | El Portal dels Pobles Connectats 🏘️⚖️✨</title>
   <meta name="description"
-    content="Connecta amb la teua comunitat. El bategat de la terra en format digital. v1.6.6-NUCLEAR [MASTER].">
+    content="Connecta amb la teua comunitat. El bategat de la terra en format digital. v1.13.0-AI-FULL [MASTER].">
   <meta name="keywords" content="poble, comunitat, esdeveniments, mercat local, proximitat, valència, connectivitat" />
   <meta name="author" content="Sóc de Poble" />
 
   <!-- Open Graph / WhatsApp Agressiu Cache Busting -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://socdepoble.vercel.app/?v=NUCLEAR_1_6_6" />
-  <meta property="og:title" content="Sóc de Poble v1.6.6-NUCLEAR 🏘️⚖️✨" />
-  <meta property="og:description" content="La teva comunitat, els teus veïns. Versió MASTER 1.6.6." />
+  <meta property="og:title" content="Sóc de Poble v1.13.0-AI-FULL 🏘️⚖️✨" />
+  <meta property="og:description" content="La teva comunitat, els teus veïns. Versió MASTER v1.13.0-AI-FULL." />
   <meta property="og:image" content="https://socdepoble.vercel.app/og-image.png?v=Genius_1_5_4_Final_Consolidated" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
@@ -114,10 +114,10 @@
           <h1 style="color: #ff0055;">🚨 Error Crític de Sistema</h1>
           <p>S'ha detectat una fallada en el bategat de l'aplicació.</p>
           <button onclick="localStorage.clear(); sessionStorage.clear(); location.reload(true);" 
-            style="padding: 15px 30px; background: #00f2ff; color: #000; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">
+            style="padding: 15px 30px; background: #00f2ff; color: #000; border: none; border-radius: 0px; font-weight: bold; cursor: pointer;">
             Netejar Cache i Reiniciar Protocol
           </button>
-          <div style="margin-top: 20px; opacity: 0.5; font-size: 12px;">v1.6.6-NUCLEAR-RESCUE</div>
+          <div style="margin-top: 20px; opacity: 0.5; font-size: 12px;">v1.13.0-AI-FULL-RESCUE</div>
         </div>
       `;
     };
@@ -129,17 +129,19 @@
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:url" content="https://socdepoble.vercel.app/" />
-  <meta name="twitter:title" content="Sóc de Poble v1.6.6-NUCLEAR 🏘️⚖️✨" />
-  <meta name="twitter:description" content="Connecta amb la teua comunitat. Versió MASTER 1.6.6." />
+  <meta name="twitter:title" content="Sóc de Poble v1.13.0-AI-FULL 🏘️⚖️✨" />
+  <meta name="twitter:description" content="Connecta amb la teua comunitat. Versió MASTER v1.13.0-AI-FULL." />
   <meta name="twitter:image" content="https://socdepoble.vercel.app/og-image.png?v=Genius_1_5_4_Final_Consolidated" />
 
-  <!-- Mobile Theme -->
+  <!-- Mobile Theme (Sovereign Native Protocol - PWA Disabled) -->
   <meta name="theme-color" content="#00f2ff" />
+  <!--
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Sóc de Poble" />
   <link rel="apple-touch-startup-image" href="/splash_screen.png">
+  -->
 
   <!-- Structured Data (JSON-LD) -->
   <script type="application/ld+json">
@@ -169,7 +171,7 @@
     <div id="loader-fallback"
       style="font-family:system-ui,sans-serif;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;background:#0f172a;padding:20px;text-align:center;color:white;">
       <img src="/favicon.png?v=Genius_154" alt="Logo"
-        style="width:80px;height:80px;margin-bottom:20px;border-radius:20px;box-shadow:0 0 30px rgba(0,242,255,0.4)" />
+        style="width:80px;height:80px;margin-bottom:20px;border-radius:0px;box-shadow:0 0 30px rgba(0,242,255,0.4)" />
 
       <div id="fallback-status">
         <h2
@@ -177,7 +179,7 @@
           Iniciant Bategat...
         </h2>
         <div
-          style="width: 40px; height: 40px; border: 3px solid rgba(0,242,255,0.2); border-top-color: #00f2ff; border-radius: 50%; animation: spin 1s linear infinite; margin: 20px auto;">
+          style="width: 40px; height: 40px; border: 3px solid rgba(0,242,255,0.2); border-top-color: #00f2ff; border-radius: 0px; animation: spin 1s linear infinite; margin: 20px auto;">
         </div>
       </div>
 
@@ -185,9 +187,9 @@
         <p style="color: #ff0055; font-weight: bold; margin-bottom: 15px;">⚠️ S'ha detectat un retard en l'arrancada.
         </p>
         <button
-          onclick="localStorage.clear(); sessionStorage.clear(); localStorage.setItem('sp_app_version', 'v1.6.6-NUCLEAR'); location.reload(true);"
-          style="background:#ff0055; color:white; padding:15px 30px; border-radius:12px; border:none; font-weight:bold; cursor:pointer; box-shadow: 0 4px 15px rgba(255,0,85,0.3);">
-          FORÇAR REPARACIÓ NUCLEAR (v1.6.6)
+          onclick="localStorage.clear(); sessionStorage.clear(); localStorage.setItem('sp_app_version', 'v1.13.0-AI-FULL'); location.reload(true);"
+          style="background:#ff0055; color:white; padding:15px 30px; border-radius:0px; border:none; font-weight:bold; cursor:pointer; box-shadow: 0 4px 15px rgba(255,0,85,0.3);">
+          FORÇAR REPARACIÓ NUCLEAR (v1.13.0)
         </button>
       </div>
 
@@ -210,9 +212,25 @@
   </div>
   <div class="app-version"
     style="position:fixed;bottom:10px;right:10px;font-size:10px;opacity:0.3;z-index:9999;user-select:all;">
-    v1.6.6-NUCLEAR
+    v1.13.0-AI-FULL
   </div>
-  <script type="module" src="/src/entry.jsx?v=NUCLEAR_1_6_6"></script>
+  <script>
+    // KILL PWA PERSISTENCE (Sovereign Native Protocol)
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function (registrations) {
+        for (let registration of registrations) {
+          registration.unregister();
+        }
+      });
+    }
+    // Clear caches to be sure
+    if ('caches' in window) {
+      caches.keys().then(function (names) {
+        for (let name of names) caches.delete(name);
+      });
+    }
+  </script>
+  <script type="module" src="/src/entry.jsx?v=v1.13.0-AI-FULL"></script>
 </body>
 
 </html>

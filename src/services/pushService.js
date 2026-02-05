@@ -11,9 +11,12 @@ class PushNotificationService {
     }
 
     /**
-     * Registra el Service Worker
+     * Registra el Service Worker [DESACTIVAT - Protocol Natiu]
      */
     async registerServiceWorker() {
+        logger.log('[Push] PWA Disabled - SW Registration skipped');
+        return null;
+        /*
         if (!this.isSupported) {
             logger.warn('[Push] Service Worker o Push API no suportats en aquest navegador');
             return null;
@@ -34,6 +37,7 @@ class PushNotificationService {
             logger.error('[Push] Error registrant Service Worker:', error);
             return null;
         }
+        */
     }
 
     /**

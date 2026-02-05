@@ -499,7 +499,7 @@ const Login = () => {
                     ))}
                 </div>
                 <div className="auth-version-footer" style={{ marginTop: '20px', opacity: 0.3, fontSize: '0.7rem', userSelect: 'all' }}>
-                    v1.5.6-BATEGA
+                    v1.13.0-AI-FULL
                 </div>
             </div>
         </div>

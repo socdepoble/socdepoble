@@ -41,7 +41,9 @@ import './ProfileDuality.css';
 
 const Profile = () => {
     const { t } = useTranslation();
-    console.log('[Profile] Bategant amb traduccions per a:', t('profile.title'));
+    useEffect(() => {
+        console.log('[Profile] Bategant amb traduccions per a:', t('profile.title'));
+    }, [t]);
     const navigate = useNavigate();
     const { profile, setProfile, user, isPlayground, realProfile, isAdmin, isSuperAdmin, realUser } = useAuth();
     const { theme, toggleTheme, openLegalModal } = useUI();
@@ -175,8 +177,8 @@ const Profile = () => {
     }
 
     const displayProfileSafe = finalProfile || {
-        full_name: isCreator ? 'Javi Llinares' : ((realUser?.email || user?.email)?.split('@')[0] || 'Veí de la Torre'),
-        avatar_url: isCreator ? '/assets/master/javi_avatar_cinematic.png' : null,
+        full_name: isCreator ? 'Javi Llinares' : (finalProfile?.full_name || (realUser?.email || user?.email)?.split('@')[0] || 'Veí de la Torre'),
+        avatar_url: isCreator ? '/assets/master/javi_avatar_cinematic.png' : (profile?.avatar_url || null),
         cover_url: null,
         town_id: null
     };

@@ -415,7 +415,7 @@ const Register = () => {
             <footer className="onboarding-legal">
                 <p>En bategar, acceptes que Sóc de Poble és un experiment de sobirania digital. <Link to="/legal">Avisos Legals</Link></p>
                 <div className="auth-version-footer" style={{ marginTop: '10px', opacity: 0.3, fontSize: '0.7rem', userSelect: 'all' }}>
-                    v1.5.6-BATEGA
+                    v1.13.0-AI-FULL
                 </div>
             </footer>
         </div>

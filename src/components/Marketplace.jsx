@@ -151,13 +151,21 @@ const Market = ({ searchTerm = '' }) => {
         }
 
         // 3. Search Filter
-        if (!searchTerm) return baseItems;
-        const normalizedSearch = searchTerm.toLowerCase();
-        return baseItems.filter(item =>
+        let result = searchTerm ? baseItems.filter(item =>
             item.title?.toLowerCase().includes(normalizedSearch) ||
             item.description?.toLowerCase().includes(normalizedSearch) ||
             item.seller?.toLowerCase().includes(normalizedSearch)
-        );
+        ) : baseItems;
+
+        // 4. [MASTER] Priority Sort (Pinned items first)
+        return [...result].sort((a, b) => {
+            if (a.is_pinned && !b.is_pinned) return -1;
+            if (!a.is_pinned && b.is_pinned) return 1;
+            if (a.pinned_position !== undefined && b.pinned_position !== undefined) {
+                return a.pinned_position - b.pinned_position;
+            }
+            return new Date(b.created_at || 0) - new Date(a.created_at || 0);
+        });
     }, [items, searchTerm, visionMode, isIAIAFiltering]);
 
     const [payingItemId, setPayingItemId] = useState(null);

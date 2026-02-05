@@ -9,10 +9,9 @@ export const usePWAInstall = () => {
         const handler = (e) => {
             // Prevent the mini-infobar from appearing on mobile
             e.preventDefault();
-            // Stash the event so it can be triggered later.
-            setDeferredPrompt(e);
-            setIsInstallable(true);
-            logger.log('[PWA] beforeinstallprompt captured');
+            // DISABLED: No volem promts de PWA en mode Native
+            setIsInstallable(false);
+            logger.log('[PWA] beforeinstallprompt blocked by Sovereign Directive');
         };
 
         window.addEventListener('beforeinstallprompt', handler);

@@ -1,6 +1,6 @@
 import React, { useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-// VERSION: v1.5.8-GENESIS-MASTER-NUKE (Batec Territorial & Sobirania Visual)
+// VERSION: v1.13.0-AI-FULL (Batec Territorial & Sobirania Visual)
 import Header from './components/Header';
 import Layout from './components/Layout';
 
@@ -47,6 +47,7 @@ const SolatgeConsole = lazy(() => import('./pages/SolatgeConsole'));
 const HabitantsDelMas = lazy(() => import('./components/HabitantsDelMas'));
 const AyuntamientoPage = lazy(() => import('./pages/AyuntamientoPage'));
 import { RescueTool } from './components/RescueTool';
+import AmphoraFAB from './components/AmphoraFAB';
 
 import { supabase } from './supabaseClient';
 import { MOCK_CHATS, MOCK_FEED, MOCK_MARKET_ITEMS } from './data';
@@ -120,17 +121,21 @@ import DiagnosticConsole from './components/DiagnosticConsole';
 import NanoLoader from './components/NanoLoader';
 
 function App() {
+  const { asoMode } = useUI();
   usePushNotifications(); // Activate Push System
 
   useEffect(() => {
     // [VERSION CHECK: PROTOCOLO FLASH]
-    const APP_VERSION = "v1.5.6-BATEGA";
+    const APP_VERSION = "v1.13.0-AI-FULL";
     const lastVersion = localStorage.getItem('sp_app_version');
 
     if (lastVersion && lastVersion !== APP_VERSION) {
       console.log('[FLASH] Nova versió detectada. Executant Hard Reload...');
       localStorage.setItem('sp_app_version', APP_VERSION);
-      window.location.reload(true);
+      // No fem reload si som en dev per a evitar bucles infinits si hi ha mismatch de codi
+      if (!import.meta.env.DEV) {
+        window.location.reload(true);
+      }
     } else {
       localStorage.setItem('sp_app_version', APP_VERSION);
     }
@@ -163,6 +168,7 @@ function App() {
   return (
     <BrowserRouter>
       <DiagnosticConsole />
+      <AmphoraFAB />
       <Suspense fallback={<NanoLoader message="Preparant Sóc de Poble..." />}>
         <ErrorBoundary fallbackMessage="Error crític de l'aplicació">
           <Routes>
@@ -299,6 +305,17 @@ function App() {
           </Routes>
         </ErrorBoundary>
       </Suspense>
+      {asoMode && (
+        <div className="aso-study-overlay">
+          <div className="aso-frame">
+            <div className="aso-narrative">
+              <h2>BATEGA SENSE WIFI</h2>
+              <p>El teu poble, la teua veu.</p>
+            </div>
+          </div>
+          <div className="aso-badge">MODO ESTUDI ASO</div>
+        </div>
+      )}
     </BrowserRouter>
   );
 }

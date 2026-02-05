@@ -1,0 +1,55 @@
+.gatekeeper-purge-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+    color: white;
+    padding: 20px;
+}
+
+.purge-spinner {
+    font-size: 80px;
+    margin-bottom: 20px;
+    animation: spin 2s linear infinite;
+}
+
+.purge-title {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--accent-orange);
+    letter-spacing: 4px;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.purge-subtitle {
+    color: #666;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    margin-top: 10px;
+    font-family: monospace;
+}
+
+.purge-version {
+    position: absolute;
+    bottom: 20px;
+    font-size: 10px;
+    opacity: 0.3;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}

@@ -16,7 +16,7 @@ const SEO = ({
 }) => {
     const siteTitle = 'Sóc de Poble';
     const showVersion = typeof window !== 'undefined' && !window.HIDE_SEO_VERSION;
-    const versionString = 'v1.5.6-BATEGA';
+    const versionString = 'v1.13.0-AI-FULL';
 
     const displayTitle = title ? title : siteTitle;
     const fullTitle = showVersion ? `${displayTitle} | ${siteTitle} ${versionString}` : `${displayTitle} | ${siteTitle}`;

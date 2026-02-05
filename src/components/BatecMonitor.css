@@ -23,7 +23,7 @@
 .batec-icon-circle {
     width: 32px;
     height: 32px;
-    border-radius: 50%;
+    border-radius: 0px;
     display: flex;
     align-items: center;
     justify-content: center;

@@ -33,9 +33,18 @@ const getAvatarFallbackImage = (role) => {
 const Avatar = ({ src, role, name, size = 44, className = "" }) => {
     const [hasError, setHasError] = useState(false);
 
+    // Map common string sizes to numbers to prevent NaN in SVG calculations
+    const numericSize = typeof size === 'number' ? size : {
+        'xs': 24,
+        'sm': 32,
+        'md': 44,
+        'lg': 64,
+        'xl': 96
+    }[size] || 44;
+
     const style = {
-        width: size,
-        height: size,
+        width: numericSize,
+        height: numericSize,
         borderRadius: '50%',
         backgroundColor: getAvatarColor(role),
         display: 'flex',
@@ -67,7 +76,7 @@ const Avatar = ({ src, role, name, size = 44, className = "" }) => {
 
     return (
         <div style={style} className={`avatar-container fallback ${className}`}>
-            {getAvatarIcon(role, size)}
+            {getAvatarIcon(role, numericSize)}
         </div>
     );
 };

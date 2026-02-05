@@ -29,6 +29,8 @@ export const UIProvider = ({ children }) => {
     const [legalConfig, setLegalConfig] = useState(null); // { title, content, type }
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [editConfig, setEditConfig] = useState(null); // { postData, onUpdate }
+    const [asoMode, setAsoMode] = useState(false);
+    const [isTallerOpen, setIsTallerOpen] = useState(false);
 
     useEffect(() => {
         document.documentElement.setAttribute('data-theme', theme);
@@ -158,7 +160,12 @@ export const UIProvider = ({ children }) => {
             closeEditModal: () => {
                 setIsEditModalOpen(false);
                 setEditConfig(null);
-            }
+            },
+            asoMode,
+            setAsoMode,
+            toggleAsoMode: () => setAsoMode(prev => !prev),
+            isTallerOpen,
+            setIsTallerOpen
         }}>
             {children}
         </UIContext.Provider>

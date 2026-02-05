@@ -9,6 +9,7 @@ import ConnectionSelectorModal from './ConnectionSelectorModal';
 import AgentSelectorModal from './AgentSelectorModal';
 import MediaViewerModal from './MediaViewerModal';
 import LegalDocsModal from './LegalDocsModal';
+import TallerTrellat from './TallerTrellat';
 
 const GlobalModals = () => {
     const {
@@ -34,10 +35,11 @@ const GlobalModals = () => {
         isLegalModalOpen,
         closeLegalModal,
         legalConfig,
-        isEditModalOpen,
-        setIsEditModalOpen,
         editConfig,
-        closeEditModal
+        isEditModalOpen,
+        closeEditModal,
+        isTallerOpen,
+        setIsTallerOpen
     } = useUI();
     const { isPlayground } = useAuth();
 
@@ -145,6 +147,12 @@ const GlobalModals = () => {
                     postData={editConfig.postData}
                     onPostCreated={handlePostCreated}
                     isPlayground={isPlayground}
+                />
+            )}
+            {isTallerOpen && (
+                <TallerTrellat
+                    isOpen={isTallerOpen}
+                    onClose={() => setIsTallerOpen(false)}
                 />
             )}
         </>

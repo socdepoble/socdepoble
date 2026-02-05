@@ -9,7 +9,7 @@ import './MasterConsole.css';
 const MasterConsole = ({ isOpen, onClose }) => {
     const { profile, user } = useAuth();
     const { t } = useTranslation();
-    const { vibe, setVibe } = useUI();
+    const { vibe, setVibe, asoMode, toggleAsoMode } = useUI();
     const [target, setTarget] = useState('iaia_brain');
     const [mode, setMode] = useState('refine'); // refine, audit, purify, chronicle
     const [content, setContent] = useState('');
@@ -97,17 +97,25 @@ const MasterConsole = ({ isOpen, onClose }) => {
                             </select>
                         </div>
 
-                        <div className="master-options">
-                            <label className="master-checkbox">
-                                <input
-                                    type="checkbox"
-                                    checked={isTrastombat}
-                                    onChange={(e) => setIsTrastombat(e.target.checked)}
-                                />
-                                <span className="checkmark"></span>
-                                <span>Trastomba a l'Arxiu [MASTER]</span>
-                            </label>
-                        </div>
+                        <label className="master-checkbox">
+                            <input
+                                type="checkbox"
+                                checked={isTrastombat}
+                                onChange={(e) => setIsTrastombat(e.target.checked)}
+                            />
+                            <span className="checkmark"></span>
+                            <span>Trastomba a l'Arxiu [MASTER]</span>
+                        </label>
+
+                        <label className="master-checkbox">
+                            <input
+                                type="checkbox"
+                                checked={asoMode}
+                                onChange={() => toggleAsoMode()}
+                            />
+                            <span className="checkmark"></span>
+                            <span style={{ color: '#FF6D23' }}>ACTIVA MODE ESTUDI ASO 👔</span>
+                        </label>
                     </div>
                 </div>
 

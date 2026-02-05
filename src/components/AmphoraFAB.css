@@ -1,0 +1,93 @@
+.amphora-fab-container {
+    position: fixed;
+    bottom: calc(var(--safe-bottom) + 80px);
+    /* Per damunt del BottomNav */
+    right: 20px;
+    z-index: 999;
+}
+
+.amphora-fab-btn {
+    width: 64px;
+    height: 64px;
+    background: var(--accent-orange);
+    border: 2px solid #000;
+    box-shadow: 4px 4px 0px #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    z-index: 2;
+    padding: 0;
+}
+
+.amphora-aura {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: radial-gradient(circle, rgba(0, 242, 255, 0.4) 0%, transparent 70%);
+    border-radius: 0px;
+    z-index: 1;
+    cursor: pointer;
+    animation: pulse-aura 2s infinite ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.aura-sparkle {
+    color: var(--accent-cyan);
+    filter: drop-shadow(0 0 5px var(--accent-cyan));
+    margin-right: 60px;
+    margin-bottom: 60px;
+}
+
+@keyframes pulse-aura {
+    0% {
+        transform: scale(1);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 0.5;
+    }
+}
+
+.amphora-fab-btn:active {
+    transform: scale(0.9) translate(2px, 2px);
+    box-shadow: 2px 2px 0px #000;
+}
+
+.amphora-icon {
+    font-size: 32px;
+    filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.3));
+}
+
+.plus-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #000;
+    color: var(--accent-cyan);
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--accent-orange);
+}
+
+@media (min-width: 1024px) {
+    .amphora-fab-container {
+        bottom: 40px;
+        right: 40px;
+    }
+}

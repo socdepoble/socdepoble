@@ -17,7 +17,9 @@
     background-color: var(--bg-surface);
     width: 100%;
     max-width: var(--mobile-width);
-    border-radius: 0px var(--radius-xl) 0 0;
+    border-radius: 0px;
+    border: 2px solid #000;
+    border-top: 4px solid #000;
     padding: var(--space-xl) var(--space-lg) calc(var(--space-2xl) + 20px);
     box-shadow: var(--shadow-hard);
     animation: slideUp 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
@@ -35,7 +37,7 @@
     font-size: 22px;
     font-weight: 800;
     color: var(--text-main);
-    font-family: var(--font-heading);
+    font-family: 'Roboto Condensed', sans-serif !important;
 }
 
 .close-btn {
@@ -45,6 +47,8 @@
     align-items: center;
     justify-content: center;
     border-radius: 0px;
+    border: 2px solid #000;
+    border: 2px solid #000;
     background-color: var(--color-divider);
     color: var(--text-main);
 }
@@ -59,7 +63,8 @@
 .share-full-frame {
     width: 100% !important;
     padding: 18px !important;
-    border-radius: 0px !important;
+    border-radius: 0px;
+    border-top: 4px solid #000;
     background-color: var(--color-primary) !important;
     color: white !important;
     box-shadow: var(--shadow-hard);
@@ -70,7 +75,7 @@
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 1.5px;
-    font-family: var(--font-heading);
+    font-family: 'Roboto Condensed', sans-serif !important;
     border: none;
     cursor: pointer;
     transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -115,6 +120,8 @@
     padding: var(--space-lg);
     background-color: var(--bg-card);
     border-radius: 0px;
+    border: 2px solid #000;
+    border: 2px solid #000;
     border: 1px solid var(--color-border);
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -132,6 +139,8 @@
     width: 64px;
     height: 64px;
     border-radius: 0px;
+    border: 2px solid #000;
+    border: 2px solid #000;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -160,7 +169,7 @@
     font-weight: 700;
     color: var(--text-main);
     font-size: var(--font-size-base);
-    font-family: var(--font-heading);
+    font-family: 'Roboto Condensed', sans-serif !important;
 }
 
 @keyframes fadeIn {
@@ -191,12 +200,14 @@
     border: 1.5px solid var(--color-border);
     color: var(--text-muted);
     border-radius: 0px;
+    border: 2px solid #000;
+    border: 2px solid #000;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 12px;
     font-weight: 700;
-    font-family: var(--font-heading);
+    font-family: 'Roboto Condensed', sans-serif !important;
     text-transform: uppercase;
     cursor: pointer;
     transition: all 0.2s;
@@ -219,12 +230,14 @@
     border: 1.5px solid #000000;
     color: #FFD700;
     border-radius: 0px;
+    border: 2px solid #000;
+    border: 2px solid #000;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 12px;
     font-weight: 800;
-    font-family: var(--font-heading);
+    font-family: 'Roboto Condensed', sans-serif !important;
     text-transform: uppercase;
     letter-spacing: 1px;
     cursor: pointer;

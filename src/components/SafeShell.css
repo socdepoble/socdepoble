@@ -1,0 +1,38 @@
+.safe-shell-container {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-canvas);
+}
+
+.safe-shell-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 1;
+}
+
+/* Status Bar Background Extension */
+.safe-area-background-top {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: env(safe-area-inset-top, 0px);
+    background: var(--accent-orange);
+    /* La Boina s'estén fins al notch */
+    z-index: 1001;
+}
+
+.safe-area-background-bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: env(safe-area-inset-bottom, 0px);
+    background: var(--bg-canvas);
+    z-index: 1001;
+}

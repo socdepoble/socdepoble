@@ -291,9 +291,10 @@ export const AuthProvider = ({ children }) => {
                             session.user.email?.includes('javillinares') ||
                             (window.location.hostname === 'localhost' && !session.user.email?.includes('test'));
 
-                        const effectiveProfile = profileData || {
-                            id: session.user.id,
-                            full_name: isOfficialCreator ? 'Javi Llinares' : (session.user.email?.split('@')[0] || 'Veí de la Torre'),
+                        const effectiveProfile = {
+                            ...(profileData || {}),
+                            id: profileData?.id || session.user.id,
+                            full_name: isOfficialCreator ? 'Javi Llinares' : (profileData?.full_name || session.user.email?.split('@')[0] || 'Veí de la Torre'),
                             role: isCreator ? USER_ROLES.SUPER_ADMIN : (profileData?.role || USER_ROLES.NEIGHBOR),
                             avatar_url: isOfficialCreator ? '/assets/master/javi_avatar_cinematic.png' : (profileData?.avatar_url || null),
                             ofici: isOfficialCreator ? 'Dissenyador Gràfic & Art Director' : (profileData?.ofici || null)

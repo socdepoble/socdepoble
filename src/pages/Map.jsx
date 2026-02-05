@@ -17,7 +17,7 @@ const Map = () => {
     ];
 
     return (
-        <div className="map-page-container">
+        <div className="map-page-container tactical-radar-theme">
             <header className="page-header-with-tabs">
                 <div className="header-tabs-wrapper">
                     <CategoryTabs
@@ -34,9 +34,9 @@ const Map = () => {
                 </div>
             </header>
 
-            <div className="map-view-mock">
+            <div className="map-view-mock tactical-radar-viewport">
                 <div className="map-header-hud">
-                    <span className="hud-badge">VISTA TÀCTICA: ON</span>
+                    <span className="hud-badge pulse-orange">VISTA TÀCTICA: ON</span>
                     <span className="hud-metric">LAT: 38.6183 N</span>
                     <span className="hud-metric">LON: 0.4189 W</span>
                 </div>
@@ -47,18 +47,19 @@ const Map = () => {
                     <button className="map-control-btn"><Navigation size={20} /></button>
                 </div>
 
-                {/* Mock Map Background */}
-                <div className="map-background">
-                    {/* IAIA Gold Pin - The Soul of the Village */}
-                    <div className="map-ping gold" style={{ top: '48%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-                        <div className="ping-wave"></div>
-                        <div className="ping-dot"></div>
+                {/* Tactical Grid Background */}
+                <div className="map-tactical-grid"></div>
+
+                <div className="map-background absolute-radar">
+                    {/* IAIA Gold Pin - Square Style */}
+                    <div className="map-ping gold-box" style={{ top: '48%', left: '50%' }}>
+                        <div className="ping-square-wave"></div>
+                        <div className="ping-square-dot"></div>
                         <div className="ping-label">IAIA: Memòria Viva</div>
                     </div>
 
-                    <div className="map-ping mur" style={{ top: '30%', left: '40%' }}>
-                        <div className="ping-wave"></div>
-                        <div className="ping-dot"></div>
+                    <div className="map-ping mur-box" style={{ top: '30%', left: '40%' }}>
+                        <div className="ping-square-dot"></div>
                         <div className="ping-label">Mur: Nova Collita</div>
                     </div>
 

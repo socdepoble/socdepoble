@@ -10,7 +10,8 @@
     height: 220px;
     width: 100%;
     background: var(--bg-surface);
-    /* Removed overflow: hidden to allow back button hover effects to shine */
+    border-radius: 0px !important;
+    overflow: hidden;
 }
 
 .premium-cover-img {

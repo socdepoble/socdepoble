@@ -10,6 +10,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import UnifiedStatus from './components/UnifiedStatus';
 import { injectSeeds } from './rhizome/seeds';
+import SafeShell from './components/SafeShell';
+import VersionGatekeeper from './components/VersionGatekeeper';
 
 // Intent de injecció de llavors Rhizome (Oli de La Torre & Itineraris)
 injectSeeds().catch(err => console.error('[Rhizome] Error fatal en injecció de dades llavor:', err));
@@ -94,89 +96,71 @@ import StatusLoader from './components/StatusLoader';
 import { ToastProvider } from './components/ToastProvider';
 import { ThemeProvider } from './context/ThemeContext';
 
-// ROBUST SERVICE WORKER REGISTRATION (v1.5.5-resilience-absolute)
-// [OPERACIÓ NUCLEAR] Force SW Nuke for v1.5.5 update
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.getRegistrations().then(registrations => {
-    for (const registration of registrations) {
-      registration.unregister();
-      // console.log('[Cavalleria] SW Unregistered successfully');
-    }
-  });
-}
-
-// [RESEMBRA ATÒMICA/MASTER] Neteja total de Service Workers i Caches per a resiliència
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.getRegistrations().then(registrations => {
-    for (const registration of registrations) {
-      registration.unregister();
-      addBootLog('[SW] Purgant Service Worker actiu per a sincronització Master');
-    }
-  });
-}
-
-if ('caches' in window) {
-  caches.keys().then(names => {
-    for (let name of names) caches.delete(name);
-    addBootLog('[CACHE] Memòria cau del navegador purgada');
-  });
-}
-
-// [RESEMBRA ATÒMICA] Lògica de Sincronització de Versió Segura (v1.6.6-NUCLEAR)
-const CURRENT_MASTER_VERSION = 'v1.6.6-NUCLEAR';
+// [RESEMBRA ATÒMICA] Lògica de Sincronització de Versió Segura (v1.11.0-AI-VISION)
+const CURRENT_MASTER_VERSION = 'v1.13.0-AI-FULL';
 const savedVersion = localStorage.getItem('sp_app_version');
 
-// EMERGENCY ATUM: Manual rescue function
-window.RecordaAtum = () => {
-  console.log('%c[ATUM] PURGA TOTAL NUCLEAR FOC I AIGUA ACTIVADA...', 'color: #FF6D23; font-weight: bold; font-size: 16px;');
-  localStorage.clear();
+/**
+ * [MASTER] performNuclearPurge - Reset atòmic del Mas
+ * Segueix el patró: Primer segellar la versió, després purgar.
+ */
+const performNuclearPurge = (newVersion) => {
+  addBootLog(`[NUCLEAR] Seal & Purge sequence initiated for ${newVersion}`);
+
+  // 1. SEGELLAM: Marquem la nova versió abans de res per trencar bucles
+  localStorage.setItem('sp_app_version', newVersion);
+  localStorage.setItem('sp_nuke_timestamp', Date.now().toString());
+
+  // 2. PURGUEM: Neteja selectiva (mantenim la versió que acabem de posar)
+  const keysToKeep = ['sp_app_version', 'sp_nuke_timestamp'];
+  Object.keys(localStorage).forEach(key => {
+    if (!keysToKeep.includes(key)) localStorage.removeItem(key);
+  });
+
   sessionStorage.clear();
+
+  // 3. CACHES & SW
   if ('caches' in window) {
     caches.keys().then(names => {
       for (let name of names) caches.delete(name);
     });
   }
-  // Unregister all SWs
+
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.getRegistrations().then(rs => {
-      for (let r of rs) r.unregister();
-    });
+    try {
+      navigator.serviceWorker.getRegistrations().then(rs => {
+        for (let r of rs) r.unregister();
+      });
+    } catch (e) {
+      addBootLog('[NUCLEAR] SW Unregister failed: ' + e.message);
+    }
   }
-  localStorage.setItem('sp_app_version', 'ATUM_RESET');
-  window.location.reload(true);
+
+  addBootLog('[NUCLEAR] Purge complete. Reloading Mas...');
+
+  // 4. REINICI: Reload físic per a carregar el nou bategat
+  setTimeout(() => {
+    window.location.reload(true);
+  }, 300);
 };
 
-// Detect if we just performed a nuke reload to avoid infinite loops
-const justReloaded = sessionStorage.getItem('sp_nuke_reload_active');
+// Emergency Reset Trigger
+window.RecordaAtum = () => performNuclearPurge('ATUM_RESET');
 
-if (savedVersion !== CURRENT_MASTER_VERSION && !justReloaded) {
-  addBootLog(`[MASTER] Transició de versió detectada: ${savedVersion || 'null'} -> ${CURRENT_MASTER_VERSION}`);
-
-  if (savedVersion) {
-    addBootLog('[MASTER] Purgant memòria residual per a nova versió...');
-
-    // Set reload flag for this session to break the loop
-    sessionStorage.setItem('sp_nuke_reload_active', 'true');
-
-    localStorage.clear();
+// Check Version
+if (savedVersion !== CURRENT_MASTER_VERSION) {
+  // Si no hi ha versió prèvia, és una instal·lació neta, només segellem
+  if (!savedVersion) {
     localStorage.setItem('sp_app_version', CURRENT_MASTER_VERSION);
-
-    // Small delay before reload to ensure storage is committed
-    setTimeout(() => {
-      window.location.reload(true);
-    }, 500);
+    addBootLog('[MASTER] Inaugurant el Mas. Versió segellada.');
   } else {
-    localStorage.setItem('sp_app_version', CURRENT_MASTER_VERSION);
-    addBootLog('[MASTER] Versió fixada. Bategat nominal.');
+    // Si la versió és diferent, executem el Protocol Nuclear
+    performNuclearPurge(CURRENT_MASTER_VERSION);
   }
 }
 
-// Clear the reload flag after a successful load to allow future upgrades
-if (justReloaded) {
-  setTimeout(() => sessionStorage.removeItem('sp_nuke_reload_active'), 1000);
-}
-
-// Register new SW with cache busting
+// [PWA DISABLED] Register new SW with cache busting
+/*
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register(`/sw.js?nuke=${CURRENT_MASTER_VERSION}`).then(registration => {
@@ -198,6 +182,7 @@ if ('serviceWorker' in navigator) {
     });
   });
 }
+*/
 
 
 // TROJAN HORSE: If SW sends user to index.html for the rescue tool path, intercept it here.
@@ -225,7 +210,11 @@ try {
           <AppProvider>
             <ThemeProvider>
               <ToastProvider>
-                <App />
+                <VersionGatekeeper>
+                  <SafeShell>
+                    <App />
+                  </SafeShell>
+                </VersionGatekeeper>
               </ToastProvider>
             </ThemeProvider>
           </AppProvider>

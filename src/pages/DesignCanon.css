@@ -16,7 +16,7 @@
     border: 1px solid var(--color-divider);
     width: 44px;
     height: 44px;
-    border-radius: 50%;
+    border-radius: 0px;
     display: flex;
     align-items: center;
     justify-content: center;
