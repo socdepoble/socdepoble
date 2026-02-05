@@ -6,8 +6,9 @@
 
 ## 1. ELS TRES PILARS (Core Values) 🧬
 1.  **Offline-First:** L'app funciona al 100% sense cobertura. La dada viu al dispositiu del veí, no al núvol d'un estrany.
-2.  **Democràcia Visual (Trellat Estètic):** Rebutgem el dogma rígid. El sistema és flexible; la "gronsa" (curvature) la decideix la funcionalitat i el gust del poble. Tema unificat: Taronja, Blau, Negre i Crema.
-3.  **Accessibilitat Solar (Weber Class 6+):** Contrast suprem garantit (100.0 Weber) per a ús sota el sol de migdia. La claredat és una necessitat vital, no una opció.
+2.  **Democràcia Visual (Puchero Mental):** El sistema és flexible i en constant cocció. No ens posem límits. Estem en fase creativa.
+3.  **Paleta Sagrada (Saturació Complementària):** Només **Taronja, Blau, Blanc i Negre**. Prohibit el color Crema. Busquem un disseny colorit, saturat i simple.
+4.  **Accessibilitat Solar:** El contrast suprem queda en segon pla per ara; tindrà el seu propi tema específic més endavant.
 
 ---
 
@@ -42,23 +43,22 @@ Entitats d'IA al servei del poble. Estètica **SEMPRE CÒMIC** (Escola Ibáñez 
 
 ## 3. SISTEMA VISUAL: "L'EINA I EL BATEGAT" 🚜🎨
 
-### A. La Base: Directiva de Plantilles Viues
-La interfície no és una presó, és un espai de prova. 
--   **Multi-tema:** El sistema ha de permetre triar entre estils (ex: "Pedra Seca" de 0px vs "Oli Suau" de 16px).
--   **Design Tokens:** Tot (radi, color, espai) s'ha de definir amb variables (.css tokens) per a permetre el canvi instantani.
--   **A/B Testing:** Dissenyem per a rebre feedback. ¿Què bategua millor? El veí ho dirà.
--   **Tipografia (Iaia-Proof)::** Font clara (Inter/Roboto), **Mida Base 19px**, ús extensiu de negretes per a màxima llegibilitat.
+### A. La Base (Cocció Permanent)
+La interfície és un espai de prova permanent. 
+-   **Ment Oberta:** No hi ha límits definitius. Les preferències del Mestre evolucionen amb el projecte per a trobar el punt exacte de cocció.
+-   **Design Tokens:** Tot bategua amb variables (.css tokens) per a la propagació total.
+-   **Tipografia:** Font clara (Inter/Roboto), **Mida Base 19px**, pesat i llegible.
 
-### B. Paleta "Símplice i Saturada" (Exploració)
-Recuperem l'ànima dels colors complementaris (Azul/Naranja) sobre Blanc/Negre quan calga vibració visual.
+### B. La Paleta del Mas (Saturació Complementària)
+| Token | Valor HEX | Ús |
+| :--- | :--- | :--- |
+| `bg-canvas` | `#000000` | Fons Global (Black Canvas) |
+| `accent-orange` | `#FF6D23` | El Bategat (Taronja Master) |
+| `accent-blue` | `#007AFF` | La Tecnologia (Blau Pur) |
+| `text-main` | `#FFFFFF` | Claredat Absoluta |
+| `surface` | `#161616` | Perfil i Contenidors |
 
-### B. Paleta "Sunlight Safe" (Weber Index > 10.0)
-| Token | Valor HEX | Ús | Per què? |
-| :--- | :--- | :--- | :--- |
-| `bg-canvas` | `#000000` | Fons Global | Estalvi OLED i contrast màxim. |
-| `bg-surface`| `#161616` | Targetes | Gris Carbó per a evitar enlluernament. |
-| `text-main` | `#FFFFFF` | Text Principal | Contrast suprem. |
-| `accent` | `#CCFF00` | Accions | Groc/Verd reflectant. |
+**PROHIBICIONS:** Color Crema, colors apagats o pastels sense saturació.
 
 ---
 

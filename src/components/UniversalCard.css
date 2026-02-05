@@ -1,14 +1,13 @@
 /* UNIVERSAL CARD MASTER GENESIS: COHERÈNCIA TOTAL */
 
 :root {
-    --genesis-orange: #FF6D23;
+    --genesis-orange: var(--color-accent);
     --genesis-black: #000000;
     --genesis-surface: #161616;
     --genesis-text: #FFFFFF;
-    --genesis-accent: #CCFF00;
-    /* Neó Sunlight Safe */
     --genesis-border: rgba(255, 255, 255, 0.1);
-    --genesis-radius: 16px;
+    --genesis-radius: 0px;
+    /* Zero Radius enforced for Master look */
 }
 
 .universal-card {

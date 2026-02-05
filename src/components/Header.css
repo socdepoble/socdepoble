@@ -2,6 +2,7 @@
     height: 64px;
     padding: 0 var(--page-margin);
     background-color: #000000 !important;
+    /* Forced Black Canvas */
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -83,6 +84,6 @@
 
 @media (max-width: 1024px) {
     .m3-top-app-bar {
-        background-color: var(--sdp-bg-surface);
+        background-color: #000000 !important;
     }
 }

@@ -2,21 +2,23 @@
 
 :root {
   /* --- 1. CONSTITUCIÓ MASTER (Edició Atum - v5.0) --- */
-  /* Paleta "Sunlight Safe" (Weber Class 6) - Gem & Flash Optimized */
-  --bg-page: #fdfaf5;
-  --bg-canvas: var(--bg-page);
-  --bg-card: #ffffff;
-  --bg-surface: #ffffff;
-  --bg-surface-container: #f4f4f4;
+  /* Paleta "Saturació Complementària" - Javi & Gemini Optimized */
+  --bg-page: #FFFFFF;
+  --bg-canvas: #000000;
+  --bg-card: #FFFFFF;
+  --bg-surface: #FFFFFF;
+  --bg-surface-container: #000000;
+  /* Sidebar / Canvas */
 
-  --text-primary: #1c1c1e;
-  --text-main: var(--text-primary);
-  --text-secondary: #48484a;
-  --text-muted: #6b7280;
+  --text-primary: #000000;
+  --text-main: #000000;
+  --text-secondary: #333333;
+  --text-muted: #666666;
 
-  --color-primary: #007aff;
+  --color-primary: #007AFF;
+  /* Blau Pur */
   --color-accent: #FF6D23;
-  /* Taronja [MASTER] GENESIS */
+  /* Taronja [MASTER] */
   --accent: var(--color-accent);
   --color-terracotta: #FF6D23;
 
@@ -133,13 +135,13 @@
   border-top: 1px solid #DADCE0;
 }
 
-/* Dark Mode Overrides */
-/* Night Mode (Strict Black) */
+/* Dark Mode Overrides (Default in v1.6.3) */
 [data-theme='dark'] {
   --bg-page: #000000;
   --bg-canvas: #000000;
   --bg-surface: #121212;
   --bg-card: #1c1c1e;
+  --bg-surface-container: #1a1a1a;
 
   --text-primary: #ffffff;
   --text-main: var(--text-primary);

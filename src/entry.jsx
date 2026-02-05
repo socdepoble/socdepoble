@@ -122,8 +122,8 @@ if ('caches' in window) {
   });
 }
 
-// [RESEMBRA ATÒMICA] Lògica de Sincronització de Versió Segura (v1.5.6-BATEGA)
-const CURRENT_MASTER_VERSION = 'v1.5.6-BATEGA';
+// [RESEMBRA ATÒMICA] Lògica de Sincronització de Versió Segura (v1.6.3-BATEGA)
+const CURRENT_MASTER_VERSION = 'v1.6.3-BATEGA';
 const savedVersion = localStorage.getItem('sp_app_version');
 
 if (savedVersion !== CURRENT_MASTER_VERSION) {
