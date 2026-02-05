@@ -13,7 +13,7 @@ const DesignCanon = () => {
             title: 'Usuari (Agent)',
             description: 'Recursos centrats en la identitat personal i el disseny centrat en l\'humà.',
             icon: <User size={32} />,
-            color: '#00f2ff',
+            color: '#06B6D4', // Gem Cyan
             links: [
                 { name: 'Material Design 3', url: 'https://m3.material.io', desc: 'Sistema de disseny de Google per a interfícies adaptables.' },
                 { name: 'Human Interface Guidelines', url: 'https://developer.apple.com/design/human-interface-guidelines/', desc: 'Estàndards de disseny d\'Apple per a experiències intuïtives.' }
@@ -24,7 +24,7 @@ const DesignCanon = () => {
             title: 'Grup (Comunitat)',
             description: 'Recursos per al disseny social, col·laboratiu i la gestió de comunitats.',
             icon: <Users size={32} />,
-            color: '#E07A5F',
+            color: '#F97316', // Gem Orange
             links: [
                 { name: 'Linear Method', url: 'https://linear.app/method', desc: 'Pràctiques per a construir productes moderns de forma eficient.' },
                 { name: 'Radix UI', url: 'https://www.radix-ui.com/', desc: 'Components primitius per a construir xarxes socials accessibles.' }
@@ -70,8 +70,8 @@ const DesignCanon = () => {
                         <Sparkles size={16} />
                         <span>ESTÈTICA MESTRA</span>
                     </div>
-                    <h1>Cànon de Disseny</h1>
-                    <p>La síntesi de l'estètica contemporània adaptada al bategat rural.</p>
+                    <h1>Cànon GEM MODERN v2.0</h1>
+                    <p>La síntesi de l'estètica clara (Llum i Vida) adaptada al bategat rural amb geometria bento (28px).</p>
                 </div>
             </header>
 
@@ -108,8 +108,8 @@ const DesignCanon = () => {
                         <h2>L'Ànima del Disseny [MASTER]</h2>
                     </div>
                     <p>
-                        No busquem només funcionalitat, sinó una <strong>simbiosi</strong> perfecta entre la terra i el núvol.
-                        Cada píxel ha de reflectir la dignitat del camp i la claredat del futur.
+                        No busquem només funcionalitat, sinó una <strong>simbiosi</strong> mestre entre l'elegància clara i la resiliència del camp.
+                        Basat en el cànon <strong>GEM MODERN</strong>: Claredat, Orgànica i Tech Rural.
                     </p>
                     <div className="design-stats-mini">
                         <div className="stat-pill">

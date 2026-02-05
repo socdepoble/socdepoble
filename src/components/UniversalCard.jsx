@@ -68,9 +68,12 @@ const UniversalCard = ({
         if (authorId) navigate(`/perfil/${authorId}`);
     };
 
+    const isOfficial = item?.author_role === 'official' || item?.author_role === 'oficial' || item?.type === 'oficial' || item?.type === 'system';
+    const isAlert = item?.category === 'Alert' || item?.type === 'alert' || item?.is_alert;
+
     return (
         <article
-            className={`universal-card card-mode-${mode} ${className} ${isBating ? 'animate-bategat' : ''} ${gloveMode ? 'mode-guants' : ''}`}
+            className={`universal-card card-mode-${mode} ${className} ${isBating ? 'animate-bategat' : ''} ${gloveMode ? 'mode-guants' : ''} ${isOfficial ? 'role-official' : ''} ${isAlert ? 'alert-active' : ''}`}
             onClick={handleCardClick}
             style={{ cursor: mode === 'pobles' ? 'pointer' : 'default' }}
         >

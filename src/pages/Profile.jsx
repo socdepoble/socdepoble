@@ -177,6 +177,7 @@ const Profile = () => {
     }
 
     const displayProfileSafe = finalProfile || {
+        id: user?.id || realUser?.id,
         full_name: isCreator ? 'Javi Llinares' : (finalProfile?.full_name || (realUser?.email || user?.email)?.split('@')[0] || 'Veí de la Torre'),
         avatar_url: isCreator ? '/assets/master/javi_avatar_cinematic.png' : (profile?.avatar_url || null),
         cover_url: null,

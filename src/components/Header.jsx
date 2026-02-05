@@ -97,20 +97,27 @@ const Header = () => {
     const { t } = useTranslation();
     const { user, profile, isAdmin, activeEntityId } = useAuth();
     const { language, toggleLanguage } = useI18n();
-    const { visionMode, setVisionMode } = useUI();
+    const { selectedTownData, visionMode, setVisionMode } = useUI();
     const navigate = useNavigate();
     const location = useLocation();
     const [isMasterOpen, setIsMasterOpen] = useState(false);
     const { status = 'synced', hops = 3 } = user?.is_sovereign ? { status: 'offline', hops: 0 } : {};
 
-    const logoSrc = '/logo.png';
+    const townName = selectedTownData?.name || 'la Torre';
 
     return (
         <header className="m3-top-app-bar">
-            <div className="bar-leading">
-                <Link to="/" className="bar-logo-link">
-                    <img src={logoSrc} alt="Logo" className="bar-logo" />
-                </Link>
+            <div className="bar-leading flex-col">
+                <span className="text-[10px] font-bold text-gray-400 tracking-widest uppercase leading-none mb-1">Sóc de Poble</span>
+                <div className="flex items-baseline gap-1">
+                    <h1 className="text-xl font-bold text-gray-900 brand-font">Gent de</h1>
+                    <div className="relative group cursor-pointer" onClick={() => navigate('/pobles')}>
+                        <span className="text-xl font-bold text-black bg-yellow-100 px-2 rounded-md transform -rotate-1 inline-block border border-yellow-200 shadow-sm group-hover:rotate-0 transition-transform">
+                            {townName}
+                        </span>
+                        <div className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full border border-white"></div>
+                    </div>
+                </div>
             </div>
 
             <div className="bar-trailing">
@@ -129,22 +136,24 @@ const Header = () => {
                     </button>
                 )}
 
-                <button className="bar-status-btn" onClick={() => window.dispatchEvent(new CustomEvent('open-diagnostic-hud'))}>
-                    <Activity status={status} size={20} color={status === 'synced' ? '#00f2ff' : '#888'} />
-                </button>
-
-                <button className="bar-icon-btn lang-pill" onClick={toggleLanguage} style={{ fontSize: '14px', fontWeight: '800', border: '1px solid rgba(255,255,255,0.3)', width: 'auto', padding: '0 10px', borderRadius: '0px', height: '32px' }}>
-                    {language?.toUpperCase()}
+                <button
+                    className="bar-icon-btn info-diseny-btn"
+                    onClick={() => navigate('/disseny')}
+                    style={{ fontSize: '10px', fontWeight: '800', background: 'rgba(0,0,0,0.05)', color: '#666', width: 'auto', padding: '0 12px', borderRadius: '999px', height: '32px' }}
+                >
+                    ⚙️ Info
                 </button>
 
                 {user && (
                     <div className="bar-avatar-wrapper">
                         <Link to="/perfil" className="bar-avatar-link">
-                            <div className="bar-avatar" style={{ border: '1.5px solid #FFFFFF' }}>
+                            <div className="bar-avatar">
                                 {profile?.avatar_url ? (
                                     <img src={profile.avatar_url} alt="Perfil" />
                                 ) : (
-                                    <User size={20} />
+                                    <div className="profile-initials">
+                                        {(profile?.full_name || user?.email || 'U').substring(0, 1).toUpperCase()}
+                                    </div>
                                 )}
                             </div>
                         </Link>

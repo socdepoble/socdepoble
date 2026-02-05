@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { X, Newspaper, Store, MapPin, Users, Shield, Calendar, Bot, Share2, Rocket, LogOut, BookOpen } from 'lucide-react';
+import { X, Newspaper, Store, MapPin, Users, Shield, Calendar, Bot, Share2, Rocket, LogOut, BookOpen, StickyNote } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useUI } from '../context/UIContext';
 import './CreationHub.css';
@@ -12,7 +12,8 @@ const CreationHub = () => {
         setIsCreateModalOpen,
         openPostModal,
         setIsEventModalOpen,
-        setIsMarketModalOpen
+        setIsMarketModalOpen,
+        setIsNotePadOpen
     } = useUI();
     const { isSuperAdmin, isAdmin, logout } = useAuth();
     const navigate = useNavigate();
@@ -57,6 +58,14 @@ const CreationHub = () => {
                         <span>Compartir en altres xarxes socials</span>
                     </button>
 
+                    <button className="share-full-frame notepad-action-btn-hub" onClick={() => {
+                        setIsCreateModalOpen(false);
+                        setIsNotePadOpen(true);
+                    }}>
+                        <StickyNote size={24} />
+                        <span>Bloc de notes Master</span>
+                    </button>
+
                     {(isSuperAdmin || isAdmin) && (
                         <button className="share-full-frame admin-btn-styled" onClick={() => {
                             setIsCreateModalOpen(false);
@@ -66,10 +75,6 @@ const CreationHub = () => {
                             <span>ACCÉS ADMINISTRACIÓ</span>
                         </button>
                     )}
-
-
-
-
                 </div>
 
                 <div className="creation-options">

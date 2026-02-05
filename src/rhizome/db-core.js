@@ -31,11 +31,24 @@ class RhizomeDB {
                     printErr: logger.error,
                 });
 
-                if ('opfs' in sqlite3) {
+                if ('opfs' in sqlite3 && typeof window !== 'undefined') {
+                    // [SAFETY] Si estem en el fil principal, certs navegadors donen error/warning amb OPFS synchronous
+                    // Intentem detectar si suporta Atomics (necessari per a OPFS sincron en el main thread)
+                    const supportsAtomics = typeof Atomics !== 'undefined' && typeof SharedArrayBuffer !== 'undefined';
+
+                    if (supportsAtomics) {
+                        this.db = new sqlite3.oo1.OpfsDb('/rhizome_v3.sqlite');
+                        logger.log('✅ RhizomeDB connectada a OPFS (/rhizome_v3.sqlite)');
+                    } else {
+                        logger.warn('⚠️ SharedArrayBuffer no disponible. OPFS bloquejat en el fil principal. Usant memòria temporal.');
+                        this.db = new sqlite3.oo1.DB();
+                    }
+                } else if ('opfs' in sqlite3) {
+                    // En un Worker (segur per a OPFS)
                     this.db = new sqlite3.oo1.OpfsDb('/rhizome_v3.sqlite');
-                    logger.log('✅ RhizomeDB connectada a OPFS (/rhizome_v3.sqlite)');
+                    logger.log('✅ RhizomeDB (Worker) connectada a OPFS.');
                 } else {
-                    logger.warn('⚠️ OPFS no disponible. Usant memòria temporal (Insecure Persistence).');
+                    logger.warn('⚠️ OPFS no disponible al motor SQLite WASM. Usant memòria temporal.');
                     this.db = new sqlite3.oo1.DB();
                 }
 

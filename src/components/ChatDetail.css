@@ -17,12 +17,12 @@
 .chat-nav-bar {
     display: flex;
     align-items: center;
-    padding: 0 var(--page-margin);
+    padding: var(--safe-top) var(--page-margin) 0;
     background-color: var(--color-accent);
     /* Orange Foc */
     border-bottom: var(--border-master);
     gap: var(--space-md);
-    height: 64px;
+    height: calc(64px + var(--safe-top));
     flex-shrink: 0;
     z-index: 10;
     box-shadow: var(--shadow-hard);
@@ -141,26 +141,31 @@
 }
 
 .wa-bubble {
-    padding: 6px 7px 8px 9px;
+    padding: 8px 12px;
     border-radius: 0px;
+    /* ZERO RADIUS PROTOCOL */
     max-width: 85%;
     position: relative;
-    box-shadow: var(--shadow-hard);
-    font-size: 0.95rem;
-    line-height: 1.5;
+    box-shadow: 4px 4px 0px rgba(0, 0, 0, 1);
+    /* Shadow Brutaliste */
+    font-size: 19px;
+    /* Master Font Size */
+    line-height: 1.4;
     word-break: break-word;
+    border: 2px solid #000;
 }
 
 .wa-bubble.me {
     background-color: var(--color-primary);
     /* Cyan Aigua */
     color: #000000;
+    align-self: flex-end;
 }
 
 .wa-bubble.other {
     background-color: #FFFFFF;
     color: #000000;
-    border: var(--border-master);
+    align-self: flex-start;
 }
 
 .wa-sender-name {
@@ -377,7 +382,7 @@
 
 /* NEW INPUT AREA */
 .chat-input-area-new {
-    padding: 16px;
+    padding: 16px 16px calc(16px + var(--safe-bottom));
     background: var(--md-sys-color-surface);
     border-top: 1px solid var(--md-sys-color-outline);
     display: flex;

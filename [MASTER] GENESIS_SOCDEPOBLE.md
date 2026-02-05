@@ -6,12 +6,12 @@
 
 ## 1. ELS TRES PILARS (Core Values) 🧬
 1.  **Offline-First:** L'app funciona al 100% sense cobertura. La dada viu al dispositiu del veí, no al núvol d'un estrany.
-2.  **Llei de la Boina Taronja (Universal Architecture):** Tota targeta bategua amb una capçalera de color Taronja (#FF6D23). Estructura triple: Entitat + Poble (Esquerra) i Temps (Dreta).
+2.  **Llei de la Boina Taronja (Universal Architecture):** Tota targeta bategua amb una capçalera de color Taronja (#F97316). Estructura triple: Entitat + Poble (Esquerra) i Temps (Dreta).
 3.  **Protocol "Gent de [Poble]":** Diferenciació total entre la veu del veïnat i la veu oficial. Tota pàgina comunitària bategua com a "Gent de...".
-4.  **Zero Radius Monolith:** Res de puntes romes. El món rural és dur i sòlid. 0px de radi a tot arreu.
-5.  **Contrast Foc i Aigua:** Taronja (#FF6D23) per a la identitat bategant i Cian Elèctric (#00F2FF) per a l'acció digital. Base en Blanc i Negre pur.
-6.  **Llei de la Vora Dura:** Tota eina ha de portat vores negres de 2px i ombres mòltes (Hard Shadows) de 4px. La suavitat és debilitat.
-7.  **Llei de la Sincronització Immediata (Directiva Atum):** L'app bategua amb un sol cor. Qualsevol desviació de versió o cache obsoleta ha de ser purgada immediatament. L'usuari mai ha de carregar codi prehistòric. Cada bategat de versió forta (NUCLEAR) implica una purga total per a garantir la sorpresa i l'excel·lència visual.
+4.  **Modern Rural Suau (Organic Geometry):** El món rural també sap ser acollidor. Adopció de radis de 28px per a una experiència tàctil i orgànica.
+5.  **Contrast Llum i Vida:** Naranja (#F97316) per a l'atenció institucional i Cian (#06B6D4) per a l'acció digital. Base en Crema (#FDF5E6) i Blanc Pur.
+6.  **Llei del Bategat Suau:** Tota eina ha de portar ombres profundes però molt difuminades (Soft Shadows). La claredat i la suavitat són la nova força.
+7.  **Llei de la Sincronització Immediata (Directiva Atum):** L'app bategua amb un sol cor. Qualsevol bategat de versió implica una purga total de cache per a garantir l'excel·lència visual i funcional als dispositius dels veïns.
 
 ---
 
@@ -52,16 +52,22 @@ La interfície és un espai de prova permanent.
 -   **Design Tokens:** Tot bategua amb variables (.css tokens) per a la propagació total.
 -   **Tipografia:** Font clara (Inter/Roboto), **Mida Base 19px**, pesat i llegible.
 
-### B. La Paleta del Mas (Saturació Complementària)
+### B. La Paleta del Mas (Gem Modern v2.0)
 | Token | Valor HEX | Ús |
 | :--- | :--- | :--- |
-| `bg-canvas` | `#000000` | Fons Global (Black Canvas) |
-| `accent-orange` | `#FF6D23` | El Bategat (Taronja Master) |
-| `accent-cyan` | `#00F2FF` | La Tecnologia (Cian Elèctric) |
-| `text-main` | `#FFFFFF` | Claredat Absoluta |
-| `surface` | `#161616` | Perfil i Contenidors (0px Radius) |
+| `bg-page` | `#FDF5E6` | Crema (Fondo General/Cálido) |
+| `bg-card` | `#FFFFFF` | Superficie Elementos |
+| `accent-orange` | `#F97316` | El Bategat (Naranja Institucional) |
+| `accent-cyan` | `#06B6D4` | La Tecnologia (Cian Acción) |
+| `text-main` | `#111827` | Azul Noche (Lectura Premium) |
+| `text-muted` | `#6B7280` | Texto Secundario |
 
-**PROHIBICIONS:** Color Crema, degradats tous, ombres suaus, radis > 0px. El minimalisme Silicon Valley es purga en favor del Brutalisme Rural.
+### C. Respiració i Accessibilitat (Directiva Trellat)
+- **Llei de la Respiració de Disseny (Spatial Integrity):** Els botons i contenidors han de "respirar". S'han d'usar espais generosos (XL/2XL) entre accions crítiques.
+- **Protocol del Creation Hub (L'Àmfora Plus):** El bategat central (+) és l'única porta de creació. El botó és un quadrat bento de 20px de radi o un cercle de 60px.
+- **Accessibilitat de Vora Suau:** Els botons han de tenir una mida mínima de 48px i contrast extrem. Radis de 28px per defecte.
+
+**PROHIBICIONS:** Negre absolut com a fons de pàgina (permetit en components foscos aïllats), radis de 0px, ombres dures, tipografies que no siguen Inter o Chakra Petch.
 
 ---
 
@@ -102,9 +108,10 @@ La interfície és un espai de prova permanent.
 ## 8. 🛡️ DIRECTIVA SUPREMA D'ACTUALITZACIÓ: "EL RENAIXEMENT CONTINU" 🌅
 **ESTAT:** INVIOLABLE.
 
-1.  **Mort al Codi Prehistòric:** Queda terminantment prohibit arrossegar deute tècnic o estats antics que bloquegen l'experiència de l'usuari. Cada nova versió a producció ha de ser un **Tall Net**.
+1.  **Mort al Codi Prehistòric:** Queda terminantment prohibit arrossegar deute tècnic o estats antics que bloquegen l'experiència de l'usuari. Cada nova versió a producció ha de ser un **Tall Net**. Si un patró (ex: Brutalisme) és superat per un de nou (ex: Gem Style), el codi vell ha de ser encapsulat o purgat per evitar conflictes d'ordres.
 2.  **Protocol de la Versió Crítica:** En cada desplegament major, s'ha d'establir una **Critical Version ($V_{crit}$)** en el graf d'esdeveniments (Eg-walker). Això obliga a descartar l'estat intern antic i reconstruir la veritat des del nou punt de control, assegurant que cap dispositiu es quede atrapat en el passat.
-3.  **Auditoria de la Sèquia Mare:** Els *Design Tokens* (colors, mides) són l'aigua que rega l'app. Si l'aigua no arriba al regador (component), l'arbre es mor. La *pipeline* de desplegament (CI/CD) ha de verificar que els tokens s'han propagat a tots els racons del sistema abans de donar el "verd".
+3.  **Directiva de Sincronització Forçada:** El sistema ha de forçar el `window.location.reload(true)` sempre que es detecte un mismatch de versió, ignorant qualsevol cache de Service Worker que puga estar servint codi "zombi".
+4.  **Auditoria de la Sèquia Mare:** Els *Design Tokens* (colors, mides) són l'aigua que rega l'app. Si l'aigua no arriba al regador (component), l'arbre es mor. La *pipeline* de desplegament (CI/CD) ha de verificar que els tokens s'han propagat a tots els racons del sistema abans de donar el "verd".
 4.  **L'Usuari és Sagrat:** Sorprendre l'usuari és l'objectiu. Fallar en l'actualització és trencar el pacte de confiança del "Trellat Digital".
 
 ---
@@ -169,10 +176,10 @@ La sobirania digital exigeix independència financera.
 
 ---
 
-## 17. 📏 LA LLEI DEL MONÒLIT (Zero Radius Brutalista) 🏗️☢️
-*   **MANDAT ABSOLUT:** 0px de radi a tot arreu. No es permeten excepcions en botons, targetes, inputs ni contenidors. 
-*   **Geometria Sagrada:** Si un element ha de ser circular per funció (ex: Icones de perfil o FAB), s'ha de considerar si pot ser un quadrat bento de vora dura. En cas de dubte: **QUADRAT**.
-*   **Llei de la Vora de 2px:** Tot element bategant ha de portar una vora negra de 2px per a separar-se del "Black Canvas".
+## 17. 📏 LA LLEI DE LA SUAVITAT (Gem Modern Geometry) 🏗️✨
+*   **MANDAT ABSOLUT:** Radis orgànics i moderns. 28px per a targetes i 18px-999px (pill) per a botons.
+*   **Geometria Sagrada:** Tot element ha de transmetre modernitat i proximitat. El "Glassmorphism" (backdrop-blur) és l'estàndard per a menús i barres de navegació.
+*   **Llei de la Vora Sutil:** En lloc de vores de 2px negres, usem vores fines de 1px amb colors clars o il·luminació perimetral sutil.
 
 ---
 

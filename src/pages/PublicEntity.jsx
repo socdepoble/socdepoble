@@ -212,19 +212,32 @@ const PublicEntity = () => {
                 </div>
             </ProfileHeaderPremium>
 
-            <div className="profile-actions-premium-fullwidth">
+            <div className="profile-actions-gem-fullwidth">
                 <button
-                    className={`connect-btn-premium-full ${isConnected ? 'connected' : ''}`}
+                    className={`connect-btn-main ${isConnected ? 'connected' : ''}`}
                     onClick={handleConnect}
                     disabled={isConnecting}
                 >
                     {isConnecting ? (
                         <Loader2 className="spinner" size={24} />
                     ) : isConnected ? (
-                        <><UserMinus size={22} /> DESCONNECTAR</>
+                        <>
+                            <UserMinus size={24} />
+                            <span>DESCONNECTAR</span>
+                        </>
                     ) : (
-                        <><UserPlus size={22} /> CONNECTAR AMB {entity.name.toUpperCase()}</>
+                        <>
+                            <UserPlus size={24} />
+                            <span>CONNECTAR AMB {entity.name.toUpperCase()}</span>
+                        </>
                     )}
+                </button>
+                <button
+                    className="chat-btn-main"
+                    onClick={() => navigate(`/chats/${entity.id}`)}
+                >
+                    <MessageSquare size={24} />
+                    <span>MISSATGERIA</span>
                 </button>
 
                 {/* BOTÓ LEGAL (Dinàmic per a l'Associació) */}

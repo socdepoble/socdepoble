@@ -78,7 +78,7 @@
 .iaia-mini-avatar {
     width: 100%;
     height: 100%;
-    border-radius: 0px;
+    border-radius: var(--radius-gem-avatar, 22px);
     border: 2px solid #00f2ff;
     object-fit: cover;
     background: #000;
@@ -197,8 +197,8 @@
     width: 100%;
     max-width: 440px;
     padding: 48px 40px;
-    box-shadow: var(--shadow-hard) !important;
-    border-radius: 0 !important;
+    box-shadow: var(--shadow-gem-deep) !important;
+    border-radius: var(--radius-gem-card, 28px) !important;
     text-align: center;
     position: relative;
     z-index: 10;
@@ -312,7 +312,7 @@
     padding: 16px 20px;
     background: var(--md-sys-color-surface);
     border: 1px solid var(--md-sys-color-outline);
-    border-radius: 0px;
+    border-radius: var(--radius-gem-btn, 18px);
     font-size: 1rem;
     color: var(--md-sys-color-on-surface);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -466,7 +466,7 @@
     /* Orange Foc */
     color: #000000;
     border: var(--border-master);
-    border-radius: 0px;
+    border-radius: var(--radius-gem-btn, 18px);
     font-size: 1.1rem;
     font-weight: 900;
     cursor: pointer;
@@ -616,8 +616,7 @@
     margin: -40px -32px 24px -32px;
     display: block;
     filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.5));
-    border-radius: 0;
-    /* Directiva Flash */
+    border-radius: var(--radius-gem-card, 28px) var(--radius-gem-card, 28px) 0 0;
 }
 
 .input-with-icon {

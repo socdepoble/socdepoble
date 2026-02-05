@@ -7,18 +7,21 @@
 }
 
 .amphora-fab-btn {
-    width: 64px;
-    height: 64px;
-    background: var(--accent-orange);
-    border: 2px solid #000;
-    box-shadow: 4px 4px 0px #000;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, var(--color-primary), #0891b2);
+    border: none;
+    box-shadow: 0 8px 20px rgba(6, 182, 212, 0.4);
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border-radius: 20px;
+    /* Bento Radius */
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
     position: relative;
     z-index: 2;
     padding: 0;
+    color: #FFFFFF;
 }
 
 .amphora-aura {
@@ -27,37 +30,30 @@
     left: -10px;
     right: -10px;
     bottom: -10px;
-    background: radial-gradient(circle, rgba(0, 242, 255, 0.4) 0%, transparent 70%);
-    border-radius: 0px;
+    background: radial-gradient(circle, rgba(6, 182, 212, 0.2) 0%, transparent 70%);
+    border-radius: 28px;
     z-index: 1;
     cursor: pointer;
-    animation: pulse-aura 2s infinite ease-in-out;
+    animation: pulse-aura-soft 3s infinite ease-in-out;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.aura-sparkle {
-    color: var(--accent-cyan);
-    filter: drop-shadow(0 0 5px var(--accent-cyan));
-    margin-right: 60px;
-    margin-bottom: 60px;
-}
-
-@keyframes pulse-aura {
+@keyframes pulse-aura-neon {
     0% {
         transform: scale(1);
-        opacity: 0.5;
+        opacity: 0.3;
     }
 
     50% {
-        transform: scale(1.1);
-        opacity: 0.8;
+        transform: scale(1.2);
+        opacity: 0.6;
     }
 
     100% {
         transform: scale(1);
-        opacity: 0.5;
+        opacity: 0.3;
     }
 }
 
@@ -73,16 +69,20 @@
 
 .plus-badge {
     position: absolute;
-    top: -5px;
-    right: -5px;
-    background: #000;
-    color: var(--accent-cyan);
+    top: -4px;
+    right: -4px;
+    background: var(--color-accent);
+    color: #FFFFFF;
     width: 24px;
     height: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 2px solid var(--accent-orange);
+    border-radius: 50%;
+    border: 3px solid #FFFFFF;
+    box-shadow: var(--shadow-soft);
+    font-weight: 800;
+    font-size: 14px;
 }
 
 @media (min-width: 1024px) {

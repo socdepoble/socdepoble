@@ -58,9 +58,9 @@
 .chat-item {
     display: flex;
     align-items: center;
-    padding: 10px 14px;
+    padding: 12px 16px;
     /* WhatsApp-like density */
-    gap: 12px;
+    gap: 16px;
     background-color: var(--bg-card);
     cursor: pointer;
     transition: all 0.2s;
@@ -73,9 +73,9 @@
 }
 
 .chat-avatar {
-    width: 48px;
-    /* Slightly more compact */
-    height: 48px;
+    width: 56px;
+    /* Increased for premium feel */
+    height: 56px;
     border-radius: 0px;
     display: flex;
     align-items: center;

@@ -31,15 +31,24 @@ export const UIProvider = ({ children }) => {
     const [editConfig, setEditConfig] = useState(null); // { postData, onUpdate }
     const [asoMode, setAsoMode] = useState(false);
     const [isTallerOpen, setIsTallerOpen] = useState(false);
+    const [isNotePadOpen, setIsNotePadOpen] = useState(false);
+
+    // [MASTER GENT] Lògica de Poble-Nodo (Cyber-Rural)
+    const [selectedTown, setSelectedTown] = useState(prefs.selectedTown || 'La Torre de les Maçanes');
 
     useEffect(() => {
         document.documentElement.setAttribute('data-theme', theme);
         document.documentElement.setAttribute('data-vibe', vibe);
         document.documentElement.setAttribute('data-visual-democracy', visualDemocracy);
 
-        // Apliquem class per a compatibilitat amb CSS tokens
-        document.documentElement.classList.remove('theme-pedra-seca', 'theme-oli-suau');
-        document.documentElement.classList.add(`theme-${visualDemocracy}`);
+        // [MASTER THEME SYNC] Apliquem classes de tema de manera neta
+        // Purguem totes les possibles classes de tema anteriors
+        const themeClasses = ['theme-pedra-seca', 'theme-oli-suau', 'theme-gem-modern'];
+        document.documentElement.classList.remove(...themeClasses);
+
+        // Apliquem la classe activa (oli-suau és el nou estàndard Gem)
+        const activeClass = visualDemocracy === 'pedra-seca' ? 'theme-pedra-seca' : 'theme-oli-suau';
+        document.documentElement.classList.add(activeClass);
 
         if (gloveMode) {
             document.body.classList.add('mode-guants');
@@ -54,9 +63,10 @@ export const UIProvider = ({ children }) => {
             visionMode,
             gloveMode,
             landingPage,
-            visualDemocracy
+            visualDemocracy,
+            selectedTown
         });
-    }, [theme, vibe, visionMode, gloveMode, landingPage, visualDemocracy]);
+    }, [theme, vibe, visionMode, gloveMode, landingPage, visualDemocracy, selectedTown]);
 
     const resetToNaturalOrder = () => {
         preferenceService.resetToNaturalOrder();
@@ -165,7 +175,11 @@ export const UIProvider = ({ children }) => {
             setAsoMode,
             toggleAsoMode: () => setAsoMode(prev => !prev),
             isTallerOpen,
-            setIsTallerOpen
+            setIsTallerOpen,
+            isNotePadOpen,
+            setIsNotePadOpen,
+            selectedTown,
+            setSelectedTown
         }}>
             {children}
         </UIContext.Provider>

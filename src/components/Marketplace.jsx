@@ -265,7 +265,7 @@ const Market = ({ searchTerm = '' }) => {
                 <div className="header-top-actions px-4 pt-4 flex justify-between items-center">
                     <h2 className="text-xl font-black text-white uppercase tracking-tighter">Mercat Rural</h2>
                     <button
-                        className="btn-vendre-sobrants bg-orange-500 text-black font-black px-4 py-2 rounded-xl flex items-center gap-2 text-sm shadow-[0_5px_15px_rgba(249,115,22,0.3)] hover:scale-105 active:scale-95 transition-all"
+                        className="btn-vendre-sobrants bg-orange-500 text-black font-black px-4 py-2 rounded-none flex items-center gap-2 text-sm shadow-[0_5px_15px_rgba(249,115,22,0.3)] hover:scale-105 active:scale-95 transition-all"
                         onClick={() => {
                             hapticService.notifySuccess();
                             navigate('/vendre-excedent');
@@ -296,7 +296,7 @@ const Market = ({ searchTerm = '' }) => {
                         setIsIAIAFiltering(next);
                         localStorage.setItem('isIAIAFiltering', next);
                     }}
-                    className={`px-3 py-1 rounded-full transition-all ${isIAIAFiltering ? 'bg-primary text-black' : 'bg-gray-100 text-gray-500'}`}
+                    className={`px-3 py-1 rounded-none transition-all ${isIAIAFiltering ? 'bg-primary text-black' : 'bg-gray-100 text-gray-500'}`}
                 >
                     {isIAIAFiltering ? "PAU RURAL" : "VEURE TOT"}
                 </button>

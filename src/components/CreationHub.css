@@ -19,8 +19,8 @@
     max-width: var(--mobile-width);
     border-radius: 0px;
     border: 2px solid #000;
-    border-top: 4px solid #000;
-    padding: var(--space-xl) var(--space-lg) calc(var(--space-2xl) + 20px);
+    border-top: 6px solid #000;
+    padding: var(--space-xl) var(--space-lg) calc(var(--space-2xl) + 40px);
     box-shadow: var(--shadow-hard);
     animation: slideUp 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
@@ -56,8 +56,8 @@
 .creation-hub-main-actions {
     display: flex;
     flex-direction: column;
-    gap: var(--space-md);
-    margin-bottom: var(--space-xl);
+    gap: var(--space-lg);
+    margin-bottom: var(--space-2xl);
 }
 
 .share-full-frame {
@@ -101,6 +101,11 @@
     color: #EDF2F7 !important;
 }
 
+.notepad-action-btn-hub {
+    background-color: #ff9800 !important;
+    border: 2px solid #000 !important;
+}
+
 .project-btn-styled {
     background: linear-gradient(135deg, #00f2ff, #0099ff) !important;
     box-shadow: var(--shadow-hard);
@@ -109,20 +114,19 @@
 .creation-options {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: var(--space-md);
+    gap: var(--space-lg);
+    margin-top: var(--space-xl);
 }
 
 .creation-option {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
-    padding: var(--space-lg);
+    gap: 16px;
+    padding: var(--space-xl) var(--space-lg);
     background-color: var(--bg-card);
     border-radius: 0px;
     border: 2px solid #000;
-    border: 2px solid #000;
-    border: 1px solid var(--color-border);
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 

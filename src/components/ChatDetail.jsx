@@ -838,8 +838,8 @@ const ChatDetail = () => {
                                             {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                         </span>
                                         {isMe && (
-                                            <span className={`wa-status ${msg.read_at && otherPrivacy?.show_read_receipts !== false ? 'read' : ''}`}>
-                                                {msg.read_at && otherPrivacy?.show_read_receipts !== false ? '✓✓' : '✓'}
+                                            <span className={`wa-status ${msg.read_at ? 'read' : ''}`}>
+                                                {msg.read_at ? '✓✓' : '✓'}
                                             </span>
                                         )}
                                     </div>

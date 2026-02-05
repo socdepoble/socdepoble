@@ -112,6 +112,13 @@ class HapticService {
     batec() {
         this.vibrate('medium');
     }
+
+    /**
+     * Alias for batec()
+     */
+    bategat() {
+        this.batec();
+    }
 }
 
 export const hapticService = new HapticService();

@@ -14,17 +14,19 @@ const AuthContext = createContext();
  */
 const preWarmContext = async () => {
     try {
-        if ("geolocation" in navigator && "permissions" in navigator) {
-            const status = await navigator.permissions.query({ name: 'geolocation' });
-            if (status.state === 'granted') {
-                navigator.geolocation.getCurrentPosition((pos) => {
-                    const { latitude, longitude } = pos.coords;
-                    logger.log('[PreWarm] Passive Geo detected:', latitude, longitude);
-                    localStorage.setItem('last_known_geo', JSON.stringify({ lat: latitude, lon: longitude, ts: Date.now() }));
-                }, null, { enableHighAccuracy: false, timeout: 5000 });
-            } else {
-                logger.log('[PreWarm] Geolocation not granted or prompt needed, skipping passive pre-warm.');
-            }
+        if ("geolocation" in navigator) {
+            // [MASTER GPS ACTIVATION] 
+            // L'usuari ha donat permís explícit. Bateguem la localització de forma activa.
+            navigator.geolocation.getCurrentPosition((pos) => {
+                const { latitude, longitude } = pos.coords;
+                logger.log('[PreWarm] GPS Active Bategat:', latitude, longitude);
+                localStorage.setItem('last_known_geo', JSON.stringify({ lat: latitude, lon: longitude, ts: Date.now() }));
+
+                // També ho guardem a la identitat sobirana si existeix
+                identityService.updateIdentity({ last_lat: latitude, last_lon: longitude });
+            }, (err) => {
+                logger.warn('[PreWarm] GPS error or timeout:', err.message);
+            }, { enableHighAccuracy: true, timeout: 10000 });
         }
     } catch (e) {
         // Silent catch for pre-warm
@@ -297,12 +299,16 @@ export const AuthProvider = ({ children }) => {
                             full_name: isOfficialCreator ? 'Javi Llinares' : (profileData?.full_name || session.user.email?.split('@')[0] || 'Veí de la Torre'),
                             role: isCreator ? USER_ROLES.SUPER_ADMIN : (profileData?.role || USER_ROLES.NEIGHBOR),
                             avatar_url: isOfficialCreator ? '/assets/master/javi_avatar_cinematic.png' : (profileData?.avatar_url || null),
-                            ofici: isOfficialCreator ? 'Dissenyador Gràfic & Art Director' : (profileData?.ofici || null)
+                            ofici: isOfficialCreator ? 'Dissenyador Gràfic & Art Director' : (profileData?.ofici || null),
+                            is_master: isOfficialCreator
                         };
 
                         // [TERMINOLOGY PURGE] Auto-correction for legacy 'Agent' names
                         if (effectiveProfile.full_name?.startsWith('Agent ')) {
                             effectiveProfile.full_name = effectiveProfile.full_name.replace('Agent ', 'Veí ');
+                        }
+                        if (effectiveProfile.full_name?.includes('Veí ')) {
+                            effectiveProfile.full_name = effectiveProfile.full_name.replace('Veí ', 'Veïna '); // Gender fluid support if needed, or keep generic 'Veí'
                         }
 
                         setRealProfile(effectiveProfile);

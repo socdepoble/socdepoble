@@ -1,6 +1,6 @@
 import React, { useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-// VERSION: v1.13.0-AI-FULL (Batec Territorial & Sobirania Visual)
+// VERSION: v1.15.0-GEM-MODERN (Llum i Vida | Gem Design)
 import Header from './components/Header';
 import Layout from './components/Layout';
 
@@ -125,15 +125,19 @@ function App() {
   usePushNotifications(); // Activate Push System
 
   useEffect(() => {
-    // [VERSION CHECK: PROTOCOLO FLASH]
-    const APP_VERSION = "v1.13.0-AI-FULL";
+    // [VERSION CHECK: PROTOCOLO FLASH - SUPREMA ACTUALITZACIÓ]
+    const APP_VERSION = "v1.15.0-GEM-MODERN";
     const lastVersion = localStorage.getItem('sp_app_version');
 
     if (lastVersion && lastVersion !== APP_VERSION) {
-      console.log('[FLASH] Nova versió detectada. Executant Hard Reload...');
+      console.log(`[FLASH] Nova versió detectada (${lastVersion} -> ${APP_VERSION}). Executant Hard Reload...`);
       localStorage.setItem('sp_app_version', APP_VERSION);
-      // No fem reload si som en dev per a evitar bucles infinits si hi ha mismatch de codi
       if (!import.meta.env.DEV) {
+        if ('serviceWorker' in navigator) {
+          caches.keys().then(names => {
+            for (let name of names) caches.delete(name);
+          });
+        }
         window.location.reload(true);
       }
     } else {
@@ -154,7 +158,7 @@ function App() {
 
         // Adaptem la barra d'estat a l'estètica MD3 (Surface color)
         await StatusBar.setStyle({ style: Style.Light });
-        await StatusBar.setBackgroundColor({ color: '#fdfbff' }); // md-sys-color-surface aprox
+        await StatusBar.setBackgroundColor({ color: '#FDF5E6' }); // bg-page (Crema)
 
         // Amaguem la splash screen quan el bategat web estiga llest
         await SplashScreen.hide();

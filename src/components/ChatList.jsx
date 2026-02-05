@@ -344,7 +344,7 @@ const ChatList = () => {
                                     src={otherParticipant.avatar}
                                     role={otherParticipant.type === 'entity' ? 'oficial' : (otherParticipant.role || 'user')}
                                     name={otherParticipant.name}
-                                    size={48}
+                                    size={56}
                                 />
                                 <div className="chat-content">
                                     <div className="chat-header">

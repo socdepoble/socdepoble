@@ -1,12 +1,15 @@
 .m3-top-app-bar {
-    height: 64px;
-    padding: 0 var(--page-margin);
-    background-color: #000000 !important;
-    /* Forced Black Canvas */
+    padding-top: var(--safe-top);
+    height: calc(64px + var(--safe-top));
+    padding-left: var(--page-margin);
+    padding-right: var(--page-margin);
+    background-color: rgba(255, 255, 255, 0.8) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: var(--border-master);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -32,16 +35,16 @@
 .bar-icon-btn {
     width: 44px;
     height: 44px;
-    border-radius: 0px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #FFFFFF;
+    color: var(--text-primary);
     border: none;
     background: transparent;
     cursor: pointer;
     position: relative;
-    transition: background-color 0.2s ease;
+    transition: all 0.2s ease;
 }
 
 .bar-icon-btn:hover {
@@ -50,32 +53,34 @@
 
 .bar-badge {
     position: absolute;
-    top: 8px;
-    right: 8px;
-    background-color: var(--color-accent);
-    /* Orange */
-    color: #000;
+    top: 4px;
+    right: 4px;
+    background-color: var(--color-community);
+    color: #FFFFFF;
     font-size: 10px;
-    font-weight: 900;
-    min-width: 16px;
-    height: 16px;
-    border-radius: 0px;
+    font-weight: 800;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 50% !important;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0 4px;
-    border: 1px solid #000;
+    border: 2px solid #FFFFFF;
+    box-shadow: var(--shadow-soft);
 }
 
 .bar-avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 0px;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
     overflow: hidden;
-    background-color: var(--sdp-glass-border);
+    background-color: #F3F4F6;
     display: flex;
     align-items: center;
     justify-content: center;
+    border: 2px solid #FFFFFF;
+    box-shadow: var(--shadow-soft);
 }
 
 .bar-avatar img {

@@ -1,49 +1,49 @@
 /* UNIVERSAL CARD MASTER GENESIS: COHERÈNCIA TOTAL */
 
 :root {
-    --genesis-orange: var(--color-accent);
-    --genesis-black: #000000;
-    --genesis-surface: #161616;
-    --genesis-text: #FFFFFF;
-    --genesis-border: rgba(255, 255, 255, 0.1);
-    --genesis-radius: 0px;
-    /* Zero Radius enforced for Master look */
+    --genesis-orange: #F97316;
+    --genesis-cian: #06B6D4;
+    --genesis-black: #111827;
+    --genesis-surface: #FFFFFF;
+    --genesis-text: #111827;
+    --genesis-border: rgba(0, 0, 0, 0.05);
+    --genesis-radius: 28px;
 }
 
 .universal-card {
     background: #FFFFFF;
-    border: var(--border-master);
-    border-radius: 0px;
+    border: 1px solid var(--genesis-border);
+    border-radius: var(--genesis-radius);
     overflow: hidden;
     display: flex;
     flex-direction: column;
     height: 100%;
-    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: var(--shadow-hard);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: var(--shadow-soft);
     position: relative;
 }
 
 .universal-card:hover {
-    transform: translate(-2px, -2px);
-    box-shadow: var(--shadow-hard);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
 }
 
-/* HEADER: MASTER ORANGE */
+/* HEADER: GLASSMORPHISM LIGHT */
 .card-header-genesis {
-    background: var(--color-accent);
-    /* Orange Foc */
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     padding: 16px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 2px solid #000;
+    border-bottom: 1px solid var(--genesis-border);
     cursor: pointer;
-    transition: background 0.1s;
+    transition: all 0.2s;
 }
 
 .card-header-genesis:hover {
-    background: #FF8547;
-    /* Slightly brighter orange on hover */
+    background: rgba(255, 255, 255, 0.95);
 }
 
 .header-left {
@@ -157,13 +157,13 @@
 }
 
 .genesis-title {
-    color: #000000;
-    font-size: 16px;
-    font-weight: 900;
+    color: var(--text-main);
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 700;
     margin: 0;
     line-height: 1.2;
-    text-transform: uppercase;
-    letter-spacing: -0.5px;
+    letter-spacing: -0.02em;
 }
 
 .card-price {
@@ -223,8 +223,8 @@
 /* FOOTERS MASTER ADAPTATS */
 .card-footer-master {
     padding: 16px;
-    border-top: var(--border-master);
-    background: #FFFFFF;
+    border-top: 1px solid var(--genesis-border);
+    background: #000000;
 }
 
 /* MODE MUR: COMMENTS PREVIEW */
@@ -352,12 +352,12 @@
     align-items: center;
     justify-content: center;
     padding: 12px 8px;
-    background: #FFFFFF;
+    background: #000000;
     border: none;
-    border-right: 2px solid #000;
-    color: #000;
+    border-right: 1px solid var(--genesis-border);
+    color: #FFFFFF;
     cursor: pointer;
-    transition: all 0.1s;
+    transition: all 0.2s;
     gap: 4px;
 }
 
@@ -366,36 +366,56 @@
 }
 
 .master-action-btn:hover {
-    background: var(--color-primary-soft);
+    background: #F9FAFB;
+    color: var(--color-primary);
 }
 
 .master-action-btn span {
     font-size: 10px;
-    font-weight: 900;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.05em;
 }
 
 /* MASONRY / GRID ADAPTATION (Expected parent classes) */
 
-/* ANIMATIONS */
-.animate-bategat {
-    animation: cardPulse 4s infinite ease-in-out;
+/* --- JERARQUIA NEON RURAL --- */
+
+/* 1. INSTITUCIONAL (Oficial/Ajuntament) */
+.universal-card.role-official {
+    border: 2px solid var(--genesis-orange) !important;
+    box-shadow: 0 0 20px rgba(255, 69, 0, 0.3) !important;
 }
 
-@keyframes cardPulse {
+.universal-card.role-official.alert-active {
+    animation: alert-pulse-neon 1.5s infinite alternate ease-in-out;
+}
+
+@keyframes alert-pulse-soft {
     0% {
-        border-color: var(--genesis-border);
+        box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.4);
     }
 
-    50% {
-        border-color: var(--genesis-orange);
-        box-shadow: var(--shadow-hard);
+    70% {
+        box-shadow: 0 0 0 10px rgba(249, 115, 22, 0);
     }
 
     100% {
-        border-color: var(--genesis-border);
+        box-shadow: 0 0 0 0 rgba(249, 115, 22, 0);
     }
+}
+
+/* 2. SOCIAL (Instagram Style) */
+.universal-card.mode-mur .genesis-avatar {
+    border: 2px solid var(--genesis-cian) !important;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+}
+
+/* 3. COMERCIAL (Wallapop Style) - Preu Naranja */
+.card-price {
+    background: var(--genesis-orange) !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 0 10px rgba(255, 69, 0, 0.4);
 }
 
 /* MASONRY / GRID ADAPTATION (Expected parent classes) */

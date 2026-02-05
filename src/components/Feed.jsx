@@ -34,7 +34,8 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null, contentMo
     const navigate = useNavigate();
     const { user, profile, isPlayground, loading: authLoading, isAdmin, isSuperAdmin } = useAuth();
     const isSovereign = user?.is_sovereign;
-    const { visionMode, gloveMode } = useUI();
+    const { visionMode, gloveMode, selectedTown } = useUI();
+    const activeTown = townId || selectedTown;
     const [posts, setPosts] = useState(customPosts || []);
     const [userConnections, setUserConnections] = useState([]);
     const [userTags, setUserTags] = useState([]);
@@ -63,7 +64,7 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null, contentMo
         setError(null);
         try {
             const currentPage = isLoadMore ? page + 1 : 0;
-            const result = await supabaseService.getPosts(selectedRole, townId, currentPage, 10, isPlayground);
+            const result = await supabaseService.getPosts(selectedRole, activeTown, currentPage, 10, isPlayground);
             if (!isMounted.current) return;
 
             const postsArray = result.data;
@@ -111,7 +112,7 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null, contentMo
                 setLoadingMore(false);
             }
         }
-    }, [selectedRole, townId, user, isPlayground]);
+    }, [selectedRole, activeTown, user, isPlayground]);
 
     // Fetch comments separately when posts change
     useEffect(() => {
@@ -151,7 +152,7 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null, contentMo
         }
 
         // [PILAR 1: INSTANT LOAD] - Bategat immediat des de la memòria local
-        const cacheKey = `posts_${townId || 'global'}_0_10`;
+        const cacheKey = `posts_${activeTown || 'global'}_0_10`;
         const localData = localStorage.getItem(`lc_${cacheKey}`);
         if (localData) {
             try {
@@ -165,7 +166,7 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null, contentMo
                 logger.warn('[Feed] Error en Instant Load:', e);
             }
         }
-    }, [customPosts, townId]);
+    }, [customPosts, activeTown]);
 
     useEffect(() => {
         if (!authLoading && !customPosts) {
@@ -284,7 +285,7 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null, contentMo
         // 3. IAIA Portera (Cognitive Filter Km 0) [PILLAR 4]
         if (isIAIAFiltering) {
             const userPrefs = {
-                primary_town_id: townId || 1, // Default to La Torre
+                primary_town_id: activeTown || 1, // Default to current town
                 anchors: ['mel', 'poma', 'fusta', 'tradició', 'IAIA', 'Master']
             };
             filtered = rhizomeManager.cognitiveFilter(filtered, userPrefs);

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { User, MapPin, Calendar, Settings, ChevronRight, Loader2, AlertCircle, Building2, Store, Users as UsersIcon, ArrowLeft, UserPlus, UserMinus, Plus, Layout, Activity, MessageCircle } from 'lucide-react';
+import { User, MapPin, Calendar, Settings, ChevronRight, Loader2, AlertCircle, Building2, Store, Users as UsersIcon, ArrowLeft, UserPlus, UserMinus, Plus, Layout, Activity, MessageCircle, Landmark } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
 import { useUI } from '../context/UIContext';
@@ -231,32 +231,32 @@ const PublicProfile = () => {
                     const canSeeActions = !isOwnProfile || (currentUser && (masters.includes(currentUser.email) || currentUser.role === 'admin' || currentUser.role === 'superadmin'));
 
                     return canSeeActions && (
-                        <div className="profile-actions-premium-fullwidth">
+                        <div className="profile-actions-gem-fullwidth">
                             <button
-                                className={`connect-btn-premium-full ${isConnected ? 'connected' : ''}`}
+                                className={`connect-btn-main ${isConnected ? 'connected' : ''}`}
                                 onClick={handleConnect}
                                 disabled={isConnecting}
                             >
                                 {isConnecting ? (
-                                    <Loader2 size={20} className="animate-spin" />
+                                    <Loader2 size={24} className="animate-spin" />
                                 ) : isConnected ? (
                                     <>
-                                        <UserMinus size={20} />
-                                        <span>Connectat</span>
+                                        <UserMinus size={24} />
+                                        <span>DESCONNECTAR</span>
                                     </>
                                 ) : (
                                     <>
-                                        <UserPlus size={20} />
-                                        <span>Connectar</span>
+                                        <UserPlus size={24} />
+                                        <span>CONECTAR AMB {profile.full_name.toUpperCase()}</span>
                                     </>
                                 )}
                             </button>
                             <button
-                                className="chat-btn-premium-full"
+                                className="chat-btn-main"
                                 onClick={() => navigate(`/chats/${profile.id}`)}
                             >
-                                <MessageCircle size={20} />
-                                <span>Missatge</span>
+                                <MessageSquare size={24} />
+                                <span>MISSATGERIA</span>
                             </button>
 
                             {/* BOTÓ PROFESSIONAL (Dinàmic per a Autònoms/Creadors) */}

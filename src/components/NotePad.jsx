@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { StickyNote, X, Save, Trash2, Copy, Check, ChevronRight, ChevronLeft } from 'lucide-react';
+import { useUI } from '../context/UIContext';
 import './NotePad.css';
 
 const NotePad = () => {
-    const [isOpen, setIsOpen] = useState(false);
+    const { isNotePadOpen: isOpen, setIsNotePadOpen: setIsOpen } = useUI();
     const [note, setNote] = useState(localStorage.getItem('sdp_master_note') || '');
     const [copied, setCopied] = useState(false);
     const [isMinimized, setIsMinimized] = useState(false);
@@ -24,17 +25,7 @@ const NotePad = () => {
         }
     };
 
-    if (!isOpen) {
-        return (
-            <button
-                className="notepad-trigger animate-bounce-slow"
-                onClick={() => setIsOpen(true)}
-                title="Obrir Llibreta Master"
-            >
-                <StickyNote size={24} />
-            </button>
-        );
-    }
+    if (!isOpen) return null;
 
     return (
         <div className={`notepad-container ${isMinimized ? 'minimized' : ''}`}>

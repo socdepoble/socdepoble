@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { X, Image as ImageIcon, Send, Loader2, Globe, Lock, Users, BookOpen, MessageSquare, Sparkles, Camera, Shield } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { supabaseService } from '../services/supabaseService';

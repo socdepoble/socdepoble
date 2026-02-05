@@ -1,4 +1,10 @@
-import { X, Camera, Send, Loader2, Tag, Globe, Lock, Users, Video } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { X, Camera, Send, Loader2, Tag, Globe, Lock, Users, Video, Image as ImageIcon } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+import { supabaseService } from '../services/supabaseService';
+import { logger } from '../utils/logger';
+import { ROLES } from '../constants';
 import CaptureStudio from './CaptureStudio';
 import './CreatePostModal.css'; // Use unified modal styles
 import './AddItemModal.css';

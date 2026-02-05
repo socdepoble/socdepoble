@@ -43,9 +43,9 @@
 }
 
 .profile-tabs-nav button.active {
-    background: var(--md-sys-color-primary-container);
-    color: var(--md-sys-color-on-primary-container);
-    box-shadow: var(--shadow-hard);
+    background: var(--color-primary);
+    color: white;
+    box-shadow: 4px 4px 0px #000000;
 }
 
 .profile-tabs-nav button svg {
@@ -61,9 +61,10 @@
 .premium-tabs-v2 {
     padding: 8px 16px !important;
     gap: 12px !important;
-    background: rgba(var(--md-sys-color-surface-rgb), 0.8) !important;
-    border-radius: 0 0 var(--radius-2xl) var(--radius-2xl);
-    box-shadow: var(--shadow-hard);
+    background: var(--bg-main) !important;
+    border-radius: 0px !important;
+    box-shadow: 4px 4px 0px #000000;
+    border: 2px solid #000000;
 }
 
 .premium-tabs-v2 button {
@@ -113,26 +114,26 @@
 }
 
 .legal-doc-btn-premium {
-    width: 100%;
-    margin-top: 1rem;
+    width: 60%;
+    margin: 1.5rem auto;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 12px;
     background: var(--color-terracotta);
     color: white;
-    border: none;
-    padding: 16px;
-    font-weight: 800;
-    letter-spacing: 1px;
+    border: 2px solid #000000;
+    padding: 18px;
+    font-weight: 900;
+    letter-spacing: 1.5px;
     cursor: pointer;
-    font-size: 0.95rem;
+    font-size: 1.1rem;
     text-transform: uppercase;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.1s;
     border-radius: 0 !important;
     position: relative;
     overflow: hidden;
-    box-shadow: var(--shadow-hard);
+    box-shadow: 6px 6px 0px #000000;
 }
 
 .legal-doc-btn-premium:hover {
@@ -250,13 +251,14 @@
 .profile-tab-content {
     padding: var(--page-margin);
     animation: slideInUp 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-    background: var(--md-sys-color-surface);
-    border-radius: 0px var(--radius-xl) 0 0;
+    background: var(--bg-main);
+    border-radius: var(--radius-card, 0px);
     margin-top: -30px;
     z-index: 10;
     position: relative;
-    border: 1px solid var(--md-sys-color-outline);
+    border: 2px solid #000000;
     min-height: 60vh;
+    box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.1);
 }
 
 @keyframes slideInUp {

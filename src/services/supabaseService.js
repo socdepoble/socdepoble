@@ -1105,6 +1105,20 @@ export const supabaseService = {
                 setColumnCache('conversations_is_playground', false);
                 return this.getOrCreateConversation(p1Id, p1Type, p2Id, p2Type); // Retry without column
             }
+
+            // [RLS BYPASS] EN MODE PLAYGROUND, L'ERROR 401 ÉS ESPERAT SI EL UUID ÉS FICTICI
+            if (isPlayground && (error.code === '42501' || error.status === 401 || error.status === 403)) {
+                logger.warn('[SupabaseService] 🛡️ RLS Bypass Activat: Creant conversa local/mock per al Playground.');
+                return {
+                    id: `local-conv-${p1Id.substring(0, 4)}-${p2Id.substring(0, 4)}`,
+                    participant_1_id: p1Id,
+                    participant_1_type: p1Type,
+                    participant_2_id: p2Id,
+                    participant_2_type: p2Type,
+                    is_playground: true,
+                    created_at: new Date().toISOString()
+                };
+            }
             throw error;
         }
         return data[0];
@@ -2142,22 +2156,25 @@ export const supabaseService = {
      */
     getRedirectUrl(path = '/chats') {
         const origin = window.location.origin;
-        const isLocal = origin.includes('localhost') || origin.includes('127.0.0.1');
-        const isCapacitor = origin.includes('capacitor://');
+        const hostname = window.location.hostname;
+        const isLocal = hostname === 'localhost' || hostname === '127.0.0.1';
+        const isCapacitor = origin.includes('capacitor://') || origin.includes('http://localhost'); // Capacitor uses localhost often internally
 
         // [MASTER DYNAMIC REDIRECT] 
-        // Si estem en producció (Vercel, domini propi, etc), usem l'origin actual.
-        // Només forcem si estem en un entorn que Supabase no puga detectar bé.
+        const productionUrl = 'https://socdepoble.vercel.app';
+
+        // Si estamos en producción (Vercel, dominio propio), usamos el origin actual.
+        // Pero si el origin indica localhost y no estamos en desarrollo local real, forzamos producción.
         if (!isLocal && !isCapacitor) {
             return `${origin}${path}`;
         }
 
-        // Per a Capacitor, sí que cal una URL de producció oficial ja que l'origin és local a l'App
-        if (isCapacitor) {
-            return `https://socdepoble.vercel.app${path}`;
+        // Si estamos en Capacitor o el origin es sospechoso, usamos la URL de producción oficial.
+        if (isCapacitor || (hostname !== 'localhost' && hostname !== '127.0.0.1')) {
+            return `${productionUrl}${path}`;
         }
 
-        // Per a local dev
+        // Para desarrollo local real
         return `${origin}${path}`;
     },
 
@@ -2184,10 +2201,12 @@ export const supabaseService = {
     },
 
     async signInWithGoogle() {
+        const redirectTo = this.getRedirectUrl('/chats');
+        logger.log('[Auth] Iniciant Google Login amb redirect a:', redirectTo);
         const { data, error } = await supabase.auth.signInWithOAuth({
             provider: 'google',
             options: {
-                redirectTo: this.getRedirectUrl('/chats')
+                redirectTo
             }
         });
         if (error) throw error;

@@ -1,90 +1,81 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
 
 :root {
-  /* --- 1. CONSTITUCIÓ MASTER (Edició Atum - v5.0) --- */
-  /* Paleta "Saturació Complementària" - Javi & Gemini Optimized */
-  --bg-page: #FFFFFF;
-  --bg-canvas: #000000;
+  /* --- 1. CONSTITUCIÓ MASTER (Edició GEM MODERN - v2.0) --- */
+  /* Paleta "Llum i Vida" - Basada en el disseny validat per Gemini Pro */
+  --bg-page: #FDF5E6;
+  /* Crema Old Lace */
+  --bg-canvas: #F3F4F6;
+  /* Gris molt suau */
   --bg-card: #FFFFFF;
   --bg-surface: #FFFFFF;
-  --bg-surface-container: #000000;
-  /* Sidebar / Canvas */
+  --bg-surface-container: #F9FAFB;
 
-  --text-primary: #000000;
-  --text-main: #000000;
-  --text-secondary: #333333;
-  --text-muted: #666666;
+  --text-primary: #111827;
+  /* Blau Nit profund */
+  --text-main: #111827;
+  --text-secondary: #4B5563;
+  --text-muted: #6B7280;
 
-  --color-primary: #00F2FF;
-  /* Cian Elèctric (Aigua/Séquia) */
-  --color-accent: #FF6D23;
-  /* Taronja [MASTER] (Foc/Horta) */
-  --accent: var(--color-accent);
-  --color-terracotta: #FF6D23;
+  /* --- 2. PALETA GEM MODERN [CIAN & NARANJA] --- */
+  --color-primary: #06B6D4;
+  /* Cian modern */
+  --color-accent: #F97316;
+  /* Naranja institucional */
+  --color-community: #F97316;
+  --color-agent: #06B6D4;
+  --color-business: #81B29A;
+  /* Verd Sabia */
+  --color-official: #F2CC81;
+  /* Arena/Oro */
+  --color-crema: #FDF5E6;
 
-  --border-master: 2px solid #000000;
-  --shadow-hard: 4px 4px 0px #000000;
-  --header-bg: var(--color-accent);
-  /* Orange Header for energy */
-  --color-alert: #ff3333;
+  /* --- 3. TOKENS DE SUAVITAT (Organic Geometry) --- */
+  --radius-gem-card: 28px;
+  --radius-gem-btn: 999px;
+  /* Pill style */
+  --radius-gem-avatar: 50%;
+  --shadow-soft: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+  --shadow-hover: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+  --blur-gem: 20px;
+  --glass-gem: rgba(255, 255, 255, 0.75);
 
   /* bridge variables for Material System compatibility */
   --md-sys-color-primary: var(--color-primary);
   --md-sys-color-on-primary: #ffffff;
   --md-sys-color-secondary: var(--color-accent);
-  --md-sys-color-on-secondary: #000000;
+  --md-sys-color-on-secondary: #ffffff;
   --md-sys-color-surface: var(--bg-page);
   --md-sys-color-on-surface: var(--text-primary);
   --md-sys-color-surface-container: var(--bg-surface-container);
-  --md-sys-color-outline: var(--color-primary);
+  --md-sys-color-outline: rgba(0, 0, 0, 0.1);
 
-  /* --- 2. LLEI DEL MONÒLIT (Radi Zero Brutalista) --- */
-  --radius-raw: 0px;
-  --radius-none: 0px;
-  --radius-sm: 0px;
-  --radius-md: 0px;
-  --radius-lg: 0px;
-  --radius-xl: 0px;
-  --radius-full: 9999px;
-  /* Only for icons or perfect circles */
+  /* --- 4. GEOMETRIA SAGRADA --- */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 28px;
   --radius-full: 9999px;
 
-  /* --- 3. TIPOGRAFIA (Iaia-Proof / GOV.UK) --- */
-  --font-body: 'Roboto Condensed', sans-serif;
-  --font-display: 'Roboto Condensed', sans-serif;
+  /* --- 5. TIPOGRAFIA (Chakra & Inter) --- */
+  --font-body: 'Inter', sans-serif;
+  --font-display: 'Chakra Petch', sans-serif;
   --font-size-base: 19px;
-  /* Mínim absolut rural */
   --font-weight-bold: 800;
-
-  /* Shadows (Democratic Softness) */
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.15), 0 3px 6px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.08);
 
   --page-margin: 16px;
   --space-bancal: 24px;
 
-  /* --- 5. BATEC VEÏNAL TOKENS (Rhizome Monitoring) --- */
-  --batec-ok: var(--color-primary);
-  /* Blue */
-  --batec-mesh: var(--color-accent);
-  /* Orange */
-  --batec-offline: #666666;
-
-  /* --- 6. SAFE AREA (NATIVE ADAPTATION) --- */
+  /* --- 6. SAFE AREA --- */
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
-  --safe-left: env(safe-area-inset-left, 0px);
-  --safe-right: env(safe-area-inset-right, 0px);
-
-  /* [MASTER] System Tokens - Protocol Botiga de Diumenge */
   --sys-spacing-safe-top: env(safe-area-inset-top, 20px);
   --sys-spacing-safe-bottom: env(safe-area-inset-bottom, 20px);
 
   /* Layout Constants */
   --banner-height: 64px;
   --nav-height: 72px;
-  --radius-2xl: 0px;
 }
 
 @keyframes batec-pulse {
@@ -104,20 +95,60 @@
   }
 }
 
-/* TEMA: PEDRA SECA (Industrial/Zero Radius) */
+/* TEMA: PEDRA SECA (Industrial/Zero Radius - Brutalista) */
 .theme-pedra-seca {
-  --album-radius: 0px;
+  --album-radius: 0px !important;
   --album-border: 2px solid var(--accent);
   --album-shadow: 6px 6px 0px #000;
 
   /* Global Overrides */
-  --radius-organic: 0px;
-  --radius-card: 0px;
-  --radius-media: 0px;
-  --sdp-radius-lg: 0px;
-  --sdp-radius-full: 0px;
-  --md-sys-shape-corner-large: 0px;
-  --md-sys-shape-corner-medium: 0px;
+  --radius-organic: 0px !important;
+  --radius-card: 0px !important;
+  --radius-media: 0px !important;
+  --sdp-radius-lg: 0px !important;
+  --sdp-radius-full: 0px !important;
+  --md-sys-shape-corner-large: 0px !important;
+  --md-sys-shape-corner-medium: 0px !important;
+  --radius-2xl: 0px !important;
+}
+
+/* TEMA: OLI SUAU (ARA: GEM MODERN - Disseny Validat) */
+.theme-oli-suau {
+  --bg-page: #FDF5E6;
+  --bg-surface: #FFFFFF;
+  --text-primary: #111827;
+  --radius-card: 28px;
+  --radius-btn: 999px;
+  --radius-media: 16px;
+  --shadow-main: var(--shadow-soft);
+  --border-master: 1px solid rgba(0, 0, 0, 0.05);
+  --radius-2xl: 28px;
+  --radius-xl: 20px;
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+}
+
+.theme-oli-suau .universal-card {
+  border-radius: var(--radius-gem-card) !important;
+  border: 1px solid rgba(0, 255, 255, 0.2) !important;
+  box-shadow: var(--shadow-neon) !important;
+  background: var(--glass-gem) !important;
+  backdrop-filter: blur(var(--blur-gem)) !important;
+  -webkit-backdrop-filter: blur(var(--blur-gem)) !important;
+}
+
+.theme-oli-suau button,
+.theme-oli-suau .btn-filled,
+.theme-oli-suau .btn-primary {
+  border-radius: var(--radius-gem-btn) !important;
+  box-shadow: var(--shadow-neon) !important;
+  border: none !important;
+  text-transform: uppercase !important;
+  font-weight: 900 !important;
+  letter-spacing: 1px !important;
+  background: var(--color-primary) !important;
+  color: #000 !important;
 }
 
 /* --- DUALITAT ONTOLÒGICA: INSTITUCIONAL (AJUNTAMENT) --- */
@@ -203,12 +234,13 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Llei del Zero Radius (Flash Protocol) */
+/* Llei del Zero Radius (Flash Protocol) - Sota control de Tema */
 img,
 video,
 iframe,
 canvas {
-  border-radius: 0px !important;
+  /* Eliminat !important per a permetre ràdis en Oli Suau */
+  border-radius: inherit;
 }
 
 html,
@@ -1265,4 +1297,68 @@ a:hover {
 
 .animate-in {
   animation: animate-in 0.5s ease forwards;
+}
+
+/* --- [MASTER] BRUTALIST BUTTON SYSTEM --- */
+.connect-btn-brutal,
+.chat-btn-brutal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px 24px;
+  font-weight: 950;
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  border-radius: 0px !important;
+  border: 3px solid #000000;
+  transition: all 0.1s ease;
+  cursor: pointer;
+  font-size: 1.1rem;
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.connect-btn-brutal {
+  background: var(--color-primary);
+  color: #000000;
+  box-shadow: 6px 6px 0px #000000;
+}
+
+.connect-btn-brutal.connected {
+  background: #000000;
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+  box-shadow: 6px 6px 0px var(--color-primary);
+}
+
+.chat-btn-brutal {
+  background: var(--color-accent);
+  color: #000000;
+  box-shadow: 6px 6px 0px #000000;
+}
+
+.connect-btn-brutal:hover,
+.chat-btn-brutal:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 8px 8px 0px #000000;
+}
+
+.connect-btn-brutal.connected:hover {
+  box-shadow: 8px 8px 0px var(--color-primary);
+}
+
+.connect-btn-brutal:active,
+.chat-btn-brutal:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px #000000;
+}
+
+.profile-actions-premium-fullwidth {
+  padding: 0 var(--page-margin);
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
 }

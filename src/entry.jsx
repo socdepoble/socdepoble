@@ -27,7 +27,12 @@ const SILENCE_PATTERNS = [
   'updateActuationOverlay',
   'Failed to find shadow host',
   'Failed to load resource',
-  'Uncaught (in promise) Error'
+  'Uncaught (in promise) Error',
+  'sqlite3_vfs',
+  'OPFS',
+  'Atomics.wait',
+  'Geolocation permission',
+  'User denied Geolocation'
 ];
 
 const checkSilence = (msg) => {

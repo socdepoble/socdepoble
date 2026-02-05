@@ -65,8 +65,7 @@
 
   <link rel="icon" type="image/png" href="/favicon.png?v=Genius_154" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=Genius_154" />
-  <!-- PWA Disabled (Protocol Sobirà Native) -->
-  <!-- <link rel="manifest" href="/manifest.json?v=Genius_154" /> -->
+  <link rel="manifest" href="/manifest.json?v=Genius_154" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -214,22 +213,7 @@
     style="position:fixed;bottom:10px;right:10px;font-size:10px;opacity:0.3;z-index:9999;user-select:all;">
     v1.13.0-AI-FULL
   </div>
-  <script>
-    // KILL PWA PERSISTENCE (Sovereign Native Protocol)
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.getRegistrations().then(function (registrations) {
-        for (let registration of registrations) {
-          registration.unregister();
-        }
-      });
-    }
-    // Clear caches to be sure
-    if ('caches' in window) {
-      caches.keys().then(function (names) {
-        for (let name of names) caches.delete(name);
-      });
-    }
-  </script>
+
   <script type="module" src="/src/entry.jsx?v=v1.13.0-AI-FULL"></script>
 </body>
 
