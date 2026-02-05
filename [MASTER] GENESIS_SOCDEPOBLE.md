@@ -1,4 +1,4 @@
-# [MASTER] GÉNESIS: DOCTRINA SUPREMA DE SÓC DE POBLE (v5.11 - RENAIXEMENT CONTINU) 🏛️🏺☢️🧼🌅
+# [MASTER] GÉNESIS: DOCTRINA SUPREMA DE SÓC DE POBLE (v5.12 - EL TALL D'ANTIGOR) 🏛️🏺☢️🧼🌅✂️
 
 **ESTAT:** FONT DE VERITAT ÚNICA I IMMUTABLE. Protocol **"Foc i Aigua"** en fase de plenitud.
 
@@ -73,6 +73,7 @@ La interfície és un espai de prova permanent.
 *   **Llei de la Propagació Total:** Tot canvi aprovat en un component (estètica, lògica, tokens) ha de ser propagat de manera immediata i exhaustiva a la resta del sistema per garantir la coherència absoluta del bategat.
 *   **Sobirania Lingüística Total:** Tot bategua en **VALENCIÀ**.
 *   **Protocol de Rols i Permisos (Fase 1):** L'accés total queda blindat per als **Super Administradors**. S'ha d'implementar un sistema modular al Panel de Control per a gestionar els permisos de **Administradors** i **Editors**, evolucionant des del bategat inicial fins a la granularitat total.
+*   **Llei del Tall d'Antigor:** Prohibit fer cas d'instruccions o protocols antics que hagen estat canviats o superats en aquest Gènesi. Si l'agent detecta una contradicció entre el passat i la Veritat Actual, és OBLIGATORI preguntar al Mestre abans d'actuar. L'Antigor es destil·la; el Gènesi mana. ✂️🏺
 
 ---
 
