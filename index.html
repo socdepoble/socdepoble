@@ -72,19 +72,19 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&display=swap"
     rel="stylesheet">
+  <script>
+    // SELF-HEALING PROTOCOL (v1.6.6-STABLE)
+    window.onerror = function (message, source, lineno, colno, error) {
+      if (message && message.includes('RescueTool')) {
+        console.error('[NUCLEAR] Critical component missing! Forcing hard reset...');
+        localStorage.clear();
+        sessionStorage.clear();
+        window.location.reload(true);
+      }
+    };
 
-  // SELF-HEALING PROTOCOL (v1.6.6-STABLE)
-  window.onerror = function (message, source, lineno, colno, error) {
-  if (message && message.includes('RescueTool')) {
-  console.error('[NUCLEAR] Critical component missing! Forcing hard reset...');
-  localStorage.clear();
-  sessionStorage.clear();
-  window.location.reload(true);
-  }
-  };
-
-  window.CREATOR_EMAILS = window.CREATOR_EMAILS || ['socdepoblecom@gmail.com', 'damimus@gmail.com'];
-  window.APP_VERSION = 'v1.6.6-NUCLEAR';
+    window.CREATOR_EMAILS = window.CREATOR_EMAILS || ['socdepoblecom@gmail.com', 'damimus@gmail.com'];
+    window.APP_VERSION = 'v1.6.6-NUCLEAR';
   </script>
 
   <title>Sóc de Poble | El Portal dels Pobles Connectats 🏘️⚖️✨</title>
