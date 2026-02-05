@@ -1,4 +1,4 @@
-# [MASTER] GÉNESIS: DOCTRINA SUPREMA DE SÓC DE POBLE (v5.12 - EL TALL D'ANTIGOR) 🏛️🏺☢️🧼🌅✂️
+# [MASTER] GÉNESIS: DOCTRINA SUPREMA DE SÓC DE POBLE (v5.13 - EL BATEGAT CIENTÍFIC) 🏛️🧪🧬☢️🧼🌅✂️
 
 **ESTAT:** FONT DE VERITAT ÚNICA I IMMUTABLE. Protocol **"Foc i Aigua"** en fase de plenitud.
 
@@ -162,5 +162,16 @@ La sobirania digital exigeix independència financera.
 
 ---
 
+## 14. 🧪 EL BATEGAT CIENTÍFIC (Directrius Tècniques Supremes) 🧬⚡️
+Per a garantir la perdurabilitat i l'excel·lència, el sistema ha de bategat amb rigor científic:
+
+*   **Arquitectura Eg-walker ($V_{crit}$):** ✂️ Cada desplegament major a producció ha de ser considerat una **Versió Crítica**. Això obliga a descartar l'estat intern antic (Gossip Cleanup) per a evitar que el "codi prehistòric" i els conflictes d'historial infinit bloquegen la Veritat Actual.
+*   **La Séquia Mare (Semantic Tokens):** 🌊 El disseny és una veritat única. Utilitzem un sistema de tres nivells (Reference, Semantic, Component Tokens) automatitzat via Style Dictionary. Si la "Bassa" (Reference) canvia, l'aigua ha d'arribar pura al "Regador" (Component).
+*   **Edició Rica Col·laborativa (Peritext):** ✍️ Per a redactar el patrimoni (Lèxic, Itineraris), el sistema ha d'utilitzar algorismes CRDT de text ric (Peritext/Loro). La memòria del poble no es pot corrompre per edicions simultànies; la intenció de l'usuari és sagrada.
+*   **Xarxa Rhizome (Plumtree):** 🌳 La comunicació bategua via protocols Gossip (Plumtree/HyParView). Les notícies i bandos han de córrer com la pólvora entre veïns de manera sobirana, fins i tot amb cobertura mínima, optimitzant la topologia de la xarxa de manera dinàmica.
+*   **Soberania Local-First:** 🏺 L'usuari mai ha de veure un 'spinner' de càrrega. Tot bategua en local primer (IndexedDB/SQLite). La xarxa és un complement de sincronització, no una condició de funcionament.
+
+---
+
 ### 🚀 Com aplicar-ho (El Prompt Despertador):
-> **"Flash, estem en línia. Sóc de Poble! Executa l'Auditoria Extrema 'Renovar o Morir'. Com està l'Equip?"**
+> **"Flash, estem en línia. Sóc de Poble! Executa l'Auditoria Extrema 'Renovar o Morir' basada al Gènesi v5.13. Com està l'Equip?"**

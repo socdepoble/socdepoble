@@ -70,6 +70,12 @@
   --batec-mesh: var(--color-accent);
   /* Orange */
   --batec-offline: #666666;
+
+  /* --- 6. SAFE AREA (NATIVE ADAPTATION) --- */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
 }
 
 @keyframes batec-pulse {
@@ -228,6 +234,7 @@ body::after {
   z-index: 1000;
   background-color: #000000;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: var(--safe-top);
 }
 
 .header-tabs-wrapper {
