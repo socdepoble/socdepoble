@@ -39,7 +39,7 @@
 
 .status-pill {
     padding: var(--sdp-space-xs) var(--sdp-space-md);
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     display: flex;
     align-items: center;
     gap: var(--sdp-space-sm);
@@ -64,7 +64,7 @@
     display: flex;
     flex-direction: column;
     gap: var(--sdp-space-sm);
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
 }
 
 .metric-card .icon {
@@ -93,7 +93,7 @@
 .console-panel {
     background-color: rgba(0, 0, 0, 0.5);
     border: 1px solid var(--sdp-glass-border);
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     display: flex;
     flex-direction: column;
 }
@@ -145,7 +145,7 @@
 .action-btn {
     width: 100%;
     height: 100%;
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -173,7 +173,7 @@
     right: 8px;
     background: rgba(255, 255, 255, 0.1);
     border: none;
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     width: 24px;
     height: 24px;
     display: flex;
@@ -217,7 +217,7 @@
 .visual-democracy-panel {
     background: rgba(255, 255, 255, 0.05);
     padding: var(--sdp-space-md);
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     border: 1px solid var(--sdp-glass-border);
     display: flex;
     flex-direction: column;
@@ -243,7 +243,7 @@
 .demo-btn {
     flex: 1;
     padding: 12px;
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     background: var(--sdp-bg-surface);
     border: 2px solid var(--sdp-glass-border);
     color: var(--sdp-text-med);

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 import { supabaseService } from '../services/supabaseService';
+import { CREATOR_EMAILS, APP_VERSION } from '../constants';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
 import { Phone, Mail, ArrowRight, CheckCircle2, AlertCircle, Loader2, Activity } from 'lucide-react';
@@ -139,23 +140,26 @@ const Login = () => {
     useEffect(() => {
         const checkSession = async () => {
             const params = new URLSearchParams(location.search);
-            if (params.get('nuked') === 'true' || params.get('sos') === 'true') {
-                logger.log('[Login] Nuclear reset detected, skipping auto-redirect');
+            if (params.get('nuked') === 'true' || params.get('sos') === 'true' || params.get('rescue') === 'true') {
+                logger.log('[Login] Recovery/Nuclear mode, skipping auto-redirect');
                 return;
             }
 
+            // [RESILIÈNCIA MÒBIL] Esperem que el bategat de l'AuthContext s'estabilitzi (500ms)
+            // Això evita bucles de redirecció quasi-instantanis.
+            await new Promise(r => setTimeout(r, 500));
+
             // Check context user first (fastest for simulation)
-            // [DIRECTIVA 1] Only redirect if it's a REAL user (not demo/simulated)
             if (user && !user.isDemo) {
-                logger.log('[Login] Real user already authenticated, redirecting to production chats...');
+                logger.log('[Login] Real user already authenticated, redirecting...');
                 navigate('/chats', { replace: true });
                 return;
             }
 
-            // Fallback: Check Supabase session explicitly (for hard refresh scenarios)
+            // Fallback: Check Supabase session explicitly
             const { data: { session } } = await supabase.auth.getSession();
             if (session) {
-                logger.log('[Login] Active session found, forcing transition to production.');
+                logger.log('[Login] Active session found, transitioning.');
                 navigate('/chats', { replace: true });
             }
         };
@@ -436,6 +440,7 @@ const Login = () => {
                 <div className="social-auth-section">
                     <button
                         onClick={async () => {
+                            hapticService.batec();
                             try {
                                 await loginWithGoogle();
                             } catch (err) {
@@ -483,7 +488,7 @@ const Login = () => {
                 </div>
 
                 <div className="language-selector-auth compact" style={{ marginTop: '24px' }}>
-                    {['va', 'es', 'en'].map((lang) => (
+                    {['va', 'es', 'en', 'gl', 'eu'].map((lang) => (
                         <button
                             key={lang}
                             onClick={() => {
@@ -499,7 +504,7 @@ const Login = () => {
                     ))}
                 </div>
                 <div className="auth-version-footer" style={{ marginTop: '20px', opacity: 0.3, fontSize: '0.7rem', userSelect: 'all' }}>
-                    v1.13.0-AI-FULL
+                    {APP_VERSION}
                 </div>
             </div>
         </div>

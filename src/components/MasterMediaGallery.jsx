@@ -98,8 +98,20 @@ const MasterMediaGallery = ({ items = [], title, showFilters = true, layout = 'g
                                     </div>
                                 </div>
                                 <div className="item-info">
-                                    <h3>{item.context || 'Actiu Multimedia'}</h3>
-                                    <p>{item.description || 'Sense descripció'}</p>
+                                    <div className="item-main-info">
+                                        <h3>{item.context || 'Actiu Multimedia'}</h3>
+                                        <p>{item.description || 'Sense descripció'}</p>
+                                    </div>
+                                    {item.user && (
+                                        <div className="item-uploader">
+                                            {item.user.avatar_url ? (
+                                                <img src={item.user.avatar_url} alt={item.user.full_name} className="uploader-avatar" />
+                                            ) : (
+                                                <div className="uploader-avatar-placeholder">{item.user.full_name?.charAt(0)}</div>
+                                            )}
+                                            <span className="uploader-name">{item.user.full_name}</span>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         )

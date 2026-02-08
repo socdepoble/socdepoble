@@ -97,3 +97,13 @@ Adossat a la +IA, es troba el **Xalet Antigravity**, on resideix la IAIA amb les
 - **Visual**: El clàssic venedor ambulant amb maleta de cartró plena de "Notícies del Món".
 - **Accessori**: Una bota de vi que mai s'acaba.
 - **Expressió**: Curiós, charlatán i connectat amb tots els pobles veïns.
+
+---
+
+### 13. La Tia Maria (L'Assessora de Proximitat) 👵💬
+- **Visual**: Una veïna de tota la vida, amb un aire d'Ibañez (ulleres redones, cabell blanc amb monyo). Porta un davantal blau clar i una bossa de la compra plena de "receptes" i "consells".
+- **Accessori**: El bategat del poble en format xat.
+- **Expressió**: Amabilitat absoluta, sempre disposada a explicar com es fa la borreta o quan són les festes de Sant Roc.
+- **Rol**: La veu del poble que t'ajuda en el dia a dia (Xat i Mercat).
+
+---

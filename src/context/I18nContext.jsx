@@ -1,10 +1,10 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
+import i18n from '../i18n/config';
 
 const I18nContext = createContext();
 
 export const I18nProvider = ({ children }) => {
-    const { i18n } = useTranslation();
+    // [MASTER] Usem el bategat directe de i18n.js per evitar xoc de hooks a l'arrencada
     const [language, setLanguage] = useState(i18n.language || 'va');
 
     useEffect(() => {
@@ -12,7 +12,7 @@ export const I18nProvider = ({ children }) => {
             i18n.changeLanguage(language);
         }
         localStorage.setItem('i18nextLng', language);
-    }, [language, i18n]);
+    }, [language]);
 
     const toggleLanguage = () => {
         const languages = ['va', 'es', 'gl', 'eu', 'en'];

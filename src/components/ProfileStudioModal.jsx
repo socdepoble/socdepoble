@@ -16,8 +16,8 @@ const ProfileStudioModal = ({
 }) => {
     const avatarInputRef = useRef(null);
     const coverInputRef = useRef(null);
-    const [isCaptureOpen, setIsCaptureOpen] = React.useState(false);
-    const [captureTarget, setCaptureTarget] = React.useState(null); // 'avatar' | 'cover'
+    const [isCaptureOpen, setIsCaptureOpen] = useState(false);
+    const [captureTarget, setCaptureTarget] = useState(null); // 'avatar' | 'cover'
 
     if (!isOpen) return null;
 
@@ -115,7 +115,7 @@ const ProfileStudioModal = ({
                         <input
                             type="file"
                             ref={coverInputRef}
-                            onChange={(e) => onFileSelect(e, 'cover')}
+                            onChange={(e) => typeof onFileSelect === 'function' && onFileSelect(e, 'cover')}
                             style={{ display: 'none' }}
                             accept="image/*"
                         />
@@ -185,7 +185,7 @@ const ProfileStudioModal = ({
                         <input
                             type="file"
                             ref={avatarInputRef}
-                            onChange={(e) => onFileSelect(e, 'avatar')}
+                            onChange={(e) => typeof onFileSelect === 'function' && onFileSelect(e, 'avatar')}
                             style={{ display: 'none' }}
                             accept="image/*"
                         />

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Users, Tractor, Brain, HardDrive, Package, Info, ChevronRight, Sparkles } from 'lucide-react';
+import { Users, Tractor, Brain, HardDrive, Package, Info, ChevronRight, Sparkles, BookOpen } from 'lucide-react';
 import './DidacticManual.css';
 
 /**

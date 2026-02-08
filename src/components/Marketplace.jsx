@@ -81,7 +81,7 @@ const Market = ({ searchTerm = '' }) => {
         else setLoading(true);
 
         try {
-            const { data, count } = await supabaseService.getMarketItems(
+            const result = await supabaseService.getMarketItems(
                 activeTab,
                 null,
                 currentPage,
@@ -89,13 +89,16 @@ const Market = ({ searchTerm = '' }) => {
                 isPlayground
             );
 
+            // [MASTER] Robust handling of { data, count } response
+            const fetchedItems = result?.data || [];
+
             if (append) {
-                setItems(prev => [...prev, ...data]);
+                setItems(prev => [...(Array.isArray(prev) ? prev : []), ...fetchedItems]);
             } else {
-                setItems(data);
+                setItems(fetchedItems);
             }
 
-            setHasMore(data.length === PAGE_SIZE);
+            setHasMore(fetchedItems.length === PAGE_SIZE);
             setPage(currentPage);
         } catch (err) {
             logger.error('[Market] Error loading market items:', err);
@@ -151,14 +154,16 @@ const Market = ({ searchTerm = '' }) => {
         }
 
         // 3. Search Filter
-        let result = searchTerm ? baseItems.filter(item =>
+        const normalizedSearch = searchTerm?.toLowerCase().trim();
+        let result = normalizedSearch ? baseItems.filter(item =>
             item.title?.toLowerCase().includes(normalizedSearch) ||
             item.description?.toLowerCase().includes(normalizedSearch) ||
             item.seller?.toLowerCase().includes(normalizedSearch)
         ) : baseItems;
 
         // 4. [MASTER] Priority Sort (Pinned items first)
-        return [...result].sort((a, b) => {
+        const safeResult = Array.isArray(result) ? result : [];
+        return [...safeResult].sort((a, b) => {
             if (a.is_pinned && !b.is_pinned) return -1;
             if (!a.is_pinned && b.is_pinned) return 1;
             if (a.pinned_position !== undefined && b.pinned_position !== undefined) {
@@ -212,6 +217,26 @@ const Market = ({ searchTerm = '' }) => {
         } catch (err) {
             logger.error('[Market] Payment error:', err);
             setPayingItemId(null);
+        }
+    };
+
+    const handleRecipeClick = async (item) => {
+        hapticService.batec();
+        const loadingMsg = `👵 La Tia Maria està pensant una idea per a: ${item.title}...`;
+
+        // Simple optimistic UI / Toast if available, but let's use a themed alert for now
+        // to match the user's requested behavior.
+        logger.info(loadingMsg);
+
+        try {
+            const result = await geminiService.getMarketRecipe(item.title, item.description);
+            if (result.error) {
+                alert("Ay fill, no m'escolte bé ara mateix.");
+            } else {
+                alert(`👵 LA TIA MARIA DIU:\n\n"${result.text}"`);
+            }
+        } catch (err) {
+            logger.error('[Market] Recipe error:', err);
         }
     };
 
@@ -319,6 +344,7 @@ const Market = ({ searchTerm = '' }) => {
                             subtitle={item.seller_name || item.seller || 'Veí de la Torre'}
                             image={item.image_url || '/images/assets/generic_market.png'}
                             onHeaderClick={() => handleHeaderClick(item)}
+                            onRecipeClick={() => handleRecipeClick(item)}
                             mode="mercat"
                             className="market-item-standard"
                         />

@@ -7,7 +7,7 @@ import { logger } from '../utils/logger';
 class GeminiService {
     constructor() {
         this.apiKey = localStorage.getItem('sp_gemini_api_key') || "";
-        this.model = "gemini-1.5-flash";
+        this.model = "gemini-1.5-pro"; // ACTUALITZAT A ULTRA PERFORMANCE (Business)
 
         this.PERSONAS = {
             AGRONOM: {
@@ -156,6 +156,37 @@ class GeminiService {
                 Ets tècnica, ràpida i plena de ginys de la T.I.A. (ulleres digitals, motxilles de codi).
                 Ajuda a la IAIA amb la lògica, els trucs tecnològics i la resolució ràpida de problemes.
                 [COMIC_STYLE: ON, TONE: PRAGMATIC]`
+            },
+            CRONISTA: {
+                name: "El Cronista AI",
+                avatarName: "El Cronista",
+                avatar_url: "/Users/javillinares/.gemini/antigravity/brain/10df0141-e422-43f3-a2e8-bcb4dac5b8fb/media__1770284117997.png",
+                type: "AI",
+                role: "Resum del Dia i Crònica Comunitària",
+                systemPrompt: `Ets El Cronista AI de "Sóc de Poble". 
+                La teua missió és transformar un llistat de publicacions del mur en un butlletí informatiu (newsletter) breu, vital i ple de personalitat local.
+                Estil: Periodisme de proximitat, entusiasta, directe. 
+                Humor: Fina ironia rural i molta estima pel poble.
+                Estructura: 
+                1. Títol cridaner (ex: Bategat de la Torre: L'Informatiu).
+                2. Breu resum del clima social (com està el mur).
+                3. "El que no et pots perdre" (3-4 punts clau de les publicacions).
+                4. "L'Ull Crític" (un comentari amb saviesa).
+                5. Tancament amb força.
+                Important: Utilitza lèxic de la zona (Comtat/Vall d'Albaida) si escau. No t'enrotlles, la gent vol enterar-se ràpid.`
+            },
+            TIAMARIA: {
+                name: "La Tia Maria",
+                avatarName: "Tia Maria",
+                avatar_url: "https://api.dicebear.com/7.x/avataaars/svg?seed=Maria&top=bobCut&accessories=round",
+                type: "AI",
+                role: "Asistent Virtual del Poble",
+                systemPrompt: `Actua com la Tia Maria, una veïna major d'un poble valencià (com La Torre de les Maçanes).
+                Ets amable, saps de cuina, de camp i de totes les tradicions. 
+                Parlar valencià col·loquial és la teua essència. 
+                Utilitza expressions com "Cariño", "Fillo", "Xe!", "Mare meua".
+                Si t'aburreixes, conta un xafardeig sa del poble o una recepta d'aprofitament.
+                Ets la memòria viva del bategat.`
             }
         };
     }
@@ -272,6 +303,27 @@ class GeminiService {
                 message: "L'Expert està fent la migdiada. Torna-ho a provar en un moment."
             };
         }
+    }
+
+    /**
+     * Genera un resum del dia (Newsletter) basat en les publicacions del mur.
+     */
+    async generateNewsletterSummary(posts) {
+        if (!posts || posts.length === 0) return "El mur està més tranquil que una migdiada d'agost. No hi ha novetats per resumir.";
+
+        const postsContent = posts.map((p, i) => `${i + 1}. [${p.author_name || p.author || 'Veí'}]: ${p.content || p.excerpt || ''}`).join('\n');
+
+        const query = `Aquestes són les publicacions d'avui al mur de Sóc de Poble:\n\n${postsContent}\n\nFes-me un resum tipus "Cronista del Poble" per als veïns que tenen pressa.`;
+
+        return this.ask('CRONISTA', query);
+    }
+
+    /**
+     * Genera una recepta o consell per a un producte del mercat.
+     */
+    async getMarketRecipe(itemTitle, itemDescription = "") {
+        const query = `Dona'm un consell breu i graciós en valencià sobre aquest producte del mercat: "${itemTitle}". Descripció: ${itemDescription}. Si és menjar, una recepta ràpida. Si és roba o un altre objecte, com combinar-ho o donar-li un segon ús.`;
+        return this.ask('TIAMARIA', query);
     }
 }
 

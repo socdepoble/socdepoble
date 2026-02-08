@@ -1,18 +1,46 @@
 .m3-top-app-bar {
     padding-top: var(--safe-top);
-    height: calc(64px + var(--safe-top));
+    height: calc(84px + var(--safe-top));
+    /* Augmentat per evitar text tallat */
     padding-left: var(--page-margin);
     padding-right: var(--page-margin);
-    background-color: rgba(255, 255, 255, 0.8) !important;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background-color: #000000 !important;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.15);
     position: sticky;
     top: 0;
     z-index: 1000;
+}
+
+.header-town-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 12px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.header-town-link:hover {
+    background: rgba(255, 255, 255, 0.12);
+    transform: translateY(-1px);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.header-town-name {
+    font-size: 20px;
+    font-weight: 800;
+    color: #FFFFFF !important;
+    font-family: var(--font-brand);
+    letter-spacing: -0.01em;
+    white-space: nowrap;
 }
 
 .bar-leading {
@@ -24,6 +52,31 @@
     height: 38px;
     filter: none;
     opacity: 1;
+}
+
+.header-logo-container {
+    height: 44px;
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    background: rgba(255, 255, 255, 0.08);
+    /* Més visibilitat sobre negre */
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.header-logo-container:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.header-main-logo {
+    height: 28px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
 }
 
 .bar-trailing {
@@ -39,7 +92,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--text-primary);
+    color: #FFFFFF;
     border: none;
     background: transparent;
     cursor: pointer;

@@ -124,7 +124,7 @@ const ImageProjector = ({ items, currentIndex, onClose, onNavigate }) => {
             </div>
 
             <footer className="projector-footer" onClick={e => e.stopPropagation()}>
-                <p className="projector-caption">{currentItem.description || t('media.no_caption') || 'Sense descripció'}</p>
+                <p className="projector-caption">{currentItem.description || 'Sense descripció'}</p>
                 <div className="projector-meta">
                     {new Date(currentItem.created_at).toLocaleString()}
                 </div>

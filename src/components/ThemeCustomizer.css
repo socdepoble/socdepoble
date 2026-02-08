@@ -1,8 +1,11 @@
 .theme-customizer {
     padding: 24px;
-    background: var(--bg-surface);
-    border: 2px solid var(--color-primary);
-    box-shadow: var(--shadow-hard);
+    background: var(--bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-premium);
+    backdrop-filter: blur(var(--blur-premium));
+    -webkit-backdrop-filter: blur(var(--blur-premium));
 }
 
 .customizer-header {
@@ -11,16 +14,18 @@
 
 .customizer-header h3 {
     margin: 0;
-    font-size: 22px;
-    font-weight: 900;
+    font-size: 20px;
+    font-weight: 950;
     text-transform: uppercase;
-    color: var(--text-main);
+    color: var(--color-primary);
+    letter-spacing: 0.1em;
 }
 
 .customizer-header p {
     margin: 4px 0 0 0;
-    font-size: var(--font-size-base);
-    opacity: 0.7;
+    font-size: 14px;
+    font-weight: 600;
+    opacity: 0.8;
     color: var(--text-secondary);
 }
 
@@ -36,33 +41,37 @@
     align-items: center;
     gap: 16px;
     padding: 16px;
-    border: 1px solid var(--border-subtle);
-    background: var(--bg-surface);
+    border: 1px solid var(--color-border);
+    background: rgba(255, 255, 255, 0.03);
     color: var(--text-main);
     text-align: left;
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     position: relative;
     overflow: hidden;
+    border-radius: var(--radius-xl);
 }
 
 .theme-card:hover {
+    background: rgba(255, 255, 255, 0.05);
     border-color: var(--color-primary);
     transform: translateX(4px);
 }
 
 .theme-card.active {
     border-color: var(--color-primary);
-    background: var(--color-primary-soft);
+    background: rgba(0, 242, 255, 0.08);
+    box-shadow: var(--shadow-glow);
 }
 
 .theme-icon {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.05);
     color: var(--color-primary);
+    border-radius: var(--radius-lg);
 }
 
 .theme-info {
@@ -73,62 +82,77 @@
 }
 
 .theme-name {
-    font-weight: 800;
-    font-size: var(--font-size-base);
+    font-weight: 900;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
 .active-check {
     color: var(--color-primary);
+    filter: drop-shadow(0 0 5px var(--color-primary));
 }
 
 /* Theme specifics for preview */
 .theme-card.theme-bancal .theme-icon {
     background: #000;
     color: var(--text-main);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .theme-card.theme-fadrins .theme-icon {
-    background: #00F2FF;
-    color: var(--bg-canvas);
+    background: var(--color-primary);
+    color: #000;
 }
 
 .theme-card.theme-solemne .theme-icon {
-    background: #CC5500;
-    color: var(--text-main);
+    background: var(--color-accent);
+    color: #000;
 }
 
 .customizer-footer {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 16px;
 }
 
 .btn-reset-theme {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    padding: 12px;
-    font-size: var(--font-size-base);
-    font-weight: 800;
+    gap: 10px;
+    padding: 14px;
+    font-size: 13px;
+    font-weight: 900;
     text-transform: uppercase;
-    color: var(--text-muted);
-    border: 1px dashed var(--text-muted);
-    opacity: 0.6;
-    transition: all 0.2s;
+    color: var(--color-primary);
+    background: rgba(0, 242, 255, 0.05);
+    border: 1px dashed var(--color-primary);
+    border-radius: var(--radius-lg);
+    transition: all 0.3s;
+    cursor: pointer;
 }
 
 .btn-reset-theme:hover {
-    opacity: 1;
-    color: var(--color-primary);
-    border-color: var(--color-primary);
+    background: rgba(0, 242, 255, 0.1);
+    transform: scale(1.02);
 }
 
 .btn-close-customizer {
     background: var(--color-primary);
-    color: var(--bg-canvas);
-    padding: 14px;
-    font-weight: 900;
+    color: #000;
+    padding: 16px;
+    font-weight: 950;
     text-transform: uppercase;
-    font-size: var(--font-size-base);
+    font-size: 14px;
+    border-radius: var(--radius-gem-btn);
+    border: none;
+    cursor: pointer;
+    box-shadow: var(--shadow-premium);
+    transition: all 0.3s;
+}
+
+.btn-close-customizer:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-glow);
 }

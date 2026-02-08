@@ -90,8 +90,8 @@ const OmniscientViewer = () => {
 
     useEffect(() => {
         if (isViewerOpen && viewerConfig) {
-            logger.info(`[Viewer] Cargando contenido para DID: ${viewerConfig.did}`);
-            // Simulación de carga de contenido según tipo
+            logger.info(`[Viewer] Carregant contingut per a DID: ${viewerConfig.did}`);
+            // Simulació de càrrega de contingut segons tipus
             if (viewerConfig.type === 'PDF') {
                 fetchContent('/TECHNICAL_REPORT_VIVO.md'); // Mock PDF source
             }
@@ -104,14 +104,14 @@ const OmniscientViewer = () => {
             const text = await resp.text();
             setContent(text);
         } catch (e) {
-            logger.error('[Viewer] Error cargando contenido:', e);
+            logger.error('[Viewer] Error carregant contingut:', e);
         }
     };
 
     const getImageMetadata = () => {
         if (!viewerConfig || viewerConfig.type !== 'IMAGE') return null;
 
-        // Mock de metadatos del Catàleg d'Arbres 2020
+        // Mock de metadades del Catàleg d'Arbres 2020
         if (viewerConfig.did.includes('carrasca-foia')) {
             return {
                 species: "Quercus rotundifolia (Carrasca)",
@@ -166,7 +166,7 @@ const OmniscientViewer = () => {
     const getAuditData = () => {
         if (!viewerConfig || viewerConfig.type !== 'COMPARISON') return null;
 
-        // Mock de Auditoría Temporal: Pi de la Foia Boix
+        // Mock d'Auditoria Temporal: Pi de la Foia Boix
         if (viewerConfig.did.includes('pi-foia-boix')) {
             return {
                 label: "Pi de la Foia Boix",

@@ -260,12 +260,12 @@ const IAIAPage = () => {
                     <h2 className="premium-title">L'Equip de Somni</h2>
                     <p className="credits-intro">El llinatge humà i tecnològic que fa bategar Sóc de Poble.</p>
                     <div className="credits-grid-premium">
-                        <div className="credit-card-premium">
+                        <div className="credit-card-premium clickable" onClick={() => navigate('/perfil/d6325f44-7277-4d20-b020-166c010995ab')}>
                             <div className="credit-role">Visió Master</div>
                             <div className="credit-name">Javi Linares</div>
                             <div className="credit-desc">Visió, Concepte i Super Padrí</div>
                         </div>
-                        <div className="credit-card-premium">
+                        <div className="credit-card-premium clickable" onClick={() => navigate('/perfil/fa82eb62-4a83-4ff7-b2d6-8849673fc3b0')}>
                             <div className="credit-role">Pedagogia</div>
                             <div className="credit-name">Damià Llorens Jiordà</div>
                             <div className="credit-desc">Comissari Pedagògic i d'Innovació</div>

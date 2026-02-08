@@ -51,6 +51,17 @@ const DesignCanon = () => {
                 { name: 'NotebookLM', url: 'https://notebooklm.google.com/', desc: 'Intel·ligència per a sintetitzar coneixement institucional.' },
                 { name: 'Raindrop.io', url: 'https://raindrop.io/', desc: 'Gestió de la memòria digital i recursos compartits.' }
             ]
+        },
+        {
+            id: 'ia-interficies',
+            title: 'Interfícies d\'IA (Modals)',
+            description: 'Patrons de finestres emergents per a la simbiosi entre l\'humà i la màquina.',
+            icon: <Sparkles size={32} />,
+            color: '#FDE68A', // Gold/Yellow
+            links: [
+                { name: 'Patró Cronista', url: '#', desc: 'Modal en "Surface Old Lace" amb títol destacat i llistat narratiu.' },
+                { name: 'Patró Tia Maria', url: '#', desc: 'Xat de proximitat amb bombolles asimètriques i tons taronges.' }
+            ]
         }
     ];
 

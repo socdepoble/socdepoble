@@ -1,8 +1,9 @@
 import React, { useEffect, lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-// VERSION: v1.15.0-GEM-MODERN (Llum i Vida | Gem Design)
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+// VERSION: v1.15.1-GEM-MODERN (Llum i Vida | Gem Design)
 import Header from './components/Header';
 import Layout from './components/Layout';
+import './styles/Consola.css';
 
 // Lazy loaded components
 const ChatList = lazy(() => import('./components/ChatList'));
@@ -46,6 +47,9 @@ const DidacticManual = lazy(() => import('./pages/DidacticManual'));
 const SolatgeConsole = lazy(() => import('./pages/SolatgeConsole'));
 const HabitantsDelMas = lazy(() => import('./components/HabitantsDelMas'));
 const AyuntamientoPage = lazy(() => import('./pages/AyuntamientoPage'));
+const TiaMariaChat = lazy(() => import('./components/TiaMariaChat'));
+const NexusFlash = lazy(() => import('./pages/NexusFlash'));
+const GlobalAssetAlbum = lazy(() => import('./pages/GlobalAssetAlbum'));
 import { RescueTool } from './components/RescueTool';
 import AmphoraFAB from './components/AmphoraFAB';
 
@@ -54,6 +58,18 @@ import { MOCK_CHATS, MOCK_FEED, MOCK_MARKET_ITEMS } from './data';
 import { useAuth } from './context/AuthContext';
 import { useUI } from './context/UIContext';
 import { supabaseService } from './services/supabaseService';
+import { APP_VERSION } from './constants';
+import ErrorBoundary from './components/ErrorBoundary';
+import { usePushNotifications } from './hooks/usePushNotifications'; // Import hook
+import DiagnosticConsole from './components/DiagnosticConsole';
+import NanoLoader from './components/NanoLoader';
+import { cloudErrorReporting } from './services/cloudErrorReporting';
+
+const NavigateWithParams = ({ to, replace }) => {
+  const searchParams = new URLSearchParams(window.location.search);
+  const target = `${to}${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
+  return <Navigate to={target} replace={replace} />;
+};
 
 // Exponer para depuración en consola solo en desarrollo
 if (typeof window !== 'undefined' && import.meta.env.DEV) {
@@ -107,45 +123,26 @@ const ProtectedRoute = ({ children }) => {
     );
   }
 
-  // [CRYPTO GENESIS] Els usuaris sobirans (Forasters) entren directament
-  if (!user && !localStorage.getItem('sp_sovereign_identity')) {
+  // [CRYPTO GENESIS] Els usuaris sobirans (Forasters) entren si l'AuthContext els ha validat
+  if (!user) {
     return <Navigate to="/login" replace />;
   }
 
   return children;
 };
 
-import ErrorBoundary from './components/ErrorBoundary';
-import { usePushNotifications } from './hooks/usePushNotifications'; // Import hook
-import DiagnosticConsole from './components/DiagnosticConsole';
-import NanoLoader from './components/NanoLoader';
-
 function App() {
   const { asoMode } = useUI();
   usePushNotifications(); // Activate Push System
 
   useEffect(() => {
-    // [VERSION CHECK: PROTOCOLO FLASH - SUPREMA ACTUALITZACIÓ]
-    const APP_VERSION = "v1.15.0-GEM-MODERN";
-    const lastVersion = localStorage.getItem('sp_app_version');
+    // [VERSION SYNC: REASSURANCE]
+    localStorage.setItem('sp_app_version', APP_VERSION);
 
-    if (lastVersion && lastVersion !== APP_VERSION) {
-      console.log(`[FLASH] Nova versió detectada (${lastVersion} -> ${APP_VERSION}). Executant Hard Reload...`);
-      localStorage.setItem('sp_app_version', APP_VERSION);
-      if (!import.meta.env.DEV) {
-        if ('serviceWorker' in navigator) {
-          caches.keys().then(names => {
-            for (let name of names) caches.delete(name);
-          });
-        }
-        window.location.reload(true);
-      }
-    } else {
-      localStorage.setItem('sp_app_version', APP_VERSION);
-    }
+    // [CLOUD SYNC] Notificar el bategat al núvol si està configurat
+    cloudErrorReporting.report(`App Boot v${APP_VERSION}`, { type: 'BOOT_SEQUENCE' });
 
     // [PILLAR 1] Rhizome Pruning (Eg-walker)
-    // Activat per a resiliència de memòria i velocitat extrema [MASTER]
     import('./services/rhizomeManager').then(({ rhizomeManager }) => {
       rhizomeManager.pruneHistory();
     });
@@ -156,14 +153,12 @@ function App() {
         const { StatusBar, Style } = await import('@capacitor/status-bar');
         const { SplashScreen } = await import('@capacitor/splash-screen');
 
-        // Adaptem la barra d'estat a l'estètica MD3 (Surface color)
         await StatusBar.setStyle({ style: Style.Light });
-        await StatusBar.setBackgroundColor({ color: '#FDF5E6' }); // bg-page (Crema)
+        await StatusBar.setBackgroundColor({ color: '#FDF5E6' });
 
-        // Amaguem la splash screen quan el bategat web estiga llest
         await SplashScreen.hide();
       } catch (e) {
-        console.log('[Capacitor] No native environment detected or plugins missing.');
+        // Silent failure for non-native environments
       }
     };
     initNative();
@@ -172,7 +167,6 @@ function App() {
   return (
     <BrowserRouter>
       <DiagnosticConsole />
-      <AmphoraFAB />
       <Suspense fallback={<NanoLoader message="Preparant Sóc de Poble..." />}>
         <ErrorBoundary fallbackMessage="Error crític de l'aplicació">
           <Routes>
@@ -192,7 +186,7 @@ function App() {
                 </ErrorBoundary>
               }
             >
-              <Route index element={<Navigate to="/chats" replace />} />
+              <Route index element={<NavigateWithParams to="/chats" replace />} />
               <Route
                 path="chats"
                 element={
@@ -237,6 +231,14 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <MediaAlbum />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="fotos/global"
+                element={
+                  <ProtectedRoute>
+                    <GlobalAssetAlbum />
                   </ProtectedRoute>
                 }
               />
@@ -288,6 +290,7 @@ function App() {
               <Route path="/ia/habitants" element={<HabitantsDelMas />} />
               <Route path="tutorial-didactica" element={<DidacticManual />} />
               <Route path="solatge" element={<SolatgeConsole />} />
+              <Route path="nexus" element={<NexusFlash />} />
 
               {/* EMERGENCY RESCUE ROUTES (Escaped from SW) */}
               <Route path="rescat.html" element={<RescueTool />} />

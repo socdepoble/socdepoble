@@ -7,7 +7,8 @@ const DEFAULT_CONFIG = {
     theme: 'light',           // Estètica mestra
     visionMode: 'hibrida',   // Mode de visió per defecte
     vibe: 'genius',          // Ambientació
-    gloveMode: false         // Mode guants desactivat
+    gloveMode: false,        // Mode guants desactivat
+    globalDesign: 'batega'   // Disseny global per defecte
 };
 
 export const preferenceService = {

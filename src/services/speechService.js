@@ -10,11 +10,22 @@ class SpeechService {
             if (SpeechRecognition) {
                 this.recognition = new SpeechRecognition();
                 this.isSupported = true;
+                this.isStarted = false; // [MASTER SHIELD] Track recognition state
 
                 // Configuración optimitzada per a valencià/català
                 this.recognition.continuous = false;
                 this.recognition.interimResults = true;
                 this.recognition.lang = 'ca-ES';
+
+                this.recognition.onstart = () => {
+                    this.isStarted = true;
+                    logger.log('[SpeechService] Recognition started.');
+                };
+
+                this.recognition.onend = () => {
+                    this.isStarted = false;
+                    logger.log('[SpeechService] Recognition ended.');
+                };
             }
         }
     }
@@ -26,6 +37,12 @@ class SpeechService {
     listen(langCode = 'va') {
         if (!this.isSupported) {
             return Promise.reject('El reconeixement de veu no és compatible amb aquest navegador.');
+        }
+
+        // [MASTER SHIELD] Prevent double start
+        if (this.isStarted) {
+            logger.warn('[SpeechService] Listen called but already started. Skipping start().');
+            return Promise.resolve('Reconeixement ja en marxa.');
         }
 
         // Mapeig de codis APP a codis BCP 47 (Speech Recognition)
@@ -55,11 +72,14 @@ class SpeechService {
                         interimTranscript += event.results[i][0].transcript;
                     }
                 }
-
-                // Podríem enviar esdeveniments de "interim" si volguérem feedback visual en temps real
             };
 
+            // Enhanced onend with promise resolution
+            const originalOnEnd = this.recognition.onend;
             this.recognition.onend = () => {
+                this.isStarted = false;
+                if (originalOnEnd) originalOnEnd();
+
                 if (finalTranscript) {
                     resolve(finalTranscript);
                 } else {
@@ -68,11 +88,19 @@ class SpeechService {
             };
 
             this.recognition.onerror = (event) => {
+                this.isStarted = false;
                 logger.error('[SpeechService] Error:', event.error);
                 reject(event.error);
             };
 
-            this.recognition.start();
+            try {
+                this.recognition.start();
+                this.isStarted = true;
+            } catch (e) {
+                this.isStarted = false;
+                logger.error('[SpeechService] Fatal start error:', e);
+                reject(e);
+            }
         });
     }
 
@@ -80,8 +108,13 @@ class SpeechService {
      * Atura l'escolta manualment.
      */
     stop() {
-        if (this.recognition) {
-            this.recognition.stop();
+        if (this.recognition && this.isStarted) {
+            try {
+                this.recognition.stop();
+                this.isStarted = false;
+            } catch (e) {
+                logger.warn('[SpeechService] Error stopping recognition:', e);
+            }
         }
     }
 

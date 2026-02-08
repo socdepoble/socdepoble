@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Terminal, Shield, Activity, Zap, X, Trash2, Info, Copy, Check, Brain, Link2, RefreshCw, User, Mic, Locate, Monitor, Smartphone, ShieldCheck, Eye, EyeOff } from 'lucide-react';
-import { CREATOR_EMAILS } from '../constants';
+import { CREATOR_EMAILS, APP_VERSION } from '../constants';
 import { notebookService } from '../services/notebookService';
 import { useAuth } from '../context/AuthContext';
 import { useUI } from '../context/UIContext';
@@ -14,6 +14,9 @@ import { useThemeCustomizer } from '../hooks/useThemeCustomizer';
 import { RURAL_PALETTE } from '../constants/ruralColors';
 import VoiceRecorder from './VoiceRecorder';
 import { SyncEngine, DataSifter, BufferHopper, RhizomeIntegrity } from './SolatgeHUDWidgets';
+import { checkSilence } from '../utils/logger';
+import forensicService from '../services/forensicService';
+import { iaiaAuditor } from '../services/iaiaAuditor';
 import './DiagnosticConsole.css';
 
 const DiagnosticConsole = () => {
@@ -31,7 +34,8 @@ const DiagnosticConsole = () => {
     const { t, i18n } = useTranslation();
     const navigate = useNavigate();
     const { user, profile, isAdmin, forceNukeSimulation } = useAuth();
-    const { visionMode } = useUI();
+    const uiContext = useUI();
+    const { visionMode } = uiContext || { visionMode: 'hibrida' };
     const location = useLocation();
     const [showHelp, setShowHelp] = useState(false);
     const [copied, setCopied] = useState(false);
@@ -43,7 +47,7 @@ const DiagnosticConsole = () => {
     const [hudActivity, setHudActivity] = useState({ syncing: false, sifting: true, bufferLevel: 0.15 });
     const [viewMode, setViewMode] = useState('ADMIN'); // 'ADMIN' or 'USER' (CLEAN)
     const [techReport, setTechReport] = useState(null);
-    const VERSION = 'v1.13.0-AI-FULL';
+    const VERSION = APP_VERSION;
 
     // DIRECTIVA DE LES MARIES [MASTER]
     useEffect(() => {
@@ -56,8 +60,10 @@ const DiagnosticConsole = () => {
         addHudLog('system', [welcomeMsg]);
     }, [i18n.language]);
 
-    // Simulate HUD lifecycle activity
+    // Simulate HUD lifecycle activity only when open [PERF]
     useEffect(() => {
+        if (!isOpen) return;
+
         const interval = setInterval(() => {
             setHudActivity(prev => ({
                 syncing: Math.random() > 0.7,
@@ -66,58 +72,61 @@ const DiagnosticConsole = () => {
             }));
         }, 5000);
         return () => clearInterval(interval);
-    }, []);
+    }, [isOpen]);
 
     const broadcast = useRef(null);
-    const isAddingLog = useRef(false);
+
+    const logBuffer = useRef([]);
+    const flushTimeout = useRef(null);
 
     const addHudLog = (type, msg, origin = 'SYSTEM', time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })) => {
-        if (isAddingLog.current) return;
-        isAddingLog.current = true;
+        // [PERF] Batching de logs: No actualitzem l'estat immediatament per cada log
+        const logMsg = Array.isArray(msg)
+            ? msg.map(arg => typeof arg === 'object' ? JSON.stringify(arg).substring(0, 50) : String(arg)).join(' ')
+            : msg;
 
-        try {
-            // En mode VEÍ (CLEAN), no registrem logs visuals per mantenir la pau
-            if (viewMode === 'USER' && type !== 'critical') {
-                isAddingLog.current = false;
-                return;
-            }
+        const newLog = { id: Date.now() + Math.random(), type, msg: logMsg, origin, time };
+        logBuffer.current.push(newLog);
 
-            const logMsg = Array.isArray(msg)
-                ? msg.map(arg => typeof arg === 'object' ? JSON.stringify(arg).substring(0, 50) : String(arg)).join(' ')
-                : msg;
+        if (!flushTimeout.current) {
+            flushTimeout.current = setTimeout(() => {
+                const logsToBatch = [...logBuffer.current];
+                logBuffer.current = [];
+                flushTimeout.current = null;
 
-            const newLog = { id: Date.now() + Math.random(), type, msg: logMsg, origin, time };
-            setLogs(prev => [newLog, ...prev].slice(0, 70));
+                setLogs(prev => [...logsToBatch, ...prev].slice(0, 70));
 
-            // BELL OF ATTENTION [PROTOCOL FLASH]
-            if (type === 'critical' || (type === 'error' && autoHealEnabled)) {
-                if (navigator.vibrate && navigator.userActivation?.hasBeenActive) {
-                    navigator.vibrate([100, 30, 100]);
+                // [PERF] Envia el batch sencer a altres pestanyes en comptes d'un a un
+                if (broadcast.current && broadcast.current.name) {
+                    try {
+                        broadcast.current.postMessage({ type: 'LOG_BATCH_SYNC', logs: logsToBatch });
+                    } catch (e) {
+                        // Silenci si el canal està tancat
+                    }
                 }
-            }
 
-            if (broadcast.current && broadcast.current.name) {
-                try {
-                    broadcast.current.postMessage({ type: 'LOG_SYNC', log: newLog });
-                } catch (e) {
-                    // Silenci si el canal està tancat
-                }
-            }
+                // Process first log for healing if needed
+                logsToBatch.forEach(log => {
+                    if (autoHealEnabled && log.type === 'error') {
+                        handleAutoHeal(log.msg);
+                    }
+                });
+            }, 100); // Batchegem cada 100ms
+        }
 
-            // AUTO-HEAL LOGIC [MASTER]
-            if (autoHealEnabled && type === 'error') {
-                handleAutoHeal(logMsg);
+        // Vibrate still happens immediately for criticals
+        if (type === 'critical' || (type === 'error' && autoHealEnabled)) {
+            if (navigator.vibrate && navigator.userActivation?.hasBeenActive) {
+                navigator.vibrate([100, 30, 100]);
             }
-        } finally {
-            isAddingLog.current = false;
         }
     };
 
     useEffect(() => {
         broadcast.current = new BroadcastChannel('solatge_hud_sync');
         broadcast.current.onmessage = (event) => {
-            if (event.data.type === 'LOG_SYNC') {
-                setLogs(prev => [event.data.log, ...prev].slice(0, 70));
+            if (event.data.type === 'LOG_BATCH_SYNC') {
+                setLogs(prev => [...event.data.logs, ...prev].slice(0, 70));
             }
         };
 
@@ -127,16 +136,12 @@ const DiagnosticConsole = () => {
 
         console.log = (...args) => {
             const msg = String(args[0]);
-            if (msg.includes('beforeinstallpromptevent') || msg.includes('Banner not shown')) {
-                return;
-            }
+            if (checkSilence(msg)) return;
             addHudLog('info', args);
         };
         console.warn = (...args) => {
             const msg = String(args[0]);
-            if (msg.includes('beforeinstallpromptevent') || msg.includes('Banner not shown')) {
-                return;
-            }
+            if (checkSilence(msg)) return;
             if (msg.includes('Geolocation')) {
                 addHudLog('warn', ['[PRIVACITAT] El navegador bloqueja la geolocalització. Revisa els permisos a la barra d\'adreces per a funcions de proximitat.']);
                 return;
@@ -149,9 +154,7 @@ const DiagnosticConsole = () => {
         };
         console.error = (...args) => {
             const msg = String(args[0]);
-            if (msg.includes('beforeinstallpromptevent') || msg.includes('Banner not shown')) {
-                return;
-            }
+            if (checkSilence(msg)) return;
             // Filtre de Soroll Extern (Chrome AI / Extensions)
             if (msg.includes('shadow host') || msg.includes('ShadowRoot')) {
                 return;
@@ -249,23 +252,75 @@ const DiagnosticConsole = () => {
         document.body.classList.toggle('desktop-master-reflow', isDesktop);
     };
     const handleAutoHeal = (msg) => {
+        // [MASTER BYPASS] Els errors de dades o esquema MAI han de disparar una recàrrega de bundle.
+        // Són tech debt, no fallades de xarxa/deploy.
+        const dbErrorPatterns = ['PGRST', 'ofici', 'column', 'relationship', '400', '401', '404', '42P01'];
+        if (dbErrorPatterns.some(p => msg.includes(p))) {
+            return;
+        }
+
         const criticalPatterns = ['Failed to fetch', 'ChunkLoadError', 'Manifest', 'Supabase', 'Geolocation'];
+
+        // [MASTER BYPASS] Ignorar errors coneguts d'esquema que no requereixen recàrrega
+        // Incloem PGRST201, relationship, i errors que solen ocórrer durant la sincronització en mòbil
+        // També ignorem ReferenceErrors per evitar bucles infinits si el codi propi falla
+        if (msg.includes('ofici') || msg.includes('column') || msg.includes('relationship') ||
+            msg.includes('PGRST201') || msg.includes('400') ||
+            msg.includes('ReferenceError') || msg.includes('TypeError')) {
+            return;
+        }
+
         if (criticalPatterns.some(p => msg.includes(p))) {
             addHudLog('critical', [`[!!ALERTA MANDATORY!!] ${msg} `]);
+
             if (msg.includes('Geolocation')) {
                 addHudLog('info', ['[AUTO-HEAL] Recomanació: Prem el botó de Localització al HUD.']);
             }
+
+            // [RESILIÈNCIA] Evitem re-bategats infinits comprovant l'auditor de forma segura
+            let isPulseStable = true;
+            try {
+                if (typeof iaiaAuditor !== 'undefined' && iaiaAuditor.auditPulse) {
+                    isPulseStable = iaiaAuditor.auditPulse();
+                }
+            } catch (e) {
+                console.warn('[AUTO-HEAL] Error auditant bategat:', e);
+            }
+
+            if (!isPulseStable) {
+                addHudLog('error', ['[AUTO-HEAL] Bucle detectat. Aturant protocols automàtics per seguretat.']);
+                return;
+            }
+
             addHudLog('system', ['[AUTO-HEAL] Detectada fallada crítica. Iniciant protocol de sanació...']);
             setIsHealing(true);
+
             setTimeout(() => {
-                if (msg.includes('ChunkLoadError') || msg.includes('Failed to fetch')) {
-                    addHudLog('system', ['[AUTO-HEAL] Recarregant bundle per a resoldre pèrdua de sincronització...']);
-                    window.location.reload();
+                const fatalPatterns = ['ChunkLoadError', 'Failed to fetch'];
+                if (fatalPatterns.some(p => msg.includes(p))) {
+                    // [CIRCUIT BREAKER MASTER] Verifiquem estabilitat JUST ABANS de recarregar.
+                    // Si ja hem recarregat massa cops, l'auditPulse retornarà false i aturarem el bucle.
+                    let isSafeToRetry = true;
+                    try {
+                        if (typeof iaiaAuditor !== 'undefined' && iaiaAuditor.auditPulse) {
+                            isSafeToRetry = iaiaAuditor.auditPulse();
+                        }
+                    } catch (e) {
+                        console.error('[AUTO-HEAL] Error final pre-reload:', e);
+                    }
+
+                    if (isSafeToRetry) {
+                        addHudLog('system', ['[AUTO-HEAL] Recarregant bundle per a resoldre pèrdua de sincronització...']);
+                        setTimeout(() => window.location.reload(), 500);
+                    } else {
+                        addHudLog('critical', ['[AUTO-HEAL] BUCLE DETECTAT. Recàrrega cancel·lada per seguretat.']);
+                        setIsHealing(false);
+                    }
                 } else {
                     addHudLog('system', ['[AUTO-HEAL] Sanació completa. El bategat s\'ha estabilitzat.']);
                     setIsHealing(false);
                 }
-            }, 2000);
+            }, 3000); // Augmentat a 3s per donar temps a la UI
         }
     };
 
@@ -432,6 +487,12 @@ const DiagnosticConsole = () => {
                             <div className="peace-led"></div>
                             <span className="peace-text">SILENCI</span>
                         </div>
+                        {forensicService.getLatestReports().length > 0 && (
+                            <div className="crash-alert-tag pulse-fast" onClick={() => setCurrentHudTab('forensic')}>
+                                <Shield size={10} color="#ff0055" />
+                                <span>CRASH DETECTAT</span>
+                            </div>
+                        )}
                     </div>
                     <div className="hud-header-actions">
                         <button className={`btn - hud - tool ${currentHudTab === 'audit' ? 'active' : ''} `} onClick={runSystemAudit} title="Audit Ara">
@@ -587,25 +648,35 @@ const DiagnosticConsole = () => {
 
                             {currentHudTab === 'forensic' && (
                                 <section className="hud-panel full-width">
-                                    <div className="panel-header"><Shield size={16} /> <h3>INFORMES FORENSES DE L'IAIA</h3></div>
+                                    <div className="panel-header">
+                                        <Shield size={16} color="#ff0055" />
+                                        <h3>REPORTS FORENSES [CRITICAL]</h3>
+                                        <button className="btn-hud-outline small ml-auto" onClick={() => {
+                                            forensicService.clearReports();
+                                            setLogs(prev => prev); // Force refresh
+                                        }}>NETEJAR</button>
+                                    </div>
                                     <div className="forensic-reports-container">
-                                        {FORENSIC_REPORTS.map(report => (
-                                            <div key={report.id} className={`forensic-card status-${report.status}`}>
-                                                <div className="forensic-card-header">
-                                                    <div className="forensic-card-title">
-                                                        <Activity size={14} />
-                                                        <h4>{report.title}</h4>
+                                        {forensicService.getLatestReports().length === 0 ? (
+                                            <div className="p-4 text-center opacity-40">No hi ha reports actius. El bategat és pur.</div>
+                                        ) : (
+                                            forensicService.getLatestReports().reverse().map(report => (
+                                                <div key={report.id} className="forensic-card status-critical">
+                                                    <div className="forensic-card-header">
+                                                        <div className="forensic-card-title">
+                                                            <Activity size={14} color="#ff0055" />
+                                                            <h4 style={{ color: '#ff0055' }}>{report.type}</h4>
+                                                        </div>
+                                                        <span className="forensic-timestamp">{new Date(report.timestamp).toLocaleTimeString()}</span>
                                                     </div>
-                                                    <span className="forensic-timestamp">{new Date(report.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                                                    <p className="forensic-summary" style={{ fontWeight: 'bold' }}>{report.error}</p>
+                                                    <div className="forensic-details" style={{ fontSize: '11px', background: 'rgba(0,0,0,0.3)', padding: '8px', borderRadius: '4px', marginTop: '8px', overflowX: 'auto' }}>
+                                                        <pre>{report.stack?.substring(0, 300)}...</pre>
+                                                    </div>
                                                 </div>
-                                                <p className="forensic-summary">{report.summary}</p>
-                                                <ul className="forensic-details">
-                                                    {report.details.map((detail, i) => (
-                                                        <li key={i} dangerouslySetInnerHTML={{ __html: detail.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>') }} />
-                                                    ))}
-                                                </ul>
-                                            </div>
-                                        ))}
+                                            ))
+                                        )}
+                                        {/* Original static reports if needed, but we focus on live crashes */}
                                     </div>
                                 </section>
                             )}
@@ -620,8 +691,8 @@ const DiagnosticConsole = () => {
                                                 if (currentHudTab === 'rendiment') return log.type === 'info' && !log.msg.includes('SYNC') && !log.msg.includes('Rhizome');
                                                 if (currentHudTab === 'errors') return log.type === 'error' || log.type === 'warn';
                                                 return true; // logs tab shows everything
-                                            }).map(log => (
-                                                <div key={log.id} className={`log - line ${log.type} `}>
+                                            }).map((log, idx) => (
+                                                <div key={`${log.id}-${idx}`} className={`log-line ${log.type}`}>
                                                     <span className="log-time">[{log.time}]</span>
                                                     <span className="log-origin">[{log.origin}]</span>
                                                     <span className="log-msg">{log.msg}</span>

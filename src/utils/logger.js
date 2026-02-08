@@ -1,13 +1,36 @@
-/**
- * Utilitat de Logger condicional per a Sóc de Poble.
- * Només es mostren logs en entorn de desenvolupament.
- */
-
 const isDev = import.meta.env.DEV;
 
+// [SILENCE PROTOCOL] Master Patterns to suppress
+export const SILENCE_PATTERNS = [
+    'beforeinstallpromptevent',
+    'Banner not shown',
+    'shadow host',
+    'ShadowRoot',
+    'User denied Geolocation',
+    'ADVERTIMENT',
+    'Self-XSS',
+    'Si feu servir aquesta consola',
+    '[ThemeEngine]',
+    '[BOOT]',
+    '[Rhizome]',
+    'ResizeObserver',
+    'React does not recognize',
+    'React DevTools',
+    'Download the React DevTools',
+    '[AuthProvider] Montat'
+];
+
+export const checkSilence = (msg) => {
+    if (!msg) return false;
+    const strMatch = SILENCE_PATTERNS.some(p => String(msg).includes(p));
+    return strMatch;
+};
+
 export const logger = {
-    log: (...args) => {
-        if (isDev) console.log(...args);
+    log: (message, ...args) => {
+        if (isDev && !checkSilence(message)) {
+            console.log(`%c[INFO] ${message}`, 'color: #94a3b8', ...args);
+        }
     },
     error: (...args) => {
         if (isDev) console.error(...args);

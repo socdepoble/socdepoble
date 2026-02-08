@@ -4,55 +4,58 @@
 <head>
   <meta charset="UTF-8" />
 
-  <!-- [MASTER MARKETING] Google Tag Manager -->
-  <script>(function (w, d, s, l, i) {
-      w[l] = w[l] || []; w[l].push({
-        'gtm.start':
-          new Date().getTime(), event: 'gtm.js'
-      }); var f = d.getElementsByTagName(s)[0],
-        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
-          'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
-    })(window, document, 'script', 'dataLayer', 'GTM-XXXXXXX');</script>
-  <!-- End Google Tag Manager -->
-
-  <!-- [MASTER MARKETING] Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
   <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-XXXXXXXXXX', {
-      'custom_map': {
-        'dimension1': 'wisdom_mode',
-        'dimension2': 'primary_town',
-        'dimension3': 'identity_role'
-      }
-    });
-  </script>
-
-  <script>
-    // [MASTER NUCLEAR OVERRIDE] v1.6.6-NUCLEAR
+    // [PROTOCOL ULTRA-STABLE] v1.15.1-ULTRA-STABLE
     (function () {
-      const V = 'v1.13.0-AI-FULL';
-      if (localStorage.getItem('sp_app_version') !== V) {
-        console.error('[NUCLEAR] VERSION MISMATCH! PURGING PREHISTORIC CACHE...');
-        localStorage.clear();
-        sessionStorage.clear();
-        // Clear all caches
+      const VERSION = 'v1.15.1-ULTRA-STABLE';
+      const HTML_ID = '20260208_0348_FINAL'; // Segell d'identitat d'aquest fitxer
+
+      const storagePrefix = 'sp_v_';
+
+      function clearAll() {
+        if (typeof localStorage !== 'undefined') localStorage.clear();
+        if (typeof sessionStorage !== 'undefined') sessionStorage.clear();
         if ('caches' in window) {
-          caches.keys().then(names => {
-            for (let name of names) caches.delete(name);
+          caches.keys().then(keys => {
+            return Promise.all(keys.map(k => caches.delete(k)));
+          }).then(() => {
+            console.log('[MASTER] Caches purgades amb èxit.');
           });
         }
-        localStorage.setItem('sp_app_version', V);
+        // Purga agressiva de SW
         if ('serviceWorker' in navigator) {
-          navigator.serviceWorker.getRegistrations().then(rs => {
-            for (let r of rs) r.unregister();
-            window.location.reload(true);
+          navigator.serviceWorker.getRegistrations().then(regs => {
+            for (let reg of regs) reg.unregister();
           });
-        } else {
-          window.location.reload(true);
         }
+      }
+
+      const now = Date.now();
+      const sessionRetries = parseInt(sessionStorage.getItem('ultra_purge_count') || '0');
+
+      if (sessionRetries > 4) {
+        console.error('[MASTER] Aturant bucle de purga. Requereix acció manual.');
+        document.addEventListener('DOMContentLoaded', function () {
+          const emergency = document.createElement('div');
+          emergency.style.cssText = 'position:fixed;top:0;left:0;right:0;background:#ff0055;color:white;padding:20px;z-index:99999;text-align:center;font-weight:bold;box-shadow:0 10px 30px rgba(0,0,0,0.5)';
+          emergency.innerHTML = 'EL MAS NO POT ACTUALITZAR EL DISPOSITIU. <button onclick="localStorage.clear();sessionStorage.clear();if(\'caches\' in window) caches.keys().then(ks=>ks.forEach(k=>caches.delete(k)));location.href=\'/?bategat_rescue=true&force_clear=\'+Date.now()" style="background:white;color:#ff0055;border:none;padding:10px 20px;margin-left:10px;font-weight:bold;cursor:pointer">PURGA NUCLEAR MANUAL</button>';
+          document.body.appendChild(emergency);
+        });
+        return;
+      }
+
+      const isRescue = window.location.search.includes('bategat_rescue=true');
+      const saved = localStorage.getItem('sp_app_version');
+      const savedHTML = localStorage.getItem('sp_html_id');
+
+      // Si la versió no coincideix O si l'HTML és vell (tot i que la versió s'haja marcat com OK per error)
+      if ((saved !== VERSION || savedHTML !== HTML_ID) && !isRescue) {
+        sessionStorage.setItem('ultra_purge_count', (sessionRetries + 1).toString());
+        clearAll();
+        localStorage.setItem('sp_app_version', VERSION);
+        localStorage.setItem('sp_html_id', HTML_ID);
+        // Redirect amb marcador unificat i cache-buster
+        window.location.replace(window.location.origin + window.location.pathname + '?bategat_rescue=true&v_bust=' + HTML_ID + '&t=' + now);
       }
     })();
   </script>
@@ -62,10 +65,11 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
+  <meta name="version" content="v1.15.1-ULTRA-STABLE" />
+  <meta name="html-id" content="20260208_0348_FINAL" />
 
-  <link rel="icon" type="image/png" href="/favicon.png?v=Genius_154" />
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=Genius_154" />
-  <link rel="manifest" href="/manifest.json?v=Genius_154" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -74,7 +78,7 @@
   <script>
     // SELF-HEALING PROTOCOL (v1.6.6-STABLE)
     window.onerror = function (message, source, lineno, colno, error) {
-      if (message && message.includes('RescueTool')) {
+      if (message && message.includes('RescueTool') && !window.location.search.includes('rescue=true')) {
         console.error('[NUCLEAR] Critical component missing! Forcing hard reset...');
         localStorage.clear();
         sessionStorage.clear();
@@ -83,21 +87,21 @@
     };
 
     window.CREATOR_EMAILS = window.CREATOR_EMAILS || ['socdepoblecom@gmail.com', 'damimus@gmail.com'];
-    window.APP_VERSION = 'v1.13.0-AI-FULL';
+    window.APP_VERSION = 'v1.15.1-ULTRA-STABLE'; // Unificat amb constants.js
   </script>
 
   <title>Sóc de Poble | El Portal dels Pobles Connectats 🏘️⚖️✨</title>
   <meta name="description"
-    content="Connecta amb la teua comunitat. El bategat de la terra en format digital. v1.13.0-AI-FULL [MASTER].">
+    content="Connecta amb la teua comunitat. El bategat de la terra en format digital. v1.15.1-ULTRA-STABLE [MASTER].">
   <meta name="keywords" content="poble, comunitat, esdeveniments, mercat local, proximitat, valència, connectivitat" />
   <meta name="author" content="Sóc de Poble" />
 
   <!-- Open Graph / WhatsApp Agressiu Cache Busting -->
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://socdepoble.vercel.app/?v=NUCLEAR_1_6_6" />
-  <meta property="og:title" content="Sóc de Poble v1.13.0-AI-FULL 🏘️⚖️✨" />
-  <meta property="og:description" content="La teva comunitat, els teus veïns. Versió MASTER v1.13.0-AI-FULL." />
-  <meta property="og:image" content="https://socdepoble.vercel.app/og-image.png?v=Genius_1_5_4_Final_Consolidated" />
+  <meta property="og:url" content="https://socdepoble.vercel.app/?v=NUCLEAR_1_15_1" />
+  <meta property="og:title" content="Sóc de Poble v1.15.1-BATEGA-FIX 🏘️⚖️✨" />
+  <meta property="og:description" content="La teva comunitat, els teus veïns. Versió MASTER v1.15.1-BATEGA-FIX." />
+  <meta property="og:image" content="https://socdepoble.vercel.app/og-image.png?v=Genius_1_15_1" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="Sóc de Poble - Portal de Pobles Connectats" />
@@ -116,7 +120,7 @@
             style="padding: 15px 30px; background: #00f2ff; color: #000; border: none; border-radius: 0px; font-weight: bold; cursor: pointer;">
             Netejar Cache i Reiniciar Protocol
           </button>
-          <div style="margin-top: 20px; opacity: 0.5; font-size: 12px;">v1.13.0-AI-FULL-RESCUE</div>
+          <div style="margin-top: 20px; opacity: 0.5; font-size: 12px;">v1.15.1-BATEGA-RESCUE</div>
         </div>
       `;
     };
@@ -128,19 +132,12 @@
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:url" content="https://socdepoble.vercel.app/" />
-  <meta name="twitter:title" content="Sóc de Poble v1.13.0-AI-FULL 🏘️⚖️✨" />
-  <meta name="twitter:description" content="Connecta amb la teua comunitat. Versió MASTER v1.13.0-AI-FULL." />
-  <meta name="twitter:image" content="https://socdepoble.vercel.app/og-image.png?v=Genius_1_5_4_Final_Consolidated" />
+  <meta name="twitter:title" content="Sóc de Poble v1.15.1-BATEGA-FIX 🏘️⚖️✨" />
+  <meta name="twitter:description" content="Connecta amb la teua comunitat. Versió MASTER v1.15.1-BATEGA-FIX." />
+  <meta name="twitter:image" content="https://socdepoble.vercel.app/og-image.png?v=Genius_1_15_1" />
 
-  <!-- Mobile Theme (Sovereign Native Protocol - PWA Disabled) -->
+  <!-- Mobile Theme (Sovereign Native Protocol) -->
   <meta name="theme-color" content="#00f2ff" />
-  <!--
-  <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Sóc de Poble" />
-  <link rel="apple-touch-startup-image" href="/splash_screen.png">
-  -->
 
   <!-- Structured Data (JSON-LD) -->
   <script type="application/ld+json">
@@ -160,11 +157,6 @@
 </head>
 
 <body>
-  <!-- [MASTER MARKETING] Google Tag Manager (noscript) -->
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX" height="0" width="0"
-      style="display:none;visibility:hidden"></iframe></noscript>
-  <!-- End Google Tag Manager (noscript) -->
-
   <div id="root">
     <!-- CRITICAL FALLBACK UI: Visible only if React fails to mount -->
     <div id="loader-fallback"
@@ -182,22 +174,23 @@
         </div>
       </div>
 
-      <div id="repair-zone" style="display:none; margin-top: 20px;">
-        <p style="color: #ff0055; font-weight: bold; margin-bottom: 15px;">⚠️ S'ha detectat un retard en l'arrancada.
-        </p>
+      <div id="repair-zone"
+        style="display:none; margin-top: 20px; border: 2px solid #ff0055; padding: 20px; background: rgba(255,0,85,0.1);">
+        <p style="color: #ff0055; font-weight: bold; margin-bottom: 15px;">⚠️ Bucle Detectat o Retard Crític</p>
         <button
-          onclick="localStorage.clear(); sessionStorage.clear(); localStorage.setItem('sp_app_version', 'v1.13.0-AI-FULL'); location.reload(true);"
-          style="background:#ff0055; color:white; padding:15px 30px; border-radius:0px; border:none; font-weight:bold; cursor:pointer; box-shadow: 0 4px 15px rgba(255,0,85,0.3);">
-          FORÇAR REPARACIÓ NUCLEAR (v1.13.0)
+          onclick="localStorage.clear(); sessionStorage.clear(); localStorage.setItem('sp_app_version', 'v1.15.1-BATEGA-FIX'); location.href='/?reset=true&v=' + Date.now();"
+          style="background:#ff0055; color:white; padding:15px 30px; border-radius:0px; border:none; font-weight:bold; cursor:pointer; box-shadow: 0 4px 15px rgba(255,0,85,0.3); width: 100%;">
+          FORÇAR REPARACIÓ NUCLEAR
         </button>
       </div>
 
       <script>
-        // Show repair button after 5 seconds if #root is still showing this fallback
+        // Show repair button after 10 seconds if #root is still showing this fallback
+        // 10s gives enough margin for slow mobile networks to mount the React app
         setTimeout(() => {
           const repairZone = document.getElementById('repair-zone');
           if (repairZone) repairZone.style.display = 'block';
-        }, 5000);
+        }, 10000);
       </script>
 
       <style>
@@ -211,10 +204,10 @@
   </div>
   <div class="app-version"
     style="position:fixed;bottom:10px;right:10px;font-size:10px;opacity:0.3;z-index:9999;user-select:all;">
-    v1.13.0-AI-FULL
+    v1.15.1-ULTRA-STABLE
   </div>
 
-  <script type="module" src="/src/entry.jsx?v=v1.13.0-AI-FULL"></script>
+  <script type="module" src="/src/entry.jsx?v=v1.15.1-ULTRA-STABLE"></script>
 </body>
 
 </html>

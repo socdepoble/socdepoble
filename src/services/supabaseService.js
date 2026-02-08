@@ -110,6 +110,27 @@ const columnCache = new Proxy({}, {
     }
 });
 
+// [MASTER PURGE] Self-healing logic for legacy data
+(function _socialPurge() {
+    try {
+        const PURGE_VERSION = '20260206_1';
+        if (localStorage.getItem('sp_purge_v') !== PURGE_VERSION) {
+            logger.log('[SupabaseService] Executing Master Purge for legacy ghost data...');
+            // Clear legacy column cache
+            Object.keys(localStorage).forEach(key => {
+                if (key.startsWith('cp_') || key.startsWith('lc_')) {
+                    localStorage.removeItem(key);
+                }
+            });
+            // Master Purge complete. Mas clean.
+            localStorage.setItem('sp_purge_v', PURGE_VERSION);
+        }
+    } catch (e) {
+        logger.error('[SupabaseService] Purge error:', e);
+    }
+})();
+
+
 /**
  * Intelligent Synonym Dictionary for Towns and Search Terms
  * Maps historical, informal, or other language variants to canonical names.
@@ -136,7 +157,14 @@ const SEARCH_SYNONYMS = {
     'rutadelpoble': 'Sóc de Poble',
     'merchandising': 'Sóc de Poble',
     'xixona': 'Xixona',
-    'jijona': 'Xixona'
+    'jijona': 'Xixona',
+    'alacant': 'Alacant',
+    'alicante': 'Alacant',
+    'alacantí': 'L\'Alacantí',
+    'el campello': 'El Campello',
+    'mutxamel': 'Mutxamel',
+    'sant joan': 'Sant Joan d\'Alacant',
+    'sant vicent': 'Sant Vicent del Raspeig'
 };
 
 /**
@@ -210,9 +238,70 @@ const LocalCache = {
     }
 };
 
+/**
+ * [MASTER] Ensures column cache is populated with robust SQL checks
+ */
+const _ensureColumnCache = async () => {
+    // 1. Check Posts columns
+    if (columnCache.posts_ai_percentage === null) {
+        if (!activeChecks.posts) {
+            activeChecks.posts = (async () => {
+                try {
+                    const { error } = await supabase.from('posts').select('ai_percentage').limit(1);
+                    const exists = !error;
+                    setColumnCache('posts_ai_percentage', exists);
+                    setColumnCache('posts_human_percentage', exists);
+                    setColumnCache('posts_time_saved', exists);
+                    setColumnCache('posts_is_iaia_inspired', exists);
+
+                    // Check for pinned position in posts too
+                    const { error: pinError } = await supabase.from('posts').select('pinned_position').limit(1);
+                    setColumnCache('posts_pinned_position', !pinError);
+
+                    logger.log(`[SupabaseService] Posts columns check done. Symbiosis: ${exists}`);
+                } catch (e) {
+                    logger.warn('[SupabaseService] Error checking posts columns:', e);
+                } finally { activeChecks.posts = null; }
+            })();
+        }
+    }
+
+    // 2. Check Market columns
+    if (columnCache.market_pinned_position === null) {
+        if (!activeChecks.market) {
+            activeChecks.market = (async () => {
+                try {
+                    // Check multiple columns in one go (market_items select *)
+                    const { data, error } = await supabase.from('market_items').select('*').limit(1);
+                    if (!error && data && data.length >= 0) {
+                        const row = data[0] || {};
+                        setColumnCache('market_pinned_position', 'pinned_position' in row);
+                        setColumnCache('market_is_pinned', 'is_pinned' in row);
+                        setColumnCache('market_is_iaia_inspired', 'is_iaia_inspired' in row);
+                        setColumnCache('market_is_playground', 'is_playground' in row);
+                    } else if (error) {
+                        // If we can't select *, let's be conservative
+                        setColumnCache('market_pinned_position', false);
+                        setColumnCache('market_is_pinned', false);
+                    }
+
+                    // Check for the specific town join hint (PostgREST syntax)
+                    const { error: fkError } = await supabase.from('market_items').select('towns!fk_market_town_uuid(name)').limit(1);
+                    setColumnCache('market_fk_town_uuid', !fkError);
+
+                    logger.log(`[SupabaseService] Market columns check done.`);
+                } catch (e) {
+                    logger.warn('[SupabaseService] Error checking market columns:', e);
+                } finally { activeChecks.market = null; }
+            })();
+        }
+    }
+
+    await Promise.all([activeChecks.posts, activeChecks.market]);
+};
+
 const isValidUUID = (id) => {
-    if (!id || typeof id !== 'string') return false;
-    return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
+    return typeof id === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
 };
 
 // Promesas activas para evitar ráfagas de errores 400 en paralelo
@@ -408,8 +497,46 @@ const normalizeContentItem = (item, type = 'post') => {
         external_links: item.external_links || []
     };
 };
+// [GHOST-SHIELD] Known broken or legacy storage assets that trigger 404/400 console errors
+const BROKEN_STORAGE_URLS = [
+    'javi_avatar.png',
+    'profiles/javi_avatar.png',
+    'avatars/javi_avatar.png'
+];
 
 export const supabaseService = {
+    /**
+     * [STORAGE HEALING]
+     * Detects and fixes legacy or broken storage URLs.
+     */
+    normalizeStorageUrl(url) {
+        if (!url) return url;
+
+        // [GHOST-SHIELD] Pre-flight block for known broken remote assets
+        if (typeof url === 'string') {
+            const isBroken = BROKEN_STORAGE_URLS.some(broken => url.includes(broken));
+            if (isBroken) {
+                logger.warn(`[GhostShield] Blocking request to known broken asset: ${url}`);
+                // Return a safe local placeholder that exists in the repo
+                return '/assets/master/javi_avatar_cinematic.png';
+            }
+        }
+
+        // Fix legacy bucket names (avatars -> profiles)
+        if (typeof url === 'string' && url.includes('/storage/v1/object/public/avatars/')) {
+            return url.replace('/storage/v1/object/public/avatars/', '/storage/v1/object/public/profiles/');
+        }
+        return url;
+    },
+
+    normalizeProfile(profile) {
+        if (!profile) return null;
+        return {
+            ...profile,
+            avatar_url: this.normalizeStorageUrl(profile.avatar_url),
+            cover_url: this.normalizeStorageUrl(profile.cover_url)
+        };
+    },
     // New Feature: Persistent Notifications
     async createNotification(payload) {
         try {
@@ -441,9 +568,9 @@ export const supabaseService = {
             // Total Real Users
             const { count: totalUsers, error: countError } = await supabase
                 .from('profiles')
-                .select('*', { count: 'exact', head: true })
+                .select('id', { count: 'exact' })
                 .eq('is_demo', false)
-                .not('id', 'ilike', '11111111-%'); // Exclude Lore
+                .limit(1);
 
             // New Users (24h)
             const { data: newUsers, error: newError } = await supabase
@@ -456,9 +583,10 @@ export const supabaseService = {
             // System Health (Check if any critical errors logged - using notifications for now)
             const { count: errorCount } = await supabase
                 .from('notifications')
-                .select('*', { count: 'exact', head: true })
+                .select('id', { count: 'exact' })
                 .eq('type', 'system_error')
-                .gte('created_at', yesterday);
+                .gte('created_at', yesterday)
+                .limit(1);
 
             // Latest User
             const latestUser = newUsers?.[0] || null;
@@ -481,16 +609,16 @@ export const supabaseService = {
             const [stats, seo, { data: recentPosts }, { data: recentMarket }, { data: recentProfiles }] = await Promise.all([
                 this.getAdminStats(),
                 this.getSEOStats(),
-                supabase.from('posts').select('id, title, content, created_at, profiles(full_name)').order('created_at', { ascending: false }).limit(10),
-                supabase.from('market_items').select('id, title, price, created_at, profiles(full_name)').order('created_at', { ascending: false }).limit(10),
+                supabase.from('posts').select('id, content, created_at, author, author_avatar').order('created_at', { ascending: false }).limit(10),
+                supabase.from('market_items').select('id, title, price, created_at, seller, avatar_url').order('created_at', { ascending: false }).limit(10),
                 supabase.from('profiles').select('id, full_name, created_at').eq('is_demo', false).order('created_at', { ascending: false }).limit(10)
             ]);
 
             // Combine and normalize for Activity Pipeline
             const timeline = [
-                ...(recentPosts || []).map(p => ({ ...p, type: 'post', label: 'Nou Post al Mur' })),
-                ...(recentMarket || []).map(m => ({ ...m, type: 'market', label: 'Nou Producte' })),
-                ...(recentProfiles || []).map(u => ({ ...u, type: 'user', label: 'Nou Ciutadà', title: u.full_name }))
+                ...(recentPosts || []).map(p => normalizeContentItem({ ...p, type: 'post', label: 'Nou Post al Mur' }, 'post')),
+                ...(recentMarket || []).map(m => normalizeContentItem({ ...m, type: 'market', label: 'Nou Producte' }, 'market')),
+                ...(recentProfiles || []).map(u => ({ ...u, type: 'user', label: 'Nou Ciutadà', title: u.full_name, author: u.full_name }))
             ].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
             return {
@@ -499,8 +627,12 @@ export const supabaseService = {
                 timeline: timeline.slice(0, 20)
             };
         } catch (err) {
-            logger.error('Error fetching global overview:', err);
-            return null;
+            logger.error('[SupabaseService] Error in getGlobalOverview:', err);
+            // Trace the exact error structure for 400/404 debugging
+            if (err.details || err.hint) {
+                logger.warn(`[SupabaseService] Query Fail: ${err.message} | ${err.details} | ${err.hint}`);
+            }
+            return { stats: {}, seo: {}, timeline: [] };
         }
     },
 
@@ -527,7 +659,7 @@ export const supabaseService = {
 
     async getModeratedPosts(options = {}) {
         try {
-            let query = supabase.from('posts').select('*, towns(name), author:profiles(*)');
+            let query = supabase.from('posts').select('*, towns(name), author:profiles!author_id(*)');
 
             // Logic to filter ONLY if 'filterNoise' is active
             if (options.filterNoise) {
@@ -547,9 +679,9 @@ export const supabaseService = {
     async getSEOStats() {
         try {
             // Simulated SEO Metrics for now (until we integrate Google Search Console API)
-            // Real checks for sitemap and robots
-            const hasSitemap = await fetch('/sitemap.xml', { method: 'HEAD' }).then(r => r.ok).catch(() => false);
-            const hasRobots = await fetch('/robots.txt', { method: 'HEAD' }).then(r => r.ok).catch(() => false);
+            // Real checks for sitemap and robots (Using GET to avoid SW Cache conflicts)
+            const hasSitemap = await fetch('/sitemap.xml', { method: 'GET' }).then(r => r.ok).catch(() => false);
+            const hasRobots = await fetch('/robots.txt', { method: 'GET' }).then(r => r.ok).catch(() => false);
 
             return {
                 healthScore: hasSitemap && hasRobots ? 98 : 85, // Mock score based on basic checks
@@ -583,7 +715,7 @@ export const supabaseService = {
 
             const { data, error } = await supabase
                 .from('post_comments')
-                .select('*, profiles(full_name, avatar_url)')
+                .select('*, profiles!user_id(full_name, avatar_url)')
                 .eq('post_uuid', postId)
                 .order('created_at', { ascending: true });
 
@@ -902,13 +1034,16 @@ export const supabaseService = {
             .select();
 
         if (error) {
-            if (error.code === 'PGRST204' && isPlayground && columnCache.messages_is_playground !== false) {
+            const isMissingPostUuid = (error.code === '42703' || error.code === 'PGRST204') && msgPayload.post_uuid;
+            const isMissingPlayground = error.code === 'PGRST204' && isPlayground && columnCache.messages_is_playground !== false;
+
+            if (isMissingPlayground) {
                 setColumnCache('messages_is_playground', false);
-                return this.sendSecureMessage(messageData); // Retry without column
+                return this.sendSecureMessage(messageData);
             }
-            if (error.code === '42703' && msgPayload.post_uuid) {
+            if (isMissingPostUuid) {
                 setColumnCache('messages_post_uuid', false);
-                return this.sendSecureMessage(messageData); // Retry without post_uuid
+                return this.sendSecureMessage(messageData);
             }
             throw error;
         }
@@ -1489,7 +1624,10 @@ export const supabaseService = {
                     status: 'connected',
                     tags: tags,
                     created_at: new Date().toISOString()
-                }, { onConflict: 'follower_id,target_id' });
+                }, {
+                    onConflict: 'follower_id,target_id',
+                    ignoreDuplicates: false
+                });
 
             if (error) {
                 // Handle 409 Conflict (Key not in users) gracefully by falling back to virtual
@@ -1728,24 +1866,8 @@ export const supabaseService = {
     async getPosts(roleFilter = 'tot', townId = null, page = 0, pageSize = 10, isPlayground = false) {
         logger.log(`[SupabaseService] Fetching posts with roleFilter: ${roleFilter}, townId: ${townId}, page: ${page}, playground: ${isPlayground}`);
         try {
-            // Check for symbiosis metrics columns once
-            if (columnCache.posts_ai_percentage === null) {
-                if (!activeChecks.posts) {
-                    activeChecks.posts = (async () => {
-                        try {
-                            const { data } = await supabase.from('posts').select('*').limit(1);
-                            if (data && data.length > 0) {
-                                setColumnCache('posts_ai_percentage', 'ai_percentage' in data[0]);
-                                setColumnCache('posts_human_percentage', 'human_percentage' in data[0]);
-                                setColumnCache('posts_time_saved', 'time_saved_minutes' in data[0]);
-                            }
-                        } catch (e) {
-                            logger.warn('[SupabaseService] Error checking posts symbiosis columns:', e);
-                        } finally { activeChecks.posts = null; }
-                    })();
-                }
-                await activeChecks.posts;
-            }
+            // [MASTER] Robust Column Sync
+            await _ensureColumnCache();
 
             let selectStr = 'id, uuid, content, created_at, author, author_avatar, image_url, author_role, is_playground, author_user_id, author_entity_id, towns!fk_posts_town_uuid(name)';
             if (columnCache.posts_pinned_position !== false) {
@@ -1775,7 +1897,34 @@ export const supabaseService = {
             }
 
             if (townId) {
-                query = query.eq('town_uuid', townId);
+                logger.log(`[SupabaseService] townId entry: ${townId} (${typeof townId})`);
+                // [MASTER] UUID Syntax Protection (Error 22P02)
+                if (!isValidUUID(townId)) {
+                    logger.log(`[SupabaseService] Invalid UUID detected, attempting resolution: ${townId}`);
+
+                    // Direct name resolution fallback
+                    const { data: townData } = await supabase
+                        .from('towns')
+                        .select('id')
+                        .ilike('name', `%${townId}%`)
+                        .limit(1)
+                        .maybeSingle();
+
+                    if (townData) {
+                        townId = townData.id;
+                        logger.log(`[SupabaseService] Resolved town name to UUID: ${townId}`);
+                    } else {
+                        logger.warn(`[SupabaseService] Could not resolve town name/ID: ${townId}. Purgant filtre.`);
+                        townId = null;
+                    }
+                }
+
+                if (townId && isValidUUID(townId)) {
+                    logger.log(`[SupabaseService] Applying final town_uuid filter: ${townId}`);
+                    query = query.eq('town_uuid', townId);
+                } else {
+                    logger.warn(`[SupabaseService] Blocking non-UUID filter: ${townId}`);
+                }
             }
 
             const from = page * pageSize;
@@ -1860,24 +2009,7 @@ export const supabaseService = {
         }
 
         // Multi-Llinatge master: Filltrem columnes que podrien no existir encara a la DB
-        if (columnCache.posts_ai_percentage === null) {
-            // Trigger check if not already running, but we need to wait for it
-            if (!activeChecks.posts) {
-                activeChecks.posts = (async () => {
-                    try {
-                        const { data } = await supabase.from('posts').select('*').limit(1);
-                        if (data && data.length > 0) {
-                            setColumnCache('posts_ai_percentage', 'ai_percentage' in data[0]);
-                            setColumnCache('posts_human_percentage', 'human_percentage' in data[0]);
-                            setColumnCache('posts_time_saved', 'time_saved_minutes' in data[0]);
-                        }
-                    } catch (e) {
-                        logger.warn('[SupabaseService] Error checking posts symbiosis columns:', e);
-                    } finally { activeChecks.posts = null; }
-                })();
-            }
-            await activeChecks.posts;
-        }
+        await _ensureColumnCache();
 
         if (columnCache.posts_ai_percentage === false) {
             delete payload.ai_percentage;
@@ -1897,14 +2029,43 @@ export const supabaseService = {
             .insert([validated])
             .select('*');
 
-        if (error && error.code === '42703' && isPlayground) {
-            // Fallback si la columna no existe
-            delete payload.is_playground;
-            const { data: retryData, error: retryError } = await supabase.from('posts').insert([payload]).select('*');
-            if (retryError) throw retryError;
-            return retryData[0];
+        if (error) {
+            // [MASTER] Self-healing: if column not found, invalidate cache and retry
+            if (error.code === '42703' || error.code === 'PGRST204') {
+                logger.warn(`[SupabaseService] Column sync error (${error.code}) in createPost, invalidating cache...`);
+                setColumnCache('posts_ai_percentage', false);
+                setColumnCache('posts_human_percentage', false);
+                setColumnCache('posts_time_saved', false);
+                setColumnCache('posts_is_iaia_inspired', false);
+
+                // Retry once without symbiosis columns
+                const cleanPayload = { ...payload };
+                delete cleanPayload.ai_percentage;
+                delete cleanPayload.human_percentage;
+                delete cleanPayload.time_saved_minutes;
+                delete cleanPayload.economic_value_saved;
+                delete cleanPayload.is_iaia_inspired;
+
+                const { data: retryData, error: retryError } = await supabase.from('posts').insert([cleanPayload]).select('*');
+                if (retryError) throw retryError;
+                return retryData[0];
+            }
+            if (isPlayground || error.code === '42501' || error.code === '403') {
+                // Fallback si la columna no existe o hay RLS restrictivo en campos extra
+                logger.warn(`[SupabaseService] Security/RLS block in createPost, retrying minimal payload...`);
+                const minimalPayload = {
+                    author_id: payload.author_id,
+                    author_name: payload.author_name,
+                    content: payload.content,
+                    type: payload.type || 'post',
+                    town_uuid: payload.town_uuid
+                };
+                const { data: retryData, error: retryError } = await supabase.from('posts').insert([minimalPayload]).select('*');
+                if (retryError) throw retryError;
+                return retryData[0];
+            }
+            throw error;
         }
-        if (error) throw error;
         return data[0];
     },
 
@@ -1920,41 +2081,20 @@ export const supabaseService = {
 
     async getMarketItems(categoryFilter = 'tot', townId = null, page = 0, pageSize = 12, isPlayground = false) {
         try {
-            // Check for symbiosis metrics columns once
-            if (columnCache.market_is_iaia_inspired === null) {
-                if (!activeChecks.market) {
-                    activeChecks.market = (async () => {
-                        try {
-                            const { data } = await supabase.from('market_items').select('*').limit(1);
-                            if (data && data.length > 0) {
-                                setColumnCache('market_is_iaia_inspired', 'is_iaia_inspired' in data[0]);
-                            }
-                        } catch (e) {
-                            logger.warn('[SupabaseService] Error checking market symbiosis columns:', e);
-                        } finally { activeChecks.market = null; }
-                    })();
-                }
-                await activeChecks.market;
-            }
+            await _ensureColumnCache();
 
-            let selectStr = 'id, uuid, title, description, price, category_slug, created_at, author_user_id, seller, avatar_url, image_url, is_playground, seller_entity_id, towns!fk_market_town_uuid(name)';
-            if (columnCache.market_is_pinned !== false) {
-                selectStr += ', is_pinned';
-            }
-            if (columnCache.market_pinned_position !== false) {
-                selectStr += ', pinned_position';
-            }
-            if (columnCache.market_is_iaia_inspired !== false) {
-                selectStr += ', is_iaia_inspired';
-            }
-
-            let query = supabase
-                .from('market_items')
-                .select(selectStr, { count: 'exact' });
-
-            // [PILAR 1 & 3] Local Cache
             const cacheKey = `market_${categoryFilter || 'all'}_${townId || 'global'}_${page}`;
             const cachedData = LocalCache.get(cacheKey);
+
+            let townJoin = columnCache.market_fk_town_uuid !== false ? 'towns!fk_market_town_uuid(name)' : 'towns(name)';
+            let selectStr = `id, uuid, title, description, price, category_slug, created_at, author_user_id, seller, avatar_url, image_url, ${townJoin}`;
+
+            if (columnCache.market_is_playground !== false) selectStr += ', is_playground';
+            if (columnCache.market_is_pinned !== false) selectStr += ', is_pinned';
+            if (columnCache.market_pinned_position !== false) selectStr += ', pinned_position';
+            if (columnCache.market_is_iaia_inspired !== false) selectStr += ', is_iaia_inspired';
+
+            let query = supabase.from('market_items').select(selectStr, { count: 'exact' });
 
             if (isPlayground && columnCache.market_is_playground !== false) {
                 query = query.eq('is_playground', true);
@@ -1964,7 +2104,7 @@ export const supabaseService = {
                 query = query.eq('category_slug', categoryFilter);
             }
 
-            if (townId) {
+            if (townId && isValidUUID(townId)) {
                 query = query.eq('town_uuid', townId);
             }
 
@@ -1984,31 +2124,36 @@ export const supabaseService = {
                 .range(from, to);
 
             if (error) {
-                if (error.code === '42703' && (error.message?.includes('is_pinned') || error.message?.includes('pinned_position'))) {
-                    if (error.message?.includes('is_pinned')) setColumnCache('market_is_pinned', false);
+                // [MASTER] Self-healing logic
+                if (error.code === '42703' || error.code === 'PGRST204') {
+                    logger.warn(`[SupabaseService] Market column error (${error.code}), invalidating cache...`);
+                    // Invalidate specific column cache items found in error message or just reset
                     if (error.message?.includes('pinned_position')) setColumnCache('market_pinned_position', false);
-                    logger.warn('[SupabaseService] missing columns in market_items, retrying...');
+                    if (error.message?.includes('is_pinned')) setColumnCache('market_is_pinned', false);
+                    if (error.message?.includes('fk_market_town_uuid')) setColumnCache('market_fk_town_uuid', false);
+
+                    // Retry once immediately
                     return this.getMarketItems(categoryFilter, townId, page, pageSize, isPlayground);
                 }
-                if (error.code === '42703' && isPlayground) {
-                    setColumnCache('market_is_playground', false);
-                    logger.warn('[SupabaseService] is_playground missing in market, retrying silent...');
-                    return this.getMarketItems(categoryFilter, townId, page, pageSize, false);
+                if (cachedData) {
+                    logger.warn('[Market] Network failed, serving from cache.');
+                    return { data: cachedData, count: cachedData.length, fromCache: true };
                 }
                 throw error;
             }
 
-            // FALLBACK RESTAURADOR: Si no hi ha items a la DB, mostrem els MOCK_MARKET_ITEMS sempre (Cold Start)
-            if ((!data || data.length === 0) && page === 0) {
-                const { MOCK_MARKET_ITEMS } = await import('../data');
-                const normalized = MOCK_MARKET_ITEMS.map(item => normalizeContentItem(item, 'market'));
-                return { data: normalized, count: normalized.length };
-            }
-
             const normalizedData = (data || []).map(item => normalizeContentItem(item, 'market'));
-            return { data: normalizedData, count: count || 0 };
-        } catch (err) {
-            logger.error('[SupabaseService] Error in getMarketItems:', err);
+
+            // [PILAR 1] Update Cache
+            if (page === 0) LocalCache.set(cacheKey, normalizedData);
+
+            return {
+                data: normalizedData,
+                count: count || 0
+            };
+        } catch (error) {
+            logger.error('Error in getMarketItems:', error);
+            // Return empty list on error to keep UI alive
             return { data: [], count: 0 };
         }
     },
@@ -2313,7 +2458,7 @@ export const supabaseService = {
                 setColumnCache('profiles_has_premium', true);
             }
 
-            return data;
+            return this.normalizeProfile(data);
         } catch (err) {
             logger.error('[SupabaseService] Critical error in getProfile:', err);
             return null;
@@ -2482,6 +2627,7 @@ export const supabaseService = {
 
     // Multi-Identidad (Phase 6)
     async getUserEntities(userId) {
+        if (!userId) return [];
         try {
             // Obtenemos las entidades donde el usuario es miembro
             const { data, error } = await supabase
@@ -2498,7 +2644,12 @@ export const supabaseService = {
                 .eq('user_id', userId);
 
             if (error) {
-                logger.warn('[SupabaseService] Error loading entities (returning empty):', error);
+                // [RESILIÈNCIA] Si la taula o la relació no existeix, no cal alarmar al sistema d'Auto-Heal
+                if (error.code === 'PGRST201' || error.code === '42P01' || error.code === '42703') {
+                    logger.warn('[SupabaseService] Relació d\'entitats no trobada o esquema incomplet. Ignorant per evitar bucles.');
+                    return [];
+                }
+                logger.error('[SupabaseService] Error loading entities:', error);
                 return [];
             }
 
@@ -2551,7 +2702,7 @@ export const supabaseService = {
             .eq('id', userId)
             .single();
         if (error) throw error;
-        return data;
+        return this.normalizeProfile(data);
     },
 
     async getUserByUsername(username) {
@@ -2576,7 +2727,7 @@ export const supabaseService = {
             throw error;
         }
 
-        return data;
+        return this.normalizeProfile(data);
     },
 
     async updateProfileBio(userId, bio) {
@@ -2627,7 +2778,12 @@ export const supabaseService = {
             .eq('id', entityId)
             .single();
         if (error) throw error;
-        return data;
+        const entity = data;
+        return {
+            ...entity,
+            avatar_url: this.normalizeStorageUrl(entity.avatar_url),
+            cover_url: this.normalizeStorageUrl(entity.cover_url)
+        };
     },
 
     async getEntityMembers(entityId) {
@@ -3120,6 +3276,46 @@ export const supabaseService = {
         const { data, error } = await query.order('created_at', { ascending: false });
 
         if (error) throw error;
+        return data;
+    },
+
+    async getGlobalMedia() {
+        // [MASTER ASSET HUB] Fetch all media with uploader info
+        // Note: Using !user_id as hint if PostgREST cannot find the implicit relationship
+        const { data, error } = await supabase
+            .from('media_usage')
+            .select(`
+                *,
+                asset:media_assets(*),
+                user:profiles!user_id(id, full_name, avatar_url)
+            `)
+            .order('created_at', { ascending: false });
+
+        if (error) {
+            logger.error('[SupabaseService] Error in getGlobalMedia, trying with hint:', error);
+            // Fallback strategy if initial join fails
+            const { data: retryData, error: retryError } = await supabase
+                .from('media_usage')
+                .select(`
+                    *,
+                    asset:media_assets(*)
+                `)
+                .order('created_at', { ascending: false });
+
+            if (retryError) throw retryError;
+
+            // Manual hydration of profile data
+            const userIds = [...new Set(retryData.map(d => d.user_id))];
+            const { data: profiles } = await supabase
+                .from('profiles')
+                .select('id, full_name, avatar_url')
+                .in('id', userIds);
+
+            return retryData.map(item => ({
+                ...item,
+                user: profiles?.find(p => p.id === item.user_id)
+            }));
+        }
         return data;
     },
 

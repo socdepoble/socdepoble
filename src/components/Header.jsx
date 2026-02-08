@@ -97,27 +97,23 @@ const Header = () => {
     const { t } = useTranslation();
     const { user, profile, isAdmin, activeEntityId } = useAuth();
     const { language, toggleLanguage } = useI18n();
-    const { selectedTownData, visionMode, setVisionMode } = useUI();
+    const { visionMode, setVisionMode } = useUI();
     const navigate = useNavigate();
     const location = useLocation();
     const [isMasterOpen, setIsMasterOpen] = useState(false);
     const { status = 'synced', hops = 3 } = user?.is_sovereign ? { status: 'offline', hops: 0 } : {};
 
-    const townName = selectedTownData?.name || 'la Torre';
 
     return (
-        <header className="m3-top-app-bar">
-            <div className="bar-leading flex-col">
-                <span className="text-[10px] font-bold text-gray-400 tracking-widest uppercase leading-none mb-1">Sóc de Poble</span>
-                <div className="flex items-baseline gap-1">
-                    <h1 className="text-xl font-bold text-gray-900 brand-font">Gent de</h1>
-                    <div className="relative group cursor-pointer" onClick={() => navigate('/pobles')}>
-                        <span className="text-xl font-bold text-black bg-yellow-100 px-2 rounded-md transform -rotate-1 inline-block border border-yellow-200 shadow-sm group-hover:rotate-0 transition-transform">
-                            {townName}
-                        </span>
-                        <div className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full border border-white"></div>
-                    </div>
-                </div>
+        <header className="m3-top-app-bar premium-master-bar">
+            <div className="bar-leading">
+                <Link to="/" className="header-logo-link" title="Torna a l'Inici">
+                    <img
+                        src="/assets/master/logo_socdepoble_white_clean.png"
+                        alt="Sóc de Poble"
+                        className="header-main-logo"
+                    />
+                </Link>
             </div>
 
             <div className="bar-trailing">

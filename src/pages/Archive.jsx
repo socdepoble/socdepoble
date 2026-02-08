@@ -36,31 +36,36 @@ const Rebost = () => {
             setLoading(true);
             try {
                 // Simulacre de dades amb Snapshots ja fets (Soberania Local)
-                const [posts, items] = await Promise.all([
-                    supabaseService.getFeedPosts(),
-                    supabaseService.getMarketItems()
+                const [postsResponse, itemsResponse] = await Promise.all([
+                    supabaseService.getPosts('tot', null, 0, 50),
+                    supabaseService.getMarketItems('tot', null, 0, 50)
                 ]);
+
+                const posts = postsResponse?.data || [];
+                const items = itemsResponse?.data || [];
 
                 const unified = [
                     ...posts.map(p => ({
                         id: p.id,
+                        uuid: p.uuid,
                         type: 'post',
                         title: p.content?.substring(0, 50) + '...',
                         description: "Crònica bategada al mur del poble.",
                         icon: <FileText size={18} />,
-                        author: p.profiles?.username,
+                        author: p.profiles?.username || p.author,
                         date: p.created_at,
                         tags: ['#relat', '#comunitat'],
-                        image: p.media_url || '/assets/master/town_placeholder.png',
+                        image: p.image_url || '/assets/master/town_placeholder.png',
                         collection: 'historia'
                     })),
                     ...items.map(i => ({
                         id: i.id,
+                        uuid: i.uuid,
                         type: 'product',
                         title: i.title,
                         description: i.description,
                         icon: <Store size={18} />,
-                        author: i.profiles?.username,
+                        author: i.profiles?.username || i.seller,
                         date: i.created_at,
                         tags: ['#mercat', '#producte'],
                         image: i.image_url || '/assets/master/market_placeholder.png',
@@ -70,7 +75,7 @@ const Rebost = () => {
 
                 setObjects(unified);
             } catch (err) {
-                console.error("Error carregant el rebost:", err);
+                logger.error("Error carregant el rebost:", err);
             } finally {
                 setLoading(false);
             }

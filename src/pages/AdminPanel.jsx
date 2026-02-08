@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
 import { supabaseService } from '../services/supabaseService';
 import {
@@ -20,6 +21,7 @@ import './AdminPanel.css';
 
 const AdminPanel = () => {
     const navigate = useNavigate();
+    const { t } = useTranslation();
     const { isSuperAdmin, isAdmin, setImpersonatedProfile, setActiveEntityId, user } = useAuth();
 
     // Core Data State
@@ -103,7 +105,7 @@ const AdminPanel = () => {
                 <div className="title-area">
                     <h1>
                         <Shield className="text-cyan-400" size={24} />
-                        ANTIGRAVITY <span style={{ opacity: 0.5 }}>//</span> CORE v1.5.7-BATEGA
+                        ANTIGRAVITY <span style={{ opacity: 0.5 }}>//</span> CORE v1.15.1-BATEGA
                     </h1>
                     <p>SUPERVISOR DEL SISTEMA: {isSuperAdmin ? 'NIVELL 5 (GOD MODE)' : 'NIVELL 3 (OPERADOR)'}</p>
                 </div>

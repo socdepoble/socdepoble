@@ -267,7 +267,7 @@ const SearchDiscover = () => {
                                         </div>
                                         <div className="results-list">
                                             {results.arxiu.map(item => (
-                                                <div key={item._id} className="universal-card result-item-card archive-item" onClick={() => window.open(item.link, '_blank')}>
+                                                <div key={item.uuid || item._id} className="universal-card result-item-card archive-item" onClick={() => window.open(item.link, '_blank')}>
                                                     <div className="card-header clickable">
                                                         <div className="header-left">
                                                             <div className="post-avatar archive" style={{ backgroundColor: 'var(--color-bg-dark)', padding: '2px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', overflow: 'hidden', width: '44px', height: '44px' }}>
@@ -342,7 +342,7 @@ const SearchDiscover = () => {
                                     <span className="badge-iaia">IAIA Verified</span>
                                 </div>
                                 <div className="external-links-list">
-                                    <div className="universal-card result-item-card external" onClick={() => window.open(`https://www.google.com/search?q=IVIA+${query}`, '_blank')}>
+                                    <div key="ext-ivia" className="universal-card result-item-card external" onClick={() => window.open(`https://www.google.com/search?q=IVIA+${query}`, '_blank')}>
                                         <div className="card-header clickable">
                                             <div className="header-left">
                                                 <div className="post-avatar external">
@@ -357,7 +357,7 @@ const SearchDiscover = () => {
                                             </div>
                                         </div>
                                     </div >
-                                    <div className="universal-card result-item-card external" onClick={() => window.open(`https://www.aemet.es/ca/eltiempo/prediccion/municipios?q=${query}`, '_blank')}>
+                                    <div key="ext-aemet" className="universal-card result-item-card external" onClick={() => window.open(`https://www.aemet.es/ca/eltiempo/prediccion/municipios?q=${query}`, '_blank')}>
                                         <div className="card-header clickable">
                                             <div className="header-left">
                                                 <div className="post-avatar external">

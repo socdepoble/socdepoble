@@ -129,7 +129,7 @@ export const useProfileMedia = (user, setProfile) => {
         }
     };
 
-    const handleFileChange = async (event, type) => {
+    const handleFileChange = useCallback(async (event, type) => {
         const file = event.target.files[0];
         if (!file) return;
 
@@ -143,7 +143,7 @@ export const useProfileMedia = (user, setProfile) => {
         };
         reader.readAsDataURL(file);
         event.target.value = '';
-    };
+    }, []);
 
     const handlePickerSelect = async (asset) => {
         setIsPickerOpen(false);

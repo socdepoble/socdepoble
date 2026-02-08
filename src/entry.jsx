@@ -12,34 +12,21 @@ import UnifiedStatus from './components/UnifiedStatus';
 import { injectSeeds } from './rhizome/seeds';
 import SafeShell from './components/SafeShell';
 import VersionGatekeeper from './components/VersionGatekeeper';
+import { APP_VERSION } from './constants';
+import { checkSilence } from './utils/logger';
 
-// Intent de injecció de llavors Rhizome (Oli de La Torre & Itineraris)
-injectSeeds().catch(err => console.error('[Rhizome] Error fatal en injecció de dades llavor:', err));
-
-// --------------------------------------------------------------------
-// NEUTRALITZADOR D'ERRORS EXTERNS (Directiva Master: Silenci Absolut)
-// --------------------------------------------------------------------
-const SILENCE_PATTERNS = [
-  'shadow host',
-  'ShadowRoot',
-  'extension://',
-  'NoteBoolLM',
-  'updateActuationOverlay',
-  'Failed to find shadow host',
-  'Failed to load resource',
-  'Uncaught (in promise) Error',
-  'sqlite3_vfs',
-  'OPFS',
-  'Atomics.wait',
-  'Geolocation permission',
-  'User denied Geolocation'
-];
-
-const checkSilence = (msg) => {
-  if (!msg) return false;
-  const message = typeof msg === 'string' ? msg : (msg.message || String(msg));
-  return SILENCE_PATTERNS.some(pattern => message.includes(pattern));
-};
+// [BATEGAT 0ms] Injecció de llavors Rhizome (Oli & Itineraris)
+// Usem requestIdleCallback per assegurar que la feina pesada ocorre quan el navegador està lliure,
+// evitant qualsevol violació de "Long Task" en el fil de la UI.
+if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+  window.requestIdleCallback(() => {
+    injectSeeds().catch(err => console.error('[Rhizome] Error fatal en injecció:', err));
+  }, { timeout: 5000 });
+} else {
+  setTimeout(() => {
+    injectSeeds().catch(err => console.error('[Rhizome] Error fatal en injecció:', err));
+  }, 2000);
+}
 
 // 1. SUPPRESS CONSOLE NOISE (Master Silence)
 const addBootLog = (msg) => {
@@ -48,7 +35,20 @@ const addBootLog = (msg) => {
   window.__BOOT_LOGS__.push(`[${new Date().toISOString()}] ${msg}`);
   // També ho traem per consola amb estil discret
   console.log(`%c${msg}`, 'color: #9A6C63; font-size: 10px;');
+  if (import.meta.env.DEV) {
+    console.log(`%c[BOOT] ${msg}`, 'color: #00f2ff; font-weight: bold;');
+  }
 };
+
+// [SILENT PURGE] Protocol Natiu: Eliminació de qualsevol Service Worker orfe
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then(regs => {
+    for (const reg of regs) {
+      reg.unregister();
+      addBootLog('[SW] Service Worker orfe desregistrat silenciosament.');
+    }
+  });
+}
 
 // Global Error Handlers
 window.onerror = (msg, src, lineno, colno, err) => {
@@ -101,96 +101,120 @@ import StatusLoader from './components/StatusLoader';
 import { ToastProvider } from './components/ToastProvider';
 import { ThemeProvider } from './context/ThemeContext';
 
-// [RESEMBRA ATÒMICA] Lògica de Sincronització de Versió Segura (v1.11.0-AI-VISION)
-const CURRENT_MASTER_VERSION = 'v1.13.0-AI-FULL';
-const savedVersion = localStorage.getItem('sp_app_version');
+// [STORAGE GUARD] Defansa contra fallades de quota/memòria
+const safeStorage = {
+  get: (key) => {
+    try {
+      const local = localStorage.getItem(key);
+      if (local) return local;
+    } catch (e) { /* silent */ }
+    try { return sessionStorage.getItem(key); } catch (e) { return null; }
+  },
+  set: (key, val) => {
+    let okLocal = false;
+    let okSession = false;
+    try { localStorage.setItem(key, val); okLocal = true; } catch (e) { /* silent */ }
+    try { sessionStorage.setItem(key, val); okSession = true; } catch (e) { /* silent */ }
+    return okLocal || okSession;
+  },
+  clear: () => {
+    try { localStorage.clear(); } catch (e) { /* silent */ }
+    try { sessionStorage.clear(); } catch (e) { /* silent */ }
+    return true;
+  }
+};
+
+// [RESEMBRA ATÒMICA] Lògica de Sincronització de Versió Segura (SSOT)
+const CURRENT_MASTER_VERSION = APP_VERSION;
+
+// Detecció precoç de LocalStorage bloquejat (Mode Privat o Quota Plena)
+let isStorageBroken = false;
+try {
+  localStorage.setItem('iaia_probe', '1');
+  localStorage.removeItem('iaia_probe');
+} catch (e) {
+  isStorageBroken = true;
+  addBootLog('[CRITICAL] LocalStorage bloquejat o ple. Entrant en mode Resiliència Suau.');
+}
+
+const savedVersion = isStorageBroken ? sessionStorage.getItem('sp_app_version') : safeStorage.get('sp_app_version');
 
 /**
- * [MASTER] performNuclearPurge - Reset atòmic del Mas
- * Segueix el patró: Primer segellar la versió, després purgar.
+ * [MASTER] performNuclearPurge - Protocol de Reset Atòmic Síncron
+ * Neteja multi-capa (SW, Cache, Storage) i bypass de cache de xarxa.
  */
-const performNuclearPurge = (newVersion) => {
-  addBootLog(`[NUCLEAR] Seal & Purge sequence initiated for ${newVersion}`);
+const performNuclearPurge = async (newVersion) => {
+  addBootLog(`[NUCLEAR] Iniciant purga total per a ${newVersion}...`);
 
-  // 1. SEGELLAM: Marquem la nova versió abans de res per trencar bucles
-  localStorage.setItem('sp_app_version', newVersion);
-  localStorage.setItem('sp_nuke_timestamp', Date.now().toString());
-
-  // 2. PURGUEM: Neteja selectiva (mantenim la versió que acabem de posar)
-  const keysToKeep = ['sp_app_version', 'sp_nuke_timestamp'];
-  Object.keys(localStorage).forEach(key => {
-    if (!keysToKeep.includes(key)) localStorage.removeItem(key);
-  });
-
-  sessionStorage.clear();
-
-  // 3. CACHES & SW
-  if ('caches' in window) {
-    caches.keys().then(names => {
-      for (let name of names) caches.delete(name);
-    });
-  }
-
+  // 1. Neteja de Service Workers (SÍNCRONA)
   if ('serviceWorker' in navigator) {
     try {
-      navigator.serviceWorker.getRegistrations().then(rs => {
-        for (let r of rs) r.unregister();
-      });
-    } catch (e) {
-      addBootLog('[NUCLEAR] SW Unregister failed: ' + e.message);
-    }
+      const registrations = await navigator.serviceWorker.getRegistrations();
+      for (const reg of registrations) {
+        await reg.unregister();
+        addBootLog('[SW] Service Worker eliminat.');
+      }
+    } catch (e) { addBootLog('[SW] Error eliminant SW: ' + e.message); }
   }
 
-  addBootLog('[NUCLEAR] Purge complete. Reloading Mas...');
+  // 2. Neteja de Storage & Caches
+  try {
+    localStorage.clear();
+    sessionStorage.clear();
+    if ('caches' in window) {
+      const names = await caches.keys();
+      for (const name of names) await caches.delete(name);
+    }
+  } catch (e) { /* ignore */ }
 
-  // 4. REINICI: Reload físic per a carregar el nou bategat
-  setTimeout(() => {
-    window.location.reload(true);
-  }, 300);
+  // 3. Marcador de Triple Persistència (Local, Session, i Marker URL)
+  safeStorage.set('sp_app_version', newVersion);
+  sessionStorage.setItem('sp_app_version', newVersion);
+  sessionStorage.setItem('iaia_entry_reload_count', '0');
+
+  addBootLog('[NUCLEAR] Purga completada. Reiniciant dispositiu...');
+
+  // 4. Bypass de Cache Agressiu (Hard Reload + Version Marker)
+  const currentUrl = new URL(window.location.href);
+  currentUrl.searchParams.set('reset', 'true');
+  currentUrl.searchParams.set('force_v', Date.now().toString());
+
+  // Forcem reload des de servidor (bypass browser cache) si el navegador ho permet
+  window.location.replace(currentUrl.toString());
 };
 
 // Emergency Reset Trigger
-window.RecordaAtum = () => performNuclearPurge('ATUM_RESET');
+window.RecordaAtum = (forceVersion) => performNuclearPurge(forceVersion || CURRENT_MASTER_VERSION);
 
-// Check Version
-if (savedVersion !== CURRENT_MASTER_VERSION) {
-  // Si no hi ha versió prèvia, és una instal·lació neta, només segellem
-  if (!savedVersion) {
-    localStorage.setItem('sp_app_version', CURRENT_MASTER_VERSION);
-    addBootLog('[MASTER] Inaugurant el Mas. Versió segellada.');
+// [CIRCUIT BREAKER V4]
+const reloadCount = parseInt(sessionStorage.getItem('iaia_entry_reload_count') || '0');
+const isResetUrl = window.location.search.includes('bategat_rescue=true') || window.location.search.includes('rescue=true') || window.location.search.includes('reset=true');
+
+// Lògica de Decisió de Bategat: Prioritzem sessionStorage per a l'estat del bucle
+const sessionVersion = sessionStorage.getItem('sp_app_version');
+
+if (!isStorageBroken && savedVersion && savedVersion !== CURRENT_MASTER_VERSION && !isResetUrl && sessionVersion !== CURRENT_MASTER_VERSION) {
+  addBootLog(`[GATEKEEPER] Versió obsoleta detectada: ${savedVersion}.`);
+
+  if (reloadCount > 2) {
+    addBootLog('[CIRCUIT-BREAKER] Protocol de Seguretat Activat. Aturant bucle forçosament.');
+    safeStorage.set('sp_app_version', CURRENT_MASTER_VERSION);
+    sessionStorage.setItem('sp_app_version', CURRENT_MASTER_VERSION);
   } else {
-    // Si la versió és diferent, executem el Protocol Nuclear
+    sessionStorage.setItem('iaia_entry_reload_count', (reloadCount + 1).toString());
     performNuclearPurge(CURRENT_MASTER_VERSION);
   }
+} else if (isResetUrl || isStorageBroken || savedVersion === CURRENT_MASTER_VERSION || sessionVersion === CURRENT_MASTER_VERSION) {
+  // L'app està sincronitzada o en mode rescat
+  if (savedVersion !== CURRENT_MASTER_VERSION || sessionVersion !== CURRENT_MASTER_VERSION) {
+    safeStorage.set('sp_app_version', CURRENT_MASTER_VERSION);
+    sessionStorage.setItem('sp_app_version', CURRENT_MASTER_VERSION);
+  }
+  sessionStorage.setItem('iaia_entry_reload_count', '0');
+  addBootLog('[MASTER] Harmonia de versió confirmada.');
 }
 
-// [PWA DISABLED] Register new SW with cache busting
-/*
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register(`/sw.js?nuke=${CURRENT_MASTER_VERSION}`).then(registration => {
-      // logger.info('[SW] Registered with scope:', registration.scope);
-
-      registration.onupdatefound = () => {
-        const installingWorker = registration.installing;
-        if (!installingWorker) return;
-
-        installingWorker.onstatechange = () => {
-          if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
-            // console.log('[SW] New content available.');
-            // We let the user decide with the toast if needed, or wait for next load
-          }
-        };
-      };
-    }).catch(error => {
-      // console.log('[SW] Registration failed:', error);
-    });
-  });
-}
-*/
-
-
-// TROJAN HORSE: If SW sends user to index.html for the rescue tool path, intercept it here.
+// [PWA DISABLED] Protocol de Manteniment (Oli Suau)
 addBootLog('[BOOT] Path check: ' + window.location.pathname);
 
 try {

@@ -1,36 +1,39 @@
 /* UNIVERSAL CARD MASTER GENESIS: COHERÈNCIA TOTAL */
 
 :root {
-    --genesis-orange: #F97316;
-    --genesis-cian: #06B6D4;
-    --genesis-black: #111827;
-    --genesis-surface: #FFFFFF;
-    --genesis-text: #111827;
-    --genesis-border: rgba(0, 0, 0, 0.05);
-    --genesis-radius: 28px;
+    --genesis-orange: var(--color-accent);
+    --genesis-cian: var(--color-primary);
+    --genesis-black: var(--bg-dark-edge);
+    --genesis-surface: var(--bg-surface);
+    --genesis-text: var(--text-primary);
+    --genesis-border: var(--color-border);
+    --genesis-radius: var(--radius-2xl);
 }
 
 .universal-card {
-    background: #FFFFFF;
+    background: var(--bg-card);
     border: 1px solid var(--genesis-border);
     border-radius: var(--genesis-radius);
     overflow: hidden;
     display: flex;
     flex-direction: column;
     height: 100%;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    box-shadow: var(--shadow-soft);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: var(--shadow-premium);
     position: relative;
+    backdrop-filter: blur(var(--blur-premium));
+    -webkit-backdrop-filter: blur(var(--blur-premium));
 }
 
 .universal-card:hover {
     transform: translateY(-4px);
-    box-shadow: var(--shadow-hover);
+    box-shadow: var(--shadow-glow);
+    border-color: var(--color-primary);
 }
 
-/* HEADER: GLASSMORPHISM LIGHT */
+/* HEADER: GLASSMORPHISM DARK (V2 Nit Digital) */
 .card-header-genesis {
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(23, 25, 35, 0.6);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     padding: 16px 20px;
@@ -39,11 +42,11 @@
     align-items: center;
     border-bottom: 1px solid var(--genesis-border);
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.3s ease;
 }
 
 .card-header-genesis:hover {
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(255, 255, 255, 0.05);
 }
 
 .header-left {
@@ -54,8 +57,9 @@
 }
 
 .genesis-avatar {
-    border: 2px solid var(--genesis-black);
+    border: 1.5px solid var(--color-border);
     flex-shrink: 0;
+    border-radius: var(--radius-gem-avatar);
 }
 
 .header-text {
@@ -65,9 +69,9 @@
 }
 
 .master-author-name {
-    color: #000;
+    color: var(--text-primary);
     font-size: 15px;
-    font-weight: 900;
+    font-weight: 950;
     margin: 0;
     text-transform: uppercase;
     letter-spacing: -0.2px;
@@ -78,7 +82,7 @@
 }
 
 .location-text {
-    color: rgba(0, 0, 0, 0.8);
+    color: var(--color-primary);
     font-size: 11px;
     font-weight: 800;
     text-transform: uppercase;
@@ -95,9 +99,36 @@
 .header-date {
     font-size: 10px;
     font-weight: 900;
-    color: #000;
+    color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.5px;
+}
+
+.btn-master-rectify {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #FFF7ED;
+    border: 1px solid var(--genesis-orange);
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    padding: 0;
+    margin-left: 8px;
+    box-shadow: 0 4px 10px rgba(249, 115, 22, 0.2);
+}
+
+.btn-master-rectify:hover {
+    transform: scale(1.1) rotate(10deg);
+    background: var(--genesis-orange);
+    box-shadow: 0 6px 15px rgba(249, 115, 22, 0.4);
+}
+
+.btn-master-rectify:active {
+    transform: scale(0.9);
 }
 
 /* MEDIA SECTION */
@@ -169,8 +200,8 @@
 .card-price {
     background: var(--genesis-orange);
     color: var(--genesis-black);
-    padding: 4px 8px;
-    border-radius: 0px;
+    padding: 4px 12px;
+    border-radius: 20px;
     font-size: 14px;
     font-weight: 900;
 }
@@ -214,8 +245,8 @@
     color: #FFFFFF;
     font-size: 9px;
     font-weight: 900;
-    padding: 2px 8px;
-    border-radius: 0px;
+    padding: 4px 10px;
+    border-radius: 20px;
     text-transform: uppercase;
     border: 1px solid #000;
 }
@@ -271,7 +302,7 @@
 .btn-mercat-action {
     background: var(--color-accent);
     /* Orange */
-    border: 2px solid #000;
+    border: 2px solid #00f2ff;
     color: #000;
     font-weight: 900;
     padding: 8px 16px;
@@ -281,6 +312,37 @@
     cursor: pointer;
     box-shadow: 4px 4px 0px #FFF;
     /* Inverted hard shadow */
+}
+
+.mercat-actions-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.btn-recipe-ai {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #FFF7ED;
+    /* Orange Tint */
+    border: 1px solid var(--genesis-orange);
+    color: var(--genesis-orange);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-recipe-ai:hover {
+    background: var(--genesis-orange);
+    color: #FFF;
+    transform: scale(1.1) rotate(10deg);
+}
+
+.btn-recipe-ai:active {
+    transform: scale(0.9);
 }
 
 /* MODE POBLES / GENT DE */
@@ -419,8 +481,10 @@
 }
 
 /* MASONRY / GRID ADAPTATION (Expected parent classes) */
+/* MANTENIM ELS RADIS SUPREMS TAMBÉ EN MÒBIL SEGONS GÈNESI */
 @media (max-width: 600px) {
     .universal-card {
-        border-radius: 0px;
+        border-radius: 28px;
+        margin: 10px;
     }
 }

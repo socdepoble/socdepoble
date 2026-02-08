@@ -24,7 +24,7 @@ export const Haptics = {
             if (hasInteracted) {
                 navigator.vibrate(pattern);
             } else {
-                console.log('🚜 [Haptics] Silent pulse (waiting for user gesture)');
+                // [SILENCE] Waiting for user gesture
             }
         }
     }

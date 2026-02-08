@@ -202,11 +202,8 @@ const ProjectPresentation = () => {
                         </div>
                     </div>
                     <div className="contact-actions-premium">
-                        <a href="https://wa.me/34686129305" target="_blank" rel="noopener noreferrer" className="btn-whatsapp-premium">
-                            <Smartphone size={24} />
-                            <span>Parla amb Javi (WhatsApp)</span>
-                        </a>
                         <div className="direct-phone">686 12 93 05</div>
+                        <p style={{ fontSize: '0.8rem', opacity: 0.7, color: 'var(--color-primary)' }}>🏺 Bategant per la sobirania digital</p>
                     </div>
                 </div>
             </section>

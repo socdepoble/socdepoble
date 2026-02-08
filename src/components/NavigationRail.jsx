@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { MessageCircle, Newspaper, Store, MapPin, User, Settings, Info, Plus, Hash, Folder, Archive, BookOpen, Star, ChevronRight } from 'lucide-react';
+import { MessageCircle, Newspaper, Store, MapPin, User, Settings, Info, Plus, Hash, Folder, Archive, BookOpen, Star, ChevronRight, Image as ImageIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
 import { useUI } from '../context/UIContext';
@@ -17,10 +17,7 @@ const NavigationRail = () => {
 
     return (
         <nav className="navigation-drawer">
-            <div className="drawer-header">
-                <div className="drawer-logo-container">
-                    <img src="/logo.png" alt="Sóc de Poble" className="drawer-logo" />
-                </div>
+            <div className="drawer-header no-logo">
                 <BatecMonitor />
 
                 <div className="visual-democracy-rail-switcher">
@@ -85,6 +82,10 @@ const NavigationRail = () => {
                     <NavLink to="/calendari" className="drawer-item">
                         <BookOpen size={20} />
                         <span>Calendari Master</span>
+                    </NavLink>
+                    <NavLink to="/fotos/global" className="drawer-item">
+                        <ImageIcon size={20} />
+                        <span>Àlbum Global</span>
                     </NavLink>
                 </div>
 

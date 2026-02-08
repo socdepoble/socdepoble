@@ -1,5 +1,7 @@
 import React from 'react';
 import { logger } from '../utils/logger';
+import forensicService from '../services/forensicService';
+import { iaiaAuditor } from '../services/iaiaAuditor';
 
 class ErrorBoundary extends React.Component {
     constructor(props) {
@@ -16,13 +18,11 @@ class ErrorBoundary extends React.Component {
         }
 
         // [RESILIENCE] ChunkLoadError / Failed to fetch dynamic module:
-        // This happens after a deployment when the user has an old version open.
-        // We force a reload to get the new version.
+        // This used to force reload, but now we stop the loop and show recovery UI.
         if (errorMsg.includes('Failed to fetch dynamically imported module') ||
             errorMsg.includes('ChunkLoadError')) {
-            logger.warn('[ErrorBoundary] Dynamic import failed. Forcing reload to sync with production.');
-            window.location.reload();
-            return { hasError: false, error: null };
+            logger.error('[ErrorBoundary] Module Load Error. Loop prevention active.');
+            return { hasError: true, error: "Bategat interromput: S'ha detectat una nova versió del Mas. Si us plau, utilitza el botó de Reinici per actualitzar." };
         }
 
         return { hasError: true, error };
@@ -30,6 +30,15 @@ class ErrorBoundary extends React.Component {
 
     componentDidCatch(error, errorInfo) {
         logger.error('[ErrorBoundary] Caught error:', error, errorInfo);
+
+        // [MASTER PROTOCOL] Enviament automàtic a l'IAIA
+        forensicService.reportCrash({
+            type: 'CRITICAL_CRASH',
+            error: error.toString(),
+            stack: errorInfo.componentStack,
+            location: window.location.pathname,
+            timestamp: new Date().toISOString()
+        });
     }
 
     render() {
@@ -43,10 +52,13 @@ class ErrorBoundary extends React.Component {
 
                     <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', marginTop: '16px' }}>
                         <button
-                            onClick={() => window.location.reload()}
-                            style={{ padding: '8px 16px', borderRadius: '0px', border: 'none', background: '#333', color: 'white', cursor: 'pointer', fontWeight: 600 }}
+                            onClick={() => {
+                                sessionStorage.clear();
+                                window.location.href = '/';
+                            }}
+                            style={{ padding: '12px 24px', borderRadius: '8px', border: 'none', background: '#ff0055', color: 'white', cursor: 'pointer', fontWeight: 'bold', boxShadow: '0 4px 15px rgba(255,0,85,0.3)' }}
                         >
-                            Tornar a intentar
+                            Reiniciar el Mas 👵✨
                         </button>
                         <button
                             onClick={() => {

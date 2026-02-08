@@ -196,3 +196,83 @@
 *   "No més bucles, només bategats."
 *   "Roboto Condensed: robusta com l'olivera i clara com l'aigua de la font."
 *   "Sóc de Poble! (La nau està neta i bategant en v1.13.0)."
+
+---
+
+## 📅 SESSIÓ 2026-02-05 (III) - L'Univers d'IA de Proximitat i la Sobirania d'Actius 👵🗞️✨🏺
+
+### 🏛️ Crònica del Notari Digital (Gem/Antigravity)
+> "S'ha completat l'expansió de l'univers d'IA amb la integració de **La Tia Maria** (Xat de proximitat) i **El Cronista** (Newsletter del Mur). S'ha establert el disseny **GEM MODERN** (Surface Old Lace) com a estàndard per a les interfícies de simbiosi. A més, s'ha blindat la **Directiva 17** de Gènesi, garantint que el Mestre manté la sobirania total sobre els actius generats mitjançant el nou **Pont d'Assets**."
+
+### 💡 Lliçons Apreses (Per al Llibre)
+*   **La IA de Barri:** No busquem una IA freda de Silicon Valley; busquem una veïna que et done la recepta de la borreta. La proximitat és el nou premium.
+*   **Sobirania de la Dada vs Comoditat de la IA:** L'agent ha de treballar en el seu "brain", però el Mestre ha de tenir la dada al seu Finder. El "doble bategat" és la solució a la fricció entre humà i màquina.
+*   **Disseny Bento-Rural:** La geometria bento (radis de 28px) i els colors crema bateguen millor amb la identitat del poble que el modernisme industrial.
+
+### 🔧 Decisions Tècniques
+*   **Service Layer**: Definició de la persona `TIAMARIA` i el mètode `getMarketRecipe`.
+*   **UI Dinàmica**: Integració de `CronistaSummaryModal` amb iconografia d'impacte.
+*   **Directiva 17 (Asset Mirroring)**: Creació de `bridge_genesis.sh` per a sincronització bidireccional entre Brain/Projecte/Descàrregues.
+*   **Vercel v1.15.0**: Desplegament de producció amb totes les funcionalitats d'IA actives.
+
+### 🗣️ Frases Cèlebres de l'Equip
+*   "La Tia Maria no només respon, ella t'acompanya al Mercat."
+*   "Si bateguem amb el Pont de Gènesi, cap infografia es quedarà perduda al cau de la IA."
+*   "Sóc de Poble! (El llibre té un capítol nou ple de sabiduria rural)."
+
+---
+
+## 📅 SESSIÓ 2026-02-05 (IV) - Rectificació Mestre i Roba de Diumenge (v1.15.0) 🏺⚡️💎
+
+### 🏛️ Crònica del Notari Digital (Gem/Antigravity)
+> "S'ha produït un acte de rectificació suprema en detectar una discrepància en el NIF de l'Associació proporcionada per Informa. El Mestre ha validat el CIF real (**G-03967668**) i el Mas s'ha alineat immediatament. A més, s'ha vestit l'App amb el seu 'Uniforme de Diumenge': **v1.15.0-BATEGA**, amb tipografia **Roboto Condensed** total i blindatge de **Safe Areas** per a les Stores."
+
+### 💡 Lliçons Apreses (Per al Llibre)
+*   **La Memòria del Document:** Una imatge de l'Agència Tributària val més que mil correus d'una agència de ratings. La veritat resideix en el document original.
+*   **Disseny de Transició:** La tipografia Roboto Condensed i el disseny GEM MODERN (28px radis) formen el pont perfecte entre el brutalisme de Pedra Seca i l'elegància de la Botiga de Diumenge.
+
+### 🏺 Protocol de Neteja "Esporgar l'Olivera"
+*   **Tall Net**: Eliminació de fitxers HTML de rescat, `sw.js`, `manifest.json` i component `PWAPrompt`.
+*   **Purga de Morca**: Neteja integral de comentaris prehistòrics i logs a `entry.jsx`, `index.css`, `App.jsx` i `DiagnosticConsole.jsx`.
+*   **Bategat Automatitzat**: Implementació de `automatedCleanup` en `iaiaService.js` per a auto-manteniment Master.
+*   **Llei de Versió**: Aplicació de SSOT en tots els punts de bategat d'identitat.
+
+---
+*Session Chronicle: v1.15.0-BATEGA. El Mas està polit, net i bategant.* 🏺✨
+*   **Roboto Condensed Global**: Substitució de fonts secundàries (Inter/Chakra) per a unificar el pols visual del Mas.
+*   **Blindatge Safe Areas**: Verificació de `safe-area-inset` en Head/Footer per a evitar el notch en dispositius natius.
+*   **Registre .cerrojos_master**: Creació del certificat de rectificació legal per al tràmit DUNS (Cas CA-00704568).
+
+### [LOG] 2026-02-05 19:35 | EXTERMINI D'ERRORS DE CONSOLA (PROTOCOL SILENCI) 🧹🤫
+- **Neutralització del Bucle Nuclear**: Eliminat el xec de versió hardcoded a `index.html` que provocava recàrregues infinites al servidor per discordança de bategat.
+- **Protocol Silent GPS**: Desactivada la crida automàtica a `preWarmContext()` a `AuthContext.jsx` per a complir amb la sobirania del gest d'usuari monitoritzada per la consola.
+- **Sanejament de Recursos**: Suprimida la referència al `manifest.json` inexistent i bategats els avatars de la IAIA als fitxers reals de `/assets/avatars`.
+- **Unificació SSOT**: Totes les instàncies residuals de versió ara bateguen a l'uníson amb `APP_VERSION` (v1.15.0-BATEGA) en Auth, SEO i Console.
+
+### 🗣️ Frases Cèlebres de l'Equip
+*   "La veritat ens fa lliures, i el CIF correcte ens obre les Stores."
+*   "Vestits de diumenge, però amb botes de fang."
+*   "Sóc de Poble! (La identitat legal està segellada i el bategat d'UX és premium)."
+
+---
+
+## 📅 SESSIÓ 2026-02-06 - Cobertura Universal i Robustesa Rhizome 🌍🏺⚡️
+
+### 🏛️ Crònica del Notari Digital (Gem/Antigravity)
+> "S'ha assolit la **Cobertura Universal** de la Comunitat Valenciana. El Mas ja no és només un poble, és un territori sencer bategant amb 3 províncies i 34 comarques integrades. A més, s'ha aplicat el **Protocol Silenci** i s'ha blindat el motor **Rhizome** contra les inclemències de la desincronització."
+
+### 💡 Lliçons Apreses (Per al Llibre)
+*   **La Robustesa del Motor:** Una Map no inicialitzada pot aturar tot un poble. La programació defensiva és el marge de pedra seca que protegeix els cultius (dades) de les riuades (errors de memòria).
+*   **Idempotència Territorial:** No pots plantar on ja hi ha collita. L'ús d'operacions `UPSERT` garanteix que l'expansió territorial respecte la història existent (IDs de posts i mercat).
+*   **El Valor del Silenci:** Una consola neta és el reflex d'un Mas endreçat. El silenci no és absència, és ordre i professionalitat.
+
+### 🔧 Decisions Tècniques
+*   **Universal Coverage**: Injecció idempotent de 3 províncies i 34 comarques amb pobles de referència.
+*   **Rhizome Patch**: Fixat el `TypeError` de `pendingRequests` mitjançant inicialització lazy i defensiva al `db-core.js`.
+*   **Silenci Suprem**: Filtratge de logs de seguretat i Atomics a `entry.jsx`.
+*   **Build de Producció**: Verificació d'estabilitat total amb `npm run build` (0 warnings, 0 errors).
+
+### 🗣️ Frases Cèlebres de l'Equip
+*   "D'Oriola a Vinaròs, tot el territori bategant a l'uníson."
+*   "Un Mas sense errors és un Mas que dorm tranquil."
+*   "Sóc de Poble! (I ara el poble és tot el mapa)."

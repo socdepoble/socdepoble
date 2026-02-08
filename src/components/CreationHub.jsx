@@ -48,7 +48,11 @@ const CreationHub = () => {
                             url: window.location.origin
                         };
                         if (navigator.share) {
-                            navigator.share(shareData);
+                            navigator.share(shareData).catch(err => {
+                                if (err.name !== 'AbortError') {
+                                    console.error('Error sharing:', err);
+                                }
+                            });
                         } else {
                             navigator.clipboard.writeText(shareData.url);
                             alert('Enllaç del portal copiat!');

@@ -58,10 +58,29 @@ const Avatar = ({ src, role, name, size = 44, className = "" }) => {
     };
 
     const fallbackImage = getAvatarFallbackImage(role);
-
     const normalizedSrc = (src && !src.startsWith('http') && !src.startsWith('/')) ? `/${src}` : src;
 
-    if ((normalizedSrc || fallbackImage) && !hasError) {
+    // [SILENT SHIELD] 
+    // We attempt to load the image in the background first to avoid noisy 400/404 errors 
+    // from triggering before we have a chance to show the fallback.
+    const [isPreloading, setIsPreloading] = useState(!!normalizedSrc);
+
+    React.useEffect(() => {
+        if (!normalizedSrc) {
+            setIsPreloading(false);
+            return;
+        }
+
+        const img = new Image();
+        img.src = normalizedSrc;
+        img.onload = () => setIsPreloading(false);
+        img.onerror = () => {
+            setHasError(true);
+            setIsPreloading(false);
+        };
+    }, [normalizedSrc]);
+
+    if ((normalizedSrc || fallbackImage) && !hasError && !isPreloading) {
         return (
             <div style={style} className={`avatar-container ${className}`}>
                 <img
@@ -70,6 +89,14 @@ const Avatar = ({ src, role, name, size = 44, className = "" }) => {
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                     onError={() => setHasError(true)}
                 />
+            </div>
+        );
+    }
+
+    if (isPreloading) {
+        return (
+            <div style={style} className={`avatar-container loading ${className}`}>
+                {/* Minimal placeholder while preloading to prevent flicker */}
             </div>
         );
     }

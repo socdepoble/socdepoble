@@ -17,7 +17,7 @@
     background: #000000;
     /* Black Canvas */
     border: var(--border-master);
-    border-radius: 0px !important;
+    border-radius: var(--radius-xl) !important;
     z-index: 10002;
     color: #FFFFFF;
     font-family: 'JetBrains Mono', monospace;
@@ -50,7 +50,7 @@
     bottom: 20px;
     right: 20px;
     top: auto;
-    border-radius: 0px !important;
+    border-radius: var(--radius-xl) !important;
     padding: 0;
 }
 
@@ -67,6 +67,8 @@
     transform: translateX(120%) skewX(-5deg);
     opacity: 0;
     pointer-events: none;
+    display: none;
+    /* [PERF] Evita que el navegador calculi el layout i les animacions SVG del HUD tancat */
 }
 
 /* Header */
@@ -121,7 +123,7 @@
     background: var(--hud-accent);
     color: var(--bg-canvas);
     padding: 2px 8px;
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     font-weight: 900;
     width: fit-content;
     text-transform: uppercase;
@@ -146,14 +148,14 @@
     padding: 2px 10px;
     background: rgba(0, 255, 170, 0.05);
     border: 1px solid rgba(0, 255, 170, 0.2);
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
 }
 
 .peace-led {
     width: 8px;
     height: 8px;
     background: #00ffaa;
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     box-shadow: var(--shadow-hard);
     animation: ledBreath 3s infinite ease-in-out;
 }
@@ -189,7 +191,7 @@
 .btn-hud-tool {
     width: 48px;
     height: 48px;
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     border: 1px solid rgba(0, 242, 255, 0.2);
     background: rgba(255, 255, 255, 0.05);
     display: flex;
@@ -233,7 +235,7 @@
     gap: 16px;
     background: rgba(0, 242, 255, 0.05);
     padding: 20px;
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     font-size: var(--font-size-base);
     color: var(--hud-accent);
     font-weight: 700;
@@ -273,7 +275,7 @@
     cursor: pointer;
     letter-spacing: 0.5px;
     transition: all 0.3s;
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     white-space: nowrap;
     flex-shrink: 0;
 }
@@ -326,7 +328,7 @@
     background: var(--hud-accent);
     color: var(--bg-canvas);
     padding: 2px 8px;
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     font-size: var(--font-size-base);
     font-weight: 900;
 }
@@ -340,7 +342,7 @@
 .swatch {
     width: 24px;
     height: 24px;
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     border: 2px solid transparent;
     cursor: pointer;
     transition: all 0.2s;
@@ -374,7 +376,7 @@
     color: var(--text-main);
     font-size: 9px;
     padding: 4px 10px;
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     cursor: pointer;
     font-weight: 800;
 }
@@ -408,7 +410,7 @@
 .hud-panel {
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(0, 242, 255, 0.1);
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     padding: 24px;
     transition: all 0.4s;
     position: relative;
@@ -459,7 +461,7 @@
     background: rgba(0, 255, 170, 0.1);
     color: #00ffaa;
     border: 1px solid rgba(0, 255, 170, 0.3);
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     margin-left: 10px;
     letter-spacing: 0.5px;
     text-shadow: 0 0 5px rgba(0, 255, 170, 0.5);
@@ -503,7 +505,7 @@
 /* Terminal */
 .hud-terminal-container {
     background: rgba(0, 0, 0, 0.4);
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     padding: 24px;
     border: 1px solid rgba(255, 255, 255, 0.05);
     box-shadow: var(--shadow-hard);
@@ -535,7 +537,7 @@
     opacity: 0.8;
     background: rgba(255, 0, 85, 0.1);
     padding: 1px 4px;
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     font-size: 9px;
     text-transform: uppercase;
 }
@@ -594,7 +596,7 @@
 .hud-voice-feedback-panel {
     background: #fff;
     border: 2px solid var(--color-primary);
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     padding: 16px;
     margin-bottom: 20px;
     box-shadow: var(--shadow-hard);
@@ -673,7 +675,7 @@
     height: 52px;
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(0, 242, 255, 0.3);
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     color: var(--hud-accent);
     font-size: var(--font-size-base);
     font-weight: 800;
@@ -696,7 +698,7 @@
     height: 52px;
     background: rgba(255, 0, 85, 0.05);
     border: 1px solid rgba(255, 0, 85, 0.3);
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     color: #ff0055;
     font-size: var(--font-size-base);
     font-weight: 800;
@@ -719,7 +721,7 @@
     height: 60px;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     color: var(--text-main);
     font-weight: 800;
     display: flex;
@@ -740,7 +742,7 @@
     padding: 16px 28px;
     background: var(--hud-bg);
     border: 1px solid var(--hud-accent);
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     display: flex;
     align-items: center;
     gap: 12px;
@@ -770,7 +772,7 @@
         width: 100%;
         height: auto;
         max-height: 90vh;
-        border-radius: 0px !important;
+        border-radius: var(--radius-xl) !important;
         transform: translateY(0);
     }
 
@@ -795,7 +797,7 @@
 .forensic-card {
     background: rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(0, 242, 255, 0.1);
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     padding: 16px;
     transition: all 0.3s;
 }
@@ -940,7 +942,7 @@
     right: -8px;
     background: var(--hud-bg);
     border: 1px solid var(--hud-border);
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     width: 24px;
     height: 24px;
     display: flex;
@@ -969,7 +971,7 @@
 .hud-didactic-card {
     background: rgba(10, 20, 40, 0.95);
     border: 1px solid var(--hud-accent);
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     margin-bottom: 24px;
     box-shadow: var(--shadow-hard);
     position: relative;

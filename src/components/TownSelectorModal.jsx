@@ -223,19 +223,25 @@ const TownSelectorModal = ({ isOpen, onClose, onSelect }) => {
                 <footer className="modal-footer">
                     <div className="selection-summary">
                         {selectedProvince && (
-                            <span className="summary-item">
+                            <span className="summary-item animate-in">
                                 {selectedProvince}
                                 {selectedComarca && <ChevronRight size={12} />}
                                 {selectedComarca && <span>{selectedComarca}</span>}
                             </span>
                         )}
+                        {selectedTown && (
+                            <div className="selected-town-final-feedback animate-in flex items-center gap-2 mt-1">
+                                <Check size={14} className="text-primary" />
+                                <span className="font-bold text-primary">{selectedTown.name}</span>
+                            </div>
+                        )}
                     </div>
                     <button
-                        className={`save-btn-large ${!selectedTown ? 'disabled' : ''}`}
+                        className={`save-btn-large ${!selectedTown ? 'disabled' : 'pulse-primary'}`}
                         onClick={handleSave}
                         disabled={!selectedTown}
                     >
-                        {t('common.save_selection') || 'GUARDAR POBLE'}
+                        {selectedTown ? `${t('common.save_selection') || 'GUARDAR POBLE'} ✨` : t('common.save_selection') || 'GUARDAR POBLE'}
                     </button>
                 </footer>
             </div>

@@ -42,11 +42,11 @@ import './ProfileDuality.css';
 const Profile = () => {
     const { t } = useTranslation();
     useEffect(() => {
-        console.log('[Profile] Bategant amb traduccions per a:', t('profile.title'));
+        // [Profile] Bategant amb traduccions
     }, [t]);
     const navigate = useNavigate();
     const { profile, setProfile, user, isPlayground, realProfile, isAdmin, isSuperAdmin, realUser } = useAuth();
-    const { theme, toggleTheme, openLegalModal } = useUI();
+    const { theme, toggleTheme, openLegalModal, setIsNotePadOpen, globalDesign, setGlobalDesign } = useUI();
     const location = useLocation();
 
     // Identity Duality State
@@ -109,6 +109,11 @@ const Profile = () => {
         try {
             const isUuid = typeof townId === 'string' && townId.includes('-');
             const finalTownId = isUuid ? townId : parseInt(townId);
+
+            if (!finalTownId && finalTownId !== 0) {
+                logger.warn('[Profile] Ignorant identificador de poble invàlid:', townId);
+                return;
+            }
 
             if (townEditMode === 'primary') {
                 const updatePayload = isUuid ? { town_uuid: finalTownId } : { town_id: finalTownId };
@@ -176,11 +181,13 @@ const Profile = () => {
         return <StatusLoader message="Verificant identitat..." />;
     }
 
-    const displayProfileSafe = finalProfile || {
+    const displayProfileSafe = finalProfile || profile || {
         id: user?.id || realUser?.id,
-        full_name: isCreator ? 'Javi Llinares' : (finalProfile?.full_name || (realUser?.email || user?.email)?.split('@')[0] || 'Veí de la Torre'),
-        avatar_url: isCreator ? '/assets/master/javi_avatar_cinematic.png' : (profile?.avatar_url || null),
-        cover_url: null,
+        full_name: isCreator ? 'Javi Llinares' : (user?.email?.split('@')[0] || 'Veí de la Torre'),
+        avatar_url: isCreator ? '/images/agents/javi_real.png' : (profile?.avatar_url || null),
+        cover_url: isCreator ? '/assets/master/brand_cinematic.png' : (profile?.cover_url || 'https://images.unsplash.com/photo-1549412639-66172551000f?q=80&w=2070&auto=format&fit=crop'),
+        ofici: isCreator ? 'Mestre de la Simbiosi' : (profile?.ofici || 'Veí de la Torre'),
+        bio: isCreator ? 'Bategant amb peluca i ulleres de sol per la sobirania digital.' : (profile?.bio || null),
         town_id: null
     };
 
@@ -255,11 +262,29 @@ const Profile = () => {
                                     </div>
                                 )}
                                 {isSuperAdmin && (
-                                    <div className="mini-eina-card admin-special" onClick={() => { hapticService.bategat(); navigate('/admin'); }}>
-                                        <ShieldCheck size={24} />
-                                        <span>Panell Admin</span>
+                                    <div
+                                        className={`mini-eina-card admin-special-premium ${globalDesign === 'consola' ? 'active-consola' : ''}`}
+                                        onClick={() => {
+                                            hapticService.bategat();
+                                            setGlobalDesign(globalDesign === 'batega' ? 'consola' : 'batega');
+                                        }}
+                                    >
+                                        <div className="consola-icon-glow">
+                                            {globalDesign === 'consola' ? <Globe size={28} /> : <ShieldCheck size={28} />}
+                                        </div>
+                                        <span>{globalDesign === 'consola' ? 'MODE BATEGA' : 'ACTIVA HUD CORE'}</span>
                                     </div>
                                 )}
+                                {isSuperAdmin && (
+                                    <div className="mini-eina-card admin-special-premium" onClick={() => { hapticService.bategat(); navigate('/admin'); }}>
+                                        <ShieldCheck size={28} />
+                                        <span>ADMINISTRACIÓ</span>
+                                    </div>
+                                )}
+                                <div className="mini-eina-card" onClick={() => { hapticService.bategat(); setIsNotePadOpen(true); }}>
+                                    <div style={{ fontSize: '24px', lineHeight: '1' }}>🏺</div>
+                                    <span>Bloc de notes</span>
+                                </div>
                                 <div className="mini-eina-card" onClick={() => { hapticService.bategat(); setActiveTab('settings_view'); }}>
                                     <Settings size={24} />
                                     <span>Ajustos</span>
@@ -316,23 +341,31 @@ const Profile = () => {
                 }}
             >
                 {/* Stats bar integrated into the header children */}
-                < div className="profile-stats-bar" >
+                <div className="profile-identity-strip">
+                    <div
+                        className="identity-badge-premium town-group"
+                        onClick={() => {
+                            const isTorre = (userTown?.name || '').toLowerCase().includes('torre');
+                            const townId = profile?.town_uuid || (isTorre ? 'la-torre' : '');
+                            navigate(townId ? `/pobles/${townId}` : '/pobles');
+                        }}
+                    >
+                        <Users size={20} />
+                        <span>Gent de {userTown?.name || 'la Torre'}</span>
+                        <ChevronRight size={16} className="ml-auto opacity-40" />
+                    </div>
+                </div>
+
+                <div className="profile-stats-bar">
                     <div className="stat-card clickable" onClick={() => navigate('/aula-rural')}>
                         <span className="stat-value">{stats.posts}</span>
-                        <span className="stat-label">Mur</span>
-                        <div className="beta-dot"></div>
-                    </div>
-                    <div className="stat-card clickable" onClick={() => navigate('/aula-rural')}>
-                        <span className="stat-value">{stats.items}</span>
-                        <span className="stat-label">Venda</span>
-                        <div className="beta-dot"></div>
+                        <span className="stat-label">Bategats</span>
                     </div>
                     <div className="stat-card clickable" onClick={() => navigate('/aula-rural')}>
                         <span className="stat-value">{stats.connections}</span>
                         <span className="stat-label">Veïns</span>
-                        <div className="beta-dot"></div>
                     </div>
-                </div >
+                </div>
 
                 {/* BOTÓ PROFESSIONAL (Previsualització per al Mestre/Autònom) */}
                 {(isCreator || profile?.ofici) && (
@@ -417,25 +450,28 @@ const Profile = () => {
             <ProfileStudioModal
                 isOpen={media.isStudioOpen}
                 onClose={() => media.setIsStudioOpen(false)}
-                onSelectType={(type) => {
-                    media.setIsStudioOpen(false);
-                    media.setPendingType(type);
-                    media.setIsPickerOpen(true);
-                }}
-                onUpload={(type) => {
-                    media.setIsStudioOpen(false);
-                    const input = document.createElement('input');
-                    input.type = 'file';
-                    input.accept = 'image/*';
-                    input.onchange = (e) => media.handleFileChange(e, type);
-                    input.click();
-                }}
+                profile={finalProfile || displayProfileSafe}
+                isUploading={media.isUploading}
+                uploadType={media.uploadType}
+                onFileSelect={media.handleFileChange}
                 onReposition={(type) => {
                     media.setIsStudioOpen(false);
                     media.handleReposition(type, finalProfile || displayProfileSafe);
                 }}
-                hasAvatar={!!finalProfile?.avatar_url}
-                hasCover={!!finalProfile?.cover_url}
+                onAlbumSelect={(type) => {
+                    media.setIsStudioOpen(false);
+                    media.setPendingType(type);
+                    media.setIsPickerOpen(true);
+                }}
+                onCaptureComplete={(captured, target) => {
+                    media.setIsStudioOpen(false);
+                    media.setPendingType(target);
+                    media.setTempImageSrc(captured.url);
+                    if (captured.blob) {
+                        media.setPendingFile(new File([captured.blob], 'capture.jpg', { type: 'image/jpeg' }));
+                    }
+                    media.setIsReframerOpen(true);
+                }}
             />
 
             <MediaPickerModal

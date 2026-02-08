@@ -11,8 +11,8 @@ import { logger } from '../utils/logger';
  */
 class RhizomeDB {
     constructor() {
-        this.db = null;
-        this.initialized = false;
+        this.worker = null;
+        this.pendingRequests = new Map();
         this.initPromise = null;
     }
 
@@ -24,39 +24,33 @@ class RhizomeDB {
 
         this.initPromise = (async () => {
             try {
-                logger.log('🚜 Inicialitzant RhizomeDB (SQLite WASM + OPFS)...');
-
-                const sqlite3 = await initSqlJs({
-                    print: logger.log,
-                    printErr: logger.error,
-                });
-
-                if ('opfs' in sqlite3 && typeof window !== 'undefined') {
-                    // [SAFETY] Si estem en el fil principal, certs navegadors donen error/warning amb OPFS synchronous
-                    // Intentem detectar si suporta Atomics (necessari per a OPFS sincron en el main thread)
-                    const supportsAtomics = typeof Atomics !== 'undefined' && typeof SharedArrayBuffer !== 'undefined';
-
-                    if (supportsAtomics) {
-                        this.db = new sqlite3.oo1.OpfsDb('/rhizome_v3.sqlite');
-                        logger.log('✅ RhizomeDB connectada a OPFS (/rhizome_v3.sqlite)');
-                    } else {
-                        logger.warn('⚠️ SharedArrayBuffer no disponible. OPFS bloquejat en el fil principal. Usant memòria temporal.');
-                        this.db = new sqlite3.oo1.DB();
-                    }
-                } else if ('opfs' in sqlite3) {
-                    // En un Worker (segur per a OPFS)
-                    this.db = new sqlite3.oo1.OpfsDb('/rhizome_v3.sqlite');
-                    logger.log('✅ RhizomeDB (Worker) connectada a OPFS.');
+                // [BATEGAT 0ms] Deferim la inicialització pesada a un moment d'oci del navegador
+                // per no competir amb la interactivitat de l'usuari (gestos de login).
+                if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+                    await new Promise(resolve => window.requestIdleCallback(resolve, { timeout: 2000 }));
                 } else {
-                    logger.warn('⚠️ OPFS no disponible al motor SQLite WASM. Usant memòria temporal.');
-                    this.db = new sqlite3.oo1.DB();
+                    await new Promise(resolve => setTimeout(resolve, 300));
                 }
+                // [BATEGAT 0ms] El worker s'encarrega d'esperar al moment d'oci
+                this.worker = new Worker(
+                    new URL('./rhizome.worker.js', import.meta.url),
+                    { type: 'module' }
+                );
 
-                this._setupTables();
-                this.initialized = true;
-                return this.db;
+                this.worker.onmessage = (e) => this.handleWorkerMessage(e);
+
+                return new Promise((resolve, reject) => {
+                    this.sendToWorker('INIT', null, (res) => {
+                        if (res.type === 'INIT_OK') {
+                            logger.log('📡 RhizomeDB Proxy connectat al Worker');
+                            resolve();
+                        } else {
+                            reject(new Error(res.payload));
+                        }
+                    });
+                });
             } catch (err) {
-                logger.error('❌ Error fatal al motor RhizomeDB:', err);
+                logger.error('❌ Error inicialitzant Rhizome Worker:', err);
                 throw err;
             }
         })();
@@ -64,120 +58,86 @@ class RhizomeDB {
         return this.initPromise;
     }
 
-    /**
-     * Crea l'estructura de taules per al graf d'esdeveniments.
-     */
-    _setupTables() {
-        this.db.exec(`
-            CREATE TABLE IF NOT EXISTS operations (
-                id TEXT PRIMARY KEY,
-                doc_id TEXT NOT NULL,
-                type TEXT NOT NULL,
-                value TEXT,
-                depends_on TEXT,
-                timestamp INTEGER NOT NULL,
-                author TEXT NOT NULL,
-                signature TEXT
-            );
-            CREATE INDEX IF NOT EXISTS idx_ops_doc ON operations(doc_id);
-            
-            CREATE TABLE IF NOT EXISTS snapshots (
-                doc_id TEXT PRIMARY KEY,
-                data TEXT NOT NULL,
-                last_op_id TEXT,
-                updated_at INTEGER NOT NULL
-            );
+    handleWorkerMessage(e) {
+        const { id, type, payload } = e.data;
 
-            CREATE TABLE IF NOT EXISTS config (
-                key TEXT PRIMARY KEY,
-                value TEXT
-            );
-        `);
+        if (type === 'LOG') return logger.log(payload);
+        if (type === 'DEBUG') return logger.debug ? logger.debug(payload) : null;
+        if (type === 'ERROR' && !id) return logger.error(payload);
+
+        if (!this.pendingRequests) {
+            this.pendingRequests = new Map();
+            return;
+        }
+
+        const callback = this.pendingRequests.get(id);
+        if (callback) {
+            this.pendingRequests.delete(id);
+            callback(e.data);
+        }
     }
 
-    /**
-     * Desa una nova operació al graf persistent.
-     */
+    sendToWorker(type, payload, callback) {
+        const id = Math.random().toString(36).substring(7);
+        if (callback) {
+            if (!this.pendingRequests) this.pendingRequests = new Map();
+            this.pendingRequests.set(id, callback);
+        }
+        if (this.worker) {
+            this.worker.postMessage({ id, type, payload });
+        } else {
+            logger.error('❌ Rhizome Worker no inicialitzat al intentar enviar:', type);
+        }
+    }
+
     async saveOperation(op) {
         await this.init();
-        this.db.exec({
-            sql: 'INSERT OR IGNORE INTO operations (id, doc_id, type, value, depends_on, timestamp, author) VALUES (?, ?, ?, ?, ?, ?, ?)',
-            bind: [
-                op.id,
-                op.docId,
-                op.type,
-                JSON.stringify(op.value),
-                JSON.stringify(op.dependsOn || []),
-                op.timestamp,
-                op.author
-            ]
+        return new Promise((resolve, reject) => {
+            this.sendToWorker('SAVE_OP', op, (res) => {
+                if (res.type === 'ERROR') reject(new Error(res.payload));
+                else resolve();
+            });
         });
     }
 
-    /**
-     * Recupera totes les operacions d'un document.
-     */
     async getOperations(docId) {
         await this.init();
-        const rows = [];
-        this.db.exec({
-            sql: 'SELECT * FROM operations WHERE doc_id = ? ORDER BY timestamp ASC',
-            bind: [docId],
-            row: (row) => rows.push({
-                ...row,
-                value: JSON.parse(row.value),
-                dependsOn: JSON.parse(row.depends_on)
-            })
+        return new Promise((resolve, reject) => {
+            this.sendToWorker('GET_OPS', { docId }, (res) => {
+                if (res.type === 'ERROR') reject(new Error(res.payload));
+                else resolve(res.payload);
+            });
         });
-        return rows;
     }
 
-    /**
-     * Desa un snapshot d'estat final per evitar "re-walking" del graf complet.
-     */
     async saveSnapshot(docId, data, lastOpId) {
         await this.init();
-        this.db.exec({
-            sql: 'INSERT OR REPLACE INTO snapshots (doc_id, data, last_op_id, updated_at) VALUES (?, ?, ?, ?)',
-            bind: [docId, JSON.stringify(data), lastOpId, Date.now()]
+        return new Promise((resolve, reject) => {
+            this.sendToWorker('SAVE_SNAPSHOT', { docId, data, lastOpId }, (res) => {
+                if (res.type === 'ERROR') reject(new Error(res.payload));
+                else resolve();
+            });
         });
     }
 
     async getSnapshot(docId) {
         await this.init();
-        let snapshot = null;
-        this.db.exec({
-            sql: 'SELECT * FROM snapshots WHERE doc_id = ?',
-            bind: [docId],
-            row: (row) => {
-                snapshot = {
-                    data: JSON.parse(row.data),
-                    lastOpId: row.last_op_id
-                };
-            }
+        return new Promise((resolve, reject) => {
+            this.sendToWorker('GET_SNAPSHOT', { docId }, (res) => {
+                if (res.type === 'ERROR') reject(new Error(res.payload));
+                else resolve(res.payload);
+            });
         });
-        return snapshot;
     }
 
-    /**
-     * Purga operacions antigues del graf per alliberar espai.
-     * [FLASH] Llei de l'Eficiència Rural.
-     */
     async purgeOperations(docId, keepLimit = 50) {
         await this.init();
-        // Només purguem si superem el límit per evitar fragmentació excessiva
-        this.db.exec({
-            sql: `DELETE FROM operations 
-                  WHERE doc_id = ? 
-                  AND id NOT IN (
-                      SELECT id FROM operations 
-                      WHERE doc_id = ? 
-                      ORDER BY timestamp DESC 
-                      LIMIT ?
-                  )`,
-            bind: [docId, docId, keepLimit]
+        return new Promise((resolve, reject) => {
+            this.sendToWorker('PURGE_OPS', { docId, keepLimit }, (res) => {
+                if (res.type === 'ERROR') reject(new Error(res.payload));
+                else resolve();
+            });
         });
-        logger.log(`[RhizomeDB] Purga completada per a ${docId}. Conservades últimes ${keepLimit} operacions.`);
     }
 }
 

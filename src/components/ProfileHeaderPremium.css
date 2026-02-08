@@ -10,7 +10,7 @@
     height: 220px;
     width: 100%;
     background: var(--bg-surface);
-    border-radius: 0px !important;
+    border-radius: 28px;
     overflow: hidden;
 }
 
@@ -53,7 +53,7 @@
 .premium-btn-circle {
     width: 44px;
     height: 44px;
-    border-radius: 0px;
+    border-radius: 50%;
 
     background: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(12px);
@@ -108,12 +108,14 @@
     position: relative;
     margin: -60px 16px 0;
     padding: 24px;
-    background: var(--bg-surface);
-    border-radius: var(--radius-card, 0px);
-    border: 3px solid var(--color-primary);
-    box-shadow: var(--shadow-main, 8px 8px 0px rgba(0, 0, 0, 0.3));
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 32px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
     z-index: 60;
-    transition: all 0.2s;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 [data-theme='dark'] .premium-identity-card {
@@ -158,17 +160,16 @@
 .premium-avatar-img {
     width: 100%;
     height: 100%;
-    border-radius: 0px !important;
+    border-radius: 24px;
     object-fit: cover;
-    border: 3px solid var(--color-primary);
-    box-shadow: 4px 4px 0px #000000;
+    border: 3px solid #fff;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 .premium-avatar-placeholder {
     width: 100%;
     height: 100%;
-    border-radius: 0px;
-
+    border-radius: 24px;
     background: var(--color-primary);
     color: white;
     display: flex;
@@ -176,7 +177,7 @@
     justify-content: center;
     font-size: 40px;
     font-weight: 800;
-    border: 4px solid var(--bg-main);
+    border: 4px solid #fff;
 }
 
 .live-indicator-pulse {
@@ -187,7 +188,7 @@
     height: 18px;
     background: #22c55e;
     border: 3px solid var(--bg-main);
-    border-radius: 0px;
+    border-radius: 50%;
 
 }
 
@@ -196,7 +197,7 @@
     position: absolute;
     inset: -4px;
     background: #22c55e;
-    border-radius: 0px;
+    border-radius: 50%;
 
     opacity: 0.4;
     animation: premiumPulse 2s infinite;
@@ -238,12 +239,13 @@
 }
 
 .premium-badge {
-    padding: 3px 10px;
-    border-radius: 0px;
-    font-size: var(--font-size-base);
+    padding: 4px 12px;
+    border-radius: 99px;
+    font-size: 11px;
     font-weight: 900;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .premium-badge.iaia {
@@ -345,11 +347,11 @@
 .profile-premium-header-container.official .premium-avatar-img,
 .profile-premium-header-container.official .premium-identity-card,
 .profile-premium-header-container.official .premium-avatar-wrapper {
-    border-radius: 0 !important;
+    border-radius: 32px !important;
 }
 
 .profile-premium-header-container.business .premium-avatar-img {
-    border-radius: 0px;
+    border-radius: 24px;
 }
 
 /* Edit Mode Inputs (Ghost Style) */

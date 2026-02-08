@@ -14,26 +14,9 @@ class PushNotificationService {
      * Registra el Service Worker [DESACTIVAT - Protocol Natiu]
      */
     async registerServiceWorker() {
-        if (!this.isSupported) {
-            logger.warn('[Push] Service Worker o Push API no suportats en aquest navegador');
-            return null;
-        }
-
-        try {
-            this.registration = await navigator.serviceWorker.register('/sw.js', {
-                scope: '/'
-            });
-
-            logger.log('[Push] Service Worker registrat correctament');
-
-            // Wait for service worker to be ready
-            await navigator.serviceWorker.ready;
-
-            return this.registration;
-        } catch (error) {
-            logger.error('[Push] Error registrant Service Worker:', error);
-            return null;
-        }
+        // [BYPASS] Protocol Natiu: Ja no usem Service Workers per a Push
+        // logger.log('[Push] Service Worker registration bypassed by Native Protocol');
+        return null;
     }
 
     /**

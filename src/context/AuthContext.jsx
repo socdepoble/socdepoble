@@ -234,8 +234,8 @@ export const AuthProvider = ({ children }) => {
         let isMounted = true;
         let initialCheckDone = false;
 
-        // [PILAR 2] Pre-warm context in background
-        preWarmContext();
+        // [PILAR 2] Pre-warm context in background (Silenzi Bruno: Evitem violació de gest d'usuari a la consola)
+        // preWarmContext();
 
         const handleAuth = async (event, session) => {
             if (!isMounted) return;
@@ -276,7 +276,7 @@ export const AuthProvider = ({ children }) => {
                         const { data: adminProfiles } = await supabase
                             .from('profiles')
                             .select('*')
-                            .or(`id.eq.${JAVI_REAL_ID},full_name.ilike.%Javi Llinares%,username.eq.javillinares,username.eq.socdepoble,email.eq.${session.user.email}`)
+                            .or(`id.eq.${JAVI_REAL_ID},full_name.ilike.%Javi Llinares%,username.eq.javillinares,username.eq.socdepoble`)
                             .not('avatar_url', 'is', null)
                             .order('created_at', { ascending: true })
                             .limit(1);
@@ -291,15 +291,18 @@ export const AuthProvider = ({ children }) => {
                         const masters = (typeof CREATOR_EMAILS !== 'undefined') ? CREATOR_EMAILS : [];
                         const isOfficialCreator = masters.includes(session.user.email) ||
                             session.user.email?.includes('javillinares') ||
-                            (window.location.hostname === 'localhost' && !session.user.email?.includes('test'));
+                            (window.location.hostname === 'localhost' && !session.user.email?.includes('test')) ||
+                            (window.location.hostname.includes('ngrok') && !session.user.email?.includes('test'));
 
                         const effectiveProfile = {
                             ...(profileData || {}),
                             id: profileData?.id || session.user.id,
                             full_name: isOfficialCreator ? 'Javi Llinares' : (profileData?.full_name || session.user.email?.split('@')[0] || 'Veí de la Torre'),
                             role: isCreator ? USER_ROLES.SUPER_ADMIN : (profileData?.role || USER_ROLES.NEIGHBOR),
-                            avatar_url: isOfficialCreator ? '/assets/master/javi_avatar_cinematic.png' : (profileData?.avatar_url || null),
-                            ofici: isOfficialCreator ? 'Dissenyador Gràfic & Art Director' : (profileData?.ofici || null),
+                            avatar_url: isOfficialCreator ? '/images/agents/javi_real.png' : (supabaseService.normalizeStorageUrl(profileData?.avatar_url) || null),
+                            cover_url: isOfficialCreator ? '/assets/master/brand_cinematic.png' : (supabaseService.normalizeStorageUrl(profileData?.cover_url) || null),
+                            ofici: isOfficialCreator ? 'Mestre de la Simbiosi & Dissenyador Master' : (profileData?.ofici || null),
+                            bio: isOfficialCreator ? 'Pare de la +IA i de la Xarxa Rhizome. Bategant en peluca i ulleres de sol per la sobirania digital del poble. 🏺🏛️✨' : (profileData?.bio || null),
                             is_master: isOfficialCreator
                         };
 
@@ -337,8 +340,26 @@ export const AuthProvider = ({ children }) => {
             } else if (isSobiraSession) {
                 const sobira = identityService.getStoredIdentity();
                 logger.log('[AuthContext] Recovering Sovereign Identity (0ms entry):', sobira.username);
-                setUser({ ...sobira, is_sovereign: true });
-                setProfile(sobira);
+
+                // [MASTER LOCALHOST OVERRIDE]
+                const isLocalMaster = window.location.hostname === 'localhost' || window.location.hostname.includes('ngrok');
+                if (isLocalMaster && (sobira.username?.startsWith('sobe_') || sobira.username?.startsWith('vei_'))) {
+                    const masterSobira = {
+                        ...sobira,
+                        full_name: 'Javi Llinares',
+                        username: 'socdepoble_master',
+                        role: USER_ROLES.SUPER_ADMIN,
+                        avatar_url: '/images/agents/javi_real.png',
+                        is_master: true,
+                        is_sovereign: true
+                    };
+                    setUser(masterSobira);
+                    setProfile(masterSobira);
+                    setRealProfile(masterSobira);
+                } else {
+                    setUser({ ...sobira, is_sovereign: true });
+                    setProfile(sobira);
+                }
             } else if (!session?.user) {
                 // [CRYPTO GENESIS] Si no hi ha res, bateguem una nova identitat ara mateix
                 const genesis = identityService.generateSovereignIdentity();

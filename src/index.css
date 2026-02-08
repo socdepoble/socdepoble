@@ -1,68 +1,67 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
 
 :root {
-  /* --- 1. CONSTITUCIÓ MASTER (Edició GEM MODERN - v2.0) --- */
-  /* Paleta "Llum i Vida" - Basada en el disseny validat per Gemini Pro */
-  --bg-page: #FDF5E6;
-  /* Crema Old Lace */
-  --bg-canvas: #F3F4F6;
-  /* Gris molt suau */
-  --bg-card: #FFFFFF;
-  --bg-surface: #FFFFFF;
-  --bg-surface-container: #F9FAFB;
+  /* --- 1. CONSTITUCIÓ MASTER (Edició DESIGN SYSTEM V2 - PREMIUM DARK) --- */
+  /* Paleta "Nit Digital" - Disseny validat pel Mestre Javi */
+  --bg-dark-center: #1A1B23;
+  --bg-dark-edge: #08090A;
+  --bg-page: radial-gradient(circle at center, var(--bg-dark-center) 0%, var(--bg-dark-edge) 100%);
+  --bg-surface: rgba(23, 25, 35, 0.7);
+  /* Glassmorphism Premium */
+  --bg-card: rgba(23, 25, 35, 0.85);
+  --bg-surface-container: rgba(23, 25, 35, 0.95);
 
-  --text-primary: #111827;
-  /* Blau Nit profund */
-  --text-main: #111827;
-  --text-secondary: #4B5563;
-  --text-muted: #6B7280;
+  --text-primary: #FFFFFF;
+  --text-main: #FFFFFF;
+  --text-secondary: #94A3B8;
+  --text-muted: rgba(255, 255, 255, 0.4);
 
-  /* --- 2. PALETA GEM MODERN [CIAN & NARANJA] --- */
-  --color-primary: #06B6D4;
-  /* Cian modern */
+  /* --- 2. PALETA V2: VILLAGE CONTROLLER [CIAN & TARONJA] --- */
+  --color-primary: #00F2FF;
+  /* Cian Neó Directives MASTER */
   --color-accent: #F97316;
-  /* Naranja institucional */
-  --color-community: #F97316;
-  --color-agent: #06B6D4;
-  --color-business: #81B29A;
-  /* Verd Sabia */
-  --color-official: #F2CC81;
-  /* Arena/Oro */
-  --color-crema: #FDF5E6;
+  /* Taronja Complementari */
+  --color-violet: #5D5FEF;
+  /* Acento Digital Alternatiu */
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-input: rgba(255, 255, 255, 0.05);
 
-  /* --- 3. TOKENS DE SUAVITAT (Organic Geometry) --- */
+  /* --- 3. TOKENS DE SUAVITAT (V2 Organic Geometry) --- */
+  --radius-input: 18px;
+  --radius-wrapper: 24px;
   --radius-gem-card: 28px;
   --radius-gem-btn: 999px;
-  /* Pill style */
-  --radius-gem-avatar: 50%;
-  --shadow-soft: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
-  --shadow-hover: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-  --blur-gem: 20px;
-  --glass-gem: rgba(255, 255, 255, 0.75);
+  --radius-gem-avatar: 20px;
+
+  --shadow-premium: 0 24px 64px rgba(0, 0, 0, 0.4);
+  --shadow-glow: 0 0 15px rgba(0, 242, 255, 0.2);
+  --blur-premium: 28px;
 
   /* bridge variables for Material System compatibility */
   --md-sys-color-primary: var(--color-primary);
-  --md-sys-color-on-primary: #ffffff;
+  --md-sys-color-on-primary: #000000;
   --md-sys-color-secondary: var(--color-accent);
   --md-sys-color-on-secondary: #ffffff;
-  --md-sys-color-surface: var(--bg-page);
+  --md-sys-color-surface: var(--bg-dark-edge);
   --md-sys-color-on-surface: var(--text-primary);
   --md-sys-color-surface-container: var(--bg-surface-container);
-  --md-sys-color-outline: rgba(0, 0, 0, 0.1);
+  --md-sys-color-outline: var(--color-border);
 
-  /* --- 4. GEOMETRIA SAGRADA --- */
+  /* --- 4. GEOMETRIA SAGRADA V2 (Deroga Zero Radius) --- */
   --radius-sm: 8px;
   --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 20px;
-  --radius-2xl: 28px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+  --radius-2xl: 32px;
   --radius-full: 9999px;
 
-  /* --- 5. TIPOGRAFIA (Chakra & Inter) --- */
+  /* --- 5. TIPOGRAFIA (Inter / Roboto) --- */
   --font-body: 'Inter', sans-serif;
-  --font-display: 'Chakra Petch', sans-serif;
-  --font-size-base: 19px;
+  --font-display: 'Inter', sans-serif;
+  --font-size-base: 18px;
   --font-weight-bold: 800;
+  --font-weight-black: 950;
+  --letter-spacing-titles: -0.02em;
 
   --page-margin: 16px;
   --space-bancal: 24px;
@@ -95,21 +94,10 @@
   }
 }
 
-/* TEMA: PEDRA SECA (Industrial/Zero Radius - Brutalista) */
+/* TEMA: PEDRA SECA (ARA INTEGRAT EN V2 - RESILIÈNCIA TERRITORIAL) */
 .theme-pedra-seca {
-  --album-radius: 0px !important;
-  --album-border: 2px solid var(--accent);
-  --album-shadow: 6px 6px 0px #000;
-
-  /* Global Overrides */
-  --radius-organic: 0px !important;
-  --radius-card: 0px !important;
-  --radius-media: 0px !important;
-  --sdp-radius-lg: 0px !important;
-  --sdp-radius-full: 0px !important;
-  --md-sys-shape-corner-large: 0px !important;
-  --md-sys-shape-corner-medium: 0px !important;
-  --radius-2xl: 0px !important;
+  --color-primary: var(--color-accent);
+  /* Taronja dominant */
 }
 
 /* TEMA: OLI SUAU (ARA: GEM MODERN - Disseny Validat) */
@@ -131,11 +119,11 @@
 
 .theme-oli-suau .universal-card {
   border-radius: var(--radius-gem-card) !important;
-  border: 1px solid rgba(0, 255, 255, 0.2) !important;
-  box-shadow: var(--shadow-neon) !important;
-  background: var(--glass-gem) !important;
-  backdrop-filter: blur(var(--blur-gem)) !important;
-  -webkit-backdrop-filter: blur(var(--blur-gem)) !important;
+  border: 1px solid var(--color-border) !important;
+  box-shadow: var(--shadow-premium) !important;
+  background: var(--bg-card) !important;
+  backdrop-filter: blur(var(--blur-premium)) !important;
+  -webkit-backdrop-filter: blur(var(--blur-premium)) !important;
 }
 
 .theme-oli-suau button,
@@ -234,12 +222,11 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Llei del Zero Radius (Flash Protocol) - Sota control de Tema */
 img,
 video,
 iframe,
 canvas {
-  /* Eliminat !important per a permetre ràdis en Oli Suau */
+  /* DIRECTIVA SUPREMA: GEOMETRIA SEGONS TEMA */
   border-radius: inherit;
 }
 
@@ -252,14 +239,12 @@ body {
 
 body {
   font-family: var(--font-body);
-  background-color: var(--md-sys-color-surface);
-  background-image: var(--bg-texture);
-  color: var(--md-sys-color-on-surface);
+  background: var(--bg-page) fixed;
+  color: var(--text-primary);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
   font-size: var(--font-size-base);
-  /* Llegibilitat Rural Master */
   position: relative;
 }
 
@@ -297,13 +282,11 @@ article h3,
 .post-author,
 .town-name {
   font-family: var(--font-display) !important;
-  font-weight: 900 !important;
-  /* ULTRA HEAVY */
+  font-weight: var(--font-weight-black) !important;
   font-size: 26px !important;
   color: var(--text-main);
-  letter-spacing: -0.02em;
+  letter-spacing: var(--letter-spacing-titles);
   text-transform: none;
-  border-radius: 0px;
 }
 
 body {
@@ -323,10 +306,8 @@ img,
 video,
 iframe,
 canvas {
-  max-width: 100%;
-  display: block;
-  border-radius: 0px;
-  /* DIRECTIVA FLASH: GEOMETRIA SAGRADA */
+  border-radius: inherit;
+  /* DIRECTIVA FLASH: GEOMETRIA SAGRADA - Ara hereda del contenidor (28px) */
 }
 
 button {
@@ -335,7 +316,7 @@ button {
   background: none;
   font-family: var(--font-label);
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  border-radius: 0px;
+  border-radius: var(--radius-lg);
 }
 
 button:active {
@@ -358,65 +339,66 @@ a:hover {
   margin: 0 auto;
   background-color: var(--bg-surface);
   min-height: 100vh;
+  min-height: 100dvh;
   position: relative;
   box-shadow: var(--shadow-hard);
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
-  padding-top: var(--sys-spacing-safe-top);
-  padding-bottom: var(--sys-spacing-safe-bottom);
 }
 
 /* Typography Utility Classes - Scaled for visibility (>45 users) */
 .heading-xl {
-  font-family: var(--font-heading);
-  font-size: 42px;
-  /* High visibility */
-  font-weight: 100;
-  /* ULTRA THIN FOR CONTRAST */
+  font-family: var(--font-display);
+  font-size: clamp(38px, 6vw, 64px);
+  font-weight: var(--font-weight-black);
   line-height: 1.0;
-  letter-spacing: -1.5px;
+  letter-spacing: -0.05em;
+  background: linear-gradient(to bottom, #FFFFFF 0%, #94A3B8 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .heading-lg {
-  font-family: var(--font-heading);
+  font-family: var(--font-display);
   font-size: 28px;
-  font-weight: 800;
+  font-weight: 900;
   line-height: 1.2;
 }
 
 .heading-md {
-  font-family: var(--font-heading);
+  font-family: var(--font-display);
   font-size: 22px;
-  font-weight: 700;
+  font-weight: 800;
   line-height: 1.3;
 }
 
 .text-body {
-  font-family: var(--font-main);
-  font-size: 19px;
-  font-weight: var(--font-weight-bold);
-  line-height: 1.5;
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.6;
   color: var(--text-main);
 }
 
 .text-secondary {
-  font-size: 18px;
+  font-size: 16px;
   line-height: 1.5;
   color: var(--text-secondary);
 }
 
 .text-small {
-  font-size: var(--font-size-base);
+  font-size: 14px;
   line-height: 1.4;
   color: var(--text-muted);
 }
 
 .text-micro {
-  font-size: var(--font-size-base);
-  font-weight: 800;
+  font-size: 11px;
+  font-weight: 900;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.1em;
 }
 
 /* MASONRY SYSTEM [SITSTEMA RIZOMA] */
@@ -451,8 +433,8 @@ a:hover {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(0, 242, 255, 0.15);
-  border-radius: 0px;
-  box-shadow: var(--shadow-hard);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-premium);
   transition: all 0.3s cubic-bezier(.16, 1, 0.3, 1);
 }
 
@@ -574,6 +556,7 @@ a:hover {
   height: 24px;
 }
 
+
 .avatar-placeholder-mini svg {
   width: 20px;
   height: 20px;
@@ -585,48 +568,49 @@ a:hover {
   object-fit: cover;
 }
 
-/* OLD CARD DEFINITIONS REMOVED FOR MASTER PROTOCOL */
-
 .add-btn-premium-vibrant {
-  background-color: var(--accent);
-  color: var(--bg-canvas)000;
-  padding: 20px 32px;
+  background: var(--color-primary);
+  color: #000;
+  padding: 16px 32px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 12px;
-  font-weight: 900;
+  font-weight: 950;
   font-family: var(--font-display);
   text-transform: uppercase;
-  letter-spacing: 2px;
-  border-radius: 0px;
-  /* BENTO RECTANGLE */
-  border: 2px solid #000000;
-  transition: all 0.2s;
+  letter-spacing: 0.1em;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-premium);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  border: none;
   height: 100%;
 }
 
+.add-btn-premium-vibrant:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-glow);
+}
+
 .add-btn-premium-vibrant:active {
-  background-color: #1A1D23;
-  transform: none;
+  transform: translateY(0);
 }
 
 .add-btn-premium-vibrant.full-width {
   width: 100%;
-  border-left: none;
 }
 
 .card {
   background: var(--bg-card);
-  border-radius: 0px;
+  border-radius: var(--radius-xl);
   padding: var(--space-md);
-  box-shadow: var(--shadow-hard);
+  box-shadow: var(--shadow-premium);
   border: 1px solid var(--color-border);
 }
 
 .pill {
   padding: 6px 16px;
-  border-radius: 0px;
+  border-radius: var(--radius-full);
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-bold);
 }
@@ -637,7 +621,7 @@ a:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 0px;
+  border-radius: var(--radius-lg);
   /* DIRECTIVA FLASH */
   background-color: var(--color-primary-soft);
   color: var(--color-primary);
@@ -654,96 +638,51 @@ a:hover {
     background: #000;
   }
 
-  /* Force square everywhere in desktop */
+  /* Conservar radis mestre en desktop */
   * {
-    border-radius: 0px;
+    border-radius: inherit;
   }
 }
 
 /* --- [MASTER] MD3 BUTTON SYSTEM (GENESIS) --- */
-.btn-filled {
-  background: var(--accent);
-  color: #000000;
-  padding: 14px 28px;
-  border-radius: 0px;
-  font-size: var(--font-size-base);
-  font-weight: 800;
+.btn-filled,
+.btn-primary {
+  background: var(--color-primary);
+  color: #000;
+  padding: 12px 28px;
+  border-radius: var(--radius-gem-btn);
+  font-size: 16px;
+  font-weight: 900;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  box-shadow: var(--shadow-hard);
-  border: var(--comic-border);
-  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  gap: 10px;
+  box-shadow: var(--shadow-premium);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.btn-filled:hover {
-  transform: translate(-3px, -3px);
-  box-shadow: var(--shadow-hard);
-  filter: brightness(1.1);
+.btn-filled:hover,
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-glow);
 }
 
 .btn-tonal {
-  background: var(--md-sys-color-primary-container);
-  color: var(--md-sys-color-on-primary-container);
-  padding: 14px 28px;
-  border-radius: 0px;
-  font-size: var(--font-size-base);
+  background: rgba(255, 255, 255, 0.05);
+  color: #FFFFFF;
+  padding: 12px 28px;
+  border-radius: var(--radius-gem-btn);
+  border: 1px solid var(--color-border);
   font-weight: 800;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  box-shadow: var(--shadow-hard);
-  border: var(--comic-border);
-  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.btn-tonal:hover {
-  transform: translate(-3px, -3px);
-  box-shadow: var(--shadow-hard);
+  transition: background 0.2s;
 }
 
 .btn-outline {
-  background: transparent;
-  color: var(--md-sys-color-primary);
-  padding: 12px 24px;
-  border-radius: 0px;
-  font-size: var(--font-size-base);
+  border: 1px solid var(--color-primary);
+  color: var(--color-primary);
+  padding: 10px 24px;
+  border-radius: var(--radius-gem-btn);
   font-weight: 800;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  border: var(--comic-border);
-  transition: all 0.2s;
-}
-
-.btn-outline:hover {
-  background: var(--md-sys-color-surface-variant);
-  transform: translateY(-2px);
-}
-
-.btn-primary {
-  background: var(--accent);
-  color: #000000;
-  padding: 14px 28px;
-  border-radius: 0px;
-  font-size: var(--font-size-base);
-  font-weight: 800;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  box-shadow: var(--shadow-hard);
-  border: var(--comic-border);
-  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.btn-primary:hover {
-  transform: translate(-3px, -3px);
-  box-shadow: var(--shadow-hard);
-  filter: brightness(1.1);
 }
 
 /* Modal System - Bottom Sheet Optimized for Mobile */
@@ -769,9 +708,9 @@ a:hover {
   width: 100%;
   max-width: 500px;
   max-height: calc(100vh - 40px);
-  border-radius: 0px;
+  border-radius: var(--radius-2xl);
   /* DIRECTIVA FLASH */
-  box-shadow: var(--shadow-hard);
+  box-shadow: var(--shadow-premium);
   border: 1px solid var(--color-border);
   position: relative;
   display: flex;
@@ -779,8 +718,6 @@ a:hover {
   overflow: hidden;
   animation: modalScaleUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
-
-/* REDUNDANT MASTER CARD REMOVED */
 
 /* MASTER SIMBIOSI & TRANSPARENCY */
 .ia-transparency-note-mini {
@@ -805,7 +742,7 @@ a:hover {
 .simbiosi-bar-container {
   height: 6px;
   background: rgba(0, 0, 0, 0.1);
-  border-radius: 0px;
+  border-radius: var(--radius-full);
   overflow: hidden;
   display: flex;
   margin-top: 8px;
@@ -838,16 +775,16 @@ a:hover {
 /* MASTER BUTTONS & ANIMATIONS */
 .btn-astro-payment {
   background: var(--color-primary);
-  color: var(--bg-canvas);
-  border: 2px solid #000;
-  box-shadow: var(--shadow-hard);
+  color: #000;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-premium);
   font-weight: 900;
   transition: all 0.2s cubic-bezier(.16, 1, 0.3, 1);
 }
 
 .btn-astro-payment:active:not(:disabled) {
   transform: translate(2px, 2px);
-  box-shadow: var(--shadow-hard);
+  box-shadow: var(--shadow-premium);
 }
 
 .btn-astro-payment.paid {
@@ -884,7 +821,7 @@ a:hover {
   .modal-content {
     max-width: 100%;
     max-height: 92vh;
-    border-radius: 0px 28px 0 0;
+    border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
     border-bottom: none;
     /* SUPREME USABILITY: Slide Up Bezier */
     animation: modalSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
@@ -897,7 +834,7 @@ a:hover {
     width: 40px;
     height: 4px;
     background: var(--color-divider);
-    border-radius: 0px;
+    border-radius: var(--radius-full);
     position: absolute;
     top: 12px;
     left: 50%;
@@ -1010,13 +947,13 @@ a:hover {
   align-items: center;
   gap: 8px;
   background-color: var(--color-primary);
-  color: white;
+  color: #000;
   padding: var(--space-sm) var(--space-xl);
-  border-radius: 0px;
+  border-radius: var(--radius-xl);
   /* Rectangular: 8px */
   font-weight: 800;
   font-family: var(--font-heading);
-  box-shadow: var(--shadow-hard);
+  box-shadow: var(--shadow-premium);
   transition: transform 0.2s, background-color 0.2s;
 }
 
@@ -1036,7 +973,7 @@ a:hover {
   font-size: var(--font-size-base);
   font-weight: 800;
   padding: 2px 10px;
-  border-radius: 0px;
+  border-radius: var(--radius-sm);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   display: inline-flex;
@@ -1064,7 +1001,7 @@ a:hover {
   color: #10b981;
   background: rgba(16, 185, 129, 0.05);
   padding: 6px 12px;
-  border-radius: 0px;
+  border-radius: var(--radius-md);
   border-left: 3px solid #10b981;
   display: inline-block;
 }
@@ -1075,9 +1012,9 @@ a:hover {
   backdrop-filter: blur(40px) saturate(200%);
   -webkit-backdrop-filter: blur(40px) saturate(200%);
   border: 1px solid rgba(0, 242, 255, 0.5);
-  border-radius: 0px;
+  border-radius: var(--radius-xl);
   padding: 24px;
-  box-shadow: var(--shadow-hard);
+  box-shadow: var(--shadow-premium);
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -1109,8 +1046,8 @@ a:hover {
   width: 12px;
   height: 12px;
   background: #00f2ff;
-  border-radius: 0px;
-  box-shadow: var(--shadow-hard);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-glow);
   animation: pulseNeonGenius 2.5s infinite ease-in-out;
 }
 
@@ -1166,7 +1103,7 @@ a:hover {
 .sw-update-btn {
   flex: 1;
   height: 54px;
-  border-radius: 0px;
+  border-radius: var(--radius-lg);
   font-weight: 900;
   font-size: var(--font-size-base);
   text-transform: uppercase;
@@ -1236,12 +1173,12 @@ a:hover {
 
 .rescue-card {
   background: #1a1a1a;
-  border: 4px solid #FF4444;
+  border: 1px solid #FF4444;
   padding: 40px 30px;
   text-align: center;
   max-width: 400px;
-  box-shadow: var(--shadow-hard);
-  border-radius: 0px;
+  box-shadow: var(--shadow-premium);
+  border-radius: var(--radius-2xl);
 }
 
 .rescue-card h3 {
@@ -1272,7 +1209,7 @@ a:hover {
   text-transform: uppercase;
   font-size: var(--font-size-base);
   letter-spacing: 1px;
-  border-radius: 0px;
+  border-radius: var(--radius-lg);
 }
 
 .btn-rescue-soft {
@@ -1282,7 +1219,7 @@ a:hover {
   font-weight: var(--font-weight-bold);
   text-transform: uppercase;
   font-size: var(--font-size-base);
-  border-radius: 0px;
+  border-radius: var(--radius-lg);
 }
 
 @keyframes animate-in {
@@ -1311,9 +1248,9 @@ a:hover {
   font-family: var(--font-display);
   text-transform: uppercase;
   letter-spacing: 1.5px;
-  border-radius: 0px !important;
-  border: 3px solid #000000;
-  transition: all 0.1s ease;
+  border-radius: var(--radius-xl) !important;
+  border: 1px solid var(--color-border);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
   font-size: 1.1rem;
   width: 100%;
@@ -1323,20 +1260,20 @@ a:hover {
 .connect-btn-brutal {
   background: var(--color-primary);
   color: #000000;
-  box-shadow: 6px 6px 0px #000000;
+  box-shadow: var(--shadow-premium);
 }
 
 .connect-btn-brutal.connected {
   background: #000000;
   color: var(--color-primary);
   border-color: var(--color-primary);
-  box-shadow: 6px 6px 0px var(--color-primary);
+  box-shadow: var(--shadow-glow);
 }
 
 .chat-btn-brutal {
   background: var(--color-accent);
   color: #000000;
-  box-shadow: 6px 6px 0px #000000;
+  box-shadow: var(--shadow-premium);
 }
 
 .connect-btn-brutal:hover,

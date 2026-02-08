@@ -70,7 +70,7 @@
 .neural-core-panel {
     background: #FFFFFF;
     border: var(--border-master);
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     padding: 32px;
     display: flex;
     flex-direction: column;
@@ -147,7 +147,7 @@
 .stat-item {
     background: #000000;
     padding: 16px;
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     text-align: center;
     border: var(--border-master);
     color: var(--color-primary);
@@ -176,7 +176,7 @@
 
 .system-logs {
     background: var(--admin-bg-alt);
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     padding: 24px;
     font-family: monospace;
     font-size: var(--font-size-base);
@@ -217,7 +217,7 @@
 .module-card {
     background: #FFFFFF;
     border: var(--border-master);
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     padding: 16px;
     cursor: pointer;
     transition: all 0.1s ease;
@@ -237,7 +237,7 @@
 .module-icon-wrapper {
     width: 36px;
     height: 36px;
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -307,7 +307,7 @@
 .dashboard-card .dash-icon {
     width: 60px;
     height: 60px;
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -350,7 +350,7 @@
     color: #666;
     font-size: 0.75rem;
     padding: 4px 10px;
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     font-weight: var(--font-weight-bold);
 }
 
@@ -405,7 +405,7 @@
     padding: 10px 16px;
     background: var(--bg-surface);
     border: 1px solid var(--color-border);
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     font-size: var(--font-size-base);
     font-weight: 700;
     color: var(--text-muted);
@@ -430,7 +430,7 @@
 .persona-card {
     background: var(--bg-surface);
     border: 1px solid var(--color-border);
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     padding: var(--space-md);
     display: flex;
     align-items: center;
@@ -460,7 +460,7 @@
     width: 60px;
     height: 60px;
     background: var(--bg-main);
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -499,7 +499,7 @@
     font-size: var(--font-size-base);
     background: var(--bg-main);
     padding: 2px 8px;
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     text-transform: uppercase;
     font-weight: 800;
     color: var(--color-primary);
@@ -510,7 +510,7 @@
     color: var(--text-main);
     border: 1px solid var(--color-border);
     padding: 8px 12px;
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     font-size: var(--font-size-base);
     font-weight: 900;
     cursor: pointer;
@@ -555,7 +555,7 @@
     color: white;
     border: none;
     padding: 10px 16px;
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     font-size: var(--font-size-base);
     font-weight: 700;
     display: flex;
@@ -573,7 +573,7 @@
 .lexicon-item-card {
     background: var(--bg-surface);
     border: 1px solid var(--color-border);
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     padding: 16px;
     display: flex;
     flex-direction: column;
@@ -596,7 +596,7 @@
     font-size: var(--font-size-base);
     background: var(--bg-main);
     padding: 2px 8px;
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     font-weight: 800;
     color: var(--text-muted);
 }
@@ -651,7 +651,7 @@
 
 .broadcast-card {
     padding: 24px;
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -673,7 +673,7 @@
     background: #FFF3E0;
     color: #F57C00;
     padding: 2px 8px;
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     font-size: var(--font-size-base);
     font-weight: 700;
     text-transform: uppercase;
@@ -699,7 +699,7 @@
 .form-group-admin textarea {
     padding: 12px;
     border: 1px solid var(--color-border);
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     background: var(--bg-main);
     font-family: inherit;
     font-size: var(--font-size-base);
@@ -717,7 +717,7 @@
     background: var(--bg-surface);
     border: 1px solid var(--color-border);
     color: var(--text-main);
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     font-weight: var(--font-weight-bold);
     cursor: pointer;
     display: flex;
@@ -732,7 +732,7 @@
     background: linear-gradient(135deg, #E53935, #D32F2F);
     color: white;
     border: none;
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     font-weight: 700;
     cursor: pointer;
     box-shadow: var(--shadow-hard);
@@ -743,7 +743,7 @@
     background: transparent;
     border: 2px solid var(--color-primary);
     color: var(--color-primary);
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     font-weight: 700;
     cursor: pointer;
     transition: all 0.2s;

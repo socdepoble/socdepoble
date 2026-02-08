@@ -133,7 +133,9 @@ const PublicEntity = () => {
                 alert('Enllaç copiat al porta-retalls');
             }
         } catch (err) {
-            logger.error('Error sharing:', err);
+            if (err.name !== 'AbortError') {
+                logger.error('Error sharing:', err);
+            }
         }
     };
 

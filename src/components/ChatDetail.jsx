@@ -67,8 +67,14 @@ const ChatDetail = () => {
         (isP1Current ? chat?.p2_role : chat?.p1_role) === 'ambassador' ||
         String(isP1Current ? chat?.participant_2_id : chat?.participant_1_id).startsWith('11111111-1111-4111-a111-');
 
-    const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    const scrollToBottom = (instant = false) => {
+        if (instant) {
+            messagesEndRef.current?.scrollIntoView({ behavior: 'auto' });
+        } else {
+            setTimeout(() => {
+                messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+            }, 100);
+        }
     };
 
     useEffect(() => {
@@ -111,26 +117,45 @@ const ChatDetail = () => {
 
                     // 3. Fallback for new personas
                     const persona = await supabaseService.getPublicProfile(personaId);
-                    setChat({
-                        id,
-                        participant_1_id: currentUserId,
-                        participant_2_id: personaId,
-                        p1_info: { id: currentUserId, name: user?.full_name || 'Jo' },
-                        p2_info: { id: personaId, name: persona.full_name, avatar_url: persona.avatar_url },
-                        p2_role: persona.role,
-                        p2_is_ai: persona.is_ai || persona.role === 'ambassador',
-                        is_iaia: true
-                    });
+
+                    if (!persona && !existingMock) {
+                        logger.warn(`[ChatDetail] Persona ${personaId} not found in DB or Mocks. Using generic fallback.`);
+                        setChat({
+                            id,
+                            participant_1_id: currentUserId,
+                            participant_2_id: personaId,
+                            p1_info: { id: currentUserId, name: user?.full_name || 'Jo' },
+                            p2_info: { id: personaId, name: 'Veí desconegut', avatar_url: null },
+                            is_iaia: true
+                        });
+                    } else {
+                        setChat({
+                            id,
+                            participant_1_id: currentUserId,
+                            participant_2_id: personaId,
+                            p1_info: { id: currentUserId, name: user?.full_name || 'Jo' },
+                            p2_info: { id: personaId, name: persona?.full_name || 'Veí', avatar_url: persona?.avatar_url },
+                            p2_role: persona?.role,
+                            p2_is_ai: persona?.is_ai || persona?.role === 'ambassador',
+                            is_iaia: true
+                        });
+                    }
                     setMessages([]);
                 } catch (error) {
                     logger.error('Error fetching virtual persona:', error);
-                    // Use mock data if available
-                    const chats = await supabaseService.getConversations(currentUserId);
-                    const mock = chats.find(c => c.id === id);
-                    if (mock) {
-                        setChat(mock);
-                        const msgs = await supabaseService.getConversationMessages(id);
-                        setMessages(msgs);
+                    // Critical fallback: try to find any chat to show something
+                    try {
+                        const chats = await supabaseService.getConversations(currentUserId);
+                        const mock = chats.find(c => c.id === id);
+                        if (mock) {
+                            setChat(mock);
+                            const msgs = await supabaseService.getConversationMessages(id);
+                            setMessages(msgs);
+                        } else {
+                            setError("No s'ha pogut carregar la conversa. Prova de reiniciar la sessió.");
+                        }
+                    } catch (innerErr) {
+                        setError("Error de connexió crític.");
                     }
                 } finally {
                     setLoading(false);
@@ -204,7 +229,7 @@ const ChatDetail = () => {
 
     useEffect(() => {
         if (messages.length > 0) {
-            scrollToBottom();
+            scrollToBottom(messages.length < 5); // Instant if first load/few messages
         }
     }, [messages.length]);
 
@@ -317,8 +342,8 @@ const ChatDetail = () => {
             supabaseService.updatePresenceTyping(presenceChannelRef.current, false);
         }
 
+        let activeId = id;
         try {
-            let activeId = id;
             if (String(id || '').startsWith('new-iaia-')) {
                 const otherParticipantId = chat.participant_2_id;
                 const newConv = await supabaseService.getOrCreateConversation(
@@ -1012,7 +1037,7 @@ const ChatDetail = () => {
                                 lang={i18n.language}
                             />
                         ) : (
-                            <div className="whatsapp-input-wrapper">
+                            <div className="mas-chat-input-wrapper">
                                 <button
                                     type="button"
                                     className="wa-action-btn"

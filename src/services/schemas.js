@@ -26,7 +26,6 @@ export const PostSchema = z.object({
     ai_percentage: z.number().min(0).max(100).default(0).optional(),
     human_percentage: z.number().min(0).max(100).default(100).optional(),
     time_saved_minutes: z.number().min(0).default(0).optional(),
-    economic_value_saved: z.number().min(0).default(0).optional(),
     is_iaia_inspired: z.boolean().default(false).optional()
 });
 

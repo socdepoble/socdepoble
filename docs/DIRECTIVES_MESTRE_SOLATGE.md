@@ -48,7 +48,7 @@ Secció dedicada a optimitzar la comunicació amb l'IAIA i altres IA (NotebookLM
 > 3. **Model de Negoci i Ètica**: Platform Cooperativism, models digitals de la UE per a entorns rurals, i llicències Creative Commons (CC BY-NC-SA 4.0) per a bases de dades col·lectives."
 
 ### 2. Prompt de Refinat Estètic (Village Controller)
-> "Assumeix el rol d'un dissenyador UX/UI expert en la visió 'Village Controller'. Refina aquest component per a què transmeta una estètica premium, amb glassmorphism subtil, neon accents en blau cian (#00f2ff) i una jerarquia d'informació clara que bategue amb la vida del poble."
+> "Assumeix el rol d'un dissenyador UX/UI expert en la visió 'Village Controller'. Refina aquest component per a què transmeta una estètica premium, amb uns colors base cian (#00f2ff) i el seu complementari, taronja, el blanc i el negre, i una jerarquia d'informació clara que bategue amb la vida del poble."
 
 ## Roadmap de Funcionalitats v1.6 🏘️🗓️🚀
 Estat actual del pla mestre.
@@ -160,7 +160,7 @@ Tota publicació al Mur, Mercat i Pobles ha de seguir aquest protocol estricte:
    - **Segell de Llinatge**: Quan la publicació és d'un grup o empresa, ha d'aparèixer el nom de la persona física que ho publica a sota.
    - **Timestamp**: Data i hora de publicació clarament visibles.
 2. **Àrea Multimedia de Precisió**:
-   - **Cantonades Quadrades**: El contingut multimedia (imatges, vídeos) ha de tenir **esquines rectes (SENSE BORDER-RADIUS)**. Les corbes en el contingut són considerades un defecte de disseny.
+   - **Geometria Sagrada**: El contingut multimedia (imatges, vídeos) ha d'utilitzar radis orgànics (**radius-gem-card: 32px**). Es deroga oficialment el Zero Radius.
    - **Adaptació de Format**: L'àrea de visualització ha d'adaptar-se dinàmicament al format del contingut (vertical, horitzontal, quadrat).
 3. **Cos i Acció**: 
    - Tipografia de màxima llegibilitat.

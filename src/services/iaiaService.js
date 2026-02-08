@@ -14,13 +14,13 @@ class IAIAService {
             citation_format: "[Nom Doc, p. #]"
         };
 
-        // Escenaris visuals de la IAIA Dinàmica
+        // Escenaris visuals de la IAIA Dinàmica (Mapeig Real Bategat)
         this.AVATARS = {
-            OFFICIAL: "/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_oficial_vosc_v2_1770060040751.png",
-            ARXIU: "/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_arxiu_vosc_v2_1770060070010.png",
-            MERCAT: "/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_mercat_vosc_v2_1770060056125.png",
-            HORTA: "/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_horta_tia_style_1770059300082.png",
-            BENVINGUDA: "/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_benvinguda_tia_style_1770059315291.png"
+            OFFICIAL: "/assets/avatars/iaia_official.png",
+            ARXIU: "/assets/avatars/iaia_memory.png",
+            MERCAT: "/assets/avatars/iaia_secretary.png",
+            HORTA: "/assets/avatars/iaia_official.png",
+            BENVINGUDA: "/assets/avatars/iaia_official.png"
         };
     }
 
@@ -270,7 +270,6 @@ class IAIAService {
             ai_percentage: aiWeight,
             human_percentage: humanWeight,
             time_saved_minutes: timeSavedMinutes,
-            economic_value_saved: economicValue,
             is_iaia_inspired: true
         };
     }
@@ -582,6 +581,47 @@ class IAIAService {
         }
 
         return diagnostic;
+    }
+
+    /**
+     * Protocol "Esporgar l'Olivera" [MASTER DIRECTIVE]
+     * Realitza una neteja automàtica de deute tècnic i fitxers obsolets.
+     */
+    async automatedCleanup() {
+        logger.info("[IAIA] Executant Protocol 'Esporgar l'Olivera'...");
+        const results = {
+            storageCleared: false,
+            cachePurged: false,
+            deadCodeIdentified: []
+        };
+
+        try {
+            // 1. Neteja de memòria local (Silent)
+            localStorage.removeItem('sp_old_debug_logs');
+            localStorage.removeItem('pwa-installed');
+            sessionStorage.clear();
+            results.storageCleared = true;
+
+            // 2. Neteja de Caches
+            if ('caches' in window) {
+                const names = await caches.keys();
+                await Promise.all(names.map(n => caches.delete(n)));
+                results.cachePurged = true;
+            }
+
+            // 3. Verificació de Versió SSOT
+            const { APP_VERSION } = await import('../constants');
+            const current = localStorage.getItem('sp_app_version');
+            if (current !== APP_VERSION) {
+                logger.warn(`[IAIA] Desincronització detectada: ${current} -> ${APP_VERSION}`);
+            }
+
+            logger.info('[IAIA] Neteja completada. El Mas està polit!');
+            return results;
+        } catch (e) {
+            logger.error('[IAIA] Error en la neteja automàtica:', e);
+            return results;
+        }
     }
 }
 

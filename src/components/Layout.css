@@ -42,7 +42,7 @@
 
 .layout-main-scroll::-webkit-scrollbar-thumb {
     background: var(--sdp-glass-border);
-    border-radius: 0px;
+    border-radius: 999px;
 }
 
 .layout-main-scroll::-webkit-scrollbar-thumb:hover {
@@ -53,5 +53,6 @@
     .main-wrapper {
         padding: 0;
         max-width: 100%;
+        margin-top: calc(84px + var(--safe-top));
     }
 }

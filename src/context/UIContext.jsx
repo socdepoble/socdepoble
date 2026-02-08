@@ -19,6 +19,7 @@ export const UIProvider = ({ children }) => {
     const [gloveMode, setGloveMode] = useState(prefs.gloveMode);
     const [landingPage, setLandingPage] = useState(prefs.landingPage);
     const [visualDemocracy, setVisualDemocracy] = useState(prefs.visualDemocracy || 'pedra-seca');
+    const [globalDesign, setGlobalDesign] = useState(prefs.globalDesign || 'batega');
     const [isViewerOpen, setIsViewerOpen] = useState(false);
     const [viewerConfig, setViewerConfig] = useState(null); // { did, anchor, label, type }
     const [isConnectionModalOpen, setIsConnectionModalOpen] = useState(false);
@@ -40,6 +41,13 @@ export const UIProvider = ({ children }) => {
         document.documentElement.setAttribute('data-theme', theme);
         document.documentElement.setAttribute('data-vibe', vibe);
         document.documentElement.setAttribute('data-visual-democracy', visualDemocracy);
+        document.documentElement.setAttribute('data-design', globalDesign);
+
+        if (globalDesign === 'consola') {
+            document.body.classList.add('design-consola');
+        } else {
+            document.body.classList.remove('design-consola');
+        }
 
         // [MASTER THEME SYNC] Apliquem classes de tema de manera neta
         // Purguem totes les possibles classes de tema anteriors
@@ -64,9 +72,10 @@ export const UIProvider = ({ children }) => {
             gloveMode,
             landingPage,
             visualDemocracy,
+            globalDesign,
             selectedTown
         });
-    }, [theme, vibe, visionMode, gloveMode, landingPage, visualDemocracy, selectedTown]);
+    }, [theme, vibe, visionMode, gloveMode, landingPage, visualDemocracy, globalDesign, selectedTown]);
 
     const resetToNaturalOrder = () => {
         preferenceService.resetToNaturalOrder();
@@ -125,6 +134,8 @@ export const UIProvider = ({ children }) => {
             setLandingPage,
             visualDemocracy,
             setVisualDemocracy,
+            globalDesign,
+            setGlobalDesign,
             resetToNaturalOrder,
             isConnectionModalOpen,
             setIsConnectionModalOpen,
@@ -188,6 +199,17 @@ export const UIProvider = ({ children }) => {
 
 export const useUI = () => {
     const context = useContext(UIContext);
-    if (!context) throw new Error('useUI must be used within a UIProvider');
+    if (!context) {
+        // [MASTER BLINDATGE] Retornem valors per defecte de seguretat si el context no és llest
+        return {
+            isViewerOpen: false,
+            visionMode: 'hibrida',
+            globalDesign: 'standard',
+            setGlobalDesign: () => { },
+            setVisionMode: () => { },
+            selectedTownData: null,
+            setSelectedTownData: () => { }
+        };
+    }
     return context;
 };

@@ -7,6 +7,7 @@ import TownSelectorModal from '../components/TownSelectorModal';
 import { useAuth } from '../context/AuthContext';
 import { logger } from '../utils/logger';
 import { hapticService } from '../services/hapticService';
+import { APP_VERSION } from '../constants';
 import './Auth.css';
 
 /**
@@ -415,7 +416,7 @@ const Register = () => {
             <footer className="onboarding-legal">
                 <p>En bategar, acceptes que Sóc de Poble és un experiment de sobirania digital. <Link to="/legal">Avisos Legals</Link></p>
                 <div className="auth-version-footer" style={{ marginTop: '10px', opacity: 0.3, fontSize: '0.7rem', userSelect: 'all' }}>
-                    v1.13.0-AI-FULL
+                    {APP_VERSION}
                 </div>
             </footer>
         </div>

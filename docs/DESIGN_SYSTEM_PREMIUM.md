@@ -15,9 +15,7 @@ Este documento registra los tokens de diseño y estándares visuales aprobados d
 
 ## ✨ Efectos y Elevación
 
-### Glassmorphism Standard
-- **Backdrop Blur:** `20px`
-- **Border:** `1px solid rgba(255, 255, 255, 0.08)`
+### Standard
 - **Sombra (Elevada):** `0 24px 64px rgba(0, 0, 0, 0.4)`
 
 ### Gradiente de Fondo (CSS)
@@ -25,16 +23,23 @@ Este documento registra los tokens de diseño y estándares visuales aprobados d
 background: radial-gradient(circle at center, #1a1b23 0%, #08090a 100%);
 ```
 
-## ⌨️ Formularios (Dark Context)
-- **Border Radius:** `18px` para inputs, `20px` para wrappers.
-- **Label Color:** `rgba(255, 255, 255, 0.4)` (Uppercase, 700 weight, 1px letter spacing).
-- **Focus State:** `box-shadow: 0 0 0 4px rgba(93, 95, 239, 0.15)`
+## 📐 Geometria Sagrada (V2 Organic)
+- **Border Radius Inputs:** `18px`
+- **Border Radius Wrappers:** `24px`
+- **Border Radius Cards:** `32px`
+- **Focus State:** `box-shadow: 0 0 0 4px rgba(0, 242, 255, 0.15)` (Cian Glow)
 
 ## 📐 Tipografía e i18n
 - **Títulos:** White, 800-950 weight, letter-spacing -0.02em a -0.5px.
 - **Idioma:** Valenciano (AVL) usando formas imperativas (Inicia, Entra, Registra't).
 
 ## 📱 Patrones de Interfaz (Nuevos)
+
+### Cabecera (Sempre Negra 🌑)
+- **Fondo:** `#000000` sólido (o glassmorphism muy opaco con blur).
+- **Contraste:** Texto e iconos en blanco puro (`#FFFFFF`).
+- **Logo:** Logo oficial blanco a la izquierda.
+- **Justificación:** La cabecera negra actúa como anclaje visual y refuerza el carácter "Premium" y "Master" de la plataforma, independientemente del pueblo o contexto.
 
 ### Listado Compacto (Estilo Listado/Chat)
 Para pantallas con muchos elementos (como la selección de personajes), se prefiere un diseño estrecho y vertical:
@@ -46,7 +51,7 @@ Para pantallas con muchos elementos (como la selección de personajes), se prefi
 ### Cabeceras de Sección
 - **Logo:** Siempre centrado, versión blanca (usar `brightness(0) invert(1)` si no hay archivo específico).
 - **Título de Sección:** `clamp(38px, 6vw, 64px)`, peso 950, gradiente blanco a grisáceo.
-- **Descripción:** Texto en dos líneas si es largo, `font-size: 16px`, color `#94a3b8`.
+- **Descripción:** Texto en dos líneas si es largo, `font-size: 16px`.
 
 ## 🧭 Usabilidad y Navegación (Core Rules)
 
@@ -59,7 +64,7 @@ Para pantallas con muchos elementos (como la selección de personajes), se prefi
 ### Visibilidad de Acciones Críticas
 - **Botón de Compartir:** Debe estar **siempre visible** en las vistas de detalle (Posts, Mercado, Perfil).
 - **Ubicación:** Accesible en la zona superior (barra de navegación) o flotante en la zona inferior.
-- **Estilo:** Icono claro (`Share2` de Lucide), con contraste suficiente. No ocultar dentro de menús de "más opciones" si es una acción primaria.
+- **Estilo:** Icono con contraste suficiente. No ocultar dentro de menús de "más opciones" si es una acción primaria.
 
 ## 🛡️ Directivas de Desarrollo (Workflow)
 

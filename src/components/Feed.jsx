@@ -25,6 +25,8 @@ import Carousel from './Carousel';
 import AttributionBadge from './AttributionBadge';
 import UniversalCard from './UniversalCard';
 import { MOCK_EVENTS } from '../data';
+import { geminiService } from '../services/geminiService';
+import CronistaSummaryModal from './CronistaSummaryModal';
 
 const IAIA_INITIAL_DELAY_MS = 10000;
 const IAIA_INTERVAL_MS = 120000;
@@ -52,6 +54,11 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null, contentMo
 
     const { speak, stop, isPlaying } = useTextToSpeech();
     const [speakingPostId, setSpeakingPostId] = useState(null);
+
+    // [CRONISTA AI] State for summary
+    const [isCronistaLoading, setIsCronistaLoading] = useState(false);
+    const [summaryContent, setSummaryContent] = useState('');
+    const [showSummaryModal, setShowSummaryModal] = useState(false);
 
     useEffect(() => {
         isMounted.current = true;
@@ -344,6 +351,52 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null, contentMo
         navigate(`/${type}/${targetId}`);
     }, [navigate]);
 
+    const handleGenerateSummary = async () => {
+        if (isCronistaLoading) return;
+
+        setIsCronistaLoading(true);
+        try {
+            // Get the current visible posts (filtered)
+            const result = await geminiService.generateNewsletterSummary(filteredPosts);
+            if (result.error) {
+                setError(result.message);
+            } else {
+                setSummaryContent(result.text);
+                setShowSummaryModal(true);
+            }
+        } catch (err) {
+            logger.error('[Cronista] Error generating summary:', err);
+            setError("No s'ha pogut generar el resum. Torna-ho a provar.");
+        } finally {
+            setIsCronistaLoading(false);
+        }
+    };
+
+    const handleShareSummary = async () => {
+        if (!summaryContent || !user) {
+            navigate('/login');
+            return;
+        }
+
+        try {
+            const summaryPost = {
+                author_id: user.id,
+                author_name: user.user_metadata?.full_name || user.email,
+                content: `🗞️ **RESUM DEL DIA: CRÒNICA COMUNITÀRIA** 🗞️\n\n${summaryContent}\n\n#CronistaAI #ResumDelDia #SócDePoble`,
+                town_uuid: activeTown || 'global',
+                is_playground: isPlayground,
+                type: 'news_summary',
+                is_iaia_inspired: true
+            };
+
+            await supabaseService.createPost(summaryPost);
+            setShowSummaryModal(false);
+            window.dispatchEvent(new CustomEvent('data-refresh', { detail: { type: 'post' } }));
+        } catch (err) {
+            logger.error('[Cronista] Error sharing summary:', err);
+        }
+    };
+
     if (loading && posts.length === 0) {
         return (
             <div className="feed-container">
@@ -399,7 +452,24 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null, contentMo
                 >
                     {isIAIAFiltering ? "PAU RURAL" : "VEURE TOT"}
                 </button>
+
+                <button
+                    onClick={handleGenerateSummary}
+                    disabled={isCronistaLoading || filteredPosts.length === 0}
+                    className={`ml-2 px-3 py-1 rounded-none transition-all flex items-center gap-2 ${isCronistaLoading ? 'bg-gray-200 animate-pulse' : 'bg-secondary text-black hover:bg-opacity-90'}`}
+                    style={{ background: '#F97316' }} /* Gem Orange */
+                >
+                    <Sparkles size={14} />
+                    <span>{isCronistaLoading ? "PENSANT..." : "RESUM"}</span>
+                </button>
             </div>
+
+            <CronistaSummaryModal
+                isOpen={showSummaryModal}
+                onClose={() => setShowSummaryModal(false)}
+                summary={summaryContent}
+                onShare={handleShareSummary}
+            />
 
             <div className="feed-list mur-masonry">
                 {filteredPosts.length === 0 ? (

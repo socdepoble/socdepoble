@@ -34,13 +34,19 @@ const DAFOPage = () => {
                     <ArrowLeft size={24} />
                 </button>
                 <div className="dafo-actions">
-                    <button className="action-btn-mini" title="Compartir" onClick={() => {
+                    <button className="action-btn-mini" title="Compartir" onClick={async () => {
                         if (navigator.share) {
-                            navigator.share({
-                                title: `Anàlisi DAFO: ${dafoData.title}`,
-                                text: dafoData.description,
-                                url: window.location.href
-                            });
+                            try {
+                                await navigator.share({
+                                    title: `Anàlisi DAFO: ${dafoData.title}`,
+                                    text: dafoData.description,
+                                    url: window.location.href
+                                });
+                            } catch (err) {
+                                if (err.name !== 'AbortError') {
+                                    console.error('Error sharing DAFO:', err);
+                                }
+                            }
                         } else {
                             alert('La compartició no està disponible en aquest navegador.');
                         }

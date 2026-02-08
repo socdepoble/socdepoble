@@ -1,4 +1,5 @@
 import React from 'react';
+import { APP_VERSION } from '../constants';
 
 /**
  * SEO [VIRAL TIERS GOD]
@@ -16,7 +17,7 @@ const SEO = ({
 }) => {
     const siteTitle = 'Sóc de Poble';
     const showVersion = typeof window !== 'undefined' && !window.HIDE_SEO_VERSION;
-    const versionString = 'v1.13.0-AI-FULL';
+    const versionString = APP_VERSION;
 
     const displayTitle = title ? title : siteTitle;
     const fullTitle = showVersion ? `${displayTitle} | ${siteTitle} ${versionString}` : `${displayTitle} | ${siteTitle}`;

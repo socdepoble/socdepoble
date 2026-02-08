@@ -34,8 +34,8 @@ const SessionChronicle = () => {
     const efficiencyBoost = (humanCost / aiCost).toFixed(0);
 
     const shareToWhatsApp = () => {
-        const message = `⚡ *Crònica Sóc de Poble - Sessió ${sessionData.date}* ⚡\n\nAvui hem bategat fort:\n${sessionData.tasks.map(t => `• ${t}`).join('\n')}\n\n📊 *Impacte Econòmic:*\n- Cost Humà: ${humanCost}€\n- Cost AI [MASTER]: ${aiCost}€\n- ✨ Estalvi: ${savings.toFixed(2)}€\n\nLlegeix la crònica completa aquí: ${window.location.href}`;
-        window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
+        // [DELETED] Directiva del Mestre: No volem derivar a WhatsApp si el Xat del Mas té el mateix poder.
+        console.log('[DEBUG] Compartició a WhatsApp desactivada.');
     };
 
     return (
@@ -107,9 +107,9 @@ const SessionChronicle = () => {
                 </section>
 
                 <div className="share-actions">
-                    <button className="btn-share whatsapp" onClick={shareToWhatsApp}>
+                    <button className="btn-share" onClick={() => navigate('/chats')}>
                         <Share2 size={20} />
-                        Compartir a WhatsApp
+                        Anar als Xats del Mas
                     </button>
                 </div>
             </main>

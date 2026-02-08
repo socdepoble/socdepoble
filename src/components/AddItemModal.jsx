@@ -28,6 +28,11 @@ const AddItemModal = ({ isOpen, onClose, onItemCreated, isPrivateInitial = false
     const [isCaptureOpen, setIsCaptureOpen] = useState(false);
     const [capturedMedia, setCapturedMedia] = useState(null);
 
+    const handleCapture = (media) => {
+        setCapturedMedia(media);
+        setIsCaptureOpen(false);
+    };
+
     useEffect(() => {
         if (isOpen) {
             setPrivacy(isPrivateInitial ? 'groups' : 'public');

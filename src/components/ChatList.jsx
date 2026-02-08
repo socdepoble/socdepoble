@@ -281,8 +281,11 @@ const ChatList = () => {
             <div className="chat-list-container guest-view">
                 <div className="guest-overlay">
                     <div className="auth-iaia-guidance" style={{ marginBottom: '20px' }}>
-                        <img src="/assets/avatars/iaia_official.png" alt="MArIA" className="iaia-mini-avatar" />
-                        <div className="iaia-speech-bubble" style={{ color: 'white' }}>
+                        <div className="iaia-avatar-wrapper" style={{ width: '80px', height: '80px' }}>
+                            <img src="/assets/avatars/iaia_official.png" alt="MArIA" className="iaia-mini-avatar" style={{ width: '100%', height: '100%', borderRadius: '28px', border: '2px solid var(--color-primary)' }} />
+                            <div className="iaia-pulse"></div>
+                        </div>
+                        <div className="iaia-speech-bubble" style={{ color: 'white', marginTop: '12px' }}>
                             Encara no t'has registrat? Vine al redol, que ací xategem tots els veïns! 🗣️🏘️
                         </div>
                     </div>

@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { supabaseService } from '../../services/supabaseService';
 import {
     Activity, Users, Store, Zap, Heart, TrendingUp,
-    MessageCircle, AlertCircle, Clock, CheckCircle, Brain
+    MessageCircle, AlertCircle, Clock, CheckCircle, Brain,
+    Terminal, RefreshCcw, Shield
 } from 'lucide-react';
 import { logger } from '../../utils/logger';
 
@@ -104,7 +105,7 @@ const GlobalOverview = ({ addLog }) => {
                                         </span>
                                     </div>
                                     <p className="item-title">{item.title || item.content?.substring(0, 50) + '...'}</p>
-                                    <p className="item-author">per {item.profiles?.full_name || 'Usuari'}</p>
+                                    <p className="item-author">per {item.author || 'Usuari'}</p>
                                 </div>
                             </div>
                         )) : (
@@ -127,7 +128,7 @@ const GlobalOverview = ({ addLog }) => {
                         <div className="space-y-4">
                             <div className="node-stat-row">
                                 <span className="label">Versió actual</span>
-                                <span className="value font-mono text-cyan-400">v1.5.7-BATEGA</span>
+                                <span className="value font-mono text-cyan-400">v1.15.1-BATEGA</span>
                             </div>
                             <div className="node-stat-row">
                                 <span className="label">Base de dades</span>
@@ -424,40 +425,5 @@ const GlobalOverview = ({ addLog }) => {
         </div>
     );
 };
-
-const RefreshCcw = ({ size, className }) => (
-    <svg
-        width={size}
-        height={size}
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className={className}
-    >
-        <path d="M21 2v6h-6" />
-        <path d="M3 12a9 9 0 0 1 15-6.7L21 8" />
-        <path d="M3 22v-6h6" />
-        <path d="M21 12a9 9 0 0 1-15 6.7L3 16" />
-    </svg>
-);
-
-const Shield = ({ size, className }) => (
-    <svg
-        width={size}
-        height={size}
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className={className}
-    >
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" />
-    </svg>
-);
 
 export default GlobalOverview;

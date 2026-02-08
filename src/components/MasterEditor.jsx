@@ -1,3 +1,4 @@
+import React, { useRef, useEffect, useState } from 'react';
 import { Heading1, Heading2, Type, List, ListOrdered, Undo, Redo, Sparkles, Loader2 } from 'lucide-react';
 import { iaiaService } from '../services/iaiaService';
 import { hapticService } from '../services/hapticService';

@@ -539,9 +539,9 @@
 }
 
 .register-card-v2 {
-    background: rgba(10, 15, 30, 0.3) !important;
-    backdrop-filter: blur(40px) saturate(200%) !important;
-    border: 1px solid rgba(0, 242, 255, 0.4) !important;
+    background: rgba(10, 15, 30, 0.6) !important;
+    backdrop-filter: blur(12px) saturate(160%) !important;
+    border: 1px solid rgba(0, 242, 255, 0.3) !important;
     padding: 60px 40px !important;
     box-shadow:
         0 40px 100px rgba(0, 0, 0, 0.9),

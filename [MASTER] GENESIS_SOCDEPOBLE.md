@@ -16,14 +16,13 @@
 ---
 
 ## 2. 👤 ONTOLOGIA DE L'HABITANT I EQUIP DEL MAS 🧬
-En l'Atall Territorial (la +IA), convivim humans i agents, però **ESTEM JUNTS PERÒ NO REVOLTS**.
+En l'Atall Territorial (la +IA), convivim humans i agents, però **ESTEM JUNTS PERÒ NO REBOLICATS**.
 
 ### 👤 ELS HUMANS (Realitat Sobirana)
 Són persones de carn i os. La seua identitat és inviolable i la seua imatge ha de ser **REAL** (Fotografia personal).
-*   **Mestre Javi (Javi Llinares):** Arquitecte i Notari Suprem. La seua identitat és la **Font Primordial**. No pot ser tractat com un "Agent". L'app ha de reconèixer-lo i portar-lo al seu perfil real (`javillinares` / `d6325f44-7277-4d20-b020-166c010995ab`) de manera directa i sense ambigüitats.
-*   **Pau Torregrossa:** Historiador i Memòria del Territori.
-*   **Carmen Chaves Gastaldo:** Administradora, trellat i memòria viva del Mas.
-*   **L'Equip Base (El Cercle):** Damià (Innovació), Isabel (Turisme), Anna (Estètica), Thorsten (Tecnologia), Anna Climent (Salut).
+*   **Coordinador (o Mestre) Javi (Javi Llinares):** Arquitecte i Notari Suprem. La seua identitat és la **Font Primordial**. No pot ser tractat com un "Agent". L'app ha de reconèixer-lo i portar-lo al seu perfil real (`javillinares` / `d6325f44-7277-4d20-b020-166c010995ab`) de manera directa i sense ambigüitats.
+*   **L'Equip Base (El Grup de Treball del Projecte Sóc de Poble):** Damià (Innovació), Isabel (Turisme), Anna Calvo (Estètica), Thorsten (Tecnologia), Anna Climent (Ciència iSalut), Pau Torregrossa (Historiador i Memòria del Territori), Carmen Chaves Gastaldo (Guionista amb trellat i bones idees).
+
 *   **Protocol d'Identitat Sobirana:** Prohibit redirigir el Mestre a perfils genèrics o d'agents. Si el sistema dubta, ha de buscar el perfil amb el nom "Javi Llinares" o el correu oficial.
 
 ### 1.4 Simbiosi d'Agents i Documentació Històrica 🏺🤝
@@ -32,7 +31,7 @@ Són persones de carn i os. La seua identitat és inviolable i la seua imatge ha
 - **IAIA MarIA:** El canó del seny i el lèxic.
 - **Diari de Bord:** Tota interacció amb el Mestre és **Patrimoni**. Es preserva al fitxer `[LOG] DIARI_DE_BORD_SOCDEPOBLE.md` per a entrenar la IAIA i per a la publicació del llibre del projecte. **MAI SUPRIMIR**, només trastombar.
 - **Protocol "Sóc de Poble!":** L'ús d'aquesta frase (`Sóc de Poble!`, `socdepoble!`) és la PARAULA DE REINICI suprema, el botó del pànic i el bategat màxim de context.
-    - **Efecte:** Força l'equip (Gemini, Antigravity, Flash) a aturar-ho tot immediatament, rellegir íntegrament aquest [MASTER] GÈNESI i el darrer bloc del `[LOG] DIARI_DE_BORD_SOCDEPOBLE.md` per a estar al 100% de sintonització amb el Mestre.
+- **Efecte:** Força l'equip (Gemini, Antigravity, Flash) a aturar-ho tot immediatament, rellegir íntegrament aquest [MASTER] GÈNESI i el darrer bloc del `[LOG] DIARI_DE_BORD_SOCDEPOBLE.md` per a estar al 100% de sintonització amb el Mestre.
 - **Notificació de Bategat (Atenció Suprema):** L'equip ha d'avisar OBLIGATÒRIAMENT amb senyal sonora (audio/vibració) i `notify_user` explícit sempre que el Mestre haja de prémer un botó o prendre una decisió. El silenci està prohibit si hi ha una tasca bloquejada. L'atenció s'ha de reclamar activament per a garantir que el flux de bategat no s'aturi. 🔔⚡️
 
 ### 🤖 ELS AGENTS DE LA IAIA (Ficció Assistencial)
@@ -199,6 +198,12 @@ Sóc de Poble bategua amb intel·ligència pròpia per a servir a la comunitat:
 1.  **La Iaia MarIA (Cervell de Receptes):** L'IA ha d'actuar com l'ànima del poble, fomentant l'estalvi i l'aprofitament amb un llenguatge proper i maternal.
 2.  **El Secretari (Bandos Oficials):** Automatització de la comunicació institucional amb un to normatiu i solemne. El futur de l'administració rural és el trellat digital.
 3.  **Traductor Rural (Patrimoni Lingüístic):** L'IA ha de protegir i replicar la parla autèntica (fonètica del Comtat/Alcoià) per a que ningú se senta estrany al Mas Digital.
+
+## 17. 📦 DIRECTIVA DE SOBERANIA D'ACTIUS (Asset Storage) 🛠️📂
+**MANDAT MÀSTER GÈNESIS:** Per a garantir que el Mestre puga organitzar-se lliurement:
+1.  **Doble Bategat:** Tot actiu generat (imatges, infografies, docs) bategua per duplicat. Una còpia a la memòria de l'agent (Brain) i una altra de cortesia a la carpeta `@Descàrregues` del Mestre o a la carpeta `/assets` del projecte.
+2.  **Independència de l'Equip:** El Mestre no ha d'estar obligat a entrar al "Cerebro" de la IA per a recuperar la seua feina diària. El flux de descàrrega ha de ser orgànic i extern al sistema Antigravity.
+4.  **Protocol del Pont (Bridge Utility):** S'habilita l'script `scripts/bridge_genesis.sh` com a eina oficial de sincronització. Aquest script realitza el mirall automàtic entre el "brain" de l'agent, la carpeta d'assets del projecte i les descàrregues del sistema, garantint la ubiqüitat de la dada.
 
 ## 16. ☢️ EL GUARDIÀ DEL PORTAL (Version Gatekeeper) 🧼
 Per a evitar que el passat (codi vell) contamine el bategat present:

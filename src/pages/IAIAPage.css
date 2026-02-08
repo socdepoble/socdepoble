@@ -27,7 +27,7 @@
     color: white;
     width: 44px;
     height: 44px;
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -52,7 +52,7 @@
     color: white;
     width: 44px;
     height: 44px;
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -151,7 +151,7 @@
 .feature-item {
     padding: 1.5rem;
     border: var(--border-master);
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     transition: transform 0.1s ease;
 }
 
@@ -189,7 +189,7 @@
     padding: 1rem;
     background: #fff;
     border: 2px solid var(--color-primary);
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     color: var(--color-primary);
     font-weight: 700;
     display: flex;
@@ -207,7 +207,7 @@
 .iaia-voice-recorder-wrapper {
     background: #fff;
     padding: 1.5rem;
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     box-shadow: var(--shadow-hard);
     border: 2px solid var(--color-primary);
 }
@@ -325,7 +325,7 @@
     margin-bottom: var(--space-2xl);
     padding: var(--space-xl);
     background: var(--bg-card);
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     border: 1px solid var(--color-border);
 }
 
@@ -359,7 +359,7 @@
     padding: var(--space-xl);
     background: var(--bg-surface);
     border: 2px solid transparent;
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     text-align: center;
@@ -405,7 +405,7 @@
     right: 12px;
     width: 10px;
     height: 10px;
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     background: var(--color-border);
 }
 
@@ -448,7 +448,7 @@
     align-items: center;
     padding: 1rem;
     background: white;
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     box-shadow: var(--shadow-hard);
     text-align: center;
 }
@@ -529,7 +529,7 @@
 .proverb-item {
     background: white;
     padding: 1.25rem;
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     border-top: 4px solid var(--color-primary);
     box-shadow: var(--shadow-hard);
     transition: transform 0.2s, box-shadow 0.2s;
@@ -598,7 +598,7 @@
 .credit-card-premium {
     background: white;
     padding: 1.5rem;
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     border: 1px solid var(--color-border);
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     text-align: center;
@@ -613,6 +613,20 @@
     transform: translateY(-8px);
     box-shadow: var(--shadow-hard);
     border-color: var(--color-primary);
+}
+
+.credit-card-premium.clickable {
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.credit-card-premium.clickable:hover {
+    border-color: var(--color-primary);
+    background: var(--color-primary-soft);
+}
+
+.credit-card-premium.clickable:active {
+    transform: scale(0.98);
 }
 
 .credit-role {
@@ -688,7 +702,7 @@
     background: var(--md-sys-color-surface);
     background-image: var(--bg-texture);
     padding: 2rem 1rem;
-    border-radius: 0px;
+    border-radius: var(--radius-xl);
     border: var(--comic-border);
     display: flex;
     flex-direction: column;

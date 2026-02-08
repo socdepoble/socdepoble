@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { User, MapPin, Calendar, Settings, ChevronRight, Loader2, AlertCircle, Building2, Store, Users as UsersIcon, ArrowLeft, UserPlus, UserMinus, Plus, Layout, Activity, MessageCircle, Landmark } from 'lucide-react';
+import { User, MapPin, Calendar, Settings, ChevronRight, Loader2, AlertCircle, Building2, Store, Users as UsersIcon, ArrowLeft, UserPlus, UserMinus, Plus, Layout, Activity, MessageCircle, Landmark, MessageSquare, Sparkles } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
 import { useUI } from '../context/UIContext';
@@ -12,6 +12,7 @@ import SEO from '../components/SEO';
 import ProfileHeaderPremium from '../components/ProfileHeaderPremium';
 import Avatar from '../components/Avatar';
 import ShareHub from '../components/ShareHub';
+import MasterMediaGallery from '../components/MasterMediaGallery';
 import './Profile.css';
 
 const PublicProfile = () => {
@@ -19,7 +20,7 @@ const PublicProfile = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const { user: currentUser } = useAuth();
-    const { setIsSocialManagerOpen, setSocialManagerContext } = useUI();
+    const { setIsSocialManagerOpen, setSocialManagerContext, openLegalModal } = useUI();
     const [profile, setProfile] = useState(null);
     const [managedEntities, setManagedEntities] = useState([]);
     const [userPosts, setUserPosts] = useState([]);

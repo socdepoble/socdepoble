@@ -29,10 +29,14 @@ const UniversalCard = ({
     mode = "mur", // mur, mercat, pobles
     isBating = false,
     excerpt,
-    images
+    images,
+    onRecipeClick
 }) => {
     const { gloveMode, openViewer } = useUI();
+    const { isAdmin, user } = useAuth();
     const navigate = useNavigate();
+
+    const isMaster = isAdmin || user?.id === 'd6325f44-7277-4d20-b020-166c010995ab';
 
     const TRUNCATE_LENGTH = 280;
 
@@ -77,8 +81,8 @@ const UniversalCard = ({
             onClick={handleCardClick}
             style={{ cursor: mode === 'pobles' ? 'pointer' : 'default' }}
         >
-            <div className="card-header-genesis" onClick={handleAuthorClick}>
-                <div className="header-left">
+            <div className="card-header-genesis">
+                <div className="header-left" onClick={handleAuthorClick}>
                     <Avatar
                         src={avatarSrc || item?.author_avatar || item?.logo_url}
                         name={displayAuthor}
@@ -99,7 +103,19 @@ const UniversalCard = ({
                     <div className="header-date">
                         {displayDate}
                     </div>
-                    {/* Espai per a futurs indicadors mestres */}
+                    {isMaster && (
+                        <button
+                            className="btn-master-rectify"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                const id = item.uuid || item.id;
+                                if (id) navigate(`/edit/${id}`);
+                            }}
+                            title="Rectificació Mestre"
+                        >
+                            🏺
+                        </button>
+                    )}
                 </div>
             </div>
 
@@ -158,12 +174,10 @@ const UniversalCard = ({
                     </div>
                 )}
 
-                {/* TAGS PILL STYLE */}
                 <div className="card-tags-row">
                     {item?.tags?.map((tag, idx) => (
                         <span key={idx} className="genesis-tag-pill">{tag}</span>
                     ))}
-                    {mode === 'mercat' && <span className="genesis-tag-pill roba">ROBA</span>}
                 </div>
 
                 {children}
@@ -198,16 +212,30 @@ const UniversalCard = ({
                 {mode === 'mercat' && (
                     <div className="footer-mercat-master">
                         <div className="mercat-price-bategat">{displayPrice}</div>
-                        <button
-                            className="btn-mercat-action"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                navigate(`/mercat/${item.id || 'item'}`);
-                            }}
-                        >
-                            <span>INTERESSAT</span>
-                            <Plus size={20} strokeWidth={3} />
-                        </button>
+                        <div className="mercat-actions-row">
+                            {onRecipeClick && (
+                                <button
+                                    className="btn-recipe-ai"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        onRecipeClick(item);
+                                    }}
+                                    title="Recepta o Consell de la Tia Maria"
+                                >
+                                    <Sparkles size={18} />
+                                </button>
+                            )}
+                            <button
+                                className="btn-mercat-action"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    navigate(`/mercat/${item.id || 'item'}`);
+                                }}
+                            >
+                                <span>INTERESSAT</span>
+                                <Plus size={20} strokeWidth={3} />
+                            </button>
+                        </div>
                     </div>
                 )}
 

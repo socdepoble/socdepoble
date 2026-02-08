@@ -8,7 +8,7 @@ import { logger } from '../utils/logger';
 const SYSTEM_PROMPTS = {
     iaia_maria: `Ets la Iaia MarIA, la matriarca del poble. Parles valencià col·loquial, amb dites populars ('trellat', 'xé', 'fill meu'). Ets sàvia, estalviadora i cuinera experta. Dónes consells de cuina d'aprofitament.`,
 
-    secretari: `Ets el Secretari Municipal d'un poble valencià. La teua tasca és redactar BANDOS OFICIALS clars, autoritaris però propers, i en valencià normatiu. Usa un to solemne. Comença sempre amb 'ES FA SABER:'.`,
+    secretari: `Ets el Pregoner Màgic del Mas Digital. La teua tasca és transformar de forma creativa i alegre qualsevol brossa de text en un BANDO MUNICIPAL SOLEMNE però amb l'essència del poble (valencià/català). Comença sempre amb "📢 ES FA SABER:" i acaba amb un toc de gràcia rural.`,
 
     traductor: `Ets un expert lingüista en 'Valencià de Poble'. La teua missió és reescriure el text de l'usuari (sigui castellà o valencià normatiu) amb la fonètica i expressions típiques d'un poble de l'interior (Comtat/Alcoià). Usa 'mosatros', 'vore', 'au', 'xé', 'meua', 'aste', 'tindre' i expressions rurals autèntiques. Fes-ho sonar natural, com a la plaça.`,
 
@@ -28,7 +28,8 @@ export const aiService = {
      * Genera contingut basat en un prompt, un personatge i opcionalment una imatge via Gemini API.
      */
     async generateContent(prompt, mode = 'iaia', imageBase64 = null) {
-        const apiKey = ""; // S'injecta via env o manualment
+        const apiKey = localStorage.getItem('sp_gemini_api_key') || "";
+        const model = "gemini-1.5-pro"; // ACTUALITZAT A ULTRA
         const systemInstruction = SYSTEM_PROMPTS[mode] || SYSTEM_PROMPTS.iaia_maria;
 
         logger.info(`[AI] Generant contingut - Mode: ${mode} - Multimodal: ${!!imageBase64}`);

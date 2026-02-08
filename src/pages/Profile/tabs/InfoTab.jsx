@@ -18,7 +18,8 @@ const InfoTab = ({
     setBioValue,
     handleCardSubmit,
     userId,
-    navigate
+    navigate,
+    profile // Recibir el perfil como prop para evitar ReferenceError
 }) => {
     return (
         <div className="tab-pane-fade-in info-pane">
@@ -57,7 +58,7 @@ const InfoTab = ({
                             title={isEditingCard ? "Prem per canviar el teu poble de residència" : "Activa l'edició per canviar de poble"}
                         >
                             <MapPin size={16} />
-                            <span>{userTown?.name || profile?.town_name || 'Selecciona el teu poble'}</span>
+                            <span>{userTown?.name || profile?.full_name || 'Selecciona el teu poble'}</span>
                             {isEditingCard && <Edit2 size={12} style={{ marginLeft: 'auto', opacity: 0.7 }} />}
                         </button>
                     </div>

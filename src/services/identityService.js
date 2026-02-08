@@ -2,6 +2,20 @@ import { logger } from '../utils/logger';
 import { supabaseService } from './supabaseService';
 import { rhizomeManager } from './rhizomeManager';
 
+const PERSISTENCE = {
+    get: (key) => {
+        try {
+            const local = localStorage.getItem(key);
+            if (local) return local;
+        } catch (e) { /* silent */ }
+        try { return sessionStorage.getItem(key); } catch (e) { return null; }
+    },
+    set: (key, val) => {
+        try { localStorage.setItem(key, val); } catch (e) { /* silent */ }
+        try { sessionStorage.setItem(key, val); } catch (e) { /* silent */ }
+    }
+};
+
 /**
  * IdentityService: Gestió d'Identitat Sobirana i Contracte Social.
  * Basat en Grassroots Architecture i Digital Social Contracts.
@@ -30,14 +44,14 @@ export const identityService = {
             is_sovereign: true
         };
 
-        localStorage.setItem('sp_sovereign_identity', JSON.stringify(identity));
+        PERSISTENCE.set('sp_sovereign_identity', JSON.stringify(identity));
         logger.log('[Identity] Identitat Sobirana segellada al dispositiu.');
 
         return identity;
     },
 
     getStoredIdentity() {
-        const stored = localStorage.getItem('sp_sovereign_identity');
+        const stored = PERSISTENCE.get('sp_sovereign_identity');
         return stored ? JSON.parse(stored) : null;
     },
 
