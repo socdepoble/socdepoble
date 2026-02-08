@@ -310,9 +310,6 @@ export const AuthProvider = ({ children }) => {
                         if (effectiveProfile.full_name?.startsWith('Agent ')) {
                             effectiveProfile.full_name = effectiveProfile.full_name.replace('Agent ', 'Veí ');
                         }
-                        if (effectiveProfile.full_name?.includes('Veí ')) {
-                            effectiveProfile.full_name = effectiveProfile.full_name.replace('Veí ', 'Veïna '); // Gender fluid support if needed, or keep generic 'Veí'
-                        }
 
                         setRealProfile(effectiveProfile);
                         setProfile(effectiveProfile);
@@ -341,13 +338,13 @@ export const AuthProvider = ({ children }) => {
                 const sobira = identityService.getStoredIdentity();
                 logger.log('[AuthContext] Recovering Sovereign Identity (0ms entry):', sobira.username);
 
-                // [MASTER LOCALHOST OVERRIDE]
                 const isLocalMaster = window.location.hostname === 'localhost' || window.location.hostname.includes('ngrok');
-                if (isLocalMaster && (sobira.username?.startsWith('sobe_') || sobira.username?.startsWith('vei_'))) {
+                if (isLocalMaster) {
                     const masterSobira = {
                         ...sobira,
+                        id: 'd6325f44-7277-4d20-b020-166c010995ab',
                         full_name: 'Javi Llinares',
-                        username: 'socdepoble_master',
+                        username: 'javillinares',
                         role: USER_ROLES.SUPER_ADMIN,
                         avatar_url: '/images/agents/javi_real.png',
                         is_master: true,

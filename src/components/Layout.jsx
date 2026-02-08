@@ -164,7 +164,7 @@ const Layout = () => {
 
                 <BackToTop />
                 {!isChatDetail && isMobile && <Navigation />}
-                {!isChatDetail && globalDesign !== 'consola' && !isMobile && <CreationHub />}
+                {!isChatDetail && globalDesign !== 'consola' && <CreationHub />}
                 <GlobalModals />
                 <NotePad />
             </div>
