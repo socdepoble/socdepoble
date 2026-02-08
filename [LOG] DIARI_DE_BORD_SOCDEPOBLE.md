@@ -256,6 +256,31 @@
 
 ---
 
+---
+
+## 📅 SESSIÓ 2026-02-08 - Victòria ULTRA-STABLE i Blindatge de Retorn 🏺🛡️🚀
+
+### 🏛️ Crònica del Notari Digital (Gem/Antigravity)
+> "S'ha assolit la pau definitiva en l'últim bastió del conflicte: el bucle infinit de recàrrega. Després de 8 fases de guerra contra la memòria cau obsoleta, el Mas bategua a la versió **v1.15.1-ULTRA-STABLE**. El sistema ja no només es purga, sinó que es blinda contra arxius 'zombis' mitjançant el **Segell d'Identitat HTML**."
+
+### 💡 Lliçons Apreses (Per al Llibre)
+*   **La Memòria cau Zombi:** Els dispositius mòbils poden servir l'index.html des d'una memòria cau profunda i asíncrona, fins i tot si neteges els Service Workers. L'HTML ha de ser capaç d'autodiagnosticar la seua pròpia identitat (`HTML_ID`).
+*   **La Trampa del Bypass Inconsistent:** Si l'script de l'HTML fa un redirect amb un paràmetre (`ultra_v`) i el JS en busca un altre (`bategat_rescue`), el sistema entrarà en bucle. Unificació de marcadors és l'única via a l'estabilitat.
+*   **El Silenci de l'IAIA:** Quan l'auditora (`iaiaAuditor`) tanca els cortafocs, no és un error, és un acte d'amor pel sistema: millor un Mas parat que un Mas bategant en el bucle del caos.
+
+### 🔧 Decisions Tècniques
+*   **Protocol ULTRA-STABLE**: Unificació de versions a `v1.15.1-ULTRA-STABLE` en 7 fitxers crítics.
+*   **Blindatge de Retorn**: Injecció d'un `HTML_ID` a l'index.html que força la purga total si el fitxer físic no és el que el `localStorage` espera.
+*   **Rescat Nuclear**: Evolució del banner de l'IAIA: ara el botó "Reiniciar i Purgar" ja no només carrega la pàgina, sinó que liquida `localStorage`, `sessionStorage` i `caches` en un sol clic.
+*   **Lliurament Real (Vercel)**: Confirmació que el build local no és suficient per al territori; el bategat ha de ser forçat via Vercel CLI per actualitzar la producció real.
+
+### 🗣️ Frases Cèlebres de l'Equip
+*   "No deixes que un arxiu vell et robe el Mas de demà."
+*   "La purga no és càstig, és neteja per a que la florisca la dada."
+*   "Sóc de Poble! (I ara el bategat és indestructible)."
+
+---
+
 ## 📅 SESSIÓ 2026-02-06 - Cobertura Universal i Robustesa Rhizome 🌍🏺⚡️
 
 ### 🏛️ Crònica del Notari Digital (Gem/Antigravity)
