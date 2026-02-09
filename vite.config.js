@@ -8,6 +8,7 @@ export default defineConfig({
     exclude: ['@sqlite.org/sqlite-wasm']
   },
   server: {
+    port: 3000,
     headers: {
       'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0',
       'Pragma': 'no-cache',

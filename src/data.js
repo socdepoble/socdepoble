@@ -184,10 +184,35 @@ export const MOCK_MESSAGES = {
 };
 
 export const MOCK_FEED = [
-    // [HISTÒRIC] Recuperació de El Rentonar (Wordpress/Blogger)
+    {
+        id: 'post-merch-pinned-1',
+        town_id: 1,
+        author: "Sóc de Poble (Oficial)",
+        author_avatar: "/assets/master/logo_socdepoble_green_square.png",
+        author_role: "business",
+        author_entity_id: 'sdp-oficial-1',
+        time: "Ara",
+        content: "# 🏺 El Mapa del Tresor al teu pit\n\nJa està disponible la nova **Camiseta Granate (Roly 57)** amb el logotip complet. No és només roba, és la identitat del nostre territori bategant en blanc pur sobre granate. \n\nTroba-la al Mercat i ajuda a mantenir bategant Sóc de Poble! 🗺️✨",
+        likes: 1240,
+        comments: 45,
+        image_url: [
+            "/Users/javillinares/.gemini/antigravity/brain/8f23168e-5f93-43d2-9b9c-3d8316452dbf/media__1770526425766.png",
+            "/Users/javillinares/.gemini/antigravity/brain/e1b6e544-2f87-4f23-b187-d802a30c0ca1/shirt_maroon_front_full_logo_v2_1770235736579.png",
+            "/Users/javillinares/.gemini/antigravity/brain/e1b6e544-2f87-4f23-b187-d802a30c0ca1/shirt_maroon_lifestyle_full_logo_v2_1770235755326.png",
+            "/Users/javillinares/.gemini/antigravity/brain/e1b6e544-2f87-4f23-b187-d802a30c0ca1/shirt_maroon_market_full_logo_v2_1770235769546.png",
+            "/Users/javillinares/.gemini/antigravity/brain/e1b6e544-2f87-4f23-b187-d802a30c0ca1/shirt_maroon_folded_full_logo_v2_1770235783687.png",
+            "/Users/javillinares/.gemini/antigravity/brain/e1b6e544-2f87-4f23-b187-d802a30c0ca1/shirt_maroon_flatlay_full_logo_v2_1770235798882.png",
+            "/Users/javillinares/.gemini/antigravity/brain/e1b6e544-2f87-4f23-b187-d802a30c0ca1/shirt_maroon_detail_full_logo_v2_1770235812705.png",
+            "/Users/javillinares/.gemini/antigravity/brain/e1b6e544-2f87-4f23-b187-d802a30c0ca1/shirt_maroon_action_full_logo_v2_1770235827400.png"
+        ],
+        type: "post",
+        is_pinned: true,
+        pinned_position: 1,
+        created_at: new Date().toISOString()
+    },
     {
         id: 'blog-rentonar-1',
-        town_id: 1,
+        town_id: null, // [MASTER] Global visibility fallback
         author: "El Rentonar (Associació)",
         author_avatar: "/assets/master/logo_socdepoble_green_square.png",
         author_role: "business",
@@ -200,10 +225,9 @@ export const MOCK_FEED = [
         source_label: "Arxiu El Rentonar",
         created_at: "2024-12-20T10:00:00Z"
     },
-    // [HISTÒRIC] Crònica de la Sega
     {
         id: 'blog-rentonar-2',
-        town_id: 1,
+        town_id: null, // [MASTER] Global visibility fallback
         author: "El Rentonar (Cultura Local)",
         author_avatar: "/assets/master/logo_socdepoble_green_square.png",
         author_role: "business",
@@ -216,28 +240,10 @@ export const MOCK_FEED = [
         source_label: "Blogger Historical Import",
         created_at: "2024-11-15T12:00:00Z"
     },
-    {
-        id: 'post-merch-pinned-1',
-        town_id: 1,
-        author: "Sóc de Poble (Oficial)",
-        author_avatar: "/assets/master/logo_socdepoble_green_square.png",
-        author_role: "business",
-        author_entity_id: 'sdp-oficial-1',
-        time: "Ara",
-        content: "# 🏺 El Mapa del Tresor al teu pit\n\nJa està disponible la nova **Camiseta Granate (Roly 57)** amb el logotip complet. No és només roba, és la identitat del nostre territori bategant en blanc pur sobre granate. \n\nTroba-la al Mercat i ajuda a mantenir bategant Sóc de Poble! 🗺️✨",
-        likes: 1240,
-        comments: 45,
-        image_url: ["/Users/javillinares/.gemini/antigravity/brain/e1b6e544-2f87-4f23-b187-d802a30c0ca1/shirt_maroon_lifestyle_full_logo_v2_1770235755326.png"],
-        type: "post",
-        is_pinned: true,
-        pinned_position: 1,
-        created_at: new Date().toISOString()
-    },
     // Altres posts...
-    // 📚 Sóc de Poble: El Llibre (Projecte Lliure) - NUEVA PUBLICACIÓN JAVI LLINARES
     {
         id: 'llibre-soc-de-poble-oficial',
-        town_id: 1,
+        town_id: null, // [MASTER] Global visibility fallback
         author: "Javi Llinares (Project Lead & Designer)",
         author_avatar: "/assets/master/javi_avatar_cinematic.png",
         author_role: "official",
@@ -298,10 +304,9 @@ export const MOCK_FEED = [
         },
         created_at: new Date().toISOString()
     },
-    // 👵 IAIA al WhatsApp: Un somni fet realitat
     {
         id: 'iaia-whatsapp-difusio',
-        town_id: 1,
+        town_id: null, // [MASTER] Global visibility fallback
         author: "Javi Llinares (Project Lead)",
         author_avatar: "/assets/master/javi_avatar_cinematic.png",
         author_role: "official",
@@ -635,6 +640,7 @@ export const MOCK_MARKET_ITEMS = [
         author_id: 'sdp-oficial-1',
         author_entity_id: 'sdp-oficial-1',
         images: [
+            "/Users/javillinares/.gemini/antigravity/brain/8f23168e-5f93-43d2-9b9c-3d8316452dbf/media__1770526425766.png",
             "/Users/javillinares/.gemini/antigravity/brain/e1b6e544-2f87-4f23-b187-d802a30c0ca1/shirt_maroon_front_full_logo_v2_1770235736579.png",
             "/Users/javillinares/.gemini/antigravity/brain/e1b6e544-2f87-4f23-b187-d802a30c0ca1/shirt_maroon_lifestyle_full_logo_v2_1770235755326.png",
             "/Users/javillinares/.gemini/antigravity/brain/e1b6e544-2f87-4f23-b187-d802a30c0ca1/shirt_maroon_market_full_logo_v2_1770235769546.png",

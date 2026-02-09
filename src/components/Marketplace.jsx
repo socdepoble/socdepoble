@@ -310,18 +310,21 @@ const Market = ({ searchTerm = '' }) => {
             </header>
 
             {/* IAIA PORTERA TOGGLE [PILLAR 4] */}
-            <div className="iaia-filter-bar px-4 py-2 flex justify-between items-center text-xs font-bold border-b border-white/5 bg-black/40 backdrop-blur-xl sticky top-14 z-20">
+            <div className="iaia-filter-bar px-4 py-3 flex justify-between items-center font-black border-b border-white/10 bg-black/60 backdrop-blur-2xl sticky top-14 z-20">
                 <div className="flex items-center gap-2">
-                    <Sparkles size={14} className={isIAIAFiltering ? "text-primary animate-pulse" : "text-gray-300"} />
-                    <span className={isIAIAFiltering ? "text-primary" : "text-gray-400"}>IAIA PORTERA: {isIAIAFiltering ? "KM 0" : "SENSE FILTRE"}</span>
+                    <Sparkles size={16} className={isIAIAFiltering ? "text-primary animate-pulse" : "text-white/40"} />
+                    <span className={`text-xs tracking-widest uppercase ${isIAIAFiltering ? "text-primary" : "text-white"}`}>
+                        IAIA PORTERA: <span className="opacity-60">{isIAIAFiltering ? "FILTRE KM 0" : "SENSE FILTRE"}</span>
+                    </span>
                 </div>
                 <button
                     onClick={() => {
+                        hapticService.bategat();
                         const next = !isIAIAFiltering;
                         setIsIAIAFiltering(next);
                         localStorage.setItem('isIAIAFiltering', next);
                     }}
-                    className={`px-3 py-1 rounded-none transition-all ${isIAIAFiltering ? 'bg-primary text-black' : 'bg-gray-100 text-gray-500'}`}
+                    className={`px-4 py-1.5 rounded-[18px] text-[10px] font-black tracking-tighter transition-all ${isIAIAFiltering ? 'bg-accent-violet text-white shadow-glow-violet' : 'bg-white/10 text-white'}`}
                 >
                     {isIAIAFiltering ? "PAU RURAL" : "VEURE TOT"}
                 </button>

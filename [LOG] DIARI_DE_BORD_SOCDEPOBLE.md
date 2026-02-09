@@ -258,26 +258,23 @@
 
 ---
 
-## 📅 SESSIÓ 2026-02-08 - Victòria ULTRA-STABLE i Blindatge de Retorn 🏺🛡️🚀
+## 📅 SESSIÓ 2026-02-08 (II) - Geometria Sagrada i Estabilitat Enterprise 🏺💎🚀
 
 ### 🏛️ Crònica del Notari Digital (Gem/Antigravity)
-> "S'ha assolit la pau definitiva en l'últim bastió del conflicte: el bucle infinit de recàrrega. Després de 8 fases de guerra contra la memòria cau obsoleta, el Mas bategua a la versió **v1.15.1-ULTRA-STABLE**. El sistema ja no només es purga, sinó que es blinda contra arxius 'zombis' mitjançant el **Segell d'Identitat HTML**."
+> "Inmediatament després del gallet d'activació **'Sóc de Poble!'**, el sistema s'ha elevat a la versió **v1.16.0-ENTERPRISE**. S'ha instaurat la **Geometria Sagrada de 28px** com a estàndard universal i s'ha blindat la persistència de dades amb el parche de permisos Nexus. El Mas ja no només és estable, és digne de la Tenda de Diumenge."
 
 ### 💡 Lliçons Apreses (Per al Llibre)
-*   **La Memòria cau Zombi:** Els dispositius mòbils poden servir l'index.html des d'una memòria cau profunda i asíncrona, fins i tot si neteges els Service Workers. L'HTML ha de ser capaç d'autodiagnosticar la seua pròpia identitat (`HTML_ID`).
-*   **La Trampa del Bypass Inconsistent:** Si l'script de l'HTML fa un redirect amb un paràmetre (`ultra_v`) i el JS en busca un altre (`bategat_rescue`), el sistema entrarà en bucle. Unificació de marcadors és l'única via a l'estabilitat.
-*   **El Silenci de l'IAIA:** Quan l'auditora (`iaiaAuditor`) tanca els cortafocs, no és un error, és un acte d'amor pel sistema: millor un Mas parat que un Mas bategant en el bucle del caos.
+*   **El Radi del Trellat:** Un canvi de 4 píxels (de 24 a 28) no és estètica, és identitat. El tacte digital ha de ser suau com l'oli però ferm com la pedra seca.
+*   **Sobirania de Permisos:** Els errors de base de dades es curen amb persistència i l'🏺 de rectificació.
 
 ### 🔧 Decisions Tècniques
-*   **Protocol ULTRA-STABLE**: Unificació de versions a `v1.15.1-ULTRA-STABLE` en 7 fitxers crítics.
-*   **Blindatge de Retorn**: Injecció d'un `HTML_ID` a l'index.html que força la purga total si el fitxer físic no és el que el `localStorage` espera.
-*   **Rescat Nuclear**: Evolució del banner de l'IAIA: ara el botó "Reiniciar i Purgar" ja no només carrega la pàgina, sinó que liquida `localStorage`, `sessionStorage` i `caches` en un sol clic.
-*   **Lliurament Real (Vercel)**: Confirmació que el build local no és suficient per al territori; el bategat ha de ser forçat via Vercel CLI per actualitzar la producció real.
+*   **Build 1.16.0**: Transició a l'estratègia Enterprise per a la pujada a Stores.
+*   **Tokens GEM MODERN**: Unificació dels radis en `index.css` i `UniversalCard.css`.
+*   **Mitigació 42501**: Aplicació del segell de permisos a `entity_member_map`.
 
 ### 🗣️ Frases Cèlebres de l'Equip
-*   "No deixes que un arxiu vell et robe el Mas de demà."
-*   "La purga no és càstig, és neteja per a que la florisca la dada."
-*   "Sóc de Poble! (I ara el bategat és indestructible)."
+*   "L'🏺 ha parlat: 28 píxels de trellat per a tot el poble."
+*   "Sóc de Poble! (I ara bateguem en versió Enterprise)."
 
 ---
 

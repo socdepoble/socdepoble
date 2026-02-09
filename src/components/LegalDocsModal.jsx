@@ -9,7 +9,7 @@ const LegalDocsModal = ({ isOpen, onClose, title, content, type = 'estatuts', au
 
     return (
         <div className="legal-modal-overlay animate-fade-in" onClick={onClose}>
-            <div className={`legal-modal-content glass-ia ${isProfessional ? 'mode-professional' : ''}`} onClick={e => e.stopPropagation()}>
+            <div className={`legal-modal-content ${isProfessional ? 'mode-professional' : 'glass-ia'}`} onClick={e => e.stopPropagation()}>
                 <header className="legal-modal-header">
                     <div className="header-icon-badge">
                         {isProfessional ? <Landmark size={28} /> : <ShieldCheck size={28} />}
@@ -26,7 +26,7 @@ const LegalDocsModal = ({ isOpen, onClose, title, content, type = 'estatuts', au
                 </header>
 
                 <div className="legal-document-body">
-                    <div className="watermark-logo">SÓC DE POBLE</div>
+                    {!isProfessional && <div className="watermark-logo">SÓC DE POBLE</div>}
                     <div className="doc-scroll-area">
                         {content ? (
                             <div className="legal-text-content">

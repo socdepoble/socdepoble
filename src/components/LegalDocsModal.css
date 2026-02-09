@@ -237,22 +237,51 @@
 /* Professional Mode Overrides */
 .legal-modal-content.mode-professional {
     border-color: #2563eb;
-    /* Business Blue */
+    border-radius: 12px !important;
+    overflow: hidden;
+    background: #ffffff;
 }
 
 .legal-modal-content.mode-professional .legal-modal-header {
     background: #2563eb;
+    padding: 2rem;
+}
+
+.legal-modal-content.mode-professional .legal-document-body {
+    background-image: none;
+    padding: 3rem 4rem;
+}
+
+.legal-modal-content.mode-professional .legal-text-content {
+    font-family: 'Inter', system-ui, sans-serif;
+    line-height: 1.6;
+    color: #1a1a1a;
 }
 
 .legal-modal-content.mode-professional .legal-text-content h1 {
     border-color: #2563eb;
     color: #2563eb;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+}
+
+.legal-modal-content.mode-professional .legal-text-content h2 {
+    color: #2563eb;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 0.5rem;
 }
 
 .legal-modal-content.mode-professional .legal-utility-btn {
     background: #2563eb;
+    border-radius: 8px;
 }
 
 .legal-modal-content.mode-professional .doc-scroll-area::-webkit-scrollbar-thumb {
     background: #2563eb;
+}
+
+.legal-modal-content.mode-professional .protection-badge {
+    background: #dbeafe;
+    color: #1e40af;
+    border-radius: 4px;
 }

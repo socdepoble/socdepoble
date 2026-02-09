@@ -26,36 +26,26 @@ const SettingsTab = ({
 
     return (
         <div className="tab-pane-fade-in settings-pane">
-            {/* THEME TOKENS ENGINE [FLASH PROTOCOL] */}
+            {/* THEME TOKENS ENGINE [NEXUS v6.0 DUAL MODE] */}
             <section className="settings-section-premium">
                 <h3 className="settings-group-title">
-                    <Palette size={16} /> Pell de l'App (Design Tokens)
+                    <Palette size={16} /> Mode Visual (Dual Mode)
                 </h3>
-                <div className="theme-token-selector horizontal-scroll" style={{ padding: '10px 0', gap: '12px' }}>
-                    {availableThemes.map(t => (
-                        <button
-                            key={t.id}
-                            className={`theme-token-btn ${theme === t.id ? 'active' : ''}`}
-                            onClick={() => setTheme(t.id)}
-                            style={{
-                                background: t.variables['--bg-surface'],
-                                color: t.variables['--text-main'],
-                                border: theme === t.id ? `2px solid var(--color-primary)` : `1px solid var(--border-subtle)`,
-                                padding: '12px 20px',
-                                borderRadius: t.variables['--radius-organic'],
-                                minWidth: '140px',
-                                fontSize: '11px',
-                                fontWeight: '900',
-                                letterSpacing: '0.05em',
-                                boxShadow: theme === t.id ? '0 10px 20px rgba(0,0,0,0.1)' : 'none',
-                                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                                whiteSpace: 'nowrap'
-                            }}
-                        >
-                            <span style={{ display: 'block', opacity: 0.6, fontSize: '8px', marginBottom: '4px' }}>TEMA</span>
-                            {t.name.toUpperCase()}
-                        </button>
-                    ))}
+                <div className="dual-mode-selector">
+                    <button
+                        className={`mode-btn ${theme === 'light' ? 'active' : ''}`}
+                        onClick={() => theme !== 'light' && toggleTheme()}
+                    >
+                        <Sun size={20} />
+                        <span>Llum de Dia</span>
+                    </button>
+                    <button
+                        className={`mode-btn ${theme === 'dark' ? 'active' : ''}`}
+                        onClick={() => theme !== 'dark' && toggleTheme()}
+                    >
+                        <Moon size={20} />
+                        <span>Nit Digital</span>
+                    </button>
                 </div>
             </section>
 

@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { X, Newspaper, Store, MapPin, Users, Shield, Calendar, Bot, Share2, Rocket, LogOut, BookOpen, StickyNote } from 'lucide-react';
+import { X, Newspaper, Store, MapPin, Users, Shield, Calendar, Bot, Share2, Rocket, LogOut, BookOpen, StickyNote, FileText } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useUI } from '../context/UIContext';
 import './CreationHub.css';
@@ -68,6 +68,14 @@ const CreationHub = () => {
                     }}>
                         <StickyNote size={24} />
                         <span>Bloc de notes Master</span>
+                    </button>
+
+                    <button className="share-full-frame doc-action-btn-hub" onClick={() => {
+                        setIsCreateModalOpen(false);
+                        navigate('/ofici');
+                    }}>
+                        <FileText size={24} />
+                        <span>Ofici de Documentació</span>
                     </button>
 
                     {(isSuperAdmin || isAdmin) && (

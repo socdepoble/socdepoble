@@ -12,7 +12,7 @@ import VoiceRecorder from '../components/VoiceRecorder';
 import MasterMediaGallery from '../components/MasterMediaGallery';
 import { MASTER_ASSETS } from '../constants/masterAssets';
 import { PROVERBS } from '../data/proverbs';
-import { memoriaVivaService } from '../services/MemoriaVivaService';
+import BatecMonitor from '../components/BatecMonitor';
 
 const IAIAPage = () => {
     const { t, i18n } = useTranslation();
@@ -245,6 +245,15 @@ const IAIAPage = () => {
                             <Settings size={24} />
                             <span>Configuració</span>
                         </div>
+                    </div>
+                </section>
+
+                <section className="iaia-section batec-transparency-card">
+                    <div className="section-icon"><Activity size={32} color="var(--color-primary)" /></div>
+                    <h2>Estat del Batec (Sincronia Territoria)</h2>
+                    <p>El "Super Ratolí" monitoritza la salut de la teua connexió amb el poble i la malla social.</p>
+                    <div className="iaia-monitor-container" style={{ marginTop: '20px' }}>
+                        <BatecMonitor />
                     </div>
                 </section>
 

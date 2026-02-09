@@ -1,6 +1,6 @@
 .towns-container {
     padding-bottom: calc(var(--nav-height) + 40px);
-    background-color: var(--bg-main);
+    background: transparent;
     min-height: 100vh;
 }
 
@@ -48,14 +48,20 @@
 .back-circle-btn-glass {
     width: 44px;
     height: 44px;
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
-    border-radius: 0px;
+    background: var(--surface-glass);
+    backdrop-filter: blur(8px);
+    border-radius: var(--radius-full);
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 1px solid var(--border-subtle);
     color: white;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.back-circle-btn-glass:hover {
+    background: var(--surface-glass-heavy);
+    transform: scale(1.1);
 }
 
 .town-identity-block {
@@ -68,13 +74,13 @@
 .town-logo-wrapper-vibrant {
     width: 80px;
     height: 80px;
-    background: white;
-    border-radius: 0px;
+    background: var(--bg-edge);
+    border-radius: var(--radius-full);
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: var(--shadow-hard);
-    border: 3px solid var(--bg-warm-card);
+    box-shadow: var(--shadow-deep);
+    border: 3px solid var(--border-subtle);
     padding: 10px;
 }
 
@@ -104,17 +110,17 @@
 }
 
 .quick-stat-pill {
-    padding: 4px 12px;
-    background: rgba(255, 255, 255, 0.15);
+    padding: 4px 14px;
+    background: var(--surface-glass);
     backdrop-filter: blur(8px);
-    border-radius: 0px;
+    border-radius: var(--radius-full);
     color: white;
-    font-size: var(--font-size-base);
-    font-weight: 700;
+    font-size: 13px;
+    font-weight: 800;
     display: flex;
     align-items: center;
     gap: 6px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid var(--border-subtle);
 }
 
 .active-community {
@@ -175,12 +181,14 @@
 }
 
 .bando-content-card {
-    background: #000000;
+    background: var(--surface-glass-heavy);
     color: white;
-    padding: var(--space-lg);
-    border-radius: 0px;
-    border-left: 6px solid #FF5252;
-    box-shadow: var(--shadow-hard);
+    padding: 24px;
+    border-radius: var(--radius-m);
+    /* 24px */
+    border: 1px solid var(--border-subtle);
+    border-left: 6px solid var(--accent-orange);
+    box-shadow: var(--shadow-deep);
 }
 
 .bando-subject {
@@ -236,11 +244,12 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 12px 16px;
-    background: white;
-    border-radius: 0px;
-    border: 1px solid var(--color-border);
-    box-shadow: var(--shadow-hard);
+    padding: 14px 18px;
+    background: var(--surface-glass);
+    border-radius: var(--radius-s);
+    /* 18px */
+    border: 1px solid var(--border-subtle);
+    box-shadow: var(--shadow-deep);
 }
 
 .utility-icon {
@@ -267,14 +276,16 @@
 
 /* AGRARIAN HUD SIGNES VITALS */
 .agrarian-hud-container {
-    padding: 12px 16px;
-    background: #000;
+    padding: 14px 20px;
+    background: var(--surface-glass-heavy);
     margin-bottom: var(--space-lg);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-left: 4px solid var(--color-primary);
-    box-shadow: var(--shadow-hard);
+    border-radius: var(--radius-s);
+    /* 18px */
+    border-left: 4px solid var(--accent-cyan);
+    box-shadow: var(--shadow-deep);
 }
 
 .hud-metric {
@@ -392,8 +403,9 @@
     left: 0;
     right: 0;
     height: 4px;
-    background: var(--color-primary);
-    border-radius: 0px;
+    background: var(--accent-violet);
+    border-radius: 4px;
+    box-shadow: var(--shadow-glow-violet);
 }
 
 .section-header-premium {

@@ -14,7 +14,8 @@
     overflow-y: auto;
     overflow-x: hidden;
     position: relative;
-    background-color: var(--md-sys-color-surface);
+    background-color: var(--bg-base);
+    padding-top: var(--shell-top-height); /* 112px fixed shell */
 }
 
 .main-wrapper {
@@ -23,7 +24,7 @@
     width: 100%;
     max-width: 1400px;
     margin: 0 auto;
-    padding: var(--sdp-space-md);
+    padding: 0 var(--sdp-space-md) var(--sdp-space-md);
 }
 
 .content-area {
@@ -53,6 +54,7 @@
     .main-wrapper {
         padding: 0;
         max-width: 100%;
-        margin-top: calc(84px + var(--safe-top));
+        margin-top: 0;
+        /* NEXUS v6.0 Fix: No més espai buit */
     }
 }

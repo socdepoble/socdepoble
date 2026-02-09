@@ -1,4 +1,4 @@
-import { MoreHorizontal, Heart, MessageCircle, Share2, Tag, Zap, ShieldCheck, Beaker, Sparkles, Edit, Trash2, Plus, FileText, ChevronRight, UserPlus } from 'lucide-react';
+import { MoreHorizontal, Heart, MessageCircle, Share2, Tag, Zap, ShieldCheck, Beaker, Sparkles, Edit, Trash2, Plus, FileText, ChevronRight, UserPlus, MapPin, Landmark } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useUI } from '../context/UIContext';
 import { useAuth } from '../context/AuthContext';
@@ -7,6 +7,7 @@ import AttributionBadge from './AttributionBadge';
 import ShareHub from './ShareHub';
 import Carousel from './Carousel';
 import ImageCarousel from './ImageCarousel';
+import './UniversalCard.css';
 
 /**
  * UniversalCard [CINEMATOGRAPHIC RURALISM]
@@ -17,21 +18,19 @@ const UniversalCard = ({
     item,
     title,
     subtitle,
-    headerAction,
     image,
-    onHeaderClick,
     avatarSrc,
     avatarRole,
     avatarName,
     children,
-    footer,
     className = "",
-    mode = "mur", // mur, mercat, pobles
+    mode = "post", // post, market, event, pobles, mapa, ajuntament, ruta
+    variant = "post",
     isBating = false,
     excerpt,
-    images,
-    onRecipeClick
+    images
 }) => {
+    const cardVariant = variant || mode;
     const { gloveMode, openViewer } = useUI();
     const { isAdmin, user } = useAuth();
     const navigate = useNavigate();
@@ -45,7 +44,7 @@ const UniversalCard = ({
     const displayImage = image || item?.image_url || item?.image || (mediaList ? mediaList[0] : null);
 
     const displayTitle = title || item?.title || "Sóc de Poble";
-    const displayPrice = item?.price || (mode === 'mercat' ? (item?.price || "15.00€") : ""); // Mock price if missing in market
+    const displayPrice = item?.price || (cardVariant === 'mercat' || cardVariant === 'market' ? (item?.price || "15.00€") : "");
     const displayAuthor = avatarName || item?.author_name || item?.author || item?.seller || "Sóc de Poble";
     const displayExcerpt = excerpt || item?.description || item?.content || "";
     const displayTown = subtitle || item?.location?.town || item?.town_name || 'La Torre de les Maçanes';
@@ -54,22 +53,30 @@ const UniversalCard = ({
     // Lògica "Gent de..." MASTER GENESIS
     const getGentDePage = (townName) => {
         if (!townName) return "Gent de Poble";
-        if (townName.includes("La Torre de les Maçanes")) return "Gent de La Torre";
+        // Enforcing formal name as per Mestre's serious preference
+        if (townName.includes("La Torre de les Maçanes")) return "Gent de La Torre de les Maçanes";
         return `Gent de ${townName}`;
     };
 
-    const handleCardClick = (e) => {
-        if (mode === 'pobles') {
+    const handleCardClick = () => {
+        if (cardVariant === 'pobles') {
             const townId = item?.uuid || item?.id;
-            // Redirecció a la pàgina de "Gent de Poble"
             navigate(`/gent/${townId}`);
+        } else if (cardVariant === 'mapa') {
+            navigate('/mapa');
         }
     };
 
     const handleAuthorClick = (e) => {
         e.stopPropagation();
-        const authorId = item?.author_id || item?.user_id || item?.id;
-        if (authorId) navigate(`/perfil/${authorId}`);
+        const authorId = item?.author_user_id || item?.author_id || item?.user_id;
+        const entityId = item?.author_entity_id;
+
+        if (entityId) {
+            navigate(`/entitat/${entityId}`);
+        } else if (authorId) {
+            navigate(`/perfil/${authorId}`);
+        }
     };
 
     const isOfficial = item?.author_role === 'official' || item?.author_role === 'oficial' || item?.type === 'oficial' || item?.type === 'system';
@@ -77,12 +84,16 @@ const UniversalCard = ({
 
     return (
         <article
-            className={`universal-card card-mode-${mode} ${className} ${isBating ? 'animate-bategat' : ''} ${gloveMode ? 'mode-guants' : ''} ${isOfficial ? 'role-official' : ''} ${isAlert ? 'alert-active' : ''}`}
+            className={`universal-card card-variant-${cardVariant} ${className} ${isBating ? 'animate-bategat' : ''} ${gloveMode ? 'mode-guants' : ''} ${isOfficial ? 'role-official' : ''} ${isAlert ? 'alert-active' : ''}`}
             onClick={handleCardClick}
-            style={{ cursor: mode === 'pobles' ? 'pointer' : 'default' }}
+            style={{ cursor: (cardVariant === 'pobles' || cardVariant === 'event' || cardVariant === 'mapa') ? 'pointer' : 'default' }}
         >
-            <div className="card-header-genesis">
-                <div className="header-left" onClick={handleAuthorClick}>
+            {/* HEADER: BOINA TARONJA (NEXUS v6.0) */}
+            <header 
+                className="card-header-boina" 
+                onClick={handleAuthorClick}
+            >
+                <div className="header-left">
                     <Avatar
                         src={avatarSrc || item?.author_avatar || item?.logo_url}
                         name={displayAuthor}
@@ -92,14 +103,15 @@ const UniversalCard = ({
                     />
                     <div className="header-text">
                         <h3 className="master-author-name">
-                            {mode === 'pobles' ? getGentDePage(displayTown) : displayAuthor}
+                            {cardVariant === 'pobles' ? getGentDePage(displayTown) : displayAuthor}
+                            {isOfficial && <ShieldCheck size={14} className="official-blue-shield" />}
                         </h3>
                         <div className="location-text">
                             {displayTown}
                         </div>
                     </div>
                 </div>
-                <div className="header-right-meta">
+                <div className={`header-right-meta ${cardVariant === 'agenda' || cardVariant === 'event' ? 'agenda-highlight' : ''}`}>
                     <div className="header-date">
                         {displayDate}
                     </div>
@@ -117,29 +129,38 @@ const UniversalCard = ({
                         </button>
                     )}
                 </div>
-            </div>
+            </header>
 
-            {/* MULTIMÈDIA */}
-            {mediaList && mediaList.length > 1 ? (
-                <div className="card-carousel-wrapper">
+            {/* MULTIMÈDIA (LLEI DEL MESTRE: OBJECT-FIT COVER) */}
+            <div 
+                className="card-media-wrapper"
+                onClick={(e) => {
+                    e.stopPropagation();
+                    if (cardVariant === 'pobles') {
+                        navigate('/gent-de-la-torre');
+                    } else if (mediaList && mediaList.length > 0) {
+                        openViewer(mediaList, 0);
+                    } else if (displayImage) {
+                        openViewer({ src: displayImage, title: displayTitle, type: 'image' });
+                    }
+                }}
+            >
+                {mediaList && mediaList.length > 1 ? (
                     <ImageCarousel images={mediaList} />
-                </div>
-            ) : displayImage && (
-                <div
-                    className="card-image-wrapper"
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        const src = typeof displayImage === 'string' ? displayImage : (Array.isArray(displayImage) ? displayImage[0] : '');
-                        openViewer({ src, title: displayTitle, type: 'image' });
-                    }}
-                >
-                    <img src={displayImage} alt={displayTitle} loading="lazy" />
-                    {/* Overlay informatiu si cal */}
-                    <div className="image-overlay-credits">
-                        © SÓC DE POBLE (FET PER LA IAIA) / GRATIS (NO COMERCIAL)
-                    </div>
-                </div>
-            )}
+                ) : (
+                    <>
+                        <img 
+                            src={displayImage || "https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1000&auto=format&fit=crop"} 
+                            alt={displayTitle} 
+                            className="universal-card-media" 
+                            loading="lazy" 
+                        />
+                        <div className="image-overlay-credits">
+                            © SÓC DE POBLE / IAIA GENERATED
+                        </div>
+                    </>
+                )}
+            </div>
 
             {/* COS DE LA TARGETA */}
             <div className="card-body">
@@ -183,80 +204,129 @@ const UniversalCard = ({
                 {children}
             </div>
 
-            {/* FOOTER ADAPTAT PER MODE */}
-            <div className={`card-footer-master mode-${mode}`}>
-                {mode === 'mur' && (
-                    <>
-                        <div className="footer-actions-mur">
-                            <button className="master-action-btn" onClick={(e) => e.stopPropagation()}>
-                                <UserPlus size={24} />
+            {/* FOOTER MASTER CMS v5.1 (LES 6 JOIES DEL PENTATLÓ) */}
+            <div className={`card-footer-master variant-${cardVariant}`}>
+                {/* 1. CARDINAL MUR (Social Flow) */}
+                {(cardVariant === 'post' || cardVariant === 'mur') && (
+                    <div className="footer-actions-mur">
+                        <button className="master-action-btn connect-btn" onClick={(e) => { e.stopPropagation(); alert('Rhizome: Puzle Social'); }}>
+                            <UserPlus size={22} />
+                            <span>Connectar</span>
+                        </button>
+                        <div className="footer-touch-group">
+                            <button className="btn-touch iaia-chat" onClick={(e) => { e.stopPropagation(); alert(`IAIA: Hola! Què opines de "${displayTitle}"?`); }}>
+                                <MessageCircle size={22} />
+                            </button>
+                            <button className="btn-touch sharing-btn" onClick={(e) => { e.stopPropagation(); alert('Protocol Bategar'); }}>
+                                <Share2 size={22} />
+                            </button>
+                        </div>
+                    </div>
+                )}
+
+                {/* 2. CARDINAL MERCAT (Price/E-commerce) */}
+                {(cardVariant === 'mercat' || cardVariant === 'market') && (
+                    <div className="footer-mercat-master">
+                        <div className="mercat-actions-row">
+                            <button className="master-action-btn connect-btn" onClick={(e) => { e.stopPropagation(); alert('Rhizome: Puzle Comercial'); }}>
+                                <Zap size={22} />
+                                <span>Interessat</span>
+                            </button>
+                            <button className="btn-touch iaia-chat" onClick={(e) => { e.stopPropagation(); alert(`IAIA: Hola! Què opines de aquest producte: "${displayTitle}"?`); }}>
+                                <MessageCircle size={22} />
+                            </button>
+                        </div>
+                        <button className="btn-mercat-buy" onClick={() => navigate(`/mercat/${item.id}`)}>
+                            <span>COMPRAR-LO {displayPrice}</span>
+                        </button>
+                    </div>
+                )}
+
+                {/* 3. CARDINAL AGENDA (Cultural Event) */}
+                {(cardVariant === 'agenda' || cardVariant === 'event') && (
+                    <div className="footer-event-master">
+                        <div className="event-info-notice">
+                            <Zap size={14} className="flash-icon" />
+                            <span>Esdeveniment destacat de la setmana</span>
+                        </div>
+                        <div className="event-actions-row">
+                            <button className="master-action-btn connect-btn" onClick={(e) => { e.stopPropagation(); alert('Rhizome: Puzle Cultural'); }}>
+                                <UserPlus size={22} />
+                                <span>Assistiré</span>
+                            </button>
+                            <button className="btn-touch iaia-chat" onClick={(e) => { e.stopPropagation(); alert(`IAIA: Hola! Tens dubtes sobre l'esdeveniment "${displayTitle}"?`); }}>
+                                <MessageCircle size={22} />
+                            </button>
+                            <button className="btn-event-action" onClick={() => navigate(`/agenda/${item.id}`)}>
+                                <span>Obrir</span>
+                                <ChevronRight size={22} />
+                            </button>
+                        </div>
+                    </div>
+                )}
+
+                {/* 4. CARDINAL POBLES (Community Gent de...) */}
+                {cardVariant === 'pobles' && (
+                    <div className="footer-pobles-master">
+                        <button className="master-action-btn connect-btn" onClick={(e) => { e.stopPropagation(); alert('Rhizome: Puzle Comunitat'); }}>
+                            <UserPlus size={22} />
+                            <span>Connectar al Poble</span>
+                        </button>
+                        <div className="footer-touch-group">
+                            <button className="btn-touch iaia-chat" onClick={(e) => { e.stopPropagation(); alert(`IAIA: Hola! Vols saber més sobre ${displayTown}?`); }}>
+                                <MessageCircle size={22} />
+                            </button>
+                            <button className="btn-event-action visit-town" onClick={() => navigate('/gent-de-la-torre')}>
+                                <span>VISITAR MUR</span>
+                                <ChevronRight size={22} />
+                            </button>
+                        </div>
+                    </div>
+                )}
+
+                {/* 5. CARDINAL AJUNTAMENT (Official Institutional) */}
+                {cardVariant === 'ajuntament' && (
+                    <div className="footer-ajuntament-master">
+                        <div className="official-notice-row">
+                            <ShieldCheck size={14} className="blue-badge-icon" />
+                            <span>Comunicat Oficial de l'Ajuntament</span>
+                        </div>
+                        <div className="event-actions-row">
+                            <button className="master-action-btn connect-btn" onClick={(e) => { e.stopPropagation(); alert('Rhizome: Puzle Institucional'); }}>
+                                <UserPlus size={22} />
                                 <span>Connectar</span>
                             </button>
-                            <button className="master-action-btn" onClick={(e) => { e.stopPropagation(); navigate(`/post/${item.id}#comments`); }}>
-                                <MessageCircle size={24} />
-                                <span>Comentar</span>
+                            <button className="btn-touch iaia-chat" onClick={(e) => { e.stopPropagation(); alert(`IAIA: Hola! Tens alguna pregunta sobre el comunicat: "${displayTitle}"?`); }}>
+                                <MessageCircle size={22} />
                             </button>
-                            <button className="master-action-btn" onClick={(e) => e.stopPropagation()}>
-                                <Share2 size={24} />
-                                <span>Compartir</span>
-                            </button>
-                        </div>
-                        {/* Simulació d'acordió de comentaris del Xat */}
-                        <div className="comments-preview-stub">
-                            <div className="comment-line"><b>Vicent:</b> Xé, que bonica la foto!</div>
-                            <button className="read-more-comments">Llegir 5 comentaris més...</button>
-                        </div>
-                    </>
-                )}
-
-                {mode === 'mercat' && (
-                    <div className="footer-mercat-master">
-                        <div className="mercat-price-bategat">{displayPrice}</div>
-                        <div className="mercat-actions-row">
-                            {onRecipeClick && (
-                                <button
-                                    className="btn-recipe-ai"
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        onRecipeClick(item);
-                                    }}
-                                    title="Recepta o Consell de la Tia Maria"
-                                >
-                                    <Sparkles size={18} />
-                                </button>
-                            )}
-                            <button
-                                className="btn-mercat-action"
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    navigate(`/mercat/${item.id || 'item'}`);
-                                }}
-                            >
-                                <span>INTERESSAT</span>
-                                <Plus size={20} strokeWidth={3} />
+                            <button className="btn-event-action official-nav" onClick={() => navigate('/ajuntament')}>
+                                <span>Obrir</span>
+                                <ChevronRight size={22} />
                             </button>
                         </div>
                     </div>
                 )}
 
-                {mode === 'pobles' && (
-                    <div className="pobles-container-master">
-                        <div className="gent-de-notice">
-                            💡 Això és "Gent de {displayTown}", un espai veïnal. No és la pàgina oficial de l'Ajuntament.
+                {/* 6. CARDINAL RUTES / MAPA (Territorial Navigation) */}
+                {(cardVariant === 'mapa' || cardVariant === 'ruta') && (
+                    <div className="footer-mapa-master">
+                        <div className="map-dist-notice">
+                            <MapPin size={14} />
+                            <span>A 2.4 km de tu</span>
                         </div>
-                        <div className="pobles-footer-info">
-                            <span>VEURE PERFIL COMUNITARI</span>
-                            <ChevronRight size={18} />
+                        <div className="event-actions-row">
+                            <button className="master-action-btn connect-btn" onClick={(e) => { e.stopPropagation(); alert('Rhizome: Puzle Territorial'); }}>
+                                <UserPlus size={22} />
+                                <span>Connectar</span>
+                            </button>
+                            <button className="btn-touch iaia-chat" onClick={(e) => { e.stopPropagation(); alert(`IAIA: Hola! Vols consells sobre la ruta: "${displayTitle}"?`); }}>
+                                <MessageCircle size={22} />
+                            </button>
+                            <button className="btn-event-action map-nav" onClick={() => navigate(`/pub/${item.id}`)}>
+                                <span>VEURE MAPA</span>
+                                <ChevronRight size={22} />
+                            </button>
                         </div>
-                    </div>
-                )}
-
-                {mode === 'alertes' && (
-                    <div className="footer-alertes-master">
-                        <button className="btn-alert-map" onClick={(e) => e.stopPropagation()}>
-                            <span>VEURE MAPA D'AFECTACIÓ</span>
-                            <FileText size={20} />
-                        </button>
                     </div>
                 )}
             </div>

@@ -1,19 +1,31 @@
 .m3-top-app-bar {
     padding-top: var(--safe-top);
-    height: calc(84px + var(--safe-top));
-    /* Augmentat per evitar text tallat */
+    height: var(--header-height); /* 64px */
     padding-left: var(--page-margin);
     padding-right: var(--page-margin);
-    background-color: #000000 !important;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: var(--surface-glass-heavy) !important;
+    backdrop-filter: blur(var(--blur-master));
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.15);
-    position: sticky;
+    border-bottom: 2px solid var(--border-subtle);
+    position: fixed; /* Inamovible */
     top: 0;
-    z-index: 1000;
+    right: 0;
+    z-index: 1100; /* Above Tabs */
+    width: 100% !important;
+    margin: 0 !important;
+    max-width: none !important;
+    transition: all 0.3s ease;
+}
+
+/* Dynamic shadows for Header Duality */
+.theme-light .m3-top-app-bar {
+    --shadow-header: none;
+}
+
+.theme-dark .m3-top-app-bar {
+    --shadow-header: none;
 }
 
 .header-town-link {
@@ -21,11 +33,12 @@
     align-items: center;
     gap: 8px;
     cursor: pointer;
-    padding: 6px 12px;
-    border-radius: 12px;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 6px 14px;
+    border-radius: var(--radius-s);
+    /* 18px */
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--border-subtle);
 }
 
 .header-town-link:hover {
@@ -35,9 +48,9 @@
 }
 
 .header-town-name {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 800;
-    color: #FFFFFF !important;
+    color: var(--text-main) !important;
     font-family: var(--font-brand);
     letter-spacing: -0.01em;
     white-space: nowrap;
@@ -46,6 +59,35 @@
 .bar-leading {
     display: flex;
     align-items: center;
+}
+
+.desktop-hide {
+    display: none !important;
+}
+
+.mobile-only {
+    display: flex !important;
+}
+
+@media (min-width: 1025px) {
+    .desktop-hide {
+        display: none !important;
+    }
+    .mobile-only {
+        display: none !important;
+    }
+    .m3-top-app-bar {
+        padding-left: 280px; /* Aliniat amb la NavigationRail */
+    }
+}
+
+@media (max-width: 1024px) {
+    .desktop-hide {
+        display: flex !important;
+    }
+    .mobile-only {
+        display: flex !important;
+    }
 }
 
 .bar-logo {
@@ -58,12 +100,12 @@
     height: 44px;
     display: flex;
     align-items: center;
-    padding: 0 8px;
+    padding: 0 10px;
     background: rgba(255, 255, 255, 0.08);
-    /* Més visibilitat sobre negre */
-    border-radius: 14px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: var(--radius-s);
+    /* 18px */
+    border: 1px solid var(--border-subtle);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .header-logo-container:hover {
@@ -86,13 +128,13 @@
 }
 
 .bar-icon-btn {
-    width: 44px;
-    height: 44px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #FFFFFF;
+    color: var(--text-main);
     border: none;
     background: transparent;
     cursor: pointer;
@@ -126,14 +168,14 @@
 .bar-avatar {
     width: 38px;
     height: 38px;
-    border-radius: 50%;
+    border-radius: var(--radius-full);
     overflow: hidden;
-    background-color: #F3F4F6;
+    background-color: var(--bg-edge);
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 2px solid #FFFFFF;
-    box-shadow: var(--shadow-soft);
+    border: 2px solid var(--border-subtle);
+    box-shadow: var(--shadow-deep);
 }
 
 .bar-avatar img {
@@ -144,6 +186,8 @@
 
 @media (max-width: 1024px) {
     .m3-top-app-bar {
-        background-color: #000000 !important;
+        /* background-color: #000000 !important; */
+        /* ELIMINAT PER PERMETRE LLUM DE DIA */
+        background: var(--surface-glass-heavy) !important;
     }
 }

@@ -15,15 +15,17 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    background: #000000;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 16px 20px;
-    border-radius: 24px;
-    color: #FFFFFF;
-    font-weight: 800;
+    background: var(--surface-glass-heavy);
+    border: 2px solid var(--border-subtle);
+    padding: 14px 20px;
+    border-radius: var(--radius-m);
+    /* 24px */
+    color: var(--text-main);
+    font-weight: 950;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: var(--shadow-deep);
+    backdrop-filter: blur(var(--blur-master));
 }
 
 .identity-badge-premium:hover {
@@ -47,14 +49,14 @@
 /* Tabs Navigation - Thumb Zone Optimized */
 .profile-tabs-nav {
     display: flex;
-    background: var(--md-sys-color-surface);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    padding: 12px 16px;
+    background: rgba(15, 17, 26, 0.8);
+    backdrop-filter: blur(var(--blur-master));
+    -webkit-backdrop-filter: blur(var(--blur-master));
+    padding: 10px 16px;
     position: sticky;
     top: 0;
     z-index: 100;
-    border-bottom: 1px solid var(--md-sys-color-outline);
+    border-bottom: 3px solid var(--accent-violet);
     gap: 8px;
 }
 
@@ -73,19 +75,19 @@
     padding: 10px 4px;
     background: transparent;
     border: none;
-    border-radius: var(--radius-lg);
-    color: var(--text-secondary);
-    font-size: var(--font-size-base);
-    font-weight: 700;
+    border-radius: var(--radius-m) !important;
+    color: var(--text-muted);
+    font-size: 16px;
+    font-weight: 950;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 1.5px;
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .profile-tabs-nav button.active {
-    background: var(--color-primary-soft);
-    color: var(--color-primary);
-    box-shadow: var(--shadow-glow);
+    background: rgba(93, 95, 239, 0.15);
+    color: var(--accent-violet);
+    box-shadow: var(--shadow-glow-violet);
 }
 
 .profile-tabs-nav button svg {

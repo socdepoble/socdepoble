@@ -171,18 +171,24 @@
 }
 
 .add-btn-premium {
-    background: rgba(0, 242, 255, 0.1);
-    border: 1px solid #00f2ff;
-    color: #00f2ff;
-    padding: 10px 16px;
-    border-radius: 0px;
-    /* Rectangular */
+    background: var(--accent-violet);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 10px 18px;
+    border-radius: var(--radius-s);
+    /* 18px */
     display: flex;
     align-items: center;
     gap: 8px;
-    font-weight: 700;
-    font-size: var(--font-size-base);
-    box-shadow: var(--shadow-hard);
+    font-weight: 950;
+    font-size: 15px;
+    box-shadow: var(--shadow-glow-violet);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.add-btn-premium:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
 }
 
 .add-btn-premium:active {
@@ -244,17 +250,18 @@
 
 /* Healthy Suggestion Card - Rural Tech Style */
 .healthy-suggestion-card {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 0px;
-    padding: 10px 14px;
+    background: var(--surface-glass);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-s);
+    /* 18px */
+    padding: 12px 16px;
     display: flex;
     align-items: center;
     gap: 12px;
     margin-top: 8px;
     cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: var(--shadow-hard);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: var(--shadow-deep);
 }
 
 .healthy-suggestion-card:hover {
@@ -289,10 +296,10 @@
 }
 
 .suggestion-label {
-    font-size: var(--font-size-base);
-    font-weight: 800;
+    font-size: 12px;
+    font-weight: 950;
     text-transform: uppercase;
-    color: #00f2ff;
+    color: var(--accent-cyan);
     letter-spacing: 0.1em;
 }
 

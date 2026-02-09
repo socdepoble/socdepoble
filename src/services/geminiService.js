@@ -7,7 +7,7 @@ import { logger } from '../utils/logger';
 class GeminiService {
     constructor() {
         this.apiKey = localStorage.getItem('sp_gemini_api_key') || "";
-        this.model = "gemini-1.5-pro"; // ACTUALITZAT A ULTRA PERFORMANCE (Business)
+        this.model = "gemini-1.5-pro"; // ULTRA PERFORMANCE (Enterprise Business)
 
         this.PERSONAS = {
             AGRONOM: {

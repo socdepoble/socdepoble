@@ -12,13 +12,22 @@ const VersionGatekeeper = ({ children }) => {
 
     useEffect(() => {
         const localVersion = localStorage.getItem('sp_app_version');
-        if (localVersion !== APP_VERSION) {
-            // [GATEKEEPER] La saba del Mas s'està renovant silenciosament via entry.jsx
-            setIsReady(true);
+        if (localVersion && localVersion !== APP_VERSION) {
+            // [GATEKEEPER] Versió antiga detectada al magatzem local.
+            // Invoquem el protocol de purga nuclear per garantir la puresa del Mas.
+            setPurging(true);
+            setTimeout(() => {
+                if (window.RecordaAtum) {
+                    window.RecordaAtum(APP_VERSION);
+                } else {
+                    localStorage.setItem('sp_app_version', APP_VERSION);
+                    window.location.reload(true);
+                }
+            }, 1500);
         } else {
             setIsReady(true);
         }
-    }, []);
+    }, [APP_VERSION]);
 
     if (purging) {
         return (

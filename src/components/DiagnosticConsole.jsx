@@ -254,8 +254,11 @@ const DiagnosticConsole = () => {
     const handleAutoHeal = (msg) => {
         // [MASTER BYPASS] Els errors de dades o esquema MAI han de disparar una recàrrega de bundle.
         // Són tech debt, no fallades de xarxa/deploy.
-        const dbErrorPatterns = ['PGRST', 'ofici', 'column', 'relationship', '400', '401', '404', '42P01'];
+        const dbErrorPatterns = ['PGRST', 'ofici', 'column', 'relationship', '400', '401', '404', '42P01', '42501'];
         if (dbErrorPatterns.some(p => msg.includes(p))) {
+            if (msg.includes('42501') && msg.includes('entity_member_map')) {
+                addHudLog('critical', ['[DB-SECURITY] Permís denegat a entity_member_map.', 'Cal executar GRANT SELECT a Supabase.']);
+            }
             return;
         }
 

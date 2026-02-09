@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useUI } from '../context/UIContext';
+import { useTheme } from '../context/ThemeContext';
 import { supabaseService } from '../services/supabaseService';
 import { useTranslation } from 'react-i18next';
 import { hapticService } from '../services/hapticService';
@@ -9,7 +10,7 @@ import {
     User, LogOut, Camera, Save, Building2, Store, Settings, Star, Home,
     Bell, Lock, HelpCircle, Info, ChevronRight, MapPin, MessageCircle,
     Plus, Moon, Sun, ArrowLeft, Loader2, Image as ImageIcon, Maximize,
-    LayoutGrid, Activity, ShieldCheck, Globe, Edit2, BookOpen, Share2, Beaker, Calendar, Newspaper, Users, Archive, Landmark
+    LayoutGrid, Activity, ShieldCheck, Globe, Edit2, BookOpen, Share2, Beaker, Calendar, Newspaper, Users, Archive, Landmark, Sparkles
 } from 'lucide-react';
 import { logger } from '../utils/logger';
 
@@ -46,7 +47,8 @@ const Profile = () => {
     }, [t]);
     const navigate = useNavigate();
     const { profile, setProfile, user, isPlayground, realProfile, isAdmin, isSuperAdmin, realUser } = useAuth();
-    const { theme, toggleTheme, openLegalModal, setIsNotePadOpen, globalDesign, setGlobalDesign } = useUI();
+    const { theme, toggleTheme } = useTheme();
+    const { setIsNotePadOpen, globalDesign, setGlobalDesign } = useUI();
     const location = useLocation();
 
     // Identity Duality State
@@ -62,12 +64,15 @@ const Profile = () => {
     const [townEditMode, setTownEditMode] = useState('primary');
     const [editingSecondaryIdx, setEditingSecondaryIdx] = useState(null);
     const [isEditingCard, setIsEditingCard] = useState(false);
+    const [nameValue, setNameValue] = useState('');
     const [oficiValue, setOficiValue] = useState('');
     const [bioValue, setBioValue] = useState('');
     const [secondaryTowns, setSecondaryTowns] = useState([]);
 
     // Derived State: Duality Engine
-    const finalProfile = (viewRealIdentity) ? (realProfile || { full_name: 'Javi', id: user?.id }) : (profile || realProfile);
+    const finalProfile = useMemo(() => 
+        (viewRealIdentity) ? (realProfile || { full_name: 'Javi', id: user?.id }) : (profile || realProfile),
+    [viewRealIdentity, realProfile, profile, user?.id]);
 
     // Calculem les medalles (badges) de forma dinàmica
     const badges = [];
@@ -88,11 +93,13 @@ const Profile = () => {
     useEffect(() => {
         const targetData = finalProfile || profile;
         if (targetData && !isEditingCard) {
+            setNameValue(targetData.full_name || '');
             setOficiValue(targetData.ofici || '');
             setBioValue(targetData.bio || '');
             setSecondaryTowns(targetData.secondary_towns || []);
         }
-    }, [finalProfile, profile, isEditingCard]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [finalProfile, isEditingCard]);
 
     const userTown = allTowns.find(t => t.uuid === profile?.town_uuid || t.id === profile?.town_id);
 
@@ -157,10 +164,8 @@ const Profile = () => {
 
     const handleCardSubmit = async () => {
         try {
-            // [MASTER SYNC] Assegurem que el poble principal també es desa si s'ha canviat via modal
-            // La modal handleTownChange ja fa el bategat individual, 
-            // però aquí fem el bategat de conjunt (Ofici, Bio, Secundaris)
             const updates = {
+                full_name: nameValue,
                 ofici: oficiValue,
                 bio: bioValue,
                 secondary_towns: secondaryTowns
@@ -225,7 +230,7 @@ const Profile = () => {
             case 'batec':
                 return (
                     <div className="tab-pane-fade-in batec-content">
-                        <ActivityTab stats={stats} navigate={navigate} />
+                        <ActivityTab stats={stats} navigate={navigate} displayProfile={displayProfileSafe} />
                     </div>
                 );
             case 'community':
@@ -261,6 +266,10 @@ const Profile = () => {
                                         <span>Labs</span>
                                     </div>
                                 )}
+                                <div className="mini-eina-card" onClick={() => { hapticService.bategat(); navigate('/disseny'); }}>
+                                    <Sparkles size={24} />
+                                    <span>Disseny (Canons)</span>
+                                </div>
                                 {isSuperAdmin && (
                                     <div
                                         className={`mini-eina-card admin-special-premium ${globalDesign === 'consola' ? 'active-consola' : ''}`}
@@ -322,18 +331,24 @@ const Profile = () => {
         <div className="profile-container optimized-profile">
             <ProfileHeaderPremium
                 type="person"
-                title={displayProfileSafe.full_name}
-                subtitle={viewRealIdentity ? (displayProfileSafe.ofici ? (displayProfileSafe.ofici.charAt(0).toUpperCase() + displayProfileSafe.ofici.slice(1)) : "EL PARE DE LA +IA") : (oficiValue ? (oficiValue.charAt(0).toUpperCase() + oficiValue.slice(1)) : 'Veí de la Torre')}
+                title={isEditingCard ? nameValue : (viewRealIdentity ? displayProfileSafe.full_name : (displayProfileSafe.full_name || 'Veí de la Torre'))}
+                subtitle={isEditingCard ? oficiValue : (viewRealIdentity ? (displayProfileSafe.ofici ? (displayProfileSafe.ofici.charAt(0).toUpperCase() + displayProfileSafe.ofici.slice(1)) : "EL PARE DE LA +IA") : (oficiValue ? (oficiValue.charAt(0).toUpperCase() + oficiValue.slice(1)) : 'Veí de la Torre'))}
                 town={userTown?.name}
-                bio={viewRealIdentity ? (displayProfileSafe.bio || "Creador de Sóc de Poble.") : bioValue}
+                bio={isEditingCard ? bioValue : (viewRealIdentity ? (displayProfileSafe.bio || "Creador de Sóc de Poble.") : bioValue)}
                 avatarUrl={displayProfileSafe.avatar_url}
                 coverUrl={displayProfileSafe.cover_url}
                 badges={badges}
                 website={viewRealIdentity ? "https://socdepoble.net/author/javi-llinares/" : displayProfileSafe.website}
-                isEditing={false}
+                isEditing={isEditingCard}
                 onBack={handleBack}
-                onAction={() => media.setIsStudioOpen(true)}
-                actionIcon={<Camera size={22} />}
+                showThemeToggle={true}
+                onEditToggle={() => setIsEditingCard(true)}
+                onEditSave={handleCardSubmit}
+                onEditCancel={() => setIsEditingCard(false)}
+                onTitleChange={setNameValue}
+                onSubtitleChange={setOficiValue}
+                onBioChange={setBioValue}
+                onTownChange={() => { setTownEditMode('primary'); setIsEditingTown(true); }}
                 shareData={{
                     title: displayProfileSafe.full_name,
                     text: bioValue || `Hola! Sóc d'aquí de tota la vida. Connecta amb mi a La +IA!`,
@@ -367,21 +382,6 @@ const Profile = () => {
                     </div>
                 </div>
 
-                {/* BOTÓ PROFESSIONAL (Previsualització per al Mestre/Autònom) */}
-                {(isCreator || profile?.ofici) && (
-                    <button
-                        className="legal-doc-btn-premium professional"
-                        style={{ margin: '0 var(--page-margin) 1.5rem', width: 'calc(100% - 2 * var(--page-margin))' }}
-                        onClick={() => openLegalModal({
-                            title: `El meu Dossier: ${displayProfileSafe.full_name}`,
-                            content: `# Dossier Professional: ${displayProfileSafe.full_name} 💼⚖️🏺\n\n**Especialitat**: ${oficiValue || 'Dissenyador Gràfic i Estratègia Digital'}\n**Ubicació**: C/ Sant Isidre Llaurador, 16, La Torre de les Maçanes 🏠\n**Activitat (CNAE)**: 7410 - Disseny Especialitzat ✅\n**Certificació**: Professional Verificat per la Xarxa Rhizome de Sóc de Poble.\n\n---\n\n## Perfil Professional\nSóc un professional compromès amb el territori i la sobirania tecnològica. La meua activitat es centra en crear eines que empoderen la comunitat local a través del disseny, el codi i la memòria.\n\n## Serveis i Competències\n- **Disseny Gràfic i Comunicació**: Especialista en identitat visual i estratègia DirCom.\n- **Desenvolupament Web i Mòbil**: Frameworks moderns i arquitectures sobiranes.\n- **Consultoria Tecnològica**: Assessorament en la digitalització de col·lectius i petites produccions.\n\n---\n\n## El Compromís Sóc de Poble\nCom a autònom verificat, em comprometo a oferir serveis de proximitat, amb transparència total i respecte per la privacitat i les dades dels nostres veïns.\n\n---\n\n**Validat per**: Administració Superior de Sóc de Poble (Core Team).🏛️🏺✨`,
-                            type: 'professional',
-                            authorName: displayProfileSafe.full_name
-                        })}
-                    >
-                        <Landmark size={20} /> EL MEU DOSSIER PROFESSIONAL VERIFICAT
-                    </button>
-                )}
             </ProfileHeaderPremium >
 
             {/* DUALITY FAB */}

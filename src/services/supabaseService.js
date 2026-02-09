@@ -113,12 +113,12 @@ const columnCache = new Proxy({}, {
 // [MASTER PURGE] Self-healing logic for legacy data
 (function _socialPurge() {
     try {
-        const PURGE_VERSION = '20260206_1';
+        const PURGE_VERSION = '20260208_2';
         if (localStorage.getItem('sp_purge_v') !== PURGE_VERSION) {
-            logger.log('[SupabaseService] Executing Master Purge for legacy ghost data...');
+            logger.log('[SupabaseService] !!! NUCLEAR PURGE ACTIVATED !!! Clearing ghost states...');
             // Clear legacy column cache
             Object.keys(localStorage).forEach(key => {
-                if (key.startsWith('cp_') || key.startsWith('lc_')) {
+                if (key.startsWith('cp_') || key.startsWith('lc_') || key.startsWith('v_conn_')) {
                     localStorage.removeItem(key);
                 }
             });
@@ -297,8 +297,30 @@ const _ensureColumnCache = async () => {
         }
     }
 
-    await Promise.all([activeChecks.posts, activeChecks.market]);
-};
+    // 3. Check Messages columns
+    if (columnCache.messages_post_uuid === null) {
+        if (!activeChecks.messages) {
+            activeChecks.messages = (async () => {
+                try {
+                    const { data, error } = await supabase.from('messages').select('*').limit(1);
+                    if (!error && data) {
+                        const row = data[0] || {};
+                        setColumnCache('messages_post_uuid', 'post_uuid' in row);
+                        setColumnCache('messages_is_playground', 'is_playground' in row);
+                    } else if (error) {
+                        setColumnCache('messages_post_uuid', false);
+                        setColumnCache('messages_is_playground', false);
+                    }
+                    logger.log(`[SupabaseService] Messages columns check done.`);
+                } catch (e) {
+                    logger.warn('[SupabaseService] Error checking messages columns:', e);
+                } finally { activeChecks.messages = null; }
+            })();
+        }
+    }
+
+    await Promise.all([activeChecks.posts, activeChecks.market, activeChecks.messages]);
+}
 
 const isValidUUID = (id) => {
     return typeof id === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
@@ -788,15 +810,18 @@ export const supabaseService = {
         const mergedPersonas = Array.from(uniqueById.values());
 
         // Lògica de Sincronització de Producció:
+        // [MASTER IDENTITY PROTECTION] Solo dejamos perfiles reales en producción
         if (!isPlayground) {
             return mergedPersonas.filter(p => {
-                const fictive = isFictiveProfile(p);
-                const isHuman = p.type === 'person' || p.type === 'user';
+                const pid = p.id || '';
+                // [GHOST-SHIELD EXTREME] Purgamos cualquier ID ficticio o de demo
+                const isFictive = pid.startsWith('11111111-') || pid.startsWith('sdp-') || p.is_demo === true;
+                const isOfficial = p.role === 'official' || p.type === 'oficial';
+                const isRealUser = (p.type === 'person' || p.type === 'user') && !isFictive;
 
-                if (fictive) {
-                    return isHuman;
-                }
-                return true;
+                // En producción REAL, solo queremos humanos autenticados o identidades de sistema críticas (IAIA)
+                // Eliminamos cualquier 'neighbor' que sea ficticio (Vicent Ferris, etc)
+                return (isRealUser && !isFictive) || (isOfficial && isFictive && p.username?.includes('iaia'));
             }).sort((a, b) => (a.full_name || '').localeCompare(b.full_name || ''));
         }
 
@@ -1028,10 +1053,13 @@ export const supabaseService = {
 
         const validated = MessageSchema.parse(msgPayload);
 
+        const safeColumns = 'id, conversation_id, sender_id, content, attachment_url, attachment_type, attachment_name, created_at, is_ai, is_read, is_playground';
+        const selectStr = columnCache.messages_post_uuid !== false ? `${safeColumns}, post_uuid` : safeColumns;
+
         const { data, error } = await supabase
             .from('messages')
             .insert([validated])
-            .select();
+            .select(selectStr);
 
         if (error) {
             const isMissingPostUuid = (error.code === '42703' || error.code === 'PGRST204') && msgPayload.post_uuid;
@@ -1044,6 +1072,11 @@ export const supabaseService = {
             if (isMissingPostUuid) {
                 setColumnCache('messages_post_uuid', false);
                 return this.sendSecureMessage(messageData);
+            }
+            if (error.code === '42501') {
+                logger.error('[SupabaseService] RLS Permission Denied on messages table. Please run migration 20260208_nexus_permissions_fix.sql');
+                // Return a mock success to avoid UI hang, but with a warning status
+                return { ...msgPayload, id: `failed-${Date.now()}`, status: 'error', error_msg: 'Permís denegat' };
             }
             throw error;
         }
@@ -1233,7 +1266,7 @@ export const supabaseService = {
         const { data, error } = await supabase
             .from('conversations')
             .insert([validated])
-            .select();
+            .select('id, participant_1_id, participant_2_id, created_at, is_playground');
 
         if (error) {
             if (error.code === 'PGRST204' && isPlayground && columnCache.conversations_is_playground !== false) {
@@ -1436,10 +1469,17 @@ export const supabaseService = {
             logger.debug('[SupabaseService] profiles orClause:', orClause);
 
             // BUSCADOR NIVELL DIOS: Cerca OMNISCIENT en perfils
-            const { data, error } = await supabase
+            let queryBuilder = supabase
                 .from('profiles')
                 .select('id, full_name, username, avatar_url, role, primary_town, bio, ofici, is_demo')
-                .or(orClause)
+                .or(orClause);
+
+            const isPlayground = localStorage.getItem('playground_mode') === 'true';
+            if (!isPlayground) {
+                queryBuilder = queryBuilder.eq('is_demo', false);
+            }
+
+            const { data, error } = await queryBuilder
                 .order('full_name', { ascending: true })
                 .limit(50);
 
@@ -1890,6 +1930,9 @@ export const supabaseService = {
 
             if (isPlayground && columnCache.posts_is_playground !== false) {
                 query = query.eq('is_playground', true);
+            } else if (columnCache.posts_is_playground !== false) {
+                // [GHOST-SHIELD] En producción, filtramos OBLIGATORIAMENTE el contenido de prueba
+                query = query.eq('is_playground', false);
             }
 
             if (roleFilter && roleFilter !== ROLES.ALL && roleFilter !== 'tot') {
@@ -1935,12 +1978,20 @@ export const supabaseService = {
                 .range(from, to);
 
             if (error) {
-                if (error.code === '42703' && error.message?.includes('pinned_position')) {
+                // [MASTER] Robust Column Error Detection (42703: undefined_column, PGRST204: PostgREST specific column error)
+                const isColumnError = error.code === '42703' || error.code === 'PGRST204' || (error.code === '400' && error.message?.includes('column'));
+
+                if (isColumnError && error.message?.includes('pinned_position')) {
                     setColumnCache('posts_pinned_position', false);
                     logger.warn('[SupabaseService] pinned_position missing in posts, retrying...');
                     return this.getPosts(roleFilter, townId, page, pageSize, isPlayground);
                 }
-                if (error.code === '42703' && isPlayground) {
+                if (isColumnError && (error.message?.includes('ai_percentage') || error.message?.includes('human_percentage'))) {
+                    setColumnCache('posts_ai_percentage', false);
+                    logger.warn('[SupabaseService] AI columns missing in posts, retrying...');
+                    return this.getPosts(roleFilter, townId, page, pageSize, isPlayground);
+                }
+                if (isColumnError && isPlayground) {
                     setColumnCache('posts_is_playground', false);
                     logger.warn('[SupabaseService] is_playground missing in posts, retrying silent...');
                     return this.getPosts(roleFilter, townId, page, pageSize, false);
@@ -1958,15 +2009,16 @@ export const supabaseService = {
             // [PILAR 1] Update Cache
             if (page === 0) LocalCache.set(cacheKey, normalizedData);
 
-            // FALLBACK RESTAURADOR: Si no hi ha posts a la DB, mostrem els MOCK_FEED
-            if ((!data || data.length === 0) && page === 0 && ENABLE_MOCKS) {
+            // [MASTER PURGE] No fallbacks a Mocks en producción real para evitar "fantasmas"
+            if ((!data || data.length === 0) && page === 0 && ENABLE_MOCKS && isPlayground) {
                 const { MOCK_FEED } = await import('../data');
                 const normalized = MOCK_FEED.map(p => normalizeContentItem(p, 'post'));
                 return { data: normalized, count: normalized.length };
             }
 
-            // INYECCIÓN PREMIUM: Auxili Music Expansion (Didactic Presentation)
-            if (page === 0 && (isPlayground || normalizedData.length < 3)) {
+            // INYECCIÓN PREMIUM: Auxili Music Expansion (Only in Playground or Dev)
+            const isDev = import.meta.env.MODE === 'development';
+            if (page === 0 && (isPlayground || isDev) && normalizedData.length < 3) {
                 const auxiliPost = {
                     id: 'didactic-auxili-2026',
                     uuid: 'didactic-auxili-2026',
@@ -2098,6 +2150,9 @@ export const supabaseService = {
 
             if (isPlayground && columnCache.market_is_playground !== false) {
                 query = query.eq('is_playground', true);
+            } else if (columnCache.market_is_playground !== false) {
+                // [GHOST-SHIELD] In production, only real products
+                query = query.eq('is_playground', false);
             }
 
             if (categoryFilter && categoryFilter !== 'tot') {
@@ -2124,12 +2179,15 @@ export const supabaseService = {
                 .range(from, to);
 
             if (error) {
-                // [MASTER] Self-healing logic
-                if (error.code === '42703' || error.code === 'PGRST204') {
+                // [MASTER] Self-healing logic for PostgREST 400/PGRST204
+                const isColumnError = error.code === '42703' || error.code === 'PGRST204' || (error.code === '400' && error.message?.includes('column'));
+
+                if (isColumnError) {
                     logger.warn(`[SupabaseService] Market column error (${error.code}), invalidating cache...`);
                     // Invalidate specific column cache items found in error message or just reset
                     if (error.message?.includes('pinned_position')) setColumnCache('market_pinned_position', false);
                     if (error.message?.includes('is_pinned')) setColumnCache('market_is_pinned', false);
+                    if (error.message?.includes('is_playground')) setColumnCache('market_is_playground', false);
                     if (error.message?.includes('fk_market_town_uuid')) setColumnCache('market_fk_town_uuid', false);
 
                     // Retry once immediately
@@ -2300,27 +2358,24 @@ export const supabaseService = {
      * Ensures we don't end up in localhost:3000 or other local environments when in production/mobile
      */
     getRedirectUrl(path = '/chats') {
-        const origin = window.location.origin;
         const hostname = window.location.hostname;
-        const isLocal = hostname === 'localhost' || hostname === '127.0.0.1';
-        const isCapacitor = origin.includes('capacitor://') || origin.includes('http://localhost'); // Capacitor uses localhost often internally
+        const origin = window.location.origin;
 
-        // [MASTER DYNAMIC REDIRECT] 
-        const productionUrl = 'https://socdepoble.vercel.app';
+        // [MASTER PRODUCTION DOMAIN]
+        const productionUrl = 'https://soc-de-poble.vercel.app';
 
-        // Si estamos en producción (Vercel, dominio propio), usamos el origin actual.
-        // Pero si el origin indica localhost y no estamos en desarrollo local real, forzamos producción.
-        if (!isLocal && !isCapacitor) {
-            return `${origin}${path}`;
-        }
-
-        // Si estamos en Capacitor o el origin es sospechoso, usamos la URL de producción oficial.
-        if (isCapacitor || (hostname !== 'localhost' && hostname !== '127.0.0.1')) {
+        // 1. Si estem a producció (Vercel), SEMPRE URL de producció oficial
+        if (hostname.includes('vercel.app')) {
             return `${productionUrl}${path}`;
         }
 
-        // Para desarrollo local real
-        return `${origin}${path}`;
+        // 2. Si estem en localhost (qualsevol port), usem l'origin actual
+        if (hostname === 'localhost' || hostname === '127.0.0.1') {
+            return `${origin}${path}`;
+        }
+
+        // 3. Fallback total al domini mestre per a PWA, Capacitor, etc.
+        return `${productionUrl}${path}`;
     },
 
     async signIn(email, password) {
@@ -3050,11 +3105,23 @@ export const supabaseService = {
         // 2. No duplicate, perform actual upload
         const fileName = `${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
         const filePath = `${userId}/${context}_${fileName}`;
-        const { error: uploadError } = await supabase.storage
-            .from(bucket)
-            .upload(filePath, processedFile);
 
-        if (uploadError) throw uploadError;
+        const { error: uploadError, data } = await supabase.storage
+            .from(bucket)
+            .upload(filePath, processedFile, {
+                cacheControl: '3600',
+                upsert: true
+            });
+
+        if (uploadError) {
+            const isPlayground = localStorage.getItem('isPlaygroundMode') === 'true' || userId?.startsWith('11111111-');
+            if (isPlayground && (uploadError.code === '42501' || uploadError.status === 400 || uploadError.status === 401 || uploadError.status === 403)) {
+                logger.warn(`[SupabaseService] 🛡️ RLS Bypass [${context}]: Creant URL local per a Playground.`);
+                const localUrl = URL.createObjectURL(processedFile);
+                return { url: localUrl, deduplicated: false, asset: { id: `mock-asset-${Date.now()}`, url: localUrl } };
+            }
+            throw uploadError;
+        }
 
         const { data: { publicUrl } } = supabase.storage
             .from(bucket)

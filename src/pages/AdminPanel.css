@@ -17,8 +17,9 @@
 }
 
 .admin-header {
-    background: #000000;
-    border-bottom: var(--border-master);
+    background: var(--surface-glass-heavy);
+    backdrop-filter: blur(var(--blur-master));
+    border-bottom: 1px solid var(--border-subtle);
     padding: 24px 32px;
     display: flex;
     justify-content: space-between;
@@ -68,18 +69,19 @@
 }
 
 .neural-core-panel {
-    background: #FFFFFF;
-    border: var(--border-master);
-    border-radius: var(--radius-xl);
+    background: var(--surface-glass);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-m);
+    /* 24px */
     padding: 32px;
     display: flex;
     flex-direction: column;
     gap: 24px;
-    box-shadow: var(--shadow-hard);
+    box-shadow: var(--shadow-deep);
     position: relative;
     overflow: hidden;
-    transition: all 0.2s ease;
-    color: #000;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    color: var(--text-main);
 }
 
 .neural-core-panel:hover {
@@ -145,13 +147,14 @@
 }
 
 .stat-item {
-    background: #000000;
+    background: var(--bg-edge);
     padding: 16px;
-    border-radius: var(--radius-xl);
+    border-radius: var(--radius-s);
+    /* 18px */
     text-align: center;
-    border: var(--border-master);
-    color: var(--color-primary);
-    /* Cyan stats */
+    border: 1px solid var(--border-subtle);
+    color: var(--accent-violet);
+    box-shadow: var(--shadow-glow-violet);
 }
 
 .stat-val {
@@ -215,17 +218,18 @@
 }
 
 .module-card {
-    background: #FFFFFF;
-    border: var(--border-master);
-    border-radius: var(--radius-xl);
+    background: var(--surface-glass);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-s);
+    /* 18px */
     padding: 16px;
     cursor: pointer;
-    transition: all 0.1s ease;
-    box-shadow: var(--shadow-hard);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: var(--shadow-deep);
     display: flex;
     align-items: center;
     gap: 16px;
-    color: #000;
+    color: var(--text-main);
 }
 
 .module-card:hover {

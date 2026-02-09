@@ -278,5 +278,13 @@
         "nuke_cache_purged": "Memoria temporal vaciada.",
         "clean_start": "Limpiando sesión...",
         "clean_ok": "Sesión limpiada correctamente."
+    },
+    "sim": {
+        "perspective": "Simulación de Perspectiva",
+        "role_user": "Vista Usuario Registrado",
+        "role_admin": "Vista Administrador",
+        "role_editor": "Vista Editor",
+        "active": "Modo Simulación Activo",
+        "stop": "Volver a mi Rol Real"
     }
 }

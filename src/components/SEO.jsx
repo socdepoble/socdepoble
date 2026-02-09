@@ -24,7 +24,7 @@ const SEO = ({
 
     const defaultDesc = 'La teva comunitat, els teus veïns. Connecta amb la vida del teu poble.';
     const defaultImage = '/og-image.png?v=batega-1';
-    const baseUrl = 'https://socdepoble.vercel.app';
+    const baseUrl = 'https://soc-de-poble.vercel.app';
 
     // Ensure absolute URLs for Open Graph (required by WhatsApp, Telegram, etc.)
     const absoluteImage = image?.startsWith('http') ? image : `${baseUrl}${image || defaultImage}`;

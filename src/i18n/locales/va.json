@@ -278,5 +278,13 @@
         "nuke_start": "Restaurant tot l'ecosistema...",
         "nuke_sw_removed": "Controladors de xarxa reiniciats.",
         "nuke_cache_purged": "Memòria temporal buidada."
+    },
+    "sim": {
+        "perspective": "Simulació de Perspectiva",
+        "role_user": "Vista Usuari Registrat",
+        "role_admin": "Vista Administrador",
+        "role_editor": "Vista Editor",
+        "active": "Mode Simulació Actiu",
+        "stop": "Tornar al meu Rol Real"
     }
 }

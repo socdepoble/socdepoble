@@ -128,7 +128,7 @@ const GlobalOverview = ({ addLog }) => {
                         <div className="space-y-4">
                             <div className="node-stat-row">
                                 <span className="label">Versió actual</span>
-                                <span className="value font-mono text-cyan-400">v1.15.1-BATEGA</span>
+                                <span className="value font-mono text-cyan-400">{APP_VERSION}</span>
                             </div>
                             <div className="node-stat-row">
                                 <span className="label">Base de dades</span>

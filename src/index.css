@@ -1,218 +1,113 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
 
 :root {
-  /* --- 1. CONSTITUCIÓ MASTER (Edició DESIGN SYSTEM V2 - PREMIUM DARK) --- */
-  /* Paleta "Nit Digital" - Disseny validat pel Mestre Javi */
-  --bg-dark-center: #1A1B23;
-  --bg-dark-edge: #08090A;
-  --bg-page: radial-gradient(circle at center, var(--bg-dark-center) 0%, var(--bg-dark-edge) 100%);
-  --bg-surface: rgba(23, 25, 35, 0.7);
-  /* Glassmorphism Premium */
-  --bg-card: rgba(23, 25, 35, 0.85);
-  --bg-surface-container: rgba(23, 25, 35, 0.95);
+  /* --- 🏺 CONSTITUCIÓ GENESIS v6.5 (LA CLOSCA) --- */
 
-  --text-primary: #FFFFFF;
-  --text-main: #FFFFFF;
-  --text-secondary: #94A3B8;
-  --text-muted: rgba(255, 255, 255, 0.4);
+  /* 🧬 Geometria Sagrada (Radius Revolution) */
+  --radius-s: 18px;
+  /* Inputs, Botons petits */
+  --radius-m: 28px;
+  /* Universal Cards, Contenidors */
+  --radius-l: 32px;
+  /* Modals, Seccions Major */
+  --radius-full: 999px;
+  /* Avatars, Pills */
+  --radius-sharp: 0px;
+  /* Logos i Capçaleres Taronja */
 
-  /* --- 2. PALETA V2: VILLAGE CONTROLLER [CIAN & TARONJA] --- */
-  --color-primary: #00F2FF;
-  /* Cian Neó Directives MASTER */
-  --color-accent: #F97316;
-  /* Taronja Complementari */
-  --color-violet: #5D5FEF;
-  /* Acento Digital Alternatiu */
-  --color-border: rgba(255, 255, 255, 0.08);
-  --color-input: rgba(255, 255, 255, 0.05);
+  /* ⚡ Accents Sagrats (Constants) */
+  --accent-violet: #5D5FEF;
+  --accent-orange: #FF6D23;
+  --accent-pink: #D441E5;
+  --accent-green: #00BA88;
+  --accent-red: #EF4444;
 
-  /* --- 3. TOKENS DE SUAVITAT (V2 Organic Geometry) --- */
-  --radius-input: 18px;
-  --radius-wrapper: 24px;
-  --radius-gem-card: 28px;
-  --radius-gem-btn: 999px;
-  --radius-gem-avatar: 20px;
+  /* [CLOSCA] Arquitectura del Sostre */
+  --header-height: 64px;
+  --tabs-height: 48px;
+  --shell-top-height: 112px;
+  --nav-height: 72px;
 
-  --shadow-premium: 0 24px 64px rgba(0, 0, 0, 0.4);
-  --shadow-glow: 0 0 15px rgba(0, 242, 255, 0.2);
-  --blur-premium: 28px;
-
-  /* bridge variables for Material System compatibility */
-  --md-sys-color-primary: var(--color-primary);
-  --md-sys-color-on-primary: #000000;
-  --md-sys-color-secondary: var(--color-accent);
-  --md-sys-color-on-secondary: #ffffff;
-  --md-sys-color-surface: var(--bg-dark-edge);
-  --md-sys-color-on-surface: var(--text-primary);
-  --md-sys-color-surface-container: var(--bg-surface-container);
-  --md-sys-color-outline: var(--color-border);
-
-  /* --- 4. GEOMETRIA SAGRADA V2 (Deroga Zero Radius) --- */
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 18px;
-  --radius-xl: 24px;
-  --radius-2xl: 32px;
-  --radius-full: 9999px;
-
-  /* --- 5. TIPOGRAFIA (Inter / Roboto) --- */
-  --font-body: 'Inter', sans-serif;
-  --font-display: 'Inter', sans-serif;
-  --font-size-base: 18px;
-  --font-weight-bold: 800;
-  --font-weight-black: 950;
-  --letter-spacing-titles: -0.02em;
-
-  --page-margin: 16px;
-  --space-bancal: 24px;
-
-  /* --- 6. SAFE AREA --- */
+  /* Layout Base */
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
-  --sys-spacing-safe-top: env(safe-area-inset-top, 20px);
-  --sys-spacing-safe-bottom: env(safe-area-inset-bottom, 20px);
+  --page-margin: 24px;
+  --blur-master: 20px;
+}
 
-  /* Layout Constants */
-  --banner-height: 64px;
-  --nav-height: 72px;
+/* 🌑 NIT DIGITAL (Dark Mode - Deep Black) */
+html.dark,
+.theme-dark,
+:root:not(.theme-light) {
+  --bg-base: #050505;
+  --bg-center: #0A0A0B;
+  --bg-edge: #000000;
+  --bg-page: radial-gradient(circle at center, var(--bg-center) 0%, var(--bg-edge) 100%);
+
+  --text-main: #FFFFFF;
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --text-muted: rgba(255, 255, 255, 0.4);
+
+  --surface-glass: rgba(18, 18, 20, 0.85);
+  --surface-glass-heavy: rgba(18, 18, 20, 0.98);
+  --surface-card: #121214;
+  
+  --border-subtle: rgba(255, 255, 255, 0.05);
+  --border-master: 2px solid rgba(255, 255, 255, 0.1);
+
+  --accent-cyan: #00F2FF;
+  --shadow-deep: 0 24px 64px rgba(0, 0, 0, 0.8);
+  --shadow-glow-violet: 0 0 20px rgba(93, 95, 239, 0.4);
+
+  color-scheme: dark;
+}
+
+/* ☀️ LLUM DE DIA (Light Mode) */
+.theme-light,
+html.light {
+  --bg-base: #F0F2F5;
+  --bg-center: #FFFFFF;
+  --bg-edge: #F1F5F9;
+  --bg-page: radial-gradient(circle at center, var(--bg-center) 0%, var(--bg-edge) 100%);
+
+  --text-main: #1A1A1A;
+  --text-secondary: #4A4A4A;
+  --text-muted: #8E8E93;
+
+  --surface-glass: rgba(255, 255, 255, 0.8);
+  --surface-glass-heavy: rgba(255, 255, 255, 0.95);
+  --surface-card: #FFFFFF;
+
+  --border-subtle: rgba(0, 0, 0, 0.08);
+  --border-master: 2px solid rgba(0, 0, 0, 0.1);
+
+  --accent-cyan: #007AFF;
+  --shadow-deep: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
+  --shadow-glow-violet: 0 20px 40px -5px rgba(93, 95, 239, 0.15);
+
+  color-scheme: light;
+}
+
+/* Compatibility Bridge */
+:root {
+  --color-primary: var(--accent-violet);
+  --color-secondary: var(--accent-green);
+  --color-accent: var(--accent-orange);
+  --bg-surface: var(--surface-glass);
+  --bg-card: var(--surface-card);
+  --color-border: var(--border-subtle);
 }
 
 @keyframes batec-pulse {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-
-  50% {
-    transform: scale(1.1);
-    opacity: 0.8;
-  }
-
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.1); opacity: 0.8; }
+  100% { transform: scale(1); opacity: 1; }
 }
 
-/* TEMA: PEDRA SECA (ARA INTEGRAT EN V2 - RESILIÈNCIA TERRITORIAL) */
-.theme-pedra-seca {
-  --color-primary: var(--color-accent);
-  /* Taronja dominant */
-}
-
-/* TEMA: OLI SUAU (ARA: GEM MODERN - Disseny Validat) */
-.theme-oli-suau {
-  --bg-page: #FDF5E6;
-  --bg-surface: #FFFFFF;
-  --text-primary: #111827;
-  --radius-card: 28px;
-  --radius-btn: 999px;
-  --radius-media: 16px;
-  --shadow-main: var(--shadow-soft);
-  --border-master: 1px solid rgba(0, 0, 0, 0.05);
-  --radius-2xl: 28px;
-  --radius-xl: 20px;
-  --radius-lg: 16px;
-  --radius-md: 12px;
-  --radius-sm: 8px;
-}
-
-.theme-oli-suau .universal-card {
-  border-radius: var(--radius-gem-card) !important;
-  border: 1px solid var(--color-border) !important;
-  box-shadow: var(--shadow-premium) !important;
-  background: var(--bg-card) !important;
-  backdrop-filter: blur(var(--blur-premium)) !important;
-  -webkit-backdrop-filter: blur(var(--blur-premium)) !important;
-}
-
-.theme-oli-suau button,
-.theme-oli-suau .btn-filled,
-.theme-oli-suau .btn-primary {
-  border-radius: var(--radius-gem-btn) !important;
-  box-shadow: var(--shadow-neon) !important;
-  border: none !important;
-  text-transform: uppercase !important;
-  font-weight: 900 !important;
-  letter-spacing: 1px !important;
-  background: var(--color-primary) !important;
-  color: #000 !important;
-}
-
-/* --- DUALITAT ONTOLÒGICA: INSTITUCIONAL (AJUNTAMENT) --- */
-.institutional-theme {
-  --accent: #D1E4FF;
-  --bg-surface: #F8F9FA;
-  --text-main: #1B4B79;
-}
-
-.institutional-theme .m3-bottom-nav {
-  background-color: #F1F3F4;
-  border-top: 1px solid #DADCE0;
-}
-
-/* Dark Mode Overrides (Default in v1.6.3) */
-[data-theme='dark'] {
-  --bg-page: #000000;
-  --bg-canvas: #000000;
-  --bg-surface: #121212;
-  --bg-card: #1c1c1e;
-  --bg-surface-container: #1a1a1a;
-
-  --text-primary: #ffffff;
-  --text-main: var(--text-primary);
-  --text-secondary: #a1a1aa;
-  --text-muted: #71717a;
-
-  --md-sys-color-surface: var(--bg-page);
-  --md-sys-color-on-surface: var(--text-primary);
-  --md-sys-color-surface-container: #1a1a1a;
-  --md-sys-color-outline: var(--color-primary);
-
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
-  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.7);
-  --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.8);
-
-  --logo-filter: invert(1) brightness(10);
-}
-
-/* --- [MASTER] MODE SOLAR (WEBER CLASS 6 - GENESIS ENGINE) --- */
-.solar-mode {
-  --md-sys-color-surface: #000000 !important;
-  /* Negre Absolut (L_base) */
-  --md-sys-color-on-surface: #FFFFFF !important;
-  /* Blanc Absolut (L_top) -> Contrast Weber 100.0 */
-  --md-sys-color-primary: #CCFF00 !important;
-  /* Groc Jupetí Reflectant (Lletra de l'Enginyer) */
-  --md-sys-color-on-primary: #000000 !important;
-  --md-sys-color-secondary: #00F2FF !important;
-  /* Teal Tecnològic (Dades) */
-  --md-sys-color-on-secondary: #000000 !important;
-  --md-sys-color-outline: #FFFFFF !important;
-  --bg-texture: none !important;
-  --grain-opacity: 0 !important;
-
-  /* Forçar contrast extrem en tipografia (GOV.UK + Master) */
-  --font-weight-display: 900 !important;
-  --font-weight-body: 700 !important;
-}
-
-.solar-mode .universal-card {
-  border: 4px solid #FFFFFF !important;
-  box-shadow: var(--shadow-hard);
-  background: #000000 !important;
-}
-
-.solar-mode .card-header {
-  background: #FFFF00 !important;
-  color: var(--bg-canvas)000 !important;
-}
-
-.solar-mode .card-title,
-.solar-mode .card-body,
-.solar-mode .text-body {
-  color: #FFFFFF !important;
-  font-weight: 900 !important;
+/* Aplicar per defecte a tot l'aplicatiu */
+:root {
+  background: var(--bg-page) fixed;
+  color: var(--text-main);
 }
 
 * {
@@ -222,30 +117,23 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-img,
-video,
-iframe,
-canvas {
-  /* DIRECTIVA SUPREMA: GEOMETRIA SEGONS TEMA */
-  border-radius: inherit;
-}
-
 html,
 body {
   overflow-x: hidden;
   width: 100%;
   position: relative;
+  background: var(--bg-page) fixed;
+  color: var(--text-main);
+  min-height: 100vh;
 }
+
 
 body {
   font-family: var(--font-body);
-  background: var(--bg-page) fixed;
-  color: var(--text-primary);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
-  min-height: 100vh;
-  font-size: var(--font-size-base);
   position: relative;
+  font-size: var(--font-size-base);
 }
 
 /* [MASTER] Neteja de la Llei de l'Espai (No estrelles) */
@@ -256,11 +144,16 @@ body::after {
 /* Unified Secondary Header */
 .page-header-with-tabs {
   position: sticky;
-  top: 0;
-  z-index: 1000;
-  background-color: #000000;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  padding-top: var(--safe-top);
+  top: var(--header-height); /* 64px */
+  height: var(--tabs-height); /* 48px */
+  z-index: 1050;
+  background-color: var(--surface-glass-heavy);
+  backdrop-filter: blur(var(--blur-master));
+  border-bottom: 2px solid var(--border-subtle);
+  padding: 0;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease;
 }
 
 .header-tabs-wrapper {
@@ -276,29 +169,14 @@ h1,
 h2,
 h3,
 h4,
-.heading,
-article h3,
-.item-title,
-.post-author,
-.town-name {
+.heading {
   font-family: var(--font-display) !important;
-  font-weight: var(--font-weight-black) !important;
-  font-size: 26px !important;
+  font-weight: 950 !important;
   color: var(--text-main);
-  letter-spacing: var(--letter-spacing-titles);
-  text-transform: none;
+  letter-spacing: -0.02em;
 }
 
-body {
-  font-family: var(--font-body);
-  background-color: var(--md-sys-color-surface);
-  color: var(--md-sys-color-on-surface);
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-  min-height: 100vh;
-  font-size: var(--font-size-base);
-  /* Standard M3 body size */
-}
+/* [ELIMINAT PER DUPLICITAT I OBSOLESCÈNCIA NEXUS v5.1] */
 
 /* Specific colors for card elements handled by components */
 
@@ -337,11 +215,9 @@ a:hover {
 #root {
   max-width: 100%;
   margin: 0 auto;
-  background-color: var(--bg-surface);
   min-height: 100vh;
   min-height: 100dvh;
   position: relative;
-  box-shadow: var(--shadow-hard);
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
@@ -615,18 +491,6 @@ a:hover {
   font-weight: var(--font-weight-bold);
 }
 
-.icon-btn {
-  width: 44px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: var(--radius-lg);
-  /* DIRECTIVA FLASH */
-  background-color: var(--color-primary-soft);
-  color: var(--color-primary);
-}
-
 /* Desktop Reflow [PROTOCOL FLASH] */
 @media (min-width: 1024px) {
   #root {
@@ -772,26 +636,29 @@ a:hover {
   color: var(--color-primary);
 }
 
-/* MASTER BUTTONS & ANIMATIONS */
+/* ACCIONS NEXUS v5.1: VIOLETA DIGITAL */
+.btn-primary,
+.btn-filled,
 .btn-astro-payment {
-  background: var(--color-primary);
-  color: #000;
-  border: 1px solid var(--color-border);
-  box-shadow: var(--shadow-premium);
-  font-weight: 900;
-  transition: all 0.2s cubic-bezier(.16, 1, 0.3, 1);
+  background: var(--accent-violet) !important;
+  color: #FFFFFF !important;
+  border-radius: var(--radius-s) !important;
+  /* 18px */
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s cubic-bezier(.16, 1, 0.3, 1);
+  padding: 12px 24px;
+  border: none;
+  box-shadow: var(--shadow-glow-violet);
+  cursor: pointer;
 }
 
-.btn-astro-payment:active:not(:disabled) {
-  transform: translate(2px, 2px);
-  box-shadow: var(--shadow-premium);
-}
-
-.btn-astro-payment.paid {
-  background: var(--color-success);
-  color: var(--text-main);
-  box-shadow: var(--shadow-hard);
-  transform: translate(2px, 2px);
+.btn-primary:hover,
+.btn-astro-payment:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+  box-shadow: 0 8px 25px rgba(93, 95, 239, 0.4);
 }
 
 .animate-bategat {
@@ -935,37 +802,45 @@ a:hover {
 }
 
 /* === PAGINATION === */
-.load-more-container {
-  display: flex;
-  justify-content: center;
-  padding: var(--space-xl) var(--space-md);
-  padding-bottom: 120px;
+/* PAGINACIÓ I INPUTS NEXUS v5.1 */
+input,
+textarea,
+select {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-s);
+  /* 18px */
+  color: var(--text-main);
+  padding: 14px 18px;
+  font-family: inherit;
+  transition: all 0.3s ease;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--accent-violet);
+  box-shadow: 0 0 0 4px rgba(93, 95, 239, 0.15);
 }
 
 .btn-load-more {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background-color: var(--color-primary);
-  color: #000;
-  padding: var(--space-sm) var(--space-xl);
-  border-radius: var(--radius-xl);
-  /* Rectangular: 8px */
-  font-weight: 800;
-  font-family: var(--font-heading);
-  box-shadow: var(--shadow-premium);
-  transition: transform 0.2s, background-color 0.2s;
+  background: var(--surface-glass);
+  backdrop-filter: blur(8px);
+  color: var(--text-main);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  padding: 12px 32px;
+  font-weight: 950;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: all 0.3s ease;
 }
 
 .btn-load-more:hover {
+  background: var(--accent-violet);
+  border-color: var(--accent-violet);
   transform: translateY(-2px);
-  background-color: #E66D35;
-}
-
-.btn-load-more:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-  transform: none;
 }
 
 /* Identity Badges (Transparency System) */
@@ -997,12 +872,15 @@ a:hover {
 .ia-transparency-note-mini {
   margin-top: 12px;
   font-size: var(--font-size-base);
-  font-weight: var(--font-weight-bold);
-  color: #10b981;
-  background: rgba(16, 185, 129, 0.05);
-  padding: 6px 12px;
-  border-radius: var(--radius-md);
-  border-left: 3px solid #10b981;
+  font-weight: 900;
+  /* Més pes visual */
+  background: #000000;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  /* Més gruix i contrast */
+  padding: 16px 20px;
+  border-radius: 28px;
+  /* Unificat a 28px */
+  color: #FFFFFF;
   display: inline-block;
 }
 
@@ -1103,17 +981,21 @@ a:hover {
 .sw-update-btn {
   flex: 1;
   height: 54px;
-  border-radius: var(--radius-lg);
+  border-radius: 28px !important;
+  /* Unificat segons GEM MODERN */
   font-weight: 900;
-  font-size: var(--font-size-base);
+  font-size: 18px;
+  /* Augmentat des de var(--font-size-base) */
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
   cursor: pointer;
-  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   display: flex;
   align-items: center;
   justify-content: center;
   border: none;
+  color: #FFFFFF;
+  /* Text blanc per a màxim contrast */
 }
 
 .sw-update-btn.refresh {
@@ -1179,6 +1061,8 @@ a:hover {
   max-width: 400px;
   box-shadow: var(--shadow-premium);
   border-radius: var(--radius-2xl);
+  --genesis-radius: 28px;
+  /* Forçat a 28px segons directiva GEM MODERN */
 }
 
 .rescue-card h3 {

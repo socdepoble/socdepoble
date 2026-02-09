@@ -1,34 +1,41 @@
 .search-discover-page {
     min-height: 100vh;
-    background: var(--md-sys-color-surface);
+    background: var(--bg-page);
     display: flex;
     flex-direction: column;
 }
 
 .search-nav-bar {
     padding: 12px 16px;
-    background: var(--md-sys-color-surface-variant);
+    background: var(--surface-glass-heavy);
+    backdrop-filter: blur(var(--blur-master));
     display: flex;
     align-items: center;
     gap: 12px;
     position: sticky;
     top: 0;
     z-index: 100;
-    border-bottom: 1px solid var(--md-sys-color-outline);
+    border-bottom: 1px solid var(--border-subtle);
 }
 
 .back-circle {
     width: 40px;
     height: 40px;
-    border-radius: 0px;
-    border: none;
-    background: var(--bg-surface);
+    border-radius: var(--radius-full);
+    border: 1px solid var(--border-subtle);
+    background: var(--surface-glass);
     color: var(--text-main);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     flex-shrink: 0;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.back-circle:hover {
+    background: var(--surface-glass-heavy);
+    transform: scale(1.1);
 }
 
 .search-input-wrapper {
@@ -41,19 +48,20 @@
 .search-icon-fixed {
     position: absolute;
     left: 14px;
-    color: var(--color-primary);
+    color: var(--accent-violet);
 }
 
 .main-search-input {
     width: 100%;
     padding: 12px 40px 12px 45px;
-    border-radius: 0px;
-    border: 1px solid var(--md-sys-color-outline);
-    background: var(--md-sys-color-surface);
-    color: var(--md-sys-color-on-surface);
+    border-radius: var(--radius-s);
+    /* 18px */
+    border: 1px solid var(--border-subtle);
+    background: var(--surface-glass);
+    color: var(--text-main);
     font-size: var(--font-size-base);
-    font-weight: var(--font-weight-bold);
-    transition: all 0.2s;
+    font-weight: 800;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .main-search-input:focus {
@@ -88,25 +96,26 @@
 
 .filter-chip {
     padding: 8px 16px;
-    border-radius: 0px;
-    border: 1px solid var(--md-sys-color-outline);
-    background: var(--md-sys-color-surface-variant);
-    color: var(--md-sys-color-on-surface-variant);
-    font-size: var(--font-size-base);
-    font-weight: var(--font-weight-bold);
+    border-radius: var(--radius-s);
+    /* 18px */
+    border: 1px solid var(--border-subtle);
+    background: var(--surface-glass);
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: 800;
     display: flex;
     align-items: center;
     gap: 8px;
     cursor: pointer;
     white-space: nowrap;
-    transition: all 0.2s;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .filter-chip.active {
-    background: var(--md-sys-color-secondary-container);
-    color: var(--md-sys-color-on-secondary-container);
-    border-color: var(--md-sys-color-secondary-container);
-    box-shadow: var(--shadow-hard);
+    background: var(--accent-violet);
+    color: #FFFFFF;
+    border-color: var(--accent-violet);
+    box-shadow: var(--shadow-glow-violet);
 }
 
 .search-loading {
@@ -215,12 +224,13 @@
 }
 
 .result-item-card {
-    background: var(--md-sys-color-surface);
+    background: var(--surface-glass);
     margin-bottom: 8px;
     padding: 12px 16px;
-    border-radius: 0px;
-    border: 1px solid var(--md-sys-color-outline);
-    box-shadow: var(--shadow-hard);
+    border-radius: var(--radius-s);
+    /* 18px */
+    border: 1px solid var(--border-subtle);
+    box-shadow: var(--shadow-deep);
     display: flex;
     align-items: center;
     gap: 16px;
@@ -234,9 +244,9 @@
 .result-avatar {
     width: 48px;
     height: 48px;
-    border-radius: 0px;
-    background: white;
-    border: 2px solid var(--color-primary);
+    border-radius: var(--radius-full);
+    background: var(--bg-edge);
+    border: 2px solid var(--border-subtle);
     overflow: hidden;
     display: flex;
     align-items: center;

@@ -277,7 +277,7 @@ const Login = () => {
                         <div className="iaia-speech-bubble">
                             {step === 'input'
                                 ? <>Bon dia! Soc la IAIA. Soc ací per a ajudar-te a connectar.<br />Vine al redol, que ací xategem tots els veïns! 🗣️🏘️</>
-                                : "T'he enviat el codi ja. Posa'l ací i entrem a la plaça ara mateix! ✨"}
+                                : "T'he enviat el codi ja. Posa'l ací i entrem a la plaça ara mateix! ✨ (v1.16.5-NUCLEAR)"}
                         </div>
                     </div>
                 </header>

@@ -1,8 +1,9 @@
 import React, { useEffect, lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
-// VERSION: v1.15.1-GEM-MODERN (Llum i Vida | Gem Design)
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+// VERSION: v1.16.6-NUCLEAR-CLEAN (Llum i Vida | Gem Design)
 import Header from './components/Header';
 import Layout from './components/Layout';
+import { ThemeProvider } from './context/ThemeContext';
 import './styles/Consola.css';
 
 // Lazy loaded components
@@ -50,6 +51,8 @@ const AyuntamientoPage = lazy(() => import('./pages/AyuntamientoPage'));
 const TiaMariaChat = lazy(() => import('./components/TiaMariaChat'));
 const NexusFlash = lazy(() => import('./pages/NexusFlash'));
 const GlobalAssetAlbum = lazy(() => import('./pages/GlobalAssetAlbum'));
+const OficiDocumentacio = lazy(() => import('./pages/OficiDocumentacio'));
+const XylellaFastidiosaForm = lazy(() => import('./components/XylellaFastidiosaForm'));
 import { RescueTool } from './components/RescueTool';
 import AmphoraFAB from './components/AmphoraFAB';
 
@@ -131,6 +134,7 @@ const ProtectedRoute = ({ children }) => {
   return children;
 };
 
+
 function App() {
   const { asoMode } = useUI();
   usePushNotifications(); // Activate Push System
@@ -157,7 +161,7 @@ function App() {
         await StatusBar.setBackgroundColor({ color: '#FDF5E6' });
 
         await SplashScreen.hide();
-      } catch (e) {
+      } catch (error) {
         // Silent failure for non-native environments
       }
     };
@@ -165,165 +169,170 @@ function App() {
   }, []);
 
   return (
-    <BrowserRouter>
-      <DiagnosticConsole />
-      <Suspense fallback={<NanoLoader message="Preparant Sóc de Poble..." />}>
-        <ErrorBoundary fallbackMessage="Error crític de l'aplicació">
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/playground" element={<PlaygroundPortal />} />
+    <ThemeProvider>
+      <BrowserRouter>
+        <DiagnosticConsole />
+        <Suspense fallback={<NanoLoader message="Preparant Sóc de Poble..." />}>
+          <ErrorBoundary fallbackMessage="Error crític de l'aplicació">
+            <Routes>
+              {/* ... rutes existents ... */}
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/playground" element={<PlaygroundPortal />} />
 
-            {/* SEARCH COMPATIBILITY REDIRECTS */}
-            <Route path="/Admin/Broadcast" element={<Navigate to="/admin?tab=broadcast" replace />} />
-            <Route path="/admin/broadcast" element={<Navigate to="/admin?tab=broadcast" replace />} />
+              {/* SEARCH COMPATIBILITY REDIRECTS */}
+              <Route path="/Admin/Broadcast" element={<Navigate to="/admin?tab=broadcast" replace />} />
+              <Route path="/admin/broadcast" element={<Navigate to="/admin?tab=broadcast" replace />} />
 
-            <Route
-              path="/"
-              element={
-                <ErrorBoundary>
-                  <Layout />
-                </ErrorBoundary>
-              }
-            >
-              <Route index element={<NavigateWithParams to="/chats" replace />} />
               <Route
-                path="chats"
+                path="/"
                 element={
-                  <ProtectedRoute>
-                    <ChatList />
-                  </ProtectedRoute>
+                  <ErrorBoundary>
+                    <Layout />
+                  </ErrorBoundary>
                 }
-              />
-              <Route
-                path="chats/:id"
-                element={
-                  <ProtectedRoute>
-                    <ChatDetail />
-                  </ProtectedRoute>
-                }
-              />
-              <Route path="mur" element={<Feed />} />
-              <Route path="mercat" element={<Market />} />
-              <Route
-                path="perfil"
-                element={
-                  <ProtectedRoute>
-                    <Profile />
-                  </ProtectedRoute>
-                }
-              />
-              <Route path="/@:username" element={<PublicProfile />} />
-              <Route path="perfil/:id" element={<PublicProfile />} />
-              <Route path="entitat/:id" element={<PublicEntity />} />
-              <Route path="vendre-excedent" element={<SellSurplus />} />
-              <Route path="post/:id" element={<PostDetail />} />
-              <Route
-                path="notificacions"
-                element={
-                  <ProtectedRoute>
-                    <Notifications />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="fotos"
-                element={
-                  <ProtectedRoute>
-                    <MediaAlbum />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="fotos/global"
-                element={
-                  <ProtectedRoute>
-                    <GlobalAssetAlbum />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="gestio-entitats"
-                element={
-                  <ProtectedRoute>
-                    <EntityManagement />
-                  </ProtectedRoute>
-                }
-              />
-              <Route path="cerca" element={<SearchDiscover />} />
-              <Route path="arxiu" element={<Archive />} />
-              <Route path="comunitat" element={<CommunityDirectory />} />
-              <Route path="aula-rural" element={<AulaRural />} />
-              <Route path="pobles" element={<Towns />} />
-              <Route path="pobles/:id" element={<TownDetail />} />
-              <Route path="ajuntament/:id" element={<AyuntamientoPage />} />
-              <Route
-                path="mapa"
-                element={
-                  <ProtectedRoute>
-                    <Map />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="admin"
-                element={
-                  <ProtectedRoute>
-                    <AdminPanel />
-                  </ProtectedRoute>
-                }
-              />
-              <Route path="iaia" element={<IAIAPage />} />
-              <Route path="album" element={<AlbumMemoria />} />
-              <Route path="projecte" element={<ProjectPresentation />} />
-              <Route path="disseny" element={<DesignCanon />} />
-              <Route path="visor" element={<GenesisViewer />} />
-              <Route path="elemental" element={<MakingOf />} />
-              <Route path="legal" element={<LegalNotice />} />
-              <Route path="reset" element={<ResetPage />} />
-              <Route path="manual" element={<ManualPage />} />
-              <Route path="sessio/:id" element={<SessionChronicle />} />
-              <Route path="calendari" element={<MasterCalendar />} />
-              <Route path="dafo/:id" element={<DAFOPage />} />
-              <Route path="didactica/:id" element={<DidacticPage />} />
-              <Route path="/ia" element={<RuralIntelligence />} />
-              <Route path="/ia/habitants" element={<HabitantsDelMas />} />
-              <Route path="tutorial-didactica" element={<DidacticManual />} />
-              <Route path="solatge" element={<SolatgeConsole />} />
-              <Route path="nexus" element={<NexusFlash />} />
+              >
+                <Route index element={<NavigateWithParams to="/chats" replace />} />
+                <Route
+                  path="chats"
+                  element={
+                    <ProtectedRoute>
+                      <ChatList />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="chats/:id"
+                  element={
+                    <ProtectedRoute>
+                      <ChatDetail />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route path="mur" element={<Feed />} />
+                <Route path="mercat" element={<Market />} />
+                <Route
+                  path="perfil"
+                  element={
+                    <ProtectedRoute>
+                      <Profile />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route path="/@:username" element={<PublicProfile />} />
+                <Route path="perfil/:id" element={<PublicProfile />} />
+                <Route path="entitat/:id" element={<PublicEntity />} />
+                <Route path="vendre-excedent" element={<SellSurplus />} />
+                <Route path="post/:id" element={<PostDetail />} />
+                <Route
+                  path="notificacions"
+                  element={
+                    <ProtectedRoute>
+                      <Notifications />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="fotos"
+                  element={
+                    <ProtectedRoute>
+                      <MediaAlbum />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="fotos/global"
+                  element={
+                    <ProtectedRoute>
+                      <GlobalAssetAlbum />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="gestio-entitats"
+                  element={
+                    <ProtectedRoute>
+                      <EntityManagement />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route path="cerca" element={<SearchDiscover />} />
+                <Route path="arxiu" element={<Archive />} />
+                <Route path="comunitat" element={<CommunityDirectory />} />
+                <Route path="aula-rural" element={<AulaRural />} />
+                <Route path="pobles" element={<Towns />} />
+                <Route path="pobles/:id" element={<TownDetail />} />
+                <Route path="ajuntament/:id" element={<AyuntamientoPage />} />
+                <Route
+                  path="mapa"
+                  element={
+                    <ProtectedRoute>
+                      <Map />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="admin"
+                  element={
+                    <ProtectedRoute>
+                      <AdminPanel />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route path="iaia" element={<IAIAPage />} />
+                <Route path="album" element={<AlbumMemoria />} />
+                <Route path="projecte" element={<ProjectPresentation />} />
+                <Route path="disseny" element={<DesignCanon />} />
+                <Route path="visor" element={<GenesisViewer />} />
+                <Route path="elemental" element={<MakingOf />} />
+                <Route path="legal" element={<LegalNotice />} />
+                <Route path="reset" element={<ResetPage />} />
+                <Route path="manual" element={<ManualPage />} />
+                <Route path="sessio/:id" element={<SessionChronicle />} />
+                <Route path="calendari" element={<MasterCalendar />} />
+                <Route path="dafo/:id" element={<DAFOPage />} />
+                <Route path="didactica/:id" element={<DidacticPage />} />
+                <Route path="/ia" element={<RuralIntelligence />} />
+                <Route path="/ia/habitants" element={<HabitantsDelMas />} />
+                <Route path="tutorial-didactica" element={<DidacticManual />} />
+                <Route path="solatge" element={<SolatgeConsole />} />
+                <Route path="nexus" element={<NexusFlash />} />
+                <Route path="ofici" element={<OficiDocumentacio />} />
+                <Route path="ofici/xylella-fastidiosa" element={<XylellaFastidiosaForm />} />
 
-              {/* EMERGENCY RESCUE ROUTES (Escaped from SW) */}
-              <Route path="rescat.html" element={<RescueTool />} />
-              <Route path="rescue.html" element={<RescueTool />} />
-              <Route path="_nuke.html" element={<RescueTool />} />
-            </Route>
+                {/* EMERGENCY RESCUE ROUTES (Escaped from SW) */}
+                <Route path="rescat.html" element={<RescueTool />} />
+                <Route path="rescue.html" element={<RescueTool />} />
+                <Route path="_nuke.html" element={<RescueTool />} />
+              </Route>
 
-            {/* Direct access for no-layout rescue */}
-            <Route path="/rescat" element={<RescueTool />} />
-            <Route path="/nuke" element={<RescueTool />} />
+              {/* Direct access for no-layout rescue */}
+              <Route path="/rescat" element={<RescueTool />} />
+              <Route path="/nuke" element={<RescueTool />} />
 
-            {/* [MASTER] AUTO-HEALING: Captura de rutes de documentació mal formades */}
-            <Route path="/docs/*" element={<Navigate to="/projecte" replace />} />
-            <Route path="/artifacts/*" element={<Navigate to="/admin" replace />} />
+              {/* [MASTER] AUTO-HEALING: Captura de rutes de documentació mal formades */}
+              <Route path="/docs/*" element={<Navigate to="/projecte" replace />} />
+              <Route path="/artifacts/*" element={<Navigate to="/admin" replace />} />
 
-            {/* Fallback 404 compatible amb l'estètica Master */}
-            {/* PEDAGOGICAL FALLBACK: Orphan links lead to Aula Rural */}
-            <Route path="*" element={<Navigate to="/aula-rural" replace />} />
-          </Routes>
-        </ErrorBoundary>
-      </Suspense>
-      {asoMode && (
-        <div className="aso-study-overlay">
-          <div className="aso-frame">
-            <div className="aso-narrative">
-              <h2>BATEGA SENSE WIFI</h2>
-              <p>El teu poble, la teua veu.</p>
+              {/* Fallback 404 compatible amb l'estètica Master */}
+              {/* PEDAGOGICAL FALLBACK: Orphan links lead to Aula Rural */}
+              <Route path="*" element={<Navigate to="/aula-rural" replace />} />
+            </Routes>
+          </ErrorBoundary>
+        </Suspense>
+        {asoMode && (
+          <div className="aso-study-overlay">
+            <div className="aso-frame">
+              <div className="aso-narrative">
+                <h2>BATEGA SENSE WIFI</h2>
+                <p>El teu poble, la teua veu.</p>
+              </div>
             </div>
+            <div className="aso-badge">MODO ESTUDI ASO</div>
           </div>
-          <div className="aso-badge">MODO ESTUDI ASO</div>
-        </div>
-      )}
-    </BrowserRouter>
+        )}
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 

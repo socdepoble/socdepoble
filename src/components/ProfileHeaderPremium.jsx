@@ -1,12 +1,16 @@
 import React from 'react';
-import { ArrowLeft, MapPin, Calendar, BadgeCheck, Info, Share2, Settings, Globe } from 'lucide-react';
+import { 
+    ArrowLeft, MapPin, Calendar, BadgeCheck, Info, Share2, Settings, 
+    Globe, UserPlus, UserMinus, Loader2, Tag, Shield, Plus, Sun, Moon, Check, X, MessageCircle
+} from 'lucide-react';
 import ShareHub from './ShareHub';
 import { useNavigate } from 'react-router-dom';
 import MediaViewerModal from './MediaViewerModal';
+import { useTheme } from '../context/ThemeContext';
 import './ProfileHeaderPremium.css';
 
 /**
- * ProfileHeaderPremium - Un única capçalera per a governar-los a tots.
+ * UniversalTotem (ex-ProfileHeaderPremium) - El tòtem d'identitat suprema.
  * Suporta perfils de: Persones, Grups, Empreses, Entitats Oficials i Pobles.
  */
 const ProfileHeaderPremium = ({
@@ -20,8 +24,6 @@ const ProfileHeaderPremium = ({
     badges = [], // ['IAIA', 'Oficial', 'Verificat']
     isLive = false, // Per a "Obert ara" en negocis
     onBack,
-    onAction,
-    actionIcon,
     isEditing = false,
     shareData = null, // { title, text, url }
     onShare, // High priority if provided
@@ -30,10 +32,21 @@ const ProfileHeaderPremium = ({
     onTownChange,
     onBioChange,
     website,
+    // Connect Props
+    isConnected = false,
+    isConnecting = false,
+    onConnect, // Function to handle connection flow
+    showConnect = false,
+    showThemeToggle = false,
+    onEditToggle,
+    onEditSave,
+    onEditCancel,
     children
 }) => {
     const navigate = useNavigate();
+    const { theme, toggleTheme } = useTheme();
     const [viewerData, setViewerData] = React.useState({ isOpen: false, src: '', title: '' });
+    const [isRhizomeOpen, setIsRhizomeOpen] = React.useState(false);
 
     const openViewer = (src, title) => {
         if (!src) return;
@@ -43,6 +56,21 @@ const ProfileHeaderPremium = ({
     const handleBack = () => {
         if (onBack) onBack();
         else navigate(-1);
+    };
+
+    const handleConnectClick = () => {
+        if (isConnected) {
+            // If already connected, we just call the disconnect logic directly or ask
+            onConnect?.({ disconnect: true });
+        } else {
+            // Open Rhizome for tagging
+            setIsRhizomeOpen(true);
+        }
+    };
+
+    const confirmConnection = (tag) => {
+        onConnect?.({ tag });
+        setIsRhizomeOpen(false);
     };
 
     return (
@@ -62,32 +90,77 @@ const ProfileHeaderPremium = ({
                         <ArrowLeft size={24} />
                     </button>
 
-                    {onAction && (
-                        <button className="premium-btn-circle action" onClick={onAction} title="Configuració">
-                            {actionIcon || <Settings size={24} />}
-                        </button>
-                    )}
+                    <div className="nav-actions-right">
+                        {showConnect && (
+                            <button 
+                                className={`premium-connect-pill ${isConnected ? 'connected' : ''}`}
+                                onClick={handleConnectClick}
+                                disabled={isConnecting}
+                            >
+                                {isConnecting ? (
+                                    <Loader2 size={18} className="animate-spin" />
+                                ) : isConnected ? (
+                                    <>
+                                        <UserMinus size={18} />
+                                        <span>DESCONNECTAR</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <UserPlus size={18} />
+                                        <span>CONECTAR</span>
+                                    </>
+                                )}
+                            </button>
+                        )}
 
-                    {(shareData || onShare) && (
-                        <div className="premium-share-wrapper">
-                            {onShare ? (
-                                <button className="premium-btn-circle share" onClick={onShare} title="Compartir">
-                                    <Share2 size={24} />
+                        {(shareData || onShare) && (
+                            <div className="premium-share-wrapper">
+                                {onShare ? (
+                                    <button className="premium-btn-circle share" onClick={onShare} title="Compartir">
+                                        <Share2 size={24} />
+                                    </button>
+                                ) : (
+                                    <ShareHub
+                                        title={shareData.title}
+                                        text={shareData.text}
+                                        url={shareData.url}
+                                        customTrigger={
+                                            <button className="premium-btn-circle share" title="Compartir">
+                                                <Share2 size={24} />
+                                            </button>
+                                        }
+                                    />
+                                )}
+                            </div>
+                        )}
+
+                        {showThemeToggle && (
+                            <button 
+                                className="premium-btn-circle theme-toggle" 
+                                onClick={toggleTheme}
+                                title={theme === 'dark' ? 'Canviar a Llum de Dia' : 'Canviar a Nit Digital'}
+                            >
+                                {theme === 'dark' ? <Sun size={24} /> : <Moon size={24} />}
+                            </button>
+                        )}
+
+                        {isEditing ? (
+                            <div className="edit-actions-group">
+                                <button className="premium-btn-circle save" onClick={onEditSave} title="Guardar Canvis">
+                                    <Check size={24} />
                                 </button>
-                            ) : (
-                                <ShareHub
-                                    title={shareData.title}
-                                    text={shareData.text}
-                                    url={shareData.url}
-                                    customTrigger={
-                                        <button className="premium-btn-circle share" title="Compartir">
-                                            <Share2 size={24} />
-                                        </button>
-                                    }
-                                />
-                            )}
-                        </div>
-                    )}
+                                <button className="premium-btn-circle cancel" onClick={onEditCancel} title="Cancel·lar">
+                                    <X size={24} />
+                                </button>
+                            </div>
+                        ) : (
+                            onEditToggle && (
+                                <button className="premium-btn-circle edit" onClick={onEditToggle} title="Editar Perfil">
+                                    <Settings size={24} />
+                                </button>
+                            )
+                        )}
+                    </div>
                 </div>
             </div>
 
@@ -107,12 +180,24 @@ const ProfileHeaderPremium = ({
 
                     <div className="premium-main-text">
                         <div className="premium-title-row">
-                            <h1 className="premium-title">{title}</h1>
-                            {badges.map((badge, idx) => (
-                                <span key={idx} className={`premium-badge ${badge.toLowerCase()}`}>
-                                    {badge}
-                                </span>
-                            ))}
+                            {isEditing ? (
+                                <input
+                                    type="text"
+                                    className="premium-edit-input title"
+                                    value={title}
+                                    onChange={(e) => onTitleChange?.(e.target.value)}
+                                    placeholder="Nom"
+                                />
+                            ) : (
+                                <h1 className="premium-title">{title}</h1>
+                            )}
+                            <div className="premium-badges-row">
+                                {badges.map((badge, idx) => (
+                                    <span key={idx} className={`premium-badge ${badge.toLowerCase().replace(/\s+/g, '-')}`}>
+                                        {badge}
+                                    </span>
+                                ))}
+                            </div>
                         </div>
                         <div className="premium-meta-stack">
                             {isEditing ? (
@@ -151,15 +236,33 @@ const ProfileHeaderPremium = ({
                 </div>
 
                 {isEditing ? (
-                    <textarea
-                        className="premium-edit-textarea bio"
-                        value={bio}
-                        onChange={(e) => onBioChange?.(e.target.value)}
-                        placeholder="Escriu la teua frase o lema de marca..."
-                        rows={2}
-                    />
+                    <div className="premium-edit-textarea-wrapper">
+                        <textarea
+                            className="premium-edit-textarea bio"
+                            value={bio}
+                            onChange={(e) => onBioChange?.(e.target.value)}
+                            placeholder="Escriu la teua frase o lema de marca..."
+                            rows={2}
+                        />
+                        <button className="btn-ai-magic-bio" title="Bio Màgica (AI)" onClick={() => alert('IAIA: Redactant una bio que faça goig...')}>
+                            <Sparkles size={16} />
+                            <span>Bio Màgica</span>
+                        </button>
+                    </div>
                 ) : (
-                    bio && <p className="premium-bio">{bio}</p>
+                    <div className="premium-bio-container">
+                        {bio && <p className="premium-bio">{bio}</p>}
+                        <div className="premium-ai-profile-tools">
+                            <button className="btn-ai-greeting" title="Redactor de Salutacions (AI)" onClick={() => alert('IAIA: Preparant salutacions personalitzades...')}>
+                                <MessageCircle size={16} />
+                                <span>Salutacions</span>
+                            </button>
+                            <button className="btn-ai-rumors" title="La Veu del Poble (IAIA)" onClick={() => alert('IAIA: Xe! He sentit a dir que...')}>
+                                <Zap size={16} />
+                                <span>Veu del Poble</span>
+                            </button>
+                        </div>
+                    </div>
                 )}
 
                 {/* Slot for Stats Bar or other elements */}
@@ -169,6 +272,40 @@ const ProfileHeaderPremium = ({
                     </div>
                 )}
             </div>
+
+            {/* Rhizome Connection Modal (Internal) */}
+            {isRhizomeOpen && (
+                <div className="rhizome-connection-overlay" onClick={() => setIsRhizomeOpen(false)}>
+                    <div className="rhizome-modal" onClick={e => e.stopPropagation()}>
+                        <div className="rhizome-header">
+                            <div className="rhizome-icon-glow">
+                                <UserPlus size={32} />
+                            </div>
+                            <h3>Connexió Rhizome</h3>
+                            <p>Etiqueta aquesta connexió per a organitzar el teu mur privat.</p>
+                        </div>
+                        
+                        <div className="rhizome-tags-grid">
+                            {['Veí', 'Amic', 'Treball', 'Comerç', 'Oficial', 'Cultura'].map(tag => (
+                                <button key={tag} className="rhizome-tag-btn" onClick={() => confirmConnection(tag)}>
+                                    <Tag size={16} />
+                                    <span>{tag}</span>
+                                </button>
+                            ))}
+                        </div>
+
+                        <div className="rhizome-footer">
+                            <div className="shield-hint">
+                                <Shield size={14} />
+                                <span>Aquesta etiqueta només la veus tu.</span>
+                            </div>
+                            <button className="rhizome-btn-skip" onClick={() => confirmConnection('Veí')}>
+                                Omplir com a "Veí"
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             <MediaViewerModal
                 isOpen={viewerData.isOpen}

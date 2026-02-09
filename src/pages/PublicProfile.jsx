@@ -7,6 +7,7 @@ import { useAuth } from '../context/AuthContext';
 import { useUI } from '../context/UIContext';
 import { logger } from '../utils/logger';
 import { CREATOR_EMAILS } from '../constants';
+import { hapticService } from '../services/hapticService';
 import Feed from '../components/Feed';
 import SEO from '../components/SEO';
 import ProfileHeaderPremium from '../components/ProfileHeaderPremium';
@@ -20,7 +21,7 @@ const PublicProfile = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const { user: currentUser } = useAuth();
-    const { setIsSocialManagerOpen, setSocialManagerContext, openLegalModal } = useUI();
+    const { openLegalModal } = useUI();
     const [profile, setProfile] = useState(null);
     const [managedEntities, setManagedEntities] = useState([]);
     const [userPosts, setUserPosts] = useState([]);
@@ -49,8 +50,6 @@ const PublicProfile = () => {
                         return;
                     }
                     profileId = profileData.id;
-                    const masters = (typeof CREATOR_EMAILS !== 'undefined') ? CREATOR_EMAILS : [];
-                    const isCreator = masters.includes(profileData.email);
                     setProfile(profileData);
                 } else {
                     // Fetch by ID
@@ -92,28 +91,29 @@ const PublicProfile = () => {
         }
     }, [currentUser, profile]);
 
-    const handleConnect = async () => {
+    const handleConnect = async (params = {}) => {
         if (!currentUser) {
             navigate('/login');
             return;
         }
 
+        const { tag, disconnect } = params;
+
         setIsConnecting(true);
         try {
-            if (isConnected) {
+            if (disconnect || isConnected) {
                 const success = await supabaseService.disconnectFromProfile(currentUser.id, profile.id);
                 if (success) {
                     setIsConnected(false);
                     setFollowersCount(prev => Math.max(0, prev - 1));
+                    hapticService.notifySuccess();
                 }
             } else {
-                const success = await supabaseService.connectWithProfile(currentUser.id, profile.id);
+                const success = await supabaseService.connectWithProfile(currentUser.id, profile.id, tag ? [tag] : []);
                 if (success) {
                     setIsConnected(true);
                     setFollowersCount(prev => prev + 1);
-                    // Proactive UX: Open social manager to tag the new connection
-                    setSocialManagerContext({ type: 'person', id: profile.id, name: profile.full_name });
-                    setIsSocialManagerOpen(true);
+                    hapticService.notifySuccess();
                 }
             }
         } catch (err) {
@@ -144,6 +144,11 @@ const PublicProfile = () => {
         }
     };
 
+    const badges = [];
+    if (profile?.id?.startsWith('11111111-1a1a')) badges.push('INTEL·LIGÈNCIA');
+    if (profile?.role === 'ambassador') badges.push('IAIA');
+    if (profile?.role === 'admin' || profile?.role === 'superadmin') badges.push('Padrí');
+
     if (loading) return (
         <div className="profile-container loading">
             <Loader2 className="spinner" />
@@ -159,13 +164,11 @@ const PublicProfile = () => {
         </div>
     );
 
-    // Share function removed as it was unused. Can be restored if needed.
-
     const getSocialImage = () => {
         switch (profile.social_image_preference) {
             case 'avatar': return profile.avatar_url;
             case 'cover': return profile.cover_url;
-            default: return null; // SEO component will use default logo
+            default: return null; 
         }
     };
 
@@ -191,15 +194,19 @@ const PublicProfile = () => {
                 }}
             />
             <ProfileHeaderPremium
-                type="person"
+                type={profile.role === 'entitat' || profile.role === 'admin' ? 'official' : (profile.role === 'business' ? 'business' : 'person')}
                 title={profile.full_name}
                 subtitle={profile.ofici ? (profile.ofici.charAt(0).toUpperCase() + profile.ofici.slice(1)) : (profile.role === 'ambassador' ? 'Ambaixador' : (profile.role && profile.role !== 'user' ? (profile.role.charAt(0).toUpperCase() + profile.role.slice(1)) : 'Veí'))}
                 town={profile.town_name || 'La Torre de les Maçanes'}
                 bio={profile.bio}
                 avatarUrl={profile.avatar_url}
                 coverUrl={profile.cover_url}
-                badges={profile.id?.startsWith('11111111-1a1a') ? ['INTEL·LIGÈNCIA'] : (profile.role === 'ambassador' ? ['IAIA'] : [])}
-                onAction={isOwnProfile ? () => navigate('/perfil', { state: { fromProfile: true } }) : null}
+                badges={badges}
+                isConnected={isConnected}
+                isConnecting={isConnecting}
+                onConnect={handleConnect}
+                showConnect={!isOwnProfile}
+                onAction={isOwnProfile ? () => navigate('/perfil') : null}
                 actionIcon={<Settings size={24} />}
                 shareData={{
                     title: profile.full_name,
@@ -232,9 +239,9 @@ const PublicProfile = () => {
                     const canSeeActions = !isOwnProfile || (currentUser && (masters.includes(currentUser.email) || currentUser.role === 'admin' || currentUser.role === 'superadmin'));
 
                     return canSeeActions && (
-                        <div className="profile-actions-gem-fullwidth">
+                        <div className="profile-actions-gem-fullwidth main-action-focus">
                             <button
-                                className={`connect-btn-main ${isConnected ? 'connected' : ''}`}
+                                className={`connect-btn-main supreme-action ${isConnected ? 'connected' : ''}`}
                                 onClick={handleConnect}
                                 disabled={isConnecting}
                             >
@@ -252,28 +259,30 @@ const PublicProfile = () => {
                                     </>
                                 )}
                             </button>
-                            <button
-                                className="chat-btn-main"
-                                onClick={() => navigate(`/chats/${profile.id}`)}
-                            >
-                                <MessageSquare size={24} />
-                                <span>MISSATGERIA</span>
-                            </button>
-
-                            {/* BOTÓ PROFESSIONAL (Dinàmic per a Autònoms/Creadors) */}
-                            {(masters.includes(profile.email) || profile.ofici) && (
+                            <div className="secondary-actions-row">
                                 <button
-                                    className="legal-doc-btn-premium professional"
-                                    onClick={() => openLegalModal({
-                                        title: `Dossier: ${profile.full_name}`,
-                                        content: `# Dossier Professional: ${profile.full_name} 💼⚖️🏺\n\n**Especialitat**: ${profile.ofici || 'Dissenyador Gràfic i Estratègia Digital'}\n**Ubicació**: C/ Sant Isidre Llaurador, 16, La Torre de les Maçanes 🏠\n**Activitat (CNAE)**: 7410 - Disseny Especialitzat ✅\n**Certificació**: Professional Verificat per la Xarxa Rhizome de Sóc de Poble.\n\n---\n\n## Perfil Professional\nSóc un professional compromès amb el territori i la sobirania tecnològica. La meua activitat es centra en crear eines que empoderen la comunitat local a través del disseny, el codi i la memòria.\n\n## Serveis i Competències\n- **Disseny Gràfic i Comunicació**: Especialista en identitat visual i estratègia DirCom.\n- **Desenvolupament Web i Mòbil**: Frameworks moderns i arquitectures sobiranes.\n- **Consultoria Tecnològica**: Assessorament en la digitalització de col·lectius i petites produccions.\n\n---\n\n## El Compromís Sóc de Poble\nCom a autònom verificat, em comprometo a oferir serveis de proximitat, amb transparència total i respecte per la privacitat i les dades dels nostres veïns.\n\n---\n\n**Validat per**: Administració Superior de Sóc de Poble (Core Team).🏛️🏺✨`,
-                                        type: 'professional',
-                                        authorName: profile.full_name
-                                    })}
+                                    className="chat-btn-main"
+                                    onClick={() => navigate(`/chats/${profile.id}`)}
                                 >
-                                    <Landmark size={20} /> DOSSIER PROFESSIONAL VERIFICAT
+                                    <MessageSquare size={24} />
+                                    <span>MISSATGERIA</span>
                                 </button>
-                            )}
+
+                                {/* BOTÓ PROFESSIONAL (Discret) */}
+                                {(masters.includes(profile.email) || profile.ofici) && (
+                                    <button
+                                        className="legal-doc-btn-compact professional"
+                                        onClick={() => openLegalModal({
+                                            title: `Dossier: ${profile.full_name}`,
+                                            content: `# Dossier Professional: ${profile.full_name} 💼⚖️🏺\n\n**Especialitat**: ${profile.ofici || 'Dissenyador Gràfic i Estratègia Digital'}\n**Certificació**: Professional Verificat de Sóc de Poble.\n\n---\n\n## Perfil Professional\nSóc un professional compromès amb el territori i la sobirania tecnològica.\n\n---\n\n**Validat per**: Administració Superior de Sóc de Poble.🏛️🏺✨`,
+                                            type: 'professional',
+                                            authorName: profile.full_name
+                                        })}
+                                    >
+                                        <Landmark size={20} /> DOSSIER
+                                    </button>
+                                )}
+                            </div>
                         </div>
                     );
                 })()

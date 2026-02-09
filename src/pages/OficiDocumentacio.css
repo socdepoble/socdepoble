@@ -1,0 +1,241 @@
+.ofici-page {
+    padding: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.ofici-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.ofici-logo {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.ofici-icon-wrapper {
+    width: 64px;
+    height: 64px;
+    background: var(--accent-orange);
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 28px;
+    box-shadow: var(--shadow-deep);
+}
+
+.ofici-logo h1 {
+    font-size: 32px;
+    margin: 0;
+    line-height: 1;
+}
+
+.ofici-logo p {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-top: 4px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.ofici-iaia-card {
+    background: rgba(var(--vibe-primary-rgb), 0.05);
+    border: 1px solid var(--accent-pink);
+    padding: 16px;
+    border-radius: 28px;
+    max-width: 350px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.ofici-iaia-card p {
+    font-size: 13px;
+    font-style: italic;
+    color: var(--accent-pink);
+    font-weight: 600;
+    margin: 0;
+}
+
+.iaia-blink {
+    color: var(--accent-pink);
+    animation: pulse 2s infinite;
+}
+
+.ofici-search-bar {
+    position: relative;
+    width: 100%;
+}
+
+.ofici-search-bar input {
+    width: 100%;
+    background: var(--surface-glass-heavy);
+    border: 1px solid var(--border-subtle);
+    padding: 18px 24px 18px 56px;
+    border-radius: 28px;
+    color: var(--text-main);
+    font-size: 16px;
+    font-family: inherit;
+    transition: all 0.3s;
+}
+
+.ofici-search-bar input:focus {
+    border-color: var(--accent-orange);
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(255, 109, 35, 0.1);
+}
+
+.search-icon {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+}
+
+.ofici-main-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 24px;
+}
+
+.document-category-card {
+    background: var(--surface-glass-heavy);
+    border: 1px solid var(--border-subtle);
+    border-radius: 28px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: transform 0.3s;
+}
+
+.document-category-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(var(--vibe-primary-rgb), 0.3);
+}
+
+.cat-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.cat-icon {
+    color: var(--cat-color);
+}
+
+.cat-header h3 {
+    font-size: 20px;
+    margin: 0;
+}
+
+.cat-desc {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.procedure-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.procedure-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 18px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-subtle);
+    border-radius: 16px;
+    transition: all 0.2s;
+    text-align: left;
+    width: 100%;
+}
+
+.procedure-item.active:hover {
+    background: rgba(var(--vibe-primary-rgb), 0.1);
+    border-color: var(--accent-orange);
+    transform: translateX(4px);
+}
+
+.proc-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.proc-title {
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.proc-code {
+    font-size: 10px;
+    color: var(--text-muted);
+    font-weight: 950;
+    margin-top: 2px;
+}
+
+.status-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: 900;
+    color: var(--text-muted);
+}
+
+.ofici-info-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-subtle);
+    margin-top: 20px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.info-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--accent-cyan);
+    font-size: 11px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-ofici-manual {
+    background: var(--surface-glass);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-main);
+    padding: 10px 20px;
+    border-radius: 14px;
+    font-weight: 800;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+@media (max-width: 600px) {
+    .ofici-main-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ofici-header {
+        flex-direction: column;
+    }
+}

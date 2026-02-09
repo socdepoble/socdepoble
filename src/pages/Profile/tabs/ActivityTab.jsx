@@ -1,10 +1,33 @@
 import React from 'react';
-import { ImageIcon, MessageCircle, Store, Settings, Plus, ChevronRight } from 'lucide-react';
+import { ImageIcon, MessageCircle, Store, Settings, Plus, ChevronRight, Landmark } from 'lucide-react';
+import { useUI } from '../../../context/UIContext';
+import { useAuth } from '../../../context/AuthContext';
 
-const ActivityTab = ({ stats, navigate }) => {
+const ActivityTab = ({ stats, navigate, displayProfile }) => {
+    const { openLegalModal } = useUI();
+    const { realUser, user } = useAuth();
+    const isCreator = ['javillinares@gmail.com', 'admin@socdepoble.net'].includes(realUser?.email || user?.email);
+
     return (
         <div className="tab-pane-fade-in activity-pane">
             <div className="activity-grid">
+                {/* BOTÓ PROFESSIONAL (Unificat amb estil Àlbum) */}
+                {(isCreator || displayProfile?.ofici) && (
+                    <div className="activity-card professional-highlight" onClick={() => openLegalModal({
+                        title: `Dossier Professional: ${displayProfile.full_name}`,
+                        content: `# ${displayProfile.full_name}\n\n**Especialitat**: ${displayProfile.ofici || 'Dissenyador Gràfic i Estratègia Digital'}\n**Certificació**: Professional Verificat • Sóc de Poble\n\n---\n\n## Perfil Professional\nSóc un professional compromès amb el territori i la sobirania tecnològica. La meua activitat es centra en crear eines que empoderen la comunitat local a través del disseny, el codi i la memòria.\n\n## Serveis i Competències\n- **Disseny Gràfic i Comunicació**: Especialista en identitat visual i estratègia DirCom.\n- **Desenvolupament Web i Mòbil**: Frameworks moderns i arquitectures sobiranes.\n- **Consultoria Tecnològica**: Assessorament en la digitalització de col·lectius i petites produccions.\n\n---\n\n## El Compromís Sóc de Poble\nCom a autònom verificat, em comprometo a oferir serveis de proximitat, amb transparència total i respecte per la privacitat i les dades dels nostres veïns.\n\n---\n\n**Ubicació**: La Torre de les Maçanes 🏠\n**Validat per**: Administració Superior de Sóc de Poble. 🏛️🏺✨`,
+                        type: 'professional',
+                        authorName: displayProfile.full_name
+                    })}>
+                        <div className="card-header">
+                            <div className="icon-box"><Landmark size={20} /></div>
+                            <h4>Dossier Professional</h4>
+                        </div>
+                        <p>La teua carta de presentació verificada per Sóc de Poble.</p>
+                        <div className="card-footer">Obriu Dossier <ChevronRight size={14} /></div>
+                    </div>
+                )}
+
                 <div className="activity-card" onClick={() => navigate('/fotos')}>
                     <div className="card-header">
                         <div className="icon-box"><ImageIcon size={20} /></div>

@@ -9,18 +9,38 @@
     border-right: var(--border-master);
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 1100; /* Damunt de la Header fixed (1000) */
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
     color: #FFFFFF;
 }
 
-.drawer-header {
-    padding: 32px 24px;
+.drawer-header-suprema {
+    padding: 32px 12px; /* Reduït padding lateral per donar més lloc al logo */
     display: flex;
     flex-direction: column;
-    gap: 24px;
-    background: linear-gradient(180deg, rgba(var(--md-ref-palette-terracotta-40-rgb), 0.05) 0%, transparent 100%);
+    gap: 32px;
+    background: linear-gradient(180deg, rgba(var(--md-ref-palette-terracotta-40-rgb), 0.1) 0%, transparent 100%);
+    align-items: center;
+}
+
+.drawer-logo-link {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.drawer-logo-link:hover {
+    transform: scale(1.05);
+}
+
+.drawer-main-logo {
+    width: 100%;
+    max-width: 240px; /* Logo més gran possible */
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5));
 }
 
 .visual-democracy-rail-switcher {
@@ -177,10 +197,10 @@
 
 .drawer-footer {
     padding: 16px 12px;
-    border-top: 1px solid var(--md-sys-color-outline-variant);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 12px;
 }
 
 .footer-item {

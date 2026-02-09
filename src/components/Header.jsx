@@ -1,19 +1,16 @@
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
-import { useI18n } from '../context/I18nContext';
 import { logger } from '../utils/logger';
-import { User, Search, Bell, Sparkles, UserCheck, Download, Activity, ChevronRight, Store, Building2, Users, Zap, BookOpen } from 'lucide-react';
-import { useUI } from '../context/UIContext';
-import { pushService } from '../services/pushService';
-import { pushNotifications } from '../services/pushNotifications';
+import { User, Search, Bell, Sparkles, UserCheck, Download, Activity, ChevronRight, Store, Building2, Users, Zap, BookOpen, Eye, EyeOff } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useState, useEffect } from 'react';
 import MasterConsole from './MasterConsole';
 import './Header.css';
 
 const ContextMenu = () => {
-    const { profile, realProfile, activeEntityId, switchContext } = useAuth();
+    const { realProfile, activeEntityId, switchContext, simulatedRole, setSimulatedRole, isAdmin, isEditor, isSuperAdmin } = useAuth();
+    const { t } = useTranslation();
     const [entities, setEntities] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
 
@@ -89,27 +86,87 @@ const ContextMenu = () => {
                     </div>
                 </div>
             ))}
+
+            {/* [MASTER] ROLE SIMULATOR (Only for Privileged Users) */}
+            {(isSuperAdmin || isEditor || isAdmin) && (
+                <div className="context-menu-simulator-section">
+                    <div className="context-menu-header">{t('sim.perspective')}</div>
+
+                    {/* User Perspective */}
+                    <div
+                        className={`context-option sim-option ${simulatedRole === 'vei' ? 'active-sim' : ''}`}
+                        onClick={() => { setSimulatedRole(simulatedRole === 'vei' ? null : 'vei'); setIsOpen(false); }}
+                    >
+                        <div className="context-option-avatar sim-icon">
+                            <Eye size={18} />
+                        </div>
+                        <div className="context-option-info">
+                            <span className="context-option-name">{t('sim.role_user')}</span>
+                            {simulatedRole === 'vei' && <span className="sim-status-label">{t('sim.active')}</span>}
+                        </div>
+                    </div>
+
+                    {/* Editor Perspective (If Admin or SuperAdmin) */}
+                    {(isSuperAdmin || isAdmin) && (
+                        <div
+                            className={`context-option sim-option ${simulatedRole === 'editor' ? 'active-sim' : ''}`}
+                            onClick={() => { setSimulatedRole(simulatedRole === 'editor' ? null : 'editor'); setIsOpen(false); }}
+                        >
+                            <div className="context-option-avatar sim-icon">
+                                <Sparkles size={18} />
+                            </div>
+                            <div className="context-option-info">
+                                <span className="context-option-name">{t('sim.role_editor')}</span>
+                                {simulatedRole === 'editor' && <span className="sim-status-label">{t('sim.active')}</span>}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Reset Perspective */}
+                    {simulatedRole && (
+                        <div
+                            className="context-option stop-sim"
+                            onClick={() => { setSimulatedRole(null); setIsOpen(false); }}
+                        >
+                            <div className="context-option-avatar sim-icon stop">
+                                <EyeOff size={18} />
+                            </div>
+                            <div className="context-option-info">
+                                <span className="context-option-name">{t('sim.stop')}</span>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            )}
         </div>
     );
 };
 
 const Header = () => {
     const { t } = useTranslation();
-    const { user, profile, isAdmin, activeEntityId } = useAuth();
-    const { language, toggleLanguage } = useI18n();
-    const { visionMode, setVisionMode } = useUI();
+    const { user, profile } = useAuth();
     const navigate = useNavigate();
-    const location = useLocation();
     const [isMasterOpen, setIsMasterOpen] = useState(false);
-    const { status = 'synced', hops = 3 } = user?.is_sovereign ? { status: 'offline', hops: 0 } : {};
+    const { simulatedRole } = useAuth();
 
 
     return (
         <header className="m3-top-app-bar premium-master-bar">
-            <div className="bar-leading">
+            <div className="bar-leading desktop-hide">
                 <Link to="/" className="header-logo-link" title="Torna a l'Inici">
                     <img
-                        src="/assets/master/logo_socdepoble_white_clean.png"
+                        src="/assets/master/logo_socdepoble_white_full.png"
+                        alt="Sóc de Poble"
+                        className="header-main-logo"
+                    />
+                </Link>
+            </div>
+
+            {/* Mobile-only logo or space to push trailing to the right */}
+            <div className="bar-leading mobile-only">
+                 <Link to="/" className="header-logo-link">
+                    <img
+                        src="/assets/master/logo_socdepoble_white_full.png"
                         alt="Sóc de Poble"
                         className="header-main-logo"
                     />
@@ -132,23 +189,21 @@ const Header = () => {
                     </button>
                 )}
 
-                <button
-                    className="bar-icon-btn info-diseny-btn"
-                    onClick={() => navigate('/disseny')}
-                    style={{ fontSize: '10px', fontWeight: '800', background: 'rgba(0,0,0,0.05)', color: '#666', width: 'auto', padding: '0 12px', borderRadius: '999px', height: '32px' }}
-                >
-                    ⚙️ Info
-                </button>
 
                 {user && (
                     <div className="bar-avatar-wrapper">
                         <Link to="/perfil" className="bar-avatar-link">
-                            <div className="bar-avatar">
+                            <div className={`bar-avatar ${simulatedRole ? 'simulating-avatar' : ''}`}>
                                 {profile?.avatar_url ? (
                                     <img src={profile.avatar_url} alt="Perfil" />
                                 ) : (
                                     <div className="profile-initials">
                                         {(profile?.full_name || user?.email || 'U').substring(0, 1).toUpperCase()}
+                                    </div>
+                                )}
+                                {simulatedRole && (
+                                    <div className="sim-indicator-badge" title={t('sim.active')}>
+                                        <Zap size={10} fill="currentColor" />
                                     </div>
                                 )}
                             </div>

@@ -2,17 +2,16 @@
     display: flex;
     flex-direction: column;
     height: 100dvh;
-    background-color: var(--bg-main);
+    background: var(--bg-page);
     position: fixed;
     top: 0;
     left: 50%;
     transform: translateX(-50%);
     width: 100%;
     max-width: 600px;
-    /* Centering for desktop, fills for mobile */
     z-index: 2000;
     overflow: hidden;
-    box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--shadow-deep);
 }
 
 @media (max-width: 600px) {
@@ -27,18 +26,18 @@
     display: flex;
     align-items: center;
     padding: var(--safe-top, 20px) var(--page-margin) 0;
-    background-color: var(--color-accent);
-    border-bottom: var(--border-master);
+    background: var(--surface-glass-heavy);
+    backdrop-filter: blur(var(--blur-master));
+    border-bottom: 1px solid var(--border-subtle);
     gap: var(--space-md);
     height: calc(64px + var(--safe-top, 20px));
     flex-shrink: 0;
     z-index: 10;
-    box-shadow: var(--shadow-hard);
-    color: #000000;
+    color: var(--text-main);
 }
 
 .back-button {
-    color: #F7FAFC;
+    color: var(--text-main);
     opacity: 0.8;
 }
 
@@ -90,7 +89,7 @@
     font-size: 1.1rem;
     font-weight: var(--font-weight-bold);
     margin: 0;
-    color: #000000;
+    color: var(--text-main);
     font-family: var(--font-headline);
     white-space: nowrap;
     overflow: hidden;
@@ -99,17 +98,17 @@
 
 .chat-info .status {
     font-size: 0.8rem;
-    color: #000000;
+    color: var(--text-muted);
     opacity: 0.8;
 }
 
 .chat-info .status::before {
     content: '';
     display: block;
-    width: 6px;
-    height: 6px;
-    background: #4a5568;
-    border-radius: 0px;
+    width: 8px;
+    height: 8px;
+    background: var(--text-muted);
+    border-radius: var(--radius-full);
 }
 
 .chat-info .status.online {
@@ -151,31 +150,32 @@
 }
 
 .wa-bubble {
-    padding: 8px 12px;
-    border-radius: 0px;
-    /* ZERO RADIUS PROTOCOL */
+    padding: 12px 16px;
+    border-radius: var(--radius-s);
+    /* 18px */
     max-width: 85%;
     position: relative;
-    box-shadow: 4px 4px 0px rgba(0, 0, 0, 1);
-    /* Shadow Brutaliste */
-    font-size: 19px;
-    /* Master Font Size */
-    line-height: 1.4;
+    font-size: 17px;
+    line-height: 1.5;
     word-break: break-word;
-    border: 2px solid #000;
+    border: 1px solid var(--border-subtle);
+    backdrop-filter: blur(8px);
 }
 
 .wa-bubble.me {
-    background-color: var(--color-primary);
-    /* Cyan Aigua */
-    color: #000000;
+    background: var(--accent-violet);
+    color: #FFFFFF;
     align-self: flex-end;
+    box-shadow: var(--shadow-glow-violet);
+    border-bottom-right-radius: 4px;
 }
 
 .wa-bubble.other {
-    background-color: #FFFFFF;
-    color: #000000;
+    background: var(--surface-glass-heavy);
+    color: var(--text-main);
     align-self: flex-start;
+    box-shadow: var(--shadow-deep);
+    border-bottom-left-radius: 4px;
 }
 
 .wa-sender-name {
@@ -222,10 +222,14 @@
 
 /* Background pattern vibe */
 .messages-list {
-    background-color: #efeae2;
-    /* WhatsApp Chat Background */
-    background-image: radial-gradient(#d1d7db 0.5px, transparent 0.5px);
-    background-size: 10px 10px;
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--space-md);
+    padding-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: var(--bg-page);
 }
 
 .message-avatar-container {
@@ -393,17 +397,41 @@
 /* NEW INPUT AREA */
 .chat-input-area-new {
     padding: 12px 16px calc(12px + var(--safe-bottom, 20px));
-    background: var(--md-sys-color-surface);
-    border-top: 1px solid var(--md-sys-color-outline);
+    background: var(--surface-glass-heavy);
+    backdrop-filter: blur(var(--blur-master));
+    border-top: 1px solid var(--border-subtle);
     display: flex;
     flex-direction: column;
     gap: 8px;
     z-index: 30;
-    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--shadow-deep);
     flex-shrink: 0;
 }
 
 /* [NEW] Multiple Attachments Preview */
+.iaia-transparency-notice {
+    padding: 10px 16px;
+    background: linear-gradient(135deg, rgba(212, 65, 229, 0.1) 0%, rgba(93, 95, 239, 0.05) 100%);
+    border-bottom: 1px solid rgba(212, 65, 229, 0.2);
+    position: sticky;
+    top: 0;
+    z-index: 90;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    overflow: hidden;
+    /* Evita que qualsevol fill sobresurten */
+}
+
+.iaia-transparency-notice .banner-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: 100%;
+    margin: 0 auto;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
 .attachments-preview-grid {
     display: flex;
     flex-wrap: wrap;
@@ -591,11 +619,11 @@
 .mas-chat-input-wrapper {
     display: flex;
     align-items: center;
-    background: white;
-    border-radius: 0px;
+    background: var(--surface-glass-heavy);
+    border-radius: var(--radius-m);
     padding: 2px 8px;
-    box-shadow: var(--shadow-hard);
-    border: 1px solid #e2e8f0;
+    box-shadow: var(--shadow-deep);
+    border: 1px solid var(--border-subtle);
 }
 
 .wa-action-btn {
@@ -623,10 +651,15 @@
     flex: 1 !important;
     border: none !important;
     background: transparent !important;
-    box-shadow: var(--shadow-hard);
     padding: 10px 8px !important;
     font-size: 1rem;
-    color: #1a202c;
+    color: var(--text-main);
+    outline: none !important;
+}
+
+.mas-chat-input-wrapper input::placeholder {
+    color: var(--text-muted);
+    opacity: 0.6;
 }
 
 /* Clearer Attachment Feedback */
@@ -703,12 +736,12 @@
 .chat-input-form-new input[type="text"] {
     width: 100%;
     padding: 12px 20px;
-    border: 1px solid var(--md-sys-color-outline);
-    border-radius: 0px;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-m);
     font-size: 1rem;
     transition: all 0.2s;
-    background: var(--md-sys-color-surface-variant);
-    color: var(--md-sys-color-on-surface-variant);
+    background: var(--surface-glass-heavy);
+    color: var(--text-main);
     outline: none;
 }
 
@@ -780,26 +813,27 @@
 /* IAIA Transparency Notice Refined - Premium Rural-Tech Audit */
 /* MArIA Transparency Notice - Premium WhatsApp-Style "System Message" */
 .iaia-transparency-notice {
-    padding: var(--space-md) var(--page-margin);
+    padding: 8px var(--page-margin);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 5;
     background: transparent;
+    width: 100%;
 }
 
 .iaia-transparency-notice .banner-content {
-    background: #fff9f0;
-    border: 1px solid #ffe4bc;
-    padding: 12px 16px;
-    border-radius: 0px;
+    background: var(--surface-glass-heavy);
+    border: 1px solid var(--accent-orange);
+    padding: 8px 12px;
+    border-radius: var(--radius-m);
+    max-width: 500px;
+    width: 100%;
+    overflow: hidden;
     display: flex;
     align-items: flex-start;
     gap: 12px;
     box-shadow: var(--shadow-hard);
-    width: 100%;
-    /* Take full width of parent padding */
-    max-width: 500px;
     cursor: pointer;
     transition: all 0.2s ease;
 }

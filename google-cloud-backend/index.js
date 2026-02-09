@@ -29,7 +29,7 @@ function initClients() {
 
     if (PROJECT_ID) {
         vertexAI = new VertexAI({ project: PROJECT_ID, location: LOCATION });
-        model = vertexAI.preview.getGenerativeModel({ model: 'gemini-pro' });
+        model = vertexAI.preview.getGenerativeModel({ model: 'gemini-1.5-pro-002' });
     } else {
         console.warn('⚠️ GCP Project ID missing. AI will fail.');
     }

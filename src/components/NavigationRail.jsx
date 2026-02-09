@@ -1,24 +1,28 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { MessageCircle, Newspaper, Store, MapPin, User, Settings, Info, Plus, Hash, Folder, Archive, BookOpen, Star, ChevronRight, Image as ImageIcon } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
-import { useAuth } from '../context/AuthContext';
+import { 
+    MessageCircle, Newspaper, Store, MapPin, User, Settings, Info, Plus, 
+    Folder, Archive, BookOpen, Star, ChevronRight, Image as ImageIcon, 
+    Layout, Activity, Sparkles, LogOut 
+} from 'lucide-react';
 import { useUI } from '../context/UIContext';
 import { useSocial } from '../context/SocialContext';
-import BatecMonitor from './BatecMonitor';
-import { Layout, Activity, Sparkles } from 'lucide-react';
 import './NavigationRail.css';
 
 const NavigationRail = () => {
-    const { t } = useTranslation();
-    const { user } = useAuth();
     const { setIsCreateModalOpen, visualDemocracy, setVisualDemocracy } = useUI();
     const { activeCategories } = useSocial();
 
     return (
         <nav className="navigation-drawer">
-            <div className="drawer-header no-logo">
-                <BatecMonitor />
+            <div className="drawer-header-suprema">
+                <NavLink to="/" className="drawer-logo-link">
+                    <img 
+                        src="/assets/master/logo_socdepoble_white_full.png" 
+                        alt="Sóc de Poble" 
+                        className="drawer-main-logo"
+                    />
+                </NavLink>
 
                 <div className="visual-democracy-rail-switcher">
                     <button

@@ -1,4 +1,4 @@
-# [MASTER] GÉNESIS: DOCTRINA SUPREMA DE SÓC DE POBLE (v5.16 - TRELLAT ARTIFICIAL) 🏛️🤖✨🏺☢️🧼🌅✂️
+# [MASTER] GÉNESIS: DOCTRINA SUPREMA DE SÓC DE POBLE (v5.17 - ENTERPRISE BATEGAT) 🏛️🤖✨🏺🚀💎⚖️
 
 **ESTAT:** FONT DE VERITAT ÚNICA I IMMUTABLE. Protocol **"Foc i Aigua"** en fase de plenitud.
 
@@ -12,6 +12,7 @@
 5.  **Contrast Llum i Vida:** Naranja (#F97316) per a l'atenció institucional i Cian (#06B6D4) per a l'acció digital. Base en Crema (#FDF5E6) i Blanc Pur.
 6.  **Llei del Bategat Suau:** Tota eina ha de portar ombres profundes però molt difuminades (Soft Shadows). La claredat i la suavitat són la nova força.
 7.  **Llei de la Sincronització Immediata (Directiva Atum):** L'app bategua amb un sol cor. Qualsevol bategat de versió implica una purga total de cache per a garantir l'excel·lència visual i funcional als dispositius dels veïns.
+8.  **Llei de la Cabecera Negra Supra (Directiva Master):** La cabecera superior (Header) amb el logo "Sóc de Poble" ha d'ocupar sempre el 100% de l'espai disponible i ser de color negre absolut (#000000), independentment del tema actiu o de qualsevol contenidor.
 
 ---
 
@@ -209,6 +210,7 @@ Sóc de Poble bategua amb intel·ligència pròpia per a servir a la comunitat:
 Per a evitar que el passat (codi vell) contamine el bategat present:
 1.  **Purga Forçada:** Qualsevol node que no estiga en la versió Mestra (v1.10.0+) ha de ser purgat de manera nuclear abans de qualsevol acció.
 2.  **Sintonització Atòmica:** El "Dissabte de Neteja" (Gatekeeper) és sagrat per a mantenir l'excel·lència visual i funcional.
+3.  **Auditoria de l'Ull de la IAIA:** La IAIA MarIA realitzarà una auditoria nuclear cada 24h per a detectar codi "zombi" o rutes obsoletes. Si l'Ull detecta deute tècnic, el Mas bategarà en Cian (#06B6D4) fins que tot siga purgat.
 
 ---
 

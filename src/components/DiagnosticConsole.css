@@ -14,17 +14,18 @@
     right: 30px;
     bottom: 30px;
     width: 480px;
-    background: #000000;
-    /* Black Canvas */
-    border: var(--border-master);
-    border-radius: var(--radius-xl) !important;
+    background: var(--surface-glass-heavy);
+    backdrop-filter: blur(var(--blur-master));
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-m) !important;
+    /* 24px */
     z-index: 10002;
-    color: #FFFFFF;
-    font-family: 'JetBrains Mono', monospace;
+    color: var(--text-main);
+    font-family: var(--font-main);
     display: flex;
     flex-direction: column;
-    box-shadow: var(--shadow-hard);
-    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    box-shadow: var(--shadow-deep);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     overflow: hidden;
 }
 
@@ -74,8 +75,8 @@
 /* Header */
 .hud-header {
     padding: 24px 32px;
-    background: #000000;
-    border-bottom: var(--border-master);
+    background: rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid var(--border-subtle);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -106,10 +107,10 @@
 }
 
 .btn-hud-lang.active {
-    background: var(--color-primary);
-    /* Cyan */
-    color: #000;
-    border-color: #000;
+    background: var(--accent-violet);
+    color: #FFFFFF;
+    border-color: var(--accent-violet);
+    box-shadow: var(--shadow-glow-violet);
 }
 
 .hud-title-zone {
@@ -281,10 +282,10 @@
 }
 
 .hud-tabs-selector button.active {
-    color: var(--hud-accent);
-    background: rgba(0, 242, 255, 0.1);
-    border-bottom: 2px solid var(--hud-accent);
-    text-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
+    color: var(--accent-violet);
+    background: rgba(93, 95, 239, 0.1);
+    border-bottom: 2px solid var(--accent-violet);
+    text-shadow: 0 0 10px rgba(93, 95, 239, 0.5);
 }
 
 .hud-tabs-selector button.sync.active {
@@ -429,9 +430,9 @@
 }
 
 .hud-panel:hover {
-    border-color: var(--hud-accent);
-    background: rgba(0, 242, 255, 0.05);
-    box-shadow: var(--shadow-hard);
+    border-color: var(--accent-violet);
+    background: rgba(93, 95, 239, 0.05);
+    box-shadow: var(--shadow-deep);
 }
 
 .hud-panel.full-width {

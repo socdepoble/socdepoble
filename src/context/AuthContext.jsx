@@ -74,7 +74,17 @@ export const AuthProvider = ({ children }) => {
     };
     const [impersonatedProfile, setImpersonatedProfile] = useState(null);
     const [activeEntityId, setActiveEntityId] = useState(null);
+    const [simulatedRole, setSimulatedRoleState] = useState(localStorage.getItem('simulatedRole') || null);
     const [language, setLanguageState] = useState(localStorage.getItem('i18nextLng') || 'va');
+
+    const setSimulatedRole = (role) => {
+        setSimulatedRoleState(role);
+        if (role) {
+            localStorage.setItem('simulatedRole', role);
+        } else {
+            localStorage.removeItem('simulatedRole');
+        }
+    };
 
     const setLanguage = (lang) => {
         setLanguageState(lang);
@@ -290,6 +300,7 @@ export const AuthProvider = ({ children }) => {
                         // [MASTER IDENTITY PROTECTION]
                         const masters = (typeof CREATOR_EMAILS !== 'undefined') ? CREATOR_EMAILS : [];
                         const isOfficialCreator = masters.includes(session.user.email) ||
+                            session.user.id === 'd6325f44-7277-4d20-b020-166c010995ab' ||
                             session.user.email?.includes('javillinares') ||
                             (window.location.hostname === 'localhost' && !session.user.email?.includes('test')) ||
                             (window.location.hostname.includes('ngrok') && !session.user.email?.includes('test'));
@@ -298,7 +309,7 @@ export const AuthProvider = ({ children }) => {
                             ...(profileData || {}),
                             id: profileData?.id || session.user.id,
                             full_name: isOfficialCreator ? 'Javi Llinares' : (profileData?.full_name || session.user.email?.split('@')[0] || 'Veí de la Torre'),
-                            role: isCreator ? USER_ROLES.SUPER_ADMIN : (profileData?.role || USER_ROLES.NEIGHBOR),
+                            role: isOfficialCreator ? USER_ROLES.SUPER_ADMIN : (profileData?.role || USER_ROLES.NEIGHBOR),
                             avatar_url: isOfficialCreator ? '/images/agents/javi_real.png' : (supabaseService.normalizeStorageUrl(profileData?.avatar_url) || null),
                             cover_url: isOfficialCreator ? '/assets/master/brand_cinematic.png' : (supabaseService.normalizeStorageUrl(profileData?.cover_url) || null),
                             ofici: isOfficialCreator ? 'Mestre de la Simbiosi & Dissenyador Master' : (profileData?.ofici || null),
@@ -357,12 +368,13 @@ export const AuthProvider = ({ children }) => {
                     setUser({ ...sobira, is_sovereign: true });
                     setProfile(sobira);
                 }
-            } else if (!session?.user) {
-                // [CRYPTO GENESIS] Si no hi ha res, bateguem una nova identitat ara mateix
+            } else if (!session?.user && !isSimulation && !isSobiraSession && !localStorage.getItem('supabase.auth.token')) {
+                // [CRYPTO GENESIS] Només bateguem si realment som anònims i no estem enmig d'un login
                 const genesis = identityService.generateSovereignIdentity();
                 setUser({ ...genesis, is_sovereign: true });
                 setProfile(genesis);
-            } else {
+            }
+            else {
                 setUser(null);
                 setProfile(null);
                 setRealUser(null);
@@ -428,16 +440,17 @@ export const AuthProvider = ({ children }) => {
             forceNukeSimulation,
             isPlayground,
             setIsPlayground,
-            isSuperAdmin: ((typeof CREATOR_EMAILS !== 'undefined' ? CREATOR_EMAILS : [])).includes(realUser?.email) ||
-                profile?.role === USER_ROLES.SUPER_ADMIN ||
-                profile?.phone === '+34635082813',
-            isAdmin: ((typeof CREATOR_EMAILS !== 'undefined' ? CREATOR_EMAILS : [])).includes(realUser?.email) || [USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN].includes(profile?.role),
-            isEditor: ((typeof CREATOR_EMAILS !== 'undefined' ? CREATOR_EMAILS : [])).includes(realUser?.email) || [USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN, USER_ROLES.EDITOR].includes(profile?.role),
-            impersonatedProfile,
             setImpersonatedProfile,
             activeEntityId,
             setActiveEntityId,
             switchContext,
+            simulatedRole,
+            setSimulatedRole,
+            isSuperAdmin: ((typeof CREATOR_EMAILS !== 'undefined' ? CREATOR_EMAILS : [])).includes(realUser?.email) ||
+                profile?.role === USER_ROLES.SUPER_ADMIN ||
+                profile?.phone === '+34635082813',
+            isAdmin: !simulatedRole ? (((typeof CREATOR_EMAILS !== 'undefined' ? CREATOR_EMAILS : [])).includes(realUser?.email) || [USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN].includes(profile?.role)) : (simulatedRole === USER_ROLES.ADMIN || simulatedRole === USER_ROLES.SUPER_ADMIN),
+            isEditor: !simulatedRole ? (((typeof CREATOR_EMAILS !== 'undefined' ? CREATOR_EMAILS : [])).includes(realUser?.email) || [USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN, USER_ROLES.EDITOR].includes(profile?.role)) : (simulatedRole === USER_ROLES.ADMIN || simulatedRole === USER_ROLES.SUPER_ADMIN || simulatedRole === USER_ROLES.EDITOR),
             language,
             setLanguage
         }}>
