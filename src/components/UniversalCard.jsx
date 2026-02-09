@@ -54,7 +54,7 @@ const UniversalCard = ({
     const getGentDePage = (townName) => {
         if (!townName) return "Gent de Poble";
         // Enforcing formal name as per Mestre's serious preference
-        if (townName.includes("La Torre de les Maçanes")) return "Gent de La Torre de les Maçanes";
+        if (townName.includes("La Torre de les Maçanes")) return "Associació Cultural Sant Gregori";
         return `Gent de ${townName}`;
     };
 
@@ -137,7 +137,8 @@ const UniversalCard = ({
                 onClick={(e) => {
                     e.stopPropagation();
                     if (cardVariant === 'pobles') {
-                        navigate('/gent-de-la-torre');
+                        const townId = item?.uuid || item?.id;
+                        navigate(`/gent/${townId || 'de-la-torre'}`);
                     } else if (mediaList && mediaList.length > 0) {
                         openViewer(mediaList, 0);
                     } else if (displayImage) {
@@ -214,7 +215,10 @@ const UniversalCard = ({
                             <span>Connectar</span>
                         </button>
                         <div className="footer-touch-group">
-                            <button className="btn-touch iaia-chat" onClick={(e) => { e.stopPropagation(); alert(`IAIA: Hola! Què opines de "${displayTitle}"?`); }}>
+                            <button className="btn-touch iaia-chat" onClick={(e) => { 
+                                e.stopPropagation(); 
+                                navigate('/iaia');
+                            }}>
                                 <MessageCircle size={22} />
                             </button>
                             <button className="btn-touch sharing-btn" onClick={(e) => { e.stopPropagation(); alert('Protocol Bategar'); }}>
@@ -232,7 +236,10 @@ const UniversalCard = ({
                                 <Zap size={22} />
                                 <span>Interessat</span>
                             </button>
-                            <button className="btn-touch iaia-chat" onClick={(e) => { e.stopPropagation(); alert(`IAIA: Hola! Què opines de aquest producte: "${displayTitle}"?`); }}>
+                            <button className="btn-touch iaia-chat" onClick={(e) => { 
+                                e.stopPropagation(); 
+                                navigate('/iaia');
+                            }}>
                                 <MessageCircle size={22} />
                             </button>
                         </div>
@@ -254,7 +261,10 @@ const UniversalCard = ({
                                 <UserPlus size={22} />
                                 <span>Assistiré</span>
                             </button>
-                            <button className="btn-touch iaia-chat" onClick={(e) => { e.stopPropagation(); alert(`IAIA: Hola! Tens dubtes sobre l'esdeveniment "${displayTitle}"?`); }}>
+                            <button className="btn-touch iaia-chat" onClick={(e) => { 
+                                e.stopPropagation(); 
+                                navigate('/iaia');
+                            }}>
                                 <MessageCircle size={22} />
                             </button>
                             <button className="btn-event-action" onClick={() => navigate(`/agenda/${item.id}`)}>
@@ -273,7 +283,10 @@ const UniversalCard = ({
                             <span>Connectar al Poble</span>
                         </button>
                         <div className="footer-touch-group">
-                            <button className="btn-touch iaia-chat" onClick={(e) => { e.stopPropagation(); alert(`IAIA: Hola! Vols saber més sobre ${displayTown}?`); }}>
+                            <button className="btn-touch iaia-chat" onClick={(e) => { 
+                                e.stopPropagation(); 
+                                navigate('/iaia');
+                            }}>
                                 <MessageCircle size={22} />
                             </button>
                             <button className="btn-event-action visit-town" onClick={() => navigate('/gent-de-la-torre')}>
@@ -296,7 +309,10 @@ const UniversalCard = ({
                                 <UserPlus size={22} />
                                 <span>Connectar</span>
                             </button>
-                            <button className="btn-touch iaia-chat" onClick={(e) => { e.stopPropagation(); alert(`IAIA: Hola! Tens alguna pregunta sobre el comunicat: "${displayTitle}"?`); }}>
+                            <button className="btn-touch iaia-chat" onClick={(e) => { 
+                                e.stopPropagation(); 
+                                navigate('/iaia');
+                            }}>
                                 <MessageCircle size={22} />
                             </button>
                             <button className="btn-event-action official-nav" onClick={() => navigate('/ajuntament')}>
@@ -319,7 +335,10 @@ const UniversalCard = ({
                                 <UserPlus size={22} />
                                 <span>Connectar</span>
                             </button>
-                            <button className="btn-touch iaia-chat" onClick={(e) => { e.stopPropagation(); alert(`IAIA: Hola! Vols consells sobre la ruta: "${displayTitle}"?`); }}>
+                            <button className="btn-touch iaia-chat" onClick={(e) => { 
+                                e.stopPropagation(); 
+                                navigate('/iaia');
+                            }}>
                                 <MessageCircle size={22} />
                             </button>
                             <button className="btn-event-action map-nav" onClick={() => navigate(`/pub/${item.id}`)}>

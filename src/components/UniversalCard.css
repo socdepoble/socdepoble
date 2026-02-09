@@ -408,6 +408,7 @@
     display: flex;
     align-items: center;
     gap: 8px; /* Anti-ghost-click gap */
+    flex-wrap: nowrap !important; /* Alzina: Prohibit apilar-se */
 }
 
 .btn-touch {
@@ -423,7 +424,7 @@
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     padding: 0;
-    flex-shrink: 0;
+    flex-shrink: 0; /* Alzina: Prohibida la deformació */
 }
 
 .btn-touch:hover {
@@ -502,6 +503,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
+    flex-wrap: nowrap !important; /* Alzina: Blindatge horizontal */
 }
 
 .mercat-actions-row {

@@ -152,7 +152,9 @@ const ChatList = () => {
                     if (visionMode === 'humana') {
                         // Check if other is AI or a Lore character (ID prefix)
                         const isAI = other.isAI || (other.id && String(other.id).startsWith('11111111-'));
-                        if (isAI) return false;
+                        // EXCEPCIÓ ALZINA: No amaguem xats existents de la IAIA (Restauració)
+                        if (isAI) return true;
+                        if (!c.is_iaia && !c.last_message_content) return false;
                     }
 
                     // 1. Production Security Filter

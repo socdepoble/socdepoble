@@ -247,18 +247,20 @@ const _ensureColumnCache = async () => {
         if (!activeChecks.posts) {
             activeChecks.posts = (async () => {
                 try {
-                    const { error } = await supabase.from('posts').select('ai_percentage').limit(1);
-                    const exists = !error;
-                    setColumnCache('posts_ai_percentage', exists);
-                    setColumnCache('posts_human_percentage', exists);
-                    setColumnCache('posts_time_saved', exists);
-                    setColumnCache('posts_is_iaia_inspired', exists);
-
-                    // Check for pinned position in posts too
-                    const { error: pinError } = await supabase.from('posts').select('pinned_position').limit(1);
-                    setColumnCache('posts_pinned_position', !pinError);
-
-                    logger.log(`[SupabaseService] Posts columns check done. Symbiosis: ${exists}`);
+                    const { data, error } = await supabase.from('posts').select('*').limit(1);
+                    if (!error && data) {
+                        const row = data[0] || {};
+                        const exists = 'ai_percentage' in row;
+                        setColumnCache('posts_ai_percentage', exists);
+                        setColumnCache('posts_human_percentage', exists);
+                        setColumnCache('posts_time_saved', exists);
+                        setColumnCache('posts_is_iaia_inspired', exists);
+                        setColumnCache('posts_pinned_position', 'pinned_position' in row);
+                    } else if (error) {
+                        setColumnCache('posts_ai_percentage', false);
+                        setColumnCache('posts_pinned_position', false);
+                    }
+                    logger.log(`[SupabaseService] Posts columns check done.`);
                 } catch (e) {
                     logger.warn('[SupabaseService] Error checking posts columns:', e);
                 } finally { activeChecks.posts = null; }

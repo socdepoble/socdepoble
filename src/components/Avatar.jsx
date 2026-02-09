@@ -101,9 +101,21 @@ const Avatar = ({ src, role, name, size = 44, className = "" }) => {
         );
     }
 
+    const getInitials = (name) => {
+        if (!name) return "";
+        if (name === "Associació Cultural Sant Gregori") return "SG";
+        const parts = name.split(' ').filter(p => p.length > 0);
+        if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase();
+        return parts[0][0].toUpperCase();
+    };
+
     return (
         <div style={style} className={`avatar-container fallback ${className}`}>
-            {getAvatarIcon(role, numericSize)}
+            {name ? (
+                <span style={{ fontSize: numericSize * 0.4 }}>{getInitials(name)}</span>
+            ) : (
+                getAvatarIcon(role, numericSize)
+            )}
         </div>
     );
 };

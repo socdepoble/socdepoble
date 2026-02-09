@@ -25,7 +25,7 @@
   /* [CLOSCA] Arquitectura del Sostre */
   --header-height: 64px;
   --tabs-height: 48px;
-  --shell-top-height: 112px;
+  --shell-top-height: 136px; /* 🏺 Refundació Alzina: Espai Sagrat */
   --nav-height: 72px;
 
   /* Layout Base */
@@ -143,8 +143,7 @@ body::after {
 
 /* Unified Secondary Header */
 .page-header-with-tabs {
-  position: sticky;
-  top: var(--header-height); /* 64px */
+  top: calc(var(--header-height) + var(--safe-top)); /* 64px + safe-area */
   height: var(--tabs-height); /* 48px */
   z-index: 1050;
   background-color: var(--surface-glass-heavy);

@@ -1,7 +1,7 @@
 import React from 'react';
 import { 
     ArrowLeft, MapPin, Calendar, BadgeCheck, Info, Share2, Settings, 
-    Globe, UserPlus, UserMinus, Loader2, Tag, Shield, Plus, Sun, Moon, Check, X, MessageCircle
+    Globe, UserPlus, UserMinus, Loader2, Tag, Shield, Plus, Sun, Moon, Check, X, MessageCircle, Zap, Sparkles
 } from 'lucide-react';
 import ShareHub from './ShareHub';
 import { useNavigate } from 'react-router-dom';
@@ -245,7 +245,7 @@ const ProfileHeaderPremium = ({
                             rows={2}
                         />
                         <button className="btn-ai-magic-bio" title="Bio Màgica (AI)" onClick={() => alert('IAIA: Redactant una bio que faça goig...')}>
-                            <Sparkles size={16} />
+                            {Sparkles ? <Sparkles size={16} /> : '✨'}
                             <span>Bio Màgica</span>
                         </button>
                     </div>
@@ -258,7 +258,7 @@ const ProfileHeaderPremium = ({
                                 <span>Salutacions</span>
                             </button>
                             <button className="btn-ai-rumors" title="La Veu del Poble (IAIA)" onClick={() => alert('IAIA: Xe! He sentit a dir que...')}>
-                                <Zap size={16} />
+                                {Zap ? <Zap size={16} /> : '⚡'}
                                 <span>Veu del Poble</span>
                             </button>
                         </div>
