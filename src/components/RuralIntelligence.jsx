@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Languages, BookOpen, Heart } from 'lucide-react';
 import { geminiService } from '../services/geminiService';
 import { hapticService } from '../services/hapticService';
 import { Tractor, ChefHat, ClipboardList, FileSearch, Sparkles, Send, Info, ShieldCheck, Share2, BellRing, Palette, Zap, Globe, Settings, Users } from 'lucide-react';
@@ -10,15 +11,21 @@ import './RuralIntelligence.css';
  * RuralIntelligence: La Ràdio Nova [V1.2]
  * Interfície d'IA especialitzada amb Glassmorphism i accents Teal.
  */
-const RuralIntelligence = () => {
+const RuralIntelligence = ({ defaultMode = 'faena' }) => {
     const navigate = useNavigate();
-    const [selectedPersona, setSelectedPersona] = useState('AGRONOM');
+    const [selectedPersona, setSelectedPersona] = useState(() => {
+        if (defaultMode === 'traductor') return 'TRADUCTOR';
+        if (defaultMode === 'remeis') return 'IAIA_MARIA';
+        if (defaultMode === 'oracle') return 'ORACLE';
+        if (defaultMode === 'diccionari') return 'DICCIONARI';
+        return 'AGRONOM';
+    });
     const [query, setQuery] = useState('');
     const [history, setHistory] = useState([]); // List of { persona, query, response, timestamp }
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [mode, setMode] = useState(localStorage.getItem('sp_ia_mode') || 'faena');
+    const [mode, setMode] = useState(defaultMode);
 
     const personas = [
         { key: 'AGRONOM', icon: <Tractor size={20} />, label: "L'Agrònom", avatar: "Vicent Ferris", type: "PERSON" },
@@ -31,7 +38,11 @@ const RuralIntelligence = () => {
         { key: 'GALL', icon: <BellRing size={20} />, label: "Alertes", avatar: "El Gall", type: "ANIMAL" },
         { key: 'NANOBANANA', icon: <Palette size={20} />, label: "L'Artista", avatar: "Nano Banana", type: "SYSTEM" },
         { key: 'FLASH', icon: <Zap size={20} />, label: "Executor", avatar: "Flash", type: "SYSTEM" },
-        { key: 'VIATJANT', icon: <Globe size={20} />, label: "Exterior", avatar: "El Viatjant", type: "PERSON" }
+        { key: 'VIATJANT', icon: <Globe size={20} />, label: "Exterior", avatar: "El Viatjant", type: "PERSON" },
+        { key: 'TRADUCTOR', icon: <Languages size={20} />, label: "Traductor", avatar: "IAIA MarIA", type: "SYSTEM" },
+        { key: 'IAIA_MARIA', icon: <Heart size={20} />, label: "Remeis", avatar: "IAIA MarIA", type: "SYSTEM" },
+        { key: 'ORACLE', icon: <Sparkles size={20} />, label: "Oracle", avatar: "IAIA MarIA", type: "SYSTEM" },
+        { key: 'DICCIONARI', icon: <BookOpen size={20} />, label: "Diccionari", avatar: "IAIA MarIA", type: "SYSTEM" }
     ];
 
     const handleConsult = async () => {
@@ -60,7 +71,8 @@ const RuralIntelligence = () => {
                 setQuery(''); // Netegem per a la següent consulta
                 hapticService.notifyAIReady(); // Batec llarg d'èxit
             }
-        } catch (err) {
+        } catch (error) {
+            console.error("AI Consult Error:", error);
             setError("S'ha produït un error inesperat.");
             hapticService.notifyError();
         } finally {

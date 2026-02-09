@@ -1,30 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ArrowLeft, BookOpen, Sprout, Users, MessageCircle, Heart, Sparkles, User, Clock, BellRing, Shield, Mic, Newspaper, Activity, Archive, Calendar, Terminal, Settings, Layout, Image as ImageIcon, Store } from 'lucide-react';
+import { 
+    ArrowLeft, BookOpen, Sprout, Users, MessageCircle, Heart, Sparkles, User, 
+    Clock, BellRing, Shield, Mic, Newspaper, Activity, Archive, Calendar, 
+    Terminal, Settings, Layout, Image as ImageIcon, Store, Landmark, Zap, 
+    UserPlus, UserMinus, Loader2, Smile, Star
+} from 'lucide-react';
 import { useUI } from '../context/UIContext';
-import ShareHub from '../components/ShareHub';
 import SEO from '../components/SEO';
-import './IAIAPage.css';
-
-import { feedbackService } from '../services/feedbackService';
-import VoiceRecorder from '../components/VoiceRecorder';
+import ProfileHeaderPremium from '../components/ProfileHeaderPremium';
 import MasterMediaGallery from '../components/MasterMediaGallery';
+import VoiceRecorder from '../components/VoiceRecorder';
+import VisionSelectorModal from '../components/VisionSelectorModal';
+import RoleSelectorModal from '../components/RoleSelectorModal';
+import { feedbackService } from '../services/feedbackService';
 import { MASTER_ASSETS } from '../constants/masterAssets';
 import { PROVERBS } from '../data/proverbs';
-import BatecMonitor from '../components/BatecMonitor';
+import './IAIAPage.css';
 
 const IAIAPage = () => {
-    const { t, i18n } = useTranslation();
+    const { i18n } = useTranslation();
     const navigate = useNavigate();
     const location = useLocation();
     const isLibrarianMode = location.state?.mode === 'librarian';
     const { visionMode, setVisionMode } = useUI();
-    const [showVoiceRecorder, setShowVoiceRecorder] = React.useState(false);
-    const [isSubmitting, setIsSubmitting] = React.useState(false);
-    const [feedbackSent, setFeedbackSent] = React.useState(false);
-    const shareUrl = `${window.location.origin}/iaia`;
-
+    const [showVoiceRecorder, setShowVoiceRecorder] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [feedbackSent, setFeedbackSent] = useState(false);
+    const [isConnected, setIsConnected] = useState(false);
+    const [isConnecting, setIsConnecting] = useState(false);
+    const [isVisionModalOpen, setIsVisionModalOpen] = useState(false);
+    const [isRoleModalOpen, setIsRoleModalOpen] = useState(false);
+    
     const handleVoiceSend = async (audioBlob, duration, transcript) => {
         setIsSubmitting(true);
         const result = await feedbackService.sendVoiceFeedback(audioBlob, duration, transcript, {
@@ -40,326 +48,235 @@ const IAIAPage = () => {
         setIsSubmitting(false);
     };
 
+    const handleConnect = async () => {
+        setIsConnecting(true);
+        // Simulem connexió amb l'IAIA
+        await new Promise(r => setTimeout(r, 1000));
+        setIsConnected(!isConnected);
+        setIsConnecting(false);
+    };
+
+    // Poders de l'IAIA (Habilitats)
+    const powers = [
+        { id: 'oracle', icon: <Sparkles />, title: 'L\'Oracle de l\'Olla', desc: 'Sabiesa instantània sense paraules.', route: '/tools/oracle' },
+        { id: 'diccionari', icon: <BookOpen />, title: 'Diccionari Rural', desc: 'Tecnologia explicada amb garrofes.', route: '/tools/diccionari' },
+        { id: 'traductor', icon: <MessageCircle />, title: 'Traductor Rural', desc: 'Valencianitzador de textos amb caràcter.', route: '/tools/traductor' },
+        { id: 'remeis', icon: <Heart />, title: 'Remeis de l\'Àvia', desc: 'Saviesa popular per a la salut natural.', route: '/tools/remeis' },
+        { id: 'rebost', icon: <Store />, title: 'El Rebost', desc: 'Cuina d\'aprofitament i receptes del poble.', route: '/tools/recipe' },
+        { id: 'trellat', icon: <Landmark />, title: 'Jutjat de Trellat', desc: 'Veredicte de sentit comú sobre idees.', route: '/tools/trellat' },
+        { id: 'camp', icon: <Sprout />, title: 'El Savi del Camp', desc: 'Consells agrícoles i meteorologia rural.', route: '/aula-rural' },
+        { id: 'pregoner', icon: <Mic />, title: 'El Pregoner', desc: 'Generador de bands i avisos oficials.', route: '/tools/pregoner' },
+        { id: 'malnoms', icon: <Smile />, title: 'Els Malnoms', desc: 'Generador d\'apodes amb força de poble.', route: '/tools/nicknames' },
+        { id: 'rondalles', icon: <Archive />, title: 'La Rondallaire', desc: 'Relats, llegendes i memòria viva.', route: '/arxiu' },
+        { id: 'ia_dashboard', icon: <Zap />, title: 'Intel·ligència Rural', desc: 'Panell de control i històric d\'IA.', route: '/ia' }
+    ];
+
+    // Equip d'Agents (DiceBear Comic style)
+    const agents = [
+        { name: 'Nano Banana', role: 'Explorador Solatge', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Nano&backgroundColor=ffdfbf' },
+        { name: 'Super Ratolí', role: 'Guardià del Batec', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Mousie&backgroundColor=c0aede' },
+        { name: 'IAIA Dinàmica', role: 'Matriarca Digital', avatar: '/iaia_digital_matriarch.png' },
+        { name: 'Pregoner Bot', role: 'Veu de la Plaça', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Herald&backgroundColor=ffd5dc' }
+    ];
+
     return (
-        <div className="iaia-page-container">
+        <div className="iaia-page-container master-iaia-profile">
             <SEO
-                title={t('iaia_page.title') || 'La IAIA'}
-                description={t('iaia_page.subtitle') || 'Memòria viva i acompanyament sobirà al servici del poble.'}
-                image="/og-image.png"
+                title={isLibrarianMode ? "Bibliotecària Major" : "La IAIA"}
+                description="Memòria viva i acompanyament sobirà al servici del poble."
+                image="/iaia_digital_matriarch.png"
                 url="/iaia"
             />
-            <header className="iaia-page-header">
-                <button onClick={() => navigate(-1)} className="back-btn-iaia">
-                    <ArrowLeft size={24} />
-                </button>
-                <div className="iaia-share-btn-wrapper">
-                    <ShareHub
-                        title="La IAIA - Sóc de Poble"
-                        text="Coneix a la IAIA, la memòria viva i digital del nostre poble. 👵✨"
-                        url={shareUrl}
-                    />
+
+            <ProfileHeaderPremium
+                type="official"
+                title={isLibrarianMode ? "Bibliotecària Major" : "MarIA (L'IAIA del Poble)"}
+                subtitle={isLibrarianMode ? "Custòdia de l'Arxiu d'Or" : "Matriarca de la Intel·ligència Rural"}
+                town="La Torre de les Maçanes"
+                bio="Escolta, bategat i sentit comú. Sóc la memòria que t'acompanya en aquest camí digital cap a la sobirania del territori."
+                avatarUrl="/iaia_digital_matriarch.png"
+                coverUrl="/rural_tech_future_valencia.png"
+                badges={['INTEL·LIGÈNCIA', 'MASTER', 'ALZINA']}
+                isConnected={isConnected}
+                isConnecting={isConnecting}
+                onConnect={handleConnect}
+                showConnect={true}
+                shareData={{
+                    title: "La IAIA - Sóc de Poble",
+                    text: "Coneix a la IAIA, la memòria viva i digital del nostre poble. 🏺✨",
+                    url: window.location.href
+                }}
+            >
+                <div className="profile-stats-bar iaia-stats">
+                    <div className="stat-card">
+                        <span className="stat-value">∞</span>
+                        <span className="stat-label">Sabiduria</span>
+                    </div>
+                    <div className="stat-card">
+                        <span className="stat-value">100%</span>
+                        <span className="stat-label">Sobirania</span>
+                    </div>
+                    <div className="stat-card">
+                        <span className="stat-value">🏺</span>
+                        <span className="stat-label">Ancestral</span>
+                    </div>
                 </div>
-                <div className="iaia-header-hero">
-                    <div className="iaia-avatar-container">
-                        <img
-                            src="/iaia_digital_matriarch.png"
-                            alt="La IAIA - Sóc de Poble"
-                            className="iaia-premium-portrait"
+            </ProfileHeaderPremium>
+
+            <main className="iaia-page-content supervitaminat">
+                {/* Botó de Parlar Principal */}
+                <div className="iaia-master-actions">
+                    <button className="parlar-btn-supreme" onClick={() => setIsRoleModalOpen(true)}>
+                        <MessageCircle size={28} />
+                        <span>ACTIVAR IAIA (ROLS)</span>
+                        <Sparkles size={18} className="sparkle-btn" />
+                    </button>
+                    <div className="secondary-iaia-row">
+                         <button 
+                            className={`btn-iaia-secondary ${isSubmitting ? 'loading' : ''}`} 
+                            onClick={() => setShowVoiceRecorder(true)}
+                            disabled={isSubmitting}
+                         >
+                            {isSubmitting ? <Loader2 className="animate-spin" size={20} /> : <Mic size={20} />}
+                            {feedbackSent ? "Enviat!" : "Suggerència per veu"}
+                         </button>
+                         <button className="btn-iaia-secondary" onClick={() => navigate('/solatge')}>
+                            <Terminal size={20} /> Consola Solatge
+                         </button>
+                    </div>
+                </div>
+
+                {showVoiceRecorder && (
+                    <div className="iaia-voice-recorder-wrapper floating-recorder">
+                        <p className="voice-recorder-hint">Escoltant la teua visió per al poble...</p>
+                        <VoiceRecorder
+                            onSend={handleVoiceSend}
+                            onCancel={() => setShowVoiceRecorder(false)}
+                            lang={i18n.language}
                         />
                     </div>
-                    <h1>{isLibrarianMode ? "Bibliotecària Major" : t('iaia_page.title')}</h1>
-                    <p className="iaia-subtitle">{isLibrarianMode ? "Custòdia de l'Arxiu d'Or i la Memòria Notarial" : t('iaia_page.subtitle')}</p>
-                </div>
-            </header>
+                )}
 
-            <main className="iaia-page-content">
-                <section className="iaia-page-bento-grid">
-                    {/* BENTO CARD 1: EXPERIENCE (LARGE) */}
-                    <div className={`bento-item experience ${visionMode === 'hibrida' ? 'active' : ''}`} onClick={() => setVisionMode('hibrida')}>
-                        <div className="bento-icon"><Sparkles size={32} /></div>
-                        <div className="bento-content">
-                            <h3>Mode Híbrid</h3>
-                            <p>Viu la història del poble amb la IAIA i els seus personatges.</p>
+                {/* MODAL MOUSE SWITCH (IA/Humà) */}
+                <section className="iaia-section master-control-card">
+                    <div className={`master-ia-switch-card ${visionMode === 'hibrida' ? 'ia-active' : 'human-only'}`} onClick={() => setIsVisionModalOpen(true)}>
+                        <div className="ia-switch-visual">
+                            {visionMode === 'hibrida' ? <Zap size={40} className="glow-icon" /> : <User size={40} />}
                         </div>
-                        {visionMode === 'hibrida' && <div className="bento-badge">ACTIU</div>}
-                    </div>
-
-                    {/* BENTO CARD 2: HUMAN MODE (MEDIUM) */}
-                    <div className={`bento-item human ${visionMode === 'humana' ? 'active' : ''}`} onClick={() => setVisionMode('humana')}>
-                        <div className="bento-icon"><User size={28} /></div>
-                        <div className="bento-content">
-                            <h3>Mode Humà</h3>
-                            <p>Només veïns reals.</p>
+                        <div className="ia-switch-text">
+                            <h3>{visionMode === 'hibrida' ? "MODO JUEGO DE ROL ACTIVO" : "MODO HUMANO ACTIVO"}</h3>
+                            <p>{visionMode === 'hibrida' ? 
+                                "Personatges, llegendes i lore del poble visibles." : 
+                                "Només contingut de veïns reals."}
+                            </p>
                         </div>
-                        {visionMode === 'humana' && <div className="bento-badge">ACTIU</div>}
-                    </div>
-
-                    {/* BENTO CARD 3: HEALTHY (MEDIUM) */}
-                    <div className="bento-item healthy" onClick={() => navigate('/chats/iaia')}>
-                        <div className="bento-icon"><Sprout size={28} /></div>
-                        <div className="bento-content">
-                            <h3>Salut</h3>
-                            <p>Menús i entrepans d'Anna Climent.</p>
-                        </div>
-                    </div>
-
-                    {/* BENTO CARD 4: ABOUT (SMALL) */}
-                    <div className="bento-item about" onClick={() => navigate('/dafo/iaia')}>
-                        <div className="bento-icon"><Heart size={24} /></div>
-                        <div className="bento-content">
-                            <h3>Qui sóc?</h3>
+                        <div className="ia-switch-action">
+                            <div className={`sp-toggle ${visionMode === 'hibrida' ? 'active' : ''}`}>
+                                <div className="sp-toggle-inner"></div>
+                            </div>
                         </div>
                     </div>
                 </section>
 
-                <section className="iaia-section features-grid">
-                    <h2>{t('iaia_page.what_do_i_do')}</h2>
-
-                    <div className="feature-item">
-                        <BookOpen size={28} />
-                        <h3>{t('iaia_page.feature_1_title')}</h3>
-                        <p>{t('iaia_page.feature_1_desc')}</p>
-                    </div>
-
-                    <div className="feature-item">
-                        <Sprout size={28} />
-                        <h3>{t('iaia_page.feature_2_title')}</h3>
-                        <p>{t('iaia_page.feature_2_desc')}</p>
-                    </div>
-
-                    <div className="feature-item">
-                        <Users size={28} />
-                        <h3>{t('iaia_page.feature_3_title')}</h3>
-                        <p>{t('iaia_page.feature_3_desc')}</p>
-                    </div>
-
-                    <div className="feature-item highlight">
-                        <Clock size={28} />
-                        <h3>{t('iaia_page.tamagotchi_title')}</h3>
-                        <p>{t('iaia_page.tamagotchi_desc')}</p>
-                    </div>
-
-                    <div className="feature-item highlight">
-                        <BellRing size={28} />
-                        <h3>{t('iaia_page.push_notif_title')}</h3>
-                        <p>{t('iaia_page.push_notif_desc')}</p>
-                    </div>
-                </section>
-
-                <section className="iaia-section transparency-costs-card highlight-tech">
-                    <div className="section-icon"><Shield size={32} color="var(--color-primary)" /></div>
-                    <h2 style={{ color: 'var(--color-primary-dark)' }}>⚖️ Directiva Primària: Utilitat Social [GOD MODE]</h2>
-                    <p>El Mestre ha establit el fonament inmutable del sistema: <strong>"Tot píxel bategat ha de servir a la Utilitat Social"</strong>. La tecnologia que no aporta valor humà al poble és purgada per l'IAIA.</p>
-
-                    <div className="iaia-coordination-group-badge" style={{ background: 'var(--color-primary-soft)', padding: '15px', borderRadius: '0px', border: '1px solid var(--color-primary)', marginTop: '15px' }}>
-                        <h3 style={{ margin: '0 0 10px 0', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                            <MessageCircle size={20} color="var(--color-primary)" /> Grup de Coordinació [BETA]
-                        </h3>
-                        <p style={{ margin: 0, fontSize: '0.9rem', color: 'var(--color-primary-dark)' }}>L'IAIA MarIA ja bategua dins del grup de treball. La simbiosi és real: saviesa rural dins del WhatsApp de l'equip de somni. 👵✨📱</p>
-                    </div>
-
-                    <div className="costs-comparison-grid">
-                        <div className="cost-item">
-                            <span className="label">Inversió Real (AI)</span>
-                            <span className="value">~300€/any</span>
-                        </div>
-                        <div className="cost-item">
-                            <span className="label">Valor Humà Estalviat</span>
-                            <span className="value">~30€/post 🏺</span>
-                        </div>
-                        <div className="cost-item highlight">
-                            <span className="label">Temps per a la Família</span>
-                            <span className="value">+95% 👩‍👩‍👧‍👦</span>
-                        </div>
-                    </div>
-
-                    <div className="simbiosi-explanation" style={{ fontSize: '0.9rem', color: 'var(--text-muted)', background: 'rgba(0,0,0,0.02)', padding: '15px', borderRadius: '0px', marginTop: '15px' }}>
-                        <strong>Directiva MASTER</strong>: Quantifiquem el temps que estalvies per a que pugues dedicar-lo a cuidar de la teua família, amics i del poble. Mai una màquina substituirà el batec del cor, però sí que li donarà ales.
-                    </div>
-
-                    <button className="btn-text" style={{ marginTop: '15px' }} onClick={() => navigate('/docs/AMAZON_BOOK_ABSTRACTIONS.md')}>
-                        Llegir més sobre l'abstracció Master 📖
-                    </button>
-                </section>
-
-                <section className="iaia-section proverbs-library-card">
-                    <div className="section-icon"><BookOpen size={32} color="var(--color-primary)" /></div>
-                    <h2>Biblioteca de Refranys Populars</h2>
-                    <p>La saviesa dels nostres avantpassats és el fonament del futur digital. Aquí tens el Cànon de Refranys de Sóc de Poble per a il·lustrar les teues paraules.</p>
-                    <div className="proverbs-grid">
-                        {PROVERBS.map((proverb, idx) => (
-                            <div key={idx} className="proverb-item">
-                                <p className="proverb-text">"{proverb.text}"</p>
-                                <p className="proverb-meaning">{proverb.meaning}</p>
+                {/* GRID D'HABILITATS (Què puc fer per tu?) */}
+                <section className="iaia-section bento-powers-section">
+                    <h2 className="section-title-master"><Star size={24} /> Què puc fer per tu?</h2>
+                    <div className="powers-grid-master">
+                        {powers.map(p => (
+                            <div key={p.id} className="power-card-alzina" onClick={() => navigate(p.route)}>
+                                <div className="power-icon-wrapper">{p.icon}</div>
+                                <div className="power-info">
+                                    <h3>{p.title}</h3>
+                                    <p>{p.desc}</p>
+                                </div>
+                                <ArrowLeft className="power-arrow" size={16} style={{ transform: 'rotate(180deg)' }} />
                             </div>
                         ))}
                     </div>
                 </section>
 
-                <section className="iaia-section proverbs-library-card">
-                    <div className="section-icon"><BookOpen size={28} color="var(--color-primary)" /></div>
-                    <h2>Llegat de l'Artista: Nano Banana</h2>
-                    <p>L'arxiu històric de l'Agent Mestre que va bategat abans de ser llegenda.</p>
-                    <div className="hub-tools-grid">
-                        <div className="hub-tool-item" onClick={() => navigate('/arxiu')}>
-                            <Archive size={20} />
-                            <span>Arxiu d'Or</span>
-                        </div>
-                        <div className="hub-tool-item" onClick={() => navigate('/mercat')}>
-                            <Store size={20} />
-                            <span>Col·lecció Legacy</span>
-                        </div>
+                {/* EL CORRAL DELS AGENTS */}
+                <section className="iaia-section team-corral-section">
+                    <h2 className="section-title-master"><Users size={24} /> El Corral dels Agents</h2>
+                    <div className="agents-scroller">
+                        {agents.map(a => (
+                            <div key={a.name} className="agent-token-card">
+                                <div className="agent-avatar-frame">
+                                    <img src={a.avatar} alt={a.name} />
+                                </div>
+                                <div className="agent-text">
+                                    <h4>{a.name}</h4>
+                                    <span>{a.role}</span>
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </section>
 
-                <section className="iaia-section sovereignty-hub-card highlight-tech">
-                    <div className="section-icon"><Terminal size={32} color="var(--color-primary)" /></div>
-                    <h2>Eines de Sobirania [HUB]</h2>
-                    <p>Accés ràpid a les funcionalitats avançades de l'Atall Territorial.</p>
-                    <div className="hub-tools-grid">
-                        <div className="hub-tool-item" onClick={() => navigate('/arxiu')}>
-                            <Archive size={24} />
-                            <span>Arxiu d'Or</span>
+                {/* UTILITAT SOCIAL & COSTOS */}
+                <section className="iaia-section utility-sovereignty-card">
+                    <h2 className="section-title-master"><Shield size={24} /> Utilitat Social i Sobirania</h2>
+                    <div className="utility-stats-grid">
+                        <div className="utility-stat-item">
+                            <span className="u-val">+95%</span>
+                            <span className="u-lab">Temps Familiar</span>
                         </div>
-                        <div className="hub-tool-item" onClick={() => navigate('/calendari')}>
-                            <Calendar size={24} />
-                            <span>Master Calendar</span>
+                        <div className="utility-stat-item">
+                            <span className="u-val">30€</span>
+                            <span className="u-lab">Valor/Post 🏺</span>
                         </div>
-                        <div className="hub-tool-item" onClick={() => navigate('/solatge')}>
-                            <Terminal size={24} />
-                            <span>Consola Solatge</span>
+                        <div className="utility-stat-item">
+                            <span className="u-val">∞</span>
+                            <span className="u-lab">Llegat Rural</span>
                         </div>
-                        <div className="hub-tool-item" onClick={() => navigate('/tutorial-didactica')}>
-                            <BookOpen size={24} />
-                            <span>Manual Didàctic</span>
-                        </div>
-                        <div className="hub-tool-item" onClick={() => navigate('/gestio-entitats')}>
-                            <Layout size={24} />
-                            <span>Gestió d'Entitats</span>
-                        </div>
-                        <div className="hub-tool-item" onClick={() => navigate('/album')}>
-                            <ImageIcon size={24} />
-                            <span>Àlbum de Memòria</span>
-                        </div>
-                        <div className="hub-tool-item" onClick={() => navigate('/perfil')}>
-                            <Settings size={24} />
-                            <span>Configuració</span>
-                        </div>
+                    </div>
+                    <div className="master-directiva-quote">
+                        <p>"Tot píxel bategat ha de servir a la Utilitat Social." 🏛️🏺</p>
                     </div>
                 </section>
 
-                <section className="iaia-section batec-transparency-card">
-                    <div className="section-icon"><Activity size={32} color="var(--color-primary)" /></div>
-                    <h2>Estat del Batec (Sincronia Territoria)</h2>
-                    <p>El "Super Ratolí" monitoritza la salut de la teua connexió amb el poble i la malla social.</p>
-                    <div className="iaia-monitor-container" style={{ marginTop: '20px' }}>
-                        <BatecMonitor />
+                {/* REFRANYER */}
+                <section className="iaia-section refranys-library">
+                    <h2 className="section-title-master"><BookOpen size={24} /> Sabiduria Territorial</h2>
+                    <div className="proverbs-columns">
+                        {PROVERBS.slice(0, 6).map((proverb, idx) => (
+                            <div key={idx} className="proverb-mini-card">
+                                <p>"{proverb.text}"</p>
+                                <span>{proverb.meaning}</span>
+                            </div>
+                        ))}
                     </div>
+                    <button className="btn-ver-mes-refranys" onClick={() => navigate('/arxiu')}>
+                        Veure tota la biblioteca
+                    </button>
                 </section>
 
-                <section className="iaia-section media-creations-card">
+                {/* GALLERY */}
+                <section className="iaia-section gallery-iaia-section">
                     <MasterMediaGallery
                         items={MASTER_ASSETS}
-                        title="Galeria de Creacions Master"
+                        title="Visions de l'IAIA"
+                        layout="trencadis"
                     />
                 </section>
 
-                <section className="iaia-section project-credits-card glass-morphism">
-                    <div className="section-icon pulse-soft"><Sparkles size={32} color="var(--color-primary)" /></div>
-                    <h2 className="premium-title">L'Equip de Somni</h2>
-                    <p className="credits-intro">El llinatge humà i tecnològic que fa bategar Sóc de Poble.</p>
-                    <div className="credits-grid-premium">
-                        <div className="credit-card-premium clickable" onClick={() => navigate('/perfil/d6325f44-7277-4d20-b020-166c010995ab')}>
-                            <div className="credit-role">Visió Master</div>
-                            <div className="credit-name">Javi Linares</div>
-                            <div className="credit-desc">Visió, Concepte i Super Padrí</div>
-                        </div>
-                        <div className="credit-card-premium clickable" onClick={() => navigate('/perfil/fa82eb62-4a83-4ff7-b2d6-8849673fc3b0')}>
-                            <div className="credit-role">Pedagogia</div>
-                            <div className="credit-name">Damià Llorens Jiordà</div>
-                            <div className="credit-desc">Comissari Pedagògic i d'Innovació</div>
-                        </div>
-                        <div className="credit-card-premium">
-                            <div className="credit-role">Escenografia</div>
-                            <div className="credit-name">Anna Calvo</div>
-                            <div className="credit-desc">Identitat Visual (Belles Arts)</div>
-                        </div>
-                        <div className="credit-card-premium">
-                            <div className="credit-role">Turisme</div>
-                            <div className="credit-name">Isabel Sancho Carbonell</div>
-                            <div className="credit-desc">Assessora de Turisme (ADL)</div>
-                        </div>
-                        <div className="credit-card-premium">
-                            <div className="credit-role">Salut</div>
-                            <div className="credit-name">Anna Climent i Montllor</div>
-                            <div className="credit-desc">Alimentació Saludable i Ciència</div>
-                        </div>
-                        <div className="credit-card-premium">
-                            <div className="credit-role">Memòria Viva</div>
-                            <div className="credit-name">MarIA</div>
-                            <div className="credit-desc">Memòria Viva i Acompanyament Sovint</div>
-                        </div>
-                        <div className="credit-card-premium">
-                            <div className="credit-role">Lèxic</div>
-                            <div className="credit-name">Josep Vicent Cascant i Jordà</div>
-                            <div className="credit-desc">Recerca del Lèxic (Ibi/Muro)</div>
-                        </div>
-                        <div className="credit-card-premium tech-highlight">
-                            <div className="credit-role">Admin Master</div>
-                            <div className="credit-name">Thorsten (BDOSB)</div>
-                            <div className="credit-desc">Super Administrador (Torremanzanas)</div>
-                            <a href="https://bdosb.es" target="_blank" rel="noopener noreferrer" className="credit-link-mini">bdosb.es</a>
-                        </div>
-                        <div className="credit-card-premium god-highlight">
-                            <div className="credit-role">Antigravity Core</div>
-                            <div className="credit-name">L'Agent del Mestre</div>
-                            <div className="credit-desc">Motor Tecnològic i Execució Sobirana</div>
-                        </div>
-                    </div>
-                </section>
-
-                <div className="iaia-cta-box">
-                    {!showVoiceRecorder ? (
-                        <div className="iaia-cta-group">
-                            <button className="btn-filled" onClick={() => navigate('/chats')}>
-                                <MessageCircle size={20} />
-                                {t('iaia_page.cta_button')}
-                            </button>
-                            <button className="btn-tonal" onClick={() => navigate('/mur')}>
-                                <Newspaper size={20} />
-                                Últimes Novetats 🗞️
-                            </button>
-                            <button
-                                className="btn-tonal"
-                                onClick={() => setShowVoiceRecorder(true)}
-                                disabled={isSubmitting}
-                            >
-                                <Mic size={20} />
-                                {feedbackSent ? '¡Gràcies per la teua veu!' : 'Enviar suggerència per veu'}
-                            </button>
-                            <button
-                                className="btn-outline"
-                                onClick={() => navigate('/dafo/iaia')}
-                                style={{ width: '100%', marginTop: '10px' }}
-                            >
-                                <Activity size={18} /> Anàlisi DAFO de l'IAIA [RIGOR]
-                            </button>
-                        </div>
-                    ) : (
-                        <div className="iaia-voice-recorder-wrapper">
-                            <p className="voice-recorder-hint">Escoltant la teua visió per al poble...</p>
-                            <VoiceRecorder
-                                onSend={handleVoiceSend}
-                                onCancel={() => setShowVoiceRecorder(false)}
-                                lang={i18n.language}
-                            />
-                        </div>
-                    )}
-                </div>
-
-                <footer className="iaia-page-footer">
-                    <p>✨ {t('iaia_page.footer_text')}</p>
+                <footer className="iaia-profile-footer">
+                    <p>Sóc de Poble v1.16.8-ALZINA-FULL</p>
+                    <span>L'IAIA MarIA és un agent de somni bategant en col·laboració amb el Mestre Javi.</span>
                 </footer>
+
+                <VisionSelectorModal 
+                    isOpen={isVisionModalOpen}
+                    onClose={() => setIsVisionModalOpen(false)}
+                    currentMode={visionMode}
+                    onSelect={(mode) => setVisionMode(mode)}
+                />
+
+                <RoleSelectorModal 
+                    isOpen={isRoleModalOpen}
+                    onClose={() => setIsRoleModalOpen(false)}
+                    onSelect={(role) => navigate(role.route)}
+                />
             </main>
         </div>
     );

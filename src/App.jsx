@@ -1,81 +1,85 @@
-import React, { useEffect, lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-// VERSION: v1.16.6-NUCLEAR-CLEAN (Llum i Vida | Gem Design)
-import Header from './components/Header';
-import Layout from './components/Layout';
-import { ThemeProvider } from './context/ThemeContext';
-import './styles/Consola.css';
+import React, { useEffect, lazy, Suspense } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+// VERSION: v1.16.8-ALZINA-FULL (Refundació Alzina | Master)
+import Header from "./components/Header";
+import Layout from "./components/Layout";
+import { ThemeProvider } from "./context/ThemeContext";
+import "./styles/Consola.css";
 
 // Lazy loaded components
-const ChatList = lazy(() => import('./components/ChatList'));
-const ChatDetail = lazy(() => import('./components/ChatDetail'));
-const Feed = lazy(() => import('./components/Feed'));
-const Market = lazy(() => import('./components/Marketplace'));
-const Login = lazy(() => import('./pages/Login'));
-const Register = lazy(() => import('./pages/Register'));
-const Profile = lazy(() => import('./pages/Profile'));
-const Towns = lazy(() => import('./pages/Towns'));
-const Map = lazy(() => import('./pages/Map'));
-const Notifications = lazy(() => import('./pages/Notifications'));
-const TownDetail = lazy(() => import('./pages/TownDetail'));
-const PublicProfile = lazy(() => import('./pages/PublicProfile'));
-const PublicEntity = lazy(() => import('./pages/PublicEntity'));
-const AdminPanel = lazy(() => import('./pages/AdminPanel'));
-const PlaygroundPortal = lazy(() => import('./pages/PlaygroundPortal'));
-const MediaAlbum = lazy(() => import('./pages/MediaAlbum'));
-const EntityManagement = lazy(() => import('./pages/EntityManagement'));
-const SearchDiscover = lazy(() => import('./pages/SearchDiscover'));
-const CommunityDirectory = lazy(() => import('./pages/CommunityDirectory'));
-const IAIAPage = lazy(() => import('./pages/IAIAPage'));
-const AlbumMemoria = lazy(() => import('./pages/AlbumMemoria'));
-const ProjectPresentation = lazy(() => import('./pages/ProjectPresentation'));
-const DesignCanon = lazy(() => import('./pages/DesignCanon'));
-const GenesisViewer = lazy(() => import('./pages/GenesisViewer'));
-const MakingOf = lazy(() => import('./pages/MakingOf'));
-const LegalNotice = lazy(() => import('./pages/LegalNotice'));
-const ResetPage = lazy(() => import('./pages/ResetPage'));
-const ManualPage = lazy(() => import('./pages/ManualPage'));
-const SessionChronicle = lazy(() => import('./pages/SessionChronicle'));
-const PostDetail = lazy(() => import('./pages/PostDetail'));
-const MasterCalendar = lazy(() => import('./pages/MasterCalendar'));
-const DAFOPage = lazy(() => import('./pages/DAFOPage'));
-const DidacticPage = lazy(() => import('./pages/DidacticPage'));
-const Archive = lazy(() => import('./pages/Archive'));
-const SellSurplus = lazy(() => import('./pages/SellSurplus'));
-const AulaRural = lazy(() => import('./pages/AulaRural'));
-const RuralIntelligence = lazy(() => import('./components/RuralIntelligence'));
-const DidacticManual = lazy(() => import('./pages/DidacticManual'));
-const SolatgeConsole = lazy(() => import('./pages/SolatgeConsole'));
-const HabitantsDelMas = lazy(() => import('./components/HabitantsDelMas'));
-const AyuntamientoPage = lazy(() => import('./pages/AyuntamientoPage'));
-const TiaMariaChat = lazy(() => import('./components/TiaMariaChat'));
-const NexusFlash = lazy(() => import('./pages/NexusFlash'));
-const GlobalAssetAlbum = lazy(() => import('./pages/GlobalAssetAlbum'));
-const OficiDocumentacio = lazy(() => import('./pages/OficiDocumentacio'));
-const XylellaFastidiosaForm = lazy(() => import('./components/XylellaFastidiosaForm'));
-import { RescueTool } from './components/RescueTool';
-import AmphoraFAB from './components/AmphoraFAB';
+const ChatList = lazy(() => import("./components/ChatList"));
+const ChatDetail = lazy(() => import("./components/ChatDetail"));
+const Feed = lazy(() => import("./components/Feed"));
+const Market = lazy(() => import("./components/Marketplace"));
+const Login = lazy(() => import("./pages/Login"));
+const Register = lazy(() => import("./pages/Register"));
+const Profile = lazy(() => import("./pages/Profile"));
+const Towns = lazy(() => import("./pages/Towns"));
+const Map = lazy(() => import("./pages/Map"));
+const Notifications = lazy(() => import("./pages/Notifications"));
+const TownDetail = lazy(() => import("./pages/TownDetail"));
+const PublicProfile = lazy(() => import("./pages/PublicProfile"));
+const PublicEntity = lazy(() => import("./pages/PublicEntity"));
+const AdminPanel = lazy(() => import("./pages/AdminPanel"));
+const PlaygroundPortal = lazy(() => import("./pages/PlaygroundPortal"));
+const MediaAlbum = lazy(() => import("./pages/MediaAlbum"));
+const EntityManagement = lazy(() => import("./pages/EntityManagement"));
+const SearchDiscover = lazy(() => import("./pages/SearchDiscover"));
+const CommunityDirectory = lazy(() => import("./pages/CommunityDirectory"));
+const IAIAPage = lazy(() => import("./pages/IAIAPage"));
+const AlbumMemoria = lazy(() => import("./pages/AlbumMemoria"));
+const ProjectPresentation = lazy(() => import("./pages/ProjectPresentation"));
+const DesignCanon = lazy(() => import("./pages/DesignCanon"));
+const GenesisViewer = lazy(() => import("./pages/GenesisViewer"));
+const MakingOf = lazy(() => import("./pages/MakingOf"));
+const LegalNotice = lazy(() => import("./pages/LegalNotice"));
+const ResetPage = lazy(() => import("./pages/ResetPage"));
+const ManualPage = lazy(() => import("./pages/ManualPage"));
+const SessionChronicle = lazy(() => import("./pages/SessionChronicle"));
+const PostDetail = lazy(() => import("./pages/PostDetail"));
+const MasterCalendar = lazy(() => import("./pages/MasterCalendar"));
+const DAFOPage = lazy(() => import("./pages/DAFOPage"));
+const DidacticPage = lazy(() => import("./pages/DidacticPage"));
+const Archive = lazy(() => import("./pages/Archive"));
+const SellSurplus = lazy(() => import("./pages/SellSurplus"));
+const AulaRural = lazy(() => import("./pages/AulaRural"));
+const RuralIntelligence = lazy(() => import("./components/RuralIntelligence"));
+const DidacticManual = lazy(() => import("./pages/DidacticManual"));
+const SolatgeConsole = lazy(() => import("./pages/SolatgeConsole"));
+const HabitantsDelMas = lazy(() => import("./components/HabitantsDelMas"));
+const AyuntamientoPage = lazy(() => import("./pages/AyuntamientoPage"));
+const TiaMariaChat = lazy(() => import("./components/TiaMariaChat"));
+const NexusFlash = lazy(() => import("./pages/NexusFlash"));
+const GlobalAssetAlbum = lazy(() => import("./pages/GlobalAssetAlbum"));
+const OficiDocumentacio = lazy(() => import("./pages/OficiDocumentacio"));
+const XylellaFastidiosaForm = lazy(() =>
+  import("./components/XylellaFastidiosaForm"),
+);
+import { RescueTool } from "./components/RescueTool";
+import AmphoraFAB from "./components/AmphoraFAB";
 
-import { supabase } from './supabaseClient';
-import { MOCK_CHATS, MOCK_FEED, MOCK_MARKET_ITEMS } from './data';
-import { useAuth } from './context/AuthContext';
-import { useUI } from './context/UIContext';
-import { supabaseService } from './services/supabaseService';
-import { APP_VERSION } from './constants';
-import ErrorBoundary from './components/ErrorBoundary';
-import { usePushNotifications } from './hooks/usePushNotifications'; // Import hook
-import DiagnosticConsole from './components/DiagnosticConsole';
-import NanoLoader from './components/NanoLoader';
-import { cloudErrorReporting } from './services/cloudErrorReporting';
+import { supabase } from "./supabaseClient";
+import { MOCK_CHATS, MOCK_FEED, MOCK_MARKET_ITEMS } from "./data";
+import { useAuth } from "./context/AuthContext";
+import { useUI } from "./context/UIContext";
+import { supabaseService } from "./services/supabaseService";
+import { APP_VERSION } from "./constants";
+import ErrorBoundary from "./components/ErrorBoundary";
+import { usePushNotifications } from "./hooks/usePushNotifications"; // Import hook
+import DiagnosticConsole from "./components/DiagnosticConsole";
+import NanoLoader from "./components/NanoLoader";
+import { cloudErrorReporting } from "./services/cloudErrorReporting";
 
 const NavigateWithParams = ({ to, replace }) => {
   const searchParams = new URLSearchParams(window.location.search);
-  const target = `${to}${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
+  const target = `${to}${
+    searchParams.toString() ? `?${searchParams.toString()}` : ""
+  }`;
   return <Navigate to={target} replace={replace} />;
 };
 
 // Exponer para depuración en consola solo en desarrollo
-if (typeof window !== 'undefined' && import.meta.env.DEV) {
+if (typeof window !== "undefined" && import.meta.env.DEV) {
   window.supabase = supabase;
   window.supabaseService = supabaseService;
 }
@@ -95,8 +99,14 @@ const ProtectedRoute = ({ children }) => {
 
   if (loading) {
     return (
-      <div style={{ position: 'relative', height: '100vh' }}>
-        <NanoLoader message={showRescue ? "Està costant més del previst..." : "Carregant sessió..."} />
+      <div style={{ position: "relative", height: "100vh" }}>
+        <NanoLoader
+          message={
+            showRescue
+              ? "Està costant més del previst..."
+              : "Carregant sessió..."
+          }
+        />
         {showRescue && (
           <div className="emergency-rescue-overlay animate-in">
             <div className="rescue-card">
@@ -106,7 +116,7 @@ const ProtectedRoute = ({ children }) => {
                 <button
                   onClick={() => {
                     logout();
-                    window.location.href = '/login?rescue=true';
+                    window.location.href = "/login?rescue=true";
                   }}
                   className="btn-rescue-nuclear"
                 >
@@ -134,31 +144,32 @@ const ProtectedRoute = ({ children }) => {
   return children;
 };
 
-
 function App() {
   const { asoMode } = useUI();
   usePushNotifications(); // Activate Push System
 
   useEffect(() => {
     // [VERSION SYNC: REASSURANCE]
-    localStorage.setItem('sp_app_version', APP_VERSION);
+    localStorage.setItem("sp_app_version", APP_VERSION);
 
     // [CLOUD SYNC] Notificar el bategat al núvol si està configurat
-    cloudErrorReporting.report(`App Boot v${APP_VERSION}`, { type: 'BOOT_SEQUENCE' });
+    cloudErrorReporting.report(`App Boot v${APP_VERSION}`, {
+      type: "BOOT_SEQUENCE",
+    });
 
     // [PILLAR 1] Rhizome Pruning (Eg-walker)
-    import('./services/rhizomeManager').then(({ rhizomeManager }) => {
+    import("./services/rhizomeManager").then(({ rhizomeManager }) => {
       rhizomeManager.pruneHistory();
     });
 
     // [CAPACITOR NATIVE] Inicialització de la Barra d'Estat i Splash Screen
     const initNative = async () => {
       try {
-        const { StatusBar, Style } = await import('@capacitor/status-bar');
-        const { SplashScreen } = await import('@capacitor/splash-screen');
+        const { StatusBar, Style } = await import("@capacitor/status-bar");
+        const { SplashScreen } = await import("@capacitor/splash-screen");
 
         await StatusBar.setStyle({ style: Style.Light });
-        await StatusBar.setBackgroundColor({ color: '#FDF5E6' });
+        await StatusBar.setBackgroundColor({ color: "#FDF5E6" });
 
         await SplashScreen.hide();
       } catch (error) {
@@ -173,7 +184,7 @@ function App() {
       <BrowserRouter>
         <DiagnosticConsole />
         <Suspense fallback={<NanoLoader message="Preparant Sóc de Poble..." />}>
-          <ErrorBoundary fallbackMessage="Error crític de l'aplicació">
+            <ErrorBoundary fallbackMessage="Error crític de l'aplicació">
             <Routes>
               {/* ... rutes existents ... */}
               <Route path="/login" element={<Login />} />
@@ -181,8 +192,14 @@ function App() {
               <Route path="/playground" element={<PlaygroundPortal />} />
 
               {/* SEARCH COMPATIBILITY REDIRECTS */}
-              <Route path="/Admin/Broadcast" element={<Navigate to="/admin?tab=broadcast" replace />} />
-              <Route path="/admin/broadcast" element={<Navigate to="/admin?tab=broadcast" replace />} />
+              <Route
+                path="/Admin/Broadcast"
+                element={<Navigate to="/admin?tab=broadcast" replace />}
+              />
+              <Route
+                path="/admin/broadcast"
+                element={<Navigate to="/admin?tab=broadcast" replace />}
+              />
 
               <Route
                 path="/"
@@ -192,7 +209,10 @@ function App() {
                   </ErrorBoundary>
                 }
               >
-                <Route index element={<NavigateWithParams to="/chats" replace />} />
+                <Route
+                  index
+                  element={<NavigateWithParams to="/chats" replace />}
+                />
                 <Route
                   path="chats"
                   element={
@@ -298,7 +318,18 @@ function App() {
                 <Route path="solatge" element={<SolatgeConsole />} />
                 <Route path="nexus" element={<NexusFlash />} />
                 <Route path="ofici" element={<OficiDocumentacio />} />
-                <Route path="ofici/xylella-fastidiosa" element={<XylellaFastidiosaForm />} />
+                <Route path="tools/traductor" element={<RuralIntelligence defaultMode="traductor" />} />
+                <Route path="tools/remeis" element={<RuralIntelligence defaultMode="remeis" />} />
+                <Route path="tools/oracle" element={<RuralIntelligence defaultMode="oracle" />} />
+                <Route path="tools/diccionari" element={<RuralIntelligence defaultMode="diccionari" />} />
+                <Route path="tools/recipe" element={<RuralIntelligence defaultMode="iaia" />} />
+                <Route path="tools/trellat" element={<RuralIntelligence defaultMode="jutge_de_pau" />} />
+                <Route path="tools/pregoner" element={<RuralIntelligence defaultMode="secretari" />} />
+                <Route path="tools/nicknames" element={<RuralIntelligence defaultMode="versador" />} />
+                <Route
+                  path="ofici/xylella-fastidiosa"
+                  element={<XylellaFastidiosaForm />}
+                />
 
                 {/* EMERGENCY RESCUE ROUTES (Escaped from SW) */}
                 <Route path="rescat.html" element={<RescueTool />} />
@@ -311,8 +342,14 @@ function App() {
               <Route path="/nuke" element={<RescueTool />} />
 
               {/* [MASTER] AUTO-HEALING: Captura de rutes de documentació mal formades */}
-              <Route path="/docs/*" element={<Navigate to="/projecte" replace />} />
-              <Route path="/artifacts/*" element={<Navigate to="/admin" replace />} />
+              <Route
+                path="/docs/*"
+                element={<Navigate to="/projecte" replace />}
+              />
+              <Route
+                path="/artifacts/*"
+                element={<Navigate to="/admin" replace />}
+              />
 
               {/* Fallback 404 compatible amb l'estètica Master */}
               {/* PEDAGOGICAL FALLBACK: Orphan links lead to Aula Rural */}
@@ -337,4 +374,3 @@ function App() {
 }
 
 export default App;
-

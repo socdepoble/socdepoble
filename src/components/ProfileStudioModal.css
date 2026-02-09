@@ -62,15 +62,36 @@
 .studio-advice {
     background: rgba(var(--color-primary-rgb), 0.1);
     border: 1px solid rgba(var(--color-primary-rgb), 0.2);
-    padding: var(--space-sm) var(--space-md);
-    border-radius: 0px;
+    padding: var(--space-md);
+    border-radius: var(--radius-s);
+    border-left: 4px solid var(--color-primary);
 }
 
-.studio-advice p {
+.studio-advice.alzina-blindatge p {
     margin: 0;
-    font-size: var(--font-size-base);
+    font-size: 14px;
+    font-weight: 700;
     color: var(--text-main);
     line-height: 1.5;
+}
+
+.alzina-upload-btn {
+    background: var(--accent-violet) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    box-shadow: 0 4px 12px rgba(93, 95, 239, 0.3) !important;
+    flex: 1.5 !important; /* Más importancia al botón principal */
+}
+
+.studio-action-bar {
+    display: flex;
+    gap: 8px;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-s);
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: nowrap !important; /* Alzina Blindatge: No apilable */
 }
 
 .studio-section {

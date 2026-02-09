@@ -11,8 +11,6 @@ import { useTheme } from '../../../context/ThemeContext';
 import './PremiumSettings.css';
 
 const SettingsTab = ({
-    theme: legacyTheme,
-    toggleTheme,
     navigate,
     displayProfile,
     handleSocialPreferenceChange,
@@ -21,8 +19,16 @@ const SettingsTab = ({
     setProfile
 }) => {
     const { logout } = useAuth();
-    const { theme, setTheme, availableThemes } = useTheme();
-    const { gloveMode, setGloveMode, toggleGloveMode, landingPage, setLandingPage, resetToNaturalOrder } = useUI();
+    const { theme, toggleTheme } = useTheme();
+    const { 
+        gloveMode, 
+        toggleGloveMode, 
+        landingPage, 
+        setLandingPage, 
+        resetToNaturalOrder,
+        preferredAgentId,
+        setPreferredAgentId 
+    } = useUI();
 
     return (
         <div className="tab-pane-fade-in settings-pane">
@@ -148,6 +154,45 @@ const SettingsTab = ({
                         </div>
                     </div>
                     <ChevronRight size={20} className="text-muted" />
+                </div>
+
+                {/* AGENT SELECTION [IDENTITY v6.0] */}
+                <div className="premium-setting-item no-hover" style={{ cursor: 'default', display: 'block' }}>
+                    <div className="setting-content-left" style={{ marginBottom: '12px' }}>
+                        <div className="setting-icon-wrapper" style={{ background: 'var(--color-accent)', color: 'black' }}>
+                            <Sparkles size={20} />
+                        </div>
+                        <div className="setting-text-bundle">
+                            <span className="setting-title">Agent de Guardia Preferit</span>
+                            <span className="setting-desc">Tria qui t'ajuda amb els assumptes del poble.</span>
+                        </div>
+                    </div>
+                    <select
+                        id="preferred-agent-selector"
+                        name="preferred-agent-selector"
+                        className="premium-input-glass w-full"
+                        value={preferredAgentId}
+                        onChange={(e) => setPreferredAgentId(e.target.value)}
+                        style={{
+                            width: '100%',
+                            padding: '12px',
+                            background: 'rgba(255, 255, 255, 0.05)',
+                            border: '1px solid var(--border-subtle)',
+                            borderRadius: '0px',
+                            color: 'var(--text-main)',
+                            fontSize: '14px',
+                            outline: 'none'
+                        }}
+                    >
+                        <option value="iaia">👵 MarIA (La IAIA)</option>
+                        <option value="vicent">🚜 Vicent Ferris (L'Agrònom)</option>
+                        <option value="pepica">🍳 Pepica (La Cuinera)</option>
+                        <option value="andreu">📋 Andreu (El Capatàs)</option>
+                        <option value="joan">✍️ Joan (L'Arxiver)</option>
+                    </select>
+                    <p style={{ fontSize: '10px', marginTop: '8px', opacity: 0.6 }}>
+                        Este agent estarà actiu per a avisos i consultes reals, tantes vegades com vullgues, encara que el Joc de Rol estiga apagat.
+                    </p>
                 </div>
             </section>
 

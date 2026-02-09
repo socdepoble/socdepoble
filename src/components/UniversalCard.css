@@ -319,6 +319,7 @@
     min-height: 64px;
     display: flex;
     flex-direction: column;
+    flex-wrap: nowrap !important; /* Alzina: Blindat contra apilament horizontal */
 }
 
 /* 1. CARDINAL MUR */
@@ -402,6 +403,32 @@
     background: var(--accent-orange);
     color: #000;
     box-shadow: 0 0 20px rgba(255, 109, 35, 0.3);
+}
+
+/* Blindatge Alzina v5.2 */
+.footer-actions-mur, 
+.footer-mercat-master, 
+.footer-event-master, 
+.footer-pobles-master, 
+.footer-ajuntament-master, 
+.footer-mapa-master,
+.event-actions-row,
+.mercat-actions-row {
+    flex-wrap: nowrap !important;
+}
+
+.footer-touch-group, 
+.card-ai-tools-inline, 
+.header-right-meta {
+    flex-shrink: 0 !important;
+}
+
+.master-action-btn.connect-btn {
+    flex: 1 !important;
+    min-width: 0 !important;
+    white-space: nowrap !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .footer-touch-group {
@@ -499,11 +526,32 @@
     color: var(--accent-green);
 }
 
-.event-actions-row {
+.event-actions-row, 
+.footer-actions-mur, 
+.footer-mercat-master, 
+.footer-pobles-master, 
+.footer-ajuntament-master, 
+.footer-mapa-master {
     display: flex;
     align-items: center;
     gap: 8px;
-    flex-wrap: nowrap !important; /* Alzina: Blindatge horizontal */
+    flex-wrap: nowrap !important; /* Blindatge Alzina: Prohibida la verticalitat */
+}
+
+.footer-touch-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0 !important; /* Inencogible */
+}
+
+.master-action-btn.connect-btn {
+    flex: 1 !important;
+    min-width: 0 !important;
+    white-space: nowrap !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-shrink: 1 !important;
 }
 
 .mercat-actions-row {

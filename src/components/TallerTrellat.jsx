@@ -9,7 +9,7 @@ import './TallerTrellat.css';
  * Interfície per a interactuar amb el Trellat Artificial Multimodal.
  */
 const TallerTrellat = ({ isOpen, onClose }) => {
-    const [mode, setMode] = useState('iaia'); // 'iaia', 'secretari', 'traductor', 'ull_del_mestre'
+    const [mode, setMode] = useState('iaia'); // 'iaia', 'secretari', 'traductor', 'ull_del_mestre', 'remeis', 'oracle', 'diccionari'
     const [input, setInput] = useState('');
     const [image, setImage] = useState(null);
     const [response, setResponse] = useState('');
@@ -29,17 +29,19 @@ const TallerTrellat = ({ isOpen, onClose }) => {
     };
 
     const handleGenerate = async () => {
-        if (!input.trim() && !image) return;
+        if (!input.trim() && !image && mode !== 'oracle') return;
 
         setLoading(true);
         hapticService.batec();
 
         try {
             const personality = mode === 'iaia' ? 'iaia_maria' : mode;
-            const result = await aiService.generateContent(input, personality, image);
+            const prompt = mode === 'oracle' ? "Dona'm un consell de vida basat en la saviesa popular valenciana. Una frase curta i amb caràcter d'IAIA." : input;
+            const result = await aiService.generateContent(prompt, personality, image);
             setResponse(result);
             hapticService.notifySuccess();
         } catch (error) {
+            console.error('AI Error:', error);
             setResponse('⚠️ Ai collons, s\'ha tallat la llum al cervell del Mas...');
         } finally {
             setLoading(false);
@@ -55,6 +57,9 @@ const TallerTrellat = ({ isOpen, onClose }) => {
         if (mode === 'cronista') return "Apega el xat o acte per a resumir...";
         if (mode === 'hortola') return "Pregunta sobre cultius o el calendari lunar...";
         if (mode === 'versador') return "Digues un tema per al teu vers o alba...";
+        if (mode === 'remeis') return "Ex: Tinc tos i mal de pit...";
+        if (mode === 'diccionari') return "Ex: Bitcoin, Influencer, Streaming...";
+        if (mode === 'oracle') return "Clica el botó per rebre el consell de l'ollà...";
         return "Escriu aquí...";
     };
 
@@ -128,6 +133,27 @@ const TallerTrellat = ({ isOpen, onClose }) => {
                         <Music size={18} />
                         <span>Versador</span>
                     </button>
+                    <button
+                        className={`selector-btn ${mode === 'remeis' ? 'active' : ''}`}
+                        onClick={() => { setMode('remeis'); setResponse(''); setImage(null); }}
+                    >
+                        <Heart size={18} />
+                        <span>Remeis</span>
+                    </button>
+                    <button
+                        className={`selector-btn ${mode === 'oracle' ? 'active' : ''}`}
+                        onClick={() => { setMode('oracle'); setResponse(''); setImage(null); }}
+                    >
+                        <Sparkles size={18} />
+                        <span>Oracle</span>
+                    </button>
+                    <button
+                        className={`selector-btn ${mode === 'diccionari' ? 'active' : ''}`}
+                        onClick={() => { setMode('diccionari'); setResponse(''); setImage(null); }}
+                    >
+                        <BookOpen size={18} />
+                        <span>Diccionari</span>
+                    </button>
                 </div>
 
                 <div className="taller-body">
@@ -163,7 +189,7 @@ const TallerTrellat = ({ isOpen, onClose }) => {
                         <button
                             className={`generate-btn ${loading ? 'loading' : ''}`}
                             onClick={handleGenerate}
-                            disabled={loading || (!input.trim() && !image)}
+                            disabled={loading || (!input.trim() && !image && mode !== 'oracle')}
                         >
                             {loading ? <div className="spinner" /> : <Sparkles size={20} />}
                         </button>

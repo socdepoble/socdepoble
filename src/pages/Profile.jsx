@@ -47,7 +47,6 @@ const Profile = () => {
     }, [t]);
     const navigate = useNavigate();
     const { profile, setProfile, user, isPlayground, realProfile, isAdmin, isSuperAdmin, realUser } = useAuth();
-    const { theme, toggleTheme } = useTheme();
     const { setIsNotePadOpen, globalDesign, setGlobalDesign } = useUI();
     const location = useLocation();
 
@@ -311,8 +310,6 @@ const Profile = () => {
             case 'settings_view': return (
                 <div className="tab-pane-fade-in">
                     <SettingsTab
-                        theme={theme}
-                        toggleTheme={toggleTheme}
                         navigate={navigate}
                         displayProfile={displayProfileSafe}
                         handleSocialPreferenceChange={handleSocialPreferenceChange}

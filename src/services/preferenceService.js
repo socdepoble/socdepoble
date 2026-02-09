@@ -8,7 +8,8 @@ const DEFAULT_CONFIG = {
     visionMode: 'hibrida',   // Mode de visió per defecte
     vibe: 'genius',          // Ambientació
     gloveMode: false,        // Mode guants desactivat
-    globalDesign: 'batega'   // Disseny global per defecte
+    globalDesign: 'batega',  // Disseny global per defecte
+    preferredAgentId: 'iaia' // Agente preferido por defecto
 };
 
 export const preferenceService = {

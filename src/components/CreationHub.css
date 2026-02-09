@@ -56,48 +56,43 @@
 .creation-hub-main-actions {
     display: flex;
     flex-direction: column;
-    gap: var(--space-lg);
+    gap: 12px;
     margin-bottom: var(--space-2xl);
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: var(--radius-m);
+    border: 1px solid var(--border-subtle);
+}
+
+.share-full-frame, 
+.logout-hub-top-btn, 
+.notepad-action-btn-hub, 
+.doc-action-btn-hub, 
+.admin-btn-styled {
+    width: 100% !important;
+    padding: 16px !important;
+    border-radius: var(--radius-s) !important;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start !important;
+    gap: 16px !important;
+    font-weight: 850 !important;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
 
 .share-full-frame {
-    width: 100% !important;
-    padding: 18px !important;
-    border-radius: var(--radius-s);
-    /* 18px */
     background: var(--accent-violet) !important;
     color: white !important;
     box-shadow: var(--shadow-glow-violet);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    font-weight: 950;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.share-full-frame:active {
-    transform: scale(0.97);
-}
-
-.share-full-frame svg {
-    filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.3));
-}
-
-
-.admin-btn-styled {
-    background: linear-gradient(135deg, #2D3748, #1A202C) !important;
-    border: 1.5px solid var(--color-primary) !important;
-}
-
-.manual-btn-styled {
-    background: linear-gradient(135deg, #4A5568, #2D3748) !important;
-    border: 1.5px solid #CBD5E0 !important;
-    color: #EDF2F7 !important;
+.logout-hub-top-btn {
+    background: #000 !important;
+    color: #ef4444 !important;
+    border-color: rgba(239, 68, 68, 0.3) !important;
 }
 
 .notepad-action-btn-hub {

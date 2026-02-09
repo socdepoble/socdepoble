@@ -22,7 +22,7 @@ import { APP_VERSION } from '../constants';
 const Layout = () => {
     const { isPlayground, isAdmin } = useAuth();
     const uiContext = useUI();
-    const { isViewerOpen, globalDesign, setGlobalDesign } = uiContext || { isViewerOpen: false, globalDesign: 'standard' };
+    const { isViewerOpen, globalDesign } = uiContext || { isViewerOpen: false, globalDesign: 'standard' };
 
     useEffect(() => {
         logger.log('[Layout] Bategat de context:', { isViewerOpen, globalDesign, isMobile: window.innerWidth < 1024 });
@@ -155,7 +155,7 @@ const Layout = () => {
                 <ScrollToTop />
                 {!isChatDetail && (isMobile || globalDesign !== 'consola') && <Header />}
 
-                <div className={globalDesign === 'consola' ? 'design-consola-main' : 'main-wrapper'}>
+                <div className={globalDesign === 'consola' ? 'design-consola-main' : 'main-wrapper tabula-rasa-main'}>
                     <main className="content-area">
                         <Outlet />
                     </main>

@@ -46,8 +46,8 @@ const ProfileStudioModal = ({
                 </header>
 
                 <div className="studio-body">
-                    <div className="studio-advice">
-                        <p>💡 <strong>Consell:</strong> Per a millors resultats, utilitza imatges panoràmiques per a la portada i quadrades per al perfil.</p>
+                    <div className="studio-advice alzina-blindatge">
+                        <p>🏺 <strong>Directiva Master:</strong> Utilitza imatges panoràmiques (16:9) per a la portada i quadrades (1:1) per al teu perfil.</p>
                     </div>
 
                     {/* Cover Section */}
@@ -75,13 +75,13 @@ const ProfileStudioModal = ({
 
                             <div className="studio-action-bar items-center">
                                 <button
-                                    className="studio-btn primary"
+                                    className="studio-btn primary alzina-upload-btn"
                                     onClick={(e) => { e.stopPropagation(); coverInputRef.current.click(); }}
                                     disabled={isUploading}
                                     title="Pujar de l'arxiu"
                                 >
-                                    {isUploading && uploadType === 'cover' ? <Loader2 className="animate-spin" size={16} /> : <ImageIcon size={16} />}
-                                    <span>Fitxer</span>
+                                    {isUploading && uploadType === 'cover' ? <Loader2 className="animate-spin" size={16} /> : <ImageIcon size={20} />}
+                                    <span>Pujar Fitxer</span>
                                 </button>
                                 <button
                                     className="studio-btn primary-batec"

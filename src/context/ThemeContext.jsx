@@ -2,32 +2,53 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 
 export const THEMES = {
     DAY: 'light',
-    NIGHT: 'dark'
+    NIGHT: 'dark',
+    SOLEMNE: 'solemne'
 };
 
 const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
     // Recuperar preferència o defecte a 'dark' (Nit Digital)
-    const [theme, setTheme] = useState(() => {
+    const [theme, setThemeState] = useState(() => {
         const savedTheme = localStorage.getItem('nexus_theme');
         return savedTheme || 'dark';
     });
 
+    const availableThemes = [
+        { id: 'light', name: 'Llum de Dia' },
+        { id: 'dark', name: 'Nit Digital' },
+        { id: 'solemne', name: 'Perfil Solemne' }
+    ];
+
     useEffect(() => {
         // Aplicar la classe al body per a les variables CSS
         const root = window.document.documentElement;
-        root.classList.remove('theme-light', 'theme-dark');
+        root.classList.remove('theme-light', 'theme-dark', 'theme-solemne');
         root.classList.add(`theme-${theme}`);
         localStorage.setItem('nexus_theme', theme);
     }, [theme]);
 
     const toggleTheme = () => {
-        setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
+        setThemeState(prev => (prev === 'dark' ? 'light' : 'dark'));
+    };
+
+    const setTheme = (newTheme) => {
+        setThemeState(newTheme);
+    };
+
+    const resetTheme = () => {
+        setThemeState('dark');
     };
 
     return (
-        <ThemeContext.Provider value={{ theme, toggleTheme }}>
+        <ThemeContext.Provider value={{ 
+            theme, 
+            toggleTheme, 
+            setTheme, 
+            resetTheme, 
+            availableThemes 
+        }}>
             {children}
         </ThemeContext.Provider>
     );

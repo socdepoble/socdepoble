@@ -1,0 +1,140 @@
+
+.vision-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    padding: 20px;
+    animation: fadeIn 0.3s ease;
+}
+
+.vision-modal-content {
+    background: var(--bg-card);
+    width: 100%;
+    max-width: 400px;
+    border-radius: var(--radius-2xl);
+    border: var(--border-master);
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.vision-modal-header {
+    padding: 16px 20px;
+    background: var(--bg-surface);
+    border-bottom: var(--border-master);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.vision-modal-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.vision-modal-close {
+    background: none;
+    border: none;
+    color: var(--text-main);
+    cursor: pointer;
+    opacity: 0.6;
+}
+
+.vision-modal-body {
+    padding: 24px;
+}
+
+.vision-modal-intro {
+    font-weight: 800;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+}
+
+.vision-modes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.vision-mode-item {
+    background: var(--bg-surface);
+    border: var(--border-master);
+    padding: 20px;
+    border-radius: var(--radius-xl);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    width: 100%;
+}
+
+.vision-mode-item:hover {
+    background: var(--bg-card);
+    transform: translateY(-2px);
+}
+
+.vision-mode-item.active {
+    border-color: var(--color-primary);
+    background: var(--color-primary-soft);
+}
+
+.vision-mode-text h3 {
+    font-size: 1rem;
+    font-weight: 900;
+    margin-bottom: 4px;
+}
+
+.vision-mode-text p {
+    font-size: 0.8rem;
+    line-height: 1.3;
+    color: var(--text-muted);
+}
+
+.active-indicator {
+    position: absolute;
+    right: 15px;
+    width: 12px;
+    height: 12px;
+    background: var(--color-primary);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--color-primary);
+}
+
+.vision-modal-footer {
+    margin-top: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-style: italic;
+    background: var(--bg-surface);
+    padding: 12px;
+    border-radius: var(--radius-lg);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}

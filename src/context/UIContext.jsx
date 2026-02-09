@@ -4,7 +4,7 @@ import { preferenceService } from '../services/preferenceService';
 const UIContext = createContext();
 
 export const UIProvider = ({ children }) => {
-    const [prefs, setPrefsState] = useState(preferenceService.getPrefs());
+    const [prefs] = useState(preferenceService.getPrefs());
 
     const [theme, setTheme] = useState(prefs.theme);
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -20,6 +20,7 @@ export const UIProvider = ({ children }) => {
     const [landingPage, setLandingPage] = useState(prefs.landingPage);
     const [visualDemocracy, setVisualDemocracy] = useState(prefs.visualDemocracy || 'pedra-seca');
     const [globalDesign, setGlobalDesign] = useState(prefs.globalDesign || 'batega');
+    const [preferredAgentId, setPreferredAgentId] = useState(prefs.preferredAgentId || 'iaia');
     const [isViewerOpen, setIsViewerOpen] = useState(false);
     const [viewerConfig, setViewerConfig] = useState(null); // { did, anchor, label, type }
     const [isConnectionModalOpen, setIsConnectionModalOpen] = useState(false);
@@ -73,9 +74,10 @@ export const UIProvider = ({ children }) => {
             landingPage,
             visualDemocracy,
             globalDesign,
-            selectedTown
+            selectedTown,
+            preferredAgentId
         });
-    }, [theme, vibe, visionMode, gloveMode, landingPage, visualDemocracy, globalDesign, selectedTown]);
+    }, [theme, vibe, visionMode, gloveMode, landingPage, visualDemocracy, globalDesign, selectedTown, preferredAgentId]);
 
     const resetToNaturalOrder = () => {
         preferenceService.resetToNaturalOrder();
@@ -190,7 +192,9 @@ export const UIProvider = ({ children }) => {
             isNotePadOpen,
             setIsNotePadOpen,
             selectedTown,
-            setSelectedTown
+            setSelectedTown,
+            preferredAgentId,
+            setPreferredAgentId
         }}>
             {children}
         </UIContext.Provider>

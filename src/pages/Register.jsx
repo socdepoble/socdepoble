@@ -17,25 +17,21 @@ import './Auth.css';
 const Register = () => {
     logger.log('[Register] Inicialitzant component...');
     const auth = useAuth();
-    logger.log('[Register] Context d\'autenticació obtingut:', !!auth);
     const { setIsPlayground, user } = auth;
-    const { i18n } = useTranslation();
+    useTranslation();
     const navigate = useNavigate();
 
     // [DIRECTIVA 1] Auto-redirect already authenticated users
     useEffect(() => {
-        if (user && !user.isDemo) {
+        if (user && !user.isDemo && !user.is_sovereign) {
             navigate('/chats', { replace: true });
         }
     }, [user, navigate]);
 
     // State for auth modes & steps
-    const [authMethod, setAuthMethod] = useState('phone'); // 'phone' | 'email'
     const [step, setStep] = useState('identity'); // 'identity' | 'verify'
 
     // Form states
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
     const [fullName, setFullName] = useState('');
     const [phone, setPhone] = useState('');
     const [otp, setOtp] = useState('');
@@ -47,12 +43,11 @@ const Register = () => {
     const [resendCountdown, setResendCountdown] = useState(0);
     const [loading, setLoading] = useState(false);
     const [focusedField, setFocusedField] = useState(null); // 'name' | 'phone' | 'email' | 'town' | 'otp'
-    const [isCelebrating, setIsCelebrating] = useState(false);
 
     // Real-time validation visual cues
     const isPhoneValid = phone.length >= 9;
     const isNameValid = fullName.trim().length >= 3;
-    const isFormPreValid = authMethod === 'phone' ? (isPhoneValid && isNameValid && selectedTown) : (email.includes('@') && isNameValid && selectedTown);
+    // const isFormPreValid = authMethod === 'phone' ? (isPhoneValid && isNameValid && selectedTown) : (email.includes('@') && isNameValid && selectedTown);
 
     const handleVerifyOtp = useCallback(async (e, codeToVerify = null) => {
         e?.preventDefault();
@@ -77,10 +72,9 @@ const Register = () => {
                 hapticService.notifySuccess();
 
                 // [VICTORY SEQUENCE]
-                setIsCelebrating(true);
                 setStep('welcome');
                 setTimeout(() => {
-                    setIsPlayground(false);
+                    if (setIsPlayground) setIsPlayground(false);
                     navigate('/chats');
                 }, 3000);
             }
@@ -142,39 +136,18 @@ const Register = () => {
             return;
         }
 
-        if (authMethod === 'phone') {
-            try {
-                if (!phone || phone.length < 9) {
-                    throw new Error('Introdueix un número de mòbil vàlid.');
-                }
-                const formattedPhone = phone.startsWith('+') ? phone : `+ 34${phone} `;
-                await supabaseService.signInWithOtp(formattedPhone);
-                setStep('verify');
-                setResendCountdown(60);
-                hapticService.notifyThinking();
-            } catch (err) {
-                setError(err.message);
-                hapticService.notifyError();
-            } finally {
-                setLoading(false);
-            }
-            return;
-        }
-
-        // Email flow
         try {
-            await supabaseService.signUp(
-                email,
-                password,
-                {
-                    full_name: fullName,
-                    town_id: selectedTown.id,
-                    town_uuid: selectedTown.uuid
-                }
-            );
-            navigate('/login', { state: { message: '¡Compte creat! Revisa el teu correu per a confirmar la teua entrada.' } });
+            if (!phone || phone.length < 9) {
+                throw new Error('Introdueix un número de mòbil vàlid.');
+            }
+            const formattedPhone = phone.startsWith('+') ? phone : `+34${phone}`;
+            await supabaseService.signInWithOtp(formattedPhone);
+            setStep('verify');
+            setResendCountdown(60);
+            hapticService.notifyThinking();
         } catch (err) {
             setError(err.message);
+            hapticService.notifyError();
         } finally {
             setLoading(false);
         }

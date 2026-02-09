@@ -1,91 +1,114 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
 
-:root {
-  /* --- 🏺 CONSTITUCIÓ GENESIS v6.5 (LA CLOSCA) --- */
+/* 
+   🚨 PROTOCOL DE REFUNDACIÓ VISUAL: DIRECTIVA "TABULA RASA" 🚨
+   Versió: ALZINA v6.5.0 - Master
+*/
 
+:root {
   /* 🧬 Geometria Sagrada (Radius Revolution) */
+  --radius-xs: 8px;
   --radius-s: 18px;
-  /* Inputs, Botons petits */
   --radius-m: 28px;
-  /* Universal Cards, Contenidors */
   --radius-l: 32px;
-  /* Modals, Seccions Major */
-  --radius-full: 999px;
-  /* Avatars, Pills */
-  --radius-sharp: 0px;
-  /* Logos i Capçaleres Taronja */
+  --radius-xl: 36px;
+  --radius-2xl: 42px;
+  --radius-3xl: 54px;
+  --radius-full: 9999px;
+
+  /* 📏 Dimensions de la Closca */
+  --header-height: 64px;
+  --tabs-height: 48px;
+  --nav-height: 72px;
+  --shell-top-height: 136px; /* Padding OBLIGATORI per a [PAS 2] */
+  
+  /* 🪄 Blur Master */
+  --blur-s: 8px;
+  --blur-m: 16px;
+  --blur-l: 24px;
+  --blur-master: 20px;
 
   /* ⚡ Accents Sagrats (Constants) */
   --accent-violet: #5D5FEF;
+  --accent-violet-rgb: 93, 95, 239;
   --accent-orange: #FF6D23;
-  --accent-pink: #D441E5;
+  --accent-orange-rgb: 255, 109, 35;
   --accent-green: #00BA88;
   --accent-red: #EF4444;
+  --iaia-accent: var(--accent-orange);
 
-  /* [CLOSCA] Arquitectura del Sostre */
-  --header-height: 64px;
-  --tabs-height: 48px;
-  --shell-top-height: 136px; /* 🏺 Refundació Alzina: Espai Sagrat */
-  --nav-height: 72px;
-
-  /* Layout Base */
-  --safe-top: env(safe-area-inset-top, 0px);
-  --safe-bottom: env(safe-area-inset-bottom, 0px);
-  --page-margin: 24px;
-  --blur-master: 20px;
+  /* Transicions */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: 0.2s var(--ease-out);
+  --transition-normal: 0.4s var(--ease-out);
 }
 
-/* 🌑 NIT DIGITAL (Dark Mode - Deep Black) */
+/* 🌑 NIT DIGITAL (Dark Mode - Protocol Deep Black) */
 html.dark,
-.theme-dark,
 :root:not(.theme-light) {
   --bg-base: #050505;
-  --bg-center: #0A0A0B;
-  --bg-edge: #000000;
-  --bg-page: radial-gradient(circle at center, var(--bg-center) 0%, var(--bg-edge) 100%);
+  --bg-surface: #0A0A0B;
+  --bg-card: #121214;
+  --bg-secondary: #1A1A1C;
 
   --text-main: #FFFFFF;
   --text-secondary: rgba(255, 255, 255, 0.7);
   --text-muted: rgba(255, 255, 255, 0.4);
 
-  --surface-glass: rgba(18, 18, 20, 0.85);
-  --surface-glass-heavy: rgba(18, 18, 20, 0.98);
-  --surface-card: #121214;
-  
   --border-subtle: rgba(255, 255, 255, 0.05);
-  --border-master: 2px solid rgba(255, 255, 255, 0.1);
+  --border-master: 1px solid rgba(255, 255, 255, 0.1);
+  --border-active: 1px solid var(--accent-violet);
 
-  --accent-cyan: #00F2FF;
-  --shadow-deep: 0 24px 64px rgba(0, 0, 0, 0.8);
-  --shadow-glow-violet: 0 0 20px rgba(93, 95, 239, 0.4);
+  --shadow-deep: 0 40px 100px rgba(0, 0, 0, 0.8);
+  --shadow-hard: 0 10px 40px rgba(0, 0, 0, 0.5);
+  
+  --glass-bg: rgba(18, 18, 20, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.1);
 
   color-scheme: dark;
 }
 
-/* ☀️ LLUM DE DIA (Light Mode) */
-.theme-light,
-html.light {
-  --bg-base: #F0F2F5;
-  --bg-center: #FFFFFF;
-  --bg-edge: #F1F5F9;
-  --bg-page: radial-gradient(circle at center, var(--bg-center) 0%, var(--bg-edge) 100%);
+/* ☀️ LLUM DE DIA (Light Mode - Protocol Clean White) */
+html.light,
+.theme-light {
+  --bg-base: #F8FAFC;
+  --bg-surface: #FFFFFF;
+  --bg-card: #F1F5F9;
+  --bg-secondary: #E2E8F0;
 
-  --text-main: #1A1A1A;
-  --text-secondary: #4A4A4A;
-  --text-muted: #8E8E93;
+  --text-main: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #94A3B8;
 
-  --surface-glass: rgba(255, 255, 255, 0.8);
-  --surface-glass-heavy: rgba(255, 255, 255, 0.95);
-  --surface-card: #FFFFFF;
+  --border-subtle: rgba(0, 0, 0, 0.05);
+  --border-master: 1px solid rgba(0, 0, 0, 0.08);
+  --border-active: 1px solid var(--accent-violet);
 
-  --border-subtle: rgba(0, 0, 0, 0.08);
-  --border-master: 2px solid rgba(0, 0, 0, 0.1);
+  --shadow-deep: 0 20px 40px rgba(0, 0, 0, 0.05);
+  --shadow-hard: 0 5px 15px rgba(0, 0, 0, 0.03);
 
-  --accent-cyan: #007AFF;
-  --shadow-deep: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
-  --shadow-glow-violet: 0 20px 40px -5px rgba(93, 95, 239, 0.15);
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(0, 0, 0, 0.05);
 
   color-scheme: light;
+}
+
+/* 🏺 APLICACIÓ GLOBAL DEL NUCLE */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
+html, body {
+  background: var(--bg-base);
+  color: var(--text-main);
+  min-height: 100vh;
+  transition: background 0.3s ease, color 0.3s ease;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 /* Compatibility Bridge */

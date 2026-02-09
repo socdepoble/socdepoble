@@ -1,22 +1,19 @@
-.m3-top-app-bar {
-    padding-top: var(--safe-top);
-    height: var(--header-height); /* 64px */
-    padding-left: var(--page-margin);
-    padding-right: var(--page-margin);
-    background: var(--surface-glass-heavy) !important;
+.m3-top-app-bar.premium-master-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--header-height);
+    background: var(--glass-bg);
     backdrop-filter: blur(var(--blur-master));
+    border-bottom: var(--border-master);
+    z-index: 100;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 2px solid var(--border-subtle);
-    position: fixed; /* Inamovible */
-    top: 0;
-    right: 0;
-    z-index: 1100; /* Above Tabs */
-    width: 100% !important;
-    margin: 0 !important;
-    max-width: none !important;
-    transition: all 0.3s ease;
+    padding: 0 16px;
+    transition: all 0.3s var(--ease-out);
+    box-shadow: var(--shadow-hard);
 }
 
 /* Dynamic shadows for Header Duality */

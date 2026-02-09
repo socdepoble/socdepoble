@@ -15,7 +15,11 @@
     overflow-x: hidden;
     position: relative;
     background-color: var(--bg-base);
-    padding-top: var(--shell-top-height); /* 112px fixed shell */
+    scroll-behavior: smooth;
+}
+
+.main-wrapper.tabula-rasa-main {
+    padding-top: var(--shell-top-height); /* 136px OBLIGATORI */
 }
 
 .main-wrapper {
