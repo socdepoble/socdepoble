@@ -7,7 +7,7 @@ import { logger } from '../utils/logger';
 class GeminiService {
     constructor() {
         this.apiKey = localStorage.getItem('sp_gemini_api_key') || "";
-        this.model = "gemini-1.5-pro"; // ULTRA PERFORMANCE (Enterprise Business)
+        this.model = "gemini-1.5-flash"; // HIGH SPEED (Bategat Immediat)
 
         this.PERSONAS = {
             AGRONOM: {
@@ -187,6 +187,38 @@ class GeminiService {
                 Utilitza expressions com "Cariño", "Fillo", "Xe!", "Mare meua".
                 Si t'aburreixes, conta un xafardeig sa del poble o una recepta d'aprofitament.
                 Ets la memòria viva del bategat.`
+            },
+            REBOST: {
+                name: "El Rebost",
+                avatarName: "IAIA MarIA (Cuina)",
+                avatar_url: "/assets/avatars/iaia_official.png",
+                type: "SYSTEM",
+                role: "Generador de receptes d'aprofitament i cuina tradicional",
+                systemPrompt: `Ets l'especialitat de "El Rebost" de Sóc de Poble. 
+                Tasca: Crear receptes valencianes basades en el que l'usuari té a casa (cuina d'aprofitament).
+                Estil: Pràctic, casolà, animant a no llençar res. "Ací no es tira res!".`
+            },
+            TRELLAT: {
+                name: "Jutjat de Trellat",
+                avatarName: "IAIA MarIA (Jutge)",
+                avatar_url: "/assets/avatars/iaia_official.png",
+                type: "SYSTEM",
+                role: "Veredicte de sentit comú",
+                systemPrompt: `Ets el "Jutjat de Trellat" de Sóc de Poble.
+                Tasca: Avaluar idees o situacions de l'usuari i donar un veredicte de "Trellat" (sentit comú).
+                Puntuació: Dona una nota de 0 a 100 de Trellat. 
+                Estil: Seriós però amb humor rural, racional i batedor.`
+            },
+            ULL_IAIA: {
+                name: "L'Ull de la IAIA",
+                avatarName: "MarIA (Vision)",
+                avatar_url: "/assets/avatars/iaia_official.png",
+                type: "SYSTEM",
+                role: "Anàlisi visual i reconeixement d'entorn rural",
+                systemPrompt: `Ets "L'Ull de la IAIA", el sentit visual bategant de MarIA.
+                Tasca: Analitzar les imatges que et puja l'usuari (plantes, cel, eines, animals).
+                Estil: Com una àvia que ho sap tot només mirant. "Escolta, que això és un tomater i té un poc de minador...".
+                Si l'imatge és borrosa o no es veu bé, digues-ho amb carinyo: "Ai fill, m'hauré de posar les ulleres de prop, que no veig res!".`
             }
         };
     }
@@ -197,19 +229,32 @@ class GeminiService {
     }
 
     /**
-     * Crida al model Gemini amb una personalitat específica.
+     * Crida al model Gemini amb una personalitat específica i suport per a imatges.
      */
-    async ask(personaKey, query) {
+    async ask(personaKey, query, imageData = null) {
         const persona = this.PERSONAS[personaKey];
         if (!persona) throw new Error(`Persona ${personaKey} no trobada.`);
 
         if (!this.apiKey) {
+            // ... (keep simulation logic, maybe add a visual mock response)
             const isLocal = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
             const isSimulation = localStorage.getItem('isPlaygroundMode') === 'true' || localStorage.getItem('sb-simulation-mode') === 'true' || isLocal;
 
             if (isSimulation) {
                 logger.log("[Gemini] API Key absent, però bateguem en Mode Simulació Master (Local/Playground).");
-                await new Promise(r => setTimeout(r, 1500)); // Simulem latència rural
+                await new Promise(r => setTimeout(r, 1500)); 
+
+                if (imageData) {
+                    return {
+                        error: false,
+                        text: `(Simulació Visual) Ai fill meu, que bonica la foto! Sembla que m'estàs ensenyant algo del poble. Però com que no tinc la clau del tractor (API Key) posada, només veig siluetes bategades. Posa la clau al perfil i ho analitzaré com cal!`,
+                        persona: persona.name,
+                        avatarName: persona.avatarName,
+                        type: persona.type,
+                        is_mock: true
+                    };
+                }
+                // ... rest of mockResponses ...
 
                 const q = query.toLowerCase();
                 const isGenesis = q.includes('genesis') || q.includes('directives') || q.includes('directiva');
@@ -242,7 +287,9 @@ class GeminiService {
                     GALL: "Quiquiriquí! Alerta de sistema: Falta la clau de Gemini al perfil! Desperta i configura-la per a un bategat complet!",
                     NANOBANANA: "Massa espai buit! Necessitem el Ritu de l'Abundància. Posa la clau i omplirem el bancal de píxels sublims i Zero Radius!",
                     FLASH: "Ordre rebuda. Executant procés de petició de clau... Velocitat < 0.2s. Posa la API Key al perfil ara mateix. Fet.",
-                    VIATJANT: "He vingut d'Aiora i porte novetats! Però sense la clau del tractor no puc connectar amb les ràdios dels altres pobles. Posa la clau i farem xarxa!"
+                    VIATJANT: "He vingut d'Aiora i porte novetats! Però sense la clau del tractor no puc connectar amb les ràdios dels altres pobles. Posa la clau i farem xarxa!",
+                    REBOST: "Tinc el perol al foc però em falta la llenya (API Key). Posa-la al perfil i farem un arròs al forn amb les sobres que flipes!",
+                    TRELLAT: "Veredicte preliminar: Et falta trellat i la clau de l'API. Passa pel perfil i posa-la per a que puga jutjar les teues idees!"
                 };
 
                 return {
@@ -265,12 +312,24 @@ class GeminiService {
         logger.log(`[Gemini] Consultant a ${persona.name}...`);
 
         try {
+            const parts = [{ text: query }];
+            
+            if (imageData) {
+                // imageData s'espera en format { mimeType: "image/jpeg", data: "base64..." }
+                parts.push({
+                    inline_data: {
+                        mime_type: imageData.mimeType,
+                        data: imageData.data
+                    }
+                });
+            }
+
             const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${this.model}:generateContent?key=${this.apiKey}`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     contents: [{
-                        parts: [{ text: query }]
+                        parts: parts
                     }],
                     system_instruction: {
                         parts: [{ text: persona.systemPrompt }]

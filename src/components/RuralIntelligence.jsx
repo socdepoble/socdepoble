@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Languages, BookOpen, Heart } from 'lucide-react';
 import { geminiService } from '../services/geminiService';
 import { hapticService } from '../services/hapticService';
-import { Tractor, ChefHat, ClipboardList, FileSearch, Sparkles, Send, Info, ShieldCheck, Share2, BellRing, Palette, Zap, Globe, Settings, Users } from 'lucide-react';
+import { Tractor, ChefHat, ClipboardList, FileSearch, Sparkles, Send, Info, ShieldCheck, Share2, BellRing, Palette, Zap, Globe, Settings, Users, Store, Landmark, Camera, X } from 'lucide-react';
 import LlarDeFocMenu from './LlarDeFocMenu';
 import './RuralIntelligence.css';
 
@@ -18,6 +18,8 @@ const RuralIntelligence = ({ defaultMode = 'faena' }) => {
         if (defaultMode === 'remeis') return 'IAIA_MARIA';
         if (defaultMode === 'oracle') return 'ORACLE';
         if (defaultMode === 'diccionari') return 'DICCIONARI';
+        if (defaultMode === 'rebost') return 'REBOST';
+        if (defaultMode === 'trellat') return 'TRELLAT';
         return 'AGRONOM';
     });
     const [query, setQuery] = useState('');
@@ -26,6 +28,8 @@ const RuralIntelligence = ({ defaultMode = 'faena' }) => {
     const [error, setError] = useState(null);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [mode, setMode] = useState(defaultMode);
+    const [selectedImage, setSelectedImage] = useState(null); // { file, preview, base64 }
+    const fileInputRef = React.useRef(null);
 
     const personas = [
         { key: 'AGRONOM', icon: <Tractor size={20} />, label: "L'Agrònom", avatar: "Vicent Ferris", type: "PERSON" },
@@ -42,18 +46,49 @@ const RuralIntelligence = ({ defaultMode = 'faena' }) => {
         { key: 'TRADUCTOR', icon: <Languages size={20} />, label: "Traductor", avatar: "IAIA MarIA", type: "SYSTEM" },
         { key: 'IAIA_MARIA', icon: <Heart size={20} />, label: "Remeis", avatar: "IAIA MarIA", type: "SYSTEM" },
         { key: 'ORACLE', icon: <Sparkles size={20} />, label: "Oracle", avatar: "IAIA MarIA", type: "SYSTEM" },
-        { key: 'DICCIONARI', icon: <BookOpen size={20} />, label: "Diccionari", avatar: "IAIA MarIA", type: "SYSTEM" }
+        { key: 'DICCIONARI', icon: <BookOpen size={20} />, label: "Diccionari", avatar: "IAIA MarIA", type: "SYSTEM" },
+        { key: 'REBOST', icon: <Store size={20} />, label: "El Rebost", avatar: "IAIA MarIA", type: "SYSTEM" },
+        { key: 'TRELLAT', icon: <Landmark size={20} />, label: "Jutjat", avatar: "IAIA MarIA", type: "SYSTEM" },
+        { key: 'ULL_IAIA', icon: <Camera size={20} />, label: "L'Ull", avatar: "IAIA MarIA", type: "SYSTEM" }
     ];
 
+    const handleImageSelect = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        if (file.size > 4 * 1024 * 1024) {
+            setError("La foto és massa pesada, fill! Més de 4MB no puc carregar-la.");
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            setSelectedImage({
+                file,
+                preview: URL.createObjectURL(file),
+                base64: reader.result.split(',')[1],
+                mimeType: file.type
+            });
+            hapticService.batec();
+        };
+        reader.readAsDataURL(file);
+    };
+
+    const removeImage = () => {
+        setSelectedImage(null);
+        if (fileInputRef.current) fileInputRef.current.value = '';
+    };
+
     const handleConsult = async () => {
-        if (!query.trim()) return;
+        if (!query.trim() && !selectedImage) return;
 
         setLoading(true);
         setError(null);
         hapticService.batec(); // Feedback inicial
 
         try {
-            const result = await geminiService.ask(selectedPersona, query);
+            const imageData = selectedImage ? { mimeType: selectedImage.mimeType, data: selectedImage.base64 } : null;
+            const result = await geminiService.ask(selectedPersona, query, imageData);
 
             if (result.error) {
                 setError(result.message);
@@ -68,8 +103,9 @@ const RuralIntelligence = ({ defaultMode = 'faena' }) => {
                     timestamp: new Date().toLocaleTimeString()
                 };
                 setHistory(prev => [newBatec, ...prev]);
-                setQuery(''); // Netegem per a la següent consulta
-                hapticService.notifyAIReady(); // Batec llarg d'èxit
+                setQuery(''); 
+                setSelectedImage(null);
+                hapticService.notifyAIReady(); 
             }
         } catch (error) {
             console.error("AI Consult Error:", error);
@@ -138,20 +174,42 @@ const RuralIntelligence = ({ defaultMode = 'faena' }) => {
                     onChange={(e) => setQuery(e.target.value)}
                     rows={4}
                 />
-                <button
-                    className={`consult-btn ${loading ? 'loading' : ''}`}
-                    onClick={handleConsult}
-                    disabled={loading || !query.trim()}
-                >
-                    {loading ? (
-                        <span className="status-pulse">Consultant...</span>
-                    ) : (
-                        <>
-                            <span>Consultar</span>
-                            <Send size={18} />
-                        </>
-                    )}
-                </button>
+                
+                {selectedImage && (
+                    <div className="image-preview-bubble">
+                        <img src={selectedImage.preview} alt="Preview" />
+                        <button className="remove-img-btn" onClick={removeImage}>
+                            <X size={14} />
+                        </button>
+                    </div>
+                )}
+
+                <div className="query-actions">
+                    <input 
+                        type="file" 
+                        accept="image/*" 
+                        style={{ display: 'none' }} 
+                        ref={fileInputRef} 
+                        onChange={handleImageSelect}
+                    />
+                    <button className="camera-btn-ia" onClick={() => fileInputRef.current?.click()}>
+                        <Camera size={20} />
+                    </button>
+                    <button
+                        className={`consult-btn ${loading ? 'loading' : ''}`}
+                        onClick={handleConsult}
+                        disabled={loading || (!query.trim() && !selectedImage)}
+                    >
+                        {loading ? (
+                            <span className="status-pulse">Consultant...</span>
+                        ) : (
+                            <>
+                                <span>Consultar</span>
+                                <Send size={18} />
+                            </>
+                        )}
+                    </button>
+                </div>
             </div>
 
             {error && (

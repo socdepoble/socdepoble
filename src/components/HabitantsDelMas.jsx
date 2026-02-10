@@ -14,6 +14,7 @@ const HabitantsDelMas = () => {
     const habitants = [
         {
             id: 'agronom',
+            uuid: '11111111-1111-4111-a111-000000000001',
             icon: <Tractor size={32} />,
             label: "L'Agrònom",
             avatar: "Vicent Ferris",
@@ -25,6 +26,7 @@ const HabitantsDelMas = () => {
         },
         {
             id: 'cuinera',
+            uuid: '11111111-1111-4111-a111-000000000002',
             icon: <ChefHat size={32} />,
             label: "La Cuinera",
             avatar: "Pepica",
@@ -36,6 +38,7 @@ const HabitantsDelMas = () => {
         },
         {
             id: 'capatas',
+            uuid: '11111111-1111-4111-a111-000000000003',
             icon: <ClipboardList size={32} />,
             label: "El Capatàs",
             avatar: "Andreu",
@@ -47,6 +50,7 @@ const HabitantsDelMas = () => {
         },
         {
             id: 'arxiver',
+            uuid: '11111111-1111-4111-a111-000000000004',
             icon: <FileSearch size={32} />,
             label: "L'Arxiver",
             avatar: "Joan",
@@ -58,6 +62,7 @@ const HabitantsDelMas = () => {
         },
         {
             id: 'ratoli',
+            uuid: '11111111-0000-0000-0000-000000000001',
             icon: <Info size={32} />,
             label: "Super Ratolí",
             avatar: "Super Ratolí (IAIA's Hero)",
@@ -69,6 +74,7 @@ const HabitantsDelMas = () => {
         },
         {
             id: 'sultan',
+            uuid: '11111111-0000-0000-0000-000000000002',
             icon: <ShieldCheck size={32} />,
             label: "Sultan",
             avatar: "Sultan (Gos d'Atura)",
@@ -80,17 +86,19 @@ const HabitantsDelMas = () => {
         },
         {
             id: 'mixa',
+            uuid: '11111111-0000-0000-0000-000000000003',
             icon: <Share2 size={32} />,
             label: "La Mixa",
             avatar: "Mixa (Gata)",
             type: "ANIMAL",
             onomatopoeia: "¡MIAAAA!",
-            bio: "De teulada en teulada, la Mixa porta els missatges esquivant la censura. Salta per la xarxa P2P amb una elegància invisible.",
+            bio: "De teulada en teulada, la Mixa porta els missatges esquivant la censura. Salta per la xarxa P2P with una elegància invisible.",
             rol: "Sincronització P2P i xarxa Rhizome.",
             personalitat: "Independent, àgil i curiosa."
         },
         {
             id: 'gall',
+            uuid: '11111111-0000-0000-0000-000000000004',
             icon: <BellRing size={32} />,
             label: "El Gall",
             avatar: "El Gall de la Torre",
@@ -102,6 +110,7 @@ const HabitantsDelMas = () => {
         },
         {
             id: 'nanobanana',
+            uuid: '11111111-1a1a-0000-0000-000000000005',
             icon: <Palette size={32} />,
             label: "Nano Banana",
             avatar: "L'Artista",
@@ -113,17 +122,19 @@ const HabitantsDelMas = () => {
         },
         {
             id: 'flash',
+            uuid: '11111111-0000-0000-0000-000000000005',
             icon: <Zap size={32} />,
             label: "Flash",
             avatar: "L'Executor",
             type: "SYSTEM",
             onomatopoeia: "¡ZAAAAAP!",
             bio: "Si parpelleges, t'ho has perdut. Flash executa qualsevol ordre a la velocitat del raig digital.",
-            rol: "Orquestrador de processos i velocitat extrema (<0.2s).",
+            rol: "Orquestrador de pròcessos i velocitat extrema (<0.2s).",
             personalitat: "Directe, eficient i hiper-actiu."
         },
         {
             id: 'viatjant',
+            uuid: '11111111-0000-0000-0000-000000000006',
             icon: <Globe size={32} />,
             label: "El Viatjant",
             avatar: "El Tio de la Bota",
@@ -133,6 +144,7 @@ const HabitantsDelMas = () => {
             rol: "Ambaixador i connexió de nodes exteriors.",
             personalitat: "Curiós, charlatán i gran coneixedor de la terra."
         }
+
     ];
 
     return (
@@ -157,7 +169,10 @@ const HabitantsDelMas = () => {
 
             <div className="habitants-grid">
                 {habitants.map(h => (
-                    <div key={h.id} className="habitant-card" onClick={() => hapticService.batec()}>
+                    <div key={h.id} className="habitant-card" onClick={() => {
+                        hapticService.batec();
+                        navigate(`/perfil/${h.uuid}`);
+                    }}>
                         <div className="card-top">
                             <span className="onomatopoeia-bg">{h.onomatopoeia}</span>
                             <div className="card-icon">{h.icon}</div>
@@ -176,8 +191,17 @@ const HabitantsDelMas = () => {
                             <div className="footer-item">
                                 <strong>Rol:</strong> <span>{h.rol}</span>
                             </div>
-                            <div className="footer-item">
-                                <strong>Personalitat:</strong> <span>{h.personalitat}</span>
+                            <div className="footer-actions">
+                                <button
+                                    className="chat-btn-habitant"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        hapticService.notifyAIReady();
+                                        navigate(`/chats`); // O directament a la conversa virtual si sabem l'ID
+                                    }}
+                                >
+                                    <Sparkles size={16} /> Parlem-ne
+                                </button>
                             </div>
                         </div>
                     </div>

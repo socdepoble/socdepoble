@@ -1,11 +1,20 @@
-/* Google-Style Shell Layout */
-.layout-shell {
-    display: flex;
+.layout-iron {
+    display: flex !important;
+    flex-direction: row !important;
     width: 100vw;
     height: 100vh;
-    overflow: hidden;
-    background-color: var(--md-sys-color-surface);
+    background-color: #000000;
 }
+
+aside {
+    min-width: 280px !important;
+    width: 280px !important;
+}
+
+.layout-main-scroll {
+    background-color: #000000 !important;
+}
+
 
 .layout-main-scroll {
     flex: 1;

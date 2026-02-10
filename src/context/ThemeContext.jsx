@@ -24,8 +24,14 @@ export const ThemeProvider = ({ children }) => {
     useEffect(() => {
         // Aplicar la classe al body per a les variables CSS
         const root = window.document.documentElement;
-        root.classList.remove('theme-light', 'theme-dark', 'theme-solemne');
+        root.classList.remove('light', 'dark', 'solemne', 'theme-light', 'theme-dark', 'theme-solemne');
+        
+        // Apliquem la classe nua per a compatibilitat amb Tailwind/CSS Master
+        root.classList.add(theme);
+        
+        // També mantenim la prefixada per compatibilitat amb components antics
         root.classList.add(`theme-${theme}`);
+        
         localStorage.setItem('nexus_theme', theme);
     }, [theme]);
 

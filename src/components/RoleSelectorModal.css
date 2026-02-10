@@ -14,18 +14,118 @@
 }
 
 .role-modal-content.command-center {
-    background: var(--bg-card);
+    background: #1A1B23; /* Fons fosc profund v8.0 */
     width: 100%;
-    max-width: 580px;
-    height: 90vh;
+    max-width: 620px;
+    height: 92vh;
     display: flex;
     flex-direction: column;
-    border-radius: var(--radius-3xl);
-    border: var(--border-master);
-    box-shadow: var(--shadow-deep);
+    border-radius: 32px; /* rounded-card v8.0 */
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
     position: relative;
     overflow: hidden;
     animation: zoomInV6 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+/* CABÇALERA v8.0 */
+.v8-header {
+    background: #000;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.v8-modal-logo {
+    height: 32px;
+    filter: brightness(1.2);
+}
+
+.v8-header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.theme-toggle-v8 {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 100px;
+    padding: 6px 12px;
+    display: flex;
+    gap: 8px;
+    cursor: pointer;
+    color: #fff;
+}
+
+.sun-icon { color: #FF9800; display: none; }
+.moon-icon { color: #5D5FEF; }
+
+body.light-mode .sun-icon { display: block; }
+body.light-mode .moon-icon { display: none; }
+
+.role-modal-close-v8 {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* SMART SEARCH v8.0 */
+.magic-search-container {
+    padding: 24px 16px 8px;
+}
+
+.magic-search-wrapper {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    transition: all 0.3s;
+}
+
+.magic-search-wrapper:focus-within {
+    border-color: #d946ef;
+    background: rgba(217, 70, 239, 0.05);
+    box-shadow: 0 0 20px rgba(217, 70, 239, 0.15);
+}
+
+.magic-search-icon {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.magic-search-input {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 500;
+    width: 100%;
+    outline: none;
+}
+
+.magic-search-input::placeholder {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.magic-sparkle {
+    font-size: 1.2rem;
+    animation: sparkleSpin 3s infinite linear;
+}
+
+@keyframes sparkleSpin {
+    0% { transform: scale(1) rotate(0deg); opacity: 0.8; }
+    50% { transform: scale(1.2) rotate(180deg); opacity: 1; }
+    100% { transform: scale(1) rotate(360deg); opacity: 0.8; }
 }
 
 .iaia-contextual-greeting {

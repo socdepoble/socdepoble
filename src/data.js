@@ -119,34 +119,12 @@ export const NANO_BANANA_LEGACY_ALBUM = [
 ];
 
 export const MOCK_CHATS = [
-    { id: 1, name: "Ajuntament de Cocentaina", message: "Bon dia! Recordeu que hui hi ha mercat al Pla", time: "10:30", type: "gov", unread: 2, avatar_url: "/assets/brain/c7c302c1-d324-4124-b24a-1d7279636125/ajuntament_cocentaina_icon_1770151889268.png", tags: ["#Cocentaina", "#Oficial"] },
-    { id: 2, name: "Forn de Muro", message: "Ja tenim les coques de xulla calentes!", time: "09:15", type: "shop", unread: 0, avatar_url: "/assets/brain/c7c302c1-d324-4124-b24a-1d7279636125/forn_muro_icon_1770151906738.png", tags: ["#Muro", "#Salut"] },
-    { id: 3, name: "Centre Excursionista d'Alcoi", message: "Què vos pareix pujar al Montcabrer el diumenge?", time: "Ahir", type: "group", unread: 5, avatar_url: "🏔️", tags: ["#Alcoi", "#Esport"] },
-    { id: 4, name: "Cooperativa de Muro", message: "Iniciem la recollida de l'oliva demà", time: "Ahir", type: "coop", unread: 0, avatar_url: "/assets/brain/c7c302c1-d324-4124-b24a-1d7279636125/cooperativa_muro_icon_1770151923117.png", tags: ["#Muro", "#Horta"] },
-    { id: 5, name: "Vicent (Fuster del Barri)", message: "Et passe ara mateix la foto del moble", time: "Dimarts", type: "shop", unread: 0, avatar_url: "/assets/brain/c7c302c1-d324-4124-b24a-1d7279636125/vicent_ferris_comic_avatar_1770151824722.png", tags: ["#Artesania", "#Còmic"] },
-    {
-        id: 'rentonar',
-        name: "Associació Cultural El Rentonar",
-        message: "Junta Directiva: Revisió de comptes trimestrals aprovada. ✅",
-        time: "Ara",
-        type: "group",
-        unread: 1,
-        avatar_url: "/images/demo/rentonar_logo.png",
-        verified: true,
-        cif: "G-54321987",
-        user_role: "Tresorer i Membre Fundador"
-    },
-    {
-        id: 'grup-treball',
-        name: "Grup de Coordinació [BETA]",
-        message: "IAIA MarIA: Bona nit i salut a tota la bona gent! 👵✨",
-        time: "Ara",
-        type: "group",
-        unread: 3,
-        avatar_url: "/assets/avatars/iaia_official.png",
-        verified: true,
-        user_role: "Grup de Treball i Utilitat Social"
-    },
+    { id: 'andreu-soler', name: "Andreu Soler", message: "Hola! Vols que parlem?", time: "3:35 p. m.", type: "iaia", unread: 0, avatar_url: "/assets/brain/c7c302c1-d324-4124-b24a-1d7279636125/vicent_ferris_comic_avatar_1770151824722.png", is_iaia: true },
+    { id: 'beatriz-ortega', name: "Beatriz Ortega", message: "Hola! Vols que parlem?", time: "12:19 p. m.", type: "iaia", unread: 0, avatar_url: "👩🏽", is_iaia: true },
+    { id: 'carla-soriano', name: "Carla Soriano", message: "Hola! Vols que parlem?", time: "6:13 p. m.", type: "iaia", unread: 0, avatar_url: "🌸", is_iaia: true },
+    { id: 'carmen-forn', name: "Carmen la del Forn", message: "Hola! Vols que parlem?", time: "2:16 p. m.", type: "iaia", unread: 0, avatar_url: "👵🏼", is_iaia: true },
+    { id: 'el-gall', name: "El Gall", message: "Hola! Vols que parlem?", time: "9:48 p. m.", type: "iaia", unread: 0, avatar_url: "/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/sultan_gos_atura_1770056772852.png", is_iaia: true },
+    { id: 'iaia-oficial', name: "IAIA MariA", message: "Aquí tens el menú ben fixat, fill meu.", time: "Ara", type: "iaia", unread: 3, avatar_url: "/assets/avatars/iaia_official.png", is_iaia: true, verified: true },
 ];
 
 export const MOCK_MESSAGES = {
@@ -544,21 +522,74 @@ export const MOCK_FEED = [
         },
         created_at: new Date(Date.now() - 86400000).toISOString()
     },
-    // La Torre de les Maçanes
     {
         id: 10,
-        town_id: 1, // Visible arreu
+        town_id: 1,
         author: "Ajuntament de la Torre de les Maçanes",
         author_avatar: "/assets/brain/c7c302c1-d324-4124-b24a-1d7279636125/ajuntament_cocentaina_icon_1770151889268.png",
         author_role: "official",
+        type: "ajuntament", // JOIA 5: AJUNTAMENT
         author_entity_id: 'mock-official-1',
         time: "1d",
-        content: "🍎 Recordeu que aquest cap de setmana tenim la collita de la poma local. Passeu per la plaça a tastar-les!",
+        title: "Collita de la Poma Local 🍎",
+        content: "Recordeu que aquest cap de setmana tenim la collita de la poma local. Passeu per la plaça a tastar-les i a donar suport als nostres productors!",
         likes: 42,
         comments: 5,
-        image: "/assets/brain/c7c302c1-d324-4124-b24a-1d7279636125/market_comic_post_1770151956401.png",
-        tags: ["#Horta", "#Poma", "#SantGregori"],
+        image_url: ["/assets/brain/c7c302c1-d324-4124-b24a-1d7279636125/market_comic_post_1770151956401.png"],
+        tags: ["#Horta", "#Poma", "#Oficial"],
         created_at: new Date(Date.now() - 86400000).toISOString()
+    },
+    {
+        id: 'joia-mercat-1',
+        town_id: 1,
+        author: "Rosa (Mel de la Torre)",
+        author_avatar: "/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/pepica_cuinera_1770056555739.png",
+        author_role: "business",
+        type: "mercat", // JOIA 2: MERCAT
+        title: "Mel de Mil Flors (Artesana)",
+        price: "8.50€",
+        content: "Mel pura collida aquesta setmana. Sense additius, directament del rusc al pot. Salut pura!",
+        image_url: ["https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&q=80&w=1000"],
+        tags: ["#ProducteLocal", "#Mel", "#KM0"],
+        created_at: new Date(Date.now() - 43200000).toISOString()
+    },
+    {
+        id: 'joia-pobles-1',
+        town_id: 1,
+        author: "Comunitat de la Torre",
+        author_avatar: "/assets/master/logo_socdepoble_green_square.png",
+        type: "pobles", // JOIA 4: POBLES
+        title: "Gent de la Torre de les Maçanes",
+        subtitle: "La Torre de les Maçanes",
+        content: "Descobreix la vibrant comunitat de la Torre. Històries, veïns i el bategat del nostre poble.",
+        image_url: ["https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=1000"],
+        tags: ["#Comunitat", "#LaTorre", "#Veïns"],
+        created_at: new Date(Date.now() - 172800000).toISOString()
+    },
+    {
+        id: 'joia-agenda-1',
+        town_id: 1,
+        author: "Associació Cultural Sant Gregori",
+        author_avatar: "🎭",
+        type: "agenda", // JOIA 3: AGENDA
+        title: "Teatre al Carrer: 'El Bategat'",
+        date: "15/02/2026",
+        content: "Una representació única sobre la història del nostre poble. No te la perdes!",
+        image_url: ["https://images.unsplash.com/photo-1503095396549-807039045349?auto=format&fit=crop&q=80&w=1000"],
+        tags: ["#Cultura", "#Teatre", "#Festa"],
+        created_at: new Date(Date.now() - 259200000).toISOString()
+    },
+    {
+        id: 'joia-mapa-1',
+        town_id: 1,
+        author: "Senderistes de Mariola",
+        author_avatar: "🥾",
+        type: "mapa", // JOIA 6: MAPA/RUTES
+        title: "Ruta dels Pous de Neu",
+        content: "Una caminada suau per a tota la família descobrint la història del gel a la nostra serra.",
+        image_url: ["https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=1000"],
+        tags: ["#Ruta", "#Natura", "#Senderisme"],
+        created_at: new Date(Date.now() - 345600000).toISOString()
     },
     {
         id: 11,
@@ -775,11 +806,10 @@ export const MOCK_EVENTS = [
         end_time: "12:00",
         location: "Casa Tòfol (Carrer de les Figueretes)",
         category: "Festes",
-        tags: ["Fotos", "Cultura", "Sant Gregori"],
+        tags: ["#Fotos", "#SantGregori", "#Memòria", "Fotos", "Cultura", "Sant Gregori"],
         author: "Pau Torregrossa Coloma",
         author_avatar: "📸",
         image_url: ["/Users/javillinares/.gemini/antigravity/brain/c7c302c1-d324-4124-b24a-1d7279636125/rural_landscape_comic_post_1770151940141.png"],
-        tags: ["#Fotos", "#SantGregori", "#Memòria"],
         coordinates: { lat: 38.58, lng: -0.42 }
     },
     {

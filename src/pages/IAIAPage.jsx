@@ -5,7 +5,7 @@ import {
     ArrowLeft, BookOpen, Sprout, Users, MessageCircle, Heart, Sparkles, User, 
     Clock, BellRing, Shield, Mic, Newspaper, Activity, Archive, Calendar, 
     Terminal, Settings, Layout, Image as ImageIcon, Store, Landmark, Zap, 
-    UserPlus, UserMinus, Loader2, Smile, Star
+    UserPlus, UserMinus, Loader2, Smile, Star, Camera
 } from 'lucide-react';
 import { useUI } from '../context/UIContext';
 import SEO from '../components/SEO';
@@ -56,19 +56,21 @@ const IAIAPage = () => {
         setIsConnecting(false);
     };
 
-    // Poders de l'IAIA (Habilitats)
+    // ELS 12 INSTRUMENTS DE LA IAIA MarIA (AUDITORIA v8.0 - FINAL)
     const powers = [
+        { id: 'conversa', icon: <MessageCircle />, title: 'La Conversa', desc: 'Parla amb l\'IAIA sobre qualsevol cosa.', route: '/ia' },
+        { id: 'assistent', icon: <User />, title: 'L\'Assistent', desc: 'Gestiona la teua memòria i tasques.', route: '/ia?mode=assistent' },
+        { id: 'adventure', icon: <Sparkles />, title: 'Aventura RPG', desc: 'Viu una història interactiva al poble.', route: '/ia?mode=adventure' },
+        { id: 'dades', icon: <Activity />, title: 'Dades Reals', desc: 'Consulta informació oficial del territori.', route: '/ia?mode=data' },
         { id: 'oracle', icon: <Sparkles />, title: 'L\'Oracle de l\'Olla', desc: 'Sabiesa instantània sense paraules.', route: '/tools/oracle' },
         { id: 'diccionari', icon: <BookOpen />, title: 'Diccionari Rural', desc: 'Tecnologia explicada amb garrofes.', route: '/tools/diccionari' },
-        { id: 'traductor', icon: <MessageCircle />, title: 'Traductor Rural', desc: 'Valencianitzador de textos amb caràcter.', route: '/tools/traductor' },
-        { id: 'remeis', icon: <Heart />, title: 'Remeis de l\'Àvia', desc: 'Saviesa popular per a la salut natural.', route: '/tools/remeis' },
-        { id: 'rebost', icon: <Store />, title: 'El Rebost', desc: 'Cuina d\'aprofitament i receptes del poble.', route: '/tools/recipe' },
-        { id: 'trellat', icon: <Landmark />, title: 'Jutjat de Trellat', desc: 'Veredicte de sentit comú sobre idees.', route: '/tools/trellat' },
-        { id: 'camp', icon: <Sprout />, title: 'El Savi del Camp', desc: 'Consells agrícoles i meteorologia rural.', route: '/aula-rural' },
-        { id: 'pregoner', icon: <Mic />, title: 'El Pregoner', desc: 'Generador de bands i avisos oficials.', route: '/tools/pregoner' },
-        { id: 'malnoms', icon: <Smile />, title: 'Els Malnoms', desc: 'Generador d\'apodes amb força de poble.', route: '/tools/nicknames' },
-        { id: 'rondalles', icon: <Archive />, title: 'La Rondallaire', desc: 'Relats, llegendes i memòria viva.', route: '/arxiu' },
-        { id: 'ia_dashboard', icon: <Zap />, title: 'Intel·ligència Rural', desc: 'Panell de control i històric d\'IA.', route: '/ia' }
+        { id: 'la_fresca', icon: <Users />, title: 'La Fresca', desc: 'Xafardeja i opina sobre l\'actualitat.', route: '/ia?mode=fresca' },
+        { id: 'glosadora', icon: <Mic />, title: 'La Glosadora', desc: 'Poesia i versos al ritme del poble.', route: '/tools/nicknames' },
+        { id: 'meteo', icon: <Sprout />, title: 'Meteo Rural', desc: 'Previsió del temps pel savi del camp.', route: '/tools/camp' },
+        { id: 'arxiu_secret', icon: <Archive />, title: 'Arxiu Secret', desc: 'Llegendes i secrets guardats a l\'alcova.', route: '/arxiu' },
+        { id: 'rebost', icon: <Store />, title: 'El Rebost', desc: 'Cuina d\'aprofitament i receptes bategades.', route: '/tools/recipe' },
+        { id: 'trellat', icon: <Landmark />, title: 'Jutjat de Trellat', desc: 'Veredicte de sentit comú sobre les teues idees.', route: '/tools/trellat' },
+        { id: 'ull_iaia', icon: <Camera />, title: 'L\'Ull de la IAIA', desc: 'Anàlisi visual bategada per l\'IAIA.', route: '/ia?mode=vision' }
     ];
 
     // Equip d'Agents (DiceBear Comic style)
@@ -261,7 +263,7 @@ const IAIAPage = () => {
                 </section>
 
                 <footer className="iaia-profile-footer">
-                    <p>Sóc de Poble v1.16.8-ALZINA-FULL</p>
+                    <p>Sóc de Poble v1.18.0-V27-IAIA-VISION</p>
                     <span>L'IAIA MarIA és un agent de somni bategant en col·laboració amb el Mestre Javi.</span>
                 </footer>
 

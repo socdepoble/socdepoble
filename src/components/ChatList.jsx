@@ -30,7 +30,7 @@ const getParticipantInfo = (chat, currentId, t) => {
         type: otherType,
         avatar: otherInfo?.avatar_url,
         role: otherRole,
-        isAI: isOtherAI || otherRole === 'ambassador' || String(otherId || '').startsWith('11111111-1111-4111-a111-')
+        isAI: isOtherAI || otherRole === 'ambassador' || String(otherId || '').startsWith('11111111-')
     };
 };
 
@@ -89,9 +89,9 @@ const ChatList = () => {
                 const personaMap = {};
                 allPersonas.forEach(p => { personaMap[p.id] = p; });
 
-                // Filter personas that are ambassadors (AI IAIAs)
+                // Filter personas that are ambassadors or any IAIA identity
                 const ambassadors = allPersonas.filter(p =>
-                    String(p.id || '').startsWith('11111111-1111-4111-a111-') || p.role === 'ambassador'
+                    String(p.id || '').startsWith('11111111-') || p.role === 'ambassador'
                 );
 
                 // Create a map of existing participant IDs to avoid duplicates
@@ -123,6 +123,7 @@ const ChatList = () => {
 
                 // Merge and filter based on category and playground rules
                 let allMerged = [...dbConvs, ...virtualConvs];
+                logger.log('[ChatList] Merged:', allMerged.length, '(DB:', dbConvs.length, 'Virtual:', virtualConvs.length, ')');
 
                 // Attach persona data to DB conversations for better filtering
                 allMerged = allMerged.map(c => {
@@ -147,32 +148,34 @@ const ChatList = () => {
 
                 const filtered = allMerged.filter(c => {
                     const other = getParticipantInfo(c, currentId, t);
+                    const fictive = isFictiveProfile(other);
+
+                    // Debug Log for IAIA
+                    if (String(other.id).startsWith('11111111-')) {
+                        console.log(`[ChatList] Agent ${other.name} (${other.id}): fictive=${fictive}, isAI=${other.isAI}, visionMode=${visionMode}`);
+                    }
 
                     // 0. Vision Mode Filter (Hide AI/Lore chars in human mode)
                     if (visionMode === 'humana') {
-                        // Check if other is AI or a Lore character (ID prefix)
                         const isAI = other.isAI || (other.id && String(other.id).startsWith('11111111-'));
-                        // EXCEPCIÓ ALZINA: No amaguem xats existents de la IAIA (Restauració)
-                        if (isAI) return true;
-                        if (!c.is_iaia && !c.last_message_content) return false;
+                        if (isAI) return false; // En mode humà, no volem agents IAIA virtuals ni existents (esperant veïns reals)
                     }
 
                     // 1. Production Security Filter
                     if (inProduction) {
                         const otherInfo = c.participant_1_id === currentId ? c.p2_info : c.p1_info;
                         const otherType = c.participant_1_id === currentId ? c.participant_2_type : c.participant_1_type;
+                        const isHuman = otherType === 'user' || otherType === 'person' || otherInfo?.type === 'person';
 
-                        const fictive = isFictiveProfile(otherInfo);
-                        const isHuman = otherType === 'user' || otherType === 'person' || otherInfo.type === 'person';
-
-                        // Allow AI/Fictive if Hybrid Mode is active
-                        const isAllowedAI = visionMode === 'hibrida' && (other.isAI || other.role === 'ambassador');
+                        // Allow AI/Ambassadors in Production if they are part of the core IAIA lore
+                        const isOfficialAgent = other.isAI || other.role === 'ambassador' || String(other.id || '').startsWith('11111111-');
+                        const isAllowedAI = (visionMode === 'hibrida' || isOfficialAgent);
 
                         if (fictive && !isHuman && !isAllowedAI) return false;
                     }
                     // 1b. Playground specific NPC filtering
                     else if (isPlayground || profile?.is_demo) {
-                        const isLore = String(other.id || '').startsWith('11111111-1111-4111-a111-');
+                        const isLore = String(other.id || '').startsWith('11111111-');
                         if (!other.isAI && !isLore) return false;
                     }
 
@@ -188,6 +191,13 @@ const ChatList = () => {
                 });
 
                 const mergedSorted = filtered.sort((a, b) => {
+                    // Prioritize IAIA characters (is_iaia or ambassador)
+                    const isA_IAIA = a.is_iaia || a.p2_role === 'ambassador' || String(a.participant_2_id || '').startsWith('11111111-');
+                    const isB_IAIA = b.is_iaia || b.p2_role === 'ambassador' || String(b.participant_2_id || '').startsWith('11111111-');
+                    
+                    if (isA_IAIA && !isB_IAIA) return -1;
+                    if (!isA_IAIA && isB_IAIA) return 1;
+                    
                     return new Date(b.last_message_at) - new Date(a.last_message_at);
                 });
 
@@ -333,7 +343,9 @@ const ChatList = () => {
                 {!Array.isArray(chats) || chats.length === 0 ? (
                     <StatusLoader
                         type="empty"
-                        message={selectedTown ? t('chats.empty_town', `No hi ha xats en ${selectedTown.name}`) : t('chats.empty')}
+                        message={visionMode === 'humana' 
+                            ? "Esperant humans... 👤🏘️" 
+                            : (selectedTown ? t('chats.empty_town', `No hi ha xats en ${selectedTown.name}`) : t('chats.empty'))}
                     />
                 ) : (
                     chats.map(chat => {
@@ -344,7 +356,7 @@ const ChatList = () => {
                             String(otherParticipant.id || '').startsWith('11111111-1111-4111-a111-');
 
                         return (
-                            <div key={chat.id} className="chat-item" onClick={() => handleChatClick(chat)}>
+                            <div key={chat.id} className={`chat-item ${chat.id === 'carla-soriano' ? 'active' : ''}`} onClick={() => handleChatClick(chat)}>
                                 <Avatar
                                     src={otherParticipant.avatar}
                                     role={otherParticipant.type === 'entity' ? 'oficial' : (otherParticipant.role || 'user')}
@@ -355,7 +367,17 @@ const ChatList = () => {
                                     <div className="chat-header">
                                         <div className="chat-name-row">
                                             <span className="chat-name">{otherParticipant.name}</span>
-                                            {isIAIA && <span className="identity-badge ai" title="Informació i Acció Artificial" style={{ marginLeft: '8px', fontSize: '9px' }}>IAIA</span>}
+                                            {isIAIA && <span className="identity-badge ai" title="Informació i Acció Artificial" style={{ 
+                                                marginLeft: '8px', 
+                                                fontSize: '9px',
+                                                background: 'rgba(39, 39, 42, 0.5)',
+                                                border: '1px solid rgba(255,255,255,0.1)',
+                                                color: 'white',
+                                                padding: '2px 6px',
+                                                borderRadius: '4px',
+                                                fontWeight: '900',
+                                                letterSpacing: '1px'
+                                            }}>IAIA</span>}
                                         </div>
                                         <span className="chat-time">
                                             {chat.last_message_at !== new Date(0).toISOString()

@@ -298,30 +298,25 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null, contentMo
             filtered = rhizomeManager.cognitiveFilter(filtered, userPrefs);
         }
 
-        // 4. Sorting logic OMNISCIENT (Pins first)
+        // 4. Sorting logic OMNISCIENT (Pins first, then Time) [PILLAR 3]
         return [...filtered].sort((a, b) => {
-            const aPinned = a.is_pinned || a.metadata?.is_pinned;
-            const bPinned = b.is_pinned || b.metadata?.is_pinned;
+            const aPinned = a.is_pinned || a.metadata?.is_pinned || (typeof a.pinned_position !== 'undefined' && a.pinned_position !== null);
+            const bPinned = b.is_pinned || b.metadata?.is_pinned || (typeof b.pinned_position !== 'undefined' && b.pinned_position !== null);
+            
             if (aPinned && !bPinned) return -1;
             if (!aPinned && bPinned) return 1;
-            return 0; // Maintain original time order for the rest
+            
+            // Monetization tie-breaker: if both are pinned, use pinned_position
+            if (aPinned && bPinned) {
+                const posA = a.pinned_position || a.metadata?.pinned_position || Infinity;
+                const posB = b.pinned_position || b.metadata?.pinned_position || Infinity;
+                if (posA !== posB) return posA - posB;
+            }
+
+            // Strict inverse chronological order for the rest
+            return new Date(b.created_at || b.date || 0) - new Date(a.created_at || a.date || 0);
         });
-
-        // 5. EVENT INTERLEAVING (Agenda Viva) [VOS]
-        // Inyectamos eventos en posiciones estratégicas
-        if (contentMode === 'batec' && !selectedTag) {
-            const resultWithEvents = [...sorted];
-            MOCK_EVENTS.forEach((event, idx) => {
-                const position = (idx + 1) * 3; // Cada 3 posts
-                if (position < resultWithEvents.length) {
-                    resultWithEvents.splice(position, 0, { ...event, is_event_interleaved: true });
-                }
-            });
-            return resultWithEvents;
-        }
-
-        return sorted;
-    }, [posts, visionMode, selectedTag, isIAIAFiltering, townId, userConnections, isSuperAdmin, contentMode]);
+    }, [posts, visionMode, selectedTag, isIAIAFiltering, activeTown, userConnections, isSuperAdmin, contentMode]);
 
     const handleHeaderClick = useCallback((post) => {
         const targetId = post.author_entity_id || post.author_user_id || post.author_id;

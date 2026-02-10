@@ -127,15 +127,11 @@ const PublicProfile = () => {
         const targetId = item.author_entity_id || item.author_user_id || item.author_id || id;
         const type = item.author_entity_id ? 'entitat' : 'perfil';
 
+
         if (item.seller?.toLowerCase().includes('sóc de poble') ||
             targetId === 'sdp-core' ||
             targetId === 'sdp-oficial-1') {
             navigate('/entitat/sdp-oficial-1');
-            return;
-        }
-
-        if (item.author_role === 'ambassador' || item.author_is_ai || profile.role === 'ambassador') {
-            navigate('/iaia');
             return;
         }
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
-import { X, Check, Eye, EyeOff, Hash, Layers, Settings2, Sparkles, Loader2 } from 'lucide-react';
+import { X, Check, Eye, EyeOff, Hash, Layers, Settings2, Sparkles, Loader2, RotateCcw } from 'lucide-react';
 import { useSocial } from '../context/SocialContext';
 import { useUI } from '../context/UIContext';
 import { supabaseService } from '../services/supabaseService';
@@ -11,7 +11,7 @@ import './SocialManager.css';
 const SocialManager = ({ isOpen, onClose }) => {
     const { t } = useTranslation();
     const { user } = useAuth();
-    const { activeCategories, toggleCategory, followedTags, savePreferences } = useSocial();
+    const { activeCategories, toggleCategory, followedTags, savePreferences, resetToDefaults } = useSocial();
     const { socialManagerContext } = useUI();
     const [privateTags, setPrivateTags] = useState([]);
     const [isSaving, setIsSaving] = useState(false);
@@ -140,6 +140,17 @@ const SocialManager = ({ isOpen, onClose }) => {
                 </div>
 
                 <footer className="sm-footer">
+                    <button 
+                        className="sm-reset-btn" 
+                        onClick={() => {
+                            if (window.confirm(t('social.confirm_reset', 'Vols restaurar la configuració per defecte?'))) {
+                                resetToDefaults();
+                            }
+                        }}
+                    >
+                        <RotateCcw size={16} />
+                        {t('social.restore_defaults', 'Restaurar per defecte')}
+                    </button>
                     <button className="sm-done-btn" onClick={onClose}>
                         {t('common.done', 'FET')}
                     </button>

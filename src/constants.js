@@ -2,7 +2,7 @@
  * Constants globals per a l'aplicació Sóc de Poble
  */
 
-export const APP_VERSION = 'v1.16.8-ALZINA-FULL';
+export const APP_VERSION = "v1.18.0-V27-IAIA-VISION";
 export const CRITICAL_THRESHOLD = 'v1.6.0';
 
 export const DEMO_USER_ID = '11111111-0000-0000-0000-000000000001';

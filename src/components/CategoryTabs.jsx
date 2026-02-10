@@ -1,8 +1,8 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { logger } from '../utils/logger';
 import { useUI } from '../context/UIContext';
 import { useSocial } from '../context/SocialContext';
+import { Plus } from 'lucide-react';
 import './CategoryTabs.css';
 
 const CategoryTabs = ({ selectedRole, onSelectRole, exclude = [], tabs }) => {
@@ -44,21 +44,24 @@ const CategoryTabs = ({ selectedRole, onSelectRole, exclude = [], tabs }) => {
     }, []);
 
     return (
-        <div className="category-tabs">
-            {roles.map(role => (
-                <button
-                    key={role.id}
-                    className={`category-tab ${selectedRole === role.id ? 'active' : ''}`}
-                    onClick={() => onSelectRole(role.id)}
-                >
-                    {role.label}
-                </button>
-            ))}
+        <div className="category-tabs-master">
+            <div className="category-tabs-scroll">
+                {roles.map(role => (
+                    <button
+                        key={role.id}
+                        className={`category-tab ${selectedRole === role.id ? 'active' : ''}`}
+                        onClick={() => onSelectRole(role.id)}
+                    >
+                        {role.label}
+                    </button>
+                ))}
+            </div>
             <button
-                className="category-tab add-tab"
+                className="category-add-button"
                 onClick={() => setIsSocialManagerOpen(true)}
+                title={t('social.personalize_menu', 'Personalitzar Menú')}
             >
-                +
+                <Plus size={20} />
             </button>
         </div>
     );

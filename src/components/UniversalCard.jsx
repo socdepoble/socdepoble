@@ -115,6 +115,11 @@ const UniversalCard = ({
                     <div className="header-date">
                         {displayDate}
                     </div>
+                    {(item?.is_pinned || item?.metadata?.is_pinned) && (
+                        <div className="pinned-indicator" title="Fixat pel Mestre">
+                            <Zap size={16} fill="#00D2FF" color="#00D2FF" />
+                        </div>
+                    )}
                     {isMaster && (
                         <button
                             className="btn-master-rectify"

@@ -1,190 +1,144 @@
-.m3-top-app-bar.premium-master-bar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: var(--header-height);
-    background: var(--glass-bg);
-    backdrop-filter: blur(var(--blur-master));
-    border-bottom: var(--border-master);
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 16px;
-    transition: all 0.3s var(--ease-out);
-    box-shadow: var(--shadow-hard);
+.app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 112px;
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centrat de la fila mestre */
+  padding: 0 24px;
+  box-shadow: 0 4px 40px rgba(0, 0, 0, 0.6);
 }
 
-/* Dynamic shadows for Header Duality */
-.theme-light .m3-top-app-bar {
-    --shadow-header: none;
+.header-top-row {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.theme-dark .m3-top-app-bar {
-    --shadow-header: none;
+.header-nav-row {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.header-town-link {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    padding: 6px 14px;
-    border-radius: var(--radius-s);
-    /* 18px */
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--border-subtle);
+.header-master-nav {
+  display: flex;
+  gap: 32px;
+  align-items: center;
 }
 
-.header-town-link:hover {
-    background: rgba(255, 255, 255, 0.12);
-    transform: translateY(-1px);
-    border-color: rgba(255, 255, 255, 0.2);
+.header-master-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
 }
 
-.header-town-name {
-    font-size: 18px;
-    font-weight: 800;
-    color: var(--text-main) !important;
-    font-family: var(--font-brand);
-    letter-spacing: -0.01em;
-    white-space: nowrap;
+.header-master-link:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
 }
 
-.bar-leading {
-    display: flex;
-    align-items: center;
-}
-
-.desktop-hide {
-    display: none !important;
-}
-
-.mobile-only {
-    display: flex !important;
-}
-
-@media (min-width: 1025px) {
-    .desktop-hide {
-        display: none !important;
-    }
-    .mobile-only {
-        display: none !important;
-    }
-    .m3-top-app-bar {
-        padding-left: 280px; /* Aliniat amb la NavigationRail */
-    }
-}
-
-@media (max-width: 1024px) {
-    .desktop-hide {
-        display: flex !important;
-    }
-    .mobile-only {
-        display: flex !important;
-    }
-}
-
-.bar-logo {
-    height: 38px;
-    filter: none;
-    opacity: 1;
-}
-
-.header-logo-container {
-    height: 44px;
-    display: flex;
-    align-items: center;
-    padding: 0 10px;
-    background: rgba(255, 255, 255, 0.08);
-    border-radius: var(--radius-s);
-    /* 18px */
-    border: 1px solid var(--border-subtle);
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.header-logo-container:hover {
-    background: rgba(255, 255, 255, 0.15);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+.header-master-link.active {
+  color: #00D2FF;
+  background: rgba(0, 210, 255, 0.1);
 }
 
 .header-main-logo {
-    height: 28px;
-    width: auto;
-    object-fit: contain;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+  height: 32px;
+  width: auto;
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
 }
 
 .bar-trailing {
-    display: flex;
-    align-items: center;
-    gap: var(--sdp-space-sm);
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .bar-icon-btn {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-main);
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    position: relative;
-    transition: all 0.2s ease;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: all 0.2s ease;
 }
 
 .bar-icon-btn:hover {
-    background-color: var(--sdp-glass-border);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .bar-badge {
-    position: absolute;
-    top: 4px;
-    right: 4px;
-    background-color: var(--color-community);
-    color: #FFFFFF;
-    font-size: 10px;
-    font-weight: 800;
-    min-width: 18px;
-    height: 18px;
-    border-radius: 50% !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 4px;
-    border: 2px solid #FFFFFF;
-    box-shadow: var(--shadow-soft);
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: #FF3B30;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #000;
+}
+
+.bar-avatar-wrapper {
+  margin-left: 8px;
 }
 
 .bar-avatar {
-    width: 38px;
-    height: 38px;
-    border-radius: var(--radius-full);
-    overflow: hidden;
-    background-color: var(--bg-edge);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid var(--border-subtle);
-    box-shadow: var(--shadow-deep);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 .bar-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 @media (max-width: 1024px) {
-    .m3-top-app-bar {
-        /* background-color: #000000 !important; */
-        /* ELIMINAT PER PERMETRE LLUM DE DIA */
-        background: var(--surface-glass-heavy) !important;
-    }
+  .app-header-master {
+    height: auto;
+    padding: 0 16px;
+  }
+  
+  .header-master-nav {
+    gap: 16px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    width: 100%;
+    justify-content: flex-start;
+  }
+  
+  .header-master-link span {
+    display: none;
+  }
 }

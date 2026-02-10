@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { 
     X, MessageCircle, Gamepad2, BrainCircuit, Sparkles, ChevronRight, Zap, 
-    CloudSun, BookText, Quote, Users, History, Mic
+    CloudSun, BookText, Quote, Users, History, Mic, Search, Sun, Moon
 } from 'lucide-react';
 import './RoleSelectorModal.css';
 
@@ -9,8 +9,13 @@ const RoleSelectorModal = ({ isOpen, onClose, onSelect }) => {
     const [generating, setGenerating] = useState(null);
 
     const [greeting, setGreeting] = useState("");
+    const [searchQuery, setSearchQuery] = useState("");
 
-    // Initialize greeting when opening
+    // Lògica de Cerca Màgica (Smart Search) v8.0
+    const handleSearch = (q) => {
+        setSearchQuery(q);
+        // Aquí es podria afegir lògica de filtrat o routing automàtic
+    };
     useEffect(() => {
         if (isOpen) {
             const greetingsList = [
@@ -22,106 +27,131 @@ const RoleSelectorModal = ({ isOpen, onClose, onSelect }) => {
                 "Vols raonar una estona a la fresca?"
             ];
             const randomMsg = greetingsList[Math.floor(Math.random() * greetingsList.length)];
-            setGreeting(randomMsg);
+            const timer = setTimeout(() => {
+                setGreeting(randomMsg);
+            }, 100);
+            return () => clearTimeout(timer);
         } else {
-            setGreeting("");
+            const timer = setTimeout(() => {
+                setGreeting("");
+            }, 10);
+            return () => clearTimeout(timer);
         }
     }, [isOpen]);
 
     if (!isOpen) return null;
 
     const roles = [
-        {
-            id: 'iaia_memoria',
-            title: 'AGENT DE MEMÒRIA',
-            desc: 'La IAIA et recorda el rellevant: des del reg fins a la pastilla.',
-            icon: <Sparkles size={24} />,
-            color: '#ff9800',
-            route: '/chats',
-            benefit: 'Assistència Proactiva: "No oblides regar!"'
+        { 
+            id: 'iaia_master', 
+            title: 'IAIA MarIA', 
+            desc: 'Matriarca Digital. Saviesa i sentit comú per al dia a dia.', 
+            avatar: '/assets/avatars/iaia_official.png', 
+            color: '#ff9800', 
+            route: '/chats', 
+            benefit: 'Guia Suprema' 
         },
-        {
-            id: 'iaia_aventura',
-            title: 'AVENTURA RURAL (RPG)',
-            desc: 'Viu la mitologia rural. Genera un pròleg narratiu únic al teu poble.',
-            icon: <Gamepad2 size={24} />,
-            color: '#00d2ff',
-            route: '/chats',
-            benefit: 'Seeds Narratives Úniques'
+        { 
+            id: 'agronom', 
+            title: 'VICENT FERRIS', 
+            desc: 'Agrònom. El tacte de la terra i el saber de l\'olivera.', 
+            avatar: '/images/demo/avatar_man_old.png', 
+            color: '#4CAF50', 
+            route: '/chats', 
+            benefit: 'Saviesa de la Terra' 
         },
-        {
-            id: 'iaia_oracle',
-            title: 'L\'ORACLE DE L\'OLLA',
-            desc: 'La mística del destí. Rep una dita o sentència mística a l\'instant.',
-            icon: <Quote size={24} />,
-            color: '#D441E5',
-            route: '/tools/oracle',
-            benefit: 'La dita del dia sense preguntes'
+        { 
+            id: 'cuinera', 
+            title: 'PEPICA LA VALL', 
+            desc: 'Cuinera. Guardiana de receptes i l\'escalfor del xup-xup.', 
+            avatar: '/images/demo/avatar_carmen.png', 
+            color: '#EF4444', 
+            route: '/chats', 
+            benefit: 'Gastronomia i Vida' 
         },
-        {
-            id: 'iaia_diccionari',
-            title: 'EL DICCIONARI RURAL',
-            desc: 'Traductor de conceptes moderns (Bitcoin, AI) a llenguatge de garrofes.',
-            icon: <BookText size={24} />,
-            color: '#FF6D23',
-            route: '/tools/diccionari',
-            benefit: 'Traductor de sentit comú'
+        { 
+            id: 'capatas', 
+            title: 'ANDREU DEL CAMP', 
+            desc: 'Capatàs. El rellotge i la llei del camp amb trellat.', 
+            avatar: '/images/demo/avatar_man_1.png', 
+            color: '#8E8E93', 
+            route: '/chats', 
+            benefit: 'Eficiència Rural' 
         },
-        {
-            id: 'iaia_fresca',
-            title: 'LA FRESCA (TERTÚLIA)',
-            desc: 'Debat de plaça. La IAIA opina de tot amb fermesa i saviesa popular.',
-            icon: <Users size={24} />,
-            color: '#00BA88',
-            route: '/chats',
-            benefit: 'Debat social sobirà'
+        { 
+            id: 'arxiver', 
+            title: 'JOAN DEL POBLE', 
+            desc: 'Arxiver. Memòria de papers i traducció del carrer.', 
+            avatar: '/images/demo/avatar_joanet.png', 
+            color: '#5D5FEF', 
+            route: '/chats', 
+            benefit: 'Memòria Viva' 
         },
-        {
-            id: 'iaia_glosadora',
-            title: 'LA GLOSADORA (POETA)',
-            desc: 'L\'art de la paraula. Crea rimes satíriques o versos per a qualsevol ocasió.',
-            icon: <Mic size={24} />,
-            color: '#EF4444',
-            route: '/chats',
-            benefit: 'Poesia i Sàtira instantània'
+        { 
+            id: 'ratoli', 
+            title: 'SUPER RATOLÍ', 
+            desc: 'Dades i SQLite. ¡Vitaminar-se i superar-se!', 
+            avatar: '/assets/avatars/super_ratoli.png', 
+            color: '#FFEB3B', 
+            route: '/chats', 
+            benefit: 'Heroi Digital' 
         },
-        {
-            id: 'iaia_meteo',
-            title: 'METEO RURAL',
-            desc: 'Previsió basada en observació i refranyer: "Si nùvol porta barret..."',
-            icon: <CloudSun size={24} />,
-            color: '#5D5FEF',
-            route: '/chats',
-            benefit: 'Predicció de camp expert'
+        { 
+            id: 'nanob', 
+            title: 'NANO BANANA', 
+            desc: 'Aventura i Art. Agent de felicitat i abundància bategant.', 
+            avatar: '/assets/avatars/nano_banana.png', 
+            color: '#00d2ff', 
+            route: '/chats', 
+            benefit: 'RPG Narratiu' 
         },
-        {
-            id: 'iaia_arxiu',
-            title: 'ARXIU SECRET',
-            desc: 'Història local i lore familiar. Descobreix el que va passar l\'any que triis.',
-            icon: <History size={24} />,
-            color: '#8E8E93',
-            route: '/chats',
-            benefit: 'Viatge al passat del poble'
+        { 
+            id: 'sultan', 
+            title: 'SULTAN', 
+            desc: 'Seguretat Rural. El guardià que mai dorm.', 
+            avatar: '/images/demo/avatar_man_old_2.png', 
+            color: '#795548', 
+            route: '/chats', 
+            benefit: 'Seguretat de Node' 
         },
-        {
-            id: 'iaia_analisis',
-            title: 'INTEL·LIGÈNCIA RURAL',
-            desc: 'Dades massives amb saviesa de l\'arca. Utilitat social pura per decidir.',
-            icon: <BrainCircuit size={24} />,
-            color: '#4CAF50',
-            route: '/ia',
-            benefit: 'Sobirania territorial de dades'
+        { 
+            id: 'mixa', 
+            title: 'LA MIXA', 
+            desc: 'Gata de Xarxa. Missatgera P2P entre les teulades.', 
+            avatar: '/images/demo/avatar_woman_1.png', 
+            color: '#E91E63', 
+            route: '/chats', 
+            benefit: 'Connexió Invisible' 
         },
-        {
-            id: 'iaia_batec',
-            title: 'BATEC DIRECTE',
-            desc: 'Conversa càlida i contextual. La IAIA et rep com si estiguessis a casa.',
-            icon: <MessageCircle size={24} />,
-            color: '#FFFFFF',
-            route: '/chats',
-            benefit: 'Chat tradicional amb ànima'
+        { 
+            id: 'gall', 
+            title: 'EL GALL', 
+            desc: 'Alertes. El bategat de l\'emergència i l\'inici del dia.', 
+            avatar: '/images/demo/avatar_marc.png', 
+            color: '#FF5722', 
+            route: '/chats', 
+            benefit: 'Vigilant d\'Emergència' 
+        },
+        { 
+            id: 'flash', 
+            title: 'FLASH', 
+            desc: 'Executor. Orquestrador de processos a tot bategat.', 
+            avatar: '/assets/avatars/iaia_secretary.png', 
+            color: '#06B6D4', 
+            route: '/chats', 
+            benefit: 'Velocitat Pura' 
+        },
+        { 
+            id: 'viatjant', 
+            title: 'EL VIATJANT', 
+            desc: 'Ambaixador. El Tio de la Bota connectant pobles.', 
+            avatar: '/assets/avatars/iaia_memory.png', 
+            color: '#9C27B0', 
+            route: '/chats', 
+            benefit: 'Històries de Node' 
         }
     ];
+
 
     const handleSelect = (role) => {
         setGenerating(role.id);
@@ -133,16 +163,40 @@ const RoleSelectorModal = ({ isOpen, onClose, onSelect }) => {
 
     return (
         <div className="role-modal-overlay" onClick={onClose}>
-            <div className="role-modal-content command-center" onClick={e => e.stopPropagation()}>
-                <header className="role-modal-header">
-                    <div className="role-modal-title">
-                        <BrainCircuit size={20} />
-                        <span>CENTRE DE COMANDAMENT IAIA V3.1</span>
+            <div className="role-modal-content command-center" onClick={(event) => { 
+                                    event.stopPropagation();
+                                }}
+>
+                <header className="role-modal-header v8-header">
+                    <div className="v8-header-left">
+                        <img src="https://raw.githubusercontent.com/iaia-maria/socdepoble-assets/main/logo-soc-de-poble-white.png" alt="Logo" className="v8-modal-logo" />
                     </div>
-                    <button className="role-modal-close" onClick={onClose}><X size={24} /></button>
+                    
+                    <div className="v8-header-right">
+                        <button className="theme-toggle-v8" onClick={() => document.body.classList.toggle('light-mode')}>
+                            <Sun size={18} className="sun-icon" />
+                            <Moon size={18} className="moon-icon" />
+                        </button>
+                        <button className="role-modal-close-v8" onClick={onClose}><X size={24} /></button>
+                    </div>
                 </header>
 
                 <div className="role-modal-body">
+                    {/* SMART SEARCH v8.0 */}
+                    <div className="magic-search-container">
+                        <div className="magic-search-wrapper">
+                            <Search className="magic-search-icon" size={20} />
+                            <input 
+                                type="text" 
+                                placeholder="Diu-li a la IAIA... (Ex: 'Tinc fam', 'Què vol dir bategar?')" 
+                                className="magic-search-input"
+                                value={searchQuery}
+                                onChange={(e) => handleSearch(e.target.value)}
+                            />
+                            <div className={`magic-sparkle ${searchQuery ? 'active' : ''}`}>✨</div>
+                        </div>
+                    </div>
+
                     <div className="iaia-contextual-greeting">
                         <div className="iaia-avatar-mini">
                             <img src="/iaia_digital_matriarch.png" alt="IAIA" />
@@ -160,8 +214,16 @@ const RoleSelectorModal = ({ isOpen, onClose, onSelect }) => {
                                 disabled={!!generating}
                             >
                                 <div className="role-card-inner">
-                                    <div className="role-icon-box-v5" style={{ background: role.color + '15', color: role.color }}>
-                                        {generating === role.id ? <div className="spinner-v5" /> : role.icon}
+                                    <div className="role-icon-box-v5" style={{ background: role.color + '15', color: role.color, padding: 0, overflow: 'hidden' }}>
+                                        {generating === role.id ? (
+                                            <div className="spinner-v5" />
+                                        ) : (
+                                            <img 
+                                                src={role.avatar} 
+                                                alt={role.title} 
+                                                style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                                            />
+                                        )}
                                     </div>
                                     <div className="role-info">
                                         <h3>{role.title}</h3>
@@ -184,7 +246,7 @@ const RoleSelectorModal = ({ isOpen, onClose, onSelect }) => {
 
                 <div className="role-modal-footer v6-footer">
                     <div className="v6-stats-pills">
-                        <span className="v6-pill">10 MODES</span>
+                        <span className="v6-pill">12 AGENTS</span>
                         <span className="v6-pill">IA ACTIVA</span>
                         <span className="v6-pill">DIA/NIT OK</span>
                     </div>
