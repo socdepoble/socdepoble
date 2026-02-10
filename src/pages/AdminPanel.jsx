@@ -34,6 +34,16 @@ const AdminPanel = () => {
     const params = new URLSearchParams(window.location.search);
     const [activeModule, setActiveModule] = useState(params.get('module') || null);
 
+    // Log Helper
+    const addLog = (msg, type = 'info') => {
+        setLogs(prev => [{
+            id: Date.now() + Math.random().toString(36).substr(2, 9), // Unique ID
+            time: new Date().toLocaleTimeString(),
+            msg,
+            type
+        }, ...prev.slice(0, 19)]); // Keep last 20
+    };
+
     // Initial Load
     useEffect(() => {
         if (!isAdmin) {
@@ -75,16 +85,6 @@ const AdminPanel = () => {
 
         bootSystem();
     }, [isAdmin, navigate]);
-
-    // Log Helper
-    const addLog = (msg, type = 'info') => {
-        setLogs(prev => [{
-            id: Date.now() + Math.random().toString(36).substr(2, 9), // Unique ID
-            time: new Date().toLocaleTimeString(),
-            msg,
-            type
-        }, ...prev.slice(0, 19)]); // Keep last 20
-    };
 
     // --- Sub-Components Containers ---
 
@@ -682,7 +682,7 @@ const EditorialGovernanceModule = ({ addLog }) => {
 const PermissionsGovernanceModule = ({ addLog }) => {
     const [roles, setRoles] = useState([
         { id: 'super_admin', label: 'Super Admin', access: 'Total (God Mode)', color: 'var(--hud-accent)' },
-        { id: 'admin', label: 'Administrador', access: 'Gestió de Poble', color: 'var(--color-primary)' },
+        { id: 'admin', label: 'Administrador', access: "Gestió d'Entitats", color: 'var(--color-primary)' },
         { id: 'editor', label: 'Editor', access: 'Contingu i Pins', color: 'var(--color-error)' },
         { id: 'author', label: 'Autor Verificat', access: 'Publicació Directa', color: 'var(--color-warning)' },
         { id: 'neighbor', label: 'Veí', access: 'Estàndard', color: 'var(--text-muted)' }

@@ -3,35 +3,50 @@ Aquest fitxer substitueix qualsevol CSS anterior segons Directiva de Refundació
 CONTÉ: Variables, Reset, Fonts i Components Base.
 */
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* CSS BASE UNIFICAT SÓC DE POBLE */
 
 /* =========================================
    1. VARIABLES DE TEMA (LA LLEI DE L'ALZINA)
    ========================================= */
 :root {
-    /* ☀️ MODE DIA (Protocol Alzina Master) */
-    --bg-app: #F0F2F5;
-    --bg-panel: #FFFFFF;
-    --text-main: #1E293B;
+    /* ☀️ MODE DIA (Protocol Alzina Master - LA BÍBLIA) */
+    --bg-app: #000000;           /* NEGRE PUR UNIVERSAL */
+    --bg-panel: #0A0A0B;
+    --bg-sidebar: #000000;
+    --text-main: #FFFFFF;        /* LLEGIBILITAT SUPREMA */
     --text-muted: #888888;
-    --border-dim: rgba(0,0,0,0.1);
+    --border-master: #27272a;    /* GRID EXU V26 */
     
-    /* Elements Fixos (L'ARQUITECTURA DE FERRO) */
-    --bg-header: #000000;        /* NEGRE PUR EXU */
-    --bg-sidebar: #000000;       /* NEGRE PUR EXU */
-    --bg-master: #000000;
-    --border-master: #27272a;    /* GRID EXU */
-    --accent-sidebar: #FF6D23;   /* TARONJA ALZINA */
-    --accent-tabs: #5D5FEF;      /* LILA IAIA */
+    /* VALORS CROMÀTICS SAGRATS */
+    --accent-orange: #FF6D23;
+    --accent-purple: #5D5FEF;
+    --accent-cyan: #00F2FF;
+    --accent-green: #10B981;
+    --accent-violet: #A855F7;
     
-    /* GÈNESIS: Radi Sagrat */
-    --rounded-card: 28px;
-    --rounded-btn: 18px;
+    /* GÈNESIS: Radi i Geometria (PREMIUM GEM) */
+    --radius-master: 28px;
+    --radius-xl: 32px;
+    --radius-l: 28px;
+    --radius-m: 20px;
+    --radius-s: 12px;
+    --radius-btn: 14px;
+    --radius-full: 9999px;
+    
+    /* PROTOCOL OMEGA: La Puresa del Vidre */
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-blur: blur(20px);
     
     --header-h: 112px;
     --sidebar-w: 280px;
+    
+    /* COLORS LEGACY / COMPATIBILITAT */
+    --color-primary: var(--accent-cyan);
+    --color-accent: var(--accent-orange);
+    --surface-glass: rgba(255, 255, 255, 0.03);
+    --surface-glass-heavy: rgba(255, 255, 255, 0.05);
+    --border-subtle: rgba(255, 255, 255, 0.08);
 }
 
 .dark {
@@ -70,48 +85,39 @@ body {
    3. COMPONENTS BLINDATS (ESCRIPTORI FIXED)
    ========================================= */
 
-/* --- APP SHELL ARQUITECTURA --- */
-/* Forçat per a evitar el Franken-mobile-first de Flash */
-.layout-desktop {
-    display: flex !important;
-    min-height: 100vh;
-}
-
-.sidebar-fixed {
-    width: var(--sidebar-w) !important;
-    background-color: var(--bg-sidebar) !important;
-    height: 100vh;
-    position: fixed;
-    top: 0; left: 0;
-    z-index: 1000;
-    border-right: 1px solid rgba(255,255,255,0.05);
-    display: flex !important;
-    flex-direction: column;
-}
+/* --- APP SHELL ARQUITECTURA BATEGADA (Protocol OMEGA) --- */
+/* La geometria es delega a la Llei de Visibilitat i a Tailwind */
 
 .main-viewport {
     flex: 1;
-    margin-left: var(--sidebar-w);
-    padding-top: var(--header-h); /* Estabilitat absoluta */
     min-height: 100vh;
     position: relative;
-    background-color: var(--bg-app); /* Respon al mode nit/dia */
-    transition: background-color 0.3s ease;
+    background-color: var(--bg-app);
+    overflow-x: hidden;
 }
 
+/* [MASTER] HEADER UNIFICAT V26 */
 .header-fixed-alzina {
-    position: fixed !important;
-    top: 0; 
-    right: 0;
-    left: var(--sidebar-w) !important;
-    height: var(--header-h) !important;
-    background-color: var(--bg-header) !important;
-    z-index: 900;
-    display: flex !important;
+    height: var(--header-h);
+    position: fixed;
+    top: 0; right: 0;
+    left: var(--sidebar-w);
+    background-color: #050505 !important; /* BLINDATGE BÍBLIC */
+    border-bottom: 1px solid var(--border-master);
+    z-index: 1000;
+    display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     padding: 0 40px;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
+    backdrop-filter: var(--glass-blur);
+    box-sizing: border-box;
+}
+@media (max-width: 768px) {
+    .header-fixed-alzina {
+        left: 0;
+        height: 80px;
+        padding: 0 20px;
+    }
 }
 
 /* --- FOOTER DE TARGETA (DIRECTIVA ANTI-STACKING) --- */
@@ -185,17 +191,7 @@ body {
 }
 
 /* --- SIDEBAR IRON ESTRUCTURA --- */
-.sidebar-iron {
-    width: var(--sidebar-w) !important;
-    background-color: var(--bg-sidebar) !important;
-    height: 100vh;
-    position: fixed;
-    top: 0; left: 0;
-    z-index: 1000;
-    border-right: 1px solid var(--border-master);
-    display: flex !important;
-    flex-direction: column;
-}
+/* --- LESTO: La Llei de Visibilitat es delega a Tailwind al Layout.jsx --- */
 
 .logo-box-iron {
     padding: 40px 32px;
@@ -234,4 +230,180 @@ body {
     font-weight: 900;
     color: #444;
     letter-spacing: 1.5px;
+}
+
+/* =========================================
+   4. PROTOCOL OMEGA: IAIA V10 & SMART ROUTER
+   ========================================= */
+
+.intent-router-suggestion {
+    padding: 16px;
+    margin-bottom: 8px;
+}
+
+.iaia-router {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    background: rgba(93, 95, 239, 0.1);
+    border: 1px solid rgba(93, 95, 239, 0.3);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.iaia-router:hover {
+    background: rgba(93, 95, 239, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(93, 95, 239, 0.15);
+}
+
+.intent-text {
+    flex: 1;
+}
+
+.intent-text strong {
+    display: block;
+    font-size: 14px;
+    color: #fff;
+    margin-bottom: 2px;
+}
+
+.intent-text span {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Selector V10 Grid [IAIA HUB] */
+.powers-grid-v10 {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.power-card-v10 {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px;
+    border-radius: 24px;
+    cursor: pointer;
+    transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.power-card-v10:hover {
+    transform: translateY(-4px);
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+}
+
+.power-icon-v10 {
+    width: 44px;
+    height: 44px;
+    background: rgba(93, 95, 239, 0.1);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #5D5FEF;
+    flex-shrink: 0;
+}
+
+.power-info-v10 {
+    flex: 1;
+}
+
+.power-info-v10 h3 {
+    font-size: 16px;
+    font-weight: 800;
+    color: white;
+}
+
+.power-info-v10 p {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.power-badge-v10 {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 8px;
+    font-weight: 900;
+    color: #5D5FEF;
+    opacity: 0.6;
+}
+
+/* Agents V10 [IAIA HUB] */
+.agents-grid-v10 {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding: 10px 0 20px;
+    scrollbar-width: none;
+}
+
+.agent-card-v10 {
+    min-width: 140px;
+    padding: 16px;
+    border-radius: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.agent-avatar-v10 {
+    position: relative;
+    width: 60px;
+    height: 60px;
+}
+
+.agent-avatar-v10 img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2px solid rgba(93, 95, 239, 0.3);
+}
+
+.status-indicator.online {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    width: 12px;
+    height: 12px;
+    background: #10b981;
+    border: 3px solid #121214;
+    border-radius: 50%;
+}
+
+.agent-details-v10 h4 {
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.agent-details-v10 span {
+    font-size: 10px;
+    color: #5D5FEF;
+}
+
+/* SIDEBAR REFINEMENT GEM */
+.nav-item-iron {
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav-item-iron:hover {
+    background: rgba(255, 255, 255, 0.03);
+    color: white;
+    padding-left: 36px;
+}
+
+.nav-item-iron.active {
+    background: linear-gradient(90deg, rgba(255, 109, 35, 0.15) 0%, transparent 100%);
+    border-left: 4px solid #FF6D23;
+    color: white;
+    font-weight: 900;
 }

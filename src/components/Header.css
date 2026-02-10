@@ -124,7 +124,7 @@
   object-fit: cover;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 768px) {
   .app-header-master {
     height: auto;
     padding: 0 16px;

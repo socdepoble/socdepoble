@@ -41,8 +41,22 @@ const SearchDiscover = () => {
     const performSearch = async (q) => {
         setIsSearching(true);
         try {
-            // Simulated AI-reinforced global search
-            // In a real app, this would call a dedicated edge function with embeddings or similar
+            // [INTENT ROUTER OMEGA]
+            const lowercaseQ = q.toLowerCase();
+            const intents = {
+                recepta: ['cuina', 'recepta', 'menjar', 'gana', 'dinar', 'sopar', 'plat', 'receptes'],
+                diccionari: ['paraula', 'significat', 'què vol dir', 'definició', 'parla', 'llengua'],
+                remeis: ['mal de', 'ferida', 'medicina', 'herba', 'plant', 'salut', 'remei'],
+                ull: ['foto', 'imatge', 'mira', 'veure', 'reconeix', 'ulls', 'ull'],
+                oracle: ['futur', 'oracle', 'destí', 'què serà', 'pregunta', 'sort'],
+                mestre: ['història', 'mestre', 'vell', 'abans', 'passat', 'tradició']
+            };
+
+            const detectedIntent = Object.keys(intents).find(key => 
+                intents[key].some(keyword => lowercaseQ.includes(keyword))
+            );
+
+            // ... results logic ...
             const [gent, entitats, pobles, archive, filteredEvents] = await Promise.all([
                 supabaseService.searchProfiles(q),
                 supabaseService.searchEntities(q),
@@ -134,253 +148,291 @@ const SearchDiscover = () => {
                         <Loader2 className="animate-spin" size={32} />
                         <p>Analitzant l'ecosistema...</p>
                     </div>
-                ) : !isEmpty ? (
-                    <div className="search-results-container">
-                        {filters.filter(f => f.id !== 'tots').map(filter => {
-                            if (activeFilter !== 'tots' && activeFilter !== filter.id) return null;
-
-                            // Handle People
-                            if (filter.id === 'gent') {
-                                if (results.gent.length === 0) return null;
-                                return (
-                                    <section key="gent" className="result-section">
-                                        <div className="result-section-header">
-                                            <h3>Gent</h3>
-                                            <span className="count">{results.gent.length}</span>
+                ) : (
+                    <>
+                        {/* IAIA INTENT ROUTER SUGGESTION OMEGA */}
+                        {query && (
+                            <div className="intent-router-suggestion animate-in">
+                                {(query.toLowerCase().includes('gana') || query.toLowerCase().includes('dinar') || query.toLowerCase().includes('recepta')) ? (
+                                    <div className="intent-card glass-premium iaia-router" onClick={() => navigate('/tools/recipe')}>
+                                        <Sparkles size={20} className="text-[#5D5FEF]" />
+                                        <div className="intent-text">
+                                            <strong>La IAIA t'ajuda: "Vols una recepta?"</strong>
+                                            <span>Obrir el Rebost de la IAIA</span>
                                         </div>
-                                        <div className="results-list">
-                                            {results.gent.map(person => (
-                                                <div key={person.id} className="universal-card result-item-card" onClick={() => navigate(`/perfil/${person.id}`)}>
-                                                    <div className="card-header clickable">
-                                                        <div className="header-left">
-                                                            <Avatar
-                                                                src={person.avatar_url}
-                                                                role="user"
-                                                                name={person.full_name}
-                                                                size={44}
-                                                            />
-                                                            <div className="post-meta">
-                                                                <div className="post-author-row">
-                                                                    <span className="post-author">{person.full_name}</span>
-                                                                </div>
-                                                                <div className="post-town">
-                                                                    {person.role || 'Veí'} {person.primary_town ? `• ${person.primary_town} ` : ''}
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div className="header-right">
-                                                            <ChevronRight size={18} className="chevron" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </section>
-                                );
-                            }
-
-                            // Handle Towns
-                            if (filter.id === 'pobles') {
-                                if (results.pobles.length === 0) return null;
-                                return (
-                                    <section key="pobles" className="result-section">
-                                        <div className="result-section-header">
-                                            <h3>Pobles</h3>
-                                            <span className="count">{results.pobles.length}</span>
-                                        </div>
-                                        <div className="results-list">
-                                            {results.pobles.map(town => (
-                                                <div key={town.id} className="universal-card result-item-card town" onClick={() => navigate(`/pobles/${town.uuid || town.id}`)}>
-                                                    <div className="card-header clickable">
-                                                        <div className="header-left">
-                                                            <Avatar
-                                                                src={town.logo_url}
-                                                                role="oficial"
-                                                                name={town.name}
-                                                                size={44}
-                                                            />
-                                                            <div className="post-meta">
-                                                                <div className="post-author-row">
-                                                                    <span className="post-author">{town.name}</span>
-                                                                </div>
-                                                                <div className="post-town">
-                                                                    {town.comarca} {town.province ? `• ${town.province} ` : ''}
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div className="header-right">
-                                                            <ChevronRight size={18} className="chevron" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </section>
-                                );
-                            }
-
-                            // Handle Events
-                            if (filter.id === 'esdeveniments') {
-                                if (results.esdeveniments.length === 0) return null;
-                                return (
-                                    <section key="esdeveniments" className="result-section">
-                                        <div className="result-section-header">
-                                            <h3>Agenda Festera</h3>
-                                            <span className="count">{results.esdeveniments.length}</span>
-                                        </div>
-                                        <div className="results-list">
-                                            {results.esdeveniments.map(event => (
-                                                <div key={event.id} className="universal-card result-item-card event" onClick={() => navigate('/pobles', { state: { initialTab: 'esdeveniments' } })}>
-                                                    <div className="card-header clickable" style={{ background: 'var(--color-terracotta)' }}>
-                                                        <div className="header-left">
-                                                            <div className="post-avatar event" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', backgroundColor: 'rgba(255,255,255,0.2)', width: '44px', height: '44px' }}>
-                                                                <Sparkles size={20} color="#fff" />
-                                                            </div>
-                                                            <div className="post-meta">
-                                                                <div className="post-author-row">
-                                                                    <span className="post-author" style={{ color: '#fff' }}>{event.title}</span>
-                                                                </div>
-                                                                <div className="post-town" style={{ color: 'rgba(255,255,255,0.8)' }}>
-                                                                    {event.location} • {new Date(event.date).toLocaleDateString('ca-ES', { day: 'numeric', month: 'long' })}
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div className="header-right">
-                                                            <ChevronRight size={18} className="chevron" color="#fff" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </section>
-                                );
-                            }
-
-                            // Handle Archive (Raindrop)
-                            if (filter.id === 'arxiu') {
-                                if (results.arxiu.length === 0) return null;
-                                return (
-                                    <section key="arxiu" className="result-section archive-section">
-                                        <div className="result-section-header">
-                                            <h3>Arxiu Documental (L'Espill del Temps)</h3>
-                                            <span className="count">{results.arxiu.length}</span>
-                                        </div>
-                                        <div className="results-list">
-                                            {results.arxiu.map(item => (
-                                                <div key={item.uuid || item._id} className="universal-card result-item-card archive-item" onClick={() => window.open(item.link, '_blank')}>
-                                                    <div className="card-header clickable">
-                                                        <div className="header-left">
-                                                            <div className="post-avatar archive" style={{ backgroundColor: 'var(--color-bg-dark)', padding: '2px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', overflow: 'hidden', width: '44px', height: '44px' }}>
-                                                                <Link2 size={24} style={{ color: 'var(--color-orange-vibrant)' }} />
-                                                            </div>
-                                                            <div className="post-meta">
-                                                                <div className="post-author-row">
-                                                                    <span className="post-author">{item.title}</span>
-                                                                </div>
-                                                                <div className="post-town">
-                                                                    {item.excerpt ? item.excerpt.substring(0, 80) + '...' : 'Document de l\'Arxiu'}
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div className="header-right">
-                                                            <ChevronRight size={18} className="chevron" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </section>
-                                );
-                            }
-
-                            // Handle Categorized Entities
-                            const filteredEntities = results.entitats.filter(e => e.type === filter.type);
-                            if (filteredEntities.length === 0) return null;
-
-                            return (
-                                <section key={filter.id} className="result-section">
-                                    <div className="result-section-header">
-                                        <h3>{filter.label}</h3>
-                                        <span className="count">{filteredEntities.length}</span>
+                                        <ChevronRight size={18} />
                                     </div>
-                                    <div className="results-list">
-                                        {filteredEntities.map(entity => (
-                                            <div key={entity.id} className={`universal-card result-item-card entity-${entity.type}`} onClick={() => navigate(`/entitat/${entity.id}`)}>
+                                ) : (query.toLowerCase().includes('foto') || query.toLowerCase().includes('mira') || query.toLowerCase().includes('ull')) ? (
+                                    <div className="intent-card glass-premium iaia-router" onClick={() => navigate('/ia')}>
+                                        <Sparkles size={20} className="text-[#5D5FEF]" />
+                                        <div className="intent-text">
+                                            <strong>L'Ull de la IAIA: "Puc veure-ho?"</strong>
+                                            <span>Analitzar imatge amb l'IAIA</span>
+                                        </div>
+                                        <ChevronRight size={18} />
+                                    </div>
+                                ) : (query.toLowerCase().includes('paraula') || query.toLowerCase().includes('què vol dir')) ? (
+                                    <div className="intent-card glass-premium iaia-router" onClick={() => navigate('/tools/diccionari')}>
+                                        <Sparkles size={20} className="text-[#5D5FEF]" />
+                                        <div className="intent-text">
+                                            <strong>Diccionari Rural: "T'ho explique?"</strong>
+                                            <span>Significat de paraules del carrer</span>
+                                        </div>
+                                        <ChevronRight size={18} />
+                                    </div>
+                                ) : null}
+                            </div>
+                        )}
+
+                        {!isEmpty ? (
+                            <div className="search-results-container">
+                                {filters.filter(f => f.id !== 'tots').map(filter => {
+                                    if (activeFilter !== 'tots' && activeFilter !== filter.id) return null;
+
+                                    // Handle People
+                                    if (filter.id === 'gent') {
+                                        if (results.gent.length === 0) return null;
+                                        return (
+                                            <section key="gent" className="result-section">
+                                                <div className="result-section-header">
+                                                    <h3>Gent</h3>
+                                                    <span className="count">{results.gent.length}</span>
+                                                </div>
+                                                <div className="results-list">
+                                                    {results.gent.map(person => (
+                                                        <div key={person.id} className="universal-card result-item-card" onClick={() => navigate(`/perfil/${person.id}`)}>
+                                                            <div className="card-header clickable">
+                                                                <div className="header-left">
+                                                                    <Avatar
+                                                                        src={person.avatar_url}
+                                                                        role="user"
+                                                                        name={person.full_name}
+                                                                        size={44}
+                                                                    />
+                                                                    <div className="post-meta">
+                                                                        <div className="post-author-row">
+                                                                            <span className="post-author">{person.full_name}</span>
+                                                                        </div>
+                                                                        <div className="post-town">
+                                                                            {person.role || 'Veí'} {person.primary_town ? `• ${person.primary_town} ` : ''}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="header-right">
+                                                                    <ChevronRight size={18} className="chevron" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </section>
+                                        );
+                                    }
+
+                                    // Handle Towns
+                                    if (filter.id === 'pobles') {
+                                        if (results.pobles.length === 0) return null;
+                                        return (
+                                            <section key="pobles" className="result-section">
+                                                <div className="result-section-header">
+                                                    <h3>Pobles</h3>
+                                                    <span className="count">{results.pobles.length}</span>
+                                                </div>
+                                                <div className="results-list">
+                                                    {results.pobles.map(town => (
+                                                        <div key={town.id} className="universal-card result-item-card town" onClick={() => navigate(`/pobles/${town.uuid || town.id}`)}>
+                                                            <div className="card-header clickable">
+                                                                <div className="header-left">
+                                                                    <Avatar
+                                                                        src={town.logo_url}
+                                                                        role="oficial"
+                                                                        name={town.name}
+                                                                        size={44}
+                                                                    />
+                                                                    <div className="post-meta">
+                                                                        <div className="post-author-row">
+                                                                            <span className="post-author">{town.name}</span>
+                                                                        </div>
+                                                                        <div className="post-town">
+                                                                            {town.comarca} {town.province ? `• ${town.province} ` : ''}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="header-right">
+                                                                    <ChevronRight size={18} className="chevron" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </section>
+                                        );
+                                    }
+
+                                    // Handle Events
+                                    if (filter.id === 'esdeveniments') {
+                                        if (results.esdeveniments.length === 0) return null;
+                                        return (
+                                            <section key="esdeveniments" className="result-section">
+                                                <div className="result-section-header">
+                                                    <h3>Agenda Festera</h3>
+                                                    <span className="count">{results.esdeveniments.length}</span>
+                                                </div>
+                                                <div className="results-list">
+                                                    {results.esdeveniments.map(event => (
+                                                        <div key={event.id} className="universal-card result-item-card event" onClick={() => navigate('/pobles', { state: { initialTab: 'esdeveniments' } })}>
+                                                            <div className="card-header clickable" style={{ background: 'var(--color-terracotta)' }}>
+                                                                <div className="header-left">
+                                                                    <div className="post-avatar event" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', backgroundColor: 'rgba(255,255,255,0.2)', width: '44px', height: '44px' }}>
+                                                                        <Sparkles size={20} color="#fff" />
+                                                                    </div>
+                                                                    <div className="post-meta">
+                                                                        <div className="post-author-row">
+                                                                            <span className="post-author" style={{ color: '#fff' }}>{event.title}</span>
+                                                                        </div>
+                                                                        <div className="post-town" style={{ color: 'rgba(255,255,255,0.8)' }}>
+                                                                            {event.location} • {new Date(event.date).toLocaleDateString('ca-ES', { day: 'numeric', month: 'long' })}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="header-right">
+                                                                    <ChevronRight size={18} className="chevron" color="#fff" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </section>
+                                        );
+                                    }
+
+                                    // Handle Archive (Raindrop)
+                                    if (filter.id === 'arxiu') {
+                                        if (results.arxiu.length === 0) return null;
+                                        return (
+                                            <section key="arxiu" className="result-section archive-section">
+                                                <div className="result-section-header">
+                                                    <h3>Arxiu Documental (L'Espill del Temps)</h3>
+                                                    <span className="count">{results.arxiu.length}</span>
+                                                </div>
+                                                <div className="results-list">
+                                                    {results.arxiu.map(item => (
+                                                        <div key={item.uuid || item._id} className="universal-card result-item-card archive-item" onClick={() => window.open(item.link, '_blank')}>
+                                                            <div className="card-header clickable">
+                                                                <div className="header-left">
+                                                                    <div className="post-avatar archive" style={{ backgroundColor: 'var(--color-bg-dark)', padding: '2px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', overflow: 'hidden', width: '44px', height: '44px' }}>
+                                                                        <Link2 size={24} style={{ color: 'var(--color-orange-vibrant)' }} />
+                                                                    </div>
+                                                                    <div className="post-meta">
+                                                                        <div className="post-author-row">
+                                                                            <span className="post-author">{item.title}</span>
+                                                                        </div>
+                                                                        <div className="post-town">
+                                                                            {item.excerpt ? item.excerpt.substring(0, 80) + '...' : 'Document de l\'Arxiu'}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="header-right">
+                                                                    <ChevronRight size={18} className="chevron" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </section>
+                                        );
+                                    }
+
+                                    // Handle Categorized Entities
+                                    const filteredEntities = results.entitats.filter(e => e.type === filter.type);
+                                    if (filteredEntities.length === 0) return null;
+
+                                    return (
+                                        <section key={filter.id} className="result-section">
+                                            <div className="result-section-header">
+                                                <h3>{filter.label}</h3>
+                                                <span className="count">{filteredEntities.length}</span>
+                                            </div>
+                                            <div className="results-list">
+                                                {filteredEntities.map(entity => (
+                                                    <div key={entity.id} className={`universal-card result-item-card entity-${entity.type}`} onClick={() => navigate(`/entitat/${entity.id}`)}>
+                                                        <div className="card-header clickable">
+                                                            <div className="header-left">
+                                                                <Avatar
+                                                                    src={entity.avatar_url}
+                                                                    role={entity.type}
+                                                                    name={entity.name}
+                                                                    size={44}
+                                                                />
+                                                                <div className="post-meta">
+                                                                    <div className="post-author-row">
+                                                                        <span className="post-author">{entity.name}</span>
+                                                                    </div>
+                                                                    <div className="post-town">
+                                                                        {entity.type.charAt(0).toUpperCase() + entity.type.slice(1)} {entity.town_name ? `• ${entity.town_name} ` : ''}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div className="header-right">
+                                                                <ChevronRight size={18} className="chevron" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </section>
+                                    );
+                                })}
+
+                                {/* [SUPER-SEARCH: EXTERNAL FEDERATION] */}
+                                {query.length > 2 && (
+                                    <section className="result-section external-federation">
+                                        <div className="result-section-header">
+                                            <h3>Coneixement Territorial (Extern)</h3>
+                                            <span className="badge-iaia">IAIA Verified</span>
+                                        </div>
+                                        <div className="external-links-list">
+                                            <div key="ext-ivia" className="universal-card result-item-card external" onClick={() => window.open(`https://www.google.com/search?q=IVIA+${query}`, '_blank')}>
                                                 <div className="card-header clickable">
                                                     <div className="header-left">
-                                                        <Avatar
-                                                            src={entity.avatar_url}
-                                                            role={entity.type}
-                                                            name={entity.name}
-                                                            size={44}
-                                                        />
+                                                        <div className="post-avatar external">
+                                                            <Link2 size={24} color="var(--color-primary)" />
+                                                        </div>
                                                         <div className="post-meta">
                                                             <div className="post-author-row">
-                                                                <span className="post-author">{entity.name}</span>
+                                                                <span className="post-author">Consulta IVIA: {query}</span>
                                                             </div>
-                                                            <div className="post-town">
-                                                                {entity.type.charAt(0).toUpperCase() + entity.type.slice(1)} {entity.town_name ? `• ${entity.town_name} ` : ''}
-                                                            </div>
+                                                            <div className="post-town">Institut Valencià d'Investigacions Agràries</div>
                                                         </div>
                                                     </div>
-                                                    <div className="header-right">
-                                                        <ChevronRight size={18} className="chevron" />
-                                                    </div>
                                                 </div>
                                             </div>
-                                        ))}
-                                    </div>
-                                </section>
-                            );
-                        })}
-
-                        {/* [SUPER-SEARCH: EXTERNAL FEDERATION] */}
-                        {query.length > 2 && (
-                            <section className="result-section external-federation">
-                                <div className="result-section-header">
-                                    <h3>Coneixement Territorial (Extern)</h3>
-                                    <span className="badge-iaia">IAIA Verified</span>
-                                </div>
-                                <div className="external-links-list">
-                                    <div key="ext-ivia" className="universal-card result-item-card external" onClick={() => window.open(`https://www.google.com/search?q=IVIA+${query}`, '_blank')}>
-                                        <div className="card-header clickable">
-                                            <div className="header-left">
-                                                <div className="post-avatar external">
-                                                    <Link2 size={24} color="var(--color-primary)" />
-                                                </div>
-                                                <div className="post-meta">
-                                                    <div className="post-author-row">
-                                                        <span className="post-author">Consulta IVIA: {query}</span>
+                                            <div key="ext-aemet" className="universal-card result-item-card external" onClick={() => window.open(`https://www.aemet.es/ca/eltiempo/prediccion/municipios?q=${query}`, '_blank')}>
+                                                <div className="card-header clickable">
+                                                    <div className="header-left">
+                                                        <div className="post-avatar external">
+                                                            <Link2 size={24} color="var(--color-primary)" />
+                                                        </div>
+                                                        <div className="post-meta">
+                                                            <div className="post-author-row">
+                                                                <span className="post-author">Previsió AEMET: {query}</span>
+                                                            </div>
+                                                            <div className="post-town">Agència Estatal de Meteorologia</div>
+                                                        </div>
                                                     </div>
-                                                    <div className="post-town">Institut Valencià d'Investigacions Agràries</div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div >
-                                    <div key="ext-aemet" className="universal-card result-item-card external" onClick={() => window.open(`https://www.aemet.es/ca/eltiempo/prediccion/municipios?q=${query}`, '_blank')}>
-                                        <div className="card-header clickable">
-                                            <div className="header-left">
-                                                <div className="post-avatar external">
-                                                    <Link2 size={24} color="var(--color-primary)" />
-                                                </div>
-                                                <div className="post-meta">
-                                                    <div className="post-author-row">
-                                                        <span className="post-author">Previsió AEMET: {query}</span>
-                                                    </div>
-                                                    <div className="post-town">Agència Estatal de Meteorologia</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div >
-                            </section >
+                                    </section>
+                                )}
+                            </div>
+                        ) : query.length > 1 && !isSearching && (
+                            <div className="no-results-top-vibrant">
+                                <p>No hem trobat resultats per a "<strong>{query}</strong>"</p>
+                                <span>Prova amb termes més genèrics o revisa l'ortografia.</span>
+                            </div>
                         )}
-                    </div >
-                ) : query.length > 1 && !isSearching && (
-                    <div className="no-results-top-vibrant">
-                        <p>No hem trobat resultats per a "<strong>{query}</strong>"</p>
-                        <span>Prova amb termes més genèrics o revisa l'ortografia.</span>
-                    </div>
+                    </>
                 )}
 
                 {/* 2. Standard Action Block (Displaced downward when searching) */}

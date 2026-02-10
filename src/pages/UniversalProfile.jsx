@@ -1,14 +1,16 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { 
   MapPin, 
   Settings, 
   Grid, 
   Heart, 
   Share2, 
+  Edit3, 
   Camera, 
   Link as LinkIcon, 
   CheckCircle,
-  Save
+  Save,
+  X
 } from 'lucide-react';
 
 /**
@@ -18,12 +20,12 @@ import {
  * NO toques el Layout.jsx, NO toques la Sidebar, NO toques el Header.
  * Estem treballant EXCLUSIVAMENT en el 'Content Frame' (la part de baix/dreta).
  * * * FOTO DE PERFIL (CRÍTIC):
- * La imatge 'avatarUrl' apunta a '/Javi_Llinares-Foto_perfil-1.jpg'.
+ * La imatge 'avatarUrl' apunta a 'Javi_Llinares-Foto_perfil-1.jpg'.
  * ASSEGURA'T que aquest fitxer existeix a la carpeta /public.
  * Si no es troba, es mostrarà un fallback taronja amb inicials, MAI una foto d'stock.
  */
 
-const Profile = () => {
+const UniversalProfile = () => {
   // ESTATS
   const [activeTab, setActiveTab] = useState('posts');
   const [isConnected, setIsConnected] = useState(false); // L'Eix del Sistema
@@ -32,15 +34,16 @@ const Profile = () => {
   // DADES MESTRE (JAVI LLINARES)
   const [profileData, setProfileData] = useState({
     name: "Javi Llinares",
-    role: "Arquitecte digital i amant de l'oli d'oliva. Buskant sempre la millor versió del nostre poble. #SócDePoble 🏺✨",
+    role: "Arquitecte digital i amant de l'oli d'oliva. Buscant sempre la millor versió del nostre poble. #SócDePoble 🏺✨",
     location: "LA TORRE",
     type: "SUPER ADMIN",
     stats: { followers: "1.2k", following: "45", posts: "8" },
     
     // --- LA FOTO SAGRADA ---
+    // Aquesta ruta ha de ser relativa a la carpeta public del projecte real
     avatarUrl: "/Javi_Llinares-Foto_perfil-1.jpg", 
     
-    // Fons groc creatiu (Llapis/Disseny)
+    // Fons groc creatiu (Llapis/Disseny) - Provisional com demanat
     coverUrl: "https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
   });
 
@@ -60,7 +63,7 @@ const Profile = () => {
   ];
 
   return (
-    <div className="w-full min-h-screen bg-black text-white font-sans overflow-y-auto custom-scrollbar pb-32">
+    <div className="w-full min-h-screen bg-black !bg-none text-white font-sans overflow-y-auto custom-scrollbar pb-32">
       <style>
         {`
           @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap');
@@ -78,15 +81,15 @@ const Profile = () => {
         `}
       </style>
 
-      {/* --- HERO SECTION (GROC & LLAPIS) --- */}
-      <div className="relative w-full">
+      {/* --- HERO SECTION (NEGRESOR & OMEGA) --- */}
+      <div className="relative w-full bg-black">
         {/* Imatge de Portada */}
-        <div className="w-full h-64 md:h-80 overflow-hidden relative rounded-b-[40px] shadow-2xl border-b border-gray-800 bg-yellow-500">
-          <div className="absolute inset-0 bg-black/10 z-10"></div>
+        <div className="w-full h-64 md:h-80 overflow-hidden relative rounded-b-[40px] shadow-2xl border-b border-gray-800 bg-black !bg-none">
+          <div className="absolute inset-0 bg-black/40 z-10"></div>
           <img 
             src={profileData.coverUrl} 
             alt="Portada" 
-            className="w-full h-full object-cover opacity-90"
+            className="w-full h-full object-cover opacity-60"
           />
           
           <div className="absolute top-6 right-6 z-20 flex gap-3">
@@ -107,13 +110,15 @@ const Profile = () => {
           
           {/* AVATAR: LA FOTO DE LA PERRUCA */}
           <div className="relative group cursor-pointer">
-            <div className="w-48 h-48 rounded-full p-1.5 bg-black shadow-2xl relative z-10 flex items-center justify-center bg-[#F97316]">
+            <div className="w-48 h-48 rounded-full p-1 bg-black shadow-2xl relative z-10 flex items-center justify-center border-4 border-[#FF6D23]">
               <img 
                 src={profileData.avatarUrl} 
                 alt={profileData.name} 
-                className="w-full h-full object-cover rounded-full border-4 border-[#1a1a1a]"
+                className="w-full h-full object-cover rounded-full"
+                // PROTOCOL ANTI-BARBUT: Si no troba la foto, amaga l'element img i mostra el fons taronja amb inicials
                 onError={(e) => {
                     e.target.style.display = 'none';
+                    // El pare (div) ja té el fons taronja
                 }}
               />
               
@@ -205,7 +210,7 @@ const Profile = () => {
                 }
               `}
             >
-              <LinkIcon size={28} />
+              {isConnected ? <CheckCircle size={28} /> : <LinkIcon size={28} />}
               {isConnected ? 'CONNECTAT' : 'CONNECTAR'}
               
               {!isConnected && (
@@ -307,4 +312,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default UniversalProfile;

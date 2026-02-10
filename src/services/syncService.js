@@ -1,4 +1,3 @@
-import { supabase } from '../supabaseClient';
 import { logger } from '../utils/logger';
 
 /**
@@ -17,8 +16,8 @@ export const syncService = {
             };
             localStorage.setItem(`sp_draft_${key}`, JSON.stringify(draft));
             logger.log(`[SyncService] Borrador guardado para: ${key}`);
-        } catch (e) {
-            logger.error('[SyncService] Error guardando borrador:', e);
+        } catch (err) {
+            logger.error('[SyncService] Error guardando borrador:', err);
         }
     },
 
@@ -29,7 +28,7 @@ export const syncService = {
         try {
             const data = localStorage.getItem(`sp_draft_${key}`);
             return data ? JSON.parse(data) : null;
-        } catch (e) {
+        } catch {
             return null;
         }
     },
@@ -49,5 +48,38 @@ export const syncService = {
         const backups = JSON.parse(localStorage.getItem('sp_chat_backups') || '{}');
         backups[convId] = { text, at: Date.now() };
         localStorage.setItem('sp_chat_backups', JSON.stringify(backups));
+    },
+
+    /**
+     * [Protocol OMEGA: Dumb Pipe]
+     * Empaqueta el graf d'operacions com un blob binari opac per al transport.
+     */
+    packForTransport: (ops) => {
+        logger.log('[SyncService] Empaquetant graf operacional (Dumb Pipe)...');
+        // En una versió futura, açò usaria LZ4 o Protobuf.
+        // Ara mateix generem un Base64 opac per al relay.
+        const blob = btoa(unescape(encodeURIComponent(JSON.stringify(ops))));
+        return {
+            v: '1.0.0-OMEGA',
+            payload: blob,
+            checksum: ops.length // Verificació prima de quantitat d'ops
+        };
+    },
+
+    /**
+     * [Protocol OMEGA: Dumb Pipe]
+     * Desempaqueta un blob binari opac provinent d'un transport (Supabase/P2P).
+     */
+    unpackFromTransport: (packageData) => {
+        if (!packageData || packageData.v !== '1.0.0-OMEGA') {
+            throw new Error('[SyncService] Versió de paquet incompatible');
+        }
+        try {
+            const raw = decodeURIComponent(escape(atob(packageData.payload)));
+            return JSON.parse(raw);
+        } catch (err) {
+            logger.error('[SyncService] Error desenroscant paquet opac:', err);
+            return [];
+        }
     }
 };

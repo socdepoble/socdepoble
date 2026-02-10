@@ -3593,5 +3593,27 @@ export const supabaseService = {
             logger.error('[SupabaseService] Error en getMyEntities:', err);
             return [];
         }
+    },
+
+    /**
+     * [Protocol OMEGA: Dumb Pipe]
+     * Puja un blob binari opac al relay sense coneixement semàntic.
+     */
+    async uploadOpaqueBlob(path, packageData) {
+        try {
+            logger.log(`[SupabaseService] Pujant blob opac a: ${path}`);
+            const { error } = await supabase
+                .from('opaque_relays')
+                .upsert([{ 
+                    path, 
+                    payload: packageData.payload, 
+                    v: packageData.v,
+                    updated_at: new Date().toISOString()
+                }]);
+            return { error };
+        } catch (err) {
+            logger.error('[SupabaseService] Error pujant blob opac:', err);
+            return { error: err };
+        }
     }
 };

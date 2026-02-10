@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Search, ExternalLink, BookOpen, ChevronRight, Share2, Heart, MessageCircle, Layers } from 'lucide-react';
+import { ArrowLeft, Search, ExternalLink, BookOpen, ChevronRight, Share2, Heart, MessageCircle, Layers, Camera } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useUI } from '../context/UIContext';
-import { memoriaVivaService } from '../services/MemoriaVivaService';
 import { MOCK_FEED, NANO_BANANA_LEGACY_ALBUM } from '../data';
 import './AlbumMemoria.css';
 
 const AlbumMemoria = () => {
-    const { user } = useAuth();
     const { visualDemocracy, setVisualDemocracy } = useUI();
     const navigate = useNavigate();
     const [items, setItems] = useState([]);

@@ -7,6 +7,7 @@ import ShareHub from './ShareHub';
 import { useNavigate } from 'react-router-dom';
 import MediaViewerModal from './MediaViewerModal';
 import { useTheme } from '../context/ThemeContext';
+import { trustService } from '../services/trustService';
 import './ProfileHeaderPremium.css';
 
 /**
@@ -36,7 +37,7 @@ const ProfileHeaderPremium = ({
     isConnected = false,
     isConnecting = false,
     onConnect, // Function to handle connection flow
-    showConnect = false,
+    showConnect = true, // Force visibility by default as per Protocol OMEGA
     showThemeToggle = false,
     onEditToggle,
     onEditSave,
@@ -60,18 +61,28 @@ const ProfileHeaderPremium = ({
 
     const handleConnectClick = () => {
         if (isConnected) {
-            // If already connected, we just call the disconnect logic directly or ask
             onConnect?.({ disconnect: true });
         } else {
-            // Open Rhizome for tagging
             setIsRhizomeOpen(true);
         }
     };
 
-    const confirmConnection = (tag) => {
+    const confirmConnection = async (tag) => {
+        // [WEB OF TRUST] Emetem el vot de confiança en local
+        const targetId = title || 'unknown'; // Idealment s'usaria un DID real
+        await trustService.emitTrustVote(targetId, 1.0);
+        
         onConnect?.({ tag });
         setIsRhizomeOpen(false);
     };
+
+    // Estil de reputació (Trellat)
+    const [trustLevel, setTrustLevel] = React.useState(null);
+    React.useEffect(() => {
+        if (title) {
+            trustService.getProximityReputation(title).then(setTrustLevel);
+        }
+    }, [title]);
 
     return (
         <div className={`profile-premium-header-container ${type} ${isEditing ? 'edit-mode-active' : ''}`}>
@@ -86,16 +97,17 @@ const ProfileHeaderPremium = ({
 
                 {/* Navigation Actions */}
                 <div className="premium-nav-actions">
-                    <button className="premium-btn-circle back" onClick={handleBack} title="Tornar">
-                        <ArrowLeft size={24} />
-                    </button>
-
-                    <div className="nav-actions-right">
+                    <div className="nav-actions-left flex items-center gap-4">
+                        <button className="premium-btn-circle back" onClick={handleBack} title="Tornar">
+                            <ArrowLeft size={24} />
+                        </button>
+                        
                         {showConnect && (
                             <button 
                                 className={`premium-connect-pill ${isConnected ? 'connected' : ''}`}
                                 onClick={handleConnectClick}
                                 disabled={isConnecting}
+                                style={{ height: '44px' }}
                             >
                                 {isConnecting ? (
                                     <Loader2 size={18} className="animate-spin" />
@@ -107,12 +119,14 @@ const ProfileHeaderPremium = ({
                                 ) : (
                                     <>
                                         <UserPlus size={18} />
-                                        <span>CONECTAR</span>
+                                        <span>🤝 CONNECTAR</span>
                                     </>
                                 )}
                             </button>
                         )}
+                    </div>
 
+                    <div className="nav-actions-right">
                         {(shareData || onShare) && (
                             <div className="premium-share-wrapper">
                                 {onShare ? (
@@ -197,6 +211,11 @@ const ProfileHeaderPremium = ({
                                         {badge}
                                     </span>
                                 ))}
+                                {trustLevel && trustLevel.level !== 'desconegut' && (
+                                    <span className="premium-badge trust-score" title={trustLevel.direct ? 'Confiança Directa' : `Confiança via ${trustLevel.witness}`}>
+                                        🏺 {trustLevel.level === 'alta' ? 'FIABLE' : 'CONEGUT'}
+                                    </span>
+                                )}
                             </div>
                         </div>
                         <div className="premium-meta-stack">

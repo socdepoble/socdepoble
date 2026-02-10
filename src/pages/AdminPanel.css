@@ -62,7 +62,7 @@
     align-items: flex-start;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 768px) {
     .dashboard-layout {
         grid-template-columns: 1fr;
     }

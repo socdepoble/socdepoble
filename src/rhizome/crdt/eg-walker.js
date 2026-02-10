@@ -14,88 +14,110 @@ class EgWalker {
     constructor(nodeId = 'village-cell-' + Math.random().toString(36).substring(7)) {
         this.nodeId = nodeId;
         this.opCounter = 0;
+        this.docQueues = new Map(); // Cues per a garantir atomicitat per document
+    }
+
+    /**
+     * Garantix que les operacions sobre un document s'executen de forma seqüencial (Atomic Swap).
+     */
+    async _runWithDocLock(docId, task) {
+        if (!this.docQueues.has(docId)) {
+            this.docQueues.set(docId, Promise.resolve());
+        }
+
+        const previousTask = this.docQueues.get(docId);
+        const nextTask = (async () => {
+            await previousTask;
+            try {
+                return await task();
+            } catch (err) {
+                logger.error(`[EgWalker] Error en tasca bloquejada per a ${docId}:`, err);
+                throw err;
+            }
+        })();
+
+        this.docQueues.set(docId, nextTask.catch(() => {})); // Evitem que un error trenqui la cua
+        return nextTask;
     }
 
     /**
      * Registra una operació local i la persisteix a RhizomeDB.
      */
     async applyLocal(docId, opType, value) {
-        const snapshot = await rhizomeDb.getSnapshot(docId);
-        const lastOpId = snapshot ? snapshot.lastOpId : null;
+        return this._runWithDocLock(docId, async () => {
+            const snapshot = await rhizomeDb.getSnapshot(docId);
+            const lastOpId = snapshot ? snapshot.lastOpId : null;
 
-        const op = {
-            id: `${this.nodeId}-${Date.now()}-${this.opCounter++}`,
-            docId,
-            type: opType,
-            value,
-            dependsOn: lastOpId ? [lastOpId] : [],
-            timestamp: Date.now(),
-            author: this.nodeId
-        };
+            const op = {
+                id: `${this.nodeId}-${Date.now()}-${this.opCounter++}`,
+                docId,
+                type: opType,
+                value,
+                dependsOn: lastOpId ? [lastOpId] : [],
+                timestamp: Date.now(),
+                author: this.nodeId
+            };
 
-        await rhizomeDb.saveOperation(op);
+            await rhizomeDb.saveOperation(op);
 
-        // Recalculem l'estat (Amnèsic)
-        const ops = await rhizomeDb.getOperations(docId);
-        const newState = this._calculateState(ops);
+            const ops = await rhizomeDb.getOperations(docId);
+            const newState = this._calculateState(ops);
 
-        await rhizomeDb.saveSnapshot(docId, newState, op.id);
-
-        return op;
+            await rhizomeDb.saveSnapshot(docId, newState, op.id);
+            return op;
+        });
     }
 
     /**
-     * Fusiona operacions remotes.
+     * Fusiona operacions remotes amb bloqueig d'atomicitat.
      */
     async merge(docId, remoteOps) {
-        const start = performance.now();
-        logger.log(`[EgWalker] Iniciant fusió Rhizome per a ${docId}...`);
+        return this._runWithDocLock(docId, async () => {
+            const start = performance.now();
+            logger.log(`[EgWalker] Iniciant fusió Rhizome per a ${docId}...`);
 
-        const localOps = await rhizomeDb.getOperations(docId);
-        const localIds = new Set(localOps.map(o => o.id));
+            const localOps = await rhizomeDb.getOperations(docId);
+            const localIds = new Set(localOps.map(o => o.id));
 
-        const newOps = remoteOps.filter(op => !localIds.has(op.id));
-        if (newOps.length === 0) return (await this.getState(docId))?.data;
+            const newOps = remoteOps.filter(op => !localIds.has(op.id));
+            if (newOps.length === 0) return (await this.getState(docId))?.data;
 
-        for (const op of newOps) {
-            await rhizomeDb.saveOperation(op);
-        }
+            for (const op of newOps) {
+                await rhizomeDb.saveOperation(op);
+            }
 
-        const allOps = await rhizomeDb.getOperations(docId);
-        const newState = this._calculateState(allOps);
+            const allOps = await rhizomeDb.getOperations(docId);
+            const newState = this._calculateState(allOps);
 
-        const lastOpId = allOps.length > 0 ? allOps[allOps.length - 1].id : null;
-        await rhizomeDb.saveSnapshot(docId, newState, lastOpId);
+            const lastOpId = allOps.length > 0 ? allOps[allOps.length - 1].id : null;
+            await rhizomeDb.saveSnapshot(docId, newState, lastOpId);
 
-        const end = performance.now();
-        logger.log(`[EgWalker] Rhizome Sync completat en ${(end - start).toFixed(2)}ms.`);
+            const end = performance.now();
+            logger.log(`[EgWalker] Rhizome Sync completat en ${(end - start).toFixed(2)}ms.`);
 
-        return newState;
+            return newState;
+        });
     }
 
     /**
      * Poda de Versió Crítica (Garbage Collection).
-     * [FLASH] Neteja l'estat intern i purga metadades per estalviar RAM i Disc.
      */
     async prune(docId) {
-        const ops = await rhizomeDb.getOperations(docId);
-        if (ops.length < 100) return; // Límit conservador per a "Versió Crítica"
+        return this._runWithDocLock(docId, async () => {
+            const ops = await rhizomeDb.getOperations(docId);
+            if (ops.length < 100) return;
 
-        logger.log(`[EgWalker] EXECUTANT GARBAGE COLLECTION (Versió Crítica) per a ${docId}...`);
+            logger.log(`[EgWalker] EXECUTANT ATOMIC PRUNING ($Vcrit) per a ${docId}...`);
 
-        // 1. Assegurem que tenim un snapshot fresc de l'estat actual
-        const allOps = await rhizomeDb.getOperations(docId);
-        const currentState = this._calculateState(allOps);
-        const lastOpId = allOps.length > 0 ? allOps[allOps.length - 1].id : null;
+            const allOps = await rhizomeDb.getOperations(docId);
+            const currentState = this._calculateState(allOps);
+            const lastOpId = allOps.length > 0 ? allOps[allOps.length - 1].id : null;
 
-        await rhizomeDb.saveSnapshot(docId, currentState, lastOpId);
+            await rhizomeDb.saveSnapshot(docId, currentState, lastOpId);
+            await rhizomeDb.purgeOperations(docId, 20);
 
-        // 2. Purguem les operacions antigues de la DB
-        // Conservem les últimes 20 per a permetre fusions concurrents de branques curtes
-        await rhizomeDb.purgeOperations(docId, 20);
-
-        // 3. Forcem l'alliberament de qualsevol cache efímer (Amnèsia de RAM)
-        logger.log(`[EgWalker] Sistema purgat. Estat actual preservat com a Snapshot Crític.`);
+            logger.log(`[EgWalker] Poda atòmica completada per a ${docId}.`);
+        });
     }
 
     async getState(docId) {
@@ -103,44 +125,46 @@ class EgWalker {
     }
 
     /**
-     * Lògica de càlcul d'estat (Sense conflictes).
-     * Ara integra Peritext per a la fusió de spans de text ric.
+     * Lògica de càlcul d'estat DETERMINISTA (Lamport Tie-break).
      */
     _calculateState(graph) {
         if (graph.length === 0) return { content: '', spans: [] };
 
         let state = {};
         let spans = [];
-        let deletedIds = new Set(); // Conjunt de tombstones
+        let deletedIds = new Set();
 
-        // Ordenem per causalitat i timestamp
+        // Ordenem per causalitat i determinisme absolut (Lamport)
         const sortedGraph = [...graph].sort((a, b) => {
+            // 1. Causalitat (DependsOn)
             if (a.dependsOn.includes(b.id)) return 1;
             if (b.dependsOn.includes(a.id)) return -1;
-            return a.timestamp - b.timestamp;
+
+            // 2. Determinisme: Timestamp -> NodeId -> OpId
+            if (a.timestamp !== b.timestamp) return a.timestamp - b.timestamp;
+            
+            const authorCmp = (a.author || '').localeCompare(b.author || '');
+            if (authorCmp !== 0) return authorCmp;
+
+            return a.id.localeCompare(b.id);
         });
 
         sortedGraph.forEach(op => {
             if (op.type === 'edit') {
                 if (typeof op.value === 'object') {
-                    // Si el valor té un ID i no està esborrat
                     if (op.value.id && deletedIds.has(op.value.id)) return;
                     state = { ...state, ...op.value };
                 } else {
                     state = op.value;
                 }
             } else if (op.type === 'delete') {
-                // Registrem el tombstone
                 deletedIds.add(op.value);
-
-                // Si l'estat és un objecte, intentem treure la clau/id
                 if (typeof state === 'object' && state[op.value]) {
                     const newState = { ...state };
                     delete newState[op.value];
                     state = newState;
                 }
             } else if (op.type === 'format') {
-                // Usem Peritext per a fusionar els spans de forma resilient
                 spans = peritext.mergeSpans(spans, [op.value]);
             } else if (op.type === 'snapshot') {
                 state = op.value.content || op.value;
@@ -148,7 +172,6 @@ class EgWalker {
             }
         });
 
-        // Si l'estat és un objecte, li injectem els spans (si té descripció)
         if (typeof state === 'object' && state.description) {
             return { ...state, spans, _deleted: Array.from(deletedIds) };
         }

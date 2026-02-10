@@ -42,7 +42,7 @@ class RhizomeManager {
     async pruneHistory(docId = 'global') {
         logger.log(`[Rhizome] Iniciant Poda del Solatge (Eg-walker) per a ${docId}...`);
         try {
-            this.walker.prune(docId);
+            await this.walker.prune(docId);
 
             // Actualitzem versió de consens
             const nextVersion = this._incrementVersion(this.currentVersion);

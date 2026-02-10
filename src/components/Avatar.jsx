@@ -16,7 +16,7 @@ const getAvatarColor = (role) => {
         case ROLES.OFFICIAL: return 'var(--color-primary)';
         case ROLES.BUSINESS: return 'var(--color-secondary)';
         case ROLES.GROUPS: return '#E07A5F'; // Warm accent
-        default: return '#4A5568'; // Darker gray for contrast
+        default: return '#FF7300'; // Taronja Corporatiu Sóc de Poble (Protocol OMEGA)
     }
 };
 

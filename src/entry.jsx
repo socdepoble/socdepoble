@@ -5,6 +5,7 @@ import './index.css'
 import './design-system/tokens.css'
 import './i18n/config'
 import { AppProvider } from './context/AppContext'
+import { BrowserRouter } from 'react-router-dom';
 import { RescueTool } from './components/RescueTool';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -241,7 +242,9 @@ try {
               <ToastProvider>
                 <VersionGatekeeper>
                   <SafeShell>
-                    <App />
+                    <BrowserRouter>
+                      <App />
+                    </BrowserRouter>
                   </SafeShell>
                 </VersionGatekeeper>
               </ToastProvider>

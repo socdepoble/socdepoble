@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { FileText, ChevronRight, Calculator, Landmark, Sprout, Home, Info, Search, Bot, Shield } from 'lucide-react';
+import KitDigitalManager from '../components/KitDigitalManager';
 import './OficiDocumentacio.css';
 
 const OficiDocumentacio = () => {
     const navigate = useNavigate();
+    const { id } = useParams();
     const [searchTerm, setSearchTerm] = useState('');
+    const [activeProcedure, setActiveProcedure] = useState(id || null);
 
     const documentCategories = [
         {
@@ -38,6 +41,16 @@ const OficiDocumentacio = () => {
             procedures: [
                 { id: 'domiciliacio-bancaria', title: 'Model de Domiciliació Bancària', status: 'active' },
             ]
+        },
+        {
+            id: 'kit-digital',
+            title: 'Kit Digital (Govern)',
+            icon: <Bot className="cat-icon" />,
+            color: '#FF6D23',
+            description: 'Ajudes per a la digitalització (PIMES i Autònoms).',
+            procedures: [
+                { id: 'kit-digital-solicitud', title: 'Gestió de Documents Kit Digital', status: 'active', official_code: 'KD-2024' },
+            ]
         }
     ];
 
@@ -45,6 +58,10 @@ const OficiDocumentacio = () => {
         cat.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         cat.procedures.some(p => p.title.toLowerCase().includes(searchTerm.toLowerCase()))
     );
+
+    if (activeProcedure === 'kit-digital-solicitud') {
+        return <KitDigitalManager onBack={() => setActiveProcedure(null)} />;
+    }
 
     return (
         <div className="ofici-page animate-in">
@@ -89,7 +106,7 @@ const OficiDocumentacio = () => {
                                 <button
                                     key={proc.id}
                                     className={`procedure-item ${proc.status}`}
-                                    onClick={() => proc.status === 'active' && navigate(`/ofici/${proc.id}`)}
+                                    onClick={() => proc.status === 'active' && setActiveProcedure(proc.id)}
                                 >
                                     <div className="proc-info">
                                         <span className="proc-title">{proc.title}</span>

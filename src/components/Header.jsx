@@ -1,6 +1,9 @@
+// ☢️ [NOTA NUCLEAR PER A FLASH]: NOMÉS estem tocant el contenidor de continguts estandarditzats. 
+// NO TOCAR l'estructura (Sidebar/Header) que ja està bategada i blindada.
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
+import { useUI } from "../context/UIContext";
 import {
   Search,
   Bell,
@@ -10,16 +13,17 @@ import {
 } from "lucide-react";
 
 /**
- * [MASTER HEADER V8.5 - V11 HARMONY]
- * Arquitectura de Ferro: fons #000000, altura 112px, icones a la dreta amb de tema.
+ * [MASTER HEADER V11 - PROTOCOL OMEGA]
+ * Arquitectura de Ferro: fons #050505, altura var(--header-h).
  */
 const Header = () => {
   const { user, profile } = useAuth();
   const { theme, toggleTheme } = useTheme();
+  const { openIAIARoleSelector, iaiaLevel } = useUI();
   const navigate = useNavigate();
 
   return (
-    <header className="h-[64px] min-h-[64px] max-h-[64px] flex items-center justify-end px-8 bg-[#050505] border-b border-[#27272a]/30 relative z-50">
+    <header className="header-fixed-alzina">
       <div className="header-icons-box flex items-center gap-6">
         {/* 1. Lupa (Cerca) */}
         <button 
@@ -30,13 +34,20 @@ const Header = () => {
           <Search size={22} />
         </button>
 
-        {/* 2. Chispa (IAIA) */}
+        {/* 2. Chispa (IAIA) - ESTAT CERO / ACTIVE */}
         <button
-          className="text-[#5D5FEF] hover:scale-110 transition-all p-2"
-          onClick={() => navigate("/iaia")}
-          title="IAIA Hub"
+          className={`flex items-center gap-2 transition-all p-2 rounded-full px-4 border ${
+            iaiaLevel > 0 
+              ? 'text-[#FF6D23] bg-[#FF6D23]/10 border-[#FF6D23]/20 shadow-[0_0_15px_rgba(255,109,35,0.2)]'
+              : 'text-white/40 hover:text-white bg-white/5 border-white/10'
+          }`}
+          onClick={openIAIARoleSelector}
+          title="Configura el teu nivell d'IAIA"
         >
-          <Sparkles size={22} />
+          <Sparkles size={20} className={iaiaLevel > 0 ? 'animate-pulse' : ''} />
+          <span className="text-[10px] font-black uppercase tracking-wider hidden xs:inline">
+            {iaiaLevel === 0 ? 'IAIA' : `NIVELL ${iaiaLevel}`}
+          </span>
         </button>
 
         {/* 3. Lluna/Sol (Tema) */}
@@ -61,7 +72,7 @@ const Header = () => {
         )}
 
         {/* 5. Perfil (Avatar) */}
-        <div className="h-[32px] w-[1px] bg-white/10 mx-2" /> {/* Divider com a la captura */}
+        <div className="h-[32px] w-[1px] bg-white/10 mx-2" /> {/* Divider */}
         {user && (
           <div className="avatar-box cursor-pointer hover:scale-105 transition-transform" onClick={() => navigate("/perfil")}>
             <div className="w-9 h-9 rounded-full border border-white/10 overflow-hidden bg-[#1a1a1c] flex items-center justify-center">

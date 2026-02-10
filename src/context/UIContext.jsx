@@ -34,6 +34,8 @@ export const UIProvider = ({ children }) => {
     const [asoMode, setAsoMode] = useState(false);
     const [isTallerOpen, setIsTallerOpen] = useState(false);
     const [isNotePadOpen, setIsNotePadOpen] = useState(false);
+    const [isIAIARoleSelectorOpen, setIsIAIARoleSelectorOpen] = useState(false);
+    const [iaiaLevel, setIaiaLevel] = useState(prefs.iaiaLevel || 0);
 
     // [MASTER GENT] Lògica de Poble-Nodo (Cyber-Rural)
     const [selectedTown, setSelectedTown] = useState(prefs.selectedTown || 'La Torre de les Maçanes');
@@ -191,6 +193,15 @@ export const UIProvider = ({ children }) => {
             setIsTallerOpen,
             isNotePadOpen,
             setIsNotePadOpen,
+            isIAIARoleSelectorOpen,
+            setIsIAIARoleSelectorOpen,
+            iaiaLevel,
+            setIaiaLevel: (level) => {
+                setIaiaLevel(level);
+                preferenceService.setPrefs({ ...preferenceService.getPrefs(), iaiaLevel: level });
+            },
+            openIAIARoleSelector: () => setIsIAIARoleSelectorOpen(true),
+            closeIAIARoleSelector: () => setIsIAIARoleSelectorOpen(false),
             selectedTown,
             setSelectedTown,
             preferredAgentId,

@@ -34,15 +34,17 @@ const getParticipantInfo = (chat, currentId, t) => {
     };
 };
 
-
+/**
+ * Component per a mostrar la llista de converses.
+ */
 const ChatList = () => {
+    const { user, profile, impersonatedProfile, activeEntityId, isSuperAdmin, isPlayground } = useAuth();
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const { user, profile, impersonatedProfile, activeEntityId, isSuperAdmin, isPlayground } = useAuth();
     const { visionMode } = useUI();
     const { activeCategories } = useSocial();
-    const [chats, setChats] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [chats, setChats] = useState([]); // [ESTAT CERO] - Silenci Digital: Escalfant motors per al Protocol OMEGA
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState('xat');
     const [selectedTown, setSelectedTown] = useState(null);
@@ -238,7 +240,7 @@ const ChatList = () => {
 
         fetchChats();
         return () => { isMounted = false; };
-    }, [currentId, selectedCategory, selectedTown, isPlayground, visionMode, profile]);
+    }, [currentId, selectedCategory, selectedTown, isPlayground, visionMode, profile, t]);
 
     const handleChatClick = async (chat) => {
         if (String(chat.id || '').startsWith('new-iaia-')) {

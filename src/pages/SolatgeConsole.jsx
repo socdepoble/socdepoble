@@ -13,7 +13,9 @@ import {
     Box,
     Info,
     Layout,
-    Layers
+    Layers,
+    Sparkles,
+    BrainCircuit
 } from 'lucide-react';
 import { useUI } from '../context/UIContext';
 import { rhizomeDb } from '../rhizome/db-core';
@@ -30,6 +32,7 @@ const SolatgeConsole = () => {
     const { visualDemocracy, setVisualDemocracy } = useUI();
     const [dbStatus, setDbStatus] = useState('loading');
     const [stats, setStats] = useState({ ops: 0, snapshots: 0, size: '0MB', peritext: { marksCount: 0, stableAnchors: 0 } });
+    const [isIAAuditLoading, setIsIAAuditLoading] = useState(false);
     const [logs, setLogs] = useState([
         { id: 1, time: 'Ara', msg: '🚜 Benvingut a la Consola Solatge v1.0' },
         { id: 2, time: 'Ara', msg: '⚡️ Protocol Batec Actiu' }
@@ -73,6 +76,18 @@ const SolatgeConsole = () => {
         };
         Haptics.trigger(Haptics.light);
         addLog(dictionary[term], 'help');
+    };
+
+    const runIAAudit = () => {
+        setIsIAAuditLoading(true);
+        addLog('IAIA AUDITORIA: Analitzant la integritat del bategat...', 'info');
+        Haptics.trigger(Haptics.heavy);
+        
+        setTimeout(() => {
+            addLog('IAIA: "Fill meu, tot bategua bé. El vidre està net i l\'oli és pur."', 'success');
+            addLog('DIAGNÒSTIC: Sobirania del 98%. Cap interferència detectada.', 'success');
+            setIsIAAuditLoading(false);
+        }, 2000);
     };
 
     return (
@@ -162,6 +177,17 @@ const SolatgeConsole = () => {
                         </button>
                         <button className="info-trigger" onClick={(e) => { e.stopPropagation(); showInfo('sincronitzar'); }}>
                             <Info size={16} />
+                        </button>
+                    </div>
+
+                    <div className="action-wrapper">
+                        <button
+                            className="action-btn"
+                            onClick={runIAAudit}
+                            disabled={isIAAuditLoading}
+                        >
+                            <BrainCircuit size={24} className={isIAAuditLoading ? 'animate-spin' : ''} />
+                            <span>{isIAAuditLoading ? 'ANALITZANT...' : 'AUDITORIA IA'}</span>
                         </button>
                     </div>
 

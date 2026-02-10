@@ -868,6 +868,33 @@ const DiagnosticConsole = () => {
                             </button>
                             <Info size={12} className="hud-info-trigger small" onClick={() => setDidacticAlert(didacticData.actions.nuclear_reset)} />
                         </div>
+                        <div style={{ flex: 1, position: 'relative' }}>
+                            <button 
+                                className="btn-hud-danger level-3 master-reset-btn" 
+                                onClick={async () => {
+                                    const { masterReset } = await import('../utils/masterReset');
+                                    if (window.confirm('⚠️ ALERTA OMEGA: Estàs a punt d\'esborrar TOTA la teua identitat i dades locals. Aquesta acció és irreversible sense Padrins. Vols procedir?')) {
+                                        await masterReset();
+                                    }
+                                }} 
+                                style={{ 
+                                    width: '100%', 
+                                    background: 'linear-gradient(45deg, #ff0055, #f59e0b)',
+                                    color: 'white',
+                                    fontWeight: '950',
+                                    border: 'none',
+                                    boxShadow: '0 0 20px rgba(255, 0, 85, 0.4)'
+                                }}
+                            >
+                                <Zap size={16} /> <span>DIA ZERO: REINICI MESTRE</span>
+                            </button>
+                            <Info size={12} className="hud-info-trigger small" onClick={() => setDidacticAlert({
+                                title: "Protocol DIA ZERO",
+                                explanation: "Destrucció creativa del 'solatge' (localStorage i IndexedDB). Purifica el dispositiu per a un inici de demo impecable.",
+                                when: "Abans de la reunió amb Sollutia per garantir que no hi ha dades de test velles.",
+                                effect: "Esborra la identitat sobirana local i totes les rèpliques de dades."
+                            })} />
+                        </div>
                     </div>
                     <button className="btn-hud-restore" onClick={async () => await forceNukeSimulation()}>
                         <Activity size={18} /> <span>RESTAURAR SOBIRANIA DEL PERFIL</span>

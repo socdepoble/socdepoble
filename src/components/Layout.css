@@ -3,13 +3,16 @@
     flex-direction: row !important;
     width: 100vw;
     height: 100vh;
-    background-color: #000000;
+    background-color: #000000 !important;
 }
 
-aside {
-    min-width: 280px !important;
-    width: 280px !important;
+@media (max-width: 768px) {
+    aside {
+        display: none !important;
+    }
 }
+
+/* La visibilitat i ample de l'aside es delega a la Llei de Visibilitat Estricta */
 
 .layout-main-scroll {
     background-color: #000000 !important;
@@ -63,7 +66,7 @@ aside {
     background: var(--sdp-text-med);
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 768px) {
     .main-wrapper {
         padding: 0;
         max-width: 100%;

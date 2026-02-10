@@ -1,4 +1,3 @@
-import initSqlJs from '@sqlite.org/sqlite-wasm';
 import { logger } from '../utils/logger';
 
 /**
@@ -136,6 +135,16 @@ class RhizomeDB {
             this.sendToWorker('PURGE_OPS', { docId, keepLimit }, (res) => {
                 if (res.type === 'ERROR') reject(new Error(res.payload));
                 else resolve();
+            });
+        });
+    }
+
+    async getTrustScore(myDid, targetDid) {
+        await this.init();
+        return new Promise((resolve, reject) => {
+            this.sendToWorker('GET_TRUST_SCORE', { myDid, targetDid }, (res) => {
+                if (res.type === 'ERROR') reject(new Error(res.payload));
+                else resolve(res.payload);
             });
         });
     }

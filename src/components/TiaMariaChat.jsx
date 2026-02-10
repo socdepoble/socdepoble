@@ -11,12 +11,7 @@ const TiaMariaChat = () => {
     const { user } = useAuth();
     const navigate = useNavigate();
     const [messages, setMessages] = useState([
-        {
-            id: 'welcome',
-            text: "Bon dia fill! Què et conta la tia Maria? Vols saber alguna cosa del poble o t'aburrixes? Ací estic per a ajudar-te amb el que faça falta, xe!",
-            sender: 'ai',
-            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-        }
+        /* [ESTAT CERO] - Silenci Digital: Sense IAIA, espera de connexió humana */
     ]);
     const [inputValue, setInputValue] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -131,7 +126,7 @@ const TiaMariaChat = () => {
                     </button>
                     <input
                         type="text"
-                        placeholder="Pregunta-li algo a la tia..."
+                        placeholder="Connecta amb algun veí per a parlar..."
                         value={inputValue}
                         onChange={(e) => setInputValue(e.target.value)}
                         onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
@@ -143,10 +138,6 @@ const TiaMariaChat = () => {
                     >
                         <Send size={20} />
                     </button>
-                </div>
-                <div className="tia-ai-badge">
-                    <Sparkles size={12} />
-                    <span>POTENCIAT PER GEMINI AI</span>
                 </div>
             </footer>
         </div>

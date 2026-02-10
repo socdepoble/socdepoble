@@ -71,109 +71,170 @@
     cursor: pointer;
 }
 
-/* Bento Powers Grid V3.0 [11 ITEMS] */
-.powers-grid-master {
+/* Bento Powers Grid V10 [MASTER GÈNESIS] */
+.powers-grid-v10 {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 12px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    margin-top: 24px;
 }
 
-.power-card-alzina {
-    background: var(--bg-card);
-    border: var(--border-master);
-    padding: 20px;
-    border-radius: var(--radius-xl);
+.power-card-v10 {
+    position: relative;
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 20px;
+    padding: 24px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 28px;
+    overflow: hidden;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    position: relative;
-    min-height: 100px;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.power-card-alzina:hover {
-    transform: translate(-4px, -4px);
-    box-shadow: var(--shadow-hard);
+.power-card-v10:hover {
+    background: rgba(255, 255, 255, 0.07);
     border-color: var(--iaia-accent);
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
-.power-icon-wrapper {
-    width: 48px;
-    height: 48px;
-    background: var(--color-primary-soft);
-    border-radius: var(--radius-lg);
+.power-card-v10.glass-premium {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+.power-icon-v10 {
+    width: 56px;
+    height: 56px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 18px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--color-primary);
+    color: var(--iaia-accent);
     flex-shrink: 0;
+    transition: transform 0.3s;
 }
 
-.power-info h3 {
-    font-size: 1.1rem;
-    font-weight: 800;
+.power-card-v10:hover .power-icon-v10 {
+    transform: rotate(10deg);
+}
+
+.power-info-v10 h3 {
+    font-size: 18px;
+    font-weight: 950;
     margin-bottom: 4px;
+    color: #fff;
+    letter-spacing: -0.5px;
 }
 
-.power-info p {
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    line-height: 1.2;
+.power-info-v10 p {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.5);
+    line-height: 1.4;
 }
 
-.power-arrow {
-    margin-left: auto;
-    opacity: 0.3;
+.power-badge-v10 {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 9px;
+    font-weight: 950;
+    background: var(--iaia-accent);
+    color: #000;
+    padding: 4px 8px;
+    border-radius: 100px;
+    text-transform: uppercase;
 }
 
-/* Agents Scroller */
-.agents-scroller {
+/* El Corral dels Agents V10 */
+.team-corral-section {
+    margin-top: 40px;
+}
+
+.corral-header {
     display: flex;
-    gap: 16px;
-    overflow-x: auto;
-    padding: 8px 4px 20px;
-    scrollbar-width: none;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
 }
 
-.agent-token-card {
-    min-width: 140px;
-    background: var(--bg-surface);
-    border: var(--border-master);
-    padding: 16px;
-    border-radius: var(--radius-xl);
+.corral-badge {
+    background: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+    font-size: 10px;
+    font-weight: 900;
+    padding: 6px 12px;
+    border-radius: 99px;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.agents-grid-v10 {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 16px;
+}
+
+.agent-card-v10 {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 24px;
+    border-radius: 32px;
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
+    gap: 16px;
+    transition: all 0.3s ease;
 }
 
-.agent-avatar-frame {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    border: 3px solid var(--color-primary);
-    overflow: hidden;
-    background: white;
+.agent-card-v10:hover {
+    background: rgba(255, 255, 255, 0.05);
+    transform: scale(1.05);
 }
 
-.agent-avatar-frame img {
+.agent-avatar-v10 {
+    position: relative;
+    width: 80px;
+    height: 80px;
+}
+
+.agent-avatar-v10 img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    border-radius: 50%;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    padding: 4px;
+    background: #000;
 }
 
-.agent-text h4 {
-    font-size: 0.9rem;
-    font-weight: 800;
+.status-indicator {
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    width: 18px;
+    height: 18px;
+    background: #10b981;
+    border: 3px solid #000;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
 }
 
-.agent-text span {
-    font-size: 0.7rem;
-    color: var(--color-primary);
-    text-transform: uppercase;
+.agent-details-v10 h4 {
+    font-size: 16px;
     font-weight: 900;
+    margin-bottom: 4px;
+    color: #fff;
+}
+
+.agent-details-v10 span {
+    font-size: 10px;
+    color: var(--iaia-accent);
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 1px;
 }
 
 /* Utility Stats */
@@ -279,10 +340,35 @@
     text-transform: uppercase;
 }
 
-@media (max-width: 600px) {
-    .powers-grid-master {
+/* Footer & Global overrides */
+.iaia-profile-footer {
+    text-align: center;
+    margin-top: 60px;
+    padding: 40px 0;
+    opacity: 0.4;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.iaia-profile-footer p {
+    font-size: 12px;
+    font-weight: 900;
+    margin-bottom: 8px;
+}
+
+.iaia-profile-footer span {
+    font-size: 10px;
+}
+
+@media (max-width: 768px) {
+    .powers-grid-v10 {
         grid-template-columns: 1fr;
     }
+    .agents-grid-v10 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
     .proverbs-columns {
         grid-template-columns: 1fr;
     }

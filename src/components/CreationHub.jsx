@@ -70,14 +70,6 @@ const CreationHub = () => {
                         <span>Bloc de notes Master</span>
                     </button>
 
-                    <button className="share-full-frame doc-action-btn-hub" onClick={() => {
-                        setIsCreateModalOpen(false);
-                        navigate('/ofici');
-                    }}>
-                        <FileText size={24} />
-                        <span>Ofici de Documentació</span>
-                    </button>
-
                     {(isSuperAdmin || isAdmin) && (
                         <button className="share-full-frame admin-btn-styled" onClick={() => {
                             setIsCreateModalOpen(false);

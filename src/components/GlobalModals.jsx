@@ -10,6 +10,7 @@ import AgentSelectorModal from './AgentSelectorModal';
 import MediaViewerModal from './MediaViewerModal';
 import LegalDocsModal from './LegalDocsModal';
 import TallerTrellat from './TallerTrellat';
+import IAIARoleSelectorModal from './IAIARoleSelectorModal';
 
 const GlobalModals = () => {
     const {
@@ -39,7 +40,11 @@ const GlobalModals = () => {
         isEditModalOpen,
         closeEditModal,
         isTallerOpen,
-        setIsTallerOpen
+        setIsTallerOpen,
+        isIAIARoleSelectorOpen,
+        closeIAIARoleSelector,
+        iaiaLevel,
+        setIaiaLevel
     } = useUI();
     const { isPlayground } = useAuth();
 
@@ -153,6 +158,14 @@ const GlobalModals = () => {
                 <TallerTrellat
                     isOpen={isTallerOpen}
                     onClose={() => setIsTallerOpen(false)}
+                />
+            )}
+            {isIAIARoleSelectorOpen && (
+                <IAIARoleSelectorModal
+                    isOpen={isIAIARoleSelectorOpen}
+                    onClose={closeIAIARoleSelector}
+                    currentLevel={iaiaLevel}
+                    onSelect={setIaiaLevel}
                 />
             )}
         </>

@@ -272,21 +272,20 @@ export const AuthProvider = ({ children }) => {
                     setActiveEntityId(null);
                 }
 
+                const masters = (typeof CREATOR_EMAILS !== 'undefined') ? CREATOR_EMAILS : [];
+                const isCreator = masters.includes(session.user.email);
+
                 try {
                     let profileData = await supabaseService.getProfile(session.user.id);
 
                     // BUSCADOR DEL COR (v2): Si és un Padrino/Admin i el perfil és buit, busquem l'original
                     const JAVI_REAL_ID = 'd6325f44-7277-4d20-b020-166c010995ab';
-                    const masters = (typeof CREATOR_EMAILS !== 'undefined') ? CREATOR_EMAILS : [];
-                    const isCreator = masters.includes(session.user.email);
-                    const isPadrino = isCreator; // All creators are Padrinos by definition
-
-                    // If profileData is empty but it's a Padrino, search by name/username
-                    if (isPadrino && !profileData) {
+                    // ... (rest of the logic)
+                    if (isCreator && !profileData) {
                         const { data: adminProfiles } = await supabase
                             .from('profiles')
                             .select('*')
-                            .or(`id.eq.${JAVI_REAL_ID},full_name.ilike.%Javi Llinares%,username.eq.javillinares,username.eq.socdepoble`)
+                            .or(`id.eq.${JAVI_REAL_ID},username.eq.socdepoble`)
                             .not('avatar_url', 'is', null)
                             .order('created_at', { ascending: true })
                             .limit(1);
@@ -298,8 +297,7 @@ export const AuthProvider = ({ children }) => {
 
                     if (isMounted) {
                         // [MASTER IDENTITY PROTECTION]
-                        const masters = (typeof CREATOR_EMAILS !== 'undefined') ? CREATOR_EMAILS : [];
-                        const isOfficialCreator = masters.includes(session.user.email) ||
+                        const isOfficialCreator = isCreator ||
                             session.user.id === 'd6325f44-7277-4d20-b020-166c010995ab' ||
                             session.user.email?.includes('javillinares') ||
                             (window.location.hostname === 'localhost' && !session.user.email?.includes('test')) ||
@@ -308,12 +306,12 @@ export const AuthProvider = ({ children }) => {
                         const effectiveProfile = {
                             ...(profileData || {}),
                             id: profileData?.id || session.user.id,
-                            full_name: isOfficialCreator ? 'Javi Llinares' : (profileData?.full_name || session.user.email?.split('@')[0] || 'Veí de la Torre'),
+                            full_name: isOfficialCreator ? 'Master Arquitecte' : (profileData?.full_name || session.user.email?.split('@')[0] || 'Veí de la Torre'),
                             role: isOfficialCreator ? USER_ROLES.SUPER_ADMIN : (profileData?.role || USER_ROLES.NEIGHBOR),
-                            avatar_url: isOfficialCreator ? '/images/agents/javi_real.png' : (supabaseService.normalizeStorageUrl(profileData?.avatar_url) || null),
+                            avatar_url: isOfficialCreator ? '/Javi_Llinares-Foto_perfil-1.jpg' : (supabaseService.normalizeStorageUrl(profileData?.avatar_url) || null),
                             cover_url: isOfficialCreator ? '/assets/master/brand_cinematic.png' : (supabaseService.normalizeStorageUrl(profileData?.cover_url) || null),
-                            ofici: isOfficialCreator ? 'Mestre de la Simbiosi & Dissenyador Master' : (profileData?.ofici || null),
-                            bio: isOfficialCreator ? 'Pare de la +IA i de la Xarxa Rhizome. Bategant en peluca i ulleres de sol per la sobirania digital del poble. 🏺🏛️✨' : (profileData?.bio || null),
+                            ofici: isOfficialCreator ? 'Mestre de la Simbiosi' : (profileData?.ofici || null),
+                            bio: isOfficialCreator ? 'Bategant per la sobirania digital del poble. 🏺🏛️✨' : (profileData?.bio || null),
                             is_master: isOfficialCreator
                         };
 
@@ -354,10 +352,10 @@ export const AuthProvider = ({ children }) => {
                     const masterSobira = {
                         ...sobira,
                         id: 'd6325f44-7277-4d20-b020-166c010995ab',
-                        full_name: 'Javi Llinares',
-                        username: 'javillinares',
+                        full_name: 'Master Arquitecte',
+                        username: 'master',
                         role: USER_ROLES.SUPER_ADMIN,
-                        avatar_url: '/images/agents/javi_real.png',
+                        avatar_url: 'Javi_Llinares-Foto_perfil-1.jpg',
                         is_master: true,
                         is_sovereign: true
                     };

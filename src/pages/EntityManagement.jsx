@@ -83,7 +83,7 @@ const EntityManagement = () => {
                 </section>
 
                 <section className="my-entities-section">
-                    <h3>Les teves pàgines ({entities.length})</h3>
+                    <h3>Les teves entitats ({entities.length})</h3>
                     {entities.length === 0 ? (
                         <div className="empty-entities">
                             <Layout size={48} opacity={0.3} />

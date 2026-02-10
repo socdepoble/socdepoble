@@ -76,7 +76,7 @@ onmessage = async (e) => {
                 await init();
                 break;
 
-            case 'SAVE_OP':
+            case 'SAVE_OP': {
                 db.exec({
                     sql: 'INSERT OR IGNORE INTO operations (id, doc_id, type, value, depends_on, timestamp, author) VALUES (?, ?, ?, ?, ?, ?, ?)',
                     bind: [
@@ -91,8 +91,9 @@ onmessage = async (e) => {
                 });
                 postMessage({ id, type: 'SAVE_OP_OK' });
                 break;
+            }
 
-            case 'GET_OPS':
+            case 'GET_OPS': {
                 const ops = [];
                 db.exec({
                     sql: 'SELECT * FROM operations WHERE doc_id = ? ORDER BY timestamp ASC',
@@ -105,16 +106,18 @@ onmessage = async (e) => {
                 });
                 postMessage({ id, type: 'GET_OPS_OK', payload: ops });
                 break;
+            }
 
-            case 'SAVE_SNAPSHOT':
+            case 'SAVE_SNAPSHOT': {
                 db.exec({
                     sql: 'INSERT OR REPLACE INTO snapshots (doc_id, data, last_op_id, updated_at) VALUES (?, ?, ?, ?)',
                     bind: [payload.docId, JSON.stringify(payload.data), payload.lastOpId, Date.now()]
                 });
                 postMessage({ id, type: 'SAVE_SNAPSHOT_OK' });
                 break;
+            }
 
-            case 'GET_SNAPSHOT':
+            case 'GET_SNAPSHOT': {
                 let snapshot = null;
                 db.exec({
                     sql: 'SELECT * FROM snapshots WHERE doc_id = ?',
@@ -128,6 +131,7 @@ onmessage = async (e) => {
                 });
                 postMessage({ id, type: 'GET_SNAPSHOT_OK', payload: snapshot });
                 break;
+            }
 
             case 'PURGE_OPS':
                 db.exec({
@@ -143,6 +147,32 @@ onmessage = async (e) => {
                 });
                 postMessage({ id, type: 'PURGE_OPS_OK' });
                 break;
+
+            case 'GET_TRUST_SCORE': {
+                let score = 0;
+                // Query Recursiva de Confiança (CTE)
+                db.exec({
+                    sql: `
+                        WITH RECURSIVE trust_path(author, target, depth) AS (
+                            SELECT author, json_extract(value, '$.target'), 1 
+                            FROM operations 
+                            WHERE type = 'TRUST_VOTE' AND author = ?
+                            UNION ALL
+                            SELECT v.author, json_extract(v.value, '$.target'), tp.depth + 1
+                            FROM operations v 
+                            JOIN trust_path tp ON v.author = tp.target
+                            WHERE v.type = 'TRUST_VOTE' AND tp.depth < 3
+                        )
+                        SELECT depth FROM trust_path WHERE target = ? LIMIT 1
+                    `,
+                    bind: [payload.myDid, payload.targetDid],
+                    row: (row) => {
+                        score = row.depth;
+                    }
+                });
+                postMessage({ id, type: 'GET_TRUST_SCORE_OK', payload: { depth: score } });
+                break;
+            }
 
             default:
                 logger.error('Unknown action type: ' + type);

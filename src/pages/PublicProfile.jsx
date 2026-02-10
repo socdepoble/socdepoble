@@ -23,7 +23,6 @@ const PublicProfile = () => {
     const { user: currentUser } = useAuth();
     const { openLegalModal } = useUI();
     const [profile, setProfile] = useState(null);
-    const [managedEntities, setManagedEntities] = useState([]);
     const [userPosts, setUserPosts] = useState([]);
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -58,8 +57,7 @@ const PublicProfile = () => {
                 }
 
                 if (isOwnProfile) {
-                    const entities = await supabaseService.getUserEntities(id);
-                    setManagedEntities(entities);
+                    // Les entitats ja no es gestionen des d'aquí (Protocol OMEGA)
                 }
 
                 const [postsData, itemsData, followers] = await Promise.all([
@@ -284,51 +282,7 @@ const PublicProfile = () => {
                 })()
             }
 
-            {
-                isOwnProfile && managedEntities.length > 0 && (
-                    <section className="profile-section-premium managed-pages-section">
-                        <h2 className="section-header-premium">
-                            <Layout size={20} />
-                            Gestió de Pàgines
-                        </h2>
-                        <div className="entities-scroll-container">
-                            {managedEntities.map(entity => (
-                                <Link to={`/entitat/${entity.id}`} key={entity.id} className="entity-card-modern">
-                                    <div className={`entity-avatar-modern ${entity.type}`}>
-                                        {entity.avatar_url ? (
-                                            <img src={entity.avatar_url} alt={entity.name} />
-                                        ) : (
-                                            entity.type === 'oficial' ? <Building2 size={24} /> :
-                                                entity.type === 'negoci' ? <Store size={24} /> : <UsersIcon size={24} />
-                                        )}
-                                        <span className="manage-badge"><Settings size={12} /></span>
-                                    </div>
-                                    <div className="entity-info">
-                                        <h4>{entity.name}</h4>
-                                        <span className="entity-role">
-                                            {entity.type === 'negoci' ? 'Negoci Local' : (entity.type === 'oficial' ? 'Ajuntament / Oficial' : 'Associació')}
-                                        </span>
-                                        <div className="entity-meta">
-                                            <span className={`role-pill ${entity.member_role}`}>
-                                                {entity.member_role === 'admin' ? 'Administrador' : 'Membre'}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </Link>
-                            ))}
-                            <div className="entity-card-create" onClick={() => navigate('/gestio-entitats')}>
-                                <div className="create-icon-area">
-                                    <Plus size={24} />
-                                </div>
-                                <div className="entity-info">
-                                    <h4>Nova</h4>
-                                    <span className="entity-role">Pàgina</span>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                )
-            }
+            {/* [MASTER] ELIMINACIÓ DE RESIDUS GESTIÓ: Purgat per Protocol OMEGA */}
 
             <section className="profile-section-premium">
                 <h2 className="section-header-premium">

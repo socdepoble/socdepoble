@@ -8,16 +8,16 @@
 .universal-card {
     background: var(--surface-glass-heavy);
     border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-m);
+    border-radius: var(--radius-l);
     overflow: hidden;
     display: flex;
     flex-direction: column;
     height: 100%;
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: var(--shadow-deep);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
     position: relative;
-    backdrop-filter: blur(var(--blur-master));
-    -webkit-backdrop-filter: blur(var(--blur-master));
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
 }
 
 .universal-card:hover {

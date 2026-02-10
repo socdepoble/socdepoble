@@ -5,7 +5,7 @@ import {
     ArrowLeft, BookOpen, Sprout, Users, MessageCircle, Heart, Sparkles, User, 
     Clock, BellRing, Shield, Mic, Newspaper, Activity, Archive, Calendar, 
     Terminal, Settings, Layout, Image as ImageIcon, Store, Landmark, Zap, 
-    UserPlus, UserMinus, Loader2, Smile, Star, Camera
+    UserPlus, UserMinus, Loader2, Smile, Star, Camera, FileText
 } from 'lucide-react';
 import { useUI } from '../context/UIContext';
 import SEO from '../components/SEO';
@@ -70,6 +70,7 @@ const IAIAPage = () => {
         { id: 'arxiu_secret', icon: <Archive />, title: 'Arxiu Secret', desc: 'Llegendes i secrets guardats a l\'alcova.', route: '/arxiu' },
         { id: 'rebost', icon: <Store />, title: 'El Rebost', desc: 'Cuina d\'aprofitament i receptes bategades.', route: '/tools/recipe' },
         { id: 'trellat', icon: <Landmark />, title: 'Jutjat de Trellat', desc: 'Veredicte de sentit comú sobre les teues idees.', route: '/tools/trellat' },
+        { id: 'ofici', icon: <FileText />, title: 'Ofici de Documentació', desc: 'Gestió sobirana de tràmits i paperam.', route: '/ofici' },
         { id: 'ull_iaia', icon: <Camera />, title: 'L\'Ull de la IAIA', desc: 'Anàlisi visual bategada per l\'IAIA.', route: '/ia?mode=vision' }
     ];
 
@@ -180,33 +181,41 @@ const IAIAPage = () => {
                     </div>
                 </section>
 
-                {/* GRID D'HABILITATS (Què puc fer per tu?) */}
+                {/* GRID D'HABILITATS (IAIA SELECTOR V10 - GÈNESIS) */}
                 <section className="iaia-section bento-powers-section">
-                    <h2 className="section-title-master"><Star size={24} /> Què puc fer per tu?</h2>
-                    <div className="powers-grid-master">
+                    <div className="iaia-v10-selector-header">
+                        <h2 className="section-title-master"><Sparkles size={24} /> L'Arsenal Rural</h2>
+                        <p className="v10-subtitle">12 eines bategades per a la teua sobirania</p>
+                    </div>
+                    
+                    <div className="powers-grid-v10">
                         {powers.map(p => (
-                            <div key={p.id} className="power-card-alzina" onClick={() => navigate(p.route)}>
-                                <div className="power-icon-wrapper">{p.icon}</div>
-                                <div className="power-info">
+                            <div key={p.id} className="power-card-v10 glass-premium" onClick={() => navigate(p.route)}>
+                                <div className="power-icon-v10">{p.icon}</div>
+                                <div className="power-info-v10">
                                     <h3>{p.title}</h3>
                                     <p>{p.desc}</p>
                                 </div>
-                                <ArrowLeft className="power-arrow" size={16} style={{ transform: 'rotate(180deg)' }} />
+                                <div className="power-badge-v10">V10</div>
                             </div>
                         ))}
                     </div>
                 </section>
 
-                {/* EL CORRAL DELS AGENTS */}
+                {/* EL CORRAL DELS AGENTS (V10 PREMIUM) */}
                 <section className="iaia-section team-corral-section">
-                    <h2 className="section-title-master"><Users size={24} /> El Corral dels Agents</h2>
-                    <div className="agents-scroller">
+                    <div className="corral-header">
+                        <h2 className="section-title-master"><Users size={24} /> El Corral dels Agents</h2>
+                        <span className="corral-badge">4 BOTS ACTIUS</span>
+                    </div>
+                    <div className="agents-grid-v10">
                         {agents.map(a => (
-                            <div key={a.name} className="agent-token-card">
-                                <div className="agent-avatar-frame">
+                            <div key={a.name} className="agent-card-v10 glass-premium">
+                                <div className="agent-avatar-v10">
                                     <img src={a.avatar} alt={a.name} />
+                                    <div className="status-indicator online"></div>
                                 </div>
-                                <div className="agent-text">
+                                <div className="agent-details-v10">
                                     <h4>{a.name}</h4>
                                     <span>{a.role}</span>
                                 </div>

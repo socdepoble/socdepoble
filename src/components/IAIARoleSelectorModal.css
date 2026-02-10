@@ -1,0 +1,145 @@
+.iaia-role-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.iaia-role-modal {
+    background: #0A0A0B;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 28px;
+    width: 100%;
+    max-width: 500px;
+    padding: 32px;
+    position: relative;
+    box-shadow: 0 0 50px rgba(93, 95, 239, 0.2);
+}
+
+.iaia-role-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.sparkle-glow {
+    width: 64px;
+    height: 64px;
+    background: rgba(93, 95, 239, 0.1);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    box-shadow: 0 0 20px rgba(93, 95, 239, 0.3);
+}
+
+.iaia-role-header h2 {
+    font-size: 24px;
+    font-weight: 900;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+}
+
+.iaia-role-header p {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 14px;
+}
+
+.close-btn {
+    position: absolute;
+    top: 24px; right: 24px;
+    color: rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+}
+
+.levels-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.level-card {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.level-card:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+    transform: translateX(4px);
+}
+
+.level-card.active {
+    background: rgba(93, 95, 239, 0.1);
+    border-color: #5D5FEF;
+}
+
+.level-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    position: relative;
+}
+
+.level-card.gray .level-icon { color: #888; }
+.level-card.cyan .level-icon { color: #00F2FF; }
+.level-card.purple .level-icon { color: #5D5FEF; }
+
+.check-icon {
+    position: absolute;
+    top: -4px; right: -4px;
+    background: #5D5FEF;
+    color: white;
+    border-radius: 50%;
+    padding: 2px;
+}
+
+.level-info h3 {
+    font-size: 16px;
+    font-weight: 800;
+    margin-bottom: 4px;
+}
+
+.level-info p {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.4);
+    line-height: 1.5;
+}
+
+.iaia-role-footer {
+    margin-top: 32px;
+}
+
+.btn-confirm {
+    width: 100%;
+    padding: 16px;
+    background: #5D5FEF;
+    color: white;
+    border: none;
+    border-radius: 16px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-confirm:hover {
+    background: #4a4cd9;
+    box-shadow: 0 0 20px rgba(93, 95, 239, 0.4);
+}
