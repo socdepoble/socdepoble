@@ -1,7 +1,7 @@
 {
   "name": "soc-de-poble",
   "private": true,
-  "version": "1.16.8-ALZINA",
+  "version": "1.16.9",
   "type": "module",
   "scripts": {
     "dev": "vite",

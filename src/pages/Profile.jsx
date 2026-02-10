@@ -107,7 +107,7 @@ const Profile = () => {
           
           {/* AVATAR: LA FOTO DE LA PERRUCA */}
           <div className="relative group cursor-pointer">
-            <div className="w-48 h-48 rounded-full p-1.5 bg-black shadow-2xl relative z-10 flex items-center justify-center bg-[#F97316]">
+            <div className="w-40 h-40 rounded-full p-1 bg-black shadow-2xl relative z-10 flex items-center justify-center bg-[#F97316]">
               <img 
                 src={profileData.avatarUrl} 
                 alt={profileData.name} 

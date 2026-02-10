@@ -11,6 +11,7 @@ CONTÉ: Variables, Reset, Fonts i Components Base.
 :root {
     /* ☀️ MODE DIA (Protocol Alzina Master - LA BÍBLIA) */
     --bg-app: #000000;           /* NEGRE PUR UNIVERSAL */
+    --bg-master: #000000;
     --bg-panel: #0A0A0B;
     --bg-sidebar: #000000;
     --text-main: #FFFFFF;        /* LLEGIBILITAT SUPREMA */

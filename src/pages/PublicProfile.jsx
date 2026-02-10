@@ -167,7 +167,7 @@ const PublicProfile = () => {
     };
 
     return (
-        <div className="profile-container">
+        <div className="profile-container bg-black min-h-screen">
             <SEO
                 title={`${profile.full_name} | Perfil`}
                 description={`${profile.full_name}: ${profile.bio || profile.ofici || 'Veí de la Comunitat'}. Bategant a Sóc de Poble.`}
@@ -282,7 +282,7 @@ const PublicProfile = () => {
                 })()
             }
 
-            {/* [MASTER] ELIMINACIÓ DE RESIDUS GESTIÓ: Purgat per Protocol OMEGA */}
+
 
             <section className="profile-section-premium">
                 <h2 className="section-header-premium">

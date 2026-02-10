@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Header from './Header';
 import NavigationRail from './NavigationRail';
 import { useAuth } from '../context/AuthContext';
@@ -27,9 +27,7 @@ const ProtectedRoute = ({ children }) => {
 
 const AppLayout = () => {
     return (
-        <UIProvider>
-            <BrowserRouter>
-                <div className="flex h-screen bg-black text-white overflow-hidden">
+        <div className="flex h-screen bg-black text-white overflow-hidden">
                     {/* SIDEBAR (NOMÉS VISIBLE EN ESCRIPTORI segons Ordre del Mestre) */}
                     <aside className="hidden md:flex w-72 h-full flex-col bg-black border-r border-white/5 fixed left-0 top-0 z-50 overflow-y-auto">
                         <NavigationRail />
@@ -59,8 +57,6 @@ const AppLayout = () => {
                         </div>
                     </main>
                 </div>
-            </BrowserRouter>
-        </UIProvider>
     );
 };
 

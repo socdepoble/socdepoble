@@ -6,10 +6,10 @@ import './index.css';
 
 const App = () => {
 return (
-  <AuthProvider>
-    <AppLayout />
-    <GlobalModals />
-  </AuthProvider>
+    <div className="bg-black min-h-screen text-white">
+      <AppLayout />
+      <GlobalModals />
+    </div>
 );
 }
 

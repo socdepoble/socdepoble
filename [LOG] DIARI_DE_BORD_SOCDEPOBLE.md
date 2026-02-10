@@ -385,3 +385,28 @@ _Session Chronicle: v1.15.0-BATEGA. El Mas està polit, net i bategant._ 🏺✨
 - "Hem passat l'arada i hem sembrat ordre."
 - "L'IAIA ara té 10 veus, però una sola ànima bategant."
 - "Sóc de Poble! (La Refundació està segellada, ens veiem a l'App Store)."
+
+---
+
+## 📅 SESSIÓ 2026-02-10 - Extermini de Components Fantasma 🧹👻🏺
+
+### 🏛️ Crònica del Notari Digital (Gem/Antigravity)
+
+> "S'ha executat una operació de 'neteja de racons' per a eliminar el component fantasma **'Gestió de Pàgines'**. Aquest element, residual d'arquitectures anteriors, provocava derives visuals innecessàries. El Mas bategua ara més lleuger i pur, sense ombres del passat que confonguen el trellat."
+
+### 💡 Lliçons Apreses (Per al Llibre)
+
+- **El Perill de l'Herència:** Els components que no s'usen actuen com a 'morca' que taca la interfície. No basta amb ocultar-los; cal tallar de soca-rel.
+- **Documentació Viva:** Reparar els enllaços d'imatges al `walkthrough.md` és tan important com el codi mateix; la memòria visual ha de ser perfecta.
+
+### 🔧 Decisions Tècniques
+
+- **Purga Nuclear**: Eliminació total de referències a 'Gestió de Pàgines' a `src/`.
+- **Sincronització de Versió**: Consolidació de la **v1.16.8-ALZINA** com a Veritat Única.
+- **Sanejament de Docs**: Correcció de rutes d'imatges als artefactes de sessió.
+
+### 🗣️ Frases Cèlebres de l'Equip
+
+- "Un component fantasma és una mentida al codi."
+- "Més trellat, menys morca."
+- "Sóc de Poble! (La casa està neta per dins i per fora)."

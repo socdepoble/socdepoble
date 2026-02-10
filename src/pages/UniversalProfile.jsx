@@ -63,7 +63,7 @@ const UniversalProfile = () => {
   ];
 
   return (
-    <div className="w-full min-h-screen bg-black !bg-none text-white font-sans overflow-y-auto custom-scrollbar pb-32">
+    <div className="w-full min-h-screen bg-black text-white font-sans overflow-y-auto custom-scrollbar pb-32">
       <style>
         {`
           @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap');
@@ -81,15 +81,15 @@ const UniversalProfile = () => {
         `}
       </style>
 
-      {/* --- HERO SECTION (NEGRESOR & OMEGA) --- */}
-      <div className="relative w-full bg-black">
+      {/* --- HERO SECTION (GROC & LLAPIS) --- */}
+      <div className="relative w-full">
         {/* Imatge de Portada */}
-        <div className="w-full h-64 md:h-80 overflow-hidden relative rounded-b-[40px] shadow-2xl border-b border-gray-800 bg-black !bg-none">
-          <div className="absolute inset-0 bg-black/40 z-10"></div>
+        <div className="w-full h-64 md:h-80 overflow-hidden relative rounded-b-[40px] shadow-2xl border-b border-gray-800 bg-yellow-500">
+          <div className="absolute inset-0 bg-black/10 z-10"></div>
           <img 
             src={profileData.coverUrl} 
             alt="Portada" 
-            className="w-full h-full object-cover opacity-60"
+            className="w-full h-full object-cover opacity-90"
           />
           
           <div className="absolute top-6 right-6 z-20 flex gap-3">
@@ -110,11 +110,11 @@ const UniversalProfile = () => {
           
           {/* AVATAR: LA FOTO DE LA PERRUCA */}
           <div className="relative group cursor-pointer">
-            <div className="w-48 h-48 rounded-full p-1 bg-black shadow-2xl relative z-10 flex items-center justify-center border-4 border-[#FF6D23]">
+            <div className="w-48 h-48 rounded-full p-1.5 bg-black shadow-2xl relative z-10 flex items-center justify-center bg-[#F97316]">
               <img 
                 src={profileData.avatarUrl} 
                 alt={profileData.name} 
-                className="w-full h-full object-cover rounded-full"
+                className="w-full h-full object-cover rounded-full border-4 border-[#1a1a1a]"
                 // PROTOCOL ANTI-BARBUT: Si no troba la foto, amaga l'element img i mostra el fons taronja amb inicials
                 onError={(e) => {
                     e.target.style.display = 'none';
