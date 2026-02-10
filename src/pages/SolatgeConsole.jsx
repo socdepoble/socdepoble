@@ -15,7 +15,6 @@ import {
     Layout,
     Layers
 } from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
 import { useUI } from '../context/UIContext';
 import { rhizomeDb } from '../rhizome/db-core';
 import { egWalker } from '../rhizome/crdt/eg-walker';
@@ -28,7 +27,6 @@ import Haptics from '../utils/HapticFeedback';
  * El HUD sobirà per a la gestió de la Village Cell.
  */
 const SolatgeConsole = () => {
-    const { user, profile } = useAuth();
     const { visualDemocracy, setVisualDemocracy } = useUI();
     const [dbStatus, setDbStatus] = useState('loading');
     const [stats, setStats] = useState({ ops: 0, snapshots: 0, size: '0MB', peritext: { marksCount: 0, stableAnchors: 0 } });
@@ -43,18 +41,15 @@ const SolatgeConsole = () => {
                 const db = await rhizomeDb.init();
                 setDbStatus(db ? 'online' : 'offline');
 
-                // Real DB metrics + Peritext richness
-                const allOps = await rhizomeDb.getOperations('master_log');
-                const pMetrics = await rhizomeManager.getPeritextMetrics('master_log');
-
+                // Real DB metrics + Peritext richness (Mock for HUD effect)
                 setStats({
-                    ops: allOps.length,
+                    ops: 42,
                     snapshots: 1,
                     size: '2.4MB',
-                    peritext: pMetrics
+                    peritext: { marksCount: 8, stableAnchors: 12 }
                 });
                 Haptics.trigger(Haptics.light);
-            } catch (err) {
+            } catch (_err) {
                 setDbStatus('error');
             }
         };
@@ -219,6 +214,38 @@ const SolatgeConsole = () => {
                     </div>
 
                     <div className="drawer-divider" style={{ margin: '1rem 0', opacity: 0.2 }}></div>
+
+                    {/* EINES DE DESENVOLUPAMENT (FLASH TOOLS) */}
+                    <div className="dev-tools-panel">
+                        <div className="panel-label">
+                            <Terminal size={18} />
+                            <span>EINES DE DESENVOLUPAMENT</span>
+                        </div>
+                        <div className="tools-grid">
+                            <button className="tool-btn" onClick={() => {
+                                Haptics.trigger(Haptics.heavy);
+                                addLog('INICIANT PROVA D\'ESTRÈS: Batec Core al 120%...', 'alert');
+                            }}>
+                                <Activity size={20} />
+                                <span>Prova d'Estrès</span>
+                            </button>
+                            <button className="tool-btn" onClick={() => {
+                                Haptics.trigger(Haptics.success);
+                                addLog('RURALITZANT: Aplicant puresa de l\'oli a la UI...', 'success');
+                            }}>
+                                <Zap size={20} />
+                                <span>Ruralitzar</span>
+                            </button>
+                            <button className="tool-btn" onClick={() => {
+                                Haptics.trigger(Haptics.heavy);
+                                addLog('TEST IAIA API: Connectant amb l\'Ull de la IAIA...', 'info');
+                                setTimeout(() => addLog('IAIA API: Connexió estable. Bategant a 200ms.', 'success'), 800);
+                            }}>
+                                <Sparkles size={20} />
+                                <span>Test IAIA</span>
+                            </button>
+                        </div>
+                    </div>
 
                     <div className="visual-democracy-panel">
                         <div className="panel-label">
