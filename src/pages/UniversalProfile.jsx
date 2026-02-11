@@ -1,53 +1,31 @@
 import React, { useState } from 'react';
 import { 
-  MapPin, 
-  Settings, 
-  Grid, 
-  Heart, 
-  Share2, 
-  Edit3, 
-  Camera, 
-  Link as LinkIcon, 
-  CheckCircle,
-  Save,
-  X
+  Share2, Settings, Save, MapPin, CheckCircle, Link as LinkIcon, 
+  Grid, Heart, Camera, User
 } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+import './UniversalProfile.css';
 
 /**
- * ⚠️ NOTA NUCLEAR PER A FLASH ⚠️
- * --------------------------------------
- * MIRA BÉ: Aquest component s'injecta DINS del contenidor principal.
- * NO toques el Layout.jsx, NO toques la Sidebar, NO toques el Header.
- * Estem treballant EXCLUSIVAMENT en el 'Content Frame' (la part de baix/dreta).
- * * * FOTO DE PERFIL (CRÍTIC):
- * La imatge 'avatarUrl' apunta a 'Javi_Llinares-Foto_perfil-1.jpg'.
- * ASSEGURA'T que aquest fitxer existeix a la carpeta /public.
- * Si no es troba, es mostrarà un fallback taronja amb inicials, MAI una foto d'stock.
+ * 🏺 UNIVERSAL PROFILE - LA BÍBLIA ESTRUCTURAL v1.21
+ * Arquitectura Premium per a la identitat bategada.
  */
-
 const UniversalProfile = () => {
-  // ESTATS
+  const { user, profile } = useAuth();
   const [activeTab, setActiveTab] = useState('posts');
-  const [isConnected, setIsConnected] = useState(false); // L'Eix del Sistema
-  const [isEditing, setIsEditing] = useState(false); // Mode Edició
+  const [isConnected, setIsConnected] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
-  // DADES MESTRE (JAVI LLINARES)
   const [profileData, setProfileData] = useState({
-    name: "Javi Llinares",
-    role: "Arquitecte digital i amant de l'oli d'oliva. Buscant sempre la millor versió del nostre poble. #SócDePoble 🏺✨",
-    location: "LA TORRE",
-    type: "SUPER ADMIN",
+    name: profile?.full_name || user?.email || "Veí de Poble",
+    role: profile?.bio || "Sóc un bategat del territori. Buscant sempre la millor versió del nostre poble. #SócDePoble 🏺✨",
+    location: profile?.primary_town || "LA TORRE",
+    type: profile?.role?.toUpperCase() || "VEI",
     stats: { followers: "1.2k", following: "45", posts: "8" },
-    
-    // --- LA FOTO SAGRADA ---
-    // Aquesta ruta ha de ser relativa a la carpeta public del projecte real
-    avatarUrl: "/Javi_Llinares-Foto_perfil-1.jpg", 
-    
-    // Fons groc creatiu (Llapis/Disseny) - Provisional com demanat
-    coverUrl: "https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+    avatarUrl: profile?.avatar_url || "", 
+    coverUrl: profile?.cover_url || "https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
   });
 
-  // Handler per a canvis en els inputs
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setProfileData(prev => ({ ...prev, [name]: value }));
@@ -63,251 +41,99 @@ const UniversalProfile = () => {
   ];
 
   return (
-    <div className="w-full min-h-screen bg-black text-white font-sans overflow-y-auto custom-scrollbar pb-32">
-      <style>
-        {`
-          @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap');
-          .font-condensed { font-family: 'Roboto Condensed', sans-serif; }
-          .custom-scrollbar::-webkit-scrollbar { width: 8px; }
-          .custom-scrollbar::-webkit-scrollbar-track { background: #111; }
-          .custom-scrollbar::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
-          
-          @keyframes pulse-orange {
-            0% { box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.4); }
-            70% { box-shadow: 0 0 0 20px rgba(249, 115, 22, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(249, 115, 22, 0); }
-          }
-          .animate-pulse-orange { animation: pulse-orange 2s infinite; }
-        `}
-      </style>
-
-      {/* --- HERO SECTION (GROC & LLAPIS) --- */}
-      <div className="relative w-full">
-        {/* Imatge de Portada */}
-        <div className="w-full h-64 md:h-80 overflow-hidden relative rounded-b-[40px] shadow-2xl border-b border-gray-800 bg-yellow-500">
-          <div className="absolute inset-0 bg-black/10 z-10"></div>
-          <img 
-            src={profileData.coverUrl} 
-            alt="Portada" 
-            className="w-full h-full object-cover opacity-90"
-          />
-          
+    <div className="universal-profile-body pb-32">
+      {/* Hero Section */}
+      <div className="profile-hero-section relative w-full">
+        <div className="profile-cover-box relative w-full h-64 md:h-80 overflow-hidden rounded-b-[40px] shadow-2xl border-b border-white/10">
+          <img src={profileData.coverUrl} alt="Portada" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-black/20"></div>
           <div className="absolute top-6 right-6 z-20 flex gap-3">
              <button className="p-3 bg-black/40 backdrop-blur-md rounded-full hover:bg-white/10 transition-all border border-white/10 group">
-              <Share2 size={20} className="text-white group-hover:scale-110" />
+              <Share2 size={20} className="text-white" />
             </button>
-            <button 
-              onClick={() => setIsEditing(!isEditing)}
-              className={`p-3 backdrop-blur-md rounded-full transition-all border border-white/10 group ${isEditing ? 'bg-[#F97316] text-white' : 'bg-black/40 text-white hover:bg-white/10'}`}
-            >
-              {isEditing ? <Save size={20} /> : <Settings size={20} className="group-hover:rotate-90 transition-transform" />}
+            <button onClick={() => setIsEditing(!isEditing)} className={`p-3 backdrop-blur-md rounded-full transition-all border border-white/10 group ${isEditing ? 'bg-orange-500 text-white' : 'bg-black/40 text-white hover:bg-white/10'}`}>
+              {isEditing ? <Save size={20} /> : <Settings size={20} />}
             </button>
           </div>
         </div>
 
-        {/* --- IDENTITAT & CAMPS EDITABLES --- */}
         <div className="px-6 md:px-12 -mt-24 relative z-30 flex flex-col items-center text-center">
-          
-          {/* AVATAR: LA FOTO DE LA PERRUCA */}
-          <div className="relative group cursor-pointer">
-            <div className="w-48 h-48 rounded-full p-1.5 bg-black shadow-2xl relative z-10 flex items-center justify-center bg-[#F97316]">
-              <img 
-                src={profileData.avatarUrl} 
-                alt={profileData.name} 
-                className="w-full h-full object-cover rounded-full border-4 border-[#1a1a1a]"
-                // PROTOCOL ANTI-BARBUT: Si no troba la foto, amaga l'element img i mostra el fons taronja amb inicials
-                onError={(e) => {
-                    e.target.style.display = 'none';
-                    // El pare (div) ja té el fons taronja
-                }}
-              />
-              
-              {/* Fallback Visual: Inicials "JL" si la foto no carrega */}
-              <div className="absolute inset-0 flex items-center justify-center -z-10 text-5xl font-bold text-white font-condensed tracking-tighter">
-                  JL
-              </div>
-
-              {/* Overlay d'Edició */}
-              <div className="absolute inset-0 rounded-full bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-20">
-                <Camera size={32} className="text-white" />
-              </div>
+          <div className="relative group cursor-pointer inline-block">
+            <div className="w-48 h-48 rounded-full p-1.5 bg-[var(--bg-app)] shadow-2xl relative z-10 flex items-center justify-center overflow-hidden">
+              {profileData.avatarUrl ? (
+                <img 
+                  src={profileData.avatarUrl} 
+                  alt={profileData.name} 
+                  className="w-full h-full object-cover rounded-full"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center bg-orange-500 text-6xl font-black text-white uppercase">
+                  {profileData.name.substring(0, 2)}
+                </div>
+              )}
+              <div className="absolute inset-0 rounded-full bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-20"><Camera size={32} className="text-white" /></div>
             </div>
           </div>
 
-          <div className="mt-4 font-condensed w-full max-w-2xl">
-            {/* Badges Editables */}
-            <div className="flex items-center justify-center gap-3 mb-3">
-              {isEditing ? (
-                <>
-                  <input 
-                    name="location" 
-                    value={profileData.location} 
-                    onChange={handleInputChange}
-                    className="bg-[#5c2b2b] text-[#ffcccc] text-xs px-4 py-1.5 rounded-full font-bold border border-red-500/20 text-center w-32 focus:outline-none focus:ring-2 focus:ring-[#F97316]"
-                  />
-                  <input 
-                    name="type" 
-                    value={profileData.type} 
-                    onChange={handleInputChange}
-                    className="bg-[#1e1b4b] text-[#818CF8] text-xs px-4 py-1.5 rounded-full font-bold border border-[#4F46E5]/30 text-center w-32 focus:outline-none focus:ring-2 focus:ring-[#F97316]"
-                  />
-                </>
-              ) : (
-                <>
-                  <span className="bg-[#5c2b2b] text-[#ffcccc] text-xs px-4 py-1.5 rounded-full font-bold flex items-center gap-1 border border-red-500/20 shadow-lg tracking-wider">
-                    <MapPin size={12} /> {profileData.location}
-                  </span>
-                  <span className="bg-[#1e1b4b] text-[#818CF8] text-xs px-4 py-1.5 rounded-full font-bold border border-[#4F46E5]/30 shadow-lg tracking-wider">
-                    {profileData.type}
-                  </span>
-                </>
-              )}
+          <div className="mt-4 w-full max-w-2xl px-4">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <span className="bg-red-950/40 text-red-200 text-[10px] px-4 py-1.5 rounded-full font-black flex items-center gap-1 border border-red-500/20 shadow-lg uppercase tracking-widest">
+                <MapPin size={12} /> {profileData.location}
+              </span>
+              <span className="bg-indigo-950/40 text-indigo-200 text-[10px] px-4 py-1.5 rounded-full font-black border border-indigo-500/30 shadow-lg uppercase tracking-widest">
+                {profileData.type}
+              </span>
             </div>
             
-            {/* NOM (Editable) */}
-            <div className="relative group inline-block w-full">
-              {isEditing ? (
-                <input 
-                  name="name" 
-                  value={profileData.name} 
-                  onChange={handleInputChange}
-                  className="bg-transparent text-4xl md:text-5xl font-bold text-white tracking-tight drop-shadow-xl mb-2 text-center w-full focus:outline-none border-b border-white/20 pb-1"
-                />
-              ) : (
-                <h1 className="text-4xl md:text-5xl font-bold text-white tracking-tight drop-shadow-xl mb-2 flex items-center justify-center gap-3">
-                  {profileData.name}
-                </h1>
-              )}
-            </div>
+            {isEditing ? (
+              <input name="name" value={profileData.name} onChange={handleInputChange} className="bg-transparent text-white text-4xl md:text-5xl font-black tracking-tight mb-2 text-center w-full focus:outline-none border-b border-white/10 pb-1" />
+            ) : (
+              <h1 className="text-4xl md:text-5xl font-black text-[var(--text-main)] tracking-tight mb-2">{profileData.name}</h1>
+            )}
             
-            {/* BIO (Editable) */}
-            <div className="relative group mt-2 w-full">
-              {isEditing ? (
-                <textarea 
-                  name="role" 
-                  value={profileData.role} 
-                  onChange={handleInputChange}
-                  rows="3"
-                  className="bg-white/5 text-gray-300 text-lg leading-relaxed font-light mx-auto rounded-lg p-3 w-full max-w-lg focus:outline-none focus:ring-1 focus:ring-[#F97316] text-center"
-                />
-              ) : (
-                <p className="text-gray-300 text-lg leading-relaxed font-light mx-auto max-w-lg">
-                  {profileData.role}
-                </p>
-              )}
-            </div>
+            {isEditing ? (
+              <textarea name="role" value={profileData.role} onChange={handleInputChange} rows="3" className="bg-white/5 text-gray-400 text-lg leading-relaxed mx-auto rounded-2xl p-4 w-full max-w-lg focus:outline-none focus:ring-1 focus:ring-orange-500 text-center mt-4" />
+            ) : (
+              <p className="text-[var(--text-secondary)] text-lg leading-relaxed font-medium mx-auto max-w-lg mt-2">{profileData.role}</p>
+            )}
           </div>
 
-          {/* --- L'EIX DEL SISTEMA: BOTÓ CONNECTAR (MANDATORI) --- */}
-          <div className="mt-8 mb-8 w-full flex justify-center">
-            <button 
-              onClick={() => setIsConnected(!isConnected)}
-              className={`
-                group relative px-10 py-5 rounded-full font-bold text-xl tracking-widest transition-all duration-300 transform hover:scale-105 active:scale-95 flex items-center gap-3 shadow-2xl
-                ${isConnected 
-                  ? 'bg-gradient-to-r from-green-600 to-emerald-600 text-white border-2 border-green-400/50' 
-                  : 'bg-gradient-to-r from-[#F97316] to-[#DB2777] text-white animate-pulse-orange border-2 border-orange-400/50'
-                }
-              `}
-            >
-              {isConnected ? <CheckCircle size={28} /> : <LinkIcon size={28} />}
-              {isConnected ? 'CONNECTAT' : 'CONNECTAR'}
-              
-              {!isConnected && (
-                <span className="absolute -top-1 -right-1 flex h-4 w-4">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-4 w-4 bg-white"></span>
-                </span>
-              )}
+          <div className="mt-10 mb-10 w-full flex justify-center">
+            <button onClick={() => setIsConnected(!isConnected)} className={`group relative px-12 py-5 rounded-full font-black text-xl tracking-[0.2em] transition-all duration-300 transform hover:scale-105 active:scale-95 flex items-center gap-4 shadow-2xl ${isConnected ? 'bg-zinc-800 text-green-400 border border-green-500/30' : 'bg-gradient-to-r from-orange-500 via-pink-600 to-orange-500 bg-[length:200%_auto] animate-gradient text-white border border-white/20'}`}>
+              {isConnected ? <CheckCircle size={28} /> : <LinkIcon size={28} />} {isConnected ? 'CONNECTAT' : 'CONNECTAR'}
+              {!isConnected && (<span className="absolute -top-1 -right-1 flex h-4 w-4"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span><span className="relative inline-flex rounded-full h-4 w-4 bg-white"></span></span>)}
             </button>
           </div>
 
-          {/* ESTADÍSTIQUES */}
-          <div className="flex items-center justify-center gap-8 md:gap-16 w-full max-w-md mx-auto py-6 border-t border-b border-white/10 bg-black/40 backdrop-blur-sm rounded-[20px]">
-            <div className="flex flex-col items-center group cursor-pointer hover:bg-white/5 p-2 rounded-lg transition-colors">
-              <span className="text-3xl font-bold text-white group-hover:text-[#F97316]">{profileData.stats.followers}</span>
-              <span className="text-[10px] text-gray-500 uppercase tracking-widest mt-1 font-bold">Seguidors</span>
-            </div>
-            <div className="flex flex-col items-center group cursor-pointer hover:bg-white/5 p-2 rounded-lg transition-colors">
-              <span className="text-3xl font-bold text-white group-hover:text-[#F97316]">{profileData.stats.following}</span>
-              <span className="text-[10px] text-gray-500 uppercase tracking-widest mt-1 font-bold">Seguint</span>
-            </div>
-            <div className="flex flex-col items-center group cursor-pointer hover:bg-white/5 p-2 rounded-lg transition-colors">
-              <span className="text-3xl font-bold text-white group-hover:text-[#F97316]">{profileData.stats.posts}</span>
-              <span className="text-[10px] text-gray-500 uppercase tracking-widest mt-1 font-bold">Històries</span>
-            </div>
+          <div className="flex items-center justify-center gap-8 md:gap-20 w-full max-w-2xl mx-auto py-8 border-y border-white/5 bg-white/[0.02] backdrop-blur-sm rounded-[32px] px-4">
+            <div className="flex flex-col items-center group cursor-pointer hover:bg-white/5 p-4 rounded-2xl transition-all"><span className="text-3xl font-black text-[var(--text-main)] group-hover:text-orange-500">{profileData.stats.followers}</span><span className="text-[10px] text-gray-500 uppercase tracking-[0.2em] mt-2 font-black">Seguidors</span></div>
+            <div className="flex flex-col items-center group cursor-pointer hover:bg-white/5 p-4 rounded-2xl transition-all"><span className="text-3xl font-black text-[var(--text-main)] group-hover:text-orange-500">{profileData.stats.following}</span><span className="text-[10px] text-gray-500 uppercase tracking-[0.2em] mt-2 font-black">Seguint</span></div>
+            <div className="flex flex-col items-center group cursor-pointer hover:bg-white/5 p-4 rounded-2xl transition-all"><span className="text-3xl font-black text-[var(--text-main)] group-hover:text-orange-500">{profileData.stats.posts}</span><span className="text-[10px] text-gray-500 uppercase tracking-[0.2em] mt-2 font-black">Històries</span></div>
           </div>
-
         </div>
       </div>
 
-      {/* --- CONTENT AREA --- */}
-      <div className="w-full max-w-5xl mx-auto px-4 mt-8">
-        
-        {/* TABS */}
-        <div className="flex justify-center mb-8">
-          <div className="bg-[#111] p-1.5 rounded-full inline-flex border border-white/5 shadow-inner">
-            <button 
-              onClick={() => setActiveTab('posts')}
-              className={`flex items-center gap-2 px-6 py-3 rounded-full text-sm font-bold transition-all duration-300 font-condensed tracking-wide ${
-                activeTab === 'posts' 
-                  ? 'bg-white text-black shadow-lg scale-105' 
-                  : 'text-gray-500 hover:text-white hover:bg-white/5'
-              }`}
-            >
-              <Grid size={18} />
-              MUR
-            </button>
-            <button 
-              onClick={() => setActiveTab('media')}
-              className={`flex items-center gap-2 px-6 py-3 rounded-full text-sm font-bold transition-all duration-300 font-condensed tracking-wide ${
-                activeTab === 'media' 
-                  ? 'bg-white text-black shadow-lg scale-105' 
-                  : 'text-gray-500 hover:text-white hover:bg-white/5'
-              }`}
-            >
-              <Heart size={18} />
-              BATEGATS
-            </button>
+      <div className="w-full max-w-6xl mx-auto px-6 mt-12 mb-20">
+        <div className="flex justify-center mb-10">
+          <div className="bg-white/5 p-1.5 rounded-full inline-flex border border-white/5">
+            <button onClick={() => setActiveTab('posts')} className={`flex items-center gap-3 px-8 py-4 rounded-full text-sm font-black transition-all duration-400 tracking-widest ${activeTab === 'posts' ? 'bg-white text-black shadow-xl scale-105' : 'text-gray-500 hover:text-white hover:bg-white/5'}`}><Grid size={20} /> MUR</button>
+            <button onClick={() => setActiveTab('media')} className={`flex items-center gap-3 px-8 py-4 rounded-full text-sm font-black transition-all duration-400 tracking-widest ${activeTab === 'media' ? 'bg-white text-black shadow-xl scale-105' : 'text-gray-500 hover:text-white hover:bg-white/5'}`}><Heart size={20} /> BATEGATS</button>
           </div>
         </div>
 
-        {/* GRID */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-6">
           {activeTab === 'posts' && userPosts.map((post) => (
-            <div 
-              key={post.id} 
-              className="group relative aspect-square bg-[#111] rounded-[24px] overflow-hidden border border-white/5 cursor-pointer hover:border-[#F97316]/50 transition-all duration-300 shadow-lg"
-            >
-              <img 
-                src={post.image} 
-                alt="Post" 
-                className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500 ease-out"
-              />
-              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
-                <div className="flex items-center gap-1 text-white font-bold">
-                  <Heart size={20} className="fill-white" /> 124
-                </div>
-              </div>
+            <div key={post.id} className="group relative aspect-square bg-zinc-900 rounded-[32px] overflow-hidden border border-white/5 cursor-pointer hover:border-orange-500/30 transition-all duration-500 shadow-2xl">
+              <img src={post.image} alt="Post" className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 ease-out" />
+              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4"><div className="flex items-center gap-1 text-white font-black"><Heart size={20} className="fill-white" /> 124</div></div>
             </div>
           ))}
-
           {activeTab === 'media' && (
-             <div className="col-span-full py-20 text-center text-gray-500 border-2 border-dashed border-white/10 rounded-[28px] bg-white/5">
-               <Heart size={48} className="mx-auto mb-4 opacity-20" />
-               <p className="font-condensed text-xl font-bold">Encara no hi ha bategats guardats.</p>
-               <p className="text-sm mt-2 opacity-60">Connecta amb el poble per omplir el rebost.</p>
-             </div>
+             <div className="col-span-full py-24 text-center text-gray-600 border-2 border-dashed border-white/5 rounded-[40px] bg-white/[0.01]"><Heart size={64} className="mx-auto mb-6 opacity-10" /><p className="text-2xl font-black text-gray-400">Encara no hi ha bategats.</p><p className="text-sm mt-3 font-medium opacity-50 uppercase tracking-widest">Connecta amb el poble per omplir el rebost.</p></div>
           )}
         </div>
-
       </div>
-
-      {/* --- FOOTER --- */}
-      <div className="w-full text-center pb-8 pt-8 text-gray-700 text-xs font-condensed tracking-widest uppercase border-t border-white/5 mt-10">
-        Sóc de Poble © 2026 • Sobirania Digital
-      </div>
-
+      <div className="w-full text-center pb-12 pt-12 text-gray-800 text-[10px] font-black tracking-[0.5em] uppercase border-t border-white/5 mt-20 opacity-30">Sóc de Poble © 2026 • Sobirania Digital</div>
     </div>
   );
 };

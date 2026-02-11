@@ -429,7 +429,7 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null, contentMo
             )}
 
             {/* Semantic Heading for SEO/A11y */}
-            <h1 className="sr-only">{t('mur.title') || 'Mur d\'Activitat i Notícies'}</h1>
+            <h1 className="sr-only">Mur d'Activitat i Notícies de Sóc de Poble</h1>
 
             {/* IAIA PORTERA TOGGLE [PILLAR 4] */}
             <div className="iaia-filter-bar px-4 py-2 flex justify-between items-center text-xs font-bold border-b border-gray-100 bg-white sticky top-14 z-20">

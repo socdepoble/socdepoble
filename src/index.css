@@ -10,13 +10,13 @@ CONTÉ: Variables, Reset, Fonts i Components Base.
    ========================================= */
 :root {
   /* ☀️ MODE DIA (Protocol Alzina Master - LA BÍBLIA) */
-  --bg-app: #000000; /* NEGRE PUR UNIVERSAL */
-  --bg-master: #000000;
-  --bg-panel: #0a0a0b;
-  --bg-sidebar: #000000;
-  --text-main: #ffffff; /* LLEGIBILITAT SUPREMA */
-  --text-muted: #888888;
-  --border-master: #27272a; /* GRID EXU V26 */
+  --bg-app: #fffaf5; /* Crema suau Premium */
+  --bg-master: #ffffff;
+  --bg-panel: #ffffff;
+  --bg-sidebar: #ffffff;
+  --text-main: #1a1a1c; /* Text fosc elegant */
+  --text-muted: #64748b;
+  --border-master: #e2e8f0; /* Bordes suaus */
 
   /* VALORS CROMÀTICS SAGRATS */
   --accent-orange: #ff6d23;
@@ -53,8 +53,12 @@ CONTÉ: Variables, Reset, Fonts i Components Base.
 .dark {
   /* 🌑 MODE NIT (Deep Black Master) */
   --bg-app: #000000;
+  --bg-master: #000000;
   --bg-panel: #121214;
+  --bg-sidebar: #000000;
   --text-main: #ffffff;
+  --text-muted: #888888;
+  --border-master: #27272a;
   --border-dim: var(--border-master);
 }
 
@@ -68,12 +72,13 @@ CONTÉ: Variables, Reset, Fonts i Components Base.
 }
 
 body {
-  background-color: var(--bg-master) !important;
-  color: white;
+  background-color: var(--bg-master);
+  color: var(--text-main);
   font-family: "Inter", sans-serif;
   overflow: hidden !important; /* PROHIBIT EL SCROLL GLOBAL */
   height: 100vh;
   width: 100vw;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Scrollbars Alzina Stylized */
@@ -113,8 +118,8 @@ body {
   position: fixed;
   top: 0;
   right: 0;
-  left: var(--sidebar-w);
-  background-color: #050505 !important; /* BLINDATGE BÍBLIC */
+  left: 280px;
+  background-color: var(--bg-master) !important; /* DINÀMIC SEGONS TEMA */
   border-bottom: 1px solid var(--border-master);
   z-index: 1000;
   display: flex;
@@ -127,8 +132,14 @@ body {
 @media (max-width: 768px) {
   .header-fixed-alzina {
     left: 0;
-    height: 80px;
-    padding: 0 20px;
+    height: 64px;
+    padding: 0 12px;
+  }
+  .header-icons-box {
+    gap: 12px !important;
+  }
+  .header-icons-box button {
+    padding: 4px !important;
   }
 }
 
@@ -485,4 +496,127 @@ body {
     flex-grow: 1 !important;
     width: auto !important;
   }
+}
+
+/* --- PARCHE NUCLEAR PARA VERCEL --- */
+
+/* FIJAR LA LISTA DE CHATS (Que no se encoja nunca) */
+@media (min-width: 768px) {
+  .chat-list-container, [class*="w-80"], aside {
+    width: 350px !important;
+    min-width: 350px !important;
+    flex-shrink: 0 !important; /* ESTO ES LA CLAVE */
+    display: flex !important;
+  }
+}
+
+/* OCULTAR SIDEBAR EN MÓVIL (Por la fuerza) */
+@media (max-width: 768px) {
+  .sidebar-frame, aside { display: none !important; }
+  .bottom-nav { display: flex !important; z-index: 9999 !important; }
+}
+
+/* ELIMINACIÓ DE GESTIÓ DE PÀGINES (FANTASMA) */
+.aso-study-overlay, .gestio-pagines-ghost {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* --- PARCHE NUCLEAR PARA VERCEL --- */
+
+/* FIXAR LA LLISTA DE XATS (Que no s'encongisca mai) */
+@media (min-width: 768px) {
+  .chat-list-container, [class*="w-80"], aside {
+    width: 350px !important;
+    min-width: 350px !important;
+    flex-shrink: 0 !important; /* AÇÒ ÉS LA CLAU MESTRA */
+    display: flex !important;
+  }
+}
+
+/* OCULTAR SIDEBAR EN MÒBIL (Per la força) */
+@media (max-width: 768px) {
+  .sidebar-frame, aside { display: none !important; }
+  .bottom-nav { display: flex !important; z-index: 9999 !important; }
+  /* Aixecar el xat per a que no el tape el menú */
+  .chat-input-wrapper { bottom: 80px !important; }
+}
+
+/* ELIMINACIÓ DE GESTIÓ DE PÀGINES (FANTASMA) */
+.aso-study-overlay, .gestio-pagines-ghost, .old-management-menu {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* --- 🛡️ SOBREESCRIPTURA NUCLEAR (DOOMSDAY PATCH) 🛡️ --- */
+
+/* Fons global dinàmic segons tema */
+body, html, #root {
+  background-color: var(--bg-master);
+  color: var(--text-main);
+  margin: 0;
+  padding: 0;
+}
+
+/* Amagar panells residuals (ara amb variables) */
+.white-box-legacy {
+  display: none !important;
+}
+
+/* CORRECCIÓ VERCEL: LLISTA DE XATS EN DESKTOP */
+@media (min-width: 768px) {
+    .chat-list-container, aside, [class*="w-80"] {
+        width: 350px !important;
+        min-width: 350px !important;
+        flex-shrink: 0 !important; /* CLAU PER A QUE NO DESAPAREGA */
+        display: flex !important;
+    }
+    /* El contingut principal ocupa la resta */
+    main { width: auto !important; flex-grow: 1 !important; }
+}
+
+/* CORRECCIÓ MÒBIL: VISIBILITAT ESTRICTA */
+@media (max-width: 768px) {
+  /* Sidebar fora */
+  aside, .sidebar-frame, [class*="w-72"] { display: none !important; }
+  
+  /* Menú inferior visible i damunt de tot */
+  .bottom-nav { 
+      display: flex !important; 
+      z-index: 9999 !important; 
+      position: fixed !important;
+      bottom: 0 !important;
+      background-color: #000000 !important;
+  }
+  
+  /* Xat visible flotant sobre el menú */
+  .chat-input-wrapper { 
+      bottom: 80px !important; 
+      z-index: 9998 !important; 
+  }
+}
+
+/* --- FIX FINAL: CONTENCIÓ D'IMATGES D'AVATAR (NIVELL OMEGA) --- */
+.avatar-box, [class*="w-9 h-9"], .profile-avatar-container {
+  overflow: hidden !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+}
+
+.avatar-box img, [class*="w-9 h-9"] img, .profile-avatar-container img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+}
+
+/* Evitar que qualsevol imatge s'estire més enllà del necessari en la capçalera */
+.header-fixed-alzina img {
+  max-height: 48px !important;
+  width: auto !important;
 }

@@ -284,7 +284,7 @@ const Market = ({ searchTerm = '' }) => {
                 type="website"
             />
             {/* Semantic Heading for SEO/A11y */}
-            <h1 className="sr-only">{t('market.title') || 'Mercat de Proximitat'}</h1>
+            <h1 className="sr-only">Mercat de Proximitat de Sóc de Poble</h1>
 
             <header className="page-header-with-tabs">
                 <div className="header-top-actions px-4 pt-4 flex justify-between items-center">

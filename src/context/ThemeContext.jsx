@@ -12,7 +12,7 @@ export const ThemeProvider = ({ children }) => {
     // Recuperar preferència o defecte a 'dark' (Nit Digital)
     const [theme, setThemeState] = useState(() => {
         const savedTheme = localStorage.getItem('nexus_theme');
-        return savedTheme || 'dark';
+        return savedTheme || 'light';
     });
 
     const availableThemes = [

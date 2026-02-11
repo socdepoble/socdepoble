@@ -4,10 +4,10 @@
     left: 0;
     right: 0;
     height: calc(72px + var(--safe-bottom));
-    background: rgba(0, 0, 0, 0.85) !important;
+    background: var(--bg-panel);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid var(--border-master);
     padding-bottom: var(--safe-bottom);
     display: flex;
     align-items: center;
@@ -21,7 +21,7 @@
     flex-direction: column;
     align-items: center;
     text-decoration: none;
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--text-muted);
     gap: 2px;
     flex: 1;
     min-width: 0;
@@ -69,10 +69,10 @@
 .active-dot {
     width: 4px;
     height: 4px;
-    background-color: #FFFFFF;
+    background-color: var(--text-main);
     border-radius: 50%;
     margin-top: 2px;
-    box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 8px var(--text-main);
 }
 
 .m3-nav-label {

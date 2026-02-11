@@ -25,7 +25,23 @@ const Header = () => {
   return (
     <header className="header-fixed-alzina">
       <div className="header-icons-box flex items-center gap-6">
-        {/* 1. Lupa (Cerca) */}
+        {/* 1. Perfil (Avatar) - ARA ÉS EL PRIMER SEGONS BÍBLIA */}
+        {user && (
+          <div className="avatar-box cursor-pointer hover:scale-105 transition-transform" onClick={() => navigate("/perfil")}>
+            <div className="w-9 h-9 rounded-full border border-white/10 overflow-hidden bg-[#1a1a1c] flex items-center justify-center">
+              {profile?.avatar_url ? (
+                  <img src={profile.avatar_url} alt="Perfil" className="w-full h-full object-cover" />
+              ) : (
+                  <div className="text-[10px] font-black text-white uppercase">
+                      {(profile?.full_name || user?.email || "U").substring(0, 1).toUpperCase()}
+                  </div>
+              )}
+            </div>
+          </div>
+        )}
+        <div className="h-[32px] w-[1px] bg-white/10 mx-2" /> {/* Divider */}
+
+        {/* 2. Lupa (Cerca) */}
         <button 
           className="text-gray-400 hover:text-white transition-all hover:scale-110 p-2" 
           onClick={() => navigate("/cerca")}
@@ -59,7 +75,7 @@ const Header = () => {
           {theme === 'dark' ? <Moon size={22} /> : <Sun size={22} />}
         </button>
 
-        {/* 4. Notificacions (Campana) */}
+        {/* 5. Notificacions (Campana) */}
         {user && (
           <button
             className="text-gray-400 hover:text-white transition-all hover:scale-110 relative p-2"
@@ -69,22 +85,6 @@ const Header = () => {
             <Bell size={22} />
             <span className="absolute top-1.5 right-1.5 bg-[#FF3B30] text-white text-[9px] font-black w-3.5 h-3.5 rounded-full flex items-center justify-center border border-black shadow-sm">3</span>
           </button>
-        )}
-
-        {/* 5. Perfil (Avatar) */}
-        <div className="h-[32px] w-[1px] bg-white/10 mx-2" /> {/* Divider */}
-        {user && (
-          <div className="avatar-box cursor-pointer hover:scale-105 transition-transform" onClick={() => navigate("/perfil")}>
-            <div className="w-9 h-9 rounded-full border border-white/10 overflow-hidden bg-[#1a1a1c] flex items-center justify-center">
-              {profile?.avatar_url ? (
-                  <img src={profile.avatar_url} alt="Perfil" className="w-full h-full object-cover" />
-              ) : (
-                  <div className="text-[10px] font-black text-white uppercase">
-                      {(profile?.full_name || user?.email || "U").substring(0, 1).toUpperCase()}
-                  </div>
-              )}
-            </div>
-          </div>
         )}
       </div>
     </header>

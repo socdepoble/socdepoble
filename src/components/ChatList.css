@@ -51,7 +51,7 @@
   flex-direction: column;
   padding: 0;
   gap: 0;
-  background-color: #000000;
+  background-color: var(--bg-app);
 }
 
 .chat-item {
@@ -59,10 +59,10 @@
   align-items: center;
   padding: 18px 24px;
   gap: 16px;
-  background: #000000;
+  background: var(--bg-app);
   cursor: pointer;
   transition: all 0.2s;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--border-master);
   position: relative;
 }
 

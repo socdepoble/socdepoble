@@ -126,3 +126,33 @@
 .m3-portal-textarea:focus {
     outline: none;
 }
+.m3-editor-container {
+    position: relative;
+}
+
+.magic-wand-trigger {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    background: #F97316; /* Gem Orange */
+    color: black;
+    border: none;
+    border-radius: 12px;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(249, 115, 22, 0.2);
+}
+
+.magic-wand-trigger:hover {
+    transform: scale(1.1) rotate(5deg);
+    background: #fb923c;
+    box-shadow: 0 6px 16px rgba(249, 115, 22, 0.3);
+}
+
+.magic-wand-trigger:active {
+    transform: scale(0.95);
+}

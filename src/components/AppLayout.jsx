@@ -2,8 +2,8 @@ import React, { lazy, Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Header from './Header';
 import NavigationRail from './NavigationRail';
+import Navigation from './Navigation';
 import { useAuth } from '../context/AuthContext';
-import { UIProvider } from '../context/UIContext';
 import NanoLoader from './NanoLoader';
 import ErrorBoundary from './ErrorBoundary';
 
@@ -11,58 +11,80 @@ import ErrorBoundary from './ErrorBoundary';
 const ChatLayout = lazy(() => import('../components/ChatLayout'));
 const ChatEmptyState = lazy(() => import('../components/ChatEmptyState'));
 const ChatDetail = lazy(() => import('../components/ChatDetail'));
-const Feed = lazy(() => import('../components/Feed'));
-const Market = lazy(() => import('../components/Marketplace'));
+const Feed = lazy(() => import('./Feed'));
+const Marketplace = lazy(() => import('./Marketplace'));
+const IAIAPage = lazy(() => import('../pages/IAIAPage'));
 const Login = lazy(() => import('../pages/Login'));
 const UniversalProfile = lazy(() => import('../pages/UniversalProfile'));
 const PublicProfile = lazy(() => import('../pages/PublicProfile'));
 const AdminPanel = lazy(() => import('../pages/AdminPanel'));
 const RescueTool = lazy(() => import('../components/RescueTool'));
+const Towns = lazy(() => import('../pages/Towns'));
+const TownDetail = lazy(() => import('../pages/TownDetail'));
+const ArxiuOr = lazy(() => import('../pages/Archive'));
+const CalendariMaster = lazy(() => import('../pages/MasterCalendar'));
+const AlbumGlobal = lazy(() => import('../pages/GlobalAssetAlbum'));
 
 const ProtectedRoute = ({ children }) => {
     const { user, loading } = useAuth();
-    if (loading) return <NanoLoader message="Versió v1.16.12 [MASTER]" />;
+    if (loading) return <NanoLoader message="Bategant..." />;
     if (!user) return <Navigate to="/login" replace />;
     return children;
 };
 
+/**
+ * 🏺 APP LAYOUT - LA BÍBLIA ESTRUCTURAL v1.21
+ * Arquitectura blindada. Sidebar fixa lateral, contingut central bategant.
+ */
 const AppLayout = () => {
     return (
-        <div className="flex h-screen bg-black text-white overflow-hidden">
-                    {/* SIDEBAR (NOMÉS VISIBLE EN ESCRIPTORI segons Ordre del Mestre) */}
-                    <aside className="hidden md:flex w-72 h-full flex-col bg-black border-r border-white/5 fixed left-0 top-0 z-50 overflow-y-auto">
-                        <NavigationRail />
-                    </aside>
+        <div className="flex h-screen bg-[var(--bg-app)] text-[var(--text-main)] overflow-hidden relative">
+            {/* 1. SIDEBAR (BÍBLIA: NOMÉS PC) */}
+            <aside className="hidden md:flex w-[280px] h-full flex-col bg-[var(--bg-sidebar)] border-r border-[var(--border-master)] fixed left-0 top-0 z-50">
+                <NavigationRail />
+            </aside>
 
-                    {/* MAIN CONTENT AREA */}
-                    <main className="flex-1 flex flex-col md:ml-72 relative min-h-screen">
-                        <Header />
-                        <div className="flex-1 overflow-y-auto pt-24 pb-20 md:pb-0">
-                            <Suspense fallback={<NanoLoader message="Bategant..." />}>
-                                <ErrorBoundary>
-                                    <Routes>
-                                        <Route path="/login" element={<Login />} />
-                                        <Route path="/" element={<Navigate to="/chats" replace />} />
-                                        
-                                        {/* RUTA DE XAT EINSTITUCIONALITZADA (SPLIT VIEW) */}
-                                        <Route path="/chats" element={<ProtectedRoute><ChatLayout /></ProtectedRoute>}>
-                                            <Route index element={<ChatEmptyState />} />
-                                            <Route path=":id" element={<ChatDetail />} />
-                                        </Route>
+            {/* 2. MAIN AREA */}
+            <main className="flex-1 flex flex-col md:ml-[280px] relative min-h-screen overflow-hidden">
+                <Header />
+                
+                <div className="flex-1 overflow-y-auto pt-20 pb-24 md:pb-0 scroll-smooth custom-scrollbar-alzina">
+                    <Suspense fallback={<NanoLoader message="Bategant..." />}>
+                        <ErrorBoundary>
+                            <Routes>
+                                <Route path="/login" element={<Login />} />
+                                <Route path="/" element={<Navigate to="/mur" replace />} />
+                                
+                                {/* RUTA DE XAT INSTITUCIONALITZADA */}
+                                <Route path="/chats/*" element={<ProtectedRoute><ChatLayout /></ProtectedRoute>}>
+                                    <Route index element={<ChatEmptyState />} />
+                                    <Route path=":id" element={<ChatDetail />} />
+                                </Route>
 
-                                        <Route path="/mur" element={<div className="px-4 md:px-8"><Feed /></div>} />
-                                        <Route path="/mercat" element={<div className="px-4 md:px-8"><Market /></div>} />
-                                        <Route path="/perfil" element={<ProtectedRoute><div className="px-4 md:px-8"><UniversalProfile /></div></ProtectedRoute>} />
-                                        <Route path="/perfil/:id" element={<div className="px-4 md:px-8"><PublicProfile /></div>} />
-                                        <Route path="/admin" element={<ProtectedRoute><div className="px-4 md:px-8"><AdminPanel /></div></ProtectedRoute>} />
-                                        <Route path="/nuke" element={<RescueTool />} />
-                                        <Route path="*" element={<Navigate to="/" replace />} />
-                                    </Routes>
-                                </ErrorBoundary>
-                            </Suspense>
-                        </div>
-                    </main>
+                                <Route path="/mur" element={<Feed />} />
+                                <Route path="/mercat" element={<Marketplace />} />
+                                <Route path="/iaia" element={<IAIAPage />} />
+                                <Route path="/pobles" element={<Towns />} />
+                                <Route path="/pobles/:id" element={<TownDetail />} />
+                                <Route path="/perfil" element={<ProtectedRoute><UniversalProfile /></ProtectedRoute>} />
+                                <Route path="/perfil/:id" element={<PublicProfile />} />
+                                <Route path="/admin" element={<ProtectedRoute><AdminPanel /></ProtectedRoute>} />
+                                <Route path="/arxiu" element={<ArxiuOr />} />
+                                <Route path="/calendari" element={<CalendariMaster />} />
+                                <Route path="/fotos/global" element={<AlbumGlobal />} />
+                                <Route path="/nuke" element={<RescueTool />} />
+                                <Route path="*" element={<Navigate to="/" replace />} />
+                            </Routes>
+                        </ErrorBoundary>
+                    </Suspense>
                 </div>
+
+                {/* 3. MENÚ INFERIOR (BÍBLIA: NOMÉS MÒBIL) */}
+                <div className="md:hidden fixed bottom-0 left-0 right-0 z-[60]">
+                    <Navigation />
+                </div>
+            </main>
+        </div>
     );
 };
 

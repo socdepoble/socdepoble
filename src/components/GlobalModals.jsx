@@ -11,6 +11,7 @@ import MediaViewerModal from './MediaViewerModal';
 import LegalDocsModal from './LegalDocsModal';
 import TallerTrellat from './TallerTrellat';
 import IAIARoleSelectorModal from './IAIARoleSelectorModal';
+import MagicPregoner from './MagicPregoner';
 
 const GlobalModals = () => {
     const {
@@ -44,7 +45,9 @@ const GlobalModals = () => {
         isIAIARoleSelectorOpen,
         closeIAIARoleSelector,
         iaiaLevel,
-        setIaiaLevel
+        setIaiaLevel,
+        isMagicPregonerOpen,
+        setIsMagicPregonerOpen
     } = useUI();
     const { isPlayground } = useAuth();
 
@@ -166,6 +169,15 @@ const GlobalModals = () => {
                     onClose={closeIAIARoleSelector}
                     currentLevel={iaiaLevel}
                     onSelect={setIaiaLevel}
+                />
+            )}
+            {isMagicPregonerOpen && (
+                <MagicPregoner 
+                    onClose={() => setIsMagicPregonerOpen(false)} 
+                    onContentGenerated={(text) => {
+                        window.dispatchEvent(new CustomEvent('magic-text-generated', { detail: { text } }));
+                        setIsMagicPregonerOpen(false);
+                    }}
                 />
             )}
         </>

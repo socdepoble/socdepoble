@@ -14,7 +14,7 @@ export const UIProvider = ({ children }) => {
     const [isSocialManagerOpen, setIsSocialManagerOpen] = useState(false);
     const [socialManagerContext, setSocialManagerContext] = useState(null); // { type, id, name }
     const [postModalConfig, setPostModalConfig] = useState({ isPrivate: false });
-    const [visionMode, setVisionMode] = useState(prefs.visionMode);
+    const [visionMode, setVisionMode] = useState(prefs.visionMode || 'hibrida');
     const [vibe, setVibe] = useState(prefs.vibe);
     const [gloveMode, setGloveMode] = useState(prefs.gloveMode);
     const [landingPage, setLandingPage] = useState(prefs.landingPage);
@@ -36,6 +36,7 @@ export const UIProvider = ({ children }) => {
     const [isNotePadOpen, setIsNotePadOpen] = useState(false);
     const [isIAIARoleSelectorOpen, setIsIAIARoleSelectorOpen] = useState(false);
     const [iaiaLevel, setIaiaLevel] = useState(prefs.iaiaLevel || 0);
+    const [isMagicPregonerOpen, setIsMagicPregonerOpen] = useState(false);
 
     // [MASTER GENT] Lògica de Poble-Nodo (Cyber-Rural)
     const [selectedTown, setSelectedTown] = useState(prefs.selectedTown || 'La Torre de les Maçanes');
@@ -205,7 +206,9 @@ export const UIProvider = ({ children }) => {
             selectedTown,
             setSelectedTown,
             preferredAgentId,
-            setPreferredAgentId
+            setPreferredAgentId,
+            isMagicPregonerOpen,
+            setIsMagicPregonerOpen
         }}>
             {children}
         </UIContext.Provider>

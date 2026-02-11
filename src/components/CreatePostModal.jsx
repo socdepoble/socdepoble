@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { X, Image as ImageIcon, Send, Loader2, Globe, Lock, Users, BookOpen, MessageSquare, Sparkles, Camera, Shield } from 'lucide-react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { X, Image as ImageIcon, Send, Loader2, MessageSquare, Sparkles, Camera, Plus } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { supabaseService } from '../services/supabaseService';
 import { hapticService } from '../services/hapticService';
 import { iaiaService } from '../services/iaiaService';
 import { logger } from '../utils/logger';
-import { getRandomProverb } from '../data/proverbs';
-import CaptureStudio from './CaptureStudio';
+import MagicPregoner from './MagicPregoner';
 import './CreatePostModal.css';
 
 const PREDEFINED_TAGS = ['Esdeveniment', 'Avís', 'Consulta', 'Proposta'];
@@ -28,6 +26,16 @@ const CreatePostModal = ({ isOpen, onClose, initialPobles = [], editMode = false
     const [multimediaFile, setMultimediaFile] = useState(null);
     const [iaiaAnalyzing, setIaiaAnalyzing] = useState(false);
     const [isCaptureOpen, setIsCaptureOpen] = useState(false);
+    const [isMagicOpen, setIsMagicOpen] = useState(false);
+
+    const loadEntities = useCallback(async () => {
+        try {
+            const userEntities = await supabaseService.getUserEntities(user.id);
+            setEntities(userEntities);
+        } catch (error) {
+            logger.error('[CreatePostModal] Error loading entities:', error);
+        }
+    }, [user.id]);
 
     useEffect(() => {
         if (isOpen && user) {
@@ -48,16 +56,7 @@ const CreatePostModal = ({ isOpen, onClose, initialPobles = [], editMode = false
                 setMultimediaPreview(postData.image_url);
             }
         }
-    }, [isOpen, user, profile, editMode, postData]);
-
-    const loadEntities = async () => {
-        try {
-            const userEntities = await supabaseService.getUserEntities(user.id);
-            setEntities(userEntities);
-        } catch (error) {
-            logger.error('[CreatePostModal] Error loading entities:', error);
-        }
-    };
+    }, [isOpen, user, profile, editMode, postData, loadEntities, selectedTowns.length]);
 
     const toggleTag = (tag) => {
         setSelectedTags(prev => prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]);
@@ -222,7 +221,21 @@ const CreatePostModal = ({ isOpen, onClose, initialPobles = [], editMode = false
                             onChange={(e) => setContent(e.target.value)}
                             autoFocus
                         />
+                        <button 
+                            className="magic-wand-trigger"
+                            onClick={() => setIsMagicOpen(true)}
+                            title="Millorar amb el Pregoner Màgic ✨"
+                        >
+                            <Sparkles size={18} />
+                        </button>
                     </div>
+
+                    <MagicPregoner 
+                        isOpen={isMagicOpen}
+                        onClose={() => setIsMagicOpen(false)}
+                        initialText={content}
+                        onApply={(newText) => setContent(newText)}
+                    />
 
                     {/* Tag Selector */}
                     <div className="m3-tag-selector">

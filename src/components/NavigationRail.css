@@ -15,32 +15,31 @@
     color: #FFFFFF;
 }
 
-.drawer-header-suprema {
-    padding: 32px 12px; /* Reduït padding lateral per donar més lloc al logo */
+.drawer-logo-container-biblia {
+    width: 100%;
+    padding: 0 16px;
     display: flex;
-    flex-direction: column;
-    gap: 32px;
-    background: linear-gradient(180deg, rgba(var(--md-ref-palette-terracotta-40-rgb), 0.1) 0%, transparent 100%);
     align-items: center;
+    gap: 12px;
+    cursor: pointer;
 }
 
-.drawer-logo-link {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+.biblia-logo-text {
+    font-size: 20px;
+    font-weight: 900;
+    color: white;
+    margin: 0;
+    white-space: nowrap;
 }
 
-.drawer-logo-link:hover {
-    transform: scale(1.05);
-}
-
-.drawer-main-logo {
-    width: 100%;
-    max-width: 240px; /* Logo més gran possible */
-    height: auto;
-    object-fit: contain;
-    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5));
+.biblia-version-badge {
+    font-size: 10px;
+    font-weight: 900;
+    color: #FF6D23; /* Taronja per a que destaque */
+    background: rgba(255, 109, 35, 0.1);
+    padding: 2px 6px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 109, 35, 0.2);
 }
 
 .visual-democracy-rail-switcher {
@@ -225,4 +224,58 @@
 
 .drawer-scroll-area:hover::-webkit-scrollbar-thumb {
     background: var(--md-sys-color-outline-variant);
+}
+/* --- BÍBLIA ESTRUCTURAL: ESTILS SAGRATS --- */
+.drawer-fab-binari {
+    background: #5D5FEF !important; /* Blau Mestre */
+    color: white !important;
+    width: calc(100% - 32px);
+    margin: 16px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    transition: all 0.3s ease;
+    border: none;
+    box-shadow: 0 4px 15px rgba(93, 95, 239, 0.3);
+}
+
+.drawer-fab-binari:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(93, 95, 239, 0.4);
+}
+
+.active-orange {
+    background: #FF6D23 !important; /* Taronja Xat Actiu */
+    color: black !important;
+    border-radius: 12px;
+}
+
+.active-orange span, .active-orange svg {
+    color: black !important;
+    font-weight: 800;
+}
+
+.drawer-item {
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: #9CA3AF;
+    transition: all 0.2s ease;
+    margin: 4px 16px;
+    border-radius: 12px;
+    font-size: 14px;
+}
+
+.drawer-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+}
+
+.drawer-item.active {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
 }
