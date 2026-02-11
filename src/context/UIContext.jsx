@@ -36,7 +36,9 @@ export const UIProvider = ({ children }) => {
     const [isNotePadOpen, setIsNotePadOpen] = useState(false);
     const [isIAIARoleSelectorOpen, setIsIAIARoleSelectorOpen] = useState(false);
     const [iaiaLevel, setIaiaLevel] = useState(prefs.iaiaLevel || 0);
+    const [architectMode, setArchitectMode] = useState(false);
     const [isMagicPregonerOpen, setIsMagicPregonerOpen] = useState(false);
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
     // [MASTER GENT] Lògica de Poble-Nodo (Cyber-Rural)
     const [selectedTown, setSelectedTown] = useState(prefs.selectedTown || 'La Torre de les Maçanes');
@@ -201,6 +203,9 @@ export const UIProvider = ({ children }) => {
                 setIaiaLevel(level);
                 preferenceService.setPrefs({ ...preferenceService.getPrefs(), iaiaLevel: level });
             },
+            architectMode,
+            setArchitectMode,
+            toggleArchitectMode: () => setArchitectMode(prev => !prev),
             openIAIARoleSelector: () => setIsIAIARoleSelectorOpen(true),
             closeIAIARoleSelector: () => setIsIAIARoleSelectorOpen(false),
             selectedTown,
@@ -208,7 +213,12 @@ export const UIProvider = ({ children }) => {
             preferredAgentId,
             setPreferredAgentId,
             isMagicPregonerOpen,
-            setIsMagicPregonerOpen
+            setIsMagicPregonerOpen,
+            isDrawerOpen,
+            setIsDrawerOpen,
+            toggleDrawer: () => setIsDrawerOpen(prev => !prev),
+            closeDrawer: () => setIsDrawerOpen(false),
+            openDrawer: () => setIsDrawerOpen(true),
         }}>
             {children}
         </UIContext.Provider>

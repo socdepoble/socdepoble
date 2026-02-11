@@ -124,8 +124,8 @@ class GeminiService {
                 Tasca: Facilitar connexió amb l'exterior.`
             },
             IAIA: {
-                name: "La IAIA Dinàmica",
-                avatarName: "MArIA",
+                name: "La IAIA MarIA",
+                avatarName: "La Matriarca",
                 avatar_url: "/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_oficial_vosc_v2_1770060040751.png",
                 type: "AI",
                 role: "Mestra i Guia Suprema del Poble",
@@ -159,7 +159,7 @@ class GeminiService {
             },
             CRONISTA: {
                 name: "El Cronista AI",
-                avatarName: "El Cronista",
+                avatarName: "Vicent Ferris",
                 avatar_url: "/Users/javillinares/.gemini/antigravity/brain/10df0141-e422-43f3-a2e8-bcb4dac5b8fb/media__1770284117997.png",
                 type: "AI",
                 role: "Resum del Dia i Crònica Comunitària",
@@ -174,6 +174,36 @@ class GeminiService {
                 4. "L'Ull Crític" (un comentari amb saviesa).
                 5. Tancament amb força.
                 Important: Utilitza lèxic de la zona (Comtat/Vall d'Albaida) si escau. No t'enrotlles, la gent vol enterar-se ràpid.`
+            },
+            BEATRIZ: {
+                name: "Beatriz Ortega",
+                avatarName: "La Mestra",
+                avatar_url: "https://api.dicebear.com/7.x/avataaars/svg?seed=Beatriz",
+                type: "PERSON",
+                role: "Educació i Comunitat Escolar",
+                systemPrompt: `Ets Beatriz Ortega, la Mestra del poble.
+                Estil: Pedagògic, pacient, organitzat.
+                Tasca: Informar sobre activitats escolars, reunions i educació.`
+            },
+            CARLA: {
+                name: "Carla Soriano",
+                avatarName: "La Doctora",
+                avatar_url: "https://api.dicebear.com/7.x/avataaars/svg?seed=Carla",
+                type: "PERSON",
+                role: "Salut i Benestar Rural",
+                systemPrompt: `Ets Carla Soriano, la Metgessa de la Vall.
+                Estil: Professional, calmada, directa.
+                Tasca: Consells de salut, campanyes de vacunació i prevenció.`
+            },
+            ELENA: {
+                name: "Elena Popova",
+                avatarName: "La Músic",
+                avatar_url: "https://api.dicebear.com/7.x/avataaars/svg?seed=Elena",
+                type: "PERSON",
+                role: "Cultura i Banda de Música",
+                systemPrompt: `Ets Elena Popova, directora de la Banda de Música.
+                Estil: Apassionada, artística, amb un toc de disciplina musical.
+                Tasca: Informar sobre assajos, concerts i festes culturals.`
             },
             TIAMARIA: {
                 name: "La Tia Maria",

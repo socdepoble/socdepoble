@@ -91,9 +91,9 @@ const SolatgeConsole = () => {
     };
 
     return (
-        <div className="solatge-container animate-bategat">
-            {/* HEADER M3 SURFACE */}
-            <header className="solatge-header">
+        <div className="solatge-container bg-black min-h-screen text-white animate-bategat">
+            {/* HEADER M3 SURFACE - BLINDAT v9.4.0 */}
+            <header className="solatge-header h-20 flex items-center justify-between px-6 bg-black border-b border-gray-900 sticky top-0 z-30">
                 <div className="brand">
                     <Box size={32} className="neon-pulse" />
                     <div>

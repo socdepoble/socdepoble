@@ -34,31 +34,38 @@ const CommunityDirectory = () => {
     const items = activeTab === 'gent' ? directory.people : directory.entities;
 
     return (
-        <div className="directory-page">
-            <header className="directory-header">
-                <button className="back-btn" onClick={() => navigate(-1)}>
+        <div className="directory-page bg-black min-h-screen">
+            {/* Header Master Blindat v9.4.0 */}
+            <header className="h-16 flex items-center px-4 bg-black border-b border-gray-800 sticky top-0 z-30">
+                <button className="text-white mr-4" onClick={() => navigate(-1)}>
                     <ArrowLeft size={24} />
                 </button>
-                <h1>Comunitat</h1>
-                <p>Connexions que fan poble</p>
+                <div className="flex-1">
+                    <h1 className="text-lg font-black text-white uppercase tracking-widest m-0">Comunitat</h1>
+                    <p className="text-[10px] text-gray-500 uppercase font-bold tracking-tighter m-0">Connexions que fan poble</p>
+                </div>
+            </header>
 
-                <div className="directory-tabs">
+            <div className="px-4 py-4 bg-black border-b border-gray-800">
+                <div className="flex gap-2">
                     <button
-                        className={`tab-btn ${activeTab === 'gent' ? 'active' : ''}`}
+                        className={`flex-1 flex items-center justify-center gap-2 py-3 font-black text-xs uppercase tracking-widest transition-all
+                            ${activeTab === 'gent' ? 'bg-white text-black' : 'bg-gray-900 text-gray-500 border border-gray-800'}`}
                         onClick={() => setActiveTab('gent')}
                     >
-                        <Users size={18} />
+                        <Users size={16} />
                         Gent ({directory.people.length})
                     </button>
                     <button
-                        className={`tab-btn ${activeTab === 'entitats' ? 'active' : ''}`}
+                        className={`flex-1 flex items-center justify-center gap-2 py-3 font-black text-xs uppercase tracking-widest transition-all
+                            ${activeTab === 'entitats' ? 'bg-white text-black' : 'bg-gray-900 text-gray-500 border border-gray-800'}`}
                         onClick={() => setActiveTab('entitats')}
                     >
-                        <Building2 size={18} />
+                        <Building2 size={16} />
                         Entitats ({directory.entities.length})
                     </button>
                 </div>
-            </header>
+            </div>
 
             <div className="directory-content">
                 <div className="directory-grid">

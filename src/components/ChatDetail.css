@@ -1,17 +1,12 @@
 .chat-detail-container {
   display: flex;
   flex-direction: column;
-  height: 100dvh;
+  height: 100%;
   background: var(--bg-page);
-  position: fixed;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
+  position: relative;
   width: 100%;
-  max-width: 600px;
-  z-index: 10001;
   overflow: hidden;
-  box-shadow: var(--shadow-deep);
+  box-shadow: none;
 }
 
 @media (max-width: 600px) {
@@ -25,15 +20,14 @@
 .chat-nav-bar {
   display: flex;
   align-items: center;
-  padding: var(--safe-top, 20px) var(--page-margin) 0;
-  background: var(--surface-glass-heavy);
-  backdrop-filter: blur(var(--blur-master));
-  border-bottom: 1px solid var(--border-subtle);
-  gap: var(--space-md);
-  height: calc(64px + var(--safe-top, 20px));
+  justify-content: space-between;
+  padding: 0 16px;
+  background: #000 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  height: 72px;
   flex-shrink: 0;
-  z-index: 10;
-  color: var(--text-main);
+  z-index: 100;
+  color: #fff;
 }
 
 .back-button {
@@ -329,16 +323,15 @@
 }
 
 .identity-badge.ai {
-  background: var(--color-accent);
-  /* Orange Foc */
-  color: #000;
-  font-size: 10px;
-  padding: 2px 8px;
-  border-radius: 0px;
-  font-weight: 900;
-  letter-spacing: 0.5px;
-  box-shadow: var(--shadow-hard);
-  border: 1px solid #000;
+  background: #FF6D23 !important;
+  color: #000 !important;
+  font-size: 10px !important;
+  padding: 2px 8px !important;
+  border-radius: 6px !important;
+  font-weight: 950 !important;
+  letter-spacing: 0.5px !important;
+  box-shadow: 0 0 15px rgba(255, 109, 35, 0.4) !important;
+  border: none !important;
 }
 
 .bubble-tag {
@@ -410,10 +403,9 @@
 
 @media (max-width: 768px) {
   .chat-input-area-new {
-    /* Espai per la barra de navegació inferior (80px) + padding base */
-    padding-bottom: calc(85px + var(--safe-bottom, 20px));
+    padding-bottom: calc(90px + var(--safe-bottom, 20px));
     z-index: 9998 !important;
-    bottom: 5rem !important;
+    bottom: 5rem !important; /* bottom-20 (80px) mestre */
   }
 }
 

@@ -600,6 +600,7 @@ const DiagnosticConsole = () => {
                                     setDidacticAlert(didacticData.master_faq);
                                 }}>AGÈNDA FAQ</button>
                                 <button className={currentHudTab === 'system' ? 'active' : ''} onClick={() => setCurrentHudTab('system')}>SISTEMA</button>
+                                <button className="btn-report-live" onClick={() => window.open('/soc_de_poble_report.html', '_blank')}>CENTRE INTERPRETACIÓ</button>
                             </div>
 
                             {currentHudTab === 'faq' && (

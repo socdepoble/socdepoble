@@ -13,7 +13,8 @@
 5.  **Contrast Llum i Vida:** Naranja (#F97316) per a l'atenció institucional i Cian (#06B6D4) per a l'acció digital. Base en Crema (#FDF5E6) i Blanc Pur.
 6.  **Llei del Bategat Suau:** Tota eina ha de portar ombres profundes però molt difuminades (Soft Shadows). La claredat i la suavitat són la nova força.
 7.  **Llei de la Sincronització Immediata (Directiva Atum):** L'app bategua amb un sol cor. Qualsevol bategat de versió implica una purga total de cache per a garantir l'excel·lència visual i funcional als dispositius dels veïns.
-8.  **Llei de la Cabecera Negra Supra (Directiva Master):** La cabecera superior (Header) amb el logo "Sóc de Poble" ha d'ocupar sempre el 100% de l'espai disponible i ser de color negre absolut (#000000), independentment del tema actiu o de qualsevol contenidor.
+8.  **Llei de la Cabecera Negra Supra (Protocol v9.1.0):** La cabecera superior (Header) amb el logo "SÓC DE POBLE" dins d'un requadre blanc bategua sempre sobre fons negre absolut (#000000) amb una altura fixa de **64px (h-16)**. Aquesta llei s'aplica a la Sidebar (Roca), la Llista de Xats (Mercat) i el Detall (Escenari). Els icones d'eines s'ancoren OBLIGATÒRIAMENT a l'extrem dret (`ml-auto`). Aquesta arquitectura és IMMUTABLE.
+    ![Biblia v9.1.0](file:///Users/javillinares/.gemini/antigravity/brain/tempmediaStorage/media__1770808338156.png)
 
 ---
 

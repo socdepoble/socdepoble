@@ -1,39 +1,62 @@
-/* Estils per al ChatLayout (Esquelet de la Vista Dividida) */
-
-.chat-layout {
+.chat-layout-root-suprema {
     display: flex;
+    height: 100%;
     width: 100%;
-    height: 100%;
     overflow: hidden;
+    background: #000;
 }
 
-.chat-list-wrapper {
-    flex: 0 0 350px;
-    width: 350px;
+/* LLISTA DE VEÏNS AMB RESIZER */
+.chat-list-wrapper-biblia {
+    position: relative;
+    display: flex;
+    flex-direction: column;
     height: 100%;
-    border-right: 1px solid rgba(255, 255, 255, 0.05);
-    background: var(--bg-app);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    background: #050505;
+    transition: width 0.05s linear; /* Petita suavitat sense lag */
 }
 
-.chat-window {
+/* TIRADOR DE REDIMENSIONAMENT */
+.chat-resizer-handle {
+    position: absolute;
+    top: 0;
+    right: -4px;
+    width: 8px;
+    height: 100%;
+    cursor: col-resize;
+    z-index: 100;
+    transition: background 0.2s;
+}
+
+.chat-resizer-handle:hover,
+.chat-resizer-handle:active {
+    background: rgba(249, 115, 22, 0.3);
+}
+
+/* FINESTRA DE CONVERSA */
+.chat-window-biblia {
     flex: 1;
-    height: 100%;
     min-width: 0;
-    background: var(--bg-app);
+    height: 100%;
+    background: #000;
 }
 
-/* Visibilitat Responsiva */
-@media (max-width: 768px) {
-    .hidden-mobile {
-        display: none !important;
+/* ADAPTACIÓ MÒBIL */
+@media (max-width: 767px) {
+    .chat-list-wrapper-biblia {
+        width: 100% !important;
     }
     
-    .chat-list-wrapper {
-        flex: 1;
-        width: 100%;
+    .chat-list-wrapper-biblia.hidden-mobile {
+        display: none;
     }
-}
-
-@media (min-width: 769px) {
-    /* El ChatLayout en escriptori s'activa per la Recepta Nuclear de l'index.css */
+    
+    .chat-window-biblia.hidden-mobile {
+        display: none;
+    }
+    
+    .chat-resizer-handle {
+        display: none;
+    }
 }

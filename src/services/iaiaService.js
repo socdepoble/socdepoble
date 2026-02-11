@@ -3,6 +3,7 @@ import { supabaseService } from './supabaseService';
 import { notebookService } from './notebookService';
 import { logger } from '../utils/logger';
 import { healthyPlates } from '../utils/publishAnnaNews'; // Reusing existing plates
+import { geminiService } from './geminiService';
 import { PROVERBS, getRandomProverb } from '../data/proverbs';
 
 class IAIAService {
@@ -495,54 +496,54 @@ class IAIAService {
     /**
      * Genera una resposta de la MArIA basada en el context del NotebookService [MASTER - TRUTH PROTOCOL].
      */
-    async generateAIAResponse(conversationId, userQuery = '', mode = 'standard') {
+    async generateAIAResponse(conversationId, userQuery = '', receiverId = null) {
         try {
-            logger.debug(`[MArIA] Generant resposta per a la conv: ${conversationId} [Mode: ${mode}]`);
+            logger.debug(`[MArIA] Generant resposta bategant per a ${conversationId} [Receiver: ${receiverId}]`);
 
-            // 1. Obtenir síntesi de l'Avi (NotebookService)
-            let synthesis = await notebookService.generateSynthesis(userQuery);
+            // 1. Mapeig de Persones segons ID o Contingut
+            let finalPersonaKey = 'IAIA'; // Default
 
-            // 2. Truth Protocol Grounding Check
-            const isNoInfo = synthesis.includes("L'Avi encara no té papers");
+            const personaMapping = {
+                '11111111-1111-4111-a111-000000000003': 'AGRONOM',
+                '11111111-1111-4111-a111-000000000004': 'CUINERA', // Samir (mock mapping if needed)
+                '11111111-1111-4111-a111-000000000007': 'NANOBANANA',
+                '11111111-1111-4111-a111-000000000008': 'ARXIVER',
+                '11111111-1111-4111-a111-000000000000': 'IAIA',
+                '11111111-1111-4111-a111-000000000002': 'CLAUDE',
+                '11111111-1111-4111-a111-000000000001': 'GPT'
+            };
 
-            if (mode === 'librarian' && isNoInfo) {
-                return this.TRUTH_PROTOCOL.grounding_error;
-            }
-
-            // 3. Personalització estratègica
-            let iaiaResponse = "";
-
-            if (mode === 'librarian') {
-                iaiaResponse = `D'acord amb els meus arxius notarials: \n\n${synthesis}\n\nSi necessites més detall, pregunta'm sobre un document específic.`;
-            } else if (userQuery.toLowerCase().includes('anna') || userQuery.toLowerCase().includes('saludable')) {
-                iaiaResponse = `Cariño, he estat parlant amb l'Antigravity (que és el fill prodígi de la tecnologia) i hem analitzat els teus àudios i les idees de l'Anna Climent. 🍎\n\n**La nostra proposta conjunta:**\n1. **Menú del Poble**: Podem crear un bot que cada matí publique el "Plat del Dia" de l'Anna al Mur.\n2. **Cistella Intel·ligent**: MArIA pot ajudar als veïns a comprar al Mercat combinant el que venen amb les receptes saludables de l'Anna.\n3. **Tallers de Cuina IA**: Podríem fer que els veïns pujaren fotos del seu rebost i jo els diga què cuinar seguint els consells de l'Anna.\n\nQuè et sembla? L'Antigravity diu que tècnicament ho tenim quasi llest! ✨`;
+            if (receiverId && personaMapping[receiverId]) {
+                finalPersonaKey = personaMapping[receiverId];
             } else {
-                iaiaResponse = `Cariño, he parlat amb l'Avi dels Papers i ens diu això: \n\n${synthesis}\n\nQuè et sembla si ho provem? Jo estic ací per al que faja falta! ✨`;
+                // Heuristic mapping if ID is unknown or generic
+                const q = userQuery.toLowerCase();
+                if (q.includes('nano') || q.includes('banana')) finalPersonaKey = 'NANOBANANA';
+                else if (q.includes('horta') || q.includes('tomaca') || q.includes('cultiu')) finalPersonaKey = 'AGRONOM';
+                else if (q.includes('recepta') || q.includes('cuina')) finalPersonaKey = 'CUINERA';
+                else if (q.includes('paper') || q.includes('banc') || q.includes('burocracia')) finalPersonaKey = 'ARXIVER';
             }
 
-            // 4. Enviar el missatge si hi ha conversa real
+            // 2. Crida a la Xarxa Neural (Gemini)
+            const aiResponse = await geminiService.ask(finalPersonaKey, userQuery);
+            const iaiaResponse = aiResponse.text;
+
+            // 3. Enviar el missatge si hi ha conversa real
             if (conversationId && conversationId !== 'preview') {
-                let avatarUrl = this.AVATARS.OFFICIAL;
-                let senderName = "MArIA (La IAIA Dinàmica)";
-
-                if (mode === 'librarian') {
-                    avatarUrl = this.AVATARS.ARXIU;
-                    senderName = "MArIA (L'Arxivera Daurada)";
-                } else if (userQuery.toLowerCase().includes('horta') || userQuery.toLowerCase().includes('planta')) {
-                    avatarUrl = this.AVATARS.HORTA;
-                    senderName = "MArIA (La de l'Horta)";
-                } else if (userQuery.toLowerCase().includes('mercat') || userQuery.toLowerCase().includes('compra')) {
-                    avatarUrl = this.AVATARS.MERCAT;
-                    senderName = "MArIA (La del Mercat)";
-                }
-
+                const persona = geminiService.PERSONAS[finalPersonaKey];
+                
                 await supabaseService.sendSecureMessage({
                     conversationId: conversationId,
-                    senderId: '11111111-1111-4111-a111-000000000010', // MArIA ID
+                    senderId: '11111111-1111-4111-a111-000000000010', // MArIA Base ID
                     content: iaiaResponse,
                     is_ai: true,
-                    author_name: senderName,
-                    author_avatar_url: avatarUrl
+                    author_name: persona.name,
+                    author_avatar_url: persona.avatar_url,
+                    metadata: {
+                        is_iaia: true,
+                        persona_key: finalPersonaKey,
+                        is_mock: aiResponse.is_mock
+                    }
                 });
             }
 

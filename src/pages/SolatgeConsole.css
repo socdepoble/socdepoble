@@ -3,7 +3,7 @@
     display: flex;
     flex-direction: column;
     gap: 32px;
-    background-color: var(--bg-app);
+    background-color: #000000;
     min-height: calc(100vh - 112px);
     font-family: 'Inter', sans-serif;
     color: var(--text-main);
@@ -15,7 +15,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 24px;
-    background: var(--bg-panel);
+    background: #000000 !important;
     border-radius: var(--rounded-card);
     border: 1px solid var(--border-dim);
     box-shadow: 0 10px 30px rgba(0,0,0,0.05);

@@ -1,14 +1,12 @@
 import { useNavigate, NavLink, useLocation } from 'react-router-dom';
-import { Newspaper, MapPin, Store, MessageCircle, User, Plus, Shield } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
+import { Newspaper, MapPin, Store, MessageCircle, Plus } from 'lucide-react';
 import { useUI } from '../context/UIContext';
 import { useAuth } from '../context/AuthContext';
 import './Navigation.css';
 
 const Navigation = () => {
-  const { t } = useTranslation();
   const { setIsCreateModalOpen } = useUI();
-  const { user, isSuperAdmin } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -55,7 +53,7 @@ const Navigation = () => {
           <MapPin size={28} />
         </div>
         <span className="m3-nav-label">Pobles</span>
-        {location.pathname === '/pobles' && <div className="active-dot" />}
+        {location.pathname.startsWith('/pobles') && <div className="active-dot" />}
       </NavLink>
     </nav>
   );

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { Link2, MessageCircle, Share2, MoreHorizontal, Building2, Store, Users, User, Loader2, AlertCircle, Info, Sparkles, UserPlus, UserCheck, Volume2, StopCircle, EyeOff, BookOpen, ChevronLeft, ChevronRight, Check, Filter } from 'lucide-react';
 import { useUI } from '../context/UIContext';
-import { supabaseService } from '../services/supabaseService';
+import { supabaseService, isValidUUID } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
 import { ROLES, CREATOR_EMAILS, IAIA_ID } from '../constants';
 import { logger } from '../utils/logger';
@@ -34,9 +34,10 @@ const IAIA_INTERVAL_MS = 120000;
 const Feed = ({ townId = null, hideHeader = false, customPosts = null, contentMode = 'batec' }) => {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const { user, profile, isPlayground, loading: authLoading, isAdmin, isSuperAdmin } = useAuth();
-    const isSovereign = user?.is_sovereign;
-    const { visionMode, gloveMode, selectedTown } = useUI();
+    // const { user, profile, isPlayground, loading: authLoading, isAdmin, isSuperAdmin } = useAuth();
+    const { user, isPlayground, loading: authLoading, isSuperAdmin } = useAuth();
+    const _isSovereign = user?.is_sovereign;
+    const { visionMode, gloveMode, selectedTown, iaiaLevel } = useUI();
     const activeTown = townId || selectedTown;
     const [posts, setPosts] = useState(customPosts || []);
     const [userConnections, setUserConnections] = useState([]);
@@ -45,6 +46,8 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null, contentMo
     const [page, setPage] = useState(0);
     const [hasMore, setHasMore] = useState(true);
     const [loadingMore, setLoadingMore] = useState(false);
+    const [summaryContent, setSummaryContent] = useState('');
+    const [showSummaryModal, setShowSummaryModal] = useState(false);
     const [postComments, setPostComments] = useState({});
     const [selectedRole, setSelectedRole] = useState('tot');
     const [selectedTag, setSelectedTag] = useState(null);
@@ -57,8 +60,6 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null, contentMo
 
     // [CRONISTA AI] State for summary
     const [isCronistaLoading, setIsCronistaLoading] = useState(false);
-    const [summaryContent, setSummaryContent] = useState('');
-    const [showSummaryModal, setShowSummaryModal] = useState(false);
 
     useEffect(() => {
         isMounted.current = true;
@@ -78,7 +79,14 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null, contentMo
             const totalCount = result.count;
 
             // [MASTER PINNED LOGIC] Sort by pinned_position (1, 2, 3) then by date
-            const sortedPosts = postsArray.sort((a, b) => {
+            let finalPosts = postsArray;
+            
+            // [IAIA DISCONNECT] Si Nivell 0, purguem posts d'IA
+            if (iaiaLevel === 0) {
+                finalPosts = postsArray.filter(p => !p.is_iaia_inspired && !p.is_ai);
+            }
+
+            const sortedPosts = finalPosts.sort((a, b) => {
                 const posA = (a && typeof a.pinned_position !== 'undefined' && a.pinned_position !== null) ? a.pinned_position : Infinity;
                 const posB = (b && typeof b.pinned_position !== 'undefined' && b.pinned_position !== null) ? b.pinned_position : Infinity;
                 if (posA !== posB) return posA - posB;
@@ -95,7 +103,7 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null, contentMo
 
             setHasMore(posts.length + postsArray.length < totalCount);
 
-            if (user) {
+            if (user && isValidUUID(user.id)) {
                 const tagsRaw = await supabaseService.getUserTags(user.id);
                 if (!isMounted.current) return;
                 setUserTags(Array.isArray(tagsRaw) ? tagsRaw : []);

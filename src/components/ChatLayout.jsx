@@ -1,20 +1,27 @@
 import React from 'react';
 import { Outlet, useParams } from 'react-router-dom';
 import ChatList from './ChatList';
-import './ChatLayout.css';
 
 const ChatLayout = () => {
     const { id } = useParams();
 
     return (
-        <div className="chat-layout">
-            {/* LLISTA DE VEÏNS (Esquerra en Desktop, ocupa tot en Mòbil si no hi ha ID) */}
-            <div className={`chat-list-wrapper ${id ? 'hidden-mobile' : ''}`}>
+        <div className="flex-1 flex overflow-hidden w-full h-full bg-black relative">
+            
+            {/* 1. LLISTA DE VEÏNS (EL MERCAT - 400px FIXES EN DESKTOP) */}
+            <div className={`
+                flex-shrink-0 md:w-[400px] border-r border-gray-800 bg-[#111]
+                ${id ? 'hidden md:flex' : 'flex w-full'}
+                flex-col
+            `}>
                 <ChatList />
             </div>
 
-            {/* FINESTRA DE CONVERSA (Dreta en Desktop, ocupa tot en Mòbil si hi ha ID) */}
-            <div className={`chat-window ${!id ? 'hidden-mobile' : ''}`}>
+            {/* 2. FINESTRA DE CONVERSA (ESCENARI - FLEX 1 EN DESKTOP) */}
+            <div className={`
+                flex-1 flex flex-col min-w-0 bg-[#050505] relative
+                ${!id ? 'hidden md:flex' : 'fixed inset-0 z-50 md:static md:z-auto flex'}
+            `}>
                 <Outlet />
             </div>
         </div>

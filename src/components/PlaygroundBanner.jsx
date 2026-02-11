@@ -33,6 +33,9 @@ const PlaygroundBanner = () => {
                     }}>
                         TORNAR A PRODUCCIÓ <LogOut size={14} />
                     </button>
+                    <button className="banner-close-btn" onClick={async () => await exitPlayground()} title="Tancar finestra de publicitat/playground">
+                        <X size={20} />
+                    </button>
                 </div>
             </div>
         </div>

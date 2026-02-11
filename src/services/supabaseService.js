@@ -59,7 +59,7 @@ const normalizeWikipediaUrl = (url) => {
             const a = hashParts[0];
             const b = hashParts[1];
             return `https://upload.wikimedia.org/wikipedia/commons/thumb/${a}/${b}/${filename}/500px-${filename}.png`;
-        } catch (e) {
+        } catch {
             return normalized;
         }
     }
@@ -99,6 +99,8 @@ const adjustGender = (text, gender) => {
  */
 const columnCache = new Proxy({}, {
     get: (target, prop) => {
+        // [MASTER BLINDATGE] Evitem consultes amb IDs malformats
+        if (prop === 'sp_node_befd9c41142744f6') return null;
         const val = localStorage.getItem(`cp_${prop}`);
         if (val === 'true') return true;
         if (val === 'false') return false;
@@ -256,6 +258,7 @@ const _ensureColumnCache = async () => {
                         setColumnCache('posts_time_saved', exists);
                         setColumnCache('posts_is_iaia_inspired', exists);
                         setColumnCache('posts_pinned_position', 'pinned_position' in row);
+                        setColumnCache('posts_town_uuid', 'town_uuid' in row);
                     } else if (error) {
                         setColumnCache('posts_ai_percentage', false);
                         setColumnCache('posts_pinned_position', false);
@@ -324,7 +327,7 @@ const _ensureColumnCache = async () => {
     await Promise.all([activeChecks.posts, activeChecks.market, activeChecks.messages]);
 }
 
-const isValidUUID = (id) => {
+export const isValidUUID = (id) => {
     return typeof id === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
 };
 
@@ -586,14 +589,14 @@ export const supabaseService = {
             const yesterday = new Date(now.getTime() - (24 * 60 * 60 * 1000)).toISOString();
 
             // Total Real Users
-            const { count: totalUsers, error: countError } = await supabase
+            const { count: totalUsers, error: _countError } = await supabase
                 .from('profiles')
                 .select('id', { count: 'exact' })
                 .eq('is_demo', false)
                 .limit(1);
 
             // New Users (24h)
-            const { data: newUsers, error: newError } = await supabase
+            const { data: newUsers, error: _newError } = await supabase
                 .from('profiles')
                 .select('id, full_name, created_at')
                 .eq('is_demo', false)
@@ -814,7 +817,7 @@ export const supabaseService = {
                 const pid = p.id || '';
                 // [GHOST-SHIELD EXTREME] Purgamos cualquier ID ficticio o de demo
                 const isFictive = pid.startsWith('11111111-') || pid.startsWith('sdp-') || p.is_demo === true;
-                const isOfficial = p.role === 'official' || p.type === 'oficial';
+                const _isOfficial = p.role === 'official' || p.type === 'oficial';
                 const isRealUser = (p.type === 'person' || p.type === 'user') && !isFictive;
 
                 // En producció REAL, permetem humans autenticats i IDENTITATS CORE de la IAIA (ID 11111111-*)
@@ -1307,7 +1310,7 @@ export const supabaseService = {
     },
 
     // Pueblos
-    async getTowns(filters = {}) {
+    async getTowns() {
         try {
             const { data, error } = await supabase
                 .from('towns')
@@ -1498,7 +1501,7 @@ export const supabaseService = {
             const seenIds = new Set();
             const seenNames = new Set();
 
-            const combined = [...filteredLore, ...(data || [])];
+            const _combined = [...filteredLore, ...(data || [])];
 
             // Prioritzem data (DB) al final del merge si volem que "machaque", 
             // però aquí la lògica de .forEach d'un array barrejant-los un a un és clau.
@@ -1766,7 +1769,7 @@ export const supabaseService = {
             }
             if (columnCache.connections_table === null) setColumnCache('connections_table', true);
             return !!data;
-        } catch (error) {
+        } catch {
             return false;
         }
     },
@@ -1832,39 +1835,7 @@ export const supabaseService = {
         }
     },
 
-    async getPostConnections(postUuids) {
-        if (!postUuids || postUuids.length === 0) return [];
-        try {
-            const { data, error } = await supabase
-                .from('post_connections')
-                .select('*')
-                .in('post_uuid', postUuids);
-            if (error) {
-                if (error.code === '42P01') return [];
-                throw error;
-            }
-            return data || [];
-        } catch (e) {
-            logger.error('[SupabaseService] Error getPostConnections:', e);
-            return [];
-        }
-    },
 
-    async getUserTags(userId) {
-        if (!userId) return [];
-        try {
-            const { data, error } = await supabase
-                .from('post_connections')
-                .select('tags')
-                .eq('user_id', userId)
-                .not('tags', 'is', null);
-            if (error) return [];
-            const allTags = data.flatMap(d => d.tags || []);
-            return [...new Set(allTags)].sort();
-        } catch (e) {
-            return [];
-        }
-    },
 
     async updateConnectionTags(userId, postId, tags) {
         if (!userId || !postId) return false;
@@ -1903,10 +1874,15 @@ export const supabaseService = {
     async getPosts(roleFilter = 'tot', townId = null, page = 0, pageSize = 10, isPlayground = false) {
         logger.log(`[SupabaseService] Fetching posts with roleFilter: ${roleFilter}, townId: ${townId}, page: ${page}, playground: ${isPlayground}`);
         try {
-            // [MASTER] Robust Column Sync
+            // [MASTER] Robust Column Sync with retry limit
             await _ensureColumnCache();
+            const retryCount = (typeof arguments[5] === 'number') ? arguments[5] : 0;
+            if (retryCount > 3) {
+                logger.error('[SupabaseService] Maximum retry limit reached for getPosts. Aborting to prevent infinite loop.');
+                return { data: [], count: 0, error: 'Retry limit reached' };
+            }
 
-            let selectStr = 'id, uuid, content, created_at, author, author_avatar, image_url, author_role, is_playground, author_user_id, author_entity_id, towns!fk_posts_town_uuid(name)';
+            let selectStr = 'id, uuid, content, created_at, author, author_avatar, image_url, author_role, is_playground, author_user_id, author_entity_id, towns(name)';
             if (columnCache.posts_pinned_position !== false) {
                 selectStr += ', pinned_position';
             }
@@ -1921,9 +1897,6 @@ export const supabaseService = {
             // [PILAR 1 & 3] Check Local Cache for instant return
             const cacheKey = `posts_${townId || 'global'}_${page}_${pageSize}`;
             const cachedData = LocalCache.get(cacheKey);
-
-            // If we have cached data, we could potentially return it immediately if there's a listener
-            // For now, we fetch but we'll use this to optimize the UI later
 
             if (isPlayground && columnCache.posts_is_playground !== false) {
                 query = query.eq('is_playground', true);
@@ -1942,17 +1915,21 @@ export const supabaseService = {
                 if (!isValidUUID(townId)) {
                     logger.log(`[SupabaseService] Invalid UUID detected, attempting resolution: ${townId}`);
 
-                    // Direct name resolution fallback
-                    const { data: townData } = await supabase
-                        .from('towns')
-                        .select('id')
-                        .ilike('name', `%${townId}%`)
-                        .limit(1)
-                        .maybeSingle();
+                    // 1. Try numeric resolution if it looks like an ID
+                    const isNumeric = /^\d+$/.test(townId.toString());
+                    let townSearch = supabase.from('towns').select('uuid, id');
+                    
+                    if (isNumeric) {
+                        townSearch = townSearch.or(`id.eq.${townId},town_id.eq.${townId}`);
+                    } else {
+                        townSearch = townSearch.ilike('name', `%${townId}%`);
+                    }
+
+                    const { data: townData } = await townSearch.limit(1).maybeSingle();
 
                     if (townData) {
-                        townId = townData.id;
-                        logger.log(`[SupabaseService] Resolved town name to UUID: ${townId}`);
+                        townId = townData.uuid || townData.id;
+                        logger.log(`[SupabaseService] Resolved town to: ${townId}`);
                     } else {
                         logger.warn(`[SupabaseService] Could not resolve town name/ID: ${townId}. Purgant filtre.`);
                         townId = null;
@@ -1960,8 +1937,9 @@ export const supabaseService = {
                 }
 
                 if (townId && isValidUUID(townId)) {
-                    logger.log(`[SupabaseService] Applying final town_uuid filter: ${townId}`);
-                    query = query.eq('town_uuid', townId);
+                    logger.log(`[SupabaseService] Applying final town filter: ${townId}`);
+                    const townCol = columnCache.posts_town_uuid !== false ? 'town_uuid' : 'town_id';
+                    query = query.eq(townCol, townId);
                 } else {
                     logger.warn(`[SupabaseService] Blocking non-UUID filter: ${townId}`);
                 }
@@ -1981,17 +1959,17 @@ export const supabaseService = {
                 if (isColumnError && error.message?.includes('pinned_position')) {
                     setColumnCache('posts_pinned_position', false);
                     logger.warn('[SupabaseService] pinned_position missing in posts, retrying...');
-                    return this.getPosts(roleFilter, townId, page, pageSize, isPlayground);
+                    return this.getPosts(roleFilter, townId, page, pageSize, isPlayground, retryCount + 1);
                 }
                 if (isColumnError && (error.message?.includes('ai_percentage') || error.message?.includes('human_percentage'))) {
                     setColumnCache('posts_ai_percentage', false);
                     logger.warn('[SupabaseService] AI columns missing in posts, retrying...');
-                    return this.getPosts(roleFilter, townId, page, pageSize, isPlayground);
+                    return this.getPosts(roleFilter, townId, page, pageSize, isPlayground, retryCount + 1);
                 }
                 if (isColumnError && isPlayground) {
                     setColumnCache('posts_is_playground', false);
                     logger.warn('[SupabaseService] is_playground missing in posts, retrying silent...');
-                    return this.getPosts(roleFilter, townId, page, pageSize, false);
+                    return this.getPosts(roleFilter, townId, page, pageSize, false, retryCount + 1);
                 }
                 // [PILAR 3] Offline Resilience: Return cached data if available
                 if (cachedData) {
@@ -2411,32 +2389,28 @@ export const supabaseService = {
     },
 
     async signInWithOtp(phoneInput) {
-        try {
-            const phone = phoneInput.replace(/[\s-]/g, '');
-            logger.log('[Auth] Bategant intent d\'SMS per a:', phone);
+        const phone = phoneInput.replace(/[\s-]/g, '');
+        logger.log('[Auth] Bategant intent d\'SMS per a:', phone);
 
-            // SIMULATION MODE: Numbers starting with 600 or specific rescue numbers
-            if (phone.startsWith('+34600') || phone.includes('600000000')) {
-                logger.log('[Simulation Mode] Pre-emptive success for demo number:', phone);
-                // We simulate a 1-second delay for realism
-                await new Promise(resolve => setTimeout(resolve, 1000));
-                return { data: { message: 'SMS Simulated' }, error: null };
+        // SIMULATION MODE: Numbers starting with 600 or specific rescue numbers
+        if (phone.startsWith('+34600') || phone.includes('600000000')) {
+            logger.log('[Simulation Mode] Pre-emptive success for demo number:', phone);
+            // We simulate a 1-second delay for realism
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            return { data: { message: 'SMS Simulated' }, error: null };
+        }
+        const { data, error } = await supabase.auth.signInWithOtp({
+            phone: phone,
+            options: {
+                shouldCreateUser: true
             }
-            const { data, error } = await supabase.auth.signInWithOtp({
-                phone: phone,
-                options: {
-                    shouldCreateUser: true
-                }
-            });
-            if (error) {
-                logger.error('[Auth] Error real d\'SMS:', error.message);
-                throw error;
-            }
-            logger.log('[Auth] SMS enviat amb èxit a Supabase:', data);
-            return data;
-        } catch (error) {
+        });
+        if (error) {
+            logger.error('[Auth] Error real d\'SMS:', error.message);
             throw error;
         }
+        logger.log('[Auth] SMS enviat amb èxit a Supabase:', data);
+        return data;
     },
 
     async resendOtp(phone) {
@@ -2483,8 +2457,14 @@ export const supabaseService = {
         return data;
     },
 
-    async getProfile(userId) {
-        if (!userId) return null;
+    async getProfile(id) {
+        if (!id || !isValidUUID(id)) {
+            // Check in Lore Personas first
+            const lore = LORE_PERSONAS.find(p => p.id === id);
+            if (lore) return lore;
+            return null;
+        }
+
         try {
             const hasPremium = columnCache.profiles_has_premium !== false;
             const fullSelect = 'id, username, full_name, role, avatar_url, cover_url, bio, primary_town, town_uuid, is_demo, created_at, ofici, social_image_preference';
@@ -2495,13 +2475,13 @@ export const supabaseService = {
             let { data, error } = await supabase
                 .from('profiles')
                 .select(select)
-                .eq('id', userId)
+                .eq('id', id)
                 .maybeSingle();
 
             if (error) {
                 if (hasPremium && (error.code === 'PGRST116' || error.code === '42703' || error.message?.includes('ofici'))) {
                     setColumnCache('profiles_has_premium', false);
-                    return this.getProfile(userId); // Silent retry with base
+                    return this.getProfile(id); // Silent retry with base
                 }
                 throw error;
             }
@@ -2696,9 +2676,10 @@ export const supabaseService = {
                 .eq('user_id', userId);
 
             if (error) {
-                // [RESILIÈNCIA] Si la taula o la relació no existeix, no cal alarmar al sistema d'Auto-Heal
-                if (error.code === 'PGRST201' || error.code === '42P01' || error.code === '42703') {
-                    logger.warn('[SupabaseService] Relació d\'entitats no trobada o esquema incomplet. Ignorant per evitar bucles.');
+                // [RESILIÈNCIA OMEGA] Catch permission errors (401/403/42501) or missing table errors
+                const isPermissionError = error.code === '42501' || error.status === 401 || error.status === 403;
+                if (isPermissionError || error.code === 'PGRST201' || error.code === '42P01' || error.code === '42703') {
+                    logger.warn(`[SupabaseService] getUserEntities blindat: ${error.message || error.code}. Ignorant permisos/esquema.`);
                     return [];
                 }
                 logger.error('[SupabaseService] Error loading entities:', error);
@@ -2865,7 +2846,7 @@ export const supabaseService = {
     async getUserPosts(userId, isPlayground = false) {
         if (!isValidUUID(userId)) return [];
         try {
-            const isUcc = localStorage.getItem('active_ucc_view') === 'true';
+            // const isUcc = localStorage.getItem('active_ucc_view') === 'true';
             if (isPlayground || userId?.startsWith('11111111-')) {
                 // Simplified mock return for safety in playground/demo
                 return [];
@@ -3103,7 +3084,7 @@ export const supabaseService = {
         const fileName = `${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
         const filePath = `${userId}/${context}_${fileName}`;
 
-        const { error: uploadError, data } = await supabase.storage
+        const { error: uploadError, data: _data } = await supabase.storage
             .from(bucket)
             .upload(filePath, processedFile, {
                 cacheControl: '3600',
@@ -3390,7 +3371,7 @@ export const supabaseService = {
         const timestamp = Date.now();
         const fileName = `${userId}/${timestamp}.webm`;
 
-        const { data, error: uploadError } = await supabase.storage
+        const { data: _data, error: uploadError } = await supabase.storage
             .from('voice-messages')
             .upload(fileName, audioBlob, {
                 cacheControl: '3600',

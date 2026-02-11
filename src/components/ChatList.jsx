@@ -1,412 +1,201 @@
-import { Building2, Loader2, MapPin, User, X } from 'lucide-react';
-import { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { 
+    Search, Globe, Moon, Sun, Bell, 
+    MoreVertical, MapPin, Menu, Plus, MessageSquare
+} from 'lucide-react';
 import { useUI } from '../context/UIContext';
-import { useSocial } from '../context/SocialContext';
+import { useAuth } from '../context/AuthContext';
+import { supabaseService } from '../services/supabaseService';
 import Avatar from './Avatar';
-import { isFictiveProfile, supabaseService } from '../services/supabaseService';
-import { logger } from '../utils/logger';
-import CategoryTabs from './CategoryTabs';
-import StatusLoader from './StatusLoader';
 import TownSelectorModal from './TownSelectorModal';
-import './ChatList.css';
 
-const GUEST_PREVIEW_IMAGE = '/assets/images/chat_preview_guest.png';
+const AGENTS = [
+    { id: '11111111-1a1a-0000-0000-000000000000', name: 'IAIA MarIA', role: 'Matriarca', avatar_url: '/assets/avatars/iaia_official.png', last_message_time: new Date(), last_message_content: 'Benvingut al xat del poble.', tag: 'IAIA', color: 'bg-orange-100 text-orange-600' },
+    { id: '11111111-1a1a-0001-0000-000000000005', name: 'Nano Banana', role: 'Artista', avatar_url: '/assets/avatars/nano_banana.png', last_message_time: new Date(), last_message_content: 'Tinc els nous dissenys llestos.', tag: 'IAIA', color: 'bg-yellow-100 text-yellow-600' },
+    { id: '11111111-0000-0000-0000-000000000001', name: 'Super Ratolí', role: 'Heroi', avatar_url: '/assets/avatars/super_ratoli.png', last_message_time: new Date(), last_message_content: 'No olviden vitaminarse!', tag: 'IAIA', color: 'bg-gray-200 text-gray-600' },
+    { id: '11111111-1a1a-0001-0000-000000000001', name: 'Andreu Soler', role: 'Jove', avatar_url: 'https://ui-avatars.com/api/?name=Andreu+Soler&background=5D5FEF&color=fff', last_message_time: new Date(), last_message_content: 'Hola! Vols que parlem?', tag: 'IAIA', color: 'bg-blue-100 text-blue-600' }
+];
 
-const getParticipantInfo = (chat, currentId, t) => {
-    // Determine which participant is the "other" one
-    const isP1Current = chat.participant_1_id === currentId;
-    const otherInfo = isP1Current ? chat.p2_info : chat.p1_info;
-    const otherType = isP1Current ? chat.participant_2_type : chat.participant_1_type;
-    const otherRole = isP1Current ? chat.p2_role : chat.p1_role;
-    const isOtherAI = isP1Current ? chat.p2_is_ai : chat.p1_is_ai;
-    const otherId = isP1Current ? chat.participant_2_id : chat.participant_1_id;
-
-    return {
-        id: otherId,
-        name: otherInfo?.name || t('common.unknown'),
-        type: otherType,
-        avatar: otherInfo?.avatar_url,
-        role: otherRole,
-        isAI: isOtherAI || otherRole === 'ambassador' || String(otherId || '').startsWith('11111111-')
-    };
-};
-
-/**
- * Component per a mostrar la llista de converses.
- */
 const ChatList = () => {
-    const { user, profile, impersonatedProfile, activeEntityId, isSuperAdmin, isPlayground } = useAuth();
-    const { t } = useTranslation();
+    const { toggleTheme, darkMode, profile, openDrawer } = useUI();
+    const { user } = useAuth();
+    const location = useLocation();
     const navigate = useNavigate();
-    const { visionMode } = useUI();
-    const { activeCategories } = useSocial();
-    const [chats, setChats] = useState([]); 
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+    
+    const [chats, setChats] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('xat');
-    const [selectedTown, setSelectedTown] = useState(null);
     const [isTownModalOpen, setIsTownModalOpen] = useState(false);
 
     const chatTabs = [
-        { id: 'xat', label: t('common.role_xat') },
-        { id: 'gent', label: t('common.role_gent') },
-        { id: 'grup', label: t('common.role_grup') },
-        { id: 'treball', label: t('common.role_treball') },
-        { id: 'pobo', label: t('common.role_pobo') }
-    ].filter(tab => tab.id === 'xat' || activeCategories.includes(tab.id));
-
-    // Fallback logic: if current category is disabled, go back to 'xat'
-    useEffect(() => {
-        if (selectedCategory !== 'xat' && selectedCategory !== 'pobo' && !activeCategories.includes(selectedCategory)) {
-            setSelectedCategory('xat');
-        }
-    }, [activeCategories, selectedCategory]);
-
-    // Si somos Super Admin y estamos personificando a alguien, usamos ese ID
-    const currentId = activeEntityId || (isSuperAdmin && impersonatedProfile ? impersonatedProfile.id : user?.id);
+        { id: 'xat', label: 'XAT' },
+        { id: 'gent', label: 'GENT' },
+        { id: 'grups', label: 'GRUPS' },
+        { id: 'treball', label: 'TREBALL' },
+        { id: 'pobles', label: 'POBLES' }
+    ];
 
     useEffect(() => {
-        let isMounted = true;
         const fetchChats = async () => {
-            if (!currentId) {
-                setLoading(false);
-                return;
-            }
-
-            logger.log('[ChatList] Fetching chats for currentId:', currentId);
-            setError(null);
+            if (!user?.id) return;
             try {
-                // Fetch both real conversations and all possible AI personas
-                const [dbConvs, allPersonas] = await Promise.all([
-                    supabaseService.getConversations(currentId),
-                    supabaseService.getAllPersonas(isPlayground)
-                ]);
-
-                if (!isMounted) return;
-
-                // Create a map of personas by ID for quick access
-                const personaMap = {};
-                allPersonas.forEach(p => { personaMap[p.id] = p; });
-
-                // Filter personas that are ambassadors or any IAIA identity
-                const ambassadors = allPersonas.filter(p =>
-                    String(p.id || '').startsWith('11111111-') || p.role === 'ambassador'
-                );
-
-                // Create a map of existing participant IDs to avoid duplicates
-                const existingParticipantIds = new Set();
-                dbConvs.forEach(c => {
-                    existingParticipantIds.add(c.participant_1_id);
-                    existingParticipantIds.add(c.participant_2_id);
-                });
-
-                // Convert ambassadors who don't have a chat yet into "virtual" conversations
-                const virtualConvs = ambassadors
-                    .filter(a => a.id !== currentId && !existingParticipantIds.has(a.id))
-                    .map(a => ({
-                        id: `new-iaia-${a.id}`,
-                        last_message_content: t('chats.start_iaia') || `Hola! Sóc la ${a.full_name.split(' ')[0]}, vols que parlem?`,
-                        last_message_at: new Date(0).toISOString(),
-                        p1_info: { id: currentId, name: profile?.full_name || 'Jo' },
-                        p2_info: { id: a.id, name: a.full_name, avatar_url: a.avatar_url, primary_town: a.primary_town, category: a.category },
-                        participant_1_id: currentId,
-                        participant_2_id: a.id,
-                        participant_1_type: 'user',
-                        participant_2_type: 'user',
-                        p1_role: profile?.role || 'user',
-                        p2_role: a.role || 'ambassador',
-                        p1_is_ai: false,
-                        p2_is_ai: true,
-                        is_iaia: true
-                    }));
-
-                // Merge and filter based on category and playground rules
-                let allMerged = [...dbConvs, ...virtualConvs];
-                logger.log('[ChatList] Merged:', allMerged.length, '(DB:', dbConvs.length, 'Virtual:', virtualConvs.length, ')');
-
-                // Attach persona data to DB conversations for better filtering
-                allMerged = allMerged.map(c => {
-                    const otherInfo = c.participant_1_id === currentId ? c.p2_info : c.p1_info;
-                    const persona = personaMap[otherInfo.id];
-                    if (persona) {
-                        return {
-                            ...c,
-                            other_town: persona.primary_town,
-                            other_category: persona.category || (c.participant_1_id === currentId ? c.participant_2_type : c.participant_1_type)
-                        };
-                    }
-                    return {
-                        ...c,
-                        other_town: otherInfo.primary_town,
-                        other_category: (c.participant_1_id === currentId ? c.participant_2_type : c.participant_1_type)
-                    };
-                });
-
-                // Optimized Filtering Logic (Single Pass)
-                const inProduction = !isPlayground && !profile?.is_demo;
-
-                const filtered = allMerged.filter(c => {
-                    const other = getParticipantInfo(c, currentId, t);
-                    const fictive = isFictiveProfile(other);
-
-                    // Debug Log for IAIA
-                    if (String(other.id).startsWith('11111111-')) {
-                        console.log(`[ChatList] Agent ${other.name} (${other.id}): fictive=${fictive}, isAI=${other.isAI}, visionMode=${visionMode}`);
-                    }
-
-                    // 0. Vision Mode Filter (Hide AI/Lore chars in human mode)
-                    if (visionMode === 'humana') {
-                        const isAI = other.isAI || (other.id && String(other.id).startsWith('11111111-'));
-                        if (isAI) return false; // En mode humà, no volem agents IAIA virtuals ni existents (esperant veïns reals)
-                    }
-
-                    // 1. Production Security Filter
-                    if (inProduction) {
-                        const otherInfo = c.participant_1_id === currentId ? c.p2_info : c.p1_info;
-                        const otherType = c.participant_1_id === currentId ? c.participant_2_type : c.participant_1_type;
-                        const isHuman = otherType === 'user' || otherType === 'person' || otherInfo?.type === 'person';
-
-                        // Allow AI/Ambassadors in Production if they are part of the core IAIA lore
-                        const isOfficialAgent = other.isAI || other.role === 'ambassador' || String(other.id || '').startsWith('11111111-');
-                        const isAllowedAI = (visionMode === 'hibrida' || isOfficialAgent);
-
-                        if (fictive && !isHuman && !isAllowedAI) return false;
-                    }
-                    // 1b. Playground specific NPC filtering
-                    else if (isPlayground || profile?.is_demo) {
-                        const isLore = String(other.id || '').startsWith('11111111-');
-                        if (!other.isAI && !isLore) return false;
-                    }
-
-                    // 2. Category Filter
-                    if (selectedCategory !== 'xat' && selectedCategory !== 'pobo') {
-                        if (c.other_category !== selectedCategory) return false;
-                    }
-
-                    // 3. Town Filter
-                    if (selectedTown && c.other_town !== selectedTown.name) return false;
-
-                    return true;
-                });
-
-                const mergedSorted = filtered.sort((a, b) => {
-                    // Prioritize IAIA characters (is_iaia or ambassador)
-                    const isA_IAIA = a.is_iaia || a.p2_role === 'ambassador' || String(a.participant_2_id || '').startsWith('11111111-');
-                    const isB_IAIA = b.is_iaia || b.p2_role === 'ambassador' || String(b.participant_2_id || '').startsWith('11111111-');
-                    
-                    if (isA_IAIA && !isB_IAIA) return -1;
-                    if (!isA_IAIA && isB_IAIA) return 1;
-                    
-                    return new Date(b.last_message_at) - new Date(a.last_message_at);
-                });
-
-                // Metadata Recovery: If some conversations have null content, fetch actual last messages
-                const needsRecovery = mergedSorted.filter(c => !c.last_message_content || c.last_message_content === t('common.write_message'));
-                if (needsRecovery.length > 0) {
-                    logger.log(`[ChatList] Recovering metadata for ${needsRecovery.length} chats`);
-                    try {
-                        const { data: lastMsgs } = await supabaseService.getLatestMessages(needsRecovery.map(c => c.id));
-                        if (lastMsgs && lastMsgs.length > 0) {
-                            const msgMap = {};
-                            lastMsgs.forEach(m => {
-                                if (!msgMap[m.conversation_id]) msgMap[m.conversation_id] = m;
-                            });
-
-                            mergedSorted.forEach(c => {
-                                if (msgMap[c.id]) {
-                                    c.last_message_content = msgMap[c.id].content;
-                                    c.last_message_at = msgMap[c.id].created_at;
-                                }
-                            });
+                const dbConvs = await supabaseService.getConversations(user.id);
+                // Injecció Híbrida: Combinem missatges reals amb l'equip d'Agents IAIA
+                const hybridChats = [...(dbConvs || [])];
+                
+                // Si la categoria és XAT o GENT, ens assegurem que els agents bateguen
+                if (selectedCategory === 'xat' || selectedCategory === 'gent') {
+                    AGENTS.forEach(agent => {
+                        if (!hybridChats.find(c => c.id === agent.id || c.other_info?.id === agent.id)) {
+                             hybridChats.push({
+                                 id: agent.id,
+                                 other_info: { id: agent.id, name: agent.name, avatar_url: agent.avatar_url, role: agent.role },
+                                 last_message_content: agent.last_message_content,
+                                 last_message_time: agent.last_message_time,
+                                 tag: agent.tag
+                             });
                         }
-                    } catch (recErr) {
-                        logger.error('[ChatList] Metadata recovery error:', recErr);
-                    }
+                    });
                 }
-
-                setChats([...mergedSorted]);
-            } catch (error) {
-                if (isMounted) {
-                    logger.error('[ChatList] Error fetching chats:', error);
-                    setError(error.message);
-                }
-            } finally {
-                if (isMounted) setLoading(false);
+                
+                setChats(hybridChats);
+            } catch (err) {
+                console.error('[ChatList] Error fetching chats:', err);
+                // Fallback a agents si falla la xarxa
+                setChats(AGENTS.map(a => ({
+                    id: a.id,
+                    other_info: { name: a.name, avatar_url: a.avatar_url, role: a.role },
+                    last_message_content: a.last_message_content,
+                    last_message_time: a.last_message_time,
+                    tag: a.tag
+                })));
             }
         };
-
         fetchChats();
-        return () => { isMounted = false; };
-    }, [currentId, selectedCategory, selectedTown, isPlayground, visionMode, profile, t]);
+    }, [user?.id, selectedCategory]);
 
-    const handleChatClick = async (chat) => {
-        if (String(chat.id || '').startsWith('new-iaia-')) {
-            const ambassadorId = chat.participant_2_id;
-            try {
-                // Create a real conversation in DB when first clicked
-                const newConv = await supabaseService.getOrCreateConversation(
-                    currentId, 'user', ambassadorId, 'user'
-                );
-                navigate(`/chats/${newConv.id}`);
-            } catch (err) {
-                logger.error('[ChatList] Error creating IAIA conversation:', err);
-                // Fallback to navigating with virtual ID if DB fails
-                navigate(`/chats/${chat.id}`);
-            }
-        } else {
-            navigate(`/chats/${chat.id}`);
-        }
+    const handleChatClick = (chat) => {
+        navigate(`/chats/${chat.id}`);
     };
-
-    const handleCategorySelect = (categoryId) => {
-        if (categoryId === 'pobo') {
-            setIsTownModalOpen(true);
-        } else {
-            setSelectedCategory(categoryId);
-            setSelectedTown(null); // Clear town filter when switching to other categories
-        }
-    };
-
-    if (error) {
-        return (
-            <div className="chat-list-container">
-                <StatusLoader
-                    type="error"
-                    message={error}
-                    onRetry={() => window.location.reload()}
-                />
-            </div>
-        );
-    }
-
-    if (loading) {
-        return (
-            <div className="chat-list-container">
-                <StatusLoader type="loading" message={t('chats.loading_chats')} />
-            </div>
-        );
-    }
-
-    if (!user) {
-        return (
-            <div className="chat-list-container guest-view">
-                <div className="guest-overlay">
-                    <div className="auth-iaia-guidance" style={{ marginBottom: '20px' }}>
-                        <div className="iaia-avatar-wrapper" style={{ width: '80px', height: '80px' }}>
-                            <img src="/assets/avatars/iaia_official.png" alt="MArIA" className="iaia-mini-avatar" style={{ width: '100%', height: '100%', borderRadius: '28px', border: '2px solid var(--color-primary)' }} />
-                            <div className="iaia-pulse"></div>
-                        </div>
-                        <div className="iaia-speech-bubble" style={{ color: 'white', marginTop: '12px' }}>
-                            Encara no t'has registrat? Vine al redol, que ací xategem tots els veïns! 🗣️🏘️
-                        </div>
-                    </div>
-                    <div className="guest-content">
-                        <h2>{t('chats.registration_required_title', 'Xateja amb el teu poble')}</h2>
-                        <p>{t('chats.registration_required_desc', 'Registra\'t per a connectar amb els teus veïns, entitats i comerços.')}</p>
-                        <button className="auth-button register-cta" onClick={() => navigate('/register')}>
-                            {t('auth.signUp')}
-                        </button>
-                    </div>
-                </div>
-                <div className="guest-preview-wrapper">
-                    <img src={GUEST_PREVIEW_IMAGE} alt="Chat Preview" className="guest-preview-img" />
-                    <div className="preview-blur-overlay"></div>
-                </div>
-            </div>
-        );
-    }
 
     return (
-        <div className="chat-list-container">
-            <header className="page-header-with-tabs">
-                <div className="header-tabs-wrapper">
-                    <CategoryTabs
-                        selectedRole={selectedCategory}
-                        onSelectRole={handleCategorySelect}
-                        tabs={chatTabs}
+        <div className="w-full h-full flex flex-col bg-[#111] overflow-hidden">
+            
+            {/* HEADER CENTRAL - CABECERA NEGRA RESPONSIVE (1er MANDAMENT v9.1.0) */}
+            <header className="h-16 px-4 flex items-center bg-black border-b border-gray-800 flex-shrink-0 z-30 text-white">
+                
+                {/* Botó Menú Mòbil */}
+                <button 
+                    onClick={openDrawer}
+                    className="md:hidden p-2 -ml-2 text-white hover:bg-white/10 rounded-full mr-3 transition-colors"
+                >
+                    <Menu size={24} />
+                </button>
+
+                {/* Marca Mòbil (Centrada) */}
+                <div className="md:hidden flex-1 flex justify-center pr-8">
+                    <img 
+                      src="/assets/master/logo_socdepoble_white_full.png" 
+                      alt="SÓC DE POBLE" 
+                      className="h-8 w-auto object-contain" 
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                        e.target.nextSibling.style.display = 'block';
+                      }}
                     />
+                    <span className="hidden font-bold tracking-[0.15em] uppercase text-white">SÓC DE POBLE</span>
                 </div>
-                {selectedTown && (
-                    <div className="active-filters">
-                        <div className="filter-badge town">
-                            <MapPin size={12} />
-                            <span>{selectedTown.name}</span>
-                            <button className="remove-filter" onClick={() => setSelectedTown(null)}>
-                                <X size={12} />
-                            </button>
+
+                {/* Eines Escriptori - ANCORADES A LA DRETA (ml-auto) */}
+                <div className="hidden md:flex items-center gap-3 ml-auto">
+                    <Search size={20} className="text-gray-400 hover:text-white cursor-pointer transition-colors" />
+                    
+                    <button onClick={toggleTheme} className="text-gray-400 hover:text-yellow-400 transition-colors p-1.5">
+                        {darkMode ? <Moon size={20} /> : <Sun size={20} />}
+                    </button>
+
+                    <span className="text-[#FF6B00] text-lg">✨</span>
+
+                    <div className="relative cursor-pointer group p-1.5">
+                        <Bell size={20} className="text-gray-400 group-hover:text-white" />
+                        <span className="absolute top-0 right-0 bg-red-600 text-white text-[9px] font-black w-4 h-4 flex items-center justify-center rounded-full border border-black">3</span>
+                    </div>
+                    
+                    <div className="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center text-xs font-black text-white border border-gray-600 cursor-pointer overflow-hidden hover:border-[#FF6B00] transition-colors">
+                        {profile?.avatar_url ? <img src={profile.avatar_url} alt="Avatar" className="w-full h-full object-cover" /> : user?.email?.substring(0,2).toUpperCase() || 'JL'}
+                    </div>
+                </div>
+            </header>
+
+            {/* TABS DE NAVEGACIÓ */}
+            <div className="px-2 pt-3 border-b border-gray-800 bg-black flex-shrink-0">
+                <div className="flex space-x-1 px-2 overflow-x-auto no-scrollbar">
+                    {chatTabs.map(tab => (
+                        <button 
+                            key={tab.id}
+                            onClick={() => setSelectedCategory(tab.id)}
+                            className={`px-4 pb-3 text-[12px] font-black tracking-widest border-b-2 transition-all whitespace-nowrap uppercase
+                            ${selectedCategory === tab.id ? 'text-[#FF6B00] border-[#FF6B00]' : 'text-gray-500 border-transparent hover:text-gray-300'}`}
+                        >
+                            {tab.label}
+                        </button>
+                    ))}
+                </div>
+            </div>
+
+            {/* LLISTA D'AGENTS (FIX: min-h-0 per a permetre scroll en flex) */}
+            <div className="flex-1 overflow-y-auto custom-scrollbar bg-black min-h-0">
+                {chats.length > 0 ? chats.map(chat => (
+                    <div 
+                        key={chat.id} 
+                        onClick={() => handleChatClick(chat)}
+                        className={`flex items-center space-x-4 p-4 border-b border-gray-800/40 cursor-pointer transition-all
+                        ${location.pathname.includes(chat.id) ? 'bg-white/5 border-l-4 border-l-[#FF6B00]' : 'hover:bg-white/5'}`}
+                    >
+                        <div className="relative flex-shrink-0">
+                            <Avatar 
+                                src={chat.other_info?.avatar_url} 
+                                name={chat.other_info?.name} 
+                                role={chat.other_info?.role}
+                                size={52} 
+                            />
+                            {chat.tag && (
+                                <span className="absolute -top-1 -right-1 bg-black text-[#FF6B00] text-[9px] px-1.5 py-0.5 rounded border border-[#FF6B00]/30 font-black tracking-tighter uppercase shadow-xl">{chat.tag}</span>
+                            )}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                            <div className="flex justify-between items-baseline mb-1">
+                                <h3 className="font-bold text-[16px] text-white truncate group-hover:text-[#FF6B00] transition-colors">{chat.other_info?.name || 'Vveí'}</h3>
+                                <span className="text-[10px] text-gray-500 font-bold uppercase">{chat.last_message_time ? new Date(chat.last_message_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : 'Ara'}</span>
+                            </div>
+                            <p className="text-[14px] text-gray-500 truncate leading-tight">
+                                {chat.last_message_content || 'Bategant amb Sóc de Poble...'}
+                            </p>
                         </div>
                     </div>
-                )}
-            </header>
-            <div className="chat-list">
-                {!Array.isArray(chats) || chats.length === 0 ? (
-                    <StatusLoader
-                        type="empty"
-                        message={visionMode === 'humana' 
-                            ? "Esperant humans... 👤🏘️" 
-                            : (selectedTown ? t('chats.empty_town', `No hi ha xats en ${selectedTown.name}`) : t('chats.empty'))}
-                    />
-                ) : (
-                    chats.map(chat => {
-                        const otherParticipant = getParticipantInfo(chat, currentId, t);
-                        const isIAIA = chat.is_iaia ||
-                            otherParticipant.isAI ||
-                            otherParticipant.name?.includes('IAIA') ||
-                            String(otherParticipant.id || '').startsWith('11111111-1111-4111-a111-');
-
-                        return (
-                            <div key={chat.id} className={`chat-item ${chat.id === 'carla-soriano' ? 'active' : ''}`} onClick={() => handleChatClick(chat)}>
-                                <Avatar
-                                    src={otherParticipant.avatar}
-                                    role={otherParticipant.type === 'entity' ? 'oficial' : (otherParticipant.role || 'user')}
-                                    name={otherParticipant.name}
-                                    size={56}
-                                />
-                                <div className="chat-content">
-                                    <div className="chat-header">
-                                        <div className="chat-name-row">
-                                            <span className="chat-name">{otherParticipant.name}</span>
-                                            {isIAIA && <span className="identity-badge ai" title="Informació i Acció Artificial" style={{ 
-                                                marginLeft: '8px', 
-                                                fontSize: '9px',
-                                                background: 'rgba(39, 39, 42, 0.5)',
-                                                border: '1px solid rgba(255,255,255,0.1)',
-                                                color: 'white',
-                                                padding: '2px 6px',
-                                                borderRadius: '4px',
-                                                fontWeight: '900',
-                                                letterSpacing: '1px'
-                                            }}>IAIA</span>}
-                                        </div>
-                                        <span className="chat-time">
-                                            {chat.last_message_at !== new Date(0).toISOString()
-                                                ? new Date(chat.last_message_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-                                                : `${Math.floor(Math.random() * 12) + 1}:${Math.floor(Math.random() * 60).toString().padStart(2, '0')} p. m.`}
-                                        </span>
-                                    </div>
-                                    <div className="chat-preview">
-                                        <span className={`chat-message ${(!chat.last_message_content || chat.last_message_content === t('common.write_message')) ? 'is-placeholder' : ''}`}>
-                                            {chat.last_message_content || t('chats.start_iaia') || t('common.write_message')}
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        );
-                    })
+                )) : (
+                    <div className="h-full flex flex-col items-center justify-center opacity-20 p-12 text-center">
+                        <MessageSquare size={56} className="mb-6 text-[#FF6B00] mx-auto opacity-50" />
+                        <p className="text-white text-sm font-black uppercase tracking-[0.2em]">Silence total.</p>
+                        <p className="text-gray-500 text-xs mt-2 uppercase tracking-widest">Inicia la conversa al mur</p>
+                    </div>
                 )}
             </div>
 
             <TownSelectorModal
                 isOpen={isTownModalOpen}
                 onClose={() => setIsTownModalOpen(false)}
-                onSelect={(town) => {
-                    setSelectedTown(town);
-                    setSelectedCategory('pobo');
+                onSelect={() => {
+                    setSelectedCategory('pobles');
                 }}
             />
+            
+            <style>{`
+                .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+                .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+                .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #333; border-radius: 99px; }
+                .custom-scrollbar::-webkit-scrollbar-thumb:hover { background-color: #FF6B00; }
+            `}</style>
         </div>
     );
 };

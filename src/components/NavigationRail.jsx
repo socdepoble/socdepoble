@@ -1,104 +1,156 @@
 import React from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { 
-    MessageCircle, Newspaper, Store, MapPin, 
-    Archive, BookOpen, Star, Image as ImageIcon, 
-    Folder, Plus, Layout, Sparkles, Calendar,
-    Settings, LogOut, User, Grid, Heart, Share2, Edit3
+  MessageSquare, LayoutGrid, Store, MapPin, 
+  User, Database, Calendar, Image as ImageIcon, 
+  LogOut, Plus, Map, Bell, Settings, X, Folder, Users
 } from 'lucide-react';
 import { useUI } from '../context/UIContext';
-import './NavigationRail.css';
 
-/**
- * 📖 NAVIGATION RAIL - LA BÍBLIA ESTRUCTURAL
- * Aquest component és SAGRAT. No es poden eliminar ítems del menú.
- * Estructura: Xat, Mur, Mercat, Pobles | Organització | Col·leccions.
- */
 const NavigationRail = () => {
-    const { setIsCreateModalOpen } = useUI();
-    const navigate = useNavigate();
+    const { setIsCreateModalOpen, closeDrawer } = useUI();
+
+    const handleNavClick = () => {
+        if (window.innerWidth < 768) {
+            closeDrawer();
+        }
+    };
+
+    const NAV_ITEMS = [
+        { id: 'mur', label: "Mur d'Històries", icon: LayoutGrid, to: '/mur' },
+        { id: 'mercat', label: 'Mercat Rural', icon: Store, to: '/mercat' },
+        { id: 'poble', label: 'Pobles', icon: MapPin, to: '/pobles' },
+        { id: 'esdeveniments', label: 'Esdeveniments', icon: Calendar, to: '/calendari' },
+        { id: 'mapa', label: 'Mapa', icon: Map, to: '/mapa' },
+    ];
+
+    const ORG_ITEMS = [
+        { id: 'perfil', label: 'El meu Perfil', icon: User, to: '/perfil' },
+        { id: 'iaia_hub', label: 'La IAIA (Hub)', icon: MessageSquare, to: '/iaia' },
+        { id: 'trellat', label: 'Taller de Trellat', icon: Settings, to: '/tools/trellat' },
+        { id: 'arxiu', label: "L'Arxiu d'Or", icon: Database, to: '/arxiu' },
+        { id: 'directori', label: "Directori de Veïns", icon: Users, to: '/directori' },
+    ];
+
+    const COLLECTION_ITEMS = [
+        { id: 'col_xat', label: 'xat', icon: Folder, to: '/chats' },
+        { id: 'col_gent', label: 'gent', icon: Folder, to: '/directori' },
+        { id: 'mapa', label: 'Mapa d\'Actius', icon: Map, to: '/mapa' },
+        { id: 'calendari_master', label: 'Calendari Master', icon: Calendar, to: '/calendari' },
+        { id: 'album_global', label: 'Àlbum Global', icon: ImageIcon, to: '/fotos/global' },
+    ];
 
     return (
-        <nav className="navigation-drawer bg-[var(--bg-sidebar)]">
-            <div className="drawer-header-suprema">
-                <div className="drawer-logo-container-biblia" onClick={() => navigate('/')}>
-                    <h1 className="biblia-logo-text">Sóc de Poble</h1>
-                    <span className="biblia-version-badge">v1.21</span>
-                </div>
-
-                {/* BOTÓ AFEGIR (BINARI / BLAU MESTRE) */}
-                <button
-                    className="drawer-fab-binari"
-                    onClick={() => setIsCreateModalOpen(true)}
-                    aria-label="Crear nou"
-                >
-                    <Plus size={24} color="white" />
-                    <span className="fab-label uppercase tracking-widest font-black text-sm">Afegir</span>
+        <aside className="w-[280px] h-full flex-shrink-0 flex flex-col border-r border-gray-800 bg-black z-20">
+            {/* HEADER SIDEBAR: BLINDAT NEGRE I 16 REM D'ALÇADA (1er MANDAMENT v9.1.0) */}
+            <div className="h-16 min-h-[64px] flex items-center justify-between px-5 bg-black border-b border-gray-800 shrink-0">
+                <NavLink to="/" className="flex items-center">
+                    <img 
+                        src="/assets/master/logo_socdepoble_white_full.png" 
+                        alt="SÓC DE POBLE" 
+                        className="h-8 object-contain"
+                        onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = '/assets/logo.png'; // Fallback
+                        }}
+                    />
+                </NavLink>
+                {/* Botó tancar menú mòbil (dins la zona negra) */}
+                <button onClick={closeDrawer} className="md:hidden text-white ml-2">
+                    <X size={24} />
                 </button>
             </div>
 
-            <div className="drawer-scroll-area">
-                {/* SECCIÓ PRINCIPAL */}
-                <div className="drawer-section mt-4">
-                    <NavLink to="/chats" className={({ isActive }) => `drawer-item ${isActive ? 'active-orange' : ''}`}>
-                        <MessageCircle size={20} />
-                        <span>Xat</span>
-                    </NavLink>
-                    <NavLink to="/mur" className={({ isActive }) => `drawer-item ${isActive ? 'active-orange' : ''}`}>
-                        <Newspaper size={20} />
-                        <span>Mur d'Històries</span>
-                    </NavLink>
-                    <NavLink to="/mercat" className={({ isActive }) => `drawer-item ${isActive ? 'active-orange' : ''}`}>
-                        <Store size={20} />
-                        <span>Mercat Rural</span>
-                    </NavLink>
-                    <NavLink to="/pobles" className={({ isActive }) => `drawer-item ${isActive ? 'active-orange' : ''}`}>
-                        <MapPin size={20} />
-                        <span>Pobles</span>
-                    </NavLink>
-                    <NavLink to="/perfil" className={({ isActive }) => `drawer-item ${isActive ? 'active-orange' : ''}`}>
-                        <User size={20} />
-                        <span>El meu Perfil</span>
-                    </NavLink>
-                </div>
+            <div className="p-5 flex flex-col">
 
-                {/* SECCIÓ ORGANITZACIÓ (BÍBLIA) */}
-                <div className="drawer-section mt-8">
-                    <h4 className="drawer-section-title uppercase text-[10px] font-black text-white/30 tracking-[0.2em] px-4 mb-4">Organització</h4>
-                    <NavLink to="/iaia" className={({ isActive }) => `drawer-item ${isActive ? 'active-orange' : ''}`}>
-                        <Star size={20} className="text-yellow-500" />
-                        <span>La IAIA (Hub)</span>
-                    </NavLink>
-                    <NavLink to="/arxiu" className={({ isActive }) => `drawer-item ${isActive ? 'active-orange' : ''}`}>
-                        <Archive size={20} />
-                        <span>Arxiu d'Or</span>
-                    </NavLink>
-                    <NavLink to="/calendari" className={({ isActive }) => `drawer-item ${isActive ? 'active-orange' : ''}`}>
-                        <Calendar size={20} />
-                        <span>Calendari Master</span>
-                    </NavLink>
-                    <NavLink to="/fotos/global" className={({ isActive }) => `drawer-item ${isActive ? 'active-orange' : ''}`}>
-                        <ImageIcon size={20} />
-                        <span>Àlbum Global</span>
-                    </NavLink>
-                </div>
+                {/* BOTÓ 1: AFEGIR (GÉNESIS) - AZUL */}
+                <button 
+                    onClick={() => { setIsCreateModalOpen(true); handleNavClick(); }}
+                    className="w-full bg-[#4F46E5] hover:bg-[#4338ca] text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg mb-3 transition-transform active:scale-95"
+                >
+                    <Plus size={20} strokeWidth={3} />
+                    <span className="tracking-wide text-[15px]">AFEGIR</span>
+                </button>
 
-                {/* SECCIÓ COL·LECCIONS (BÍBLIA) */}
-                <div className="drawer-section mt-8">
-                    <h4 className="drawer-section-title uppercase text-[10px] font-black text-white/30 tracking-[0.2em] px-4 mb-4">Col·leccions</h4>
-                    <div className="drawer-item">
-                        <Folder size={18} />
-                        <span>xat</span>
-                    </div>
-                </div>
+                {/* BOTÓ 2: XAT (BATEGAT) - NARANJA */}
+                <NavLink 
+                    to="/chats" 
+                    onClick={handleNavClick}
+                    className={({ isActive }) => `w-full py-3 rounded-xl font-bold flex items-center px-4 gap-3 transition-colors
+                        ${isActive ? 'bg-[#FF6B00] text-white shadow-md' : 'text-gray-400 hover:bg-white/10'}`}
+                >
+                    <MessageSquare size={20} fill="currentColor" />
+                    <span className="tracking-wide text-[15px]">Xat</span>
+                </NavLink>
             </div>
 
-            <div className="drawer-footer-minimal p-4 border-t border-white/5">
-                {/* 🛡️ SEGELLAT: Switcher de democràcia visual eliminat per a puresa bíblica */}
+            {/* NAVEGACIÓ SCROLLABLE */}
+            <div className="flex-1 overflow-y-auto px-3 space-y-1 custom-scrollbar">
+                {NAV_ITEMS.map(item => (
+                    <NavLink 
+                        key={item.id} 
+                        to={item.to}
+                        onClick={handleNavClick}
+                        className={({ isActive }) => `w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all font-medium
+                            ${isActive ? 'bg-[#FF6B00]/10 text-[#FF6B00]' : 'text-gray-400 hover:bg-white/10 hover:text-white'}`}
+                    >
+                        <item.icon size={20} />
+                        <span>{item.label}</span>
+                    </NavLink>
+                ))}
+
+                {/* Separador */}
+                <div className="my-4 border-t border-gray-800/50 mx-4"></div>
+                <h3 className="px-4 text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2 font-roboto-condensed">Organització</h3>
+
+                {/* Bloque Organización */}
+                {ORG_ITEMS.map(item => (
+                    <NavLink 
+                        key={item.id} 
+                        to={item.to}
+                        onClick={handleNavClick}
+                        className={({ isActive }) => `w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all font-medium
+                            ${isActive ? 'bg-[#FF6B00]/10 text-[#FF6B00]' : 'text-gray-400 hover:bg-white/10 hover:text-white'}`}
+                    >
+                        <item.icon size={20} />
+                        <span>{item.label}</span>
+                    </NavLink>
+                ))}
+
+                {/* Separador */}
+                <div className="my-4 border-t border-gray-800/50 mx-4"></div>
+                <h3 className="px-4 text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2 font-roboto-condensed">Col·leccions</h3>
+
+                {/* Bloque Colecciones */}
+                {COLLECTION_ITEMS.map(item => (
+                    <NavLink 
+                        key={item.id} 
+                        to={item.to}
+                        onClick={handleNavClick}
+                        className={({ isActive }) => `w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all font-medium
+                            ${isActive ? 'bg-[#FF6B00]/10 text-[#FF6B00]' : 'text-gray-400 hover:bg-white/10 hover:text-white'}`}
+                    >
+                        <item.icon size={20} />
+                        <span>{item.label}</span>
+                    </NavLink>
+                ))}
             </div>
-        </nav>
+
+            {/* FOOTER SIDEBAR */}
+            <div className="p-4 mt-auto border-t border-gray-800">
+                <button className="w-full flex items-center space-x-3 px-4 py-2 text-gray-400 hover:text-red-500 transition-colors">
+                    <LogOut size={20} />
+                    <span>Tancar Sessió</span>
+                </button>
+            </div>
+
+            <style>{`
+                .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+                .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+                .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #333; border-radius: 3px; }
+            `}</style>
+        </aside>
     );
 };
 
 export default NavigationRail;
-
