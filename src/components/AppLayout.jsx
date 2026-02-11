@@ -8,7 +8,8 @@ import NanoLoader from './NanoLoader';
 import ErrorBoundary from './ErrorBoundary';
 
 // Lazy loading de pàgines per a màxima velocitat
-const ChatList = lazy(() => import('../components/ChatList'));
+const ChatLayout = lazy(() => import('../components/ChatLayout'));
+const ChatEmptyState = lazy(() => import('../components/ChatEmptyState'));
 const ChatDetail = lazy(() => import('../components/ChatDetail'));
 const Feed = lazy(() => import('../components/Feed'));
 const Market = lazy(() => import('../components/Marketplace'));
@@ -20,7 +21,7 @@ const RescueTool = lazy(() => import('../components/RescueTool'));
 
 const ProtectedRoute = ({ children }) => {
     const { user, loading } = useAuth();
-    if (loading) return <NanoLoader message="Versió v1.16.6 [MASTER]" />;
+    if (loading) return <NanoLoader message="Versió v1.16.12 [MASTER]" />;
     if (!user) return <Navigate to="/login" replace />;
     return children;
 };
@@ -36,19 +37,24 @@ const AppLayout = () => {
                     {/* MAIN CONTENT AREA */}
                     <main className="flex-1 flex flex-col md:ml-72 relative min-h-screen">
                         <Header />
-                        <div className="flex-1 overflow-y-auto pt-24 pb-20 md:pb-0 px-4 md:px-8">
+                        <div className="flex-1 overflow-y-auto pt-24 pb-20 md:pb-0">
                             <Suspense fallback={<NanoLoader message="Bategant..." />}>
                                 <ErrorBoundary>
                                     <Routes>
                                         <Route path="/login" element={<Login />} />
                                         <Route path="/" element={<Navigate to="/chats" replace />} />
-                                        <Route path="/chats" element={<ProtectedRoute><ChatList /></ProtectedRoute>} />
-                                        <Route path="/chats/:id" element={<ProtectedRoute><ChatDetail /></ProtectedRoute>} />
-                                        <Route path="/mur" element={<Feed />} />
-                                        <Route path="/mercat" element={<Market />} />
-                                        <Route path="/perfil" element={<ProtectedRoute><UniversalProfile /></ProtectedRoute>} />
-                                        <Route path="/perfil/:id" element={<PublicProfile />} />
-                                        <Route path="/admin" element={<ProtectedRoute><AdminPanel /></ProtectedRoute>} />
+                                        
+                                        {/* RUTA DE XAT EINSTITUCIONALITZADA (SPLIT VIEW) */}
+                                        <Route path="/chats" element={<ProtectedRoute><ChatLayout /></ProtectedRoute>}>
+                                            <Route index element={<ChatEmptyState />} />
+                                            <Route path=":id" element={<ChatDetail />} />
+                                        </Route>
+
+                                        <Route path="/mur" element={<div className="px-4 md:px-8"><Feed /></div>} />
+                                        <Route path="/mercat" element={<div className="px-4 md:px-8"><Market /></div>} />
+                                        <Route path="/perfil" element={<ProtectedRoute><div className="px-4 md:px-8"><UniversalProfile /></div></ProtectedRoute>} />
+                                        <Route path="/perfil/:id" element={<div className="px-4 md:px-8"><PublicProfile /></div>} />
+                                        <Route path="/admin" element={<ProtectedRoute><div className="px-4 md:px-8"><AdminPanel /></div></ProtectedRoute>} />
                                         <Route path="/nuke" element={<RescueTool />} />
                                         <Route path="*" element={<Navigate to="/" replace />} />
                                     </Routes>

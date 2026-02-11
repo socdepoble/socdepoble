@@ -43,7 +43,7 @@ const ChatList = () => {
     const navigate = useNavigate();
     const { visionMode } = useUI();
     const { activeCategories } = useSocial();
-    const [chats, setChats] = useState([]); // [ESTAT CERO] - Silenci Digital: Escalfant motors per al Protocol OMEGA
+    const [chats, setChats] = useState([]); 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState('xat');
