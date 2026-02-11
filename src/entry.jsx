@@ -300,6 +300,8 @@ try {
   } else {
     addBootLog("[BOOT] Rendering App branch");
     const container = document.getElementById("root");
+    if (!window.__SDP_ROOT__)
+      window.__SDP_ROOT__ = ReactDOM.createRoot(container);
     window.__SDP_ROOT__.render(
       <React.StrictMode>
         <QueryClientProvider client={queryClient}>
