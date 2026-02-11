@@ -9,78 +9,88 @@ CONTÉ: Variables, Reset, Fonts i Components Base.
    1. VARIABLES DE TEMA (LA LLEI DE L'ALZINA)
    ========================================= */
 :root {
-    /* ☀️ MODE DIA (Protocol Alzina Master - LA BÍBLIA) */
-    --bg-app: #000000;           /* NEGRE PUR UNIVERSAL */
-    --bg-master: #000000;
-    --bg-panel: #0A0A0B;
-    --bg-sidebar: #000000;
-    --text-main: #FFFFFF;        /* LLEGIBILITAT SUPREMA */
-    --text-muted: #888888;
-    --border-master: #27272a;    /* GRID EXU V26 */
-    
-    /* VALORS CROMÀTICS SAGRATS */
-    --accent-orange: #FF6D23;
-    --accent-purple: #5D5FEF;
-    --accent-cyan: #00F2FF;
-    --accent-green: #10B981;
-    --accent-violet: #A855F7;
-    
-    /* GÈNESIS: Radi i Geometria (PREMIUM GEM) */
-    --radius-master: 28px;
-    --radius-xl: 32px;
-    --radius-l: 28px;
-    --radius-m: 20px;
-    --radius-s: 12px;
-    --radius-btn: 14px;
-    --radius-full: 9999px;
-    
-    /* PROTOCOL OMEGA: La Puresa del Vidre */
-    --glass-bg: rgba(255, 255, 255, 0.05);
-    --glass-border: rgba(255, 255, 255, 0.1);
-    --glass-blur: blur(20px);
-    
-    --header-h: 112px;
-    --sidebar-w: 280px;
-    
-    /* COLORS LEGACY / COMPATIBILITAT */
-    --color-primary: var(--accent-cyan);
-    --color-accent: var(--accent-orange);
-    --surface-glass: rgba(255, 255, 255, 0.03);
-    --surface-glass-heavy: rgba(255, 255, 255, 0.05);
-    --border-subtle: rgba(255, 255, 255, 0.08);
+  /* ☀️ MODE DIA (Protocol Alzina Master - LA BÍBLIA) */
+  --bg-app: #000000; /* NEGRE PUR UNIVERSAL */
+  --bg-master: #000000;
+  --bg-panel: #0a0a0b;
+  --bg-sidebar: #000000;
+  --text-main: #ffffff; /* LLEGIBILITAT SUPREMA */
+  --text-muted: #888888;
+  --border-master: #27272a; /* GRID EXU V26 */
+
+  /* VALORS CROMÀTICS SAGRATS */
+  --accent-orange: #ff6d23;
+  --accent-purple: #5d5fef;
+  --accent-cyan: #00f2ff;
+  --accent-green: #10b981;
+  --accent-violet: #a855f7;
+
+  /* GÈNESIS: Radi i Geometria (PREMIUM GEM) */
+  --radius-master: 28px;
+  --radius-xl: 32px;
+  --radius-l: 28px;
+  --radius-m: 20px;
+  --radius-s: 12px;
+  --radius-btn: 14px;
+  --radius-full: 9999px;
+
+  /* PROTOCOL OMEGA: La Puresa del Vidre */
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-blur: blur(20px);
+
+  --header-h: 112px;
+  --sidebar-w: 280px;
+
+  /* COLORS LEGACY / COMPATIBILITAT */
+  --color-primary: var(--accent-cyan);
+  --color-accent: var(--accent-orange);
+  --surface-glass: rgba(255, 255, 255, 0.03);
+  --surface-glass-heavy: rgba(255, 255, 255, 0.05);
+  --border-subtle: rgba(255, 255, 255, 0.08);
 }
 
 .dark {
-    /* 🌑 MODE NIT (Deep Black Master) */
-    --bg-app: #000000;
-    --bg-panel: #121214;
-    --text-main: #FFFFFF;
-    --border-dim: var(--border-master);
+  /* 🌑 MODE NIT (Deep Black Master) */
+  --bg-app: #000000;
+  --bg-panel: #121214;
+  --text-main: #ffffff;
+  --border-dim: var(--border-master);
 }
 
 /* =========================================
    2. CONFIGURACIÓ GLOBAL (BLOQUEIG DE FERRO)
    ========================================= */
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-    background-color: var(--bg-master) !important;
-    color: white;
-    font-family: 'Inter', sans-serif;
-    overflow: hidden !important; /* PROHIBIT EL SCROLL GLOBAL */
-    height: 100vh;
-    width: 100vw;
+  background-color: var(--bg-master) !important;
+  color: white;
+  font-family: "Inter", sans-serif;
+  overflow: hidden !important; /* PROHIBIT EL SCROLL GLOBAL */
+  height: 100vh;
+  width: 100vw;
 }
 
 /* Scrollbars Alzina Stylized */
-::-webkit-scrollbar { width: 8px; height: 8px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(93, 95, 239, 0.2); border-radius: 99px; }
-::-webkit-scrollbar-thumb:hover { background: #5D5FEF; }
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(93, 95, 239, 0.2);
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #5d5fef;
+}
 
 /* =========================================
    3. COMPONENTS BLINDATS (ESCRIPTORI FIXED)
@@ -90,147 +100,148 @@ body {
 /* La geometria es delega a la Llei de Visibilitat i a Tailwind */
 
 .main-viewport {
-    flex: 1;
-    min-height: 100vh;
-    position: relative;
-    background-color: var(--bg-app);
-    overflow-x: hidden;
+  flex: 1;
+  min-height: 100vh;
+  position: relative;
+  background-color: var(--bg-app);
+  overflow-x: hidden;
 }
 
 /* [MASTER] HEADER UNIFICAT V26 */
 .header-fixed-alzina {
-    height: var(--header-h);
-    position: fixed;
-    top: 0; right: 0;
-    left: var(--sidebar-w);
-    background-color: #050505 !important; /* BLINDATGE BÍBLIC */
-    border-bottom: 1px solid var(--border-master);
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding: 0 40px;
-    backdrop-filter: var(--glass-blur);
-    box-sizing: border-box;
+  height: var(--header-h);
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: var(--sidebar-w);
+  background-color: #050505 !important; /* BLINDATGE BÍBLIC */
+  border-bottom: 1px solid var(--border-master);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 40px;
+  backdrop-filter: var(--glass-blur);
+  box-sizing: border-box;
 }
 @media (max-width: 768px) {
-    .header-fixed-alzina {
-        left: 0;
-        height: 80px;
-        padding: 0 20px;
-    }
+  .header-fixed-alzina {
+    left: 0;
+    height: 80px;
+    padding: 0 20px;
+  }
 }
 
 /* --- FOOTER DE TARGETA (DIRECTIVA ANTI-STACKING) --- */
 .card-footer-locked {
-    padding: 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: nowrap !important; /* BLINDAT */
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: nowrap !important; /* BLINDAT */
 }
 
 /* --- BOTONS SUPREMS v1.15 (HARMONIA V15) --- */
 .btn-harmony {
-    width: 100% !important;
-    height: 48px !important; /* HARMONIA V15 */
-    background-color: var(--accent-sidebar) !important;
-    color: white !important;
-    border-radius: 12px !important; /* Ajustat per a harmonia amb 48px */
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-size: 0.85rem;
-    transition: 0.2s;
-    border: none;
-    cursor: pointer;
+  width: 100% !important;
+  height: 48px !important; /* HARMONIA V15 */
+  background-color: var(--accent-sidebar) !important;
+  color: white !important;
+  border-radius: 12px !important; /* Ajustat per a harmonia amb 48px */
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.85rem;
+  transition: 0.2s;
+  border: none;
+  cursor: pointer;
 }
 
 .btn-harmony:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(255,109,35,0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255, 109, 35, 0.3);
 }
 
 .btn-xat-harmony {
-    padding: 0 24px !important;
-    height: 48px !important; /* HARMONIA V15 */
-    background-color: var(--accent-sidebar) !important;
-    border-radius: 12px !important;
-    font-weight: 800;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    color: white !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    cursor: pointer;
+  padding: 0 24px !important;
+  height: 48px !important; /* HARMONIA V15 */
+  background-color: var(--accent-sidebar) !important;
+  border-radius: 12px !important;
+  font-weight: 800;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: white !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
 }
 
 .btn-harmony-lila {
-    width: 100% !important;
-    height: 48px !important; /* HARMONIA V15 */
-    background-color: var(--accent-tabs) !important;
-    color: white !important;
-    border-radius: 12px !important;
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-size: 0.85rem;
-    transition: 0.2s;
-    border: none;
-    cursor: pointer;
+  width: 100% !important;
+  height: 48px !important; /* HARMONIA V15 */
+  background-color: var(--accent-tabs) !important;
+  color: white !important;
+  border-radius: 12px !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.85rem;
+  transition: 0.2s;
+  border: none;
+  cursor: pointer;
 }
 
 /* --- SIDEBAR IRON ESTRUCTURA --- */
 /* --- LESTO: La Llei de Visibilitat es delega a Tailwind al Layout.jsx --- */
 
 .logo-box-iron {
-    padding: 40px 32px;
+  padding: 40px 32px;
 }
 
 .afegir-box-iron {
-    padding: 0 32px 32px;
+  padding: 0 32px 32px;
 }
 
 .nav-iron {
-    flex: 1;
-    overflow-y: auto;
+  flex: 1;
+  overflow-y: auto;
 }
 
 .nav-item-iron {
-    padding: 14px 32px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    color: var(--text-muted);
-    font-weight: 700;
-    font-size: 1rem;
-    transition: 0.2s;
+  padding: 14px 32px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: var(--text-muted);
+  font-weight: 700;
+  font-size: 1rem;
+  transition: 0.2s;
 }
 
 .nav-item-iron.active {
-    color: white;
-    border-left: 4px solid var(--accent-sidebar);
-    background: rgba(255, 109, 35, 0.05);
+  color: white;
+  border-left: 4px solid var(--accent-sidebar);
+  background: rgba(255, 109, 35, 0.05);
 }
 
 .section-label-iron {
-    padding: 32px 32px 12px;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    font-weight: 900;
-    color: #444;
-    letter-spacing: 1.5px;
+  padding: 32px 32px 12px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  font-weight: 900;
+  color: #444;
+  letter-spacing: 1.5px;
 }
 
 /* =========================================
@@ -238,173 +249,240 @@ body {
    ========================================= */
 
 .intent-router-suggestion {
-    padding: 16px;
-    margin-bottom: 8px;
+  padding: 16px;
+  margin-bottom: 8px;
 }
 
 .iaia-router {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 16px;
-    background: rgba(93, 95, 239, 0.1);
-    border: 1px solid rgba(93, 95, 239, 0.3);
-    border-radius: 20px;
-    cursor: pointer;
-    transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: rgba(93, 95, 239, 0.1);
+  border: 1px solid rgba(93, 95, 239, 0.3);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .iaia-router:hover {
-    background: rgba(93, 95, 239, 0.2);
-    transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(93, 95, 239, 0.15);
+  background: rgba(93, 95, 239, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(93, 95, 239, 0.15);
 }
 
 .intent-text {
-    flex: 1;
+  flex: 1;
 }
 
 .intent-text strong {
-    display: block;
-    font-size: 14px;
-    color: #fff;
-    margin-bottom: 2px;
+  display: block;
+  font-size: 14px;
+  color: #fff;
+  margin-bottom: 2px;
 }
 
 .intent-text span {
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.6);
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
 }
 
 /* Selector V10 Grid [IAIA HUB] */
 .powers-grid-v10 {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 16px;
-    margin-top: 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
 }
 
 .power-card-v10 {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 20px;
-    border-radius: 24px;
-    cursor: pointer;
-    transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  border-radius: 24px;
+  cursor: pointer;
+  transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .power-card-v10:hover {
-    transform: translateY(-4px);
-    background: rgba(255, 255, 255, 0.05);
-    box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+  transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
 }
 
 .power-icon-v10 {
-    width: 44px;
-    height: 44px;
-    background: rgba(93, 95, 239, 0.1);
-    border-radius: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #5D5FEF;
-    flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  background: rgba(93, 95, 239, 0.1);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #5d5fef;
+  flex-shrink: 0;
 }
 
 .power-info-v10 {
-    flex: 1;
+  flex: 1;
 }
 
 .power-info-v10 h3 {
-    font-size: 16px;
-    font-weight: 800;
-    color: white;
+  font-size: 16px;
+  font-weight: 800;
+  color: white;
 }
 
 .power-info-v10 p {
-    font-size: 11px;
-    color: rgba(255, 255, 255, 0.5);
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .power-badge-v10 {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    font-size: 8px;
-    font-weight: 900;
-    color: #5D5FEF;
-    opacity: 0.6;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 8px;
+  font-weight: 900;
+  color: #5d5fef;
+  opacity: 0.6;
 }
 
 /* Agents V10 [IAIA HUB] */
 .agents-grid-v10 {
-    display: flex;
-    gap: 12px;
-    overflow-x: auto;
-    padding: 10px 0 20px;
-    scrollbar-width: none;
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 10px 0 20px;
+  scrollbar-width: none;
 }
 
 .agent-card-v10 {
-    min-width: 140px;
-    padding: 16px;
-    border-radius: 24px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
+  min-width: 140px;
+  padding: 16px;
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
 }
 
 .agent-avatar-v10 {
-    position: relative;
-    width: 60px;
-    height: 60px;
+  position: relative;
+  width: 60px;
+  height: 60px;
 }
 
 .agent-avatar-v10 img {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    border: 2px solid rgba(93, 95, 239, 0.3);
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 2px solid rgba(93, 95, 239, 0.3);
 }
 
 .status-indicator.online {
-    position: absolute;
-    bottom: 2px;
-    right: 2px;
-    width: 12px;
-    height: 12px;
-    background: #10b981;
-    border: 3px solid #121214;
-    border-radius: 50%;
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 12px;
+  height: 12px;
+  background: #10b981;
+  border: 3px solid #121214;
+  border-radius: 50%;
 }
 
 .agent-details-v10 h4 {
-    font-size: 13px;
-    font-weight: 800;
+  font-size: 13px;
+  font-weight: 800;
 }
 
 .agent-details-v10 span {
-    font-size: 10px;
-    color: #5D5FEF;
+  font-size: 10px;
+  color: #5d5fef;
 }
 
 /* SIDEBAR REFINEMENT GEM */
 .nav-item-iron {
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .nav-item-iron:hover {
-    background: rgba(255, 255, 255, 0.03);
-    color: white;
-    padding-left: 36px;
+  background: rgba(255, 255, 255, 0.03);
+  color: white;
+  padding-left: 36px;
 }
 
 .nav-item-iron.active {
-    background: linear-gradient(90deg, rgba(255, 109, 35, 0.15) 0%, transparent 100%);
-    border-left: 4px solid #FF6D23;
-    color: white;
-    font-weight: 900;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 109, 35, 0.15) 0%,
+    transparent 100%
+  );
+  border-left: 4px solid #ff6d23;
+  color: white;
+  font-weight: 900;
+}
+
+/* --- 🛡️ PROTOCOL D'EMERGÈNCIA VISUAL SÓC DE POBLE 🛡️ --- */
+
+/* 1. LLEI DE MENÚS (VISIBILITAT) */
+@media (max-width: 768px) {
+  /* MÒBIL: Amaga Sidebar, Mostra Menú Inferior */
+  aside,
+  .sidebar-frame,
+  [class*="w-72"] {
+    display: none !important;
+  }
+  .bottom-nav,
+  [class*="fixed bottom-0"] {
+    display: flex !important;
+    z-index: 9999 !important;
+  }
+  /* Aixeca el xat per a que no el tape el menú */
+  .chat-input-container {
+    bottom: 80px !important;
+  }
+  main {
+    padding-bottom: 80px !important;
+  }
+}
+
+@media (min-width: 769px) {
+  /* ESCRIPTORI: Mostra Sidebar, Amaga Menú Inferior */
+  aside,
+  .sidebar-frame {
+    display: flex !important;
+    width: 18rem !important;
+  }
+  .bottom-nav {
+    display: none !important;
+  }
+  main {
+    padding-bottom: 0 !important;
+  }
+}
+
+/* 2. LLEI DEL XAT (NO MÉS AVATARS BORRATS) */
+/* Assegura que la llista de xats (cares) tinga un ample fix en escriptori */
+@media (min-width: 769px) {
+  .chat-layout {
+    display: flex !important;
+    flex-direction: row !important;
+    height: 100vh !important;
+    overflow: hidden !important;
+  }
+  /* LA LLISTA DE CONTACTES (Esquerra) */
+  .chat-list-container {
+    width: 350px !important; /* Ample fix sagrat */
+    min-width: 350px !important;
+    flex-shrink: 0 !important; /* PROHIBIT ENCOLLIR-SE */
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    display: block !important;
+  }
+  /* LA FINESTRA DE CONVERSA (Dreta) */
+  .chat-window {
+    flex-grow: 1 !important;
+    width: auto !important;
+  }
 }
