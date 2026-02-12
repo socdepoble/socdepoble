@@ -3,6 +3,11 @@
 .master-iaia-profile {
     --iaia-accent: #ff9800;
     --iaia-glow: rgba(255, 152, 0, 0.3);
+    height: 100vh;
+    overflow-y: auto !important;
+    position: relative;
+    background: var(--bg-main);
+    -webkit-overflow-scrolling: touch;
 }
 
 .iaia-page-content.supervitaminat {

@@ -162,12 +162,38 @@ export const MOCK_MESSAGES = {
 };
 
 export const MOCK_FEED = [
+    // [SOLLUTIA HARDENING v10.17.0] TRÀMITS ADMINISTRATIUS REALS
+    { 
+        id: 900, 
+        type: 'tramit', 
+        author: 'Conselleria Agricultura', 
+        avatar: '🔥', 
+        time: 'Tràmit Obert', 
+        title: 'Permís de Crema Local', 
+        content: 'Estat actual: PERMÉS (Nivell 1). Pots tramitar la teua sol·licitud de crema per a restes agrícoles directament des d\'ací.', 
+        actionLabel: 'Tramitar Permís Ara',
+        official: true,
+        metaData: { icon: 'Flame', color: 'text-orange-600', bg: 'bg-orange-100' }
+    },
+    { 
+        id: 901, 
+        type: 'tramit', 
+        author: 'Cooperativa Agrícola', 
+        avatar: '🌱', 
+        time: 'Novetat', 
+        title: 'Ajudes Xilel·la 2026', 
+        content: 'Obert el termini per a sol·licitar les ajudes a la replantació. Consulta si la teua parcel·la és elegible.', 
+        actionLabel: 'Consultar Requisits',
+        official: true,
+        metaData: { icon: 'Sprout', color: 'text-green-600', bg: 'bg-green-100' }
+    },
     {
         id: 'post-merch-pinned-1',
         town_id: 1,
         author: "Sóc de Poble (Oficial)",
         author_avatar: "/assets/master/logo_socdepoble_green_square.png",
-        author_role: "business",
+        author_role: "official",
+        isOfficial: true,
         author_entity_id: 'sdp-oficial-1',
         time: "Ara",
         content: "# 🏺 El Mapa del Tresor al teu pit\n\nJa està disponible la nova **Camiseta Granate (Roly 57)** amb el logotip complet. No és només roba, és la identitat del nostre territori bategant en blanc pur sobre granate. \n\nTroba-la al Mercat i ajuda a mantenir bategant Sóc de Poble! 🗺️✨",
@@ -208,7 +234,8 @@ export const MOCK_FEED = [
         town_id: null, // [MASTER] Global visibility fallback
         author: "El Rentonar (Cultura Local)",
         author_avatar: "/assets/master/logo_socdepoble_green_square.png",
-        author_role: "business",
+        author_role: "official",
+        isOfficial: true,
         author_entity_id: 'rentonar-1',
         time: "Importat",
         content: "# 🌾 Crònica de la Sega: De la Falç al Bategat Digital\n\nRecordeu quan el sol encara no havia eixit i ja estàvem al camp? Aquella olor a palla seca i suor compartit. El bategat de la sega era el ritme del poble. \n\nAvui, en un món de pantalles, recuperar aquestes cròniques ens recorda que la tecnologia ha de servir per a connectar-nos amb el territori, no per a aïllar-nos-en. Estem treballant per a que tota la nostra visió de la sobirania alimentària estiga a l'abast de qualsevol habitant de la Torre de les Maçanes. Benvinguts a la Memòria Inmutable! 🏺⚖️✨",
@@ -569,9 +596,11 @@ export const MOCK_FEED = [
     {
         id: 'joia-agenda-1',
         town_id: 1,
-        author: "Associació Cultural Sant Gregori",
+        author: "Comissió de Festes (Sant Gregori)",
         author_avatar: "🎭",
-        type: "agenda", // JOIA 3: AGENDA
+        type: "agenda",
+        isOfficial: true,
+        official: true,
         title: "Teatre al Carrer: 'El Bategat'",
         date: "15/02/2026",
         content: "Una representació única sobre la història del nostre poble. No te la perdes!",
@@ -653,6 +682,36 @@ export const MOCK_FEED = [
             title: "Protocol d'Auxili 2026",
             didactic_text: "Aquesta lliçó explica els mecanismes de seguretat redundants (Rescue Mode y SW Purgatori) que garanteixen l'accés universal a Sóc de Poble in qualsevol circumstància crítica.",
         },
+        created_at: new Date().toISOString()
+    },
+    {
+        id: 'sollutia-pilar-1',
+        town_id: 1,
+        author: "Javi Llinares (Project Mestre)",
+        author_avatar: "/Javi_Llinares-Foto_perfil-1.jpg",
+        author_role: "official",
+        time: "Ara",
+        content: "# 🏛️ El Rhizome: Una Infraestructura Sobirana\n\nBenvinguts a la revolució dels pobles. El que veieu no és una web, és un node de la xarxa Rhizome. Una arquitectura federada on cada poble és amo de la seua memòria.\n\nDivendres a Alcoi explicarem com aquesta tecnologia Local-First permet bategar fins i tot sense internet. Perquè el futur no està al núvol de Silicon Valley, està a les nostres mans. 🏺⚖️✨",
+        likes: 5600,
+        comments: 890,
+        image_url: ["https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=1000"],
+        type: "post",
+        is_pinned: true,
+        pinned_position: 2,
+        created_at: new Date().toISOString()
+    },
+    {
+        id: 'sollutia-pilar-2',
+        town_id: 1,
+        author: "Tia Maria (La Cuina del Mas)",
+        author_avatar: "👵",
+        author_role: "ambassador",
+        time: "5 min",
+        content: "# 🥘 L'Olleta d'Alcoi: El Secret de la Tia Maria\n\nFills, per a anar a Alcoi cal anar ben esmorzats! Ací teniu el secret de l'olleta. Mongetes blanques, penques, bleda i un pessic de paciència.\n\nSóc de Poble és també això: protegir les receptes que ens fan ser qui som. Bon profit! 🍲🌳",
+        likes: 1200,
+        comments: 45,
+        image_url: ["https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&q=80&w=1000"],
+        type: "post",
         created_at: new Date().toISOString()
     }
 ];
@@ -792,6 +851,34 @@ export const MOCK_MARKET_ITEMS = [
         image: "/images/assets/mel.png",
         category_slug: "producte-local",
         tag: "Alimentació"
+    },
+    {
+        id: 'sollutia-item-1',
+        town_id: 1,
+        title: "Oli d'Oliva Verge Extra (Premiat)",
+        description: "Oli de collita pròpia a Alcoi. Extracció en fred. L'or líquid de la nostra serra, ara directe al teu xat.\n\n#KM0 #Alcoi #OliVerge",
+        price: "45.00€ (5L)",
+        seller: "Cooperativa Agrícola Alcoi",
+        avatar_url: "🍃",
+        author_role: "business",
+        author_entity_id: 'mock-business-alcoi-1',
+        image: "https://images.unsplash.com/photo-1474979266404-7eaacabc87c5?auto=format&fit=crop&q=80&w=1000",
+        category_slug: "producte-local",
+        is_pinned: true,
+        pinned_position: 2
+    },
+    {
+        id: 'sollutia-item-2',
+        town_id: 1,
+        title: "Mel de Romaní (La Torre)",
+        description: "Mel artesana collida per la Rosa. Sense pasteuritzar. Té el gust del sol i el romaní de Mariola.",
+        price: "9.50€",
+        seller: "Mel de la Rosa",
+        avatar_url: "🐝",
+        author_role: "business",
+        author_entity_id: 'mock-business-torre-2',
+        image: "https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?auto=format&fit=crop&q=80&w=1000",
+        category_slug: "producte-local"
     }
 ];
 

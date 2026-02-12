@@ -2051,10 +2051,14 @@ export const supabaseService = {
         // Validació estructural amb Zod
         const validated = PostSchema.parse(payload);
 
-        const { data, error } = await supabase
+        // Pre-generem id si no existeix (FIX 400 Bad Request)
+        if (!validated.id && !validated.uuid) {
+            validated.uuid = crypto.randomUUID();
+        }
+
+        const { error } = await supabase
             .from('posts')
-            .insert([validated])
-            .select('*');
+            .insert([validated]);
 
         if (error) {
             // [MASTER] Self-healing: if column not found, invalidate cache and retry
@@ -2073,27 +2077,30 @@ export const supabaseService = {
                 delete cleanPayload.economic_value_saved;
                 delete cleanPayload.is_iaia_inspired;
 
-                const { data: retryData, error: retryError } = await supabase.from('posts').insert([cleanPayload]).select('*');
+                if (!cleanPayload.uuid) cleanPayload.uuid = crypto.randomUUID();
+                const { error: retryError } = await supabase.from('posts').insert([cleanPayload]);
                 if (retryError) throw retryError;
-                return retryData[0];
+                return cleanPayload;
             }
             if (isPlayground || error.code === '42501' || error.code === '403') {
                 // Fallback si la columna no existe o hay RLS restrictivo en campos extra
                 logger.warn(`[SupabaseService] Security/RLS block in createPost, retrying minimal payload...`);
                 const minimalPayload = {
+                    id: payload.id || undefined,
+                    uuid: payload.uuid || crypto.randomUUID(),
                     author_id: payload.author_id,
                     author_name: payload.author_name,
                     content: payload.content,
                     type: payload.type || 'post',
                     town_uuid: payload.town_uuid
                 };
-                const { data: retryData, error: retryError } = await supabase.from('posts').insert([minimalPayload]).select('*');
+                const { error: retryError } = await supabase.from('posts').insert([minimalPayload]);
                 if (retryError) throw retryError;
-                return retryData[0];
+                return minimalPayload;
             }
             throw error;
         }
-        return data[0];
+        return validated;
     },
 
     // Mercado
@@ -3337,27 +3344,52 @@ export const supabaseService = {
             .order('created_at', { ascending: false });
 
         if (error) {
-            logger.error('[SupabaseService] Error in getGlobalMedia, trying with hint:', error);
-            // Fallback strategy if initial join fails
-            const { data: retryData, error: retryError } = await supabase
+            logger.warn('[SupabaseService] Error in primary getGlobalMedia join, attempting robust fallback:', error);
+            
+            // SECOND ATTEMPT: Try without the profiles join (which sometimes fails if hinted incorrectly)
+            const { data: q2Data, error: q2Error } = await supabase
                 .from('media_usage')
                 .select(`
                     *,
-                    asset:media_assets(*)
+                    media_assets(*)
                 `)
                 .order('created_at', { ascending: false });
 
-            if (retryError) throw retryError;
+            if (q2Error) {
+                logger.error('[SupabaseService] Critical failure in media_usage query:', q2Error);
+                // FINAL FALLBACK: Raw media_usage and manual hydration (Maximum Resilience)
+                const { data: rawData, error: rawError } = await supabase
+                    .from('media_usage')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+                    
+                if (rawError) throw rawError;
+                
+                // Hydrate assets
+                const assetIds = [...new Set(rawData.map(d => d.asset_id))].filter(Boolean);
+                const { data: assets } = await supabase.from('media_assets').select('*').in('id', assetIds);
+                
+                // Hydrate users
+                const userIds = [...new Set(rawData.map(d => d.user_id))].filter(Boolean);
+                const { data: profiles } = await supabase.from('profiles').select('id, full_name, avatar_url').in('id', userIds);
+                
+                return rawData.map(item => ({
+                    ...item,
+                    asset: assets?.find(a => a.id === item.asset_id),
+                    user: profiles?.find(p => p.id === item.user_id)
+                }));
+            }
 
-            // Manual hydration of profile data
-            const userIds = [...new Set(retryData.map(d => d.user_id))];
+            // Normal retry logic for Q2: Manual profile hydration
+            const userIds = [...new Set(q2Data.map(d => d.user_id))].filter(Boolean);
             const { data: profiles } = await supabase
                 .from('profiles')
                 .select('id, full_name, avatar_url')
                 .in('id', userIds);
 
-            return retryData.map(item => ({
+            return q2Data.map(item => ({
                 ...item,
+                asset: item.media_assets, // Handle fallback field name
                 user: profiles?.find(p => p.id === item.user_id)
             }));
         }

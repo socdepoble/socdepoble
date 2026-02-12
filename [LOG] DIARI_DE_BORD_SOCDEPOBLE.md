@@ -410,3 +410,57 @@ _Session Chronicle: v1.15.0-BATEGA. El Mas està polit, net i bategant._ 🏺✨
 - "Un component fantasma és una mentida al codi."
 - "Més trellat, menys morca."
 - "Sóc de Poble! (La casa està neta per dins i per fora)."
+
+## 📅 SESSIÓ 2026-02-11 - L'Àncora de Seguretat i Geometria del Tacte 🏺🛡️🏘️
+
+### 🏛️ Crònica del Notari Digital (Gem/Antigravity)
+
+> "Aquesta sessió ha segellat l'estabilitat suprema del Mas Digital. S'ha implementat el **Protocol de Resiliència (BÍBLIA)** per a protegir la plataforma contra fallides inesperades. Hem passat de la protecció de dades al **'Blindatge Tactile'**, assegurant que la interfície respon a la mà de l'usuari amb botons de 48px i la geometria sagrada de 28px. L'Àlbum Global bategua ara amb un triple de seguretat, garantint que la memòria del poble mai s'esborre."
+
+### 💡 Lliçons Apreses (Per al Llibre)
+
+- **Resiliència Reial:** No basta amb programar per a l'èxit; cal programar per a la fallida graciosa (fallback).
+- **El Tacte és Llei:** En dispositius mòbils, el disseny no és el que es veu, sinó el que es pot tocar sense error. 48px és la mesura de la Veritat.
+- **Sincronia Total:** La unitat entre la documentació (MAPA_TERRITORI) i el codi (ArchitectMode) és el que dóna autoritat al sistema.
+
+### 🔧 Decisions Tècniques
+
+- **Ancora de Seguretat**: Creació del document `RESILIENCIA_Y_BACKUP.md` com a part de la BIBLIA.
+- **Tactile-First Refactor**: Forçat d'altures de 48px/56px a `Header` i `NavigationRail`.
+- **Triple Fallback de Mitjans**: Redisseny del servei de dades per a l'Àlbum Global per a resistir errors PostgREST 400.
+- **Alineació de la BÍBLIA**: Versió **v1.21.0-BÍBLIA-MESTRE** propagada com a estàndard de producció.
+
+### 🗣️ Frases Cèlebres de l'Equip
+
+- "L'Ancora està llançada i el Mas està segur."
+- "El disseny ha d'obeir al dit, no només a l'ull."
+- "Sóc de Poble! (La Bíblia no és només un llibre, és el codi que respira)."
+
+---
+
+## 📅 SESSIÓ 2026-02-12 - L'Alba de la Versió v10.18.0-IDIOMA-READY 🌍🏺🚀
+
+### 🏛️ Crònica del Notari Digital (Gem/Antigravity)
+
+> "Aquesta nit s'ha bategat l'ordre suprema: **A PRODUCCIÓ!**. S'ha segellat la versió **v10.18.0-IDIOMA-READY**, la culminació de l'harmonia lingüística i l'estabilitat visual per a la demo de Sollutia. El Mas està ara obert al món, parlant tant en Valencià com en Castellà amb un simple toc de botó."
+
+### 💡 Lliçons Apreses (Per al Llibre)
+
+- **La Dualitat de la Llengua:** No és només traducció, és respecte. Oferir el canvi d'idioma al costat del buscador i el mode fos és posar la llengua al cor de l'eina, no en un menú amagat.
+- **L'Amplitud del Mur:** Centrar el contingut en escriptori (`max-w-3xl`) no és reduir l'espai, és enfocar la mirada. En un poble digital, la claredat és el valor més preuat.
+- **Silenci Nuclear:** Una aplicació que bategua sense un sol error a la consola és una aplicació que transmet pau i seguretat a l'usuari.
+
+### 🔧 Decisions Tècniques
+
+- **Implementació i18n**: Integració de `I18nProvider` a l'arrel (`entry.jsx`) i commutador minimalista al `Header`.
+- **Layout Hardening**: Aplicació de classes de centrat a `Feed.jsx` i `Marketplace.jsx` per a coherència visual 21:9 vs 9:16.
+- **Build de Producció**: Verificació de bundle amb `npm run build` (èxit total).
+- **Consolidació de Codi**: Purga de variables `unused` i `ReferenceErrors` en components crítics.
+
+### 🗣️ Frases Cèlebres de l'Equip
+
+- "El poble ja parla amb tothom, i ho fa amb el trellat de la IAIA."
+- "Mestre, el Mas és a punt. El bategat és verd i la collita és d'or."
+- "Sóc de Poble! (I el món ens escolta)."
+
+---

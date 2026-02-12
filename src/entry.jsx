@@ -104,6 +104,7 @@ const queryClient = new QueryClient({
   },
 });
 
+import { I18nProvider } from "./context/I18nContext";
 import StatusLoader from "./components/StatusLoader";
 import { ToastProvider } from "./components/ToastProvider";
 import { ThemeProvider } from "./context/ThemeContext";
@@ -114,12 +115,12 @@ const safeStorage = {
     try {
       const local = localStorage.getItem(key);
       if (local) return local;
-    } catch (e) {
+    } catch {
       /* silent */
     }
     try {
       return sessionStorage.getItem(key);
-    } catch (e) {
+    } catch {
       return null;
     }
   },
@@ -129,13 +130,13 @@ const safeStorage = {
     try {
       localStorage.setItem(key, val);
       okLocal = true;
-    } catch (e) {
+    } catch {
       /* silent */
     }
     try {
       sessionStorage.setItem(key, val);
       okSession = true;
-    } catch (e) {
+    } catch {
       /* silent */
     }
     return okLocal || okSession;
@@ -143,12 +144,12 @@ const safeStorage = {
   clear: () => {
     try {
       localStorage.clear();
-    } catch (e) {
+    } catch {
       /* silent */
     }
     try {
       sessionStorage.clear();
-    } catch (e) {
+    } catch {
       /* silent */
     }
     return true;
@@ -202,7 +203,7 @@ const performNuclearPurge = async (newVersion) => {
       const names = await caches.keys();
       for (const name of names) await caches.delete(name);
     }
-  } catch (e) {
+  } catch {
     /* ignore */
   }
 
@@ -305,19 +306,21 @@ try {
     window.__SDP_ROOT__.render(
       <React.StrictMode>
         <QueryClientProvider client={queryClient}>
-          <BrowserRouter>
-            <AppProvider>
-              <ThemeProvider>
-                <ToastProvider>
-                  <VersionGatekeeper>
-                    <SafeShell>
-                      <App />
-                    </SafeShell>
-                  </VersionGatekeeper>
-                </ToastProvider>
-              </ThemeProvider>
-            </AppProvider>
-          </BrowserRouter>
+            <BrowserRouter>
+              <I18nProvider>
+                <AppProvider>
+                  <ThemeProvider>
+                    <ToastProvider>
+                      <VersionGatekeeper>
+                        <SafeShell>
+                          <App />
+                        </SafeShell>
+                      </VersionGatekeeper>
+                    </ToastProvider>
+                  </ThemeProvider>
+                </AppProvider>
+              </I18nProvider>
+            </BrowserRouter>
         </QueryClientProvider>
       </React.StrictMode>,
     );
@@ -335,7 +338,7 @@ try {
 function ThemeDefaultWrapper({ children }) {
   try {
     return <ThemeProvider>{children}</ThemeProvider>;
-  } catch (e) {
+  } catch {
     return children;
   }
 }

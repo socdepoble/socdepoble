@@ -18,8 +18,8 @@ const OficiDocumentacio = () => {
             color: '#22c55e',
             description: 'Ajudes de la PAC, Xylella, cremes i pous.',
             procedures: [
-                { id: 'xylella-fastidiosa', title: 'Ayudes Xylella Fastidiosa', status: 'active', official_code: '18932' },
-                { id: 'crema-restes', title: 'Permís de Crema de Restes', status: 'available' },
+                { id: 'xylella-fastidiosa', title: 'Ayudes Xylella Fastidiosa (Seguiment)', status: 'active', official_code: '18932' },
+                { id: 'crema-restes', title: 'Permís de Crema de Restes (Tramitar)', status: 'active', official_code: 'CRM-2026' },
             ]
         },
         {
@@ -59,8 +59,22 @@ const OficiDocumentacio = () => {
         cat.procedures.some(p => p.title.toLowerCase().includes(searchTerm.toLowerCase()))
     );
 
-    if (activeProcedure === 'kit-digital-solicitud') {
-        return <KitDigitalManager onBack={() => setActiveProcedure(null)} />;
+    if (activeProcedure === 'kit-digital-solicitud' || activeProcedure === 'crema-restes' || activeProcedure === 'xylella-fastidiosa') {
+        return (
+            <div className="flex-1 bg-black text-white p-12 flex flex-col items-center justify-center text-center animate-in zoom-in duration-500">
+                <div className="w-32 h-32 rounded-full bg-orange-500/10 border-2 border-orange-500 flex items-center justify-center mb-8">
+                    <Bot size={64} className="text-orange-500" />
+                </div>
+                <h2 className="text-4xl font-black mb-4 tracking-tighter uppercase">PROCEDIMENT EN MARXA</h2>
+                <p className="max-w-md text-gray-400 text-lg mb-8 italic">
+                    "Mestre, estic connectant amb els servidors de la Generalitat per a gestionar el teu tràmit de {activeProcedure === 'crema-restes' ? 'Permís de Crema' : (activeProcedure === 'xylella-fastidiosa' ? 'Ajudes Xylella' : 'Kit Digital')}. Un momentet..."
+                </p>
+                <div className="flex gap-4">
+                    <button onClick={() => setActiveProcedure(null)} className="px-8 py-3 bg-white/10 hover:bg-white/20 rounded-full font-bold uppercase tracking-widest text-xs transition-all border border-white/10">Tornar enrere</button>
+                    <button className="px-8 py-3 bg-[#FF6B00] hover:bg-[#ff7b20] text-white rounded-full font-bold uppercase tracking-widest text-xs transition-all shadow-lg shadow-orange-900/40">Continuar amb la IAIA</button>
+                </div>
+            </div>
+        );
     }
 
     return (

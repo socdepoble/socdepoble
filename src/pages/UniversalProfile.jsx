@@ -4,8 +4,10 @@ import { useTheme } from "../context/ThemeContext";
 import { useUI } from "../context/UIContext";
 import { 
   Share2, MapPin, CheckCircle, Link as LinkIcon, 
-  Grid, Heart, Camera, Moon, Sun, Check, Sparkles, BookOpen
+  Grid, Heart, Camera, Moon, Sun, Check, Sparkles, BookOpen, Settings, Zap, Archive as HistoryIcon
 } from 'lucide-react';
+import TownPickerModal from '../components/TownPickerModal';
+import ProfileHeaderPremium from '../components/ProfileHeaderPremium';
 import './UniversalProfile.css';
 
 /**
@@ -19,21 +21,18 @@ const UniversalProfile = () => {
   const [activeTab, setActiveTab] = useState('posts');
   const [isConnected, setIsConnected] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [isTownPickerOpen, setIsTownPickerOpen] = useState(false);
 
   const [profileData, setProfileData] = useState({
-    name: profile?.full_name || user?.email || "Master Arquitecte",
-    role: profile?.bio || "Dissenyant el futur bategat del territori amb sobirania digital i essència d'Oli d'Oliva. #SócDePoble 🏺✨",
+    name: profile?.full_name || "Javi Llinares",
+    role: profile?.bio || "Arquitecte digital i amant de l'oli d'oliva. Buscant sempre la millor versió del nostre poble. #SócDePoble 🏺✨",
     location: profile?.primary_town || "LA TORRE",
-    type: profile?.role?.toUpperCase() || "PROTECTOR DEL MAS",
-    stats: { followers: "2.4k", following: "1.1k", posts: "148" },
-    avatarUrl: profile?.avatar_url || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&h=200&auto=format&fit=crop", 
-    coverUrl: profile?.cover_url || "https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1200&auto=format&fit=crop"
+    type: profile?.role?.toUpperCase() || "SUPER ADMIN",
+    stats: { followers: "1.2k", following: "45", posts: "8" },
+    avatarUrl: profile?.avatar_url || "/Javi_Llinares-Foto_perfil-1.jpg", 
+    coverUrl: profile?.cover_url || "https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200"
   });
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setProfileData(prev => ({ ...prev, [name]: value }));
-  };
 
   const userPosts = [
     { id: 1, image: "https://images.unsplash.com/photo-1560493676-04071c5f467b?q=80&w=500&auto=format&fit=crop" },
@@ -46,92 +45,39 @@ const UniversalProfile = () => {
 
   return (
     <div className="min-h-full bg-[var(--bg-app)] pb-32 overflow-x-hidden">
-      {/* 1. HERO SECTION / COVER */}
-      <div className="relative h-64 md:h-96 w-full overflow-hidden">
-        <img src={profileData.coverUrl} alt="Cover" className="w-full h-full object-cover opacity-80" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-app)] to-transparent" />
-        
-        {/* TEMA TOGGLE (PORTADA) */}
-        <div className="absolute top-6 right-6 z-20 flex gap-3">
-          <button title="Compartir" className="p-3 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-white hover:bg-white/20 transition-all hover:scale-110 shadow-2xl">
-             <Share2 size={20} />
-          </button>
-          <button 
-            onClick={toggleTheme} 
-            className="p-3 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-white hover:bg-white/20 transition-all hover:scale-110 shadow-2xl"
-            title="Canviar Tema"
-          >
-            {theme === 'dark' ? <Moon size={20} /> : <Sun size={20} />}
-          </button>
-        </div>
+      <ProfileHeaderPremium 
+        title={profileData.name}
+        subtitle={profileData.type}
+        town={profileData.location}
+        bio={profileData.role}
+        avatarUrl={profileData.avatarUrl}
+        coverUrl={profileData.coverUrl}
+        isEditing={isEditing}
+        isConnected={isConnected}
+        onConnect={() => setIsConnected(!isConnected)}
+        onEditToggle={() => setIsEditing(true)}
+        onEditSave={() => setIsEditing(false)}
+        onEditCancel={() => setIsEditing(false)}
+        onTownChange={() => setIsTownPickerOpen(true)}
+        onTitleChange={(val) => setProfileData(prev => ({ ...prev, name: val }))}
+        onSubtitleChange={(val) => setProfileData(prev => ({ ...prev, type: val }))}
+        onBioChange={(val) => setProfileData(prev => ({ ...prev, role: val }))}
+        showThemeToggle={true}
+      >
+        {/* Statistics integrated via children if needed, or separate below */}
+      </ProfileHeaderPremium>
 
-        {/* EDIT BUTTON */}
-        <div className="absolute bottom-6 right-6 z-20">
-          <button 
-            onClick={() => setIsEditing(!isEditing)} 
-            className="flex items-center gap-2 px-6 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-white hover:bg-white/20 transition-all text-xs font-black tracking-widest uppercase"
-          >
-            {isEditing ? <Check size={16} /> : <Camera size={16} />} {isEditing ? 'DESAR' : 'EDITAR'}
-          </button>
-        </div>
-      </div>
-
-      <div className="max-w-6xl mx-auto px-6 -mt-32 relative z-10">
-        <div className="flex flex-col items-center">
-          {/* 2. AVATAR */}
-          <div className="relative group">
-            <div className="w-40 h-40 md:w-56 md:h-56 rounded-[56px] border-8 border-[var(--bg-app)] overflow-hidden bg-zinc-900 shadow-2xl group-hover:scale-105 transition-transform duration-500">
-              <img src={profileData.avatarUrl} alt="Avatar" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-            </div>
-            <div className="absolute bottom-4 right-4 bg-green-500 w-6 h-6 rounded-full border-4 border-[var(--bg-app)] shadow-lg" />
-          </div>
-
-          {/* 3. INFO BÀSICA */}
-          <div className="mt-8 text-center w-full max-w-2xl px-4">
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <span className="bg-orange-600/10 text-orange-600 text-[10px] px-4 py-1.5 rounded-full font-black flex items-center gap-1 border border-orange-600/20 uppercase tracking-widest shadow-sm">
-                <MapPin size={12} /> {profileData.location}
-              </span>
-              <span className="bg-blue-600/10 text-blue-600 text-[10px] px-4 py-1.5 rounded-full font-black border border-blue-600/20 uppercase tracking-widest shadow-sm">
-                {profileData.type}
-              </span>
-            </div>
-            
-            {isEditing ? (
-              <input name="name" value={profileData.name} onChange={handleInputChange} className="bg-transparent text-[var(--text-main)] text-4xl md:text-6xl font-black tracking-tighter mb-4 text-center w-full focus:outline-none border-b border-black/10 pb-1" />
-            ) : (
-              <h1 className="text-4xl md:text-6xl font-black text-[var(--text-main)] tracking-tighter mb-4 flex items-center justify-center gap-3">
-                {profileData.name} <Sparkles size={24} className="text-orange-500" />
-              </h1>
-            )}
-
-            {isEditing ? (
-              <textarea name="role" value={profileData.role} onChange={handleInputChange} rows="3" className="bg-black/5 text-[var(--text-secondary)] text-lg leading-relaxed mx-auto rounded-2xl p-4 w-full max-w-lg focus:outline-none focus:ring-1 focus:ring-orange-500 text-center mt-4" />
-            ) : (
-              <p className="text-[var(--text-secondary)] text-lg leading-relaxed font-semibold max-w-lg mx-auto opacity-80">{profileData.role}</p>
-            )}
-          </div>
-
-          {/* 4. ACCIÓ PRINCIPAL (BATEGANT) */}
-          <div className="mt-12 mb-16 w-full flex justify-center">
-            <button 
-              onClick={() => setIsConnected(!isConnected)} 
-              className={`group relative px-16 py-6 rounded-full font-black text-xl tracking-[0.2em] transition-all duration-300 transform hover:scale-105 active:scale-95 flex items-center gap-4 shadow-2xl ${
-                isConnected 
-                ? 'bg-[var(--bg-app)] text-green-500 border-2 border-green-500/30' 
-                : 'bg-gradient-to-r from-orange-500 to-red-600 text-white animate-breathing'
-              }`}
-            >
-              {isConnected ? <CheckCircle size={28} /> : <LinkIcon size={28} />} 
-              {isConnected ? 'CONNECTAT' : 'CONNECTAR'}
-              {!isConnected && (
-                <span className="absolute -top-1 -right-1 flex h-6 w-6">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-40"></span>
-                  <span className="relative inline-flex rounded-full h-6 w-6 bg-white/20"></span>
-                </span>
-              )}
-            </button>
-          </div>
+      <div className="max-w-6xl mx-auto px-6 relative z-10">
+        <TownPickerModal 
+          isOpen={isTownPickerOpen} 
+          onClose={() => setIsTownPickerOpen(false)} 
+          onSelect={(selection) => {
+            if (selection && selection.primary) {
+              setProfileData(prev => ({ ...prev, location: selection.primary.name }));
+            }
+            setIsTownPickerOpen(false);
+          }} 
+        />
 
         {/* 6. PANELL DE CONTROL (MASTER AJUSTOS) */}
         <div className="max-w-2xl mx-auto px-6 mb-24">
@@ -214,9 +160,8 @@ const UniversalProfile = () => {
               <span className="text-[10px] text-gray-500 uppercase tracking-[0.3em] mt-3 font-black">Històries</span>
             </div>
           </div>
-        </div>
 
-        {/* 6. NAVEGACIÓ TABS */}
+        {/* 7. NAVEGACIÓ TABS */}
         <div className="flex justify-center mb-12">
           <div className="bg-black/5 p-2 rounded-full inline-flex border border-black/5 backdrop-blur-sm shadow-inner">
             <button 

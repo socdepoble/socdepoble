@@ -14,31 +14,24 @@
 }
 
 .town-selector-modal {
-    background: rgba(10, 15, 30, 0.95);
+    background: var(--surface-glass-heavy);
     width: 100%;
-    max-width: 480px;
-    max-height: 80vh;
-    border-radius: 0;
-    /* DIRECTIVA ZERO RADIUS */
-    border: 1px solid rgba(0, 242, 255, 0.3);
+    max-width: 520px;
+    height: 85vh;
+    border-radius: 40px; /* SPECTACULAR RADIUS */
+    border: 1px solid rgba(255, 255, 255, 0.15);
     display: flex;
     flex-direction: column;
-    box-shadow: var(--shadow-hard);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 0 0 100px rgba(255, 107, 0, 0.1);
+    position: relative;
     overflow: hidden;
-    animation: modalAppear 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    backdrop-filter: blur(20px);
+    animation: spectacularModalIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    backdrop-filter: blur(var(--blur-master));
 }
 
-@keyframes modalAppear {
-    from {
-        opacity: 0;
-        transform: scale(0.95) translateY(20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-    }
+@keyframes spectacularModalIn {
+    from { opacity: 0; transform: scale(0.9) translateY(40px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
 }
 
 .modal-header {
@@ -52,11 +45,11 @@
 .header-title h3 {
     margin: 0 0 8px 0;
     color: white;
-    font-family: 'Inter Tight', sans-serif;
-    font-weight: 200;
+    font-family: var(--font-brand);
+    font-weight: 950;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    font-size: 1.25rem;
+    letter-spacing: -0.5px;
+    font-size: 1.5rem;
 }
 
 .selection-path-display {
@@ -124,13 +117,13 @@
 
 .search-bar-modal input {
     width: 100%;
-    padding: 14px 14px 14px 46px;
-    background-color: rgba(255, 255, 255, 0.05);
+    padding: 16px 16px 16px 48px;
+    background-color: rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 0;
-    /* DIRECTIVA ZERO RADIUS */
+    border-radius: 20px;
     color: white;
-    font-family: 'Outfit', sans-serif;
+    font-family: var(--font-brand);
+    font-size: 1rem;
     transition: all 0.3s ease;
 }
 
@@ -296,18 +289,17 @@
 .save-btn-large {
     width: 100%;
     padding: 18px;
-    background: linear-gradient(90deg, #00f2ff 0%, #00d2ff 100%);
-    color: var(--bg-canvas);
+    background: var(--color-primary);
+    color: #000;
     border: none;
-    border-radius: 0;
-    /* DIRECTIVA ZERO RADIUS */
-    font-weight: 900;
+    border-radius: 24px;
+    font-weight: 950;
     font-size: 1.1rem;
-    font-family: 'Inter Tight', sans-serif;
-    letter-spacing: 2px;
+    font-family: var(--font-brand);
+    letter-spacing: 1px;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: var(--shadow-hard);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 10px 20px rgba(255, 107, 0, 0.3);
     text-transform: uppercase;
 }
 

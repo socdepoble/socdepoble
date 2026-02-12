@@ -7,7 +7,6 @@ import { supabaseService, isValidUUID } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
 import { ROLES, CREATOR_EMAILS, IAIA_ID } from '../constants';
 import { logger } from '../utils/logger';
-import { useTextToSpeech } from '../hooks/useTextToSpeech';
 import CreatePostModal from './CreatePostModal';
 import CategoryTabs from './CategoryTabs';
 import TagSelector from './TagSelector';
@@ -41,22 +40,18 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null, contentMo
     const activeTown = townId || selectedTown;
     const [posts, setPosts] = useState(customPosts || []);
     const [userConnections, setUserConnections] = useState([]);
-    const [userTags, setUserTags] = useState([]);
     const [loading, setLoading] = useState(true);
     const [page, setPage] = useState(0);
     const [hasMore, setHasMore] = useState(true);
     const [loadingMore, setLoadingMore] = useState(false);
     const [summaryContent, setSummaryContent] = useState('');
     const [showSummaryModal, setShowSummaryModal] = useState(false);
-    const [postComments, setPostComments] = useState({});
     const [selectedRole, setSelectedRole] = useState('tot');
     const [selectedTag, setSelectedTag] = useState(null);
     const [isIAIAFiltering, setIsIAIAFiltering] = useState(localStorage.getItem('isIAIAFiltering') === 'true');
     const [error, setError] = useState(null);
     const isMounted = useRef(true);
 
-    const { speak, stop, isPlaying } = useTextToSpeech();
-    const [speakingPostId, setSpeakingPostId] = useState(null);
 
     // [CRONISTA AI] State for summary
     const [isCronistaLoading, setIsCronistaLoading] = useState(false);
@@ -104,9 +99,7 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null, contentMo
             setHasMore(posts.length + postsArray.length < totalCount);
 
             if (user && isValidUUID(user.id)) {
-                const tagsRaw = await supabaseService.getUserTags(user.id);
                 if (!isMounted.current) return;
-                setUserTags(Array.isArray(tagsRaw) ? tagsRaw : []);
 
                 if (postsArray.length > 0) {
                     const postUuids = postsArray.map(p => p.uuid);
@@ -127,36 +120,8 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null, contentMo
                 setLoadingMore(false);
             }
         }
-    }, [selectedRole, activeTown, user, isPlayground]);
+    }, [selectedRole, activeTown, user, isPlayground, iaiaLevel, page, posts.length]);
 
-    // Fetch comments separately when posts change
-    useEffect(() => {
-        const fetchCommentsForPosts = async () => {
-            if (posts.length > 0) {
-                try {
-                    const commentsMap = {};
-                    await Promise.all(posts.map(async (p) => {
-                        const postId = p.uuid || p.id;
-                        if (!postId) return;
-                        try {
-                            const comments = await supabaseService.getPostComments(postId);
-                            if (comments && comments.length > 0) {
-                                commentsMap[p.uuid || p.id] = comments;
-                            }
-                        } catch (e) {
-                            logger.warn(`[Feed] Error fetching comments for post ${p.id}: `, e);
-                        }
-                    }));
-                    if (isMounted.current) {
-                        setPostComments(prev => ({ ...prev, ...commentsMap }));
-                    }
-                } catch (e) {
-                    logger.error('[Feed] Failed to fetch comments map:', e);
-                }
-            }
-        };
-        fetchCommentsForPosts();
-    }, [posts]);
 
 
     useEffect(() => {
@@ -224,50 +189,6 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null, contentMo
         };
     }, [isPlayground, isSuperAdmin]);
 
-    const handleToggleConnection = async (postId) => {
-        if (!user) {
-            navigate('/login');
-            return;
-        }
-        try {
-            const isConnected = userConnections.some(c => c.post_uuid === postId);
-            if (isConnected) {
-                await supabaseService.removeConnection(user.id, postId);
-                handleConnectionUpdate(postId, false);
-            } else {
-                await supabaseService.addConnection(user.id, postId);
-                handleConnectionUpdate(postId, true, []);
-            }
-        } catch (err) {
-            logger.error('[Feed] Error toggling connection:', err);
-        }
-    };
-
-    const handleConnectionUpdate = (postId, connected, tags) => {
-        setUserConnections(prev => {
-            if (connected) {
-                const existing = prev.find(c => c.post_uuid === postId);
-                if (existing) {
-                    return prev.map(c => c.post_uuid === postId ? { ...c, tags } : c);
-                }
-                return [...prev, { post_uuid: postId, user_id: user.id, tags }];
-            }
-            return prev.filter(c => c.post_uuid !== postId);
-        });
-
-        if (tags && user) {
-            // Persist to DB
-            supabaseService.updateConnectionTags(user.id, postId, tags).catch(e =>
-                logger.error('[Feed] Error persisting connection tags:', e)
-            );
-
-            tags.forEach(tag => {
-                if (!userTags.includes(tag)) {
-                    setUserTags(prev => [...prev, tag].sort());
-                }
-            });
-        }
-    };
 
     const filteredPosts = useMemo(() => {
         let filtered = posts.filter(post => {
@@ -474,7 +395,7 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null, contentMo
                 onShare={handleShareSummary}
             />
 
-            <div className="feed-list mur-masonry">
+            <div className="feed-list mur-masonry max-w-3xl mx-auto w-full">
                 {filteredPosts.length === 0 ? (
                     <StatusLoader
                         type="empty"
@@ -487,8 +408,6 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null, contentMo
                 ) : (
                     filteredPosts.map((post, index) => {
                         const pid = post.uuid || post.id || `post-${index}`;
-                        const connection = userConnections.find(c => c.post_uuid === (post.uuid || post.id));
-                        const isConnected = !!connection;
 
                         // OPTIMISTIC & DISSOLVE LOGIC [Q1]
                         const isOptimistic = post.metadata?.isOptimistic;
@@ -515,63 +434,6 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null, contentMo
 
                         const headerSubtitle = post.towns?.name || post.town_name || post.location?.town || 'La Torre de les Maçanes';
 
-                        // 1. CONTENT RENDERING LOGIC
-                        const renderContent = () => {
-                            if (post.type === 'internal_report') {
-                                return (
-                                    <>
-                                        <div style={{ display: 'flex', gap: '15px', alignItems: 'center', marginBottom: '15px' }}>
-                                            <div style={{ fontSize: '40px' }}>🍌</div>
-                                            <div style={{ flex: 1 }}>
-                                                <h3 style={{ margin: '0 0 5px 0', fontSize: '18px' }}>Informe Tècnic: {post.metadata?.title || 'Document de Treball'}</h3>
-                                                <p style={{ margin: 0, color: '#666', fontSize: '14px' }}>Generat per Nano Banana & IAIA</p>
-                                            </div>
-                                        </div>
-                                        <div className="post-text-rich" dangerouslySetInnerHTML={{ __html: post.content }} />
-                                    </>
-                                );
-                            }
-
-                            if (post.type === 'book') {
-                                return (
-                                    <div className="book-content-wrapper">
-                                        <div className="post-text-rich" dangerouslySetInnerHTML={{ __html: post.content }} />
-                                        <div className="book-sequence-footer animate-in" style={{
-                                            padding: '12px 20px',
-                                            background: 'rgba(0,0,0,0.05)',
-                                            marginTop: '16px',
-                                            display: 'flex',
-                                            flexDirection: 'column',
-                                            gap: '12px'
-                                        }}>
-                                            <div className="book-ident-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                                <div className="book-title-tag" style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#FF6D00', fontWeight: '800', fontSize: '14px', textTransform: 'uppercase' }}>
-                                                    <BookOpen size={18} />
-                                                    <span>{post.book_title || 'Llibre'}</span>
-                                                </div>
-                                                <div className="chapter-badge" style={{ background: '#FF6D00', color: '#fff', padding: '2px 10px', borderRadius: '0px', fontSize: '12px', fontWeight: '900' }}>
-                                                    CAP. {post.chapter_number || '?'}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                );
-                            }
-
-                            return (
-                                <>
-                                    <PostContent content={post.content || post.excerpt || ''} postId={pid} />
-                                    {post.is_iaia_inspired && (
-                                        <div className="iaia-transparency-genesis mt-4">
-                                            <div className="flex items-center gap-1 font-black text-[10px] text-cyan-400">
-                                                <Sparkles size={12} /> IAIA + VEÍ [MASTER]
-                                            </div>
-                                        </div>
-                                    )}
-                                </>
-                            );
-                        };
-
                         // 2. CENTRALIZED CARD RENDERING
                         const postImage = Array.isArray(post.image_url) ? post.image_url[0] : (post.image_url || post.coverImage);
                         const hasNoImage = !postImage;
@@ -588,15 +450,22 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null, contentMo
                                     onHeaderClick={() => handleHeaderClick(post)}
                                     mode="mur"
                                     className={`${isOptimistic ? 'optimistic' : ''} ${isDissolving ? 'dissolve' : ''} ${post.is_iaia_inspired ? 'animate-bategat' : ''} ${gloveMode ? 'mode-guants' : ''}`}
-                                    syncState={post.syncState}
+                                    variant={post.type === 'bando' ? 'ajuntament' : (post.type === 'tramit' ? 'mur' : 'post')}
                                 >
-                                    {renderContent()}
+                                    <PostContent content={post.content || post.excerpt || ''} postId={pid} />
+                                    {post.is_iaia_inspired && (
+                                        <div className="iaia-transparency-genesis mt-4">
+                                            <div className="flex items-center gap-1 font-black text-[10px] text-cyan-400">
+                                                <Sparkles size={12} /> IAIA + VEÍ [MASTER]
+                                            </div>
+                                        </div>
+                                    )}
                                 </UniversalCard>
                             </div>
                         );
                     })
                 )}
-            </div >
+            </div>
 
             {
                 hasMore && posts.length > 0 && !selectedTag && (

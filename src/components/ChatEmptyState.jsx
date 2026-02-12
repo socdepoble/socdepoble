@@ -1,5 +1,5 @@
 import React from 'react';
-import { Settings, BookOpen, ShieldCheck } from 'lucide-react';
+import { Settings, BookOpen, ShieldCheck, X, NotebookPen } from 'lucide-react';
 import { useUI } from '../context/UIContext';
 
 const ChatEmptyState = () => {
@@ -60,6 +60,13 @@ const ChatEmptyState = () => {
 
     return (
         <div className="flex-1 flex flex-col items-center justify-center relative overflow-hidden bg-transparent">
+            {/* Botó per tancar (v10.12) */}
+            <div className="absolute top-6 right-6 z-20">
+                <button className="p-3 bg-white/5 hover:bg-white/10 text-gray-400 rounded-full border border-white/5">
+                    <X size={20} />
+                </button>
+            </div>
+
             {/* Grid de fons subtil (Protocol v9.1.0) */}
             <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'radial-gradient(circle, #888 1px, transparent 1px)', backgroundSize: '30px 30px' }}></div>
             

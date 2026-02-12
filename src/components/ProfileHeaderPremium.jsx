@@ -1,7 +1,8 @@
 import React from 'react';
 import { 
-    ArrowLeft, MapPin, Calendar, BadgeCheck, Info, Share2, Settings, 
-    Globe, UserPlus, UserMinus, Loader2, Tag, Shield, Plus, Sun, Moon, Check, X, MessageCircle, Zap, Sparkles
+    ArrowLeft, MapPin, Calendar, BadgeCheck, Info, Share2, MoreVertical, 
+    Globe, UserPlus, UserMinus, Loader2, Tag, Shield, Plus, Sun, Moon, Check, X, MessageCircle, Zap, Sparkles,
+    Camera, History, ChevronDown
 } from 'lucide-react';
 import ShareHub from './ShareHub';
 import { useNavigate } from 'react-router-dom';
@@ -48,6 +49,7 @@ const ProfileHeaderPremium = ({
     const { theme, toggleTheme } = useTheme();
     const [viewerData, setViewerData] = React.useState({ isOpen: false, src: '', title: '' });
     const [isRhizomeOpen, setIsRhizomeOpen] = React.useState(false);
+    const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
     const openViewer = (src, title) => {
         if (!src) return;
@@ -94,6 +96,13 @@ const ProfileHeaderPremium = ({
                     <div className="premium-cover-placeholder" />
                 )}
                 <div className="premium-cover-overlay" />
+                
+                {isEditing && (
+                    <div className="premium-cover-edit-prompt" onClick={(e) => { e.stopPropagation(); alert('IAIA: Puja una foto de la teua terra!'); }}>
+                        <Camera size={32} />
+                        <span>CANVIAR PORTADA</span>
+                    </div>
+                )}
 
                 {/* Navigation Actions */}
                 <div className="premium-nav-actions">
@@ -168,11 +177,32 @@ const ProfileHeaderPremium = ({
                                 </button>
                             </div>
                         ) : (
-                            onEditToggle && (
-                                <button className="premium-btn-circle edit" onClick={onEditToggle} title="Editar Perfil">
-                                    <Settings size={24} />
+                            <div className="premium-management-menu-wrapper">
+                                <button 
+                                    className={`premium-btn-circle manage ${isMenuOpen ? 'active' : ''}`} 
+                                    onClick={() => setIsMenuOpen(!isMenuOpen)} 
+                                    title="Gestió"
+                                >
+                                    <MoreVertical size={24} />
                                 </button>
-                            )
+                                
+                                {isMenuOpen && (
+                                    <div className="premium-dropdown-menu animate-in">
+                                        <button className="dropdown-item" onClick={() => { onEditToggle?.(); setIsMenuOpen(false); }}>
+                                            <Settings size={18} />
+                                            <span>EDITAR PERFIL</span>
+                                        </button>
+                                        <button className="dropdown-item" onClick={() => { navigate('/dashboard'); setIsMenuOpen(false); }}>
+                                            <Zap size={18} />
+                                            <span>ESCRIPTORI PRIVAT</span>
+                                        </button>
+                                        <button className="dropdown-item" onClick={() => { navigate('/archive'); setIsMenuOpen(false); }}>
+                                            <History size={18} />
+                                            <span>ARXIU DE RECURSOS</span>
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
                         )}
                     </div>
                 </div>
@@ -181,7 +211,7 @@ const ProfileHeaderPremium = ({
             {/* Identity Info Area */}
             <div className="premium-identity-card">
                 <div className="premium-avatar-row">
-                    <div className={`premium-avatar-wrapper ${avatarUrl ? 'clickable' : ''}`} onClick={() => openViewer(avatarUrl, title)}>
+                    <div className={`premium-avatar-wrapper ${avatarUrl ? 'clickable' : ''}`} onClick={() => !isEditing && openViewer(avatarUrl, title)}>
                         {avatarUrl ? (
                             <img src={avatarUrl} alt={title} className="premium-avatar-img" />
                         ) : (
@@ -189,7 +219,13 @@ const ProfileHeaderPremium = ({
                                 <img src="/assets/master/logo_socdepoble_white_full.png" alt="Sóc de Poble" className="pulse-logo" />
                             </div>
                         )}
-                        {isLive && <span className="live-indicator-pulse" title="Actiu / Obert ara" />}
+                        {isLive && !isEditing && <span className="live-indicator-pulse" title="Actiu / Obert ara" />}
+                        
+                        {isEditing && (
+                            <div className="premium-avatar-edit-overlay" onClick={(e) => { e.stopPropagation(); alert('IAIA: Tria la millor cara!'); }}>
+                                <Camera size={24} />
+                            </div>
+                        )}
                     </div>
 
                     <div className="premium-main-text">
@@ -237,9 +273,10 @@ const ProfileHeaderPremium = ({
                                 <>
                                     {subtitle && <p className="premium-subtitle">{subtitle}</p>}
                                     {town && (
-                                        <p className="premium-town-line">
+                                        <p className="premium-town-line clickable" onClick={() => onTownChange?.()}>
                                             <MapPin size={14} />
                                             <span>{town}</span>
+                                            <ChevronDown size={14} className="chevron-indicator" />
                                         </p>
                                     )}
                                     {website && (

@@ -30,8 +30,15 @@ const NexusFlash = lazy(() => import('../pages/NexusFlash'));
 const SolatgeConsole = lazy(() => import('../pages/SolatgeConsole'));
 const GenesisViewer = lazy(() => import('../pages/GenesisViewer'));
 const DirectoriComunitat = lazy(() => import('../pages/CommunityDirectory'));
+const Header = lazy(() => import('./Header'));
+const AmphoraFAB = lazy(() => import('./AmphoraFAB'));
+const CreationHub = lazy(() => import('./CreationHub'));
 
 const ArchitecteView = lazy(() => import('../components/ArchitecteView'));
+const AccessibilitatUniversal = lazy(() => import('../components/AccessibilitatUniversal'));
+
+
+const DossierSocis = lazy(() => import('../pages/DossierSocis'));
 
 const ProtectedRoute = ({ children }) => {
     const { user, loading } = useAuth();
@@ -54,7 +61,13 @@ const AppLayout = () => {
                 />
             )}
 
+            {/* 0. ACCESSIBILITAT & RESILIÈNCIA (L'ULL DEL MAS) */}
+            <Suspense fallback={null}>
+                <AccessibilitatUniversal />
+            </Suspense>
+
             {/* 0. MODALE D'EXPLICACIÓ (ARQUITECTE) */}
+
             {architectMode && (
                 <div className="fixed inset-0 z-[100] bg-black/40 backdrop-blur-xl md:pl-[280px]">
                     <div className="h-full flex flex-col relative animate-slide-up">
@@ -76,9 +89,12 @@ const AppLayout = () => {
             </aside>
 
             {/* 2. MAIN VIEWPORT (EL ESCENARIO) */}
-            <main className="flex-1 flex overflow-hidden relative bg-black">
+            <main className="flex-1 flex flex-col overflow-hidden relative bg-black">
                 <Suspense fallback={<NanoLoader message="Bategant..." />}>
                     <ErrorBoundary>
+                        <Suspense fallback={<NanoLoader message="Preparant la barra..." />}>
+                            <Header />
+                        </Suspense>
                         <Routes>
                             <Route path="/login" element={<Login />} />
                             <Route path="/" element={<Navigate to="/chats" replace />} />
@@ -88,8 +104,8 @@ const AppLayout = () => {
                                 <Route path=":id" element={<ChatDetail />} />
                             </Route>
 
-                            <Route path="/mur" element={<Feed />} />
-                            <Route path="/mercat" element={<Marketplace />} />
+                            <Route path="/mur" element={<Feed hideHeader={true} />} />
+                            <Route path="/mercat" element={<Marketplace hideHeader={true} />} />
                             <Route path="/iaia" element={<IAIAPage />} />
                             <Route path="/pobles" element={<Towns />} />
                             <Route path="/pobles/:id" element={<TownDetail />} />
@@ -111,8 +127,13 @@ const AppLayout = () => {
                             <Route path="/calendari" element={<CalendariMaster />} />
                             <Route path="/fotos/global" element={<AlbumGlobal />} />
                             <Route path="/nuke" element={<RescueTool />} />
+                            <Route path="/dossier" element={<DossierSocis />} />
                             <Route path="*" element={<Navigate to="/" replace />} />
                         </Routes>
+                        <Suspense fallback={null}>
+                            <AmphoraFAB />
+                            <CreationHub />
+                        </Suspense>
                     </ErrorBoundary>
                 </Suspense>
             </main>

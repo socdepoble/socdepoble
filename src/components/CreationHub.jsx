@@ -21,105 +21,123 @@ const CreationHub = () => {
     if (!isCreateModalOpen) return null;
 
     return (
-        <div className="creation-hub-overlay" onClick={() => setIsCreateModalOpen(false)}>
-            <div className="creation-hub-content" onClick={e => e.stopPropagation()}>
-                <header className="creation-hub-header">
-                    <h3>{t('common.create_new') || 'Què vols fer?'}</h3>
-                    <button className="close-btn" onClick={() => setIsCreateModalOpen(false)}>
-                        <X size={24} />
-                    </button>
-                </header>
+        <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
+            {/* Backdrop Blur Master (v10.20) */}
+            <div 
+                className="absolute inset-0 bg-black/60 backdrop-blur-md animate-in fade-in duration-300" 
+                onClick={() => setIsCreateModalOpen(false)}
+            ></div>
+            
+            {/* Modal Content - Geometria Sagrada 40px */}
+            <div className="relative w-full max-w-lg p-8 rounded-[40px] shadow-2xl transform animate-in zoom-in-95 duration-300 bg-[#1A1A1A] border border-slate-800 text-white overflow-hidden">
+                <button 
+                    onClick={() => setIsCreateModalOpen(false)} 
+                    className="absolute top-6 right-6 p-2 rounded-full hover:bg-white/10 transition-colors text-slate-400"
+                >
+                    <X size={24} />
+                </button>
+                
+                <div className="text-center mb-8">
+                    <div className="w-20 h-20 mx-auto bg-[#4F46E5] rounded-full flex items-center justify-center mb-4 shadow-xl shadow-indigo-500/30">
+                        <Plus className="w-10 h-10 text-white" strokeWidth={3} />
+                    </div>
+                    <h2 className="text-3xl font-bold mb-2 tracking-tight">
+                        {t('common.create_new') || 'Què vols crear?'}
+                    </h2>
+                    <p className="text-lg text-slate-400">
+                        Tria el tipus de publicació per al teu poble.
+                    </p>
+                </div>
 
-                <div className="creation-hub-main-actions">
-                    <button className="logout-hub-top-btn" onClick={() => {
+                <div className="grid grid-cols-2 gap-4 mb-8">
+                    {/* OPTION: MUR */}
+                    <button className="creation-hub-btn group border-slate-700 hover:border-orange-500 hover:bg-slate-800" onClick={() => {
+                        setIsCreateModalOpen(false);
+                        openPostModal();
+                    }}>
+                        <div className="icon-wrap bg-orange-100 text-orange-600 group-hover:bg-orange-500 group-hover:text-white">
+                            <Newspaper size={28} />
+                        </div>
+                        <span className="font-bold">{t('nav.feed')}</span>
+                    </button>
+
+                    {/* OPTION: MERCAT */}
+                    <button className="creation-hub-btn group border-slate-700 hover:border-emerald-500 hover:bg-slate-800" onClick={() => {
+                        setIsCreateModalOpen(false);
+                        setIsMarketModalOpen(true);
+                    }}>
+                        <div className="icon-wrap bg-emerald-100 text-emerald-600 group-hover:bg-emerald-500 group-hover:text-white">
+                            <Store size={28} />
+                        </div>
+                        <span className="font-bold">{t('nav.market')}</span>
+                    </button>
+
+                    {/* OPTION: AGENDA */}
+                    <button className="creation-hub-btn group border-slate-700 hover:border-blue-500 hover:bg-slate-800" onClick={() => {
+                        setIsCreateModalOpen(false);
+                        setIsEventModalOpen(true);
+                    }}>
+                        <div className="icon-wrap bg-blue-100 text-blue-600 group-hover:bg-blue-500 group-hover:text-white">
+                            <Calendar size={28} />
+                        </div>
+                        <span className="font-bold">{t('nav.events') || 'Esdeveniment'}</span>
+                    </button>
+
+                    {/* OPTION: IAIA/BANDOS */}
+                    <button className="creation-hub-btn group border-slate-700 hover:border-purple-500 hover:bg-slate-800" onClick={() => {
+                        setIsCreateModalOpen(false);
+                        navigate('/iaia');
+                    }}>
+                        <div className="icon-wrap bg-purple-100 text-purple-600 group-hover:bg-purple-500 group-hover:text-white">
+                            <Bot size={28} />
+                        </div>
+                        <span className="font-bold">IAIA / Bandos</span>
+                    </button>
+                </div>
+
+                {/* TOOLS SECTION (v10.20 EXTRA) */}
+                <div className="space-y-3 pt-4 border-t border-white/5">
+                    <div className="grid grid-cols-2 gap-3">
+                         <button className="tool-btn-alzina bg-slate-800 text-white" onClick={() => {
+                            setIsCreateModalOpen(false);
+                            setIsNotePadOpen(true);
+                        }}>
+                            <StickyNote size={18} />
+                            <span>Notepad</span>
+                        </button>
+
+                        <button className="tool-btn-alzina bg-slate-800 text-white" onClick={() => {
+                            setIsCreateModalOpen(false);
+                            const shareData = {
+                                title: 'Sóc de Poble',
+                                text: 'Connecta amb la teua comunitat.',
+                                url: window.location.origin
+                            };
+                            if (navigator.share) navigator.share(shareData);
+                            else alert('Enllaç copiat!');
+                        }}>
+                            <Share2 size={18} />
+                            <span>Compartir</span>
+                        </button>
+                    </div>
+
+                    {(isSuperAdmin || isAdmin) && (
+                        <button className="w-full flex items-center justify-center gap-2 py-3 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-black transition-colors" onClick={() => {
+                            setIsCreateModalOpen(false);
+                            navigate('/admin');
+                        }}>
+                            <Shield size={18} />
+                            <span>ADMINISTRACIÓ</span>
+                        </button>
+                    )}
+
+                    <button className="w-full flex items-center justify-center gap-2 py-3 text-slate-500 hover:text-white transition-colors text-xs font-bold" onClick={() => {
                         setIsCreateModalOpen(false);
                         logout();
                         navigate('/login');
                     }}>
-                        <LogOut size={24} />
-                        <span>Eixir d'aquesta xarxa social</span>
-                    </button>
-
-                    <button className="share-full-frame" onClick={() => {
-                        setIsCreateModalOpen(false);
-                        const shareData = {
-                            title: 'Sóc de Poble',
-                            text: 'Connecta amb la teua comunitat. Notícies, mercat i esdeveniments al teu poble.',
-                            url: window.location.origin
-                        };
-                        if (navigator.share) {
-                            navigator.share(shareData).catch(err => {
-                                if (err.name !== 'AbortError') {
-                                    console.error('Error sharing:', err);
-                                }
-                            });
-                        } else {
-                            navigator.clipboard.writeText(shareData.url);
-                            alert('Enllaç del portal copiat!');
-                        }
-                    }}>
-                        <Share2 size={24} />
-                        <span>Compartir en altres xarxes socials</span>
-                    </button>
-
-                    <button className="share-full-frame notepad-action-btn-hub" onClick={() => {
-                        setIsCreateModalOpen(false);
-                        setIsNotePadOpen(true);
-                    }}>
-                        <StickyNote size={24} />
-                        <span>Bloc de notes Master</span>
-                    </button>
-
-                    {(isSuperAdmin || isAdmin) && (
-                        <button className="share-full-frame admin-btn-styled" onClick={() => {
-                            setIsCreateModalOpen(false);
-                            navigate('/admin');
-                        }}>
-                            <Shield size={24} />
-                            <span>ACCÉS ADMINISTRACIÓ</span>
-                        </button>
-                    )}
-                </div>
-
-                <div className="creation-options">
-                    <button className="creation-option" onClick={() => {
-                        setIsCreateModalOpen(false);
-                        openPostModal();
-                    }}>
-                        <div className="option-icon mur">
-                            <Newspaper size={28} />
-                        </div>
-                        <span>{t('nav.feed')}</span>
-                    </button>
-
-                    <button className="creation-option" onClick={() => {
-                        setIsCreateModalOpen(false);
-                        setIsMarketModalOpen(true);
-                    }}>
-                        <div className="option-icon mercat">
-                            <Store size={28} />
-                        </div>
-                        <span>{t('nav.market')}</span>
-                    </button>
-
-                    <button className="creation-option" onClick={() => {
-                        setIsCreateModalOpen(false);
-                        setIsEventModalOpen(true);
-                    }}>
-                        <div className="option-icon pobles">
-                            <Calendar size={28} />
-                        </div>
-                        <span>{t('nav.events') || 'Esdeveniments'}</span>
-                    </button>
-
-                    <button className="creation-option" onClick={() => {
-                        setIsCreateModalOpen(false);
-                        navigate('/iaia');
-                    }}>
-                        <div className="option-icon iaia-accent">
-                            <Bot size={28} />
-                        </div>
-                        <span>{t('iaia_page.title')}</span>
+                        <LogOut size={16} />
+                        <span>Eixir del poble</span>
                     </button>
                 </div>
             </div>

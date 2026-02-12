@@ -1,5 +1,7 @@
-import { MoreHorizontal, Heart, MessageCircle, Share2, Tag, Zap, ShieldCheck, Beaker, Sparkles, Edit, Trash2, Plus, FileText, ChevronRight, UserPlus, MapPin, Landmark } from 'lucide-react';
+import React, { useState } from 'react';
+import { MoreHorizontal, Heart, MessageCircle, Share2, Tag, Zap, ShieldCheck, Beaker, Sparkles, Edit, Trash2, Plus, FileText, ChevronRight, UserPlus, MapPin, Landmark, Image as ImageIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useUI } from '../context/UIContext';
 import { useAuth } from '../context/AuthContext';
 import Avatar from './Avatar';
@@ -28,10 +30,15 @@ const UniversalCard = ({
     variant = "post",
     isBating = false,
     excerpt,
-    images
+    images,
+    isOfficial: forcedOfficial = false,
+    forensicMode: forcedForensic = false
 }) => {
+    const [hasImageError, setHasImageError] = useState(false);
     const cardVariant = variant || mode;
-    const { gloveMode, openViewer } = useUI();
+    const { t } = useTranslation();
+    const { gloveMode, openViewer, forensicMode: contextForensic } = useUI();
+    const isForensic = forcedForensic || contextForensic;
     const { isAdmin, user } = useAuth();
     const navigate = useNavigate();
 
@@ -50,18 +57,18 @@ const UniversalCard = ({
     const displayTown = subtitle || item?.location?.town || item?.town_name || 'La Torre de les Maçanes';
     const displayDate = item?.created_at ? new Date(item.created_at).toLocaleDateString() : (item?.date || "30/1/2026");
 
-    // Lògica "Gent de..." MASTER GENESIS
+    // Lògica "Gent de..." MASTER GENESIS (Protocol Forense)
     const getGentDePage = (townName) => {
         if (!townName) return "Gent de Poble";
-        // Enforcing formal name as per Mestre's serious preference
-        if (townName.includes("La Torre de les Maçanes")) return "Associació Cultural Sant Gregori";
-        return `Gent de ${townName}`;
+        const cleanTown = townName.replace("Poble Principal:", "").trim();
+        if (cleanTown === "La Torre de les Maçanes") return "Associació Cultural Sant Gregori";
+        return `Gent de ${cleanTown}`;
     };
 
     const handleCardClick = () => {
         if (cardVariant === 'pobles') {
             const townId = item?.uuid || item?.id;
-            navigate(`/gent/${townId}`);
+            navigate(`/pobles/${townId}`);
         } else if (cardVariant === 'mapa') {
             navigate('/mapa');
         }
@@ -79,42 +86,59 @@ const UniversalCard = ({
         }
     };
 
-    const isOfficial = item?.author_role === 'official' || item?.author_role === 'oficial' || item?.type === 'oficial' || item?.type === 'system';
+    const isOfficial = forcedOfficial || item?.author_role === 'official' || item?.author_role === 'oficial' || item?.type === 'oficial' || item?.type === 'system' || item?.type === 'bando' || item?.type === 'tramit' || item?.official;
     const isAlert = item?.category === 'Alert' || item?.type === 'alert' || item?.is_alert;
 
     return (
         <article
-            className={`universal-card card-variant-${cardVariant} ${className} ${isBating ? 'animate-bategat' : ''} ${gloveMode ? 'mode-guants' : ''} ${isOfficial ? 'role-official' : ''} ${isAlert ? 'alert-active' : ''}`}
+            className={`universal-card card-variant-${cardVariant} ${className} ${isBating ? 'animate-bategat' : ''} ${gloveMode ? 'mode-guants' : ''} ${isOfficial ? 'role-official' : ''} ${isAlert ? 'alert-active' : ''} ${isForensic ? 'mode-forense-active' : ''}`}
             onClick={handleCardClick}
             style={{ cursor: (cardVariant === 'pobles' || cardVariant === 'event' || cardVariant === 'mapa') ? 'pointer' : 'default' }}
         >
-            {/* HEADER: BOINA TARONJA (NEXUS v6.0) */}
+            {/* HEADER: BOINA TARONJA (NEXUS v6.0) - FIXED 64px NAVIGATION */}
             <header 
-                className="card-header-boina" 
+                className={`card-header-boina h-16 ${isOfficial ? 'variant-official' : 'variant-standard'}`} 
                 onClick={handleAuthorClick}
+                style={{ cursor: 'pointer' }}
             >
                 <div className="header-left">
                     <Avatar
-                        src={avatarSrc || item?.author_avatar || item?.logo_url}
+                        src={avatarSrc || item?.author_avatar || item?.logo_url || item?.author?.avatar_url}
                         name={displayAuthor}
                         role={avatarRole || item?.author_role}
                         size="md"
                         className="genesis-avatar"
                     />
                     <div className="header-text">
-                        <h3 className="master-author-name">
-                            {cardVariant === 'pobles' ? getGentDePage(displayTown) : displayAuthor}
-                            {isOfficial && <ShieldCheck size={14} className="official-blue-shield" />}
-                        </h3>
+                        <div className="flex items-center gap-2">
+                             <h3 className="master-author-name">
+                                {cardVariant === 'pobles' ? getGentDePage(displayTown) : displayAuthor}
+                            </h3>
+                            {isOfficial && (
+                                <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-white text-[#FF6B00] uppercase tracking-wide shadow-sm flex items-center gap-1">
+                                    <ShieldCheck size={10} />
+                                    Oficial
+                                </span>
+                            )}
+                        </div>
                         <div className="location-text">
-                            {displayTown}
+                            {displayTown.replace("Poble Principal:", "").trim()}
                         </div>
                     </div>
                 </div>
-                <div className={`header-right-meta ${cardVariant === 'agenda' || cardVariant === 'event' ? 'agenda-highlight' : ''}`}>
-                    <div className="header-date">
-                        {displayDate}
-                    </div>
+                <div className="header-right-meta">
+                    {/* [MASTER DYNAMIC HEADER] Price or Date according to cardinal mode */}
+                    {(cardVariant === 'mercat' || cardVariant === 'market') && displayPrice && (
+                        <div className="header-dynamic-data price-badge">
+                            {displayPrice}
+                        </div>
+                    )}
+                    {(cardVariant === 'agenda' || cardVariant === 'event') && (
+                        <div className="header-dynamic-data date-badge">
+                            {displayDate}
+                        </div>
+                    )}
+
                     {(item?.is_pinned || item?.metadata?.is_pinned) && (
                         <div className="pinned-indicator" title="Fixat pel Mestre">
                             <Zap size={16} fill="#00D2FF" color="#00D2FF" />
@@ -133,6 +157,14 @@ const UniversalCard = ({
                             🏺
                         </button>
                     )}
+                    {isForensic && (
+                        <div className="forensic-label">
+                            {cardVariant === 'post' ? 'EG-WALKER: DAG SYNC' : 
+                             cardVariant === 'mercat' ? 'RHIZOME: COMMERCE MESH' :
+                             cardVariant === 'pobles' ? 'GENT DE... PROTOCOL' :
+                             'LLEI BOINA TARONJA'} {'>'} PERFIL
+                        </div>
+                    )}
                 </div>
             </header>
 
@@ -143,7 +175,7 @@ const UniversalCard = ({
                     e.stopPropagation();
                     if (cardVariant === 'pobles') {
                         const townId = item?.uuid || item?.id;
-                        navigate(`/gent/${townId || 'de-la-torre'}`);
+                        navigate(`/pobles/${townId || 'de-la-torre'}`);
                     } else if (mediaList && mediaList.length > 0) {
                         openViewer(mediaList, 0);
                     } else if (displayImage) {
@@ -154,17 +186,30 @@ const UniversalCard = ({
                 {mediaList && mediaList.length > 1 ? (
                     <ImageCarousel images={mediaList} />
                 ) : (
-                    <>
-                        <img 
-                            src={displayImage || "https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1000&auto=format&fit=crop"} 
-                            alt={displayTitle} 
-                            className="universal-card-media" 
-                            loading="lazy" 
-                        />
-                        <div className="image-overlay-credits">
-                            © SÓC DE POBLE / IAIA GENERATED
-                        </div>
-                    </>
+                    <div className="w-full h-full relative group">
+                        {(!displayImage || hasImageError) ? (
+                            <div className="w-full h-full bg-slate-100 dark:bg-slate-900 flex flex-col items-center justify-center relative overflow-hidden group">
+                                <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, currentColor 1px, transparent 0)', backgroundSize: '20px 20px', color: '#94a3b8' }}></div>
+                                <div className="z-10 bg-white/10 backdrop-blur-sm p-4 rounded-full mb-2 group-hover:scale-110 transition-transform duration-500">
+                                    <ImageIcon className="w-8 h-8 text-slate-400 dark:text-slate-500" />
+                                </div>
+                                <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 z-10">{t('common.image') || "Imatge"}</span>
+                            </div>
+                        ) : (
+                            <>
+                                <img 
+                                    src={displayImage} 
+                                    alt={displayTitle} 
+                                    className="universal-card-media" 
+                                    loading="lazy" 
+                                    onError={() => setHasImageError(true)}
+                                />
+                                <div className="image-overlay-credits">
+                                    © SÓC DE POBLE / IAIA GENERATED
+                                </div>
+                            </>
+                        )}
+                    </div>
                 )}
             </div>
 
@@ -215,21 +260,30 @@ const UniversalCard = ({
                 {/* 1. CARDINAL MUR (Social Flow) */}
                 {(cardVariant === 'post' || cardVariant === 'mur') && (
                     <div className="footer-actions-mur">
-                        <button className="master-action-btn connect-btn" onClick={(e) => { e.stopPropagation(); alert('Rhizome: Puzle Social'); }}>
-                            <UserPlus size={22} />
-                            <span>Connectar</span>
-                        </button>
-                        <div className="footer-touch-group">
-                            <button className="btn-touch iaia-chat" onClick={(e) => { 
-                                e.stopPropagation(); 
-                                navigate('/iaia');
-                            }}>
-                                <MessageCircle size={22} />
+                        {item?.type === 'tramit' ? (
+                            <button className="master-action-btn connect-btn bg-[#FF6B00] text-white border-none w-full" onClick={(e) => { e.stopPropagation(); navigate('/documentacio'); }}>
+                                <Landmark size={22} />
+                                <span>{item.actionLabel || 'Obrir Tràmit'}</span>
                             </button>
-                            <button className="btn-touch sharing-btn" onClick={(e) => { e.stopPropagation(); alert('Protocol Bategar'); }}>
-                                <Share2 size={22} />
-                            </button>
-                        </div>
+                        ) : (
+                            <>
+                                <button className="master-action-btn connect-btn" onClick={(e) => { e.stopPropagation(); alert('Rhizome: Puzle Social'); }}>
+                                    <UserPlus size={22} />
+                                    <span>Connectar</span>
+                                </button>
+                                <div className="footer-touch-group">
+                                    <button className="btn-touch iaia-chat" onClick={(e) => { 
+                                        e.stopPropagation(); 
+                                        navigate('/iaia');
+                                    }}>
+                                        <MessageCircle size={22} />
+                                    </button>
+                                    <button className="btn-touch sharing-btn" onClick={(e) => { e.stopPropagation(); alert('Protocol Bategar'); }}>
+                                        <Share2 size={22} />
+                                    </button>
+                                </div>
+                            </>
+                        )}
                     </div>
                 )}
 
@@ -294,7 +348,10 @@ const UniversalCard = ({
                             }}>
                                 <MessageCircle size={22} />
                             </button>
-                            <button className="btn-event-action visit-town" onClick={() => navigate('/gent-de-la-torre')}>
+                            <button className="btn-event-action visit-town" onClick={() => {
+                                const townId = item?.uuid || item?.id;
+                                navigate(`/pobles/${townId || 'de-la-torre'}`);
+                            }}>
                                 <span>VISITAR MUR</span>
                                 <ChevronRight size={22} />
                             </button>

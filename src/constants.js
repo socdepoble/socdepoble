@@ -2,7 +2,7 @@
  * Constants globals per a l'aplicació Sóc de Poble
  */
 
-export const APP_VERSION = "v1.21.0-BÍBLIA-MESTRE";
+export const APP_VERSION = "v1.27.0-BÍBLIA-ULL-DEL-MAS-v10.8.2";
 export const CRITICAL_THRESHOLD = 'v1.6.0';
 
 export const DEMO_USER_ID = '11111111-0000-0000-0000-000000000001';

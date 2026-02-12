@@ -378,6 +378,16 @@
     opacity: 0.7;
 }
 
+.premium-town-line .chevron-indicator {
+    opacity: 0.4;
+    transition: transform 0.3s ease;
+}
+
+.premium-town-line:hover .chevron-indicator {
+    transform: translateY(2px);
+    opacity: 1;
+}
+
 .premium-town-line.website-link {
     color: var(--color-primary);
     text-decoration: none;
@@ -391,11 +401,37 @@
 }
 
 .premium-bio {
-    font-size: var(--font-size-base);
-    line-height: 1.5;
-    color: rgba(255, 255, 255, 0.75);
-    margin: 0;
-    font-weight: var(--font-weight-bold);
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: var(--text-main);
+    opacity: 0.95;
+    font-style: italic;
+    font-family: serif; /* Protocol Master v10.22 */
+    letter-spacing: 0.2px;
+    position: relative;
+    padding: 0 40px;
+    margin: 24px 0 24px 0;
+    text-align: center;
+}
+
+.premium-bio::before, .premium-bio::after {
+    content: '"';
+    font-size: 2.5rem;
+    color: var(--color-primary);
+    opacity: 0.3;
+    font-family: serif;
+    position: absolute;
+    line-height: 1;
+}
+
+.premium-bio::before {
+    left: 0;
+    top: -10px;
+}
+
+.premium-bio::after {
+    right: 0;
+    bottom: -30px;
 }
 
 .premium-bio-container {
@@ -514,12 +550,26 @@
 }
 
 .premium-edit-textarea.bio {
-    font-size: var(--font-size-base);
-    font-weight: var(--font-weight-bold);
-    line-height: 1.5;
-    margin: 16px 0 10px;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--color-primary-soft);
+    border-radius: var(--radius-m);
+    padding: 16px;
+    color: #fff;
+    font-size: 1rem;
+    font-family: var(--font-brand);
+    font-style: italic;
+    min-height: 110px;
     resize: none;
+    transition: all 0.3s ease;
     display: block;
+}
+
+.premium-edit-textarea.bio:focus {
+    border-color: var(--color-primary);
+    background: rgba(0, 0, 0, 0.6);
+    box-shadow: 0 0 15px rgba(255, 107, 0, 0.2);
+    outline: none;
 }
 
 .premium-town-line.editable {
@@ -573,6 +623,12 @@
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow: 0 4px 15px rgba(93, 95, 239, 0.3);
+    animation: breathing 4s ease-in-out infinite;
+}
+
+@keyframes breathing {
+    0%, 100% { transform: scale(1); box-shadow: 0 4px 15px rgba(93, 95, 239, 0.3); }
+    50% { transform: scale(1.05); box-shadow: 0 8px 25px rgba(93, 95, 239, 0.5); }
 }
 
 .premium-connect-pill:hover {

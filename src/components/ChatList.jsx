@@ -79,10 +79,9 @@ const ChatList = () => {
     };
 
     return (
-        <div className="w-full h-full flex flex-col bg-[#111] overflow-hidden">
-            
-            {/* HEADER CENTRAL - CABECERA NEGRA RESPONSIVE (1er MANDAMENT v9.1.0) */}
-            <header className="h-16 px-4 flex items-center bg-black border-b border-gray-800 flex-shrink-0 z-30 text-white">
+        <div className="flex-1 flex flex-col min-w-0 bg-[#000000] relative overflow-hidden h-full">
+            {/* HEADER LLISTA: MONÒLIT NEGRE 64px (v10.12) */}
+            <header className="h-16 px-4 flex items-center bg-black border-b border-gray-800/50 flex-shrink-0 z-30 text-white">
                 
                 {/* Botó Menú Mòbil */}
                 <button 

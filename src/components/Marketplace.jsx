@@ -12,22 +12,23 @@ import StatusLoader from './StatusLoader';
 import MarketSkeleton from './Skeletons/MarketSkeleton';
 import SEO from './SEO';
 import Carousel from './Carousel';
-import { iaiaService } from '../services/iaiaService';
+import { geminiService } from '../services/geminiService';
 import { rhizomeManager } from '../services/rhizomeManager';
 import { paymentService } from '../services/paymentService';
 import { hapticService } from '../services/hapticService';
+import { IAIA_ID } from '../constants';
 import ShareHub from './ShareHub';
 import ItemDetailModal from './ItemDetailModal';
 import UniversalCard from './UniversalCard';
 import './Marketplace.css';
 
 const Market = ({ searchTerm = '' }) => {
-    const { t, i18n } = useTranslation();
-    const { user, isPlayground, isAdmin, isSuperAdmin } = useAuth();
+    const { t } = useTranslation();
+    const { isPlayground, isSuperAdmin } = useAuth();
     const { visionMode } = useUI();
     const navigate = useNavigate();
     const [items, setItems] = useState([]);
-    const [categories, setCategories] = useState([]);
+    const [, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
     const [loadingMore, setLoadingMore] = useState(false);
     const [hasMore, setHasMore] = useState(true);
@@ -44,38 +45,7 @@ const Market = ({ searchTerm = '' }) => {
         { id: 'excedents', label: 'Excedents (Km 0)', role: 'excedents' }
     ];
 
-    useEffect(() => {
-        const fetchCategories = async () => {
-            try {
-                const cats = await supabaseService.getMarketCategories();
-                setCategories(cats);
-            } catch (err) {
-                logger.error('[Market] Error fetching categories:', err);
-            }
-        };
-        fetchCategories();
-    }, []);
-
-    useEffect(() => {
-        // [PILAR 1: INSTANT LOAD] - Bategat immediat des de la memòria local
-        const cacheKey = `market_${activeTab}_global_0`;
-        const localData = localStorage.getItem(`lc_${cacheKey}`);
-        if (localData) {
-            try {
-                const parsed = JSON.parse(localData);
-                if (parsed && parsed.data && Array.isArray(parsed.data)) {
-                    logger.log('[Market] Instant Load: Bategant dades des del solatge local...');
-                    setItems(parsed.data);
-                    setLoading(false);
-                }
-            } catch (e) {
-                logger.warn('[Market] Error en Instant Load:', e);
-            }
-        }
-        loadMarketData(false);
-    }, [activeTab]);
-
-    const loadMarketData = async (append = false) => {
+    const loadMarketData = React.useCallback(async (append = false) => {
         const currentPage = append ? page + 1 : 0;
         if (append) setLoadingMore(true);
         else setLoading(true);
@@ -106,7 +76,38 @@ const Market = ({ searchTerm = '' }) => {
             setLoading(false);
             setLoadingMore(false);
         }
-    };
+    }, [activeTab, isPlayground, page]);
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const cats = await supabaseService.getMarketCategories();
+                setCategories(cats);
+            } catch (err) {
+                logger.error('[Market] Error fetching categories:', err);
+            }
+        };
+        fetchCategories();
+    }, []);
+
+    useEffect(() => {
+        // [PILAR 1: INSTANT LOAD] - Bategat immediat des de la memòria local
+        const cacheKey = `market_${activeTab}_global_0`;
+        const localData = localStorage.getItem(`lc_${cacheKey}`);
+        if (localData) {
+            try {
+                const parsed = JSON.parse(localData);
+                if (parsed && parsed.data && Array.isArray(parsed.data)) {
+                    logger.log('[Market] Instant Load: Bategant dades des del solatge local...');
+                    setItems(parsed.data);
+                    setLoading(false);
+                }
+            } catch (e) {
+                logger.warn('[Market] Error en Instant Load:', e);
+            }
+        }
+        loadMarketData(false);
+    }, [activeTab, loadMarketData]);
 
     const filteredItems = useMemo(() => {
         let baseItems = items;
@@ -171,10 +172,10 @@ const Market = ({ searchTerm = '' }) => {
             }
             return new Date(b.created_at || 0) - new Date(a.created_at || 0);
         });
-    }, [items, searchTerm, visionMode, isIAIAFiltering]);
+    }, [items, searchTerm, visionMode, isIAIAFiltering, isSuperAdmin]);
 
-    const [payingItemId, setPayingItemId] = useState(null);
-    const [paidItems, setPaidItems] = useState(new Set());
+    const [, setPayingItemId] = useState(null);
+    const [, setPaidItems] = useState(new Set());
     const [selectedItemForDetail, setSelectedItemForDetail] = useState(null);
 
     const handleAstroPayment = async (item) => {
@@ -267,7 +268,7 @@ const Market = ({ searchTerm = '' }) => {
     if (loading && items.length === 0) {
         return (
             <div className="market-container">
-                <div className="market-grid">
+                <div className="market-grid max-w-3xl mx-auto">
                     {[1, 2, 3, 4, 5, 6].map(i => <MarketSkeleton key={i} />)}
                 </div>
             </div>

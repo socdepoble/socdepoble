@@ -39,6 +39,7 @@ export const UIProvider = ({ children }) => {
     const [architectMode, setArchitectMode] = useState(false);
     const [isMagicPregonerOpen, setIsMagicPregonerOpen] = useState(false);
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    const [forensicMode, setForensicMode] = useState(false);
 
     // [MASTER GENT] Lògica de Poble-Nodo (Cyber-Rural)
     const [selectedTown, setSelectedTown] = useState(prefs.selectedTown || 'La Torre de les Maçanes');
@@ -219,6 +220,9 @@ export const UIProvider = ({ children }) => {
             toggleDrawer: () => setIsDrawerOpen(prev => !prev),
             closeDrawer: () => setIsDrawerOpen(false),
             openDrawer: () => setIsDrawerOpen(true),
+            forensicMode,
+            setForensicMode,
+            toggleForensicMode: () => setForensicMode(prev => !prev),
         }}>
             {children}
         </UIContext.Provider>

@@ -15,10 +15,9 @@ export const I18nProvider = ({ children }) => {
     }, [language]);
 
     const toggleLanguage = () => {
-        const languages = ['va', 'es', 'gl', 'eu', 'en'];
-        const currentIndex = languages.indexOf(language.split('-')[0]);
-        const nextIndex = (currentIndex + 1) % languages.length;
-        setLanguage(languages[nextIndex]);
+        const currentBase = (language || 'va').split('-')[0].toLowerCase();
+        const nextLang = currentBase === 'va' ? 'es' : 'va';
+        setLanguage(nextLang);
     };
 
     return (

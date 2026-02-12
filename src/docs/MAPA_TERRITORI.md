@@ -71,6 +71,7 @@ El sistema es basa en una arquitectura de 3 Columnes (Tríptic) en escriptori i 
   - **Mode IAIA (Core):** Mostra humans + La IAIA MarIA.
   - **Mode Immersiu (Full):** Mostra toda la colla (Nano, Ratolí, Vicent, etc.).
 - **Detall (Dret):** Interfície de xat estàndard. Capçalera amb estat "En línia". Bafarades de missatge (Usuari dreta, Agent esquerra).
+- **Arquitectura de Ferro:** L'Arquitectura General del Mas Digital inclou la Sidebar (Roca) a l'esquerra amb el logotip sempre present i botons d'acció grans (AFEGIR, Xat). El Header és sempre Negre per seguretat visual.
 
 ### 📰 2.2. PÀGINA DEL MUR (Notícies i Bans)
 
