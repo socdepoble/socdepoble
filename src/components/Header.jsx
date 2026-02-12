@@ -4,6 +4,7 @@ import { useNavigate, NavLink } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
 import { useI18n } from "../context/I18nContext";
+import { useUI } from "../context/UIContext";
 import {
   Search,
   Bell,
@@ -21,24 +22,35 @@ const Header = () => {
   const { user, profile } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const { toggleLanguage, language } = useI18n();
+  const { toggleDrawer } = useUI();
   const navigate = useNavigate();
 
   return (
-    <header className="h-16 flex items-center justify-between px-4 gap-2 shrink-0 select-none bg-black text-white sticky top-0 z-[1000] w-full border-b border-white/5">
-        <NavLink 
-          to="/" 
-          className="flex items-center border-[1.5px] border-white px-2 py-0.5 active:scale-95 transition-transform"
-        >
-          <img
-            src="/logo-white.png"
-            alt="SÓC DE POBLE"
-            className="h-6 object-contain"
-            onError={(e) => {
-              e.target.onerror = null;
-              e.target.src = '/logo-white.png';
-            }}
-          />
-        </NavLink>
+    <header className="h-16 flex items-center justify-between px-3 md:px-6 gap-2 shrink-0 select-none bg-black text-white sticky top-0 z-[1000] w-full border-b border-white/5">
+        <div className="flex items-center gap-1 md:gap-4 overflow-hidden">
+          <button 
+            onClick={toggleDrawer} 
+            className="lg:hidden w-12 h-12 flex items-center justify-center text-slate-400 hover:text-white transition-colors"
+            aria-label="Menu"
+          >
+            <Menu size={24} />
+          </button>
+          
+          <NavLink 
+            to="/" 
+            className="flex items-center border-[1.5px] border-white px-2 py-0.5 active:scale-95 transition-transform"
+          >
+            <img
+              src="/logo-white.png"
+              alt="SÓC DE POBLE"
+              className="h-5 md:h-6 object-contain"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = '/logo-white.png';
+              }}
+            />
+          </NavLink>
+        </div>
 
       {/* RIGHT SIDE: Tools (Always Visible) - TACTILE TARGET 48px */}
       <div className="flex items-center gap-1 lg:gap-3 ml-auto h-full">
