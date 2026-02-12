@@ -11,7 +11,7 @@ const NavigationRail = () => {
     const { setIsCreateModalOpen, closeDrawer, forensicMode, toggleForensicMode, blueprintMode, toggleBlueprintMode } = useUI();
 
     const handleNavClick = () => {
-        if (window.innerWidth < 768) {
+        if (window.innerWidth < 1024) {
             closeDrawer();
         }
     };
@@ -57,7 +57,7 @@ const NavigationRail = () => {
                     />
                 </NavLink>
                 {/* Botó tancar menú mòbil (dins la zona negra) - TACTILE TARGET 48px */}
-                <button onClick={closeDrawer} className="md:hidden text-white ml-2 w-12 h-12 flex items-center justify-center">
+                <button onClick={closeDrawer} className="lg:hidden text-white ml-2 w-12 h-12 flex items-center justify-center">
                     <X size={24} />
                 </button>
             </div>
@@ -172,7 +172,7 @@ const NavigationRail = () => {
                 </button>
 
                 <div className="mt-4 text-[8px] text-center opacity-30 font-black uppercase tracking-[0.3em] text-white">
-                    v11.0.2 CANDIDATE
+                    v11.1.2-GOLDEN-MASTER
                 </div>
             </div>
 

@@ -79,7 +79,7 @@ const AppLayout = () => {
             {/* 0. OVERLAY MÒBIL (Sombra de fondo) */}
             {isDrawerOpen && (
                 <div 
-                    className="drawer-backdrop md:hidden"
+                    className="drawer-backdrop lg:hidden"
                     onClick={closeDrawer}
                 />
             )}
@@ -92,7 +92,7 @@ const AppLayout = () => {
             {/* 0. MODALE D'EXPLICACIÓ (ARQUITECTE) */}
 
             {architectMode && (
-                <div className="fixed inset-0 z-[100] bg-black/40 backdrop-blur-xl md:pl-[280px]">
+                <div className="fixed inset-0 z-[100] bg-black/40 backdrop-blur-xl lg:pl-[280px]">
                     <div className="h-full flex flex-col relative animate-slide-up">
                         <Suspense fallback={<NanoLoader message="Obrint el Mapa..." />}>
                             <ArchitecteView />
@@ -105,7 +105,7 @@ const AppLayout = () => {
             <aside className={`
                 sidebar-desktop
                 ${isDrawerOpen ? 'drawer-open' : ''}
-                md:relative md:translate-x-0 md:block min-w-0 flex-shrink-0
+                lg:relative lg:translate-x-0 lg:block min-w-0 flex-shrink-0
             `}>
                 {blueprintMode ? (
                     <BlueprintOverlay label="SIDEBAR_FIXED" dimensions="280px" color="blue" showBackupLink={true}>

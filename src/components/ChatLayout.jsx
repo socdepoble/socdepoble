@@ -10,8 +10,8 @@ const ChatLayout = () => {
             
             {/* 1. LLISTA DE VEÏNS (EL MERCAT - 400px FIXES EN DESKTOP) */}
             <div className={`
-                flex-shrink-0 md:w-[400px] border-r border-gray-800 bg-black
-                ${id ? 'hidden md:flex' : 'flex w-full'}
+                flex-shrink-0 lg:w-[400px] border-r border-gray-800 bg-black
+                ${id ? 'hidden lg:flex' : 'flex w-full'}
                 flex-col
             `}>
                 <ChatList />
@@ -20,7 +20,7 @@ const ChatLayout = () => {
             {/* 2. FINESTRA DE CONVERSA (ESCENARI - FLEX 1 EN DESKTOP) */}
             <div className={`
                 flex-1 flex flex-col min-w-0 bg-black relative
-                ${!id ? 'hidden md:flex' : 'fixed inset-0 z-50 md:static md:z-auto flex chat-detail-mobile-transition'}
+                ${!id ? 'hidden lg:flex' : 'fixed inset-0 z-50 lg:static lg:z-auto flex chat-detail-mobile-transition'}
             `}>
                 <Outlet />
             </div>
