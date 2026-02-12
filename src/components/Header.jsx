@@ -26,8 +26,8 @@ const Header = () => {
   const navigate = useNavigate();
 
   return (
-    <header className="h-16 flex items-center justify-between px-3 md:px-6 gap-2 shrink-0 select-none bg-black text-white sticky top-0 z-[1000] w-full border-b border-white/5">
-        <div className="flex items-center gap-1 md:gap-4 overflow-hidden">
+    <header className="h-16 flex items-center justify-between px-3 lg:px-6 gap-2 shrink-0 select-none bg-black text-white sticky top-0 z-[1000] w-full border-b border-white/5">
+        <div className="flex items-center gap-1 lg:gap-4 overflow-hidden">
           <button 
             onClick={toggleDrawer} 
             className="lg:hidden w-12 h-12 flex items-center justify-center text-slate-400 hover:text-white transition-colors"
@@ -43,7 +43,7 @@ const Header = () => {
             <img
               src="/logo-white.png"
               alt="SÓC DE POBLE"
-              className="h-5 md:h-6 object-contain"
+              className="h-5 lg:h-6 object-contain"
               onError={(e) => {
                 e.target.onerror = null;
                 e.target.src = '/logo-white.png';
