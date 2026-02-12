@@ -44,18 +44,7 @@ const NavigationRail = () => {
     return (
         <aside className="w-[280px] h-full flex-shrink-0 flex flex-col bg-black z-20">
             {/* HEADER SIDEBAR: BLINDAT NEGRE I 64px D'ALÇADA (1er MANDAMENT v9.1.0) */}
-            <div className="h-16 min-h-[64px] flex items-center justify-between px-5 bg-black shrink-0">
-                <NavLink to="/" className="flex items-center">
-                    <img 
-                        src="/logo-white.png" 
-                        alt="SÓC DE POBLE" 
-                        className="h-8 object-contain"
-                        onError={(e) => {
-                            e.target.onerror = null;
-                            e.target.src = '/logo-white.png'; // Fallback robust
-                        }}
-                    />
-                </NavLink>
+            <div className="h-16 min-h-[64px] flex items-center justify-end px-5 bg-black shrink-0">
                 {/* Botó tancar menú mòbil (dins la zona negra) - TACTILE TARGET 48px */}
                 <button onClick={closeDrawer} className="lg:hidden text-white ml-2 w-12 h-12 flex items-center justify-center">
                     <X size={24} />
