@@ -117,7 +117,7 @@ const AccessibilitatUniversal = () => {
       )}
 
       {isOpen && (
-        <div className={`fixed inset-0 z-[100] flex flex-col ${isDark ? 'bg-black text-white' : 'bg-white text-slate-900'} animate-in slide-in-from-bottom duration-500`}>
+        <div className={`fixed inset-0 z-[10000] flex flex-col ${isDark ? 'bg-black text-white' : 'bg-white text-slate-900'} animate-in slide-in-from-bottom duration-500`}>
           <header className="h-20 border-b flex items-center justify-between px-6 shrink-0 bg-[#F97316] text-white">
             <div className="flex items-center gap-4">
               <Handshake className="w-8 h-8" />

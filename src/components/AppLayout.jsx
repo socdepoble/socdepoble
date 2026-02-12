@@ -92,7 +92,7 @@ const AppLayout = () => {
             {/* 0. MODALE D'EXPLICACIÓ (ARQUITECTE) */}
 
             {architectMode && (
-                <div className="fixed inset-0 z-[100] bg-black/40 backdrop-blur-xl lg:pl-[280px]">
+                <div className="fixed inset-0 z-[10000] bg-black/40 backdrop-blur-xl lg:pl-[280px]">
                     <div className="h-full flex flex-col relative animate-slide-up">
                         <Suspense fallback={<NanoLoader message="Obrint el Mapa..." />}>
                             <ArchitecteView />
