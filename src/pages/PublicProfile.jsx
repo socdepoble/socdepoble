@@ -32,6 +32,7 @@ const PublicProfile = () => {
     const [followersCount, setFollowersCount] = useState(0);
 
     const isOwnProfile = !!currentUser && (currentUser.id === id || currentUser.username === username);
+    const isMaster = (id === '6325f44-7277-4d2...-f093' || CREATOR_EMAILS.includes(profile?.email) || profile?.full_name === 'Javi Llinares');
 
     useEffect(() => {
         const fetchProfileData = async () => {
@@ -189,12 +190,12 @@ const PublicProfile = () => {
             />
             <ProfileHeaderPremium
                 type={profile.role === 'entitat' || profile.role === 'admin' ? 'official' : (profile.role === 'business' ? 'business' : 'person')}
-                title={profile.full_name}
-                subtitle={profile.ofici ? (profile.ofici.charAt(0).toUpperCase() + profile.ofici.slice(1)) : (profile.role === 'ambassador' ? 'Ambaixador' : (profile.role && profile.role !== 'user' ? (profile.role.charAt(0).toUpperCase() + profile.role.slice(1)) : 'Veí'))}
+                title={isMaster ? 'Javi Llinares' : profile.full_name}
+                subtitle={isMaster ? 'Fundador Sóc de Poble' : (profile.ofici ? (profile.ofici.charAt(0).toUpperCase() + profile.ofici.slice(1)) : (profile.role === 'ambassador' ? 'Ambaixador' : (profile.role && profile.role !== 'user' ? (profile.role.charAt(0).toUpperCase() + profile.role.slice(1)) : 'Veí')))}
                 town={profile.town_name || 'La Torre de les Maçanes'}
-                bio={profile.bio}
-                avatarUrl={profile.avatar_url}
-                coverUrl={profile.cover_url}
+                bio={isMaster ? "Arquitecte digital i amant de l'oli d'oliva. Buscant sempre la millor versió del nostre poble. #SócDePoble 🏺✨" : profile.bio}
+                avatarUrl={isMaster ? '/Javi_Llinares-Foto_perfil-1.jpg' : profile.avatar_url}
+                coverUrl={isMaster ? 'https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200' : profile.cover_url}
                 badges={badges}
                 isConnected={isConnected}
                 isConnecting={isConnecting}

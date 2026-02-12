@@ -1,5 +1,6 @@
 import React, { lazy, Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
+import { Plus } from 'lucide-react';
 import NavigationRail from './NavigationRail';
 import { useUI } from '../context/UIContext';
 import { useAuth } from '../context/AuthContext';
@@ -88,8 +89,8 @@ const AppLayout = () => {
                 <NavigationRail />
             </aside>
 
-            {/* 2. MAIN VIEWPORT (EL ESCENARIO) */}
-            <main className="flex-1 flex flex-col overflow-hidden relative bg-black">
+            {/* 2. MAIN VIEWPORT (EL ESCENARIO) - HABILITEM SCROLL (TABULA RASA) */}
+            <main className="flex-1 flex flex-col overflow-y-auto relative bg-black custom-scrollbar">
                 <Suspense fallback={<NanoLoader message="Bategant..." />}>
                     <ErrorBoundary>
                         <Suspense fallback={<NanoLoader message="Preparant la barra..." />}>
