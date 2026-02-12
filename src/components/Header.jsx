@@ -21,7 +21,6 @@ import {
 const Header = () => {
   const { user, profile } = useAuth();
   const { theme, toggleTheme } = useTheme();
-  const { theme, toggleTheme } = useTheme();
   const { toggleLanguage, language } = useI18n();
   const navigate = useNavigate();
 
