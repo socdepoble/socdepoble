@@ -21,8 +21,8 @@ import {
 const Header = () => {
   const { user, profile } = useAuth();
   const { theme, toggleTheme } = useTheme();
-  const { isDrawerOpen, toggleDrawer } = useUI();
-  const { language, toggleLanguage } = useI18n();
+  const { theme, toggleTheme } = useTheme();
+  const { toggleLanguage, language } = useI18n();
   const navigate = useNavigate();
 
   return (

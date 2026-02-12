@@ -398,7 +398,7 @@
 @media (max-width: 768px) {
     .hero-title { font-size: 2.5rem; }
     .hero-stats { flex-direction: column; gap: 20px; }
-    .business-model-grid { grid-template-cols: 1fr; }
+    .business-model-grid { grid-template-columns: 1fr; }
     .scalability-content { flex-direction: column; }
     .cta-box { padding: 40px; }
 }
