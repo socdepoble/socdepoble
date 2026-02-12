@@ -22,17 +22,23 @@ import { checkSilence } from "./utils/logger";
 if (typeof window !== "undefined" && "requestIdleCallback" in window) {
   window.requestIdleCallback(
     () => {
-      injectSeeds().catch((err) =>
-        console.error("[Rhizome] Error fatal en injecció:", err),
-      );
+      injectSeeds().catch((err) => {
+        // Silenciós en producció, només log en dev
+        if (import.meta.env.DEV) {
+          console.error("[Rhizome] Error fatal en injecció:", err);
+        }
+      });
     },
     { timeout: 5000 },
   );
 } else {
   setTimeout(() => {
-    injectSeeds().catch((err) =>
-      console.error("[Rhizome] Error fatal en injecció:", err),
-    );
+    injectSeeds().catch((err) => {
+      // Silenciós en producció, només log en dev
+      if (import.meta.env.DEV) {
+        console.error("[Rhizome] Error fatal en injecció:", err);
+      }
+    });
   }, 2000);
 }
 
@@ -41,8 +47,7 @@ const addBootLog = (msg) => {
   // En fase BATEGA, redirigim el bootlog a un array global per al RescueTool
   if (!window.__BOOT_LOGS__) window.__BOOT_LOGS__ = [];
   window.__BOOT_LOGS__.push(`[${new Date().toISOString()}] ${msg}`);
-  // També ho traem per consola amb estil discret
-  console.log(`%c${msg}`, "color: #9A6C63; font-size: 10px;");
+  
   if (import.meta.env.DEV) {
     console.log(`%c[BOOT] ${msg}`, "color: #00f2ff; font-weight: bold;");
   }
@@ -164,7 +169,7 @@ let isStorageBroken = false;
 try {
   localStorage.setItem("iaia_probe", "1");
   localStorage.removeItem("iaia_probe");
-} catch (e) {
+} catch {
   isStorageBroken = true;
   addBootLog(
     "[CRITICAL] LocalStorage bloquejat o ple. Entrant en mode Resiliència Suau.",
@@ -331,14 +336,3 @@ try {
   alert("Error en el render: " + e.message);
 }
 
-/**
- * Helper to ensure ThemeProvider is available even in rescue mode
- * but doesn't crash if logic fails.
- */
-function ThemeDefaultWrapper({ children }) {
-  try {
-    return <ThemeProvider>{children}</ThemeProvider>;
-  } catch {
-    return children;
-  }
-}

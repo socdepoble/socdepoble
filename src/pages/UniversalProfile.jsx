@@ -11,11 +11,11 @@ import ProfileHeaderPremium from '../components/ProfileHeaderPremium';
 import './UniversalProfile.css';
 
 /**
- * 🏺 UNIVERSAL PROFILE - LA BÍBLIA ESTRUCTURAL v1.23
+ * 🏺 UNIVERSAL PROFILE - LA BÍBLIA ESTRUCTURAL v10.25.0-ACCESSIBILITY-BOOST
  * Arquitectura Premium per a la identitat bategada amb control de tema i animacions Holy.
  */
 const UniversalProfile = () => {
-  const { user, profile } = useAuth();
+  const { profile } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const { iaiaLevel, setIaiaLevel, architectMode, setArchitectMode } = useUI();
   const [activeTab, setActiveTab] = useState('posts');
@@ -80,34 +80,34 @@ const UniversalProfile = () => {
         />
 
         {/* 6. PANELL DE CONTROL (MASTER AJUSTOS) */}
-        <div className="max-w-2xl mx-auto px-6 mb-24">
-          <div className="bg-white/5 border border-white/10 rounded-[48px] p-10 backdrop-blur-md">
-            <h3 className="text-xs font-black uppercase tracking-[0.4em] text-gray-500 mb-10 text-center">Configuració del Mas Digital</h3>
+        <div className="max-w-2xl mx-auto px-4 md:px-6 mb-24">
+          <div className="bg-white/5 border border-white/10 rounded-[48px] p-6 md:p-12 backdrop-blur-md">
+            <h3 className="text-lg font-black uppercase tracking-[0.4em] text-gray-500 mb-12 text-center">Configuració del Mas Digital</h3>
             
             <div className="grid gap-8">
               {/* Tema */}
               <div className="flex items-center justify-between p-6 bg-black/20 rounded-3xl border border-white/5">
                 <div className="flex items-center gap-4">
-                  <div className="p-3 bg-zinc-800 rounded-2xl text-orange-500">
-                    {theme === 'dark' ? <Moon size={24} /> : <Sun size={24} />}
+                  <div className="p-4 bg-zinc-800 rounded-2xl text-orange-500">
+                    {theme === 'dark' ? <Moon size={28} /> : <Sun size={28} />}
                   </div>
                   <div>
-                    <h4 className="font-black text-sm uppercase">Aparença</h4>
-                    <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Mode {theme === 'dark' ? 'Nit' : 'Dia'}</p>
+                    <h4 className="font-black text-lg uppercase">Aparença</h4>
+                    <p className="text-base text-gray-400 font-bold uppercase tracking-widest">Mode {theme === 'dark' ? 'Nit' : 'Dia'}</p>
                   </div>
                 </div>
-                <button onClick={toggleTheme} className="px-6 py-2 bg-white/10 rounded-full text-[10px] font-black hover:bg-white/20 transition-all uppercase tracking-widest">Canviar</button>
+                <button onClick={toggleTheme} className="px-8 h-14 bg-white/10 rounded-full text-base font-black hover:bg-white/20 transition-all uppercase tracking-widest">Canviar</button>
               </div>
 
               {/* IAIA Level */}
               <div className="flex items-center justify-between p-6 bg-black/20 rounded-3xl border border-white/5">
                 <div className="flex items-center gap-4">
-                  <div className="p-3 bg-zinc-800 rounded-2xl text-blue-500">
-                    <Sparkles size={24} />
+                  <div className="p-4 bg-zinc-800 rounded-2xl text-blue-500">
+                    <Sparkles size={28} />
                   </div>
                   <div>
-                    <h4 className="font-black text-sm uppercase">Nivell IAIA</h4>
-                    <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Implicació: {iaiaLevel}</p>
+                    <h4 className="font-black text-lg uppercase">Nivell IAIA</h4>
+                    <p className="text-base text-gray-400 font-bold uppercase tracking-widest">Implicació: {iaiaLevel}</p>
                   </div>
                 </div>
                 <div className="flex gap-2">
@@ -115,7 +115,7 @@ const UniversalProfile = () => {
                     <button 
                       key={lvl}
                       onClick={() => setIaiaLevel(lvl)}
-                      className={`w-10 h-10 rounded-full text-xs font-black transition-all ${iaiaLevel === lvl ? 'bg-orange-600 text-white scale-110 shadow-lg' : 'bg-white/5 text-gray-500 hover:bg-white/10'}`}
+                      className={`w-14 h-14 rounded-full text-base font-black transition-all ${iaiaLevel === lvl ? 'bg-orange-600 text-white scale-110 shadow-lg' : 'bg-white/5 text-gray-500 hover:bg-white/10'}`}
                     >
                       {lvl}
                     </button>
@@ -126,17 +126,17 @@ const UniversalProfile = () => {
               {/* Modo Arquitecto */}
               <div className="flex items-center justify-between p-6 bg-black/20 rounded-3xl border border-white/5">
                 <div className="flex items-center gap-4">
-                  <div className="p-3 bg-zinc-800 rounded-2xl text-green-500">
-                    <BookOpen size={24} />
+                  <div className="p-4 bg-zinc-800 rounded-2xl text-green-500">
+                    <BookOpen size={28} />
                   </div>
                   <div>
-                    <h4 className="font-black text-sm uppercase">Modo Arquitecte</h4>
-                    <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">{architectMode ? 'ACTIU (Definicions)' : 'INACTIU (Producció)'}</p>
+                    <h4 className="font-black text-lg uppercase">Modo Arquitecte</h4>
+                    <p className="text-base text-gray-400 font-bold uppercase tracking-widest">{architectMode ? 'ACTIU (Definicions)' : 'INACTIU (Producció)'}</p>
                   </div>
                 </div>
                 <button 
                   onClick={() => setArchitectMode(!architectMode)} 
-                  className={`px-6 py-2 rounded-full text-[10px] font-black transition-all uppercase tracking-widest ${architectMode ? 'bg-green-600 text-white' : 'bg-white/10 text-gray-400'}`}
+                  className={`px-8 h-14 rounded-full text-base font-black transition-all uppercase tracking-widest ${architectMode ? 'bg-green-600 text-white' : 'bg-white/10 text-gray-400'}`}
                 >
                   {architectMode ? 'ON' : 'OFF'}
                 </button>
@@ -149,15 +149,15 @@ const UniversalProfile = () => {
           <div className="flex items-center justify-center gap-8 md:gap-24 w-full max-w-2xl mx-auto py-10 border-y border-black/5 mb-16 px-4">
             <div className="flex flex-col items-center group cursor-pointer hover:scale-110 transition-transform">
               <span className="text-4xl font-black text-[var(--text-main)] group-hover:text-orange-500">{profileData.stats.followers}</span>
-              <span className="text-[10px] text-gray-500 uppercase tracking-[0.3em] mt-3 font-black">Seguidors</span>
+              <span className="text-base text-gray-500 uppercase tracking-[0.3em] mt-3 font-black">Seguidors</span>
             </div>
             <div className="flex flex-col items-center group cursor-pointer hover:scale-110 transition-transform">
               <span className="text-4xl font-black text-[var(--text-main)] group-hover:text-blue-500">{profileData.stats.following}</span>
-              <span className="text-[10px] text-gray-500 uppercase tracking-[0.3em] mt-3 font-black">Seguint</span>
+              <span className="text-base text-gray-500 uppercase tracking-[0.3em] mt-3 font-black">Seguint</span>
             </div>
             <div className="flex flex-col items-center group cursor-pointer hover:scale-110 transition-transform">
               <span className="text-4xl font-black text-[var(--text-main)] group-hover:text-red-500">{profileData.stats.posts}</span>
-              <span className="text-[10px] text-gray-500 uppercase tracking-[0.3em] mt-3 font-black">Històries</span>
+              <span className="text-base text-gray-500 uppercase tracking-[0.3em] mt-3 font-black">Històries</span>
             </div>
           </div>
 
@@ -211,7 +211,7 @@ const UniversalProfile = () => {
       </div>
 
       {/* 8. FOOTER SOBIRANIA */}
-      <div className="w-full text-center pb-20 pt-32 text-[var(--text-muted)] text-[9px] font-black tracking-[0.8em] uppercase border-t border-black/5 mt-32 opacity-30">
+      <div className="w-full text-center pb-20 pt-32 text-[var(--text-muted)] text-[12px] font-black tracking-[0.8em] uppercase border-t border-black/5 mt-32 opacity-30 px-4">
         Sóc de Poble © Sobirania Digital • 2026
       </div>
     </div>

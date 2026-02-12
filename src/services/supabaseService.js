@@ -2035,21 +2035,28 @@ export const supabaseService = {
             checkThrottling(payload.author_id, 'create_post');
         }
 
-        // Multi-Llinatge master: Filltrem columnes que podrien no existir encara a la DB
-        await _ensureColumnCache();
+        // Multi-Llinatge master: Mapetgem camps si venen de components amb noms antics
+        const mappedData = {
+            ...payload,
+            author_user_id: payload.author_id || payload.author_user_id || payload.user_id,
+            author: payload.author_name || payload.author || 'Sóc de Poble',
+            author_avatar: payload.author_avatar_url || payload.author_avatar,
+            author_entity_id: payload.entity_id || payload.author_entity_id
+        };
 
-        if (columnCache.posts_ai_percentage === false) {
-            delete payload.ai_percentage;
-            delete payload.human_percentage;
-            delete payload.time_saved_minutes;
-            delete payload.economic_value_saved;
+        // Fallback crític per a la IAIA si no ve de sessió d'usuari
+        if (!mappedData.author_user_id && (payload.is_iaia || payload.is_iaia_inspired)) {
+            mappedData.author_user_id = payload.iaia_id || '11111111-1a1a-0000-0000-000000000000';
         }
-        if (columnCache.posts_is_iaia_inspired === false) {
-            delete payload.is_iaia_inspired;
-        }
+
+        // Remove old field names to avoid PGRST204
+        delete mappedData.author_id;
+        delete mappedData.author_name;
+        delete mappedData.author_avatar_url;
+        delete mappedData.entity_id;
 
         // Validació estructural amb Zod
-        const validated = PostSchema.parse(payload);
+        const validated = PostSchema.parse(mappedData);
 
         // Pre-generem id si no existeix (FIX 400 Bad Request)
         if (!validated.id && !validated.uuid) {
@@ -2212,12 +2219,32 @@ export const supabaseService = {
         if (isPlayground) payload.is_playground = true;
 
         // Rate limiting / Throttling
-        if (payload.author_id) {
-            checkThrottling(payload.author_id, 'create_market_item');
+        if (payload.author_id || payload.author_user_id) {
+            checkThrottling(payload.author_id || payload.author_user_id, 'create_market_item');
         }
 
+        // Multi-Llinatge master: Mapetgem camps del mercat
+        const mappedData = {
+            ...payload,
+            author_user_id: payload.author_id || payload.author_user_id || payload.user_id,
+            seller: payload.author_name || payload.seller || 'Sóc de Poble',
+            avatar_url: payload.author_avatar_url || payload.avatar_url,
+            author_entity_id: payload.entity_id || payload.author_entity_id
+        };
+
+        // Fallback crític per a la IAIA si no ve de sessió d'usuari
+        if (!mappedData.author_user_id && (payload.is_iaia || payload.is_iaia_inspired)) {
+            mappedData.author_user_id = '11111111-1a1a-0000-0000-000000000000'; // IAIA MarIA default
+        }
+
+        // Remove old field names to avoid PGRST204
+        delete mappedData.author_id;
+        delete mappedData.author_name;
+        delete mappedData.author_avatar_url;
+        delete mappedData.entity_id;
+
         // Validació estructural amb Zod
-        const validated = MarketItemSchema.parse(payload);
+        const validated = MarketItemSchema.parse(mappedData);
 
         const { data, error } = await supabase
             .from('market_items')

@@ -1,53 +1,59 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 import { BookOpen, Info, ShieldCheck, Zap } from "lucide-react";
+import { useUI } from "../context/UIContext";
 
 const ARCHITECTURE_DOCS = {
-  chats: {
+  'chats': {
     title: "💬 PÀGINA DE XAT (Mòdul Base)",
     objective: "Comunicació directa entre veïns i amb els Agents IAIA.",
-    list: "Mostra la llista de converses actives.",
-    iaiaControl:
-      "Filtre IAIA (✨): Permet triar entre Silenciós, Core i Immersiu.",
+    list: "Mostra la llista de converses actives segons ordres del Mestre.",
+    voiceSummary: "Atenció: Definició estructural v10.24.0. Correcció crítica de Viewport per a dispositius mòbils.",
+    detailedDescription: `
+      ESTRUCTURA DE LAYOUT (v10.24):
+      1. MOBILE VIEWPORT FIX:
+         - Injecció automàtica de meta tag viewport.
+         - Prevenció d'escalat d'escriptori en pantalles tàctils.
+      2. MODE FORENSE UI:
+         - Eina de depuració visual per validar regles de disseny.
+    `,
     detail: "Interfície de conversa tipus WhatsApp amb bafarades i estats.",
-    general:
-      "L'Arquitectura General del Mas Digital inclou la Sidebar (Roca) a l'esquerra amb el logotip sempre present i botons d'acció grans (AFEGIR, Xat). El Header és sempre Negre per seguretat visual.",
+    general: "L'Arquitectura General del Mas Digital inclou la Sidebar (Roca) a l'esquerra amb el logotip sempre present. El Header és sempre Negre per seguretat visual."
   },
-  mur: {
+  'partners': {
+    title: "💼 Dossier de Partenariat Tecnològic",
+    objective: "Àrea de socis. Viabilitat tècnica i econòmica del Projecte Sóc de Poble.",
+    list: "Dades de mercat i federació de nodos.",
+    voiceSummary: "Àrea de socis. Viabilitat tècnica i econòmica del Projecte Sóc de Poble.",
+    detailedDescription: `
+      VISIÓ ESTRATÈGICA:
+      Sóc de Poble no és una app, és una FEDERACIÓ DE NODOS COMARCALS.
+      MODEL DE NEGOCI (SaaS B2G + B2B).
+    `,
+    detail: "Dades executives per a Sollutia i Inversors.",
+    general: "GENERA INFORME EXECUTIU. Context: Reunió amb Sollutia."
+  },
+  'mur': {
     title: "📰 PÀGINA DEL MUR (Notícies i Bans)",
     objective: "El tauler d’anuncis del poble. Informació oficial i veïnal.",
     list: "Targetes de titulars amb iconografia distintiva (Ajuntament, Festa, Alerta).",
-    detail:
-      "Format Notícia: Imatge 16:9, Títol H1 impactant i text complet llegible.",
-    interractions: "Permet reaccions (Cor), comentaris i compartició.",
+    detail: "Format Notícia: Imatge 16:9, Títol H1 impactant i text complet llegible.",
   },
-  mercat: {
+  'mercat': {
     title: "🛒 PÀGINA DEL MERCAT (Comerç Local)",
     objective: "Compravenda de productes de proximitat (Km0).",
     list: "Targetes de producte amb imatge quadrada i preu destacat en Taronja.",
-    detail:
-      "Fitxa de Producte: Foto gran, preu gegant i botó de contacte directe (Contactar Venedor).",
-  },
-  pobles: {
-    title: "🏘️ PÀGINA DE POBLES (Territori)",
-    objective: "Informació dels municipis de la Vall i connexió amb la gent.",
-    list: "Llista alfabètica de pobles amb el seu escut o avatar.",
-    detail:
-      "Fitxa del Poble: Foto panoràmica, dades tècniques (habitants) i enllaços d'interès.",
-  },
-  perfil: {
-    title: "👤 PÀGINA DE PERFIL (Centre de Control)",
-    objective: "Gestió de l'usuari i configuració soberana del sistema.",
-    list: "Menú d'ajustos: Compte, Aparença, Notificacions.",
-    detail:
-      "Panell de Control: Interruptors de Tema, Nivell IAIA i Mode Arquitecte (📖).",
-  },
+    detail: "Fitxa de Producte: Foto gran, preu gegant i botó de contacte directe.",
+  }
 };
 
 const ArchitecteView = () => {
+  const { architectMode, isDark } = useUI();
   const location = useLocation();
   const path = location.pathname.split("/")[1] || "chats";
   const doc = ARCHITECTURE_DOCS[path] || ARCHITECTURE_DOCS.chats;
+
+  if (!architectMode) return null;
 
   return (
     <div className="flex-1 overflow-y-auto bg-[#0a0a0b] text-white p-8 md:p-12 animate-fade-in custom-scrollbar">
@@ -61,6 +67,12 @@ const ArchitecteView = () => {
         <h1 className="text-4xl md:text-5xl font-black mb-6 tracking-tighter leading-none">
           {doc.title}
         </h1>
+
+        {doc.voiceSummary && (
+          <div className={`p-8 mb-10 rounded-3xl text-xl border-l-8 border-orange-500 ${isDark ? 'bg-slate-900' : 'bg-orange-50/50'}`}>
+            <p className="italic">"{doc.voiceSummary}"</p>
+          </div>
+        )}
 
         <div className="bg-white/5 border border-white/10 rounded-3xl p-8 mb-10 backdrop-blur-md">
           <div className="flex items-start gap-4 mb-6">
@@ -89,19 +101,7 @@ const ArchitecteView = () => {
                 </p>
               </div>
             </div>
-            {doc.iaiaControl && (
-              <div className="flex gap-4">
-                <div className="w-1.5 h-auto bg-green-600 rounded-full shrink-0" />
-                <div>
-                  <h4 className="font-black text-[10px] uppercase tracking-widest text-green-500 mb-1">
-                    Control IAIA (✨)
-                  </h4>
-                  <p className="text-gray-400 text-sm leading-relaxed">
-                    {doc.iaiaControl}
-                  </p>
-                </div>
-              </div>
-            )}
+            
             <div className="flex gap-4">
               <div className="w-1.5 h-auto bg-purple-600 rounded-full shrink-0" />
               <div>
@@ -115,6 +115,13 @@ const ArchitecteView = () => {
             </div>
           </div>
         </div>
+
+        {doc.detailedDescription && (
+          <div className="bg-slate-900 border border-slate-700 rounded-2xl p-6 mb-10 font-mono text-sm text-green-400/80">
+            <h4 className="text-[10px] uppercase tracking-[0.2em] mb-4 opacity-50">Estructura Detallada</h4>
+            <div className="whitespace-pre-wrap">{doc.detailedDescription}</div>
+          </div>
+        )}
 
         {doc.general && (
           <div className="bg-black/40 border border-white/5 rounded-3xl p-8 mb-10">

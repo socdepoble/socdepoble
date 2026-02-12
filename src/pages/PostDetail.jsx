@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import { ArrowLeft, Share2, Clock, MapPin, User } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { logger } from '../utils/logger';
@@ -12,7 +11,6 @@ import './PostDetail.css';
 
 const PostDetail = () => {
     const { id } = useParams();
-    const { t } = useTranslation();
     const navigate = useNavigate();
     const [post, setPost] = useState(null);
     const [loading, setLoading] = useState(true);

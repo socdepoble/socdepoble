@@ -145,7 +145,6 @@ export const iaiaAuditor = new IAIAAuditor();
 if (typeof window !== 'undefined') {
     window.addEventListener('unhandledrejection', (event) => {
         if (event.reason?.message?.includes('invalid username') || event.reason?.message?.includes('OTP')) {
-            console.warn('[MASTER-CLEAN] Ignorant error d\'SMS obsolet per no embrutar el bategat.');
             event.preventDefault();
         }
     });

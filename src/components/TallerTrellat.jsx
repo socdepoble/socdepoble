@@ -41,7 +41,9 @@ const TallerTrellat = ({ isOpen, onClose }) => {
             setResponse(result);
             hapticService.notifySuccess();
         } catch (error) {
-            console.error('AI Error:', error);
+            if (import.meta.env.DEV) {
+                console.error('AI Error:', error);
+            }
             setResponse('⚠️ Ai collons, s\'ha tallat la llum al cervell del Mas...');
         } finally {
             setLoading(false);

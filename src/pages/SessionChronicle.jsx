@@ -1,12 +1,9 @@
 import React from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { Calendar, Cpu, User, TrendingDown, Share2, ArrowLeft, CheckCircle2, Zap } from 'lucide-react';
 import './SessionChronicle.css';
 
 const SessionChronicle = () => {
-    const { id } = useParams();
-    const { t } = useTranslation();
     const navigate = useNavigate();
 
     // Mock session data for the current session
@@ -32,11 +29,6 @@ const SessionChronicle = () => {
     const aiCost = sessionData.stats.aiTokenCost;
     const savings = humanCost - aiCost;
     const efficiencyBoost = (humanCost / aiCost).toFixed(0);
-
-    const shareToWhatsApp = () => {
-        // [DELETED] Directiva del Mestre: No volem derivar a WhatsApp si el Xat del Mas té el mateix poder.
-        console.log('[DEBUG] Compartició a WhatsApp desactivada.');
-    };
 
     return (
         <div className="session-chronicle-container animate-in">

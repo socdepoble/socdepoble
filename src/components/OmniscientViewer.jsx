@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { X, Maximize2, Minimize2, FileText, Image as ImageIcon, Music, Type, Download, Share2, ZoomIn, ZoomOut, ShieldCheck, MessageSquarePlus, History, Sparkles } from 'lucide-react';
 import { useUI } from '../context/UIContext';
 import { logger } from '../utils/logger';
@@ -9,7 +9,7 @@ import './OmniscientViewer.css';
  * Ahora con Capa de Solatge (Memoria Viva) para metadatos manuales.
  */
 const OmniscientViewer = () => {
-    const { isViewerOpen, viewerConfig, closeViewer, openViewer } = useUI();
+    const { isViewerOpen, viewerConfig, closeViewer, openViewer, openPostModal } = useUI();
     const [isExpanded, setIsExpanded] = useState(false);
     const [zoom, setZoom] = useState(1);
     const [content, setContent] = useState(null);
@@ -88,17 +88,7 @@ const OmniscientViewer = () => {
         setSelectedText("");
     };
 
-    useEffect(() => {
-        if (isViewerOpen && viewerConfig) {
-            logger.info(`[Viewer] Carregant contingut per a DID: ${viewerConfig.did}`);
-            // Simulació de càrrega de contingut segons tipus
-            if (viewerConfig.type === 'PDF') {
-                fetchContent('/TECHNICAL_REPORT_VIVO.md'); // Mock PDF source
-            }
-        }
-    }, [isViewerOpen, viewerConfig]);
-
-    const fetchContent = async (url) => {
+    const fetchContent = useCallback(async (url) => {
         try {
             const resp = await fetch(url);
             const text = await resp.text();
@@ -106,7 +96,22 @@ const OmniscientViewer = () => {
         } catch (e) {
             logger.error('[Viewer] Error carregant contingut:', e);
         }
-    };
+    }, []);
+
+    useEffect(() => {
+        if (isViewerOpen && viewerConfig) {
+            logger.info(`[Viewer] Carregant contingut per a DID: ${viewerConfig.did}`);
+            // Simulació de càrrega de contingut segons tipus
+            if (viewerConfig.type === 'PDF') {
+                // Deferred to next tick to avoid synchronous setState inside effect warning
+                const timer = setTimeout(() => {
+                    fetchContent('/TECHNICAL_REPORT_VIVO.md'); // Mock PDF source
+                }, 0);
+                return () => clearTimeout(timer);
+            }
+        }
+    }, [isViewerOpen, viewerConfig, fetchContent]);
+
 
     const getImageMetadata = () => {
         if (!viewerConfig || viewerConfig.type !== 'IMAGE') return null;
@@ -222,7 +227,7 @@ const OmniscientViewer = () => {
 
     const renderContent = () => {
         switch (viewerConfig.type) {
-            case 'PDF':
+            case 'PDF': {
                 return (
                     <div className="viewer-pdf-container">
                         <div className="pdf-selection-toolbar animate-in" id="pdf-quote-tool" style={{ display: 'none' }}>
@@ -266,7 +271,8 @@ const OmniscientViewer = () => {
                         </div>
                     </div>
                 );
-            case 'IMAGE':
+            }
+            case 'IMAGE': {
                 const meta = getImageMetadata();
                 return (
                     <div className="viewer-image-container">
@@ -342,7 +348,8 @@ const OmniscientViewer = () => {
                         </button>
                     </div>
                 );
-            case 'AUDIO':
+            }
+            case 'AUDIO': {
                 const timestamp = viewerConfig.anchor.split('=')[1] || '0:00';
                 return (
                     <div className="viewer-audio-container">
@@ -376,7 +383,8 @@ const OmniscientViewer = () => {
                         </div>
                     </div>
                 );
-            case 'TEXT':
+            }
+            case 'TEXT': {
                 return (
                     <div className="viewer-text-node">
                         <div className="text-peritext-view">
@@ -391,7 +399,8 @@ const OmniscientViewer = () => {
                         </div>
                     </div>
                 );
-            case 'COMPARISON':
+            }
+            case 'COMPARISON': {
                 const audit = getAuditData();
                 if (!audit) return <div className="viewer-fallback">Dades d'auditoria no trobades.</div>;
                 return (
@@ -467,8 +476,10 @@ const OmniscientViewer = () => {
                         </div>
                     </div>
                 );
-            default:
+            }
+            default: {
                 return <div className="viewer-fallback">Cargando fuente de datos...</div>;
+            }
         }
     };
 

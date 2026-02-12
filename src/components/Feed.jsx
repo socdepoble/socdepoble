@@ -396,6 +396,43 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null, contentMo
             />
 
             <div className="feed-list mur-masonry max-w-3xl mx-auto w-full">
+                {/* 🧧 PANELL DE BENVINGUDA / PUBLICITAT (CLOSETABLE) */}
+                {localStorage.getItem('hideWelcomePanel') !== 'true' && (
+                    <div className="welcome-panel-wrapper mb-8 animate-in relative group">
+                        <div className="bg-gradient-to-br from-indigo-900/40 to-black border-2 border-indigo-500/30 rounded-[32px] p-8 backdrop-blur-xl relative overflow-hidden">
+                            <div className="absolute top-0 right-0 p-4">
+                                <button 
+                                    onClick={() => {
+                                        localStorage.setItem('hideWelcomePanel', 'true');
+                                        window.dispatchEvent(new CustomEvent('data-refresh'));
+                                    }}
+                                    className="p-3 bg-white/10 hover:bg-red-500/20 text-white rounded-full transition-all border border-white/10"
+                                    title="Tancar Panell (Focus Mode)"
+                                >
+                                    <EyeOff size={20} />
+                                </button>
+                            </div>
+                            <div className="flex flex-col md:flex-row gap-8 items-center">
+                                <div className="w-24 h-24 bg-orange-500 rounded-[28px] flex items-center justify-center shrink-0 shadow-2xl shadow-orange-500/20">
+                                    <Sparkles size={48} className="text-black" />
+                                </div>
+                                <div className="text-center md:text-left">
+                                    <h2 className="text-2xl font-black text-white uppercase tracking-tight mb-2">Benvingut al Mas Digital 🏺</h2>
+                                    <p className="text-indigo-200/70 text-base leading-relaxed max-w-md font-medium">
+                                        Estàs en mode <span className="text-orange-400 font-bold">Mail (Obert)</span>. Explora les històries del teu poble o tanca aquest panell per entrar en mode <span className="text-cyan-400 font-bold">Focus</span>.
+                                    </p>
+                                    <div className="mt-6 flex flex-wrap gap-3 justify-center md:justify-start">
+                                        <button className="h-12 px-6 bg-white text-black font-black uppercase text-xs rounded-full hover:scale-105 transition-transform">Guia de l'Agent</button>
+                                        <button className="h-12 px-6 bg-white/10 text-white font-black uppercase text-xs rounded-full border border-white/20">Història de la Torre</button>
+                                    </div>
+                                </div>
+                            </div>
+                            {/* Blueprint Indicator inside panel if active */}
+                            <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent" />
+                        </div>
+                    </div>
+                )}
+
                 {filteredPosts.length === 0 ? (
                     <StatusLoader
                         type="empty"

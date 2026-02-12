@@ -67,7 +67,9 @@ const XylellaFastidiosaForm = () => {
 
     // [MASTER VERSION LOG]
     useEffect(() => {
-        console.log(`[Ofici] ${VERSION} bategant...`);
+        if (import.meta.env.DEV) {
+            console.log(`[Ofici] ${VERSION} bategant...`);
+        }
     }, []);
 
     // [MASTER PERSISTENCE] Guardar dades en cada canvi

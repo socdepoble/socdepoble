@@ -40,6 +40,7 @@ export const UIProvider = ({ children }) => {
     const [isMagicPregonerOpen, setIsMagicPregonerOpen] = useState(false);
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [forensicMode, setForensicMode] = useState(false);
+    const [blueprintMode, setBlueprintMode] = useState(prefs.blueprintMode || false);
 
     // [MASTER GENT] Lògica de Poble-Nodo (Cyber-Rural)
     const [selectedTown, setSelectedTown] = useState(prefs.selectedTown || 'La Torre de les Maçanes');
@@ -81,9 +82,10 @@ export const UIProvider = ({ children }) => {
             visualDemocracy,
             globalDesign,
             selectedTown,
-            preferredAgentId
+            preferredAgentId,
+            blueprintMode
         });
-    }, [theme, vibe, visionMode, gloveMode, landingPage, visualDemocracy, globalDesign, selectedTown, preferredAgentId]);
+    }, [theme, vibe, visionMode, gloveMode, landingPage, visualDemocracy, globalDesign, selectedTown, preferredAgentId, blueprintMode]);
 
     const resetToNaturalOrder = () => {
         preferenceService.resetToNaturalOrder();
@@ -223,6 +225,9 @@ export const UIProvider = ({ children }) => {
             forensicMode,
             setForensicMode,
             toggleForensicMode: () => setForensicMode(prev => !prev),
+            blueprintMode,
+            setBlueprintMode,
+            toggleBlueprintMode: () => setBlueprintMode(prev => !prev),
         }}>
             {children}
         </UIContext.Provider>

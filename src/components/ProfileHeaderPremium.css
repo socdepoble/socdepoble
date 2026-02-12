@@ -154,8 +154,8 @@
 /* [MASTER] IDENTITY CARD - Overlap Tótem */
 .premium-identity-card {
     position: relative;
-    margin: -80px 24px 24px; /* Elevació per a superposició de l'avatar */
-    padding: 32px 32px 24px;
+    margin: -80px 16px 24px; /* Reduït marge lateral per a mòbil */
+    padding: 32px 24px 24px;
     background: var(--surface-glass-heavy);
     backdrop-filter: blur(var(--blur-master));
     -webkit-backdrop-filter: blur(var(--blur-master));
@@ -164,6 +164,7 @@
     box-shadow: var(--shadow-deep);
     z-index: 60;
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    max-width: calc(100% - 32px); /* Forcem que no es desborde */
 }
 
 [data-theme='dark'] .premium-identity-card {
@@ -201,14 +202,20 @@
 }
 
 .premium-avatar-wrapper {
-    position: absolute; /* [LA BÍBLIA] ANCLATGE ABSOLUT */
-    top: 170px;         /* Posició exacta per "mossegar" la portada */
-    left: 48px;
-    width: 140px;
-    height: 140px;
-    max-width: 140px;
-    max-height: 140px;
+    position: absolute; 
+    top: -60px;         /* Ajustat per "mossegar" d'una forma més neta */
+    left: 24px;
+    width: 120px;
+    height: 120px;
     z-index: 70;
+}
+@media (min-width: 768px) {
+    .premium-avatar-wrapper {
+        width: 140px;
+        height: 140px;
+        top: -70px;
+        left: 48px;
+    }
 }
 
 .premium-avatar-img {
@@ -286,13 +293,14 @@
 }
 
 .premium-title {
-    font-size: 32px;
+    font-size: 42px; /* Més impacte */
     font-weight: 950;
-    color: var(--text-main);
-    letter-spacing: -1px;
+    color: #FFFFFF;
+    letter-spacing: -2px;
     margin: 0;
-    line-height: 1.1;
+    line-height: 0.9;
     text-transform: uppercase;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.5);
 }
 
 /* Millora de contrast per a títols en fons clar */
@@ -305,7 +313,7 @@
     padding: 4px 12px;
     border-radius: 28px;
     /* Unificat a 28px */
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 950;
     /* Màxim pes */
     text-transform: uppercase;
@@ -338,7 +346,8 @@
     background: #16a34a !important;
     /* Verd pur per fons clar */
     color: #FFFFFF !important;
-    border: none;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-weight: 950;
 }
 
 .premium-badge.trust-score {
@@ -350,11 +359,11 @@
 }
 
 .premium-subtitle {
-    font-size: 18px;
-    color: var(--text-main)fff;
-    font-weight: 700;
+    font-size: 20px; /* Augmentat de 18 a 20 */
+    color: var(--text-main);
+    font-weight: 800;
     margin: 0;
-    opacity: 0.9;
+    opacity: 1;
 }
 
 .premium-meta-stack {
@@ -367,8 +376,8 @@
 .premium-town-line {
     display: flex;
     align-items: center;
-    gap: 6px;
-    font-size: var(--font-size-base);
+    gap: 8px;
+    font-size: 16px;
     color: var(--text-muted);
     font-weight: var(--font-weight-bold);
 }
@@ -401,16 +410,16 @@
 }
 
 .premium-bio {
-    font-size: 1.25rem;
-    line-height: 1.6;
+    font-size: 1.6rem; /* Màxima llegibilitat mestre */
+    line-height: 1.4;
     color: var(--text-main);
-    opacity: 0.95;
+    opacity: 1;
     font-style: italic;
-    font-family: serif; /* Protocol Master v10.22 */
-    letter-spacing: 0.2px;
+    font-family: 'Playfair Display', serif;
+    letter-spacing: -0.01em;
     position: relative;
     padding: 0 40px;
-    margin: 24px 0 24px 0;
+    margin: 40px 0;
     text-align: center;
 }
 
@@ -456,7 +465,7 @@
     border: 1px solid rgba(0, 242, 255, 0.2);
     border-radius: var(--radius-full);
     color: var(--color-primary);
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 950;
     text-transform: uppercase;
     letter-spacing: 0.05em;

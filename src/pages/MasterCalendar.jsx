@@ -1,12 +1,10 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { Calendar as CalendarIcon, ChevronLeft, ChevronRight, Sparkles, Brain } from 'lucide-react';
 import { CALENDAR_EVENTS } from '../data/calendarData';
 import { MOCK_EVENTS } from '../data';
 import './MasterCalendar.css';
 
 const MasterCalendar = () => {
-    const { t } = useTranslation();
     const today = new Date();
 
     // Ancoratges de Memòria des de la xarxa Rhizome

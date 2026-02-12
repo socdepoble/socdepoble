@@ -27,7 +27,7 @@ const Header = () => {
     <header className="h-16 flex items-center justify-between px-4 gap-2 shrink-0 select-none bg-black text-white sticky top-0 z-[1000] w-full border-b border-white/5">
         <NavLink 
           to="/" 
-          className="md:hidden flex items-center border-2 border-white px-2 py-0.5 active:scale-95 transition-transform"
+          className="flex items-center border-[1.5px] border-white px-2 py-0.5 active:scale-95 transition-transform"
         >
           <img
             src="/logo-white.png"
@@ -41,7 +41,7 @@ const Header = () => {
         </NavLink>
 
       {/* RIGHT SIDE: Tools (Always Visible) - TACTILE TARGET 48px */}
-      <div className="flex items-center gap-1 md:gap-3 ml-auto h-full">
+      <div className="flex items-center gap-1 lg:gap-3 ml-auto h-full">
         <button className="w-12 h-12 flex items-center justify-center text-slate-400 hover:text-white transition-colors" onClick={() => navigate("/search")}>
           <Search size={20} />
         </button>

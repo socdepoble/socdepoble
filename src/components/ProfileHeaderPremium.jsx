@@ -12,7 +12,7 @@ import { trustService } from '../services/trustService';
 import './ProfileHeaderPremium.css';
 
 /**
- * UniversalTotem (ex-ProfileHeaderPremium) - El tòtem d'identitat suprema.
+ * UniversalTotem (ex-ProfileHeaderPremium) - El tòtem d'identitat suprema v10.25.0.
  * Suporta perfils de: Persones, Grups, Empreses, Entitats Oficials i Pobles.
  */
 const ProfileHeaderPremium = ({
@@ -107,7 +107,7 @@ const ProfileHeaderPremium = ({
                 {/* Navigation Actions */}
                 <div className="premium-nav-actions">
                     <div className="nav-actions-left flex items-center gap-4">
-                        <button className="premium-btn-circle back" onClick={handleBack} title="Tornar">
+                        <button className="premium-btn-circle back" onClick={handleBack} title="Tornar" style={{ width: '48px', height: '48px' }}>
                             <ArrowLeft size={24} />
                         </button>
                         
@@ -116,7 +116,7 @@ const ProfileHeaderPremium = ({
                                 className={`premium-connect-pill ${isConnected ? 'connected' : ''}`}
                                 onClick={handleConnectClick}
                                 disabled={isConnecting}
-                                style={{ height: '44px' }}
+                                style={{ height: '48px', padding: '0 24px' }}
                             >
                                 {isConnecting ? (
                                     <Loader2 size={18} className="animate-spin" />
@@ -139,7 +139,7 @@ const ProfileHeaderPremium = ({
                         {(shareData || onShare) && (
                             <div className="premium-share-wrapper">
                                 {onShare ? (
-                                    <button className="premium-btn-circle share" onClick={onShare} title="Compartir">
+                                    <button className="premium-btn-circle share" onClick={onShare} title="Compartir" style={{ width: '48px', height: '48px' }}>
                                         <Share2 size={24} />
                                     </button>
                                 ) : (
@@ -148,7 +148,7 @@ const ProfileHeaderPremium = ({
                                         text={shareData.text}
                                         url={shareData.url}
                                         customTrigger={
-                                            <button className="premium-btn-circle share" title="Compartir">
+                                            <button className="premium-btn-circle share" title="Compartir" style={{ width: '48px', height: '48px' }}>
                                                 <Share2 size={24} />
                                             </button>
                                         }
@@ -162,6 +162,7 @@ const ProfileHeaderPremium = ({
                                 className="premium-btn-circle theme-toggle" 
                                 onClick={toggleTheme}
                                 title={theme === 'dark' ? 'Canviar a Llum de Dia' : 'Canviar a Nit Digital'}
+                                style={{ width: '48px', height: '48px' }}
                             >
                                 {theme === 'dark' ? <Sun size={24} /> : <Moon size={24} />}
                             </button>
@@ -169,10 +170,10 @@ const ProfileHeaderPremium = ({
 
                         {isEditing ? (
                             <div className="edit-actions-group">
-                                <button className="premium-btn-circle save" onClick={onEditSave} title="Guardar Canvis">
+                                <button className="premium-btn-circle save" onClick={onEditSave} title="Guardar Canvis" style={{ width: '48px', height: '48px' }}>
                                     <Check size={24} />
                                 </button>
-                                <button className="premium-btn-circle cancel" onClick={onEditCancel} title="Cancel·lar">
+                                <button className="premium-btn-circle cancel" onClick={onEditCancel} title="Cancel·lar" style={{ width: '48px', height: '48px' }}>
                                     <X size={24} />
                                 </button>
                             </div>
@@ -182,6 +183,7 @@ const ProfileHeaderPremium = ({
                                     className={`premium-btn-circle manage ${isMenuOpen ? 'active' : ''}`} 
                                     onClick={() => setIsMenuOpen(!isMenuOpen)} 
                                     title="Gestió"
+                                    style={{ width: '48px', height: '48px' }}
                                 >
                                     <MoreVertical size={24} />
                                 </button>

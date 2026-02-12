@@ -3,12 +3,12 @@ import { NavLink } from 'react-router-dom';
 import { 
   MessageSquare, LayoutGrid, Store, MapPin, 
   User, Database, Calendar, Image as ImageIcon, 
-  LogOut, Plus, Map, Bell, Settings, X, Folder, Users, Briefcase
+  LogOut, Plus, Map, Bell, Settings, X, Folder, Users, Briefcase, PenTool, Ruler
 } from 'lucide-react';
 import { useUI } from '../context/UIContext';
 
 const NavigationRail = () => {
-    const { setIsCreateModalOpen, closeDrawer, forensicMode, toggleForensicMode } = useUI();
+    const { setIsCreateModalOpen, closeDrawer, forensicMode, toggleForensicMode, blueprintMode, toggleBlueprintMode } = useUI();
 
     const handleNavClick = () => {
         if (window.innerWidth < 768) {
@@ -90,11 +90,10 @@ const NavigationRail = () => {
                         </>
                     )}
                 </NavLink>
-@
             </div>
 
             {/* NAVEGACIÓ SCROLLABLE */}
-            <div className="flex-1 overflow-y-auto px-4 space-y-1 custom-scrollbar pb-10">
+            <div className="flex-1 overflow-y-auto px-4 space-y-1 custom-scrollbar pb-10 min-w-0 flex-shrink-0">
                 {NAV_ITEMS.map(item => (
                     <NavLink 
                         key={item.id} 
@@ -148,7 +147,7 @@ const NavigationRail = () => {
 
             {/* FOOTER SIDEBAR */}
             <div className="p-4 mt-auto border-t border-white/10 bg-black/50 backdrop-blur-sm">
-                <button className="w-full flex items-center space-x-4 px-4 h-12 text-gray-500 hover:text-red-500 transition-colors font-bold text-[14px]">
+                <button className="w-full flex items-center space-x-4 px-4 h-12 text-gray-500 hover:text-red-500 transition-colors font-bold text-[14px]" onClick={() => alert('Sessió tancada. Adéu, Mestre!')}>
                     <LogOut size={20} />
                     <span>Tancar Sessió</span>
                 </button>
@@ -162,6 +161,19 @@ const NavigationRail = () => {
                     <Database size={14} />
                     <span>{forensicMode ? 'FORENSE ACTIU' : 'MODE FORENSE'}</span>
                 </button>
+                
+                <button 
+                    onClick={toggleBlueprintMode}
+                    className={`w-full mt-2 flex items-center space-x-4 px-4 h-10 rounded-lg transition-all font-black text-[10px] uppercase tracking-widest
+                        ${blueprintMode ? 'bg-[#4F46E5] text-white shadow-[0_0_15px_rgba(79,70,229,0.5)]' : 'bg-indigo-900/20 text-indigo-400 border border-indigo-500/30'}`}
+                >
+                    <Ruler size={14} />
+                    <span>{blueprintMode ? 'PLÀNOL ACTIU' : 'MODE PLÀNOL'}</span>
+                </button>
+
+                <div className="mt-4 text-[8px] text-center opacity-30 font-black uppercase tracking-[0.3em] text-white">
+                    v11.0.2 CANDIDATE
+                </div>
             </div>
 
             <style>{`

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { APP_VERSION } from '../../constants';
 import { supabaseService } from '../../services/supabaseService';
 import {
     Activity, Users, Store, Zap, Heart, TrendingUp,
@@ -29,7 +30,7 @@ const GlobalOverview = ({ addLog }) => {
         // Polling for "Real-Time" feel (every 30s)
         const interval = setInterval(fetchOverview, 30000);
         return () => clearInterval(interval);
-    }, []);
+    }, [addLog]);
 
     if (loading) {
         return (

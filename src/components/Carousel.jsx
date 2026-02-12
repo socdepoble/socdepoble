@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { ChevronLeft, ChevronRight, X, Maximize2 } from 'lucide-react';
 import './Carousel.css';
@@ -16,47 +16,47 @@ const Carousel = ({ images, height = '300px', interval = 5000, autoPlay = false 
     const validImages = images.filter(img => img);
 
     // Reset timer on interaction
-    const resetTimer = () => {
+    const resetTimer = useCallback(() => {
         if (timerRef.current) clearInterval(timerRef.current);
         if (autoPlay && validImages.length > 1 && !isLightboxOpen) {
             timerRef.current = setInterval(() => {
                 setCurrentIndex(prev => (prev === validImages.length - 1 ? 0 : prev + 1));
             }, interval);
         }
-    };
+    }, [autoPlay, validImages.length, isLightboxOpen, interval]);
 
     useEffect(() => {
         resetTimer();
         return () => {
             if (timerRef.current) clearInterval(timerRef.current);
         };
-    }, [currentIndex, autoPlay, validImages.length, isLightboxOpen]);
+    }, [currentIndex, autoPlay, validImages.length, isLightboxOpen, resetTimer]);
+
+    // Navigation
+    const nextSlide = useCallback((e) => {
+        if (e) e.stopPropagation();
+        setCurrentIndex(prev => (prev === validImages.length - 1 ? 0 : prev + 1));
+        resetTimer();
+    }, [validImages.length, resetTimer]);
+
+    const prevSlide = useCallback((e) => {
+        if (e) e.stopPropagation();
+        setCurrentIndex(prev => (prev === 0 ? validImages.length - 1 : prev - 1));
+        resetTimer();
+    }, [validImages.length, resetTimer]);
 
     // Keyboard navigation for lightbox
     useEffect(() => {
         const handleKeyDown = (e) => {
             if (!isLightboxOpen) return;
             if (e.key === 'Escape') setIsLightboxOpen(false);
-            if (e.key === 'ArrowRight') nextSlide(e);
-            if (e.key === 'ArrowLeft') prevSlide(e);
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
         };
 
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [isLightboxOpen, currentIndex]);
-
-    // Navigation
-    const nextSlide = (e) => {
-        if (e) e.stopPropagation();
-        setCurrentIndex(prev => (prev === validImages.length - 1 ? 0 : prev + 1));
-        resetTimer();
-    };
-
-    const prevSlide = (e) => {
-        if (e) e.stopPropagation();
-        setCurrentIndex(prev => (prev === 0 ? validImages.length - 1 : prev - 1));
-        resetTimer();
-    };
+    }, [isLightboxOpen, nextSlide, prevSlide]);
 
     const goToSlide = (index, e) => {
         if (e) e.stopPropagation();

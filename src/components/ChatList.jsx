@@ -60,7 +60,9 @@ const ChatList = () => {
                 
                 setChats(hybridChats);
             } catch (err) {
-                console.error('[ChatList] Error fetching chats:', err);
+                if (import.meta.env.DEV) {
+                    console.error('[ChatList] Error fetching chats:', err);
+                }
                 // Fallback a agents si falla la xarxa
                 setChats(AGENTS.map(a => ({
                     id: a.id,

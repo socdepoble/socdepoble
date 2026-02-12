@@ -28,6 +28,11 @@ const TownDetail = () => {
             else if (style === 'heavy') navigator.vibrate([30, 10, 30]); // "Solid" stone feel
         }
     };
+ 
+    const handleActionClick = (type, action) => {
+        triggerHaptic('light');
+        if (action) action();
+    };
 
     useEffect(() => {
         const fetchTown = async () => {
@@ -53,7 +58,7 @@ const TownDetail = () => {
                         const entities = await supabaseService.searchEntities(`Ajuntament ${found.name}`);
                         const official = entities.find(e => e.type === 'oficial' || e.name.toLowerCase().includes('ajuntament'));
                         setOfficialEntity(official);
-                    } catch (e) {
+                    } catch {
                         logger.warn(`No s'ha pogut carregar l'entitat oficial per a ${found.name}`);
                     }
 

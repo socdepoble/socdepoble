@@ -15,10 +15,10 @@
   --radius-genesis: 28px;
   --radius-tactile: 24px;
 
-  --spacing-header: 72px;
-  --spacing-sidebar: 280px;
+  --spacing-header: 64px; 
+  --spacing-sidebar: 280px; 
 
-  --touch-target: 48px;
+  --touch-target: 48px; 
 }
 
 :root {
@@ -32,44 +32,73 @@
   --border-master: #1f2937;
 }
 
-/* 🧬 ESTRUCTURA SUPREMA (PROTOCOL TABULA RASA) */
+/* 📱 COMPORTAMENT TÀCTIL NATIU (v10.30.0 BLUEPRINT) */
+html {
+  font-size: 16px; /* BASE ESTÀNDARD */
+}
+
+body {
+  touch-action: pan-x pan-y;
+  -webkit-tap-highlight-color: transparent;
+  min-height: 100%;
+  font-family: var(--font-sans);
+  font-size: 1rem; /* 16px real */
+}
+
+/* 🧬 ESTRUCTURA SUPREMA (PROTOCOL TABULA RASA v10.30.0) */
 .main-viewport {
   flex: 1;
   display: flex;
-  overflow-y: auto;
+  overflow: hidden; /* Blocage de scroll global per a scroll intern */
   position: relative;
+  min-width: 0; /* BLINDATGE CONTRA DESBORDAMENT */
 }
 
-/* 📱 RESPONSIVE BLINDAT v8.1.0 (Safe Areas & Transitions) */
+.flex-container-safe {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+}
+
+/* 📱 RESPONSIVE CANÒNIC (Strict Monocolumn < 768px) */
 @media (max-width: 767px) {
   .sidebar-desktop {
     position: fixed;
     left: 0;
     top: 0;
+    z-index: 1000;
+    width: var(--spacing-sidebar);
+    height: 100vh;
     transform: translateX(-100%);
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    padding-top: env(safe-area-inset-top, 0);
-    padding-bottom: env(safe-area-inset-bottom, 0);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    background: #000000;
   }
 
   .sidebar-desktop.drawer-open {
     transform: translateX(0);
+    box-shadow: 20px 0 60px rgba(0,0,0,0.8);
+  }
+
+  /* Backdrop Master */
+  .drawer-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(8px);
+    z-index: 999;
+    animation: fade-in 0.3s ease-out;
   }
 
   .safe-area-padding {
     padding-top: env(safe-area-inset-top, 0px);
     padding-bottom: env(safe-area-inset-bottom, 0px);
-    padding-left: max(16px, env(safe-area-inset-left));
-    padding-right: max(16px, env(safe-area-inset-right));
+    padding-left: max(20px, env(safe-area-inset-left));
+    padding-right: max(20px, env(safe-area-inset-right));
   }
 
-  .chat-detail-mobile-transition {
-    animation: chat-slide-in 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  @keyframes chat-slide-in {
-    from { transform: translateX(100%); opacity: 0.5; }
-    to { transform: translateX(0); opacity: 1; }
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
   }
 }
 
@@ -99,7 +128,6 @@
   background: rgba(156, 163, 175, 0.5);
 }
 
-
 /* Utility to hide scrollbar but keep functionality */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
@@ -109,10 +137,10 @@
   scrollbar-width: none;
 }
 
-/* 📜 BÍBLIA: TACTILE GEOMETRY (GEOMETRIA DEL TACTE) */
+/* 📜 BÍBLIA: TACTILE GEOMETRY (GEOMETRIA DEL TACTE v10.26.0) */
 .tactile-target {
-  min-height: 48px;
-  min-width: 48px;
+  min-height: var(--touch-target);
+  min-width: var(--touch-target);
   display: flex;
   align-items: center;
   justify-content: center;

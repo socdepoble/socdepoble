@@ -124,7 +124,7 @@ export const MOCK_CHATS = [
     { id: 'carla-soriano', name: "Carla Soriano", message: "Hola! Vols que parlem?", time: "6:13 p. m.", type: "iaia", unread: 0, avatar_url: "🌸", is_iaia: true },
     { id: 'carmen-forn', name: "Carmen la del Forn", message: "Hola! Vols que parlem?", time: "2:16 p. m.", type: "iaia", unread: 0, avatar_url: "👵🏼", is_iaia: true },
     { id: 'el-gall', name: "El Gall", message: "Hola! Vols que parlem?", time: "9:48 p. m.", type: "iaia", unread: 0, avatar_url: "/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/sultan_gos_atura_1770056772852.png", is_iaia: true },
-    { id: 'iaia-oficial', name: "IAIA MariA", message: "Aquí tens el menú ben fixat, fill meu.", time: "Ara", type: "iaia", unread: 3, avatar_url: "/assets/avatars/iaia_official.png", is_iaia: true, verified: true },
+    { id: 'iaia-oficial', name: "IAIA MariA", message: "Prem ací per veure el Dossier de Partners, fill meu.", time: "Ara", type: "iaia", unread: 3, avatar_url: "/assets/avatars/iaia_official.png", is_iaia: true, verified: true },
 ];
 
 export const MOCK_MESSAGES = {
@@ -173,7 +173,20 @@ export const MOCK_FEED = [
         content: 'Estat actual: PERMÉS (Nivell 1). Pots tramitar la teua sol·licitud de crema per a restes agrícoles directament des d\'ací.', 
         actionLabel: 'Tramitar Permís Ara',
         official: true,
+        category: 'Danger', // Vermell Alerta
         metaData: { icon: 'Flame', color: 'text-orange-600', bg: 'bg-orange-100' }
+    },
+    { 
+        id: 1100, 
+        type: 'post', 
+        author: 'Rosa (Horta Viva)', 
+        avatar: '🥦', 
+        time: 'Ara', 
+        title: 'Hort Comunitari Sostenible', 
+        content: 'Hem implementat el rec per degoteig solar. Tècniques 100% lliures de residus per a una terra viva. Vine a conèixer el bategat verd! 🌿', 
+        category: 'Sostenible',
+        tags: ['#Sostenible', '#KM0', '#Ecològic'],
+        image_url: ["https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?auto=format&fit=crop&q=80&w=1000"]
     },
     { 
         id: 901, 
@@ -200,7 +213,6 @@ export const MOCK_FEED = [
         likes: 1240,
         comments: 45,
         image_url: [
-            "/Users/javillinares/.gemini/antigravity/brain/8f23168e-5f93-43d2-9b9c-3d8316452dbf/media__1770526425766.png",
             "/Users/javillinares/.gemini/antigravity/brain/e1b6e544-2f87-4f23-b187-d802a30c0ca1/shirt_maroon_front_full_logo_v2_1770235736579.png",
             "/Users/javillinares/.gemini/antigravity/brain/e1b6e544-2f87-4f23-b187-d802a30c0ca1/shirt_maroon_lifestyle_full_logo_v2_1770235755326.png",
             "/Users/javillinares/.gemini/antigravity/brain/e1b6e544-2f87-4f23-b187-d802a30c0ca1/shirt_maroon_market_full_logo_v2_1770235769546.png",
@@ -729,8 +741,9 @@ export const MOCK_MARKET_ITEMS = [
         author_role: "business",
         author_id: 'sdp-oficial-1',
         author_entity_id: 'sdp-oficial-1',
+        official: true,
+        pinned: true,
         images: [
-            "/Users/javillinares/.gemini/antigravity/brain/8f23168e-5f93-43d2-9b9c-3d8316452dbf/media__1770526425766.png",
             "/Users/javillinares/.gemini/antigravity/brain/e1b6e544-2f87-4f23-b187-d802a30c0ca1/shirt_maroon_front_full_logo_v2_1770235736579.png",
             "/Users/javillinares/.gemini/antigravity/brain/e1b6e544-2f87-4f23-b187-d802a30c0ca1/shirt_maroon_lifestyle_full_logo_v2_1770235755326.png",
             "/Users/javillinares/.gemini/antigravity/brain/e1b6e544-2f87-4f23-b187-d802a30c0ca1/shirt_maroon_market_full_logo_v2_1770235769546.png",
@@ -792,6 +805,18 @@ export const MOCK_MARKET_ITEMS = [
         image: "/assets/master/vicent_workshop.png",
         category_slug: "artesania",
         tag: "Artesania"
+    },
+    {
+        id: 7,
+        town_id: 1,
+        title: "Sorra de Pedra Seca",
+        description: "Materials per a la reconstrucció de marges i bancals. Servei rural de proximitat.",
+        price: "45€/tona",
+        seller: "Excavacions El Mas",
+        avatar_url: "🚜",
+        author_role: "business",
+        category_slug: "serveis-rurals",
+        tag: "Serveis Rurals"
     },
     // Cocentaina
     {
@@ -884,51 +909,39 @@ export const MOCK_MARKET_ITEMS = [
 
 export const MOCK_EVENTS = [
     {
-        id: 'evt-fotos-1',
-        town_id: 1, // Sant Gregori / La Torre
-        title: "Sessió de Fotos Festeres",
-        description: "Sessió de fotos oficial per a la llibreta de festes. Que vinga qui vulga i el/la/els retratem!",
-        date: "2026-02-07",
-        start_time: "10:00",
-        end_time: "12:00",
-        location: "Casa Tòfol (Carrer de les Figueretes)",
-        category: "Festes",
-        tags: ["#Fotos", "#SantGregori", "#Memòria", "Fotos", "Cultura", "Sant Gregori"],
-        author: "Pau Torregrossa Coloma",
-        author_avatar: "📸",
-        image_url: ["/Users/javillinares/.gemini/antigravity/brain/c7c302c1-d324-4124-b24a-1d7279636125/rural_landscape_comic_post_1770151940141.png"],
-        coordinates: { lat: 38.58, lng: -0.42 }
+        id: 301,
+        town_id: 1,
+        type: 'event',
+        author: 'Grup de Danses',
+        avatar: '💃',
+        time: 'Diumenge',
+        title: 'Aplec de Danses',
+        content: 'Vine a ballar a la plaça major. Esmorzar popular inclòs.',
+        date: '15 FEB - 10:00',
+        location: 'Plaça Major',
+        linkTo: "Grup de Danses",
+        tags: ["Cultura", "Danses", "Tradició"]
     },
     {
-        id: 'evt-reunio-1',
+        id: 302,
         town_id: 1,
-        title: "Reunió de Festeres i Festers",
-        description: "Acodiu totes les que pugueu. És important i hem de prendre decisions.",
-        date: "2026-02-07",
-        start_time: "19:00",
-        end_time: "21:00",
-        location: "Penya del Barça",
-        category: "Reunió",
-        tags: ["Decisions", "Festa", "Sant Gregori"],
-        author: "Pau Torregrossa Coloma",
-        author_avatar: "🗣️",
-        coordinates: { lat: 38.581, lng: -0.421 }
-    },
-    {
-        id: 'evt-fotos-2',
-        town_id: 1,
-        title: "Sessió de Fotos (Església)",
-        description: "Sessió de fotos dins el temple abans i després de la missa. Fora a la placeta mentre dura la missa.",
-        date: "2026-02-08",
-        start_time: "10:30",
-        end_time: "13:00",
-        location: "L'Església / Placeta",
-        category: "Festes",
-        tags: ["Fotos", "Religió", "Sant Gregori"],
-        author: "Pau Torregrossa Coloma",
-        author_avatar: "🕍",
-        coordinates: { lat: 38.582, lng: -0.422 }
+        type: 'event',
+        author: 'Ajuntament',
+        avatar: '🏛️',
+        time: 'Divendres',
+        title: 'Ple Ordinari',
+        content: 'Sessió oberta al públic. Ordre del dia disponible al web.',
+        date: '13 FEB - 20:00',
+        location: 'Saló de Plens',
+        official: true,
+        tags: ["Oficial", "Plens", "Ajuntament"]
     }
+];
+
+export const MOCK_TOWNS = [
+    { id: 401, type: 'town', author: 'Gent de Penàguila', avatar: '🏰', time: 'Veí', title: 'Penàguila', content: 'El jardí de l\'Alcoià. Visitau el Jardí de Santos.', population: '320 hab', linkTo: "Gent de Penàguila", image: true, image_url: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=1000" },
+    { id: 402, type: 'town', author: 'Gent de Benifallim', avatar: '⛪', time: 'Veí', title: 'Benifallim', content: 'Terra de castells i silenci.', population: '110 hab', linkTo: "Gent de Benifallim", image: true, image_url: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&q=80&w=1000" },
+    { id: 403, type: 'town', author: 'Gent de La Torre', avatar: '🏺', time: 'Local', title: 'La Torre de les Maçanes', content: 'Bressol del Projecte Sóc de Poble.', population: '700 hab', linkTo: "Gent de La Torre", image: true, image_url: "/assets/master/iaia_guiding_family.png" }
 ];
 
 export const MOCK_DAFOS = {

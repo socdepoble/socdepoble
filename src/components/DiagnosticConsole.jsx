@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Terminal, Shield, Activity, Zap, X, Trash2, Info, Copy, Check, Brain, Link2, RefreshCw, User, Mic, Locate, Monitor, Smartphone, ShieldCheck, Eye, EyeOff } from 'lucide-react';
-import { CREATOR_EMAILS, APP_VERSION } from '../constants';
-import { notebookService } from '../services/notebookService';
+import { APP_VERSION } from '../constants';
 import { useAuth } from '../context/AuthContext';
 import { useUI } from '../context/UIContext';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { didacticData } from '../data/didacticData';
 import { feedbackService } from '../services/feedbackService';
@@ -23,42 +22,40 @@ const DiagnosticConsole = () => {
     const { themeConfig, updateConfig, resetToMasia, validateContrast, ruralInfo } = useThemeCustomizer();
     const [isOpen, setIsOpen] = useState(false);
     const [currentHudTab, setCurrentHudTab] = useState('logs'); // 'logs', 'style', 'system', 'reports'
-    const [screenshotMode, setScreenshotMode] = useState(false);
     const [logs, setLogs] = useState([]);
     const [isVisible, setIsVisible] = useState(false);
-    const [autoHealEnabled, setAutoHealEnabled] = useState(true);
-    const [showVoiceFeedback, setShowVoiceFeedback] = useState(false);
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [feedbackSent, setFeedbackSent] = useState(false);
     const [didacticAlert, setDidacticAlert] = useState(null);
     const { t, i18n } = useTranslation();
-    const navigate = useNavigate();
     const { user, profile, isAdmin, forceNukeSimulation } = useAuth();
-    const uiContext = useUI();
-    const { visionMode } = uiContext || { visionMode: 'hibrida' };
-    const location = useLocation();
     const [showHelp, setShowHelp] = useState(false);
     const [copied, setCopied] = useState(false);
     const terminalRef = useRef(null);
 
+    const [autoHealEnabled] = useState(true);
+    const [showVoiceFeedback, setShowVoiceFeedback] = useState(false);
+    const [screenshotMode] = useState(false);
     const [verifyingIntegrity, setVerifyingIntegrity] = useState(false);
     const [isHealing, setIsHealing] = useState(false);
     const [iaiaAdvice, setIaiaAdvice] = useState(null);
     const [hudActivity, setHudActivity] = useState({ syncing: false, sifting: true, bufferLevel: 0.15 });
-    const [viewMode, setViewMode] = useState('ADMIN'); // 'ADMIN' or 'USER' (CLEAN)
+    const [viewMode] = useState('ADMIN'); // 'ADMIN' or 'USER' (CLEAN)
     const [techReport, setTechReport] = useState(null);
+    const location = useLocation();
     const VERSION = APP_VERSION;
+    const uiContext = useUI();
+    const visionMode = uiContext?.visionMode || 'hibrida';
 
     // DIRECTIVA DE LES MARIES [MASTER]
     useEffect(() => {
-        const welcomeMsg = i18n.language === 'ca' ? `Bon dia, ${profile?.full_name || 'Mestre'}. Tot a punt.` :
-            i18n.language === 'es' ? `Buenos días, ${profile?.full_name || 'Maestro'}. Todo listo.` :
-                i18n.language === 'en' ? `Good morning, ${profile?.full_name || 'Master'}. Everything ready.` :
-                    i18n.language === 'eu' ? `Egun on, ${profile?.full_name || 'Maisu'}. Dena prest.` :
-                        i18n.language === 'gl' ? `Bo día, ${profile?.full_name || 'Mestre'}. Todo listo.` :
-                            `Bon dia, ${profile?.full_name || 'Mestre'}. Tot a punt.`;
+        const fullName = profile?.full_name || 'Mestre';
+        const welcomeMsg = i18n.language === 'ca' ? `Bon dia, ${fullName}. Tot a punt.` :
+            i18n.language === 'es' ? `Buenos días, ${fullName}. Todo listo.` :
+            i18n.language === 'en' ? `Good morning, ${fullName}. Everything ready.` :
+            i18n.language === 'eu' ? `Egun on, ${fullName}. Dena prest.` :
+            i18n.language === 'gl' ? `Bo día, ${fullName}. Todo listo.` :
+                             `Bon dia, ${fullName}. Tot a punt.`;
         addHudLog('system', [welcomeMsg]);
-    }, [i18n.language]);
+    }, [i18n.language, profile?.full_name, addHudLog]);
 
     // Simulate HUD lifecycle activity only when open [PERF]
     useEffect(() => {
@@ -79,7 +76,7 @@ const DiagnosticConsole = () => {
     const logBuffer = useRef([]);
     const flushTimeout = useRef(null);
 
-    const addHudLog = (type, msg, origin = 'SYSTEM', time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })) => {
+    const addHudLog = React.useCallback((type, msg, origin = 'SYSTEM', time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })) => {
         // [PERF] Batching de logs: No actualitzem l'estat immediatament per cada log
         const logMsg = Array.isArray(msg)
             ? msg.map(arg => typeof arg === 'object' ? JSON.stringify(arg).substring(0, 50) : String(arg)).join(' ')
@@ -100,7 +97,7 @@ const DiagnosticConsole = () => {
                 if (broadcast.current && broadcast.current.name) {
                     try {
                         broadcast.current.postMessage({ type: 'LOG_BATCH_SYNC', logs: logsToBatch });
-                    } catch (e) {
+                    } catch {
                         // Silenci si el canal està tancat
                     }
                 }
@@ -120,7 +117,7 @@ const DiagnosticConsole = () => {
                 navigator.vibrate([100, 30, 100]);
             }
         }
-    };
+    }, [autoHealEnabled, handleAutoHeal]);
 
     useEffect(() => {
         broadcast.current = new BroadcastChannel('solatge_hud_sync');
@@ -134,11 +131,12 @@ const DiagnosticConsole = () => {
         const originalWarn = console.warn;
         const originalError = console.error;
 
-        console.log = (...args) => {
+        const capturedLog = (...args) => {
             const msg = String(args[0]);
             if (checkSilence(msg)) return;
             addHudLog('info', args);
         };
+        console.log = capturedLog;
         console.warn = (...args) => {
             const msg = String(args[0]);
             if (checkSilence(msg)) return;
@@ -164,18 +162,21 @@ const DiagnosticConsole = () => {
                 addHudLog('warn', ['[DOM-REFLOW] Detectat removeChild orfe. El sistema s\'està auto-sanejant.']);
                 return;
             }
-            originalError(...args); // Restaurat per a diagnòstic real del Mestre
+            if (import.meta.env.DEV) {
+                originalError(...args); // Restaurat només per a diagnòstic real en DEV
+            }
             addHudLog('error', args);
         };
 
         const originalInfo = console.info;
-        console.info = (...args) => {
+        const capturedInfo = (...args) => {
             const msg = String(args[0]);
             if (msg.includes('beforeinstallpromptevent') || msg.includes('Banner not shown')) {
                 return;
             }
             addHudLog('info', args);
         };
+        console.info = capturedInfo;
 
         const params = new URLSearchParams(window.location.search);
         const persistentDebug = localStorage.getItem('hud_debug_mode') === 'true';
@@ -219,12 +220,13 @@ const DiagnosticConsole = () => {
             console.log = originalLog;
             console.warn = originalWarn;
             console.error = originalError;
+            console.info = originalInfo;
             window.removeEventListener('open-diagnostic-hud', handleOpenEvent);
             window.removeEventListener('keydown', handleKeyDown);
             window.removeEventListener('mousedown', handleClickOutside);
             if (broadcast.current) broadcast.current.close();
         };
-    }, [autoHealEnabled, viewMode]);
+    }, [autoHealEnabled, viewMode, addHudLog]);
 
     const requestGeolocation = () => {
         addHudLog('action', ['[MAC-GEO] Sol·licitant geolocalització sobirana...']);
@@ -251,7 +253,7 @@ const DiagnosticConsole = () => {
         addHudLog('system', [`[DESKTOP] Mode Escriptori: ${isDesktop ? 'ACTIU' : 'INACTIU'} `]);
         document.body.classList.toggle('desktop-master-reflow', isDesktop);
     };
-    const handleAutoHeal = (msg) => {
+    const handleAutoHeal = React.useCallback((msg) => {
         // [MASTER BYPASS] Els errors de dades o esquema MAI han de disparar una recàrrega de bundle.
         // Són tech debt, no fallades de xarxa/deploy.
         const dbErrorPatterns = ['PGRST', 'ofici', 'column', 'relationship', '400', '401', '404', '42P01', '42501'];
@@ -287,7 +289,9 @@ const DiagnosticConsole = () => {
                     isPulseStable = iaiaAuditor.auditPulse();
                 }
             } catch (e) {
-                console.warn('[AUTO-HEAL] Error auditant bategat:', e);
+                if (import.meta.env.DEV) {
+                    console.warn('[AUTO-HEAL] Error auditant bategat:', e);
+                }
             }
 
             if (!isPulseStable) {
@@ -309,7 +313,9 @@ const DiagnosticConsole = () => {
                             isSafeToRetry = iaiaAuditor.auditPulse();
                         }
                     } catch (e) {
-                        console.error('[AUTO-HEAL] Error final pre-reload:', e);
+                        if (import.meta.env.DEV) {
+                            console.error('[AUTO-HEAL] Error final pre-reload:', e);
+                        }
                     }
 
                     if (isSafeToRetry) {
@@ -325,7 +331,7 @@ const DiagnosticConsole = () => {
                 }
             }, 3000); // Augmentat a 3s per donar temps a la UI
         }
-    };
+    }, [addHudLog]);
 
     useEffect(() => {
         if (terminalRef.current) {
@@ -392,7 +398,7 @@ const DiagnosticConsole = () => {
                 const resp = await fetch(res, { method: 'HEAD' });
                 if (!resp.ok) throw new Error('Not found');
                 addHudLog('success', [`OK: ${res} `]);
-            } catch (e) {
+            } catch {
                 addHudLog('error', [`ERROR: ${res} `]);
                 errors++;
             }
@@ -451,19 +457,15 @@ const DiagnosticConsole = () => {
     };
 
     const handleVoiceFeedback = async (audioBlob, duration, transcript) => {
-        setIsSubmitting(true);
         const result = await feedbackService.sendVoiceFeedback(audioBlob, duration, transcript, {
             context: 'HUD Direct Feedback',
             location: location.pathname
         });
 
         if (result.success) {
-            setFeedbackSent(true);
             addHudLog('success', ['Sugerència enviada amb èxit! Gràcies.']);
-            setTimeout(() => setFeedbackSent(false), 3000);
         }
         setShowVoiceFeedback(false);
-        setIsSubmitting(false);
     };
 
     const toggleHud = (e) => {
@@ -804,8 +806,27 @@ const DiagnosticConsole = () => {
                                     <section className="hud-panel" onClick={() => showHelp && setDidacticAlert(didacticData.identity)}>
                                         <div className="panel-header"><User size={16} /> <h3>SESSIÓ</h3></div>
                                         <div className="panel-content">
-                                            <div className="data-row"><span>ID:</span> <strong>{user?.id?.substring(0, 8) || 'GUEST'}</strong></div>
-                                            <div className="stat-value">{VERSION}</div>
+                                            <div className="session-info-grid">
+                                                <div className="session-item">
+                                                    <label>ID</label>
+                                                    <code>{user?.id?.substring(0, 8) || 'GUEST'}</code>
+                                                </div>
+                                                <div className="session-item">
+                                                    <label>ROL</label>
+                                                    <span className="badge-role">{profile?.role || 'convidat'}</span>
+                                                </div>
+                                                <div className="session-item">
+                                                    <label>Vcrit</label>
+                                                    <code>{VERSION}</code>
+                                                </div>
+                                                <div className="session-item">
+                                                    <label>Hibrid</label>
+                                                    <code>{visionMode}</code>
+                                                </div>
+                                            </div>
+                                            {isAdmin && (
+                                                <button className="btn-nuke-sim" onClick={() => forceNukeSimulation()}>SIMULAR NUKE</button>
+                                            )}
                                         </div>
                                     </section>
                                     <section className="hud-panel" onClick={() => showHelp && setDidacticAlert(didacticData.pulse)}>

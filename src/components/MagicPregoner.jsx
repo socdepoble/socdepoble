@@ -44,7 +44,9 @@ const MagicPregoner = ({ onContentGenerated, onClose }) => {
           throw new Error('La IAIA està dormint la migdiada.');
       }
     } catch (err) { 
-        console.error(err);
+        if (import.meta.env.DEV) {
+            console.error(err);
+        }
         setError(err.message || "Error de connexió."); 
     } finally { setIsLoading(false); }
   };

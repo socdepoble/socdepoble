@@ -225,8 +225,8 @@
 }
 
 .mini-eina-card span {
-    font-size: var(--font-size-base);
-    font-weight: 800;
+    font-size: 15px;
+    font-weight: 900;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
@@ -296,8 +296,8 @@
     border: none;
     border-bottom: 3px solid transparent;
     color: var(--text-muted);
-    font-size: var(--font-size-base);
-    font-weight: 800;
+    font-size: 16px;
+    font-weight: 900;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     display: flex;
@@ -418,15 +418,13 @@
 
 .field-group input,
 .field-group textarea {
-    padding: 14px;
+    padding: 16px;
     border-radius: var(--radius-xl);
-    border: 1px solid var(--md-sys-color-outline);
+    border: 2px solid var(--md-sys-color-outline);
     background: #000000;
-    /* Forcem fons fosc per a inputs en qualsevol cas */
     color: #FFFFFF !important;
-    /* Forcem text blanc per assegurar visibilitat */
-    font-size: var(--font-size-base);
-    font-weight: var(--font-weight-bold);
+    font-size: 16px;
+    font-weight: 700;
     font-family: inherit;
     transition: all 0.2s;
 }
@@ -636,9 +634,9 @@
 }
 
 .activity-card p {
-    font-size: var(--font-size-base);
+    font-size: 15px;
     color: var(--text-muted);
-    line-height: 1.5;
+    line-height: 1.6;
     margin-bottom: 16px;
 }
 
@@ -765,16 +763,17 @@
 }
 
 .stat-value {
-    font-size: 20px;
-    font-weight: 800;
+    font-size: 24px;
+    font-weight: 950;
     color: var(--color-primary);
 }
 
 .stat-label {
-    font-size: var(--font-size-base);
+    font-size: 14px;
     color: var(--text-muted);
     text-transform: uppercase;
-    font-weight: 700;
+    font-weight: 800;
+    letter-spacing: 1px;
 }
 
 .stat-card.clickable {

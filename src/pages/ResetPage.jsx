@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { supabaseService } from '../services/supabaseService';
 import { logger } from '../utils/logger';
 
 const ResetPage = () => {

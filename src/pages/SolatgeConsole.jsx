@@ -52,7 +52,7 @@ const SolatgeConsole = () => {
                     peritext: { marksCount: 8, stableAnchors: 12 }
                 });
                 Haptics.trigger(Haptics.light);
-            } catch (_err) {
+            } catch {
                 setDbStatus('error');
             }
         };

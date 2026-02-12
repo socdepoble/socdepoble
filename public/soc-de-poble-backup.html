@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Sóc de Poble - v11.1.0 SEMANTIC-INTEGRAL</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body { font-family: 'Roboto Condensed', system-ui, -apple-system, sans-serif; background-color: #000000; color: #ffffff; overflow: hidden; }
+        * { scrollbar-width: thin; scrollbar-color: rgba(156, 163, 175, 0.3) transparent; }
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(156, 163, 175, 0.3); border-radius: 99px; }
+        .custom-scrollbar { -ms-overflow-style: none; }
+        .animate-in { animation: fadeIn 0.3s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .genesis-radius { border-radius: 28px !important; }
+        
+        /* SEMANTIC TAGS v11.1.0 */
+        .badge-km0 { background: #ECFDF5 !important; color: #059669 !important; border: 1px solid #A7F3D0 !important; }
+        .badge-sostenible { background: #F0FDF4 !important; color: #16A34A !important; border: 1px solid #BBF7D0 !important; }
+        .badge-artesania { background: #FFF7ED !important; color: #EA580C !important; border: 1px solid #FFEDD5 !important; }
+        .badge-oferta { background: #FEF2F2 !important; color: #DC2626 !important; border: 1px solid #FEE2E2 !important; }
+        .badge-oficial { background: #EFF6FF !important; color: #2563EB !important; border: 1px solid #DBEAFE !important; }
+    </style>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        orange: { 500: '#FF6B00', 600: '#EA580C' },
+                        royal: { 900: '#002B5B' }, // Blau Fosc Oficial
+                        emerald: { 500: '#10B981' }, // Verd Sostenible
+                        danger: { 500: '#EF4444' } // Vermell Alerta
+                    },
+                    borderRadius: { '3xl': '28px' }
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useMemo } = React;
+
+        const Icon = ({ name, size = 24, className = "" }) => {
+            useEffect(() => { if (window.lucide) window.lucide.createIcons(); }, [name]);
+            return <i data-lucide={name.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()} className={className} style={{ width: size, height: size }}></i>;
+        };
+
+        const MOCK_DATA = {
+            chats: [
+                { id: 'iaia-maria', name: 'IAIA MarIA', msg: 'Benvingut al xat del poble.', time: 'Ara', avatar: '👵', badge: 'IAIA' },
+                { id: 'nano-banana', name: 'Nano Banana', msg: 'Tinc els nous dissenys llestos.', time: '14:00', avatar: '🍌', badge: 'IAIA' },
+                { id: 'andreu-soler', name: 'Andreu Soler', msg: 'Hola! Vols que parlem?', time: 'Ahir', avatar: '👨‍🎨', badge: 'IAIA' },
+            ],
+            posts: [
+                { id: 9991, type: 'mercat', author: 'Sóc de Poble', avatar: '🏺', time: 'Ara', title: 'Camiseta Oficial Sóc de Poble', content: "La samarreta definitiva. Edició Granate (Roly 57). Cotó 100% orgànic.", price: '18.00€', official: true, pinned: true, images: true, tags: ['Fet a mà', 'Oficial'] },
+                { id: 1100, type: 'post', author: 'Horta Viva', avatar: '🥦', time: 'Ara', title: 'Sostenibilitat a l\'Horta', content: 'Hem implementat el rec solar. Terra viva per a gent bategant.', category: 'Sostenible', tags: ['Sostenible', 'Km0'], image: true },
+                { id: 900, type: 'tramit', author: 'Conselleria Agricultura', avatar: '🔥', time: 'ALERTA', title: 'Permís de Crema Local', content: 'Estat actual: PERMÉS (Nivell 1). Pots tramitar la teua sol·licitud.', actionLabel: 'Tramitar Ara', official: true, category: 'Danger' },
+                { id: 101, type: 'bando', author: 'Ajuntament', avatar: '🏛️', time: 'Fa 2h', title: 'Tall de Subministrament', content: 'Per obres de millora, demà es tallarà l\'aigua de 08:00 a 14:00.', official: true, category: 'Danger' }
+            ],
+            towns: [
+                { id: 401, author: 'Gent de La Torre', avatar: '🏺', title: 'La Torre de les Maçanes', content: 'Bressol del Projecte Sóc de Poble.', population: '700 hab', image: true },
+            ]
+        };
+
+        const BlueprintOverlay = ({ label, info }) => (
+            <div className="absolute inset-0 z-[100] pointer-events-none border-2 border-dashed border-blue-500/40 opacity-60">
+                <div className="absolute top-0 left-0 bg-blue-600 text-white text-[8px] font-bold px-1 py-0.5">{label} | {info}</div>
+            </div>
+        );
+
+        const handleConnectClick = () => {
+            const choice = window.confirm(
+                "COM VOLS CONNECTAR?\n\n" +
+                "✅ PÚBLICA: Es mostrarà al mur com a 'Aliat del Poble'.\n" +
+                "🔒 PRIVADA: Connexió invisible.\n\n" +
+                "Prem 'D'acord' per a Pública o 'Cancel·lar' per a Privada."
+            );
+            if (choice) alert("Connexió PÚBLICA bategant! 🏺✨");
+            else alert("Connexió PRIVADA establerta. 🛡️");
+        };
+
+        const Sidebar = ({ activeTab, setActiveTab, isBlueprint }) => (
+            <aside className="w-[280px] h-full bg-black border-r border-white/10 flex flex-col shrink-0">
+                <div className="h-16 flex items-center px-6 border-b border-white/5">
+                    <span className="font-black text-xl tracking-tighter text-white">SÓC DE POBLE</span>
+                </div>
+                <div className="p-5">
+                    <button className="w-full h-12 bg-[#4F46E5] rounded-xl font-black text-white flex items-center justify-center gap-2">
+                        <Icon name="Plus" size={18} /> AFEGIR
+                    </button>
+                    <button onClick={() => setActiveTab('XAT')} className={`w-full mt-4 h-12 rounded-xl flex items-center px-4 gap-3 font-bold ${activeTab === 'XAT' ? 'bg-[#FF6B00] text-white' : 'text-gray-400 border border-white/10'}`}>
+                        <Icon name="MessageSquare" size={18} /> Xat
+                    </button>
+                </div>
+                <nav className="flex-1 px-4 space-y-1 overflow-y-auto custom-scrollbar">
+                    {['MUR', 'MERCAT', 'POBLES', 'AGENDA', 'MAPA'].map(id => (
+                        <button key={id} onClick={() => setActiveTab(id)} className={`w-full flex items-center gap-4 px-4 py-3 rounded-lg font-bold text-sm ${activeTab === id ? 'text-[#FF6B00] bg-white/5' : 'text-gray-500 hover:text-white'}`}>
+                            <Icon name={id === 'MUR' ? 'LayoutGrid' : id === 'MERCAT' ? 'ShoppingBag' : id === 'POBLES' ? 'MapPin' : id === 'AGENDA' ? 'Calendar' : 'Map'} size={18} />
+                            {id.charAt(0) + id.slice(1).toLowerCase()}
+                        </button>
+                    ))}
+                    <div className="my-4 border-t border-white/5"></div>
+                    <p className="px-4 text-[10px] font-black text-gray-600 uppercase tracking-widest mb-2">v11.1.0 SEMÀNTICA</p>
+                    {['Perfil', 'IAIA (Hub)', 'Dossier', 'Trellat'].map(label => (
+                        <div key={label} className="w-full flex items-center gap-4 px-4 py-2 text-gray-500 text-sm font-bold opacity-50"><Icon name="Circle" size={14} /> {label}</div>
+                    ))}
+                </nav>
+                <div className="p-4 bg-black/50 border-t border-white/5">
+                        <div className="text-[8px] text-center opacity-70 font-black uppercase tracking-[0.3em] py-2 text-[#10B981]">BACKUP SEMÀNTIC v11.1.0</div>
+                        <div className="text-[7px] text-center opacity-30 font-bold uppercase leading-tight px-4">SEMÀNTICA VISUAL CORPORATIVA | BLAU, VERD, ROIG</div>
+                    </div>
+            </aside>
+        );
+
+        const HomeView = () => (
+            <div className="flex-1 flex flex-col items-center justify-center text-center p-12 animate-in">
+                <div className="w-24 h-24 border-2 border-white flex items-center justify-center mb-8"><span className="text-3xl font-black">SP</span></div>
+                <h1 className="text-6xl font-black mb-6">Sóc de Poble<br/><span className="text-[#FF6B00]">per a Web</span></h1>
+                <div className="max-w-lg space-y-4 mb-10">
+                    <p className="text-xl font-bold italic text-gray-400">"El Portal dels Pobles Connectats."</p>
+                    <p className="text-sm text-gray-500 leading-relaxed px-6">La nova jerarquia visual v11.1.0 separa el contingut per colors: Blau Institucional, Verd Sostenible i Roig Alerta.</p>
+                </div>
+                <div className="flex gap-4">
+                    <button className="px-8 py-3 bg-[#FF6B00] rounded-full font-black text-xs uppercase" onClick={handleConnectClick}>Connectar</button>
+                    <button className="px-8 py-3 border border-white/10 rounded-full font-black text-xs uppercase">Comentar</button>
+                </div>
+            </div>
+        );
+
+        const Card = ({ item, isBlueprint }) => {
+            const isOfficial = item.official || item.id === 900;
+            const isSostenible = item.category === 'Sostenible';
+            const isDanger = item.category === 'Danger';
+            
+            let headerBg = isOfficial ? 'bg-[#002B5B]' : (isSostenible ? 'bg-[#10B981]' : (isDanger ? 'bg-[#EF4444]' : 'bg-[#FF6B00]'));
+
+            return (
+                <div className={`mb-6 rounded-3xl overflow-hidden border border-white/5 bg-[#111] relative ${item.pinned ? 'ring-2 ring-orange-500' : ''}`}>
+                    <div className={`p-4 flex items-center gap-3 ${headerBg} text-white`}>
+                        <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-xl">{item.avatar}</div>
+                        <div><h4 className="font-bold text-sm tracking-tight">{item.author}</h4><p className="text-[10px] opacity-70 uppercase font-black">{item.time}</p></div>
+                        {isOfficial && <span className="ml-auto bg-white text-[10px] font-black px-2 py-0.5 rounded text-[#002B5B]">OFICIAL</span>}
+                    </div>
+                    <div className="p-6">
+                        <h3 className="text-xl font-bold mb-2 tracking-tight">{item.title}</h3>
+                        <p className="text-gray-400 text-sm leading-relaxed mb-4">{item.content}</p>
+                        <div className="flex flex-wrap gap-2 mb-4">
+                            {item.tags?.map(t => {
+                                let tc = t.toLowerCase();
+                                let cls = 'bg-white/5 text-gray-500';
+                                if (tc.includes('km0')) cls = 'badge-km0';
+                                else if (tc.includes('sostenible')) cls = 'badge-sostenible';
+                                else if (tc.includes('oficial')) cls = 'badge-oficial';
+                                else if (tc.includes('mà')) cls = 'badge-artesania';
+                                return <span key={t} className={`px-2 py-1 rounded text-[9px] font-black uppercase ${cls}`}>{t}</span>;
+                            })}
+                        </div>
+                        <div className="flex items-center justify-between border-t border-white/5 pt-4">
+                            <div className="flex gap-4"><Icon name="Heart" size={18} className="text-gray-600" /><Icon name="Share2" size={18} className="text-gray-600" /></div>
+                            <button onClick={handleConnectClick} className={`px-6 py-2 rounded-full text-white font-black text-[10px] uppercase shadow-lg flex items-center gap-2 ${headerBg}`}>
+                                <Icon name="Globe" size={12} className="opacity-60" />
+                                {(item.type === 'mercat' || item.price) ? "M'interessa" : "Connectar"}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const App = () => {
+            const [activeTab, setActiveTab] = useState('XAT');
+            const [isBlueprint, setIsBlueprint] = useState(false);
+            const [selectedChat, setSelectedChat] = useState(null);
+
+            return (
+                <div className="flex h-screen w-screen bg-black text-white overflow-hidden">
+                    <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} isBlueprint={isBlueprint} />
+                    <main className="flex-1 flex flex-col h-full overflow-hidden">
+                        <header className="h-16 flex items-center justify-between px-6 border-b border-white/5 bg-black shrink-0">
+                            <div className="flex items-center gap-4">
+                                <Icon name="Search" size={20} className="text-gray-500" />
+                                <div className="border-2 border-white px-2 py-0.5 ml-2 md:hidden">
+                                     <span className="font-black text-[10px] tracking-tighter text-white">SÓC DE POBLE</span>
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-4">
+                                <button onClick={() => setIsBlueprint(!isBlueprint)} className={`p-2 rounded-full ${isBlueprint ? 'text-blue-500' : 'text-gray-500'}`}><Icon name="Ruler" size={20} /></button>
+                                <Icon name="Bell" size={20} className="text-gray-500" />
+                                <button className="w-8 h-8 rounded-full bg-slate-800 border border-white/10 flex items-center justify-center text-xs font-bold hover:scale-110 transition-transform">JL</button>
+                            </div>
+                        </header>
+                        <div className="flex-1 overflow-hidden flex">
+                            {activeTab === 'XAT' && (
+                                <div className="w-[400px] border-r border-white/5 flex flex-col shrink-0">
+                                    <h2 className="p-6 text-xs font-black text-gray-500 uppercase tracking-widest">Xats Actius</h2>
+                                    {MOCK_DATA.chats.map(chat => (
+                                        <div key={chat.id} onClick={() => setSelectedChat(chat)} className={`p-4 mx-4 mb-2 rounded-2xl flex items-center gap-4 cursor-pointer hover:bg-white/5 ${selectedChat?.id === chat.id ? 'bg-white/10' : ''}`}>
+                                            <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-2xl relative">{chat.avatar}<span className="absolute -top-1 -right-1 bg-gray-600 text-[8px] px-1 rounded text-white font-bold">{chat.badge}</span></div>
+                                            <div className="flex-1 min-w-0"><div className="flex justify-between items-center"><h4 className="font-bold text-sm tracking-tight">{chat.name}</h4><span className="text-[10px] text-gray-600">{chat.time}</span></div><p className="text-xs text-gray-500 truncate">{chat.msg}</p></div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                            <div className="flex-1 overflow-y-auto custom-scrollbar p-6 md:p-12">
+                                {activeTab === 'XAT' ? <HomeView /> : (
+                                    <div className="max-w-2xl mx-auto">
+                                        <h2 className="text-4xl font-black mb-8 uppercase tracking-tighter">{activeTab}</h2>
+                                        {(activeTab === 'MUR' || activeTab === 'MERCAT') && MOCK_DATA.posts.map(post => <Card key={post.id} item={post} isBlueprint={isBlueprint} />)}
+                                        {activeTab === 'POBLES' && MOCK_DATA.towns.map(town => <Card key={town.id} item={town} isBlueprint={isBlueprint} />)}
+                                        {activeTab === 'MAPA' && <div className="h-96 w-full rounded-[40px] bg-blue-900/10 border border-white/5 flex flex-col items-center justify-center text-blue-500"><Icon name="Map" size={48} className="mb-4" /><span className="font-black uppercase tracking-[0.2em] text-[10px]">Territori Actiu: La Torre, Penàguila, Benifallim</span></div>}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </main>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>

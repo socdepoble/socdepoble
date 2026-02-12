@@ -4,6 +4,7 @@ import { Plus } from 'lucide-react';
 import NavigationRail from './NavigationRail';
 import { useUI } from '../context/UIContext';
 import { useAuth } from '../context/AuthContext';
+import { Ruler, ScanLine } from 'lucide-react';
 import NanoLoader from './NanoLoader';
 import ErrorBoundary from './ErrorBoundary';
 
@@ -34,12 +35,11 @@ const DirectoriComunitat = lazy(() => import('../pages/CommunityDirectory'));
 const Header = lazy(() => import('./Header'));
 const AmphoraFAB = lazy(() => import('./AmphoraFAB'));
 const CreationHub = lazy(() => import('./CreationHub'));
-
-const ArchitecteView = lazy(() => import('../components/ArchitecteView'));
-const AccessibilitatUniversal = lazy(() => import('../components/AccessibilitatUniversal'));
-
-
+const AccessibilitatUniversal = lazy(() => import('./AccessibilitatUniversal'));
+const ArchitecteView = lazy(() => import('./ArchitecteView'));
 const DossierSocis = lazy(() => import('../pages/DossierSocis'));
+
+import BlueprintOverlay from './BlueprintOverlay';
 
 const ProtectedRoute = ({ children }) => {
     const { user, loading } = useAuth();
@@ -49,15 +49,37 @@ const ProtectedRoute = ({ children }) => {
 };
 
 const AppLayout = () => {
-    const { isDrawerOpen, closeDrawer, architectMode } = useUI();
+    const { isDrawerOpen, closeDrawer, architectMode, blueprintMode } = useUI();
+    
+    // [PROTOCOL v10.24.0-MOBILE-FIX] Injecció forçada de Viewport per a evitar escalat d'escriptori
+    React.useEffect(() => {
+        const viewport = document.querySelector('meta[name="viewport"]');
+        if (viewport) {
+            viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover');
+        } else {
+            const meta = document.createElement('meta');
+            meta.name = "viewport";
+            meta.content = "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover";
+            document.getElementsByTagName('head')[0].appendChild(meta);
+        }
+        
+        // Bloqueig de zoom accidental en inputs (iOS fix)
+        const fixZoom = (e) => {
+            if (e.touches && e.touches.length > 1) {
+                e.preventDefault();
+            }
+        };
+        document.addEventListener('touchstart', fixZoom, { passive: false });
+        return () => document.removeEventListener('touchstart', fixZoom);
+    }, []);
 
     return (
-        <div className="h-screen w-screen flex overflow-hidden font-sans bg-black text-white relative">
+        <div className="h-full w-full flex overflow-hidden font-sans bg-black text-white relative">
             
             {/* 0. OVERLAY MÒBIL (Sombra de fondo) */}
             {isDrawerOpen && (
                 <div 
-                    className="fixed inset-0 bg-black/60 z-40 md:hidden backdrop-blur-sm transition-opacity duration-300"
+                    className="drawer-backdrop md:hidden"
                     onClick={closeDrawer}
                 />
             )}
@@ -79,61 +101,77 @@ const AppLayout = () => {
                 </div>
             )}
 
-            {/* 1. SIDEBAR (LA ROCA - 280px) - RESPONSIVE DRAWER */}
+            {/* 1. SIDEBAR (LA ROCA - 280px) - JUMBO DRAWER */}
             <aside className={`
-                fixed inset-y-0 left-0 z-50 w-[280px] flex flex-col border-r border-gray-800 bg-black
-                transform transition-transform duration-300 ease-in-out
-                md:relative md:translate-x-0 
-                ${isDrawerOpen ? 'translate-x-0' : '-translate-x-full'}
+                sidebar-desktop
+                ${isDrawerOpen ? 'drawer-open' : ''}
+                md:relative md:translate-x-0 md:block min-w-0 flex-shrink-0
             `}>
-                <NavigationRail />
+                {blueprintMode ? (
+                    <BlueprintOverlay label="SIDEBAR_FIXED" dimensions="280px" color="blue" showBackupLink={true}>
+                        <NavigationRail />
+                    </BlueprintOverlay>
+                ) : (
+                    <NavigationRail />
+                )}
             </aside>
 
             {/* 2. MAIN VIEWPORT (EL ESCENARIO) - HABILITEM SCROLL (TABULA RASA) */}
-            <main className="flex-1 flex flex-col overflow-y-auto relative bg-black custom-scrollbar">
+            <main className="flex-1 flex flex-col min-w-0 h-full relative bg-black custom-scrollbar">
+                {blueprintMode && <div className="pointer-events-none absolute inset-0 z-[50] border-2 border-emerald-500/20" />}
                 <Suspense fallback={<NanoLoader message="Bategant..." />}>
                     <ErrorBoundary>
                         <Suspense fallback={<NanoLoader message="Preparant la barra..." />}>
-                            <Header />
+                            {blueprintMode ? (
+                                <div className="h-16 shrink-0 z-10 border-b border-white/5">
+                                    <BlueprintOverlay label="HEADER_CANONIC" dimensions="64px" color="orange">
+                                        <Header />
+                                    </BlueprintOverlay>
+                                </div>
+                            ) : (
+                                <Header />
+                            )}
                         </Suspense>
-                        <Routes>
-                            <Route path="/login" element={<Login />} />
-                            <Route path="/" element={<Navigate to="/chats" replace />} />
-                            
-                            <Route path="/chats/*" element={<ProtectedRoute><ChatLayout /></ProtectedRoute>}>
-                                <Route index element={<ChatEmptyState />} />
-                                <Route path=":id" element={<ChatDetail />} />
-                            </Route>
+                        <div className="flex-1 relative min-w-0 overflow-y-auto custom-scrollbar">
+                            {blueprintMode && <BlueprintOverlay label="VIEWPORT_FLEX" dimensions="AUTO" color="cyan" />}
+                            <Routes>
+                                <Route path="/login" element={<Login />} />
+                                <Route path="/" element={<Navigate to="/chats" replace />} />
+                                
+                                <Route path="/chats/*" element={<ProtectedRoute><ChatLayout /></ProtectedRoute>}>
+                                    <Route index element={<ChatEmptyState />} />
+                                    <Route path=":id" element={<ChatDetail />} />
+                                </Route>
 
-                            <Route path="/mur" element={<Feed hideHeader={true} />} />
-                            <Route path="/mercat" element={<Marketplace hideHeader={true} />} />
-                            <Route path="/iaia" element={<IAIAPage />} />
-                            <Route path="/pobles" element={<Towns />} />
-                            <Route path="/pobles/:id" element={<TownDetail />} />
-                            <Route path="/perfil" element={<ProtectedRoute><UniversalProfile /></ProtectedRoute>} />
-                            <Route path="/perfil/:id" element={<PublicProfile />} />
-                            <Route path="/entitat/:id" element={<PublicEntity />} />
-                            
-                            <Route path="/mapa" element={<MapaActius />} />
-                            <Route path="/search" element={<SearchDiscover />} />
-                            <Route path="/ofici" element={<OficiDocumentacio />} />
-                            <Route path="/nexus" element={<NexusFlash />} />
-                            <Route path="/solatge" element={<SolatgeConsole />} />
-                            <Route path="/genesis" element={<GenesisViewer />} />
-                            <Route path="/directori" element={<DirectoriComunitat />} />
-                            <Route path="/tools/trellat" element={<SolatgeConsole />} />
+                                <Route path="/mur" element={<Feed hideHeader={true} />} />
+                                <Route path="/mercat" element={<Marketplace hideHeader={true} />} />
+                                <Route path="/iaia" element={<IAIAPage />} />
+                                <Route path="/pobles" element={<Towns />} />
+                                <Route path="/pobles/:id" element={<TownDetail />} />
+                                <Route path="/perfil" element={<ProtectedRoute><UniversalProfile /></ProtectedRoute>} />
+                                <Route path="/perfil/:id" element={<PublicProfile />} />
+                                <Route path="/entitat/:id" element={<PublicEntity />} />
+                                
+                                <Route path="/mapa" element={<MapaActius />} />
+                                <Route path="/search" element={<SearchDiscover />} />
+                                <Route path="/ofici" element={<OficiDocumentacio />} />
+                                <Route path="/nexus" element={<NexusFlash />} />
+                                <Route path="/solatge" element={<SolatgeConsole />} />
+                                <Route path="/genesis" element={<GenesisViewer />} />
+                                <Route path="/directori" element={<DirectoriComunitat />} />
+                                <Route path="/tools/trellat" element={<SolatgeConsole />} />
 
-                            <Route path="/admin" element={<ProtectedRoute><AdminPanel /></ProtectedRoute>} />
-                            <Route path="/arxiu" element={<ArxiuOr />} />
-                            <Route path="/calendari" element={<CalendariMaster />} />
-                            <Route path="/fotos/global" element={<AlbumGlobal />} />
-                            <Route path="/nuke" element={<RescueTool />} />
-                            <Route path="/dossier" element={<DossierSocis />} />
-                            <Route path="*" element={<Navigate to="/" replace />} />
-                        </Routes>
+                                <Route path="/admin" element={<ProtectedRoute><AdminPanel /></ProtectedRoute>} />
+                                <Route path="/arxiu" element={<ArxiuOr />} />
+                                <Route path="/calendari" element={<CalendariMaster />} />
+                                <Route path="/fotos/global" element={<AlbumGlobal />} />
+                                <Route path="/nuke" element={<RescueTool />} />
+                                <Route path="/dossier" element={<DossierSocis />} />
+                                <Route path="*" element={<Navigate to="/" replace />} />
+                            </Routes>
+                        </div>
                         <Suspense fallback={null}>
                             <AmphoraFAB />
-                            <CreationHub />
                         </Suspense>
                     </ErrorBoundary>
                 </Suspense>

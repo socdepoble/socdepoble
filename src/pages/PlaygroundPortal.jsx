@@ -8,7 +8,7 @@ import './PlaygroundPortal.css';
 
 const PlaygroundPortal = () => {
     const navigate = useNavigate();
-    const { adoptPersona, user } = useAuth();
+    const { adoptPersona } = useAuth();
     const [personas, setPersonas] = useState([]);
     const [loading, setLoading] = useState(true);
 

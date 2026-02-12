@@ -12,9 +12,11 @@ import LegalDocsModal from './LegalDocsModal';
 import TallerTrellat from './TallerTrellat';
 import IAIARoleSelectorModal from './IAIARoleSelectorModal';
 import MagicPregoner from './MagicPregoner';
+import CreationHub from './CreationHub';
 
 const GlobalModals = () => {
     const {
+        isCreateModalOpen,
         isPostModalOpen,
         setIsPostModalOpen,
         isEventModalOpen,
@@ -25,7 +27,6 @@ const GlobalModals = () => {
         setIsSocialManagerOpen,
         postModalConfig,
         isConnectionModalOpen,
-        setIsConnectionModalOpen,
         connectionConfig,
         closeConnectionModal,
         isAgentSelectorOpen,
@@ -180,6 +181,7 @@ const GlobalModals = () => {
                     }}
                 />
             )}
+            {isCreateModalOpen && <CreationHub />}
         </>
     );
 };

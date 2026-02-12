@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { ArrowLeft, Rocket, Cpu, Users, Globe, Database, ShieldCheck, TrendingUp, Mail, Briefcase, MessageCircle, Newspaper, BookOpen, Smartphone, UserCheck, Sparkles, Volume2, Headphones, Palette } from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
 import { speechService } from '../services/speechService';
 import { notebookService } from '../services/notebookService';
 import ShareHub from '../components/ShareHub';
@@ -15,11 +14,10 @@ import { logger } from '../utils/logger';
 import './ProjectPresentation.css';
 
 const ProjectPresentation = () => {
-    const { t, i18n } = useTranslation();
+    const { i18n } = useTranslation();
     const navigate = useNavigate();
     const location = useLocation();
     const jumpToPage = location.state?.jumpToPage;
-    const { user } = useAuth();
     const [showIntro, setShowIntro] = useState(true);
     const [techReport, setTechReport] = useState(null);
     const [reportLang, setReportLang] = useState(i18n.language === 'es' ? 'es' : 'ca');

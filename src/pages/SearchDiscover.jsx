@@ -15,7 +15,6 @@ const SearchDiscover = () => {
     const [query, setQuery] = useState('');
     const [activeFilter, setActiveFilter] = useState('tots'); // tots, gent, entitats, pobles, esdeveniments
     const [results, setResults] = useState({ gent: [], entitats: [], pobles: [], arxiu: [], esdeveniments: [] });
-    const [raindropResults, setRaindropResults] = useState([]);
     const [isSearching, setIsSearching] = useState(false);
     const [recentSearches] = useState(['Cocentaina', 'Vicent Ferris', 'Mercat de Muro']);
     const inputRef = useRef(null);
@@ -42,19 +41,7 @@ const SearchDiscover = () => {
         setIsSearching(true);
         try {
             // [INTENT ROUTER OMEGA]
-            const lowercaseQ = q.toLowerCase();
-            const intents = {
-                recepta: ['cuina', 'recepta', 'menjar', 'gana', 'dinar', 'sopar', 'plat', 'receptes'],
-                diccionari: ['paraula', 'significat', 'què vol dir', 'definició', 'parla', 'llengua'],
-                remeis: ['mal de', 'ferida', 'medicina', 'herba', 'plant', 'salut', 'remei'],
-                ull: ['foto', 'imatge', 'mira', 'veure', 'reconeix', 'ulls', 'ull'],
-                oracle: ['futur', 'oracle', 'destí', 'què serà', 'pregunta', 'sort'],
-                mestre: ['història', 'mestre', 'vell', 'abans', 'passat', 'tradició']
-            };
 
-            const detectedIntent = Object.keys(intents).find(key => 
-                intents[key].some(keyword => lowercaseQ.includes(keyword))
-            );
 
             // ... results logic ...
             const [gent, entitats, pobles, archive, filteredEvents] = await Promise.all([

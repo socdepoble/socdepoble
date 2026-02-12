@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MoreHorizontal, Heart, MessageCircle, Share2, Tag, Zap, ShieldCheck, Beaker, Sparkles, Edit, Trash2, Plus, FileText, ChevronRight, UserPlus, MapPin, Landmark, Image as ImageIcon } from 'lucide-react';
+import { MoreHorizontal, Heart, MessageCircle, Share2, Tag, Zap, ShieldCheck, Beaker, Sparkles, Edit, Trash2, Plus, FileText, ChevronRight, UserPlus, MapPin, Landmark, Image as ImageIcon, ScanLine, Ruler, Globe } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useUI } from '../context/UIContext';
@@ -9,12 +9,14 @@ import AttributionBadge from './AttributionBadge';
 import ShareHub from './ShareHub';
 import Carousel from './Carousel';
 import ImageCarousel from './ImageCarousel';
-import './UniversalCard.css';
+import BlueprintOverlay from './BlueprintOverlay';
 
 /**
  * UniversalCard [CINEMATOGRAPHIC RURALISM]
- * A standardized container for all list items (Posts, Towns, Products).
- * Enforces Terracotta Header, Glass Body, and squared Multimedia.
+ * ---------------------------------------
+ * DIRECTIVA SUPREMA: Aquest component és la unitat atòmica del Gènesi.
+ * L'estructura de la Boina Taronja (Header) i el Pentatló (Footer)
+ * és SAGRADA i no pot ser alterada sense permís del Mestre Javi.
  */
 const UniversalCard = ({
     item,
@@ -37,7 +39,7 @@ const UniversalCard = ({
     const [hasImageError, setHasImageError] = useState(false);
     const cardVariant = variant || mode;
     const { t } = useTranslation();
-    const { gloveMode, openViewer, forensicMode: contextForensic } = useUI();
+    const { gloveMode, openViewer, forensicMode: contextForensic, blueprintMode } = useUI();
     const isForensic = forcedForensic || contextForensic;
     const { isAdmin, user } = useAuth();
     const navigate = useNavigate();
@@ -86,12 +88,29 @@ const UniversalCard = ({
         }
     };
 
-    const isOfficial = forcedOfficial || item?.author_role === 'official' || item?.author_role === 'oficial' || item?.type === 'oficial' || item?.type === 'system' || item?.type === 'bando' || item?.type === 'tramit' || item?.official;
-    const isAlert = item?.category === 'Alert' || item?.type === 'alert' || item?.is_alert;
+    const isOfficial = forcedOfficial || item?.author_role === 'official' || item?.author_role === 'oficial' || item?.type === 'oficial' || item?.type === 'system' || item?.type === 'bando' || item?.type === 'tramit' || item?.official || cardVariant === 'ajuntament' || cardVariant === 'pobles';
+    const isAlert = item?.category === 'Alert' || item?.type === 'alert' || item?.is_alert || item?.category === 'Danger';
+    const isSostenible = item?.category === 'Sostenible' || item?.tags?.includes('#Sostenible');
 
-    return (
+    const handleConnectClick = (e) => {
+        e.stopPropagation();
+        const choice = window.confirm(
+            "COM VOLS CONNECTAR?\n\n" +
+            "✅ PÚBLICA: Es mostrarà al mur com a 'Aliat del Poble'.\n" +
+            "🔒 PRIVADA: Connexió invisible, només per a gestió.\n\n" +
+            "Prem 'D'acord' per a Pública o 'Cancel·lar' per a Privada (per defecte)."
+        );
+        
+        if (choice) {
+            alert("Connexió PÚBLICA bategant! Ara ets un Aliat del Poble. 🏺✨");
+        } else {
+            alert("Connexió PRIVADA establerta. La teua intimitat està blindada. 🛡️");
+        }
+    };
+
+    const CardContent = (
         <article
-            className={`universal-card card-variant-${cardVariant} ${className} ${isBating ? 'animate-bategat' : ''} ${gloveMode ? 'mode-guants' : ''} ${isOfficial ? 'role-official' : ''} ${isAlert ? 'alert-active' : ''} ${isForensic ? 'mode-forense-active' : ''}`}
+            className={`universal-card card-variant-${cardVariant} ${className} ${isBating ? 'animate-bategat' : ''} ${gloveMode ? 'mode-guants' : ''} ${isOfficial ? 'role-official' : ''} ${isAlert ? 'category-danger alert-active' : ''} ${isSostenible ? 'category-sostenible' : ''} ${isForensic ? 'mode-forense-active' : ''}`}
             onClick={handleCardClick}
             style={{ cursor: (cardVariant === 'pobles' || cardVariant === 'event' || cardVariant === 'mapa') ? 'pointer' : 'default' }}
         >
@@ -247,9 +266,21 @@ const UniversalCard = ({
                 )}
 
                 <div className="card-tags-row">
-                    {item?.tags?.map((tag, idx) => (
-                        <span key={idx} className="genesis-tag-pill">{tag}</span>
-                    ))}
+                    {item?.tags?.map((tag, idx) => {
+                        let badgeClass = '';
+                        const cleanTag = tag.toLowerCase().replace('#', '');
+                        if (cleanTag === 'km0') badgeClass = 'badge-km0';
+                        else if (cleanTag === 'sostenible' || cleanTag === 'ecològic') badgeClass = 'badge-sostenible';
+                        else if (cleanTag === 'artesania' || cleanTag === 'fetamà') badgeClass = 'badge-artesania';
+                        else if (cleanTag === 'oferta') badgeClass = 'badge-oferta';
+                        else if (isOfficial) badgeClass = 'badge-oficial';
+
+                        return (
+                            <span key={idx} className={`genesis-tag-pill ${badgeClass}`}>
+                                {tag}
+                            </span>
+                        );
+                    })}
                 </div>
 
                 {children}
@@ -263,13 +294,18 @@ const UniversalCard = ({
                         {item?.type === 'tramit' ? (
                             <button className="master-action-btn connect-btn bg-[#FF6B00] text-white border-none w-full" onClick={(e) => { e.stopPropagation(); navigate('/documentacio'); }}>
                                 <Landmark size={22} />
-                                <span>{item.actionLabel || 'Obrir Tràmit'}</span>
+                                <span>{item.actionLabel || 'Tramitar'}</span>
                             </button>
                         ) : (
                             <>
-                                <button className="master-action-btn connect-btn" onClick={(e) => { e.stopPropagation(); alert('Rhizome: Puzle Social'); }}>
-                                    <UserPlus size={22} />
-                                    <span>Connectar</span>
+                                <button className="master-action-btn connect-btn" onClick={handleConnectClick}>
+                                    <div className="relative">
+                                        <UserPlus size={22} />
+                                        <div className="absolute -top-1 -right-1">
+                                            <Globe size={10} className="text-slate-400 opacity-60" />
+                                        </div>
+                                    </div>
+                                    <span>{(cardVariant === 'mercat' || cardVariant === 'market' || item?.price) ? "M'interessa" : "Connectar"}</span>
                                 </button>
                                 <div className="footer-touch-group">
                                     <button className="btn-touch iaia-chat" onClick={(e) => { 
@@ -291,9 +327,9 @@ const UniversalCard = ({
                 {(cardVariant === 'mercat' || cardVariant === 'market') && (
                     <div className="footer-mercat-master">
                         <div className="mercat-actions-row">
-                            <button className="master-action-btn connect-btn" onClick={(e) => { e.stopPropagation(); alert('Rhizome: Puzle Comercial'); }}>
+                            <button className="master-action-btn connect-btn" onClick={handleConnectClick}>
                                 <Zap size={22} />
-                                <span>Interessat</span>
+                                <span>M'interessa</span>
                             </button>
                             <button className="btn-touch iaia-chat" onClick={(e) => { 
                                 e.stopPropagation(); 
@@ -316,7 +352,7 @@ const UniversalCard = ({
                             <span>Esdeveniment destacat de la setmana</span>
                         </div>
                         <div className="event-actions-row">
-                            <button className="master-action-btn connect-btn" onClick={(e) => { e.stopPropagation(); alert('Rhizome: Puzle Cultural'); }}>
+                            <button className="master-action-btn connect-btn" onClick={handleConnectClick}>
                                 <UserPlus size={22} />
                                 <span>Assistiré</span>
                             </button>
@@ -337,7 +373,7 @@ const UniversalCard = ({
                 {/* 4. CARDINAL POBLES (Community Gent de...) */}
                 {cardVariant === 'pobles' && (
                     <div className="footer-pobles-master">
-                        <button className="master-action-btn connect-btn" onClick={(e) => { e.stopPropagation(); alert('Rhizome: Puzle Comunitat'); }}>
+                        <button className="master-action-btn connect-btn" onClick={handleConnectClick}>
                             <UserPlus size={22} />
                             <span>Connectar al Poble</span>
                         </button>
@@ -367,7 +403,7 @@ const UniversalCard = ({
                             <span>Comunicat Oficial de l'Ajuntament</span>
                         </div>
                         <div className="event-actions-row">
-                            <button className="master-action-btn connect-btn" onClick={(e) => { e.stopPropagation(); alert('Rhizome: Puzle Institucional'); }}>
+                            <button className="master-action-btn connect-btn" onClick={handleConnectClick}>
                                 <UserPlus size={22} />
                                 <span>Connectar</span>
                             </button>
@@ -393,7 +429,7 @@ const UniversalCard = ({
                             <span>A 2.4 km de tu</span>
                         </div>
                         <div className="event-actions-row">
-                            <button className="master-action-btn connect-btn" onClick={(e) => { e.stopPropagation(); alert('Rhizome: Puzle Territorial'); }}>
+                            <button className="master-action-btn connect-btn" onClick={handleConnectClick}>
                                 <UserPlus size={22} />
                                 <span>Connectar</span>
                             </button>
@@ -412,6 +448,16 @@ const UniversalCard = ({
                 )}
             </div>
         </article>
+    );
+
+    return blueprintMode ? (
+        <BlueprintOverlay label={`CARD_UNIT`} dimensions={`${cardVariant.toUpperCase()} | R: 28PX`} color="cyan">
+            {CardContent}
+        </BlueprintOverlay>
+    ) : (
+        <div className="min-w-0 w-full">
+            {CardContent}
+        </div>
     );
 };
 

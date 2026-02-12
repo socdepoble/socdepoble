@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
@@ -8,7 +8,6 @@ import {
     Bell, Cpu, Terminal, Zap, CheckCircle, AlertTriangle, Brain, MessageSquare, Pin, Edit, ShieldCheck
 } from 'lucide-react';
 import { logger } from '../utils/logger';
-import pushNotifications from '../services/pushNotifications';
 import MemexModule from '../components/admin/MemexModule';
 import IdentitiesModule from '../components/admin/IdentitiesModule';
 import CitizensModule from '../components/admin/CitizensModule';
@@ -16,18 +15,16 @@ import StoreManagementModule from '../components/admin/StoreManagementModule';
 import SuperRatonControl from '../components/admin/SuperRatonControl';
 import GlobalOverview from '../components/admin/GlobalOverview';
 import AdminPinnedManager from '../components/AdminPinnedManager';
-import { useUI } from '../context/UIContext';
+import { APP_VERSION } from '../constants';
 import './AdminPanel.css';
 
 const AdminPanel = () => {
     const navigate = useNavigate();
     const { t } = useTranslation();
-    const { isSuperAdmin, isAdmin, setImpersonatedProfile, setActiveEntityId, user } = useAuth();
+    const { isSuperAdmin, isAdmin, user } = useAuth();
 
     // Core Data State
-    const [stats, setStats] = useState(null);
     const [logs, setLogs] = useState([]);
-    const [health, setHealth] = useState(100);
     const [loading, setLoading] = useState(true);
 
     // Module Active State
@@ -60,8 +57,14 @@ const AdminPanel = () => {
                     supabaseService.getSEOStats()
                 ]);
 
-                setStats(sData);
-                setHealth(seoData.healthScore || 98);
+                // Simulated "Auto-Cura" check
+                if (seoData.issues > 0) {
+                    addLog(`Detectades ${seoData.issues} incidències SEO.`, 'warn');
+                    setTimeout(() => {
+                        addLog('Executant correcció automàtica de sitemap...', 'action');
+                        addLog('Caché cognitiva actualitzada amb v1.5.7-BATEGA.', 'success');
+                    }, 2000);
+                }
 
                 addLog('Sistemes connectats. Estat nominal.', 'success');
                 addLog(`Usuaris actius: ${sData.totalUsers}`, 'info');
@@ -71,7 +74,6 @@ const AdminPanel = () => {
                     addLog(`Detectades ${seoData.issues} incidències SEO.`, 'warn');
                     setTimeout(() => {
                         addLog('Executant correcció automàtica de sitemap...', 'action');
-                        setHealth(100);
                         addLog('Caché cognitiva actualitzada amb v1.5.7-BATEGA.', 'success');
                     }, 2000);
                 }
@@ -305,7 +307,7 @@ const AdminPanel = () => {
 // --- SUB-MODULES (Simplified for Refactor) ---
 
 // 1. BROADCAST MODULE (Ported logic)
-const BroadcastModule = ({ user, addLog }) => {
+const BroadcastModule = ({ addLog }) => {
     const [sending, setSending] = useState(false);
 
     const handleGlobal = async () => {
@@ -408,6 +410,7 @@ const BroadcastModule = ({ user, addLog }) => {
 
 // 9. UTILITAT SOCIAL MODULE
 const UtilitatSocialModule = ({ addLog }) => {
+    const navigate = useNavigate();
     const [socialVitality, setSocialVitality] = useState(95);
 
     return (
@@ -556,6 +559,7 @@ const MemoryGovernanceModule = ({ addLog }) => {
 };
 // 11. MARKETING & ANALYTICS MODULE
 const MarketingModule = ({ addLog }) => {
+    const navigate = useNavigate();
     const [realtimeUsers, setRealtimeUsers] = useState(12);
 
     useEffect(() => {
@@ -680,7 +684,7 @@ const EditorialGovernanceModule = ({ addLog }) => {
 
 // 13. PERMISSIONS GOVERNANCE MODULE
 const PermissionsGovernanceModule = ({ addLog }) => {
-    const [roles, setRoles] = useState([
+    const [roles] = useState([
         { id: 'super_admin', label: 'Super Admin', access: 'Total (God Mode)', color: 'var(--hud-accent)' },
         { id: 'admin', label: 'Administrador', access: "Gestió d'Entitats", color: 'var(--color-primary)' },
         { id: 'editor', label: 'Editor', access: 'Contingu i Pins', color: 'var(--color-error)' },

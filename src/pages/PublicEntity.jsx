@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import { Building2, Store, Users, MapPin, MessageSquare, Share2, Loader2, AlertCircle, Calendar, ArrowLeft, UserPlus, UserMinus, Settings, Landmark } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
@@ -15,7 +14,6 @@ import ArmariDigital from '../components/ArmariDigital';
 
 const PublicEntity = () => {
     const { id } = useParams();
-    const { t } = useTranslation();
     const navigate = useNavigate();
     const { user: currentUser } = useAuth();
     const { openLegalModal } = useUI();
@@ -110,34 +108,7 @@ const PublicEntity = () => {
         </div>
     );
 
-    const getEntityIcon = (type) => {
-        switch (type) {
-            case 'oficial': return <Building2 size={32} />;
-            case 'negoci': return <Store size={32} />;
-            default: return <Users size={32} />;
-        }
-    };
 
-    const handleShare = async () => {
-        const shareData = {
-            title: entity.name,
-            text: entity.description || `Mira l'entitat ${entity.name} a Sóc de Poble`,
-            url: window.location.href
-        };
-
-        try {
-            if (navigator.share) {
-                await navigator.share(shareData);
-            } else {
-                await navigator.clipboard.writeText(window.location.href);
-                alert('Enllaç copiat al porta-retalls');
-            }
-        } catch (err) {
-            if (err.name !== 'AbortError') {
-                logger.error('Error sharing:', err);
-            }
-        }
-    };
 
     const handleHeaderClick = (item) => {
         const targetId = item.author_entity_id || item.author_user_id || item.author_id || item.entity_id || id;

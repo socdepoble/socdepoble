@@ -1,5 +1,5 @@
 import React from 'react';
-import { Settings, BookOpen, ShieldCheck, X, NotebookPen } from 'lucide-react';
+import { Settings, BookOpen, ShieldCheck, X, NotebookPen, ArrowRight, UserPlus, MessageCircle, Share2 } from 'lucide-react';
 import { useUI } from '../context/UIContext';
 
 const ChatEmptyState = () => {
@@ -77,16 +77,54 @@ const ChatEmptyState = () => {
                 </div>
             </div>
             
-            <h1 className={`relative z-10 text-5xl font-bold text-center mb-6 tracking-tight ${colors.textPrimary}`}>
-                Sóc de Poble<br/>per a Web
+            <h1 className={`relative z-10 text-5xl font-black text-center mb-6 tracking-tight leading-none ${colors.textPrimary}`}>
+                Sóc de Poble<br/><span className="text-[#FF6B00]">per a Web</span>
             </h1>
-            <p className={`relative z-10 text-center max-w-md text-lg px-4 ${colors.textSecondary}`}>
-                Envia i rep missatges, connecta amb els veïns i parla amb la IAIA sense treure el telèfon.
-            </p>
             
-            <div className="mt-12 flex items-center gap-2 text-xs uppercase tracking-widest opacity-60 font-bold text-gray-500">
-                <Settings size={14} /> 
-                <span>Xifrat d'extrem a extrem</span>
+            <div className={`relative z-10 text-center max-w-lg mb-10 space-y-4 ${colors.textSecondary}`}>
+                <p className="text-xl font-bold leading-tight italic">
+                    "El Portal dels Pobles Connectats: On l'arrel rural latega en digital."
+                </p>
+                <p className="text-sm leading-relaxed px-6">
+                    Sóc de Poble no és una xarxa social, és un **Sistema Operatiu Rural**. Una eina per a veïns, ajuntaments i negocis KM 0 per a protegir la memòria, dinamitzar l'economia local i bategar amb utilitat social. Envia missatges, connecta amb el mercat i consulta la saviesa de la IAIA des de qualsevol dispositiu.
+                </p>
+            </div>
+
+            {/* ACCIONS AL PEU (RESTAURADES v11.0.1) */}
+            <div className="relative z-10 flex items-center gap-4 mb-10">
+                <button className="flex items-center gap-2 px-6 py-3 bg-[#FF6B00] text-white rounded-full font-black uppercase text-xs tracking-widest shadow-lg shadow-orange-500/20 hover:scale-105 transition-transform" onClick={() => alert('Bategant Connexió...')}>
+                    <UserPlus size={16} /> Connectar
+                </button>
+                <button className={`flex items-center gap-2 px-6 py-3 rounded-full font-black uppercase text-xs tracking-widest border border-white/10 hover:bg-white/5 transition-colors ${colors.textPrimary}`} onClick={() => alert('Obrint Safareig...')}>
+                    <MessageCircle size={16} /> Comentar
+                </button>
+                <button className={`flex items-center gap-2 px-6 py-3 rounded-full font-black uppercase text-xs tracking-widest border border-white/10 hover:bg-white/5 transition-colors ${colors.textPrimary}`} onClick={() => {
+                    const shareData = { title: 'Sóc de Poble', text: 'Connecta amb la teua comunitat.', url: window.location.origin };
+                    if (navigator.share) navigator.share(shareData);
+                    else alert('Enllaç copiat!');
+                }}>
+                    <Share2 size={16} /> Compartir
+                </button>
+            </div>
+            
+            <div className={`relative z-10 p-6 rounded-2xl border text-left max-w-sm mt-8 ${darkMode ? 'bg-slate-900/50 border-white/5' : 'bg-white border-black/5 shadow-sm'}`}>
+                <h4 className="font-bold flex items-center gap-2 mb-2 text-[#FF6B00]">
+                    <ShieldCheck size={18} /> Llicència Oberta
+                </h4>
+                <p className={`text-xs leading-relaxed ${colors.textSecondary}`}>
+                    Aquest sistema és de codi obert per a ús comunitari i educatiu. L'ús comercial està subjecte a llicència del Mestre.
+                </p>
+                <button 
+                    onClick={() => window.location.href = '/ofici'}
+                    className="mt-3 text-[10px] font-black uppercase tracking-widest text-[#FF6B00] hover:underline flex items-center gap-1"
+                >
+                    Llegir Condicions i Arquitectura <ArrowRight size={10} />
+                </button>
+            </div>
+
+            <div className="mt-12 flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] opacity-40 font-black text-gray-500">
+                <Settings size={12} /> 
+                <span>Xifrat d'Extrem a Extrem | v11.0.2-SOLLUTIA-INTEGRAL</span>
             </div>
         </div>
     );

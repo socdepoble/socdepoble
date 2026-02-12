@@ -52,20 +52,18 @@
     /* Boina immutable */
 }
 
-/* HEADER: BOINA TARONJA (NEXUS v6.0) - Terracota Mandatory */
+/* HEADER: BOINA TARONJA (NEXUS v10.30.0 BLUEPRINT) */
 .card-header-boina {
-    background: #FF6B00 !important; /* Protocol Forense L156 */
+    background: #FF6B00 !important;
     color: white;
-    padding: 0 16px;
+    padding: 0 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 64px !important;
+    height: 64px !important; /* Standard Height */
     border-radius: var(--radius-l) var(--radius-l) 0 0;
     position: relative;
     z-index: 10;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    border-bottom: none;
 }
 
 .card-header-boina:hover {
@@ -78,24 +76,75 @@
 }
 
 .card-header-boina.variant-official {
-    background: #D84315 !important; /* Més dens per a lo oficial */
+    background: #002B5B !important; /* Blau Fosc Corporatiu v11.1.0 */
+}
+
+/* NOVES CATEGORIES v11.1.0 */
+.universal-card.category-sostenible .card-header-boina {
+    background: #10B981 !important; /* Verd Vibrant */
+}
+
+.universal-card.category-danger .card-header-boina,
+.universal-card.alert-active .card-header-boina {
+    background: #EF4444 !important; /* Vermell Alerta */
+}
+
+.universal-card.category-sostenible:hover {
+    border-color: #10B981;
+    box-shadow: var(--shadow-deep), 0 0 20px rgba(16, 185, 129, 0.3);
+}
+
+.universal-card.category-danger:hover {
+    border-color: #EF4444;
+    box-shadow: var(--shadow-deep), 0 0 20px rgba(239, 68, 68, 0.3);
 }
 
 .card-header-boina .master-author-name {
     color: #FFFFFF !important;
     font-weight: 950;
     text-transform: uppercase;
-    font-size: 13px;
+    font-size: 14px; /* Standard Text */
     letter-spacing: 0.05em;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .card-header-boina .location-text {
     color: rgba(255, 255, 255, 0.85) !important;
     font-weight: 800;
-    font-size: 9px;
+    font-size: 12px;
     text-transform: uppercase;
 }
+
+/* TAGS & BADGES v11.1.0 */
+.card-tags-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.genesis-tag-pill {
+    font-size: 10px;
+    font-weight: 900;
+    padding: 4px 10px;
+    border-radius: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-muted);
+    border: 1px solid var(--border-subtle);
+}
+
+.genesis-tag-pill.badge-km0 { background: #ECFDF5; color: #059669; border-color: #A7F3D0; }
+.genesis-tag-pill.badge-sostenible { background: #F0FDF4; color: #16A34A; border-color: #BBF7D0; }
+.genesis-tag-pill.badge-artesania { background: #FFF7ED; color: #EA580C; border-color: #FFEDD5; }
+.genesis-tag-pill.badge-oferta { background: #FEF2F2; color: #DC2626; border-color: #FEE2E2; }
+.genesis-tag-pill.badge-oficial { background: #EFF6FF; color: #2563EB; border-color: #DBEAFE; }
+
+.theme-dark .badge-km0 { background: rgba(5, 150, 105, 0.1); border-color: rgba(5, 150, 105, 0.2); }
+.theme-dark .badge-sostenible { background: rgba(22, 163, 74, 0.1); border-color: rgba(22, 163, 74, 0.2); }
+.theme-dark .badge-artesania { background: rgba(234, 88, 12, 0.1); border-color: rgba(234, 88, 12, 0.2); }
+.theme-dark .badge-oferta { background: rgba(220, 38, 38, 0.1); border-color: rgba(220, 38, 38, 0.2); }
 
 .header-left {
     display: flex;
@@ -280,12 +329,11 @@
 .genesis-title {
     color: var(--text-main);
     font-family: var(--font-display);
-    font-size: 20px;
+    font-size: 20px; /* Standard Title */
     font-weight: 950;
     margin: 0;
-    line-height: 1.2;
-    /* Ajustat per a emojis i robustesa */
-    letter-spacing: -0.5px;
+    line-height: 1.1;
+    letter-spacing: -1px;
     word-break: break-word;
     /* Robustesa Prova d'Estrès / Alemany */
     overflow-wrap: break-word;
@@ -304,13 +352,10 @@
 
 .card-excerpt {
     color: var(--text-secondary);
-    font-size: 15px;
-    line-height: 1.5;
+    font-size: 16px; /* Standard Base */
+    line-height: 1.6;
     margin: 0;
-    font-weight: 600;
-    word-break: break-word;
-    /* Robustesa Prova d'Estrès / Alemany */
-    overflow-wrap: break-word;
+    font-weight: 500;
 }
 
 .read-more-btn {
@@ -392,16 +437,16 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 12px;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid var(--border-subtle);
     color: var(--text-secondary);
-    font-size: 14px;
-    font-weight: 850;
+    font-size: 16px; /* Standard Text */
+    font-weight: 900;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    height: 44px; /* Touch Target Baseline */
-    padding: 0 16px;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    height: 48px; /* STANDARD TARGET v10.30.0 */
+    padding: 0 24px;
     border-radius: var(--radius-m);
 }
 
@@ -419,6 +464,29 @@
     background: var(--accent-orange);
     color: #000;
     box-shadow: 0 0 20px rgba(255, 109, 35, 0.3);
+}
+
+/* Connect Btn Variant for Official/Sostenible */
+.universal-card.role-official .connect-btn {
+    background: rgba(0, 43, 91, 0.1);
+    border-color: rgba(0, 43, 91, 0.3);
+    color: #002B5B;
+}
+
+.universal-card.role-official .connect-btn:hover {
+    background: #002B5B;
+    color: white;
+}
+
+.universal-card.category-sostenible .connect-btn {
+    background: rgba(16, 185, 129, 0.1);
+    border-color: rgba(16, 185, 129, 0.3);
+    color: #10B981;
+}
+
+.universal-card.category-sostenible .connect-btn:hover {
+    background: #10B981;
+    color: white;
 }
 
 /* Blindatge Alzina v5.2 */
@@ -455,8 +523,8 @@
 }
 
 .btn-touch {
-    width: 44px;
-    height: 44px;
+    width: 48px; /* STANDARD TARGET */
+    height: 48px;
     display: flex;
     align-items: center;
     justify-content: center;

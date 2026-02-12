@@ -1,8 +1,9 @@
-import { BookOpen, Share2, Image as ImageIcon, FileText, Database, Plus, Search, ExternalLink, MessageCircle } from 'lucide-react';
+import React, { useState } from 'react';
+import { BookOpen, Share2, Image as ImageIcon, FileText, Database, Plus, Search, ExternalLink, MessageCircle, X, Eye } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const KnowledgeHub = () => {
-    const { user, profile } = useAuth();
+    useAuth();
     const [activeSource, setActiveSource] = useState(null);
 
     // Mock data for sources
@@ -160,42 +161,5 @@ const KnowledgeHub = () => {
         </div>
     );
 };
-
-const X = ({ size, onClick, className }) => (
-    <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width={size}
-        height={size}
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className={className}
-        onClick={onClick}
-    >
-        <line x1="18" y1="6" x2="6" y2="18"></line>
-        <line x1="6" y1="6" x2="18" y2="18"></line>
-    </svg>
-);
-
-const Eye = ({ size, className }) => (
-    <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width={size}
-        height={size}
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className={className}
-    >
-        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-        <circle cx="12" cy="12" r="3"></circle>
-    </svg>
-);
 
 export default KnowledgeHub;

@@ -15,7 +15,6 @@ const MediaAlbum = () => {
     const { user, isPlayground } = useAuth();
     const [mediaItems, setMediaItems] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [filter, setFilter] = useState('all'); // 'all', 'avatar', 'cover', 'shared', 'video', 'document'
 
     useEffect(() => {
         const loadMedia = async () => {
@@ -35,20 +34,6 @@ const MediaAlbum = () => {
         }
     }, [user?.id, isPlayground]);
 
-    const filteredItems = mediaItems.filter(item => {
-        if (filter === 'all') return true;
-        if (filter === 'shared' && item.is_public) return true;
-        if (filter === 'video' && item.asset.mime_type?.startsWith('video/')) return true;
-        if (filter === 'document' && (item.asset.mime_type?.includes('pdf') || item.asset.mime_type?.includes('doc'))) return true;
-        return item.context === filter;
-    });
-
-    const getFileIcon = (mimeType) => {
-        if (mimeType?.startsWith('image/')) return <ImageIcon size={24} />;
-        if (mimeType?.startsWith('video/')) return <Film size={24} />;
-        if (mimeType?.includes('pdf')) return <FileText size={24} />;
-        return <File size={24} />;
-    };
 
     if (isLoading) return <StatusLoader type="loading" />;
 

@@ -11,6 +11,7 @@
 .profile-hero-section {
     position: relative;
     width: 100%;
+    overflow-x: hidden; /* Evitem fugas laterals */
 }
 
 @keyframes fadeIn {
@@ -45,20 +46,27 @@
 
 @media (max-width: 768px) {
     .profile-cover-box {
-        height: 220px;
-        border-radius: 0 0 32px 32px;
+        height: 180px; /* Reduït per a millor visibilitat del tòtem */
+        border-radius: 0 0 24px 24px;
     }
     
     .profile-hero-section .-mt-24 {
-        margin-top: -60px;
+        margin-top: -40px;
     }
     
     .profile-hero-section .w-48 {
-        width: 140px;
-        height: 140px;
+        width: 120px;
+        height: 120px;
     }
     
     .profile-hero-section .text-6xl {
-        font-size: 3rem;
+        font-size: 2.5rem;
+    }
+
+    /* Forcem que res es desborde */
+    .profile-hero-section, 
+    .universal-profile-body {
+        max-width: 100vw;
+        overflow-x: hidden;
     }
 }
