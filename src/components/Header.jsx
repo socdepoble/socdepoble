@@ -1,6 +1,6 @@
 // ☢️ [NOTA NUCLEAR PER A FLASH]: NOMÉS estem tocant el contenidor de continguts estandarditzats. 
 // NO TOCAR l'estructura (Sidebar/Header) que ja està bategada i blindada.
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
 import { useUI } from "../context/UIContext";
@@ -27,21 +27,20 @@ const Header = () => {
 
   return (
     <header className="h-16 flex items-center justify-between px-4 gap-2 shrink-0 select-none bg-black text-white sticky top-0 z-[1000] w-full border-b border-white/5">
-      {/* LEFT SIDE: Mobile Menu + Logo (Always Visible) */}
-      <div className="flex items-center gap-2">
-        {!isDrawerOpen && (
-          <button 
-            onClick={toggleDrawer} 
-            className="md:hidden p-2 -ml-2 text-slate-300 hover:text-white transition-colors"
-            title="Obrir Menú"
-          >
-            <Menu size={24} />
-          </button>
-        )}
-        <div className="border-2 border-white px-2 py-0.5 cursor-pointer bg-black active:scale-95 transition-transform" onClick={() => navigate('/mur')}>
-          <span className="font-bold text-base tracking-widest uppercase text-white whitespace-nowrap">SÓC DE POBLE</span>
-        </div>
-      </div>
+        <NavLink 
+          to="/" 
+          className="md:hidden flex items-center border-2 border-white px-2 py-0.5 active:scale-95 transition-transform"
+        >
+          <img
+            src="/logo-white.png"
+            alt="SÓC DE POBLE"
+            className="h-6 object-contain"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = '/logo-white.png';
+            }}
+          />
+        </NavLink>
 
       {/* RIGHT SIDE: Tools (Always Visible) - TACTILE TARGET 48px */}
       <div className="flex items-center gap-1 md:gap-3 ml-auto h-full">
