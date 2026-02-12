@@ -61,67 +61,67 @@ const DossierSocis = () => {
             {/* SECCIÓ 2: MODEL DE NEGOCI (PILARS DE SOSTENIBILITAT) */}
             <section className="dossier-section dark-variant">
                 <h2 className="section-title"><TrendingUp size={32} /> Model de Negoci Híbrid</h2>
+                <p className="section-intro">Un ecosistema de sostenibilitat basat en la utilitat administrativa, la dinamització econòmica i l'eficiència tecnològica extrema.</p>
                 
                 <div className="bento-grid">
-                    {/* B2G: EL SECRETARI (Large) */}
+                    {/* B2G: EL SECRETARI */}
                     <div className="bento-card large b2g-accent">
                         <div className="bento-header">
                             <Shield className="bento-icon" />
                             <span className="bento-label">Model B2G</span>
                         </div>
-                        <h3>SaaS "El Secretari"</h3>
-                        <p>Subscripció mestre per a Ajuntaments. Reducció dràstica de la càrrega administrativa rural mitjançant automatització d'IA de proximitat.</p>
+                        <h3>"El Secretari" (SaaS)</h3>
+                        <p>Subscripció mestre per a Ajuntaments que automatitza la gestió pública rural.</p>
                         <ul className="bento-list">
-                            <li><CheckCircle size={16} /> Bàndols i alertes automàtiques</li>
-                            <li><CheckCircle size={16} /> Digitalització de Patrimoni Local</li>
-                            <li><CheckCircle size={16} /> Estalvi crític en gestió pública</li>
+                            <li><CheckCircle size={16} /> <strong>Automatització de Bàndols:</strong> Reducció del temps administratiu mitjançant IA.</li>
+                            <li><CheckCircle size={16} /> <strong>Digitalització de Patrimoni:</strong> Inventari d'actius, rutes i catàleg municipal.</li>
+                            <li><CheckCircle size={16} /> <strong>Canal Blindat:</strong> Comunicació sobirana sense dependre d'apps de tercers.</li>
                         </ul>
                     </div>
 
-                    {/* B2B: ESSÈNCIES (Medium) */}
+                    {/* B2B: ESSÈNCIES */}
                     <div className="bento-card b2b-accent">
                         <div className="bento-header">
                             <Globe className="bento-icon" />
                             <span className="bento-label">Model B2B</span>
                         </div>
-                        <h3>Marketplace Km 0</h3>
-                        <p>Monetització de la plataforma "La Botiga" i paquets de turisme experiencial.</p>
-                        <div className="bento-mini-stats">
-                            <div className="mini-stat"><span>Comissió</span><strong>0%</strong></div>
-                            <div className="mini-stat"><span>Tipus</span><strong>Suscripció</strong></div>
-                        </div>
+                        <h3>"Essències" i La Botiga</h3>
+                        <p>Monetització de l'economia local sense intermediaris (Km 0).</p>
+                        <ul className="bento-list">
+                            <li><strong>Subscripció Premium:</strong> Per a productors (oli, vi, artesania).</li>
+                            <li><strong>Turisme Experiencial:</strong> Venda directa d'experiències al territori.</li>
+                        </ul>
                     </div>
 
-                    {/* COST SAVINGS (Medium) */}
+                    {/* COST SAVINGS */}
                     <div className="bento-card tech-accent">
                         <div className="bento-header">
                             <Zap className="bento-icon" />
-                            <span className="bento-label">Eficiència Tècnica</span>
+                            <span className="bento-label">Marge Tècnic</span>
                         </div>
-                        <h3>Benefici Estructural</h3>
-                        <p>L'arquitectura Local-First elimina la dependència de servidors centrals al créixer.</p>
+                        <h3>Estalvi Estructural</h3>
+                        <p>Cost de servidor $\approx$ 0€. Gràcies a Rhizome, la xarxa es manté des dels dispositius dels veïns.</p>
                         <div className="cost-chart">
-                            <div className="chart-bar cloud" title="Cost Cloud Tradicional">
-                                <div className="bar-fill" style={{ height: '70%' }}><span>CLOUD</span></div>
+                            <div className="chart-bar cloud" title="SaaS Tradicional (Vendes Altament Costoses)">
+                                <div className="bar-fill" style={{ height: '80%' }}><span>CLOUD AWS/GC</span></div>
                             </div>
-                            <div className="chart-bar local" title="Cost Sóc de Poble">
-                                <div className="bar-fill" style={{ height: '10%' }}><span>SÓC DE POBLE</span></div>
+                            <div className="chart-bar local" title="Sóc de Poble (Marge Net Maximitzat)">
+                                <div className="bar-fill" style={{ height: '5%' }}><span>RHIZOME</span></div>
                             </div>
                         </div>
                     </div>
 
-                    {/* EXPANSSIÓ: NODES (Medium) */}
+                    {/* EXPANSIONAL FEDERATION */}
                     <div className="bento-card node-accent">
                         <div className="bento-header">
                             <Users className="bento-icon" />
-                            <span className="bento-label">Escalabilitat</span>
+                            <span className="bento-label">Llicència de Node</span>
                         </div>
-                        <h3>Llicència de Node</h3>
-                        <p>Expansió mitjançant la replicació del programari mestre a altres territoris.</p>
-                        <div className="node-connectivity">
-                            <div className="node-hub">Sollutia</div>
-                            <div className="node-spoke">Node A</div>
-                            <div className="node-spoke">Node B</div>
+                        <h3>Franquícia Tecnològica</h3>
+                        <p>Exportació de la infraestructura a altres territoris (White Label).</p>
+                        <div className="bento-mini-stats">
+                            <div className="mini-stat"><span>Set-up</span><strong>€€€</strong></div>
+                            <div className="mini-stat"><span>Manteniment</span><strong>Quota fix</strong></div>
                         </div>
                     </div>
                 </div>
