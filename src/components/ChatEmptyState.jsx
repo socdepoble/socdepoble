@@ -77,16 +77,16 @@ const ChatEmptyState = () => {
                 </div>
             </div>
             
-            <h1 className={`relative z-10 text-5xl font-black text-center mb-6 tracking-tight leading-none ${colors.textPrimary}`}>
-                Sóc de Poble<br/><span className="text-[#FF6B00]">per a Web</span>
+            <h1 className={`relative z-10 text-5xl font-black text-center mb-6 tracking-tighter leading-none ${colors.textPrimary}`}>
+                Sóc de<br/>Poble<br/>per a<br/><span className="text-[#FF6B00]">Web</span>
             </h1>
             
             <div className={`relative z-10 text-center max-w-lg mb-10 space-y-4 ${colors.textSecondary}`}>
                 <p className="text-xl font-bold leading-tight italic">
-                    "El Portal dels Pobles Connectats: On l'arrel rural latega en digital."
+                    "Connecta amb la teua comunitat. El bategat de la terra en format digital."
                 </p>
                 <p className="text-sm leading-relaxed px-6">
-                    Sóc de Poble no és una xarxa social, és un **Sistema Operatiu Rural**. Una eina per a veïns, ajuntaments i negocis KM 0 per a protegir la memòria, dinamitzar l'economia local i bategar amb utilitat social. Envia missatges, connecta amb el mercat i consulta la saviesa de la IAIA des de qualsevol dispositiu.
+                    <strong>Sóc de Poble</strong> és un <strong>Sistema Operatiu Rural</strong>. Una eina per a veïns, ajuntaments i negocis KM 0 per a protegir la memòria, dinamitzar l'economia local i bategar amb utilitat social. Envia missatges, connecta amb el mercat i consulta la saviesa de la IAIA.
                 </p>
             </div>
 
@@ -109,10 +109,10 @@ const ChatEmptyState = () => {
             
             <div className={`relative z-10 p-6 rounded-2xl border text-left max-w-sm mt-8 ${darkMode ? 'bg-slate-900/50 border-white/5' : 'bg-white border-black/5 shadow-sm'}`}>
                 <h4 className="font-bold flex items-center gap-2 mb-2 text-[#FF6B00]">
-                    <ShieldCheck size={18} /> Llicència Oberta
+                    <ShieldCheck size={18} /> Licència Oberta
                 </h4>
                 <p className={`text-xs leading-relaxed ${colors.textSecondary}`}>
-                    Aquest sistema és de codi obert per a ús comunitari i educatiu. L'ús comercial està subjecte a llicència del Mestre.
+                    Aquest sistema és de codi obert per a ús comunitari i educatiu. L'ús comercial està subjecte a llicència del Mestre. Consulta l'Arquitectura per a més detalls tècnics.
                 </p>
                 <button 
                     onClick={() => window.location.href = '/ofici'}
@@ -124,7 +124,7 @@ const ChatEmptyState = () => {
 
             <div className="mt-12 flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] opacity-40 font-black text-gray-500">
                 <Settings size={12} /> 
-                <span>Xifrat d'Extrem a Extrem | v11.0.2-SOLLUTIA-INTEGRAL</span>
+                <span>Xifrat d'Extrem a Extrem | v11.1.2-GOLDEN-MASTER [MASTER]</span>
             </div>
         </div>
     );
