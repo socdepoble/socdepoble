@@ -3,7 +3,6 @@
 import { useNavigate, NavLink } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
-import { useUI } from "../context/UIContext";
 import { useI18n } from "../context/I18nContext";
 import {
   Search,
