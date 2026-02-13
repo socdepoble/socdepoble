@@ -2,16 +2,11 @@
 // NO TOCAR l'estructura (Sidebar/Header) que ja està bategada i blindada.
 import { useNavigate, NavLink } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { useTheme } from "../context/ThemeContext";
-import { useI18n } from "../context/I18nContext";
 import { useUI } from "../context/UIContext";
 import {
   Search,
   Bell,
-  Sparkles,
-  Menu,
-  Moon,
-  Sun
+  Menu
 } from "lucide-react";
 
 /**
@@ -20,8 +15,6 @@ import {
  */
 const Header = () => {
   const { user, profile } = useAuth();
-  const { theme, toggleTheme } = useTheme();
-  const { toggleLanguage, language } = useI18n();
   const { toggleDrawer } = useUI();
   const navigate = useNavigate();
 
@@ -38,12 +31,12 @@ const Header = () => {
           
           <NavLink 
             to="/" 
-            className="flex items-center border-[1.5px] border-white px-2 py-0.5 active:scale-95 transition-transform"
+            className="absolute left-1/2 -translate-x-1/2 flex items-center active:scale-95 transition-transform"
           >
             <img
               src="/logo-white.png"
               alt="SÓC DE POBLE"
-              className="h-5 lg:h-6 object-contain"
+              className="h-6 lg:h-7 object-contain"
               onError={(e) => {
                 e.target.onerror = null;
                 e.target.src = '/logo-white.png';
@@ -57,19 +50,6 @@ const Header = () => {
         <button className="w-12 h-12 flex items-center justify-center text-slate-400 hover:text-white transition-colors" onClick={() => navigate("/search")}>
           <Search size={20} />
         </button>
-        
-        <button onClick={toggleTheme} className="w-12 h-12 flex items-center justify-center text-slate-400 hover:text-white transition-colors">
-          {theme === 'dark' ? <Moon size={20} fill="currentColor" /> : <Sun size={20} className="text-yellow-500" fill="currentColor" />}
-        </button>
-        
-        <button 
-          onClick={toggleLanguage} 
-          className="w-10 h-10 rounded-full flex items-center justify-center text-[10px] font-black border border-slate-700 text-slate-300 hover:text-white hover:border-white transition-all ml-1" 
-          title="Canviar Idioma"
-        >
-          {(language || 'VA').split('-')[0].toUpperCase()}
-        </button>
-        
         {user && (
           <div className="relative">
             <button className="w-12 h-12 flex items-center justify-center text-slate-400 hover:text-white transition-colors" onClick={() => navigate("/notificacions")}>

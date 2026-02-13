@@ -1,7 +1,7 @@
 {
   "name": "soc-de-poble",
   "private": true,
-  "version": "1.21.0",
+  "version": "1.25.0",
   "type": "module",
   "scripts": {
     "dev": "vite",

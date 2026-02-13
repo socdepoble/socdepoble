@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { MoreHorizontal, Heart, MessageCircle, Share2, Tag, Zap, ShieldCheck, Beaker, Sparkles, Edit, Trash2, Plus, FileText, ChevronRight, UserPlus, MapPin, Landmark, Image as ImageIcon, ScanLine, Ruler, Globe } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useUI } from '../context/UIContext';
 import { useAuth } from '../context/AuthContext';
@@ -39,7 +39,7 @@ const UniversalCard = ({
     const [hasImageError, setHasImageError] = useState(false);
     const cardVariant = variant || mode;
     const { t } = useTranslation();
-    const { gloveMode, openViewer, forensicMode: contextForensic, blueprintMode } = useUI();
+    const { gloveMode, openViewer, forensicMode: contextForensic, blueprintMode, setIsGuestInteractionModalOpen } = useUI();
     const isForensic = forcedForensic || contextForensic;
     const { isAdmin, user } = useAuth();
     const navigate = useNavigate();
@@ -94,6 +94,13 @@ const UniversalCard = ({
 
     const handleConnectClick = (e) => {
         e.stopPropagation();
+
+        // [PROTOCOL COMUNITAT OBERTA v11.2.0] Blindatge de Convidat
+        if (user?.isAnonymous) {
+            setIsGuestInteractionModalOpen(true);
+            return;
+        }
+
         const choice = window.confirm(
             "COM VOLS CONNECTAR?\n\n" +
             "✅ PÚBLICA: Es mostrarà al mur com a 'Aliat del Poble'.\n" +
@@ -338,7 +345,14 @@ const UniversalCard = ({
                                 <MessageCircle size={22} />
                             </button>
                         </div>
-                        <button className="btn-mercat-buy" onClick={() => navigate(`/mercat/${item.id}`)}>
+                        <button className="btn-mercat-buy" onClick={(e) => {
+                            e.stopPropagation();
+                            if (user?.isAnonymous) {
+                                setIsGuestInteractionModalOpen(true);
+                            } else {
+                                navigate(`/mercat/${item.id}`);
+                            }
+                        }}>
                             <span>COMPRAR-LO {displayPrice}</span>
                         </button>
                     </div>
@@ -450,7 +464,9 @@ const UniversalCard = ({
         </article>
     );
 
-    return blueprintMode ? (
+    const location = useLocation();
+
+    return (blueprintMode && location.pathname.startsWith('/chats')) ? (
         <BlueprintOverlay label={`CARD_UNIT`} dimensions={`${cardVariant.toUpperCase()} | R: 28PX`} color="cyan">
             {CardContent}
         </BlueprintOverlay>

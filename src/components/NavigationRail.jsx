@@ -6,40 +6,42 @@ import {
   LogOut, Plus, Map, Bell, Settings, X, Folder, Users, Briefcase, PenTool, Ruler
 } from 'lucide-react';
 import { useUI } from '../context/UIContext';
+import { useAuth } from '../context/AuthContext';
+
+const SIDEBAR_ITEMS = [
+    { id: 'mur', label: "Mur d'Històries", icon: LayoutGrid, to: '/mur' },
+    { id: 'mercat', label: 'Mercat Rural', icon: Store, to: '/mercat' },
+    { id: 'poble', label: 'Pobles', icon: MapPin, to: '/pobles' },
+    { id: 'esdeveniments', label: 'Esdeveniments', icon: Calendar, to: '/calendari' },
+    { id: 'mapa', label: 'Mapa', icon: Map, to: '/mapa' },
+];
+
+const SIDEBAR_ORG = [
+    { id: 'perfil', label: 'El meu Perfil', icon: User, to: '/perfil' },
+    { id: 'iaia_hub', label: 'La IAIA (Hub)', icon: MessageSquare, to: '/iaia' },
+    { id: 'dossier', label: 'Dossier de Socis', icon: Briefcase, to: '/dossier' },
+    { id: 'trellat', label: 'Taller de Trellat', icon: Settings, to: '/tools/trellat' },
+    { id: 'arxiu', label: "L'Arxiu d'Or", icon: Database, to: '/arxiu' },
+    { id: 'directori', label: "Directori de Veïns", icon: Users, to: '/directori' },
+];
+
+const SIDEBAR_COLLECTIONS = [
+    { id: 'col_xat', label: 'xat', icon: Folder, to: '/chats' },
+    { id: 'col_gent', label: 'gent', icon: Folder, to: '/directori' },
+    { id: 'mapa', label: 'Mapa d\'Actius', icon: Map, to: '/mapa' },
+    { id: 'calendari_master', label: 'Calendari Master', icon: Calendar, to: '/calendari' },
+    { id: 'album_global', label: 'Àlbum Global', icon: ImageIcon, to: '/fotos/global' },
+];
 
 const NavigationRail = () => {
-    const { setIsCreateModalOpen, closeDrawer, forensicMode, toggleForensicMode, blueprintMode, toggleBlueprintMode } = useUI();
+    const { setIsCreateModalOpen, closeDrawer, forensicMode, toggleForensicMode, blueprintMode, toggleBlueprintMode, setIsGuestInteractionModalOpen } = useUI();
+    const { user } = useAuth();
 
     const handleNavClick = () => {
         if (window.innerWidth < 1024) {
             closeDrawer();
         }
     };
-
-    const NAV_ITEMS = [
-        { id: 'mur', label: "Mur d'Històries", icon: LayoutGrid, to: '/mur' },
-        { id: 'mercat', label: 'Mercat Rural', icon: Store, to: '/mercat' },
-        { id: 'poble', label: 'Pobles', icon: MapPin, to: '/pobles' },
-        { id: 'esdeveniments', label: 'Esdeveniments', icon: Calendar, to: '/calendari' },
-        { id: 'mapa', label: 'Mapa', icon: Map, to: '/mapa' },
-    ];
-
-    const ORG_ITEMS = [
-        { id: 'perfil', label: 'El meu Perfil', icon: User, to: '/perfil' },
-        { id: 'iaia_hub', label: 'La IAIA (Hub)', icon: MessageSquare, to: '/iaia' },
-        { id: 'dossier', label: 'Dossier de Socis', icon: Briefcase, to: '/dossier' },
-        { id: 'trellat', label: 'Taller de Trellat', icon: Settings, to: '/tools/trellat' },
-        { id: 'arxiu', label: "L'Arxiu d'Or", icon: Database, to: '/arxiu' },
-        { id: 'directori', label: "Directori de Veïns", icon: Users, to: '/directori' },
-    ];
-
-    const COLLECTION_ITEMS = [
-        { id: 'col_xat', label: 'xat', icon: Folder, to: '/chats' },
-        { id: 'col_gent', label: 'gent', icon: Folder, to: '/directori' },
-        { id: 'mapa', label: 'Mapa d\'Actius', icon: Map, to: '/mapa' },
-        { id: 'calendari_master', label: 'Calendari Master', icon: Calendar, to: '/calendari' },
-        { id: 'album_global', label: 'Àlbum Global', icon: ImageIcon, to: '/fotos/global' },
-    ];
 
     return (
         <aside className="w-[280px] h-full flex-shrink-0 flex flex-col bg-black z-20">
@@ -54,7 +56,14 @@ const NavigationRail = () => {
             <div className="p-5 flex flex-col gap-3">
                 {/* BOTÓ 1: AFEGIR (GÉNESIS) - AZUL - TACTILE 48px+ */}
                 <button 
-                    onClick={() => { setIsCreateModalOpen(true); handleNavClick(); }}
+                    onClick={() => { 
+                        if (user?.isAnonymous) {
+                            setIsGuestInteractionModalOpen(true);
+                        } else {
+                            setIsCreateModalOpen(true); 
+                        }
+                        handleNavClick(); 
+                    }}
                     className="w-full h-14 bg-[#4F46E5] hover:bg-[#4338ca] text-white rounded-2xl font-black flex items-center justify-center gap-2 shadow-lg transition-all active:scale-95"
                 >
                     <Plus size={20} strokeWidth={3} />
@@ -83,7 +92,7 @@ const NavigationRail = () => {
 
             {/* NAVEGACIÓ SCROLLABLE */}
             <div className="flex-1 overflow-y-auto px-4 space-y-1 custom-scrollbar pb-10 min-w-0 flex-shrink-0">
-                {NAV_ITEMS.map(item => (
+                {SIDEBAR_ITEMS.map(item => (
                     <NavLink 
                         key={item.id} 
                         to={item.to}
@@ -104,7 +113,7 @@ const NavigationRail = () => {
                 <div className="my-4 border-t border-white/5 mx-4"></div>
                 <h3 className="px-5 text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] mb-3">Organització</h3>
 
-                {ORG_ITEMS.map(item => (
+                {SIDEBAR_ORG.map(item => (
                     <NavLink 
                         key={item.id} 
                         to={item.to}
@@ -120,7 +129,7 @@ const NavigationRail = () => {
                 <div className="my-4 border-t border-white/5 mx-4"></div>
                 <h3 className="px-5 text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] mb-3">Col·leccions</h3>
 
-                {COLLECTION_ITEMS.map(item => (
+                {SIDEBAR_COLLECTIONS.map(item => (
                     <NavLink 
                         key={item.id} 
                         to={item.to}
@@ -161,7 +170,7 @@ const NavigationRail = () => {
                 </button>
 
                 <div className="mt-4 text-[8px] text-center opacity-30 font-black uppercase tracking-[0.3em] text-white">
-                    v11.1.2-GOLDEN-MASTER
+                    v1.25.0-MASTER-GOLDEN
                 </div>
             </div>
 

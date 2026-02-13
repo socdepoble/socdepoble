@@ -1334,10 +1334,26 @@ export const supabaseService = {
                 if (townId === primaryTownId) connectionStrength += 500;
                 if (townId === secondaryTownId) connectionStrength += 250;
 
+                // [MASTER PRIORITY] Benimassot, La Torre, Penàguila
+                const lowerName = town.name?.toLowerCase() || "";
+                if (lowerName.includes("benimassot") || 
+                    lowerName.includes("la torre") || 
+                    lowerName.includes("penàguila")) {
+                    connectionStrength += 5000; // Force to top
+                }
+
+                // [MASTER IMAGE FALLBACK]
+                let townImage = town.image_url;
+                if (!townImage) {
+                  if (lowerName.includes("benimassot")) townImage = "/assets/pobles/vistes/img_benimassot_main.jpg";
+                  if (lowerName.includes("la torre")) townImage = "/assets/pobles/vistes/img_la_torre_de_les_ma_anes_main.jpg";
+                  if (lowerName.includes("penàguila")) townImage = "/assets/pobles/vistes/img_pen_guila_main.jpg";
+                }
+
                 return {
                     ...town,
                     logo_url: normalizeWikipediaUrl(town.logo_url),
-                    image_url: normalizeWikipediaUrl(town.image_url),
+                    image_url: normalizeWikipediaUrl(townImage),
                     connection_strength: connectionStrength,
                     is_community: true // Diferenciació Poble vs Ajuntament
                 };

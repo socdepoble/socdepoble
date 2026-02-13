@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { Plus } from 'lucide-react';
 import NavigationRail from './NavigationRail';
 import { useUI } from '../context/UIContext';
@@ -50,6 +50,7 @@ const ProtectedRoute = ({ children }) => {
 
 const AppLayout = () => {
     const { isDrawerOpen, closeDrawer, architectMode, blueprintMode } = useUI();
+    const location = useLocation();
     
     // [PROTOCOL v10.24.0-MOBILE-FIX] Injecció forçada de Viewport per a evitar escalat d'escriptori
     React.useEffect(() => {
@@ -104,8 +105,8 @@ const AppLayout = () => {
             {/* 1. SIDEBAR (LA ROCA - 280px) - JUMBO DRAWER */}
             <aside className={`
                 sidebar-desktop
-                ${isDrawerOpen ? 'drawer-open' : ''}
-                lg:relative lg:translate-x-0 lg:block min-w-0 flex-shrink-0
+                ${isDrawerOpen ? 'drawer-open lg:block' : 'hidden lg:block'}
+                lg:relative lg:translate-x-0 min-w-0 flex-shrink-0
             `}>
                 {blueprintMode ? (
                     <BlueprintOverlay label="SIDEBAR_FIXED" dimensions="280px" color="blue" showBackupLink={true}>
@@ -133,18 +134,18 @@ const AppLayout = () => {
                             )}
                         </Suspense>
                         <div className="flex-1 relative min-w-0 overflow-y-auto custom-scrollbar">
-                            {blueprintMode && <BlueprintOverlay label="VIEWPORT_FLEX" dimensions="AUTO" color="cyan" />}
+                            {blueprintMode && location.pathname.startsWith('/chats') && <BlueprintOverlay label="VIEWPORT_FLEX" dimensions="AUTO" color="cyan" />}
                             <Routes>
                                 <Route path="/login" element={<Login />} />
-                                <Route path="/" element={<Navigate to="/chats" replace />} />
+                                <Route path="/" element={<Navigate to="/mur" replace />} />
                                 
                                 <Route path="/chats/*" element={<ProtectedRoute><ChatLayout /></ProtectedRoute>}>
                                     <Route index element={<ChatEmptyState />} />
                                     <Route path=":id" element={<ChatDetail />} />
                                 </Route>
 
-                                <Route path="/mur" element={<Feed hideHeader={true} />} />
-                                <Route path="/mercat" element={<Marketplace hideHeader={true} />} />
+                                <Route path="/mur" element={<Feed />} />
+                                <Route path="/mercat" element={<Marketplace />} />
                                 <Route path="/iaia" element={<IAIAPage />} />
                                 <Route path="/pobles" element={<Towns />} />
                                 <Route path="/pobles/:id" element={<TownDetail />} />
