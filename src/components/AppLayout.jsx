@@ -137,7 +137,7 @@ const AppLayout = () => {
                             {blueprintMode && location.pathname.startsWith('/chats') && <BlueprintOverlay label="VIEWPORT_FLEX" dimensions="AUTO" color="cyan" />}
                             <Routes>
                                 <Route path="/login" element={<Login />} />
-                                <Route path="/" element={<Navigate to="/mur" replace />} />
+                                <Route path="/" element={<Navigate to="/chats" replace />} />
                                 
                                 <Route path="/chats/*" element={<ProtectedRoute><ChatLayout /></ProtectedRoute>}>
                                     <Route index element={<ChatEmptyState />} />
