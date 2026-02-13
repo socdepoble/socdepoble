@@ -35,6 +35,15 @@ const BlueprintOverlay = ({ label, dimensions, color = "blue", children, classNa
                             BACKUP (LEGAL)
                         </a>
                     )}
+
+                    <a 
+                        href="/ofici" 
+                        onClick={(e) => { e.stopPropagation(); }}
+                        className="ml-2 pl-2 border-l border-white/30 text-cyan-300 hover:text-white transition-colors flex items-center gap-1 font-black"
+                    >
+                        <ScanLine size={10} strokeWidth={3} />
+                        DOC ARCH
+                    </a>
                 </div>
             </div>
         </div>

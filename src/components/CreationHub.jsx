@@ -32,7 +32,7 @@ const CreationHub = () => {
             <div className="relative w-full max-w-lg p-8 rounded-[40px] shadow-2xl transform animate-in zoom-in-95 duration-300 bg-[#1A1A1A] border border-slate-800 text-white overflow-hidden">
                 <button 
                     onClick={() => setIsCreateModalOpen(false)} 
-                    className="absolute top-6 right-6 p-2 rounded-full hover:bg-white/10 transition-colors text-slate-400"
+                    className="absolute top-4 right-4 w-12 h-12 flex items-center justify-center rounded-full bg-black/40 backdrop-blur-md hover:bg-black/60 text-white shadow-lg transition-all active:scale-95"
                 >
                     <X size={24} />
                 </button>

@@ -17,7 +17,7 @@ const ChatLayout = () => {
                 ${id ? 'hidden lg:flex' : 'flex w-full'}
                 flex-col relative
             `}>
-                {blueprintMode && <BlueprintOverlay label="LIST_COLUMN" dimensions="400px" color="blue" />}
+                {blueprintMode && <BlueprintOverlay label="LIST_COLUMN" dimensions={id ? "HIDDEN" : "FULL_WIDTH"} color="blue" />}
                 <ChatList />
             </div>
 

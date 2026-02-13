@@ -79,22 +79,17 @@ const OficiDocumentacio = () => {
 
     return (
         <div className="ofici-page animate-in">
-            <header className="ofici-header">
-                <div className="ofici-logo">
-                    <div className="ofici-icon-wrapper">
-                        <FileText size={32} />
-                    </div>
-                    <div>
-                        <h1>Ofici de Documentació</h1>
-                        <p>Gestió sobirana de tràmits oficials</p>
-                    </div>
+            <div className="px-6 py-8 border-b border-white/5 bg-black/40 backdrop-blur-md mb-8 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div>
+                    <h1 className="text-3xl font-black tracking-tighter uppercase text-white">Ofici de Documentació</h1>
+                    <p className="text-gray-500 font-bold uppercase tracking-widest text-xs">Gestió sobirana de tràmits oficials</p>
                 </div>
 
-                <div className="ofici-iaia-card">
-                    <Bot size={20} className="iaia-blink" />
-                    <p>"Mestre, si vols ajuda amb el paperam de la Xylella, soc ací per a tu."</p>
+                <div className="flex items-center gap-4 p-4 bg-orange-500/10 border border-orange-500/20 rounded-2xl max-w-sm">
+                    <Bot size={20} className="text-orange-500 animate-pulse" />
+                    <p className="text-xs italic text-orange-200/70">"Mestre, si vols ajuda amb el paperam de la Xylella, soc ací per a tu."</p>
                 </div>
-            </header>
+            </div>
 
             <div className="ofici-search-bar">
                 <Search size={20} className="search-icon" />

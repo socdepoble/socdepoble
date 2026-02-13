@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 import { 
   MessageSquare, LayoutGrid, Store, MapPin, 
   User, Database, Calendar, Image as ImageIcon, 
@@ -36,6 +36,7 @@ const SIDEBAR_COLLECTIONS = [
 const NavigationRail = () => {
     const { setIsCreateModalOpen, closeDrawer, forensicMode, toggleForensicMode, blueprintMode, toggleBlueprintMode, setIsGuestInteractionModalOpen } = useUI();
     const { user } = useAuth();
+    const navigate = useNavigate();
 
     const handleNavClick = () => {
         if (window.innerWidth < 1024) {
@@ -46,9 +47,22 @@ const NavigationRail = () => {
     return (
         <aside className="w-[280px] h-full flex-shrink-0 flex flex-col bg-black z-20">
             {/* HEADER SIDEBAR: BLINDAT NEGRE I 64px D'ALÇADA (1er MANDAMENT v9.1.0) */}
-            <div className="h-16 min-h-[64px] flex items-center justify-end px-5 bg-black shrink-0">
-                {/* Botó tancar menú mòbil (dins la zona negra) - TACTILE TARGET 48px */}
-                <button onClick={closeDrawer} className="lg:hidden text-white ml-2 w-12 h-12 flex items-center justify-center">
+            <div className="h-16 min-h-[64px] flex items-center justify-between px-6 bg-black shrink-0 border-b border-white/5">
+                <div 
+                    className="flex items-center cursor-pointer hover:opacity-80 transition-opacity"
+                    onClick={() => {
+                        handleNavClick();
+                        navigate('/');
+                    }}
+                >
+                    <img 
+                        src="/logo-white.png" 
+                        alt="Sóc de Poble" 
+                        className="h-7 w-auto object-contain brightness-200"
+                    />
+                </div>
+                {/* Botó tancar menú mòbil - TACTILE TARGET 48px */}
+                <button onClick={closeDrawer} className="lg:hidden text-white w-12 h-12 flex items-center justify-center">
                     <X size={24} />
                 </button>
             </div>

@@ -36,7 +36,7 @@ const Header = () => {
             <img
               src="/logo-white.png"
               alt="SÓC DE POBLE"
-              className="h-6 lg:h-7 object-contain"
+              className="h-6 lg:h-7 object-contain brightness-200"
               onError={(e) => {
                 e.target.onerror = null;
                 e.target.src = '/logo-white.png';

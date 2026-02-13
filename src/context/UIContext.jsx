@@ -41,6 +41,7 @@ export const UIProvider = ({ children }) => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [forensicMode, setForensicMode] = useState(false);
     const [blueprintMode, setBlueprintMode] = useState(prefs.blueprintMode || false);
+    const [isGuestInteractionModalOpen, setIsGuestInteractionModalOpen] = useState(false);
 
     // [MASTER GENT] Lògica de Poble-Nodo (Cyber-Rural)
     const [selectedTown, setSelectedTown] = useState(prefs.selectedTown || 'La Torre de les Maçanes');
@@ -228,6 +229,8 @@ export const UIProvider = ({ children }) => {
             blueprintMode,
             setBlueprintMode,
             toggleBlueprintMode: () => setBlueprintMode(prev => !prev),
+            isGuestInteractionModalOpen,
+            setIsGuestInteractionModalOpen
         }}>
             {children}
         </UIContext.Provider>

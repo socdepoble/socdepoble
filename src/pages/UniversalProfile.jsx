@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
+import { useI18n } from "../context/I18nContext";
 import { useUI } from "../context/UIContext";
 import { 
   Share2, MapPin, CheckCircle, Link as LinkIcon, 
-  Grid, Heart, Camera, Moon, Sun, Check, Sparkles, BookOpen, Settings, Zap, Archive as HistoryIcon
+  Grid, Heart, Camera, Moon, Sun, Check, Sparkles, BookOpen, Settings, Zap, Archive as HistoryIcon, Globe
 } from 'lucide-react';
 import TownPickerModal from '../components/TownPickerModal';
 import ProfileHeaderPremium from '../components/ProfileHeaderPremium';
@@ -17,6 +18,7 @@ import './UniversalProfile.css';
 const UniversalProfile = () => {
   const { profile } = useAuth();
   const { theme, toggleTheme } = useTheme();
+  const { language, toggleLanguage } = useI18n();
   const { iaiaLevel, setIaiaLevel, architectMode, setArchitectMode } = useUI();
   const [activeTab, setActiveTab] = useState('posts');
   const [isConnected, setIsConnected] = useState(false);
@@ -97,6 +99,20 @@ const UniversalProfile = () => {
                   </div>
                 </div>
                 <button onClick={toggleTheme} className="px-8 h-14 bg-white/10 rounded-full text-base font-black hover:bg-white/20 transition-all uppercase tracking-widest">Canviar</button>
+              </div>
+
+              {/* Idioma (Nou v11.0.6) */}
+              <div className="flex items-center justify-between p-6 bg-black/20 rounded-3xl border border-white/5">
+                <div className="flex items-center gap-4">
+                  <div className="p-4 bg-zinc-800 rounded-2xl text-cyan-500">
+                    <Globe size={28} />
+                  </div>
+                  <div>
+                    <h4 className="font-black text-lg uppercase">Idioma</h4>
+                    <p className="text-base text-gray-400 font-bold uppercase tracking-widest">Llengua bategant: {language === 'VA' ? 'VALENCIÀ' : 'CASTELLÀ'}</p>
+                  </div>
+                </div>
+                <button onClick={toggleLanguage} className="px-8 h-14 bg-white/10 rounded-full text-base font-black hover:bg-white/20 transition-all uppercase tracking-widest">{(language || 'VA').split('-')[0].toUpperCase()}</button>
               </div>
 
               {/* IAIA Level */}

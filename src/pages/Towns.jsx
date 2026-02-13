@@ -78,6 +78,7 @@ const Towns = () => {
 
             try {
                 const data = await supabaseService.getTowns();
+                logger.log('[Towns] Data bategada des de Supabase:', data?.length, 'pobles trobats.');
                 setTowns(data);
                 // Save for next time
                 localStorage.setItem('lc_towns_all', JSON.stringify(data));
@@ -173,28 +174,40 @@ const Towns = () => {
             <div className="towns-content-area">
                 {currentTab === 'pobles' && (
                     <div className="towns-grid">
-                        {sortedTowns.map(town => (
-                            <Link
-                                key={town.uuid || town.id}
-                                to={`/pobles/${town.uuid || town.id}`}
-                                className={`town-card-link ${(town.uuid === profile?.town_uuid || town.id === profile?.town_id) ? 'is-user-town' : ''}`}
-                            >
-                                <UniversalCard
-                                    item={town}
-                                    subtitle={town.name}
-                                    avatarSrc={town.logo_url}
-                                    avatarName={town.name}
-                                    className="town-card animate-in-up"
-                                    image={town.image_url}
-                                    mode="pobles"
-                                    isBating={town.uuid === localStorage.getItem('last_active_town_id') || town.id === parseInt(localStorage.getItem('last_active_town_id'))}
+                        {sortedTowns.length > 0 ? (
+                            sortedTowns.map(town => (
+                                <Link
+                                    key={town.uuid || town.id}
+                                    to={`/pobles/${town.uuid || town.id}`}
+                                    className={`town-card-link ${(town.uuid === profile?.town_uuid || town.id === profile?.town_id) ? 'is-user-town' : ''}`}
                                 >
-                                    <div className="town-description-mini text-sm italic opacity-80 line-clamp-2" style={{ padding: '10px 0' }}>
-                                        {town.description || 'Explora la saviesa i el batec d\'aquest poble.'}
-                                    </div>
-                                </UniversalCard>
-                            </Link>
-                        ))}
+                                    <UniversalCard
+                                        item={town}
+                                        subtitle={town.name}
+                                        avatarSrc={town.logo_url}
+                                        avatarName={town.name}
+                                        className="town-card animate-in-up"
+                                        image={town.image_url}
+                                        mode="pobles"
+                                        isBating={town.uuid === localStorage.getItem('last_active_town_id') || town.id === parseInt(localStorage.getItem('last_active_town_id'))}
+                                    >
+                                        <div className="town-description-mini text-sm italic opacity-80 line-clamp-2" style={{ padding: '10px 0' }}>
+                                            {town.description || 'Explora la saviesa i el batec d\'aquest poble.'}
+                                        </div>
+                                    </UniversalCard>
+                                </Link>
+                            ))
+                        ) : (
+                            <div className="col-span-full py-20 text-center opacity-50 font-black uppercase tracking-widest">
+                                <p>No s'han trobat pobles actius</p>
+                                <button 
+                                    onClick={() => window.location.reload()} 
+                                    className="mt-4 px-6 py-2 border border-white/20 hover:bg-white/10 transition-colors"
+                                >
+                                    BATEGAR DE NOU
+                                </button>
+                            </div>
+                        )}
                     </div>
                 )}
 

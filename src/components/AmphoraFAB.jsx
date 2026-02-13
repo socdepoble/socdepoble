@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Plus } from 'lucide-react';
 import { useUI } from '../context/UIContext';
+import { useAuth } from '../context/AuthContext';
 import hapticService from '../services/hapticService';
 import cameraService from '../services/CameraService';
 import './AmphoraFAB.css';
@@ -10,11 +11,18 @@ import './AmphoraFAB.css';
  * Gestió de permisos Just-in-Time i obertura del CreationHub.
  */
 const AmphoraFAB = () => {
-    const { setIsCreateModalOpen } = useUI();
+    const { setIsCreateModalOpen, setIsGuestInteractionModalOpen } = useUI();
+    const { user } = useAuth();
     const [showPrivacyNotice, setShowPrivacyNotice] = useState(false);
 
     const handleClick = async () => {
         hapticService.batec();
+
+        // [PROTOCOL COMUNITAT OBERTA v11.2.0] Blindatge de Convidat
+        if (user?.isAnonymous) {
+            setIsGuestInteractionModalOpen(true);
+            return;
+        }
 
         // Protocol de Privacitat: Només comprovem si tenim permisos si anem a usar la càmera
         // Però per al CreationHub general, només obrim el modal.

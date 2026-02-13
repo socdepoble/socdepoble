@@ -25,7 +25,7 @@ import './Auth.css';
 // }
 
 const Login = () => {
-    const { adoptPersona, setIsPlayground, forceNukeSimulation, setLanguage, user } = useAuth();
+    const { adoptPersona, setIsPlayground, forceNukeSimulation, setLanguage, user, loginAsGuestAnonymous } = useAuth();
     const { t, i18n } = useTranslation();
     const activeLang = i18n.language || 'va';
     const navigate = useNavigate();
@@ -284,6 +284,30 @@ const Login = () => {
 
                 {successMessage && <div className="auth-success-alert fade-in">{successMessage}</div>}
                 {error && <div className="auth-error shake">{error}</div>}
+
+                {/* BOTÓ MESTRE: ENTRAR SENSE REGISTRE (PROTOCOL COMUNITAT OBERTA v11.2.0) */}
+                {step === 'input' && (
+                    <div className="auth-guest-access-v2" style={{ marginBottom: '24px' }}>
+                        <button 
+                            onClick={() => {
+                                hapticService.batec();
+                                loginAsGuestAnonymous();
+                                navigate('/mur'); // Portem al Mur directament per a browsing
+                            }}
+                            className="auth-button main-btn guest-prime-btn"
+                            style={{ 
+                                background: 'linear-gradient(135deg, #FF6B00 0%, #FF9E00 100%)',
+                                border: 'none',
+                                boxShadow: '0 8px 32px rgba(255, 107, 0, 0.3)',
+                                height: '64px',
+                                fontSize: '1.2rem',
+                                letterSpacing: '0.1em'
+                            }}
+                        >
+                            ENTRAR SENSE REGISTRE 🏺🔓
+                        </button>
+                    </div>
+                )}
 
                 {authMethod === 'phone' ? (
                     <div className="phone-auth-section">

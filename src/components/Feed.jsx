@@ -30,7 +30,7 @@ import CronistaSummaryModal from './CronistaSummaryModal';
 const IAIA_INITIAL_DELAY_MS = 10000;
 const IAIA_INTERVAL_MS = 120000;
 
-const Feed = ({ townId = null, hideHeader = false, customPosts = null, contentMode = 'batec' }) => {
+const Feed = ({ townId = null, customPosts = null, contentMode = 'batec' }) => {
     const { t } = useTranslation();
     const navigate = useNavigate();
     // const { user, profile, isPlayground, loading: authLoading, isAdmin, isSuperAdmin } = useAuth();
@@ -46,7 +46,7 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null, contentMo
     const [loadingMore, setLoadingMore] = useState(false);
     const [summaryContent, setSummaryContent] = useState('');
     const [showSummaryModal, setShowSummaryModal] = useState(false);
-    const [selectedRole, setSelectedRole] = useState('tot');
+    const [selectedRole] = useState('tot');
     const [selectedTag, setSelectedTag] = useState(null);
     const [isIAIAFiltering, setIsIAIAFiltering] = useState(localStorage.getItem('isIAIAFiltering') === 'true');
     const [error, setError] = useState(null);
@@ -346,16 +346,7 @@ const Feed = ({ townId = null, hideHeader = false, customPosts = null, contentMo
                 description={t('mur.description') || 'Connecta amb la teua comunitat i descobreix les darreres novetats del teu poble.'}
                 image="/og-mur.png"
             />
-            {!hideHeader && (
-                <header className="page-header-with-tabs">
-                    <div className="header-tabs-wrapper">
-                        <CategoryTabs selectedRole={selectedRole} onSelectRole={(role) => {
-                            setSelectedRole(role);
-                            setSelectedTag(null);
-                        }} />
-                    </div>
-                </header>
-            )}
+            {/* REDUNDÀNCIA DE CABECERA ELIMINADA (v11.0.6) */}
 
             {/* Semantic Heading for SEO/A11y */}
             <h1 className="sr-only">Mur d'Activitat i Notícies de Sóc de Poble</h1>

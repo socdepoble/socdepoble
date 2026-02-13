@@ -4,7 +4,6 @@ import {
     Search, Globe, Moon, Sun, Bell, 
     MoreVertical, MapPin, Menu, Plus, MessageSquare
 } from 'lucide-react';
-import { useUI } from '../context/UIContext';
 import { useAuth } from '../context/AuthContext';
 import { supabaseService } from '../services/supabaseService';
 import Avatar from './Avatar';
@@ -18,7 +17,6 @@ const AGENTS = [
 ];
 
 const ChatList = () => {
-    const { toggleTheme, darkMode, profile, openDrawer } = useUI();
     const { user } = useAuth();
     const location = useLocation();
     const navigate = useNavigate();
@@ -85,46 +83,9 @@ const ChatList = () => {
             {/* HEADER LLISTA: MONÒLIT NEGRE 64px (v10.12) */}
             <header className="h-16 px-4 flex items-center bg-black border-b border-gray-800/50 flex-shrink-0 z-30 text-white">
                 
-                {/* Botó Menú Mòbil */}
-                <button 
-                    onClick={openDrawer}
-                    className="md:hidden p-2 -ml-2 text-white hover:bg-white/10 rounded-full mr-3 transition-colors"
-                >
-                    <Menu size={24} />
-                </button>
-
-                {/* Marca Mòbil (Centrada) */}
-                <div className="md:hidden flex-1 flex justify-center pr-8">
-                    <img 
-                      src="/assets/master/logo_socdepoble_white_full.png" 
-                      alt="SÓC DE POBLE" 
-                      className="h-8 w-auto object-contain" 
-                      onError={(e) => {
-                        e.target.style.display = 'none';
-                        e.target.nextSibling.style.display = 'block';
-                      }}
-                    />
-                    <span className="hidden font-bold tracking-[0.15em] uppercase text-white">SÓC DE POBLE</span>
-                </div>
-
-                {/* Eines Escriptori - ANCORADES A LA DRETA (ml-auto) */}
-                <div className="hidden md:flex items-center gap-3 ml-auto">
-                    <Search size={20} className="text-gray-400 hover:text-white cursor-pointer transition-colors" />
-                    
-                    <button onClick={toggleTheme} className="text-gray-400 hover:text-yellow-400 transition-colors p-1.5">
-                        {darkMode ? <Moon size={20} /> : <Sun size={20} />}
-                    </button>
-
-                    <span className="text-[#FF6B00] text-lg">✨</span>
-
-                    <div className="relative cursor-pointer group p-1.5">
-                        <Bell size={20} className="text-gray-400 group-hover:text-white" />
-                        <span className="absolute top-0 right-0 bg-red-600 text-white text-[9px] font-black w-4 h-4 flex items-center justify-center rounded-full border border-black">3</span>
-                    </div>
-                    
-                    <div className="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center text-xs font-black text-white border border-gray-600 cursor-pointer overflow-hidden hover:border-[#FF6B00] transition-colors">
-                        {profile?.avatar_url ? <img src={profile.avatar_url} alt="Avatar" className="w-full h-full object-cover" /> : user?.email?.substring(0,2).toUpperCase() || 'JL'}
-                    </div>
+                {/* REDUNDÀNCIES ELIMINADES (v11.0.6) - LA CABECERA SUPERIOR ÉS L'ALTAR ÚNIC */}
+                <div className="flex-1 text-[#FF6B00] font-black uppercase tracking-[0.2em] text-[10px] text-center opacity-50">
+                    Bategant Ara mateix
                 </div>
             </header>
 

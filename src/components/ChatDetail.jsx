@@ -9,6 +9,7 @@ import EmojiPicker from 'emoji-picker-react';
 import { useTranslation } from 'react-i18next';
 import { supabaseService } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
+import { useUI } from '../context/UIContext';
 import Avatar from './Avatar';
 import StatusLoader from './StatusLoader';
 import { logger } from '../utils/logger';
@@ -20,6 +21,7 @@ const ChatDetail = () => {
     const navigate = useNavigate();
     const { t } = useTranslation();
     const { user, impersonatedProfile, activeEntityId, isSuperAdmin } = useAuth();
+    const { setIsGuestInteractionModalOpen } = useUI();
     const [chat, setChat] = useState(null);
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
@@ -65,6 +67,13 @@ const ChatDetail = () => {
 
     const handleSendMessage = async (e) => {
         e.preventDefault();
+
+        // [PROTOCOL COMUNITAT OBERTA v11.2.0] Blindatge de Convidat
+        if (user?.isAnonymous) {
+            setIsGuestInteractionModalOpen(true);
+            return;
+        }
+
         if (!newMessage.trim()) return;
         const text = newMessage.trim();
         setNewMessage('');

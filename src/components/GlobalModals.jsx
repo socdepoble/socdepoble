@@ -13,6 +13,7 @@ import TallerTrellat from './TallerTrellat';
 import IAIARoleSelectorModal from './IAIARoleSelectorModal';
 import MagicPregoner from './MagicPregoner';
 import CreationHub from './CreationHub';
+import GuestInteractionModal from './GuestInteractionModal';
 
 const GlobalModals = () => {
     const {
@@ -182,6 +183,7 @@ const GlobalModals = () => {
                 />
             )}
             {isCreateModalOpen && <CreationHub />}
+            <GuestInteractionModal />
         </>
     );
 };

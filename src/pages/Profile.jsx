@@ -8,8 +8,13 @@ import {
   Camera, 
   Link as LinkIcon, 
   CheckCircle,
-  Save
+  Save,
+  Moon,
+  Sun,
+  Globe
 } from 'lucide-react';
+import { useTheme } from '../context/ThemeContext';
+import { useI18n } from '../context/I18nContext';
 
 /**
  * ⚠️ NOTA NUCLEAR PER A FLASH ⚠️
@@ -24,7 +29,8 @@ import {
  */
 
 const Profile = () => {
-  // ESTATS
+  const { theme, toggleTheme } = useTheme();
+  const { language, toggleLanguage } = useI18n();
   const [activeTab, setActiveTab] = useState('posts');
   const [isConnected, setIsConnected] = useState(false); // L'Eix del Sistema
   const [isEditing, setIsEditing] = useState(false); // Mode Edició
@@ -90,6 +96,17 @@ const Profile = () => {
           />
           
           <div className="absolute top-6 right-6 z-20 flex gap-3">
+             {/* CONFIGURACIÓ RÀPIDA (Migrada de Header) */}
+             <button onClick={toggleTheme} className="p-3 bg-black/40 backdrop-blur-md rounded-full hover:bg-white/10 transition-all border border-white/10 group">
+                {theme === 'dark' ? <Moon size={20} className="text-white" /> : <Sun size={20} className="text-yellow-400" />}
+             </button>
+             <button onClick={toggleLanguage} className="px-4 py-2 bg-black/40 backdrop-blur-md rounded-full hover:bg-white/10 transition-all border border-white/10 font-bold text-[10px] text-white">
+                <div className="flex items-center gap-2">
+                    <Globe size={14} />
+                    {(language || 'VA').split('-')[0].toUpperCase()}
+                </div>
+             </button>
+
              <button className="p-3 bg-black/40 backdrop-blur-md rounded-full hover:bg-white/10 transition-all border border-white/10 group">
               <Share2 size={20} className="text-white group-hover:scale-110" />
             </button>

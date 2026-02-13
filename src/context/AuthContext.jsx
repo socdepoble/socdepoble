@@ -120,6 +120,22 @@ export const AuthProvider = ({ children }) => {
         });
     };
 
+    const loginAsGuestAnonymous = () => {
+        logger.log('[AuthContext] Entering as Guest Anonymous (Open Community)');
+        const guestUser = {
+            id: 'guest_' + Math.random().toString(36).substr(2, 9),
+            full_name: 'Visitant Gentil',
+            username: 'guest',
+            role: 'guest',
+            isAnonymous: true,
+            avatar_url: '/assets/avatars/guest_avatar.png'
+        };
+        setUser(guestUser);
+        setProfile(guestUser);
+        localStorage.setItem('isGuestMode', 'true');
+        setLoading(false);
+    };
+
     const forceNukeSimulation = async () => {
         logger.log('[AuthContext] NUCLEAR RESET TRIGGERED - PURGING SIMULATION');
 
@@ -343,6 +359,18 @@ export const AuthProvider = ({ children }) => {
                 }
                 setRealUser(null);
                 setRealProfile(null);
+            } else if (localStorage.getItem('isGuestMode') === 'true') {
+                logger.log('[AuthContext] Restoring Guest Anonymous session');
+                const guestUser = {
+                    id: 'guest_restored',
+                    full_name: 'Visitant Gentil',
+                    username: 'guest',
+                    role: 'guest',
+                    isAnonymous: true,
+                    avatar_url: '/assets/avatars/guest_avatar.png'
+                };
+                setUser(guestUser);
+                setProfile(guestUser);
             } else if (isSobiraSession) {
                 const sobira = identityService.getStoredIdentity();
                 logger.log('[AuthContext] Recovering Sovereign Identity (0ms entry):', sobira.username);
@@ -450,7 +478,8 @@ export const AuthProvider = ({ children }) => {
             isAdmin: !simulatedRole ? (((typeof CREATOR_EMAILS !== 'undefined' ? CREATOR_EMAILS : [])).includes(realUser?.email) || [USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN].includes(profile?.role)) : (simulatedRole === USER_ROLES.ADMIN || simulatedRole === USER_ROLES.SUPER_ADMIN),
             isEditor: !simulatedRole ? (((typeof CREATOR_EMAILS !== 'undefined' ? CREATOR_EMAILS : [])).includes(realUser?.email) || [USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN, USER_ROLES.EDITOR].includes(profile?.role)) : (simulatedRole === USER_ROLES.ADMIN || simulatedRole === USER_ROLES.SUPER_ADMIN || simulatedRole === USER_ROLES.EDITOR),
             language,
-            setLanguage
+            setLanguage,
+            loginAsGuestAnonymous
         }}>
             {children}
         </AuthContext.Provider>

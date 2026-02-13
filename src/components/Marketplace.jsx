@@ -24,8 +24,8 @@ import './Marketplace.css';
 
 const Market = ({ searchTerm = '' }) => {
     const { t } = useTranslation();
-    const { isPlayground, isSuperAdmin } = useAuth();
-    const { visionMode } = useUI();
+    const { isPlayground, isSuperAdmin, user } = useAuth();
+    const { visionMode, setIsGuestInteractionModalOpen } = useUI();
     const navigate = useNavigate();
     const [items, setItems] = useState([]);
     const [, setCategories] = useState([]);
@@ -287,28 +287,32 @@ const Market = ({ searchTerm = '' }) => {
             {/* Semantic Heading for SEO/A11y */}
             <h1 className="sr-only">Mercat de Proximitat de Sóc de Poble</h1>
 
-            <header className="page-header-with-tabs">
-                <div className="header-top-actions px-4 pt-4 flex justify-between items-center">
-                    <h2 className="text-xl font-black text-white uppercase tracking-tighter">Mercat Rural</h2>
-                    <button
-                        className="btn-vendre-sobrants bg-orange-500 text-black font-black px-4 py-2 rounded-none flex items-center gap-2 text-sm shadow-[0_5px_15px_rgba(249,115,22,0.3)] hover:scale-105 active:scale-95 transition-all"
-                        onClick={() => {
+            {/* REDUNDÀNCIA DE CABECERA ELIMINADA (v11.0.6) */}
+            <div className="px-4 pt-4 flex justify-between items-center mb-4">
+                <h2 className="text-xl font-black text-white uppercase tracking-tighter opacity-50">Mercat Rural</h2>
+                <button
+                    className="btn-vendre-sobrants bg-orange-500 text-black font-black px-4 py-2 rounded-none flex items-center gap-2 text-sm shadow-[0_5px_15px_rgba(249,115,22,0.3)] hover:scale-105 active:scale-95 transition-all"
+                    onClick={() => {
+                        if (user?.isAnonymous) {
+                            setIsGuestInteractionModalOpen(true);
+                        } else {
                             hapticService.notifySuccess();
                             navigate('/vendre-excedent');
-                        }}
-                    >
-                        <Plus size={18} strokeWidth={3} />
-                        VENDRE SOBRANTS
-                    </button>
-                </div>
-                <div className="header-tabs-wrapper mt-4">
-                    <CategoryTabs
-                        selectedRole={activeTab}
-                        onSelectRole={setActiveTab}
-                        tabs={marketTabs}
-                    />
-                </div>
-            </header>
+                        }
+                    }}
+                >
+                    <Plus size={18} strokeWidth={3} />
+                    VENDRE SOBRANTS
+                </button>
+            </div>
+            
+            <div className="px-4 mb-6">
+                <CategoryTabs
+                    selectedRole={activeTab}
+                    onSelectRole={setActiveTab}
+                    tabs={marketTabs}
+                />
+            </div>
 
             {/* IAIA PORTERA TOGGLE [PILLAR 4] */}
             <div className="iaia-filter-bar px-4 py-3 flex justify-between items-center font-black border-b border-white/10 bg-black/60 backdrop-blur-2xl sticky top-14 z-20">

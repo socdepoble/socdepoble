@@ -60,10 +60,13 @@ const ChatEmptyState = () => {
 
     return (
         <div className="flex-1 flex flex-col items-center justify-center relative overflow-hidden bg-transparent">
-            {/* Botó per tancar (v10.12) */}
-            <div className="absolute top-6 right-6 z-20">
-                <button className="p-3 bg-white/5 hover:bg-white/10 text-gray-400 rounded-full border border-white/5">
-                    <X size={20} />
+            {/* Botó per tancar (v11.1.2 - PROTOCOL SORTIDA D'EMERGÈNCIA) */}
+            <div className="absolute top-6 right-6 z-50">
+                <button 
+                    onClick={() => window.history.back()}
+                    className="w-12 h-12 flex items-center justify-center bg-black/20 backdrop-blur-md hover:bg-black/60 text-white rounded-full border border-white/10 shadow-2xl transition-all active:scale-90"
+                >
+                    <X size={24} />
                 </button>
             </div>
 
