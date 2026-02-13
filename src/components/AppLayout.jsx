@@ -139,7 +139,7 @@ const AppLayout = () => {
                                 <Route path="/login" element={<Login />} />
                                 <Route path="/" element={<Navigate to="/chats" replace />} />
                                 
-                                <Route path="/chats/*" element={<ProtectedRoute><ChatLayout /></ProtectedRoute>}>
+                                <Route path="/chats/*" element={<ChatLayout />}>
                                     <Route index element={<ChatEmptyState />} />
                                     <Route path=":id" element={<ChatDetail />} />
                                 </Route>
