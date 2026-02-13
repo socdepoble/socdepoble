@@ -6,10 +6,10 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
-    <title>Sóc de Poble - v12.6.1 Tabula Rasa</title>
+    <title>Sóc de Poble - v1.25.0-MASTER-GOLDEN</title>
 
     <script>
-      // --- MASTER NOISE REDUCTION PROTOCOL (v12.6.1) ---
+      // --- MASTER NOISE REDUCTION PROTOCOL (v1.25.0-MASTER-GOLDEN) ---
       // Silence library warnings for a pristine Golden Master console.
       const _warn = console.warn;
       console.warn = function (...args) {
@@ -2370,8 +2370,14 @@
         );
       };
 
+    <!-- Modern App Entry -->
+    <script type="module" src="/src/entry.jsx"></script>
+    
+    <script>
+      /* Legacy Script Disabled
       const root = ReactDOM.createRoot(document.getElementById("root"));
       root.render(<App />);
+      */
     </script>
   </body>
 </html>
