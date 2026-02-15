@@ -1,200 +1,290 @@
-import React from 'react';
-import { useNavigate, NavLink } from 'react-router-dom';
-import { 
-  MessageSquare, LayoutGrid, Store, MapPin, 
-  User, Database, Calendar, Image as ImageIcon, 
-  LogOut, Plus, Map, Bell, Settings, X, Folder, Users, Briefcase, PenTool, Ruler
-} from 'lucide-react';
-import { useUI } from '../context/UIContext';
-import { useAuth } from '../context/AuthContext';
+import React from "react";
+import { useNavigate, NavLink } from "react-router-dom";
+import {
+  MessageSquare,
+  LayoutGrid,
+  Store,
+  MapPin,
+  User,
+  Database,
+  Calendar,
+  Image as ImageIcon,
+  LogOut,
+  Plus,
+  Map,
+  Bell,
+  Settings,
+  X,
+  Folder,
+  Users,
+  Briefcase,
+  PenTool,
+  Ruler,
+} from "lucide-react";
+import { useUI } from "../context/UIContext";
+import { useAuth } from "../context/AuthContext";
 
 const SIDEBAR_ITEMS = [
-    { id: 'mur', label: "Mur d'Històries", icon: LayoutGrid, to: '/mur' },
-    { id: 'mercat', label: 'Mercat Rural', icon: Store, to: '/mercat' },
-    { id: 'poble', label: 'Pobles', icon: MapPin, to: '/pobles' },
-    { id: 'esdeveniments', label: 'Esdeveniments', icon: Calendar, to: '/calendari' },
-    { id: 'mapa', label: 'Mapa', icon: Map, to: '/mapa' },
+  { id: "mur", label: "Mur d'Històries", icon: LayoutGrid, to: "/mur" },
+  { id: "mercat", label: "Mercat Rural", icon: Store, to: "/mercat" },
+  { id: "poble", label: "Pobles", icon: MapPin, to: "/pobles" },
+  {
+    id: "esdeveniments",
+    label: "Esdeveniments",
+    icon: Calendar,
+    to: "/calendari",
+  },
+  { id: "mapa", label: "Mapa", icon: Map, to: "/mapa" },
 ];
 
 const SIDEBAR_ORG = [
-    { id: 'perfil', label: 'El meu Perfil', icon: User, to: '/perfil' },
-    { id: 'iaia_hub', label: 'La IAIA (Hub)', icon: MessageSquare, to: '/iaia' },
-    { id: 'dossier', label: 'Dossier de Socis', icon: Briefcase, to: '/dossier' },
-    { id: 'trellat', label: 'Taller de Trellat', icon: Settings, to: '/tools/trellat' },
-    { id: 'arxiu', label: "L'Arxiu d'Or", icon: Database, to: '/arxiu' },
-    { id: 'directori', label: "Directori de Veïns", icon: Users, to: '/directori' },
+  { id: "perfil", label: "El meu Perfil", icon: User, to: "/perfil" },
+  { id: "iaia_hub", label: "La IAIA (Hub)", icon: MessageSquare, to: "/iaia" },
+  { id: "dossier", label: "Dossier de Socis", icon: Briefcase, to: "/dossier" },
+  {
+    id: "trellat",
+    label: "Taller de Trellat",
+    icon: Settings,
+    to: "/tools/trellat",
+  },
+  { id: "arxiu", label: "L'Arxiu d'Or", icon: Database, to: "/arxiu" },
+  {
+    id: "directori",
+    label: "Directori de Veïns",
+    icon: Users,
+    to: "/directori",
+  },
 ];
 
 const SIDEBAR_COLLECTIONS = [
-    { id: 'col_xat', label: 'xat', icon: Folder, to: '/chats' },
-    { id: 'col_gent', label: 'gent', icon: Folder, to: '/directori' },
-    { id: 'mapa', label: 'Mapa d\'Actius', icon: Map, to: '/mapa' },
-    { id: 'calendari_master', label: 'Calendari Master', icon: Calendar, to: '/calendari' },
-    { id: 'album_global', label: 'Àlbum Global', icon: ImageIcon, to: '/fotos/global' },
+  { id: "col_xat", label: "xat", icon: Folder, to: "/chats" },
+  { id: "col_gent", label: "gent", icon: Folder, to: "/directori" },
+  {
+    id: "calendari_master",
+    label: "Calendari Master",
+    icon: Calendar,
+    to: "/calendari",
+  },
+  {
+    id: "album_global",
+    label: "Àlbum Global",
+    icon: ImageIcon,
+    to: "/fotos/global",
+  },
 ];
 
 const NavigationRail = () => {
-    const { setIsCreateModalOpen, closeDrawer, forensicMode, toggleForensicMode, blueprintMode, toggleBlueprintMode, setIsGuestInteractionModalOpen } = useUI();
-    const { user } = useAuth();
-    const navigate = useNavigate();
+  const {
+    setIsCreateModalOpen,
+    closeDrawer,
+    forensicMode,
+    toggleForensicMode,
+    blueprintMode,
+    toggleBlueprintMode,
+    setIsGuestInteractionModalOpen,
+  } = useUI();
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
-    const handleNavClick = () => {
-        if (window.innerWidth < 1024) {
-            closeDrawer();
-        }
-    };
+  const handleNavClick = () => {
+    if (window.innerWidth < 1024) {
+      closeDrawer();
+    }
+  };
 
-    return (
-        <aside className="w-[280px] h-full flex-shrink-0 flex flex-col bg-black z-20">
-            {/* HEADER SIDEBAR: BLINDAT NEGRE I 64px D'ALÇADA (1er MANDAMENT v9.1.0) */}
-            <div className="h-16 min-h-[64px] flex items-center justify-between px-6 bg-black shrink-0 border-b border-white/5">
-                <div 
-                    className="flex items-center cursor-pointer hover:opacity-80 transition-opacity"
-                    onClick={() => {
-                        handleNavClick();
-                        navigate('/');
-                    }}
-                >
-                    <img 
-                        src="/logo-white.png" 
-                        alt="Sóc de Poble" 
-                        className="h-7 w-auto object-contain brightness-200"
-                    />
-                </div>
-                {/* Botó tancar menú mòbil - TACTILE TARGET 48px */}
-                <button onClick={closeDrawer} className="lg:hidden text-white w-12 h-12 flex items-center justify-center">
-                    <X size={24} />
-                </button>
-            </div>
+  return (
+    <aside className="w-[280px] h-full flex-shrink-0 flex flex-col bg-black z-20">
+      {/* HEADER SIDEBAR: BLINDAT NEGRE I 64px D'ALÇADA (1er MANDAMENT v9.1.0) */}
+      <div className="h-16 min-h-[64px] flex items-center justify-between px-6 bg-black shrink-0 border-b border-white/5">
+        <div
+          className="hidden lg:flex items-center cursor-pointer hover:opacity-80 transition-opacity"
+          onClick={() => {
+            handleNavClick();
+            navigate("/");
+          }}
+        >
+          <img
+            src="/assets/master/logo_socdepoble_white_full.png"
+            alt="Sóc de Poble"
+            className="h-7 w-auto object-contain brightness-200"
+          />
+        </div>
+        {/* Botó tancar menú mòbil - TACTILE TARGET 48px */}
+        <button
+          onClick={closeDrawer}
+          className="lg:hidden text-white w-12 h-12 flex items-center justify-center"
+        >
+          <X size={24} />
+        </button>
+      </div>
 
-            <div className="p-5 flex flex-col gap-3">
-                {/* BOTÓ 1: AFEGIR (GÉNESIS) - AZUL - TACTILE 48px+ */}
-                <button 
-                    onClick={() => { 
-                        if (user?.isAnonymous) {
-                            setIsGuestInteractionModalOpen(true);
-                        } else {
-                            setIsCreateModalOpen(true); 
-                        }
-                        handleNavClick(); 
-                    }}
-                    className="w-full h-14 bg-[#4F46E5] hover:bg-[#4338ca] text-white rounded-2xl font-black flex items-center justify-center gap-2 shadow-lg transition-all active:scale-95"
-                >
-                    <Plus size={20} strokeWidth={3} />
-                    <span className="tracking-widest text-[14px] uppercase">AFEGIR</span>
-                </button>
+      <div className="p-5 flex flex-col gap-3">
+        {/* BOTÓ 1: AFEGIR (GÉNESIS) - AZUL - TACTILE 48px+ */}
+        <button
+          onClick={() => {
+            if (user?.isAnonymous) {
+              setIsGuestInteractionModalOpen(true);
+            } else {
+              setIsCreateModalOpen(true);
+            }
+            handleNavClick();
+          }}
+          className="w-full h-14 bg-[#4F46E5] hover:bg-[#4338ca] text-white rounded-2xl font-black flex items-center justify-center gap-2 shadow-lg transition-all active:scale-95"
+        >
+          <Plus size={20} strokeWidth={3} />
+          <span className="tracking-widest text-[14px] uppercase">AFEGIR</span>
+        </button>
 
-                {/* BOTÓ 2: XAT (BATEGAT) - NARANJA - TACTILE 48px+ */}
-                <NavLink 
-                    to="/chats" 
-                    onClick={handleNavClick}
-                    className={({ isActive }) => `w-full h-14 rounded-2xl font-black flex items-center px-5 gap-4 transition-all
-                        ${isActive ? 'bg-[#FF6B00] text-white shadow-xl scale-[1.02]' : 'bg-transparent text-gray-400 border border-white/10 hover:bg-white/5'}`}
-                >
-                    {({ isActive }) => (
-                        <>
-                            <MessageSquare 
-                                size={20} 
-                                fill={isActive ? 'currentColor' : 'none'} 
-                                className={isActive ? 'text-white' : 'text-gray-400'} 
-                            />
-                            <span className="tracking-wide text-[16px]">Xat</span>
-                        </>
-                    )}
-                </NavLink>
-            </div>
+        {/* BOTÓ 2: XAT (BATEGAT) - NARANJA - TACTILE 48px+ */}
+        <NavLink
+          to="/chats"
+          onClick={handleNavClick}
+          className={({
+            isActive,
+          }) => `w-full h-14 rounded-2xl font-black flex items-center px-5 gap-4 transition-all
+                        ${
+                          isActive
+                            ? "bg-[#FF6B00] text-white shadow-xl scale-[1.02]"
+                            : "bg-transparent text-gray-400 border border-white/10 hover:bg-white/5"
+                        }`}
+        >
+          {({ isActive }) => (
+            <>
+              <MessageSquare
+                size={20}
+                fill={isActive ? "currentColor" : "none"}
+                className={isActive ? "text-white" : "text-gray-400"}
+              />
+              <span className="tracking-wide text-[16px]">Xat</span>
+            </>
+          )}
+        </NavLink>
+      </div>
 
-            {/* NAVEGACIÓ SCROLLABLE */}
-            <div className="flex-1 overflow-y-auto px-4 space-y-1 custom-scrollbar pb-10 min-w-0 flex-shrink-0">
-                {SIDEBAR_ITEMS.map(item => (
-                    <NavLink 
-                        key={item.id} 
-                        to={item.to}
-                        onClick={handleNavClick}
-                        className={({ isActive }) => `w-full flex items-center space-x-4 px-4 h-12 rounded-xl transition-all font-bold
-                            ${isActive ? 'bg-[#FF6B00] text-white shadow-lg' : 'text-gray-400 hover:bg-white/5 hover:text-white'}`}
-                    >
-                        {({ isActive }) => (
-                            <>
-                                <item.icon size={20} className={isActive ? 'text-white' : ''} />
-                                <span className="text-[15px]">{item.label}</span>
-                            </>
-                        )}
-                    </NavLink>
-                ))}
+      {/* NAVEGACIÓ SCROLLABLE */}
+      <div className="flex-1 overflow-y-auto px-4 space-y-1 custom-scrollbar pb-10 min-w-0 flex-shrink-0">
+        {SIDEBAR_ITEMS.map((item) => (
+          <NavLink
+            key={item.id}
+            to={item.to}
+            onClick={handleNavClick}
+            className={({
+              isActive,
+            }) => `w-full flex items-center space-x-4 px-4 h-12 rounded-xl transition-all font-bold
+                            ${
+                              isActive
+                                ? "bg-[#FF6B00] text-white shadow-lg"
+                                : "text-gray-400 hover:bg-white/5 hover:text-white"
+                            }`}
+          >
+            {({ isActive }) => (
+              <>
+                <item.icon size={20} className={isActive ? "text-white" : ""} />
+                <span className="text-[15px]">{item.label}</span>
+              </>
+            )}
+          </NavLink>
+        ))}
 
-                {/* Separador */}
-                <div className="my-4 border-t border-white/5 mx-4"></div>
-                <h3 className="px-5 text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] mb-3">Organització</h3>
+        {/* Separador */}
+        <div className="my-4 border-t border-white/5 mx-4"></div>
+        <h3 className="px-5 text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] mb-3">
+          Organització
+        </h3>
 
-                {SIDEBAR_ORG.map(item => (
-                    <NavLink 
-                        key={item.id} 
-                        to={item.to}
-                        onClick={handleNavClick}
-                        className={({ isActive }) => `w-full flex items-center space-x-4 px-4 h-12 rounded-xl transition-all font-bold
-                            ${isActive ? 'bg-[#FF6B00]/10 text-[#FF6B00]' : 'text-gray-400 hover:bg-white/5 hover:text-white'}`}
-                    >
-                        <item.icon size={20} />
-                        <span className="text-[15px]">{item.label}</span>
-                    </NavLink>
-                ))}
+        {SIDEBAR_ORG.map((item) => (
+          <NavLink
+            key={item.id}
+            to={item.to}
+            onClick={handleNavClick}
+            className={({
+              isActive,
+            }) => `w-full flex items-center space-x-4 px-4 h-12 rounded-xl transition-all font-bold
+                            ${
+                              isActive
+                                ? "bg-[#FF6B00]/10 text-[#FF6B00]"
+                                : "text-gray-400 hover:bg-white/5 hover:text-white"
+                            }`}
+          >
+            <item.icon size={20} />
+            <span className="text-[15px]">{item.label}</span>
+          </NavLink>
+        ))}
 
-                <div className="my-4 border-t border-white/5 mx-4"></div>
-                <h3 className="px-5 text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] mb-3">Col·leccions</h3>
+        <div className="my-4 border-t border-white/5 mx-4"></div>
+        <h3 className="px-5 text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] mb-3">
+          Col·leccions
+        </h3>
 
-                {SIDEBAR_COLLECTIONS.map(item => (
-                    <NavLink 
-                        key={item.id} 
-                        to={item.to}
-                        onClick={handleNavClick}
-                        className={({ isActive }) => `w-full flex items-center space-x-4 px-4 h-12 rounded-xl transition-all font-bold
-                            ${isActive ? 'bg-[#FF6B00]/10 text-[#FF6B00]' : 'text-gray-400 hover:bg-white/5 hover:text-white'}`}
-                    >
-                        <item.icon size={20} />
-                        <span className="text-[15px]">{item.label}</span>
-                    </NavLink>
-                ))}
-            </div>
+        {SIDEBAR_COLLECTIONS.map((item) => (
+          <NavLink
+            key={item.id}
+            to={item.to}
+            onClick={handleNavClick}
+            className={({
+              isActive,
+            }) => `w-full flex items-center space-x-4 px-4 h-12 rounded-xl transition-all font-bold
+                            ${
+                              isActive
+                                ? "bg-[#FF6B00]/10 text-[#FF6B00]"
+                                : "text-gray-400 hover:bg-white/5 hover:text-white"
+                            }`}
+          >
+            <item.icon size={20} />
+            <span className="text-[15px]">{item.label}</span>
+          </NavLink>
+        ))}
+      </div>
 
-            {/* FOOTER SIDEBAR */}
-            <div className="p-4 mt-auto border-t border-white/10 bg-black/50 backdrop-blur-sm">
-                <button className="w-full flex items-center space-x-4 px-4 h-12 text-gray-500 hover:text-red-500 transition-colors font-bold text-[14px]" onClick={() => alert('Sessió tancada. Adéu, Mestre!')}>
-                    <LogOut size={20} />
-                    <span>Tancar Sessió</span>
-                </button>
-                
-                {/* [MASTER FORENSE] Antioblits Toggle */}
-                <button 
-                    onClick={toggleForensicMode}
-                    className={`w-full mt-2 flex items-center space-x-4 px-4 h-10 rounded-lg transition-all font-black text-[10px] uppercase tracking-widest
-                        ${forensicMode ? 'bg-[#ff0000] text-white animate-pulse' : 'bg-red-900/20 text-red-500 border border-red-500/30'}`}
-                >
-                    <Database size={14} />
-                    <span>{forensicMode ? 'FORENSE ACTIU' : 'MODE FORENSE'}</span>
-                </button>
-                
-                <button 
-                    onClick={toggleBlueprintMode}
-                    className={`w-full mt-2 flex items-center space-x-4 px-4 h-10 rounded-lg transition-all font-black text-[10px] uppercase tracking-widest
-                        ${blueprintMode ? 'bg-[#4F46E5] text-white shadow-[0_0_15px_rgba(79,70,229,0.5)]' : 'bg-indigo-900/20 text-indigo-400 border border-indigo-500/30'}`}
-                >
-                    <Ruler size={14} />
-                    <span>{blueprintMode ? 'PLÀNOL ACTIU' : 'MODE PLÀNOL'}</span>
-                </button>
+      {/* FOOTER SIDEBAR */}
+      <div className="p-4 mt-auto border-t border-white/10 bg-black/50 backdrop-blur-sm">
+        <button
+          className="w-full flex items-center space-x-4 px-4 h-12 text-gray-500 hover:text-red-500 transition-colors font-bold text-[14px]"
+          onClick={() => alert("Sessió tancada. Adéu, Mestre!")}
+        >
+          <LogOut size={20} />
+          <span>Tancar Sessió</span>
+        </button>
 
-                <div className="mt-4 text-[8px] text-center opacity-30 font-black uppercase tracking-[0.3em] text-white">
-                    v1.25.0-MASTER-GOLDEN
-                </div>
-            </div>
+        {/* [MASTER FORENSE] Antioblits Toggle */}
+        <button
+          onClick={toggleForensicMode}
+          className={`w-full mt-2 flex items-center space-x-4 px-4 h-10 rounded-lg transition-all font-black text-[10px] uppercase tracking-widest
+                        ${
+                          forensicMode
+                            ? "bg-[#ff0000] text-white animate-pulse"
+                            : "bg-red-900/20 text-red-500 border border-red-500/30"
+                        }`}
+        >
+          <Database size={14} />
+          <span>{forensicMode ? "FORENSE ACTIU" : "MODE FORENSE"}</span>
+        </button>
 
-            <style>{`
+        <button
+          onClick={toggleBlueprintMode}
+          className={`w-full mt-2 flex items-center space-x-4 px-4 h-10 rounded-lg transition-all font-black text-[10px] uppercase tracking-widest
+                        ${
+                          blueprintMode
+                            ? "bg-[#4F46E5] text-white shadow-[0_0_15px_rgba(79,70,229,0.5)]"
+                            : "bg-indigo-900/20 text-indigo-400 border border-indigo-500/30"
+                        }`}
+        >
+          <Ruler size={14} />
+          <span>{blueprintMode ? "PLÀNOL ACTIU" : "MODE PLÀNOL"}</span>
+        </button>
+
+        <div className="mt-4 text-[8px] text-center opacity-30 font-black uppercase tracking-[0.3em] text-white">
+          v1.25.0-MASTER-GOLDEN
+        </div>
+      </div>
+
+      <style>{`
                 .custom-scrollbar::-webkit-scrollbar { width: 6px; }
                 .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
                 .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #333; border-radius: 3px; }
             `}</style>
-        </aside>
-    );
+    </aside>
+  );
 };
 
 export default NavigationRail;

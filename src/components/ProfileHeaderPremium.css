@@ -11,7 +11,7 @@
     aspect-ratio: 16 / 9;
     max-height: 400px; /* Evitem portades gegants en desktop */
     background: var(--bg-edge);
-    border-radius: var(--radius-m) var(--radius-m) 0 0;
+    border-radius: var(--sdp-radius-genesis) var(--sdp-radius-genesis) 0 0;
     overflow: hidden;
 }
 @media (max-width: 768px) {
@@ -105,9 +105,9 @@
 }
 
 .premium-btn-circle.theme-toggle {
-    background: rgba(var(--md-ref-palette-terracotta-40-rgb), 0.2);
-    border-color: var(--color-primary);
-    color: var(--color-primary);
+    background: rgba(var(--sdp-terracotta-rgb, 255, 109, 35), 0.2);
+    border-color: var(--sdp-terracotta);
+    color: var(--sdp-terracotta);
 }
 
 .premium-btn-circle.theme-toggle:hover {
@@ -159,7 +159,7 @@
     background: var(--surface-glass-heavy);
     backdrop-filter: blur(var(--blur-master));
     -webkit-backdrop-filter: blur(var(--blur-master));
-    border-radius: var(--radius-l);
+    border-radius: var(--sdp-radius-genesis);
     border: 1px solid var(--border-subtle);
     box-shadow: var(--shadow-deep);
     z-index: 60;
@@ -311,7 +311,7 @@
 
 .premium-badge {
     padding: 4px 12px;
-    border-radius: 28px;
+    border-radius: var(--sdp-radius-genesis);
     /* Unificat a 28px */
     font-size: 13px;
     font-weight: 950;
@@ -524,11 +524,11 @@
 .profile-premium-header-container.official .premium-avatar-img,
 .profile-premium-header-container.official .premium-identity-card,
 .profile-premium-header-container.official .premium-avatar-wrapper {
-    border-radius: 32px !important;
+    border-radius: var(--sdp-radius-genesis) !important;
 }
 
 .profile-premium-header-container.business .premium-avatar-img {
-    border-radius: 24px;
+    border-radius: var(--sdp-radius-tactile);
 }
 
 /* Edit Mode Inputs (Ghost Style) */

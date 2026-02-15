@@ -8,6 +8,7 @@ import { useAuth } from '../context/AuthContext';
 import { supabaseService } from '../services/supabaseService';
 import Avatar from './Avatar';
 import TownSelectorModal from './TownSelectorModal';
+import { useUI } from '../context/UIContext';
 
 const AGENTS = [
     { id: '11111111-1a1a-0000-0000-000000000000', name: 'IAIA MarIA', role: 'Matriarca', avatar_url: '/assets/avatars/iaia_official.png', last_message_time: new Date(), last_message_content: 'Benvingut al xat del poble.', tag: 'IAIA', color: 'bg-orange-100 text-orange-600' },
@@ -17,7 +18,8 @@ const AGENTS = [
 ];
 
 const ChatList = () => {
-    const { user } = useAuth();
+    const { user, isSuperAdmin } = useAuth();
+    const { visionMode } = useUI();
     const location = useLocation();
     const navigate = useNavigate();
     
@@ -39,11 +41,12 @@ const ChatList = () => {
             try {
                 const dbConvs = await supabaseService.getConversations(user.id);
                 // Injecció Híbrida: Combinem missatges reals amb l'equip d'Agents IAIA
-                const hybridChats = [...(dbConvs || [])];
+                let hybridChats = [...(dbConvs || [])];
                 
                 // Si la categoria és XAT o GENT, ens assegurem que els agents bateguen
-                if (selectedCategory === 'xat' || selectedCategory === 'gent') {
-                    AGENTS.forEach(agent => {
+                if ((selectedCategory === 'xat' || selectedCategory === 'gent') && (visionMode === 'iaia' || visionMode === 'immersiva' || isSuperAdmin)) {
+                    const activeAgents = visionMode === 'immersiva' ? AGENTS : AGENTS.slice(0, 1); // Només IAIA MarIA en mode hídrid
+                    activeAgents.forEach(agent => {
                         if (!hybridChats.find(c => c.id === agent.id || c.other_info?.id === agent.id)) {
                              hybridChats.push({
                                  id: agent.id,
@@ -56,23 +59,38 @@ const ChatList = () => {
                     });
                 }
                 
+                // [VISION MODE FILTER] Purga de fantasmes en xat real
+                if (visionMode === 'humana' && !isSuperAdmin) {
+                    hybridChats = hybridChats.filter(chat => {
+                        const name = String(chat.other_info?.name || '').toUpperCase();
+                        const isAI = chat.id?.startsWith('11111111-') || 
+                                     chat.tag === 'IAIA' || 
+                                     name.includes('IAIA') ||
+                                     name.includes('FLASH') ||
+                                     name.includes('GALL') ||
+                                     name.includes('VIATJANT');
+                        return !isAI;
+                    });
+                }
+                
                 setChats(hybridChats);
             } catch (err) {
                 if (import.meta.env.DEV) {
                     console.error('[ChatList] Error fetching chats:', err);
                 }
                 // Fallback a agents si falla la xarxa
-                setChats(AGENTS.map(a => ({
+                const fallback = (visionMode === 'iaia' || isSuperAdmin) ? AGENTS.map(a => ({
                     id: a.id,
                     other_info: { name: a.name, avatar_url: a.avatar_url, role: a.role },
                     last_message_content: a.last_message_content,
                     last_message_time: a.last_message_time,
                     tag: a.tag
-                })));
+                })) : [];
+                setChats(fallback);
             }
         };
         fetchChats();
-    }, [user?.id, selectedCategory]);
+    }, [user?.id, selectedCategory, visionMode, isSuperAdmin]);
 
     const handleChatClick = (chat) => {
         navigate(`/chats/${chat.id}`);

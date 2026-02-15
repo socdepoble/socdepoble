@@ -50,16 +50,16 @@ const SearchDiscover = () => {
                 supabaseService.searchAllTowns(q),
                 raindropService.getCollection('all'), // Unified Archive for now
                 Promise.resolve(MOCK_EVENTS.filter(e =>
-                    e.title.toLowerCase().includes(q.toLowerCase()) ||
-                    e.description.toLowerCase().includes(q.toLowerCase()) ||
-                    e.location.toLowerCase().includes(q.toLowerCase())
+                    (e.title?.toLowerCase() || '').includes(q.toLowerCase()) ||
+                    (e.description?.toLowerCase() || '').includes(q.toLowerCase()) ||
+                    (e.location?.toLowerCase() || '').includes(q.toLowerCase())
                 ))
             ]);
 
             // Filter archive locally if needed (mock or real)
             const filteredArchive = archive.filter(item =>
-                item.title.toLowerCase().includes(q.toLowerCase()) ||
-                (item.excerpt && item.excerpt.toLowerCase().includes(q.toLowerCase()))
+                (item.title?.toLowerCase() || '').includes(q.toLowerCase()) ||
+                (item.excerpt && (item.excerpt?.toLowerCase() || '').includes(q.toLowerCase()))
             );
 
             setResults({

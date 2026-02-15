@@ -236,10 +236,9 @@ import './Archive.css';
                                  key={obj.id} 
                                  className={`resource-card bg-gray-900 border border-gray-800 group hover:border-gray-500 transition-all duration-300 relative
                                      ${viewMode === 'list' ? 'flex items-center gap-6 p-4' : 'flex flex-col'}`}
-                                 onClick={() => {
-                                     if (obj.type.includes('post')) navigate(`/post/${obj.id}`);
-                                     if (obj.type === 'product') navigate(`/mercat`);
-                                 }}
+                                  onClick={() => {
+                                      navigate(`/arxiu/${obj.id}`);
+                                  }}
                              >
                                  <div className={`relative overflow-hidden bg-black
                                      ${viewMode === 'list' ? 'w-24 h-24 shrink-0' : 'aspect-square w-full'}`}>

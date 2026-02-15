@@ -2,14 +2,53 @@
 <html lang="ca">
   <head>
     <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/logo-white.png" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
-    <title>Sóc de Poble - v1.25.0-MASTER-GOLDEN</title>
+    <title>
+      Sóc de Poble - La teua app de territori | v10.25.0-BATEGAT-GOLDEN
+    </title>
+    <meta
+      name="description"
+      content="L'aplicació oficial per a connectar amb el teu poble. Mercat, mapa, i sobirania digital per a la comunitat valenciana."
+    />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://soc-de-poble.vercel.app/" />
+    <meta
+      property="og:title"
+      content="Sóc de Poble - La teua app de territori"
+    />
+    <meta
+      property="og:description"
+      content="Connecta amb la teua comunitat. Mercat rural, mapa d'actius i sobirania digital."
+    />
+    <meta
+      property="og:image"
+      content="https://soc-de-poble.vercel.app/logo-white.png"
+    />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://soc-de-poble.vercel.app/" />
+    <meta
+      property="twitter:title"
+      content="Sóc de Poble - La teua app de territori"
+    />
+    <meta
+      property="twitter:description"
+      content="Connecta amb la teua comunitat. Mercat rural, mapa d'actius i sobirania digital."
+    />
+    <meta
+      property="twitter:image"
+      content="https://soc-de-poble.vercel.app/logo-white.png"
+    />
 
     <script>
-      // --- MASTER NOISE REDUCTION PROTOCOL (v1.25.0-MASTER-GOLDEN) ---
+      // --- MASTER NOISE REDUCTION PROTOCOL (v10.25.0-BATEGAT-GOLDEN) ---
       // Silence library warnings for a pristine Golden Master console.
       const _warn = console.warn;
       console.warn = function (...args) {
@@ -44,42 +83,6 @@
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
-      body {
-        background-color: #000000;
-        color: #ffffff;
-        font-family: system-ui, -apple-system, sans-serif;
-        overflow: hidden;
-        -webkit-tap-highlight-color: transparent;
-      }
-
-      /* Antigravity Scroll */
-      * {
-        scrollbar-width: thin;
-        scrollbar-color: rgba(156, 163, 175, 0.3) transparent;
-      }
-      ::-webkit-scrollbar {
-        width: 5px;
-        height: 5px;
-      }
-      ::-webkit-scrollbar-track {
-        background: transparent;
-      }
-      ::-webkit-scrollbar-thumb {
-        background: rgba(156, 163, 175, 0.3);
-        border-radius: 99px;
-      }
-
-      .custom-scrollbar {
-        -ms-overflow-style: none;
-      }
-      .no-scrollbar::-webkit-scrollbar {
-        display: none;
-      }
-      .no-scrollbar {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-      }
-
       .animate-in {
         animation: fadeIn 0.4s ease-out;
       }
@@ -154,8 +157,22 @@
     </script>
   </head>
   <body>
+    <!-- Hidden H1 for SEO -->
+    <h1
+      style="
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        border: 0;
+      "
+    >
+      Sóc de Poble - La teua xarxa de territori i sobirania digital
+    </h1>
     <div id="root"></div>
-
 
     <!-- Modern App Entry -->
     <script type="module" src="/src/entry.jsx"></script>

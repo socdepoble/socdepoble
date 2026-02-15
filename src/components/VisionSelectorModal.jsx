@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, User, Zap, Shield, Info } from 'lucide-react';
+import { X, User, Zap, Shield, Info, Sparkles } from 'lucide-react';
 import './VisionSelectorModal.css';
 
 const VisionSelectorModal = ({ isOpen, onClose, currentMode, onSelect }) => {
@@ -14,11 +14,18 @@ const VisionSelectorModal = ({ isOpen, onClose, currentMode, onSelect }) => {
             color: '#4CAF50'
         },
         {
-            id: 'hibrida',
+            id: 'iaia',
             title: 'JOC DE ROL (HÍBRID)',
             desc: 'Personatges, llegendes i lore del poble activat.',
             icon: <Zap size={32} />,
             color: '#00D2FF'
+        },
+        {
+            id: 'immersiva',
+            title: 'VISIÓ IMMERSIVA',
+            desc: 'Tota la colla: Gall, Nano, Mixa, Flash... Vida total.',
+            icon: <Sparkles size={32} />,
+            color: '#FF6B00'
         }
     ];
 

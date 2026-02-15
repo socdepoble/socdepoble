@@ -2,7 +2,7 @@
  * Constants globals per a l'aplicació Sóc de Poble
  */
 
-export const APP_VERSION = "v1.25.0-MASTER-GOLDEN";
+export const APP_VERSION = "v10.25.0-BATEGAT-GOLDEN";
 export const CRITICAL_THRESHOLD = "v1.6.0";
 
 export const DEMO_USER_ID = "11111111-0000-0000-0000-000000000001";

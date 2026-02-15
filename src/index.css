@@ -1,12 +1,68 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700;900&display=swap");
+
+@font-face {
+  font-family: "Booter";
+  src: url("/fonts/booter/BOOTERZZ.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Booter";
+  src: url("/fonts/booter/BOOTERZF.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Playball";
+  src: url("/fonts/playball/Playball-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Pump";
+  src: url("/fonts/pump/Pump-Demi-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "DearJoeFour";
+  src: url("/fonts/dearjoefour/dJ4TRIAL.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "MyriadPro";
+  src: url("/fonts/myriadpro/MYRIADPRO-REGULAR.OTF") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "ResPublica";
+  src: url("/fonts/respublica/RESPUB__.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
 @import "tailwindcss";
 
-/* 🏺 SÓC DE POBLE: LA BÍBLIA VISUAL v9.0.0 (PROTOCOL 1er MANDAMENT)
+/* 🏺 SÓC DE POBLE: LA BÍBLIA VISUAL v1.25.0-MASTER-GOLDEN (PROTOCOL 1er MANDAMENT)
    Aquest fitxer és el ciment únic. 
 */
 
 @theme {
   --font-sans: "Roboto Condensed", ui-sans-serif, system-ui, sans-serif;
+  --font-booter: "Booter", cursive;
+  --font-playball: "Playball", cursive;
+  --font-pump: "Pump", sans-serif;
+  --font-dearjoefour: "DearJoeFour", cursive;
+  --font-myriadpro: "MyriadPro", sans-serif;
+  --font-respublica: "ResPublica", serif;
 
   --color-accent-orange: #ff6b00;
   --color-accent-indigo: #4f46e5;
@@ -15,10 +71,10 @@
   --radius-genesis: 28px;
   --radius-tactile: 24px;
 
-  --spacing-header: 64px; 
-  --spacing-sidebar: 280px; 
+  --spacing-header: 64px;
+  --spacing-sidebar: 280px;
 
-  --touch-target: 48px; 
+  --touch-target: 48px;
 }
 
 :root {
@@ -33,14 +89,23 @@
 }
 
 /* 📱 COMPORTAMENT TÀCTIL NATIU (v10.30.0 BLUEPRINT) */
-html {
-  font-size: 16px; /* BASE ESTÀNDARD */
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-app);
+  overflow-x: hidden;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
 }
 
 body {
   touch-action: pan-x pan-y;
   -webkit-tap-highlight-color: transparent;
-  min-height: 100%;
   font-family: var(--font-sans);
   font-size: 1rem; /* 16px real */
 }
@@ -49,9 +114,10 @@ body {
 .main-viewport {
   flex: 1;
   display: flex;
-  overflow: hidden; /* Blocage de scroll global per a scroll intern */
+  overflow: hidden;
   position: relative;
-  min-width: 0; /* BLINDATGE CONTRA DESBORDAMENT */
+  min-width: 0;
+  height: 100%;
 }
 
 .flex-container-safe {
@@ -76,14 +142,14 @@ body {
 
   .sidebar-desktop.drawer-open {
     transform: translateX(0);
-    box-shadow: 20px 0 60px rgba(0,0,0,0.8);
+    box-shadow: 20px 0 60px rgba(0, 0, 0, 0.8);
   }
 
   /* Backdrop Master */
   .drawer-backdrop {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.7);
+    background: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(8px);
     z-index: 999;
     animation: fade-in 0.3s ease-out;
@@ -97,8 +163,12 @@ body {
   }
 
   @keyframes fade-in {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
 }
 
@@ -168,4 +238,22 @@ body {
 
 .safe-area-top {
   padding-top: env(safe-area-inset-top, 0) !important;
+}
+
+/* [MASTER CANONIC BUTTONS] Design System GEM MODERN v1.0 */
+.master-button-canonic {
+  height: 48px !important;
+  border-radius: 24px !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 24px !important;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.master-button-canonic:active {
+  transform: scale(0.95);
 }

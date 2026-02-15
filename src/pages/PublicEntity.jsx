@@ -166,33 +166,34 @@ const PublicEntity = () => {
                     url: window.location.href
                 }}
             >
-                <div className="profile-stats-bar">
-                    <div className="stat-card clickable" onClick={() => logger.info('Historial de Publicacions en fase Beta')}>
-                        <span className="stat-value">{posts.length}</span>
-                        <span className="stat-label">Publicacions</span>
+                <div className="profile-stats-row max-w-2xl mx-auto border-none py-0 mb-0">
+                    <div className="stat-item group clickable" onClick={() => logger.info(entity.type === 'oficial' ? 'Historial de Bàndols en fase Beta' : 'Historial de Publicacions en fase Beta')}>
+                        <span className="stat-value text-2xl">{posts.length}</span>
+                        <span className="stat-label text-[10px]">{entity.type === 'oficial' ? 'Bàndols' : 'Publicacions'}</span>
                         <div className="beta-dot"></div>
                     </div>
-                    <div className="stat-card clickable" onClick={() => logger.info(entity.type === 'negoci' ? 'Botiga en fase de desplegament' : 'Llista de Membres en fase Beta')}>
-                        <span className="stat-value">{entity.type === 'negoci' ? (items?.length || 0) : members.length}</span>
-                        <span className="stat-label">{entity.type === 'negoci' ? 'En Venda' : 'Membres'}</span>
+                    <div className="stat-item group clickable" onClick={() => logger.info(entity.type === 'negoci' ? 'Botiga en fase de desplegament' : 'Llista de Membres en fase Beta')}>
+                        <span className="stat-value text-2xl">{entity.type === 'negoci' ? (items?.length || 0) : members.length}</span>
+                        <span className="stat-label text-[10px]">{entity.type === 'negoci' ? 'En Venda' : 'Membres'}</span>
                         <div className="beta-dot"></div>
                     </div>
-                    <div className="stat-card clickable" onClick={() => logger.info('Llista de Connexions en fase Beta')}>
-                        <span className="stat-value">{followersCount}</span>
-                        <span className="stat-label">Connexions</span>
+                    <div className="stat-item group clickable" onClick={() => logger.info('Llista de Connexions en fase Beta')}>
+                        <span className="stat-value text-2xl">{followersCount}</span>
+                        <span className="stat-label text-[10px]">Connexions</span>
                         <div className="beta-dot"></div>
                     </div>
                 </div>
             </ProfileHeaderPremium>
 
-            <div className="profile-actions-gem-fullwidth">
+            <div className="profile-control-panel max-w-2xl mx-auto my-12 p-8">
                 <button
-                    className={`connect-btn-main ${isConnected ? 'connected' : ''}`}
+                    className={`btn-mercat-buy w-full mb-6 ${isConnected ? 'bg-transparent text-[var(--sdp-terracotta)]' : 'bg-[var(--sdp-terracotta)] text-black border-none'}`}
                     onClick={handleConnect}
                     disabled={isConnecting}
+                    style={{ height: '64px', fontSize: '18px', borderRadius: 'var(--sdp-radius-tactile)' }}
                 >
                     {isConnecting ? (
-                        <Loader2 className="spinner" size={24} />
+                        <Loader2 className="spinner animate-spin" size={24} />
                     ) : isConnected ? (
                         <>
                             <UserMinus size={24} />
@@ -205,33 +206,35 @@ const PublicEntity = () => {
                         </>
                     )}
                 </button>
-                <button
-                    className="chat-btn-main"
-                    onClick={() => navigate(`/chats/${entity.id}`)}
-                >
-                    <MessageSquare size={24} />
-                    <span>MISSATGERIA</span>
-                </button>
-
-                {/* BOTÓ LEGAL (Dinàmic per a l'Associació) */}
-                {(entity.name?.toLowerCase().includes('rentonar') || entity.id === 'entitat-rentonar') && (
+                <div className="flex gap-4 mb-8">
                     <button
-                        className="legal-doc-btn-premium"
-                        onClick={() => openLegalModal({
-                            title: `Estatuts: ${entity.name}`,
-                            content: `# Estatuts de l'Associació El Rentonar ⚖️📜\n\n**Denominació**: RENTONAR, GRUP PER LA CONSERVACIÓ DE LA NATURA I EL PATRIMONI\n**NIF**: G03967668\n**Inscripció**: Número 4444 de la Secció PRIMERA del Registre d'Associacions de la CV.\n**Adaptació**: Adaptats a la Llei Orgànica 1/2002 el 17 de novembre de 2006.\n\n---\n\n## Capítol I: Denominació i Fins\n\n### Art. 1º Denominació\nL'associació es constitueix per temps indefinit, sense ànim de lucre, sota la denominació actualitzada el 2006.\n\n### Art. 4º Fins de l'Associació\n- **Conservar i protegir** el nostre entorn natural i cultural.\n- **Fomentar la conscienciació ciutadana** per a protegir i conèixer l'entorn natural de La Torre de les Maçanes.\n- **Conèixer el nostre patrimoni** cultural i històric lligat al medi natural.\n- **Crear una consciència col·lectiva** de protecció, respecte i recuperació dels valors mediambientals del nostre terme.\n\n---\n\n## Capítol II: Activitats\n\n- Activitats adreçades a la població escolar i col·lectius del poble (xarrades, excursions).\n- Treballs de camp per a diagnosticar problemàtiques mediambientals.\n- Treballs de recuperació de determinades fonts degradades.\n- Accions puntuals per al millor coneixement del patrimoni.\n- Creació d'un planter d'espècies autòctones.\n\n---\n\n## Capítol III: L'Òrgan de Govern\n\nL'Assemblea General és l'òrgan suprem de govern, integrada pels associats per dret propi irrenunciable i en igualtat absoluta.\n\n## Capítol VI: Dissolució i Liquidació\n\nEn cas de dissolució, si existira sobrant líquid, es destinarà a fins que no desvirtuen el caràcter no lucratiu de l'entitat, concretament a **GREENPEACE ESPAÑA**.\n\n---\n\n**Certificació Final**: Document adaptat i visat a La Torre de les Maçanes el 8 de març de 2007 per la Direcció Territorial de Justícia.🏛️⚡️🏺`,
-                            type: 'estatuts'
-                        })}
+                        className="btn-config-toggle flex-1 flex items-center justify-center gap-3 h-16"
+                        onClick={() => navigate(`/chats/${entity.id}`)}
                     >
-                        <ShieldCheck size={20} /> DOCUMENTACIÓ LEGAL I ESTATUTS
+                        <MessageSquare size={24} />
+                        <span>MISSATGERIA</span>
                     </button>
-                )}
 
-                <div className="noise-filter-manager-container">
+                    {/* BOTÓ LEGAL (Dinàmic per a l'Associació) */}
+                    {(entity.name?.toLowerCase().includes('rentonar') || entity.id === 'entitat-rentonar') && (
+                        <button
+                            className="btn-config-toggle flex-1 flex items-center justify-center gap-3 h-16 border-[var(--sdp-terracotta)] text-[var(--sdp-terracotta)]"
+                            onClick={() => openLegalModal({
+                                title: `Estatuts: ${entity.name}`,
+                                content: `# Estatuts de l'Associació El Rentonar ⚖️📜\n\n**Denominació**: RENTONAR, GRUP PER LA CONSERVACIÓ DE LA NATURA I EL PATRIMONI\n**NIF**: G03967668\n**Inscripció**: Número 4444 de la Secció PRIMERA del Registre d'Associacions de la CV.\n**Adaptació**: Adaptats a la Llei Orgànica 1/2002 el 17 de novembre de 2006.\n\n---\n\n## Capítol I: Denominació i Fins\n\n### Art. 1º Denominació\nL'associació es constitueix per temps indefinit, sense ànim de lucre, sota la denominació actualitzada el 2006.\n\n### Art. 4º Fins de l'Associació\n- **Conservar i protegir** el nostre entorn natural i cultural.\n- **Fomentar la conscienciació ciutadana** per a protegir i conèixer l'entorn natural de La Torre de les Maçanes.\n- **Conèixer el nostre patrimoni** cultural i històric lligat al medi natural.\n- **Crear una consciència col·lectiva** de protecció, respecte i recuperació dels valors mediambientals del nostre terme.\n\n---\n\n## Capítol II: Activitats\n\n- Activitats adreçades a la població escolar i col·lectius del poble (xarrades, excursions).\n- Treballs de camp per a diagnosticar problemàtiques mediambientals.\n- Treballs de recuperació de determinades fonts degradades.\n- Accions puntuals per al millor coneixement del patrimoni.\n- Creació d'un planter d'espècies autòctones.\n\n---\n\n## Capítol III: L'Òrgan de Govern\n\nL'Assemblea General és l'òrgan suprem de govern, integrada pels associats per dret propi irrenunciable i en igualtat absoluta.\n\n## Capítol VI: Dissolució i Liquidació\n\nEn cas de dissolució, si existira sobrant líquid, es destinarà a fins que no desvirtuen el caràcter no lucratiu de l'entitat, concretament a **GREENPEACE ESPAÑA**.\n\n---\n\n**Certificació Final**: Document adaptat i visat a La Torre de les Maçanes el 8 de març de 2007 per la Direcció Territorial de Justícia.🏛️⚡️🏺`,
+                                type: 'estatuts'
+                            })}
+                        >
+                            <ShieldCheck size={20} /> ESTATUTS
+                        </button>
+                    )}
+                </div>
+
+                <div className="noise-filter-manager-wrapper">
                     <div className={`noise-filter-manager ${isConnected ? 'active' : ''}`}>
                         <div className="filter-info-stack">
                             <h4>Filtre de Soroll</h4>
-                            <p>Oculta posts promocionals d'aquesta entitat al mur.</p>
+                            <p>Oculta posts promocionals al mur.</p>
                         </div>
                         <button
                             className={`filter-action-btn ${isConnected ? 'active' : ''}`}

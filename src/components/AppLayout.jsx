@@ -19,7 +19,6 @@ const UniversalProfile = lazy(() => import('../pages/UniversalProfile'));
 const PublicProfile = lazy(() => import('../pages/PublicProfile'));
 const PublicEntity = lazy(() => import('../pages/PublicEntity'));
 const AdminPanel = lazy(() => import('../pages/AdminPanel'));
-const RescueTool = lazy(() => import('../components/RescueTool'));
 const Towns = lazy(() => import('../pages/Towns'));
 const TownDetail = lazy(() => import('../pages/TownDetail'));
 const ArxiuOr = lazy(() => import('../pages/Archive'));
@@ -38,6 +37,7 @@ const CreationHub = lazy(() => import('./CreationHub'));
 const AccessibilitatUniversal = lazy(() => import('./AccessibilitatUniversal'));
 const ArchitecteView = lazy(() => import('./ArchitecteView'));
 const DossierSocis = lazy(() => import('../pages/DossierSocis'));
+const ResourceDetail = lazy(() => import('../pages/ResourceDetail'));
 
 import BlueprintOverlay from './BlueprintOverlay';
 
@@ -70,7 +70,8 @@ const AppLayout = () => {
                 e.preventDefault();
             }
         };
-        document.addEventListener('touchstart', fixZoom, { passive: false });
+        // [MASTER SCROLL FIX] Ensure passive: true to not block scroll
+        document.addEventListener('touchstart', fixZoom, { passive: true });
         return () => document.removeEventListener('touchstart', fixZoom);
     }, []);
 
@@ -133,13 +134,13 @@ const AppLayout = () => {
                                 <Header />
                             )}
                         </Suspense>
-                        <div className="flex-1 relative min-w-0 overflow-y-auto custom-scrollbar">
+                        <div className="flex-1 relative min-w-0 overflow-y-auto main-viewport custom-scrollbar">
                             {blueprintMode && location.pathname.startsWith('/chats') && <BlueprintOverlay label="VIEWPORT_FLEX" dimensions="AUTO" color="cyan" />}
                             <Routes>
                                 <Route path="/login" element={<Login />} />
                                 <Route path="/" element={<Navigate to="/chats" replace />} />
                                 
-                                <Route path="/chats/*" element={<ChatLayout />}>
+                                <Route path="/chats/*" element={<ProtectedRoute><ChatLayout /></ProtectedRoute>}>
                                     <Route index element={<ChatEmptyState />} />
                                     <Route path=":id" element={<ChatDetail />} />
                                 </Route>
@@ -157,16 +158,16 @@ const AppLayout = () => {
                                 <Route path="/search" element={<SearchDiscover />} />
                                 <Route path="/ofici" element={<OficiDocumentacio />} />
                                 <Route path="/nexus" element={<NexusFlash />} />
-                                <Route path="/solatge" element={<SolatgeConsole />} />
+                                <Route path="/solatge" element={<ProtectedRoute><SolatgeConsole /></ProtectedRoute>} />
                                 <Route path="/genesis" element={<GenesisViewer />} />
                                 <Route path="/directori" element={<DirectoriComunitat />} />
                                 <Route path="/tools/trellat" element={<SolatgeConsole />} />
 
                                 <Route path="/admin" element={<ProtectedRoute><AdminPanel /></ProtectedRoute>} />
                                 <Route path="/arxiu" element={<ArxiuOr />} />
+                                <Route path="/arxiu/:id" element={<ResourceDetail />} />
                                 <Route path="/calendari" element={<CalendariMaster />} />
                                 <Route path="/fotos/global" element={<AlbumGlobal />} />
-                                <Route path="/nuke" element={<RescueTool />} />
                                 <Route path="/dossier" element={<DossierSocis />} />
                                 <Route path="*" element={<Navigate to="/" replace />} />
                             </Routes>

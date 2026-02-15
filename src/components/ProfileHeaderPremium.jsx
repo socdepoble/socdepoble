@@ -12,7 +12,7 @@ import { trustService } from '../services/trustService';
 import './ProfileHeaderPremium.css';
 
 /**
- * UniversalTotem (ex-ProfileHeaderPremium) - El tòtem d'identitat suprema v10.25.0.
+ * UniversalTotem (ex-ProfileHeaderPremium) - El tòtem d'identitat suprema v1.25.0-MASTER-GOLDEN.
  * Suporta perfils de: Persones, Grups, Empreses, Entitats Oficials i Pobles.
  */
 const ProfileHeaderPremium = ({
@@ -107,16 +107,15 @@ const ProfileHeaderPremium = ({
                 {/* Navigation Actions */}
                 <div className="premium-nav-actions">
                     <div className="nav-actions-left flex items-center gap-4">
-                        <button className="premium-btn-circle back" onClick={handleBack} title="Tornar" style={{ width: '48px', height: '48px' }}>
+                        <button className="premium-btn-circle back" onClick={handleBack} title="Tornar">
                             <ArrowLeft size={24} />
                         </button>
                         
                         {showConnect && (
                             <button 
-                                className={`premium-connect-pill ${isConnected ? 'connected' : ''}`}
+                                className={`premium-connect-pill ${isConnected ? 'connected' : ''} master-button-canonic`}
                                 onClick={handleConnectClick}
                                 disabled={isConnecting}
-                                style={{ height: '48px', padding: '0 24px' }}
                             >
                                 {isConnecting ? (
                                     <Loader2 size={18} className="animate-spin" />
@@ -139,7 +138,7 @@ const ProfileHeaderPremium = ({
                         {(shareData || onShare) && (
                             <div className="premium-share-wrapper">
                                 {onShare ? (
-                                    <button className="premium-btn-circle share" onClick={onShare} title="Compartir" style={{ width: '48px', height: '48px' }}>
+                                    <button className="premium-btn-circle share" onClick={onShare} title="Compartir">
                                         <Share2 size={24} />
                                     </button>
                                 ) : (
@@ -148,7 +147,7 @@ const ProfileHeaderPremium = ({
                                         text={shareData.text}
                                         url={shareData.url}
                                         customTrigger={
-                                            <button className="premium-btn-circle share" title="Compartir" style={{ width: '48px', height: '48px' }}>
+                                            <button className="premium-btn-circle share" title="Compartir">
                                                 <Share2 size={24} />
                                             </button>
                                         }

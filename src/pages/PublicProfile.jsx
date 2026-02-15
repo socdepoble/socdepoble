@@ -209,20 +209,20 @@ const PublicProfile = () => {
                     url: window.location.href
                 }}
             >
-                <div className="profile-stats-bar">
-                    <div className="stat-card clickable" onClick={() => logger.info('Funcionalitat de Mur en fase Beta')}>
-                        <span className="stat-value">{userPosts.length}</span>
-                        <span className="stat-label">{t('profile.publications')}</span>
+                <div className="profile-stats-row max-w-2xl mx-auto border-none py-0 mb-0">
+                    <div className="stat-item group clickable" onClick={() => logger.info('Funcionalitat de Mur en fase Beta')}>
+                        <span className="stat-value text-2xl">{userPosts.length}</span>
+                        <span className="stat-label text-[10px]">{t('profile.publications')}</span>
                         <div className="beta-dot"></div>
                     </div>
-                    <div className="stat-card clickable" onClick={() => logger.info('Mercat en fase de desplegament')}>
-                        <span className="stat-value">{items.length}</span>
-                        <span className="stat-label">{t('nav.stats_sales')}</span>
+                    <div className="stat-item group clickable" onClick={() => logger.info('Mercat en fase de desplegament')}>
+                        <span className="stat-value text-2xl">{items.length}</span>
+                        <span className="stat-label text-[10px]">{t('nav.stats_sales')}</span>
                         <div className="beta-dot"></div>
                     </div>
-                    <div className="stat-card clickable" onClick={() => logger.info('Llista de Connexions en fase Beta')}>
-                        <span className="stat-value">{followersCount}</span>
-                        <span className="stat-label">Connexions</span>
+                    <div className="stat-item group clickable" onClick={() => logger.info('Llista de Connexions en fase Beta')}>
+                        <span className="stat-value text-2xl">{followersCount}</span>
+                        <span className="stat-label text-[10px]">Connexions</span>
                         <div className="beta-dot"></div>
                     </div>
                 </div>
@@ -234,11 +234,12 @@ const PublicProfile = () => {
                     const canSeeActions = !isOwnProfile || (currentUser && (masters.includes(currentUser.email) || currentUser.role === 'admin' || currentUser.role === 'superadmin'));
 
                     return canSeeActions && (
-                        <div className="profile-actions-gem-fullwidth main-action-focus">
+                        <div className="profile-control-panel max-w-2xl mx-auto my-12 p-8">
                             <button
-                                className={`connect-btn-main supreme-action ${isConnected ? 'connected' : ''}`}
+                                className={`btn-mercat-buy w-full mb-6 ${isConnected ? 'bg-transparent text-[var(--sdp-terracotta)]' : 'bg-[var(--sdp-terracotta)] text-black border-none'}`}
                                 onClick={handleConnect}
                                 disabled={isConnecting}
+                                style={{ height: '64px', fontSize: '18px', borderRadius: 'var(--sdp-radius-tactile)' }}
                             >
                                 {isConnecting ? (
                                     <Loader2 size={24} className="animate-spin" />
@@ -254,9 +255,9 @@ const PublicProfile = () => {
                                     </>
                                 )}
                             </button>
-                            <div className="secondary-actions-row">
+                            <div className="flex gap-4">
                                 <button
-                                    className="chat-btn-main"
+                                    className="btn-config-toggle flex-1 flex items-center justify-center gap-3 h-16"
                                     onClick={() => navigate(`/chats/${profile.id}`)}
                                 >
                                     <MessageSquare size={24} />
@@ -266,7 +267,7 @@ const PublicProfile = () => {
                                 {/* BOTÓ PROFESSIONAL (Discret) */}
                                 {(masters.includes(profile.email) || profile.ofici) && (
                                     <button
-                                        className="legal-doc-btn-compact professional"
+                                        className="btn-config-toggle flex-1 flex items-center justify-center gap-3 h-16 border-[var(--sdp-terracotta)] text-[var(--sdp-terracotta)]"
                                         onClick={() => openLegalModal({
                                             title: `Dossier: ${profile.full_name}`,
                                             content: `# Dossier Professional: ${profile.full_name} 💼⚖️🏺\n\n**Especialitat**: ${profile.ofici || 'Dissenyador Gràfic i Estratègia Digital'}\n**Certificació**: Professional Verificat de Sóc de Poble.\n\n---\n\n## Perfil Professional\nSóc un professional compromès amb el territori i la sobirania tecnològica.\n\n---\n\n**Validat per**: Administració Superior de Sóc de Poble.🏛️🏺✨`,

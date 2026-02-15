@@ -12,7 +12,7 @@ import ProfileHeaderPremium from '../components/ProfileHeaderPremium';
 import './UniversalProfile.css';
 
 /**
- * 🏺 UNIVERSAL PROFILE - LA BÍBLIA ESTRUCTURAL v10.25.0-ACCESSIBILITY-BOOST
+ * 🏺 UNIVERSAL PROFILE - LA BÍBLIA ESTRUCTURAL v1.25.0-MASTER-GOLDEN
  * Arquitectura Premium per a la identitat bategada amb control de tema i animacions Holy.
  */
 const UniversalProfile = () => {
@@ -82,48 +82,48 @@ const UniversalProfile = () => {
         />
 
         {/* 6. PANELL DE CONTROL (MASTER AJUSTOS) */}
-        <div className="max-w-2xl mx-auto px-4 md:px-6 mb-24">
-          <div className="bg-white/5 border border-white/10 rounded-[48px] p-6 md:p-12 backdrop-blur-md">
-            <h3 className="text-lg font-black uppercase tracking-[0.4em] text-gray-500 mb-12 text-center">Configuració del Mas Digital</h3>
+        <div className="profile-control-panel-wrapper max-w-2xl mx-auto mb-24 px-4">
+          <div className="profile-control-panel">
+            <h3 className="panel-title">Configuració del Mas Digital</h3>
             
-            <div className="grid gap-8">
+            <div className="config-grid">
               {/* Tema */}
-              <div className="flex items-center justify-between p-6 bg-black/20 rounded-3xl border border-white/5">
-                <div className="flex items-center gap-4">
-                  <div className="p-4 bg-zinc-800 rounded-2xl text-orange-500">
+              <div className="config-row">
+                <div className="config-meta">
+                  <div className="config-icon-box" style={{ color: theme === 'dark' ? 'var(--sdp-terracotta)' : '#EAB308' }}>
                     {theme === 'dark' ? <Moon size={28} /> : <Sun size={28} />}
                   </div>
-                  <div>
-                    <h4 className="font-black text-lg uppercase">Aparença</h4>
-                    <p className="text-base text-gray-400 font-bold uppercase tracking-widest">Mode {theme === 'dark' ? 'Nit' : 'Dia'}</p>
+                  <div className="config-text">
+                    <h4>Aparença</h4>
+                    <p>Mode {theme === 'dark' ? 'Nit' : 'Dia'}</p>
                   </div>
                 </div>
-                <button onClick={toggleTheme} className="px-8 h-14 bg-white/10 rounded-full text-base font-black hover:bg-white/20 transition-all uppercase tracking-widest">Canviar</button>
+                <button onClick={toggleTheme} className="btn-config-toggle">ALTERAR</button>
               </div>
 
-              {/* Idioma (Nou v11.0.6) */}
-              <div className="flex items-center justify-between p-6 bg-black/20 rounded-3xl border border-white/5">
-                <div className="flex items-center gap-4">
-                  <div className="p-4 bg-zinc-800 rounded-2xl text-cyan-500">
+              {/* Idioma */}
+              <div className="config-row">
+                <div className="config-meta">
+                  <div className="config-icon-box" style={{ color: '#F8FAFC' }}>
                     <Globe size={28} />
                   </div>
-                  <div>
-                    <h4 className="font-black text-lg uppercase">Idioma</h4>
-                    <p className="text-base text-gray-400 font-bold uppercase tracking-widest">Llengua bategant: {language === 'VA' ? 'VALENCIÀ' : 'CASTELLÀ'}</p>
+                  <div className="config-text">
+                    <h4>Idioma</h4>
+                    <p>Llengua bategant: {language === 'VA' ? 'VALENCIÀ' : 'CASTELLÀ'}</p>
                   </div>
                 </div>
-                <button onClick={toggleLanguage} className="px-8 h-14 bg-white/10 rounded-full text-base font-black hover:bg-white/20 transition-all uppercase tracking-widest">{(language || 'VA').split('-')[0].toUpperCase()}</button>
+                <button onClick={toggleLanguage} className="btn-config-toggle">{(language || 'VA').split('-')[0].toUpperCase()}</button>
               </div>
 
               {/* IAIA Level */}
-              <div className="flex items-center justify-between p-6 bg-black/20 rounded-3xl border border-white/5">
-                <div className="flex items-center gap-4">
-                  <div className="p-4 bg-zinc-800 rounded-2xl text-blue-500">
+              <div className="config-row">
+                <div className="config-meta">
+                  <div className="config-icon-box" style={{ color: '#3B82F6' }}>
                     <Sparkles size={28} />
                   </div>
-                  <div>
-                    <h4 className="font-black text-lg uppercase">Nivell IAIA</h4>
-                    <p className="text-base text-gray-400 font-bold uppercase tracking-widest">Implicació: {iaiaLevel}</p>
+                  <div className="config-text">
+                    <h4>Nivell IAIA</h4>
+                    <p>Implicació: {iaiaLevel}</p>
                   </div>
                 </div>
                 <div className="flex gap-2">
@@ -131,7 +131,7 @@ const UniversalProfile = () => {
                     <button 
                       key={lvl}
                       onClick={() => setIaiaLevel(lvl)}
-                      className={`w-14 h-14 rounded-full text-base font-black transition-all ${iaiaLevel === lvl ? 'bg-orange-600 text-white scale-110 shadow-lg' : 'bg-white/5 text-gray-500 hover:bg-white/10'}`}
+                      className={`w-12 h-12 rounded-full text-base font-black transition-all ${iaiaLevel === lvl ? 'bg-[var(--sdp-terracotta)] text-black scale-110 shadow-lg' : 'bg-white/5 text-gray-400 hover:bg-white/10'}`}
                     >
                       {lvl}
                     </button>
@@ -140,19 +140,19 @@ const UniversalProfile = () => {
               </div>
 
               {/* Modo Arquitecto */}
-              <div className="flex items-center justify-between p-6 bg-black/20 rounded-3xl border border-white/5">
-                <div className="flex items-center gap-4">
-                  <div className="p-4 bg-zinc-800 rounded-2xl text-green-500">
+              <div className="config-row">
+                <div className="config-meta">
+                  <div className="config-icon-box" style={{ color: '#22C55E' }}>
                     <BookOpen size={28} />
                   </div>
-                  <div>
-                    <h4 className="font-black text-lg uppercase">Modo Arquitecte</h4>
-                    <p className="text-base text-gray-400 font-bold uppercase tracking-widest">{architectMode ? 'ACTIU (Definicions)' : 'INACTIU (Producció)'}</p>
+                  <div className="config-text">
+                    <h4>Modo Arquitecte</h4>
+                    <p>{architectMode ? 'ACTIU (Definicions)' : 'INACTIU (Producció)'}</p>
                   </div>
                 </div>
                 <button 
                   onClick={() => setArchitectMode(!architectMode)} 
-                  className={`px-8 h-14 rounded-full text-base font-black transition-all uppercase tracking-widest ${architectMode ? 'bg-green-600 text-white' : 'bg-white/10 text-gray-400'}`}
+                  className={`btn-config-toggle ${architectMode ? 'active' : ''}`}
                 >
                   {architectMode ? 'ON' : 'OFF'}
                 </button>
@@ -161,42 +161,34 @@ const UniversalProfile = () => {
           </div>
         </div>
 
-          {/* 5. ESTADÍSTIQUES HARMONITZADES */}
-          <div className="flex items-center justify-center gap-8 md:gap-24 w-full max-w-2xl mx-auto py-10 border-y border-black/5 mb-16 px-4">
-            <div className="flex flex-col items-center group cursor-pointer hover:scale-110 transition-transform">
-              <span className="text-4xl font-black text-[var(--text-main)] group-hover:text-orange-500">{profileData.stats.followers}</span>
-              <span className="text-base text-gray-500 uppercase tracking-[0.3em] mt-3 font-black">Seguidors</span>
-            </div>
-            <div className="flex flex-col items-center group cursor-pointer hover:scale-110 transition-transform">
-              <span className="text-4xl font-black text-[var(--text-main)] group-hover:text-blue-500">{profileData.stats.following}</span>
-              <span className="text-base text-gray-500 uppercase tracking-[0.3em] mt-3 font-black">Seguint</span>
-            </div>
-            <div className="flex flex-col items-center group cursor-pointer hover:scale-110 transition-transform">
-              <span className="text-4xl font-black text-[var(--text-main)] group-hover:text-red-500">{profileData.stats.posts}</span>
-              <span className="text-base text-gray-500 uppercase tracking-[0.3em] mt-3 font-black">Històries</span>
-            </div>
+        {/* 5. ESTADÍSTIQUES HARMONITZADES */}
+        <div className="profile-stats-row max-w-2xl mx-auto">
+          <div className="stat-item group">
+            <span className="stat-value group-hover:text-[var(--sdp-terracotta)]">{profileData.stats.followers}</span>
+            <span className="stat-label">Seguidors</span>
           </div>
+          <div className="stat-item group">
+            <span className="stat-value group-hover:text-blue-500">{profileData.stats.following}</span>
+            <span className="stat-label">Seguint</span>
+          </div>
+          <div className="stat-item group">
+            <span className="stat-value group-hover:text-red-500">{profileData.stats.posts}</span>
+            <span className="stat-label">Històries</span>
+          </div>
+        </div>
 
         {/* 7. NAVEGACIÓ TABS */}
-        <div className="flex justify-center mb-12">
-          <div className="bg-black/5 p-2 rounded-full inline-flex border border-black/5 backdrop-blur-sm shadow-inner">
+        <div className="profile-tabs-selector">
+          <div className="tabs-inner-pill">
             <button 
               onClick={() => setActiveTab('posts')} 
-              className={`flex items-center gap-3 px-10 py-4 rounded-full text-xs font-black transition-all duration-400 tracking-[0.2em] uppercase ${
-                activeTab === 'posts' 
-                ? 'bg-[var(--text-main)] text-[var(--bg-app)] shadow-2xl scale-105' 
-                : 'text-gray-500 hover:text-[var(--text-main)] hover:bg-white/10'
-              }`}
+              className={`btn-profile-tab ${activeTab === 'posts' ? 'active' : ''}`}
             >
               <Grid size={18} /> MUR
             </button>
             <button 
               onClick={() => setActiveTab('media')} 
-              className={`flex items-center gap-3 px-10 py-4 rounded-full text-xs font-black transition-all duration-400 tracking-[0.2em] uppercase ${
-                activeTab === 'media' 
-                ? 'bg-[var(--text-main)] text-[var(--bg-app)] shadow-2xl scale-105' 
-                : 'text-gray-500 hover:text-[var(--text-main)] hover:bg-white/10'
-              }`}
+              className={`btn-profile-tab ${activeTab === 'media' ? 'active' : ''}`}
             >
               <Heart size={18} /> BATEGATS
             </button>
@@ -204,11 +196,11 @@ const UniversalProfile = () => {
         </div>
 
         {/* 7. CONTINGUT TABS */}
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
+        <div className="profile-content-grid">
           {activeTab === 'posts' && userPosts.map((post) => (
-            <div key={post.id} className="group relative aspect-square bg-zinc-900 rounded-[48px] overflow-hidden border border-black/5 cursor-pointer hover:scale-[1.02] transition-all duration-500 shadow-xl">
-              <img src={post.image} alt="Post" className="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 ease-out" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-8">
+            <div key={post.id} className="profile-post-card group">
+              <img src={post.image} alt="Post" className="w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-110" />
+              <div className="post-overlay">
                 <div className="flex items-center gap-4 text-white font-black">
                   <div className="flex items-center gap-1"><Heart size={20} className="fill-white" /> 124</div>
                   <div className="flex items-center gap-1"><Share2 size={20} /> 12</div>
@@ -217,7 +209,7 @@ const UniversalProfile = () => {
             </div>
           ))}
           {activeTab === 'media' && (
-             <div className="col-span-full py-32 text-center text-gray-600 border-4 border-dashed border-black/5 rounded-[64px] bg-black/[0.01]">
+             <div className="col-span-full py-32 text-center text-gray-600 border-4 border-dashed border-black/5 rounded-[var(--sdp-radius-genesis)] bg-black/[0.01]">
                <Heart size={64} className="mx-auto mb-8 opacity-10" />
                <p className="text-3xl font-black text-gray-400 tracking-tight">Encara no hi ha bategats.</p>
                <p className="text-xs mt-4 font-black opacity-40 uppercase tracking-[0.5em]">Connecta amb el territori per omplir el rebost.</p>

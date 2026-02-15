@@ -6,9 +6,13 @@ import StatusLoader from '../components/StatusLoader';
 import Avatar from '../components/Avatar';
 import { logger } from '../utils/logger';
 import './CommunityDirectory.css';
+import { useUI } from '../context/UIContext';
+import { useAuth } from '../context/AuthContext';
 
 const CommunityDirectory = () => {
     const navigate = useNavigate();
+    const { user, isSuperAdmin } = useAuth();
+    const { visionMode, openConnectionModal, setIsGuestInteractionModalOpen } = useUI();
     const [directory, setDirectory] = useState({ people: [], entities: [] });
     const [isLoading, setIsLoading] = useState(true);
     const [activeTab, setActiveTab] = useState('gent'); // gent, entitats
@@ -32,6 +36,25 @@ const CommunityDirectory = () => {
     if (isLoading) return <StatusLoader type="loading" />;
 
     const items = activeTab === 'gent' ? directory.people : directory.entities;
+    
+    // [VISION MODE FILTER] Purga de fantasmes IAIA
+    const filteredItems = items.filter(item => {
+        if (visionMode === 'humana' && !isSuperAdmin) {
+            const role = String(item.role || item.type || '').toLowerCase();
+            const name = String(item.full_name || item.name || '').toUpperCase();
+            
+            const isAI = role.includes('ambassador') || 
+                         role.includes('official') ||
+                         item.is_ai || 
+                         item.id?.startsWith('11111111-') ||
+                         name.includes('IAIA') ||
+                         name.includes('FLASH') ||
+                         name.includes('GALL') ||
+                         name.includes('VIATJANT');
+            if (isAI) return false;
+        }
+        return true;
+    });
 
     return (
         <div className="directory-page bg-black min-h-screen">
@@ -54,7 +77,7 @@ const CommunityDirectory = () => {
                         onClick={() => setActiveTab('gent')}
                     >
                         <Users size={16} />
-                        Gent ({directory.people.length})
+                        Gent ({filteredItems.length})
                     </button>
                     <button
                         className={`flex-1 flex items-center justify-center gap-2 py-3 font-black text-xs uppercase tracking-widest transition-all
@@ -62,20 +85,20 @@ const CommunityDirectory = () => {
                         onClick={() => setActiveTab('entitats')}
                     >
                         <Building2 size={16} />
-                        Entitats ({directory.entities.length})
+                        Entitats ({activeTab === 'entitats' ? filteredItems.length : directory.entities.length})
                     </button>
                 </div>
             </div>
 
             <div className="directory-content">
                 <div className="directory-grid">
-                    {items.length === 0 ? (
+                    {filteredItems.length === 0 ? (
                         <div className="empty-directory">
                             <Users size={48} opacity={0.3} />
                             <p>No s'han trobat resultats en aquesta categoria.</p>
                         </div>
                     ) : (
-                        items.map(item => (
+                        filteredItems.map(item => (
                             <div
                                 key={item.id}
                                 className="directory-card"
@@ -83,7 +106,7 @@ const CommunityDirectory = () => {
                             >
                                 <Avatar
                                     src={item.avatar_url}
-                                    role={activeTab === 'gent' ? 'user' : item.type}
+                                    role={activeTab === 'gent' ? (item.role || 'user') : item.type}
                                     name={item.full_name || item.name}
                                     size={60}
                                 />
@@ -93,11 +116,22 @@ const CommunityDirectory = () => {
                                     <span className="bio-mini">{item.bio || item.description || 'Sense descripció'}</span>
                                 </div>
                                 <div className="card-action">
-                                    <button className="connect-btn-mini" onClick={(e) => {
-                                        e.stopPropagation();
-                                        navigate(activeTab === 'gent' ? `/perfil/${item.id}` : `/entitat/${item.id}`);
-                                    }}>
-                                        CONECTAR
+                                    <button 
+                                        className="master-button-canonic bg-white text-black text-[10px]" 
+                                        style={{ height: '36px', padding: '0 16px' }}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            if (user?.isAnonymous) {
+                                                setIsGuestInteractionModalOpen(true);
+                                                return;
+                                            }
+                                            openConnectionModal({
+                                                postId: item.id,
+                                                onUpdate: () => loadDirectory()
+                                            });
+                                        }}
+                                    >
+                                        CONNECTAR
                                     </button>
                                 </div>
                             </div>

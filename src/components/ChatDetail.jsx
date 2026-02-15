@@ -213,7 +213,7 @@ const ChatDetail = () => {
 
                                             <div className="mt-2 flex items-center justify-end gap-2 opacity-50">
                                                 <span className="text-[10px] font-black uppercase">
-                                                    {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                                    {msg.created_at ? new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Ara'}
                                                 </span>
                                                 {isMe && (
                                                     <span className={`text-[10px] font-black ${msg.read_at ? 'text-blue-300' : 'text-gray-300'}`}>

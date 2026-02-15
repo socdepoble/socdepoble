@@ -12,6 +12,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 0 10%;
+    margin-top: 64px; /* Space for the master sticky header */
     background: radial-gradient(circle at 70% 30%, #F97316 0%, transparent 40%),
                 radial-gradient(circle at 20% 70%, #DB2777 0%, transparent 40%);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -131,11 +132,10 @@
     color: #F97316;
 }
 
-/* BENTO GRID */
+/* BENTO GRID - VERTICAL STACK (v.MASTER) */
 .bento-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: auto auto;
+    display: flex;
+    flex-direction: column;
     gap: 24px;
 }
 
@@ -155,8 +155,8 @@
 }
 
 .bento-card.large {
-    grid-column: span 2;
-    grid-row: span 2;
+    grid-column: auto;
+    grid-row: auto;
 }
 
 .bento-header {

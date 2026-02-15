@@ -9,6 +9,7 @@ const OficiDocumentacio = () => {
     const { id } = useParams();
     const [searchTerm, setSearchTerm] = useState('');
     const [activeProcedure, setActiveProcedure] = useState(id || null);
+    const [showKitManager, setShowKitManager] = useState(false);
 
     const documentCategories = [
         {
@@ -59,6 +60,13 @@ const OficiDocumentacio = () => {
         cat.procedures.some(p => p.title.toLowerCase().includes(searchTerm.toLowerCase()))
     );
 
+    if (showKitManager && activeProcedure === 'kit-digital-solicitud') {
+        return <KitDigitalManager onBack={() => {
+            setShowKitManager(false);
+            setActiveProcedure(null);
+        }} />;
+    }
+
     if (activeProcedure === 'kit-digital-solicitud' || activeProcedure === 'crema-restes' || activeProcedure === 'xylella-fastidiosa') {
         return (
             <div className="flex-1 bg-black text-white p-12 flex flex-col items-center justify-center text-center animate-in zoom-in duration-500">
@@ -71,7 +79,12 @@ const OficiDocumentacio = () => {
                 </p>
                 <div className="flex gap-4">
                     <button onClick={() => setActiveProcedure(null)} className="px-8 py-3 bg-white/10 hover:bg-white/20 rounded-full font-bold uppercase tracking-widest text-xs transition-all border border-white/10">Tornar enrere</button>
-                    <button className="px-8 py-3 bg-[#FF6B00] hover:bg-[#ff7b20] text-white rounded-full font-bold uppercase tracking-widest text-xs transition-all shadow-lg shadow-orange-900/40">Continuar amb la IAIA</button>
+                    <button 
+                        onClick={() => activeProcedure === 'kit-digital-solicitud' && setShowKitManager(true)}
+                        className="px-8 py-3 bg-[#FF6B00] hover:bg-[#ff7b20] text-white rounded-full font-bold uppercase tracking-widest text-xs transition-all shadow-lg shadow-orange-900/40"
+                    >
+                        Continuar amb la IAIA
+                    </button>
                 </div>
             </div>
         );

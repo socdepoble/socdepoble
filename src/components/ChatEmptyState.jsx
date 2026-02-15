@@ -63,7 +63,7 @@ const ChatEmptyState = () => {
             {/* Botó per tancar (v11.1.2 - PROTOCOL SORTIDA D'EMERGÈNCIA) */}
             <div className="absolute top-6 right-6 z-50">
                 <button 
-                    onClick={() => window.history.back()}
+                    onClick={() => window.location.href = '/'}
                     className="w-12 h-12 flex items-center justify-center bg-black/20 backdrop-blur-md hover:bg-black/60 text-white rounded-full border border-white/10 shadow-2xl transition-all active:scale-90"
                 >
                     <X size={24} />

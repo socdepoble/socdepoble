@@ -1898,7 +1898,7 @@ export const supabaseService = {
                 return { data: [], count: 0, error: 'Retry limit reached' };
             }
 
-            let selectStr = 'id, uuid, content, created_at, author, author_avatar, image_url, author_role, is_playground, author_user_id, author_entity_id, towns(name)';
+            let selectStr = 'id, uuid, content, created_at, author, author_avatar, image_url, author_role, is_playground, author_user_id, author_entity_id, towns(name), profiles:author_user_id(town_uuid)';
             if (columnCache.posts_pinned_position !== false) {
                 selectStr += ', pinned_position';
             }
@@ -1927,37 +1927,26 @@ export const supabaseService = {
 
             if (townId) {
                 logger.log(`[SupabaseService] townId entry: ${townId} (${typeof townId})`);
-                // [MASTER] UUID Syntax Protection (Error 22P02)
                 if (!isValidUUID(townId)) {
-                    logger.log(`[SupabaseService] Invalid UUID detected, attempting resolution: ${townId}`);
-
-                    // 1. Try numeric resolution if it looks like an ID
                     const isNumeric = /^\d+$/.test(townId.toString());
                     let townSearch = supabase.from('towns').select('uuid, id');
-                    
                     if (isNumeric) {
                         townSearch = townSearch.or(`id.eq.${townId},town_id.eq.${townId}`);
                     } else {
                         townSearch = townSearch.ilike('name', `%${townId}%`);
                     }
-
                     const { data: townData } = await townSearch.limit(1).maybeSingle();
-
                     if (townData) {
                         townId = townData.uuid || townData.id;
-                        logger.log(`[SupabaseService] Resolved town to: ${townId}`);
                     } else {
-                        logger.warn(`[SupabaseService] Could not resolve town name/ID: ${townId}. Purgant filtre.`);
                         townId = null;
                     }
                 }
 
                 if (townId && isValidUUID(townId)) {
-                    logger.log(`[SupabaseService] Applying final town filter: ${townId}`);
-                    const townCol = columnCache.posts_town_uuid !== false ? 'town_uuid' : 'town_id';
-                    query = query.eq(townCol, townId);
-                } else {
-                    logger.warn(`[SupabaseService] Blocking non-UUID filter: ${townId}`);
+                    logger.log(`[SupabaseService] Applying strict author-territory filter: ${townId}`);
+                    // Enforce that the author must belong to this town
+                    query = query.eq('profiles.town_uuid', townId);
                 }
             }
 

@@ -7,7 +7,6 @@ import { logger } from '../utils/logger';
 import { ROLES } from '../constants';
 import CaptureStudio from './CaptureStudio';
 import './CreatePostModal.css'; // Use unified modal styles
-import './AddItemModal.css';
 
 import EntitySelector from './EntitySelector';
 import MasterEditor from './MasterEditor';

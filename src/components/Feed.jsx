@@ -17,6 +17,7 @@ import SEO from './SEO';
 import ShareHub from './ShareHub';
 import { iaiaService } from '../services/iaiaService';
 import { rhizomeManager } from '../services/rhizomeManager';
+import { townContentGenerator } from '../utils/town_content_generator';
 import './Feed.css';
 import './Comments.css';
 import ImageCarousel from './ImageCarousel';
@@ -30,7 +31,7 @@ import CronistaSummaryModal from './CronistaSummaryModal';
 const IAIA_INITIAL_DELAY_MS = 10000;
 const IAIA_INTERVAL_MS = 120000;
 
-const Feed = ({ townId = null, customPosts = null, contentMode = 'batec' }) => {
+const Feed = ({ townId = null, townName = null, customPosts = null, contentMode = 'batec' }) => {
     const { t } = useTranslation();
     const navigate = useNavigate();
     // const { user, profile, isPlayground, loading: authLoading, isAdmin, isSuperAdmin } = useAuth();
@@ -55,6 +56,7 @@ const Feed = ({ townId = null, customPosts = null, contentMode = 'batec' }) => {
 
     // [CRONISTA AI] State for summary
     const [isCronistaLoading, setIsCronistaLoading] = useState(false);
+    const hasAttemptedSeed = useRef(false);
 
     useEffect(() => {
         isMounted.current = true;
@@ -94,6 +96,18 @@ const Feed = ({ townId = null, customPosts = null, contentMode = 'batec' }) => {
             } else {
                 setPosts(sortedPosts);
                 setPage(0);
+
+                // [PHASE 4: TERRITORIAL EXPANSION]
+                // If the feed is for a specific town and it's empty, trigger a seed event
+                if (sortedPosts.length === 0 && activeTown && activeTown !== 'global' && isPlayground && !hasAttemptedSeed.current) {
+                    logger.info(`[Phase 4] Feed buit per a ${townName || activeTown}. Iniciant inyecció de contingut...`);
+                    hasAttemptedSeed.current = true;
+                    townContentGenerator.seedTownFeed(activeTown, townName || "el seu poble").then(success => {
+                        if (success && isMounted.current) {
+                            setTimeout(() => fetchPosts(false), 2000);
+                        }
+                    });
+                }
             }
 
             setHasMore(posts.length + postsArray.length < totalCount);
@@ -120,7 +134,7 @@ const Feed = ({ townId = null, customPosts = null, contentMode = 'batec' }) => {
                 setLoadingMore(false);
             }
         }
-    }, [selectedRole, activeTown, user, isPlayground, iaiaLevel, page, posts.length]);
+    }, [selectedRole, activeTown, townName, user, isPlayground, iaiaLevel, page, posts.length]);
 
 
 
@@ -458,9 +472,10 @@ const Feed = ({ townId = null, customPosts = null, contentMode = 'batec' }) => {
                                                     'Javi Llinares'
                                 )
                                 : 'Veí de la Comunitat')
-                            : (post.author?.name || post.author); // Handle author object from Raindrop mappings
+                            : (post.author?.name || post.author);
 
-                        const headerSubtitle = post.towns?.name || post.town_name || post.location?.town || 'La Torre de les Maçanes';
+                        const rawTown = post.towns?.name || post.town_name || post.location?.town || 'La Torre de les Maçanes';
+                        const headerSubtitle = rawTown.includes('La Torre') ? 'Gent de La Torre' : `Gent de ${rawTown}`;
 
                         // 2. CENTRALIZED CARD RENDERING
                         const postImage = Array.isArray(post.image_url) ? post.image_url[0] : (post.image_url || post.coverImage);

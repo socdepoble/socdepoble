@@ -40,7 +40,12 @@ const TownDetail = () => {
             try {
                 const allTowns = await supabaseService.getTowns();
                 const isUuid = id.includes('-');
-                const found = allTowns.find(t => isUuid ? t.uuid === id : t.id === parseInt(id));
+                const sluggify = (text) => text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, '-').replace(/[^\w-]/g, '');
+                
+                const found = allTowns.find(t => {
+                    if (isUuid) return t.uuid === id || t.id === parseInt(id);
+                    return sluggify(t.name) === sluggify(id);
+                });
                 setTown(found);
 
                 if (found) {
@@ -244,7 +249,7 @@ const TownDetail = () => {
                                 <MessageCircle size={18} />
                                 <h3>{contentMode === 'batec' ? 'Mur de la Comunitat' : 'Memòria de l\'Arxiu'}</h3>
                             </div>
-                            <Feed townId={town.uuid || town.id} hideHeader={true} contentMode={contentMode} />
+                            <Feed townId={town.uuid || town.id} townName={town.name} hideHeader={true} contentMode={contentMode} />
                         </section>
 
                         {contentMode === 'batec' && (

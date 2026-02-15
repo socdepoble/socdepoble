@@ -39,7 +39,7 @@ const UniversalCard = ({
     const [hasImageError, setHasImageError] = useState(false);
     const cardVariant = variant || mode;
     const { t } = useTranslation();
-    const { gloveMode, openViewer, forensicMode: contextForensic, blueprintMode, setIsGuestInteractionModalOpen } = useUI();
+    const { gloveMode, openViewer, forensicMode: contextForensic, blueprintMode, setIsGuestInteractionModalOpen, openConnectionModal } = useUI();
     const isForensic = forcedForensic || contextForensic;
     const { isAdmin, user } = useAuth();
     const navigate = useNavigate();
@@ -63,7 +63,7 @@ const UniversalCard = ({
     const getGentDePage = (townName) => {
         if (!townName) return "Gent de Poble";
         const cleanTown = townName.replace("Poble Principal:", "").trim();
-        if (cleanTown === "La Torre de les Maçanes") return "Associació Cultural Sant Gregori";
+        if (cleanTown.includes("La Torre")) return "Gent de La Torre";
         return `Gent de ${cleanTown}`;
     };
 
@@ -101,18 +101,13 @@ const UniversalCard = ({
             return;
         }
 
-        const choice = window.confirm(
-            "COM VOLS CONNECTAR?\n\n" +
-            "✅ PÚBLICA: Es mostrarà al mur com a 'Aliat del Poble'.\n" +
-            "🔒 PRIVADA: Connexió invisible, només per a gestió.\n\n" +
-            "Prem 'D'acord' per a Pública o 'Cancel·lar' per a Privada (per defecte)."
-        );
-        
-        if (choice) {
-            alert("Connexió PÚBLICA bategant! Ara ets un Aliat del Poble. 🏺✨");
-        } else {
-            alert("Connexió PRIVADA establerta. La teua intimitat està blindada. 🛡️");
-        }
+        // [PROTOCOL COMUNITAT OBERTA v11.3.0] Connexió de Proximitat
+        openConnectionModal({
+            postId: item.uuid || item.id,
+            onUpdate: (tags) => {
+                console.log(`[CONNECT] Connexió bategada amb etiquetes:`, tags);
+            }
+        });
     };
 
     const CardContent = (
@@ -141,7 +136,7 @@ const UniversalCard = ({
                                 {cardVariant === 'pobles' ? getGentDePage(displayTown) : displayAuthor}
                             </h3>
                             {isOfficial && (
-                                <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-white text-[#FF6B00] uppercase tracking-wide shadow-sm flex items-center gap-1">
+                                <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-white text-[var(--sdp-terracotta)] uppercase tracking-wide shadow-sm flex items-center gap-1">
                                     <ShieldCheck size={10} />
                                     Oficial
                                 </span>
@@ -299,20 +294,28 @@ const UniversalCard = ({
                 {(cardVariant === 'post' || cardVariant === 'mur') && (
                     <div className="footer-actions-mur">
                         {item?.type === 'tramit' ? (
-                            <button className="master-action-btn connect-btn bg-[#FF6B00] text-white border-none w-full" onClick={(e) => { e.stopPropagation(); navigate('/documentacio'); }}>
+                            <button className="master-action-btn connect-btn bg-[var(--sdp-terracotta)] text-white border-none w-full" onClick={(e) => { e.stopPropagation(); navigate('/documentacio'); }}>
                                 <Landmark size={22} />
                                 <span>{item.actionLabel || 'Tramitar'}</span>
                             </button>
+                        ) : isMaster ? (
+                            <button 
+                                className="master-action-btn connect-btn master-button-canonic h-12 px-5 rounded-[24px] font-black tracking-widest bg-[var(--sdp-terracotta)] text-white"
+                                onClick={(e) => { e.stopPropagation(); navigate(`/edit/${item.id}`); }}
+                            >
+                                <Edit size={22} />
+                                <span>RECTIFICAR</span>
+                            </button>
                         ) : (
                             <>
-                                <button className="master-action-btn connect-btn" onClick={handleConnectClick}>
+                                <button 
+                                    className="master-action-btn connect-btn master-button-canonic h-12 px-5 rounded-[24px] font-black tracking-widest" 
+                                    onClick={handleConnectClick}
+                                >
                                     <div className="relative">
                                         <UserPlus size={22} />
-                                        <div className="absolute -top-1 -right-1">
-                                            <Globe size={10} className="text-slate-400 opacity-60" />
-                                        </div>
                                     </div>
-                                    <span>{(cardVariant === 'mercat' || cardVariant === 'market' || item?.price) ? "M'interessa" : "Connectar"}</span>
+                                    <span>{(cardVariant === 'mercat' || cardVariant === 'market' || item?.price) ? "M'interessa" : "CONNECTAR"}</span>
                                 </button>
                                 <div className="footer-touch-group">
                                     <button className="btn-touch iaia-chat" onClick={(e) => { 
@@ -321,8 +324,8 @@ const UniversalCard = ({
                                     }}>
                                         <MessageCircle size={22} />
                                     </button>
-                                    <button className="btn-touch sharing-btn" onClick={(e) => { e.stopPropagation(); alert('Protocol Bategar'); }}>
-                                        <Share2 size={22} />
+                                    <button className="btn-touch sharing-btn" onClick={(e) => { e.stopPropagation(); navigate(`/search?q=${displayTown}`); }}>
+                                        <Tag size={22} />
                                     </button>
                                 </div>
                             </>
@@ -387,9 +390,9 @@ const UniversalCard = ({
                 {/* 4. CARDINAL POBLES (Community Gent de...) */}
                 {cardVariant === 'pobles' && (
                     <div className="footer-pobles-master">
-                        <button className="master-action-btn connect-btn" onClick={handleConnectClick}>
+                        <button className="master-action-btn connect-btn bg-[#002B5B] text-white" onClick={handleConnectClick}>
                             <UserPlus size={22} />
-                            <span>Connectar al Poble</span>
+                            <span>SER DE LA COL·LECTIVITAT</span>
                         </button>
                         <div className="footer-touch-group">
                             <button className="btn-touch iaia-chat" onClick={(e) => { 
@@ -402,7 +405,7 @@ const UniversalCard = ({
                                 const townId = item?.uuid || item?.id;
                                 navigate(`/pobles/${townId || 'de-la-torre'}`);
                             }}>
-                                <span>VISITAR MUR</span>
+                                <span>{getGentDePage(displayTown).toUpperCase()}</span>
                                 <ChevronRight size={22} />
                             </button>
                         </div>

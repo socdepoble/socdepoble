@@ -21,17 +21,22 @@
 }
 
 .header-title-wrapper h1 {
-    font-size: 1.5rem;
-    font-weight: 900;
-    color: var(--color-primary);
+    font-size: 2rem;
+    font-weight: 950;
+    color: var(--color-primary, #FF6B00);
     margin: 0;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.05em;
+    text-transform: uppercase;
 }
 
 .header-title-wrapper p {
-    font-size: 0.85rem;
+    font-size: 1rem;
     color: var(--text-muted);
-    margin: 4px 0 0 0;
+    margin: 8px 0 0 0;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    opacity: 0.6;
 }
 
 .header-tabs {

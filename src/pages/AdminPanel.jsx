@@ -106,10 +106,10 @@ const AdminPanel = () => {
             <header className="admin-header">
                 <div className="title-area">
                     <h1>
-                        <Shield className="text-cyan-400" size={24} />
-                        ANTIGRAVITY <span style={{ opacity: 0.5 }}>//</span> CORE {APP_VERSION}
+                        <Shield className="text-primary" size={24} />
+                        Sóc de Poble! Admin <span style={{ opacity: 0.5 }}>v{APP_VERSION}</span>
                     </h1>
-                    <p>SUPERVISOR DEL SISTEMA: {isSuperAdmin ? 'NIVELL 5 (GOD MODE)' : 'NIVELL 3 (OPERADOR)'}</p>
+                    <p>Panell de Control d'Administració</p>
                 </div>
                 <div className="flex gap-2">
                     <button
@@ -158,7 +158,7 @@ const AdminPanel = () => {
                                 <div className="module-icon-wrapper">
                                     <Bell size={18} />
                                 </div>
-                                <h3>Centre de Difusió</h3>
+                                <h3>Comunicats i Difusió</h3>
                             </div>
 
                             {/* MODULE 2: IDENTITIES */}
@@ -174,7 +174,7 @@ const AdminPanel = () => {
                                 <div className="module-icon-wrapper">
                                     <Users size={18} />
                                 </div>
-                                <h3>Cens de Ciutadans</h3>
+                                <h3>Directori de Veïns</h3>
                             </div>
 
                             {/* MODULE 3: AUTO-HEALING (New) */}
@@ -246,7 +246,7 @@ const AdminPanel = () => {
                                     <div className="module-icon-wrapper" style={{ background: 'var(--color-warning)', color: '#000' }}>
                                         <Brain size={18} />
                                     </div>
-                                    <h3>Govern Memòria</h3>
+                                    <h3>Arxiu de Memòria</h3>
                                 </div>
                             )}
 

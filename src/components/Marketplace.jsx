@@ -115,16 +115,17 @@ const Market = ({ searchTerm = '' }) => {
         // 1. Vision Mode Filter
         if (visionMode === 'humana' && !isSuperAdmin) {
             baseItems = baseItems.filter(item => {
-                const idToCheck = String(item.seller_entity_id || item.author_entity_id || item.author_user_id || '');
+                const idToCheck = String(item.seller_entity_id || item.author_entity_id || item.author_user_id || item.author_id || '');
                 const nameToCheck = item.seller || item.seller_name || item.author_name || '';
 
+                // [MASTER BLACKLIST] Purga de fantasmes i noms reservats per a IAIA
                 const BLACKLIST_NAMES = [
                     'Vicent Ferris', 'Lucía Belda', 'Elena Popova', 'Maria "Mèl"', 'Marc Sendra',
                     'Samir Mensah', 'Andreu Soler', 'Beatriz Ortega', 'Joanet Serra',
-                    'Carmen la del Forn', 'Joan Batiste', 'Carla Soriano',
+                    'Carmen la del Forn', 'Joan Batiste', 'Carla Soriano', 'El Viatjant', 'Flash',
                     'Formatgeria la Vall', 'Cooperativa de la Torre', 'Sabors del Comtat',
                     'Destil·leries de la Serra', 'Forn de Muro', 'Abelles Mariola', 'Abelles de la Serra',
-                    'Hort del Tio Pep'
+                    'Hort del Tio Pep', 'IAIA MARIA'
                 ];
                 if (BLACKLIST_NAMES.some(name => nameToCheck.includes(name))) return false;
 
@@ -135,8 +136,12 @@ const Market = ({ searchTerm = '' }) => {
 
                 if (isAI) return false;
 
+                // [PROTOCOL FANTASMA] Eliminem tot el que bategui amb mock- que no sigui oficial
                 const isMock = idToCheck.startsWith('mock-');
-                const isOfficialSdP = idToCheck === 'mock-business-sdp-1' || item.seller === 'Sóc de Poble' || item.title?.includes('Camiseta');
+                const isOfficialSdP = idToCheck === 'mock-business-sdp-1' || 
+                                     idToCheck === 'sdp-oficial-1' || 
+                                     item.seller === 'Sóc de Poble' || 
+                                     item.title?.includes('Camiseta');
 
                 if (isMock && !isOfficialSdP) return false;
                 if (idToCheck.startsWith('00000000-')) return false;
@@ -355,6 +360,7 @@ const Market = ({ searchTerm = '' }) => {
                             onRecipeClick={() => handleRecipeClick(item)}
                             mode="mercat"
                             className="market-item-standard"
+                            variant="mercat"
                         />
                     ))
                 )}

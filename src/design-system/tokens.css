@@ -21,14 +21,16 @@
     --sdp-glass-border: rgba(255, 255, 255, 0.08);
     --sdp-glass-blur: 24px;
 
-    /* GEOMETRIA (Master Monolith) */
+    /* GEOMETRIA (Master Monolith v10.30.0) */
     --sdp-radius-none: 0px;
-    --sdp-radius-xs: 0px;
-    --sdp-radius-sm: 0px;
-    --sdp-radius-md: 0px;
-    --sdp-radius-lg: 0px;
-    --sdp-radius-xl: 0px;
+    --sdp-radius-xs: 4px;
+    --sdp-radius-sm: 8px;
+    --sdp-radius-md: 16px;
+    --sdp-radius-lg: 28px;
+    --sdp-radius-xl: 32px;
     --sdp-radius-full: 9999px;
+    --sdp-radius-genesis: 28px;
+    --sdp-radius-tactile: 24px;
 
     /* SPACING SYSTEM (8px Grid) */
     --sdp-space-xs: 4px;
@@ -36,6 +38,14 @@
     --sdp-space-md: 16px;
     --sdp-space-lg: 24px;
     --sdp-space-xl: 32px;
+
+    /* BOOTER FONT [MASTER] */
+    --sdp-font-booter: 'Booter', cursive;
+    --sdp-font-playball: 'Playball', cursive;
+    --sdp-font-pump: 'Pump', sans-serif;
+    --sdp-font-dearjoefour: 'DearJoeFour', cursive;
+    --sdp-font-myriadpro: 'MyriadPro', sans-serif;
+    --sdp-font-respublica: 'ResPublica', serif;
 }
 
 body {
