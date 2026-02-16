@@ -21,21 +21,18 @@ const VoiceRecorder = ({ onSend, onCancel, lang = 'va' }) => {
         try {
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
 
-            // Projecte JARVIS: Iniciar reconeixement de veu paral·lel
             try {
                 const { speechService } = await import('../services/speechService');
                 if (speechService.isSupported) {
-                    // Passem el codi de llengua rebut per prop (va, es, gl, etc.)
                     speechService.listen(lang).then(text => {
                         setTranscript(text);
                         logger.log('[VoiceRecorder] Transcripció JARVIS:', text);
                     }).catch(err => logger.error('[VoiceRecorder] Speech error:', err));
                 }
-            } catch (e) {
-                logger.error('[VoiceRecorder] Speech service import error:', e);
+            } catch {
+                logger.error('[VoiceRecorder] Speech service import error');
             }
 
-            // Audio Context for visualizer
             const audioContext = new (window.AudioContext || window.webkitAudioContext)();
             const analyser = audioContext.createAnalyser();
             const source = audioContext.createMediaStreamSource(stream);
@@ -62,13 +59,13 @@ const VoiceRecorder = ({ onSend, onCancel, lang = 'va' }) => {
                 chunksRef.current = [];
                 stopVisualizer();
 
-                // Projecte JARVIS: Aturar reconeixement si encara està actiu
                 try {
                     const { speechService } = await import('../services/speechService');
                     speechService.stop();
-                } catch (e) { }
+                } catch {
+                    // Fail silent
+                }
 
-                // Passem el blob, la durada i la transcripció (Projecte JARVIS)
                 onSend(audioBlob, recordedDuration, transcript);
             };
 
@@ -76,12 +73,11 @@ const VoiceRecorder = ({ onSend, onCancel, lang = 'va' }) => {
             mediaRecorder.start();
             setIsRecording(true);
 
-            // Timer
             let seconds = 0;
             timerRef.current = setInterval(() => {
                 seconds++;
                 setDuration(seconds);
-                if (seconds >= 120) { // Max 2 minutes
+                if (seconds >= 120) {
                     stopRecording();
                 }
             }, 1000);
@@ -104,8 +100,8 @@ const VoiceRecorder = ({ onSend, onCancel, lang = 'va' }) => {
 
     const cancelRecording = () => {
         if (mediaRecorderRef.current) {
-            mediaRecorderRef.current.stop(); // Stop recording
-            mediaRecorderRef.current.stream.getTracks().forEach(track => track.stop()); // Release mic
+            mediaRecorderRef.current.stop();
+            mediaRecorderRef.current.stream.getTracks().forEach(track => track.stop());
         }
         clearInterval(timerRef.current);
         stopVisualizer();
@@ -134,7 +130,7 @@ const VoiceRecorder = ({ onSend, onCancel, lang = 'va' }) => {
 
             for (let i = 0; i < bufferLength; i++) {
                 barHeight = dataArray[i] / 2;
-                ctx.fillStyle = `rgb(${barHeight + 100}, 50, 50)`; // Red-ish
+                ctx.fillStyle = `rgb(${barHeight + 100}, 50, 50)`;
                 ctx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
                 x += barWidth + 1;
             }
@@ -148,7 +144,7 @@ const VoiceRecorder = ({ onSend, onCancel, lang = 'va' }) => {
             cancelAnimationFrame(animationFrameRef.current);
         }
         if (audioContextRef.current) {
-            audioContextRef.current.close();
+            audioContextRef.current.close().catch(() => {});
         }
     };
 
@@ -158,13 +154,10 @@ const VoiceRecorder = ({ onSend, onCancel, lang = 'va' }) => {
         return `${mins}:${s.toString().padStart(2, '0')}`;
     };
 
-    // Auto-start on mount if desired, but user interaction is safer.
-    // We assume parent rendered this because user clicked Mic.
-    // Trigger start immediately.
     useEffect(() => {
         startRecording();
         return () => {
-            cancelRecording(); // Cleanup on unmount
+            cancelRecording();
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);

@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { RURAL_PALETTE, getNearestRuralColor, resolveColorIdentity } from '../constants/ruralColors';
+import { resolveColorIdentity } from '../constants/ruralColors';
 
 /**
  * useThemeCustomizer [MASTER]

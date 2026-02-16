@@ -61,6 +61,14 @@
           return;
         _warn.apply(console, args);
       };
+
+      // --- SHADOW HOST SILENCER ---
+      // Silences the ghost error "Failed to find shadow host" from extensions.
+      window.addEventListener('unhandledrejection', (event) => {
+        if (event.reason && event.reason.message && event.reason.message.includes("shadow host")) {
+          event.preventDefault();
+        }
+      });
     </script>
 
     <!-- Tailwind CSS -->

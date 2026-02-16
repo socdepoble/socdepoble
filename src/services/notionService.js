@@ -1,5 +1,3 @@
-import { logger } from '../utils/logger';
-
 /**
  * NOTION SERVICE [MEMÒRIA PERSONAL]
  * Encarregat de traduir l'arquitectura de Notion al Rebost Sobirà.

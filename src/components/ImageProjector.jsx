@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { X, ZoomIn, ZoomOut, Maximize, ChevronLeft, ChevronRight, Share2, Download, Shield } from 'lucide-react';
 import './ImageProjector.css';
 
@@ -12,17 +12,17 @@ const ImageProjector = ({ items, currentIndex, onClose, onNavigate }) => {
 
     const currentItem = items[currentIndex];
 
-    useEffect(() => {
+    const [prevIndex, setPrevIndex] = useState(currentIndex);
+
+    if (prevIndex !== currentIndex) {
+        setPrevIndex(currentIndex);
         setZoom(1);
         setPosition({ x: 0, y: 0 });
-    }, [currentIndex]);
+    }
 
     const handleZoomIn = () => setZoom(prev => Math.min(prev + 0.5, 4));
     const handleZoomOut = () => setZoom(prev => Math.max(prev - 0.5, 1));
-    const handleReset = () => {
-        setZoom(1);
-        setPosition({ x: 0, y: 0 });
-    };
+    // handleReset removed as requested by lint (unused)
 
     const handleMouseDown = (e) => {
         if (zoom <= 1) return;

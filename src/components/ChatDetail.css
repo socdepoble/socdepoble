@@ -1,42 +1,87 @@
 .chat-detail-container {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  background: var(--bg-page);
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-  box-shadow: none;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  background: #000;
+  overflow: hidden !important;
 }
 
-@media (max-width: 600px) {
-  .chat-detail-container {
-    max-width: 100%;
-    left: 0;
-    transform: none;
+.chat-split-view-container {
+  flex: 1 1 auto !important;
+  display: flex !important;
+  flex-direction: row !important; /* El bloc de notes va al costat */
+  min-height: 0 !important;
+  width: 100% !important;
+  overflow: hidden !important;
+  position: relative;
+}
+
+.chat-messages-panel {
+  flex: 1 1 auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  background: rgba(0, 0, 0, 0.1);
+  overflow: hidden !important;
+  position: relative;
+  height: 100% !important; /* Add this to force internal expansion */
+}
+
+.messages-container {
+  flex: 1 !important;
+  overflow-y: auto !important;
+  min-height: 0 !important;
+  display: flex !important;
+  flex-direction: column-reverse !important;
+  padding: 1rem;
+}
+
+@media (min-width: 768px) {
+  .messages-container {
+    padding: 1.5rem;
   }
 }
 
 .chat-nav-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 16px;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 0 16px !important;
   background: #000 !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  height: 72px;
-  flex-shrink: 0;
-  z-index: 100;
-  color: #fff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  height: 64px !important;
+  flex-shrink: 0 !important;
+  z-index: 100 !important;
+  color: #fff !important;
 }
 
 .back-button {
-  color: var(--text-main);
+  color: #fff !important;
   opacity: 0.8;
+  transition: opacity 0.2s;
 }
 
 .back-button:hover {
   opacity: 1;
+}
+
+.chat-input-area-new {
+  position: relative !important; /* El pare és flex, no cal sticky si el rest és flex-1 */
+  width: 100% !important;
+  padding: 16px 20px calc(16px + env(safe-area-inset-bottom, 20px)) !important;
+  background: #000 !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+  z-index: 1000 !important;
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5) !important;
+  flex-shrink: 0 !important;
 }
 
 .chat-header-main {
@@ -157,10 +202,10 @@
 }
 
 .wa-bubble.me {
-  background: var(--accent-violet);
-  color: #ffffff;
+  background: var(--sdp-terracotta);
+  color: #000;
   align-self: flex-end;
-  box-shadow: var(--shadow-glow-violet);
+  font-weight: 700;
   border-bottom-right-radius: 4px;
 }
 
@@ -389,23 +434,22 @@
 
 /* NEW INPUT AREA */
 .chat-input-area-new {
-  padding: 12px 16px calc(12px + var(--safe-bottom, 20px));
-  background: var(--surface-glass-heavy);
-  backdrop-filter: blur(var(--blur-master));
-  border-top: 1px solid var(--border-subtle);
-  display: flex;
+  position: relative;
+  width: 100%;
+  padding: 16px 20px calc(16px + env(safe-area-inset-bottom, 20px));
+  background: #000 !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex !important;
   flex-direction: column;
   gap: 8px;
-  z-index: 30;
-  box-shadow: var(--shadow-deep);
-  flex-shrink: 0;
+  z-index: 1000;
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
+  flex-shrink: 0 !important;
 }
 
 @media (max-width: 768px) {
-  .chat-input-area-new {
-    padding-bottom: calc(90px + var(--safe-bottom, 20px));
-    z-index: 9998 !important;
-    bottom: 5rem !important; /* bottom-20 (80px) mestre */
+  .chat-detail-container {
+    height: 100%; /* Forçat per flex parent */
   }
 }
 

@@ -1,4 +1,5 @@
-import { logger } from '../utils/logger';
+// [SISTEMA RIZOMA] - Logger removed to satisfy lint if unused
+
 
 /**
  * RAINDROP SERVICE [SISTEMA RIZOMA]
@@ -86,7 +87,7 @@ export const raindropService = {
     /**
      * Unified access to resources.
      */
-    async getCollection(collectionId = 'all') {
+    async getCollection() {
         // For now, we return our mock data as a unified collection
         return this.getMockData();
     }

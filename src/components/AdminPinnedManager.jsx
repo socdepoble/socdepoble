@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Pin, ArrowUp, ArrowDown, X, Save, Loader2, Sparkles, LayoutGrid, List } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
@@ -14,13 +14,7 @@ const AdminPinnedManager = ({ type = 'post', onClose }) => {
     const [searchQuery, setSearchQuery] = useState('');
     const [searchResults, setSearchResults] = useState([]);
 
-    useEffect(() => {
-        if (isSuperAdmin) {
-            loadPinnedItems();
-        }
-    }, [isSuperAdmin, type]);
-
-    const loadPinnedItems = async () => {
+    const loadPinnedItems = useCallback(async () => {
         setLoading(true);
         try {
             const result = type === 'post'
@@ -42,7 +36,13 @@ const AdminPinnedManager = ({ type = 'post', onClose }) => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [type]);
+
+    useEffect(() => {
+        if (isSuperAdmin) {
+            loadPinnedItems();
+        }
+    }, [isSuperAdmin, loadPinnedItems]);
 
     const handleSearch = async (e) => {
         const query = e.target.value;

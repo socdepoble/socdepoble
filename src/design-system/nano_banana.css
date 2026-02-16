@@ -53,7 +53,7 @@
     background: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent);
     padding: 24px 12px 12px 12px;
     color: #FFFFFF;
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--sdp-font-sans);
 }
 
 .trencadis-title {

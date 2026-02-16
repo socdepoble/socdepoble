@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import {
   MessageSquare,
   LayoutGrid,
@@ -20,6 +20,7 @@ import {
   Briefcase,
   PenTool,
   Ruler,
+  Ghost
 } from "lucide-react";
 import { useUI } from "../context/UIContext";
 import { useAuth } from "../context/AuthContext";
@@ -57,19 +58,24 @@ const SIDEBAR_ORG = [
 ];
 
 const SIDEBAR_COLLECTIONS = [
-  { id: "col_xat", label: "xat", icon: Folder, to: "/chats" },
-  { id: "col_gent", label: "gent", icon: Folder, to: "/directori" },
+  { id: "col_gent", label: "Gent del Poble", icon: Users, to: "/directori" },
   {
     id: "calendari_master",
-    label: "Calendari Master",
+    label: "Agenda Cultural",
     icon: Calendar,
     to: "/calendari",
   },
   {
-    id: "album_global",
-    label: "Àlbum Global",
+    id: "memorial",
+    label: "Memorial Fantasmes",
+    icon: Ghost,
+    to: "/memorial",
+  },
+  {
+    id: "infoteca",
+    label: "Infoteca Nano",
     icon: ImageIcon,
-    to: "/fotos/global",
+    to: "/infoteca",
   },
 ];
 
@@ -84,7 +90,6 @@ const NavigationRail = () => {
     setIsGuestInteractionModalOpen,
   } = useUI();
   const { user } = useAuth();
-  const navigate = useNavigate();
 
   const handleNavClick = () => {
     if (window.innerWidth < 1024) {
@@ -95,20 +100,7 @@ const NavigationRail = () => {
   return (
     <aside className="w-[280px] h-full flex-shrink-0 flex flex-col bg-black z-20">
       {/* HEADER SIDEBAR: BLINDAT NEGRE I 64px D'ALÇADA (1er MANDAMENT v9.1.0) */}
-      <div className="h-16 min-h-[64px] flex items-center justify-between px-6 bg-black shrink-0 border-b border-white/5">
-        <div
-          className="hidden lg:flex items-center cursor-pointer hover:opacity-80 transition-opacity"
-          onClick={() => {
-            handleNavClick();
-            navigate("/");
-          }}
-        >
-          <img
-            src="/assets/master/logo_socdepoble_white_full.png"
-            alt="Sóc de Poble"
-            className="h-7 w-auto object-contain brightness-200"
-          />
-        </div>
+      <div className="h-16 min-h-[64px] flex items-center justify-between px-6 bg-black shrink-0 border-b border-white/5 lg:hidden">
         {/* Botó tancar menú mòbil - TACTILE TARGET 48px */}
         <button
           onClick={closeDrawer}
@@ -119,7 +111,6 @@ const NavigationRail = () => {
       </div>
 
       <div className="p-5 flex flex-col gap-3">
-        {/* BOTÓ 1: AFEGIR (GÉNESIS) - AZUL - TACTILE 48px+ */}
         <button
           onClick={() => {
             if (user?.isAnonymous) {
@@ -129,10 +120,14 @@ const NavigationRail = () => {
             }
             handleNavClick();
           }}
-          className="w-full h-14 bg-[#4F46E5] hover:bg-[#4338ca] text-white rounded-2xl font-black flex items-center justify-center gap-2 shadow-lg transition-all active:scale-95"
+          className="w-full h-14 bg-[#4F46E5] hover:bg-[#4338ca] text-white rounded-2xl font-black flex items-center justify-center gap-3 shadow-lg transition-all active:scale-95 group relative overflow-hidden"
         >
-          <Plus size={20} strokeWidth={3} />
-          <span className="tracking-widest text-[14px] uppercase">AFEGIR</span>
+          {/* L'ÀMFORA INTEGRADA (Disseny IAIA v12.1) */}
+          <div className="flex items-center justify-center bg-white/10 w-10 h-10 rounded-xl group-hover:bg-white/20 transition-colors">
+            <span className="text-xl">🏺</span>
+          </div>
+          <span className="tracking-widest text-[14px] uppercase mr-2">AFEGIR</span>
+          <Plus size={16} strokeWidth={4} className="opacity-50" />
         </button>
 
         {/* BOTÓ 2: XAT (BATEGAT) - NARANJA - TACTILE 48px+ */}

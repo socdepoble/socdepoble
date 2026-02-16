@@ -5,8 +5,9 @@ import { useI18n } from "../context/I18nContext";
 import { useUI } from "../context/UIContext";
 import { 
   Share2, MapPin, CheckCircle, Link as LinkIcon, 
-  Grid, Heart, Camera, Moon, Sun, Check, Sparkles, BookOpen, Settings, Zap, Archive as HistoryIcon, Globe
+  Grid, Heart, Camera, Moon, Sun, Check, Sparkles, BookOpen, Settings, Zap, Archive as HistoryIcon, Globe, Key, Eye, ExternalLink
 } from 'lucide-react';
+import { geminiService } from '../services/geminiService';
 import TownPickerModal from '../components/TownPickerModal';
 import ProfileHeaderPremium from '../components/ProfileHeaderPremium';
 import './UniversalProfile.css';
@@ -24,6 +25,10 @@ const UniversalProfile = () => {
   const [isConnected, setIsConnected] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [isTownPickerOpen, setIsTownPickerOpen] = useState(false);
+  const [apiKey, setApiKey] = useState(localStorage.getItem('sp_gemini_api_key') || 'AIzaSyBBiBmBgL0omiEPtTJnZwLxtUNgS1Qouis');
+  const [csvKey, setCsvKey] = useState(localStorage.getItem('sp_notarial_csv') || 'JUSCGNCECUARKQAQKQAFIBIBKFIQRU');
+  const [showKey, setShowKey] = useState(false);
+  const [showCsv, setShowCsv] = useState(false);
 
   const [profileData, setProfileData] = useState({
     name: profile?.full_name || "Javi Llinares",
@@ -157,23 +162,100 @@ const UniversalProfile = () => {
                   {architectMode ? 'ON' : 'OFF'}
                 </button>
               </div>
+
+              {/* Clau d'Intel·ligència (Gemini API) */}
+              <div className="config-row-special col-span-full mt-6">
+                <div className="config-meta">
+                  <div className="config-icon-box" style={{ color: '#F59E0B' }}>
+                    <Sparkles size={28} />
+                  </div>
+                  <div className="config-text">
+                    <h4>Clau d'Intel·ligència (Gemini API)</h4>
+                    <p>Necessària per a que l'Arxiver puga "pensar".</p>
+                  </div>
+                </div>
+                <div className="api-key-input-group flex-1 flex gap-2">
+                  <input 
+                    type={showKey ? "text" : "password"}
+                    value={apiKey}
+                    onChange={(e) => {
+                      setApiKey(e.target.value);
+                      geminiService.setApiKey(e.target.value);
+                    }}
+                    placeholder="Pega la teua clau d'AI Studio..."
+                    className="flex-1 bg-black/40 border border-white/10 rounded-xl px-4 py-2 text-sm text-orange-200 placeholder:text-gray-700 outline-none focus:border-orange-500/50 transition-all font-mono"
+                  />
+                  <button 
+                    onClick={() => setShowKey(!showKey)}
+                    className="p-3 bg-white/5 rounded-xl hover:bg-white/10 transition-all text-gray-400"
+                    title={showKey ? "Ocultar" : "Mostrar"}
+                  >
+                    {showKey ? <Check size={18} className="text-green-400" /> : <Eye size={18} />}
+                  </button>
+                  <a 
+                    href="https://aistudio.google.com/app/apikey" 
+                    target="_blank" 
+                    rel="noreferrer"
+                    className="p-3 bg-white/5 rounded-xl hover:bg-white/10 transition-all text-gray-400"
+                    title="Obtindre clau"
+                  >
+                    <Globe size={18} />
+                  </a>
+                </div>
+              </div>
+
+              {/* Clau de Burocràcia (CSV Notarial) */}
+              <div className="config-row-special col-span-full mt-8 border-t border-white/5 pt-6">
+                <div className="config-meta">
+                  <div className="config-icon-box" style={{ color: '#10B981' }}>
+                    <Key size={28} />
+                  </div>
+                  <div className="config-text">
+                    <h4>Codi de Verificació (CSV / Legal)</h4>
+                    <p>Protocol Notarial 1911/2024 (Herència).</p>
+                  </div>
+                </div>
+                <div className="api-key-input-group flex-1 flex gap-2">
+                  <input 
+                    type={showCsv ? "text" : "password"}
+                    value={csvKey}
+                    onChange={(e) => {
+                      setCsvKey(e.target.value);
+                      localStorage.setItem('sp_notarial_csv', e.target.value);
+                    }}
+                    placeholder="Codi Segur de Verificació (CSV)..."
+                    className="flex-1 bg-black/40 border border-white/10 rounded-xl px-4 py-2 text-sm text-green-200 placeholder:text-gray-700 outline-none focus:border-green-500/50 transition-all font-mono"
+                  />
+                  <button 
+                    onClick={() => setShowCsv(!showCsv)}
+                    className="p-3 bg-white/5 rounded-xl hover:bg-white/10 transition-all text-gray-400"
+                  >
+                    {showCsv ? <Check size={18} className="text-green-400" /> : <Eye size={18} />}
+                  </button>
+                  <a 
+                    href="https://www.portalnotarial.es" 
+                    target="_blank" 
+                    rel="noreferrer"
+                    className="p-3 bg-white/5 rounded-xl hover:bg-white/10 transition-all text-gray-400"
+                    title="Portal Notarial"
+                  >
+                    <ExternalLink size={18} />
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
         {/* 5. ESTADÍSTIQUES HARMONITZADES */}
-        <div className="profile-stats-row max-w-2xl mx-auto">
-          <div className="stat-item group">
-            <span className="stat-value group-hover:text-[var(--sdp-terracotta)]">{profileData.stats.followers}</span>
-            <span className="stat-label">Seguidors</span>
+        <div className="profile-stats-row max-w-2xl mx-auto border-t border-white/5 py-8">
+          <div className="stat-item group clickable">
+            <span className="stat-value text-3xl font-black group-hover:text-[var(--sdp-terracotta)]">{profileData.stats.followers}</span>
+            <span className="stat-label uppercase tracking-widest text-[10px] opacity-60">Connexions</span>
           </div>
-          <div className="stat-item group">
-            <span className="stat-value group-hover:text-blue-500">{profileData.stats.following}</span>
-            <span className="stat-label">Seguint</span>
-          </div>
-          <div className="stat-item group">
-            <span className="stat-value group-hover:text-red-500">{profileData.stats.posts}</span>
-            <span className="stat-label">Històries</span>
+          <div className="stat-item group clickable">
+            <span className="stat-value text-3xl font-black group-hover:text-white">{profileData.stats.posts}</span>
+            <span className="stat-label uppercase tracking-widest text-[10px] opacity-60">Publicacions</span>
           </div>
         </div>
 

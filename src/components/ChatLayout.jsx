@@ -9,7 +9,7 @@ const ChatLayout = () => {
     const { blueprintMode } = useUI();
 
     return (
-        <div className="flex-1 flex overflow-hidden w-full h-full bg-black relative">
+        <div className="flex-1 flex overflow-hidden w-full bg-black relative flex-grow min-h-0 h-full">
             
             {/* 1. LLISTA DE VEÏNS (EL MERCAT - 400px FIXES EN DESKTOP) */}
             <div className={`
@@ -17,17 +17,27 @@ const ChatLayout = () => {
                 ${id ? 'hidden lg:flex' : 'flex w-full'}
                 flex-col relative
             `}>
-                {blueprintMode && <BlueprintOverlay label="LIST_COLUMN" dimensions={id ? "HIDDEN" : "FULL_WIDTH"} color="blue" />}
-                <ChatList />
+                {blueprintMode ? (
+                    <BlueprintOverlay label="LIST_COLUMN" dimensions={id ? "HIDDEN" : "FULL_WIDTH"} color="blue" className="flex-1 flex flex-col min-h-0 h-full">
+                        <ChatList />
+                    </BlueprintOverlay>
+                ) : (
+                    <ChatList />
+                )}
             </div>
 
             {/* 2. FINESTRA DE CONVERSA (ESCENARI - FLEX 1 EN DESKTOP) */}
             <div className={`
-                flex-1 flex flex-col min-w-0 bg-black relative
-                ${!id ? 'hidden lg:flex' : 'fixed inset-0 z-50 lg:static lg:z-auto flex chat-detail-mobile-transition'}
+                flex-1 flex flex-col min-w-0 bg-black relative min-h-0 h-full
+                ${!id ? 'hidden lg:flex' : 'flex lg:static lg:z-auto chat-detail-mobile-transition h-full'}
             `}>
-                {blueprintMode && <BlueprintOverlay label="RIGHT_PANEL" dimensions="FLEX_GROW" color="green" />}
-                <Outlet />
+                {blueprintMode ? (
+                    <BlueprintOverlay label="RIGHT_PANEL" dimensions="FLEX_GROW" color="green" className="flex-1 flex flex-col min-h-0 h-full">
+                        <Outlet />
+                    </BlueprintOverlay>
+                ) : (
+                    <Outlet />
+                )}
             </div>
         </div>
     );

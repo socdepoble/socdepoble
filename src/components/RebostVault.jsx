@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Upload, Plus, Search, Archive, AlertCircle, Share2, Grid, List, CheckCircle2, ShieldCheck } from 'lucide-react';
+import { 
+    Upload, Plus, Search, Archive, AlertCircle, Share2, 
+    CheckCircle2, ShieldCheck, HardDrive 
+} from 'lucide-react';
 import { migrationService } from '../services/MigrationService';
 import { notionService } from '../services/notionService';
 import { supabaseService } from '../services/supabaseService';
@@ -16,7 +19,7 @@ import { historicalRecoveryService } from '../services/HistoricalRecoveryService
  * Magatzem sobirà per a recursos personals i importacions de Raindrop.
  */
 const RebostVault = ({ onClose }) => {
-    const { user, isPlayground } = useAuth();
+    const { user } = useAuth();
     const [resources, setResources] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isImporting, setIsImporting] = useState(false);
@@ -26,34 +29,39 @@ const RebostVault = ({ onClose }) => {
 
     useEffect(() => {
         fetchResources();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user]);
 
     const fetchResources = async () => {
         if (!user) return;
         setLoading(true);
         try {
-            // Priority 1: Supabase
+            // Prioritat 1: Supabase (Dades Sobiranes)
             const { data, error } = await supabaseService.supabase
                 .from('resources')
                 .select('*')
                 .eq('owner_id', user.id)
                 .order('created_at', { ascending: false });
 
-            if (error && error.code !== '42P01') throw error; // 42P01 = table not found
+            if (error && error.code !== '42P01') throw error; 
 
             let finalResources = data || [];
 
-            // Priority 2: Injected Mocks (Raindrop/Notion)
+            // Prioritat 2: Injecció de Mocks si està buit (Raindrop/Notion Virtual)
             if (finalResources.length === 0) {
-                const { raindropService } = await import('../services/raindropService');
-                const raindropMocks = await raindropService.getCollection();
-                const notionMocks = notionService.getMockVolume(5);
-                finalResources = [...raindropMocks, ...notionMocks];
+                try {
+                    const { raindropService } = await import('../services/raindropService');
+                    const raindropMocks = await raindropService.getCollection();
+                    const notionMocks = notionService.getMockVolume(5);
+                    finalResources = [...raindropMocks, ...notionMocks];
+                } catch (mockErr) {
+                    logger.warn('[Rebost] Error carregant serveis de mock:', mockErr);
+                }
             }
 
             setResources(finalResources);
         } catch (err) {
-            logger.warn('[Rebost] Error obtenint recursos, usant mocks:', err);
+            logger.warn('[Rebost] Error obtenint recursos, entrant en mode resilient:', err);
         } finally {
             setLoading(false);
         }
@@ -76,59 +84,48 @@ const RebostVault = ({ onClose }) => {
                 const rawItems = migrationService.parseNotionJSON(text);
                 items = rawItems.map(item => notionService.mapToResource(item));
             } else if (file.name.endsWith('.xml')) {
-                // WordPress or Blogger
-                try {
-                    if (text.includes('xmlns:wp="http://wordpress.org/export/')) {
-                        items = historicalRecoveryService.parseWordPressXML(text);
-                    } else if (text.includes('type="text/html"') && text.includes('<entry>')) {
-                        items = historicalRecoveryService.parseBloggerXML(text);
-                    } else {
-                        throw new Error('Fitxer XML no reconegut com a WordPress o Blogger.');
-                    }
-                } catch (xmlErr) {
-                    alert('Error parsejant el fitxer XML: ' + xmlErr.message);
-                    setIsImporting(false);
-                    return;
+                if (text.includes('xmlns:wp="http://wordpress.org/export/')) {
+                    items = historicalRecoveryService.parseWordPressXML(text);
+                } else if (text.includes('type="text/html"') && text.includes('<entry>')) {
+                    items = historicalRecoveryService.parseBloggerXML(text);
+                } else {
+                    throw new Error('Format XML no reconegut.');
                 }
             } else {
-                alert('Format no suportat. Usa HTML (Raindrop), JSON (Notion) o XML (WordPress/Blogger).');
+                alert('Format no suportat.');
                 setIsImporting(false);
                 return;
             }
 
             if (items.length === 0) {
-                alert('No s\'han trobat dades vàlides al fitxer.');
+                alert('No s\'han trobat dades vàlides.');
                 setIsImporting(false);
                 return;
             }
 
             const result = await migrationService.importToRebost(items, user.id);
-
-            // Simulem el "refinament" de MArIA per a donar sensació premium
-            setIsImporting(true); // Ens mantenim en càrrega un moment més
+            
+            // Sensació de processament intel·ligent (Refinament MArIA)
             setTimeout(() => {
                 setImportStats(result);
                 setIsImporting(false);
                 fetchResources();
-            }, 1500);
+            }, 1200);
 
         } catch (err) {
-            logger.error('[Rebost] Error en la importació:', err);
-            alert('Error important: ' + err.message);
+            logger.error('[Rebost] Error importació:', err);
+            alert('Error: ' + err.message);
             setIsImporting(false);
         }
     };
 
     const handleExport = async () => {
-        if (resources.length === 0) {
-            alert('No hi ha res a exportar encara, el rebost és buit.');
-            return;
-        }
+        if (resources.length === 0) return;
         await migrationService.exportRebostData(resources);
     };
 
     const handleShare = async (resource) => {
-        const confirmShare = window.confirm(`Vols "trastombar" aquest recurs (${resource.title}) al poble? Serà visible per a altres veïns.`);
+        const confirmShare = window.confirm(`Vols "trastombar" ${resource.title} al poble?`);
         if (!confirmShare) return;
 
         try {
@@ -139,7 +136,6 @@ const RebostVault = ({ onClose }) => {
 
             if (error) throw error;
             fetchResources();
-            alert('¡Recurs publicat al poble amb èxit! 🌍');
         } catch (err) {
             logger.error('[Rebost] Error compartint:', err);
         }
@@ -147,78 +143,75 @@ const RebostVault = ({ onClose }) => {
 
     const filteredResources = resources.filter(r =>
         r.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (r.description && r.description.toLowerCase().includes(searchQuery.toLowerCase())) ||
-        (r.semantic_tags && r.semantic_tags.some(t => t.toLowerCase().includes(searchQuery.toLowerCase())))
+        (r.description && r.description.toLowerCase().includes(searchQuery.toLowerCase()))
     );
 
-    if (loading && resources.length === 0) return <StatusLoader message="Obrint el Rebost..." />;
+    if (loading && resources.length === 0) return <StatusLoader message="Preparant el Rebost..." />;
 
     return (
-        <div className="rebost-vault animate-in">
-            <header className="rebost-header">
-                <div className="rebost-title-section">
-                    <button className="rebost-back-btn" onClick={onClose} aria-label="Tornar">
+        <div className="rebost-vault animate-in p-6 bg-[#0a0a0c] min-h-full">
+            <header className="rebost-header flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+                <div className="rebost-title-section flex items-center gap-4">
+                    <button className="w-10 h-10 flex items-center justify-center rounded-2xl bg-white/5 hover:bg-white/10 transition-all" onClick={onClose}>
                         <Plus size={24} style={{ transform: 'rotate(45deg)' }} />
                     </button>
-                    <Archive size={24} className="text-terracotta" />
+                    <div className="p-3 bg-indigo-500/10 text-indigo-400 rounded-2xl">
+                        <HardDrive size={24} />
+                    </div>
                     <div>
-                        <h2>El Rebost Sobirà</h2>
-                        <p>El teu magatzem privat de coneixement</p>
+                        <h2 className="text-2xl font-black text-white leading-none mb-1">El Rebost Sobirà</h2>
+                        <p className="text-sm text-gray-500 uppercase font-black tracking-widest opacity-60">Magatzem Privat</p>
                     </div>
                 </div>
 
-                <div className="rebost-actions">
-                    <div className="iron-integrity-badge" title="Arquitectura de Ferro: Referències Inmutables Actives">
+                <div className="rebost-actions flex items-center gap-3">
+                    <div className="flex items-center gap-2 px-3 py-1.5 bg-emerald-500/5 text-emerald-500 border border-emerald-500/10 rounded-full text-[10px] font-black uppercase tracking-tighter">
                         <ShieldCheck size={14} />
                         <span>Veritat de Ferro</span>
                     </div>
-                    <button className="btn-export-sovereign" onClick={handleExport} title="Exporta tota la teua memòria">
-                        <Share2 size={18} />
-                        <span>Exportació Total</span>
+                    <button className="p-3 bg-white/5 text-gray-400 hover:text-white rounded-2xl transition-all" onClick={handleExport} title="Exporta Memòria">
+                        <Share2 size={20} />
                     </button>
-                    <button className="btn-import" onClick={() => fileInputRef.current?.click()}>
+                    <button className="flex items-center gap-2 px-6 h-12 bg-[#FF6B00] text-white rounded-[24px] font-black uppercase text-xs tracking-widest shadow-xl shadow-orange-950/20 active:scale-95 transition-all" onClick={() => fileInputRef.current?.click()}>
                         <Upload size={18} />
-                        <span>Importar (Raindrop/Notion/Blogs)</span>
+                        <span>Importar</span>
                     </button>
-                    <input
-                        type="file"
-                        ref={fileInputRef}
-                        style={{ display: 'none' }}
-                        accept=".html,.json,.xml"
-                        onChange={handleFileSelect}
-                    />
+                    <input type="file" ref={fileInputRef} style={{ display: 'none' }} accept=".html,.json,.xml" onChange={handleFileSelect} />
                 </div>
             </header>
 
             {importStats && (
-                <div className="import-success-banner">
-                    <CheckCircle2 size={18} />
-                    <span>¡Importació bategada! S'han afegit {importStats.successful} recursos al teu rebost.</span>
-                    <button onClick={() => setImportStats(null)}>×</button>
+                <div className="mb-6 p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl flex items-center justify-between text-emerald-400 text-sm font-bold">
+                    <div className="flex items-center gap-3">
+                        <CheckCircle2 size={18} />
+                        <span>¡Bategat! S'han afegit {importStats.successful} recursos.</span>
+                    </div>
+                    <button onClick={() => setImportStats(null)} className="hover:rotate-90 transition-transform">×</button>
                 </div>
             )}
 
-            <div className="rebost-tools">
-                <div className="rebost-search">
-                    <Search size={18} />
+            <div className="rebost-tools flex flex-col md:flex-row gap-4 mb-8">
+                <div className="flex-1 relative">
+                    <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" />
                     <input
                         type="text"
-                        placeholder="Cerca al teu rebost..."
+                        placeholder="Busca al teu rebost..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
+                        className="w-full h-12 bg-white/5 border border-white/5 rounded-[24px] pl-12 pr-6 text-white text-sm focus:outline-none focus:border-[#FF6B00]/40 transition-all font-medium"
                     />
                 </div>
-                <div className="rebost-stats-chip">
-                    <strong>{resources.length}</strong> recursos guardats
+                <div className="px-4 flex items-center bg-white/5 rounded-[24px] text-[11px] font-black text-gray-500 uppercase tracking-widest border border-white/5">
+                    {resources.length} Recursos
                 </div>
             </div>
 
             {isImporting ? (
-                <div className="rebost-loading-state">
-                    <StatusLoader type="loading" message="Processant arxiu i enriquir dades amb MArIA..." />
+                <div className="flex flex-col items-center justify-center py-20 opacity-60">
+                    <StatusLoader type="loading" message="Refinant dades amb MArIA..." />
                 </div>
             ) : filteredResources.length > 0 ? (
-                <div className="resource-grid-masonry">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {filteredResources.map(resource => (
                         <ResourceCard
                             key={resource.id || resource.uuid}
@@ -228,10 +221,10 @@ const RebostVault = ({ onClose }) => {
                     ))}
                 </div>
             ) : (
-                <div className="rebost-empty-state">
-                    <AlertCircle size={48} opacity={0.3} />
-                    <h3>El rebost està buit</h3>
-                    <p>Importa el teu Raindrop o afig recursos manualment.</p>
+                <div className="flex flex-col items-center justify-center py-32 opacity-20 text-center">
+                    <AlertCircle size={64} className="mb-6 text-gray-600" />
+                    <h3 className="text-xl font-black text-white uppercase tracking-widest mb-2">Rebost Buit</h3>
+                    <p className="text-sm text-gray-500 font-bold">Importa la teua memòria digital.</p>
                 </div>
             )}
         </div>

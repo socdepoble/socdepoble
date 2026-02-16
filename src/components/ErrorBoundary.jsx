@@ -1,7 +1,6 @@
 import React from 'react';
 import { logger } from '../utils/logger';
 import forensicService from '../services/forensicService';
-import { iaiaAuditor } from '../services/iaiaAuditor';
 
 class ErrorBoundary extends React.Component {
     constructor(props) {

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { FileText, ChevronRight, Calculator, Landmark, Sprout, Home, Info, Search, Bot, Shield } from 'lucide-react';
+import { FileText, ChevronRight, Calculator, Landmark, Sprout, Home, Info, Search, Bot, Shield, Sparkles } from 'lucide-react';
 import KitDigitalManager from '../components/KitDigitalManager';
 import './OficiDocumentacio.css';
 
@@ -102,6 +102,15 @@ const OficiDocumentacio = () => {
                     <Bot size={20} className="text-orange-500 animate-pulse" />
                     <p className="text-xs italic text-orange-200/70">"Mestre, si vols ajuda amb el paperam de la Xylella, soc ací per a tu."</p>
                 </div>
+
+                <button 
+                    onClick={() => navigate('/buscador-ajudes')}
+                    className="flex items-center gap-3 px-6 py-4 bg-gradient-to-r from-orange-600 to-orange-400 text-white rounded-[20px] font-black uppercase tracking-tighter hover:scale-105 transition-all shadow-xl shadow-orange-950/20"
+                >
+                    <Search size={22} />
+                    <span>Buscador d'Ajudes</span>
+                    <Sparkles size={16} className="animate-pulse" />
+                </button>
             </div>
 
             <div className="ofici-search-bar">

@@ -7,39 +7,27 @@ import React, {
   useRef,
 } from "react";
 import { useAuth } from "./AuthContext";
-import { supabaseService } from "../services/supabaseService";
 import { logger } from "../utils/logger";
 
 const SocialContext = createContext();
 
+const DEFAULT_CATEGORIES = ["xat", "gent", "grup", "treball", "pobo"];
+const DEFAULT_TAGS = ["Esdeveniment", "Avís", "Proposta"];
+
 export const SocialProvider = ({ children }) => {
-  const { user, profile } = useAuth();
-  const [activeCategories, setActiveCategories] = useState([
-    "xat",
-    "gent",
-    "grup",
-    "treball",
-    "pobo",
-  ]);
-  const [followedTags, setFollowedTags] = useState([
-    "Esdeveniment",
-    "Avís",
-    "Proposta",
-  ]);
-  const INITIAL_CATEGORIES = ["xat", "gent", "grup", "treball", "pobo"];
-  const INITIAL_TAGS = ["Esdeveniment", "Avís", "Proposta"];
+  const { user } = useAuth();
+  const [activeCategories, setActiveCategories] = useState(DEFAULT_CATEGORIES);
+  const [followedTags, setFollowedTags] = useState(DEFAULT_TAGS);
   const [loading, setLoading] = useState(true);
   const saveTimeout = useRef(null);
 
   const loadUserPreferences = useCallback(async () => {
+    if (!user) return;
     try {
-      // En el futur, això vindrà d'una taula 'user_preferences' a Supabase
-      // De moment usem defaults o localStorage per a la demo/sandbox
       const saved = localStorage.getItem(`social_prefs_${user.id}`);
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (parsed.activeCategories)
-          setActiveCategories(parsed.activeCategories);
+        if (parsed.activeCategories) setActiveCategories(parsed.activeCategories);
         if (parsed.followedTags) setFollowedTags(parsed.followedTags);
       }
     } catch (error) {
@@ -59,6 +47,7 @@ export const SocialProvider = ({ children }) => {
 
   const performSave = useCallback(
     async (updatedCategories, updatedTags) => {
+      if (!user) return;
       try {
         const prefs = {
           activeCategories: updatedCategories,
@@ -66,7 +55,6 @@ export const SocialProvider = ({ children }) => {
         };
         localStorage.setItem(`social_prefs_${user.id}`, JSON.stringify(prefs));
         logger.log("[SocialContext] Preferences saved locally");
-        // TODO: Persistir a Supabase quan la taula estigui llesta
       } catch (error) {
         logger.error("[SocialContext] Error saving preferences:", error);
       }
@@ -84,7 +72,6 @@ export const SocialProvider = ({ children }) => {
       setActiveCategories(updatedCategories);
       setFollowedTags(updatedTags);
 
-      // Debounce actual saving to evitar race conditions/excessive writes
       if (saveTimeout.current) clearTimeout(saveTimeout.current);
       saveTimeout.current = setTimeout(() => {
         performSave(updatedCategories, updatedTags);
@@ -94,12 +81,12 @@ export const SocialProvider = ({ children }) => {
   );
 
   const resetToDefaults = useCallback(() => {
-    setActiveCategories(INITIAL_CATEGORIES);
-    setFollowedTags(INITIAL_TAGS);
+    setActiveCategories(DEFAULT_CATEGORIES);
+    setFollowedTags(DEFAULT_TAGS);
     if (user) {
       localStorage.removeItem(`social_prefs_${user.id}`);
     }
-  }, [user, INITIAL_CATEGORIES, INITIAL_TAGS]);
+  }, [user]);
 
   const toggleCategory = useCallback(
     (categoryId) => {
@@ -107,7 +94,6 @@ export const SocialProvider = ({ children }) => {
         ? activeCategories.filter((id) => id !== categoryId)
         : [...activeCategories, categoryId];
 
-      // Sempre mantenim 'xat' com a mínim
       if (updated.length === 0) updated.push("xat");
 
       savePreferences({ activeCategories: updated });
@@ -129,6 +115,7 @@ export const SocialProvider = ({ children }) => {
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useSocial = () => {
   const context = useContext(SocialContext);
   if (!context) {

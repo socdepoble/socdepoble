@@ -11,10 +11,20 @@ import TownSelectorModal from './TownSelectorModal';
 import { useUI } from '../context/UIContext';
 
 const AGENTS = [
-    { id: '11111111-1a1a-0000-0000-000000000000', name: 'IAIA MarIA', role: 'Matriarca', avatar_url: '/assets/avatars/iaia_official.png', last_message_time: new Date(), last_message_content: 'Benvingut al xat del poble.', tag: 'IAIA', color: 'bg-orange-100 text-orange-600' },
-    { id: '11111111-1a1a-0001-0000-000000000005', name: 'Nano Banana', role: 'Artista', avatar_url: '/assets/avatars/nano_banana.png', last_message_time: new Date(), last_message_content: 'Tinc els nous dissenys llestos.', tag: 'IAIA', color: 'bg-yellow-100 text-yellow-600' },
-    { id: '11111111-0000-0000-0000-000000000001', name: 'Super Ratolí', role: 'Heroi', avatar_url: '/assets/avatars/super_ratoli.png', last_message_time: new Date(), last_message_content: 'No olviden vitaminarse!', tag: 'IAIA', color: 'bg-gray-200 text-gray-600' },
-    { id: '11111111-1a1a-0001-0000-000000000001', name: 'Andreu Soler', role: 'Jove', avatar_url: 'https://ui-avatars.com/api/?name=Andreu+Soler&background=5D5FEF&color=fff', last_message_time: new Date(), last_message_content: 'Hola! Vols que parlem?', tag: 'IAIA', color: 'bg-blue-100 text-blue-600' }
+    { id: '11111111-1111-4111-a111-000000000000', name: 'IAIA MarIA', role: 'Governança Rural Digital', avatar_url: '/assets/avatars/iaia_official.png', last_message_time: new Date(), last_message_content: 'Benvingut al xat del poble.', tag: 'MASTER', color: 'bg-orange-100 text-orange-600' },
+    { id: '11111111-1111-4111-a111-000000000003', name: 'Vicent Ferris', role: 'Enginyer del Camp', avatar_url: '/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/vicent_ferris_tia_style_1770057456428.png', last_message_time: new Date(), last_message_content: 'L\'horta bategua amb força!', tag: 'AGRICULTURA', color: 'bg-green-100 text-green-600' },
+    { id: '11111111-1111-4111-a111-000000000004', name: 'Pepica la Vall', role: 'Sobirania Alimentària', avatar_url: '/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/pepica_tia_style_1770057472277.png', last_message_time: new Date(), last_message_content: 'Ací no es tira res!', tag: 'CULTURA', color: 'bg-orange-50 text-orange-500' },
+    { id: '11111111-1111-4111-a111-000000000009', name: 'Andreu Soler', role: 'Gestor de Projectes', avatar_url: '/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/andreu_tia_style_1770057709875.png', last_message_time: new Date(), last_message_content: 'Planificació bategant...', tag: 'GESTIÓ', color: 'bg-blue-100 text-blue-600' },
+    { id: '11111111-1111-4111-a111-000000000008', name: 'Joan Batiste', role: 'Secretari Notarial', avatar_url: '/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/joan_tia_style_1770057725757.png', last_message_time: new Date(), last_message_content: 'Papers en ordre, bategat segur.', tag: 'GESTIÓ', color: 'bg-gray-100 text-gray-600' },
+    { id: '11111111-0000-0000-0000-000000000001', name: 'Super Ratolí', role: 'Arxiver Digital', avatar_url: '/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/super_ratoli_tia_style_1770057904274.png', last_message_time: new Date(), last_message_content: 'No obliden vitaminar-se!', tag: 'TECNOLOGIA', color: 'bg-yellow-100 text-yellow-600' },
+    { id: '11111111-1111-4111-a111-000000000006', name: 'Sultan', role: 'Seguretat i Identitat', avatar_url: '/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/sultan_tia_style_1770057487451.png', last_message_time: new Date(), last_message_content: 'Guardià del DID.', tag: 'TECNOLOGIA', color: 'bg-slate-100 text-slate-600' },
+    { id: '11111111-1a1a-0001-0000-000000000011', name: 'La Mixa', role: 'Exploradora P2P', avatar_url: '/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/mixa_tia_style_1770057756276.png', last_message_time: new Date(), last_message_content: 'Sincronia bategant...', tag: 'TECNOLOGIA', color: 'bg-pink-100 text-pink-600' },
+    { id: '11111111-1a1a-0001-0000-000000000012', name: 'El Gall', role: 'Comunicació i Pregó', avatar_url: '/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/gall_tia_style_1770057773537.png', last_message_time: new Date(), last_message_content: 'Alerta push bategant!', tag: 'GESTIÓ', color: 'bg-red-100 text-red-600' },
+    { id: '11111111-1111-4111-a111-000000000007', name: 'Nano Banana', role: 'Mestre d\'Estètica', avatar_url: '/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/nanobanana_tia_style_1770057831273.png', last_message_time: new Date(), last_message_content: 'Tot bonic amb Zero Radius.', tag: 'CULTURA', color: 'bg-yellow-50 text-yellow-500' },
+    { id: '11111111-1111-4111-a111-000000000013', name: 'El Viatjant', role: 'Ambaixador i Connexió', avatar_url: '/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/viatjant_tia_style_1770057860995.png', last_message_time: new Date(), last_message_content: 'Connectant pobles.', tag: 'CULTURA', color: 'bg-purple-100 text-purple-600' },
+    { id: '11111111-1111-4111-a111-000000000014', name: 'Beatriz Ortega', role: 'Dinamitzadora Educativa', avatar_url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Beatriz', last_message_time: new Date(), last_message_content: 'Formació i joventut.', tag: 'CULTURA', color: 'bg-indigo-100 text-indigo-600' },
+    { id: '11111111-1111-4111-a111-000000000015', name: 'Carla Soriano', role: 'Benestar i Sanitat', avatar_url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Carla', last_message_time: new Date(), last_message_content: 'Salut rural i prevenció.', tag: 'GESTIÓ', color: 'bg-teal-100 text-teal-600' },
+    { id: '11111111-1111-4111-a111-000000000016', name: 'Elena Popova', role: 'Patrimoni i Festes', avatar_url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Elena', last_message_time: new Date(), last_message_content: 'Cultura i Banda de Música.', tag: 'CULTURA', color: 'bg-amber-100 text-amber-600' }
 ];
 
 const ChatList = () => {
@@ -24,16 +34,7 @@ const ChatList = () => {
     const navigate = useNavigate();
     
     const [chats, setChats] = useState([]);
-    const [selectedCategory, setSelectedCategory] = useState('xat');
     const [isTownModalOpen, setIsTownModalOpen] = useState(false);
-
-    const chatTabs = [
-        { id: 'xat', label: 'XAT' },
-        { id: 'gent', label: 'GENT' },
-        { id: 'grups', label: 'GRUPS' },
-        { id: 'treball', label: 'TREBALL' },
-        { id: 'pobles', label: 'POBLES' }
-    ];
 
     useEffect(() => {
         const fetchChats = async () => {
@@ -43,9 +44,13 @@ const ChatList = () => {
                 // Injecció Híbrida: Combinem missatges reals amb l'equip d'Agents IAIA
                 let hybridChats = [...(dbConvs || [])];
                 
-                // Si la categoria és XAT o GENT, ens assegurem que els agents bateguen
-                if ((selectedCategory === 'xat' || selectedCategory === 'gent') && (visionMode === 'iaia' || visionMode === 'immersiva' || isSuperAdmin)) {
-                    const activeAgents = visionMode === 'immersiva' ? AGENTS : AGENTS.slice(0, 1); // Només IAIA MarIA en mode hídrid
+                // [XAT/GENT] Ens assegurem que els agents bateguen si el mode bategat està actiu
+                // [MASTER IDENTITY PROTECTION]
+                const isMasterByEmail = user?.email?.includes('javillinares');
+                const showAgents = visionMode === 'iaia' || visionMode === 'immersiva' || isSuperAdmin || isMasterByEmail;
+
+                if (showAgents) {
+                    const activeAgents = AGENTS; 
                     activeAgents.forEach(agent => {
                         if (!hybridChats.find(c => c.id === agent.id || c.other_info?.id === agent.id)) {
                              hybridChats.push({
@@ -60,7 +65,7 @@ const ChatList = () => {
                 }
                 
                 // [VISION MODE FILTER] Purga de fantasmes en xat real
-                if (visionMode === 'humana' && !isSuperAdmin) {
+                if (visionMode === 'humana' && !isSuperAdmin && !isMasterByEmail) {
                     hybridChats = hybridChats.filter(chat => {
                         const name = String(chat.other_info?.name || '').toUpperCase();
                         const isAI = chat.id?.startsWith('11111111-') || 
@@ -90,38 +95,16 @@ const ChatList = () => {
             }
         };
         fetchChats();
-    }, [user?.id, selectedCategory, visionMode, isSuperAdmin]);
+    }, [user?.id, user?.email, visionMode, isSuperAdmin]);
 
     const handleChatClick = (chat) => {
-        navigate(`/chats/${chat.id}`);
+        navigate(`/chats/${chat.id}`, { state: { chatInfo: chat } });
     };
 
     return (
-        <div className="flex-1 flex flex-col min-w-0 bg-[#000000] relative overflow-hidden h-full">
-            {/* HEADER LLISTA: MONÒLIT NEGRE 64px (v10.12) */}
-            <header className="h-16 px-4 flex items-center bg-black border-b border-gray-800/50 flex-shrink-0 z-30 text-white">
-                
-                {/* REDUNDÀNCIES ELIMINADES (v11.0.6) - LA CABECERA SUPERIOR ÉS L'ALTAR ÚNIC */}
-                <div className="flex-1 text-[#FF6B00] font-black uppercase tracking-[0.2em] text-[10px] text-center opacity-50">
-                    Bategant Ara mateix
-                </div>
-            </header>
-
-            {/* TABS DE NAVEGACIÓ */}
-            <div className="px-2 pt-3 border-b border-gray-800 bg-black flex-shrink-0">
-                <div className="flex space-x-1 px-2 overflow-x-auto no-scrollbar">
-                    {chatTabs.map(tab => (
-                        <button 
-                            key={tab.id}
-                            onClick={() => setSelectedCategory(tab.id)}
-                            className={`px-4 pb-3 text-[12px] font-black tracking-widest border-b-2 transition-all whitespace-nowrap uppercase
-                            ${selectedCategory === tab.id ? 'text-[#FF6B00] border-[#FF6B00]' : 'text-gray-500 border-transparent hover:text-gray-300'}`}
-                        >
-                            {tab.label}
-                        </button>
-                    ))}
-                </div>
-            </div>
+        <div className="flex-1 flex flex-col min-w-0 bg-[#000000] relative overflow-hidden h-full chat-list-container">
+            {/* SCANLINES RETRO-FUTURISTES */}
+            <div className="chat-list-scanlines" />
 
             {/* LLISTA D'AGENTS (FIX: min-h-0 per a permetre scroll en flex) */}
             <div className="flex-1 overflow-y-auto custom-scrollbar bg-black min-h-0">
@@ -130,7 +113,7 @@ const ChatList = () => {
                         key={chat.id} 
                         onClick={() => handleChatClick(chat)}
                         className={`flex items-center space-x-4 p-4 border-b border-gray-800/40 cursor-pointer transition-all
-                        ${location.pathname.includes(chat.id) ? 'bg-white/5 border-l-4 border-l-[#FF6B00]' : 'hover:bg-white/5'}`}
+                        ${location.pathname.includes(chat.id) ? 'active' : ''} chat-item ${chat.tag === 'IAIA' ? 'iaia-agent' : ''}`}
                     >
                         <div className="relative flex-shrink-0">
                             <Avatar 
@@ -165,8 +148,8 @@ const ChatList = () => {
             <TownSelectorModal
                 isOpen={isTownModalOpen}
                 onClose={() => setIsTownModalOpen(false)}
-                onSelect={() => {
-                    setSelectedCategory('pobles');
+                onSelect={(townId) => {
+                    navigate(`/pobles/${townId}`);
                 }}
             />
             

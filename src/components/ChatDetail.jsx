@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { 
     ShieldCheck, MessageSquare, Smile, Mic, Bell,
     Briefcase, Handshake, Globe, TrendingUp,
@@ -13,6 +13,7 @@ import { useUI } from '../context/UIContext';
 import Avatar from './Avatar';
 import StatusLoader from './StatusLoader';
 import { logger } from '../utils/logger';
+import { iaiaService } from '../services/iaiaService';
 import VoiceRecorder from './VoiceRecorder';
 import UniversalCitation from './UniversalCitation';
 
@@ -30,27 +31,54 @@ const ChatDetail = () => {
     const [isNotepadOpen, setIsNotepadOpen] = useState(false);
     const [notepadTitle, setNotepadTitle] = useState('');
     const [notepadContent, setNotepadContent] = useState('');
+    const [isRecording, setIsRecording] = useState(false);
     
     const humanId = isSuperAdmin && impersonatedProfile ? impersonatedProfile.id : user?.id;
     const currentUserId = activeEntityId || humanId;
-
     const isP1Current = chat?.participant_1_id === currentUserId;
+    const otherInfo = chat?.other_info || (isP1Current ? chat?.p2_info : chat?.p1_info);
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     };
+
+    const { state } = useLocation();
 
     useEffect(() => {
         if (!user || !currentUserId) return;
         const fetchChatData = async () => {
             try {
                 const chats = await supabaseService.getConversations(currentUserId);
-                const currentChat = chats.find(c => c.id === id);
+                let currentChat = chats.find(c => c.id === id);
+                
+                if (!currentChat && state?.chatInfo) {
+                    currentChat = state.chatInfo;
+                }
+
                 if (currentChat) {
                     setChat(currentChat);
                     const msgs = await supabaseService.getConversationMessages(id);
                     setMessages(msgs);
                     await supabaseService.markMessagesAsRead(id, currentUserId);
+                } else if (id.startsWith('11111111-')) {
+                    const AGENTS = [
+                        { id: '11111111-1111-4111-a111-000000000000', name: 'IAIA MarIA' },
+                        { id: '11111111-1111-4111-a111-000000000003', name: 'Vicent Ferris' },
+                        { id: '11111111-1111-4111-a111-000000000004', name: 'Pepica la Vall' },
+                        { id: '11111111-1111-4111-a111-000000000009', name: 'Andreu Soler' },
+                        { id: '11111111-1111-4111-a111-000000000008', name: 'Joan Batiste' },
+                        { id: '11111111-0000-0000-0000-000000000001', name: 'Super Ratolí' },
+                        { id: '11111111-1111-4111-a111-000000000006', name: 'Sultan' },
+                        { id: '11111111-1a1a-0001-0000-000000000011', name: 'La Mixa' },
+                        { id: '11111111-1a1a-0001-0000-000000000012', name: 'El Gall' },
+                        { id: '11111111-1111-4111-a111-000000000007', name: 'Nano Banana' },
+                        { id: '11111111-1111-4111-a111-000000000013', name: 'El Viatjant' },
+                        { id: '11111111-1111-4111-a111-000000000014', name: 'Beatriz Ortega' },
+                        { id: '11111111-1111-4111-a111-000000000015', name: 'Carla Soriano' },
+                        { id: '11111111-1111-4111-a111-000000000016', name: 'Elena Popova' }
+                    ];
+                    const agent = AGENTS.find(a => a.id === id);
+                    setChat({ id: id, other_info: { id: id, name: agent?.name || 'Agent Especialista' } });
                 }
             } catch (error) {
                 logger.error('Error fetching chat data:', error);
@@ -59,17 +87,36 @@ const ChatDetail = () => {
             }
         };
         fetchChatData();
-    }, [id, currentUserId, user]);
+    }, [id, currentUserId, user, state]);
 
     useEffect(() => {
         if (messages.length > 0) scrollToBottom();
     }, [messages.length]);
 
+    useEffect(() => {
+        if (!user || !currentUserId || !id) return;
+
+        const channel = supabaseService.subscribeToMessages(id, (payload) => {
+            if (payload.new) {
+                setMessages(prev => {
+                    if (prev.find(m => m.id === payload.new.id)) return prev;
+                    return [...prev, payload.new];
+                });
+                if (payload.new.sender_id !== currentUserId) {
+                    supabaseService.markMessagesAsRead(id, currentUserId);
+                }
+            }
+        });
+
+        return () => {
+            supabaseService.unsubscribe(channel);
+        };
+    }, [id, currentUserId, user]);
+
     const handleSendMessage = async (e) => {
         e.preventDefault();
-
-        // [PROTOCOL COMUNITAT OBERTA v11.2.0] Blindatge de Convidat
-        if (user?.isAnonymous) {
+        const isIAIA = id.startsWith('11111111-') || otherInfo?.id?.startsWith('11111111-');
+        if (user?.isAnonymous && !isIAIA) {
             setIsGuestInteractionModalOpen(true);
             return;
         }
@@ -84,16 +131,31 @@ const ChatDetail = () => {
                 senderEntityId: activeEntityId,
                 content: text,
             });
-            setMessages(prev => [...prev, result]);
+            
+            setMessages(prev => {
+                if (prev.find(m => m.id === result.id)) return prev;
+                return [...prev, result];
+            });
+
+            if (id.startsWith('11111111-') || otherInfo?.id?.startsWith('11111111-')) {
+                iaiaService.generateAIAResponse(id, text, id).then(filler => {
+                    if (filler && typeof filler === 'object') {
+                        setMessages(prev => {
+                            if (prev.find(m => m.id === filler.id)) return prev;
+                            return [...prev, filler];
+                        });
+                    }
+                }).catch(err => logger.error('[ChatDetail] Error in IAIA response:', err));
+            }
         } catch (err) { logger.error('Error sending message:', err); }
     };
-
-    const otherInfo = isP1Current ? chat?.p2_info : chat?.p1_info;
 
     if (loading) return <div className="flex-1 bg-black flex items-center justify-center"><Loader2 className="animate-spin text-[#FF6B00]" size={40} /></div>;
 
     return (
-        <div className="flex-1 flex flex-col h-full bg-black overflow-hidden relative">
+        <div className="chat-detail-container flex-1 flex flex-col min-h-0">
+            {/* SCANLINES RETRO-FUTURISTES */}
+            <div className="chat-list-scanlines" />
             
             {/* HEADER DEL XAT - CABECERA NEGRA RESPONSIVE (1er MANDAMENT v9.0.0) - EXACTLY 64px */}
             <header className="h-16 min-h-[64px] px-4 md:px-6 flex items-center justify-between bg-black border-b border-gray-800 flex-shrink-0 z-30 text-white">
@@ -101,13 +163,21 @@ const ChatDetail = () => {
                     <button onClick={() => navigate('/chats')} className="md:hidden w-12 h-12 flex items-center justify-center -ml-2 text-gray-400 hover:text-white transition-colors">
                         <ChevronLeft size={24} />
                     </button>
-                    <div className="flex items-center gap-3 cursor-pointer group">
+                    <div 
+                        className="flex items-center gap-3 cursor-pointer group"
+                        onClick={() => navigate(`/perfil/${otherInfo?.id}`)}
+                    >
                         <Avatar src={otherInfo?.avatar_url} name={otherInfo?.name} size={40} />
                         <div className="flex flex-col min-w-0">
                             <h2 className="text-lg font-bold text-white group-hover:text-[#FF6B00] transition-colors truncate leading-none">
                                 {otherInfo?.name || t('common.unknown')}
                             </h2>
-                            <span className="text-xs text-green-500 font-medium whitespace-nowrap">{(otherInfo?.id === 'iaia-oficial') ? 'Bategant' : 'En línia'}</span>
+                            <div className="flex items-center gap-2 mt-1">
+                                <span className={`w-2 h-2 rounded-full ${(otherInfo?.id?.startsWith('11111111-')) ? 'bg-orange-500 animate-pulse' : 'bg-green-500'}`} />
+                                <span className="text-[10px] text-gray-400 font-black uppercase tracking-widest">
+                                    {(otherInfo?.id?.startsWith('11111111-')) ? 'IAIA Bategant' : 'En línia ara'}
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -142,11 +212,10 @@ const ChatDetail = () => {
             </header>
 
             {/* SPLIT VIEW ENGINE: CONTENIDOR DE XAT + BLOC DE NOTES (v10.12) */}
-            <div className="flex-1 flex overflow-hidden">
+            <div className="chat-split-view-container flex-1 flex min-h-0">
                 {/* 1. PANNELL DE MISSATGES (FLEX-1) */}
-                <div className="flex-1 flex flex-col min-w-0 bg-black/10">
-                    {/* LLISTA DE MISSATGES - GEM MODERN v7.1 STYLED */}
-                    <div className="flex-1 overflow-y-auto px-4 py-8 space-y-6 custom-scrollbar bg-black/40">
+                <div className="chat-messages-panel flex-1 flex flex-col min-h-0">
+                    <div className="messages-container custom-scrollbar chat-messages-list flex-1">
                         {messages.length === 0 ? (
                             <div className="flex flex-col items-center justify-center h-full opacity-20">
                                 {otherInfo?.id === 'iaia-oficial' ? (
@@ -216,8 +285,8 @@ const ChatDetail = () => {
                                                     {msg.created_at ? new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Ara'}
                                                 </span>
                                                 {isMe && (
-                                                    <span className={`text-[10px] font-black ${msg.read_at ? 'text-blue-300' : 'text-gray-300'}`}>
-                                                        {msg.read_at ? '✓✓' : '✓'}
+                                                    <span className={`text-[11px] font-black ${msg.read_at ? 'text-blue-300' : 'text-white/40'}`}>
+                                                        {msg.read_at ? '✓✓' : '✓✓'}
                                                     </span>
                                                 )}
                                             </div>
@@ -226,34 +295,89 @@ const ChatDetail = () => {
                                 );
                             })
                         )}
+                        {/* INDICADOR D'ESCRIPTURA (v-WA Parity) */}
+                        <div className="h-4">
+                            {otherInfo?.id?.startsWith('11111111-') && messages.length > 0 && messages[messages.length-1].sender_id === humanId && (
+                                <div className="flex items-center gap-2 text-[10px] font-black text-[#FF6B00] animate-pulse">
+                                    <span>{otherInfo.name.toUpperCase()} ESTÀ BATEGANT</span>
+                                    <div className="flex gap-1">
+                                        <span className="w-1 h-1 bg-[#FF6B00] rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                                        <span className="w-1 h-1 bg-[#FF6B00] rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                                        <span className="w-1 h-1 bg-[#FF6B00] rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                                    </div>
+                                </div>
+                            )}
+                        </div>
                         <div ref={messagesEndRef} />
                     </div>
 
-                    {/* BARRA D'ENTRADA - PROTOCOL SUPREMA */}
-                    <div className="p-4 bg-black border-t border-white/10 z-20">
-                        <form className="flex items-center gap-3 max-w-5xl mx-auto" onSubmit={handleSendMessage}>
-                            <button type="button" className="p-2.5 text-gray-400 hover:text-[#FF6B00] transition-colors"><Smile size={24} /></button>
-                            <div className="flex-1 relative">
-                                <input 
-                                    type="text" 
-                                    value={newMessage} 
-                                    onChange={(e) => setNewMessage(e.target.value)}
-                                    placeholder={t('common.write_message')}
-                                    className="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-3.5 text-white focus:outline-none focus:border-[#FF6B00]/40 transition-all placeholder:text-gray-600 font-medium"
-                                />
-                                <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-2">
-                                     <button type="button" className="p-1 text-gray-500 hover:text-white transition-colors"><Paperclip size={20} /></button>
-                                     <button type="button" className="p-1 text-gray-500 hover:text-white transition-colors"><Mic size={20} /></button>
+                    {/* ÀREA D'ENTRADA DE MISSATGES (v10.30.0 - GEM MODERN) */}
+                    <div className="chat-input-master-wrapper p-4 md:p-6 bg-black/80 backdrop-blur-xl border-t border-white/5 z-[100] flex-shrink-0 safe-area-bottom">
+                        <div className="max-w-5xl mx-auto relative">
+                            {/* OVERLAY DE GRAVACIÓ DE VEU */}
+                            {isRecording ? (
+                                <div className="voice-recorder-overlay animate-in slide-in-from-bottom-5 duration-300">
+                                    <VoiceRecorder 
+                                        onSend={(blob, duration, transcript) => {
+                                            logger.log('[ChatDetail] Voice message captured:', duration, transcript);
+                                            setIsRecording(false);
+                                            // Aquí es podria enviar el blob a Supabase Storage
+                                            if (transcript) {
+                                                setNewMessage(transcript);
+                                            }
+                                        }}
+                                        onCancel={() => setIsRecording(false)}
+                                    />
                                 </div>
-                            </div>
-                            <button 
-                                type="submit" 
-                                disabled={!newMessage.trim()}
-                                className="bg-[#FF6B00] hover:bg-[#ff7b20] disabled:bg-gray-800 disabled:opacity-50 text-white p-3.5 rounded-2xl transition-all shadow-xl active:scale-95 flex items-center justify-center"
-                            >
-                                <Send size={22} strokeWidth={2.5} />
-                            </button>
-                        </form>
+                            ) : (
+                                <form className="flex items-center gap-3" onSubmit={handleSendMessage}>
+                                    {/* BOTÓ ADJUNTAR (PLUS MODERN) */}
+                                    <button 
+                                        type="button" 
+                                        className="w-12 h-12 flex items-center justify-center rounded-2xl bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white transition-all active:scale-90"
+                                    >
+                                        <Paperclip size={22} />
+                                    </button>
+
+                                    {/* INPUT PRINCIPAL BATEGANT */}
+                                    <div className="flex-1 relative group">
+                                        <input 
+                                            type="text" 
+                                            value={newMessage} 
+                                            onChange={(e) => setNewMessage(e.target.value)}
+                                            placeholder={t('common.write_message')}
+                                            className="w-full bg-white/5 border border-white/10 rounded-[28px] px-6 py-4 text-white focus:outline-none focus:border-[#FF6B00]/40 focus:bg-white/[0.08] transition-all placeholder:text-gray-600 font-medium text-[16px]"
+                                        />
+                                        
+                                        <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
+                                            <button 
+                                                type="button" 
+                                                className="p-2.5 text-gray-500 hover:text-yellow-400 transition-colors"
+                                            >
+                                                <Smile size={22} />
+                                            </button>
+                                            
+                                            <button 
+                                                type="button" 
+                                                onClick={() => setIsRecording(true)}
+                                                className="p-2.5 text-gray-500 hover:text-[#FF6B00] transition-colors"
+                                            >
+                                                <Mic size={22} />
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    {/* BOTÓ ENVIAR CANÒNIC (GEM MODERN) */}
+                                    <button 
+                                        type="submit" 
+                                        disabled={!newMessage.trim()}
+                                        className="w-14 h-14 bg-[#FF6B00] hover:bg-[#ff7b20] disabled:bg-gray-800 disabled:opacity-30 text-white rounded-[24px] transition-all shadow-[0_8px_24px_rgba(255,107,0,0.3)] active:scale-95 flex items-center justify-center group"
+                                    >
+                                        <Send size={24} strokeWidth={2.5} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                                    </button>
+                                </form>
+                            )}
+                        </div>
                     </div>
                 </div>
 

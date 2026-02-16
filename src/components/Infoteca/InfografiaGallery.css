@@ -1,0 +1,147 @@
+.infoteca-container {
+    padding: 60px 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.infoteca-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 60px;
+    border-bottom: 2px solid var(--sdp-terracotta);
+    padding-bottom: 30px;
+}
+
+.infoteca-header h1 {
+    font-size: 3.5rem;
+    font-weight: 950;
+    text-transform: uppercase;
+    letter-spacing: -0.05em;
+    color: var(--sdp-terracotta);
+    line-height: 1;
+}
+
+.infoteca-header p {
+    font-size: 1.2rem;
+    color: rgba(255,255,255,0.6);
+    margin-top: 10px;
+}
+
+.infoteca-filters {
+    display: flex;
+    gap: 12px;
+}
+
+.filter-chip {
+    padding: 8px 16px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    color: rgba(255,255,255,0.6);
+    font-size: 12px;
+    font-weight: 900;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.filter-chip.active {
+    background: var(--sdp-terracotta);
+    color: black;
+    border-color: var(--sdp-terracotta);
+}
+
+.infoteca-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 40px;
+}
+
+.infografia-card {
+    border-radius: 28px;
+    overflow: hidden;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.infografia-card:hover {
+    transform: translateY(-10px);
+}
+
+.infografia-media {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background: #111;
+}
+
+.infografia-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: scale 0.5s;
+}
+
+.infografia-card:hover .infografia-media img {
+    scale: 1.1;
+}
+
+.infografia-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 109, 35, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    backdrop-filter: blur(5px);
+}
+
+.infografia-media:hover .infografia-overlay {
+    opacity: 1;
+}
+
+.btn-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: white;
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+}
+
+.btn-icon:hover {
+    transform: scale(1.15) rotate(5deg);
+}
+
+.infografia-info {
+    padding: 24px;
+}
+
+.infografia-info h3 {
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: white;
+    margin-bottom: 12px;
+    line-height: 1.2;
+}
+
+.infografia-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    font-weight: 900;
+    color: rgba(255,255,255,0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.infografia-meta span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}

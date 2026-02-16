@@ -18,7 +18,7 @@ export const feedbackService = {
             const fileName = `feedback/${userId}/${Date.now()}.webm`;
 
             // 1. Upload audio to Bucket
-            const { data: uploadData, error: uploadError } = await supabase.storage
+            const { error: uploadError } = await supabase.storage
                 .from('feedback_assets')
                 .upload(fileName, audioBlob, {
                     contentType: 'audio/webm',

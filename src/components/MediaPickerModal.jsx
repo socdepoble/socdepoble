@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { X, Search, Image as ImageIcon, Loader2 } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
@@ -11,23 +11,23 @@ const MediaPickerModal = ({ isOpen, onClose, onSelect }) => {
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState('');
 
+    const loadAssets = useCallback(async () => {
+        setLoading(true);
+        try {
+            const data = await supabaseService.getUserAssets(user?.id);
+            setAssets(data);
+        } catch {
+            logger.error('[MediaPicker] Error loading assets');
+        } finally {
+            setLoading(false);
+        }
+    }, [user?.id]);
+
     useEffect(() => {
         if (isOpen && user) {
             loadAssets();
         }
-    }, [isOpen, user]);
-
-    const loadAssets = async () => {
-        setLoading(true);
-        try {
-            const data = await supabaseService.getUserMediaAssets(user.id);
-            setAssets(data);
-        } catch (error) {
-            logger.error('Error loading assets:', error);
-        } finally {
-            setLoading(false);
-        }
-    };
+    }, [isOpen, user, loadAssets]);
 
     if (!isOpen) return null;
 

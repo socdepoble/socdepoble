@@ -6,6 +6,43 @@ import { healthyPlates } from '../utils/publishAnnaNews'; // Reusing existing pl
 import { geminiService } from './geminiService';
 import { PROVERBS, getRandomProverb } from '../data/proverbs';
 
+/**
+ * [PROTOCOL BATEGAT IMMEDIAT - PARAULES NEUTRES]
+ * Fillers visuals per a reduir la latència percebuda.
+ */
+const NEUTRAL_FILLERS = {
+    IAIA: [
+        "Ai fill, deixa'm que m'ho mire amb trellat... estic consultant l'Arxiu d'Or.",
+        "Espera un segon que me pose les ulleres de prop... estic analitzant el que m'has dit.",
+        "Això que dius té el seu bategat! Un momentet que pregunte al Consell de les Sàvies.",
+        "Mira que eres curiós! Deixa'm que herede la memòria del poble per a respondre't.",
+        "Això m'ha recordat a una història de ma mare... espera que ho aclarisca amb l'Avi dels Papers."
+    ],
+    AGRONOM: [
+        "Xe! Un segon que acabe d'esmunyir la suor... estic repassant el calendari de regar.",
+        "A vore si el tractor ens deixa bategar... estic consultant la Directiva Gènesi sobre el camp.",
+        "Això del camp vol el seu temps, a vore... un momentet que mire la lluna.",
+        "Xe, que m'has agafat enmig de la sèquia! Un segon que m'asseque les mans i t'ho dic."
+    ],
+    CUINERA: [
+        "Ai! Que se'm crema la ceba! Un segon que acabe el xup-xup i mire el receptari.",
+        "Espera que remene el perol, que estic buscant el secret de la teua pregunta.",
+        "Això vol una miqueta de sal... espera que consulte el rebost de la memòria.",
+        "Un momentet que m'ajuste el davantal i mire com ho feien les padrines."
+    ],
+    ARXIVER: [
+        "Un segon que busque el segell oficial entre tant de paper... estic obrint el Registre Civil.",
+        "Això requereix un tràmit bategant, espera que mire el Registre de la Propietat Rural.",
+        "Mare meua quina pols! Un moment que m'encenga el llum i busque el teu expedient.",
+        "Deixa'm que herede la memòria d'aquest document... ho estic traduint del burocràtic al valencià."
+    ],
+    GENERIC: [
+        "Estic bategant amb la teua pregunta, un segon que active la connexió amb el Mas.",
+        "Un momentet de trellat, per favor... estic orquestrant la resposta.",
+        "Processant la saviesa del poble... quasi ho tinc bategat."
+    ]
+};
+
 class IAIAService {
     constructor() {
         this.isWorking = false;
@@ -271,6 +308,7 @@ class IAIAService {
             ai_percentage: aiWeight,
             human_percentage: humanWeight,
             time_saved_minutes: timeSavedMinutes,
+            economic_value_euro: economicValue,
             is_iaia_inspired: true
         };
     }
@@ -504,13 +542,22 @@ class IAIAService {
             let finalPersonaKey = 'IAIA'; // Default
 
             const personaMapping = {
-                '11111111-1111-4111-a111-000000000003': 'AGRONOM',
-                '11111111-1111-4111-a111-000000000004': 'CUINERA', // Samir (mock mapping if needed)
-                '11111111-1111-4111-a111-000000000007': 'NANOBANANA',
-                '11111111-1111-4111-a111-000000000008': 'ARXIVER',
                 '11111111-1111-4111-a111-000000000000': 'IAIA',
+                '11111111-1111-4111-a111-000000000003': 'AGRONOM',  // Vicent Ferris
+                '11111111-1111-4111-a111-000000000004': 'CUINERA',  // Pepica la Vall
+                '11111111-1111-4111-a111-000000000009': 'CAPATAS',  // Andreu Soler
+                '11111111-1111-4111-a111-000000000008': 'ARXIVER',  // Joan Batiste
+                '11111111-0000-0000-0000-000000000001': 'RATOLI',
+                '11111111-1111-4111-a111-000000000006': 'SULTAN',
+                '11111111-1a1a-0001-0000-000000000011': 'MIXA',
+                '11111111-1a1a-0001-0000-000000000012': 'GALL',
+                '11111111-1111-4111-a111-000000000007': 'NANOBANANA',
                 '11111111-1111-4111-a111-000000000002': 'CLAUDE',
-                '11111111-1111-4111-a111-000000000001': 'GPT'
+                '11111111-1111-4111-a111-000000000001': 'GPT',
+                '11111111-1111-4111-a111-000000000013': 'VIATJANT',
+                '11111111-1111-4111-a111-000000000014': 'BEATRIZ',
+                '11111111-1111-4111-a111-000000000015': 'CARLA',
+                '11111111-1111-4111-a111-000000000016': 'ELENA'
             };
 
             if (receiverId && personaMapping[receiverId]) {
@@ -522,6 +569,31 @@ class IAIAService {
                 else if (q.includes('horta') || q.includes('tomaca') || q.includes('cultiu')) finalPersonaKey = 'AGRONOM';
                 else if (q.includes('recepta') || q.includes('cuina')) finalPersonaKey = 'CUINERA';
                 else if (q.includes('paper') || q.includes('banc') || q.includes('burocracia')) finalPersonaKey = 'ARXIVER';
+            }
+
+            // 1.5 [PROTOCOL BATEGAT IMMEDIAT] Injecció de Paraules Neutres
+            const persona = geminiService.PERSONAS[finalPersonaKey];
+            if (conversationId && conversationId !== 'preview') {
+                const fillers = NEUTRAL_FILLERS[finalPersonaKey] || NEUTRAL_FILLERS.GENERIC;
+                const filler = fillers[Math.floor(Math.random() * fillers.length)];
+
+                const fillerObj = {
+                    id: `filler-${Date.now()}`,
+                    conversationId: conversationId || 'preview',
+                    senderId: receiverId || '11111111-1111-4111-a111-000000000010',
+                    content: filler,
+                    is_ai: true,
+                    author_name: persona?.name || 'IAIA MarIA',
+                    author_avatar_url: persona?.avatar_url || '/assets/avatars/iaia_official.png',
+                    metadata: { is_iaia_filler: true },
+                    created_at: new Date().toISOString()
+                };
+
+                // Enviament real (per a la resta de participants/persistència)
+                supabaseService.sendSecureMessage(fillerObj).catch(e => logger.warn('[IAIA] Error enviant filler a DB:', e));
+                
+                // Retornem immediatament per a l'UI optimista
+                return fillerObj;
             }
 
             // 2. Crida a la Xarxa Neural (Gemini)
@@ -626,4 +698,6 @@ class IAIAService {
     }
 }
 
-export const iaiaService = new IAIAService();
+const iaiaService = new IAIAService();
+export { iaiaService };
+export default iaiaService;

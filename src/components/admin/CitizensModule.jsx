@@ -13,7 +13,7 @@ const CitizensModule = () => {
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [updatingId, setUpdatingId] = useState(null);
-    const [filterRole, setFilterRole] = useState('all');
+    const [filterRole] = useState('all');
 
     useEffect(() => {
         loadCitizens();
@@ -24,8 +24,8 @@ const CitizensModule = () => {
         try {
             const data = await supabaseService.getAllCitizens();
             setCitizens(data);
-        } catch (e) {
-            logger.error('Error carregant ciutadans:', e);
+        } catch {
+            logger.error('[Citizens] Error loading citizens');
         } finally {
             setLoading(false);
         }
@@ -39,7 +39,7 @@ const CitizensModule = () => {
             const updated = await supabaseService.updateUserRole(userId, newRole);
             setCitizens(prev => prev.map(c => c.id === userId ? { ...c, role: newRole } : c));
             if (window.addHudLog) window.addHudLog('success', [`Rol actualitzat: ${updated.full_name} -> ${newRole}`]);
-        } catch (e) {
+        } catch {
             alert('Error al canviar el llinatge de poder.');
         } finally {
             setUpdatingId(null);
@@ -140,7 +140,7 @@ const CitizensModule = () => {
                                                     value={c.role || USER_ROLES.NEIGHBOR}
                                                     onChange={(e) => handleRoleChange(c.id, e.target.value)}
                                                 >
-                                                    {Object.entries(USER_ROLES).map(([key, value]) => (
+                                                    {Object.entries(USER_ROLES).map(([, value]) => (
                                                         <option key={value} value={value}>
                                                             {ROLE_LABELS[value]?.va}
                                                         </option>

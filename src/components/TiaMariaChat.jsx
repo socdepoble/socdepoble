@@ -1,144 +1,152 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Send, ArrowLeft, MoreVertical, ShieldCheck, Sparkles, Smile } from 'lucide-react';
+import { Send, ArrowLeft, MoreVertical, ShieldCheck, Smile } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { geminiService } from '../services/geminiService';
 import { hapticService } from '../services/hapticService';
 import { logger } from '../utils/logger';
+import Avatar from './Avatar';
 import './TiaMariaChat.css';
 
 const TiaMariaChat = () => {
-    const { user } = useAuth();
     const navigate = useNavigate();
+    const { isPlayground } = useAuth();
+    
+    // Inicialització directa per evitar setState en useEffect i renders en cascada
     const [messages, setMessages] = useState([
-        /* [ESTAT CERO] - Silenci Digital: Sense IAIA, espera de connexió humana */
+        {
+            id: '1',
+            text: "Hola! Sóc la Tia Maria. En què et puc ajudar hui, bonico?",
+            sender: 'iaia',
+            timestamp: new Date().toISOString()
+        }
     ]);
-    const [inputValue, setInputValue] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
+    
+    const [input, setInput] = useState('');
+    const [isTyping, setIsTyping] = useState(false);
     const messagesEndRef = useRef(null);
 
     const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     };
 
     useEffect(() => {
         scrollToBottom();
     }, [messages]);
 
-    const handleSendMessage = async () => {
-        if (!inputValue.trim() || isLoading) return;
+    const handleSend = async (e) => {
+        e.preventDefault();
+        if (!input.trim()) return;
 
-        const userMsg = {
-            id: Date.now(),
-            text: inputValue,
+        const userMessage = {
+            id: Date.now().toString(),
+            text: input,
             sender: 'user',
-            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            timestamp: new Date().toISOString()
         };
 
-        setMessages(prev => [...prev, userMsg]);
-        setInputValue('');
-        setIsLoading(true);
-        hapticService.batec();
+        setMessages(prev => [...prev, userMessage]);
+        setInput('');
+        setIsTyping(true);
+        hapticService.light();
 
         try {
-            const result = await geminiService.ask('TIAMARIA', inputValue);
-
-            const aiMsg = {
-                id: Date.now() + 1,
-                text: result.text || "Ay fill, no t'he sentit bé, pots tornar-ho a dir?",
-                sender: 'ai',
-                timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            const response = await geminiService.generateResponse(input, 'iaia');
+            setIsTyping(false);
+            
+            const iaiaMessage = {
+                id: (Date.now() + 1).toString(),
+                text: response,
+                sender: 'iaia',
+                timestamp: new Date().toISOString()
             };
-
-            setMessages(prev => [...prev, aiMsg]);
-            if (!result.error) hapticService.notifyAIReady();
-        } catch (err) {
-            logger.error('[TiaMariaChat] Error:', err);
-            setMessages(prev => [...prev, {
-                id: Date.now() + 1,
-                text: "Ho sento cariño, m'he quedat un poc sorda ara mateix. Torna-ho a provar en un ratet.",
-                sender: 'ai',
-                timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-            }]);
-        } finally {
-            setIsLoading(false);
+            
+            setMessages(prev => [...prev, iaiaMessage]);
+            hapticService.medium();
+        } catch (error) {
+            logger.error('[TiaMariaChat] Error generating response:', error);
+            setIsTyping(false);
         }
     };
 
     return (
-        <div className="tia-chat-container">
-            <header className="tia-chat-header">
-                <div className="header-left">
-                    <button onClick={() => navigate(-1)} className="back-button" style={{ color: '#000', marginRight: '8px', opacity: 0.7 }}>
-                        <ArrowLeft size={24} />
+        <div className="iaia-chat-container flex flex-col h-full bg-[#0a0a0c] text-white">
+            <header className="px-6 h-16 flex items-center justify-between border-b border-white/5 bg-black/40 backdrop-blur-xl">
+                <div className="flex items-center gap-4">
+                    <button onClick={() => navigate(-1)} className="p-2 -ml-2 hover:bg-white/5 rounded-full text-gray-400 hover:text-white transition-all">
+                        <ArrowLeft size={20} />
                     </button>
-                    <div className="tia-avatar-wrapper">
-                        <img
-                            src="https://api.dicebear.com/7.x/avataaars/svg?seed=Maria&top=bobCut&accessories=round"
-                            alt="Tia Maria"
-                            className="tia-avatar"
-                        />
-                        <div className="online-indicator"></div>
-                    </div>
-                    <div className="header-info">
-                        <h2>La Tia Maria</h2>
-                        <span className="tia-status">En línia ● Poble Actiu</span>
+                    <div className="flex items-center gap-3">
+                        <Avatar name="Tia Maria" size={40} src="/assets/avatars/iaia_official.png" />
+                        <div>
+                            <div className="flex items-center gap-1.5">
+                                <h2 className="text-lg font-black tracking-tight">Tia Maria</h2>
+                                <ShieldCheck size={14} className="text-[#FF6B00]" />
+                            </div>
+                            <div className="flex items-center gap-1.5">
+                                <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse" />
+                                <span className="text-[10px] font-black uppercase tracking-widest text-gray-500">Bategant...</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div className="header-actions">
-                    <ShieldCheck size={20} className="text-primary" />
-                    <MoreVertical size={20} className="text-gray-400" />
+                <div className="flex items-center gap-2">
+                    {isPlayground && <span className="text-[9px] font-black px-2 py-0.5 bg-orange-500/10 text-orange-500 border border-orange-500/20 rounded-full uppercase tracking-widest">Sessió de Prova</span>}
+                    <button className="p-2 hover:bg-white/5 rounded-full text-gray-500 transition-all">
+                        <MoreVertical size={20} />
+                    </button>
                 </div>
             </header>
 
-            <div className="tia-chat-body custom-scrollbar">
-                <div className="day-separator">AVUI</div>
-                <div className="encryption-notice">
-                    <ShieldCheck size={12} />
-                    <span>Missatges bategats per la IAIA i protegits pel solatge local.</span>
-                </div>
-
-                {messages.map((msg) => (
-                    <div key={msg.id} className={`message-row ${msg.sender}`}>
-                        <div className="message-bubble">
-                            <p>{msg.text}</p>
-                            <span className="message-time">{msg.timestamp}</span>
+            <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6 custom-scrollbar">
+                {messages.map(msg => (
+                    <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'} animate-in fade-in slide-in-from-bottom-2 duration-300`}>
+                        <div className={`max-w-[85%] md:max-w-[70%] rounded-2xl p-4 shadow-xl ${
+                            msg.sender === 'user' 
+                                ? 'bg-[#FF6B00] text-white rounded-tr-none' 
+                                : 'bg-[#1a1a1c] text-gray-100 rounded-tl-none border border-white/5'
+                        }`}>
+                            <p className="text-[15px] leading-relaxed font-medium">{msg.text}</p>
+                            <div className={`mt-1.5 text-[9px] font-black uppercase tracking-widest opacity-40 ${msg.sender === 'user' ? 'text-white' : 'text-gray-400'} flex justify-end`}>
+                                {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                            </div>
                         </div>
                     </div>
                 ))}
-
-                {isLoading && (
-                    <div className="message-row ai">
-                        <div className="message-bubble typing">
-                            <div className="dot"></div>
-                            <div className="dot"></div>
-                            <div className="dot"></div>
+                {isTyping && (
+                    <div className="flex justify-start animate-in fade-in duration-300">
+                        <div className="bg-[#1a1a1c] rounded-2xl rounded-tl-none p-4 flex gap-1.5 items-center border border-white/5 shadow-xl">
+                            <span className="w-1.5 h-1.5 bg-orange-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                            <span className="w-1.5 h-1.5 bg-orange-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                            <span className="w-1.5 h-1.5 bg-orange-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
                         </div>
                     </div>
                 )}
                 <div ref={messagesEndRef} />
             </div>
 
-            <footer className="tia-chat-footer">
-                <div className="input-wrapper">
-                    <button className="emoji-btn">
-                        <Smile size={20} />
+            <footer className="p-4 md:p-6 bg-black/60 backdrop-blur-xl border-t border-white/5 safe-area-bottom">
+                <form onSubmit={handleSend} className="max-w-4xl mx-auto flex items-center gap-3">
+                    <button type="button" className="w-12 h-12 flex items-center justify-center rounded-2xl bg-white/5 text-gray-400 hover:bg-white/10 transition-all active:scale-90">
+                        <Smile size={22} />
                     </button>
-                    <input
-                        type="text"
-                        placeholder="Connecta amb algun veí per a parlar..."
-                        value={inputValue}
-                        onChange={(e) => setInputValue(e.target.value)}
-                        onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-                    />
-                    <button
-                        className={`send-btn ${inputValue.trim() ? 'active' : ''}`}
-                        onClick={handleSendMessage}
-                        disabled={!inputValue.trim() || isLoading}
+                    <div className="flex-1 relative">
+                        <input 
+                            type="text" 
+                            value={input}
+                            onChange={(e) => setInput(e.target.value)}
+                            placeholder="Escriu un missatge..."
+                            className="w-full h-12 bg-white/5 border border-white/10 rounded-[28px] px-6 text-white focus:outline-none focus:border-[#FF6B00]/40 transition-all font-medium"
+                        />
+                    </div>
+                    <button 
+                        type="submit" 
+                        disabled={!input.trim()}
+                        className="w-12 h-12 bg-[#FF6B00] hover:bg-[#ff7b20] disabled:bg-gray-800 disabled:opacity-30 text-white rounded-[20px] transition-all shadow-lg active:scale-95 flex items-center justify-center"
                     >
-                        <Send size={20} />
+                        <Send size={20} strokeWidth={2.5} />
                     </button>
-                </div>
+                </form>
             </footer>
         </div>
     );

@@ -8,7 +8,7 @@ import './ConnectionSelectorModal.css';
  * ConnectionSelectorModal [VOS]
  * Permet a l'usuari etiquetar una connexió i bategar amb el seu diccionari privat.
  */
-const ConnectionSelectorModal = ({ isOpen, onClose, postId, currentTags = [], onUpdate }) => {
+const ConnectionSelectorModal = ({ isOpen, onClose, currentTags = [], onUpdate }) => {
     const { t } = useTranslation();
 
     if (!isOpen) return null;

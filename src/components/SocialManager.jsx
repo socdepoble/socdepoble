@@ -5,7 +5,6 @@ import { X, Check, Eye, EyeOff, Hash, Layers, Settings2, Sparkles, Loader2, Rota
 import { useSocial } from '../context/SocialContext';
 import { useUI } from '../context/UIContext';
 import { supabaseService } from '../services/supabaseService';
-import { logger } from '../utils/logger';
 import './SocialManager.css';
 
 const SocialManager = ({ isOpen, onClose }) => {

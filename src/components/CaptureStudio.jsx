@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { X, Camera, Square, RefreshCcw, Check, Video, VideoOff, Zap } from 'lucide-react';
 import cameraService from '../services/CameraService';
 import hapticService from '../services/hapticService';
@@ -7,26 +7,22 @@ import './CaptureStudio.css';
 
 const CaptureStudio = ({ isOpen, onClose, onCapture, mode = 'photo' }) => {
     const videoRef = useRef(null);
-    const [stream, setStream] = useState(null);
     const [isRecording, setIsRecording] = useState(false);
     const [capturedMedia, setCapturedMedia] = useState(null); // { type: 'photo'|'video', url: string }
     const [loading, setLoading] = useState(true);
     const [facingMode, setFacingMode] = useState('user');
 
-    useEffect(() => {
-        if (isOpen) {
-            initCamera();
-        } else {
-            stopCamera();
+    const stopCamera = useCallback(() => {
+        cameraService.stopStream();
+        if (videoRef.current) {
+            videoRef.current.srcObject = null;
         }
-        return () => stopCamera();
-    }, [isOpen, facingMode]);
+    }, []);
 
-    const initCamera = async () => {
+    const initCamera = useCallback(async () => {
         setLoading(true);
         try {
             const newStream = await cameraService.startStream({ facingMode });
-            setStream(newStream);
             if (videoRef.current) {
                 videoRef.current.srcObject = newStream;
             }
@@ -35,15 +31,16 @@ const CaptureStudio = ({ isOpen, onClose, onCapture, mode = 'photo' }) => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [facingMode]);
 
-    const stopCamera = () => {
-        cameraService.stopStream();
-        setStream(null);
-        if (videoRef.current) {
-            videoRef.current.srcObject = null;
+    useEffect(() => {
+        if (isOpen) {
+            initCamera();
+        } else {
+            stopCamera();
         }
-    };
+        return () => stopCamera();
+    }, [isOpen, initCamera, stopCamera]);
 
     const toggleCamera = () => {
         setFacingMode(prev => prev === 'user' ? 'environment' : 'user');

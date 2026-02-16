@@ -1,10 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-
-export const THEMES = {
-    DAY: 'light',
-    NIGHT: 'dark',
-    SOLEMNE: 'solemne'
-};
+import { THEMES } from '../constants';
 
 const ThemeContext = createContext();
 
@@ -60,10 +55,14 @@ export const ThemeProvider = ({ children }) => {
     );
 };
 
-export const useTheme = () => {
+// eslint-disable-next-line react-refresh/only-export-components
+export const useTheme = () => useContext(ThemeContext);
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const useThemeCustomizer = () => {
     const context = useContext(ThemeContext);
     if (!context) {
-        throw new Error('useTheme must be used within a ThemeProvider');
+        throw new Error('useThemeCustomizer must be used within a ThemeProvider');
     }
     return context;
 };

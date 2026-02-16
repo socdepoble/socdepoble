@@ -8,7 +8,7 @@ import { logger } from '../utils/logger';
  * Gestiona la compartició de contingut optimitzada per a previsualitzacions mòbils.
  * Prioritza la dignitat del contingut en WhatsApp i Telegram.
  */
-const ShareHub = ({ title, text, url, image, onShareSuccess, customTrigger }) => {
+const ShareHub = ({ title, text, url, onShareSuccess, customTrigger }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [copied, setCopied] = useState(false);
 

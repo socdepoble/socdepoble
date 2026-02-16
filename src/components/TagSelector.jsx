@@ -129,6 +129,35 @@ const TagSelector = ({ currentTags = [], onTagsChange }) => {
                     </form>
                 )}
             </div>
+
+            {/* [PROTOCOL ARMARI NET] RECOMANACIONS DE L'IAIA */}
+            <div className="iaia-recommendations p-4 mt-6 bg-[rgba(255,109,35,0.05)] border border-[rgba(255,109,35,0.2)] rounded-2xl relative overflow-hidden group">
+                <div className="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <Sparkles size={40} color="#FF6D23" />
+                </div>
+                <div className="flex items-center gap-2 mb-3">
+                    <div className="w-8 h-8 rounded-full bg-[var(--sdp-terracotta)] flex items-center justify-center text-white shadow-lg">
+                        <Sparkles size={16} />
+                    </div>
+                    <div>
+                        <h4 className="text-[11px] font-black uppercase tracking-widest text-[var(--sdp-terracotta)]">IAIA: Armari Net</h4>
+                        <p className="text-[10px] text-gray-400 italic">"Deixa que t'organitze les idees, bonico..."</p>
+                    </div>
+                </div>
+                
+                <div className="flex flex-wrap gap-2">
+                    {['#territori', '#proximitat', '#sobirania', '#família'].map(rec => (
+                        <button 
+                            key={rec}
+                            className={`px-3 py-1.5 rounded-full border border-dashed border-[var(--sdp-terracotta)]/30 text-[var(--sdp-terracotta)] text-[11px] font-bold hover:bg-[var(--sdp-terracotta)]/10 transition-all ${currentTags.includes(rec) ? 'bg-[var(--sdp-terracotta)]/20 border-solid opacity-50' : ''}`}
+                            onClick={() => !currentTags.includes(rec) && toggleTag(rec)}
+                            disabled={currentTags.includes(rec)}
+                        >
+                            {rec}
+                        </button>
+                    ))}
+                </div>
+            </div>
         </div>
     );
 };

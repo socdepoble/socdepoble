@@ -136,7 +136,7 @@ const UniversalCard = ({
                                 {cardVariant === 'pobles' ? getGentDePage(displayTown) : displayAuthor}
                             </h3>
                             {isOfficial && (
-                                <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-white text-[var(--sdp-terracotta)] uppercase tracking-wide shadow-sm flex items-center gap-1">
+                                <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-[var(--color-bg-canonic)] text-[var(--color-secondary)] uppercase tracking-wide shadow-sm flex items-center gap-1">
                                     <ShieldCheck size={10} />
                                     Oficial
                                 </span>
@@ -309,13 +309,11 @@ const UniversalCard = ({
                         ) : (
                             <>
                                 <button 
-                                    className="master-action-btn connect-btn master-button-canonic h-12 px-5 rounded-[24px] font-black tracking-widest" 
+                                    className="w-full bg-black text-white h-12 rounded-none font-black tracking-[0.2em] flex items-center justify-center gap-2 border-none hover:bg-gray-900 transition-all active:scale-[0.98]" 
                                     onClick={handleConnectClick}
                                 >
-                                    <div className="relative">
-                                        <UserPlus size={22} />
-                                    </div>
-                                    <span>{(cardVariant === 'mercat' || cardVariant === 'market' || item?.price) ? "M'interessa" : "CONNECTAR"}</span>
+                                    <UserPlus size={18} />
+                                    <span>CONNECTAR</span>
                                 </button>
                                 <div className="footer-touch-group">
                                     <button className="btn-touch iaia-chat" onClick={(e) => { 
@@ -335,132 +333,78 @@ const UniversalCard = ({
 
                 {/* 2. CARDINAL MERCAT (Price/E-commerce) */}
                 {(cardVariant === 'mercat' || cardVariant === 'market') && (
-                    <div className="footer-mercat-master">
-                        <div className="mercat-actions-row">
-                            <button className="master-action-btn connect-btn" onClick={handleConnectClick}>
-                                <Zap size={22} />
-                                <span>M'interessa</span>
-                            </button>
-                            <button className="btn-touch iaia-chat" onClick={(e) => { 
-                                e.stopPropagation(); 
-                                navigate('/iaia');
-                            }}>
-                                <MessageCircle size={22} />
-                            </button>
-                        </div>
-                        <button className="btn-mercat-buy" onClick={(e) => {
-                            e.stopPropagation();
-                            if (user?.isAnonymous) {
-                                setIsGuestInteractionModalOpen(true);
-                            } else {
-                                navigate(`/mercat/${item.id}`);
-                            }
-                        }}>
-                            <span>COMPRAR-LO {displayPrice}</span>
+                    <div className="footer-mercat-forense mt-4 p-0">
+                        <button 
+                            className="w-full bg-black text-white h-12 rounded-none font-black tracking-[0.2em] flex items-center justify-center gap-2 border-none hover:bg-gray-900 transition-all active:scale-[0.98]" 
+                            onClick={handleConnectClick}
+                        >
+                            <UserPlus size={18} />
+                            CONNECTAR
                         </button>
                     </div>
                 )}
 
                 {/* 3. CARDINAL AGENDA (Cultural Event) */}
                 {(cardVariant === 'agenda' || cardVariant === 'event') && (
-                    <div className="footer-event-master">
-                        <div className="event-info-notice">
+                    <div className="footer-event-master p-4 pt-0">
+                        <div className="event-info-notice mb-4">
                             <Zap size={14} className="flash-icon" />
                             <span>Esdeveniment destacat de la setmana</span>
                         </div>
-                        <div className="event-actions-row">
-                            <button className="master-action-btn connect-btn" onClick={handleConnectClick}>
-                                <UserPlus size={22} />
-                                <span>Assistiré</span>
-                            </button>
-                            <button className="btn-touch iaia-chat" onClick={(e) => { 
-                                e.stopPropagation(); 
-                                navigate('/iaia');
-                            }}>
-                                <MessageCircle size={22} />
-                            </button>
-                            <button className="btn-event-action" onClick={() => navigate(`/agenda/${item.id}`)}>
-                                <span>Obrir</span>
-                                <ChevronRight size={22} />
-                            </button>
-                        </div>
+                        <button 
+                            className="w-full bg-black text-white h-12 rounded-none font-black tracking-[0.2em] flex items-center justify-center gap-2 border-none hover:bg-gray-900 transition-all active:scale-[0.98]" 
+                            onClick={handleConnectClick}
+                        >
+                            <UserPlus size={18} />
+                            CONNECTAR
+                        </button>
                     </div>
                 )}
 
                 {/* 4. CARDINAL POBLES (Community Gent de...) */}
                 {cardVariant === 'pobles' && (
-                    <div className="footer-pobles-master">
-                        <button className="master-action-btn connect-btn bg-[#002B5B] text-white" onClick={handleConnectClick}>
-                            <UserPlus size={22} />
-                            <span>SER DE LA COL·LECTIVITAT</span>
+                    <div className="footer-pobles-master p-4 pt-0">
+                        <button 
+                            className="w-full bg-[#002B5B] text-white h-12 rounded-none font-black tracking-[0.2em] flex items-center justify-center gap-2 border-none hover:opacity-90 transition-all active:scale-[0.98]" 
+                            onClick={handleConnectClick}
+                        >
+                            <UserPlus size={18} />
+                            CONNECTAR
                         </button>
-                        <div className="footer-touch-group">
-                            <button className="btn-touch iaia-chat" onClick={(e) => { 
-                                e.stopPropagation(); 
-                                navigate('/iaia');
-                            }}>
-                                <MessageCircle size={22} />
-                            </button>
-                            <button className="btn-event-action visit-town" onClick={() => {
-                                const townId = item?.uuid || item?.id;
-                                navigate(`/pobles/${townId || 'de-la-torre'}`);
-                            }}>
-                                <span>{getGentDePage(displayTown).toUpperCase()}</span>
-                                <ChevronRight size={22} />
-                            </button>
-                        </div>
                     </div>
                 )}
 
                 {/* 5. CARDINAL AJUNTAMENT (Official Institutional) */}
                 {cardVariant === 'ajuntament' && (
-                    <div className="footer-ajuntament-master">
-                        <div className="official-notice-row">
+                    <div className="footer-ajuntament-master p-4 pt-0">
+                        <div className="official-notice-row mb-4 flex items-center gap-2 text-[10px] font-black uppercase text-blue-400 tracking-widest pl-2">
                             <ShieldCheck size={14} className="blue-badge-icon" />
                             <span>Comunicat Oficial de l'Ajuntament</span>
                         </div>
-                        <div className="event-actions-row">
-                            <button className="master-action-btn connect-btn" onClick={handleConnectClick}>
-                                <UserPlus size={22} />
-                                <span>Connectar</span>
-                            </button>
-                            <button className="btn-touch iaia-chat" onClick={(e) => { 
-                                e.stopPropagation(); 
-                                navigate('/iaia');
-                            }}>
-                                <MessageCircle size={22} />
-                            </button>
-                            <button className="btn-event-action official-nav" onClick={() => navigate('/ajuntament')}>
-                                <span>Obrir</span>
-                                <ChevronRight size={22} />
-                            </button>
-                        </div>
+                        <button 
+                            className="w-full bg-[#002B5B] text-white h-12 rounded-none font-black tracking-[0.2em] flex items-center justify-center gap-2 border-none hover:opacity-90 transition-all active:scale-[0.98]" 
+                            onClick={handleConnectClick}
+                        >
+                            <UserPlus size={18} />
+                            CONNECTAR
+                        </button>
                     </div>
                 )}
 
                 {/* 6. CARDINAL RUTES / MAPA (Territorial Navigation) */}
                 {(cardVariant === 'mapa' || cardVariant === 'ruta') && (
-                    <div className="footer-mapa-master">
-                        <div className="map-dist-notice">
+                    <div className="footer-mapa-master p-4 pt-0">
+                        <div className="map-dist-notice mb-4">
                             <MapPin size={14} />
                             <span>A 2.4 km de tu</span>
                         </div>
-                        <div className="event-actions-row">
-                            <button className="master-action-btn connect-btn" onClick={handleConnectClick}>
-                                <UserPlus size={22} />
-                                <span>Connectar</span>
-                            </button>
-                            <button className="btn-touch iaia-chat" onClick={(e) => { 
-                                e.stopPropagation(); 
-                                navigate('/iaia');
-                            }}>
-                                <MessageCircle size={22} />
-                            </button>
-                            <button className="btn-event-action map-nav" onClick={() => navigate(`/pub/${item.id}`)}>
-                                <span>VEURE MAPA</span>
-                                <ChevronRight size={22} />
-                            </button>
-                        </div>
+                        <button 
+                            className="w-full bg-[#10B981] text-white h-12 rounded-none font-black tracking-[0.2em] flex items-center justify-center gap-2 border-none hover:opacity-90 transition-all active:scale-[0.98]" 
+                            onClick={handleConnectClick}
+                        >
+                            <UserPlus size={18} />
+                            CONNECTAR
+                        </button>
                     </div>
                 )}
             </div>

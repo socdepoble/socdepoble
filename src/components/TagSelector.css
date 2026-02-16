@@ -94,7 +94,6 @@
 }
 
 .add-tag-btn {
-    width: 32px;
     height: 32px;
     border-radius: 999px;
     border: 1px dashed var(--color-border);
@@ -156,4 +155,37 @@
 
 .add-tag-form button:hover {
     color: var(--color-primary);
+}
+
+/* [PROTOCOL ARMARI NET] IAIA RECOMMENDATIONS */
+.iaia-recommendations {
+    background: rgba(255, 109, 35, 0.03);
+    border: 1px dashed rgba(255, 109, 35, 0.2);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.iaia-recommendations:hover {
+    background: rgba(255, 109, 35, 0.05);
+    border-color: rgba(255, 109, 35, 0.4);
+    box-shadow: 0 4px 20px rgba(255, 109, 35, 0.05);
+}
+
+.iaia-recommendations button {
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.iaia-recommendations button:hover:not(:disabled) {
+    background: var(--sdp-terracotta);
+    color: white;
+    border-style: solid;
+    transform: translateY(-2px);
+}
+
+.iaia-recommendations button:active:not(:disabled) {
+    transform: scale(0.95);
+}
+
+.iaia-recommendations button:disabled {
+    cursor: default;
 }

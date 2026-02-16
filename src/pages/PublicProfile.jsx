@@ -7,7 +7,6 @@ import { useAuth } from '../context/AuthContext';
 import { useUI } from '../context/UIContext';
 import { logger } from '../utils/logger';
 import { CREATOR_EMAILS } from '../constants';
-import { hapticService } from '../services/hapticService';
 import Feed from '../components/Feed';
 import SEO from '../components/SEO';
 import ProfileHeaderPremium from '../components/ProfileHeaderPremium';
@@ -21,14 +20,13 @@ const PublicProfile = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const { user: currentUser } = useAuth();
-    const { openLegalModal } = useUI();
+    const { openLegalModal, openConnectionModal, setIsGuestInteractionModalOpen } = useUI();
     const [profile, setProfile] = useState(null);
     const [userPosts, setUserPosts] = useState([]);
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [isConnected, setIsConnected] = useState(false);
-    const [isConnecting, setIsConnecting] = useState(false);
     const [followersCount, setFollowersCount] = useState(0);
 
     const isOwnProfile = !!currentUser && (currentUser.id === id || currentUser.username === username);
@@ -90,36 +88,22 @@ const PublicProfile = () => {
         }
     }, [currentUser, profile]);
 
-    const handleConnect = async (params = {}) => {
+    const handleConnect = (e) => {
+        if (e && e.stopPropagation) e.stopPropagation();
+
         if (!currentUser) {
-            navigate('/login');
+            setIsGuestInteractionModalOpen(true);
             return;
         }
 
-        const { tag, disconnect } = params;
-
-        setIsConnecting(true);
-        try {
-            if (disconnect || isConnected) {
-                const success = await supabaseService.disconnectFromProfile(currentUser.id, profile.id);
-                if (success) {
-                    setIsConnected(false);
-                    setFollowersCount(prev => Math.max(0, prev - 1));
-                    hapticService.notifySuccess();
-                }
-            } else {
-                const success = await supabaseService.connectWithProfile(currentUser.id, profile.id, tag ? [tag] : []);
-                if (success) {
-                    setIsConnected(true);
-                    setFollowersCount(prev => prev + 1);
-                    hapticService.notifySuccess();
-                }
+        openConnectionModal({
+            targetId: profile.id,
+            targetType: profile.role === 'entitat' ? 'entitat' : 'perfil',
+            onUpdate: (tags) => {
+                console.log(`[CONNECT] Connexió bategada al perfil:`, tags);
+                setIsConnected(true);
             }
-        } catch (err) {
-            logger.error('Error handling connection:', err);
-        } finally {
-            setIsConnecting(false);
-        }
+        });
     };
 
     const handleHeaderClick = (item) => {
@@ -198,7 +182,6 @@ const PublicProfile = () => {
                 coverUrl={isMaster ? 'https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200' : profile.cover_url}
                 badges={badges}
                 isConnected={isConnected}
-                isConnecting={isConnecting}
                 onConnect={handleConnect}
                 showConnect={!isOwnProfile}
                 onAction={isOwnProfile ? () => navigate('/perfil') : null}
@@ -236,24 +219,11 @@ const PublicProfile = () => {
                     return canSeeActions && (
                         <div className="profile-control-panel max-w-2xl mx-auto my-12 p-8">
                             <button
-                                className={`btn-mercat-buy w-full mb-6 ${isConnected ? 'bg-transparent text-[var(--sdp-terracotta)]' : 'bg-[var(--sdp-terracotta)] text-black border-none'}`}
+                                className="w-full bg-black text-white h-16 rounded-none font-black tracking-[0.2em] flex items-center justify-center gap-2 border-none hover:bg-gray-900 transition-all active:scale-[0.98] mb-8"
                                 onClick={handleConnect}
-                                disabled={isConnecting}
-                                style={{ height: '64px', fontSize: '18px', borderRadius: 'var(--sdp-radius-tactile)' }}
                             >
-                                {isConnecting ? (
-                                    <Loader2 size={24} className="animate-spin" />
-                                ) : isConnected ? (
-                                    <>
-                                        <UserMinus size={24} />
-                                        <span>DESCONNECTAR</span>
-                                    </>
-                                ) : (
-                                    <>
-                                        <UserPlus size={24} />
-                                        <span>CONECTAR AMB {profile.full_name.toUpperCase()}</span>
-                                    </>
-                                )}
+                                <UserPlus size={24} />
+                                <span>CONNECTAR</span>
                             </button>
                             <div className="flex gap-4">
                                 <button

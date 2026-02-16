@@ -95,22 +95,129 @@ export const exportService = {
             <head>
                 <title>Informe Sóc de Poble - ${userName}</title>
                 <style>
-                    body { font-family: 'Helvetica', 'Arial', sans-serif; padding: 40px; color: #333; }
-                    h1 { color: #5D5FEF; border-bottom: 2px solid #5D5FEF; padding-bottom: 10px; }
-                    h2 { margin-top: 30px; color: #E65100; border-bottom: 1px solid #eee; }
-                    .meta { color: #666; font-size: 0.9em; margin-bottom: 30px; }
-                    .item { margin-bottom: 20px; padding: 15px; border: 1px solid #eee; border-radius: 8px; }
-                    .msg { margin-bottom: 5px; font-size: 0.9em; }
-                    .me { font-weight: bold; color: #5D5FEF; }
-                    .other { font-weight: bold; color: #666; }
+                    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Noto+Sans+Condensed:wght@100..900&family=Noto+Sans+Mono:wght@100..900&display=swap');
+                    
+                    @page {
+                        size: A4;
+                        margin: 0;
+                    }
+                    body { 
+                        margin: 0;
+                        padding: 0;
+                        background: #fdfcf9;
+                        color: #0c0c0c;
+                        font-family: 'Noto Sans', sans-serif;
+                        -webkit-print-color-adjust: exact;
+                    }
+                    .sheet {
+                        width: 210mm;
+                        height: 297mm;
+                        padding: 20mm 20mm 19mm 20mm;
+                        box-sizing: border-box;
+                        position: relative;
+                        background: #fdfcf9;
+                        overflow: hidden;
+                        display: flex;
+                        flex-direction: column;
+                        page-break-after: always;
+                    }
+                    .infography-cover {
+                        width: 160mm;
+                        height: 160mm;
+                        object-fit: cover;
+                        margin: 0 auto 10mm auto;
+                        box-shadow: 0 5mm 15mm rgba(0,0,0,0.1);
+                    }
+                    .page-header {
+                        position: absolute;
+                        top: 10mm;
+                        left: 20mm;
+                        right: 20mm;
+                        display: flex;
+                        justify-content: space-between;
+                        font-size: 8pt;
+                        font-weight: 700;
+                        color: #999;
+                        text-transform: uppercase;
+                    }
+                    h1 { 
+                        font-family: 'Noto Sans', sans-serif;
+                        font-weight: 900;
+                        font-size: 32pt;
+                        color: #FF6D23; 
+                        margin: 0;
+                        text-transform: uppercase;
+                        text-align: center;
+                    }
+                    .content-dual {
+                        column-count: 2;
+                        column-gap: 10mm;
+                        font-family: 'Noto Sans Condensed', sans-serif;
+                        font-size: 18pt; /* 18pt reals bategats */
+                        line-height: 1.5;
+                        text-align: justify;
+                        color: #111;
+                        flex: 1;
+                        margin-top: 10mm;
+                    }
+                    h2 { 
+                        column-span: all;
+                        font-weight: 800;
+                        font-size: 14pt;
+                        margin-top: 8mm; 
+                        color: #111; 
+                        border-bottom: 0.5pt solid #eee; 
+                    }
+                    .footer {
+                        margin-top: auto;
+                        padding-top: 5mm;
+                        border-top: 0.5pt solid #eee;
+                        display: flex;
+                        justify-content: space-between;
+                        font-size: 8pt;
+                        color: #999;
+                    }
+                    .subtitol-pdf {
+                        column-span: all;
+                        color: #FF6D23;
+                        font-weight: 900;
+                        font-size: 16pt;
+                        text-align: center;
+                        margin: 15mm 0 10mm 0;
+                        padding: 5mm 0;
+                        border-top: 2pt solid #FF6D23;
+                        border-bottom: 2pt solid #FF6D23;
+                        text-transform: uppercase;
+                    }
+                    .document-header-meta {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        border-bottom: 0.5pt solid #eee;
+                        padding-bottom: 5mm;
+                        margin-bottom: 10mm;
+                    }
                 </style>
             </head>
             <body>
-                <h1>Informe de Dades i Activitat</h1>
-                <div class="meta">
-                    <strong>Usuari:</strong> ${userName}<br>
-                    <strong>Data de generació:</strong> ${new Date().toLocaleString()}
+                <div class="sheet">
+                    <div class="page-header">
+                        <span>${new Date().toLocaleDateString('ca-ES')}</span>
+                        <span>PÀGINA 1 DE 2</span>
+                    </div>
+                    <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+                        <img src="/images/dossiers/infografia_kit_digital.png" class="infography-cover">
+                        <h1>${userName}</h1>
+                        <p style="text-align: center; font-weight: 800; letter-spacing: 0.2em; color: #666; margin-top: 5mm;">DOSSIER DE SOBIRANIA I TRELLAT</p>
+                    </div>
                 </div>
+
+                <div class="sheet">
+                    <div class="page-header">
+                        <img src="/assets/master/logo_socdepoble_black_sketch.png" style="height: 15pt;">
+                        <span>PÀGINA 2 DE 2</span>
+                    </div>
+                    <div class="content-dual">
 
                 <h2>Publicacions al Mur</h2>
                 ${data.posts.map(p => `
@@ -142,7 +249,17 @@ export const exportService = {
                         `).join('')}
                     </div>
                 `).join('')}
-                
+                    </div>
+                    <div class="footer" style="flex-direction: column; gap: 2mm; height: auto; padding: 5mm 0;">
+                        <div style="display: flex; align-items: center; justify-content: center; gap: 4mm;">
+                            <img src="/assets/master/logo_socdepoble_black_sketch.png" style="height: 12pt;">
+                            <span style="font-weight: 800; font-size: 10pt; color: #000;">socdepoble.org</span>
+                        </div>
+                        <div style="font-size: 8pt; color: #999; text-transform: uppercase; letter-spacing: 0.1em;">
+                            Llegibilitat Sant Grial v3 | SÓC DE POBLE
+                        </div>
+                    </div>
+                </div>
                 <script>
                     window.onload = function() {
                         window.print();

@@ -30,14 +30,19 @@ const OficiDocumentacio = lazy(() => import('../pages/OficiDocumentacio'));
 const NexusFlash = lazy(() => import('../pages/NexusFlash'));
 const SolatgeConsole = lazy(() => import('../pages/SolatgeConsole'));
 const GenesisViewer = lazy(() => import('../pages/GenesisViewer'));
+const BuscadorAjudes = lazy(() => import('../pages/BuscadorAjudes'));
 const DirectoriComunitat = lazy(() => import('../pages/CommunityDirectory'));
 const Header = lazy(() => import('./Header'));
-const AmphoraFAB = lazy(() => import('./AmphoraFAB'));
 const CreationHub = lazy(() => import('./CreationHub'));
 const AccessibilitatUniversal = lazy(() => import('./AccessibilitatUniversal'));
 const ArchitecteView = lazy(() => import('./ArchitecteView'));
 const DossierSocis = lazy(() => import('../pages/DossierSocis'));
 const ResourceDetail = lazy(() => import('../pages/ResourceDetail'));
+const GhostMemorial = lazy(() => import('../pages/GhostMemorial'));
+const InfografiaGallery = lazy(() => import('./Infoteca/InfografiaGallery'));
+const ContextualMenu = lazy(() => import('./ContextualMenu'));
+const CategoryManager = lazy(() => import('./CategoryManager'));
+const ChatManager = lazy(() => import('../pages/ChatManager'));
 
 import BlueprintOverlay from './BlueprintOverlay';
 
@@ -76,67 +81,64 @@ const AppLayout = () => {
     }, []);
 
     return (
-        <div className="h-full w-full flex overflow-hidden font-sans bg-black text-white relative">
+        <div className="h-[100dvh] w-full flex flex-col overflow-hidden font-sans bg-theme-base text-theme-text relative max-h-[100dvh]">
             
-            {/* 0. OVERLAY MÒBIL (Sombra de fondo) */}
-            {isDrawerOpen && (
-                <div 
-                    className="drawer-backdrop lg:hidden"
-                    onClick={closeDrawer}
-                />
-            )}
-
-            {/* 0. ACCESSIBILITAT & RESILIÈNCIA (L'ULL DEL MAS) */}
-            <Suspense fallback={null}>
-                <AccessibilitatUniversal />
-            </Suspense>
-
-            {/* 0. MODALE D'EXPLICACIÓ (ARQUITECTE) */}
-
-            {architectMode && (
-                <div className="fixed inset-0 z-[10000] bg-black/40 backdrop-blur-xl lg:pl-[280px]">
-                    <div className="h-full flex flex-col relative animate-slide-up">
-                        <Suspense fallback={<NanoLoader message="Obrint el Mapa..." />}>
-                            <ArchitecteView />
-                        </Suspense>
-                    </div>
-                </div>
-            )}
-
-            {/* 1. SIDEBAR (LA ROCA - 280px) - JUMBO DRAWER */}
-            <aside className={`
-                sidebar-desktop
-                ${isDrawerOpen ? 'drawer-open lg:block' : 'hidden lg:block'}
-                lg:relative lg:translate-x-0 min-w-0 flex-shrink-0
-            `}>
+            {/* 0. HEADER SOBIRÀ (FULL WIDTH - PROTOCOL v4.0) */}
+            <Suspense fallback={<NanoLoader message="Preparant la barra..." />}>
                 {blueprintMode ? (
-                    <BlueprintOverlay label="SIDEBAR_FIXED" dimensions="280px" color="blue" showBackupLink={true}>
-                        <NavigationRail />
+                    <BlueprintOverlay label="HEADER_CANONIC" dimensions="64px" color="orange" className="h-[64px] flex-shrink-0">
+                        <Header />
                     </BlueprintOverlay>
                 ) : (
-                    <NavigationRail />
+                    <Header />
                 )}
-            </aside>
+            </Suspense>
 
-            {/* 2. MAIN VIEWPORT (EL ESCENARIO) - HABILITEM SCROLL (TABULA RASA) */}
-            <main className="flex-1 flex flex-col min-w-0 h-full relative bg-black custom-scrollbar">
-                {blueprintMode && <div className="pointer-events-none absolute inset-0 z-[50] border-2 border-emerald-500/20" />}
-                <Suspense fallback={<NanoLoader message="Bategant..." />}>
-                    <ErrorBoundary>
-                        <Suspense fallback={<NanoLoader message="Preparant la barra..." />}>
-                            {blueprintMode ? (
-                                <div className="h-16 shrink-0 z-10 border-b border-white/5">
-                                    <BlueprintOverlay label="HEADER_CANONIC" dimensions="64px" color="orange">
-                                        <Header />
-                                    </BlueprintOverlay>
-                                </div>
-                            ) : (
-                                <Header />
-                            )}
-                        </Suspense>
-                        <div className="flex-1 relative min-w-0 overflow-y-auto main-viewport custom-scrollbar">
-                            {blueprintMode && location.pathname.startsWith('/chats') && <BlueprintOverlay label="VIEWPORT_FLEX" dimensions="AUTO" color="cyan" />}
-                            <Routes>
+            <div className="flex-1 flex overflow-hidden min-h-0 relative">
+                {/* 0. OVERLAY MÒBIL (Sombra de fondo) */}
+                {isDrawerOpen && (
+                    <div 
+                        className="drawer-backdrop lg:hidden"
+                        onClick={closeDrawer}
+                    />
+                )}
+
+                {/* 0. ACCESSIBILITAT & RESILIÈNCIA (L'ULL DEL MAS) */}
+                <Suspense fallback={null}>
+                    <AccessibilitatUniversal />
+                </Suspense>
+
+                {/* 1. SIDEBAR (LA ROCA - 280px) - JUMBO DRAWER */}
+                <aside className={`
+                    sidebar-desktop
+                    ${isDrawerOpen ? 'drawer-open lg:block' : 'hidden lg:block'}
+                    lg:relative lg:translate-x-0 min-w-0 flex-shrink-0
+                `}>
+                    {blueprintMode ? (
+                        <BlueprintOverlay label="SIDEBAR_FIXED" dimensions="280px" color="blue" showBackupLink={true}>
+                            <NavigationRail />
+                        </BlueprintOverlay>
+                    ) : (
+                        <NavigationRail />
+                    )}
+                </aside>
+
+                {/* 2. MAIN VIEWPORT (EL ESCENARIO) - HABILITEM SCROLL (TABULA RASA) */}
+                <main className={`flex-1 flex flex-col min-w-0 min-h-0 relative bg-theme-base custom-scrollbar ${location.pathname.startsWith('/chats') ? 'overflow-hidden' : ''}`}>
+                    <Suspense fallback={null}>
+                        <ContextualMenu />
+                    </Suspense>
+                    
+                    {blueprintMode && <div className="pointer-events-none absolute inset-0 z-[50] border-2 border-emerald-500/20" />}
+                    <Suspense fallback={<NanoLoader message="Bategant..." />}>
+                        <ErrorBoundary>
+                            <div className={`flex-1 flex flex-col relative min-w-0 min-h-0 main-viewport h-full custom-scrollbar ${location.pathname.startsWith('/chats') ? 'overflow-hidden' : 'overflow-y-auto'}`}>
+                                {blueprintMode && location.pathname.startsWith('/chats') && (
+                                    <div className="absolute inset-0 z-[40] pointer-events-none">
+                                        <BlueprintOverlay label="VIEWPORT_FLEX" dimensions="AUTO" color="cyan" />
+                                    </div>
+                                )}
+                                <Routes>
                                 <Route path="/login" element={<Login />} />
                                 <Route path="/" element={<Navigate to="/chats" replace />} />
                                 
@@ -153,15 +155,19 @@ const AppLayout = () => {
                                 <Route path="/perfil" element={<ProtectedRoute><UniversalProfile /></ProtectedRoute>} />
                                 <Route path="/perfil/:id" element={<PublicProfile />} />
                                 <Route path="/entitat/:id" element={<PublicEntity />} />
+                                <Route path="/memorial" element={<GhostMemorial />} />
+                                <Route path="/ajudes" element={<BuscadorAjudes />} />
                                 
                                 <Route path="/mapa" element={<MapaActius />} />
                                 <Route path="/search" element={<SearchDiscover />} />
                                 <Route path="/ofici" element={<OficiDocumentacio />} />
+                                <Route path="/buscador-ajudes" element={<BuscadorAjudes />} />
                                 <Route path="/nexus" element={<NexusFlash />} />
                                 <Route path="/solatge" element={<ProtectedRoute><SolatgeConsole /></ProtectedRoute>} />
                                 <Route path="/genesis" element={<GenesisViewer />} />
                                 <Route path="/directori" element={<DirectoriComunitat />} />
                                 <Route path="/tools/trellat" element={<SolatgeConsole />} />
+                                <Route path="/infoteca" element={<InfografiaGallery />} />
 
                                 <Route path="/admin" element={<ProtectedRoute><AdminPanel /></ProtectedRoute>} />
                                 <Route path="/arxiu" element={<ArxiuOr />} />
@@ -169,15 +175,26 @@ const AppLayout = () => {
                                 <Route path="/calendari" element={<CalendariMaster />} />
                                 <Route path="/fotos/global" element={<AlbumGlobal />} />
                                 <Route path="/dossier" element={<DossierSocis />} />
+                                <Route path="/gestio/categories" element={<CategoryManager />} />
+                                <Route path="/gestio/xats" element={<ProtectedRoute><ChatManager /></ProtectedRoute>} />
                                 <Route path="*" element={<Navigate to="/" replace />} />
                             </Routes>
                         </div>
-                        <Suspense fallback={null}>
-                            <AmphoraFAB />
-                        </Suspense>
                     </ErrorBoundary>
                 </Suspense>
-            </main>
+                </main>
+            </div>
+
+            {/* MODALE D'EXPLICACIÓ (ARQUITECTE) - REPOSITIONAT PELS FRAMES UNIFICATS */}
+            {architectMode && (
+                <div className="fixed inset-0 z-[10000] bg-black/40 backdrop-blur-xl lg:pl-[280px]">
+                    <div className="h-full flex flex-col relative animate-slide-up">
+                        <Suspense fallback={<NanoLoader message="Obrint el Mapa..." />}>
+                            <ArchitecteView />
+                        </Suspense>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

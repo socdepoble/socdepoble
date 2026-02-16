@@ -45,8 +45,7 @@ export const aiService = {
      */
     async generateContent(prompt, mode = 'iaia', imageBase64 = null) {
         const apiKey = localStorage.getItem('sp_gemini_api_key') || "";
-        const model = "gemini-1.5-pro"; // ACTUALITZAT A ULTRA
-        const systemInstruction = SYSTEM_PROMPTS[mode] || SYSTEM_PROMPTS.iaia_maria;
+        const systemInstruction = SYSTEM_PROMPTS[mode] || SYSTEM_PROMPTS.iaia_master;
 
         logger.info(`[AI] Generant contingut - Mode: ${mode} - Multimodal: ${!!imageBase64}`);
 

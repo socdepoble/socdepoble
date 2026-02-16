@@ -18,6 +18,7 @@ export const AppProvider = ({ children }) => {
 };
 
 // Shorthand for backward compatibility during transition
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAppContext = () => {
     const auth = useAuth();
     const ui = useUI();

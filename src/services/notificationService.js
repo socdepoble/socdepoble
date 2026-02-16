@@ -115,7 +115,7 @@ export const notificationService = {
     /**
      * Broadcast to all admins (convenience method)
      */
-    async broadcastToAdmins(payload) {
+    async sendPushNotification() {
         // Implementation would fetch admin IDs and send to each
         // For now, this is a placeholder for the logic in AdminPanel
         logger.log('[NotificationService] Broadcast to admins requested');

@@ -1,68 +1,14 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700;900&display=swap");
-
-@font-face {
-  font-family: "Booter";
-  src: url("/fonts/booter/BOOTERZZ.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Booter";
-  src: url("/fonts/booter/BOOTERZF.ttf") format("truetype");
-  font-weight: bold;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Playball";
-  src: url("/fonts/playball/Playball-Regular.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Pump";
-  src: url("/fonts/pump/Pump-Demi-Bold.ttf") format("truetype");
-  font-weight: bold;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "DearJoeFour";
-  src: url("/fonts/dearjoefour/dJ4TRIAL.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "MyriadPro";
-  src: url("/fonts/myriadpro/MYRIADPRO-REGULAR.OTF") format("opentype");
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "ResPublica";
-  src: url("/fonts/respublica/RESPUB__.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
-
 @import "tailwindcss";
 
-/* 🏺 SÓC DE POBLE: LA BÍBLIA VISUAL v1.25.0-MASTER-GOLDEN (PROTOCOL 1er MANDAMENT)
+/* 🏺 SÓC DE POBLE: LA BÍBLIA VISUAL v1.26.0-MASTER [PROTOCOL NOTO]
    Aquest fitxer és el ciment únic. 
 */
 
 @theme {
-  --font-sans: "Roboto Condensed", ui-sans-serif, system-ui, sans-serif;
-  --font-booter: "Booter", cursive;
-  --font-playball: "Playball", cursive;
-  --font-pump: "Pump", sans-serif;
-  --font-dearjoefour: "DearJoeFour", cursive;
-  --font-myriadpro: "MyriadPro", sans-serif;
-  --font-respublica: "ResPublica", serif;
+  --font-sans: "Noto Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Noto Sans", serif; /* Purga de Serif */
+  --font-mono: "Noto Sans Mono", monospace;
+  --font-condensed: "Noto Sans Condensed", sans-serif;
 
   --color-accent-orange: #ff6b00;
   --color-accent-indigo: #4f46e5;
@@ -78,6 +24,7 @@
 }
 
 :root {
+  /* [PROTOCOL GÈNESI v10.26.0] */
   --bg-app: #000000;
   --bg-master: #000000;
   --bg-panel: #111111;
@@ -86,6 +33,50 @@
   --text-secondary: #9ca3af;
   --text-muted: #6b7280;
   --border-master: #1f2937;
+
+  /* [MAESTRO RULE] Night/Dark Colors */
+  --sdp-black: #000000;
+  --sdp-white: #ffffff;
+  --sdp-blue: #002b5b; /* Blue/Indigo */
+  --sdp-orange: #ff6b00; /* Terracotta/Orange */
+
+  /* [SEMANTIC MAPPING] */
+  --color-primary: var(--sdp-orange);
+  --color-secondary: var(--sdp-blue);
+  --color-bg-canonic: var(--sdp-black);
+  --color-text-canonic: var(--sdp-white);
+
+  --bg-theme-base: var(--bg-app);
+  --text-theme-text: var(--text-main);
+}
+
+:root.light {
+  --bg-app: #f8f9fa;
+  --bg-master: #ffffff;
+  --bg-panel: #ffffff;
+  --bg-sidebar: #000000; /* Roca immutable */
+  --text-main: #111111;
+  --text-secondary: #4b5563;
+  --text-muted: #9ca3af;
+  --border-master: #e5e7eb;
+
+  /* [MAESTRO RULE INVERSION] Day/Light Colors */
+  --color-primary: var(--sdp-blue); /* Orange becomes Blue */
+  --color-secondary: var(--sdp-orange); /* Blue becomes Orange */
+  --color-bg-canonic: var(--sdp-white); /* Black becomes White */
+  --color-text-canonic: var(--sdp-black); /* White becomes Black */
+
+  --bg-theme-base: var(--bg-app);
+  --text-theme-text: var(--text-main);
+}
+
+.bg-theme-base {
+  background-color: var(--bg-theme-base);
+  transition: background-color 0.3s ease;
+}
+.text-theme-text {
+  color: var(--text-theme-text);
+  transition: color 0.3s ease;
 }
 
 /* 📱 COMPORTAMENT TÀCTIL NATIU (v10.30.0 BLUEPRINT) */

@@ -1,4 +1,3 @@
-import { rhizomeDb } from './db-core';
 import { egWalker } from './crdt/eg-walker';
 import { logger } from '../utils/logger';
 

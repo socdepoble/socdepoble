@@ -1,96 +1,66 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Play, Pause } from 'lucide-react';
-import { logger } from '../utils/logger';
+import React, { useState, useRef } from 'react';
+import { Play, Pause, Volume2, Trash2 } from 'lucide-react';
+import './VoiceMessage.css';
 
-const VoiceMessage = ({ url, duration, waveform, isOwnMessage }) => {
+/**
+ * VoiceMessage - Component per reproduir missatges de veu
+ */
+const VoiceMessage = ({ audioUrl, duration, onRemove }) => {
     const [isPlaying, setIsPlaying] = useState(false);
     const audioRef = useRef(null);
-    const [progress, setProgress] = useState(0);
 
     const togglePlay = () => {
         if (!audioRef.current) return;
-
+        
         if (isPlaying) {
             audioRef.current.pause();
         } else {
-            audioRef.current.play().catch(e => console.error("Playback error:", e));
+            audioRef.current.play();
         }
         setIsPlaying(!isPlaying);
     };
 
-    const handleTimeUpdate = () => {
-        if (audioRef.current) {
-            setProgress((audioRef.current.currentTime / audioRef.current.duration) * 100);
-        }
-    };
-
     const handleEnded = () => {
         setIsPlaying(false);
-        setProgress(0);
-    };
-
-    const formatDuration = (secs) => {
-        if (!secs) return '0:00';
-        const mins = Math.floor(secs / 60);
-        const s = Math.round(secs % 60);
-        return `${mins}:${s.toString().padStart(2, '0')}`;
-    };
-
-    // Default waveform if none provided (simple bars)
-    const renderWaveform = () => {
-        // If real waveform provided, use it. Otherwise random bars.
-        const bars = waveform || Array(20).fill(0).map(() => Math.random());
-
-        return (
-            <div className="voice-waveform" style={{ display: 'flex', alignItems: 'center', gap: '2px', height: '24px', flex: 1, margin: '0 8px' }}>
-                {bars.map((amp, i) => (
-                    <div
-                        key={i}
-                        style={{
-                            width: '3px',
-                            height: `${Math.max(20, amp * 100)}%`,
-                            backgroundColor: isOwnMessage ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.4)',
-                            borderRadius: '0px'
-                        }}
-                    />
-                ))}
-            </div>
-        );
     };
 
     return (
-        <div className="voice-message-player" style={{ display: 'flex', alignItems: 'center', minWidth: '180px', padding: '4px 0' }}>
-            <button
+        <div className="voice-message-bubble flex items-center gap-3 p-3 bg-white/5 rounded-2xl border border-white/5 max-w-xs transition-all hover:bg-white/[0.08]">
+            <button 
                 onClick={togglePlay}
-                style={{
-                    background: 'none',
-                    border: 'none',
-                    color: isOwnMessage ? 'white' : 'var(--color-text-primary)',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center'
-                }}
+                className="w-10 h-10 flex items-center justify-center rounded-full bg-[#FF6B00] text-white shadow-lg active:scale-95 transition-all"
             >
-                {isPlaying ? <Pause size={20} fill="currentColor" /> : <Play size={20} fill="currentColor" />}
+                {isPlaying ? <Pause size={18} /> : <Play size={18} className="translate-x-0.5" />}
             </button>
+            
+            <div className="flex-1">
+                <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden relative">
+                    <div className="absolute inset-0 bg-white/20 animate-pulse" />
+                </div>
+                <div className="flex justify-between items-center mt-1.5">
+                    <span className="text-[10px] text-gray-400 font-bold uppercase tracking-tighter">
+                        {duration || '0:00'}
+                    </span>
+                    <div className="flex items-center gap-1 opacity-40">
+                        <Volume2 size={10} className="text-gray-400" />
+                    </div>
+                </div>
+            </div>
 
-            {renderWaveform()}
+            {onRemove && (
+                <button 
+                    onClick={onRemove}
+                    className="p-2 text-gray-500 hover:text-red-400 transition-colors"
+                >
+                    <Trash2 size={16} />
+                </button>
+            )}
 
-            <span style={{
-                fontSize: '11px',
-                fontFamily: 'monospace',
-                color: isOwnMessage ? 'rgba(255,255,255,0.9)' : 'var(--color-text-secondary)',
-                minWidth: '35px'
-            }}>
-                {formatDuration(duration)}
-            </span>
-
-            <audio
-                ref={audioRef}
-                src={url}
-                onTimeUpdate={handleTimeUpdate}
-                onEnded={handleEnded}
-                style={{ display: 'none' }}
+            <audio 
+                ref={audioRef} 
+                src={audioUrl} 
+                onEnded={handleEnded} 
+                className="hidden"
             />
         </div>
     );

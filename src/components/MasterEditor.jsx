@@ -6,7 +6,7 @@ import './MasterEditor.css';
 
 const MasterEditor = ({ value, onChange, placeholder }) => {
     const editorRef = useRef(null);
-    const [isThinking, setIsThinking] = React.useState(false);
+    const [isThinking, setIsThinking] = useState(false); // Changed React.useState to useState
 
     // Initial content setup
     useEffect(() => {

@@ -4,8 +4,9 @@ import { useNavigate, NavLink } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useUI } from "../context/UIContext";
 import { 
-    Search, Bell, Menu, Sparkles, User
+    Search, Bell, Menu, Sparkles, User, Sun, Moon
 } from "lucide-react";
+import { useTheme } from "../context/ThemeContext";
 import VisionSelectorModal from "./VisionSelectorModal";
 
 /**
@@ -15,11 +16,12 @@ import VisionSelectorModal from "./VisionSelectorModal";
 const Header = () => {
   const { user, profile } = useAuth();
   const { toggleDrawer, visionMode, setVisionMode, isIAIARoleSelectorOpen, setIsIAIARoleSelectorOpen } = useUI();
+  const { theme, toggleTheme } = useTheme(); // Moure aquí
   const navigate = useNavigate();
 
   return (
     <header className="h-16 flex items-center justify-between px-3 lg:px-6 gap-2 shrink-0 select-none bg-black text-white sticky top-0 z-[1000] w-full border-b border-white/5">
-        <div className="flex items-center gap-1 lg:gap-4 overflow-hidden">
+        <div className="flex items-center gap-2 lg:gap-4 overflow-hidden shrink-0">
           <button 
             onClick={toggleDrawer} 
             className="lg:hidden w-12 h-12 flex items-center justify-center text-slate-400 hover:text-white transition-colors"
@@ -30,17 +32,17 @@ const Header = () => {
           
           <NavLink 
             to="/" 
-            className="absolute left-1/2 -translate-x-1/2 flex items-center active:scale-95 transition-transform"
+            className="flex items-center active:scale-95 transition-transform"
           >
-            <img
-              src="/assets/master/logo_socdepoble_white_full.png"
-              alt="SÓC DE POBLE"
-              className="h-6 lg:h-7 object-contain brightness-200"
-              onError={(e) => {
-                e.target.onerror = null;
-                e.target.src = '/assets/master/logo_socdepoble_white_full.png';
-              }}
-            />
+              <img 
+                src="/assets/master/logo_socdepoble_white.png" 
+                alt="Sóc de Poble" 
+                className="h-7 lg:h-8 w-auto object-contain brightness-110"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = '/src/assets/logo.png';
+                }}
+              />
           </NavLink>
         </div>
 
@@ -53,6 +55,15 @@ const Header = () => {
           title="Protocol de Visió"
         >
           <Sparkles size={20} className={visionMode === 'humana' ? "opacity-40" : "animate-pulse"} />
+        </button>
+
+        {/* CANVI DE TEMA (NIT/DIA) - EL BATEGAT LUMÍNIC */}
+        <button 
+          className="w-12 h-12 flex items-center justify-center text-slate-400 hover:text-white transition-colors"
+          onClick={toggleTheme}
+          title={theme === 'dark' ? 'Mode Dia' : 'Mode Nit'}
+        >
+          {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
         </button>
 
         <button className="w-12 h-12 flex items-center justify-center text-slate-400 hover:text-white transition-colors" onClick={() => navigate("/search")}>

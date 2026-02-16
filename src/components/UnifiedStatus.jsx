@@ -6,7 +6,7 @@ import { BadgeCheck, Clock, AlertCircle } from 'lucide-react';
  * Displays a standardized status badge for verification or state.
  * Fallback implementation to fix missing dependency.
  */
-const UnifiedStatus = ({ status, type = 'user', size = 'md' }) => {
+const UnifiedStatus = ({ status, size = 'md' }) => {
     // Basic mapping
     const getStatusConfig = () => {
         switch (status) {

@@ -69,8 +69,7 @@ const Profile = () => {
     <div className="w-full min-h-screen bg-black text-white font-sans overflow-y-auto custom-scrollbar pb-32">
       <style>
         {`
-          @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap');
-          .font-condensed { font-family: 'Roboto Condensed', sans-serif; }
+          .font-condensed { font-family: var(--sdp-font-condensed); }
           .custom-scrollbar::-webkit-scrollbar { width: 8px; }
           .custom-scrollbar::-webkit-scrollbar-track { background: #111; }
           .custom-scrollbar::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }

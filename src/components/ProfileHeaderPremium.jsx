@@ -119,15 +119,10 @@ const ProfileHeaderPremium = ({
                             >
                                 {isConnecting ? (
                                     <Loader2 size={18} className="animate-spin" />
-                                ) : isConnected ? (
-                                    <>
-                                        <UserMinus size={18} />
-                                        <span>DESCONNECTAR</span>
-                                    </>
                                 ) : (
                                     <>
                                         <UserPlus size={18} />
-                                        <span>🤝 CONNECTAR</span>
+                                        <span>{isConnected ? 'CONNECTAT' : 'CONNECTAR'}</span>
                                     </>
                                 )}
                             </button>

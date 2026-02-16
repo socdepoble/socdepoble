@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { X, Users, Search, Loader2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { supabaseService } from '../services/supabaseService';
@@ -18,24 +18,23 @@ const GroupCreationModal = ({ isOpen, onClose, onGroupCreated }) => {
     const [loading, setLoading] = useState(false);
     const [creating, setCreating] = useState(false);
 
+    const fetchAvailableUsers = useCallback(async () => {
+        setLoading(true);
+        try {
+            const data = await supabaseService.getAllPersonas();
+            setAvailableUsers(data);
+        } catch {
+            logger.error('[GroupCreation] Error fetching users');
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
     useEffect(() => {
         if (isOpen && step === 2) {
             fetchAvailableUsers();
         }
-    }, [isOpen, step]);
-
-    const fetchAvailableUsers = async () => {
-        setLoading(true);
-        try {
-            // Get user's connections as potential members
-            const connections = await supabaseService.getUserConnections(user.id);
-            setAvailableUsers(connections || []);
-        } catch (error) {
-            logger.error('[GroupCreationModal] Error fetching users:', error);
-        } finally {
-            setLoading(false);
-        }
-    };
+    }, [isOpen, step, fetchAvailableUsers]);
 
     const handleCreateGroup = async () => {
         if (!groupName.trim()) return;

@@ -4,7 +4,6 @@ import { X, Image as ImageIcon, Send, Loader2, Globe, Lock, Users, Calendar, Spa
 import { supabaseService } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
 import { ROLES } from '../constants';
-import { logger } from '../utils/logger';
 import { iaiaService } from '../services/iaiaService';
 import './CreatePostModal.css'; // Reusing post modal styles for consistency
 import './CreateEventModal.css'; // New dedicated styles
@@ -17,7 +16,7 @@ const CreateEventModal = ({ isOpen, onClose, onEventCreated, isPlayground = fals
     const { profile, user, impersonatedProfile } = useAuth();
     const [content, setContent] = useState('');
     const [loading, setLoading] = useState(false);
-    const [selectedTags, setSelectedTags] = useState(['Esdeveniment']);
+    const [selectedTags] = useState(['Esdeveniment']);
     const [privacy, setPrivacy] = useState('public');
     const [generating, setGenerating] = useState(false);
 
@@ -34,8 +33,6 @@ const CreateEventModal = ({ isOpen, onClose, onEventCreated, isPlayground = fals
         try {
             const improvedContent = await iaiaService.generateEventDescription(content);
             setContent(improvedContent);
-        } catch (error) {
-            alert('La IAIA està fent la migdiada... Torna-ho a provar més tard.');
         } finally {
             setGenerating(false);
         }
@@ -94,9 +91,6 @@ const CreateEventModal = ({ isOpen, onClose, onEventCreated, isPlayground = fals
             onEventCreated();
             setContent('');
             onClose();
-        } catch (error) {
-            logger.error('Error creating event:', error);
-            alert('Error al publicar l\'esdeveniment');
         } finally {
             setLoading(false);
         }

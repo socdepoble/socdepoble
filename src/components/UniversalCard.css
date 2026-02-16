@@ -1,9 +1,9 @@
 /* UNIVERSAL CARD NEXUS v10.25.0-BATEGAT-GOLDEN: PURIFICACIÓ NUCLEAR EXTREMA */
 
 .universal-card {
-  background: var(--surface-glass-heavy);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--sdp-radius-genesis);
+  background: var(--color-bg-canonic);
+  border: 1px solid var(--border-master);
+  border-radius: var(--radius-genesis);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -18,7 +18,7 @@
 .universal-card:hover {
   transform: translateY(-6px) scale(1.01);
   box-shadow: var(--shadow-deep), var(--shadow-glow-violet);
-  border-color: var(--accent-orange);
+  border-color: var(--color-primary);
 }
 
 /* Light Mode Specific Overrides (Protocol Llum de Dia) */
@@ -47,10 +47,9 @@
   /* Boina immutable */
 }
 
-/* HEADER: BOINA TARONJA (NEXUS v10.25.0 BLUEPRINT) */
 .card-header-boina {
-  background: var(--sdp-terracotta) !important;
-  color: white;
+  background: var(--color-primary) !important;
+  color: var(--color-bg-canonic);
   padding: 0 24px;
   display: flex;
   align-items: center;
@@ -62,7 +61,6 @@
 }
 
 .card-header-boina:hover {
-  background: #ff8533 !important;
   filter: brightness(1.1);
 }
 
@@ -71,7 +69,7 @@
 }
 
 .card-header-boina.variant-official {
-  background: #002b5b !important; /* Blau Fosc Corporatiu v11.1.0 */
+  background: var(--color-secondary) !important;
 }
 
 /* NOVES CATEGORIES v11.1.0 */
@@ -259,8 +257,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #000;
-  border: 2px solid var(--accent-orange);
+  background: var(--color-bg-canonic);
+  border: 2px solid var(--color-primary);
   border-radius: var(--radius-full);
   font-size: 18px;
   cursor: pointer;
@@ -272,8 +270,8 @@
 
 .btn-master-rectify:hover {
   transform: scale(1.15) rotate(12deg);
-  background: var(--accent-orange);
-  box-shadow: 0 0 25px var(--accent-orange);
+  background: var(--color-primary);
+  box-shadow: 0 0 25px var(--color-primary);
 }
 
 /* MEDIA SECTION: Geometria Sagrada 28px */
@@ -281,7 +279,7 @@
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 9;
-  background: #000;
+  background: var(--color-bg-canonic);
   overflow: hidden;
   padding: 8px; /* Respiració sutil segons Gènesi */
 }
@@ -371,14 +369,22 @@
 }
 
 .card-price {
-  background: var(--sdp-terracotta) !important;
-  color: #000 !important;
+  background: var(--color-primary) !important;
+  color: var(--color-bg-canonic) !important;
   padding: 6px 14px;
   border-radius: var(--radius-full);
   font-size: 15px;
   font-weight: 950;
   letter-spacing: -0.5px;
   box-shadow: 0 5px 15px rgba(255, 109, 35, 0.3);
+}
+
+.card-price-forense {
+  font-family: var(--font-display);
+  color: var(--color-primary);
+  font-size: 24px;
+  font-weight: 950;
+  letter-spacing: -1px;
 }
 
 .card-excerpt {
@@ -440,9 +446,9 @@
 .btn-mercat-buy {
   width: 100%;
   height: 48px;
-  background: #000;
-  color: var(--sdp-terracotta);
-  border: 1px solid var(--sdp-terracotta);
+  background: var(--color-bg-canonic);
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
   border-radius: var(--sdp-radius-tactile);
   font-weight: 950;
   text-transform: uppercase;
@@ -453,9 +459,9 @@
 }
 
 .btn-mercat-buy:hover {
-  background: var(--sdp-terracotta);
-  color: #000;
-  box-shadow: 0 0 20px rgba(255, 109, 35, 0.4);
+  background: var(--color-primary);
+  color: var(--color-bg-canonic);
+  box-shadow: 0 0 20px var(--color-primary);
 }
 
 /* 3. CARDINAL AGENDA */
@@ -510,18 +516,18 @@
 
 .master-action-btn.connect-btn {
   flex-grow: 1; /* Thumb Optimization */
-  background: rgba(255, 109, 35, 0.1);
-  border-color: rgba(255, 109, 35, 0.3);
-  color: var(--accent-orange);
+  background: var(--color-bg-canonic);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
   font-weight: 950;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .master-action-btn.connect-btn:hover {
-  background: var(--accent-orange);
-  color: #000;
-  box-shadow: 0 0 20px rgba(255, 109, 35, 0.3);
+  background: var(--color-primary);
+  color: var(--color-bg-canonic);
+  box-shadow: 0 0 20px var(--color-primary);
 }
 
 /* Connect Btn Variant for Official/Sostenible */
@@ -532,8 +538,8 @@
 }
 
 .universal-card.role-official .connect-btn:hover {
-  background: #002b5b;
-  color: white;
+  background: var(--color-secondary);
+  color: var(--color-bg-canonic);
 }
 
 .universal-card.category-sostenible .connect-btn {

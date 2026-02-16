@@ -17,7 +17,7 @@ const BlueprintOverlay = ({ label, dimensions, color = "blue", children, classNa
     const theme = colors[color] || colors.blue;
 
     return (
-        <div className={`relative w-full h-full group/blueprint ${className}`}>
+        <div className={`relative w-full group/blueprint ${className}`}>
             {children}
             <div className={`absolute inset-0 pointer-events-none z-[9999] border-2 border-dashed ${theme.border} opacity-50 rounded-inherit`}>
                 <div className={`absolute top-0 right-0 ${theme.bg} ${theme.text} text-[9px] font-mono px-2 py-0.5 uppercase tracking-tighter shadow-sm flex items-center gap-1 pointer-events-auto transition-all hover:bg-black hover:text-white`}>
@@ -36,14 +36,6 @@ const BlueprintOverlay = ({ label, dimensions, color = "blue", children, classNa
                         </a>
                     )}
 
-                    <a 
-                        href="/ofici" 
-                        onClick={(e) => { e.stopPropagation(); }}
-                        className="ml-2 pl-2 border-l border-white/30 text-cyan-300 hover:text-white transition-colors flex items-center gap-1 font-black"
-                    >
-                        <ScanLine size={10} strokeWidth={3} />
-                        DOC ARCH
-                    </a>
                 </div>
             </div>
         </div>

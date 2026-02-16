@@ -10,9 +10,8 @@ class SpeechService {
             if (SpeechRecognition) {
                 this.recognition = new SpeechRecognition();
                 this.isSupported = true;
-                this.isStarted = false; // [MASTER SHIELD] Track recognition state
+                this.isStarted = false;
 
-                // Configuración optimitzada per a valencià/català
                 this.recognition.continuous = false;
                 this.recognition.interimResults = true;
                 this.recognition.lang = 'ca-ES';
@@ -30,22 +29,16 @@ class SpeechService {
         }
     }
 
-    /**
-     * Inicia l'escolta i retorna una promesa amb el text transcrit.
-     * @param {string} langCode - Codi d'idioma de l'app (va, es, gl, eu, en, fr, de, it)
-     */
     listen(langCode = 'va') {
         if (!this.isSupported) {
             return Promise.reject('El reconeixement de veu no és compatible amb aquest navegador.');
         }
 
-        // [MASTER SHIELD] Prevent double start
         if (this.isStarted) {
             logger.warn('[SpeechService] Listen called but already started. Skipping start().');
             return Promise.resolve('Reconeixement ja en marxa.');
         }
 
-        // Mapeig de codis APP a codis BCP 47 (Speech Recognition)
         const langMap = {
             'va': 'ca-ES',
             'es': 'es-ES',
@@ -64,22 +57,15 @@ class SpeechService {
             let finalTranscript = '';
 
             this.recognition.onresult = (event) => {
-                let interimTranscript = '';
                 for (let i = event.resultIndex; i < event.results.length; ++i) {
                     if (event.results[i].isFinal) {
                         finalTranscript += event.results[i][0].transcript;
-                    } else {
-                        interimTranscript += event.results[i][0].transcript;
                     }
                 }
             };
 
-            // Enhanced onend with promise resolution
-            const originalOnEnd = this.recognition.onend;
             this.recognition.onend = () => {
                 this.isStarted = false;
-                if (originalOnEnd) originalOnEnd();
-
                 if (finalTranscript) {
                     resolve(finalTranscript);
                 } else {
@@ -104,9 +90,6 @@ class SpeechService {
         });
     }
 
-    /**
-     * Atura l'escolta manualment.
-     */
     stop() {
         if (this.recognition && this.isStarted) {
             try {
@@ -118,33 +101,22 @@ class SpeechService {
         }
     }
 
-    /**
-     * Converteix text en veu (TTS).
-     * @param {string} text - El text a parlar.
-     * @param {string} langCode - Codi d'idioma.
-     */
     speak(text, langCode = 'va') {
         if (typeof window === 'undefined' || !window.speechSynthesis) {
             logger.warn('[SpeechService] La síntesi de veu no és compatible.');
             return;
         }
 
-        // Cancel·lar locucions prèvies
         window.speechSynthesis.cancel();
-
         const utterance = new SpeechSynthesisUtterance(text);
-
-        // Mapeig de codis
         const langMap = {
             'va': 'ca-ES',
             'es': 'es-ES',
             'en': 'en-US'
         };
-
         utterance.lang = langMap[langCode] || 'ca-ES';
         utterance.rate = 1.0;
         utterance.pitch = 1.0;
-
         window.speechSynthesis.speak(utterance);
     }
 }

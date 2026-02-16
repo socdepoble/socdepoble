@@ -1,13 +1,11 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { Play, LogOut, Terminal } from 'lucide-react';
-import { supabaseService } from '../services/supabaseService';
-import { logger } from '../utils/logger';
+import { LogOut, X } from 'lucide-react';
 import './PlaygroundBanner.css';
 
 const PlaygroundBanner = () => {
-    const { isPlayground, isAdmin, profile, forceNukeSimulation, exitPlayground } = useAuth();
+    const { isPlayground, isAdmin, profile, exitPlayground } = useAuth();
     const navigate = useNavigate();
 
     if (!isPlayground || isAdmin) return null;

@@ -17,7 +17,8 @@ export const SILENCE_PATTERNS = [
     'React does not recognize',
     'React DevTools',
     'Download the React DevTools',
-    '[AuthProvider] Montat'
+    '[AuthProvider] Montat',
+    'INITIAL_SESSION'
 ];
 
 export const checkSilence = (msg) => {

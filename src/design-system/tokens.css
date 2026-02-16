@@ -1,20 +1,83 @@
+/* 🔡 PROTOCOL NOTO SANS [MASTER v1.0] 🏛️ */
+
+/* 1. Noto Sans (Principal) */
+@font-face {
+    font-family: 'Noto Sans';
+    src: url('/fonts/noto/NotoSans-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Noto Sans';
+    src: url('/fonts/noto/NotoSans-Italic.ttf') format('truetype');
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Noto Sans';
+    src: url('/fonts/noto/NotoSans-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Noto Sans';
+    src: url('/fonts/noto/NotoSans-Black.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* 2. Noto Sans Condensed (Estalvi d'espai) */
+@font-face {
+    font-family: 'Noto Sans Condensed';
+    src: url('/fonts/noto/NotoSans-Condensed.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Noto Sans Condensed';
+    src: url('/fonts/noto/NotoSans-CondensedBold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* 3. Noto Sans Mono (Dades i Codi) */
+@font-face {
+    font-family: 'Noto Sans Mono';
+    src: url('/fonts/noto/NotoSansMono-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Noto Sans Mono';
+    src: url('/fonts/noto/NotoSansMono-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
 :root {
     /* COLORS MESTRES (Sacred Palette - v1.6.3) */
     --sdp-terracotta: #FF6D23;
-    /* Taronja [MASTER] */
     --sdp-blau: #00F2FF;
-    /* Cian Elèctric */
     --sdp-neon-pulse: #FF6D23;
-    /* El bategat que crema (Simplified to Orange) */
 
     /* CONTRAST WEBER CLASS 6 (Sol Directe) */
     --sdp-bg-dark: #0A0A0A;
     --sdp-bg-surface: #1C1B1F;
-    /* M3 Dark Surface */
     --sdp-text-high: #E6E1E5;
-    /* M3 On-Surface */
     --sdp-text-med: #938F99;
-    /* M3 Variant */
 
     /* SUPERFÍCIES GLASSMORPHISM (Gemini Style) */
     --sdp-glass-bg: rgba(28, 27, 31, 0.7);
@@ -22,36 +85,29 @@
     --sdp-glass-blur: 24px;
 
     /* GEOMETRIA (Master Monolith v10.30.0) */
-    --sdp-radius-none: 0px;
-    --sdp-radius-xs: 4px;
-    --sdp-radius-sm: 8px;
-    --sdp-radius-md: 16px;
     --sdp-radius-lg: 28px;
-    --sdp-radius-xl: 32px;
-    --sdp-radius-full: 9999px;
     --sdp-radius-genesis: 28px;
     --sdp-radius-tactile: 24px;
 
-    /* SPACING SYSTEM (8px Grid) */
-    --sdp-space-xs: 4px;
-    --sdp-space-sm: 8px;
-    --sdp-space-md: 16px;
-    --sdp-space-lg: 24px;
-    --sdp-space-xl: 32px;
-
-    /* BOOTER FONT [MASTER] */
-    --sdp-font-booter: 'Booter', cursive;
-    --sdp-font-playball: 'Playball', cursive;
-    --sdp-font-pump: 'Pump', sans-serif;
-    --sdp-font-dearjoefour: 'DearJoeFour', cursive;
-    --sdp-font-myriadpro: 'MyriadPro', sans-serif;
-    --sdp-font-respublica: 'ResPublica', serif;
+    /* 🔡 UNIFICACIÓ TIPOGRÀFICA [PROTOCOL NOTO] */
+    --sdp-font-sans: 'Noto Sans', sans-serif;
+    --sdp-font-serif: 'Noto Sans', sans-serif; /* PURGA DE SERIF: Ara apunta a Sans */
+    --sdp-font-mono: 'Noto Sans Mono', monospace;
+    --sdp-font-condensed: 'Noto Sans Condensed', sans-serif;
+    
+    /* Variables llegades (Mapejades a Noto per a evitar errors) */
+    --sdp-font-booter: var(--sdp-font-sans);
+    --sdp-font-playball: var(--sdp-font-sans);
+    --sdp-font-pump: var(--sdp-font-sans);
+    --sdp-font-dearjoefour: var(--sdp-font-sans);
+    --sdp-font-myriadpro: var(--sdp-font-sans);
+    --sdp-font-respublica: var(--sdp-font-sans);
 }
 
 body {
     background-color: var(--sdp-bg-dark);
     color: var(--sdp-text-high);
-    font-family: 'DM Sans', 'Inter', sans-serif;
+    font-family: var(--sdp-font-sans);
     margin: 0;
     -webkit-font-smoothing: antialiased;
 }

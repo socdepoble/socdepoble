@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Sparkles, BellRing, Calendar, Clock, Smile, Trash2, Save, Power } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { pushService } from '../services/pushService';
@@ -11,7 +10,6 @@ import { SUPER_RATON_MOTTO } from '../data/superRatonData';
 import './IAIATamagotchiSettings.css';
 
 const IAIATamagotchiSettings = ({ userId, profile, onUpdate }) => {
-    const { t } = useTranslation();
     const [settings, setSettings] = useState(profile?.iaia_settings || {
         enabled: false,
         avatar_id: null,
@@ -25,7 +23,14 @@ const IAIATamagotchiSettings = ({ userId, profile, onUpdate }) => {
     });
     const [isSaving, setIsSaving] = useState(false);
     const [personas, setPersonas] = useState([]);
-    const [isPushEnabled, setIsPushEnabled] = useState(false);
+
+    // New useEffect to sync settings when profile changes or component mounts
+    useEffect(() => {
+        if (profile?.iaia_settings) {
+            setSettings(profile.iaia_settings);
+        }
+        logger.log('[IAIA-Tamagotchi] Syncing settings for:', profile?.full_name);
+    }, [profile]); // Depend on profile to update settings if it changes
 
     useEffect(() => {
         supabaseService.getAllPersonas().then(setPersonas);
@@ -33,7 +38,7 @@ const IAIATamagotchiSettings = ({ userId, profile, onUpdate }) => {
         // Check real push status
         const checkPush = async () => {
             const subscribed = await pushService.isSubscribed();
-            setIsPushEnabled(subscribed);
+            // setIsPushEnabled(subscribed); // Removed variable
 
             // Sync UI if mismatch (e.g. user cleared browser data)
             if (settings.enabled && !subscribed) {
@@ -42,7 +47,7 @@ const IAIATamagotchiSettings = ({ userId, profile, onUpdate }) => {
             }
         };
         checkPush();
-    }, []);
+    }, [settings.enabled]);
 
     const toggleDay = (day) => {
         const currentDays = settings.schedule.days;
@@ -73,7 +78,7 @@ const IAIATamagotchiSettings = ({ userId, profile, onUpdate }) => {
 
                 if (sub) {
                     await pushNotifications.saveSubscription(userId, sub);
-                    setIsPushEnabled(true);
+                    // setIsPushEnabled(true); // Removed variable
 
                     // Stratospheric Welcome
                     await pushService.showLocalNotification('👵 La IAIA i Super Ratón!', {

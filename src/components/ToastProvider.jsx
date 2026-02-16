@@ -5,7 +5,8 @@ import { logger } from '../utils/logger';
 
 const ToastContext = createContext();
 
-export const useToastRegistry = () => useContext(ToastContext);
+// eslint-disable-next-line react-refresh/only-export-components
+export const useToast = () => useContext(ToastContext);
 
 export const ToastProvider = ({ children }) => {
     const [registry, setRegistry] = useState(getToastRegistry());

@@ -25,8 +25,8 @@ const IdentitiesModule = () => {
         try {
             const data = await supabaseService.getAllPersonas(true); // Include all for admin
             setProfiles(data);
-        } catch (e) {
-            logger.error('Error carregant perfils:', e);
+        } catch {
+            logger.error('[Identities] Error updating identity');
         } finally {
             setLoading(false);
         }
@@ -40,7 +40,7 @@ const IdentitiesModule = () => {
 
             // Update local state
             setProfiles(prev => prev.map(p => p.id === userId ? { ...p, ...updates } : p));
-        } catch (e) {
+        } catch {
             alert('Error en el protocol de moderació.');
         } finally {
             setUpdatingId(null);

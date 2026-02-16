@@ -74,3 +74,9 @@ export const AUTH_EVENTS = {
 export const ENABLE_MOCKS =
   import.meta.env.VITE_ENABLE_MOCKS === "true" ||
   import.meta.env.MODE === "development";
+
+export const THEMES = {
+  DAY: 'light',
+  NIGHT: 'dark',
+  SOLEMNE: 'solemne'
+};

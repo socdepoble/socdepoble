@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom';
 import { FileText, Image as ImageIcon, Music, Link, ExternalLink, Search, History } from 'lucide-react';
 import { useUI } from '../context/UIContext';
 import { logger } from '../utils/logger';
@@ -9,7 +8,6 @@ import './UniversalCitation.css';
  * Maneja navegación profunda basada en DIDs y anclajes semánticos.
  */
 const UniversalCitation = ({ label, did, anchor }) => {
-    const navigate = useNavigate();
     const { openViewer } = useUI();
 
     const handleClick = (e) => {

@@ -626,13 +626,13 @@ export const MOCK_MARKET_ITEMS = [
         official: true,
         pinned: true,
         images: [
-            "/Users/javillinares/.gemini/antigravity/brain/e1b6e544-2f87-4f23-b187-d802a30c0ca1/shirt_maroon_front_full_logo_v2_1770235736579.png",
-            "/Users/javillinares/.gemini/antigravity/brain/e1b6e544-2f87-4f23-b187-d802a30c0ca1/shirt_maroon_lifestyle_full_logo_v2_1770235755326.png",
-            "/Users/javillinares/.gemini/antigravity/brain/e1b6e544-2f87-4f23-b187-d802a30c0ca1/shirt_maroon_market_full_logo_v2_1770235769546.png",
-            "/Users/javillinares/.gemini/antigravity/brain/e1b6e544-2f87-4f23-b187-d802a30c0ca1/shirt_maroon_folded_full_logo_v2_1770235783687.png",
-            "/Users/javillinares/.gemini/antigravity/brain/e1b6e544-2f87-4f23-b187-d802a30c0ca1/shirt_maroon_flatlay_full_logo_v2_1770235798882.png",
-            "/Users/javillinares/.gemini/antigravity/brain/e1b6e544-2f87-4f23-b187-d802a30c0ca1/shirt_maroon_detail_full_logo_v2_1770235812705.png",
-            "/Users/javillinares/.gemini/antigravity/brain/e1b6e544-2f87-4f23-b187-d802a30c0ca1/shirt_maroon_action_full_logo_v2_1770235827400.png"
+            "/Users/javillinares/.gemini/antigravity/brain/baea5793-7acf-46b1-9683-4c849ef42b5a/shirt_maroon_front_full_logo_v2_1770235736579.png",
+            "/Users/javillinares/.gemini/antigravity/brain/baea5793-7acf-46b1-9683-4c849ef42b5a/shirt_maroon_lifestyle_full_logo_v2_1770235755326.png",
+            "/Users/javillinares/.gemini/antigravity/brain/baea5793-7acf-46b1-9683-4c849ef42b5a/shirt_maroon_market_full_logo_v2_1770235769546.png",
+            "/Users/javillinares/.gemini/antigravity/brain/baea5793-7acf-46b1-9683-4c849ef42b5a/shirt_maroon_folded_full_logo_v2_1770235783687.png",
+            "/Users/javillinares/.gemini/antigravity/brain/baea5793-7acf-46b1-9683-4c849ef42b5a/shirt_maroon_flatlay_full_logo_v2_1770235798882.png",
+            "/Users/javillinares/.gemini/antigravity/brain/baea5793-7acf-46b1-9683-4c849ef42b5a/shirt_maroon_detail_full_logo_v2_1770235812705.png",
+            "/Users/javillinares/.gemini/antigravity/brain/baea5793-7acf-46b1-9683-4c849ef42b5a/shirt_maroon_action_full_logo_v2_1770235827400.png"
         ],
         category_slug: "roba",
         tag: "Merchandising",
@@ -786,6 +786,24 @@ export const MOCK_MARKET_ITEMS = [
         author_entity_id: 'mock-business-torre-2',
         image: "https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?auto=format&fit=crop&q=80&w=1000",
         category_slug: "producte-local"
+    },
+    {
+        id: 'sixto-pina-agost',
+        town_id: 4,
+        title: "Carpintería Metálica Sixto Pina",
+        description: "Mestres artesans del ferro i l'acer a Agost. Automatismes, reixes i estructures metàl·liques amb la garantia de l'ofici tradicional. Especialistes en restauració i obra nova.\n\n📍 C/ Monforte, 26 (Agost)\n📞 607 482 976\n📸 @carpinteriametalicasixto\n\n#SP #Agost #Ferro #Artesania",
+        price: "Consultar",
+        seller: "Sixto Pina",
+        avatar_url: "/assets/master/logo_socdepoble_green_square.png", // Monograma SP
+        author_role: "business",
+        author_entity_id: 'sixto-pina-1',
+        image: "/Users/javillinares/.gemini/antigravity/brain/baea5793-7acf-46b1-9683-4c849ef42b5a/media__1771147521462.jpg",
+        category_slug: "artesania",
+        tag: "Metal·listeria SP",
+        official: false,
+        is_pinned: true,
+        pinned_position: 1, // Pin to top for visibility check
+        created_at: new Date().toISOString()
     }
 ];
 
