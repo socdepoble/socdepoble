@@ -21,12 +21,22 @@ const TownPickerModal = ({
     useEffect(() => {
         if (isOpen) {
             fetchTowns();
-            setSelection({ 
-                primary: selectedPrimary, 
-                secondary: selectedSecondary || [] 
+            // Evitem actualitzacions innecessàries si els valors no han canviat realment
+            setSelection(prev => {
+                const hasPrimaryChanged = prev.primary?.uuid !== selectedPrimary?.uuid;
+                const hasSecondaryChanged = JSON.stringify(prev.secondary) !== JSON.stringify(selectedSecondary || []);
+                
+                if (hasPrimaryChanged || hasSecondaryChanged) {
+                    return { 
+                        primary: selectedPrimary, 
+                        secondary: selectedSecondary || [] 
+                    };
+                }
+                return prev;
             });
         }
-    }, [isOpen, selectedPrimary, selectedSecondary]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isOpen]); // Només reaccionem a l'obertura per a resetejar, o tractem els canvis de props amb cura
 
     const fetchTowns = async () => {
         setLoading(true);

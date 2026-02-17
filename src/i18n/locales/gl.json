@@ -7,7 +7,9 @@
         "telegram": "Telegram",
         "facebook": "Facebook",
         "twitter": "X (Twitter)",
-        "email": "Correo electrónico"
+        "email": "Correo electrónico",
+        "active": "Modo Simulación Activo",
+        "stop": "Volver ao meu Rol Real"
     },
     "groups": {
         "create_group": "Crear Grupo",

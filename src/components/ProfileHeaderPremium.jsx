@@ -2,7 +2,7 @@ import React from 'react';
 import { 
     ArrowLeft, MapPin, Calendar, BadgeCheck, Info, Share2, MoreVertical, 
     Globe, UserPlus, UserMinus, Loader2, Tag, Shield, Plus, Sun, Moon, Check, X, MessageCircle, Zap, Sparkles,
-    Camera, History, ChevronDown
+    Camera, History, ChevronDown, Settings
 } from 'lucide-react';
 import ShareHub from './ShareHub';
 import { useNavigate } from 'react-router-dom';
@@ -12,7 +12,7 @@ import { trustService } from '../services/trustService';
 import './ProfileHeaderPremium.css';
 
 /**
- * UniversalTotem (ex-ProfileHeaderPremium) - El tòtem d'identitat suprema v1.25.0-MASTER-GOLDEN.
+ * UniversalTotem (ex-ProfileHeaderPremium) - El tòtem d'identitat suprema v10.26.0-PURGA.
  * Suporta perfils de: Persones, Grups, Empreses, Entitats Oficials i Pobles.
  */
 const ProfileHeaderPremium = ({
@@ -43,6 +43,8 @@ const ProfileHeaderPremium = ({
     onEditToggle,
     onEditSave,
     onEditCancel,
+    nif,
+    duns,
     children
 }) => {
     const navigate = useNavigate();
@@ -110,23 +112,6 @@ const ProfileHeaderPremium = ({
                         <button className="premium-btn-circle back" onClick={handleBack} title="Tornar">
                             <ArrowLeft size={24} />
                         </button>
-                        
-                        {showConnect && (
-                            <button 
-                                className={`premium-connect-pill ${isConnected ? 'connected' : ''} master-button-canonic`}
-                                onClick={handleConnectClick}
-                                disabled={isConnecting}
-                            >
-                                {isConnecting ? (
-                                    <Loader2 size={18} className="animate-spin" />
-                                ) : (
-                                    <>
-                                        <UserPlus size={18} />
-                                        <span>{isConnected ? 'CONNECTAT' : 'CONNECTAR'}</span>
-                                    </>
-                                )}
-                            </button>
-                        )}
                     </div>
 
                     <div className="nav-actions-right">
@@ -196,6 +181,14 @@ const ProfileHeaderPremium = ({
                                             <History size={18} />
                                             <span>ARXIU DE RECURSOS</span>
                                         </button>
+                                        <div className="identity-official-badges flex gap-2 mt-2 px-4">
+                                            {nif && (
+                                                <span className="text-[10px] font-bold text-gray-500 bg-white/5 px-2 py-0.5 rounded border border-white/5">NIF: {nif}</span>
+                                            )}
+                                            {duns && (
+                                                <span className="text-[10px] font-bold text-blue-400 bg-blue-500/5 px-2 py-0.5 rounded border border-blue-500/10">DUNS: {duns}</span>
+                                            )}
+                                        </div>
                                     </div>
                                 )}
                             </div>
@@ -304,7 +297,27 @@ const ProfileHeaderPremium = ({
                 ) : (
                     <div className="premium-bio-container">
                         {bio && <p className="premium-bio">{bio}</p>}
-                        <div className="premium-ai-profile-tools">
+                        
+                        {showConnect && (
+                            <div className="flex justify-center mt-6">
+                                <button 
+                                    className={`premium-connect-pill ${isConnected ? 'connected' : ''} master-button-canonic w-full max-w-sm`}
+                                    onClick={handleConnectClick}
+                                    disabled={isConnecting}
+                                >
+                                    {isConnecting ? (
+                                        <Loader2 size={18} className="animate-spin" />
+                                    ) : (
+                                        <>
+                                            <Plus size={18} />
+                                            <span>{isConnected ? 'CONEGUIT' : 'CONNECTAR'}</span>
+                                        </>
+                                    )}
+                                </button>
+                            </div>
+                        )}
+
+                        <div className="premium-ai-profile-tools mt-8">
                             <button className="btn-ai-greeting" title="Redactor de Salutacions (AI)" onClick={() => alert('IAIA: Preparant salutacions personalitzades...')}>
                                 <MessageCircle size={16} />
                                 <span>Salutacions</span>

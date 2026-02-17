@@ -1,5 +1,5 @@
-import React from 'react';
-import { Shield, Zap, Globe, Users, TrendingUp, Award, ArrowRight, CheckCircle, Smartphone, Database, Server, Layers } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Shield, Zap, Globe, Users, TrendingUp, Award, ArrowRight, CheckCircle, Smartphone, Database, Server, Layers, ArrowLeft } from 'lucide-react';
 import './DossierSocis.css';
 
 /**
@@ -8,8 +8,17 @@ import './DossierSocis.css';
  * Basat en l'arquitectura Eg-walker, Rhizome i el Model de Franquícia de Node.
  */
 const DossierSocis = () => {
+    const navigate = useNavigate();
+
     return (
-        <div className="dossier-container animate-fade-in">
+        <div className="dossier-container animate-fade-in relative">
+            <button 
+                onClick={() => navigate(-1)} 
+                className="fixed top-6 left-6 z-[100] p-4 bg-black/60 hover:bg-black/80 rounded-full text-white transition-all border border-white/20 backdrop-blur-xl shadow-2xl hover:scale-110 active:scale-95 group"
+                title="Tornar"
+            >
+                <ArrowLeft size={24} className="group-hover:-translate-x-1 transition-transform" />
+            </button>
             {/* HERO SECTION: LA VISIÓ SUPREMA */}
             <header className="dossier-hero">
                 <div className="hero-content">

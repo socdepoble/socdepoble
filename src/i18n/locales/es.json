@@ -288,5 +288,35 @@
         "role_editor": "Vista Editor",
         "active": "Modo Simulación Activo",
         "stop": "Volver a mi Rol Real"
+    },
+    "notebook": {
+        "title": "Cuaderno de Trellat",
+        "welcome": "Bienvenida al Cuaderno de Trellat 📓🏺",
+        "new_note": "Nueva Nota",
+        "new_list": "Nueva Lista",
+        "placeholder": "Comienza a bategar datos aquí...",
+        "info": "Información",
+        "creation": "Creación",
+        "modification": "Modificación",
+        "last_opened": "Última apertura",
+        "planned_date": "Fecha prevista",
+        "categories": {
+            "trellat": "Trellat",
+            "patrimoni": "Patrimonio",
+            "dades": "Datos",
+            "social": "Social"
+        },
+        "trash": {
+            "bucket": "Papelera",
+            "confirm_delete": "¿Quieres eliminar definitivamente esta reliquia? Esta acción no se puede deshacer.",
+            "restore": "Restaurar",
+            "permanent_delete": "Eliminar Definitivamente",
+            "send_to_trash": "Enviar a la Papelera"
+        },
+        "corrector": {
+            "title": "Correcciones de la IAIA",
+            "lang_variants": "Todas las variantes (Central, Valenciano, Balear)",
+            "correct_btn": "Corregir"
+        }
     }
 }

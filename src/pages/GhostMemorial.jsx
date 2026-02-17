@@ -80,7 +80,7 @@ const GhostMemorial = () => {
                     <ShieldAlert size={48} className="text-[var(--sdp-terracotta)] opacity-40 group-hover:scale-110 transition-transform" />
                     <h3 className="text-xl font-black uppercase tracking-widest opacity-60">Zona de Seguretat</h3>
                     <p className="text-xs text-gray-500 uppercase font-black tracking-tighter leading-normal">
-                        Protocol de Purga v1.25.0 Actiu.<br/>Tots els fantasmes han estat classificats.
+                        Protocol de Purga v10.26.0-PURGA Actiu.<br/>Tots els fantasmes han estat classificats.
                     </p>
                 </div>
             </main>

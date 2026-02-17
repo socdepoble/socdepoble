@@ -1,0 +1,14 @@
+
+> soc-de-poble@10.25.0 lint
+> eslint .
+
+
+/Users/javillinares/Documents/Antigravity/Sóc de Poble/google-cloud-backend/index.js
+  68:5  error  Unreachable code  no-unreachable
+
+/Users/javillinares/Documents/Antigravity/Sóc de Poble/scripts/migrate_socdepoble_content.js
+    8:8   error  'fs' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                 no-unused-vars
+  169:47  error  'tagError' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+✖ 3 problems (3 errors, 0 warnings)
+

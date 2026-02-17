@@ -10,8 +10,11 @@ import {
   Brain,
   ArrowLeft,
   Download,
+  Terminal,
+  ExternalLink,
 } from "lucide-react";
 import "./KitDigitalManager.css";
+import "./IAIAAssistantFlow.css";
 
 /**
  * KitDigitalManager [MASTER OMEGA]
@@ -133,39 +136,138 @@ Atum! El sistema bategua amb el certificat segellat per a Sollutia.`;
 
       {showSollutiaGenerator && (
         <div className="fixed inset-0 z-[2000] bg-black/90 backdrop-blur-2xl flex items-center justify-center p-6">
-          <div className="bg-[#111] border border-white/10 p-8 rounded-[28px] max-w-2xl w-full animate-in zoom-in">
-            <header className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-black uppercase text-orange-500">
-                Generador de Memòria Sollutia
+          <div className="bg-[#111] border border-white/10 rounded-[40px] max-w-4xl w-full max-h-[90vh] overflow-y-auto animate-in zoom-in relative">
+            <header className="flex justify-between items-center p-8 border-b border-white/5 sticky top-0 bg-[#111] z-10">
+              <h2 className="text-xl font-black uppercase text-orange-500 flex items-center gap-3">
+                <Sparkles /> Informe Sant Grial: Kit Digital
               </h2>
-              <button onClick={() => setShowSollutiaGenerator(false)}>
+              <button onClick={() => setShowSollutiaGenerator(false)} className="p-2 hover:bg-white/5 rounded-full transition-all">
                 <X />
               </button>
             </header>
-            <textarea
-              className="w-full h-80 bg-black border border-white/5 p-4 rounded-2xl text-gray-400 text-sm font-mono leading-relaxed mb-6"
-              value={generateSollutiaJustification()}
-              readOnly
-            />
-            <div className="flex gap-4">
+            
+            <div className="p-8">
+              <div className="iaia-report-sheet !m-0 !w-full shadow-none text-left">
+                  <div className="sheet-watermark">SÓC DE POBLE</div>
+                  
+                  <div className="sheet-header-meta">
+                      <div className="report-seal">
+                          <img src="/assets/master/logo_socdepoble_black_sketch.png" alt="Logo" />
+                          <span>SOCDEPOBLE.ORG</span>
+                      </div>
+                      <span>ACORD: {agreementData.id}</span>
+                  </div>
+
+                  <h3>JUSTIFICACIÓ TÈCNICA: KIT DIGITAL RURAL</h3>
+                  
+                  <section>
+                      <h4>1. Context de l'Ajudat</h4>
+                      <p>
+                        S'ha bategat l'acord amb <strong>SOLLUTIA, S.L.</strong> per a la implementació de solucions de presència avançada. El beneficiari <strong>{agreementData.beneficiary}</strong> ha estat validat mitjançant el Protocol de Sobirania Digital.
+                      </p>
+                  </section>
+
+                  <section className="bg-orange-500/5 p-8 rounded-3xl border border-orange-500/10 my-10">
+                      <h4 className="flex items-center gap-3 !border-none">
+                          <Terminal size={18} /> CRÒNICA DE NAVEGACIÓ SOBIRANA
+                      </h4>
+                      <p className="text-xs text-orange-950/70 mb-4 italic">
+                          "Transparència Archon: Caminant al costat del Mestre per la burocràcia digital:"
+                      </p>
+                      <div className="space-y-6 font-mono text-[11px] leading-relaxed text-gray-700">
+                          <div className="flex flex-col gap-2">
+                              <div className="flex gap-4">
+                                  <span className="text-orange-500 font-bold">[ACCÉS]</span>
+                                  <span>Portal G0 Red.es (Sede Electrónica)</span>
+                              </div>
+                              <a href="https://sede.red.gob.es/es/procedimientos/kit-digital" target="_blank" rel="noreferrer" className="text-blue-600 underline ml-20 flex items-center gap-1">
+                                  https://sede.red.gob.es/es/procedimientos/kit-digital <ExternalLink size={10} />
+                              </a>
+                              <p className="ml-20 text-[10px] text-gray-500">L'IAIA ha verificat l'estat de l'Acord {agreementData.id} i el bo de 3.000€.</p>
+                          </div>
+                          <div className="flex flex-col gap-2">
+                              <div className="flex gap-4">
+                                  <span className="text-orange-500 font-bold">[EXTRACCIÓ]</span>
+                                  <span>Validat NIF {agreementData.beneficiary.split('(')[1].replace(')', '')} contra cens.</span>
+                              </div>
+                              <p className="ml-20 text-[10px] text-gray-500">S'han recuperat els detalls de la solució "Plan SEO Control" de Sollutia.</p>
+                          </div>
+                      </div>
+                  </section>
+
+                  <section className="border-2 border-orange-500/20 p-8 rounded-[32px] bg-white">
+                      <h4 className="flex items-center gap-3 !border-none !text-orange-600">
+                          <Sparkles size={18} /> QUÈ ET QUEDA PER FER AL MESTRE?
+                      </h4>
+                      <div className="space-y-4 mt-4">
+                          <div className="flex gap-4 items-start">
+                              <div className="w-6 h-6 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 font-black text-xs shrink-0">1</div>
+                              <div>
+                                  <p className="font-bold text-sm">Signatura amb AutoFirma / Cl@ve</p>
+                                  <p className="text-xs text-gray-500">Red.es demana la signatura de l'amo. Has d'entrar a la seu electrònica amb el teu certificat digital per acceptar l'abonament del bo.</p>
+                              </div>
+                          </div>
+                          <div className="flex gap-4 items-start">
+                              <div className="w-6 h-6 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 font-black text-xs shrink-0">2</div>
+                              <div>
+                                  <p className="font-bold text-sm">Validar el "Plan SEO Control"</p>
+                                  <p className="text-xs text-gray-500">Revisa que la solució de Sollutia s'ajusta al que vas parlar amb ells abans que l'IAIA tanqui el tràmit de justificació.</p>
+                              </div>
+                          </div>
+                      </div>
+                  </section>
+
+                  <section>
+                      <h4>2. Detalls de la Solució</h4>
+                      <div className="report-data-grid">
+                          <div className="report-data-item">
+                              <div className="label">Categoria</div>
+                              <div className="value">{agreementData.category}</div>
+                          </div>
+                          <div className="report-data-item">
+                              <div className="label">Estat</div>
+                              <div className="value">PENDENT SOLLUTIA</div>
+                          </div>
+                          <div className="report-data-item">
+                              <div className="label">Signatura Amo</div>
+                              <div className="value">{agreementData.signedAt}</div>
+                          </div>
+                          <div className="report-data-item">
+                              <div className="label">Import Ajudat</div>
+                              <div className="value">{agreementData.amount}</div>
+                          </div>
+                      </div>
+                  </section>
+
+                  <div className="sheet-footer">
+                      <div className="report-seal">
+                          <Shield size={14} className="text-orange-500" />
+                          <span>PROTOCOL RHIZOME V11.0</span>
+                      </div>
+                      <div className="text-[10px] font-black uppercase tracking-widest text-gray-400">
+                          BATEGAT PER L'ARCHON MARIA
+                      </div>
+                  </div>
+              </div>
+            </div>
+
+            <footer className="p-8 border-t border-white/5 flex gap-4 bg-black/20">
               <button
-                className="flex-1 master-button-canonic bg-orange-600 text-white"
+                className="flex-1 master-button-canonic bg-orange-600 text-white py-4 rounded-full font-black uppercase text-xs tracking-widest shadow-lg shadow-orange-900/40"
                 onClick={() => {
-                  navigator.clipboard.writeText(
-                    generateSollutiaJustification(),
-                  );
-                  alert("Copiada al porta-retalls, Mestre!");
+                  navigator.clipboard.writeText(generateSollutiaJustification());
+                  alert("Text de memòria copiat, Mestre!");
                 }}
               >
-                COPIAR JUSTIFICACIÓ
+                COPIAR TEXT DE MEMÒRIA
               </button>
               <button
-                className="px-6 border border-white/10 rounded-full"
+                className="px-8 bg-white/5 hover:bg-white/10 rounded-full text-xs font-black uppercase transition-all"
                 onClick={() => setShowSollutiaGenerator(false)}
               >
-                TANCAR
+                TANCAR INFORME
               </button>
-            </div>
+            </footer>
           </div>
         </div>
       )}

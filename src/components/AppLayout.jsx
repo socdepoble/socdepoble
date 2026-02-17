@@ -13,11 +13,8 @@ const ChatEmptyState = lazy(() => import('../components/ChatEmptyState'));
 const ChatDetail = lazy(() => import('../components/ChatDetail'));
 const Feed = lazy(() => import('./Feed'));
 const Marketplace = lazy(() => import('./Marketplace'));
-const IAIAPage = lazy(() => import('../pages/IAIAPage'));
+const ProfileView = lazy(() => import('../pages/ProfileView'));
 const Login = lazy(() => import('../pages/Login'));
-const UniversalProfile = lazy(() => import('../pages/UniversalProfile'));
-const PublicProfile = lazy(() => import('../pages/PublicProfile'));
-const PublicEntity = lazy(() => import('../pages/PublicEntity'));
 const AdminPanel = lazy(() => import('../pages/AdminPanel'));
 const Towns = lazy(() => import('../pages/Towns'));
 const TownDetail = lazy(() => import('../pages/TownDetail'));
@@ -43,6 +40,10 @@ const InfografiaGallery = lazy(() => import('./Infoteca/InfografiaGallery'));
 const ContextualMenu = lazy(() => import('./ContextualMenu'));
 const CategoryManager = lazy(() => import('./CategoryManager'));
 const ChatManager = lazy(() => import('../pages/ChatManager'));
+const Notes = lazy(() => import('../pages/Notes'));
+const LegalNotice = lazy(() => import('../pages/LegalNotice.jsx'));
+const IAIAChatSidebar = lazy(() => import('./IAIAChatSidebar'));
+const ProfilePowerMenu = lazy(() => import('./ProfilePowerMenu'));
 
 import BlueprintOverlay from './BlueprintOverlay';
 
@@ -54,8 +55,14 @@ const ProtectedRoute = ({ children }) => {
 };
 
 const AppLayout = () => {
-    const { isDrawerOpen, closeDrawer, architectMode, blueprintMode } = useUI();
+    const { 
+        isDrawerOpen, closeDrawer, architectMode,
+        iaiaSidebarOpen, closeIAIASidebar, iaiaSidebarContext 
+    } = useUI();
     const location = useLocation();
+    
+    // Detect minimal mode (for Mac-style window breakaway)
+    const isMinimal = new URLSearchParams(location.search).get('window') === 'true';
     
     // [PROTOCOL v10.24.0-MOBILE-FIX] Injecció forçada de Viewport per a evitar escalat d'escriptori
     React.useEffect(() => {
@@ -75,24 +82,48 @@ const AppLayout = () => {
                 e.preventDefault();
             }
         };
-        // [MASTER SCROLL FIX] Ensure passive: true to not block scroll
+        // [MASTER SCROLL FIX] Ensure passive: true and only attach if needed
         document.addEventListener('touchstart', fixZoom, { passive: true });
-        return () => document.removeEventListener('touchstart', fixZoom);
+        
+        // [SCROLL PERSISTENCE] Ensure root body is not jumpy
+        document.body.style.overscrollBehaviorY = 'none';
+        
+        return () => {
+            document.removeEventListener('touchstart', fixZoom);
+        };
     }, []);
+
+    const path = location.pathname.split("/")[1] || "chats";
+
+    // Mappeig de labels arquitectònics per al Frame Global
+    const routeLabels = {
+        'chats': 'LIST_COLUMN [FULL_WIDTH]',
+        'mur': 'PROMISCUOUS_FEED [VERTICAL]',
+        'mercat': 'MERCH_SHEET [GRID_28px]',
+        'pobles': 'COMMUNITY_MESH',
+        'perfil': 'IDENTITY_TOTEM [V10.26]',
+        'entitat': 'OFFICIAL_ENTITY_FRAME',
+        'mapa': 'TACTICAL_RADAR_VIEW',
+        'ofici': 'OFFICIAL_DOCS_SHEET',
+        'arxiu': 'RESOURCE_VAULT',
+        'notes': 'SCRATCHPAD_BUFFER',
+        'calendari': 'MASTER_CALENDAR_PROTO',
+        'ajudes': 'ADVISORY_DOSSIER'
+    };
+
+    const currentLabel = routeLabels[path] || 'MAIN_VIEWPORT_FLEX';
 
     return (
         <div className="h-[100dvh] w-full flex flex-col overflow-hidden font-sans bg-theme-base text-theme-text relative max-h-[100dvh]">
             
             {/* 0. HEADER SOBIRÀ (FULL WIDTH - PROTOCOL v4.0) */}
-            <Suspense fallback={<NanoLoader message="Preparant la barra..." />}>
-                {blueprintMode ? (
+            {!isMinimal && (
+                <Suspense fallback={<NanoLoader message="Preparant la barra..." />}>
                     <BlueprintOverlay label="HEADER_CANONIC" dimensions="64px" color="orange" className="h-[64px] flex-shrink-0">
                         <Header />
                     </BlueprintOverlay>
-                ) : (
-                    <Header />
-                )}
-            </Suspense>
+                </Suspense>
+            )}
 
             <div className="flex-1 flex overflow-hidden min-h-0 relative">
                 {/* 0. OVERLAY MÒBIL (Sombra de fondo) */}
@@ -105,23 +136,21 @@ const AppLayout = () => {
 
                 {/* 0. ACCESSIBILITAT & RESILIÈNCIA (L'ULL DEL MAS) */}
                 <Suspense fallback={null}>
-                    <AccessibilitatUniversal />
+                    {!location.pathname.includes('/notes') && <AccessibilitatUniversal />}
                 </Suspense>
 
                 {/* 1. SIDEBAR (LA ROCA - 280px) - JUMBO DRAWER */}
-                <aside className={`
-                    sidebar-desktop
-                    ${isDrawerOpen ? 'drawer-open lg:block' : 'hidden lg:block'}
-                    lg:relative lg:translate-x-0 min-w-0 flex-shrink-0
-                `}>
-                    {blueprintMode ? (
+                {!isMinimal && (
+                    <aside className={`
+                        sidebar-desktop
+                        ${isDrawerOpen ? 'drawer-open lg:block' : 'hidden lg:block'}
+                        lg:relative lg:translate-x-0 min-w-0 flex-shrink-0
+                    `}>
                         <BlueprintOverlay label="SIDEBAR_FIXED" dimensions="280px" color="blue" showBackupLink={true}>
                             <NavigationRail />
                         </BlueprintOverlay>
-                    ) : (
-                        <NavigationRail />
-                    )}
-                </aside>
+                    </aside>
+                )}
 
                 {/* 2. MAIN VIEWPORT (EL ESCENARIO) - HABILITEM SCROLL (TABULA RASA) */}
                 <main className={`flex-1 flex flex-col min-w-0 min-h-0 relative bg-theme-base custom-scrollbar ${location.pathname.startsWith('/chats') ? 'overflow-hidden' : ''}`}>
@@ -129,18 +158,19 @@ const AppLayout = () => {
                         <ContextualMenu />
                     </Suspense>
                     
-                    {blueprintMode && <div className="pointer-events-none absolute inset-0 z-[50] border-2 border-emerald-500/20" />}
-                    <Suspense fallback={<NanoLoader message="Bategant..." />}>
-                        <ErrorBoundary>
-                            <div className={`flex-1 flex flex-col relative min-w-0 min-h-0 main-viewport h-full custom-scrollbar ${location.pathname.startsWith('/chats') ? 'overflow-hidden' : 'overflow-y-auto'}`}>
-                                {blueprintMode && location.pathname.startsWith('/chats') && (
-                                    <div className="absolute inset-0 z-[40] pointer-events-none">
-                                        <BlueprintOverlay label="VIEWPORT_FLEX" dimensions="AUTO" color="cyan" />
-                                    </div>
-                                )}
-                                <Routes>
-                                <Route path="/login" element={<Login />} />
+                    <BlueprintOverlay 
+                        label={currentLabel} 
+                        dimensions="FLEX_GROW" 
+                        color="emerald" 
+                        className="flex-1 flex flex-col min-h-0"
+                    >
+                        <Suspense fallback={<NanoLoader message="Bategant..." />}>
+                            <ErrorBoundary>
+                                <div className={`flex-1 flex flex-col relative min-w-0 main-viewport custom-scrollbar ${location.pathname.startsWith('/chats') ? 'h-full overflow-hidden' : 'min-h-full overflow-y-auto'}`}>
+                                    <Routes>
                                 <Route path="/" element={<Navigate to="/chats" replace />} />
+                                <Route path="/pobles" element={<Towns />} />
+                                <Route path="/pobles/:id" element={<TownDetail />} />
                                 
                                 <Route path="/chats/*" element={<ProtectedRoute><ChatLayout /></ProtectedRoute>}>
                                     <Route index element={<ChatEmptyState />} />
@@ -149,18 +179,18 @@ const AppLayout = () => {
 
                                 <Route path="/mur" element={<Feed />} />
                                 <Route path="/mercat" element={<Marketplace />} />
-                                <Route path="/iaia" element={<IAIAPage />} />
-                                <Route path="/pobles" element={<Towns />} />
-                                <Route path="/pobles/:id" element={<TownDetail />} />
-                                <Route path="/perfil" element={<ProtectedRoute><UniversalProfile /></ProtectedRoute>} />
-                                <Route path="/perfil/:id" element={<PublicProfile />} />
-                                <Route path="/entitat/:id" element={<PublicEntity />} />
+                                <Route path="/iaia" element={<ProfileView />} />
+                                <Route path="/perfil" element={<ProtectedRoute><ProfileView /></ProtectedRoute>} />
+                                <Route path="/perfil/:id" element={<ProfileView />} />
+                                <Route path="/entitat/:id" element={<ProfileView />} />
+                                <Route path="/login" element={<Login />} />
                                 <Route path="/memorial" element={<GhostMemorial />} />
                                 <Route path="/ajudes" element={<BuscadorAjudes />} />
                                 
                                 <Route path="/mapa" element={<MapaActius />} />
                                 <Route path="/search" element={<SearchDiscover />} />
                                 <Route path="/ofici" element={<OficiDocumentacio />} />
+                                <Route path="/ofici/:id" element={<OficiDocumentacio />} />
                                 <Route path="/buscador-ajudes" element={<BuscadorAjudes />} />
                                 <Route path="/nexus" element={<NexusFlash />} />
                                 <Route path="/solatge" element={<ProtectedRoute><SolatgeConsole /></ProtectedRoute>} />
@@ -177,13 +207,29 @@ const AppLayout = () => {
                                 <Route path="/dossier" element={<DossierSocis />} />
                                 <Route path="/gestio/categories" element={<CategoryManager />} />
                                 <Route path="/gestio/xats" element={<ProtectedRoute><ChatManager /></ProtectedRoute>} />
-                                <Route path="*" element={<Navigate to="/" replace />} />
-                            </Routes>
-                        </div>
-                    </ErrorBoundary>
-                </Suspense>
+                                <Route path="/notes" element={<Notes />} />
+                                <Route path="/legal" element={<LegalNotice />} />
+                                </Routes>
+                            </div>
+                        </ErrorBoundary>
+                    </Suspense>
+                    </BlueprintOverlay>
                 </main>
             </div>
+
+            {/* IAIA CHAT SIDEBAR (DRETA) - GLOBAL & BATEGAT */}
+            <Suspense fallback={null}>
+                <IAIAChatSidebar 
+                    isOpen={iaiaSidebarOpen} 
+                    onClose={closeIAIASidebar} 
+                    context={iaiaSidebarContext} 
+                />
+            </Suspense>
+
+            {/* POWER MENU (DASHBOARD PERSONALIZA) - PROTOCOL MINIMALISTA */}
+            <Suspense fallback={null}>
+                <ProfilePowerMenu />
+            </Suspense>
 
             {/* MODALE D'EXPLICACIÓ (ARQUITECTE) - REPOSITIONAT PELS FRAMES UNIFICATS */}
             {architectMode && (

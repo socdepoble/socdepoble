@@ -226,22 +226,34 @@ export const AuthProvider = ({ children }) => {
             try {
                 let profileData = await supabaseService.getProfile(session.user.id);
                 // [MASTER IDENTITY PROTECTION]
-                const isOfficialCreator = isCreator ||
-                    session.user.id === 'd6325f44-7277-4d20-b020-166c010995ab' ||
-                    session.user.email?.includes('javillinares');
+                const userEmail = session.user.email?.toLowerCase() || '';
+                const isMastersEmail = masters.some(email => email.toLowerCase() === userEmail) || 
+                                     userEmail === 'javillinares@gmail.com' ||
+                                     userEmail.includes('javillinares') ||
+                                     userEmail === 'mestre@socdepoble.com';
+                                     
+                const isOfficialCreator = isMastersEmail || 
+                    session.user.id === 'd6325f44-7277-4d20-b020-166c010995ab';
+
+                // [NUCLEAR PURGE] Clear all ghost identity states
+                if (isOfficialCreator) {
+                    ['sp_sovereign_identity', 'sp_identity', 'sp_user_id', 'sp_profile', 'sp_active_profile', 'sp_last_auth'].forEach(k => localStorage.removeItem(k));
+                    logger.info('[AuthContext] 🏺 MESTRE DETECTAT. Purgant residus de "Veí de Poble"...');
+                }
 
                 const effectiveProfile = {
                     ...(profileData || {}),
                     id: profileData?.id || session.user.id,
-                    full_name: isOfficialCreator ? 'Master Arquitecte' : (profileData?.full_name || session.user.email?.split('@')[0] || 'Veí de la Torre'),
+                    full_name: isOfficialCreator ? 'Javi Llinares' : (profileData?.full_name || userEmail.split('@')[0] || 'Veí de la Torre'),
                     role: isOfficialCreator ? USER_ROLES.SUPER_ADMIN : (profileData?.role || USER_ROLES.NEIGHBOR),
                     avatar_url: isOfficialCreator ? '/Javi_Llinares-Foto_perfil-1.jpg' : (supabaseService.normalizeStorageUrl(profileData?.avatar_url) || null),
-                    is_master: isOfficialCreator
+                    is_master: isOfficialCreator,
+                    is_super_admin: isOfficialCreator
                 };
 
                 setRealProfile(effectiveProfile);
                 setProfile(effectiveProfile);
-                logger.log('[AuthContext] Identity established for production:', effectiveProfile.full_name);
+                logger.log('[AuthContext] 🏺 IDENTITY CONSOLIDATED:', isOfficialCreator ? 'MESTRE JAVI' : effectiveProfile.full_name);
             } catch (error) {
                 logger.error('[AuthContext] Error loading profile:', error);
                 const fallback = {

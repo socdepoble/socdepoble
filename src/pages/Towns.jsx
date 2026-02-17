@@ -153,8 +153,15 @@ const Towns = () => {
             {/* Semantic Heading for SEO/A11y */}
             <h1 className="sr-only">{t('towns.title') || 'Xarxa de Pobles Connectats'}</h1>
 
-            <header className="towns-header">
-                <div className="header-tabs-wrapper">
+            <header className="towns-header flex items-center gap-4 px-4">
+                <button 
+                    onClick={() => navigate(-1)} 
+                    className="p-3 bg-white/5 hover:bg-white/10 rounded-full text-white transition-colors border border-white/10 shrink-0"
+                    title="Tornar"
+                >
+                    <ArrowLeft size={20} />
+                </button>
+                <div className="header-tabs-wrapper flex-1 overflow-hidden">
                     <CategoryTabs
                         selectedRole={currentTab}
                         onSelectRole={(role) => {

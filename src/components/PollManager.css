@@ -1,0 +1,17 @@
+.poll-manager-overlay {
+    position: fixed;
+    inset: 0;
+    backdrop-filter: blur(20px);
+    background: rgba(0,0,0,0.8);
+}
+
+.poll-card {
+    transform: translateY(20px);
+    opacity: 0;
+    transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.poll-manager-overlay.animate-in .poll-card {
+    transform: translateY(0);
+    opacity: 1;
+}

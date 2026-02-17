@@ -1,10 +1,11 @@
-import React from 'react';
-import { Calendar as CalendarIcon, ChevronLeft, ChevronRight, Sparkles, Brain } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Calendar as CalendarIcon, ChevronLeft, ChevronRight, Sparkles, Brain, ArrowLeft } from 'lucide-react';
 import { CALENDAR_EVENTS } from '../data/calendarData';
 import { MOCK_EVENTS } from '../data';
 import './MasterCalendar.css';
 
 const MasterCalendar = () => {
+    const navigate = useNavigate();
     const today = new Date();
 
     // Ancoratges de Memòria des de la xarxa Rhizome
@@ -13,9 +14,18 @@ const MasterCalendar = () => {
     return (
         <div className="calendar-master-page animate-in">
             <header className="calendar-header">
-                <div className="title-group">
-                    <CalendarIcon size={24} color="var(--hud-accent)" />
-                    <h1>CALENDARI MASTER [SIMBIOSI]</h1>
+                <div className="flex items-center gap-4">
+                    <button 
+                        onClick={() => navigate(-1)} 
+                        className="p-3 bg-white/5 hover:bg-white/10 rounded-full text-white transition-colors border border-white/10 shrink-0"
+                        title="Tornar"
+                    >
+                        <ArrowLeft size={20} />
+                    </button>
+                    <div className="title-group">
+                        <CalendarIcon size={24} color="var(--hud-accent)" />
+                        <h1>CALENDARI MASTER [SIMBIOSI]</h1>
+                    </div>
                 </div>
                 <div className="calendar-controls">
                     <button className="btn-calendar-nav" onClick={() => alert('Funció de navegació de mesos en procés de bategat [GENESIS]')}>

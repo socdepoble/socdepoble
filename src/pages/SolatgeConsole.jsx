@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
     Zap,
     Database,
@@ -15,7 +16,8 @@ import {
     Layout,
     Layers,
     Sparkles,
-    BrainCircuit
+    BrainCircuit,
+    ArrowLeft
 } from 'lucide-react';
 import { useUI } from '../context/UIContext';
 import { rhizomeDb } from '../rhizome/db-core';
@@ -29,7 +31,9 @@ import Haptics from '../utils/HapticFeedback';
  * El HUD sobirà per a la gestió de la Village Cell.
  */
 const SolatgeConsole = () => {
+    const navigate = useNavigate();
     const { visualDemocracy, setVisualDemocracy } = useUI();
+    // ... rest of state stays same ...
     const [dbStatus, setDbStatus] = useState('loading');
     const [stats, setStats] = useState({ ops: 0, snapshots: 0, size: '0MB', peritext: { marksCount: 0, stableAnchors: 0 } });
     const [isIAAuditLoading, setIsIAAuditLoading] = useState(false);
@@ -93,8 +97,15 @@ const SolatgeConsole = () => {
     return (
         <div className="solatge-container bg-black min-h-screen text-white animate-bategat">
             {/* HEADER M3 SURFACE - BLINDAT v9.4.0 */}
-            <header className="solatge-header h-20 flex items-center justify-between px-6 bg-black border-b border-gray-900 sticky top-0 z-30">
-                <div className="brand">
+            <header className="solatge-header h-20 flex items-center gap-4 px-6 bg-black border-b border-gray-900 sticky top-0 z-30">
+                <button 
+                    onClick={() => navigate(-1)} 
+                    className="p-3 bg-white/5 hover:bg-white/10 rounded-full text-white transition-colors border border-white/10 shrink-0"
+                    title="Tornar"
+                >
+                    <ArrowLeft size={20} />
+                </button>
+                <div className="brand flex-1">
                     <Box size={32} className="neon-pulse" />
                     <div>
                         <h1>SOLATGE</h1>

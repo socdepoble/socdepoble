@@ -1,0 +1,236 @@
+import React, { useState } from 'react';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import { FileText, ChevronRight, Calculator, Landmark, Sprout, Home, Info, Search, Bot, Shield, Sparkles, ArrowLeft } from 'lucide-react';
+import KitDigitalManager from '../components/KitDigitalManager';
+import HerenciaManager from '../components/HerenciaManager';
+import './OficiDocumentacio.css';
+
+const OficiDocumentacio = () => {
+    const navigate = useNavigate();
+    const { id } = useParams();
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const tramitParam = queryParams.get('tramit');
+    
+    const [searchTerm, setSearchTerm] = useState('');
+    const [internalActiveProcedure, setInternalActiveProcedure] = useState(null);
+    const [showKitManager, setShowKitManager] = useState(false);
+    const [showHerenciaManager, setShowHerenciaManager] = useState(false);
+
+    // BATEGAT: La prioritat és la ruta directa (:id), després la interna, i per compatibilitat el paràmetre de consulta.
+    const activeProcedure = id || internalActiveProcedure || tramitParam;
+
+    const documentCategories = [
+        {
+            id: 'agricultura',
+            title: 'Agricultura i Camp',
+            icon: <Sprout className="cat-icon" />,
+            color: '#22c55e',
+            description: 'Ajudes de la PAC, Xylella, cremes i pous.',
+            procedures: [
+                { id: 'xylella-fastidiosa', title: 'Ayudes Xylella Fastidiosa (Seguiment)', status: 'active', official_code: '18932' },
+                { id: 'crema-restes', title: 'Permís de Crema de Restes (Tramitar)', status: 'active', official_code: 'CRM-2026' },
+            ]
+        },
+        {
+            id: 'vivenda',
+            title: 'Venda i Urbanisme',
+            icon: <Home className="cat-icon" />,
+            color: '#3b82f6',
+            description: 'Certificats, llicències d\'obra i IBI.',
+            procedures: [
+                { id: 'cedula-vivienda', title: 'Cèdula d\'Habitabilitat', status: 'coming-soon' },
+            ]
+        },
+        {
+            id: 'bancari',
+            title: 'Banc i Hisenda',
+            icon: <Landmark className="cat-icon" />,
+            color: '#f59e0b',
+            description: 'Domiciliacions, impostos i tràmits bancaris.',
+            procedures: [
+                { id: 'domiciliacio-bancaria', title: 'Model de Domiciliació Bancària', status: 'active' },
+            ]
+        },
+        {
+            id: 'kit-digital',
+            title: 'Kit Digital (Govern)',
+            icon: <Bot className="cat-icon" />,
+            color: '#FF6D23',
+            description: 'Ajudes per a la digitalització (PIMES i Autònoms).',
+            procedures: [
+                { id: 'kit-digital-solicitud', title: 'Gestió de Documents Kit Digital', status: 'active', official_code: 'KD-2024' },
+            ]
+        },
+        {
+            id: 'herencia',
+            title: 'Herència i Successions',
+            icon: <Landmark className="cat-icon" />,
+            color: '#D946EF',
+            description: 'Protocol Notarial 1911/2024 (Herència).',
+            procedures: [
+                { id: 'herencia', title: 'Tramitació d\'Herència (Assisència IAIA)', status: 'active', official_code: 'HP-2026' },
+            ]
+        }
+    ];
+
+    const filteredCategories = documentCategories.filter(cat =>
+        cat.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        cat.procedures.some(p => p.title.toLowerCase().includes(searchTerm.toLowerCase()))
+    );
+
+    if (showKitManager && activeProcedure === 'kit-digital-solicitud') {
+        return <KitDigitalManager onBack={() => {
+            setShowKitManager(false);
+            setInternalActiveProcedure(null);
+            if (id || tramitParam) navigate('/ofici', { replace: true });
+        }} />;
+    }
+
+    if (showHerenciaManager && activeProcedure === 'herencia') {
+        return <HerenciaManager onBack={() => {
+            setShowHerenciaManager(false);
+            setInternalActiveProcedure(null);
+            if (id || tramitParam) navigate('/ofici', { replace: true });
+        }} />;
+    }
+
+    if (activeProcedure === 'kit-digital-solicitud' || activeProcedure === 'crema-restes' || activeProcedure === 'xylella-fastidiosa' || activeProcedure === 'herencia') {
+        let title = 'PROCEDIMENT EN MARXA';
+        let desc = '';
+        
+        if (activeProcedure === 'herencia') {
+            title = 'PROTOCOL HERÈNCIA BATEGAT';
+            desc = '"Mestre, estic preparant el Protocol Notarial 1911/2024. He bategat la teua identitat i estic revisant el Dipòsit Notarial per a l\'Herència. Un momentet..."';
+        } else {
+            desc = `"Mestre, estic connectant amb els servidors de la Generalitat per a gestionar el teu tràmit de ${activeProcedure === 'crema-restes' ? 'Permís de Crema' : (activeProcedure === 'xylella-fastidiosa' ? 'Ajudes Xylella' : 'Kit Digital')}. Un momentet..."`;
+        }
+
+        return (
+            <div className="flex-1 bg-black text-white p-12 flex flex-col items-center justify-center text-center animate-in zoom-in duration-500 min-h-screen">
+                <div className={`w-32 h-32 rounded-full ${activeProcedure === 'herencia' ? 'bg-fuchsia-500/10 border-fuchsia-500' : 'bg-orange-500/10 border-orange-500'} border-2 flex items-center justify-center mb-8`}>
+                    <Bot size={64} className={activeProcedure === 'herencia' ? 'text-fuchsia-500' : 'text-orange-500'} />
+                </div>
+                <h2 className="text-4xl font-black mb-4 tracking-tighter uppercase">{title}</h2>
+                <p className="max-w-md text-gray-400 text-lg mb-8 italic">
+                    {desc}
+                </p>
+
+                <div className="flex gap-4">
+                    <button 
+                        onClick={() => {
+                            setInternalActiveProcedure(null);
+                            if (id || tramitParam) {
+                                navigate('/ofici', { replace: true });
+                            }
+                        }} 
+                        className="px-8 py-3 bg-white/10 hover:bg-white/20 rounded-full font-bold uppercase tracking-widest text-xs transition-all border border-white/10"
+                    >
+                        Tornar enrere
+                    </button>
+                    <button 
+                        onClick={() => {
+                            if (activeProcedure === 'kit-digital-solicitud') {
+                                setShowKitManager(true);
+                            } else if (activeProcedure === 'herencia') {
+                                setShowHerenciaManager(true);
+                            }
+                        }}
+                        className={`px-8 py-3 ${activeProcedure === 'herencia' ? 'bg-fuchsia-600 hover:bg-fuchsia-500 shadow-fuchsia-900/40' : 'bg-[#FF6B00] hover:bg-[#ff7b20] shadow-orange-900/40'} text-white rounded-full font-bold uppercase tracking-widest text-xs transition-all shadow-lg`}
+                    >
+                        Continuar amb la IAIA
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
+    return (
+        <div className="ofici-page animate-in">
+            <div className="px-6 py-8 border-b border-white/5 bg-black/40 backdrop-blur-md mb-8 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div className="flex items-center gap-4">
+                    <button 
+                        onClick={() => navigate(-1)} 
+                        className="p-3 bg-white/5 hover:bg-white/10 rounded-full text-white transition-colors border border-white/10"
+                        title="Tornar"
+                    >
+                        <ArrowLeft size={20} />
+                    </button>
+                    <div>
+                        <h1 className="text-3xl font-black tracking-tighter uppercase text-white">Ofici de Documentació</h1>
+                        <p className="text-gray-500 font-bold uppercase tracking-widest text-xs">Gestió sobirana de tràmits oficials</p>
+                    </div>
+                </div>
+
+                <div className="flex items-center gap-4 p-4 bg-orange-500/10 border border-orange-500/20 rounded-2xl max-w-sm">
+                    <Bot size={20} className="text-orange-500 animate-pulse" />
+                    <p className="text-xs italic text-orange-200/70">"Mestre, si vols ajuda amb el paperam de la Xylella, soc ací per a tu."</p>
+                </div>
+
+                <button 
+                    onClick={() => navigate('/buscador-ajudes')}
+                    className="flex items-center gap-3 px-6 py-4 bg-gradient-to-r from-orange-600 to-orange-400 text-white rounded-[20px] font-black uppercase tracking-tighter hover:scale-105 transition-all shadow-xl shadow-orange-950/20"
+                >
+                    <Search size={22} />
+                    <span>Buscador d'Ajudes</span>
+                    <Sparkles size={16} className="animate-pulse" />
+                </button>
+            </div>
+
+            <div className="ofici-search-bar">
+                <Search size={20} className="search-icon" />
+                <input
+                    type="text"
+                    placeholder="Què vols gestionar hui? (ej. Xylella, Hisenda...)"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                />
+            </div>
+
+            <section className="ofici-main-grid">
+                {filteredCategories.map(category => (
+                    <div key={category.id} className="document-category-card">
+                        <div className="cat-header" style={{ '--cat-color': category.color }}>
+                            {category.icon}
+                            <h3>{category.title}</h3>
+                        </div>
+                        <p className="cat-desc">{category.description}</p>
+
+                        <div className="procedure-list">
+                            {category.procedures.map(proc => (
+                                <button
+                                    key={proc.id}
+                                    className={`procedure-item ${proc.status}`}
+                                    onClick={() => {
+                                        if (proc.status === 'active') {
+                                            setInternalActiveProcedure(proc.id);
+                                        }
+                                    }}
+                                >
+                                    <div className="proc-info">
+                                        <span className="proc-title">{proc.title}</span>
+                                        {proc.official_code && <span className="proc-code">Codi: {proc.official_code}</span>}
+                                    </div>
+                                    {proc.status === 'active' ? <ChevronRight size={18} /> : <span className="status-label">{proc.status === 'coming-soon' ? 'Pròximament' : 'Diponible'}</span>}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                ))}
+            </section>
+
+            <footer className="ofici-info-footer">
+                <div className="info-badge">
+                    <Shield size={14} />
+                    <span>Dades gestionades localment (Protocol Rhizome)</span>
+                </div>
+                <button className="btn-ofici-manual" onClick={() => navigate('/manual')}>
+                    <Info size={16} />
+                    Guia de Tràmits Oficials
+                </button>
+            </footer>
+        </div>
+    );
+};
+
+export default OficiDocumentacio;

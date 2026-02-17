@@ -1,0 +1,94 @@
+.profile-hub-container {
+    --avatar-size: 176px;
+    --header-height: 45vh;
+}
+
+.profile-hub-container .cover-gradient {
+    background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 100%);
+}
+
+.profile-hub-container .avatar-frame {
+    transform: translateY(0);
+    box-shadow: 0 10px 50px rgba(0,0,0,0.8);
+}
+
+.profile-hub-container .avatar-frame div {
+    background: #111;
+}
+
+.profile-hub-container .identity-block {
+    margin-top: 120px;
+    padding-bottom: 40px;
+    animation: slideUp 1s ease-out both;
+}
+
+.profile-hub-container .identity-block h1 {
+    font-family: 'Roboto Condensed', sans-serif;
+    text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.profile-hub-container .connect-action {
+    padding: 2.5rem 1rem;
+}
+
+.profile-hub-container .connect-action button {
+    box-shadow: 0 20px 40px rgba(249, 115, 22, 0.3);
+    font-family: 'Roboto Condensed', sans-serif;
+    letter-spacing: 0.2em;
+    transform-origin: center;
+}
+
+.profile-hub-container .stats-pill-row {
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    margin-top: 3rem;
+    padding: 2.5rem 1rem;
+    box-shadow: 0 4px 50px rgba(0,0,0,0.3);
+}
+
+.profile-hub-container .stat-item span:first-child {
+    line-height: 1;
+}
+
+.profile-hub-container .tabs-nav {
+    top: 64px; /* Header height offset */
+}
+
+.profile-hub-container .btn-profile-tab {
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+.profile-hub-container .btn-profile-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 20%;
+    right: 20%;
+    height: 3px;
+    background: #F97316;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #F97316;
+}
+
+.profile-hub-container .content-area {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Animations */
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.profile-hub-container .identity-block,
+.profile-hub-container .stats-pill-row,
+.profile-hub-container .tabs-nav {
+    animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.profile-hub-container .identity-block { animation-delay: 0.2s; }
+.profile-hub-container .stats-pill-row { animation-delay: 0.4s; }
+.profile-hub-container .tabs-nav { animation-delay: 0.6s; }

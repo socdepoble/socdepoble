@@ -28,6 +28,20 @@ class DocExtractionService {
                         cadastre: '03132A002000310000TZ'
                     }
                 ]
+            },
+            'recibo_suma_herminio.jpg': {
+                expediente: '24-2025-028468',
+                organismo: 'SUMA Gestión Tributaria',
+                ayuntamiento: 'La Torre de les Maçanes',
+                total_pagar: 226.69,
+                fecha_limite: '2026-03-03',
+                desglose: [
+                    { inmueble: 'San Isidro, 16', concepto: 'Aigües Potables (1-TRI-2025)', total: 47.40, responsable: 'Javi' },
+                    { inmueble: 'PD Barrinada, 4', concepto: 'Aigües Potables (1-TRI-2025)', total: 31.48, responsable: 'Nando' },
+                    { inmueble: 'San Isidro, 16', concepto: 'Aigua i Clavegueram (2-TRI-2025)', total: 41.86, responsable: 'Javi' },
+                    { inmueble: 'PD Barrinada, 4', concepto: 'Aigua i Clavegueram (2-TRI-2025)', total: 99.95, responsable: 'Nando' },
+                    { inmueble: 'General', concepto: 'Costes del procediment', total: 6.00, responsable: 'Shared' }
+                ]
             }
         };
     }
@@ -61,6 +75,12 @@ class DocExtractionService {
                 { id: 'dni', name: 'DNI / NIF', required: true, description: 'Còpia de les dues cares.' },
                 { id: 'iban', name: 'Certificat IBAN', required: true, description: 'Document que certifique la titularitat del compte.' },
                 { id: 'parcelas', name: 'Fitxa Catastral', required: true, description: 'Dades de les parcel·les afectades.' }
+            ],
+            'herencia-herminio': [
+                { id: 'dni_javi', name: 'DNI Javi', required: true, description: 'DNI del nou titular San Isidro.' },
+                { id: 'dni_nando', name: 'DNI Nando', required: true, description: 'DNI del nou titular Barrinada.' },
+                { id: 'escritura', name: 'Escritura Herència', required: true, description: 'Adjudicació de finques.' },
+                { id: 'recibo_suma', name: 'Rebut SUMA', required: true, description: 'Últim rebut pagat.' }
             ]
         };
         return requirements[procedureId] || [];

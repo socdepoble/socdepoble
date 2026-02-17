@@ -299,8 +299,6 @@ class IAIAService {
         const wordCount = (userComments || "").trim().split(/\s+/).filter(w => w.length > 0).length;
         const timeSavedMinutes = Math.max(5, Math.ceil(wordCount / 5)); // 5 minuts base + 1 min per cada 5 paraules
         const economicValue = timeSavedMinutes * 1; // 1€ per minut estalviat
-
-        // Atribució: Per defecte l'IAIA fa el formatat estructural (50%) i l'usuari dona la idea (50%)
         const humanWeight = Math.min(90, Math.max(10, 20 + (wordCount * 2)));
         const aiWeight = 100 - humanWeight;
 
@@ -370,8 +368,6 @@ class IAIAService {
                 type = 'music_recommendation';
             }
 
-            // logger.info(`IAIA encourages ${chosenOne} to share: ${content}`);
-
             const metrics = await this.calculateSimbiosiMetrics(content);
 
             const postPayload = {
@@ -393,7 +389,6 @@ class IAIAService {
             try {
                 const savedPost = await supabaseService.createPost(postPayload);
                 if (savedPost) {
-                    // logger.info(`[IAIA] Mirau! La IAIA ha fet màgia i ha guardat el post: ${savedPost.id}`);
                     return {
                         ...savedPost,
                         is_iaia_inspired: true,
@@ -448,10 +443,6 @@ class IAIAService {
      */
     async publishInternalReport(title, summary, documentUrl) {
         try {
-            // logger.info('[IAIA] Publicant informe intern top secret...');
-
-            // ID del grup "Sóc de Poble" (Simulat o Real)
-            // En un entorn real, això seria un ID de la taula 'entities'
             const WORK_GROUP_ID = '00000000-0000-0000-0000-000000000005';
 
             const postPayload = {
@@ -505,8 +496,6 @@ class IAIAService {
                     return data.aiContent;
                 } else {
                     logger.error('[IAIA] Backend returned error:', response.status);
-                    // Fallback to mock if server fails? No, better show error.
-                    // throw new Error('AI Backend Error');
                 }
             }
 
@@ -514,7 +503,6 @@ class IAIAService {
             logger.warn('[IAIA] No Backend URL configured. Using Mock Mode.');
             await new Promise(resolve => setTimeout(resolve, 1500));
 
-            // Lògica simple de "mock" per a la demo
             if (draft.toLowerCase().includes('paell')) {
                 return `🥘 **Dia de Paelles al Poble!**\n\nAquest esdeveniment no us el podeu perdre. La tradició mana i la panxa ho agraeix!\n\n📍 **Lloc:** Al Poliesportiu (o on siga que es faça, confirmeu!)\n🕒 **Hora:** A partir de les 14:00h.\n\nVeniu amb gana i ganes de festa. La IAIA recomana portar barret per al sol! ☀️\n\n#Paelles2026 #Germanor #SócDePoble`;
             }
@@ -523,12 +511,11 @@ class IAIAService {
                 return `🎵 **Música en Directe!**\n\nPrepareu les orelles perquè tenim concertassa. Res millor que la música per alegrar l'ànima.\n\n📍 **On:** A la Plaça Major.\n✨ **Ambient:** Immillorable.\n\nNo falteu, que després us ho conten i us fa enveja! 💃\n\n#CulturaPopular #MúsicaAlCarrer`;
             }
 
-            // Fallback genèric
             return `📢 **Atenció Veïnat!**\n\n${draft}\n\nAixò pinta molt bé. Jo de vosaltres no m'ho perdria per res del món.\n\n📍 **Més info:** Pregunteu a l'organització.\n👇 **Apunteu-vos ací baix!**\n\n#VidaDePoble #FemPoble`;
 
         } catch (e) {
             logger.error('[IAIA] Error generant descripció:', e);
-            throw e; // L'UI ha de gestionar l'error
+            throw e;
         }
     }
     /**
@@ -538,15 +525,14 @@ class IAIAService {
         try {
             logger.debug(`[MArIA] Generant resposta bategant per a ${conversationId} [Receiver: ${receiverId}]`);
 
-            // 1. Mapeig de Persones segons ID o Contingut
             let finalPersonaKey = 'IAIA'; // Default
 
             const personaMapping = {
                 '11111111-1111-4111-a111-000000000000': 'IAIA',
-                '11111111-1111-4111-a111-000000000003': 'AGRONOM',  // Vicent Ferris
-                '11111111-1111-4111-a111-000000000004': 'CUINERA',  // Pepica la Vall
-                '11111111-1111-4111-a111-000000000009': 'CAPATAS',  // Andreu Soler
-                '11111111-1111-4111-a111-000000000008': 'ARXIVER',  // Joan Batiste
+                '11111111-1111-4111-a111-000000000003': 'AGRONOM',  
+                '11111111-1111-4111-a111-000000000004': 'CUINERA',  
+                '11111111-1111-4111-a111-000000000009': 'CAPATAS',  
+                '11111111-1111-4111-a111-000000000008': 'ARXIVER',  
                 '11111111-0000-0000-0000-000000000001': 'RATOLI',
                 '11111111-1111-4111-a111-000000000006': 'SULTAN',
                 '11111111-1a1a-0001-0000-000000000011': 'MIXA',
@@ -563,7 +549,6 @@ class IAIAService {
             if (receiverId && personaMapping[receiverId]) {
                 finalPersonaKey = personaMapping[receiverId];
             } else {
-                // Heuristic mapping if ID is unknown or generic
                 const q = userQuery.toLowerCase();
                 if (q.includes('nano') || q.includes('banana')) finalPersonaKey = 'NANOBANANA';
                 else if (q.includes('horta') || q.includes('tomaca') || q.includes('cultiu')) finalPersonaKey = 'AGRONOM';
@@ -571,7 +556,6 @@ class IAIAService {
                 else if (q.includes('paper') || q.includes('banc') || q.includes('burocracia')) finalPersonaKey = 'ARXIVER';
             }
 
-            // 1.5 [PROTOCOL BATEGAT IMMEDIAT] Injecció de Paraules Neutres
             const persona = geminiService.PERSONAS[finalPersonaKey];
             if (conversationId && conversationId !== 'preview') {
                 const fillers = NEUTRAL_FILLERS[finalPersonaKey] || NEUTRAL_FILLERS.GENERIC;
@@ -589,24 +573,19 @@ class IAIAService {
                     created_at: new Date().toISOString()
                 };
 
-                // Enviament real (per a la resta de participants/persistència)
                 supabaseService.sendSecureMessage(fillerObj).catch(e => logger.warn('[IAIA] Error enviant filler a DB:', e));
-                
-                // Retornem immediatament per a l'UI optimista
                 return fillerObj;
             }
 
-            // 2. Crida a la Xarxa Neural (Gemini)
             const aiResponse = await geminiService.ask(finalPersonaKey, userQuery);
             const iaiaResponse = aiResponse.text;
 
-            // 3. Enviar el missatge si hi ha conversa real
             if (conversationId && conversationId !== 'preview') {
                 const persona = geminiService.PERSONAS[finalPersonaKey];
                 
                 await supabaseService.sendSecureMessage({
                     conversationId: conversationId,
-                    senderId: '11111111-1111-4111-a111-000000000010', // MArIA Base ID
+                    senderId: '11111111-1111-4111-a111-000000000010', 
                     content: iaiaResponse,
                     is_ai: true,
                     author_name: persona.name,
@@ -627,19 +606,24 @@ class IAIAService {
     }
 
     /**
+     * Crida genèrica a la IAIA per a tasques especialitzades (com el corrector).
+     */
+    async askIAIA(prompt) {
+        return geminiService.ask('IAIA', prompt);
+    }
+
+    /**
      * Realitza un diagnòstic profund del sistema [MASTER]
      */
     async diagnoseSystem() {
-        // logger.info('[IAIA] Analitzant la resiliència del sistema...');
         const diagnostic = {
             viewport_ok: !!document.querySelector('meta[name="viewport"]'),
             sw_active: 'serviceWorker' in navigator && !!navigator.serviceWorker.controller,
-            offline_ready: false, // Potencialment check a caches
+            offline_ready: false, 
             assets_integrity: true,
             recommendation: ""
         };
 
-        // Regles de saviesa ancestral:
         if (!diagnostic.viewport_ok) {
             diagnostic.recommendation += "El mur està massa estret, falta el ventall del viewport. ";
         }
@@ -669,20 +653,17 @@ class IAIAService {
         };
 
         try {
-            // 1. Neteja de memòria local (Silent)
             localStorage.removeItem('sp_old_debug_logs');
             localStorage.removeItem('pwa-installed');
             sessionStorage.clear();
             results.storageCleared = true;
 
-            // 2. Neteja de Caches
             if ('caches' in window) {
                 const names = await caches.keys();
                 await Promise.all(names.map(n => caches.delete(n)));
                 results.cachePurged = true;
             }
 
-            // 3. Verificació de Versió SSOT
             const { APP_VERSION } = await import('../constants');
             const current = localStorage.getItem('sp_app_version');
             if (current !== APP_VERSION) {

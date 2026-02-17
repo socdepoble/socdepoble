@@ -129,24 +129,25 @@ const Market = ({ searchTerm = '' }) => {
                 ];
                 if (BLACKLIST_NAMES.some(name => nameToCheck.includes(name))) return false;
 
+            // 1. Vision Mode Filter (Protocol de Visió Humana: Purga Radical de IA)
+            if (visionMode === 'humana') {
+                const idToCheckMarket = item.author_id || item.seller_id || item.creator_entity_id || '';
+                const isSDPOfficial = item.seller_entity_id === 'sdp-oficial-1' || 
+                                     item.seller?.includes('Sóc de Poble') || 
+                                     item.title?.includes('Camiseta');
+
                 const isAI = item.author_role === 'ambassador' ||
                     item.author_is_ai ||
                     item.is_iaia_inspired ||
-                    idToCheck.startsWith('11111111-');
+                    (idToCheckMarket && idToCheckMarket.startsWith('11111111-')) ||
+                    (item.id && String(item.id).startsWith('iaia-'));
 
-                if (isAI) return false;
-
+                if (isAI && !isSDPOfficial) return false;
+                
                 // [PROTOCOL FANTASMA] Eliminem tot el que bategui amb mock- que no sigui oficial
-                const isMock = idToCheck.startsWith('mock-');
-                const isOfficialSdP = idToCheck === 'mock-business-sdp-1' || 
-                                     idToCheck === 'sdp-oficial-1' || 
-                                     item.seller === 'Sóc de Poble' || 
-                                     item.title?.includes('Camiseta');
-
-                if (isMock && !isOfficialSdP) return false;
-                if (idToCheck.startsWith('00000000-')) return false;
-
-                return true;
+                if (idToCheckMarket.startsWith('mock-') && !isSDPOfficial) return false;
+                if (idToCheckMarket.startsWith('00000000-')) return false;
+            }
             });
         }
 
@@ -177,7 +178,7 @@ const Market = ({ searchTerm = '' }) => {
             }
             return new Date(b.created_at || 0) - new Date(a.created_at || 0);
         });
-    }, [items, searchTerm, visionMode, isIAIAFiltering, isSuperAdmin]);
+    }, [items, searchTerm, visionMode, isIAIAFiltering]);
 
     const [, setPayingItemId] = useState(null);
     const [, setPaidItems] = useState(new Set());

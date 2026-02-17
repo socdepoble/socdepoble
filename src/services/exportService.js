@@ -153,7 +153,7 @@ export const exportService = {
                         column-count: 2;
                         column-gap: 10mm;
                         font-family: 'Noto Sans Condensed', sans-serif;
-                        font-size: 18pt; /* 18pt reals bategats */
+                        font-size: 14pt; /* 14pt reals bategats per al Mestre */
                         line-height: 1.5;
                         text-align: justify;
                         color: #111;
@@ -264,6 +264,217 @@ export const exportService = {
                     window.onload = function() {
                         window.print();
                         // window.close(); 
+                    };
+                </script>
+            </body>
+            </html>
+        `;
+
+        printWindow.document.write(html);
+        printWindow.document.close();
+    },
+
+    /**
+     * Descarregar una nota individual en TXT
+     */
+    downloadNoteAsTXT(note) {
+        let content = `${note.title.toUpperCase()}\n`;
+        content += `Data: ${new Date(note.updatedAt).toLocaleString()}\n`;
+        content += `Categoria: ${note.category || 'General'}\n`;
+        content += `==========================================\n\n`;
+        
+        // Strip HTML for TXT
+        const temp = document.createElement('div');
+        temp.innerHTML = note.content;
+        content += temp.textContent || temp.innerText || "";
+
+        this._downloadFile(content, `${note.title.replace(/\s/g, '_')}.txt`, 'text/plain');
+    },
+
+    /**
+     * Descarregar una nota individual en PDF (Print)
+     * [MASTER FIX v10.33.3] Definició correcta de variables per a evitar ReferenceError
+     */
+    downloadNoteAsPDF(note) {
+        if (!note) return;
+        const title = note.title || 'Nova Nota';
+        const content = note.content || '';
+        const dateStr = note.updatedAt ? new Date(note.updatedAt).toLocaleDateString() : new Date().toLocaleDateString();
+
+        const printWindow = window.open('', '_blank');
+        if (!printWindow) {
+            alert('El bloquejador de popups ha impedit l\'exportació. Permet els popups per a Sóc de Poble.');
+            return;
+        }
+
+        let html = `
+            <!DOCTYPE html>
+            <html lang="ca">
+            <head>
+                <meta charset="UTF-8">
+                <title>${title}</title>
+                <style>
+                    @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700;900&display=swap');
+                    
+                    @page {
+                        size: A4;
+                        margin: 20mm;
+                    }
+
+                    :root {
+                        --print-bg: #fdfcf9;
+                        --sheet-shadow: 0 10px 30px rgba(0,0,0,0.15);
+                    }
+
+                    body { 
+                        font-family: 'Roboto Condensed', sans-serif; 
+                        padding: 0; 
+                        margin: 0;
+                        line-height: 1.6;
+                        color: #1a1a1a;
+                        background: #333; /* Dark background for preview to contrast the sheet */
+                        counter-reset: page;
+                        display: flex;
+                        justify-content: center;
+                        align-items: flex-start;
+                        min-height: 100vh;
+                        overflow-y: auto;
+                        padding: 40px 0;
+                    }
+
+                    /* The physical sheet effect in screen */
+                    .page-container {
+                        position: relative;
+                        width: 210mm;
+                        min-height: 297mm;
+                        margin: 0 auto;
+                        background: white;
+                        padding: 20mm;
+                        box-shadow: var(--sheet-shadow);
+                        box-sizing: border-box;
+                    }
+
+                    .header { 
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        border-bottom: 3px solid #f97316; /* Orange Archon */
+                        margin-bottom: 30px; 
+                        padding-bottom: 10px;
+                    }
+
+                    .logo-placeholder {
+                        font-weight: 900;
+                        font-size: 14pt;
+                        text-transform: uppercase;
+                        letter-spacing: 0.1em;
+                        color: #1a1a1a;
+                    }
+
+                    h1 { 
+                        margin: 20px 0; 
+                        text-transform: uppercase; 
+                        font-weight: 900;
+                        letter-spacing: -0.02em; 
+                        font-size: 32pt; 
+                        line-height: 1.1;
+                        color: #000;
+                    }
+
+                    .meta-info {
+                        display: flex;
+                        gap: 20px;
+                        font-size: 10pt;
+                        font-weight: 700;
+                        text-transform: uppercase;
+                        color: #666;
+                        margin-bottom: 40px;
+                    }
+
+                    .content { 
+                        font-size: 14pt; 
+                        white-space: pre-wrap; 
+                        text-align: justify;
+                    }
+
+                    /* Pagination logic for print */
+                    .footer-print {
+                        position: absolute;
+                        bottom: 10mm;
+                        left: 20mm;
+                        right: 20mm;
+                        display: none;
+                        justify-content: space-between;
+                        align-items: center;
+                        font-size: 8pt;
+                        color: #999;
+                        border-top: 1px solid #eee;
+                        padding-top: 5mm;
+                    }
+
+                    @media print {
+                        body { 
+                            background: white; 
+                            padding: 0;
+                            display: block;
+                        }
+                        .page-container {
+                            width: 100%;
+                            min-height: auto;
+                            box-shadow: none;
+                            margin: 0;
+                            padding: 0;
+                        }
+                        .footer-print { display: flex; }
+                        .no-print { display: none; }
+                        
+                        .page-number::after {
+                            content: "PÀGINA " counter(page);
+                            counter-increment: page;
+                        }
+                    }
+
+                    /* Rich Text Overrides */
+                    .content h2 { color: #f97316; border-bottom: 1px solid #fed7aa; padding-bottom: 5px; margin-top: 30px; }
+                    .content ul { padding-left: 20px; }
+                    .content li { margin-bottom: 8px; }
+                    .content blockquote { border-left: 4px solid #f97316; padding-left: 15px; font-style: italic; color: #444; }
+                </style>
+            </head>
+            <body>
+                <div class="page-container">
+                    <div class="header">
+                        <div class="logo-placeholder">SÓC DE POBLE</div>
+                        <div class="logo-placeholder no-print" style="font-size: 8pt; color: #f97316;">VISTA PREVIA D'IMPRESSIÓ</div>
+                    </div>
+
+                    <h1>${title}</h1>
+
+                    <div class="meta-info">
+                        <span>DATA: ${dateStr}</span>
+                        <span>FORMAT: DOCUMENT D'ARCHON</span>
+                    </div>
+
+                    <div class="content">${content}</div>
+
+                    <div class="footer-print">
+                        <span>Generat pel Quadern de Trellat - socdepoble.org</span>
+                        <span class="page-number"></span>
+                    </div>
+                </div>
+
+                <div class="no-print" style="position: fixed; top: 20px; right: 20px; z-index: 9999;">
+                    <button onclick="window.print()" style="background: #f97316; color: white; border: none; padding: 12px 24px; border-radius: 30px; cursor: pointer; font-weight: 900; box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4); font-family: 'Roboto Condensed', sans-serif;">IMPRIMIR ARA</button>
+                </div>
+
+                <script>
+                    // Wait for any images or fonts
+                    window.onload = () => {
+                        // We don't auto-print immediately to allow the user to see the preview
+                        // or provide a smoother experience if they have slow connections.
+                        setTimeout(() => {
+                            console.log('Document ready for print');
+                        }, 500);
                     };
                 </script>
             </body>

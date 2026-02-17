@@ -4,23 +4,27 @@ import { useNavigate, NavLink } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useUI } from "../context/UIContext";
 import { 
-    Search, Bell, Menu, Sparkles, User, Sun, Moon
+    Search, Bell, Menu, Sparkles, User, Sun, Moon, Brain
 } from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
 import VisionSelectorModal from "./VisionSelectorModal";
 
 /**
- * [MASTER HEADER v1.25.0-MASTER-GOLDEN - PROTOCOL GLOBAL]
+ * [MASTER HEADER v10.26.0-PURGA - PROTOCOL GLOBAL]
  * Arquitectura de Ferro: fons adaptatiu, sempre visible i funcional.
  */
 const Header = () => {
   const { user, profile } = useAuth();
-  const { toggleDrawer, visionMode, setVisionMode, isIAIARoleSelectorOpen, setIsIAIARoleSelectorOpen } = useUI();
+  const { 
+    toggleDrawer, visionMode, setVisionMode, 
+    isIAIARoleSelectorOpen, setIsIAIARoleSelectorOpen,
+    iaiaSidebarOpen, toggleIAIASidebar, openProfileMenu
+  } = useUI();
   const { theme, toggleTheme } = useTheme(); // Moure aquí
   const navigate = useNavigate();
 
   return (
-    <header className="h-16 flex items-center justify-between px-3 lg:px-6 gap-2 shrink-0 select-none bg-black text-white sticky top-0 z-[1000] w-full border-b border-white/5">
+    <header className="h-16 flex items-center justify-between px-3 lg:px-6 gap-2 shrink-0 select-none bg-black text-theme-text sticky top-0 z-[1000] w-full border-b border-white/5 transition-colors duration-300">
         <div className="flex items-center gap-2 lg:gap-4 overflow-hidden shrink-0">
           <button 
             onClick={toggleDrawer} 
@@ -54,7 +58,16 @@ const Header = () => {
           onClick={() => setIsIAIARoleSelectorOpen(true)}
           title="Protocol de Visió"
         >
-          <Sparkles size={20} className={visionMode === 'humana' ? "opacity-40" : "animate-pulse"} />
+          <span className={`text-xl ${visionMode === 'humana' ? "opacity-40" : "animate-pulse"}`}>👁️</span>
+        </button>
+
+        {/* IAIA ARCHON SIDEBAR TOGGLE [MASTER BATEGAT] */}
+        <button 
+          className={`w-12 h-12 flex items-center justify-center transition-all ${iaiaSidebarOpen ? 'text-fuchsia-400 bg-fuchsia-400/10 rounded-full' : 'text-slate-400 hover:text-fuchsia-400'}`} 
+          onClick={toggleIAIASidebar}
+          title="Consola Archon"
+        >
+          <span className={`text-xl ${iaiaSidebarOpen ? "animate-pulse" : ""}`}>🧠</span>
         </button>
 
         {/* CANVI DE TEMA (NIT/DIA) - EL BATEGAT LUMÍNIC */}
@@ -63,17 +76,17 @@ const Header = () => {
           onClick={toggleTheme}
           title={theme === 'dark' ? 'Mode Dia' : 'Mode Nit'}
         >
-          {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+          <span className="text-xl">{theme === 'dark' ? '☀️' : '🌙'}</span>
         </button>
 
         <button className="w-12 h-12 flex items-center justify-center text-slate-400 hover:text-white transition-colors" onClick={() => navigate("/search")}>
-          <Search size={20} />
+          <span className="text-xl">🔍</span>
         </button>
 
         {user && (
           <div className="relative">
             <button className="w-12 h-12 flex items-center justify-center text-slate-400 hover:text-white transition-colors" onClick={() => navigate("/notificacions")}>
-              <Bell size={20} />
+              <span className="text-xl">🔔</span>
             </button>
             <span className="absolute top-2.5 right-2.5 w-2.5 h-2.5 bg-red-600 rounded-full border border-black animate-pulse"></span>
           </div>
@@ -82,7 +95,7 @@ const Header = () => {
         {user && (
           <div 
             className="w-12 h-12 flex items-center justify-center cursor-pointer hover:scale-110 transition-transform ml-1"
-            onClick={() => navigate('/perfil')}
+            onClick={openProfileMenu}
           >
             <div className="w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center text-xs font-black text-white border border-white/20 overflow-hidden">
               {profile?.avatar_url ? (

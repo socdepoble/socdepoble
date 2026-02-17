@@ -42,6 +42,10 @@ export const UIProvider = ({ children }) => {
     const [forensicMode, setForensicMode] = useState(false);
     const [blueprintMode, setBlueprintMode] = useState(prefs.blueprintMode || false);
     const [isGuestInteractionModalOpen, setIsGuestInteractionModalOpen] = useState(false);
+    const [iaiaSidebarOpen, setIaiaSidebarOpen] = useState(false);
+    const [iaiaSidebarContext, setIaiaSidebarContext] = useState('general');
+    const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+    const [isAccessibilitatOpen, setIsAccessibilitatOpen] = useState(false);
 
     // [MASTER GENT] Lògica de Poble-Nodo (Cyber-Rural)
     const [selectedTown, setSelectedTown] = useState(prefs.selectedTown || 'La Torre de les Maçanes');
@@ -230,7 +234,25 @@ export const UIProvider = ({ children }) => {
             setBlueprintMode,
             toggleBlueprintMode: () => setBlueprintMode(prev => !prev),
             isGuestInteractionModalOpen,
-            setIsGuestInteractionModalOpen
+            setIsGuestInteractionModalOpen,
+            iaiaSidebarOpen,
+            setIaiaSidebarOpen,
+            iaiaSidebarContext,
+            setIaiaSidebarContext,
+            toggleIAIASidebar: () => setIaiaSidebarOpen(prev => !prev),
+            openIAIASidebar: (ctx = 'general') => {
+                setIaiaSidebarContext(ctx);
+                setIaiaSidebarOpen(true);
+            },
+            closeIAIASidebar: () => setIaiaSidebarOpen(false),
+            isProfileMenuOpen,
+            setIsProfileMenuOpen,
+            toggleProfileMenu: () => setIsProfileMenuOpen(prev => !prev),
+            openProfileMenu: () => setIsProfileMenuOpen(true),
+            closeProfileMenu: () => setIsProfileMenuOpen(false),
+            isAccessibilitatOpen,
+            setIsAccessibilitatOpen,
+            toggleAccessibilitat: () => setIsAccessibilitatOpen(prev => !prev)
         }}>
             {children}
         </UIContext.Provider>

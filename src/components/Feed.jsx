@@ -211,16 +211,23 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
             if (contentMode === 'batec' && isArchive) return false;
             if (contentMode === 'arrel' && !isArchive) return false;
 
-            // 1. Vision Mode Filter
-            if (visionMode === 'humana' && !isSuperAdmin) {
+            // 1. Vision Mode Filter (Protocol de Visió Humana: Purga Radical de IA)
+            const isHumana = visionMode === 'humana' || iaiaLevel === 0;
+            if (isHumana) {
+                const authorIdCheck = post.author_id || post.author_user_id || post.user_id;
+                const isSDPOfficial = post.author_entity_id === 'sdp-oficial-1' || 
+                                     post.creator_entity_id === 'sdp-oficial-1' ||
+                                     post.author_name?.includes('Sóc de Poble') ||
+                                     post.author?.toLowerCase().includes('sóc de poble');
+                                     
                 const isAI = post.author_role === 'ambassador' ||
                     post.author_is_ai ||
                     post.is_iaia_inspired ||
-                    (post.author_user_id && String(post.author_user_id).startsWith('11111111-')) ||
+                    (authorIdCheck && String(authorIdCheck).startsWith('11111111-')) ||
                     (post.id && String(post.id).startsWith('iaia-')) ||
                     post.creator_entity_id === '00000000-0000-0000-0000-000000000000';
 
-                if (isAI) return false;
+                if (isAI && !isSDPOfficial) return false;
             }
 
             // 2. Tag Filter
@@ -259,7 +266,7 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
             // Strict inverse chronological order for the rest
             return new Date(b.created_at || b.date || 0) - new Date(a.created_at || a.date || 0);
         });
-    }, [posts, visionMode, selectedTag, isIAIAFiltering, activeTown, userConnections, isSuperAdmin, contentMode]);
+    }, [posts, visionMode, selectedTag, isIAIAFiltering, activeTown, userConnections, contentMode, iaiaLevel]);
 
     const handleHeaderClick = useCallback((post) => {
         const targetId = post.author_entity_id || post.author_user_id || post.author_id;

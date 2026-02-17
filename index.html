@@ -7,9 +7,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
-    <title>
-      Sóc de Poble - La teua app de territori | v10.25.0-BATEGAT-GOLDEN
-    </title>
+    <title>Sóc de Poble - La teua app de territori | v10.26.0-PURGA</title>
     <meta
       name="description"
       content="L'aplicació oficial per a connectar amb el teu poble. Mercat, mapa, i sobirania digital per a la comunitat valenciana."
@@ -48,28 +46,39 @@
     />
 
     <script>
-      // --- MASTER NOISE REDUCTION PROTOCOL (v10.25.0-BATEGAT-GOLDEN) ---
-      // Silence library warnings for a pristine Golden Master console.
-      const _warn = console.warn;
-      console.warn = function (...args) {
-        if (
-          typeof args[0] === "string" &&
-          (args[0].includes("tailwind") ||
-            args[0].includes("Babel") ||
-            args[0].includes("production"))
-        )
-          return;
-        _warn.apply(console, args);
-      };
+      // --- MASTER NOISE REDUCTION PROTOCOL (v10.26.0-PURGA) ---
+      // Silence library warnings and ghost extension errors for a pristine console.
+      (function() {
+        const silencePatterns = ["tailwind", "Babel", "production", "shadow host", "VM", "extension"];
+        
+        const shouldSilence = (args) => {
+          const msg = String(args[0] || "");
+          return silencePatterns.some(pattern => msg.includes(pattern));
+        };
 
-      // --- SHADOW HOST SILENCER ---
-      // Silences the ghost error "Failed to find shadow host" from extensions.
-      window.addEventListener('unhandledrejection', (event) => {
-        if (event.reason && event.reason.message && event.reason.message.includes("shadow host")) {
-          event.preventDefault();
-        }
-      });
+        const _warn = console.warn;
+        console.warn = function (...args) {
+          if (shouldSilence(args)) return;
+          _warn.apply(console, args);
+        };
+
+        const _error = console.error;
+        console.error = function (...args) {
+          if (shouldSilence(args)) return;
+          _error.apply(console, args);
+        };
+
+        window.addEventListener("unhandledrejection", (event) => {
+          if (shouldSilence([event.reason?.message])) {
+            event.preventDefault();
+          }
+        });
+      })();
     </script>
+    <!-- Google Fonts: Noto Sans & Playfair Display (Spirit of v15) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet" />
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>

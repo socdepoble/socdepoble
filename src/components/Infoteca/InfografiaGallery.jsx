@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Search, Tag, Share2, Download, Eye } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Search, Tag, Share2, Download, Eye, ArrowLeft } from 'lucide-react';
 import './InfografiaGallery.css';
 
 /**
@@ -7,9 +8,11 @@ import './InfografiaGallery.css';
  * El santuari de l'art didàctic generat per Nano Banana.
  */
 const InfografiaGallery = () => {
+    const navigate = useNavigate();
     const [filter, setFilter] = useState('totes');
 
     const infografies = [
+// ... (rest of the file remains the same)
         {
             id: 1,
             titol: 'Kit Digital: Tresor del Poble',
@@ -35,9 +38,18 @@ const InfografiaGallery = () => {
     return (
         <div className="infoteca-container animate-in">
             <header className="infoteca-header">
-                <div>
-                    <h1>Infoteca del Mas</h1>
-                    <p>El llegat visual de Nano Banana compartit amb tota la gent de bé.</p>
+                <div className="flex items-center gap-6">
+                    <button 
+                        onClick={() => navigate(-1)} 
+                        className="p-3 bg-white/5 hover:bg-white/10 rounded-full text-white transition-colors border border-white/10 shrink-0"
+                        title="Tornar"
+                    >
+                        <ArrowLeft size={20} />
+                    </button>
+                    <div>
+                        <h1>Infoteca del Mas</h1>
+                        <p>El llegat visual de Nano Banana compartit amb tota la gent de bé.</p>
+                    </div>
                 </div>
                 <div className="infoteca-filters">
                     {['totes', 'Digitalització', 'Territori'].map(f => (

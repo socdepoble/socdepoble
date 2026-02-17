@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, Title, Filler } from 'chart.js';
 import { Line, Doughnut } from 'react-chartjs-2';
-import { Zap, ShieldCheck, Palette, Info, Users, Share2, Menu, Sparkles, Sun, Moon } from 'lucide-react';
+import { Zap, ShieldCheck, Palette, Info, Users, Share2, Menu, Sparkles, Sun, Moon, ArrowLeft } from 'lucide-react';
 import './GenesisViewer.css';
 
 // Register ChartJS components
@@ -11,6 +12,7 @@ ChartJS.register(
 );
 
 const GenesisViewer = () => {
+    const navigate = useNavigate();
     const [currentTab, setCurrentTab] = useState('dashboard');
     const [radius, setRadius] = useState(16);
     const [solarMode, setSolarMode] = useState(false);
@@ -65,8 +67,15 @@ const GenesisViewer = () => {
         <div className="genesis-viewer">
             {/* Header: Identity & Navigation */}
             <header className="genesis-header">
-                <div className="header-container">
-                    <div className="brand-box">
+                <div className="header-container flex items-center gap-6">
+                    <button 
+                        onClick={() => navigate(-1)} 
+                        className="p-3 bg-white/5 hover:bg-white/10 rounded-full text-white transition-colors border border-white/10 shrink-0"
+                        title="Tornar"
+                    >
+                        <ArrowLeft size={20} />
+                    </button>
+                    <div className="brand-box flex-1">
                         <span className="brand-icon">🏺</span>
                         <div className="brand-text">
                             <h1>SÓC DE POBLE</h1>

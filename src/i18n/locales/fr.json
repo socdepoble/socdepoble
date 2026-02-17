@@ -14,7 +14,40 @@
         "role_grup": "Groupes",
         "role_empresa": "Entreprises",
         "role_oficial": "Entités",
-        "change_language": "Changer de langue"
+        "change_language": "Changer de langue",
+        "storage_limit_warning": "Pendant la période d'essai, nous n'autorisons que les fichiers jusqu'à 10 Mo maximum.",
+        "storage_banner_title": "Avertissement de stockage",
+        "storage_banner_text": "En test, nous autorisons 10 Mo maximum. Le contenu peut être supprimé si nous dépassons les limites. Ne pas utiliser en production. Sachant cela, téléchargez ce que vous voulez."
+    },
+    "notebook": {
+        "title": "Quadern de Trellat",
+        "welcome": "Bienvenue dans le Quadern de Trellat 📓🏺",
+        "new_note": "Nouvelle Note",
+        "new_list": "Nouvelle Liste",
+        "placeholder": "Commencez à battre des données ici...",
+        "info": "Informations",
+        "creation": "Création",
+        "modification": "Modification",
+        "last_opened": "Dernière ouverture",
+        "planned_date": "Date prévue",
+        "categories": {
+            "trellat": "Trellat",
+            "patrimoni": "Patrimoine",
+            "dades": "Données",
+            "social": "Social"
+        },
+        "trash": {
+            "bucket": "Corbeille",
+            "confirm_delete": "Voulez-vous supprimer définitivement cette relique ? Cette action ne peut pas être annulée.",
+            "restore": "Restaurer",
+            "permanent_delete": "Supprimer Définitivement",
+            "send_to_trash": "Envoyer à la Corbeille"
+        },
+        "corrector": {
+            "title": "Corrections de l'IAIA",
+            "lang_variants": "Toutes les variantes catalanes (Central, Valencià, Baléares)",
+            "correct_btn": "Corriger"
+        }
     },
     "nav": {
         "chats": "Chats",

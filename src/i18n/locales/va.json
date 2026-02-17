@@ -288,5 +288,35 @@
         "role_editor": "Vista Editor",
         "active": "Mode Simulació Actiu",
         "stop": "Tornar al meu Rol Real"
+    },
+    "notebook": {
+        "title": "Quadern de Trellat",
+        "welcome": "Benvinguda al Quadern de Trellat 📓🏺",
+        "new_note": "Nova Nota",
+        "new_list": "Nova Llista",
+        "placeholder": "Comença a bategar dades aquí...",
+        "info": "Informació",
+        "creation": "Creació",
+        "modification": "Modificació",
+        "last_opened": "Última apertura",
+        "planned_date": "Data prevista",
+        "categories": {
+            "trellat": "Trellat",
+            "patrimoni": "Patrimoni",
+            "dades": "Dades",
+            "social": "Social"
+        },
+        "trash": {
+            "bucket": "Papelera",
+            "confirm_delete": "Vols eliminar definitivament aquesta relíquia? Aquesta acció no es pot desfer.",
+            "restore": "Restaurar",
+            "permanent_delete": "Eliminar Definitivament",
+            "send_to_trash": "Enviar a la Papelera"
+        },
+        "corrector": {
+            "title": "Correccions de l'IAIA",
+            "lang_variants": "Totes les variants (Central, Valencià, Balear)",
+            "correct_btn": "Corregir"
+        }
     }
 }

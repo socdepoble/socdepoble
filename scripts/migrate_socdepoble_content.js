@@ -5,7 +5,6 @@ import * as cheerio from 'cheerio';
 import { parseStringPromise } from 'xml2js';
 import dotenv from 'dotenv';
 import path from 'path';
-import fs from 'fs';
 
 // Load Env
 dotenv.config({ path: path.resolve(process.cwd(), '.env') });
@@ -171,6 +170,10 @@ async function processFeed(source) {
                         .upsert({ name: tagName, slug, type: 'tag' }, { onConflict: 'slug,type' })
                         .select('id')
                         .single();
+
+                    if (tagError) {
+                        console.error(`     ❌ Tag error: ${tagError.message}`);
+                    }
 
                     if (tag) {
                         await supabase.from('post_taxonomy').insert({

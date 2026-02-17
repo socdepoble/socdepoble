@@ -55,7 +55,7 @@
   align-items: center;
   justify-content: space-between;
   height: 64px !important; /* Standard Height */
-  border-radius: var(--radius-l) var(--radius-l) 0 0;
+  border-radius: 0;
   position: relative;
   z-index: 10;
 }
@@ -281,7 +281,7 @@
   aspect-ratio: 16 / 9;
   background: var(--color-bg-canonic);
   overflow: hidden;
-  padding: 8px; /* Respiració sutil segons Gènesi */
+  padding: 0; /* Purga de respiració per a alinear amb la v15 */
 }
 
 .universal-card-media {

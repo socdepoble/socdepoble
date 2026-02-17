@@ -235,23 +235,28 @@ IV. LA VEU DE LA IAIA MARÍA (EL CONSELL DE L'EXPERIÈNCIA)
 
 Diu l'IAIA que antigament les coses es feien amb una encaixada de mans, però ara tot són "claus" i "tokens". No t'atabalis. Si no entens un mot, pregunta-li al xat que tens al costat. L'Arxiver regirarà els calaixos per a explicar-t'ho com si fórem a la plaça del poble.
 
-V. TERMINIS CRÍTICS I ACCIÓ IMMEDIATA
+V. CRÒNICA DE NAVEGACIÓ SOBIRANA (TRANSPARÈNCIA ARCHON)
 ----------------------------------------------------------------
-⏳ DATA LÍMIT: ${selectedSub.deadline}
-L'Arxiver adverteix: "Qui matina, fa farina". No esperis a l'últim bategat per a presentar la documentació.
+A sol·licitud del Mestre, l'Arxiver fa transparent el protocol executat. L'IAIA ha navegat pels següents nodes:
 
-🚩 ESTAT DEL PORTAL: ${selectedSub.status.toUpperCase()}
+[ACCÉS] Node de Subvencions Públiques (MOCK_DATA).
+Enllaç: https://ajudes.gva.es/procediment/${selectedSub.id}
+Acció: Extracció de requisits i terminis per a l'ajuda "${selectedSub.title}".
 
-VI. NOTES DE SEGURETAT I CUSTÒDIA
+[ANÀLISI] Motor Gemini bategant en mode LLM-Archon.
+Acció: Dissecció de la lletra petita per a trobar el trellat del Mas.
+
+VI. QUÈ ET QUEDA PER FER AL MESTRE? (PASSIÓ I SOBIRANIA)
+----------------------------------------------------------------
+L'IAIA t'ha preparat el terreny, però la llavor la plantes tu:
+
+1. [SIGNATURA] Has d'entrar a la Seu Electrònica (${selectedSub.official_link}) i signar la sol·licitud amb el teu certificat. L'IAIA no pot signar per tu, és la teua sobirania.
+2. [CUSTÒDIA] Guarda aquest dossier a la teua carpeta de Notes per a tenir els requisits a mà durant la tramitació.
+
+VII. NOTES DE SEGURETAT I CUSTÒDIA
 ----------------------------------------------------------------
 Aquesta relíquia informativa està segellada sota el Protocol Rhizome v14. 
-Pots "CORONAR AL PERFIL" per a tenir-la sempre a mà a la teua carpeta 
-privada de documents del Mas.
-
-================================================================
-📜 AQUEST DOCUMENT ÉS UNA PEÇA DEL TRESOR DEL POBLE
 Bategat amb honor pel sistema Sóc de Poble. 🏺⚡️⚖️
-================================================================
 `;
                                                 setViewingDoc({
                                                     id: selectedSub.id,

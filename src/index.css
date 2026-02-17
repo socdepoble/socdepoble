@@ -1,18 +1,19 @@
 @import "tailwindcss";
 
-/* 🏺 SÓC DE POBLE: LA BÍBLIA VISUAL v1.26.0-MASTER [PROTOCOL NOTO]
+/* 🏺 SÓC DE POBLE: LA BÍBLIA VISUAL v10.26.0-PURGA [PROTOCOL NOTO]
    Aquest fitxer és el ciment únic. 
 */
 
 @theme {
   --font-sans: "Noto Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "Noto Sans", serif; /* Purga de Serif */
+  --font-serif: "Playfair Display", serif; /* Restauració Soul v15 */
   --font-mono: "Noto Sans Mono", monospace;
   --font-condensed: "Noto Sans Condensed", sans-serif;
 
   --color-accent-orange: #ff6b00;
   --color-accent-indigo: #4f46e5;
   --color-accent-red: #ef4444;
+  --color-accent-fuchsia: #d946ef; /* Nou per a gradients v15 */
 
   --radius-genesis: 28px;
   --radius-tactile: 24px;
@@ -21,6 +22,9 @@
   --spacing-sidebar: 280px;
 
   --touch-target: 48px;
+
+  /* Gradients Canònics v15 */
+  --gradient-bategat: linear-gradient(90deg, #F97316 0%, #D946EF 100%);
 }
 
 :root {
@@ -48,26 +52,28 @@
 
   --bg-theme-base: var(--bg-app);
   --text-theme-text: var(--text-main);
+  --bg-theme-header: #000000; /* Header negre en dark mode */
 }
 
 :root.light {
-  --bg-app: #f8f9fa;
-  --bg-master: #ffffff;
-  --bg-panel: #ffffff;
+  --bg-app: #F5F1E6; /* Old Lace - El bategat de la terra */
+  --bg-master: #FFFFFF;
+  --bg-panel: #FFFFFF;
   --bg-sidebar: #000000; /* Roca immutable */
   --text-main: #111111;
   --text-secondary: #4b5563;
   --text-muted: #9ca3af;
-  --border-master: #e5e7eb;
+  --border-master: rgba(0, 0, 0, 0.08);
 
   /* [MAESTRO RULE INVERSION] Day/Light Colors */
-  --color-primary: var(--sdp-blue); /* Orange becomes Blue */
-  --color-secondary: var(--sdp-orange); /* Blue becomes Orange */
-  --color-bg-canonic: var(--sdp-white); /* Black becomes White */
-  --color-text-canonic: var(--sdp-black); /* White becomes Black */
+  --color-primary: #FF6D23; /* Terracotta sempre és Terracotta */
+  --color-secondary: #002b5b; /* Blau sempre és Blau */
+  --color-bg-canonic: #FFFFFF; 
+  --color-text-canonic: #000000;
 
   --bg-theme-base: var(--bg-app);
   --text-theme-text: var(--text-main);
+  --bg-theme-header: #FFFFFF; /* Header blanc en light mode */
 }
 
 .bg-theme-base {
@@ -88,8 +94,7 @@ body,
   margin: 0;
   padding: 0;
   background-color: var(--bg-app);
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: hidden;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
 }
@@ -105,10 +110,8 @@ body {
 .main-viewport {
   flex: 1;
   display: flex;
-  overflow: hidden;
   position: relative;
   min-width: 0;
-  height: 100%;
 }
 
 .flex-container-safe {

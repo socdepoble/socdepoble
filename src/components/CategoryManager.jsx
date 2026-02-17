@@ -1,14 +1,26 @@
 import React from 'react';
-import { Settings, Tag, Layout, Save } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Settings, Tag, Layout, Save, ArrowLeft } from 'lucide-react';
 
 const CategoryManager = () => {
+    const navigate = useNavigate();
+
     return (
-        <div className="p-6 lg:p-10 max-w-4xl mx-auto space-y-8 animate-fade-in">
-            <header className="space-y-2 border-b border-white/10 pb-6">
-                <h1 className="text-3xl font-black text-white tracking-tight flex items-center gap-3">
+        <div className="p-6 lg:p-10 max-w-4xl mx-auto space-y-8 animate-fade-in relative">
+            <header className="space-y-4 border-b border-white/10 pb-8">
+                <button 
+                    onClick={() => navigate(-1)} 
+                    className="p-3 bg-white/5 hover:bg-white/10 rounded-full text-white transition-colors border border-white/10 shrink-0 mb-4"
+                    title="Tornar"
+                >
+                    <ArrowLeft size={20} />
+                </button>
+                <div className="flex items-center gap-3">
                     <Settings className="text-[#FF6B00]" size={32} />
-                    GESTIÓ DE CATEGORIES
-                </h1>
+                    <h1 className="text-3xl font-black text-white tracking-tight uppercase">
+                        GESTIÓ DE CATEGORIES
+                    </h1>
+                </div>
                 <p className="text-slate-400 font-medium">Personalitza el teu menú contextual i organitza el territori.</p>
             </header>
 

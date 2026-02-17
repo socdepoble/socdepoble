@@ -1,18 +1,27 @@
 import React from 'react';
 import { ScanLine, Download } from 'lucide-react';
+import { useUI } from '../context/UIContext';
 
 /**
- * BlueprintOverlay [CANONIC v11.0.2]
+ * BlueprintOverlay [CANONIC v11.0.3]
  * Component global per a mostrar cotes tècniques i noms d'arquitectura.
- * Ara inclou accés al backup Standalone per a resiliència pública.
+ * Ara bategua amb el context global per a auto-ocultar-se si no hi ha permís.
  */
 const BlueprintOverlay = ({ label, dimensions, color = "blue", children, className = "", showBackupLink = false }) => {
+    const { blueprintMode } = useUI();
+    
+    // Si el mode plànol està desactivat, retornem els fills directament sense el frame tècnic.
+    if (!blueprintMode) {
+        return children;
+    }
+
     const colors = {
         cyan: { border: "border-cyan-400", bg: "bg-cyan-500", text: "text-black" },
         green: { border: "border-green-400", bg: "bg-green-500", text: "text-black" },
         blue: { border: "border-blue-400", bg: "bg-blue-600", text: "text-white" },
         orange: { border: "border-orange-400", bg: "bg-orange-500", text: "text-black" },
-        magenta: { border: "border-pink-500", bg: "bg-pink-500", text: "text-white" }
+        magenta: { border: "border-pink-500", bg: "bg-pink-500", text: "text-white" },
+        emerald: { border: "border-emerald-400/30", bg: "bg-emerald-500", text: "text-black" }
     };
     const theme = colors[color] || colors.blue;
 

@@ -45,7 +45,7 @@ const ChatEmptyState = () => {
 
                     <div className="mt-10 pt-6 border-t border-white/5 flex items-center justify-between">
                         <span className="text-[10px] font-black uppercase text-gray-500 flex items-center gap-2">
-                            <ShieldCheck size={14} /> Protocol 1er Mandament v9.8.0
+                            <ShieldCheck size={14} /> Protocol 1er Mandament v10.26.0-PURGA
                         </span>
                         <div className="flex gap-1">
                             <div className="w-2 h-2 rounded-full bg-orange-600 animate-pulse"></div>
@@ -60,7 +60,7 @@ const ChatEmptyState = () => {
 
     return (
         <div className="flex-1 flex flex-col items-center justify-center relative overflow-hidden bg-transparent">
-            {/* Botó per tancar (v11.1.2 - PROTOCOL SORTIDA D'EMERGÈNCIA) */}
+            {/* Botó per tancar (v10.26.0-PURGA - PROTOCOL SORTIDA D'EMERGÈNCIA) */}
             <div className="absolute top-6 right-6 z-50">
                 <button 
                     onClick={() => window.location.href = '/'}
@@ -127,7 +127,7 @@ const ChatEmptyState = () => {
 
             <div className="mt-12 flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] opacity-40 font-black text-gray-500">
                 <Settings size={12} /> 
-                <span>Xifrat d'Extrem a Extrem | v11.1.2-GOLDEN-MASTER [MASTER]</span>
+                <span>Xifrat d'Extrem a Extrem | v10.26.0-PURGA</span>
             </div>
         </div>
     );

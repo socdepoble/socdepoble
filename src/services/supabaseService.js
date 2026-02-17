@@ -1807,7 +1807,7 @@ export const supabaseService = {
     },
 
     async isFollowing(followerId, targetId) {
-        if (!followerId || !targetId) return false;
+        if (!followerId || !targetId || !isValidUUID(followerId) || !isValidUUID(targetId)) return false;
 
         // 1. Check Virtual Persistence first
         const virtualKey = `v_conn_${followerId}`;
@@ -1839,7 +1839,7 @@ export const supabaseService = {
     },
 
     async getFollowers(targetId) {
-        if (!targetId) return [];
+        if (!targetId || !isValidUUID(targetId)) return [];
         try {
             if (columnCache.connections_table === false) return [];
 
@@ -1859,6 +1859,29 @@ export const supabaseService = {
             return data || [];
         } catch (error) {
             logger.error('[SupabaseService] Error getting followers:', error);
+            return [];
+        }
+    },
+
+    async getFollowing(userId) {
+        if (!userId || !isValidUUID(userId)) return [];
+        try {
+            if (columnCache.connections_table === false) return [];
+            const { data, error, status } = await supabase
+                .from('connections')
+                .select('target_id')
+                .eq('follower_id', userId);
+            if (error) {
+                if (error.code === '42P01' || status === 404) {
+                    setColumnCache('connections_table', false);
+                    return [];
+                }
+                throw error;
+            }
+            if (columnCache.connections_table === null) setColumnCache('connections_table', true);
+            return data || [];
+        } catch (error) {
+            logger.error('[SupabaseService] Error getting following:', error);
             return [];
         }
     },

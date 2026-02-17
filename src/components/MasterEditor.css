@@ -120,3 +120,240 @@
         transform: rotate(360deg);
     }
 }
+
+/* Master Checklist Block */
+.checklist-block {
+    list-style: none !important;
+    padding-left: 0 !important;
+    margin: 1.5rem 0 !important;
+}
+
+.checklist-block li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px !important;
+    padding: 10px 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.2s;
+    position: relative;
+    cursor: default;
+}
+
+.checklist-drag-handle {
+    width: 24px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: grab;
+    opacity: 0.1;
+    transition: all 0.2s;
+    font-size: 18px;
+    line-height: 1;
+    margin-left: -8px;
+    color: var(--color-primary);
+}
+
+.checklist-block li:hover .checklist-drag-handle {
+    opacity: 0.8;
+}
+
+.checklist-drag-handle:active {
+    cursor: grabbing;
+}
+
+.dragging-li {
+    opacity: 0.4;
+    border: 1px dashed var(--color-primary) !important;
+    background: rgba(249, 115, 22, 0.05) !important;
+}
+
+.drag-over-li {
+    border-top: 2px solid var(--color-primary) !important;
+    transform: translateY(2px);
+}
+
+.checklist-block li:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(249, 115, 22, 0.2);
+}
+
+.checklist-item-remove {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    opacity: 0;
+    transition: all 0.2s;
+    margin-right: -8px;
+}
+
+.checklist-block li:hover .checklist-item-remove {
+    opacity: 1;
+}
+
+.checklist-item-remove:hover {
+    background: rgba(220, 38, 38, 0.1);
+    color: #ef4444;
+}
+
+.checklist-block li input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: #f97316;
+    margin: 0;
+}
+
+.checklist-block li span.checklist-text {
+    font-size: 15px;
+    font-weight: 500;
+    flex: 1;
+    outline: none;
+    min-height: 1.2em;
+}
+
+.checklist-block li span.checklist-text:empty:before {
+    content: attr(data-placeholder);
+    color: rgba(255, 255, 255, 0.15);
+    pointer-events: none;
+}
+
+.checklist-block li input:checked + span {
+    text-decoration: line-through;
+    opacity: 0.3;
+}
+
+/* Embed Blocks */
+.embed-block iframe {
+    width: 100%;
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
+
+/* Poll Blocks */
+.poll-block {
+    background: linear-gradient(135deg, rgba(249, 115, 22, 0.05), rgba(0,0,0,0.4));
+    border: 1px solid rgba(249, 115, 22, 0.2);
+    border-radius: 20px;
+    padding: 20px;
+    margin: 24px 0;
+    user-select: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.poll-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.poll-icon {
+    width: 28px;
+    height: 28px;
+    background: #f97316;
+    color: white;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.poll-question {
+    font-size: 18px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+    color: white;
+    flex: 1;
+    outline: none;
+}
+
+.poll-question:empty:before {
+    content: attr(data-placeholder);
+    opacity: 0.3;
+}
+
+.poll-option-placeholder {
+    font-size: 9px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.3);
+    padding: 12px;
+    border: 1px dashed rgba(255,255,255,0.1);
+    border-radius: 12px;
+    text-align: center;
+}
+
+/* IAIA Corrector UI */
+.corrections-pane {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(249, 115, 22, 0.3);
+    padding: 20px 24px;
+    z-index: 100;
+    border-radius: 28px 28px 0 0;
+    box-shadow: 0 -10px 40px rgba(0,0,0,0.5);
+}
+
+.correction-card {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.correction-card:hover {
+    background: rgba(249, 115, 22, 0.05);
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(249, 115, 22, 0.2);
+    border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(249, 115, 22, 0.4);
+}
+
+/* Thinking animation refinement */
+.editor-tool.thinking svg {
+    animation: spin 1.5s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+}
+
+.corrections-pane header h4 {
+    font-family: var(--font-heading);
+    letter-spacing: 0.2em;
+}
+
+.poll-footer {
+    margin-top: 16px;
+    font-size: 8px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: rgba(249, 115, 22, 0.4);
+    text-align: center;
+}

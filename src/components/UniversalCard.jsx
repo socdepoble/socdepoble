@@ -338,8 +338,8 @@ const UniversalCard = ({
                             className="w-full bg-black text-white h-12 rounded-none font-black tracking-[0.2em] flex items-center justify-center gap-2 border-none hover:bg-gray-900 transition-all active:scale-[0.98]" 
                             onClick={handleConnectClick}
                         >
-                            <UserPlus size={18} />
-                            CONNECTAR
+                            <Plus size={18} />
+                            + INTERESSAT
                         </button>
                     </div>
                 )}
@@ -412,16 +412,19 @@ const UniversalCard = ({
     );
 
     const location = useLocation();
+    const isChatRoute = location.pathname.startsWith('/chats');
 
-    return (blueprintMode && location.pathname.startsWith('/chats')) ? (
-        <BlueprintOverlay label={`CARD_UNIT`} dimensions={`${cardVariant.toUpperCase()} | R: 28PX`} color="cyan">
-            {CardContent}
-        </BlueprintOverlay>
-    ) : (
+    const FinalCard = (
         <div className="min-w-0 w-full">
             {CardContent}
         </div>
     );
+
+    return isChatRoute ? (
+        <BlueprintOverlay label={`CARD_UNIT`} dimensions={`${cardVariant.toUpperCase()} | R: 28PX`} color="cyan">
+            {FinalCard}
+        </BlueprintOverlay>
+    ) : FinalCard;
 };
 
 export default UniversalCard;

@@ -65,7 +65,6 @@ async function generateNewsletterContent(recentEvents) {
     const result = await model.generateContent(prompt);
     const response = await result.response;
     return response.candidates[0].content.parts[0].text;
-    return response.candidates[0].content.parts[0].text;
 }
 
 // 1.b Generate Event Description

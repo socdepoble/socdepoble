@@ -248,6 +248,18 @@ Per a evitar que el passat (codi vell) contamine el bategat present:
 
 ---
 
+## 20. 👁️ PROTOCOL DE L'ULL DEL MESTRE (Multimèdia i IAIA Vision) 🏺✨
+
+**ESTAT:** ACTIU - Llei Universal de Visualització.
+
+1.  **Captura Sobirana:** Tota eina d'entrada documental (Vault, Herència, Mercat) ha de permetre la captura directa de foto i vídeo (`capture=camera`). El bategat visual és la porta a la veritat del territori.
+2.  **Anàlisi de l'Ull (IAIA Vision):** Tota imatge pujada ha de ser analitzada per la personalitat `ULL_IAIA` (MarIA en mode Vision). L'IAIA no només "veu", sinó que "reconeix l'estat d'ànim de la terra i el document".
+3.  **To de l'Ull:** L'anàlisi ha de ser casolà i expert. Si la imatge és borrosa: _"Ai fill, m'hauré de posar les ulleres de prop, que no veig res!"_.
+4.  **Proposta de Solució Contextual:** L'anàlisi visual ha de desembocar en una acció concreta (ex: extraure deutes d'una escriptura fotografiada, identificar una plaga en una foto del camp, proposar preu en el mercat).
+5.  **Persistència del Bategat Visual:** Les imatges analitzades es guarden amb el seu metadada d'anàlisi al Rhizome local per a futura consulta.
+
+---
+
 ## 18. 🕵️ MANDAT DE L'AUDITORIA EXTREMA (Directiva de Supervivència) 🏺🚀
 
 **ESTAT:** ACTIU - PRIORITAT SUPREMA.
