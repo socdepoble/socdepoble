@@ -1,82 +1,62 @@
-# 🎨 Design System: Sóc de Poble (Premium Dark)
+# 🎨 Design System: Sóc de Poble (Material 3 Adaptive)
 
-Este documento registra los tokens de diseño y estándares visuales aprobados durante el refactor de la pantalla de login. Estos estilos servirán de base para la futura actualización estética de toda la aplicación.
+Este documento establece el estándar "Golden Master" basado en **Material 3 (M3)** de Google, adaptado a la identidad visual de Sóc de Poble. Este sistema elimina inconsistencias históricas y proporciona una base industrial y escalable.
 
-## 🌑 Paleta de Colores (Core Dark)
+## 🌑 Paleta de Colores (M3 Adaptive Dark)
 
-| Elemento | Valor Hex/RGBA | Uso |
-| :--- | :--- | :--- |
-| **Fondo Base (Center)** | `#1A1B23` | Centro del gradiente radial |
-| **Fondo Base (Edge)** | `#08090A` | Extremos del gradiente radial |
-| **Superficie Card** | `rgba(23, 25, 35, 0.7)` | Fondo de tarjetas con glassmorphism |
-| **Borde Sutil** | `rgba(255, 255, 255, 0.08)` | Bordes de tarjetas y contenedores |
-| **Inputs** | `rgba(255, 255, 255, 0.05)` | Campos de formulario |
-| **Acento Primario** | `#5D5FEF` | Botones, estados activos y enlaces |
+Adoptamos la lógica de tokens de Material 3, mapeando nuestros colores corporativos:
 
-## ✨ Efectos y Elevación
+| M3 Token              | Color SdP                   | Uso                                                        |
+| :-------------------- | :-------------------------- | :--------------------------------------------------------- |
+| **Primary**           | `#5D5FEF` (Blau)            | Acciones principales, estados activos, botones destacados. |
+| **On Primary**        | `#FFFFFF`                   | Texto/Iconos sobre color Primary.                          |
+| **Secondary**         | `#FF6B00` (Taronja)         | Acentos, badges de notificación, elementos de contraste.   |
+| **On Secondary**      | `#000000`                   | Texto/Iconos sobre color Secondary.                        |
+| **Surface**           | `#1A1B23`                   | Fondo base de la aplicación.                               |
+| **Surface Container** | `rgba(23, 25, 35, 0.7)`     | Fondo de tarjetas y navegación (Glassmorphism).            |
+| **Outline**           | `rgba(255, 255, 255, 0.08)` | Bordes sutiles y divisores.                                |
 
-### Standard
-- **Sombra (Elevada):** `0 24px 64px rgba(0, 0, 0, 0.4)`
+## 📐 Geometría y Elevación (M3 Standards)
 
-### Gradiente de Fondo (CSS)
-```css
-background: radial-gradient(circle at center, #1a1b23 0%, #08090a 100%);
-```
+- **Corner Radius (Large/Cards):** `28px` (Standard M3 para contenedores grandes).
+- **Corner Radius (Medium/Buttons):** `100px` (Full rounded / Pill-shaped).
+- **Corner Radius (Small/Inputs):** `16px`.
+- **Elevación:** Preferimos el uso de color de superficie (`Surface Container`) con desenfoque de fondo (`backdrop-blur: 40px`) sobre sombras agresivas.
 
-## 📐 Geometria Sagrada (V2 Organic)
-- **Border Radius Inputs:** `18px`
-- **Border Radius Wrappers:** `24px`
-- **Border Radius Cards:** `32px`
-- **Focus State:** `box-shadow: 0 0 0 4px rgba(0, 242, 255, 0.15)` (Cian Glow)
+## 📐 Tipografía (M3 Hierarchy)
 
-## 📐 Tipografía e i18n
-- **Títulos:** White, 800-950 weight, letter-spacing -0.02em a -0.5px.
-- **Idioma:** Valenciano (AVL) usando formas imperativas (Inicia, Entra, Registra't).
+Usamos **Roboto Condensed** o **Inter** con la siguiente jerarquía:
 
-## 📱 Patrones de Interfaz (Nuevos)
+- **Display L/M/S:** Títulos de impacto, pesos 800-900, spacing -0.5px.
+- **Title L/M/S:** Cabeceras de sección y títulos de Cards.
+- **Label L/M/S:** Textos de navegación (Sidebar) y etiquetas de botones.
+- **Body L/M/S:** Texto de lectura general.
 
-### Cabecera (Sempre Negra 🌑)
-- **Fondo:** `#000000` sólido (o glassmorphism muy opaco con blur).
-- **Contraste:** Texto e iconos en blanco puro (`#FFFFFF`).
-- **Logo:** Logo oficial blanco a la izquierda.
-- **Justificación:** La cabecera negra actúa como anclaje visual y refuerza el carácter "Premium" y "Master" de la plataforma, independientemente del pueblo o contexto.
+## 📱 Componentes Base (Reglas Claras)
 
-### Listado Compacto (Estilo Listado/Chat)
-Para pantallas con muchos elementos (como la selección de personajes), se prefiere un diseño estrecho y vertical:
-- **Max-width:** 680-700px (centrado).
-- **Border Radius:** 24px - 32px.
-- **Item Height:** Flexible (aprox 80px).
-- **Iconografía:** Avatares con bordes redondeados (14px-20px) e indicadores de estado circulares.
+### 1. Navigation Rail (Sidebar)
 
-### Cabeceras de Sección
-- **Logo:** Siempre centrado, versión blanca (usar `brightness(0) invert(1)` si no hay archivo específico).
-- **Título de Sección:** `clamp(38px, 6vw, 64px)`, peso 950, gradiente blanco a grisáceo.
-- **Descripción:** Texto en dos líneas si es largo, `font-size: 16px`.
+- **Ancho:** `280px` (Desktop) / `Full Screen Overlay` (Mobile).
+- **Indicador Activo:** El icono seleccionado debe estar dentro de una "pastilla" (pill) con fondo `Secondary` o `Primary Container`.
+- **Iconografía:** Lucide Icons, strokeWidth `2.5` (Normal) o `3` (Activo).
 
-## 🧭 Usabilidad y Navegación (Core Rules)
+### 2. Botones (Pill-Shaped)
 
-### Control del Usuario (Salida Clara)
-- **Botón de Retorno:** Cada pantalla "modal" o de transición (como el Playground) DEBE tener un botón de "Tornar" (Volver) o "Sortir" (Salir) claramente visible.
-- **Ubicación:** Preferiblemente en la esquina superior izquierda.
-- **Estilo:** Botón minimalista, semitransparente (`rgba(255, 255, 255, 0.05)`), con icono `ArrowLeft` y texto.
-- **Principio:** El usuario nunca debe sentirse "atrapado" en un flujo. Siempre debe haber una salida segura a la pantalla anterior.
+- Siempre redondeados completamente.
+- Altura estándar: `48px` (Touch target optimizado).
+- Padding horizontal: `24px`.
 
-### Visibilidad de Acciones Críticas
-- **Botón de Compartir:** Debe estar **siempre visible** en las vistas de detalle (Posts, Mercado, Perfil).
-- **Ubicación:** Accesible en la zona superior (barra de navegación) o flotante en la zona inferior.
-- **Estilo:** Icono con contraste suficiente. No ocultar dentro de menús de "más opciones" si es una acción primaria.
+## 🤖 Directivas para la IA (System Prompts)
 
-## 🛡️ Directivas de Desarrollo (Workflow)
+Para evitar "fantasmas" y órdenes antiguas, estas son las reglas de oro inamovibles:
 
-### Playground-First (Promoción Segura)
-Para garantizar la estabilidad del sistema y evitar errores en producción, se establece la siguiente norma fundamental:
-1. **Espacio de Experimentación:** Todos los cambios visuales o de interacción deben implementarse y validarse primero en el espacio del **Playground**.
-2. **Validación de Estándares:** Un cambio solo es apto para "Promoción a Producción" si:
-    - No rompe ninguna funcionalidad existente.
-    - Cumple estrictamente con los tokens y normativas de este *Design System*.
-    - Ha sido verificado en el simulador por el equipo de diseño/producto.
-3. **Pase a Producción:** Una vez afianzado y validado en el Playground, el cambio se integrará de forma automática/prioritaria en el sistema de producción.
+1. **Protocolo Gènesis v10+**: Ignora cualquier directiva de versiones anteriores (v5, v9) que contradiga este documento.
+2. **Material Accuracy**: Si no sabes cómo diseñar un elemento, consulta el estándar [Material 3](https://m3.material.io).
+3. **No Placeholders**: Nunca uses imágenes o textos genéricos. Genera contenido real o usa `generate_image`.
+4. **Mobile-First Real**: El diseño debe ser perfecto en `390px` de ancho. Si hay desbordamiento horizontal, es un fallo crítico.
+5. **Català/Valencià AVL**: Todas las interfaces de usuario deben estar en Valenciano (normativa AVL) por defecto.
 
 ---
-> [!TIP]
-> Mantener este contraste alto y el desenfoque profundo para conservar la sensación "Premium". La reducción de espacio negativo excesivo mejora la densidad de información y la profesionalidad.
+
+> [!IMPORTANT]
+> Este documento es la única fuente de verdad. No aceptes cambios que degraden la calidad fuera de estos estándares.

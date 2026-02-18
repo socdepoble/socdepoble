@@ -48,12 +48,19 @@
     <script>
       // --- MASTER NOISE REDUCTION PROTOCOL (v10.26.0-PURGA) ---
       // Silence library warnings and ghost extension errors for a pristine console.
-      (function() {
-        const silencePatterns = ["tailwind", "Babel", "production", "shadow host", "VM", "extension"];
-        
+      (function () {
+        const silencePatterns = [
+          "tailwind",
+          "Babel",
+          "production",
+          "shadow host",
+          "VM",
+          "extension",
+        ];
+
         const shouldSilence = (args) => {
           const msg = String(args[0] || "");
-          return silencePatterns.some(pattern => msg.includes(pattern));
+          return silencePatterns.some((pattern) => msg.includes(pattern));
         };
 
         const _warn = console.warn;
@@ -78,26 +85,12 @@
     <!-- Google Fonts: Noto Sans & Playfair Display (Spirit of v15) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+      rel="stylesheet"
+    />
 
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- React & ReactDOM -->
-    <script
-      crossorigin
-      src="https://unpkg.com/react@18/umd/react.production.min.js"
-    ></script>
-    <script
-      crossorigin
-      src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"
-    ></script>
-
-    <!-- Babel -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Estils i Protocols -->
 
     <style>
       .animate-in {
@@ -158,20 +151,6 @@
       }
     </style>
 
-    <script>
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            colors: {
-              orange: { 500: "#F97316", 600: "#EA580C" },
-              indigo: { 600: "#4F46E5" },
-              emerald: { 600: "#059669" },
-            },
-          },
-        },
-      };
-    </script>
   </head>
   <body>
     <!-- Hidden H1 for SEO -->

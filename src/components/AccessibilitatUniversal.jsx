@@ -121,22 +121,22 @@ const AccessibilitatUniversal = ({ embedded = false }) => {
   const content = (
     <div className={`flex flex-col h-full ${isDark ? 'bg-black text-white' : 'bg-white text-slate-900'} ${!embedded ? 'animate-in slide-in-from-bottom duration-500' : ''}`}>
       {!embedded && (
-        <header className="h-20 border-b flex items-center justify-between px-6 shrink-0 bg-[#F97316] text-white">
+        <header className="h-20 border-b flex items-center justify-between px-6 shrink-0 bg-[#0ea5e9] text-white font-condensed">
           <div className="flex items-center gap-4">
             <Handshake className="w-8 h-8" />
             <div>
-              <h2 className="text-2xl font-bold tracking-tight">Mode Accessibilitat Universal</h2>
+              <h2 className="text-2xl font-bold tracking-tight uppercase">Mode Accessibilitat Universal</h2>
               <p className="text-xs opacity-90 font-mono">DOC_ID: {docKey.toUpperCase()}_v10.33.0</p>
             </div>
           </div>
-          <button onClick={() => setIsOpen(false)} className="p-2 bg-black/20 hover:bg-black/40 rounded-full transition-colors">
+          <button onClick={() => isOpen ? setIsOpen(false) : window.history.back()} className="p-2 bg-black/20 hover:bg-black/40 rounded-full transition-colors">
             <X className="w-8 h-8" />
           </button>
         </header>
       )}
 
       <div className={`flex-1 overflow-y-auto custom-scrollbar p-12 max-w-5xl mx-auto w-full ${embedded ? 'py-8 px-8' : ''}`}>
-        <div className={`p-6 rounded-2xl border-l-8 mb-10 shadow-lg ${isDark ? 'bg-yellow-900/20 border-yellow-500 text-yellow-200' : 'bg-yellow-50 border-yellow-600 text-yellow-800'}`}>
+        <div className={`p-6 rounded-[28px] border-l-8 mb-10 shadow-lg font-condensed ${isDark ? 'bg-blue-900/20 border-[#0ea5e9] text-blue-200' : 'bg-blue-50 border-[#0ea5e9] text-blue-800'}`}>
           <div className="flex items-center gap-3 mb-2">
             <AlertTriangle className="w-6 h-6" />
             <h3 className="font-black uppercase tracking-tighter text-lg">Directiva Primària per a Flash</h3>
@@ -147,19 +147,18 @@ const AccessibilitatUniversal = ({ embedded = false }) => {
         </div>
 
         <section className="mb-12">
-          <div className="flex items-center gap-3 mb-6">
-            <span className="px-3 py-1 bg-blue-600 text-white rounded-full text-xs font-bold uppercase">Lectura Humana</span>
-            <h1 className="text-4xl font-bold">{doc.title}</h1>
+          <div className="flex items-center gap-3 mb-6 font-condensed">
+            <span className="px-3 py-1 bg-[#0ea5e9] text-white rounded-full text-xs font-bold uppercase">Lectura Humana</span>
+            <h1 className="text-4xl font-bold uppercase">{doc.title}</h1>
             {embedded && (
-              <button 
-                onClick={() => setIsOpen(false)}
-                className="ml-auto px-4 py-2 bg-[#F97316] hover:bg-orange-600 text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-lg transition-all transform hover:scale-105"
-              >
-                Tornar a l'Editor
-              </button>
+              <button                 onClick={() => isOpen ? setIsOpen(false) : window.history.back()}
+                 className="ml-auto px-4 py-2 bg-[#0ea5e9] hover:bg-blue-600 text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-lg transition-all transform hover:scale-105"
+               >
+                 Tornar al Mas
+               </button>
             )}
           </div>
-          <div className={`p-8 rounded-3xl text-xl leading-relaxed border-l-8 border-[#F97316] shadow-xl ${isDark ? 'bg-white/5' : 'bg-white'}`}>
+          <div className={`p-8 rounded-[28px] text-xl leading-relaxed border-l-8 border-[#0ea5e9] shadow-xl font-condensed ${isDark ? 'bg-white/5' : 'bg-white'}`}>
             <p>"{doc.voiceSummary}"</p>
           </div>
           <div className="mt-8 flex flex-col md:flex-row gap-4">
@@ -204,16 +203,13 @@ const AccessibilitatUniversal = ({ embedded = false }) => {
     </div>
   );
 
-  if (embedded) return content;
-
+  // Si isOpen és true (perquè s'ha clicat des de la Consola Tècnica), es manté el comportament de modal, 
+  // però el mestre vol que es veja dins del frame. Per tant, el modal ja no és "fixed inset-0".
+  
   return (
-    <>
-      {isOpen && (
-        <div className="fixed inset-0 z-[10000] flex flex-col">
-          {content}
-        </div>
-      )}
-    </>
+    <div className={`w-full h-full flex flex-col ${isDark ? 'bg-black text-white' : 'bg-white text-slate-900'} animate-in fade-in duration-500`}>
+      {content}
+    </div>
   );
 };
 

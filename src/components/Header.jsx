@@ -79,13 +79,19 @@ const Header = () => {
           <span className="text-xl">{theme === 'dark' ? '☀️' : '🌙'}</span>
         </button>
 
-        <button className="w-12 h-12 flex items-center justify-center text-slate-400 hover:text-white transition-colors" onClick={() => navigate("/search")}>
+        <button
+          className="hidden sm:flex w-12 h-12 items-center justify-center text-slate-400 hover:text-white transition-colors"
+          onClick={() => navigate("/search")}
+        >
           <span className="text-xl">🔍</span>
         </button>
 
         {user && (
-          <div className="relative">
-            <button className="w-12 h-12 flex items-center justify-center text-slate-400 hover:text-white transition-colors" onClick={() => navigate("/notificacions")}>
+          <div className="relative hidden sm:block">
+            <button
+              className="w-12 h-12 flex items-center justify-center text-slate-400 hover:text-white transition-colors"
+              onClick={() => navigate("/notificacions")}
+            >
               <span className="text-xl">🔔</span>
             </button>
             <span className="absolute top-2.5 right-2.5 w-2.5 h-2.5 bg-red-600 rounded-full border border-black animate-pulse"></span>

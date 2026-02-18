@@ -12,6 +12,13 @@ const ContextualMenu = () => {
     const navigate = useNavigate();
 
     // Mapatge de menús segons la ruta
+    const standardMenu = [
+        { id: 'xat', label: 'XAT', path: '/chats' },
+        { id: 'mur', label: 'MUR', path: '/mur' },
+        { id: 'mercat', label: 'MERCAT', path: '/mercat' },
+        { id: 'pobles', label: 'POBLES', path: '/pobles' }
+    ];
+
     const menuConfigs = {
         '/chats': [
             { id: 'xat', label: 'XAT', path: '/chats' },
@@ -20,31 +27,12 @@ const ContextualMenu = () => {
             { id: 'treball', label: 'TREBALL', path: '/ajudes' },
             { id: 'pob', label: 'POB', path: '/pobles' }
         ],
-        '/mur': [
-            { id: 'tot', label: 'TOT', path: '/mur' },
-            { id: 'poble', label: 'POBLE', path: '/pobles' },
-            { id: 'amics', label: 'AMICS', path: '/perfil' }
-        ],
-        '/mercat': [
-            { id: 'tot', label: 'TOT', path: '/mercat' },
-            { id: 'productes', label: 'PRODUCTES', path: '/mercat?cat=productes' },
-            { id: 'serveis', label: 'SERVEIS', path: '/mercat?cat=serveis' }
-        ],
-        '/iaia': [
-            { id: 'iaia', label: 'IAIA', path: '/iaia' },
-            { id: 'especialistes', label: 'ESPECIALISTES', path: '/solatge' },
-            { id: 'lore', label: 'LORE', path: '/genesis' }
-        ],
-        '/ajudes': [
-            { id: 'ajudes', label: 'AJUDES', path: '/ajudes' },
-            { id: 'subvencions', label: 'SUBVENCIONS', path: '/buscador-ajudes' },
-            { id: 'guies', label: 'GUIES', path: '/ofici' }
-        ]
+        // Qualsevol altra ruta usarà el standardMenu
     };
 
-    // Obtenim la config per a la ruta actual o una per defecte
-    const currentBaseRoute = Object.keys(menuConfigs).find(route => location.pathname.startsWith(route)) || '/mur';
-    const items = menuConfigs[currentBaseRoute] || menuConfigs['/mur'];
+    // Obtenim la config per a la ruta actual
+    const isChat = location.pathname.startsWith('/chats');
+    const items = isChat ? menuConfigs['/chats'] : standardMenu;
 
     return (
         <div className="h-12 w-full bg-black border-b border-white/5 flex items-center sticky top-0 z-[900] select-none">

@@ -77,6 +77,14 @@ const LegalNotice = () => {
                         El codi font, els dissenys gràfics, les imatges, les fotografies, els sons, les animacions, el programari, els textos, així com la informació i els continguts que es recullen en "Sóc de Poble" estan protegits per la legislació espanyola sobre els drets de propietat intel·lectual i industrial.
                     </p>
                 </section>
+
+                <section className="legal-section" id="cookies">
+                    <h3>6. Política de Cookies</h3>
+                    <p>
+                        Aquesta plataforma utilitza cookies tècniques essencials per al funcionament de la sessió i la persistència de les preferències de l'usuari (com el mode de visió o el poble seleccionat).
+                        <strong>No utilitzem cookies de rastreig de tercers</strong> ni sistemes d'anàlisi publicitària externa. Tota la informació bategua i es queda al Mas.
+                    </p>
+                </section>
             </div>
         </div>
     );

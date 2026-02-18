@@ -35,7 +35,6 @@ const AccessibilitatUniversal = lazy(() => import('./AccessibilitatUniversal'));
 const ArchitecteView = lazy(() => import('./ArchitecteView'));
 const DossierSocis = lazy(() => import('../pages/DossierSocis'));
 const ResourceDetail = lazy(() => import('../pages/ResourceDetail'));
-const GhostMemorial = lazy(() => import('../pages/GhostMemorial'));
 const InfografiaGallery = lazy(() => import('./Infoteca/InfografiaGallery'));
 const ContextualMenu = lazy(() => import('./ContextualMenu'));
 const CategoryManager = lazy(() => import('./CategoryManager'));
@@ -44,6 +43,9 @@ const Notes = lazy(() => import('../pages/Notes'));
 const LegalNotice = lazy(() => import('../pages/LegalNotice.jsx'));
 const IAIAChatSidebar = lazy(() => import('./IAIAChatSidebar'));
 const ProfilePowerMenu = lazy(() => import('./ProfilePowerMenu'));
+const MenuManagementView = lazy(() => import('../pages/MenuManagementView'));
+const Utilitats = lazy(() => import('../pages/Utilitats'));
+import GlobalFooter from './GlobalFooter';
 
 import BlueprintOverlay from './BlueprintOverlay';
 
@@ -108,7 +110,9 @@ const AppLayout = () => {
         'arxiu': 'RESOURCE_VAULT',
         'notes': 'SCRATCHPAD_BUFFER',
         'calendari': 'MASTER_CALENDAR_PROTO',
-        'ajudes': 'ADVISORY_DOSSIER'
+        'ajudes': 'ADVISORY_DOSSIER',
+        'gestio-menu': 'DYNAMIC_MENU_OVERRIDE',
+        'utilitats': 'UTILITY_HUB_FRAME'
     };
 
     const currentLabel = routeLabels[path] || 'MAIN_VIEWPORT_FLEX';
@@ -125,7 +129,8 @@ const AppLayout = () => {
                 </Suspense>
             )}
 
-            <div className="flex-1 flex overflow-hidden min-h-0 relative">
+            {/* CONTENIDOR PRINCIPAL (SIDEBAR + ESCENARI) */}
+            <div className="flex-1 flex overflow-hidden lg:relative">
                 {/* 0. OVERLAY MÒBIL (Sombra de fondo) */}
                 {isDrawerOpen && (
                     <div 
@@ -134,10 +139,8 @@ const AppLayout = () => {
                     />
                 )}
 
-                {/* 0. ACCESSIBILITAT & RESILIÈNCIA (L'ULL DEL MAS) */}
-                <Suspense fallback={null}>
-                    {!location.pathname.includes('/notes') && <AccessibilitatUniversal />}
-                </Suspense>
+                {/* 0. ACCESSIBILITAT & RESILIÈNCIA (L'ULL DEL MAS) - INTEGRAT AL VIEWPORT */}
+
 
                 {/* 1. SIDEBAR (LA ROCA - 280px) - JUMBO DRAWER */}
                 {!isMinimal && (
@@ -153,7 +156,7 @@ const AppLayout = () => {
                 )}
 
                 {/* 2. MAIN VIEWPORT (EL ESCENARIO) - HABILITEM SCROLL (TABULA RASA) */}
-                <main className={`flex-1 flex flex-col min-w-0 min-h-0 relative bg-theme-base custom-scrollbar ${location.pathname.startsWith('/chats') ? 'overflow-hidden' : ''}`}>
+                <main className={`flex-1 flex flex-col min-w-0 min-h-0 relative bg-theme-base custom-scrollbar ${location.pathname.startsWith('/chats') || location.pathname.startsWith('/gestio-menu') ? 'overflow-hidden' : ''}`}>
                     <Suspense fallback={null}>
                         <ContextualMenu />
                     </Suspense>
@@ -166,7 +169,7 @@ const AppLayout = () => {
                     >
                         <Suspense fallback={<NanoLoader message="Bategant..." />}>
                             <ErrorBoundary>
-                                <div className={`flex-1 flex flex-col relative min-w-0 main-viewport custom-scrollbar ${location.pathname.startsWith('/chats') ? 'h-full overflow-hidden' : 'min-h-full overflow-y-auto'}`}>
+                                <div className={`flex-1 flex flex-col relative min-w-0 main-viewport custom-scrollbar ${location.pathname.startsWith('/chats') || location.pathname.startsWith('/gestio-menu') ? 'h-full overflow-hidden' : 'min-h-full overflow-y-auto'}`}>
                                     <Routes>
                                 <Route path="/" element={<Navigate to="/chats" replace />} />
                                 <Route path="/pobles" element={<Towns />} />
@@ -184,7 +187,6 @@ const AppLayout = () => {
                                 <Route path="/perfil/:id" element={<ProfileView />} />
                                 <Route path="/entitat/:id" element={<ProfileView />} />
                                 <Route path="/login" element={<Login />} />
-                                <Route path="/memorial" element={<GhostMemorial />} />
                                 <Route path="/ajudes" element={<BuscadorAjudes />} />
                                 
                                 <Route path="/mapa" element={<MapaActius />} />
@@ -207,6 +209,9 @@ const AppLayout = () => {
                                 <Route path="/dossier" element={<DossierSocis />} />
                                 <Route path="/gestio/categories" element={<CategoryManager />} />
                                 <Route path="/gestio/xats" element={<ProtectedRoute><ChatManager /></ProtectedRoute>} />
+                                <Route path="/gestio-menu" element={<ProtectedRoute><MenuManagementView /></ProtectedRoute>} />
+                                <Route path="/utilitats" element={<Utilitats />} />
+                                <Route path="/accessibilitat" element={<AccessibilitatUniversal />} />
                                 <Route path="/notes" element={<Notes />} />
                                 <Route path="/legal" element={<LegalNotice />} />
                                 </Routes>
@@ -216,6 +221,9 @@ const AppLayout = () => {
                     </BlueprintOverlay>
                 </main>
             </div>
+
+            {/* FOOTER CANÒNIC (AVÍS LEGAL, AUTORIA, ETC.) - BLINDATGE v1.0 */}
+            <GlobalFooter />
 
             {/* IAIA CHAT SIDEBAR (DRETA) - GLOBAL & BATEGAT */}
             <Suspense fallback={null}>

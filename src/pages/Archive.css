@@ -39,8 +39,8 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 10px 12px;
-    border-radius: 0;
+    padding: 10px 16px;
+    border-radius: var(--radius-m3-small, 16px);
     /* Directiva Flash */
     color: var(--text-main);
     font-size: var(--font-size-base);
@@ -53,8 +53,8 @@
 }
 
 .nav-item.active {
-    background: var(--color-primary-soft);
-    color: var(--color-primary);
+    background: rgba(14, 165, 233, 0.15);
+    color: #0ea5e9;
 }
 
 .nav-count {
@@ -130,11 +130,12 @@
 .search-bar-wrapper input {
     width: 100%;
     padding: 14px 14px 14px 48px;
-    background: var(--bg-surface);
-    border: 1px solid var(--border-subtle);
-    color: var(--text-main);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: white;
     font-size: var(--font-size-base);
-    border-radius: 0;
+    border-radius: 28px;
+    font-family: var(--font-condensed);
 }
 
 .header-view-actions {
@@ -205,16 +206,18 @@ input[type="text"]:focus {
 }
 
 .resource-card {
-    background: var(--bg-surface);
-    border: 1px solid var(--border-subtle);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 28px;
     overflow: hidden;
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    font-family: var(--font-condensed);
 }
 
 .resource-card:hover {
     transform: translateY(-8px);
-    box-shadow: var(--shadow-hard);
-    border-color: var(--color-primary);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    border-color: #0ea5e9;
 }
 
 .resource-card {
@@ -252,7 +255,7 @@ input[type="text"]:focus {
 .card-image img {
     width: 100%;
     height: 100%;
-    object-cover: cover;
+    object-fit: cover;
     opacity: 0.8;
     transition: opacity 0.3s ease;
 }

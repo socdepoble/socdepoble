@@ -331,9 +331,10 @@ export const AuthProvider = ({ children }) => {
         switchContext,
         simulatedRole,
         setSimulatedRole,
-        isSuperAdmin: (realUser?.email === 'javillinares@gmail.com' || profile?.role === USER_ROLES.SUPER_ADMIN),
-        isAdmin: [USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN].includes(profile?.role),
-        isEditor: [USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN, USER_ROLES.EDITOR].includes(profile?.role),
+        currentRole: simulatedRole || profile?.role || USER_ROLES.GUEST,
+        isSuperAdmin: (realUser?.email === 'javillinares@gmail.com' || (simulatedRole ? simulatedRole === USER_ROLES.SUPER_ADMIN : profile?.role === USER_ROLES.SUPER_ADMIN)),
+        isAdmin: [USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN].includes(simulatedRole || profile?.role),
+        isEditor: [USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN, USER_ROLES.EDITOR].includes(simulatedRole || profile?.role),
         language,
         setLanguage,
         loginAsGuestAnonymous

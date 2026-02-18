@@ -1,22 +1,35 @@
 @import "tailwindcss";
 
-/* 🏺 SÓC DE POBLE: LA BÍBLIA VISUAL v10.26.0-PURGA [PROTOCOL NOTO]
+/* 🏺 SÓC DE POBLE: LA BÍBLIA VISUAL v10.26.0-CANÒNIC [PROTOCOL NOTO]
    Aquest fitxer és el ciment únic. 
 */
 
 @theme {
   --font-sans: "Noto Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "Playfair Display", serif; /* Restauració Soul v15 */
+  --font-serif: "Playfair Display", serif;
   --font-mono: "Noto Sans Mono", monospace;
   --font-condensed: "Noto Sans Condensed", sans-serif;
 
-  --color-accent-orange: #ff6b00;
-  --color-accent-indigo: #4f46e5;
-  --color-accent-red: #ef4444;
-  --color-accent-fuchsia: #d946ef; /* Nou per a gradients v15 */
+  /* M3 ADAPTIVE TOKENS */
+  --color-primary: #5d5fef; /* Blau SdP */
+  --color-on-primary: #ffffff;
+  --color-primary-container: rgba(93, 95, 239, 0.15);
 
-  --radius-genesis: 28px;
-  --radius-tactile: 24px;
+  --color-secondary: #ff6b00; /* Taronja SdP */
+  --color-on-secondary: #000000;
+  --color-secondary-container: rgba(255, 107, 0, 0.15);
+
+  --color-surface: #1a1b23;
+  --color-on-surface: #ffffff;
+  --color-surface-container: rgba(23, 25, 35, 0.7); /* Standard Glass */
+  --color-outline: rgba(255, 255, 255, 0.08);
+
+  --radius-m3-large: 28px;
+  --radius-m3-medium: 100px; /* Full Rounded / Pill */
+  --radius-m3-small: 16px;
+
+  --radius-genesis: var(--radius-m3-large);
+  --radius-tactile: var(--radius-m3-small);
 
   --spacing-header: 64px;
   --spacing-sidebar: 280px;
@@ -24,56 +37,48 @@
   --touch-target: 48px;
 
   /* Gradients Canònics v15 */
-  --gradient-bategat: linear-gradient(90deg, #F97316 0%, #D946EF 100%);
+  --gradient-bategat: linear-gradient(135deg, #ff6b00 0%, #0ea5e9 100%); /* Orange to Sky Blue */
 }
 
 :root {
-  /* [PROTOCOL GÈNESI v10.26.0] */
-  --bg-app: #000000;
+  /* [PROTOCOL GÈNESI v10.26.0 - CANÒNIC] */
+  --bg-app: var(--color-surface);
   --bg-master: #000000;
-  --bg-panel: #111111;
+  --bg-panel: var(--color-surface-container);
   --bg-sidebar: #000000;
-  --text-main: #ffffff;
+  --text-main: var(--color-on-surface);
   --text-secondary: #9ca3af;
   --text-muted: #6b7280;
-  --border-master: #1f2937;
+  --border-master: var(--color-outline);
 
   /* [MAESTRO RULE] Night/Dark Colors */
   --sdp-black: #000000;
   --sdp-white: #ffffff;
-  --sdp-blue: #002b5b; /* Blue/Indigo */
-  --sdp-orange: #ff6b00; /* Terracotta/Orange */
-
-  /* [SEMANTIC MAPPING] */
-  --color-primary: var(--sdp-orange);
-  --color-secondary: var(--sdp-blue);
-  --color-bg-canonic: var(--sdp-black);
-  --color-text-canonic: var(--sdp-white);
+  --sdp-blue: var(--color-primary);
+  --sdp-orange: var(--color-secondary);
 
   --bg-theme-base: var(--bg-app);
   --text-theme-text: var(--text-main);
-  --bg-theme-header: #000000; /* Header negre en dark mode */
+  --bg-theme-header: #000000;
 }
 
 :root.light {
-  --bg-app: #F5F1E6; /* Old Lace - El bategat de la terra */
-  --bg-master: #FFFFFF;
-  --bg-panel: #FFFFFF;
-  --bg-sidebar: #000000; /* Roca immutable */
+  /* En futur, el light mode també seguirà M3 però amb superfícies clares */
+  --bg-app: #f5f1e6;
+  --bg-master: #ffffff;
+  --bg-panel: #ffffff;
+  --bg-sidebar: #000000;
   --text-main: #111111;
   --text-secondary: #4b5563;
   --text-muted: #9ca3af;
   --border-master: rgba(0, 0, 0, 0.08);
 
-  /* [MAESTRO RULE INVERSION] Day/Light Colors */
-  --color-primary: #FF6D23; /* Terracotta sempre és Terracotta */
-  --color-secondary: #002b5b; /* Blau sempre és Blau */
-  --color-bg-canonic: #FFFFFF; 
-  --color-text-canonic: #000000;
+  --color-primary: #ff6d23;
+  --color-secondary: #002b5b;
 
   --bg-theme-base: var(--bg-app);
   --text-theme-text: var(--text-main);
-  --bg-theme-header: #FFFFFF; /* Header blanc en light mode */
+  --bg-theme-header: #ffffff;
 }
 
 .bg-theme-base {
@@ -201,7 +206,7 @@ body {
   scrollbar-width: none;
 }
 
-/* 📜 BÍBLIA: TACTILE GEOMETRY (GEOMETRIA DEL TACTE v10.26.0) */
+/* 📜 BÍBLIA: TACTILE GEOMETRY (GEOMETRIA DEL TACTE v10.26.0-CANÒNIC) */
 .tactile-target {
   min-height: var(--touch-target);
   min-width: var(--touch-target);
@@ -251,3 +256,4 @@ body {
 .master-button-canonic:active {
   transform: scale(0.95);
 }
+

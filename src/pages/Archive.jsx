@@ -131,7 +131,7 @@ import './Archive.css';
      if (loading) return <StatusLoader message="Exhumant l'Arxiu d'Or..." />;
  
      return (
-         <div className={`archive-page min-h-screen text-white flex flex-col md:flex-row theme-${theme}`}>
+         <div className={`archive-page rebost-layout min-h-screen text-white flex flex-col md:flex-row theme-${theme}`}>
              {/* SIDEBAR D'ORGANITZACIÓ - Blindat v9.4.0 */}
              <aside className="w-full md:w-72 bg-black border-r border-gray-900 flex flex-col sticky top-0 md:h-screen overflow-y-auto">
                  <header className="p-6 border-b border-gray-900">
@@ -240,7 +240,7 @@ import './Archive.css';
                                       navigate(`/arxiu/${obj.id}`);
                                   }}
                              >
-                                 <div className={`relative overflow-hidden bg-black
+                                 <div className={`relative overflow-hidden bg-black card-image
                                      ${viewMode === 'list' ? 'w-24 h-24 shrink-0' : 'aspect-square w-full'}`}>
                                      <img 
                                          src={obj.image} 

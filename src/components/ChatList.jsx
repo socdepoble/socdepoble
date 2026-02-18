@@ -112,24 +112,26 @@ const ChatList = () => {
                     <div 
                         key={chat.id} 
                         onClick={() => handleChatClick(chat)}
-                        className={`flex items-center space-x-4 p-4 border-b border-gray-800/40 cursor-pointer transition-all
+                        className={`flex items-center space-x-4 p-4 border-b border-gray-800/40 cursor-pointer transition-all relative
                         ${location.pathname.includes(chat.id) ? 'active' : ''} chat-item ${chat.tag === 'IAIA' ? 'iaia-agent' : ''}`}
                     >
-                        <div className="relative flex-shrink-0">
+                        {chat.tag && (
+                            <span className="absolute top-0.5 right-4 bg-black text-[#FF6B00] text-[8px] px-1.5 py-0.5 rounded border border-[#FF6B00]/30 font-black tracking-tighter uppercase shadow-xl leading-none z-10">{chat.tag}</span>
+                        )}
+                        <div className="flex-shrink-0">
                             <Avatar 
                                 src={chat.other_info?.avatar_url} 
                                 name={chat.other_info?.name} 
                                 role={chat.other_info?.role}
                                 size={52} 
                             />
-                            {chat.tag && (
-                                <span className="absolute -top-1 -right-1 bg-black text-[#FF6B00] text-[9px] px-1.5 py-0.5 rounded border border-[#FF6B00]/30 font-black tracking-tighter uppercase shadow-xl">{chat.tag}</span>
-                            )}
                         </div>
                         <div className="flex-1 min-w-0">
-                            <div className="flex justify-between items-baseline mb-1">
-                                <h3 className="font-bold text-[16px] text-white truncate group-hover:text-[#FF6B00] transition-colors">{chat.other_info?.name || 'Vveí'}</h3>
-                                <span className="text-[10px] text-gray-500 font-bold uppercase">{chat.last_message_time ? new Date(chat.last_message_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : 'Ara'}</span>
+                            <div className="flex justify-between items-start mb-1">
+                                <h3 className="font-bold text-[16px] text-white truncate group-hover:text-[#FF6B00] transition-colors">{chat.other_info?.name || 'Veí'}</h3>
+                                <div className="flex flex-col items-end shrink-0 pt-1">
+                                    <span className="text-[10px] text-gray-500 font-bold uppercase leading-none">{chat.last_message_time ? new Date(chat.last_message_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : 'Ara'}</span>
+                                </div>
                             </div>
                             <p className="text-[14px] text-gray-500 truncate leading-tight">
                                 {chat.last_message_content || 'Bategant amb Sóc de Poble...'}
