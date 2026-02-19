@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import * as pdfjsLib from 'pdfjs-dist';
-import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
+import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import { FileText, Download, CheckCircle, ArrowLeft, ShieldCheck, Sparkles, Upload, FileUp, X, Globe, Lock, Users } from 'lucide-react';
 import './PDFBategatManager.css';
 
@@ -14,17 +14,30 @@ const PDFBategatManager = ({ onBack }) => {
         address: 'MAS D\'IBAÑEZ S/N',
         event: 'DECLARACIÓ RESPONSABLE',
         municipality: 'BENIARBEIG',
+        day: new Date().getDate().toString(),
+        month: (new Date().getMonth() + 1).toString(),
+        year: new Date().getFullYear().toString().slice(-1),
+        activity: 'ELABORACIÓ I VENDA DE PRODUCTES LOCALS',
         message: ''
     });
-    const [isGenerating, setIsGenerating] = useState(false);
-    const [isDone, setIsDone] = useState(false);
     const [uploadedFile, setUploadedFile] = useState(null);
     const [history, setHistory] = useState(() => {
         const saved = localStorage.getItem('bategat_history');
         return saved ? JSON.parse(saved) : [];
     });
+    const [isGenerating, setIsGenerating] = useState(false);
+    const [isDone, setIsDone] = useState(false);
     const [isPublic, setIsPublic] = useState(false);
+    const [generatedBlobUrl, setGeneratedBlobUrl] = useState(null);
+    const uploadedFileRef = useRef(null); // Ref de seguretat (Llinatge Impertorbable)
     const fileInputRef = useRef(null);
+
+    // Protocol de neteja de memòria (Zero Residus)
+    React.useEffect(() => {
+        return () => {
+            if (generatedBlobUrl) URL.revokeObjectURL(generatedBlobUrl);
+        };
+    }, [generatedBlobUrl]);
 
     const clearFormData = () => {
         setFormData({
@@ -33,6 +46,10 @@ const PDFBategatManager = ({ onBack }) => {
             address: '',
             event: '',
             municipality: '',
+            day: '',
+            month: '',
+            year: '',
+            activity: '',
             message: ''
         });
         setUploadedFile(null);
@@ -54,6 +71,10 @@ const PDFBategatManager = ({ onBack }) => {
             address: 'MAS D\'IBAÑEZ S/N',
             event: 'DECLARACIÓ RESPONSABLE',
             municipality: 'BENIARBEIG',
+            day: new Date().getDate().toString(),
+            month: (new Date().getMonth() + 1).toString(),
+            year: new Date().getFullYear().toString().slice(-1),
+            activity: 'ELABORACIÓ I VENDA DE PRODUCTES LOCALS',
             message: 'Sol·licito la validació del Protocol Rhizome per al meu node municipal.'
         });
     };
@@ -75,15 +96,16 @@ const PDFBategatManager = ({ onBack }) => {
         const file = e.target.files[0];
         if (file && file.type === 'application/pdf') {
             setUploadedFile(file);
-            console.log("IAIA: Analitzant PDF orfe amb el Protocol d'Identificació de Camps Legals...");
+            uploadedFileRef.current = file;
+            console.log("IAIA: Adoptant PDF Orfe a memòria viva...");
             
-            // Actualització d'historial amb governança (per defecte PRIVAT)
             const newHistory = [
                 { name: file.name, date: new Date().toISOString(), visibility: 'private' }, 
                 ...history.filter(h => h.name !== file.name)
             ].slice(0, 5);
             setHistory(newHistory);
             localStorage.setItem('bategat_history', JSON.stringify(newHistory));
+            e.target.value = ''; // Reset per a permetre re-pujada del mateix fitxer
         }
     };
 
@@ -122,6 +144,9 @@ const PDFBategatManager = ({ onBack }) => {
                 const [, , , scaleY, x, y] = item.transform;
                 const size = Math.abs(scaleY);
 
+                // EXCLUSIÓ DE ZONES FANTASMA (Enllaç, etc.)
+                if ((/enlace|https:\/\/|www\./).test(text)) return;
+
                 // Detecció de zones legalment precises (Regex heretada del protocol Xylella)
                 if ((/nom:|primer cognom|interessat|mercantil/).test(text) && !anchors.name) {
                     anchors.name = { x, y, size, context: item.str };
@@ -135,13 +160,37 @@ const PDFBategatManager = ({ onBack }) => {
                 if ((/municipi:|localitat|població/).test(text) && !anchors.municipality) {
                     anchors.municipality = { x, y, size, context: item.str };
                 }
-                if ((/activitat:|explica|objecte|sol·licitud/).test(text) && !anchors.event) {
-                    anchors.event = { x, y, size, context: item.str };
+                if ((/realización del evento:|evento:|realització/).test(text) && !anchors.event) {
+                    if (!text.includes("enlace") && !text.includes("http")) {
+                        anchors.event = { x, y, size, context: item.str };
+                    }
                 }
-                if ((/signat:|firmado|firma/).test(text) && !anchors.signature) {
+                if ((/actividad de|actividad:/).test(text) && !anchors.activity) {
+                    if (!text.includes("enlace") && y > 350) { // Limitació per a no baixar a la zona de links
+                        anchors.activity = { x, y, size, context: item.str };
+                    }
+                }
+                // Segregació Mil·limètrica de Dates
+                if ((/los días:/).test(text) && !anchors.day) {
+                    anchors.day = { x, y, size, context: item.str };
+                }
+                if ((/\bde\b/).test(text)) {
+                    // Busquem el "de" que va després de "los días" per al mes
+                    if (anchors.day && !anchors.month && x > anchors.day.x + 50) {
+                        anchors.month = { x, y, size, context: item.str };
+                    }
+                }
+                if ((/202\d|de 202/).test(text) && !anchors.year) {
+                    anchors.year = { x, y, size, context: item.str };
+                }
+                if ((/signat|firmado|firma/).test(text) && !anchors.signature) {
                     anchors.signature = { x, y, size, context: item.str };
                 }
             });
+
+            // Post-processament de seguretat: purga de camps en zones d'enllaç
+            if (anchors.event && anchors.event.context.toLowerCase().includes("enlace")) anchors.event = null;
+            if (anchors.activity && anchors.activity.context.toLowerCase().includes("enlace")) anchors.activity = null;
 
             console.log("IAIA: Mapa de bategat intel·ligent generat:", anchors);
             return { anchors, viewport };
@@ -157,19 +206,23 @@ const PDFBategatManager = ({ onBack }) => {
             let pdfDoc;
             let fileBytes;
             
-            if (uploadedFile) {
-                fileBytes = await uploadedFile.arrayBuffer();
+            // Prioritat absoluta a l'arxiu adoptat (uploadedFile o referència)
+            const fileToWork = uploadedFile || uploadedFileRef.current;
+            
+            if (fileToWork) {
+                console.log("IAIA: Bategant sobre matriu original adoptada...");
+                fileBytes = await fileToWork.arrayBuffer();
                 pdfDoc = await PDFDocument.load(fileBytes);
-                console.log("IAIA: PDF adoptat. Iniciant anàlisi de precisió legal...");
             } else {
+                console.log("IAIA: Generant document genèric (No s'ha adoptat cap original).");
                 pdfDoc = await PDFDocument.create();
                 const page = pdfDoc.addPage([595.28, 841.89]);
                 const { height } = page.getSize();
                 const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
                 const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
 
-                page.drawText('SÓC DE POBLE! - SOL·LICITUD GENERADA', { x: 50, y: height - 50, size: 10, font: fontBold, color: rgb(0.36, 0.37, 0.94) });
-                page.drawText(formData.event, { x: 50, y: height - 80, size: 20, font: fontBold });
+                // Plantilla Neutra (sense marques de Sóc de Poble)
+                page.drawText(formData.event || 'DOCUMENT DE TRÀMIT', { x: 50, y: height - 80, size: 20, font: fontBold });
                 
                 if (formData.name) {
                     page.drawText(`Interessat: ${formData.name}`, { x: 50, y: height - 120, size: 12, font });
@@ -182,13 +235,13 @@ const PDFBategatManager = ({ onBack }) => {
             const form = pdfDoc.getForm();
             const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
 
-            // ANÀLISI INTEL·LIGENT (Si tenim fitxer pujat)
+            // ANÀLISI INTEL·LIGENT
             let mapping = null;
-            if (uploadedFile) {
+            if (fileToWork) {
                 mapping = await analyzePDFStructure(fileBytes);
             }
 
-            // Funció per a bategar amb mimetisme real
+            // Funció per a bategar amb mimetisme real (PROTOCOL D'INVISIBILITAT)
             const placeField = (id, key, defaultX, defaultY, defaultW = 250) => {
                 const field = form.createTextField(id);
                 if (formData[key]) field.setText(String(formData[key]));
@@ -198,55 +251,84 @@ const PDFBategatManager = ({ onBack }) => {
                 let fontSize = 10;
                 let width = defaultW;
 
-                // Aplicació de precisió via anchors analitzats
+                // Aplicació de precisió via anchors analitzats (CONTEXT DETECTIVE)
                 if (mapping && mapping.anchors[key]) {
                     const anchor = mapping.anchors[key];
-                    // Calculem l'offset segons el context del text detective
-                    x = anchor.x + 95; // Offset de label per defecte
-                    y = anchor.y - 1;  // Ajust de baseline
-                    fontSize = anchor.size > 0 ? anchor.size * 0.9 : 10;
+                    // Calculem l'offset mil·limètric per a buits de text
+                    x = anchor.x + (key.length > 4 ? 85 : 45); // Offset dinàmic segons context
+                    y = anchor.y - 1;  // Ajust de baseline (Offset 0)
+                    fontSize = anchor.size > 0 ? anchor.size * 0.95 : 10;
                     width = 280;
                     
-                    // Casos especials d'ajust mil·limètric (Protocol Generalitat)
-                    if (key === 'event') { y -= 5; width = 450; }
-                    if (key === 'signature') { x = anchor.x; y = anchor.y - 40; width = 200; }
+                    // Ajustos de precisió mestre per a la Declaració Responsable
+                    if (key === 'day') { x = anchor.x + 48; width = 30; }
+                    if (key === 'month') { x = anchor.x + 28; width = 70; }
+                    if (key === 'year') { x = anchor.x + 38; width = 15; }
+                    if (key === 'activity') { x = anchor.x + 58; y -= 1; width = 450; }
+                    if (key === 'event') { x = anchor.x + 118; y -= 1; width = 400; }
+                    // 🏺 Firma mestre: sota 'Firmado:' alineat a l'esquerra
+                    if (key === 'signature') { 
+                        x = anchor.x; 
+                        y = anchor.y - 18; // Ajust mil·limètric: just a sota
+                        width = 300; 
+                    }
 
-                    console.log(`IAIA: Bategant camp [${id}] a precisió legal {x:${Math.round(x)}, y:${Math.round(y)}} mimetitzant font ${fontSize}pt`);
+                    console.log(`IAIA: Bategant camp [${id}] amb Invisibilitat a {x:${Math.round(x)}, y:${Math.round(y)}}`);
                 }
 
                 field.addToPage(firstPage, { 
                     x, 
                     y, 
                     width, 
-                    height: fontSize * 1.5, 
+                    height: fontSize * 1.25, 
                     font 
                 });
                 field.setFontSize(fontSize);
+                
+                // 🏺 PROTOCOL D'INVISIBILITAT (Sense Filetes)
+                try {
+                    if (field && typeof field.setBorderColor === 'function') {
+                        field.setBorderColor(undefined); // Mètode mestre per a invisibilitat de vora
+                    }
+                    if (field && typeof field.setBackgroundColor === 'function') {
+                        field.setBackgroundColor(rgb(0.98, 0.98, 1)); 
+                    }
+                } catch (e) {
+                    console.warn("IAIA: Mimetisme visual omès per compatibilitat:", e);
+                }
             };
 
-            // Mapeig Canònic de Solidaritat (si no hi ha anchor)
-            placeField('bategat.nom', 'name', 145, 608);
-            placeField('bategat.dni', 'dni', 145, 582);
-            placeField('bategat.domicili', 'address', 145, 556, 400);
-            placeField('bategat.municipi', 'municipality', 145, 530);
-            placeField('bategat.assumpte', 'event', 145, 385, 400);
+            // Mapeig de camps (si no hi ha anchor s'usa el canònic)
+            placeField('doc.nom', 'name', 145, 608);
+            placeField('doc.dni', 'dni', 145, 582);
+            placeField('doc.domicili', 'address', 145, 556, 400);
+            placeField('doc.municipi', 'municipality', 145, 530);
+            
+            // Zones de Date Segregation (Mil·limètrica)
+            placeField('doc.dia', 'day', 150, 485, 40);
+            placeField('doc.mes', 'month', 220, 485, 80);
+            placeField('doc.any', 'year', 335, 485, 20);
+            
+            // Activitat vs Esdeveniment
+            // 🏺 Purga d'Enllaços: no posem camps genèrics si no tenim anclatge per a evitar trepitjar 'Enlace'
+            if (mapping && mapping.anchors.activity) {
+                placeField('doc.activitat', 'activity', 150, 460, 450);
+            }
+            if (mapping && mapping.anchors.event) {
+                placeField('doc.assumpte', 'event', 145, 385, 400);
+            }
 
-            // Signatura (Si la detectem, anem allà. Si no, cantonada inferior dreta)
-            placeField('bategat.signatura', 'signature', 350, 100, 200);
-
-            // Segell d'Alineació Invisible per a l'ordinari, però present per al "Trellat"
-            firstPage.drawText('BATEGAT AMB PRECISIÓ LEGAL - IDENTIFICACIÓ DE CAMPS v10.26', {
-                x: 50,
-                y: 10,
-                size: 6,
-                color: rgb(0.7, 0.7, 0.7),
-            });
+            // Signatura (Nom sota 'Firmado')
+            placeField('doc.signatura', 'signature', 50, 150, 300);
 
             const pdfBytesSaved = await pdfDoc.save();
             const blob = new Blob([pdfBytesSaved], { type: 'application/pdf' });
             
             // 🏺 MAC DOWNLOAD FIX (Robust Anchor Pattern)
+            if (generatedBlobUrl) URL.revokeObjectURL(generatedBlobUrl);
             const downloadUrl = URL.createObjectURL(blob);
+            setGeneratedBlobUrl(downloadUrl);
+            
             const link = document.createElement('a');
             link.href = downloadUrl;
             link.download = uploadedFile ? `bategat_${uploadedFile.name}` : `sollicitud_bategada.pdf`;
@@ -255,15 +337,15 @@ const PDFBategatManager = ({ onBack }) => {
             document.body.appendChild(link);
             link.click();
             
-            // Neteja immediata
+            // Neteja del DOM (el blob segueix actiu a generatedBlobUrl)
             setTimeout(() => {
                 document.body.removeChild(link);
-                URL.revokeObjectURL(downloadUrl);
             }, 100);
 
             setIsDone(true);
         } catch (error) {
             console.error('Error bategant PDF intel·ligent:', error);
+            alert("IAIA: El bategat ha fallat. Assegura't d'haver pujat el fitxer original correctament.");
         } finally {
             setIsGenerating(false);
         }
@@ -288,7 +370,7 @@ const PDFBategatManager = ({ onBack }) => {
                     <div className="form-card">
                         <div className="iaia-tip">
                             <Sparkles size={20} />
-                            <p>"{uploadedFile ? `He detectat ${uploadedFile.name}. El farem editable amb el Protocol d'Identificació de Camps Legals.` : "Mestre, tria si vols el PDF net per a omplir després o si vols que jo l'empleni ara amb el nostre trellat."}"</p>
+                            <p>"{uploadedFile ? `He detectat ${uploadedFile.name}. El farem interactiu mantenint el seu llinatge original intacte.` : "Mestre, per seguretat el Mas no guarda els teus arxius. Torna a pujar el PDF que vols bategar.\n\nNota: He investigat Affinity i NO permet crear PDF editables directe. La millor alternativa lliure és Scribus o LibreOffice Draw."}"</p>
                         </div>
 
                         {!uploadedFile ? (
@@ -396,6 +478,21 @@ const PDFBategatManager = ({ onBack }) => {
                             </div>
                         </div>
 
+                        <div className="input-grid" style={{ marginTop: '1.5rem' }}>
+                             <div className="input-group">
+                                <label>DATA DEL TRÀMIT (DIA / MES / ANY)</label>
+                                <div className="flex gap-2">
+                                    <input name="day" value={formData.day} onChange={handleInputChange} placeholder="20" style={{ width: '60px', textAlign: 'center' }} />
+                                    <input name="month" value={formData.month} onChange={handleInputChange} placeholder="Febrer" className="flex-1" />
+                                    <input name="year" value={formData.year} onChange={handleInputChange} placeholder="6" style={{ width: '60px', textAlign: 'center' }} />
+                                </div>
+                            </div>
+                            <div className="input-group">
+                                <label>ACTIVITAT ESPECÍFICA</label>
+                                <input name="activity" value={formData.activity} onChange={handleInputChange} placeholder="Ex: Consum d'aliments" />
+                            </div>
+                        </div>
+
                         {!uploadedFile && (
                             <div className="input-group" style={{ marginTop: '1.5rem' }}>
                                 <label>PETICIÓ DETALLADA</label>
@@ -451,7 +548,12 @@ const PDFBategatManager = ({ onBack }) => {
                             <h3>MÀGIA REALITZADA!</h3>
                             <p>El PDF és ara 100% interactiu i ja s'hauria d'haver descarregat.</p>
                             
-                            <button className="mode-btn autofill" onClick={generatePDF} style={{ width: '100%', height: '60px', borderRadius: '28px' }}>
+                            <button className="mode-btn autofill" onClick={() => window.open(generatedBlobUrl, '_blank')} style={{ width: '100%', height: '60px', borderRadius: '28px', backgroundColor: '#5d5fef' }}>
+                                <Sparkles size={20} />
+                                OBRIR PDF (PONT SOBIRÀ)
+                            </button>
+                            
+                            <button className="mode-btn autofill" onClick={generatePDF} style={{ width: '100%', height: '60px', borderRadius: '28px', marginTop: '1rem' }}>
                                 <Download size={20} />
                                 RE-DESCARREGAR PDF
                             </button>
