@@ -8,7 +8,7 @@ import { useTheme } from "../context/ThemeContext";
 import VisionSelectorModal from "./VisionSelectorModal";
 
 /**
- * [MASTER HEADER v10.26.0-PURGA - PROTOCOL GLOBAL]
+ * [MASTER HEADER v10.26.0-CANÒNIC - PROTOCOL GLOBAL]
  * Arquitectura de Ferro: fons adaptatiu, sempre visible i funcional.
  */
 const Header = () => {

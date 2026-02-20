@@ -12,7 +12,7 @@ import { trustService } from '../services/trustService';
 import './ProfileHeaderPremium.css';
 
 /**
- * UniversalTotem (ex-ProfileHeaderPremium) - El tòtem d'identitat suprema v10.26.0-PURGA.
+ * UniversalTotem (ex-ProfileHeaderPremium) - El tòtem d'identitat suprema v10.26.0-CANÒNIC.
  * Suporta perfils de: Persones, Grups, Empreses, Entitats Oficials i Pobles.
  */
 const ProfileHeaderPremium = ({
