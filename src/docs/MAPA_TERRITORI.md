@@ -1,4 +1,4 @@
-# 🗺️ MAPA DE TERRITORI: SÓC DE POBLE (ARQUITECTURA MESTRA v3.0)
+# 🗺️ MAPA DE TERRITORI: SÓC DE POBLE (ARQUITECTURA MESTRA v3.1)
 
 **Estat:** IMMUTABLE / BLINDAT  
 **Objectiu:** Definir l'anatomia, fisiologia i lleis visuals de cada òrgan del sistema.  
@@ -63,9 +63,11 @@ El sistema es basa en una arquitectura de 3 Columnes (Tríptic) en escriptori i 
 
 ### 💬 2.1. PÀGINA DE XAT (Mòdul Base)
 
-**Objectiu:** Comunicació directa entre veïns i amb els Agents IAIA.
+**Objectiu:** Punt d'aterratge central i comunicació directa entre Ciutadans, Forasters i els Agents IAIA.
 
-- **Llista (Central):** Mostra la llista de converses actives.
+- **Landing Page Sagrada:** Aquesta és la pàgina d'aterratge per defecte del sistema.
+- **Accés Lliure:** Els Forasters (visitants no registrats) tenen accés total a la visió del xat de la IAIA.
+- **Llista (Central):** Mostra la llista de converses actives i tots els agents disponibles per defecte.
 - **Filtre IAIA (✨):**
   - **Mode Silenciós:** Només mostra xats amb humans reals.
   - **Mode IAIA (Core):** Mostra humans + La IAIA MarIA.
@@ -103,11 +105,12 @@ El sistema es basa en una arquitectura de 3 Columnes (Tríptic) en escriptori i 
 
 ## 3. ⚙️ PROTOCOLS DE SISTEMA (LLEIS)
 
-### 3.1. PROTOCOL DE LA IAIA (Control de Realitat)
+### 3.1. PROTOCOL DE LA IAIA (L'Ànima del Poble)
 
-L'usuari té Sobirania Total sobre la presència de la IA via selector ✨.
+L'usuari té Sobirania Total sobre la presència de la IA via selector ✨, però el bategat és obert de gènesi.
 
-- **Mode Silenciós:** Purga total de rastro d'IA (Agents i publicacions).
+- **Visibilitat per Defecte:** Tots els agents IAIA estan visibles per a tothom (Forasters i Mestres) per a garantir el servei de proximitat digital.
+- **Mode Silenciós:** Purga total de rastro d'IA (Agents i publicacions) per a qui busca el "Silence Rural".
 
 ### 3.2. PROTOCOL VISUAL (El 1er Mandament)
 

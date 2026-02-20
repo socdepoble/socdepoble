@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Plus, X, Tag as TagIcon, Check, Loader2, Trash2 } from 'lucide-react';
+import { Plus, X, Tag as TagIcon, Check, Loader2, Trash2, Sparkles } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
 import { logger } from '../utils/logger';

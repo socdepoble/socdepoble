@@ -62,7 +62,7 @@ import './Archive.css';
                          title: p.content?.substring(0, 80).replace(/[#*]/g, '') + (p.content?.length > 80 ? '...' : ''),
                          description: "Crònica bategada al mur del poble.",
                          icon: <FileText size={18} />,
-                         author: p.profiles?.username || p.author || 'Veí',
+                         author: p.profiles?.username || p.author || 'Foraster',
                          date: p.created_at,
                          tags: p.tags || ['#comunitat'],
                          image: (Array.isArray(p.image_url) ? p.image_url[0] : p.image_url) || '/assets/master/town_placeholder.png',

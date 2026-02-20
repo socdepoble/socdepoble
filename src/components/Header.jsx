@@ -3,9 +3,7 @@
 import { useNavigate, NavLink } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useUI } from "../context/UIContext";
-import { 
-    Search, Bell, Menu, Sparkles, User, Sun, Moon, Brain
-} from "lucide-react";
+import { Menu } from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
 import VisionSelectorModal from "./VisionSelectorModal";
 
@@ -18,9 +16,9 @@ const Header = () => {
   const { 
     toggleDrawer, visionMode, setVisionMode, 
     isIAIARoleSelectorOpen, setIsIAIARoleSelectorOpen,
-    iaiaSidebarOpen, toggleIAIASidebar, openProfileMenu
+    iaiaSidebarOpen, toggleIAIASidebar
   } = useUI();
-  const { theme, toggleTheme } = useTheme(); // Moure aquí
+  const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
 
   return (
@@ -39,13 +37,10 @@ const Header = () => {
             className="flex items-center active:scale-95 transition-transform"
           >
               <img 
-                src="/assets/master/logo_socdepoble_white.png" 
+                src="/assets/master/logo_socdepoble_white_full.png" 
                 alt="Sóc de Poble" 
                 className="h-7 lg:h-8 w-auto object-contain brightness-110"
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.src = '/src/assets/logo.png';
-                }}
+                fetchPriority="high"
               />
           </NavLink>
         </div>
@@ -101,14 +96,27 @@ const Header = () => {
         {user && (
           <div 
             className="w-12 h-12 flex items-center justify-center cursor-pointer hover:scale-110 transition-transform ml-1"
-            onClick={openProfileMenu}
+            onClick={() => {
+              if (profile?.is_master) navigate(`/perfil/${profile.id}`);
+              else navigate("/hub");
+            }}
           >
-            <div className="w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center text-xs font-black text-white border border-white/20 overflow-hidden">
+            <div className="w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center text-xs font-black text-white border border-white/20 overflow-hidden relative">
               {profile?.avatar_url ? (
-                <img src={profile.avatar_url} alt="P" className="w-full h-full object-cover" />
-              ) : (
-                (profile?.full_name || user?.email || "U").substring(0, 1).toUpperCase()
-              )}
+                <img 
+                  src={profile.avatar_url} 
+                  alt="P" 
+                  className="w-full h-full object-cover" 
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.style.display = 'none';
+                    e.target.parentNode.querySelector('.header-avatar-placeholder').style.display = 'block';
+                  }}
+                />
+              ) : null}
+              <span className={`header-avatar-placeholder ${profile?.avatar_url ? 'hidden' : ''}`}>
+                {(profile?.full_name || user?.email || "U").substring(0, 1).toUpperCase()}
+              </span>
             </div>
           </div>
         )}

@@ -150,7 +150,7 @@ const ChatDetail = () => {
         } catch (err) { logger.error('Error sending message:', err); }
     };
 
-    if (loading) return <div className="flex-1 bg-black flex items-center justify-center"><Loader2 className="animate-spin text-[#FF6B00]" size={40} /></div>;
+    if (loading) return <div className="flex-1 bg-theme-base flex items-center justify-center"><Loader2 className="animate-spin text-[#FF6B00]" size={40} /></div>;
 
     return (
         <div className="chat-detail-container flex-1 flex flex-col min-h-0">
@@ -158,7 +158,7 @@ const ChatDetail = () => {
             <div className="chat-list-scanlines" />
             
             {/* HEADER DEL XAT - CABECERA NEGRA RESPONSIVE (1er MANDAMENT v9.0.0) - EXACTLY 64px */}
-            <header className="h-16 min-h-[64px] px-4 md:px-6 flex items-center justify-between bg-black border-b border-gray-800 flex-shrink-0 z-30 text-white">
+            <header className="h-16 min-h-[64px] px-4 md:px-6 flex items-center justify-between bg-theme-header border-b border-white/5 flex-shrink-0 z-30 text-theme-text">
                 <div className="flex items-center gap-3">
                     <button onClick={() => navigate('/chats')} className="md:hidden w-12 h-12 flex items-center justify-center -ml-2 text-gray-400 hover:text-white transition-colors">
                         <ChevronLeft size={24} />
@@ -169,8 +169,8 @@ const ChatDetail = () => {
                     >
                         <Avatar src={otherInfo?.avatar_url} name={otherInfo?.name} size={40} />
                         <div className="flex flex-col min-w-0">
-                            <h2 className="text-lg font-bold text-white group-hover:text-[#FF6B00] transition-colors truncate leading-none">
-                                {otherInfo?.name || t('common.unknown')}
+                            <h2 className="text-lg font-bold text-theme-text group-hover:text-[#FF6B00] transition-colors truncate leading-none">
+                                {otherInfo?.name || 'Foraster'}
                             </h2>
                             <div className="flex items-center gap-2 mt-1">
                                 <span className={`w-2 h-2 rounded-full ${(otherInfo?.id?.startsWith('11111111-')) ? 'bg-orange-500 animate-pulse' : 'bg-green-500'}`} />
@@ -185,7 +185,7 @@ const ChatDetail = () => {
                 <div className="flex items-center gap-3 ml-auto">
                     <button 
                         onClick={() => setIsNotepadOpen(!isNotepadOpen)} 
-                        className={`w-10 h-10 flex items-center justify-center rounded-xl transition-all ${isNotepadOpen ? 'bg-[#FF6D00] text-white shadow-lg' : 'text-gray-400 hover:bg-white/10'}`}
+                        className={`w-10 h-10 flex items-center justify-center genesis-radius transition-all ${isNotepadOpen ? 'bg-[#FF6D00] text-white shadow-lg' : 'text-gray-400 hover:bg-white/10'}`}
                         title="Bloc de Notes"
                     >
                         <NotebookPen size={20} />
@@ -212,9 +212,9 @@ const ChatDetail = () => {
             </header>
 
             {/* SPLIT VIEW ENGINE: CONTENIDOR DE XAT + BLOC DE NOTES (v10.12) */}
-            <div className="chat-split-view-container flex-1 flex min-h-0">
+            <div className="chat-split-view-container flex-1 flex min-h-0 bg-theme-base">
                 {/* 1. PANNELL DE MISSATGES (FLEX-1) */}
-                <div className="chat-messages-panel flex-1 flex flex-col min-h-0">
+                <div className="chat-messages-panel flex-1 flex flex-col min-h-0 bg-theme-base">
                     <div className="messages-container custom-scrollbar chat-messages-list flex-1">
                         {messages.length === 0 ? (
                             <div className="flex flex-col items-center justify-center h-full opacity-20">
@@ -222,13 +222,13 @@ const ChatDetail = () => {
                                     <div className="flex flex-col items-center gap-6 animate-in zoom-in duration-500 opacity-100">
                                         <div className="w-24 h-24 rounded-full bg-orange-500 flex items-center justify-center text-4xl shadow-lg border-4 border-white/20">👵</div>
                                         <div className="text-center">
-                                            <h2 className="text-2xl font-bold text-white mb-2">Hola, Mestre Javi.</h2>
+                                            <h2 className="text-3xl font-bold text-theme-text mb-2">Hola, Mestre Javi.</h2>
                                             <p className="text-gray-400 max-w-xs mx-auto mb-8">Sóc la teua IAIA. Tinc els dossiers preparats per als nostres socis.</p>
                                             
                                             <div className="grid grid-cols-1 gap-4 w-full">
                                                 <button 
                                                     onClick={() => navigate('/ofici?section=partners')}
-                                                    className="p-6 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg transform hover:scale-105 transition-all text-left flex items-center gap-4 group"
+                                                    className="p-6 genesis-radius bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg transform hover:scale-105 transition-all text-left flex items-center gap-4 group"
                                                 >
                                                     <Briefcase className="w-10 h-10 group-hover:animate-bounce" />
                                                     <div>
@@ -238,11 +238,11 @@ const ChatDetail = () => {
                                                 </button>
 
                                                 <div className="flex gap-4">
-                                                    <button className="flex-1 p-4 rounded-xl border border-white/10 hover:bg-white/5 text-left transition-all">
+                                                    <button className="flex-1 p-4 card-radius border border-white/10 hover:bg-white/5 text-left transition-all">
                                                         <Globe className="w-6 h-6 mb-2 text-indigo-400" />
                                                         <h4 className="font-bold text-sm">Federació</h4>
                                                     </button>
-                                                    <button className="flex-1 p-4 rounded-xl border border-white/10 hover:bg-white/5 text-left transition-all">
+                                                    <button className="flex-1 p-4 card-radius border border-white/10 hover:bg-white/5 text-left transition-all">
                                                         <TrendingUp className="w-6 h-6 mb-2 text-green-400" />
                                                         <h4 className="font-bold text-sm">Models</h4>
                                                     </button>
@@ -267,8 +267,8 @@ const ChatDetail = () => {
                                 const isMe = msg.sender_id === humanId;
                                 return (
                                     <div key={msg.id} className={`flex ${isMe ? 'justify-end' : 'justify-start'} animate-in fade-in slide-in-from-bottom-2 duration-300`}>
-                                        <div className={`max-w-[85%] md:max-w-[65%] rounded-2xl p-4 relative shadow-2xl
-                                            ${isMe ? 'bg-[#FF6B00] text-white rounded-tr-none' : 'bg-[#1a1a1a] text-gray-100 rounded-tl-none border border-gray-800'}`}>
+                                        <div className={`max-w-[85%] md:max-w-[65%] card-radius p-4 relative shadow-2xl
+                                            ${isMe ? 'bg-[#FF6B00] text-white rounded-tr-none' : 'bg-theme-panel text-theme-text rounded-tl-none border border-white/5'}`}>
                                             
                                             {!isMe && (msg.author_name || otherInfo?.name) && (
                                                 <div className="text-[10px] font-black text-[#FF6B00] uppercase tracking-widest mb-2 opacity-80">
@@ -276,7 +276,7 @@ const ChatDetail = () => {
                                                 </div>
                                             )}
 
-                                            <div className="text-[15px] leading-snug break-words font-medium">
+                                            <div className="text-[17px] leading-snug break-words font-medium">
                                                 {msg.content}
                                             </div>
 
@@ -312,7 +312,7 @@ const ChatDetail = () => {
                     </div>
 
                     {/* ÀREA D'ENTRADA DE MISSATGES (v10.30.0 - GEM MODERN) */}
-                    <div className="chat-input-master-wrapper p-4 md:p-6 bg-black/80 backdrop-blur-xl border-t border-white/5 z-[100] flex-shrink-0 safe-area-bottom">
+                    <div className="chat-input-master-wrapper p-4 md:p-6 bg-theme-header/80 backdrop-blur-xl border-t border-white/5 z-[100] flex-shrink-0 safe-area-bottom">
                         <div className="max-w-5xl mx-auto relative">
                             {/* OVERLAY DE GRAVACIÓ DE VEU */}
                             {isRecording ? (
@@ -334,7 +334,7 @@ const ChatDetail = () => {
                                     {/* BOTÓ ADJUNTAR (PLUS MODERN) */}
                                     <button 
                                         type="button" 
-                                        className="w-12 h-12 flex items-center justify-center rounded-2xl bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white transition-all active:scale-90"
+                                        className="w-12 h-12 flex items-center justify-center genesis-radius bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white transition-all active:scale-90"
                                     >
                                         <Paperclip size={22} />
                                     </button>
@@ -346,7 +346,7 @@ const ChatDetail = () => {
                                             value={newMessage} 
                                             onChange={(e) => setNewMessage(e.target.value)}
                                             placeholder={t('common.write_message')}
-                                            className="w-full bg-white/5 border border-white/10 rounded-[28px] px-6 py-4 text-white focus:outline-none focus:border-[#FF6B00]/40 focus:bg-white/[0.08] transition-all placeholder:text-gray-600 font-medium text-[16px]"
+                                            className="w-full bg-white/5 border border-white/10 genesis-radius px-6 py-4 text-theme-text focus:outline-none focus:border-[#FF6B00]/40 focus:bg-white/[0.08] transition-all placeholder:text-gray-600 font-medium text-[17px]"
                                         />
                                         
                                         <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
@@ -371,7 +371,7 @@ const ChatDetail = () => {
                                     <button 
                                         type="submit" 
                                         disabled={!newMessage.trim()}
-                                        className="w-14 h-14 bg-[#FF6B00] hover:bg-[#ff7b20] disabled:bg-gray-800 disabled:opacity-30 text-white rounded-[24px] transition-all shadow-[0_8px_24px_rgba(255,107,0,0.3)] active:scale-95 flex items-center justify-center group"
+                                        className="w-14 h-14 bg-[#FF6B00] hover:bg-[#ff7b20] disabled:bg-gray-800 disabled:opacity-30 text-white genesis-radius transition-all shadow-[0_8px_24px_rgba(255,107,0,0.3)] active:scale-95 flex items-center justify-center group"
                                     >
                                         <Send size={24} strokeWidth={2.5} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                                     </button>
@@ -383,8 +383,8 @@ const ChatDetail = () => {
 
                 {/* 2. PANNELL BLOC DE NOTES (DRETA) */}
                 {isNotepadOpen && (
-                    <div className="hidden md:flex flex-col w-[380px] bg-[#0A0A0A] border-l border-gray-800 animate-in slide-in-from-right duration-300">
-                        <div className="h-16 flex items-center justify-between px-6 border-b border-gray-800 bg-black">
+                    <div className="hidden md:flex flex-col w-[380px] bg-theme-sidebar border-l border-white/5 animate-in slide-in-from-right duration-300">
+                        <div className="h-16 flex items-center justify-between px-6 border-b border-white/5 bg-theme-header">
                             <div className="flex items-center gap-3 text-[#FF6D00] font-black uppercase text-xs tracking-widest">
                                 <NotebookPen size={18} />
                                 <span>Bloc de Notes</span>
@@ -400,7 +400,7 @@ const ChatDetail = () => {
                                 value={notepadTitle}
                                 onChange={(e) => setNotepadTitle(e.target.value)}
                                 placeholder="Títol de l'esborrany..."
-                                className="w-full bg-transparent border-b border-gray-800 py-2 text-xl font-black text-white focus:outline-none focus:border-[#FF6D00] placeholder:text-gray-800"
+                                className="w-full bg-transparent border-b border-white/5 py-2 text-2xl font-black text-theme-text focus:outline-none focus:border-[#FF6D00] placeholder:text-gray-800"
                             />
                             
                             <textarea 
@@ -411,16 +411,16 @@ const ChatDetail = () => {
                             />
                         </div>
 
-                        <div className="p-6 border-t border-gray-800 bg-black space-y-3">
-                            <button className="w-full h-12 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl flex items-center justify-center gap-2 font-black uppercase text-xs tracking-widest shadow-lg shadow-indigo-900/40">
+                        <div className="p-6 border-t border-white/5 bg-theme-header space-y-3">
+                            <button className="w-full h-12 bg-indigo-600 hover:bg-indigo-700 text-white genesis-radius flex items-center justify-center gap-2 font-black uppercase text-xs tracking-widest shadow-lg shadow-indigo-900/40">
                                 <ArrowRight size={16} />
                                 <span>Publicar al Mur</span>
                             </button>
-                            <button className="w-full h-12 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl flex items-center justify-center gap-2 font-black uppercase text-xs tracking-widest shadow-lg shadow-emerald-900/40">
+                            <button className="w-full h-12 bg-emerald-600 hover:bg-emerald-700 text-white genesis-radius flex items-center justify-center gap-2 font-black uppercase text-xs tracking-widest shadow-lg shadow-emerald-900/40">
                                 <ShoppingBag size={16} />
                                 <span>Publicar al Mercat</span>
                             </button>
-                            <button className="w-full h-12 bg-white/5 hover:bg-white/10 text-gray-400 rounded-xl flex items-center justify-center gap-2 font-black uppercase text-xs tracking-widest border border-white/10">
+                            <button className="w-full h-12 bg-white/5 hover:bg-white/10 text-gray-400 genesis-radius flex items-center justify-center gap-2 font-black uppercase text-xs tracking-widest border border-white/10">
                                 <Save size={16} />
                                 <span>Guardar Esborrany</span>
                             </button>

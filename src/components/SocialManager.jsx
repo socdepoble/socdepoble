@@ -51,7 +51,7 @@ const SocialManager = ({ isOpen, onClose }) => {
                                 </div>
                             </div>
                             <div className="sm-tags-cloud">
-                                {['Veí', 'Amic', 'Família', 'Treball', 'Interès Comú', 'Referent'].map(tag => {
+                                {['Gent', 'Amic', 'Família', 'Treball', 'Interès Comú', 'Referent'].map(tag => {
                                     const isSelected = privateTags.includes(tag);
                                     return (
                                         <button

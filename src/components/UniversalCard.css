@@ -3,7 +3,7 @@
 .universal-card {
   background: var(--color-bg-canonic);
   border: 1px solid var(--border-master);
-  border-radius: var(--radius-genesis);
+  border-radius: 28px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -48,8 +48,8 @@
 }
 
 .card-header-boina {
-  background: var(--color-primary) !important;
-  color: var(--color-bg-canonic);
+  background: #f97316 !important; /* FORÇAT BOINA TARONJA v15.0 - UNIFICACIÓ SUPREMA */
+  color: #000000 !important; /* Màxim contrast */
   padding: 0 24px;
   display: flex;
   align-items: center;
@@ -58,28 +58,6 @@
   border-radius: 0;
   position: relative;
   z-index: 10;
-}
-
-.card-header-boina:hover {
-  filter: brightness(1.1);
-}
-
-.theme-dark .card-header-boina {
-  background: var(--sdp-terracotta) !important;
-}
-
-.card-header-boina.variant-official {
-  background: var(--color-secondary) !important;
-}
-
-/* NOVES CATEGORIES v11.1.0 */
-.universal-card.category-sostenible .card-header-boina {
-  background: #10b981 !important; /* Verd Vibrant */
-}
-
-.universal-card.category-danger .card-header-boina,
-.universal-card.alert-active .card-header-boina {
-  background: #ef4444 !important; /* Vermell Alerta */
 }
 
 .universal-card.category-sostenible:hover {
@@ -259,7 +237,7 @@
   justify-content: center;
   background: var(--color-bg-canonic);
   border: 2px solid var(--color-primary);
-  border-radius: var(--radius-full);
+  border-radius: 28px;
   font-size: 18px;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -275,24 +253,22 @@
 }
 
 /* MEDIA SECTION: Geometria Sagrada 28px */
+.universal-card-media {
+  width: 100%;
+  height: 100%;
+  object-fit: cover !important;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 0 !important; /* Media inherits from wrapper but doesn't need its own radius if it's full */
+}
+
 .card-media-wrapper {
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 9;
   background: var(--color-bg-canonic);
   overflow: hidden;
-  padding: 0; /* Purga de respiració per a alinear amb la v15 */
-}
-
-.universal-card-media {
-  width: 100%;
-  height: 100%;
-  object-fit: cover !important;
-  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-  border-radius: var(
-    --sdp-radius-genesis
-  ) !important; /* Protocol Gènesi v5.17 */
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+  padding: 0;
+  border-radius: 0; /* Boina handling makes this square at top */
 }
 
 .image-overlay-credits {
@@ -497,6 +473,20 @@
 }
 
 /* BUTTONS & TARGETS */
+.card-header-boina {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  background-color: #f97316 !important; /* Boina Taronja Institucional */
+  color: #000000 !important; /* Màxim contrast sobre taronja */
+  transition: all 0.3s ease;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.variant-official {
+  background-color: #f97316 !important; /* Forçat xé! */
+}
 .master-action-btn {
   display: flex;
   align-items: center;

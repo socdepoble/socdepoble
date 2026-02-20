@@ -16,10 +16,11 @@ import { geminiService } from '../services/geminiService';
 import { rhizomeManager } from '../services/rhizomeManager';
 import { paymentService } from '../services/paymentService';
 import { hapticService } from '../services/hapticService';
-import { IAIA_ID } from '../constants';
+import { IAIA_ID, USER_ROLES } from '../constants';
 import ShareHub from './ShareHub';
 import ItemDetailModal from './ItemDetailModal';
 import UniversalCard from './UniversalCard';
+import ContextualHeader from './ContextualHeader';
 import './Marketplace.css';
 
 const Market = ({ searchTerm = '' }) => {
@@ -35,6 +36,8 @@ const Market = ({ searchTerm = '' }) => {
     const [activeTab, setActiveTab] = useState('tot');
     const [page, setPage] = useState(0);
     const [isIAIAFiltering, setIsIAIAFiltering] = useState(localStorage.getItem('isIAIAFiltering') === 'true');
+    const [viewMode, setViewMode] = useState(localStorage.getItem('market_view_mode') || 'grid');
+    const [internalSearchTerm, setInternalSearchTerm] = useState('');
     const PAGE_SIZE = 100;
 
     const marketTabs = [
@@ -115,7 +118,6 @@ const Market = ({ searchTerm = '' }) => {
         // 1. Vision Mode Filter
         if (visionMode === 'humana' && !isSuperAdmin) {
             baseItems = baseItems.filter(item => {
-                const idToCheck = String(item.seller_entity_id || item.author_entity_id || item.author_user_id || item.author_id || '');
                 const nameToCheck = item.seller || item.seller_name || item.author_name || '';
 
                 // [MASTER BLACKLIST] Purga de fantasmes i noms reservats per a IAIA
@@ -136,7 +138,7 @@ const Market = ({ searchTerm = '' }) => {
                                      item.seller?.includes('Sóc de Poble') || 
                                      item.title?.includes('Camiseta');
 
-                const isAI = item.author_role === 'ambassador' ||
+                const isAI = item.author_role === USER_ROLES.AMBASSADOR ||
                     item.author_is_ai ||
                     item.is_iaia_inspired ||
                     (idToCheckMarket && idToCheckMarket.startsWith('11111111-')) ||
@@ -161,11 +163,11 @@ const Market = ({ searchTerm = '' }) => {
         }
 
         // 3. Search Filter
-        const normalizedSearch = searchTerm?.toLowerCase().trim();
-        let result = normalizedSearch ? baseItems.filter(item =>
-            item.title?.toLowerCase().includes(normalizedSearch) ||
-            item.description?.toLowerCase().includes(normalizedSearch) ||
-            item.seller?.toLowerCase().includes(normalizedSearch)
+        const combinedSearch = (searchTerm || internalSearchTerm || '')?.toLowerCase().trim();
+        let result = combinedSearch ? baseItems.filter(item =>
+            item.title?.toLowerCase().includes(combinedSearch) ||
+            item.description?.toLowerCase().includes(combinedSearch) ||
+            item.seller?.toLowerCase().includes(combinedSearch)
         ) : baseItems;
 
         // 4. [MASTER] Priority Sort (Pinned items first)
@@ -176,9 +178,9 @@ const Market = ({ searchTerm = '' }) => {
             if (a.pinned_position !== undefined && b.pinned_position !== undefined) {
                 return a.pinned_position - b.pinned_position;
             }
-            return new Date(b.created_at || 0) - new Date(a.created_at || 0);
+            return new Date(b.created_at || 0) - new Date(a.date || a.created_at || 0);
         });
-    }, [items, searchTerm, visionMode, isIAIAFiltering]);
+    }, [items, searchTerm, internalSearchTerm, visionMode, isIAIAFiltering, isSuperAdmin]);
 
     const [, setPayingItemId] = useState(null);
     const [, setPaidItems] = useState(new Set());
@@ -259,7 +261,7 @@ const Market = ({ searchTerm = '' }) => {
             return;
         }
 
-        if (item.author_role === 'ambassador' || item.author_is_ai || item.is_iaia_inspired || targetId === IAIA_ID) {
+        if (item.author_role === USER_ROLES.AMBASSADOR || item.author_is_ai || item.is_iaia_inspired || targetId === IAIA_ID) {
             navigate('/iaia');
             return;
         }
@@ -294,6 +296,17 @@ const Market = ({ searchTerm = '' }) => {
             <h1 className="sr-only">Mercat de Proximitat de Sóc de Poble</h1>
 
             {/* REDUNDÀNCIA DE CABECERA ELIMINADA (v11.0.6) */}
+            <ContextualHeader
+                searchTerm={internalSearchTerm}
+                onSearchChange={setInternalSearchTerm}
+                viewMode={viewMode}
+                onViewModeChange={(mode) => {
+                    setViewMode(mode);
+                    localStorage.setItem('market_view_mode', mode);
+                }}
+                placeholder="Cerca al mercat..."
+            />
+
             <div className="px-4 pt-4 flex justify-between items-center mb-4">
                 <h2 className="text-xl font-black text-white uppercase tracking-tighter opacity-50">Mercat Rural</h2>
                 <button
@@ -321,7 +334,7 @@ const Market = ({ searchTerm = '' }) => {
             </div>
 
             {/* IAIA PORTERA TOGGLE [PILLAR 4] */}
-            <div className="iaia-filter-bar px-4 py-3 flex justify-between items-center font-black border-b border-white/10 bg-black/60 backdrop-blur-2xl sticky top-14 z-20">
+            <div className="iaia-filter-bar px-4 py-3 flex justify-between items-center font-black border-b border-white/10 bg-black/60 backdrop-blur-2xl sticky top-[110px] z-20">
                 <div className="flex items-center gap-2">
                     <Sparkles size={16} className={isIAIAFiltering ? "text-primary animate-pulse" : "text-white/40"} />
                     <span className={`text-xs tracking-widest uppercase ${isIAIAFiltering ? "text-primary" : "text-white"}`}>
@@ -341,7 +354,7 @@ const Market = ({ searchTerm = '' }) => {
                 </button>
             </div>
 
-            <div className="market-grid">
+            <div className={`market-grid view-mode-${viewMode}`}>
                 {filteredItems.length === 0 ? (
                     <StatusLoader
                         type="empty"
@@ -355,7 +368,7 @@ const Market = ({ searchTerm = '' }) => {
                             item={item}
                             title={item.title}
                             excerpt={item.description}
-                            subtitle={item.seller_name || item.seller || 'Veí de la Torre'}
+                            subtitle={item.seller_name || item.seller || 'Sóc de Poble'}
                             image={item.image_url || '/images/assets/generic_market.png'}
                             onHeaderClick={() => handleHeaderClick(item)}
                             onRecipeClick={() => handleRecipeClick(item)}

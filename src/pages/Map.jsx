@@ -5,12 +5,15 @@ import { Map as MapIcon, MapPin, Navigation, Layers, Plus, Store, Landmark, Tick
 import CategoryTabs from '../components/CategoryTabs';
 import { useUI } from '../context/UIContext';
 import BlueprintOverlay from '../components/BlueprintOverlay';
+import ContextualHeader from '../components/ContextualHeader';
 import './Map.css';
 
 const Map = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const { blueprintMode } = useUI();
+    const [mapSearch, setMapSearch] = React.useState('');
+    const [viewMode, setViewMode] = React.useState(localStorage.getItem('map_view_mode') || 'grid');
 
     const townTabs = [
         { id: 'pobles', label: t('nav.towns') || 'Pobles' },
@@ -36,7 +39,18 @@ const Map = () => {
                 </div>
             </header>
 
-            <div className="map-content-area p-4 md:p-8">
+            <ContextualHeader
+                searchTerm={mapSearch}
+                onSearchChange={setMapSearch}
+                viewMode={viewMode}
+                onViewModeChange={(mode) => {
+                    setViewMode(mode);
+                    localStorage.setItem('map_view_mode', mode);
+                }}
+                placeholder="Cerca al mapa..."
+            />
+
+            <div className={`map-content-area p-4 md:p-8 view-mode-${viewMode}`}>
                 <div className={`relative w-full h-[600px] rounded-[32px] overflow-hidden bg-blue-50 dark:bg-slate-900 border-2 border-blue-100 dark:border-slate-800 shadow-inner group`}>
                     {blueprintMode && <BlueprintOverlay label="MAP_VIEW" info="Interactive Placeholder" color="green" />}
                     

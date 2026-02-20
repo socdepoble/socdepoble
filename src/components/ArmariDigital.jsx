@@ -18,7 +18,7 @@ const ArmariDigital = ({ townName, documents = [] }) => {
         {
             id: 'mod-1',
             title: 'Model d\'Instància General',
-            category: 'Atenció al Veí',
+            category: 'Atenció a la Gent',
             date: '2024-01-20',
             size: '450 KB',
             type: 'PDF',

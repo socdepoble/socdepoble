@@ -69,14 +69,14 @@ const ArchitecteView = () => {
         </h1>
 
         {doc.voiceSummary && (
-          <div className={`p-8 mb-10 rounded-3xl text-xl border-l-8 border-orange-500 ${isDark ? 'bg-slate-900' : 'bg-orange-50/50'}`}>
+          <div className={`p-8 mb-10 genesis-radius text-xl border-l-8 border-orange-500 ${isDark ? 'bg-slate-900' : 'bg-orange-50/50'}`}>
             <p className="italic">"{doc.voiceSummary}"</p>
           </div>
         )}
 
-        <div className="bg-white/5 border border-white/10 rounded-3xl p-8 mb-10 backdrop-blur-md">
+        <div className="bg-white/5 border border-white/10 genesis-radius p-8 mb-10 backdrop-blur-md">
           <div className="flex items-start gap-4 mb-6">
-            <div className="p-3 bg-blue-600/20 rounded-2xl text-blue-400">
+            <div className="p-3 bg-blue-600/20 genesis-radius text-blue-400">
               <Info size={24} />
             </div>
             <div>
@@ -124,7 +124,7 @@ const ArchitecteView = () => {
         )}
 
         {doc.general && (
-          <div className="bg-black/40 border border-white/5 rounded-3xl p-8 mb-10">
+          <div className="bg-black/40 border border-white/5 genesis-radius p-8 mb-10">
             <div className="flex items-center gap-3 mb-4 text-xs font-black uppercase tracking-widest opacity-60">
               <ShieldCheck size={16} /> Arquitectura de Ferro
             </div>
@@ -134,7 +134,7 @@ const ArchitecteView = () => {
           </div>
         )}
 
-        <div className="flex items-center gap-2 p-6 bg-orange-600/10 border border-orange-600/20 rounded-2xl text-orange-500 text-[10px] font-black uppercase tracking-widest">
+        <div className="flex items-center gap-2 p-6 bg-orange-600/10 border border-orange-600/20 genesis-radius text-orange-500 text-[10px] font-black uppercase tracking-widest">
           <Zap size={14} className="animate-pulse" />
           AQUESTA DEFINICIÓ ÉS L'ORDRE INMUTABLE DEL MESTRE JAVI
         </div>

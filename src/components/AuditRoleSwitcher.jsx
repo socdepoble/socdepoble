@@ -12,13 +12,13 @@ const AuditRoleSwitcher = () => {
     const roles = [
         { id: null, label: 'Real (Mestre)', icon: <ShieldAlert size={14} />, color: 'text-orange-500' },
         { id: USER_ROLES.GUEST, label: 'Foraster', icon: <Eye size={14} />, color: 'text-gray-400' },
-        { id: USER_ROLES.NEIGHBOR, label: 'Veí', icon: <User size={14} />, color: 'text-green-500' },
+        { id: USER_ROLES.NEIGHBOR, label: 'Sóc de Poble', icon: <User size={14} />, color: 'text-green-500' },
         { id: USER_ROLES.EDITOR, label: 'Editor', icon: <FileEdit size={14} />, color: 'text-blue-500' },
         { id: USER_ROLES.ADMIN, label: 'Admin', icon: <ShieldCheck size={14} />, color: 'text-purple-500' },
     ];
 
     return (
-        <div className="mt-4 p-3 bg-white/5 rounded-2xl border border-white/10 animate-in fade-in slide-in-from-bottom-2 duration-500">
+        <div className="mt-4 p-3 bg-white/5 genesis-radius border border-white/10 animate-in fade-in slide-in-from-bottom-2 duration-500">
             <div className="flex items-center gap-2 mb-3 px-1">
                 <Users size={12} className="text-orange-500" />
                 <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white/50">Audiència Simulada</span>
@@ -30,7 +30,7 @@ const AuditRoleSwitcher = () => {
                         key={role.id || 'real'}
                         onClick={() => setSimulatedRole(role.id)}
                         className={`
-                            flex items-center justify-between px-3 h-10 rounded-xl transition-all text-left
+                            flex items-center justify-between px-3 h-10 genesis-radius transition-all text-left
                             ${simulatedRole === role.id 
                                 ? 'bg-white/10 text-white border border-white/20 shadow-lg' 
                                 : 'bg-transparent text-gray-400 hover:bg-white/5 hover:text-white border border-transparent'}

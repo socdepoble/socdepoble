@@ -5,19 +5,19 @@
 */
 
 @theme {
-  --font-sans: "Noto Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "Playfair Display", serif;
-  --font-mono: "Noto Sans Mono", monospace;
-  --font-condensed: "Noto Sans Condensed", sans-serif;
+  --font-sans: "Roboto Condensed", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Roboto Condensed", serif;
+  --font-mono: "Roboto Condensed", monospace;
+  --font-condensed: "Roboto Condensed", sans-serif;
 
-  /* M3 ADAPTIVE TOKENS */
-  --color-primary: #5d5fef; /* Blau SdP */
+  /* M3 ADAPTIVE TOKENS - SÓC DE POBLE OFFICIAL */
+  --color-primary: #F97316; /* Terracotta (Primary) */
   --color-on-primary: #ffffff;
-  --color-primary-container: rgba(93, 95, 239, 0.15);
+  --color-primary-container: rgba(249, 115, 22, 0.15);
 
-  --color-secondary: #ff6b00; /* Taronja SdP */
+  --color-secondary: #06B6D4; /* Cyan (Secondary) */
   --color-on-secondary: #000000;
-  --color-secondary-container: rgba(255, 107, 0, 0.15);
+  --color-secondary-container: rgba(6, 182, 212, 0.15);
 
   --color-surface: #1a1b23;
   --color-on-surface: #ffffff;
@@ -37,7 +37,11 @@
   --touch-target: 48px;
 
   /* Gradients Canònics v15 */
-  --gradient-bategat: linear-gradient(135deg, #ff6b00 0%, #0ea5e9 100%); /* Orange to Sky Blue */
+  --gradient-bategat: linear-gradient(
+    135deg,
+    #ff6b00 0%,
+    #0ea5e9 100%
+  ); /* Orange to Sky Blue */
 }
 
 :root {
@@ -58,31 +62,57 @@
   --sdp-orange: var(--color-secondary);
 
   --bg-theme-base: var(--bg-app);
+  --bg-theme-sidebar: #050505;
+  --bg-theme-panel: #0a0a0a;
   --text-theme-text: var(--text-main);
   --bg-theme-header: #000000;
 }
 
 :root.light {
   /* En futur, el light mode també seguirà M3 però amb superfícies clares */
-  --bg-app: #f5f1e6;
+  --bg-app: #FDF5E6; /* Crema Oficial */
   --bg-master: #ffffff;
   --bg-panel: #ffffff;
-  --bg-sidebar: #000000;
-  --text-main: #111111;
+  --bg-sidebar: #f8f1e3;
+  --text-main: #111827;
   --text-secondary: #4b5563;
   --text-muted: #9ca3af;
   --border-master: rgba(0, 0, 0, 0.08);
 
-  --color-primary: #ff6d23;
-  --color-secondary: #002b5b;
+  --color-primary: #F97316;
+  --color-secondary: #06B6D4;
 
   --bg-theme-base: var(--bg-app);
+  --bg-theme-sidebar: var(--bg-sidebar);
+  --bg-theme-panel: var(--bg-panel);
   --text-theme-text: var(--text-main);
   --bg-theme-header: #ffffff;
 }
 
 .bg-theme-base {
   background-color: var(--bg-theme-base);
+  transition: background-color 0.3s ease;
+}
+.bg-theme-sidebar {
+  background-color: var(--bg-theme-sidebar);
+  transition: background-color 0.3s ease;
+}
+.card, .universal-card, .bg-panel, .glass-panel {
+  border-radius: var(--radius-genesis) !important;
+  overflow: hidden;
+}
+
+.modal-content, .dialog-panel {
+  border-radius: var(--radius-genesis) !important;
+}
+
+.bg-theme-panel {
+  background-color: var(--bg-theme-panel);
+  transition: background-color 0.3s ease;
+  border-radius: var(--radius-genesis);
+}
+.bg-theme-header {
+  background-color: var(--bg-theme-header);
   transition: background-color 0.3s ease;
 }
 .text-theme-text {
@@ -107,8 +137,11 @@ body,
 body {
   touch-action: pan-x pan-y;
   -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   font-family: var(--font-sans);
-  font-size: 1rem; /* 16px real */
+  font-size: 1.05rem; /* 17px real - Compensates Roboto Condensed narrowness */
+  font-display: swap;
 }
 
 /* 🧬 ESTRUCTURA SUPREMA (PROTOCOL TABULA RASA v10.30.0) */
@@ -160,6 +193,105 @@ body {
     padding-left: max(20px, env(safe-area-inset-left));
     padding-right: max(20px, env(safe-area-inset-right));
   }
+
+  /* [PROTOCOLS DE VISTA v12.1] - ESPECIFICITAT BLINDADA */
+[class*="view-mode-single"] {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 24px !important;
+  padding: 16px !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 auto !important;
+}
+
+[class*="view-mode-single"] > * {
+  width: 100% !important;
+  max-width: 600px !important;
+}
+
+[class*="view-mode-grid"] {
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: 12px !important;
+  padding: 12px !important;
+  max-width: none !important;
+}
+
+[class*="view-mode-list"] {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+  padding: 12px !important;
+  max-width: none !important;
+}
+
+/* List Mode Overrides for UniversalCard - Layout Proximitat */
+[class*="view-mode-list"] .universal-card {
+  flex-direction: row !important;
+  height: 120px !important;
+  border-radius: 16px !important;
+}
+
+[class*="view-mode-list"] .card-media-wrapper {
+  width: 120px !important;
+  height: 120px !important;
+  flex-shrink: 0 !important;
+}
+
+[class*="view-mode-list"] .card-body {
+  padding: 8px 12px !important;
+  justify-content: center !important;
+}
+
+[class*="view-mode-list"] .card-header-boina,
+[class*="view-mode-list"] .card-footer-master {
+  display: none !important; /* Compact List View sacrifices boina/footer for density */
+}
+
+.view-mode-list .universal-card .card-header-boina {
+  width: 60px;
+  height: 100% !important;
+  flex-direction: column;
+  padding: 10px 0;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: 16px;
+}
+
+.view-mode-list .universal-card .header-text,
+.view-mode-list .universal-card .header-right-meta {
+  display: none;
+}
+
+.view-mode-list .universal-card .card-media-wrapper {
+  width: 100px;
+  height: 100%;
+  aspect-ratio: 1/1;
+}
+
+.view-mode-list .universal-card .card-body {
+  padding: 8px 12px;
+  justify-content: center;
+}
+
+.view-mode-list .universal-card .card-footer-master {
+  display: none;
+}
+
+.view-mode-list .universal-card .genesis-title {
+  font-size: 16px;
+}
+
+.view-mode-list .universal-card .card-excerpt {
+  display: none;
+}
+
+@media (max-width: 480px) {
+  .view-mode-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 per fila com demana el mestre en mòbil */
+  }
+}
 
   @keyframes fade-in {
     from {
@@ -257,3 +389,48 @@ body {
   transform: scale(0.95);
 }
 
+/* [NOTION-DYNAMICS] Folder styling for high-accessibility organization */
+.notion-folder {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 24px;
+    background: #ffffff;
+    border: 1px solid rgba(0,0,0,0.05);
+    border-radius: 16px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+}
+
+.notion-folder:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+    border-color: rgba(255, 107, 0, 0.2);
+}
+
+.notion-folder .folder-icon {
+    font-size: 32px;
+    color: #FF6B00;
+    margin-bottom: 4px;
+}
+
+.notion-folder .folder-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: #0f172a;
+    letter-spacing: -0.02em;
+}
+
+.notion-folder .folder-description {
+    font-size: 14px;
+    color: #64748b;
+    line-height: 1.5;
+}
+
+/* [NOTION-GRID] 28px geometry inspired grid */
+.notion-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 28px;
+}

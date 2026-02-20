@@ -8,6 +8,7 @@ import { logger } from '../utils/logger';
 import './CommunityDirectory.css';
 import { useUI } from '../context/UIContext';
 import { useAuth } from '../context/AuthContext';
+import { USER_ROLES } from '../constants';
 
 const CommunityDirectory = () => {
     const navigate = useNavigate();
@@ -43,8 +44,8 @@ const CommunityDirectory = () => {
             const role = String(item.role || item.type || '').toLowerCase();
             const name = String(item.full_name || item.name || '').toUpperCase();
             
-            const isAI = role.includes('ambassador') || 
-                         role.includes('official') ||
+            const isAI = role.includes(USER_ROLES.AMBASSADOR) || 
+                         role.includes(USER_ROLES.OFFICIAL) ||
                          item.is_ai || 
                          item.id?.startsWith('11111111-') ||
                          name.includes('IAIA') ||

@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, useMemo } from 'react';
 import { preferenceService } from '../services/preferenceService';
 
 const UIContext = createContext();
@@ -115,145 +115,157 @@ export const UIProvider = ({ children }) => {
         setViewerConfig(null);
     };
 
+
+    const value = useMemo(() => ({
+        theme,
+        toggleTheme,
+        isCreateModalOpen,
+        setIsCreateModalOpen,
+        isPostModalOpen,
+        setIsPostModalOpen,
+        isEventModalOpen,
+        setIsEventModalOpen,
+        isMarketModalOpen,
+        setIsMarketModalOpen,
+        isSocialManagerOpen,
+        setIsSocialManagerOpen,
+        socialManagerContext,
+        setSocialManagerContext,
+        postModalConfig,
+        openPostModal,
+        visionMode,
+        setVisionMode,
+        vibe,
+        setVibe,
+        gloveMode,
+        setGloveMode,
+        toggleGloveMode: () => setGloveMode(prev => !prev),
+        isViewerOpen,
+        setIsViewerOpen,
+        viewerConfig,
+        openViewer,
+        closeViewer,
+        landingPage,
+        setLandingPage,
+        visualDemocracy,
+        setVisualDemocracy,
+        globalDesign,
+        setGlobalDesign,
+        resetToNaturalOrder,
+        isConnectionModalOpen,
+        setIsConnectionModalOpen,
+        connectionConfig,
+        setConnectionConfig,
+        openConnectionModal: (config) => {
+            setConnectionConfig(config);
+            setIsConnectionModalOpen(true);
+        },
+        closeConnectionModal: () => {
+            setIsConnectionModalOpen(false);
+            setConnectionConfig(null);
+        },
+        isAgentSelectorOpen,
+        setIsAgentSelectorOpen,
+        agentSelectorConfig,
+        openAgentSelector: (config) => {
+            setAgentSelectorConfig(config);
+            setIsAgentSelectorOpen(true);
+        },
+        closeAgentSelector: () => {
+            setIsAgentSelectorOpen(false);
+            setAgentSelectorConfig(null);
+        },
+        isLegalModalOpen,
+        setIsLegalModalOpen,
+        legalConfig,
+        openLegalModal: (config) => {
+            setLegalConfig(config);
+            setIsLegalModalOpen(true);
+        },
+        closeLegalModal: () => {
+            setIsLegalModalOpen(false);
+            setLegalConfig(null);
+        },
+        isEditModalOpen,
+        setIsEditModalOpen,
+        editConfig,
+        openEditModal: (config) => {
+            setEditConfig(config);
+            setIsEditModalOpen(true);
+        },
+        closeEditModal: () => {
+            setIsEditModalOpen(false);
+            setEditConfig(null);
+        },
+        asoMode,
+        setAsoMode,
+        toggleAsoMode: () => setAsoMode(prev => !prev),
+        isTallerOpen,
+        setIsTallerOpen,
+        isNotePadOpen,
+        setIsNotePadOpen,
+        isIAIARoleSelectorOpen,
+        setIsIAIARoleSelectorOpen,
+        iaiaLevel,
+        setIaiaLevel: (level) => {
+            setIaiaLevel(level);
+            preferenceService.setPrefs({ ...preferenceService.getPrefs(), iaiaLevel: level });
+        },
+        architectMode,
+        setArchitectMode,
+        toggleArchitectMode: () => setArchitectMode(prev => !prev),
+        openIAIARoleSelector: () => setIsIAIARoleSelectorOpen(true),
+        closeIAIARoleSelector: () => setIsIAIARoleSelectorOpen(false),
+        selectedTown,
+        setSelectedTown,
+        preferredAgentId,
+        setPreferredAgentId,
+        isMagicPregonerOpen,
+        setIsMagicPregonerOpen,
+        isDrawerOpen,
+        setIsDrawerOpen,
+        toggleDrawer: () => setIsDrawerOpen(prev => !prev),
+        closeDrawer: () => setIsDrawerOpen(false),
+        openDrawer: () => setIsDrawerOpen(true),
+        forensicMode,
+        setForensicMode,
+        toggleForensicMode: () => setForensicMode(prev => !prev),
+        blueprintMode,
+        setBlueprintMode,
+        toggleBlueprintMode: () => setBlueprintMode(prev => !prev),
+        isGuestInteractionModalOpen,
+        setIsGuestInteractionModalOpen,
+        iaiaSidebarOpen,
+        setIaiaSidebarOpen,
+        iaiaSidebarContext,
+        setIaiaSidebarContext,
+        toggleIAIASidebar: () => setIaiaSidebarOpen(prev => !prev),
+        openIAIASidebar: (ctx = 'general') => {
+            setIaiaSidebarContext(ctx);
+            setIaiaSidebarOpen(true);
+        },
+        closeIAIASidebar: () => setIaiaSidebarOpen(false),
+        isProfileMenuOpen,
+        setIsProfileMenuOpen,
+        toggleProfileMenu: () => setIsProfileMenuOpen(prev => !prev),
+        openProfileMenu: () => setIsProfileMenuOpen(true),
+        closeProfileMenu: () => setIsProfileMenuOpen(false),
+        isAccessibilitatOpen,
+        setIsAccessibilitatOpen,
+        toggleAccessibilitat: () => setIsAccessibilitatOpen(prev => !prev)
+    }), [
+        theme, isCreateModalOpen, isPostModalOpen, isEventModalOpen, isMarketModalOpen, 
+        isSocialManagerOpen, socialManagerContext, postModalConfig, visionMode, vibe, 
+        gloveMode, isViewerOpen, viewerConfig, landingPage, visualDemocracy, globalDesign, 
+        isConnectionModalOpen, connectionConfig, isAgentSelectorOpen, agentSelectorConfig, 
+        isLegalModalOpen, legalConfig, isEditModalOpen, editConfig, asoMode, 
+        isTallerOpen, isNotePadOpen, isIAIARoleSelectorOpen, iaiaLevel, architectMode, 
+        selectedTown, preferredAgentId, isMagicPregonerOpen, isDrawerOpen, forensicMode, 
+        blueprintMode, isGuestInteractionModalOpen, iaiaSidebarOpen, iaiaSidebarContext, 
+        isProfileMenuOpen, isAccessibilitatOpen
+    ]);
     return (
-        <UIContext.Provider value={{
-            theme,
-            toggleTheme,
-            isCreateModalOpen,
-            setIsCreateModalOpen,
-            isPostModalOpen,
-            setIsPostModalOpen,
-            isEventModalOpen,
-            setIsEventModalOpen,
-            isMarketModalOpen,
-            setIsMarketModalOpen,
-            isSocialManagerOpen,
-            setIsSocialManagerOpen,
-            socialManagerContext,
-            setSocialManagerContext,
-            postModalConfig,
-            openPostModal,
-            visionMode,
-            setVisionMode,
-            vibe,
-            setVibe,
-            gloveMode,
-            setGloveMode,
-            toggleGloveMode: () => setGloveMode(prev => !prev),
-            isViewerOpen,
-            setIsViewerOpen,
-            viewerConfig,
-            openViewer,
-            closeViewer,
-            landingPage,
-            setLandingPage,
-            visualDemocracy,
-            setVisualDemocracy,
-            globalDesign,
-            setGlobalDesign,
-            resetToNaturalOrder,
-            isConnectionModalOpen,
-            setIsConnectionModalOpen,
-            connectionConfig,
-            setConnectionConfig,
-            openConnectionModal: (config) => {
-                setConnectionConfig(config);
-                setIsConnectionModalOpen(true);
-            },
-            closeConnectionModal: () => {
-                setIsConnectionModalOpen(false);
-                setConnectionConfig(null);
-            },
-            isAgentSelectorOpen,
-            setIsAgentSelectorOpen,
-            agentSelectorConfig,
-            openAgentSelector: (config) => {
-                setAgentSelectorConfig(config);
-                setIsAgentSelectorOpen(true);
-            },
-            closeAgentSelector: () => {
-                setIsAgentSelectorOpen(false);
-                setAgentSelectorConfig(null);
-            },
-            isLegalModalOpen,
-            setIsLegalModalOpen,
-            legalConfig,
-            openLegalModal: (config) => {
-                setLegalConfig(config);
-                setIsLegalModalOpen(true);
-            },
-            closeLegalModal: () => {
-                setIsLegalModalOpen(false);
-                setLegalConfig(null);
-            },
-            isEditModalOpen,
-            setIsEditModalOpen,
-            editConfig,
-            openEditModal: (config) => {
-                setEditConfig(config);
-                setIsEditModalOpen(true);
-            },
-            closeEditModal: () => {
-                setIsEditModalOpen(false);
-                setEditConfig(null);
-            },
-            asoMode,
-            setAsoMode,
-            toggleAsoMode: () => setAsoMode(prev => !prev),
-            isTallerOpen,
-            setIsTallerOpen,
-            isNotePadOpen,
-            setIsNotePadOpen,
-            isIAIARoleSelectorOpen,
-            setIsIAIARoleSelectorOpen,
-            iaiaLevel,
-            setIaiaLevel: (level) => {
-                setIaiaLevel(level);
-                preferenceService.setPrefs({ ...preferenceService.getPrefs(), iaiaLevel: level });
-            },
-            architectMode,
-            setArchitectMode,
-            toggleArchitectMode: () => setArchitectMode(prev => !prev),
-            openIAIARoleSelector: () => setIsIAIARoleSelectorOpen(true),
-            closeIAIARoleSelector: () => setIsIAIARoleSelectorOpen(false),
-            selectedTown,
-            setSelectedTown,
-            preferredAgentId,
-            setPreferredAgentId,
-            isMagicPregonerOpen,
-            setIsMagicPregonerOpen,
-            isDrawerOpen,
-            setIsDrawerOpen,
-            toggleDrawer: () => setIsDrawerOpen(prev => !prev),
-            closeDrawer: () => setIsDrawerOpen(false),
-            openDrawer: () => setIsDrawerOpen(true),
-            forensicMode,
-            setForensicMode,
-            toggleForensicMode: () => setForensicMode(prev => !prev),
-            blueprintMode,
-            setBlueprintMode,
-            toggleBlueprintMode: () => setBlueprintMode(prev => !prev),
-            isGuestInteractionModalOpen,
-            setIsGuestInteractionModalOpen,
-            iaiaSidebarOpen,
-            setIaiaSidebarOpen,
-            iaiaSidebarContext,
-            setIaiaSidebarContext,
-            toggleIAIASidebar: () => setIaiaSidebarOpen(prev => !prev),
-            openIAIASidebar: (ctx = 'general') => {
-                setIaiaSidebarContext(ctx);
-                setIaiaSidebarOpen(true);
-            },
-            closeIAIASidebar: () => setIaiaSidebarOpen(false),
-            isProfileMenuOpen,
-            setIsProfileMenuOpen,
-            toggleProfileMenu: () => setIsProfileMenuOpen(prev => !prev),
-            openProfileMenu: () => setIsProfileMenuOpen(true),
-            closeProfileMenu: () => setIsProfileMenuOpen(false),
-            isAccessibilitatOpen,
-            setIsAccessibilitatOpen,
-            toggleAccessibilitat: () => setIsAccessibilitatOpen(prev => !prev)
-        }}>
+        <UIContext.Provider value={value}>
             {children}
         </UIContext.Provider>
     );

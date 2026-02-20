@@ -2,7 +2,7 @@
  * Constants globals per a l'aplicació Sóc de Poble
  */
 
-export const APP_VERSION = "v10.26.0-PURGA";
+export const APP_VERSION = "v10.26.0-GOLDEN";
 export const CRITICAL_THRESHOLD = "v1.6.0";
 
 export const DEMO_USER_ID = "11111111-0000-0000-0000-000000000001";
@@ -26,6 +26,7 @@ export const USER_ROLES = {
   AUTHOR: "autor", // Col·laboradors Verificats
   NEIGHBOR: "vei", // Usuari Estàndard
   OFFICIAL: "oficial", // Entitats oficials (IAIA, Ajuntament)
+  AMBASSADOR: "ambassador", // Ambaixadors de la IAIA
   GUEST: "convidat", // Sense registre
 };
 
@@ -53,7 +54,8 @@ export const ENTITY_TYPES = {
   OFFICIAL: "oficial",
   BUSINESS: "empresa",
   GROUP: "grup",
-  PRIVATE: "personal", // Per a perfils de veïns
+  PRIVATE: "personal", // Per a perfils sobirans
+  AUTONOMOUS: "autonomo", // Treballador autònom
 };
 
 export const ROLE_LABELS = {
@@ -61,7 +63,8 @@ export const ROLE_LABELS = {
   [USER_ROLES.ADMIN]: { va: "Administrador", es: "Administrador" },
   [USER_ROLES.EDITOR]: { va: "Editor", es: "Editor" },
   [USER_ROLES.AUTHOR]: { va: "Autor", es: "Autor" },
-  [USER_ROLES.NEIGHBOR]: { va: "Veí", es: "Vecino" },
+  [USER_ROLES.NEIGHBOR]: { va: "Sóc de Poble", es: "Sóc de Poble" },
+  [USER_ROLES.AMBASSADOR]: { va: "Ambaixador", es: "Embajador" },
 };
 
 export const AUTH_EVENTS = {

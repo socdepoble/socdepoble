@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { 
     Search, Globe, Moon, Sun, Bell, 
@@ -9,6 +9,8 @@ import { supabaseService } from '../services/supabaseService';
 import Avatar from './Avatar';
 import TownSelectorModal from './TownSelectorModal';
 import { useUI } from '../context/UIContext';
+import ContextualHeader from './ContextualHeader';
+import './ChatList.css';
 
 const AGENTS = [
     { id: '11111111-1111-4111-a111-000000000000', name: 'IAIA MarIA', role: 'Governança Rural Digital', avatar_url: '/assets/avatars/iaia_official.png', last_message_time: new Date(), last_message_content: 'Benvingut al xat del poble.', tag: 'MASTER', color: 'bg-orange-100 text-orange-600' },
@@ -23,8 +25,7 @@ const AGENTS = [
     { id: '11111111-1111-4111-a111-000000000007', name: 'Nano Banana', role: 'Mestre d\'Estètica', avatar_url: '/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/nanobanana_tia_style_1770057831273.png', last_message_time: new Date(), last_message_content: 'Tot bonic amb Zero Radius.', tag: 'CULTURA', color: 'bg-yellow-50 text-yellow-500' },
     { id: '11111111-1111-4111-a111-000000000013', name: 'El Viatjant', role: 'Ambaixador i Connexió', avatar_url: '/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/viatjant_tia_style_1770057860995.png', last_message_time: new Date(), last_message_content: 'Connectant pobles.', tag: 'CULTURA', color: 'bg-purple-100 text-purple-600' },
     { id: '11111111-1111-4111-a111-000000000014', name: 'Beatriz Ortega', role: 'Dinamitzadora Educativa', avatar_url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Beatriz', last_message_time: new Date(), last_message_content: 'Formació i joventut.', tag: 'CULTURA', color: 'bg-indigo-100 text-indigo-600' },
-    { id: '11111111-1111-4111-a111-000000000015', name: 'Carla Soriano', role: 'Benestar i Sanitat', avatar_url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Carla', last_message_time: new Date(), last_message_content: 'Salut rural i prevenció.', tag: 'GESTIÓ', color: 'bg-teal-100 text-teal-600' },
-    { id: '11111111-1111-4111-a111-000000000016', name: 'Elena Popova', role: 'Patrimoni i Festes', avatar_url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Elena', last_message_time: new Date(), last_message_content: 'Cultura i Banda de Música.', tag: 'CULTURA', color: 'bg-amber-100 text-amber-600' }
+    { id: '11111111-1111-4111-a111-000000000015', name: 'Carla Soriano', role: 'Benestar i Sanitat', avatar_url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Carla', last_message_time: new Date(), last_message_content: 'Salut rural i prevenció.', tag: 'GESTIÓ', color: 'bg-teal-100 text-teal-600' }
 ];
 
 const ChatList = () => {
@@ -35,6 +36,7 @@ const ChatList = () => {
     
     const [chats, setChats] = useState([]);
     const [isTownModalOpen, setIsTownModalOpen] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
         const fetchChats = async () => {
@@ -47,7 +49,8 @@ const ChatList = () => {
                 // [XAT/GENT] Ens assegurem que els agents bateguen si el mode bategat està actiu
                 // [MASTER IDENTITY PROTECTION]
                 const isMasterByEmail = user?.email?.includes('javillinares');
-                const showAgents = visionMode === 'iaia' || visionMode === 'immersiva' || isSuperAdmin || isMasterByEmail;
+                // [DIRECTIVA MESTRE] Sempre mostrar agents si no s'especifica el contrari o si és un Foraster/Mestre
+                const showAgents = visionMode !== 'humana' || isSuperAdmin || isMasterByEmail || !user?.id || user?.isAnonymous;
 
                 if (showAgents) {
                     const activeAgents = AGENTS; 
@@ -95,7 +98,17 @@ const ChatList = () => {
             }
         };
         fetchChats();
-    }, [user?.id, user?.email, visionMode, isSuperAdmin]);
+    }, [user?.id, user?.email, user?.isAnonymous, visionMode, isSuperAdmin]);
+
+    const filteredChats = useMemo(() => {
+        if (!searchTerm) return chats;
+        const normalized = searchTerm.toLowerCase();
+        return chats.filter(chat => 
+            chat.other_info?.name?.toLowerCase().includes(normalized) ||
+            chat.other_info?.role?.toLowerCase().includes(normalized) ||
+            chat.last_message_content?.toLowerCase().includes(normalized)
+        );
+    }, [chats, searchTerm]);
 
     const handleChatClick = (chat) => {
         navigate(`/chats/${chat.id}`, { state: { chatInfo: chat } });
@@ -106,9 +119,30 @@ const ChatList = () => {
             {/* SCANLINES RETRO-FUTURISTES */}
             <div className="chat-list-scanlines" />
 
-            {/* LLISTA D'AGENTS (FIX: min-h-0 per a permetre scroll en flex) */}
+            {/* HEADER CANÒNIC (RESTAURAT) */}
+            <header className="h-20 flex flex-col justify-center px-6 bg-black border-b border-white/5 relative z-10 shrink-0">
+                <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-3">
+                        <span className="text-xl font-black text-white tracking-tighter">XATS</span>
+                        <div className="flex h-2 w-2 rounded-full bg-orange-500 animate-pulse" />
+                    </div>
+                </div>
+                
+                <div className="relative group">
+                    <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-[#FF6B00] transition-colors" />
+                    <input 
+                        type="text" 
+                        placeholder="Cerca un bategat..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="w-full bg-white/5 border border-white/10 rounded-lg py-1.5 pl-9 pr-4 text-xs text-white focus:outline-none focus:border-[#FF6B00]/40 focus:bg-white/10 transition-all placeholder:text-gray-700"
+                    />
+                </div>
+            </header>
+
+            {/* LLISTA D'AGENTS */}
             <div className="flex-1 overflow-y-auto custom-scrollbar bg-black min-h-0">
-                {chats.length > 0 ? chats.map(chat => (
+                {filteredChats.length > 0 ? filteredChats.map(chat => (
                     <div 
                         key={chat.id} 
                         onClick={() => handleChatClick(chat)}
@@ -128,7 +162,9 @@ const ChatList = () => {
                         </div>
                         <div className="flex-1 min-w-0">
                             <div className="flex justify-between items-start mb-1">
-                                <h3 className="font-bold text-[16px] text-white truncate group-hover:text-[#FF6B00] transition-colors">{chat.other_info?.name || 'Veí'}</h3>
+                                <h3 className="font-bold text-[16px] text-white truncate group-hover:text-[#FF6B00] transition-colors">
+                                    {chat.other_info?.name || (chat.participant_2_id === user?.id ? chat.p1_info?.name : chat.p2_info?.name) || 'Foraster'}
+                                </h3>
                                 <div className="flex flex-col items-end shrink-0 pt-1">
                                     <span className="text-[10px] text-gray-500 font-bold uppercase leading-none">{chat.last_message_time ? new Date(chat.last_message_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : 'Ara'}</span>
                                 </div>

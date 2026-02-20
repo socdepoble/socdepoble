@@ -77,7 +77,7 @@ const PlaygroundPortal = () => {
                             </div>
                             <div className="persona-list-bottom">
                                 <p className="persona-list-bio-full">
-                                    {persona.bio || "Veí de Sóc de Poble disposat a provar el sistema."}
+                                    {persona.bio || "Foraster de Sóc de Poble disposat a provar el sistema."}
                                 </p>
                             </div>
                         </div>

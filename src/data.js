@@ -116,7 +116,7 @@ export const MOCK_FEED = [
         author_role: "business",
         author_entity_id: 'rentonar-1',
         time: "Importat",
-        content: "# 🛖 La Barraca de la Memòria\n\nRecuperar l'arquitectura de pedra seca no és només una qüestió estètica, és una qüestió de resistència cultural. Des del Rentonar portem anys documentant cada marge, cada pou i cada bosc de la nostra terra. \n\nAquest bategat històric ara viu a Sóc de Poble per a que cap veí n'oblide les arrels. Durant les properes setmanes importarem tot el nostre arxiu fotogràfic i els articles que durant dècades han bategat a Wordpress i Blogger. Perquè el futur del Mas es construeix sobre les pedres del passat. 🏺🌳⚖️",
+        content: "# 🛖 La Barraca de la Memòria\n\nRecuperar l'arquitectura de pedra seca no és només una qüestió estètica, és una qüestió de resistència cultural. Des del Rentonar portem anys documentant cada marge, cada pou i cada bosc de la nostra terra. \n\nAquest bategat històric ara viu a Sóc de Poble per a que ningú n'oblide les arrels. Durant les properes setmanes importarem tot el nostre arxiu fotogràfic i els articles que durant dècades han bategat a Wordpress i Blogger. Perquè el futur del Mas es construeix sobre les pedres del passat. 🏺🌳⚖️",
         image_url: ["https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&q=80&w=1000"],
         tags: ["#Patrimoni", "#ElRentonar", "#MemòriaViva"],
         type: "post",
@@ -132,7 +132,7 @@ export const MOCK_FEED = [
         isOfficial: true,
         author_entity_id: 'rentonar-1',
         time: "Importat",
-        content: "# 🌾 Crònica de la Sega: De la Falç al Bategat Digital\n\nRecordeu quan el sol encara no havia eixit i ja estàvem al camp? Aquella olor a palla seca i suor compartit. El bategat de la sega era el ritme del poble. \n\nAvui, en un món de pantalles, recuperar aquestes cròniques ens recorda que la tecnologia ha de servir per a connectar-nos amb el territori, no per a aïllar-nos-en. Estem treballant per a que tota la nostra visió de la sobirania alimentària estiga a l'abast de qualsevol habitant de la Torre de les Maçanes. Benvinguts a la Memòria Inmutable! 🏺⚖️✨",
+        content: "# 🌾 Crònica de la Sega: De la Falç al Bategat Digital\n\nRecordeu quan el sol encara no havia eixit i ja estàvem al camp? Aquella olor a palla seca i suor compartit. El bategat de la sega era el ritme del poble. \n\nAvui, en un món de pantalles, recuperar aquestes cròniques ens recorda que la tecnologia ha de servir per a connectar-nos amb el territori, no per a aïllar-nos-en. Estem treballant per a que tota la nostra visió de la sobirania alimentària estiga a l'abast de qualsevol persona de la Torre de les Maçanes. Benvinguts a la Memòria Inmutable! 🏺⚖️✨",
         image_url: ["https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?auto=format&fit=crop&q=80&w=1000"],
         tags: ["#Cultura", "#Tradició", "#Sega"],
         type: "post",
@@ -191,7 +191,7 @@ export const MOCK_FEED = [
         author_role: "ambassador",
         author_entity_id: 'iaia-oficial-1',
         time: "2 dies",
-        content: "# 🫀 Utilitat Social: La Llei del Cor\n\nFills meus, cada píxel que bateguem ha de tindre un propòsit per al veí. No fem tecnologia per presumir, fem tecnologia per ajudar. 👵🛡️",
+        content: "# 🫀 Utilitat Social: La Llei del Cor\n\nFills meus, cada píxel que bateguem ha de tindre un propòsit per a la comunitat. No fem tecnologia per presumir, fem tecnologia per ajudar. 👵🛡️",
         likes: 8900,
         comments: 245,
         image_url: ["/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/iaia_prop_2_gadgets_1770058280096.png"],
@@ -231,7 +231,7 @@ export const MOCK_FEED = [
         author_role: "ambassador",
         author_entity_id: 'iaia-oficial-1',
         time: "Ara",
-        content: "# 🏛️ Smart Villages: De la Visió Europea a l'Acció Local\n\nFills meus, l'IAIA ha estat estudiant les lliçons d'Europa per a portar-les al nostre Mas. No es tracta de ser moderns per ser moderns, es tracta de ser **Poble Intel·ligent**.\n\nAquestes són les **5 Lliçons Clau** que estem aplicant:\n1. **Impuls Local**: La veu del veí és la primera.\n2. **Solucions Digitals Realistes**: Res de fumerals, tecnologia que es puga tocar.\n3. **Innovació sobre Fortaleses**: Pensem en el que ja som bons (com la mel de la Rosa).\n4. **Convivència Equilibrada**: L'analògic i el digital s'han de voler.\n5. **Governança de les Dades**: El poble és amo de la seua memòria.\n\n**Anem a fer de la nostra terra una infraestructura vital per al futur!** 👵🛡️🇪🇺✨",
+        content: "# 🏛️ Smart Villages: De la Visió Europea a l'Acció Local\n\nFills meus, l'IAIA ha estat estudiant les lliçons d'Europa per a portar-les al nostre Mas. No es tracta de ser moderns per ser moderns, es tracta de ser **Poble Intel·ligent**.\n\nAquestes són les **5 Lliçons Clau** que estem aplicant:\n1. **Impuls Local**: La veu del poble és la primera.\n2. **Solucions Digitals Realistes**: Res de fumerals, tecnologia que es puga tocar.\n3. **Innovació sobre Fortaleses**: Pensem en el que ja som bons (com la mel de la Rosa).\n4. **Convivència Equilibrada**: L'analògic i el digital s'han de voler.\n5. **Governança de les Dades**: El poble és amo de la seua memòria.\n\n**Anem a fer de la nostra terra una infraestructura vital per al futur!** 👵🛡️🇪🇺✨",
         likes: 1500,
         comments: 92,
         image_url: ["/assets/brain/c7c302c1-d324-4124-b24a-1d7279636125/market_comic_post_1770151956401.png"],
@@ -291,14 +291,14 @@ export const MOCK_FEED = [
         author_role: "ambassador",
         author_entity_id: 'iaia-oficial-1',
         time: "1h",
-        content: "# 📱 L'IAIA en la teua Butxaca: Guia de Proximitat\n\nNo patiu per la modernitat, fills. L'IAIA sap que el mòbil pot ser un embolic, per això estem treballant en una **Interfície de Proximitat** que bategue com una conversa de carrer.\n\nAquest disseny garanteix que qualsevol veí, per gran que siga, sàpia on bategua el seu poble. Tecnologia que acompanya, no que atropella. 👵🛡️✨",
+        content: "# 📱 L'IAIA en la teua Butxaca: Guia de Proximitat\n\nNo patiu per la modernitat, fills. L'IAIA sap que el mòbil pot ser un embolic, per això estem treballant en una **Interfície de Proximitat** que bategue com una conversa de carrer.\n\nAquest disseny garanteix que qualsevol persona, per gran que siga, sàpia on bategua el seu poble. Tecnologia que acompanya, no que atropella. 👵🛡️✨",
         likes: 890,
         comments: 45,
         image_url: ["/assets/master/iaia_guiding_family_mobile.png"],
         type: "didactic_presentation",
         metadata: {
             title: "Interfície de Proximitat Mobil",
-            didactic_text: "Aquesta lliçó explica com l'IA adaptativa redueix la bretxa digital, creant entorns mòbils que s'ajusten a la visió d'un veí del poble, amb tipografia clara y llenguatge bategat.",
+            didactic_text: "Aquesta lliçó explica com l'IA adaptativa redueix la bretxa digital, creant entorns mòbils que s'ajusten a la visió de la gent del poble, amb tipografia clara y llenguatge bategat.",
         },
         created_at: new Date().toISOString()
     },
@@ -330,7 +330,7 @@ export const MOCK_FEED = [
         author_avatar: "/assets/master/vicent_workshop.png",
         author_role: "user",
         time: "Ara",
-        content: "# 🛠️ El Taller del Vicent: Provant l'Arquitectura en Real\n\nEi, veïns! Com diu l'IAIA, estem provant aquests artefactes al meu taller. Hem vist que l'estratègia de les Smart Villages ens permet tenir el control encara que caiga la xarxa.\n\nAquesta infografia mostra com connectem els sensors del camp amb el sistema de l'IAIA. Èxit total al Mas! 🍐🚜🔧",
+        content: "# 🛠️ El Taller del Vicent: Provant l'Arquitectura en Real\n\nEi, bategants! Com diu l'IAIA, estem provant aquests artefactes al meu taller. Hem vist que l'estratègia de les Smart Villages ens permet tenir el control encara que caiga la xarxa.\n\nAquesta infografia mostra com connectem els sensors del camp amb el sistema de l'IAIA. Èxit total al Mas! 🍐🚜🔧",
         likes: 540,
         comments: 89,
         image_url: ["/assets/master/vicent_workshop.png"],
@@ -390,7 +390,7 @@ export const MOCK_FEED = [
         author_role: "official",
         author_entity_id: 'rentonar-1',
         time: "2h",
-        content: "# 🏛️ El Rentonar: Mantenint Viva la Nostra Cultura\n\n## Per l'Associació Cultural\n\nDes de l'Associació seguim treballant per a que les nostres tradicions no es perden. Ens hem unit a Sóc de Poble per a que cada veí puga accedir a l'arxiu històric i participar en les activitats que organitzem.\n\nEl nostre CIF G-54321987 ja està vinculat i operatiu en la xarxa per a total transparència. Som poble, som cultura! ✅",
+        content: "# 🏛️ El Rentonar: Mantenint Viva la Nostra Cultura\n\n## Per l'Associació Cultural\n\nDes de l'Associació seguim treballant per a que les nostres tradicions no es perden. Ens hem unit a Sóc de Poble per a que tothom puga accedir a l'arxiu històric i participar en les activitats que organitzem.\n\nEl nostre CIF G-54321987 ja està vinculat i operatiu en la xarxa per a total transparència. Sóc de Poble, som cultura! ✅",
         likes: 180,
         comments: 15,
         image_url: ["https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=2069&auto=format&fit=crop"],
@@ -482,9 +482,9 @@ export const MOCK_FEED = [
         type: "pobles", // JOIA 4: POBLES
         title: "Gent de la Torre de les Maçanes",
         subtitle: "La Torre de les Maçanes",
-        content: "Descobreix la vibrant comunitat de la Torre. Històries, veïns i el bategat del nostre poble.",
+        content: "Descobreix la vibrant comunitat de la Torre. Històries, gent i el bategat del nostre poble.",
         image_url: ["https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=1000"],
-        tags: ["#Comunitat", "#LaTorre", "#Veïns"],
+        tags: ["#Comunitat", "#LaTorre", "#Bategants"],
         created_at: new Date(Date.now() - 172800000).toISOString()
     },
     {
@@ -839,8 +839,8 @@ export const MOCK_EVENTS = [
 ];
 
 export const MOCK_TOWNS = [
-    { id: 401, type: 'town', author: 'Gent de Penàguila', avatar: '🏰', time: 'Veí', title: 'Penàguila', content: 'El jardí de l\'Alcoià. Visitau el Jardí de Santos.', population: '320 hab', linkTo: "Gent de Penàguila", image: true, image_url: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=1000" },
-    { id: 402, type: 'town', author: 'Gent de Benifallim', avatar: '⛪', time: 'Veí', title: 'Benifallim', content: 'Terra de castells i silenci.', population: '110 hab', linkTo: "Gent de Benifallim", image: true, image_url: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&q=80&w=1000" },
+    { id: 401, type: 'town', author: 'Gent de Penàguila', avatar: '🏰', time: 'Foraster', title: 'Penàguila', content: 'El jardí de l\'Alcoià. Visitau el Jardí de Santos.', population: '320 hab', linkTo: "Gent de Penàguila", image: true, image_url: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=1000" },
+    { id: 402, type: 'town', author: 'Gent de Benifallim', avatar: '⛪', time: 'Foraster', title: 'Benifallim', content: 'Terra de castells i silenci.', population: '110 hab', linkTo: "Gent de Benifallim", image: true, image_url: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&q=80&w=1000" },
     { id: 403, type: 'town', author: 'Gent de La Torre', avatar: '🏺', time: 'Local', title: 'La Torre de les Maçanes', content: 'Bressol del Projecte Sóc de Poble.', population: '700 hab', linkTo: "Gent de La Torre", image: true, image_url: "/assets/master/iaia_guiding_family.png" }
 ];
 

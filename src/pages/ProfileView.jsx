@@ -2,13 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { 
     User, Settings, ChevronRight, Loader2, AlertCircle, 
-    Sparkles, Zap, Grid, Heart, Share2, ArrowLeft, Camera
+    Sparkles, Zap, Grid, Heart, Share2, ArrowLeft, Camera, UserCheck, UserPlus, MoreHorizontal, MessageCircle, Tag, ShieldCheck, Beaker, Edit, Trash2, Plus, FileText, MapPin, Landmark, Image as ImageIcon, ScanLine, Ruler, Globe, Link as LinkIcon, Users
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useUI } from '../context/UIContext';
 import { supabaseService, isValidUUID } from '../services/supabaseService';
 import SEO from '../components/SEO';
 import Feed from '../components/Feed';
+import Avatar from '../components/Avatar';
+import ShareHub from '../components/ShareHub';
+import ProfileStudioModal from '../components/ProfileStudioModal';
+import { ROLES, USER_ROLES, ENTITY_TYPES } from '../constants';
 import './ProfileView.css';
 
 const ProfileView = () => {
@@ -24,8 +28,44 @@ const ProfileView = () => {
     const [activeTab, setActiveTab] = useState('mur');
     const [isConnected, setIsConnected] = useState(false);
     const [stats, setStats] = useState({ followers: 0, following: 0, posts: 0 });
+    const [isStudioOpen, setIsStudioOpen] = useState(false);
+    const [oficiPosts, setOficiPosts] = useState([]);
+    const [userPosts, setUserPosts] = useState([]);
 
-    const isOwnProfile = !id && !username;
+    const isOwnProfile = !id && !username || (currentUser && id === currentUser.id);
+
+    // [MASTER IDENTITY CHECK] - Use AuthContext's derived state but with fallsbacks
+    const isMaster = (isOwnProfile && myProfile?.is_master) || 
+                     profile?.full_name?.toLowerCase().includes('llinares') || 
+                     profile?.email?.toLowerCase().includes('javillinares') ||
+                     profile?.id === 'd6325f44-7277-4d20-b020-166c010995ab';
+
+    let displayName = isMaster ? 'Javi Llinares' : (profile?.full_name || (isOwnProfile ? (myProfile?.full_name || currentUser?.email?.split('@')[0]) : 'Sóc de Poble'));
+    
+    // Nuclear Purge: If displayName contains "Foraster", it's a ghost.
+    if (displayName.toLowerCase().includes('foraster')) displayName = 'Sóc de Poble';
+    
+    const displayAvatar = isMaster ? '/Javi_Llinares-Foto_perfil-1.jpg' : (profile?.avatar_url || null);
+    
+    const isAutonomous = profile?.type === 'autonomo' || profile?.role === 'autonomo';
+    const isCompany = profile?.type === ENTITY_TYPES.BUSINESS || profile?.role === 'business' || id === 'sdp-oficial-1';
+
+    const handleUpdateIdentity = async (value, type) => {
+        if (!isOwnProfile) return;
+        
+        try {
+            const updates = {};
+            if (type === 'icon') updates.avatar_url = value;
+            
+            const { error: updateError } = await supabaseService.updateProfile(currentUser.id, updates);
+            if (updateError) throw updateError;
+            
+            setProfile(prev => ({ ...prev, ...updates }));
+            
+        } catch (err) {
+            console.error('[ProfileView] Error updating profile:', err);
+        }
+    };
     
     useEffect(() => {
         const fetchProfileData = async () => {
@@ -34,8 +74,8 @@ const ProfileView = () => {
                 let targetProfile = null;
                 
                 // 1. Resolve Target Profile
-                if (isOwnProfile) {
-                    targetProfile = myProfile || currentUser;
+                if (isOwnProfile && myProfile) {
+                    targetProfile = myProfile;
                 } else if (username) {
                     targetProfile = await supabaseService.getUserByUsername(username);
                 } else if (id === 'iaia' || location.pathname === '/iaia') {
@@ -54,22 +94,40 @@ const ProfileView = () => {
                     targetProfile = await supabaseService.getPublicProfile(id) || await supabaseService.getPublicEntity(id);
                 }
 
-                if (!targetProfile) throw new Error('Perfil no trobat');
+                if (!targetProfile) {
+                    // Fallback for Master if not found by service but we know it's own profile
+                    if (isOwnProfile && currentUser) targetProfile = myProfile || currentUser;
+                    else throw new Error('Perfil no trobat');
+                }
                 setProfile(targetProfile);
 
-                // 2. Resolve Stats if we have a valid UUID
-                if (isValidUUID(targetProfile.id)) {
-                    const [followers, following, posts] = await Promise.all([
+                // 2. Resolve Stats & Curriculum
+                if (isValidUUID(targetProfile.id) || targetProfile.id) {
+                    const [followers, following, posts, postsData, imported] = await Promise.all([
                         supabaseService.getFollowers(targetProfile.id),
                         supabaseService.getFollowing(targetProfile.id),
-                        supabaseService.getUserPostsCount(targetProfile.id)
+                        supabaseService.getUserPostsCount(targetProfile.id),
+                        supabaseService.getUserPosts(targetProfile.id),
+                        supabaseService.getImportedPosts(targetProfile.id)
                     ]);
 
                     setStats({
                         followers: followers?.length || 0,
                         following: following?.length || 0,
-                        posts: posts || 0
+                        posts: (posts || 0) + (imported.data?.length || 0)
                     });
+                    
+                    if (postsData && Array.isArray(postsData)) {
+                        setUserPosts(postsData);
+                    }
+                    
+                    if (imported.data) {
+                        setOficiPosts(imported.data);
+                        // If we have imported posts, default to 'ofici' tab for the Master
+                        if (isMaster && imported.data.length > 0) {
+                            setActiveTab('ofici');
+                        }
+                    }
 
                     if (currentUser && targetProfile.id !== currentUser.id) {
                         const followingStatus = await supabaseService.isFollowing(currentUser.id, targetProfile.id);
@@ -85,8 +143,14 @@ const ProfileView = () => {
                 setLoading(false);
             }
         };
+        // [MASTER REDIRECT] Si entrem a /perfil sense ID, forcem la redirecció al nostre ID per a evitar "fantasmes" o IAIA antiga
+        if (isOwnProfile && !id && myProfile?.id) {
+            navigate(`/perfil/${myProfile.id}`, { replace: true });
+            return;
+        }
+
         fetchProfileData();
-    }, [id, username, isOwnProfile, currentUser, myProfile, location.pathname]);
+    }, [id, username, isOwnProfile, currentUser, myProfile, location.pathname, navigate, isMaster]);
 
     if (loading) return (
         <div className="profile-hub-loading flex flex-col items-center justify-center h-screen bg-black">
@@ -104,43 +168,60 @@ const ProfileView = () => {
         </div>
     );
 
-    // Get Initials for Avatar
-    const getInitials = (name) => {
-        if (!name) return 'SP';
-        return name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
-    };
 
     return (
         <div className="profile-hub-container bg-black min-h-screen text-white font-sans overflow-x-hidden">
-            <SEO title={profile?.full_name} description={profile?.bio} />
+            <SEO title={displayName} description={profile?.bio} />
             
-            <header className="relative w-full h-[45vh] min-h-[300px]">
+            <header className="relative w-full h-[40vh] min-h-[300px] border-b border-white/5">
                 <div className="cover-wrapper w-full h-full overflow-hidden">
-                    <img src={profile.cover_url || "/rural_tech_future_valencia.png"} alt="" className="w-full h-full object-cover opacity-80" />
-                    <div className="cover-gradient absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
+                    <img 
+                        src={profile?.cover_url || "/rural_tech_future_valencia.png"} 
+                        alt="" 
+                        className="w-full h-full object-cover opacity-60 scale-105" 
+                    />
+                    <div className="cover-gradient absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
                 </div>
                 
                 <div className="header-actions absolute top-6 left-6 right-6 flex justify-between z-10">
-                    <button onClick={() => navigate(-1)} className="p-3 bg-black/40 backdrop-blur-md rounded-full border border-white/10"><ArrowLeft size={24} /></button>
+                    <button 
+                        onClick={() => navigate(-1)} 
+                        className="p-3 bg-black/40 backdrop-blur-xl rounded-full border border-white/10 hover:bg-white/20 transition-all"
+                    >
+                        <ArrowLeft size={24} />
+                    </button>
                     <div className="flex gap-3">
-                        <button className="p-3 bg-black/40 backdrop-blur-md rounded-full border border-white/10"><Share2 size={24} /></button>
-                        <button className="p-3 bg-black/40 backdrop-blur-md rounded-full border border-white/10"><Settings size={24} /></button>
+                        <ShareHub 
+                            title={displayName}
+                            text={profile?.bio}
+                            url={window.location.pathname}
+                            customTrigger={
+                                <button className="p-3 bg-black/40 backdrop-blur-xl rounded-full border border-white/10 hover:bg-white/20 transition-all">
+                                    <Share2 size={24} />
+                                </button>
+                            }
+                        />
+                        <button className="p-3 bg-black/40 backdrop-blur-xl rounded-full border border-white/10 hover:bg-white/20 transition-all"><Settings size={24} /></button>
                     </div>
                 </div>
 
-                <div className="avatar-central-wrapper absolute -bottom-20 left-1/2 -translate-x-1/2">
-                    <div className="avatar-frame relative w-44 h-44 rounded-full p-2 bg-black overflow-hidden border-4 border-black group">
-                        <div className="w-full h-full rounded-full overflow-hidden bg-gradient-to-br from-gray-800 to-gray-950 flex items-center justify-center border-4 border-[#F97316] relative">
-                            {profile.avatar_url ? (
-                                <img src={profile.avatar_url} alt="" className="w-full h-full object-cover" />
-                            ) : (
-                                <span className="text-5xl font-black text-white italic tracking-tighter">
-                                    {getInitials(profile.full_name)}
-                                </span>
-                            )}
+                <div className="avatar-central-wrapper absolute -bottom-24 left-1/2 -translateX-1/2 flex flex-col items-center">
+                    <div className="avatar-frame relative w-48 h-48 rounded-full p-1.5 bg-gradient-to-b from-[#F97316] to-transparent overflow-hidden group shadow-[0_0_60px_rgba(249,115,22,0.3)]">
+                        <div className="w-full h-full rounded-full bg-black flex items-center justify-center relative overflow-hidden">
+                            <Avatar 
+                                src={displayAvatar} 
+                                name={displayName} 
+                                role={isMaster ? 'super_admin' : profile?.role} 
+                                size={184} 
+                                className="master-profile-avatar"
+                            />
                             {isOwnProfile && (
-                                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity cursor-pointer">
-                                    <Camera size={24} />
+                                <div 
+                                    className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center transition-all cursor-pointer z-20"
+                                    onClick={() => setIsStudioOpen(true)}
+                                >
+                                    <Camera size={28} className="mb-2 text-[#F97316]" />
+                                    <span className="text-[8px] font-black uppercase tracking-widest">Canviar Imatge</span>
                                 </div>
                             )}
                         </div>
@@ -148,73 +229,168 @@ const ProfileView = () => {
                 </div>
             </header>
 
-            <section className="identity-block mt-32 px-6 text-center space-y-8">
-                <div className="badges-wrapper flex justify-center gap-3 mb-4">
-                    <span className="px-5 py-2 bg-white/5 text-gray-400 border border-white/10 rounded-full text-[10px] font-black uppercase tracking-[0.2em]">{profile.town_name || 'TERRITORI'}</span>
-                    <span className="px-5 py-2 bg-[#F97316]/20 text-[#F97316] border border-[#F97316]/20 rounded-full text-[10px] font-black uppercase tracking-[0.2em]">{profile.role?.toUpperCase() || 'BATEGANT'}</span>
+            <section className="identity-block mt-32 px-6 text-center">
+                <div className="badges-wrapper flex justify-center gap-2 mb-6">
+                    {profile?.town_name && (
+                        <span className="px-4 py-1.5 bg-white/5 text-gray-500 border border-white/10 rounded-full text-[9px] font-black uppercase tracking-[0.2em]">
+                            {profile.town_name}
+                        </span>
+                    )}
+                    <span className={`px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-[0.2em] border ${isMaster ? 'bg-indigo-500/20 text-indigo-400 border-indigo-500/30' : (isCompany ? 'bg-indigo-600/20 text-indigo-300 border-indigo-500/30' : (isAutonomous ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' : 'bg-orange-500/20 text-orange-400 border-orange-500/30'))}`}>
+                        {isMaster ? 'MESTRE BATEGANT' : (isCompany ? 'EMPRESA VERIFICADA' : (isAutonomous ? 'PÀGINA D\'AUTÒNOM' : (profile?.role === 'vei' || profile?.role === 'neighbor' ? 'SÓC DE POBLE' : (profile?.role?.toUpperCase() || 'SÓC DE POBLE'))))}
+                    </span>
                 </div>
                 
-                <h1 className="text-4xl lg:text-6xl font-black uppercase tracking-tighter py-4 leading-[0.9]">
-                    {isOwnProfile && myProfile?.full_name ? myProfile.full_name : profile.full_name}
+                <h1 className="text-5xl lg:text-7xl font-black uppercase tracking-tighter leading-[0.85] mb-6 italic">
+                    {displayName}
                 </h1>
-                <p className="max-w-lg mx-auto text-gray-400 text-base leading-relaxed px-12 opacity-90 font-medium italic">
-                    {profile.bio || "Bategant a Sóc de Poble amb orgull i trellat."}
+                
+                <p className="max-w-xl mx-auto text-gray-400 text-lg leading-relaxed px-12 opacity-80 font-medium italic mb-10">
+                    {profile?.bio || (isMaster ? "Arquitecte de la Matriu Sóc de Poble. Dissenyant el futur de la connexió rural." : "Connectant el poble amb el futur a través del Rhizome digital.")}
                 </p>
 
-                <div className="connect-action py-6 flex justify-center">
+                <div className="actions-row py-4 flex flex-col sm:flex-row justify-center items-center gap-4">
                     {!isOwnProfile ? (
                         <button 
-                            onClick={() => openConnectionModal({ targetId: profile.id })}
-                            className="w-full max-w-[280px] h-16 rounded-full bg-gradient-to-r from-[#F97316] to-[#E11D48] text-white font-black text-lg shadow-[0_0_30px_rgba(249,115,22,0.4)] hover:scale-105 transition-transform flex items-center justify-center gap-3"
+                            onClick={() => openConnectionModal({ targetId: profile?.id })}
+                            className="w-full max-w-[320px] h-14 rounded-2xl bg-gradient-to-r from-[#F97316] to-[#E11D48] text-white font-black text-sm uppercase tracking-widest shadow-[0_10px_30px_rgba(249,115,22,0.4)] hover:scale-[1.02] transition-all flex items-center justify-center gap-3"
                         >
-                            <Heart size={20} fill={isConnected ? "white" : "none"} />
-                            <span>{isConnected ? 'CONNEXIÓ ACTIVA' : 'CONNECTAR'}</span>
+                            {isConnected ? <MessageCircle size={18} /> : <UserPlus size={18} />}
+                            <span>{isConnected ? 'ENVIAR MISSATGE' : 'CONNECTAR'}</span>
                         </button>
                     ) : (
-                        <button 
-                            className="w-full max-w-[280px] h-16 rounded-full bg-white/5 border border-white/10 text-white font-black text-lg hover:bg-white/10 transition-all flex items-center justify-center gap-3"
-                        >
-                            <span>EDITAR PERFIL</span>
-                        </button>
+                        <div className="flex flex-col gap-4 w-full max-w-[320px]">
+                            <button 
+                                onClick={() => setIsStudioOpen(true)}
+                                className="w-full h-14 rounded-2xl bg-white/5 border border-white/10 text-white font-black text-sm uppercase tracking-widest hover:bg-white/10 hover:border-white/20 transition-all flex items-center justify-center gap-3"
+                            >
+                                <Sparkles size={18} className="text-[#F97316]" />
+                                <span>GESTIÓ D'IDENTITAT</span>
+                            </button>
+                            
+                            <div className="grid grid-cols-2 gap-4">
+                                <button className="h-16 rounded-2xl bg-indigo-600/40 border-2 border-indigo-400/50 text-white text-sm font-black uppercase tracking-wider flex items-center justify-center gap-4 hover:bg-indigo-600/60 transition-all shadow-[0_0_20px_rgba(79,70,229,0.3)] active:scale-95 leading-tight px-4 text-center">
+                                    <Landmark size={24} className="text-indigo-300 shrink-0" />
+                                    <span>Pàgina d'Autònom</span>
+                                </button>
+                                <button className="h-16 rounded-2xl bg-indigo-600/40 border-2 border-indigo-400/50 text-white text-sm font-black uppercase tracking-wider flex items-center justify-center gap-4 hover:bg-indigo-600/60 transition-all shadow-[0_0_20px_rgba(79,70,229,0.3)] active:scale-95 leading-tight px-4 text-center">
+                                    <Landmark size={24} className="text-indigo-300 shrink-0" />
+                                    <span>Pàgina d'Empresa</span>
+                                </button>
+                                <button className="h-16 rounded-2xl bg-orange-600/40 border-2 border-orange-400/50 text-white text-sm font-black uppercase tracking-wider flex items-center justify-center gap-4 hover:bg-orange-600/60 transition-all col-span-2 shadow-[0_0_20px_rgba(249,115,22,0.3)] active:scale-95 leading-tight px-4 text-center">
+                                    <Users size={24} className="text-orange-300 shrink-0" />
+                                    <span>Crear Grup de Treball</span>
+                                </button>
+                            </div>
+                        </div>
                     )}
                 </div>
 
-                <div className="stats-pill-row flex justify-center gap-12 py-8 bg-white/5 mx-auto max-w-lg rounded-[28px] border border-white/5">
-                    <div className="stat-item flex flex-col">
-                        <span className="text-2xl font-black">{stats.followers}</span>
-                        <span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Seguidors</span>
+                <ProfileStudioModal 
+                    isOpen={isStudioOpen}
+                    onClose={() => setIsStudioOpen(false)}
+                    profile={profile}
+                    onFileSelect={(e, type) => handleUpdateIdentity(e.target.value, type)}
+                />
+
+                <div className="stats-pill-row flex justify-center gap-8 py-10 bg-white/5 mx-auto max-w-2xl rounded-[32px] border border-white/5 mt-16 backdrop-blur-xl">
+                    <div className="stat-item flex flex-1 flex-col items-center">
+                        <span className="text-3xl font-black leading-none">{stats.followers}</span>
+                        <span className="text-[9px] text-gray-500 font-bold uppercase tracking-[0.2em] mt-3">Seguidors</span>
                     </div>
-                    <div className="stat-item flex flex-col border-x border-white/10 px-12">
-                        <span className="text-2xl font-black">{stats.following}</span>
-                        <span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Seguint</span>
+                    <div className="stat-item flex flex-1 flex-col items-center border-x border-white/5 px-4">
+                        <span className="text-3xl font-black leading-none">{stats.following}</span>
+                        <span className="text-[9px] text-gray-400 font-bold uppercase tracking-[0.2em] mt-3">Seguint</span>
                     </div>
-                    <div className="stat-item flex flex-col">
-                        <span className="text-2xl font-black">{stats.posts}</span>
-                        <span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Històries</span>
+                    <div className="stat-item flex flex-1 flex-col items-center">
+                        <span className="text-3xl font-black leading-none">{stats.posts}</span>
+                        <span className="text-[9px] text-gray-500 font-bold uppercase tracking-[0.2em] mt-3">Publicacions</span>
                     </div>
                 </div>
             </section>
 
             <nav className="tabs-nav sticky top-16 z-20 bg-black/80 backdrop-blur-xl border-y border-white/5 mt-12">
-                <div className="flex justify-center max-w-md mx-auto">
+                <div className="flex justify-center max-w-xl mx-auto">
                     <button 
                         onClick={() => setActiveTab('mur')}
                         className={`btn-profile-tab flex-1 py-4 text-[12px] font-black tracking-widest uppercase transition-all flex items-center justify-center gap-2 ${activeTab === 'mur' ? 'active text-white' : 'text-gray-500'}`}
                     >
                         <Grid size={16} /> MUR
                     </button>
+                    
+                    {oficiPosts.length > 0 && (
+                        <button 
+                            onClick={() => setActiveTab('ofici')}
+                            className={`btn-profile-tab flex-1 py-4 text-[12px] font-black tracking-widest uppercase transition-all flex items-center justify-center gap-2 ${activeTab === 'ofici' ? 'active text-orange-500' : 'text-gray-500'}`}
+                        >
+                            <Sparkles size={16} /> OFICI
+                        </button>
+                    )}
+
                     <button 
-                        onClick={() => setActiveTab('bategats')}
-                        className={`btn-profile-tab flex-1 py-4 text-[12px] font-black tracking-widest uppercase transition-all flex items-center justify-center gap-2 ${activeTab === 'bategats' ? 'active text-white' : 'text-gray-500'}`}
+                        onClick={() => setActiveTab('connexions')}
+                        className={`btn-profile-tab flex-1 py-4 text-[12px] font-black tracking-widest uppercase transition-all flex items-center justify-center gap-2 ${activeTab === 'connexions' ? 'active text-white' : 'text-gray-500'}`}
                     >
-                        <Heart size={16} /> BATEGATS
+                        <UserCheck size={16} /> CONNEXIONS
                     </button>
+                    {(profile.id === '11111111-1a1a-0000-0000-000000000000' || profile.role === 'iaia' || profile.username === 'iaia') && (
+                        <button 
+                            onClick={() => setActiveTab('ajudes')}
+                            className={`btn-profile-tab flex-1 py-4 text-[12px] font-black tracking-widest uppercase transition-all flex items-center justify-center gap-2 ${activeTab === 'ajudes' ? 'active text-orange-500 border-b-2 border-orange-500' : 'text-gray-500'}`}
+                        >
+                            <Sparkles size={16} /> AJUDES
+                        </button>
+                    )}
                 </div>
             </nav>
 
             <main className="content-area p-4 min-h-[50vh]">
                 {activeTab === 'mur' ? (
-                    <Feed hideHeader={true} customPosts={[]} />
+                    <Feed hideHeader={true} customPosts={userPosts} />
+                ) : activeTab === 'connexions' ? (
+                    <div className="connexions-feed-wrapper">
+                        <div className="connexions-header mb-8 px-6">
+                            <h3 className="text-xl font-black uppercase tracking-tight flex items-center gap-2">
+                                <UserPlus size={20} className="text-indigo-500" />
+                                Vincle Comunitari
+                            </h3>
+                            <p className="text-gray-500 text-sm mt-1">Connexions bategades al teu Rhizome privat.</p>
+                        </div>
+                        <Feed customPosts={[]} contentMode="batec" />
+                    </div>
+                ) : activeTab === 'ajudes' ? (
+                    <div className="subsidies-section space-y-6">
+                        <div className="section-intro p-6 bg-white/5 rounded-[28px] border border-white/10">
+                            <h3 className="text-xl font-black uppercase tracking-tighter mb-2 flex items-center gap-2">
+                                <Sparkles className="text-orange-500" size={20} />
+                                Ajudes Detectades pel Rhizome
+                            </h3>
+                            <p className="text-gray-400 text-sm italic">
+                                "Mestre, he trobat aquestes oportunitats bategant a la xarxa oficial. No les deixis escapar!"
+                            </p>
+                        </div>
+                        <div className="grid gap-4 lg:grid-cols-2">
+                            {[
+                                { id: 'kit-digital-2024', title: "Kit Digital: Segment III (Autònoms)", amount: "3.000 €", sector: "Digitalització" },
+                                { id: 'ajuda-resiliencia-rural', title: "Projecte Rhizome: Resiliència Tecnològica Rural", amount: "25.000 € (Estudi)", sector: "Tecnologia" }
+                            ].map(sub => (
+                                <div key={sub.id} className="sub-card-iaia p-6 bg-white/5 rounded-[28px] border border-white/5 hover:border-orange-500/50 transition-all cursor-pointer group" onClick={() => navigate('/ajudes')}>
+                                    <div className="flex justify-between items-start mb-4">
+                                        <span className="px-3 py-1 bg-orange-500/20 text-orange-500 rounded-full text-[10px] font-black uppercase tracking-widest">{sub.sector}</span>
+                                        <ChevronRight size={18} className="text-gray-600 group-hover:text-orange-500 transition-colors" />
+                                    </div>
+                                    <h4 className="text-lg font-black uppercase leading-[1.1] mb-2">{sub.title}</h4>
+                                    <div className="text-2xl font-black text-white italic">{sub.amount}</div>
+                                </div>
+                            ))}
+                        </div>
+                        <button 
+                            onClick={() => navigate('/ajudes')}
+                            className="w-full py-4 bg-white text-black font-black uppercase tracking-widest rounded-full text-xs hover:scale-[1.02] transition-transform"
+                        >
+                            Veure Buscador d'Ajudes Complet
+                        </button>
+                    </div>
                 ) : (
                     <div className="empty-state py-20 text-center opacity-30 flex flex-col items-center">
                         <Zap size={48} className="mb-4" />

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { Bell, Heart, MessageCircle, UserPlus, Gift, AlertCircle, Trash2 } from 'lucide-react';
+import { Bell, MessageCircle, UserPlus, Gift, AlertCircle, Trash2 } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
 import { logger } from '../utils/logger';
@@ -144,10 +144,10 @@ const Notifications = () => {
                             onClick={() => handleNotificationClick(notif)}
                         >
                             <div className="notif-icon-wrapper">
-                                {notif.type === 'like' && <Heart size={18} fill="var(--color-primary)" color="var(--color-primary)" />}
+                                {notif.type === 'connection' && <UserPlus size={18} color="var(--color-primary)" />}
                                 {notif.type === 'comment' && <MessageCircle size={18} color="var(--color-secondary)" />}
                                 {notif.type === 'system' && <AlertCircle size={18} color="#e63946" />}
-                                {!['like', 'comment', 'system'].includes(notif.type) && <Bell size={18} />}
+                                {!['connection', 'comment', 'system'].includes(notif.type) && <Bell size={18} />}
                             </div>
                             <div className="notif-content">
                                 <p>{notif.content}</p>

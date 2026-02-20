@@ -17,11 +17,18 @@ class ErrorBoundary extends React.Component {
         }
 
         // [RESILIENCE] ChunkLoadError / Failed to fetch dynamic module:
-        // This used to force reload, but now we stop the loop and show recovery UI.
+        // We force a hard reload immediately to clear the asset cache mismatch.
         if (errorMsg.includes('Failed to fetch dynamically imported module') ||
             errorMsg.includes('ChunkLoadError')) {
-            logger.error('[ErrorBoundary] Module Load Error. Loop prevention active.');
-            return { hasError: true, error: "Bategat interromput: S'ha detectat una nova versió del Mas. Si us plau, utilitza el botó de Reinici per actualitzar." };
+            logger.error('[ErrorBoundary] Module Load Error. Forcing hard reload...');
+            
+            if (typeof window !== 'undefined') {
+                setTimeout(() => {
+                    window.location.reload(true);
+                }, 500);
+            }
+            
+            return { hasError: true, error: "Sincronitzant versió del Mas... Re-bategant..." };
         }
 
         return { hasError: true, error };

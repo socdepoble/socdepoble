@@ -1,5 +1,7 @@
 import React, { useRef, useState } from 'react';
-import { X, Camera, Maximize, User, Loader2, Image as ImageIcon, Video } from 'lucide-react';
+import { X, Camera, Maximize, User, Loader2, Image as ImageIcon, Video, Smile } from 'lucide-react';
+import DynamicIcon from './DynamicIcon';
+import IconPicker from './IconPicker';
 import CaptureStudio from './CaptureStudio';
 import './ProfileStudioModal.css';
 
@@ -48,6 +50,17 @@ const ProfileStudioModal = ({
                 <div className="studio-body">
                     <div className="studio-advice alzina-blindatge">
                         <p>🏺 <strong>Directiva Master:</strong> Utilitza imatges panoràmiques (16:9) per a la portada i quadrades (1:1) per al teu perfil.</p>
+                    </div>
+
+                    <div className="studio-section">
+                        <div className="section-header">
+                            <h4>Identitat Visual (Icona / Noun Project)</h4>
+                            <span className="aspect-badge">SOBIRANIA</span>
+                        </div>
+                        <IconPicker 
+                            currentIcon={displayProfile.avatar_url} 
+                            onSelect={(icon) => onFileSelect && onFileSelect({ target: { value: icon } }, 'icon')}
+                        />
                     </div>
 
                     {/* Cover Section */}

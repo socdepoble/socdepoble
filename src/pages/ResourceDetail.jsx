@@ -41,7 +41,7 @@ const ResourceDetail = () => {
                             type: 'post',
                             display_title: postResponse.content?.substring(0, 50),
                             display_content: postResponse.content,
-                            display_author: postResponse.profiles?.username || postResponse.author_name || 'Veí'
+                            display_author: postResponse.profiles?.username || postResponse.author_name || 'Foraster'
                         });
                     } else {
                         // Check Market Items too

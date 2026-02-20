@@ -73,20 +73,27 @@ const DocumentViewer = ({ document: doc, onClose, onSave }) => {
         if (!text) return '';
         
         let formatted = text
-            // 1. Detecció de Subtítols (Neteja total de guions i caràcters de separació)
+            // 1. Col·lapse d'espais en blanc i línies buides excessives
+            .replace(/\n{3,}/g, '\n\n')
+            
+            // 2. Detecció de Subtítols (Neteja total de guions i caràcters de separació)
             .replace(/^([IVX]+\..+)$/gm, (match) => {
                 const clean = match.replace(/^[^a-zA-ZÀ-ÿ0-9]*/, '').replace(/[^a-zA-ZÀ-ÿ0-9]*$/, '').trim();
                 return `<div class="subtitol-bategat">${clean}</div>`;
             })
-            .replace(/^={3,}(.+?)={3,}$/gm, '<div class="subtitol-bategat">$1</div>')
-            .replace(/^-{3,}(.+?)-{3,}$/gm, '<div class="subtitol-bategat">$1</div>')
-            .replace(/^([A-ZÀ-Ÿ\s]{5,})$/gm, '<div class="subtitol-bategat">$1</div>') // Títols en majúscules sols
+            // Detectar títols separats per barres o guions i netejar-los
+            .replace(/^[=\-\s]*(.+?)[=\-\s]*$/gm, (match, p1) => {
+                // Si la línia té text i estava envoltada de separadors, la convertim en subtítol si és curta i majúscula
+                if (p1.trim().length > 3 && p1.trim().length < 60 && p1 === p1.toUpperCase()) {
+                   return `<div class="subtitol-bategat">${p1.trim()}</div>`;
+                }
+                return match;
+            })
             
-            // 2. Neteja de "morca" visual (Guions de separació que ja no calen)
-            .replace(/^-{3,}$/gm, '')
-            .replace(/^={3,}$/gm, '')
+            // 3. Neteja de caràcters solts i línies de separació pures (===, ---, ...)
+            .replace(/^[=\-_\s]{2,}$/gm, '') 
             
-            // 3. Negretes de Lectura Ràpida (Emphasized Bategat)
+            // 4. Negretes i Protocols
             .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
             .replace(/\[PROTOCOL (\d+)\]/g, '<span class="protocol-tag">PROTOCOL $1</span>');
 

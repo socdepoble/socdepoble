@@ -21,13 +21,13 @@ const Utilitats = () => {
     }
 
     return (
-        <div className="flex-1 overflow-y-auto bg-black p-6 lg:p-12 animate-in fade-in duration-700 custom-scrollbar">
+        <div className="flex-1 bg-theme-base p-6 md:p-12 overflow-y-auto custom-scrollbar">
             <header className="mb-16 relative">
                 <div className="absolute -top-10 -left-10 w-64 h-64 bg-orange-500/10 blur-[120px] rounded-full pointer-events-none" />
                 
                 <div className="flex items-center gap-6 mb-4 relative z-10">
-                    <div className="w-16 h-16 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center backdrop-blur-xl shadow-2xl">
-                        <Wrench className="text-orange-500" size={32} />
+                    <div className="w-16 h-16 bg-theme-panel border border-white/10 genesis-radius flex items-center justify-center backdrop-blur-xl shadow-2xl">
+                        <Wrench className="w-8 h-8 text-[#FF6B00]" />
                     </div>
                     <div>
                         <h1 className="text-5xl font-black tracking-tighter uppercase italic leading-none mb-1 font-condensed">
@@ -51,7 +51,7 @@ const Utilitats = () => {
                             <tool.icon size={160} />
                         </div>
                         
-                        <div className="bg-gradient-to-br from-[#0ea5e9]/20 to-[#0ea5e9]/5 w-16 h-16 rounded-2xl flex items-center justify-center mb-8 border border-[#0ea5e9]/20 shadow-inner">
+                        <div className="bg-gradient-to-br from-[#0ea5e9]/20 to-[#0ea5e9]/5 w-16 h-16 genesis-radius flex items-center justify-center mb-8 border border-[#0ea5e9]/20 shadow-inner">
                             <tool.icon className="text-[#0ea5e9]" size={28} />
                         </div>
                         

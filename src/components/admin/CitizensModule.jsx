@@ -125,7 +125,7 @@ const CitizensModule = () => {
                                                     c.role === USER_ROLES.EDITOR ? 'bg-cyan-500/20 text-cyan-400' :
                                                         'bg-gray-700/50 text-gray-400'
                                             }`}>
-                                            {ROLE_LABELS[c.role]?.va || 'Veí'}
+                                            {ROLE_LABELS[c.role]?.va || 'Gent'}
                                         </span>
                                     </div>
                                 </td>
@@ -148,7 +148,7 @@ const CitizensModule = () => {
                                                 </select>
                                                 <button
                                                     className="p-1.5 hover:bg-red-500/20 hover:text-red-400 rounded transition-colors text-gray-500"
-                                                    title="Eliminar poders (Reset a Veí)"
+                                                    title="Eliminar poders (Reset a Gent)"
                                                     onClick={() => handleRoleChange(c.id, USER_ROLES.NEIGHBOR)}
                                                 >
                                                     <Trash2 size={16} />

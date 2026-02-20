@@ -2,16 +2,43 @@
 <html lang="ca">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/logo-white.png" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     />
-    <title>Sóc de Poble - La teua app de territori | v10.26.0-PURGA</title>
+    <meta
+      http-equiv="Cache-Control"
+      content="no-cache, no-store, must-revalidate"
+    />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
     <meta
       name="description"
       content="L'aplicació oficial per a connectar amb el teu poble. Mercat, mapa, i sobirania digital per a la comunitat valenciana."
     />
+
+    <script>
+      // [BATEGAT RESCUE] Si hi ha un error de càrrega d'assets crítics, forcem neteja i reload.
+      window.addEventListener(
+        "error",
+        function (e) {
+          if (e.target.tagName === "LINK" || e.target.tagName === "SCRIPT") {
+            console.error(
+              "[PURGA] Error de càrrega d'asset:",
+              e.target.src || e.target.href,
+            );
+            if (!window.__RELOADING__) {
+              window.__RELOADING__ = true;
+              setTimeout(() => {
+                window.location.reload(true);
+              }, 1000);
+            }
+          }
+        },
+        true,
+      );
+    </script>
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
@@ -46,7 +73,7 @@
     />
 
     <script>
-      // --- MASTER NOISE REDUCTION PROTOCOL (v10.26.0-PURGA) ---
+      // --- MASTER NOISE REDUCTION PROTOCOL (v10.26.0-CANÒNIC) ---
       // Silence library warnings and ghost extension errors for a pristine console.
       (function () {
         const silencePatterns = [
@@ -82,13 +109,26 @@
         });
       })();
     </script>
-    <!-- Google Fonts: Noto Sans & Playfair Display (Spirit of v15) -->
+    <!-- Google Fonts: Roboto Condensed (L'Ànima de Sóc de Poble) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
-      rel="stylesheet"
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap"
     />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
 
     <!-- Estils i Protocols -->
 
@@ -150,7 +190,6 @@
         outline: 1px solid rgba(249, 115, 22, 0.1) !important;
       }
     </style>
-
   </head>
   <body>
     <!-- Hidden H1 for SEO -->

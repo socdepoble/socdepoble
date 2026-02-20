@@ -57,13 +57,10 @@
 /* Content Area (Esquerra) */
 .viewer-content-wrapper {
   flex: 2;
-  padding: 100px 40px; /* Més espai per al bategat de pàgines */
+  padding: 40px; /* Reduït per a maquetació més compacta */
   overflow-y: auto;
-  background: #0a0a0a; /* Contrast profund mestre */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 40px; /* Separació física entre fulls A4 */
+  background: #0a0a0a;
+  gap: 60px; /* Incrementat per a vore millor la separació de pàgines */
   scroll-behavior: smooth;
 }
 
@@ -78,13 +75,14 @@
   display: flex;
   flex-direction: column;
 
-  /* MARGES PROFESSIONALS D'IMPREMTA */
-  padding: 25mm 20mm 20mm 20mm;
+  /* MARGES CANÒNICS (Protocol Mestre) */
+  padding: 20mm 20mm 19mm 20mm;
   box-shadow: 0 40px 100px rgba(0, 0, 0, 0.7),
     0 0 0 1px rgba(255, 255, 255, 0.1);
   box-sizing: border-box;
   overflow: hidden;
   transition: transform 0.3s ease;
+  margin-bottom: 20px; /* Espai extra per a la separació física */
 }
 
 /* Pàgina de Portada */
@@ -170,10 +168,10 @@
   letter-spacing: -0.01em;
   text-align: justify;
 
-  /* RECTIFICACIÓ DUAL [2 COLUMNS 18PT CONDENSED] */
-  column-count: 2;
-  column-gap: 12mm; /* Més aire per a la puresa */
-  column-rule: 0.5pt solid rgba(0, 0, 0, 0.05);
+  /* RECTIFICACIÓ SOBIRANA [COLUMNA ÚNICA PER A MÀXIMA LLEGIBILITAT] */
+  column-count: 1;
+  column-gap: 0;
+  column-rule: none;
 }
 
 /* Prevenció de talls de columna en blocs didàctics */
@@ -189,8 +187,8 @@
   font-weight: 900;
   font-size: 1.25rem;
   text-transform: uppercase;
-  margin: 40px 0 20px 0;
-  padding: 10px 0;
+  margin: 24px 0 8px 0; /* Espaiat compacte per a evitar dispersió */
+  padding: 8px 0;
   border-bottom: 2px solid #f97316;
   text-align: left;
   background: transparent;

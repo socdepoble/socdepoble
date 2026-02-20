@@ -5,7 +5,7 @@ import { Link2, MessageCircle, Share2, MoreHorizontal, Building2, Store, Users, 
 import { useUI } from '../context/UIContext';
 import { supabaseService, isValidUUID } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
-import { ROLES, CREATOR_EMAILS, IAIA_ID } from '../constants';
+import { ROLES, USER_ROLES, ENTITY_TYPES, CREATOR_EMAILS, IAIA_ID } from '../constants';
 import { logger } from '../utils/logger';
 import CreatePostModal from './CreatePostModal';
 import CategoryTabs from './CategoryTabs';
@@ -26,6 +26,7 @@ import AttributionBadge from './AttributionBadge';
 import UniversalCard from './UniversalCard';
 import { MOCK_EVENTS } from '../data';
 import { geminiService } from '../services/geminiService';
+import ContextualHeader from './ContextualHeader';
 import CronistaSummaryModal from './CronistaSummaryModal';
 
 const IAIA_INITIAL_DELAY_MS = 10000;
@@ -51,6 +52,8 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
     const [selectedTag, setSelectedTag] = useState(null);
     const [isIAIAFiltering, setIsIAIAFiltering] = useState(localStorage.getItem('isIAIAFiltering') === 'true');
     const [error, setError] = useState(null);
+    const [viewMode, setViewMode] = useState(localStorage.getItem('feed_view_mode') || 'grid');
+    const [contextualSearchTerm, setContextualSearchTerm] = useState('');
     const isMounted = useRef(true);
 
 
@@ -220,7 +223,7 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
                                      post.author_name?.includes('Sóc de Poble') ||
                                      post.author?.toLowerCase().includes('sóc de poble');
                                      
-                const isAI = post.author_role === 'ambassador' ||
+            const isAI = post.author_role === USER_ROLES.AMBASSADOR ||
                     post.author_is_ai ||
                     post.is_iaia_inspired ||
                     (authorIdCheck && String(authorIdCheck).startsWith('11111111-')) ||
@@ -234,6 +237,17 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
             if (selectedTag) {
                 const connection = userConnections.find(c => c.post_uuid === (post.uuid || post.id));
                 return connection && connection.tags && connection.tags.includes(selectedTag);
+            }
+
+            // 3. Contextual Search Filter
+            if (contextualSearchTerm) {
+                const normalized = contextualSearchTerm.toLowerCase();
+                return (
+                    post.content?.toLowerCase().includes(normalized) ||
+                    post.author_name?.toLowerCase().includes(normalized) ||
+                    post.author?.toLowerCase().includes(normalized) ||
+                    post.excerpt?.toLowerCase().includes(normalized)
+                );
             }
 
             return true;
@@ -266,7 +280,7 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
             // Strict inverse chronological order for the rest
             return new Date(b.created_at || b.date || 0) - new Date(a.created_at || a.date || 0);
         });
-    }, [posts, visionMode, selectedTag, isIAIAFiltering, activeTown, userConnections, contentMode, iaiaLevel]);
+    }, [posts, visionMode, selectedTag, isIAIAFiltering, activeTown, userConnections, contentMode, iaiaLevel, contextualSearchTerm]);
 
     const handleHeaderClick = useCallback((post) => {
         const targetId = post.author_entity_id || post.author_user_id || post.author_id;
@@ -283,7 +297,7 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
         }
 
         // Si és la IAIA i estem en sessió real, la portem a la seua pàgina de transparència
-        if (post.author_role === 'ambassador' || post.author_is_ai || post.is_iaia_inspired || targetId === IAIA_ID) {
+        if (post.author_role === USER_ROLES.AMBASSADOR || post.author_is_ai || post.is_iaia_inspired || targetId === IAIA_ID) {
             navigate('/iaia');
             return;
         }
@@ -372,8 +386,19 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
             {/* Semantic Heading for SEO/A11y */}
             <h1 className="sr-only">Mur d'Activitat i Notícies de Sóc de Poble</h1>
 
+            <ContextualHeader
+                searchTerm={contextualSearchTerm}
+                onSearchChange={setContextualSearchTerm}
+                viewMode={viewMode}
+                onViewModeChange={(mode) => {
+                    setViewMode(mode);
+                    localStorage.setItem('feed_view_mode', mode);
+                }}
+                placeholder="Cerca al mur..."
+            />
+
             {/* IAIA PORTERA TOGGLE [PILLAR 4] */}
-            <div className="iaia-filter-bar px-4 py-2 flex justify-between items-center text-xs font-bold border-b border-gray-100 bg-white sticky top-14 z-20">
+            <div className="iaia-filter-bar px-4 py-2 flex justify-between items-center text-xs font-bold border-b border-gray-100 bg-white sticky top-[108px] z-20">
                 <div className="flex items-center gap-2">
                     <Sparkles size={14} className={isIAIAFiltering ? "text-primary animate-pulse" : "text-gray-300"} />
                     <span className={isIAIAFiltering ? "text-primary" : "text-gray-400"}>IAIA PORTERA: {isIAIAFiltering ? "SENTIT KM 0" : "SENSE FILTRE"}</span>
@@ -407,7 +432,7 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
                 onShare={handleShareSummary}
             />
 
-            <div className="feed-list mur-masonry max-w-3xl mx-auto w-full">
+            <div className={`feed-list mur-masonry max-w-3xl mx-auto w-full view-mode-${viewMode}`}>
                 {/* 🧧 PANELL DE BENVINGUDA / PUBLICITAT (CLOSETABLE) */}
                 {localStorage.getItem('hideWelcomePanel') !== 'true' && (
                     <div className="welcome-panel-wrapper mb-8 animate-in relative group">
@@ -478,7 +503,7 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
                                                 post.author_user_id === '031adc10-ce8c-4ec9-8672-330473033a91' ? 'Nando Llinares' :
                                                     'Javi Llinares'
                                 )
-                                : 'Veí de la Comunitat')
+                                : 'Gent de la Comunitat')
                             : (post.author?.name || post.author);
 
                         const rawTown = post.towns?.name || post.town_name || post.location?.town || 'La Torre de les Maçanes';

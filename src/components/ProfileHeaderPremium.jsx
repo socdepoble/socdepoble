@@ -351,7 +351,7 @@ const ProfileHeaderPremium = ({
                         </div>
                         
                         <div className="rhizome-tags-grid">
-                            {['Veí', 'Amic', 'Treball', 'Comerç', 'Oficial', 'Cultura'].map(tag => (
+                            {['Gent', 'Amic', 'Treball', 'Comerç', 'Oficial', 'Cultura'].map(tag => (
                                 <button key={tag} className="rhizome-tag-btn" onClick={() => confirmConnection(tag)}>
                                     <Tag size={16} />
                                     <span>{tag}</span>
@@ -364,8 +364,8 @@ const ProfileHeaderPremium = ({
                                 <Shield size={14} />
                                 <span>Aquesta etiqueta només la veus tu.</span>
                             </div>
-                            <button className="rhizome-btn-skip" onClick={() => confirmConnection('Veí')}>
-                                Omplir com a "Veí"
+                            <button className="rhizome-btn-skip" onClick={() => confirmConnection('Gent')}>
+                                Omplir com a "Gent"
                             </button>
                         </div>
                     </div>

@@ -33,7 +33,7 @@ const BuscadorAjudes = () => {
     const [aiAdvice, setAiAdvice] = useState(null);
     const [viewingDoc, setViewingDoc] = useState(null);
 
-    const sectors = ['tots', ...new Set(MOCK_SUBSIDIES.map(s => s.sector))];
+    const sectors = ['tots', ...new Set(MOCK_SUBSIDIES.map(s => s.sector).filter(Boolean))];
 
     const filteredSubsidies = useMemo(() => {
         const query = searchTerm.toLowerCase().trim();
@@ -50,7 +50,7 @@ const BuscadorAjudes = () => {
         setIsAnalyzing(true);
         setSelectedSub(sub);
         try {
-            const query = `Analitza aquesta ajuda per a mi: "${sub.title}". Descripció: ${sub.description}. Requisits: ${sub.requirements.join(', ')}. Com ens pot ajudar al projecte Sóc de Poble?`;
+            const query = `Analitza aquesta ajuda per a mi: "${sub.title}". Descripció: ${sub.description}. Requisits: ${(sub.requirements || []).join(', ')}. Com ens pot ajudar al projecte Sóc de Poble?`;
             const response = await geminiService.ask('ARXIVER', query);
             setAiAdvice(response.text);
         } catch (err) {
@@ -139,7 +139,7 @@ ${sub.iaia_advice}
                     <Filter size={18} />
                     <select value={selectedSector} onChange={(e) => setSelectedSector(e.target.value)}>
                         {sectors.map(s => (
-                            <option key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</option>
+                            <option key={s} value={s}>{s ? (s.charAt(0).toUpperCase() + s.slice(1)) : 'Altres'}</option>
                         ))}
                     </select>
                 </div>
@@ -150,13 +150,13 @@ ${sub.iaia_advice}
                 {filteredSubsidies.map(sub => (
                     <article key={sub.id} className="sub-card glass-premium animate-in">
                         <header className="card-header">
-                            <span className={`status-tag ${sub.status}`}>{sub.status.toUpperCase()}</span>
-                            <span className="sector-tag">{sub.sector}</span>
+                            <span className={`status-tag ${sub.status || 'unknown'}`}>{(sub.status || 'veure').toUpperCase()}</span>
+                            <span className="sector-tag">{sub.sector || 'General'}</span>
                         </header>
                         
                         <div className="card-body">
                             <h3>{sub.title}</h3>
-                            <div className="amount-highlight">{sub.amount}</div>
+                            <div className="amount-highlight">{sub.amount || 'Consultar'}</div>
                             <p className="description">{sub.description}</p>
                             
                             <div className="deadline-info">
@@ -177,7 +177,7 @@ ${sub.iaia_advice}
             </main>
 
             {/* Modal d'Anàlisi IAIA */}
-            {(isAnalyzing || aiAdvice) && (
+            {isAnalyzing && (
                 <div className="modal-overlay" onClick={() => setAiAdvice(null)}>
                     <div className="modal-content glass-premium animate-in" onClick={e => e.stopPropagation()}>
                         <header className="modal-header">
@@ -187,95 +187,123 @@ ${sub.iaia_advice}
                         </header>
                         
                         <div className="modal-body">
-                            {isAnalyzing ? (
-                                <div className="loading-iaia">
-                                    <Sparkles className="animate-spin" />
-                                    <p>L'Arxiver està regirant els papers del calaix...</p>
+                            <div className="loading-iaia">
+                                <Sparkles className="animate-spin" />
+                                <p>L'Arxiver està regirant els papers del calaix...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {aiAdvice && (
+                <div className="advice-modal-overlay animate-in" onClick={() => setAiAdvice(null)}>
+                    <div className="advice-modal glass-premium shadow-2xl" onClick={e => e.stopPropagation()}>
+                        <header className="advice-header">
+                            <div className="header-main">
+                                <Bot size={28} className="text-accent animate-pulse" />
+                                <div>
+                                    <h2>L'Assessoria de l'Arxiver</h2>
+                                    <p className="subtitle">Anàlisi Sobirà de {selectedSub?.title}</p>
                                 </div>
-                            ) : (
-                                <div className="advice-box">
-                                    <p className="advice-text italic">"{aiAdvice}"</p>
-                                    
-                                    <div className="export-section">
-                                        <h4>Gestió del Dossier</h4>
-                                        <div className="export-grid">
-                                            <button className="btn-view-doc master-button-canonic bg-accent-orange text-black font-black" onClick={() => {
-                                                const content = `
-================================================================
-🏛️ DOSSIER DE SOBIRANIA I TRELLAT: ${selectedSub.title.toUpperCase()}
-================================================================
-Referència: [BATEGAT-MASTER-v14.1]
-Data d'Auto-Custòdia: ${new Date().toLocaleDateString('ca-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
-Pilar de Desenvolupament: ${selectedSub.sector}
+                            </div>
+                            <button className="close-btn" onClick={() => setAiAdvice(null)}><ArrowLeft size={20} /></button>
+                        </header>
+                        
+                        <div className="advice-body scrollbar-hide">
+                            <div className="advice-box shadow-inner">
+                                <div className="advice-content whitespace-pre-wrap">
+                                    {aiAdvice}
+                                </div>
+                            </div>
+
+                            {selectedSub?.official_link && (
+                                <div className="advice-link-highlight glass-premium">
+                                    <div className="link-info">
+                                        <ExternalLink size={24} className="text-accent" />
+                                        <div>
+                                            <h4>Documentació Oficial</h4>
+                                            <p>Accedeix directament al tràmit de la GVA</p>
+                                        </div>
+                                    </div>
+                                    <a 
+                                        href={selectedSub.official_link} 
+                                        target="_blank" 
+                                        rel="noopener noreferrer"
+                                        className="master-button-canonic"
+                                    >
+                                        Anar a la Convocatòria 🏛️
+                                    </a>
+                                </div>
+                            )}
+
+                            <div className="export-section">
+                                <h4>Gestió del Dossier</h4>
+                                <div className="export-grid">
+                                    <button className="btn-view-doc master-button-canonic bg-accent-orange text-black font-black" onClick={() => {
+                                        const content = `
+🏛️ DOSSIER DE SOBIRANIA I TRELLAT: ${selectedSub?.title?.toUpperCase() || 'DOCUMENT SENSE TÍTOL'}
+
+REFERÈNCIA: [BATEGAT-MASTER-v14.1]
+DATA D'AUTO-CUSTÒDIA: ${new Date().toLocaleDateString('ca-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+PILAR DE DESENVOLUPAMENT: ${selectedSub?.sector || 'GENERAL'}
 
 I. EL PERQUÈ D'AQUESTA OPORTUNITAT (PEDAGOGIA DEL MAS)
-----------------------------------------------------------------
-Mestre, escolta bé: aquesta ajuda de ${selectedSub.amount} no és regalada, és fruit d'una necessitat del territori per a modernitzar-se sense perdre l'ànima. 
+Mestre, escolta bé: aquesta ajuda de ${selectedSub?.amount || '---'} no és regalada, és fruit d'una necessitat del territori per a modernitzar-se sense perdre l'ànima. 
 
-L'Arxiver ha analitzat les dades i veu clarament que per a un projecte com el nostre, aquest bategat financer ens permetrà blindar el bosc de dades i assegurar que el nostre llegat no es perda en els servidors de Silicon Valley. Estem parlant de sobirania real, de la que es toca amb les mans.
+L'Arxiver ha analitzat les dades i veu clarament que per a un projecte com el nostre, aquest bategat financer ens permetrà blindar el bosc de dades i assegurar que el nostre llegat no es perda en els servidors de Silicon Valley. Estem parlant de sobirania real.
 
 II. ANÀLISI DETALLAT I DISSÈCCIÓ DE L'AJUDA
-----------------------------------------------------------------
-${selectedSub.description}
+${selectedSub?.description || 'No hi ha descripció disponible.'}
 
 DIDÀCTICA DE L'ARXIVER:
-Imagineu-vos que estem plantant una olivera. Aquesta subvenció és l'aigua que l'ajudarà a arrelar fort. Però compte, que si reguem massa (si demanem massa sense trellat), les arrels es podreixen. Cal demanar el que és just i necessari per a fer créixer la nostra idea de poble verd/digital.
+Imagineu-vos que estem plantant una olivera. Aquesta subvenció és l'aigua que l'ajudarà a arrelar fort. Cal demanar el que és just i necessari per a fer créixer la nostra idea de poble verd/digital.
 
 III. LES CLAUS SAGRADES DE L'ÈXIT (REQUISITS)
-----------------------------------------------------------------
 Per a coronar amb èxit aquesta petició, necessites blindar aquests punts:
 
-${selectedSub.requirements.map((r, idx) => `${idx + 1}. [PROTOCOL ${1911 + idx}] 🔹 ${r}`).join('\n')}
+${(selectedSub?.requirements || []).map((r, idx) => `[PROTOCOL ${1911 + idx}] 🔹 ${r}`).join('\n')}
 
 L'Arxiver recorda: "Papers en mà, cama en terra". Si no tenim el CSV de burocràcia ben net, no podrem creuar el portal del banc.
 
 IV. LA VEU DE LA IAIA MARÍA (EL CONSELL DE L'EXPERIÈNCIA)
-----------------------------------------------------------------
-"${aiAdvice || selectedSub.iaia_advice}"
+"${aiAdvice || selectedSub?.iaia_advice || 'Tingues trellat, fill.'}"
 
-Diu l'IAIA que antigament les coses es feien amb una encaixada de mans, però ara tot són "claus" i "tokens". No t'atabalis. Si no entens un mot, pregunta-li al xat que tens al costat. L'Arxiver regirarà els calaixos per a explicar-t'ho com si fórem a la plaça del poble.
+Diu l'IAIA que antigament les coses es feien amb una encaixada de mans, però ara tot són "claus" i "tokens". No t'atabalis. L'Arxiver regirarà els calaixos per a explicar-t'ho com cal.
 
 V. CRÒNICA DE NAVEGACIÓ SOBIRANA (TRANSPARÈNCIA ARCHON)
-----------------------------------------------------------------
-A sol·licitud del Mestre, l'Arxiver fa transparent el protocol executat. L'IAIA ha navegat pels següents nodes:
-
-[ACCÉS] Node de Subvencions Públiques (MOCK_DATA).
-Enllaç: https://ajudes.gva.es/procediment/${selectedSub.id}
-Acció: Extracció de requisits i terminis per a l'ajuda "${selectedSub.title}".
-
+L'IAIA ha navegat pels següents nodes:
+[ACCÉS] Node de Subvencions Públiques. Enllaç: https://ajudes.gva.es/procediment/${selectedSub?.id}
 [ANÀLISI] Motor Gemini bategant en mode LLM-Archon.
-Acció: Dissecció de la lletra petita per a trobar el trellat del Mas.
 
-VI. QUÈ ET QUEDA PER FER AL MESTRE? (PASSIÓ I SOBIRANIA)
-----------------------------------------------------------------
+VI. QUÈ ET QUEDA PER FER AL MESTRE?
 L'IAIA t'ha preparat el terreny, però la llavor la plantes tu:
-
-1. [SIGNATURA] Has d'entrar a la Seu Electrònica (${selectedSub.official_link}) i signar la sol·licitud amb el teu certificat. L'IAIA no pot signar per tu, és la teua sobirania.
-2. [CUSTÒDIA] Guarda aquest dossier a la teua carpeta de Notes per a tenir els requisits a mà durant la tramitació.
+1. [SIGNATURA] Entra a la Seu Electrònica (${selectedSub?.official_link || '#'}) i signa amb certificat.
+2. [CUSTÒDIA] Guarda aquest dossier a la teua carpeta de Notes.
 
 VII. NOTES DE SEGURETAT I CUSTÒDIA
-----------------------------------------------------------------
 Aquesta relíquia informativa està segellada sota el Protocol Rhizome v14. 
 Bategat amb honor pel sistema Sóc de Poble. 🏺⚡️⚖️
 `;
-                                                setViewingDoc({
-                                                    id: selectedSub.id,
-                                                    title: selectedSub.title,
-                                                    sector: selectedSub.sector,
-                                                    content: content
-                                                });
-                                            }}>
-                                                <FileText size={20} /> VISUALITZAR DOSSIER
-                                            </button>
+                                        setViewingDoc({
+                                            id: selectedSub.id,
+                                            title: selectedSub.title,
+                                            sector: selectedSub.sector,
+                                            content: content
+                                        });
+                                    }}>
+                                        <FileText size={20} /> VISUALITZAR DOSSIER
+                                    </button>
 
-                                            <button onClick={() => handleExport('gdocs', selectedSub)}>
-                                                <Sparkles size={16} /> Google Docs
-                                            </button>
-                                        </div>
-                                    </div>
+                                    <button onClick={() => handleExport('gdocs', selectedSub)}>
+                                        <Sparkles size={16} /> Google Docs
+                                    </button>
                                 </div>
-                            )}
+                            </div>
                         </div>
+
+                        <footer className="advice-footer">
+                            <button className="done-btn" onClick={() => setAiAdvice(null)}>Entès, Arxiver 🏺</button>
+                        </footer>
                     </div>
                 </div>
             )}

@@ -201,7 +201,7 @@ const SearchDiscover = () => {
                                                                             <span className="post-author">{person.full_name}</span>
                                                                         </div>
                                                                         <div className="post-town">
-                                                                            {person.role || 'Veí'} {person.primary_town ? `• ${person.primary_town} ` : ''}
+                                                                            {person.role || 'Foraster'} {person.primary_town ? `• ${person.primary_town} ` : ''}
                                                                         </div>
                                                                     </div>
                                                                 </div>

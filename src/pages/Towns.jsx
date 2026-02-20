@@ -11,6 +11,7 @@ import Marketplace from '../components/Marketplace';
 import { logger } from '../utils/logger';
 import StatusLoader from '../components/StatusLoader';
 import SEO from '../components/SEO';
+import ContextualHeader from '../components/ContextualHeader';
 import { MOCK_EVENTS } from '../data';
 import './Towns.css';
 
@@ -52,7 +53,8 @@ const Towns = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [currentTab, setCurrentTab] = useState(location.state?.initialTab || 'pobles');
-    const [eventSearch, setEventSearch] = useState('');
+    const [townSearch, setTownSearch] = useState('');
+    const [viewMode, setViewMode] = useState(localStorage.getItem('towns_view_mode') || 'grid');
     const [activeEventTag, setActiveEventTag] = useState('tots');
 
     const eventTags = ['tots', 'Festes', 'Fotos', 'Reunió', 'Cultura'];
@@ -92,10 +94,14 @@ const Towns = () => {
         fetchTowns();
     }, []);
 
-    const sortedTowns = useMemo(() => {
-        // [BATEC TERRITORIAL] El service ens retorna la llista ja batejada per activitat
-        return towns;
-    }, [towns]);
+    const filteredTowns = useMemo(() => {
+        if (!townSearch) return towns;
+        const normalized = townSearch.toLowerCase();
+        return towns.filter(t => 
+            t.name?.toLowerCase().includes(normalized) || 
+            t.description?.toLowerCase().includes(normalized)
+        );
+    }, [towns, townSearch]);
 
     const townTabs = [
         { id: 'pobles', label: t('nav.towns') || 'Pobles' },
@@ -105,13 +111,16 @@ const Towns = () => {
         { id: 'mapa', label: t('nav.map_tab') || 'Mapa' }
     ];
 
-    const filteredEvents = MOCK_EVENTS.filter(event => {
-        const matchesSearch = event.title.toLowerCase().includes(eventSearch.toLowerCase()) ||
-            event.description.toLowerCase().includes(eventSearch.toLowerCase()) ||
-            event.location.toLowerCase().includes(eventSearch.toLowerCase());
-        const matchesTag = activeEventTag === 'tots' || event.tags.includes(activeEventTag);
-        return matchesSearch && matchesTag;
-    });
+    const filteredEvents = useMemo(() => {
+        return MOCK_EVENTS.filter(event => {
+            const matchesSearch = !townSearch || 
+                event.title.toLowerCase().includes(townSearch.toLowerCase()) ||
+                event.description.toLowerCase().includes(townSearch.toLowerCase()) ||
+                event.location.toLowerCase().includes(townSearch.toLowerCase());
+            const matchesTag = activeEventTag === 'tots' || event.tags.includes(activeEventTag);
+            return matchesSearch && matchesTag;
+        });
+    }, [townSearch, activeEventTag]);
 
     if (error) {
         return (
@@ -178,32 +187,49 @@ const Towns = () => {
                 </div>
             </header>
 
+            <ContextualHeader
+                searchTerm={townSearch}
+                onSearchChange={setTownSearch}
+                viewMode={viewMode}
+                onViewModeChange={(mode) => {
+                    setViewMode(mode);
+                    localStorage.setItem('towns_view_mode', mode);
+                }}
+                placeholder={currentTab === 'esdeveniments' ? "Cerca esdeveniments..." : "Cerca pobles..."}
+            />
+
             <div className="towns-content-area">
                 {currentTab === 'pobles' && (
-                    <div className="towns-grid">
-                        {sortedTowns.length > 0 ? (
-                            sortedTowns.map(town => (
-                                <Link
-                                    key={town.uuid || town.id}
-                                    to={`/pobles/${town.uuid || town.id}`}
-                                    className={`town-card-link ${(town.uuid === profile?.town_uuid || town.id === profile?.town_id) ? 'is-user-town' : ''}`}
-                                >
-                                    <UniversalCard
-                                        item={town}
-                                        subtitle={town.name}
-                                        avatarSrc={town.logo_url}
-                                        avatarName={town.name}
-                                        className="town-card animate-in-up"
-                                        image={town.image_url}
-                                        mode="pobles"
-                                        isBating={town.uuid === localStorage.getItem('last_active_town_id') || town.id === parseInt(localStorage.getItem('last_active_town_id'))}
+                    <div className={`towns-grid view-mode-${viewMode}`}>
+                        {filteredTowns.length > 0 ? (
+                            filteredTowns.map(town => {
+                                const isUserTown = profile && (town.uuid === profile.town_uuid || town.id === profile.town_id);
+                                const lastActiveId = localStorage.getItem('last_active_town_id');
+                                const isBating = town.uuid === lastActiveId || String(town.id) === lastActiveId;
+
+                                return (
+                                    <Link
+                                        key={town.uuid || town.id}
+                                        to={`/pobles/${town.uuid || town.id}`}
+                                        className={`town-card-link ${isUserTown ? 'is-user-town' : ''}`}
                                     >
-                                        <div className="town-description-mini text-sm italic opacity-80 line-clamp-2" style={{ padding: '10px 0' }}>
-                                            {town.description || 'Explora la saviesa i el batec d\'aquest poble.'}
-                                        </div>
-                                    </UniversalCard>
-                                </Link>
-                            ))
+                                        <UniversalCard
+                                            item={town}
+                                            subtitle={town.name}
+                                            avatarSrc={town.logo_url}
+                                            avatarName={town.name}
+                                            className="town-card animate-in-up"
+                                            image={town.image_url}
+                                            mode="pobles"
+                                            isBating={isBating}
+                                        >
+                                            <div className="town-description-mini text-sm italic opacity-80 line-clamp-2" style={{ padding: '10px 0' }}>
+                                                {town.description || 'Explora la saviesa i el batec d\'aquest poble.'}
+                                            </div>
+                                        </UniversalCard>
+                                    </Link>
+                                );
+                            })
                         ) : (
                             <div className="col-span-full py-20 text-center opacity-50 font-black uppercase tracking-widest">
                                 <p>No s'han trobat pobles actius</p>
@@ -228,24 +254,6 @@ const Towns = () => {
                             marginBottom: '20px',
                             borderBottom: '1px solid var(--sdp-glass-border)'
                         }}>
-                            <div className="search-wrapper" style={{ position: 'relative' }}>
-                                <input
-                                    type="text"
-                                    placeholder="Cerca esdeveniments, llocs..."
-                                    value={eventSearch}
-                                    onChange={(e) => setEventSearch(e.target.value)}
-                                    style={{
-                                        width: '100%',
-                                        padding: '12px 16px 12px 40px',
-                                        background: 'rgba(255, 255, 255, 0.05)',
-                                        border: '1px solid var(--sdp-glass-border)',
-                                        borderRadius: '0px',
-                                        color: '#fff',
-                                        fontSize: '14px'
-                                    }}
-                                />
-                                <MapIcon size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', opacity: 0.5 }} />
-                            </div>
                             <div className="event-tags-selector flex gap-2 overflow-x-auto pb-2" style={{ scrollbarWidth: 'none' }}>
                                 {eventTags.map(tag => (
                                     <button
@@ -276,12 +284,7 @@ const Towns = () => {
                                 <p>Prova amb altres paraules o etiquetes.</p>
                             </div>
                         ) : (
-                            <div className="events-grid" style={{
-                                display: 'grid',
-                                gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-                                gap: '20px',
-                                padding: '10px 0'
-                            }}>
+                            <div className={`events-grid view-mode-${viewMode}`}>
                                 {filteredEvents.map(event => (
                                     <UniversalCard
                                         key={event.id}
@@ -292,7 +295,7 @@ const Towns = () => {
                                         avatarName={event.author}
                                         className="event-card animate-in-up"
                                         image={event.image_url?.[0] || "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&q=80&w=1000"}
-                                        mode="mur"
+                                        mode="event"
                                     >
                                         <div className="event-description text-sm opacity-90" style={{ padding: '10px 0', minHeight: '60px' }}>
                                             {event.description}

@@ -45,24 +45,44 @@ const IAIAChatSidebar = lazy(() => import('./IAIAChatSidebar'));
 const ProfilePowerMenu = lazy(() => import('./ProfilePowerMenu'));
 const MenuManagementView = lazy(() => import('../pages/MenuManagementView'));
 const Utilitats = lazy(() => import('../pages/Utilitats'));
+const Chrome145Report = lazy(() => import('../pages/Chrome145Report'));
+const HubView = lazy(() => import('../pages/HubView'));
 import GlobalFooter from './GlobalFooter';
+import MobileBottomNav from './MobileBottomNav';
+import ForasterWelcome from './ForasterWelcome';
 
 import BlueprintOverlay from './BlueprintOverlay';
 
 const ProtectedRoute = ({ children }) => {
     const { user, loading } = useAuth();
     if (loading) return <NanoLoader message="Bategant..." />;
-    if (!user) return <Navigate to="/login" replace />;
+    // [GUEST-FIRST] Allow anonymous access for viewing. Interaction will trigger AuthModal.
+    if (!user) return children; 
     return children;
 };
 
 const AppLayout = () => {
+    const { user } = useAuth();
     const { 
         isDrawerOpen, closeDrawer, architectMode,
         iaiaSidebarOpen, closeIAIASidebar, iaiaSidebarContext 
     } = useUI();
     const location = useLocation();
     
+    const [showWelcome, setShowWelcome] = React.useState(false);
+
+    const handleWelcomeDismiss = () => {
+        localStorage.setItem('sp_seen_welcome', 'true');
+        setShowWelcome(false);
+    };
+
+    React.useEffect(() => {
+        const hasSeenWelcome = localStorage.getItem('sp_seen_welcome') === 'true';
+        if (user?.isAnonymous && !hasSeenWelcome) {
+            setShowWelcome(true);
+        }
+    }, [user?.isAnonymous]);
+
     // Detect minimal mode (for Mac-style window breakaway)
     const isMinimal = new URLSearchParams(location.search).get('window') === 'true';
     
@@ -175,7 +195,7 @@ const AppLayout = () => {
                                 <Route path="/pobles" element={<Towns />} />
                                 <Route path="/pobles/:id" element={<TownDetail />} />
                                 
-                                <Route path="/chats/*" element={<ProtectedRoute><ChatLayout /></ProtectedRoute>}>
+                                <Route path="/chats/*" element={<ChatLayout />}>
                                     <Route index element={<ChatEmptyState />} />
                                     <Route path=":id" element={<ChatDetail />} />
                                 </Route>
@@ -214,6 +234,8 @@ const AppLayout = () => {
                                 <Route path="/accessibilitat" element={<AccessibilitatUniversal />} />
                                 <Route path="/notes" element={<Notes />} />
                                 <Route path="/legal" element={<LegalNotice />} />
+                                <Route path="/chrome-145" element={<Chrome145Report />} />
+                                <Route path="/hub" element={<HubView />} />
                                 </Routes>
                             </div>
                         </ErrorBoundary>
@@ -224,6 +246,9 @@ const AppLayout = () => {
 
             {/* FOOTER CANÒNIC (AVÍS LEGAL, AUTORIA, ETC.) - BLINDATGE v1.0 */}
             <GlobalFooter />
+
+            {/* BARRA DE NAVEGACIÓ MÒBIL (BATEGAT v11.3) */}
+            <MobileBottomNav />
 
             {/* IAIA CHAT SIDEBAR (DRETA) - GLOBAL & BATEGAT */}
             <Suspense fallback={null}>
@@ -249,6 +274,9 @@ const AppLayout = () => {
                     </div>
                 </div>
             )}
+
+            {/* ONBOARDING FORASTER */}
+            {showWelcome && <ForasterWelcome onStart={handleWelcomeDismiss} />}
         </div>
     );
 };

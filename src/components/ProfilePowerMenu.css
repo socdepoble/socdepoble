@@ -113,6 +113,23 @@
     transition: 0.2s;
 }
 
+.pg-item.pg-item-featured {
+    background: linear-gradient(90deg, rgba(79, 70, 229, 0.1) 0%, rgba(79, 70, 229, 0.2) 100%);
+    border-color: rgba(79, 70, 229, 0.4);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.pg-item.pg-item-featured .pg-icon {
+    background: #4f46e5;
+    color: white;
+}
+
+.pg-item.pg-item-featured .pg-label {
+    font-weight: 800;
+    color: white;
+    font-size: 1.1em;
+}
+
 .pg-item:hover {
     background: rgba(255, 255, 255, 0.08);
     transform: translateX(5px);

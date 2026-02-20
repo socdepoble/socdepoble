@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MoreHorizontal, Heart, MessageCircle, Share2, Tag, Zap, ShieldCheck, Beaker, Sparkles, Edit, Trash2, Plus, FileText, ChevronRight, UserPlus, MapPin, Landmark, Image as ImageIcon, ScanLine, Ruler, Globe } from 'lucide-react';
+import { MoreHorizontal, MessageCircle, Share2, Tag, Zap, ShieldCheck, Beaker, Sparkles, Edit, Trash2, Plus, FileText, ChevronRight, UserPlus, MapPin, Landmark, Image as ImageIcon, ScanLine, Ruler, Globe } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useUI } from '../context/UIContext';
@@ -10,6 +10,7 @@ import ShareHub from './ShareHub';
 import Carousel from './Carousel';
 import ImageCarousel from './ImageCarousel';
 import BlueprintOverlay from './BlueprintOverlay';
+import './UniversalCard.css';
 
 /**
  * UniversalCard [CINEMATOGRAPHIC RURALISM]
@@ -39,7 +40,7 @@ const UniversalCard = ({
     const [hasImageError, setHasImageError] = useState(false);
     const cardVariant = variant || mode;
     const { t } = useTranslation();
-    const { gloveMode, openViewer, forensicMode: contextForensic, blueprintMode, setIsGuestInteractionModalOpen, openConnectionModal } = useUI();
+    const { gloveMode, openViewer, forensicMode: contextForensic, setIsGuestInteractionModalOpen, openConnectionModal } = useUI();
     const isForensic = forcedForensic || contextForensic;
     const { isAdmin, user } = useAuth();
     const navigate = useNavigate();
@@ -136,7 +137,7 @@ const UniversalCard = ({
                                 {cardVariant === 'pobles' ? getGentDePage(displayTown) : displayAuthor}
                             </h3>
                             {isOfficial && (
-                                <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-[var(--color-bg-canonic)] text-[var(--color-secondary)] uppercase tracking-wide shadow-sm flex items-center gap-1">
+                                <span className="px-1.5 py-0.5 rounded-[28px] text-[10px] font-bold bg-[#E0F2FE] text-[#0369A1] uppercase tracking-wide shadow-sm flex items-center gap-1 border border-[#BAE6FD]">
                                     <ShieldCheck size={10} />
                                     Oficial
                                 </span>
@@ -309,7 +310,7 @@ const UniversalCard = ({
                         ) : (
                             <>
                                 <button 
-                                    className="w-full bg-black text-white h-12 rounded-none font-black tracking-[0.2em] flex items-center justify-center gap-2 border-none hover:bg-gray-900 transition-all active:scale-[0.98]" 
+                                    className="w-full bg-black text-white h-12 rounded-[28px] font-black tracking-[0.2em] flex items-center justify-center gap-2 border-none hover:bg-gray-900 transition-all active:scale-[0.98] shadow-lg shadow-black/20" 
                                     onClick={handleConnectClick}
                                 >
                                     <UserPlus size={18} />
@@ -322,9 +323,16 @@ const UniversalCard = ({
                                     }}>
                                         <MessageCircle size={22} />
                                     </button>
-                                    <button className="btn-touch sharing-btn" onClick={(e) => { e.stopPropagation(); navigate(`/search?q=${displayTown}`); }}>
-                                        <Tag size={22} />
-                                    </button>
+                                    <ShareHub 
+                                        title={displayTitle}
+                                        text={displayExcerpt}
+                                        url={item.uuid ? `/post/${item.uuid}` : (item.id ? `/post/${item.id}` : window.location.pathname)}
+                                        customTrigger={
+                                            <button className="btn-touch sharing-btn">
+                                                <Share2 size={22} />
+                                            </button>
+                                        }
+                                    />
                                 </div>
                             </>
                         )}
@@ -333,14 +341,24 @@ const UniversalCard = ({
 
                 {/* 2. CARDINAL MERCAT (Price/E-commerce) */}
                 {(cardVariant === 'mercat' || cardVariant === 'market') && (
-                    <div className="footer-mercat-forense mt-4 p-0">
+                    <div className="footer-mercat-forense mt-4 p-0 flex gap-2">
                         <button 
-                            className="w-full bg-black text-white h-12 rounded-none font-black tracking-[0.2em] flex items-center justify-center gap-2 border-none hover:bg-gray-900 transition-all active:scale-[0.98]" 
+                            className="flex-1 bg-black text-white h-12 rounded-[28px] font-black tracking-[0.2em] flex items-center justify-center gap-2 border-none hover:bg-gray-900 transition-all active:scale-[0.98] shadow-lg shadow-black/20" 
                             onClick={handleConnectClick}
                         >
                             <Plus size={18} />
                             + INTERESSAT
                         </button>
+                        <ShareHub 
+                            title={displayTitle}
+                            text={displayExcerpt}
+                            url={item.uuid ? `/post/${item.uuid}` : (item.id ? `/post/${item.id}` : window.location.pathname)}
+                            customTrigger={
+                                <button className="btn-touch sharing-btn h-12 w-12 flex items-center justify-center bg-white/5 rounded-full border border-white/10 text-white hover:bg-white/10 transition-all">
+                                    <Share2 size={22} />
+                                </button>
+                            }
+                        />
                     </div>
                 )}
 
@@ -351,13 +369,25 @@ const UniversalCard = ({
                             <Zap size={14} className="flash-icon" />
                             <span>Esdeveniment destacat de la setmana</span>
                         </div>
-                        <button 
-                            className="w-full bg-black text-white h-12 rounded-none font-black tracking-[0.2em] flex items-center justify-center gap-2 border-none hover:bg-gray-900 transition-all active:scale-[0.98]" 
-                            onClick={handleConnectClick}
-                        >
-                            <UserPlus size={18} />
-                            CONNECTAR
-                        </button>
+                        <div className="flex gap-2">
+                            <button 
+                                className="flex-1 bg-black text-white h-12 rounded-[28px] font-black tracking-[0.2em] flex items-center justify-center gap-2 border-none hover:bg-gray-900 transition-all active:scale-[0.98] shadow-lg shadow-black/20" 
+                                onClick={handleConnectClick}
+                            >
+                                <UserPlus size={18} />
+                                CONNECTAR
+                            </button>
+                            <ShareHub 
+                                title={displayTitle}
+                                text={displayExcerpt}
+                                url={item.uuid ? `/post/${item.uuid}` : (item.id ? `/post/${item.id}` : window.location.pathname)}
+                                customTrigger={
+                                    <button className="btn-touch sharing-btn h-12 w-12 flex items-center justify-center bg-white/5 rounded-full border border-white/10 text-white hover:bg-white/10 transition-all">
+                                        <Share2 size={22} />
+                                    </button>
+                                }
+                            />
+                        </div>
                     </div>
                 )}
 
@@ -365,7 +395,7 @@ const UniversalCard = ({
                 {cardVariant === 'pobles' && (
                     <div className="footer-pobles-master p-4 pt-0">
                         <button 
-                            className="w-full bg-[#002B5B] text-white h-12 rounded-none font-black tracking-[0.2em] flex items-center justify-center gap-2 border-none hover:opacity-90 transition-all active:scale-[0.98]" 
+                            className="w-full bg-[#002B5B] text-white h-12 rounded-[28px] font-black tracking-[0.2em] flex items-center justify-center gap-2 border-none hover:opacity-90 transition-all active:scale-[0.98] shadow-lg shadow-[#002B5B]/20" 
                             onClick={handleConnectClick}
                         >
                             <UserPlus size={18} />
@@ -382,7 +412,7 @@ const UniversalCard = ({
                             <span>Comunicat Oficial de l'Ajuntament</span>
                         </div>
                         <button 
-                            className="w-full bg-[#002B5B] text-white h-12 rounded-none font-black tracking-[0.2em] flex items-center justify-center gap-2 border-none hover:opacity-90 transition-all active:scale-[0.98]" 
+                            className="w-full bg-[#002B5B] text-white h-12 rounded-[28px] font-black tracking-[0.2em] flex items-center justify-center gap-2 border-none hover:opacity-90 transition-all active:scale-[0.98] shadow-lg shadow-[#002B5B]/20" 
                             onClick={handleConnectClick}
                         >
                             <UserPlus size={18} />
@@ -399,7 +429,7 @@ const UniversalCard = ({
                             <span>A 2.4 km de tu</span>
                         </div>
                         <button 
-                            className="w-full bg-[#10B981] text-white h-12 rounded-none font-black tracking-[0.2em] flex items-center justify-center gap-2 border-none hover:opacity-90 transition-all active:scale-[0.98]" 
+                            className="w-full bg-[#10B981] text-white h-12 rounded-[28px] font-black tracking-[0.2em] flex items-center justify-center gap-2 border-none hover:opacity-90 transition-all active:scale-[0.98] shadow-lg shadow-[#10B981]/20" 
                             onClick={handleConnectClick}
                         >
                             <UserPlus size={18} />

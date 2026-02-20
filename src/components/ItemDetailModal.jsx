@@ -52,7 +52,7 @@ const ItemDetailModal = ({ item, onClose, onAstroPayment }) => {
                             <h2 className="item-detail-title">{item.title}</h2>
                             <div className="item-detail-seller-row">
                                 <User size={16} />
-                                <span>{item.seller_name || item.seller || 'Veí de la Torre'}</span>
+                                <span>{item.seller_name || item.seller || 'Gent de la Torre'}</span>
                             </div>
                         </header>
 

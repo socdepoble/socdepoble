@@ -37,30 +37,43 @@ const sanitizeInput = (text) => {
  * Handles raw SVGs and existing thumbs correctly.
  */
 const normalizeWikipediaUrl = (url) => {
-    if (!url || !url.includes('wikimedia.org')) return url;
+    if (!url) return url;
 
-    let normalized = url.replace(/\.\./g, '.');
+    let normalized = String(url).trim();
 
-    // Case 1: Already a thumbnail
-    if (normalized.includes('/thumb/')) {
-        // Force 500px for consistency/performance
-        return normalized.replace(/\/\d+px-/g, '/500px-');
+    // 1. Handle protocol-relative URLs
+    if (normalized.startsWith('//')) {
+        normalized = 'https:' + normalized;
     }
 
-    // Case 2: Raw SVG (needs thumb generation)
-    if (normalized.endsWith('.svg')) {
-        try {
-            const parts = normalized.split('/');
-            const filename = parts[parts.length - 1];
-            const commonsPath = normalized.split('/commons/')[1];
-            if (!commonsPath) return normalized;
+    // 2. [MASTER RECOVERY] If it's just a filename or a File: reference
+    // Pattern: "File:Escut_de_la_Torre.svg" or "Escut_de_la_Torre.svg"
+    const isFilenameOnly = !normalized.includes('http') && (
+        normalized.includes('File:') || 
+        normalized.endsWith('.svg') || 
+        normalized.endsWith('.png') || 
+        normalized.endsWith('.jpg') ||
+        normalized.includes('Escut') || 
+        normalized.includes('Shield')
+    );
 
-            const hashParts = commonsPath.split('/');
-            const a = hashParts[0];
-            const b = hashParts[1];
-            return `https://upload.wikimedia.org/wikipedia/commons/thumb/${a}/${b}/${filename}/500px-${filename}.png`;
-        } catch {
-            return normalized;
+    if (isFilenameOnly) {
+        const filename = normalized.replace('File:', '').trim().replace(/ /g, '_');
+        return `https://commons.wikimedia.org/w/thumb.php?f=${encodeURIComponent(filename)}&w=500`;
+    }
+
+    // 3. If it's already a full Wikimedia URL, ensure it's a 500px thumbnail
+    if (normalized.includes('wikimedia.org') || normalized.includes('wikipedia.org')) {
+        // If it's already a direct thumb path, we can keep it but force 500px
+        if (normalized.includes('/thumb/')) {
+            return normalized.replace(/\/\d+px-/g, '/500px-');
+        }
+        
+        // If it's a link to a file page or raw file, convert to thumb.php
+        const filenameMatch = normalized.match(/File:(.+)$/) || normalized.match(/\/([^/]+)$/);
+        if (filenameMatch) {
+            const filename = filenameMatch[1].split('?')[0];
+            return `https://commons.wikimedia.org/w/thumb.php?f=${encodeURIComponent(filename)}&w=500`;
         }
     }
 
@@ -113,24 +126,7 @@ const columnCache = new Proxy({}, {
 });
 
 // [MASTER PURGE] Self-healing logic for legacy data
-(function _socialPurge() {
-    try {
-        const PURGE_VERSION = '20260208_2';
-        if (localStorage.getItem('sp_purge_v') !== PURGE_VERSION) {
-            logger.log('[SupabaseService] !!! NUCLEAR PURGE ACTIVATED !!! Clearing ghost states...');
-            // Clear legacy column cache
-            Object.keys(localStorage).forEach(key => {
-                if (key.startsWith('cp_') || key.startsWith('lc_') || key.startsWith('v_conn_')) {
-                    localStorage.removeItem(key);
-                }
-            });
-            // Master Purge complete. Mas clean.
-            localStorage.setItem('sp_purge_v', PURGE_VERSION);
-        }
-    } catch (e) {
-        logger.error('[SupabaseService] Purge error:', e);
-    }
-})();
+// })();
 
 
 /**
@@ -196,9 +192,9 @@ const getNormalizedQuery = (query) => {
 /**
  * [SUPER-SEARCH] Unified search with semantic awareness
  */
-export const unifiedSearch = async (query, category = 'all') => {
+export const unifiedSearch = async (query) => {
     const normalized = getNormalizedQuery(query);
-    logger.log(`[Super-Search] Executing unified search for: ${normalized} (${category})`);
+    // logger.log(`[Super-Search] Executing unified search for: ${normalized} (${category})`);
 
     // Logic will be expanded to use FTS5/GIN indexes in the next phase
     // For now, we enhance the existing filtering with semantic tag matching
@@ -264,7 +260,7 @@ const _ensureColumnCache = async () => {
                         setColumnCache('posts_ai_percentage', false);
                         setColumnCache('posts_pinned_position', false);
                     }
-                    logger.log(`[SupabaseService] Posts columns check done.`);
+                    // logger.log(`[SupabaseService] Posts columns check done.`);
                 } catch (e) {
                     logger.warn('[SupabaseService] Error checking posts columns:', e);
                 } finally { activeChecks.posts = null; }
@@ -295,7 +291,7 @@ const _ensureColumnCache = async () => {
                     const { error: fkError } = await supabase.from('market_items').select('towns!fk_market_town_uuid(name)').limit(1);
                     setColumnCache('market_fk_town_uuid', !fkError);
 
-                    logger.log(`[SupabaseService] Market columns check done.`);
+                    // logger.log(`[SupabaseService] Market columns check done.`);
                 } catch (e) {
                     logger.warn('[SupabaseService] Error checking market columns:', e);
                 } finally { activeChecks.market = null; }
@@ -329,6 +325,14 @@ const _ensureColumnCache = async () => {
 }
 
 export const isValidUUID = (id) => {
+    if (!id) return false;
+    const isStandardUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
+    const isSovereignID = typeof id === 'string' && id.startsWith('sp_node_');
+    return isStandardUUID || isSovereignID;
+};
+
+// Guardià per a crides que NÉCESSITEN un UUID de base de dades real (Supabase)
+const isRealDBUUID = (id) => {
     return typeof id === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
 };
 
@@ -364,16 +368,6 @@ const SYSTEM_ENTITIES = [
         description: 'Assistència virtual i guia de la comunitat. Soc la teua acompanyant digital per a tot el que necessites al poble.',
         avatar_url: '/images/agents/iaia_avatar.png',
         cover_url: '/images/campaign/night_party.png',
-        is_active: true,
-        created_at: '2025-01-01T00:00:00Z'
-    },
-    {
-        id: 'm1',
-        name: 'Ajuntament de la Torre',
-        type: 'oficial',
-        town_name: 'La Torre de les Maçanes',
-        description: 'Administració local i serveis al ciutadà. Treballem per un poble millor.',
-        avatar_url: 'https://api.dicebear.com/7.x/initials/svg?seed=AT',
         is_active: true,
         created_at: '2025-01-01T00:00:00Z'
     },
@@ -542,7 +536,7 @@ export const supabaseService = {
         if (typeof url === 'string') {
             const isBroken = BROKEN_STORAGE_URLS.some(broken => url.includes(broken));
             if (isBroken) {
-                logger.warn(`[GhostShield] Blocking request to known broken asset: ${url}`);
+                logger.debug(`[GhostShield] Blocking request to known broken asset: ${url}`);
                 // Return a safe local placeholder that exists in the repo
                 return '/assets/master/javi_avatar_cinematic.png';
             }
@@ -550,7 +544,12 @@ export const supabaseService = {
 
         // Fix legacy bucket names (avatars -> profiles)
         if (typeof url === 'string' && url.includes('/storage/v1/object/public/avatars/')) {
-            return url.replace('/storage/v1/object/public/avatars/', '/storage/v1/object/public/profiles/');
+            url = url.replace('/storage/v1/object/public/avatars/', '/storage/v1/object/public/profiles/');
+        }
+
+        // Fix double bucket names that might come from legacy DB entries
+        if (typeof url === 'string' && url.includes('/public/profiles/profiles/')) {
+            url = url.replace('/public/profiles/profiles/', '/public/profiles/');
         }
         return url;
     },
@@ -855,21 +854,10 @@ export const supabaseService = {
     async getConversations(userIdOrEntityId) {
         const isGuest = !userIdOrEntityId || userIdOrEntityId === DEMO_USER_ID;
 
-        if (isGuest || (userIdOrEntityId && !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(userIdOrEntityId))) {
-            // Bypass DB for guest or invalid UUID (mock user)
-            const { MOCK_CHATS } = await import('../data');
-            const currentParticipantId = userIdOrEntityId || 'me';
-            return MOCK_CHATS.map(m => ({
-                id: `mock-${m.id}`,
-                last_message_content: m.message,
-                last_message_at: new Date().toISOString(),
-                p1_info: { id: currentParticipantId, name: 'Jo' },
-                p2_info: { id: `m${m.id}`, name: m.name, avatar_url: m.avatar_url || null },
-                participant_1_id: currentParticipantId,
-                participant_2_id: `m${m.id}`,
-                participant_1_type: 'user',
-                participant_2_type: m.type === 'shop' || m.type === 'gov' ? 'entity' : 'user'
-            }));
+        if (isGuest || (userIdOrEntityId && !isRealDBUUID(userIdOrEntityId))) {
+            // [GUEST-FIRST] Forsters and sovereign IDs don't use Mock Chats anymore
+            // to keep the Chat List clean with the 13+ official Agents.
+            return [];
         }
 
         // Usamos la vista enriquecida que ya trae nombres y avatares directamente (Optimización Auditoría V3)
@@ -928,7 +916,7 @@ export const supabaseService = {
     },
 
     async getConversationMessages(conversationId) {
-        if (!isValidUUID(conversationId) || conversationId?.startsWith('mock-')) {
+        if (!isRealDBUUID(conversationId) || conversationId?.startsWith('mock-')) {
             try {
                 const mockIdx = conversationId.split('-')[1];
                 const { MOCK_MESSAGES } = await import('../data');
@@ -1110,7 +1098,8 @@ export const supabaseService = {
             .from('view_conversations_enriched')
             .select('*')
             .eq('id', messageData.conversationId)
-            .single();
+            .limit(1)
+            .maybeSingle();
 
         const responderId = conv?.participant_1_id === messageData.senderId ? conv?.participant_2_id : conv?.participant_1_id;
         const responderType = conv?.participant_1_id === messageData.senderId ? conv?.participant_2_type : conv?.participant_1_type;
@@ -1301,7 +1290,13 @@ export const supabaseService = {
     },
 
     async markMessagesAsRead(conversationId, userId) {
-        if (!conversationId || conversationId.startsWith('mock-') || !isValidUUID(conversationId)) return;
+        if (!conversationId || conversationId.startsWith('mock-') || !isRealDBUUID(conversationId)) return;
+        
+        // [GUEST SHIELD] Si el userId no és un UUID vàlid de base de dades, no marquem a la DB real
+        if (!userId || !isRealDBUUID(userId)) {
+            logger.info('[SupabaseService] Foraster detectat, markMessagesAsRead virtualitzat.');
+            return;
+        }
 
         const { error } = await supabase.rpc('mark_messages_as_read', {
             conv_id: conversationId,
@@ -1519,15 +1514,16 @@ export const supabaseService = {
             const filterTerms = new Set();
             [cleanQuery, normalizedName].forEach(q => {
                 if (!q) return;
-                filterTerms.add(`full_name.ilike.%${q}%`);
-                filterTerms.add(`username.ilike.%${q}%`);
-                filterTerms.add(`primary_town.ilike.%${q}%`);
+                // [FIX] Robusteza en PostgREST: Wrap value in double quotes for spaces
+                filterTerms.add(`full_name.ilike."%${q}%"`);
+                filterTerms.add(`username.ilike."%${q}%"`);
+                filterTerms.add(`primary_town.ilike."%${q}%"`);
             });
 
             // Afegim els altres camps que no depenen de la normalització de noms de poble/persona
-            filterTerms.add(`role.ilike.%${cleanQuery}%`);
-            filterTerms.add(`ofici.ilike.%${cleanQuery}%`);
-            filterTerms.add(`bio.ilike.%${cleanQuery}%`);
+            filterTerms.add(`role.ilike."%${cleanQuery}%"`);
+            filterTerms.add(`ofici.ilike."%${cleanQuery}%"`);
+            filterTerms.add(`bio.ilike."%${cleanQuery}%"`);
 
             const orClause = Array.from(filterTerms).join(',');
             logger.debug('[SupabaseService] profiles orClause:', orClause);
@@ -1623,13 +1619,13 @@ export const supabaseService = {
 
             termsToTry.forEach(q => {
                 const term = q.trim().toLowerCase();
-                filterTerms.add(`name.ilike.%${term}%`);
-                // No hi ha town_name ni category a la taula entities base
+                // [FIX] Robusteza en PostgREST: Wrap value in double quotes for spaces
+                filterTerms.add(`name.ilike."%${term}%"`);
             });
 
             // Camps extra
-            filterTerms.add(`type.ilike.%${cleanQuery}%`);
-            filterTerms.add(`description.ilike.%${cleanQuery}%`);
+            filterTerms.add(`type.ilike."%${cleanQuery}%"`);
+            filterTerms.add(`description.ilike."%${cleanQuery}%"`);
 
             const orClause = Array.from(filterTerms).join(',');
             logger.debug('[SupabaseService] entities orClause:', orClause);
@@ -1703,8 +1699,8 @@ export const supabaseService = {
         if (!followerId || !targetId) return false;
         if (columnCache.connections_table === false) return true;
 
-        const isRealFollower = isValidUUID(followerId);
-        const isRealTarget = isValidUUID(targetId);
+        const isRealFollower = isRealDBUUID(followerId);
+        const isRealTarget = isRealDBUUID(targetId);
 
         // Simulation for System/Lore entities that don't have valid UUIDs or aren't in auth.users
         if (!isRealFollower || !isRealTarget || isFictiveProfile({ id: targetId })) {
@@ -1807,7 +1803,7 @@ export const supabaseService = {
     },
 
     async isFollowing(followerId, targetId) {
-        if (!followerId || !targetId || !isValidUUID(followerId) || !isValidUUID(targetId)) return false;
+        if (!followerId || !targetId || !isRealDBUUID(followerId) || !isRealDBUUID(targetId)) return false;
 
         // 1. Check Virtual Persistence first
         const virtualKey = `v_conn_${followerId}`;
@@ -1839,7 +1835,7 @@ export const supabaseService = {
     },
 
     async getFollowers(targetId) {
-        if (!targetId || !isValidUUID(targetId)) return [];
+        if (!targetId || !isRealDBUUID(targetId)) return [];
         try {
             if (columnCache.connections_table === false) return [];
 
@@ -1864,7 +1860,7 @@ export const supabaseService = {
     },
 
     async getFollowing(userId) {
-        if (!userId || !isValidUUID(userId)) return [];
+        if (!userId || !isRealDBUUID(userId)) return [];
         try {
             if (columnCache.connections_table === false) return [];
             const { data, error, status } = await supabase
@@ -1998,7 +1994,7 @@ export const supabaseService = {
 
             if (townId) {
                 logger.log(`[SupabaseService] townId entry: ${townId} (${typeof townId})`);
-                if (!isValidUUID(townId)) {
+                if (!isRealDBUUID(townId)) {
                     const isNumeric = /^\d+$/.test(townId.toString());
                     let townSearch = supabase.from('towns').select('uuid, id');
                     if (isNumeric) {
@@ -2014,7 +2010,7 @@ export const supabaseService = {
                     }
                 }
 
-                if (townId && isValidUUID(townId)) {
+                if (townId && isRealDBUUID(townId)) {
                     logger.log(`[SupabaseService] Applying strict author-territory filter: ${townId}`);
                     // Enforce that the author must belong to this town
                     query = query.eq('profiles.town_uuid', townId);
@@ -2224,7 +2220,7 @@ export const supabaseService = {
                 query = query.eq('category_slug', categoryFilter);
             }
 
-            if (townId && isValidUUID(townId)) {
+            if (townId && isRealDBUUID(townId)) {
                 query = query.eq('town_uuid', townId);
             }
 
@@ -2362,7 +2358,7 @@ export const supabaseService = {
 
     // Suscripciones en tiempo real y Presencia
     subscribeToConversation(conversationId, options = {}) {
-        if (!isValidUUID(conversationId) || conversationId?.startsWith('mock-')) {
+        if (!isRealDBUUID(conversationId) || conversationId?.startsWith('mock-')) {
             return { unsubscribe: () => { } };
         }
         const { onNewMessage, onMessageUpdate } = options;
@@ -2386,7 +2382,7 @@ export const supabaseService = {
     },
 
     subscribeToPresence(conversationId, userId, onSync) {
-        if (!isValidUUID(conversationId) || conversationId?.startsWith('mock-')) {
+        if (!isRealDBUUID(conversationId) || conversationId?.startsWith('mock-')) {
             return { unsubscribe: () => { } };
         }
         const channel = supabase.channel(`presence:${conversationId}`, {
@@ -2546,7 +2542,7 @@ export const supabaseService = {
                 email: 'demo@socdepoble.com',
                 phone: phone,
                 isDemo: true,
-                user_metadata: { full_name: 'Veí de Prova', role: 'vei' }
+                user_metadata: { full_name: 'Foraster de Prova', role: 'convidat' }
             };
 
             return {
@@ -2568,7 +2564,7 @@ export const supabaseService = {
     },
 
     async getProfile(id) {
-        if (!id || !isValidUUID(id)) {
+        if (!id || !isRealDBUUID(id)) {
             // Check in Lore Personas first
             const lore = LORE_PERSONAS.find(p => p.id === id);
             if (lore) return lore;
@@ -2835,8 +2831,9 @@ export const supabaseService = {
         const system = SYSTEM_ENTITIES.find(e => e.id === userId);
         if (system) return system;
 
-        if (!isValidUUID(userId)) {
-            return null; // Silent fail for malformed IDs
+        if (!isRealDBUUID(userId)) {
+            logger.debug(`[SupabaseService] getPublicProfile: Saltant crida a DB per ID no-UUID o Sobirà: ${userId}`);
+            return null; // Silent fail for malformed or sovereign IDs
         }
 
         const { data, error } = await supabase
@@ -2844,7 +2841,11 @@ export const supabaseService = {
             .select('*')
             .eq('id', userId)
             .single();
-        if (error) throw error;
+        
+        if (error) {
+            if (error.code === 'PGRST116') return null;
+            throw error;
+        }
         return this.normalizeProfile(data);
     },
 
@@ -2861,7 +2862,8 @@ export const supabaseService = {
             .from('profiles')
             .select('*')
             .eq('username_lower', cleanUsername)
-            .single();
+            .limit(1)
+            .maybeSingle();
 
         if (error) {
             if (error.code === 'PGRST116') {
@@ -2915,12 +2917,22 @@ export const supabaseService = {
 
         if (existingMock) return existingMock;
 
+        if (!isRealDBUUID(entityId)) {
+            logger.debug(`[SupabaseService] getPublicEntity: Saltant crida a DB per ID no-UUID o Sobirà: ${entityId}`);
+            return null;
+        }
+
         const { data, error } = await supabase
             .from('entities')
             .select('*')
             .eq('id', entityId)
-            .single();
-        if (error) throw error;
+            .limit(1)
+            .maybeSingle();
+        
+        if (error) {
+            if (error.code === 'PGRST116') return null;
+            throw error;
+        }
         const entity = data;
         return {
             ...entity,
@@ -2954,11 +2966,25 @@ export const supabaseService = {
     },
 
     async getUserPosts(userId, isPlayground = false) {
-        if (!isValidUUID(userId)) return [];
+        if (!isRealDBUUID(userId)) return [];
         try {
+            if (!isRealDBUUID(userId)) {
+                // Si és un ID sobirà o malformat, mirem si té posts de Lore, si no, retornem buit sense cridar a DB
+                const lorePosts = (MOCK_LORE_POSTS[userId] || []).map(p => {
+                    const persona = LORE_PERSONAS.find(lp => lp.id === userId);
+                    return normalizeContentItem({
+                        ...p,
+                        author_name: p.author_name || persona?.full_name,
+                        author_avatar_url: persona?.avatar_url,
+                        author_role: p.author_role || persona?.role,
+                        town_name: persona?.primary_town
+                    }, 'post');
+                });
+                return lorePosts;
+            }
             // const isUcc = localStorage.getItem('active_ucc_view') === 'true';
-            if (isPlayground || userId?.startsWith('11111111-')) {
-                // Simplified mock return for safety in playground/demo
+            if (isPlayground && !userId?.startsWith('11111111-')) {
+                // Simplified mock return only for non-demo users in playground
                 return [];
             }
 
@@ -3001,6 +3027,36 @@ export const supabaseService = {
         }
     },
 
+    async getImportedPosts(userId) {
+        if (!isRealDBUUID(userId)) return { data: [], error: null };
+        try {
+            return await supabase
+                .from('posts')
+                .select('*')
+                .eq('author_id', userId)
+                .eq('type', 'imported_story')
+                .order('created_at', { ascending: false });
+        } catch (error) {
+            logger.error('[SupabaseService] Error in getImportedPosts:', error);
+            return { data: [], error };
+        }
+    },
+
+    async getUserPostsCount(userId) {
+        if (!isRealDBUUID(userId)) return 0;
+        try {
+            const { count, error } = await supabase
+                .from('posts')
+                .select('*', { count: 'exact', head: true })
+                .eq('author_id', userId);
+            if (error) throw error;
+            return count || 0;
+        } catch (err) {
+            logger.error('[SupabaseService] Error in getUserPostsCount:', err);
+            return 0;
+        }
+    },
+
     async getEntityPosts(entityId, isPlayground = false) {
         try {
             // Support for virtual entities in the feed (Lore injection)
@@ -3028,8 +3084,22 @@ export const supabaseService = {
     },
 
     async getUserMarketItems(userId, isPlayground = false) {
-        if (!isValidUUID(userId)) return [];
+        if (!isRealDBUUID(userId)) return [];
         try {
+            if (!isRealDBUUID(userId)) {
+                // Lore injection for non-DB IDs
+                const loreItems = (MOCK_LORE_ITEMS[userId] || []).map(item => {
+                    const persona = LORE_PERSONAS.find(p => p.id === userId);
+                    return normalizeContentItem({
+                        ...item,
+                        seller_name: persona?.full_name,
+                        author_avatar_url: persona?.avatar_url,
+                        author_role: persona?.role,
+                        town_name: persona?.primary_town
+                    }, 'market');
+                });
+                return loreItems;
+            }
             let query = supabase
                 .from('market_items')
                 .select('id, uuid:id, title, description, price, category_slug, created_at, author_id, avatar_url:author_avatar_url, seller:author_name, author_role, image_url, is_playground, is_active, entity_id, towns!fk_market_town_uuid(name)')
@@ -3362,7 +3432,8 @@ export const supabaseService = {
             .from('media_assets')
             .select('parent_id')
             .eq('id', assetId)
-            .single();
+            .limit(1)
+            .maybeSingle();
 
         if (assetError || !asset.parent_id) return null;
 
@@ -3370,7 +3441,8 @@ export const supabaseService = {
             .from('media_assets')
             .select('*')
             .eq('id', asset.parent_id)
-            .single();
+            .limit(1)
+            .maybeSingle();
 
         if (parentError) throw parentError;
         return parent;
@@ -3631,7 +3703,8 @@ export const supabaseService = {
                 .from('posts_universal_view')
                 .select('*, profiles(*), towns(*)')
                 .eq('id', postId)
-                .single();
+                .limit(1)
+                .maybeSingle();
 
             if (error) throw error;
             return data;

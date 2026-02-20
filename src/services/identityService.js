@@ -38,9 +38,9 @@ export const identityService = {
             id: `sp_node_${public_key.substring(0, 16)}`, // L'ID es deriva de la clau pública (Veritat Matemàtica)
             public_key: public_key,
             private_key: private_key,
-            full_name: `Veí de Poble`,
-            username: `vei_${public_key.substring(0, 8)}`,
-            role: 'neighbor',
+            full_name: `Foraster`,
+            username: `poble_${public_key.substring(0, 8)}`,
+            role: 'guest',
             status: 'sovereign_ancestral',
             created_at: new Date().toISOString(),
             is_sovereign: true,

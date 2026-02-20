@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { User, Building2, Store, Users } from 'lucide-react';
+import React from 'react';
+import DynamicIcon from './DynamicIcon';
 import { ROLES } from '../constants';
 
-const getAvatarIcon = (role, size) => {
+const getAvatarIconName = (role) => {
     switch (role) {
-        case ROLES.OFFICIAL: return <Building2 size={size * 0.5} />;
-        case ROLES.BUSINESS: return <Store size={size * 0.5} />;
-        case ROLES.GROUPS: return <Users size={size * 0.5} />;
-        default: return <User size={size * 0.5} />;
+        case ROLES.OFFICIAL: return 'Building2';
+        case ROLES.BUSINESS: return 'Store';
+        case ROLES.GROUPS: return 'Users';
+        default: return 'User';
     }
 };
 
@@ -27,12 +27,12 @@ const getAvatarFallbackImage = (role) => {
         case ROLES.GROUPS: return '/images/demo/avatar_man_1.png';
         case 'ambassador': return '/assets/avatars/iaia_official.png';
         case 'iaia': return '/assets/avatars/iaia_official.png';
-        default: return '/assets/avatars/iaia_official.png'; 
+        default: return null; // Let initials/icon handle it for neighbors
     }
 };
 
 const Avatar = ({ src, role, name, size = 44, className = "" }) => {
-    const [hasError, setHasError] = useState(false);
+    const [hasError, setHasError] = React.useState(false);
 
     // Map common string sizes to numbers to prevent NaN in SVG calculations
     const numericSize = typeof size === 'number' ? size : {
@@ -61,10 +61,9 @@ const Avatar = ({ src, role, name, size = 44, className = "" }) => {
     const fallbackImage = getAvatarFallbackImage(role);
     const normalizedSrc = (src && !src.startsWith('http') && !src.startsWith('/')) ? `/${src}` : src;
 
-    // [SILENT SHIELD] 
     // We attempt to load the image in the background first to avoid noisy 400/404 errors 
     // from triggering before we have a chance to show the fallback.
-    const [isPreloading, setIsPreloading] = useState(!!normalizedSrc);
+    const [isPreloading, setIsPreloading] = React.useState(!!normalizedSrc);
 
     React.useEffect(() => {
         if (!normalizedSrc) {
@@ -80,6 +79,19 @@ const Avatar = ({ src, role, name, size = 44, className = "" }) => {
             setIsPreloading(false);
         };
     }, [normalizedSrc]);
+
+    // [MASTER DYNAMIC ICON] 
+    // Detect if src is an icon identifier (e.g. "lucide:Home" or starts with "icon:")
+    const isIcon = src && (src.startsWith('lucide:') || src.startsWith('icon:'));
+    const displayIconName = isIcon ? src.replace('icon:', '').replace('lucide:', '') : null;
+
+    if (isIcon) {
+        return (
+            <div style={style} className={`avatar-container icon-mode ${className}`}>
+                <DynamicIcon name={displayIconName} size={numericSize * 0.6} color="white" />
+            </div>
+        );
+    }
 
     if ((normalizedSrc || fallbackImage) && !hasError && !isPreloading) {
         return (
@@ -105,6 +117,7 @@ const Avatar = ({ src, role, name, size = 44, className = "" }) => {
     const getInitials = (name) => {
         if (!name) return "";
         if (name === "Associació Cultural Sant Gregori") return "SG";
+        if (name.toLowerCase().includes("sóc de poble")) return "SP";
         const parts = name.split(' ').filter(p => p.length > 0);
         if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase();
         return parts[0][0].toUpperCase();
@@ -115,7 +128,7 @@ const Avatar = ({ src, role, name, size = 44, className = "" }) => {
             {name ? (
                 <span style={{ fontSize: numericSize * 0.4 }}>{getInitials(name)}</span>
             ) : (
-                getAvatarIcon(role, numericSize)
+                <DynamicIcon name={getAvatarIconName(role)} size={numericSize * 0.6} color="white" />
             )}
         </div>
     );

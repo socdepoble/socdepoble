@@ -263,7 +263,7 @@ const IAIAChatSidebar = ({ isOpen, onClose, context = "general" }) => {
   return (
     <div 
         ref={sidebarRef}
-        className={`iaia-chat-sidebar glass-premium ${isOpen ? 'open' : ''} ${isResizing ? 'resizing' : ''}`}
+        className={`iaia-chat-sidebar bg-theme-sidebar border-l border-white/5 ${isOpen ? 'open' : ''} ${isResizing ? 'resizing' : ''}`}
         style={{ 
           width: (isOpen && typeof window !== 'undefined' && window.innerWidth > 768) 
             ? `${width}px` 
@@ -283,14 +283,14 @@ const IAIAChatSidebar = ({ isOpen, onClose, context = "general" }) => {
         <div className="handle-line" />
       </div>
 
-      <header className="chat-sidebar-header">
+      <header className="chat-sidebar-header bg-theme-header border-b border-white/5">
         <div className="flex items-center gap-3">
-            <div className="archon-avatar">
+            <div className="archon-avatar genesis-radius">
                 <Brain size={20} />
             </div>
             <div>
-                <h3 className="font-black text-[11px] uppercase tracking-widest text-fuchsia-400">IAIA Archon</h3>
-                <p className="text-[9px] opacity-50 uppercase tracking-tighter">En línia</p>
+                <h3 className="text-xs font-black text-theme-text uppercase tracking-[0.2em] leading-none">IAIA ARCHON</h3>
+                <span className="text-[9px] text-orange-500 font-bold uppercase tracking-widest">Sollutia</span>
             </div>
         </div>
         <div className="flex items-center gap-2">
@@ -315,7 +315,7 @@ const IAIAChatSidebar = ({ isOpen, onClose, context = "general" }) => {
           <div key={msg.id} className={`chat-bubble-wrapper ${msg.role}`}>
             <div className={`chat-bubble ${msg.type === 'archon' ? 'archon-style' : ''} ${msg.isEmojiOnly ? 'emoji-only' : ''}`}>
               {msg.media && (
-                <div className="chat-media-preview mb-3 rounded-xl overflow-hidden border border-white/10 glass-premium">
+                <div className="chat-media-preview mb-3 card-radius overflow-hidden border border-white/10 glass-premium">
                   {msg.media.type === 'video' ? (
                     <video src={msg.media.preview} controls className="w-full max-h-60 object-cover" />
                   ) : msg.media.type === 'image' ? (
@@ -394,11 +394,11 @@ const IAIAChatSidebar = ({ isOpen, onClose, context = "general" }) => {
             </button>
             
             {isAttachmentMenuOpen && (
-              <div className="absolute bottom-[calc(100%+12px)] left-0 w-56 bg-[#232323] border border-white/5 rounded-2xl p-2 shadow-2xl animate-in fade-in zoom-in slide-in-from-bottom-4 flex flex-col gap-1 z-50">
+              <div className="absolute bottom-[calc(100%+12px)] left-0 w-56 bg-[#232323] border border-white/5 genesis-radius p-2 shadow-2xl animate-in fade-in zoom-in slide-in-from-bottom-4 flex flex-col gap-1 z-50">
                 {attachmentTypes.map(type => (
                   <button 
                     key={type.id}
-                    className="flex items-center gap-4 p-3 hover:bg-white/5 rounded-xl transition-colors text-left"
+                    className="flex items-center gap-4 p-3 hover:bg-white/5 card-radius transition-colors text-left"
                     onClick={() => {
                         if (type.id === 'file' || type.id === 'media') {
                             fileInputRef.current.accept = type.accept;
@@ -426,8 +426,8 @@ const IAIAChatSidebar = ({ isOpen, onClose, context = "general" }) => {
           
           <div className="flex-1 relative">
             {selectedFile && (
-              <div className="absolute bottom-full left-0 mb-4 p-3 bg-[#1a1a1a] border border-white/10 rounded-2xl flex items-center gap-4 animate-in fade-in slide-in-from-bottom-2 shadow-2xl z-40">
-                <div className="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center overflow-hidden">
+              <div className="absolute bottom-full left-0 mb-4 p-3 bg-[#1a1a1a] border border-white/10 genesis-radius flex items-center gap-4 animate-in fade-in slide-in-from-bottom-2 shadow-2xl z-40">
+                <div className="w-12 h-12 bg-white/5 card-radius flex items-center justify-center overflow-hidden">
                     {selectedFile.type === 'image' || selectedFile.type === 'video' ? (
                         <img src={selectedFile.preview} className="w-full h-full object-cover" alt="" />
                     ) : (

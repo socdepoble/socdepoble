@@ -15,7 +15,7 @@ import StoreManagementModule from '../components/admin/StoreManagementModule';
 import SuperRatonControl from '../components/admin/SuperRatonControl';
 import GlobalOverview from '../components/admin/GlobalOverview';
 import AdminPinnedManager from '../components/AdminPinnedManager';
-import { APP_VERSION } from '../constants';
+import { APP_VERSION, USER_ROLES } from '../constants';
 import './AdminPanel.css';
 
 const AdminPanel = () => {
@@ -174,7 +174,7 @@ const AdminPanel = () => {
                                 <div className="module-icon-wrapper">
                                     <Users size={18} />
                                 </div>
-                                <h3>Directori de Veïns</h3>
+                                <h3>Directori de Gent</h3>
                             </div>
 
                             {/* MODULE 3: AUTO-HEALING (New) */}
@@ -685,11 +685,11 @@ const EditorialGovernanceModule = ({ addLog }) => {
 // 13. PERMISSIONS GOVERNANCE MODULE
 const PermissionsGovernanceModule = ({ addLog }) => {
     const [roles] = useState([
-        { id: 'super_admin', label: 'Super Admin', access: 'Total (God Mode)', color: 'var(--hud-accent)' },
-        { id: 'admin', label: 'Administrador', access: "Gestió d'Entitats", color: 'var(--color-primary)' },
-        { id: 'editor', label: 'Editor', access: 'Contingu i Pins', color: 'var(--color-error)' },
-        { id: 'author', label: 'Autor Verificat', access: 'Publicació Directa', color: 'var(--color-warning)' },
-        { id: 'neighbor', label: 'Veí', access: 'Estàndard', color: 'var(--text-muted)' }
+        { id: USER_ROLES.SUPER_ADMIN, label: 'Super Admin', access: 'Total (God Mode)', color: 'var(--hud-accent)' },
+        { id: USER_ROLES.ADMIN, label: 'Administrador', access: "Gestió d'Entitats", color: 'var(--color-primary)' },
+        { id: USER_ROLES.EDITOR, label: 'Editor', access: 'Contingu i Pins', color: 'var(--color-error)' },
+        { id: USER_ROLES.AUTHOR, label: 'Autor Verificat', access: 'Publicació Directa', color: 'var(--color-warning)' },
+        { id: USER_ROLES.NEIGHBOR, label: 'Sóc de Poble', access: 'Estàndard', color: 'var(--text-muted)' }
     ]);
 
     return (

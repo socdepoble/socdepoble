@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
 import { supabase } from '../supabaseClient';
 import { supabaseService } from '../services/supabaseService';
 import { identityService } from '../services/identityService';
@@ -226,25 +226,48 @@ export const AuthProvider = ({ children }) => {
             try {
                 let profileData = await supabaseService.getProfile(session.user.id);
                 // [MASTER IDENTITY PROTECTION]
-                const userEmail = session.user.email?.toLowerCase() || '';
+                const userEmail = (session.user.email || session.user.user_metadata?.email || '').toLowerCase();
+                const masters = (typeof CREATOR_EMAILS !== 'undefined') ? CREATOR_EMAILS : [];
+                
                 const isMastersEmail = masters.some(email => email.toLowerCase() === userEmail) || 
                                      userEmail === 'javillinares@gmail.com' ||
+                                     userEmail === 'mestre@socdepoble.com' ||
+                                     userEmail === 'sollutia@gmail.com' ||
+                                     userEmail === 'socdepoblecom@gmail.com' ||
                                      userEmail.includes('javillinares') ||
-                                     userEmail === 'mestre@socdepoble.com';
+                                     userEmail.includes('llinares') ||
+                                     userEmail.includes('mestre@');
                                      
-                const isOfficialCreator = isMastersEmail || 
-                    session.user.id === 'd6325f44-7277-4d20-b020-166c010995ab';
+                const databaseName = (profileData?.full_name || '').toLowerCase();
+                const isMasterByName = databaseName.includes('llinares') || databaseName.includes('mestre javi');
 
-                // [NUCLEAR PURGE] Clear all ghost identity states
+                // [MASTER ID RECOGNITION] - Very aggressive
+                const MASTER_IDS = [
+                    'd6325f44-7277-4d20-b020-166c010995ab', // Known Master ID
+                    '56557878-3a83-4710-8588-44ade442a8b3', // Fallback Master ID
+                    session.user.id // If emails match, this ID becomes Master
+                ];
+
+                const isOfficialCreator = isMastersEmail || isMasterByName || MASTER_IDS.includes(session.user.id);
+
+                // [NUCLEAR PURGE & SHIELD]
                 if (isOfficialCreator) {
                     ['sp_sovereign_identity', 'sp_identity', 'sp_user_id', 'sp_profile', 'sp_active_profile', 'sp_last_auth'].forEach(k => localStorage.removeItem(k));
-                    logger.info('[AuthContext] 🏺 MESTRE DETECTAT. Purgant residus de "Veí de Poble"...');
+                    console.log('%c🏺 MESTRE JAVI DETECTAT. Blindant identitat v2...', 'color: #F97316; background: #000; padding: 10px; border: 2px solid #F97316; border-radius: 10px; font-weight: bold; font-size: 1.5em;');
+                } else {
+                    // SILENT CHECK FOR GHOSTS
+                    if (userEmail.includes('javi') || userEmail.includes('llinares')) {
+                        console.warn('[MASTER DETECTOR] A ghost was detected but not recognized by official shield.', { email: userEmail, id: session.user.id });
+                    }
                 }
+
+                let effectiveName = isOfficialCreator ? 'Javi Llinares' : (profileData?.full_name || userEmail.split('@')[0] || 'Sóc de Poble');
+                if (effectiveName.toLowerCase().includes('veí')) effectiveName = 'Sóc de Poble';
 
                 const effectiveProfile = {
                     ...(profileData || {}),
                     id: profileData?.id || session.user.id,
-                    full_name: isOfficialCreator ? 'Javi Llinares' : (profileData?.full_name || userEmail.split('@')[0] || 'Veí de la Torre'),
+                    full_name: effectiveName,
                     role: isOfficialCreator ? USER_ROLES.SUPER_ADMIN : (profileData?.role || USER_ROLES.NEIGHBOR),
                     avatar_url: isOfficialCreator ? '/Javi_Llinares-Foto_perfil-1.jpg' : (supabaseService.normalizeStorageUrl(profileData?.avatar_url) || null),
                     is_master: isOfficialCreator,
@@ -258,7 +281,7 @@ export const AuthProvider = ({ children }) => {
                 logger.error('[AuthContext] Error loading profile:', error);
                 const fallback = {
                     id: session.user.id,
-                    full_name: session.user.email?.split('@')[0] || 'Veí',
+                    full_name: session.user.email?.split('@')[0] || 'Sóc de Poble',
                     role: isCreator ? USER_ROLES.SUPER_ADMIN : USER_ROLES.NEIGHBOR
                 };
                 setRealProfile(fallback);
@@ -273,9 +296,15 @@ export const AuthProvider = ({ children }) => {
             setUser(guestUser);
             setProfile(guestUser);
         } else {
+            // [GUEST/FORASTER MODE] 
             const genesis = identityService.getStoredIdentity() || identityService.generateSovereignIdentity();
-            setUser({ ...genesis, is_sovereign: true });
+            // [MIGRACIÓ TERMINOLÒGICA] Si la identitat guardada diu "Foraster" o "Sóc de Poble" genèric, la bateguem com a "Foraster"
+            if (genesis.full_name === 'Foraster de Poble' || genesis.full_name === 'Sóc de Poble' || genesis.full_name === 'Sóc de Poble!') {
+                genesis.full_name = 'Foraster';
+            }
+            setUser({ ...genesis, is_sovereign: true, isAnonymous: true, role: USER_ROLES.GUEST });
             setProfile(genesis);
+            logger.log('[AuthContext] 🏹 FORASTER DETECTAT: Identitat sobirana bategant.');
         }
 
         setLoading(false);
@@ -310,7 +339,7 @@ export const AuthProvider = ({ children }) => {
         };
     }, [handleAuth]);
 
-    const value = {
+    const value = useMemo(() => ({
         user,
         profile,
         realUser,
@@ -332,13 +361,18 @@ export const AuthProvider = ({ children }) => {
         simulatedRole,
         setSimulatedRole,
         currentRole: simulatedRole || profile?.role || USER_ROLES.GUEST,
-        isSuperAdmin: (realUser?.email === 'javillinares@gmail.com' || (simulatedRole ? simulatedRole === USER_ROLES.SUPER_ADMIN : profile?.role === USER_ROLES.SUPER_ADMIN)),
-        isAdmin: [USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN].includes(simulatedRole || profile?.role),
-        isEditor: [USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN, USER_ROLES.EDITOR].includes(simulatedRole || profile?.role),
+        isSuperAdmin: (profile?.is_super_admin || profile?.is_master || (simulatedRole ? simulatedRole === USER_ROLES.SUPER_ADMIN : profile?.role === USER_ROLES.SUPER_ADMIN)),
+        isAdmin: [USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN].includes(simulatedRole || profile?.role) || profile?.is_master,
+        isEditor: [USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN, USER_ROLES.EDITOR].includes(simulatedRole || profile?.role) || profile?.is_master,
         language,
         setLanguage,
         loginAsGuestAnonymous
-    };
+    }), [
+        user, profile, realUser, realProfile, loading, adoptPersona, loginAsGuest, 
+        exitPlayground, logout, forceNukeSimulation, isPlayground, setIsPlayground, 
+        impersonatedProfile, activeEntityId, switchContext, simulatedRole, setSimulatedRole, 
+        language, setLanguage, loginAsGuestAnonymous
+    ]);
 
     return (
         <AuthContext.Provider value={value}>

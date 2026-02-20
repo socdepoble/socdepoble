@@ -2,32 +2,50 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { 
     X, User, MessageSquare, Briefcase, Settings, Database, 
-    Users, Calendar, Ghost, Image as ImageIcon, LogOut, ChevronRight,
-    Shield, Sparkles, Brain
+    Users, Calendar, Image as ImageIcon, LogOut, ChevronRight,
+    Shield, Sparkles, Brain, Map as MapIcon, Wrench, LayoutGrid,
+    Store, MapPin, Zap, FileText, ShieldCheck, Cpu
 } from 'lucide-react';
 import { useUI } from '../context/UIContext';
 import { useAuth } from '../context/AuthContext';
 import './ProfilePowerMenu.css';
 
-const SIDEBAR_ORG = [
-  { id: "perfil", label: "El meu Perfil", icon: User, to: "/perfil" },
-  { id: "iaia_hub", label: "La IAIA (Hub)", icon: MessageSquare, to: "/iaia" },
-  { id: "dossier", label: "Dossier de Socis", icon: Briefcase, to: "/dossier" },
-  { id: "trellat", label: "Taller de Trellat", icon: Settings, to: "/tools/trellat" },
-  { id: "arxiu", label: "L'Arxiu d'Or", icon: Database, to: "/arxiu" },
-  { id: "directori", label: "Directori de Veïns", icon: Users, to: "/directori" },
+const PILARS_SAGRATS = [
+  { id: "perfil", label: "Perfil Sobirà", icon: User, to: "/perfil", featured: true },
+  { id: "chats", label: "Xat i Consells", icon: MessageSquare, to: "/chats" },
+  { id: "mur", label: "Mur del Poble", icon: LayoutGrid, to: "/mur" },
+  { id: "mercat", label: "Mercat Rural", icon: Store, to: "/mercat" },
+  { id: "pobles", label: "Pobles i Gent", icon: MapPin, to: "/pobles" },
+  { id: "nexus", label: "Nexus Flash", icon: Zap, to: "/nexus" },
+  { id: "mapa", label: "Mapa Tàctic", icon: MapIcon, to: "/mapa" },
 ];
 
-const SIDEBAR_COLLECTIONS = [
-  { id: "col_gent", label: "Gent del Poble", icon: Users, to: "/directori" },
-  { id: "calendari_master", label: "Agenda Cultural", icon: Calendar, to: "/calendari" },
-  { id: "memorial", label: "Memorial Fantasmes", icon: Ghost, to: "/memorial" },
-  { id: "infoteca", label: "Infoteca Nano", icon: ImageIcon, to: "/infoteca" },
+const RECURSOS_IDENTITAT = [
+  { id: "notes", label: "Bloc de Notes", icon: Settings, to: "/notes" },
+  { id: "arxiu", label: "Relíquies (Arxiu)", icon: Database, to: "/arxiu" },
+  { id: "calendari", label: "Agenda del Mas", icon: Calendar, to: "/calendari" },
+  { id: "infoteca", label: "Infoteca Gallery", icon: ImageIcon, to: "/infoteca" },
+  { id: "genesis", label: "Gènesi Viewer", icon: Database, to: "/genesis" },
+  { id: "solatge", label: "Solatge Console", icon: Database, to: "/solatge" },
+];
+
+const OFICI_GESTIO = [
+  { id: "ofici", label: "Ofici de Doc.", icon: FileText, to: "/ofici" },
+  { id: "ajudes", label: "Buscador d'Ajudes", icon: ShieldCheck, to: "/ajudes" },
+  { id: "dossier", label: "Dossier de Socis", icon: Briefcase, to: "/dossier" },
+  { id: "directori", label: "Directori de Gent", icon: Users, to: "/directori" },
+  { id: "iaia_hub", label: "La IAIA Hub", icon: Sparkles, to: "/iaia" },
+];
+
+const TECNIC_MESTRE = [
+  { id: "chrome145", label: "Informe Chrome 145", icon: Cpu, to: "/chrome-145" },
+  { id: "utilitats", label: "Utilitats Master", icon: Wrench, to: "/utilitats" },
+  { id: "accessibilitat", label: "Accessibilitat", icon: Shield, to: "/accessibilitat" },
 ];
 
 const ProfilePowerMenu = () => {
     const { isProfileMenuOpen, closeProfileMenu } = useUI();
-    const { user, profile } = useAuth();
+    const { user, profile, signOut, isSuperAdmin, isAdmin } = useAuth();
 
     if (!isProfileMenuOpen) return null;
 
@@ -45,7 +63,7 @@ const ProfilePowerMenu = () => {
                             )}
                         </div>
                         <div className="u-text">
-                            <h2 className="text-2xl font-black tracking-tighter uppercase">{profile?.full_name || user?.email?.split('@')[0] || 'Veí de Poble'}</h2>
+                            <h2 className="text-2xl font-black tracking-tighter uppercase">{profile?.full_name || user?.email?.split('@')[0] || 'Sóc de Poble'}</h2>
                             <p className="text-gray-500 text-[10px] font-bold uppercase tracking-[0.2em]">{user?.email}</p>
                         </div>
                     </div>
@@ -55,11 +73,31 @@ const ProfilePowerMenu = () => {
                 </header>
 
                 <div className="power-grid">
-                    {/* SECTION: ORGANITZACIÓ */}
+                    {/* SECTION: PILARS DEL MAS */}
                     <div className="power-section">
-                        <h3 className="section-title">Organització</h3>
+                        <h3 className="section-title">Pilars del Mas</h3>
                         <div className="pg-items">
-                            {SIDEBAR_ORG.map(item => (
+                            {PILARS_SAGRATS.map(item => (
+                                <NavLink 
+                                    key={item.id} 
+                                    to={item.to} 
+                                    className={`pg-item ${item.featured ? 'pg-item-featured' : ''}`}
+                                    onClick={closeProfileMenu}
+                                >
+                                    <div className="pg-icon"><item.icon size={20} /></div>
+                                    <span className="pg-label">{item.label}</span>
+                                    {item.featured && <span className="ml-auto text-[10px] font-black bg-indigo-500 text-white px-2 py-0.5 rounded-full uppercase tracking-widest">Obrir</span>}
+                                    {!item.featured && <ChevronRight size={14} className="ml-auto opacity-20" />}
+                                </NavLink>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* SECTION: IDENTITAT i RECURSOS */}
+                    <div className="power-section">
+                        <h3 className="section-title">Identitat i Recursos</h3>
+                        <div className="pg-items">
+                            {RECURSOS_IDENTITAT.map(item => (
                                 <NavLink 
                                     key={item.id} 
                                     to={item.to} 
@@ -74,11 +112,11 @@ const ProfilePowerMenu = () => {
                         </div>
                     </div>
 
-                    {/* SECTION: COL·LECCIONS */}
+                    {/* SECTION: OFICI i GESTIÓ */}
                     <div className="power-section">
-                        <h3 className="section-title">Col·leccions</h3>
+                        <h3 className="section-title">Ofici i Gestió</h3>
                         <div className="pg-items">
-                            {SIDEBAR_COLLECTIONS.map(item => (
+                            {OFICI_GESTIO.map(item => (
                                 <NavLink 
                                     key={item.id} 
                                     to={item.to} 
@@ -90,6 +128,38 @@ const ProfilePowerMenu = () => {
                                     <ChevronRight size={14} className="ml-auto opacity-20" />
                                 </NavLink>
                             ))}
+                        </div>
+                    </div>
+
+                    {/* SECTION: TÈCNIC & MESTRE */}
+                    <div className="power-section">
+                        <h3 className="section-title">Tècnic & Mestre</h3>
+                        <div className="pg-items">
+                            {TECNIC_MESTRE.map(item => (
+                                <NavLink 
+                                    key={item.id} 
+                                    to={item.to} 
+                                    className="pg-item" 
+                                    onClick={closeProfileMenu}
+                                >
+                                    <div className="pg-icon"><item.icon size={20} /></div>
+                                    <span className="pg-label">{item.label}</span>
+                                    <ChevronRight size={14} className="ml-auto opacity-20" />
+                                </NavLink>
+                            ))}
+                            
+                            {/* ADMIN PANEL: NOMÉS MESTRE */}
+                            {(isSuperAdmin || isAdmin) && (
+                                <NavLink 
+                                    to="/admin" 
+                                    className="pg-item bg-orange-500/5 group" 
+                                    onClick={closeProfileMenu}
+                                >
+                                    <div className="pg-icon text-orange-500"><Shield size={20} /></div>
+                                    <span className="pg-label text-orange-500 font-black">Panell d'Admin</span>
+                                    <ChevronRight size={14} className="ml-auto opacity-20" />
+                                </NavLink>
+                            )}
                         </div>
                     </div>
 
@@ -97,11 +167,11 @@ const ProfilePowerMenu = () => {
                     <div className="power-section">
                         <h3 className="section-title">Sobirania</h3>
                         <div className="pg-items">
-                             <div className="pg-item disabled">
+                             <div className="pg-item disabled opacity-50">
                                 <div className="pg-icon"><Shield size={20} /></div>
                                 <span className="pg-label">Privacitat Rhizome</span>
                              </div>
-                             <div className="pg-item" onClick={() => { alert("Adéu!"); closeProfileMenu(); }}>
+                             <div className="pg-item" onClick={() => { signOut(); closeProfileMenu(); }}>
                                 <div className="pg-icon text-red-500"><LogOut size={20} /></div>
                                 <span className="pg-label text-red-500">Tancar Sessió</span>
                              </div>

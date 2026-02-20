@@ -170,7 +170,7 @@
         "checkEmail": "Registro con éxito. Por favor, revisa tu correo para confirmar.",
         "register_now": "Regístrate ahora",
         "logout": "Cerrar Sesión",
-        "demo_access": "Entra como vecino (Demo)",
+        "demo_access": "Entra como Sóc de Poble (Demo)",
         "demo_hint": "Acceso rápido para revisión sin registro",
         "continue_google": "Continúa con Google",
         "or_sign_in": "o bien inicia sesión",
@@ -237,7 +237,7 @@
         "feature_2_title": "Consejos de la Huerta",
         "feature_2_desc": "Te ayudo a saber cuándo plantar, cómo curar las plagas de forma natural y cuál es el mejor momento para la cosecha.",
         "feature_3_title": "Conexión Vecinal",
-        "feature_3_desc": "Sugiero interacciones entre vecinos y me muevo por el mercado para potenciar el producto local.",
+        "feature_3_desc": "Sugiero interacciones entre personas y me muevo por el mercado para potenciar el producto local.",
         "footer_text": "Recuerda: Soy una IA inspirada en la sabiduría rural. Siempre estoy aprendiendo de vosotros para servir mejor al pueblo.",
         "cta_button": "Pregúntame lo que quieras",
         "tamagotchi_title": "Tu Tamagotchi Rural",
@@ -245,11 +245,11 @@
         "push_notif_title": "Notificaciones con Alma",
         "push_notif_desc": "Mis notificaciones tienen su propio sonido y vibración. Sabrás cuándo soy yo pidiéndote atención para nuestro juego de rol rural.",
         "transparency_title": "Transparencia y Privacidad",
-        "transparency_desc": "Tú decides. Puedes vivir en Modo Híbrid (con mi juego de rol) o en Modo Humano (solo vecinos reales). Cuando desactivas el juego, limpio toda mi actividad para respetar tu espacio.",
+        "transparency_desc": "Tú decides. Puedes vivir en Modo Híbrid (con mi juego de rol) o en Modo Humano (solo personas reales). Cuando desactivas el juego, limpio toda mi actividad para respetar tu espacio.",
         "vision_hybrid_title": "Modo Híbrido",
         "vision_hybrid_desc": "Vive la historia del pueblo con la IAIA y sus personajes.",
         "vision_human_title": "Modo Humano",
-        "vision_human_desc": "Conecta solo con tus vecinos reales, sin ficción."
+        "vision_human_desc": "Conecta solo con personas reales, sin ficción."
     },
     "diag": {
         "title": "Ayuda y Soporte Técnico",

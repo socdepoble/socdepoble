@@ -61,12 +61,16 @@ export const wikipediaService = {
             // Filtrem només imatges vàlides i de qualitat
             return items
                 .filter(item => item.type === 'image')
-                .map(item => ({
-                    url: item.srcset?.[0]?.src || item.title,
-                    title: item.caption?.text || 'Imatge del poble',
-                    author: item.artist?.text || 'Wikimedia Commons'
-                }))
-                .filter(img => img.url && img.url.startsWith('http'));
+                .map(item => {
+                    let url = item.srcset?.[0]?.src || item.title;
+                    if (url && url.startsWith('//')) url = 'https:' + url;
+                    return {
+                        url: url,
+                        title: item.caption?.text || 'Imatge del poble',
+                        author: item.artist?.text || 'Wikimedia Commons'
+                    };
+                })
+                .filter(img => img.url && img.url.includes('upload.wikimedia.org'));
         } catch (error) {
             logger.error(`[Wikipedia] Error fetching media list for ${townName}:`, error);
             return [];

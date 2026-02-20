@@ -96,13 +96,9 @@ const NavigationRail = () => {
         <div className="flex items-center px-6 py-4 shrink-0">
         <NavLink to="/" onClick={handleNavClick}>
           <img
-            src="/assets/master/logo_socdepoble_white.png"
+            src={document.documentElement.classList.contains('light') ? "/assets/master/logo_socdepoble_black_sketch.png" : "/assets/master/logo_socdepoble_white_full.png"}
             alt="Sóc de Poble"
             className="h-8 w-auto object-contain brightness-110"
-            onError={(e) => {
-              e.target.onerror = null;
-              e.target.src = "/src/assets/logo.png";
-            }}
           />
         </NavLink>
         <button
@@ -124,7 +120,7 @@ const NavigationRail = () => {
             }
             handleNavClick();
           }}
-          className="w-full h-14 bg-[#4F46E5] hover:bg-[#4338ca] text-white rounded-2xl font-black flex items-center justify-center gap-3 shadow-lg transition-all active:scale-95 group relative overflow-hidden"
+          className="w-full h-14 bg-[#4F46E5] hover:bg-[#4338ca] text-white genesis-radius font-black flex items-center justify-center gap-3 shadow-lg transition-all active:scale-95 group relative overflow-hidden"
         >
           <div className="flex items-center justify-center bg-white/10 w-10 h-10 rounded-xl group-hover:bg-white/20 transition-colors">
             <Plus size={24} strokeWidth={3} />
@@ -150,7 +146,7 @@ const NavigationRail = () => {
                     to={item.path}
                     onClick={handleNavClick}
                     className={({ isActive }) => `
-                      w-full flex items-center space-x-4 px-3 h-14 rounded-xl transition-all font-black relative overflow-hidden
+                      w-full flex items-center space-x-4 px-3 h-14 genesis-radius transition-all font-black relative overflow-hidden
                       ${
                         isActive
                           ? "bg-[#FF6B00] text-white shadow-xl scale-[1.01]"
@@ -182,7 +178,7 @@ const NavigationRail = () => {
               <>
                 <div
                   onClick={() => toggleFolder(group.id)}
-                  className="w-full px-2 flex items-center justify-between group/header mb-1 cursor-pointer h-14 rounded-2xl transition-all hover:bg-white/10 bg-white/[0.03] border border-white/5 shadow-xl"
+                  className="w-full px-2 flex items-center justify-between group/header mb-1 cursor-pointer h-14 genesis-radius transition-all hover:bg-white/10 bg-white/[0.03] border border-white/5 shadow-xl"
                 >
                   <div className="flex items-center gap-4 pl-2">
                     <div className="w-10 h-10 flex items-center justify-center bg-white/5 rounded-xl text-gray-400 group-hover/header:bg-white/10 group-hover/header:text-white transition-all shadow-inner">
@@ -194,7 +190,7 @@ const NavigationRail = () => {
                   </div>
                   <div className="flex items-center pr-2">
                     <div
-                      className={`w-10 h-10 flex items-center justify-center rounded-xl transition-all ${
+                      className={`w-10 h-10 flex items-center justify-center genesis-radius transition-all ${
                         expandedFolders.includes(group.id)
                           ? "bg-orange-500 text-white shadow-[0_0_15px_rgba(249,115,22,0.4)]"
                           : "bg-white/5 text-gray-500 hover:bg-white/10"
