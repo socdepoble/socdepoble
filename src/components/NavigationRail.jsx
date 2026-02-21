@@ -5,24 +5,11 @@ import {
   LayoutGrid,
   Store,
   MapPin,
-  User,
-  Database,
-  Calendar,
-  Image as ImageIcon,
-  LogOut,
-  Plus,
-  Map as MapIcon,
-  Bell,
-  Settings,
   X,
-  ChevronDown,
+  Plus,
   ChevronRight,
-  ExternalLink,
-  Terminal,
-  Wrench,
   Cpu,
 } from "lucide-react";
-import { useState } from "react";
 import AuditRoleSwitcher from "./AuditRoleSwitcher";
 import { useUI } from "../context/UIContext";
 import { useAuth } from "../context/AuthContext";
