@@ -145,39 +145,6 @@ const AppLayout = () => {
                     />
                 )}
 
-                {/* 0. ACCESSIBILITAT & RESILIÈNCIA (L'ULL DEL MAS) - INTEGRAT AL VIEWPORT */}
-                <div className="fixed bottom-24 right-6 z-50 flex flex-col gap-4">
-                    {/* RÀDIO DE POBLE (POC) */}
-                    <button 
-                        className="w-14 h-14 bg-[#F97316] text-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-all border-2 border-white/20"
-                        onClick={async () => {
-                            const { speechService } = await import('../services/speechService');
-                            const { geminiService } = await import('../services/geminiService');
-                            const { MOCK_FEED } = await import('../data');
-                            
-                            // 1. Capturar context (GÈNESI LIGHT)
-                            const feedText = MOCK_FEED.slice(0, 3).map(p => p.content).join(' ');
-                            
-                            // 2. Bategar resum amb Gemini
-                            const summary = await geminiService.ask('IAIA', `Fes un resum de pregoner d'un màxim de 30 paraules per a la ràdio del poble sobre això: ${feedText}`);
-                            
-                            // 3. Parlar!
-                            speechService.speak(summary.text || "Bategant les ones del poble...");
-                        }}
-                        title="Ràdio de Poble"
-                    >
-                        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"/><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"/><circle cx="12" cy="12" r="2"/><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"/><path d="M19.1 4.9C23 8.8 23 15.2 19.1 19.1"/></svg>
-                    </button>
-                    
-                    {/* TRIGGER D'ACCESSIBILITAT (PROTOCOL MESTRE) */}
-                    <button 
-                         className="w-14 h-14 bg-[#0ea5e9] text-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-all border-2 border-white/20"
-                         onClick={() => setIsAccessibilitatOpen(true)}
-                         title="Accessibilitat Universal"
-                    >
-                         <span className="text-xl">🖐️</span>
-                    </button>
-                </div>
                 {!isMinimal && (
                     <aside className={`
                         sidebar-desktop h-full

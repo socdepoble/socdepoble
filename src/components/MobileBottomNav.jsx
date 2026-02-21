@@ -31,11 +31,9 @@ const MobileBottomNav = () => {
                     <span>Mur</span>
                 </NavLink>
 
-                {/* BOTÓ CENTRAL DE PUBLICACIÓ RÀPIDA */}
-                <button className="nav-plus-btn" onClick={handlePlusClick}>
-                    <div className="plus-icon-wrap">
-                        <Plus size={32} strokeWidth={3} />
-                    </div>
+                <button className="nav-item plus-item" onClick={handlePlusClick}>
+                    <Plus size={24} strokeWidth={3} />
+                    <span>Afegir</span>
                 </button>
 
                 <NavLink to="/mercat" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>

@@ -5,8 +5,10 @@ import {
     Users, Calendar, Image as ImageIcon, LogOut, ChevronRight,
     Shield, Sparkles, Brain, Map as MapIcon, Wrench, LayoutGrid,
     Store, MapPin, Zap, FileText, ShieldCheck, Cpu, ArrowLeft,
-    Clock, Globe, Wallet
+    Clock, Globe, Wallet, Terminal, ExternalLink, Activity, Layers,
+    Radio
 } from 'lucide-react';
+import { useUI } from '../context/UIContext';
 import { useAuth } from '../context/AuthContext';
 import './HubView.css';
 
@@ -55,8 +57,20 @@ const OS_CATEGORIES = [
     items: [
       { id: "mapa", label: "Mapa Tàctic", icon: MapIcon, description: "Cartografia avançada del territori.", to: "/mapa" },
       { id: "calendari", label: "Agenda", icon: Calendar, description: "Rituals i esdeveniments rurals.", to: "/calendari" },
-      { id: "utilitats", label: "Utilitats Master", icon: Wrench, description: "Eines de camp i diagnòstic.", to: "/utilitats" },
+      { id: "radio", label: "Ràdio de Poble", icon: Radio, description: "Resum pregoner bategat per la IA.", type: "action", action: "radio" },
       { id: "accessibilitat", label: "Accessibilitat", icon: Shield, description: "Ajustos d'inclusió universal.", to: "/accessibilitat" },
+    ]
+  },
+  {
+    id: "consola",
+    title: "Consola Tècnica",
+    description: "Governança profunda i manteniment de la matriu. Sota supervisió del Nano.",
+    image: "/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/nanobanana_comics_v1_1770057850000.png", // [MOCK] Imatge del Nano tipus còmic
+    items: [
+      { id: "forensic", label: "Mode Forense", icon: Activity, description: "Anàlisi de dades i estats residuals.", type: "toggle", action: "forensic" },
+      { id: "blueprint", label: "Mode Plànol", icon: Layers, description: "Visualització de l'arquitectura UI.", type: "toggle", action: "blueprint" },
+      { id: "gestio-menu", label: "Gestionar Menú", icon: Settings, description: "Configuració de l'arbre de navegació.", to: "/gestio-menu" },
+      { id: "figma", label: "Design System", icon: ExternalLink, description: "Documentació visual a Figma.", href: "https://www.figma.com/design/JXjlHfyx86wTkLPjLGkhf4/Sidebar-Concept--Community-" },
     ]
   }
 ];
@@ -64,6 +78,10 @@ const OS_CATEGORIES = [
 const HubView = () => {
     const navigate = useNavigate();
     const { profile, logout, isSuperAdmin, isAdmin } = useAuth();
+    const { 
+        forensicMode, toggleForensicMode, 
+        blueprintMode, toggleBlueprintMode 
+    } = useUI();
 
     const handleBack = () => {
         if (window.history.length > 1) {
@@ -127,19 +145,67 @@ const HubView = () => {
                         </div>
                         
                         <div className="grid grid-cols-2 gap-2 p-4 flex-1">
-                            {category.items.map(item => (
-                                <NavLink 
-                                    key={item.id} 
-                                    to={item.to}
-                                    className="flex flex-col p-4 bg-white/5 rounded-[28px] border border-white/5 hover:bg-indigo-500 hover:border-indigo-400 transition-all hover:translate-y-[-4px] group/item shadow-lg"
-                                >
-                                    <div className="w-10 h-10 flex items-center justify-center bg-white/5 rounded-xl text-indigo-400 group-hover/item:text-white group-hover/item:bg-white/20 transition-colors mb-4">
-                                        <item.icon size={20} />
-                                    </div>
-                                    <span className="text-sm font-black uppercase tracking-tight mb-1 group-hover/item:text-white transition-colors">{item.label}</span>
-                                    <span className="text-[9px] text-gray-500 font-medium group-hover/item:text-white/70 transition-colors line-clamp-2">{item.description}</span>
-                                </NavLink>
-                            ))}
+                            {category.items.map(item => {
+                                const isToggle = item.type === 'toggle';
+                                const isActive = item.action === 'forensic' ? forensicMode : (item.action === 'blueprint' ? blueprintMode : false);
+                                
+                                const content = (
+                                    <>
+                                        <div className={`w-10 h-10 flex items-center justify-center rounded-xl transition-colors mb-4 ${isActive ? 'bg-white/20 text-white' : 'bg-white/5 text-indigo-400 group-hover/item:text-white group-hover/item:bg-white/20'}`}>
+                                            <item.icon size={20} />
+                                        </div>
+                                        <span className="text-sm font-black uppercase tracking-tight mb-1 group-hover/item:text-white transition-colors">{item.label}</span>
+                                        <span className="text-[9px] text-gray-500 font-medium group-hover/item:text-white/70 transition-colors line-clamp-2">{item.description}</span>
+                                    </>
+                                );
+
+                                if (item.href) {
+                                    return (
+                                        <a 
+                                            key={item.id} 
+                                            href={item.href}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="flex flex-col p-4 bg-white/5 rounded-[28px] border border-white/5 hover:bg-indigo-500 hover:border-indigo-400 transition-all hover:translate-y-[-4px] group/item shadow-lg"
+                                        >
+                                            {content}
+                                        </a>
+                                    );
+                                }
+
+                                if (isToggle || item.type === 'action') {
+                                    return (
+                                        <button 
+                                            key={item.id} 
+                                            onClick={async () => {
+                                                if (item.action === 'forensic') toggleForensicMode();
+                                                else if (item.action === 'blueprint') toggleBlueprintMode();
+                                                else if (item.action === 'radio') {
+                                                    const { speechService } = await import('../services/speechService');
+                                                    const { geminiService } = await import('../services/geminiService');
+                                                    const { MOCK_FEED } = await import('../data');
+                                                    const feedText = MOCK_FEED.slice(0, 3).map(p => p.content).join(' ');
+                                                    const summary = await geminiService.ask('IAIA', `Fes un resum de pregoner d'un màxim de 30 paraules per a la ràdio del poble sobre això: ${feedText}`);
+                                                    speechService.speak(summary.text || "Bategant les ones del poble...");
+                                                }
+                                            }}
+                                            className={`flex flex-col p-4 rounded-[28px] border transition-all hover:translate-y-[-4px] group/item shadow-lg text-left ${isActive ? 'bg-orange-500 border-orange-400' : 'bg-white/5 border-white/5 hover:bg-slate-700'}`}
+                                        >
+                                            {content}
+                                        </button>
+                                    );
+                                }
+
+                                return (
+                                    <NavLink 
+                                        key={item.id} 
+                                        to={item.to}
+                                        className="flex flex-col p-4 bg-white/5 rounded-[28px] border border-white/5 hover:bg-indigo-500 hover:border-indigo-400 transition-all hover:translate-y-[-4px] group/item shadow-lg"
+                                    >
+                                        {content}
+                                    </NavLink>
+                                );
+                            })}
                         </div>
                     </section>
                 ))}

@@ -52,16 +52,9 @@ const NavigationRail = () => {
   const {
     setIsCreateModalOpen,
     closeDrawer,
-    forensicMode,
-    toggleForensicMode,
-    blueprintMode,
-    toggleBlueprintMode,
     setIsGuestInteractionModalOpen,
-    isAccessibilitatOpen,
-    setIsAccessibilitatOpen,
   } = useUI();
-  const { user, signOut, isAdmin, isSuperAdmin } = useAuth();
-  const [isTechnicalMenuOpen, setIsTechnicalMenuOpen] = useState(false);
+  const { user, isAdmin } = useAuth();
 
   const handleNavClick = () => {
     if (window.innerWidth < 1024) {
@@ -154,8 +147,6 @@ const NavigationRail = () => {
               </div>
             ) : (
               /* GRUPS COL·LAPSABLES (IDENTITAT i RECURSOS) */
-              <>
-              /* SISTEMA OPERATIU: BOTÓ ÚNIC (SEGON NIVELL) */
               <NavLink
                 to={group.path}
                 onClick={handleNavClick}
@@ -178,113 +169,12 @@ const NavigationRail = () => {
                    <ChevronRight size={18} strokeWidth={3} />
                 </div>
               </NavLink>
-              </>
             )}
           </div>
         ))}
       </div>
 
       <div className="p-4 mt-auto border-t border-white/10 bg-transparent shrink-0 space-y-3">
-        {/* CONSOLA TÈCNICA (SUBMENÚ AGRUPAT) */}
-        <div className="space-y-2">
-          <button
-            onClick={() => setIsTechnicalMenuOpen(!isTechnicalMenuOpen)}
-            className={`w-full flex items-center justify-between px-3 h-10 rounded-lg transition-all font-black text-[10px] uppercase tracking-widest
-              ${isTechnicalMenuOpen ? "bg-white/10 text-white" : "bg-white/5 text-gray-500 hover:text-white"}`}
-          >
-            <div className="flex items-center space-x-3">
-              <Terminal size={14} className="shrink-0" />
-              <span>CONSOLA TÈCNICA</span>
-            </div>
-            <ChevronDown
-              size={14}
-              className={`transition-transform duration-300 ${isTechnicalMenuOpen ? "rotate-180" : ""}`}
-            />
-          </button>
-
-          {isTechnicalMenuOpen && (
-            <div className="p-2 space-y-2 bg-black/40 rounded-xl border border-white/5 animate-in fade-in slide-in-from-top-2 duration-300">
-              <button
-                onClick={() => setIsAccessibilitatOpen(!isAccessibilitatOpen)}
-                className={`w-full flex items-center space-x-3 px-3 h-auto min-h-[36px] py-1.5 rounded-lg transition-all font-black text-[9px] uppercase tracking-widest text-left
-                                    ${
-                                      isAccessibilitatOpen
-                                        ? "bg-[#F97316] text-white shadow-[0_0_15px_rgba(249,115,22,0.5)]"
-                                        : "bg-orange-900/10 text-orange-500 border border-orange-500/20"
-                                    }`}
-              >
-                <span className="text-base shrink-0">🖐️</span>
-                <span>ACCESSIBILITAT</span>
-              </button>
-
-              <button
-                onClick={toggleForensicMode}
-                className={`w-full flex items-center space-x-3 px-3 h-auto min-h-[36px] py-1.5 rounded-lg transition-all font-black text-[9px] uppercase tracking-widest text-left
-                                    ${
-                                      forensicMode
-                                        ? "bg-[#ff0000] text-white animate-pulse"
-                                        : "bg-red-900/10 text-red-500 border border-red-500/20"
-                                    }`}
-              >
-                <span className="text-base shrink-0">🧬</span>
-                <span>{forensicMode ? "FORENSE" : "MODE FORENSE"}</span>
-              </button>
-
-              <button
-                onClick={toggleBlueprintMode}
-                className={`w-full flex items-center space-x-3 px-3 h-auto min-h-[36px] py-1.5 rounded-lg transition-all font-black text-[9px] uppercase tracking-widest text-left
-                                    ${
-                                      blueprintMode
-                                        ? "bg-[#4F46E5] text-white shadow-[0_0_15px_rgba(79,70,229,0.5)]"
-                                        : "bg-indigo-900/10 text-indigo-400 border border-indigo-500/20"
-                                    }`}
-              >
-                <span className="text-base shrink-0">📐</span>
-                <span>{blueprintMode ? "PLÀNOL" : "MODE PLÀNOL"}</span>
-              </button>
-
-              <a
-                href="https://www.figma.com/design/JXjlHfyx86wTkLPjLGkhf4/Sidebar-Concept--Community-"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full flex items-center space-x-3 px-3 h-auto min-h-[36px] py-1.5 rounded-lg transition-all font-black text-[9px] uppercase tracking-widest text-left bg-blue-900/10 text-blue-400 border border-blue-500/20 hover:bg-blue-900/30"
-              >
-                <div className="w-5 h-5 flex items-center justify-center shrink-0">
-                  <ExternalLink size={12} />
-                </div>
-                <span>DESIGN SYSTEM (FIGMA)</span>
-              </a>
-
-              {/* BOTÓ GESTIONAR MENÚ (NOMÉS SUPER ADMIN) */}
-              <NavLink
-                to="/gestio-menu"
-                onClick={handleNavClick}
-                className="w-full flex items-center space-x-3 px-3 h-auto min-h-[36px] py-1.5 rounded-lg transition-all font-black text-[9px] uppercase tracking-widest text-left bg-purple-900/10 text-purple-400 border border-purple-500/20 hover:bg-purple-900/30"
-              >
-                <div className="w-5 h-5 flex items-center justify-center shrink-0">
-                  <Settings size={12} />
-                </div>
-                <span>GESTIONAR MENÚ</span>
-              </NavLink>
-
-              {/* BOTÓ LOGOUT (SORTIR) - ARA DINS DE CONSOLA */}
-              {user && (
-                <button
-                  onClick={signOut}
-                  className="w-full flex items-center space-x-3 px-3 h-auto min-h-[36px] py-1.5 rounded-lg transition-all font-black text-[9px] uppercase tracking-widest text-left bg-red-900/10 text-red-500 border border-red-500/20 hover:bg-red-900/30"
-                >
-                  <div className="w-5 h-5 flex items-center justify-center shrink-0">
-                    <LogOut size={12} />
-                  </div>
-                  <span>TANCAR SESSIÓ</span>
-                </button>
-              )}
-
-              {/* SWITCH DE GOVERNANÇA (NOMÉS SUPER ADMIN) */}
-              {isSuperAdmin && <AuditRoleSwitcher />}
-            </div>
-          )}
-        </div>
 
         <div className="mt-2 text-[8px] text-center opacity-30 font-black uppercase tracking-[0.3em] text-white">
           v10.26.1-CANÒNIC

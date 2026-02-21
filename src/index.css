@@ -57,30 +57,31 @@
 
   /* [MAESTRO RULE] Night/Dark Colors */
   --sdp-black: #000000;
-  --sdp-white: #ffffff;
-  --sdp-blue: var(--color-primary);
-  --sdp-orange: var(--color-secondary);
+  --sdp-white: #f8fafc; /* Super claro (Off-white) */
+  --sdp-orange: #F97316;
+  --sdp-blue: #06B6D4;
 
   --bg-theme-base: var(--bg-app);
-  --bg-theme-sidebar: #050505;
+  --bg-theme-sidebar: #000000;
   --bg-theme-panel: #0a0a0a;
-  --text-theme-text: var(--text-main);
+  --text-theme-text: var(--sdp-white);
   --bg-theme-header: #000000;
 }
 
 :root.light {
-  /* En futur, el light mode també seguirà M3 però amb superfícies clares */
-  --bg-app: #FDF5E6; /* Crema Oficial */
+  /* [PALETA CANÒNICA INVERSA] */
+  --bg-app: #f8f1e3; /* Crema / Off-white súper clar */
   --bg-master: #ffffff;
   --bg-panel: #ffffff;
-  --bg-sidebar: #f8f1e3;
-  --text-main: #111827;
-  --text-secondary: #4b5563;
-  --text-muted: #9ca3af;
-  --border-master: rgba(0, 0, 0, 0.08);
+  --bg-sidebar: #f2e7d5;
+  --text-main: #000000;
+  --text-secondary: #1a1b23;
+  --text-muted: #4b5563;
+  --border-master: rgba(0, 0, 0, 0.1);
 
-  --color-primary: #F97316;
-  --color-secondary: #06B6D4;
+  --color-primary: #06B6D4; /* Inversió: Blau com a primari al light? 
+                             O mantenim taronja? El mestre deia invertir taronja-blau. */
+  --color-secondary: #F97316;
 
   --bg-theme-base: var(--bg-app);
   --bg-theme-sidebar: var(--bg-sidebar);
