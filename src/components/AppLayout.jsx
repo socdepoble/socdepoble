@@ -190,6 +190,7 @@ const AppLayout = () => {
                                         <Route path="/perfil/:id" element={<ProfileView />} />
                                         <Route path="/entitat/:id" element={<ProfileView />} />
                                         <Route path="/login" element={<Login />} />
+                                        <Route path="/register" element={<Register />} />
                                         <Route path="/ajudes" element={<BuscadorAjudes />} />
                                         
                                         <Route path="/mapa" element={<MapaActius />} />

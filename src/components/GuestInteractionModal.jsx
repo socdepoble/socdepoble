@@ -1,11 +1,16 @@
 import React from 'react';
 import { useUI } from '../context/UIContext';
+import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { UserPlus, LogIn, X, Info } from 'lucide-react';
+import { UserPlus, LogIn, X, Info, Globe } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const GuestInteractionModal = () => {
     const { isGuestInteractionModalOpen, setIsGuestInteractionModalOpen } = useUI();
+    const { setLanguage } = useAuth();
+    const { i18n } = useTranslation();
     const navigate = useNavigate();
+    const activeLang = i18n.language || 'va';
 
     if (!isGuestInteractionModalOpen) return null;
 
@@ -13,6 +18,14 @@ const GuestInteractionModal = () => {
         setIsGuestInteractionModalOpen(false);
         navigate(path);
     };
+
+    const languages = [
+        { code: 'va', label: 'VAL' },
+        { code: 'es', label: 'ESP' },
+        { code: 'en', label: 'ENG' },
+        { code: 'gl', label: 'GAL' },
+        { code: 'eu', label: 'EUS' }
+    ];
 
     return (
         <div className="fixed inset-0 z-[20000] flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-in fade-in zoom-in duration-300">
@@ -34,25 +47,37 @@ const GuestInteractionModal = () => {
 
                     <h2 className="text-2xl font-black mb-4 tracking-tight">Vols bategar amb nosaltres? 🏺✨</h2>
                     
-                    <p className="text-gray-400 mb-8 leading-relaxed">
-                        Per a interactuar amb la comunitat (publicar, comentar o xatejar), necessitem saber qui ets. Register-te o entra per a formar part activa de <strong>Sóc de Poble</strong>!
+                    <p className="text-gray-400 mb-6 leading-relaxed">
+                        Per a interactuar amb la comunitat (publicar, comentar o xatejar), necessitem saber qui ets. Registra't o entra per a formar part activa de <strong>Sóc de Poble</strong>!
                     </p>
+
+                    <div className="flex flex-wrap justify-center gap-2 mb-8">
+                        {languages.map((lang) => (
+                            <button
+                                key={lang.code}
+                                onClick={() => setLanguage(lang.code)}
+                                className={`px-3 py-2 rounded-xl text-xs font-black transition-all ${activeLang.startsWith(lang.code) ? 'bg-[#FF6B00] text-white' : 'bg-white/5 text-gray-400 hover:bg-white/10'}`}
+                            >
+                                {lang.label}
+                            </button>
+                        ))}
+                    </div>
 
                     <div className="grid grid-cols-1 w-full gap-3">
                         <button 
                             onClick={() => handleAction('/register')}
-                            className="w-full h-14 bg-[#FF6B00] hover:bg-[#FF8A00] text-white rounded-2xl font-black flex items-center justify-center gap-2 shadow-lg transition-all active:scale-95"
+                            className="w-full h-15 bg-gradient-to-r from-[#FF6B00] to-[#FF8A00] hover:scale-[1.02] text-white rounded-2xl font-black flex items-center justify-center gap-3 shadow-lg transition-all active:scale-95"
                         >
-                            <UserPlus size={20} />
-                            <span>CREAR COMPTE</span>
+                            <UserPlus size={22} strokeWidth={3} />
+                            <span className="text-lg">CREAR COMPTE</span>
                         </button>
 
                         <button 
                             onClick={() => handleAction('/login')}
-                            className="w-full h-14 bg-white/5 hover:bg-white/10 text-white rounded-2xl font-black border border-white/10 flex items-center justify-center gap-2 transition-all active:scale-95"
+                            className="w-full h-15 bg-white/5 hover:bg-white/10 hover:scale-[1.02] text-white rounded-2xl font-black border border-white/10 flex items-center justify-center gap-3 transition-all active:scale-95"
                         >
-                            <LogIn size={20} />
-                            <span>JA TINC COMPTE</span>
+                            <LogIn size={22} strokeWidth={3} />
+                            <span className="text-lg">JA TINC COMPTE</span>
                         </button>
 
                         <button 
