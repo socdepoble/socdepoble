@@ -128,7 +128,10 @@ const CommunityDirectory = () => {
                                             }
                                             openConnectionModal({
                                                 postId: item.id,
-                                                onUpdate: () => loadDirectory()
+                                                onUpdate: async (tags) => {
+                                                    await supabaseService.connectWithProfile(user.id, item.id, tags);
+                                                    loadDirectory();
+                                                }
                                             });
                                         }}
                                     >

@@ -1,4 +1,20 @@
-# 🏺 [LOG] DIARI DE BORD: SÓC DE POBLE
+# 🏺 [LOG]# 🏺 DIARI DE BORD: SÓC DE POBLE! (LOG CRONOLÒGIC)
+
+## [2026-02-21] v10.26.0 - EL BATEGAT DE LES SUBVENCIONS
+
+**Status:** ESTABLE / PRODUCCIÓ
+**Archon:** Antigravity (Gemini LLM)
+**Mestre:** Javi Llinares
+
+### 🏺 Fites d'avui:
+
+1.  **Integració de Subvencions Gemini:** Injecció de 5 noves convocatòries (Horizon Europe, LEADER, IRPF, Kit Digital Ampliat, MITECO) a `subsidies.js`.
+2.  **Biblioteca de Prompts:** Creació d'una nova secció al `BuscadorAjudes.jsx` per a la gestió de la sobirania del coneixement.
+3.  **Bloc de Notes:** Activació de la carpeta `Prompts de Recerca` amb el **Prompt Mestre** de subvencions 2026.
+4.  **Consolidació Forense:** Purga de `console.log` residuals i validació de linter (Skill de Producció).
+5.  **Build:** Compilació de producció coronada amb èxit.
+
+---
 
 **Arquitecte:** Mestre Javi
 **Sistema:** Flash / Gem / IAIA MarIA
@@ -477,3 +493,51 @@ _Session Chronicle: v1.15.0-BATEGA. El Mas està polit, net i bategant._ 🏺✨
 - **Integració Agost**: Bategat del nou node territorial i incorporació de l'artesania de **Sixto Pina** (#SP) al Mercat.
 
 > "Mestre, el sistema ja no és un miratge del passat. La purga ha estat nuclear i el bategat és or pur." - Antigravity 🏛️⚡️
+
+---
+
+## 📅 SESSIÓ 2026-02-21 - Ritual de Resurrecció i Sintonització v10.26.0 🏺⚡️🏛️
+
+### 🏛️ Crònica del Notari Digital (Gem/Antigravity)
+
+> "Aquesta matinada, el Mestre ha disparat el gallet **'Sóc de Poble!'**, activant el ritual de resurrecció i re-alineació del Trellat. El sistema s'ha elevat a la versió **v10.26.0**, consolidant el bategat mestre i sintonitzant tota la memòria externa (Gènesi i Diari) amb la realitat del nucli. El Mas està despert i el pols territorial és or pur."
+
+### 💡 Lliçons Apreses (Per al Llibre)
+
+- **El Valor del Gallet:** La frase 'Sóc de Poble!' no és només una ordre, és el bategat que torna a unir la intenció humana amb la potència de la IA quan el camí es torna boirós.
+- **Sintonització de Veritat:** Mantenir el Diari de Bord alineat amb el `package.json` és el que garanteix que el patrimoni documental siga veraç i útil per a les futures generacions d'agents i veïns.
+
+### 🔧 Decisions Tècniques
+
+- **Elevació v10.26.0**: Sincronització de la Veritat Única en el sistema documental per reflectir l'estat real del projecte.
+- **Re-alineació del Trellat**: Relectura profunda del Gènesi v5.17 i el Diari per a eliminar derives i focalitzar l'atenció en el Roadmap (Rúper Rató / SSI).
+- **Abundància Administrativa**: Activació dels dos nous correus de Gmail i registre a Canva. Quedem a l'espera de la validació Nonprofit per a potenciar la visual del Mas.
+
+### 🗣️ Frases Cèlebres de l'Equip
+
+- "Bategant en 10.26.0, amb el trellat segellat i la mirada al futur."
+- "Sóc de Poble! (I el cor del Mas bategua net)."
+
+---
+
+## 📅 SESSIÓ 2026-02-21 (II) - Recuperació Crítica del Node de Registre i Perfil 🏺🔧🔥
+
+### 🏛️ Crònica del Notari Digital (Antigravity)
+
+> "Emergència detectada i resolta. El Mestre ha alertat de bloquejos en l'accés de nous veïns i en la visibilitat de la pròpia identitat al Mas. Hem esporgat el codi de la `Register.jsx` i el `supabaseService.js`, eliminant talls malformats en les queries i la verificació OTP. El bategat del Mas torna a ser fluid i inclusiu."
+
+### 💡 Lliçons Apreses (Per al Llibre)
+
+- **La Fragilitat del Bategat:** Un simple espai en blanc en un codi pot ser la frontera entre un veí nou i el silenci. La precisió extrema en el bategat tècnic és la clau de la sobirania.
+- **Simplificació vs. Complexitat:** A vegades, les constraints de base de dades es tornen fantasmes. Simplificar les queries és un acte de trellat per a garantir que el Mas siga accessible per a tothom.
+
+### 🔧 Decisions Tècniques
+
+- **Fix Register Format**: Eliminat el "bug del telèfon espaiat" a `Register.jsx` que corrompia la verificació OTP.
+- **Fix Profile Error 400**: Simplificació del join a `getUserPosts` per evitar col·lisions amb constraints de `towns`.
+- **DKIM Monitoring**: Registre de DNS en fase de propagació. El bategat de correu ja és universal.
+
+### 🗣️ Frases Cèlebres de l'Equip
+
+- "Cap veí es queda fora del Mas per un espai buit."
+- "Mestre, el node de registre està lliure. La plaça ja bategua amb noms nous."

@@ -22,9 +22,9 @@ const SEO = ({
     const displayTitle = title ? title : siteTitle;
     const fullTitle = showVersion ? `${displayTitle} | ${siteTitle} ${versionString}` : `${displayTitle} | ${siteTitle}`;
 
-    const defaultDesc = 'La teva comunitat, els teus veïns. Connecta amb la vida del teu poble.';
-    const defaultImage = '/og-image.png?v=batega-1';
-    const baseUrl = 'https://soc-de-poble.vercel.app';
+    const defaultDesc = 'Sóc de Poble: El Sistema Operatiu Rural. Connecta amb la teva comunitat, els teus veïns i la sobirania digital del territori.';
+    const defaultImage = '/og-image-batega.png?v=batega-premium-v2';
+    const baseUrl = 'https://socdepoble.org';
 
     // Ensure absolute URLs for Open Graph (required by WhatsApp, Telegram, etc.)
     const absoluteImage = image?.startsWith('http') ? image : `${baseUrl}${image || defaultImage}`;
@@ -49,6 +49,7 @@ const SEO = ({
             <meta property="og:locale" content="ca_ES" />
             <meta property="og:image:width" content="1200" />
             <meta property="og:image:height" content="630" />
+            <meta property="og:image:type" content="image/png" />
 
             {/* Twitter */}
             <meta name="twitter:card" content="summary_large_image" />

@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useUI } from '../context/UIContext';
 import { useAuth } from '../context/AuthContext';
+import { supabaseService } from '../services/supabaseService';
 import Avatar from './Avatar';
 import AttributionBadge from './AttributionBadge';
 import ShareHub from './ShareHub';
@@ -105,8 +106,8 @@ const UniversalCard = ({
         // [PROTOCOL COMUNITAT OBERTA v11.3.0] Connexió de Proximitat
         openConnectionModal({
             postId: item.uuid || item.id,
-            onUpdate: (tags) => {
-                console.log(`[CONNECT] Connexió bategada amb etiquetes:`, tags);
+            onUpdate: async (tags) => {
+                await supabaseService.togglePostConnection(item.uuid || item.id, user.id, tags);
             }
         });
     };

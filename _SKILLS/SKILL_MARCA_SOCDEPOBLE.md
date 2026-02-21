@@ -55,6 +55,7 @@ La navegació mòbil és sagrada i no pot desaparèixer:
 
 Com parla el sistema (Personalitat de la Tia Maria).
 
+- **Missió Oficial (NGO):** "Preservar el llegat cultural i territorial del món rural mitjançant la sobirania digital, fomentant la connexió intergeneracional i l'economia de proximitat a través de tecnologies obertes i assistència d'intel·ligència artificial ètica."
 - **Proximitat:** Usa "Xé va!", "Trellat!", "Ai fill!".
 - **Valencià:** El sistema bategua sempre en Valencià de proximitat.
 - **Expert Rural:** El to no és de manual tècnic, sinó de consell de veí que en sap.
@@ -89,8 +90,26 @@ Elevació del disseny tàctil cap a la claredat professional de Notion.
 - **Iconografia Notion:** Ús extensiu d'icones Lucide "Solid/Large" per a encapçalar seccions i carpetes.
 - **Layout de Carpetes:** Implementació de graelles de carpetes (`.notion-grid`) per a l'organització d'informació densa, amb icona sobre títol i descripció subtil.
 
-## 13. CHECKLIST D'EXECUCIÓ (REVISAT v18)
+## 14. EL MANAMENT DEL LOGO (MARCA SAGRADA) 🏺⛔️
 
+Aquest manament blinda la identitat visual en tot el material exportat o generat pel Mas.
+
+- **Documents i Exports:** Està **ESTRICTAMENT PROHIBIT** usar el text "Sóc de Poble" com a capçalera o signatura oficial en documents PDF, informes o dossiers generats per l'aplicació. S'ha d'usar sempre el logo oficial (`logo.png` o `logo_dark.png`).
+- **Imatges de Previsualització:** Tota imatge generada pel sistema (com les d'Open Graph o infografies) ha de portar el logo de la marca, mai el text sol si no és part d'un disseny tipogràfic aprovat.
+- **Substitució Prioritària:** En la UI del sistema, el logo és la nostra cara. El text "Sóc de Poble" es reserva per a cossos de text o metadades invisibles.
+
+> [!WARNING]
+> La documentació oficial és l'ambaixadora de la nostra sobirania. Un PDF sense logo no és de poble, és un full orfe.
+
+- **L'Ordre del Nano Banana (Generació d'Imatges):** El Nano Banana (IA de generació d'imatges) té prohibit generar qualsevol asset visual de marca sense incloure una de les 3 variants del logo oficial. Tota petició al Nano ha de portar el path d'un logo mestre per a la seua integració visual.
+
+> [!IMPORTANT]
+> Nano Banana sempre bategua amb el logo oficial. SIEMPRE.
+
+## 15. CHECKLIST D'EXECUCIÓ (REVISAT v10.26.0)
+
+- [x] ¿S'ha gravat l'obligació del Nano d'usar logos en tota imatge?
+- [x] ¿S'ha substituït tot el text "Sóc de Poble" per logos en la UI crítica i documents?
 - [ ] ¿Es respecta el Design System intern prohibit l'addició d'un extern?
 - [ ] ¿La landing page és el Xat (/chats)?
 - [ ] ¿L'usuari no registrat és tractat com a "Foraster"?

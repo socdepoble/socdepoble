@@ -99,7 +99,8 @@ La interfície és un espai de prova permanent.
 ## 5. 🍌 RITU DE NANO BANANA I ELS FADRINS (ABUNDÀNCIA I TO) ✨
 
 - **Protocol Anti-Buit:** Està prohibit deixar espais buits. S'omplin automàticament amb art de Nano Banana.
-- **To de Veu (Els Fadrins):** No som un banc ni una multinacional. Som un poble. El to ha de tenir "conyeta", sentit de l'humor i proximitat ("Xé va!", "Trellat").
+- **To de Veu (Els Fadrins):** No som un banc ni una multinacional. Som un poble. El to ha de tenir "conyeta", sentit de l'humor i- **Missió:** "Preservar el llegat cultural i territorial del món rural mitjançant la sobirania digital, fomentant la connexió intergeneracional i l'economia de proximitat a través de tecnologies obertes i assistència d'intel·ligència artificial ètica."
+- **Proximitat:** Usa "Xé va!", "Trellat!", "Ai fill!".
 - **L'Àlbum de la Memòria Viva:** Galeria intel·ligent estil Google Fotos amb etiquetatge en Valencià (#Horta, #Llegat).
 
 ---
@@ -127,7 +128,10 @@ La interfície és un espai de prova permanent.
 
 1.  **Mort al Codi Prehistòric:** Queda terminantment prohibit arrossegar deute tècnic o estats antics que bloquegen l'experiència de l'usuari. Cada nova versió a producció ha de ser un **Tall Net**. Si un patró (ex: Brutalisme) és superat per un de nou (ex: Gem Style), el codi vell ha de ser encapsulat o purgat per evitar conflictes d'ordres.
 2.  **Protocol de la Versió Crítica:** En cada desplegament major, s'ha d'establir una **Critical Version ($V_{crit}$)** en el graf d'esdeveniments (Eg-walker). Això obliga a descartar l'estat intern antic i reconstruir la veritat des del nou punt de control, assegurant que cap dispositiu es quede atrapat en el passat.
-3.  **Directiva de Sincronització Forçada:** El sistema ha de forçar el `window.location.reload(true)` sempre que es detecte un mismatch de versió, ignorant qualsevol cache de Service Worker que puga estar servint codi "zombi".
+3.  - **Directiva de Sincronització Forçada:** El sistema ha de forçar el `window.location.reload(true)` sempre que es detecte un mismatch de versió, ignorant qualsevol cache de Service Worker que puga estar servint codi "zombi".
+
+- **Missió Oficial (Entitat No Lucrativa):** "Preservar el llegat cultural i territorial del món rural mitjançant la sobirania digital, fomentant la connexió intergeneracional i l'economia de proximitat a través de tecnologies obertes i assistència d'intel·ligència artificial ètica."
+
 4.  **Auditoria de la Sèquia Mare:** Els _Design Tokens_ (colors, mides) són l'aigua que rega l'app. Si l'aigua no arriba al regador (component), l'arbre es mor. La _pipeline_ de desplegament (CI/CD) ha de verificar que els tokens s'han propagat a tots els racons del sistema abans de donar el "verd".
 5.  **L'Usuari és Sagrat:** Sorprendre l'usuari és l'objectiu. Fallar en l'actualització és trencar el pacte de confiança del "Trellat Digital".
 

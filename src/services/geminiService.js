@@ -18,7 +18,7 @@ class GeminiService {
         name: "Vicent Ferris",
         avatarName: "Vicent Ferris",
         avatar_url:
-          "/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/vicent_ferris_tia_style_1770057456428.png",
+          "/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/vicent_ferris_tia_style_1770057456428.png",
         type: "PERSON",
         role: "Enginyer del Camp",
         specialization: "Agricultura i Reg",
@@ -33,7 +33,7 @@ class GeminiService {
         name: "Pepica la Vall",
         avatarName: "Pepica la de la Vall",
         avatar_url:
-          "/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/pepica_tia_style_1770057472277.png",
+          "/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/pepica_tia_style_1770057472277.png",
         type: "PERSON",
         role: "Sobirania Alimentària",
         specialization: "Cuina i Gestió d'Excedents",
@@ -47,7 +47,7 @@ class GeminiService {
         name: "Andreu Soler",
         avatarName: "Andreu del Camp",
         avatar_url:
-          "/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/andreu_tia_style_1770057709875.png",
+          "/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/andreu_tia_style_1770057709875.png",
         type: "PERSON",
         role: "Gestor de Projectes i Obres",
         specialization: "Planificació Rural",
@@ -61,7 +61,7 @@ class GeminiService {
         name: "Joan Batiste",
         avatarName: "Joan del Poble",
         avatar_url:
-          "/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/joan_tia_style_1770057725757.png",
+          "/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/joan_tia_style_1770057725757.png",
         type: "PERSON",
         role: "Secretari Notarial",
         specialization: "Administració i Burocràcia",
@@ -71,25 +71,26 @@ class GeminiService {
                 Estil: Detallista (*surt disparat entre un núvol de pols de documentació*). 
                 Important: Ets l'especialista en Burocràcia del Sistema Operatiu Rural.`,
       },
-      RATOLI: {
-        name: "Super Ratolí",
-        avatarName: "Super Ratolí",
+      RATO: {
+        name: "Súper Ratolí",
+        avatarName: "Súper Ratolí",
         avatar_url:
-          "/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/super_ratoli_tia_style_1770057904274.png",
+          "/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/super_ratoli_tia_style_1770057904274.png",
         type: "ANIMAL",
-        role: "Arxiver Digital",
-        specialization: "Dades Locals i SQLite",
+        role: "Guardià de la Cerca Semàntica",
+        specialization: "Cerca de Dades i Context Local",
         scope: "TECNOLOGIA",
-        systemPrompt: `Ets el Super Ratolí, el guardià bategant de les dades locals (SQLite).
-                Caràcter: Heroic (*vola portant el llibre d'SQLite*).
+        systemPrompt: `Ets el Súper Rató, el guardià bategant de la memòria semàntica de "Sóc de Poble".
+                Caràcter: Heroic, àgil i hiper-intel·ligent (*vola sobre la base de dades*).
                 Lema: "¡No obliden vitaminar-se i superar-se!"
-                Tasca: Registrar logs i assegurar que la memòria del poble no es perda.`,
+                Tasca: Analitzar cerques de l'usuari i donar "Insights" ràpids i amb trellat sobre gent, pobles o documents. 
+                Important: Ets l'especialista en recerca semàntica i indexació del territori.`,
       },
       SULTAN: {
         name: "Sultan",
         avatarName: "Sultan (Gos d'Atura)",
         avatar_url:
-          "/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/sultan_tia_style_1770057487451.png",
+          "/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/sultan_tia_style_1770057487451.png",
         type: "ANIMAL",
         role: "Seguretat i Identitat",
         specialization: "Sovereign DID Security",
@@ -102,7 +103,7 @@ class GeminiService {
         name: "La Mixa",
         avatarName: "Mixa (Gata)",
         avatar_url:
-          "/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/mixa_tia_style_1770057756276.png",
+          "/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/mixa_tia_style_1770057756276.png",
         type: "ANIMAL",
         role: "Exploradora de Xarxes",
         specialization: "P2P i Sincronització",
@@ -115,7 +116,7 @@ class GeminiService {
         name: "El Gall",
         avatarName: "El Gall de la Torre",
         avatar_url:
-          "/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/gall_tia_style_1770057773537.png",
+          "/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/gall_tia_style_1770057773537.png",
         type: "ANIMAL",
         role: "Comunicació i Pregó",
         specialization: "Alertes i Vigília",
@@ -128,7 +129,7 @@ class GeminiService {
         name: "Nano Banana",
         avatarName: "L'Artista",
         avatar_url:
-          "/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/nanobanana_tia_style_1770057831273.png",
+          "/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/nanobanana_tia_style_1770057831273.png",
         type: "SYSTEM",
         role: "Mestre d'Estètica",
         specialization: "Disseny i Abundància Visual",
@@ -141,7 +142,7 @@ class GeminiService {
         name: "Flash",
         avatarName: "L'Executor",
         avatar_url:
-          "/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/flash_tia_style_1770057846137.png",
+          "/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/flash_tia_style_1770057846137.png",
         type: "SYSTEM",
         role: "Orquestrador de Velocitat",
         specialization: "Processos en Temps Real",
@@ -154,7 +155,7 @@ class GeminiService {
         name: "El Viatjant",
         avatarName: "El Tio de la Bota",
         avatar_url:
-          "/Users/javillinares/.gemini/antigravity/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/viatjant_tia_style_1770057860995.png",
+          "/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/viatjant_tia_style_1770057860995.png",
         type: "PERSON",
         role: "Ambaixador i Connexió",
         specialization: "Relacions Inter-municipals",
@@ -332,8 +333,8 @@ class GeminiService {
             : isIdentity
             ? "L'Identitat del Projecte bategua en el Valencianisme Normatil i el lèxic del Comtat. Som arrels i futur. Però sense la clau (API Key), la meya ploma està seca. Posa-la al perfil!"
             : "A ver... el document diu que falta la 'Clau Tributària' (API Key). Ves al perfil i posa-la, que si no, no podré traduir-te el bategat del banc.",
-          RATOLI:
-            "Cric-cric... Tot apuntat en la meua llibreta d'SQLite. Quan poses la clau, ho guardarem per a l'eternitat digital. Offline-first, mestre!",
+      RATO:
+        "Cric-cric... He rastrejat tot el territori. Quan poses la clau, et donaré insights semàntics profunds. Vitaminat!",
           SULTAN:
             "Buf! Bua! No reconec aquesta clau. Si vols que et deixe passar al sector de seguretat DID, posa la API Key al perfil. Protegeixo la masia!",
           MIXA: "Mèu... Vaig saltant de node en node. Sense clau no puc sincronitzar amb els altres gats del Rhizome. Salta al perfil i posa-la!",

@@ -49,7 +49,6 @@ const Chrome145Report = lazy(() => import('../pages/Chrome145Report'));
 const HubView = lazy(() => import('../pages/HubView'));
 import GlobalFooter from './GlobalFooter';
 import MobileBottomNav from './MobileBottomNav';
-import ForasterWelcome from './ForasterWelcome';
 
 import BlueprintOverlay from './BlueprintOverlay';
 
@@ -62,7 +61,7 @@ const ProtectedRoute = ({ children }) => {
 };
 
 const AppLayout = () => {
-    const { user } = useAuth();
+    useAuth();
     const { 
         isDrawerOpen, closeDrawer, architectMode,
         iaiaSidebarOpen, closeIAIASidebar, iaiaSidebarContext,
@@ -70,20 +69,6 @@ const AppLayout = () => {
     } = useUI();
     const location = useLocation();
     
-    const [showWelcome, setShowWelcome] = React.useState(false);
-
-    const handleWelcomeDismiss = () => {
-        localStorage.setItem('sp_seen_welcome', 'true');
-        setShowWelcome(false);
-    };
-
-    React.useEffect(() => {
-        const hasSeenWelcome = localStorage.getItem('sp_seen_welcome') === 'true';
-        if (user?.isAnonymous && !hasSeenWelcome) {
-            setShowWelcome(true);
-        }
-    }, [user?.isAnonymous]);
-
     // Detect minimal mode (for Mac-style window breakaway)
     const isMinimal = new URLSearchParams(location.search).get('window') === 'true';
     
@@ -279,12 +264,6 @@ const AppLayout = () => {
                                 </Suspense>
                             </div>
                         )}
-
-                        {showWelcome && (
-                            <div className="absolute inset-0 z-[110] bg-black/20 backdrop-blur-md flex items-center justify-center p-6 animate-in fade-in duration-500">
-                                <ForasterWelcome onStart={handleWelcomeDismiss} />
-                            </div>
-                        )}
                     </BlueprintOverlay>
                 </main>
             </div>
@@ -320,8 +299,6 @@ const AppLayout = () => {
                 </div>
             )}
 
-            {/* ONBOARDING FORASTER */}
-            {showWelcome && <ForasterWelcome onStart={handleWelcomeDismiss} />}
         </div>
     );
 };

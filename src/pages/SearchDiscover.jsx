@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, X, Users, Building2, MapPin, ArrowLeft, Loader2, Sparkles, SlidersHorizontal, ChevronRight, User, Landmark, Store, Building, Link2 } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
+import { geminiService } from '../services/geminiService';
 import { raindropService } from '../services/raindropService';
 import { MOCK_EVENTS } from '../data';
 import { hapticService } from '../services/hapticService';
@@ -15,6 +16,7 @@ const SearchDiscover = () => {
     const [query, setQuery] = useState('');
     const [activeFilter, setActiveFilter] = useState('tots'); // tots, gent, entitats, pobles, esdeveniments
     const [results, setResults] = useState({ gent: [], entitats: [], pobles: [], arxiu: [], esdeveniments: [] });
+    const [searchInsights, setSearchInsights] = useState(null);
     const [isSearching, setIsSearching] = useState(false);
     const [recentSearches] = useState(['Cocentaina', 'Vicent Ferris', 'Mercat de Muro']);
     const inputRef = useRef(null);
@@ -39,12 +41,11 @@ const SearchDiscover = () => {
 
     const performSearch = async (q) => {
         setIsSearching(true);
+        setSearchInsights(null);
         try {
             // [INTENT ROUTER OMEGA]
-
-
             // ... results logic ...
-            const [gent, entitats, pobles, archive, filteredEvents] = await Promise.all([
+            const [gent, entitats, pobles, archive, filteredEvents, insights] = await Promise.all([
                 supabaseService.searchProfiles(q),
                 supabaseService.searchEntities(q),
                 supabaseService.searchAllTowns(q),
@@ -53,7 +54,8 @@ const SearchDiscover = () => {
                     (e.title?.toLowerCase() || '').includes(q.toLowerCase()) ||
                     (e.description?.toLowerCase() || '').includes(q.toLowerCase()) ||
                     (e.location?.toLowerCase() || '').includes(q.toLowerCase())
-                ))
+                )),
+                q.length > 3 ? geminiService.ask('RATO', `Resum breu i amb trellat sobre "${q}" en el context rural valencià.`) : null
             ]);
 
             // Filter archive locally if needed (mock or real)
@@ -69,6 +71,9 @@ const SearchDiscover = () => {
                 arxiu: filteredArchive || [],
                 esdeveniments: filteredEvents || []
             });
+            if (insights && !insights.error) {
+                setSearchInsights(insights.text);
+            }
         } catch (error) {
             logger.error('Search error:', error);
         } finally {
@@ -168,6 +173,22 @@ const SearchDiscover = () => {
                                         <ChevronRight size={18} />
                                     </div>
                                 ) : null}
+                            </div>
+                        )}
+
+                        {/* SUPER RATOLÍ SEMANTIC INSIGHTS */}
+                        {searchInsights && (
+                            <div className="semantic-insight-card animate-in">
+                                <div className="insight-header">
+                                    <div className="hero-avatar small ratoli-glow">
+                                        <img src="/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/super_ratoli_tia_style_1770057904274.png" alt="Súper Ratolí" />
+                                    </div>
+                                    <div className="insight-title-row">
+                                        <h4>Coneixement de Súper Ratolí</h4>
+                                        <span className="badge-iaia">Insight Bategat</span>
+                                    </div>
+                                </div>
+                                <p className="insight-text">"{searchInsights}"</p>
                             </div>
                         )}
 

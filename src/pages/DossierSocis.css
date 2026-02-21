@@ -46,15 +46,24 @@
     color: #F97316;
 }
 
-.hero-title {
-    font-size: 4rem;
-    font-weight: 900;
-    line-height: 1.1;
-    margin-bottom: 24px;
-    letter-spacing: -2px;
+.hero-logo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 32px;
 }
 
-.text-gradient {
+.hero-logo-main {
+    height: 80px;
+    filter: drop-shadow(0 0 20px rgba(249, 115, 22, 0.4));
+}
+
+.hero-subtitle-addon {
+    font-size: 1.5rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
     background: linear-gradient(90deg, #F97316, #DB2777);
     -webkit-background-clip: text;
     background-clip: text;

@@ -12,10 +12,39 @@ import './Notebook.css';
 const INITIAL_FOLDERS = [
     { id: 'f-root', name: 'General', parentId: null },
     { id: 'f-art', name: 'Articles', parentId: null },
-    { id: 'f-poble', name: 'Histories del Poble', parentId: null }
+    { id: 'f-poble', name: 'Histories del Poble', parentId: null },
+    { id: 'f-prompts', name: 'Prompts de Recerca', parentId: null }
 ];
 
 const INITIAL_NOTES = [
+    {
+        id: 'n-prompt-subvencions-2026',
+        title: '🎯 Prompt Mestre: Recerca de Subvencions 2026',
+        type: 'rich-text',
+        content: `
+<h1>Protocol de Recerca de Finançament Sobirà</h1>
+<p>Aquest és el prompt utilitzat per a identificar les oportunitats de febrer de 2026. Està dissenyat per a alinear la tecnologia cívica amb els fons europeus i nacionals.</p>
+
+<div class="prompt-box" style="background: #1a1a1a; padding: 20px; border-radius: 12px; border: 1px solid #333; margin: 20px 0;">
+    <p style="color: #f97316; font-family: monospace; font-size: 14px;">
+        "Actua com un consultor expert en captació de fons per al Tercer Sector i Innovació Rural. Analitza el projecte 'Sóc de Poble' (tecnologia Local-First, App Offline, economia circular, memòria viva de la tercera edat i sobirania digital). 
+        <br><br>
+        Identifica les subvencions més rellevants disponibles a finals de febrer de 2026 a nivell Europeu (Horizon Europe), Nacional (MITECO, Red.es) i Autonòmic (Generalitat Valenciana, LEADER). 
+        <br><br>
+        Destaquen aquelles que financen tant hardware com recursos humans i desenvolupament de software per a entitats sense ànim de lucre. Proporciona terminis, quanties i justificació de per què encaixen amb la missió del Mas."
+    </p>
+</div>
+
+<p><em>Nota de l'Archon: Aquest prompt ha de ser actualitzat cada trimestre per a captar les noves finestres d'oportunitat de la Séquia Mare Financera.</em></p>
+        `,
+        folderId: 'f-prompts',
+        category: 'Dades',
+        tags: ['#prompts', '#funding', '#subvencions'],
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        lastOpenedAt: new Date().toISOString(),
+        contentCreatedAt: new Date().toISOString()
+    },
     { 
         id: 'n1', 
         title: 'Benvinguda al Quadern de Trellat 📓🏺', 

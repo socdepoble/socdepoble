@@ -444,7 +444,7 @@ export const exportService = {
             <body>
                 <div class="page-container">
                     <div class="header">
-                        <div class="logo-placeholder">SÓC DE POBLE</div>
+                        <img src="/assets/master/logo_socdepoble_black_sketch.png" style="height: 24pt;" alt="Sóc de Poble">
                         <div class="logo-placeholder no-print" style="font-size: 8pt; color: #f97316;">VISTA PREVIA D'IMPRESSIÓ</div>
                     </div>
 

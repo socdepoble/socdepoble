@@ -153,7 +153,7 @@ const Towns = () => {
                         "item": {
                             "@type": "AdministrativeArea",
                             "name": town.name,
-                            "url": `https://soc-de-poble.vercel.app/pobles/${town.uuid || town.id}`,
+                            "url": `https://socdepoble.org/pobles/${town.uuid || town.id}`,
                             "image": town.image_url
                         }
                     }))

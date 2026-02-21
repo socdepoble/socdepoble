@@ -352,7 +352,7 @@ body {
 }
 
 .card-radius {
-  border-radius: 24px !important;
+  border-radius: var(--radius-genesis) !important;
 }
 
 /* Unified Glassmorphism */

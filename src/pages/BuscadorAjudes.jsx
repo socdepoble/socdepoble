@@ -145,6 +145,37 @@ ${sub.iaia_advice}
                 </div>
             </div>
 
+            {/* Biblioteca de Prompts [NEW SECTION] */}
+            <section className="prompts-library-section glass-premium animate-in">
+                <header className="section-header">
+                    <div className="title-area">
+                        <Sparkles size={20} className="text-accent" />
+                        <h3>Biblioteca de Prompts</h3>
+                    </div>
+                    <button className="btn-notes-link" onClick={() => navigate('/notes')}>
+                        <FileText size={16} /> Gestionar al Bloc de Notes
+                    </button>
+                </header>
+                <div className="prompts-scroll">
+                    <div className="prompt-card mini-bento" onClick={() => navigate('/notes')}>
+                        <div className="prompt-header">
+                            <span className="platform-tag">Gemini</span>
+                            <span className="category-tag">Funding</span>
+                        </div>
+                        <h4>Recerca de Subvencions 2026</h4>
+                        <p className="prompt-preview">"Actua com un consultor expert en captació de fons per al Tercer Sector i Innovació Rural..."</p>
+                    </div>
+                    <div className="prompt-card mini-bento disabled">
+                        <div className="prompt-header">
+                            <span className="platform-tag">Claude</span>
+                            <span className="category-tag">Memòria</span>
+                        </div>
+                        <h4>Extracció d'Etimologies Locals</h4>
+                        <p className="prompt-preview">Properament bategant...</p>
+                    </div>
+                </div>
+            </section>
+
             {/* Llistat d'Ajudes */}
             <main className="sub-grid">
                 {filteredSubsidies.map(sub => (
@@ -312,8 +343,7 @@ Bategat amb honor pel sistema Sóc de Poble. 🏺⚡️⚖️
                 <DocumentViewer 
                     document={viewingDoc} 
                     onClose={() => setViewingDoc(null)}
-                    onSave={(doc) => {
-                        console.log("[SAVED] Document coronat al perfil:", doc.title);
+                    onSave={() => {
                         alert("Relíquia coronada i guardada al teu Perfil Privat! 🏺✨");
                         setViewingDoc(null);
                         setAiAdvice(null);

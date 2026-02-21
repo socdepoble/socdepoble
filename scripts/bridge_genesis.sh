@@ -3,7 +3,7 @@
 # [MASTER GENESIS: PONT D'ASSETS]
 # Aquest script sincronitza els actius generats per la IA entre el "brain" de l'agent i el projecte.
 
-BRAIN_PATH="/Users/javillinares/.gemini/antigravity/brain/8f23168e-5f93-43d2-9b9c-3d8316452dbf"
+BRAIN_PATH="/Users/javillinares/.gemini/antigravity/brain/95c46db8-2883-43b3-a286-dcdf870155ab"
 PROJECT_ASSETS="./public/assets/ai_generated"
 DOWNLOADS_PATH="/Users/javillinares/Downloads/SocDePoble_Assets"
 

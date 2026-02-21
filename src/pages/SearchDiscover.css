@@ -484,3 +484,81 @@
     text-transform: uppercase;
     letter-spacing: 1px;
 }
+
+/* === SÚPER RATOLÍ SEMANTIC INSIGHTS === */
+.semantic-insight-card {
+    background: linear-gradient(135deg, rgba(93, 95, 239, 0.1) 0%, rgba(249, 115, 22, 0.1) 100%);
+    backdrop-filter: blur(var(--blur-master));
+    border: 1px solid rgba(93, 95, 239, 0.3);
+    border-radius: var(--radius-s);
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 0 30px rgba(93, 95, 239, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.semantic-insight-card::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 60%);
+    pointer-events: none;
+    animation: rotate-bg 10s linear infinite;
+}
+
+@keyframes rotate-bg {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.insight-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 12px;
+}
+
+.ratoli-glow {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    background: var(--surface-glass-heavy);
+    border-radius: var(--radius-full);
+    padding: 2px;
+    border: 2px solid var(--accent-violet);
+    box-shadow: 0 0 15px var(--accent-violet);
+    overflow: hidden;
+}
+
+.ratoli-glow img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.insight-title-row {
+    flex: 1;
+}
+
+.insight-title-row h4 {
+    font-size: 18px;
+    font-weight: 900;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+    margin-bottom: 2px;
+}
+
+.insight-text {
+    font-size: 16px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9);
+    font-style: italic;
+    font-weight: 800;
+    position: relative;
+    z-index: 1;
+}

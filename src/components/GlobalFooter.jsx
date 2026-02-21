@@ -9,11 +9,16 @@ const GlobalFooter = () => {
     <footer className="w-full bg-black/40 backdrop-blur-md border-t border-white/5 py-3 px-6 shrink-0 flex flex-col md:flex-row items-center justify-between text-[10px] uppercase tracking-widest font-bold text-gray-500 hover:text-gray-400 transition-colors">
       
       {/* AUTORIA */}
-      <div className="flex items-center gap-2 mb-2 md:mb-0">
-        <Copyright size={10} className="text-primary/50" />
-        <span>{currentYear} SÓC DE POBLE</span>
-        <span className="opacity-30">|</span>
-        <span className="text-primary/70">Javi Llinares</span>
+      <div className="flex flex-col items-center md:items-start gap-1 mb-2 md:mb-0">
+        <div className="flex items-center gap-2">
+          <Copyright size={10} className="text-primary/50" />
+          <span>{currentYear} SÓC DE POBLE</span>
+          <span className="opacity-30">|</span>
+          <span className="text-primary/70">Javi Llinares</span>
+        </div>
+        <div className="text-[8px] opacity-40 font-normal tracking-normal uppercase">
+          Associació Cultural El Rentonar · CIF G-03967668
+        </div>
       </div>
 
       {/* ENLLAÇOS LEGenericS */}
@@ -47,7 +52,7 @@ const GlobalFooter = () => {
 
       {/* VERSION SHORTHAND */}
       <div className="hidden lg:block opacity-20 hover:opacity-100 transition-opacity">
-        v10.26.0-CANONIC
+        v10.26.1-CANONIC
       </div>
     </footer>
   );

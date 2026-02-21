@@ -542,15 +542,23 @@ export const supabaseService = {
             }
         }
 
-        // Fix legacy bucket names (avatars -> profiles)
-        if (typeof url === 'string' && url.includes('/storage/v1/object/public/avatars/')) {
-            url = url.replace('/storage/v1/object/public/avatars/', '/storage/v1/object/public/profiles/');
+        // [MASTER BLINDATGE] Purguem rutes absolutes locals que s'hagen pogut colar
+        // Admitem 'Users/' sense barra inicial per caçar rutes relatives malformades
+        const localPathPattern = /(\/?Users\/|C:\\|D:\\|E:\\|F:\\|G:\\|H:\\|I:\\|J:\\)/i;
+        if (typeof url === 'string' && localPathPattern.test(url)) {
+            const fileName = url.split(/[/\\]/).pop();
+            // Intentem recuperar-la de la carpeta de relíquies del Mas o fallback d'assets
+            logger.warn(`[SupabaseService] Ruta absoluta detectada i sanejada: ${url}`);
+            
+            // Si el fitxer sembla un avatar, usem el path de profiles
+            if (url.includes('avatar') || url.includes('profile')) {
+                return `/assets/brain/e1b6e544-2f87-4f23-b187-d802a30c0ca1/${fileName}`;
+            }
+            
+            // Fallback general a assets/brain
+            return `/assets/brain/e1b6e544-2f87-4f23-b187-d802a30c0ca1/${fileName}`;
         }
 
-        // Fix double bucket names that might come from legacy DB entries
-        if (typeof url === 'string' && url.includes('/public/profiles/profiles/')) {
-            url = url.replace('/public/profiles/profiles/', '/public/profiles/');
-        }
         return url;
     },
 
@@ -2443,10 +2451,10 @@ export const supabaseService = {
         const origin = window.location.origin;
 
         // [MASTER PRODUCTION DOMAIN]
-        const productionUrl = 'https://soc-de-poble.vercel.app';
+        const productionUrl = 'https://socdepoble.org';
 
-        // 1. Si estem a producció (Vercel), SEMPRE URL de producció oficial
-        if (hostname.includes('vercel.app')) {
+        // 1. Si estem a producció (SiteGround), SEMPRE URL de producció oficial
+        if (hostname.includes('socdepoble.org')) {
             return `${productionUrl}${path}`;
         }
 
@@ -2990,7 +2998,7 @@ export const supabaseService = {
 
             let query = supabase
                 .from('posts')
-                .select('id, uuid:id, content, created_at, author_id, author:author_name, author_avatar:author_avatar_url, image_url, author_role, is_playground, entity_id, towns!fk_posts_town_uuid(name)');
+                .select('id, uuid:id, content, created_at, author_id, author:author_name, author_avatar:author_avatar_url, image_url, author_role, is_playground, entity_id, towns(name)');
 
             // LLINATGE DE L'ARQUITECTE: Si és en Javi, mostrem els seus posts naturals I els de l'Empresa Sóc de Poble
             const JAVI_REAL_ID = 'd6325f44-7277-4d20-b020-166c010995ab';

@@ -12,7 +12,7 @@ const ShareHub = ({ title, text, url, onShareSuccess, customTrigger }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [copied, setCopied] = useState(false);
 
-    const baseUrl = 'https://soc-de-poble.vercel.app';
+    const baseUrl = 'https://socdepoble.org';
     const finalUrl = url?.startsWith('http') ? url : `${baseUrl}${url || window.location.pathname}`;
 
     const shareData = {
