@@ -3,7 +3,8 @@ import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { 
     ShieldCheck, MessageSquare, Smile, Mic, Bell,
     Briefcase, Handshake, Globe, TrendingUp,
-    NotebookPen, Save, ArrowRight, X, Loader2, ChevronLeft, Search, Paperclip, ShoppingBag, Send
+    NotebookPen, Save, ArrowRight, X, Loader2, ChevronLeft, Search, Paperclip, ShoppingBag, Send,
+    Check, CheckCheck
 } from 'lucide-react';
 import EmojiPicker from 'emoji-picker-react';
 import { useTranslation } from 'react-i18next';
@@ -22,7 +23,7 @@ const ChatDetail = () => {
     const navigate = useNavigate();
     const { t } = useTranslation();
     const { user, impersonatedProfile, activeEntityId, isSuperAdmin } = useAuth();
-    const { setIsGuestInteractionModalOpen } = useUI();
+    const { setIsGuestInteractionModalOpen, chatSettings } = useUI();
     const [chat, setChat] = useState(null);
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
@@ -59,7 +60,9 @@ const ChatDetail = () => {
                     setChat(currentChat);
                     const msgs = await supabaseService.getConversationMessages(id);
                     setMessages(msgs);
-                    await supabaseService.markMessagesAsRead(id, currentUserId);
+                    if (chatSettings.readReceipts) {
+                        await supabaseService.markMessagesAsRead(id, currentUserId);
+                    }
                 } else if (id.startsWith('11111111-')) {
                     const AGENTS = [
                         { id: '11111111-1111-4111-a111-000000000000', name: 'IAIA MarIA' },
@@ -87,7 +90,7 @@ const ChatDetail = () => {
             }
         };
         fetchChatData();
-    }, [id, currentUserId, user, state]);
+    }, [id, currentUserId, user, state, chatSettings.readReceipts]);
 
     useEffect(() => {
         if (messages.length > 0) scrollToBottom();
@@ -102,7 +105,7 @@ const ChatDetail = () => {
                     if (prev.find(m => m.id === payload.new.id)) return prev;
                     return [...prev, payload.new];
                 });
-                if (payload.new.sender_id !== currentUserId) {
+                if (payload.new.sender_id !== currentUserId && chatSettings.readReceipts) {
                     supabaseService.markMessagesAsRead(id, currentUserId);
                 }
             }
@@ -111,7 +114,7 @@ const ChatDetail = () => {
         return () => {
             supabaseService.unsubscribe(channel);
         };
-    }, [id, currentUserId, user]);
+    }, [id, currentUserId, user, chatSettings.readReceipts]);
 
     const handleSendMessage = async (e) => {
         e.preventDefault();
@@ -277,17 +280,52 @@ const ChatDetail = () => {
                                             )}
 
                                             <div className="text-[17px] leading-snug break-words font-medium">
-                                                {msg.content}
+                                                {msg.attachment_type === 'voice' ? (
+                                                    <div className="flex items-center gap-3 py-1 min-w-[200px]">
+                                                        <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center shrink-0">
+                                                            <Mic size={20} className="text-white" />
+                                                        </div>
+                                                        <div className="flex-1 space-y-1">
+                                                            <div className="h-1 bg-white/30 rounded-full w-full overflow-hidden">
+                                                                <div className="h-full bg-white w-1/3 rounded-full" />
+                                                            </div>
+                                                            <div className="text-[10px] opacity-70 flex justify-between">
+                                                                <span>{msg.voice_meta?.duration ? `${msg.voice_meta.duration}s` : '0:02'}</span>
+                                                                <span className="uppercase tracking-tighter">Bategat de veu</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ) : msg.attachment_url ? (
+                                                    <div className="space-y-2">
+                                                        {msg.attachment_type === 'image' ? (
+                                                            <img src={msg.attachment_url} alt={msg.attachment_name} className="rounded-lg max-h-60 w-auto object-cover" />
+                                                        ) : (
+                                                            <div className="flex items-center gap-2 p-2 bg-black/10 rounded-lg border border-white/5">
+                                                                <Paperclip size={16} />
+                                                                <span className="text-xs truncate max-w-[150px]">{msg.attachment_name || 'Arxiu'}</span>
+                                                            </div>
+                                                        )}
+                                                        {msg.content && <p>{msg.content}</p>}
+                                                    </div>
+                                                ) : (
+                                                    msg.content
+                                                )}
                                             </div>
 
-                                            <div className="mt-2 flex items-center justify-end gap-2 opacity-50">
-                                                <span className="text-[10px] font-black uppercase">
+                                            <div className="mt-2 flex items-center justify-end gap-1.5 opacity-60">
+                                                <span className="text-[10px] font-black uppercase text-white/50">
                                                     {msg.created_at ? new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Ara'}
                                                 </span>
                                                 {isMe && (
-                                                    <span className={`text-[11px] font-black ${msg.read_at ? 'text-blue-300' : 'text-white/40'}`}>
-                                                        {msg.read_at ? '✓✓' : '✓✓'}
-                                                    </span>
+                                                    <div className="flex items-center -space-x-1">
+                                                        {msg.read_at ? (
+                                                            <CheckCheck size={14} className="text-blue-400 animate-in zoom-in duration-300" />
+                                                        ) : msg.read_at || msg.status === 'delivered' ? (
+                                                            <CheckCheck size={14} className="text-white/40" />
+                                                        ) : (
+                                                            <Check size={14} className="text-white/40" />
+                                                        )}
+                                                    </div>
                                                 )}
                                             </div>
                                         </div>

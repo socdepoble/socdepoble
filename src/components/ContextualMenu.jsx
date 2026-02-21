@@ -32,10 +32,14 @@ const ContextualMenu = () => {
 
     // Obtenim la config per a la ruta actual
     const isChat = location.pathname.startsWith('/chats');
+    const isNotes = location.pathname.startsWith('/notes');
+    
+    if (isNotes) return null;
+
     const items = isChat ? menuConfigs['/chats'] : standardMenu;
 
     return (
-        <div className="h-12 w-full bg-black border-b border-white/[0.02] flex items-center sticky top-16 z-[900] select-none">
+        <div className="h-12 w-full bg-black border-b border-white/[0.02] flex items-center sticky top-0 z-[900] select-none">
             {/* ÀREA D'ÍTEMS AMB SCROLL HORITZONTAL */}
             <div className="flex-1 h-full overflow-x-auto no-scrollbar px-4">
                 <div className="flex items-center gap-6 lg:gap-10 h-full min-w-max">

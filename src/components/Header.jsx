@@ -23,23 +23,23 @@ const Header = () => {
 
   return (
     <header className="h-16 flex items-center justify-between px-3 lg:px-6 gap-2 shrink-0 select-none bg-black text-theme-text sticky top-0 z-[1000] w-full border-b border-white/[0.03] transition-colors duration-300">
-        <div className="flex items-center gap-2 lg:gap-4 overflow-hidden shrink-0">
+        <div className="flex items-center gap-6 overflow-hidden shrink-0">
           <button 
             onClick={toggleDrawer} 
-            className="lg:hidden w-12 h-12 flex items-center justify-center text-slate-400 hover:text-white transition-colors"
+            className="w-12 h-12 flex items-center justify-center text-slate-400 hover:text-[#FF6B00] transition-colors active:scale-90"
             aria-label="Menu"
           >
-            <Menu size={24} />
+            <Menu size={30} strokeWidth={2} />
           </button>
           
           <NavLink 
             to="/" 
-            className="flex items-center active:scale-95 transition-transform"
+            className="flex items-center active:scale-95 transition-transform ml-2 lg:ml-4"
           >
               <img 
                 src="/assets/master/logo_socdepoble_white_full.png" 
                 alt="Sóc de Poble" 
-                className="h-7 lg:h-8 w-auto object-contain brightness-110"
+                className="h-14 lg:h-15 w-auto object-contain brightness-110"
                 fetchPriority="high"
               />
           </NavLink>
@@ -53,7 +53,7 @@ const Header = () => {
           onClick={() => setIsIAIARoleSelectorOpen(true)}
           title="Protocol de Visió"
         >
-          <span className={`text-xl ${visionMode === 'humana' ? "opacity-40" : "animate-pulse"}`}>👁️</span>
+          <span className={`text-3xl ${visionMode === 'humana' ? "opacity-40" : "animate-pulse"}`}>👁️</span>
         </button>
 
         {/* IAIA ARCHON SIDEBAR TOGGLE [MASTER BATEGAT] */}
@@ -62,7 +62,7 @@ const Header = () => {
           onClick={toggleIAIASidebar}
           title="Consola Archon"
         >
-          <span className={`text-xl ${iaiaSidebarOpen ? "animate-pulse" : ""}`}>🧠</span>
+          <span className={`text-3xl ${iaiaSidebarOpen ? "animate-pulse" : ""}`}>🧠</span>
         </button>
 
         {/* CANVI DE TEMA (NIT/DIA) - EL BATEGAT LUMÍNIC */}
@@ -71,14 +71,14 @@ const Header = () => {
           onClick={toggleTheme}
           title={theme === 'dark' ? 'Mode Dia' : 'Mode Nit'}
         >
-          <span className="text-xl">{theme === 'dark' ? '☀️' : '🌙'}</span>
+          <span className="text-3xl">{theme === 'dark' ? '☀️' : '🌙'}</span>
         </button>
 
         <button
           className="hidden sm:flex w-12 h-12 items-center justify-center text-slate-400 hover:text-white transition-colors"
           onClick={() => navigate("/search")}
         >
-          <span className="text-xl">🔍</span>
+          <span className="text-3xl">🔍</span>
         </button>
 
         {user && (

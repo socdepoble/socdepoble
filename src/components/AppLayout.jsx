@@ -65,7 +65,7 @@ const AppLayout = () => {
     const { 
         isDrawerOpen, closeDrawer, architectMode,
         iaiaSidebarOpen, closeIAIASidebar, iaiaSidebarContext,
-        isAccessibilitatOpen, setIsAccessibilitatOpen
+        isAccessibilitatOpen
     } = useUI();
     const location = useLocation();
     
@@ -147,18 +147,19 @@ const AppLayout = () => {
 
                 {!isMinimal && (
                     <aside className={`
-                        sidebar-desktop h-full
-                        ${isDrawerOpen ? 'drawer-open lg:block' : 'hidden lg:block'}
-                        lg:relative lg:translate-x-0 min-w-0 flex-shrink-0
+                        h-full flex-shrink-0 transition-all duration-300 ease-in-out overflow-hidden
+                        ${isDrawerOpen ? 'w-[280px]' : 'w-0'}
+                        ${isDrawerOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+                        lg:relative absolute z-50 bg-black/50 lg:bg-transparent
                     `}>
-                        <BlueprintOverlay label="SIDEBAR_FIXED" dimensions="280px" color="blue" showBackupLink={true}>
+                        <BlueprintOverlay label="SIDEBAR_DYNAMIC" dimensions={isDrawerOpen ? "280px" : "0px"} color="blue" showBackupLink={true}>
                             <NavigationRail />
                         </BlueprintOverlay>
                     </aside>
                 )}
 
                 {/* 2. MAIN VIEWPORT (EL ESCENARIO) - HABILITEM SCROLL (TABULA RASA) */}
-                <main className={`flex-1 flex flex-col min-w-0 min-h-0 relative bg-theme-base custom-scrollbar ${location.pathname.startsWith('/chats') || location.pathname.startsWith('/gestio-menu') ? 'overflow-hidden' : ''}`}>
+                <main className={`flex-1 flex flex-col min-w-0 min-h-0 relative bg-theme-base custom-scrollbar transition-all duration-300 ${location.pathname.startsWith('/chats') || location.pathname.startsWith('/gestio-menu') ? 'overflow-hidden' : ''}`}>
                     <Suspense fallback={null}>
                         <ContextualMenu />
                     </Suspense>

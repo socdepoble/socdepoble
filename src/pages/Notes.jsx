@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSearchParams } from 'react-router-dom';
 import NotebookSidebar from '../components/NotebookSidebar';
 import NotebookList from '../components/NotebookList';
 import MasterEditor from '../components/MasterEditor';
@@ -13,7 +14,8 @@ const INITIAL_FOLDERS = [
     { id: 'f-root', name: 'General', parentId: null },
     { id: 'f-art', name: 'Articles', parentId: null },
     { id: 'f-poble', name: 'Histories del Poble', parentId: null },
-    { id: 'f-prompts', name: 'Prompts de Recerca', parentId: null }
+    { id: 'f-prompts', name: 'Prompts de Recerca', parentId: null },
+    { id: 'f-captures', name: 'Captures Web', parentId: null }
 ];
 
 const INITIAL_NOTES = [
@@ -82,7 +84,10 @@ const INITIAL_NOTES = [
 
 const Notes = () => {
     const { t } = useTranslation();
-    const { openIAIASidebar, isAccessibilitatOpen, setIsAccessibilitatOpen } = useUI();
+    const { 
+        openIAIASidebar, isAccessibilitatOpen, setIsAccessibilitatOpen
+    } = useUI();
+    const [searchParams, setSearchParams] = useSearchParams();
     const [folders, setFolders] = useState(() => {
         const saved = localStorage.getItem('sdoc_folders');
         return saved ? JSON.parse(saved) : INITIAL_FOLDERS;
@@ -111,6 +116,48 @@ const Notes = () => {
     const activeNote = useMemo(() => 
         notes.find(n => n.id === activeNoteId) || notes[0]
     , [notes, activeNoteId]);
+
+    // [PROTOCOL CAPTURA] Snippet Extraction Logic
+    useEffect(() => {
+        const action = searchParams.get('action');
+        if (action === 'capture') {
+            const url = searchParams.get('url');
+            const title = searchParams.get('title') || 'Nova Captura Web';
+            
+            if (url) {
+                const captureId = `n-capture-${Date.now()}`;
+                const captureNote = {
+                    id: captureId,
+                    title: title,
+                    type: 'rich-text',
+                    content: `
+                        <div class="capture-card" style="background: #111; padding: 20px; border-radius: 20px; border: 1px solid #333; margin-bottom: 20px;">
+                            <h2 style="color: #f97316;">🔗 Enllaç Capturat</h2>
+                            <p style="color: #0ea5e9; font-weight: bold; font-family: monospace;">${url}</p>
+                            <p style="color: #888; font-size: 12px; margin-top: 10px;">Capturat el ${new Date().toLocaleString('ca-ES')}</p>
+                            <hr style="border: 0.5px solid #222; margin: 20px 0;">
+                            <p><em>Escriu aquí les teves notes sobre aquest enllaç...</em></p>
+                        </div>
+                    `,
+                    folderId: 'f-captures',
+                    category: 'Dades',
+                    tags: ['#capture', '#web'],
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString(),
+                    lastOpenedAt: new Date().toISOString(),
+                    contentCreatedAt: new Date().toISOString()
+                };
+                
+                setNotes(prev => [captureNote, ...prev]);
+                setActiveNoteId(captureId);
+                setActiveFolderId('f-captures');
+                
+                // Clear params
+                setSearchParams({}, { replace: true });
+                hapticService.notifySuccess();
+            }
+        }
+    }, [searchParams, setSearchParams]);
 
 
     const folderNotes = useMemo(() => {

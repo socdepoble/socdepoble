@@ -305,15 +305,15 @@ body {
 }
 
 /* 📜 THE ANTIGRAVITY SCROLL v1.0 (SILK SCROLL) */
+/* [MODERN SCROLLBARS v10.33.7] */
 * {
   scrollbar-width: thin;
-  scrollbar-color: rgba(156, 163, 175, 0.3) transparent;
+  scrollbar-color: rgba(255, 255, 255, 0.05) transparent;
 }
 
-/* Chrome / Webkit */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -321,13 +321,16 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(156, 163, 175, 0.3); /* Slate-400 transparent */
-  border-radius: 99px;
-  transition: background 0.2s;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  transition: all 0.3s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(156, 163, 175, 0.5);
+  background: rgba(255, 107, 0, 0.4);
+  background-clip: padding-box;
 }
 
 /* Utility to hide scrollbar but keep functionality */

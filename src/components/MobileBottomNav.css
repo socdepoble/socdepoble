@@ -3,9 +3,9 @@
     bottom: 0;
     left: 0;
     right: 0;
-    height: 70px;
+    height: 90px;
     background: #000000;
-    border-top: 1px solid var(--border-master);
+    border-top: none;
     z-index: 1000;
     padding-bottom: env(safe-area-inset-bottom);
     display: flex;
@@ -36,7 +36,7 @@
 }
 
 .mobile-bottom-nav .nav-item span {
-    font-size: 10px;
+    font-size: 14px;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -51,11 +51,15 @@
 }
 
 .mobile-bottom-nav .nav-item.plus-item {
-    color: #4F46E5;
+    color: white;
+    background: #4F46E5;
+    border-radius: 20px;
+    margin: 8px;
+    height: calc(100% - 16px);
 }
 
 .mobile-bottom-nav .nav-item.plus-item svg {
-    filter: drop-shadow(0 0 8px rgba(79, 70, 229, 0.4));
+    filter: drop-shadow(0 0 12px rgba(79, 70, 229, 0.6));
 }
 
 /* Redundancy Purge: Hide on Desktop (Sidebar takes over) */

@@ -117,8 +117,18 @@
     background: rgba(249, 115, 22, 0.3);
 }
 
-/* Specific UI for Category Select */
 select option {
     background: #111;
     color: white;
+}
+
+/* [PROTOCOL CAPTURA] Snippet Styles */
+.capture-card {
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.capture-card:hover {
+    border-color: #f97316 !important;
+    transform: translateY(-2px);
 }

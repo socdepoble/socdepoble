@@ -114,6 +114,27 @@ const ChatList = () => {
         navigate(`/chats/${chat.id}`, { state: { chatInfo: chat } });
     };
 
+    const formatBategatDate = (date) => {
+        if (!date) return { day: 'ARA', time: '' };
+        const d = new Date(date);
+        const now = new Date();
+        const isToday = d.toDateString() === now.toDateString();
+        
+        const yesterday = new Date();
+        yesterday.setDate(now.getDate() - 1);
+        const isYesterday = d.toDateString() === yesterday.toDateString();
+
+        const timeStr = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        
+        if (isToday) return { day: 'HUI', time: timeStr };
+        if (isYesterday) return { day: 'AHIR', time: timeStr };
+        
+        return { 
+            day: d.toLocaleDateString([], { day: '2-digit', month: '2-digit' }), 
+            time: timeStr 
+        };
+    };
+
     return (
         <div className="flex-1 flex flex-col min-w-0 bg-[#000000] relative overflow-hidden h-full chat-list-container">
             {/* SCANLINES RETRO-FUTURISTES */}
@@ -150,28 +171,40 @@ const ChatList = () => {
                         ${location.pathname.includes(chat.id) ? 'active' : ''} chat-item ${chat.tag === 'IAIA' ? 'iaia-agent' : ''}`}
                     >
                         {chat.tag && (
-                            <span className="absolute top-0.5 right-4 bg-black text-[#FF6B00] text-[8px] px-1.5 py-0.5 rounded border border-[#FF6B00]/30 font-black tracking-tighter uppercase shadow-xl leading-none z-10">{chat.tag}</span>
+                            <span className="absolute top-2 right-4 bg-black text-[#FF6B00] text-[12px] px-5 py-1.5 rounded border border-[#FF6B00]/40 font-black tracking-tighter uppercase shadow-2xl leading-none z-10">
+                                {chat.tag}
+                            </span>
                         )}
                         <div className="flex-shrink-0">
                             <Avatar 
                                 src={chat.other_info?.avatar_url} 
                                 name={chat.other_info?.name} 
                                 role={chat.other_info?.role}
-                                size={52} 
+                                size={64} 
                             />
                         </div>
-                        <div className="flex-1 min-w-0">
+                        <div className="flex-1 min-w-0 flex flex-col justify-between py-0.5 ml-2">
                             <div className="flex justify-between items-start mb-1">
-                                <h3 className="font-bold text-[16px] text-white truncate group-hover:text-[#FF6B00] transition-colors">
+                                <h3 className="font-bold text-[22px] text-white truncate pr-2 group-hover:text-[#FF6B00] transition-colors flex-1 tracking-tight">
                                     {chat.other_info?.name || (chat.participant_2_id === user?.id ? chat.p1_info?.name : chat.p2_info?.name) || 'Foraster'}
                                 </h3>
-                                <div className="flex flex-col items-end shrink-0 pt-1">
-                                    <span className="text-[10px] text-gray-500 font-bold uppercase leading-none">{chat.last_message_time ? new Date(chat.last_message_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : 'Ara'}</span>
+                            </div>
+                            <div className="flex justify-between items-end gap-3">
+                                <p className="text-[18px] text-gray-500 truncate leading-tight flex-1 opacity-80 font-medium">
+                                    {chat.last_message_content || 'Bategant amb Sóc de Poble...'}
+                                </p>
+                                <div className="flex flex-col items-end shrink-0 leading-none pb-1">
+                                    {(() => {
+                                        const { day, time } = formatBategatDate(chat.last_message_time);
+                                        return (
+                                            <>
+                                                <span className="text-[12px] text-[#FF6B00] font-black uppercase tracking-tighter mb-1">{day}</span>
+                                                <span className="text-[13px] text-gray-500 font-bold">{time}</span>
+                                            </>
+                                        );
+                                    })()}
                                 </div>
                             </div>
-                            <p className="text-[14px] text-gray-500 truncate leading-tight">
-                                {chat.last_message_content || 'Bategant amb Sóc de Poble...'}
-                            </p>
                         </div>
                     </div>
                 )) : (

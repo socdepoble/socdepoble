@@ -9,7 +9,10 @@ const DEFAULT_CONFIG = {
     vibe: 'genius',          // Ambientació
     gloveMode: false,        // Mode guants desactivat
     globalDesign: 'batega',  // Disseny global per defecte
-    preferredAgentId: 'iaia' // Agente preferido por defecto
+    preferredAgentId: 'iaia', // Agente preferido por defecto
+    chatSettings: {
+        readReceipts: true   // Ticks blaus activats per defecte
+    }
 };
 
 export const preferenceService = {

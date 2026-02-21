@@ -114,6 +114,7 @@ const columnCache = new Proxy({}, {
     get: (target, prop) => {
         // [MASTER BLINDATGE] Evitem consultes amb IDs malformats
         if (prop === 'sp_node_befd9c41142744f6') return null;
+        if (prop.includes('_punt')) return null; // [GHOST-SHIELD] Blocking dynamic project_ref prefixes
         const val = localStorage.getItem(`cp_${prop}`);
         if (val === 'true') return true;
         if (val === 'false') return false;

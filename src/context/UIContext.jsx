@@ -46,6 +46,7 @@ export const UIProvider = ({ children }) => {
     const [iaiaSidebarContext, setIaiaSidebarContext] = useState('general');
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
     const [isAccessibilitatOpen, setIsAccessibilitatOpen] = useState(false);
+    const [chatSettings, setChatSettings] = useState(prefs.chatSettings || { readReceipts: true });
 
     // [MASTER GENT] Lògica de Poble-Nodo (Cyber-Rural)
     const [selectedTown, setSelectedTown] = useState(prefs.selectedTown || 'La Torre de les Maçanes');
@@ -88,9 +89,10 @@ export const UIProvider = ({ children }) => {
             globalDesign,
             selectedTown,
             preferredAgentId,
-            blueprintMode
+            blueprintMode,
+            chatSettings
         });
-    }, [theme, vibe, visionMode, gloveMode, landingPage, visualDemocracy, globalDesign, selectedTown, preferredAgentId, blueprintMode]);
+    }, [theme, vibe, visionMode, gloveMode, landingPage, visualDemocracy, globalDesign, selectedTown, preferredAgentId, blueprintMode, chatSettings]);
 
     const resetToNaturalOrder = () => {
         preferenceService.resetToNaturalOrder();
@@ -252,7 +254,10 @@ export const UIProvider = ({ children }) => {
         closeProfileMenu: () => setIsProfileMenuOpen(false),
         isAccessibilitatOpen,
         setIsAccessibilitatOpen,
-        toggleAccessibilitat: () => setIsAccessibilitatOpen(prev => !prev)
+        toggleAccessibilitat: () => setIsAccessibilitatOpen(prev => !prev),
+        chatSettings,
+        setChatSettings,
+        toggleReadReceipts: () => setChatSettings(prev => ({ ...prev, readReceipts: !prev.readReceipts }))
     }), [
         theme, isCreateModalOpen, isPostModalOpen, isEventModalOpen, isMarketModalOpen, 
         isSocialManagerOpen, socialManagerContext, postModalConfig, visionMode, vibe, 
@@ -262,7 +267,7 @@ export const UIProvider = ({ children }) => {
         isTallerOpen, isNotePadOpen, isIAIARoleSelectorOpen, iaiaLevel, architectMode, 
         selectedTown, preferredAgentId, isMagicPregonerOpen, isDrawerOpen, forensicMode, 
         blueprintMode, isGuestInteractionModalOpen, iaiaSidebarOpen, iaiaSidebarContext, 
-        isProfileMenuOpen, isAccessibilitatOpen
+        isProfileMenuOpen, isAccessibilitatOpen, chatSettings
     ]);
     return (
         <UIContext.Provider value={value}>
