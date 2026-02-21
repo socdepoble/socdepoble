@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { 
     User, Settings, ChevronRight, Loader2, AlertCircle, 
-    Sparkles, Zap, Grid, Heart, Share2, ArrowLeft, Camera, UserCheck, UserPlus, MoreHorizontal, MessageCircle, Tag, ShieldCheck, Beaker, Edit, Trash2, Plus, FileText, MapPin, Landmark, Image as ImageIcon, ScanLine, Ruler, Globe, Link as LinkIcon, Users
+    Sparkles, Zap, Grid, Heart, Share2, ArrowLeft, Camera, UserCheck, UserPlus, MoreHorizontal, MessageCircle, Tag, ShieldCheck, Beaker, Edit, Trash2, Plus, FileText, MapPin, Landmark, Image as ImageIcon, ScanLine, Ruler, Globe, Link as LinkIcon, Users, Cpu
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useUI } from '../context/UIContext';
@@ -13,6 +13,8 @@ import Avatar from '../components/Avatar';
 import ShareHub from '../components/ShareHub';
 import ProfileStudioModal from '../components/ProfileStudioModal';
 import { ROLES, USER_ROLES, ENTITY_TYPES } from '../constants';
+import { trustService } from '../services/trustService';
+import RhizomeMonitor from '../components/RhizomeMonitor';
 import './ProfileView.css';
 
 const ProfileView = () => {
@@ -152,6 +154,24 @@ const ProfileView = () => {
         fetchProfileData();
     }, [id, username, isOwnProfile, currentUser, myProfile, location.pathname, navigate, isMaster]);
 
+    const [reputation, setReputation] = useState({ level: 'desconegut', direct: false });
+
+    // Trust/DID Logic
+    const handleTrustVote = async () => {
+        if (!profile?.id) return;
+        const success = await trustService.emitTrustVote(profile.id, 1.0);
+        if (success) {
+            const rep = await trustService.getProximityReputation(profile.id);
+            setReputation(rep);
+        }
+    };
+
+    useEffect(() => {
+        if (profile?.id) {
+            trustService.getProximityReputation(profile.id).then(setReputation);
+        }
+    }, [profile?.id]);
+
     if (loading) return (
         <div className="profile-hub-loading flex flex-col items-center justify-center h-screen bg-black">
             <Loader2 className="animate-spin text-orange-500 mb-4" size={48} />
@@ -167,7 +187,6 @@ const ProfileView = () => {
             <button className="bg-white text-black px-12 py-4 rounded-full font-black uppercase tracking-widest" onClick={() => navigate('/mur')}>Cerrar</button>
         </div>
     );
-
 
     return (
         <div className="profile-hub-container bg-black min-h-screen text-white font-sans overflow-x-hidden">
@@ -251,13 +270,23 @@ const ProfileView = () => {
 
                 <div className="actions-row py-4 flex flex-col sm:flex-row justify-center items-center gap-4">
                     {!isOwnProfile ? (
-                        <button 
-                            onClick={() => openConnectionModal({ targetId: profile?.id })}
-                            className="w-full max-w-[320px] h-14 rounded-2xl bg-gradient-to-r from-[#F97316] to-[#E11D48] text-white font-black text-sm uppercase tracking-widest shadow-[0_10px_30px_rgba(249,115,22,0.4)] hover:scale-[1.02] transition-all flex items-center justify-center gap-3"
-                        >
-                            {isConnected ? <MessageCircle size={18} /> : <UserPlus size={18} />}
-                            <span>{isConnected ? 'ENVIAR MISSATGE' : 'CONNECTAR'}</span>
-                        </button>
+                        <div className="flex flex-col gap-4 w-full max-w-[320px]">
+                            <button 
+                                onClick={() => openConnectionModal({ targetId: profile?.id })}
+                                className="w-full h-14 rounded-2xl bg-gradient-to-r from-[#F97316] to-[#E11D48] text-white font-black text-sm uppercase tracking-widest shadow-[0_10px_30px_rgba(249,115,22,0.4)] hover:scale-[1.02] transition-all flex items-center justify-center gap-3"
+                            >
+                                {isConnected ? <MessageCircle size={18} /> : <UserPlus size={18} />}
+                                <span>{isConnected ? 'ENVIAR MISSATGE' : 'CONNECTAR'}</span>
+                            </button>
+                            
+                            <button 
+                                onClick={handleTrustVote}
+                                className={`w-full h-14 rounded-2xl border-2 font-black text-sm uppercase tracking-widest transition-all flex items-center justify-center gap-3 ${reputation.direct ? 'bg-indigo-600/20 border-indigo-500 text-indigo-400' : 'bg-white/5 border-white/10 text-white hover:border-indigo-500/50'}`}
+                            >
+                                <ShieldCheck size={18} className={reputation.direct ? 'text-indigo-400' : 'text-gray-500'} />
+                                <span>{reputation.direct ? 'VEÍ DE CONFIANÇA' : 'DONAR CONFIANÇA'}</span>
+                            </button>
+                        </div>
                     ) : (
                         <div className="flex flex-col gap-4 w-full max-w-[320px]">
                             <button 
@@ -269,19 +298,28 @@ const ProfileView = () => {
                             </button>
                             
                             <div className="grid grid-cols-2 gap-4">
-                                <button className="h-16 rounded-2xl bg-indigo-600/40 border-2 border-indigo-400/50 text-white text-sm font-black uppercase tracking-wider flex items-center justify-center gap-4 hover:bg-indigo-600/60 transition-all shadow-[0_0_20px_rgba(79,70,229,0.3)] active:scale-95 leading-tight px-4 text-center">
+                                <button 
+                                    onClick={() => navigate('/hub')}
+                                    className="h-20 rounded-3xl bg-[#0ea5e9]/20 border-2 border-[#0ea5e9]/50 text-[#0ea5e9] text-sm font-black uppercase tracking-widest flex flex-col items-center justify-center gap-1 hover:bg-[#0ea5e9]/30 transition-all col-span-2 shadow-[0_0_20px_rgba(14,165,233,0.2)] active:scale-95 px-4 text-center group"
+                                >
+                                    <div className="flex items-center gap-3">
+                                        <Cpu size={24} className="group-hover:rotate-12 transition-transform" />
+                                        <span>Sistema Operatiu Rural</span>
+                                    </div>
+                                    <span className="text-[8px] opacity-60">Explora totes les funcionalitats</span>
+                                </button>
+                                <button className="h-16 rounded-2xl bg-indigo-600/40 border-2 border-indigo-400/50 text-white text-sm font-black uppercase tracking-wider flex items-center justify-center gap-4 hover:bg-indigo-600/60 transition-all shadow-[0_0_20_rgba(79,70,229,0.3)] active:scale-95 leading-tight px-4 text-center">
                                     <Landmark size={24} className="text-indigo-300 shrink-0" />
                                     <span>Pàgina d'Autònom</span>
                                 </button>
-                                <button className="h-16 rounded-2xl bg-indigo-600/40 border-2 border-indigo-400/50 text-white text-sm font-black uppercase tracking-wider flex items-center justify-center gap-4 hover:bg-indigo-600/60 transition-all shadow-[0_0_20px_rgba(79,70,229,0.3)] active:scale-95 leading-tight px-4 text-center">
+                                <button className="h-16 rounded-2xl bg-indigo-600/40 border-2 border-indigo-400/50 text-white text-sm font-black uppercase tracking-wider flex items-center justify-center gap-4 hover:bg-indigo-600/60 transition-all shadow-[0_0_20_rgba(79,70,229,0.3)] active:scale-95 leading-tight px-4 text-center">
                                     <Landmark size={24} className="text-indigo-300 shrink-0" />
                                     <span>Pàgina d'Empresa</span>
                                 </button>
-                                <button className="h-16 rounded-2xl bg-orange-600/40 border-2 border-orange-400/50 text-white text-sm font-black uppercase tracking-wider flex items-center justify-center gap-4 hover:bg-orange-600/60 transition-all col-span-2 shadow-[0_0_20px_rgba(249,115,22,0.3)] active:scale-95 leading-tight px-4 text-center">
-                                    <Users size={24} className="text-orange-300 shrink-0" />
-                                    <span>Crear Grup de Treball</span>
-                                </button>
                             </div>
+
+                            {/* RHIZOME MONITOR (DEEP TECH) */}
+                            <RhizomeMonitor />
                         </div>
                     )}
                 </div>

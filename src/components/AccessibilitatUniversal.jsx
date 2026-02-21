@@ -207,8 +207,13 @@ const AccessibilitatUniversal = ({ embedded = false }) => {
   // però el mestre vol que es veja dins del frame. Per tant, el modal ja no és "fixed inset-0".
   
   return (
-    <div className={`w-full h-full flex flex-col ${isDark ? 'bg-black text-white' : 'bg-white text-slate-900'} animate-in fade-in duration-500`}>
+    <div className={`w-full h-full flex flex-col ${isDark ? 'bg-black text-white' : 'bg-white text-slate-900'} animate-in fade-in duration-500 relative`}>
       {content}
+      
+      {/* PEU DE PÀGINA D'ACCESSIBILITAT */}
+      <footer className="h-10 border-t border-white/5 flex items-center justify-center px-6 shrink-0 bg-transparent text-[9px] font-black uppercase tracking-[0.4em] opacity-30">
+          Bategant amb Trellat · v10.33.1
+      </footer>
     </div>
   );
 };

@@ -65,7 +65,8 @@ const AppLayout = () => {
     const { user } = useAuth();
     const { 
         isDrawerOpen, closeDrawer, architectMode,
-        iaiaSidebarOpen, closeIAIASidebar, iaiaSidebarContext 
+        iaiaSidebarOpen, closeIAIASidebar, iaiaSidebarContext,
+        isAccessibilitatOpen, setIsAccessibilitatOpen
     } = useUI();
     const location = useLocation();
     
@@ -160,12 +161,41 @@ const AppLayout = () => {
                 )}
 
                 {/* 0. ACCESSIBILITAT & RESILIÈNCIA (L'ULL DEL MAS) - INTEGRAT AL VIEWPORT */}
-
-
-                {/* 1. SIDEBAR (LA ROCA - 280px) - JUMBO DRAWER */}
+                <div className="fixed bottom-24 right-6 z-50 flex flex-col gap-4">
+                    {/* RÀDIO DE POBLE (POC) */}
+                    <button 
+                        className="w-14 h-14 bg-[#F97316] text-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-all border-2 border-white/20"
+                        onClick={async () => {
+                            const { speechService } = await import('../services/speechService');
+                            const { geminiService } = await import('../services/geminiService');
+                            const { MOCK_FEED } = await import('../data');
+                            
+                            // 1. Capturar context (GÈNESI LIGHT)
+                            const feedText = MOCK_FEED.slice(0, 3).map(p => p.content).join(' ');
+                            
+                            // 2. Bategar resum amb Gemini
+                            const summary = await geminiService.ask('IAIA', `Fes un resum de pregoner d'un màxim de 30 paraules per a la ràdio del poble sobre això: ${feedText}`);
+                            
+                            // 3. Parlar!
+                            speechService.speak(summary.text || "Bategant les ones del poble...");
+                        }}
+                        title="Ràdio de Poble"
+                    >
+                        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"/><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"/><circle cx="12" cy="12" r="2"/><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"/><path d="M19.1 4.9C23 8.8 23 15.2 19.1 19.1"/></svg>
+                    </button>
+                    
+                    {/* TRIGGER D'ACCESSIBILITAT (PROTOCOL MESTRE) */}
+                    <button 
+                         className="w-14 h-14 bg-[#0ea5e9] text-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-all border-2 border-white/20"
+                         onClick={() => setIsAccessibilitatOpen(true)}
+                         title="Accessibilitat Universal"
+                    >
+                         <span className="text-xl">🖐️</span>
+                    </button>
+                </div>
                 {!isMinimal && (
                     <aside className={`
-                        sidebar-desktop
+                        sidebar-desktop h-full
                         ${isDrawerOpen ? 'drawer-open lg:block' : 'hidden lg:block'}
                         lg:relative lg:translate-x-0 min-w-0 flex-shrink-0
                     `}>
@@ -185,61 +215,76 @@ const AppLayout = () => {
                         label={currentLabel} 
                         dimensions="FLEX_GROW" 
                         color="emerald" 
-                        className="flex-1 flex flex-col min-h-0"
+                        className="flex-1 flex flex-col min-h-0 relative"
                     >
                         <Suspense fallback={<NanoLoader message="Bategant..." />}>
                             <ErrorBoundary>
                                 <div className={`flex-1 flex flex-col relative min-w-0 main-viewport custom-scrollbar ${location.pathname.startsWith('/chats') || location.pathname.startsWith('/gestio-menu') ? 'h-full overflow-hidden' : 'min-h-full overflow-y-auto'}`}>
                                     <Routes>
-                                <Route path="/" element={<Navigate to="/chats" replace />} />
-                                <Route path="/pobles" element={<Towns />} />
-                                <Route path="/pobles/:id" element={<TownDetail />} />
-                                
-                                <Route path="/chats/*" element={<ChatLayout />}>
-                                    <Route index element={<ChatEmptyState />} />
-                                    <Route path=":id" element={<ChatDetail />} />
-                                </Route>
+                                        <Route path="/" element={<Navigate to="/chats" replace />} />
+                                        <Route path="/pobles" element={<Towns />} />
+                                        <Route path="/pobles/:id" element={<TownDetail />} />
+                                        
+                                        <Route path="/chats/*" element={<ChatLayout />}>
+                                            <Route index element={<ChatEmptyState />} />
+                                            <Route path=":id" element={<ChatDetail />} />
+                                        </Route>
 
-                                <Route path="/mur" element={<Feed />} />
-                                <Route path="/mercat" element={<Marketplace />} />
-                                <Route path="/iaia" element={<ProfileView />} />
-                                <Route path="/perfil" element={<ProtectedRoute><ProfileView /></ProtectedRoute>} />
-                                <Route path="/perfil/:id" element={<ProfileView />} />
-                                <Route path="/entitat/:id" element={<ProfileView />} />
-                                <Route path="/login" element={<Login />} />
-                                <Route path="/ajudes" element={<BuscadorAjudes />} />
-                                
-                                <Route path="/mapa" element={<MapaActius />} />
-                                <Route path="/search" element={<SearchDiscover />} />
-                                <Route path="/ofici" element={<OficiDocumentacio />} />
-                                <Route path="/ofici/:id" element={<OficiDocumentacio />} />
-                                <Route path="/buscador-ajudes" element={<BuscadorAjudes />} />
-                                <Route path="/nexus" element={<NexusFlash />} />
-                                <Route path="/solatge" element={<ProtectedRoute><SolatgeConsole /></ProtectedRoute>} />
-                                <Route path="/genesis" element={<GenesisViewer />} />
-                                <Route path="/directori" element={<DirectoriComunitat />} />
-                                <Route path="/tools/trellat" element={<SolatgeConsole />} />
-                                <Route path="/infoteca" element={<InfografiaGallery />} />
+                                        <Route path="/mur" element={<Feed />} />
+                                        <Route path="/mercat" element={<Marketplace />} />
+                                        <Route path="/iaia" element={<ProfileView />} />
+                                        <Route path="/perfil" element={<ProtectedRoute><ProfileView /></ProtectedRoute>} />
+                                        <Route path="/perfil/:id" element={<ProfileView />} />
+                                        <Route path="/entitat/:id" element={<ProfileView />} />
+                                        <Route path="/login" element={<Login />} />
+                                        <Route path="/ajudes" element={<BuscadorAjudes />} />
+                                        
+                                        <Route path="/mapa" element={<MapaActius />} />
+                                        <Route path="/search" element={<SearchDiscover />} />
+                                        <Route path="/ofici" element={<OficiDocumentacio />} />
+                                        <Route path="/ofici/:id" element={<OficiDocumentacio />} />
+                                        <Route path="/buscador-ajudes" element={<BuscadorAjudes />} />
+                                        <Route path="/nexus" element={<NexusFlash />} />
+                                        <Route path="/solatge" element={<ProtectedRoute><SolatgeConsole /></ProtectedRoute>} />
+                                        <Route path="/genesis" element={<GenesisViewer />} />
+                                        <Route path="/directori" element={<DirectoriComunitat />} />
+                                        <Route path="/tools/trellat" element={<SolatgeConsole />} />
+                                        <Route path="/infoteca" element={<InfografiaGallery />} />
 
-                                <Route path="/admin" element={<ProtectedRoute><AdminPanel /></ProtectedRoute>} />
-                                <Route path="/arxiu" element={<ArxiuOr />} />
-                                <Route path="/arxiu/:id" element={<ResourceDetail />} />
-                                <Route path="/calendari" element={<CalendariMaster />} />
-                                <Route path="/fotos/global" element={<AlbumGlobal />} />
-                                <Route path="/dossier" element={<DossierSocis />} />
-                                <Route path="/gestio/categories" element={<CategoryManager />} />
-                                <Route path="/gestio/xats" element={<ProtectedRoute><ChatManager /></ProtectedRoute>} />
-                                <Route path="/gestio-menu" element={<ProtectedRoute><MenuManagementView /></ProtectedRoute>} />
-                                <Route path="/utilitats" element={<Utilitats />} />
-                                <Route path="/accessibilitat" element={<AccessibilitatUniversal />} />
-                                <Route path="/notes" element={<Notes />} />
-                                <Route path="/legal" element={<LegalNotice />} />
-                                <Route path="/chrome-145" element={<Chrome145Report />} />
-                                <Route path="/hub" element={<HubView />} />
-                                </Routes>
+                                        <Route path="/admin" element={<ProtectedRoute><AdminPanel /></ProtectedRoute>} />
+                                        <Route path="/arxiu" element={<ArxiuOr />} />
+                                        <Route path="/arxiu/:id" element={<ResourceDetail />} />
+                                        <Route path="/calendari" element={<CalendariMaster />} />
+                                        <Route path="/fotos/global" element={<AlbumGlobal />} />
+                                        <Route path="/dossier" element={<DossierSocis />} />
+                                        <Route path="/gestio/categories" element={<CategoryManager />} />
+                                        <Route path="/gestio/xats" element={<ProtectedRoute><ChatManager /></ProtectedRoute>} />
+                                        <Route path="/gestio-menu" element={<ProtectedRoute><MenuManagementView /></ProtectedRoute>} />
+                                        <Route path="/utilitats" element={<Utilitats />} />
+                                        <Route path="/accessibilitat" element={<AccessibilitatUniversal />} />
+                                        <Route path="/notes" element={<Notes />} />
+                                        <Route path="/legal" element={<LegalNotice />} />
+                                        <Route path="/chrome-145" element={<Chrome145Report />} />
+                                        <Route path="/hub" element={<HubView />} />
+                                    </Routes>
+                                </div>
+                            </ErrorBoundary>
+                        </Suspense>
+
+                        {/* [ENCAPSULAMENT v10.33.1] Accessibilitat i Onboarding DINS del main */}
+                        {isAccessibilitatOpen && (
+                            <div className="absolute inset-0 z-[100] bg-black/50 backdrop-blur-sm animate-in fade-in duration-300">
+                                <Suspense fallback={<NanoLoader message="Carregant accessibilitat..." />}>
+                                    <AccessibilitatUniversal />
+                                </Suspense>
                             </div>
-                        </ErrorBoundary>
-                    </Suspense>
+                        )}
+
+                        {showWelcome && (
+                            <div className="absolute inset-0 z-[110] bg-black/20 backdrop-blur-md flex items-center justify-center p-6 animate-in fade-in duration-500">
+                                <ForasterWelcome onStart={handleWelcomeDismiss} />
+                            </div>
+                        )}
                     </BlueprintOverlay>
                 </main>
             </div>

@@ -11,6 +11,13 @@ Validació obligatòria per a evitar el trencament en dispositius reals.
   - Header: Altura fixa de **64px** (h-16). Negre absolut (#000000).
   - Sidebar: No desapareix mai en escriptori (280px). En mòbil, Drawer funcional.
 - **Hit Areas:** Tots els botons interactius han de tenir un mínim de **48px** per a ser "tocables".
+- **Descobriment de Segon Nivell (Protocol Mestre):**
+  - El primer nivell de la interfície ha de ser minimalista: xat, mur, mercat i pobles.
+  - La resta de funcionalitats s'agrupen al "Sistema Operatiu Rural" (Segon Nivell).
+  - L'avatar del Header sempre ha d'anar al perfil o registre; no al Hub directament.
+- **Encapsulament de Contingut (Mandat del Mestre):**
+  - El contingut del **Mode d'Accessibilitat** ha d'anar SEMPRE dins de la finestra de contingut (`main container`).
+  - Els frames estructurals (Header, Sidebar) han de romandre FIXOS i adaptar-se al dispositiu sense moure's per continguts modals o overlays d'accessibilitat.
 
 ## 2. INTEGRITAT DE DADES (ANTI-AMNÈSIA)
 
@@ -21,6 +28,7 @@ Validació obligatòria per a evitar el trencament en dispositius reals.
 
 Abans de dir que està llest:
 
+- [ ] **Purga Nuclear de Fantasmes**: Executar `SKILL_ARCH_NUCLEAR_PURGE.md`.
 - [ ] Purga de `console.log` residuals.
-- [ ] Verificació de `APP_VERSION` (actualitzar si hi ha canvi estructural).
+- [ ] Verificació de `APP_VERSION` (v10.26.1-CANÒNIC).
 - [ ] Prova visual en "Sunlight Mode" (contrast extrem).

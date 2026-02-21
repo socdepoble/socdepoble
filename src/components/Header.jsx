@@ -22,7 +22,7 @@ const Header = () => {
   const navigate = useNavigate();
 
   return (
-    <header className="h-16 flex items-center justify-between px-3 lg:px-6 gap-2 shrink-0 select-none bg-black text-theme-text sticky top-0 z-[1000] w-full border-b border-white/5 transition-colors duration-300">
+    <header className="h-16 flex items-center justify-between px-3 lg:px-6 gap-2 shrink-0 select-none bg-black text-theme-text sticky top-0 z-[1000] w-full border-b border-white/[0.03] transition-colors duration-300">
         <div className="flex items-center gap-2 lg:gap-4 overflow-hidden shrink-0">
           <button 
             onClick={toggleDrawer} 
@@ -97,8 +97,7 @@ const Header = () => {
           <div 
             className="w-12 h-12 flex items-center justify-center cursor-pointer hover:scale-110 transition-transform ml-1"
             onClick={() => {
-              if (profile?.is_master) navigate(`/perfil/${profile.id}`);
-              else navigate("/hub");
+              navigate("/perfil");
             }}
           >
             <div className="w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center text-xs font-black text-white border border-white/20 overflow-hidden relative">

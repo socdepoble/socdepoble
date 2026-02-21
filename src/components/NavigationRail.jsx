@@ -20,6 +20,7 @@ import {
   ExternalLink,
   Terminal,
   Wrench,
+  Cpu,
 } from "lucide-react";
 import { useState } from "react";
 import AuditRoleSwitcher from "./AuditRoleSwitcher";
@@ -39,24 +40,11 @@ const menuGroups = [
     ],
   },
   {
-    id: "identitat_recursos",
-    title: (
-      <div className="flex flex-col text-left leading-tight">
-        <span>IDENTITAT</span>
-        <span className="text-[10px] opacity-70">i RECURSOS</span>
-      </div>
-    ),
-    icon: <User className="w-5 h-5" />,
-    items: [
-      { path: "/notes", label: "Bloc de Notes", icon: <Settings /> },
-      { path: "/perfil", label: "Perfil", icon: <User /> },
-      { path: "/arxiu", label: "Relíquies", icon: <Database /> },
-      { path: "/mapa", label: "Mapa", icon: <MapIcon /> },
-      { path: "/calendari", label: "Agenda", icon: <Calendar /> },
-      { path: "/infoteca", label: "Infoteca", icon: <ImageIcon /> },
-      { path: "/solatge", label: "Solatge", icon: <Database /> },
-      { path: "/utilitats", label: "Utilitats", icon: <Wrench /> },
-    ],
+    id: "sistema_operatiu",
+    title: "SISTEMA OPERATIU",
+    path: "/hub",
+    icon: <Cpu className="w-5 h-5" />,
+    items: [], // Buit a la sidebar, ple al Hub
   },
 ];
 
@@ -73,16 +61,7 @@ const NavigationRail = () => {
     setIsAccessibilitatOpen,
   } = useUI();
   const { user, signOut, isAdmin, isSuperAdmin } = useAuth();
-  const [expandedFolders, setExpandedFolders] = useState([]); // Tancat per defecte per a màxima neteja
   const [isTechnicalMenuOpen, setIsTechnicalMenuOpen] = useState(false);
-
-  const toggleFolder = (folderId) => {
-    setExpandedFolders((prev) =>
-      prev.includes(folderId)
-        ? prev.filter((id) => id !== folderId)
-        : [...prev, folderId],
-    );
-  };
 
   const handleNavClick = () => {
     if (window.innerWidth < 1024) {
@@ -176,77 +155,29 @@ const NavigationRail = () => {
             ) : (
               /* GRUPS COL·LAPSABLES (IDENTITAT i RECURSOS) */
               <>
-                <div
-                  onClick={() => toggleFolder(group.id)}
-                  className="w-full px-2 flex items-center justify-between group/header mb-1 cursor-pointer h-14 genesis-radius transition-all hover:bg-white/10 bg-white/[0.03] border border-white/5 shadow-xl"
-                >
-                  <div className="flex items-center gap-4 pl-2">
-                    <div className="w-10 h-10 flex items-center justify-center bg-white/5 rounded-xl text-gray-400 group-hover/header:bg-white/10 group-hover/header:text-white transition-all shadow-inner">
-                      {group.icon}
-                    </div>
-                    <h3 className="text-[13px] font-black text-gray-300 group-hover/header:text-white uppercase tracking-widest transition-colors">
-                      {group.title}
-                    </h3>
+              /* SISTEMA OPERATIU: BOTÓ ÚNIC (SEGON NIVELL) */
+              <NavLink
+                to={group.path}
+                onClick={handleNavClick}
+                className={({ isActive }) => `
+                  w-full flex items-center justify-between px-2 h-14 genesis-radius transition-all border border-white/5 shadow-xl
+                  ${isActive 
+                    ? "bg-[#0ea5e9] text-white" 
+                    : "bg-white/[0.03] text-gray-300 hover:bg-white/10 hover:text-white"}
+                `}
+              >
+                <div className="flex items-center gap-4 pl-2">
+                  <div className={`w-10 h-10 flex items-center justify-center rounded-xl transition-all shadow-inner bg-white/5`}>
+                    {group.icon}
                   </div>
-                  <div className="flex items-center pr-2">
-                    <div
-                      className={`w-10 h-10 flex items-center justify-center genesis-radius transition-all ${
-                        expandedFolders.includes(group.id)
-                          ? "bg-orange-500 text-white shadow-[0_0_15px_rgba(249,115,22,0.4)]"
-                          : "bg-white/5 text-gray-500 hover:bg-white/10"
-                      }`}
-                    >
-                      <ChevronDown
-                        size={18}
-                        strokeWidth={3}
-                        className={`transition-transform duration-300 ${
-                          expandedFolders.includes(group.id)
-                            ? "rotate-180"
-                            : "rotate-0"
-                        }`}
-                      />
-                    </div>
-                  </div>
+                  <h3 className="text-[13px] font-black uppercase tracking-widest transition-colors">
+                    {group.title}
+                  </h3>
                 </div>
-
-                {expandedFolders.includes(group.id) && (
-                  <div className="space-y-1 bg-white/[0.02] p-1 rounded-[24px] border border-white/5 animate-in fade-in slide-in-from-top-2 duration-300">
-                    {group.items.map((item) => (
-                      <NavLink
-                        key={item.path}
-                        to={item.path}
-                        onClick={handleNavClick}
-                        className={({ isActive }) => `
-                          w-full flex items-center px-3 h-12 rounded-full transition-all relative group/item
-                          ${
-                            isActive
-                              ? "text-white"
-                              : "text-gray-400 hover:bg-white/5 hover:text-white"
-                          }
-                        `}
-                      >
-                        {({ isActive }) => (
-                          <>
-                            {/* M3 Active Indicator Pill */}
-                            {isActive && (
-                              <div className="absolute inset-x-2 inset-y-1 bg-secondary-container rounded-full -z-10 animate-in zoom-in-95 duration-200" />
-                            )}
-                            <div className="w-10 h-10 flex items-center justify-center shrink-0">
-                              {React.cloneElement(item.icon, {
-                                size: 20,
-                                strokeWidth: isActive ? 3 : 2.5,
-                                className: isActive ? "text-secondary" : "text-gray-400 group-hover/item:text-white transition-colors"
-                              })}
-                            </div>
-                            <span className={`text-[16px] font-medium leading-none mb-0.5 whitespace-nowrap tracking-wide transition-colors ${isActive ? "font-black" : ""}`}>
-                              {item.label}
-                            </span>
-                          </>
-                        )}
-                      </NavLink>
-                    ))}
-                  </div>
-                )}
+                <div className="pr-4 opacity-50">
+                   <ChevronRight size={18} strokeWidth={3} />
+                </div>
+              </NavLink>
               </>
             )}
           </div>
@@ -356,7 +287,7 @@ const NavigationRail = () => {
         </div>
 
         <div className="mt-2 text-[8px] text-center opacity-30 font-black uppercase tracking-[0.3em] text-white">
-          v10.26.0-CANÒNIC
+          v10.26.1-CANÒNIC
         </div>
       </div>
 
