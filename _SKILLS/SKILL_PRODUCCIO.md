@@ -30,5 +30,5 @@ Abans de dir que està llest:
 
 - [ ] **Purga Nuclear de Fantasmes**: Executar `SKILL_ARCH_NUCLEAR_PURGE.md`.
 - [ ] Purga de `console.log` residuals.
-- [ ] Verificació de `APP_VERSION` (v10.26.1-CANÒNIC).
+- [ ] Verificació de `APP_VERSION` (v10.33.4-CANÒNIC).
 - [ ] Prova visual en "Sunlight Mode" (contrast extrem).

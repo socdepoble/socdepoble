@@ -4,12 +4,12 @@
 
 Aquest protocol blinda el disseny per a evitar improvisacions genèriques.
 
-### A. Paleta de Colors (La Terra)
+### A. Paleta de Colors (La Terra i la Nit)
 
-- **Fons General:** `#FDF5E6` (Crema / Old Lace). Mai blanc pur si no és per a contrast extrem.
-- **L'Accent Suprem (Boina Taronja):** `#F97316` (Terracotta / Naranja Institucional). Color per defecte per a botons d'acció principals (CONNECTAR, +) i la capçalera de targetes globals.
-- **Fons Secundari:** `#000000` (Negre Absolut). Ús en la barra de navegació inferior mòbil i fons de contrast.
-- **Acció Digital (IAIA / Sistema):** `#06B6D4` (Cian). Reservat ESTRICTAMENT per a interaccions de la IA i estats de càrrega del sistema, mai per interaccions humanes.
+- **Fons Mestre (Prioritzat):** `#0A0A0A` (Negre Profund / Mode Nit). Estàndard obligatori per defecte per a protecció visual i estalvi d'energia.
+- **Fons Secundari (Natural):** `#F8F1E3` (Blanc Trencat / Crema). Ús reservat per a "Mode Dia" o contrastos càlids.
+- **L'Accent Suprem (Boina Taronja):** `#F97316` (Naranja Institucional). Color per a botons d'acció principals i caps de targeta autorals.
+- **Acció Digital (IAIA / Sistema):** `#0EA5E9` (Blau Sky). Identitat de la IA i bategat del sistema.
 - **Text sobre Taronja:** `#000000` o `#FFFFFF` segons contrast, preferiblement Negre per a màxima llegibilitat en la "capucha".
 
 ### B. Tipografia i Geometria (Pedra Seca & Oli Suau)
@@ -44,7 +44,7 @@ Totes les targetes de l'aplicació han de seguir l'estructura unificada de "La T
 La navegació mòbil és sagrada i no pot desaparèixer:
 
 - **Mobile Bottom Nav:** Fons Negre Absolut (#000000).
-- **Botó Central (+):** Botó de publicació ràpida en color Taronja (#F97316), ressaltat i amb ombra de bategat.
+- **Integració l'Afegir (+):** El botó de publicació s'integra ESTRUCTURALMENT a la barra (com un ítem més). Està estrictament prohibit que suren botons circulars sobre el camp visual del Xat.
 - **Opcions de Vista:** Totes les pàgines de llistat (Mur, Mercat, Pobles) han d'oferir selectors de vista:
   - **Single:** 1 imatge per fila (full width).
   - **Grid:** 2 imatges per fila (compta actual).
