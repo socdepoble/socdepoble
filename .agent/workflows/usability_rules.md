@@ -90,3 +90,11 @@ El sistema s'adapta al context d'ús per maximitzar l'accés a la informació:
 - **Sidebar Col·lapsada per Defecte:** La sidebar es tanca automàticament per alliberar espai. És accessible mitjançant el botó de menú superior (drawer).
 - **Menú Inferior Canònic (Bottom Nav):** Apareix un menú a la part inferior amb els enllaços principals. Ha de ser sempre visible i amb un z-index superior (`z-[3000]`).
 - **Jerarquia de Sidebar:** El header de la sidebar utilitza el **Negre Mestre** per diferenciar-se clarament de l'escenari.
+
+## 11. Identitat i Marca (El Segell del Mas) 🏺🛡️✨
+
+Aquesta és la regla d'or suprema per a qualsevol contingut visual o textual:
+
+- **Sempre amb Marca:** Tota imatge generada, asset visual o contingut promocional HA DE PORTAR el logo oficial de **Sóc de Poble**. La marca és el nostre bategat i mai s'ha d'ometre.
+- **Heroisme Visual:** El logo ha de ser clar, preferiblement en blanc radiant sobre fons negre o textures rurals premium (pedra, fusta, llum d'alba).
+- **Consistència Doctrinària:** Qualsevol experiment rural o "Nano-merch" ha de passar pel filtre del Segell del Mas abans de ser exhibit a la xarxa Rhizome.
