@@ -1,0 +1,47 @@
+.watermark-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.watermark-overlay {
+    position: absolute;
+    pointer-events: none;
+    z-index: 20;
+    transition: all 0.3s ease;
+}
+
+.watermark-overlay.bottom-right {
+    bottom: 12px;
+    right: 12px;
+}
+
+.watermark-overlay.bottom-left {
+    bottom: 12px;
+    left: 12px;
+}
+
+.watermark-overlay.top-right {
+    top: 12px;
+    right: 12px;
+}
+
+.watermark-overlay.top-left {
+    top: 12px;
+    left: 12px;
+}
+
+.watermark-logo {
+    height: 32px;
+    width: auto;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+    object-fit: contain;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+    .watermark-logo {
+        height: 24px;
+    }
+}

@@ -11,6 +11,7 @@ import ShareHub from './ShareHub';
 import Carousel from './Carousel';
 import ImageCarousel from './ImageCarousel';
 import BlueprintOverlay from './BlueprintOverlay';
+import Watermark from './Watermark';
 import './UniversalCard.css';
 
 /**
@@ -219,7 +220,10 @@ const UniversalCard = ({
                                 <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 z-10">{t('common.image') || "Imatge"}</span>
                             </div>
                         ) : (
-                            <>
+                            <Watermark 
+                                variant={item?.theme === 'solemne' ? 'white' : 'white'} 
+                                opacity={0.7}
+                            >
                                 <img 
                                     src={displayImage} 
                                     alt={displayTitle} 
@@ -230,7 +234,7 @@ const UniversalCard = ({
                                 <div className="image-overlay-credits">
                                     © SÓC DE POBLE / IAIA GENERATED
                                 </div>
-                            </>
+                            </Watermark>
                         )}
                     </div>
                 )}
