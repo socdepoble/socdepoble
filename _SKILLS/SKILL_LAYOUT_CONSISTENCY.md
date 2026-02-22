@@ -19,3 +19,9 @@ Per a assegurar que el Mas bategue amb harmonia, s'han de seguir aquestes regles
 ## 3. Blindatge de Consola 🛡️
 
 - Malgrat que el sistema evolucione, cal mantenir el [GHOST-SHIELD] actiu a `supabaseService.js` per a capturar i silenciar queries malformades sobre `entities` o columnes dinàmiques.
+
+## 4. Harmonia i Equilibri Visual 🏺⚖️
+
+- **Equilibri del Contingut**: El disseny ha de permetre que el contingut "respire". L'excés de mida pot trencar la pau del territori.
+- **Mides de Logo**: El logo a la capçalera ha de mantenir una proporció equilibrada (aprox. `h-10` a `h-11`) per a no eclipsar la funcionalitat de les eines.
+- **Reflexió en la Col·locació**: Cada element ha de ser fruit d'una reflexió sobre la seua posició i l'harmonia global del Mas. Més gran no sempre és millor; l'equilibri és el bategat perfecte.

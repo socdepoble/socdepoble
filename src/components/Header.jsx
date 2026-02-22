@@ -39,7 +39,7 @@ const Header = () => {
               <img 
                 src="/assets/master/logo_socdepoble_white_full.png" 
                 alt="Sóc de Poble" 
-                className="h-14 lg:h-15 w-auto object-contain brightness-110"
+                className="h-10 lg:h-11 w-auto object-contain brightness-110"
                 fetchPriority="high"
               />
           </NavLink>
