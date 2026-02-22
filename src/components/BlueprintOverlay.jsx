@@ -10,11 +10,6 @@ import { useUI } from '../context/UIContext';
 const BlueprintOverlay = ({ label, dimensions, color = "blue", children, className = "", showBackupLink = false }) => {
     const { blueprintMode } = useUI();
     
-    // Si el mode plànol està desactivat, retornem els fills directament sense el frame tècnic.
-    if (!blueprintMode) {
-        return children;
-    }
-
     const colors = {
         cyan: { border: "border-cyan-400", bg: "bg-cyan-500", text: "text-black" },
         green: { border: "border-green-400", bg: "bg-green-500", text: "text-black" },
@@ -28,25 +23,29 @@ const BlueprintOverlay = ({ label, dimensions, color = "blue", children, classNa
     return (
         <div className={`relative w-full group/blueprint ${className}`}>
             {children}
-            <div className={`absolute inset-0 pointer-events-none z-[9999] border-2 border-dashed ${theme.border} opacity-50 rounded-inherit`}>
-                <div className={`absolute top-0 right-0 ${theme.bg} ${theme.text} text-[9px] font-mono px-2 py-0.5 uppercase tracking-tighter shadow-sm flex items-center gap-1 pointer-events-auto transition-all hover:bg-black hover:text-white`}>
-                    <ScanLine className="w-3 h-3" />
-                    {label} {dimensions && <span className="opacity-75 font-bold">[{dimensions}]</span>}
-                    
-                    {showBackupLink && (
-                        <a 
-                            href="/soc-de-poble-backup.html" 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="ml-2 pl-2 border-l border-white/30 text-yellow-300 hover:text-white transition-colors flex items-center gap-1 font-black"
-                        >
-                            <Download size={10} strokeWidth={3} />
-                            BACKUP (LEGAL)
-                        </a>
-                    )}
-
+            {blueprintMode && (
+                <div 
+                  className={`absolute pointer-events-none z-[9999] border-2 border-dashed ${theme.border} opacity-50 rounded-inherit`}
+                  style={{ inset: '10px' }}
+                >
+                    <div className={`absolute top-0 right-0 ${theme.bg} ${theme.text} text-[9px] font-mono px-2 py-0.5 uppercase tracking-tighter shadow-sm flex items-center gap-1 pointer-events-auto transition-all hover:bg-black hover:text-white`}>
+                        <ScanLine className="w-3 h-3" />
+                        {label} {dimensions && <span className="opacity-75 font-bold">[{dimensions}]</span>}
+                        
+                        {showBackupLink && (
+                            <a 
+                                href="/soc-de-poble-backup.html" 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="ml-2 pl-2 border-l border-white/30 text-yellow-300 hover:text-white transition-colors flex items-center gap-1 font-black"
+                            >
+                                <Download size={10} strokeWidth={3} />
+                                BACKUP (LEGAL)
+                            </a>
+                        )}
+                    </div>
                 </div>
-            </div>
+            )}
         </div>
     );
 };

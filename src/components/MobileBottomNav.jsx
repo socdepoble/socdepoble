@@ -22,27 +22,27 @@ const MobileBottomNav = () => {
         <nav className="mobile-bottom-nav lg:hidden">
             <div className="nav-container">
                 <NavLink to="/chats" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
-                    <MessageSquare size={24} />
+                    <MessageSquare size={28} />
                     <span>Xats</span>
                 </NavLink>
                 
                 <NavLink to="/mur" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
-                    <LayoutGrid size={24} />
+                    <LayoutGrid size={28} />
                     <span>Mur</span>
                 </NavLink>
 
                 <button className="nav-item plus-item" onClick={handlePlusClick}>
-                    <Plus size={24} strokeWidth={3} />
+                    <Plus size={28} strokeWidth={3} />
                     <span>Afegir</span>
                 </button>
 
                 <NavLink to="/mercat" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
-                    <Store size={24} />
+                    <Store size={28} />
                     <span>Mercat</span>
                 </NavLink>
 
                 <NavLink to="/pobles" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
-                    <MapPin size={24} />
+                    <MapPin size={28} />
                     <span>Pobles</span>
                 </NavLink>
             </div>

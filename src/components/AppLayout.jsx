@@ -157,20 +157,27 @@ const AppLayout = () => {
                 )}
 
                 {!isMinimal && (
-                    <aside className={`
+                    <div className={`
                         h-full flex-shrink-0 transition-all duration-300 ease-in-out overflow-hidden
                         ${isDrawerOpen ? 'w-[280px]' : 'w-0'}
                         ${isDrawerOpen ? 'translate-x-0' : '-translate-x-full'}
-                        md:relative absolute z-[2000] bg-black/50 md:bg-transparent
-                    `}>
-                        <BlueprintOverlay label="SIDEBAR" dimensions={isDrawerOpen ? "280px" : "0px"} color="blue" showBackupLink={true}>
+                        md:relative absolute z-[2000] bg-black md:bg-black border-r border-white/10
+                    `} style={{ padding: '20px' }}>
+                        <BlueprintOverlay label="SIDEBAR" dimensions={isDrawerOpen ? "280px" : "0px"} color="blue" showBackupLink={true} className="h-full flex flex-col">
                             <NavigationRail />
                         </BlueprintOverlay>
-                    </aside>
+                    </div>
                 )}
 
                 {/* 2. MAIN VIEWPORT (EL ESCENARIO) - HABILITEM SCROLL (TABULA RASA) */}
-                <main className={`flex-1 flex flex-col min-w-0 min-h-0 relative bg-black custom-scrollbar transition-all duration-300 ${location.pathname.startsWith('/chats') || location.pathname.startsWith('/gestio-menu') ? 'overflow-hidden' : ''}`}>
+                <main className={`flex-1 flex flex-col min-w-0 min-h-0 relative bg-black custom-scrollbar ${
+                    location.pathname.startsWith('/chats') || 
+                    location.pathname.startsWith('/gestio-menu') || 
+                    location.pathname.startsWith('/notes') || 
+                    location.pathname.startsWith('/financament') || 
+                    location.pathname.startsWith('/hub') 
+                    ? 'overflow-hidden' : ''
+                }`}>
                     <Suspense fallback={null}>
                         <ContextualMenu />
                     </Suspense>
@@ -183,7 +190,14 @@ const AppLayout = () => {
                     >
                         <Suspense fallback={<NanoLoader message="Bategant..." />}>
                             <ErrorBoundary>
-                                <div className={`flex-1 flex flex-col relative min-w-0 main-viewport custom-scrollbar ${location.pathname.startsWith('/chats') || location.pathname.startsWith('/gestio-menu') ? 'h-full overflow-hidden' : 'min-h-full overflow-y-auto'}`}>
+                                <div className={`flex-1 flex flex-col relative min-w-0 main-viewport custom-scrollbar ${
+                                    location.pathname.startsWith('/chats') || 
+                                    location.pathname.startsWith('/gestio-menu') || 
+                                    location.pathname.startsWith('/notes') || 
+                                    location.pathname.startsWith('/financament') ||
+                                    location.pathname.startsWith('/hub')
+                                    ? 'h-full overflow-hidden' : 'min-h-full overflow-y-auto'
+                                }`}>
                                     <Routes>
                                         <Route path="/" element={<Navigate to="/chats" replace />} />
                                         <Route path="/pobles" element={<Towns />} />
@@ -202,9 +216,6 @@ const AppLayout = () => {
                                         <Route path="/entitat/:id" element={<ProfileView />} />
                                         <Route path="/login" element={<Login />} />
                                         <Route path="/register" element={<Register />} />
-                                        <Route path="/financament" element={<Financament />} />
-                                        <Route path="/ajudes" element={<BuscadorAjudes />} />
-                                        
                                         <Route path="/mapa" element={<MapaActius />} />
                                         <Route path="/search" element={<SearchDiscover />} />
                                         <Route path="/ofici" element={<OficiDocumentacio />} />
@@ -216,7 +227,6 @@ const AppLayout = () => {
                                         <Route path="/directori" element={<DirectoriComunitat />} />
                                         <Route path="/tools/trellat" element={<SolatgeConsole />} />
                                         <Route path="/infoteca" element={<InfografiaGallery />} />
-
                                         <Route path="/admin" element={<ProtectedRoute><AdminPanel /></ProtectedRoute>} />
                                         <Route path="/arxiu" element={<ArxiuOr />} />
                                         <Route path="/arxiu/:id" element={<ResourceDetail />} />
@@ -232,20 +242,21 @@ const AppLayout = () => {
                                         <Route path="/legal" element={<LegalNotice />} />
                                         <Route path="/chrome-145" element={<Chrome145Report />} />
                                         <Route path="/hub" element={<HubView />} />
+                                        <Route path="/financament" element={<Financament />} />
                                     </Routes>
                                 </div>
                             </ErrorBoundary>
                         </Suspense>
 
-                        {/* [ENCAPSULAMENT v10.33.1] Accessibilitat i Onboarding DINS del main */}
-                        {isAccessibilitatOpen && (
-                            <div className="absolute inset-0 z-[100] bg-black/50 backdrop-blur-sm animate-in fade-in duration-300">
-                                <Suspense fallback={<NanoLoader message="Carregant accessibilitat..." />}>
-                                    <AccessibilitatUniversal />
-                                </Suspense>
-                            </div>
-                        )}
-                    </BlueprintOverlay>
+                    {/* [ENCAPSULAMENT v10.33.1] Accessibilitat i Onboarding DINS del main */}
+                    {isAccessibilitatOpen && (
+                        <div className="absolute inset-0 z-[100] bg-black/50 backdrop-blur-sm animate-in fade-in duration-300">
+                            <Suspense fallback={<NanoLoader message="Carregant accessibilitat..." />}>
+                                <AccessibilitatUniversal />
+                            </Suspense>
+                        </div>
+                    )}
+                </BlueprintOverlay>
                 </main>
             </div>
 

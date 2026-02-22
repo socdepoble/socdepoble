@@ -40,7 +40,7 @@ const Financament = () => {
     ];
 
     return (
-        <div className="hub-view-container min-h-screen bg-black text-white p-6 lg:p-12 animate-in fade-in duration-700">
+        <div className="hub-view-container flex-1 min-h-full bg-black text-white p-6 lg:p-12 animate-in fade-in duration-700">
             {/* HEADER */}
             <header className="hub-header flex flex-col md:flex-row items-center justify-between mb-16 gap-8">
                 <div className="flex items-center gap-6">
@@ -64,8 +64,13 @@ const Financament = () => {
 
             {/* HERO PHILOSOPHY */}
             <section className="max-w-4xl mx-auto text-center mb-24">
-                <div className="inline-flex items-center gap-2 px-6 py-3 bg-orange-500/20 border border-orange-500/40 rounded-full text-orange-400 text-xs font-black uppercase tracking-widest mb-10">
-                    <Sparkles size={16} /> El Trellat de la Independència
+                <div className="flex flex-col items-center gap-2 mb-10">
+                    <div className="h-[1px] w-24 bg-orange-500/30"></div>
+                    <div className="flex items-center gap-3 text-orange-500/80">
+                        <Sparkles size={18} strokeWidth={2.5} />
+                        <span className="text-[15px] font-black uppercase tracking-[0.5em] italic">El Trellat de la Independència</span>
+                    </div>
+                    <div className="h-[1px] w-24 bg-orange-500/30"></div>
                 </div>
                 <h2 className="text-5xl lg:text-7xl font-black mb-10 leading-tight uppercase tracking-tighter italic">
                     Un projecte lliure necessita un model de negoci <span className="text-indigo-400">transparent i arrelat</span>.

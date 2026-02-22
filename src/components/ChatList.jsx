@@ -140,23 +140,16 @@ const ChatList = () => {
             {/* SCANLINES RETRO-FUTURISTES */}
             <div className="chat-list-scanlines" />
 
-            {/* HEADER CANÒNIC (RESTAURAT) */}
-            <header className="h-20 flex flex-col justify-center px-6 bg-black border-b border-white/5 relative z-10 shrink-0">
-                <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center gap-3">
-                        <span className="text-xl font-black text-white tracking-tighter">XATS</span>
-                        <div className="flex h-2 w-2 rounded-full bg-orange-500 animate-pulse" />
-                    </div>
-                </div>
-                
-                <div className="relative group">
-                    <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-[#FF6B00] transition-colors" />
+            {/* HEADER CANÒNIC (RESTAURAT I REFINAT) */}
+            <header className="h-24 flex flex-col justify-center px-6 bg-black border-b border-white/5 relative z-10 shrink-0">
+                <div className="relative group w-full">
+                    <Search size={22} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-[#FF6B00] transition-colors" />
                     <input 
                         type="text" 
-                        placeholder="Cerca un bategat..."
+                        placeholder="CERCA UN BATEGAT..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full bg-white/5 border border-white/10 rounded-lg py-1.5 pl-9 pr-4 text-xs text-white focus:outline-none focus:border-[#FF6B00]/40 focus:bg-white/10 transition-all placeholder:text-gray-700"
+                        className="w-full h-14 bg-white/5 border border-white/10 rounded-2xl pl-14 pr-6 text-lg font-black text-white focus:outline-none focus:border-[#FF6B00]/40 focus:bg-white/10 transition-all placeholder:text-gray-700 uppercase tracking-widest"
                     />
                 </div>
             </header>

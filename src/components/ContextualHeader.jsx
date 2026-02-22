@@ -13,14 +13,14 @@ const ContextualHeader = ({ searchTerm, onSearchChange, viewMode, onViewModeChan
 
     return (
         <div className="contextual-header-container">
-            <div className="search-bar-wrapper">
-                <Search size={18} className="search-icon" />
+            <div className="search-bar-wrapper h-14">
+                <Search size={22} className="search-icon" />
                 <input
                     type="text"
                     value={searchTerm}
                     onChange={(e) => onSearchChange(e.target.value)}
-                    placeholder={placeholder}
-                    className="search-input"
+                    placeholder={placeholder.toUpperCase()}
+                    className="search-input text-lg font-black tracking-widest uppercase"
                 />
                 {searchTerm && (
                     <button onClick={handleSearchClear} className="clear-search-btn">

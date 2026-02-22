@@ -93,7 +93,7 @@ const HubView = () => {
     };
 
     return (
-        <div className="hub-view-container min-h-screen bg-black text-white p-6 lg:p-12 animate-in fade-in duration-700">
+        <div className="hub-view-container flex-1 min-h-full bg-black text-white p-6 lg:p-12 animate-in fade-in duration-700">
             {/* SISTEMA OPERATIU HEADER */}
             <header className="hub-header flex flex-col md:flex-row items-center justify-between mb-16 gap-8">
                 <div className="flex items-center gap-6">

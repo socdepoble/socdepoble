@@ -249,7 +249,7 @@ const Notes = () => {
     };
 
     return (
-        <div className="notebook-app flex h-full bg-black overflow-hidden animate-in fade-in duration-500">
+        <div className="notebook-app flex-1 flex h-full bg-black overflow-hidden animate-in fade-in duration-500">
             <NotebookSidebar 
                 folders={folders}
                 activeFolder={activeFolderId}

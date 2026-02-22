@@ -5,9 +5,12 @@ const GA_ID = import.meta.env.VITE_GA_ID;
 export const initGA = () => {
     if (GA_ID) {
         ReactGA.initialize(GA_ID);
-        console.log("🏺 [ANALYTICS] Bategat mètric inicialitzat amb ID:", GA_ID);
+        // logger.info("🏺 [ANALYTICS] Bategat mètric inicialitzat");
     } else {
-        console.warn("⚠️ [ANALYTICS] No s'ha trobat el Measurement ID de Google Analytics.");
+        // Silenciós en producció per evitar soroll visual
+        if (import.meta.env.DEV) {
+            console.log("🏺 [ANALYTICS] Mode silenciós actiu (Sense ID).");
+        }
     }
 };
 

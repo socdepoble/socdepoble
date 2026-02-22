@@ -21,7 +21,7 @@ const GuestInteractionModal = () => {
 
     const languages = [
         { code: 'va', label: 'VAL' },
-        { code: 'es', label: 'ESP' },
+        { code: 'es', label: 'CAS' },
         { code: 'en', label: 'ENG' },
         { code: 'gl', label: 'GAL' },
         { code: 'eu', label: 'EUS' }

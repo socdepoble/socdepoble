@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import {
@@ -20,11 +20,12 @@ import { useAuth } from "../context/AuthContext";
 
 const NavigationRail = () => {
   const { t } = useTranslation();
-  const [isInfoOpen, setIsInfoOpen] = useState(false);
   const {
     setIsCreateModalOpen,
     closeDrawer,
     setIsGuestInteractionModalOpen,
+    isInfoOpen,
+    toggleInfo,
   } = useUI();
   const { user, isAdmin } = useAuth();
 
@@ -58,7 +59,7 @@ const NavigationRail = () => {
   };
 
   return (
-    <aside className="w-full h-full flex-shrink-0 flex flex-col bg-theme-sidebar backdrop-blur-3xl border-r border-white/5 z-20 overflow-hidden">
+    <div className="w-full h-full flex-shrink-0 flex flex-col bg-theme-sidebar backdrop-blur-3xl z-20 overflow-hidden">
       <div className="h-16 min-h-[64px] flex items-center justify-between px-6 bg-theme-header shrink-0 border-b border-white/5 md:hidden">
         <NavLink to="/" onClick={handleNavClick}>
           <img
@@ -131,7 +132,7 @@ const NavigationRail = () => {
                               strokeWidth: isActive ? 3 : 2,
                             })}
                           </div>
-                          <span className={`text-[20px] leading-none mb-0.5 whitespace-nowrap transition-colors ${isActive ? 'text-white' : 'text-gray-100'}`}>
+                          <span className={`text-[22px] leading-none mb-0.5 whitespace-nowrap transition-colors ${isActive ? 'text-white' : 'text-gray-100'}`}>
                             {item.label}
                           </span>
                         </>
@@ -171,7 +172,7 @@ const NavigationRail = () => {
                               strokeWidth: isActive ? (item.thinner ? 2 : 3) : (item.thinner ? 1.5 : 2.5),
                             })}
                           </div>
-                          <span className={`text-[17px] leading-none mb-0.5 whitespace-nowrap ${item.thinner ? 'uppercase tracking-tighter text-[12px] opacity-70' : ''}`}>
+                          <span className={`text-[19px] leading-none mb-0.5 whitespace-nowrap ${item.thinner ? 'uppercase tracking-tighter text-[15px] opacity-70' : ''}`}>
                             {item.label}
                           </span>
                         </>
@@ -196,7 +197,7 @@ const NavigationRail = () => {
                   <div className={`w-10 h-10 flex items-center justify-center rounded-xl transition-all shadow-inner bg-white/5`}>
                     {group.icon}
                   </div>
-                  <h3 className="text-[13px] font-black uppercase tracking-widest transition-colors">
+                  <h3 className="text-[16px] font-black uppercase tracking-widest transition-colors">
                     {group.title}
                   </h3>
                 </div>
@@ -209,30 +210,34 @@ const NavigationRail = () => {
         ))}
       </div>
 
-      <div className="p-4 mt-auto border-t border-white/10 bg-transparent shrink-0 flex flex-col gap-3">
+      <div 
+        className="px-8 mt-auto bg-transparent shrink-0 flex flex-col items-center gap-8 relative"
+        style={{ paddingTop: '30px', paddingBottom: '60px' }}
+      >
+        {/* INFO LEGAL: PANELL FLOTANT BLINDAT */}
         {isInfoOpen && (
-          <div className="bg-white/[0.08] border-2 border-white/30 rounded-[40px] p-8 space-y-8 animate-in fade-in zoom-in-95 slide-in-from-bottom-8 duration-500 shadow-[0_0_150px_rgba(0,0,0,0.9)] overflow-hidden">
-            <div className="leading-tight text-white font-black uppercase tracking-tighter text-center space-y-6">
-              <span className="flex items-center justify-center gap-3 text-2xl md:text-3xl mb-4">
-                <Scale size={32} className="text-primary" strokeWidth={4} />
+          <div className="absolute bottom-[calc(100%+0.5rem)] left-0 right-0 bg-[#080808]/95 backdrop-blur-3xl border-2 border-white/15 rounded-[36px] p-6 space-y-4 animate-in fade-in zoom-in-95 slide-in-from-bottom-8 duration-500 shadow-[0_0_100px_rgba(0,0,0,1)] z-[10001] w-full overflow-hidden">
+            <div className="leading-tight text-white font-black uppercase tracking-tighter text-center space-y-4">
+              <span className="flex items-center justify-center gap-2 text-base md:text-lg mb-2">
+                <Scale size={20} className="text-secondary" strokeWidth={4} />
                 2026 SÓC DE POBLE
               </span>
               
-              <NavLink to="/perfil/el-rentonar" onClick={handleNavClick} className="block p-6 rounded-[32px] bg-white/5 border-2 border-white/15 hover:bg-white/15 hover:border-primary transition-all group active:scale-95">
-                <span className="block text-xl md:text-2xl mb-1 group-hover:text-primary transition-colors italic">Associació El Rentonar</span>
-                <span className="block text-[14px] opacity-60 font-medium tracking-[0.3em]">CIF G-03967668</span>
+              <NavLink to="/perfil/el-rentonar" onClick={handleNavClick} className="block p-3 rounded-[20px] bg-white/5 border-2 border-white/10 hover:bg-white/10 hover:border-secondary transition-all group active:scale-95">
+                <span className="block text-sm md:text-base mb-1 group-hover:text-secondary transition-colors italic">Associació El Rentonar</span>
+                <span className="block text-[9px] opacity-60 font-medium tracking-[0.2em]">CIF G-03967668</span>
               </NavLink>
               
-              <div className="pt-4 border-t border-white/5">
-                <span className="block text-[12px] opacity-40 mb-2 tracking-[0.4em]">DIRECCIÓ I COORDINACIÓ</span>
-                <NavLink to="/perfil/d6325f44-7277-4d20-b020-166c010995ab" onClick={handleNavClick} className="block text-2xl md:text-3xl text-primary hover:text-white transition-all italic font-black hover:scale-105">
+              <div className="pt-2 border-t border-white/5">
+                <span className="block text-[8px] opacity-40 mb-1 tracking-[0.3em]">DIRECCIÓ I COORDINACIÓ</span>
+                <NavLink to="/perfil/d6325f44-7277-4d20-b020-166c010995ab" onClick={handleNavClick} className="block text-base md:text-lg text-secondary hover:text-white transition-all italic font-black hover:scale-105">
                   Javi Llinares
                 </NavLink>
               </div>
             </div>
             
-            <div className="flex flex-col gap-3 pt-4 border-t border-white/10 text-center">
-              <div className="flex justify-center gap-6 text-[11px] font-black tracking-widest opacity-60">
+            <div className="flex flex-col gap-2 pt-3 border-t border-white/10 text-center">
+              <div className="flex justify-center gap-3 text-[10px] font-black tracking-widest opacity-60">
                 <NavLink to="/legal" onClick={handleNavClick} className="hover:text-white hover:opacity-100 transition-all">AVÍS LEGAL</NavLink>
                 <NavLink to="/legal#cookies" onClick={handleNavClick} className="hover:text-white hover:opacity-100 transition-all">COOKIES</NavLink>
               </div>
@@ -240,7 +245,7 @@ const NavigationRail = () => {
                 href="https://socdepoble.org" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-[10px] font-black text-primary opacity-60 hover:opacity-100 transition-opacity"
+                className="text-[9px] font-black text-secondary opacity-60 hover:opacity-100 transition-opacity"
               >
                 WWW.SOCDEPOBLE.ORG
               </a>
@@ -248,21 +253,21 @@ const NavigationRail = () => {
           </div>
         )}
 
-        <div className="flex flex-col items-center gap-2">
-          <div className="text-[10px] text-center opacity-40 font-black uppercase tracking-[0.3em] text-white">
-            v10.33.6-CANÒNIC
-          </div>
-          
+        <div className="flex flex-col items-center gap-3 w-full animate-in fade-in slide-in-from-bottom-4 duration-700">
           <button 
             onClick={(e) => {
+              e.preventDefault();
               e.stopPropagation();
-              setIsInfoOpen(!isInfoOpen);
+              toggleInfo();
             }}
-            className="flex items-center gap-4 px-8 py-4 rounded-full bg-white/15 border-2 border-white/30 text-[18px] font-black uppercase tracking-[0.3em] text-white hover:bg-primary hover:border-white transition-all shadow-2xl active:scale-90"
+            className={`w-full flex items-center justify-center px-8 h-16 rounded-full border-2 text-[18px] font-black uppercase tracking-[0.3em] transition-all shadow-2xl active:scale-90 ${isInfoOpen ? 'bg-secondary border-white text-white' : 'bg-white/10 border-white/20 text-white hover:bg-secondary hover:border-white shadow-[0_10px_40px_rgba(0,0,0,0.5)]'}`}
           >
             <span>Info legal</span>
-            <ChevronRight size={24} className={`transition-transform duration-300 ${isInfoOpen ? 'rotate-90' : ''}`} strokeWidth={4} />
           </button>
+
+          <div className="text-[10px] text-center opacity-20 font-black uppercase tracking-[0.4em] text-white mt-2">
+            v10.33.11-CANÒNIC
+          </div>
         </div>
       </div>
 
@@ -271,7 +276,7 @@ const NavigationRail = () => {
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #333; border-radius: 3px; }
       `}</style>
-    </aside>
+    </div>
   );
 };
 

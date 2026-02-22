@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import DOMPurify from 'dompurify';
 
-const uuidRegex = /^([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|[a-z0-9-]+)$/i;
+const uuidRegex = /^([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|[a-z0-9._-]+|[A-Z0-9._-]+)$/i;
 const MASTER_ALLOWED_TAGS = ['h1', 'h2', 'p', 'ul', 'ol', 'li', 'br', 'strong', 'em'];
 const sanitize = (val) => typeof val === 'string' ? DOMPurify.sanitize(val, {
     ALLOWED_TAGS: MASTER_ALLOWED_TAGS,

@@ -46,6 +46,7 @@ export const UIProvider = ({ children }) => {
     const [iaiaSidebarContext, setIaiaSidebarContext] = useState('general');
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
     const [isAccessibilitatOpen, setIsAccessibilitatOpen] = useState(false);
+    const [isInfoOpen, setIsInfoOpen] = useState(false);
     const [chatSettings, setChatSettings] = useState(prefs.chatSettings || { readReceipts: true });
 
     // [MASTER GENT] Lògica de Poble-Nodo (Cyber-Rural)
@@ -255,6 +256,9 @@ export const UIProvider = ({ children }) => {
         isAccessibilitatOpen,
         setIsAccessibilitatOpen,
         toggleAccessibilitat: () => setIsAccessibilitatOpen(prev => !prev),
+        isInfoOpen,
+        setIsInfoOpen,
+        toggleInfo: () => setIsInfoOpen(prev => !prev),
         chatSettings,
         setChatSettings,
         toggleReadReceipts: () => setChatSettings(prev => ({ ...prev, readReceipts: !prev.readReceipts }))
@@ -267,7 +271,7 @@ export const UIProvider = ({ children }) => {
         isTallerOpen, isNotePadOpen, isIAIARoleSelectorOpen, iaiaLevel, architectMode, 
         selectedTown, preferredAgentId, isMagicPregonerOpen, isDrawerOpen, forensicMode, 
         blueprintMode, isGuestInteractionModalOpen, iaiaSidebarOpen, iaiaSidebarContext, 
-        isProfileMenuOpen, isAccessibilitatOpen, chatSettings
+        isProfileMenuOpen, isAccessibilitatOpen, isInfoOpen, chatSettings
     ]);
     return (
         <UIContext.Provider value={value}>

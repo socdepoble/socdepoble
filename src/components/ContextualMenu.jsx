@@ -42,15 +42,15 @@ const ContextualMenu = () => {
         <div className="h-12 w-full bg-black border-b border-white/[0.02] flex items-center sticky top-0 z-[900] select-none">
             {/* ÀREA D'ÍTEMS AMB SCROLL HORITZONTAL */}
             <div className="flex-1 h-full overflow-x-auto no-scrollbar px-4">
-                <div className="flex items-center gap-6 lg:gap-10 h-full min-w-max">
+                <div className="flex items-center gap-8 lg:gap-14 h-full min-w-max">
                     {items.map((item) => (
                         <NavLink
                             key={item.id}
                             to={item.path}
                             className={({ isActive }) => `
-                                relative h-full flex items-center text-[11px] font-black tracking-[0.2em] transition-all
+                                relative h-full flex items-center text-[15px] lg:text-[18px] font-black tracking-[0.25em] transition-all
                                 ${isActive 
-                                    ? 'text-[#FF6B00] after:content-[""] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-[#FF6B00]' 
+                                    ? 'text-[#FF6B00] after:content-[""] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[3px] after:bg-[#FF6B00]' 
                                     : 'text-slate-500 hover:text-white'}
                             `}
                         >
