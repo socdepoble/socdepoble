@@ -15,6 +15,7 @@ const Feed = lazy(() => import('./Feed'));
 const Marketplace = lazy(() => import('./Marketplace'));
 const ProfileView = lazy(() => import('../pages/ProfileView'));
 const Login = lazy(() => import('../pages/Login'));
+const Register = lazy(() => import('../pages/Register'));
 const AdminPanel = lazy(() => import('../pages/AdminPanel'));
 const Towns = lazy(() => import('../pages/Towns'));
 const TownDetail = lazy(() => import('../pages/TownDetail'));
