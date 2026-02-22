@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import {
   MessageSquare,
   LayoutGrid,
@@ -10,34 +11,14 @@ import {
   ChevronRight,
   Cpu,
   Notebook,
+  CreditCard,
 } from "lucide-react";
 import AuditRoleSwitcher from "./AuditRoleSwitcher";
 import { useUI } from "../context/UIContext";
 import { useAuth } from "../context/AuthContext";
 
-const menuGroups = [
-  {
-    id: "base",
-    title: "PILARS DEL MAS",
-    icon: <LayoutGrid className="w-5 h-5" />,
-    items: [
-      { path: "/chats", label: "Xat", icon: <MessageSquare /> },
-      { path: "/mur", label: "Mur", icon: <LayoutGrid /> },
-      { path: "/mercat", label: "Mercat", icon: <Store /> },
-      { path: "/pobles", label: "Pobles", icon: <MapPin /> },
-      { path: "/notes", label: "Notebook", icon: <Notebook />, thinner: true },
-    ],
-  },
-  {
-    id: "sistema_operatiu",
-    title: "SISTEMA OPERATIU",
-    path: "/hub",
-    icon: <Cpu className="w-5 h-5" />,
-    items: [], // Buit a la sidebar, ple al Hub
-  },
-];
-
 const NavigationRail = () => {
+  const { t } = useTranslation();
   const {
     setIsCreateModalOpen,
     closeDrawer,
@@ -45,15 +26,38 @@ const NavigationRail = () => {
   } = useUI();
   const { user, isAdmin } = useAuth();
 
+  const menuGroups = [
+    {
+      id: "base",
+      title: "PILARS DEL MAS",
+      icon: <LayoutGrid className="w-5 h-5" />,
+      items: [
+        { path: "/chats", label: t('nav.chats'), icon: <MessageSquare /> },
+        { path: "/mur", label: t('nav.feed'), icon: <LayoutGrid /> },
+        { path: "/mercat", label: t('nav.market'), icon: <Store /> },
+        { path: "/pobles", label: t('nav.towns'), icon: <MapPin /> },
+        { path: "/notes", label: t('notebook.title'), icon: <Notebook />, thinner: true },
+        { path: "/financament", label: 'Finançament', icon: <CreditCard />, thinner: true },
+      ],
+    },
+    {
+      id: "sistema_operatiu",
+      title: "SISTEMA OPERATIU",
+      path: "/hub",
+      icon: <Cpu className="w-5 h-5" />,
+      items: [], // Buit a la sidebar, ple al Hub
+    },
+  ];
+
   const handleNavClick = () => {
-    if (window.innerWidth < 1024) {
+    if (window.innerWidth < 768) {
       closeDrawer();
     }
   };
 
   return (
     <aside className="w-full h-full flex-shrink-0 flex flex-col bg-theme-sidebar backdrop-blur-3xl border-r border-white/5 z-20 overflow-hidden">
-      <div className="h-16 min-h-[64px] flex items-center justify-between px-6 bg-theme-header shrink-0 border-b border-white/5 lg:hidden">
+      <div className="h-16 min-h-[64px] flex items-center justify-between px-6 bg-theme-header shrink-0 border-b border-white/5 md:hidden">
         <NavLink to="/" onClick={handleNavClick}>
           <img
             src={document.documentElement.classList.contains('light') ? "/assets/master/logo_socdepoble_black_sketch.png" : "/assets/master/logo_socdepoble_white_full.png"}
@@ -63,7 +67,7 @@ const NavigationRail = () => {
         </NavLink>
         <button
           onClick={closeDrawer}
-          className="lg:hidden ml-auto w-10 h-10 flex items-center justify-center text-gray-400 hover:text-white"
+          className="md:hidden ml-auto w-10 h-10 flex items-center justify-center text-gray-400 hover:text-white"
         >
           <X size={24} />
         </button>
@@ -85,7 +89,7 @@ const NavigationRail = () => {
             <Plus size={24} strokeWidth={3} />
           </div>
           <span className="tracking-widest text-[14px] uppercase whitespace-nowrap">
-            AFEGIR
+            {t('common.add_town') || 'AFEGIR'}
           </span>
         </button>
       </div>

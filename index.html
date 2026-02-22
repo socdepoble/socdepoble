@@ -102,6 +102,32 @@
         const _error = console.error;
         console.error = function (...args) {
           if (shouldSilence(args)) return;
+
+          // [PREGONER BATEGAT]
+          if (
+            window.location.hostname === "localhost" ||
+            window.location.hostname === "127.0.0.1"
+          ) {
+            fetch("http://localhost:9001", {
+              method: "POST",
+              mode: "no-cors",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                type: "GLOBAL_CONSOLE_ERROR",
+                error: args
+                  .map((a) =>
+                    typeof a === "object" ? JSON.stringify(a) : String(a),
+                  )
+                  .join(" "),
+                stack: new Error().stack,
+                context: {
+                  url: window.location.href,
+                  timestamp: new Date().toISOString(),
+                },
+              }),
+            }).catch(() => {});
+          }
+
           _error.apply(console, args);
         };
 

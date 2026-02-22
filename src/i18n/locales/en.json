@@ -16,6 +16,8 @@
         "role_grup": "Groups",
         "role_empresa": "Businesses",
         "role_oficial": "Entities",
+        "add_town": "ADD TOWN",
+        "add": "ADD",
         "province": "Province",
         "comarca": "Comarca",
         "unknown": "Unknown"
@@ -25,7 +27,26 @@
         "feed": "Feed",
         "market": "Market",
         "towns": "Towns",
-        "profile": "Profile"
+        "profile": "Profile",
+        "menu": "Menu",
+        "vision_protocol": "Vision Protocol",
+        "archon_console": "Archon Console",
+        "theme_day": "Day Mode",
+        "theme_night": "Night Mode"
+    },
+    "notebook": {
+        "title": "Notebook",
+        "welcome": "Welcome to your Notebook 📓🏺",
+        "new_note": "New Note",
+        "new_list": "New List",
+        "library": "LIBRARY",
+        "new_folder": "New Folder",
+        "empty_folders": "No folders bated yet...",
+        "trellat_title": "TRELLAT (CATEGORIES)",
+        "trash": {
+            "bucket": "Trash",
+            "send_to_trash": "Send to Trash"
+        }
     },
     "chats": {
         "title": "Chats",

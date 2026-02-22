@@ -35,6 +35,7 @@ const OS_CATEGORIES = [
       { id: "ajudes", label: "Ajudes", icon: ShieldCheck, description: "Buscador d'oportunitats i subvencions.", to: "/ajudes" },
       { id: "ofici", label: "Ofici de Doc.", icon: FileText, description: "Documentació tècnica i legal.", to: "/ofici" },
       { id: "dossier", label: "Dossier Socis", icon: Briefcase, description: "La teua tarja de presentació.", to: "/dossier" },
+      { id: "financament", label: "Finançament", icon: Wallet, description: "Patrocini i sostenibilitat del Mas.", to: "/financament" },
     ]
   },
   {
@@ -65,7 +66,7 @@ const OS_CATEGORIES = [
     id: "consola",
     title: "Consola Tècnica",
     description: "Governança profunda i manteniment de la matriu. Sota supervisió del Nano.",
-    image: "/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/nanobanana_comics_v1_1770057850000.png", // [MOCK] Imatge del Nano tipus còmic
+    image: "/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/nanobanana_console_sobirana.png", // Imatge Única Generada pel Nano
     items: [
       { id: "forensic", label: "Mode Forense", icon: Activity, description: "Anàlisi de dades i estats residuals.", type: "toggle", action: "forensic" },
       { id: "blueprint", label: "Mode Plànol", icon: Layers, description: "Visualització de l'arquitectura UI.", type: "toggle", action: "blueprint" },
@@ -121,14 +122,14 @@ const HubView = () => {
                         )}
                     </div>
                     <div className="flex flex-col">
-                        <span className="text-xs font-black uppercase leading-none">{profile?.full_name || 'Sobirà'}</span>
-                        <span className="text-[9px] text-indigo-400 font-black uppercase tracking-widest mt-1">Identitat v10.33</span>
+                        <span className="text-base font-black uppercase leading-none">{profile?.full_name || 'Sobirà'}</span>
+                        <span className="text-sm text-indigo-400 font-black uppercase tracking-widest mt-1">Identitat v10.33</span>
                     </div>
                 </div>
             </header>
 
-            {/* CATEGORIES GRID */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-7xl mx-auto mb-20">
+            {/* CATEGORIES GRID - [ROBUSTESA v1.0] Wide lanes for premium typography */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-7xl mx-auto mb-20 px-6">
                 {OS_CATEGORIES.map(category => (
                     <section key={category.id} className="os-category-block rounded-[40px] bg-white/[0.03] border border-white/10 overflow-hidden flex flex-col group transition-all hover:bg-white/5 shadow-2xl">
                         <div className="relative h-64 overflow-hidden">
@@ -139,8 +140,8 @@ const HubView = () => {
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
                             <div className="absolute bottom-6 left-8 right-8">
-                                <h2 className="text-3xl font-black uppercase tracking-tighter italic mb-2">{category.title}</h2>
-                                <p className="text-xs text-gray-400 font-medium leading-relaxed max-w-xs">{category.description}</p>
+                                <h2 className="text-5xl font-black uppercase tracking-tighter italic mb-4">{category.title}</h2>
+                                <p className="text-2xl text-white font-bold leading-relaxed max-w-2xl">{category.description}</p>
                             </div>
                         </div>
                         
@@ -154,8 +155,8 @@ const HubView = () => {
                                         <div className={`w-10 h-10 flex items-center justify-center rounded-xl transition-colors mb-4 ${isActive ? 'bg-white/20 text-white' : 'bg-white/5 text-indigo-400 group-hover/item:text-white group-hover/item:bg-white/20'}`}>
                                             <item.icon size={20} />
                                         </div>
-                                        <span className="text-sm font-black uppercase tracking-tight mb-1 group-hover/item:text-white transition-colors">{item.label}</span>
-                                        <span className="text-[9px] text-gray-500 font-medium group-hover/item:text-white/70 transition-colors line-clamp-2">{item.description}</span>
+                                        <span className="text-xl font-black uppercase tracking-tight mb-2 group-hover/item:text-white transition-colors">{item.label}</span>
+                                        <span className="text-sm text-gray-200 font-bold group-hover/item:text-white/80 transition-colors line-clamp-2">{item.description}</span>
                                     </>
                                 );
 

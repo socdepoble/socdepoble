@@ -53,3 +53,40 @@ Per minimitzar l'esforç d'aprenentatge de l'usuari final:
 - **Clonatge Estètic:** Si un patró (com el menú d'adjunts) ha estat validat per milions d'usuaris (WhatsApp), el copiarem sense pudor per assegurar una adopció immediata.
 - **Iconografia Canònica:** Utilitzarem colors i formes familiars per a "Arxiu", "Fotos", "Enquesta", etc.
 - **Interfície Predictible:** Prioritzarem que l'usuari se senti "com a casa" per sobre de la innovació gratuïta en fluxos crítics.
+- **Jerarquia d'Accés:** Les opcions més usades mai han de requerir més de 2 clics des del Hub Central.
+
+## 8. Robustesa Visual i Protocol Anti-Desbordament 🛡️🏺
+
+Per evitar que les tipografies grans (v15+) trenquin el layout o generin marcs massa estrets:
+
+- **L'Imponent Paràgraf:** Cap paràgraf (`p`) del sistema pot tenir un tamany inferior a **1.15rem** (~18.5px). Les descripcions de capçalera han de pujar a **2xl** (24px+) per garantir un impacte sobirà.
+- **Marcs Sobirans:** Cap columna de graella (`grid-cols`) ha de baixar de **340px** d'amplada efectiva. S'abusarà del col·lapse a 1 columna per protegir la integritat del text gegant.
+- **Respiració Tipogràfica:** Els paràgrafs grans han de tenir un `line-height` de **1.6** per evitar l'asfíxia visual del bategat textual.
+- **Contenidors Elàstics:** Les targetes (`cards`) no han de tenir `height` fixes; es mouran amb `min-h` per permetre el creixement orgànic de la informació.
+- **Verificació Forensic:** Abans de donar una secció per acabada, s'ha de comprovar amb el **Mode Plànol** que no hi ha "overlap" entre capes tipogràfiques.
+
+## 9. Protocol de Banner Promocional i Presentació 🎭✨
+
+Per a finestres de benvinguda, anuncis o pantalles de promoció:
+
+- **Eixida d'Emergència:** Tot banner ha de tenir un botó de tancament (X) clar, gran (mínim 56x56px) i situat a la zona segura superior dreta. El text "TANCAR" o "OMITIR" és recomanat per a màxima claredat.
+- **Zona de Respiració:** El botó de tancament ha de tenir un `z-index` superior a 50 i estar fora del flux del contingut per evitar clics accidentals.
+- **Contrast Implacable:** Prohibit l'ús de grisos clars sobre blancs o negres suaus. Els banners informatius de Llicència o Promoció han d'utilitzar el **Negre Mestre (#000000)** com a fons per forçar la nitidesa del text blanc.
+- **Protocol "Clic-Fora":** Tota finestra emergent ha de poder ser tancada fent clic a l'overlay de fons (zona buida), reduint la fricció al navegar.
+- **Impacte Tipogràfic:** Els titulars de presentació seguiran la norma **v15** (`text-5xl` i superiors) amb lletra italic i font black.
+
+## 10. Protocol de Navegació Dual (Escriptori/Tauleta vs Mòbil) 🏛️📱
+
+El sistema s'adapta al context d'ús per maximitzar l'accés a la informació:
+
+### 🖥️ Mode Escriptori / Tauleta (>= 768px)
+
+- **Oberta per Defecte:** La sidebar es mostra oberta automàticament en iniciar la sessió per facilitar l'accés universal als Pilars del Mas. S'inclouen tauletes com l'iPad Mini.
+- **Llibertat Total:** L'usuari pot tancar la sidebar en qualsevol moment mitjançant el botó de menú si desitja prioritzar l'espai d'escenari. No és una barra bloquejada.
+- **Menú Inferior Ocult:** Només es mostra quan la sidebar és el recurs principal o l'usuari està en mòbil de mida petita.
+
+### 📱 Mode Mòbil (< 768px)
+
+- **Sidebar Col·lapsada per Defecte:** La sidebar es tanca automàticament per alliberar espai. És accessible mitjançant el botó de menú superior (drawer).
+- **Menú Inferior Canònic (Bottom Nav):** Apareix un menú a la part inferior amb els enllaços principals. Ha de ser sempre visible i amb un z-index superior (`z-[3000]`).
+- **Jerarquia de Sidebar:** El header de la sidebar utilitza el **Negre Mestre** per diferenciar-se clarament de l'escenari.

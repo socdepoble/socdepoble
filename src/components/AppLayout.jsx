@@ -11,13 +11,13 @@ import ErrorBoundary from './ErrorBoundary';
 const ChatLayout = lazy(() => import('../components/ChatLayout'));
 const ChatEmptyState = lazy(() => import('../components/ChatEmptyState'));
 const ChatDetail = lazy(() => import('../components/ChatDetail'));
-const Feed = lazy(() => import('./Feed'));
+import Feed from './Feed';
+import Register from '../pages/Register';
+import Towns from '../pages/Towns';
 const Marketplace = lazy(() => import('./Marketplace'));
 const ProfileView = lazy(() => import('../pages/ProfileView'));
 const Login = lazy(() => import('../pages/Login'));
-const Register = lazy(() => import('../pages/Register'));
 const AdminPanel = lazy(() => import('../pages/AdminPanel'));
-const Towns = lazy(() => import('../pages/Towns'));
 const TownDetail = lazy(() => import('../pages/TownDetail'));
 const ArxiuOr = lazy(() => import('../pages/Archive'));
 const CalendariMaster = lazy(() => import('../pages/MasterCalendar'));
@@ -48,9 +48,9 @@ const MenuManagementView = lazy(() => import('../pages/MenuManagementView'));
 const Utilitats = lazy(() => import('../pages/Utilitats'));
 const Chrome145Report = lazy(() => import('../pages/Chrome145Report'));
 const HubView = lazy(() => import('../pages/HubView'));
+const Financament = lazy(() => import('../pages/Financament'));
 import GlobalFooter from './GlobalFooter';
 import MobileBottomNav from './MobileBottomNav';
-
 import BlueprintOverlay from './BlueprintOverlay';
 
 const ProtectedRoute = ({ children }) => {
@@ -125,7 +125,7 @@ const AppLayout = () => {
     const currentLabel = routeLabels[path] || 'MAIN_VIEWPORT_FLEX';
 
     return (
-        <div className="h-[100dvh] w-full flex flex-col overflow-hidden font-sans bg-theme-base text-theme-text relative max-h-[100dvh]">
+        <div className="h-[100dvh] w-full flex flex-col overflow-hidden font-sans bg-black text-theme-text relative max-h-[100dvh]">
             
             {/* 0. HEADER SOBIRÀ (FULL WIDTH - PROTOCOL v4.0) */}
             {!isMinimal && (
@@ -141,7 +141,7 @@ const AppLayout = () => {
                 {/* 0. OVERLAY MÒBIL (Sombra de fondo) */}
                 {isDrawerOpen && (
                     <div 
-                        className="drawer-backdrop lg:hidden"
+                        className="drawer-backdrop md:hidden"
                         onClick={closeDrawer}
                     />
                 )}
@@ -150,17 +150,17 @@ const AppLayout = () => {
                     <aside className={`
                         h-full flex-shrink-0 transition-all duration-300 ease-in-out overflow-hidden
                         ${isDrawerOpen ? 'w-[280px]' : 'w-0'}
-                        ${isDrawerOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
-                        lg:relative absolute z-50 bg-black/50 lg:bg-transparent
+                        ${isDrawerOpen ? 'translate-x-0' : '-translate-x-full'}
+                        md:relative absolute z-[2000] bg-black/50 md:bg-transparent
                     `}>
-                        <BlueprintOverlay label="SIDEBAR_DYNAMIC" dimensions={isDrawerOpen ? "280px" : "0px"} color="blue" showBackupLink={true}>
+                        <BlueprintOverlay label="SIDEBAR" dimensions={isDrawerOpen ? "280px" : "0px"} color="blue" showBackupLink={true}>
                             <NavigationRail />
                         </BlueprintOverlay>
                     </aside>
                 )}
 
                 {/* 2. MAIN VIEWPORT (EL ESCENARIO) - HABILITEM SCROLL (TABULA RASA) */}
-                <main className={`flex-1 flex flex-col min-w-0 min-h-0 relative bg-theme-base custom-scrollbar transition-all duration-300 ${location.pathname.startsWith('/chats') || location.pathname.startsWith('/gestio-menu') ? 'overflow-hidden' : ''}`}>
+                <main className={`flex-1 flex flex-col min-w-0 min-h-0 relative bg-black custom-scrollbar transition-all duration-300 ${location.pathname.startsWith('/chats') || location.pathname.startsWith('/gestio-menu') ? 'overflow-hidden' : ''}`}>
                     <Suspense fallback={null}>
                         <ContextualMenu />
                     </Suspense>
@@ -192,6 +192,7 @@ const AppLayout = () => {
                                         <Route path="/entitat/:id" element={<ProfileView />} />
                                         <Route path="/login" element={<Login />} />
                                         <Route path="/register" element={<Register />} />
+                                        <Route path="/financament" element={<Financament />} />
                                         <Route path="/ajudes" element={<BuscadorAjudes />} />
                                         
                                         <Route path="/mapa" element={<MapaActius />} />
@@ -242,7 +243,9 @@ const AppLayout = () => {
             <GlobalFooter />
 
             {/* BARRA DE NAVEGACIÓ MÒBIL (BATEGAT v11.3) */}
-            <MobileBottomNav />
+            <div className="relative z-[3000]">
+                <MobileBottomNav />
+            </div>
 
             {/* IAIA CHAT SIDEBAR (DRETA) - GLOBAL & BATEGAT */}
             <Suspense fallback={null}>
@@ -260,7 +263,7 @@ const AppLayout = () => {
 
             {/* MODALE D'EXPLICACIÓ (ARQUITECTE) - REPOSITIONAT PELS FRAMES UNIFICATS */}
             {architectMode && (
-                <div className="fixed inset-0 z-[10000] bg-black/40 backdrop-blur-xl lg:pl-[280px]">
+                <div className="fixed inset-0 z-[10000] bg-black/40 backdrop-blur-xl md:pl-[280px]">
                     <div className="h-full flex flex-col relative animate-slide-up">
                         <Suspense fallback={<NanoLoader message="Obrint el Mapa..." />}>
                             <ArchitecteView />

@@ -59,69 +59,72 @@ const ChatEmptyState = () => {
     }
 
     return (
-        <div className="flex-1 flex flex-col items-center justify-center relative overflow-hidden bg-transparent">
-            {/* Botó per tancar (v10.26.0-CANÒNIC - PROTOCOL SORTIDA D'EMERGÈNCIA) */}
-            <div className="absolute top-6 right-6 z-50">
+        <div className="flex-1 flex flex-col items-center justify-start py-20 relative overflow-y-auto bg-black scrollbar-hide">
+            {/* PROTOCOL SORTIDA D'EMERGÈNCIA - Botó de tancament "sense traumes" */}
+            <div className="absolute top-8 right-8 z-50 flex items-center gap-4">
+                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 hidden md:block">TANCAR PRESENTACIÓ</span>
                 <button 
                     onClick={() => window.location.href = '/'}
-                    className="w-12 h-12 flex items-center justify-center bg-black/20 backdrop-blur-md hover:bg-black/60 text-white rounded-full border border-white/10 shadow-2xl transition-all active:scale-90"
+                    className="w-16 h-16 flex items-center justify-center bg-white/10 backdrop-blur-2xl hover:bg-orange-600 text-white rounded-[24px] border border-white/20 shadow-[0_0_50px_rgba(0,0,0,0.5)] transition-all active:scale-90 group"
+                    title="Tancar i navegar"
                 >
-                    <X size={24} />
+                    <X size={32} className="group-hover:rotate-90 transition-transform duration-500" />
                 </button>
             </div>
+
+            {/* Overlay de tancament per clic extern */}
+            <div 
+                className="absolute inset-0 z-0 cursor-pointer" 
+                onClick={() => window.location.href = '/'}
+                title="Clica per tancar"
+            />
 
             {/* Grid de fons subtil (Protocol v9.1.0) */}
             <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'radial-gradient(circle, #888 1px, transparent 1px)', backgroundSize: '30px 30px' }}></div>
             
-            {/* Logo SP en Box */}
-            <div className={`relative z-10 p-8 rounded-full border-2 ${darkMode ? 'border-white/10' : 'border-black/10'} mb-8 shadow-sm`}>
-                <div className={`border-2 ${darkMode ? 'border-white' : 'border-black'} px-3 py-1 text-3xl font-bold ${colors.textPrimary}`}>
-                    SP
-                </div>
-            </div>
             
-            <h1 className={`relative z-10 text-5xl font-black text-center mb-6 tracking-tighter leading-none ${colors.textPrimary}`}>
-                Sóc de<br/>Poble<br/>per a<br/><span className="text-[#FF6B00]">Web</span>
+            <h1 className={`relative z-10 text-3xl md:text-5xl font-black text-center mb-12 tracking-normal uppercase italic ${colors.textPrimary} leading-none`}>
+                SÓC DE POBLE<br/><span className="text-[#FF6B00]">PER A WEB</span>
             </h1>
             
-            <div className={`relative z-10 text-center max-w-lg mb-10 space-y-4 ${colors.textSecondary}`}>
-                <p className="text-xl font-bold leading-tight italic">
+            <div className={`relative z-10 text-center max-w-4xl mb-16 space-y-10 ${colors.textSecondary}`}>
+                <p className="text-3xl md:text-5xl text-white leading-tight font-black italic">
                     "Connecta amb la teua comunitat. El bategat de la terra en format digital."
                 </p>
-                <p className="text-sm leading-relaxed px-6">
-                    <strong>Sóc de Poble</strong> és un <strong>Sistema Operatiu Rural</strong>. Una eina per a la gent, ajuntaments i negocis KM 0 per a protegir la memòria, dinamitzar l'economia local i bategat amb utilitat social. Envia missatges, connecta amb el mercat i consulta la saviesa de la IAIA.
+                <p className="text-2xl md:text-3xl text-white leading-relaxed px-10 font-bold">
+                    <strong>Sóc de Poble</strong> és un <strong>Sistema Operatiu Rural</strong>. Una eina per a la gent, ajuntaments i negocis KM 0 per a protegir la memòria, dinamitzar l'economia local i bategat amb utilitat social.
                 </p>
             </div>
 
-            {/* ACCIONS AL PEU (RESTAURADES v11.0.1) */}
-            <div className="relative z-10 flex items-center gap-4 mb-10">
-                <button className="flex items-center gap-2 px-6 py-3 bg-[#FF6B00] text-white genesis-radius font-black uppercase text-xs tracking-widest shadow-lg shadow-orange-500/20 hover:scale-105 transition-transform" onClick={() => alert('Bategant Connexió...')}>
-                    <UserPlus size={16} /> Connectar
+            {/* ACCIONS AL PEU - [MASTERY v15] Espaiades i nítides */}
+            <div className="relative z-10 flex flex-wrap items-center justify-center gap-10 mb-20 px-6">
+                <button className="flex items-center gap-4 px-12 py-6 bg-[#FF6B00] text-white rounded-[24px] font-black uppercase text-xl tracking-widest shadow-2xl shadow-[#FF6B00]/50 hover:scale-105 active:scale-95 transition-all w-full md:w-auto" onClick={() => alert('Bategant Connexió...')}>
+                    <UserPlus size={32} /> Connectar amb el Poble
                 </button>
-                <button className={`flex items-center gap-2 px-6 py-3 genesis-radius font-black uppercase text-xs tracking-widest border border-white/10 hover:bg-white/5 transition-colors ${colors.textPrimary}`} onClick={() => alert('Obrint Safareig...')}>
-                    <MessageCircle size={16} /> Comentar
+                <button className={`flex items-center gap-4 px-12 py-6 rounded-[24px] font-black uppercase text-xl tracking-widest bg-white text-black hover:bg-gray-200 transition-all w-full md:w-auto shadow-2xl`} onClick={() => alert('Obrint Safareig...')}>
+                    <MessageCircle size={32} /> Entrar al Safareig
                 </button>
-                <button className={`flex items-center gap-2 px-6 py-3 genesis-radius font-black uppercase text-xs tracking-widest border border-white/10 hover:bg-white/5 transition-colors ${colors.textPrimary}`} onClick={() => {
+                <button className={`flex items-center gap-4 px-12 py-6 rounded-[24px] font-black uppercase text-xl tracking-widest bg-white text-black hover:bg-gray-200 transition-all w-full md:w-auto shadow-2xl`} onClick={() => {
                     const shareData = { title: 'Sóc de Poble', text: 'Connecta amb la teua comunitat.', url: window.location.origin };
                     if (navigator.share) navigator.share(shareData);
                     else alert('Enllaç copiat!');
                 }}>
-                    <Share2 size={16} /> Compartir
+                    <Share2 size={32} /> Compartir Batec
                 </button>
             </div>
             
-            <div className={`relative z-10 p-6 genesis-radius border text-left max-w-sm mt-8 ${darkMode ? 'bg-slate-900/50 border-white/5' : 'bg-white border-black/5 shadow-sm'}`}>
-                <h4 className="font-bold flex items-center gap-2 mb-2 text-[#FF6B00]">
-                    <ShieldCheck size={18} /> Licència Oberta
+            <div className="relative z-10 p-12 rounded-[56px] border-8 text-left max-w-4xl mx-6 mb-24 shadow-[0_0_120px_rgba(255,107,0,0.3)] transition-all bg-black border-[#FF6B00]/30">
+                <h4 className="text-3xl font-black flex items-center gap-4 mb-6 text-[#FF6B00] uppercase tracking-tighter italic">
+                    <ShieldCheck size={36} /> Llicència Oberta
                 </h4>
-                <p className={`text-xs leading-relaxed ${colors.textSecondary}`}>
+                <p className={`text-xl md:text-2xl leading-relaxed font-bold mb-10 text-white`}>
                     Aquest sistema és de codi obert per a ús comunitari i educatiu. L'ús comercial està subjecte a llicència del Mestre. Consulta l'Arquitectura per a més detalls tècnics.
                 </p>
                 <button 
                     onClick={() => window.location.href = '/ofici'}
-                    className="mt-3 text-[10px] font-black uppercase tracking-widest text-[#FF6B00] hover:underline flex items-center gap-1"
+                    className="inline-flex items-center gap-2 px-8 py-4 bg-[#FF6B00]/10 text-[#FF6B00] rounded-full font-black uppercase text-xs tracking-[0.2em] hover:bg-[#FF6B00] hover:text-white transition-all"
                 >
-                    Llegir Condicions i Arquitectura <ArrowRight size={10} />
+                    Llegir Condicions i Arquitectura <ArrowRight size={14} />
                 </button>
             </div>
 

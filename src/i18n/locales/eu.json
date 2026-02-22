@@ -99,10 +99,29 @@
         "profile_notifications": "Jakinarazpenak",
         "notifications": "Jakinarazpenak",
         "add_town": "Herria gehitu",
+        "menu": "Menua",
+        "vision_protocol": "Ikusmen Protokoloa",
+        "archon_console": "Archon Kontsola",
+        "theme_day": "Eguneko Modua",
+        "theme_night": "Gaueko Modua",
         "stats_posts": "Argitalpenak",
         "stats_sales": "Salgai",
         "stats_connections": "Konexioak",
         "my_album": "Nire Albuma"
+    },
+    "notebook": {
+        "title": "Ohar-Blokea",
+        "welcome": "Ongi etorri zure Ohar-Blokera 📓🏺",
+        "new_note": "Ohar Berria",
+        "new_list": "Zerrenda Berria",
+        "library": "LIBURUTEGIA",
+        "new_folder": "Karpeta Berria",
+        "empty_folders": "Ez dago karpetarik sortuta...",
+        "trellat_title": "TRELLAT (KATEGORIAK)",
+        "trash": {
+            "bucket": "Zaborrontzia",
+            "send_to_trash": "Zaborrontzira Bidali"
+        }
     },
     "chats": {
         "title": "Txatak",

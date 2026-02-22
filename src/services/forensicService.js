@@ -22,6 +22,17 @@ class ForensicService {
 
         logger.log('[Forensic] Report bategat al sistema:', newReport.id);
 
+        // [PROTOCOLO PREGONER - BATEGAT AUTOMÀTIC]
+        // Si estem en local, enviem l'error al Pregoner de l'Antigravity
+        if (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
+            fetch('http://localhost:9001', {
+                method: 'POST',
+                mode: 'no-cors', // O CORS si el pregoner ho suporta bé
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newReport)
+            }).catch(() => console.warn('[Forensic] Pregoner no respon. El bategat és local.'));
+        }
+
         // [IAIA ALERT TRIGGER]
         window.dispatchEvent(new CustomEvent('iaia-forensic-alert', { detail: newReport }));
     }

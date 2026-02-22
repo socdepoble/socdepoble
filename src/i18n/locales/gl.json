@@ -101,10 +101,29 @@
         "profile_notifications": "Notificacións",
         "notifications": "Notificacións",
         "add_town": "Engadir pobo",
+        "menu": "Menú",
+        "vision_protocol": "Protocolo de Visión",
+        "archon_console": "Consola Archon",
+        "theme_day": "Modo Día",
+        "theme_night": "Modo Noite",
         "stats_posts": "Publicacións",
         "stats_sales": "En venda",
         "stats_connections": "Conexións",
         "my_album": "O meu Álbum"
+    },
+    "notebook": {
+        "title": "Bloc de Notas",
+        "welcome": "Benvida ao teu Bloc de Notas 📓🏺",
+        "new_note": "Nova Nota",
+        "new_list": "Nova Lista",
+        "library": "BIBLIOTECA",
+        "new_folder": "Nova Carpeta",
+        "empty_folders": "Sen carpetas creadas...",
+        "trellat_title": "TRELLAT (CATEGORÍAS)",
+        "trash": {
+            "bucket": "Papeleira",
+            "send_to_trash": "Enviar á Papeleira"
+        }
     },
     "chats": {
         "title": "Chats",

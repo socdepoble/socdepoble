@@ -6,7 +6,7 @@ const GlobalFooter = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="w-full bg-black/40 backdrop-blur-md border-t border-white/5 py-3 px-6 shrink-0 flex flex-col md:flex-row items-center justify-between text-[10px] uppercase tracking-widest font-bold text-gray-500 hover:text-gray-400 transition-colors">
+    <footer className="w-full bg-black border-t border-white/5 py-3 px-6 shrink-0 flex flex-col md:flex-row items-center justify-between text-[10px] uppercase tracking-widest font-bold text-gray-500 hover:text-gray-400 transition-colors">
       
       {/* AUTORIA */}
       <div className="flex flex-col items-center md:items-start gap-1 mb-2 md:mb-0">

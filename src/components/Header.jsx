@@ -5,6 +5,7 @@ import { useAuth } from "../context/AuthContext";
 import { useUI } from "../context/UIContext";
 import { Menu } from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
+import { useTranslation } from "react-i18next";
 import VisionSelectorModal from "./VisionSelectorModal";
 
 /**
@@ -12,6 +13,7 @@ import VisionSelectorModal from "./VisionSelectorModal";
  * Arquitectura de Ferro: fons adaptatiu, sempre visible i funcional.
  */
 const Header = () => {
+  const { t } = useTranslation();
   const { user, profile } = useAuth();
   const { 
     toggleDrawer, visionMode, setVisionMode, 
@@ -27,7 +29,7 @@ const Header = () => {
           <button 
             onClick={toggleDrawer} 
             className="w-12 h-12 flex items-center justify-center text-slate-400 hover:text-[#FF6B00] transition-colors active:scale-90"
-            aria-label="Menu"
+            aria-label={t('nav.menu')}
           >
             <Menu size={30} strokeWidth={2} />
           </button>
@@ -51,7 +53,7 @@ const Header = () => {
         <button 
           className={`w-12 h-12 flex items-center justify-center transition-all ${visionMode === 'humana' ? 'text-slate-400' : 'text-[#00D2FF] bg-[#00D2FF]/10 rounded-full'}`} 
           onClick={() => setIsIAIARoleSelectorOpen(true)}
-          title="Protocol de Visió"
+          title={t('nav.vision_protocol')}
         >
           <span className={`text-3xl ${visionMode === 'humana' ? "opacity-40" : "animate-pulse"}`}>👁️</span>
         </button>
@@ -60,7 +62,7 @@ const Header = () => {
         <button 
           className={`w-12 h-12 flex items-center justify-center transition-all ${iaiaSidebarOpen ? 'text-fuchsia-400 bg-fuchsia-400/10 rounded-full' : 'text-slate-400 hover:text-fuchsia-400'}`} 
           onClick={toggleIAIASidebar}
-          title="Consola Archon"
+          title={t('nav.archon_console')}
         >
           <span className={`text-3xl ${iaiaSidebarOpen ? "animate-pulse" : ""}`}>🧠</span>
         </button>
@@ -69,7 +71,7 @@ const Header = () => {
         <button 
           className="w-12 h-12 flex items-center justify-center text-slate-400 hover:text-white transition-colors"
           onClick={toggleTheme}
-          title={theme === 'dark' ? 'Mode Dia' : 'Mode Nit'}
+          title={theme === 'dark' ? t('nav.theme_day') : t('nav.theme_night')}
         >
           <span className="text-3xl">{theme === 'dark' ? '☀️' : '🌙'}</span>
         </button>

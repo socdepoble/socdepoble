@@ -11,17 +11,17 @@
   --font-condensed: "Roboto Condensed", sans-serif;
 
   /* M3 ADAPTIVE TOKENS - SÓC DE POBLE OFFICIAL */
-  --color-primary: #F97316; /* Terracotta (Primary) */
+  --color-primary: #f97316; /* Terracotta (Primary) */
   --color-on-primary: #ffffff;
   --color-primary-container: rgba(249, 115, 22, 0.15);
 
-  --color-secondary: #06B6D4; /* Cyan (Secondary) */
+  --color-secondary: #06b6d4; /* Cyan (Secondary) */
   --color-on-secondary: #000000;
   --color-secondary-container: rgba(6, 182, 212, 0.15);
 
-  --color-surface: #1a1b23;
+  --color-surface: #000000;
   --color-on-surface: #ffffff;
-  --color-surface-container: rgba(23, 25, 35, 0.7); /* Standard Glass */
+  --color-surface-container: rgba(0, 0, 0, 0.7); /* Standard Glass */
   --color-outline: rgba(255, 255, 255, 0.08);
 
   --radius-m3-large: 28px;
@@ -46,9 +46,9 @@
 
 :root {
   /* [PROTOCOL GÈNESI v10.26.0 - CANÒNIC] */
-  --bg-app: var(--color-surface);
+  --bg-app: #000000;
   --bg-master: #000000;
-  --bg-panel: var(--color-surface-container);
+  --bg-panel: #000000;
   --bg-sidebar: #000000;
   --text-main: var(--color-on-surface);
   --text-secondary: #9ca3af;
@@ -58,12 +58,12 @@
   /* [MAESTRO RULE] Night/Dark Colors */
   --sdp-black: #000000;
   --sdp-white: #f8fafc; /* Super claro (Off-white) */
-  --sdp-orange: #F97316;
-  --sdp-blue: #06B6D4;
+  --sdp-orange: #f97316;
+  --sdp-blue: #06b6d4;
 
   --bg-theme-base: var(--bg-app);
   --bg-theme-sidebar: #000000;
-  --bg-theme-panel: #0a0a0a;
+  --bg-theme-panel: #000000;
   --text-theme-text: var(--sdp-white);
   --bg-theme-header: #000000;
 }
@@ -75,13 +75,13 @@
   --bg-panel: #ffffff;
   --bg-sidebar: #f2e7d5;
   --text-main: #000000;
-  --text-secondary: #1a1b23;
+  --text-secondary: #000000;
   --text-muted: #4b5563;
   --border-master: rgba(0, 0, 0, 0.1);
 
-  --color-primary: #06B6D4; /* Inversió: Blau com a primari al light? 
+  --color-primary: #06b6d4; /* Inversió: Blau com a primari al light? 
                              O mantenim taronja? El mestre deia invertir taronja-blau. */
-  --color-secondary: #F97316;
+  --color-secondary: #f97316;
 
   --bg-theme-base: var(--bg-app);
   --bg-theme-sidebar: var(--bg-sidebar);
@@ -98,12 +98,16 @@
   background-color: var(--bg-theme-sidebar);
   transition: background-color 0.3s ease;
 }
-.card, .universal-card, .bg-panel, .glass-panel {
+.card,
+.universal-card,
+.bg-panel,
+.glass-panel {
   border-radius: var(--radius-genesis) !important;
   overflow: hidden;
 }
 
-.modal-content, .dialog-panel {
+.modal-content,
+.dialog-panel {
   border-radius: var(--radius-genesis) !important;
 }
 
@@ -141,8 +145,16 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: var(--font-sans);
-  font-size: 1.05rem; /* 17px real - Compensates Roboto Condensed narrowness */
+  font-size: 1.25rem; /* [ACCESSIBILITAT SUPREMA v15] Augmentat per a llegibilitat imponent */
   font-display: swap;
+}
+
+/* [ACCESSIBILITAT MESTRA] Regla global per a paràgrafs bategats */
+p {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  color: inherit;
 }
 
 /* 🧬 ESTRUCTURA SUPREMA (PROTOCOL TABULA RASA v10.30.0) */
@@ -196,103 +208,106 @@ body {
   }
 
   /* [PROTOCOLS DE VISTA v12.1] - ESPECIFICITAT BLINDADA */
-[class*="view-mode-single"] {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  gap: 24px !important;
-  padding: 16px !important;
-  width: 100% !important;
-  max-width: none !important;
-  margin: 0 auto !important;
-}
-
-[class*="view-mode-single"] > * {
-  width: 100% !important;
-  max-width: 600px !important;
-}
-
-[class*="view-mode-grid"] {
-  display: grid !important;
-  grid-template-columns: repeat(2, 1fr) !important;
-  gap: 12px !important;
-  padding: 12px !important;
-  max-width: none !important;
-}
-
-[class*="view-mode-list"] {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 8px !important;
-  padding: 12px !important;
-  max-width: none !important;
-}
-
-/* List Mode Overrides for UniversalCard - Layout Proximitat */
-[class*="view-mode-list"] .universal-card {
-  flex-direction: row !important;
-  height: 120px !important;
-  border-radius: 16px !important;
-}
-
-[class*="view-mode-list"] .card-media-wrapper {
-  width: 120px !important;
-  height: 120px !important;
-  flex-shrink: 0 !important;
-}
-
-[class*="view-mode-list"] .card-body {
-  padding: 8px 12px !important;
-  justify-content: center !important;
-}
-
-[class*="view-mode-list"] .card-header-boina,
-[class*="view-mode-list"] .card-footer-master {
-  display: none !important; /* Compact List View sacrifices boina/footer for density */
-}
-
-.view-mode-list .universal-card .card-header-boina {
-  width: 60px;
-  height: 100% !important;
-  flex-direction: column;
-  padding: 10px 0;
-  border-top-right-radius: 0;
-  border-bottom-left-radius: 16px;
-}
-
-.view-mode-list .universal-card .header-text,
-.view-mode-list .universal-card .header-right-meta {
-  display: none;
-}
-
-.view-mode-list .universal-card .card-media-wrapper {
-  width: 100px;
-  height: 100%;
-  aspect-ratio: 1/1;
-}
-
-.view-mode-list .universal-card .card-body {
-  padding: 8px 12px;
-  justify-content: center;
-}
-
-.view-mode-list .universal-card .card-footer-master {
-  display: none;
-}
-
-.view-mode-list .universal-card .genesis-title {
-  font-size: 16px;
-}
-
-.view-mode-list .universal-card .card-excerpt {
-  display: none;
-}
-
-@media (max-width: 480px) {
-  .view-mode-grid {
-    grid-template-columns: repeat(2, 1fr); /* 2 per fila com demana el mestre en mòbil */
+  [class*="view-mode-single"] {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 24px !important;
+    padding: 16px !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 auto !important;
   }
-}
+
+  [class*="view-mode-single"] > * {
+    width: 100% !important;
+    max-width: 600px !important;
+  }
+
+  [class*="view-mode-grid"] {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+    padding: 12px !important;
+    max-width: none !important;
+  }
+
+  [class*="view-mode-list"] {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+    padding: 12px !important;
+    max-width: none !important;
+  }
+
+  /* List Mode Overrides for UniversalCard - Layout Proximitat */
+  [class*="view-mode-list"] .universal-card {
+    flex-direction: row !important;
+    height: 120px !important;
+    border-radius: 16px !important;
+  }
+
+  [class*="view-mode-list"] .card-media-wrapper {
+    width: 120px !important;
+    height: 120px !important;
+    flex-shrink: 0 !important;
+  }
+
+  [class*="view-mode-list"] .card-body {
+    padding: 8px 12px !important;
+    justify-content: center !important;
+  }
+
+  [class*="view-mode-list"] .card-header-boina,
+  [class*="view-mode-list"] .card-footer-master {
+    display: none !important; /* Compact List View sacrifices boina/footer for density */
+  }
+
+  .view-mode-list .universal-card .card-header-boina {
+    width: 60px;
+    height: 100% !important;
+    flex-direction: column;
+    padding: 10px 0;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 16px;
+  }
+
+  .view-mode-list .universal-card .header-text,
+  .view-mode-list .universal-card .header-right-meta {
+    display: none;
+  }
+
+  .view-mode-list .universal-card .card-media-wrapper {
+    width: 100px;
+    height: 100%;
+    aspect-ratio: 1/1;
+  }
+
+  .view-mode-list .universal-card .card-body {
+    padding: 8px 12px;
+    justify-content: center;
+  }
+
+  .view-mode-list .universal-card .card-footer-master {
+    display: none;
+  }
+
+  .view-mode-list .universal-card .genesis-title {
+    font-size: 16px;
+  }
+
+  .view-mode-list .universal-card .card-excerpt {
+    display: none;
+  }
+
+  @media (max-width: 480px) {
+    .view-mode-grid {
+      grid-template-columns: repeat(
+        2,
+        1fr
+      ); /* 2 per fila com demana el mestre en mòbil */
+    }
+  }
 
   @keyframes fade-in {
     from {
@@ -395,46 +410,46 @@ body {
 
 /* [NOTION-DYNAMICS] Folder styling for high-accessibility organization */
 .notion-folder {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    padding: 24px;
-    background: #ffffff;
-    border: 1px solid rgba(0,0,0,0.05);
-    border-radius: 16px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 16px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
 }
 
 .notion-folder:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 24px rgba(0,0,0,0.08);
-    border-color: rgba(255, 107, 0, 0.2);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+  border-color: rgba(255, 107, 0, 0.2);
 }
 
 .notion-folder .folder-icon {
-    font-size: 32px;
-    color: #FF6B00;
-    margin-bottom: 4px;
+  font-size: 32px;
+  color: #ff6b00;
+  margin-bottom: 4px;
 }
 
 .notion-folder .folder-title {
-    font-size: 18px;
-    font-weight: 800;
-    color: #0f172a;
-    letter-spacing: -0.02em;
+  font-size: 18px;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.02em;
 }
 
 .notion-folder .folder-description {
-    font-size: 14px;
-    color: #64748b;
-    line-height: 1.5;
+  font-size: 1.1rem;
+  color: #64748b;
+  line-height: 1.5;
 }
 
 /* [NOTION-GRID] 28px geometry inspired grid */
 .notion-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 28px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 28px;
 }

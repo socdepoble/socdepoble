@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Folder, FolderPlus, Tag, ChevronRight, ChevronDown, Plus, Trash2, Edit2, Search } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const NotebookSidebar = ({ 
     folders, 
@@ -11,6 +12,7 @@ const NotebookSidebar = ({
     activeCategory,
     onSelectCategory
 }) => {
+    const { t } = useTranslation();
     const [expandedFolders, setExpandedFolders] = useState({});
 
     const toggleExpand = (id, e) => {
@@ -58,11 +60,11 @@ const NotebookSidebar = ({
     return (
         <div className="notebook-sidebar w-64 h-full bg-[#0a0a0a] border-r border-white/5 flex flex-col p-4">
             <header className="flex items-center justify-between mb-6 px-2">
-                <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500">BIBLIOTECA</h3>
+                <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500">{t('notebook.library') || 'BIBLIOTECA'}</h3>
                 <button 
                     onClick={() => onAddFolder(activeFolder)}
                     className="p-1.5 hover:bg-white/5 rounded-lg text-orange-500 transition-all active:scale-90"
-                    title="Nova Subcarpeta"
+                    title={t('notebook.new_folder') || 'Nova Carpeta'}
                 >
                     <FolderPlus size={16} />
                 </button>
@@ -71,7 +73,7 @@ const NotebookSidebar = ({
             <div className="flex-1 overflow-y-auto custom-scrollbar space-y-1">
                 {rootFolders.map(folder => renderFolder(folder))}
                 {rootFolders.length === 0 && (
-                    <p className="text-[10px] text-center opacity-20 py-4 italic font-bold">Cap carpeta bategada...</p>
+                    <p className="text-[10px] text-center opacity-20 py-4 italic font-bold">{t('notebook.empty_folders') || 'Cap carpeta bategada...'}</p>
                 )}
                 
                 <div className="mt-4 pt-4 border-t border-white/5 opacity-60">
@@ -80,14 +82,14 @@ const NotebookSidebar = ({
                         onClick={() => onSelectFolder('trash')}
                     >
                         <Trash2 size={14} />
-                        <span className="text-[11px] font-black uppercase tracking-wider">Papelera</span>
+                        <span className="text-[11px] font-black uppercase tracking-wider">{t('notebook.trash.bucket')}</span>
                     </div>
                 </div>
             </div>
 
             <div className="mt-8 border-t border-white/5 pt-6">
                 <header className="flex items-center justify-between mb-4 px-2">
-                    <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500">TRELLAT (CATEGORIES)</h3>
+                    <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500">{t('notebook.trellat_title') || 'TRELLAT'}</h3>
                 </header>
                 <div className="space-y-1">
                     {categories.map(cat => (
@@ -97,7 +99,7 @@ const NotebookSidebar = ({
                             onClick={() => onSelectCategory(cat)}
                         >
                             <Tag size={14} />
-                            <span className="text-[11px] font-black uppercase tracking-wider">{cat}</span>
+                            <span className="text-[11px] font-black uppercase tracking-wider">{t(`notebook.categories.${cat.toLowerCase()}`) || cat}</span>
                         </div>
                     ))}
                 </div>

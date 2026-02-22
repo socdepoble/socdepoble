@@ -38,7 +38,7 @@ export const UIProvider = ({ children }) => {
     const [iaiaLevel, setIaiaLevel] = useState(prefs.iaiaLevel || 0);
     const [architectMode, setArchitectMode] = useState(false);
     const [isMagicPregonerOpen, setIsMagicPregonerOpen] = useState(false);
-    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    const [isDrawerOpen, setIsDrawerOpen] = useState(window.innerWidth >= 768);
     const [forensicMode, setForensicMode] = useState(false);
     const [blueprintMode, setBlueprintMode] = useState(prefs.blueprintMode || false);
     const [isGuestInteractionModalOpen, setIsGuestInteractionModalOpen] = useState(false);
