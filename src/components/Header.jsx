@@ -34,7 +34,7 @@ const Header = () => {
           
           <NavLink 
             to="/" 
-            className="flex items-center active:scale-95 transition-transform ml-2 lg:ml-4"
+            className="flex items-center active:scale-95 transition-transform"
           >
               <img 
                 src="/assets/master/logo_socdepoble_white_full.png" 
