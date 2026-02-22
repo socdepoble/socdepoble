@@ -19,25 +19,38 @@
     />
 
     <script>
-      // [BATEGAT RESCUE] Si hi ha un error de càrrega d'assets crítics, forcem neteja i reload.
-      window.addEventListener(
-        "error",
-        function (e) {
+      // [BATEGAT RESCUE v10.33.2] Purga nuclear de cache i fantasmes.
+      (function() {
+        const CURRENT_V = "v10.33.3-CANÒNIC";
+        const savedV = localStorage.getItem('sp_app_version');
+        
+        if (savedV && savedV !== CURRENT_V) {
+          console.warn("[PURGA] Versió ancestral detectada. Iniciant protocol nuclear...");
+          localStorage.clear();
+          sessionStorage.clear();
+          
+          if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(regs => {
+              for(let reg of regs) reg.unregister();
+            });
+          }
+          
+          localStorage.setItem('sp_app_version', CURRENT_V);
+          setTimeout(() => { window.location.reload(true); }, 500);
+        } else if (!savedV) {
+          localStorage.setItem('sp_app_version', CURRENT_V);
+        }
+
+        window.addEventListener("error", function (e) {
           if (e.target.tagName === "LINK" || e.target.tagName === "SCRIPT") {
-            console.error(
-              "[PURGA] Error de càrrega d'asset:",
-              e.target.src || e.target.href,
-            );
+            console.error("[PURGA] Error d'asset:", e.target.src || e.target.href);
             if (!window.__RELOADING__) {
               window.__RELOADING__ = true;
-              setTimeout(() => {
-                window.location.reload(true);
-              }, 1000);
+              setTimeout(() => { window.location.reload(true); }, 1000);
             }
           }
-        },
-        true,
-      );
+        }, true);
+      })();
     </script>
 
     <!-- Open Graph / Facebook / WhatsApp -->
@@ -219,15 +232,15 @@
         outline: 1px solid rgba(249, 115, 22, 0.1) !important;
       }
     </style>
-    <meta name="sp-version" content="v10.33.2-CANÒNIC" />
-    <meta name="build-timestamp" content="2026-02-22T02:46:00+01:00" />
-    <title>Sóc de Poble | El Sistema Operatiu Rural v10.33.2</title>
-    <script type="module" crossorigin src="/assets/index-B-6qsmbo.js"></script>
+    <meta name="sp-version" content="v10.33.3-CANÒNIC" />
+    <meta name="build-timestamp" content="2026-02-22T02:58:00+01:00" />
+    <title>Sóc de Poble | El Sistema Operatiu Rural v10.33.3</title>
+    <script type="module" crossorigin src="/assets/index-DPn3Jz_b.js"></script>
     <link rel="modulepreload" crossorigin href="/assets/vendor-CLNmR7b8.js">
     <link rel="modulepreload" crossorigin href="/assets/data-CywEAasM.js">
     <link rel="modulepreload" crossorigin href="/assets/utils-BKcWam9E.js">
     <link rel="modulepreload" crossorigin href="/assets/ui-LZNjilA_.js">
-    <link rel="stylesheet" crossorigin href="/assets/index-w7qr03bo.css">
+    <link rel="stylesheet" crossorigin href="/assets/index-BzUbdq-o.css">
   </head>
   <body>
     <!-- Hidden H1 for SEO -->

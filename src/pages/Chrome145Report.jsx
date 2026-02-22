@@ -66,7 +66,7 @@ const Chrome145Report = () => {
                     </button>
                     <div>
                         <h1 className="text-3xl font-black uppercase tracking-tighter">Informe de Rendiment 145</h1>
-                        <p className="text-slate-400 font-medium">Auditoria Sobirana [v10.26.0]</p>
+                        <p className="text-slate-400 font-medium">Auditoria Sobirana [v10.33.2]</p>
                     </div>
                 </div>
                 <div className="flex items-center gap-2 px-4 py-2 bg-emerald-500/10 text-emerald-400 rounded-full border border-emerald-500/20">

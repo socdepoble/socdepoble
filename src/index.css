@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* 🏺 SÓC DE POBLE: LA BÍBLIA VISUAL v10.26.0-CANÒNIC [PROTOCOL NOTO]
+/* 🏺 SÓC DE POBLE: LA BÍBLIA VISUAL v10.33.2-CANÒNIC [PROTOCOL NOTO]
    Aquest fitxer és el ciment únic. 
 */
 
@@ -357,7 +357,7 @@ p {
   scrollbar-width: none;
 }
 
-/* 📜 BÍBLIA: TACTILE GEOMETRY (GEOMETRIA DEL TACTE v10.26.0-CANÒNIC) */
+/* 📜 BÍBLIA: TACTILE GEOMETRY (GEOMETRIA DEL TACTE v10.33.2-CANÒNIC) */
 .tactile-target {
   min-height: var(--touch-target);
   min-width: var(--touch-target);

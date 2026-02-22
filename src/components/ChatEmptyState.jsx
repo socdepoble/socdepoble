@@ -45,7 +45,7 @@ const ChatEmptyState = () => {
 
                     <div className="mt-10 pt-6 border-t border-white/5 flex items-center justify-between">
                         <span className="text-[10px] font-black uppercase text-gray-500 flex items-center gap-2">
-                            <ShieldCheck size={14} /> Protocol 1er Mandament v10.26.0-CANÒNIC
+                            <ShieldCheck size={14} /> Protocol 1er Mandament v10.33.2-CANÒNIC
                         </span>
                         <div className="flex gap-1">
                             <div className="w-2 h-2 rounded-full bg-orange-600 animate-pulse"></div>
@@ -130,7 +130,7 @@ const ChatEmptyState = () => {
 
             <div className="mt-12 flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] opacity-40 font-black text-gray-500">
                 <Settings size={12} /> 
-                <span>Xifrat d'Extrem a Extrem | v10.26.0-CANÒNIC</span>
+                <span>Xifrat d'Extrem a Extrem | v10.33.2-CANÒNIC</span>
             </div>
         </div>
     );
