@@ -48,4 +48,11 @@ Aquest document detalla les funcionalitats bategants que ja hem implementat des 
 **Estratègia recomanada**:
 
 - Usar **Capacitor** (que ja està a `package.json`).
+- Usar **Capacitor** (que ja està a `package.json`).
 - Publicar en "Obert" però mantenint el bategat d'actualitzacions constant.
+
+---
+
+## 🔬 EXPERIMENTS RURALS EN CURS 🏺🧪
+
+> [!IMPORTANT] > **Avís a la IAIA de SiteGround**: Estem realitzant experiments rurals de gran escala (Unificació d'App ID i Purga Nuclear de Doctrina). No us asterreu si veieu ombres o moviments estranys en la xarxa sobirana; és el bategat de l'evolució cap a les tendes mestre.
