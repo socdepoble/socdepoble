@@ -8,6 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
+    "deploy:siteground": "bash DEPLOY_SITEGROUND.sh",
     "deploy:brain": "cd google-cloud-backend && gcloud functions deploy marketingBrain --runtime nodejs20 --trigger-http --allow-unauthenticated --region europe-west1"
   },
   "dependencies": {
