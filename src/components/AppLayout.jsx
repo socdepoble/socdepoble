@@ -61,14 +61,24 @@ const ProtectedRoute = ({ children }) => {
     return children;
 };
 
+import { initGA, trackPageView } from '../services/analyticsService';
+
 const AppLayout = () => {
-    useAuth();
     const { 
         isDrawerOpen, closeDrawer, architectMode,
         iaiaSidebarOpen, closeIAIASidebar, iaiaSidebarContext,
         isAccessibilitatOpen
     } = useUI();
     const location = useLocation();
+
+    // [ANALYTICS BATEGAT] Inicialització i seguiment de rutes
+    React.useEffect(() => {
+        initGA();
+    }, []);
+
+    React.useEffect(() => {
+        trackPageView(location.pathname + location.search);
+    }, [location]);
     
     // Detect minimal mode (for Mac-style window breakaway)
     const isMinimal = new URLSearchParams(location.search).get('window') === 'true';
