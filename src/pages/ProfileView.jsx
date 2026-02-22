@@ -256,7 +256,7 @@ const ProfileView = () => {
                         </span>
                     )}
                     <span className={`px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-[0.2em] border ${isMaster ? 'bg-indigo-500/20 text-indigo-400 border-indigo-500/30' : (isCompany ? 'bg-indigo-600/20 text-indigo-300 border-indigo-500/30' : (isAutonomous ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' : 'bg-orange-500/20 text-orange-400 border-orange-500/30'))}`}>
-                        {isMaster ? 'MESTRE BATEGANT' : (isCompany ? 'EMPRESA VERIFICADA' : (isAutonomous ? 'PÀGINA D\'AUTÒNOM' : (profile?.role === 'vei' || profile?.role === 'neighbor' ? 'SÓC DE POBLE' : (profile?.role?.toUpperCase() || 'SÓC DE POBLE'))))}
+                        {isMaster ? 'MESTRE BATEGANT' : (id === 'el-rentonar' ? 'ASSOCIACIÓ VERIFICADA' : (isCompany ? 'EMPRESA VERIFICADA' : (isAutonomous ? 'PÀGINA D\'AUTÒNOM' : (profile?.role === 'vei' || profile?.role === 'neighbor' ? 'SÓC DE POBLE' : (profile?.role?.toUpperCase() || 'SÓC DE POBLE')))))}
                     </span>
                 </div>
                 
