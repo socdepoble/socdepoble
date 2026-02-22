@@ -31,6 +31,7 @@ Del blog https://rentonar.blogspot.com/ extraemos estos valores clave:
 > "Este modelo de despliegue masivo está convirtiendo regiones poco pobladas en 'territorios de sacrificio', perpetuando el desequilibrio histórico que ha provocado la despoblación"
 
 **Sóc de Poble** es la respuesta digital a este problema:
+
 - No es una red social más, es una **herramienta de cohesión territorial**
 - Conecta pueblos pequeños entre sí, no con grandes ciudades
 - Prioriza lo local: productos, noticias, eventos del territorio
@@ -45,7 +46,7 @@ Del blog https://rentonar.blogspot.com/ extraemos estos valores clave:
 graph TD
     User[Usuario] -->|Navegador| App[React SPA]
     App -->|Vite Build| Static[Archivos Estáticos]
-    Static -->|Deploy| Vercel[Vercel Hosting]
+    Static -->|Deploy| SiteGround[SiteGround Hosting]
     App -->|API Calls| Supabase[Supabase Backend]
     Supabase -->|PostgreSQL| DB[(Base de Datos)]
     Supabase -->|Realtime| WS[WebSocket Chat]
@@ -53,6 +54,7 @@ graph TD
 ```
 
 **Frontend:**
+
 - **React 19** - Biblioteca UI
 - **Vite 7** - Build tool ultrarrápido
 - **React Router 7** - Navegación SPA
@@ -61,6 +63,7 @@ graph TD
 - **Vanilla CSS** - Estilado con variables CSS
 
 **Backend:**
+
 - **Supabase** - Backend as a Service
   - PostgreSQL (base de datos)
   - Row Level Security (RLS)
@@ -68,8 +71,9 @@ graph TD
   - Auth (registro/login)
 
 **Deployment:**
-- **Vercel** - Hosting con CI/CD desde GitHub
-- **GitHub** - Control de versiones
+
+- **SiteGround** - Hosting Canònic del Mestre (via GitHub Sync)
+- **GitHub** - Control de versions i Xarxa Rhizome
 
 ### Estructura de Carpetas
 
@@ -109,17 +113,17 @@ graph TD
 
 ### 1. **Layout Inmutable con Excepciones**
 
-> [!IMPORTANT]
-> **Regla de Oro #1**: El Layout (Header + Navigation) es INMUTABLE en todas las pantallas, excepto en casos específicos donde se usa `position: absolute`.
+> [!IMPORTANT] > **Regla de Oro #1**: El Layout (Header + Navigation) es INMUTABLE en todas las pantallas, excepto en casos específicos donde se usa `position: absolute`.
 
 **Estructura:**
+
 ```jsx
 <BrowserRouter>
-  <Header />  {/* Fuera del Layout, siempre visible */}
+  <Header /> {/* Fuera del Layout, siempre visible */}
   <Routes>
     <Route path="/" element={<Layout />}>
       <Route path="chats" element={<ChatList />} />
-      <Route path="chats/:id" element={<ChatDetail />} />  {/* Excepción */}
+      <Route path="chats/:id" element={<ChatDetail />} /> {/* Excepción */}
       <Route path="mur" element={<Feed />} />
       <Route path="mercat" element={<Market />} />
     </Route>
@@ -133,12 +137,12 @@ graph TD
 
 ```css
 .chat-detail-container {
-    position: absolute;
-    top: 60px;  /* Debajo del Header */
-    left: 0;
-    right: 0;
-    height: calc(100vh - 60px);
-    z-index: 2000;  /* Por encima del Navigation */
+  position: absolute;
+  top: 60px; /* Debajo del Header */
+  left: 0;
+  right: 0;
+  height: calc(100vh - 60px);
+  z-index: 2000; /* Por encima del Navigation */
 }
 ```
 
@@ -148,13 +152,14 @@ Toda la lógica de Supabase está abstraída en `supabaseService.js`:
 
 ```javascript
 // ❌ MAL - Llamar directamente a Supabase en componentes
-const { data } = await supabase.from('posts').select('*');
+const { data } = await supabase.from("posts").select("*");
 
 // ✅ BIEN - Usar el servicio
 const posts = await supabaseService.getPosts();
 ```
 
 **Ventajas:**
+
 - Cambiar backend sin tocar componentes
 - Lógica de negocio centralizada
 - Fácil testing y debugging
@@ -162,6 +167,7 @@ const posts = await supabaseService.getPosts();
 ### 3. **Context para Estado Global**
 
 `AppContext` gestiona:
+
 - `user` - Usuario autenticado (Supabase Auth)
 - `profile` - Perfil del usuario (tabla profiles)
 - `language` - Idioma actual
@@ -176,13 +182,13 @@ const { user, profile, language, toggleLanguage } = useAppContext();
 ```javascript
 // En AppContext.jsx
 const setupDemo = () => {
-    setUser({ id: 'test-user-id', email: 'vei@socdepoble.net' });
-    setProfile({
-        id: 'test-user-id',
-        full_name: 'Javi Llinares',
-        username: 'javillinares',
-        role: 'vei'
-    });
+  setUser({ id: "test-user-id", email: "vei@socdepoble.net" });
+  setProfile({
+    id: "test-user-id",
+    full_name: "Javi Llinares",
+    username: "javillinares",
+    role: "vei",
+  });
 };
 ```
 
@@ -195,6 +201,7 @@ Permite desarrollar sin autenticación real.
 ### Concepto
 
 Un usuario puede publicar como:
+
 1. **Él mismo** (rol: `gent`)
 2. **Un grupo** que gestiona (rol: `grup`)
 3. **Una empresa** que gestiona (rol: `empresa`)
@@ -229,12 +236,13 @@ ALTER TABLE posts ADD COLUMN author_role TEXT; -- 'gent', 'grup', 'empresa', 'of
 
 ```jsx
 <EntitySelector
-    currentIdentity={selectedIdentity}
-    onSelectIdentity={setSelectedIdentity}
+  currentIdentity={selectedIdentity}
+  onSelectIdentity={setSelectedIdentity}
 />
 ```
 
 Muestra un dropdown con:
+
 - Tu perfil personal
 - Todas las entidades que gestionas
 
@@ -254,13 +262,14 @@ graph LR
 
 ```jsx
 <CategoryTabs
-    selectedRole={selectedRole}
-    onSelectRole={setSelectedRole}
-    exclude={['oficial']}  // Opcional: excluir categorías
+  selectedRole={selectedRole}
+  onSelectRole={setSelectedRole}
+  exclude={["oficial"]} // Opcional: excluir categorías
 />
 ```
 
 Tabs disponibles:
+
 - **Tot** - Todo el contenido
 - **Gent** - Solo personas
 - **Grups** - Solo grupos
@@ -302,16 +311,14 @@ Tabs disponibles:
 
 ```jsx
 const { t } = useTranslation();
-<h1>{t('feed.title')}</h1>
+<h1>{t("feed.title")}</h1>;
 ```
 
 ### Cambio de Idioma
 
 ```jsx
 const { toggleLanguage } = useAppContext();
-<button onClick={toggleLanguage}>
-    {language.toUpperCase()}
-</button>
+<button onClick={toggleLanguage}>{language.toUpperCase()}</button>;
 ```
 
 Cicla entre: VA → ES → GL → EU → EN → VA
@@ -325,6 +332,7 @@ Cicla entre: VA → ES → GL → EU → EN → VA
 > El Header y Navigation son **sagrados**. Solo `ChatDetail` puede usar `position: absolute` para ocultarlos.
 
 **Antes de modificar cualquier componente de página:**
+
 1. ¿Necesita ocupar toda la pantalla?
 2. Si NO → Debe respetar el Layout
 3. Si SÍ → Usar `position: absolute` con `top: 60px` y `z-index: 2000`
@@ -334,6 +342,7 @@ Cicla entre: VA → ES → GL → EU → EN → VA
 > Nunca llamar directamente a `supabase.from()` en componentes.
 
 **Siempre:**
+
 ```javascript
 // supabaseService.js
 async getPosts(roleFilter = 'tot') {
@@ -365,11 +374,11 @@ async getPosts(roleFilter = 'tot') {
 
 ```jsx
 <CreatePostModal>
-    <EntitySelector
-        currentIdentity={selectedIdentity}
-        onSelectIdentity={setSelectedIdentity}
-    />
-    <textarea />
+  <EntitySelector
+    currentIdentity={selectedIdentity}
+    onSelectIdentity={setSelectedIdentity}
+  />
+  <textarea />
 </CreatePostModal>
 ```
 
@@ -398,24 +407,24 @@ CREATE TABLE towns (...);  -- Error si ya existe
 ```css
 /* index.css */
 :root {
-    --color-primary: #E07A5F;
-    --color-secondary: #81B29A;
-    --spacing-md: 16px;
-    --radius-md: 12px;
+  --color-primary: #e07a5f;
+  --color-secondary: #81b29a;
+  --spacing-md: 16px;
+  --radius-md: 12px;
 }
 
 /* ✅ BIEN */
 .button {
-    background-color: var(--color-primary);
-    padding: var(--spacing-md);
-    border-radius: var(--radius-md);
+  background-color: var(--color-primary);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
 }
 
 /* ❌ MAL */
 .button {
-    background-color: #E07A5F;
-    padding: 16px;
-    border-radius: 12px;
+  background-color: #e07a5f;
+  padding: 16px;
+  border-radius: 12px;
 }
 ```
 

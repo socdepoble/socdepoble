@@ -22,7 +22,7 @@ Abans de revisar qualsevol línia de codi, l'auditor ha de llegir el document [S
 ### 3. Deute Tècnic i Escalabilitat "Rural"
 
 - [ ] El codi és capaç de sobreviure a una actualització mestre sense perdre la versió local de la dada?
-- [ ] Veus algun acoblament (coupling) excessiu que impediria portar el nucli de l'app a una forja totalment independent de GitHub/Vercel?
+- [ ] Veus algun acoblament (coupling) excessiu que impediria portar el nucli de l'app a una forja totalment independent de GitHub/SiteGround?
 
 ## 🚫 Límits de Suggeriment
 

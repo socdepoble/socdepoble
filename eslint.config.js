@@ -9,7 +9,6 @@ export default defineConfig([
     "dist/**",
     "android/**",
     "ios/**",
-    ".vercel/**",
     "node_modules/**",
     "public/assets/**",
     "**/.DS_Store",
