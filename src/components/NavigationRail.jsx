@@ -12,6 +12,7 @@ import {
   Cpu,
   Notebook,
   CreditCard,
+  Copyright,
 } from "lucide-react";
 import AuditRoleSwitcher from "./AuditRoleSwitcher";
 import { useUI } from "../context/UIContext";
@@ -216,29 +217,29 @@ const NavigationRail = () => {
           
           <button 
             onClick={() => setIsInfoOpen(!isInfoOpen)}
-            className="flex items-center gap-3 px-6 py-3 rounded-full bg-white/10 border-2 border-white/20 text-[14px] font-black uppercase tracking-[0.2em] text-white hover:bg-primary hover:border-white transition-all shadow-xl active:scale-95"
+            className="flex items-center gap-4 px-8 py-4 rounded-full bg-white/15 border-2 border-white/30 text-[18px] font-black uppercase tracking-[0.3em] text-white hover:bg-primary hover:border-white transition-all shadow-2xl active:scale-90"
           >
             <span>Info legal</span>
-            <ChevronRight size={18} className={`transition-transform duration-300 ${isInfoOpen ? 'rotate-90' : ''}`} strokeWidth={3} />
+            <ChevronRight size={24} className={`transition-transform duration-300 ${isInfoOpen ? 'rotate-90' : ''}`} strokeWidth={4} />
           </button>
         </div>
 
         {isInfoOpen && (
-          <div className="bg-white/[0.06] border-2 border-white/20 rounded-[40px] p-8 space-y-8 animate-in fade-in zoom-in-95 slide-in-from-bottom-6 duration-500 shadow-[0_0_100px_rgba(0,0,0,0.8)]">
-            <p className="leading-tight text-white font-black uppercase tracking-tighter text-center space-y-6">
-              <span className="flex items-center justify-center gap-3 text-3xl mb-6">
-                <Copyright size={32} className="text-primary" strokeWidth={3} />
+          <div className="bg-white/[0.08] border-2 border-white/30 rounded-[48px] p-10 space-y-10 animate-in fade-in zoom-in-95 slide-in-from-bottom-8 duration-500 shadow-[0_0_150px_rgba(0,0,0,0.9)]">
+            <p className="leading-tight text-white font-black uppercase tracking-tighter text-center space-y-8">
+              <span className="flex items-center justify-center gap-4 text-4xl mb-8">
+                <Copyright size={40} className="text-primary" strokeWidth={4} />
                 2026 SÓC DE POBLE
               </span>
               
-              <NavLink to="/perfil/el-rentonar" className="block p-6 rounded-[32px] bg-white/5 border-2 border-white/10 hover:bg-white/10 hover:border-primary transition-all group">
-                <span className="block text-2xl mb-2 group-hover:text-primary transition-colors italic">Associació El Rentonar</span>
-                <span className="block text-[14px] opacity-50 font-medium tracking-[0.3em]">CIF G-03967668</span>
+              <NavLink to="/perfil/el-rentonar" className="block p-8 rounded-[40px] bg-white/5 border-2 border-white/15 hover:bg-white/15 hover:border-primary transition-all group scale-105">
+                <span className="block text-3xl mb-2 group-hover:text-primary transition-colors italic">Associació El Rentonar</span>
+                <span className="block text-[16px] opacity-60 font-medium tracking-[0.4em]">CIF G-03967668</span>
               </NavLink>
               
-              <div className="pt-4">
-                <span className="block text-[12px] opacity-40 mb-3 tracking-[0.4em]">DIRECCIÓ I COORDINACIÓ</span>
-                <NavLink to="/perfil/d6325f44-7277-4d20-b020-166c010995ab" className="block text-3xl text-primary hover:text-white transition-colors italic font-black">
+              <div className="pt-6">
+                <span className="block text-[14px] opacity-50 mb-4 tracking-[0.5em]">DIRECCIÓ I COORDINACIÓ</span>
+                <NavLink to="/perfil/d6325f44-7277-4d20-b020-166c010995ab" className="block text-4xl text-primary hover:text-white transition-colors italic font-black hover:scale-110 transition-transform">
                   Javi Llinares
                 </NavLink>
               </div>
