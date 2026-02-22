@@ -97,4 +97,4 @@ Aquesta és la regla d'or suprema per a qualsevol contingut visual o textual:
 
 - **Sempre amb Marca:** Tota imatge generada, asset visual o contingut promocional HA DE PORTAR el logo oficial de **Sóc de Poble**. La marca és el nostre bategat i mai s'ha d'ometre.
 - **Heroisme Visual:** El logo ha de ser clar, preferiblement en blanc radiant sobre fons negre o textures rurals premium (pedra, fusta, llum d'alba).
-- **Consistència Doctrinària:** Qualsevol experiment rural o "Nano-merch" ha de passar pel filtre del Segell del Mas abans de ser exhibit a la xarxa Rhizome.
+- **Consistència Doctrinària (L'Efecte Nano):** Qualsevol experiment rural, carrusel de fotos o producte de "merch" (com el del **Nano Banana**) ha de portar el segell mestre per blindar la nostra autoritat al territori.
