@@ -12,7 +12,7 @@ import {
   Cpu,
   Notebook,
   CreditCard,
-  Copyright,
+  Scale,
 } from "lucide-react";
 import AuditRoleSwitcher from "./AuditRoleSwitcher";
 import { useUI } from "../context/UIContext";
@@ -214,7 +214,7 @@ const NavigationRail = () => {
           <div className="bg-white/[0.08] border-2 border-white/30 rounded-[40px] p-8 space-y-8 animate-in fade-in zoom-in-95 slide-in-from-bottom-8 duration-500 shadow-[0_0_150px_rgba(0,0,0,0.9)] overflow-hidden">
             <div className="leading-tight text-white font-black uppercase tracking-tighter text-center space-y-6">
               <span className="flex items-center justify-center gap-3 text-2xl md:text-3xl mb-4">
-                <Copyright size={32} className="text-primary" strokeWidth={4} />
+                <Scale size={32} className="text-primary" strokeWidth={4} />
                 2026 SÓC DE POBLE
               </span>
               
@@ -254,7 +254,10 @@ const NavigationRail = () => {
           </div>
           
           <button 
-            onClick={() => setIsInfoOpen(!isInfoOpen)}
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsInfoOpen(!isInfoOpen);
+            }}
             className="flex items-center gap-4 px-8 py-4 rounded-full bg-white/15 border-2 border-white/30 text-[18px] font-black uppercase tracking-[0.3em] text-white hover:bg-primary hover:border-white transition-all shadow-2xl active:scale-90"
           >
             <span>Info legal</span>
