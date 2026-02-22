@@ -180,7 +180,7 @@ const ProfilePowerMenu = () => {
                 </div>
 
                 <footer className="power-footer">
-                    <div className="footer-v">v10.27.0-MINIMALISM</div>
+                    <div className="footer-v">v10.33.3-CANÒNIC</div>
                     <div className="archon-status flex items-center gap-2">
                         <Brain size={12} className="text-fuchsia-500" />
                         <span>ARCHON CONNECTED</span>

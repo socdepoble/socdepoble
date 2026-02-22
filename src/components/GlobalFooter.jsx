@@ -16,9 +16,9 @@ const GlobalFooter = () => {
           <span className="opacity-30">|</span>
           <span className="text-primary/70">Javi Llinares</span>
         </div>
-        <div className="text-[8px] opacity-40 font-normal tracking-normal uppercase">
+        <NavLink to="/perfil/el-rentonar" className="text-[8px] opacity-40 font-bold tracking-normal uppercase hover:opacity-100 hover:text-primary transition-all">
           Associació Cultural El Rentonar · CIF G-03967668
-        </div>
+        </NavLink>
       </div>
 
       {/* ENLLAÇOS LEGenericS */}
@@ -52,7 +52,7 @@ const GlobalFooter = () => {
 
       {/* VERSION SHORTHAND */}
       <div className="hidden lg:block opacity-20 hover:opacity-100 transition-opacity">
-        v10.26.1-CANONIC
+        v10.33.3-CANÒNIC
       </div>
     </footer>
   );
