@@ -209,46 +209,32 @@ const NavigationRail = () => {
         ))}
       </div>
 
-      <div className="p-4 mt-auto border-t border-white/10 bg-transparent shrink-0 space-y-3">
-        <div className="flex flex-col items-center gap-2">
-          <div className="text-[10px] text-center opacity-40 font-black uppercase tracking-[0.3em] text-white">
-            v10.33.4-CANÒNIC
-          </div>
-          
-          <button 
-            onClick={() => setIsInfoOpen(!isInfoOpen)}
-            className="flex items-center gap-4 px-8 py-4 rounded-full bg-white/15 border-2 border-white/30 text-[18px] font-black uppercase tracking-[0.3em] text-white hover:bg-primary hover:border-white transition-all shadow-2xl active:scale-90"
-          >
-            <span>Info legal</span>
-            <ChevronRight size={24} className={`transition-transform duration-300 ${isInfoOpen ? 'rotate-90' : ''}`} strokeWidth={4} />
-          </button>
-        </div>
-
+      <div className="p-4 mt-auto border-t border-white/10 bg-transparent shrink-0 flex flex-col gap-3">
         {isInfoOpen && (
-          <div className="bg-white/[0.08] border-2 border-white/30 rounded-[48px] p-10 space-y-10 animate-in fade-in zoom-in-95 slide-in-from-bottom-8 duration-500 shadow-[0_0_150px_rgba(0,0,0,0.9)]">
-            <p className="leading-tight text-white font-black uppercase tracking-tighter text-center space-y-8">
-              <span className="flex items-center justify-center gap-4 text-4xl mb-8">
-                <Copyright size={40} className="text-primary" strokeWidth={4} />
+          <div className="bg-white/[0.08] border-2 border-white/30 rounded-[40px] p-8 space-y-8 animate-in fade-in zoom-in-95 slide-in-from-bottom-8 duration-500 shadow-[0_0_150px_rgba(0,0,0,0.9)] overflow-hidden">
+            <div className="leading-tight text-white font-black uppercase tracking-tighter text-center space-y-6">
+              <span className="flex items-center justify-center gap-3 text-2xl md:text-3xl mb-4">
+                <Copyright size={32} className="text-primary" strokeWidth={4} />
                 2026 SÓC DE POBLE
               </span>
               
-              <NavLink to="/perfil/el-rentonar" className="block p-8 rounded-[40px] bg-white/5 border-2 border-white/15 hover:bg-white/15 hover:border-primary transition-all group scale-105">
-                <span className="block text-3xl mb-2 group-hover:text-primary transition-colors italic">Associació El Rentonar</span>
-                <span className="block text-[16px] opacity-60 font-medium tracking-[0.4em]">CIF G-03967668</span>
+              <NavLink to="/perfil/el-rentonar" onClick={handleNavClick} className="block p-6 rounded-[32px] bg-white/5 border-2 border-white/15 hover:bg-white/15 hover:border-primary transition-all group active:scale-95">
+                <span className="block text-xl md:text-2xl mb-1 group-hover:text-primary transition-colors italic">Associació El Rentonar</span>
+                <span className="block text-[14px] opacity-60 font-medium tracking-[0.3em]">CIF G-03967668</span>
               </NavLink>
               
-              <div className="pt-6">
-                <span className="block text-[14px] opacity-50 mb-4 tracking-[0.5em]">DIRECCIÓ I COORDINACIÓ</span>
-                <NavLink to="/perfil/d6325f44-7277-4d20-b020-166c010995ab" className="block text-4xl text-primary hover:text-white transition-colors italic font-black hover:scale-110 transition-transform">
+              <div className="pt-4 border-t border-white/5">
+                <span className="block text-[12px] opacity-40 mb-2 tracking-[0.4em]">DIRECCIÓ I COORDINACIÓ</span>
+                <NavLink to="/perfil/d6325f44-7277-4d20-b020-166c010995ab" onClick={handleNavClick} className="block text-2xl md:text-3xl text-primary hover:text-white transition-all italic font-black hover:scale-105">
                   Javi Llinares
                 </NavLink>
               </div>
-            </p>
+            </div>
             
             <div className="flex flex-col gap-3 pt-4 border-t border-white/10 text-center">
               <div className="flex justify-center gap-6 text-[11px] font-black tracking-widest opacity-60">
-                <NavLink to="/legal" className="hover:text-white hover:opacity-100 transition-all">AVÍS LEGAL</NavLink>
-                <NavLink to="/legal#cookies" className="hover:text-white hover:opacity-100 transition-all">COOKIES</NavLink>
+                <NavLink to="/legal" onClick={handleNavClick} className="hover:text-white hover:opacity-100 transition-all">AVÍS LEGAL</NavLink>
+                <NavLink to="/legal#cookies" onClick={handleNavClick} className="hover:text-white hover:opacity-100 transition-all">COOKIES</NavLink>
               </div>
               <a 
                 href="https://socdepoble.org" 
@@ -261,6 +247,20 @@ const NavigationRail = () => {
             </div>
           </div>
         )}
+
+        <div className="flex flex-col items-center gap-2">
+          <div className="text-[10px] text-center opacity-40 font-black uppercase tracking-[0.3em] text-white">
+            v10.33.6-CANÒNIC
+          </div>
+          
+          <button 
+            onClick={() => setIsInfoOpen(!isInfoOpen)}
+            className="flex items-center gap-4 px-8 py-4 rounded-full bg-white/15 border-2 border-white/30 text-[18px] font-black uppercase tracking-[0.3em] text-white hover:bg-primary hover:border-white transition-all shadow-2xl active:scale-90"
+          >
+            <span>Info legal</span>
+            <ChevronRight size={24} className={`transition-transform duration-300 ${isInfoOpen ? 'rotate-90' : ''}`} strokeWidth={4} />
+          </button>
+        </div>
       </div>
 
       <style>{`

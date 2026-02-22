@@ -1,4 +1,4 @@
-package com.socdepoble.app;
+package org.socdepoble.app;
 
 import com.getcapacitor.BridgeActivity;
 
