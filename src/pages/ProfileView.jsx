@@ -50,7 +50,7 @@ const ProfileView = () => {
     const displayAvatar = isMaster ? '/Javi_Llinares-Foto_perfil-1.jpg' : (profile?.avatar_url || null);
     
     const isAutonomous = profile?.type === 'autonomo' || profile?.role === 'autonomo';
-    const isCompany = profile?.type === ENTITY_TYPES.BUSINESS || profile?.role === 'business' || id === 'sdp-oficial-1';
+    const isCompany = profile?.type === ENTITY_TYPES.BUSINESS || profile?.role === 'business' || id === 'sdp-oficial-1' || id === 'el-rentonar';
 
     const handleUpdateIdentity = async (value, type) => {
         if (!isOwnProfile) return;

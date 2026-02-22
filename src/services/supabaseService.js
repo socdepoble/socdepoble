@@ -351,7 +351,7 @@ const activeChecks = {
 const SYSTEM_ENTITIES = [
     {
         id: 'sdp-oficial-1',
-        name: 'Sóc de Poble (Oficial)',
+        full_name: 'Sóc de Poble (Oficial)',
         type: 'empresa',
         town_name: 'Global',
         description: 'La plataforma de connexió rural definitiva. Gent, terra i xarxa. Connectem pobles, persones i territori a través de la tecnologia i la identitat.',
@@ -362,8 +362,20 @@ const SYSTEM_ENTITIES = [
         created_at: '2025-01-01T00:00:00Z'
     },
     {
+        id: 'el-rentonar',
+        full_name: 'Associació Cultural El Rentonar',
+        type: 'empresa',
+        town_name: 'La Torre de les Maçanes',
+        description: 'Entitat gestora de Sóc de Poble i custòdia de la tradició i identitat de La Torre de les Maçanes. Treballem per la memòria viva i la sobirania tecnològica rural. CIF G-03967668.',
+        avatar_url: '/assets/master/logo_socdepoble_green_square.png',
+        cover_url: '/images/campaign/rustic_detail.png',
+        category: 'Cultura i Tradició',
+        is_active: true,
+        created_at: '2025-01-01T00:00:00Z'
+    },
+    {
         id: '11111111-1a1a-0000-0000-000000000000',
-        name: 'IAIA (Guia del Poble)',
+        full_name: 'IAIA (Guia del Poble)',
         type: 'oficial',
         town_name: 'Sóc de Poble',
         description: 'Assistència virtual i guia de la comunitat. Soc la teua acompanyant digital per a tot el que necessites al poble.',
@@ -374,7 +386,7 @@ const SYSTEM_ENTITIES = [
     },
     {
         id: 'fa82eb62-4a83-4ff7-b2d6-8849673fc3b0',
-        name: 'Damià Llorens (Perit)',
+        full_name: 'Damià Llorens (Perit)',
         type: 'persona',
         town_name: 'Global',
         description: 'Fundador de Sóc de Poble. Dissenyant el futur de la connexió rural viva.',
@@ -386,7 +398,7 @@ const SYSTEM_ENTITIES = [
     },
     {
         id: 'a11ac111-eec1-4111-b111-000000000013',
-        name: 'Anna Climent',
+        full_name: 'Anna Climent',
         type: 'persona',
         town_name: 'Ibi / Global',
         description: 'Biòloga, arquitecta i professora. Experta en nutrició saludable i sostenibilitat rural.',
