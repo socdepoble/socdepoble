@@ -171,7 +171,7 @@ const ChatList = () => {
                         ${location.pathname.includes(chat.id) ? 'active' : ''} chat-item ${chat.tag === 'IAIA' ? 'iaia-agent' : ''}`}
                     >
                         {chat.tag && (
-                            <span className="absolute top-2 right-[3px] bg-black text-[#FF6B00] text-[12px] px-5 py-1.5 rounded border border-[#FF6B00]/40 font-black tracking-tighter uppercase shadow-2xl leading-none z-10">
+                            <span className="absolute top-2 right-[1px] bg-black text-[#FF6B00] text-[12px] px-5 py-1.5 rounded border border-[#FF6B00]/40 font-black tracking-tighter uppercase shadow-2xl leading-none z-10">
                                 {chat.tag}
                             </span>
                         )}
