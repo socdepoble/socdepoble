@@ -31,10 +31,10 @@
   --radius-genesis: var(--radius-m3-large);
   --radius-tactile: var(--radius-m3-small);
 
-  --spacing-header: 64px;
+  --spacing-header: 56px;
   --spacing-sidebar: 280px;
 
-  --touch-target: 48px;
+  --touch-target: 44px;
 
   /* Gradients Canònics v15 */
   --gradient-bategat: linear-gradient(
@@ -212,8 +212,8 @@ p {
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
-    gap: 24px !important;
-    padding: 16px !important;
+    gap: 16px !important;
+    padding: 12px !important;
     width: 100% !important;
     max-width: none !important;
     margin: 0 auto !important;
@@ -308,23 +308,39 @@ p {
       ); /* 2 per fila com demana el mestre en mòbil */
     }
   }
-
 }
 
 /* 🧬 ANIMACIONS CANÒNIQUES (BATEGAT UNIVERSAL) */
 @keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slide-up {
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 @keyframes pulse-soft {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.8; transform: scale(0.98); }
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(0.98);
+  }
 }
 
 .animate-in.fade-in {
@@ -412,8 +428,8 @@ p {
 
 /* [MASTER CANONIC BUTTONS] Design System GEM MODERN v1.0 */
 .master-button-canonic {
-  height: 48px !important;
-  border-radius: 24px !important;
+  height: 44px !important;
+  border-radius: 22px !important;
   font-weight: 900 !important;
   letter-spacing: 0.05em !important;
   text-transform: uppercase !important;

@@ -10,27 +10,14 @@ import Avatar from './Avatar';
 import TownSelectorModal from './TownSelectorModal';
 import { useUI } from '../context/UIContext';
 import ContextualHeader from './ContextualHeader';
+import { AGENTS, IAIA_MARIA_ID, LORE_AGENT_IDS } from '../constants/agents';
 import './ChatList.css';
-
-const AGENTS = [
-    { id: '11111111-1111-4111-a111-000000000000', name: 'IAIA MarIA', role: 'Governança Rural Digital', avatar_url: '/assets/avatars/iaia_official.png', last_message_time: new Date(), last_message_content: 'Benvingut al xat del poble.', tag: 'MASTER', color: 'bg-orange-100 text-orange-600' },
-    { id: '11111111-1111-4111-a111-000000000003', name: 'Vicent Ferris', role: 'Enginyer del Camp', avatar_url: '/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/vicent_ferris_tia_style_1770057456428.png', last_message_time: new Date(), last_message_content: 'L\'horta bategua amb força!', tag: 'AGRICULTURA', color: 'bg-green-100 text-green-600' },
-    { id: '11111111-1111-4111-a111-000000000004', name: 'Pepica la Vall', role: 'Sobirania Alimentària', avatar_url: '/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/pepica_tia_style_1770057472277.png', last_message_time: new Date(), last_message_content: 'Ací no es tira res!', tag: 'CULTURA', color: 'bg-orange-50 text-orange-500' },
-    { id: '11111111-1111-4111-a111-000000000009', name: 'Andreu Soler', role: 'Gestor de Projectes', avatar_url: '/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/andreu_tia_style_1770057709875.png', last_message_time: new Date(), last_message_content: 'Planificació bategant...', tag: 'GESTIÓ', color: 'bg-blue-100 text-blue-600' },
-    { id: '11111111-1111-4111-a111-000000000008', name: 'Joan Batiste', role: 'Secretari Notarial', avatar_url: '/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/joan_tia_style_1770057725757.png', last_message_time: new Date(), last_message_content: 'Papers en ordre, bategat segur.', tag: 'GESTIÓ', color: 'bg-gray-100 text-gray-600' },
-    { id: '11111111-0000-0000-0000-000000000001', name: 'Super Ratolí', role: 'Arxiver Digital', avatar_url: '/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/super_ratoli_tia_style_1770057904274.png', last_message_time: new Date(), last_message_content: 'No obliden vitaminar-se!', tag: 'TECNOLOGIA', color: 'bg-yellow-100 text-yellow-600' },
-    { id: '11111111-1111-4111-a111-000000000006', name: 'Sultan', role: 'Seguretat i Identitat', avatar_url: '/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/sultan_tia_style_1770057487451.png', last_message_time: new Date(), last_message_content: 'Guardià del DID.', tag: 'TECNOLOGIA', color: 'bg-slate-100 text-slate-600' },
-    { id: '11111111-1a1a-0001-0000-000000000011', name: 'La Mixa', role: 'Exploradora P2P', avatar_url: '/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/mixa_tia_style_1770057756276.png', last_message_time: new Date(), last_message_content: 'Sincronia bategant...', tag: 'TECNOLOGIA', color: 'bg-pink-100 text-pink-600' },
-    { id: '11111111-1a1a-0001-0000-000000000012', name: 'El Gall', role: 'Comunicació i Pregó', avatar_url: '/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/gall_tia_style_1770057773537.png', last_message_time: new Date(), last_message_content: 'Alerta push bategant!', tag: 'GESTIÓ', color: 'bg-red-100 text-red-600' },
-    { id: '11111111-1111-4111-a111-000000000007', name: 'Nano Banana', role: 'Mestre d\'Estètica', avatar_url: '/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/nanobanana_tia_style_1770057831273.png', last_message_time: new Date(), last_message_content: 'Tot bonic amb Zero Radius.', tag: 'CULTURA', color: 'bg-yellow-50 text-yellow-500' },
-    { id: '11111111-1111-4111-a111-000000000013', name: 'El Viatjant', role: 'Ambaixador i Connexió', avatar_url: '/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/viatjant_tia_style_1770057860995.png', last_message_time: new Date(), last_message_content: 'Connectant pobles.', tag: 'CULTURA', color: 'bg-purple-100 text-purple-600' },
-    { id: '11111111-1111-4111-a111-000000000014', name: 'Beatriz Ortega', role: 'Dinamitzadora Educativa', avatar_url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Beatriz', last_message_time: new Date(), last_message_content: 'Formació i joventut.', tag: 'CULTURA', color: 'bg-indigo-100 text-indigo-600' },
-    { id: '11111111-1111-4111-a111-000000000015', name: 'Carla Soriano', role: 'Benestar i Sanitat', avatar_url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Carla', last_message_time: new Date(), last_message_content: 'Salut rural i prevenció.', tag: 'GESTIÓ', color: 'bg-teal-100 text-teal-600' }
-];
 
 const ChatList = () => {
     const { user, isSuperAdmin } = useAuth();
-    const { visionMode } = useUI();
+    const { 
+        visionMode, iaiaLevel, enabledAgentIds
+    } = useUI();
     const location = useLocation();
     const navigate = useNavigate();
     
@@ -46,14 +33,35 @@ const ChatList = () => {
                 // Injecció Híbrida: Combinem missatges reals amb l'equip d'Agents IAIA
                 let hybridChats = [...(dbConvs || [])];
                 
-                // [XAT/GENT] Ens assegurem que els agents bateguen si el mode bategat està actiu
-                // [MASTER IDENTITY PROTECTION]
+                // [XAT/GENT] Protocol de Visió Granular (v10.33.20)
+                // 0: Humana (Sense agents)
+                // 1: IAIA (Lore i Tradició)
+                // Protocol de Visió Granular (v10.33.20)
                 const isMasterByEmail = user?.email?.includes('javillinares');
-                // [DIRECTIVA MESTRE] Sempre mostrar agents si no s'especifica el contrari o si és un Foraster/Mestre
-                const showAgents = visionMode !== 'humana' || isSuperAdmin || isMasterByEmail || !user?.id || user?.isAnonymous;
+                
+                const activeLevel0 = iaiaLevel === 0;
+                const activeLevel1 = iaiaLevel === 1;
+                const activeLevel2 = iaiaLevel === 2 || (!iaiaLevel && iaiaLevel !== 0);
+
+                // IDs d'Agents per Nivells
+                const LORE_AGENTS_IDS = [
+                    '11111111-1111-4111-a111-000000000000', // IAIA MarIA
+                    '11111111-1111-4111-a111-000000000003', // Vicent Ferris
+                    '11111111-1111-4111-a111-000000000004', // Pepica la Vall
+                    '11111111-1111-4111-a111-000000000009', // Andreu Soler
+                    '11111111-1111-4111-a111-000000000008', // Joan Batiste
+                    '11111111-1111-4111-a111-000000000014', // Beatriz Ortega
+                    '11111111-1111-4111-a111-000000000015'  // Carla Soriano
+                ];
+
+                const showAgents = !activeLevel0 || isSuperAdmin || isMasterByEmail;
 
                 if (showAgents) {
-                    const activeAgents = AGENTS; 
+                    const activeAgents = AGENTS.filter(agent => {
+                        if (isSuperAdmin || isMasterByEmail) return true;
+                        return enabledAgentIds.includes(agent.id);
+                    });
+
                     activeAgents.forEach(agent => {
                         if (!hybridChats.find(c => c.id === agent.id || c.other_info?.id === agent.id)) {
                              hybridChats.push({
@@ -67,8 +75,9 @@ const ChatList = () => {
                     });
                 }
                 
-                // [VISION MODE FILTER] Purga de fantasmes en xat real
-                if (visionMode === 'humana' && !isSuperAdmin && !isMasterByEmail) {
+                // [VISION MODE FILTER] Purga de fantasmes en xat real segons nivell
+                if (activeLevel0 && !isSuperAdmin && !isMasterByEmail) {
+                    // Purga total d'agents en el xat real també
                     hybridChats = hybridChats.filter(chat => {
                         const name = String(chat.other_info?.name || '').toUpperCase();
                         const isAI = chat.id?.startsWith('11111111-') || 
@@ -79,6 +88,14 @@ const ChatList = () => {
                                      name.includes('VIATJANT');
                         return !isAI;
                     });
+                } else if ((activeLevel1 || activeLevel2) && !isSuperAdmin && !isMasterByEmail) {
+                    // Protocol V4: Filtram per enabledAgentIds
+                    hybridChats = hybridChats.filter(chat => {
+                        const id = chat.id || chat.other_info?.id;
+                        const isAI = id?.startsWith('11111111-');
+                        if (!isAI) return true;
+                        return enabledAgentIds.includes(id);
+                    });
                 }
                 
                 setChats(hybridChats);
@@ -86,19 +103,41 @@ const ChatList = () => {
                 if (import.meta.env.DEV) {
                     console.error('[ChatList] Error fetching chats:', err);
                 }
-                // Fallback a agents si falla la xarxa
-                const fallback = (visionMode === 'iaia' || isSuperAdmin) ? AGENTS.map(a => ({
+                
+                // Redefining scoped variables for fallback
+                const isMasterByEmailFallback = user?.email?.includes('javillinares');
+                const LORE_AGENTS_IDS_FALLBACK = [
+                    '11111111-1111-4111-a111-000000000000', // IAIA MarIA
+                    '11111111-1111-4111-a111-000000000003', // Vicent Ferris
+                    '11111111-1111-4111-a111-000000000004', // Pepica la Vall
+                    '11111111-1111-4111-a111-000000000009', // Andreu Soler
+                    '11111111-1111-4111-a111-000000000008', // Joan Batiste
+                    '11111111-1111-4111-a111-000000000014', // Beatriz Ortega
+                    '11111111-1111-4111-a111-000000000015'  // Carla Soriano
+                ];
+
+                // Fallback a agents segons nivell
+                const fallbackAgents = AGENTS.filter(agent => {
+                    const isGuestFB = !user?.id || user?.isAnonymous;
+                    const lv2FB = iaiaLevel === 2 || isGuestFB || (!iaiaLevel && iaiaLevel !== 0);
+                    const lv1FB = (iaiaLevel === 1) && !isGuestFB;
+
+                    if (isSuperAdmin || isMasterByEmailFallback || lv2FB) return true;
+                    if (lv1FB) return LORE_AGENTS_IDS_FALLBACK.includes(agent.id);
+                    return false;
+                });
+                
+                setChats(fallbackAgents.map(a => ({
                     id: a.id,
                     other_info: { name: a.name, avatar_url: a.avatar_url, role: a.role },
                     last_message_content: a.last_message_content,
                     last_message_time: a.last_message_time,
                     tag: a.tag
-                })) : [];
-                setChats(fallback);
+                })));
             }
         };
         fetchChats();
-    }, [user?.id, user?.email, user?.isAnonymous, visionMode, isSuperAdmin]);
+    }, [user?.id, user?.email, user?.isAnonymous, iaiaLevel, enabledAgentIds, isSuperAdmin, visionMode]);
 
     const filteredChats = useMemo(() => {
         if (!searchTerm) return chats;
@@ -141,7 +180,7 @@ const ChatList = () => {
             <div className="chat-list-scanlines" />
 
             {/* HEADER CANÒNIC (RESTAURAT I REFINAT) */}
-            <header className="h-24 flex flex-col justify-center px-6 bg-black border-b border-white/5 relative z-10 shrink-0">
+            <header className="h-[60px] flex flex-col justify-center px-4 bg-black border-b border-white/5 relative z-10 shrink-0">
                 <div className="relative group w-full">
                     <Search size={22} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-[#FF6B00] transition-colors" />
                     <input 
@@ -149,7 +188,7 @@ const ChatList = () => {
                         placeholder="CERCA UN BATEGAT..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full h-14 bg-white/5 border border-white/10 rounded-2xl pl-14 pr-6 text-lg font-black text-white focus:outline-none focus:border-[#FF6B00]/40 focus:bg-white/10 transition-all placeholder:text-gray-700 uppercase tracking-widest"
+                        className="w-full h-10 bg-white/5 border border-white/10 rounded-xl pl-12 pr-4 text-sm font-black text-white focus:outline-none focus:border-[#FF6B00]/40 focus:bg-white/10 transition-all placeholder:text-gray-700 uppercase tracking-widest"
                     />
                 </div>
             </header>
@@ -160,7 +199,7 @@ const ChatList = () => {
                     <div 
                         key={chat.id} 
                         onClick={() => handleChatClick(chat)}
-                        className={`flex items-center space-x-4 p-4 border-b border-gray-800/40 cursor-pointer transition-all relative
+                        className={`flex items-start space-x-3 py-2 px-4 border-b border-gray-800/20 cursor-pointer transition-all relative
                         ${location.pathname.includes(chat.id) ? 'active' : ''} chat-item ${chat.tag === 'IAIA' ? 'iaia-agent' : ''}`}
                     >
                         {chat.tag && (
@@ -173,25 +212,26 @@ const ChatList = () => {
                                 src={chat.other_info?.avatar_url} 
                                 name={chat.other_info?.name} 
                                 role={chat.other_info?.role}
-                                size={64} 
+                                size={56} 
                             />
                         </div>
-                        <div className="flex-1 min-w-0 flex flex-col justify-between py-0.5 ml-2">
-                            <div className="flex justify-between items-start mb-1">
-                                <h3 className="font-bold text-[22px] text-white truncate pr-2 group-hover:text-[#FF6B00] transition-colors flex-1 tracking-tight">
+                        {/* [REFINAMENT v10.33.15] Text centrat verticalment respecte a l'avatar gran (Baixat exactament +9px des de pt-2 per harmonia total) */}
+                        <div className="flex-1 min-w-0 flex flex-col justify-start ml-2 pt-[17px]">
+                            <div className="flex justify-between items-center mb-0.5">
+                                <h3 className="font-bold text-[17px] text-white truncate pr-2 group-hover:text-[#FF6B00] transition-colors flex-1 tracking-tight m-0 leading-tight">
                                     {chat.other_info?.name || (chat.participant_2_id === user?.id ? chat.p1_info?.name : chat.p2_info?.name) || 'Foraster'}
                                 </h3>
                             </div>
-                            <div className="flex justify-between items-end gap-3">
-                                <p className="text-[18px] text-gray-500 truncate leading-tight flex-1 opacity-80 font-medium">
+                            <div className="flex justify-between items-center gap-3">
+                                <p className="text-[14px] text-gray-500 truncate leading-none flex-1 opacity-80 font-medium m-0">
                                     {chat.last_message_content || 'Bategant amb Sóc de Poble...'}
                                 </p>
-                                <div className="flex flex-col items-end shrink-0 leading-none pb-1">
+                                <div className="flex flex-col items-end shrink-0 leading-none">
                                     {(() => {
                                         const { day, time } = formatBategatDate(chat.last_message_time);
                                         return (
                                             <>
-                                                <span className="text-[12px] text-[#FF6B00] font-black uppercase tracking-tighter mb-1">{day}</span>
+                                                <span className="text-[11px] text-[#FF6B00] font-black uppercase tracking-tighter mb-0.5">{day}</span>
                                                 <span className="text-[13px] text-gray-500 font-bold">{time}</span>
                                             </>
                                         );

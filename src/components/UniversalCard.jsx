@@ -37,12 +37,13 @@ const UniversalCard = ({
     excerpt,
     images,
     isOfficial: forcedOfficial = false,
-    forensicMode: forcedForensic = false
+    forensicMode: forcedForensic = false,
+    viewMode = "grid"
 }) => {
     const [hasImageError, setHasImageError] = useState(false);
     const cardVariant = variant || mode;
     const { t } = useTranslation();
-    const { gloveMode, openViewer, forensicMode: contextForensic, setIsGuestInteractionModalOpen, openConnectionModal } = useUI();
+    const { gloveMode, openViewer, forensicMode: contextForensic, openConnectionModal } = useUI();
     const isForensic = forcedForensic || contextForensic;
     const { isAdmin, user } = useAuth();
     const navigate = useNavigate();
@@ -100,7 +101,7 @@ const UniversalCard = ({
 
         // [PROTOCOL COMUNITAT OBERTA v11.2.0] Blindatge de Convidat
         if (user?.isAnonymous) {
-            setIsGuestInteractionModalOpen(true);
+            navigate('/registre?returnTo=' + encodeURIComponent(window.location.pathname));
             return;
         }
 
@@ -115,11 +116,61 @@ const UniversalCard = ({
 
     const CardContent = (
         <article
-            className={`universal-card card-variant-${cardVariant} ${className} ${isBating ? 'animate-bategat' : ''} ${gloveMode ? 'mode-guants' : ''} ${isOfficial ? 'role-official' : ''} ${isAlert ? 'category-danger alert-active' : ''} ${isSostenible ? 'category-sostenible' : ''} ${isForensic ? 'mode-forense-active' : ''}`}
+            className={`universal-card card-variant-${cardVariant} view-mode-${viewMode} ${className} ${isBating ? 'animate-bategat' : ''} ${gloveMode ? 'mode-guants' : ''} ${isOfficial ? 'role-official' : ''} ${isAlert ? 'category-danger alert-active' : ''} ${isSostenible ? 'category-sostenible' : ''} ${isForensic ? 'mode-forense-active' : ''}`}
             onClick={handleCardClick}
             style={{ cursor: (cardVariant === 'pobles' || cardVariant === 'event' || cardVariant === 'mapa') ? 'pointer' : 'default' }}
         >
-            {/* HEADER: BOINA TARONJA (NEXUS v6.0) - FIXED 64px NAVIGATION */}
+            {viewMode === 'list' ? (
+                /* LIST MODE: PROTOCOL DE PROXIMITAT COMPACTE */
+                <div className="card-list-layout h-20 flex items-center px-4 gap-3">
+                    <Avatar
+                        src={avatarSrc || item?.author_avatar || item?.logo_url || item?.author?.avatar_url}
+                        name={displayAuthor}
+                        role={avatarRole || item?.author_role}
+                        size="sm"
+                        className="flex-shrink-0"
+                    />
+                    
+                    {/* PRODUCT THUMBNAIL (Llei del Mestre) */}
+                    <div className="card-list-thumbnail flex-shrink-0 w-12 h-12 rounded-xl overflow-hidden bg-white/10 border border-white/5">
+                        {displayImage ? (
+                            <img 
+                                src={displayImage} 
+                                alt={displayTitle} 
+                                className="w-full h-full object-cover"
+                                onError={() => setHasImageError(true)}
+                            />
+                        ) : (
+                            <div className="w-full h-full flex items-center justify-center text-white/20">
+                                <ImageIcon size={16} />
+                            </div>
+                        )}
+                    </div>
+
+                    <div className="flex-1 min-w-0">
+                        <h4 className="text-sm font-black uppercase tracking-tight truncate text-white">
+                            {displayTitle}
+                        </h4>
+                        <div className="flex items-center gap-2 text-[10px] font-bold text-white/40 uppercase tracking-widest truncate">
+                            <span>{displayAuthor}</span>
+                            <span>•</span>
+                            <span>{displayTown.replace("Poble Principal:", "").trim()}</span>
+                        </div>
+                    </div>
+                    {displayPrice && (
+                        <div className="text-xs font-black text-primary px-3 py-1 bg-primary/10 rounded-full flex-shrink-0">
+                            {displayPrice}
+                        </div>
+                    )}
+                    <div className="flex items-center gap-1 flex-shrink-0">
+                         <button className="p-2 text-white/40 hover:text-white" onClick={handleConnectClick}>
+                            <Plus size={18} />
+                         </button>
+                    </div>
+                </div>
+            ) : (
+                <>
+                    {/* HEADER: BOINA TARONJA (NEXUS v6.0) - FIXED 64px NAVIGATION */}
             <header 
                 className={`card-header-boina h-16 ${isOfficial ? 'variant-official' : 'variant-standard'}`} 
                 onClick={handleAuthorClick}
@@ -443,6 +494,8 @@ const UniversalCard = ({
                     </div>
                 )}
             </div>
+                </>
+            )}
         </article>
     );
 

@@ -4,8 +4,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 16px;
-    padding: 24px 16px;
+    gap: 12px;
+    padding: 16px 12px;
     background: rgba(255, 255, 255, 0.03);
     border-radius: 28px;
     border: 2px solid rgba(255, 255, 255, 0.05);
@@ -35,7 +35,7 @@
 
 .tool-btn-alzina {
     flex: 1;
-    height: 48px;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;

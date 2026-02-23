@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect, useMemo } from 'react';
 import { preferenceService } from '../services/preferenceService';
+import { LORE_AGENT_IDS, IAIA_MARIA_ID, AGENTS } from '../constants/agents';
 
 const UIContext = createContext();
 
@@ -14,7 +15,7 @@ export const UIProvider = ({ children }) => {
     const [isSocialManagerOpen, setIsSocialManagerOpen] = useState(false);
     const [socialManagerContext, setSocialManagerContext] = useState(null); // { type, id, name }
     const [postModalConfig, setPostModalConfig] = useState({ isPrivate: false });
-    const [visionMode, setVisionMode] = useState(prefs.visionMode || 'hibrida');
+    const [visionMode, setVisionModeState] = useState(prefs.visionMode || 'immersiva');
     const [vibe, setVibe] = useState(prefs.vibe);
     const [gloveMode, setGloveMode] = useState(prefs.gloveMode);
     const [landingPage, setLandingPage] = useState(prefs.landingPage);
@@ -31,17 +32,14 @@ export const UIProvider = ({ children }) => {
     const [legalConfig, setLegalConfig] = useState(null); // { title, content, type }
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [editConfig, setEditConfig] = useState(null); // { postData, onUpdate }
-    const [asoMode, setAsoMode] = useState(false);
-    const [isTallerOpen, setIsTallerOpen] = useState(false);
-    const [isNotePadOpen, setIsNotePadOpen] = useState(false);
-    const [isIAIARoleSelectorOpen, setIsIAIARoleSelectorOpen] = useState(false);
-    const [iaiaLevel, setIaiaLevel] = useState(prefs.iaiaLevel || 0);
-    const [architectMode, setArchitectMode] = useState(false);
+    const [iaiaLevel, setIaiaLevelState] = useState(prefs.iaiaLevel !== undefined ? prefs.iaiaLevel : 2);
+    // [PROTOCOL V4] Selecció granular d'agents. Default: Tota la Colla de Lore (Level 1 ids) + IAIA
+    const [enabledAgentIds, setEnabledAgentIdsState] = useState(prefs.enabledAgentIds || [...LORE_AGENT_IDS]);
+    const [iaiaLoreEnabled, setIaiaLoreEnabledState] = useState(prefs.iaiaLoreEnabled !== undefined ? prefs.iaiaLoreEnabled : true);
     const [isMagicPregonerOpen, setIsMagicPregonerOpen] = useState(false);
     const [isDrawerOpen, setIsDrawerOpen] = useState(window.innerWidth >= 768);
     const [forensicMode, setForensicMode] = useState(false);
     const [blueprintMode, setBlueprintMode] = useState(prefs.blueprintMode || false);
-    const [isGuestInteractionModalOpen, setIsGuestInteractionModalOpen] = useState(false);
     const [iaiaSidebarOpen, setIaiaSidebarOpen] = useState(false);
     const [iaiaSidebarContext, setIaiaSidebarContext] = useState('general');
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
@@ -91,9 +89,12 @@ export const UIProvider = ({ children }) => {
             selectedTown,
             preferredAgentId,
             blueprintMode,
-            chatSettings
+            chatSettings,
+            iaiaLevel,
+            iaiaLoreEnabled,
+            enabledAgentIds
         });
-    }, [theme, vibe, visionMode, gloveMode, landingPage, visualDemocracy, globalDesign, selectedTown, preferredAgentId, blueprintMode, chatSettings]);
+    }, [theme, vibe, visionMode, gloveMode, landingPage, visualDemocracy, globalDesign, selectedTown, preferredAgentId, blueprintMode, chatSettings, iaiaLevel, iaiaLoreEnabled, enabledAgentIds]);
 
     const resetToNaturalOrder = () => {
         preferenceService.resetToNaturalOrder();
@@ -137,7 +138,11 @@ export const UIProvider = ({ children }) => {
         postModalConfig,
         openPostModal,
         visionMode,
-        setVisionMode,
+        setVisionMode: (mode) => {
+            setVisionModeState(mode);
+            const levelMap = { 'humana': 0, 'iaia': 1, 'immersiva': 2 };
+            if (levelMap[mode] !== undefined) setIaiaLevelState(levelMap[mode]);
+        },
         vibe,
         setVibe,
         gloveMode,
@@ -200,25 +205,44 @@ export const UIProvider = ({ children }) => {
             setIsEditModalOpen(false);
             setEditConfig(null);
         },
-        asoMode,
-        setAsoMode,
-        toggleAsoMode: () => setAsoMode(prev => !prev),
-        isTallerOpen,
-        setIsTallerOpen,
-        isNotePadOpen,
-        setIsNotePadOpen,
-        isIAIARoleSelectorOpen,
-        setIsIAIARoleSelectorOpen,
         iaiaLevel,
         setIaiaLevel: (level) => {
-            setIaiaLevel(level);
-            preferenceService.setPrefs({ ...preferenceService.getPrefs(), iaiaLevel: level });
+            setIaiaLevelState(level);
+            const modeMap = { 0: 'humana', 1: 'iaia', 2: 'immersiva' };
+            const currentMode = modeMap[level];
+            if (currentMode) setVisionModeState(currentMode);
+
+            // [SYNC LÒGICA V4]
+            if (level === 0) {
+                setEnabledAgentIdsState([]);
+            } else if (level === 1) {
+                // Nivell 1: Sols la IAIA MarIA (simplificació per feedback audio)
+                setEnabledAgentIdsState([IAIA_MARIA_ID]);
+            } else if (level === 2) {
+                // Nivell 2: Default Colla de Lore (si estava buit)
+                if (enabledAgentIds.length === 0) setEnabledAgentIdsState([...LORE_AGENT_IDS]);
+            }
+
+            preferenceService.setPrefs({ 
+                ...preferenceService.getPrefs(), 
+                iaiaLevel: level, 
+                visionMode: currentMode 
+            });
         },
-        architectMode,
-        setArchitectMode,
-        toggleArchitectMode: () => setArchitectMode(prev => !prev),
-        openIAIARoleSelector: () => setIsIAIARoleSelectorOpen(true),
-        closeIAIARoleSelector: () => setIsIAIARoleSelectorOpen(false),
+        enabledAgentIds,
+        toggleAgent: (agentId) => {
+            setEnabledAgentIdsState(prev => {
+                const next = prev.includes(agentId) 
+                    ? prev.filter(id => id !== agentId) 
+                    : [...prev, agentId];
+                preferenceService.setPrefs({ ...preferenceService.getPrefs(), enabledAgentIds: next });
+                return next;
+            });
+        },
+        setEnabledAgentIds: (ids) => {
+            setEnabledAgentIdsState(ids);
+            preferenceService.setPrefs({ ...preferenceService.getPrefs(), enabledAgentIds: ids });
+        },
         selectedTown,
         setSelectedTown,
         preferredAgentId,
@@ -236,8 +260,6 @@ export const UIProvider = ({ children }) => {
         blueprintMode,
         setBlueprintMode,
         toggleBlueprintMode: () => setBlueprintMode(prev => !prev),
-        isGuestInteractionModalOpen,
-        setIsGuestInteractionModalOpen,
         iaiaSidebarOpen,
         setIaiaSidebarOpen,
         iaiaSidebarContext,
@@ -267,10 +289,9 @@ export const UIProvider = ({ children }) => {
         isSocialManagerOpen, socialManagerContext, postModalConfig, visionMode, vibe, 
         gloveMode, isViewerOpen, viewerConfig, landingPage, visualDemocracy, globalDesign, 
         isConnectionModalOpen, connectionConfig, isAgentSelectorOpen, agentSelectorConfig, 
-        isLegalModalOpen, legalConfig, isEditModalOpen, editConfig, asoMode, 
-        isTallerOpen, isNotePadOpen, isIAIARoleSelectorOpen, iaiaLevel, architectMode, 
+        isLegalModalOpen, legalConfig, isEditModalOpen, editConfig, iaiaLevel, enabledAgentIds, 
         selectedTown, preferredAgentId, isMagicPregonerOpen, isDrawerOpen, forensicMode, 
-        blueprintMode, isGuestInteractionModalOpen, iaiaSidebarOpen, iaiaSidebarContext, 
+        blueprintMode, iaiaSidebarOpen, iaiaSidebarContext, 
         isProfileMenuOpen, isAccessibilitatOpen, isInfoOpen, chatSettings
     ]);
     return (

@@ -109,31 +109,49 @@ const SearchDiscover = () => {
                 description={query ? `Resultats de cerca per a ${query} a Sóc de Poble.Troba gent, entitats i pobles de la Comunitat Valenciana.` : 'Descobreix la gent, els pobles i les entitats de la teua comunitat.'}
                 keywords={query ? `${query}, cerca, pobles, comunitat valenciana` : 'pobles, comunitat valenciana, xarxa social, proximitat'}
             />
-            <div className="search-nav-bar">
-                <button className="back-circle" onClick={() => { hapticService.notifySuccess(); navigate(-1); }}>
-                    <ArrowLeft size={20} />
+            <div className="search-nav-bar glass-premium h-20 px-4 flex items-center gap-4">
+                <button className="back-circle w-14 h-14 rounded-full border border-white/10 bg-white/5 active:scale-95 hover:bg-white/10 transition-all flex items-center justify-center shrink-0" onClick={() => { hapticService.notifySuccess(); navigate(-1); }}>
+                    <ArrowLeft size={28} className="text-white" />
                 </button>
-                <div className="search-input-wrapper">
-                    <Search className="search-icon-fixed" size={20} />
+                <div className="search-input-wrapper flex-1 relative flex items-center h-14 bg-white/10 rounded-[28px] border-2 border-white/10 focus-within:border-primary/50 transition-all">
+                    <Search className="search-icon-fixed ml-5 text-primary" size={24} />
                     <input
                         id="global-search-input"
                         name="global-search-input"
                         ref={inputRef}
                         type="text"
-                        placeholder="Busca pel nom, ofici, poble..."
+                        placeholder="BUSCA PEL NOM, OFICI, POBLE..."
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
-                        className="main-search-input"
+                        className="main-search-input bg-transparent border-none outline-none w-full h-full pl-14 pr-12 text-xl font-black uppercase tracking-tight text-white placeholder:text-white/20"
                     />
                     {query && (
-                        <button className="clear-search-btn" onClick={clearSearch}>
-                            <X size={18} />
+                        <button className="clear-search-btn absolute right-4 w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all" onClick={clearSearch}>
+                            <X size={18} className="text-white" />
                         </button>
                     )}
                 </div>
             </div>
 
             <div className="search-content">
+                <div className="filter-chips-scroll sticky top-20 z-10 bg-black/60 backdrop-blur-xl border-b border-white/10 py-4 px-4 overflow-x-auto">
+                    <div className="filter-chips-inner flex flex-wrap justify-center gap-4 max-w-[640px] mx-auto">
+                        {filters.map(filter => (
+                            <button
+                                key={filter.id}
+                                className={`filter-chip h-12 px-6 rounded-[28px] border-2 flex items-center gap-3 transition-all font-black uppercase tracking-[0.1em] text-[13px] ${activeFilter === filter.id ? 'bg-primary border-primary text-black shadow-[0_0_20px_rgba(249,115,22,0.4)]' : 'bg-white/5 border-white/10 text-white/50 hover:text-white hover:bg-white/10'}`}
+                                onClick={() => {
+                                    hapticService.bategat();
+                                    setActiveFilter(filter.id);
+                                }}
+                            >
+                                {React.cloneElement(filter.icon, { size: 18 })}
+                                <span>{filter.label}</span>
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
                 {/* 1. Primary Feedback/Results Area (Pushed to the top when searching) */}
                 {isSearching ? (
                     <div className="search-loading">
@@ -152,7 +170,6 @@ const SearchDiscover = () => {
                                             <strong>La IAIA t'ajuda: "Vols una recepta?"</strong>
                                             <span>Obrir el Rebost de la IAIA</span>
                                         </div>
-                                        <ChevronRight size={18} />
                                     </div>
                                 ) : (query.toLowerCase().includes('foto') || query.toLowerCase().includes('mira') || query.toLowerCase().includes('ull')) ? (
                                     <div className="intent-card glass-premium iaia-router" onClick={() => navigate('/ia')}>
@@ -161,7 +178,6 @@ const SearchDiscover = () => {
                                             <strong>L'Ull de la IAIA: "Puc veure-ho?"</strong>
                                             <span>Analitzar imatge amb l'IAIA</span>
                                         </div>
-                                        <ChevronRight size={18} />
                                     </div>
                                 ) : (query.toLowerCase().includes('paraula') || query.toLowerCase().includes('què vol dir')) ? (
                                     <div className="intent-card glass-premium iaia-router" onClick={() => navigate('/tools/diccionari')}>
@@ -170,7 +186,6 @@ const SearchDiscover = () => {
                                             <strong>Diccionari Rural: "T'ho explique?"</strong>
                                             <span>Significat de paraules del carrer</span>
                                         </div>
-                                        <ChevronRight size={18} />
                                     </div>
                                 ) : null}
                             </div>
@@ -210,7 +225,7 @@ const SearchDiscover = () => {
                                                     {results.gent.map(person => (
                                                         <div key={person.id} className="universal-card result-item-card" onClick={() => navigate(`/perfil/${person.id}`)}>
                                                             <div className="card-header clickable">
-                                                                <div className="header-left">
+                                                                 <div className="header-left">
                                                                     <Avatar
                                                                         src={person.avatar_url}
                                                                         role="user"
@@ -225,9 +240,6 @@ const SearchDiscover = () => {
                                                                             {person.role || 'Foraster'} {person.primary_town ? `• ${person.primary_town} ` : ''}
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                                <div className="header-right">
-                                                                    <ChevronRight size={18} className="chevron" />
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -250,7 +262,7 @@ const SearchDiscover = () => {
                                                     {results.pobles.map(town => (
                                                         <div key={town.id} className="universal-card result-item-card town" onClick={() => navigate(`/pobles/${town.uuid || town.id}`)}>
                                                             <div className="card-header clickable">
-                                                                <div className="header-left">
+                                                                 <div className="header-left">
                                                                     <Avatar
                                                                         src={town.logo_url}
                                                                         role="oficial"
@@ -265,9 +277,6 @@ const SearchDiscover = () => {
                                                                             {town.comarca} {town.province ? `• ${town.province} ` : ''}
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                                <div className="header-right">
-                                                                    <ChevronRight size={18} className="chevron" />
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -290,7 +299,7 @@ const SearchDiscover = () => {
                                                     {results.esdeveniments.map(event => (
                                                         <div key={event.id} className="universal-card result-item-card event" onClick={() => navigate('/pobles', { state: { initialTab: 'esdeveniments' } })}>
                                                             <div className="card-header clickable" style={{ background: 'var(--color-terracotta)' }}>
-                                                                <div className="header-left">
+                                                                 <div className="header-left">
                                                                     <div className="post-avatar event" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', backgroundColor: 'rgba(255,255,255,0.2)', width: '44px', height: '44px' }}>
                                                                         <Sparkles size={20} color="#fff" />
                                                                     </div>
@@ -302,9 +311,6 @@ const SearchDiscover = () => {
                                                                             {event.location} • {new Date(event.date).toLocaleDateString('ca-ES', { day: 'numeric', month: 'long' })}
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                                <div className="header-right">
-                                                                    <ChevronRight size={18} className="chevron" color="#fff" />
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -327,7 +333,7 @@ const SearchDiscover = () => {
                                                     {results.arxiu.map(item => (
                                                         <div key={item.uuid || item._id} className="universal-card result-item-card archive-item" onClick={() => window.open(item.link, '_blank')}>
                                                             <div className="card-header clickable">
-                                                                <div className="header-left">
+                                                                 <div className="header-left">
                                                                     <div className="post-avatar archive" style={{ backgroundColor: 'var(--color-bg-dark)', padding: '2px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', overflow: 'hidden', width: '44px', height: '44px' }}>
                                                                         <Link2 size={24} style={{ color: 'var(--color-orange-vibrant)' }} />
                                                                     </div>
@@ -339,9 +345,6 @@ const SearchDiscover = () => {
                                                                             {item.excerpt ? item.excerpt.substring(0, 80) + '...' : 'Document de l\'Arxiu'}
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                                <div className="header-right">
-                                                                    <ChevronRight size={18} className="chevron" />
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -365,7 +368,7 @@ const SearchDiscover = () => {
                                                 {filteredEntities.map(entity => (
                                                     <div key={entity.id} className={`universal-card result-item-card entity-${entity.type}`} onClick={() => navigate(`/entitat/${entity.id}`)}>
                                                         <div className="card-header clickable">
-                                                            <div className="header-left">
+                                                             <div className="header-left">
                                                                 <Avatar
                                                                     src={entity.avatar_url}
                                                                     role={entity.type}
@@ -380,9 +383,6 @@ const SearchDiscover = () => {
                                                                         {entity.type.charAt(0).toUpperCase() + entity.type.slice(1)} {entity.town_name ? `• ${entity.town_name} ` : ''}
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                            <div className="header-right">
-                                                                <ChevronRight size={18} className="chevron" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -444,28 +444,16 @@ const SearchDiscover = () => {
                 )}
 
                 {/* 2. Standard Action Block (Displaced downward when searching) */}
-                <button className="big-community-btn-xl" onClick={() => navigate('/comunitat')}>
-                    <div className="btn-icon-xl">
-                        <Users size={32} />
-                    </div>
-                    <div className="btn-text-xl">
-                        <strong>Explora el teu territori</strong>
-                        <span>Descobreix tota la gent i entitats del poble</span>
-                    </div>
-                    <ChevronRight size={24} />
-                </button>
-
-                <div className="filter-chips-scroll">
-                    {filters.map(filter => (
-                        <button
-                            key={filter.id}
-                            className={`filter-chip ${activeFilter === filter.id ? 'active' : ''}`}
-                            onClick={() => setActiveFilter(filter.id)}
-                        >
-                            {filter.icon}
-                            <span>{filter.label}</span>
-                        </button>
-                    ))}
+                <div className="search-bottom-actions py-12 flex justify-center">
+                    <button className="big-community-btn-xl max-w-[640px] w-full" onClick={() => navigate('/comunitat')}>
+                        <div className="btn-icon-xl">
+                            <Users size={32} />
+                        </div>
+                        <div className="btn-text-xl">
+                            <strong>Explora el teu territori</strong>
+                            <span>Descobreix tota la gent i entitats del poble</span>
+                        </div>
+                    </button>
                 </div>
 
                 {/* 3. Empty State Content (Popular Searches) */}

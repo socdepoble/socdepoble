@@ -87,12 +87,23 @@ import { ThemeProvider } from "./context/ThemeContext";
 const CURRENT_MASTER_VERSION = APP_VERSION;
 
 // Simplified Version Gatekeeper
+// [RESILIENT VERSION GATEKEEPER] Protocol de Prevenció de Bucles
 const savedVersion = localStorage.getItem("sp_app_version");
+const lastReload = parseInt(localStorage.getItem("sp_last_version_reload") || "0");
+const now = Date.now();
+
 if (savedVersion && savedVersion !== CURRENT_MASTER_VERSION) {
-    localStorage.clear();
-    sessionStorage.clear();
-    localStorage.setItem("sp_app_version", CURRENT_MASTER_VERSION);
-    window.location.reload();
+    // [RESILIENT UPDATE] Si hem intentat recarregar en els últims 30 segons i seguim igual, STOP.
+    // Augmentem el llindar perquè en algunes xarxes el reload triga més.
+    if (now - lastReload < 60000) { 
+        console.warn('[BATEGAT SAFETY] Bucle de redirecció detectat. Aturant actualització forçada.');
+        localStorage.setItem("sp_app_version", CURRENT_MASTER_VERSION);
+    } else {
+        console.log('[BATEGAT UPDATE] Versió desfasada detectada. Sincronitzant el Mas...');
+        localStorage.setItem("sp_last_version_reload", now.toString());
+        localStorage.setItem("sp_app_version", CURRENT_MASTER_VERSION);
+        window.location.reload();
+    }
 } else if (!savedVersion) {
     localStorage.setItem("sp_app_version", CURRENT_MASTER_VERSION);
 }

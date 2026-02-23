@@ -29,7 +29,7 @@ const CreationHub = () => {
             ></div>
             
             {/* Modal Content - Geometria Sagrada 40px */}
-            <div className="relative w-full max-w-lg p-8 rounded-[40px] shadow-2xl transform animate-in zoom-in-95 duration-300 bg-[#1A1A1A] border border-slate-800 text-white overflow-hidden">
+            <div className="relative w-full max-w-lg p-6 rounded-[32px] shadow-2xl transform animate-in zoom-in-95 duration-300 bg-[#1A1A1A] border border-slate-800 text-white overflow-hidden">
                 <button 
                     onClick={() => setIsCreateModalOpen(false)} 
                     className="absolute top-4 right-4 w-12 h-12 flex items-center justify-center rounded-full bg-black/40 backdrop-blur-md hover:bg-black/60 text-white shadow-lg transition-all active:scale-95"
@@ -37,9 +37,9 @@ const CreationHub = () => {
                     <X size={24} />
                 </button>
                 
-                <div className="text-center mb-8">
-                    <div className="w-20 h-20 mx-auto bg-[#4F46E5] rounded-full flex items-center justify-center mb-4 shadow-xl shadow-indigo-500/30">
-                        <Plus className="w-10 h-10 text-white" strokeWidth={3} />
+                <div className="text-center mb-6">
+                    <div className="w-16 h-16 mx-auto bg-[#4F46E5] rounded-full flex items-center justify-center mb-4 shadow-xl shadow-indigo-500/30">
+                        <Plus className="w-8 h-8 text-white" strokeWidth={3} />
                     </div>
                     <h2 className="text-3xl font-bold mb-2 tracking-tight">
                         {t('common.create_new') || 'Què vols crear?'}
@@ -49,7 +49,7 @@ const CreationHub = () => {
                     </p>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4 mb-8">
+                <div className="grid grid-cols-2 gap-3 mb-6">
                     {/* OPTION: MUR */}
                     <button className="creation-hub-btn group border-slate-700 hover:border-orange-500 hover:bg-slate-800" onClick={() => {
                         setIsCreateModalOpen(false);

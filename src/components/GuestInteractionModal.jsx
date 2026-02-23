@@ -65,7 +65,7 @@ const GuestInteractionModal = () => {
 
                     <div className="grid grid-cols-1 w-full gap-3">
                         <button 
-                            onClick={() => handleAction('/register')}
+                            onClick={() => handleAction('/registre')}
                             className="w-full h-15 bg-gradient-to-r from-[#FF6B00] to-[#FF8A00] hover:scale-[1.02] text-white rounded-2xl font-black flex items-center justify-center gap-3 shadow-lg transition-all active:scale-95"
                         >
                             <UserPlus size={22} strokeWidth={3} />

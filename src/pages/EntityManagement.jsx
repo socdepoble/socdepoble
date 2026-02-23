@@ -47,7 +47,7 @@ const EntityManagement = () => {
                 <section className="creation-section">
                     <h3>Crea una nova pàgina</h3>
                     <div className="creation-grid">
-                        <button className="create-card" onClick={() => alert('Pròximament: Creació de Grups')}>
+                        <button className="create-card" onClick={() => navigate('/crear-entitat?type=grup')}>
                             <div className="create-icon groups">
                                 <Users size={32} />
                             </div>
@@ -58,7 +58,7 @@ const EntityManagement = () => {
                             <Plus size={20} className="plus-icon" />
                         </button>
 
-                        <button className="create-card" onClick={() => alert('Pròximament: Creació d\'Empreses')}>
+                        <button className="create-card" onClick={() => navigate('/crear-entitat?type=empresa')}>
                             <div className="create-icon business">
                                 <Store size={32} />
                             </div>
@@ -69,7 +69,7 @@ const EntityManagement = () => {
                             <Plus size={20} className="plus-icon" />
                         </button>
 
-                        <button className="create-card" onClick={() => alert('Pròximament: Creació d\'Entitats')}>
+                        <button className="create-card" onClick={() => navigate('/crear-entitat?type=institucio')}>
                             <div className="create-icon official">
                                 <Shield size={32} />
                             </div>

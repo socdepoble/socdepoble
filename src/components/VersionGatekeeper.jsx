@@ -21,10 +21,16 @@ const VersionGatekeeper = ({ children }) => {
     useEffect(() => {
         if (purging) {
             const timer = setTimeout(() => {
-                if (window.RecordaAtum) {
-                    window.RecordaAtum(APP_VERSION);
+                const now = Date.now();
+                const lastReload = parseInt(localStorage.getItem('sp_last_version_reload') || '0');
+                
+                if (now - lastReload < 10000) {
+                    console.error('[VersionGatekeeper] Circuit breaker actiu. Sincronitzant versió manualment.');
+                    localStorage.setItem('sp_app_version', APP_VERSION);
+                    window.location.reload(); // Un últim intent per si de cas, però el flag ara coincideix
                 } else {
                     localStorage.setItem('sp_app_version', APP_VERSION);
+                    localStorage.setItem('sp_last_version_reload', now.toString());
                     window.location.reload(true);
                 }
             }, 1500);

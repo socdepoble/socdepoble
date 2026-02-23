@@ -1007,8 +1007,8 @@ export const supabaseService = {
     },
 
     async sendSecureMessage(messageData) {
-        if (messageData.conversationId?.startsWith('mock-')) {
-            logger.log('[SupabaseService] Simulated send to mock conversation');
+        if (messageData.conversationId?.startsWith('mock-') || messageData.conversationId?.startsWith('11111111-')) {
+            logger.log('[SupabaseService] Simulated send to mock conversation or IAIA agent');
             return {
                 id: `msg-sent-${Date.now()}`,
                 conversation_id: messageData.conversationId,
@@ -1017,7 +1017,8 @@ export const supabaseService = {
                 attachment_url: messageData.attachmentUrl || null,
                 attachment_type: messageData.attachmentType || null,
                 attachment_name: messageData.attachmentName || null,
-                created_at: new Date().toISOString()
+                created_at: new Date().toISOString(),
+                is_ai: false
             };
         }
 
@@ -2712,6 +2713,7 @@ export const supabaseService = {
     },
 
     async getUserTags(userId) {
+        if (!isRealDBUUID(userId)) return [];
         const { data, error } = await supabase
             .from('user_tags')
             .select('tag_name')
@@ -2722,6 +2724,7 @@ export const supabaseService = {
     },
 
     async addUserTag(userId, tagName) {
+        if (!isRealDBUUID(userId)) return null;
         // Normalizar etiqueta
         const name = tagName.trim().toLowerCase();
         if (!name) return null;
@@ -2739,6 +2742,7 @@ export const supabaseService = {
     },
 
     async deleteUserTag(userId, tagName) {
+        if (!isRealDBUUID(userId)) return;
         logger.log(`[SupabaseService] Deleting user tag: ${tagName}`);
         const { error } = await supabase
             .from('user_tags')
@@ -2780,6 +2784,45 @@ export const supabaseService = {
             return data[0];
         } catch (error) {
             logger.error('[SupabaseService] Error updating profile:', error);
+            throw error;
+        }
+    },
+
+    async createEntity(payload) {
+        try {
+            // 1. Crear l'entitat
+            const { data: entity, error: entityError } = await supabase
+                .from('entities')
+                .insert([{
+                    name: payload.name,
+                    type: payload.type || 'empresa',
+                    avatar_url: payload.avatar_url || null,
+                    description: payload.description || null,
+                    town_id: payload.town_id || null,
+                    created_at: new Date().toISOString()
+                }])
+                .select()
+                .single();
+
+            if (entityError) throw entityError;
+
+            // 2. Afegir el creador com a 'admin'
+            if (payload.creator_id) {
+                const { error: memberError } = await supabase
+                    .from('entity_members')
+                    .insert([{
+                        entity_id: entity.id,
+                        user_id: payload.creator_id,
+                        role: 'admin',
+                        created_at: new Date().toISOString()
+                    }]);
+                
+                if (memberError) throw memberError;
+            }
+
+            return entity;
+        } catch (error) {
+            logger.error('[SupabaseService] Error creating entity:', error);
             throw error;
         }
     },

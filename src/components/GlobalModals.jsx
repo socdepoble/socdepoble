@@ -183,7 +183,6 @@ const GlobalModals = () => {
                 />
             )}
             {isCreateModalOpen && <CreationHub />}
-            <GuestInteractionModal />
         </>
     );
 };

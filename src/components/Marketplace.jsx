@@ -25,8 +25,8 @@ import './Marketplace.css';
 
 const Market = ({ searchTerm = '' }) => {
     const { t } = useTranslation();
-    const { isPlayground, isSuperAdmin, user } = useAuth();
-    const { visionMode, setIsGuestInteractionModalOpen } = useUI();
+    const { isPlayground, isSuperAdmin } = useAuth();
+    const { visionMode } = useUI();
     const navigate = useNavigate();
     const [items, setItems] = useState([]);
     const [, setCategories] = useState([]);
@@ -35,7 +35,7 @@ const Market = ({ searchTerm = '' }) => {
     const [hasMore, setHasMore] = useState(true);
     const [activeTab, setActiveTab] = useState('tot');
     const [page, setPage] = useState(0);
-    const [isIAIAFiltering, setIsIAIAFiltering] = useState(localStorage.getItem('isIAIAFiltering') === 'true');
+    const [isIAIAFiltering] = useState(localStorage.getItem('isIAIAFiltering') === 'true');
     const [viewMode, setViewMode] = useState(localStorage.getItem('market_view_mode') || 'grid');
     const [internalSearchTerm, setInternalSearchTerm] = useState('');
     const PAGE_SIZE = 100;
@@ -307,23 +307,7 @@ const Market = ({ searchTerm = '' }) => {
                 placeholder="Cerca al mercat..."
             />
 
-            <div className="px-4 pt-4 flex justify-between items-center mb-4">
-                <h2 className="text-xl font-black text-white uppercase tracking-tighter opacity-50">Mercat Rural</h2>
-                <button
-                    className="btn-vendre-sobrants bg-orange-500 text-black font-black px-4 py-2 rounded-none flex items-center gap-2 text-sm shadow-[0_5px_15px_rgba(249,115,22,0.3)] hover:scale-105 active:scale-95 transition-all"
-                    onClick={() => {
-                        if (user?.isAnonymous) {
-                            setIsGuestInteractionModalOpen(true);
-                        } else {
-                            hapticService.notifySuccess();
-                            navigate('/vendre-excedent');
-                        }
-                    }}
-                >
-                    <Plus size={18} strokeWidth={3} />
-                    VENDRE SOBRANTS
-                </button>
-            </div>
+            {/* TÍTOL I BOTÓ REDUNDANTS ELIMINATS (PROTOCOLS V11) */}
             
             <div className="px-4 mb-6">
                 <CategoryTabs
@@ -333,26 +317,7 @@ const Market = ({ searchTerm = '' }) => {
                 />
             </div>
 
-            {/* IAIA PORTERA TOGGLE [PILLAR 4] */}
-            <div className="iaia-filter-bar px-4 py-3 flex justify-between items-center font-black border-b border-white/10 bg-black/60 backdrop-blur-2xl sticky top-[110px] z-20">
-                <div className="flex items-center gap-2">
-                    <Sparkles size={16} className={isIAIAFiltering ? "text-primary animate-pulse" : "text-white/40"} />
-                    <span className={`text-xs tracking-widest uppercase ${isIAIAFiltering ? "text-primary" : "text-white"}`}>
-                        IAIA PORTERA: <span className="opacity-60">{isIAIAFiltering ? "FILTRE KM 0" : "SENSE FILTRE"}</span>
-                    </span>
-                </div>
-                <button
-                    onClick={() => {
-                        hapticService.bategat();
-                        const next = !isIAIAFiltering;
-                        setIsIAIAFiltering(next);
-                        localStorage.setItem('isIAIAFiltering', next);
-                    }}
-                    className={`px-4 py-1.5 rounded-[18px] text-[10px] font-black tracking-tighter transition-all ${isIAIAFiltering ? 'bg-accent-violet text-white shadow-glow-violet' : 'bg-white/10 text-white'}`}
-                >
-                    {isIAIAFiltering ? "PAU RURAL" : "VEURE TOT"}
-                </button>
-            </div>
+            {/* IAIA PORTERA FRAME ELIMINAT (PROTOCOL V11) */}
 
             <div className={`market-grid view-mode-${viewMode}`}>
                 {filteredItems.length === 0 ? (
@@ -375,6 +340,7 @@ const Market = ({ searchTerm = '' }) => {
                             mode="mercat"
                             className="market-item-standard"
                             variant="mercat"
+                            viewMode={viewMode}
                         />
                     ))
                 )}

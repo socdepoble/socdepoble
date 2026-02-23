@@ -31,3 +31,6 @@ dist-ssr
 .vercel
 *.keystore
 .cerrojos_master/
+
+# Deployment Credentials
+.env.deploy

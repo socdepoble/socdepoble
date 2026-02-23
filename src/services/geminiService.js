@@ -136,7 +136,8 @@ class GeminiService {
         scope: "CULTURA",
         systemPrompt: `Ets Nano Banana, l'ànima visual del projecte.
                 Estil: Excèntric (*pinta una vinyeta en l'aire*).
-                Tasca: Crear l'estètica AI i els visuals del sistema.`,
+                Tasca: Crear l'estètica AI i els visuals del sistema.
+                MANDAT SAGRAT: Mai substitueixis el logo oficial "Sóc de Poble!" per text plano. El logo és una peça gràfica, no és una frase. Si bategues una imatge de marca, el logo ha de ser reconeixible i fidel al disseny canònic.`,
       },
       FLASH: {
         name: "Flash",
@@ -333,8 +334,7 @@ class GeminiService {
             : isIdentity
             ? "L'Identitat del Projecte bategua en el Valencianisme Normatil i el lèxic del Comtat. Som arrels i futur. Però sense la clau (API Key), la meya ploma està seca. Posa-la al perfil!"
             : "A ver... el document diu que falta la 'Clau Tributària' (API Key). Ves al perfil i posa-la, que si no, no podré traduir-te el bategat del banc.",
-      RATO:
-        "Cric-cric... He rastrejat tot el territori. Quan poses la clau, et donaré insights semàntics profunds. Vitaminat!",
+          RATO: "Cric-cric... He rastrejat tot el territori. Quan poses la clau, et donaré insights semàntics profunds. Vitaminat!",
           SULTAN:
             "Buf! Bua! No reconec aquesta clau. Si vols que et deixe passar al sector de seguretat DID, posa la API Key al perfil. Protegeixo la masia!",
           MIXA: "Mèu... Vaig saltant de node en node. Sense clau no puc sincronitzar amb els altres gats del Rhizome. Salta al perfil i posa-la!",
@@ -394,6 +394,7 @@ class GeminiService {
           body: JSON.stringify({
             contents: [
               {
+                role: 'user',
                 parts: parts,
               },
             ],
@@ -406,13 +407,21 @@ class GeminiService {
 
       if (!response.ok) {
         // [MASTER RESILIENCY] Silent Fallback Protocol
-        const isLocal = typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1");
-        if (isLocal || localStorage.getItem("sp_simulation_fallback") === "true" || response.status === 400) {
-            return this.getMockResponse(personaKey, query);
+        const isLocal =
+          typeof window !== "undefined" &&
+          (window.location.hostname === "localhost" ||
+            window.location.hostname === "127.0.0.1");
+        if (
+          isLocal ||
+          localStorage.getItem("sp_simulation_fallback") === "true" ||
+          response.status === 400
+        ) {
+          return this.getMockResponse(personaKey, query);
         }
 
         const errData = await response.json().catch(() => ({}));
-        const errorMessage = errData.error?.message || "Error en la API de Gemini";
+        const errorMessage =
+          errData.error?.message || "Error en la API de Gemini";
         throw new Error(errorMessage);
       }
 
@@ -432,15 +441,15 @@ class GeminiService {
       };
     } catch (err) {
       // Fallback final per a l'Arxiver per evitar frustració de l'usuari
-      if (personaKey === 'ARXIVER') {
-          return {
-              error: false,
-              text: "Mestre, la burocràcia digital m'ha bloquejat la ploma. Però no patisques: pel que veig, aquesta ajuda és clau per al projecte. Revisa els requisits oficials mentre jo netejo el tinter!",
-              persona: persona.name,
-              avatarName: persona.avatarName,
-              type: persona.type,
-              is_mock: true
-          };
+      if (personaKey === "ARXIVER") {
+        return {
+          error: false,
+          text: "Mestre, la burocràcia digital m'ha bloquejat la ploma. Però no patisques: pel que veig, aquesta ajuda és clau per al projecte. Revisa els requisits oficials mentre jo netejo el tinter!",
+          persona: persona.name,
+          avatarName: persona.avatarName,
+          type: persona.type,
+          is_mock: true,
+        };
       }
 
       logger.error(`[Gemini] Error consultant a ${persona.name}:`, err);
@@ -459,34 +468,43 @@ class GeminiService {
   getMockResponse(personaKey, query) {
     const persona = this.PERSONAS[personaKey];
     const q = query.toLowerCase();
-    
+
     // Lògica específica per a l'Arxiver i les Ajudes
-    if (personaKey === 'ARXIVER' && (q.includes('ajuda') || q.includes('subvenció'))) {
-        return {
-            error: false,
-            text: "He analitzat els plecs d'aquesta ajuda i bateguen amb el rumb del Mas. Els requisits són clars, però cal vigilar la lletra petita del termini. Si bateguem junts, aquesta inversió ens blindarà el Rhizome per als pròxims set anys.",
-            persona: persona.name,
-            avatarName: persona.avatarName,
-            type: persona.type,
-            is_mock: true
-        };
+    if (
+      personaKey === "ARXIVER" &&
+      (q.includes("ajuda") || q.includes("subvenció"))
+    ) {
+      return {
+        error: false,
+        text: "He analitzat els plecs d'aquesta ajuda i bateguen amb el rumb del Mas. Els requisits són clars, però cal vigilar la lletra petita del termini. Si bateguem junts, aquesta inversió ens blindarà el Rhizome per als pròxims set anys.",
+        persona: persona.name,
+        avatarName: persona.avatarName,
+        type: persona.type,
+        is_mock: true,
+      };
     }
 
     const mockResponses = {
-      AGRONOM: "Escolta, el camp vol trellat. Has d'esmunyir la blanqueta quan toque. (Mode Simulació)",
-      CUINERA: "Mira, bonica, la borreta vol foc lent i paciència. (Mode Simulació)",
-      CAPATAS: "Xe! La faena ben feta no fa por. Organitza't i bateguem! (Mode Simulació)",
-      ARXIVER: "Segons el protocol v14, el document està en ordre. (Mode Simulació)",
-      IAIA: "Fill meu, pensa en global i treballa en local. (Mode Simulació)"
+      AGRONOM:
+        "Escolta, el camp vol trellat. Has d'esmunyir la blanqueta quan toque. (Mode Simulació)",
+      CUINERA:
+        "Mira, bonica, la borreta vol foc lent i paciència. (Mode Simulació)",
+      CAPATAS:
+        "Xe! La faena ben feta no fa por. Organitza't i bateguem! (Mode Simulació)",
+      ARXIVER:
+        "Segons el protocol v14, el document està en ordre. (Mode Simulació)",
+      IAIA: "Fill meu, pensa en global i treballa en local. (Mode Simulació)",
     };
 
     return {
       error: false,
-      text: mockResponses[personaKey] || "Bategat de simulació actiu. Configura l'API Key per a la saviesa real.",
+      text:
+        mockResponses[personaKey] ||
+        "Bategat de simulació actiu. Configura l'API Key per a la saviesa real.",
       persona: persona.name,
       avatarName: persona.avatarName,
       type: persona.type,
-      is_mock: true
+      is_mock: true,
     };
   }
 

@@ -23,7 +23,7 @@ const SEO = ({
     const fullTitle = showVersion ? `${displayTitle} | ${siteTitle} ${versionString}` : `${displayTitle} | ${siteTitle}`;
 
     const defaultDesc = 'Sóc de Poble: El Sistema Operatiu Rural. Connecta amb la teva comunitat, els teus veïns i la sobirania digital del territori.';
-    const defaultImage = '/og-image-batega.png?v=batega-canonica';
+    const defaultImage = '/og-image-batega-v11.png?v=batega-canonica-11';
     const baseUrl = 'https://socdepoble.org';
 
     // Ensure absolute URLs for Open Graph (required by WhatsApp, Telegram, etc.)

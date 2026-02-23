@@ -16,7 +16,6 @@ import Register from '../pages/Register';
 import Towns from '../pages/Towns';
 const Marketplace = lazy(() => import('./Marketplace'));
 const ProfileView = lazy(() => import('../pages/ProfileView'));
-const Login = lazy(() => import('../pages/Login'));
 const AdminPanel = lazy(() => import('../pages/AdminPanel'));
 const TownDetail = lazy(() => import('../pages/TownDetail'));
 const ArxiuOr = lazy(() => import('../pages/Archive'));
@@ -213,8 +212,8 @@ const AppLayout = () => {
                                         <Route path="/iaia" element={<ProfileView />} />
                                         <Route path="/perfil" element={<ProtectedRoute><ProfileView /></ProtectedRoute>} />
                                         <Route path="/perfil/:id" element={<ProfileView />} />
-                                        <Route path="/entitat/:id" element={<ProfileView />} />
-                                        <Route path="/login" element={<Login />} />
+                                        <Route path="/login" element={<Register />} />
+                                        <Route path="/registre" element={<Register />} />
                                         <Route path="/register" element={<Register />} />
                                         <Route path="/mapa" element={<MapaActius />} />
                                         <Route path="/search" element={<SearchDiscover />} />

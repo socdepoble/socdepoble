@@ -1,18 +1,19 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { MessageSquare, LayoutGrid, Store, MapPin, Plus } from 'lucide-react';
 import { useUI } from '../context/UIContext';
 import { useAuth } from '../context/AuthContext';
 import './MobileBottomNav.css';
 
 const MobileBottomNav = () => {
-    const { setIsCreateModalOpen, setIsGuestInteractionModalOpen } = useUI();
+    const { setIsCreateModalOpen } = useUI();
     const { user } = useAuth();
+    const navigate = useNavigate();
 
     const handlePlusClick = (e) => {
         e.preventDefault();
         if (user?.isAnonymous) {
-            setIsGuestInteractionModalOpen(true);
+            navigate('/registre?returnTo=' + encodeURIComponent(window.location.pathname));
         } else {
             setIsCreateModalOpen(true);
         }

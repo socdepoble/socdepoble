@@ -6,6 +6,7 @@ import { useUI } from '../context/UIContext';
 import { supabaseService, isValidUUID } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
 import { ROLES, USER_ROLES, ENTITY_TYPES, CREATOR_EMAILS, IAIA_ID } from '../constants';
+import { IAIA_MARIA_ID } from '../constants/agents';
 import { logger } from '../utils/logger';
 import CreatePostModal from './CreatePostModal';
 import CategoryTabs from './CategoryTabs';
@@ -25,9 +26,7 @@ import Carousel from './Carousel';
 import AttributionBadge from './AttributionBadge';
 import UniversalCard from './UniversalCard';
 import { MOCK_EVENTS } from '../data';
-import { geminiService } from '../services/geminiService';
 import ContextualHeader from './ContextualHeader';
-import CronistaSummaryModal from './CronistaSummaryModal';
 
 const IAIA_INITIAL_DELAY_MS = 10000;
 const IAIA_INTERVAL_MS = 120000;
@@ -35,10 +34,9 @@ const IAIA_INTERVAL_MS = 120000;
 const Feed = ({ townId = null, townName = null, customPosts = null, contentMode = 'batec' }) => {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    // const { user, profile, isPlayground, loading: authLoading, isAdmin, isSuperAdmin } = useAuth();
     const { user, isPlayground, loading: authLoading, isSuperAdmin } = useAuth();
     const _isSovereign = user?.is_sovereign;
-    const { visionMode, gloveMode, selectedTown, iaiaLevel } = useUI();
+    const { gloveMode, selectedTown, iaiaLevel, enabledAgentIds } = useUI();
     const activeTown = townId || selectedTown;
     const [posts, setPosts] = useState(customPosts || []);
     const [userConnections, setUserConnections] = useState([]);
@@ -46,19 +44,16 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
     const [page, setPage] = useState(0);
     const [hasMore, setHasMore] = useState(true);
     const [loadingMore, setLoadingMore] = useState(false);
-    const [summaryContent, setSummaryContent] = useState('');
-    const [showSummaryModal, setShowSummaryModal] = useState(false);
     const [selectedRole] = useState('tot');
     const [selectedTag, setSelectedTag] = useState(null);
-    const [isIAIAFiltering, setIsIAIAFiltering] = useState(localStorage.getItem('isIAIAFiltering') === 'true');
+    const [isIAIAFiltering] = useState(localStorage.getItem('isIAIAFiltering') === 'true');
     const [error, setError] = useState(null);
     const [viewMode, setViewMode] = useState(localStorage.getItem('feed_view_mode') || 'grid');
     const [contextualSearchTerm, setContextualSearchTerm] = useState('');
     const isMounted = useRef(true);
 
 
-    // [CRONISTA AI] State for summary
-    const [isCronistaLoading, setIsCronistaLoading] = useState(false);
+    // [CRONISTA AI] State for summary removed
     const hasAttemptedSeed = useRef(false);
 
     useEffect(() => {
@@ -159,8 +154,8 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
                     setPosts(parsed.data);
                     setLoading(false);
                 }
-            } catch (e) {
-                logger.warn('[Feed] Error en Instant Load:', e);
+            } catch {
+                // Silenced local load error
             }
         }
     }, [customPosts, activeTown]);
@@ -214,24 +209,36 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
             if (contentMode === 'batec' && isArchive) return false;
             if (contentMode === 'arrel' && !isArchive) return false;
 
-            // 1. Vision Mode Filter (Protocol de Visió Humana: Purga Radical de IA)
-            const isHumana = visionMode === 'humana' || iaiaLevel === 0;
-            if (isHumana) {
-                const authorIdCheck = post.author_id || post.author_user_id || post.user_id;
-                const isSDPOfficial = post.author_entity_id === 'sdp-oficial-1' || 
-                                     post.creator_entity_id === 'sdp-oficial-1' ||
-                                     post.author_name?.includes('Sóc de Poble') ||
-                                     post.author?.toLowerCase().includes('sóc de poble');
-                                     
-            const isAI = post.author_role === USER_ROLES.AMBASSADOR ||
-                    post.author_is_ai ||
-                    post.is_iaia_inspired ||
-                    (authorIdCheck && String(authorIdCheck).startsWith('11111111-')) ||
-                    (post.id && String(post.id).startsWith('iaia-')) ||
-                    post.creator_entity_id === '00000000-0000-0000-0000-000000000000';
+            // Protocol de Visió Granular (v10.33.20)
 
-                if (isAI && !isSDPOfficial) return false;
+            const authorIdCheck = post.author_id || post.author_user_id || post.user_id;
+            const isIAIA_Oficial = post.author_entity_id === 'sdp-oficial-1' || 
+                                 post.creator_entity_id === 'sdp-oficial-1' ||
+                                 post.author_name?.includes('Sóc de Poble');
+
+            const isIAIA_MarIA = authorIdCheck === '11111111-1111-4111-a111-000000000000' || 
+                               post.author_role === USER_ROLES.AMBASSADOR;
+
+            const isImmersiveAI = post.author_is_ai || 
+                                post.is_iaia_inspired || 
+                                (authorIdCheck && String(authorIdCheck).startsWith('11111111-') && authorIdCheck !== '11111111-1111-4111-a111-000000000000') ||
+                                ['FLASH', 'GALL', 'VIATJANT', 'SULTAN', 'MIXA', 'RATOLÍ'].some(n => post.author_name?.toUpperCase().includes(n));
+
+            const activeLevel0 = iaiaLevel === 0;
+            const activeLevel1 = iaiaLevel === 1;
+            const activeLevel2 = iaiaLevel === 2 || (!iaiaLevel && iaiaLevel !== 0);
+
+            if (activeLevel0) {
+                // Nivell 0: No IA, exceptant comunicats oficials de Sóc de Poble
+                if ((isIAIA_MarIA || isImmersiveAI) && !isIAIA_Oficial) return false;
+            } else if (activeLevel1 || activeLevel2) {
+                // Protocol v4: Si és IAIA MarIA sempre OK. La resta per enabledAgentIds.
+                if (isIAIA_MarIA || isIAIA_Oficial) return true;
+                if (!authorIdCheck?.startsWith('11111111-')) return true; // Humans OK
+                
+                return enabledAgentIds.includes(authorIdCheck);
             }
+            // Nivell 2 (implicit): Mostra-ho tot (però v4 filtra per IDs actius)
 
             // 2. Tag Filter
             if (selectedTag) {
@@ -280,7 +287,7 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
             // Strict inverse chronological order for the rest
             return new Date(b.created_at || b.date || 0) - new Date(a.created_at || a.date || 0);
         });
-    }, [posts, visionMode, selectedTag, isIAIAFiltering, activeTown, userConnections, contentMode, iaiaLevel, contextualSearchTerm]);
+    }, [posts, selectedTag, isIAIAFiltering, activeTown, userConnections, contentMode, iaiaLevel, contextualSearchTerm, enabledAgentIds]);
 
     const handleHeaderClick = useCallback((post) => {
         const targetId = post.author_entity_id || post.author_user_id || post.author_id;
@@ -310,51 +317,7 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
         navigate(`/${type}/${targetId}`);
     }, [navigate]);
 
-    const handleGenerateSummary = async () => {
-        if (isCronistaLoading) return;
-
-        setIsCronistaLoading(true);
-        try {
-            // Get the current visible posts (filtered)
-            const result = await geminiService.generateNewsletterSummary(filteredPosts);
-            if (result.error) {
-                setError(result.message);
-            } else {
-                setSummaryContent(result.text);
-                setShowSummaryModal(true);
-            }
-        } catch (err) {
-            logger.error('[Cronista] Error generating summary:', err);
-            setError("No s'ha pogut generar el resum. Torna-ho a provar.");
-        } finally {
-            setIsCronistaLoading(false);
-        }
-    };
-
-    const handleShareSummary = async () => {
-        if (!summaryContent || !user) {
-            navigate('/login');
-            return;
-        }
-
-        try {
-            const summaryPost = {
-                author_id: user.id,
-                author_name: user.user_metadata?.full_name || user.email,
-                content: `🗞️ **RESUM DEL DIA: CRÒNICA COMUNITÀRIA** 🗞️\n\n${summaryContent}\n\n#CronistaAI #ResumDelDia #SócDePoble`,
-                town_uuid: activeTown || 'global',
-                is_playground: isPlayground,
-                type: 'news_summary',
-                is_iaia_inspired: true
-            };
-
-            await supabaseService.createPost(summaryPost);
-            setShowSummaryModal(false);
-            window.dispatchEvent(new CustomEvent('data-refresh', { detail: { type: 'post' } }));
-        } catch (err) {
-            logger.error('[Cronista] Error sharing summary:', err);
-        }
-    };
+    // Summary handlers removed (Esporgat V12)
 
     if (loading && posts.length === 0) {
         return (
@@ -397,78 +360,8 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
                 placeholder="Cerca al mur..."
             />
 
-            {/* IAIA PORTERA TOGGLE [PILLAR 4] */}
-            <div className="iaia-filter-bar px-4 py-2 flex justify-between items-center text-xs font-bold border-b border-gray-100 bg-white sticky top-[108px] z-20">
-                <div className="flex items-center gap-2">
-                    <Sparkles size={14} className={isIAIAFiltering ? "text-primary animate-pulse" : "text-gray-300"} />
-                    <span className={isIAIAFiltering ? "text-primary" : "text-gray-400"}>IAIA PORTERA: {isIAIAFiltering ? "SENTIT KM 0" : "SENSE FILTRE"}</span>
-                </div>
-                <button
-                    onClick={() => {
-                        const next = !isIAIAFiltering;
-                        setIsIAIAFiltering(next);
-                        localStorage.setItem('isIAIAFiltering', next);
-                    }}
-                    className={`px-3 py-1 rounded-none transition-all ${isIAIAFiltering ? 'bg-primary text-black' : 'bg-gray-100 text-gray-500'}`}
-                >
-                    {isIAIAFiltering ? "PAU RURAL" : "VEURE TOT"}
-                </button>
-
-                <button
-                    onClick={handleGenerateSummary}
-                    disabled={isCronistaLoading || filteredPosts.length === 0}
-                    className={`ml-2 px-3 py-1 rounded-none transition-all flex items-center gap-2 ${isCronistaLoading ? 'bg-gray-200 animate-pulse' : 'bg-secondary text-black hover:bg-opacity-90'}`}
-                    style={{ background: '#F97316' }} /* Gem Orange */
-                >
-                    <Sparkles size={14} />
-                    <span>{isCronistaLoading ? "PENSANT..." : "RESUM"}</span>
-                </button>
-            </div>
-
-            <CronistaSummaryModal
-                isOpen={showSummaryModal}
-                onClose={() => setShowSummaryModal(false)}
-                summary={summaryContent}
-                onShare={handleShareSummary}
-            />
-
             <div className={`feed-list mur-masonry max-w-3xl mx-auto w-full view-mode-${viewMode}`}>
-                {/* 🧧 PANELL DE BENVINGUDA / PUBLICITAT (CLOSETABLE) */}
-                {localStorage.getItem('hideWelcomePanel') !== 'true' && (
-                    <div className="welcome-panel-wrapper mb-8 animate-in relative group">
-                        <div className="bg-gradient-to-br from-indigo-900/40 to-black border-2 border-indigo-500/30 rounded-[32px] p-8 backdrop-blur-xl relative overflow-hidden">
-                            <div className="absolute top-0 right-0 p-4">
-                                <button 
-                                    onClick={() => {
-                                        localStorage.setItem('hideWelcomePanel', 'true');
-                                        window.dispatchEvent(new CustomEvent('data-refresh'));
-                                    }}
-                                    className="p-3 bg-white/10 hover:bg-red-500/20 text-white rounded-full transition-all border border-white/10"
-                                    title="Tancar Panell (Focus Mode)"
-                                >
-                                    <EyeOff size={20} />
-                                </button>
-                            </div>
-                            <div className="flex flex-col md:flex-row gap-8 items-center">
-                                <div className="w-24 h-24 bg-orange-500 rounded-[28px] flex items-center justify-center shrink-0 shadow-2xl shadow-orange-500/20">
-                                    <Sparkles size={48} className="text-black" />
-                                </div>
-                                <div className="text-center md:text-left">
-                                    <h2 className="text-2xl font-black text-white uppercase tracking-tight mb-2">Benvingut al Mas Digital 🏺</h2>
-                                    <p className="text-indigo-200/70 text-base leading-relaxed max-w-md font-medium">
-                                        Estàs en mode <span className="text-orange-400 font-bold">Mail (Obert)</span>. Explora les històries del teu poble o tanca aquest panell per entrar en mode <span className="text-cyan-400 font-bold">Focus</span>.
-                                    </p>
-                                    <div className="mt-6 flex flex-wrap gap-3 justify-center md:justify-start">
-                                        <button className="h-12 px-6 bg-white text-black font-black uppercase text-xs rounded-full hover:scale-105 transition-transform">Guia de l'Agent</button>
-                                        <button className="h-12 px-6 bg-white/10 text-white font-black uppercase text-xs rounded-full border border-white/20">Història de la Torre</button>
-                                    </div>
-                                </div>
-                            </div>
-                            {/* Blueprint Indicator inside panel if active */}
-                            <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent" />
-                        </div>
-                    </div>
-                )}
+                {/* [ESPORGAT V12] Panells redundants eliminats per directiva del Mestre */}
 
                 {filteredPosts.length === 0 ? (
                     <StatusLoader

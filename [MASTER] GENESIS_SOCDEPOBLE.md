@@ -164,7 +164,8 @@ Aquestes regles són pilar fonamental per a la coherència del bategat:
 - **Protocol d'Imatge Única:** Prohibit repetir imatges en publicacions distintes. Cada post ha de bategar amb identitat visual pròpia.
 - **Llei de l'Identitat Suprema (Pilar del Mapa del Tresor):** Directiva primària i absoluta.
   1. **Prioritat TOTAL al Logotip Complet:** Aquell que inclou el plànol (mapa) i el quadrat. El logo no és només una marca, és un impacte de mig segon que evoca la idea de "plànol del tresor".
-  2. **Segell de Veritat:** Tota imatge o producte estrella (Merch) ha de portar el Logo Complet.
+  2. **LA GRAN PROHIBICIÓ (Text vs Logo):** Queda terminantment prohibit substituir el Logotip Oficial ("Sóc de Poble!") per text plano en cap peça visual de marca (OG Images, Merch, Banners). El text confon als veïns; el Logotip fidelitza. La variant tipogràfica del logo ha de portar SEMPRE el seu disseny i l'exclamació (!), ocupant l'espai de la frase però bategant com a marca gràfica.
+  3. **Segell de Veritat:** Tota imatge o producte estrella (Merch) ha de portar el Logo Complet.
 - **Llei de Completesa (Anti-Buit):** No es permeten "buits" de sistema. Posts estrella (ex: Merchandising) han de tenir un set de 7 imatges úniques.
 - **Multimèdia Adaptativa:** El cuadre multimèdia s'ha d'adaptar al contingut.
 - **Navegació de Llinatge:** Punxar a la capçalera de la `UniversalCard` ha de portar sempre al perfil de l'autor.

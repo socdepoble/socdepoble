@@ -20,35 +20,56 @@
 
     <script>
       // [BATEGAT RESCUE v10.33.2] Purga nuclear de cache i fantasmes.
-      (function() {
-        const CURRENT_V = "v10.33.11-CANÒNIC";
-        
+      (function () {
+        const CURRENT_V = "v10.33.15-CANÒNIC";
+
         // [XOC DE SEGURETAT] Unregisterització immediata de qualsevol Service Worker
-        if ('serviceWorker' in navigator) {
-          navigator.serviceWorker.getRegistrations().then(function(registrations) {
-            for(let registration of registrations) {
-              registration.unregister();
-            }
-          });
+        if ("serviceWorker" in navigator) {
+          navigator.serviceWorker
+            .getRegistrations()
+            .then(function (registrations) {
+              for (let registration of registrations) {
+                registration.unregister();
+              }
+            });
         }
-        
-        localStorage.setItem('sp_app_version', CURRENT_V);
-        
-        window.addEventListener("error", function (e) {
-          if (e.target.tagName === "LINK" || e.target.tagName === "SCRIPT") {
-            console.error("[PURGA] Error d'asset:", e.target.src || e.target.href);
-          }
-        }, true);
+
+        localStorage.setItem("sp_app_version", CURRENT_V);
+
+        window.addEventListener(
+          "error",
+          function (e) {
+            if (e.target.tagName === "LINK" || e.target.tagName === "SCRIPT") {
+              console.error(
+                "[PURGA] Error d'asset:",
+                e.target.src || e.target.href,
+              );
+            }
+          },
+          true,
+        );
       })();
     </script>
 
     <!-- Open Graph / Facebook / WhatsApp / Telegram -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://socdepoble.org/" />
-    <meta property="og:title" content="Sóc de Poble! | El Sistema Operatiu Rural 🏺⚡️" />
-    <meta property="og:description" content="Connecta amb la teua comunitat i recupera el trellat del territori. Mercat rural, memòria viva i sobirania digital." />
-    <meta property="og:image" content="https://socdepoble.org/og-image-batega.png?v=batega-canonica-11" />
-    <meta property="og:image:secure_url" content="https://socdepoble.org/og-image-batega.png?v=batega-canonica-11" />
+    <meta
+      property="og:title"
+      content="Sóc de Poble! | El Sistema Operatiu Rural 🏺⚡️"
+    />
+    <meta
+      property="og:description"
+      content="Connecta amb la teua comunitat i recupera el trellat del territori. Mercat rural, memòria viva i sobirania digital."
+    />
+    <meta
+      property="og:image"
+      content="https://socdepoble.org/og-image-batega-v11.png?v=batega-canonica-11"
+    />
+    <meta
+      property="og:image:secure_url"
+      content="https://socdepoble.org/og-image-batega-v11.png?v=batega-canonica-11"
+    />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:type" content="image/png" />
@@ -68,7 +89,7 @@
     />
     <meta
       name="twitter:image"
-      content="https://socdepoble.org/og-image-batega.png?v=batega-premium-v2"
+      content="https://socdepoble.org/og-image-batega-v11.png?v=batega-canonica-11"
     />
 
     <script>
@@ -215,9 +236,9 @@
         outline: 1px solid rgba(249, 115, 22, 0.1) !important;
       }
     </style>
-    <meta name="sp-version" content="v10.33.11-CANÒNIC" />
-    <meta name="build-timestamp" content="2026-02-22T04:55:00+01:00" />
-    <title>Sóc de Poble | El Sistema Operatiu Rural v10.33.11</title>
+    <meta name="sp-version" content="v10.33.15-CANÒNIC" />
+    <meta name="build-timestamp" content="2026-02-23T04:22:00+01:00" />
+    <title>Sóc de Poble | El Sistema Operatiu Rural v10.33.15</title>
   </head>
   <body>
     <!-- Hidden H1 for SEO -->

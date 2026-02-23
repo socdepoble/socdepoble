@@ -24,8 +24,8 @@ const ContextualMenu = () => {
             { id: 'xat', label: 'XAT', path: '/chats' },
             { id: 'gent', label: 'GENT', path: '/directori' },
             { id: 'grups', label: 'GRUPS', path: '/nexus' },
-            { id: 'treball', label: 'TREBALL', path: '/ajudes' },
-            { id: 'pob', label: 'POB', path: '/pobles' }
+            { id: 'empreses', label: 'EMPRESES', path: '/mercat' },
+            { id: 'institucions', label: 'INSTITUCIONS', path: '/ajudes' }
         ],
         // Qualsevol altra ruta usarà el standardMenu
     };
@@ -39,23 +39,27 @@ const ContextualMenu = () => {
     const items = isChat ? menuConfigs['/chats'] : standardMenu;
 
     return (
-        <div className="h-12 w-full bg-black border-b border-white/[0.02] flex items-center sticky top-0 z-[900] select-none">
+        <div className="h-12 w-full bg-black flex items-center sticky top-0 z-[900] select-none">
             {/* ÀREA D'ÍTEMS AMB SCROLL HORITZONTAL */}
             <div className="flex-1 h-full overflow-x-auto no-scrollbar px-4">
                 <div className="flex items-center gap-8 lg:gap-14 h-full min-w-max">
                     {items.map((item) => (
-                        <NavLink
+                        <button
                             key={item.id}
-                            to={item.path}
-                            className={({ isActive }) => `
-                                relative h-full flex items-center text-[15px] lg:text-[18px] font-black tracking-[0.25em] transition-all
-                                ${isActive 
-                                    ? 'text-[#FF6B00] after:content-[""] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[3px] after:bg-[#FF6B00]' 
+                            onClick={() => {
+                                if (!isChat) {
+                                    navigate(item.path);
+                                }
+                            }}
+                            className={`
+                                relative h-full flex items-center text-[13px] lg:text-[15px] font-black tracking-[0.25em] transition-all
+                                ${location.pathname === item.path || (isChat && item.id === 'xat')
+                                    ? 'text-[#FF6B00]' 
                                     : 'text-slate-500 hover:text-white'}
                             `}
                         >
                             {item.label}
-                        </NavLink>
+                        </button>
                     ))}
                 </div>
             </div>

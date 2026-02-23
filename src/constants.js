@@ -2,7 +2,7 @@
  * Constants globals per a l'aplicació Sóc de Poble
  */
 
-export const APP_VERSION = "v10.33.11-CANÒNIC";
+export const APP_VERSION = "v10.33.15-CANÒNIC";
 export const CRITICAL_THRESHOLD = "v1.6.0";
 
 export const DEMO_USER_ID = "11111111-0000-0000-0000-000000000001";
@@ -79,7 +79,7 @@ export const ENABLE_MOCKS =
   import.meta.env.MODE === "development";
 
 export const THEMES = {
-  DAY: 'light',
-  NIGHT: 'dark',
-  SOLEMNE: 'solemne'
+  DAY: "light",
+  NIGHT: "dark",
+  SOLEMNE: "solemne",
 };

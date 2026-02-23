@@ -254,10 +254,6 @@ const HubView = () => {
                     >
                         <LogOut size={16} /> Tancar Sessió
                     </button>
-                    <div className="archon-status flex items-center gap-3 bg-fuchsia-500/5 border border-fuchsia-500/20 px-6 py-3 rounded-[24px]">
-                        <Brain size={20} className="text-fuchsia-500 animate-pulse" />
-                        <span className="text-[10px] font-black uppercase tracking-widest text-fuchsia-400">ARCHON CONSOLIDATED v10.33</span>
-                    </div>
                 </div>
             </footer>
         </div>

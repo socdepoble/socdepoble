@@ -70,7 +70,7 @@ const ChatEmptyState = () => {
 
           <div className="mt-10 pt-6 border-t border-white/5 flex items-center justify-between">
             <span className="text-[10px] font-black uppercase text-gray-500 flex items-center gap-2">
-              <ShieldCheck size={14} /> Protocol 1er Mandament v10.33.11-CANÒNIC
+              <ShieldCheck size={14} /> Protocol 1er Mandament v10.33.15-CANÒNIC
             </span>
             <div className="flex gap-1">
               <div className="w-2 h-2 rounded-full bg-orange-600 animate-pulse"></div>
@@ -85,29 +85,7 @@ const ChatEmptyState = () => {
 
   return (
     <div className="flex-1 flex flex-col items-center justify-start py-20 relative overflow-y-auto bg-black scrollbar-hide">
-      {/* PROTOCOL SORTIDA D'EMERGÈNCIA - Botó de tancament "sense traumes" */}
-      <div className="absolute top-8 right-8 z-50 flex items-center gap-4">
-        <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 hidden md:block">
-          TANCAR PRESENTACIÓ
-        </span>
-        <button
-          onClick={() => (window.location.href = "/")}
-          className="w-16 h-16 flex items-center justify-center bg-white/10 backdrop-blur-2xl hover:bg-orange-600 text-white rounded-[24px] border border-white/20 shadow-[0_0_50px_rgba(0,0,0,0.5)] transition-all active:scale-90 group"
-          title="Tancar i navegar"
-        >
-          <X
-            size={32}
-            className="group-hover:rotate-90 transition-transform duration-500"
-          />
-        </button>
-      </div>
-
-      {/* Overlay de tancament per clic extern */}
-      <div
-        className="absolute inset-0 z-0 cursor-pointer"
-        onClick={() => (window.location.href = "/")}
-        title="Clica per tancar"
-      />
+      {/* [ESPORGAT V12] Sortida d'emergència eliminada per directiva del Mestre */}
 
       {/* Grid de fons subtil (Protocol v9.1.0) */}
       <div
@@ -119,11 +97,11 @@ const ChatEmptyState = () => {
       ></div>
 
       <h1
-        className={`relative z-10 text-3xl md:text-5xl font-black text-center mb-12 tracking-normal uppercase italic ${colors.textPrimary} leading-none`}
+        className={`relative z-10 text-3xl md:text-5xl font-black text-center mb-12 tracking-normal uppercase italic text-[#FF6B00] leading-none`}
       >
         SÓC DE POBLE
         <br />
-        <span className="text-[#FF6B00]">PER A WEB</span>
+        <span>PER A WEB</span>
       </h1>
 
       <div
@@ -145,15 +123,9 @@ const ChatEmptyState = () => {
       <div className="relative z-10 flex flex-wrap items-center justify-center gap-10 mb-20 px-6">
         <button
           className="flex items-center gap-4 px-12 py-6 bg-[#FF6B00] text-white rounded-[24px] font-black uppercase text-xl tracking-widest shadow-2xl shadow-[#FF6B00]/50 hover:scale-105 active:scale-95 transition-all w-full md:w-auto"
-          onClick={() => alert("Bategant Connexió...")}
+          onClick={() => window.location.href = "/registre"}
         >
-          <UserPlus size={32} /> Connectar amb el Poble
-        </button>
-        <button
-          className={`flex items-center gap-4 px-12 py-6 rounded-[24px] font-black uppercase text-xl tracking-widest bg-white text-black hover:bg-gray-200 transition-all w-full md:w-auto shadow-2xl`}
-          onClick={() => alert("Obrint Safareig...")}
-        >
-          <MessageCircle size={32} /> Entrar al Safareig
+          <UserPlus size={32} /> Connecta amb el teu Poble!
         </button>
         <button
           className={`flex items-center gap-4 px-12 py-6 rounded-[24px] font-black uppercase text-xl tracking-widest bg-white text-black hover:bg-gray-200 transition-all w-full md:w-auto shadow-2xl`}
@@ -167,7 +139,7 @@ const ChatEmptyState = () => {
             else alert("Enllaç copiat!");
           }}
         >
-          <Share2 size={32} /> Compartir Batec
+          <Share2 size={32} /> Compartir Sóc de Poble
         </button>
       </div>
 
@@ -192,7 +164,7 @@ const ChatEmptyState = () => {
 
       <div className="mt-12 flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] opacity-40 font-black text-gray-500">
         <Settings size={12} />
-        <span>Xifrat d'Extrem a Extrem | v10.33.11-CANÒNIC</span>
+        <span>Xifrat d'Extrem a Extrem | v10.33.15-CANÒNIC</span>
       </div>
     </div>
   );

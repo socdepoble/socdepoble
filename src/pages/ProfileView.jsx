@@ -251,11 +251,11 @@ const ProfileView = () => {
             <section className="identity-block mt-32 px-6 text-center">
                 <div className="badges-wrapper flex justify-center gap-2 mb-6">
                     {profile?.town_name && (
-                        <span className="px-4 py-1.5 bg-white/5 text-gray-500 border border-white/10 rounded-full text-[9px] font-black uppercase tracking-[0.2em]">
+                        <span className="px-4 py-1.5 bg-white/5 text-gray-500 border border-white/10 rounded-full text-[9px] font-black uppercase tracking-[0.2em] transition-all hover:bg-white/10">
                             {profile.town_name}
                         </span>
                     )}
-                    <span className={`px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-[0.2em] border ${isMaster ? 'bg-indigo-500/20 text-indigo-400 border-indigo-500/30' : (isCompany ? 'bg-indigo-600/20 text-indigo-300 border-indigo-500/30' : (isAutonomous ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' : 'bg-orange-500/20 text-orange-400 border-orange-500/30'))}`}>
+                    <span className={`px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-[0.2em] border transition-all hover:brightness-110 ${isMaster ? 'bg-indigo-500/20 text-indigo-400 border-indigo-500/30' : (isCompany ? 'bg-indigo-600/20 text-indigo-300 border-indigo-500/30' : (isAutonomous ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' : 'bg-orange-500/20 text-orange-400 border-orange-500/30'))}`}>
                         {isMaster ? 'MESTRE BATEGANT' : (id === 'el-rentonar' ? 'ASSOCIACIÓ VERIFICADA' : (isCompany ? 'EMPRESA VERIFICADA' : (isAutonomous ? 'PÀGINA D\'AUTÒNOM' : (profile?.role === 'vei' || profile?.role === 'neighbor' ? 'SÓC DE POBLE' : (profile?.role?.toUpperCase() || 'SÓC DE POBLE')))))}
                     </span>
                 </div>
@@ -269,7 +269,21 @@ const ProfileView = () => {
                 </p>
 
                 <div className="actions-row py-4 flex flex-col sm:flex-row justify-center items-center gap-4">
-                    {!isOwnProfile ? (
+                    {!currentUser || currentUser.isAnonymous ? (
+                        <div className="flex flex-col gap-4 w-full max-w-[400px] bg-white/5 p-8 rounded-[28px] border border-white/10 backdrop-blur-xl animate-in fade-in slide-in-from-bottom-4 duration-700">
+                            <div className="text-center mb-4">
+                                <h3 className="text-xl font-black uppercase tracking-tighter mb-2 italic">Aquest perfil encara no bategua?</h3>
+                                <p className="text-xs text-gray-400 uppercase tracking-widest leading-relaxed">Registra't per a connectar amb {displayName} i formar part de la sobirania digital del poble.</p>
+                            </div>
+                            <button 
+                                onClick={() => navigate('/registre')}
+                                className="w-full h-16 rounded-2xl bg-gradient-to-r from-[#F97316] to-[#E11D48] text-white font-black text-sm uppercase tracking-[0.2em] shadow-[0_10px_40px_rgba(249,115,22,0.4)] hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3 group"
+                            >
+                                <Zap size={20} className="group-hover:animate-pulse" />
+                                <span>BATEGA ARA I REGISTRA'T</span>
+                            </button>
+                        </div>
+                    ) : !isOwnProfile ? (
                         <div className="flex flex-col gap-4 w-full max-w-[320px]">
                             <button 
                                 onClick={() => openConnectionModal({ targetId: profile?.id })}
@@ -308,13 +322,19 @@ const ProfileView = () => {
                                     </div>
                                     <span className="text-[8px] opacity-60">Explora totes les funcionalitats</span>
                                 </button>
-                                <button className="h-16 rounded-2xl bg-indigo-600/40 border-2 border-indigo-400/50 text-white text-sm font-black uppercase tracking-wider flex items-center justify-center gap-4 hover:bg-indigo-600/60 transition-all shadow-[0_0_20_rgba(79,70,229,0.3)] active:scale-95 leading-tight px-4 text-center">
+                                <button 
+                                    onClick={() => navigate('/entitats')}
+                                    className="h-16 rounded-2xl bg-indigo-600/40 border-2 border-indigo-400/50 text-white text-[10px] font-black uppercase tracking-wider flex items-center justify-center gap-4 hover:bg-indigo-600/60 transition-all shadow-[0_0_20px_rgba(79,70,229,0.3)] active:scale-95 leading-tight px-4 text-center"
+                                >
                                     <Landmark size={24} className="text-indigo-300 shrink-0" />
-                                    <span>Pàgina d'Autònom</span>
+                                    <span>Pàgina d'Empresa / Autònom</span>
                                 </button>
-                                <button className="h-16 rounded-2xl bg-indigo-600/40 border-2 border-indigo-400/50 text-white text-sm font-black uppercase tracking-wider flex items-center justify-center gap-4 hover:bg-indigo-600/60 transition-all shadow-[0_0_20_rgba(79,70,229,0.3)] active:scale-95 leading-tight px-4 text-center">
-                                    <Landmark size={24} className="text-indigo-300 shrink-0" />
-                                    <span>Pàgina d'Empresa</span>
+                                <button 
+                                    onClick={() => navigate('/entitats')}
+                                    className="h-16 rounded-2xl bg-indigo-600/40 border-2 border-indigo-400/50 text-white text-[10px] font-black uppercase tracking-wider flex items-center justify-center gap-4 hover:bg-indigo-600/60 transition-all shadow-[0_0_20px_rgba(79,70,229,0.3)] active:scale-95 leading-tight px-4 text-center"
+                                >
+                                    <Users size={24} className="text-indigo-300 shrink-0" />
+                                    <span>Crear Grup o Associació</span>
                                 </button>
                             </div>
 
