@@ -106,43 +106,54 @@ const AddItemModal = ({ isOpen, onClose, onItemCreated, isPrivateInitial = false
     };
 
     return (
-        <div className="modal-overlay" onClick={onClose}>
-            <div className="modal-content" onClick={e => e.stopPropagation()}>
-                <header className="modal-header">
-                    <h2>{t('market.sell_title')}</h2>
-                    <button className="close-btn" onClick={onClose}>
+        <div className="m3-dialog-overlay" onClick={onClose}>
+            <div className="m3-dialog-content animate-in-up" onClick={e => e.stopPropagation()}>
+                <header className="m3-dialog-header">
+                    <button className="m3-icon-button" onClick={onClose}>
                         <X size={24} />
+                    </button>
+                    <div className="header-title-group">
+                        <h2 className="m3-headline-small">{t('market.sell_title') || 'Publicar al Mercat'}</h2>
+                    </div>
+                    <button
+                        className="m3-button-text"
+                        onClick={handleSubmit}
+                        disabled={loading || !formData.title || !formData.price}
+                    >
+                        {loading ? 'Publicant...' : 'PUBLICAR'}
                     </button>
                 </header>
 
-                <form onSubmit={handleSubmit} className="post-form-compact market-form-optimized">
-                    <div className="post-identity-bar">
+                <div className="m3-dialog-body scrollable">
+                    <div className="flex items-center justify-between mb-4 mt-2">
                         <EntitySelector
                             currentIdentity={selectedIdentity}
                             onSelectIdentity={setSelectedIdentity}
                             mini={true}
                         />
-                        <div className="post-privacy-mini">
-                            <button
-                                type="button"
-                                className={`privacy-toggle ${privacy}`}
-                                onClick={() => {
-                                    const flow = ['public', 'groups', 'private'];
-                                    const next = flow[(flow.indexOf(privacy) + 1) % 3];
-                                    setPrivacy(next);
-                                }}
-                                title={t(`common.${privacy}`)}
-                            >
-                                {privacy === 'public' ? <Globe size={18} /> :
-                                    privacy === 'groups' ? <Users size={18} /> : <Lock size={18} />}
-                            </button>
-                        </div>
+                        <button
+                            type="button"
+                            className="bg-white/5 p-2 rounded-full hover:bg-white/10 transition-colors"
+                            onClick={() => {
+                                const flow = ['public', 'groups', 'private'];
+                                const next = flow[(flow.indexOf(privacy) + 1) % 3];
+                                setPrivacy(next);
+                            }}
+                            title={t(`common.${privacy}`)}
+                        >
+                            {privacy === 'public' ? <Globe size={18} /> :
+                                privacy === 'groups' ? <Users size={18} /> : <Lock size={18} />}
+                        </button>
                     </div>
 
-                    <div className="market-inputs-grid">
-                        <div className="form-group-compact">
+                    <div className="flex flex-col gap-4">
+                        <div className="w-full">
+                            <label htmlFor="market-item-title" className="sr-only">Títol de l'article</label>
                             <input
+                                id="market-item-title"
+                                name="market_title"
                                 type="text"
+                                className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white placeholder-white/40 focus:outline-none focus:border-white/30"
                                 placeholder={t('market.item_title') || 'Títol de l\'article'}
                                 value={formData.title}
                                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
@@ -150,18 +161,26 @@ const AddItemModal = ({ isOpen, onClose, onItemCreated, isPrivateInitial = false
                             />
                         </div>
 
-                        <div className="form-row-compact">
-                            <div className="form-group-compact">
+                        <div className="flex gap-4">
+                            <div className="flex-1">
+                                <label htmlFor="market-item-price" className="sr-only">Preu</label>
                                 <input
+                                    id="market-item-price"
+                                    name="market_price"
                                     type="text"
+                                    className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white placeholder-white/40 focus:outline-none focus:border-white/30"
                                     placeholder={t('market.price') || 'Preu (ex: 5€)'}
                                     value={formData.price}
                                     onChange={(e) => setFormData({ ...formData, price: e.target.value })}
                                     required
                                 />
                             </div>
-                            <div className="form-group-compact">
+                            <div className="flex-1">
+                                <label htmlFor="market-item-tag" className="sr-only">Categoria</label>
                                 <select
+                                    id="market-item-tag"
+                                    name="market_tag"
+                                    className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white focus:outline-none focus:border-white/30 appearance-none"
                                     value={formData.tag}
                                     onChange={(e) => setFormData({ ...formData, tag: e.target.value })}
                                 >
@@ -175,39 +194,31 @@ const AddItemModal = ({ isOpen, onClose, onItemCreated, isPrivateInitial = false
                         </div>
                     </div>
 
-                    <div className="post-content-area" style={{ minHeight: '180px', marginTop: '10px' }}>
+                    <div className="m3-editor-container mt-6">
                         <MasterEditor
                             value={formData.description}
                             onChange={(val) => setFormData({ ...formData, description: val })}
                             placeholder={t('market.description_placeholder') || 'Descripció detallada de l\'article...'}
                         />
                     </div>
+                </div>
 
-                    <div className="post-footer-tools">
-                        <div className="tools-left">
-                            <button type="button" className="tool-btn" onClick={() => setIsCaptureOpen(true)}>
-                                <Camera size={20} />
-                            </button>
-                            <span className="tool-label-mini">Captura Bategada (Foto/Vídeo)</span>
-                        </div>
+                <footer className="m3-dialog-footer border-t border-white/10 p-4">
+                    <div className="flex items-center gap-4">
+                        <button type="button" className="m3-icon-button" onClick={() => setIsCaptureOpen(true)}>
+                            <Camera size={20} />
+                        </button>
+                        <span className="text-xs text-white/50 uppercase tracking-widest font-bold">Foto/Vídeo de l'article</span>
 
                         {capturedMedia && (
-                            <div className="capture-badge animate-in">
+                            <div className="flex items-center gap-2 bg-emerald-500/20 text-emerald-400 px-3 py-1.5 rounded-full text-xs font-bold animate-in zoom-in ml-auto">
                                 {capturedMedia.type === 'photo' ? <ImageIcon size={14} /> : <Video size={14} />}
-                                <span>Media List!</span>
-                                <button type="button" onClick={() => setCapturedMedia(null)} className="ml-1"><X size={12} /></button>
+                                <span>Llest!</span>
+                                <button type="button" onClick={() => setCapturedMedia(null)} className="ml-1 hover:text-white"><X size={12} /></button>
                             </div>
                         )}
-
-                        <button
-                            type="submit"
-                            className="btn-send-round"
-                            disabled={!formData.title || !formData.price || loading}
-                        >
-                            {loading ? <Loader2 className="spinner" size={20} /> : <Send size={20} />}
-                        </button>
                     </div>
-                </form>
+                </footer>
             </div>
 
             <CaptureStudio

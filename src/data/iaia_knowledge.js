@@ -100,28 +100,28 @@ export const RESIDENT_LORE = {
         secret: "Coneix el lloc exacte on brolla el pou secret que mai s'asseca a la serra.",
         personality: "Prudent, estimat per tots, fill d'una de les families més antigues de la Torre.",
         connections: ["Samir Mensah", "Maria la de la Tenda"],
-        avatar_url: "/images/demo/avatar_man_old.png"
+        avatar_url: "/assets/avatars/comic/avatar_man_old.png"
     },
     "Samir Mensah": {
         id: "11111111-1111-4111-a111-000000000004",
         secret: "Guarda la recepta secreta del cuscús de l'Alt Atles que portarà al proper mercat.",
         personality: "Treballador, curiós, li agrada escoltar les històries de Vicent mentre apren fusteria.",
         connections: ["Vicent Ferris"],
-        avatar_url: "/images/demo/avatar_man_1.png"
+        avatar_url: "/assets/avatars/comic/avatar_man_1.png"
     },
     "Maria la de la Tenda": {
         id: "11111111-1111-4111-a111-000000000005",
         secret: "En el seu rebost guarda una llibreta amb totes les cobles que cantava sa mare.",
         personality: "Xarradora, coneix tots els secrets del poble, sempre té un caramel per als xiquets.",
         connections: ["Vicent Ferris", "Tio Colau"],
-        avatar_url: "/images/demo/avatar_woman_1.png"
+        avatar_url: "/images/demo/avatar_maria.png"
     },
     "Tio Colau": {
         id: "11111111-1111-4111-a111-000000000006",
         secret: "Encara guarda les claus del vell molí que ja ningú sap on està.",
         personality: "Molt vell, de poques paraules però molta saviesa, expert en predir el temps mirant els núvols.",
         connections: ["Maria la de la Tenda"],
-        avatar_url: "/images/demo/avatar_man_old_2.png"
+        avatar_url: "/assets/avatars/comic/tio_colau_comic.png"
     },
     "Nano Banana": {
         id: "11111111-1111-4111-a111-000000000007",

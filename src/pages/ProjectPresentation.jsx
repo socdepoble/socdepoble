@@ -191,7 +191,7 @@ const ProjectPresentation = () => {
                     </div>
                     <div className="profile-contact-row">
                         <div className="avatar-frame-gold">
-                            <img src="/images/demo/avatar_man_1.png" alt="Javi Llinares" className="avatar-img-premium" />
+                            <img src="/assets/avatars/comic/avatar_man_1.png" alt="Javi Llinares" className="avatar-img-premium" />
                         </div>
                         <div className="contact-info-text">
                             <h3>Javi Llinares</h3>
@@ -351,7 +351,7 @@ const ProjectPresentation = () => {
                 <section className="pitch-section iaia-librarian-section" style={{ marginTop: '60px', borderTop: '1px solid var(--color-divider)', paddingTop: '40px' }}>
                     <div className="glass-card-premium iaia-librarian-card">
                         <div className="iaia-avatar-badge">
-                            <img src="/iaia_digital_matriarch.png" alt="IAIA" />
+                            <img src="/assets/avatars/comic/iaia_comic_matriarch.png" alt="IAIA" />
                             <div className="badge-glow"></div>
                         </div>
                         <div className="iaia-content">

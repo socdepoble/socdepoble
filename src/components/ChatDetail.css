@@ -6,7 +6,7 @@
   bottom: 0 !important;
   display: flex !important;
   flex-direction: column !important;
-  background: #000;
+  background: var(--bg-theme-base);
   overflow: hidden !important;
 }
 
@@ -52,12 +52,12 @@
   align-items: center !important;
   justify-content: space-between !important;
   padding: 0 16px !important;
-  background: #000 !important;
+  background: var(--bg-theme-header) !important;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
   height: 64px !important;
   flex-shrink: 0 !important;
   z-index: 100 !important;
-  color: #fff !important;
+  color: var(--text-theme-text) !important;
 }
 
 .back-button {
@@ -74,8 +74,8 @@
   position: relative !important; /* El pare és flex, no cal sticky si el rest és flex-1 */
   width: 100% !important;
   padding: 16px 20px calc(16px + env(safe-area-inset-bottom, 20px)) !important;
-  background: #000 !important;
-  border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background: var(--bg-theme-base) !important;
+  border-top: 1px solid var(--border-master) !important;
   display: flex !important;
   flex-direction: column !important;
   gap: 8px !important;
@@ -170,7 +170,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
-  background-color: var(--bg-main);
+  background: transparent;
 }
 
 .message-row.wa-style {
@@ -268,7 +268,7 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  background: var(--bg-page);
+  background: transparent;
 }
 
 .message-avatar-container {
@@ -437,8 +437,8 @@
   position: relative;
   width: 100%;
   padding: 16px 20px calc(16px + env(safe-area-inset-bottom, 20px));
-  background: #000 !important;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--bg-theme-base) !important;
+  border-top: 1px solid var(--border-master);
   display: flex !important;
   flex-direction: column;
   gap: 8px;

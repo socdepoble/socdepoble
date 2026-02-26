@@ -1,13 +1,12 @@
+import { useDesign } from '../context/DesignContext';
 import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Plus, Loader2, MapPin, Sparkles, Filter, Zap, Check } from 'lucide-react';
-import { useUI } from '../context/UIContext';
 import { supabaseService } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
 import { logger } from '../utils/logger';
 import Avatar from './Avatar';
-import CategoryTabs from './CategoryTabs';
 import StatusLoader from './StatusLoader';
 import MarketSkeleton from './Skeletons/MarketSkeleton';
 import SEO from './SEO';
@@ -26,27 +25,18 @@ import './Marketplace.css';
 const Market = ({ searchTerm = '' }) => {
     const { t } = useTranslation();
     const { isPlayground, isSuperAdmin } = useAuth();
-    const { visionMode } = useUI();
+    const { visionMode } = useDesign();
     const navigate = useNavigate();
     const [items, setItems] = useState([]);
     const [, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
     const [loadingMore, setLoadingMore] = useState(false);
     const [hasMore, setHasMore] = useState(true);
-    const [activeTab, setActiveTab] = useState('tot');
     const [page, setPage] = useState(0);
     const [isIAIAFiltering] = useState(localStorage.getItem('isIAIAFiltering') === 'true');
     const [viewMode, setViewMode] = useState(localStorage.getItem('market_view_mode') || 'grid');
     const [internalSearchTerm, setInternalSearchTerm] = useState('');
     const PAGE_SIZE = 100;
-
-    const marketTabs = [
-        { id: 'tot', label: t('market.tabs.all') || 'Tot', role: 'tot' },
-        { id: 'producte-local', label: t('market.tabs.local') || 'Producte local', role: 'producte-local' },
-        { id: 'artesania', label: t('market.tabs.crafts') || 'Artesania', role: 'artesania' },
-        { id: 'segona-ma', label: t('market.tabs.secondhand') || 'Segona mà', role: 'segona-ma' },
-        { id: 'excedents', label: 'Excedents (Km 0)', role: 'excedents' }
-    ];
 
     const loadMarketData = React.useCallback(async (append = false) => {
         const currentPage = append ? page + 1 : 0;
@@ -54,16 +44,15 @@ const Market = ({ searchTerm = '' }) => {
         else setLoading(true);
 
         try {
-            const result = await supabaseService.getMarketItems(
-                activeTab,
-                null,
-                currentPage,
-                PAGE_SIZE,
-                isPlayground
-            );
+            const { data } = await supabaseService.getMarketItems({
+                page: currentPage,
+                limit: PAGE_SIZE,
+                categorySlug: 'tot', // Default to all as tab is removed
+                isIAIAFiltering
+            });
 
             // [MASTER] Robust handling of { data, count } response
-            const fetchedItems = result?.data || [];
+            const fetchedItems = data || [];
 
             if (append) {
                 setItems(prev => [...(Array.isArray(prev) ? prev : []), ...fetchedItems]);
@@ -79,7 +68,7 @@ const Market = ({ searchTerm = '' }) => {
             setLoading(false);
             setLoadingMore(false);
         }
-    }, [activeTab, isPlayground, page]);
+    }, [page, isIAIAFiltering]);
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -95,7 +84,7 @@ const Market = ({ searchTerm = '' }) => {
 
     useEffect(() => {
         // [PILAR 1: INSTANT LOAD] - Bategat immediat des de la memòria local
-        const cacheKey = `market_${activeTab}_global_0`;
+        const cacheKey = `market_global_0`;
         const localData = localStorage.getItem(`lc_${cacheKey}`);
         if (localData) {
             try {
@@ -110,7 +99,7 @@ const Market = ({ searchTerm = '' }) => {
             }
         }
         loadMarketData(false);
-    }, [activeTab, loadMarketData]);
+    }, [searchTerm, isIAIAFiltering, loadMarketData]);
 
     const filteredItems = useMemo(() => {
         let baseItems = items;
@@ -291,6 +280,30 @@ const Market = ({ searchTerm = '' }) => {
                 image="/og-mercat.png"
                 url="/mercat"
                 type="website"
+                structuredData={{
+                    "@type": "ItemList",
+                    "name": "Productes del Mercat Local",
+                    "itemListElement": filteredItems.slice(0, 10).map((item, index) => ({
+                        "@type": "ListItem",
+                        "position": index + 1,
+                        "item": {
+                            "@type": "Product",
+                            "name": item.title,
+                            "description": item.description,
+                            "url": `https://socdepoble.org/mercat`,
+                            "image": item.image_url || "https://socdepoble.org/og-mercat.png",
+                            "offers": {
+                                "@type": "Offer",
+                                "price": item.price ? parseFloat(item.price.toString().replace('€','').replace(',','.')) || 0 : 0,
+                                "priceCurrency": "EUR",
+                                "seller": {
+                                    "@type": "Organization",
+                                    "name": item.seller_name || item.seller || 'Sóc de Poble'
+                                }
+                            }
+                        }
+                    }))
+                }}
             />
             {/* Semantic Heading for SEO/A11y */}
             <h1 className="sr-only">Mercat de Proximitat de Sóc de Poble</h1>
@@ -306,16 +319,6 @@ const Market = ({ searchTerm = '' }) => {
                 }}
                 placeholder="Cerca al mercat..."
             />
-
-            {/* TÍTOL I BOTÓ REDUNDANTS ELIMINATS (PROTOCOLS V11) */}
-            
-            <div className="px-4 mb-6">
-                <CategoryTabs
-                    selectedRole={activeTab}
-                    onSelectRole={setActiveTab}
-                    tabs={marketTabs}
-                />
-            </div>
 
             {/* IAIA PORTERA FRAME ELIMINAT (PROTOCOL V11) */}
 

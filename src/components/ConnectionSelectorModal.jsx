@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, Sparkles, Tag, Check } from 'lucide-react';
+import { X, Sparkles, Tag, Check, Shield } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import TagSelector from './TagSelector';
 import './ConnectionSelectorModal.css';
@@ -30,6 +30,12 @@ const ConnectionSelectorModal = ({ isOpen, onClose, currentTags = [], onUpdate }
                 </header>
 
                 <div className="connection-modal-body">
+                    {/* [MASTER PRIVACY] Private Categorization Notice */}
+                    <div className="privacy-badge-notice">
+                        <Shield size={14} />
+                        <span>Aquesta acció és 100% privada. Només tu podràs veure aquest post a la teua llibreta.</span>
+                    </div>
+
                     <TagSelector
                         currentTags={currentTags}
                         onTagsChange={onUpdate}

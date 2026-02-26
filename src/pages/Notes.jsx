@@ -5,7 +5,7 @@ import NotebookSidebar from '../components/NotebookSidebar';
 import NotebookList from '../components/NotebookList';
 import MasterEditor from '../components/MasterEditor';
 import AccessibilitatUniversal from '../components/AccessibilitatUniversal';
-import { useUI } from '../context/UIContext';
+import { useNavigation } from '../context/NavigationContext';
 import { hapticService } from '../services/hapticService';
 import { Sparkles, Trash2, Share, Folder, Tag, MessageSquare, Info } from 'lucide-react';
 import './Notebook.css';
@@ -83,10 +83,9 @@ const INITIAL_NOTES = [
 ];
 
 const Notes = () => {
+    const { isAccessibilitatOpen, setIsAccessibilitatOpen } = useNavigation();
     const { t } = useTranslation();
-    const { 
-        openIAIASidebar, isAccessibilitatOpen, setIsAccessibilitatOpen
-    } = useUI();
+    const { openIAIASidebar } = useNavigation();
     const [searchParams, setSearchParams] = useSearchParams();
     const [folders, setFolders] = useState(() => {
         const saved = localStorage.getItem('sdoc_folders');
@@ -148,13 +147,16 @@ const Notes = () => {
                     contentCreatedAt: new Date().toISOString()
                 };
                 
-                setNotes(prev => [captureNote, ...prev]);
-                setActiveNoteId(captureId);
-                setActiveFolderId('f-captures');
+                // [BATEGAT ASÍNCROC] Evitem renders en cascada síncrons
+                setTimeout(() => {
+                    setNotes(prev => [captureNote, ...prev]);
+                    setActiveNoteId(captureId);
+                    setActiveFolderId('f-captures');
+                    hapticService.notifySuccess();
+                }, 10);
                 
-                // Clear params
+                // Clear params immediatament
                 setSearchParams({}, { replace: true });
-                hapticService.notifySuccess();
             }
         }
     }, [searchParams, setSearchParams]);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useUI } from '../context/UIContext';
+import { useModal } from '../context/ModalContext';
 import { useAuth } from '../context/AuthContext';
 import CreatePostModal from './CreatePostModal';
 import AddItemModal from './AddItemModal';
@@ -16,41 +16,7 @@ import CreationHub from './CreationHub';
 import GuestInteractionModal from './GuestInteractionModal';
 
 const GlobalModals = () => {
-    const {
-        isCreateModalOpen,
-        isPostModalOpen,
-        setIsPostModalOpen,
-        isEventModalOpen,
-        setIsEventModalOpen,
-        isMarketModalOpen,
-        setIsMarketModalOpen,
-        isSocialManagerOpen,
-        setIsSocialManagerOpen,
-        postModalConfig,
-        isConnectionModalOpen,
-        connectionConfig,
-        closeConnectionModal,
-        isAgentSelectorOpen,
-        closeAgentSelector,
-        agentSelectorConfig,
-        isViewerOpen,
-        closeViewer,
-        viewerConfig,
-        isLegalModalOpen,
-        closeLegalModal,
-        legalConfig,
-        editConfig,
-        isEditModalOpen,
-        closeEditModal,
-        isTallerOpen,
-        setIsTallerOpen,
-        isIAIARoleSelectorOpen,
-        closeIAIARoleSelector,
-        iaiaLevel,
-        setIaiaLevel,
-        isMagicPregonerOpen,
-        setIsMagicPregonerOpen
-    } = useUI();
+    const { isCreateModalOpen, isPostModalOpen, setIsPostModalOpen, isEventModalOpen, setIsEventModalOpen, isMarketModalOpen, setIsMarketModalOpen, isSocialManagerOpen, setIsSocialManagerOpen, postModalConfig, isConnectionModalOpen, connectionConfig, closeConnectionModal, isAgentSelectorOpen, closeAgentSelector, agentSelectorConfig, isViewerOpen, closeViewer, viewerConfig, isLegalModalOpen, closeLegalModal, legalConfig, editConfig, isEditModalOpen, closeEditModal, isMagicPregonerOpen, setIsMagicPregonerOpen } = useModal();
     const { isPlayground } = useAuth();
 
     // Import ConnectionSelectorModal inside if needed or at top
@@ -159,20 +125,7 @@ const GlobalModals = () => {
                     isPlayground={isPlayground}
                 />
             )}
-            {isTallerOpen && (
-                <TallerTrellat
-                    isOpen={isTallerOpen}
-                    onClose={() => setIsTallerOpen(false)}
-                />
-            )}
-            {isIAIARoleSelectorOpen && (
-                <IAIARoleSelectorModal
-                    isOpen={isIAIARoleSelectorOpen}
-                    onClose={closeIAIARoleSelector}
-                    currentLevel={iaiaLevel}
-                    onSelect={setIaiaLevel}
-                />
-            )}
+
             {isMagicPregonerOpen && (
                 <MagicPregoner 
                     onClose={() => setIsMagicPregonerOpen(false)} 

@@ -26,3 +26,15 @@ Per a assegurar que el Mas bategue amb harmonia, s'han de seguir aquestes regles
 - **Mides de Logo**: El logo a la capçalera ha de mantenir una proporció equilibrada (aprox. `h-10` a `h-11`) per a no eclipsar la funcionalitat de les eines.
 - **Espaiat de Capçalera**: La distància entre el menú sandvitx i el logo ha de ser de `24px` (`gap-6`) sense marges addicionals, per a evitar buits innecessaris i mantenir la cohesió.
 - **Reflexió en la Col·locació**: Cada element ha de ser fruit d'una reflexió sobre la seua posició i l'harmonia global del Mas. Més gran no sempre és millor; l'equilibri és el bategat perfecte.
+
+## 5. El Protocol de la Boina (Header) 🏺🧢
+
+- **Identitat Visual**: Les targetes d'autor porten el header (boina) amb color institucional.
+- **Mode Nit (Dark Mode)**: Color **Taronja Institucional** (#F97316). Màxima visibilitat sobre negre.
+- **Mode Dia (Light Mode)**: Color **Blau Sky** (#0EA5E9). Harmonia amb el cel rural.
+- **Contingut**: Nom a l'esquerra, cronologia (data/hora) a la dreta. **PROHIBIT** duplicar el nom del projecte si ja apareix com a autor.
+
+## 6. Ubicació del Preu (Mercat) 💰🏷️
+
+- **Posició**: Estrictament a la part **inferior dreta** de la targeta (body), a sobre de la barra d'accions.
+- **Estil**: Pastilla robusta (Pill) amb color de la Boina bategant, font Roboto Condensed Bold, i ombra profunda per a destacar l'oferta.

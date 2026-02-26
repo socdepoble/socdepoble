@@ -1,21 +1,23 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { Search, LayoutGrid, List, Square, X } from 'lucide-react';
-import { useUI } from '../context/UIContext';
+import { useDesign } from '../context/DesignContext';
 import './ContextualHeader.css';
 
-const ContextualHeader = ({ searchTerm, onSearchChange, viewMode, onViewModeChange, placeholder = "Cerca..." }) => {
-    const { hapticService } = useUI();
+const ContextualHeader = forwardRef(({ searchTerm, onSearchChange, viewMode, onViewModeChange, placeholder = "Cerca...", extraActions = null, backButton = null }, ref) => {
+    const { hapticService } = useDesign();
 
     const handleSearchClear = () => {
         onSearchChange('');
-        if (hapticService) hapticService.bategat();
+        if (hapticService) hapticService.trigger();
     };
 
     return (
         <div className="contextual-header-container">
-            <div className="search-bar-wrapper h-14">
+            <div className="search-bar-wrapper h-14 flex items-center">
+                {backButton}
                 <Search size={22} className="search-icon" />
                 <input
+                    ref={ref}
                     type="text"
                     value={searchTerm}
                     onChange={(e) => onSearchChange(e.target.value)}
@@ -27,23 +29,28 @@ const ContextualHeader = ({ searchTerm, onSearchChange, viewMode, onViewModeChan
                         <X size={16} />
                     </button>
                 )}
+                {extraActions && (
+                    <div className="extra-actions-wrapper ml-2 flex gap-2">
+                        {extraActions}
+                    </div>
+                )}
             </div>
 
             <div className="view-mode-toggles">
                 <button
-                    onClick={() => { onViewModeChange('single'); hapticService?.bategat(); }}
+                    onClick={() => { onViewModeChange('single'); hapticService?.trigger(); }}
                     className={`view-toggle-btn ${viewMode === 'single' ? 'active' : ''}`}
                 >
                     <Square size={20} />
                 </button>
                 <button
-                    onClick={() => { onViewModeChange('grid'); hapticService?.bategat(); }}
+                    onClick={() => { onViewModeChange('grid'); hapticService?.trigger(); }}
                     className={`view-toggle-btn ${viewMode === 'grid' ? 'active' : ''}`}
                 >
                     <LayoutGrid size={20} />
                 </button>
                 <button
-                    onClick={() => { onViewModeChange('list'); hapticService?.bategat(); }}
+                    onClick={() => { onViewModeChange('list'); hapticService?.trigger(); }}
                     className={`view-toggle-btn ${viewMode === 'list' ? 'active' : ''}`}
                 >
                     <List size={20} />
@@ -51,6 +58,6 @@ const ContextualHeader = ({ searchTerm, onSearchChange, viewMode, onViewModeChan
             </div>
         </div>
     );
-};
+});
 
 export default ContextualHeader;

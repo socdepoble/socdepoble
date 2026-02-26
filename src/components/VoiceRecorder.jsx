@@ -23,7 +23,7 @@ const VoiceRecorder = ({ onSend, onCancel, lang = 'va' }) => {
 
             try {
                 const { speechService } = await import('../services/speechService');
-                if (speechService.isSupported) {
+                if (speechService.isSupported && !speechService.isStarted) {
                     speechService.listen(lang).then(text => {
                         setTranscript(text);
                         logger.log('[VoiceRecorder] Transcripció JARVIS:', text);

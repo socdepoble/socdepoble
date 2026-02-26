@@ -1,6 +1,6 @@
 import React from 'react';
 import { ScanLine, Download } from 'lucide-react';
-import { useUI } from '../context/UIContext';
+import { useDesign } from '../context/DesignContext';
 
 /**
  * BlueprintOverlay [CANONIC v11.0.3]
@@ -17,7 +17,7 @@ const colors = {
 };
 
 const BlueprintOverlay = ({ label, dimensions, color = "blue", children, className = "", showBackupLink = false }) => {
-    const { blueprintMode } = useUI();
+    const { blueprintMode } = useDesign();
     
     const theme = colors[color] || colors.blue;
 

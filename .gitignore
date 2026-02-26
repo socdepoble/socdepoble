@@ -34,3 +34,4 @@ dist-ssr
 
 # Deployment Credentials
 .env.deploy
+deploy-config.json

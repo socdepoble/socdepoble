@@ -1,12 +1,13 @@
 {
   "name": "soc-de-poble",
   "private": true,
-  "version": "10.33.15-BATEGA",
+  "version": "10.33.16-BATEGA",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "lint": "eslint .",
+    "deploy": "npm run build && node scripts/deploy.js",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "deploy:siteground": "bash DEPLOY_SITEGROUND.sh",
     "deploy:brain": "cd google-cloud-backend && gcloud functions deploy marketingBrain --runtime nodejs20 --trigger-http --allow-unauthenticated --region europe-west1"
@@ -55,9 +56,11 @@
     "@vitejs/plugin-basic-ssl": "^2.1.4",
     "@vitejs/plugin-react": "^5.1.1",
     "autoprefixer": "^10.4.24",
+    "basic-ftp": "^5.2.0",
     "eslint": "^9.39.1",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
+    "ftp": "^0.3.10",
     "globals": "^16.5.0",
     "md-to-pdf": "^5.2.5",
     "postcss": "^8.5.6",

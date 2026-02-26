@@ -172,7 +172,7 @@ const RebostVault = ({ onClose }) => {
                     <button className="p-3 bg-white/5 text-gray-400 hover:text-white rounded-2xl transition-all" onClick={handleExport} title="Exporta Memòria">
                         <Share2 size={20} />
                     </button>
-                    <button className="flex items-center gap-2 px-6 h-12 bg-[#FF6B00] text-white rounded-[24px] font-black uppercase text-xs tracking-widest shadow-xl shadow-orange-950/20 active:scale-95 transition-all" onClick={() => fileInputRef.current?.click()}>
+                    <button className="flex items-center gap-2 px-6 h-12 bg-[var(--theme-accent-primary)] text-white rounded-[24px] font-black uppercase text-xs tracking-widest shadow-xl shadow-orange-950/20 active:scale-95 transition-all" onClick={() => fileInputRef.current?.click()}>
                         <Upload size={18} />
                         <span>Importar</span>
                     </button>
@@ -198,7 +198,7 @@ const RebostVault = ({ onClose }) => {
                         placeholder="Busca al teu rebost..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full h-12 bg-white/5 border border-white/5 rounded-[24px] pl-12 pr-6 text-white text-sm focus:outline-none focus:border-[#FF6B00]/40 transition-all font-medium"
+                        className="w-full h-12 bg-white/5 border border-white/5 rounded-[24px] pl-12 pr-6 text-white text-sm focus:outline-none focus:border-[var(--theme-accent-primary)]/40 transition-all font-medium"
                     />
                 </div>
                 <div className="px-4 flex items-center bg-white/5 rounded-[24px] text-[11px] font-black text-gray-500 uppercase tracking-widest border border-white/5">

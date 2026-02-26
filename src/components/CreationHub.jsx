@@ -1,20 +1,15 @@
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { X, Newspaper, Store, MapPin, Users, Shield, Calendar, Bot, Share2, Rocket, LogOut, BookOpen, StickyNote, FileText, Plus } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import { useUI } from '../context/UIContext';
+import { useModal } from '../context/ModalContext';
 import './CreationHub.css';
 
 const CreationHub = () => {
+    const { setIsCreateModalOpen, openPostModal, setIsEventModalOpen, setIsMarketModalOpen } = useModal();
     const { t } = useTranslation();
-    const {
-        isCreateModalOpen,
-        setIsCreateModalOpen,
-        openPostModal,
-        setIsEventModalOpen,
-        setIsMarketModalOpen,
-        setIsNotePadOpen
-    } = useUI();
+    const { isCreateModalOpen, setIsNotePadOpen } = useModal();
     const { isSuperAdmin, isAdmin, logout } = useAuth();
     const navigate = useNavigate();
 
@@ -24,20 +19,21 @@ const CreationHub = () => {
         <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4">
             {/* Backdrop Blur Master (v10.20) */}
             <div 
-                className="absolute inset-0 bg-black/60 backdrop-blur-md animate-in fade-in duration-300" 
-                onClick={() => setIsCreateModalOpen(false)}
+                className="absolute inset-0 bg-black/60 backdrop-blur-md" 
+                onClick={(e) => { e.stopPropagation(); setIsCreateModalOpen(false); }}
             ></div>
             
             {/* Modal Content - Geometria Sagrada 40px */}
-            <div className="relative w-full max-w-lg p-6 rounded-[32px] shadow-2xl transform animate-in zoom-in-95 duration-300 bg-[#1A1A1A] border border-slate-800 text-white overflow-hidden">
+            <div className="relative z-50 w-full max-w-lg p-6 rounded-[32px] shadow-2xl bg-[#1A1A1A] border border-slate-800 text-white">
                 <button 
-                    onClick={() => setIsCreateModalOpen(false)} 
-                    className="absolute top-4 right-4 w-12 h-12 flex items-center justify-center rounded-full bg-black/40 backdrop-blur-md hover:bg-black/60 text-white shadow-lg transition-all active:scale-95"
+                    id="hub-close-btn"
+                    onClick={(e) => { e.stopPropagation(); setIsCreateModalOpen(false); }} 
+                    className="absolute top-4 right-4 w-12 h-12 flex items-center justify-center rounded-full bg-black/40 backdrop-blur-md hover:bg-black/60 text-white shadow-lg transition-all active:scale-95 z-10"
                 >
                     <X size={24} />
                 </button>
                 
-                <div className="text-center mb-6">
+                <div className="text-center mb-6 mt-2 relative z-10">
                     <div className="w-16 h-16 mx-auto bg-[#4F46E5] rounded-full flex items-center justify-center mb-4 shadow-xl shadow-indigo-500/30">
                         <Plus className="w-8 h-8 text-white" strokeWidth={3} />
                     </div>
@@ -49,9 +45,10 @@ const CreationHub = () => {
                     </p>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3 mb-6">
+                <div className="grid grid-cols-2 gap-3 mb-6 relative z-10">
                     {/* OPTION: MUR */}
-                    <button className="creation-hub-btn group border-slate-700 hover:border-orange-500 hover:bg-slate-800" onClick={() => {
+                    <button className="creation-hub-btn group border-slate-700 hover:border-orange-500 hover:bg-slate-800" onClick={(e) => {
+                        e.stopPropagation();
                         setIsCreateModalOpen(false);
                         openPostModal();
                     }}>
@@ -62,7 +59,8 @@ const CreationHub = () => {
                     </button>
 
                     {/* OPTION: MERCAT */}
-                    <button className="creation-hub-btn group border-slate-700 hover:border-emerald-500 hover:bg-slate-800" onClick={() => {
+                    <button className="creation-hub-btn group border-slate-700 hover:border-emerald-500 hover:bg-slate-800" onClick={(e) => {
+                        e.stopPropagation();
                         setIsCreateModalOpen(false);
                         setIsMarketModalOpen(true);
                     }}>
@@ -73,7 +71,8 @@ const CreationHub = () => {
                     </button>
 
                     {/* OPTION: AGENDA */}
-                    <button className="creation-hub-btn group border-slate-700 hover:border-blue-500 hover:bg-slate-800" onClick={() => {
+                    <button className="creation-hub-btn group border-slate-700 hover:border-blue-500 hover:bg-slate-800" onClick={(e) => {
+                        e.stopPropagation();
                         setIsCreateModalOpen(false);
                         setIsEventModalOpen(true);
                     }}>
@@ -84,7 +83,8 @@ const CreationHub = () => {
                     </button>
 
                     {/* OPTION: IAIA/BANDOS */}
-                    <button className="creation-hub-btn group border-slate-700 hover:border-purple-500 hover:bg-slate-800" onClick={() => {
+                    <button className="creation-hub-btn group border-slate-700 hover:border-purple-500 hover:bg-slate-800" onClick={(e) => {
+                        e.stopPropagation();
                         setIsCreateModalOpen(false);
                         navigate('/iaia');
                     }}>
@@ -96,9 +96,10 @@ const CreationHub = () => {
                 </div>
 
                 {/* TOOLS SECTION (v10.20 EXTRA) */}
-                <div className="space-y-3 pt-4 border-t border-white/5">
+                <div className="space-y-3 pt-4 border-t border-white/5 relative z-10">
                     <div className="grid grid-cols-2 gap-3">
-                         <button className="tool-btn-alzina bg-slate-800 text-white" onClick={() => {
+                         <button className="tool-btn-alzina bg-slate-800 text-white" onClick={(e) => {
+                            e.stopPropagation();
                             setIsCreateModalOpen(false);
                             setIsNotePadOpen(true);
                         }}>
@@ -106,7 +107,8 @@ const CreationHub = () => {
                             <span>Notepad</span>
                         </button>
 
-                        <button className="tool-btn-alzina bg-slate-800 text-white" onClick={() => {
+                        <button className="tool-btn-alzina bg-slate-800 text-white" onClick={(e) => {
+                            e.stopPropagation();
                             setIsCreateModalOpen(false);
                             const shareData = {
                                 title: 'Sóc de Poble',
@@ -122,7 +124,8 @@ const CreationHub = () => {
                     </div>
 
                     {(isSuperAdmin || isAdmin) && (
-                        <button className="w-full flex items-center justify-center gap-2 py-3 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-black transition-colors" onClick={() => {
+                        <button className="w-full flex items-center justify-center gap-2 py-3 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-black transition-colors" onClick={(e) => {
+                            e.stopPropagation();
                             setIsCreateModalOpen(false);
                             navigate('/admin');
                         }}>
@@ -131,7 +134,8 @@ const CreationHub = () => {
                         </button>
                     )}
 
-                    <button className="w-full flex items-center justify-center gap-2 py-3 text-slate-500 hover:text-white transition-colors text-xs font-bold" onClick={() => {
+                    <button className="w-full flex items-center justify-center gap-2 py-3 text-slate-500 hover:text-white transition-colors text-xs font-bold" onClick={(e) => {
+                        e.stopPropagation();
                         setIsCreateModalOpen(false);
                         logout();
                         navigate('/login');

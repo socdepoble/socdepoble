@@ -1,8 +1,9 @@
 .search-discover-page {
-    min-height: 100vh;
+    height: 100dvh;
     background: #000000;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
 .search-nav-bar {
@@ -123,7 +124,15 @@
     color: var(--text-main);
 }
 
+.search-content {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 100px;
+}
+
 .search-results-container {
+    padding: 0 16px;
     margin-bottom: 24px;
 }
 
@@ -192,15 +201,13 @@
 .result-item-card {
     background: var(--surface-glass);
     margin-bottom: 8px;
-    padding: 12px 16px;
-    border-radius: var(--radius-s);
-    border: 1px solid var(--border-subtle);
-    box-shadow: var(--shadow-deep);
+    padding: 8px 12px;
+    border-radius: var(--radius-tactile);
+    border: 1px solid var(--border-master);
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 12px;
     width: 100%;
-    max-width: 800px;
 }
 
 .result-item-card:hover {

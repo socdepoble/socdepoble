@@ -131,7 +131,7 @@ const IdentitiesModule = () => {
                                     <div className="flex items-center gap-3">
                                         <div
                                             className="w-8 h-8 rounded-full bg-cover bg-center border border-gray-700"
-                                            style={{ backgroundImage: `url(${p.avatar_url || '/images/demo/avatar_man_1.png'})` }}
+                                            style={{ backgroundImage: `url(${p.avatar_url || '/assets/avatars/comic/avatar_man_1.png'})` }}
                                         />
                                         <div>
                                             <p className="font-bold text-white leading-none">{p.full_name}</p>

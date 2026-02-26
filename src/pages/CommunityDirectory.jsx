@@ -6,14 +6,15 @@ import StatusLoader from '../components/StatusLoader';
 import Avatar from '../components/Avatar';
 import { logger } from '../utils/logger';
 import './CommunityDirectory.css';
-import { useUI } from '../context/UIContext';
+import { useModal } from '../context/ModalContext';
 import { useAuth } from '../context/AuthContext';
 import { USER_ROLES } from '../constants';
 
 const CommunityDirectory = () => {
     const navigate = useNavigate();
+    const { openConnectionModal, setIsGuestInteractionModalOpen } = useModal();
     const { user, isSuperAdmin } = useAuth();
-    const { visionMode, openConnectionModal, setIsGuestInteractionModalOpen } = useUI();
+    const { visionMode } = useDesign();
     const [directory, setDirectory] = useState({ people: [], entities: [] });
     const [isLoading, setIsLoading] = useState(true);
     const [activeTab, setActiveTab] = useState('gent'); // gent, entitats

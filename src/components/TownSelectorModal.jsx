@@ -126,7 +126,8 @@ const TownSelectorModal = ({ isOpen, onClose, onSelect }) => {
     const displayList = isSearching ? searchResults : (step === 1 ? provinces : step === 2 ? comarcas : towns);
 
     return (
-        <div className="modal-overlay">
+        <div className="town-selector-modal-root">
+            <div className="modal-overlay">
             <div className="town-selector-modal">
                 <header className="modal-header">
                     <div className="header-title">
@@ -159,9 +160,9 @@ const TownSelectorModal = ({ isOpen, onClose, onSelect }) => {
                     <Search size={18} className="search-icon" />
                     <input
                         ref={searchInputRef}
-                        type="text"
                         id="town-search-input"
-                        name="town-search"
+                        name="town_search"
+                        type="text"
                         autoComplete="off"
                         placeholder={t('common.search_placeholder') || 'Cerca poble, comarca o província...'}
                         value={searchTerm}
@@ -244,6 +245,7 @@ const TownSelectorModal = ({ isOpen, onClose, onSelect }) => {
                         {selectedTown ? `${t('common.save_selection') || 'GUARDAR POBLE'} ✨` : t('common.save_selection') || 'GUARDAR POBLE'}
                     </button>
                 </footer>
+            </div>
             </div>
         </div>
     );

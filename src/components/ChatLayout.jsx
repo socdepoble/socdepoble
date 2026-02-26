@@ -1,13 +1,13 @@
+import { useDesign } from '../context/DesignContext';
 import React, { useState, useEffect, useRef } from 'react';
 import { Outlet, useParams } from 'react-router-dom';
 import ChatList from './ChatList';
-import { useUI } from '../context/UIContext';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import BlueprintOverlay from './BlueprintOverlay';
 
 const ChatLayout = () => {
     const { id } = useParams();
-    const { blueprintMode } = useUI();
+    const { blueprintMode } = useDesign();
     const [leftWidth, setLeftWidth] = useState(400);
     const [isResizing, setIsResizing] = useState(false);
     const containerRef = useRef(null);
@@ -45,13 +45,13 @@ const ChatLayout = () => {
     }, [isResizing, resize, stopResizing]);
 
     return (
-        <div ref={containerRef} className="flex-1 flex overflow-hidden w-full bg-black relative flex-grow min-h-0 h-full select-none">
+        <div ref={containerRef} className="flex-1 flex overflow-hidden w-full bg-theme-base relative flex-grow min-h-0 h-full select-none">
             
             {/* 1. LLISTA DE VEÏNS (DINÀMICA EN DESKTOP) */}
             <div 
                 style={{ width: window.innerWidth >= 1024 ? `${leftWidth}px` : '100%' }}
                 className={`
-                    flex-shrink-0 border-r border-white/5 bg-black
+                    flex-shrink-0 bg-theme-base
                     ${id ? 'hidden lg:flex' : 'flex w-full'}
                     flex-col relative transition-all duration-75
                 `}
@@ -71,15 +71,15 @@ const ChatLayout = () => {
                 >
                     <div className={`
                         w-1 h-20 rounded-full transition-all duration-300
-                        ${isResizing ? 'bg-[#FF6B00] scale-x-150 shadow-[0_0_15px_rgba(255,107,0,0.5)]' : 'bg-white/10 group-hover:bg-white/30'}
+                        ${isResizing ? 'bg-[var(--theme-accent-primary)] scale-x-150 shadow-[0_0_15px_rgba(255,107,0,0.5)]' : 'bg-white/10 group-hover:bg-white/30'}
                         relative flex items-center justify-center
                     `}>
                         <div className={`
-                            absolute flex items-center justify-center bg-black border border-white/10 rounded-lg p-1 transition-all
-                            ${isResizing ? 'scale-110 border-[#FF6B00]/50' : 'opacity-0 group-hover:opacity-100'}
+                            absolute flex items-center justify-center bg-theme-base border border-white/10 rounded-lg p-1 transition-all
+                            ${isResizing ? 'scale-110 border-[var(--theme-accent-primary)]/50' : 'opacity-0 group-hover:opacity-100'}
                         `}>
-                            <ChevronLeft size={10} className="text-[#FF6B00] -mr-0.5" />
-                            <ChevronRight size={10} className="text-[#FF6B00] -ml-0.5" />
+                            <ChevronLeft size={10} className="text-[var(--theme-accent-primary)] -mr-0.5" />
+                            <ChevronRight size={10} className="text-[var(--theme-accent-primary)] -ml-0.5" />
                         </div>
                     </div>
                 </div>
@@ -87,7 +87,7 @@ const ChatLayout = () => {
 
             {/* 2. FINESTRA DE CONVERSA (FLEX 1) */}
             <div className={`
-                flex-1 flex flex-col min-w-0 bg-black relative min-h-0 h-full
+                flex-1 flex flex-col min-w-0 bg-theme-base relative min-h-0 h-full
                 ${!id ? 'hidden lg:flex' : 'flex lg:static lg:z-auto chat-detail-mobile-transition h-full'}
             `}>
                 {blueprintMode ? (

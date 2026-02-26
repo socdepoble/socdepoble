@@ -209,7 +209,7 @@ const Register = () => {
               onClick={() => hapticService.batec()}
             >
               <img
-                src="/assets/avatars/iaia_official.png"
+                src="/iaia_digital_matriarch.png"
                 alt="IAIA"
                 className="w-full h-full object-contain drop-shadow-md rounded-xl"
               />

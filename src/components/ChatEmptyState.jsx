@@ -1,19 +1,23 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Settings,
   BookOpen,
   ShieldCheck,
-  X,
-  NotebookPen,
   ArrowRight,
   UserPlus,
-  MessageCircle,
   Share2,
+  Search,
+  NotebookPen
 } from "lucide-react";
-import { useUI } from "../context/UIContext";
+import { useDesign } from '../context/DesignContext';
+import { useTranslation } from "react-i18next";
+import Avatar from "./Avatar";
 
 const ChatEmptyState = () => {
-  const { darkMode, architectMode } = useUI();
+  const { darkMode, architectMode } = useDesign();
+  const { t } = useTranslation();
+  const navigate = useNavigate();
   const colors = {
     textPrimary: darkMode ? "text-white" : "text-gray-900",
     textSecondary: darkMode ? "text-gray-400" : "text-gray-500",
@@ -84,20 +88,62 @@ const ChatEmptyState = () => {
   }
 
   return (
-    <div className="flex-1 flex flex-col items-center justify-start py-20 relative overflow-y-auto bg-black scrollbar-hide">
-      {/* [ESPORGAT V12] Sortida d'emergència eliminada per directiva del Mestre */}
+    <div className="flex-1 flex flex-col min-h-0 bg-theme-base relative overflow-hidden">
+        
+      {/* HEADER DEL XAT (Global Settings Header) - MATCHES ChatDetail HEIGHT */}
+      <header 
+          onClick={() => navigate('/gestio/xats')}
+          className={`h-16 min-h-[64px] px-4 md:px-6 flex items-center justify-between border-b border-[var(--border-master)] flex-shrink-0 z-30 transition-colors bg-[var(--theme-accent-primary)] dark:bg-[var(--theme-accent-secondary)] text-[var(--sdp-white)] cursor-pointer hover:brightness-110 active:scale-[0.99]`}
+      >
+          <div className="flex items-center gap-3 flex-1 group transition-all">
+              <div className="bg-white rounded-full p-0.5 shadow-[0_0_10px_rgba(255,255,255,0.4)]">
+                 <div className="w-[40px] h-[40px] rounded-full bg-white/20 flex items-center justify-center">
+                    <Settings size={22} className="text-white" />
+                 </div>
+              </div>
 
-      {/* Grid de fons subtil (Protocol v9.1.0) */}
-      <div
-        className="absolute inset-0 opacity-5"
-        style={{
-          backgroundImage: "radial-gradient(circle, #888 1px, transparent 1px)",
-          backgroundSize: "30px 30px",
-        }}
-      ></div>
+              <div className="flex flex-col min-w-0 pr-2 flex-1">
+                  <h2 className={`text-lg font-bold truncate leading-none transition-colors text-white`}>
+                      Configuració Global del Xat
+                  </h2>
+                  <div className="flex items-center gap-2 mt-1">
+                      <span className={`w-2 h-2 rounded-full bg-white shadow-[0_0_6px_rgba(255,255,255,0.8)]`} />
+                      <span className={`text-[10px] font-black uppercase tracking-widest opacity-80 text-[var(--sdp-white)]`}>
+                          ESTEM PROTEGITS
+                      </span>
+                  </div>
+              </div>
+          </div>
 
-      <h1
-        className={`relative z-10 text-3xl md:text-5xl font-black text-center mb-12 tracking-normal uppercase italic text-[#FF6B00] leading-none`}
+           <div className="flex items-center gap-4 ml-auto z-10 bg-[var(--theme-accent-primary)] dark:bg-[var(--theme-accent-secondary)] rounded-[20px] px-5 py-2 shadow-inner shadow-black/20">
+                <button 
+                    className={`transition-all hover:scale-110 text-white filter drop-shadow-md hidden sm:block opacity-50 cursor-not-allowed`}
+                    title="Bloc de Notes (Desactivat açí)"
+                >
+                    <NotebookPen size={22} strokeWidth={2.5} />
+                </button>
+
+                <button 
+                    className={`transition-all hover:scale-110 text-white filter drop-shadow-md hidden sm:block opacity-50 cursor-not-allowed`}
+                    title="Cercar (Desactivat açí)"
+                >
+                    <Search size={22} strokeWidth={2.5} />
+                </button>
+            </div>
+      </header>
+
+      <div className="flex-1 flex flex-col items-center justify-start py-20 relative overflow-y-auto scrollbar-hide">
+          {/* Grid de fons subtil (Protocol v9.1.0) */}
+          <div
+            className="absolute inset-0 opacity-5"
+            style={{
+              backgroundImage: "radial-gradient(circle, #888 1px, transparent 1px)",
+              backgroundSize: "30px 30px",
+            }}
+          ></div>
+
+          <h1
+            className={`relative z-10 text-3xl md:text-5xl font-black text-center mb-12 tracking-normal uppercase italic text-[var(--theme-accent-primary)] leading-none`}
       >
         SÓC DE POBLE
         <br />
@@ -107,11 +153,11 @@ const ChatEmptyState = () => {
       <div
         className={`relative z-10 text-center max-w-4xl mb-16 space-y-10 ${colors.textSecondary}`}
       >
-        <p className="text-3xl md:text-5xl text-white leading-tight font-black italic">
+        <p className="text-3xl md:text-5xl text-[var(--text-main)] leading-tight font-black italic">
           "Connecta amb la teua comunitat. El bategat de la terra en format
           digital."
         </p>
-        <p className="text-2xl md:text-3xl text-white leading-relaxed px-10 font-bold">
+        <p className="text-2xl md:text-3xl text-[var(--text-main)] leading-relaxed px-10 font-bold">
           <strong>Sóc de Poble</strong> és un{" "}
           <strong>Sistema Operatiu Rural</strong>. Una eina per a la gent,
           ajuntaments i negocis KM 0 per a protegir la memòria, dinamitzar
@@ -122,13 +168,13 @@ const ChatEmptyState = () => {
       {/* ACCIONS AL PEU - [MASTERY v15] Espaiades i nítides */}
       <div className="relative z-10 flex flex-wrap items-center justify-center gap-10 mb-20 px-6">
         <button
-          className="flex items-center gap-4 px-12 py-6 bg-[#FF6B00] text-white rounded-[24px] font-black uppercase text-xl tracking-widest shadow-2xl shadow-[#FF6B00]/50 hover:scale-105 active:scale-95 transition-all w-full md:w-auto"
+          className="flex items-center gap-4 px-12 py-6 bg-[var(--theme-accent-primary)] dark:bg-[var(--theme-accent-secondary)] text-white rounded-[24px] font-black uppercase text-xl tracking-widest shadow-2xl shadow-[var(--theme-accent-primary)]/50 dark:shadow-[var(--theme-accent-secondary)]/50 hover:scale-105 active:scale-95 transition-all w-full md:w-auto"
           onClick={() => window.location.href = "/registre"}
         >
           <UserPlus size={32} /> Connecta amb el teu Poble!
         </button>
         <button
-          className={`flex items-center gap-4 px-12 py-6 rounded-[24px] font-black uppercase text-xl tracking-widest bg-white text-black hover:bg-gray-200 transition-all w-full md:w-auto shadow-2xl`}
+          className={`flex items-center gap-4 px-12 py-6 rounded-[24px] font-black uppercase text-xl tracking-widest bg-[var(--theme-accent-secondary)] dark:bg-[var(--theme-accent-primary)] text-white hover:scale-105 active:scale-95 transition-all w-full md:w-auto shadow-2xl shadow-[var(--theme-accent-secondary)]/50 dark:shadow-[var(--theme-accent-primary)]/50`}
           onClick={() => {
             const shareData = {
               title: "Sóc de Poble",
@@ -139,16 +185,16 @@ const ChatEmptyState = () => {
             else alert("Enllaç copiat!");
           }}
         >
-          <Share2 size={32} /> Compartir Sóc de Poble
+          <Share2 size={32} /> {t("common.share_soc", "Compartir Sóc de Poble")}
         </button>
       </div>
 
-      <div className="relative z-10 p-12 rounded-[56px] border-8 text-left max-w-4xl mx-6 mb-24 shadow-[0_0_120px_rgba(255,107,0,0.3)] transition-all bg-black border-[#FF6B00]/30">
-        <h4 className="text-3xl font-black flex items-center gap-4 mb-6 text-[#FF6B00] uppercase tracking-tighter italic">
+      <div className="relative z-10 p-12 rounded-[56px] border-8 text-left max-w-4xl mx-6 mb-24 shadow-[0_0_120px_rgba(255,107,0,0.3)] transition-all bg-[var(--bg-panel)] border-[var(--theme-accent-primary)]/30">
+        <h4 className="text-3xl font-black flex items-center gap-4 mb-6 text-[var(--theme-accent-primary)] uppercase tracking-tighter italic">
           <ShieldCheck size={36} /> Llicència Oberta
         </h4>
         <p
-          className={`text-xl md:text-2xl leading-relaxed font-bold mb-10 text-white`}
+          className={`text-xl md:text-2xl leading-relaxed font-bold mb-10 text-[var(--text-main)]`}
         >
           Aquest sistema és de codi obert per a ús comunitari i educatiu. L'ús
           comercial està subjecte a llicència del Mestre. Consulta
@@ -156,15 +202,16 @@ const ChatEmptyState = () => {
         </p>
         <button
           onClick={() => (window.location.href = "/ofici")}
-          className="inline-flex items-center gap-2 px-8 py-4 bg-[#FF6B00]/10 text-[#FF6B00] rounded-full font-black uppercase text-xs tracking-[0.2em] hover:bg-[#FF6B00] hover:text-white transition-all"
+          className="inline-flex items-center gap-2 px-8 py-4 bg-[var(--theme-accent-primary)]/10 text-[var(--theme-accent-primary)] rounded-full font-black uppercase text-xs tracking-[0.2em] hover:bg-[var(--theme-accent-primary)] hover:text-white transition-all"
         >
           Llegir Condicions i Arquitectura <ArrowRight size={14} />
         </button>
       </div>
 
-      <div className="mt-12 flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] opacity-40 font-black text-gray-500">
-        <Settings size={12} />
-        <span>Xifrat d'Extrem a Extrem | v10.33.15-CANÒNIC</span>
+          <div className="mt-12 flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] opacity-40 font-black text-gray-500">
+            <Settings size={12} />
+            <span>Privacitat Segura i Protegida | v10.33.15-CANÒNIC</span>
+          </div>
       </div>
     </div>
   );

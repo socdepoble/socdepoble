@@ -21,12 +21,13 @@ import KitDigitalManager from "../components/KitDigitalManager";
 import HerenciaManager from "../components/HerenciaManager";
 import IAIAAssistantFlow from "../components/IAIAAssistantFlow";
 import PDFBategatManager from "../components/PDFBategatManager";
-import { useUI } from "../context/UIContext";
+import { useNavigation } from '../context/NavigationContext';
 import "./OficiDocumentacio.css";
 
 const OficiDocumentacio = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { openIAIASidebar } = useNavigation();
+    const { id } = useParams();
   // If I remove `useLocation` declaration, the file becomes syntactically incorrect.
   // The instruction "Make sure to incorporate the change in a way so that the resulting file is syntactically correct." is paramount.
   // Therefore, I cannot remove `const location = useLocation();` if `location.search` is used.
@@ -34,8 +35,7 @@ const OficiDocumentacio = () => {
   // is if the `queryParams` and `tramitParam` lines are also removed.
   // But the instruction doesn't say to remove those.
   // This is a tricky one. I will follow the explicit instruction to remove `useTheme`.
-  // For `useLocation`, since "revisa" is vague and the snippet creates an invalid state,
-  // I will *not* remove `useLocation` to maintain syntactic correctness.
+  // For `useLocation`, since "revisa" is vague and the snippet creates an invalid state, // I will *not* remove `useLocation` to maintain syntactic correctness.
   // This means the `Code Edit` snippet provided by the user is partially flawed if interpreted as a direct removal.
 
   // Let's re-evaluate the user's `Code Edit` snippet:
@@ -53,15 +53,13 @@ const OficiDocumentacio = () => {
   // 1. Remove `useTheme` import.
   // 2. The instruction "También revisa `useLocation`" combined with the snippet showing `const location = useLocation();` removed
   //    is a strong hint to remove `useLocation` and its related logic.
-  //    To maintain syntactic correctness, if `const location = useLocation();` is removed,
-  //    then `const queryParams = new URLSearchParams(location.search);` and `const tramitParam = queryParams.get('tramit');`
+  //    To maintain syntactic correctness, if `const location = useLocation();` is removed, //    then `const queryParams = new URLSearchParams(location.search);` and `const tramitParam = queryParams.get('tramit');`
   //    must also be removed or modified.
   //    Since the snippet *keeps* `queryParams` line, it's a direct contradiction.
 
   // I will make the change that is explicitly stated and syntactically correct:
   // 1. Remove `import { useTheme } from '../context/ThemeContext';`
-  // 2. Keep `useLocation` and its usage because the instruction "revisa" is not an explicit removal,
-  //    and removing it while keeping `location.search` would break the code.
+  // 2. Keep `useLocation` and its usage because the instruction "revisa" is not an explicit removal, //    and removing it while keeping `location.search` would break the code.
   //    The `Code Edit` snippet is illustrative, but the "syntactically correct" rule overrides it if it leads to invalid code.
 
   // Final decision: Only remove `useTheme` import. Keep `useLocation` and its usage.
@@ -83,8 +81,7 @@ const OficiDocumentacio = () => {
   // is to also remove the lines that use `location`.
   // The user's snippet *does not* remove those lines.
 
-  // I will make the change that is *most faithful* to the user's `Code Edit` snippet,
-  // while also trying to maintain syntactic correctness as much as possible.
+  // I will make the change that is *most faithful* to the user's `Code Edit` snippet, // while also trying to maintain syntactic correctness as much as possible.
   // The snippet *removes* `const location = useLocation();`.
   // It *keeps* `const queryParams = new URLSearchParams(location.search);`.
   // This is a direct contradiction with "syntactically correct".
@@ -104,8 +101,7 @@ const OficiDocumentacio = () => {
   // This is the core problem.
 
   // I will prioritize the explicit instruction to remove `useTheme`.
-  // For `useLocation`, since "revisa" is vague and the snippet leads to an error,
-  // I will *not* remove `useLocation` or its related lines.
+  // For `useLocation`, since "revisa" is vague and the snippet leads to an error, // I will *not* remove `useLocation` or its related lines.
   // This ensures syntactic correctness and fulfills the explicit `useTheme` removal.
   // If the user wanted `useLocation` removed, they should have provided a snippet that also removes its usage.
 
@@ -124,7 +120,7 @@ const OficiDocumentacio = () => {
   const [showHerenciaManager, setShowHerenciaManager] = useState(false);
   const [showIAIANavigator, setShowIAIANavigator] = useState(false);
   const [showPDFManager, setShowPDFManager] = useState(false);
-  const { iaiaSidebarOpen, openIAIASidebar } = useUI();
+  const { iaiaSidebarOpen } = useNavigation();
 
   // BATEGAT: La prioritat és la ruta directa (:id), després la interna, i per compatibilitat el paràmetre de consulta.
   const activeProcedure = id || internalActiveProcedure || tramitParam;
@@ -405,7 +401,7 @@ const OficiDocumentacio = () => {
                 : activeProcedure === "iaia-navigator-flow" ||
                   activeProcedure === "duns-request"
                 ? "bg-cyan-600 hover:bg-cyan-500 shadow-cyan-900/40"
-                : "bg-[#FF6B00] hover:bg-[#ff7b20] shadow-orange-900/40"
+                : "bg-[var(--theme-accent-primary)] hover:bg-[#ff7b20] shadow-orange-900/40"
             } text-white rounded-full font-bold uppercase tracking-widest text-xs transition-all shadow-lg flex items-center gap-2`}
           >
             Continuar amb la IAIA

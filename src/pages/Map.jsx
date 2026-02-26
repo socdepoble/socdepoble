@@ -1,9 +1,9 @@
+import { useDesign } from '../context/DesignContext';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { Map as MapIcon, MapPin, Navigation, Layers, Plus, Store, Landmark, Ticket } from 'lucide-react';
 import CategoryTabs from '../components/CategoryTabs';
-import { useUI } from '../context/UIContext';
 import BlueprintOverlay from '../components/BlueprintOverlay';
 import ContextualHeader from '../components/ContextualHeader';
 import './Map.css';
@@ -11,7 +11,7 @@ import './Map.css';
 const Map = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const { blueprintMode } = useUI();
+    const { blueprintMode } = useDesign();
     const [mapSearch, setMapSearch] = React.useState('');
     const [viewMode, setViewMode] = React.useState(localStorage.getItem('map_view_mode') || 'grid');
 

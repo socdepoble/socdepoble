@@ -75,7 +75,8 @@
         "product": "Producto",
         "publish": "Publicar",
         "change_language": "Cambiar idioma",
-        "support_short": "Soporte"
+        "support_short": "Soporte",
+        "share_soc": "Compartir Sóc de Poble"
     },
     "nav": {
         "chats": "Chat",
@@ -106,7 +107,10 @@
         "vision_protocol": "Protocolo de Visión",
         "archon_console": "Consola Archon",
         "theme_day": "Modo Día",
-        "theme_night": "Modo Noche"
+        "theme_night": "Modo Noche",
+        "system_op_part_1": "SISTEMA",
+        "system_op_part_2": "OPERATIVO",
+        "legal_info": "INFO LEGAL"
     },
     "chats": {
         "title": "Chats",
@@ -191,14 +195,14 @@
         "iaia_welcome": "¡Bienvenido a la plaza, vecino! 🎊",
         "name_label": "Nombre y Apellidos",
         "name_placeholder": "¿Quién eres? (Nombre y Apellidos)",
-        "personal_register_title": "REGISTRO PERSONAL",
-        "personal_register_desc": "Regístrate primero como persona. Una vez dentro, podrás crear tus <span class=\"text-white font-bold\">empresas o instituciones</span>.",
-        "continue_to_town": "CONTINUAR HACIA EL PUEBLO",
+        "personal_register_title": "¿CÓMO TE LLAMAS?",
+        "personal_register_desc": "Regístrate primero como persona, como se ha hecho toda la vida. Una vez dentro, ya crearemos tus <span class=\"text-white font-bold\">empresas o instituciones</span>.",
+        "continue_to_town": "IR HACIA EL PUEBLO",
         "legal_accept": "Al latir, aceptas que Sóc de Poble es un experimento de soberanía digital.",
         "legal_notices": "Avisos Legales",
         "already_have_account": "¿Ya tienes cuenta?",
         "enter_now": "Entra ahora",
-        "town_picker_label": "Pueblo de Primera Residencia",
+        "town_picker_label": "¿DE DÓNDE ERES?",
         "town_picker_placeholder": "Elige tu pueblo...",
         "town_picker_localitat": "Localidad",
         "back_button": "Atrás",
@@ -209,7 +213,7 @@
         "enter_with_google": "Entra con Google",
         "google_faster_hint": "El acceso con Google es más rápido y no necesita SMS.",
         "otp_label": "Código de 6 dígitos",
-        "confirm_entry": "CONFIRMAR ENTRADA",
+        "confirm_entry": "LLAMAR A LA PUERTA",
         "new_code_in": "Nuevo código disponible en",
         "seconds_short": "s",
         "resend_sms": "No he recibido nada. Reenviar SMS 🔁",
@@ -303,7 +307,7 @@
         "copy_report": "COPIAR INFORME DE ERROR",
         "clear": "Limpiar actividad",
         "integrity": "VERIFICAR ARCHIVOS",
-        "force_update": "SOLUCIONAR PROBLEMAS DE CARGA",
+        "force_update": "SOLUCIONAR PROBLEMES DE CARGA",
         "launch": "LANZAMIENTO GLOBAL",
         "view_profile": "RESTAURAR MI PERFIL",
         "deep_clean": "CERRAR SESIÓN Y LIMPIAR",
@@ -362,5 +366,24 @@
             "lang_variants": "Todas las variantes (Central, Valenciano, Balear)",
             "correct_btn": "Corregir"
         }
+    },
+    "legal": {
+        "rhizome_slides": [
+            {
+                "title": "SOBERANÍA DIGITAL",
+                "desc": "El dato como raíz, no como mercancía. En el Mas Digital, tú eres el propietario de tu información. Apostamos por conexiones horizontales peer-to-peer, eliminando intermediarios extractivos y garantizando que el latido de tu pueblo permanezca privado y soberano. No más algoritmos que deciden por ti, sino una infraestructura al servicio de la comunidad rural.",
+                "image": "/assets/infographies/art_sobirania_v1036.png"
+            },
+            {
+                "title": "DATOS CON TRELLAT",
+                "desc": "Privacidad KM 0. Aplicamos el sentido común a la gestión digital. Protección suprema de la identidad rural bajo el latido del Mas. Solo recogemos aquello que es esencial para la convivencia y el comercio local. Tus datos no viajan a servidores desconocidos, sino que se enraízan en el territorio para generar utilidad real y proteger el futuro de nuestros pueblos.",
+                "image": "/assets/infographies/art_trellat_v1036.png"
+            },
+            {
+                "title": "LA IAIA Y EL GRUPO DE TRABAJO",
+                "desc": "Memoria Viva y Tecnología Ancestral. Un latido que une generaciones a través del código y la sabiduría popular. El Grupo de Trabajo de la IAIA garantiza que la inteligencia artificial no olvide de dónde venimos. Implementamos protocolos que dignifican el pasado mientras construimos el futuro digital más humano y conectado de nuestras comarcas.",
+                "image": "/assets/infographies/art_memoria_v1036.png"
+            }
+        ]
     }
 }

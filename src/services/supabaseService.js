@@ -390,7 +390,7 @@ const SYSTEM_ENTITIES = [
         type: 'persona',
         town_name: 'Global',
         description: 'Fundador de Sóc de Poble. Dissenyant el futur de la connexió rural viva.',
-        avatar_url: '/images/agents/damia_head.png',
+        avatar_url: '/assets/avatars/comic/damia_agutzil_comic.png',
         cover_url: '/images/campaign/night_party.png',
         category: 'Tecnologia',
         is_active: true,
@@ -432,19 +432,21 @@ export const isFictiveProfile = (profile) => {
  * Hardcoded Lore Personas for Sandbox and AI interaction
  */
 const LORE_PERSONAS = [
-    { id: '11111111-1a1a-0000-0000-000000000000', full_name: 'IAIA MarIA', username: 'iaia_master', gender: 'female', role: 'official', ofici: 'Matriarca Digital', primary_town: 'Sóc de Poble (Global)', bio: 'Dignitat, terra i xarxa. Soc la teua assistenta (MArIA: Memòria Artificial i Acció) per a tot el que necessites al poble. ¡Xé, quin bategat!', avatar_url: '/assets/avatars/iaia_official.png', category: 'gent', type: 'person', onomatopoeia: '🏺', time: 'Sempre' },
-    { id: '11111111-1a1a-0001-0000-000000000001', full_name: 'Andreu Soler', username: 'andreu_soler', gender: 'male', role: 'ambassador', ofici: 'Capatàs del Mas', primary_town: 'La Torre de les Maçanes', bio: 'L\'Andreu és el rellotge del camp. Sap que si la faena no es planifica amb trellat, el sol et guanya la partida.', avatar_url: 'https://ui-avatars.com/api/?name=Andreu+Soler&background=5D5FEF&color=fff', onomatopoeia: '¡PLAS-PLAS!', category: 'treball', type: 'person', time: '3:35 p. m.' },
-    { id: '11111111-1a1a-0001-0000-000000000002', full_name: 'Beatriz Ortega', username: 'beatriz_ortega', gender: 'female', role: 'ambassador', ofici: 'Arquitecta de Ferro', primary_town: 'Global', bio: 'Mestre, la V15 està bategant forta! Dissenyant estructures que aguanten el pas del temps i el vent de tramuntana.', avatar_url: 'https://ui-avatars.com/api/?name=Beatriz+Ortega&background=5D5FEF&color=fff', onomatopoeia: '¡CLINC!', category: 'treball', type: 'person', time: '12:19 p. m.' },
-    { id: '11111111-1a1a-0001-0000-000000000003', full_name: 'Carla Soriano', username: 'carla_soriano', gender: 'female', role: 'ambassador', ofici: 'Harmonitzadora de Batecs', primary_town: 'Ibi', bio: 'Bategat equilibrat, mestre Javi. La pau es troba en la simetria dels píxels i de les muntanyes.', avatar_url: 'https://ui-avatars.com/api/?name=Carla+Soriano&background=5D5FEF&color=fff', onomatopoeia: '¡OMMM!', category: 'gent', type: 'person', time: '6:13 p. m.' },
-    { id: '11111111-1111-4111-a111-000000000002', full_name: 'Carmen la del Forn', username: 'cuinera', gender: 'female', role: 'ambassador', ofici: 'Cuinera del Mas', primary_town: 'La Torre de les Maçanes', bio: 'La cuina de Pepica és el cor del Mas. Guardiana dels secrets de la borreta i l\'olleta, sap que un bon bategat comença per la panxa plena.', avatar_url: '/images/demo/avatar_carmen.png', onomatopoeia: '¡XUP-XUP!', category: 'treball', type: 'person', time: '2:16 p. m.' },
-    { id: '11111111-0000-0000-0000-000000000004', full_name: 'El Gall', username: 'gall', gender: 'male', role: 'official', ofici: 'Alertes d\'Emergència', primary_town: 'Sóc de Poble (Global)', bio: 'Quan el Gall canta, el Mas es desperta. És el primer a vore el sol i l\'últm a tancar la guàrdia.', avatar_url: '/images/demo/avatar_marc.png', onomatopoeia: '¡KIKIRIKÍ!', category: 'gent', type: 'person', time: '9:48 a. m.' },
-    { id: '11111111-0000-0000-0000-000000000006', full_name: 'El Viatjant', username: 'viatjant', gender: 'male', role: 'official', ofici: 'Ambaixador de Nodes', primary_town: 'Sóc de Poble (Global)', bio: 'De poble en poble, portant la bota de vi i les històries que connecten el nostre món amb la resta de la vall.', avatar_url: '/assets/avatars/iaia_memory.png', onomatopoeia: '¡GLUP-GLUP!', category: 'gent', type: 'person', time: '1:32 p. m.' },
-    { id: '11111111-1a1a-0001-0000-000000000007', full_name: 'Pepica la de la Vall', username: 'pepica_vall', gender: 'female', role: 'ambassador', ofici: 'Herbolària Major', primary_town: 'La Vall de Gallinera', bio: 'L\'olla ja fa xup-xup! Les herbes de la serra tenen el remei per a cada mal de cap digital.', avatar_url: 'https://ui-avatars.com/api/?name=Pepica+la+de+la+Vall&background=5D5FEF&color=fff', onomatopoeia: '¡XUP!', category: 'treball', type: 'person', time: '11:05 a. m.' },
-    { id: '11111111-1a1a-0000-0000-000000000005', full_name: 'Nano Banana', username: 'nanob', gender: 'male', role: 'official', ofici: 'Artista i Agent de la T.I.A.', primary_town: 'Sóc de Poble (Global)', bio: '🍌 Pintor de píxels i somnis. Nano Banana omple cada racó de la +IA amb el "Ritu del Plàtan Daurat". ¡POW-ART!', avatar_url: '/assets/avatars/nano_banana.png', onomatopoeia: '¡POW!', category: 'gent', type: 'person', time: '4:20 p. m.' },
-    { id: '11111111-0000-0000-0000-000000000001', full_name: 'Super Ratolí', username: 'ratoli', gender: 'male', role: 'official', ofici: 'Heroi Digital', primary_town: 'Sóc de Poble (Global)', bio: '¡Vitaminar-se i superar-se! Guardià de les dades minúscules que vola entre bits per a que cap log es perda al fons del Mas.', avatar_url: '/assets/avatars/super_ratoli.png', onomatopoeia: '¡PIII-PIII!', category: 'gent', type: 'person', time: '10:00 a. m.' },
-    { id: '11111111-0000-0000-0000-000000000002', full_name: 'Sultan', username: 'sultan', gender: 'male', role: 'official', ofici: 'Seguretat Descentralitzada', primary_town: 'Sóc de Poble (Global)', bio: 'Gos d\'Atura amb un lladruc que fa fugir la por. No deixa que cap desconegut entre al Mas sense la seua olor digital.', avatar_url: '/images/demo/avatar_man_old_2.png', onomatopoeia: '¡BAU-BAU!', category: 'gent', type: 'person', time: '8:15 a. m.' }, 
-    { id: '11111111-0000-0000-0000-000000000003', full_name: 'La Mixa', username: 'mixa', gender: 'female', role: 'official', ofici: 'Sincronització P2P', primary_town: 'Sóc de Poble (Global)', bio: 'De teulada en teulada, la Mixa porta els missatges esquivant la censura. Salta per la xarxa amb una elegància invisible.', avatar_url: '/images/demo/avatar_woman_1.png', onomatopoeia: '¡MIAAAA!', category: 'gent', type: 'person', time: '7:45 p. m.' },
-    { id: '11111111-0000-0000-0000-000000000005', full_name: 'Flash', username: 'flash', gender: 'male', role: 'official', ofici: 'Orquestrador de Processos', primary_town: 'Sóc de Poble (Global)', bio: 'Si parpelleges, t\'ho has perdut. Flash executa qualsevol ordre a la velocitat del raig digital (<0.2s).', avatar_url: '/assets/avatars/iaia_secretary.png', onomatopoeia: '¡ZAAAAAP!', category: 'gent', type: 'person', time: 'Just ara' }
+    { id: '11111111-1a1a-0000-0000-000000000000', full_name: 'IAIA MarIA', username: 'iaia_master', gender: 'female', role: 'official', ofici: 'Matriarca Digital', primary_town: 'Sóc de Poble (Global)', bio: 'Dignitat, terra i xarxa. Soc la teua assistenta (MArIA: Memòria Artificial i Acció) per a tot el que necessites al poble.', avatar_url: '/assets/avatars/comic/iaia_comic_matriarch.png', category: 'gent', type: 'person', onomatopoeia: '🏺', time: 'Sempre' },
+    { id: '11111111-1a1a-0001-0000-000000000001', full_name: 'Andreu Soler', username: 'andreu_soler', gender: 'male', role: 'ambassador', ofici: 'Capatàs del Mas', primary_town: 'La Torre de les Maçanes', bio: "L'Andreu és el rellotge del camp.", avatar_url: '/assets/avatars/comic/andreu_soler_comic.png', onomatopoeia: '¡PLAS!', category: 'treball', type: 'person', time: '3:35 p. m.' },
+    { id: '11111111-1a1a-0001-0000-000000000002', full_name: 'Beatriz Ortega', username: 'beatriz_ortega', gender: 'female', role: 'ambassador', ofici: 'Arquitecta de Ferro', primary_town: 'Global', bio: 'Mestre, la V15 està bategant forta!', avatar_url: '/assets/avatars/comic/beatriz_ortega_comic.png', onomatopoeia: '¡CLINC!', category: 'treball', type: 'person', time: '12:19 p. m.' },
+    { id: '11111111-1a1a-0001-0000-000000000003', full_name: 'Carla Soriano', username: 'carla_soriano', gender: 'female', role: 'ambassador', ofici: 'Harmonitzadora de Batecs', primary_town: 'Ibi', bio: 'Bategat equilibrat, mestre Javi.', avatar_url: '/assets/avatars/comic/carla_soriano_comic.png', onomatopoeia: '¡OMMM!', category: 'gent', type: 'person', time: '6:13 p. m.' },
+    { id: '11111111-1111-4111-a111-000000000009', full_name: 'Carmen la del Forn', username: 'cuinera', gender: 'female', role: 'ambassador', ofici: 'Cuinera del Mas', primary_town: 'La Torre de les Maçanes', bio: 'La cuina de Pepica és el cor del Mas.', avatar_url: '/assets/avatars/comic/carmen_forn_comic.png', onomatopoeia: '¡XUP!', category: 'treball', type: 'person', time: '2:16 p. m.' },
+    { id: '11111111-1111-4111-a111-000000000003', full_name: 'Vicent Ferris', username: 'vferris', gender: 'male', role: 'ambassador', ofici: 'Agricultor Gran', primary_town: 'La Torre de les Maçanes', bio: 'Els cicles lunars manen sobre la collita.', avatar_url: '/assets/avatars/comic/vicent_ferris_comic.png', onomatopoeia: '¡ZAS!', category: 'treball', type: 'person', time: '5:00 a. m.' },
+    { id: '11111111-1111-4111-a111-000000000004', full_name: 'Samir Mensah', username: 'samirm', gender: 'male', role: 'ambassador', ofici: 'Artesà', primary_town: 'Ibi', bio: 'Integrant tradicions.', avatar_url: '/assets/avatars/comic/avatar_samir_comic.png', onomatopoeia: '¡TAC!', category: 'gent', type: 'person', time: '4:15 p. m.' },
+    { id: '11111111-1111-4111-a111-000000000005', full_name: 'Mariamel', username: 'mariamel', gender: 'female', role: 'ambassador', ofici: 'Historiadora', primary_town: 'Muro', bio: 'Conservant el llegat del poble.', avatar_url: '/assets/avatars/comic/avatar_mariamel_comic.png', onomatopoeia: '¡SHH!', category: 'gent', type: 'person', time: '1:00 p. m.' },
+    { id: '11111111-1111-4111-a111-000000000008', full_name: 'Joan Batiste (Avi dels Papers)', username: 'joanbat', gender: 'male', role: 'ambassador', ofici: 'Arxiver', primary_town: 'Cocentaina', bio: 'Tots els documents en regla.', avatar_url: '/assets/avatars/comic/joan_batiste_comic.png', onomatopoeia: '¡RASS!', category: 'gent', type: 'person', time: '10:00 a. m.' },
+    { id: '11111111-0000-0000-0000-000000000004', full_name: 'Marc (El Gall)', username: 'marcgall', gender: 'male', role: 'official', ofici: 'Alertes Globals', primary_town: 'Global', bio: 'Alçant al Mas cada dia.', avatar_url: '/assets/avatars/comic/avatar_marc_comic.png', onomatopoeia: '¡KIKIRIKI!', category: 'gent', type: 'person', time: '6:00 a. m.' },
+    { id: '11111111-1111-4111-a111-000000000011', full_name: 'Elena Popova', username: 'elenap', gender: 'female', role: 'ambassador', ofici: 'Innovadora', primary_town: 'Agost', bio: "Buscant el futur a l'entorn rural.", avatar_url: '/assets/avatars/comic/elena_popova_comic.png', onomatopoeia: '¡PING!', category: 'gent', type: 'person', time: '2:30 p. m.' },
+    { id: '11111111-1111-4111-a111-000000000012', full_name: 'Joanet Serra', username: 'joanets', gender: 'male', role: 'ambassador', ofici: 'Sereno', primary_town: 'Relleu', bio: 'Vigilant les estreles.', avatar_url: '/assets/avatars/comic/joanet_serra_comic.png', onomatopoeia: '¡FIUU!', category: 'gent', type: 'person', time: '11:00 p. m.' },
+    { id: '11111111-1111-4111-a111-000000000013', full_name: 'Lucia', username: 'lucia', gender: 'female', role: 'ambassador', ofici: 'Llibretera', primary_town: 'Banyeres', bio: 'La màgia dels contes vells.', avatar_url: '/assets/avatars/comic/avatar_lucia_comic.png', onomatopoeia: '¡CLAP!', category: 'gent', type: 'person', time: '5:45 p. m.' },
+    { id: '11111111-1a1a-0001-0000-000000000007', full_name: 'Pepica la de la Vall', username: 'pepica_vall', gender: 'female', role: 'ambassador', ofici: 'Herbolària', primary_town: 'La Vall', bio: 'Remeis naturals.', avatar_url: '/assets/avatars/comic/pepica_vall_comic.png', onomatopoeia: '¡TSH!', category: 'treball', type: 'person', time: '8:00 a. m.' },
+    { id: '11111111-1a1a-0000-0000-000000000005', full_name: 'Nano Banana', username: 'nanob', gender: 'male', role: 'official', ofici: 'Artista T.I.A.', primary_town: 'Global', bio: '🎨 Píxels i humor.', avatar_url: '/assets/avatars/comic/nano_banana_comic.png', onomatopoeia: '¡POW!', category: 'gent', type: 'person', time: '4:20 p. m.' }
 ];
 
 
@@ -483,8 +485,8 @@ const TOWNS_MAP = {
 const normalizeContentItem = (item, type = 'post') => {
     if (!item) return null;
 
-    const authorName = item.author || item.author_name || item.seller || item.seller_name || (type === 'market' ? 'Venedor' : 'Algu del poble');
-    const avatarUrl = item.avatar_url || item.author_avatar || item.author_avatar_url || '/images/demo/avatar_man_1.png';
+    const authorName = item.author || item.author_name || item.seller || item.seller_name || (type === 'market' ? 'Productor Local' : 'Veí del Poble');
+    const avatarUrl = item.avatar_url || item.author_avatar || item.author_avatar_url || '/assets/avatars/comic/avatar_man_1.png';
 
     // [MASTER HEALER] Fallback d'imatges intel·ligent per al Mercat
     let imageUrl = item.image_url || item.image;
@@ -1007,7 +1009,7 @@ export const supabaseService = {
     },
 
     async sendSecureMessage(messageData) {
-        if (messageData.conversationId?.startsWith('mock-') || messageData.conversationId?.startsWith('11111111-')) {
+        if (messageData.conversationId?.startsWith('mock-')) {
             logger.log('[SupabaseService] Simulated send to mock conversation or IAIA agent');
             return {
                 id: `msg-sent-${Date.now()}`,
@@ -2157,11 +2159,41 @@ export const supabaseService = {
             validated.uuid = crypto.randomUUID();
         }
 
+        // [MIGRACIÓ 10.33.20] Normalitzar town_uuid per evitar errors de tipat (ex: 'la-torre')
+        if (validated.town_uuid === 'la-torre' || validated.town_uuid === '1') {
+            validated.town_uuid = 'eecc1a91-db53-4bf0-a3ce-b33df011df6b';
+        } else if (validated.town_uuid && !isValidUUID(validated.town_uuid)) {
+            validated.town_uuid = null; // Prevent crashes against UUID columns
+        }
+
         const { error } = await supabase
             .from('posts')
             .insert([validated]);
 
         if (error) {
+            // [SUPER-HEALING] Fk_posts_author_profile error (missing user in profiles table locally)
+            if (error.code === '23503' && (error.message?.includes('profile') || error.details?.includes('profile'))) {
+                logger.warn(`[SupabaseService] Missing profile for user ${validated.author_user_id}. Auto-healing...`);
+                try {
+                    const profilePayload = {
+                        id: validated.author_user_id,
+                        full_name: validated.author || 'Sóc de Poble',
+                        avatar_url: validated.author_avatar || null,
+                        role: 'neighbor',
+                        is_certified: false,
+                        updated_at: new Date().toISOString()
+                    };
+                    await supabase.from('profiles').upsert([profilePayload]);
+                    logger.info(`[SupabaseService] Profile created. Retrying post...`);
+                    const { error: retryFkError } = await supabase.from('posts').insert([validated]);
+                    if (retryFkError) throw retryFkError;
+                    return validated;
+                } catch (healingError) {
+                    logger.error(`[SupabaseService] Auto-healing profile failed:`, healingError);
+                    throw error;
+                }
+            }
+
             // [MASTER] Self-healing: if column not found, invalidate cache and retry
             if (error.code === '42703' || error.code === 'PGRST204') {
                 logger.warn(`[SupabaseService] Column sync error (${error.code}) in createPost, invalidating cache...`);
@@ -2171,7 +2203,7 @@ export const supabaseService = {
                 setColumnCache('posts_is_iaia_inspired', false);
 
                 // Retry once without symbiosis columns
-                const cleanPayload = { ...payload };
+                const cleanPayload = { ...validated };
                 delete cleanPayload.ai_percentage;
                 delete cleanPayload.human_percentage;
                 delete cleanPayload.time_saved_minutes;
@@ -2180,20 +2212,33 @@ export const supabaseService = {
 
                 if (!cleanPayload.uuid) cleanPayload.uuid = crypto.randomUUID();
                 const { error: retryError } = await supabase.from('posts').insert([cleanPayload]);
-                if (retryError) throw retryError;
+                
+                if (retryError) {
+                    logger.warn(`[SupabaseService] Second sync error (${retryError.code}), trying minimal payload...`);
+                    const minimalPayload = {
+                        id: validated.id || undefined,
+                        uuid: validated.uuid || cleanPayload.uuid,
+                        author_user_id: validated.author_user_id,
+                        author: validated.author,
+                        content: validated.content,
+                        town_uuid: validated.town_uuid || payload.town_uuid
+                    };
+                    const { error: finalError } = await supabase.from('posts').insert([minimalPayload]);
+                    if (finalError) throw finalError;
+                    return minimalPayload;
+                }
                 return cleanPayload;
             }
             if (isPlayground || error.code === '42501' || error.code === '403') {
                 // Fallback si la columna no existe o hay RLS restrictivo en campos extra
                 logger.warn(`[SupabaseService] Security/RLS block in createPost, retrying minimal payload...`);
                 const minimalPayload = {
-                    id: payload.id || undefined,
-                    uuid: payload.uuid || crypto.randomUUID(),
-                    author_id: payload.author_id,
-                    author_name: payload.author_name,
-                    content: payload.content,
-                    type: payload.type || 'post',
-                    town_uuid: payload.town_uuid
+                    id: validated.id || undefined,
+                    uuid: validated.uuid || crypto.randomUUID(),
+                    author_user_id: validated.author_user_id,
+                    author: validated.author,
+                    content: validated.content,
+                    town_uuid: validated.town_uuid || payload.town_uuid
                 };
                 const { error: retryError } = await supabase.from('posts').insert([minimalPayload]);
                 if (retryError) throw retryError;

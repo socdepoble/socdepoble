@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import { X, Send, Sparkles, Shield, Trash2 } from 'lucide-react';
-import { useUI } from '../context/UIContext';
+import { useDesign } from '../context/DesignContext';
 import { logger } from '../utils/logger';
 import './MasterConsole.css';
 
 const MasterConsole = ({ isOpen, onClose }) => {
     useAuth();
     useTranslation();
-    const { vibe, setVibe, asoMode, toggleAsoMode } = useUI();
+    const { vibe, setVibe, asoMode, toggleAsoMode } = useDesign();
     const [target, setTarget] = useState('iaia_brain');
     const [mode, setMode] = useState('refine'); // refine, audit, purify, chronicle
     const [content, setContent] = useState('');

@@ -3,6 +3,7 @@ import { X, MessageCircle, Zap, MapPin, User, Sparkles, Share2 } from 'lucide-re
 import { useNavigate } from 'react-router-dom';
 import ShareHub from './ShareHub';
 import { useAuth } from '../context/AuthContext';
+import SEO from './SEO';
 import './ItemDetailModal.css';
 
 /**
@@ -25,8 +26,30 @@ const ItemDetailModal = ({ item, onClose, onAstroPayment }) => {
         onClose();
     };
 
+    const productSchema = {
+        "description": item.description,
+        "category": item.category || 'Producte Rural',
+        "offers": {
+            "@type": "Offer",
+            "priceCurrency": "EUR",
+            "price": item.price?.toString().replace(/[^\d.,]/g, '').replace(',', '.') || "0",
+            "availability": "https://schema.org/InStock"
+        },
+        "seller": {
+            "@type": "Organization",
+            "name": item.seller_name || item.seller || 'Sóc de Poble'
+        }
+    };
+
     return (
         <div className="item-detail-overlay" onClick={onClose}>
+            <SEO 
+                title={`${item.title} | Mercat Rural`}
+                description={item.description}
+                image={item.image_url}
+                type="product"
+                structuredData={productSchema}
+            />
             <div className="item-detail-container glass-morphism" onClick={e => e.stopPropagation()}>
                 <button className="item-detail-close" onClick={onClose}>
                     <X size={28} />

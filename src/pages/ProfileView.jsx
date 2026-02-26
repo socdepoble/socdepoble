@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { 
     User, Settings, ChevronRight, Loader2, AlertCircle, 
-    Sparkles, Zap, Grid, Heart, Share2, ArrowLeft, Camera, UserCheck, UserPlus, MoreHorizontal, MessageCircle, Tag, ShieldCheck, Beaker, Edit, Trash2, Plus, FileText, MapPin, Landmark, Image as ImageIcon, ScanLine, Ruler, Globe, Link as LinkIcon, Users, Cpu
+    Sparkles, Zap, Grid, Heart, Share2, ArrowLeft, Camera, UserCheck, UserPlus, MoreHorizontal, MessageCircle, Tag, ShieldCheck, Beaker, Edit, Trash2, Plus, FileText, MapPin, Landmark, Image as ImageIcon, ScanLine, Ruler, Globe, Link as LinkIcon, Users, Cpu, Handshake
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import { useUI } from '../context/UIContext';
+import { useDesign } from '../context/DesignContext';
+import { useModal } from '../context/ModalContext';
 import { supabaseService, isValidUUID } from '../services/supabaseService';
 import SEO from '../components/SEO';
 import Feed from '../components/Feed';
@@ -14,15 +15,17 @@ import ShareHub from '../components/ShareHub';
 import ProfileStudioModal from '../components/ProfileStudioModal';
 import { ROLES, USER_ROLES, ENTITY_TYPES } from '../constants';
 import { trustService } from '../services/trustService';
+import { geminiService } from '../services/geminiService';
 import RhizomeMonitor from '../components/RhizomeMonitor';
 import './ProfileView.css';
 
 const ProfileView = () => {
+    const { accessibilityMode, toggleAccessibilityMode } = useDesign();
     const { id, username } = useParams();
     const navigate = useNavigate();
     const location = useLocation();
     const { user: currentUser, profile: myProfile } = useAuth();
-    const { openConnectionModal } = useUI();
+    const { openConnectionModal } = useModal();
 
     const [profile, setProfile] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -80,20 +83,38 @@ const ProfileView = () => {
                     targetProfile = myProfile;
                 } else if (username) {
                     targetProfile = await supabaseService.getUserByUsername(username);
-                } else if (id === 'iaia' || location.pathname === '/iaia') {
+                } else if (id) {
+                    // Check if the ID matches an AI persona slug first
+                    const persona = geminiService.getPersonaBySlug(id);
+                    if (persona) {
+                        targetProfile = {
+                            id: id, // Keep the original slug/id from URL
+                            full_name: persona.name,
+                            username: id.toLowerCase().replace(/[^a-z0-9]/g, ''),
+                            bio: persona.systemPrompt.split('\n')[0] + ' ' + (persona.role ? `\n\nRol al Mas: ${persona.role}` : ''), 
+                            avatar_url: persona.avatar_url,
+                            cover_url: "/rural_tech_future_valencia.png",
+                            town_name: "Sóc de Poble",
+                            role: persona.role?.toLowerCase() || 'agent',
+                            is_iaia: true
+                        };
+                    } else {
+                        // Fallback: Try by UUID or slug from database
+                        targetProfile = await supabaseService.getPublicProfile(id) || await supabaseService.getPublicEntity(id);
+                    }
+                } else if (location.pathname === '/iaia') {
+                    const persona = geminiService.PERSONAS.IAIA;
                     targetProfile = {
                         id: '11111111-1a1a-0000-0000-000000000000',
-                        full_name: "MarIA (L'IAIA del Poble)",
+                        full_name: persona.name,
                         username: "iaia",
-                        bio: "Arquitecte digital i memòria del poble. Bategant per un futur sobirà i rural.",
-                        avatar_url: "/iaia_digital_matriarch.png",
+                        bio: persona.systemPrompt.split('\n')[0] + ' ' + (persona.role ? `\n\nRol al Mas: ${persona.role}` : ''), 
+                        avatar_url: persona.avatar_url,
                         cover_url: "/rural_tech_future_valencia.png",
                         town_name: "La Torre de les Maçanes",
-                        role: 'iaia'
+                        role: 'iaia',
+                        is_iaia: true
                     };
-                } else if (id) {
-                    // Try by UUID or slug
-                    targetProfile = await supabaseService.getPublicProfile(id) || await supabaseService.getPublicEntity(id);
                 }
 
                 if (!targetProfile) {
@@ -224,7 +245,7 @@ const ProfileView = () => {
                     </div>
                 </div>
 
-                <div className="avatar-central-wrapper absolute -bottom-24 left-1/2 -translateX-1/2 flex flex-col items-center">
+                <div className="avatar-central-wrapper absolute -bottom-24 left-1/2 -translate-x-1/2 flex flex-col items-center">
                     <div className="avatar-frame relative w-48 h-48 rounded-full p-1.5 bg-gradient-to-b from-[#F97316] to-transparent overflow-hidden group shadow-[0_0_60px_rgba(249,115,22,0.3)]">
                         <div className="w-full h-full rounded-full bg-black flex items-center justify-center relative overflow-hidden">
                             <Avatar 
@@ -310,33 +331,17 @@ const ProfileView = () => {
                                 <Sparkles size={18} className="text-[#F97316]" />
                                 <span>GESTIÓ D'IDENTITAT</span>
                             </button>
+
+                            {/* [MASTER v10.33.1] ACCESSIBILITAT IAIA MODE */}
+                            <button 
+                                onClick={toggleAccessibilityMode}
+                                className={`w-full h-14 rounded-2xl font-black text-sm uppercase tracking-widest transition-all flex items-center justify-center gap-3 ${accessibilityMode ? 'bg-[#0ea5e9] text-white shadow-[0_0_20px_rgba(14,165,233,0.3)] border-2 border-[#0ea5e9]' : 'bg-white/5 border border-white/10 text-white hover:bg-white/10'}`}
+                            >
+                                <Handshake size={18} className={accessibilityMode ? 'text-white' : 'text-[#0ea5e9]'} />
+                                <span>MODALITAT IAIA (CA)</span>
+                            </button>
                             
-                            <div className="grid grid-cols-2 gap-4">
-                                <button 
-                                    onClick={() => navigate('/hub')}
-                                    className="h-20 rounded-3xl bg-[#0ea5e9]/20 border-2 border-[#0ea5e9]/50 text-[#0ea5e9] text-sm font-black uppercase tracking-widest flex flex-col items-center justify-center gap-1 hover:bg-[#0ea5e9]/30 transition-all col-span-2 shadow-[0_0_20px_rgba(14,165,233,0.2)] active:scale-95 px-4 text-center group"
-                                >
-                                    <div className="flex items-center gap-3">
-                                        <Cpu size={24} className="group-hover:rotate-12 transition-transform" />
-                                        <span>Sistema Operatiu Rural</span>
-                                    </div>
-                                    <span className="text-[8px] opacity-60">Explora totes les funcionalitats</span>
-                                </button>
-                                <button 
-                                    onClick={() => navigate('/entitats')}
-                                    className="h-16 rounded-2xl bg-indigo-600/40 border-2 border-indigo-400/50 text-white text-[10px] font-black uppercase tracking-wider flex items-center justify-center gap-4 hover:bg-indigo-600/60 transition-all shadow-[0_0_20px_rgba(79,70,229,0.3)] active:scale-95 leading-tight px-4 text-center"
-                                >
-                                    <Landmark size={24} className="text-indigo-300 shrink-0" />
-                                    <span>Pàgina d'Empresa / Autònom</span>
-                                </button>
-                                <button 
-                                    onClick={() => navigate('/entitats')}
-                                    className="h-16 rounded-2xl bg-indigo-600/40 border-2 border-indigo-400/50 text-white text-[10px] font-black uppercase tracking-wider flex items-center justify-center gap-4 hover:bg-indigo-600/60 transition-all shadow-[0_0_20px_rgba(79,70,229,0.3)] active:scale-95 leading-tight px-4 text-center"
-                                >
-                                    <Users size={24} className="text-indigo-300 shrink-0" />
-                                    <span>Crear Grup o Associació</span>
-                                </button>
-                            </div>
+                            {/* ELIMINAT: Bloc de botons "fantasmes" de la versió Hub antiga */}
 
                             {/* RHIZOME MONITOR (DEEP TECH) */}
                             <RhizomeMonitor />
@@ -391,7 +396,7 @@ const ProfileView = () => {
                     >
                         <UserCheck size={16} /> CONNEXIONS
                     </button>
-                    {(profile.id === '11111111-1a1a-0000-0000-000000000000' || profile.role === 'iaia' || profile.username === 'iaia') && (
+                    {(profile?.id === '11111111-1a1a-0000-0000-000000000000' || profile?.role === 'iaia' || profile?.username === 'iaia') && (
                         <button 
                             onClick={() => setActiveTab('ajudes')}
                             className={`btn-profile-tab flex-1 py-4 text-[12px] font-black tracking-widest uppercase transition-all flex items-center justify-center gap-2 ${activeTab === 'ajudes' ? 'active text-orange-500 border-b-2 border-orange-500' : 'text-gray-500'}`}

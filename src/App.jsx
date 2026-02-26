@@ -1,7 +1,5 @@
 import React from 'react';
-import { AuthProvider } from './context/AuthContext';
-import { UIProvider } from './context/UIContext';
-import { ThemeProvider } from './context/ThemeContext';
+
 import AppLayout from './components/AppLayout';
 import GlobalModals from './components/GlobalModals';
 import './index.css';
@@ -13,14 +11,10 @@ import './index.css';
  */
 const App = () => {
     return (
-        <AuthProvider>
-            <ThemeProvider>
-                <UIProvider>
-                    <AppLayout />
-                    <GlobalModals />
-                </UIProvider>
-            </ThemeProvider>
-        </AuthProvider>
+        <React.Fragment>
+            <AppLayout />
+            <GlobalModals />
+        </React.Fragment>
     );
 };
 

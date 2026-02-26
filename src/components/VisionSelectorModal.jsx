@@ -25,7 +25,7 @@ const VisionSelectorModal = ({ isOpen, onClose, currentMode, onSelect }) => {
             title: 'VISIÓ IMMERSIVA',
             desc: 'Tota la colla: Gall, Nano, Mixa, Flash... Vida total.',
             icon: <Sparkles size={32} />,
-            color: '#FF6B00'
+            color: 'var(--theme-accent-primary)'
         }
     ];
 

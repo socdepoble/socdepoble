@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 import { BookOpen, Info, ShieldCheck, Zap } from "lucide-react";
-import { useUI } from "../context/UIContext";
+import { useDesign } from '../context/DesignContext';
 
 const ARCHITECTURE_DOCS = {
   'chats': {
@@ -48,7 +48,7 @@ const ARCHITECTURE_DOCS = {
 };
 
 const ArchitecteView = () => {
-  const { architectMode, isDark } = useUI();
+  const { architectMode, isDark } = useDesign();
   const location = useLocation();
   const path = location.pathname.split("/")[1] || "chats";
   const doc = ARCHITECTURE_DOCS[path] || ARCHITECTURE_DOCS.chats;

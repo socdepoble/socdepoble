@@ -6,7 +6,7 @@ import {
     Shield, Sparkles, Brain, Map as MapIcon, Wrench, LayoutGrid,
     Store, MapPin, Zap, FileText, ShieldCheck, Cpu
 } from 'lucide-react';
-import { useUI } from '../context/UIContext';
+import { useNavigation } from '../context/NavigationContext';
 import { useAuth } from '../context/AuthContext';
 import './ProfilePowerMenu.css';
 
@@ -44,7 +44,7 @@ const TECNIC_MESTRE = [
 ];
 
 const ProfilePowerMenu = () => {
-    const { isProfileMenuOpen, closeProfileMenu } = useUI();
+    const { isProfileMenuOpen, closeProfileMenu } = useNavigation();
     const { user, profile, signOut, isSuperAdmin, isAdmin } = useAuth();
 
     if (!isProfileMenuOpen) return null;

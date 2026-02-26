@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { StickyNote, X, Save, Trash2, Copy, Check, ChevronRight, ChevronLeft } from 'lucide-react';
-import { useUI } from '../context/UIContext';
+
+import { useModal } from '../context/ModalContext';
 import './NotePad.css';
 
 const NotePad = () => {
-    const { isNotePadOpen: isOpen, setIsNotePadOpen: setIsOpen } = useUI();
-    const [note, setNote] = useState(localStorage.getItem('sdp_master_note') || '');
+    const { isNotePadOpen: isOpen, setIsNotePadOpen: setIsOpen } = useModal();    const [note, setNote] = useState(localStorage.getItem('sdp_master_note') || '');
     const [copied, setCopied] = useState(false);
     const [isMinimized, setIsMinimized] = useState(false);
 

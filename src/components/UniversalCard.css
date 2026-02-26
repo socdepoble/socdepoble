@@ -14,7 +14,7 @@
 
 .universal-card.view-mode-list:hover {
   background: rgba(255, 255, 255, 0.08) !important;
-  border-color: var(--color-primary) !important;
+  border-color: var(--theme-accent-primary) !important;
 }
 
 .card-list-layout {
@@ -32,7 +32,7 @@
 
 .universal-card.view-mode-list:hover .card-list-thumbnail {
   transform: scale(1.05);
-  border-color: var(--color-primary);
+  border-color: var(--theme-accent-primary);
 }
 
 @media (max-width: 400px) {
@@ -64,18 +64,22 @@
 .universal-card:hover {
   transform: translateY(-6px) scale(1.01);
   box-shadow: var(--shadow-deep), var(--shadow-glow-violet);
-  border-color: var(--color-primary);
+  border-color: var(--theme-accent-primary);
 }
 
 /* Light Mode Specific Overrides (Protocol Llum de Dia) */
 .theme-light .universal-card {
-  background: rgba(255, 255, 255, 0.75);
-  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.08);
-  /* Ombra suau Nexus v6.0 */
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 .theme-light .universal-card:hover {
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  border-color: var(--theme-accent-primary);
+  transform: translateY(-4px);
 }
 
 .theme-light .universal-card .genesis-title {
@@ -94,16 +98,36 @@
 }
 
 .card-header-boina {
-  background: #f97316 !important; /* FORÇAT BOINA TARONJA v15.0 - UNIFICACIÓ SUPREMA */
-  color: #000000 !important; /* Màxim contrast */
-  padding: 0 24px;
+  background: var(--theme-accent-primary) !important; /* Protocol: Taronja(Nit) / Blau(Dia) */
+  color: #ffffff !important;
+  padding: 0 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 52px !important; /* Standard Height Compact */
+  height: 64px !important; 
   border-radius: 0;
   position: relative;
   z-index: 10;
+  backdrop-filter: blur(20px);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* Added to clip any ghosting content */
+}
+
+/* [PRO] Auditoria de Reixa: Boina compacta però suficient per a evitar "trepitjats" */
+.universal-card.view-mode-grid .card-header-boina {
+  padding: 0 12px;
+  height: 60px !important; /* Incrementat de 56px a 60px per a respiració */
+}
+
+.universal-card.view-mode-grid .master-author-name {
+  font-size: 13px;
+}
+
+.variant-official .card-header-boina,
+.card-header-boina.variant-official {
+  background: var(--theme-accent-primary) !important;
+  color: #ffffff !important;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 .universal-card.category-sostenible:hover {
@@ -200,19 +224,25 @@
   align-items: center;
   gap: 12px;
   overflow: hidden;
+  min-width: 0;
+}
+
+.universal-card.view-mode-grid .header-left {
+  gap: 8px; /* [PRO] Reducció de gap per a mode reixa */
 }
 
 .genesis-avatar {
-  border: 2px solid var(--border-subtle);
+  border: 1px solid var(--border-master) !important;
   flex-shrink: 0;
-  border-radius: var(--radius-full) !important;
-  /* AVATARS SEMPRE RODONS v5.1 */
+  border-radius: 50% !important; /* FORÇAT: RITU D'IDENTITAT v10.33 */
   background: var(--bg-edge);
+  overflow: hidden;
 }
 
 .header-text {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .master-author-name {
@@ -237,9 +267,9 @@
 }
 
 .location-text {
-  color: var(--accent-cyan);
+  color: #ffffff !important;
   font-size: 10px;
-  font-weight: 900;
+  font-weight: 950;
   text-transform: uppercase;
   letter-spacing: 1px;
   opacity: 0.9;
@@ -251,28 +281,47 @@
   flex-direction: column;
   gap: 2px;
   transition: all 0.3s ease;
+  flex-shrink: 0;
 }
 
 .header-right-meta.agenda-highlight {
   background: #000;
   padding: 4px 10px;
   border-radius: 8px;
-  border: 1px solid var(--accent-orange);
+  border: 1px solid var(--theme-accent-primary);
   box-shadow: 0 0 10px rgba(255, 109, 35, 0.2);
 }
 
 .header-right-meta.agenda-highlight .header-date {
-  color: var(--accent-orange);
+  color: var(--theme-accent-primary);
   font-size: 11px;
   font-weight: 950;
 }
 
+.header-meta-details {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-end !important;
+  text-align: right !important;
+  gap: 0px !important;
+}
+
 .header-date {
-  font-size: 9px;
-  font-weight: 950;
-  color: var(--text-muted);
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  color: rgba(255, 255, 255, 0.6) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 1;
+}
+
+.header-time {
+  font-size: 11px !important;
+  font-weight: 950 !important;
+  color: #ffffff !important;
   text-transform: uppercase;
   letter-spacing: 1px;
+  line-height: 1.2;
 }
 
 .btn-master-rectify {
@@ -282,7 +331,7 @@
   align-items: center;
   justify-content: center;
   background: var(--color-bg-canonic);
-  border: 2px solid var(--color-primary);
+  border: 2px solid var(--theme-accent-primary);
   border-radius: 28px;
   font-size: 18px;
   cursor: pointer;
@@ -294,27 +343,39 @@
 
 .btn-master-rectify:hover {
   transform: scale(1.15) rotate(12deg);
-  background: var(--color-primary);
-  box-shadow: 0 0 25px var(--color-primary);
+  background: var(--theme-accent-primary);
+  box-shadow: 0 0 25px var(--theme-accent-primary);
 }
 
-/* MEDIA SECTION: Geometria Sagrada 28px */
+/* Products and All Images: Strict 1:1 Protocol */
 .universal-card-media {
-  width: 100%;
-  height: 100%;
+  width: 100% !important;
+  height: 100% !important;
+  aspect-ratio: 1 / 1 !important;
   object-fit: cover !important;
   transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-  border-radius: 0 !important; /* Media inherits from wrapper but doesn't need its own radius if it's full */
+  border-radius: 0 !important;
 }
 
 .card-media-wrapper {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 1 / 1;
   background: var(--color-bg-canonic);
   overflow: hidden;
   padding: 0;
-  border-radius: 0; /* Boina handling makes this square at top */
+  border-radius: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Internal Products: Always Square */
+.card-variant-mercat .card-media-wrapper,
+.card-variant-market .card-media-wrapper,
+.card-variant-post .card-media-wrapper,
+.card-variant-mur .card-media-wrapper {
+  aspect-ratio: 1 / 1;
 }
 
 .image-overlay-credits {
@@ -364,17 +425,18 @@
 .btn-ai-poeta:hover,
 .btn-ai-taxador:hover {
   transform: scale(1.2) rotate(8deg);
-  background: var(--accent-orange);
+  background: var(--theme-accent-primary);
   border-color: #000;
 }
 
 /* BODY */
 .card-body {
   padding: 20px;
-  flex-grow: 1;
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 12px;
+  position: relative; /* For absolute price positioning if needed */
 }
 
 .genesis-title {
@@ -391,19 +453,30 @@
 }
 
 .card-price {
-  background: var(--color-primary) !important;
-  color: var(--color-bg-canonic) !important;
-  padding: 6px 14px;
-  border-radius: var(--radius-full);
-  font-size: 15px;
-  font-weight: 950;
-  letter-spacing: -0.5px;
-  box-shadow: 0 5px 15px rgba(255, 109, 35, 0.3);
+  background: var(--theme-accent-primary) !important;
+  color: #ffffff !important;
+  padding: 8px 18px;
+  border-radius: 100px;
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-price-bottom {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  z-index: 20;
 }
 
 .card-price-forense {
   font-family: var(--font-display);
-  color: var(--color-primary);
+  color: var(--theme-accent-primary);
   font-size: 24px;
   font-weight: 950;
   letter-spacing: -1px;
@@ -415,6 +488,7 @@
   line-height: 1.6;
   margin: 0;
   font-weight: 500;
+  padding: 4px 0; /* Breathing room */
 }
 
 .read-more-btn {
@@ -469,8 +543,8 @@
   width: 100%;
   height: 48px;
   background: var(--color-bg-canonic);
-  color: var(--color-primary);
-  border: 1px solid var(--color-primary);
+  color: var(--theme-accent-secondary);
+  border: 1px solid var(--theme-accent-secondary);
   border-radius: var(--sdp-radius-tactile);
   font-weight: 950;
   text-transform: uppercase;
@@ -481,9 +555,9 @@
 }
 
 .btn-mercat-buy:hover {
-  background: var(--color-primary);
+  background: var(--theme-accent-secondary);
   color: var(--color-bg-canonic);
-  box-shadow: 0 0 20px var(--color-primary);
+  box-shadow: 0 0 20px var(--theme-accent-secondary);
 }
 
 /* 3. CARDINAL AGENDA */
@@ -519,20 +593,6 @@
 }
 
 /* BUTTONS & TARGETS */
-.card-header-boina {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 16px;
-  background-color: #f97316 !important; /* Boina Taronja Institucional */
-  color: #000000 !important; /* Màxim contrast sobre taronja */
-  transition: all 0.3s ease;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.variant-official {
-  background-color: #f97316 !important; /* Forçat xé! */
-}
 .master-action-btn {
   display: flex;
   align-items: center;
@@ -553,17 +613,17 @@
 .master-action-btn.connect-btn {
   flex-grow: 1; /* Thumb Optimization */
   background: var(--color-bg-canonic);
-  border-color: var(--color-primary);
-  color: var(--color-primary);
+  border-color: var(--theme-accent-secondary);
+  color: var(--theme-accent-secondary);
   font-weight: 950;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .master-action-btn.connect-btn:hover {
-  background: var(--color-primary);
+  background: var(--theme-accent-secondary);
   color: var(--color-bg-canonic);
-  box-shadow: 0 0 20px var(--color-primary);
+  box-shadow: 0 0 20px var(--theme-accent-secondary);
 }
 
 /* Connect Btn Variant for Official/Sostenible */
@@ -701,9 +761,9 @@
 
 .btn-touch:hover {
   background: var(--surface-glass);
-  color: var(--accent-orange);
+  color: var(--theme-accent-secondary);
   transform: scale(1.1) rotate(5deg);
-  border-color: var(--accent-orange);
+  border-color: var(--theme-accent-secondary);
 }
 
 .btn-touch.iaia-chat {
@@ -721,7 +781,7 @@
 }
 
 .btn-event-action {
-  background: var(--accent-orange);
+  background: var(--theme-accent-secondary);
   color: #000;
   height: 44px;
   padding: 0 16px;
@@ -744,7 +804,7 @@
 }
 
 .btn-event-action.visit-town {
-  background: var(--accent-orange);
+  background: var(--theme-accent-secondary);
 }
 
 .btn-event-action.map-nav {
@@ -808,7 +868,7 @@
 }
 
 .btn-mercat-buy {
-  background: var(--accent-orange);
+  background: var(--theme-accent-secondary);
   color: #000;
   height: 44px;
   width: 100%;
@@ -832,12 +892,12 @@
 }
 
 .flash-icon {
-  color: var(--accent-orange);
+  color: var(--theme-accent-primary);
 }
 
 .btn-event-action,
 .btn-mercat-buy {
-  background: var(--accent-orange);
+  background: var(--theme-accent-secondary);
   color: #000;
   border: none;
   padding: 8px 16px;
@@ -881,18 +941,18 @@
 
 .master-action-btn:hover {
   background: var(--surface-glass);
-  color: var(--accent-orange);
+  color: var(--theme-accent-secondary);
 }
 
 .master-action-btn.connect-btn {
-  color: var(--accent-orange);
-  background: rgba(255, 109, 35, 0.1);
-  border: 1px solid rgba(255, 109, 35, 0.2);
+  color: var(--theme-accent-secondary);
+  background: var(--theme-accent-secondary-faint);
+  border: 1px solid var(--theme-accent-secondary-muted);
 }
 
 .master-action-btn.connect-btn:hover {
-  background: var(--accent-orange);
-  color: #000;
+  background: var(--theme-accent-secondary);
+  color: #fff;
 }
 
 /* 5. CARDINAL AJUNTAMENT */
@@ -945,5 +1005,105 @@
   .universal-card {
     border-radius: var(--radius-m);
     margin: 8px 0;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+      "header header"
+      "media body"
+      "media footer";
+    align-items: stretch;
+  }
+
+  .universal-card .card-header-boina {
+    grid-area: header;
+  }
+
+  .universal-card .card-media-wrapper {
+    grid-area: media;
+    width: 130px;
+    height: 100%;
+    min-height: 130px;
+    border-bottom-left-radius: var(--radius-m);
+  }
+
+  .universal-card .universal-card-media {
+    height: 100%;
+    object-position: center;
+  }
+
+  .universal-card .card-body {
+    grid-area: body;
+    padding: 12px;
+  }
+
+  .universal-card .card-footer-master {
+    grid-area: footer;
+  }
+
+  .universal-card .genesis-title {
+    font-size: 16px;
+    line-height: 1.2;
+    margin-bottom: 4px;
+  }
+
+  .universal-card .card-excerpt {
+    font-size: 13px;
+    line-height: 1.4;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+}
+
+@media (max-width: 400px) {
+  .universal-card {
+    margin: 4px 0;
+  }
+  .universal-card .card-media-wrapper {
+    width: 100px;
+    min-height: 100px;
+  }
+  .card-header-boina {
+    padding: 8px;
+    height: auto !important;
+    min-height: 56px;
+  }
+  .master-author-name {
+    font-size: 12px !important;
+    white-space: normal !important;
+    word-break: break-word;
+  }
+  .header-date, .header-time {
+    font-size: 9px !important;
+  }
+  .card-body {
+    padding: 8px;
+  }
+  .genesis-title {
+    font-size: 15px;
+  }
+  .card-price {
+    font-size: 14px;
+    padding: 6px 12px;
+  }
+  .master-action-btn {
+    padding: 0 12px;
+    font-size: 12px;
+  }
+  .footer-actions-mur, .footer-event-master, .footer-pobles-master, .footer-ajuntament-master, .footer-mapa-master {
+    padding: 8px;
+  }
+}
+
+@media (max-width: 350px) {
+  .card-tags-row {
+     display: none;
+  }
+  .universal-card {
+    border-radius: 12px;
+  }
+  .universal-card .card-media-wrapper {
+    width: 80px;
+    min-height: 80px;
   }
 }

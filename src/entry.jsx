@@ -4,7 +4,11 @@ import App from "./App.jsx";
 import "./index.css";
 import "./design-system/tokens.css";
 import "./i18n/config";
-import { AppProvider } from "./context/AppContext";
+import { AuthProvider } from "./context/AuthContext";
+import { ModalProvider } from "./context/ModalContext";
+import { DesignProvider } from "./context/DesignContext";
+import { NavigationProvider } from "./context/NavigationContext";
+import { SocialProvider } from "./context/SocialContext";
 import { BrowserRouter } from "react-router-dom";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -63,12 +67,10 @@ window.onerror = (msg, src, lineno, colno, err) => {
 // Console Noise Suppression
 const originalWarn = console.warn;
 const originalError = console.error;
-const originalLog = console.log;
 const isNoise = (args) => args.some((arg) => checkSilence(arg));
 
 console.warn = (...args) => { if (!isNoise(args)) originalWarn.apply(console, args); };
 console.error = (...args) => { if (!isNoise(args)) originalError.apply(console, args); };
-console.log = (...args) => { if (!isNoise(args)) originalLog.apply(console, args); };
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -96,10 +98,11 @@ if (savedVersion && savedVersion !== CURRENT_MASTER_VERSION) {
     // [RESILIENT UPDATE] Si hem intentat recarregar en els últims 30 segons i seguim igual, STOP.
     // Augmentem el llindar perquè en algunes xarxes el reload triga més.
     if (now - lastReload < 60000) { 
-        console.warn('[BATEGAT SAFETY] Bucle de redirecció detectat. Aturant actualització forçada.');
+        // Silenciat per a desenvolupament per petició de l'usuari
+        // if (import.meta.env.DEV) console.warn('[BATEGAT SAFETY] Bucle de redirecció detectat. Aturant actualització forçada.');
         localStorage.setItem("sp_app_version", CURRENT_MASTER_VERSION);
     } else {
-        console.log('[BATEGAT UPDATE] Versió desfasada detectada. Sincronitzant el Mas...');
+        // if (import.meta.env.DEV) console.log('[BATEGAT UPDATE] Versió desfasada detectada. Sincronitzant el Mas...');
         localStorage.setItem("sp_last_version_reload", now.toString());
         localStorage.setItem("sp_app_version", CURRENT_MASTER_VERSION);
         window.location.reload();
@@ -116,17 +119,25 @@ window.__SDP_ROOT__.render(
     <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <I18nProvider>
-            <AppProvider>
-              <ThemeProvider>
-                <ToastProvider>
-                  <VersionGatekeeper>
-                    <SafeShell>
-                      <App />
-                    </SafeShell>
-                  </VersionGatekeeper>
-                </ToastProvider>
-              </ThemeProvider>
-            </AppProvider>
+            <ThemeProvider>
+              <AuthProvider>
+                <SocialProvider>
+                  <DesignProvider>
+                    <NavigationProvider>
+                      <ModalProvider>
+                        <ToastProvider>
+                          <VersionGatekeeper>
+                            <SafeShell>
+                              <App />
+                            </SafeShell>
+                          </VersionGatekeeper>
+                        </ToastProvider>
+                      </ModalProvider>
+                    </NavigationProvider>
+                  </DesignProvider>
+                </SocialProvider>
+              </AuthProvider>
+            </ThemeProvider>
           </I18nProvider>
         </BrowserRouter>
     </QueryClientProvider>

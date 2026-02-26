@@ -20,7 +20,8 @@
         "add": "ADD",
         "province": "Province",
         "comarca": "Comarca",
-        "unknown": "Unknown"
+        "unknown": "Unknown",
+        "share_soc": "Share Sóc de Poble"
     },
     "nav": {
         "chats": "Chats",
@@ -32,7 +33,10 @@
         "vision_protocol": "Vision Protocol",
         "archon_console": "Archon Console",
         "theme_day": "Day Mode",
-        "theme_night": "Night Mode"
+        "theme_night": "Night Mode",
+        "system_op_part_1": "SYSTEM",
+        "system_op_part_2": "OPERATING",
+        "legal_info": "LEGAL INFO"
     },
     "notebook": {
         "title": "Notebook",

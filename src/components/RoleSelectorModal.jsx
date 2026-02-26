@@ -46,7 +46,7 @@ const RoleSelectorModal = ({ isOpen, onClose, onSelect }) => {
             id: 'iaia_master', 
             title: 'IAIA MarIA', 
             desc: 'Matriarca Digital. Saviesa i sentit comú per al dia a dia.', 
-            avatar: '/assets/avatars/iaia_official.png', 
+            avatar: '/assets/avatars/comic/iaia_comic_matriarch.png', 
             color: '#ff9800', 
             route: '/chats', 
             benefit: 'Guia Suprema' 
@@ -55,7 +55,7 @@ const RoleSelectorModal = ({ isOpen, onClose, onSelect }) => {
             id: 'agronom', 
             title: 'VICENT FERRIS', 
             desc: 'Agrònom. El tacte de la terra i el saber de l\'olivera.', 
-            avatar: '/images/demo/avatar_man_old.png', 
+            avatar: '/images/demo/avatar_antoni.png', 
             color: '#4CAF50', 
             route: '/chats', 
             benefit: 'Saviesa de la Terra' 
@@ -73,7 +73,7 @@ const RoleSelectorModal = ({ isOpen, onClose, onSelect }) => {
             id: 'capatas', 
             title: 'ANDREU DEL CAMP', 
             desc: 'Capatàs. El rellotge i la llei del camp amb trellat.', 
-            avatar: '/images/demo/avatar_man_1.png', 
+            avatar: '/images/demo/avatar_vicent.png', 
             color: '#8E8E93', 
             route: '/chats', 
             benefit: 'Eficiència Rural' 
@@ -109,7 +109,7 @@ const RoleSelectorModal = ({ isOpen, onClose, onSelect }) => {
             id: 'sultan', 
             title: 'SULTAN', 
             desc: 'Seguretat Rural. El guardià que mai dorm.', 
-            avatar: '/images/demo/avatar_man_old_2.png', 
+            avatar: '/images/demo/avatar_samir.png', 
             color: '#795548', 
             route: '/chats', 
             benefit: 'Seguretat de Node' 
@@ -118,16 +118,16 @@ const RoleSelectorModal = ({ isOpen, onClose, onSelect }) => {
             id: 'mixa', 
             title: 'LA MIXA', 
             desc: 'Gata de Xarxa. Missatgera P2P entre les teulades.', 
-            avatar: '/images/demo/avatar_woman_1.png', 
+            avatar: '/images/demo/avatar_maria.png', 
             color: '#E91E63', 
             route: '/chats', 
-            benefit: 'Connexió Invisible' 
+            benefit: 'Connexion Invisible' 
         },
         { 
             id: 'gall', 
             title: 'EL GALL', 
             desc: 'Alertes. El bategat de l\'emergència i l\'inici del dia.', 
-            avatar: '/images/demo/avatar_marc.png', 
+            avatar: '/assets/avatars/comic/avatar_marc_comic.png', 
             color: '#FF5722', 
             route: '/chats', 
             benefit: 'Vigilant d\'Emergència' 
@@ -186,7 +186,10 @@ const RoleSelectorModal = ({ isOpen, onClose, onSelect }) => {
                     <div className="magic-search-container">
                         <div className="magic-search-wrapper">
                             <Search className="magic-search-icon" size={20} />
+                            <label htmlFor="magic-search-input" className="sr-only">Cercar a la IAIA...</label>
                             <input 
+                                id="magic-search-input"
+                                name="magic_search_input"
                                 type="text" 
                                 placeholder="Diu-li a la IAIA... (Ex: 'Tinc fam', 'Què vol dir bategar?')" 
                                 className="magic-search-input"
@@ -199,7 +202,7 @@ const RoleSelectorModal = ({ isOpen, onClose, onSelect }) => {
 
                     <div className="iaia-contextual-greeting">
                         <div className="iaia-avatar-mini">
-                            <img src="/iaia_digital_matriarch.png" alt="IAIA" />
+                            <img src="/assets/avatars/comic/iaia_comic_matriarch.png" alt="IAIA" />
                             <div className="online-indicator"></div>
                         </div>
                         <p className="greeting-text">"{greeting}"</p>

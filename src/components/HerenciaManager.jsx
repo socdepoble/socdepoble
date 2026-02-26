@@ -22,7 +22,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 import MediaViewerModal from "./MediaViewerModal";
-import { useUI } from "../context/UIContext";
+import { useNavigation } from '../context/NavigationContext';
 import { docExtractionService } from "../services/docExtractionService";
 import "./HerenciaManager.css";
 import "./IAIAAssistantFlow.css";
@@ -34,7 +34,7 @@ import "./IAIAAssistantFlow.css";
  */
 const HerenciaManager = ({ onBack }) => {
   const [showSollutiaGenerator, setShowSollutiaGenerator] = useState(false);
-  const { iaiaSidebarOpen, openIAIASidebar } = useUI();
+  const { iaiaSidebarOpen, openIAIASidebar } = useNavigation();
   const [sumaData, setSumaData] = useState(null);
   const [deeds, setDeeds] = useState([
     { id: 101, name: "Escritura (protocolitzada).pdf", date: "16/02/2026", analysed: true, src: "/assets/demo/escritura_sample.pdf" },

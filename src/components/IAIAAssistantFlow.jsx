@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Bot, ArrowLeft, Shield, Sparkles, Globe, Terminal, CheckCircle2, Loader2, X, MessageSquare, Download, Share2, ExternalLink, FileText } from 'lucide-react';
-import { useUI } from '../context/UIContext';
+import { useNavigation } from '../context/NavigationContext';
 import './IAIAAssistantFlow.css';
 
 const IAIAAssistantFlow = ({ onBack }) => {
@@ -10,7 +10,7 @@ const IAIAAssistantFlow = ({ onBack }) => {
     });
     const [progress, setProgress] = useState(0);
     const [logs, setLogs] = useState([]);
-    const { openIAIASidebar } = useUI();
+    const { openIAIASidebar } = useNavigation();
 
     const saveStep = (newStep) => {
         setStep(newStep);

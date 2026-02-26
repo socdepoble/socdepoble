@@ -15,18 +15,18 @@ const getAvatarColor = (role) => {
     switch (role) {
         case ROLES.OFFICIAL: return 'var(--color-primary)';
         case ROLES.BUSINESS: return 'var(--color-secondary)';
-        case ROLES.GROUPS: return '#E07A5F'; // Warm accent
+        case ROLES.GROUPS: // Falls through to default orange
         default: return '#FF7300'; // Taronja Corporatiu Sóc de Poble (Protocol OMEGA)
     }
 };
 
 const getAvatarFallbackImage = (role) => {
     switch (role) {
-        case ROLES.OFFICIAL: return '/assets/avatars/iaia_official.png';
-        case ROLES.BUSINESS: return '/images/demo/avatar_lucia.png';
-        case ROLES.GROUPS: return '/images/demo/avatar_man_1.png';
-        case 'ambassador': return '/assets/avatars/iaia_official.png';
-        case 'iaia': return '/assets/avatars/iaia_official.png';
+        case ROLES.OFFICIAL: return '/assets/avatars/comic/iaia_comic_matriarch.png';
+        case ROLES.BUSINESS: return '/assets/avatars/comic/avatar_lucia_comic.png';
+        case ROLES.GROUPS: return '/assets/avatars/comic/avatar_man_1.png';
+        case 'ambassador': return '/assets/avatars/comic/iaia_comic_matriarch.png';
+        case 'iaia': return '/assets/avatars/comic/iaia_comic_matriarch.png';
         default: return null; // Let initials/icon handle it for neighbors
     }
 };

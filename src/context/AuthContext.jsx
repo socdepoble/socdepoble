@@ -70,7 +70,7 @@ export const AuthProvider = ({ children }) => {
             role: USER_ROLES.ADMIN,
             is_demo: true,
             is_admin: true,
-            avatar_url: '/assets/avatars/iaia_official.png'
+            avatar_url: '/assets/avatars/comic/iaia_comic_matriarch.png'
         });
     }, [adoptPersona]);
 
@@ -253,7 +253,7 @@ export const AuthProvider = ({ children }) => {
                 // [NUCLEAR PURGE & SHIELD]
                 if (isOfficialCreator) {
                     ['sp_sovereign_identity', 'sp_identity', 'sp_user_id', 'sp_profile', 'sp_active_profile', 'sp_last_auth'].forEach(k => localStorage.removeItem(k));
-                    console.log('%c🏺 MESTRE JAVI DETECTAT. Blindant identitat v2...', 'color: #F97316; background: #000; padding: 10px; border: 2px solid #F97316; border-radius: 10px; font-weight: bold; font-size: 1.5em;');
+                    logger.log('[AuthContext] MESTRE DETECTAT. Blindant identitat v2...');
                 } else {
                     // SILENT CHECK FOR GHOSTS
                     if (userEmail.includes('javi') || userEmail.includes('llinares')) {
@@ -337,7 +337,8 @@ export const AuthProvider = ({ children }) => {
             isMounted = false;
             if (subscription) subscription.unsubscribe();
         };
-    }, [handleAuth]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const value = useMemo(() => ({
         user,

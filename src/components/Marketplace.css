@@ -11,6 +11,16 @@
     padding: 16px;
 }
 
+@media (max-width: 850px) {
+    .market-grid.view-mode-grid {
+        grid-template-columns: 1fr !important; /* [PROTOCOL MESTRE] Col·lapse a 1 columna per a llegibilitat imponent */
+        max-width: 650px;
+        margin: 0 auto;
+        gap: 24px;
+        padding: 24px 16px;
+    }
+}
+
 .market-grid.view-mode-single {
     display: flex;
     flex-direction: column;
@@ -33,6 +43,7 @@
         padding: 10px;
     }
 }
+
 
 .market-item {
     position: relative;
@@ -97,9 +108,8 @@
     stroke: #FF5252;
 }
 
-
+/* BUTTONS & TARGETS */
 .item-header-info {
-    margin-bottom: var(--space-sm);
 }
 
 .item-header-info-row {

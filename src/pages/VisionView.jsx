@@ -1,16 +1,16 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Shield, Brain, Sparkles, ArrowLeft, Check, User, Zap, MessageSquare } from 'lucide-react';
-import { useUI } from '../context/UIContext';
+import { useDesign } from '../context/DesignContext';
+import { useNavigation } from '../context/NavigationContext';
 import { AGENTS, IAIA_MARIA_ID } from '../constants/agents';
 import './VisionView.css';
 
 const VisionView = () => {
     const navigate = useNavigate();
-    const { 
-        visionMode, setIaiaLevel, 
-        enabledAgentIds, toggleAgent 
-    } = useUI();
+    const { visionMode } = useDesign();
+    const { enabledAgentIds } = useNavigation();
+    const { setIaiaLevel, toggleAgent } = useDesign();
 
     const MODES = [
         {
@@ -83,7 +83,7 @@ const VisionView = () => {
                                         <MessageSquare size={18} color="#F97316" />
                                         <span>Selecció d'Acompanyants</span>
                                     </div>
-                                    <div className="chat-embed-list">
+                                    <div className="chat-embed-list custom-scrollbar">
                                         {AGENTS.map(agent => {
                                             const isActive = enabledAgentIds.includes(agent.id);
                                             return (
@@ -94,13 +94,20 @@ const VisionView = () => {
                                                 >
                                                     <div className="chat-embed-avatar">
                                                         <img src={agent.avatar_url} alt={agent.name} />
+                                                        {agent.tag && (
+                                                            <span className="agent-tag-badge">{agent.tag}</span>
+                                                        )}
                                                     </div>
                                                     <div className="chat-embed-info">
-                                                        <span className="chat-embed-name">{agent.name}</span>
-                                                        <span className="chat-embed-role">{agent.role}</span>
+                                                        <div className="chat-embed-name-row">
+                                                            <span className="chat-embed-name">{agent.name}</span>
+                                                        </div>
+                                                        <span className="chat-embed-phrase">{agent.last_message_content || agent.role}</span>
                                                     </div>
-                                                    <div className="chat-embed-toggle">
-                                                        {isActive && <Check size={16} strokeWidth={4} />}
+                                                    <div className="chat-embed-toggle-wrapper">
+                                                        <div className={`chat-embed-toggle ${isActive ? 'active' : ''}`}>
+                                                            {isActive && <Check size={14} strokeWidth={4} />}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             );
@@ -113,18 +120,25 @@ const VisionView = () => {
                              {m.id === 'iaia' && visionMode === 'iaia' && (
                                 <div className="chat-embed-container animate-in-up">
                                     <div className="chat-embed-list">
-                                        <div className="chat-embed-agent-row active">
-                                            <div className="chat-embed-avatar">
-                                                <img src={AGENTS.find(a => a.id === IAIA_MARIA_ID)?.avatar_url} alt="IAIA" />
+                                        {AGENTS.filter(a => a.id === IAIA_MARIA_ID).map(agent => (
+                                            <div key={agent.id} className="chat-embed-agent-row active" onClick={() => navigate('/iaia')}>
+                                                <div className="chat-embed-avatar">
+                                                    <img src={agent.avatar_url} alt="IAIA" />
+                                                    <span className="agent-tag-badge">MASTER</span>
+                                                </div>
+                                                <div className="chat-embed-info">
+                                                    <div className="chat-embed-name-row">
+                                                        <span className="chat-embed-name">{agent.name}</span>
+                                                    </div>
+                                                    <span className="chat-embed-phrase">{agent.last_message_content}</span>
+                                                </div>
+                                                <div className="chat-embed-toggle-wrapper">
+                                                    <div className="chat-embed-toggle active" style={{ background: '#F97316', borderColor: '#F97316' }}>
+                                                        <Check size={14} strokeWidth={4} color="black" />
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div className="chat-embed-info">
-                                                <span className="chat-embed-name">IAIA MarIA</span>
-                                                <span className="chat-embed-role">Governança Rural Digital</span>
-                                            </div>
-                                            <div className="chat-embed-toggle active" style={{ background: '#F97316', borderColor: '#F97316' }}>
-                                                <Check size={16} strokeWidth={4} color="black" />
-                                            </div>
-                                        </div>
+                                        ))}
                                     </div>
                                 </div>
                             )}

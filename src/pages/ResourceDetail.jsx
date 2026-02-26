@@ -190,8 +190,8 @@ const ResourceDetail = () => {
 
             <style>{`
                 .resource-biblia-content h1 { font-size: 2.5rem; font-weight: 900; text-transform: uppercase; margin-bottom: 2rem; color: #fff; line-height: 1; }
-                .resource-biblia-content h2 { font-size: 1.5rem; font-weight: 900; text-transform: uppercase; margin-top: 3rem; margin-bottom: 1.5rem; color: #FF6B00; }
-                .resource-biblia-content blockquote { border-left: 4px solid #FF6B00; padding-left: 1.5rem; font-style: italic; color: #gray-400; margin: 2rem 0; }
+                .resource-biblia-content h2 { font-size: 1.5rem; font-weight: 900; text-transform: uppercase; margin-top: 3rem; margin-bottom: 1.5rem; color: var(--theme-accent-primary); }
+                .resource-biblia-content blockquote { border-left: 4px solid var(--theme-accent-primary); padding-left: 1.5rem; font-style: italic; color: #gray-400; margin: 2rem 0; }
                 
                 @keyframes slide-up {
                     from { opacity: 0; transform: translateY(20px); }

@@ -50,44 +50,70 @@
   --bg-master: #000000;
   --bg-panel: #000000;
   --bg-sidebar: #000000;
-  --text-main: var(--color-on-surface);
+  --text-main: #ffffff;
   --text-secondary: #9ca3af;
   --text-muted: #6b7280;
-  --border-master: var(--color-outline);
+  --border-master: rgba(255, 255, 255, 0.08);
+
+  /* Hover & Active states */
+  --hover-overlay: rgba(255, 255, 255, 0.08);
+  --active-overlay: rgba(255, 255, 255, 0.12);
 
   /* [MAESTRO RULE] Night/Dark Colors */
   --sdp-black: #000000;
-  --sdp-white: #f8fafc; /* Super claro (Off-white) */
-  --sdp-orange: #f97316;
-  --sdp-blue: #06b6d4;
+  --sdp-white: #ffffff;
+  --sdp-orange: #ff6b00;
+  --sdp-blue: #0984e3;
+
+  --theme-accent-primary: #0984E3; /* Blau a Nit */
+  --theme-accent-primary-muted: rgba(9, 132, 227, 0.4);
+  --theme-accent-primary-faint: rgba(9, 132, 227, 0.1);
+
+  --theme-accent-secondary: #FF6B00; /* Taronja a Nit */
+  --theme-accent-secondary-muted: rgba(255, 107, 0, 0.4);
+  --theme-accent-secondary-faint: rgba(255, 107, 0, 0.1);
 
   --bg-theme-base: var(--bg-app);
   --bg-theme-sidebar: #000000;
   --bg-theme-panel: #000000;
-  --text-theme-text: var(--sdp-white);
+  --text-theme-text: #ffffff;
   --bg-theme-header: #000000;
 }
 
 :root.light {
-  /* [PALETA CANÒNICA INVERSA] */
-  --bg-app: #f8f1e3; /* Crema / Off-white súper clar */
+  /* [PALETA CANÒNICA INVERSA - LLEI 4 COLORS] */
+  --bg-app: #f8fafc; /* Blanc/Llum */
   --bg-master: #ffffff;
   --bg-panel: #ffffff;
-  --bg-sidebar: #f2e7d5;
+  --bg-sidebar: #ffffff; /* SENSE TERRACOTTA */
   --text-main: #000000;
   --text-secondary: #000000;
   --text-muted: #4b5563;
   --border-master: rgba(0, 0, 0, 0.1);
 
-  --color-primary: #06b6d4; /* Inversió: Blau com a primari al light? 
-                             O mantenim taronja? El mestre deia invertir taronja-blau. */
-  --color-secondary: #f97316;
+  /* Hover & Active states */
+  --hover-overlay: rgba(0, 0, 0, 0.05);
+  --active-overlay: rgba(0, 0, 0, 0.08);
+
+  /* InversiÃ³ de Variables Directes */
+  --sdp-black: #ffffff;
+  --sdp-white: #000000;
+  --sdp-orange: #0984e3; /* Taronja => Blau */
+  --sdp-blue: #ff6b00; /* Blau => Taronja */
+
+  --theme-accent-primary: #FF6B00; /* Taronja de Dia */
+  --theme-accent-primary-muted: rgba(255, 107, 0, 0.4);
+  --theme-accent-primary-faint: rgba(255, 107, 0, 0.1);
+
+  --theme-accent-secondary: #0984E3; /* Blau de Dia */
+  --theme-accent-secondary-muted: rgba(9, 132, 227, 0.4);
+  --theme-accent-secondary-faint: rgba(9, 132, 227, 0.1);
 
   --bg-theme-base: var(--bg-app);
-  --bg-theme-sidebar: var(--bg-sidebar);
+  --bg-theme-sidebar: #000000; /* PERMANENT BLACK (NIGHT MODE) */
   --bg-theme-panel: var(--bg-panel);
-  --text-theme-text: var(--text-main);
-  --bg-theme-header: #ffffff;
+  --text-theme-text: #000000;
+  --bg-theme-header: #000000; /* HEADER ES MANTÃ‰ EN NEGRE SEMPRE */
 }
 
 .bg-theme-base {
@@ -193,10 +219,13 @@ p {
   /* Backdrop Master */
   .drawer-backdrop {
     position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(8px);
-    z-index: 999;
+    top: 56px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: none;
+    z-index: 1000;
     animation: fade-in 0.3s ease-out;
   }
 
@@ -230,6 +259,14 @@ p {
     gap: 12px !important;
     padding: 12px !important;
     max-width: none !important;
+  }
+  
+  @media (max-width: 600px) {
+    [class*="view-mode-grid"] {
+      grid-template-columns: 1fr !important;
+      gap: 16px !important;
+      padding: 16px 8px !important;
+    }
   }
 
   [class*="view-mode-list"] {

@@ -1,12 +1,12 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { MessageSquare, LayoutGrid, Store, MapPin, Plus } from 'lucide-react';
-import { useUI } from '../context/UIContext';
+import { useModal } from '../context/ModalContext';
 import { useAuth } from '../context/AuthContext';
 import './MobileBottomNav.css';
 
 const MobileBottomNav = () => {
-    const { setIsCreateModalOpen } = useUI();
+    const { setIsCreateModalOpen } = useModal();
     const { user } = useAuth();
     const navigate = useNavigate();
 

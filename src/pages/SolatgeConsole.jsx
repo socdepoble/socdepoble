@@ -19,7 +19,7 @@ import {
     BrainCircuit,
     ArrowLeft
 } from 'lucide-react';
-import { useUI } from '../context/UIContext';
+import { useDesign } from '../context/DesignContext';
 import { rhizomeDb } from '../rhizome/db-core';
 import { egWalker } from '../rhizome/crdt/eg-walker';
 import './SolatgeConsole.css';
@@ -32,7 +32,7 @@ import Haptics from '../utils/HapticFeedback';
  */
 const SolatgeConsole = () => {
     const navigate = useNavigate();
-    const { visualDemocracy, setVisualDemocracy } = useUI();
+    const { visualDemocracy, setVisualDemocracy } = useDesign();
     // ... rest of state stays same ...
     const [dbStatus, setDbStatus] = useState('loading');
     const [stats, setStats] = useState({ ops: 0, snapshots: 0, size: '0MB', peritext: { marksCount: 0, stableAnchors: 0 } });

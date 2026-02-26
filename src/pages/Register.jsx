@@ -174,45 +174,68 @@ const Register = () => {
   ];
 
   return (
-    <div className="auth-container integrated-frame px-4 sm:px-0 py-8 overflow-y-auto flex items-center justify-center min-h-screen">
-      <div className="animate-in-up w-[92%] sm:w-full max-w-[500px] flex flex-col rounded-[28px] border border-white/10 p-6 sm:p-8 bg-[#0a0a0a] shadow-2xl relative z-10 mx-auto">
-        <header className="flex flex-col items-center mb-4 relative">
-          <img src="/assets/master/logo_socdepoble_white_full.png" alt="Sóc de Poble" className="w-[300px] max-w-full h-auto object-contain drop-shadow-lg mb-2 hover:scale-105 transition-transform duration-500 will-change-transform" />
+    <div className="auth-container integrated-frame px-4 sm:px-0 py-8 overflow-y-auto min-h-screen">
+      <div className="animate-in-up w-[92%] sm:w-full max-w-[500px] flex flex-col relative z-10 mx-auto mt-4 pb-[100px] md:pb-8">
+        <header className="flex flex-col items-center mb-6 relative w-full">
+          <img src="/assets/master/logo_socdepoble_white_full.png" alt="Sóc de Poble" className="w-[380px] sm:w-[420px] max-w-full h-auto object-contain drop-shadow-lg mb-4 hover:scale-105 transition-transform duration-500 will-change-transform" />
 
-          {/* Selector d'idioma Tàctil i Gegant */}
-          <div className="language-selector-auth mb-8 mt-4">
-            <div className="flex justify-center gap-3 bg-[#111] p-2 rounded-[24px] border border-white/5">
-              {languages.map((lang) => (
-                <button
-                  key={lang.code}
-                  className={`w-14 items-center justify-center flex font-bold h-12 rounded-[18px] transition-all border border-transparent shadow-sm ${language === lang.code ? "bg-[#4F46E5] text-white shadow-[#4F46E5]/30 shadow-lg scale-105" : "bg-transparent text-white/50 hover:bg-white/5"}`}
-                  onClick={() => {
-                    setLanguage(lang.code);
-                    i18n.changeLanguage(lang.code);
-                    hapticService.batec();
-                  }}
-                >
-                  <span className="uppercase tracking-widest text-xs">{lang.label}</span>
-                </button>
-              ))}
+        {/* Selector d'idioma Tàctil i Gegant */}
+        <div className="personal-identity-tip animate-fade-in p-3 sm:p-4 bg-[#151515] border border-orange-500/10 rounded-[28px] mb-8 mt-2 w-full max-w-[500px] mx-auto">
+          <div className="flex gap-3 items-start">
+            <div className="shrink-0 mt-[2px]">
+              <span className="text-xl">🌍</span>
+            </div>
+            <div className="text-left w-full pl-1">
+              <h4 className="tip-title text-[11px] text-orange-400 font-bold tracking-[1.5px] uppercase mb-1">{t("auth.language_select_title", "Com vols que parlem?")}</h4>
+              <p className="tip-description text-[13px] text-white/50 leading-snug font-light pr-2">
+                {t("auth.language_select_desc", "Tria la llengua del poble. Pots demanar a la IAIA que et parle en la teua variant després.")}
+              </p>
             </div>
           </div>
-        </header>
+          
+          <div className="language-selector-auth flex justify-between gap-1 sm:gap-2 w-full mt-2">
+            {languages.map((lang) => (
+              <button
+                key={lang.code}
+                className={`flex-1 items-center justify-center flex font-bold h-12 rounded-[16px] transition-all border border-transparent shadow-sm ${language === lang.code ? "bg-[#4F46E5] text-white shadow-[#4F46E5]/30 shadow-lg scale-105" : "bg-transparent text-white/50 hover:bg-white/5"}`}
+                onClick={() => {
+                  setLanguage(lang.code);
+                  i18n.changeLanguage(lang.code);
+                  hapticService.batec();
+                }}
+              >
+                <span className="uppercase tracking-wider text-[11px]">{lang.label}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </header>
 
         {error && <div className="auth-error shake bg-red-500/10 border border-red-500/20 text-red-400 p-4 rounded-2xl mb-6 text-sm flex items-center gap-3"><ShieldCheck size={20} />{error}</div>}
 
         {/* STEP 1: IDENTITY */}
         {step === "identity" && (
           <div className="auth-step-container animate-fade-in-right">
-            <div className="form-group mb-4">
-              <label htmlFor="reg-fullname" className="text-[10px] font-black tracking-[2px] text-white/40 uppercase mb-2 block">{t("auth.name_label", "Nom i Cognoms")}</label>
+            <div className="personal-identity-tip animate-fade-in p-3 sm:p-4 bg-[#151515] border border-orange-500/10 rounded-[28px] mb-6 mt-2 w-full max-w-[500px] mx-auto">
+              <div className="flex gap-3 items-start">
+                <div className="shrink-0 mt-[2px]">
+                  <ShieldCheck size={18} className="text-orange-400" />
+                </div>
+                <div className="text-left w-full pl-1">
+                  <h4 className="tip-title text-[11px] text-orange-400 font-bold tracking-[1.5px] uppercase mb-1">{t("auth.personal_register_title", "El Teu Nom de Veí")}</h4>
+                  <p className="tip-description text-[13px] text-white/50 leading-snug font-light pr-2" dangerouslySetInnerHTML={{ __html: t("auth.personal_register_desc", "Entra primer com a persona, com s'ha fet tota la vida. Més avant ja crearem la teua <span class=\"text-white font-medium\">tenda o grup de festes</span>.") }} />
+                </div>
+              </div>
+            </div>
+
+            <div className="form-group mb-6 w-full max-w-[500px] mx-auto">
+              <label htmlFor="reg-fullname" className="text-[10px] font-black tracking-[2px] text-white/40 uppercase mb-2 ml-4 block">{t("auth.name_label", "Nom i Cognoms")}</label>
               <div className="relative flex items-center">
-                <div className="absolute left-4 opacity-50"><User size={20} style={{ color: '#f97316' }} /></div>
                 <input
                   id="reg-fullname"
                   name="full_name"
                   type="text"
-                  placeholder={t("auth.name_placeholder", "Qui eres? (Nom i Cognoms)")}
+                  placeholder={t("auth.name_placeholder", "Introdueix el teu Nom i Cognoms")}
                   value={fullName}
                   onChange={(e) => {
                     setFullName(e.target.value);
@@ -220,28 +243,16 @@ const Register = () => {
                   }}
                   autoComplete="name"
                   required
-                  className={`w-full text-lg py-5 pl-12 pr-4 font-normal tracking-wide bg-[#111] border rounded-[20px] text-white focus:outline-none transition-all placeholder:text-white/20 ${
-                    fullName && !isNameValid ? "border-red-500/30 focus:border-red-500" : isNameValid ? "border-orange-500/50 bg-orange-500/5 focus:border-orange-500 focus:bg-orange-500/10" : "border-white/5 focus:border-white/20"
+                  className={`w-full text-[19px] py-[22px] px-6 font-bold tracking-wide rounded-[24px] focus:outline-none transition-all outline-none border-none placeholder:font-normal placeholder:tracking-normal ${
+                    fullName && !isNameValid ? "bg-[#ffe4e4] text-red-600 focus:ring-4 focus:ring-red-500 placeholder:text-red-400" : isNameValid ? "bg-white text-black focus:ring-4 focus:ring-orange-500 shadow-[0_0_20px_rgba(249,115,22,0.2)]" : "bg-white text-black focus:ring-4 focus:ring-[#0984E3]/50 placeholder:text-black/40 shadow-lg"
                   }`}
                 />
               </div>
             </div>
 
-            <div className="personal-identity-tip animate-fade-in p-5 bg-[#151515] border border-orange-500/10 rounded-[20px] mb-8 mt-6">
-              <div className="flex gap-4 items-start">
-                <div className="tip-icon-orb shrink-0 bg-transparent border border-orange-500/20 p-2 rounded-xl mt-1">
-                  <ShieldCheck size={20} className="text-orange-400" />
-                </div>
-                <div className="text-left">
-                  <h4 className="tip-title text-[12px] text-orange-400 font-bold tracking-[2px] uppercase mb-1">{t("auth.personal_register_title", "Registre Personal")}</h4>
-                  <p className="tip-description text-[14px] text-white/50 leading-relaxed font-light" dangerouslySetInnerHTML={{ __html: t("auth.personal_register_desc", "Registra't primer com a persona. Una vegada dins, podràs crear les teues <span class=\"text-white font-medium\">empreses o institucions</span>.") }} />
-                </div>
-              </div>
-            </div>
-
             <button
-              className={`w-full h-16 rounded-[20px] text-[15px] font-bold uppercase tracking-[2px] bg-[#4F46E5] text-white transition-all flex items-center justify-center gap-3 ${
-                !isNameValid ? "opacity-30 pointer-events-none" : "hover:bg-[#4338ca] hover:scale-[1.02] active:scale-[0.98] shadow-[0_8px_30px_-10px_rgba(79,70,229,0.5)]"
+              className={`w-full max-w-[500px] mx-auto h-16 rounded-[20px] text-[15px] font-bold uppercase tracking-[2px] transition-all flex items-center justify-center gap-3 ${
+                !isNameValid ? "bg-white/5 text-white/30 border border-white/10 opacity-50 pointer-events-none" : "bg-[#f97316] text-white hover:bg-orange-500 hover:scale-[1.02] active:scale-[0.98] shadow-[0_8px_30px_-10px_rgba(249,115,22,0.4)]"
               }`}
               disabled={!isNameValid}
               onClick={() => {
@@ -259,7 +270,7 @@ const Register = () => {
           <div className="auth-step-container animate-fade-in-right">
             <div className="form-group mb-8">
               <label htmlFor="town-picker-reg" className="text-[10px] font-black tracking-[2px] text-white/40 uppercase mb-2 block">
-                {t("auth.town_picker_label", "Poble de Residència")}
+                {t("auth.town_picker_label", "D'on Eres?")}
               </label>
               <button
                 id="town-picker-reg"
@@ -327,7 +338,15 @@ const Register = () => {
                   placeholder="600 000 000"
                   value={phone}
                   onChange={(e) => {
-                    const val = e.target.value.replace(/[^0-9]/g, "");
+                    let val = e.target.value.replace(/[^0-9]/g, "");
+                    // Si el número enganxat comença per 34 i la resta té 9 dígits (longitud estàndard espanyola), traiem el 34
+                    if (val.startsWith("34") && val.length > 9) {
+                        val = val.substring(2);
+                    }
+                    // Si es passa de 9 dígits (després de netejar), ho limitem
+                    if (val.length > 9) {
+                        val = val.substring(0, 9);
+                    }
                     setPhone(val);
                     if (val.length === 9) hapticService.batec();
                   }}
@@ -383,7 +402,9 @@ const Register = () => {
                 disabled={loading}
                 className="w-full h-14 bg-[#111] border border-white/5 rounded-[18px] flex items-center justify-center gap-3 hover:bg-white/5 transition-all active:scale-95"
               >
-                <img src="/assets/master/google_icon_mono.png" alt="Google" className="w-5 h-5 opacity-70" onError={(e) => { e.target.src="/assets/master/google_icon.png" }} />
+                <svg className="w-5 h-5 opacity-70" viewBox="0 0 24 24" xmlns="http://www.w3.org/2400/svg">
+                  <path d="M12.24 10.285V14.4h6.806c-.275 1.765-2.056 5.174-6.806 5.174-4.095 0-7.439-3.389-7.439-7.574s3.345-7.574 7.439-7.574c2.33 0 3.891.989 4.785 1.849l3.254-3.138C18.189 1.186 15.479 0 12.24 0c-6.635 0-12 5.365-12 12s5.365 12 12 12c6.926 0 11.52-4.869 11.52-11.726 0-.788-.085-1.39-.189-1.989H12.24z" fill="currentColor" />
+                </svg>
                 <span className="font-bold uppercase tracking-[1.5px] text-[11px] text-white/70">{t("auth.enter_with_google", "Entra amb Google")}</span>
               </button>
             </div>
@@ -470,20 +491,20 @@ const Register = () => {
             <div className="text-center">
                 {authMode === 'register' ? (
                 <div className="flex flex-col gap-2 items-center">
-                    <span className="text-[12px] font-medium text-white/40">{t("auth.already_have_account", "Ja tens compte al poble?")}</span>
+                    <span className="text-[15px] font-medium text-white/40">{t("auth.already_have_account", "Ja tens compte al poble?")}</span>
                     <button 
                     onClick={() => { setAuthMode('login'); setStep('connection'); setError(null); }} 
-                    className="text-[14px] font-bold text-orange-500 hover:text-orange-400 tracking-wide transition-colors"
+                    className="text-[17px] font-bold text-orange-500 hover:text-orange-400 tracking-wide transition-colors"
                     >
                     {t("auth.enter_now", "Entrar Directament")}
                     </button>
                 </div>
                 ) : (
                 <div className="flex flex-col gap-2 items-center">
-                    <span className="text-[12px] font-medium text-white/40">{t("auth.dont_have_account", "Encara no tens connexió?")}</span>
+                    <span className="text-[15px] font-medium text-white/40">{t("auth.dont_have_account", "Encara no tens connexió?")}</span>
                     <button 
                     onClick={() => { setAuthMode('register'); setStep('identity'); setError(null); }} 
-                    className="text-[14px] font-bold text-orange-500 hover:text-orange-400 tracking-wide transition-colors"
+                    className="text-[17px] font-bold text-orange-500 hover:text-orange-400 tracking-wide transition-colors"
                     >
                     {t("auth.register_now", "Crear Access")}
                     </button>
@@ -491,11 +512,11 @@ const Register = () => {
                 )}
             </div>
             <div className="mt-8 text-center flex flex-col items-center">
-                <p className="text-[10px] text-white/30 max-w-[250px] leading-relaxed">
+                <p className="text-[12px] text-white/30 max-w-[250px] leading-relaxed">
                     Operant sota la clàusula verda digital Sóc de Poble. 
                     <Link to="/legal" className="underline hover:text-white/50 ml-1">Condicions legals</Link>
                 </p>
-                <div className="mt-4 text-[9px] font-mono opacity-20">{APP_VERSION} CORE</div>
+                <div className="mt-4 text-[12px] font-mono opacity-20">{APP_VERSION}</div>
             </div>
             </div>
         )}

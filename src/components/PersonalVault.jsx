@@ -71,7 +71,7 @@ const PersonalVault = ({ onDataExtracted, procedureId }) => {
                     <label 
                         htmlFor="vault-upload"
                         className={`flex items-center gap-2 px-6 h-12 rounded-[24px] font-black uppercase text-xs tracking-widest transition-all cursor-pointer ${
-                            isUploading ? 'bg-gray-800 text-gray-500' : 'bg-[#FF6B00] text-white hover:bg-orange-600 shadow-lg active:scale-95'
+                            isUploading ? 'bg-gray-800 text-gray-500' : 'bg-[var(--theme-accent-primary)] text-white hover:bg-orange-600 shadow-lg active:scale-95'
                         }`}
                     >
                         <Upload size={18} />

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Terminal, Shield, Activity, Zap, X, Trash2, Info, Copy, Check, Brain, Link2, RefreshCw, User, Mic, Locate, Monitor, Smartphone, ShieldCheck, Eye, EyeOff } from 'lucide-react';
 import { APP_VERSION } from '../constants';
 import { useAuth } from '../context/AuthContext';
-import { useUI } from '../context/UIContext';
+import { useDesign } from '../context/DesignContext';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { didacticData } from '../data/didacticData';
@@ -42,8 +42,8 @@ const DiagnosticConsole = () => {
     const [techReport, setTechReport] = useState(null);
     const location = useLocation();
     const VERSION = APP_VERSION;
-    const uiContext = useUI();
-    const visionMode = uiContext?.visionMode || 'hibrida';
+    const { visionMode: ctxVisionMode } = useDesign();
+    const visionMode = ctxVisionMode || 'hibrida';
 
     // DIRECTIVA DE LES MARIES [MASTER]
     useEffect(() => {
@@ -56,6 +56,25 @@ const DiagnosticConsole = () => {
                              `Bon dia, ${fullName}. Tot a punt.`;
         addHudLog('system', [welcomeMsg]);
     }, [i18n.language, profile?.full_name, addHudLog]);
+
+    const isEditorOrAdmin = isAdmin || profile?.role === 'editor';
+
+    const analyzeErrorWithIAIA = async (logMsg) => {
+        addHudLog('system', ['[IAIA] Analitzant fallada... (' + logMsg.substring(0, 30) + ')']);
+        try {
+            const prompt = `Ets la IAIA, una experta programadora de l'arquitectura Sóc de Poble. Analitza aquest error tècnic i explica'm què vol dir i com solucionar-lo de forma directa: "${logMsg}"`;
+            const response = await iaiaService.askIAIA(prompt);
+            setDidacticAlert({
+                title: "Anàlisi Forense (IAIA Insights)",
+                explanation: response?.text || "No s'ha pogut bategar la resposta.",
+                when: "Solució nativa integrada que substitueix la necessitat d'espurnes de Chrome DevTools.",
+                effect: "Autonomia intel·ligent per al Mestre."
+            });
+            addHudLog('success', ['[IAIA] Anàlisi completat. Revisant llibreta...']);
+        } catch(e) {
+            addHudLog('error', ['[IAIA] Fallada de connexió neuronal:', e.message]);
+        }
+    };
 
     // Simulate HUD lifecycle activity only when open [PERF]
     useEffect(() => {
@@ -391,7 +410,7 @@ const DiagnosticConsole = () => {
     const verifyIntegrity = async () => {
         setVerifyingIntegrity(true);
         addHudLog('action', [t('diag.integrity_start')]);
-        const resources = ['/favicon.png', '/assets/avatars/iaia_official.png'];
+        const resources = ['/favicon.png', '/assets/avatars/comic/iaia_comic_matriarch.png'];
         let errors = 0;
         for (const res of resources) {
             try {
@@ -431,7 +450,7 @@ const DiagnosticConsole = () => {
                 addHudLog('action', ['Reparant Viewport...']);
                 const meta = document.createElement('meta');
                 meta.name = "viewport";
-                meta.content = "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no";
+                meta.content = "width=device-width, initial-scale=1.0, maximum-scale=5.0";
                 document.getElementsByTagName('head')[0].appendChild(meta);
                 addHudLog('success', ['Viewport bategat correctament.']);
             }
@@ -473,9 +492,8 @@ const DiagnosticConsole = () => {
         setIsOpen(prev => !prev);
     };
 
-    if (!isVisible && !isAdmin) return (
-        <div className="hud-toggle-trigger" onClick={(e) => e.detail >= 3 && toggleHud(e)} />
-    );
+    // El toggleTrigger ara només s'activa per a admins, editors o si està debug true
+    if (!isVisible && !isEditorOrAdmin) return null;
 
     return (
         <>
@@ -701,7 +719,16 @@ const DiagnosticConsole = () => {
                                                 <div key={`${log.id}-${idx}`} className={`log-line ${log.type}`}>
                                                     <span className="log-time">[{log.time}]</span>
                                                     <span className="log-origin">[{log.origin}]</span>
-                                                    <span className="log-msg">{log.msg}</span>
+                                                    <span className="log-msg flex-1 break-all">{log.msg}</span>
+                                                    {(log.type === 'error' || log.type === 'critical') && (
+                                                        <button 
+                                                            className="ml-2 bg-[#ff0055]/20 hover:bg-[#ff0055]/40 text-[#ff0055] rounded-full p-1 transition-colors"
+                                                            title="Analitzar amb IAIA (Chrome DevTools Alternative)"
+                                                            onClick={() => analyzeErrorWithIAIA(log.msg)}
+                                                        >
+                                                            <Brain size={12} />
+                                                        </button>
+                                                    )}
                                                 </div>
                                             ))}
                                         </div>

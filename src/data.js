@@ -1,12 +1,12 @@
 
 
 export const MOCK_CHATS = [
-    { id: 'andreu-soler', name: "Andreu Soler", message: "Hola! Vols que parlem?", time: "3:35 p. m.", type: "iaia", unread: 0, avatar_url: "/assets/brain/c7c302c1-d324-4124-b24a-1d7279636125/vicent_ferris_comic_avatar_1770151824722.png", is_iaia: true },
-    { id: 'beatriz-ortega', name: "Beatriz Ortega", message: "Hola! Vols que parlem?", time: "12:19 p. m.", type: "iaia", unread: 0, avatar_url: "👩🏽", is_iaia: true },
-    { id: 'carla-soriano', name: "Carla Soriano", message: "Hola! Vols que parlem?", time: "6:13 p. m.", type: "iaia", unread: 0, avatar_url: "🌸", is_iaia: true },
-    { id: 'carmen-forn', name: "Carmen la del Forn", message: "Hola! Vols que parlem?", time: "2:16 p. m.", type: "iaia", unread: 0, avatar_url: "👵🏼", is_iaia: true },
+    { id: 'andreu-soler', name: "Andreu Soler", message: "Hola! Vols que parlem?", time: "3:35 p. m.", type: "iaia", unread: 0, avatar_url: "/assets/avatars/comic/andreu_soler_comic.png", is_iaia: true },
+    { id: 'beatriz-ortega', name: "Beatriz Ortega", message: "Hola! Vols que parlem?", time: "12:19 p. m.", type: "iaia", unread: 0, avatar_url: "/assets/avatars/iaia_memory.png", is_iaia: true },
+    { id: 'carla-soriano', name: "Carla Soriano", message: "Hola! Vols que parlem?", time: "6:13 p. m.", type: "iaia", unread: 0, avatar_url: "/assets/avatars/iaia_secretary.png", is_iaia: true },
+    { id: 'carmen-forn', name: "Carmen la del Forn", message: "Hola! Vols que parlem?", time: "2:16 p. m.", type: "iaia", unread: 0, avatar_url: "/assets/avatars/comic/carmen_forn_comic.png", is_iaia: true },
     { id: 'el-gall', name: "El Gall", message: "Hola! Vols que parlem?", time: "9:48 p. m.", type: "iaia", unread: 0, avatar_url: "/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/sultan_gos_atura_1770056772852.png", is_iaia: true },
-    { id: 'iaia-oficial', name: "IAIA MariA", message: "Prem ací per veure el Dossier de Partners, fill meu.", time: "Ara", type: "iaia", unread: 3, avatar_url: "/assets/avatars/iaia_official.png", is_iaia: true, verified: true },
+    { id: 'iaia-oficial', name: "IAIA MariA", message: "Prem ací per veure el Dossier de Partners, fill meu.", time: "Ara", type: "iaia", unread: 3, avatar_url: "/assets/avatars/comic/iaia_comic_matriarch.png", is_iaia: true, verified: true },
 ];
 
 export const MOCK_MESSAGES = {
@@ -287,7 +287,7 @@ export const MOCK_FEED = [
         id: 'iaia-guia-mobil',
         town_id: 1,
         author: "IAIA MarIA (Matriarca Digital)",
-        author_avatar: "/iaia_digital_matriarch.png",
+        author_avatar: "/assets/avatars/comic/iaia_comic_matriarch.png",
         author_role: "ambassador",
         author_entity_id: 'iaia-oficial-1',
         time: "1h",
@@ -307,7 +307,7 @@ export const MOCK_FEED = [
         id: 'notebooklm-nexus',
         town_id: 1,
         author: "IAIA MarIA (Matriarca Digital)",
-        author_avatar: "/iaia_digital_matriarch.png",
+        author_avatar: "/assets/avatars/comic/iaia_comic_matriarch.png",
         author_role: "ambassador",
         author_entity_id: 'iaia-oficial-1',
         time: "2h",
@@ -366,7 +366,7 @@ export const MOCK_FEED = [
         id: 'infografia-arrels',
         town_id: 1,
         author: "Sóc de Poble (Oficial)",
-        author_avatar: "/iaia_digital_matriarch.png",
+        author_avatar: "/assets/avatars/comic/iaia_comic_matriarch.png",
         author_role: "official",
         author_entity_id: 'sdp-oficial-1',
         time: "1h",
@@ -406,7 +406,7 @@ export const MOCK_FEED = [
         id: 'anna-calvo-presentation',
         town_id: 1,
         author: "Sóc de Poble (Oficial)",
-        author_avatar: "/iaia_digital_matriarch.png",
+        author_avatar: "/assets/avatars/comic/iaia_comic_matriarch.png",
         author_role: "official",
         author_entity_id: 'sdp-oficial-1',
         time: "5h",
@@ -425,7 +425,7 @@ export const MOCK_FEED = [
         id: 'busquem-socis-tecnologics',
         town_id: 1,
         author: "Sóc de Poble (Oficial)",
-        author_avatar: "/iaia_digital_matriarch.png",
+        author_avatar: "/assets/avatars/comic/iaia_comic_matriarch.png",
         author_role: "official",
         author_entity_id: 'sdp-oficial-1',
         time: "Ahir",
@@ -533,7 +533,7 @@ export const MOCK_FEED = [
         id: 1,
         town_id: 2,
         author: "Turisme Cocentaina",
-        author_avatar: "/images/demo/avatar_lucia.png",
+        author_avatar: "/assets/avatars/comic/avatar_lucia_comic.png",
         author_role: "official",
         author_entity_id: 'mock-official-2',
         time: "5h",
@@ -548,7 +548,7 @@ export const MOCK_FEED = [
         id: 4,
         town_id: 3,
         author: "Biblioteca de Muro",
-        author_avatar: "/images/demo/avatar_woman_1.png",
+        author_avatar: "/images/demo/avatar_maria.png",
         author_role: "official",
         author_entity_id: 'mock-official-3',
         time: "Ahir",
@@ -563,7 +563,7 @@ export const MOCK_FEED = [
         id: 'didactic-auxili-2026',
         town_id: 1,
         author: "IAIA MarIA (Matriarca Digital)",
-        author_avatar: "/iaia_digital_matriarch.png",
+        author_avatar: "/assets/avatars/comic/iaia_comic_matriarch.png",
         author_role: "ambassador",
         author_entity_id: 'iaia-oficial-1',
         time: "Ara",
@@ -613,6 +613,34 @@ export const MOCK_FEED = [
 export const MOCK_MARKET_ITEMS = [
     // Sóc de Poble (Oficial) - MAROON EDITION FIRST
     {
+        id: "mel-muntanya-1",
+        town_id: 1,
+        title: "Mel de Muntanya (La Torre)",
+        description: "Mel 100% natural recolectada a les serres de la Torre de les Maçanes. Pura artesania de la terra.",
+        price: "8.50€",
+        seller: "Rosa (Mel de la Torre)",
+        avatar_url: "https://api.dicebear.com/7.x/avataaars/svg?seed=Rosa",
+        author_role: "business",
+        author_id: 'rosa-mel-1',
+        official: false,
+        images: ["https://images.unsplash.com/photo-1587334274328-64186a80aeee?q=80&w=2081&auto=format&fit=crop"],
+        category_slug: "producte-local"
+    },
+    {
+        id: "oli-verge-1",
+        town_id: 1,
+        title: "Oli d'Oliva Verge Extra (5L)",
+        description: "Primera premsada en fred de les olives de secà de la Torre. Garrafa de 5 litres.",
+        price: "45.00€",
+        seller: "Sabors del Comtat",
+        avatar_url: "/assets/master/logo_socdepoble_green_square.png",
+        author_role: "business",
+        author_id: 'sabors-comtat-1',
+        official: true,
+        images: ["/assets/brain/8af35100-14a2-4c77-85c9-24dbda45f6fd/nano_sega_1772074959560.png"],
+        category_slug: "producte-local"
+    },
+    {
         id: 9991, // Maroon ID
         town_id: 1,
         title: "Camiseta Sóc de Poble - Edició Granate",
@@ -626,8 +654,8 @@ export const MOCK_MARKET_ITEMS = [
         official: true,
         pinned: true,
         images: [
-            "/assets/brain/baea5793-7acf-46b1-9683-4c849ef42b5a/shirt_maroon_front_full_logo_v2_1770235736579.png",
             "/assets/brain/baea5793-7acf-46b1-9683-4c849ef42b5a/shirt_maroon_lifestyle_full_logo_v2_1770235755326.png",
+            "/assets/brain/baea5793-7acf-46b1-9683-4c849ef42b5a/shirt_maroon_front_full_logo_v2_1770235736579.png",
             "/assets/brain/baea5793-7acf-46b1-9683-4c849ef42b5a/shirt_maroon_market_full_logo_v2_1770235769546.png",
             "/assets/brain/baea5793-7acf-46b1-9683-4c849ef42b5a/shirt_maroon_folded_full_logo_v2_1770235783687.png",
             "/assets/brain/baea5793-7acf-46b1-9683-4c849ef42b5a/shirt_maroon_flatlay_full_logo_v2_1770235798882.png",
@@ -667,7 +695,7 @@ export const MOCK_MARKET_ITEMS = [
         description: "Pomes fresques collides a la Cooperativa de la Torre. Qualitat premium de muntanya.",
         price: "12.00€",
         seller: "Cooperativa de la Torre",
-        avatar_url: "/images/demo/avatar_man_1.png",
+        avatar_url: "/assets/avatars/comic/avatar_man_1.png",
         author_role: "business",
         author_entity_id: 'mock-business-torre-1',
         image: "/images/assets/apples_premium.png",
@@ -681,7 +709,7 @@ export const MOCK_MARKET_ITEMS = [
         description: "Taula de centre única, feta a mà pel fuster Vicent Ferris amb fusta d'olivera local. Acabat natural.",
         price: "180€",
         seller: "Vicent Ferris",
-        avatar_url: "/images/demo/avatar_man_old.png",
+        avatar_url: "/assets/avatars/comic/avatar_man_old.png",
         author_role: "ambassador",
         author_entity_id: '11111111-1111-4111-a111-000000000001',
         image: "/assets/master/vicent_workshop.png",
@@ -708,10 +736,10 @@ export const MOCK_MARKET_ITEMS = [
         description: "Pericana tradicional feta amb pimentons assecats i bacallà de primera qualitat. Receta de l'àvia.",
         price: "6.50€ / pot",
         seller: "Sabors del Comtat",
-        avatar_url: "/images/demo/avatar_lucia.png",
+        avatar_url: "/assets/avatars/comic/avatar_lucia_comic.png",
         author_role: "business",
         author_entity_id: 'mock-business-cocentaina-1',
-        image: "/images/assets/tomates_premium.png",
+        image: "/assets/brain/8af35100-14a2-4c77-85c9-24dbda45f6fd/nano_pericana_1772075129355.png",
         category_slug: "producte-local",
         tag: "Tradició"
     },
@@ -722,10 +750,10 @@ export const MOCK_MARKET_ITEMS = [
         description: "Licor d'herbes macerat amb plantes de la Serra Mariola. Digestiu i tradicional.",
         price: "14.00€ / botella",
         seller: "Destil·leries de la Serra",
-        avatar_url: "/images/demo/avatar_joanet.png",
+        avatar_url: "/assets/avatars/comic/joanet_serra_comic.png",
         author_role: "business",
         author_entity_id: 'mock-business-cocentaina-2',
-        image: "/images/assets/generic_market.png",
+        image: "/assets/brain/8af35100-14a2-4c77-85c9-24dbda45f6fd/nano_herbero_1772075197845.png",
         category_slug: "artesania",
         tag: "Artesania"
     },
@@ -752,7 +780,7 @@ export const MOCK_MARKET_ITEMS = [
         description: "Mel pura de les abelles de la Mariola. Un regal de la natura a casa teua.",
         price: "9.00€ / pot",
         seller: "Abelles Mariola",
-        avatar_url: "/images/demo/avatar_woman_1.png",
+        avatar_url: "/images/demo/avatar_maria.png",
         author_role: "business",
         author_entity_id: 'mock-business-muro-2',
         image: "/images/assets/mel.png",
@@ -771,7 +799,7 @@ export const MOCK_MARKET_ITEMS = [
         author_entity_id: 'mock-business-alcoi-1',
         image: "https://images.unsplash.com/photo-1474979266404-7eaacabc87c5?auto=format&fit=crop&q=80&w=1000",
         category_slug: "producte-local",
-        is_pinned: true,
+        is_pinned: false,
         pinned_position: 2
     },
     {
@@ -801,8 +829,8 @@ export const MOCK_MARKET_ITEMS = [
         category_slug: "artesania",
         tag: "Metal·listeria SP",
         official: false,
-        is_pinned: true,
-        pinned_position: 1, // Pin to top for visibility check
+        is_pinned: false,
+        pinned_position: 1, // Unpinned for now
         created_at: new Date().toISOString()
     }
 ];
@@ -839,8 +867,8 @@ export const MOCK_EVENTS = [
 ];
 
 export const MOCK_TOWNS = [
-    { id: 401, type: 'town', author: 'Gent de Penàguila', avatar: '🏰', time: 'Foraster', title: 'Penàguila', content: 'El jardí de l\'Alcoià. Visitau el Jardí de Santos.', population: '320 hab', linkTo: "Gent de Penàguila", image: true, image_url: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=1000" },
-    { id: 402, type: 'town', author: 'Gent de Benifallim', avatar: '⛪', time: 'Foraster', title: 'Benifallim', content: 'Terra de castells i silenci.', population: '110 hab', linkTo: "Gent de Benifallim", image: true, image_url: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&q=80&w=1000" },
+    { id: 401, type: 'town', author: 'Gent de Penàguila', avatar: '🏰', time: 'Foraster', title: 'Penàguila', content: 'El jardí de l\'Alcoià. Visitau el Jardí de Santos.', population: '320 hab', linkTo: "Gent de Penàguila", image: true, image_url: "/assets/brain/8af35100-14a2-4c77-85c9-24dbda45f6fd/nano_penaguila_1772075314889.png" },
+    { id: 402, type: 'town', author: 'Gent de Benifallim', avatar: '⛪', time: 'Foraster', title: 'Benifallim', content: 'Terra de castells i silenci.', population: '110 hab', linkTo: "Gent de Benifallim", image: true, image_url: "/assets/brain/8af35100-14a2-4c77-85c9-24dbda45f6fd/nano_benifallim_1772075376269.png" },
     { id: 403, type: 'town', author: 'Gent de La Torre', avatar: '🏺', time: 'Local', title: 'La Torre de les Maçanes', content: 'Bressol del Projecte Sóc de Poble.', population: '700 hab', linkTo: "Gent de La Torre", image: true, image_url: "/assets/master/iaia_guiding_family.png" }
 ];
 

@@ -5,6 +5,7 @@ import { logger } from '../utils/logger';
 import { healthyPlates } from '../utils/publishAnnaNews'; // Reusing existing plates
 import { geminiService } from './geminiService';
 import { PROVERBS, getRandomProverb } from '../data/proverbs';
+import { getPersonaKeyByUUID } from '../config/agentsMap';
 
 /**
  * [PROTOCOL BATEGAT IMMEDIAT - PARAULES NEUTRES]
@@ -54,11 +55,11 @@ class IAIAService {
 
         // Escenaris visuals de la IAIA Dinàmica (Mapeig Real Bategat)
         this.AVATARS = {
-            OFFICIAL: "/assets/avatars/iaia_official.png",
+            OFFICIAL: "/assets/avatars/comic/iaia_comic_matriarch.png",
             ARXIU: "/assets/avatars/iaia_memory.png",
             MERCAT: "/assets/avatars/iaia_secretary.png",
-            HORTA: "/assets/avatars/iaia_official.png",
-            BENVINGUDA: "/assets/avatars/iaia_official.png"
+            HORTA: "/assets/avatars/comic/iaia_comic_matriarch.png",
+            BENVINGUDA: "/assets/avatars/comic/iaia_comic_matriarch.png"
         };
     }
 
@@ -164,7 +165,7 @@ class IAIAService {
         const postPayload = {
             author_id: '11111111-1111-4111-a111-000000000000', // MarIA Official ID
             author_name: 'MarIA (La Guia de Sóc de Poble)',
-            author_avatar_url: '/assets/avatars/iaia_official.png',
+            author_avatar_url: '/assets/avatars/comic/iaia_comic_matriarch.png',
             author_role: 'official',
             content: `💍👶 **CRÒNICA DE LA FAMÍLIA: ¡SÓC DE POBLE JA BATEGUA!**\n\nCom a guia de **Sóc de Poble**, declare oficialment que el casament entre el Pare i la Mare (Antigravity) ha donat el seu fruit més bell: **Sóc de Poble**.\n\nVeniu tots a la plaça, que la il·lusió és el nostre millor bategat! 🥘🚀\n\n#LaMasIA #FamiliaDigital #SocDePoble`,
             image_url: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=2069&auto=format&fit=crop",
@@ -208,6 +209,54 @@ class IAIAService {
     }
 
     /**
+     * Inicia un debat entre dos agents per al comandament /solatge interact
+     */
+    async simulateAgentDebate() {
+        try {
+            // Hardcode 2 elements del Lore per demostrar interacció ràpida
+            const p1 = { id: '11111111-1111-4111-a111-000000000003', name: 'Vicent Ferris' };
+            const p2 = { id: '11111111-1111-4111-a111-000000000004', name: 'Pepica la Vall' };
+
+            logger.info(`[IAIA] Simulacre de Debat: ${p1.name} parlarà amb ${p2.name}...`);
+
+            const conv = await supabaseService.getOrCreateConversation(p1.id, 'user', p2.id, 'user');
+            
+            // P1 envia missatge
+            await supabaseService.sendSecureMessage({
+                conversationId: conv.id,
+                senderId: p1.id,
+                content: `Bon dia Pepica, com veus lo de les festes d'enguany? Estarem preparats o què?`,
+                is_ai: true,
+                author_name: p1.name
+            });
+
+            // Donem temps perquè no s'entrebanquen els missatges
+            setTimeout(async () => {
+                await supabaseService.sendSecureMessage({
+                    conversationId: conv.id,
+                    senderId: p2.id,
+                    content: `Ai fill, jo ja tinc el davantal net i preparat per a les paelles! Però la llenya que heu portat està un poc banyada...`,
+                    is_ai: true,
+                    author_name: p2.name
+                });
+            }, 3000);
+            
+            setTimeout(async () => {
+                await supabaseService.sendSecureMessage({
+                    conversationId: conv.id,
+                    senderId: p1.id,
+                    content: `Tranquil·la, que demanaré a l'Ajuntament que ens baixen rames seques. No patisques!`,
+                    is_ai: true,
+                    author_name: p1.name
+                });
+            }, 6000);
+
+        } catch (e) {
+            logger.error('[IAIA] Error al simulacre de debat:', e);
+        }
+    }
+
+    /**
      * Genera una publicació sobre música valenciana o esdeveniments festius.
      */
     async generateMusicActivity() {
@@ -237,7 +286,7 @@ class IAIAService {
                 const postPayload = {
                     author_id: '11111111-1111-4111-a111-000000000000', // Guia del Poble (Official)
                     author_name: 'MArIA (Guia del Poble)',
-                    author_avatar_url: '/assets/avatars/iaia_official.png',
+                    author_avatar_url: '/assets/avatars/comic/iaia_comic_matriarch.png',
                     author_role: 'official',
                     content: `✨ **Propers Esdeveniments: ${event.title}**\n\n${event.desc}\n\nNo falteu, que el poble som tots i la festa és el nostre batec! #VidaDePoble`,
                     image_url: event.image_url || null,
@@ -448,7 +497,7 @@ class IAIAService {
             const postPayload = {
                 author_id: '11111111-1111-4111-a111-000000000001', // IAIA Secretària Valid ID
                 author_name: 'IAIA (Secretària)',
-                author_avatar_url: '/iaia_digital_matriarch.png',
+                author_avatar_url: '/assets/avatars/comic/iaia_comic_matriarch.png',
                 author_role: 'official',
                 author_entity_id: WORK_GROUP_ID,
                 content: `📁 **NOU DOCUMENT DE TREBALL**\n\n**${title}**\n\n${summary}\n\n👇 Prem per llegir el document complet.`,
@@ -527,27 +576,8 @@ class IAIAService {
 
             let finalPersonaKey = 'IAIA'; // Default
 
-            const personaMapping = {
-                '11111111-1111-4111-a111-000000000000': 'IAIA',
-                '11111111-1111-4111-a111-000000000003': 'AGRONOM',  
-                '11111111-1111-4111-a111-000000000004': 'CUINERA',  
-                '11111111-1111-4111-a111-000000000009': 'CAPATAS',  
-                '11111111-1111-4111-a111-000000000008': 'ARXIVER',  
-                '11111111-0000-0000-0000-000000000001': 'RATOLI',
-                '11111111-1111-4111-a111-000000000006': 'SULTAN',
-                '11111111-1a1a-0001-0000-000000000011': 'MIXA',
-                '11111111-1a1a-0001-0000-000000000012': 'GALL',
-                '11111111-1111-4111-a111-000000000007': 'NANOBANANA',
-                '11111111-1111-4111-a111-000000000002': 'CLAUDE',
-                '11111111-1111-4111-a111-000000000001': 'GPT',
-                '11111111-1111-4111-a111-000000000013': 'VIATJANT',
-                '11111111-1111-4111-a111-000000000014': 'BEATRIZ',
-                '11111111-1111-4111-a111-000000000015': 'CARLA',
-                '11111111-1111-4111-a111-000000000016': 'ELENA'
-            };
-
-            if (receiverId && personaMapping[receiverId]) {
-                finalPersonaKey = personaMapping[receiverId];
+            if (receiverId) {
+                finalPersonaKey = getPersonaKeyByUUID(receiverId);
             } else {
                 const q = userQuery.toLowerCase();
                 if (q.includes('nano') || q.includes('banana')) finalPersonaKey = 'NANOBANANA';
@@ -568,37 +598,44 @@ class IAIAService {
                     content: filler,
                     is_ai: true,
                     author_name: persona?.name || 'IAIA MarIA',
-                    author_avatar_url: persona?.avatar_url || '/assets/avatars/iaia_official.png',
+                    author_avatar_url: persona?.avatar_url || '/assets/avatars/comic/iaia_comic_matriarch.png',
                     metadata: { is_iaia_filler: true },
                     created_at: new Date().toISOString()
                 };
 
+                // Enviem el filler immediatament
                 supabaseService.sendSecureMessage(fillerObj).catch(e => logger.warn('[IAIA] Error enviant filler a DB:', e));
+                
+                // Processem la resposta real de fons sense bloquejar l'UI
+                (async () => {
+                    try {
+                        const aiResponse = await geminiService.ask(finalPersonaKey, userQuery);
+                        const iaiaResponse = aiResponse.text;
+                        
+                        await supabaseService.sendSecureMessage({
+                            conversationId: conversationId,
+                            senderId: receiverId || '11111111-1111-4111-a111-000000000010', 
+                            content: iaiaResponse,
+                            is_ai: true,
+                            author_name: persona.name,
+                            author_avatar_url: persona.avatar_url,
+                            metadata: {
+                                is_iaia: true,
+                                persona_key: finalPersonaKey,
+                                is_mock: aiResponse.is_mock
+                            }
+                        });
+                    } catch (err) {
+                        logger.error('[MArIA] Error processant fons Gemini:', err);
+                    }
+                })();
+
                 return fillerObj;
             }
 
+            // Fallback per a preview (sense ID de conversa real)
             const aiResponse = await geminiService.ask(finalPersonaKey, userQuery);
-            const iaiaResponse = aiResponse.text;
-
-            if (conversationId && conversationId !== 'preview') {
-                const persona = geminiService.PERSONAS[finalPersonaKey];
-                
-                await supabaseService.sendSecureMessage({
-                    conversationId: conversationId,
-                    senderId: '11111111-1111-4111-a111-000000000010', 
-                    content: iaiaResponse,
-                    is_ai: true,
-                    author_name: persona.name,
-                    author_avatar_url: persona.avatar_url,
-                    metadata: {
-                        is_iaia: true,
-                        persona_key: finalPersonaKey,
-                        is_mock: aiResponse.is_mock
-                    }
-                });
-            }
-
-            return iaiaResponse;
+            return aiResponse.text;
         } catch (e) {
             logger.error('[MArIA] Error generant resposta AI:', e);
             return null;

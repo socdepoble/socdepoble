@@ -39,9 +39,9 @@ const ContextualMenu = () => {
     const items = isChat ? menuConfigs['/chats'] : standardMenu;
 
     return (
-        <div className="h-12 w-full bg-black flex items-center sticky top-0 z-[900] select-none">
+        <div className="h-12 w-full bg-[#1a1a1a] shadow-[inset_0_4px_10px_rgba(0,0,0,0.6)] flex items-center sticky top-0 z-[900] select-none border-b border-white/[0.02]">
             {/* ÀREA D'ÍTEMS AMB SCROLL HORITZONTAL */}
-            <div className="flex-1 h-full overflow-x-auto no-scrollbar px-4">
+            <div className="flex-1 h-full overflow-x-auto no-scrollbar pl-10 pr-4 lg:pl-12 lg:pr-6">
                 <div className="flex items-center gap-8 lg:gap-14 h-full min-w-max">
                     {items.map((item) => (
                         <button
@@ -54,8 +54,8 @@ const ContextualMenu = () => {
                             className={`
                                 relative h-full flex items-center text-[13px] lg:text-[15px] font-black tracking-[0.25em] transition-all
                                 ${location.pathname === item.path || (isChat && item.id === 'xat')
-                                    ? 'text-[#FF6B00]' 
-                                    : 'text-slate-500 hover:text-white'}
+                                    ? 'text-[var(--theme-accent-primary)]' 
+                                    : 'text-white opacity-80 hover:opacity-100'}
                             `}
                         >
                             {item.label}
@@ -65,10 +65,10 @@ const ContextualMenu = () => {
             </div>
 
             {/* BOTÓ "+" FIX A LA DRETA (CENTRE DE CONTROL) */}
-            <div className="flex items-center h-full px-4 bg-black/80 backdrop-blur-md border-l border-white/5 shadow-[-10px_0_15px_rgba(0,0,0,0.5)]">
+            <div className="flex items-center h-full px-4 bg-[#1a1a1a]/90 backdrop-blur-md border-l border-white/5 shadow-[-10px_0_15px_rgba(0,0,0,0.5)]">
                 <button 
                     onClick={() => navigate('/gestio/categories')}
-                    className="w-8 h-8 flex items-center justify-center rounded-full bg-white/5 text-slate-400 hover:bg-[#FF6B00] hover:text-white transition-all active:scale-95 shadow-inner"
+                    className="w-8 h-8 flex items-center justify-center rounded-full bg-white/5 text-slate-400 hover:bg-[var(--theme-accent-primary)] hover:text-white transition-all active:scale-95 shadow-inner"
                     title="Gestionar Categories"
                 >
                     <Plus size={16} strokeWidth={4} />

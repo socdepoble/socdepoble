@@ -8,7 +8,8 @@ import {
     Clock, Globe, Wallet, Terminal, ExternalLink, Activity, Layers,
     Radio
 } from 'lucide-react';
-import { useUI } from '../context/UIContext';
+import { useDesign } from '../context/DesignContext';
+import { useNavigation } from '../context/NavigationContext';
 import { useAuth } from '../context/AuthContext';
 import './HubView.css';
 
@@ -64,7 +65,7 @@ const OS_CATEGORIES = [
   },
   {
     id: "consola",
-    title: "Consola Tècnica",
+    title: "Ajustaments",
     description: "Governança profunda i manteniment de la matriu. Sota supervisió del Nano.",
     image: "/assets/brain/29cb42cf-ba4e-45af-a1f9-254a5b27cd7a/nanobanana_console_sobirana.png", // Imatge Única Generada pel Nano
     items: [
@@ -78,11 +79,10 @@ const OS_CATEGORIES = [
 
 const HubView = () => {
     const navigate = useNavigate();
+    const { blueprintMode } = useDesign();
     const { profile, logout, isSuperAdmin, isAdmin } = useAuth();
-    const { 
-        forensicMode, toggleForensicMode, 
-        blueprintMode, toggleBlueprintMode 
-    } = useUI();
+    const { toggleBlueprintMode } = useDesign();
+    const { forensicMode, toggleForensicMode } = useNavigation();
 
     const handleBack = () => {
         if (window.history.length > 1) {
@@ -93,7 +93,7 @@ const HubView = () => {
     };
 
     return (
-        <div className="hub-view-container flex-1 min-h-full bg-black text-white p-6 lg:p-12 animate-in fade-in duration-700">
+        <div className="hub-view-container h-full w-full overflow-y-auto overflow-x-hidden custom-scrollbar bg-black text-white p-6 lg:p-12 animate-in fade-in duration-700">
             {/* SISTEMA OPERATIU HEADER */}
             <header className="hub-header flex flex-col md:flex-row items-center justify-between mb-16 gap-8">
                 <div className="flex items-center gap-6">
@@ -130,7 +130,7 @@ const HubView = () => {
 
             {/* CATEGORIES GRID - [ROBUSTESA v1.0] Wide lanes for premium typography */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-7xl mx-auto mb-20 px-6">
-                {OS_CATEGORIES.map(category => (
+                {OS_CATEGORIES.filter(c => c.id !== 'consola' || isSuperAdmin || isAdmin).map(category => (
                     <section key={category.id} className="os-category-block rounded-[40px] bg-white/[0.03] border border-white/10 overflow-hidden flex flex-col group transition-all hover:bg-white/5 shadow-2xl">
                         <div className="relative h-64 overflow-hidden">
                             <img 
@@ -145,7 +145,7 @@ const HubView = () => {
                             </div>
                         </div>
                         
-                        <div className="grid grid-cols-2 gap-2 p-4 flex-1">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-4 flex-1">
                             {category.items.map(item => {
                                 const isToggle = item.type === 'toggle';
                                 const isActive = item.action === 'forensic' ? forensicMode : (item.action === 'blueprint' ? blueprintMode : false);

@@ -28,7 +28,7 @@ const VoiceMessage = ({ audioUrl, duration, onRemove }) => {
         <div className="voice-message-bubble flex items-center gap-3 p-3 bg-white/5 rounded-2xl border border-white/5 max-w-xs transition-all hover:bg-white/[0.08]">
             <button 
                 onClick={togglePlay}
-                className="w-10 h-10 flex items-center justify-center rounded-full bg-[#FF6B00] text-white shadow-lg active:scale-95 transition-all"
+                className="w-10 h-10 flex items-center justify-center rounded-full bg-[var(--theme-accent-primary)] text-white shadow-lg active:scale-95 transition-all"
             >
                 {isPlaying ? <Pause size={18} /> : <Play size={18} className="translate-x-0.5" />}
             </button>

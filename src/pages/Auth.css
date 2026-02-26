@@ -1,6 +1,6 @@
 .auth-container {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     min-height: 100vh;
     background: var(--bg-page);
@@ -8,6 +8,12 @@
     overflow-x: hidden;
     padding: 20px;
     width: 100%;
+}
+
+@media (max-width: 768px) {
+    .auth-container {
+        padding-bottom: calc(90px + env(safe-area-inset-bottom));
+    }
 }
 
 .auth-hero-bg {
@@ -308,35 +314,7 @@
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
-.form-group input {
-    width: 100%;
-    padding: 16px 20px;
-    background: var(--surface-glass);
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-s);
-    /* 18px */
-    font-size: 1rem;
-    color: var(--text-main);
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
 
-.form-group input:focus {
-    outline: none;
-    border-color: var(--accent-violet);
-    box-shadow: var(--shadow-glow-violet);
-}
-
-.input-success {
-    border-color: #00f2ff !important;
-    background: rgba(0, 242, 255, 0.05) !important;
-    box-shadow: var(--shadow-hard);
-}
-
-.input-error {
-    border-color: #ff5252 !important;
-    background: rgba(255, 82, 82, 0.05) !important;
-    box-shadow: var(--shadow-hard);
-}
 
 .btn-dimmed {
     opacity: 0.4 !important;
@@ -354,8 +332,8 @@
 .form-group input:-webkit-autofill:hover,
 .form-group input:-webkit-autofill:focus,
 .form-group input:-webkit-autofill:active {
-    -webkit-box-shadow: var(--shadow-hard);
-    -webkit-text-fill-color: white !important;
+    -webkit-box-shadow: 0 0 0 30px #ffffff inset !important;
+    -webkit-text-fill-color: #000000 !important;
     transition: background-color 5000s ease-in-out 0s;
 }
 
@@ -640,13 +618,14 @@
 
 .phone-input-wrapper-v2 {
     display: flex;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 0;
-    /* ZERO RADIUS */
+    align-items: stretch;
+    border-radius: var(--radius-gem-card, 28px);
     overflow: hidden;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    margin-bottom: 24px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    /* [BUGFIX MOBILE]: Remove background: #0b0b0b; to prevent horizontal black line overlap */
+    background: transparent;
 }
 
 .phone-input-wrapper-v2:focus-within {
@@ -1098,18 +1077,7 @@
     opacity: 0.9;
 }
 
-.language-selector-auth {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 32px;
-    padding: 16px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 0px;
-    backdrop-filter: blur(8px);
-}
+
 
 .lang-btn {
     background: none;

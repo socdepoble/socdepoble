@@ -80,7 +80,8 @@
         "add_town": "AFEGIR POBLE",
         "add": "AFEGIR",
         "save_btn": "Guardar",
-        "cancel": "Cancel·lar"
+        "cancel": "Cancel·lar",
+        "share_soc": "Compartir Sóc de Poble"
     },
     "nav": {
         "chats": "Xat",
@@ -111,7 +112,10 @@
         "vision_protocol": "Protocol de Visió",
         "archon_console": "Consola Archon",
         "theme_day": "Mode Dia",
-        "theme_night": "Mode Nit"
+        "theme_night": "Mode Nit",
+        "system_op_part_1": "SISTEMA",
+        "system_op_part_2": "OPERATIU",
+        "legal_info": "INFO LEGAL"
     },
     "chats": {
         "title": "Xats",
@@ -133,7 +137,7 @@
         "placeholder": "Què està passant al poble?",
         "empty": "No hi ha novetats al mur.",
         "loading_feed": "Carregant el mur...",
-        "personal_tags": "Etiquetes privades",
+        "personal_tags": "Etquites privades",
         "new_tag": "Nova etiqueta...",
         "connect": "Connectar",
         "comments": "Comentaris",
@@ -196,25 +200,25 @@
         "iaia_welcome": "Benvingut a la plaça, veí! 🎊",
         "name_label": "Nom i Cognoms",
         "name_placeholder": "Qui eres? (Nom i Cognoms)",
-        "personal_register_title": "REGISTRE PERSONAL",
-        "personal_register_desc": "Registra't primer com a persona. Una vegada dins, podràs crear les teues <span class=\"text-white font-bold\">empreses o institucions</span>.",
-        "continue_to_town": "CONTINUAR CAP AL POBLE",
+        "personal_register_title": "EL TEU NOM DE VEÍ",
+        "personal_register_desc": "Entra primer com a persona, com s'ha fet tota la vida. Més avant ja crearem la teua <span class=\"text-white font-bold\">tenda o grup de festes</span>.",
+        "continue_to_town": "ANAR CAP AL POBLE",
         "legal_accept": "En bategar, acceptes que Sóc de Poble és un experiment de sobirania digital.",
         "legal_notices": "Avisos Legals",
         "already_have_account": "Ja tens compte?",
         "enter_now": "Entra ara",
-        "town_picker_label": "Poble de Primera Residència",
+        "town_picker_label": "D'ON ERES?",
         "town_picker_placeholder": "Tria el teu poble...",
         "town_picker_localitat": "Localitat",
         "back_button": "Enrere",
         "this_town_button": "AQUEST POBLE",
-        "phone_label": "Telèfon Mòbil",
+        "phone_label": "Telèfon Móbil",
         "sms_button": "SMS",
         "or_also": "O TAMBÉ",
         "enter_with_google": "Entra amb Google",
         "google_faster_hint": "L'accés amb Google és més ràpid i no necessita SMS.",
         "otp_label": "Codi de 6 dígits",
-        "confirm_entry": "CONFIRMAR ENTRADA",
+        "confirm_entry": "TOCAR A LA PORTA",
         "new_code_in": "Nou codi disponible en",
         "seconds_short": "s",
         "resend_sms": "No he rebut res. Reenviar SMS 🔁",
@@ -365,5 +369,24 @@
             "lang_variants": "Totes les variants (Central, Valencià, Balear)",
             "correct_btn": "Corregir"
         }
+    },
+    "legal": {
+        "rhizome_slides": [
+            {
+                "title": "SOBIRANIA DIGITAL",
+                "desc": "La dada com a arrel, no com a mercaderia. En el Mas Digital, tu eres el propietari de la teua informació. Apostem per connexions horitzontals peer-to-peer, eliminant intermediaris extractius i garantint que el bategat del teu poble romanga privat i sobirà. No més algoritmes que decideixen per tu, sinó una infraestructura al servei de la comunitat rural.",
+                "image": "/assets/infographies/art_sobirania_v1036.png"
+            },
+            {
+                "title": "DADES AMB TRELLAT",
+                "desc": "Privacitat KM 0. Apliquem el sentit comú a la gestió digital. Protecció suprema de la identitat rural sota el bategat del Mas. Sols recollim allò que és essencial per a la convivència i el comerç local. Les teues dades no viatgen a servidors desconocuts, sinó que s'arrelen en el territori per generar utilitat real i protegir el futur dels nostres pobles.",
+                "image": "/assets/infographies/art_trellat_v1036.png"
+            },
+            {
+                "title": "LA IAIA I EL GRUP DE TREBALL",
+                "desc": "Memòria Viva i Tecnologia Ancestral. Un bategat que uneix generacions a través del codi i la saviesa popular. El Grup de Treball de la IAIA garanteix que la intel·ligència artificial no oblide d'on venim. Implementem protocols que dignifiquen el passat mentre construïm el futur digital més humà i connectat de les nostres comarques.",
+                "image": "/assets/infographies/art_memoria_v1036.png"
+            }
+        ]
     }
 }

@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { X, Image as ImageIcon, Send, Loader2, MessageSquare, Sparkles, Camera, Plus } from 'lucide-react';
+import { X, Image as ImageIcon, Send, Loader2, MessageSquare, Sparkles, Camera, Plus, Shield, BookOpen } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { supabaseService } from '../services/supabaseService';
 import { hapticService } from '../services/hapticService';
 import { iaiaService } from '../services/iaiaService';
 import { logger } from '../utils/logger';
 import MagicPregoner from './MagicPregoner';
+import CaptureStudio from './CaptureStudio';
 import './CreatePostModal.css';
 
 const PREDEFINED_TAGS = ['Esdeveniment', 'Avís', 'Consulta', 'Proposta'];
@@ -230,12 +231,15 @@ const CreatePostModal = ({ isOpen, onClose, initialPobles = [], editMode = false
                         </button>
                     </div>
 
-                    <MagicPregoner 
-                        isOpen={isMagicOpen}
-                        onClose={() => setIsMagicOpen(false)}
-                        initialText={content}
-                        onApply={(newText) => setContent(newText)}
-                    />
+                    {isMagicOpen && (
+                        <MagicPregoner 
+                            onContentGenerated={(newText) => {
+                                setContent(newText);
+                                setIsMagicOpen(false);
+                            }}
+                            onClose={() => setIsMagicOpen(false)}
+                        />
+                    )}
 
                     {/* Tag Selector */}
                     <div className="m3-tag-selector">
@@ -262,7 +266,7 @@ const CreatePostModal = ({ isOpen, onClose, initialPobles = [], editMode = false
                         <button className={`m3-icon-button ${postType === 'book' ? 'active' : ''}`} onClick={() => setPostType(postType === 'book' ? 'post' : 'book')}>
                             <BookOpen size={20} />
                         </button>
-                        <input type="file" id="post-media" hidden onChange={handleFileChange} accept="image/*" />
+                        <input type="file" id="post-media" name="post_media_upload" hidden onChange={handleFileChange} accept="image/*" />
                     </div>
                 </footer>
             </div>

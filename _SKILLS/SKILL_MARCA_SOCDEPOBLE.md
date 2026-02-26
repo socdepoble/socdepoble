@@ -32,7 +32,10 @@ Aquest protocol blinda el disseny per a evitar improvisacions genèriques.
 
 Totes les targetes de l'aplicació han de seguir l'estructura unificada de "La Targeta Estàndard":
 
-1.  **La Capucha (Header):** Preferiblement color **Taronja (#F97316)** per a publicacions d'autor. Conté l'avatar, el nom de l'autor/entitat i la data. Note: targetes abstractes de sistema poden prescindir de capucha.
+1.  **La Capucha (Header - "Boina"):**
+    - **Mode Nit:** Taronja (#F97316).
+    - **Mode Dia:** Blau Sky (#0EA5E9).
+    - Conté l'avatar, el nom de l'autor/entitat i la cronologia compacta. Note: les targetes abstractes de sistema poden prescindir de capucha.
 2.  **El Cos (Media & Content):** S'adapta al format del contingut sense deformar-se. Radi arrodonit que fa de màscara.
     - Imatges: Poden ser apaisades, quadrades o allargades segons la font.
     - Carrusel: Obligatori si hi ha múltiples imatges en Targeta Single.
@@ -112,7 +115,7 @@ Aquest manament blinda la identitat visual en tot el material exportat o generat
 - [x] ¿S'ha substituït tot el text "Sóc de Poble" per logos en la UI crítica i documents?
 - [ ] ¿Es respecta el Design System intern prohibit l'addició d'un extern?
 - [ ] ¿La landing page és el Xat (/chats)?
-- [ ] ¿L'usuari no registrat és tractat com a "Foraster"?
-- [ ] ¿Les icones segueixen l'estètica Notion (Grans i Minimalistes)?
-- [ ] ¿S'ha purgat qualsevol fallback de "Veí" per a usuaris no identificats?
-- [ ] ¿La tipografia és exclusivament Roboto Condensed?
+- [x] ¿L'usuari no registrat és tractat com a "Foraster"?
+- [x] ¿Les icones segueixen l'estètica Notion (Grans i Minimalistes)?
+- [x] ¿S'ha purgat qualsevol fallback de "Veí" per a usuaris no identificats?
+- [x] ¿La tipografia és exclusivament Roboto Condensed?

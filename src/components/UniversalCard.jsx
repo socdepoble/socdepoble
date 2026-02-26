@@ -2,14 +2,16 @@ import React, { useState } from 'react';
 import { MoreHorizontal, MessageCircle, Share2, Tag, Zap, ShieldCheck, Beaker, Sparkles, Edit, Trash2, Plus, FileText, ChevronRight, UserPlus, MapPin, Landmark, Image as ImageIcon, ScanLine, Ruler, Globe } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useUI } from '../context/UIContext';
+import { useModal } from '../context/ModalContext';
+import { useNavigation } from '../context/NavigationContext';
+import { useDesign } from '../context/DesignContext';
 import { useAuth } from '../context/AuthContext';
 import { supabaseService } from '../services/supabaseService';
 import Avatar from './Avatar';
 import AttributionBadge from './AttributionBadge';
 import ShareHub from './ShareHub';
-import Carousel from './Carousel';
 import ImageCarousel from './ImageCarousel';
+import ContextualHeader from './ContextualHeader';
 import BlueprintOverlay from './BlueprintOverlay';
 import Watermark from './Watermark';
 import './UniversalCard.css';
@@ -42,8 +44,10 @@ const UniversalCard = ({
 }) => {
     const [hasImageError, setHasImageError] = useState(false);
     const cardVariant = variant || mode;
+    const { openViewer, openConnectionModal } = useModal();
+    const { forensicMode: contextForensic } = useNavigation();
     const { t } = useTranslation();
-    const { gloveMode, openViewer, forensicMode: contextForensic, openConnectionModal } = useUI();
+    const { gloveMode } = useDesign();
     const isForensic = forcedForensic || contextForensic;
     const { isAdmin, user } = useAuth();
     const navigate = useNavigate();
@@ -61,7 +65,9 @@ const UniversalCard = ({
     const displayAuthor = avatarName || item?.author_name || item?.author || item?.seller || "Sóc de Poble";
     const displayExcerpt = excerpt || item?.description || item?.content || "";
     const displayTown = subtitle || item?.location?.town || item?.town_name || 'La Torre de les Maçanes';
-    const displayDate = item?.created_at ? new Date(item.created_at).toLocaleDateString() : (item?.date || "30/1/2026");
+    const createdAtDate = item?.created_at ? new Date(item.created_at) : (item?.date ? new Date(item.date) : null);
+    const displayDate = createdAtDate ? createdAtDate.toLocaleDateString() : "30/1/2026";
+    const displayTime = createdAtDate ? createdAtDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : (item?.metadata?.bategat_time || "");
 
     // Lògica "Gent de..." MASTER GENESIS (Protocol Forense)
     const getGentDePage = (townName) => {
@@ -148,9 +154,9 @@ const UniversalCard = ({
                     </div>
 
                     <div className="flex-1 min-w-0">
-                        <h4 className="text-sm font-black uppercase tracking-tight truncate text-white">
-                            {displayTitle}
-                        </h4>
+                        <button className="btn-event-action visit-town font-black uppercase text-[11px] h-10 px-4 rounded-xl flex items-center gap-2 bg-[#ff6b00] text-black hover:brightness-110">
+                            <Calendar size={14} className="opacity-80"/> CONNECTAR
+                        </button>
                         <div className="flex items-center gap-2 text-[10px] font-bold text-white/40 uppercase tracking-widest truncate">
                             <span>{displayAuthor}</span>
                             <span>•</span>
@@ -170,13 +176,11 @@ const UniversalCard = ({
                 </div>
             ) : (
                 <>
-                    {/* HEADER: BOINA TARONJA (NEXUS v6.0) - FIXED 64px NAVIGATION */}
             <header 
                 className={`card-header-boina h-16 ${isOfficial ? 'variant-official' : 'variant-standard'}`} 
                 onClick={handleAuthorClick}
-                style={{ cursor: 'pointer' }}
             >
-                <div className="header-left">
+                <div className="header-left flex items-center gap-3">
                     <Avatar
                         src={avatarSrc || item?.author_avatar || item?.logo_url || item?.author?.avatar_url}
                         name={displayAuthor}
@@ -184,62 +188,34 @@ const UniversalCard = ({
                         size="md"
                         className="genesis-avatar"
                     />
-                    <div className="header-text">
-                        <div className="flex items-center gap-2">
-                             <h3 className="master-author-name">
-                                {cardVariant === 'pobles' ? getGentDePage(displayTown) : displayAuthor}
-                            </h3>
-                            {isOfficial && (
-                                <span className="px-1.5 py-0.5 rounded-[28px] text-[10px] font-bold bg-[#E0F2FE] text-[#0369A1] uppercase tracking-wide shadow-sm flex items-center gap-1 border border-[#BAE6FD]">
-                                    <ShieldCheck size={10} />
-                                    Oficial
-                                </span>
-                            )}
-                        </div>
-                        <div className="location-text">
-                            {displayTown.replace("Poble Principal:", "").trim()}
-                        </div>
+                    <div className="header-text flex flex-col justify-center">
+                        <h3 className="master-author-name leading-tight">
+                            {cardVariant === 'pobles' ? getGentDePage(displayTown) : displayAuthor}
+                        </h3>
+                        {/* [ANTI-FANTASME] Only show town if it's different and not official redundant */}
+                        {!isOfficial && displayTown && displayTown !== displayAuthor && (
+                            <div className="location-text">
+                                {displayTown.replace("Poble Principal:", "").trim()}
+                            </div>
+                        )}
+                        {isOfficial && (
+                             <div className="location-text opacity-70">SÓC DE POBLE OFICIAL</div>
+                        )}
                     </div>
                 </div>
-                <div className="header-right-meta">
-                    {/* [MASTER DYNAMIC HEADER] Price or Date according to cardinal mode */}
-                    {(cardVariant === 'mercat' || cardVariant === 'market') && displayPrice && (
-                        <div className="header-dynamic-data price-badge">
-                            {displayPrice}
-                        </div>
-                    )}
-                    {(cardVariant === 'agenda' || cardVariant === 'event') && (
-                        <div className="header-dynamic-data date-badge">
-                            {displayDate}
-                        </div>
-                    )}
 
-                    {(item?.is_pinned || item?.metadata?.is_pinned) && (
-                        <div className="pinned-indicator" title="Fixat pel Mestre">
-                            <Zap size={16} fill="#00D2FF" color="#00D2FF" />
-                        </div>
-                    )}
-                    {isMaster && (
-                        <button
-                            className="btn-master-rectify"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                const id = item.uuid || item.id;
-                                if (id) navigate(`/edit/${id}`);
-                            }}
-                            title="Rectificació Mestre"
-                        >
-                            🏺
-                        </button>
-                    )}
-                    {isForensic && (
-                        <div className="forensic-label">
-                            {cardVariant === 'post' ? 'EG-WALKER: DAG SYNC' : 
-                             cardVariant === 'mercat' ? 'RHIZOME: COMMERCE MESH' :
-                             cardVariant === 'pobles' ? 'GENT DE... PROTOCOL' :
-                             'LLEI BOINA TARONJA'} {'>'} PERFIL
-                        </div>
-                    )}
+                <div className="header-right-meta flex items-center gap-2">
+                    <div className="header-meta-details flex flex-col items-end justify-center leading-none">
+                        {cardVariant !== 'pobles' && (
+                            <div className="flex flex-col items-end">
+                                <span className="header-date text-[10px] font-black opacity-80 uppercase tracking-tighter">{displayDate}</span>
+                                <span className="header-time text-[10px] font-black uppercase text-white/90 tracking-tighter">{displayTime}</span>
+                            </div>
+                        )}
+                        {(item?.is_pinned || item?.metadata?.is_pinned) && (
+                            <Zap size={14} fill="currentColor" className="text-white mt-1 zap-celestial" />
+                        )}
+                    </div>
                 </div>
             </header>
 
@@ -259,7 +235,7 @@ const UniversalCard = ({
                 }}
             >
                 {mediaList && mediaList.length > 1 ? (
-                    <ImageCarousel images={mediaList} />
+                    <ImageCarousel images={mediaList} onImageClick={(index) => openViewer(mediaList, index)} />
                 ) : (
                     <div className="w-full h-full relative group">
                         {(!displayImage || hasImageError) ? (
@@ -280,6 +256,8 @@ const UniversalCard = ({
                                     alt={displayTitle} 
                                     className="universal-card-media" 
                                     loading="lazy" 
+                                    onClick={() => openViewer({ src: displayImage, title: displayTitle, type: 'image' })}
+                                    style={{ cursor: 'zoom-in' }}
                                     onError={() => setHasImageError(true)}
                                 />
                                 <div className="image-overlay-credits">
@@ -293,13 +271,8 @@ const UniversalCard = ({
 
             {/* COS DE LA TARGETA */}
             <div className="card-body">
-                <div className="title-price-row">
+                <div className="title-row">
                     <h2 className="genesis-title">{displayTitle}</h2>
-                    {displayPrice && (
-                        <div className="card-price">
-                            {displayPrice}
-                        </div>
-                    )}
                 </div>
 
                 {displayExcerpt && (
@@ -342,6 +315,13 @@ const UniversalCard = ({
                     })}
                 </div>
 
+                {/* [MASTER] Price repositioned to bottom for balance v10.33.6 */}
+                {(cardVariant === 'mercat' || cardVariant === 'market') && displayPrice && (
+                    <div className="card-price-bottom mt-2 flex justify-end">
+                        <span className="card-price">{displayPrice}</span>
+                    </div>
+                )}
+
                 {children}
             </div>
 
@@ -370,7 +350,7 @@ const UniversalCard = ({
                                     onClick={handleConnectClick}
                                 >
                                     <UserPlus size={18} />
-                                    <span>CONNECTAR</span>
+                                    <span className="font-black">CONNECTAR</span>
                                 </button>
                                 <div className="footer-touch-group">
                                     <button className="btn-touch iaia-chat" onClick={(e) => { 

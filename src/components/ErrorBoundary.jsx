@@ -36,6 +36,7 @@ class ErrorBoundary extends React.Component {
 
     componentDidCatch(error, errorInfo) {
         logger.error('[ErrorBoundary] Caught error:', error, errorInfo);
+        this.setState({ errorInfo }); // Fix: store errorInfo to show componentStack
 
         // [MASTER PROTOCOL] Enviament automàtic a l'IAIA
         forensicService.reportCrash({

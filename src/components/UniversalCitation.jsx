@@ -1,5 +1,5 @@
 import { FileText, Image as ImageIcon, Music, Link, ExternalLink, Search, History } from 'lucide-react';
-import { useUI } from '../context/UIContext';
+import { useModal } from '../context/ModalContext';
 import { logger } from '../utils/logger';
 import './UniversalCitation.css';
 
@@ -8,7 +8,7 @@ import './UniversalCitation.css';
  * Maneja navegación profunda basada en DIDs y anclajes semánticos.
  */
 const UniversalCitation = ({ label, did, anchor }) => {
-    const { openViewer } = useUI();
+    const { openViewer } = useModal();
 
     const handleClick = (e) => {
         e.stopPropagation();

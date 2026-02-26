@@ -131,26 +131,27 @@ const SearchDiscover = () => {
                         </button>
                     )}
                 </div>
+                <button 
+                    className={`filter-toggle-btn w-14 h-14 rounded-full border border-white/10 bg-white/5 active:scale-95 transition-all flex items-center justify-center shrink-0 ${activeFilter !== 'tots' ? 'text-primary border-primary/50' : 'text-white'}`}
+                    onClick={() => {
+                        hapticService.bategat();
+                        const nextFilter = activeFilter === 'tots' ? 'gent' : 
+                                         activeFilter === 'gent' ? 'pobles' :
+                                         activeFilter === 'pobles' ? 'esdeveniments' : 'tots';
+                        setActiveFilter(nextFilter);
+                    }}
+                >
+                    <SlidersHorizontal size={24} />
+                </button>
             </div>
 
             <div className="search-content">
-                <div className="filter-chips-scroll sticky top-20 z-10 bg-black/60 backdrop-blur-xl border-b border-white/10 py-4 px-4 overflow-x-auto">
-                    <div className="filter-chips-inner flex flex-wrap justify-center gap-4 max-w-[640px] mx-auto">
-                        {filters.map(filter => (
-                            <button
-                                key={filter.id}
-                                className={`filter-chip h-12 px-6 rounded-[28px] border-2 flex items-center gap-3 transition-all font-black uppercase tracking-[0.1em] text-[13px] ${activeFilter === filter.id ? 'bg-primary border-primary text-black shadow-[0_0_20px_rgba(249,115,22,0.4)]' : 'bg-white/5 border-white/10 text-white/50 hover:text-white hover:bg-white/10'}`}
-                                onClick={() => {
-                                    hapticService.bategat();
-                                    setActiveFilter(filter.id);
-                                }}
-                            >
-                                {React.cloneElement(filter.icon, { size: 18 })}
-                                <span>{filter.label}</span>
-                            </button>
-                        ))}
+                {activeFilter !== 'tots' && (
+                    <div className="active-filter-indicator px-6 py-2 bg-primary/10 border-b border-primary/20 flex items-center justify-between">
+                        <span className="text-[10px] font-black uppercase tracking-widest text-primary">Filtre actiu: {filters.find(f => f.id === activeFilter)?.label}</span>
+                        <button onClick={() => setActiveFilter('tots')} className="text-[10px] font-black uppercase text-white/50">Netejar</button>
                     </div>
-                </div>
+                )}
 
                 {/* 1. Primary Feedback/Results Area (Pushed to the top when searching) */}
                 {isSearching ? (

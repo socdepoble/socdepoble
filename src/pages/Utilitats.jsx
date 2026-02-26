@@ -27,7 +27,7 @@ const Utilitats = () => {
                 
                 <div className="flex items-center gap-6 mb-4 relative z-10">
                     <div className="w-16 h-16 bg-theme-panel border border-white/10 genesis-radius flex items-center justify-center backdrop-blur-xl shadow-2xl">
-                        <Wrench className="w-8 h-8 text-[#FF6B00]" />
+                        <Wrench className="w-8 h-8 text-[var(--theme-accent-primary)]" />
                     </div>
                     <div>
                         <h1 className="text-5xl font-black tracking-tighter uppercase italic leading-none mb-1 font-condensed">

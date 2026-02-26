@@ -2,7 +2,8 @@ import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { Link2, MessageCircle, Share2, MoreHorizontal, Building2, Store, Users, User, Loader2, AlertCircle, Info, Sparkles, UserPlus, UserCheck, Volume2, StopCircle, EyeOff, BookOpen, ChevronLeft, ChevronRight, Check, Filter } from 'lucide-react';
-import { useUI } from '../context/UIContext';
+import { useDesign } from '../context/DesignContext';
+import { useNavigation } from '../context/NavigationContext';
 import { supabaseService, isValidUUID } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
 import { ROLES, USER_ROLES, ENTITY_TYPES, CREATOR_EMAILS, IAIA_ID } from '../constants';
@@ -21,8 +22,6 @@ import { rhizomeManager } from '../services/rhizomeManager';
 import { townContentGenerator } from '../utils/town_content_generator';
 import './Feed.css';
 import './Comments.css';
-import ImageCarousel from './ImageCarousel';
-import Carousel from './Carousel';
 import AttributionBadge from './AttributionBadge';
 import UniversalCard from './UniversalCard';
 import { MOCK_EVENTS } from '../data';
@@ -32,11 +31,13 @@ const IAIA_INITIAL_DELAY_MS = 10000;
 const IAIA_INTERVAL_MS = 120000;
 
 const Feed = ({ townId = null, townName = null, customPosts = null, contentMode = 'batec' }) => {
+    const { iaiaLevel } = useDesign();
+    const { selectedTown, enabledAgentIds } = useNavigation();
     const { t } = useTranslation();
     const navigate = useNavigate();
     const { user, isPlayground, loading: authLoading, isSuperAdmin } = useAuth();
     const _isSovereign = user?.is_sovereign;
-    const { gloveMode, selectedTown, iaiaLevel, enabledAgentIds } = useUI();
+    const { gloveMode } = useDesign();
     const activeTown = townId || selectedTown;
     const [posts, setPosts] = useState(customPosts || []);
     const [userConnections, setUserConnections] = useState([]);
@@ -394,9 +395,9 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
                                         post.author_user_id === 'a11ac111-eec1-4111-b111-000000000013' ? 'Anna Climent' :
                                             post.author_user_id === 'fa82eb62-4a83-4ff7-b2d6-8849673fc3b0' ? 'Damià Llorens' :
                                                 post.author_user_id === '031adc10-ce8c-4ec9-8672-330473033a91' ? 'Nando Llinares' :
-                                                    'Javi Llinares'
+                                    'Javi Llinares'
                                 )
-                                : 'Gent de la Comunitat')
+                                : 'Gent de la Torre')
                             : (post.author?.name || post.author);
 
                         const rawTown = post.towns?.name || post.town_name || post.location?.town || 'La Torre de les Maçanes';
@@ -451,6 +452,7 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
         </div >
     );
 };
+
 
 const PostContent = ({ content, postId }) => {
     const navigate = useNavigate();

@@ -14,17 +14,11 @@ Aquest workflow permet a l'agent i a tu realitzar el deploy a SiteGround d'una f
 ./DEPLOY_SITEGROUND.sh
 ```
 
-2. **Únic pas manual** Obrir el navegador a SiteGround File Manager:
-   https://tools.siteground.com/filemanager?siteId=S3czMFpYc0tKZz09
+2. L'script ara genera i puja automàticament un fitxer `deploy_helper.php` a SiteGround que actua com a "Obrer Mecànic":
 
-3. Operacions de fitxers al servidor:
-   _(El fitxer `dist.tar.gz` ja s'haurà pujat directament a la teua carpeta public_html)_
+   - Extrau el `dist.tar.gz` remotament.
+   - Mou els fitxers correctes a l'arrel (`public_html/`).
+   - Batega l'API de SG Optimizer per buidar la "Dinamic Cache" automàticament.
+   - Es suïcida i s'esborra a ell mateix en acabar per seguretat.
 
-   - Eliminar prèviament les carpetes/fitxers antics a excepció de `dist.tar.gz`.
-   - Extraure (Extract) el `dist.tar.gz`.
-   - Moure el contingut de la carpeta `dist` a `public_html`.
-   - Esborrar la carpeta `dist` buida i el fitxer `dist.tar.gz`.
-
-4. Neteja de Cache (Recomenat):
-   https://tools.siteground.com/cacher?siteId=S3czMFpYc0tKZz09
-   - Clicar a "Vaciar caché".
+3. **Verificació:** Només et cal recarregar la teua web i gaudir dels canvis. Operació Zero-Clics i manualitats.

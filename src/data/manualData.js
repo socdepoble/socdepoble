@@ -14,7 +14,7 @@ export const manualData = {
         {
             id: "accessibilitat",
             title: "♿ Accessibilitat (Ergonomia Tàctil)",
-            image: "/assets/avatars/iaia_official.png",
+            image: "/assets/avatars/comic/iaia_comic_matriarch.png",
             caption: "Disseny Inclusiu: Tecnologia per a totes les generacions.",
             items: [
                 "**Regla dels 44px**: Tots els nostres botons tenen una àrea mínima de 44x44 píxels per garantir que qualsevol dit, jove o vell, puga clicar amb precisió.",

@@ -77,11 +77,11 @@ const TiaMariaChat = () => {
                         <ArrowLeft size={20} />
                     </button>
                     <div className="flex items-center gap-3">
-                        <Avatar name="Tia Maria" size={40} src="/assets/avatars/iaia_official.png" />
+                        <Avatar name="Tia Maria" size={40} src="/assets/avatars/comic/iaia_comic_matriarch.png" />
                         <div>
                             <div className="flex items-center gap-1.5">
                                 <h2 className="text-lg font-black tracking-tight">Tia Maria</h2>
-                                <ShieldCheck size={14} className="text-[#FF6B00]" />
+                                <ShieldCheck size={14} className="text-[var(--theme-accent-primary)]" />
                             </div>
                             <div className="flex items-center gap-1.5">
                                 <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse" />
@@ -103,7 +103,7 @@ const TiaMariaChat = () => {
                     <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'} animate-in fade-in slide-in-from-bottom-2 duration-300`}>
                         <div className={`max-w-[85%] md:max-w-[70%] rounded-2xl p-4 shadow-xl ${
                             msg.sender === 'user' 
-                                ? 'bg-[#FF6B00] text-white rounded-tr-none' 
+                                ? 'bg-[var(--theme-accent-primary)] text-white rounded-tr-none' 
                                 : 'bg-[#1a1a1c] text-gray-100 rounded-tl-none border border-white/5'
                         }`}>
                             <p className="text-[15px] leading-relaxed font-medium">{msg.text}</p>
@@ -136,13 +136,13 @@ const TiaMariaChat = () => {
                             value={input}
                             onChange={(e) => setInput(e.target.value)}
                             placeholder="Escriu un missatge..."
-                            className="w-full h-12 bg-white/5 border border-white/10 rounded-[28px] px-6 text-white focus:outline-none focus:border-[#FF6B00]/40 transition-all font-medium"
+                            className="w-full h-12 bg-white/5 border border-white/10 rounded-[28px] px-6 text-white focus:outline-none focus:border-[var(--theme-accent-primary)]/40 transition-all font-medium"
                         />
                     </div>
                     <button 
                         type="submit" 
                         disabled={!input.trim()}
-                        className="w-12 h-12 bg-[#FF6B00] hover:bg-[#ff7b20] disabled:bg-gray-800 disabled:opacity-30 text-white rounded-[20px] transition-all shadow-lg active:scale-95 flex items-center justify-center"
+                        className="w-12 h-12 bg-[var(--theme-accent-primary)] hover:bg-[#ff7b20] disabled:bg-gray-800 disabled:opacity-30 text-white rounded-[20px] transition-all shadow-lg active:scale-95 flex items-center justify-center"
                     >
                         <Send size={20} strokeWidth={2.5} />
                     </button>

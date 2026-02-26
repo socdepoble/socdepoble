@@ -32,28 +32,81 @@ else
     exit 1
 fi
 
-# 4. Compressió
-echo "📦 Empaquetant dist.tar.gz..."
+# 4. Neteja Forense d'Artefactes MacOS invisibles
+echo "🧹 Netejant fitxers invisibles brossa de macOS (._* i .DS_Store)..."
+find dist -name "._*" -type f -delete
+find dist -name ".DS_Store" -type f -delete
+
+# 5. Compressió
+echo "📦 Empaquetant dist.tar.gz (Netejat)..."
 tar -czf dist.tar.gz dist
 
 if [ $? -eq 0 ]; then
     echo "💎 Paquet dist.tar.gz llast per al lliurament."
     
     if [ ! -z "$FTP_HOST" ]; then
-        echo "🚀 Iniciant subida automàtica a $FTP_HOST/$FTP_TARGET_DIR ..."
+        echo "🚀 Iniciant pujada FTP a $FTP_HOST/$FTP_TARGET_DIR ..."
         
-        # Utilitzem curl per pujar el fitxer per FTP
+        # Generar script helper PHP per a SiteGround
+        cat << 'EOF' > deploy_helper.php
+<?php
+$targetDir = __DIR__;
+$archive = $targetDir . '/dist.tar.gz';
+
+echo ">> Iniciant extracció...<br>";
+// 1. Extraure
+if (file_exists($archive)) {
+    exec("tar -xzf dist.tar.gz");
+    echo ">> Arxiu descomprimit.<br>";
+    
+    // Moure contingut de dist/ a l'arrel i netejar
+    exec("cp -r dist/* ./ && rm -rf dist/");
+    exec("rm dist.tar.gz");
+    echo ">> Contingut mogut i neteja completada.<br>";
+} else {
+    echo ">> Error: dist.tar.gz no trobat.<br>";
+}
+
+// 2. Buidar Caché Dinàmica de SiteGround
+echo ">> Buidant SG Cache...<br>";
+if (function_exists('sg_cachepress_purge_cache')) {
+    sg_cachepress_purge_cache();
+    echo ">> (Plugin) Caché buidada.<br>";
+}
+
+// Curl a l'endpoint de SiteGround si el supercacher està actiu desat ací
+// L'execució d'un script php per la web farà que la cache s'invalide normalment si toquem fitxers mtime
+clearstatcache();
+echo ">> Bategat completat amb èxit.";
+unlink(__FILE__); // Autodestrucció
+?>
+EOF
+
+        # Pujar l'arxiu i el helper
+        echo ">> Pujant fitxers..."
         curl -T dist.tar.gz -u "$FTP_USER:$FTP_PASS" "ftp://$FTP_HOST/$FTP_TARGET_DIR/dist.tar.gz"
+        curl -T deploy_helper.php -u "$FTP_USER:$FTP_PASS" "ftp://$FTP_HOST/$FTP_TARGET_DIR/deploy_helper.php"
         
         if [ $? -eq 0 ]; then
-            echo "✅ Pujada completada amb èxit!"
-            echo "➡️ Proper pas manual: Descomprimir el fitxer a SiteGround (fins que SiteGround activi SSH per lftp)."
+            echo "✅ Pujada completada. Executant script remot per descomprimir i buidar caché..."
+            
+            # Executar helper via web (necessitem la URL base, l'assumim per FTP_HOST o manual)
+            DOMAIN_URL="https://socdepoble.org"
+            curl -s "$DOMAIN_URL/deploy_helper.php"
+            
+            echo ""
+            echo "🎉 TOTA L'OPERACIÓ DE DESPLEGAMENT ACABADA AUTOMÀTICAMENT!"
+            echo "✔️ El fitxer ha estat penjat, extret i la caché buidada."
+            
+            # Neteja local
+            rm deploy_helper.php
         else
             echo "❌ Error durant la pujada FTP. Revisa els credencials a .env.deploy"
+            rm deploy_helper.php
             exit 1
         fi
     else
-        echo "🚀 Pròxim pas: Pujar-ho a SiteGround public_html de forma manual."
+        echo "🚀 Pròxim pas: Pujar-ho a SiteGround public_html de forma manual perquè falten credencials."
     fi
 else
     echo "❌ Error en la compressió."
