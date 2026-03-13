@@ -28,13 +28,13 @@ const CreationHub = () => {
                 <button 
                     id="hub-close-btn"
                     onClick={(e) => { e.stopPropagation(); setIsCreateModalOpen(false); }} 
-                    className="absolute top-4 right-4 w-12 h-12 flex items-center justify-center rounded-full bg-black/40 backdrop-blur-md hover:bg-black/60 text-white shadow-lg transition-all active:scale-95 z-10"
+                    className="absolute top-4 right-4 w-12 h-12 flex items-center justify-center rounded-[28px] bg-black/40 backdrop-blur-md hover:bg-black/60 text-white shadow-lg transition-all active:scale-95 z-10"
                 >
                     <X size={24} />
                 </button>
                 
                 <div className="text-center mb-6 mt-2 relative z-10">
-                    <div className="w-16 h-16 mx-auto bg-[#4F46E5] rounded-full flex items-center justify-center mb-4 shadow-xl shadow-indigo-500/30">
+                    <div className="w-16 h-16 mx-auto bg-[#4F46E5] rounded-[28px] flex items-center justify-center mb-4 shadow-xl shadow-indigo-500/30">
                         <Plus className="w-8 h-8 text-white" strokeWidth={3} />
                     </div>
                     <h2 className="text-3xl font-bold mb-2 tracking-tight">
@@ -71,12 +71,12 @@ const CreationHub = () => {
                     </button>
 
                     {/* OPTION: AGENDA */}
-                    <button className="creation-hub-btn group border-slate-700 hover:border-blue-500 hover:bg-slate-800" onClick={(e) => {
+                    <button className="creation-hub-btn group border-slate-700 hover:border-orange-500 hover:bg-slate-800" onClick={(e) => {
                         e.stopPropagation();
                         setIsCreateModalOpen(false);
                         setIsEventModalOpen(true);
                     }}>
-                        <div className="icon-wrap bg-blue-100 text-blue-600 group-hover:bg-blue-500 group-hover:text-white">
+                        <div className="icon-wrap bg-blue-100 text-orange-600 group-hover:bg-orange-500 group-hover:text-white">
                             <Calendar size={28} />
                         </div>
                         <span className="font-bold">{t('nav.events') || 'Esdeveniment'}</span>
@@ -124,7 +124,7 @@ const CreationHub = () => {
                     </div>
 
                     {(isSuperAdmin || isAdmin) && (
-                        <button className="w-full flex items-center justify-center gap-2 py-3 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-black transition-colors" onClick={(e) => {
+                        <button className="w-full flex items-center justify-center gap-2 py-3 bg-red-600 hover:bg-red-700 text-white rounded-[28px] text-xs font-black transition-colors" onClick={(e) => {
                             e.stopPropagation();
                             setIsCreateModalOpen(false);
                             navigate('/admin');

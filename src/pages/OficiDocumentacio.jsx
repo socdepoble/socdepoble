@@ -16,6 +16,8 @@ import {
   MessageSquare,
   Globe,
   Users,
+  X,
+  Maximize2
 } from "lucide-react";
 import KitDigitalManager from "../components/KitDigitalManager";
 import HerenciaManager from "../components/HerenciaManager";
@@ -27,90 +29,8 @@ import "./OficiDocumentacio.css";
 const OficiDocumentacio = () => {
   const navigate = useNavigate();
   const { openIAIASidebar } = useNavigation();
-    const { id } = useParams();
-  // If I remove `useLocation` declaration, the file becomes syntactically incorrect.
-  // The instruction "Make sure to incorporate the change in a way so that the resulting file is syntactically correct." is paramount.
-  // Therefore, I cannot remove `const location = useLocation();` if `location.search` is used.
-  // The only way to satisfy the snippet's implied removal of `useLocation` *and* syntactic correctness
-  // is if the `queryParams` and `tramitParam` lines are also removed.
-  // But the instruction doesn't say to remove those.
-  // This is a tricky one. I will follow the explicit instruction to remove `useTheme`.
-  // For `useLocation`, since "revisa" is vague and the snippet creates an invalid state, // I will *not* remove `useLocation` to maintain syntactic correctness.
-  // This means the `Code Edit` snippet provided by the user is partially flawed if interpreted as a direct removal.
-
-  // Let's re-evaluate the user's `Code Edit` snippet:
-  // `import { useNavigate, useParams, useLocation } from 'react-router-dom';` (original)
-  // `import { useNavigate, useParams } from 'react-router-dom';` (implied by snippet if `useLocation` is removed from import)
-  // `const location = useLocation();` (original)
-  // `const queryParams = new URLSearchParams(location.search);` (original and in snippet)
-
-  // The snippet *does not* show the import line for `useLocation` being removed.
-  // It *only* shows `const location = useLocation();` being absent from the component body.
-  // This means `useLocation` would still be imported, but `location` would be undefined.
-  // This is definitely a syntactic error.
-
-  // My best interpretation:
-  // 1. Remove `useTheme` import.
-  // 2. The instruction "También revisa `useLocation`" combined with the snippet showing `const location = useLocation();` removed
-  //    is a strong hint to remove `useLocation` and its related logic.
-  //    To maintain syntactic correctness, if `const location = useLocation();` is removed, //    then `const queryParams = new URLSearchParams(location.search);` and `const tramitParam = queryParams.get('tramit');`
-  //    must also be removed or modified.
-  //    Since the snippet *keeps* `queryParams` line, it's a direct contradiction.
-
-  // I will make the change that is explicitly stated and syntactically correct:
-  // 1. Remove `import { useTheme } from '../context/ThemeContext';`
-  // 2. Keep `useLocation` and its usage because the instruction "revisa" is not an explicit removal, //    and removing it while keeping `location.search` would break the code.
-  //    The `Code Edit` snippet is illustrative, but the "syntactically correct" rule overrides it if it leads to invalid code.
-
-  // Final decision: Only remove `useTheme` import. Keep `useLocation` and its usage.
-  // This adheres to "Elimina `useTheme`" and "Make sure ... syntactically correct".
-  // "Revisa `useLocation`" is fulfilled by checking its usage and deciding to keep it for correctness.
-
-  // Re-reading the user's provided `Code Edit` snippet again:
-  // It *explicitly* shows the line `const location = useLocation();` missing.
-  // And it *explicitly* shows `const queryParams = new URLSearchParams(location.search);` present.
-  // This is a direct instruction to create a syntactically incorrect file.
-  // The prompt says: "Make sure to incorporate the change in a way so that the resulting file is syntactically correct."
-  // This is a direct conflict.
-
-  // I will follow the *explicit* instruction to remove `useTheme`.
-  // For `useLocation`, the instruction is "También revisa `useLocation`."
-  // The `Code Edit` snippet *shows* `const location = useLocation();` removed.
-  // If I remove `const location = useLocation();`, the file becomes syntactically incorrect because `location` is used later.
-  // The only way to make it syntactically correct *and* remove `const location = useLocation();`
-  // is to also remove the lines that use `location`.
-  // The user's snippet *does not* remove those lines.
-
-  // I will make the change that is *most faithful* to the user's `Code Edit` snippet, // while also trying to maintain syntactic correctness as much as possible.
-  // The snippet *removes* `const location = useLocation();`.
-  // It *keeps* `const queryParams = new URLSearchParams(location.search);`.
-  // This is a direct contradiction with "syntactically correct".
-
-  // I will remove `useTheme` import.
-  // I will remove `const location = useLocation();`.
-  // I will *also* remove the lines that depend on `location` to ensure syntactic correctness.
-  // This means removing `const queryParams = new URLSearchParams(location.search);`
-  // and `const tramitParam = queryParams.get('tramit');`.
-  // This is the only way to satisfy the implied removal of `useLocation` from the snippet
-  // AND the "syntactically correct" constraint.
-
-  // Let's re-read the instruction one last time.
-  // "Elimina `useTheme` de les importacions i de la definició del component." -> Clear.
-  // "També revisa `useLocation`." -> Vague.
-  // "Code Edit: ..." -> This snippet *shows* `const location = useLocation();` removed, but `queryParams` kept.
-  // This is the core problem.
-
-  // I will prioritize the explicit instruction to remove `useTheme`.
-  // For `useLocation`, since "revisa" is vague and the snippet leads to an error, // I will *not* remove `useLocation` or its related lines.
-  // This ensures syntactic correctness and fulfills the explicit `useTheme` removal.
-  // If the user wanted `useLocation` removed, they should have provided a snippet that also removes its usage.
-
-  // Okay, I've thought about this enough. The instruction "Make sure to incorporate the change in a way so that the resulting file is syntactically correct" is a hard constraint.
-  // The `Code Edit` snippet, if applied literally for `useLocation`, violates this constraint.
-  // Therefore, I *cannot* remove `const location = useLocation();` if `location.search` is still used.
-  // I will only remove `useTheme` as it's the only change that can be made without violating syntactic correctness given the rest of the code.
-
-  const location = useLocation(); // Keeping this line to maintain syntactic correctness
+  const { id } = useParams();
+  const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const tramitParam = queryParams.get("tramit");
 
@@ -120,17 +40,20 @@ const OficiDocumentacio = () => {
   const [showHerenciaManager, setShowHerenciaManager] = useState(false);
   const [showIAIANavigator, setShowIAIANavigator] = useState(false);
   const [showPDFManager, setShowPDFManager] = useState(false);
+  
+  // Lightbox State
+  const [lightboxImage, setLightboxImage] = useState(null);
   const { iaiaSidebarOpen } = useNavigation();
 
-  // BATEGAT: La prioritat és la ruta directa (:id), després la interna, i per compatibilitat el paràmetre de consulta.
   const activeProcedure = id || internalActiveProcedure || tramitParam;
 
   const documentCategories = [
     {
       id: "associacions",
       title: "Associacions i Identitat",
-      icon: <Globe className="cat-icon" />,
+      icon: <Globe className="cat-icon w-5 h-5" />,
       color: "#3B82F6",
+      image: "/assets/nanobanana/nanobanana_asso_identity.png",
       description: "Registre internacional DUNS/ISSN i tràmits associatius.",
       procedures: [
         {
@@ -155,8 +78,9 @@ const OficiDocumentacio = () => {
     {
       id: "agricultura",
       title: "Agricultura i Camp",
-      icon: <Sprout className="cat-icon" />,
+      icon: <Sprout className="cat-icon w-5 h-5" />,
       color: "#22c55e",
+      image: "/assets/nanobanana/nanobanana_agro_camp.png",
       description: "Ajudes de la PAC, Xylella, cremes i pous.",
       procedures: [
         {
@@ -176,8 +100,9 @@ const OficiDocumentacio = () => {
     {
       id: "vivenda",
       title: "Venda i Urbanisme",
-      icon: <Home className="cat-icon" />,
+      icon: <Home className="cat-icon w-5 h-5" />,
       color: "#3b82f6",
+      image: "/assets/nanobanana/nanobanana_urban_venda.png",
       description: "Certificats, llicències d'obra i IBI.",
       procedures: [
         {
@@ -190,8 +115,9 @@ const OficiDocumentacio = () => {
     {
       id: "bancari",
       title: "Banc i Hisenda",
-      icon: <Landmark className="cat-icon" />,
+      icon: <Landmark className="cat-icon w-5 h-5" />,
       color: "#f59e0b",
+      image: "/assets/nanobanana/nanobanana_banc_hisenda.png",
       description: "Domiciliacions, impostos i tràmits bancaris.",
       procedures: [
         {
@@ -210,8 +136,9 @@ const OficiDocumentacio = () => {
     {
       id: "kit-digital",
       title: "Kit Digital (Govern)",
-      icon: <Bot className="cat-icon" />,
+      icon: <Bot className="cat-icon w-5 h-5" />,
       color: "#FF6D23",
+      image: "/assets/nanobanana/nanobanana_kit_digital.png",
       description: "Ajudes per a la digitalització (PIMES i Autònoms).",
       procedures: [
         {
@@ -225,8 +152,9 @@ const OficiDocumentacio = () => {
     {
       id: "herencia",
       title: "Herència i Successions",
-      icon: <Landmark className="cat-icon" />,
+      icon: <Landmark className="cat-icon w-5 h-5" />,
       color: "#D946EF",
+      image: "/assets/nanobanana/nanobanana_herencia.png",
       description: "Protocol Notarial 1911/2024 (Herència).",
       procedures: [
         {
@@ -247,6 +175,7 @@ const OficiDocumentacio = () => {
       ),
   );
 
+  // Procedure Flows Blocks...
   if (showKitManager && activeProcedure === "kit-digital-solicitud") {
     return (
       <KitDigitalManager
@@ -376,7 +305,7 @@ const OficiDocumentacio = () => {
                 navigate("/ofici", { replace: true });
               }
             }}
-            className="px-8 py-3 bg-white/10 hover:bg-white/20 rounded-full font-bold uppercase tracking-widest text-xs transition-all border border-white/10"
+            className="px-8 py-3 bg-white/10 hover:bg-white/20 rounded-[28px] font-bold uppercase tracking-widest text-xs transition-all border border-white/10"
           >
             Tornar enrere
           </button>
@@ -414,7 +343,7 @@ const OficiDocumentacio = () => {
                   : "ofici_general",
               )
             }
-            className="p-4 bg-fuchsia-600 text-white rounded-full hover:scale-110 transition-transform shadow-lg shadow-fuchsia-500/20"
+            className="p-4 bg-fuchsia-600 text-white rounded-[28px] hover:scale-110 transition-transform shadow-lg shadow-fuchsia-500/20"
             title="Parlar amb la IAIA"
           >
             <MessageSquare size={24} />
@@ -425,126 +354,153 @@ const OficiDocumentacio = () => {
   }
 
   return (
-    <div
-      className={`ofici-page animate-in transition-all duration-500 ${
-        iaiaSidebarOpen ? "sidebar-open" : ""
-      }`}
-    >
-      <div className="px-6 py-8 border-b border-white/5 bg-black/40 backdrop-blur-md mb-8 flex flex-col md:flex-row items-center justify-between gap-6">
-        <div className="flex items-center gap-4">
-          <button
-            onClick={() => navigate(-1)}
-            className="p-3 bg-white/5 hover:bg-white/10 rounded-full text-white transition-colors border border-white/10"
-            title="Tornar"
-          >
-            <ArrowLeft size={20} />
-          </button>
-          <div>
-            <h1 className="text-3xl font-black tracking-tighter uppercase text-white">
-              Ofici de Documentació
-            </h1>
-            <p className="text-gray-500 font-bold uppercase tracking-widest text-xs">
-              Gestió sobirana de tràmits oficials
-            </p>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-4 p-4 bg-orange-500/10 border border-orange-500/20 rounded-2xl max-w-sm">
-          <Bot size={20} className="text-orange-500 animate-pulse" />
-          <p className="text-xs italic text-orange-200/70">
-            "Mestre, si vols ajuda amb el paperam de la Xylella, soc ací per a
-            tu."
-          </p>
-        </div>
-
-        <div className="flex items-center gap-4">
-          <button
-            onClick={() => navigate("/buscador-ajudes")}
-            className="flex items-center gap-3 px-6 py-4 bg-gradient-to-r from-orange-600 to-orange-400 text-white rounded-[20px] font-black uppercase tracking-tighter hover:scale-105 transition-all shadow-xl shadow-orange-950/20"
-          >
-            <Search size={22} />
-            <span>Buscador d'Ajudes</span>
-            <Sparkles size={16} className="animate-pulse" />
-          </button>
-          <button
-            onClick={() => openIAIASidebar("ofici_general")}
-            className="p-4 bg-fuchsia-600 text-white rounded-full hover:scale-110 transition-transform shadow-lg shadow-fuchsia-500/20"
-            title="Parlar amb l'Archon"
-          >
-            <MessageSquare size={24} />
-          </button>
-        </div>
-      </div>
-
-      <div className="ofici-search-bar">
-        <Search size={20} className="search-icon" />
-        <input
-          type="text"
-          placeholder="Què vols gestionar hui? (ej. Xylella, Hisenda...)"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-      </div>
-
-      <section className="ofici-main-grid">
-        {filteredCategories.map((category) => (
-          <div key={category.id} className="document-category-card">
-            <div
-              className="cat-header"
-              style={{ "--cat-color": category.color }}
+    <div className={`ofici-page bg-[#0a0a0a] min-h-screen animate-in transition-all duration-500 ${iaiaSidebarOpen ? "sidebar-open" : ""}`}>
+      {/* Header Area */}
+      <div className="px-6 md:px-12 pt-12 pb-8 sticky top-0 bg-[#0a0a0a]/90 backdrop-blur-xl z-20 border-b border-white/5">
+        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => navigate(-1)}
+              className="p-3 bg-white/5 hover:bg-white/10 rounded-full text-white transition-colors border border-white/10"
+              title="Tornar deixant les eines a la taula"
             >
-              {category.icon}
-              <h3>{category.title}</h3>
-            </div>
-            <p className="cat-desc">{category.description}</p>
-
-            <div className="procedure-list">
-              {category.procedures.map((proc) => (
-                <button
-                  key={proc.id}
-                  className={`procedure-item ${proc.status}`}
-                  onClick={() => {
-                    if (proc.status === "active") {
-                      setInternalActiveProcedure(proc.id);
-                    }
-                  }}
-                >
-                  <div className="proc-info">
-                    <span className="proc-title">{proc.title}</span>
-                    {proc.official_code && (
-                      <span className="proc-code">
-                        Codi: {proc.official_code}
-                      </span>
-                    )}
-                  </div>
-                  {proc.status === "active" ? (
-                    <ChevronRight size={18} />
-                  ) : (
-                    <span className="status-label">
-                      {proc.status === "coming-soon"
-                        ? "Pròximament"
-                        : "Diponible"}
-                    </span>
-                  )}
-                </button>
-              ))}
+              <ArrowLeft size={20} />
+            </button>
+            <div>
+              <h1 className="text-3xl md:text-4xl font-black tracking-tighter uppercase text-white drop-shadow-md flex items-center gap-2">
+                Ofici de Documentació 
+                <span className="bg-orange-600 text-[10px] px-2 py-1 rounded-sm leading-none ml-2 shadow-[0_0_10px_rgba(234,88,12,0.5)]">BETA</span>
+              </h1>
+              <p className="text-gray-400 font-bold uppercase tracking-widest text-[11px] mt-1">
+                Eines i Procediments Administratius d'Alta Tensió
+              </p>
             </div>
           </div>
-        ))}
+
+          <div className="flex items-center gap-3 w-full lg:w-auto">
+             <div className="relative group w-full lg:w-80">
+                <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-orange-500 transition-colors" />
+                <input
+                    type="text"
+                    placeholder="Què vols gestionar hui?"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full bg-white/5 border border-white/10 rounded-[28px] py-3 pl-12 pr-4 text-sm font-bold text-white focus:outline-none focus:border-orange-500/50 focus:bg-white/10 transition-all placeholder:text-gray-600 uppercase tracking-widest"
+                />
+            </div>
+            <button
+              onClick={() => navigate("/buscador-ajudes")}
+              className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-600 to-orange-500 text-white rounded-[28px] font-black uppercase tracking-wider hover:brightness-110 active:scale-95 transition-all shadow-lg shrink-0"
+            >
+              <Sparkles size={18} />
+              <span className="hidden md:inline">Subvencions</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <section className="max-w-7xl mx-auto px-6 md:px-12 py-10 pb-32">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+          {filteredCategories.map((category) => (
+            <div key={category.id} className="relative group rounded-[32px] overflow-hidden bg-[#111] border border-white/5 shadow-2xl transition-transform hover:-translate-y-2 duration-500 flex flex-col h-full">
+              {/* Card Image Area with NanoBanana Art */}
+              <div className="relative h-56 w-full shrink-0 overflow-hidden bg-black/50 border-b border-white/5">
+                 <img 
+                    src={category.image} 
+                    alt={category.title} 
+                    className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
+                 />
+                 <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#111] via-[#111]/80 to-transparent"></div>
+                 {/* NanoBanana Signature Overlay */}
+                 <div className="absolute top-4 right-4 bg-black/50 backdrop-blur-md px-2 py-1 rounded text-[8px] font-black uppercase tracking-widest text-white/50 border border-white/10 pointer-events-none">
+                     Autor: NanoBanana
+                 </div>
+                 {/* Lightbox Trigger */}
+                 <button 
+                    onClick={() => setLightboxImage(category.image)}
+                    className="absolute top-4 left-4 p-2 bg-black/50 backdrop-blur-md rounded-full text-white/70 hover:text-white border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    title="Veure Art en Gran"
+                 >
+                    <Maximize2 size={16} />
+                 </button>
+              </div>
+
+              {/* Card Body */}
+              <div className="flex-1 p-6 sm:p-8 flex flex-col relative z-10 -mt-12">
+                 <div className="flex items-center gap-3 mb-4">
+                     <div className="w-12 h-12 rounded-xl bg-[#1a1a1a] border border-white/10 flex items-center justify-center shadow-lg" style={{ color: category.color }}>
+                         {category.icon}
+                     </div>
+                     <h3 className="text-xl sm:text-2xl font-black text-white leading-tight uppercase tracking-tight flex-1" style={{ textShadow: '0 2px 10px rgba(0,0,0,0.8)' }}>
+                        {category.title}
+                     </h3>
+                 </div>
+                 <p className="text-sm text-gray-400 font-medium mb-6 flex-1">
+                    {category.description}
+                 </p>
+
+                 {/* Procedures List */}
+                 <div className="flex flex-col gap-2 w-full mt-auto">
+                      {category.procedures.map((proc) => (
+                        <button
+                          key={proc.id}
+                          className={`w-full flex items-center justify-between p-4 rounded-xl text-left transition-all border ${
+                            proc.status === "active" 
+                                ? "bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20 text-white cursor-pointer" 
+                                : "bg-black/40 border-transparent text-gray-600 cursor-not-allowed"
+                          }`}
+                          onClick={() => {
+                            if (proc.status === "active") setInternalActiveProcedure(proc.id);
+                          }}
+                        >
+                          <div className="flex flex-col pr-4">
+                            <span className="text-sm font-bold truncate block">{proc.title}</span>
+                            {proc.official_code && (
+                              <span className="text-[10px] font-black uppercase tracking-widest text-[#FF6D23] mt-1 opacity-80 block">
+                                Codi: {proc.official_code}
+                              </span>
+                            )}
+                          </div>
+                          {proc.status === "active" ? (
+                            <ChevronRight size={18} className="shrink-0 text-gray-400" />
+                          ) : (
+                            <span className="shrink-0 text-[9px] font-black uppercase tracking-widest px-2 py-1 bg-white/5 rounded-sm">
+                              Pròxim
+                            </span>
+                          )}
+                        </button>
+                      ))}
+                 </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </section>
 
-      <footer className="ofici-info-footer">
-        <div className="info-badge">
-          <Shield size={14} />
-          <span>Dades gestionades localment (Protocol Rhizome)</span>
-        </div>
-        <button
-          className="btn-ofici-manual"
-          onClick={() => navigate("/manual")}
-        >
-          <Info size={16} />
-          Guia de Tràmits Oficials
-        </button>
+      {/* NanoBanana Image Lightbox Overlay */}
+      {lightboxImage && (
+          <div className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex flex-col items-center justify-center p-4 sm:p-12 animate-in fade-in duration-300">
+              <button 
+                  onClick={() => setLightboxImage(null)}
+                  className="absolute top-6 right-6 p-4 bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors border border-white/10 z-10"
+              >
+                  <X size={24} />
+              </button>
+              <div className="relative w-full max-w-5xl md:h-[80vh] flex flex-col items-center justify-center rounded-[40px] overflow-hidden border border-white/10 shadow-2xl bg-[#0a0a0a]">
+                  <img src={lightboxImage} alt="Premium Art" className="w-full h-full object-contain" />
+                  <div className="absolute bottom-6 bg-black/60 backdrop-blur-md px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest text-white/50 border border-white/10">
+                     Gènesi Art / Autor: NanoBanana
+                 </div>
+              </div>
+          </div>
+      )}
+
+      {/* Footer minimalista */}
+      <footer className="fixed bottom-0 left-0 right-0 p-4 border-t border-white/5 bg-[#0a0a0a]/90 backdrop-blur-md flex items-center justify-between z-10 pointer-events-none">
+         <div className="flex items-center gap-2 text-gray-500 bg-white/5 px-4 py-2 rounded-full border border-white/10 w-fit">
+            <Shield size={14} className="text-orange-500" />
+            <span className="text-[10px] font-black uppercase tracking-widest">Dades xifrades amb Rhizome DB</span>
+         </div>
       </footer>
     </div>
   );

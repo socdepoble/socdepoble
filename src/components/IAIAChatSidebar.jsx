@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useLayoutEffect, useMemo } from 'react';
 import { Send, X, Terminal, Sparkles, Brain, Shield, ChevronLeft, ChevronRight, Plus, Camera, Video, Image as ImageIcon, FileText, Calendar, Download, Phone, Video as VideoIcon, Search, MoreVertical, Bold, Italic, Type, Link2 } from 'lucide-react';
 import { geminiService } from '../services/geminiService';
 import { pushService } from '../services/pushService';
 import { toast } from '../utils/toast';
 import { hapticService } from '../services/hapticService';
+import Portal from './Portal';
 import PollManager from './PollManager';
 import ListManager from './ListManager';
 import './IAIAChatSidebar.css';
@@ -31,6 +32,16 @@ const IAIAChatSidebar = ({ isOpen, onClose, context = "general" }) => {
   const sidebarRef = useRef(null);
   const menuRef = useRef(null);
   const lastArchonQuestion = useRef(null);
+  const isMounted = useRef(true);
+  const archonTimeoutRef = useRef(null);
+
+  useEffect(() => {
+    isMounted.current = true;
+    return () => {
+        isMounted.current = false;
+        if (archonTimeoutRef.current) clearTimeout(archonTimeoutRef.current);
+    };
+  }, []);
 
   // BATEGAT: Protocol de Permisos de Notificació
   useEffect(() => {
@@ -46,14 +57,16 @@ const IAIAChatSidebar = ({ isOpen, onClose, context = "general" }) => {
   }, [isOpen]);
 
   // BATEGAT: Protocol d'Expandiment de Camp
-  useEffect(() => {
-    if (textareaRef.current) {
-        textareaRef.current.style.height = '44px';
-        const scrollHeight = textareaRef.current.scrollHeight;
-        const newHeight = Math.min(scrollHeight, 150);
-        setInputHeight(`${newHeight}px`);
-        textareaRef.current.style.height = `${newHeight}px`;
-    }
+  useLayoutEffect(() => {
+    const el = textareaRef.current;
+    if (!el) return;
+    
+    el.style.height = '44px';
+    const newHeight = Math.min(el.scrollHeight, 150);
+    el.style.height = `${newHeight}px`; // Mutació directa DOM
+    
+    // Només avisa a React si el contenidor canvia dràsticament per no triggerejar renders a cada lletra
+    setInputHeight(prev => prev !== `${newHeight}px` ? `${newHeight}px` : prev);
   }, [input]);
 
   // BATEGAT: Protocol de Redimensionament Sobirà
@@ -123,6 +136,10 @@ const IAIAChatSidebar = ({ isOpen, onClose, context = "general" }) => {
       else if (file.type.startsWith('video')) mediaType = 'video';
       else if (file.type === 'application/pdf') mediaType = 'pdf';
 
+      if (selectedFile?.preview) {
+         URL.revokeObjectURL(selectedFile.preview);
+      }
+
       setSelectedFile({
         file,
         preview: mediaType === 'image' || mediaType === 'video' ? URL.createObjectURL(file) : null,
@@ -133,6 +150,17 @@ const IAIAChatSidebar = ({ isOpen, onClose, context = "general" }) => {
       setIsAttachmentMenuOpen(false);
     }
   };
+
+  useEffect(() => {
+     return () => {
+         if (selectedFile?.preview) {
+             URL.revokeObjectURL(selectedFile.preview);
+         }
+         if (archonTimeoutRef.current) {
+             clearTimeout(archonTimeoutRef.current);
+         }
+     };
+  }, [selectedFile]);
 
   const attachmentTypes = [
     { id: 'file', label: 'Archivo', icon: <FileText size={20} />, color: '#00A5F4', accept: '*/*' },
@@ -158,9 +186,18 @@ const IAIAChatSidebar = ({ isOpen, onClose, context = "general" }) => {
     setSelectedFile(null);
     setIsTyping(true);
 
+      let geminiTimerId;
       try {
         const query = `Context: ${context}. Usuari diu: ${input}`;
-        let response = await geminiService.ask('ARCHON', query);
+        const geminiTimeout = new Promise((_, reject) => {
+            geminiTimerId = setTimeout(() => reject(new Error('GEMINI_TIMEOUT')), 15000); // 15 segons
+        });
+        
+        let response = await Promise.race([
+            geminiService.ask('ARCHON', query),
+            geminiTimeout
+        ]);
+        clearTimeout(geminiTimerId);
         
         // Millora de la resposta simulada (si Gemini no bategat)
         if (response.text.includes("Falta la clau del tractor") || response.text.includes("Soc l'Archon")) {
@@ -171,7 +208,9 @@ const IAIAChatSidebar = ({ isOpen, onClose, context = "general" }) => {
                 response.text = "Entès, mestre! M'hi poso ara mateix amb el borrador de les escriptures. T'avisaré en un bategat quan el tingui llest. Pots seguir navegant pel Mas.";
                 
                 // SIMULACIÓ DE TASCA DE FONS (EXECUCIÓ ARCHON)
-                setTimeout(() => {
+                archonTimeoutRef.current = setTimeout(() => {
+                    if (!isMounted.current) return;
+                    
                     const msg = "Mestre, ja tinc el borrador de les escriptures llest per a pujar a SUMA Online. Vols revisar-lo?";
                     
                     // Notificació de Navegador (API Real)
@@ -235,6 +274,7 @@ const IAIAChatSidebar = ({ isOpen, onClose, context = "general" }) => {
     } catch {
       setMessages(prev => [...prev, { id: Date.now(), role: 'assistant', text: "Ai, m'he travat una mica... Torna-m'ho a dir!" }]);
     } finally {
+      if (geminiTimerId) clearTimeout(geminiTimerId);
       setIsTyping(false);
       setInputHeight('44px');
     }
@@ -255,15 +295,62 @@ const IAIAChatSidebar = ({ isOpen, onClose, context = "general" }) => {
     setInput(newInput);
     
     setTimeout(() => {
+        if (!textareaRef.current) return; // ESCUT ANTI-NULL
         textareaRef.current.focus();
         textareaRef.current.setSelectionRange(start + 1, start + 1 + selectedText.length);
     }, 10);
   };
 
+  const renderedMessages = useMemo(() => {
+    return messages.map(msg => (
+      <div key={msg.id} className={`chat-bubble-wrapper ${msg.role}`}>
+        <div className={`chat-bubble ${msg.type === 'archon' ? 'archon-style' : ''} ${msg.isEmojiOnly ? 'emoji-only' : ''}`}>
+          {msg.media && (
+            <div className="chat-media-preview mb-3 card-radius overflow-hidden border border-white/10 glass-premium">
+              {msg.media.type === 'video' ? (
+                <video src={msg.media.preview} controls className="w-full max-h-60 object-cover" />
+              ) : msg.media.type === 'image' ? (
+                <img src={msg.media.preview} alt="Evidence" className="w-full max-h-60 object-cover" />
+              ) : (
+                <div className="file-bubble flex items-center gap-3 p-4 bg-white/5">
+                  <div className="file-icon p-2 bg-orange-500/20 rounded-[20px] text-blue-400">
+                    <FileText size={24} />
+                  </div>
+                  <div className="file-info flex-1">
+                    <p className="text-xs font-bold truncate">{msg.media.name}</p>
+                    <p className="text-[9px] opacity-40 uppercase">{msg.media.size}</p>
+                  </div>
+                  <Download size={16} className="opacity-20" />
+                </div>
+              )}
+            </div>
+          )}
+          {msg.type === 'archon' && (
+            <div className="archon-steps mb-3">
+                {msg.steps?.map((step, i) => (
+                    <div key={i} className="step-line flex items-center gap-2 text-[9px] opacity-40">
+                        <Terminal size={10} />
+                        <span>{step}</span>
+                    </div>
+                ))}
+            </div>
+          )}
+          <p className="text-sm leading-relaxed">{msg.text}</p>
+        </div>
+      </div>
+    ));
+  }, [messages]);
+
   return (
-    <div 
-        ref={sidebarRef}
-        className={`iaia-chat-sidebar bg-theme-sidebar border-l border-white/5 ${isOpen ? 'open' : ''} ${isResizing ? 'resizing' : ''}`}
+    <Portal>
+      {/* Overlay for background dimming and closing on click */}
+      <div 
+        className={`fixed inset-0 bg-black/50 z-[9998] touch-none overscroll-none transition-opacity duration-300 ${isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`} 
+        onClick={onClose} 
+      />
+      <div 
+          ref={sidebarRef}
+          className={`iaia-chat-sidebar relative z-[9999] bg-theme-sidebar border-l border-white/5 ${isOpen ? 'open' : ''} ${isResizing ? 'resizing' : ''}`}
         style={{ 
           width: (isOpen && typeof window !== 'undefined' && window.innerWidth > 768) 
             ? `${width}px` 
@@ -294,60 +381,24 @@ const IAIAChatSidebar = ({ isOpen, onClose, context = "general" }) => {
             </div>
         </div>
         <div className="flex items-center gap-2">
-            <button className="p-2 hover:bg-white/5 rounded-full transition-colors opacity-60 hover:opacity-100">
+            <button className="p-2 hover:bg-white/5 rounded-[28px] transition-colors opacity-60 hover:opacity-100">
                 <VideoIcon size={18} />
             </button>
-            <button className="p-2 hover:bg-white/5 rounded-full transition-colors opacity-60 hover:opacity-100">
+            <button className="p-2 hover:bg-white/5 rounded-[28px] transition-colors opacity-60 hover:opacity-100">
                 <Phone size={18} />
             </button>
             <div className="w-[1px] h-4 bg-white/10 mx-1" />
-            <button className="p-2 hover:bg-white/5 rounded-full transition-colors opacity-60 hover:opacity-100">
+            <button className="p-2 hover:bg-white/5 rounded-[28px] transition-colors opacity-60 hover:opacity-100">
                 <Search size={18} />
             </button>
-            <button onClick={onClose} className="p-2 hover:bg-white/5 rounded-full transition-colors">
+            <button onClick={onClose} className="p-2 hover:bg-white/5 rounded-[28px] transition-colors">
                 <X size={18} />
             </button>
         </div>
       </header>
 
       <div className="chat-messages-container" ref={scrollRef}>
-        {messages.map(msg => (
-          <div key={msg.id} className={`chat-bubble-wrapper ${msg.role}`}>
-            <div className={`chat-bubble ${msg.type === 'archon' ? 'archon-style' : ''} ${msg.isEmojiOnly ? 'emoji-only' : ''}`}>
-              {msg.media && (
-                <div className="chat-media-preview mb-3 card-radius overflow-hidden border border-white/10 glass-premium">
-                  {msg.media.type === 'video' ? (
-                    <video src={msg.media.preview} controls className="w-full max-h-60 object-cover" />
-                  ) : msg.media.type === 'image' ? (
-                    <img src={msg.media.preview} alt="Evidence" className="w-full max-h-60 object-cover" />
-                  ) : (
-                    <div className="file-bubble flex items-center gap-3 p-4 bg-white/5">
-                      <div className="file-icon p-2 bg-blue-500/20 rounded-lg text-blue-400">
-                        <FileText size={24} />
-                      </div>
-                      <div className="file-info flex-1">
-                        <p className="text-xs font-bold truncate">{msg.media.name}</p>
-                        <p className="text-[9px] opacity-40 uppercase">{msg.media.size}</p>
-                      </div>
-                      <Download size={16} className="opacity-20" />
-                    </div>
-                  )}
-                </div>
-              )}
-              {msg.type === 'archon' && (
-                <div className="archon-steps mb-3">
-                    {msg.steps?.map((step, i) => (
-                        <div key={i} className="step-line flex items-center gap-2 text-[9px] opacity-40">
-                            <Terminal size={10} />
-                            <span>{step}</span>
-                        </div>
-                    ))}
-                </div>
-              )}
-              <p className="text-sm leading-relaxed">{msg.text}</p>
-            </div>
-          </div>
-        ))}
+        {renderedMessages}
         {isTyping && (
             <div className="typing-indicator flex items-center gap-2 p-4 opacity-50">
                 <Sparkles size={14} className="animate-spin" />
@@ -358,14 +409,14 @@ const IAIAChatSidebar = ({ isOpen, onClose, context = "general" }) => {
 
       <footer className="chat-sidebar-footer">
         {parseInt(inputHeight) > 50 && (
-          <div className="formatting-toolbar flex items-center gap-1 p-1 bg-black/40 border border-white/10 rounded-xl shadow-2xl animate-in fade-in slide-in-from-bottom-2 mb-3 backdrop-blur-md">
-            <button onClick={() => applyFormat('bold')} className="p-2 hover:bg-white/10 rounded-lg text-gray-400 hover:text-white transition-colors" title="Negreta">
+          <div className="formatting-toolbar flex items-center gap-1 p-1 bg-black/40 border border-white/10 rounded-[28px] shadow-2xl animate-in fade-in slide-in-from-bottom-2 mb-3 backdrop-blur-md">
+            <button onClick={() => applyFormat('bold')} className="p-2 hover:bg-white/10 rounded-[20px] text-gray-400 hover:text-white transition-colors" title="Negreta">
               <Bold size={16} />
             </button>
-            <button onClick={() => applyFormat('italic')} className="p-2 hover:bg-white/10 rounded-lg text-gray-400 hover:text-white transition-colors" title="Cursiva">
+            <button onClick={() => applyFormat('italic')} className="p-2 hover:bg-white/10 rounded-[20px] text-gray-400 hover:text-white transition-colors" title="Cursiva">
               <Italic size={16} />
             </button>
-            <button onClick={() => applyFormat('link')} className="p-2 hover:bg-white/10 rounded-lg text-gray-400 hover:text-white transition-colors" title="Enllaç">
+            <button onClick={() => applyFormat('link')} className="p-2 hover:bg-white/10 rounded-[20px] text-gray-400 hover:text-white transition-colors" title="Enllaç">
               <Link2 size={16} />
             </button>
             <div className="w-[1px] h-4 bg-white/10 mx-1" />
@@ -379,6 +430,8 @@ const IAIAChatSidebar = ({ isOpen, onClose, context = "general" }) => {
         </div>
         <div className="chat-input-wrapper relative flex items-center gap-2">
           <input 
+            id="sidebar-file-upload"
+            name="sidebar-file-upload"
             type="file" 
             ref={fileInputRef} 
             className="hidden" 
@@ -414,7 +467,7 @@ const IAIAChatSidebar = ({ isOpen, onClose, context = "general" }) => {
                         }
                     }}
                   >
-                    <div className="w-10 h-10 rounded-full flex items-center justify-center text-white" style={{ background: type.color }}>
+                    <div className="w-10 h-10 rounded-[28px] flex items-center justify-center text-white" style={{ background: type.color }}>
                       {type.icon}
                     </div>
                     <span className="text-xs font-bold text-gray-200">{type.label}</span>
@@ -438,13 +491,15 @@ const IAIAChatSidebar = ({ isOpen, onClose, context = "general" }) => {
                     <p className="text-[10px] font-black truncate">{selectedFile.name}</p>
                     <p className="text-[8px] opacity-40 uppercase">{selectedFile.size}</p>
                 </div>
-                <button onClick={() => setSelectedFile(null)} className="p-1.5 hover:bg-white/10 rounded-full">
+                <button onClick={() => setSelectedFile(null)} className="p-1.5 hover:bg-white/10 rounded-[28px]">
                   <X size={14} />
                 </button>
               </div>
             )}
 
             <textarea 
+              id="sidebar-chat-input"
+              name="sidebar-chat-input"
               ref={textareaRef}
               placeholder="Enviament bategat..."
               value={input}
@@ -473,7 +528,9 @@ const IAIAChatSidebar = ({ isOpen, onClose, context = "general" }) => {
         </div>
       </footer>
     </div>
+    </Portal>
   );
 };
 
-export default IAIAChatSidebar;
+export default React.memo(IAIAChatSidebar);
+

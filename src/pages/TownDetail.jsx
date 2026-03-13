@@ -143,7 +143,7 @@ const TownDetail = () => {
                 </section>
 
                 {/* PORTAL DE PAS: AJUNTAMENT VS POBLE */}
-                <div className="dual-portal-notice community-glass border border-primary/30 p-4 rounded-2xl flex items-start gap-4 mb-6">
+                <div className="dual-portal-notice community-glass border border-primary/30 p-4 rounded-[28px] flex items-start gap-4 mb-6">
                     <div className="icon-wrapper text-primary">
                         <Users size={32} />
                     </div>
@@ -152,7 +152,7 @@ const TownDetail = () => {
                         <p className="opacity-80">Aquest és l'espai comunitari on bateguen els veïns. Per a tràmits oficials i bans municipals, visita la Seu de l'Ajuntament.</p>
                         <button
                             onClick={() => navigate(`/ajuntament/${town.uuid || town.id}`)}
-                            className="inline-flex items-center gap-2 mt-3 p-2 px-4 bg-blue-600 text-white font-black rounded-lg text-xs"
+                            className="inline-flex items-center gap-2 mt-3 p-2 px-4 bg-orange-600 text-white font-black rounded-[20px] text-xs"
                         >
                             ANAR A L'AJUNTAMENT
                         </button>

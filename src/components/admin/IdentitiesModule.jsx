@@ -77,7 +77,7 @@ const IdentitiesModule = () => {
                         <input
                             type="text"
                             placeholder="Cerca veí..."
-                            className="bg-gray-900/60 border border-gray-700 rounded-lg pl-10 pr-4 py-2 text-sm text-white focus:outline-none focus:border-cyan-500 w-full"
+                            className="bg-gray-900/60 border border-gray-700 rounded-[20px] pl-10 pr-4 py-2 text-sm text-white focus:outline-none focus:border-cyan-500 w-full"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
@@ -106,7 +106,7 @@ const IdentitiesModule = () => {
                 ))}
             </nav>
 
-            <div className="bg-gray-900/20 border border-gray-800 rounded-2xl overflow-hidden">
+            <div className="bg-gray-900/20 border border-gray-800 rounded-[28px] overflow-hidden">
                 <table className="w-full text-left text-sm">
                     <thead className="bg-gray-900/40 text-[10px] uppercase tracking-wider text-gray-500 border-b border-gray-800">
                         <tr>
@@ -130,7 +130,7 @@ const IdentitiesModule = () => {
                                 <td className="px-6 py-4">
                                     <div className="flex items-center gap-3">
                                         <div
-                                            className="w-8 h-8 rounded-full bg-cover bg-center border border-gray-700"
+                                            className="w-8 h-8 rounded-[28px] bg-cover bg-center border border-gray-700"
                                             style={{ backgroundImage: `url(${p.avatar_url || '/assets/avatars/comic/avatar_man_1.png'})` }}
                                         />
                                         <div>
@@ -143,7 +143,7 @@ const IdentitiesModule = () => {
                                 </td>
                                 <td className="px-6 py-4">
                                     <div className="flex items-center gap-2">
-                                        <div className="w-12 h-1.5 bg-gray-800 rounded-full overflow-hidden">
+                                        <div className="w-12 h-1.5 bg-gray-800 rounded-[28px] overflow-hidden">
                                             <div
                                                 className={`h-full transition-all ${p.reputation_score > 70 ? 'bg-green-500' : p.reputation_score > 30 ? 'bg-yellow-500' : 'bg-red-500'}`}
                                                 style={{ width: `${p.reputation_score || 50}%` }}

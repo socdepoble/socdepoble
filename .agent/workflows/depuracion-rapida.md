@@ -28,3 +28,12 @@ Una vez la solución esté probada y confirmada en el entorno seguro, integra cu
 ## 5. Limpieza Absoluta (Cleanup)
 
 Elimina sistemáticamente cualquier archivo temporal, `TestComponent.jsx` o traza de debug (ej. `console.log()` innecesarios) creados durante el paso 1. Mantenemos el repositorio prístino.
+
+### Archivos estáticos masivos (Large SVGs vs Token Limits)
+- Si una imagen SVG (e.g., logo) es tan matemáticamente densa de nodos que enviarla por chat aborta el prompt de la IA por "token exceed limits" y falla al renderizar estilos vía `currentColor`:
+	1. Usa un python script rápido via terminal (`run_command`)
+	2. Extrae el bloque `<svg>`
+	3. Reemplaza variables incompatibles a JSX (`stroke-width` -> `strokeWidth`, `xml:space`, etc)
+	4. Agrupa en un React Component dinámico (ej: `export default function BrandLogo()`) y guárdalo localmente directo en la máquina.
+	5. Permite el styling con las clases de Tailwind (`text-[var(--theme-text)]`) en el consumo del component.
+  Este es el workaround perfecto para integrar vectors pesados sin saturar el sistema neuro-linguistico de la IA, a la vez que permitimos styling dinámico (Day/Night Theme).

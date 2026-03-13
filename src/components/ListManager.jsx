@@ -34,7 +34,7 @@ const ListManager = ({ onClose }) => {
                 <ListTodo className="text-emerald-500" />
                 <h2 className="text-xl font-black uppercase text-teal-400">Llista de Tràmit</h2>
             </div>
-            <button onClick={onClose} className="p-2 hover:bg-white/5 rounded-full transition-colors">
+            <button onClick={onClose} className="p-2 hover:bg-white/5 rounded-[28px] transition-colors">
                 <X />
             </button>
         </header>
@@ -68,19 +68,19 @@ const ListManager = ({ onClose }) => {
                 <input 
                     type="text" 
                     placeholder="Nou element..."
-                    className="flex-1 bg-white/5 border border-white/10 rounded-xl p-3 text-xs font-bold outline-none"
+                    className="flex-1 bg-white/5 border border-white/10 rounded-[28px] p-3 text-xs font-bold outline-none"
                     value={newItem}
                     onChange={(e) => setNewItem(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && addItem()}
                 />
-                <button onClick={addItem} className="p-3 bg-emerald-600 text-white rounded-xl hover:scale-105 active:scale-95 transition-all">
+                <button onClick={addItem} className="p-3 bg-emerald-600 text-white rounded-[28px] hover:scale-105 active:scale-95 transition-all">
                     <Plus size={20} />
                 </button>
             </div>
 
             <button 
                 onClick={onClose}
-                className="w-full bg-emerald-600 text-white p-4 rounded-full font-black text-xs uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2"
+                className="w-full bg-emerald-600 text-white p-4 rounded-[28px] font-black text-xs uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2"
             >
                 <Sparkles size={16} /> Desar Llista
             </button>

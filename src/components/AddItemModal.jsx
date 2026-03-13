@@ -133,7 +133,7 @@ const AddItemModal = ({ isOpen, onClose, onItemCreated, isPrivateInitial = false
                         />
                         <button
                             type="button"
-                            className="bg-white/5 p-2 rounded-full hover:bg-white/10 transition-colors"
+                            className="bg-white/5 p-2 rounded-[28px] hover:bg-white/10 transition-colors"
                             onClick={() => {
                                 const flow = ['public', 'groups', 'private'];
                                 const next = flow[(flow.indexOf(privacy) + 1) % 3];
@@ -153,7 +153,7 @@ const AddItemModal = ({ isOpen, onClose, onItemCreated, isPrivateInitial = false
                                 id="market-item-title"
                                 name="market_title"
                                 type="text"
-                                className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white placeholder-white/40 focus:outline-none focus:border-white/30"
+                                className="w-full bg-white/5 border border-white/10 rounded-[28px] p-4 text-white placeholder-white/40 focus:outline-none focus:border-white/30"
                                 placeholder={t('market.item_title') || 'Títol de l\'article'}
                                 value={formData.title}
                                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
@@ -168,7 +168,7 @@ const AddItemModal = ({ isOpen, onClose, onItemCreated, isPrivateInitial = false
                                     id="market-item-price"
                                     name="market_price"
                                     type="text"
-                                    className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white placeholder-white/40 focus:outline-none focus:border-white/30"
+                                    className="w-full bg-white/5 border border-white/10 rounded-[28px] p-4 text-white placeholder-white/40 focus:outline-none focus:border-white/30"
                                     placeholder={t('market.price') || 'Preu (ex: 5€)'}
                                     value={formData.price}
                                     onChange={(e) => setFormData({ ...formData, price: e.target.value })}
@@ -180,7 +180,7 @@ const AddItemModal = ({ isOpen, onClose, onItemCreated, isPrivateInitial = false
                                 <select
                                     id="market-item-tag"
                                     name="market_tag"
-                                    className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white focus:outline-none focus:border-white/30 appearance-none"
+                                    className="w-full bg-white/5 border border-white/10 rounded-[28px] p-4 text-white focus:outline-none focus:border-white/30 appearance-none"
                                     value={formData.tag}
                                     onChange={(e) => setFormData({ ...formData, tag: e.target.value })}
                                 >

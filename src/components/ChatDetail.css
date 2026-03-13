@@ -5,9 +5,20 @@
   right: 0 !important;
   bottom: 0 !important;
   display: flex !important;
-  flex-direction: column !important;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
   background: var(--bg-theme-base);
-  overflow: hidden !important;
+  position: relative;
+  z-index: 10;
+  overflow: hidden;
+}
+
+/* El main-viewport general per al chat ja no fa scroll global,
+   el delegarem a .messages-list per poder tenir el input fix baix. */
+.chat-main-viewport {
+  overflow-y: hidden !important;
 }
 
 .chat-split-view-container {
@@ -71,17 +82,23 @@
 }
 
 .chat-input-area-new {
-  position: relative !important; /* El pare és flex, no cal sticky si el rest és flex-1 */
-  width: 100% !important;
-  padding: 16px 20px calc(16px + env(safe-area-inset-bottom, 20px)) !important;
-  background: var(--bg-theme-base) !important;
-  border-top: 1px solid var(--border-master) !important;
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 8px !important;
-  z-index: 1000 !important;
-  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5) !important;
-  flex-shrink: 0 !important;
+  position: relative;
+  width: 100%;
+  padding: 16px 20px 16px;
+  background: var(--bg-theme-base);
+  border-top: 1px solid var(--border-master);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 1000;
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
+  flex-shrink: 0;
+}
+
+@media (min-width: 1024px) {
+  .chat-input-area-new {
+    padding-bottom: calc(16px + env(safe-area-inset-bottom, 20px));
+  }
 }
 
 .chat-header-main {
@@ -368,7 +385,7 @@
 }
 
 .identity-badge.ai {
-  background: #FF6D23 !important;
+  background: #ff6d23 !important;
   color: #000 !important;
   font-size: 10px !important;
   padding: 2px 8px !important;
@@ -791,8 +808,20 @@
   transition: all 0.2s;
   background: var(--surface-glass-heavy);
   color: var(--text-main);
-  outline: none;
 }
+
+/* Emoji Picker Constrain */
+.emoji-picker-container {
+  max-height: 40vh; /* Don't take up more than 40% of viewport on mobile */
+  overflow: hidden;
+}
+
+@media (max-height: 600px) {
+  .emoji-picker-container {
+    max-height: 300px;
+  }
+}
+
 
 .chat-input-form-new input:focus {
   border-color: var(--md-sys-color-primary);

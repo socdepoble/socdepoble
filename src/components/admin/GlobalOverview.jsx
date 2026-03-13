@@ -70,7 +70,7 @@ const GlobalOverview = ({ addLog }) => {
                         <span className="kpi-label">INCIDÈNCIES</span>
                     </div>
                 </div>
-                <div className="kpi-card border-l-4 border-blue-500">
+                <div className="kpi-card border-l-4 border-orange-500">
                     <div className="kpi-icon text-blue-400"><Activity size={20} /></div>
                     <div className="kpi-content">
                         <span className="kpi-val">{seo.healthScore}%</span>

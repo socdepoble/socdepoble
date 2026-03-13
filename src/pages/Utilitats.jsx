@@ -23,7 +23,7 @@ const Utilitats = () => {
     return (
         <div className="flex-1 bg-theme-base p-6 md:p-12 overflow-y-auto custom-scrollbar">
             <header className="mb-16 relative">
-                <div className="absolute -top-10 -left-10 w-64 h-64 bg-orange-500/10 blur-[120px] rounded-full pointer-events-none" />
+                <div className="absolute -top-10 -left-10 w-64 h-64 bg-orange-500/10 blur-[120px] rounded-[28px] pointer-events-none" />
                 
                 <div className="flex items-center gap-6 mb-4 relative z-10">
                     <div className="w-16 h-16 bg-theme-panel border border-white/10 genesis-radius flex items-center justify-center backdrop-blur-xl shadow-2xl">
@@ -75,7 +75,7 @@ const Utilitats = () => {
                 {/* Futuribles Slots */}
                  {[1, 2].map(i => (
                     <div key={i} className="bg-white/[0.01] border border-white/[0.05] border-dashed rounded-[28px] p-8 flex flex-col items-center justify-center text-white/5 italic text-sm min-h-[320px] transition-all hover:bg-white/[0.02]">
-                        <div className="w-12 h-12 rounded-full border border-current flex items-center justify-center mb-4 opacity-30">?</div>
+                        <div className="w-12 h-12 rounded-[28px] border border-current flex items-center justify-center mb-4 opacity-30">?</div>
                         <span className="font-black tracking-widest uppercase text-[10px]">Properament...</span>
                     </div>
                 ))}

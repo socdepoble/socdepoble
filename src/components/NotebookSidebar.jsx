@@ -63,7 +63,7 @@ const NotebookSidebar = ({
                 <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500">{t('notebook.library') || 'BIBLIOTECA'}</h3>
                 <button 
                     onClick={() => onAddFolder(activeFolder)}
-                    className="p-1.5 hover:bg-white/5 rounded-lg text-orange-500 transition-all active:scale-90"
+                    className="p-1.5 hover:bg-white/5 rounded-[20px] text-orange-500 transition-all active:scale-90"
                     title={t('notebook.new_folder') || 'Nova Carpeta'}
                 >
                     <FolderPlus size={16} />
@@ -106,9 +106,9 @@ const NotebookSidebar = ({
             </div>
 
             <div className="mt-auto pt-6 border-t border-white/5">
-                <div className="bg-orange-600/10 rounded-2xl p-4 border border-orange-500/20">
+                <div className="bg-orange-600/10 rounded-[28px] p-4 border border-orange-500/20">
                     <p className="text-[9px] font-black uppercase text-orange-400 mb-2 leading-tight">Sincronització Archon</p>
-                    <div className="h-1 bg-white/5 rounded-full overflow-hidden">
+                    <div className="h-1 bg-white/5 rounded-[28px] overflow-hidden">
                         <div className="h-full bg-orange-500 w-[80%]" />
                     </div>
                 </div>

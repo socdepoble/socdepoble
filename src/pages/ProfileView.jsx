@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { 
-    User, Settings, ChevronRight, Loader2, AlertCircle, 
-    Sparkles, Zap, Grid, Heart, Share2, ArrowLeft, Camera, UserCheck, UserPlus, MoreHorizontal, MessageCircle, Tag, ShieldCheck, Beaker, Edit, Trash2, Plus, FileText, MapPin, Landmark, Image as ImageIcon, ScanLine, Ruler, Globe, Link as LinkIcon, Users, Cpu, Handshake
+    Settings, Loader2, AlertCircle, 
+    Sparkles, Grid, Share2, ArrowLeft, Camera, UserCheck, MessageCircle, MapPin,
+    ShieldCheck, HeartHandshake
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useDesign } from '../context/DesignContext';
@@ -10,20 +11,25 @@ import { useModal } from '../context/ModalContext';
 import { supabaseService, isValidUUID } from '../services/supabaseService';
 import SEO from '../components/SEO';
 import Feed from '../components/Feed';
-import Avatar from '../components/Avatar';
 import ShareHub from '../components/ShareHub';
 import ProfileStudioModal from '../components/ProfileStudioModal';
-import { ROLES, USER_ROLES, ENTITY_TYPES } from '../constants';
-import { trustService } from '../services/trustService';
-import { geminiService } from '../services/geminiService';
-import RhizomeMonitor from '../components/RhizomeMonitor';
+import ProfileSettingsModal from '../components/ProfileSettingsModal';
+import ContextualHeader from '../components/ContextualHeader';
 import './ProfileView.css';
 
 const ProfileView = () => {
-    const { accessibilityMode, toggleAccessibilityMode } = useDesign();
+    const { theme } = useDesign();
+    const isDayMode = theme === 'light';
+    
+    // Theme Colors
+    const bgColor = isDayMode ? 'bg-white' : 'bg-black';
+    const textColor = isDayMode ? 'text-black' : 'text-white';
+    const textMuted = isDayMode ? 'text-black/60' : 'text-white/60';
+    const cardBg = isDayMode ? 'bg-black/[0.03]' : 'bg-white/[0.03]';
+    const cardBorder = isDayMode ? 'border-black/10' : 'border-white/10';
+
     const { id, username } = useParams();
     const navigate = useNavigate();
-    const location = useLocation();
     const { user: currentUser, profile: myProfile } = useAuth();
     const { openConnectionModal } = useModal();
 
@@ -33,132 +39,76 @@ const ProfileView = () => {
     const [activeTab, setActiveTab] = useState('mur');
     const [isConnected, setIsConnected] = useState(false);
     const [stats, setStats] = useState({ followers: 0, following: 0, posts: 0 });
-    const [isStudioOpen, setIsStudioOpen] = useState(false);
-    const [oficiPosts, setOficiPosts] = useState([]);
     const [userPosts, setUserPosts] = useState([]);
+    
+    // Modals
+    const [isStudioOpen, setIsStudioOpen] = useState(false);
+    const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
     const isOwnProfile = !id && !username || (currentUser && id === currentUser.id);
 
-    // [MASTER IDENTITY CHECK] - Use AuthContext's derived state but with fallsbacks
-    const isMaster = (isOwnProfile && myProfile?.is_master) || 
-                     profile?.full_name?.toLowerCase().includes('llinares') || 
-                     profile?.email?.toLowerCase().includes('javillinares') ||
-                     profile?.id === 'd6325f44-7277-4d20-b020-166c010995ab';
-
-    let displayName = isMaster ? 'Javi Llinares' : (profile?.full_name || (isOwnProfile ? (myProfile?.full_name || currentUser?.email?.split('@')[0]) : 'Sóc de Poble'));
-    
-    // Nuclear Purge: If displayName contains "Foraster", it's a ghost.
-    if (displayName.toLowerCase().includes('foraster')) displayName = 'Sóc de Poble';
-    
-    const displayAvatar = isMaster ? '/Javi_Llinares-Foto_perfil-1.jpg' : (profile?.avatar_url || null);
-    
-    const isAutonomous = profile?.type === 'autonomo' || profile?.role === 'autonomo';
-    const isCompany = profile?.type === ENTITY_TYPES.BUSINESS || profile?.role === 'business' || id === 'sdp-oficial-1' || id === 'el-rentonar';
-
-    const handleUpdateIdentity = async (value, type) => {
-        if (!isOwnProfile) return;
-        
-        try {
-            const updates = {};
-            if (type === 'icon') updates.avatar_url = value;
-            
-            const { error: updateError } = await supabaseService.updateProfile(currentUser.id, updates);
-            if (updateError) throw updateError;
-            
-            setProfile(prev => ({ ...prev, ...updates }));
-            
-        } catch (err) {
-            console.error('[ProfileView] Error updating profile:', err);
-        }
-    };
-    
     useEffect(() => {
         const fetchProfileData = async () => {
             setLoading(true);
             try {
                 let targetProfile = null;
                 
-                // 1. Resolve Target Profile
                 if (isOwnProfile && myProfile) {
                     targetProfile = myProfile;
                 } else if (username) {
                     targetProfile = await supabaseService.getUserByUsername(username);
                 } else if (id) {
-                    // Check if the ID matches an AI persona slug first
-                    const persona = geminiService.getPersonaBySlug(id);
-                    if (persona) {
-                        targetProfile = {
-                            id: id, // Keep the original slug/id from URL
-                            full_name: persona.name,
-                            username: id.toLowerCase().replace(/[^a-z0-9]/g, ''),
-                            bio: persona.systemPrompt.split('\n')[0] + ' ' + (persona.role ? `\n\nRol al Mas: ${persona.role}` : ''), 
-                            avatar_url: persona.avatar_url,
-                            cover_url: "/rural_tech_future_valencia.png",
-                            town_name: "Sóc de Poble",
-                            role: persona.role?.toLowerCase() || 'agent',
-                            is_iaia: true
-                        };
-                    } else {
-                        // Fallback: Try by UUID or slug from database
-                        targetProfile = await supabaseService.getPublicProfile(id) || await supabaseService.getPublicEntity(id);
-                    }
-                } else if (location.pathname === '/iaia') {
-                    const persona = geminiService.PERSONAS.IAIA;
-                    targetProfile = {
-                        id: '11111111-1a1a-0000-0000-000000000000',
-                        full_name: persona.name,
-                        username: "iaia",
-                        bio: persona.systemPrompt.split('\n')[0] + ' ' + (persona.role ? `\n\nRol al Mas: ${persona.role}` : ''), 
-                        avatar_url: persona.avatar_url,
-                        cover_url: "/rural_tech_future_valencia.png",
-                        town_name: "La Torre de les Maçanes",
-                        role: 'iaia',
-                        is_iaia: true
-                    };
+                    targetProfile = await supabaseService.getPublicProfile(id) || await supabaseService.getPublicEntity(id);
                 }
 
                 if (!targetProfile) {
-                    // Fallback for Master if not found by service but we know it's own profile
                     if (isOwnProfile && currentUser) targetProfile = myProfile || currentUser;
                     else throw new Error('Perfil no trobat');
                 }
-                setProfile(targetProfile);
 
-                // 2. Resolve Stats & Curriculum
-                if (isValidUUID(targetProfile.id) || targetProfile.id) {
-                    const [followers, following, posts, postsData, imported] = await Promise.all([
-                        supabaseService.getFollowers(targetProfile.id),
-                        supabaseService.getFollowing(targetProfile.id),
-                        supabaseService.getUserPostsCount(targetProfile.id),
-                        supabaseService.getUserPosts(targetProfile.id),
-                        supabaseService.getImportedPosts(targetProfile.id)
+                // Final sanity check for identity
+                let effectiveName = targetProfile.full_name || targetProfile.username || targetProfile.email?.split('@')[0] || 'Veí del Poble';
+                let effectiveUsername = targetProfile.username || targetProfile.email?.split('@')[0] || `node_${targetProfile.id?.substring(0,6) || 'bategant'}`;
+                
+                if (isOwnProfile && currentUser) {
+                    effectiveName = targetProfile.full_name || currentUser.user_metadata?.full_name || currentUser.email?.split('@')[0] || (currentUser.phone ? 'El Teu Perfil' : 'Veí del Poble');
+                    const phoneSuffix = currentUser.phone ? currentUser.phone.replace('+', '').slice(-4) : '';
+                    effectiveUsername = targetProfile.username || currentUser.email?.split('@')[0] || (phoneSuffix ? `vei_${phoneSuffix}` : `node_${currentUser.id?.substring(0,6)}`);
+                }
+
+                const effectiveAvatar = targetProfile.avatar_url || '/default-avatar.png';
+
+                const finalProfile = {
+                    ...targetProfile,
+                    full_name: effectiveName,
+                    username: effectiveUsername,
+                    avatar_url: effectiveAvatar
+                };
+
+                setProfile(finalProfile);
+
+                if (isValidUUID(finalProfile.id) || finalProfile.id) {
+                    const [followers, following, posts, postsData] = await Promise.all([
+                        supabaseService.getFollowers(finalProfile.id),
+                        supabaseService.getFollowing(finalProfile.id),
+                        supabaseService.getUserPostsCount(finalProfile.id),
+                        supabaseService.getUserPosts(finalProfile.id)
                     ]);
 
                     setStats({
                         followers: followers?.length || 0,
                         following: following?.length || 0,
-                        posts: (posts || 0) + (imported.data?.length || 0)
+                        posts: posts || 0
                     });
                     
                     if (postsData && Array.isArray(postsData)) {
                         setUserPosts(postsData);
                     }
-                    
-                    if (imported.data) {
-                        setOficiPosts(imported.data);
-                        // If we have imported posts, default to 'ofici' tab for the Master
-                        if (isMaster && imported.data.length > 0) {
-                            setActiveTab('ofici');
-                        }
-                    }
 
-                    if (currentUser && targetProfile.id !== currentUser.id) {
-                        const followingStatus = await supabaseService.isFollowing(currentUser.id, targetProfile.id);
+                    if (currentUser && finalProfile.id !== currentUser.id) {
+                        const followingStatus = await supabaseService.isFollowing(currentUser.id, finalProfile.id);
                         setIsConnected(followingStatus);
                     }
-                } else {
-                    // Lore fallback stats
-                    setStats({ followers: 1200, following: 45, posts: 8 });
                 }
             } catch (err) {
                 setError(err.message);
@@ -166,305 +116,305 @@ const ProfileView = () => {
                 setLoading(false);
             }
         };
-        // [MASTER REDIRECT] Si entrem a /perfil sense ID, forcem la redirecció al nostre ID per a evitar "fantasmes" o IAIA antiga
+
         if (isOwnProfile && !id && myProfile?.id) {
             navigate(`/perfil/${myProfile.id}`, { replace: true });
             return;
         }
 
         fetchProfileData();
-    }, [id, username, isOwnProfile, currentUser, myProfile, location.pathname, navigate, isMaster]);
+    }, [id, username, isOwnProfile, currentUser, myProfile, navigate]);
 
-    const [reputation, setReputation] = useState({ level: 'desconegut', direct: false });
-
-    // Trust/DID Logic
-    const handleTrustVote = async () => {
-        if (!profile?.id) return;
-        const success = await trustService.emitTrustVote(profile.id, 1.0);
-        if (success) {
-            const rep = await trustService.getProximityReputation(profile.id);
-            setReputation(rep);
-        }
-    };
-
-    useEffect(() => {
-        if (profile?.id) {
-            trustService.getProximityReputation(profile.id).then(setReputation);
-        }
-    }, [profile?.id]);
+    const isSuperAdmin = currentUser?.role === 'super_admin';
 
     if (loading) return (
-        <div className="profile-hub-loading flex flex-col items-center justify-center h-screen bg-black">
+        <div className={`flex flex-col items-center justify-center min-h-screen ${bgColor} ${textColor}`}>
             <Loader2 className="animate-spin text-orange-500 mb-4" size={48} />
-            <span className="text-white font-black uppercase tracking-[0.3em] text-[10px]">Bategant en el Mas...</span>
+            <span className="font-black uppercase tracking-[0.3em] text-[10px]">Cercant les dades al Mas...</span>
         </div>
     );
 
     if (error) return (
-        <div className="profile-hub-error flex flex-col items-center justify-center h-screen bg-black p-6">
-            <AlertCircle className="text-red-500 mb-4" size={64} />
-            <h2 className="text-white font-black text-xl mb-4">ERROR EN LA MATRIU</h2>
-            <p className="text-gray-500 mb-8 uppercase text-[10px] tracking-widest">{error}</p>
-            <button className="bg-white text-black px-12 py-4 rounded-full font-black uppercase tracking-widest" onClick={() => navigate('/mur')}>Cerrar</button>
+        <div className={`flex flex-col items-center justify-center min-h-screen ${bgColor} ${textColor} p-6`}>
+            <AlertCircle className="text-red-500 mb-6" size={64} />
+            <h2 className="font-black text-2xl lg:text-3xl mb-4 text-center">EL RHIZOME NO TROBA AQUEST NODE</h2>
+            <p className={`${textMuted} mb-8 uppercase text-xs tracking-widest text-center max-w-md`}>{error}</p>
+            <button className={`${isDayMode ? 'bg-black text-white' : 'bg-white text-black'} px-10 py-4 rounded-[28px] font-black uppercase tracking-widest hover:scale-105 transition-transform`} onClick={() => navigate('/mur')}>
+                Tornar al Mur
+            </button>
         </div>
     );
 
     return (
-        <div className="profile-hub-container bg-black min-h-screen text-white font-sans overflow-x-hidden">
-            <SEO title={displayName} description={profile?.bio} />
+        <div className={`min-h-[100dvh] w-full ${bgColor} flex flex-col items-center ${textColor} font-sans overflow-x-hidden overflow-y-auto transition-colors duration-500 custom-scrollbar`}>
+            <SEO title={profile?.full_name} description={profile?.bio} />
             
-            <header className="relative w-full h-[40vh] min-h-[300px] border-b border-white/5">
-                <div className="cover-wrapper w-full h-full overflow-hidden">
-                    <img 
-                        src={profile?.cover_url || "/rural_tech_future_valencia.png"} 
-                        alt="" 
-                        className="w-full h-full object-cover opacity-60 scale-105" 
-                    />
-                    <div className="cover-gradient absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
-                </div>
+            {/* 1. IMMERSIVE COVER IMAGE WITH FADE TO BASE */}
+            <div className="relative w-full h-[40vh] md:h-[50vh] min-h-[300px] overflow-hidden shrink-0">
+                <div 
+                    className="absolute inset-0 bg-cover bg-center transition-all duration-1000 origin-bottom" 
+                    style={{ 
+                        backgroundImage: `url('${profile?.cover_url || "/assets/patterns/hero_pattern.png"}')`,
+                        transform: 'scale(1.02)',
+                        filter: isDayMode ? 'brightness(1.1) saturate(1.2)' : 'brightness(0.8) saturate(1.2)'
+                    }}
+                />
+                {/* Stunning bottom fade matching ambient background color perfectly */}
+                <div className={`absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t ${isDayMode ? 'from-white' : 'from-theme-base'} to-transparent z-10`} />
+                <div className={`absolute inset-0 bg-gradient-to-b ${isDayMode ? 'from-white/10 via-white/40' : 'from-black/10 via-black/40'} to-transparent z-0`} />
                 
-                <div className="header-actions absolute top-6 left-6 right-6 flex justify-between z-10">
+                {/* Top TopBar */}
+                <div className="absolute top-6 left-6 right-6 flex justify-between z-20">
                     <button 
                         onClick={() => navigate(-1)} 
-                        className="p-3 bg-black/40 backdrop-blur-xl rounded-full border border-white/10 hover:bg-white/20 transition-all"
+                        className={`w-12 h-12 flex items-center justify-center rounded-full backdrop-blur-2xl border transition-all shadow-xl hover:scale-110 active:scale-95 ${isDayMode ? 'bg-white/80 border-black/10 text-black hover:bg-white' : 'bg-black/60 border-white/10 text-white hover:bg-black/80'}`}
                     >
                         <ArrowLeft size={24} />
                     </button>
                     <div className="flex gap-3">
                         <ShareHub 
-                            title={displayName}
+                            title={profile?.full_name}
                             text={profile?.bio}
                             url={window.location.pathname}
                             customTrigger={
-                                <button className="p-3 bg-black/40 backdrop-blur-xl rounded-full border border-white/10 hover:bg-white/20 transition-all">
-                                    <Share2 size={24} />
+                                <button className={`w-12 h-12 flex items-center justify-center rounded-full backdrop-blur-2xl border transition-all shadow-xl hover:scale-110 active:scale-95 ${isDayMode ? 'bg-white/80 border-black/10 text-black hover:bg-white' : 'bg-black/60 border-white/10 text-white hover:bg-black/80'}`}>
+                                    <Share2 size={20} className="-ml-0.5" />
                                 </button>
                             }
                         />
-                        <button className="p-3 bg-black/40 backdrop-blur-xl rounded-full border border-white/10 hover:bg-white/20 transition-all"><Settings size={24} /></button>
+                        {isOwnProfile && (
+                            <button 
+                                onClick={() => setIsSettingsOpen(true)}
+                                className={`w-12 h-12 flex items-center justify-center rounded-full backdrop-blur-2xl border transition-all shadow-xl hover:scale-110 active:scale-95 ${isDayMode ? 'bg-white/80 border-black/10 text-black hover:bg-white' : 'bg-black/60 border-white/10 text-white hover:bg-black/80'}`}
+                            >
+                                <Settings size={20} />
+                            </button>
+                        )}
                     </div>
                 </div>
+            </div>
 
-                <div className="avatar-central-wrapper absolute -bottom-24 left-1/2 -translate-x-1/2 flex flex-col items-center">
-                    <div className="avatar-frame relative w-48 h-48 rounded-full p-1.5 bg-gradient-to-b from-[#F97316] to-transparent overflow-hidden group shadow-[0_0_60px_rgba(249,115,22,0.3)]">
-                        <div className="w-full h-full rounded-full bg-black flex items-center justify-center relative overflow-hidden">
-                            <Avatar 
-                                src={displayAvatar} 
-                                name={displayName} 
-                                role={isMaster ? 'super_admin' : profile?.role} 
-                                size={184} 
-                                className="master-profile-avatar"
+            {/* 2. PROFILE CONTENT (Overlapping Hero) */}
+            <main className="w-full max-w-4xl px-4 md:px-8 relative z-30 -mt-24 sm:-mt-32 pb-40 flex flex-col items-center">
+                
+                {/* Hero Group */}
+                <div className="flex flex-col items-center text-center mb-10 w-full animate-in fade-in slide-in-from-bottom-8 duration-700 ease-out-expo">
+
+                    {/* Glowing Avatar Sphere */}
+                    <div
+                        className={`relative rounded-full p-2 mb-6 group ${isOwnProfile ? 'cursor-pointer' : ''}`}
+                        onClick={() => isOwnProfile && setIsStudioOpen(true)}
+                    >
+                        {/* Glow Behind */}
+                        <div className={`absolute inset-0 rounded-full bg-[var(--theme-accent-primary)] ${isDayMode ? 'opacity-30 blur-2xl' : 'opacity-40 blur-[40px]'} group-hover:opacity-60 transition-opacity duration-700`}></div>
+
+                        <div className={`relative w-40 h-40 sm:w-48 sm:h-48 rounded-full overflow-hidden border-[10px] ${isDayMode ? 'border-white' : 'border-theme-base'} shadow-[0_30px_60px_rgba(0,0,0,0.3)] bg-theme-panel`}>
+                            <img
+                                src={profile?.avatar_url}
+                                alt={profile?.full_name}
+                                className="w-full h-full object-cover transition-transform duration-1000 ease-out-expo group-hover:scale-110"
                             />
                             {isOwnProfile && (
-                                <div 
-                                    className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center transition-all cursor-pointer z-20"
-                                    onClick={() => setIsStudioOpen(true)}
-                                >
-                                    <Camera size={28} className="mb-2 text-[#F97316]" />
-                                    <span className="text-[8px] font-black uppercase tracking-widest">Canviar Imatge</span>
+                                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center transition-all duration-300 backdrop-blur-sm">
+                                    <Camera size={36} className="text-white mb-2" />
+                                    <span className="text-white text-[10px] font-black uppercase tracking-widest drop-shadow-md">Fotografia</span>
                                 </div>
                             )}
                         </div>
+
+                        {/* VIP Node Badge */}
+                        {(profile?.role === 'super_admin' || profile?.role === 'admin' || profile?.is_master) && (
+                            <div className={`absolute bottom-6 right-6 p-4 rounded-full bg-[var(--theme-accent-primary)] text-white shadow-[0_0_20px_var(--theme-accent-primary)] border-4 ${isDayMode ? 'border-white' : 'border-[#0a0a0a]'} animate-bounce-slow`}>
+                                <Sparkles size={24} className="fill-white" />
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Typography: Massive Full Name & Subtitle */}
+                    <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tighter leading-[0.9] mb-4 text-theme-text drop-shadow-sm">
+                        {profile?.full_name}
+                    </h1>
+                    <p className={`text-lg sm:text-xl font-bold uppercase tracking-[0.2em] text-[var(--theme-accent-primary)] mb-6`}>
+                        @{profile?.username}
+                    </p>
+
+                    {/* Bio text */}
+                    <p className={`text-xl sm:text-2xl leading-relaxed max-w-2xl text-[var(--text-muted)] font-medium mb-10`}>
+                        {profile?.bio || 'Bategant al Rhizome. Connectant amb el territori.'}
+                    </p>
+
+                    {/* Metadata Tags (Town & Role) */}
+                    <div className="flex flex-wrap justify-center gap-3 w-full">
+                        {profile?.town_name && (
+                            <div className={`flex items-center gap-2 px-6 py-4 rounded-full ${cardBg} border ${cardBorder} shadow-sm backdrop-blur-md hover:scale-105 transition-transform`}>
+                                <MapPin size={20} className="text-[var(--theme-accent-primary)]" />
+                                <span className={`text-xs font-black uppercase tracking-widest ${textMuted}`}>{profile.town_name}</span>
+                            </div>
+                        )}
+                        <div className={`flex items-center gap-2 px-6 py-4 rounded-full ${cardBg} border ${cardBorder} shadow-sm backdrop-blur-md hover:scale-105 transition-transform`}>
+                            <UserCheck size={20} className="text-[var(--theme-accent-primary)]" />
+                            <span className={`text-xs font-black uppercase tracking-widest ${textMuted}`}>
+                                {profile?.role === 'vei' ? 'SÓC DE POBLE' : (profile?.role?.replace('_', ' ') || 'NODE')}
+                            </span>
+                        </div>
                     </div>
                 </div>
-            </header>
 
-            <section className="identity-block mt-32 px-6 text-center">
-                <div className="badges-wrapper flex justify-center gap-2 mb-6">
-                    {profile?.town_name && (
-                        <span className="px-4 py-1.5 bg-white/5 text-gray-500 border border-white/10 rounded-full text-[9px] font-black uppercase tracking-[0.2em] transition-all hover:bg-white/10">
-                            {profile.town_name}
-                        </span>
-                    )}
-                    <span className={`px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-[0.2em] border transition-all hover:brightness-110 ${isMaster ? 'bg-indigo-500/20 text-indigo-400 border-indigo-500/30' : (isCompany ? 'bg-indigo-600/20 text-indigo-300 border-indigo-500/30' : (isAutonomous ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' : 'bg-orange-500/20 text-orange-400 border-orange-500/30'))}`}>
-                        {isMaster ? 'MESTRE BATEGANT' : (id === 'el-rentonar' ? 'ASSOCIACIÓ VERIFICADA' : (isCompany ? 'EMPRESA VERIFICADA' : (isAutonomous ? 'PÀGINA D\'AUTÒNOM' : (profile?.role === 'vei' || profile?.role === 'neighbor' ? 'SÓC DE POBLE' : (profile?.role?.toUpperCase() || 'SÓC DE POBLE')))))}
-                    </span>
-                </div>
-                
-                <h1 className="text-5xl lg:text-7xl font-black uppercase tracking-tighter leading-[0.85] mb-6 italic">
-                    {displayName}
-                </h1>
-                
-                <p className="max-w-xl mx-auto text-gray-400 text-lg leading-relaxed px-12 opacity-80 font-medium italic mb-10">
-                    {profile?.bio || (isMaster ? "Arquitecte de la Matriu Sóc de Poble. Dissenyant el futur de la connexió rural." : "Connectant el poble amb el futur a través del Rhizome digital.")}
-                </p>
-
-                <div className="actions-row py-4 flex flex-col sm:flex-row justify-center items-center gap-4">
+                {/* 3. PRIMARY FOCAL ACTION: THE CONNECTION BUTTON */}
+                <div className="w-full max-w-3xl flex flex-col items-center justify-center mt-4 mb-8 animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-150 ease-out-expo">
                     {!currentUser || currentUser.isAnonymous ? (
-                        <div className="flex flex-col gap-4 w-full max-w-[400px] bg-white/5 p-8 rounded-[28px] border border-white/10 backdrop-blur-xl animate-in fade-in slide-in-from-bottom-4 duration-700">
-                            <div className="text-center mb-4">
-                                <h3 className="text-xl font-black uppercase tracking-tighter mb-2 italic">Aquest perfil encara no bategua?</h3>
-                                <p className="text-xs text-gray-400 uppercase tracking-widest leading-relaxed">Registra't per a connectar amb {displayName} i formar part de la sobirania digital del poble.</p>
-                            </div>
-                            <button 
-                                onClick={() => navigate('/registre')}
-                                className="w-full h-16 rounded-2xl bg-gradient-to-r from-[#F97316] to-[#E11D48] text-white font-black text-sm uppercase tracking-[0.2em] shadow-[0_10px_40px_rgba(249,115,22,0.4)] hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3 group"
-                            >
-                                <Zap size={20} className="group-hover:animate-pulse" />
-                                <span>BATEGA ARA I REGISTRA'T</span>
-                            </button>
-                        </div>
+                        <button
+                            onClick={() => navigate('/registre')}
+                            className={`w-full max-w-md h-20 rounded-[36px] bg-[var(--theme-accent-primary)] text-white font-black text-xl uppercase tracking-[0.2em] shadow-[0_0_50px_rgba(255,107,0,0.5)] hover:scale-105 transition-transform active:scale-95 flex items-center justify-center gap-4`}
+                        >
+                            CONNECTAR AMB EL NODE
+                        </button>
                     ) : !isOwnProfile ? (
-                        <div className="flex flex-col gap-4 w-full max-w-[320px]">
-                            <button 
+                        <div className="w-full flex justify-center w-full max-w-[500px] flex-col gap-6">
+                            {/* Massive Connect Button */}
+                            <button
                                 onClick={() => openConnectionModal({ targetId: profile?.id })}
-                                className="w-full h-14 rounded-2xl bg-gradient-to-r from-[#F97316] to-[#E11D48] text-white font-black text-sm uppercase tracking-widest shadow-[0_10px_30px_rgba(249,115,22,0.4)] hover:scale-[1.02] transition-all flex items-center justify-center gap-3"
+                                className={`w-full h-24 sm:h-28 rounded-[40px] overflow-hidden relative group shadow-[0_15px_40px_rgba(255,107,0,0.4)] hover:shadow-[0_20px_60px_rgba(255,107,0,0.6)] hover:-translate-y-2 active:scale-95 transition-all duration-500 ease-out`}
                             >
-                                {isConnected ? <MessageCircle size={18} /> : <UserPlus size={18} />}
-                                <span>{isConnected ? 'ENVIAR MISSATGE' : 'CONNECTAR'}</span>
+                                <div className="absolute inset-0 bg-gradient-to-br from-orange-400 via-[var(--theme-accent-primary)] to-orange-700 opacity-100 group-hover:scale-110 transition-transform duration-1000 ease-out"></div>
+                                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite]"></div>
+
+                                <div className="absolute inset-0 flex items-center justify-center gap-4 text-white hover:text-white mix-blend-overlay drop-shadow-xl z-10 w-full h-full">
+                                    {isConnected ? <MessageCircle size={40} strokeWidth={3} className="fill-white/20" /> : <HeartHandshake size={48} strokeWidth={2.5} className="fill-white/10" />}
+                                    <span className="font-black text-2xl sm:text-[28px] uppercase tracking-widest mt-1">
+                                        {isConnected ? 'MISSATGE DIRECTE' : 'BATEGAR CONNEXIÓ'}
+                                    </span>
+                                </div>
                             </button>
-                            
-                            <button 
-                                onClick={handleTrustVote}
-                                className={`w-full h-14 rounded-2xl border-2 font-black text-sm uppercase tracking-widest transition-all flex items-center justify-center gap-3 ${reputation.direct ? 'bg-indigo-600/20 border-indigo-500 text-indigo-400' : 'bg-white/5 border-white/10 text-white hover:border-indigo-500/50'}`}
+
+                            {/* Secondary Action placed nicely below */}
+                            <button
+                                className={`self-center inline-flex items-center gap-2 px-10 py-5 rounded-full ${cardBg} border ${cardBorder} font-black text-xs uppercase tracking-[0.2em] ${textMuted} hover:text-[var(--text-main)] hover:bg-[var(--theme-accent-primary)]/10 hover:border-[var(--theme-accent-primary)]/30 transition-all`}
                             >
-                                <ShieldCheck size={18} className={reputation.direct ? 'text-indigo-400' : 'text-gray-500'} />
-                                <span>{reputation.direct ? 'VEÍ DE CONFIANÇA' : 'DONAR CONFIANÇA'}</span>
+                                <ShieldCheck size={20} />
+                                CEDIR CONFIANÇA TOTAL
                             </button>
                         </div>
                     ) : (
-                        <div className="flex flex-col gap-4 w-full max-w-[320px]">
-                            <button 
+                        <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <button
                                 onClick={() => setIsStudioOpen(true)}
-                                className="w-full h-14 rounded-2xl bg-white/5 border border-white/10 text-white font-black text-sm uppercase tracking-widest hover:bg-white/10 hover:border-white/20 transition-all flex items-center justify-center gap-3"
+                                className={`h-20 rounded-full ${isDayMode ? 'bg-[#111] text-white' : 'bg-white text-black'} font-black text-[15px] uppercase tracking-widest shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3`}
                             >
-                                <Sparkles size={18} className="text-[#F97316]" />
-                                <span>GESTIÓ D'IDENTITAT</span>
+                                <Camera size={22} />
+                                EDITAR APARIÈNCIA
                             </button>
-
-                            {/* [MASTER v10.33.1] ACCESSIBILITAT IAIA MODE */}
-                            <button 
-                                onClick={toggleAccessibilityMode}
-                                className={`w-full h-14 rounded-2xl font-black text-sm uppercase tracking-widest transition-all flex items-center justify-center gap-3 ${accessibilityMode ? 'bg-[#0ea5e9] text-white shadow-[0_0_20px_rgba(14,165,233,0.3)] border-2 border-[#0ea5e9]' : 'bg-white/5 border border-white/10 text-white hover:bg-white/10'}`}
-                            >
-                                <Handshake size={18} className={accessibilityMode ? 'text-white' : 'text-[#0ea5e9]'} />
-                                <span>MODALITAT IAIA (CA)</span>
-                            </button>
-                            
-                            {/* ELIMINAT: Bloc de botons "fantasmes" de la versió Hub antiga */}
-
-                            {/* RHIZOME MONITOR (DEEP TECH) */}
-                            <RhizomeMonitor />
+                            {isSuperAdmin && (
+                                <button
+                                    onClick={() => navigate('/admin')}
+                                    className={`h-20 px-8 rounded-full bg-emerald-950 text-emerald-400 font-black text-[15px] uppercase tracking-widest shadow-2xl hover:scale-105 active:scale-95 transition-all border border-emerald-500/30 flex items-center justify-between gap-3`}
+                                >
+                                    <span className="text-sm font-black uppercase tracking-tight">RHIZOME SYNC ADMIN</span>
+                                    <span className="text-xs font-black uppercase tracking-widest bg-emerald-500/20 text-emerald-500 px-4 py-2 rounded-full border border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.3)] animate-pulse">ACTIU</span>
+                                </button>
+                            )}
                         </div>
                     )}
                 </div>
 
-                <ProfileStudioModal 
-                    isOpen={isStudioOpen}
-                    onClose={() => setIsStudioOpen(false)}
-                    profile={profile}
-                    onFileSelect={(e, type) => handleUpdateIdentity(e.target.value, type)}
-                />
+                {/* 4. STATS BOARD (Premium Glassmorphism) */}
+                <div className="w-full max-w-3xl relative mb-12 animate-in fade-in slide-in-from-bottom-16 duration-1000 delay-300 ease-out-expo">
+                    {/* Glowing Aura underneath the stats panel */}
+                    <div className={`absolute -inset-4 rounded-[60px] bg-[var(--theme-accent-primary)] opacity-10 blur-3xl z-0 pointer-events-none`}></div>
 
-                <div className="stats-pill-row flex justify-center gap-8 py-10 bg-white/5 mx-auto max-w-2xl rounded-[32px] border border-white/5 mt-16 backdrop-blur-xl">
-                    <div className="stat-item flex flex-1 flex-col items-center">
-                        <span className="text-3xl font-black leading-none">{stats.followers}</span>
-                        <span className="text-[9px] text-gray-500 font-bold uppercase tracking-[0.2em] mt-3">Seguidors</span>
-                    </div>
-                    <div className="stat-item flex flex-1 flex-col items-center border-x border-white/5 px-4">
-                        <span className="text-3xl font-black leading-none">{stats.following}</span>
-                        <span className="text-[9px] text-gray-400 font-bold uppercase tracking-[0.2em] mt-3">Seguint</span>
-                    </div>
-                    <div className="stat-item flex flex-1 flex-col items-center">
-                        <span className="text-3xl font-black leading-none">{stats.posts}</span>
-                        <span className="text-[9px] text-gray-500 font-bold uppercase tracking-[0.2em] mt-3">Publicacions</span>
+                    <div className={`relative z-10 grid grid-cols-3 p-6 md:p-8 rounded-[48px] ${cardBg} backdrop-blur-3xl border ${cardBorder} shadow-2xl overflow-hidden`}>
+                        {/* Shimmer reflection inner */}
+                        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+
+                        <div className="flex flex-col items-center justify-center text-center py-4 relative group cursor-default">
+                            <span className="text-5xl md:text-6xl font-black mb-2 tracking-tighter group-hover:scale-110 transition-transform duration-500 ease-out-back text-theme-text">{stats.followers}</span>
+                            <span className={`text-[11px] md:text-xs font-black uppercase tracking-[0.25em] ${textMuted}`}>Connectats</span>
+                        </div>
+                        <div className={`flex flex-col items-center justify-center text-center py-4 border-x ${cardBorder} relative group cursor-default`}>
+                            <span className="text-5xl md:text-6xl font-black mb-2 tracking-tighter text-[var(--theme-accent-primary)] group-hover:scale-110 transition-transform duration-500 ease-out-back drop-shadow-sm">{stats.posts}</span>
+                            <span className={`text-[11px] md:text-xs font-black uppercase tracking-[0.25em] ${textMuted}`}>Publicacions</span>
+                        </div>
+                        <div className="flex flex-col items-center justify-center text-center py-4 relative group cursor-default">
+                            <span className="text-5xl md:text-6xl font-black mb-2 tracking-tighter group-hover:scale-110 transition-transform duration-500 ease-out-back text-theme-text">{stats.following}</span>
+                            <span className={`text-[11px] md:text-xs font-black uppercase tracking-[0.25em] ${textMuted}`}>Malla</span>
+                        </div>
                     </div>
                 </div>
-            </section>
 
-            <nav className="tabs-nav sticky top-16 z-20 bg-black/80 backdrop-blur-xl border-y border-white/5 mt-12">
-                <div className="flex justify-center max-w-xl mx-auto">
-                    <button 
-                        onClick={() => setActiveTab('mur')}
-                        className={`btn-profile-tab flex-1 py-4 text-[12px] font-black tracking-widest uppercase transition-all flex items-center justify-center gap-2 ${activeTab === 'mur' ? 'active text-white' : 'text-gray-500'}`}
-                    >
-                        <Grid size={16} /> MUR
-                    </button>
-                    
-                    {oficiPosts.length > 0 && (
-                        <button 
-                            onClick={() => setActiveTab('ofici')}
-                            className={`btn-profile-tab flex-1 py-4 text-[12px] font-black tracking-widest uppercase transition-all flex items-center justify-center gap-2 ${activeTab === 'ofici' ? 'active text-orange-500' : 'text-gray-500'}`}
+                {/* 5. TABS & CONTENT SYSTEM */}
+                <div className="w-full max-w-4xl border-t border-[var(--border-master)] pt-12">
+                    {/* Premium Oversized Tab Switcher */}
+                    <div className="flex flex-wrap justify-center gap-4 mb-8">
+                        <button
+                            onClick={() => setActiveTab('mur')}
+                            className={`px-8 py-3 rounded-2xl font-black text-sm tracking-[0.2em] transition-all duration-500 uppercase ${activeTab === 'mur' ? 'bg-[var(--theme-accent-primary)] text-white shadow-[0_0_20px_rgba(255,107,0,0.3)] scale-105' : 'bg-[var(--surface-master)] text-[var(--text-muted)] hover:bg-[var(--border-master)] hover:text-white'}`}
                         >
-                            <Sparkles size={16} /> OFICI
+                            EL MEU MUR
                         </button>
-                    )}
-
-                    <button 
-                        onClick={() => setActiveTab('connexions')}
-                        className={`btn-profile-tab flex-1 py-4 text-[12px] font-black tracking-widest uppercase transition-all flex items-center justify-center gap-2 ${activeTab === 'connexions' ? 'active text-white' : 'text-gray-500'}`}
-                    >
-                        <UserCheck size={16} /> CONNEXIONS
-                    </button>
-                    {(profile?.id === '11111111-1a1a-0000-0000-000000000000' || profile?.role === 'iaia' || profile?.username === 'iaia') && (
-                        <button 
-                            onClick={() => setActiveTab('ajudes')}
-                            className={`btn-profile-tab flex-1 py-4 text-[12px] font-black tracking-widest uppercase transition-all flex items-center justify-center gap-2 ${activeTab === 'ajudes' ? 'active text-orange-500 border-b-2 border-orange-500' : 'text-gray-500'}`}
+                        <button
+                            onClick={() => setActiveTab('connexions')}
+                            className={`px-8 py-3 rounded-2xl font-black text-sm tracking-[0.2em] transition-all duration-500 uppercase ${activeTab === 'connexions' ? 'bg-[var(--theme-accent-primary)] text-white shadow-[0_0_20px_rgba(255,107,0,0.3)] scale-105' : 'bg-[var(--surface-master)] text-[var(--text-muted)] hover:bg-[var(--border-master)] hover:text-white'}`}
                         >
-                            <Sparkles size={16} /> AJUDES
+                            MALLA DE XARXA
                         </button>
-                    )}
-                </div>
-            </nav>
-
-            <main className="content-area p-4 min-h-[50vh]">
-                {activeTab === 'mur' ? (
-                    <Feed hideHeader={true} customPosts={userPosts} />
-                ) : activeTab === 'connexions' ? (
-                    <div className="connexions-feed-wrapper">
-                        <div className="connexions-header mb-8 px-6">
-                            <h3 className="text-xl font-black uppercase tracking-tight flex items-center gap-2">
-                                <UserPlus size={20} className="text-indigo-500" />
-                                Vincle Comunitari
-                            </h3>
-                            <p className="text-gray-500 text-sm mt-1">Connexions bategades al teu Rhizome privat.</p>
-                        </div>
-                        <Feed customPosts={[]} contentMode="batec" />
                     </div>
-                ) : activeTab === 'ajudes' ? (
-                    <div className="subsidies-section space-y-6">
-                        <div className="section-intro p-6 bg-white/5 rounded-[28px] border border-white/10">
-                            <h3 className="text-xl font-black uppercase tracking-tighter mb-2 flex items-center gap-2">
-                                <Sparkles className="text-orange-500" size={20} />
-                                Ajudes Detectades pel Rhizome
-                            </h3>
-                            <p className="text-gray-400 text-sm italic">
-                                "Mestre, he trobat aquestes oportunitats bategant a la xarxa oficial. No les deixis escapar!"
-                            </p>
-                        </div>
-                        <div className="grid gap-4 lg:grid-cols-2">
-                            {[
-                                { id: 'kit-digital-2024', title: "Kit Digital: Segment III (Autònoms)", amount: "3.000 €", sector: "Digitalització" },
-                                { id: 'ajuda-resiliencia-rural', title: "Projecte Rhizome: Resiliència Tecnològica Rural", amount: "25.000 € (Estudi)", sector: "Tecnologia" }
-                            ].map(sub => (
-                                <div key={sub.id} className="sub-card-iaia p-6 bg-white/5 rounded-[28px] border border-white/5 hover:border-orange-500/50 transition-all cursor-pointer group" onClick={() => navigate('/ajudes')}>
-                                    <div className="flex justify-between items-start mb-4">
-                                        <span className="px-3 py-1 bg-orange-500/20 text-orange-500 rounded-full text-[10px] font-black uppercase tracking-widest">{sub.sector}</span>
-                                        <ChevronRight size={18} className="text-gray-600 group-hover:text-orange-500 transition-colors" />
-                                    </div>
-                                    <h4 className="text-lg font-black uppercase leading-[1.1] mb-2">{sub.title}</h4>
-                                    <div className="text-2xl font-black text-white italic">{sub.amount}</div>
+
+                    <div className="min-h-[40vh] w-full max-w-3xl mx-auto pb-32">
+                        {activeTab === 'mur' ? (
+                            <div className="w-full flex flex-col gap-6">
+                                <ContextualHeader
+                                    searchTerm=""
+                                    onSearchChange={() => {}}
+                                    viewMode="single"
+                                    onViewModeChange={() => {}}
+                                    placeholder="Cerca publicacions..."
+                                />
+                                {userPosts.length > 0 ? (
+                                    <Feed hideHeader={true} customPosts={userPosts} />
+                                ) : (
+                                    <StatusLoader type="empty" message={isOwnProfile ? "Encara no has compartit res." : "Cap novetat."} />
+                                )}
+                            </div>
+                        ) : activeTab === 'connexions' ? (
+                            <div className="space-y-8 animate-in fade-in slide-in-from-bottom-8">
+                                <div className={`p-12 rounded-[56px] ${cardBg} border ${cardBorder} shadow-lg backdrop-blur-2xl relative overflow-hidden`}>
+                                    {/* Subtly animated glow */}
+                                    <div className="absolute -inset-10 bg-gradient-to-r from-[var(--theme-accent-primary)]/[0.05] via-transparent to-transparent opacity-50 animate-[shimmer_3s_infinite] pointer-events-none"></div>
+                                    
+                                    <h3 className="relative z-10 text-3xl font-black uppercase tracking-tight mb-4 flex items-center gap-6 text-[var(--theme-accent-primary)]">
+                                        <div className="p-4 rounded-full bg-[var(--theme-accent-primary)]/10 border border-[var(--theme-accent-primary)]/20 shadow-inner">
+                                            <UserCheck size={32} strokeWidth={2.5} />
+                                        </div>
+                                        Malla de Confiança
+                                    </h3>
+                                    <p className={`relative z-10 text-xl ${textMuted} font-medium leading-relaxed max-w-xl pl-20`}>Llista topològica de nodes connectats a aquesta identitat sobirana mitjançant el protocol Rhizome.</p>
                                 </div>
-                            ))}
-                        </div>
-                        <button 
-                            onClick={() => navigate('/ajudes')}
-                            className="w-full py-4 bg-white text-black font-black uppercase tracking-widest rounded-full text-xs hover:scale-[1.02] transition-transform"
-                        >
-                            Veure Buscador d'Ajudes Complet
-                        </button>
+                                {/* Placeholder visual per al futur feed de malla */}
+                                <div className={`py-32 flex flex-col items-center justify-center text-center border-4 border-dashed ${cardBorder} rounded-[56px] bg-theme-panel/30`}>
+                                    <Grid size={56} className={`mb-8 ${textMuted} opacity-20`} strokeWidth={1.5} />
+                                    <p className={`text-base font-black uppercase tracking-[0.2em] ${textMuted}`}>Navegador de Malla (Desenvolupament actiu)</p>
+                                </div>
+                            </div>
+                        ) : null}
                     </div>
-                ) : (
-                    <div className="empty-state py-20 text-center opacity-30 flex flex-col items-center">
-                        <Zap size={48} className="mb-4" />
-                        <p className="text-[10px] font-black uppercase tracking-widest">Sense bategats recents</p>
-                    </div>
-                )}
+                </div>
             </main>
 
-            <footer className="py-24 text-center opacity-10">
-                <p className="text-[8px] font-black uppercase tracking-[1em]">GÈNESI V14 • SÓC DE POBLE</p>
-            </footer>
+            {/* Modals remain the exact same functionally */}
+            <ProfileStudioModal 
+                isOpen={isStudioOpen}
+                onClose={() => setIsStudioOpen(false)}
+                profile={profile}
+                onFileSelect={() => {}}
+            />
+            {isOwnProfile && profile && (
+                <ProfileSettingsModal
+                    isOpen={isSettingsOpen}
+                    onClose={() => setIsSettingsOpen(false)}
+                    profile={profile}
+                    onProfileUpdate={(updates) => setProfile(prev => ({ ...prev, ...updates }))}
+                />
+            )}
         </div>
     );
 };

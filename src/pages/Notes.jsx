@@ -294,12 +294,12 @@ const Notes = () => {
                             <div className="flex items-center gap-2">
                                 <button 
                                     onClick={() => openIAIASidebar({ context: `Editing ${activeNote.type}: ${activeNote.title}` })}
-                                    className="flex items-center gap-2 px-4 py-2 bg-fuchsia-600/10 text-fuchsia-400 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-fuchsia-600/20 transition-all"
+                                    className="flex items-center gap-2 px-4 py-2 bg-fuchsia-600/10 text-fuchsia-400 rounded-[28px] font-black text-[10px] uppercase tracking-widest hover:bg-fuchsia-600/20 transition-all"
                                 >
                                     <MessageSquare size={14} /> Assistent
                                 </button>
                                 <button 
-                                    className="p-2 hover:bg-red-500/10 text-gray-500 hover:text-red-400 rounded-xl transition-all"
+                                    className="p-2 hover:bg-red-500/10 text-gray-500 hover:text-red-400 rounded-[28px] transition-all"
                                     onClick={() => activeNote.status === 'trash' ? handlePermanentlyDeleteNote(activeNote.id) : handleDeleteNote(activeNote.id)}
                                     title={activeNote.status === 'trash' ? t('notebook.trash.permanent_delete') : t('notebook.trash.send_to_trash')}
                                 >
@@ -307,21 +307,21 @@ const Notes = () => {
                                 </button>
                                 {activeNote.status === 'trash' && (
                                     <button 
-                                        className="px-4 py-2 bg-emerald-600/10 text-emerald-500 border border-emerald-500/20 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-emerald-600/20 transition-all"
+                                        className="px-4 py-2 bg-emerald-600/10 text-emerald-500 border border-emerald-500/20 rounded-[28px] text-xs font-black uppercase tracking-widest hover:bg-emerald-600/20 transition-all"
                                         onClick={() => handleRestoreNote(activeNote.id)}
                                     >
                                         {t('notebook.trash.restore')}
                                     </button>
                                 )}
                                 <button 
-                                    className="p-2.5 text-gray-500 hover:text-white hover:bg-white/5 rounded-xl transition-all"
+                                    className="p-2.5 text-gray-500 hover:text-white hover:bg-white/5 rounded-[28px] transition-all"
                                     onClick={() => setShowInfo(!showInfo)}
                                     title="Informació de la nota"
                                 >
                                     <Info size={18} />
                                 </button>
                                 <button 
-                                    className="p-2.5 text-gray-500 hover:text-white hover:bg-white/5 rounded-xl transition-all"
+                                    className="p-2.5 text-gray-500 hover:text-white hover:bg-white/5 rounded-[28px] transition-all"
                                     onClick={() => alert('Funció de compartició bategant próximament!')}
                                 >
                                     <Share size={18} />
@@ -366,13 +366,13 @@ const Notes = () => {
                         )}
 
                         <div className="p-8 pb-4 flex items-center gap-6 overflow-x-auto shrink-0 border-b border-white/5">
-                            <div className="flex items-center gap-2 px-3 py-1.5 bg-white/5 rounded-lg border border-white/5">
+                            <div className="flex items-center gap-2 px-3 py-1.5 bg-white/5 rounded-[20px] border border-white/5">
                                 <Folder size={12} className="text-orange-500" />
                                 <span className="text-[10px] font-bold text-gray-400">
                                     {folders.find(f => f.id === activeNote.folderId)?.name || 'General'}
                                 </span>
                             </div>
-                            <div className="flex items-center gap-2 px-3 py-1.5 bg-white/5 rounded-lg border border-white/5">
+                            <div className="flex items-center gap-2 px-3 py-1.5 bg-white/5 rounded-[20px] border border-white/5">
                                 <Tag size={12} className="text-fuchsia-500" />
                                 <select 
                                     className="bg-transparent border-none outline-none text-[10px] font-bold text-gray-400 cursor-pointer"

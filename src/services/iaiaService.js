@@ -4,8 +4,20 @@ import { notebookService } from './notebookService';
 import { logger } from '../utils/logger';
 import { healthyPlates } from '../utils/publishAnnaNews'; // Reusing existing plates
 import { geminiService } from './geminiService';
-import { PROVERBS, getRandomProverb } from '../data/proverbs';
+import { PROVERBS } from '../data/proverbs';
 import { getPersonaKeyByUUID } from '../config/agentsMap';
+import * as Comlink from 'comlink';
+import DOMPurify from 'dompurify';
+
+let iaiaWorkerProxy = null;
+let visionWorkerProxy = null;
+if (typeof window !== 'undefined') {
+    const worker = new Worker(new URL('./iaiaWorker.js', import.meta.url), { type: 'module' });
+    iaiaWorkerProxy = Comlink.wrap(worker);
+
+    const visionWorker = new Worker(new URL('../workers/visionWorker.js', import.meta.url), { type: 'module' });
+    visionWorkerProxy = Comlink.wrap(visionWorker);
+}
 
 /**
  * [PROTOCOL BATEGAT IMMEDIAT - PARAULES NEUTRES]
@@ -321,43 +333,52 @@ class IAIAService {
 
     /**
      * Estudi de Context Multimèdia [MASTER]
-     * L'IAIA crida al Nano Banana per a analitzar què hi ha a la imatge/vídeo.
+     * L'IAIA crida al Nano Banana (Vision Worker WebGPU) per a analitzar què hi ha a la imatge/vídeo.
      */
     async studyMultimediaContext(file, filename) {
-        // logger.info(`[IAIA] Estudiant context de: ${filename} amb Nano Banana...`);
-        // Simulem anàlisi visual profunda
-        await new Promise(r => setTimeout(r, 2000));
+        // GPU Accelerated Path
+        if (visionWorkerProxy && file) {
+            try {
+                const analysis = await visionWorkerProxy.analyzeImage(file);
+                // Assign a random proverb
+                const proverb = PROVERBS[Math.floor(Math.random() * PROVERBS.length)] || { text: 'A qui matina...', meaning: 'Molt bé' };
+                
+                return {
+                    ...analysis,
+                    suggestedMotto: proverb.text,
+                    proverbMeaning: proverb.meaning,
+                    contextTone: analysis.contextTone || "nostàlgic i vibrant"
+                };
+            } catch (err) {
+                logger.warn('[IAIA] Error a Vision Worker WebGPU (Fallback natiu utilitzat):', err);
+            }
+        }
 
-        const proverb = getRandomProverb();
-        const context = {
-            detectedObjects: ["paisatge rural", "veïns", "tradició"],
-            suggestedTitle: `Crònica de ${filename.split('.')[0]}`,
-            suggestedMotto: proverb.text,
-            proverbMeaning: proverb.meaning,
-            contextTone: "nostàlgic i vibrant"
-        };
-
-        return context;
+        // Standard Background Path
+        if (!iaiaWorkerProxy) {
+             logger.warn('WebWorker no instanciat, utilitzant fallback natiu');
+             const proverb = PROVERBS[Math.floor(Math.random() * PROVERBS.length)] || { text: 'A qui matina...', meaning: 'Molt bé' };
+             return {
+                 detectedObjects: ["paisatge rural"],
+                 suggestedTitle: `Crònica de ${filename?.split('.')[0] || 'la imatge'}`,
+                 suggestedMotto: proverb.text,
+                 proverbMeaning: proverb.meaning,
+                 contextTone: "nostàlgic i vibrant",
+                 inferenceEngine: 'cpu_fallback'
+             };
+        }
+        
+        return await iaiaWorkerProxy.studyMultimediaContext(null, filename);
     }
 
     /**
      * Calcula les mètriques de simbiosi human-machine [MASTER]
      */
     async calculateSimbiosiMetrics(userComments = "") {
-        // [MASTER] Economic Formula: Human Minute @ 1€ (60€/h) vs AI tokens.
-        const wordCount = (userComments || "").trim().split(/\s+/).filter(w => w.length > 0).length;
-        const timeSavedMinutes = Math.max(5, Math.ceil(wordCount / 5)); // 5 minuts base + 1 min per cada 5 paraules
-        const economicValue = timeSavedMinutes * 1; // 1€ per minut estalviat
-        const humanWeight = Math.min(90, Math.max(10, 20 + (wordCount * 2)));
-        const aiWeight = 100 - humanWeight;
-
-        return {
-            ai_percentage: aiWeight,
-            human_percentage: humanWeight,
-            time_saved_minutes: timeSavedMinutes,
-            economic_value_euro: economicValue,
-            is_iaia_inspired: true
-        };
+        if (!iaiaWorkerProxy) {
+             return { ai_percentage: 10, human_percentage: 90, time_saved_minutes: 5, economic_value_euro: 5, is_iaia_inspired: true };
+        }
+        return await iaiaWorkerProxy.calculateSimbiosiMetrics(userComments);
     }
 
     /**
@@ -610,12 +631,18 @@ class IAIAService {
                 (async () => {
                     try {
                         const aiResponse = await geminiService.ask(finalPersonaKey, userQuery);
-                        const iaiaResponse = aiResponse.text;
+                        const rawResponse = aiResponse.text;
                         
+                        // DOMPurify Sanitization as requested to mitigate XSS risks from generated text
+                        const cleanResponse = DOMPurify.sanitize(rawResponse, {
+                             ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'a', 'p', 'br', 'ul', 'li', 'ol'],
+                             ALLOWED_ATTR: ['href', 'target']
+                        });
+
                         await supabaseService.sendSecureMessage({
                             conversationId: conversationId,
                             senderId: receiverId || '11111111-1111-4111-a111-000000000010', 
-                            content: iaiaResponse,
+                            content: cleanResponse,
                             is_ai: true,
                             author_name: persona.name,
                             author_avatar_url: persona.avatar_url,
@@ -635,7 +662,10 @@ class IAIAService {
 
             // Fallback per a preview (sense ID de conversa real)
             const aiResponse = await geminiService.ask(finalPersonaKey, userQuery);
-            return aiResponse.text;
+            return DOMPurify.sanitize(aiResponse.text, {
+                 ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'a', 'p', 'br', 'ul', 'li', 'ol'],
+                 ALLOWED_ATTR: ['href', 'target']
+            });
         } catch (e) {
             logger.error('[MArIA] Error generant resposta AI:', e);
             return null;

@@ -393,15 +393,15 @@ const PDFBategatManager = ({ onBack }) => {
                                 <label className="text-[10px] uppercase tracking-widest opacity-50 block mb-4 px-2">GOVERNANÇA DE BATEGATS RECENTS</label>
                                 <div className="space-y-3">
                                     {history.map((h, i) => (
-                                        <div key={i} className="flex items-center justify-between bg-white/[0.03] p-3 rounded-2xl hover:bg-white/[0.06] transition-all border border-transparent hover:border-white/10 group">
+                                        <div key={i} className="flex items-center justify-between bg-white/[0.03] p-3 rounded-[28px] hover:bg-white/[0.06] transition-all border border-transparent hover:border-white/10 group">
                                             <div className="flex items-center gap-3 overflow-hidden">
-                                                <div className="bg-[#0ea5e9]/10 p-2 rounded-xl">
+                                                <div className="bg-[#0ea5e9]/10 p-2 rounded-[28px]">
                                                     <FileText size={16} className="text-[#0ea5e9]" />
                                                 </div>
                                                 <span className="text-[12px] font-medium truncate max-w-[150px]">{h.name}</span>
                                             </div>
                                             
-                                            <div className="flex items-center gap-1 bg-black/20 p-1 rounded-full border border-white/5">
+                                            <div className="flex items-center gap-1 bg-black/20 p-1 rounded-[28px] border border-white/5">
                                                 <button 
                                                     onClick={() => setFileVisibility(h.name, 'private')}
                                                     className={`p-1.5 rounded-full transition-all ${h.visibility === 'private' || !h.visibility ? 'bg-[#0ea5e9] text-white' : 'text-white/30 hover:text-white'}`}

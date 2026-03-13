@@ -441,16 +441,36 @@
     }
 }
 
-.towns-grid {
+.towns-grid, .events-grid {
     padding: 16px;
+    width: 100%;
+}
+
+.towns-grid.view-mode-grid, .events-grid.view-mode-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 16px;
 }
 
+.towns-grid.view-mode-single, .events-grid.view-mode-single {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.towns-grid.view-mode-list, .events-grid.view-mode-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
 @media (max-width: 600px) {
-    .towns-grid {
+    .towns-grid.view-mode-grid, .events-grid.view-mode-grid {
         grid-template-columns: 1fr; /* Responsiveness Fix */
+    }
+    .towns-grid, .events-grid {
         gap: 16px;
         padding: 16px 8px;
     }

@@ -274,7 +274,7 @@
 }
 
 .advice-content {
-  font-family: "Roboto Condensed", sans-serif;
+  font-family: "Noto Sans", sans-serif;
   font-size: 1.3rem; /* Mida bategant de legibilitat */
   line-height: 1.7;
   color: rgba(255, 255, 255, 0.95);
@@ -375,7 +375,7 @@
 }
 
 .advice-text {
-  font-family: "Roboto Condensed", sans-serif;
+  font-family: "Noto Sans", sans-serif;
   font-size: 1.35rem;
   line-height: 1.5;
   color: #ffffff;
@@ -467,7 +467,7 @@
 }
 
 .prompts-library-section h3 {
-  font-family: "Roboto Condensed", sans-serif;
+  font-family: "Noto Sans", sans-serif;
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: -0.02em;

@@ -52,7 +52,7 @@ const MenuManagementView = () => {
         <div className="flex items-center gap-4">
           <button 
             onClick={() => navigate(-1)}
-            className="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 transition-all text-white/70 hover:text-white"
+            className="w-10 h-10 flex items-center justify-center rounded-[28px] bg-white/5 hover:bg-white/10 transition-all text-white/70 hover:text-white"
           >
             <ArrowLeft size={20} />
           </button>
@@ -62,7 +62,7 @@ const MenuManagementView = () => {
           </div>
         </div>
         <button 
-          className="h-10 px-6 rounded-full bg-primary text-white font-black text-xs uppercase tracking-widest flex items-center gap-2 shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all"
+          className="h-10 px-6 rounded-[28px] bg-primary text-white font-black text-xs uppercase tracking-widest flex items-center gap-2 shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all"
           onClick={() => alert('Configuració salvada al Gènesi!')}
         >
           <Save size={16} />
@@ -77,7 +77,7 @@ const MenuManagementView = () => {
           <input 
             type="text" 
             placeholder="CERCA PÀGINES O CATEGORIES..."
-            className="w-full h-12 bg-white/5 border border-white/10 rounded-full pl-12 pr-6 text-sm text-white focus:outline-none focus:border-primary/50 focus:bg-white/10 transition-all placeholder:text-gray-600"
+            className="w-full h-12 bg-white/5 border border-white/10 rounded-[28px] pl-12 pr-6 text-sm text-white focus:outline-none focus:border-primary/50 focus:bg-white/10 transition-all placeholder:text-gray-600"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -94,7 +94,7 @@ const MenuManagementView = () => {
             return (
               <section key={category} className="space-y-4">
                 <div className="flex items-center gap-3 px-2">
-                  <div className="w-1.5 h-6 bg-secondary rounded-full" />
+                  <div className="w-1.5 h-6 bg-secondary rounded-[28px]" />
                   <h2 className="text-sm font-black text-white/50 uppercase tracking-[0.3em]">{category}</h2>
                 </div>
                 

@@ -38,8 +38,8 @@ find dist -name "._*" -type f -delete
 find dist -name ".DS_Store" -type f -delete
 
 # 5. Compressió
-echo "📦 Empaquetant dist.tar.gz (Netejat)..."
-tar -czf dist.tar.gz dist
+echo "📦 Empaquetant dist.tar.gz (Netejat de recursos de macOS extesos)..."
+COPYFILE_DISABLE=1 tar -czf dist.tar.gz dist
 
 if [ $? -eq 0 ]; then
     echo "💎 Paquet dist.tar.gz llast per al lliurament."
@@ -47,22 +47,59 @@ if [ $? -eq 0 ]; then
     if [ ! -z "$FTP_HOST" ]; then
         echo "🚀 Iniciant pujada FTP a $FTP_HOST/$FTP_TARGET_DIR ..."
         
+        HELPER_FILE="deploy_helper_$(date +%s).php"
         # Generar script helper PHP per a SiteGround
-        cat << 'EOF' > deploy_helper.php
+        cat << 'EOF' > "$HELPER_FILE"
 <?php
 $targetDir = __DIR__;
 $archive = $targetDir . '/dist.tar.gz';
 
-echo ">> Iniciant extracció...<br>";
+echo ">> Iniciant extracció (exec de sistema)...<br>";
+
 // 1. Extraure
 if (file_exists($archive)) {
-    exec("tar -xzf dist.tar.gz");
-    echo ">> Arxiu descomprimit.<br>";
-    
-    // Moure contingut de dist/ a l'arrel i netejar
-    exec("cp -r dist/* ./ && rm -rf dist/");
-    exec("rm dist.tar.gz");
-    echo ">> Contingut mogut i neteja completada.<br>";
+    exec("tar -xzf dist.tar.gz 2>&1", $out, $ret);
+    if ($ret === 0) {
+        echo ">> Arxiu descomprimit.<br>";
+        
+        // Moure contingut de dist/ a l'arrel i netejar
+        $distDir = $targetDir . '/dist';
+        if (is_dir($distDir)) {
+            $iterator = new RecursiveIteratorIterator(
+                new RecursiveDirectoryIterator($distDir, RecursiveDirectoryIterator::SKIP_DOTS),
+                RecursiveIteratorIterator::SELF_FIRST
+            );
+            
+            foreach ($iterator as $item) {
+                $subPath = $iterator->getSubPathName();
+                $dest = $targetDir . '/' . $subPath;
+                
+                if ($item->isDir()) {
+                    if (!is_dir($dest)) @mkdir($dest, 0755, true);
+                } else {
+                    if (file_exists($dest)) @unlink($dest);
+                    if (!@rename($item, $dest) && !@copy($item, $dest)) {
+                        echo ">> [AVÍS] No s'ha pogut copiar/moure: $dest <br>";
+                    }
+                }
+            }
+            
+            // Eliminar directori dist original iterativament
+            $rit = new RecursiveDirectoryIterator($distDir, RecursiveDirectoryIterator::SKIP_DOTS);
+            $rii = new RecursiveIteratorIterator($rit, RecursiveIteratorIterator::CHILD_FIRST);
+            foreach ($rii as $file) {
+                if ($file->isDir()) @rmdir($file->getRealPath());
+                else @unlink($file->getRealPath());
+            }
+            @rmdir($distDir);
+        }
+        
+        // Netejar l'empaquetat original
+        @unlink($archive);
+        echo ">> Contingut mogut i neteja completada nativament.<br>";
+    } else {
+        echo ">> Error d'extracció bash (ret=$ret): " . implode("<br>", $out) . "<br>";
+    }
 } else {
     echo ">> Error: dist.tar.gz no trobat.<br>";
 }
@@ -85,24 +122,24 @@ EOF
         # Pujar l'arxiu i el helper
         echo ">> Pujant fitxers..."
         curl -T dist.tar.gz -u "$FTP_USER:$FTP_PASS" "ftp://$FTP_HOST/$FTP_TARGET_DIR/dist.tar.gz"
-        curl -T deploy_helper.php -u "$FTP_USER:$FTP_PASS" "ftp://$FTP_HOST/$FTP_TARGET_DIR/deploy_helper.php"
+        curl -T "$HELPER_FILE" -u "$FTP_USER:$FTP_PASS" "ftp://$FTP_HOST/$FTP_TARGET_DIR/$HELPER_FILE"
         
         if [ $? -eq 0 ]; then
             echo "✅ Pujada completada. Executant script remot per descomprimir i buidar caché..."
             
             # Executar helper via web (necessitem la URL base, l'assumim per FTP_HOST o manual)
             DOMAIN_URL="https://socdepoble.org"
-            curl -s "$DOMAIN_URL/deploy_helper.php"
+            curl -s "$DOMAIN_URL/$HELPER_FILE"
             
             echo ""
             echo "🎉 TOTA L'OPERACIÓ DE DESPLEGAMENT ACABADA AUTOMÀTICAMENT!"
             echo "✔️ El fitxer ha estat penjat, extret i la caché buidada."
             
             # Neteja local
-            rm deploy_helper.php
+            rm "$HELPER_FILE"
         else
             echo "❌ Error durant la pujada FTP. Revisa els credencials a .env.deploy"
-            rm deploy_helper.php
+            rm "$HELPER_FILE"
             exit 1
         fi
     else

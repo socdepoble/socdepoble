@@ -3,14 +3,23 @@ import { useNavigate } from 'react-router-dom';
 import { Shield, Brain, Sparkles, ArrowLeft, Check, User, Zap, MessageSquare } from 'lucide-react';
 import { useDesign } from '../context/DesignContext';
 import { useNavigation } from '../context/NavigationContext';
-import { AGENTS, IAIA_MARIA_ID } from '../constants/agents';
+import { AGENTS } from '../constants/agents';
+
+const IAIA_MARIA_ID = '11111111-1a1a-0000-0000-000000000000';
 import './VisionView.css';
 
 const VisionView = () => {
     const navigate = useNavigate();
-    const { visionMode } = useDesign();
-    const { enabledAgentIds } = useNavigation();
-    const { setIaiaLevel, toggleAgent } = useDesign();
+    const { visionMode, setVisionMode } = useDesign();
+    const { enabledAgentIds, setEnabledAgentIdsState } = useNavigation();
+
+    const toggleAgent = (id) => {
+        if (setEnabledAgentIdsState) {
+            setEnabledAgentIdsState(prev => 
+                prev.includes(id) ? prev.filter(aid => aid !== id) : [...prev, id]
+            );
+        }
+    };
 
     const MODES = [
         {
@@ -64,7 +73,7 @@ const VisionView = () => {
                         <div key={m.id}>
                             <div 
                                 className={`vision-mode-card ${visionMode === m.id ? 'active' : ''}`}
-                                onClick={() => setIaiaLevel(m.level)}
+                                onClick={() => setVisionMode(m.id)}
                             >
                                 <div className="vision-icon-wrapper">
                                     <m.icon size={36} />

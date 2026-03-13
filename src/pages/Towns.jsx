@@ -14,7 +14,6 @@ import {
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigation } from '../context/NavigationContext';
-import CategoryTabs from "../components/CategoryTabs";
 import Feed from "../components/Feed";
 import Marketplace from "../components/Marketplace";
 import { logger } from "../utils/logger";
@@ -65,9 +64,8 @@ const Towns = () => {
   const [towns, setTowns] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [currentTab, setCurrentTab] = useState(
-    location.state?.initialTab || "pobles",
-  );
+  const searchParams = new URLSearchParams(location.search);
+  const currentTab = searchParams.get('tab') || 'pobles';
   const [townSearch, setTownSearch] = useState("");
   const [viewMode, setViewMode] = useState(
     localStorage.getItem("towns_view_mode") || "grid",
@@ -135,11 +133,7 @@ const Towns = () => {
     );
   }, [towns, townSearch]);
 
-  const townTabs = [
-    { id: "pobles", label: t("nav.towns") || "Pobles" },
-    { id: "esdeveniments", label: t("nav.events") || "Esdeveniments" },
-    { id: "mapa", label: t("nav.map_tab") || "Mapa" },
-  ];
+
 
   const filteredEvents = useMemo(() => {
     return MOCK_EVENTS.filter((event) => {
@@ -199,23 +193,7 @@ const Towns = () => {
         {t("towns.title") || "Xarxa de Pobles Connectats"}
       </h1>
 
-      <header className="towns-header px-4 pb-2">
-        <div className="header-tabs-wrapper w-full overflow-hidden">
-          <CategoryTabs
-            selectedRole={currentTab}
-            onSelectRole={(role) => {
-              if (role === "mapa") {
-                navigate("/mapa");
-              } else if (role === "calendari") {
-                navigate("/calendari");
-              } else {
-                setCurrentTab(role);
-              }
-            }}
-            tabs={townTabs}
-          />
-        </div>
-      </header>
+
 
       <ContextualHeader
         ref={searchRef}
@@ -233,27 +211,14 @@ const Towns = () => {
         }
         extraActions={
           <div className="flex items-center gap-2">
-            <a
-              href={`https://www.google.com/maps/search/${encodeURIComponent(
-                selectedTown || "La Torre de les Maçanes",
-              )}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center w-10 h-10 bg-[#FF6D23] text-white rounded-full hover:scale-110 transition-transform shadow-lg"
-              title="Obrir al Mapa"
+            <button
+              onClick={() => navigate('/mapa')}
+              className="flex items-center justify-center w-10 h-10 bg-[#FF6D23] text-white rounded-[28px] hover:scale-110 transition-transform shadow-lg"
+              title="Obrir Mapa Local"
             >
               <MapIcon size={20} />
-            </a>
+            </button>
           </div>
-        }
-        backButton={
-          <button
-            onClick={() => navigate(-1)}
-            className="p-2 sm:p-3 bg-white/5 hover:bg-white/10 rounded-full text-white transition-colors border border-white/10 shrink-0 mr-2"
-            title="Tornar"
-          >
-            <ArrowLeft size={20} />
-          </button>
         }
       />
 
@@ -290,6 +255,7 @@ const Towns = () => {
                       image={town.image_url}
                       mode="pobles"
                       isBating={isBating}
+                      viewMode={viewMode}
                     >
                       <div
                         className="town-description-mini text-sm italic opacity-80 line-clamp-2"
@@ -382,6 +348,7 @@ const Towns = () => {
                       "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&q=80&w=1000"
                     }
                     mode="event"
+                    viewMode={viewMode}
                   >
                     <div
                       className="event-description text-sm opacity-90"

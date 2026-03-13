@@ -327,7 +327,7 @@ export const exportService = {
                     }
 
                     body { 
-                        font-family: 'Roboto Condensed', sans-serif; 
+                        font-family: 'Noto Sans', sans-serif; 
                         padding: 0; 
                         margin: 0;
                         line-height: 1.6;
@@ -464,7 +464,7 @@ export const exportService = {
                 </div>
 
                 <div class="no-print" style="position: fixed; top: 20px; right: 20px; z-index: 9999;">
-                    <button onclick="window.print()" style="background: #f97316; color: white; border: none; padding: 12px 24px; border-radius: 30px; cursor: pointer; font-weight: 900; box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4); font-family: 'Roboto Condensed', sans-serif;">IMPRIMIR ARA</button>
+                    <button onclick="window.print()" style="background: #f97316; color: white; border: none; padding: 12px 24px; border-radius: 30px; cursor: pointer; font-weight: 900; box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4); font-family: 'Noto Sans', sans-serif;">IMPRIMIR ARA</button>
                 </div>
 
                 <script>

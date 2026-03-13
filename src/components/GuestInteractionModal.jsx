@@ -31,7 +31,7 @@ const GuestInteractionModal = () => {
         <div className="fixed inset-0 z-[20000] flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-in fade-in zoom-in duration-300">
             <div className="max-w-md w-full bg-[#111] border border-white/10 rounded-[32px] p-8 shadow-2xl relative overflow-hidden">
                 {/* Decoració de fons */}
-                <div className="absolute top-0 right-0 w-32 h-32 bg-orange-500/10 blur-[60px] rounded-full -mr-10 -mt-10"></div>
+                <div className="absolute top-0 right-0 w-32 h-32 bg-orange-500/10 blur-[60px] rounded-[28px] -mr-10 -mt-10"></div>
                 
                 <button 
                     onClick={() => setIsGuestInteractionModalOpen(false)}
@@ -41,7 +41,7 @@ const GuestInteractionModal = () => {
                 </button>
 
                 <div className="flex flex-col items-center text-center">
-                    <div className="w-16 h-16 bg-orange-500/20 rounded-2xl flex items-center justify-center mb-6">
+                    <div className="w-16 h-16 bg-orange-500/20 rounded-[28px] flex items-center justify-center mb-6">
                         <Info size={32} className="text-[var(--theme-accent-primary)]" />
                     </div>
 
@@ -66,7 +66,7 @@ const GuestInteractionModal = () => {
                     <div className="grid grid-cols-1 w-full gap-3">
                         <button 
                             onClick={() => handleAction('/registre')}
-                            className="w-full h-15 bg-gradient-to-r from-[var(--theme-accent-primary)] to-[#FF8A00] hover:scale-[1.02] text-white rounded-2xl font-black flex items-center justify-center gap-3 shadow-lg transition-all active:scale-95"
+                            className="w-full h-15 bg-gradient-to-r from-[var(--theme-accent-primary)] to-[#FF8A00] hover:scale-[1.02] text-white rounded-[28px] font-black flex items-center justify-center gap-3 shadow-lg transition-all active:scale-95"
                         >
                             <UserPlus size={22} strokeWidth={3} />
                             <span className="text-lg">CREAR COMPTE</span>
@@ -74,7 +74,7 @@ const GuestInteractionModal = () => {
 
                         <button 
                             onClick={() => handleAction('/login')}
-                            className="w-full h-15 bg-white/5 hover:bg-white/10 hover:scale-[1.02] text-white rounded-2xl font-black border border-white/10 flex items-center justify-center gap-3 transition-all active:scale-95"
+                            className="w-full h-15 bg-white/5 hover:bg-white/10 hover:scale-[1.02] text-white rounded-[28px] font-black border border-white/10 flex items-center justify-center gap-3 transition-all active:scale-95"
                         >
                             <LogIn size={22} strokeWidth={3} />
                             <span className="text-lg">JA TINC COMPTE</span>

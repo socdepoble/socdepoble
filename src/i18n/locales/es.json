@@ -193,6 +193,11 @@
         "iaia_phone_ask": "Dame la llave de tu móvil. 📱",
         "iaia_otp_ask": "¡Pon el código de seguridad aquí! 📱🏛️",
         "iaia_welcome": "¡Bienvenido a la plaza, vecino! 🎊",
+        "iaia_guide_identity": "Regístrate primero como persona. Una vez dentro, podrás crear tus grupos, empresas o instituciones.",
+        "iaia_guide_town": "Muy bien. ¿Y de qué pueblo eres?",
+        "iaia_guide_connection": "Necesito la llave de tu móvil para conectarte.",
+        "iaia_guide_verify": "¡Pon el código de seguridad que te acaba de llegar! 📱",
+        "iaia_guide_welcome": "¡Dentro! ¡Bienvenido a la plaza! 🎊",
         "name_label": "Nombre y Apellidos",
         "name_placeholder": "¿Quién eres? (Nombre y Apellidos)",
         "personal_register_title": "¿CÓMO TE LLAMAS?",
@@ -385,5 +390,16 @@
                 "image": "/assets/infographies/art_memoria_v1036.png"
             }
         ]
+    },
+    "emoji": {
+        "frequently_used": "Utilizados frecuentemente",
+        "smileys_people": "Caras y personas",
+        "animals_nature": "Animales y naturaleza",
+        "food_drink": "Comida y bebida",
+        "travel_places": "Viajes y lugares",
+        "activities": "Actividades",
+        "objects": "Objetos",
+        "symbols": "Símbolos",
+        "flags": "Banderas"
     }
 }

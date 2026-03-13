@@ -56,7 +56,9 @@ export const ENTITY_TYPES = {
   GROUP: "grup",
   PRIVATE: "personal", // Per a perfils sobirans
   AUTONOMOUS: "autonomo", // Treballador autònom
+  STUDENT: "estudiant", // Estudiant/Acadèmic
 };
+
 
 export const ROLE_LABELS = {
   [USER_ROLES.SUPER_ADMIN]: { va: "Super Padrino", es: "Super Padrino" },

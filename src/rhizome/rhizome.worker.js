@@ -1,7 +1,11 @@
+import './sqlite-setup.js';
 import initSqlJs from '@sqlite.org/sqlite-wasm';
+
+console.log('🔥 [WORKER EXTERN TOCA EL CREADOR] Arrencant fila principal de Rhizome Worker...');
 
 let db = null;
 let initialized = false;
+let globalOrigin = '';
 
 // [MASTER WORKER RESILIENCE]
 const logger = {
@@ -10,13 +14,37 @@ const logger = {
     debug: (msg) => postMessage({ type: 'DEBUG', payload: msg })
 };
 
-async function init() {
-    if (initialized) return;
+async function init(initId, originStr) {
+    if (originStr) {
+        globalOrigin = originStr;
+        console.log(`🔥 [WORKER EXTERN TOCA EL CREADOR] Origin rebut per Worker: ${globalOrigin}`);
+    }
+    
+    if (initialized) {
+        if (initId) postMessage({ id: initId, type: 'INIT_OK' });
+        return;
+    }
     try {
+        console.log('🔥 [WORKER EXTERN TOCA EL CREADOR] Executant engine initSqlJs...');
+        
+        // Passar explícitament al nucli l'arrel absoluta de l'aplicació 
+        // per si la Worker fallback engine intente resoldre fitxers.
         const sqlite3 = await initSqlJs({
+            scriptInfo: {
+                // Per esquivar "import.meta.url" al fallback if Blob. Assurem trailing slash.
+                sqlite3Dir: (globalOrigin ? globalOrigin + '/assets/' : '/assets/')
+            },
+            locateFile: file => {
+                const base = globalOrigin ? globalOrigin + '/assets/' : '/assets/';
+                const wasmUrl = base + file;
+                console.log(`🔥 [WORKER] Ruta WASM resolta: ${wasmUrl}`);
+                return wasmUrl;
+            },
             print: logger.log,
             printErr: logger.error,
         });
+
+        console.log('🔥 [WORKER] Sqlite3 ha conclòs la connexió inicial de Promeses!', !!sqlite3);
 
         if ('opfs' in sqlite3) {
             db = new sqlite3.oo1.OpfsDb('/rhizome_v3.sqlite');
@@ -28,10 +56,10 @@ async function init() {
 
         setupTables();
         initialized = true;
-        postMessage({ type: 'INIT_OK' });
+        if (initId) postMessage({ id: initId, type: 'INIT_OK' });
     } catch (err) {
         logger.error('❌ Error fatal en Rhizome Worker:', err.message);
-        postMessage({ type: 'ERROR', payload: err.message });
+        if (initId) postMessage({ id: initId, type: 'ERROR', payload: err.message });
     }
 }
 
@@ -68,12 +96,12 @@ onmessage = async (e) => {
 
     try {
         if (!initialized && type !== 'INIT') {
-            await init();
+            await init(id);
         }
 
         switch (type) {
             case 'INIT':
-                await init();
+                await init(id, payload?.origin);
                 break;
 
             case 'SAVE_OP': {

@@ -76,7 +76,7 @@ const ArchitecteView = () => {
 
         <div className="bg-white/5 border border-white/10 genesis-radius p-8 mb-10 backdrop-blur-md">
           <div className="flex items-start gap-4 mb-6">
-            <div className="p-3 bg-blue-600/20 genesis-radius text-blue-400">
+            <div className="p-3 bg-orange-600/20 genesis-radius text-blue-400">
               <Info size={24} />
             </div>
             <div>
@@ -117,7 +117,7 @@ const ArchitecteView = () => {
         </div>
 
         {doc.detailedDescription && (
-          <div className="bg-slate-900 border border-slate-700 rounded-2xl p-6 mb-10 font-mono text-sm text-green-400/80">
+          <div className="bg-slate-900 border border-slate-700 rounded-[28px] p-6 mb-10 font-mono text-sm text-green-400/80">
             <h4 className="text-[10px] uppercase tracking-[0.2em] mb-4 opacity-50">Estructura Detallada</h4>
             <div className="whitespace-pre-wrap">{doc.detailedDescription}</div>
           </div>

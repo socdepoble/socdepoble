@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
+import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from 'react';
 import { preferenceService } from '../services/preferenceService';
 
 const DesignContext = createContext();
@@ -21,8 +21,8 @@ export const DesignProvider = ({ children }) => {
     const darkMode = theme === 'dark';
     const architectMode = blueprintMode;
     const asoMode = false;
-    const toggleAsoMode = () => {};
-    const hapticService = { trigger: () => {} };
+    const toggleAsoMode = useCallback(() => {}, []);
+    const hapticService = useMemo(() => ({ trigger: () => {} }), []);
 
     useEffect(() => {
         document.documentElement.setAttribute('data-theme', theme);
@@ -38,7 +38,12 @@ export const DesignProvider = ({ children }) => {
 
         const themeClasses = ['theme-pedra-seca', 'theme-oli-suau', 'theme-gem-modern'];
         document.documentElement.classList.remove(...themeClasses);
-        const activeClass = visualDemocracy === 'pedra-seca' ? 'theme-pedra-seca' : 'theme-oli-suau';
+        const themeMap = {
+            'pedra-seca': 'theme-pedra-seca',
+            'oli-suau': 'theme-oli-suau',
+            'gem-modern': 'theme-gem-modern'
+        };
+        const activeClass = themeMap[visualDemocracy] || 'theme-pedra-seca';
         document.documentElement.classList.add(activeClass);
 
         if (gloveMode) {
@@ -53,24 +58,33 @@ export const DesignProvider = ({ children }) => {
         });
     }, [theme, vibe, visionMode, gloveMode, visualDemocracy, globalDesign, blueprintMode, iaiaLevel, accessibilityMode]);
 
+    const toggleTheme = useCallback(() => setTheme(prev => prev === 'light' ? 'dark' : 'light'), []);
+    const toggleGloveMode = useCallback(() => setGloveMode(prev => !prev), []);
+    const toggleAccessibilityMode = useCallback(() => setAccessibilityMode(p => !p), []);
+    const resetToNaturalOrder = useCallback(() => preferenceService.resetToNaturalOrder(), []);
+    const setVisionMode = useCallback((mode) => {
+        setVisionModeState(mode);
+        const levelMap = { 'humana': 0, 'iaia': 1, 'immersiva': 2, 'creativa': 3 };
+        if (levelMap[mode] !== undefined) setIaiaLevelState(levelMap[mode]);
+    }, []);
+
     const value = useMemo(() => ({
-        theme, setTheme, toggleTheme: () => setTheme(prev => prev === 'light' ? 'dark' : 'light'),
-        visionMode, setVisionMode: (mode) => {
-            setVisionModeState(mode);
-            const levelMap = { 'humana': 0, 'iaia': 1, 'immersiva': 2, 'creativa': 3 };
-            if (levelMap[mode] !== undefined) setIaiaLevelState(levelMap[mode]);
-        },
+        theme, setTheme, toggleTheme,
+        visionMode, setVisionMode,
         vibe, setVibe,
-        gloveMode, setGloveMode, toggleGloveMode: () => setGloveMode(prev => !prev),
+        gloveMode, setGloveMode, toggleGloveMode,
         visualDemocracy, setVisualDemocracy,
         globalDesign, setGlobalDesign,
         iaiaLevel, setIaiaLevelState,
         blueprintMode, setBlueprintMode,
-        accessibilityMode, setAccessibilityMode, toggleAccessibilityMode: () => setAccessibilityMode(p => !p),
-        resetToNaturalOrder: () => preferenceService.resetToNaturalOrder(),
+        accessibilityMode, setAccessibilityMode, toggleAccessibilityMode,
+        resetToNaturalOrder,
         isDark, darkMode, architectMode, asoMode, toggleAsoMode, hapticService
     }), [
-        theme, visionMode, vibe, gloveMode, visualDemocracy, globalDesign, iaiaLevel, blueprintMode, accessibilityMode, isDark, darkMode, architectMode
+        theme, visionMode, vibe, gloveMode, visualDemocracy, globalDesign,
+        iaiaLevel, blueprintMode, accessibilityMode,
+        toggleTheme, setVisionMode, toggleGloveMode, toggleAccessibilityMode, resetToNaturalOrder,
+        toggleAsoMode, hapticService
     ]);
 
     return (
@@ -80,4 +94,5 @@ export const DesignProvider = ({ children }) => {
     );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useDesign = () => useContext(DesignContext);

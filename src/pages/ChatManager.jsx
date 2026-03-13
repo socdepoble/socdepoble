@@ -24,12 +24,12 @@ const ActionButton = ({ icon: Icon, label, onClick, disabled }) => (
 const SettingRow = ({ icon: Icon, title, description, rightElement, onClick, isRed }) => (
     <div 
         onClick={onClick}
-        className={`flex items-center gap-4 p-4 hover:bg-white/5 transition-colors cursor-pointer ${isRed ? 'text-red-500' : 'text-theme-text'}`}
+        className={`flex items-center gap-4 p-4 hover:bg-white/5 transition-colors cursor-pointer ${isRed ? 'text-red-500' : 'text-white'}`}
     >
         {Icon && <Icon size={22} className="shrink-0 opacity-80" />}
         <div className="flex-1">
             <h3 className="font-medium text-[15px]">{title}</h3>
-            {description && <p className="text-sm text-gray-500 leading-tight block mt-0.5">{description}</p>}
+            {description && <p className="text-sm text-gray-400 leading-tight block mt-0.5">{description}</p>}
         </div>
         {rightElement && <div>{rightElement}</div>}
     </div>
@@ -104,7 +104,7 @@ const ChatManager = () => {
                 <div className="flex items-center gap-2">
                     <button 
                         onClick={() => navigate(-1)}
-                        className="p-2 rounded-full hover:bg-white/10 text-white transition-colors"
+                        className="p-2 rounded-[28px] hover:bg-white/10 text-white transition-colors"
                     >
                         <ChevronLeft size={24} />
                     </button>
@@ -119,7 +119,7 @@ const ChatManager = () => {
                 
                 {/* secció 1: Perfil Gigante i Botons principals */}
                 <div className="flex flex-col items-center pt-8 pb-6 px-6 bg-theme-base border-b border-[var(--border-master)]">
-                    <div className="w-24 h-24 rounded-full bg-[var(--theme-accent-primary)]/10 text-[var(--theme-accent-primary)] flex items-center justify-center border-2 border-[var(--theme-accent-primary)]/30 shadow-[0_0_30px_rgba(255,107,0,0.15)] mb-4 overflow-hidden relative group">
+                    <div className="w-24 h-24 rounded-[28px] bg-[var(--theme-accent-primary)]/10 text-[var(--theme-accent-primary)] flex items-center justify-center border-2 border-[var(--theme-accent-primary)]/30 shadow-[0_0_30px_rgba(255,107,0,0.15)] mb-4 overflow-hidden relative group">
                          <div className="flex items-center justify-center w-full h-full scale-125">
                             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                          </div>
@@ -127,7 +127,7 @@ const ChatManager = () => {
 
                     <h1 className="text-2xl font-black text-theme-text text-center">{chatData?.name}</h1>
                     <div className="flex items-center gap-1 mt-1 justify-center">
-                        <div className="w-2 h-2 rounded-full bg-white shadow-[0_0_10px_white]"></div>
+                        <div className="w-2 h-2 rounded-[28px] bg-[#111827] text-white border border-white/10 shadow-[0_0_10px_white]"></div>
                         <p className="text-[var(--text-main)] opacity-70 font-black text-[10px] tracking-widest uppercase">
                             ESTEM PROTEGITS
                         </p>
@@ -150,7 +150,7 @@ const ChatManager = () => {
                 {/* Secció 3: Media */}
                 <div className="mt-2 bg-theme-header border-y border-[var(--border-master)]">
                     <div className="flex items-center justify-between p-4 cursor-pointer hover:bg-white/5 transition-colors">
-                        <h3 className="text-[15px] font-medium text-theme-text">Fitxers multimèdia, enllaços i documents</h3>
+                        <h3 className="text-[15px] font-medium text-white">Fitxers multimèdia, enllaços i documents</h3>
                         <div className="flex items-center gap-1 text-gray-500">
                             <span className="text-sm">{mediaFiles.length}</span>
                             <ChevronLeft size={16} className="rotate-180" />
@@ -158,19 +158,19 @@ const ChatManager = () => {
                     </div>
                     {/* Media Grid Horizontal Scroll */}
                     <div className="px-4 pb-4 flex gap-2 overflow-x-auto custom-scrollbar">
-                        <div className="w-[100px] h-[100px] flex-shrink-0 bg-theme-panel rounded-lg border border-[var(--border-master)] flex items-center justify-center text-gray-500 gap-2 flex-col">
+                        <div className="w-[100px] h-[100px] flex-shrink-0 bg-theme-panel rounded-[20px] border border-[var(--border-master)] flex items-center justify-center text-gray-500 gap-2 flex-col">
                              <ImageIcon size={24}/>
                              <span className="text-[10px] uppercase font-black tracking-wider">Imatge 1</span>
                         </div>
-                         <div className="w-[100px] h-[100px] flex-shrink-0 bg-theme-panel rounded-lg border border-[var(--border-master)] flex items-center justify-center text-[var(--theme-accent-primary)] gap-2 flex-col">
+                         <div className="w-[100px] h-[100px] flex-shrink-0 bg-theme-panel rounded-[20px] border border-[var(--border-master)] flex items-center justify-center text-[var(--theme-accent-primary)] gap-2 flex-col">
                              <ImagePlay size={24}/>
                              <span className="text-[10px] uppercase font-black tracking-wider">Vídeo 1</span>
                         </div>
-                         <div className="w-[100px] h-[100px] flex-shrink-0 bg-theme-panel rounded-lg border border-[var(--border-master)] flex items-center justify-center text-gray-500 gap-2 flex-col">
+                         <div className="w-[100px] h-[100px] flex-shrink-0 bg-theme-panel rounded-[20px] border border-[var(--border-master)] flex items-center justify-center text-gray-500 gap-2 flex-col">
                              <ImageIcon size={24}/>
                              <span className="text-[10px] uppercase font-black tracking-wider">Imatge 2</span>
                         </div>
-                         <div className="w-[100px] h-[100px] flex-shrink-0 bg-theme-panel rounded-lg border border-[var(--border-master)] flex flex-col items-center justify-center text-white/50 text-xs gap-1 cursor-pointer hover:bg-white/10 transition-colors">
+                         <div className="w-[100px] h-[100px] flex-shrink-0 bg-theme-panel rounded-[20px] border border-[var(--border-master)] flex flex-col items-center justify-center text-white/50 text-xs gap-1 cursor-pointer hover:bg-white/10 transition-colors">
                              <ChevronLeft className="rotate-180" size={24}/>
                              Veure tot
                         </div>
@@ -192,8 +192,8 @@ const ChatManager = () => {
                         icon={Bell}
                         title="Silenciar notificacions"
                         rightElement={
-                            <div className="w-10 h-6 bg-theme-panel rounded-full p-1 cursor-pointer">
-                                <div className="w-4 h-4 rounded-full bg-gray-500"></div>
+                            <div className="w-10 h-6 bg-theme-panel rounded-[28px] p-1 cursor-pointer">
+                                <div className="w-4 h-4 rounded-[28px] bg-gray-500"></div>
                             </div>
                         }
                     />

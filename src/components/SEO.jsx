@@ -23,7 +23,7 @@ const SEO = ({
     const fullTitle = showVersion ? `${displayTitle} | ${siteTitle} ${versionString}` : `${displayTitle} | ${siteTitle}`;
 
     const defaultDesc = 'Connecta amb la teua comunitat i recupera el trellat del territori. Mercat rural, memòria viva i sobirania digital.';
-    const defaultImage = '/og-image-batega-v11.png?v=batega-canonica-11';
+    const defaultImage = '/og-image-batega-v11.png?v=beta-solutia';
     const baseUrl = 'https://socdepoble.org';
 
     // Ensure absolute URLs for Open Graph (required by WhatsApp, Telegram, etc.)

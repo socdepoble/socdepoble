@@ -50,7 +50,7 @@ const IAIAAssistantFlow = ({ onBack }) => {
         <div className="iaia-assistant-flow flex-1 bg-black text-white p-8 md:p-12 animate-in zoom-in">
             <header className="flex items-center justify-between mb-12">
                 <div className="flex items-center gap-4">
-                    <button onClick={onBack} className="p-3 bg-white/5 hover:bg-white/10 rounded-full border border-white/10 transition-all">
+                    <button onClick={onBack} className="p-3 bg-white/5 hover:bg-white/10 rounded-[28px] border border-white/10 transition-all">
                         <ArrowLeft size={20} />
                     </button>
                     <div>
@@ -65,14 +65,14 @@ const IAIAAssistantFlow = ({ onBack }) => {
                 <div className="flex items-center gap-3">
                     <button 
                         onClick={() => openIAIASidebar('ofici-navigator')}
-                        className="p-3 bg-fuchsia-500/10 hover:bg-fuchsia-500/20 text-fuchsia-400 rounded-full border border-fuchsia-500/30 transition-all flex items-center gap-2"
+                        className="p-3 bg-fuchsia-500/10 hover:bg-fuchsia-500/20 text-fuchsia-400 rounded-[28px] border border-fuchsia-500/30 transition-all flex items-center gap-2"
                         title="Xatejar amb l'Archon"
                     >
                         <MessageSquare size={20} />
                         <span className="text-[10px] font-black uppercase pr-2">Xat Archon</span>
                     </button>
-                    <div className="hidden md:flex items-center gap-3 px-4 py-2 bg-blue-500/10 border border-blue-500/20 rounded-full">
-                        <div className="w-2.5 h-2.5 bg-blue-400 rounded-full animate-pulse shadow-[0_0_10px_rgba(96,165,250,0.5)]" />
+                    <div className="hidden md:flex items-center gap-3 px-4 py-2 bg-orange-500/10 border border-orange-500/20 rounded-[28px]">
+                        <div className="w-2.5 h-2.5 bg-blue-400 rounded-[28px] animate-pulse shadow-[0_0_10px_rgba(96,165,250,0.5)]" />
                         <span className="text-[12px] font-black uppercase text-blue-100 tracking-wider">Protocol Segur Actiu</span>
                     </div>
                 </div>
@@ -87,10 +87,10 @@ const IAIAAssistantFlow = ({ onBack }) => {
                             
                             <div className="flex flex-col md:flex-row gap-10 items-start">
                                 <div className="shrink-0 flex flex-col items-center">
-                                    <div className="w-24 h-24 bg-orange-500/10 border-2 border-orange-500/30 rounded-full flex items-center justify-center mb-4 shadow-[0_0_30px_rgba(249,115,22,0.1)]">
+                                    <div className="w-24 h-24 bg-orange-500/10 border-2 border-orange-500/30 rounded-[28px] flex items-center justify-center mb-4 shadow-[0_0_30px_rgba(249,115,22,0.1)]">
                                         <Bot size={48} className="text-orange-500" />
                                     </div>
-                                    <span className="text-[12px] font-black text-orange-400 uppercase tracking-widest bg-orange-500/10 px-4 py-1 rounded-full">Archon Maria</span>
+                                    <span className="text-[12px] font-black text-orange-400 uppercase tracking-widest bg-orange-500/10 px-4 py-1 rounded-[28px]">Archon Maria</span>
                                 </div>
 
                                 <div className="flex-1 space-y-6">
@@ -109,7 +109,7 @@ const IAIAAssistantFlow = ({ onBack }) => {
                                         <div className="space-y-6">
                                             <div className="flex gap-4 relative">
                                                 <div className="absolute left-3 top-6 bottom-[-24px] w-0.5 bg-emerald-500/30"></div>
-                                                <div className="w-6 h-6 rounded-full bg-emerald-500 flex items-center justify-center shrink-0 z-10">
+                                                <div className="w-6 h-6 rounded-[28px] bg-emerald-500 flex items-center justify-center shrink-0 z-10">
                                                     <CheckCircle2 size={14} className="text-white" />
                                                 </div>
                                                 <div>
@@ -120,7 +120,7 @@ const IAIAAssistantFlow = ({ onBack }) => {
 
                                             <div className="flex gap-4 relative">
                                                 <div className="absolute left-3 top-6 bottom-[-24px] w-0.5 bg-orange-500/30"></div>
-                                                <div className="w-6 h-6 rounded-full bg-orange-500 flex items-center justify-center shrink-0 z-10 animate-pulse">
+                                                <div className="w-6 h-6 rounded-[28px] bg-orange-500 flex items-center justify-center shrink-0 z-10 animate-pulse">
                                                     <Loader2 size={14} className="text-white animate-spin" />
                                                 </div>
                                                 <div>
@@ -130,7 +130,7 @@ const IAIAAssistantFlow = ({ onBack }) => {
                                             </div>
 
                                             <div className="flex gap-4 opacity-30">
-                                                <div className="w-6 h-6 rounded-full bg-white/10 border border-white/20 flex items-center justify-center shrink-0">
+                                                <div className="w-6 h-6 rounded-[28px] bg-white/10 border border-white/20 flex items-center justify-center shrink-0">
                                                     <Sparkles size={14} className="text-white" />
                                                 </div>
                                                 <div>
@@ -146,7 +146,7 @@ const IAIAAssistantFlow = ({ onBack }) => {
                             <div className="mt-12 flex flex-col md:flex-row gap-4">
                                 <button 
                                     onClick={() => saveStep('completed')}
-                                    className="flex-1 py-5 bg-orange-600 hover:bg-orange-500 text-white rounded-3xl font-black uppercase tracking-widest text-sm transition-all shadow-xl shadow-orange-900/40 flex items-center justify-center gap-3"
+                                    className="flex-1 py-5 bg-orange-600 hover:bg-orange-500 text-white rounded-[28px] font-black uppercase tracking-widest text-sm transition-all shadow-xl shadow-orange-900/40 flex items-center justify-center gap-3"
                                 >
                                     <FileText size={20} /> VEURE GUIA DE PASSIÓ (COM FINALITZAR)
                                 </button>
@@ -155,7 +155,7 @@ const IAIAAssistantFlow = ({ onBack }) => {
                                         localStorage.removeItem('sp_iaia_navigator_step');
                                         saveStep('welcome');
                                     }}
-                                    className="px-8 py-5 bg-white/5 hover:bg-red-500/20 text-gray-400 hover:text-red-400 rounded-3xl text-xs font-black uppercase border border-white/5 transition-all"
+                                    className="px-8 py-5 bg-white/5 hover:bg-red-500/20 text-gray-400 hover:text-red-400 rounded-[28px] text-xs font-black uppercase border border-white/5 transition-all"
                                 >
                                     Reiniciar Tràmit
                                 </button>
@@ -187,11 +187,11 @@ const IAIAAssistantFlow = ({ onBack }) => {
                             <div className="flex gap-4">
                                 <button 
                                     onClick={() => saveStep('navigating')}
-                                    className="flex-1 py-4 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl font-black uppercase tracking-widest text-xs transition-all"
+                                    className="flex-1 py-4 bg-orange-600 hover:bg-orange-500 text-white rounded-[28px] font-black uppercase tracking-widest text-xs transition-all"
                                 >
                                     Donar Permís i Continuar
                                 </button>
-                                <button onClick={() => saveStep('welcome')} className="px-6 py-4 bg-white/5 hover:bg-white/10 rounded-2xl text-xs font-black uppercase">
+                                <button onClick={() => saveStep('welcome')} className="px-6 py-4 bg-white/5 hover:bg-white/10 rounded-[28px] text-xs font-black uppercase">
                                     Ara no
                                 </button>
                             </div>
@@ -219,7 +219,7 @@ const IAIAAssistantFlow = ({ onBack }) => {
                                 </div>
                                 <span className="text-xs font-black text-orange-400">{Math.round(progress)}%</span>
                             </div>
-                            <div className="w-full h-3 bg-white/5 rounded-full overflow-hidden">
+                            <div className="w-full h-3 bg-white/5 rounded-[28px] overflow-hidden">
                                 <div className="h-full bg-orange-600 transition-all duration-300" style={{ width: `${progress}%` }}></div>
                             </div>
                         </div>
@@ -241,15 +241,15 @@ const IAIAAssistantFlow = ({ onBack }) => {
                     <div className="space-y-12 pb-20">
                         <div className="assistant-completed bg-emerald-500/5 border border-emerald-500/20 p-10 rounded-[40px] text-center animate-in zoom-in shadow-2xl shadow-emerald-950/20 relative">
                             <div className="absolute top-6 right-8 flex gap-3">
-                                <button className="p-3 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 rounded-full transition-all" title="Guardar a l'Arxiu">
+                                <button className="p-3 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 rounded-[28px] transition-all" title="Guardar a l'Arxiu">
                                     <Download size={20} />
                                 </button>
-                                <button className="p-3 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 rounded-full transition-all" title="Compartir Certificat">
+                                <button className="p-3 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 rounded-[28px] transition-all" title="Compartir Certificat">
                                     <Share2 size={20} />
                                 </button>
                             </div>
 
-                            <div className="w-20 h-20 bg-emerald-500/10 border border-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <div className="w-20 h-20 bg-emerald-500/10 border border-emerald-500/20 rounded-[28px] flex items-center justify-center mx-auto mb-6">
                                 <CheckCircle2 size={40} className="text-emerald-500" />
                             </div>
                             <h2 className="text-3xl font-black uppercase tracking-tighter mb-4 text-emerald-400">Tràmit de l'Amo enllestit!</h2>
@@ -259,7 +259,7 @@ const IAIAAssistantFlow = ({ onBack }) => {
                             <div className="flex flex-col sm:flex-row gap-4 justify-center">
                                 <button 
                                     onClick={onBack}
-                                    className="px-10 py-4 bg-emerald-600 hover:bg-emerald-500 text-white rounded-full font-black uppercase tracking-widest text-xs transition-all shadow-lg shadow-emerald-900/40"
+                                    className="px-10 py-4 bg-emerald-600 hover:bg-emerald-500 text-white rounded-[28px] font-black uppercase tracking-widest text-xs transition-all shadow-lg shadow-emerald-900/40"
                                 >
                                     Tornar a l'Ofici
                                 </button>
@@ -275,7 +275,7 @@ const IAIAAssistantFlow = ({ onBack }) => {
                             
                             <div className="sheet-header-meta">
                                 <div className="report-seal">
-                                    <img src="/assets/master/logo_socdepoble_black_sketch.png" alt="Logo" />
+                                    <img src="/assets/master/logo-socdepoble-rect-negre.svg" alt="Logo" />
                                     <span>SOCDEPOBLE.ORG</span>
                                 </div>
                                 <span>PÀGINA 1 DE 1</span>
@@ -312,7 +312,7 @@ const IAIAAssistantFlow = ({ onBack }) => {
                                 </p>
                             </section>
 
-                            <section className="bg-orange-500/5 p-8 rounded-3xl border border-orange-500/10 my-10">
+                            <section className="bg-orange-500/5 p-8 rounded-[28px] border border-orange-500/10 my-10">
                                 <h4 className="flex items-center gap-3">
                                     <Terminal size={18} /> CRÒNICA DE NAVEGACIÓ SOBIRANA
                                 </h4>
@@ -325,7 +325,7 @@ const IAIAAssistantFlow = ({ onBack }) => {
                                             <span className="text-orange-500 font-bold">[ACCÉS]</span>
                                             <span>Portal Informa D&B (Duns & Bradstreet)</span>
                                         </div>
-                                        <a href="https://www.informa.es/solicitud-duns" target="_blank" rel="noreferrer" className="text-blue-600 underline ml-20 flex items-center gap-1">
+                                        <a href="https://www.informa.es/solicitud-duns" target="_blank" rel="noreferrer" className="text-orange-600 underline ml-20 flex items-center gap-1">
                                             https://www.informa.es/solicitud-duns <ExternalLink size={10} />
                                         </a>
                                         <p className="ml-20 text-[10px] text-gray-500">L'IAIA ha localitzat el botó de "Sol·licitud Gratuïta" i ha iniciat la sessió efímera.</p>
@@ -354,14 +354,14 @@ const IAIAAssistantFlow = ({ onBack }) => {
                                 </h4>
                                 <div className="space-y-4 mt-4">
                                     <div className="flex gap-4 items-start">
-                                        <div className="w-6 h-6 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 font-black text-xs shrink-0">1</div>
+                                        <div className="w-6 h-6 rounded-[28px] bg-orange-100 flex items-center justify-center text-orange-600 font-black text-xs shrink-0">1</div>
                                         <div>
                                             <p className="font-bold text-sm">Validar el correu de confirmació</p>
                                             <p className="text-xs text-gray-500">Rebràs un correu de <code>duns-support@informa.es</code>. L'IAIA no pot entrar al teu correu per sobirania; has de fer clic tu al lloc de confirmació.</p>
                                         </div>
                                     </div>
                                     <div className="flex gap-4 items-start">
-                                        <div className="w-6 h-6 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 font-black text-xs shrink-0">2</div>
+                                        <div className="w-6 h-6 rounded-[28px] bg-orange-100 flex items-center justify-center text-orange-600 font-black text-xs shrink-0">2</div>
                                         <div>
                                             <p className="font-bold text-sm">Adjuntar l'escriptura (si ho demanen)</p>
                                             <p className="text-xs text-gray-500">Si el sistema central de D&B demana l'escriptura, l'has de pujar des del teu Arxiu d'Or. L'IAIA t'avisarà quan detecte la petició.</p>

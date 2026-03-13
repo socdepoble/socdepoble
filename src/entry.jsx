@@ -2,6 +2,18 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
+// import "./service-worker-manager"; // DESACTIVAT - Sóc de Poble PWA Failsafe
+
+// --- [FAILSAFE PROTOCOL v3] FORÇAR DES-REGISTRE DE SERVICE WORKERS ANTICS ---
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then(function(registrations) {
+    for(let registration of registrations) {
+      registration.unregister();
+      console.warn("Failsafe: ServiceWorker eliminat forçosament per trencar el cicle de memòria cau.");
+    }
+  });
+}
+// -----------------------------------------------------------------------------
 import "./design-system/tokens.css";
 import "./i18n/config";
 import { AuthProvider } from "./context/AuthContext";
@@ -11,53 +23,14 @@ import { NavigationProvider } from "./context/NavigationContext";
 import { SocialProvider } from "./context/SocialContext";
 import { BrowserRouter } from "react-router-dom";
 
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import UnifiedStatus from "./components/UnifiedStatus";
-import { injectSeeds } from "./rhizome/seeds";
 import SafeShell from "./components/SafeShell";
 import VersionGatekeeper from "./components/VersionGatekeeper";
 import { APP_VERSION } from "./constants";
 import { checkSilence } from "./utils/logger";
 
-// [BATEGAT 0ms] Injecció de llavors Rhizome (Oli & Itineraris)
-// Usem requestIdleCallback per assegurar que la feina pesada ocorre quan el navegador està lliure,
-// evitant qualsevol violació de "Long Task" en el fil de la UI.
-if (typeof window !== "undefined" && "requestIdleCallback" in window) {
-  window.requestIdleCallback(
-    () => {
-      injectSeeds().catch((err) => {
-        // Silenciós en producció, només log en dev
-        if (import.meta.env.DEV) {
-          console.error("[Rhizome] Error fatal en injecció:", err);
-        }
-      });
-    },
-    { timeout: 5000 },
-  );
-} else {
-  setTimeout(() => {
-    injectSeeds().catch((err) => {
-      // Silenciós en producció, només log en dev
-      if (import.meta.env.DEV) {
-        console.error("[Rhizome] Error fatal en injecció:", err);
-      }
-    });
-  }, 2000);
-}
-
 // 1. SILENT BOOT (Master Silence)
 // No log noise in production.
-
-// [SILENT PURGE] Protocol Natiu
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.getRegistrations().then((regs) => {
-    for (const reg of regs) {
-      reg.unregister();
-    }
-  });
-}
-
 // Global Error Handlers (Silent in Production)
 window.onerror = (msg, src, lineno, colno, err) => {
   if (checkSilence(msg) || checkSilence(err)) return true;
@@ -72,15 +45,7 @@ const isNoise = (args) => args.some((arg) => checkSilence(arg));
 console.warn = (...args) => { if (!isNoise(args)) originalWarn.apply(console, args); };
 console.error = (...args) => { if (!isNoise(args)) originalError.apply(console, args); };
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 1000 * 60 * 5,
-      cacheTime: 1000 * 60 * 30,
-      refetchOnWindowFocus: false,
-    },
-  },
-});
+
 
 import { I18nProvider } from "./context/I18nContext";
 import { ToastProvider } from "./components/ToastProvider";
@@ -116,31 +81,32 @@ if (!window.__SDP_ROOT__) window.__SDP_ROOT__ = ReactDOM.createRoot(container);
 
 window.__SDP_ROOT__.render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          <I18nProvider>
-            <ThemeProvider>
-              <AuthProvider>
-                <SocialProvider>
-                  <DesignProvider>
-                    <NavigationProvider>
-                      <ModalProvider>
-                        <ToastProvider>
-                          <VersionGatekeeper>
-                            <SafeShell>
-                              <App />
-                            </SafeShell>
-                          </VersionGatekeeper>
-                        </ToastProvider>
-                      </ModalProvider>
-                    </NavigationProvider>
-                  </DesignProvider>
-                </SocialProvider>
-              </AuthProvider>
-            </ThemeProvider>
-          </I18nProvider>
-        </BrowserRouter>
-    </QueryClientProvider>
+    <BrowserRouter>
+      <I18nProvider>
+        <ThemeProvider>
+          <AuthProvider>
+            <SocialProvider>
+              <DesignProvider>
+                <NavigationProvider>
+                  <ModalProvider>
+                    <ToastProvider>
+                      <VersionGatekeeper>
+                        <SafeShell>
+                          <App />
+                        </SafeShell>
+                      </VersionGatekeeper>
+                    </ToastProvider>
+                  </ModalProvider>
+                </NavigationProvider>
+              </DesignProvider>
+            </SocialProvider>
+          </AuthProvider>
+        </ThemeProvider>
+      </I18nProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );
+
+// Signalejar al Failsafe de index.html que hem arrancat amb èxit
+window.__SDP_ROOT_MOUNTED = true;
 

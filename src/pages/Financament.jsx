@@ -46,7 +46,7 @@ const Financament = () => {
                 <div className="flex items-center gap-6">
                     <button 
                         onClick={() => navigate('/hub')} 
-                        className="w-14 h-14 flex items-center justify-center bg-white/5 rounded-full hover:bg-white/10 transition-all active:scale-95 border border-white/10"
+                        className="w-14 h-14 flex items-center justify-center bg-white/5 rounded-[28px] hover:bg-white/10 transition-all active:scale-95 border border-white/10"
                     >
                         <ArrowLeft size={28} />
                     </button>
@@ -96,7 +96,7 @@ const Financament = () => {
                         <ul className="space-y-6 mb-12">
                             {section.features.map((f, i) => (
                                 <li key={i} className="flex items-start gap-4 text-sm font-black uppercase tracking-[0.25em] text-indigo-300">
-                                    <div className="w-3 h-3 bg-indigo-500 rounded-full shadow-[0_0_15px_rgba(99,102,241,0.7)] mt-1 shrink-0" />
+                                    <div className="w-3 h-3 bg-indigo-500 rounded-[28px] shadow-[0_0_15px_rgba(99,102,241,0.7)] mt-1 shrink-0" />
                                     <span className="leading-tight">{f}</span>
                                 </li>
                             ))}

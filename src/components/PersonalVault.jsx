@@ -49,10 +49,10 @@ const PersonalVault = ({ onDataExtracted, procedureId }) => {
     };
 
     return (
-        <div className="personal-vault-container p-6 bg-[#0a0a0c] rounded-3xl border border-white/5 shadow-2xl">
+        <div className="personal-vault-container p-6 bg-[#0a0a0c] rounded-[28px] border border-white/5 shadow-2xl">
             <header className="flex items-center justify-between mb-8">
                 <div className="flex items-center gap-3">
-                    <div className="p-3 bg-blue-500/10 text-blue-400 rounded-2xl">
+                    <div className="p-3 bg-orange-500/10 text-blue-400 rounded-[28px]">
                         <FileText size={24} />
                     </div>
                     <div>
@@ -81,11 +81,11 @@ const PersonalVault = ({ onDataExtracted, procedureId }) => {
             </header>
 
             {requirements && requirements.length > 0 && (
-                <div className="mb-8 p-4 bg-white/5 rounded-2xl border border-white/5">
+                <div className="mb-8 p-4 bg-white/5 rounded-[28px] border border-white/5">
                     <h4 className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-4">Requeriments del Tràmit</h4>
                     <div className="flex flex-wrap gap-2">
                         {requirements.map((req, i) => (
-                            <div key={i} className="flex items-center gap-2 px-3 py-1.5 bg-white/5 rounded-full border border-white/5">
+                            <div key={i} className="flex items-center gap-2 px-3 py-1.5 bg-white/5 rounded-[28px] border border-white/5">
                                 <span className="text-xs text-gray-300">{req}</span>
                                 <CheckCircle size={14} className="text-emerald-500 opacity-40" />
                             </div>
@@ -96,9 +96,9 @@ const PersonalVault = ({ onDataExtracted, procedureId }) => {
 
             <div className="documents-list space-y-4">
                 {documents.length > 0 ? documents.map(doc => (
-                    <div key={doc.id} className="flex items-center justify-between p-4 bg-white/[0.03] rounded-2xl border border-white/5 animate-in slide-in-from-bottom-2">
+                    <div key={doc.id} className="flex items-center justify-between p-4 bg-white/[0.03] rounded-[28px] border border-white/5 animate-in slide-in-from-bottom-2">
                         <div className="flex items-center gap-4">
-                            <div className="p-2.5 bg-blue-500/10 text-blue-400 rounded-xl">
+                            <div className="p-2.5 bg-orange-500/10 text-blue-400 rounded-[28px]">
                                 <FileText size={20} />
                             </div>
                             <div>
@@ -115,14 +115,14 @@ const PersonalVault = ({ onDataExtracted, procedureId }) => {
                             </div>
                             <button 
                                 onClick={() => removeDocument(doc.id)}
-                                className="p-2 text-gray-600 hover:text-red-500 hover:bg-red-500/10 rounded-xl transition-all"
+                                className="p-2 text-gray-600 hover:text-red-500 hover:bg-red-500/10 rounded-[28px] transition-all"
                             >
                                 <Trash2 size={18} />
                             </button>
                         </div>
                     </div>
                 )) : (
-                    <div className="py-12 flex flex-col items-center justify-center opacity-20 border-2 border-dashed border-white/5 rounded-3xl">
+                    <div className="py-12 flex flex-col items-center justify-center opacity-20 border-2 border-dashed border-white/5 rounded-[28px]">
                         <AlertCircle size={48} className="mb-4 text-gray-600" />
                         <p className="text-xs font-black uppercase tracking-widest text-gray-500">No hi ha documents</p>
                     </div>

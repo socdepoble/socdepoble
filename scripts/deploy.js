@@ -13,7 +13,7 @@ let config;
 try {
   const configFile = fs.readFileSync(configPath, 'utf8');
   config = JSON.parse(configFile);
-} catch (err) {
+} catch {
   console.error("❌ ERROR CRÍTIC: No es troba l'arxiu deploy-config.json a l'arrel.");
   process.exit(1);
 }

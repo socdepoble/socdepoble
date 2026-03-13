@@ -84,16 +84,23 @@
   --sdp-glass-border: rgba(255, 255, 255, 0.08);
   --sdp-glass-blur: 24px;
 
-  /* GEOMETRIA (Master Monolith v10.30.0) */
-  --sdp-radius-lg: 28px;
-  --sdp-radius-genesis: 28px;
-  --sdp-radius-tactile: 24px;
+  /* BANCAL MODE TOKENS (Sóc de Poble Gènesi - Auditoria X) */
+  --sdp-boina-taronja: #f97316;
+  --sdp-fons-crema: #fdf5e6;
+  --sdp-text-fosc: #111827;
+  --sdp-radius-card: 28px;
+  --sdp-radius-button: 28px;
 
-  /* 🔡 UNIFICACIÓ TIPOGRÀFICA [PROTOCOL ROBOTO CONDENSED] */
-  --sdp-font-sans: "Roboto Condensed", sans-serif;
-  --sdp-font-serif: "Roboto Condensed", sans-serif;
-  --sdp-font-mono: "Roboto Condensed", monospace;
-  --sdp-font-condensed: "Roboto Condensed", sans-serif;
+  /* GEOMETRIA (Master Monolith v10.30.0) */
+  --sdp-radius-lg: var(--sdp-radius-card);
+  --sdp-radius-genesis: var(--sdp-radius-card);
+  --sdp-radius-tactile: var(--sdp-radius-button);
+
+  /* 🔡 UNIFICACIÓ TIPOGRÀFICA [PROTOCOL NOTO SANS VARIABLE] */
+  --sdp-font-sans: "Noto Sans", sans-serif;
+  --sdp-font-serif: "Noto Sans", sans-serif;
+  --sdp-font-mono: "Noto Sans", monospace;
+  --sdp-font-condensed: "Noto Sans", sans-serif;
 
   /* Variables llegades */
   --sdp-font-booter: var(--sdp-font-sans);

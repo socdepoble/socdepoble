@@ -8,12 +8,7 @@ import './InfografiaGallery.css';
  * El santuari de l'art didàctic generat per Nano Banana.
  * ARA FUNCIONAL: Lightbox, Share, Download & SEO.
  */
-const InfografiaGallery = () => {
-    const navigate = useNavigate();
-    const [filter, setFilter] = useState('totes');
-    const [selectedImg, setSelectedImg] = useState(null);
-
-    const infografies = [
+const INFOGRAFES_DATA = [
         {
             id: 1,
             titol: 'Kit Digital: Tresor del Poble',
@@ -34,6 +29,13 @@ const InfografiaGallery = () => {
         }
     ];
 
+const InfografiaGallery = () => {
+    const navigate = useNavigate();
+    const [filter, setFilter] = useState('totes');
+    const [selectedImg, setSelectedImg] = useState(null);
+
+    const infografies = INFOGRAFES_DATA;
+
     // SEO [PROTOCOL CANÒNIC]
     useEffect(() => {
         const originalTitle = document.title;
@@ -53,7 +55,7 @@ const InfografiaGallery = () => {
 
         updateMeta('og:title', 'Infoteca del Mas - Sóc de Poble');
         updateMeta('og:description', 'Recull visual de coneixement territorial i tecnològic.');
-        updateMeta('og:image', window.location.origin + infografies[0].img);
+        updateMeta('og:image', window.location.origin + INFOGRAFES_DATA[0].img);
         updateMeta('twitter:card', 'summary_large_image');
 
         return () => { document.title = originalTitle; };
@@ -142,7 +144,7 @@ const InfografiaGallery = () => {
                     onClick={() => setSelectedImg(null)}
                 >
                     <button 
-                        className="absolute top-6 right-6 p-4 text-white hover:bg-white/10 rounded-full transition-colors z-50"
+                        className="absolute top-6 right-6 p-4 text-white hover:bg-white/10 rounded-[28px] transition-colors z-50"
                         onClick={() => setSelectedImg(null)}
                     >
                         <X size={32} />
@@ -154,16 +156,16 @@ const InfografiaGallery = () => {
                         <img 
                             src={selectedImg.img} 
                             alt={selectedImg.titol} 
-                            className="max-w-full max-h-[80vh] object-contain shadow-2xl rounded-lg"
+                            className="max-w-full max-h-[80vh] object-contain shadow-2xl rounded-[20px]"
                         />
                         <div className="text-center space-y-2">
                             <h2 className="text-2xl font-black tracking-tight">{selectedImg.titol}</h2>
                             <p className="text-gray-400 max-w-2xl">{selectedImg.desc}</p>
                             <div className="flex gap-4 justify-center pt-4">
-                                <button className="flex items-center gap-2 px-6 py-2 bg-primary rounded-full font-bold hover:bg-primary/80 transition-all" onClick={() => handleDownload(selectedImg)}>
+                                <button className="flex items-center gap-2 px-6 py-2 bg-primary rounded-[28px] font-bold hover:bg-primary/80 transition-all" onClick={() => handleDownload(selectedImg)}>
                                     <Download size={18} /> DESCARREGAR
                                 </button>
-                                <button className="flex items-center gap-2 px-6 py-2 bg-white/10 rounded-full font-bold hover:bg-white/20 transition-all" onClick={() => handleShare(selectedImg)}>
+                                <button className="flex items-center gap-2 px-6 py-2 bg-white/10 rounded-[28px] font-bold hover:bg-white/20 transition-all" onClick={() => handleShare(selectedImg)}>
                                     <Share2 size={18} /> COMPARTIR
                                 </button>
                             </div>

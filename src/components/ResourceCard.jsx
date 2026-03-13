@@ -37,7 +37,7 @@ const ResourceCard = ({
         >
             <div className="resource-header flex justify-between items-start mb-4">
                 <div className="flex items-center gap-2">
-                    <div className="resource-type-icon p-2 bg-[var(--color-primary)]/10 text-[var(--color-primary)] rounded-lg">
+                    <div className="resource-type-icon p-2 bg-[var(--color-primary)]/10 text-[var(--color-primary)] rounded-[20px]">
                         {getIconForType(type)}
                     </div>
                     <span className="text-[10px] font-black uppercase tracking-widest text-[var(--color-secondary)] opacity-60">
@@ -59,7 +59,7 @@ const ResourceCard = ({
 
             <div className="resource-tags flex flex-wrap gap-2 mb-4">
                 {tags.map((tag, i) => (
-                    <span key={i} className="text-[9px] px-2 py-1 bg-white/5 text-gray-400 rounded-full border border-white/5 uppercase font-black">
+                    <span key={i} className="text-[9px] px-2 py-1 bg-white/5 text-gray-400 rounded-[28px] border border-white/5 uppercase font-black">
                         #{tag}
                     </span>
                 ))}
@@ -79,14 +79,14 @@ const ResourceCard = ({
                                 href={url} 
                                 target="_blank" 
                                 rel="noopener noreferrer"
-                                className="p-2 hover:bg-[var(--color-primary)] hover:text-white transition-all text-gray-400 rounded-lg"
+                                className="p-2 hover:bg-[var(--color-primary)] hover:text-white transition-all text-gray-400 rounded-[20px]"
                             >
                                 <ExternalLink size={18} />
                             </a>
                         )}
                         <button 
                             onClick={() => onShare && onShare(resource)}
-                            className="p-2 hover:bg-white/10 transition-all text-gray-400 rounded-lg"
+                            className="p-2 hover:bg-white/10 transition-all text-gray-400 rounded-[20px]"
                         >
                             <Share2 size={18} />
                         </button>

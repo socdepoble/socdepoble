@@ -86,7 +86,7 @@ const ProfilePowerMenu = () => {
                                 >
                                     <div className="pg-icon"><item.icon size={20} /></div>
                                     <span className="pg-label">{item.label}</span>
-                                    {item.featured && <span className="ml-auto text-[10px] font-black bg-indigo-500 text-white px-2 py-0.5 rounded-full uppercase tracking-widest">Obrir</span>}
+                                    {item.featured && <span className="ml-auto text-[10px] font-black bg-indigo-500 text-white px-2 py-0.5 rounded-[28px] uppercase tracking-widest">Obrir</span>}
                                     {!item.featured && <ChevronRight size={14} className="ml-auto opacity-20" />}
                                 </NavLink>
                             ))}

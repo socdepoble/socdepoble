@@ -97,9 +97,13 @@ Elevació del disseny tàctil cap a la claredat professional de Notion.
 
 Aquest manament blinda la identitat visual en tot el material exportat o generat pel Mas.
 
-- **Documents i Exports:** Està **ESTRICTAMENT PROHIBIT** usar el text "Sóc de Poble" com a capçalera o signatura oficial en documents PDF, informes o dossiers generats per l'aplicació. S'ha d'usar sempre el logo oficial (`logo.png` o `logo_dark.png`).
-- **Imatges de Previsualització:** Tota imatge generada pel sistema (com les d'Open Graph o infografies) ha de portar el logo de la marca, mai el text sol si no és part d'un disseny tipogràfic aprovat.
-- **Substitució Prioritària:** En la UI del sistema, el logo és la nostra cara. El text "Sóc de Poble" es reserva per a cossos de text o metadades invisibles.
+- **La Llei de l'Orgull Rural (Mai amagar-se):** La identitat és reivindicativa. Està **ESTRICTAMENT PROHIBIT** pensar que el disseny net ("clean design") implica esborrar la nostra marca. L'escut i el nom de Sóc de Poble han d'estar sempre presents a la capçalera de TOTES les pàgines d'un PDF corporatiu. No ens amaguem, som poble.
+- **Autoría Institucional (La Iaia):** Tot document de gestió generat pel sistema no ha de dir mai "generat de forma autònoma" sinó assumir la figura gestora de la marca: **"Generat per la iaia de Sóc de Poble."**
+- **Regla del Logotip per a PDF:**
+  - **Capçaleres repetitives:** Obligatori usar el **logotip allargat sencer** (`logo_sdp_black.png` o `.svg`). La grandària ha de ser prudencial i elegant per afavorir l'equilibri, aproximadament entre **1cm i 2cm d'altura**. Ni molt xicotet que no es veja, ni enorme que sature.
+  - **Portades Pures:** Es permet o aconsella la il·lustració/logotip com a "Hero" (imatge de grandíssimes proporcions), acompanyat d'elements complementaris com "Nano Banana".
+- **Respiració Editorial (Tensió Visual):** El logotip mai s'ha d'amuntegar contra un text, tant web com PDF. Es requereix sempre un mínim de **10mm de marge/padding superior i inferior** a les capçaleres i peus perquè el disseny final "respire" de forma universal (Zero Estrès).
+- **Alineació i Columnes (Formalitat):** Quan s'usa columnat únic per a presentacions d'alta legibilitat, els paràgrafs hauran d'estar **justificats completament** per atorgar rang institucional i calma llegidora.
 
 > [!WARNING]
 > La documentació oficial és l'ambaixadora de la nostra sobirania. Un PDF sense logo no és de poble, és un full orfe.

@@ -57,11 +57,11 @@ const RhizomeMonitor = () => {
             </div>
 
             <div className="grid grid-cols-2 gap-4 mb-6">
-                <div className="bg-white/5 p-4 rounded-2xl border border-white/5">
+                <div className="bg-white/5 p-4 rounded-[28px] border border-white/5">
                     <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest block mb-1">Operacions DAG</span>
                     <div className="text-2xl font-black">{stats.ops}</div>
                 </div>
-                <div className="bg-white/5 p-4 rounded-2xl border border-white/5">
+                <div className="bg-white/5 p-4 rounded-[28px] border border-white/5">
                     <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest block mb-1">Versió Crítica</span>
                     <div className="text-2xl font-black text-orange-500">{stats.version}</div>
                 </div>
@@ -81,21 +81,21 @@ const RhizomeMonitor = () => {
             <div className="flex gap-3">
                 <button 
                     onClick={fetchStats}
-                    className="flex-1 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl transition-all flex items-center justify-center gap-2"
+                    className="flex-1 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-[28px] transition-all flex items-center justify-center gap-2"
                 >
                     <RefreshCw size={14} className={loading ? 'animate-spin' : ''} />
                     <span className="text-[10px] font-black uppercase">Refrescar</span>
                 </button>
                 <button 
                     onClick={handlePrune}
-                    className="flex-1 py-3 bg-orange-500/20 hover:bg-orange-500/40 border border-orange-500/30 text-orange-400 rounded-xl transition-all flex items-center justify-center gap-2"
+                    className="flex-1 py-3 bg-orange-500/20 hover:bg-orange-500/40 border border-orange-500/30 text-orange-400 rounded-[28px] transition-all flex items-center justify-center gap-2"
                 >
                     <Trash2 size={14} />
                     <span className="text-[10px] font-black uppercase">Poda Atòmica</span>
                 </button>
             </div>
 
-            <div className="mt-4 p-3 bg-indigo-500/10 border border-indigo-500/30 rounded-xl flex items-start gap-3">
+            <div className="mt-4 p-3 bg-indigo-500/10 border border-indigo-500/30 rounded-[28px] flex items-start gap-3">
                 <Shield className="text-indigo-400 mt-1" size={16} />
                 <p className="text-[10px] text-indigo-300 italic leading-relaxed">
                     Arquitectura de Ferro: Les dades bateguen localment al Rhizome privat. Cap servidor pot destruir la memòria del Mas.

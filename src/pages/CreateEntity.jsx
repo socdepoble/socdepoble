@@ -21,10 +21,12 @@ const CreateEntity = () => {
     const typeLabels = {
         'grup': { label: 'Grup Social', icon: <Users size={32} />, color: 'groups' },
         'empresa': { label: 'Empresa o Comerç', icon: <Store size={32} />, color: 'business' },
-        'institucio': { label: 'Entitat Oficial', icon: <Shield size={32} />, color: 'official' }
+        'institucio': { label: 'Entitat Oficial', icon: <Shield size={32} />, color: 'official' },
+        'autonomo': { label: 'Autònom / Freelance', icon: <Users size={32} />, color: 'autonomous' },
+        'estudiant': { label: 'Estudiant / Acadèmic', icon: <Users size={32} />, color: 'student' }
     };
 
-    const currentType = typeLabels[type] || typeLabels.empresa;
+    const currentType = typeLabels[type] || typeLabels['empresa'];
 
     const handleSubmit = async (e) => {
         e.preventDefault();

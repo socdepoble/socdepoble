@@ -186,7 +186,7 @@ const ProfileHeaderPremium = ({
                                                 <span className="text-[10px] font-bold text-gray-500 bg-white/5 px-2 py-0.5 rounded border border-white/5">NIF: {nif}</span>
                                             )}
                                             {duns && (
-                                                <span className="text-[10px] font-bold text-blue-400 bg-blue-500/5 px-2 py-0.5 rounded border border-blue-500/10">DUNS: {duns}</span>
+                                                <span className="text-[10px] font-bold text-blue-400 bg-orange-500/5 px-2 py-0.5 rounded border border-orange-500/10">DUNS: {duns}</span>
                                             )}
                                         </div>
                                     </div>
@@ -205,7 +205,7 @@ const ProfileHeaderPremium = ({
                             <img src={avatarUrl} alt={title} className="premium-avatar-img" />
                         ) : (
                             <div className="premium-avatar-placeholder-pulse">
-                                <img src="/assets/master/logo_socdepoble_white_full.png" alt="Sóc de Poble" className="pulse-logo" />
+                                <img src="/assets/master/logo-socdepoble-rect.svg" alt="Sóc de Poble" className="pulse-logo" />
                             </div>
                         )}
                         {isLive && !isEditing && <span className="live-indicator-pulse" title="Actiu / Obert ara" />}

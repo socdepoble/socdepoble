@@ -307,7 +307,7 @@ const MasterEditor = ({ note, onChange, onAIA, placeholder }) => {
                     </button>
                     
                     {showExportMenu && (
-                        <div className="absolute left-0 top-full mt-2 bg-[#1a1a1a] border border-white/10 rounded-xl shadow-2xl z-[100] overflow-hidden min-w-[220px] origin-top-left animate-in fade-in zoom-in duration-200">
+                        <div className="absolute left-0 top-full mt-2 bg-[#1a1a1a] border border-white/10 rounded-[28px] shadow-2xl z-[100] overflow-hidden min-w-[220px] origin-top-left animate-in fade-in zoom-in duration-200">
                             <div className="px-4 py-2 border-bottom border-white/5 bg-white/5">
                                 <span className="text-[10px] uppercase font-black text-orange-500/80 tracking-widest">Format d'Exportació</span>
                             </div>

@@ -40,7 +40,7 @@ const KnowledgeHub = () => {
                         </h1>
                         <p className="text-gray-400">Hermanament familiar amb IAIA & NotebookLM</p>
                     </div>
-                    <button className="bg-cyan-500/10 border border-cyan-500/50 text-cyan-400 px-4 py-2 rounded-full flex items-center gap-2 hover:bg-cyan-500/20 transition-all font-bold">
+                    <button className="bg-cyan-500/10 border border-cyan-500/50 text-cyan-400 px-4 py-2 rounded-[28px] flex items-center gap-2 hover:bg-cyan-500/20 transition-all font-bold">
                         <Plus size={18} /> CONNECTAR FONT
                     </button>
                 </div>
@@ -48,9 +48,9 @@ const KnowledgeHub = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {sources.map(source => (
-                    <div key={source.id} className="source-card bg-gray-900/40 backdrop-blur-md border border-gray-800 rounded-2xl p-5 hover:border-cyan-500/30 transition-all group">
+                    <div key={source.id} className="source-card bg-gray-900/40 backdrop-blur-md border border-gray-800 rounded-[28px] p-5 hover:border-cyan-500/30 transition-all group">
                         <div className="flex justify-between items-start mb-4">
-                            <div className="p-3 bg-cyan-500/10 rounded-xl text-cyan-400">
+                            <div className="p-3 bg-cyan-500/10 rounded-[28px] text-cyan-400">
                                 {source.type === 'notebook' ? <Database size={24} /> : <ImageIcon size={24} />}
                             </div>
                             <span className="text-[10px] font-bold px-2 py-1 rounded bg-green-500/20 text-green-400 uppercase tracking-widest">
@@ -68,7 +68,7 @@ const KnowledgeHub = () => {
                         <div className="flex gap-2">
                             <button
                                 onClick={() => setActiveSource(source)}
-                                className="flex-1 bg-white/5 hover:bg-white/10 border border-white/10 text-white p-2 rounded-lg text-sm transition-all"
+                                className="flex-1 bg-white/5 hover:bg-white/10 border border-white/10 text-white p-2 rounded-[20px] text-sm transition-all"
                             >
                                 <Eye className="inline mr-2" size={14} /> Explorar
                             </button>
@@ -76,7 +76,7 @@ const KnowledgeHub = () => {
                                 href={source.url}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="p-2 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-400 rounded-lg transition-all"
+                                className="p-2 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-400 rounded-[20px] transition-all"
                             >
                                 <ExternalLink size={14} />
                             </a>
@@ -101,7 +101,7 @@ const KnowledgeHub = () => {
                         </button>
                     </header>
 
-                    <div className="flex-1 bg-gray-900 rounded-3xl overflow-hidden border border-gray-700 relative shadow-2xl">
+                    <div className="flex-1 bg-gray-900 rounded-[28px] overflow-hidden border border-gray-700 relative shadow-2xl">
                         {activeSource.type === 'slides' ? (
                             <iframe
                                 src={activeSource.url}
@@ -123,15 +123,15 @@ const KnowledgeHub = () => {
                                     href={activeSource.url}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-8 py-3 rounded-full transition-all flex items-center gap-2"
+                                    className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-8 py-3 rounded-[28px] transition-all flex items-center gap-2"
                                 >
                                     OBRIR AL NÚVOL <ExternalLink size={18} />
                                 </a>
                             </div>
                         )}
 
-                        <div className="absolute bottom-6 left-6 p-4 bg-black/60 backdrop-blur-md rounded-2xl border border-white/10 flex items-center gap-4 max-w-sm">
-                            <div className="p-2 bg-cyan-500 rounded-lg">
+                        <div className="absolute bottom-6 left-6 p-4 bg-black/60 backdrop-blur-md rounded-[28px] border border-white/10 flex items-center gap-4 max-w-sm">
+                            <div className="p-2 bg-cyan-500 rounded-[20px]">
                                 <MessageCircle size={20} className="text-black" />
                             </div>
                             <div>

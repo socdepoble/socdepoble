@@ -214,7 +214,7 @@ const Register = () => {
         </div>
 
         <header className="auth-header">
-          <img src="/assets/master/logo_socdepoble_white_full.png" alt="Sóc de Poble" className="auth-logo-v2" />
+          <img src="/assets/master/logo-socdepoble-rect.svg" alt="Sóc de Poble" className="auth-logo-v2" />
 
           {/* [NEW] Selector d'idioma ultra-compacte */}
           <div className="language-selector-auth mb-4">
@@ -353,7 +353,7 @@ const Register = () => {
                 }}
               >
                 <div className="flex items-center gap-4">
-                  <div className="icon-badge bg-orange-500/20 p-3 rounded-2xl border border-orange-500/30">
+                  <div className="icon-badge bg-orange-500/20 p-3 rounded-[28px] border border-orange-500/30">
                     <MapPin size={24} className="text-orange-500" />
                   </div>
                   <div className="text-left flex flex-col">
@@ -363,7 +363,7 @@ const Register = () => {
                     </span>
                   </div>
                 </div>
-                <div className="bg-white/5 p-2 rounded-xl">
+                <div className="bg-white/5 p-2 rounded-[28px]">
                   <ChevronRight size={20} className="text-gray-500" />
                 </div>
               </button>
@@ -461,7 +461,7 @@ const Register = () => {
               <button
                 onClick={signInWithGoogle}
                 disabled={loading}
-                className="auth-button-google w-full h-14 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center gap-3 hover:bg-white/10 transition-all active:scale-95"
+                className="auth-button-google w-full h-14 bg-white/5 border border-white/10 rounded-[28px] flex items-center justify-center gap-3 hover:bg-white/10 transition-all active:scale-95"
               >
                 <img src="/assets/master/google_icon.png" alt="Google" className="w-5 h-5" />
                 <span className="font-black uppercase tracking-widest text-xs">Entra amb Google</span>

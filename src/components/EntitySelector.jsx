@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabaseService } from '../services/supabaseService';
-import { User, Building2, Store, ChevronDown } from 'lucide-react';
+import { User, Building2, Store, ChevronDown, Briefcase, GraduationCap } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
 import { ENTITY_TYPES } from '../constants';
@@ -48,8 +48,19 @@ const EntitySelector = ({ currentIdentity, onSelectIdentity, mini = false }) => 
     const getIcon = (type) => {
         if (type === ENTITY_TYPES.GROUP) return <Building2 size={18} />;
         if (type === ENTITY_TYPES.BUSINESS) return <Store size={18} />;
+        if (type === ENTITY_TYPES.AUTONOMOUS) return <Briefcase size={18} />;
+        if (type === ENTITY_TYPES.STUDENT) return <GraduationCap size={18} />;
         return <User size={18} />;
     };
+
+    const getLabel = (identity) => {
+        if (identity.isUser) return t('common.personal_profile') || 'Perfil Personal';
+        if (identity.type === ENTITY_TYPES.GROUP) return t('common.role_grup') || 'Grup';
+        if (identity.type === ENTITY_TYPES.BUSINESS) return t('common.role_empresa') || 'Empresa';
+        if (identity.type === ENTITY_TYPES.AUTONOMOUS) return t('common.role_autonomo') || 'Autònom / Freelance';
+        if (identity.type === ENTITY_TYPES.STUDENT) return t('common.role_estudiant') || 'Estudiant';
+        return t('common.role_oficial') || 'Oficial';
+    }
 
     return (
         <div className={`entity-selector-container ${mini ? 'mini' : ''}`}>
@@ -86,11 +97,7 @@ const EntitySelector = ({ currentIdentity, onSelectIdentity, mini = false }) => 
                             <div className="identity-info">
                                 <span className="name">{identity.name}</span>
                                 <span className="type-label">
-                                    {identity.isUser ? (t('common.personal_profile') || 'Perfil Personal') : (
-                                        identity.type === ENTITY_TYPES.GROUP ? (t('common.role_grup') || 'Grup') :
-                                            identity.type === ENTITY_TYPES.BUSINESS ? (t('common.role_empresa') || 'Empresa') :
-                                                (t('common.role_oficial') || 'Oficial')
-                                    )}
+                                    {getLabel(identity)}
                                 </span>
                             </div>
                         </div>

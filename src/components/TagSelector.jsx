@@ -131,12 +131,12 @@ const TagSelector = ({ currentTags = [], onTagsChange }) => {
             </div>
 
             {/* [PROTOCOL ARMARI NET] RECOMANACIONS DE L'IAIA */}
-            <div className="iaia-recommendations p-4 mt-6 bg-[rgba(255,109,35,0.05)] border border-[rgba(255,109,35,0.2)] rounded-2xl relative overflow-hidden group">
+            <div className="iaia-recommendations p-4 mt-6 bg-[rgba(255,109,35,0.05)] border border-[rgba(255,109,35,0.2)] rounded-[28px] relative overflow-hidden group">
                 <div className="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
                     <Sparkles size={40} color="#FF6D23" />
                 </div>
                 <div className="flex items-center gap-2 mb-3">
-                    <div className="w-8 h-8 rounded-full bg-[var(--sdp-terracotta)] flex items-center justify-center text-white shadow-lg">
+                    <div className="w-8 h-8 rounded-[28px] bg-[var(--sdp-terracotta)] flex items-center justify-center text-white shadow-lg">
                         <Sparkles size={16} />
                     </div>
                     <div>

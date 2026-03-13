@@ -152,10 +152,10 @@ const RebostVault = ({ onClose }) => {
         <div className="rebost-vault animate-in p-6 bg-[#0a0a0c] min-h-full">
             <header className="rebost-header flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
                 <div className="rebost-title-section flex items-center gap-4">
-                    <button className="w-10 h-10 flex items-center justify-center rounded-2xl bg-white/5 hover:bg-white/10 transition-all" onClick={onClose}>
+                    <button className="w-10 h-10 flex items-center justify-center rounded-[28px] bg-white/5 hover:bg-white/10 transition-all" onClick={onClose}>
                         <Plus size={24} style={{ transform: 'rotate(45deg)' }} />
                     </button>
-                    <div className="p-3 bg-indigo-500/10 text-indigo-400 rounded-2xl">
+                    <div className="p-3 bg-indigo-500/10 text-indigo-400 rounded-[28px]">
                         <HardDrive size={24} />
                     </div>
                     <div>
@@ -169,7 +169,7 @@ const RebostVault = ({ onClose }) => {
                         <ShieldCheck size={14} />
                         <span>Veritat de Ferro</span>
                     </div>
-                    <button className="p-3 bg-white/5 text-gray-400 hover:text-white rounded-2xl transition-all" onClick={handleExport} title="Exporta Memòria">
+                    <button className="p-3 bg-white/5 text-gray-400 hover:text-white rounded-[28px] transition-all" onClick={handleExport} title="Exporta Memòria">
                         <Share2 size={20} />
                     </button>
                     <button className="flex items-center gap-2 px-6 h-12 bg-[var(--theme-accent-primary)] text-white rounded-[24px] font-black uppercase text-xs tracking-widest shadow-xl shadow-orange-950/20 active:scale-95 transition-all" onClick={() => fileInputRef.current?.click()}>
@@ -181,7 +181,7 @@ const RebostVault = ({ onClose }) => {
             </header>
 
             {importStats && (
-                <div className="mb-6 p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl flex items-center justify-between text-emerald-400 text-sm font-bold">
+                <div className="mb-6 p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-[28px] flex items-center justify-between text-emerald-400 text-sm font-bold">
                     <div className="flex items-center gap-3">
                         <CheckCircle2 size={18} />
                         <span>¡Bategat! S'han afegit {importStats.successful} recursos.</span>

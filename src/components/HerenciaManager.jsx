@@ -107,7 +107,7 @@ Atum! El sistema bategua amb el trellat de la terra.`;
               <h2 className="text-xl font-black uppercase text-fuchsia-400 flex items-center gap-3">
                 <Sparkles /> Memòria Sant Grial: Herència
               </h2>
-              <button onClick={() => setShowSollutiaGenerator(false)} className="p-2 hover:bg-white/5 rounded-full transition-all">
+              <button onClick={() => setShowSollutiaGenerator(false)} className="p-2 hover:bg-white/5 rounded-[28px] transition-all">
                 <X />
               </button>
             </header>
@@ -118,7 +118,7 @@ Atum! El sistema bategua amb el trellat de la terra.`;
                   
                   <div className="sheet-header-meta">
                       <div className="report-seal">
-                          <img src="/assets/master/logo_socdepoble_black_sketch.png" alt="Logo" />
+                          <img src="/assets/master/logo-socdepoble-rect-negre.svg" alt="Logo" />
                           <span>SOCDEPOBLE.ORG</span>
                       </div>
                       <span>ESP: {sumaData?.expediente || '028468'}</span>
@@ -133,7 +133,7 @@ Atum! El sistema bategua amb el trellat de la terra.`;
                       </p>
                   </section>
 
-                  <section className="bg-fuchsia-500/5 p-8 rounded-3xl border border-fuchsia-500/10 my-10">
+                  <section className="bg-fuchsia-500/5 p-8 rounded-[28px] border border-fuchsia-500/10 my-10">
                       <h4 className="flex items-center gap-3 !border-none !text-fuchsia-400">
                           <Terminal size={18} /> CRÒNICA DE NAVEGACIÓ SOBIRANA
                       </h4>
@@ -146,7 +146,7 @@ Atum! El sistema bategua amb el trellat de la terra.`;
                                   <span className="text-fuchsia-500 font-bold">[ACCÉS]</span>
                                   <span>Oficina Digital SUMA (Apremi)</span>
                               </div>
-                              <a href="https://www.suma.es/oficina-digital" target="_blank" rel="noreferrer" className="text-blue-600 underline ml-20 flex items-center gap-1">
+                              <a href="https://www.suma.es/oficina-digital" target="_blank" rel="noreferrer" className="text-orange-600 underline ml-20 flex items-center gap-1">
                                   https://www.suma.es/oficina-digital <ExternalLink size={10} />
                               </a>
                               <p className="ml-20 text-[10px] text-gray-500">L'IAIA ha extret el deute de {sumaData?.total_pagar || 220.69}€ identificant els immobles 'Barrinada' i 'San Isidro'.</p>
@@ -160,14 +160,14 @@ Atum! El sistema bategua amb el trellat de la terra.`;
                       </h4>
                       <div className="space-y-4 mt-4">
                           <div className="flex gap-4 items-start">
-                              <div className="w-6 h-6 rounded-full bg-fuchsia-100 flex items-center justify-center text-fuchsia-600 font-black text-xs shrink-0">1</div>
+                              <div className="w-6 h-6 rounded-[28px] bg-fuchsia-100 flex items-center justify-center text-fuchsia-600 font-black text-xs shrink-0">1</div>
                               <div>
                                   <p className="font-bold text-sm">Liquidació a SUMA</p>
                                   <p className="text-xs text-gray-500">Entra al portal de SUMA amb la teua Clau i bategua el pagament del deute d'apremi per aturar els interessos.</p>
                               </div>
                           </div>
                           <div className="flex gap-4 items-start">
-                              <div className="w-6 h-6 rounded-full bg-fuchsia-100 flex items-center justify-center text-fuchsia-600 font-black text-xs shrink-0">2</div>
+                              <div className="w-6 h-6 rounded-[28px] bg-fuchsia-100 flex items-center justify-center text-fuchsia-600 font-black text-xs shrink-0">2</div>
                               <div>
                                   <p className="font-bold text-sm">Presentació a Proaguas</p>
                                   <p className="text-xs text-gray-500">Has de portar el certificat notarial i el rebut de pagament a Proaguas Costa Blanca. L'IAIA t'ha preparat la maleta digital amb aquests papers.</p>
@@ -212,7 +212,7 @@ Atum! El sistema bategua amb el trellat de la terra.`;
 
             <footer className="p-8 border-t border-white/5 flex gap-4 bg-black/20">
               <button
-                className="flex-1 master-button-canonic bg-fuchsia-600 text-white py-4 rounded-full font-black uppercase text-xs tracking-widest shadow-lg shadow-fuchsia-900/40"
+                className="flex-1 master-button-canonic bg-fuchsia-600 text-white py-4 rounded-[28px] font-black uppercase text-xs tracking-widest shadow-lg shadow-fuchsia-900/40"
                 onClick={() => {
                   navigator.clipboard.writeText(generateHerenciaReport());
                   alert("Text de memòria copiat, Mestre!");
@@ -264,17 +264,17 @@ Atum! El sistema bategua amb el trellat de la terra.`;
 
           <div className="mt-8 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-3 h-3 rounded-full bg-fuchsia-500 animate-pulse" />
+              <div className="w-3 h-3 rounded-[28px] bg-fuchsia-500 animate-pulse" />
               <span className="text-xs uppercase font-black opacity-80">Pagament SUMA</span>
               <span className="text-[10px] opacity-40 ml-auto font-black uppercase tracking-widest text-pink-400">Liquidació de {sumaData?.total_pagar?.toFixed(2) || '220.69'}€ (Apremi). Límit: {sumaData?.fecha_limite || '03/03/2026'}</span>
             </div>
             <div className="flex items-center gap-3 opacity-40">
-              <div className="w-3 h-3 rounded-full bg-gray-600" />
+              <div className="w-3 h-3 rounded-[28px] bg-gray-600" />
               <span className="text-xs uppercase font-black">Canvi Titularitat</span>
               <span className="text-[10px] opacity-40 ml-auto">Gestió amb Proaguas Costa Blanca.</span>
             </div>
             <div className="flex items-center gap-3 opacity-30">
-              <div className="w-3 h-3 rounded-full bg-gray-600" />
+              <div className="w-3 h-3 rounded-[28px] bg-gray-600" />
               <span className="text-xs uppercase font-black">Regularització</span>
               <span className="text-[10px] opacity-40 ml-auto">Actualització de padró a SUMA Sant Joan.</span>
             </div>
@@ -333,7 +333,7 @@ Atum! El sistema bategua amb el trellat de la terra.`;
              </table>
           </div>
 
-          <div className="p-4 bg-orange-600/10 border border-orange-500/20 rounded-2xl flex items-center gap-4 mt-4">
+          <div className="p-4 bg-orange-600/10 border border-orange-500/20 rounded-[28px] flex items-center gap-4 mt-4">
             <AlertCircle className="text-orange-500" />
             <span className="text-xs font-black uppercase text-orange-200">Límit de pagament: 03/03/2026</span>
           </div>
@@ -360,12 +360,12 @@ Atum! El sistema bategua amb el trellat de la terra.`;
                 <div className="doc-kit-actions">
                   <button 
                     onClick={() => handleViewMedia(deed)}
-                    className="p-2 hover:bg-white/5 rounded-full transition-colors"
+                    className="p-2 hover:bg-white/5 rounded-[28px] transition-colors"
                   >
                     <Download size={16} />
                   </button>
                   <button 
-                    className="p-2 hover:bg-red-500/10 text-red-500 rounded-full opacity-0 group-hover:opacity-100 transition-all"
+                    className="p-2 hover:bg-red-500/10 text-red-500 rounded-[28px] opacity-0 group-hover:opacity-100 transition-all"
                     onClick={() => setDeeds(prev => prev.filter(d => d.id !== deed.id))}
                   >
                     <X size={16} />
@@ -383,7 +383,7 @@ Atum! El sistema bategua amb el trellat de la terra.`;
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
             <label className="btn-kit-upload fuchsia flex flex-col gap-2 items-center justify-center p-8 py-12 group">
               <input type="file" hidden onChange={handleUploadDeed} />
-              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+              <div className="w-12 h-12 bg-white/20 rounded-[28px] flex items-center justify-center group-hover:scale-110 transition-transform">
                 <Upload size={24} />
               </div>
               <span className="text-xs font-black uppercase tracking-widest">Pujar Document</span>
@@ -393,7 +393,7 @@ Atum! El sistema bategua amb el trellat de la terra.`;
                 onClick={handleCaptureSnapshot}
                 className="btn-kit-upload accent flex flex-col gap-2 items-center justify-center p-8 py-12 group"
             >
-              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+              <div className="w-12 h-12 bg-white/20 rounded-[28px] flex items-center justify-center group-hover:scale-110 transition-transform">
                 <Bot size={24} />
               </div>
               <span className="text-xs font-black uppercase tracking-widest">Fer Foto o Vídeo</span>
@@ -418,7 +418,7 @@ Atum! El sistema bategua amb el trellat de la terra.`;
             </button>
             
             <button 
-              className="p-3 bg-fuchsia-600 text-white rounded-full hover:scale-110 transition-transform shadow-lg shadow-fuchsia-500/40"
+              className="p-3 bg-fuchsia-600 text-white rounded-[28px] hover:scale-110 transition-transform shadow-lg shadow-fuchsia-500/40"
               onClick={() => openIAIASidebar('herencia_herminio')}
               title="Parlar amb l'Archon"
             >
@@ -436,15 +436,15 @@ Atum! El sistema bategua amb el trellat de la terra.`;
 
       {/* BURBUIXA DE XAT CONTEXTUAL (Archon Bridge) */}
       <div className="fixed bottom-8 right-8 z-[100] flex flex-col items-end gap-3 pointer-events-none">
-        <div className="bg-[#D946EF] text-white px-4 py-2 rounded-2xl rounded-br-none text-[10px] font-black uppercase tracking-widest shadow-2xl animate-bounce pointer-events-auto border-2 border-white/20">
+        <div className="bg-[#D946EF] text-white px-4 py-2 rounded-[28px] rounded-br-none text-[10px] font-black uppercase tracking-widest shadow-2xl animate-bounce pointer-events-auto border-2 border-white/20">
           "Mestre, parlem de Proaguas?"
         </div>
         <button 
           onClick={() => openIAIASidebar('herencia_herminio')}
-          className="w-16 h-16 bg-[#D946EF] text-white rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(217,70,239,0.5)] border-2 border-white/30 hover:scale-110 transition-all pointer-events-auto relative group"
+          className="w-16 h-16 bg-[#D946EF] text-white rounded-[28px] flex items-center justify-center shadow-[0_0_30px_rgba(217,70,239,0.5)] border-2 border-white/30 hover:scale-110 transition-all pointer-events-auto relative group"
         >
           <MessageSquare size={28} />
-          <div className="absolute -top-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-black animate-pulse" />
+          <div className="absolute -top-1 -right-1 w-5 h-5 bg-green-500 rounded-[28px] border-2 border-black animate-pulse" />
         </button>
       </div>
     </div>

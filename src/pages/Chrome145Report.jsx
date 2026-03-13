@@ -60,7 +60,7 @@ const Chrome145Report = () => {
                                 navigate('/');
                             }
                         }} 
-                        className="w-12 h-12 flex items-center justify-center bg-white/5 rounded-full hover:bg-white/10 transition-colors"
+                        className="w-12 h-12 flex items-center justify-center bg-white/5 rounded-[28px] hover:bg-white/10 transition-colors"
                     >
                         <ArrowLeft size={24} />
                     </button>
@@ -69,7 +69,7 @@ const Chrome145Report = () => {
                         <p className="text-slate-400 font-medium">Auditoria Sobirana [v10.33.2]</p>
                     </div>
                 </div>
-                <div className="flex items-center gap-2 px-4 py-2 bg-emerald-500/10 text-emerald-400 rounded-full border border-emerald-500/20">
+                <div className="flex items-center gap-2 px-4 py-2 bg-emerald-500/10 text-emerald-400 rounded-[28px] border border-emerald-500/20">
                     <Shield size={16} /> <span className="text-xs font-black uppercase">Optimitzat</span>
                 </div>
             </header>
@@ -103,16 +103,16 @@ const Chrome145Report = () => {
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div className="lg:col-span-2 space-y-8">
-                    <section className="bg-white/5 border border-white/10 rounded-3xl p-8">
+                    <section className="bg-white/5 border border-white/10 rounded-[28px] p-8">
                         <h3 className="text-xl font-black uppercase mb-6 flex items-center gap-3">
                             <AlertTriangle className="text-orange-500" /> Recursos Bloquejants Identificats
                         </h3>
                         {metrics.renderBlockingResources.length > 0 ? (
                             <div className="space-y-4">
                                 {metrics.renderBlockingResources.map((res, i) => (
-                                    <div key={i} className="flex items-center justify-between p-4 bg-white/5 rounded-2xl border border-white/5">
+                                    <div key={i} className="flex items-center justify-between p-4 bg-white/5 rounded-[28px] border border-white/5">
                                         <div className="flex items-center gap-4">
-                                            <div className="w-10 h-10 flex items-center justify-center bg-orange-500/10 text-orange-500 rounded-xl">
+                                            <div className="w-10 h-10 flex items-center justify-center bg-orange-500/10 text-orange-500 rounded-[28px]">
                                                 <Activity size={20} />
                                             </div>
                                             <div>
@@ -132,11 +132,11 @@ const Chrome145Report = () => {
                         )}
                     </section>
 
-                    <section className="bg-white/5 border border-white/10 rounded-3xl p-8">
+                    <section className="bg-white/5 border border-white/10 rounded-[28px] p-8">
                         <h3 className="text-xl font-black uppercase mb-6 flex items-center gap-3">
                             <Cpu className="text-indigo-400" /> Model Context Protocol (MCP)
                         </h3>
-                        <div className="p-6 bg-indigo-500/5 border border-indigo-500/20 rounded-2xl">
+                        <div className="p-6 bg-indigo-500/5 border border-indigo-500/20 rounded-[28px]">
                             <p className="text-slate-300 leading-relaxed mb-4">
                                 El sistema està preparat per a connectar-se al servidor MCP de Chrome DevTools 145. 
                                 Això ens permetrà una automatització bategada on la IA pot inspeccionar i optimitzar 
@@ -154,12 +154,12 @@ const Chrome145Report = () => {
                 </div>
 
                 <aside className="space-y-8">
-                    <div className="bg-emerald-500/5 border border-emerald-500/10 rounded-3xl p-8">
+                    <div className="bg-emerald-500/5 border border-emerald-500/10 rounded-[28px] p-8">
                         <h4 className="font-black uppercase text-emerald-400 mb-4 text-sm">Protocol de Millora</h4>
                         <ul className="space-y-4 text-sm text-slate-400">
                             <li className="flex gap-3">
                                 <span className="text-emerald-500">✔</span>
-                                Pre-càrrega de fonts (Roboto Condensed)
+                                Pre-càrrega de fonts (Noto Sans)
                             </li>
                             <li className="flex gap-3">
                                 <span className="text-emerald-500">✔</span>
@@ -176,7 +176,7 @@ const Chrome145Report = () => {
                         </ul>
                     </div>
 
-                    <div className="bg-white/5 border border-white/10 rounded-3xl p-8 text-center">
+                    <div className="bg-white/5 border border-white/10 rounded-[28px] p-8 text-center">
                         <p className="text-xs text-slate-500 uppercase font-black mb-2 tracking-widest">Estat de la Séquia</p>
                         <p className="text-3xl font-black text-white">99.8%</p>
                         <p className="text-[10px] text-slate-400 uppercase mt-2">Disponibilitat Bategada</p>
@@ -188,7 +188,7 @@ const Chrome145Report = () => {
 };
 
 const MetricCard = ({ icon, label, value, status }) => (
-    <div className="bg-white/5 border border-white/10 rounded-3xl p-6 transition-transform hover:scale-105">
+    <div className="bg-white/5 border border-white/10 rounded-[28px] p-6 transition-transform hover:scale-105">
         <div className="flex items-center gap-3 mb-4">
             {icon}
             <span className="text-[10px] font-black uppercase text-slate-500 tracking-wider">{label}</span>

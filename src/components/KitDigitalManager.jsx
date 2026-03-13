@@ -141,7 +141,7 @@ Atum! El sistema bategua amb el certificat segellat per a Sollutia.`;
               <h2 className="text-xl font-black uppercase text-orange-500 flex items-center gap-3">
                 <Sparkles /> Informe Sant Grial: Kit Digital
               </h2>
-              <button onClick={() => setShowSollutiaGenerator(false)} className="p-2 hover:bg-white/5 rounded-full transition-all">
+              <button onClick={() => setShowSollutiaGenerator(false)} className="p-2 hover:bg-white/5 rounded-[28px] transition-all">
                 <X />
               </button>
             </header>
@@ -152,7 +152,7 @@ Atum! El sistema bategua amb el certificat segellat per a Sollutia.`;
                   
                   <div className="sheet-header-meta">
                       <div className="report-seal">
-                          <img src="/assets/master/logo_socdepoble_black_sketch.png" alt="Logo" />
+                          <img src="/assets/master/logo-socdepoble-rect-negre.svg" alt="Logo" />
                           <span>SOCDEPOBLE.ORG</span>
                       </div>
                       <span>ACORD: {agreementData.id}</span>
@@ -167,7 +167,7 @@ Atum! El sistema bategua amb el certificat segellat per a Sollutia.`;
                       </p>
                   </section>
 
-                  <section className="bg-orange-500/5 p-8 rounded-3xl border border-orange-500/10 my-10">
+                  <section className="bg-orange-500/5 p-8 rounded-[28px] border border-orange-500/10 my-10">
                       <h4 className="flex items-center gap-3 !border-none">
                           <Terminal size={18} /> CRÒNICA DE NAVEGACIÓ SOBIRANA
                       </h4>
@@ -180,7 +180,7 @@ Atum! El sistema bategua amb el certificat segellat per a Sollutia.`;
                                   <span className="text-orange-500 font-bold">[ACCÉS]</span>
                                   <span>Portal G0 Red.es (Sede Electrónica)</span>
                               </div>
-                              <a href="https://sede.red.gob.es/es/procedimientos/kit-digital" target="_blank" rel="noreferrer" className="text-blue-600 underline ml-20 flex items-center gap-1">
+                              <a href="https://sede.red.gob.es/es/procedimientos/kit-digital" target="_blank" rel="noreferrer" className="text-orange-600 underline ml-20 flex items-center gap-1">
                                   https://sede.red.gob.es/es/procedimientos/kit-digital <ExternalLink size={10} />
                               </a>
                               <p className="ml-20 text-[10px] text-gray-500">L'IAIA ha verificat l'estat de l'Acord {agreementData.id} i el bo de 3.000€.</p>
@@ -201,14 +201,14 @@ Atum! El sistema bategua amb el certificat segellat per a Sollutia.`;
                       </h4>
                       <div className="space-y-4 mt-4">
                           <div className="flex gap-4 items-start">
-                              <div className="w-6 h-6 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 font-black text-xs shrink-0">1</div>
+                              <div className="w-6 h-6 rounded-[28px] bg-orange-100 flex items-center justify-center text-orange-600 font-black text-xs shrink-0">1</div>
                               <div>
                                   <p className="font-bold text-sm">Signatura amb AutoFirma / Cl@ve</p>
                                   <p className="text-xs text-gray-500">Red.es demana la signatura de l'amo. Has d'entrar a la seu electrònica amb el teu certificat digital per acceptar l'abonament del bo.</p>
                               </div>
                           </div>
                           <div className="flex gap-4 items-start">
-                              <div className="w-6 h-6 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 font-black text-xs shrink-0">2</div>
+                              <div className="w-6 h-6 rounded-[28px] bg-orange-100 flex items-center justify-center text-orange-600 font-black text-xs shrink-0">2</div>
                               <div>
                                   <p className="font-bold text-sm">Validar el "Plan SEO Control"</p>
                                   <p className="text-xs text-gray-500">Revisa que la solució de Sollutia s'ajusta al que vas parlar amb ells abans que l'IAIA tanqui el tràmit de justificació.</p>
@@ -253,7 +253,7 @@ Atum! El sistema bategua amb el certificat segellat per a Sollutia.`;
 
             <footer className="p-8 border-t border-white/5 flex gap-4 bg-black/20">
               <button
-                className="flex-1 master-button-canonic bg-orange-600 text-white py-4 rounded-full font-black uppercase text-xs tracking-widest shadow-lg shadow-orange-900/40"
+                className="flex-1 master-button-canonic bg-orange-600 text-white py-4 rounded-[28px] font-black uppercase text-xs tracking-widest shadow-lg shadow-orange-900/40"
                 onClick={() => {
                   navigator.clipboard.writeText(generateSollutiaJustification());
                   alert("Text de memòria copiat, Mestre!");

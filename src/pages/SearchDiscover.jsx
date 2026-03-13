@@ -110,7 +110,7 @@ const SearchDiscover = () => {
                 keywords={query ? `${query}, cerca, pobles, comunitat valenciana` : 'pobles, comunitat valenciana, xarxa social, proximitat'}
             />
             <div className="search-nav-bar glass-premium h-20 px-4 flex items-center gap-4">
-                <button className="back-circle w-14 h-14 rounded-full border border-white/10 bg-white/5 active:scale-95 hover:bg-white/10 transition-all flex items-center justify-center shrink-0" onClick={() => { hapticService.notifySuccess(); navigate(-1); }}>
+                <button className="back-circle w-14 h-14 rounded-[28px] border border-white/10 bg-white/5 active:scale-95 hover:bg-white/10 transition-all flex items-center justify-center shrink-0" onClick={() => { hapticService.notifySuccess(); navigate(-1); }}>
                     <ArrowLeft size={28} className="text-white" />
                 </button>
                 <div className="search-input-wrapper flex-1 relative flex items-center h-14 bg-white/10 rounded-[28px] border-2 border-white/10 focus-within:border-primary/50 transition-all">
@@ -126,7 +126,7 @@ const SearchDiscover = () => {
                         className="main-search-input bg-transparent border-none outline-none w-full h-full pl-14 pr-12 text-xl font-black uppercase tracking-tight text-white placeholder:text-white/20"
                     />
                     {query && (
-                        <button className="clear-search-btn absolute right-4 w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all" onClick={clearSearch}>
+                        <button className="clear-search-btn absolute right-4 w-8 h-8 rounded-[28px] bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all" onClick={clearSearch}>
                             <X size={18} className="text-white" />
                         </button>
                     )}

@@ -1,29 +1,28 @@
+# Headers d'Aïllament Creuat (COOP/COEP) per a habilitar SharedArrayBuffer i OPFS Async per a SQLite
 <IfModule mod_headers.c>
-  # [ANTI-CACHE] Evitar que el navegador guarde l'index.html vell
-  <FilesMatch "index\.html$">
-    Header set Cache-Control "no-cache, no-store, must-revalidate"
-    Header set Pragma "no-cache"
-    Header set Expires 0
-  </FilesMatch>
-
-  # [MASTER BLINDATGE] COOP/COEP per a SQLite/WASM i Sobirania Digital
-  Header set Cross-Origin-Opener-Policy "same-origin"
-  Header set Cross-Origin-Embedder-Policy "credentialless"
-  
-  # Seguretat addicional
-  Header set X-Frame-Options "DENY"
-  Header set X-Content-Type-Options "nosniff"
-  Header set Referrer-Policy "strict-origin-when-cross-origin"
-  Header set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
-  Header set Permissions-Policy "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+    Header set Cross-Origin-Opener-Policy "same-origin"
+    Header set Cross-Origin-Embedder-Policy "credentialless"
 </IfModule>
 
+# [MASTER PROTOCOL] Obligatory MIME Types for PowerSync / SQLite WASM
+<IfModule mod_mime.c>
+    AddType application/wasm .wasm
+</IfModule>
+
+# Ruteig SPA (React Router)
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
+
+  # Forçar HTTPS i domini canònic (socdepoble.org) per evitar errors SSL en dominis secundaris
+  RewriteCond %{HTTP_HOST} !=localhost
+  RewriteCond %{HTTP_HOST} !=127.0.0.1
+  RewriteCond %{HTTPS} off [OR]
+  RewriteCond %{HTTP_HOST} !^socdepoble\.org$ [NC]
+  RewriteRule ^(.*)$ https://socdepoble.org/$1 [L,R=301]
+
   RewriteRule ^index\.html$ - [L]
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteCond %{REQUEST_FILENAME} !-l
   RewriteRule . /index.html [L]
 </IfModule>

@@ -8,9 +8,9 @@ export const initGA = () => {
         // logger.info("🏺 [ANALYTICS] Bategat mètric inicialitzat");
     } else {
         // Silenciós en producció per evitar soroll visual
-        if (import.meta.env.DEV) {
+        /* if (import.meta.env.DEV) {
             console.log("🏺 [ANALYTICS] Mode silenciós actiu (Sense ID).");
-        }
+        } */
     }
 };
 

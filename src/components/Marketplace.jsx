@@ -2,7 +2,7 @@ import { useDesign } from '../context/DesignContext';
 import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Plus, Loader2, MapPin, Sparkles, Filter, Zap, Check } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import { supabaseService } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
 import { logger } from '../utils/logger';
@@ -10,21 +10,23 @@ import Avatar from './Avatar';
 import StatusLoader from './StatusLoader';
 import MarketSkeleton from './Skeletons/MarketSkeleton';
 import SEO from './SEO';
-import Carousel from './Carousel';
+
+import { useWindowVirtualizer } from '@tanstack/react-virtual';
 import { geminiService } from '../services/geminiService';
 import { rhizomeManager } from '../services/rhizomeManager';
 import { paymentService } from '../services/paymentService';
 import { hapticService } from '../services/hapticService';
 import { IAIA_ID, USER_ROLES } from '../constants';
-import ShareHub from './ShareHub';
+
 import ItemDetailModal from './ItemDetailModal';
 import UniversalCard from './UniversalCard';
 import ContextualHeader from './ContextualHeader';
+import { MOCK_MARKET_ITEMS } from '../data';
 import './Marketplace.css';
 
 const Market = ({ searchTerm = '' }) => {
     const { t } = useTranslation();
-    const { isPlayground, isSuperAdmin } = useAuth();
+    const { isSuperAdmin } = useAuth();
     const { visionMode } = useDesign();
     const navigate = useNavigate();
     const [items, setItems] = useState([]);
@@ -53,11 +55,20 @@ const Market = ({ searchTerm = '' }) => {
 
             // [MASTER] Robust handling of { data, count } response
             const fetchedItems = data || [];
+            
+            // Mix local mock items on the first page
+            let combinedItems = fetchedItems;
+            if (currentPage === 0) {
+                // Remove duplicates by ID if they happen to overlap
+                const fetchedIds = new Set(fetchedItems.map(i => i.id));
+                const uniqueMocks = MOCK_MARKET_ITEMS.filter(m => !fetchedIds.has(m.id));
+                combinedItems = [...uniqueMocks, ...fetchedItems];
+            }
 
             if (append) {
-                setItems(prev => [...(Array.isArray(prev) ? prev : []), ...fetchedItems]);
+                setItems(prev => [...(Array.isArray(prev) ? prev : []), ...combinedItems]);
             } else {
-                setItems(fetchedItems);
+                setItems(combinedItems);
             }
 
             setHasMore(fetchedItems.length === PAGE_SIZE);
@@ -262,6 +273,34 @@ const Market = ({ searchTerm = '' }) => {
         navigate(`/${type}/${targetId}`);
     };
 
+    const [columnCount, setColumnCount] = useState(2);
+    const containerRef = React.useRef(null);
+
+    useEffect(() => {
+        if (!containerRef.current) return;
+        
+        const observer = new ResizeObserver(entries => {
+            for (let entry of entries) {
+                const width = entry.contentRect.width;
+                // Responsive calculation based on actual container width, not the whole window
+                if (width < 500) setColumnCount(viewMode === 'list' || viewMode === 'single' ? 1 : 2);       // mòbil
+                else if (width < 850) setColumnCount(viewMode === 'list' || viewMode === 'single' ? 1 : 3);  // tablet
+                else setColumnCount(viewMode === 'list' || viewMode === 'single' ? 1 : 4);                   // desktop
+            }
+        });
+        
+        observer.observe(containerRef.current);
+        return () => observer.disconnect();
+    }, [viewMode]);
+
+    const rowCount = Math.ceil(filteredItems.length / columnCount);
+
+    const virtualizer = useWindowVirtualizer({
+        count: rowCount,
+        estimateSize: () => viewMode === 'list' ? 80 : 380, // Estimació d'alçada: List (80px), Grid (380px)
+        overscan: 3, 
+    });
+
     if (loading && items.length === 0) {
         return (
             <div className="market-container">
@@ -272,8 +311,10 @@ const Market = ({ searchTerm = '' }) => {
         );
     }
 
+
+
     return (
-        <div className="market-container">
+        <div className="market-container" ref={containerRef}>
             <SEO
                 title={t('market.title') || 'El Mercat'}
                 description={t('market.description') || 'Productes de proximitat, artesania i segona mà directament dels teus veïns.'}
@@ -308,7 +349,7 @@ const Market = ({ searchTerm = '' }) => {
             {/* Semantic Heading for SEO/A11y */}
             <h1 className="sr-only">Mercat de Proximitat de Sóc de Poble</h1>
 
-            {/* REDUNDÀNCIA DE CABECERA ELIMINADA (v11.0.6) */}
+
             <ContextualHeader
                 searchTerm={internalSearchTerm}
                 onSearchChange={setInternalSearchTerm}
@@ -320,34 +361,70 @@ const Market = ({ searchTerm = '' }) => {
                 placeholder="Cerca al mercat..."
             />
 
-            {/* IAIA PORTERA FRAME ELIMINAT (PROTOCOL V11) */}
 
-            <div className={`market-grid view-mode-${viewMode}`}>
-                {filteredItems.length === 0 ? (
-                    <StatusLoader
-                        type="empty"
-                        message={searchTerm ? `No s'ha trobat cap article per a "${searchTerm}"` : t('market.no_items')}
-                        onRetry={null}
-                    />
-                ) : (
-                    filteredItems.map(item => (
-                        <UniversalCard
-                            key={item.uuid || item.id}
-                            item={item}
-                            title={item.title}
-                            excerpt={item.description}
-                            subtitle={item.seller_name || item.seller || 'Sóc de Poble'}
-                            image={item.image_url || '/images/assets/generic_market.png'}
-                            onHeaderClick={() => handleHeaderClick(item)}
-                            onRecipeClick={() => handleRecipeClick(item)}
-                            mode="mercat"
-                            className="market-item-standard"
-                            variant="mercat"
-                            viewMode={viewMode}
-                        />
-                    ))
-                )}
-            </div>
+
+            {filteredItems.length === 0 ? (
+                <StatusLoader
+                    type="empty"
+                    message={searchTerm ? `No s'ha trobat cap article per a "${searchTerm}"` : t('market.no_items')}
+                    onRetry={null}
+                />
+            ) : (
+                <div 
+                    style={{
+                        height: `${virtualizer.getTotalSize()}px`,
+                        width: '100%',
+                        position: 'relative',
+                    }}
+                >
+                    {virtualizer.getVirtualItems().map((virtualRow) => {
+                        const startIndex = virtualRow.index * columnCount;
+                        const rowItems = filteredItems.slice(startIndex, startIndex + columnCount);
+                        
+                        return (
+                            <div
+                                key={virtualRow.key}
+                                data-index={virtualRow.index}
+                                ref={virtualizer.measureElement}
+                                className={`market-grid view-mode-${viewMode}`}
+                                style={{
+                                    position: 'absolute',
+                                    top: 0,
+                                    left: 0,
+                                    width: '100%',
+                                    transform: `translateY(${virtualRow.start}px)`,
+                                    display: 'grid',
+                                    gridTemplateColumns: `repeat(${columnCount}, minmax(0, 1fr))`,
+                                    gap: '16px',
+                                    padding: '0 16px',
+                                    boxSizing: 'border-box'
+                                }}
+                            >
+                                {rowItems.map(item => {
+                                    const imageSources = item.image_url || item.images || item.image || '/images/assets/generic_market.png';
+                                    return (
+                                        <div key={item.uuid || item.id} style={{ height: '100%' }}>
+                                            <UniversalCard
+                                                item={item}
+                                                title={item.title}
+                                                excerpt={item.description}
+                                                subtitle={item.seller_name || item.seller || 'Sóc de Poble'}
+                                                image={imageSources}
+                                                onHeaderClick={() => handleHeaderClick(item)}
+                                                onRecipeClick={() => handleRecipeClick(item)}
+                                                mode="mercat"
+                                                className="market-item-standard"
+                                                variant="mercat"
+                                                viewMode={viewMode}
+                                            />
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        );
+                    })}
+                </div>
+            )}
 
             {
                 hasMore && items.length > 0 && (

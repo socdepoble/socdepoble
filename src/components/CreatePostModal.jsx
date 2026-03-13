@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { X, Image as ImageIcon, Send, Loader2, MessageSquare, Sparkles, Camera, Plus, Shield, BookOpen } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { X, Image as ImageIcon, Send, Loader2, MessageSquare, Sparkles, Camera, Plus, Shield, BookOpen, ArrowLeft } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { supabaseService } from '../services/supabaseService';
 import { hapticService } from '../services/hapticService';
@@ -11,58 +11,40 @@ import './CreatePostModal.css';
 
 const PREDEFINED_TAGS = ['Esdeveniment', 'Avís', 'Consulta', 'Proposta'];
 
-const CreatePostModal = ({ isOpen, onClose, initialPobles = [], editMode = false, postData = null }) => {
+const CreatePostModal = ({ isOpen, onClose, initialPobles = [], editMode = false, postData = null, initialFile = null }) => {
     const { user, profile } = useAuth();
     const [content, setContent] = useState(editMode && postData ? postData.content : '');
-    const [selectedIdentity, setSelectedIdentity] = useState(editMode && postData ? postData.entity_id || 'user' : 'user');
     const [selectedTowns, setSelectedTowns] = useState(editMode && postData ? postData.town_ids || [postData.town_id] : initialPobles);
-    const [isPlayground, setIsPlayground] = useState(editMode && postData ? postData.is_playground : false);
     const [loading, setLoading] = useState(false);
-    const [entities, setEntities] = useState([]);
     const [postType, setPostType] = useState(editMode && postData ? postData.type || 'post' : 'post');
     const [bookTitle, setBookTitle] = useState(editMode && postData ? postData.book_title || '' : '');
     const [chapterNumber, setChapterNumber] = useState(editMode && postData ? postData.chapter_number || '' : '');
-    const [selectedTags, setSelectedTags] = useState(editMode && postData ? postData.tags || [] : []);
     const [multimediaPreview, setMultimediaPreview] = useState(editMode && postData ? postData.image_url : null);
     const [multimediaFile, setMultimediaFile] = useState(null);
     const [iaiaAnalyzing, setIaiaAnalyzing] = useState(false);
     const [isCaptureOpen, setIsCaptureOpen] = useState(false);
-    const [isMagicOpen, setIsMagicOpen] = useState(false);
-
-    const loadEntities = useCallback(async () => {
-        try {
-            const userEntities = await supabaseService.getUserEntities(user.id);
-            setEntities(userEntities);
-        } catch (error) {
-            logger.error('[CreatePostModal] Error loading entities:', error);
-        }
-    }, [user.id]);
-
     useEffect(() => {
         if (isOpen && user) {
             hapticService.bategat();
-            loadEntities();
             if (profile && selectedTowns.length === 0 && !editMode) {
                 const id = profile.town_uuid || profile.town_id;
                 if (id) setSelectedTowns([id]);
             }
             if (editMode && postData) {
                 setContent(postData.content);
-                setSelectedIdentity(postData.entity_id || 'user');
-                setSelectedTowns(postData.town_ids || [postData.town_id]);
                 setPostType(postData.type || 'post');
                 setBookTitle(postData.book_title || '');
                 setChapterNumber(postData.chapter_number || '');
-                setSelectedTags(postData.tags || []);
                 setMultimediaPreview(postData.image_url);
             }
+            if (!editMode && initialFile && !multimediaFile) {
+                setMultimediaFile(initialFile);
+                const reader = new FileReader();
+                reader.onloadend = () => setMultimediaPreview(reader.result);
+                reader.readAsDataURL(initialFile);
+            }
         }
-    }, [isOpen, user, profile, editMode, postData, loadEntities, selectedTowns.length]);
-
-    const toggleTag = (tag) => {
-        setSelectedTags(prev => prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]);
-    };
-
+    }, [isOpen, user, profile, editMode, postData, selectedTowns.length, initialFile, multimediaFile]);
     const handleSubmit = async () => {
         if (!content.trim() || loading) return;
         setLoading(true);
@@ -74,24 +56,24 @@ const CreatePostModal = ({ isOpen, onClose, initialPobles = [], editMode = false
                 author_name: profile.full_name,
                 author_avatar_url: profile.avatar_url,
                 author_role: profile.role,
-                entity_id: selectedIdentity === 'user' ? null : selectedIdentity,
+                entity_id: null,
                 town_uuid: selectedTowns[0] || null,
                 town_id: selectedTowns[0] || null,
                 town_ids: selectedTowns,
                 type: postType,
-                tags: selectedTags,
+                tags: [],
                 ai_percentage: editMode && postData ? postData.ai_percentage : 0,
                 human_percentage: editMode && postData ? postData.human_percentage : 100,
-                is_playground: isPlayground,
+                is_playground: false,
                 book_title: postType === 'book' ? bookTitle : null,
                 chapter_number: postType === 'book' ? parseInt(chapterNumber) || null : null
             };
 
             if (editMode && postData) {
-                await supabaseService.updatePost(postData.id || postData.uuid, postPayload, isPlayground);
+                await supabaseService.updatePost(postData.id || postData.uuid, postPayload, false);
                 logger.info('[CreatePostModal] Post actualitzat amb èxit.');
             } else {
-                await supabaseService.createPost(postPayload, isPlayground);
+                await supabaseService.createPost(postPayload, false);
                 logger.info('[CreatePostModal] Post creat amb èxit.');
             }
 
@@ -137,138 +119,148 @@ const CreatePostModal = ({ isOpen, onClose, initialPobles = [], editMode = false
     if (!isOpen) return null;
 
     return (
-        <div className="m3-dialog-overlay" onClick={onClose}>
-            <div className="m3-dialog-content animate-in-up" onClick={e => e.stopPropagation()}>
-                <header className="m3-dialog-header">
-                    <button className="m3-icon-button" onClick={onClose}>
-                        <X size={24} />
+        <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4">
+            <div 
+                className="absolute inset-0 bg-black/60 backdrop-blur-md" 
+                onClick={onClose}
+            ></div>
+            
+            <div className="relative z-50 w-full max-w-[420px] h-[85vh] md:h-[90vh] flex flex-col rounded-[24px] shadow-2xl bg-[#2A241D] text-white overflow-hidden border border-white/5">
+                
+                {/* Header */}
+                <div className="flex items-center justify-between p-5 border-b border-white/5">
+                    <button onClick={onClose} className="p-2 -ml-2 hover:bg-white/10 rounded-full transition-colors text-white/70 hover:text-white">
+                        <ArrowLeft size={24} />
                     </button>
-                    <div className="header-title-group">
-                        <h2 className="m3-headline-small">Bategar al Mur</h2>
-                        <div className={`playground-badge ${isPlayground ? 'active' : ''}`} onClick={() => setIsPlayground(!isPlayground)}>
-                            <Shield size={12} />
-                            <span>Playground</span>
-                        </div>
-                    </div>
-                    <button
-                        className="m3-button-text"
-                        onClick={handleSubmit}
-                        disabled={loading || !content.trim()}
-                    >
-                        {loading ? 'Publicant...' : 'PUBLICAR'}
-                    </button>
-                </header>
-
-                <div className="m3-dialog-body scrollable">
-                    {/* Identitat Rail */}
-                    <div className="identity-rail-m3">
-                        <div
-                            className={`rail-item ${selectedIdentity === 'user' ? 'active' : ''}`}
-                            onClick={() => setSelectedIdentity('user')}
-                        >
-                            <div className="rail-avatar">
-                                <img src={profile?.avatar_url} alt="You" />
-                            </div>
-                            <span className="m3-label-small">Tu</span>
-                        </div>
-                        {entities.map(e => (
-                            <div
-                                key={e.entities.id}
-                                className={`rail-item ${selectedIdentity === e.entities.id ? 'active' : ''}`}
-                                onClick={() => setSelectedIdentity(e.entities.id)}
-                            >
-                                <div className="rail-avatar">
-                                    <img src={e.entities.avatar_url} alt={e.entities.name} />
-                                </div>
-                                <span className="m3-label-small">{e.entities.name}</span>
-                            </div>
-                        ))}
-                    </div>
-
-                    {/* Town Selector */}
-                    <div className="m3-town-chips">
-                        {profile?.town_name && (
-                            <button
-                                className={`m3-filter-chip ${selectedTowns.includes(profile.town_uuid || profile.town_id) ? 'active' : ''}`}
-                                onClick={() => {
-                                    const id = profile.town_uuid || profile.town_id;
-                                    setSelectedTowns(prev => prev.includes(id) ? prev.filter(t => t !== id) : [...prev, id]);
-                                }}
-                            >
-                                {profile.town_name}
-                            </button>
-                        )}
-                    </div>
-
-                    {/* Media Preview */}
-                    {multimediaPreview && (
-                        <div className="m3-media-preview-box">
-                            <img src={multimediaPreview} alt="Preview" />
-                            <button className="remove-media" onClick={() => { setMultimediaPreview(null); setMultimediaFile(null); }}>
-                                <X size={16} />
-                            </button>
-                            <button className="iaia-btn-fab" onClick={analyzeWithIAIA} disabled={iaiaAnalyzing}>
-                                <Sparkles size={16} />
-                                {iaiaAnalyzing ? 'Estudiant...' : 'IAIA'}
-                            </button>
-                        </div>
-                    )}
-
-                    <div className="m3-editor-container">
-                        <textarea
-                            className="m3-portal-textarea"
-                            placeholder="Què bategue al teu poble?"
-                            value={content}
-                            onChange={(e) => setContent(e.target.value)}
-                            autoFocus
-                        />
-                        <button 
-                            className="magic-wand-trigger"
-                            onClick={() => setIsMagicOpen(true)}
-                            title="Millorar amb el Pregoner Màgic ✨"
-                        >
-                            <Sparkles size={18} />
+                    <h2 className="text-[20px] font-bold tracking-tight text-white">Publicar</h2>
+                    <div className="flex items-center gap-4">
+                        <button className="text-white/70 hover:text-white transition-colors">
+                            {/* Dummy icon for Globe matching screenshot */}
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
                         </button>
-                    </div>
-
-                    {isMagicOpen && (
-                        <MagicPregoner 
-                            onContentGenerated={(newText) => {
-                                setContent(newText);
-                                setIsMagicOpen(false);
-                            }}
-                            onClose={() => setIsMagicOpen(false)}
-                        />
-                    )}
-
-                    {/* Tag Selector */}
-                    <div className="m3-tag-selector">
-                        {PREDEFINED_TAGS.map(tag => (
-                            <button
-                                key={tag}
-                                className={`m3-assist-chip ${selectedTags.includes(tag) ? 'active' : ''}`}
-                                onClick={() => toggleTag(tag)}
-                            >
-                                {tag}
-                            </button>
-                        ))}
+                        <button className="text-white/70 hover:text-white transition-colors">
+                            {/* Dummy icon for Moon matching screenshot */}
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                        </button>
                     </div>
                 </div>
 
-                <footer className="m3-dialog-footer">
-                    <div className="footer-tools">
-                        <button className="m3-icon-button" onClick={() => document.getElementById('post-media').click()}>
-                            <ImageIcon size={20} />
-                        </button>
-                        <button className="m3-icon-button" onClick={() => setIsCaptureOpen(true)}>
-                            <Camera size={20} />
-                        </button>
-                        <button className={`m3-icon-button ${postType === 'book' ? 'active' : ''}`} onClick={() => setPostType(postType === 'book' ? 'post' : 'book')}>
-                            <BookOpen size={20} />
-                        </button>
-                        <input type="file" id="post-media" name="post_media_upload" hidden onChange={handleFileChange} accept="image/*" />
+                {/* Form Body */}
+                <div className="flex-1 overflow-y-auto p-5 space-y-5 custom-scrollbar pb-24">
+                    
+                    {/* Títol */}
+                    <div className="space-y-1.5">
+                        <label className="text-[14px] font-medium text-white/80">Títol</label>
+                        <input 
+                            type="text" 
+                            placeholder="Ex: Bicicleta de muntanya"
+                            className="w-full bg-[#3B332A] border-none text-white placeholder-white/40 rounded-xl px-4 py-3.5 focus:ring-2 focus:ring-orange-500/50 outline-none transition-all"
+                            value={bookTitle}
+                            onChange={(e) => setBookTitle(e.target.value)}
+                        />
                     </div>
-                </footer>
+
+                    {/* Descripció */}
+                    <div className="space-y-1.5">
+                        <label className="text-[14px] font-medium text-white/80">Descripció</label>
+                        <textarea 
+                            placeholder="Descriu el teu article amb detall..."
+                            className="w-full h-32 bg-[#3B332A] border-none text-white placeholder-white/40 rounded-xl px-4 py-3.5 focus:ring-2 focus:ring-orange-500/50 outline-none transition-all resize-none"
+                            value={content}
+                            onChange={(e) => setContent(e.target.value)}
+                        />
+                    </div>
+
+                    {/* Grid: Preu & Categoria */}
+                    <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-1.5">
+                            <label className="text-[14px] font-medium text-white/80">Preu (opcional)</label>
+                            <div className="relative">
+                                <input 
+                                    type="text" 
+                                    placeholder="250"
+                                    className="w-full bg-[#3B332A] border-none text-white placeholder-white/40 rounded-xl pl-4 pr-10 py-3.5 focus:ring-2 focus:ring-orange-500/50 outline-none transition-all"
+                                />
+                                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-white/60 font-medium">€</span>
+                            </div>
+                        </div>
+                        <div className="space-y-1.5">
+                            <label className="text-[14px] font-medium text-white/80">Categoria</label>
+                            <select className="w-full bg-[#3B332A] border-none text-white/80 rounded-xl px-4 py-3.5 appearance-none focus:ring-2 focus:ring-orange-500/50 outline-none transition-all cursor-pointer">
+                                <option>Seleccionar</option>
+                                <option>Productes de l'Horta</option>
+                                <option>Serveis</option>
+                            </select>
+                            {/* Custom caret */}
+                            <div className="absolute right-9 top-[372px] md:top-[388px] pointer-events-none text-white/50">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Afegeix imatges */}
+                    <div className="space-y-3 pt-2">
+                        <label className="text-[16px] font-bold text-white">Afegeix imatges o vídeos</label>
+                        
+                        {multimediaPreview ? (
+                            <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-black/50 border border-white/10 group">
+                                <img src={multimediaPreview} alt="Preview" className="w-full h-full object-cover" />
+                                <button 
+                                    onClick={() => { setMultimediaPreview(null); setMultimediaFile(null); }}
+                                    className="absolute top-2 right-2 w-8 h-8 flex items-center justify-center bg-black/60 rounded-full text-white hover:bg-red-500 transition-colors"
+                                >
+                                    <X size={16} />
+                                </button>
+                                <button className="absolute bottom-3 right-3 px-3 py-1.5 bg-[#4F46E5] text-white text-xs font-bold rounded-lg flex items-center gap-1.5 shadow-lg shadow-indigo-500/20" onClick={analyzeWithIAIA} disabled={iaiaAnalyzing}>
+                                    <Sparkles size={14} />
+                                    {iaiaAnalyzing ? 'Estudiant...' : 'IAIA'}
+                                </button>
+                            </div>
+                        ) : (
+                            <label 
+                                className="w-full aspect-[4/3] max-h-56 bg-[#3B332A]/50 border-2 border-dashed border-white/20 rounded-2xl flex flex-col items-center justify-center cursor-pointer hover:bg-[#3B332A] hover:border-orange-500/50 transition-all group"
+                                onDragOver={(e) => { e.preventDefault(); e.currentTarget.classList.add('border-orange-500', 'bg-[#3B332A]'); }}
+                                onDragLeave={(e) => { e.preventDefault(); e.currentTarget.classList.remove('border-orange-500', 'bg-[#3B332A]'); }}
+                                onDrop={(e) => {
+                                    e.preventDefault();
+                                    e.currentTarget.classList.remove('border-orange-500', 'bg-[#3B332A]');
+                                    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+                                        const file = e.dataTransfer.files[0];
+                                        setMultimediaFile(file);
+                                        const reader = new FileReader();
+                                        reader.onloadend = () => setMultimediaPreview(reader.result);
+                                        reader.readAsDataURL(file);
+                                    }
+                                }}
+                            >
+                                <div className="text-white/60 mb-3 group-hover:scale-110 group-hover:text-white transition-all">
+                                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                                        <path d="m21 15-5-5L5 21"/>
+                                        <path d="M12 12v6" />
+                                        <path d="M9 15h6" />
+                                    </svg>
+                                </div>
+                                <span className="text-[15px] font-bold text-white mb-1">Arrossega o selecciona els arxius</span>
+                                <span className="text-[12px] text-white/50 mb-4">Fins a 5 imatges o vídeos</span>
+                                <div className="px-5 py-2.5 bg-orange-500/20 text-orange-400 font-bold rounded-full text-sm group-hover:bg-orange-500 group-hover:text-white transition-colors">
+                                    Seleccionar arxius
+                                </div>
+                                <input type="file" className="hidden" accept="image/*,video/*" onChange={handleFileChange} />
+                            </label>
+                        )}
+                    </div>
+
+                    {/* PUBLICAR ACTION */}
+                    <button 
+                        className={`w-full py-4 mt-6 rounded-[20px] font-bold text-[18px] transition-all flex items-center justify-center ${(content.trim() || bookTitle.trim() || multimediaPreview) ? 'bg-[#F97316] text-white shadow-[0_4px_14px_0_rgba(249,115,22,0.39)] hover:shadow-[0_6px_20px_rgba(249,115,22,0.23)] hover:bg-[#ea580c] active:scale-[0.98]' : 'bg-[#3B332A] text-white/40 cursor-not-allowed'}`}
+                        onClick={handleSubmit}
+                        disabled={loading || (!content.trim() && !bookTitle.trim() && !multimediaPreview)}
+                    >
+                        {loading ? <Loader2 className="animate-spin w-6 h-6" /> : 'Publicar'}
+                    </button>
+                </div>
             </div>
 
             <CaptureStudio

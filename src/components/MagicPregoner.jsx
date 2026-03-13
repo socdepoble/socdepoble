@@ -62,12 +62,12 @@ const MagicPregoner = ({ onContentGenerated, onClose }) => {
       <div className="bg-[#1a1a1c] border border-orange-500/30 rounded-[32px] w-full max-w-xl overflow-hidden shadow-[0_0_50px_rgba(249,115,22,0.15)] relative text-white">
         <div className="bg-gradient-to-r from-[#F97316] to-[#EA580C] p-6 flex justify-between items-center relative overflow-hidden">
           <div className="flex items-center gap-3 text-white font-black text-2xl tracking-tight z-10">
-            <div className="bg-white/20 p-2 rounded-full backdrop-blur-sm">
+            <div className="bg-white/20 p-2 rounded-[28px] backdrop-blur-sm">
                 <Sparkles className="text-white w-6 h-6 animate-pulse" />
             </div>
             EL PREGONER MÀGIC
           </div>
-          <button onClick={onClose} className="text-white/80 hover:text-white transition-colors bg-black/10 hover:bg-black/20 p-2 rounded-full z-10"><X size={24} /></button>
+          <button onClick={onClose} className="text-white/80 hover:text-white transition-colors bg-black/10 hover:bg-black/20 p-2 rounded-[28px] z-10"><X size={24} /></button>
         </div>
         <div className="p-8 space-y-6">
           <div className="grid grid-cols-2 gap-3 p-1 bg-black/40 rounded-[24px] border border-white/5">

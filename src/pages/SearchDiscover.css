@@ -541,3 +541,65 @@
     position: relative;
     z-index: 1;
 }
+
+/* [LIGHT MODE / DAY MODE OVERRIDES] */
+.light .search-discover-page {
+    background: var(--bg-app);
+}
+
+.light .search-nav-bar {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border-bottom-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+.light .main-search-input::placeholder {
+    color: rgba(0, 0, 0, 0.4) !important;
+}
+
+.light .filter-chip {
+    border-color: rgba(0, 0, 0, 0.15) !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+}
+
+.light .filter-chip.active {
+    background: var(--color-primary) !important;
+    border-color: var(--color-primary) !important;
+    color: #ffffff !important;
+}
+
+.light .recent-item {
+    background: #ffffff;
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+.light .recent-item:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.light .result-item-card {
+    background: #ffffff;
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+.light .no-results-top-vibrant {
+    background: #f8fafc;
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+.light .btn-icon-xl {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.light .semantic-insight-card {
+    background: linear-gradient(135deg, rgba(93, 95, 239, 0.05) 0%, rgba(249, 115, 22, 0.05) 100%);
+    border-color: rgba(93, 95, 239, 0.15);
+}
+
+.light .insight-title-row h4 {
+    color: #000000;
+}
+
+.light .insight-text {
+    color: rgba(0, 0, 0, 0.8);
+}

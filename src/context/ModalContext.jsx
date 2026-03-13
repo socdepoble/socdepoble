@@ -1,9 +1,10 @@
-import React, { createContext, useContext, useState, useMemo } from 'react';
+import React, { createContext, useContext, useState, useMemo, useCallback } from 'react';
 
 const ModalContext = createContext();
 
 export const ModalProvider = ({ children }) => {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+    const [isNotePadOpen, setIsNotePadOpen] = useState(false);
     const [isPostModalOpen, setIsPostModalOpen] = useState(false);
     const [isEventModalOpen, setIsEventModalOpen] = useState(false);
     const [isMarketModalOpen, setIsMarketModalOpen] = useState(false);
@@ -23,22 +24,63 @@ export const ModalProvider = ({ children }) => {
     const [isMagicPregonerOpen, setIsMagicPregonerOpen] = useState(false);
     const [isGuestInteractionModalOpen, setIsGuestInteractionModalOpen] = useState(false);
 
-    const openPostModal = (config = { isPrivate: false }) => {
+    const openPostModal = useCallback((config = { isPrivate: false }) => {
         setPostModalConfig(config);
         setIsPostModalOpen(true);
-    };
+    }, []);
 
-    const openViewer = (config) => {
+    const openViewer = useCallback((config) => {
         setViewerConfig(config);
         setIsViewerOpen(true);
-    };
+    }, []);
 
-    const closeViewer = () => {
+    const closeViewer = useCallback(() => {
         setIsViewerOpen(false);
         setViewerConfig(null);
-    };
+    }, []);
+
+    const openConnectionModal = useCallback((config) => {
+        setConnectionConfig(config);
+        setIsConnectionModalOpen(true);
+    }, []);
+
+    const closeConnectionModal = useCallback(() => {
+        setIsConnectionModalOpen(false);
+        setConnectionConfig(null);
+    }, []);
+
+    const openAgentSelector = useCallback((config) => {
+        setAgentSelectorConfig(config);
+        setIsAgentSelectorOpen(true);
+    }, []);
+
+    const closeAgentSelector = useCallback(() => {
+        setIsAgentSelectorOpen(false);
+        setAgentSelectorConfig(null);
+    }, []);
+
+    const openLegalModal = useCallback((config) => {
+        setLegalConfig(config);
+        setIsLegalModalOpen(true);
+    }, []);
+
+    const closeLegalModal = useCallback(() => {
+        setIsLegalModalOpen(false);
+        setLegalConfig(null);
+    }, []);
+
+    const openEditModal = useCallback((config) => {
+        setEditConfig(config);
+        setIsEditModalOpen(true);
+    }, []);
+
+    const closeEditModal = useCallback(() => {
+        setIsEditModalOpen(false);
+        setEditConfig(null);
+    }, []);
 
     const value = useMemo(() => ({
+        isNotePadOpen, setIsNotePadOpen,
         isCreateModalOpen, setIsCreateModalOpen,
         isPostModalOpen, setIsPostModalOpen,
         isEventModalOpen, setIsEventModalOpen,
@@ -50,52 +92,26 @@ export const ModalProvider = ({ children }) => {
         viewerConfig, openViewer, closeViewer,
         isConnectionModalOpen, setIsConnectionModalOpen,
         connectionConfig, setConnectionConfig,
-        openConnectionModal: (config) => {
-            setConnectionConfig(config);
-            setIsConnectionModalOpen(true);
-        },
-        closeConnectionModal: () => {
-            setIsConnectionModalOpen(false);
-            setConnectionConfig(null);
-        },
+        openConnectionModal, closeConnectionModal,
         isAgentSelectorOpen, setIsAgentSelectorOpen,
         agentSelectorConfig,
-        openAgentSelector: (config) => {
-            setAgentSelectorConfig(config);
-            setIsAgentSelectorOpen(true);
-        },
-        closeAgentSelector: () => {
-            setIsAgentSelectorOpen(false);
-            setAgentSelectorConfig(null);
-        },
+        openAgentSelector, closeAgentSelector,
         isLegalModalOpen, setIsLegalModalOpen,
         legalConfig,
-        openLegalModal: (config) => {
-            setLegalConfig(config);
-            setIsLegalModalOpen(true);
-        },
-        closeLegalModal: () => {
-            setIsLegalModalOpen(false);
-            setLegalConfig(null);
-        },
+        openLegalModal, closeLegalModal,
         isEditModalOpen, setIsEditModalOpen,
         editConfig,
-        openEditModal: (config) => {
-            setEditConfig(config);
-            setIsEditModalOpen(true);
-        },
-        closeEditModal: () => {
-            setIsEditModalOpen(false);
-            setEditConfig(null);
-        },
+        openEditModal, closeEditModal,
         isMagicPregonerOpen, setIsMagicPregonerOpen,
         isGuestInteractionModalOpen, setIsGuestInteractionModalOpen
     }), [
-        isCreateModalOpen, isPostModalOpen, isEventModalOpen, isMarketModalOpen,
+        isNotePadOpen, isCreateModalOpen, isPostModalOpen, isEventModalOpen, isMarketModalOpen,
         isSocialManagerOpen, socialManagerContext, postModalConfig, isViewerOpen, viewerConfig,
         isConnectionModalOpen, connectionConfig, isAgentSelectorOpen, agentSelectorConfig,
         isLegalModalOpen, legalConfig, isEditModalOpen, editConfig, isMagicPregonerOpen,
-        isGuestInteractionModalOpen
+        isGuestInteractionModalOpen,
+        closeAgentSelector, closeConnectionModal, closeEditModal, closeLegalModal, closeViewer,
+        openAgentSelector, openConnectionModal, openEditModal, openLegalModal, openPostModal, openViewer
     ]);
 
     return (
@@ -105,4 +121,5 @@ export const ModalProvider = ({ children }) => {
     );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useModal = () => useContext(ModalContext);

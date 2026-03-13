@@ -1,5 +1,13 @@
 /* UNIVERSAL CARD NEXUS v10.25.0-BATEGAT-GOLDEN: PURIFICACIÓ NUCLEAR EXTREMA */
 
+@media (hover: none) and (pointer: coarse) {
+  .universal-card-virtual.glass,
+  .universal-card-virtual {
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    will-change: transform;
+  }
+}
 .universal-card.view-mode-list {
   background: rgba(255, 255, 255, 0.05) !important;
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
@@ -27,7 +35,7 @@
 
 .card-list-thumbnail {
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .universal-card.view-mode-list:hover .card-list-thumbnail {
@@ -98,13 +106,15 @@
 }
 
 .card-header-boina {
-  background: var(--theme-accent-primary) !important; /* Protocol: Taronja(Nit) / Blau(Dia) */
+  background: var(
+    --theme-accent-primary
+  ) !important; /* Protocol: Taronja(Nit) / Blau(Dia) */
   color: #ffffff !important;
   padding: 0 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 64px !important; 
+  height: 64px !important;
   border-radius: 0;
   position: relative;
   z-index: 10;
@@ -1000,31 +1010,22 @@
   border: 1px solid var(--border-subtle);
 }
 
-/* RESPONSIVITY */
+/* RESPONSIVITY (Mobile First - Single Column Strict) */
 @media (max-width: 600px) {
   .universal-card {
     border-radius: var(--radius-m);
     margin: 8px 0;
-    display: grid;
-    grid-template-columns: auto 1fr;
-    grid-template-rows: auto 1fr auto;
-    grid-template-areas:
-      "header header"
-      "media body"
-      "media footer";
-    align-items: stretch;
-  }
-
-  .universal-card .card-header-boina {
-    grid-area: header;
+    display: flex;
+    flex-direction: column;
+    /* Removed the side-by-side grid */
   }
 
   .universal-card .card-media-wrapper {
-    grid-area: media;
-    width: 130px;
-    height: 100%;
-    min-height: 130px;
-    border-bottom-left-radius: var(--radius-m);
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9; /* Landscape image format for better vertical rhythm */
+    min-height: auto;
+    border-bottom-left-radius: 0; /* Clear previous side-radius */
   }
 
   .universal-card .universal-card-media {
@@ -1033,35 +1034,26 @@
   }
 
   .universal-card .card-body {
-    grid-area: body;
-    padding: 12px;
-  }
-
-  .universal-card .card-footer-master {
-    grid-area: footer;
+    padding: 16px;
   }
 
   .universal-card .genesis-title {
-    font-size: 16px;
-    line-height: 1.2;
-    margin-bottom: 4px;
+    font-size: 18px;
+    line-height: 1.25;
+    margin-bottom: 6px;
   }
 
   .universal-card .card-excerpt {
-    font-size: 13px;
-    line-height: 1.4;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
   }
 }
 
 @media (max-width: 400px) {
   .universal-card {
     margin: 4px 0;
-  }
-  .universal-card .card-media-wrapper {
-    width: 100px;
-    min-height: 100px;
   }
   .card-header-boina {
     padding: 8px;
@@ -1073,7 +1065,8 @@
     white-space: normal !important;
     word-break: break-word;
   }
-  .header-date, .header-time {
+  .header-date,
+  .header-time {
     font-size: 9px !important;
   }
   .card-body {
@@ -1090,20 +1083,20 @@
     padding: 0 12px;
     font-size: 12px;
   }
-  .footer-actions-mur, .footer-event-master, .footer-pobles-master, .footer-ajuntament-master, .footer-mapa-master {
+  .footer-actions-mur,
+  .footer-event-master,
+  .footer-pobles-master,
+  .footer-ajuntament-master,
+  .footer-mapa-master {
     padding: 8px;
   }
 }
 
 @media (max-width: 350px) {
   .card-tags-row {
-     display: none;
+    display: none;
   }
   .universal-card {
     border-radius: 12px;
-  }
-  .universal-card .card-media-wrapper {
-    width: 80px;
-    min-height: 80px;
   }
 }

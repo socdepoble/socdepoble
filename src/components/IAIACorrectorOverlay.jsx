@@ -17,7 +17,7 @@ const IAIACorrectorOverlay = ({ corrections, onApply, onClose }) => {
                 </div>
                 <button 
                     onClick={onClose}
-                    className="p-1 hover:bg-white/10 rounded-full transition-colors"
+                    className="p-1 hover:bg-white/10 rounded-[28px] transition-colors"
                 >
                     <X size={18} />
                 </button>
@@ -45,7 +45,7 @@ const IAIACorrectorOverlay = ({ corrections, onApply, onClose }) => {
                                 </div>
                                 <button 
                                     onClick={() => onApply(corr)}
-                                    className="shrink-0 p-2 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-500 rounded-lg transition-all"
+                                    className="shrink-0 p-2 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-500 rounded-[20px] transition-all"
                                     title="Aplicar correcció"
                                 >
                                     <Check size={16} />

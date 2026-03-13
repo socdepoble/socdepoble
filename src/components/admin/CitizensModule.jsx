@@ -79,7 +79,7 @@ const CitizensModule = () => {
                         <input
                             type="text"
                             placeholder="Cerca per nom o @usuari..."
-                            className="bg-gray-900/60 border border-gray-700 rounded-lg pl-10 pr-4 py-2 text-sm text-white focus:outline-none focus:border-cyan-500 w-64"
+                            className="bg-gray-900/60 border border-gray-700 rounded-[20px] pl-10 pr-4 py-2 text-sm text-white focus:outline-none focus:border-cyan-500 w-64"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
@@ -87,7 +87,7 @@ const CitizensModule = () => {
                 </div>
             </header>
 
-            <div className="bg-gray-900/20 border border-gray-800 rounded-2xl overflow-hidden">
+            <div className="bg-gray-900/20 border border-gray-800 rounded-[28px] overflow-hidden">
                 <table className="w-full text-left text-sm">
                     <thead className="bg-gray-900/40 text-[10px] uppercase tracking-wider text-gray-500 border-b border-gray-800">
                         <tr>
@@ -108,7 +108,7 @@ const CitizensModule = () => {
                                 <td className="px-6 py-4">
                                     <div className="flex items-center gap-3">
                                         <div
-                                            className="w-10 h-10 rounded-full bg-cover bg-center border border-gray-700"
+                                            className="w-10 h-10 rounded-[28px] bg-cover bg-center border border-gray-700"
                                             style={{ backgroundImage: `url(${c.avatar_url || 'https://api.dicebear.com/7.x/avataaars/svg?seed=' + c.id})` }}
                                         />
                                         <div>

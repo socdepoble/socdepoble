@@ -164,7 +164,7 @@ const DocumentViewer = ({ document: doc, onClose, onSave }) => {
                                 </div>
                                 {/* SEGELL DEL MAS GRAVAT A FOC */}
                                 <div className="infography-footer-seal" style={{ marginTop: '30px', opacity: 0.6, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
-                                    <img src="/assets/master/logo_socdepoble_black_sketch.png" alt="" style={{ height: '16px' }} />
+                                    <img src="/assets/master/logo-socdepoble-rect-negre.svg" alt="" style={{ height: '16px' }} />
                                     <span style={{ fontWeight: 800, fontSize: '10pt', color: '#000' }}>socdepoble.org</span>
                                 </div>
                             </header>
@@ -174,7 +174,7 @@ const DocumentViewer = ({ document: doc, onClose, onSave }) => {
                         <article className="document-sheet">
                             <div className="sheet-watermark">SÓC DE POBLE</div>
                             <div className="sheet-header-meta">
-                                <img src="/assets/master/logo_socdepoble_black_sketch.png" alt="Logo Canònic" style={{ height: '24px', opacity: 0.8 }} />
+                                <img src="/assets/master/logo-socdepoble-rect-negre.svg" alt="Logo Canònic" style={{ height: '24px', opacity: 0.8 }} />
                                 <span className="page-number">PÀGINA 2 DE 2</span>
                             </div>
                             
@@ -187,7 +187,7 @@ const DocumentViewer = ({ document: doc, onClose, onSave }) => {
 
                             <footer className="sheet-footer">
                                 <div className="footer-logos">
-                                    <img src="/assets/master/logo_socdepoble_black_sketch.png" alt="Sóc de Poble" style={{ height: '20px' }} />
+                                    <img src="/assets/master/logo-socdepoble-rect-negre.svg" alt="Sóc de Poble" style={{ height: '20px' }} />
                                     <span style={{ fontWeight: 800, color: '#333' }}>socdepoble.org</span>
                                 </div>
                                 <p>Llegibilitat Sant Grial v3 (18pt Condensed) | Protocol 1911/2024</p>

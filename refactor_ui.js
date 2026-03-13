@@ -1,5 +1,5 @@
 import fs from 'fs';
-import path from 'path';
+
 
 const MODAL_VARS = new Set([
   'isCreateModalOpen', 'setIsCreateModalOpen',

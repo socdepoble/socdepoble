@@ -26,7 +26,8 @@ class ForensicService {
         logger.log('[Forensic] Report bategat al sistema:', newReport.id);
 
         // [PROTOCOLO PREGONER - BATEGAT AUTOMÀTIC]
-        // Si estem en local, enviem l'error al Pregoner de l'Antigravity (Port 9001)
+        // Apagat per defecte per evitar soroll de ERR_CONNECTION_REFUSED a la consola dev
+        /*
         if (typeof window !== 'undefined' && 
             (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') &&
             !window.__SILENCE_FORENSIC__
@@ -40,6 +41,7 @@ class ForensicService {
                 // Sileci total si el pregoner no està viu
             });
         }
+        */
 
         // [IAIA ALERT TRIGGER]
         window.dispatchEvent(new CustomEvent('iaia-forensic-alert', { detail: newReport }));

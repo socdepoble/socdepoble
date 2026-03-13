@@ -23,9 +23,11 @@ Per a assegurar que el Mas bategue amb harmonia, s'han de seguir aquestes regles
 ## 4. Harmonia i Equilibri Visual 🏺⚖️
 
 - **Equilibri del Contingut**: El disseny ha de permetre que el contingut "respire". L'excés de mida pot trencar la pau del territori.
-- **Mides de Logo**: El logo a la capçalera ha de mantenir una proporció equilibrada (aprox. `h-10` a `h-11`) per a no eclipsar la funcionalitat de les eines.
-- **Espaiat de Capçalera**: La distància entre el menú sandvitx i el logo ha de ser de `24px` (`gap-6`) sense marges addicionals, per a evitar buits innecessaris i mantenir la cohesió.
-- **Reflexió en la Col·locació**: Cada element ha de ser fruit d'una reflexió sobre la seua posició i l'harmonia global del Mas. Més gran no sempre és millor; l'equilibri és el bategat perfecte.
+- **La Bellesa com a Deure (Zero Estrès):** Qualsevol targeta (Card), document o aplicació dissenyada per nosaltres **ha de transmetre calma i seguretat**. Si l'usuari sent tensió visual intentant entendre "què fa ací aquest text enganxat", el disseny ha fallat.
+- **La Llei de l'Orgull Rural (Mai Amagar la Marca):** Mai per excés de "clean design" eliminarem l'escut a les targetes principals, capçaleres o documents formals. Sentim orgull de 'Sóc de Poble' i ho reivindiquem als espais. Mentres hi haja aire i marges (sense amuntegar-se de manera tensa), el logotip (sencer, amb textos o només poma depenent de l'element) sempre presideix l'escena.
+- **La Respiració Universal (Equivalència PDF vs Pantalla):** Tant en paper (margin de 10mm-20mm) com a la web (paddings de `p-6`, `p-8`, `gap-y` generosos), els elements (sobretot els de les Targetes o Cards) han de poder respirar. En el desenvolupament web, s'han d'estudiar sempre els píxels exactes per garantir aquesta distància sense apinyament. Cal mesurar perfectament espais buits (negatius) i plens. L'apretament constant d'elements contra els marges queda prohibit. L'ull necessita calma on aterrar.
+- **Mides de Logo i Marges d'Aire**: El logo a les capçaleres ha de mantenir una proporció racional (ex. menys de 30px d'alt) i sempre incloure caixes d'aire/respiració (marges equivalents a mínim 10mm o 3-4 rems lliures al seu voltant) per no eclipsar la funcionalitat ni amuntegar-se.
+- **Reflexió en la Col·locació**: No es tracta d'eixir del pas ni moure píxels al vol; tota decisió gràfica (com presentar la informació contextual d'un NFT, o el final d'un Document amb capçaleres en Blau i peu justificat) ha d'estar sostinguda per raons d'usabilitat netes, aconseguint que la vista es clave exactament on cal.
 
 ## 5. El Protocol de la Boina (Header) 🏺🧢
 

@@ -198,6 +198,11 @@
         "iaia_phone_ask": "Dona'm la clau del teu mòbil. 📱",
         "iaia_otp_ask": "Posa el codi de seguretat ací! 📱🏛️",
         "iaia_welcome": "Benvingut a la plaça, veí! 🎊",
+        "iaia_guide_identity": "Registra't com a persona. Una vegada dins, podràs crear els teus grups, empreses o institucions.",
+        "iaia_guide_town": "Molt bé. I de quin poble eres?",
+        "iaia_guide_connection": "Necessite la clau del teu mòbil per connectar-te.",
+        "iaia_guide_verify": "Posa el codi de seguretat que t'acaba d'arribar! 📱",
+        "iaia_guide_welcome": "Dins! Benvingut a la plaça! 🎊",
         "name_label": "Nom i Cognoms",
         "name_placeholder": "Qui eres? (Nom i Cognoms)",
         "personal_register_title": "EL TEU NOM DE VEÍ",
@@ -388,5 +393,16 @@
                 "image": "/assets/infographies/art_memoria_v1036.png"
             }
         ]
+    },
+    "emoji": {
+        "frequently_used": "Utilitzats recentment",
+        "smileys_people": "Cares i persones",
+        "animals_nature": "Animals i natura",
+        "food_drink": "Menjar i beguda",
+        "travel_places": "Viatges i llocs",
+        "activities": "Activitats",
+        "objects": "Objectes",
+        "symbols": "Símbols",
+        "flags": "Banderes"
     }
 }

@@ -27,7 +27,8 @@ export const wordpressImporter = {
                     uuid: crypto.randomUUID(),
                     author_id: userId,
                     entity_id: entityId, // Vinculació a l'Empresa
-                    content: wpPost.content.rendered.replace(/<\/?[^>]+(>|$)/g, ""), // Clean HTML
+                    // MANTINDRE FORMAT HTML ORIGINAL. No s'eliminen etiquetes <b>, <i>, <img>, etc.
+                    content: wpPost.content.rendered, 
                     image_url: wpPost._embedded?.['wp:featuredmedia']?.[0]?.source_url || null,
                     created_at: wpPost.date,
                     town_uuid: 'a40b12da-5c54-4a53-adfd-b20d3019bda5',

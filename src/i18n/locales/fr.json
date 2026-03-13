@@ -77,5 +77,16 @@
     "notifications": {
         "title": "Notifications",
         "empty": "Aucune nouvelle notification."
+    },
+    "emoji": {
+        "frequently_used": "Récemment utilisés",
+        "smileys_people": "Visages et personnes",
+        "animals_nature": "Animaux et nature",
+        "food_drink": "Nourriture et boisson",
+        "travel_places": "Voyages et lieux",
+        "activities": "Activités",
+        "objects": "Objets",
+        "symbols": "Symboles",
+        "flags": "Drapeaux"
     }
 }

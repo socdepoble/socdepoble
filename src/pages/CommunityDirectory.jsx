@@ -7,6 +7,7 @@ import Avatar from '../components/Avatar';
 import { logger } from '../utils/logger';
 import './CommunityDirectory.css';
 import { useModal } from '../context/ModalContext';
+import { useDesign } from '../context/DesignContext';
 import { useAuth } from '../context/AuthContext';
 import { USER_ROLES } from '../constants';
 

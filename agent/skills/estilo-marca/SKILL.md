@@ -27,6 +27,7 @@ No improvises l'estil ni els colors. Si falta una dada, usa els valors definits 
 2. ¿Les targetes i contenidors tenen el radi orgànic de 28px?
 3. ¿El fons és Crema (#FDF5E6) i no blanc pur?
 4. ¿El text sona rural, pràctic i proper (sense argot corporatiu o tecnològic)?
+5. **(Llei del Títol Taronja / Orange Label Law):** ¿Els noms dels agents, títols principals de llistes i identificadors clau estan en color Taronja (`text-[var(--theme-accent-primary)]` o `#FF6D00`) i MAI en negre o gris? Aquest color es reserva exclusivament per a destacar identitats d'agents/persones.
 
 ## Cómo mejorar este Skill
 

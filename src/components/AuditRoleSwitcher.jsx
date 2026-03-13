@@ -56,7 +56,7 @@ const AuditRoleSwitcher = () => {
             </div>
             
             {simulatedRole && (
-                <div className="mt-3 p-2 bg-orange-500/10 border border-orange-500/20 rounded-lg text-[9px] font-medium text-orange-200 leading-tight italic">
+                <div className="mt-3 p-2 bg-orange-500/10 border border-orange-500/20 rounded-[20px] text-[9px] font-medium text-orange-200 leading-tight italic">
                     🏺 "Estàs mirant el Mas com un {ROLE_LABELS[simulatedRole]?.va || simulatedRole}. El teu poder real roman ocult."
                 </div>
             )}

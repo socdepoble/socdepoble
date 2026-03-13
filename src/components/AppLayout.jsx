@@ -2,13 +2,17 @@ import React, { lazy, Suspense } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { Plus } from "lucide-react";
 import NavigationRail from "./NavigationRail";
-import { useDesign } from '../context/DesignContext';
-import { useNavigation } from '../context/NavigationContext';
+import { useDesign } from "../context/DesignContext";
+import { useNavigation } from "../context/NavigationContext";
 import { useAuth } from "../context/AuthContext";
-import { Ruler, ScanLine, Handshake } from "lucide-react";
+import { useModal } from "../context/ModalContext";
+import { Ruler, ScanLine, Handshake, UploadCloud } from "lucide-react";
 import NanoLoader from "./NanoLoader";
 import ErrorBoundary from "./ErrorBoundary";
-
+import { initGA, trackPageView } from "../services/analyticsService";
+import GlobalFooter from "./GlobalFooter";
+import MobileBottomNav from "./MobileBottomNav";
+import BlueprintOverlay from "./BlueprintOverlay";
 const ChatLayout = lazy(() => import("../components/ChatLayout"));
 const ChatEmptyState = lazy(() => import("../components/ChatEmptyState"));
 const ChatDetail = lazy(() => import("../components/ChatDetail"));
@@ -16,6 +20,8 @@ const Feed = lazy(() => import("./Feed"));
 const Register = lazy(() => import("../pages/Register"));
 const Towns = lazy(() => import("../pages/Towns"));
 const Marketplace = lazy(() => import("./Marketplace"));
+const MarketItemDetail = lazy(() => import("../pages/MarketItemDetail"));
+const PostDetail = lazy(() => import("../pages/PostDetail"));
 const ProfileView = lazy(() => import("../pages/ProfileView"));
 const AdminPanel = lazy(() => import("../pages/AdminPanel"));
 const TownDetail = lazy(() => import("../pages/TownDetail"));
@@ -50,25 +56,72 @@ const Utilitats = lazy(() => import("../pages/Utilitats"));
 const Chrome145Report = lazy(() => import("../pages/Chrome145Report"));
 const HubView = lazy(() => import("../pages/HubView"));
 const Financament = lazy(() => import("../pages/Financament"));
-import GlobalFooter from "./GlobalFooter";
-import MobileBottomNav from "./MobileBottomNav";
-import BlueprintOverlay from "./BlueprintOverlay";
+const VisionView = lazy(() => import("../pages/VisionView"));
 
 const ProtectedRoute = ({ children }) => {
-    const { user, loading } = useAuth();
+  const { user, loading } = useAuth();
   const location = useLocation();
   if (loading) return <NanoLoader message="Bategant..." />;
-  // CRITICAL FIX: To protect admin routes, redirect properly.
-  if (!user) return <Navigate to="/registre" state={{ from: location }} replace />;
+  // CRITICAL FIX: Redirect anonymous users to register
+  if (!user || user.isAnonymous)
+    return <Navigate to="/registre" state={{ from: location }} replace />;
   return children;
 };
 
-import { initGA, trackPageView } from "../services/analyticsService";
-
 const AppLayout = () => {
   const { architectMode, accessibilityMode } = useDesign();
-  const { isDrawerOpen, closeDrawer, closeIAIASidebar, iaiaSidebarOpen, iaiaSidebarContext, isAccessibilitatOpen, setIsAccessibilitatOpen } = useNavigation();
+  const {
+    isDrawerOpen,
+    closeDrawer,
+    closeIAIASidebar,
+    iaiaSidebarOpen,
+    iaiaSidebarContext,
+    isAccessibilitatOpen,
+    setIsAccessibilitatOpen,
+  } = useNavigation();
   const location = useLocation();
+  const { openPostModal } = useModal();
+  const [isGlobalDragging, setIsGlobalDragging] = React.useState(false);
+  const globalDragCounter = React.useRef(0);
+
+  const handleGlobalDragEnter = React.useCallback((e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    globalDragCounter.current += 1;
+    if (e.dataTransfer.items && e.dataTransfer.items.length > 0) {
+      setIsGlobalDragging(true);
+    }
+  }, []);
+
+  const handleGlobalDragLeave = React.useCallback((e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    globalDragCounter.current -= 1;
+    if (globalDragCounter.current === 0) {
+      setIsGlobalDragging(false);
+    }
+  }, []);
+
+  const handleGlobalDragOver = React.useCallback((e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  }, []);
+
+  const handleGlobalDrop = React.useCallback(
+    (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      setIsGlobalDragging(false);
+      globalDragCounter.current = 0;
+
+      const files = Array.from(e.dataTransfer.files);
+      if (files && files.length > 0) {
+        const file = files[0];
+        openPostModal({ isPrivate: false, initialFile: file });
+      }
+    },
+    [openPostModal],
+  );
 
   // [ANALYTICS BATEGAT] Inicialització i seguiment de rutes
   React.useEffect(() => {
@@ -78,6 +131,12 @@ const AppLayout = () => {
   React.useEffect(() => {
     trackPageView(location.pathname + location.search);
   }, [location]);
+
+  // Bisturí 5: Destrueix l'eclipsi automàticament quan canvies de vista
+  React.useEffect(() => {
+    if (isDrawerOpen) closeDrawer();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.pathname, closeDrawer]); // ELIMINAT: isDrawerOpen per evitar tancament immediat en obrir
 
   // Detect minimal mode (for Mac-style window breakaway)
   const isMinimal =
@@ -126,7 +185,27 @@ const AppLayout = () => {
   const currentLabel = routeLabels[path] || "MAIN_VIEWPORT_FLEX";
 
   return (
-    <div className="h-[100dvh] w-full flex flex-col overflow-hidden font-sans bg-theme-base text-theme-text relative max-h-[100dvh]">
+    <div
+      className="h-[100dvh] w-full flex flex-col overflow-hidden font-sans bg-theme-base text-theme-text relative max-h-[100dvh]"
+      onDragEnter={handleGlobalDragEnter}
+      onDragLeave={handleGlobalDragLeave}
+      onDragOver={handleGlobalDragOver}
+      onDrop={handleGlobalDrop}
+    >
+      {isGlobalDragging && (
+        <div className="absolute inset-0 z-[99999] bg-[var(--theme-accent-primary)]/90 backdrop-blur-md flex flex-col items-center justify-center text-white pointer-events-none transition-all duration-300 animate-in fade-in zoom-in-95">
+          <div className="w-32 h-32 rounded-full bg-white/20 flex items-center justify-center mb-6 animate-pulse">
+            <UploadCloud size={64} className="text-white drop-shadow-xl" />
+          </div>
+          <h2 className="text-4xl font-black uppercase tracking-widest drop-shadow-md">
+            Deixa Anar
+          </h2>
+          <p className="text-xl opacity-90 font-bold mt-2">
+            per a publicar ràpidament
+          </p>
+        </div>
+      )}
+
       {/* 0. HEADER SOBIRÀ (FULL WIDTH - PROTOCOL v4.0) */}
       {!isMinimal && (
         <Suspense fallback={<NanoLoader message="Preparant la barra..." />}>
@@ -134,7 +213,7 @@ const AppLayout = () => {
             label="HEADER_CANONIC"
             dimensions="MATCH"
             color="orange"
-            className="h-14 lg:h-16 flex-shrink-0"
+            className="h-14 lg:h-16 flex-shrink-0 z-[2000]"
           >
             <Header />
           </BlueprintOverlay>
@@ -143,24 +222,30 @@ const AppLayout = () => {
 
       {/* CONTENIDOR PRINCIPAL (SIDEBAR + ESCENARI) */}
       <div className="flex-1 flex overflow-hidden relative">
-        {/* 0. OVERLAY MÒBIL (Sombra de fondo) */}
+        {/* 0. OVERLAY MÒBIL (Sombra de fondo purificada) */}
         {isDrawerOpen && (
-          <div className="drawer-backdrop md:hidden" onClick={closeDrawer} />
+          <div
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[3999] md:hidden transition-opacity duration-300 animate-in fade-in"
+            onClick={closeDrawer}
+          />
         )}
 
         {!isMinimal && (
           <div
             className={`
-                        flex-shrink-0 transition-all duration-300 ease-in-out overflow-hidden
-                        ${isDrawerOpen ? "w-[280px]" : "w-0"}
-                        ${isDrawerOpen ? "translate-x-0" : "-translate-x-full"}
-                        md:relative absolute z-[1001] bg-theme-sidebar border-white/10
-                        md:h-full top-14 md:top-0 bottom-[calc(70px+env(safe-area-inset-bottom))] md:bottom-auto left-0 md:left-auto
-                    `}
+              flex-shrink-0 transition-transform duration-300 ease-in-out overflow-hidden
+              fixed z-[4000] top-0 left-0 h-[100dvh] w-[300px] max-w-[85vw] bg-theme-sidebar border-r border-[var(--border-master)]
+              ${
+                isDrawerOpen
+                  ? "translate-x-0 shadow-[4px_0_24px_rgba(0,0,0,0.5)]"
+                  : "-translate-x-full"
+              }
+              md:relative md:z-[1001] md:translate-x-0 md:h-full md:w-[280px] md:shadow-none
+            `}
           >
             <BlueprintOverlay
               label="SIDEBAR"
-              dimensions={isDrawerOpen ? "280px" : "0px"}
+              dimensions="280px"
               color="blue"
               showBackupLink={true}
               className="h-full flex flex-col"
@@ -175,9 +260,7 @@ const AppLayout = () => {
           className={`flex-1 flex flex-col min-w-0 min-h-0 relative bg-theme-base custom-scrollbar ${
             location.pathname.startsWith("/chats") ||
             location.pathname.startsWith("/gestio-menu") ||
-            location.pathname.startsWith("/notes") ||
-            location.pathname.startsWith("/financament") ||
-            location.pathname.startsWith("/hub")
+            location.pathname.startsWith("/notes")
               ? "overflow-hidden"
               : ""
           }`}
@@ -190,17 +273,15 @@ const AppLayout = () => {
             label={currentLabel}
             dimensions="FLEX_GROW"
             color="emerald"
-            className="flex-1 flex flex-col min-h-0 relative"
+            className="flex-1 flex flex-col min-h-0 relative -mt-[1px] z-10"
           >
             <Suspense fallback={<NanoLoader message="Bategant..." />}>
               <ErrorBoundary>
                 <div
-                  className={`flex-1 flex flex-col relative min-w-0 main-viewport custom-scrollbar !m-0 !p-0 ${
+                  className={`flex-1 flex flex-col relative min-w-0 main-viewport custom-scrollbar !m-0 pb-[70px] md:pb-0 ${
                     location.pathname.startsWith("/chats") ||
                     location.pathname.startsWith("/gestio-menu") ||
-                    location.pathname.startsWith("/notes") ||
-                    location.pathname.startsWith("/financament") ||
-                    location.pathname.startsWith("/hub")
+                    location.pathname.startsWith("/notes")
                       ? "h-full overflow-hidden"
                       : "min-h-full overflow-y-auto"
                   }`}
@@ -218,8 +299,11 @@ const AppLayout = () => {
                       <Route path=":id" element={<ChatDetail />} />
                     </Route>
 
+                    <Route path="/post/:id" element={<PostDetail />} />
                     <Route path="/mur" element={<Feed />} />
+                    <Route path="/post/:id" element={<PostDetail />} />
                     <Route path="/mercat" element={<Marketplace />} />
+                    <Route path="/mercat/:id" element={<MarketItemDetail />} />
                     <Route path="/iaia" element={<ProfileView />} />
                     <Route
                       path="/perfil"
@@ -229,7 +313,14 @@ const AppLayout = () => {
                         </ProtectedRoute>
                       }
                     />
-                    <Route path="/perfil/:id" element={<ProfileView />} />
+                    <Route
+                      path="/perfil/:id"
+                      element={
+                        <ProtectedRoute>
+                          <ProfileView />
+                        </ProtectedRoute>
+                      }
+                    />
                     <Route path="/login" element={<Register />} />
                     <Route path="/registre" element={<Register />} />
                     <Route path="/register" element={<Register />} />
@@ -237,6 +328,7 @@ const AppLayout = () => {
                     <Route path="/search" element={<SearchDiscover />} />
                     <Route path="/ofici" element={<OficiDocumentacio />} />
                     <Route path="/ofici/:id" element={<OficiDocumentacio />} />
+                    <Route path="/visio" element={<VisionView />} />
                     <Route
                       path="/buscador-ajudes"
                       element={<BuscadorAjudes />}
@@ -291,17 +383,45 @@ const AppLayout = () => {
                         </ProtectedRoute>
                       }
                     />
-                    <Route path="/utilitats" element={<Utilitats />} />
+                    <Route
+                      path="/utilitats"
+                      element={
+                        <ProtectedRoute>
+                          <Utilitats />
+                        </ProtectedRoute>
+                      }
+                    />
                     <Route
                       path="/accessibilitat"
                       element={<AccessibilitatUniversal />}
                     />
-                    <Route path="/notes" element={<Notes />} />
+                    <Route
+                      path="/notes"
+                      element={
+                        <ProtectedRoute>
+                          <Notes />
+                        </ProtectedRoute>
+                      }
+                    />
                     <Route path="/legal" element={<LegalNotice />} />
                     <Route path="/projecte" element={<ProjectPresentation />} />
                     <Route path="/chrome-145" element={<Chrome145Report />} />
-                    <Route path="/hub" element={<HubView />} />
-                    <Route path="/financament" element={<Financament />} />
+                    <Route
+                      path="/hub"
+                      element={
+                        <ProtectedRoute>
+                          <HubView />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/financament"
+                      element={
+                        <ProtectedRoute>
+                          <Financament />
+                        </ProtectedRoute>
+                      }
+                    />
                     {/* Fallback 404 Catch-All Route */}
                     <Route path="*" element={<Navigate to="/mur" replace />} />
                   </Routes>
@@ -326,7 +446,7 @@ const AppLayout = () => {
             {accessibilityMode && !isAccessibilitatOpen && (
               <button
                 onClick={() => setIsAccessibilitatOpen(true)}
-                className="absolute bottom-[5.5rem] md:bottom-24 right-4 md:right-8 w-14 h-14 bg-[#0ea5e9] text-white rounded-full shadow-[0_0_20px_rgba(14,165,233,0.5)] flex items-center justify-center z-[90] hover:scale-110 transition-transform cursor-pointer border-2 border-white/20"
+                className="absolute bottom-[5.5rem] md:bottom-24 right-4 md:right-8 w-14 h-14 bg-[#0ea5e9] text-white rounded-[28px] shadow-[0_0_20px_rgba(14,165,233,0.5)] flex items-center justify-center z-[90] hover:scale-110 transition-transform cursor-pointer border-2 border-white/20"
                 aria-label="Obrir Matriu IAIA d'Accessibilitat"
               >
                 <Handshake size={28} />
@@ -340,7 +460,7 @@ const AppLayout = () => {
       <GlobalFooter />
 
       {/* BARRA DE NAVEGACIÓ MÒBIL (BATEGAT v11.3) */}
-      <div className="relative z-[3000]">
+      <div className="relative z-[3000] md:hidden">
         <MobileBottomNav />
       </div>
 

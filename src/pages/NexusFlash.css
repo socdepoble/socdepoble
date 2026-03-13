@@ -469,3 +469,47 @@
     text-transform: uppercase;
     letter-spacing: 2px;
 }
+
+/* [LIGHT MODE / DAY MODE OVERRIDES] */
+.light .nexus-container {
+    background: radial-gradient(circle at 50% 0%, #f8fafc 0%, #e2e8f0 70%);
+    color: #000;
+}
+.light .nexus-header {
+    background: rgba(255, 255, 255, 0.8);
+    border-bottom-color: rgba(0,0,0,0.1);
+}
+.light .nexus-glitch-title { color: #000; }
+.light .nexus-back-btn {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.1);
+    color: #000;
+}
+.light .glass-card {
+    background: rgba(255, 255, 255, 0.8);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+.light .nexus-stat {
+    background: rgba(0, 0, 0, 0.03);
+}
+.light .stat-value { color: #000; }
+.light .iaia-input-group input {
+    background: #fff;
+    border-color: rgba(0,0,0,0.1);
+    color: #000;
+}
+.light .solatge-console {
+    background: #f8fafc;
+    border-color: rgba(0,0,0,0.1);
+}
+.light .console-body { color: #000; }
+.light .preview-card.style-v2 {
+    background: rgba(255,255,255,0.8);
+    border-color: rgba(0,0,0,0.1);
+    color: #000;
+}
+.light .pregoner-box textarea {
+    background: #fff;
+    border-color: rgba(0,0,0,0.1);
+    color: #000;
+}

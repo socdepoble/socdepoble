@@ -43,11 +43,11 @@ const StoreManagementModule = ({ addLog }) => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="status-overview p-4 border border-gray-800 rounded-xl bg-black/20">
+                <div className="status-overview p-4 border border-gray-800 rounded-[28px] bg-black/20">
                     <h3 className="font-bold mb-4 text-cyan-400">Estat de les Plataformes</h3>
                     <div className="space-y-4">
                         {storeStatus.map((store, i) => (
-                            <div key={i} className="flex justify-between items-center p-3 bg-white/5 rounded-lg">
+                            <div key={i} className="flex justify-between items-center p-3 bg-white/5 rounded-[20px]">
                                 <div className="flex items-center gap-3">
                                     {store.platform === 'Android' ? <Smartphone size={18} /> : <Globe size={18} />}
                                     <div>
@@ -66,7 +66,7 @@ const StoreManagementModule = ({ addLog }) => {
                     </div>
                 </div>
 
-                <div className="automation-panel p-4 border border-gray-800 rounded-xl bg-black/20">
+                <div className="automation-panel p-4 border border-gray-800 rounded-[28px] bg-black/20">
                     <h3 className="font-bold mb-4 text-purple-400">Automatització & CI/CD</h3>
                     <div className="space-y-3">
                         <button className="btn-primary w-full flex items-center justify-center gap-2" style={{ background: '#333' }}>
@@ -81,7 +81,7 @@ const StoreManagementModule = ({ addLog }) => {
                         </button>
                     </div>
 
-                    <div className="mt-6 p-3 border border-dashed border-gray-700 rounded-lg">
+                    <div className="mt-6 p-3 border border-dashed border-gray-700 rounded-[20px]">
                         <h4 className="text-xs font-bold mb-2 opacity-50">DIRECTIVA DE MANTENIMENT</h4>
                         <p className="text-[10px] italic">
                             "L'estabilitat del veí és sagrada. Si una versió de la botiga falla, el downgrade ha de ser automàtic via protocol de resiliència Atum."

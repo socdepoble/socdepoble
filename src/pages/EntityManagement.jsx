@@ -53,7 +53,7 @@ const EntityManagement = () => {
                             </div>
                             <div className="create-info">
                                 <strong>Grup Social</strong>
-                                <span>Associacions, penyes, colles...</span>
+                                <span>Associacions, penyes...</span>
                             </div>
                             <Plus size={20} className="plus-icon" />
                         </button>
@@ -64,7 +64,29 @@ const EntityManagement = () => {
                             </div>
                             <div className="create-info">
                                 <strong>Empresa o Comerç</strong>
-                                <span>Autònoms, tendes, serveis...</span>
+                                <span>Projectes o botigues...</span>
+                            </div>
+                            <Plus size={20} className="plus-icon" />
+                        </button>
+
+                        <button className="create-card" onClick={() => navigate('/crear-entitat?type=autonomo')}>
+                            <div className="create-icon autonomous">
+                                <Users size={32} />
+                            </div>
+                            <div className="create-info">
+                                <strong>Autònom / Freelance</strong>
+                                <span>El teu perfil professional...</span>
+                            </div>
+                            <Plus size={20} className="plus-icon" />
+                        </button>
+
+                        <button className="create-card" onClick={() => navigate('/crear-entitat?type=estudiant')}>
+                            <div className="create-icon student">
+                                <Users size={32} />
+                            </div>
+                            <div className="create-info">
+                                <strong>Estudiant / Acadèmic</strong>
+                                <span>Estudis, pràctiques...</span>
                             </div>
                             <Plus size={20} className="plus-icon" />
                         </button>

@@ -24,7 +24,10 @@ export const SILENCE_PATTERNS = [
     'React DevTools',
     'Download the React DevTools',
     '[AuthProvider] Montat',
-    'INITIAL_SESSION'
+    'INITIAL_SESSION',
+    'Violation',
+    "Bypass d'Emergència",
+    "TIMEOUT_OPFS"
 ];
 
 export const checkSilence = (msg) => {

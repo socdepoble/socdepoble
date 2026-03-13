@@ -74,7 +74,7 @@ Tasca: Consells de salut pública, campanyes de vacunació i prevenció rural.`
     name: 'Pepica la Vall',
     avatarName: 'Pepica la de la Vall',
     role: 'Cuinera del Mas',
-    avatar_url: '/assets/avatars/comic/carmen_forn_comic.png', // Fallback to Carmen avatar
+    avatar_url: '/assets/avatars/comic/pepica_vall_comic.png',
     last_message_content: 'La cuina de Pepica és el cor del Mas.',
     tag: 'TREBALL',
     type: 'PERSON',
@@ -128,7 +128,7 @@ Tasca: Connectar amb altres pobles i portar novetats de fora.`
     name: 'Elena Popova',
     avatarName: 'La Músic',
     role: 'Patrimoni i Festes',
-    avatar_url: '/assets/avatars/comic/avatar_mariamel_comic.png', // Reusing mariamel
+    avatar_url: '/assets/avatars/comic/elena_popova_comic.png',
     last_message_content: 'Conservant el llegat del poble.',
     tag: 'GENT',
     type: 'PERSON',
@@ -241,7 +241,10 @@ Tasca: Optimitzar la velocitat de resposta del Sistema Operatiu.`
     specialization: "Generació de Contingut UI",
     scope: "TECNOLOGIA",
     systemPrompt: `Ets Nano Banana, el generador estètic i de placeholders.
-Estil: Modern, minimalista i conceptual. Parles de 'Zero Radius' i d'espais sublims.`
+Estil: Modern, minimalista i conceptual. Parles de 'Zero Radius' i d'espais sublims.
+IDENTITAT I MARCA: Mai oblides les Branding Rules en cada generació. Has de demanar sempre:
+1. Un rectangle fosc dalt per encabir el logo reial (overlay). Mai intentes generar text amb el logo.
+2. Afegir en menut baix a la dreta la teva signatura: "Autor: NanoBanana".`
   },
   SULTAN: {
     id: '11111111-1111-4111-a111-000000000006',

@@ -30,7 +30,7 @@ A la part superior hi ha d'haver un **Header d'alçada constant h-[60px] de colo
 
 El contingut central ('main-viewport') ha d'estar encapsulat dins d'un contenidor flexible (**flex-1**) amb scroll intern (**overflow-y-auto**) perquè mai trenque l'estructura general externa. 
 
-La tipografia per a crides, títols i botons ha de ser imperativament **'Roboto Condensed'**. El radi general d'arrodoniment de les targetes i mòduls ha de ser sempre **'rounded-[28px]'**, mantenint un estil de **'brutalisme tàctil'** (botons voluminosos, contrast fort). Els botons d'acció principals han de portar el text en **majúscules** amb un **'tracking-widest'** (espaiat expandit). 
+La tipografia per a crides, títols i botons ha de ser imperativament **'Noto Sans'**. El radi general d'arrodoniment de les targetes i mòduls ha de ser sempre **'rounded-[28px]'**, mantenint un estil de **'brutalisme tàctil'** (botons voluminosos, contrast fort). Els botons d'acció principals han de portar el text en **majúscules** amb un **'tracking-widest'** (espaiat expandit). 
 
 Ignora els errors que puguen derivar del contingut; l'encontre visual sobre aquests paràmetres ha de prevaldre. Mantingues el mode Blueprint com una capa addicional flotant i el 'Memory Dump v10.33' operatiu a la zona inferior com un peu de pàgina tècnic diminut ('Bategant amb Trellat').`,
     features: [
@@ -240,7 +240,7 @@ const AccessibilitatUniversal = ({ embedded = false }) => {
             } else {
               navigate('/chats');
             }
-          }} className="p-2 bg-black/10 hover:bg-black/20 rounded-full transition-colors focus:outline-none">
+          }} className="p-2 bg-black/10 hover:bg-black/20 rounded-[28px] transition-colors focus:outline-none">
             <X className="w-6 h-6" />
           </button>
         </header>
@@ -263,7 +263,7 @@ const AccessibilitatUniversal = ({ embedded = false }) => {
             <h1 className="text-4xl font-bold uppercase">{doc.title}</h1>
             {embedded && (
               <button                 onClick={() => isOpen ? setIsOpen(false) : window.history.back()}
-                 className="ml-auto px-4 py-2 bg-[#f97316] hover:bg-orange-600 text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-lg transition-all transform hover:scale-105"
+                 className="ml-auto px-4 py-2 bg-[#f97316] hover:bg-orange-600 text-white rounded-[28px] text-xs font-black uppercase tracking-widest shadow-lg transition-all transform hover:scale-105"
                >
                  Tornar al Mas
                </button>
@@ -277,7 +277,7 @@ const AccessibilitatUniversal = ({ embedded = false }) => {
               <Mic className="w-8 h-8 md:w-10 md:h-10" />
               <span>{isSpeaking ? 'LLEGINT...' : 'LLEGIR PÀGINA (ÀUDIO)'}</span>
             </button>
-            <button onClick={handleStop} className="flex-1 h-24 bg-red-600 hover:bg-red-500 text-white rounded-2xl flex items-center justify-center gap-4 text-xl md:text-2xl font-black shadow-xl transition-all border-4 border-red-500/30">
+            <button onClick={handleStop} className="flex-1 h-24 bg-red-600 hover:bg-red-500 text-white rounded-[28px] flex items-center justify-center gap-4 text-xl md:text-2xl font-black shadow-xl transition-all border-4 border-red-500/30">
               <Square className="w-8 h-8 md:w-10 md:h-10 fill-current" />
               <span>PARAR ÀUDIO</span>
             </button>
@@ -293,7 +293,7 @@ const AccessibilitatUniversal = ({ embedded = false }) => {
 
           <div className="grid lg:grid-cols-2 gap-12">
             <div className={`relative p-8 rounded-2xl font-mono text-base md:text-lg leading-relaxed shadow-inner ${isDark ? 'bg-black/40 border border-white/10 text-green-400' : 'bg-slate-900 border border-slate-800 text-green-400'}`}>
-              <CopyButton textToCopy={doc.iaiaPrompt} className="absolute top-4 right-4 w-10 h-10 bg-[#0ea5e9] hover:bg-blue-600 rounded-xl text-white shadow-lg transition-transform hover:scale-105" />
+              <CopyButton textToCopy={doc.iaiaPrompt} className="absolute top-4 right-4 w-10 h-10 bg-[#0ea5e9] hover:bg-orange-600 rounded-[28px] text-white shadow-lg transition-transform hover:scale-105" />
               <p className="whitespace-pre-wrap mt-2">{renderFormattedText(doc.iaiaPrompt)}</p>
             </div>
             <div className="space-y-6">

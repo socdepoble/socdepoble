@@ -83,7 +83,7 @@ const ItemDetailModal = ({ item, onClose, onAstroPayment }) => {
                             <p className="item-detail-description">{item.description}</p>
 
                             {item.is_iaia_inspired && (
-                                <div className="ia-transparency-note mt-6 bg-white/5 border border-white/5 rounded-xl p-4">
+                                <div className="ia-transparency-note mt-6 bg-white/5 border border-white/5 rounded-[28px] p-4">
                                     <div className="flex items-center gap-2 font-black text-xs uppercase tracking-tighter text-cyan-400 mb-2">
                                         <Sparkles size={16} className="text-primary" />
                                         <span>SIMBIOSI Master [IAIA + VEÍ]</span>

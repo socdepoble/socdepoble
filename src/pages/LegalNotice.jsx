@@ -72,7 +72,7 @@ const LegalNotice = () => {
     const primaryBorder = isDayMode ? 'border-blue-600/40' : 'border-primary/40';
 
     return (
-        <div className={`min-h-screen ${bgColor} ${textColor} flex flex-col font-sans pb-40 selection:bg-primary/30 selection:text-white overflow-x-hidden lg:pl-[120px] transition-colors duration-700`}>
+        <div className={`h-full w-full overflow-y-auto overflow-x-hidden ${bgColor} ${textColor} flex flex-col font-sans pb-[90px] md:pb-40 selection:bg-primary/30 selection:text-white lg:pl-[120px] transition-colors duration-700`}>
             {/* BACKGROUND ATMOSPHERE - ULTRA EXPANSIVE & BATEGANT */}
             <div className="fixed inset-0 pointer-events-none z-0">
                 <div className={`absolute top-[-20%] left-[-10%] w-[80%] h-[80%] ${isDayMode ? 'bg-secondary/5' : 'bg-secondary/10'} blur-[180px] rounded-full animate-pulse duration-[12s]`} />
@@ -122,13 +122,13 @@ const LegalNotice = () => {
                          className={`p-3 ${cardBg} rounded-xl border ${isDayMode ? 'border-black/10' : 'border-white/10'} hover:${primaryBorder} transition-all relative group shadow-lg`}
                          title={isDayMode ? "Activar Nit Digital" : "Activar Llum de Dia"}
                       >
-                         {isDayMode ? <Sun size={20} className="text-blue-600" /> : <Moon size={20} className="text-primary" />}
+                         {isDayMode ? <Sun size={20} className="text-orange-600" /> : <Moon size={20} className="text-primary" />}
                          <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap text-[10px] font-black uppercase tracking-widest px-4 py-2 bg-black text-white rounded shadow-2xl z-50">
                              {isDayMode ? 'NIT DIGITAL' : 'LLUM DE DIA'}
                          </div>
                       </button>
                      <div className={`hidden lg:flex items-center gap-3 px-5 py-2 ${cardBg} rounded-full border ${isDayMode ? 'border-black/10' : 'border-white/10'} shadow-2xl`}>
-                        <div className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+                        <div className="w-2 h-2 rounded-[28px] bg-emerald-500 animate-ping" />
                         <span className={`text-[10px] font-black uppercase tracking-[0.3em] ${isDayMode ? 'text-black/60' : 'text-white/60'}`}>NODE: CANÒNIC-V10</span>
                     </div>
                 </div>
@@ -139,7 +139,7 @@ const LegalNotice = () => {
                 {/* 1. HERO SECTION - BOLD & CINEMATIC */}
                 <div className="w-full text-center space-y-8 md:space-y-12 mb-20 md:mb-40 animate-in fade-in slide-in-from-bottom-12 duration-1000 px-6">
                     <div className="relative inline-block group">
-                         <div className="absolute -inset-8 bg-primary/20 blur-3xl opacity-20 group-hover:opacity-40 rounded-full animate-pulse transition-opacity" />
+                         <div className="absolute -inset-8 bg-primary/20 blur-3xl opacity-20 group-hover:opacity-40 rounded-[28px] animate-pulse transition-opacity" />
                          <h1 className={`relative text-5xl sm:text-7xl md:text-[140px] lg:text-[160px] font-black italic tracking-tighter leading-[0.8] md:leading-[0.75] uppercase flex flex-col`}>
                             <span className={`${isDayMode ? 'text-black' : 'text-white'} drop-shadow-[0_10px_30px_rgba(255,255,255,0.1)] transition-transform hover:-translate-y-2 duration-500`}>SÓC DE POBLE</span>
                             <span className={`${primaryColor} italic transform -translate-y-2 md:-translate-y-4 md:-translate-x-4 mix-blend-screen drop-shadow-[0_0_20px_rgba(255,107,0,0.5)]`}>PER A WEB</span>
@@ -167,7 +167,7 @@ const LegalNotice = () => {
                 <div className="w-full mb-40 relative group px-4 md:px-20 max-w-[1400px] mx-auto">
                     <div className="flex items-center justify-between mb-8">
                         <div className="flex items-center gap-4">
-                            <div className="p-3 bg-secondary/10 rounded-2xl border border-secondary/20">
+                            <div className="p-3 bg-secondary/10 rounded-[28px] border border-secondary/20">
                                 <Fingerprint size={24} className="text-secondary animate-pulse" />
                             </div>
                             <h3 className="text-secondary font-black uppercase tracking-[0.5em] text-sm md:text-base">FILOSOFIA DEL RHIZOME</h3>
@@ -208,7 +208,7 @@ const LegalNotice = () => {
                             <div className="absolute top-12 left-0 right-0 flex justify-center z-30 pointer-events-none group-hover/main:-translate-y-2 transition-transform duration-700">
                                 <div className="flex flex-col items-center gap-4">
                                     <img 
-                                        src={isDayMode ? "/assets/master/logo_socdepoble_white_full.png" : "/assets/master/logo_socdepoble_white_full.png"} 
+                                        src={isDayMode ? "/assets/master/logo-socdepoble-rect.svg" : "/assets/master/logo-socdepoble-rect.svg"} 
                                         alt="Sóc de Poble Logo" 
                                         className={`h-14 md:h-20 w-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.8)] ${isDayMode ? 'invert' : ''}`} 
                                     />
@@ -361,7 +361,7 @@ const LegalNotice = () => {
                              <div className="relative z-10 space-y-8 flex flex-col items-center w-full">
                                 <div className={`w-28 h-28 ${cardBg} rounded-[32px] flex items-center justify-center border-2 ${isDayMode ? 'border-black/10' : 'border-white/10'} group-hover:${primaryBorder} transition-all shadow-2xl group-hover:scale-110 flex-shrink-0`}>
                                     <img 
-                                        src="/assets/master/logo_socdepoble_white_full.png" 
+                                        src="/assets/master/logo-socdepoble-rect.svg" 
                                         alt="SDP" 
                                         className={`w-16 h-auto ${isDayMode ? 'invert opacity-80' : 'opacity-40'} group-hover:opacity-100 group-hover:scale-110 transition-all duration-500`} 
                                     />
@@ -398,7 +398,7 @@ const LegalNotice = () => {
                                 </div>
                             </div>
                             <div className="relative z-10 pt-4 opacity-0 group-hover:opacity-100 transition-all transform translate-y-4 group-hover:translate-y-0">
-                                <span className="text-[10px] font-black tracking-[0.3em] text-secondary uppercase bg-secondary/10 px-8 py-3 rounded-full border border-secondary/20 whitespace-nowrap">VISITAR ENTITAT</span>
+                                <span className="text-[10px] font-black tracking-[0.3em] text-secondary uppercase bg-secondary/10 px-8 py-3 rounded-[28px] border border-secondary/20 whitespace-nowrap">VISITAR ENTITAT</span>
                             </div>
                         </NavLink>
 
@@ -443,7 +443,7 @@ const LegalNotice = () => {
                             <div className="sticky top-32 space-y-12">
                                 <div className="p-12 bg-white/[0.03] rounded-[60px] border border-white/10 space-y-8 backdrop-blur-xl shadow-2xl relative overflow-hidden group">
                                     <div className="absolute top-0 right-0 w-40 h-40 bg-primary/5 blur-[80px] group-hover:bg-primary/10 transition-colors" />
-                                    <div className="p-6 bg-primary/10 rounded-3xl text-primary border-2 border-primary/20 w-fit shadow-2xl shrink-0 group-hover:rotate-12 transition-transform">
+                                    <div className="p-6 bg-primary/10 rounded-[28px] text-primary border-2 border-primary/20 w-fit shadow-2xl shrink-0 group-hover:rotate-12 transition-transform">
                                         <Shield size={56} strokeWidth={2.5} />
                                     </div>
                                     <div className="space-y-3">
@@ -452,11 +452,11 @@ const LegalNotice = () => {
                                     </div>
                                     <div className="pt-10 space-y-8">
                                         <a href="#avis-legal" className="flex items-center gap-4 text-lg font-black text-white hover:text-primary transition-all tracking-widest uppercase group/link">
-                                            <div className="w-8 h-1 bg-primary rounded-full transform group-hover/link:scale-x-150 transition-transform origin-left" />
+                                            <div className="w-8 h-1 bg-primary rounded-[28px] transform group-hover/link:scale-x-150 transition-transform origin-left" />
                                             1. AVÍS LEGAL
                                         </a>
                                         <a href="#cookies" className="flex items-center gap-4 text-lg font-black text-white/30 hover:text-primary transition-all tracking-widest uppercase group/link">
-                                            <div className="w-4 h-1 bg-white/10 rounded-full transform group-hover/link:bg-primary group-hover/link:scale-x-150 transition-all origin-left" />
+                                            <div className="w-4 h-1 bg-white/10 rounded-[28px] transform group-hover/link:bg-primary group-hover/link:scale-x-150 transition-all origin-left" />
                                             2. COOKIES
                                         </a>
                                     </div>
@@ -477,7 +477,7 @@ const LegalNotice = () => {
                             {/* Section 1: Identitat */}
                             <section className="space-y-12 group">
                                 <div className="flex items-center gap-6 transition-all group-hover:translate-x-4 duration-500">
-                                    <div className="w-16 h-1.5 bg-primary rounded-full shadow-[0_0_15px_rgba(255,107,0,0.4)]" />
+                                    <div className="w-16 h-1.5 bg-primary rounded-[28px] shadow-[0_0_15px_rgba(255,107,0,0.4)]" />
                                     <h3 className="text-5xl md:text-7xl font-black italic tracking-tighter text-white uppercase italic drop-shadow-lg">1. Identitat Bategant</h3>
                                 </div>
                                 
@@ -505,7 +505,7 @@ const LegalNotice = () => {
                             {/* Section 2: Rhizome Data */}
                             <section className="space-y-12 group">
                                 <div className="flex items-center gap-6 transition-all group-hover:translate-x-4 duration-500">
-                                    <div className="w-16 h-1.5 bg-secondary rounded-full shadow-[0_0_15px_rgba(6,182,212,0.4)]" />
+                                    <div className="w-16 h-1.5 bg-secondary rounded-[28px] shadow-[0_0_15px_rgba(6,182,212,0.4)]" />
                                     <h3 className="text-5xl md:text-7xl font-black italic tracking-tighter text-white uppercase italic drop-shadow-lg">2. SOBIRANIA DE L'USUARI</h3>
                                 </div>
                                 
@@ -515,7 +515,7 @@ const LegalNotice = () => {
                                     </p>
                                     <ul className="space-y-12">
                                         <li className="flex items-start gap-8 group/item">
-                                            <div className="mt-4 w-4 h-4 rounded-full bg-secondary shadow-[0_0_10px_rgba(6,182,212,0.8)] shrink-0 group-hover:scale-150 transition-transform" />
+                                            <div className="mt-4 w-4 h-4 rounded-[28px] bg-secondary shadow-[0_0_10px_rgba(6,182,212,0.8)] shrink-0 group-hover:scale-150 transition-transform" />
                                             <div className="space-y-2">
                                                 <span className="font-black text-white uppercase italic tracking-tight block text-3xl md:text-4xl group-hover:text-secondary transition-colors">DADES MÍNIMES D'ARREL</span>
                                                 <span className="opacity-60 text-xl md:text-2xl block leading-relaxed">Sols recollim el necessari per al bategat del node: perfil, localització voluntària i memòria social KM 0. Mantenim el rebost net de dades supèrflues.</span>
@@ -523,7 +523,7 @@ const LegalNotice = () => {
                                         </li>
                                         <li className="flex flex-col gap-6 group/item">
                                             <div className="flex items-start gap-8">
-                                                <div className="mt-4 w-4 h-4 rounded-full bg-secondary shadow-[0_0_10px_rgba(6,182,212,0.8)] shrink-0 group-hover:scale-150 transition-transform" />
+                                                <div className="mt-4 w-4 h-4 rounded-[28px] bg-secondary shadow-[0_0_10px_rgba(6,182,212,0.8)] shrink-0 group-hover:scale-150 transition-transform" />
                                                 <div className="space-y-2">
                                                     <span className="font-black text-white uppercase italic tracking-tight block text-3xl md:text-4xl group-hover:text-secondary transition-colors text-left uppercase leading-none">FULMINAR O DESCARREGAR EL RHIZOME</span>
                                                     <span className="opacity-60 text-xl md:text-2xl block leading-relaxed text-left">Pots descarregar tota la teua memòria digital o fulminar el teu node del Mas en qualsevol moment de forma autònoma enviant un missatge al Mestre.</span>
@@ -547,7 +547,7 @@ const LegalNotice = () => {
                             {/* Section 3: Cookies */}
                             <section id="cookies" className="space-y-12 group bg-gradient-to-br from-[#080808] to-black p-12 md:p-24 rounded-[60px] border-2 border-white/5 transition-all hover:border-white/20 shadow-[-20px_40px_100px_rgba(0,0,0,0.5)]">
                                 <div className="flex items-center gap-6">
-                                    <div className="w-16 h-1.5 bg-white/20 rounded-full" />
+                                    <div className="w-16 h-1.5 bg-white/20 rounded-[28px]" />
                                     <h3 className="text-5xl md:text-7xl font-black italic tracking-tighter text-white uppercase leading-none">3. Cookies</h3>
                                 </div>
                                 <div className="space-y-10 text-2xl md:text-3xl leading-relaxed">

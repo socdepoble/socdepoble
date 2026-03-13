@@ -1,15 +1,31 @@
 <!DOCTYPE html>
 <html lang="ca" prefix="og: http://ogp.me/ns#">
+  <head>
     <!-- [BATEGAT SEO GOD] Previsualitzacions d'alt impacte per a WhatsApp/Social -->
-    <title>Sóc de Poble! | El Sistema Operatiu Rural 🏺⚡️</title>
-    <meta name="description" content="Connecta amb la teua comunitat i recupera el trellat del territori. Mercat rural, memòria viva i sobirania digital." />
-    
+    <title>Sóc de Poble | El Sistema Operatiu Rural</title>
+    <meta
+      name="description"
+      content="Connecta amb la teua comunitat i recupera el trellat del territori. Mercat rural, memòria viva i sobirania digital."
+    />
+
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://socdepoble.org/" />
-    <meta property="og:title" content="Sóc de Poble! | El Sistema Operatiu Rural 🏺⚡️" />
-    <meta property="og:description" content="Connecta amb la teua comunitat i recupera el trellat del territori. Mercat rural, memòria viva i sobirania digital." />
-    <meta property="og:image" content="https://socdepoble.org/og-image-batega-v11.png?v=batega-canonica-11" />
-    <meta property="og:image:secure_url" content="https://socdepoble.org/og-image-batega-v11.png?v=batega-canonica-11" />
+    <meta
+      property="og:title"
+      content="Sóc de Poble | El Sistema Operatiu Rural"
+    />
+    <meta
+      property="og:description"
+      content="Connecta amb la teua comunitat i recupera el trellat del territori. Mercat rural, memòria viva i sobirania digital."
+    />
+    <meta
+      property="og:image"
+      content="https://socdepoble.org/og-image-batega-v11.png?v=beta-solutia"
+    />
+    <meta
+      property="og:image:secure_url"
+      content="https://socdepoble.org/og-image-batega-v11.png?v=beta-solutia"
+    />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:type" content="image/png" />
@@ -17,29 +33,30 @@
     <meta property="og:locale" content="ca_ES" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Sóc de Poble! | El Sistema Operatiu Rural 🏺⚡️" />
-    <meta name="twitter:description" content="Connecta amb la teua comunitat i recupera el trellat del territori. Mercat rural, memòria viva i sobirania digital." />
-    <meta name="twitter:image" content="https://socdepoble.org/og-image-batega-v11.png?v=batega-canonica-11" />
+    <meta
+      name="twitter:title"
+      content="Sóc de Poble | El Sistema Operatiu Rural"
+    />
+    <meta
+      name="twitter:description"
+      content="Connecta amb la teua comunitat i recupera el trellat del territori. Mercat rural, memòria viva i sobirania digital."
+    />
+    <meta
+      name="twitter:image"
+      content="https://socdepoble.org/og-image-batega-v11.png?v=beta-solutia"
+    />
 
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/favicon.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
 
     <script>
-      // [BATEGAT RESCUE v10.33.2] Purga nuclear de cache i fantasmes.
+      // [BATEGAT RESCUE v10.33.2] Guardem la versió
       (function () {
         const CURRENT_V = "v10.33.15-CANÒNIC";
-
-        // [XOC DE SEGURETAT] Unregisterització immediata de qualsevol Service Worker
-        if ("serviceWorker" in navigator) {
-          navigator.serviceWorker
-            .getRegistrations()
-            .then(function (registrations) {
-              for (let registration of registrations) {
-                registration.unregister();
-              }
-            });
-        }
 
         localStorage.setItem("sp_app_version", CURRENT_V);
 
@@ -48,9 +65,13 @@
           function (e) {
             if (e.target.tagName === "LINK" || e.target.tagName === "SCRIPT") {
               console.error(
-                "[PURGA] Error d'asset:",
+                "[PURGA] Error d'asset detectat. PWA desfasada. Forçant recàrrega neta:",
                 e.target.src || e.target.href,
               );
+              if (!sessionStorage.getItem("sw_purged_asset")) {
+                sessionStorage.setItem("sw_purged_asset", "true");
+                window.location.reload(true);
+              }
             }
           },
           true,
@@ -76,6 +97,7 @@
           "shadow host",
           "VM",
           "extension",
+          "Violation",
         ];
 
         const shouldSilence = (args) => {
@@ -93,31 +115,7 @@
         console.error = function (...args) {
           if (shouldSilence(args)) return;
 
-          // [PREGONER BATEGAT]
-          if (
-            window.location.hostname === "localhost" ||
-            window.location.hostname === "127.0.0.1"
-          ) {
-            fetch("http://localhost:9001", {
-              method: "POST",
-              mode: "no-cors",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                type: "GLOBAL_CONSOLE_ERROR",
-                error: args
-                  .map((a) =>
-                    typeof a === "object" ? JSON.stringify(a) : String(a),
-                  )
-                  .join(" "),
-                stack: new Error().stack,
-                context: {
-                  url: window.location.href,
-                  timestamp: new Date().toISOString(),
-                },
-              }),
-            }).catch(() => {});
-          }
-
+          // Removed legacy PREGONER BATEGAT fetch to localhost:9001
           _error.apply(console, args);
         };
 
@@ -128,23 +126,23 @@
         });
       })();
     </script>
-    <!-- Google Fonts: Roboto Condensed (L'Ànima de Sóc de Poble) -->
+    <!-- Google Fonts: Noto Sans (L'Ànima de Sóc de Poble) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="preload"
       as="style"
-      href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&family=Noto+Emoji:wght@300..700&family=Noto+Sans:ital,wdth,wght@0,62.5..100,100..900;1,62.5..100,100..900&display=swap"
     />
     <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&family=Noto+Emoji:wght@300..700&family=Noto+Sans:ital,wdth,wght@0,62.5..100,100..900;1,62.5..100,100..900&display=swap"
       rel="stylesheet"
       media="print"
       onload="this.media='all'"
     />
     <noscript>
       <link
-        href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&family=Noto+Emoji:wght@300..700&family=Noto+Sans:ital,wdth,wght@0,62.5..100,100..900;1,62.5..100,100..900&display=swap"
         rel="stylesheet"
       />
     </noscript>
@@ -230,7 +228,61 @@
     </h1>
     <div id="root"></div>
 
+    <!-- COI Service Worker: Necessari per injectar regles COEP/COOP a SiteGround cap als Web Workers purs -->
+    <!-- [BATEGAT DEV FIX] Només en producció per no rebentar Vite HMR -->
+    <script>
+      if (
+        window.location.hostname !== "localhost" &&
+        window.location.hostname !== "127.0.0.1"
+      ) {
+        const script = document.createElement("script");
+        script.src = "/coi-serviceworker.js";
+        document.head.appendChild(script);
+      } else if ("serviceWorker" in navigator) {
+        // [BATEGAT DEV PURGE] Destrucció activa de qualsevol SW zombi en localhost per salvar HMR
+        navigator.serviceWorker
+          .getRegistrations()
+          .then(function (registrations) {
+            for (let registration of registrations) {
+              registration.unregister().then(() => {
+                console.log(
+                  "[DEV PURGE] Service Worker zombi aniquilat amb èxit en localhost.",
+                );
+                // Forcem recàrrega neta un cop purgat (evitant bucles)
+                if (!sessionStorage.getItem("sw_purged")) {
+                  sessionStorage.setItem("sw_purged", "true");
+                  window.location.reload();
+                }
+              });
+            }
+          });
+      }
+    </script>
+
+    <!-- Google Identity Services per a One-Tap Login -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
     <!-- Modern App Entry -->
     <script type="module" src="/src/entry.jsx"></script>
+
+    <!-- [BATEGAT FAILSAFE v3] Si el Mas no arranca en 4 segons, obrim panell d'emergència -->
+    <script>
+      setTimeout(() => {
+        if (!window.__SDP_ROOT_MOUNTED) {
+          console.error(
+            "Failsafe disparat: React no ha pogut muntar l'aplicació.",
+          );
+          document.body.innerHTML = `
+            <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;background-color:#000;color:#fff;font-family:sans-serif;padding:20px;text-align:center;box-sizing:border-box;">
+              <h2 style="color:#f97316;font-size:24px;margin-bottom:10px;font-weight:900;">TANCAT PER REFORMES</h2>
+              <p style="color:#9ca3af;margin-bottom:30px;font-size:16px;">El teu telèfon ha guardat una versió corrompuda de l'aplicació a la memòria i s'ha bloquejat.</p>
+              <button onclick="caches.keys().then(ks => Promise.all(ks.map(k => caches.delete(k)))); navigator.serviceWorker.getRegistrations().then(rs => rs.forEach(r => r.unregister())); localStorage.clear(); sessionStorage.clear(); window.location.reload(true);" style="background-color:#f97316;color:#fff;border:none;padding:15px 30px;border-radius:30px;font-weight:bold;font-size:18px;cursor:pointer;box-shadow:0 4px 15px rgba(249,115,22,0.4);">
+                Forçar Neteja i Reiniciar
+              </button>
+            </div>
+          `;
+        }
+      }, 4000);
+    </script>
   </body>
 </html>

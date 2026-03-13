@@ -24,7 +24,7 @@ const DossierSocis = () => {
                 <div className="hero-content">
                     <div className="badge-cimera">CIMERA SOLLUTIA 2026</div>
                     <div className="hero-logo-container">
-                        <img src="/assets/master/logo_socdepoble_white_full.png" alt="Sóc de Poble" className="hero-logo-main" />
+                        <img src="/assets/master/logo-socdepoble-rect.svg" alt="Sóc de Poble" className="hero-logo-main" />
                         <span className="hero-subtitle-addon">L'Algorisme de la Terra</span>
                     </div>
                     <p className="hero-tagline">Refundant la identitat rural mitjançant sobirania digital i xarxes autònomes.</p>

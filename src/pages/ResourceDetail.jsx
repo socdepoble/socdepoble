@@ -91,7 +91,7 @@ const ResourceDetail = () => {
                 <div className="flex items-center gap-4">
                     <button 
                         onClick={() => navigate(-1)}
-                        className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/10 transition-all text-gray-400 hover:text-white"
+                        className="w-10 h-10 flex items-center justify-center rounded-[28px] hover:bg-white/10 transition-all text-gray-400 hover:text-white"
                     >
                         <ArrowLeft size={20} />
                     </button>
@@ -148,7 +148,7 @@ const ResourceDetail = () => {
 
                 {/* VISUAL: Imatge Immersiva */}
                 {(resource.image_url || resource.image || resource.cover) && (
-                    <div className="mb-16 -mx-6 md:mx-0 rounded-none md:rounded-3xl overflow-hidden border border-white/10 bg-gray-900 group">
+                    <div className="mb-16 -mx-6 md:mx-0 rounded-none md:rounded-[28px] overflow-hidden border border-white/10 bg-gray-900 group">
                         <img 
                             src={resource.image_url || resource.image || resource.cover} 
                             alt="Visual de l'Arxiu"
@@ -166,8 +166,8 @@ const ResourceDetail = () => {
                 {/* FOOTER: Sigil i Verificació */}
                 <footer className="pt-12 border-t border-white/10 flex flex-col md:flex-row justify-between items-start gap-8 opacity-40 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500">
                     <div className="flex items-center gap-4">
-                        <div className="w-16 h-16 rounded-full border border-white/20 flex items-center justify-center p-2">
-                            <img src="/assets/master/logo_socdepoble_white_full.png" className="w-full object-contain" alt="Sigil" />
+                        <div className="w-16 h-16 rounded-[28px] border border-white/20 flex items-center justify-center p-2">
+                            <img src="/assets/master/logo-socdepoble-rect.svg" className="w-full object-contain" alt="Sigil" />
                         </div>
                         <div className="text-[10px] font-black uppercase tracking-[2px]">
                             Registre Inmutable<br/>
@@ -209,7 +209,7 @@ const ResourceDetail = () => {
 const StatusLoader = ({ message }) => (
     <div className="min-h-screen bg-black flex flex-col items-center justify-center p-6 bg-[radial-gradient(circle_at_center,_#111_0%,_#000_100%)]">
         <div className="relative mb-8">
-            <div className="w-16 h-16 border-4 border-white/5 border-t-white rounded-full animate-spin"></div>
+            <div className="w-16 h-16 border-4 border-white/5 border-t-white rounded-[28px] animate-spin"></div>
             <BookOpen className="absolute inset-0 m-auto text-white/20" size={24} />
         </div>
         <p className="text-[10px] font-black uppercase tracking-[5px] text-white animate-pulse">{message}</p>

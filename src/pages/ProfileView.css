@@ -1,39 +1,9 @@
-.profile-hub-container .cover-gradient {
-    background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.4) 60%, rgba(0,0,0,1) 100%);
-}
+/* ProfileView CSS has been heavily reduced as the new design utilizes Tailwind utility classes for dynamic theming (isDayMode) and layout. */
 
-.profile-hub-container .identity-block h1 {
-    font-family: 'Roboto Condensed', sans-serif;
-    letter-spacing: -0.04em;
-    filter: drop-shadow(0 0 30px rgba(255,255,255,0.1));
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
 }
-
-.profile-hub-container .stat-item {
-    transition: transform 0.3s ease;
-}
-
-.profile-hub-container .stat-item:hover {
-    transform: translateY(-5px);
-}
-
-.profile-hub-container .btn-profile-tab {
-    position: relative;
-}
-
-.profile-hub-container .btn-profile-tab.active::after {
-    content: '';
-    position: absolute;
-    bottom: -1px;
-    left: 20%;
-    right: 20%;
-    height: 3px;
-    background: #F97316;
-    border-radius: 4px;
-    box-shadow: 0 0 15px rgba(249, 115, 22, 0.8);
-}
-
-@media (max-width: 768px) {
-    .profile-hub-container .identity-block h1 {
-        font-size: 3.5rem;
-    }
+.no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
 }

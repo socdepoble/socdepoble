@@ -61,10 +61,9 @@
   }
 }
 
-/* MUR MASONRY: MASTER DUAL-COLUMN GRID */
+/* MUR MASONRY VIEW MODES */
 .mur-masonry {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
   gap: 24px;
   padding: 24px;
   max-width: 1400px;
@@ -72,19 +71,38 @@
   width: 100%;
 }
 
+.mur-masonry.view-mode-grid {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.mur-masonry.view-mode-single {
+  grid-template-columns: 1fr;
+  max-width: 800px;
+}
+
+.mur-masonry.view-mode-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
 @media (max-width: 768px) {
-  .mur-masonry {
+  .mur-masonry.view-mode-grid {
     grid-template-columns: repeat(2, 1fr);
     /* Manteniem 2 columnes en tauletes/mòbils grans */
+  }
+  .mur-masonry {
     gap: 12px;
     padding: 12px;
   }
 }
 
 @media (max-width: 600px) {
-  .mur-masonry {
+  .mur-masonry.view-mode-grid {
     /* [RESPONSIVE FIX] A la mínima que les targetes es degraden o el text s'ix del frame, passem a 1 columna per elegància i llegibilitat. */
     grid-template-columns: 1fr;
+  }
+  .mur-masonry {
     gap: 16px;
     padding: 16px 8px;
   }

@@ -10,8 +10,8 @@
     --vibe-glass: rgba(10, 15, 30, 0.8);
     --vibe-text: #F7FAFC;
     --vibe-radius: 16px;
-    --vibe-font-main: 'Roboto Condensed', sans-serif;
-    --vibe-font-heading: 'Roboto Condensed', sans-serif;
+    --vibe-font-main: 'Noto Sans', sans-serif;
+    --vibe-font-heading: 'Noto Sans', sans-serif;
     --vibe-glow: 0 0 15px rgba(0, 242, 255, 0.4);
 }
 
@@ -29,8 +29,8 @@
     --vibe-text: #3D405B;
     --vibe-radius: 4px;
     /* Més rectangular */
-    --vibe-font-main: 'Roboto Serif', serif;
-    --vibe-font-heading: 'Roboto Serif', serif;
+    --vibe-font-main: 'Noto Sans', serif;
+    --vibe-font-heading: 'Noto Sans', serif;
     --vibe-glow: none;
     --logo-filter: none;
 }

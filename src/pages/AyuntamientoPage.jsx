@@ -69,7 +69,7 @@ const AyuntamientoPage = () => {
 
             <main className="ayunt-content p-4 space-y-6">
                 {/* AVIS DE DUALITAT */}
-                <div className="dual-portal-notice institution-glass border border-blue-500/30 p-4 rounded-2xl flex items-start gap-4">
+                <div className="dual-portal-notice institution-glass border border-orange-500/30 p-4 rounded-[28px] flex items-start gap-4">
                     <div className="icon-wrapper text-blue-400">
                         <Landmark size={32} />
                     </div>
@@ -78,7 +78,7 @@ const AyuntamientoPage = () => {
                         <p className="opacity-80">Estàs a la pàgina oficial de l'Ajuntament. Per a veure les publicacions dels veïns, el mercat i el batec del carrer, visita el Mur del Poble.</p>
                         <Link
                             to={`/pobles/${id}`}
-                            className="inline-flex items-center gap-2 mt-3 p-2 px-4 bg-primary text-black font-black rounded-lg text-xs"
+                            className="inline-flex items-center gap-2 mt-3 p-2 px-4 bg-primary text-black font-black rounded-[20px] text-xs"
                         >
                             <MessageCircle size={14} /> ANAR AL MUR DEL POBLE
                         </Link>
@@ -92,7 +92,7 @@ const AyuntamientoPage = () => {
                         <h3 className="text-xs font-bold uppercase tracking-widest">Identitat Municipal (Wikipedia)</h3>
                     </div>
 
-                    <div className="wiki-card-institutional glass-clean p-6 border-l-4 border-blue-500 rounded-r-2xl bg-white/5">
+                    <div className="wiki-card-institutional glass-clean p-6 border-l-4 border-orange-500 rounded-r-2xl bg-white/5">
                         {shieldUrl && (
                             <div className="shield-display w-24 h-24 mx-auto mb-6">
                                 <img src={shieldUrl} alt={`Escut de ${town.name}`} className="w-full h-full object-contain" />
@@ -122,7 +122,7 @@ const AyuntamientoPage = () => {
                         <h3 className="text-xs font-bold uppercase tracking-widest">Últims Bandos i Avisos</h3>
                     </div>
 
-                    <div className="bando-item p-4 bg-white/5 border border-white/10 rounded-2xl mb-4">
+                    <div className="bando-item p-4 bg-white/5 border border-white/10 rounded-[28px] mb-4">
                         <span className="text-[10px] font-bold text-blue-400 block mb-1">AVUI • 09:30</span>
                         <h4 className="font-bold text-sm mb-1 uppercase tracking-tight">Tràmits de la Seu Electrònica</h4>
                         <p className="text-xs opacity-70">Recordem que la majoria de tràmits es poden realitzar de forma telemàtica mitjançant certificat digital.</p>

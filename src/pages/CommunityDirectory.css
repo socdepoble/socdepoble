@@ -103,3 +103,26 @@
     letter-spacing: 0.2em;
     font-size: 12px;
 }
+
+/* [LIGHT MODE / DAY MODE OVERRIDES] */
+.light .directory-page {
+    background: var(--bg-app);
+}
+
+.light .directory-card {
+    background: #ffffff;
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+.light .directory-card:hover {
+    background: #f1f5f9;
+    border-color: rgba(0, 0, 0, 0.15);
+}
+
+.light .card-info h3 {
+    color: #000000;
+}
+
+.light .empty-directory {
+    color: #666666;
+}

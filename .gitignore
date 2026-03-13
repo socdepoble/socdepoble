@@ -35,3 +35,8 @@ dist-ssr
 # Deployment Credentials
 .env.deploy
 deploy-config.json
+
+# Ignorar arxius generats massa grans per Github
+.morca_arxiu/
+Auditoria_Copilot/
+*.pdf

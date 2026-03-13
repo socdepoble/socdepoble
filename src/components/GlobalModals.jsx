@@ -46,7 +46,8 @@ const GlobalModals = () => {
                     isOpen={isPostModalOpen}
                     onClose={() => setIsPostModalOpen(false)}
                     onPostCreated={handlePostCreated}
-                    isPrivateInitial={postModalConfig.isPrivate}
+                    isPrivateInitial={postModalConfig?.isPrivate}
+                    initialFile={postModalConfig?.initialFile}
                     isPlayground={isPlayground}
                 />
             )}

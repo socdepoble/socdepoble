@@ -32,7 +32,7 @@ const SuperRatonControl = ({ addLog }) => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                <div className="p-6 border border-gray-800 rounded-3xl bg-black/40">
+                <div className="p-6 border border-gray-800 rounded-[28px] bg-black/40">
                     <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
                         <Activity size={20} color="var(--hud-accent)" /> IMPACTE SOCIAL
                     </h3>
@@ -40,12 +40,12 @@ const SuperRatonControl = ({ addLog }) => {
                         <div style={{ fontSize: '48px', fontWeight: '900', color: 'var(--hud-accent)' }}>{impactScore}%</div>
                         <div className="text-xs opacity-50 uppercase tracking-widest mt-2">Nivell de Vitamina Col·lectiva</div>
                     </div>
-                    <div className="w-full bg-gray-900 h-2 rounded-full overflow-hidden">
+                    <div className="w-full bg-gray-900 h-2 rounded-[28px] overflow-hidden">
                         <div style={{ width: `${impactScore}%`, background: 'var(--hud-accent)', height: '100%', transition: 'width 1s cubic-bezier(0.4, 0, 0.2, 1)' }}></div>
                     </div>
                 </div>
 
-                <div className="p-6 border border-gray-800 rounded-3xl bg-black/40">
+                <div className="p-6 border border-gray-800 rounded-[28px] bg-black/40">
                     <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
                         <MousePointer2 size={20} color="var(--hud-accent)" /> LORE DIDÀCTIC
                     </h3>
@@ -59,7 +59,7 @@ const SuperRatonControl = ({ addLog }) => {
 
             <div className="space-y-4">
                 <button
-                    className="btn-hud-primary w-full py-4 rounded-2xl flex items-center justify-center gap-3 font-bold"
+                    className="btn-hud-primary w-full py-4 rounded-[28px] flex items-center justify-center gap-3 font-bold"
                     style={{ background: 'linear-gradient(90deg, #00f2ff 0%, #0099ff 100%)', color: '#000' }}
                     onClick={handleVitaminize}
                 >
@@ -68,13 +68,13 @@ const SuperRatonControl = ({ addLog }) => {
 
                 <div className="flex gap-4">
                     <button
-                        className="btn-hud-outline flex-1 py-4 rounded-2xl flex items-center justify-center gap-2 border-gray-700"
+                        className="btn-hud-outline flex-1 py-4 rounded-[28px] flex items-center justify-center gap-2 border-gray-700"
                         onClick={scheduleResearch}
                     >
                         <Calendar size={18} /> AGENDAR RITU RECERCA
                     </button>
                     <button
-                        className="btn-hud-outline flex-1 py-4 rounded-2xl flex items-center justify-center gap-2 border-gray-700"
+                        className="btn-hud-outline flex-1 py-4 rounded-[28px] flex items-center justify-center gap-2 border-gray-700"
                         onClick={() => setIsVitaminsMode(!isVitaminsMode)}
                     >
                         <PlayCircle size={18} /> {isVitaminsMode ? 'DESACTIVAR' : 'ACTIVAR'} DIBUIXOS

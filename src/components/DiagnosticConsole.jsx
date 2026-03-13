@@ -722,7 +722,7 @@ const DiagnosticConsole = () => {
                                                     <span className="log-msg flex-1 break-all">{log.msg}</span>
                                                     {(log.type === 'error' || log.type === 'critical') && (
                                                         <button 
-                                                            className="ml-2 bg-[#ff0055]/20 hover:bg-[#ff0055]/40 text-[#ff0055] rounded-full p-1 transition-colors"
+                                                            className="ml-2 bg-[#ff0055]/20 hover:bg-[#ff0055]/40 text-[#ff0055] rounded-[28px] p-1 transition-colors"
                                                             title="Analitzar amb IAIA (Chrome DevTools Alternative)"
                                                             onClick={() => analyzeErrorWithIAIA(log.msg)}
                                                         >

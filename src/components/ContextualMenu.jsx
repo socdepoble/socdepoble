@@ -22,24 +22,34 @@ const ContextualMenu = () => {
     const menuConfigs = {
         '/chats': [
             { id: 'xat', label: 'XAT', path: '/chats' },
-            { id: 'gent', label: 'GENT', path: '/directori' },
-            { id: 'grups', label: 'GRUPS', path: '/nexus' },
-            { id: 'empreses', label: 'EMPRESES', path: '/mercat' },
-            { id: 'institucions', label: 'INSTITUCIONS', path: '/ajudes' }
+            { id: 'gent', label: 'GENT', path: '/chats?tab=gent' },
+            { id: 'grups', label: 'GRUPS', path: '/chats?tab=grups' },
+            { id: 'empreses', label: 'EMPRESES', path: '/chats?tab=empreses' },
+            { id: 'institucions', label: 'INSTITUCIONS', path: '/chats?tab=institucions' }
         ],
-        // Qualsevol altra ruta usarà el standardMenu
+        '/pobles': [
+            { id: 'pobles', label: 'POBLES', path: '/pobles' },
+            { id: 'esdeveniments', label: 'EVENTS', path: '/pobles?tab=esdeveniments' },
+            { id: 'mapa', label: 'MAPA', path: '/mapa' }
+        ],
+        '/mapa': [
+            { id: 'pobles', label: 'POBLES', path: '/pobles' },
+            { id: 'esdeveniments', label: 'EVENTS', path: '/pobles?tab=esdeveniments' },
+            { id: 'mapa', label: 'MAPA', path: '/mapa' }
+        ]
     };
 
     // Obtenim la config per a la ruta actual
     const isChat = location.pathname.startsWith('/chats');
     const isNotes = location.pathname.startsWith('/notes');
+    const isTowns = location.pathname.startsWith('/pobles') || location.pathname.startsWith('/mapa');
     
     if (isNotes) return null;
 
-    const items = isChat ? menuConfigs['/chats'] : standardMenu;
+    const items = isChat ? menuConfigs['/chats'] : (isTowns ? menuConfigs['/pobles'] : standardMenu);
 
     return (
-        <div className="h-12 w-full bg-[#1a1a1a] shadow-[inset_0_4px_10px_rgba(0,0,0,0.6)] flex items-center sticky top-0 z-[900] select-none border-b border-white/[0.02]">
+        <div className="h-12 w-full bg-[#1a1a1a] shadow-[inset_0_4px_10px_rgba(0,0,0,0.6)] flex items-center sticky top-0 z-[900] select-none">
             {/* ÀREA D'ÍTEMS AMB SCROLL HORITZONTAL */}
             <div className="flex-1 h-full overflow-x-auto no-scrollbar pl-10 pr-4 lg:pl-12 lg:pr-6">
                 <div className="flex items-center gap-8 lg:gap-14 h-full min-w-max">
@@ -47,14 +57,12 @@ const ContextualMenu = () => {
                         <button
                             key={item.id}
                             onClick={() => {
-                                if (!isChat) {
-                                    navigate(item.path);
-                                }
+                                navigate(item.path);
                             }}
                             className={`
                                 relative h-full flex items-center text-[13px] lg:text-[15px] font-black tracking-[0.25em] transition-all
-                                ${location.pathname === item.path || (isChat && item.id === 'xat')
-                                    ? 'text-[var(--theme-accent-primary)]' 
+                                ${((location.pathname + location.search) === item.path) || (location.pathname === item.path && location.search === '' && item.id === 'xat') 
+                                    ? 'text-[var(--theme-accent-primary)] border-b-2 border-[var(--theme-accent-primary)] pt-[2px]' 
                                     : 'text-white opacity-80 hover:opacity-100'}
                             `}
                         >
@@ -68,7 +76,7 @@ const ContextualMenu = () => {
             <div className="flex items-center h-full px-4 bg-[#1a1a1a]/90 backdrop-blur-md border-l border-white/5 shadow-[-10px_0_15px_rgba(0,0,0,0.5)]">
                 <button 
                     onClick={() => navigate('/gestio/categories')}
-                    className="w-8 h-8 flex items-center justify-center rounded-full bg-white/5 text-slate-400 hover:bg-[var(--theme-accent-primary)] hover:text-white transition-all active:scale-95 shadow-inner"
+                    className="w-8 h-8 flex items-center justify-center rounded-[28px] bg-white/5 text-slate-400 hover:bg-[var(--theme-accent-primary)] hover:text-white transition-all active:scale-95 shadow-inner"
                     title="Gestionar Categories"
                 >
                     <Plus size={16} strokeWidth={4} />

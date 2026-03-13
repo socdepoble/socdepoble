@@ -304,8 +304,8 @@
     color: var(--text-secondary);
     margin-bottom: 20px;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
     line-clamp: 2;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
@@ -360,6 +360,7 @@
 
 .list p {
     margin-bottom: 0;
+    line-clamp: 1;
     -webkit-line-clamp: 1;
 }
 
@@ -384,4 +385,44 @@
         flex-direction: column;
         align-items: stretch;
     }
+}
+
+/* [LIGHT MODE / DAY MODE OVERRIDES] */
+.light .sove.archive-page { background: var(--bg-app); }
+.light .rebost-sidebar { background: var(--bg-surface); border-color: rgba(0,0,0,0.1); }
+.light .search-bar-wrapper input,
+.light .search-bar-wrapper input[type="text"] {
+    background: #ffffff;
+    border-color: rgba(0, 0, 0, 0.1);
+    color: #000;
+}
+.light .search-bar-wrapper input::placeholder { color: rgba(0,0,0,0.4); }
+.light .search-bar-wrapper input[type="text"]:focus {
+    background: #f8fafc;
+    border-color: rgba(0,0,0,0.2);
+}
+.light .rebost-main header {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+.light .resource-card {
+    background: #ffffff;
+    border-color: rgba(0, 0, 0, 0.1);
+}
+.light .resource-card:hover {
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    border-color: #0ea5e9;
+}
+.light .card-image { background: #f1f5f9; }
+.light .card-type-tag {
+    background: rgba(255, 255, 255, 0.9);
+    color: #000;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.light .nav-item:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+.light .tag-pill {
+    background: #ffffff;
+    border-color: rgba(0,0,0,0.1);
 }

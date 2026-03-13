@@ -84,14 +84,14 @@ const TiaMariaChat = () => {
                                 <ShieldCheck size={14} className="text-[var(--theme-accent-primary)]" />
                             </div>
                             <div className="flex items-center gap-1.5">
-                                <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse" />
+                                <span className="w-1.5 h-1.5 rounded-[28px] bg-orange-500 animate-pulse" />
                                 <span className="text-[10px] font-black uppercase tracking-widest text-gray-500">Bategant...</span>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div className="flex items-center gap-2">
-                    {isPlayground && <span className="text-[9px] font-black px-2 py-0.5 bg-orange-500/10 text-orange-500 border border-orange-500/20 rounded-full uppercase tracking-widest">Sessió de Prova</span>}
+                    {isPlayground && <span className="text-[9px] font-black px-2 py-0.5 bg-orange-500/10 text-orange-500 border border-orange-500/20 rounded-[28px] uppercase tracking-widest">Sessió de Prova</span>}
                     <button className="p-2 hover:bg-white/5 rounded-full text-gray-500 transition-all">
                         <MoreVertical size={20} />
                     </button>
@@ -115,10 +115,10 @@ const TiaMariaChat = () => {
                 ))}
                 {isTyping && (
                     <div className="flex justify-start animate-in fade-in duration-300">
-                        <div className="bg-[#1a1a1c] rounded-2xl rounded-tl-none p-4 flex gap-1.5 items-center border border-white/5 shadow-xl">
-                            <span className="w-1.5 h-1.5 bg-orange-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                            <span className="w-1.5 h-1.5 bg-orange-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                            <span className="w-1.5 h-1.5 bg-orange-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                        <div className="bg-[#1a1a1c] rounded-[28px] rounded-tl-none p-4 flex gap-1.5 items-center border border-white/5 shadow-xl">
+                            <span className="w-1.5 h-1.5 bg-orange-500 rounded-[28px] animate-bounce" style={{ animationDelay: '0ms' }} />
+                            <span className="w-1.5 h-1.5 bg-orange-500 rounded-[28px] animate-bounce" style={{ animationDelay: '150ms' }} />
+                            <span className="w-1.5 h-1.5 bg-orange-500 rounded-[28px] animate-bounce" style={{ animationDelay: '300ms' }} />
                         </div>
                     </div>
                 )}
@@ -127,7 +127,7 @@ const TiaMariaChat = () => {
 
             <footer className="p-4 md:p-6 bg-black/60 backdrop-blur-xl border-t border-white/5 safe-area-bottom">
                 <form onSubmit={handleSend} className="max-w-4xl mx-auto flex items-center gap-3">
-                    <button type="button" className="w-12 h-12 flex items-center justify-center rounded-2xl bg-white/5 text-gray-400 hover:bg-white/10 transition-all active:scale-90">
+                    <button type="button" className="w-12 h-12 flex items-center justify-center rounded-[28px] bg-white/5 text-gray-400 hover:bg-white/10 transition-all active:scale-90">
                         <Smile size={22} />
                     </button>
                     <div className="flex-1 relative">

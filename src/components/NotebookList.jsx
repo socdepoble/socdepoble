@@ -51,12 +51,12 @@ const NotebookList = ({
                         placeholder="Cerca en el Quadern..."
                         value={searchQuery}
                         onChange={(e) => onSearchChange(e.target.value)}
-                        className="w-full bg-black/40 border border-white/10 rounded-xl py-2 pl-9 pr-4 text-xs font-medium focus:border-orange-500/50 outline-none transition-all"
+                        className="w-full bg-black/40 border border-white/10 rounded-[28px] py-2 pl-9 pr-4 text-xs font-medium focus:border-orange-500/50 outline-none transition-all"
                     />
                 </div>
                 <button 
                     onClick={onAddNote}
-                    className="w-full h-10 bg-orange-600/10 text-orange-500 border border-orange-500/20 rounded-xl font-black text-[10px] uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-orange-600/20 transition-all active:scale-95"
+                    className="w-full h-10 bg-orange-600/10 text-orange-500 border border-orange-500/20 rounded-[28px] font-black text-[10px] uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-orange-600/20 transition-all active:scale-95"
                 >
                     <Plus size={14} strokeWidth={3} /> Nova Nota
                 </button>

@@ -43,7 +43,7 @@ const PollManager = ({ onClose }) => {
                 <BarChart3 className="text-orange-500" />
                 <h2 className="text-xl font-black uppercase text-fuchsia-400">Nova Enquesta</h2>
             </div>
-            <button onClick={onClose} className="p-2 hover:bg-white/5 rounded-full transition-colors">
+            <button onClick={onClose} className="p-2 hover:bg-white/5 rounded-[28px] transition-colors">
                 <X />
             </button>
         </header>
@@ -54,7 +54,7 @@ const PollManager = ({ onClose }) => {
                 <input 
                     type="text" 
                     placeholder="Què vols bategar?"
-                    className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-sm font-bold focus:border-fuchsia-500/50 outline-none transition-all"
+                    className="w-full bg-white/5 border border-white/10 rounded-[28px] p-4 text-sm font-bold focus:border-fuchsia-500/50 outline-none transition-all"
                     value={question}
                     onChange={(e) => setQuestion(e.target.value)}
                 />
@@ -71,12 +71,12 @@ const PollManager = ({ onClose }) => {
                             <input 
                                 type="text" 
                                 placeholder={`Opció ${i+1}`}
-                                className="flex-1 bg-white/5 border border-white/10 rounded-xl p-3 text-xs font-bold outline-none"
+                                className="flex-1 bg-white/5 border border-white/10 rounded-[28px] p-3 text-xs font-bold outline-none"
                                 value={opt}
                                 onChange={(e) => updateOption(i, e.target.value)}
                             />
                             {options.length > 2 && (
-                                <button onClick={() => removeOption(i)} className="p-2 text-red-500/50 hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-all">
+                                <button onClick={() => removeOption(i)} className="p-2 text-red-500/50 hover:text-red-500 hover:bg-red-500/10 rounded-[20px] transition-all">
                                     <Trash2 size={16} />
                                 </button>
                             )}
@@ -85,7 +85,7 @@ const PollManager = ({ onClose }) => {
                     {options.length < 5 && (
                         <button 
                             onClick={addOption}
-                            className="w-full p-3 border border-dashed border-white/10 rounded-xl text-[10px] uppercase font-black opacity-40 hover:opacity-100 hover:border-fuchsia-500/30 transition-all flex items-center justify-center gap-2"
+                            className="w-full p-3 border border-dashed border-white/10 rounded-[28px] text-[10px] uppercase font-black opacity-40 hover:opacity-100 hover:border-fuchsia-500/30 transition-all flex items-center justify-center gap-2"
                         >
                             <Plus size={14} /> Afegir Opció
                         </button>
@@ -95,7 +95,7 @@ const PollManager = ({ onClose }) => {
 
             <button 
                 onClick={handleCreate}
-                className="w-full bg-fuchsia-600 text-white p-4 rounded-full font-black text-xs uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-fuchsia-600/20 flex items-center justify-center gap-2"
+                className="w-full bg-fuchsia-600 text-white p-4 rounded-[28px] font-black text-xs uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-fuchsia-600/20 flex items-center justify-center gap-2"
             >
                 <Sparkles size={16} /> Bategar Enquesta
             </button>

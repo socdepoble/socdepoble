@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
+import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from 'react';
 import { preferenceService } from '../services/preferenceService';
 import { AGENTS } from '../constants/agents';
 
@@ -11,7 +11,23 @@ export const NavigationProvider = ({ children }) => {
     const [preferredAgentId, setPreferredAgentId] = useState(prefs.preferredAgentId || 'iaia');
     const [enabledAgentIds, setEnabledAgentIdsState] = useState(prefs.enabledAgentIds || AGENTS.map(a => a.id));
     const [iaiaLoreEnabled, setIaiaLoreEnabledState] = useState(prefs.iaiaLoreEnabled !== undefined ? prefs.iaiaLoreEnabled : true);
-    const [isDrawerOpen, setIsDrawerOpen] = useState(window.innerWidth >= 768);
+    const [isDrawerOpen, setIsDrawerOpen] = useState(
+        typeof window !== 'undefined' ? window.innerWidth >= 768 : false
+    );
+
+    useEffect(() => {
+        const handleResize = () => {
+            const isDesktop = window.innerWidth >= 768;
+            setIsDrawerOpen(prev => {
+                if (isDesktop && !prev) return true;
+                if (!isDesktop && prev) return false;
+                return prev;
+            });
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
     const [iaiaSidebarOpen, setIaiaSidebarOpen] = useState(false);
     const [iaiaSidebarContext, setIaiaSidebarContext] = useState('general');
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
@@ -27,24 +43,38 @@ export const NavigationProvider = ({ children }) => {
         });
     }, [landingPage, preferredAgentId, enabledAgentIds, iaiaLoreEnabled, selectedTown, chatSettings]);
 
+    const toggleDrawer = useCallback(() => setIsDrawerOpen(p => !p), []);
+    const closeDrawer = useCallback(() => {
+        if (window.innerWidth < 768) setIsDrawerOpen(false);
+    }, []);
+    const openIAIASidebar = useCallback((ctx) => {
+        setIaiaSidebarContext(ctx || 'general');
+        setIaiaSidebarOpen(true);
+    }, []);
+    const closeIAIASidebar = useCallback(() => setIaiaSidebarOpen(false), []);
+    const closeProfileMenu = useCallback(() => setIsProfileMenuOpen(false), []);
+
     const value = useMemo(() => ({
         landingPage, setLandingPage,
         preferredAgentId, setPreferredAgentId,
         enabledAgentIds, setEnabledAgentIdsState,
         iaiaLoreEnabled, setIaiaLoreEnabledState,
         isDrawerOpen, setIsDrawerOpen,
-        toggleDrawer: () => setIsDrawerOpen(p => !p),
-        closeDrawer: () => window.innerWidth < 768 && setIsDrawerOpen(false),
+        toggleDrawer,
+        closeDrawer,
         iaiaSidebarOpen, setIaiaSidebarOpen,
-        openIAIASidebar: (ctx) => { setIaiaSidebarContext(ctx || 'general'); setIaiaSidebarOpen(true); },
+        openIAIASidebar,
+        closeIAIASidebar,
         iaiaSidebarContext, setIaiaSidebarContext,
-        isProfileMenuOpen, setIsProfileMenuOpen, closeProfileMenu: () => setIsProfileMenuOpen(false),
+        isProfileMenuOpen, setIsProfileMenuOpen,
+        closeProfileMenu,
         isAccessibilitatOpen, setIsAccessibilitatOpen,
         selectedTown, setSelectedTown,
         chatSettings, setChatSettings,
         forensicMode, setForensicMode
     }), [
-        landingPage, preferredAgentId, enabledAgentIds, iaiaLoreEnabled, isDrawerOpen, iaiaSidebarOpen, iaiaSidebarContext, isProfileMenuOpen, isAccessibilitatOpen, selectedTown, chatSettings, forensicMode
+        landingPage, preferredAgentId, enabledAgentIds, iaiaLoreEnabled, isDrawerOpen, iaiaSidebarOpen, iaiaSidebarContext, isProfileMenuOpen, isAccessibilitatOpen, selectedTown, chatSettings, forensicMode,
+        toggleDrawer, closeDrawer, openIAIASidebar, closeIAIASidebar, closeProfileMenu
     ]);
 
     return (
@@ -54,4 +84,5 @@ export const NavigationProvider = ({ children }) => {
     );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useNavigation = () => useContext(NavigationContext);

@@ -13,13 +13,11 @@ import {
   Notebook,
   CreditCard,
 } from "lucide-react";
-import { useModal } from '../context/ModalContext';
 import { useNavigation } from '../context/NavigationContext';
 import { useAuth } from "../context/AuthContext";
 
 const NavigationRail = () => {
-  const { setIsCreateModalOpen } = useModal();
-    const { t } = useTranslation();
+  const { t } = useTranslation();
   const { user } = useAuth();
   const navigate = useNavigate();
   const { closeDrawer } = useNavigation();
@@ -51,7 +49,7 @@ const NavigationRail = () => {
     {
       id: "sistema_operatiu",
       title: "SISTEMA OPERATIU",
-      path: "/hub",
+      path: "/ofici",
       icon: <Cpu className="w-5 h-5" />,
       items: [], // Buit a la sidebar, ple al Hub
     },
@@ -79,19 +77,15 @@ const NavigationRail = () => {
             } else {
               if (window.innerWidth < 768) {
                 closeDrawer();
-                requestAnimationFrame(() => {
-                  setTimeout(() => setIsCreateModalOpen(true), 350);
-                });
+                setTimeout(() => navigate("/hub"), 150);
               } else {
-                requestAnimationFrame(() => {
-                  setTimeout(() => setIsCreateModalOpen(true), 10);
-                });
+                navigate("/hub");
               }
             }
           }}
           className="w-full h-12 shrink-0 bg-[#4F46E5] hover:bg-[#4338ca] text-white font-black flex items-center justify-start px-8 space-x-3 transition-colors active:bg-[#3730a3] group relative overflow-hidden rounded-none shadow-[0_4px_10px_rgba(0,0,0,0.5)] z-10"
         >
-          <div className="flex items-center justify-center bg-white/10 w-8 h-8 rounded-full group-hover:bg-white/20 transition-colors shrink-0">
+          <div className="flex items-center justify-center bg-white/10 w-8 h-8 rounded-[28px] group-hover:bg-white/20 transition-colors shrink-0">
             <Plus size={20} strokeWidth={3} />
           </div>
           <span className="tracking-[0.2em] text-[15px] uppercase whitespace-nowrap pt-0.5">
@@ -126,7 +120,7 @@ const NavigationRail = () => {
                         {({ isActive }) => (
                           <>
                             {isActive && (
-                              <div className="absolute left-0 top-3 bottom-3 w-1.5 bg-white rounded-r-full shadow-[0_0_15px_white]" />
+                              <div className="absolute left-0 top-3 bottom-3 w-1.5 bg-[#111827] text-white border border-white/10 rounded-r-full shadow-[0_0_15px_white]" />
                             )}
                             <div
                               className={`w-10 h-10 flex items-center justify-center shrink-0 transition-all duration-300 ${

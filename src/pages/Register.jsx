@@ -1,50 +1,67 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { useNavigate, useSearchParams, Link, useLocation } from "react-router-dom";
+import BrandLogo from "../components/BrandLogo";
+import TownSelectorModal from "../components/TownSelectorModal";import React, { useState, useEffect, useCallback } from "react";
+import { useNavigate, useSearchParams, Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { supabaseService } from "../services/supabaseService";
 import {
-  MapPin, Phone, Mail, ArrowRight, Loader2, User, ShieldCheck, CheckCircle2, ChevronRight, Globe, Zap,
+  MapPin,
+  Loader2,
+  CheckCircle2,
+  ChevronRight,
+  Zap,
 } from "lucide-react";
-import TownSelectorModal from "../components/TownSelectorModal";
 import { useAuth } from "../context/AuthContext";
 import { useI18n } from "../context/I18nContext";
+import { logger } from "../utils/logger";
 import { hapticService } from "../services/hapticService";
 import { APP_VERSION } from "../constants";
 import "./Auth.css";
-import { useTranslation } from "react-i18next";
 
 /**
- * [FLASH MASTERPIECE] Register.jsx v2.0 - Clean Sovereign Edition
+ * [FLASH MASTERPIECE] Register.jsx v2.0
+ * La millor pàgina de registre del món: ràpida, premium i sobirana.
  */
 const Register = () => {
+  logger.log("[Register] Inicialitzant component...");
   const auth = useAuth();
   const { setIsPlayground, user } = auth;
   const { language, setLanguage } = useI18n();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const navigate = useNavigate();
-  const location = useLocation();
   const [searchParams] = useSearchParams();
-  const returnTo = searchParams.get('returnTo') || '/chats';
+  const returnTo = searchParams.get('returnTo') || '/';
 
+  // [DIRECTIVA 1] Auto-redirect already authenticated users
   useEffect(() => {
     if (user && !user.isDemo && !user.is_sovereign) {
       navigate(returnTo, { replace: true });
     }
   }, [user, navigate, returnTo]);
 
-  const isInitialLogin = location.pathname === '/login' || location.pathname === '/';
-  const [authMode, setAuthMode] = useState(isInitialLogin ? 'login' : 'register');
-  const [step, setStep] = useState(isInitialLogin ? 'connection' : 'identity');
+  // Determine initial mode based on the route
+  const isLoginRoute = window.location.pathname.includes('/login');
+  const [mode] = useState(isLoginRoute ? "login" : "register");
+  const [step, setStep] = useState(isLoginRoute ? "connection" : "identity"); // 'identity' | 'verify'
 
-  const [fullName, setFullName] = useState("");
-  const [phone, setPhone] = useState("");
+  // Form states
+  const [fullName, setFullName] = useState(() => localStorage.getItem("sp_draft_name") || "");
+  const [phone, setPhone] = useState(() => localStorage.getItem("sp_draft_phone") || "");
   const [otp, setOtp] = useState("");
-  const [selectedTown, setSelectedTown] = useState(null);
+  
+  // Si venim de seleccionar poble, el poble seleccionat pot estar en el sessionStorage o localStorage, o passat per navigate state
+  const [selectedTown, setSelectedTown] = useState(() => {
+     const saved = sessionStorage.getItem('register_selected_town');
+     return saved ? JSON.parse(saved) : null;
+  });
+  
+  const [showTownPicker, setShowTownPicker] = useState(false);
 
-  const [isTownModalOpen, setIsTownModalOpen] = useState(false);
+  // UI states
   const [error, setError] = useState(null);
   const [resendCountdown, setResendCountdown] = useState(0);
   const [loading, setLoading] = useState(false);
 
+  // Real-time validation visual cues
   const isPhoneValid = phone.length >= 9;
   const isNameValid = fullName.trim().length >= 3;
 
@@ -63,17 +80,21 @@ const Register = () => {
         );
 
         if (verifiedUser) {
-          if (authMode === 'register') {
-            await supabaseService.updateProfile(verifiedUser.id, {
-              full_name: fullName,
-              town_id: selectedTown?.id,
-              town_uuid: selectedTown?.uuid,
-              primary_town: selectedTown?.name,
-            });
+          // Només actualizem perfil si estem registrant-nos de nou
+          if (mode === "register") {
+             await supabaseService.updateProfile(verifiedUser.id, {
+                full_name: fullName,
+                town_id: selectedTown?.id,
+                town_uuid: selectedTown?.uuid,
+                primary_town: selectedTown?.name,
+             });
           }
 
+          // Track activation
+          logger.log("[Registration/Login] Success for:", mode === "register" ? fullName : verifiedUser.id);
           hapticService.notifySuccess();
 
+          // [VICTORY SEQUENCE]
           setStep("welcome");
           setTimeout(() => {
             if (setIsPlayground) setIsPlayground(false);
@@ -87,7 +108,7 @@ const Register = () => {
         setLoading(false);
       }
     },
-    [phone, fullName, selectedTown, otp, navigate, setIsPlayground, returnTo, authMode],
+    [phone, fullName, selectedTown, otp, navigate, setIsPlayground, returnTo, mode],
   );
 
   useEffect(() => {
@@ -96,25 +117,32 @@ const Register = () => {
     }
   }, [step, handleVerifyOtp, otp]);
 
+  // [V1.5.6 - ZERO-CLICK LOGIN] WebOTP API per a lectura automàtica d'SMS
   useEffect(() => {
     if ("OTPCredential" in window && step === "verify") {
       const ac = new AbortController();
       navigator.credentials
-        .get({ otp: { transport: ["sms"] }, signal: ac.signal })
+        .get({
+          otp: { transport: ["sms"] },
+          signal: ac.signal,
+        })
         .then((otpData) => {
           if (otpData && otpData.code) {
+            logger.log("[WebOTP] Codi detectat automàticament:", otpData.code);
             setOtp(otpData.code);
           }
         })
         .catch((err) => {
           if (err.name !== "AbortError") {
-            // Ignorat
+            logger.warn("[WebOTP] Error o cancel·lat", err);
           }
         });
+
       return () => ac.abort();
     }
   }, [otp, handleVerifyOtp, step]);
 
+  // Resend countdown timer
   useEffect(() => {
     let timer;
     if (resendCountdown > 0) {
@@ -130,7 +158,8 @@ const Register = () => {
     setLoading(true);
     setError(null);
 
-    if (authMode === 'register' && !selectedTown) {
+    // En mode registre exigim el poble. En mode login no cal.
+    if (mode === "register" && !selectedTown) {
       setError("Selecciona el teu poble per a continuar el procés.");
       setLoading(false);
       return;
@@ -139,6 +168,10 @@ const Register = () => {
     try {
       if (!phone || phone.length < 9) {
         throw new Error("Introdueix un número de mòbil vàlid.");
+      }
+      localStorage.setItem("sp_draft_phone", phone);
+      if (mode === "register") {
+        localStorage.setItem("sp_draft_name", fullName);
       }
       const formattedPhone = phone.startsWith("+") ? phone : `+34${phone}`;
       await supabaseService.signInWithOtp(formattedPhone);
@@ -166,150 +199,156 @@ const Register = () => {
   };
 
   const languages = [
-    { code: "va", label: "VAL", flag: "🥘" },
+    { code: "va", label: "VAL", flag: "🔴" },
     { code: "es", label: "CAS", flag: "🥘" },
     { code: "en", label: "ENG", flag: "🇬🇧" },
     { code: "eu", label: "EUS", flag: "🏺" },
-    { code: "gl", label: "GAL", flag: "🐙" },
+    { code: "gl", label: "GAL", flag: "🐙" }, // Updated per USER request: Galician instead of French
   ];
 
   return (
-    <div className="auth-container integrated-frame px-4 sm:px-0 py-8 overflow-y-auto min-h-screen">
-      <div className="animate-in-up w-[92%] sm:w-full max-w-[500px] flex flex-col relative z-10 mx-auto mt-4 pb-[100px] md:pb-8">
-        <header className="flex flex-col items-center mb-6 relative w-full">
-          <img src="/assets/master/logo_socdepoble_white_full.png" alt="Sóc de Poble" className="w-[380px] sm:w-[420px] max-w-full h-auto object-contain drop-shadow-lg mb-4 hover:scale-105 transition-transform duration-500 will-change-transform" />
+    <div className="flex flex-col w-full bg-theme-base relative overflow-x-hidden font-sans pb-12">
+      <div className="w-full flex-1 flex flex-col px-6 pt-4 pb-8 animate-in-up md:max-w-md md:mx-auto">
 
-        {/* Selector d'idioma Tàctil i Gegant */}
-        <div className="personal-identity-tip animate-fade-in p-3 sm:p-4 bg-[#151515] border border-orange-500/10 rounded-[28px] mb-8 mt-2 w-full max-w-[500px] mx-auto">
-          <div className="flex gap-3 items-start">
-            <div className="shrink-0 mt-[2px]">
-              <span className="text-xl">🌍</span>
-            </div>
-            <div className="text-left w-full pl-1">
-              <h4 className="tip-title text-[11px] text-orange-400 font-bold tracking-[1.5px] uppercase mb-1">{t("auth.language_select_title", "Com vols que parlem?")}</h4>
-              <p className="tip-description text-[13px] text-white/50 leading-snug font-light pr-2">
-                {t("auth.language_select_desc", "Tria la llengua del poble. Pots demanar a la IAIA que et parle en la teua variant després.")}
-              </p>
-            </div>
-          </div>
-          
-          <div className="language-selector-auth flex justify-between gap-1 sm:gap-2 w-full mt-2">
-            {languages.map((lang) => (
-              <button
-                key={lang.code}
-                className={`flex-1 items-center justify-center flex font-bold h-12 rounded-[16px] transition-all border border-transparent shadow-sm ${language === lang.code ? "bg-[#4F46E5] text-white shadow-[#4F46E5]/30 shadow-lg scale-105" : "bg-transparent text-white/50 hover:bg-white/5"}`}
-                onClick={() => {
-                  setLanguage(lang.code);
-                  i18n.changeLanguage(lang.code);
-                  hapticService.batec();
-                }}
-              >
-                <span className="uppercase tracking-wider text-[11px]">{lang.label}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-      </header>
+        {/* Decorative Top Accent */}
+        <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-[var(--theme-accent-secondary)] to-[var(--theme-accent-primary)] opacity-80"></div>
 
-        {error && <div className="auth-error shake bg-red-500/10 border border-red-500/20 text-red-400 p-4 rounded-2xl mb-6 text-sm flex items-center gap-3"><ShieldCheck size={20} />{error}</div>}
+        <header className="flex flex-col items-center pt-2 pb-6">
+          <BrandLogo className="w-[280px] max-w-[80vw] h-auto object-contain mb-8 transition-all text-[var(--theme-text)]" />
+
+          <div className="flex justify-center gap-1.5 mb-8 bg-theme-panel border border-[var(--border-master)] p-1.5 rounded-full">
+              {languages.map((lang) => (
+                <button
+                  key={lang.code}
+                  className={`px-4 py-2 rounded-full transition-all text-[11px] font-black uppercase tracking-widest ${language === lang.code ? "bg-[var(--theme-accent-primary)] text-white shadow-sm" : "text-gray-400 hover:text-theme-text"}`}
+                  onClick={() => {
+                    setLanguage(lang.code);
+                    hapticService.batec();
+                  }}
+                >
+                  {lang.label}
+                </button>
+              ))}
+          </div>
+
+          <div className="w-full bg-[var(--theme-accent-primary-faint)] border border-[var(--theme-accent-primary-muted)] rounded-2xl p-5 flex gap-5 items-start shadow-sm mt-4">
+             <div className="w-16 h-16 shrink-0 rounded-full bg-[var(--theme-accent-primary-faint)] flex items-center justify-center shadow-inner overflow-hidden border border-[var(--theme-accent-primary-muted)]" onClick={() => hapticService.batec()}>
+                 <img src="/assets/avatars/comic/iaia_comic_matriarch.png" alt="IAIA" className="w-[110%] h-[110%] object-cover object-top" />
+             </div>
+             <div className="flex-1 pt-1">
+                 <h3 className="font-black text-[var(--theme-accent-primary)] text-base mb-1.5 uppercase tracking-tight">IAIA Guia</h3>
+                 <p className="text-theme-text text-[15px] leading-snug font-medium">
+                   {step === "identity" ? t('auth.iaia_guide_identity') : 
+                    step === "town" ? t('auth.iaia_guide_town') :
+                    step === "connection" ? t('auth.iaia_guide_connection') :
+                    step === "verify" ? t('auth.iaia_guide_verify') :
+                    t('auth.iaia_guide_welcome')}
+                 </p>
+             </div>
+          </div>
+        </header>
+
+        {error && <div className="auth-error shake">{error}</div>}
 
         {/* STEP 1: IDENTITY */}
         {step === "identity" && (
-          <div className="auth-step-container animate-fade-in-right">
-            <div className="personal-identity-tip animate-fade-in p-3 sm:p-4 bg-[#151515] border border-orange-500/10 rounded-[28px] mb-6 mt-2 w-full max-w-[500px] mx-auto">
-              <div className="flex gap-3 items-start">
-                <div className="shrink-0 mt-[2px]">
-                  <ShieldCheck size={18} className="text-orange-400" />
-                </div>
-                <div className="text-left w-full pl-1">
-                  <h4 className="tip-title text-[11px] text-orange-400 font-bold tracking-[1.5px] uppercase mb-1">{t("auth.personal_register_title", "El Teu Nom de Veí")}</h4>
-                  <p className="tip-description text-[13px] text-white/50 leading-snug font-light pr-2" dangerouslySetInnerHTML={{ __html: t("auth.personal_register_desc", "Entra primer com a persona, com s'ha fet tota la vida. Més avant ja crearem la teua <span class=\"text-white font-medium\">tenda o grup de festes</span>.") }} />
-                </div>
-              </div>
-            </div>
-
-            <div className="form-group mb-6 w-full max-w-[500px] mx-auto">
-              <label htmlFor="reg-fullname" className="text-[10px] font-black tracking-[2px] text-white/40 uppercase mb-2 ml-4 block">{t("auth.name_label", "Nom i Cognoms")}</label>
-              <div className="relative flex items-center">
-                <input
-                  id="reg-fullname"
-                  name="full_name"
-                  type="text"
-                  placeholder={t("auth.name_placeholder", "Introdueix el teu Nom i Cognoms")}
-                  value={fullName}
-                  onChange={(e) => {
-                    setFullName(e.target.value);
-                    if (e.target.value.length === 3) hapticService.batec();
-                  }}
-                  autoComplete="name"
-                  required
-                  className={`w-full text-[19px] py-[22px] px-6 font-bold tracking-wide rounded-[24px] focus:outline-none transition-all outline-none border-none placeholder:font-normal placeholder:tracking-normal ${
-                    fullName && !isNameValid ? "bg-[#ffe4e4] text-red-600 focus:ring-4 focus:ring-red-500 placeholder:text-red-400" : isNameValid ? "bg-white text-black focus:ring-4 focus:ring-orange-500 shadow-[0_0_20px_rgba(249,115,22,0.2)]" : "bg-white text-black focus:ring-4 focus:ring-[#0984E3]/50 placeholder:text-black/40 shadow-lg"
-                  }`}
-                />
-              </div>
-            </div>
-
+          <div className="flex flex-col gap-6 animate-fade-in-right shrink-0 pb-8">
+            
             <button
-              className={`w-full max-w-[500px] mx-auto h-16 rounded-[20px] text-[15px] font-bold uppercase tracking-[2px] transition-all flex items-center justify-center gap-3 ${
-                !isNameValid ? "bg-white/5 text-white/30 border border-white/10 opacity-50 pointer-events-none" : "bg-[#f97316] text-white hover:bg-orange-500 hover:scale-[1.02] active:scale-[0.98] shadow-[0_8px_30px_-10px_rgba(249,115,22,0.4)]"
-              }`}
-              disabled={!isNameValid}
-              onClick={() => {
-                hapticService.batec();
-                setStep("town");
-              }}
-            >
-              <span>{t("auth.continue_to_town", "Continuar cap al Poble")}</span>
+                onClick={signInWithGoogle}
+                disabled={loading}
+                type="button"
+                className="w-full h-16 bg-theme-panel border-2 border-[var(--border-master)] rounded-[20px] flex items-center justify-center gap-3 hover:bg-[var(--hover-overlay)] transition-all active:scale-[0.98] shadow-sm"
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                  <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                  <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                  <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                </svg>
+                <span className="font-black uppercase tracking-widest text-theme-text opacity-90 text-base">Connectar amb Google</span>
             </button>
+
+            <div className="relative flex items-center justify-center py-2">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-[var(--border-master)]"></div>
+                </div>
+                <span className="relative px-4 text-xs font-black uppercase tracking-widest bg-theme-base text-gray-400">O REGISTRE MANUAL</span>
+            </div>
+
+            <div className="space-y-3">
+              <label htmlFor="reg-name" className="text-sm font-black uppercase tracking-widest text-gray-500 ml-1">Com et diuen?</label>
+              <input
+                id="reg-name"
+                name="full_name"
+                type="text"
+                placeholder="El teu nom i cognoms..."
+                value={fullName}
+                onChange={(e) => {
+                  setFullName(e.target.value);
+                  if (e.target.value.length === 3) hapticService.batec();
+                }}
+                autoComplete="name"
+                required
+                className={`w-full h-16 bg-theme-panel border-2 rounded-[20px] px-5 text-theme-text font-bold text-xl outline-none transition-all placeholder:text-gray-500 placeholder:font-normal
+                    ${fullName && !isNameValid ? "border-red-400 focus:border-red-500 bg-red-400/10" : 
+                      isNameValid ? "border-green-500 focus:border-green-600 bg-green-500/10" : 
+                      "border-[var(--border-master)] focus:border-[var(--theme-accent-primary)] focus:bg-[var(--theme-accent-primary-faint)]"}`}
+              />
+            </div>
+
+            <div className="pt-2">
+              <button
+                className={`w-full h-16 rounded-[20px] flex items-center justify-center text-white font-black uppercase tracking-widest transition-all active:scale-[0.98] ${
+                  !isNameValid ? "bg-gray-300 opacity-50 cursor-not-allowed" : "bg-[var(--theme-accent-primary)] hover:opacity-90 shadow-[0_0_15px_rgba(255,107,0,0.3)]"
+                }`}
+                disabled={!isNameValid}
+                onClick={() => {
+                  hapticService.batec();
+                  setStep("town");
+                }}
+              >
+                <span className="text-lg pt-1">Connectar Identitat</span>
+              </button>
+            </div>
           </div>
         )}
 
         {/* STEP 2: TOWN */}
         {step === "town" && (
-          <div className="auth-step-container animate-fade-in-right">
-            <div className="form-group mb-8">
-              <label htmlFor="town-picker-reg" className="text-[10px] font-black tracking-[2px] text-white/40 uppercase mb-2 block">
-                {t("auth.town_picker_label", "D'on Eres?")}
+          <div className="flex flex-col gap-6 animate-fade-in-right flex-1">
+            <div className="space-y-3">
+              <label htmlFor="town-picker-reg" className="text-sm font-black uppercase tracking-widest text-gray-500 ml-1">
+                A quin poble pertanys?
               </label>
               <button
-                id="town-picker-reg"
-                name="town_picker"
                 type="button"
-                className={`w-full flex items-center justify-between p-4 bg-[#111] border rounded-[20px] transition-all text-left ${
-                  selectedTown ? "bg-orange-500/5 border-orange-500/50" : "border-white/5 hover:border-white/20"
-                }`}
-                onClick={() => {
-                  hapticService.batec();
-                  setIsTownModalOpen(true);
-                }}
+                onClick={() => setShowTownPicker(true)}
+                className="w-full flex items-center justify-between px-5 py-5 bg-theme-panel border-2 border-[var(--border-master)] rounded-[20px] hover:border-[var(--theme-accent-primary)] hover:bg-[var(--theme-accent-primary-faint)] transition-all active:scale-[0.98] shadow-sm"
               >
                 <div className="flex items-center gap-4">
-                  <div className="icon-badge bg-[#151515] p-3 rounded-xl border border-white/5 shrink-0">
-                    <MapPin size={24} className="text-orange-500" />
+                  <div className="w-12 h-12 bg-theme-base shadow-sm border border-[var(--border-master)] rounded-2xl flex items-center justify-center shrink-0">
+                    <MapPin size={26} className="text-[var(--theme-accent-primary)]" />
                   </div>
-                  <div className="text-left flex flex-col justify-center">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-white/40 mb-1">{t("auth.town_picker_localitat", "Localitat")}</span>
-                    <span className="text-[1.1rem] font-medium text-white leading-tight">
-                      {selectedTown ? selectedTown.name : t("auth.town_picker_placeholder", "Tria el teu poble...")}
+                  <div className="flex flex-col items-start">
+                    <span className="text-xl font-bold text-theme-text">
+                      {selectedTown ? selectedTown.name : "Tria el teu poble..."}
                     </span>
                   </div>
                 </div>
-                <div className="bg-transparent p-2 rounded-xl shrink-0 opacity-50">
-                  <ChevronRight size={20} />
+                <div className="bg-[var(--hover-overlay)] p-3 rounded-2xl text-gray-400">
+                  <ChevronRight size={24} />
                 </div>
               </button>
             </div>
-            <div className="flex gap-3 mt-4">
-              <button
-                className="w-16 h-16 rounded-[20px] bg-[#111] border border-white/5 text-white/50 hover:text-white hover:bg-white/5 transition-all flex items-center justify-center shrink-0 active:scale-95"
-                onClick={() => setStep("identity")}
-              >
-                <ChevronRight size={24} className="rotate-180" />
+
+            <div className="pt-4 flex gap-3">
+              <button className="h-16 px-6 rounded-[20px] font-bold text-theme-text opacity-70 bg-theme-panel border border-[var(--border-master)] hover:bg-[var(--hover-overlay)] transition-colors" onClick={() => setStep("identity")}>
+                Enrere
               </button>
               <button
-                className={`flex-1 h-16 rounded-[20px] text-[15px] font-bold uppercase tracking-[2px] bg-white text-black transition-all flex items-center justify-center gap-3 ${
-                  !selectedTown ? "opacity-30 pointer-events-none" : "hover:scale-[1.02] active:scale-[0.98] shadow-[0_8px_30px_-10px_rgba(255,255,255,0.3)]"
+                className={`flex-1 h-16 rounded-[20px] flex items-center justify-center gap-2 text-white font-black uppercase tracking-widest transition-all active:scale-[0.98] ${
+                  !selectedTown ? "bg-gray-300 cursor-not-allowed" : "bg-[#0ea5e9] hover:bg-[#0284c7] shadow-lg shadow-sky-500/30"
                 }`}
                 disabled={!selectedTown}
                 onClick={() => {
@@ -317,8 +356,8 @@ const Register = () => {
                   setStep("connection");
                 }}
               >
-                <span>{t("auth.this_town_button", "Aquest Poble")}</span>
-                <CheckCircle2 size={20} />
+                <span className="text-lg pt-1">Connectar Poble</span>
+                <CheckCircle2 size={22} className="mt-0.5" />
               </button>
             </div>
           </div>
@@ -326,11 +365,11 @@ const Register = () => {
 
         {/* STEP 3: CONNECTION */}
         {step === "connection" && (
-          <div className="auth-step-container animate-fade-in-right">
-            <div className="form-group mb-8">
-              <label htmlFor="reg-phone" className="text-[10px] font-black tracking-[2px] text-white/40 uppercase mb-2 block">{t("auth.phone_label", "Telèfon Mòbil")}</label>
-              <div className="flex items-center bg-[#111] border border-white/5 rounded-[20px] overflow-hidden focus-within:border-white/20 transition-all h-[64px]">
-                <span className="flex items-center justify-center h-full px-5 bg-black/20 text-white/50 font-medium text-[15px] border-r border-white/5 shrink-0">🇪🇸 +34</span>
+          <form onSubmit={handleRegister} className="flex flex-col gap-6 animate-fade-in-right flex-1">
+            <div className="space-y-3">
+              <label htmlFor="reg-phone" className="text-sm font-black uppercase tracking-widest text-gray-500 ml-1">Telèfon Mòbil per Connectar</label>
+              <div className="relative flex items-center">
+                <div className="absolute left-5 font-bold text-gray-400 select-none text-xl">🇪🇸 +34</div>
                 <input
                   id="reg-phone"
                   name="phone"
@@ -338,200 +377,165 @@ const Register = () => {
                   placeholder="600 000 000"
                   value={phone}
                   onChange={(e) => {
-                    let val = e.target.value.replace(/[^0-9]/g, "");
-                    // Si el número enganxat comença per 34 i la resta té 9 dígits (longitud estàndard espanyola), traiem el 34
-                    if (val.startsWith("34") && val.length > 9) {
-                        val = val.substring(2);
-                    }
-                    // Si es passa de 9 dígits (després de netejar), ho limitem
-                    if (val.length > 9) {
-                        val = val.substring(0, 9);
-                    }
+                    let val = e.target.value.replace(/[^0-9+]/g, "");
+                    if (val.startsWith("+34")) val = val.substring(3);
+                    val = val.replace(/[^0-9]/g, "");
+                    if (val.startsWith("34") && val.length === 11) val = val.substring(2);
                     setPhone(val);
                     if (val.length === 9) hapticService.batec();
                   }}
                   autoComplete="tel"
-                  inputMode="numeric"
+                  inputMode="tel"
                   required
-                  className={`flex-1 h-full bg-transparent border-none text-white text-[1.2rem] font-medium px-5 focus:outline-none placeholder:text-white/20 tracking-[1px] ${
-                    phone && !isPhoneValid ? "text-red-400" : isPhoneValid ? "text-white" : ""
-                  }`}
+                  className={`w-full h-16 bg-theme-panel border-2 rounded-[20px] pl-24 pr-5 text-theme-text font-bold text-2xl outline-none transition-all placeholder:text-gray-600 placeholder:font-normal tracking-wide
+                    ${phone && !isPhoneValid ? "border-red-400 focus:border-red-500 bg-red-400/10" : 
+                      isPhoneValid ? "border-green-500 focus:border-green-600 bg-green-500/10" : 
+                      "border-[var(--border-master)] focus:border-[var(--theme-accent-primary)] focus:bg-[var(--theme-accent-primary-faint)]"}`}
                 />
               </div>
             </div>
-            
-            <div className="flex flex-col gap-4">
-              <div className="flex gap-3">
-                {authMode === 'register' && (
+
+            <div className="pt-4 flex gap-3">
+                {mode === "register" && (
                   <button
-                    className="w-16 h-16 rounded-[20px] bg-[#111] border border-white/5 text-white/50 hover:text-white hover:bg-white/5 transition-all flex items-center justify-center shrink-0 active:scale-95"
+                    type="button"
+                    className="h-16 px-6 rounded-[20px] font-bold text-theme-text opacity-70 bg-theme-panel border border-[var(--border-master)] hover:bg-[var(--hover-overlay)] transition-colors"
                     onClick={() => setStep("town")}
                   >
-                    <ChevronRight size={24} className="rotate-180" />
+                    Enrere
                   </button>
                 )}
                 <button
-                  className={`flex-1 h-16 rounded-[20px] text-[15px] font-bold uppercase tracking-[2px] transition-all flex items-center justify-center gap-3 ${
-                    authMode === 'login' ? 'bg-white text-black hover:scale-[1.02] shadow-[0_8px_30px_-10px_rgba(255,255,255,0.2)]' : 'bg-[#4F46E5] text-white hover:bg-[#4338ca] hover:scale-[1.02] shadow-[0_8px_30px_-10px_rgba(79,70,229,0.3)]'
-                  } ${
-                    !isPhoneValid ? "opacity-30 pointer-events-none" : "active:scale-[0.98]"
+                  type="submit"
+                  className={`flex-1 h-16 rounded-[20px] flex items-center justify-center gap-2 text-white font-black uppercase tracking-widest transition-all active:scale-[0.98] ${
+                    !isPhoneValid ? "bg-gray-300 cursor-not-allowed opacity-50" : "bg-[var(--theme-accent-primary)] hover:opacity-90 shadow-[0_0_15px_rgba(255,107,0,0.3)]"
                   }`}
                   disabled={loading || !isPhoneValid}
-                  onClick={handleRegister}
                 >
                   {loading ? (
-                    <Loader2 size={24} className="animate-spin" />
+                    <Loader2 size={28} className="animate-spin text-white" />
                   ) : (
                     <>
-                      <span>{t("auth.sms_button", "Enviar SMS")}</span>
-                      <Zap size={18} fill="currentColor" />
+                      <span className="text-lg pt-1">Connectar SMS</span>
+                      <Zap size={20} fill="currentColor" className="mt-0.5" />
                     </>
                   )}
                 </button>
-              </div>
-
-              <div className="relative flex items-center justify-center my-2 opacity-50">
-                <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-white/10"></div>
-                </div>
-                <span className="relative px-4 text-[9px] font-bold uppercase tracking-[3px] bg-[#0a0a0a] text-white/50">{t("auth.or_also", "O També")}</span>
-              </div>
-
-              <button
-                onClick={signInWithGoogle}
-                disabled={loading}
-                className="w-full h-14 bg-[#111] border border-white/5 rounded-[18px] flex items-center justify-center gap-3 hover:bg-white/5 transition-all active:scale-95"
-              >
-                <svg className="w-5 h-5 opacity-70" viewBox="0 0 24 24" xmlns="http://www.w3.org/2400/svg">
-                  <path d="M12.24 10.285V14.4h6.806c-.275 1.765-2.056 5.174-6.806 5.174-4.095 0-7.439-3.389-7.439-7.574s3.345-7.574 7.439-7.574c2.33 0 3.891.989 4.785 1.849l3.254-3.138C18.189 1.186 15.479 0 12.24 0c-6.635 0-12 5.365-12 12s5.365 12 12 12c6.926 0 11.52-4.869 11.52-11.726 0-.788-.085-1.39-.189-1.989H12.24z" fill="currentColor" />
-                </svg>
-                <span className="font-bold uppercase tracking-[1.5px] text-[11px] text-white/70">{t("auth.enter_with_google", "Entra amb Google")}</span>
-              </button>
             </div>
-          </div>
+          </form>
         )}
+
 
         {/* STEP 4: VERIFY */}
         {step === "verify" && (
           <form
             onSubmit={handleVerifyOtp}
-            className="auth-form animate-fade-in-right"
+            className="flex flex-col gap-6 animate-fade-in-right flex-1"
           >
-            <div className="form-group mb-8">
-              <label htmlFor="otp-input-reg" className="text-[10px] font-black tracking-[2px] text-white/40 uppercase mb-3 block text-center">{t("auth.otp_label", "Codi de Seguretat de 6 dígits")}</label>
+            <div className="space-y-4">
+              <div className="text-center space-y-1 mb-4">
+                 <h2 className="text-3xl font-black text-theme-text">Has rebut un SMS?</h2>
+                 <p className="text-gray-400 font-medium text-base">Hem enviat un codi al <strong className="text-theme-text opacity-90 tracking-wide text-lg">{phone}</strong></p>
+              </div>
+
               <input
                 id="otp-input-reg"
                 name="otp_code"
                 type="text"
-                placeholder="000000"
+                placeholder="123456"
                 value={otp}
                 onChange={(e) => setOtp(e.target.value)}
                 autoComplete="one-time-code"
                 inputMode="numeric"
                 maxLength={6}
                 required
-                className="w-full h-[80px] bg-[#111] border border-white/5 rounded-[20px] text-center text-white text-[28px] font-bold tracking-[14px] font-mono focus:border-white/20 transition-all outline-none placeholder:opacity-20"
+                className="w-full h-20 bg-theme-panel border-2 border-[var(--border-master)] focus:border-[var(--theme-accent-primary)] focus:bg-[var(--theme-accent-primary-faint)] rounded-[20px] text-center text-4xl font-black text-theme-text tracking-[0.5em] outline-none transition-all placeholder:text-gray-600 shadow-sm"
               />
             </div>
 
-            <button type="submit" className="w-full h-16 rounded-[20px] bg-white text-black text-[15px] font-bold tracking-[2px] shadow-[0_8px_30px_-10px_rgba(255,255,255,0.2)] disabled:opacity-30 flex items-center justify-center uppercase mb-8 hover:scale-[1.02] active:scale-[0.98] transition-all" disabled={loading || otp.length < 6} onClick={() => hapticService.batec()}>
-              {loading ? <Loader2 className="animate-spin" size={24} /> : t("auth.confirm_entry", "Confirmar")}
-            </button>
+            <div className="mt-auto pt-6 space-y-4">
+              <button
+                type="submit"
+                className={`w-full h-16 rounded-[20px] flex items-center justify-center gap-2 text-white font-black uppercase tracking-widest transition-all active:scale-[0.98] ${
+                  otp.length < 6 || loading ? "bg-gray-300 opacity-50 cursor-not-allowed" : "bg-[var(--theme-accent-primary)] hover:opacity-90 shadow-[0_0_15px_rgba(255,107,0,0.3)]"
+                }`}
+                disabled={otp.length < 6 || loading}
+                onClick={() => hapticService.batec()}
+              >
+                {loading ? (
+                  <Loader2 size={28} className="animate-spin text-white" />
+                ) : (
+                  <span className="text-lg pt-1">CONFIRMAR ENTRADA</span>
+                )}
+              </button>
 
-            <div className="otp-helper text-center flex flex-col items-center gap-4">
-              {resendCountdown > 0 ? (
-                <span className="text-[13px] text-white/40 font-medium">
-                  {t("auth.new_code_in", "Nou codi en:")}{" "}
-                  <strong className="text-white/90 tabular-nums">
-                    00:{resendCountdown.toString().padStart(2, '0')}
-                  </strong>
-                </span>
-              ) : (
+              <div className="text-center pt-4 pb-2 space-y-4">
                 <button
                   type="button"
-                  className="text-[13px] font-medium text-white/70 hover:text-white transition-colors flex items-center gap-2"
-                  onClick={handleRegister}
+                  className="text-base font-bold text-gray-400 hover:text-theme-text underline underline-offset-4 decoration-2 decoration-[var(--border-master)] transition-colors"
+                  disabled={resendCountdown > 0}
+                  onClick={(e) => {
+                    if (resendCountdown === 0) handleRegister(e);
+                  }}
                 >
-                  <Zap size={14} /> {t("auth.resend_sms", "Tornar a enviar SMS")}
+                  {resendCountdown > 0
+                    ? `Reenviar en ${resendCountdown}s`
+                    : "No reps cap missatge? Reenviar codi."}
                 </button>
-              )}
-              
-              <button
-                type="button"
-                className="text-[11px] font-bold uppercase tracking-[2px] text-white/30 hover:text-white/60 transition-colors mt-2"
-                onClick={() => setStep("connection")}
-              >
-                {t("auth.change_number", "Corregir número")}
-              </button>
+                <div>
+                  <button type="button" onClick={() => setStep("connection")} className="text-sm font-black text-gray-400 hover:text-[var(--theme-accent-primary)] uppercase tracking-widest transition-colors bg-theme-panel border border-[var(--border-master)] px-4 py-2 rounded-full">
+                      Canviar Telèfon
+                  </button>
+                </div>
+              </div>
             </div>
           </form>
         )}
 
-        {/* STEP 5: WELCOME CELEBRATION */}
+        {/* STEP 5: WELCOME SUCCESS */}
         {step === "welcome" && (
-          <div className="auth-step-container animate-zoom-in flex flex-col items-center justify-center py-8">
-            <div className="w-20 h-20 bg-green-500/10 rounded-full flex items-center justify-center mb-6">
-               <CheckCircle2 size={40} className="text-green-500" />
+          <div className="text-center py-12 space-y-6 animate-in-up flex-1 flex flex-col items-center justify-center">
+            <div className="w-32 h-32 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner animate-pulse-soft">
+              <CheckCircle2 size={64} className="text-green-500" strokeWidth={3} />
             </div>
-            <h2 className="text-[22px] font-medium text-white text-center mb-2">
-              {t("auth.welcome_home_prefix", "Accés ")}<span className="font-bold">Autoritzat</span>
+            <h2 className="text-4xl font-black uppercase text-theme-text italic tracking-tight relative -left-1">
+              CONNEXIÓ
+              <br />ESTABLERTA
             </h2>
-            <p className="text-white/50 text-[14px] mb-8 text-center px-4">Preparant la plaça digital. T'estem redundant...</p>
-            
-            <div className="flex gap-2">
-              <div className="w-1.5 h-1.5 bg-white/20 rounded-full animate-pulse"></div>
-              <div className="w-1.5 h-1.5 bg-white/40 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
-              <div className="w-1.5 h-1.5 bg-white/60 rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
-            </div>
+            <p className="font-bold text-gray-400 text-xl text-center px-4">"Ja eres un dels nostres. Cor de poble, bategat digital. Ens veiem a la plaça!" <br/><span className="text-sm mt-2 block">- L'IAIA 👵✨</span></p>
           </div>
         )}
-        
-        {step !== "welcome" && (
-            <div className="mt-10 pt-6 border-t border-white/5">
-            <div className="text-center">
-                {authMode === 'register' ? (
-                <div className="flex flex-col gap-2 items-center">
-                    <span className="text-[15px] font-medium text-white/40">{t("auth.already_have_account", "Ja tens compte al poble?")}</span>
-                    <button 
-                    onClick={() => { setAuthMode('login'); setStep('connection'); setError(null); }} 
-                    className="text-[17px] font-bold text-orange-500 hover:text-orange-400 tracking-wide transition-colors"
-                    >
-                    {t("auth.enter_now", "Entrar Directament")}
-                    </button>
-                </div>
-                ) : (
-                <div className="flex flex-col gap-2 items-center">
-                    <span className="text-[15px] font-medium text-white/40">{t("auth.dont_have_account", "Encara no tens connexió?")}</span>
-                    <button 
-                    onClick={() => { setAuthMode('register'); setStep('identity'); setError(null); }} 
-                    className="text-[17px] font-bold text-orange-500 hover:text-orange-400 tracking-wide transition-colors"
-                    >
-                    {t("auth.register_now", "Crear Access")}
-                    </button>
-                </div>
-                )}
-            </div>
-            <div className="mt-8 text-center flex flex-col items-center">
-                <p className="text-[12px] text-white/30 max-w-[250px] leading-relaxed">
-                    Operant sota la clàusula verda digital Sóc de Poble. 
-                    <Link to="/legal" className="underline hover:text-white/50 ml-1">Condicions legals</Link>
-                </p>
-                <div className="mt-4 text-[12px] font-mono opacity-20">{APP_VERSION}</div>
-            </div>
-            </div>
-        )}
-      </div>
 
-      <TownSelectorModal
-        isOpen={isTownModalOpen}
-        onClose={() => setIsTownModalOpen(false)}
-        onSelect={(town) => {
-          setSelectedTown(town);
-          setIsTownModalOpen(false);
-          setError(null);
-          hapticService.batec();
-        }}
-      />
+        <div className="mt-8">
+          <div className="text-center text-xs text-gray-400 mb-6 font-medium leading-relaxed px-4">
+            En bategar, acceptes que Sóc de Poble és un experiment de sobirania digital.
+            <br />
+            <Link to="/legal" className="underline hover:text-theme-text transition-colors mt-1 inline-block">Avisos Legals</Link>
+          </div>
+          
+          <div className="text-center text-lg bg-theme-panel rounded-2xl p-4 border border-[var(--border-master)]">
+            <span className="text-gray-400 font-medium">Ja tens compte?</span>{" "}
+            <Link to="/login" className="text-[var(--theme-accent-primary)] font-black hover:underline tracking-wide ml-1">
+              Entra ara
+            </Link>
+          </div>
+
+          <div className="text-center mt-6 text-gray-300 font-bold text-[10px] uppercase tracking-widest">
+            {APP_VERSION}
+          </div>
+        </div>
+
+        <TownSelectorModal
+          isOpen={showTownPicker}
+          onClose={() => setShowTownPicker(false)}
+          onSelect={(town) => {
+             setSelectedTown(town);
+             sessionStorage.setItem('register_selected_town', JSON.stringify(town));
+             setShowTownPicker(false);
+          }}
+        />
+
+      </div>
     </div>
   );
 };

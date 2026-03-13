@@ -45,7 +45,7 @@ const ChatLayout = () => {
     }, [isResizing, resize, stopResizing]);
 
     return (
-        <div ref={containerRef} className="flex-1 flex overflow-hidden w-full bg-theme-base relative flex-grow min-h-0 h-full select-none">
+        <div ref={containerRef} className="flex-1 flex overflow-hidden w-full bg-theme-base relative flex-grow min-h-0 h-full">
             
             {/* 1. LLISTA DE VEÏNS (DINÀMICA EN DESKTOP) */}
             <div 
@@ -57,7 +57,7 @@ const ChatLayout = () => {
                 `}
             >
                 {blueprintMode ? (
-                    <BlueprintOverlay label="LIST_COLUMN" dimensions={id ? "HIDDEN" : `${leftWidth}px`} color="blue" className="flex-1 flex flex-col min-h-0 h-full">
+                    <BlueprintOverlay label="LIST_COLUMN" dimensions={id ? "HIDDEN" : `${leftWidth}px`} color="orange" className="flex-1 flex flex-col min-h-0 h-full">
                         <ChatList />
                     </BlueprintOverlay>
                 ) : (

@@ -739,3 +739,77 @@
         color: black !important;
     }
 }
+
+/* [LIGHT MODE / DAY MODE OVERRIDES] */
+.light .project-pitch-container {
+    background: radial-gradient(circle at top center, #f8fafc 0%, #e2e8f0 100%);
+    color: #000;
+}
+
+.light .pitch-nav {
+    background: rgba(255, 255, 255, 0.9);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.light .cinematic-hero {
+    background: #ffffff;
+    border-bottom-color: var(--color-primary);
+}
+
+.light .stat-item-glass {
+    background: rgba(0, 0, 0, 0.03);
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+.light .stat-item-glass:hover {
+    background: rgba(0, 242, 255, 0.05);
+}
+
+.light .glass-card-premium {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.light .avatar-img-premium {
+    background: #ffffff;
+}
+
+.light .iaia-librarian-card {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.02) 0%, rgba(0, 0, 0, 0.01) 100%);
+    border: 1px solid rgba(0,0,0,0.05);
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.light .btn-audio-overview {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.light .tech-pill-item {
+    background: rgba(0, 0, 0, 0.03);
+    border-color: rgba(0, 0, 0, 0.05);
+}
+
+.light .tech-pill-item h3 {
+    color: #000;
+}
+
+.light .tech-pill-item p {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.light .lang-toggle-minimal {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+.light .report-text h1, 
+.light .report-text h2, 
+.light .report-text h3 {
+    color: #000000;
+}
+
+.light .report-markdown-content {
+    color: #333333;
+}

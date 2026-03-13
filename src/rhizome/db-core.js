@@ -1,5 +1,8 @@
 import { logger } from '../utils/logger';
 
+// Importem el worker com a URL lògic aïllat heretant CORS per defecte de la finestra
+import RhizomeWorker from './rhizome.worker.js?worker&inline';
+
 /**
  * RhizomeDB: Persistent SQLite + OPFS Layer [MASTER/FLASH]
  * 
@@ -23,23 +26,13 @@ class RhizomeDB {
 
         this.initPromise = (async () => {
             try {
-                // [BATEGAT 0ms] Deferim la inicialització pesada a un moment d'oci del navegador
-                // per no competir amb la interactivitat de l'usuari (gestos de login).
-                if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
-                    await new Promise(resolve => window.requestIdleCallback(resolve, { timeout: 2000 }));
-                } else {
-                    await new Promise(resolve => setTimeout(resolve, 300));
-                }
-                // [BATEGAT 0ms] El worker s'encarrega d'esperar al moment d'oci
-                this.worker = new Worker(
-                    new URL('./rhizome.worker.js', import.meta.url),
-                    { type: 'module' }
-                );
+                // Instanciem el worker inlined
+                this.worker = new RhizomeWorker();
 
                 this.worker.onmessage = (e) => this.handleWorkerMessage(e);
 
                 return new Promise((resolve, reject) => {
-                    this.sendToWorker('INIT', null, (res) => {
+                    this.sendToWorker('INIT', { origin: window.location.origin }, (res) => {
                         if (res.type === 'INIT_OK') {
                             logger.log('📡 RhizomeDB Proxy connectat al Worker');
                             resolve();
@@ -60,28 +53,34 @@ class RhizomeDB {
     handleWorkerMessage(e) {
         const { id, type, payload } = e.data;
 
-        if (type === 'LOG') return logger.log(payload);
-        if (type === 'DEBUG') return logger.debug ? logger.debug(payload) : null;
-        if (type === 'ERROR' && !id) return logger.error(payload);
+        if (type === 'LOG') { logger.log(payload); return; }
+        if (type === 'DEBUG') { if (logger.debug) logger.debug(payload); return; }
+        if (type === 'ERROR' && !id) { logger.error(payload); return; }
 
         if (!this.pendingRequests) {
             this.pendingRequests = new Map();
-            return;
         }
 
         const callback = this.pendingRequests.get(id);
         if (callback) {
             this.pendingRequests.delete(id);
             callback(e.data);
+        } else if (id) {
+            logger.warn(`L'event amb ID ${id} enviat des del Worker no té callback registrats.`);
         }
     }
 
     sendToWorker(type, payload, callback) {
-        const id = Math.random().toString(36).substring(7);
+        if (!this.pendingRequests) {
+            this.pendingRequests = new Map();
+        }
+        
+        const id = Math.random().toString(36).substring(2, 10) + Date.now().toString(36);
+        
         if (callback) {
-            if (!this.pendingRequests) this.pendingRequests = new Map();
             this.pendingRequests.set(id, callback);
         }
+        
         if (this.worker) {
             this.worker.postMessage({ id, type, payload });
         } else {

@@ -657,8 +657,8 @@ export const supabaseService = {
             const [stats, seo, { data: recentPosts }, { data: recentMarket }, { data: recentProfiles }] = await Promise.all([
                 this.getAdminStats(),
                 this.getSEOStats(),
-                supabase.from('posts').select('id, content, created_at, author, author_avatar').order('created_at', { ascending: false }).limit(10),
-                supabase.from('market_items').select('id, title, price, created_at, seller, avatar_url').order('created_at', { ascending: false }).limit(10),
+                supabase.from('posts').select('id, content, created_at, author:author_name, author_avatar:author_avatar_url').order('created_at', { ascending: false }).limit(10),
+                supabase.from('market_items').select('id, title, price, created_at, seller:author_name, avatar_url:author_avatar_url').order('created_at', { ascending: false }).limit(10),
                 supabase.from('profiles').select('id, full_name, created_at').eq('is_demo', false).order('created_at', { ascending: false }).limit(10)
             ]);
 
@@ -1024,6 +1024,31 @@ export const supabaseService = {
             };
         }
 
+        // [BATEGAT ANONYMOUS BYPASS] 
+        // Si és un usuari anònim enviant a la IAIA, no ho guardem a Supabase
+        // per evitar errors de constraint (400) pel sender_id no existent.
+        // Simularem l'èxit i invocarem la resposta local.
+        if (messageData.isGuest || !messageData.senderId || messageData.senderId === 'guest' || String(messageData.senderId).startsWith('anonymous')) {
+            logger.warn('[supabaseService] Intent de sendSecureMessage per usuari anònim. Guardant en local (efímer).');
+            const guestMessage = { 
+                id: `guest-msg-${Date.now()}`, 
+                conversation_id: messageData.conversationId, 
+                sender_id: messageData.senderId || 'guest', 
+                content: messageData.content, 
+                created_at: new Date().toISOString(),
+                is_ai: false
+            };
+            
+            // Si la conversació és amb una IAIA (p.ex. IAIA MarIA), activem la resposta ràpida simulada
+            if (messageData.conversationId && messageData.conversationId.startsWith('c1111000')) {
+                 const personaInfo = LORE_PERSONAS.find(p => p.id === '11111111-1a1a-0000-0000-000000000000'); // IAIA Maria default
+                 const responderId = messageData.conversationId.replace('c', ''); // Aproximació per al Mock
+                 this.triggerSimulatedReply({ ...messageData, responderId, responderType: 'bot', persona: personaInfo || LORE_PERSONAS[0] });
+            }
+
+            return guestMessage;
+        }
+
         // Validació estructural amb Zod
         const isPlayground = localStorage.getItem('isPlaygroundMode') === 'true' ||
             messageData.senderId?.startsWith('11111111-') ||
@@ -1068,7 +1093,14 @@ export const supabaseService = {
 
         const validated = MessageSchema.parse(msgPayload);
 
-        const safeColumns = 'id, conversation_id, sender_id, content, attachment_url, attachment_type, attachment_name, created_at, is_ai, is_read, is_playground';
+        // [BUGFIX 400 Bad Request] We construct the select query string dynamically to PREVENT
+        // asking for columns that don't exist.
+        let safeColumns = 'id, conversation_id, sender_id, content, attachment_url, attachment_type, attachment_name, created_at, is_ai, is_read';
+        
+        if (columnCache.messages_is_playground !== false) {
+           safeColumns += ', is_playground';
+        }
+        
         const selectStr = columnCache.messages_post_uuid !== false ? `${safeColumns}, post_uuid` : safeColumns;
 
         const { data, error } = await supabase

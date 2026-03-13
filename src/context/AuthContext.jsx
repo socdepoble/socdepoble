@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { supabase } from '../supabaseClient';
 import { supabaseService } from '../services/supabaseService';
 import { identityService } from '../services/identityService';
@@ -189,10 +189,14 @@ export const AuthProvider = ({ children }) => {
 
         try {
             const logoutPromise = supabase.auth.signOut();
-            const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('Logout Timeout')), 3000));
+            let timerId;
+            const timeoutPromise = new Promise((_, reject) => {
+                timerId = setTimeout(() => reject(new Error('Logout Timeout')), 3000);
+            });
             await Promise.race([logoutPromise, timeoutPromise]).catch(err => {
                 logger.warn('[AuthContext] Supabase signOut failed or timed out, but proceeding with local logout:', err);
             });
+            clearTimeout(timerId);
         } catch (err) {
             logger.error('[AuthContext] Error during Supabase signOut:', err);
         } finally {
@@ -220,14 +224,11 @@ export const AuthProvider = ({ children }) => {
             setImpersonatedProfile(null);
             setActiveEntityId(null);
 
-            const masters = (typeof CREATOR_EMAILS !== 'undefined') ? CREATOR_EMAILS : [];
-            const isCreator = masters.includes(session.user.email);
-
             try {
                 let profileData = await supabaseService.getProfile(session.user.id);
                 // [MASTER IDENTITY PROTECTION]
                 const userEmail = (session.user.email || session.user.user_metadata?.email || '').toLowerCase();
-                const masters = (typeof CREATOR_EMAILS !== 'undefined') ? CREATOR_EMAILS : [];
+                const masters = Array.isArray(CREATOR_EMAILS) ? CREATOR_EMAILS : [];
                 
                 const isMastersEmail = masters.some(email => email.toLowerCase() === userEmail) || 
                                      userEmail === 'javillinares@gmail.com' ||
@@ -245,7 +246,6 @@ export const AuthProvider = ({ children }) => {
                 const MASTER_IDS = [
                     'd6325f44-7277-4d20-b020-166c010995ab', // Known Master ID
                     '56557878-3a83-4710-8588-44ade442a8b3', // Fallback Master ID
-                    session.user.id // If emails match, this ID becomes Master
                 ];
 
                 const isOfficialCreator = isMastersEmail || isMasterByName || MASTER_IDS.includes(session.user.id);
@@ -261,8 +261,8 @@ export const AuthProvider = ({ children }) => {
                     }
                 }
 
-                let effectiveName = isOfficialCreator ? 'Javi Llinares' : (profileData?.full_name || userEmail.split('@')[0] || 'Sóc de Poble');
-                if (effectiveName.toLowerCase().includes('veí')) effectiveName = 'Sóc de Poble';
+                let effectiveName = profileData?.full_name || session.user.user_metadata?.full_name || (userEmail ? userEmail.split('@')[0] : null) || (session.user.phone ? 'Veí del Poble' : 'Veí del Poble');
+                if (isOfficialCreator) effectiveName = 'Javi Llinares';
 
                 const effectiveProfile = {
                     ...(profileData || {}),
@@ -282,7 +282,7 @@ export const AuthProvider = ({ children }) => {
                 const fallback = {
                     id: session.user.id,
                     full_name: session.user.email?.split('@')[0] || 'Sóc de Poble',
-                    role: isCreator ? USER_ROLES.SUPER_ADMIN : USER_ROLES.NEIGHBOR
+                    role: USER_ROLES.NEIGHBOR
                 };
                 setRealProfile(fallback);
                 setProfile(fallback);
@@ -310,6 +310,9 @@ export const AuthProvider = ({ children }) => {
         setLoading(false);
     }, [loginAsGuest]);
 
+    const handleAuthRef = useRef(handleAuth);
+    useEffect(() => { handleAuthRef.current = handleAuth; }, [handleAuth]);
+
     useEffect(() => {
         let isMounted = true;
         
@@ -318,9 +321,9 @@ export const AuthProvider = ({ children }) => {
             const isNuked = localStorage.getItem('nuke_in_progress') === 'true';
             if (isNuked) {
                 localStorage.removeItem('nuke_in_progress');
-                handleAuth(AUTH_EVENTS.INITIAL_SESSION, null);
+                handleAuthRef.current(AUTH_EVENTS.INITIAL_SESSION, null);
             } else {
-                handleAuth(AUTH_EVENTS.INITIAL_SESSION, session);
+                handleAuthRef.current(AUTH_EVENTS.INITIAL_SESSION, session);
             }
         }).catch(err => {
             if (!isMounted) return;
@@ -330,15 +333,17 @@ export const AuthProvider = ({ children }) => {
 
         const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
             if (!isMounted) return;
-            handleAuth(event, session);
+            handleAuthRef.current(event, session);
         });
 
         return () => {
             isMounted = false;
             if (subscription) subscription.unsubscribe();
         };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    const isAuthenticated = !!realUser && !isPlayground;
+    const isGuest = !!user && !!user.isAnonymous;
 
     const value = useMemo(() => ({
         user,
@@ -367,12 +372,14 @@ export const AuthProvider = ({ children }) => {
         isEditor: [USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN, USER_ROLES.EDITOR].includes(simulatedRole || profile?.role) || profile?.is_master,
         language,
         setLanguage,
-        loginAsGuestAnonymous
+        loginAsGuestAnonymous,
+        isAuthenticated,
+        isGuest
     }), [
         user, profile, realUser, realProfile, loading, adoptPersona, loginAsGuest, 
         exitPlayground, logout, forceNukeSimulation, isPlayground, setIsPlayground, 
         impersonatedProfile, activeEntityId, switchContext, simulatedRole, setSimulatedRole, 
-        language, setLanguage, loginAsGuestAnonymous
+        language, setLanguage, loginAsGuestAnonymous, isAuthenticated, isGuest
     ]);
 
     return (

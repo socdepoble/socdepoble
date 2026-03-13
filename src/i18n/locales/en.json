@@ -106,6 +106,11 @@
         "iaia_phone_ask": "Give me the key to your mobile. 📱",
         "iaia_otp_ask": "Put the security code here! 📱🏛️",
         "iaia_welcome": "Welcome to the square, neighbor! 🎊",
+        "iaia_guide_identity": "Register first as a person. Once inside, you will be able to create your groups, companies, or institutions.",
+        "iaia_guide_town": "Very well. And what town are you from?",
+        "iaia_guide_connection": "I need your mobile key to connect you.",
+        "iaia_guide_verify": "Enter the security code you just received! 📱",
+        "iaia_guide_welcome": "In! Welcome to the square! 🎊",
         "name_label": "First and Last Name",
         "name_placeholder": "Who are you? (First and Last Name)",
         "personal_register_title": "PERSONAL REGISTRATION",
@@ -142,5 +147,16 @@
         "main_town": "Main Town",
         "no_results_search": "No results found for your search.",
         "no_results_list": "No elements available."
+    },
+    "emoji": {
+        "frequently_used": "Frequently used",
+        "smileys_people": "Smileys & People",
+        "animals_nature": "Animals & Nature",
+        "food_drink": "Food & Drink",
+        "travel_places": "Travel & Places",
+        "activities": "Activities",
+        "objects": "Objects",
+        "symbols": "Symbols",
+        "flags": "Flags"
     }
 }
