@@ -50,7 +50,7 @@ const ChatEmptyState = () => {
             </section>
 
             <section>
-              <h3 className="text-blue-500 font-black text-[10px] uppercase tracking-widest mb-2">
+              <h3 className="text-orange-500 font-black text-[10px] uppercase tracking-widest mb-2">
                 EL MERCAT (Panell Central)
               </h3>
               <p className="text-gray-400 text-sm leading-relaxed">
@@ -77,9 +77,9 @@ const ChatEmptyState = () => {
               <ShieldCheck size={14} /> Protocol 1er Mandament v10.33.15-CANÒNIC
             </span>
             <div className="flex gap-1">
-              <div className="w-2 h-2 rounded-full bg-orange-600 animate-pulse"></div>
-              <div className="w-2 h-2 rounded-full bg-orange-600/40"></div>
-              <div className="w-2 h-2 rounded-full bg-orange-600/20"></div>
+              <div className="w-2 h-2 rounded-[28px] bg-orange-600 animate-pulse"></div>
+              <div className="w-2 h-2 rounded-[28px] bg-orange-600/40"></div>
+              <div className="w-2 h-2 rounded-[28px] bg-orange-600/20"></div>
             </div>
           </div>
         </div>
@@ -93,11 +93,11 @@ const ChatEmptyState = () => {
       {/* HEADER DEL XAT (Global Settings Header) - MATCHES ChatDetail HEIGHT */}
       <header 
           onClick={() => navigate('/gestio/xats')}
-          className={`h-16 min-h-[64px] px-4 md:px-6 flex items-center justify-between border-b border-[var(--border-master)] flex-shrink-0 z-30 transition-colors bg-[var(--theme-accent-primary)] dark:bg-[var(--theme-accent-secondary)] text-[var(--sdp-white)] cursor-pointer hover:brightness-110 active:scale-[0.99]`}
+          className={`h-16 min-h-[64px] px-4 md:px-6 flex items-center justify-between border-b border-[var(--border-master)] flex-shrink-0 z-30 transition-colors bg-[var(--theme-accent-primary)] dark:bg-[var(--theme-accent-secondary)] text-white cursor-pointer hover:brightness-110 active:scale-[0.99]`}
       >
           <div className="flex items-center gap-3 flex-1 group transition-all">
-              <div className="bg-white rounded-full p-0.5 shadow-[0_0_10px_rgba(255,255,255,0.4)]">
-                 <div className="w-[40px] h-[40px] rounded-full bg-white/20 flex items-center justify-center">
+              <div className="bg-[#111827] text-white border border-white/10 rounded-[28px] p-0.5 shadow-[0_0_10px_rgba(255,255,255,0.4)]">
+                 <div className="w-[40px] h-[40px] rounded-[28px] bg-white/20 flex items-center justify-center">
                     <Settings size={22} className="text-white" />
                  </div>
               </div>
@@ -142,39 +142,35 @@ const ChatEmptyState = () => {
             }}
           ></div>
 
-          <h1
-            className={`relative z-10 text-3xl md:text-5xl font-black text-center mb-12 tracking-normal uppercase italic text-[var(--theme-accent-primary)] leading-none`}
-      >
-        SÓC DE POBLE
-        <br />
-        <span>PER A WEB</span>
-      </h1>
+      <div className="relative z-10 flex flex-col items-center justify-center mb-16 px-6 max-w-4xl mx-auto">
+        <h1
+          className={`text-5xl md:text-7xl font-black text-center mb-6 tracking-tight uppercase italic text-[var(--theme-accent-primary)] leading-none`}
+        >
+          SÓC DE POBLE
+        </h1>
 
-      <div
-        className={`relative z-10 text-center max-w-4xl mb-16 space-y-10 ${colors.textSecondary}`}
-      >
-        <p className="text-3xl md:text-5xl text-[var(--text-main)] leading-tight font-black italic">
-          "Connecta amb la teua comunitat. El bategat de la terra en format
-          digital."
-        </p>
-        <p className="text-2xl md:text-3xl text-[var(--text-main)] leading-relaxed px-10 font-bold">
-          <strong>Sóc de Poble</strong> és un{" "}
-          <strong>Sistema Operatiu Rural</strong>. Una eina per a la gent,
-          ajuntaments i negocis KM 0 per a protegir la memòria, dinamitzar
-          l'economia local i bategat amb utilitat social.
+        <h2 className="text-3xl md:text-5xl text-[var(--theme-accent-secondary)] dark:text-[var(--theme-accent-secondary)] leading-tight font-black italic mb-10 text-center">
+          Portal de Pobles Connectats
+        </h2>
+
+        <p className={`text-xl md:text-2xl text-[var(--text-main)] leading-relaxed font-bold text-center ${colors.textSecondary}`}>
+          Una <span className="text-[var(--theme-accent-primary)] font-black">XARXA SOCIAL DESCENTRALITZADA</span> de PROGRAMARI LLIURE, per CONNECTAR i GEOLOCALITZAR recursos d’utilitat social, compartint informació, experiències i idees que faciliten el desenvolupament sostenible i tecnològic en entorns rurals, per posar en valor els recursos locals i mostrar l’atractiu dels pobles com a llocs on viure i treballar.
         </p>
       </div>
 
       {/* ACCIONS AL PEU - [MASTERY v15] Espaiades i nítides */}
-      <div className="relative z-10 flex flex-wrap items-center justify-center gap-10 mb-20 px-6">
+      <div className="relative z-10 flex flex-col items-center justify-center gap-6 mb-16 px-6 w-full max-w-lg mx-auto">
         <button
-          className="flex items-center gap-4 px-12 py-6 bg-[var(--theme-accent-primary)] dark:bg-[var(--theme-accent-secondary)] text-white rounded-[24px] font-black uppercase text-xl tracking-widest shadow-2xl shadow-[var(--theme-accent-primary)]/50 dark:shadow-[var(--theme-accent-secondary)]/50 hover:scale-105 active:scale-95 transition-all w-full md:w-auto"
+          className="relative flex items-center justify-center px-12 py-6 bg-[var(--theme-accent-primary)] dark:bg-[var(--theme-accent-secondary)] text-white rounded-[24px] font-black uppercase text-xl tracking-widest shadow-2xl shadow-[var(--theme-accent-primary)]/50 dark:shadow-[var(--theme-accent-secondary)]/50 hover:scale-105 active:scale-95 transition-all w-full leading-none"
           onClick={() => window.location.href = "/registre"}
         >
-          <UserPlus size={32} /> Connecta amb el teu Poble!
+          <div className="absolute left-6 md:left-8">
+            <UserPlus size={32} />
+          </div>
+          <span className="text-center w-full">Connecta amb el teu Poble!</span>
         </button>
         <button
-          className={`flex items-center gap-4 px-12 py-6 rounded-[24px] font-black uppercase text-xl tracking-widest bg-[var(--theme-accent-secondary)] dark:bg-[var(--theme-accent-primary)] text-white hover:scale-105 active:scale-95 transition-all w-full md:w-auto shadow-2xl shadow-[var(--theme-accent-secondary)]/50 dark:shadow-[var(--theme-accent-primary)]/50`}
+          className={`relative flex items-center justify-center px-12 py-6 rounded-[24px] font-black uppercase text-xl tracking-widest bg-[var(--theme-accent-secondary)] dark:bg-[var(--theme-accent-primary)] text-white hover:scale-105 active:scale-95 transition-all w-full shadow-2xl shadow-[var(--theme-accent-secondary)]/50 dark:shadow-[var(--theme-accent-primary)]/50 leading-none`}
           onClick={() => {
             const shareData = {
               title: "Sóc de Poble",
@@ -185,7 +181,10 @@ const ChatEmptyState = () => {
             else alert("Enllaç copiat!");
           }}
         >
-          <Share2 size={32} /> {t("common.share_soc", "Compartir Sóc de Poble")}
+          <div className="absolute left-6 md:left-8">
+            <Share2 size={32} />
+          </div>
+          <span className="text-center w-full">{t("common.share_soc", "Compartir Sóc de Poble")}</span>
         </button>
       </div>
 
@@ -202,7 +201,7 @@ const ChatEmptyState = () => {
         </p>
         <button
           onClick={() => (window.location.href = "/ofici")}
-          className="inline-flex items-center gap-2 px-8 py-4 bg-[var(--theme-accent-primary)]/10 text-[var(--theme-accent-primary)] rounded-full font-black uppercase text-xs tracking-[0.2em] hover:bg-[var(--theme-accent-primary)] hover:text-white transition-all"
+          className="inline-flex items-center gap-2 px-8 py-4 bg-[var(--theme-accent-primary)]/10 text-[var(--theme-accent-primary)] rounded-[28px] font-black uppercase text-xs tracking-[0.2em] hover:bg-[var(--theme-accent-primary)] hover:text-white transition-all"
         >
           Llegir Condicions i Arquitectura <ArrowRight size={14} />
         </button>
