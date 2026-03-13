@@ -165,32 +165,33 @@ const AppLayout = () => {
   const path = location.pathname.split("/")[1] || "chats";
 
   // Mappeig de labels arquitectònics per al Frame Global
-  const routeLabels = {
-    chats: "LIST_COLUMN [FULL_WIDTH]",
-    mur: "PROMISCUOUS_FEED [VERTICAL]",
-    mercat: "MERCH_SHEET [GRID_28px]",
-    pobles: "COMMUNITY_MESH",
-    perfil: "IDENTITY_TOTEM [V10.26]",
-    entitat: "OFFICIAL_ENTITY_FRAME",
-    mapa: "TACTICAL_RADAR_VIEW",
-    ofici: "OFFICIAL_DOCS_SHEET",
-    arxiu: "RESOURCE_VAULT",
-    notes: "SCRATCHPAD_BUFFER",
-    calendari: "MASTER_CALENDAR_PROTO",
-    ajudes: "ADVISORY_DOSSIER",
-    "gestio-menu": "DYNAMIC_MENU_OVERRIDE",
-    utilitats: "UTILITY_HUB_FRAME",
-  };
-
-  const currentLabel = routeLabels[path] || "MAIN_VIEWPORT_FLEX";
+  const currentLabel = React.useMemo(() => {
+    const routeLabels = {
+      chats: "LIST_COLUMN [FULL_WIDTH]",
+      mur: "PROMISCUOUS_FEED [VERTICAL]",
+      mercat: "MERCH_SHEET [GRID_28px]",
+      pobles: "COMMUNITY_MESH",
+      perfil: "IDENTITY_TOTEM [V10.26]",
+      entitat: "OFFICIAL_ENTITY_FRAME",
+      mapa: "TACTICAL_RADAR_VIEW",
+      ofici: "OFFICIAL_DOCS_SHEET",
+      arxiu: "RESOURCE_VAULT",
+      notes: "SCRATCHPAD_BUFFER",
+      calendari: "MASTER_CALENDAR_PROTO",
+      ajudes: "ADVISORY_DOSSIER",
+      "gestio-menu": "DYNAMIC_MENU_OVERRIDE",
+      utilitats: "UTILITY_HUB_FRAME",
+    };
+    return routeLabels[path] || "MAIN_VIEWPORT_FLEX";
+  }, [path]);
 
   return (
     <div
       className="h-[100dvh] w-full flex flex-col overflow-hidden font-sans bg-theme-base text-theme-text relative max-h-[100dvh]"
-      onDragEnter={handleGlobalDragEnter}
-      onDragLeave={handleGlobalDragLeave}
-      onDragOver={handleGlobalDragOver}
-      onDrop={handleGlobalDrop}
+      onDragEnterCapture={handleGlobalDragEnter}
+      onDragLeaveCapture={handleGlobalDragLeave}
+      onDragOverCapture={handleGlobalDragOver}
+      onDropCapture={handleGlobalDrop}
     >
       {isGlobalDragging && (
         <div className="absolute inset-0 z-[99999] bg-[var(--theme-accent-primary)]/90 backdrop-blur-md flex flex-col items-center justify-center text-white pointer-events-none transition-all duration-300 animate-in fade-in zoom-in-95">
@@ -301,7 +302,6 @@ const AppLayout = () => {
 
                     <Route path="/post/:id" element={<PostDetail />} />
                     <Route path="/mur" element={<Feed />} />
-                    <Route path="/post/:id" element={<PostDetail />} />
                     <Route path="/mercat" element={<Marketplace />} />
                     <Route path="/mercat/:id" element={<MarketItemDetail />} />
                     <Route path="/iaia" element={<ProfileView />} />

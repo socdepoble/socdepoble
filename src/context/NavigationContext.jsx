@@ -11,7 +11,7 @@ export const NavigationProvider = ({ children }) => {
     const [preferredAgentId, setPreferredAgentId] = useState(prefs.preferredAgentId || 'iaia');
     const [enabledAgentIds, setEnabledAgentIdsState] = useState(prefs.enabledAgentIds || AGENTS.map(a => a.id));
     const [iaiaLoreEnabled, setIaiaLoreEnabledState] = useState(prefs.iaiaLoreEnabled !== undefined ? prefs.iaiaLoreEnabled : true);
-    const [isDrawerOpen, setIsDrawerOpen] = useState(
+    const [isDrawerOpen, setIsDrawerOpen] = useState(() =>
         typeof window !== 'undefined' ? window.innerWidth >= 768 : false
     );
 
@@ -37,10 +37,13 @@ export const NavigationProvider = ({ children }) => {
     const [forensicMode, setForensicMode] = useState(false);
 
     useEffect(() => {
-        preferenceService.setPrefs({
-            landingPage, preferredAgentId, enabledAgentIds, iaiaLoreEnabled,
-            selectedTown, chatSettings
-        });
+        const timeoutId = setTimeout(() => {
+            preferenceService.setPrefs({
+                landingPage, preferredAgentId, enabledAgentIds, iaiaLoreEnabled,
+                selectedTown, chatSettings
+            });
+        }, 500);
+        return () => clearTimeout(timeoutId);
     }, [landingPage, preferredAgentId, enabledAgentIds, iaiaLoreEnabled, selectedTown, chatSettings]);
 
     const toggleDrawer = useCallback(() => setIsDrawerOpen(p => !p), []);

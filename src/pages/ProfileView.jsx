@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { 
     Settings, Loader2, AlertCircle, 
     Sparkles, Grid, Share2, ArrowLeft, Camera, UserCheck, MessageCircle, MapPin,
@@ -30,6 +30,7 @@ const ProfileView = () => {
 
     const { id, username } = useParams();
     const navigate = useNavigate();
+    const location = useLocation();
     const { user: currentUser, profile: myProfile } = useAuth();
     const { openConnectionModal } = useModal();
 
@@ -45,9 +46,20 @@ const ProfileView = () => {
     const [isStudioOpen, setIsStudioOpen] = useState(false);
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
-    const isOwnProfile = !id && !username || (currentUser && id === currentUser.id);
+    const isOwnProfile = React.useMemo(() => {
+        return (!id && !username) || (currentUser && id === currentUser.id);
+    }, [id, username, currentUser]);
+
+    // Redirection effect separated from data fetching
+    useEffect(() => {
+        if (isOwnProfile && !id && myProfile?.id) {
+            navigate(`/perfil/${myProfile.id}`, { replace: true });
+        }
+    }, [isOwnProfile, id, myProfile, navigate]);
 
     useEffect(() => {
+        if (isOwnProfile && !id && myProfile?.id) return; // Block fetch if we are about to redirect
+
         const fetchProfileData = async () => {
             setLoading(true);
             try {
@@ -88,6 +100,7 @@ const ProfileView = () => {
                 setProfile(finalProfile);
 
                 if (isValidUUID(finalProfile.id) || finalProfile.id) {
+                    // React 18 batches these state updates automatically
                     const [followers, following, posts, postsData] = await Promise.all([
                         supabaseService.getFollowers(finalProfile.id),
                         supabaseService.getFollowing(finalProfile.id),
@@ -117,13 +130,8 @@ const ProfileView = () => {
             }
         };
 
-        if (isOwnProfile && !id && myProfile?.id) {
-            navigate(`/perfil/${myProfile.id}`, { replace: true });
-            return;
-        }
-
         fetchProfileData();
-    }, [id, username, isOwnProfile, currentUser, myProfile, navigate]);
+    }, [id, username, isOwnProfile, currentUser, myProfile]);
 
     const isSuperAdmin = currentUser?.role === 'super_admin';
 
@@ -175,7 +183,7 @@ const ProfileView = () => {
                         <ShareHub 
                             title={profile?.full_name}
                             text={profile?.bio}
-                            url={window.location.pathname}
+                            url={location.pathname}
                             customTrigger={
                                 <button className={`w-12 h-12 flex items-center justify-center rounded-full backdrop-blur-2xl border transition-all shadow-xl hover:scale-110 active:scale-95 ${isDayMode ? 'bg-white/80 border-black/10 text-black hover:bg-white' : 'bg-black/60 border-white/10 text-white hover:bg-black/80'}`}>
                                     <Share2 size={20} className="-ml-0.5" />

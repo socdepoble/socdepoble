@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useModal } from '../context/ModalContext';
 import { useNavigation } from '../context/NavigationContext';
 import { useDesign } from '../context/DesignContext';
@@ -56,7 +56,7 @@ const UniversalCard = ({
     const isMaster = isAdmin || user?.app_metadata?.role === 'master';
 
     // MULTIMEDIA RESOLUTION
-    const mediaList = images || item?.images || (Array.isArray(item?.image_url) ? item.image_url : null) || (Array.isArray(image) ? image : null);
+    const mediaList = React.useMemo(() => images || item?.images || (Array.isArray(item?.image_url) ? item.image_url : null) || (Array.isArray(image) ? image : null), [images, item?.images, item?.image_url, image]);
     const displayImage = image || item?.image_url || item?.image || (mediaList ? mediaList[0] : null);
 
     const displayTitle = title || item?.title || "Sóc de Poble";
@@ -68,7 +68,11 @@ const UniversalCard = ({
     const displayDate = createdAtDate ? createdAtDate.toLocaleDateString() : "Data desconeguda";
     const displayTime = createdAtDate ? createdAtDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : (item?.metadata?.bategat_time || "");
 
-    const handleCardClick = () => {
+    const isOfficial = React.useMemo(() => forcedOfficial || item?.author_role === 'official' || item?.author_role === 'oficial' || item?.type === 'oficial' || item?.type === 'system' || item?.type === 'bando' || item?.type === 'tramit' || item?.official || cardVariant === 'ajuntament' || cardVariant === 'pobles', [forcedOfficial, item?.author_role, item?.type, item?.official, cardVariant]);
+    const isAlert = React.useMemo(() => item?.category === 'Alert' || item?.type === 'alert' || item?.is_alert || item?.category === 'Danger', [item?.category, item?.type, item?.is_alert]);
+    const isSostenible = React.useMemo(() => item?.category === 'Sostenible' || item?.tags?.includes('#Sostenible'), [item?.category, item?.tags]);
+
+    const handleCardClick = React.useCallback(() => {
         const id = item?.uuid || item?.id;
         if (cardVariant === 'pobles') {
             navigate(`/pobles/${id}`);
@@ -79,13 +83,9 @@ const UniversalCard = ({
         } else if (id) {
             navigate(`/post/${id}`);
         }
-    };
+    }, [item?.uuid, item?.id, cardVariant, navigate]);
 
-    const isOfficial = forcedOfficial || item?.author_role === 'official' || item?.author_role === 'oficial' || item?.type === 'oficial' || item?.type === 'system' || item?.type === 'bando' || item?.type === 'tramit' || item?.official || cardVariant === 'ajuntament' || cardVariant === 'pobles';
-    const isAlert = item?.category === 'Alert' || item?.type === 'alert' || item?.is_alert || item?.category === 'Danger';
-    const isSostenible = item?.category === 'Sostenible' || item?.tags?.includes('#Sostenible');
-
-    const handleConnectClick = async (e) => {
+    const handleConnectClick = React.useCallback(async (e) => {
         e.stopPropagation();
 
         const postId = item?.uuid || item?.id;
@@ -103,7 +103,7 @@ const UniversalCard = ({
         } else {
             navigate(`/post/${postId}?action=connect`);
         }
-    };
+    }, [item?.uuid, item?.id, cardVariant, navigate]);
 
     const CardContent = (
         <article
@@ -211,8 +211,8 @@ const UniversalCard = ({
         </article>
     );
 
-    const location = useLocation();
-    const isChatRoute = location.pathname.startsWith('/chats');
+    // Avoid useLocation hook to prevent re-renders when local routing changes (improves feed performance)
+    const isChatRoute = typeof window !== 'undefined' ? window.location.pathname.startsWith('/chats') : false;
 
     const FinalCard = (
         <div className="min-w-0 w-full">
@@ -227,12 +227,6 @@ const UniversalCard = ({
     ) : FinalCard;
 };
 
-export default React.memo(UniversalCard, (prevProps, nextProps) => {
-    return (
-        prevProps.item?.uuid === nextProps.item?.uuid &&
-        prevProps.item?.bategats_count === nextProps.item?.bategats_count &&
-        prevProps.item?.images?.length === nextProps.item?.images?.length &&
-        prevProps.viewMode === nextProps.viewMode &&
-        prevProps.className === nextProps.className
-    );
-});
+// Using default React.memo for a standard shallow comparison of all props
+// This fixes the bug where item updates weren't reflecting properly if UUID didn't change
+export default React.memo(UniversalCard);
