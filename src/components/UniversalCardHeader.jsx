@@ -62,24 +62,24 @@ const UniversalCardHeader = ({
                     className="genesis-avatar"
                 />
                 <div className="header-text flex flex-col justify-center">
-                    <h3 className="master-author-name leading-tight">
+                    <h3 className="master-author-name leading-tight text-on-accent">
                         {cardVariant === 'pobles' ? getGentDePage(displayTown) : displayAuthor}
                     </h3>
                     
                     {cardVariant === 'pobles' ? (
-                        <div className="location-text opacity-90 mt-0.5">
+                        <div className="location-text text-on-accent-muted mt-0.5">
                             De part de: {displayAuthor}
                         </div>
                     ) : (
                         !isOfficial && displayTown && displayTown !== displayAuthor && (
-                            <div className="location-text">
+                            <div className="location-text text-on-accent-muted">
                                 {displayTown.replace("Poble Principal:", "").trim()}
                             </div>
                         )
                     )}
                     
                     {isOfficial && (
-                         <div className="location-text opacity-70">SÓC DE POBLE OFICIAL</div>
+                         <div className="location-text text-on-accent-muted">SÓC DE POBLE OFICIAL</div>
                     )}
                 </div>
             </div>
@@ -88,8 +88,8 @@ const UniversalCardHeader = ({
                 <div className="header-meta-details flex flex-col items-end justify-center leading-none">
                     {cardVariant !== 'pobles' && (
                         <div className="flex flex-col items-end">
-                            <span className="header-date text-[10px] font-black opacity-80 uppercase tracking-tighter">{displayDate}</span>
-                            <span className="header-time text-[10px] font-black uppercase text-white/90 tracking-tighter">{displayTime}</span>
+                            <span className="header-date text-on-accent text-[12px] font-black">{displayDate}</span>
+                            <span className="header-time text-[11px] font-black uppercase text-on-accent-muted tracking-tighter">{displayTime}</span>
                         </div>
                     )}
                     {(item?.is_pinned || item?.metadata?.is_pinned) && (

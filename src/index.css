@@ -3,6 +3,7 @@
 /* 🏺 SÓC DE POBLE: LA BÍBLIA VISUAL v10.33.2-CANÒNIC [PROTOCOL NOTO]
    Aquest fitxer és el ciment únic. 
 */
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
   --font-sans: "Noto Sans", ui-sans-serif, system-ui, sans-serif,
@@ -46,6 +47,16 @@
 }
 
 :root {
+  /* [SISTEMA DE CAPES Z-INDEX - CANÒNIC v15] */
+  --z-base: 1;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 300;
+  --z-sidebar: 400;
+  --z-modal: 500;
+  --z-toast: 600;
+  --z-max: 999;
+
   /* [PROTOCOL GÈNESI v10.26.0 - CANÒNIC] */
   --bg-app: #000000;
   --bg-master: #000000;
@@ -67,6 +78,7 @@
   --sdp-blue: #0984e3;
 
   --theme-accent-primary: #0984e3; /* Blau a Nit */
+  --on-theme-accent-primary: #ffffff; /* Contrast blanc per llegibilitat al fosc */
   --theme-accent-primary-muted: rgba(9, 132, 227, 0.4);
   --theme-accent-primary-faint: rgba(9, 132, 227, 0.1);
 
@@ -103,13 +115,14 @@
   --hover-overlay: rgba(0, 0, 0, 0.05);
   --active-overlay: rgba(0, 0, 0, 0.08);
 
-  /* InversiÃ³ de Variables Directes */
+  /* Inversió de Variables Directes */
   --sdp-black: #ffffff;
   --sdp-white: #000000;
   --sdp-orange: #0984e3; /* Taronja => Blau */
   --sdp-blue: #ff6b00; /* Blau => Taronja */
 
   --theme-accent-primary: #ff6b00; /* Taronja de Dia */
+  --on-theme-accent-primary: #111827; /* Negre profund per màxim contrast Taronja */
   --theme-accent-primary-muted: rgba(255, 107, 0, 0.4);
   --theme-accent-primary-faint: rgba(255, 107, 0, 0.1);
 
@@ -121,7 +134,7 @@
   --bg-theme-sidebar: #000000; /* PERMANENT BLACK (NIGHT MODE) */
   --bg-theme-panel: var(--bg-panel);
   --text-theme-text: #000000;
-  --bg-theme-header: #000000; /* HEADER ES MANTÃ‰ EN NEGRE SEMPRE */
+  --bg-theme-header: #000000; /* HEADER ES MANTÉ EN NEGRE SEMPRE */
 
   /* [FASE 2: GLASSMORPHISM] Day Mode Tokens */
   --glass-bg-light: rgba(255, 255, 255, 0.7);
@@ -129,6 +142,15 @@
   --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
   --glass-blur: blur(16px);
   --glass-theme-bg: var(--glass-bg-light);
+}
+
+.text-on-accent {
+  color: var(--on-theme-accent-primary) !important;
+}
+
+.text-on-accent-muted {
+  color: var(--on-theme-accent-primary) !important;
+  opacity: 0.85;
 }
 
 .bg-theme-base {
@@ -491,6 +513,29 @@ p {
 }
 
 /* [MASTER CANONIC BUTTONS] Design System GEM MODERN v1.0 */
+/* Botó Connectar Canònic (UniversalCard) */
+.btn-connect-canonic {
+  font-weight: 900 !important;
+  text-transform: uppercase !important;
+  font-size: 14px;
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 28px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--theme-accent-secondary);
+  color: #111827;
+  transition: background-color 0.3s ease, transform 0.1s;
+}
+.btn-connect-canonic:hover {
+  background-color: #ea580c;
+  cursor: pointer;
+}
+.btn-connect-canonic:active {
+  transform: scale(0.95);
+}
+
 .master-button-canonic {
   height: 44px !important;
   border-radius: 22px !important;

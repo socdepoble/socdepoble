@@ -366,7 +366,7 @@ const BroadcastModule = ({ addLog }) => {
                 <Bell /> CENTRE DE COMANDAMENT
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="p-4 border border-gray-700 rounded-[28px] bg-black/20">
+                <div className="p-6 border border-gray-700 rounded-[28px] bg-black/20">
                     <h3 className="font-bold text-lg mb-2 text-red-400">🚨 EMERGÈNCIA</h3>
                     <p className="text-sm text-gray-400 mb-4">Protocol d'enviament massiu per a situacions crítiques.</p>
                     <div className="flex flex-col gap-2">
@@ -382,7 +382,7 @@ const BroadcastModule = ({ addLog }) => {
                         </button>
                     </div>
                 </div>
-                <div className="p-4 border border-gray-700 rounded-[28px] bg-black/20">
+                <div className="p-6 border border-gray-700 rounded-[28px] bg-black/20">
                     <h3 className="font-bold text-lg mb-2 text-cyan-400">✨ GESTIÓ DE CONTINGUT</h3>
                     <p className="text-sm text-gray-400 mb-4">Publica manualment col·leccions de contingut premium.</p>
                     <button
@@ -422,7 +422,7 @@ const UtilitatSocialModule = ({ addLog }) => {
                 <ShieldCheck color="var(--color-success)" /> MONITOR D'UTILITAT SOCIAL [GOD MODE]
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="p-4 border border-gray-700 rounded-[28px] bg-black/20">
+                <div className="p-6 border border-gray-700 rounded-[28px] bg-black/20">
                     <h3 className="font-bold text-lg mb-2 text-green-400">📊 VITALITAT RURAL</h3>
                     <div className="flex flex-col gap-4">
                         <div className="vitality-meter-wrapper">
@@ -442,7 +442,7 @@ const UtilitatSocialModule = ({ addLog }) => {
                         </button>
                     </div>
                 </div>
-                <div className="p-4 border border-gray-700 rounded-[28px] bg-black/20">
+                <div className="p-6 border border-gray-700 rounded-[28px] bg-black/20">
                     <h3 className="font-bold text-lg mb-2 text-blue-400">👵 SAVIESA IAIA (WA)</h3>
                     <p className="text-sm text-gray-400 mb-4">Estat de la integració de l'IAIA als xats de coordinació.</p>
                     <div className="flex flex-col gap-2">
@@ -516,7 +516,7 @@ const MemoryGovernanceModule = ({ addLog }) => {
                 <Brain color="var(--color-warning)" /> GOVERN DE LA MEMÒRIA [LLEI VII]
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="p-4 border border-gray-700 rounded-[28px] bg-black/20">
+                <div className="p-6 border border-gray-700 rounded-[28px] bg-black/20">
                     <h3 className="font-bold text-lg mb-2 text-yellow-400">🛡️ VOUT DE SEGURETAT</h3>
                     <div className="grid grid-cols-2 gap-4 mb-4">
                         <div className="p-2 bg-gray-900 rounded-[20px] text-center">
@@ -540,7 +540,7 @@ const MemoryGovernanceModule = ({ addLog }) => {
                         {recovering ? 'RECUPERANT...' : 'EXECUTAR CRON DE MEMÒRIA'}
                     </button>
                 </div>
-                <div className="p-4 border border-gray-700 rounded-[28px] bg-black/20">
+                <div className="p-6 border border-gray-700 rounded-[28px] bg-black/20">
                     <h3 className="font-bold text-lg mb-2 text-cyan-400">📅 RITU RECURRENT</h3>
                     <p className="text-sm text-gray-400 mb-4">Planificació de la sincronització automàtica del bategat master.</p>
                     <div className="p-3 bg-cyan-900/10 border border-cyan-500/20 rounded-[20px] mb-4">
@@ -578,7 +578,7 @@ const MarketingModule = ({ addLog }) => {
                 <Activity color="var(--color-primary)" /> MÀRQUETING UNIVERSAL [LLEI DEL CONEIXEMENT]
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="p-4 border border-gray-700 rounded-[28px] bg-black/20">
+                <div className="p-6 border border-gray-700 rounded-[28px] bg-black/20">
                     <h3 className="font-bold text-lg mb-2 text-blue-400">📊 AUDIÈNCIA REALTIME</h3>
                     <div className="flex items-center gap-4 mb-4">
                         <div className="text-4xl font-black text-white animate-pulse">{realtimeUsers}</div>
@@ -590,7 +590,7 @@ const MarketingModule = ({ addLog }) => {
                     </div>
                 </div>
 
-                <div className="p-4 border border-gray-700 rounded-[28px] bg-black/20">
+                <div className="p-6 border border-gray-700 rounded-[28px] bg-black/20">
                     <h3 className="font-bold text-lg mb-2 text-cyan-400">🧠 GOOGLE SYNC (GA4/GTM)</h3>
                     <div className="space-y-3">
                         <div className="flex justify-between items-center text-xs p-2 bg-gray-900 rounded border border-gray-800">
@@ -702,7 +702,7 @@ const PermissionsGovernanceModule = ({ addLog }) => {
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="p-4 border border-gray-700 rounded-[28px] bg-black/20">
+                <div className="p-6 border border-gray-700 rounded-[28px] bg-black/20">
                     <h3 className="font-bold text-lg mb-4 text-blue-400">🛡️ DEFINICIÓ DE ROLS</h3>
                     <div className="space-y-3">
                         {roles.map(role => (
@@ -717,7 +717,7 @@ const PermissionsGovernanceModule = ({ addLog }) => {
                     </div>
                 </div>
 
-                <div className="p-4 border border-gray-700 rounded-[28px] bg-black/20">
+                <div className="p-6 border border-gray-700 rounded-[28px] bg-black/20">
                     <h3 className="font-bold text-lg mb-4 text-cyan-400">⚡ ACCIONS DE SEGURETAT</h3>
                     <div className="space-y-3">
                         <div className="p-3 bg-red-900/10 border border-red-500/20 rounded-[20px]">

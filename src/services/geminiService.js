@@ -116,8 +116,7 @@ class GeminiService {
     if (!persona) throw new Error(`Persona ${personaKey} no trobada.`);
 
     // [MASTER RESILIENCY] Avaluació de caiguda offline o mode dev
-    const isLocal = typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1");
-    const isSimulation = localStorage.getItem("isPlaygroundMode") === "true" || localStorage.getItem("sb-simulation-mode") === "true" || isLocal;
+    const isSimulation = localStorage.getItem("isPlaygroundMode") === "true" || localStorage.getItem("sb-simulation-mode") === "true";
 
     if (isSimulation) {
       logger.log(`[Gemini] Mode Simulació activat per a ${persona.name}. Retornant *mock*.`);
@@ -146,7 +145,7 @@ class GeminiService {
           model: this.model,
           geminiPayload: {
             contents: [{ role: 'user', parts: parts }],
-            system_instruction: { parts: [{ text: persona.systemPrompt }] }
+            system_instruction: { parts: [{ text: persona.systemPrompt + "\n\nDIRECTIVA MASTER OBLIGATÒRIA: Retalla la xerrameca. Si l'usuari et diu simplement 'Bon dia' o fa un comentari molt curt, respon de forma igualment breu, amb una sola frase natural. La longitud de la teua resposta ha de ser estrictament proporcional a la longitud i complexitat de l'usuari. Actua de forma conversacional i directa." }] }
           }
         }
       });

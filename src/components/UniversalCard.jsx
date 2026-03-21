@@ -137,7 +137,7 @@ const UniversalCard = ({
 
                     <div className="flex-1 min-w-0">
                         <button 
-                            className="font-black uppercase text-[14px] h-10 px-4 rounded-[28px] flex items-center gap-2 bg-[#F97316] text-[#111827] hover:bg-[#EA580C] hover:cursor-pointer transition-colors active:scale-95"
+                            className="btn-connect-canonic"
                             onClick={(e) => {
                                 e.stopPropagation();
                                 handleConnectClick(e);
@@ -227,6 +227,13 @@ const UniversalCard = ({
     ) : FinalCard;
 };
 
-// Using default React.memo for a standard shallow comparison of all props
-// This fixes the bug where item updates weren't reflecting properly if UUID didn't change
-export default React.memo(UniversalCard);
+const propsAreEqual = (prevProps, nextProps) => {
+    return (
+        prevProps.item?.uuid === nextProps.item?.uuid &&
+        prevProps.item?.updated_at === nextProps.item?.updated_at &&
+        prevProps.viewMode === nextProps.viewMode &&
+        prevProps.isBating === nextProps.isBating
+    );
+};
+
+export default React.memo(UniversalCard, propsAreEqual);

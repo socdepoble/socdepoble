@@ -1,81 +1,85 @@
 {
-    "common": {
-        "loading": "Caricamento...",
-        "back": "Indietro",
-        "send": "Invia",
-        "write_message": "Scrivi un messaggio...",
-        "online": "Online",
-        "soon": "Presto disponibile...",
-        "save": "Salva",
-        "saved": "Salvato!",
-        "search": "Cerca...",
-        "role_all": "Bacheca",
-        "role_gent": "Persone",
-        "role_grup": "Gruppi",
-        "role_empresa": "Aziende",
-        "role_oficial": "Enti",
-        "change_language": "Cambia lingua"
+  "common": {
+    "loading": "Caricamento...",
+    "back": "Indietro",
+    "send": "Invia",
+    "write_message": "Scrivi un messaggio...",
+    "online": "Online",
+    "soon": "Presto disponibile...",
+    "save": "Salva",
+    "saved": "Salvato!",
+    "search": "Cerca...",
+    "role_all": "Bacheca",
+    "role_gent": "Persone",
+    "role_grup": "Gruppi",
+    "role_empresa": "Aziende",
+    "role_oficial": "Enti",
+    "change_language": "Cambia lingua"
+  },
+  "nav": {
+    "chats": "Chat",
+    "feed": "Bacheca",
+    "market": "Mercato",
+    "towns": "Paesi",
+    "profile": "Profilo",
+    "notifications": "Notifiche"
+  },
+  "auth": {
+    "login": "Accedi",
+    "register": "Crea account",
+    "email": "Email",
+    "password": "Password",
+    "fullName": "Nome completo",
+    "signIn": "Entra",
+    "signUp": "Registrati",
+    "noAccount": "Non hai un account?",
+    "haveAccount": "Hai già un account?",
+    "storage_limit_warning": "Durante il periodo di prova, consentiamo solo file fino a un massimo di 10 MB.",
+    "storage_banner_title": "Avviso di archiviazione",
+    "storage_banner_text": "In prova consentiamo max 10MB. I contenuti possono essere cancellati se superiamo i limiti. Non utilizzare in produzione. Sapendo questo, carica quello che vuoi.",
+    "checkEmail": "Successo! Controlla la tua email.",
+    "logout": "Esci",
+    "demo_access": "Entra come Ospite (Demo)",
+    "demo_hint": "Accesso rapido senza registrazione",
+    "continue_google": "Continua con Google",
+    "or_sign_in": "o accedi"
+  },
+  "notebook": {
+    "title": "Quadern de Trellat",
+    "welcome": "Benvenuti nel Quadern de Trellat 📓🏺",
+    "new_note": "Nuova Nota",
+    "new_list": "Nuova Lista",
+    "placeholder": "Inizia a battere i dati qui...",
+    "info": "Informazioni",
+    "creation": "Creazione",
+    "modification": "Modifica",
+    "last_opened": "Ultima apertura",
+    "planned_date": "Data prevista",
+    "categories": {
+      "trellat": "Trellat",
+      "patrimoni": "Patrimonio",
+      "dades": "Dati",
+      "social": "Social"
     },
-    "nav": {
-        "chats": "Chat",
-        "feed": "Bacheca",
-        "market": "Mercato",
-        "towns": "Paesi",
-        "profile": "Profilo",
-        "notifications": "Notifiche"
+    "trash": {
+      "bucket": "Cestino",
+      "confirm_delete": "Vuoi eliminare definitivamente questa reliquia? Questa azione non può essere annullata.",
+      "restore": "Ripristina",
+      "permanent_delete": "Elimina Definitivamente",
+      "send_to_trash": "Invia al Cestino"
     },
-    "auth": {
-        "login": "Accedi",
-        "register": "Crea account",
-        "email": "Email",
-        "password": "Password",
-        "fullName": "Nome completo",
-        "signIn": "Entra",
-        "signUp": "Registrati",
-        "noAccount": "Non hai un account?",
-        "haveAccount": "Hai già un account?",
-        "storage_limit_warning": "Durante il periodo di prova, consentiamo solo file fino a un massimo di 10 MB.",
-        "storage_banner_title": "Avviso di archiviazione",
-        "storage_banner_text": "In prova consentiamo max 10MB. I contenuti possono essere cancellati se superiamo i limiti. Non utilizzare in produzione. Sapendo questo, carica quello che vuoi.",
-        "checkEmail": "Successo! Controlla la tua email.",
-        "logout": "Esci",
-        "demo_access": "Entra come Ospite (Demo)",
-        "demo_hint": "Accesso rapido senza registrazione",
-        "continue_google": "Continua con Google",
-        "or_sign_in": "o accedi"
-    },
-    "notebook": {
-        "title": "Quadern de Trellat",
-        "welcome": "Benvenuti nel Quadern de Trellat 📓🏺",
-        "new_note": "Nuova Nota",
-        "new_list": "Nuova Lista",
-        "placeholder": "Inizia a battere i dati qui...",
-        "info": "Informazioni",
-        "creation": "Creazione",
-        "modification": "Modifica",
-        "last_opened": "Ultima apertura",
-        "planned_date": "Data prevista",
-        "categories": {
-            "trellat": "Trellat",
-            "patrimoni": "Patrimonio",
-            "dades": "Dati",
-            "social": "Social"
-        },
-        "trash": {
-            "bucket": "Cestino",
-            "confirm_delete": "Vuoi eliminare definitivamente questa reliquia? Questa azione non può essere annullata.",
-            "restore": "Ripristina",
-            "permanent_delete": "Elimina Definitivamente",
-            "send_to_trash": "Invia al Cestino"
-        },
-        "corrector": {
-            "title": "Correzioni dell'IAIA",
-            "lang_variants": "Tutte le varianti catalane (Centrale, Valencià, Balearico)",
-            "correct_btn": "Correggi"
-        }
-    },
-    "notifications": {
-        "title": "Notifiche",
-        "empty": "Nessuna nuova notifica."
+    "corrector": {
+      "title": "Correzioni dell'IAIA",
+      "lang_variants": "Tutte le varianti catalane (Centrale, Valencià, Balearico)",
+      "correct_btn": "Correggi"
     }
+  },
+  "notifications": {
+    "title": "Notifiche",
+    "empty": "Nessuna nuova notifica."
+  },
+  "chat": {
+    "guest_warning_text": "Stai chattando come Ospite e questa chat temporanea verrà eliminata.",
+    "guest_warning_link": "Registrati per salvare le tue conversazioni."
+  }
 }

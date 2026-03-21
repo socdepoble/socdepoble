@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
-import { X, Globe, MapPin, Plus, Loader2, Camera, User, Image as ImageIcon } from 'lucide-react';
-import { useI18n } from '../context/I18nContext';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { X, Globe, MapPin, Plus, Loader2, Camera, User, Image as ImageIcon, Beaker, ShieldAlert, Terminal } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { supabaseService } from '../services/supabaseService';
 import TownSelectorModal from '../components/TownSelectorModal';
+import LanguageSelector from '../components/LanguageSelector';
 import '../pages/Auth.css'; // Reusing some base styles
 
 const ProfileSettingsModal = ({ isOpen, onClose, profile, onProfileUpdate }) => {
-    const { language, setLanguage } = useI18n();
+    const { user: currentUser } = useAuth();
+    const isSuperAdmin = currentUser?.role === 'super_admin';
+    const navigate = useNavigate();
+    
     const [isSaving, setIsSaving] = useState(false);
     const [townSelector, setTownSelector] = useState({ isOpen: false, type: null });
 
@@ -20,12 +24,36 @@ const ProfileSettingsModal = ({ isOpen, onClose, profile, onProfileUpdate }) => 
         town_uuid: profile?.town_uuid || null,
         town_name: profile?.town_name || null,
         secondary_towns: profile?.secondary_towns || [],
-        secondary_towns_names: profile?.secondary_towns_names || [] // Assuming we need names
+        secondary_towns_names: profile?.secondary_towns_names || [], // Assuming we need names
+        cover_position_y: profile?.cover_position_y || 50 // Default to 50%
     });
     const [avatarFile, setAvatarFile] = useState(null);
     const [coverFile, setCoverFile] = useState(null);
     const [avatarPreview, setAvatarPreview] = useState(profile?.avatar_url || '');
     const [coverPreview, setCoverPreview] = useState(profile?.cover_url || '');
+    const [coverPositionY, setCoverPositionY] = useState(profile?.cover_position_y || 50);
+
+    // Ensure state updates completely when modal opens or profile changes
+    useEffect(() => {
+        if (isOpen && profile) {
+            setLocalProfile({
+                full_name: profile.full_name || '',
+                bio: profile.bio || '',
+                avatar_url: profile.avatar_url || '',
+                cover_url: profile.cover_url || '',
+                town_uuid: profile.town_uuid || null,
+                town_name: profile.town_name || null,
+                secondary_towns: profile.secondary_towns || [],
+                secondary_towns_names: profile.secondary_towns_names || [],
+                cover_position_y: profile.cover_position_y || 50
+            });
+            setAvatarPreview(profile.avatar_url || '');
+            setCoverPreview(profile.cover_url || '');
+            setCoverPositionY(profile.cover_position_y || 50);
+            setAvatarFile(null);
+            setCoverFile(null);
+        }
+    }, [isOpen, profile]);
 
     const handleAvatarChange = (e) => {
         const file = e.target.files[0];
@@ -45,18 +73,6 @@ const ProfileSettingsModal = ({ isOpen, onClose, profile, onProfileUpdate }) => 
 
     if (!isOpen) return null;
 
-    const languages = [
-        { code: 'va', label: 'Valencià' },
-        { code: 'es', label: 'Castellano' },
-        { code: 'en', label: 'English' },
-        { code: 'eu', label: 'Euskera' },
-        { code: 'fr', label: 'Français' },
-    ];
-
-    const handleLanguageChange = (code) => {
-        setLanguage(code);
-    };
-
     const handleSave = async () => {
         setIsSaving(true);
         try {
@@ -65,7 +81,8 @@ const ProfileSettingsModal = ({ isOpen, onClose, profile, onProfileUpdate }) => 
                 bio: localProfile.bio,
                 town_uuid: localProfile.town_uuid,
                 town_name: localProfile.town_name,
-                secondary_towns: localProfile.secondary_towns || []
+                secondary_towns: localProfile.secondary_towns || [],
+                cover_position_y: coverPositionY // Add cover position to updates
             };
 
             if (avatarFile) {
@@ -131,7 +148,7 @@ const ProfileSettingsModal = ({ isOpen, onClose, profile, onProfileUpdate }) => 
             <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
             <div className="bg-theme-panel border border-[var(--border-master)] rounded-[28px] w-full max-w-md relative z-10 overflow-hidden flex flex-col max-h-[90vh]">
                 <header className="flex items-center justify-between p-6 border-b border-[var(--border-master)]">
-                    <h2 className="text-xl font-black uppercase tracking-widest text-[#F97316]">Configuració (BETA)</h2>
+                    <h2 className="text-xl font-black uppercase tracking-widest text-[var(--theme-accent-primary)]">Configuració (BETA)</h2>
                     <button onClick={onClose} className="p-2 bg-white/5 rounded-full hover:bg-white/10 transition-colors">
                         <X size={20} />
                     </button>
@@ -141,29 +158,54 @@ const ProfileSettingsModal = ({ isOpen, onClose, profile, onProfileUpdate }) => 
                     {/* Identity Section */}
                     <div className="space-y-4">
                         <div className="flex items-center gap-2 mb-4">
-                            <User size={18} className="text-[#F97316]" />
+                            <User size={18} className="text-[var(--theme-accent-primary)]" />
                             <h3 className="font-bold uppercase tracking-wider text-sm">Identitat del Node</h3>
                         </div>
 
                         {/* Covers & Avatars */}
-                        <div className="relative w-full h-32 rounded-2xl bg-black/40 overflow-visible border border-white/10 mb-10 group cursor-pointer" onClick={() => document.getElementById('cover-input').click()}>
+                        <div className="relative w-full h-32 rounded-2xl bg-black/40 overflow-visible border border-white/10 mb-10 mt-6 group/cover">
                             {coverPreview ? (
-                                <img src={coverPreview} alt="Cover" className="w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity rounded-2xl" />
+                                <img 
+                                    src={coverPreview} 
+                                    alt="Cover" 
+                                    className="w-full h-full object-cover opacity-60 rounded-2xl" 
+                                    style={{ objectPosition: `50% ${coverPositionY}%` }}
+                                />
                             ) : (
-                                <div className="w-full h-full flex items-center justify-center rounded-2xl">
+                                <div className="w-full h-full flex items-center justify-center rounded-2xl cursor-pointer" onClick={() => document.getElementById('cover-input').click()}>
                                     <ImageIcon size={32} className="text-white/20" />
                                 </div>
                             )}
-                            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                <span className="bg-black/80 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest text-white shadow-xl backdrop-blur-sm border border-white/20">Canviar Portada</span>
+
+                            {/* Editing Controls for Cover */}
+                            <div className="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover/cover:opacity-100 transition-opacity z-20">
+                                <button className="bg-black/80 p-2 rounded-full shadow-xl hover:bg-[var(--theme-accent-primary)] transition-colors" title="Penjar Nova Foto" onClick={() => document.getElementById('cover-input').click()}>
+                                    <Camera size={16} />
+                                </button>
                             </div>
+                            
+                            {/* Hover Adjust Hint */}
+                            {coverPreview && (
+                                <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover/cover:opacity-100 transition-opacity pointer-events-none">
+                                    <span className="bg-black/80 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest text-[var(--theme-accent-primary)] shadow-xl backdrop-blur-sm border border-white/20 mb-2">Ajusta Alçada Paret</span>
+                                    <input 
+                                        type="range" 
+                                        min="0" max="100" 
+                                        value={coverPositionY} 
+                                        onChange={(e) => setCoverPositionY(e.target.value)}
+                                        className="w-32 h-2 rounded-xl accent-[var(--theme-accent-primary)] pointer-events-auto"
+                                        title="Llisca per centrar la teva foto"
+                                    />
+                                </div>
+                            )}
+
                             <input type="file" id="cover-input" className="hidden" accept="image/jpeg, image/png, image/webp" onChange={handleCoverChange} />
                             
                             {/* Avatar */}
-                            <div className="absolute -bottom-8 left-6 z-10" onClick={(e) => { e.stopPropagation(); document.getElementById('avatar-input').click(); }}>
-                                <div className="relative w-24 h-24 rounded-full border-4 border-solid border-[var(--bg-master)] overflow-hidden bg-gray-900 group/avatar cursor-pointer shadow-xl">
+                            <div className="absolute -bottom-8 left-6 z-30" onClick={(e) => { e.stopPropagation(); document.getElementById('avatar-input').click(); }}>
+                                <div className="relative w-24 h-24 rounded-[50%] border-[3px] border-solid border-[var(--bg-master)] overflow-hidden bg-gray-900 group/avatar cursor-pointer shadow-xl isolate aspect-square flex items-center justify-center">
                                     {avatarPreview ? (
-                                        <img src={avatarPreview} alt="Avatar" className="w-full h-full object-cover group-hover/avatar:opacity-50 transition-opacity" />
+                                        <img src={avatarPreview} alt="Avatar" className="w-full h-full object-cover group-hover/avatar:opacity-50 transition-opacity rounded-[50%] block aspect-square" style={{ borderRadius: '50%' }} />
                                     ) : (
                                         <div className="w-full h-full flex items-center justify-center bg-gray-800">
                                             <User size={32} className="text-gray-400" />
@@ -184,7 +226,7 @@ const ProfileSettingsModal = ({ isOpen, onClose, profile, onProfileUpdate }) => 
                                     type="text" 
                                     value={localProfile.full_name || ''} 
                                     onChange={(e) => setLocalProfile({...localProfile, full_name: e.target.value})}
-                                    className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-[#F97316]/50 focus:ring-1 focus:ring-[#F97316]/50 transition-all font-bold"
+                                    className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-[var(--theme-accent-primary)]/50 focus:ring-1 focus:ring-[var(--theme-accent-primary)]/50 transition-all font-bold"
                                     placeholder="Com et dius?"
                                 />
                             </div>
@@ -193,7 +235,7 @@ const ProfileSettingsModal = ({ isOpen, onClose, profile, onProfileUpdate }) => 
                                 <textarea 
                                     value={localProfile.bio || ''} 
                                     onChange={(e) => setLocalProfile({...localProfile, bio: e.target.value})}
-                                    className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-[#F97316]/50 focus:ring-1 focus:ring-[#F97316]/50 transition-all resize-none h-24 text-sm"
+                                    className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-[var(--theme-accent-primary)]/50 focus:ring-1 focus:ring-[var(--theme-accent-primary)]/50 transition-all resize-none h-24 text-sm"
                                     placeholder="Una breu descripció..."
                                 />
                             </div>
@@ -201,33 +243,15 @@ const ProfileSettingsModal = ({ isOpen, onClose, profile, onProfileUpdate }) => 
                     </div>
                     
                     <div className="h-px w-full bg-white/5 my-0"></div>
-                    {/* Language Section */}
-                    <div className="space-y-4">
-                        <div className="flex items-center gap-2 mb-2">
-                            <Globe size={18} className="text-[#F97316]" />
-                            <h3 className="font-bold uppercase tracking-wider text-sm">Idioma del Sistema</h3>
-                        </div>
-                        <div className="grid grid-cols-2 gap-2">
-                            {languages.map(lang => (
-                                <button
-                                    key={lang.code}
-                                    onClick={() => handleLanguageChange(lang.code)}
-                                    className={`px-4 py-3 rounded-2xl text-sm font-bold transition-all border ${
-                                        language === lang.code 
-                                        ? 'bg-[#F97316] text-white border-[#F97316]' 
-                                        : 'bg-white/5 text-gray-300 border-white/10 hover:bg-white/10'
-                                    }`}
-                                >
-                                    {lang.label}
-                                </button>
-                            ))}
-                        </div>
+                    {/* Language Section via Universal Component */}
+                    <div className="w-full">
+                        <LanguageSelector variant="profile" />
                     </div>
 
                     {/* Towns Section */}
                     <div className="space-y-4">
                         <div className="flex items-center gap-2 mb-2">
-                            <MapPin size={18} className="text-[#F97316]" />
+                            <MapPin size={18} className="text-[var(--theme-accent-primary)]" />
                             <h3 className="font-bold uppercase tracking-wider text-sm">Vinculació Territorial</h3>
                         </div>
 
@@ -235,14 +259,14 @@ const ProfileSettingsModal = ({ isOpen, onClose, profile, onProfileUpdate }) => 
                         <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
                             <p className="text-xs text-gray-400 uppercase tracking-widest mb-2 flex justify-between">
                                 <span>Poble Principal</span>
-                                <span className="text-[#F97316]">CENSAT</span>
+                                <span className="text-[var(--theme-accent-primary)]">CENSAT</span>
                             </p>
                             <div 
                                 className="flex justify-between items-center cursor-pointer hover:bg-white/5 p-2 -mx-2 rounded-xl transition-all"
                                 onClick={() => openTownSelector('primary')}
                             >
                                 <span className="font-bold text-lg">{localProfile.town_name || 'No especificat'}</span>
-                                <span className="text-xs bg-[#F97316]/20 text-[#F97316] px-2 py-1 rounded-full uppercase font-black">Canviar</span>
+                                <span className="text-xs bg-[var(--theme-accent-primary)]/20 text-[var(--theme-accent-primary)] px-2 py-1 rounded-full uppercase font-black">Canviar</span>
                             </div>
                         </div>
 
@@ -279,13 +303,68 @@ const ProfileSettingsModal = ({ isOpen, onClose, profile, onProfileUpdate }) => 
                             </div>
                         </div>
                     </div>
+
+                    {isSuperAdmin && (
+                        <>
+                            <div className="h-px w-full bg-emerald-500/20 my-2"></div>
+                            {/* Nivell 3: El Llavador (Laboratori de Mestres) */}
+                            <div className="space-y-4 mb-8">
+                                <div className="flex items-center gap-3 mb-6">
+                                    <Beaker size={24} className="text-emerald-400" />
+                                    <h3 className="font-extrabold uppercase tracking-widest text-[#10b981] drop-shadow-[0_0_8px_rgba(16,185,129,0.8)]">
+                                        🧪 EL LLAVADOR (Laboratori)
+                                    </h3>
+                                </div>
+                                
+                                <div className="bg-[#052e16]/40 border border-[#10b981]/30 rounded-3xl p-6 relative overflow-hidden group">
+                                    {/* Visual hacker/glitch artifact overlay */}
+                                    <div className="absolute inset-0 bg-[url('/assets/patterns/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+                                    <div className="absolute -inset-x-full top-0 h-px bg-gradient-to-r from-transparent via-[#10b981]/50 to-transparent group-hover:animate-[shimmer_2s_infinite]"></div>
+                                    
+                                    <div className="flex items-start gap-3 mb-6">
+                                        <ShieldAlert className="text-emerald-500 mt-1 flex-shrink-0" size={20} />
+                                        <div>
+                                            <p className="text-emerald-400 text-sm font-bold uppercase tracking-widest">Controls del Rhizome</p>
+                                            <p className="text-xs text-emerald-600/80 uppercase font-mono mt-1">Nivell de Seguretat: SUPER_ADMIN</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="space-y-3 relative z-10 w-full">
+                                        <button
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                onClose();
+                                                navigate('/admin');
+                                            }}
+                                            className="w-full flex items-center justify-between gap-3 p-4 bg-black/60 border border-emerald-500/20 hover:border-emerald-500/50 hover:bg-emerald-950/40 rounded-2xl transition-all"
+                                        >
+                                            <div className="flex items-center gap-3">
+                                                <Terminal size={18} className="text-emerald-500" />
+                                                <span className="text-sm text-emerald-100 font-bold uppercase tracking-wider">Console: Administració Síncrona</span>
+                                            </div>
+                                            <span className="text-[10px] bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full uppercase font-black animate-pulse">
+                                                ACTIU
+                                            </span>
+                                        </button>
+
+                                        <button className="w-full flex items-center justify-between gap-3 p-4 bg-black/60 border border-red-500/20 hover:border-red-500/50 hover:bg-red-950/40 rounded-2xl transition-all opacity-80 hover:opacity-100">
+                                            <div className="flex items-center gap-3">
+                                                <ShieldAlert size={18} className="text-red-500" />
+                                                <span className="text-sm text-red-100 font-bold uppercase tracking-wider">Mode Forense (Logs)</span>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </>
+                    )}
                 </div>
 
                 <div className="p-6 border-t border-[var(--border-master)] bg-black/40">
                     <button
                         onClick={handleSave}
                         disabled={isSaving}
-                        className="w-full bg-[#F97316] hover:bg-[#EA580C] text-white font-black uppercase tracking-widest py-4 rounded-[20px] transition-all flex items-center justify-center gap-2"
+                        className="w-full bg-[#F97316] hover:opacity-90 text-white font-black uppercase tracking-widest py-4 rounded-[20px] transition-all flex items-center justify-center gap-2"
                     >
                         {isSaving ? <Loader2 size={20} className="animate-spin" /> : 'Guardar Canvis'}
                     </button>

@@ -100,7 +100,7 @@ const ChatManager = () => {
     return (
         <div className="flex-1 flex flex-col bg-theme-base max-h-screen overflow-hidden relative">
             {/* Header */}
-            <header className="h-[60px] pl-2 pr-4 flex flex-shrink-0 items-center justify-between border-b border-[var(--border-master)] bg-[var(--theme-accent-primary)] shadow-md z-10 sticky top-0">
+            <header className="h-[60px] pl-2 pr-4 flex flex-shrink-0 items-center justify-between border-b border-[var(--border-master)] bg-[#F97316] dark:bg-[#3B82F6] shadow-md z-10 sticky top-0">
                 <div className="flex items-center gap-2">
                     <button 
                         onClick={() => navigate(-1)}

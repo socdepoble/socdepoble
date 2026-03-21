@@ -8,6 +8,7 @@ import { Menu, Search, Sun, Moon, UserPlus } from "lucide-react";
 import IAIAIcon from "./icons/IAIAIcon";
 import { useTheme } from "../context/ThemeContext";
 import { useTranslation } from "react-i18next";
+import LanguageSelector from "./LanguageSelector";
 
 /**
  * [MASTER HEADER v10.33.2-CANÒNIC - PROTOCOL GLOBAL]
@@ -49,6 +50,11 @@ const Header = () => {
 
       {/* RIGHT SIDE: Tools (Always Visible) - TACTILE TARGET 48px */}
       <div className="flex items-center gap-0.5 lg:gap-3 ml-auto h-full">
+        {/* 0. LANGUAGE SWITCHER (Hidden on mobile as per user layout constraints) */}
+        <div className="hidden lg:block shrink-0 z-50">
+            <LanguageSelector variant="header" />
+        </div>
+
         {/* 1. IAIA VISION SELECTOR */}
         <button
           className={`w-10 h-10 lg:w-12 lg:h-12 flex items-center justify-center transition-all scale-90 lg:scale-100 ${

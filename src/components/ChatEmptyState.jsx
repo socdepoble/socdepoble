@@ -11,17 +11,11 @@ import {
   NotebookPen
 } from "lucide-react";
 import { useDesign } from '../context/DesignContext';
-import { useTranslation } from "react-i18next";
-import Avatar from "./Avatar";
+import WelcomePresentation from "./WelcomePresentation";
 
 const ChatEmptyState = () => {
-  const { darkMode, architectMode } = useDesign();
-  const { t } = useTranslation();
+  const { architectMode } = useDesign();
   const navigate = useNavigate();
-  const colors = {
-    textPrimary: darkMode ? "text-white" : "text-gray-900",
-    textSecondary: darkMode ? "text-gray-400" : "text-gray-500",
-  };
 
   if (architectMode) {
     return (
@@ -93,7 +87,7 @@ const ChatEmptyState = () => {
       {/* HEADER DEL XAT (Global Settings Header) - MATCHES ChatDetail HEIGHT */}
       <header 
           onClick={() => navigate('/gestio/xats')}
-          className={`h-16 min-h-[64px] px-4 md:px-6 flex items-center justify-between border-b border-[var(--border-master)] flex-shrink-0 z-30 transition-colors bg-[var(--theme-accent-primary)] dark:bg-[var(--theme-accent-secondary)] text-white cursor-pointer hover:brightness-110 active:scale-[0.99]`}
+          className={`h-16 min-h-[64px] px-4 md:px-6 flex items-center justify-between border-b border-[var(--border-master)] flex-shrink-0 z-30 transition-colors bg-[#F97316] dark:bg-[#3B82F6] text-white cursor-pointer hover:brightness-110 active:scale-[0.99]`}
       >
           <div className="flex items-center gap-3 flex-1 group transition-all">
               <div className="bg-[#111827] text-white border border-white/10 rounded-[28px] p-0.5 shadow-[0_0_10px_rgba(255,255,255,0.4)]">
@@ -132,7 +126,7 @@ const ChatEmptyState = () => {
             </div>
       </header>
 
-      <div className="flex-1 flex flex-col items-center justify-start py-20 relative overflow-y-auto scrollbar-hide">
+      <div className="flex-1 flex flex-col items-center justify-start relative overflow-y-auto scrollbar-hide">
           {/* Grid de fons subtil (Protocol v9.1.0) */}
           <div
             className="absolute inset-0 opacity-5"
@@ -142,74 +136,11 @@ const ChatEmptyState = () => {
             }}
           ></div>
 
-      <div className="relative z-10 flex flex-col items-center justify-center mb-16 px-6 max-w-4xl mx-auto">
-        <h1
-          className={`text-5xl md:text-7xl font-black text-center mb-6 tracking-tight uppercase italic text-[var(--theme-accent-primary)] leading-none`}
-        >
-          SÓC DE POBLE
-        </h1>
+          <WelcomePresentation />
 
-        <h2 className="text-3xl md:text-5xl text-[var(--theme-accent-secondary)] dark:text-[var(--theme-accent-secondary)] leading-tight font-black italic mb-10 text-center">
-          Portal de Pobles Connectats
-        </h2>
-
-        <p className={`text-xl md:text-2xl text-[var(--text-main)] leading-relaxed font-bold text-center ${colors.textSecondary}`}>
-          Una <span className="text-[var(--theme-accent-primary)] font-black">XARXA SOCIAL DESCENTRALITZADA</span> de PROGRAMARI LLIURE, per CONNECTAR i GEOLOCALITZAR recursos d’utilitat social, compartint informació, experiències i idees que faciliten el desenvolupament sostenible i tecnològic en entorns rurals, per posar en valor els recursos locals i mostrar l’atractiu dels pobles com a llocs on viure i treballar.
-        </p>
-      </div>
-
-      {/* ACCIONS AL PEU - [MASTERY v15] Espaiades i nítides */}
-      <div className="relative z-10 flex flex-col items-center justify-center gap-6 mb-16 px-6 w-full max-w-lg mx-auto">
-        <button
-          className="relative flex items-center justify-center px-12 py-6 bg-[var(--theme-accent-primary)] dark:bg-[var(--theme-accent-secondary)] text-white rounded-[24px] font-black uppercase text-xl tracking-widest shadow-2xl shadow-[var(--theme-accent-primary)]/50 dark:shadow-[var(--theme-accent-secondary)]/50 hover:scale-105 active:scale-95 transition-all w-full leading-none"
-          onClick={() => window.location.href = "/registre"}
-        >
-          <div className="absolute left-6 md:left-8">
-            <UserPlus size={32} />
-          </div>
-          <span className="text-center w-full">Connecta amb el teu Poble!</span>
-        </button>
-        <button
-          className={`relative flex items-center justify-center px-12 py-6 rounded-[24px] font-black uppercase text-xl tracking-widest bg-[var(--theme-accent-secondary)] dark:bg-[var(--theme-accent-primary)] text-white hover:scale-105 active:scale-95 transition-all w-full shadow-2xl shadow-[var(--theme-accent-secondary)]/50 dark:shadow-[var(--theme-accent-primary)]/50 leading-none`}
-          onClick={() => {
-            const shareData = {
-              title: "Sóc de Poble",
-              text: "Connecta amb la teua comunitat.",
-              url: window.location.origin,
-            };
-            if (navigator.share) navigator.share(shareData);
-            else alert("Enllaç copiat!");
-          }}
-        >
-          <div className="absolute left-6 md:left-8">
-            <Share2 size={32} />
-          </div>
-          <span className="text-center w-full">{t("common.share_soc", "Compartir Sóc de Poble")}</span>
-        </button>
-      </div>
-
-      <div className="relative z-10 p-12 rounded-[56px] border-8 text-left max-w-4xl mx-6 mb-24 shadow-[0_0_120px_rgba(255,107,0,0.3)] transition-all bg-[var(--bg-panel)] border-[var(--theme-accent-primary)]/30">
-        <h4 className="text-3xl font-black flex items-center gap-4 mb-6 text-[var(--theme-accent-primary)] uppercase tracking-tighter italic">
-          <ShieldCheck size={36} /> Llicència Oberta
-        </h4>
-        <p
-          className={`text-xl md:text-2xl leading-relaxed font-bold mb-10 text-[var(--text-main)]`}
-        >
-          Aquest sistema és de codi obert per a ús comunitari i educatiu. L'ús
-          comercial està subjecte a llicència del Mestre. Consulta
-          l'Arquitectura per a més detalls tècnics.
-        </p>
-        <button
-          onClick={() => (window.location.href = "/ofici")}
-          className="inline-flex items-center gap-2 px-8 py-4 bg-[var(--theme-accent-primary)]/10 text-[var(--theme-accent-primary)] rounded-[28px] font-black uppercase text-xs tracking-[0.2em] hover:bg-[var(--theme-accent-primary)] hover:text-white transition-all"
-        >
-          Llegir Condicions i Arquitectura <ArrowRight size={14} />
-        </button>
-      </div>
-
-          <div className="mt-12 flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] opacity-40 font-black text-gray-500">
+          <div className="flex items-center justify-center gap-2 text-[10px] uppercase tracking-[0.2em] opacity-40 font-black text-gray-500 pb-12 w-full">
             <Settings size={12} />
-            <span>Privacitat Segura i Protegida | v10.33.15-CANÒNIC</span>
+            <span>Privacitat Segura i Protegida | v10.33.16-CANÒNIC</span>
           </div>
       </div>
     </div>

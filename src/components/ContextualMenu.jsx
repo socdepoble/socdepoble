@@ -43,10 +43,23 @@ const ContextualMenu = () => {
     const isChat = location.pathname.startsWith('/chats');
     const isNotes = location.pathname.startsWith('/notes');
     const isTowns = location.pathname.startsWith('/pobles') || location.pathname.startsWith('/mapa');
+    // NOU: Detectar si estem DINS d'un xat específic per amagar la barra "XAT GENT GRUPS" i lliurar espai
+    const isChatDetail = location.pathname.match(/^\/chats\/[^/]+/);
+    const isProfile = location.pathname.startsWith('/perfil');
     
-    if (isNotes) return null;
+    // Sortida primerenca (no renderitzar res) si estem en Notes o en Detall de Xat
+    if (isNotes || isChatDetail) return null;
 
-    const items = isChat ? menuConfigs['/chats'] : (isTowns ? menuConfigs['/pobles'] : standardMenu);
+    const profileMenu = [
+        { id: 'tot', label: 'TOTS', path: location.pathname },
+        { id: 'personal', label: 'PERSONAL', path: `${location.pathname}?role=personal` },
+        { id: 'autonom', label: 'AUTÒNOM/EST', path: `${location.pathname}?role=autonom` },
+        { id: 'empresa', label: 'EMPRESA', path: `${location.pathname}?role=empresa` },
+        { id: 'grup', label: 'GRUP', path: `${location.pathname}?role=grup` },
+        { id: 'entitat', label: 'ENTITAT', path: `${location.pathname}?role=entitat` }
+    ];
+
+    const items = isChat ? menuConfigs['/chats'] : (isTowns ? menuConfigs['/pobles'] : (isProfile ? profileMenu : standardMenu));
 
     return (
         <div className="h-12 w-full bg-[#1a1a1a] shadow-[inset_0_4px_10px_rgba(0,0,0,0.6)] flex items-center sticky top-0 z-[900] select-none">
@@ -60,10 +73,12 @@ const ContextualMenu = () => {
                                 navigate(item.path);
                             }}
                             className={`
-                                relative h-full flex items-center text-[13px] lg:text-[15px] font-black tracking-[0.25em] transition-all
-                                ${((location.pathname + location.search) === item.path) || (location.pathname === item.path && location.search === '' && item.id === 'xat') 
-                                    ? 'text-[var(--theme-accent-primary)] border-b-2 border-[var(--theme-accent-primary)] pt-[2px]' 
-                                    : 'text-white opacity-80 hover:opacity-100'}
+                                relative h-full flex items-center text-[13px] lg:text-[15px] font-black tracking-[0.25em] transition-all whitespace-nowrap
+                                ${isProfile 
+                                    ? (item.id === (new URLSearchParams(location.search).get('role') || 'tot') ? 'text-[var(--theme-accent-primary)] border-b-2 border-[var(--theme-accent-primary)] pt-[2px]' : 'text-white opacity-80 hover:opacity-100')
+                                    : (((location.pathname + location.search) === item.path) || (location.pathname === item.path && location.search === '' && item.id === 'xat') 
+                                        ? 'text-[var(--theme-accent-primary)] border-b-2 border-[var(--theme-accent-primary)] pt-[2px]' 
+                                        : 'text-white opacity-80 hover:opacity-100')}
                             `}
                         >
                             {item.label}

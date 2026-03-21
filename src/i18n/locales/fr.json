@@ -1,92 +1,96 @@
 {
-    "common": {
-        "loading": "Chargement...",
-        "back": "Retour",
-        "send": "Envoyer",
-        "write_message": "Écrire un message...",
-        "online": "En ligne",
-        "soon": "Bientôt...",
-        "save": "Enregistrer",
-        "saved": "Enregistré !",
-        "search": "Rechercher...",
-        "role_all": "Mur",
-        "role_gent": "Gens",
-        "role_grup": "Groupes",
-        "role_empresa": "Entreprises",
-        "role_oficial": "Entités",
-        "change_language": "Changer de langue",
-        "storage_limit_warning": "Pendant la période d'essai, nous n'autorisons que les fichiers jusqu'à 10 Mo maximum.",
-        "storage_banner_title": "Avertissement de stockage",
-        "storage_banner_text": "En test, nous autorisons 10 Mo maximum. Le contenu peut être supprimé si nous dépassons les limites. Ne pas utiliser en production. Sachant cela, téléchargez ce que vous voulez."
+  "common": {
+    "loading": "Chargement...",
+    "back": "Retour",
+    "send": "Envoyer",
+    "write_message": "Écrire un message...",
+    "online": "En ligne",
+    "soon": "Bientôt...",
+    "save": "Enregistrer",
+    "saved": "Enregistré !",
+    "search": "Rechercher...",
+    "role_all": "Mur",
+    "role_gent": "Gens",
+    "role_grup": "Groupes",
+    "role_empresa": "Entreprises",
+    "role_oficial": "Entités",
+    "change_language": "Changer de langue",
+    "storage_limit_warning": "Pendant la période d'essai, nous n'autorisons que les fichiers jusqu'à 10 Mo maximum.",
+    "storage_banner_title": "Avertissement de stockage",
+    "storage_banner_text": "En test, nous autorisons 10 Mo maximum. Le contenu peut être supprimé si nous dépassons les limites. Ne pas utiliser en production. Sachant cela, téléchargez ce que vous voulez."
+  },
+  "notebook": {
+    "title": "Quadern de Trellat",
+    "welcome": "Bienvenue dans le Quadern de Trellat 📓🏺",
+    "new_note": "Nouvelle Note",
+    "new_list": "Nouvelle Liste",
+    "placeholder": "Commencez à battre des données ici...",
+    "info": "Informations",
+    "creation": "Création",
+    "modification": "Modification",
+    "last_opened": "Dernière ouverture",
+    "planned_date": "Date prévue",
+    "categories": {
+      "trellat": "Trellat",
+      "patrimoni": "Patrimoine",
+      "dades": "Données",
+      "social": "Social"
     },
-    "notebook": {
-        "title": "Quadern de Trellat",
-        "welcome": "Bienvenue dans le Quadern de Trellat 📓🏺",
-        "new_note": "Nouvelle Note",
-        "new_list": "Nouvelle Liste",
-        "placeholder": "Commencez à battre des données ici...",
-        "info": "Informations",
-        "creation": "Création",
-        "modification": "Modification",
-        "last_opened": "Dernière ouverture",
-        "planned_date": "Date prévue",
-        "categories": {
-            "trellat": "Trellat",
-            "patrimoni": "Patrimoine",
-            "dades": "Données",
-            "social": "Social"
-        },
-        "trash": {
-            "bucket": "Corbeille",
-            "confirm_delete": "Voulez-vous supprimer définitivement cette relique ? Cette action ne peut pas être annulée.",
-            "restore": "Restaurer",
-            "permanent_delete": "Supprimer Définitivement",
-            "send_to_trash": "Envoyer à la Corbeille"
-        },
-        "corrector": {
-            "title": "Corrections de l'IAIA",
-            "lang_variants": "Toutes les variantes catalanes (Central, Valencià, Baléares)",
-            "correct_btn": "Corriger"
-        }
+    "trash": {
+      "bucket": "Corbeille",
+      "confirm_delete": "Voulez-vous supprimer définitivement cette relique ? Cette action ne peut pas être annulée.",
+      "restore": "Restaurer",
+      "permanent_delete": "Supprimer Définitivement",
+      "send_to_trash": "Envoyer à la Corbeille"
     },
-    "nav": {
-        "chats": "Chats",
-        "feed": "Mur",
-        "market": "Marché",
-        "towns": "Villages",
-        "profile": "Profil",
-        "notifications": "Notifications"
-    },
-    "auth": {
-        "login": "Connexion",
-        "register": "Créer un compte",
-        "email": "Email",
-        "password": "Mot de passe",
-        "fullName": "Nom complet",
-        "signIn": "Se connecter",
-        "signUp": "S'inscrire",
-        "noAccount": "Pas de compte ?",
-        "haveAccount": "Déjà un compte ?",
-        "checkEmail": "Succès ! Vérifiez votre email.",
-        "logout": "Déconnexion",
-        "demo_access": "Entrer en Invité (Démo)",
-        "demo_hint": "Accès rapide sans inscription",
-        "continue_google": "Continuer avec Google",
-        "or_sign_in": "ou connectez-vous"
-    },
-    "notifications": {
-        "title": "Notifications",
-        "empty": "Aucune nouvelle notification."
-    },
-    "emoji": {
-        "frequently_used": "Récemment utilisés",
-        "smileys_people": "Visages et personnes",
-        "animals_nature": "Animaux et nature",
-        "food_drink": "Nourriture et boisson",
-        "travel_places": "Voyages et lieux",
-        "activities": "Activités",
-        "objects": "Objets",
-        "symbols": "Symboles",
-        "flags": "Drapeaux"
+    "corrector": {
+      "title": "Corrections de l'IAIA",
+      "lang_variants": "Toutes les variantes catalanes (Central, Valencià, Baléares)",
+      "correct_btn": "Corriger"
     }
+  },
+  "nav": {
+    "chats": "Chats",
+    "feed": "Mur",
+    "market": "Marché",
+    "towns": "Villages",
+    "profile": "Profil",
+    "notifications": "Notifications"
+  },
+  "auth": {
+    "login": "Connexion",
+    "register": "Créer un compte",
+    "email": "Email",
+    "password": "Mot de passe",
+    "fullName": "Nom complet",
+    "signIn": "Se connecter",
+    "signUp": "S'inscrire",
+    "noAccount": "Pas de compte ?",
+    "haveAccount": "Déjà un compte ?",
+    "checkEmail": "Succès ! Vérifiez votre email.",
+    "logout": "Déconnexion",
+    "demo_access": "Entrer en Invité (Démo)",
+    "demo_hint": "Accès rapide sans inscription",
+    "continue_google": "Continuer avec Google",
+    "or_sign_in": "ou connectez-vous"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "empty": "Aucune nouvelle notification."
+  },
+  "emoji": {
+    "frequently_used": "Récemment utilisés",
+    "smileys_people": "Visages et personnes",
+    "animals_nature": "Animaux et nature",
+    "food_drink": "Nourriture et boisson",
+    "travel_places": "Voyages et lieux",
+    "activities": "Activités",
+    "objects": "Objets",
+    "symbols": "Symboles",
+    "flags": "Drapeaux"
+  },
+  "chat": {
+    "guest_warning_text": "Vous discutez en tant qu'invité et ce chat temporaire sera supprimé.",
+    "guest_warning_link": "Inscrivez-vous pour enregistrer vos conversations."
+  }
 }

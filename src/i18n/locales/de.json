@@ -1,92 +1,96 @@
 {
-    "common": {
-        "loading": "Laden...",
-        "back": "Zurück",
-        "send": "Senden",
-        "write_message": "Nachricht schreiben...",
-        "online": "Online",
-        "soon": "Bald verfügbar...",
-        "save": "Speichern",
-        "saved": "Gespeichert!",
-        "search": "Suchen...",
-        "role_all": "Pinnwand",
-        "role_gent": "Leute",
-        "role_grup": "Gruppen",
-        "role_empresa": "Firmen",
-        "role_oficial": "Vereine",
-        "change_language": "Sprache ändern"
+  "common": {
+    "loading": "Laden...",
+    "back": "Zurück",
+    "send": "Senden",
+    "write_message": "Nachricht schreiben...",
+    "online": "Online",
+    "soon": "Bald verfügbar...",
+    "save": "Speichern",
+    "saved": "Gespeichert!",
+    "search": "Suchen...",
+    "role_all": "Pinnwand",
+    "role_gent": "Leute",
+    "role_grup": "Gruppen",
+    "role_empresa": "Firmen",
+    "role_oficial": "Vereine",
+    "change_language": "Sprache ändern"
+  },
+  "nav": {
+    "chats": "Chats",
+    "feed": "Pinnwand",
+    "market": "Markt",
+    "towns": "Dörfer",
+    "profile": "Profil",
+    "notifications": "Benachrichtigungen"
+  },
+  "auth": {
+    "login": "Anmelden",
+    "register": "Konto erstellen",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "fullName": "Voller Name",
+    "signIn": "Einloggen",
+    "signUp": "Registrieren",
+    "noAccount": "Kein Konto?",
+    "haveAccount": "Bereits ein Konto?",
+    "checkEmail": "Erfolg! Bitte E-Mail überprüfen.",
+    "logout": "Abmelden",
+    "demo_access": "Als Gast eintreten (Demo)",
+    "demo_hint": "Schnellzugriff ohne Registrierung",
+    "continue_google": "Weiter mit Google",
+    "or_sign_in": "oder anmelden",
+    "storage_limit_warning": "Während der Testphase lassen wir nur Dateien bis maximal 10 MB zu.",
+    "storage_banner_title": "Speicherwarnung",
+    "storage_banner_text": "In der Testphase lassen wir max. 10 MB zu. Inhalte können gelöscht werden, wenn die Limits überschritten werden. Nicht für die Produktion verwenden. In diesem Wissen laden Sie hoch, was Sie wollen."
+  },
+  "notifications": {
+    "title": "Benachrichtigungen",
+    "empty": "Keine neuen Benachrichtigungen."
+  },
+  "notebook": {
+    "title": "Quadern de Trellat",
+    "welcome": "Willkommen im Quadern de Trellat 📓🏺",
+    "new_note": "Neue Notiz",
+    "new_list": "Neue Liste",
+    "placeholder": "Beginnen Sie hier mit der Erfassung von Daten...",
+    "info": "Informationen",
+    "creation": "Erstellung",
+    "modification": "Änderung",
+    "last_opened": "Zuletzt geöffnet",
+    "planned_date": "Geplantes Datum",
+    "categories": {
+      "trellat": "Trellat",
+      "patrimoni": "Erbe",
+      "dades": "Daten",
+      "social": "Soziales"
     },
-    "nav": {
-        "chats": "Chats",
-        "feed": "Pinnwand",
-        "market": "Markt",
-        "towns": "Dörfer",
-        "profile": "Profil",
-        "notifications": "Benachrichtigungen"
+    "trash": {
+      "bucket": "Papierkorb",
+      "confirm_delete": "Möchten Sie dieses Relikt endgültig löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
+      "restore": "Wiederherstellen",
+      "permanent_delete": "Endgültig löschen",
+      "send_to_trash": "In den Papierkorb verschieben"
     },
-    "auth": {
-        "login": "Anmelden",
-        "register": "Konto erstellen",
-        "email": "E-Mail",
-        "password": "Passwort",
-        "fullName": "Voller Name",
-        "signIn": "Einloggen",
-        "signUp": "Registrieren",
-        "noAccount": "Kein Konto?",
-        "haveAccount": "Bereits ein Konto?",
-        "checkEmail": "Erfolg! Bitte E-Mail überprüfen.",
-        "logout": "Abmelden",
-        "demo_access": "Als Gast eintreten (Demo)",
-        "demo_hint": "Schnellzugriff ohne Registrierung",
-        "continue_google": "Weiter mit Google",
-        "or_sign_in": "oder anmelden",
-        "storage_limit_warning": "Während der Testphase lassen wir nur Dateien bis maximal 10 MB zu.",
-        "storage_banner_title": "Speicherwarnung",
-        "storage_banner_text": "In der Testphase lassen wir max. 10 MB zu. Inhalte können gelöscht werden, wenn die Limits überschritten werden. Nicht für die Produktion verwenden. In diesem Wissen laden Sie hoch, was Sie wollen."
-    },
-    "notifications": {
-        "title": "Benachrichtigungen",
-        "empty": "Keine neuen Benachrichtigungen."
-    },
-    "notebook": {
-        "title": "Quadern de Trellat",
-        "welcome": "Willkommen im Quadern de Trellat 📓🏺",
-        "new_note": "Neue Notiz",
-        "new_list": "Neue Liste",
-        "placeholder": "Beginnen Sie hier mit der Erfassung von Daten...",
-        "info": "Informationen",
-        "creation": "Erstellung",
-        "modification": "Änderung",
-        "last_opened": "Zuletzt geöffnet",
-        "planned_date": "Geplantes Datum",
-        "categories": {
-            "trellat": "Trellat",
-            "patrimoni": "Erbe",
-            "dades": "Daten",
-            "social": "Soziales"
-        },
-        "trash": {
-            "bucket": "Papierkorb",
-            "confirm_delete": "Möchten Sie dieses Relikt endgültig löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
-            "restore": "Wiederherstellen",
-            "permanent_delete": "Endgültig löschen",
-            "send_to_trash": "In den Papierkorb verschieben"
-        },
-        "corrector": {
-            "title": "IAIA-Korrekturen",
-            "lang_variants": "Alle katalanischen Varianten (Zentral, Valencianisch, Balearisch)",
-            "correct_btn": "Korrigieren"
-        }
-    },
-    "emoji": {
-        "frequently_used": "Zuletzt verwendet",
-        "smileys_people": "Smileys & Personen",
-        "animals_nature": "Tiere & Natur",
-        "food_drink": "Essen & Trinken",
-        "travel_places": "Reisen & Orte",
-        "activities": "Aktivitäten",
-        "objects": "Objekte",
-        "symbols": "Symbole",
-        "flags": "Flaggen"
+    "corrector": {
+      "title": "IAIA-Korrekturen",
+      "lang_variants": "Alle katalanischen Varianten (Zentral, Valencianisch, Balearisch)",
+      "correct_btn": "Korrigieren"
     }
+  },
+  "emoji": {
+    "frequently_used": "Zuletzt verwendet",
+    "smileys_people": "Smileys & Personen",
+    "animals_nature": "Tiere & Natur",
+    "food_drink": "Essen & Trinken",
+    "travel_places": "Reisen & Orte",
+    "activities": "Aktivitäten",
+    "objects": "Objekte",
+    "symbols": "Symbole",
+    "flags": "Flaggen"
+  },
+  "chat": {
+    "guest_warning_text": "Sie chatten als Gast und dieser temporäre Chat wird gelöscht.",
+    "guest_warning_link": "Registrieren Sie sich, um Ihre Unterhaltungen zu speichern."
+  }
 }

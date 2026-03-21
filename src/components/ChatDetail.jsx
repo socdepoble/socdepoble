@@ -21,6 +21,7 @@ import { iaiaService } from '../services/iaiaService';
 import VoiceRecorder from './VoiceRecorder';
 import UniversalCitation from './UniversalCitation';
 import CopyButton from './CopyButton';
+import { AGENTS } from '../constants/agents';
 
 const ChatDetail = () => {
     const { chatSettings } = useNavigation();
@@ -157,22 +158,6 @@ const ChatDetail = () => {
                         await supabaseService.markMessagesAsRead(currentChat.id, currentUserId);
                     }
                 } else if (id.startsWith('11111111-')) {
-                    const AGENTS = [
-                        { id: '11111111-1a1a-0000-0000-000000000000', name: 'IAIA MarIA' },
-                        { id: '11111111-1111-4111-a111-000000000003', name: 'Vicent Ferris' },
-                        { id: '11111111-1111-4111-a111-000000000004', name: 'Pepica la Vall' },
-                        { id: '11111111-1111-4111-a111-000000000009', name: 'Andreu Soler' },
-                        { id: '11111111-1111-4111-a111-000000000008', name: 'Joan Batiste' },
-                        { id: '11111111-0000-0000-0000-000000000001', name: 'Super Ratolí' },
-                        { id: '11111111-1111-4111-a111-000000000006', name: 'Sultan' },
-                        { id: '11111111-1a1a-0001-0000-000000000011', name: 'La Mixa' },
-                        { id: '11111111-1a1a-0001-0000-000000000012', name: 'El Gall' },
-                        { id: '11111111-1111-4111-a111-000000000007', name: 'Nano Banana' },
-                        { id: '11111111-1111-4111-a111-000000000013', name: 'El Viatjant' },
-                        { id: '11111111-1111-4111-a111-000000000014', name: 'Beatriz Ortega' },
-                        { id: '11111111-1111-4111-a111-000000000015', name: 'Carla Soriano' },
-                        { id: '11111111-1111-4111-a111-000000000016', name: 'Elena Popova' }
-                    ];
                     const agent = AGENTS.find(a => a.id === id);
                     
                     // Ensured AI persistence: Resolve real Supabase UUID (Participant type is CANONICALLY 'entity', not 'ai', to pass DB Check Constraint 23514)
@@ -189,12 +174,11 @@ const ChatDetail = () => {
                     if (realConv && realConv.id) {
                         setRealChatId(realConv.id);
                         isRealChatIdResolved.current = true;
-                        setChat({ id: realConv.id, other_info: { id: id, name: agent?.name || 'Agent Especialista' } });
+                        setChat({ id: realConv.id, other_info: { id: id, name: agent?.name || 'Agent Especialista', avatar_url: agent?.avatar_url, role: agent?.role } });
                         const msgs = await supabaseService.getConversationMessages(realConv.id);
                         if (!isMounted) return;
                         setMessages(msgs);
-                    } else {
-                        setChat({ id: id, other_info: { id: id, name: agent?.name || 'Agent Especialista' } });
+                        setChat({ id: id, other_info: { id: id, name: agent?.name || 'Agent Especialista', avatar_url: agent?.avatar_url, role: agent?.role } });
                     }
                 }
             } catch (error) {
@@ -600,7 +584,7 @@ const ChatDetail = () => {
                 >
                     <button 
                         onClick={(e) => { e.stopPropagation(); navigate('/chats'); }} 
-                        className="md:hidden w-12 h-12 flex items-center justify-center -ml-2 text-gray-400 hover:text-white transition-colors"
+                        className={`md:hidden w-12 h-12 flex items-center justify-center -ml-2 transition-colors ${otherInfo?.id?.startsWith('11111111-') ? 'text-[var(--on-theme-accent-primary)] hover:text-black font-black' : 'text-gray-400 hover:text-white'}`}
                     >
                         <ChevronLeft size={24} />
                     </button>
@@ -684,8 +668,8 @@ const ChatDetail = () => {
                     {/* [BÀNNER FORASTER EPÍMER] */}
                     {isGuest && otherInfo?.id?.startsWith('11111111-') && (
                         <div className="bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-200 text-[13px] px-4 py-2 border-b border-orange-200 dark:border-orange-800/50 text-center shadow-sm z-10 shrink-0 animate-in slide-in-from-top-2 duration-300">
-                            <span className="font-bold">Avís:</span> Estàs parlant com a Foraster i aquest xat temporal s'esborrarà prompte.{' '}
-                            <a href="/registre" className="font-bold underline cursor-pointer hover:text-orange-950 dark:hover:text-orange-100 transition-colors">Registra't per a guardar les converses.</a>
+                            <span className="font-bold">{t('common.warning') || 'Avís'}:</span> {t('chat.guest_warning_text')} {' '}
+                            <a href="/registre" className="font-bold underline cursor-pointer hover:text-orange-950 dark:hover:text-orange-100 transition-colors">{t('chat.guest_warning_link')}</a>
                         </div>
                     )}
 

@@ -11,13 +11,55 @@ import DOMPurify from 'dompurify';
 
 let iaiaWorkerProxy = null;
 let visionWorkerProxy = null;
-if (typeof window !== 'undefined') {
-    const worker = new Worker(new URL('./iaiaWorker.js', import.meta.url), { type: 'module' });
-    iaiaWorkerProxy = Comlink.wrap(worker);
+let _iaiaWorkerInstance = null;
+let _visionWorkerInstance = null;
+let _workersInitialized = false;
 
-    const visionWorker = new Worker(new URL('../workers/visionWorker.js', import.meta.url), { type: 'module' });
-    visionWorkerProxy = Comlink.wrap(visionWorker);
-}
+const initializeWorkers = () => {
+    if (_workersInitialized || typeof window === 'undefined') return;
+    try {
+        _iaiaWorkerInstance = new Worker(new URL('./iaiaWorker.js', import.meta.url), { type: 'module' });
+        iaiaWorkerProxy = Comlink.wrap(_iaiaWorkerInstance);
+
+        _visionWorkerInstance = new Worker(new URL('../workers/visionWorker.js', import.meta.url), { type: 'module' });
+        visionWorkerProxy = Comlink.wrap(_visionWorkerInstance);
+        
+        _workersInitialized = true;
+        logger.info('[IAIA] Workers inicialitzats una sola vegada de forma mandrosa (Lazy).');
+    } catch (e) {
+        logger.error('[IAIA] Error inicialitzant workers:', e);
+        _workersInitialized = false;
+    }
+};
+
+const getIaiaWorkerProxy = () => {
+    if (!iaiaWorkerProxy) initializeWorkers();
+    return iaiaWorkerProxy;
+};
+
+const getVisionWorkerProxy = () => {
+    if (!visionWorkerProxy) initializeWorkers();
+    return visionWorkerProxy;
+};
+
+// Escut Estricte XSS: Rebutjar pseudo-protocols javascript i assegurar atributos relacionals.
+DOMPurify.addHook('beforeSanitizeAttributes', function(node) {
+    if (node.tagName.toLowerCase() === 'a') {
+        const href = node.getAttribute('href');
+        if (href && (href.startsWith('javascript:') || href.startsWith('data:'))) {
+            node.removeAttribute('href');
+            node.setAttribute('href', '#bloquejat_per_seguretat');
+        }
+    }
+});
+
+DOMPurify.addHook('afterSanitizeAttributes', function(node) {
+    if (node.tagName.toLowerCase() === 'a') {
+        node.setAttribute('target', '_blank');
+        node.setAttribute('rel', 'noopener noreferrer nofollow');
+        node.classList.add('sdp-external-link');
+    }
+});
 
 /**
  * [PROTOCOL BATEGAT IMMEDIAT - PARAULES NEUTRES]
@@ -25,47 +67,47 @@ if (typeof window !== 'undefined') {
  */
 const NEUTRAL_FILLERS = {
     IAIA: [
-        "Ai fill, deixa'm que m'ho mire amb trellat... estic consultant l'Arxiu d'Or.",
-        "Espera un segon que me pose les ulleres de prop... estic analitzant el que m'has dit.",
-        "Això que dius té el seu bategat! Un momentet que pregunte al Consell de les Sàvies.",
-        "Mira que eres curiós! Deixa'm que herede la memòria del poble per a respondre't.",
-        "Això m'ha recordat a una història de ma mare... espera que ho aclarisca amb l'Avi dels Papers."
+        "A vore, un momentet...",
+        "Deixa'm pensar-ho bé...",
+        "Això té molta molla, un segon...",
+        "Espera que m'aclarisca...",
+        "Ai mare, a vore com t'ho dic..."
     ],
     AGRONOM: [
-        "Xe! Un segon que acabe d'esmunyir la suor... estic repassant el calendari de regar.",
-        "A vore si el tractor ens deixa bategar... estic consultant la Directiva Gènesi sobre el camp.",
-        "Això del camp vol el seu temps, a vore... un momentet que mire la lluna.",
-        "Xe, que m'has agafat enmig de la sèquia! Un segon que m'asseque les mans i t'ho dic."
+        "Xe, un segon...",
+        "A vore què diu el temps...",
+        "Dona'm un momentet...",
+        "Espera que m'asseque les mans..."
     ],
     CUINERA: [
-        "Ai! Que se'm crema la ceba! Un segon que acabe el xup-xup i mire el receptari.",
-        "Espera que remene el perol, que estic buscant el secret de la teua pregunta.",
-        "Això vol una miqueta de sal... espera que consulte el rebost de la memòria.",
-        "Un momentet que m'ajuste el davantal i mire com ho feien les padrines."
+        "Ai, que se'm crema el foc! Un segon...",
+        "Espera que remene l'olla...",
+        "Això vol una miqueta de temps...",
+        "Un momentet..."
     ],
     ARXIVER: [
-        "Un segon que busque el segell oficial entre tant de paper... estic obrint el Registre Civil.",
-        "Això requereix un tràmit bategant, espera que mire el Registre de la Propietat Rural.",
-        "Mare meua quina pols! Un moment que m'encenga el llum i busque el teu expedient.",
-        "Deixa'm que herede la memòria d'aquest document... ho estic traduint del burocràtic al valencià."
+        "A vore on tinc els papers...",
+        "Dona'm un segon que busque...",
+        "Mare meua, quina pols! Un moment...",
+        "Espera que em pose les ulleres..."
     ],
     GENERIC: [
-        "Estic bategant amb la teua pregunta, un segon que active la connexió amb el Mas.",
-        "Un momentet de trellat, per favor... estic orquestrant la resposta.",
-        "Processant la saviesa del poble... quasi ho tinc bategat."
+        "Dona'm un segon...",
+        "Un momentet...",
+        "A vore..."
     ]
 };
 
 class IAIAService {
     constructor() {
-        this.isWorking = false;
+        this._workingLock = 0; // Lock TTL de concurrència
+        this._activeTimers = new Set(); // Segador de processos fantasma
         this.TRUTH_PROTOCOL = {
             role: "Secretària Notarial / Guia de Sóc de Poble",
             grounding_error: "Aquesta informació no consta a l'Arxiu d'Or de Sóc de Poble.",
             citation_format: "[Nom Doc, p. #]"
         };
 
-        // Escenaris visuals de la IAIA Dinàmica (Mapeig Real Bategat)
         this.AVATARS = {
             OFFICIAL: "/assets/avatars/comic/iaia_comic_matriarch.png",
             ARXIU: "/assets/avatars/iaia_memory.png",
@@ -73,6 +115,23 @@ class IAIAService {
             HORTA: "/assets/avatars/comic/iaia_comic_matriarch.png",
             BENVINGUDA: "/assets/avatars/comic/iaia_comic_matriarch.png"
         };
+    }
+
+    /** Mètode Teardown: Suïcidi de Procés / Neteja Cicle de Vida per a previndre fuites de RAM */
+    dispose() {
+        if (_iaiaWorkerInstance) {
+            _iaiaWorkerInstance.terminate();
+            _iaiaWorkerInstance = null;
+        }
+        if (_visionWorkerInstance) {
+            _visionWorkerInstance.terminate();
+            _visionWorkerInstance = null;
+        }
+        if (this._activeTimers) {
+            this._activeTimers.forEach(clearTimeout);
+            this._activeTimers.clear();
+        }
+        logger.info('[IAIA] Workers i Timeouts decapitats. Cicle tancat amb netedat.');
     }
 
     /**
@@ -223,7 +282,7 @@ class IAIAService {
     /**
      * Inicia un debat entre dos agents per al comandament /solatge interact
      */
-    async simulateAgentDebate() {
+    async simulateAgentDebate(abortSignal) {
         try {
             // Hardcode 2 elements del Lore per demostrar interacció ràpida
             const p1 = { id: '11111111-1111-4111-a111-000000000003', name: 'Vicent Ferris' };
@@ -243,7 +302,9 @@ class IAIAService {
             });
 
             // Donem temps perquè no s'entrebanquen els missatges
-            setTimeout(async () => {
+            const timer1 = setTimeout(async () => {
+                if (abortSignal?.aborted) return; // Auditoria V3: Evita l'execució si ja està desmuntat
+                this._activeTimers.delete(timer1);
                 await supabaseService.sendSecureMessage({
                     conversationId: conv.id,
                     senderId: p2.id,
@@ -252,8 +313,11 @@ class IAIAService {
                     author_name: p2.name
                 });
             }, 3000);
+            this._activeTimers.add(timer1);
             
-            setTimeout(async () => {
+            const timer2 = setTimeout(async () => {
+                if (abortSignal?.aborted) return; // Auditoria V3
+                this._activeTimers.delete(timer2);
                 await supabaseService.sendSecureMessage({
                     conversationId: conv.id,
                     senderId: p1.id,
@@ -262,6 +326,7 @@ class IAIAService {
                     author_name: p1.name
                 });
             }, 6000);
+            this._activeTimers.add(timer2);
 
         } catch (e) {
             logger.error('[IAIA] Error al simulacre de debat:', e);
@@ -337,9 +402,9 @@ class IAIAService {
      */
     async studyMultimediaContext(file, filename) {
         // GPU Accelerated Path
-        if (visionWorkerProxy && file) {
+        if (getVisionWorkerProxy() && file) {
             try {
-                const analysis = await visionWorkerProxy.analyzeImage(file);
+                const analysis = await getVisionWorkerProxy().analyzeImage(file);
                 // Assign a random proverb
                 const proverb = PROVERBS[Math.floor(Math.random() * PROVERBS.length)] || { text: 'A qui matina...', meaning: 'Molt bé' };
                 
@@ -368,7 +433,7 @@ class IAIAService {
              };
         }
         
-        return await iaiaWorkerProxy.studyMultimediaContext(null, filename);
+        return await getIaiaWorkerProxy().studyMultimediaContext(null, filename);
     }
 
     /**
@@ -404,8 +469,12 @@ class IAIAService {
      * Detecta si hay poca actividad y genera una interacción de un residente basada en su Lore.
      */
     async generateAutonomousInteraction() {
-        if (this.isWorking) return;
-        this.isWorking = true;
+        const now = Date.now();
+        if (this._workingLock && now < this._workingLock) {
+            logger.debug('[IAIA] Lock TTL actiu. Ignorant interacció espúria fins a alliberament.');
+            return;
+        }
+        this._workingLock = now + 45000; // TTL dur de 45 segons per operació autònoma
 
         try {
             // logger.info('IAIA is observing the village...');
@@ -478,7 +547,7 @@ class IAIAService {
         } catch (error) {
             logger.error('IAIA encountered a problem:', error);
         } finally {
-            this.isWorking = false;
+            this._workingLock = 0; // Alliberar Lock Immediat
         }
     }
 
@@ -636,7 +705,7 @@ class IAIAService {
                         // DOMPurify Sanitization as requested to mitigate XSS risks from generated text
                         const cleanResponse = DOMPurify.sanitize(rawResponse, {
                              ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'a', 'p', 'br', 'ul', 'li', 'ol'],
-                             ALLOWED_ATTR: ['href', 'target']
+                             ALLOWED_ATTR: ['href', 'target', 'rel']
                         });
 
                         await supabaseService.sendSecureMessage({
@@ -654,6 +723,19 @@ class IAIAService {
                         });
                     } catch (err) {
                         logger.error('[MArIA] Error processant fons Gemini:', err);
+                        await supabaseService.sendSecureMessage({
+                            conversationId: conversationId,
+                            senderId: receiverId || '11111111-1111-4111-a111-000000000010', 
+                            content: "Uf, m'he despistat un moment amb una altra cosa... Què m'estaves dient, fill?",
+                            is_ai: true,
+                            author_name: persona.name,
+                            author_avatar_url: persona.avatar_url,
+                            metadata: {
+                                is_iaia: true,
+                                persona_key: finalPersonaKey,
+                                is_error_fallback: true
+                            }
+                        });
                     }
                 })();
 
@@ -664,7 +746,7 @@ class IAIAService {
             const aiResponse = await geminiService.ask(finalPersonaKey, userQuery);
             return DOMPurify.sanitize(aiResponse.text, {
                  ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'a', 'p', 'br', 'ul', 'li', 'ol'],
-                 ALLOWED_ATTR: ['href', 'target']
+                 ALLOWED_ATTR: ['href', 'target', 'rel']
             });
         } catch (e) {
             logger.error('[MArIA] Error generant resposta AI:', e);
@@ -722,7 +804,11 @@ class IAIAService {
         try {
             localStorage.removeItem('sp_old_debug_logs');
             localStorage.removeItem('pwa-installed');
-            sessionStorage.clear();
+            Object.keys(sessionStorage).forEach(key => {
+                if (key.startsWith('sp_') || key.startsWith('socdepoble_')) {
+                    sessionStorage.removeItem(key);
+                }
+            });
             results.storageCleared = true;
 
             if ('caches' in window) {

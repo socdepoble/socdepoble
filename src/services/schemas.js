@@ -69,9 +69,9 @@ export const MessageSchema = z.object({
 export const ConversationSchema = z.object({
     id: z.string().regex(uuidRegex).optional(),
     participant_1_id: z.string().regex(uuidRegex),
-    participant_1_type: z.enum(['user', 'entity']),
+    participant_1_type: z.enum(['user', 'entity', 'ai']),
     participant_2_id: z.string().regex(uuidRegex),
-    participant_2_type: z.enum(['user', 'entity']),
+    participant_2_type: z.enum(['user', 'entity', 'ai']),
     last_message_content: z.string().nullable().optional().transform(sanitize),
     last_message_at: z.string().optional(),
     is_playground: z.boolean().optional()

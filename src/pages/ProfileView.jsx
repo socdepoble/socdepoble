@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { useParams, useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import { 
     Settings, Loader2, AlertCircle, 
     Sparkles, Grid, Share2, ArrowLeft, Camera, UserCheck, MessageCircle, MapPin,
-    ShieldCheck, HeartHandshake
+    ShieldCheck, HeartHandshake, ArrowUp
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useDesign } from '../context/DesignContext';
@@ -20,6 +20,8 @@ import './ProfileView.css';
 const ProfileView = () => {
     const { theme } = useDesign();
     const isDayMode = theme === 'light';
+    const [searchParams] = useSearchParams();
+    const activeRoleFilter = searchParams.get('role') || 'tot';
     
     // Theme Colors
     const bgColor = isDayMode ? 'bg-white' : 'bg-black';
@@ -43,6 +45,24 @@ const ProfileView = () => {
     const [userPosts, setUserPosts] = useState([]);
     
     // Modals
+    const [isChatOpen, setIsChatOpen] = useState(false);
+    const [viewMode, setViewMode] = useState(() => localStorage.getItem('feed_view_mode') || 'single');
+
+    const scrollRef = React.useRef(null);
+    const [showTopBtn, setShowTopBtn] = useState(false);
+    
+    // Studio Upload Logics
+    const [isStudioUploading, setIsStudioUploading] = useState(false);
+    const [studioUploadType, setStudioUploadType] = useState(null);
+
+    const handleScroll = (e) => {
+        if (!e.target) return;
+        setShowTopBtn(e.target.scrollTop > 600);
+    };
+
+    const scrollToTop = () => {
+        scrollRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+    };
     const [isStudioOpen, setIsStudioOpen] = useState(false);
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
@@ -133,7 +153,61 @@ const ProfileView = () => {
         fetchProfileData();
     }, [id, username, isOwnProfile, currentUser, myProfile]);
 
-    const isSuperAdmin = currentUser?.role === 'super_admin';
+    // LÒGICA D'APUJADA VERTICAL "ESTUDI DE PERFIL"
+    const handleStudioFileSelect = async (e, type) => {
+        const file = e.target.files?.[0];
+        if (!file && !e.target.value) return; 
+        
+        setIsStudioUploading(true);
+        setStudioUploadType(type);
+
+        try {
+            let updates = {};
+            if (e.target.value && typeof e.target.value === 'string' && e.target.value.startsWith('icon:')) {
+                updates[`${type}_url`] = e.target.value;
+            } else {
+                const fileExt = file.name.split('.').pop();
+                const fileName = `${profile.id}-${Date.now()}.${fileExt}`;
+                const filePath = `avatars/${fileName}`; 
+                
+                const { error: uploadError } = await supabaseService.supabase.storage
+                    .from('avatars')
+                    .upload(filePath, file);
+
+                if (uploadError) throw new Error("Error pujant imatge.");
+                const { data } = supabaseService.supabase.storage.from('avatars').getPublicUrl(filePath);
+                updates[`${type}_url`] = data.publicUrl;
+            }
+
+            const { error: dbError } = await supabaseService.supabase
+                .from('users')
+                .update(updates)
+                .eq('id', profile.id);
+
+            if (dbError) throw dbError;
+            setProfile(p => ({ ...p, ...updates }));
+        } catch (err) {
+            console.error("Upload error:", err);
+        } finally {
+            setIsStudioUploading(false);
+            setStudioUploadType(null);
+        }
+    };
+
+    const handleStudioReposition = async (value) => {
+        const numValue = parseInt(value, 10);
+        // Optimistic UI Update
+        setProfile(p => ({ ...p, cover_position_y: numValue }));
+
+        try {
+             await supabaseService.supabase
+                .from('users')
+                .update({ cover_position_y: numValue })
+                .eq('id', profile.id);
+        } catch (err) {
+            console.error("Error setting reposition:", err);
+        }
+    };
 
     if (loading) return (
         <div className={`flex flex-col items-center justify-center min-h-screen ${bgColor} ${textColor}`}>
@@ -154,15 +228,33 @@ const ProfileView = () => {
     );
 
     return (
-        <div className={`min-h-[100dvh] w-full ${bgColor} flex flex-col items-center ${textColor} font-sans overflow-x-hidden overflow-y-auto transition-colors duration-500 custom-scrollbar`}>
+        <div 
+            ref={scrollRef}
+            onScroll={handleScroll}
+            className={`min-h-[100dvh] w-full ${bgColor} flex flex-col items-center ${textColor} font-sans overflow-x-hidden overflow-y-auto transition-colors duration-500 custom-scrollbar relative pb-24`}
+        >
             <SEO title={profile?.full_name} description={profile?.bio} />
             
+            <div className="w-full z-[100] bg-theme-base bg-opacity-95 backdrop-blur-md">
+                <ContextualHeader
+                    searchTerm=""
+                    onSearchChange={() => {}}
+                    viewMode={viewMode}
+                    onViewModeChange={(m) => {
+                        setViewMode(m);
+                        localStorage.setItem('feed_view_mode', m);
+                    }}
+                    placeholder="Cerca publicacions al perfil..."
+                />
+            </div>
+
             {/* 1. IMMERSIVE COVER IMAGE WITH FADE TO BASE */}
             <div className="relative w-full h-[40vh] md:h-[50vh] min-h-[300px] overflow-hidden shrink-0">
                 <div 
-                    className="absolute inset-0 bg-cover bg-center transition-all duration-1000 origin-bottom" 
+                    className="absolute inset-0 bg-cover transition-all duration-1000 origin-bottom" 
                     style={{ 
-                        backgroundImage: `url('${profile?.cover_url || "/assets/patterns/hero_pattern.png"}')`,
+                        backgroundImage: `url('${profile?.cover_url || profile?.avatar_url || "/assets/patterns/hero_pattern.png"}')`,
+                        backgroundPosition: `50% ${profile?.cover_position_y ?? 50}%`,
                         transform: 'scale(1.02)',
                         filter: isDayMode ? 'brightness(1.1) saturate(1.2)' : 'brightness(0.8) saturate(1.2)'
                     }}
@@ -210,17 +302,18 @@ const ProfileView = () => {
 
                     {/* Glowing Avatar Sphere */}
                     <div
-                        className={`relative rounded-full p-2 mb-6 group ${isOwnProfile ? 'cursor-pointer' : ''}`}
+                        className={`relative rounded-full p-1 mb-6 group ${isOwnProfile ? 'cursor-pointer' : ''}`}
                         onClick={() => isOwnProfile && setIsStudioOpen(true)}
                     >
                         {/* Glow Behind */}
                         <div className={`absolute inset-0 rounded-full bg-[var(--theme-accent-primary)] ${isDayMode ? 'opacity-30 blur-2xl' : 'opacity-40 blur-[40px]'} group-hover:opacity-60 transition-opacity duration-700`}></div>
 
-                        <div className={`relative w-40 h-40 sm:w-48 sm:h-48 rounded-full overflow-hidden border-[10px] ${isDayMode ? 'border-white' : 'border-theme-base'} shadow-[0_30px_60px_rgba(0,0,0,0.3)] bg-theme-panel`}>
+                        <div className={`relative w-40 h-40 sm:w-48 sm:h-48 rounded-[50%] overflow-hidden border-4 ${isDayMode ? 'border-white' : 'border-theme-base'} shadow-[0_30px_60px_rgba(0,0,0,0.3)] bg-theme-panel isolate aspect-square flex items-center justify-center`}>
                             <img
                                 src={profile?.avatar_url}
                                 alt={profile?.full_name}
-                                className="w-full h-full object-cover transition-transform duration-1000 ease-out-expo group-hover:scale-110"
+                                className="w-full h-full object-cover rounded-[50%] transition-transform duration-1000 ease-out-expo group-hover:scale-110 aspect-square block"
+                                style={{ borderRadius: '50%' }}
                             />
                             {isOwnProfile && (
                                 <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center transition-all duration-300 backdrop-blur-sm">
@@ -284,7 +377,7 @@ const ProfileView = () => {
                                 onClick={() => openConnectionModal({ targetId: profile?.id })}
                                 className={`w-full h-24 sm:h-28 rounded-[40px] overflow-hidden relative group shadow-[0_15px_40px_rgba(255,107,0,0.4)] hover:shadow-[0_20px_60px_rgba(255,107,0,0.6)] hover:-translate-y-2 active:scale-95 transition-all duration-500 ease-out`}
                             >
-                                <div className="absolute inset-0 bg-gradient-to-br from-orange-400 via-[var(--theme-accent-primary)] to-orange-700 opacity-100 group-hover:scale-110 transition-transform duration-1000 ease-out"></div>
+                                <div className="absolute inset-0 bg-gradient-to-br from-[var(--theme-accent-primary)]/80 via-[var(--theme-accent-primary)] to-[var(--theme-accent-primary)]/60 opacity-100 group-hover:scale-110 transition-transform duration-1000 ease-out"></div>
                                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite]"></div>
 
                                 <div className="absolute inset-0 flex items-center justify-center gap-4 text-white hover:text-white mix-blend-overlay drop-shadow-xl z-10 w-full h-full">
@@ -304,23 +397,8 @@ const ProfileView = () => {
                             </button>
                         </div>
                     ) : (
-                        <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <button
-                                onClick={() => setIsStudioOpen(true)}
-                                className={`h-20 rounded-full ${isDayMode ? 'bg-[#111] text-white' : 'bg-white text-black'} font-black text-[15px] uppercase tracking-widest shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3`}
-                            >
-                                <Camera size={22} />
-                                EDITAR APARIÈNCIA
-                            </button>
-                            {isSuperAdmin && (
-                                <button
-                                    onClick={() => navigate('/admin')}
-                                    className={`h-20 px-8 rounded-full bg-emerald-950 text-emerald-400 font-black text-[15px] uppercase tracking-widest shadow-2xl hover:scale-105 active:scale-95 transition-all border border-emerald-500/30 flex items-center justify-between gap-3`}
-                                >
-                                    <span className="text-sm font-black uppercase tracking-tight">RHIZOME SYNC ADMIN</span>
-                                    <span className="text-xs font-black uppercase tracking-widest bg-emerald-500/20 text-emerald-500 px-4 py-2 rounded-full border border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.3)] animate-pulse">ACTIU</span>
-                                </button>
-                            )}
+                        <div className="w-full h-8 flex justify-center items-center opacity-50">
+                            {/* L'Aparador Propietari és pur. Tot es gestiona des de la roda d'engranatge de dalt a la dreta. */}
                         </div>
                     )}
                 </div>
@@ -370,18 +448,40 @@ const ProfileView = () => {
                     <div className="min-h-[40vh] w-full max-w-3xl mx-auto pb-32">
                         {activeTab === 'mur' ? (
                             <div className="w-full flex flex-col gap-6">
-                                <ContextualHeader
-                                    searchTerm=""
-                                    onSearchChange={() => {}}
-                                    viewMode="single"
-                                    onViewModeChange={() => {}}
-                                    placeholder="Cerca publicacions..."
-                                />
-                                {userPosts.length > 0 ? (
-                                    <Feed hideHeader={true} customPosts={userPosts} />
-                                ) : (
-                                    <StatusLoader type="empty" message={isOwnProfile ? "Encara no has compartit res." : "Cap novetat."} />
-                                )}
+                                {(()=>{
+                                    // React computation inner block for extreme performance
+                                    const processedPosts = (() => {
+                                        const deduped = [];
+                                        const seen = new Set();
+                                        for (const p of userPosts) {
+                                            const key = (p.title || p.content || '').substring(0, 100).trim();
+                                            if (key && seen.has(key)) continue;
+                                            if (key) seen.add(key);
+                                            deduped.push(p);
+                                        }
+
+                                        if (activeRoleFilter === 'tot') return deduped;
+                                        
+                                        return deduped.filter(post => {
+                                            const r = post.author_role || 'user';
+                                            const type = post.type;
+                                            switch (activeRoleFilter) {
+                                                case 'personal': return r === 'user';
+                                                case 'autonom': return r === 'freelance' || r === 'student' || r === 'business';
+                                                case 'empresa': return r === 'company' || type === 'mercat' || r === 'business';
+                                                case 'grup': return r === 'group' || r === 'ambassador';
+                                                case 'entitat': return r === 'official' || type === 'ajuntament';
+                                                default: return true;
+                                            }
+                                        });
+                                    })();
+
+                                    return processedPosts.length > 0 ? (
+                                        <Feed hideHeader={true} customPosts={processedPosts} externalViewMode={viewMode} />
+                                    ) : (
+                                        <StatusLoader type="empty" message={isOwnProfile ? "Encara no has compartit res amb esta identitat." : "Cap novetat sota este rol."} />
+                                    );
+                                })()}
                             </div>
                         ) : activeTab === 'connexions' ? (
                             <div className="space-y-8 animate-in fade-in slide-in-from-bottom-8">
@@ -408,12 +508,38 @@ const ProfileView = () => {
                 </div>
             </main>
 
-            {/* Modals remain the exact same functionally */}
+            {isChatOpen && (
+                <ChatDetail
+                    isOverlay={true}
+                    overlayChatId={null} 
+                    overlayContact={profile} 
+                    onClose={() => setIsChatOpen(false)}
+                    themeColor="#FF6B00"
+                />
+            )}
+
+            {/* FLOATING ACTION BUTTON (BACK TO TOP) */}
+            {showTopBtn && (
+                <button 
+                    onClick={scrollToTop} 
+                    className="fixed bottom-24 right-6 md:bottom-10 md:right-10 w-12 h-12 md:w-14 md:h-14 bg-[var(--theme-accent-primary)] hover:bg-[var(--theme-accent-primary-hover)] text-white rounded-full flex items-center justify-center shadow-[0_10px_30px_rgba(255,107,0,0.5)] transition-all animate-in fade-in zoom-in z-[300]"
+                    title="Torna a dalt ràpidament"
+                >
+                    <ArrowUp size={24} strokeWidth={3} />
+                </button>
+            )}
             <ProfileStudioModal 
                 isOpen={isStudioOpen}
                 onClose={() => setIsStudioOpen(false)}
                 profile={profile}
-                onFileSelect={() => {}}
+                isUploading={isStudioUploading}
+                uploadType={studioUploadType}
+                onFileSelect={handleStudioFileSelect}
+                onReposition={handleStudioReposition}
+                onCaptureComplete={(media, type) => {
+                    // Mutejem 'media' com si fos un e.target.files intern per reutilitzar la funció
+                    handleStudioFileSelect({ target: { files: [media] } }, type);
+                }}
             />
             {isOwnProfile && profile && (
                 <ProfileSettingsModal

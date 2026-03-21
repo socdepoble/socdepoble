@@ -101,15 +101,14 @@
 }
 
 .theme-light .universal-card .card-header-boina .master-author-name {
-  color: #ffffff !important;
-  /* Boina immutable */
+  color: var(--on-theme-accent-primary) !important;
 }
 
 .card-header-boina {
   background: var(
     --theme-accent-primary
   ) !important; /* Protocol: Taronja(Nit) / Blau(Dia) */
-  color: #ffffff !important;
+  color: var(--on-theme-accent-primary) !important;
   padding: 0 16px;
   display: flex;
   align-items: center;
@@ -119,7 +118,7 @@
   position: relative;
   z-index: 10;
   backdrop-filter: blur(20px);
-  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   overflow: hidden; /* Added to clip any ghosting content */
 }
 
@@ -136,8 +135,8 @@
 .variant-official .card-header-boina,
 .card-header-boina.variant-official {
   background: var(--theme-accent-primary) !important;
-  color: #ffffff !important;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+  color: var(--on-theme-accent-primary) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .universal-card.category-sostenible:hover {
@@ -151,19 +150,19 @@
 }
 
 .card-header-boina .master-author-name {
-  color: #ffffff !important;
+  color: var(--on-theme-accent-primary) !important;
   font-weight: 950;
   text-transform: uppercase;
   font-size: 14px; /* Standard Text */
   letter-spacing: 0.05em;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .card-header-boina .location-text {
-  color: rgba(255, 255, 255, 0.85) !important;
+  color: var(--on-theme-accent-primary) !important;
   font-weight: 800;
   font-size: 12px;
   text-transform: uppercase;
+  opacity: 0.85;
 }
 
 /* TAGS & BADGES v11.1.0 */
@@ -357,11 +356,10 @@
   box-shadow: 0 0 25px var(--theme-accent-primary);
 }
 
-/* Products and All Images: Strict 1:1 Protocol */
+/* Dynamic Media Protocol */
 .universal-card-media {
   width: 100% !important;
   height: 100% !important;
-  aspect-ratio: 1 / 1 !important;
   object-fit: cover !important;
   transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   border-radius: 0 !important;
@@ -370,22 +368,13 @@
 .card-media-wrapper {
   position: relative;
   width: 100%;
-  aspect-ratio: 1 / 1;
-  background: var(--color-bg-canonic);
+  background: #000;
   overflow: hidden;
   padding: 0;
   border-radius: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-/* Internal Products: Always Square */
-.card-variant-mercat .card-media-wrapper,
-.card-variant-market .card-media-wrapper,
-.card-variant-post .card-media-wrapper,
-.card-variant-mur .card-media-wrapper {
-  aspect-ratio: 1 / 1;
 }
 
 .image-overlay-credits {

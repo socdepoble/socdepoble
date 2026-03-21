@@ -108,16 +108,24 @@ class SpeechService {
         }
 
         window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(text);
+        
+        // [HOTFIX] iOS Safari Speech Limit Bug: Truncament de cadena per trossos naturals.
+        const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
+        
         const langMap = {
             'va': 'ca-ES',
             'es': 'es-ES',
             'en': 'en-US'
         };
-        utterance.lang = langMap[langCode] || 'ca-ES';
-        utterance.rate = 1.0;
-        utterance.pitch = 1.0;
-        window.speechSynthesis.speak(utterance);
+        const voiceLang = langMap[langCode] || 'ca-ES';
+
+        sentences.forEach(sentence => {
+            const utterance = new SpeechSynthesisUtterance(sentence.trim());
+            utterance.lang = voiceLang;
+            utterance.rate = 1.0;
+            utterance.pitch = 1.0;
+            window.speechSynthesis.speak(utterance);
+        });
     }
 }
 

@@ -18,7 +18,7 @@ import { useFeedData } from '../hooks/useFeedData';
 import { useFeedFilters } from '../hooks/useFeedFilters';
 import { useIAIAAutonomousInteractions } from '../hooks/useIAIAAutonomousInteractions';
 
-const Feed = ({ townId = null, townName = null, customPosts = null, contentMode = 'batec', hideHeader = false }) => {
+const Feed = ({ townId = null, townName = null, customPosts = null, contentMode = 'batec', hideHeader = false, externalViewMode = null }) => {
     const { iaiaLevel, gloveMode } = useDesign();
     const { selectedTown, enabledAgentIds } = useNavigation();
     const { t } = useTranslation();
@@ -31,9 +31,11 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
     const [isIAIAFiltering, setIsIAIAFiltering] = useState(
         () => localStorage.getItem('isIAIAFiltering') === 'true'
     );
-    const [viewMode, setViewMode] = useState(() => {
+    const [internalViewMode, setInternalViewMode] = useState(() => {
         return localStorage.getItem('feed_view_mode') || 'single';
     });
+    const viewMode = externalViewMode || internalViewMode;
+
     const [contextualSearchTerm, setContextualSearchTerm] = useState('');
 
     const handleStorageChange = useCallback((e) => {
@@ -246,7 +248,7 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
                     onSearchChange={setContextualSearchTerm}
                     viewMode={viewMode}
                     onViewModeChange={(mode) => {
-                        setViewMode(mode);
+                        setInternalViewMode(mode);
                         localStorage.setItem('feed_view_mode', mode);
                     }}
                     placeholder="Cerca al mur..."
