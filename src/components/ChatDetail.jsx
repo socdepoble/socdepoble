@@ -683,8 +683,8 @@ const ChatDetail = () => {
                     
                     {/* [BÀNNER FORASTER EPÍMER] */}
                     {isGuest && otherInfo?.id?.startsWith('11111111-') && (
-                        <div className="bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-200 text-[13px] px-4 py-2 border-b border-orange-200 dark:border-orange-800/50 flex flex-col sm:flex-row items-center gap-1 sm:gap-2 justify-center text-center shadow-sm z-10 shrink-0 animate-in slide-in-from-top-2 duration-300">
-                            <span><span className="font-bold">Avís:</span> Estàs parlant com a Foraster i aquest xat temporal s'esborrarà prompte.</span>
+                        <div className="bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-200 text-[13px] px-4 py-2 border-b border-orange-200 dark:border-orange-800/50 text-center shadow-sm z-10 shrink-0 animate-in slide-in-from-top-2 duration-300">
+                            <span className="font-bold">Avís:</span> Estàs parlant com a Foraster i aquest xat temporal s'esborrarà prompte.{' '}
                             <a href="/registre" className="font-bold underline cursor-pointer hover:text-orange-950 dark:hover:text-orange-100 transition-colors">Registra't per a guardar les converses.</a>
                         </div>
                     )}
