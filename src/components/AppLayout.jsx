@@ -163,6 +163,7 @@ const AppLayout = () => {
   }, []);
 
   const path = location.pathname.split("/")[1] || "chats";
+  const isChatDetailMobileView = location.pathname.match(/^\/chats\/[^/]+/);
 
   // Mappeig de labels arquitectònics per al Frame Global
   const currentLabel = React.useMemo(() => {
@@ -194,7 +195,7 @@ const AppLayout = () => {
       onDropCapture={handleGlobalDrop}
     >
       {isGlobalDragging && (
-        <div className="absolute inset-0 z-[99999] bg-[var(--theme-accent-primary)]/90 backdrop-blur-md flex flex-col items-center justify-center text-white pointer-events-none transition-all duration-300 animate-in fade-in zoom-in-95">
+        <div className="absolute inset-0 z-[var(--z-max)] bg-[var(--theme-accent-primary)]/90 backdrop-blur-md flex flex-col items-center justify-center text-white pointer-events-none transition-all duration-300 animate-in fade-in zoom-in-95">
           <div className="w-32 h-32 rounded-full bg-white/20 flex items-center justify-center mb-6 animate-pulse">
             <UploadCloud size={64} className="text-white drop-shadow-xl" />
           </div>
@@ -209,16 +210,18 @@ const AppLayout = () => {
 
       {/* 0. HEADER SOBIRÀ (FULL WIDTH - PROTOCOL v4.0) */}
       {!isMinimal && (
-        <Suspense fallback={<NanoLoader message="Preparant la barra..." />}>
-          <BlueprintOverlay
-            label="HEADER_CANONIC"
-            dimensions="MATCH"
-            color="orange"
-            className="h-14 lg:h-16 flex-shrink-0 z-[2000]"
-          >
-            <Header />
-          </BlueprintOverlay>
-        </Suspense>
+        <div className="w-full z-[var(--z-sticky)]">
+          <Suspense fallback={<NanoLoader message="Preparant la barra..." />}>
+            <BlueprintOverlay
+              label="HEADER_CANONIC"
+              dimensions="MATCH"
+              color="orange"
+              className="h-14 lg:h-16 flex-shrink-0"
+            >
+              <Header />
+            </BlueprintOverlay>
+          </Suspense>
+        </div>
       )}
 
       {/* CONTENIDOR PRINCIPAL (SIDEBAR + ESCENARI) */}
@@ -226,7 +229,7 @@ const AppLayout = () => {
         {/* 0. OVERLAY MÒBIL (Sombra de fondo purificada) */}
         {isDrawerOpen && (
           <div
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[3999] md:hidden transition-opacity duration-300 animate-in fade-in"
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[var(--z-overlay)] md:hidden transition-opacity duration-300 animate-in fade-in"
             onClick={closeDrawer}
           />
         )}
@@ -235,13 +238,13 @@ const AppLayout = () => {
           <div
             className={`
               flex-shrink-0 transition-transform duration-300 ease-in-out overflow-hidden
-              fixed z-[4000] top-0 left-0 h-[100dvh] w-[300px] max-w-[85vw] bg-theme-sidebar border-r border-[var(--border-master)]
+              fixed z-[var(--z-sidebar)] top-0 left-0 h-[100dvh] w-[300px] max-w-[85vw] bg-theme-sidebar border-r border-[var(--border-master)]
               ${
                 isDrawerOpen
                   ? "translate-x-0 shadow-[4px_0_24px_rgba(0,0,0,0.5)]"
                   : "-translate-x-full"
               }
-              md:relative md:z-[1001] md:translate-x-0 md:h-full md:w-[280px] md:shadow-none
+              md:relative md:z-[var(--z-sidebar)] md:translate-x-0 md:h-full md:w-[280px] md:shadow-none
             `}
           >
             <BlueprintOverlay
@@ -431,7 +434,7 @@ const AppLayout = () => {
 
             {/* [ENCAPSULAMENT v10.33.1] Accessibilitat i Onboarding DINS del main */}
             {isAccessibilitatOpen && (
-              <div className="absolute inset-0 !m-0 !p-0 z-[100] bg-black/50 backdrop-blur-sm animate-in fade-in duration-300">
+              <div className="absolute inset-0 !m-0 !p-0 z-[var(--z-overlay)] bg-black/50 backdrop-blur-sm animate-in fade-in duration-300">
                 <Suspense
                   fallback={
                     <NanoLoader message="Carregant accessibilitat..." />
@@ -446,7 +449,7 @@ const AppLayout = () => {
             {accessibilityMode && !isAccessibilitatOpen && (
               <button
                 onClick={() => setIsAccessibilitatOpen(true)}
-                className="absolute bottom-[5.5rem] md:bottom-24 right-4 md:right-8 w-14 h-14 bg-[#0ea5e9] text-white rounded-[28px] shadow-[0_0_20px_rgba(14,165,233,0.5)] flex items-center justify-center z-[90] hover:scale-110 transition-transform cursor-pointer border-2 border-white/20"
+                className="absolute bottom-[5.5rem] md:bottom-24 right-4 md:right-8 w-14 h-14 bg-[#0ea5e9] text-white rounded-[28px] shadow-[0_0_20px_rgba(14,165,233,0.5)] flex items-center justify-center z-[var(--z-dropdown)] hover:scale-110 transition-transform cursor-pointer border-2 border-white/20"
                 aria-label="Obrir Matriu IAIA d'Accessibilitat"
               >
                 <Handshake size={28} />
@@ -459,10 +462,12 @@ const AppLayout = () => {
       {/* FOOTER CANÒNIC (AVÍS LEGAL, AUTORIA, ETC.) - BLINDATGE v1.0 */}
       <GlobalFooter />
 
-      {/* BARRA DE NAVEGACIÓ MÒBIL (BATEGAT v11.3) */}
-      <div className="relative z-[3000] md:hidden">
-        <MobileBottomNav />
-      </div>
+      {/* BARRA DE NAVEGACIÓ MÒBIL (BATEGAT v11.3) - AMAGADA DINS DEL XAT PER EVITAR COL·LISIÓ AMB TECLAT VIRTUAL */}
+      {!isChatDetailMobileView && (
+        <div className="relative z-[var(--z-sidebar)] md:hidden">
+          <MobileBottomNav />
+        </div>
+      )}
 
       {/* IAIA CHAT SIDEBAR (DRETA) - GLOBAL & BATEGAT */}
       <Suspense fallback={null}>
@@ -480,7 +485,7 @@ const AppLayout = () => {
 
       {/* MODALE D'EXPLICACIÓ (ARQUITECTE) - REPOSITIONAT PELS FRAMES UNIFICATS */}
       {architectMode && (
-        <div className="fixed inset-0 z-[10000] bg-black/40 backdrop-blur-xl md:pl-[280px]">
+        <div className="fixed inset-0 z-[var(--z-max)] bg-black/40 backdrop-blur-xl md:pl-[280px]">
           <div className="h-full flex flex-col relative animate-slide-up">
             <Suspense fallback={<NanoLoader message="Obrint el Mapa..." />}>
               <ArchitecteView />
