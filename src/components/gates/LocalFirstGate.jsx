@@ -120,7 +120,7 @@ export default function LocalFirstGate({ children }) {
         </div>
 
         <p className="font-['Inter_Tight',sans-serif] text-[#00f2ff] text-[12px] font-black uppercase tracking-[0.2em] opacity-70">
-          Muntant l'Arxiu Daurat
+          Connectant...
         </p>
       </div>
     );
