@@ -89,8 +89,5 @@
     "symbols": "Symbole",
     "flags": "Flaggen"
   },
-  "chat": {
-    "guest_warning_text": "Sie chatten als Gast und dieser temporäre Chat wird gelöscht.",
-    "guest_warning_link": "Registrieren Sie sich, um Ihre Unterhaltungen zu speichern."
-  }
+  "chat": {}
 }

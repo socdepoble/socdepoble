@@ -89,8 +89,5 @@
     "symbols": "Symboles",
     "flags": "Drapeaux"
   },
-  "chat": {
-    "guest_warning_text": "Vous discutez en tant qu'invité et ce chat temporaire sera supprimé.",
-    "guest_warning_link": "Inscrivez-vous pour enregistrer vos conversations."
-  }
+  "chat": {}
 }

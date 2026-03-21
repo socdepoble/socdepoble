@@ -78,8 +78,5 @@
     "title": "Notifiche",
     "empty": "Nessuna nuova notifica."
   },
-  "chat": {
-    "guest_warning_text": "Stai chattando come Ospite e questa chat temporanea verrà eliminata.",
-    "guest_warning_link": "Registrati per salvare le tue conversazioni."
-  }
+  "chat": {}
 }
