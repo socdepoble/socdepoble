@@ -282,7 +282,7 @@ const AppLayout = () => {
             <Suspense fallback={<NanoLoader message="Bategant..." />}>
               <ErrorBoundary>
                 <div
-                  className={`flex-1 flex flex-col relative min-w-0 main-viewport custom-scrollbar !m-0 pb-[70px] md:pb-0 ${
+                  className={`flex-1 flex flex-col relative min-w-0 main-viewport custom-scrollbar !m-0 ${
                     location.pathname.startsWith("/chats") ||
                     location.pathname.startsWith("/gestio-menu") ||
                     location.pathname.startsWith("/notes")
