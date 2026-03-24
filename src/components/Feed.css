@@ -97,7 +97,7 @@
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .mur-masonry.view-mode-grid {
     /* [RESPONSIVE FIX] A la mínima que les targetes es degraden o el text s'ix del frame, passem a 1 columna per elegància i llegibilitat. */
     grid-template-columns: 1fr;

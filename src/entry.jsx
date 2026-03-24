@@ -22,6 +22,7 @@ import { DesignProvider } from "./context/DesignContext";
 import { NavigationProvider } from "./context/NavigationContext";
 import { SocialProvider } from "./context/SocialContext";
 import { BrowserRouter } from "react-router-dom";
+import { HelmetProvider } from 'react-helmet-async';
 
 import UnifiedStatus from "./components/UnifiedStatus";
 import SafeShell from "./components/SafeShell";
@@ -81,7 +82,8 @@ if (!window.__SDP_ROOT__) window.__SDP_ROOT__ = ReactDOM.createRoot(container);
 
 window.__SDP_ROOT__.render(
   <React.StrictMode>
-    <BrowserRouter>
+    <HelmetProvider>
+      <BrowserRouter>
       <I18nProvider>
         <ThemeProvider>
           <AuthProvider>
@@ -103,7 +105,8 @@ window.__SDP_ROOT__.render(
           </AuthProvider>
         </ThemeProvider>
       </I18nProvider>
-    </BrowserRouter>
+      </BrowserRouter>
+    </HelmetProvider>
   </React.StrictMode>
 );
 

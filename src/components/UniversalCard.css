@@ -3,31 +3,31 @@
 @media (hover: none) and (pointer: coarse) {
   .universal-card-virtual.glass,
   .universal-card-virtual {
-    backdrop-filter: blur(8px) !important;
-    -webkit-backdrop-filter: blur(8px) !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     will-change: transform;
   }
 }
 .universal-card.view-mode-list {
-  background: rgba(255, 255, 255, 0.05) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  border-radius: 18px !important;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
   overflow: hidden;
   transition: all 0.3s ease;
   margin-bottom: 8px;
-  height: auto !important;
-  box-shadow: none !important;
+  height: auto;
+  box-shadow: none;
   min-height: 80px;
 }
 
 .universal-card.view-mode-list:hover {
-  background: rgba(255, 255, 255, 0.08) !important;
-  border-color: var(--theme-accent-primary) !important;
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--theme-accent-primary);
 }
 
 .card-list-layout {
-  display: flex !important;
-  align-items: center !important;
+  display: flex;
+  align-items: center;
   padding: 0 10px;
   gap: 10px;
   min-height: 80px;
@@ -79,7 +79,11 @@
 .theme-light .universal-card {
   background: #ffffff;
   border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  /* Enables CSS Container Queries */
+  container-type: inline-size;
+  container-name: card;
+  color: var(--theme-text);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 }
@@ -96,47 +100,48 @@
 }
 
 .theme-light .universal-card .card-excerpt {
-  color: #64748b;
-  /* Slate-500 */
+  color: #1e293b;
+  /* Slate-800 - Contrast Audit Fixed */
 }
 
-.theme-light .universal-card .card-header-boina .master-author-name {
-  color: var(--on-theme-accent-primary) !important;
+.theme-light .universal-card .card-header-boina,
+.theme-light .universal-card .card-header-boina .master-author-name,
+.theme-light .universal-card .card-header-boina .location-text,
+.theme-light .universal-card .card-header-boina .zap-celestial {
+  color: #000000;
 }
 
 .card-header-boina {
-  background: var(
-    --theme-accent-primary
-  ) !important; /* Protocol: Taronja(Nit) / Blau(Dia) */
-  color: var(--on-theme-accent-primary) !important;
+  background: var(--theme-accent-primary);
+  color: var(--on-theme-accent-primary);
   padding: 0 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 64px !important;
+  height: 64px;
   border-radius: 0;
   position: relative;
   z-index: 10;
   backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   overflow: hidden; /* Added to clip any ghosting content */
 }
 
 /* [PRO] Auditoria de Reixa: Boina compacta però suficient per a evitar "trepitjats" */
 .universal-card.view-mode-grid .card-header-boina {
   padding: 0 12px;
-  height: 60px !important; /* Incrementat de 56px a 60px per a respiració */
+  height: 64px; /* Fixat a 64px exactes segons directrius d'armonia */
 }
 
 .universal-card.view-mode-grid .master-author-name {
-  font-size: 13px;
+  font-size: 16px; /* Increased from 13px */
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
 }
 
 .variant-official .card-header-boina,
 .card-header-boina.variant-official {
-  background: var(--theme-accent-primary) !important;
-  color: var(--on-theme-accent-primary) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  background: var(--theme-accent-primary);
+  color: var(--on-theme-accent-primary);
 }
 
 .universal-card.category-sostenible:hover {
@@ -150,19 +155,19 @@
 }
 
 .card-header-boina .master-author-name {
-  color: var(--on-theme-accent-primary) !important;
+  color: var(--on-theme-accent-primary);
   font-weight: 950;
-  text-transform: uppercase;
-  font-size: 14px; /* Standard Text */
-  letter-spacing: 0.05em;
+  font-size: 16px; /* Standard Text increased */
+  letter-spacing: normal; /* Fixed ghosting spacing */
+  -webkit-font-smoothing: antialiased;
 }
 
 .card-header-boina .location-text {
-  color: var(--on-theme-accent-primary) !important;
+  color: var(--on-theme-accent-primary);
   font-weight: 800;
-  font-size: 12px;
-  text-transform: uppercase;
-  opacity: 0.85;
+  font-size: 14px; /* Increased */
+  opacity: 1; /* Removed transparency ghosting */
+  -webkit-font-smoothing: antialiased;
 }
 
 /* TAGS & BADGES v11.1.0 */
@@ -174,11 +179,10 @@
 }
 
 .genesis-tag-pill {
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 900;
   padding: 4px 10px;
   border-radius: 8px;
-  text-transform: uppercase;
   letter-spacing: 0.5px;
   background: rgba(255, 255, 255, 0.05);
   color: var(--text-muted);
@@ -241,9 +245,9 @@
 }
 
 .genesis-avatar {
-  border: 1px solid var(--border-master) !important;
+  border: 1px solid var(--border-master);
   flex-shrink: 0;
-  border-radius: 50% !important; /* FORÇAT: RITU D'IDENTITAT v10.33 */
+  border-radius: 50%; /* FORÇAT: RITU D'IDENTITAT v10.33 */
   background: var(--bg-edge);
   overflow: hidden;
 }
@@ -256,11 +260,10 @@
 
 .master-author-name {
   color: var(--text-main);
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 950;
   margin: 0;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.2px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -276,11 +279,10 @@
 }
 
 .location-text {
-  color: #ffffff !important;
-  font-size: 10px;
+  color: #ffffff;
+  font-size: 12px;
   font-weight: 950;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: normal;
   opacity: 0.9;
 }
 
@@ -303,32 +305,30 @@
 
 .header-right-meta.agenda-highlight .header-date {
   color: var(--theme-accent-primary);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 950;
 }
 
 .header-meta-details {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: flex-end !important;
-  text-align: right !important;
-  gap: 0px !important;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+  gap: 0px;
 }
 
 .header-date {
-  font-size: 10px !important;
-  font-weight: 700 !important;
-  color: rgba(255, 255, 255, 0.6) !important;
-  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.6);
   letter-spacing: 0.5px;
   line-height: 1;
 }
 
 .header-time {
-  font-size: 11px !important;
-  font-weight: 950 !important;
-  color: #ffffff !important;
-  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 950;
+  color: #ffffff;
   letter-spacing: 1px;
   line-height: 1.2;
 }
@@ -358,23 +358,71 @@
 
 /* Dynamic Media Protocol */
 .universal-card-media {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-  border-radius: 0 !important;
+  border-radius: 0;
 }
 
 .card-media-wrapper {
   position: relative;
   width: 100%;
-  background: #000;
+  aspect-ratio: 1/1; /* CRITICAL FIX: Forces strict 1:1 Square visual identity */
+  background: var(--bg-edge);
   overflow: hidden;
   padding: 0;
   border-radius: 0;
+  display: block;
+}
+@supports not (aspect-ratio: 1/1) {
+  .card-media-wrapper::before {
+    content: "";
+    display: block;
+    width: 100%;
+    padding-bottom: 100%;
+  }
+  .card-media-wrapper > * {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/* ESTÀNDARD VISUAL SÓC DE POBLE: 824px GOLDEN HEIGHT */
+.universal-card.view-mode-grid {
+  height: 864px;
+  max-width: 480px;
+  margin: 0 auto;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+}
+
+.universal-card.view-mode-single {
+  height: auto;
+}
+
+/* ANTI-MIMETISME: Blindatge Absolut de la Caputxa d'Avatar en Single Mode */
+.universal-card.view-mode-single .card-header-boina,
+.universal-card.view-mode-single .card-header-boina.variant-official {
+  background: var(--theme-accent-primary);
+  color: #fff;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.universal-card.view-mode-single .card-header-boina .master-author-name,
+.universal-card.view-mode-single .card-header-boina .location-text,
+.universal-card.view-mode-single .card-header-boina .zap-celestial {
+  color: #fff;
+}
+
+.theme-light .universal-card.view-mode-single .card-header-boina .master-author-name,
+.theme-light .universal-card.view-mode-single .card-header-boina .location-text,
+.theme-light .universal-card.view-mode-single .card-header-boina .zap-celestial {
+  color: #000000;
 }
 
 .image-overlay-credits {
@@ -384,20 +432,44 @@
   right: 0;
   background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
   padding: 15px 12px 6px;
-  font-size: 8px;
-  color: var(--text-muted);
+  font-size: 12px;
+  color: #ffffff;
   font-weight: 950;
   text-transform: uppercase;
   letter-spacing: 1px;
+  text-align: right;
 }
 
 /* AI TOOLS INLINE */
 .card-excerpt-wrapper {
   position: relative;
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
+  display: block;
 }
+
+/* SMART CLAMP SYSTEM FOR 864PX FIXED CARDS */
+/* Math accounts for exactly 864px height, full width 1:1 image, and 20px pad */
+.smart-clamp-tags {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: 4;
+}
+@container card (min-width: 414px) { .smart-clamp-tags { -webkit-line-clamp: 3; } }
+@container card (min-width: 442px) { .smart-clamp-tags { -webkit-line-clamp: 2; } }
+@container card (min-width: 470px) { .smart-clamp-tags { -webkit-line-clamp: 1; } }
+@container card (min-width: 498px) { .smart-clamp-tags { display: none; } }
+
+.smart-clamp-notags {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: 5;
+}
+@container card (min-width: 426px) { .smart-clamp-notags { -webkit-line-clamp: 4; } }
+@container card (min-width: 454px) { .smart-clamp-notags { -webkit-line-clamp: 3; } }
+@container card (min-width: 482px) { .smart-clamp-notags { -webkit-line-clamp: 2; } }
+@container card (min-width: 510px) { .smart-clamp-notags { -webkit-line-clamp: 1; } }
+@container card (min-width: 538px) { .smart-clamp-notags { display: none; } }
 
 .card-ai-tools-inline {
   display: flex;
@@ -430,12 +502,13 @@
 
 /* BODY */
 .card-body {
-  padding: 20px;
+  padding: 0;
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  position: relative; /* For absolute price positioning if needed */
+  gap: 16px; /* Increased gap */
+  position: relative;
+  overflow: hidden; /* CRITICAL: Prevent long text from pushing footer out of fixed height cards */
 }
 
 .genesis-title {
@@ -452,8 +525,8 @@
 }
 
 .card-price {
-  background: var(--theme-accent-primary) !important;
-  color: #ffffff !important;
+  background: var(--theme-accent-primary);
+  color: #ffffff;
   padding: 8px 18px;
   border-radius: 100px;
   font-size: 18px;
@@ -483,11 +556,11 @@
 
 .card-excerpt {
   color: var(--text-secondary);
-  font-size: 16px; /* Standard Base */
-  line-height: 1.6;
+  font-size: 16px;
+  line-height: 1.7; /* Better legibility */
   margin: 0;
   font-weight: 500;
-  padding: 4px 0; /* Breathing room */
+  padding: 8px 0; /* Breathing room */
 }
 
 .read-more-btn {
@@ -507,12 +580,14 @@
 
 /* FOOTER MASTER CMS v3.1 (EL PENTATLÓ) */
 .card-footer-master {
-  border-top: 1px solid var(--border-subtle);
-  background: rgba(0, 0, 0, 0.2);
-  min-height: 52px;
+  border-top: none;
+  background: var(--theme-accent-secondary);
+  height: 64px; /* Fixat a 64px exactes segons directrius d'armonia */
+  min-height: 64px;
   display: flex;
   flex-direction: column;
-  flex-wrap: nowrap !important; /* Alzina: Blindat contra apilament horizontal */
+  flex-wrap: nowrap; /* Alzina: Blindat contra apilament horizontal */
+  justify-content: center;
 }
 
 /* 1. CARDINAL MUR */
@@ -520,14 +595,15 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 12px 16px;
+  padding: 0 24px;
+  height: 100%;
 }
 
 /* 2. CARDINAL MERCAT */
 .footer-mercat-master {
   display: flex;
   flex-direction: column;
-  padding: 12px 16px;
+  padding: 12px 24px;
   gap: 12px;
 }
 
@@ -561,7 +637,7 @@
 
 /* 3. CARDINAL AGENDA */
 .footer-event-master {
-  padding: 12px 16px;
+  padding: 12px 24px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -572,12 +648,12 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 12px 16px;
+  padding: 12px 24px;
 }
 
 /* 5. CARDINAL AJUNTAMENT */
 .footer-ajuntament-master {
-  padding: 12px 16px;
+  padding: 12px 24px;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -585,7 +661,7 @@
 
 /* 6. CARDINAL RUTES / MAPA */
 .footer-mapa-master {
-  padding: 12px 16px;
+  padding: 12px 24px;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -604,8 +680,8 @@
   font-weight: 900;
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  height: 48px; /* STANDARD TARGET v10.30.0 */
-  padding: 0 24px;
+  height: 40px; /* STANDARD TARGET ALIGNMENT */
+  padding: 0 16px;
   border-radius: var(--radius-m);
 }
 
@@ -626,27 +702,8 @@
 }
 
 /* Connect Btn Variant for Official/Sostenible */
-.universal-card.role-official .connect-btn {
-  background: rgba(0, 43, 91, 0.1);
-  border-color: rgba(0, 43, 91, 0.3);
-  color: #002b5b;
-}
-
-.universal-card.role-official .connect-btn:hover {
-  background: var(--color-secondary);
-  color: var(--color-bg-canonic);
-}
-
-.universal-card.category-sostenible .connect-btn {
-  background: rgba(16, 185, 129, 0.1);
-  border-color: rgba(16, 185, 129, 0.3);
-  color: #10b981;
-}
-
-.universal-card.category-sostenible .connect-btn:hover {
-  background: #10b981;
-  color: white;
-}
+/* Removed official hover overrides to keep orange priority */
+/* Removed sostenible overrides */
 
 /* Blindatge Alzina v5.2 */
 .footer-actions-mur,
@@ -657,19 +714,19 @@
 .footer-mapa-master,
 .event-actions-row,
 .mercat-actions-row {
-  flex-wrap: nowrap !important;
+  flex-wrap: nowrap;
 }
 
 .footer-touch-group,
 .card-ai-tools-inline,
 .header-right-meta {
-  flex-shrink: 0 !important;
+  flex-shrink: 0;
 }
 
 .master-action-btn.connect-btn {
-  flex: 1 !important;
-  min-width: 0 !important;
-  white-space: nowrap !important;
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -678,23 +735,28 @@
   display: flex;
   align-items: center;
   gap: 8px; /* Anti-ghost-click gap */
-  flex-wrap: nowrap !important; /* Alzina: Prohibit apilar-se */
+  flex-wrap: nowrap; /* Alzina: Prohibit apilar-se */
 }
 
 .btn-touch {
-  width: 48px; /* STANDARD TARGET */
-  height: 48px;
+  width: 44px; /* ALIGNED TO HEADER BTN AND FAT-THUMB */
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--border-subtle);
+  background: transparent;
+  border: none;
   border-radius: var(--radius-full);
-  color: var(--text-secondary);
+  color: #ffffff;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   padding: 0;
   flex-shrink: 0; /* Alzina: Prohibida la deformació */
+}
+
+.btn-touch:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-1px) scale(1.05);
 }
 
 /* [MASTER DYNAMIC HEADER] Price & Date badges */
@@ -704,7 +766,7 @@
   border-radius: 12px;
   font-size: 0.8rem;
   font-weight: 950;
-  color: white !important;
+  color: white;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   white-space: nowrap;
   backdrop-filter: blur(4px);
@@ -714,13 +776,13 @@
 }
 
 .price-badge {
-  background: #000 !important;
-  color: #ff6b00 !important;
-  border: 1px solid rgba(255, 107, 0, 0.5) !important;
+  background: #000;
+  color: #ff6b00;
+  border: 1px solid rgba(255, 107, 0, 0.5);
 }
 
 .date-badge {
-  background: rgba(255, 255, 255, 0.15) !important;
+  background: rgba(255, 255, 255, 0.15);
 }
 
 /* MODO FORENSE UI (ANTIOBLITS) */
@@ -728,8 +790,8 @@
   position: absolute;
   top: -10px;
   right: 10px;
-  background: #00ffff !important;
-  color: #000 !important;
+  background: #00ffff;
+  color: #000;
   font-size: 10px;
   font-weight: 950;
   padding: 2px 8px;
@@ -754,7 +816,7 @@
 }
 
 .universal-card.mode-forense-active {
-  outline: 2px dashed #00ffff !important;
+  outline: 2px dashed #00ffff;
   outline-offset: 4px;
 }
 
@@ -816,7 +878,7 @@
   align-items: center;
   gap: 8px;
   color: var(--text-muted);
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -840,23 +902,23 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  flex-wrap: nowrap !important; /* Blindatge Alzina: Prohibida la verticalitat */
+  flex-wrap: nowrap; /* Blindatge Alzina: Prohibida la verticalitat */
 }
 
 .footer-touch-group {
   display: flex;
   align-items: center;
   gap: 8px;
-  flex-shrink: 0 !important; /* Inencogible */
+  flex-shrink: 0; /* Inencogible */
 }
 
 .master-action-btn.connect-btn {
-  flex: 1 !important;
-  min-width: 0 !important;
-  white-space: nowrap !important;
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  flex-shrink: 1 !important;
+  flex-shrink: 1;
 }
 
 .mercat-actions-row {
@@ -885,7 +947,7 @@
   align-items: center;
   gap: 8px;
   color: var(--text-muted);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 800;
   text-transform: uppercase;
 }
@@ -967,7 +1029,7 @@
   align-items: center;
   gap: 8px;
   color: var(--accent-cyan);
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -1012,7 +1074,6 @@
   .universal-card .card-media-wrapper {
     width: 100%;
     height: auto;
-    aspect-ratio: 16 / 9; /* Landscape image format for better vertical rhythm */
     min-height: auto;
     border-bottom-left-radius: 0; /* Clear previous side-radius */
   }
@@ -1046,17 +1107,17 @@
   }
   .card-header-boina {
     padding: 8px;
-    height: auto !important;
+    height: auto;
     min-height: 56px;
   }
   .master-author-name {
-    font-size: 12px !important;
-    white-space: normal !important;
+    font-size: 12px;
+    white-space: normal;
     word-break: break-word;
   }
   .header-date,
   .header-time {
-    font-size: 9px !important;
+    font-size: 12px;
   }
   .card-body {
     padding: 8px;

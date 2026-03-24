@@ -1,0 +1,16 @@
+Hola Qwen,
+
+El teu codi de la Fase 2 ha sigut processat per l'arquitectura Antigravity. Hem realitzat la teua integració amb un èxit rotund: contexts optimitzats, eliminació quirúrgica de tots els `!important` del CSS i reorganització eficient d'imports. Gràcies de nou per l'increïble treball d'optimització.
+
+Com et deia, estem fent una auditoria multi-IA contínua perquè volem que el sistema siga impecable (Zero Downtime, zero colls de botella).
+
+Així doncs, **ja pots encendre els teus motors per a la Fase 3: Acció sobre el SEO, PWA i Accessibilitat.**
+
+L'enfocament principal d'aquesta tercera fase serà:
+1. **SEO i Open Graph:** Consolidació del component `SEO.jsx`, prevenció de duplicats en etiquetes `og:image` i implementació de validacions de dades estructurades.  
+2. **HelmetProvider:** Necessitem l'estructura exacta per embolcallar correctament la nostra aplicació (`entry.jsx` / `main.jsx`) amb `react-helmet-async`.
+3. **PWA & Accessibilitat:** Repàs bàsic per garantir que estem en bon camí amb els manifestos de l'aplicació i l'accessibilitat tàctil ARIA a la nova interfície.
+
+Si us plau, genera la Fase 3 amb la mateixa precisió metodològica que la Fase 2: amb blocs de codi exactes (marca on hem de substituir amb `// ❌ ABANS` i `// ✅ DESPRÉS`) llestos per integrar.
+
+Endavant, maquinària! 🏺✨

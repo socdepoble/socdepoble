@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Image as ImageIcon } from 'lucide-react';
+import { Image as ImageIcon, Zap } from 'lucide-react';
 import ImageCarousel from './ImageCarousel';
 import Watermark from './Watermark';
 
@@ -13,42 +12,53 @@ const UniversalCardMedia = ({
     openViewer, 
     navigate 
 }) => {
-    const { t } = useTranslation();
+    // useTranslation not needed for fallback anymore
     const [hasImageError, setHasImageError] = useState(false);
 
     const handleMediaClick = (e) => {
         e.stopPropagation();
-        if (cardVariant === 'pobles') {
-            const townId = item?.uuid || item?.id;
-            navigate(`/pobles/${townId || 'de-la-torre'}`);
-        } else if (cardVariant === 'mercat' || cardVariant === 'market') {
-            const id = item?.uuid || item?.id;
-            if(id) navigate(`/mercat/${id}`);
-        } else if (mediaList && mediaList.length > 0) {
+        
+        // Regla Dorada: Imatge sempre obri el visor en gran.
+        if (mediaList && mediaList.length > 0) {
             openViewer(mediaList, 0);
         } else if (displayImage) {
-            openViewer({ src: displayImage, title: displayTitle, type: 'image' });
+            openViewer([{ src: displayImage, title: displayTitle, type: 'image' }], 0);
         }
     };
 
     return (
-        <div className="card-media-wrapper" onClick={handleMediaClick}>
+        <div className="card-media-wrapper relative" onClick={handleMediaClick}>
+            {(item?.is_pinned || item?.metadata?.is_pinned) && (
+                <div className="absolute top-4 right-4 z-20 bg-black/40 backdrop-blur-md rounded-full p-2 text-[var(--theme-accent-primary)] shadow-xl border border-white/20 select-none pointer-events-none">
+                    <Zap size={16} fill="currentColor" className="zap-celestial" />
+                </div>
+            )}
             {mediaList && mediaList.length > 1 ? (
-                <ImageCarousel images={mediaList} onImageClick={(index) => openViewer(mediaList, index)} />
+                <div className="w-full h-full relative group bg-var(--bg-edge)">
+                    <ImageCarousel images={mediaList} onImageClick={(index) => openViewer(mediaList, index)} />
+                    <div 
+                        className="image-overlay-credits absolute right-2 z-10 pointer-events-none drop-shadow-md pb-1" 
+                        style={{ fontSize: '11px', bottom: '4px', color: '#ffffff', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}
+                    >
+                        © SÓC DE POBLE / FET PER LA IAIA I NANO BANANA
+                    </div>
+                </div>
             ) : (
-                <div className="w-full h-full relative group">
+                <div className="w-full h-full relative group bg-var(--bg-edge)">
                     {(!displayImage || hasImageError) ? (
-                        <div className="w-full h-full bg-slate-100 dark:bg-slate-900 flex flex-col items-center justify-center relative overflow-hidden group">
-                            <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, currentColor 1px, transparent 0)', backgroundSize: '20px 20px', color: '#94a3b8' }}></div>
-                            <div className="z-10 bg-white/10 backdrop-blur-sm p-4 rounded-[28px] mb-2 group-hover:scale-110 transition-transform duration-500">
-                                <ImageIcon className="w-8 h-8 text-slate-400 dark:text-slate-500" />
+                        <Watermark variant="white" opacity={0.5}>
+                            <img 
+                                src="/assets/brain/generations/nano_relleu_notext_1774284617988.png"
+                                alt="Paisatge Solarpunk genèric"
+                                className="universal-card-media filter brightness-75 contrast-125 saturate-50"
+                                loading="lazy"
+                            />
+                            <div className="image-overlay-credits" style={{ fontSize: '11px' }}>
+                                © SÓC DE POBLE / FET PER LA IAIA I NANO BANANA (FALLBACK)
                             </div>
-                            <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 z-10">
-                                {t('common.image') || "Imatge"}
-                            </span>
-                        </div>
+                        </Watermark>
                     ) : (
-                        <Watermark variant={item?.theme === 'solemne' ? 'white' : 'white'} opacity={0.7}>
+                        <Watermark variant="white" opacity={0.7}>
                             <img 
                                 src={displayImage} 
                                 alt={displayTitle} 
@@ -61,8 +71,8 @@ const UniversalCardMedia = ({
                                 style={{ cursor: 'zoom-in' }}
                                 onError={() => setHasImageError(true)}
                             />
-                            <div className="image-overlay-credits">
-                                © SÓC DE POBLE / IAIA GENERATED
+                            <div className="image-overlay-credits" style={{ fontSize: '11px' }}>
+                                © SÓC DE POBLE / FET PER LA IAIA I NANO BANANA
                             </div>
                         </Watermark>
                     )}

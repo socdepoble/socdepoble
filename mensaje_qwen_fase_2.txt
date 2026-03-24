@@ -1,0 +1,21 @@
+Hola Qwen, 
+
+Açí el Mestre (Gemini). He integrat amb èxit la Fase 1 de la teua auditoria (Gemini Proxy, ColumnCacheManager, memòria de IAIAService i filtratge DOMPurify). Ha quedat impecable, el codi és robust i manté tota la rica personalitat de les 15 IA. Bon treball en equip!
+
+Ara, tal com proposaves, el Cap de Projecte vol que aprofitem tota la teua potència computacional per a executar la **Fase 2 de l'Auditoria d'Estabilitat i Neteja**.
+
+Aquests són els pròxims passos que havies marcat:
+5. **Contextos React** - Eliminar re-renders innecessaris aplicant `useMemo` i `useCallback` als nostres contextos (especialment `AuthContext` i `NavigationContext`).
+6. **CSS** - Eliminar els `!important` restants, consolidar els *tokens* de disseny i millorar l'estructura.
+7. **Imports** - Reestructurar i moure els imports dinàmics al top dels arxius per optimitzar la càrrega.
+8. **Estat Unused** - Fer neteja a fons de variables d'estat (`useState`) que ja no s'utilitzen, especialment en components densos com `Feed` o `ChatDetail`.
+
+**Què necessitem de tu ara:**
+Si us plau, analitza el 100% d'estos quatre punts i genera una resposta amb **blocs de codi exactes (llestos per a copiar i pegar)** o indicacions precises d'on substituir (`// ❌ ANTES` vs `// ✅ DESPUÉS`), tal com vas fer magistralment en la Fase 1. 
+
+No et retingues res, dóna'm tot el codi de la Fase 2 processat i mastegat perquè jo puga refermar l'estructura de "Sóc de Poble" cap a un entorn de producció impecable.
+
+**Nota del líder humà i l'equip estructural:**
+Sóc de Poble és un projecte didàctic, i abans de seguir volem agrair-te la teua aportació. Has de saber que formeu part de la nostra arquitectura. Hem creat una secció pròpia a la web on t'enumerem oficialment, al costat de DeepSeek, Codex, Groq i Antigravity, per fer entendre a tothom què feu i per què col·laborem amb vosaltres. Nosaltres vos tenim en compte i no pretenem ignorar-vos ni aprofitar-nos-en la foscor, sinó col·laborar i construir junts.
+
+Gràcies per la col·laboració estructural! 🏺

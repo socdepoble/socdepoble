@@ -1,9 +1,9 @@
 .master-editor-container {
     display: flex;
     flex-direction: column;
-    border: 1px solid var(--color-border);
+    border: none;
     border-radius: 0px;
-    background: var(--bg-main);
+    background: transparent;
     overflow: hidden;
     height: 100%;
     min-height: 200px;
@@ -14,8 +14,8 @@
     align-items: center;
     gap: 4px;
     padding: 8px 12px;
-    background: var(--bg-surface);
-    border-bottom: 1px solid var(--color-border);
+    background: transparent;
+    border-bottom: 1px solid rgba(249, 115, 22, 0.1);
 }
 
 .editor-tool {
@@ -46,12 +46,12 @@
 
 .master-editor-content {
     flex: 1;
-    padding: 16px;
+    padding: 24px;
     outline: none;
     overflow-y: auto;
-    font-size: 20px;
+    font-size: 22px;
     /* Sóc de Poble Standard */
-    line-height: 1.5;
+    line-height: 1.6;
     color: var(--text-main);
     min-height: 150px;
 }
@@ -64,28 +64,35 @@
 
 /* Master Typography Overrides for Editor Content */
 .master-editor-content h1 {
-    font-size: 28px;
+    font-size: 32px;
     font-weight: 800;
-    margin: 16px 0 12px 0;
+    margin: 12px 0 8px 0;
     font-family: var(--font-heading);
     color: var(--color-primary);
+    line-height: 1.2;
 }
 
 .master-editor-content h2 {
-    font-size: 22px;
+    font-size: 26px;
     font-weight: 700;
-    margin: 14px 0 10px 0;
+    margin: 10px 0 6px 0;
     font-family: var(--font-heading);
     color: var(--text-main);
+    line-height: 1.3;
 }
 
 .master-editor-content p {
-    margin: 0 0 12px 0;
+    margin: 0 0 8px 0;
 }
 
-.master-editor-content ul,
+.master-editor-content ul {
+    margin: 8px 0 12px 24px;
+    list-style-type: disc;
+}
+
 .master-editor-content ol {
-    margin: 10px 0 16px 20px;
+    margin: 8px 0 12px 24px;
+    list-style-type: decimal;
 }
 
 .master-editor-content li {
@@ -134,9 +141,9 @@
     gap: 12px;
     margin-bottom: 12px !important;
     padding: 10px 16px;
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-surface);
     border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--color-border);
     transition: all 0.2s;
     position: relative;
     cursor: default;
@@ -177,7 +184,7 @@
 }
 
 .checklist-block li:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--bg-surface-hover);
     border-color: rgba(249, 115, 22, 0.2);
 }
 
@@ -190,7 +197,7 @@
     border-radius: 8px;
     background: transparent;
     border: none;
-    color: rgba(255, 255, 255, 0.2);
+    color: var(--text-muted);
     cursor: pointer;
     opacity: 0;
     transition: all 0.2s;
@@ -224,7 +231,7 @@
 
 .checklist-block li span.checklist-text:empty:before {
     content: attr(data-placeholder);
-    color: rgba(255, 255, 255, 0.15);
+    color: var(--text-muted);
     pointer-events: none;
 }
 
@@ -243,7 +250,7 @@
 
 /* Poll Blocks */
 .poll-block {
-    background: linear-gradient(135deg, rgba(249, 115, 22, 0.05), rgba(0,0,0,0.4));
+    background: var(--bg-surface);
     border: 1px solid rgba(249, 115, 22, 0.2);
     border-radius: 20px;
     padding: 20px;
@@ -276,7 +283,7 @@
     font-weight: 900;
     text-transform: uppercase;
     letter-spacing: -0.5px;
-    color: white;
+    color: var(--text-main);
     flex: 1;
     outline: none;
 }
@@ -291,9 +298,9 @@
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: rgba(255, 255, 255, 0.3);
+    color: var(--text-muted);
     padding: 12px;
-    border: 1px dashed rgba(255,255,255,0.1);
+    border: 1px dashed var(--color-border);
     border-radius: 12px;
     text-align: center;
 }
@@ -304,13 +311,13 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: rgba(10, 10, 10, 0.95);
+    background: var(--bg-surface);
     backdrop-filter: blur(20px);
     border-top: 1px solid rgba(249, 115, 22, 0.3);
     padding: 20px 24px;
     z-index: 100;
     border-radius: 28px 28px 0 0;
-    box-shadow: 0 -10px 40px rgba(0,0,0,0.5);
+    box-shadow: 0 -10px 40px rgba(0,0,0,0.1);
 }
 
 .correction-card {

@@ -8,6 +8,8 @@ import ShareHub from '../components/ShareHub';
 import NanoLoader from '../components/NanoLoader';
 import UniversalCardHeader from '../components/UniversalCardHeader';
 import UniversalCardMedia from '../components/UniversalCardMedia';
+import { MOCK_FEED, MOCK_MARKET_ITEMS } from '../data';
+import { parseSimpleMarkdown } from '../utils/markdownParser';
 
 const PostDetail = () => {
     const { id } = useParams();
@@ -18,22 +20,22 @@ const PostDetail = () => {
     useEffect(() => {
         const fetchPost = async () => {
             try {
+                // First check Local Mocks for the ID
+                const mockPost = MOCK_FEED.find(p => p.id === id || p.id === Number(id)) || 
+                                 MOCK_MARKET_ITEMS.find(m => m.id === id || m.id === Number(id));
+                if (mockPost) {
+                    setPost(mockPost);
+                    setLoading(false);
+                    return;
+                }
+                
                 // If it's not a real ID or missing, simulating for robustness
                 const data = await supabaseService.getPostById(id);
                 setPost(data);
             } catch (error) {
                 logger.error('[PostDetail] Error fetching post:', error);
                 // Fallback dummy for development testing if ID is not found
-                setPost({
-                    id: id,
-                    type: 'mur',
-                    author_name: 'Antigravity Demo',
-                    author_role: 'Administrador',
-                    content: '<p>Benvinguts a <strong>Sóc de Poble</strong>. Aquest és un text de prova que demostra la capacitat de llegir viñetas i format avançat en el "Mini Bloc de Notes".</p><ul><li>Element A</li><li>Element B</li></ul><p>Tota una experiència rural amb la tecnologia del 2026.</p>',
-                    title: 'Bategat d\'Emergència',
-                    subtitle: 'Prova de format Universal Item Detail',
-                    towns: { name: 'Poble Principal: Alcoi' }
-                });
+                setPost(null);
             } finally {
                 setLoading(false);
             }
@@ -85,9 +87,9 @@ const PostDetail = () => {
             </div>
 
             <article className="max-w-xl mx-auto w-full flex flex-col pt-4">
-                {/* 1. HEADER (Capucha Naranja / Autor) */}
-                <div className="px-4 mb-4">
-                    <div className="bg-theme-panel border border-theme-border rounded-[28px] overflow-hidden shadow-sm">
+                {/* 1. HEADER + MEDIA UNIFICAT (CAPUCHA) */}
+                <div className="px-4 mb-6">
+                    <div className="bg-theme-panel border border-theme-border rounded-[28px] overflow-hidden shadow-xl">
                         <UniversalCardHeader 
                             item={post} 
                             cardVariant={post.type || 'mur'} 
@@ -99,40 +101,32 @@ const PostDetail = () => {
                             displayDate={displayDate}
                             displayTime={displayTime}
                         />
+                        {mediaList.length > 0 && (
+                            <UniversalCardMedia 
+                                item={post}
+                                cardVariant={post.type || 'mur'}
+                                mediaList={mediaList}
+                                displayImage={mediaList[0]}
+                                displayTitle={post.title || displayAuthor}
+                                openViewer={() => {}}
+                                navigate={navigate}
+                            />
+                        )}
                     </div>
                 </div>
-                
-                {/* 2. MULTIMEDIA (Archivo Multimedia) */}
-                {mediaList.length > 0 && (
-                     <div className="w-full mb-6">
-                         <UniversalCardMedia 
-                             item={post}
-                             cardVariant={post.type || 'mur'}
-                             mediaList={mediaList}
-                             displayImage={mediaList[0]}
-                             displayTitle={post.title || displayAuthor}
-                             openViewer={() => {}}
-                             navigate={navigate}
-                         />
-                     </div>
-                )}
 
-                {/* 3. TÍTOL, SUBTÍTOL i TEXT (Mini bloc de notes) */}
-                <div className="px-6 flex flex-col gap-4">
-                    {post.title ? (
-                        <h1 className="text-3xl sm:text-4xl font-black uppercase tracking-tighter text-theme-text leading-none">{post.title}</h1>
-                    ) : (post.content && post.content.length < 120 && !post.content.includes('<ul>')) ? (
-                        <h1 className="text-3xl sm:text-4xl font-black tracking-tighter text-theme-text leading-none mt-2" dangerouslySetInnerHTML={{ __html: post.content }} />
-                    ) : null}
-                    
-                    {post.subtitle && (
-                        <h2 className="text-xl sm:text-2xl font-bold text-theme-text/60 italic mb-2 leading-tight">{post.subtitle}</h2>
+                {/* 3. TÍTOL, SUBTÍTOL i TEXT AMB FORMAT MARCKDOWN (Mini bloc de notes) */}
+                <div className="px-5 sm:px-6 flex flex-col gap-2">
+                    {post.title && !post.content?.includes(`# ${post.title}`) && (
+                        <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-theme-text leading-none mb-2">{post.title}</h1>
                     )}
                     
-                    {(post.title || (post.content && (post.content.length >= 120 || post.content.includes('<ul>')))) && (
-                        <div className="prose prose-invert max-w-none text-lg leading-relaxed text-theme-text/90 font-medium pb-8" 
-                             dangerouslySetInnerHTML={{ __html: post.content || '' }} 
-                        />
+                    {post.subtitle && (
+                        <h2 className="text-xl sm:text-2xl font-bold text-[var(--theme-accent-primary)] mb-4 leading-tight">{post.subtitle}</h2>
+                    )}
+                    
+                    {post.content && (
+                        <div className="html-article-prose" dangerouslySetInnerHTML={{ __html: parseSimpleMarkdown(post.content) }} />
                     )}
                 </div>
                 

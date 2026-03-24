@@ -1,6 +1,7 @@
 import { logger } from "../utils/logger";
 import { supabase } from "../supabaseClient";
 import { AGENTS_MAP } from "../config/agentsMap";
+import DOMPurify from 'dompurify';
 
 /**
  * GeminiService: Intel·ligència amb Trellat [V1.2]
@@ -10,7 +11,7 @@ class GeminiService {
   constructor() {
     // La clau API ara s'injecta i gestiona de forma segura des del backend (Supabase Edge Function).
     // Això oculta la clau completament de l'usuari final (Fix O2 - Arquitectura Segura).
-    this.model = "gemini-1.5-flash"; // HIGH SPEED (Bategat Immediat)
+    this.model = "gemini-1.5-pro"; // MAX POWER (AI Ultra Plan)
 
     this.PERSONAS = AGENTS_MAP;
   }
@@ -58,11 +59,7 @@ class GeminiService {
     return null;
   }
 
-  setApiKey(key) {
-    // Aquesta funció ja no s'utilitza en producció (Proxy Backend Actiu).
-    // Es manté per retrocompatibilitat amb la UI antiga abans de netejar.
-    localStorage.setItem("sp_gemini_api_key", key);
-  }
+  // setApiKey fue eliminada completamente por requerimientos de seguridad (No se guardan claves en el cliente)
 
   getMockResponse(personaKey, query, imageData = null) {
     const persona = this.PERSONAS[personaKey];
@@ -138,8 +135,8 @@ class GeminiService {
         });
       }
 
-      // [CRITICAL O2 FIX] Llamamos a la Edge Function "gemini-proxy" de Supabase
-      // Así el cliente nunca ve ni maneja la "x-goog-api-key" (Ciber-Rural Protocol)
+      // [CRITICAL O2 FIX] Cridem a la Edge Function "gemini-proxy" de Supabase de manera 100% segura.
+      // La capçalera amb la key local s'ha eliminat per evitar exposicions XSS.
       const { data, error } = await supabase.functions.invoke('gemini-proxy', {
         body: {
           model: this.model,
@@ -159,14 +156,23 @@ class GeminiService {
          throw new Error(data.error.message || "Error a l'API de Gemini arrel proxy.");
       }
 
-      const text = data.candidates?.[0]?.content?.parts?.[0]?.text || "No hi ha resposta.";
+      const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text || "No hi ha resposta.";
+      
+      const cleanResponse = DOMPurify.sanitize(rawText, {
+        ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'a', 'p', 'br', 'ul', 'li', 'ol', 'h1', 'h2', 'h3', 'blockquote', 'code'],
+        ALLOWED_ATTR: ['href', 'target', 'rel', 'class'],
+        ADD_TAGS: ['cite'],
+        ADD_ATTR: ['data-did', 'data-anchor'],
+        FORBID_TAGS: ['script', 'style', 'iframe', 'object', 'embed'],
+        FORBID_ATTR: ['onclick', 'onerror', 'onload', 'onmouseover']
+      });
 
       // Batec hàptic d'èxit (simulat o via hapticService)
       if (navigator.vibrate) navigator.vibrate(50);
 
       return {
         error: false,
-        text: text,
+        text: cleanResponse,
         persona: persona.name,
         avatarName: persona.avatarName,
         type: persona.type,

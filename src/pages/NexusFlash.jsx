@@ -6,6 +6,7 @@ import {
     Layout, Cpu, Database, Eye, CheckCircle2
 } from 'lucide-react';
 import { aiService } from '../services/aiService';
+import SEO from '../components/SEO';
 import './NexusFlash.css';
 
 const NexusFlash = () => {
@@ -38,6 +39,7 @@ const NexusFlash = () => {
 
     return (
         <div className="nexus-container">
+            <SEO title="NEXUS | Sóc de Poble" description="La fulla de ruta de Flash [V2.0-BATEGA]." />
             <header className="nexus-header">
                 <div className="nexus-header-content">
                     <button className="nexus-back-btn" onClick={() => navigate(-1)}>

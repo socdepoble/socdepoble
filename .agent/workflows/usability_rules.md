@@ -60,6 +60,7 @@ Per minimitzar l'esforç d'aprenentatge de l'usuari final:
 Per evitar que les tipografies grans (v15+) trenquin el layout o generin marcs massa estrets:
 
 - **L'Imponent Paràgraf:** Cap paràgraf (`p`) del sistema pot tenir un tamany inferior a **1.15rem** (~18.5px). Les descripcions de capçalera han de pujar a **2xl** (24px+) per garantir un impacte sobirà.
+- **Llegibilitat Suprema per a Gent Major (Overriding WhatsApp):** Els textos de la interfície de missatgeria (bombolles de xat, inputs) no només han de ser llegibles, han de marcar territori sent estructuralment més grans (per exemple `text-[19px]` o `text-[20px]`) que els paràmetres per defecte de WhatsApp. Està dissenyat per a ser útil de base d'usuaris envellida sense necessitat d'ajustos en Accessibilitat.
 - **Marcs Sobirans:** Cap columna de graella (`grid-cols`) ha de baixar de **340px** d'amplada efectiva. S'abusarà del col·lapse a 1 columna per protegir la integritat del text gegant.
 - **Respiració Tipogràfica:** Els paràgrafs grans han de tenir un `line-height` de **1.6** per evitar l'asfíxia visual del bategat textual.
 - **Contenidors Elàstics:** Les targetes (`cards`) no han de tenir `height` fixes; es mouran amb `min-h` per permetre el creixement orgànic de la informació.

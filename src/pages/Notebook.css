@@ -35,12 +35,14 @@
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--text-muted);
+    opacity: 0.2;
     border-radius: 10px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: var(--text-secondary);
+    opacity: 0.4;
 }
 
 /* List Styling */
@@ -51,13 +53,12 @@
 .notebook-list .note-item {
     margin: 8px 12px;
     border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.03);
-    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border-master);
+    background: transparent;
 }
 
 .notebook-list .note-item:hover {
-    background: rgba(255, 255, 255, 0.04);
-    border-color: rgba(255, 255, 255, 0.08);
+    background: var(--hover-overlay);
 }
 
 .notebook-list .note-item.active {
@@ -77,7 +78,7 @@
     padding: 2rem;
     font-size: 18px;
     line-height: 1.8;
-    color: #e2e8f0;
+    color: var(--text-main);
     outline: none;
 }
 
@@ -85,7 +86,7 @@
     font-size: 2.5rem;
     font-weight: 900;
     margin-bottom: 1.5rem;
-    color: white;
+    color: var(--text-main);
 }
 
 .master-editor-content h2 {
@@ -118,8 +119,8 @@
 }
 
 select option {
-    background: #111;
-    color: white;
+    background: var(--bg-app);
+    color: var(--text-main);
 }
 
 /* [PROTOCOL CAPTURA] Snippet Styles */

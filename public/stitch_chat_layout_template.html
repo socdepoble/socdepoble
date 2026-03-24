@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sóc de Poble | El Sistema Operatiu Rural</title>
+  
+  <!-- Tailwind CSS via CDN per a que Stitch ho puga interpretar ràpidament -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class', // O 'media'
+      theme: {
+        extend: {
+          colors: {
+            'sdp-orange': '#F97316',
+            'sdp-blue': '#3B82F6',
+            'sdp-dark': '#111827',
+            'sdp-border': 'rgba(255,255,255,0.05)'
+          },
+          fontFamily: {
+            sans: ['"Noto Sans"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- Icones de Lucide (com les que usem a Sóc de Poble) -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap');
+    
+    body {
+      font-family: 'Noto Sans', sans-serif;
+      margin: 0;
+      overflow: hidden; /* Evita scrolls globals innecessaris */
+    }
+    
+    /* Variables base simulades de Sóc de Poble */
+    :root {
+      --theme-accent-primary: #F97316;
+      --theme-accent-secondary: #3B82F6;
+      --bg-master: #050505;
+      --border-master: rgba(255, 255, 255, 0.05);
+    }
+    
+    .light {
+      --bg-master: #F3F4F6;
+      --border-master: rgba(0, 0, 0, 0.1);
+    }
+
+    .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #333; border-radius: 99px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background-color: var(--theme-accent-primary); }
+    
+    .glass-effect {
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+  </style>
+</head>
+
+<body class="bg-[var(--bg-master)] text-white h-screen flex">
+  
+  <!-- NOTA PER A STITCH: Això és el NAVEGADOR PRINCIPAL ESQUERRE (NavigationRail) de l'app real.
+       Solem tindre una barra de 80px a l'esquerra del tot amb els icones primaris. Ací ho he omitit 
+       per centrar l'exemple en el ChatLayout, però no t'oblides d'això en l'aplicació real. -->
+
+  <!-- PANELL ESQUERRE: LLISTA DE XATS (ChatList.jsx) -->
+  <aside class="w-[380px] h-full flex flex-col border-r border-[var(--border-master)] bg-[#0A0A0A] shrink-0">
+    
+    <!-- Header de la Sidebar (Buscador) -->
+    <header class="h-16 px-4 bg-[#F97316] flex flex-col justify-center border-b border-[var(--border-master)]">
+      <div class="relative w-full">
+        <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 text-black/60 w-5 h-5"></i>
+        <input 
+          type="text" 
+          placeholder="CERCA UN XAT..." 
+          class="w-full h-10 bg-white/90 border-0 rounded-[28px] pl-12 pr-4 text-sm font-black text-black focus:outline-none placeholder:text-black/50 uppercase tracking-widest shadow-inner shadow-black/10"
+        />
+      </div>
+    </header>
+
+    <!-- Contingut Llista -->
+    <div class="flex-1 overflow-y-auto custom-scrollbar">
+      
+      <!-- ITEM: Usuari Exemple -->
+      <div class="flex items-center space-x-3 h-[80px] px-4 border-b border-[var(--border-master)] hover:bg-white/5 cursor-pointer relative transition-all">
+        <!-- Tag Rol (Opcional) -->
+        <span class="absolute top-2 right-3 bg-black text-[#F97316] text-[9px] px-2 py-1 rounded border border-[#F97316]/40 font-black tracking-wider uppercase">
+          Mestre
+        </span>
+        
+        <!-- Avatar Circular -->
+        <div class="w-14 h-14 rounded-full bg-white flex items-center justify-center shrink-0 border-2 border-white/10 overflow-hidden">
+          <img src="https://ui-avatars.com/api/?name=IAIA+Maria&background=random&color=fff" alt="Avatar" class="w-full h-full object-cover">
+        </div>
+        
+        <div class="flex-1 min-w-0 pr-10">
+          <div class="text-[19px] font-bold text-[#F97316] truncate leading-tight tracking-tight">
+            IAIA MarIA
+          </div>
+          <div class="flex justify-between items-center mt-1">
+            <div class="text-[15px] opacity-80 truncate leading-none">
+              Dignitat, terra i xarxa.
+            </div>
+            <div class="text-[12px] font-bold text-gray-500 shrink-0 ml-2">
+              ARA
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </aside>
+
+  <!-- PANELL DRET: ESCENARI DEL XAT Buit (ChatEmptyState.jsx) -->
+  <main class="flex-1 flex flex-col bg-[#111111] relative overflow-hidden">
+    
+    <!-- SUPER REGLA DE LA BOINA TARONJA: 
+         La capçalera superior dreta és: 
+         - MODO CLARO = bg-[#F97316] (Taronja)
+         - MODO OSCURO = bg-[#3B82F6] (Blau) 
+         (Ací estem representant el layout genèric però li posem Blau per a l'exemple de dark mode) -->
+    
+    <header class="h-16 px-6 flex items-center justify-between border-b border-[var(--border-master)] shrink-0 z-30 transition-colors bg-[#3B82F6] text-white">
+      <div class="flex items-center gap-3">
+        <div class="bg-black/80 rounded-[28px] p-[2px] shadow-inner">
+          <div class="w-10 h-10 rounded-[28px] bg-white/20 flex items-center justify-center backdrop-blur">
+            <i data-lucide="settings" class="w-[22px] h-[22px]"></i>
+          </div>
+        </div>
+        <div class="flex flex-col">
+          <h2 class="text-lg font-bold truncate leading-none">Configuració Global del Xat</h2>
+          <div class="flex items-center gap-2 mt-1">
+            <span class="w-2 h-2 rounded-full bg-white shadow-[0_0_6px_rgba(255,255,255,0.8)]"></span>
+            <span class="text-[10px] font-black uppercase tracking-widest opacity-80">ESTEM PROTEGITS</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Contingut Central / Hero -->
+    <div class="flex-1 flex flex-col items-center justify-center p-8 overflow-y-auto relative">
+      <div class="relative z-10 max-w-4xl text-center">
+        <h1 class="text-5xl md:text-7xl font-black mb-6 tracking-tight uppercase italic text-[#F97316] leading-none">
+          SÓC DE POBLE
+        </h1>
+        <h2 class="text-3xl md:text-5xl text-[#3B82F6] leading-tight font-black italic mb-10">
+          Portal de Pobles Connectats
+        </h2>
+        <p class="text-xl md:text-2xl text-gray-300 leading-relaxed font-bold max-w-3xl mx-auto mb-16">
+          Una <span class="text-[#F97316] font-black">XARXA SOCIAL DESCENTRALITZADA</span> de PROGRAMARI LLIURE, per CONNECTAR i GEOLOCALITZAR recursos d'utilitat social.
+        </p>
+
+        <!-- Botons CTA (Crida a l'Acció) -->
+        <div class="flex flex-col gap-6 max-w-lg mx-auto w-full mb-16">
+          <button class="relative flex items-center justify-center px-12 py-6 bg-[#3B82F6] text-white rounded-[24px] font-black uppercase text-xl tracking-widest shadow-2xl hover:scale-105 transition-all">
+            <i data-lucide="user-plus" class="absolute left-8 w-8 h-8"></i>
+            CONNECTA AMB EL TEU POBLE!
+          </button>
+          
+          <button class="relative flex items-center justify-center px-12 py-6 bg-[#F97316] text-white rounded-[24px] font-black uppercase text-xl tracking-widest shadow-2xl hover:scale-105 transition-all">
+            <i data-lucide="share-2" class="absolute left-8 w-8 h-8"></i>
+            COMPARTIR SÓC DE POBLE
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Inicialitzar icones
+    lucide.createIcons();
+  </script>
+</body>
+</html>

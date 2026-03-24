@@ -68,3 +68,13 @@ All content cards (Posts, Market Items, Town Cards, Search Results) MUST use the
 - **Allowed Direct Actions**: The only actions permitted directly on the flow of the feed are opening the text entry for Comments, and the Share button. All other actions must bridge to a detail page.
 - **Avatar Profile Routing**: Clicking the 'capucha naranja' (Avatar/Header) of any UniversalCard must ALWAYS open the publisher's profile (`/perfil/:id` or `/entitat/:id`).
   - _Exception_: If the card variant is `pobles`, the header click must route to the Town community dashboard (`/pobles/:id`) representing everyone from that town, with the specific author listed secondary.
+
+## 6. Unified View & Responsive Grid Pipeline
+- **Mobile First Approach**: Responsive implementations must always favor fluid 100% width mobile layouts as the absolute baseline.
+- **View Mode Overrides**: The grid layout in list views (`Pobles`, `Mercat`, `Mur`) must be strictly governed by the `viewMode` React state (`'single'`, `'list'`, `'grid'`). When `viewMode` is `'list'` or `'single'`, the JavaScript must artificially enforce `1` column, completely overriding any pure CSS media queries or ResizeObservers that attempt to force multiple columns on wide screens.
+- **No CSS Ghosting**: Never use rigid `grid-template-columns` attached to `.view-mode-grid` classes in CSS if the component already handles its dimensions via a JavaScript ResizeObserver or Virtualizer. Rely on inline styles for the `gridTemplateColumns` computed by the JS engine to prevent visual tearing.
+- **Soft Entry Animations**: All structural cards mapping inside a feed (Towns, Marketplace, Wall) MUST be wrapped in a `div` containing the classes `card-rizoma-wrapper animate-in` to guarantee the signature soft-fade entrance pattern.
+
+## 7. Chronological Data Standard
+- **Strict Timestamps**: Every data object injected into the feed or simulated in `data.js` (`MOCK_MARKET_ITEMS`, `MOCK_TOWNS`, `MOCK_EVENTS`) MUST contain a valid ISO 8601 string in the `created_at` or `date` property (e.g., `"2026-03-21T09:45:00.000Z"`).
+- **Zero Tolerance for Unknowns**: The UI fallback `"DATA DESCONEGUDA"` indicates a critical failure in data generation or fetching. It is unacceptable in production or mock states. Ensure retroactive chronology when faking data, making sure the user's primary focus items remain the most recent.

@@ -1,34 +1,31 @@
-import BrandLogo from "./BrandLogo";
-
 import { useNavigation } from '../context/NavigationContext';
 import { useNavigate, NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { useDesign } from '../context/DesignContext';
 import { Menu, Search, Sun, Moon, UserPlus } from "lucide-react";
-import IAIAIcon from "./icons/IAIAIcon";
 import { useTheme } from "../context/ThemeContext";
 import { useTranslation } from "react-i18next";
 import LanguageSelector from "./LanguageSelector";
+import { useDesign } from "../context/DesignContext";
+import IAIAIcon from "./icons/IAIAIcon";
 
 /**
- * [MASTER HEADER v10.33.2-CANÒNIC - PROTOCOL GLOBAL]
+ * Header [MASTER CANONIC v11.0.3]
  * Arquitectura de Ferro: fons adaptatiu, vella i funcional.
  */
 const Header = () => {
-  const { iaiaLevel } = useDesign();
-    const { t } = useTranslation();
+  const { t } = useTranslation();
   const { user, profile } = useAuth();
   const { toggleDrawer } = useNavigation();
   const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
+  const { iaiaLevel } = useDesign();
 
-  // Protocol de Visió: La icona és taronja i polsa si NO estem en Mode Humà (Level 0)
   const activeLevel0 = iaiaLevel === 0;
   const isOnVisionPage = location.pathname === "/visio";
 
   return (
-    <header className="h-14 lg:h-16 flex items-center justify-between px-2 lg:px-6 gap-1 shrink-0 select-none bg-black text-theme-text sticky top-0 z-[2000] w-full transition-colors duration-300">
+    <header className="h-14 lg:h-16 w-full flex items-center justify-between px-3 lg:px-6 z-50 transition-colors bg-[#111827] border-b border-white/10 shrink-0">
       <div className="flex items-center gap-1 overflow-hidden shrink-0">
         <button
           onClick={toggleDrawer}
@@ -42,8 +39,11 @@ const Header = () => {
           to="/"
           className="flex items-center active:scale-95 transition-transform pb-1"
         >
-          <BrandLogo
-            className="w-[130px] lg:w-[160px] h-auto object-contain text-white brightness-110"
+          <img
+            src="/assets/master/logo_socdepoble_white_clean.png"
+            alt="Sóc de Poble"
+            className="w-[130px] lg:w-[160px] h-auto object-contain brightness-110"
+            fetchPriority="high"
           />
         </NavLink>
       </div>

@@ -40,13 +40,13 @@ const Financament = () => {
     ];
 
     return (
-        <div className="hub-view-container flex-1 min-h-full bg-black text-white p-6 lg:p-12 animate-in fade-in duration-700">
+        <div className="hub-view-container flex-1 min-h-full bg-theme-base text-theme-text p-6 lg:p-12 animate-in fade-in duration-700">
             {/* HEADER */}
             <header className="hub-header flex flex-col md:flex-row items-center justify-between mb-16 gap-8">
                 <div className="flex items-center gap-6">
                     <button 
                         onClick={() => navigate('/hub')} 
-                        className="w-14 h-14 flex items-center justify-center bg-white/5 rounded-[28px] hover:bg-white/10 transition-all active:scale-95 border border-white/10"
+                        className="w-14 h-14 flex items-center justify-center rounded-[28px] transition-all active:scale-95 border-2 border-transparent hover:border-[var(--border-master)] bg-[var(--bg-panel)] opacity-80 hover:opacity-100"
                     >
                         <ArrowLeft size={28} />
                     </button>
@@ -75,7 +75,7 @@ const Financament = () => {
                 <h2 className="text-5xl lg:text-7xl font-black mb-10 leading-tight uppercase tracking-tighter italic">
                     Un projecte lliure necessita un model de negoci <span className="text-indigo-400">transparent i arrelat</span>.
                 </h2>
-                <p className="text-3xl text-white leading-relaxed font-black mb-12">
+                <p className="text-3xl text-theme-text leading-relaxed font-black mb-12 opacity-90">
                     "Sóc de Poble" no ven dades. No bateguem per a grans corporacions. 
                     Bateguem perquè el territori tinga la seua pròpia veu, finançada per la comunitat i per aquells que creuen en el km 0 digital.
                 </p>
@@ -84,24 +84,24 @@ const Financament = () => {
             {/* OPTIONS GRID - [ROBUSTESA v1.0] Stacks earlier to avoid narrow frames */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 max-w-screen-2xl mx-auto mb-24 px-4">
                 {sections.map((section, idx) => (
-                    <div key={idx} className="bg-white/[0.03] border border-white/10 p-10 rounded-[48px] hover:bg-white/[0.07] transition-all group flex flex-col min-h-[500px] shadow-2xl relative overflow-hidden">
+                    <div key={idx} className="bg-theme-panel border border-[var(--border-master)] hover:border-[var(--color-primary)] opacity-95 hover:opacity-100 p-10 rounded-[48px] transition-all group flex flex-col min-h-[500px] shadow-2xl relative overflow-hidden">
                         {/* Background subtle decoration to fill space */}
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 blur-3xl -mr-16 -mt-16 pointer-events-none group-hover:bg-indigo-500/10 transition-colors" />
+                        <div className="absolute top-0 right-0 w-32 h-32 blur-3xl -mr-16 -mt-16 pointer-events-none transition-colors bg-white/5 group-hover:bg-indigo-500/10 dark:group-hover:bg-indigo-500/10" />
                         
                         <div className={`w-20 h-20 ${section.bg} ${section.color} rounded-[32px] flex items-center justify-center mb-8 group-hover:scale-110 transition-transform shadow-inner`}>
                             <section.icon size={40} />
                         </div>
                         <h3 className="text-4xl font-black uppercase tracking-tighter italic mb-6 leading-none">{section.title}</h3>
-                        <p className="text-2xl text-white mb-10 flex-1 leading-relaxed font-bold break-words">{section.description}</p>
+                        <p className="text-2xl text-theme-text opacity-80 mb-10 flex-1 leading-relaxed font-bold break-words">{section.description}</p>
                         <ul className="space-y-6 mb-12">
                             {section.features.map((f, i) => (
-                                <li key={i} className="flex items-start gap-4 text-sm font-black uppercase tracking-[0.25em] text-indigo-300">
+                                <li key={i} className="flex items-start gap-4 text-sm font-black uppercase tracking-[0.25em] text-indigo-500 dark:text-indigo-300">
                                     <div className="w-3 h-3 bg-indigo-500 rounded-[28px] shadow-[0_0_15px_rgba(99,102,241,0.7)] mt-1 shrink-0" />
                                     <span className="leading-tight">{f}</span>
                                 </li>
                             ))}
                         </ul>
-                        <button className="w-full h-20 bg-white/10 border-2 border-white/20 hover:bg-white hover:text-black rounded-[28px] font-black uppercase text-xl tracking-widest transition-all shadow-2xl active:scale-95">
+                        <button className="w-full h-20 bg-[var(--bg-app)] border-2 border-[var(--border-master)] hover:bg-[var(--color-primary)] hover:border-[var(--color-primary)] hover:text-white rounded-[28px] font-black uppercase text-xl tracking-widest transition-all shadow-xl active:scale-95 text-theme-text">
                             Saber-ne més
                         </button>
                     </div>
@@ -115,21 +115,21 @@ const Financament = () => {
                         <Landmark size={48} />
                     </div>
                     <div className="flex-1">
-                        <h2 className="text-6xl font-black uppercase tracking-tighter italic mb-8">Inversió i <span className="text-indigo-400">Patrimoni Rural</span></h2>
-                        <p className="text-3xl text-white leading-relaxed font-black">
+                        <h2 className="text-6xl font-black uppercase tracking-tighter italic mb-8 text-theme-text">Inversió i <span className="text-indigo-500">Patrimoni Rural</span></h2>
+                        <p className="text-3xl text-theme-text opacity-90 leading-relaxed font-black">
                             Busquem aliats institucionals i inversors que no busquen només rendibilitat financera, sinó impacte social i resiliència territorial. 
                             Participa en la construcció de la infraestructura digital més important del Mas.
                         </p>
                     </div>
-                    <a href="mailto:hola@socdepoble.org" className="bg-white text-black px-12 py-6 rounded-[32px] font-black uppercase tracking-widest text-2xl transition-all active:scale-95 shadow-[0_0_40px_rgba(255,255,255,0.2)] flex items-center gap-4">
+                    <a href="mailto:hola@socdepoble.org" className="bg-[var(--theme-accent-primary)] text-[var(--on-theme-accent-primary)] hover:opacity-90 px-12 py-6 rounded-[32px] font-black uppercase tracking-widest text-2xl transition-all active:scale-95 shadow-lg flex items-center gap-4">
                         <Mail size={32} /> Contactar amb el Mas
                     </a>
                 </div>
             </section>
 
             {/* FOOTER */}
-            <footer className="hub-footer flex flex-col items-center pt-16 border-t border-white/10 gap-8 text-center pb-24">
-                <p className="text-gray-400 font-black text-sm tracking-widest uppercase max-w-xl leading-relaxed">
+            <footer className="hub-footer flex flex-col items-center pt-16 border-t border-[var(--border-master)] gap-8 text-center pb-24">
+                <p className="text-theme-text opacity-60 font-black text-sm tracking-widest uppercase max-w-xl leading-relaxed">
                     Tot el finançament es reinverteix directament en mantenir la matriu lliure i el sistema operatiu rural en creixement constant.
                 </p>
             </footer>

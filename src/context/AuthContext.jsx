@@ -1,7 +1,8 @@
-import { createContext, useContext, useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
 import { supabase } from '../supabaseClient';
 import { supabaseService } from '../services/supabaseService';
 import { identityService } from '../services/identityService';
+import { profileHealingService } from '../services/profileHealingService';
 import { logger } from '../utils/logger';
 import i18n from '../i18n/config';
 import { IAIA_ID, AUTH_EVENTS, USER_ROLES, CREATOR_EMAILS } from '../constants';
@@ -52,15 +53,12 @@ export const AuthProvider = ({ children }) => {
         setIsPlayground(true);
         localStorage.setItem('isPlaygroundMode', 'true');
 
-        if (realUser) {
-            setUser(realUser);
-        } else {
-            setUser({ id: personaProfile.id, email: `${personaProfile.username}@playground.local`, isDemo: true });
-        }
+        const newUser = { id: personaProfile.id, email: `${personaProfile.username}@playground.local`, isDemo: true };
+        setUser(newUser);
 
         setProfile({ ...personaProfile, is_playground_session: true });
         setLoading(false);
-    }, [realUser, setIsPlayground]);
+    }, [setIsPlayground]);
 
     const loginAsGuest = useCallback(() => {
         adoptPersona({
@@ -226,53 +224,9 @@ export const AuthProvider = ({ children }) => {
 
             try {
                 let profileData = await supabaseService.getProfile(session.user.id);
-                // [MASTER IDENTITY PROTECTION]
-                const userEmail = (session.user.email || session.user.user_metadata?.email || '').toLowerCase();
-                const masters = Array.isArray(CREATOR_EMAILS) ? CREATOR_EMAILS : [];
-                
-                const isMastersEmail = masters.some(email => email.toLowerCase() === userEmail) || 
-                                     userEmail === 'javillinares@gmail.com' ||
-                                     userEmail === 'mestre@socdepoble.com' ||
-                                     userEmail === 'sollutia@gmail.com' ||
-                                     userEmail === 'socdepoblecom@gmail.com' ||
-                                     userEmail.includes('javillinares') ||
-                                     userEmail.includes('llinares') ||
-                                     userEmail.includes('mestre@');
-                                     
-                const databaseName = (profileData?.full_name || '').toLowerCase();
-                const isMasterByName = databaseName.includes('llinares') || databaseName.includes('mestre javi');
 
-                // [MASTER ID RECOGNITION] - Very aggressive
-                const MASTER_IDS = [
-                    'd6325f44-7277-4d20-b020-166c010995ab', // Known Master ID
-                    '56557878-3a83-4710-8588-44ade442a8b3', // Fallback Master ID
-                ];
-
-                const isOfficialCreator = isMastersEmail || isMasterByName || MASTER_IDS.includes(session.user.id);
-
-                // [NUCLEAR PURGE & SHIELD]
-                if (isOfficialCreator) {
-                    ['sp_sovereign_identity', 'sp_identity', 'sp_user_id', 'sp_profile', 'sp_active_profile', 'sp_last_auth'].forEach(k => localStorage.removeItem(k));
-                    logger.log('[AuthContext] MESTRE DETECTAT. Blindant identitat v2...');
-                } else {
-                    // SILENT CHECK FOR GHOSTS
-                    if (userEmail.includes('javi') || userEmail.includes('llinares')) {
-                        console.warn('[MASTER DETECTOR] A ghost was detected but not recognized by official shield.', { email: userEmail, id: session.user.id });
-                    }
-                }
-
-                let effectiveName = profileData?.full_name || session.user.user_metadata?.full_name || (userEmail ? userEmail.split('@')[0] : null) || (session.user.phone ? 'Veí del Poble' : 'Veí del Poble');
-                if (isOfficialCreator) effectiveName = 'Javi Llinares';
-
-                const effectiveProfile = {
-                    ...(profileData || {}),
-                    id: profileData?.id || session.user.id,
-                    full_name: effectiveName,
-                    role: isOfficialCreator ? USER_ROLES.SUPER_ADMIN : (profileData?.role || USER_ROLES.NEIGHBOR),
-                    avatar_url: isOfficialCreator ? '/Javi_Llinares-Foto_perfil-1.jpg' : (supabaseService.normalizeStorageUrl(profileData?.avatar_url) || null),
-                    is_master: isOfficialCreator,
-                    is_super_admin: isOfficialCreator
-                };
+                profileData = await profileHealingService.healGhostProfile(session, profileData, isSimulation);
+                const { effectiveProfile, isOfficialCreator } = profileHealingService.protectMasterIdentity(session, profileData);
 
                 setRealProfile(effectiveProfile);
                 setProfile(effectiveProfile);
@@ -310,9 +264,6 @@ export const AuthProvider = ({ children }) => {
         setLoading(false);
     }, [loginAsGuest]);
 
-    const handleAuthRef = useRef(handleAuth);
-    useEffect(() => { handleAuthRef.current = handleAuth; }, [handleAuth]);
-
     useEffect(() => {
         let isMounted = true;
         
@@ -321,9 +272,9 @@ export const AuthProvider = ({ children }) => {
             const isNuked = localStorage.getItem('nuke_in_progress') === 'true';
             if (isNuked) {
                 localStorage.removeItem('nuke_in_progress');
-                handleAuthRef.current(AUTH_EVENTS.INITIAL_SESSION, null);
+                handleAuth(AUTH_EVENTS.INITIAL_SESSION, null);
             } else {
-                handleAuthRef.current(AUTH_EVENTS.INITIAL_SESSION, session);
+                handleAuth(AUTH_EVENTS.INITIAL_SESSION, session);
             }
         }).catch(err => {
             if (!isMounted) return;
@@ -333,14 +284,14 @@ export const AuthProvider = ({ children }) => {
 
         const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
             if (!isMounted) return;
-            handleAuthRef.current(event, session);
+            handleAuth(event, session);
         });
 
         return () => {
             isMounted = false;
             if (subscription) subscription.unsubscribe();
         };
-    }, []);
+    }, [handleAuth]);
 
     const isAuthenticated = !!realUser && !isPlayground;
     const isGuest = !!user && !!user.isAnonymous;

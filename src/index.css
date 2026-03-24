@@ -285,115 +285,7 @@ p {
     padding-right: max(20px, env(safe-area-inset-right));
   }
 
-  /* [PROTOCOLS DE VISTA v12.1] - ESPECIFICITAT BLINDADA */
-  [class*="view-mode-single"] {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    gap: 16px !important;
-    padding: 12px !important;
-    width: 100% !important;
-    max-width: none !important;
-    margin: 0 auto !important;
-  }
-
-  [class*="view-mode-single"] > * {
-    width: 100% !important;
-    max-width: 600px !important;
-  }
-
-  [class*="view-mode-grid"] {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 12px !important;
-    padding: 12px !important;
-    max-width: none !important;
-  }
-
-  @media (max-width: 600px) {
-    [class*="view-mode-grid"] {
-      grid-template-columns: 1fr !important;
-      gap: 16px !important;
-      padding: 16px 8px !important;
-    }
-  }
-
-  [class*="view-mode-list"] {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 8px !important;
-    padding: 12px !important;
-    max-width: none !important;
-  }
-
-  /* List Mode Overrides for UniversalCard - Layout Proximitat */
-  [class*="view-mode-list"] .universal-card {
-    flex-direction: row !important;
-    height: 120px !important;
-    border-radius: 16px !important;
-  }
-
-  [class*="view-mode-list"] .card-media-wrapper {
-    width: 120px !important;
-    height: 120px !important;
-    flex-shrink: 0 !important;
-  }
-
-  [class*="view-mode-list"] .card-body {
-    padding: 8px 12px !important;
-    justify-content: center !important;
-  }
-
-  [class*="view-mode-list"] .card-header-boina,
-  [class*="view-mode-list"] .card-footer-master {
-    display: none !important; /* Compact List View sacrifices boina/footer for density */
-  }
-
-  .view-mode-list .universal-card .card-header-boina {
-    width: 60px;
-    height: 100% !important;
-    flex-direction: column;
-    padding: 10px 0;
-    border-top-right-radius: 0;
-    border-bottom-left-radius: 16px;
-  }
-
-  .view-mode-list .universal-card .header-text,
-  .view-mode-list .universal-card .header-right-meta {
-    display: none;
-  }
-
-  .view-mode-list .universal-card .card-media-wrapper {
-    width: 100px;
-    height: 100%;
-    aspect-ratio: 1/1;
-  }
-
-  .view-mode-list .universal-card .card-body {
-    padding: 8px 12px;
-    justify-content: center;
-  }
-
-  .view-mode-list .universal-card .card-footer-master {
-    display: none;
-  }
-
-  .view-mode-list .universal-card .genesis-title {
-    font-size: 16px;
-  }
-
-  .view-mode-list .universal-card .card-excerpt {
-    display: none;
-  }
-
-  @media (max-width: 480px) {
-    .view-mode-grid {
-      grid-template-columns: repeat(
-        2,
-        1fr
-      ); /* 2 per fila com demana el mestre en mòbil */
-    }
-  }
+  /* Toxic mobile override deleted and Ghost exorcised */
 }
 
 /* 🧬 ANIMACIONS CANÒNIQUES (BATEGAT UNIVERSAL) */
@@ -598,3 +490,11 @@ p {
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 28px;
 }
+
+
+/* --- UNIVERSAL SCROLLBAR --- */
+.custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background-color: rgba(150, 150, 150, 0.4); border-radius: 10px; }
+.custom-scrollbar::-webkit-scrollbar-thumb:hover { background-color: var(--theme-accent-primary, #f97316); }
+

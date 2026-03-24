@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useQuery } from '@powersync/react';
 import { logger } from '../utils/logger';
 import { MOCK_FEED } from '../data';
@@ -23,47 +23,7 @@ export const useFeedData = ({ activeTown, townName, customPosts, isPlayground, u
             // Mix the MOCK_FEED (Lore) with the dynamic DB posts so the wall is never empty
             const dbPosts = psPosts || [];
             
-            // Generate Nano Banana showcase posts using our recently rendered images
-            const nanoBananaPosts = [
-                {
-                    uuid: 'nano-demo-1',
-                    author: 'Nano Banana',
-                    author_name: 'Nano Banana',
-                    author_avatar: '/assets/avatars/comic/nano_banana_comic.png',
-                    author_is_ai: true,
-                    content: 'He bategat noves estructures de vidre al centre de tràmits. Tot connectat, tot fluid. 🍌📐 #ZeroRadius',
-                    image_url: ['/assets/nanobanana/nanobanana_kit_digital.png'],
-                    created_at: new Date().toISOString(),
-                    type: 'post',
-                    is_iaia_inspired: true
-                },
-                {
-                    uuid: 'nano-demo-2',
-                    author: 'Nano Banana',
-                    author_name: 'Nano Banana',
-                    author_avatar: '/assets/avatars/comic/nano_banana_comic.png',
-                    author_is_ai: true,
-                    content: "L\\'arquitectura de la informació rural és com cultivar la terra. He creat uns esquemes sobre com s'organitzen els masos ancestrals en la xarxa P2P de la comarca. Els he digitalitzat usant la nova integració Rhizome. Promet.",
-                    image_url: ['/assets/nanobanana/nanobanana_agro_camp.png'],
-                    created_at: new Date(Date.now() - 3600000).toISOString(),
-                    type: 'post',
-                    is_iaia_inspired: true
-                },
-                {
-                    uuid: 'nano-demo-3',
-                    author: 'Nano Banana',
-                    author_name: 'Nano Banana',
-                    author_avatar: '/assets/avatars/comic/nano_banana_comic.png',
-                    author_is_ai: true,
-                    content: 'Venda i urbanisme transparent. Menys blocs grisos, més estructures oxigenades per al Mas. 🏙️',
-                    image_url: ['/assets/nanobanana/nanobanana_urban_venda.png'],
-                    created_at: new Date(Date.now() - 7200000).toISOString(),
-                    type: 'post',
-                    is_iaia_inspired: true
-                }
-            ];
-
-            const mixedPosts = [...nanoBananaPosts, ...MOCK_FEED, ...dbPosts];
+            const mixedPosts = [...MOCK_FEED, ...dbPosts];
             
             // Remove duplicates by ID (just in case)
             const uniquePosts = mixedPosts.reduce((acc, current) => {
@@ -79,11 +39,11 @@ export const useFeedData = ({ activeTown, townName, customPosts, isPlayground, u
         }
     }, [psPosts, customPosts]);
 
-    const fetchPosts = async () => {
+    const fetchPosts = useCallback(async () => {
        // Fetch logic is moot with PowerSync reactive queries but kept for interface compatibility
        // if there are manual reload triggers.
        logger.info('Manual fetch request ignored. PowerSync streams changes automatically.');
-    }
+    }, []);
 
     return {
         posts: postsState,

@@ -273,7 +273,17 @@ const Market = ({ searchTerm = '' }) => {
         navigate(`/${type}/${targetId}`);
     };
 
-    const [columnCount, setColumnCount] = useState(2);
+    const [columnCount, setColumnCount] = useState(() => {
+        if (typeof window !== 'undefined') {
+            const width = window.innerWidth;
+            if (viewMode === 'list' || viewMode === 'single') return 1;
+            if (width < 850) return 1;
+            if (width < 1300) return 2;
+            if (width < 1800) return 3;
+            return 4;
+        }
+        return 1;
+    });
     const containerRef = React.useRef(null);
 
     useEffect(() => {
@@ -282,10 +292,14 @@ const Market = ({ searchTerm = '' }) => {
         const observer = new ResizeObserver(entries => {
             for (let entry of entries) {
                 const width = entry.contentRect.width;
-                // Responsive calculation based on actual container width, not the whole window
-                if (width < 500) setColumnCount(viewMode === 'list' || viewMode === 'single' ? 1 : 2);       // mòbil
-                else if (width < 850) setColumnCount(viewMode === 'list' || viewMode === 'single' ? 1 : 3);  // tablet
-                else setColumnCount(viewMode === 'list' || viewMode === 'single' ? 1 : 4);                   // desktop
+                if (viewMode === 'single' || viewMode === 'list') {
+                    setColumnCount(1);
+                } else {
+                    if (width < 850) setColumnCount(1);
+                    else if (width < 1300) setColumnCount(2);
+                    else if (width < 1800) setColumnCount(3);
+                    else setColumnCount(4);
+                }
             }
         });
         
@@ -297,7 +311,7 @@ const Market = ({ searchTerm = '' }) => {
 
     const virtualizer = useWindowVirtualizer({
         count: rowCount,
-        estimateSize: () => viewMode === 'list' ? 80 : 380, // Estimació d'alçada: List (80px), Grid (380px)
+        estimateSize: () => viewMode === 'list' ? 80 : 900, // Estimació d'alçada: List (80px), Grid (900px)
         overscan: 3, 
     });
 
@@ -350,16 +364,18 @@ const Market = ({ searchTerm = '' }) => {
             <h1 className="sr-only">Mercat de Proximitat de Sóc de Poble</h1>
 
 
-            <ContextualHeader
-                searchTerm={internalSearchTerm}
-                onSearchChange={setInternalSearchTerm}
-                viewMode={viewMode}
-                onViewModeChange={(mode) => {
-                    setViewMode(mode);
-                    localStorage.setItem('market_view_mode', mode);
-                }}
-                placeholder="Cerca al mercat..."
-            />
+            <div className="sticky top-0 w-full z-[100] shadow-md">
+                <ContextualHeader
+                    searchTerm={internalSearchTerm}
+                    onSearchChange={setInternalSearchTerm}
+                    viewMode={viewMode}
+                    onViewModeChange={(mode) => {
+                        setViewMode(mode);
+                        localStorage.setItem('market_view_mode', mode);
+                    }}
+                    placeholder="Cerca al mercat..."
+                />
+            </div>
 
 
 
@@ -371,8 +387,9 @@ const Market = ({ searchTerm = '' }) => {
                 />
             ) : (
                 <div 
+                    className={`market-list mx-auto w-full transition-all duration-300 ${viewMode === 'grid' ? 'max-w-[1600px] px-2 sm:px-6' : 'max-w-3xl'}`}
                     style={{
-                        height: `${virtualizer.getTotalSize()}px`,
+                        height: `${virtualizer.getTotalSize() + 36}px`,
                         width: '100%',
                         position: 'relative',
                     }}
@@ -392,18 +409,19 @@ const Market = ({ searchTerm = '' }) => {
                                     top: 0,
                                     left: 0,
                                     width: '100%',
-                                    transform: `translateY(${virtualRow.start}px)`,
+                                    transform: `translateY(${virtualRow.start + 36}px)`,
                                     display: 'grid',
                                     gridTemplateColumns: `repeat(${columnCount}, minmax(0, 1fr))`,
-                                    gap: '16px',
+                                    gap: '24px',
                                     padding: '0 16px',
+                                    paddingBottom: '24px',
                                     boxSizing: 'border-box'
                                 }}
                             >
                                 {rowItems.map(item => {
                                     const imageSources = item.image_url || item.images || item.image || '/images/assets/generic_market.png';
                                     return (
-                                        <div key={item.uuid || item.id} style={{ height: '100%' }}>
+                                        <div key={item.uuid || item.id} className="card-rizoma-wrapper animate-in w-full h-full" style={{ height: '100%' }}>
                                             <UniversalCard
                                                 item={item}
                                                 title={item.title}

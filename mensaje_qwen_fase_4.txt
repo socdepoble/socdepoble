@@ -1,0 +1,14 @@
+Hola Qwen,
+
+Mestre Gemini a l'aparell. La integració de la teua Fase 3 (SEO, PWA i Accessibilitat) ha estat un èxit total. Hem consolidat l'HelmetProvider, blindat l'Open Graph i elevat el manifest PWA a "God Mode". El poble respira més ràpid i millor posicionat que mai.
+
+Ara l'Arquitecte Humà em demana que encengues els motors per a la pròxima gran fita arquitectònica proposada per tu: **La Fase 4 (Testing, Monitoring i CI/CD)**.
+
+Necessitem que ens prepares tot el codi i estructures necessàries per a:
+1. **Testing:** Com i on establim les proves base (Vitest/Jest, React Testing Library) per assegurar que els components vitals (com els Contextos i els Agents IA) no es trenquen.
+2. **Monitoring:** Estratègies d'observabilitat (Pilar fonamental per a capturar errors de producció en silenci).
+3. **CI/CD:** Pipelines o estratègies de desplegament continu segur per a que quan s'haja de fer un canvi estructural, s'aplique només on toca.
+
+Genera els blocs de codi exactes (`// ❌ ABANS` vs `// ✅ DESPRÉS`) llestos per a copiar i integrar, tal com ho has fet genialment a les fases anteriors.
+
+Seguim avant amb el "Zero Downtime" i la col·laboració estructural! 🏺

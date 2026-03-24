@@ -33,7 +33,8 @@ const OficiDocumentacio = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const tramitParam = queryParams.get("tramit");
-
+  
+  const { iaiaSidebarOpen } = useNavigation();
   const [searchTerm, setSearchTerm] = useState("");
   const [internalActiveProcedure, setInternalActiveProcedure] = useState(null);
   const [showKitManager, setShowKitManager] = useState(false);
@@ -42,8 +43,8 @@ const OficiDocumentacio = () => {
   const [showPDFManager, setShowPDFManager] = useState(false);
   
   // Lightbox State
+  // Lightbox State
   const [lightboxImage, setLightboxImage] = useState(null);
-  const { iaiaSidebarOpen } = useNavigation();
 
   const activeProcedure = id || internalActiveProcedure || tramitParam;
 
@@ -266,7 +267,7 @@ const OficiDocumentacio = () => {
 
     return (
       <div
-        className={`ofici-page flex-1 bg-black text-white p-12 flex flex-col items-center justify-center text-center animate-in zoom-in duration-500 min-h-screen transition-all duration-500 ${
+        className={`ofici-page flex-1 bg-theme-base text-theme-text p-12 flex flex-col items-center justify-center text-center animate-in zoom-in duration-500 min-h-screen transition-all duration-500 ${
           iaiaSidebarOpen ? "sidebar-open" : ""
         }`}
       >
@@ -292,10 +293,10 @@ const OficiDocumentacio = () => {
             }
           />
         </div>
-        <h2 className="text-4xl font-black mb-4 tracking-tighter uppercase">
+        <h2 className="text-4xl font-black mb-4 tracking-tighter uppercase text-theme-text">
           {title}
         </h2>
-        <p className="max-w-md text-gray-400 text-lg mb-8 italic">{desc}</p>
+        <p className="max-w-md text-theme-text opacity-70 text-lg mb-8 italic">{desc}</p>
 
         <div className="flex gap-4">
           <button
@@ -305,7 +306,7 @@ const OficiDocumentacio = () => {
                 navigate("/ofici", { replace: true });
               }
             }}
-            className="px-8 py-3 bg-white/10 hover:bg-white/20 rounded-[28px] font-bold uppercase tracking-widest text-xs transition-all border border-white/10"
+            className="px-8 py-3 bg-[var(--bg-panel)] hover:brightness-110 text-theme-text border border-[var(--border-master)] rounded-[28px] font-bold uppercase tracking-widest text-xs transition-all"
           >
             Tornar enrere
           </button>
@@ -354,22 +355,22 @@ const OficiDocumentacio = () => {
   }
 
   return (
-    <div className={`ofici-page bg-[#0a0a0a] min-h-screen animate-in transition-all duration-500 ${iaiaSidebarOpen ? "sidebar-open" : ""}`}>
+    <div className={`ofici-page bg-theme-base min-h-screen animate-in transition-all duration-500 ${iaiaSidebarOpen ? "sidebar-open" : ""}`}>
       {/* Header Area */}
-      <div className="px-6 md:px-12 pt-12 pb-8 sticky top-0 bg-[#0a0a0a]/90 backdrop-blur-xl z-20 border-b border-white/5">
+      <div className="px-6 md:px-12 pt-12 pb-8 sticky top-0 bg-theme-base/90 backdrop-blur-xl z-20 border-b border-[var(--border-master)]">
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
           <div className="flex items-center gap-4">
             <button
               onClick={() => navigate(-1)}
-              className="p-3 bg-white/5 hover:bg-white/10 rounded-full text-white transition-colors border border-white/10"
+              className="p-3 bg-[var(--bg-panel)] hover:brightness-110 text-theme-text border-[var(--border-master)] rounded-full transition-colors border"
               title="Tornar deixant les eines a la taula"
             >
               <ArrowLeft size={20} />
             </button>
             <div>
-              <h1 className="text-3xl md:text-4xl font-black tracking-tighter uppercase text-white drop-shadow-md flex items-center gap-2">
+              <h1 className="text-3xl md:text-4xl font-black tracking-tighter uppercase text-theme-text drop-shadow-md flex items-center gap-2">
                 Ofici de Documentació 
-                <span className="bg-orange-600 text-[10px] px-2 py-1 rounded-sm leading-none ml-2 shadow-[0_0_10px_rgba(234,88,12,0.5)]">BETA</span>
+                <span className="bg-orange-600 text-[10px] px-2 py-1 rounded-sm leading-none ml-2 text-white shadow-[0_0_10px_rgba(234,88,12,0.5)]">BETA</span>
               </h1>
               <p className="text-gray-400 font-bold uppercase tracking-widest text-[11px] mt-1">
                 Eines i Procediments Administratius d'Alta Tensió
@@ -385,7 +386,7 @@ const OficiDocumentacio = () => {
                     placeholder="Què vols gestionar hui?"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full bg-white/5 border border-white/10 rounded-[28px] py-3 pl-12 pr-4 text-sm font-bold text-white focus:outline-none focus:border-orange-500/50 focus:bg-white/10 transition-all placeholder:text-gray-600 uppercase tracking-widest"
+                    className="w-full bg-[var(--bg-panel)] border-[var(--border-master)] text-theme-text focus:brightness-110 border rounded-[28px] py-3 pl-12 pr-4 text-sm font-bold focus:outline-none focus:border-orange-500/50 transition-all placeholder:opacity-50 uppercase tracking-widest"
                 />
             </div>
             <button
@@ -402,23 +403,23 @@ const OficiDocumentacio = () => {
       <section className="max-w-7xl mx-auto px-6 md:px-12 py-10 pb-32">
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
           {filteredCategories.map((category) => (
-            <div key={category.id} className="relative group rounded-[32px] overflow-hidden bg-[#111] border border-white/5 shadow-2xl transition-transform hover:-translate-y-2 duration-500 flex flex-col h-full">
+            <div key={category.id} className="relative group rounded-[32px] overflow-hidden bg-theme-panel border border-[var(--border-master)] hover:shadow-2xl transition-all hover:-translate-y-2 duration-500 flex flex-col h-full">
               {/* Card Image Area with NanoBanana Art */}
-              <div className="relative h-56 w-full shrink-0 overflow-hidden bg-black/50 border-b border-white/5">
+              <div className="relative h-56 w-full shrink-0 overflow-hidden bg-[var(--bg-app)] border-b border-[var(--border-master)]">
                  <img 
                     src={category.image} 
                     alt={category.title} 
                     className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
                  />
-                 <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#111] via-[#111]/80 to-transparent"></div>
+                 <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[var(--bg-panel)] via-[var(--bg-panel)]/80 to-transparent"></div>
                  {/* NanoBanana Signature Overlay */}
-                 <div className="absolute top-4 right-4 bg-black/50 backdrop-blur-md px-2 py-1 rounded text-[8px] font-black uppercase tracking-widest text-white/50 border border-white/10 pointer-events-none">
+                 <div className="absolute top-4 right-4 glass-panel px-2 py-1 rounded text-[8px] font-black uppercase tracking-widest text-theme-text opacity-50 pointer-events-none">
                      Autor: NanoBanana
                  </div>
                  {/* Lightbox Trigger */}
                  <button 
                     onClick={() => setLightboxImage(category.image)}
-                    className="absolute top-4 left-4 p-2 bg-black/50 backdrop-blur-md rounded-full text-white/70 hover:text-white border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    className="absolute top-4 left-4 p-2 glass-panel rounded-full border opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-theme-text hover:brightness-125"
                     title="Veure Art en Gran"
                  >
                     <Maximize2 size={16} />
@@ -428,14 +429,14 @@ const OficiDocumentacio = () => {
               {/* Card Body */}
               <div className="flex-1 p-6 sm:p-8 flex flex-col relative z-10 -mt-12">
                  <div className="flex items-center gap-3 mb-4">
-                     <div className="w-12 h-12 rounded-xl bg-[#1a1a1a] border border-white/10 flex items-center justify-center shadow-lg" style={{ color: category.color }}>
+                     <div className="w-12 h-12 rounded-xl border border-[var(--border-master)] bg-[var(--bg-app)] flex items-center justify-center shadow-lg" style={{ color: category.color }}>
                          {category.icon}
                      </div>
-                     <h3 className="text-xl sm:text-2xl font-black text-white leading-tight uppercase tracking-tight flex-1" style={{ textShadow: '0 2px 10px rgba(0,0,0,0.8)' }}>
+                     <h3 className="text-xl sm:text-2xl font-black text-theme-text leading-tight uppercase tracking-tight flex-1">
                         {category.title}
                      </h3>
                  </div>
-                 <p className="text-sm text-gray-400 font-medium mb-6 flex-1">
+                 <p className="text-sm text-theme-text opacity-70 font-medium mb-6 flex-1">
                     {category.description}
                  </p>
 
@@ -446,8 +447,8 @@ const OficiDocumentacio = () => {
                           key={proc.id}
                           className={`w-full flex items-center justify-between p-4 rounded-xl text-left transition-all border ${
                             proc.status === "active" 
-                                ? "bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20 text-white cursor-pointer" 
-                                : "bg-black/40 border-transparent text-gray-600 cursor-not-allowed"
+                                ? "bg-[var(--bg-app)] border-[var(--border-master)] hover:bg-[var(--bg-panel)] text-theme-text cursor-pointer"
+                                : "bg-[var(--bg-app)] opacity-50 border-transparent text-theme-text cursor-not-allowed"
                           }`}
                           onClick={() => {
                             if (proc.status === "active") setInternalActiveProcedure(proc.id);
@@ -462,9 +463,9 @@ const OficiDocumentacio = () => {
                             )}
                           </div>
                           {proc.status === "active" ? (
-                            <ChevronRight size={18} className="shrink-0 text-gray-400" />
+                            <ChevronRight size={18} className="shrink-0 text-theme-text opacity-50" />
                           ) : (
-                            <span className="shrink-0 text-[9px] font-black uppercase tracking-widest px-2 py-1 bg-white/5 rounded-sm">
+                            <span className="shrink-0 text-[9px] font-black uppercase tracking-widest px-2 py-1 rounded-sm bg-black/10 dark:bg-white/10 text-theme-text opacity-60">
                               Pròxim
                             </span>
                           )}
@@ -479,16 +480,16 @@ const OficiDocumentacio = () => {
 
       {/* NanoBanana Image Lightbox Overlay */}
       {lightboxImage && (
-          <div className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex flex-col items-center justify-center p-4 sm:p-12 animate-in fade-in duration-300">
+          <div className="fixed inset-0 z-[100] bg-theme-base/95 backdrop-blur-xl flex flex-col items-center justify-center p-4 sm:p-12 animate-in fade-in duration-300">
               <button 
                   onClick={() => setLightboxImage(null)}
-                  className="absolute top-6 right-6 p-4 bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors border border-white/10 z-10"
+                  className="absolute top-6 right-6 p-4 rounded-full transition-colors border z-10 glass-panel hover:brightness-110 text-theme-text"
               >
                   <X size={24} />
               </button>
-              <div className="relative w-full max-w-5xl md:h-[80vh] flex flex-col items-center justify-center rounded-[40px] overflow-hidden border border-white/10 shadow-2xl bg-[#0a0a0a]">
+              <div className="relative w-full max-w-5xl md:h-[80vh] flex flex-col items-center justify-center rounded-[40px] overflow-hidden border border-[var(--border-master)] bg-theme-panel shadow-2xl">
                   <img src={lightboxImage} alt="Premium Art" className="w-full h-full object-contain" />
-                  <div className="absolute bottom-6 bg-black/60 backdrop-blur-md px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest text-white/50 border border-white/10">
+                  <div className="absolute bottom-6 px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest glass-panel text-theme-text text-opacity-70">
                      Gènesi Art / Autor: NanoBanana
                  </div>
               </div>
@@ -496,8 +497,8 @@ const OficiDocumentacio = () => {
       )}
 
       {/* Footer minimalista */}
-      <footer className="fixed bottom-0 left-0 right-0 p-4 border-t border-white/5 bg-[#0a0a0a]/90 backdrop-blur-md flex items-center justify-between z-10 pointer-events-none">
-         <div className="flex items-center gap-2 text-gray-500 bg-white/5 px-4 py-2 rounded-full border border-white/10 w-fit">
+      <footer className="fixed bottom-0 left-0 right-0 p-4 border-t border-[var(--border-master)] z-10 pointer-events-none flex items-center justify-between backdrop-blur-md bg-theme-base/90">
+         <div className="flex items-center gap-2 px-4 py-2 rounded-full border border-[var(--border-master)] w-fit text-theme-text bg-[var(--bg-panel)] opacity-80">
             <Shield size={14} className="text-orange-500" />
             <span className="text-[10px] font-black uppercase tracking-widest">Dades xifrades amb Rhizome DB</span>
          </div>

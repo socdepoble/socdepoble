@@ -98,6 +98,16 @@ Elevació del disseny tàctil cap a la claredat professional de Notion.
 Aquest manament blinda la identitat visual en tot el material exportat o generat pel Mas.
 
 - **La Llei de l'Orgull Rural (Mai amagar-se):** La identitat és reivindicativa. Està **ESTRICTAMENT PROHIBIT** pensar que el disseny net ("clean design") implica esborrar la nostra marca. L'escut i el nom de Sóc de Poble han d'estar sempre presents a la capçalera de TOTES les pàgines d'un PDF corporatiu. No ens amaguem, som poble.
+
+## 15. ORTOGRAFIA I NOMENCLATURA DE LA MARCA (MANAMENT ESTRICTE) ✒️
+
+Aquest és un principi fonamental per a la coherència i respecte de la marca enregistrada davant la gramàtica normativa valenciana actual (on "soc" del verb ser ja no porta accent diacrític). Cal entendre i aplicar **SEMPRE** aquesta diferència:
+
+- **La Marca / El Projecte / L'App:** S'escriu **SEMPRE** com a **"Sóc de Poble"** (amb S i P majúscules, i AMB ACCENT tancat a la 'ó'). Aquest és el nom històric, registrat i oficial del vostre logotip corporatiu. Sempre que et referisques a l'aplicació, l'empresa o el projecte, utilitzaràs aquesta fórmula.
+- **La Frase o Condició:** S'escriu **SEMPRE** com a **"soc de poble"** (en minúscules i SENSE ACCENT). Si en un paràgraf qualsevol (fora d'un títol o d'esmentar la marca) l'usuari o la IA ha de dir l'oració equivalent a *yo soy de pueblo / I am from a village*, es farà seguint la normativa actual sense accent.
+
+**EXEMPLE D'ÚS CORRECTE:**
+_"En l'aplicació **Sóc de Poble**, el principal requisit per registrar-se és que l'usuari senta de veritat que **soc de poble** i vulga compartir la seua cultura."_
 - **Autoría Institucional (La Iaia):** Tot document de gestió generat pel sistema no ha de dir mai "generat de forma autònoma" sinó assumir la figura gestora de la marca: **"Generat per la iaia de Sóc de Poble."**
 - **Regla del Logotip per a PDF:**
   - **Capçaleres repetitives:** Obligatori usar el **logotip allargat sencer** (`logo_sdp_black.png` o `.svg`). La grandària ha de ser prudencial i elegant per afavorir l'equilibri, aproximadament entre **1cm i 2cm d'altura**. Ni molt xicotet que no es veja, ni enorme que sature.

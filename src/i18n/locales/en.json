@@ -17,7 +17,7 @@
     "role_empresa": "Businesses",
     "role_oficial": "Entities",
     "add_town": "ADD TOWN",
-    "add": "ADD",
+    "add": "CONNECT",
     "province": "Province",
     "comarca": "Comarca",
     "unknown": "Unknown",
@@ -157,7 +157,10 @@
     "activities": "Activities",
     "objects": "Objects",
     "symbols": "Symbols",
-    "flags": "Flags"
+    "flags": "Flags",
+    "search": "Search with text or emojis",
+    "suggested": "Recents",
+    "custom": "Custom"
   },
   "chat": {
     "guest_warning_text": "You are chatting as a Guest and this temporary chat will be deleted.",

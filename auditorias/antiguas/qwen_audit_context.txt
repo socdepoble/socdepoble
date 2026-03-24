@@ -1,0 +1,3441 @@
+### CONTEXTO DE SÓC DE POBLE ###
+
+
+
+==================================================
+FILE: src/App.jsx
+==================================================
+
+import React from 'react';
+import AppLayout from './components/AppLayout';
+import GlobalModals from './components/GlobalModals';
+import './index.css';
+
+// [Noves Portes / Cimentació Mestre]
+import ErrorBoundary from './components/ErrorBoundary';
+import LocalFirstGate from './components/gates/LocalFirstGate';
+import AuthGate from './components/gates/AuthGate';
+import OfflineGate from './components/gates/OfflineGate';
+
+/**
+ * 🏺 LA BÍBLIA ESTRUCTURAL (App.jsx) - BLINDATGE v2.0
+ * Aquest fitxer conté la cimentació mestre orquestrant l'estat i les portes d'entrada.
+ * FORÇAT: Fons Negre, Arquitectura de Ferro, Local First, Zero Fantasmes.
+ */
+const App = () => {
+    return (
+        <ErrorBoundary fallbackMessage="Excepció Nuclear Detectada al Mas.">
+            <OfflineGate>
+                <LocalFirstGate>
+                    <AuthGate>
+                        <AppLayout />
+                        <GlobalModals />
+                    </AuthGate>
+                </LocalFirstGate>
+            </OfflineGate>
+        </ErrorBoundary>
+    );
+};
+
+export default App;
+
+
+==================================================
+FILE: src/entry.jsx
+==================================================
+
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App.jsx";
+import "./index.css";
+// import "./service-worker-manager"; // DESACTIVAT - Sóc de Poble PWA Failsafe
+
+// --- [FAILSAFE PROTOCOL v3] FORÇAR DES-REGISTRE DE SERVICE WORKERS ANTICS ---
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then(function(registrations) {
+    for(let registration of registrations) {
+      registration.unregister();
+      console.warn("Failsafe: ServiceWorker eliminat forçosament per trencar el cicle de memòria cau.");
+    }
+  });
+}
+// -----------------------------------------------------------------------------
+import "./design-system/tokens.css";
+import "./i18n/config";
+import { AuthProvider } from "./context/AuthContext";
+import { ModalProvider } from "./context/ModalContext";
+import { DesignProvider } from "./context/DesignContext";
+import { NavigationProvider } from "./context/NavigationContext";
+import { SocialProvider } from "./context/SocialContext";
+import { BrowserRouter } from "react-router-dom";
+
+import UnifiedStatus from "./components/UnifiedStatus";
+import SafeShell from "./components/SafeShell";
+import VersionGatekeeper from "./components/VersionGatekeeper";
+import { APP_VERSION } from "./constants";
+import { checkSilence } from "./utils/logger";
+
+// 1. SILENT BOOT (Master Silence)
+// No log noise in production.
+// Global Error Handlers (Silent in Production)
+window.onerror = (msg, src, lineno, colno, err) => {
+  if (checkSilence(msg) || checkSilence(err)) return true;
+  if (import.meta.env.DEV) console.error(`[FATAL] ${msg} at ${src}:${lineno}`);
+};
+
+// Console Noise Suppression
+const originalWarn = console.warn;
+const originalError = console.error;
+const isNoise = (args) => args.some((arg) => checkSilence(arg));
+
+console.warn = (...args) => { if (!isNoise(args)) originalWarn.apply(console, args); };
+console.error = (...args) => { if (!isNoise(args)) originalError.apply(console, args); };
+
+
+
+import { I18nProvider } from "./context/I18nContext";
+import { ToastProvider } from "./components/ToastProvider";
+import { ThemeProvider } from "./context/ThemeContext";
+
+const CURRENT_MASTER_VERSION = APP_VERSION;
+
+// Simplified Version Gatekeeper
+// [RESILIENT VERSION GATEKEEPER] Protocol de Prevenció de Bucles
+const savedVersion = localStorage.getItem("sp_app_version");
+const lastReload = parseInt(localStorage.getItem("sp_last_version_reload") || "0");
+const now = Date.now();
+
+if (savedVersion && savedVersion !== CURRENT_MASTER_VERSION) {
+    // [RESILIENT UPDATE] Si hem intentat recarregar en els últims 30 segons i seguim igual, STOP.
+    // Augmentem el llindar perquè en algunes xarxes el reload triga més.
+    if (now - lastReload < 60000) { 
+        // Silenciat per a desenvolupament per petició de l'usuari
+        // if (import.meta.env.DEV) console.warn('[BATEGAT SAFETY] Bucle de redirecció detectat. Aturant actualització forçada.');
+        localStorage.setItem("sp_app_version", CURRENT_MASTER_VERSION);
+    } else {
+        // if (import.meta.env.DEV) console.log('[BATEGAT UPDATE] Versió desfasada detectada. Sincronitzant el Mas...');
+        localStorage.setItem("sp_last_version_reload", now.toString());
+        localStorage.setItem("sp_app_version", CURRENT_MASTER_VERSION);
+        window.location.reload();
+    }
+} else if (!savedVersion) {
+    localStorage.setItem("sp_app_version", CURRENT_MASTER_VERSION);
+}
+
+const container = document.getElementById("root");
+if (!window.__SDP_ROOT__) window.__SDP_ROOT__ = ReactDOM.createRoot(container);
+
+window.__SDP_ROOT__.render(
+  <React.StrictMode>
+    <BrowserRouter>
+      <I18nProvider>
+        <ThemeProvider>
+          <AuthProvider>
+            <SocialProvider>
+              <DesignProvider>
+                <NavigationProvider>
+                  <ModalProvider>
+                    <ToastProvider>
+                      <VersionGatekeeper>
+                        <SafeShell>
+                          <App />
+                        </SafeShell>
+                      </VersionGatekeeper>
+                    </ToastProvider>
+                  </ModalProvider>
+                </NavigationProvider>
+              </DesignProvider>
+            </SocialProvider>
+          </AuthProvider>
+        </ThemeProvider>
+      </I18nProvider>
+    </BrowserRouter>
+  </React.StrictMode>
+);
+
+// Signalejar al Failsafe de index.html que hem arrancat amb èxit
+window.__SDP_ROOT_MOUNTED = true;
+
+
+
+==================================================
+FILE: src/index.css
+==================================================
+
+@import "tailwindcss";
+
+/* 🏺 SÓC DE POBLE: LA BÍBLIA VISUAL v10.33.2-CANÒNIC [PROTOCOL NOTO]
+   Aquest fitxer és el ciment únic. 
+*/
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Noto Sans", ui-sans-serif, system-ui, sans-serif,
+    "Noto Color Emoji", "Noto Emoji";
+  --font-serif: "Noto Sans", serif, "Noto Color Emoji", "Noto Emoji";
+  --font-mono: "Noto Sans", monospace, "Noto Color Emoji", "Noto Emoji";
+  --font-condensed: "Noto Sans", sans-serif, "Noto Color Emoji", "Noto Emoji";
+
+  /* M3 ADAPTIVE TOKENS - SÓC DE POBLE OFFICIAL */
+  --color-primary: #f97316; /* Terracotta (Primary) */
+  --color-on-primary: #ffffff;
+  --color-primary-container: rgba(249, 115, 22, 0.15);
+
+  --color-secondary: #06b6d4; /* Cyan (Secondary) */
+  --color-on-secondary: #000000;
+  --color-secondary-container: rgba(6, 182, 212, 0.15);
+
+  --color-surface: #000000;
+  --color-on-surface: #ffffff;
+  --color-surface-container: rgba(0, 0, 0, 0.7); /* Standard Glass */
+  --color-outline: rgba(255, 255, 255, 0.08);
+
+  --radius-m3-large: 28px;
+  --radius-m3-medium: 100px; /* Full Rounded / Pill */
+  --radius-m3-small: 16px;
+
+  --radius-genesis: var(--radius-m3-large);
+  --radius-tactile: var(--radius-m3-small);
+
+  --spacing-header: 56px;
+  --spacing-sidebar: 280px;
+
+  --touch-target: 44px;
+
+  /* Gradients Canònics v15 */
+  --gradient-bategat: linear-gradient(
+    135deg,
+    #ff6b00 0%,
+    #0ea5e9 100%
+  ); /* Orange to Sky Blue */
+}
+
+:root {
+  /* [PROTOCOL GÈNESI v10.26.0 - CANÒNIC] */
+  --bg-app: #000000;
+  --bg-master: #000000;
+  --bg-panel: #000000;
+  --bg-sidebar: #000000;
+  --text-main: #ffffff;
+  --text-secondary: #9ca3af;
+  --text-muted: #6b7280;
+  --border-master: rgba(255, 255, 255, 0.08);
+
+  /* Hover & Active states */
+  --hover-overlay: rgba(255, 255, 255, 0.08);
+  --active-overlay: rgba(255, 255, 255, 0.12);
+
+  /* [MAESTRO RULE] Night/Dark Colors */
+  --sdp-black: #000000;
+  --sdp-white: #ffffff;
+  --sdp-orange: #ff6b00;
+  --sdp-blue: #0984e3;
+
+  --theme-accent-primary: #0984e3; /* Blau a Nit */
+  --theme-accent-primary-muted: rgba(9, 132, 227, 0.4);
+  --theme-accent-primary-faint: rgba(9, 132, 227, 0.1);
+
+  --theme-accent-secondary: #ff6b00; /* Taronja a Nit */
+  --theme-accent-secondary-muted: rgba(255, 107, 0, 0.4);
+  --theme-accent-secondary-faint: rgba(255, 107, 0, 0.1);
+
+  --bg-theme-base: var(--bg-app);
+  --bg-theme-sidebar: #000000;
+  --bg-theme-panel: #000000;
+  --text-theme-text: #ffffff;
+  --bg-theme-header: #000000;
+
+  /* [FASE 2: GLASSMORPHISM] Night Mode Tokens */
+  --glass-bg-dark: rgba(28, 28, 30, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  --glass-blur: blur(16px);
+  --glass-theme-bg: var(--glass-bg-dark);
+}
+
+:root.light {
+  /* [PALETA CANÒNICA INVERSA - LLEI 4 COLORS] */
+  --bg-app: #f8fafc; /* Blanc/Llum */
+  --bg-master: #ffffff;
+  --bg-panel: #ffffff;
+  --bg-sidebar: #ffffff; /* SENSE TERRACOTTA */
+  --text-main: #000000;
+  --text-secondary: #000000;
+  --text-muted: #4b5563;
+  --border-master: rgba(0, 0, 0, 0.1);
+
+  /* Hover & Active states */
+  --hover-overlay: rgba(0, 0, 0, 0.05);
+  --active-overlay: rgba(0, 0, 0, 0.08);
+
+  /* InversiÃ³ de Variables Directes */
+  --sdp-black: #ffffff;
+  --sdp-white: #000000;
+  --sdp-orange: #0984e3; /* Taronja => Blau */
+  --sdp-blue: #ff6b00; /* Blau => Taronja */
+
+  --theme-accent-primary: #ff6b00; /* Taronja de Dia */
+  --theme-accent-primary-muted: rgba(255, 107, 0, 0.4);
+  --theme-accent-primary-faint: rgba(255, 107, 0, 0.1);
+
+  --theme-accent-secondary: #0984e3; /* Blau de Dia */
+  --theme-accent-secondary-muted: rgba(9, 132, 227, 0.4);
+  --theme-accent-secondary-faint: rgba(9, 132, 227, 0.1);
+
+  --bg-theme-base: var(--bg-app);
+  --bg-theme-sidebar: #000000; /* PERMANENT BLACK (NIGHT MODE) */
+  --bg-theme-panel: var(--bg-panel);
+  --text-theme-text: #000000;
+  --bg-theme-header: #000000; /* HEADER ES MANTÃ‰ EN NEGRE SEMPRE */
+
+  /* [FASE 2: GLASSMORPHISM] Day Mode Tokens */
+  --glass-bg-light: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(0, 0, 0, 0.1);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+  --glass-blur: blur(16px);
+  --glass-theme-bg: var(--glass-bg-light);
+}
+
+.bg-theme-base {
+  background-color: var(--bg-theme-base);
+  transition: background-color 0.3s ease;
+}
+.bg-theme-sidebar {
+  background-color: var(--bg-theme-sidebar);
+  transition: background-color 0.3s ease;
+}
+.card,
+.universal-card,
+.bg-panel {
+  border-radius: var(--radius-genesis) !important;
+  overflow: hidden;
+}
+
+/* [FASE 2: GLASSMORPHISM] Universal Class */
+.glass-panel {
+  background: var(--glass-theme-bg) !important;
+  backdrop-filter: var(--glass-blur) !important;
+  -webkit-backdrop-filter: var(--glass-blur) !important;
+  border: 1px solid var(--glass-border) !important;
+  box-shadow: var(--glass-shadow);
+  border-radius: var(--radius-genesis);
+  overflow: hidden;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.modal-content,
+.dialog-panel {
+  border-radius: var(--radius-genesis) !important;
+}
+
+.bg-theme-panel {
+  background-color: var(--bg-theme-panel);
+  transition: background-color 0.3s ease;
+  border-radius: var(--radius-genesis);
+}
+.bg-theme-header {
+  background-color: var(--bg-theme-header);
+  transition: background-color 0.3s ease;
+}
+.text-theme-text {
+  color: var(--text-theme-text);
+  transition: color 0.3s ease;
+}
+
+/* 📱 COMPORTAMENT TÀCTIL NATIU (v10.30.0 BLUEPRINT) */
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-app);
+  overflow: hidden;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+body {
+  touch-action: pan-x pan-y;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: var(--font-sans);
+  font-stretch: 75%; /* Equivalent exacte al disseny "Condensed" (62.5% = Extra Condensed, 100% = Normal) */
+  font-size: 1.25rem; /* [ACCESSIBILITAT SUPREMA v15] Augmentat per a llegibilitat imponent */
+  font-display: swap;
+}
+
+/* [ACCESSIBILITAT MESTRA] Regla global per a paràgrafs bategats */
+p {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  color: inherit;
+}
+
+/* 🧬 ESTRUCTURA SUPREMA (PROTOCOL TABULA RASA v10.30.0) */
+.main-viewport {
+  flex: 1;
+  display: flex;
+  position: relative;
+  min-width: 0;
+}
+
+.flex-container-safe {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+}
+
+/* 📱 RESPONSIVE CANÒNIC (Strict Monocolumn < 1024px) */
+@media (max-width: 1023px) {
+  .sidebar-desktop {
+    position: fixed;
+    left: 0;
+    top: var(--spacing-header, 56px);
+    z-index: 1000;
+    width: var(--spacing-sidebar);
+    height: calc(100vh - var(--spacing-header, 56px));
+    transform: translateX(-100%);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    background: #000000;
+  }
+
+  .sidebar-desktop.drawer-open {
+    transform: translateX(0);
+    box-shadow: 20px 0 60px rgba(0, 0, 0, 0.8);
+  }
+
+  /* Backdrop Master */
+  .drawer-backdrop {
+    position: fixed;
+    top: 56px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: none;
+    z-index: 1000;
+    animation: fade-in 0.3s ease-out;
+  }
+
+  .safe-area-padding {
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    padding-left: max(20px, env(safe-area-inset-left));
+    padding-right: max(20px, env(safe-area-inset-right));
+  }
+
+  /* [PROTOCOLS DE VISTA v12.1] - ESPECIFICITAT BLINDADA */
+  [class*="view-mode-single"] {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 16px !important;
+    padding: 12px !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 auto !important;
+  }
+
+  [class*="view-mode-single"] > * {
+    width: 100% !important;
+    max-width: 600px !important;
+  }
+
+  [class*="view-mode-grid"] {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+    padding: 12px !important;
+    max-width: none !important;
+  }
+
+  @media (max-width: 600px) {
+    [class*="view-mode-grid"] {
+      grid-template-columns: 1fr !important;
+      gap: 16px !important;
+      padding: 16px 8px !important;
+    }
+  }
+
+  [class*="view-mode-list"] {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+    padding: 12px !important;
+    max-width: none !important;
+  }
+
+  /* List Mode Overrides for UniversalCard - Layout Proximitat */
+  [class*="view-mode-list"] .universal-card {
+    flex-direction: row !important;
+    height: 120px !important;
+    border-radius: 16px !important;
+  }
+
+  [class*="view-mode-list"] .card-media-wrapper {
+    width: 120px !important;
+    height: 120px !important;
+    flex-shrink: 0 !important;
+  }
+
+  [class*="view-mode-list"] .card-body {
+    padding: 8px 12px !important;
+    justify-content: center !important;
+  }
+
+  [class*="view-mode-list"] .card-header-boina,
+  [class*="view-mode-list"] .card-footer-master {
+    display: none !important; /* Compact List View sacrifices boina/footer for density */
+  }
+
+  .view-mode-list .universal-card .card-header-boina {
+    width: 60px;
+    height: 100% !important;
+    flex-direction: column;
+    padding: 10px 0;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 16px;
+  }
+
+  .view-mode-list .universal-card .header-text,
+  .view-mode-list .universal-card .header-right-meta {
+    display: none;
+  }
+
+  .view-mode-list .universal-card .card-media-wrapper {
+    width: 100px;
+    height: 100%;
+    aspect-ratio: 1/1;
+  }
+
+  .view-mode-list .universal-card .card-body {
+    padding: 8px 12px;
+    justify-content: center;
+  }
+
+  .view-mode-list .universal-card .card-footer-master {
+    display: none;
+  }
+
+  .view-mode-list .universal-card .genesis-title {
+    font-size: 16px;
+  }
+
+  .view-mode-list .universal-card .card-excerpt {
+    display: none;
+  }
+
+  @media (max-width: 480px) {
+    .view-mode-grid {
+      grid-template-columns: repeat(
+        2,
+        1fr
+      ); /* 2 per fila com demana el mestre en mòbil */
+    }
+  }
+}
+
+/* 🧬 ANIMACIONS CANÒNIQUES (BATEGAT UNIVERSAL) */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(0.98);
+  }
+}
+
+.animate-in.fade-in {
+  animation: fade-in 0.5s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.bategant {
+  animation: pulse-soft 2s infinite ease-in-out;
+}
+
+/* 📜 THE ANTIGRAVITY SCROLL v1.0 (SILK SCROLL) */
+/* [MODERN SCROLLBARS v10.33.7] */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.05) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 107, 0, 0.4);
+  background-clip: padding-box;
+}
+
+/* Utility to hide scrollbar but keep functionality */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* 📜 BÍBLIA: TACTILE GEOMETRY (GEOMETRIA DEL TACTE v10.33.2-CANÒNIC) */
+.tactile-target {
+  min-height: var(--touch-target);
+  min-width: var(--touch-target);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.genesis-radius {
+  border-radius: 28px !important;
+}
+
+.card-radius {
+  border-radius: var(--radius-genesis) !important;
+}
+
+/* Unified Glassmorphism */
+.glass-master {
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 20px) !important;
+}
+
+.safe-area-top {
+  padding-top: env(safe-area-inset-top, 0) !important;
+}
+
+/* [MASTER CANONIC BUTTONS] Design System GEM MODERN v1.0 */
+.master-button-canonic {
+  height: 44px !important;
+  border-radius: 22px !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 24px !important;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.master-button-canonic:active {
+  transform: scale(0.95);
+}
+
+/* [NOTION-DYNAMICS] Folder styling for high-accessibility organization */
+.notion-folder {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 16px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.notion-folder:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+  border-color: rgba(255, 107, 0, 0.2);
+}
+
+.notion-folder .folder-icon {
+  font-size: 32px;
+  color: #ff6b00;
+  margin-bottom: 4px;
+}
+
+.notion-folder .folder-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+}
+
+.notion-folder .folder-description {
+  font-size: 1.1rem;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+/* [NOTION-GRID] 28px geometry inspired grid */
+.notion-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 28px;
+}
+
+
+==================================================
+FILE: src/context/NavigationContext.jsx
+==================================================
+
+import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from 'react';
+import { preferenceService } from '../services/preferenceService';
+import { AGENTS } from '../constants/agents';
+
+const NavigationContext = createContext();
+
+export const NavigationProvider = ({ children }) => {
+    const [prefs] = useState(preferenceService.getPrefs());
+
+    const [landingPage, setLandingPage] = useState(prefs.landingPage || 'mur');
+    const [preferredAgentId, setPreferredAgentId] = useState(prefs.preferredAgentId || 'iaia');
+    const [enabledAgentIds, setEnabledAgentIdsState] = useState(prefs.enabledAgentIds || AGENTS.map(a => a.id));
+    const [iaiaLoreEnabled, setIaiaLoreEnabledState] = useState(prefs.iaiaLoreEnabled !== undefined ? prefs.iaiaLoreEnabled : true);
+    const [isDrawerOpen, setIsDrawerOpen] = useState(() =>
+        typeof window !== 'undefined' ? window.innerWidth >= 768 : false
+    );
+
+    useEffect(() => {
+        const handleResize = () => {
+            const isDesktop = window.innerWidth >= 768;
+            setIsDrawerOpen(prev => {
+                if (isDesktop && !prev) return true;
+                if (!isDesktop && prev) return false;
+                return prev;
+            });
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+    const [iaiaSidebarOpen, setIaiaSidebarOpen] = useState(false);
+    const [iaiaSidebarContext, setIaiaSidebarContext] = useState('general');
+    const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+    const [isAccessibilitatOpen, setIsAccessibilitatOpen] = useState(false);
+    const [selectedTown, setSelectedTown] = useState(prefs.selectedTown || 'La Torre de les Maçanes');
+    const [chatSettings, setChatSettings] = useState(prefs.chatSettings || { readReceipts: true });
+    const [forensicMode, setForensicMode] = useState(false);
+
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            preferenceService.setPrefs({
+                landingPage, preferredAgentId, enabledAgentIds, iaiaLoreEnabled,
+                selectedTown, chatSettings
+            });
+        }, 500);
+        return () => clearTimeout(timeoutId);
+    }, [landingPage, preferredAgentId, enabledAgentIds, iaiaLoreEnabled, selectedTown, chatSettings]);
+
+    const toggleDrawer = useCallback(() => setIsDrawerOpen(p => !p), []);
+    const closeDrawer = useCallback(() => {
+        if (window.innerWidth < 768) setIsDrawerOpen(false);
+    }, []);
+    const openIAIASidebar = useCallback((ctx) => {
+        setIaiaSidebarContext(ctx || 'general');
+        setIaiaSidebarOpen(true);
+    }, []);
+    const closeIAIASidebar = useCallback(() => setIaiaSidebarOpen(false), []);
+    const closeProfileMenu = useCallback(() => setIsProfileMenuOpen(false), []);
+
+    const value = useMemo(() => ({
+        landingPage, setLandingPage,
+        preferredAgentId, setPreferredAgentId,
+        enabledAgentIds, setEnabledAgentIdsState,
+        iaiaLoreEnabled, setIaiaLoreEnabledState,
+        isDrawerOpen, setIsDrawerOpen,
+        toggleDrawer,
+        closeDrawer,
+        iaiaSidebarOpen, setIaiaSidebarOpen,
+        openIAIASidebar,
+        closeIAIASidebar,
+        iaiaSidebarContext, setIaiaSidebarContext,
+        isProfileMenuOpen, setIsProfileMenuOpen,
+        closeProfileMenu,
+        isAccessibilitatOpen, setIsAccessibilitatOpen,
+        selectedTown, setSelectedTown,
+        chatSettings, setChatSettings,
+        forensicMode, setForensicMode
+    }), [
+        landingPage, preferredAgentId, enabledAgentIds, iaiaLoreEnabled, isDrawerOpen, iaiaSidebarOpen, iaiaSidebarContext, isProfileMenuOpen, isAccessibilitatOpen, selectedTown, chatSettings, forensicMode,
+        toggleDrawer, closeDrawer, openIAIASidebar, closeIAIASidebar, closeProfileMenu
+    ]);
+
+    return (
+        <NavigationContext.Provider value={value}>
+            {children}
+        </NavigationContext.Provider>
+    );
+};
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const useNavigation = () => useContext(NavigationContext);
+
+
+==================================================
+FILE: src/components/AppLayout.jsx
+==================================================
+
+import React, { lazy, Suspense } from "react";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { Plus } from "lucide-react";
+import NavigationRail from "./NavigationRail";
+import { useDesign } from "../context/DesignContext";
+import { useNavigation } from "../context/NavigationContext";
+import { useAuth } from "../context/AuthContext";
+import { useModal } from "../context/ModalContext";
+import { Ruler, ScanLine, Handshake, UploadCloud } from "lucide-react";
+import NanoLoader from "./NanoLoader";
+import ErrorBoundary from "./ErrorBoundary";
+import { initGA, trackPageView } from "../services/analyticsService";
+import GlobalFooter from "./GlobalFooter";
+import MobileBottomNav from "./MobileBottomNav";
+import BlueprintOverlay from "./BlueprintOverlay";
+const ChatLayout = lazy(() => import("../components/ChatLayout"));
+const ChatEmptyState = lazy(() => import("../components/ChatEmptyState"));
+const ChatDetail = lazy(() => import("../components/ChatDetail"));
+const Feed = lazy(() => import("./Feed"));
+const Register = lazy(() => import("../pages/Register"));
+const Towns = lazy(() => import("../pages/Towns"));
+const Marketplace = lazy(() => import("./Marketplace"));
+const MarketItemDetail = lazy(() => import("../pages/MarketItemDetail"));
+const PostDetail = lazy(() => import("../pages/PostDetail"));
+const ProfileView = lazy(() => import("../pages/ProfileView"));
+const AdminPanel = lazy(() => import("../pages/AdminPanel"));
+const TownDetail = lazy(() => import("../pages/TownDetail"));
+const ArxiuOr = lazy(() => import("../pages/Archive"));
+const CalendariMaster = lazy(() => import("../pages/MasterCalendar"));
+const AlbumGlobal = lazy(() => import("../pages/GlobalAssetAlbum"));
+const MapaActius = lazy(() => import("../pages/Map"));
+const SearchDiscover = lazy(() => import("../pages/SearchDiscover"));
+const OficiDocumentacio = lazy(() => import("../pages/OficiDocumentacio"));
+const NexusFlash = lazy(() => import("../pages/NexusFlash"));
+const SolatgeConsole = lazy(() => import("../pages/SolatgeConsole"));
+const ProjectPresentation = lazy(() => import("../pages/ProjectPresentation"));
+const GenesisViewer = lazy(() => import("../pages/GenesisViewer"));
+const BuscadorAjudes = lazy(() => import("../pages/BuscadorAjudes"));
+const DirectoriComunitat = lazy(() => import("../pages/CommunityDirectory"));
+const Header = lazy(() => import("./Header"));
+const CreationHub = lazy(() => import("./CreationHub"));
+const AccessibilitatUniversal = lazy(() => import("./AccessibilitatUniversal"));
+const ArchitecteView = lazy(() => import("./ArchitecteView"));
+const DossierSocis = lazy(() => import("../pages/DossierSocis"));
+const ResourceDetail = lazy(() => import("../pages/ResourceDetail"));
+const InfografiaGallery = lazy(() => import("./Infoteca/InfografiaGallery"));
+const ContextualMenu = lazy(() => import("./ContextualMenu"));
+const CategoryManager = lazy(() => import("./CategoryManager"));
+const ChatManager = lazy(() => import("../pages/ChatManager"));
+const Notes = lazy(() => import("../pages/Notes"));
+const LegalNotice = lazy(() => import("../pages/LegalNotice.jsx"));
+const IAIAChatSidebar = lazy(() => import("./IAIAChatSidebar"));
+const ProfilePowerMenu = lazy(() => import("./ProfilePowerMenu"));
+const MenuManagementView = lazy(() => import("../pages/MenuManagementView"));
+const Utilitats = lazy(() => import("../pages/Utilitats"));
+const Chrome145Report = lazy(() => import("../pages/Chrome145Report"));
+const HubView = lazy(() => import("../pages/HubView"));
+const Financament = lazy(() => import("../pages/Financament"));
+const VisionView = lazy(() => import("../pages/VisionView"));
+
+const ProtectedRoute = ({ children }) => {
+  const { user, loading } = useAuth();
+  const location = useLocation();
+  if (loading) return <NanoLoader message="Bategant..." />;
+  // CRITICAL FIX: Redirect anonymous users to register
+  if (!user || user.isAnonymous)
+    return <Navigate to="/registre" state={{ from: location }} replace />;
+  return children;
+};
+
+const AppLayout = () => {
+  const { architectMode, accessibilityMode } = useDesign();
+  const {
+    isDrawerOpen,
+    closeDrawer,
+    closeIAIASidebar,
+    iaiaSidebarOpen,
+    iaiaSidebarContext,
+    isAccessibilitatOpen,
+    setIsAccessibilitatOpen,
+  } = useNavigation();
+  const location = useLocation();
+  const { openPostModal } = useModal();
+  const [isGlobalDragging, setIsGlobalDragging] = React.useState(false);
+  const globalDragCounter = React.useRef(0);
+
+  const handleGlobalDragEnter = React.useCallback((e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    globalDragCounter.current += 1;
+    if (e.dataTransfer.items && e.dataTransfer.items.length > 0) {
+      setIsGlobalDragging(true);
+    }
+  }, []);
+
+  const handleGlobalDragLeave = React.useCallback((e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    globalDragCounter.current -= 1;
+    if (globalDragCounter.current === 0) {
+      setIsGlobalDragging(false);
+    }
+  }, []);
+
+  const handleGlobalDragOver = React.useCallback((e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  }, []);
+
+  const handleGlobalDrop = React.useCallback(
+    (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      setIsGlobalDragging(false);
+      globalDragCounter.current = 0;
+
+      const files = Array.from(e.dataTransfer.files);
+      if (files && files.length > 0) {
+        const file = files[0];
+        openPostModal({ isPrivate: false, initialFile: file });
+      }
+    },
+    [openPostModal],
+  );
+
+  // [ANALYTICS BATEGAT] Inicialització i seguiment de rutes
+  React.useEffect(() => {
+    initGA();
+  }, []);
+
+  React.useEffect(() => {
+    trackPageView(location.pathname + location.search);
+  }, [location]);
+
+  // Bisturí 5: Destrueix l'eclipsi automàticament quan canvies de vista
+  React.useEffect(() => {
+    if (isDrawerOpen) closeDrawer();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.pathname, closeDrawer]); // ELIMINAT: isDrawerOpen per evitar tancament immediat en obrir
+
+  // Detect minimal mode (for Mac-style window breakaway)
+  const isMinimal =
+    new URLSearchParams(location.search).get("window") === "true";
+
+  // [PROTOCOL v10.24.0-MOBILE-FIX] Injecció forçada de Viewport per a evitar escalat d'escriptori
+  React.useEffect(() => {
+    const viewport = document.querySelector('meta[name="viewport"]');
+    if (viewport) {
+      viewport.setAttribute(
+        "content",
+        "width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover",
+      );
+    } else {
+      const meta = document.createElement("meta");
+      meta.name = "viewport";
+      meta.content =
+        "width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover";
+      document.getElementsByTagName("head")[0].appendChild(meta);
+    }
+
+    // [SCROLL PERSISTENCE] Ensure root body is not jumpy
+    document.body.style.overscrollBehaviorY = "none";
+  }, []);
+
+  const path = location.pathname.split("/")[1] || "chats";
+
+  // Mappeig de labels arquitectònics per al Frame Global
+  const currentLabel = React.useMemo(() => {
+    const routeLabels = {
+      chats: "LIST_COLUMN [FULL_WIDTH]",
+      mur: "PROMISCUOUS_FEED [VERTICAL]",
+      mercat: "MERCH_SHEET [GRID_28px]",
+      pobles: "COMMUNITY_MESH",
+      perfil: "IDENTITY_TOTEM [V10.26]",
+      entitat: "OFFICIAL_ENTITY_FRAME",
+      mapa: "TACTICAL_RADAR_VIEW",
+      ofici: "OFFICIAL_DOCS_SHEET",
+      arxiu: "RESOURCE_VAULT",
+      notes: "SCRATCHPAD_BUFFER",
+      calendari: "MASTER_CALENDAR_PROTO",
+      ajudes: "ADVISORY_DOSSIER",
+      "gestio-menu": "DYNAMIC_MENU_OVERRIDE",
+      utilitats: "UTILITY_HUB_FRAME",
+    };
+    return routeLabels[path] || "MAIN_VIEWPORT_FLEX";
+  }, [path]);
+
+  return (
+    <div
+      className="h-[100dvh] w-full flex flex-col overflow-hidden font-sans bg-theme-base text-theme-text relative max-h-[100dvh]"
+      onDragEnterCapture={handleGlobalDragEnter}
+      onDragLeaveCapture={handleGlobalDragLeave}
+      onDragOverCapture={handleGlobalDragOver}
+      onDropCapture={handleGlobalDrop}
+    >
+      {isGlobalDragging && (
+        <div className="absolute inset-0 z-[99999] bg-[var(--theme-accent-primary)]/90 backdrop-blur-md flex flex-col items-center justify-center text-white pointer-events-none transition-all duration-300 animate-in fade-in zoom-in-95">
+          <div className="w-32 h-32 rounded-full bg-white/20 flex items-center justify-center mb-6 animate-pulse">
+            <UploadCloud size={64} className="text-white drop-shadow-xl" />
+          </div>
+          <h2 className="text-4xl font-black uppercase tracking-widest drop-shadow-md">
+            Deixa Anar
+          </h2>
+          <p className="text-xl opacity-90 font-bold mt-2">
+            per a publicar ràpidament
+          </p>
+        </div>
+      )}
+
+      {/* 0. HEADER SOBIRÀ (FULL WIDTH - PROTOCOL v4.0) */}
+      {!isMinimal && (
+        <Suspense fallback={<NanoLoader message="Preparant la barra..." />}>
+          <BlueprintOverlay
+            label="HEADER_CANONIC"
+            dimensions="MATCH"
+            color="orange"
+            className="h-14 lg:h-16 flex-shrink-0 z-[2000]"
+          >
+            <Header />
+          </BlueprintOverlay>
+        </Suspense>
+      )}
+
+      {/* CONTENIDOR PRINCIPAL (SIDEBAR + ESCENARI) */}
+      <div className="flex-1 flex overflow-hidden relative">
+        {/* 0. OVERLAY MÒBIL (Sombra de fondo purificada) */}
+        {isDrawerOpen && (
+          <div
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[3999] md:hidden transition-opacity duration-300 animate-in fade-in"
+            onClick={closeDrawer}
+          />
+        )}
+
+        {!isMinimal && (
+          <div
+            className={`
+              flex-shrink-0 transition-transform duration-300 ease-in-out overflow-hidden
+              fixed z-[4000] top-0 left-0 h-[100dvh] w-[300px] max-w-[85vw] bg-theme-sidebar border-r border-[var(--border-master)]
+              ${
+                isDrawerOpen
+                  ? "translate-x-0 shadow-[4px_0_24px_rgba(0,0,0,0.5)]"
+                  : "-translate-x-full"
+              }
+              md:relative md:z-[1001] md:translate-x-0 md:h-full md:w-[280px] md:shadow-none
+            `}
+          >
+            <BlueprintOverlay
+              label="SIDEBAR"
+              dimensions="280px"
+              color="blue"
+              showBackupLink={true}
+              className="h-full flex flex-col"
+            >
+              <NavigationRail />
+            </BlueprintOverlay>
+          </div>
+        )}
+
+        {/* 2. MAIN VIEWPORT (EL ESCENARIO) - HABILITEM SCROLL (TABULA RASA) */}
+        <main
+          className={`flex-1 flex flex-col min-w-0 min-h-0 relative bg-theme-base custom-scrollbar ${
+            location.pathname.startsWith("/chats") ||
+            location.pathname.startsWith("/gestio-menu") ||
+            location.pathname.startsWith("/notes")
+              ? "overflow-hidden"
+              : ""
+          }`}
+        >
+          <Suspense fallback={null}>
+            <ContextualMenu />
+          </Suspense>
+
+          <BlueprintOverlay
+            label={currentLabel}
+            dimensions="FLEX_GROW"
+            color="emerald"
+            className="flex-1 flex flex-col min-h-0 relative -mt-[1px] z-10"
+          >
+            <Suspense fallback={<NanoLoader message="Bategant..." />}>
+              <ErrorBoundary>
+                <div
+                  className={`flex-1 flex flex-col relative min-w-0 main-viewport custom-scrollbar !m-0 pb-[70px] md:pb-0 ${
+                    location.pathname.startsWith("/chats") ||
+                    location.pathname.startsWith("/gestio-menu") ||
+                    location.pathname.startsWith("/notes")
+                      ? "h-full overflow-hidden"
+                      : "min-h-full overflow-y-auto"
+                  }`}
+                >
+                  <Routes>
+                    <Route
+                      path="/"
+                      element={<Navigate to="/chats" replace />}
+                    />
+                    <Route path="/pobles" element={<Towns />} />
+                    <Route path="/pobles/:id" element={<TownDetail />} />
+
+                    <Route path="/chats/*" element={<ChatLayout />}>
+                      <Route index element={<ChatEmptyState />} />
+                      <Route path=":id" element={<ChatDetail />} />
+                    </Route>
+
+                    <Route path="/post/:id" element={<PostDetail />} />
+                    <Route path="/mur" element={<Feed />} />
+                    <Route path="/mercat" element={<Marketplace />} />
+                    <Route path="/mercat/:id" element={<MarketItemDetail />} />
+                    <Route path="/iaia" element={<ProfileView />} />
+                    <Route
+                      path="/perfil"
+                      element={
+                        <ProtectedRoute>
+                          <ProfileView />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/perfil/:id"
+                      element={
+                        <ProtectedRoute>
+                          <ProfileView />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route path="/login" element={<Register />} />
+                    <Route path="/registre" element={<Register />} />
+                    <Route path="/register" element={<Register />} />
+                    <Route path="/mapa" element={<MapaActius />} />
+                    <Route path="/search" element={<SearchDiscover />} />
+                    <Route path="/ofici" element={<OficiDocumentacio />} />
+                    <Route path="/ofici/:id" element={<OficiDocumentacio />} />
+                    <Route path="/visio" element={<VisionView />} />
+                    <Route
+                      path="/buscador-ajudes"
+                      element={<BuscadorAjudes />}
+                    />
+                    <Route path="/nexus" element={<NexusFlash />} />
+                    <Route
+                      path="/solatge"
+                      element={
+                        <ProtectedRoute>
+                          <SolatgeConsole />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route path="/genesis" element={<GenesisViewer />} />
+                    <Route path="/directori" element={<DirectoriComunitat />} />
+                    <Route path="/tools/trellat" element={<SolatgeConsole />} />
+                    <Route path="/infoteca" element={<InfografiaGallery />} />
+                    <Route
+                      path="/admin"
+                      element={
+                        <ProtectedRoute>
+                          <AdminPanel />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route path="/arxiu" element={<ArxiuOr />} />
+                    <Route path="/arxiu/:id" element={<ResourceDetail />} />
+                    <Route path="/calendari" element={<CalendariMaster />} />
+                    <Route path="/fotos/global" element={<AlbumGlobal />} />
+                    <Route path="/dossier" element={<DossierSocis />} />
+                    <Route
+                      path="/gestio/categories"
+                      element={
+                        <ProtectedRoute>
+                          <CategoryManager />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/gestio/xats/:id?"
+                      element={
+                        <ProtectedRoute>
+                          <ChatManager />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/gestio-menu"
+                      element={
+                        <ProtectedRoute>
+                          <MenuManagementView />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/utilitats"
+                      element={
+                        <ProtectedRoute>
+                          <Utilitats />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/accessibilitat"
+                      element={<AccessibilitatUniversal />}
+                    />
+                    <Route
+                      path="/notes"
+                      element={
+                        <ProtectedRoute>
+                          <Notes />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route path="/legal" element={<LegalNotice />} />
+                    <Route path="/projecte" element={<ProjectPresentation />} />
+                    <Route path="/chrome-145" element={<Chrome145Report />} />
+                    <Route
+                      path="/hub"
+                      element={
+                        <ProtectedRoute>
+                          <HubView />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/financament"
+                      element={
+                        <ProtectedRoute>
+                          <Financament />
+                        </ProtectedRoute>
+                      }
+                    />
+                    {/* Fallback 404 Catch-All Route */}
+                    <Route path="*" element={<Navigate to="/mur" replace />} />
+                  </Routes>
+                </div>
+              </ErrorBoundary>
+            </Suspense>
+
+            {/* [ENCAPSULAMENT v10.33.1] Accessibilitat i Onboarding DINS del main */}
+            {isAccessibilitatOpen && (
+              <div className="absolute inset-0 !m-0 !p-0 z-[100] bg-black/50 backdrop-blur-sm animate-in fade-in duration-300">
+                <Suspense
+                  fallback={
+                    <NanoLoader message="Carregant accessibilitat..." />
+                  }
+                >
+                  <AccessibilitatUniversal />
+                </Suspense>
+              </div>
+            )}
+
+            {/* Boto Global d'Accessibilitat IAIA (Només si està activat al perfil) */}
+            {accessibilityMode && !isAccessibilitatOpen && (
+              <button
+                onClick={() => setIsAccessibilitatOpen(true)}
+                className="absolute bottom-[5.5rem] md:bottom-24 right-4 md:right-8 w-14 h-14 bg-[#0ea5e9] text-white rounded-[28px] shadow-[0_0_20px_rgba(14,165,233,0.5)] flex items-center justify-center z-[90] hover:scale-110 transition-transform cursor-pointer border-2 border-white/20"
+                aria-label="Obrir Matriu IAIA d'Accessibilitat"
+              >
+                <Handshake size={28} />
+              </button>
+            )}
+          </BlueprintOverlay>
+        </main>
+      </div>
+
+      {/* FOOTER CANÒNIC (AVÍS LEGAL, AUTORIA, ETC.) - BLINDATGE v1.0 */}
+      <GlobalFooter />
+
+      {/* BARRA DE NAVEGACIÓ MÒBIL (BATEGAT v11.3) */}
+      <div className="relative z-[3000] md:hidden">
+        <MobileBottomNav />
+      </div>
+
+      {/* IAIA CHAT SIDEBAR (DRETA) - GLOBAL & BATEGAT */}
+      <Suspense fallback={null}>
+        <IAIAChatSidebar
+          isOpen={iaiaSidebarOpen}
+          onClose={closeIAIASidebar}
+          context={iaiaSidebarContext}
+        />
+      </Suspense>
+
+      {/* POWER MENU (DASHBOARD PERSONALIZA) - PROTOCOL MINIMALISTA */}
+      <Suspense fallback={null}>
+        <ProfilePowerMenu />
+      </Suspense>
+
+      {/* MODALE D'EXPLICACIÓ (ARQUITECTE) - REPOSITIONAT PELS FRAMES UNIFICATS */}
+      {architectMode && (
+        <div className="fixed inset-0 z-[10000] bg-black/40 backdrop-blur-xl md:pl-[280px]">
+          <div className="h-full flex flex-col relative animate-slide-up">
+            <Suspense fallback={<NanoLoader message="Obrint el Mapa..." />}>
+              <ArchitecteView />
+            </Suspense>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default AppLayout;
+
+
+==================================================
+FILE: src/components/UniversalCard.jsx
+==================================================
+
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useModal } from '../context/ModalContext';
+import { useNavigation } from '../context/NavigationContext';
+import { useDesign } from '../context/DesignContext';
+import { useAuth } from '../context/AuthContext';
+
+
+import { Calendar, Plus, ImageIcon } from 'lucide-react';
+import Avatar from './Avatar';
+
+import UniversalCardHeader from './UniversalCardHeader';
+import UniversalCardMedia from './UniversalCardMedia';
+import UniversalCardBody from './UniversalCardBody';
+import UniversalCardFooter from './UniversalCardFooter';
+import BlueprintOverlay from './BlueprintOverlay';
+import './UniversalCard.css';
+
+
+/**
+ * UniversalCard [CINEMATOGRAPHIC RURALISM] - REFACTORED
+ * ---------------------------------------
+ * DIRECTIVA SUPREMA: Aquest component és la unitat atòmica del Gènesi.
+ * Estructura dividida en Base, Header, Media, Body, i Footer 
+ * per complir el "Single Responsibility Principle".
+ */
+const UniversalCard = ({
+    item,
+    title,
+    subtitle,
+    image,
+    avatarSrc,
+    avatarRole,
+    avatarName,
+    children,
+    className = "",
+    mode = "post", 
+    variant = "post",
+    isBating = false,
+    excerpt,
+    images,
+    isOfficial: forcedOfficial = false,
+    forensicMode: forcedForensic = false,
+    viewMode = "grid"
+}) => {
+
+    const cardVariant = variant || mode;
+    const { openViewer } = useModal();
+    const { forensicMode: contextForensic } = useNavigation();
+
+    const { gloveMode } = useDesign();
+    const isForensic = forcedForensic || contextForensic;
+    const { isAdmin, user } = useAuth();
+    const navigate = useNavigate();
+
+    const isMaster = isAdmin || user?.app_metadata?.role === 'master';
+
+    // MULTIMEDIA RESOLUTION
+    const mediaList = React.useMemo(() => images || item?.images || (Array.isArray(item?.image_url) ? item.image_url : null) || (Array.isArray(image) ? image : null), [images, item?.images, item?.image_url, image]);
+    const displayImage = image || item?.image_url || item?.image || (mediaList ? mediaList[0] : null);
+
+    const displayTitle = title || item?.title || "Sóc de Poble";
+    const displayPrice = item?.price || (cardVariant === 'mercat' || cardVariant === 'market' ? (item?.price || "15.00€") : "");
+    const displayAuthor = avatarName || item?.author_name || item?.author || item?.seller || "Sóc de Poble";
+    const displayExcerpt = excerpt || item?.description || item?.content || "";
+    const displayTown = subtitle || item?.location?.town || item?.town_name || 'La Torre de les Maçanes';
+    const createdAtDate = item?.created_at ? new Date(item.created_at) : (item?.date ? new Date(item.date) : null);
+    const displayDate = createdAtDate ? createdAtDate.toLocaleDateString() : "Data desconeguda";
+    const displayTime = createdAtDate ? createdAtDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : (item?.metadata?.bategat_time || "");
+
+    const isOfficial = React.useMemo(() => forcedOfficial || item?.author_role === 'official' || item?.author_role === 'oficial' || item?.type === 'oficial' || item?.type === 'system' || item?.type === 'bando' || item?.type === 'tramit' || item?.official || cardVariant === 'ajuntament' || cardVariant === 'pobles', [forcedOfficial, item?.author_role, item?.type, item?.official, cardVariant]);
+    const isAlert = React.useMemo(() => item?.category === 'Alert' || item?.type === 'alert' || item?.is_alert || item?.category === 'Danger', [item?.category, item?.type, item?.is_alert]);
+    const isSostenible = React.useMemo(() => item?.category === 'Sostenible' || item?.tags?.includes('#Sostenible'), [item?.category, item?.tags]);
+
+    const handleCardClick = React.useCallback(() => {
+        const id = item?.uuid || item?.id;
+        if (cardVariant === 'pobles') {
+            navigate(`/pobles/${id}`);
+        } else if (cardVariant === 'mapa') {
+            navigate('/mapa');
+        } else if ((cardVariant === 'mercat' || cardVariant === 'market') && id) {
+            navigate(`/mercat/${id}`);
+        } else if (id) {
+            navigate(`/post/${id}`);
+        }
+    }, [item?.uuid, item?.id, cardVariant, navigate]);
+
+    const handleConnectClick = React.useCallback(async (e) => {
+        e.stopPropagation();
+
+        const postId = item?.uuid || item?.id;
+        if (!postId) {
+            console.error("No es pot connectar: La targeta no té un ID vàlid.");
+            return;
+        }
+
+        // [ESCAPARATE PATTERN DOCTRINE] All direct connection clicks on feeds must route to the item detail to avoid accidental inputs
+        // The detailed view handles the actual connection/save/tagging
+        if (cardVariant === 'pobles') {
+            navigate(`/pobles/${postId}?action=connect`);
+        } else if (cardVariant === 'mercat' || cardVariant === 'market') {
+            navigate(`/mercat/${postId}?action=connect`);
+        } else {
+            navigate(`/post/${postId}?action=connect`);
+        }
+    }, [item?.uuid, item?.id, cardVariant, navigate]);
+
+    const CardContent = (
+        <article
+            className={`universal-card card-variant-${cardVariant} view-mode-${viewMode} ${className} relative w-full rounded-[28px] overflow-hidden bg-theme-panel shadow-2xl border border-white/5 flex flex-col transition-all duration-500 hover:shadow-black/50 ${isBating ? 'animate-bategat' : ''} ${gloveMode ? 'mode-guants' : ''} ${isOfficial ? 'role-official' : ''} ${isAlert ? 'category-danger alert-active' : ''} ${isSostenible ? 'category-sostenible' : ''} ${isForensic ? 'mode-forense-active' : ''}`}
+            onClick={handleCardClick}
+            style={{ cursor: (cardVariant === 'pobles' || cardVariant === 'event' || cardVariant === 'mapa') ? 'pointer' : 'default' }}
+        >
+            {viewMode === 'list' ? (
+                <div className="card-list-layout h-20 flex items-center px-4 gap-3">
+                    <Avatar
+                        src={avatarSrc || item?.author_avatar || item?.logo_url || item?.author?.avatar_url}
+                        name={displayAuthor}
+                        role={avatarRole || item?.author_role}
+                        size="sm"
+                        className="flex-shrink-0"
+                    />
+                    
+                    <div className="card-list-thumbnail flex-shrink-0 w-12 h-12 rounded-[28px] overflow-hidden bg-white/10 border border-white/5">
+                        {displayImage ? (
+                            <img 
+                                src={displayImage} 
+                                alt={displayTitle} 
+                                className="w-full h-full object-cover"
+                            />
+                        ) : (
+                            <div className="w-full h-full flex items-center justify-center text-white/20">
+                                <ImageIcon size={16} />
+                            </div>
+                        )}
+                    </div>
+
+                    <div className="flex-1 min-w-0">
+                        <button 
+                            className="font-black uppercase text-[14px] h-10 px-4 rounded-[28px] flex items-center gap-2 bg-[#F97316] text-[#111827] hover:bg-[#EA580C] hover:cursor-pointer transition-colors active:scale-95"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                handleConnectClick(e);
+                            }}
+                        >
+                            <Calendar size={18} className="opacity-80"/> CONNECTAR
+                        </button>
+                        <div className="flex items-center gap-2 text-[14px] font-bold text-gray-600 uppercase tracking-widest truncate mt-1">
+                            <span>{displayAuthor}</span>
+                            <span>•</span>
+                            <span>{displayTown.replace("Poble Principal:", "").trim()}</span>
+                        </div>
+                    </div>
+                    {displayPrice && (
+                        <div className="text-xs font-black text-primary px-3 py-1 bg-primary/10 rounded-[28px] flex-shrink-0">
+                            {displayPrice}
+                        </div>
+                    )}
+                    <div className="flex items-center gap-1 flex-shrink-0">
+                         <button className="p-2 text-white/40 hover:text-white" onClick={handleConnectClick}>
+                            <Plus size={18} />
+                         </button>
+                    </div>
+                </div>
+            ) : (
+                <>
+                    <UniversalCardHeader 
+                        item={item}
+                        cardVariant={cardVariant}
+                        displayTown={displayTown}
+                        displayAuthor={displayAuthor}
+                        avatarSrc={avatarSrc}
+                        avatarRole={avatarRole}
+                        isOfficial={isOfficial}
+                        displayDate={displayDate}
+                        displayTime={displayTime}
+                    />
+
+                    <UniversalCardMedia 
+                        item={item}
+                        cardVariant={cardVariant}
+                        mediaList={mediaList}
+                        displayImage={displayImage}
+                        displayTitle={displayTitle}
+                        openViewer={openViewer}
+                        navigate={navigate}
+                    />
+
+                    <UniversalCardBody 
+                        displayTitle={displayTitle}
+                        displayExcerpt={displayExcerpt}
+                        item={item}
+                        isOfficial={isOfficial}
+                        children={children}
+                        navigate={navigate}
+                        cardVariant={cardVariant}
+                        displayPrice={displayPrice}
+                    />
+
+                    <UniversalCardFooter 
+                        item={item}
+                        cardVariant={cardVariant}
+                        displayTitle={displayTitle}
+                        displayExcerpt={displayExcerpt}
+                        isMaster={isMaster}
+                        navigate={navigate}
+                        handleConnectClick={handleConnectClick}
+                    />
+                </>
+            )}
+        </article>
+    );
+
+    // Avoid useLocation hook to prevent re-renders when local routing changes (improves feed performance)
+    const isChatRoute = typeof window !== 'undefined' ? window.location.pathname.startsWith('/chats') : false;
+
+    const FinalCard = (
+        <div className="min-w-0 w-full">
+            {CardContent}
+        </div>
+    );
+
+    return isChatRoute ? (
+        <BlueprintOverlay label={`CARD_UNIT`} dimensions={`${cardVariant.toUpperCase()} | R: 28PX`} color="cyan">
+            {FinalCard}
+        </BlueprintOverlay>
+    ) : FinalCard;
+};
+
+// Using default React.memo for a standard shallow comparison of all props
+// This fixes the bug where item updates weren't reflecting properly if UUID didn't change
+export default React.memo(UniversalCard);
+
+
+==================================================
+FILE: src/components/ChatDetail.jsx
+==================================================
+
+import { useState, useEffect, useRef, useMemo } from 'react';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { 
+    ShieldCheck, MessageSquare, Smile, Mic, Bell,
+    Briefcase, Handshake, Globe, TrendingUp,
+    NotebookPen, Save, ArrowRight, X, Loader2, ChevronLeft, Search, Paperclip, ShoppingBag, Send, Settings,
+    Check, CheckCheck, MoreVertical, Image, Camera, MapPin, User, FileText, Headphones, BarChart2, CalendarDays
+} from 'lucide-react';
+import EmojiPicker from 'emoji-picker-react';
+import { useTranslation } from 'react-i18next';
+import { supabase } from '../supabaseClient';
+import { supabaseService } from '../services/supabaseService';
+import { useAuth } from '../context/AuthContext';
+import { useNavigation } from '../context/NavigationContext';
+import { useModal } from '../context/ModalContext';
+import Avatar from './Avatar';
+import StatusLoader from './StatusLoader';
+import { logger } from '../utils/logger';
+import { iaiaService } from '../services/iaiaService';
+import VoiceRecorder from './VoiceRecorder';
+import UniversalCitation from './UniversalCitation';
+import CopyButton from './CopyButton';
+
+const ChatDetail = () => {
+    const { chatSettings } = useNavigation();
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const { t } = useTranslation();
+    const { user, impersonatedProfile, activeEntityId, isSuperAdmin } = useAuth();
+    const { setIsGuestInteractionModalOpen, openPostModal } = useModal();
+    const [chat, setChat] = useState(null);
+    const [realChatId, setRealChatId] = useState(id);
+    const [messages, setMessages] = useState([]);
+    const [newMessage, setNewMessage] = useState('');
+    const [loading, setLoading] = useState(true);
+    const messagesEndRef = useRef(null);
+    const inputRef = useRef(null);
+    const [isNotepadOpen, setIsNotepadOpen] = useState(false);
+    const [notepadTitle, setNotepadTitle] = useState('');
+    const [notepadContent, setNotepadContent] = useState('');
+    const [isRecording, setIsRecording] = useState(false);
+    const [isHeaderSearchOpen, setIsHeaderSearchOpen] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [isAttachmentMenuOpen, setIsAttachmentMenuOpen] = useState(false);
+    const [isSettingsMenuOpen, setIsSettingsMenuOpen] = useState(false);
+    const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false);
+    const [isSending, setIsSending] = useState(false);
+    
+    // Drag & Drop State
+    const [attachedFile, setAttachedFile] = useState(null);
+    const [attachedFilePreview, setAttachedFilePreview] = useState(null);
+    
+    const humanId = isSuperAdmin && impersonatedProfile ? impersonatedProfile.id : user?.id;
+    const currentUserId = user?.id || (user?.isAnonymous ? `anon-${Math.random().toString(36).substr(2, 9)}` : 'guest');
+    
+    // BISTURÍ 4: Escut d'existència (React Unmount Crashes)
+    const isComponentMounted = useRef(true);
+    useEffect(() => {
+        isComponentMounted.current = true;
+        return () => { isComponentMounted.current = false; };
+    }, []);
+    const isP1Current = chat?.participant_1_id === currentUserId;
+    const otherInfo = chat?.other_info || (isP1Current ? chat?.p2_info : chat?.p1_info);
+
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    const { state } = useLocation();
+
+    const readReceiptsRef = useRef(chatSettings.readReceipts);
+    useEffect(() => { readReceiptsRef.current = chatSettings.readReceipts; }, [chatSettings.readReceipts]);
+
+    const isRealChatIdResolved = useRef(false);
+    
+    // DeepSeek V7: Ref del canal WebSocket per evitar fuites en canvis de visibilitat
+    const channelRef = useRef(null);
+
+    useEffect(() => {
+        setRealChatId(id);
+        isRealChatIdResolved.current = false;
+    }, [id]);
+
+    useEffect(() => {
+        if (!user || !currentUserId) return;
+        let isMounted = true;
+        const fetchChatData = async () => {
+            try {
+                const chats = await supabaseService.getConversations(currentUserId);
+                if (!isMounted) return;
+                
+                let currentChat = chats.find(c => c.id === id);
+                
+                if (!currentChat && state?.chatInfo) {
+                    currentChat = state.chatInfo;
+                }
+
+                if (currentChat) {
+                    setRealChatId(currentChat.id);
+                    isRealChatIdResolved.current = true;
+                    setChat(currentChat);
+                    const msgs = await supabaseService.getConversationMessages(currentChat.id);
+                    if (!isMounted) return;
+                    
+                    setMessages(msgs);
+                    if (readReceiptsRef.current) {
+                        await supabaseService.markMessagesAsRead(currentChat.id, currentUserId);
+                    }
+                } else if (id.startsWith('11111111-')) {
+                    const AGENTS = [
+                        { id: '11111111-1111-4111-a111-000000000000', name: 'IAIA MarIA' },
+                        { id: '11111111-1111-4111-a111-000000000003', name: 'Vicent Ferris' },
+                        { id: '11111111-1111-4111-a111-000000000004', name: 'Pepica la Vall' },
+                        { id: '11111111-1111-4111-a111-000000000009', name: 'Andreu Soler' },
+                        { id: '11111111-1111-4111-a111-000000000008', name: 'Joan Batiste' },
+                        { id: '11111111-0000-0000-0000-000000000001', name: 'Super Ratolí' },
+                        { id: '11111111-1111-4111-a111-000000000006', name: 'Sultan' },
+                        { id: '11111111-1a1a-0001-0000-000000000011', name: 'La Mixa' },
+                        { id: '11111111-1a1a-0001-0000-000000000012', name: 'El Gall' },
+                        { id: '11111111-1111-4111-a111-000000000007', name: 'Nano Banana' },
+                        { id: '11111111-1111-4111-a111-000000000013', name: 'El Viatjant' },
+                        { id: '11111111-1111-4111-a111-000000000014', name: 'Beatriz Ortega' },
+                        { id: '11111111-1111-4111-a111-000000000015', name: 'Carla Soriano' },
+                        { id: '11111111-1111-4111-a111-000000000016', name: 'Elena Popova' }
+                    ];
+                    const agent = AGENTS.find(a => a.id === id);
+                    
+                    // Ensured AI persistence: Resolve real Supabase UUID
+                    const realConv = await supabaseService.getOrCreateConversation(currentUserId, 'user', id, 'ai');
+                    if (!isMounted) return;
+                    
+                    if (realConv && realConv.id) {
+                        setRealChatId(realConv.id);
+                        isRealChatIdResolved.current = true;
+                        setChat({ id: realConv.id, other_info: { id: id, name: agent?.name || 'Agent Especialista' } });
+                        const msgs = await supabaseService.getConversationMessages(realConv.id);
+                        if (!isMounted) return;
+                        setMessages(msgs);
+                    } else {
+                        setChat({ id: id, other_info: { id: id, name: agent?.name || 'Agent Especialista' } });
+                    }
+                }
+            } catch (error) {
+                if (!isMounted) return;
+                logger.error('Error fetching chat data:', error);
+            } finally {
+                if (isMounted) setLoading(false);
+            }
+        };
+        fetchChatData();
+        return () => { isMounted = false; };
+    }, [id, currentUserId, user, state]);
+
+    useEffect(() => {
+        if (messages.length > 0) scrollToBottom();
+    }, [messages.length]);
+
+    useEffect(() => {
+        if (!user || !currentUserId || !realChatId) return;
+        if (realChatId === id && !isRealChatIdResolved.current) return;
+
+        channelRef.current = supabaseService.subscribeToMessages(realChatId, (payload) => {
+            if (payload.new) {
+                setMessages(prev => {
+                    if (prev.find(m => m.id === payload.new.id)) return prev;
+                    return [...prev, payload.new];
+                });
+                if (payload.new.sender_id !== currentUserId && readReceiptsRef.current) {
+                    supabaseService.markMessagesAsRead(realChatId, currentUserId);
+                }
+            }
+        });
+
+        const handleVisibilityChange = () => {
+            if (document.visibilityState === 'visible') {
+                if (channelRef.current) supabaseService.unsubscribe(channelRef.current);
+                channelRef.current = supabaseService.subscribeToMessages(realChatId, (payload) => {
+                    if (payload.new) {
+                        setMessages(prev => {
+                            if (prev.find(m => m.id === payload.new.id)) return prev;
+                            return [...prev, payload.new];
+                        });
+                        if (payload.new.sender_id !== currentUserId && readReceiptsRef.current) {
+                            supabaseService.markMessagesAsRead(realChatId, currentUserId);
+                        }
+                    }
+                });
+                
+                supabaseService.getConversationMessages(realChatId).then(msgs => {
+                    if (!isComponentMounted.current) return; // ESCUT ACTIVAT
+                    if (msgs?.length) {
+                        setMessages(prev => {
+                            const existingIds = new Set(prev.map(m => m.id));
+                            const newMsgs = msgs.filter(m => !existingIds.has(m.id));
+                            return newMsgs.length ? [...prev, ...newMsgs] : prev;
+                        });
+                    }
+                }).catch(err => logger.error('[ChatDetail] Background recovery fetch error:', err));
+            }
+        };
+
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+
+        return () => {
+            document.removeEventListener('visibilitychange', handleVisibilityChange);
+            if (channelRef.current) supabaseService.unsubscribe(channelRef.current);
+        };
+    }, [realChatId, currentUserId, user, id]);
+
+    const handleNotReady = () => {
+        alert("Una alquímia del Mestre Javi està forjant aquesta funcionalitat. Prompte bategarà.");
+        setIsAttachmentMenuOpen(false);
+    };
+
+    const handleSendMessage = async (e) => {
+        e.preventDefault();
+        const isIAIA = id.startsWith('11111111-') || otherInfo?.id?.startsWith('11111111-');
+        if (user?.isAnonymous && !isIAIA) {
+            setIsGuestInteractionModalOpen(true);
+            return;
+        }
+
+        if (isSending || !newMessage.trim()) return;
+        const text = newMessage.trim();
+        
+        // 2. UI Optimista: Neteja IMMEDIATA i bloqueig per a alliberar l'usuari
+        setNewMessage('');
+        setIsSending(true);
+        setIsAttachmentMenuOpen(false);
+        
+        // --- MASTER COMMAND INTERCEPT: AI-to-AI Debate ---
+        if (text === '/solatge interact') {
+            setNewMessage('');
+            iaiaService.simulateAgentDebate().catch(err => logger.error('[Solatge Interact]', err));
+            setMessages(prev => [
+                ...prev, 
+                {
+                    id: `cmd-req-${Date.now()}`,
+                    sender_id: humanId,
+                    content: text,
+                    created_at: new Date().toISOString()
+                },
+                {
+                    id: `cmd-res-${Date.now()}`,
+                    sender_id: 'system',
+                    content: '⚙️ Bategat remot: Iniciant debat entre IAIAs a la DB pública. Comprova el fil de Pobles.',
+                    created_at: new Date().toISOString()
+                }
+            ]);
+            return;
+        }
+
+        let timerId;
+        try {
+            const timeoutPromise = new Promise((_, reject) => {
+                timerId = setTimeout(() => reject(new Error('NETWORK_TIMEOUT')), 12000);
+            });
+            
+            const result = await Promise.race([
+                supabaseService.sendSecureMessage({
+                    conversationId: realChatId,
+                    senderId: humanId,
+                    senderEntityId: activeEntityId,
+                    content: text,
+                    isGuest: user?.isAnonymous
+                }),
+                timeoutPromise
+            ]);
+            clearTimeout(timerId);
+            
+            if (!result?.id) throw new Error('Invalid server response');
+
+            setMessages(prev => {
+                if (prev.find(m => m.id === result.id)) return prev;
+                return [...prev, result];
+            });
+
+            if (id.startsWith('11111111-') || otherInfo?.id?.startsWith('11111111-')) {
+                iaiaService.generateAIAResponse(realChatId, text, otherInfo?.id || id).then(filler => {
+                    if (!isComponentMounted.current) return;
+                    if (filler && typeof filler === 'object') {
+                        setMessages(prev => {
+                            if (prev.find(m => m.id === filler.id)) return prev;
+                            return [...prev, filler];
+                        });
+                    }
+                }).catch(err => logger.error('[ChatDetail] Error in IAIA response:', err));
+            }
+        } catch (err) { 
+            clearTimeout(timerId);
+            logger.error('Error sending message:', err); 
+            setNewMessage(text); // 3. Rollback: Recupera el text només si la xarxa falla
+        } finally {
+            setIsSending(false); // 4. Desactiva l'escut
+        }
+    };
+
+    const filteredMessages = useMemo(() => {
+        return messages.filter(msg => !searchQuery || msg.content?.toLowerCase().includes(searchQuery.toLowerCase()));
+    }, [messages, searchQuery]);
+
+    const renderedMessages = useMemo(() => {
+        return filteredMessages.map(msg => {
+            const isMe = msg.sender_id === humanId;
+            return (
+                <div key={msg.id} className={`flex ${isMe ? 'justify-end' : 'justify-start'} animate-in fade-in slide-in-from-bottom-2 duration-300`}>
+                    <div className={`max-w-[85%] md:max-w-[65%] card-radius p-4 relative shadow-2xl
+                        ${isMe ? 'bg-[#fff3e0] text-[#000] dark:bg-[#bfdbfe] dark:text-[#000] rounded-tr-none' : 'bg-theme-panel text-theme-text rounded-tl-none border border-[var(--border-master)]'}`}>
+                        
+                        {!isMe && (msg.author_name || otherInfo?.name) && (
+                            <div className={`text-[10px] font-black uppercase tracking-widest mb-2 opacity-80 text-[var(--theme-accent-primary)]`}>
+                                {msg.author_name || otherInfo?.name}
+                            </div>
+                        )}
+
+                        <div className="text-[17px] leading-snug break-words font-medium">
+                            {msg.attachment_type === 'voice' ? (
+                                <div className="flex items-center gap-3 py-1 min-w-[200px]">
+                                    <button
+                                        onClick={() => {
+                                            const audio = new Audio(msg.attachment_url);
+                                            audio.play().catch(err => logger.error('[Voice] Play error:', err));
+                                        }}
+                                        className="w-10 h-10 rounded-[28px] bg-white/20 flex items-center justify-center shrink-0 hover:bg-white/30 transition-colors active:scale-95 cursor-pointer"
+                                        aria-label="Reproduir missatge de veu"
+                                    >
+                                        <Mic size={20} className="text-white" />
+                                    </button>
+                                    <div className="flex-1 space-y-1">
+                                        <div className="h-1 bg-white/30 rounded-full w-full overflow-hidden">
+                                            <div className="h-full bg-white/70 w-1/3 rounded-[28px]" />
+                                        </div>
+                                        <div className="text-[10px] opacity-70 flex justify-between">
+                                            <span>{msg.voice_meta?.duration ? `${msg.voice_meta.duration}s` : '—'}</span>
+                                            <span className="uppercase tracking-tighter">Bategat de veu</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            ) : msg.attachment_url ? (
+                                <div className="space-y-2">
+                                    {msg.attachment_type === 'image' ? (
+                                        <img src={msg.attachment_url} alt={msg.attachment_name} className="rounded-[20px] max-h-60 w-auto object-cover" />
+                                    ) : (
+                                        <div className="flex items-center gap-2 p-2 bg-black/10 rounded-[20px] border border-[var(--border-master)]">
+                                            <Paperclip size={16} />
+                                            <span className="text-xs truncate max-w-[150px]">{msg.attachment_name || 'Arxiu'}</span>
+                                        </div>
+                                    )}
+                                </div>
+                            ) : (
+                                msg.content
+                            )}
+                        </div>
+
+                        <div className="mt-2 flex items-center justify-end gap-1.5 opacity-60">
+                            <span className="text-[10px] font-black uppercase text-white/50">
+                                {msg.created_at ? new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Ara'}
+                            </span>
+                            {isMe && (
+                                <div className="flex items-center -space-x-1">
+                                    {msg.read_at ? (
+                                        <CheckCheck size={14} className="text-[var(--theme-accent-secondary)] animate-in zoom-in duration-300" title="Llegit" />
+                                    ) : msg.status === 'delivered' ? (
+                                        <CheckCheck size={14} className="text-black/40 dark:text-white/40" title="Entregat" />
+                                    ) : (
+                                        <Check size={14} className="text-black/40 dark:text-white/40" title="Enviat" />
+                                    )}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            );
+        });
+    }, [filteredMessages, humanId, otherInfo?.name]);
+
+    if (loading) return <div className="flex-1 bg-theme-base flex items-center justify-center"><Loader2 className="animate-spin text-[var(--theme-accent-primary)]" size={40} /></div>;
+
+    return (
+        <div className="chat-detail-container flex-1 flex flex-col min-h-0 relative">
+            {/* SCANLINES RETRO-FUTURISTES */}
+            <div className="chat-list-scanlines" />
+            
+            {/* HEADER DEL XAT - CABECERA NEGRA RESPONSIVE (1er MANDAMENT v9.0.0) - EXACTLY 64px */}
+            <header className={`h-16 min-h-[64px] px-4 md:px-6 flex items-center justify-between border-b border-[var(--border-master)] flex-shrink-0 z-30 transition-colors ${otherInfo?.id?.startsWith('11111111-') ? 'bg-[var(--theme-accent-primary)] text-white' : 'bg-theme-header text-theme-text'}`}>
+                {/* ZONA CLICABLE GLOBAL: Tot el costat esquerre porta al perfil */}
+                <div 
+                    className="flex items-center gap-3 flex-1 cursor-pointer group transition-all"
+                    onClick={() => {
+                         if (otherInfo?.id?.startsWith('11111111-')) {
+                            navigate(`/perfil/${otherInfo.name.toLowerCase().replace(/[^a-z0-9]/g, '-')}`);
+                         } else {
+                            navigate(`/perfil/${otherInfo?.id}`);
+                         }
+                    }}
+                >
+                    <button 
+                        onClick={(e) => { e.stopPropagation(); navigate('/chats'); }} 
+                        className="md:hidden w-12 h-12 flex items-center justify-center -ml-2 text-gray-400 hover:text-white transition-colors"
+                    >
+                        <ChevronLeft size={24} />
+                    </button>
+                    
+                    {isHeaderSearchOpen ? (
+                        <input
+                            autoFocus
+                            type="text"
+                            placeholder="Cerca fragments..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            onClick={(e) => e.stopPropagation()}
+                            className="w-full bg-black/20 border border-[var(--border-master)] text-white placeholder:text-white/50 px-4 py-2 rounded-[28px] focus:outline-none mr-2"
+                        />
+                    ) : (
+                        <>
+                            <div className={otherInfo?.id?.startsWith('11111111-') ? 'bg-white rounded-full p-0.5 shadow-[0_0_10px_rgba(255,255,255,0.4)]' : ''}>
+                                <Avatar src={otherInfo?.avatar_url} name={otherInfo?.name} size={40} />
+                            </div>
+                            
+                            <div className="flex flex-col min-w-0 pr-2 flex-1">
+                                <h2 className={`text-lg font-bold truncate leading-none transition-colors ${otherInfo?.id?.startsWith('11111111-') ? 'text-white' : 'text-theme-text group-hover:text-[var(--theme-accent-primary)]'}`}>
+                                    {otherInfo?.name || 'Foraster'}
+                                </h2>
+                                <div className="flex items-center gap-2 mt-1">
+                                    <span className={`w-2 h-2 rounded-full ${(otherInfo?.id?.startsWith('11111111-')) ? 'bg-white shadow-[0_0_6px_rgba(255,255,255,0.8)]' : 'bg-green-500'}`} />
+                                    <span className={`text-[10px] font-black uppercase tracking-widest opacity-80 ${otherInfo?.id?.startsWith('11111111-') ? 'text-[var(--sdp-white)]' : 'text-gray-400'}`}>
+                                        {(otherInfo?.id?.startsWith('11111111-')) ? 'IAIA Bategant' : 'En línia ara'}
+                                    </span>
+                                </div>
+                            </div>
+                        </>
+                    )}
+                </div>
+
+                <div className="flex items-center gap-4 ml-auto z-10 bg-[var(--theme-accent-secondary)] dark:bg-[var(--theme-accent-primary)] rounded-[20px] px-5 py-2 shadow-inner shadow-black/20">
+                    <button 
+                        onClick={() => setIsNotepadOpen(!isNotepadOpen)} 
+                        className={`transition-all hover:scale-110 active:scale-95 text-white filter drop-shadow-md ${isNotepadOpen ? 'opacity-100 drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]' : 'opacity-80'}`}
+                        title="Bloc de Notes"
+                    >
+                        <NotebookPen size={22} strokeWidth={2.5} />
+                    </button>
+
+                    <button 
+                        onClick={() => setIsHeaderSearchOpen(!isHeaderSearchOpen)}
+                        className={`transition-all hover:bg-white/10 rounded-full p-2 text-white filter drop-shadow-md sm:block ${isHeaderSearchOpen ? 'opacity-100 drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]' : 'opacity-80'}`}
+                        title="Cercar en la conversa"
+                    >
+                        <Search size={22} strokeWidth={2.5} />
+                    </button>
+                    
+                    <div className="relative">
+                        <button 
+                            onClick={() => setIsSettingsMenuOpen(!isSettingsMenuOpen)}
+                            className={`transition-all hover:bg-white/10 rounded-full p-2 text-white filter drop-shadow-md sm:block ${isSettingsMenuOpen ? 'opacity-100 bg-white/10' : 'opacity-80'}`}
+                            title="Opcions del Xat"
+                        >
+                            <MoreVertical size={22} strokeWidth={2.5} />
+                        </button>
+
+                        {isSettingsMenuOpen && (
+                            <>
+                                <div className="fixed inset-0 z-40" onClick={() => setIsSettingsMenuOpen(false)}></div>
+                                <div className="absolute top-12 right-0 w-64 bg-[#111827] text-white border border-white/10 rounded-[28px] shadow-[0_8px_30px_rgb(0,0,0,0.2)] py-2 z-50 text-[15px] animate-in fade-in zoom-in-95 duration-200 origin-top-right">
+                                    <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full text-left px-5 py-3 text-white/80 hover:bg-white/10 hover:text-white transition-colors">Afegeix membres</button>
+                                    <button onClick={() => { setIsSettingsMenuOpen(false); navigate(`/gestio/xats/${realChatId}`); }} className="w-full text-left px-5 py-3 text-white/80 hover:bg-white/10 hover:text-white transition-colors">Informació del grup</button>
+                                    <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full text-left px-5 py-3 text-white/80 hover:bg-white/10 hover:text-white transition-colors">Fitxers multimèdia del grup</button>
+                                    <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full text-left px-5 py-3 text-white/80 hover:bg-white/10 hover:text-white transition-colors">Cerca</button>
+                                    <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full text-left px-5 py-3 text-white/80 hover:bg-white/10 hover:text-white transition-colors">Silenciar notificacions</button>
+                                    <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full text-left px-5 py-3 text-white/80 hover:bg-white/10 hover:text-white transition-colors">Missatges temporals</button>
+                                    <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full text-left px-5 py-3 text-white/80 hover:bg-white/10 hover:text-white transition-colors">Tema del xat</button>
+                                    <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full text-left px-5 py-3 text-white/80 hover:bg-white/10 hover:text-white transition-colors flex justify-between items-center group">
+                                        Més
+                                        <ChevronLeft size={16} className="rotate-180 text-gray-400 group-hover:text-white" />
+                                    </button>
+                                </div>
+                            </>
+                        )}
+                    </div>
+                </div>
+            </header>
+
+            {/* SPLIT VIEW ENGINE: CONTENIDOR DE XAT + BLOC DE NOTES (v10.12) */}
+            <div className="chat-split-view-container flex-1 flex min-h-0 bg-theme-base">
+                {/* 1. PANNELL DE MISSATGES (FLEX-1) */}
+                <div className="chat-messages-panel flex-1 flex flex-col min-h-0 bg-theme-base">
+                    <div className="messages-container custom-scrollbar chat-messages-list flex-1 px-4 md:px-6 py-4">
+                        {messages.length === 0 ? (
+                            <div className="flex flex-col items-center justify-center h-full opacity-20">
+                                {otherInfo?.id === 'iaia-oficial' ? (
+                                    <div className="flex flex-col items-center gap-6 animate-in zoom-in duration-500 opacity-100">
+                                        <div className="w-24 h-24 rounded-[28px] bg-orange-500 flex items-center justify-center text-4xl shadow-lg border-4 border-[var(--border-master)]">👵</div>
+                                        <div className="text-center">
+                                            <h2 className="text-3xl font-bold text-theme-text mb-2">Hola, Mestre Javi.</h2>
+                                            <p className="text-gray-400 max-w-xs mx-auto mb-8">Sóc la teua IAIA. Tinc els dossiers preparats per als nostres socis.</p>
+                                            
+                                            <div className="grid grid-cols-1 gap-4 w-full">
+                                                <button 
+                                                    onClick={() => navigate('/ofici?section=partners')}
+                                                    className="p-6 genesis-radius bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg transform hover:scale-105 transition-all text-left flex items-center gap-4 group"
+                                                >
+                                                    <Briefcase className="w-10 h-10 group-hover:animate-bounce" />
+                                                    <div>
+                                                        <h3 className="font-bold text-lg">Dossier de Partners 💼</h3>
+                                                        <p className="text-xs opacity-70">Viabilitat tècnica i econòmica Sollutia.</p>
+                                                    </div>
+                                                </button>
+
+                                                <div className="flex gap-4">
+                                                    <button className="flex-1 p-4 card-radius border border-[var(--border-master)] hover:bg-white/5 text-left transition-all">
+                                                        <Globe className="w-6 h-6 mb-2 text-indigo-400" />
+                                                        <h4 className="font-bold text-sm">Federació</h4>
+                                                    </button>
+                                                    <button className="flex-1 p-4 card-radius border border-[var(--border-master)] hover:bg-white/5 text-left transition-all">
+                                                        <TrendingUp className="w-6 h-6 mb-2 text-green-400" />
+                                                        <h4 className="font-bold text-sm">Models</h4>
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <div className="mt-8 flex items-center justify-center gap-2 text-[10px] font-black text-gray-600 uppercase tracking-widest">
+                                                <Handshake size={14} />
+                                                <span>Focus Sollutia v10.9.0</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <>
+                                        <MessageSquare size={56} className="text-gray-600 mb-4" />
+                                        <p className="text-xs font-black text-gray-500 uppercase tracking-[0.3em]">
+                                            {otherInfo?.name ? `PARLA AMB ${otherInfo.name.toUpperCase()}` : t('common.write_message')}
+                                        </p>
+                                    </>
+                                )}
+                            </div>
+                        ) : (
+                            renderedMessages
+                        )}
+                        {/* INDICADOR D'ESCRIPTURA (v-WA Parity) */}
+                        <div className="h-4">
+                            {otherInfo?.id?.startsWith('11111111-') && messages.length > 0 && messages[messages.length-1].sender_id === humanId && (
+                                <div className="flex items-center gap-2 text-[10px] font-black text-[var(--theme-accent-primary)] animate-pulse">
+                                    <span>{otherInfo.name.toUpperCase()} ESTÀ BATEGANT</span>
+                                    <div className="flex gap-1">
+                                        <span className="w-1 h-1 bg-[var(--theme-accent-primary)] rounded-[28px] animate-bounce" style={{ animationDelay: '0ms' }} />
+                                        <span className="w-1 h-1 bg-[var(--theme-accent-primary)] rounded-[28px] animate-bounce" style={{ animationDelay: '150ms' }} />
+                                        <span className="w-1 h-1 bg-[var(--theme-accent-primary)] rounded-[28px] animate-bounce" style={{ animationDelay: '300ms' }} />
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                        <div ref={messagesEndRef} />
+                    </div>
+
+                    {/* 3. ÀREA D'ENTRADA DE MISSATGES (AMB EXD/VOICE CANÒNIC) */}
+                <div className="chat-input-master-wrapper px-4 md:px-6 py-[12px] bg-[var(--theme-accent-primary)] dark:bg-[var(--theme-accent-secondary)] border-t border-transparent z-[50] flex-shrink-0 relative focus-within:z-[60] transition-colors">
+                        <div className="max-w-5xl mx-auto relative">
+                            {/* OVERLAY DE GRAVACIÓ DE VEU */}
+                            {isRecording ? (
+                                <div className="voice-recorder-overlay animate-in slide-in-from-bottom-5 duration-300">
+                                    <VoiceRecorder 
+                                        onSend={async (blob, duration, transcript) => {
+                                            logger.log('[ChatDetail] Voice message captured:', duration, transcript);
+                                            setIsRecording(false);
+                                            if (!blob) return;
+
+                                            try {
+                                                const fileName = `voice-${Date.now()}-${humanId}.webm`;
+                                                const { error: uploadError } = await supabase.storage
+                                                    .from('voice-messages')
+                                                    .upload(fileName, blob, { contentType: 'audio/webm' });
+                                                
+                                                if (uploadError) throw uploadError;
+
+                                                const { data: urlData } = supabase.storage
+                                                    .from('voice-messages')
+                                                    .getPublicUrl(fileName);
+
+                                                await supabaseService.sendSecureMessage({
+                                                    conversationId: realChatId,
+                                                    senderId: humanId,
+                                                    senderEntityId: activeEntityId,
+                                                    content: transcript || '🎤 Missatge de veu',
+                                                    attachmentUrl: urlData.publicUrl,
+                                                    attachmentType: 'voice',
+                                                    voice_meta: { duration },
+                                                });
+                                            } catch (err) {
+                                                logger.error('[ChatDetail] Error sending voice message:', err);
+                                                if (transcript) setNewMessage(transcript);
+                                            }
+                                        }}
+                                        onCancel={() => setIsRecording(false)}
+                                    />
+                                </div>
+                            ) : user?.isAnonymous && !id.startsWith('11111111-') ? (
+                                <div className="w-full relative">
+                                    <button 
+                                        onClick={(e) => { e.preventDefault(); setIsGuestInteractionModalOpen(true); }}
+                                        className="w-full h-[48px] genesis-radius bg-theme-panel border border-orange-500/50 hover:bg-orange-500/10 text-orange-400 font-bold text-sm tracking-wide shadow-lg transition-all flex items-center justify-center gap-2"
+                                    >
+                                        <ShieldCheck size={18} />
+                                        <span>Atenció: Conversació Efímera. Toca per Registrar-te.</span>
+                                    </button>
+                                    <p className="text-center text-[10px] text-gray-400 mt-2 uppercase tracking-widest hidden md:block">
+                                        Aquest xat no s'està guardant al teu nom.
+                                    </p>
+                                </div>
+                            ) : (
+                                    <div className="flex flex-col gap-2 w-full">
+                                        
+                                        {/* PREVISUALITZACIÓ D'ADJUNT (DRAG & DROP) */}
+                                        {attachedFile && (
+                                            <div className="flex w-full overflow-x-auto custom-scrollbar pb-2 pt-1 px-1">
+                                                <div className="relative inline-flex flex-col animate-in fade-in slide-in-from-bottom-2 bg-white dark:bg-[#1f1f1f] rounded-2xl p-2 shadow-sm border border-[var(--border-master)] max-w-xs shrink-0">
+                                                    <button 
+                                                        onClick={() => { setAttachedFile(null); setAttachedFilePreview(null); }}
+                                                        className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center shadow-md hover:scale-110 transition-transform z-10"
+                                                    >
+                                                        <X size={14} strokeWidth={3} />
+                                                    </button>
+                                                    
+                                                    {attachedFilePreview ? (
+                                                        <img src={attachedFilePreview} alt={attachedFile.name} className="w-full h-32 object-cover rounded-xl" />
+                                                    ) : (
+                                                        <div className="w-full h-32 bg-[var(--bg-master)] rounded-xl flex items-center justify-center text-[var(--theme-accent-primary)]">
+                                                            <FileText size={48} opacity={0.5} />
+                                                        </div>
+                                                    )}
+                                                    
+                                                    <div className="mt-2 text-xs font-semibold text-center truncate px-2 text-[var(--text-main)] w-full">
+                                                        {attachedFile.name}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        <form className="flex items-center gap-2 m-0 p-0 w-full" onSubmit={handleSendMessage}>
+                                            {/* BOTÓ ADJUNTAR (PLUS MODERN + WA PARITY) */}
+                                        <div className="relative flex items-end">
+                                            <button 
+                                                type="button" 
+                                                onClick={(e) => { e.preventDefault(); e.stopPropagation(); setIsAttachmentMenuOpen(!isAttachmentMenuOpen); setIsEmojiPickerOpen(false); }}
+                                                className="w-[40px] h-[40px] md:w-[48px] md:h-[48px] shrink-0 flex items-center justify-center rounded-[24px] bg-white/20 dark:bg-black/20 text-white hover:bg-white/30 dark:hover:bg-black/30 transition-all active:scale-95 relative z-10"
+                                            >
+                                                <Paperclip className="w-[18px] h-[18px] md:w-[22px] md:h-[22px]" />
+                                            </button>
+
+                                            {isAttachmentMenuOpen && (
+                                                <>
+                                                    <div className="fixed inset-0 z-[100]" onClick={(e) => {e.stopPropagation(); setIsAttachmentMenuOpen(false);}}></div>
+                                                    <div className="absolute bottom-[60px] left-0 md:left-4 w-[320px] bg-[#111827] text-white border border-white/10 rounded-[28px] shadow-[0_8px_40px_rgb(0,0,0,0.15)] p-5 z-[110] animate-in slide-in-from-bottom-2 zoom-in-95 origin-bottom">
+                                                        <div className="grid grid-cols-4 gap-y-6 gap-x-2">
+                                                            {/* NORMAL ATTACHMENT GRID (8 ICONS) */}
+                                                            <button type="button" onClick={handleNotReady} className="flex flex-col items-center gap-2 cursor-pointer group hover:opacity-90">
+                                                                <div className="w-12 h-12 rounded-[28px] bg-orange-500 text-white flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
+                                                                    <Image size={22} strokeWidth={2} />
+                                                                </div>
+                                                                <span className="text-[11px] text-gray-500 font-medium">Galeria</span>
+                                                            </button>
+                                                            <button type="button" onClick={handleNotReady} className="flex flex-col items-center gap-2 cursor-pointer group hover:opacity-90">
+                                                                <div className="w-12 h-12 rounded-[28px] bg-pink-500 text-white flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
+                                                                    <Camera size={22} strokeWidth={2} />
+                                                                </div>
+                                                                <span className="text-[11px] text-gray-500 font-medium">Càmera</span>
+                                                            </button>
+                                                            <button type="button" onClick={handleNotReady} className="flex flex-col items-center gap-2 cursor-pointer group hover:opacity-90">
+                                                                <div className="w-12 h-12 rounded-[28px] bg-green-500 text-white flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
+                                                                    <MapPin size={22} strokeWidth={2} />
+                                                                </div>
+                                                                <span className="text-[11px] text-gray-500 font-medium">Ubicació</span>
+                                                            </button>
+                                                            <button type="button" onClick={handleNotReady} className="flex flex-col items-center gap-2 cursor-pointer group hover:opacity-90">
+                                                                <div className="w-12 h-12 rounded-[28px] bg-blue-400 text-white flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
+                                                                    <User size={22} strokeWidth={2} />
+                                                                </div>
+                                                                <span className="text-[11px] text-gray-500 font-medium">Contacte</span>
+                                                            </button>
+                                                            <button type="button" onClick={handleNotReady} className="flex flex-col items-center gap-2 cursor-pointer group hover:opacity-90">
+                                                                <div className="w-12 h-12 rounded-[28px] bg-indigo-500 text-white flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
+                                                                    <FileText size={22} strokeWidth={2} />
+                                                                </div>
+                                                                <span className="text-[11px] text-gray-500 font-medium">Document</span>
+                                                            </button>
+                                                            <button type="button" onClick={() => { setIsAttachmentMenuOpen(false); setIsRecording(true); }} className="flex flex-col items-center gap-2 cursor-pointer group hover:opacity-90">
+                                                                <div className="w-12 h-12 rounded-[28px] bg-red-500 text-white flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
+                                                                    <Mic size={22} strokeWidth={2} />
+                                                                </div>
+                                                                <span className="text-[11px] text-gray-500 font-medium">Gravar</span>
+                                                            </button>
+                                                            <button type="button" onClick={handleNotReady} className="flex flex-col items-center gap-2 cursor-pointer group hover:opacity-90">
+                                                                <div className="w-12 h-12 rounded-[28px] bg-yellow-500 text-white flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
+                                                                    <BarChart2 size={22} strokeWidth={2} />
+                                                                </div>
+                                                                <span className="text-[11px] text-gray-500 font-medium">Enquesta</span>
+                                                            </button>
+                                                            <button type="button" onClick={handleNotReady} className="flex flex-col items-center gap-2 cursor-pointer group hover:opacity-90">
+                                                                <div className="w-12 h-12 rounded-[28px] bg-emerald-500 text-white flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
+                                                                    <CalendarDays size={22} strokeWidth={2} />
+                                                                </div>
+                                                                <span className="text-[11px] text-gray-500 font-medium">Esdeveniment</span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </>
+                                            )}
+                                        </div>
+
+                                        {/* INPUT PRINCIPAL BATEGANT */}
+                                        <div className="flex-1 relative group flex items-end min-w-0 bg-white dark:bg-[#1f1f1f] rounded-[24px] transition-all shadow-inner">
+                                            {/* EMOJI A L'ESQUERRA (ESTIL WHATSAPP) */}
+                                            <button
+                                                type="button"
+                                                onClick={(e) => { 
+                                                    e.preventDefault(); 
+                                                    e.stopPropagation(); 
+                                                    setIsEmojiPickerOpen(!isEmojiPickerOpen); 
+                                                    setIsAttachmentMenuOpen(false);
+                                                    if (!isEmojiPickerOpen && inputRef.current) {
+                                                        inputRef.current.blur(); // Dismiss virtual keyboard
+                                                    }
+                                                }}
+                                                className={`w-[40px] h-[40px] md:w-[48px] md:h-[48px] flex items-center justify-center transition-colors shrink-0 ${isEmojiPickerOpen ? 'text-[var(--theme-accent-primary)] drop-shadow-md' : 'text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300'}`}
+                                            >
+                                                <Smile className="w-[20px] h-[20px] md:w-[24px] md:h-[24px]" strokeWidth={2.5} />
+                                            </button>
+
+                                            <textarea 
+                                                ref={inputRef}
+                                                rows={1}
+                                                value={newMessage} 
+                                                onChange={(e) => {
+                                                    setNewMessage(e.target.value);
+                                                    e.target.style.height = 'auto';
+                                                    e.target.style.height = `${Math.min(e.target.scrollHeight, 120)}px`;
+                                                }}
+                                                onKeyDown={(e) => {
+                                                    if (e.key === 'Enter' && !e.shiftKey) {
+                                                        e.preventDefault();
+                                                        handleSendMessage(e);
+                                                    }
+                                                }}
+                                                placeholder={otherInfo?.name ? `Parla amb ${otherInfo.name}...` : t('common.write_message')}
+                                                className="flex-1 min-h-[40px] md:min-h-[48px] max-h-[120px] bg-transparent border-none py-[10px] md:py-[12px] px-1 text-black dark:text-white focus:outline-none transition-all placeholder:text-gray-400 dark:placeholder:text-gray-500 font-medium text-[15px] md:text-[17px] align-middle box-border m-0 min-w-0 resize-none overflow-y-auto custom-scrollbar leading-snug"
+                                                style={{ height: 'auto' }}
+                                                onPaste={(e) => {
+                                                    const items = e.clipboardData?.items;
+                                                    if (!items) return;
+                                                    for (let i = 0; i < items.length; i++) {
+                                                        if (items[i].type.indexOf('image') !== -1) {
+                                                            e.preventDefault();
+                                                            const file = items[i].getAsFile();
+                                                            setAttachedFile(file);
+                                                            const url = URL.createObjectURL(file);
+                                                            setAttachedFilePreview(url);
+                                                            break;
+                                                        }
+                                                    }
+                                                }}
+                                            />
+
+                                            {isEmojiPickerOpen && (
+                                                <>
+                                                    <div className="fixed inset-0 z-[100]" onClick={(e) => {e.stopPropagation(); setIsEmojiPickerOpen(false);}}></div>
+                                                    <div className="absolute left-1/2 -translate-x-1/2 md:-translate-x-0 md:left-auto md:right-0 bottom-[60px] z-[110] animate-in slide-in-from-bottom-2 zoom-in-95 origin-bottom md:origin-bottom-right drop-shadow-2xl flex justify-center w-[calc(100vw-32px)] md:w-auto overflow-hidden rounded-2xl">
+                                                        <EmojiPicker 
+                                                            theme="auto" 
+                                                            onEmojiClick={(e) => setNewMessage(prev => prev + e.emoji)} 
+                                                            width={window.innerWidth < 768 ? '100%' : 350}
+                                                            height={window.innerHeight < 600 ? 300 : 400}
+                                                            searchPlaceHolder={t('common.search', { defaultValue: 'Cerca...' })}
+                                                            categories={[
+                                                                { category: 'suggested', name: t('emoji.frequently_used', { defaultValue: 'Utilitzats recentment' }) },
+                                                                { category: 'smileys_people', name: t('emoji.smileys_people', { defaultValue: 'Cares i persones' }) },
+                                                                { category: 'animals_nature', name: t('emoji.animals_nature', { defaultValue: 'Animals i natura' }) },
+                                                                { category: 'food_drink', name: t('emoji.food_drink', { defaultValue: 'Menjar i beguda' }) },
+                                                                { category: 'travel_places', name: t('emoji.travel_places', { defaultValue: 'Viatges i llocs' }) },
+                                                                { category: 'activities', name: t('emoji.activities', { defaultValue: 'Activitats' }) },
+                                                                { category: 'objects', name: t('emoji.objects', { defaultValue: 'Objectes' }) },
+                                                                { category: 'symbols', name: t('emoji.symbols', { defaultValue: 'Símbols' }) },
+                                                                { category: 'flags', name: t('emoji.flags', { defaultValue: 'Banderes' }) }
+                                                            ]}
+                                                        />
+                                                    </div>
+                                                </>
+                                            )}
+                                        </div>
+
+                                        {/* BOTÓ ENVIAR CANÒNIC (GEM MODERN) */}
+                                        <div className="flex items-end">
+                                            <button
+                                                type="submit"
+                                                disabled={isSending || (!newMessage.trim() && !attachedFile)}
+                                                onClick={handleSendMessage}
+                                                onPointerDown={(e) => { 
+                                                    e.preventDefault(); // Evita que es tanque el teclat a mòbils
+                                                    if (!isSending && (newMessage.trim() || attachedFile)) {
+                                                        handleSendMessage(e);
+                                                    }
+                                                }}
+                                                className="w-[40px] h-[40px] md:w-[48px] md:h-[48px] shrink-0 bg-white dark:bg-black text-[var(--theme-accent-secondary)] dark:text-[var(--theme-accent-primary)] disabled:opacity-50 rounded-full transition-all shadow-xl active:scale-95 flex items-center justify-center group z-10"
+                                            >
+                                                <Send strokeWidth={2.5} className={`w-[18px] h-[18px] md:w-[20px] md:h-[20px] ${(newMessage.trim() || attachedFile) ? "group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" : ""}`} />
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+
+                {/* 2. PANNELL BLOC DE NOTES (DRETA) */}
+                {isNotepadOpen && (
+                    <div className="hidden md:flex flex-col w-[380px] bg-theme-sidebar border-l border-[var(--border-master)] animate-in slide-in-from-right duration-300">
+                        <div className="h-16 flex items-center justify-between px-6 border-b border-[var(--border-master)] bg-theme-header">
+                            <div className="flex items-center gap-3 text-[#FF6D00] font-black uppercase text-xs tracking-widest">
+                                <NotebookPen size={18} />
+                                <span>Bloc de Notes</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <CopyButton textToCopy={notepadTitle + "\n\n" + notepadContent} className="p-2 hover:bg-white/10 rounded-full text-gray-500 hover:text-[#ff6d23]" />
+                                <button onClick={() => setIsNotepadOpen(false)} className="p-2 hover:bg-white/10 rounded-full text-gray-500">
+                                    <X size={20} />
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div className="flex-1 p-6 flex flex-col gap-6">
+                            <input 
+                                type="text"
+                                value={notepadTitle}
+                                onChange={(e) => setNotepadTitle(e.target.value)}
+                                placeholder="Títol de l'esborrany..."
+                                className="w-full bg-transparent border-b border-[var(--border-master)] py-2 text-2xl font-black text-theme-text focus:outline-none focus:border-[#FF6D00] placeholder:text-gray-800"
+                            />
+                            
+                            <textarea 
+                                value={notepadContent}
+                                onChange={(e) => setNotepadContent(e.target.value)}
+                                placeholder="Escriu ací la teua idea, un bando o una oferta per al mercat..."
+                                className="flex-1 w-full bg-transparent resize-none text-gray-400 leading-relaxed focus:outline-none placeholder:text-gray-800"
+                            />
+                        </div>
+
+                        <div className="p-6 border-t border-[var(--border-master)] bg-theme-header space-y-3">
+                            <button onClick={() => { 
+                                if (!notepadContent.trim() && !notepadTitle.trim()) return;
+                                openPostModal({ isPrivate: false, prefillContent: notepadContent, prefillTitle: notepadTitle }); 
+                                setIsNotepadOpen(false); 
+                                setNotepadTitle('');
+                                setNotepadContent('');
+                            }} className="w-full h-12 bg-indigo-600 hover:bg-indigo-700 text-white genesis-radius flex items-center justify-center gap-2 font-black uppercase text-xs tracking-widest shadow-lg shadow-indigo-900/40">
+                                <ArrowRight size={16} />
+                                <span>Publicar al Mur</span>
+                            </button>
+                            <button onClick={() => handleNotReady()} className="w-full h-12 bg-emerald-600 hover:bg-emerald-700 text-white genesis-radius flex items-center justify-center gap-2 font-black uppercase text-xs tracking-widest shadow-lg shadow-emerald-900/40">
+                                <ShoppingBag size={16} />
+                                <span>Publicar al Mercat</span>
+                            </button>
+                            <button onClick={() => { localStorage.setItem('notepad_draft', JSON.stringify({ title: notepadTitle, content: notepadContent, savedAt: new Date().toISOString() })); alert('Esborrany guardat localment ✓'); }} className="w-full h-12 bg-white/5 hover:bg-white/10 text-gray-400 genesis-radius flex items-center justify-center gap-2 font-black uppercase text-xs tracking-widest border border-[var(--border-master)]">
+                                <Save size={16} />
+                                <span>Guardar Esborrany</span>
+                            </button>
+                        </div>
+                    </div>
+                )}
+            </div>
+
+            <style>{`
+                .custom-scrollbar::-webkit-scrollbar { width: 5px; }
+                .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+                .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #222; border-radius: 99px; }
+                .custom-scrollbar::-webkit-scrollbar-thumb:hover { background-color: var(--theme-accent-primary); }
+            `}</style>
+        </div>
+    );
+};
+
+export default ChatDetail;
+
+
+==================================================
+FILE: src/pages/Register.jsx
+==================================================
+
+import BrandLogo from "../components/BrandLogo";
+import TownSelectorModal from "../components/TownSelectorModal";import React, { useState, useEffect, useCallback } from "react";
+import { useNavigate, useSearchParams, Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { supabaseService } from "../services/supabaseService";
+import {
+  MapPin,
+  Loader2,
+  CheckCircle2,
+  ChevronRight,
+  Zap,
+} from "lucide-react";
+import { useAuth } from "../context/AuthContext";
+import { useI18n } from "../context/I18nContext";
+import { logger } from "../utils/logger";
+import { hapticService } from "../services/hapticService";
+import { APP_VERSION } from "../constants";
+import "./Auth.css";
+
+/**
+ * [FLASH MASTERPIECE] Register.jsx v2.0
+ * La millor pàgina de registre del món: ràpida, premium i sobirana.
+ */
+const Register = () => {
+  logger.log("[Register] Inicialitzant component...");
+  const auth = useAuth();
+  const { setIsPlayground, user } = auth;
+  const { language, setLanguage } = useI18n();
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const returnTo = searchParams.get('returnTo') || '/';
+
+  // [DIRECTIVA 1] Auto-redirect already authenticated users
+  useEffect(() => {
+    if (user && !user.isDemo && !user.is_sovereign) {
+      navigate(returnTo, { replace: true });
+    }
+  }, [user, navigate, returnTo]);
+
+  // Determine initial mode based on the route
+  const isLoginRoute = window.location.pathname.includes('/login');
+  const [mode] = useState(isLoginRoute ? "login" : "register");
+  const [step, setStep] = useState(isLoginRoute ? "connection" : "identity"); // 'identity' | 'verify'
+
+  // Form states
+  const [fullName, setFullName] = useState(() => localStorage.getItem("sp_draft_name") || "");
+  const [phone, setPhone] = useState(() => localStorage.getItem("sp_draft_phone") || "");
+  const [otp, setOtp] = useState("");
+  
+  // Si venim de seleccionar poble, el poble seleccionat pot estar en el sessionStorage o localStorage, o passat per navigate state
+  const [selectedTown, setSelectedTown] = useState(() => {
+     const saved = sessionStorage.getItem('register_selected_town');
+     return saved ? JSON.parse(saved) : null;
+  });
+  
+  const [showTownPicker, setShowTownPicker] = useState(false);
+
+  // UI states
+  const [error, setError] = useState(null);
+  const [resendCountdown, setResendCountdown] = useState(0);
+  const [loading, setLoading] = useState(false);
+
+  // Real-time validation visual cues
+  const isPhoneValid = phone.length >= 9;
+  const isNameValid = fullName.trim().length >= 3;
+
+  const handleVerifyOtp = useCallback(
+    async (e, codeToVerify = null) => {
+      e?.preventDefault();
+      setLoading(true);
+      setError(null);
+      const code = codeToVerify || otp;
+
+      try {
+        const formattedPhone = phone.startsWith("+") ? phone : `+34${phone}`;
+        const { user: verifiedUser } = await supabaseService.verifyOtp(
+          formattedPhone,
+          code,
+        );
+
+        if (verifiedUser) {
+          // Només actualizem perfil si estem registrant-nos de nou
+          if (mode === "register") {
+             await supabaseService.updateProfile(verifiedUser.id, {
+                full_name: fullName,
+                town_id: selectedTown?.id,
+                town_uuid: selectedTown?.uuid,
+                primary_town: selectedTown?.name,
+             });
+          }
+
+          // Track activation
+          logger.log("[Registration/Login] Success for:", mode === "register" ? fullName : verifiedUser.id);
+          hapticService.notifySuccess();
+
+          // [VICTORY SEQUENCE]
+          setStep("welcome");
+          setTimeout(() => {
+            if (setIsPlayground) setIsPlayground(false);
+            navigate(returnTo);
+          }, 3000);
+        }
+      } catch (err) {
+        setError(err.message || "Codi de seguretat invàlid.");
+        hapticService.notifyError();
+      } finally {
+        setLoading(false);
+      }
+    },
+    [phone, fullName, selectedTown, otp, navigate, setIsPlayground, returnTo, mode],
+  );
+
+  useEffect(() => {
+    if (otp && otp.length === 6 && step === "verify") {
+      handleVerifyOtp(null, otp);
+    }
+  }, [step, handleVerifyOtp, otp]);
+
+  // [V1.5.6 - ZERO-CLICK LOGIN] WebOTP API per a lectura automàtica d'SMS
+  useEffect(() => {
+    if ("OTPCredential" in window && step === "verify") {
+      const ac = new AbortController();
+      navigator.credentials
+        .get({
+          otp: { transport: ["sms"] },
+          signal: ac.signal,
+        })
+        .then((otpData) => {
+          if (otpData && otpData.code) {
+            logger.log("[WebOTP] Codi detectat automàticament:", otpData.code);
+            setOtp(otpData.code);
+          }
+        })
+        .catch((err) => {
+          if (err.name !== "AbortError") {
+            logger.warn("[WebOTP] Error o cancel·lat", err);
+          }
+        });
+
+      return () => ac.abort();
+    }
+  }, [otp, handleVerifyOtp, step]);
+
+  // Resend countdown timer
+  useEffect(() => {
+    let timer;
+    if (resendCountdown > 0) {
+      timer = setInterval(() => {
+        setResendCountdown((prev) => prev - 1);
+      }, 1000);
+    }
+    return () => clearInterval(timer);
+  }, [resendCountdown]);
+
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+
+    // En mode registre exigim el poble. En mode login no cal.
+    if (mode === "register" && !selectedTown) {
+      setError("Selecciona el teu poble per a continuar el procés.");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      if (!phone || phone.length < 9) {
+        throw new Error("Introdueix un número de mòbil vàlid.");
+      }
+      localStorage.setItem("sp_draft_phone", phone);
+      if (mode === "register") {
+        localStorage.setItem("sp_draft_name", fullName);
+      }
+      const formattedPhone = phone.startsWith("+") ? phone : `+34${phone}`;
+      await supabaseService.signInWithOtp(formattedPhone);
+      setStep("verify");
+      setResendCountdown(60);
+      hapticService.notifyThinking();
+    } catch (err) {
+      setError(err.message);
+      hapticService.notifyError();
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const signInWithGoogle = async () => {
+    try {
+      setLoading(true);
+      await supabaseService.signInWithGoogle();
+      hapticService.batec();
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const languages = [
+    { code: "va", label: "VAL", flag: "🔴" },
+    { code: "es", label: "CAS", flag: "🥘" },
+    { code: "en", label: "ENG", flag: "🇬🇧" },
+    { code: "eu", label: "EUS", flag: "🏺" },
+    { code: "gl", label: "GAL", flag: "🐙" }, // Updated per USER request: Galician instead of French
+  ];
+
+  return (
+    <div className="flex flex-col w-full bg-theme-base relative overflow-x-hidden font-sans pb-12">
+      <div className="w-full flex-1 flex flex-col px-6 pt-4 pb-8 animate-in-up md:max-w-md md:mx-auto">
+
+        {/* Decorative Top Accent */}
+        <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-[var(--theme-accent-secondary)] to-[var(--theme-accent-primary)] opacity-80"></div>
+
+        <header className="flex flex-col items-center pt-2 pb-6">
+          <BrandLogo className="w-[280px] max-w-[80vw] h-auto object-contain mb-8 transition-all text-[var(--theme-text)]" />
+
+          <div className="flex justify-center gap-1.5 mb-8 bg-theme-panel border border-[var(--border-master)] p-1.5 rounded-full">
+              {languages.map((lang) => (
+                <button
+                  key={lang.code}
+                  className={`px-4 py-2 rounded-full transition-all text-[11px] font-black uppercase tracking-widest ${language === lang.code ? "bg-[var(--theme-accent-primary)] text-white shadow-sm" : "text-gray-400 hover:text-theme-text"}`}
+                  onClick={() => {
+                    setLanguage(lang.code);
+                    hapticService.batec();
+                  }}
+                >
+                  {lang.label}
+                </button>
+              ))}
+          </div>
+
+          <div className="w-full bg-[var(--theme-accent-primary-faint)] border border-[var(--theme-accent-primary-muted)] rounded-2xl p-5 flex gap-5 items-start shadow-sm mt-4">
+             <div className="w-16 h-16 shrink-0 rounded-full bg-[var(--theme-accent-primary-faint)] flex items-center justify-center shadow-inner overflow-hidden border border-[var(--theme-accent-primary-muted)]" onClick={() => hapticService.batec()}>
+                 <img src="/assets/avatars/comic/iaia_comic_matriarch.png" alt="IAIA" className="w-[110%] h-[110%] object-cover object-top" />
+             </div>
+             <div className="flex-1 pt-1">
+                 <h3 className="font-black text-[var(--theme-accent-primary)] text-base mb-1.5 uppercase tracking-tight">IAIA Guia</h3>
+                 <p className="text-theme-text text-[15px] leading-snug font-medium">
+                   {step === "identity" ? t('auth.iaia_guide_identity') : 
+                    step === "town" ? t('auth.iaia_guide_town') :
+                    step === "connection" ? t('auth.iaia_guide_connection') :
+                    step === "verify" ? t('auth.iaia_guide_verify') :
+                    t('auth.iaia_guide_welcome')}
+                 </p>
+             </div>
+          </div>
+        </header>
+
+        {error && <div className="auth-error shake">{error}</div>}
+
+        {/* STEP 1: IDENTITY */}
+        {step === "identity" && (
+          <div className="flex flex-col gap-6 animate-fade-in-right shrink-0 pb-8">
+            
+            <button
+                onClick={signInWithGoogle}
+                disabled={loading}
+                type="button"
+                className="w-full h-16 bg-theme-panel border-2 border-[var(--border-master)] rounded-[20px] flex items-center justify-center gap-3 hover:bg-[var(--hover-overlay)] transition-all active:scale-[0.98] shadow-sm"
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                  <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                  <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                  <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                </svg>
+                <span className="font-black uppercase tracking-widest text-theme-text opacity-90 text-base">Connectar amb Google</span>
+            </button>
+
+            <div className="relative flex items-center justify-center py-2">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-[var(--border-master)]"></div>
+                </div>
+                <span className="relative px-4 text-xs font-black uppercase tracking-widest bg-theme-base text-gray-400">O REGISTRE MANUAL</span>
+            </div>
+
+            <div className="space-y-3">
+              <label htmlFor="reg-name" className="text-sm font-black uppercase tracking-widest text-gray-500 ml-1">Com et diuen?</label>
+              <input
+                id="reg-name"
+                name="full_name"
+                type="text"
+                placeholder="El teu nom i cognoms..."
+                value={fullName}
+                onChange={(e) => {
+                  setFullName(e.target.value);
+                  if (e.target.value.length === 3) hapticService.batec();
+                }}
+                autoComplete="name"
+                required
+                className={`w-full h-16 bg-theme-panel border-2 rounded-[20px] px-5 text-theme-text font-bold text-xl outline-none transition-all placeholder:text-gray-500 placeholder:font-normal
+                    ${fullName && !isNameValid ? "border-red-400 focus:border-red-500 bg-red-400/10" : 
+                      isNameValid ? "border-green-500 focus:border-green-600 bg-green-500/10" : 
+                      "border-[var(--border-master)] focus:border-[var(--theme-accent-primary)] focus:bg-[var(--theme-accent-primary-faint)]"}`}
+              />
+            </div>
+
+            <div className="pt-2">
+              <button
+                className={`w-full h-16 rounded-[20px] flex items-center justify-center text-white font-black uppercase tracking-widest transition-all active:scale-[0.98] ${
+                  !isNameValid ? "bg-gray-300 opacity-50 cursor-not-allowed" : "bg-[var(--theme-accent-primary)] hover:opacity-90 shadow-[0_0_15px_rgba(255,107,0,0.3)]"
+                }`}
+                disabled={!isNameValid}
+                onClick={() => {
+                  hapticService.batec();
+                  setStep("town");
+                }}
+              >
+                <span className="text-lg pt-1">Connectar Identitat</span>
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* STEP 2: TOWN */}
+        {step === "town" && (
+          <div className="flex flex-col gap-6 animate-fade-in-right flex-1">
+            <div className="space-y-3">
+              <label htmlFor="town-picker-reg" className="text-sm font-black uppercase tracking-widest text-gray-500 ml-1">
+                A quin poble pertanys?
+              </label>
+              <button
+                type="button"
+                onClick={() => setShowTownPicker(true)}
+                className="w-full flex items-center justify-between px-5 py-5 bg-theme-panel border-2 border-[var(--border-master)] rounded-[20px] hover:border-[var(--theme-accent-primary)] hover:bg-[var(--theme-accent-primary-faint)] transition-all active:scale-[0.98] shadow-sm"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-theme-base shadow-sm border border-[var(--border-master)] rounded-2xl flex items-center justify-center shrink-0">
+                    <MapPin size={26} className="text-[var(--theme-accent-primary)]" />
+                  </div>
+                  <div className="flex flex-col items-start">
+                    <span className="text-xl font-bold text-theme-text">
+                      {selectedTown ? selectedTown.name : "Tria el teu poble..."}
+                    </span>
+                  </div>
+                </div>
+                <div className="bg-[var(--hover-overlay)] p-3 rounded-2xl text-gray-400">
+                  <ChevronRight size={24} />
+                </div>
+              </button>
+            </div>
+
+            <div className="pt-4 flex gap-3">
+              <button className="h-16 px-6 rounded-[20px] font-bold text-theme-text opacity-70 bg-theme-panel border border-[var(--border-master)] hover:bg-[var(--hover-overlay)] transition-colors" onClick={() => setStep("identity")}>
+                Enrere
+              </button>
+              <button
+                className={`flex-1 h-16 rounded-[20px] flex items-center justify-center gap-2 text-white font-black uppercase tracking-widest transition-all active:scale-[0.98] ${
+                  !selectedTown ? "bg-gray-300 cursor-not-allowed" : "bg-[#0ea5e9] hover:bg-[#0284c7] shadow-lg shadow-sky-500/30"
+                }`}
+                disabled={!selectedTown}
+                onClick={() => {
+                  hapticService.batec();
+                  setStep("connection");
+                }}
+              >
+                <span className="text-lg pt-1">Connectar Poble</span>
+                <CheckCircle2 size={22} className="mt-0.5" />
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* STEP 3: CONNECTION */}
+        {step === "connection" && (
+          <form onSubmit={handleRegister} className="flex flex-col gap-6 animate-fade-in-right flex-1">
+            <div className="space-y-3">
+              <label htmlFor="reg-phone" className="text-sm font-black uppercase tracking-widest text-gray-500 ml-1">Telèfon Mòbil per Connectar</label>
+              <div className="relative flex items-center">
+                <div className="absolute left-5 font-bold text-gray-400 select-none text-xl">🇪🇸 +34</div>
+                <input
+                  id="reg-phone"
+                  name="phone"
+                  type="tel"
+                  placeholder="600 000 000"
+                  value={phone}
+                  onChange={(e) => {
+                    let val = e.target.value.replace(/[^0-9+]/g, "");
+                    if (val.startsWith("+34")) val = val.substring(3);
+                    val = val.replace(/[^0-9]/g, "");
+                    if (val.startsWith("34") && val.length === 11) val = val.substring(2);
+                    setPhone(val);
+                    if (val.length === 9) hapticService.batec();
+                  }}
+                  autoComplete="tel"
+                  inputMode="tel"
+                  required
+                  className={`w-full h-16 bg-theme-panel border-2 rounded-[20px] pl-24 pr-5 text-theme-text font-bold text-2xl outline-none transition-all placeholder:text-gray-600 placeholder:font-normal tracking-wide
+                    ${phone && !isPhoneValid ? "border-red-400 focus:border-red-500 bg-red-400/10" : 
+                      isPhoneValid ? "border-green-500 focus:border-green-600 bg-green-500/10" : 
+                      "border-[var(--border-master)] focus:border-[var(--theme-accent-primary)] focus:bg-[var(--theme-accent-primary-faint)]"}`}
+                />
+              </div>
+            </div>
+
+            <div className="pt-4 flex gap-3">
+                {mode === "register" && (
+                  <button
+                    type="button"
+                    className="h-16 px-6 rounded-[20px] font-bold text-theme-text opacity-70 bg-theme-panel border border-[var(--border-master)] hover:bg-[var(--hover-overlay)] transition-colors"
+                    onClick={() => setStep("town")}
+                  >
+                    Enrere
+                  </button>
+                )}
+                <button
+                  type="submit"
+                  className={`flex-1 h-16 rounded-[20px] flex items-center justify-center gap-2 text-white font-black uppercase tracking-widest transition-all active:scale-[0.98] ${
+                    !isPhoneValid ? "bg-gray-300 cursor-not-allowed opacity-50" : "bg-[var(--theme-accent-primary)] hover:opacity-90 shadow-[0_0_15px_rgba(255,107,0,0.3)]"
+                  }`}
+                  disabled={loading || !isPhoneValid}
+                >
+                  {loading ? (
+                    <Loader2 size={28} className="animate-spin text-white" />
+                  ) : (
+                    <>
+                      <span className="text-lg pt-1">Connectar SMS</span>
+                      <Zap size={20} fill="currentColor" className="mt-0.5" />
+                    </>
+                  )}
+                </button>
+            </div>
+          </form>
+        )}
+
+
+        {/* STEP 4: VERIFY */}
+        {step === "verify" && (
+          <form
+            onSubmit={handleVerifyOtp}
+            className="flex flex-col gap-6 animate-fade-in-right flex-1"
+          >
+            <div className="space-y-4">
+              <div className="text-center space-y-1 mb-4">
+                 <h2 className="text-3xl font-black text-theme-text">Has rebut un SMS?</h2>
+                 <p className="text-gray-400 font-medium text-base">Hem enviat un codi al <strong className="text-theme-text opacity-90 tracking-wide text-lg">{phone}</strong></p>
+              </div>
+
+              <input
+                id="otp-input-reg"
+                name="otp_code"
+                type="text"
+                placeholder="123456"
+                value={otp}
+                onChange={(e) => setOtp(e.target.value)}
+                autoComplete="one-time-code"
+                inputMode="numeric"
+                maxLength={6}
+                required
+                className="w-full h-20 bg-theme-panel border-2 border-[var(--border-master)] focus:border-[var(--theme-accent-primary)] focus:bg-[var(--theme-accent-primary-faint)] rounded-[20px] text-center text-4xl font-black text-theme-text tracking-[0.5em] outline-none transition-all placeholder:text-gray-600 shadow-sm"
+              />
+            </div>
+
+            <div className="mt-auto pt-6 space-y-4">
+              <button
+                type="submit"
+                className={`w-full h-16 rounded-[20px] flex items-center justify-center gap-2 text-white font-black uppercase tracking-widest transition-all active:scale-[0.98] ${
+                  otp.length < 6 || loading ? "bg-gray-300 opacity-50 cursor-not-allowed" : "bg-[var(--theme-accent-primary)] hover:opacity-90 shadow-[0_0_15px_rgba(255,107,0,0.3)]"
+                }`}
+                disabled={otp.length < 6 || loading}
+                onClick={() => hapticService.batec()}
+              >
+                {loading ? (
+                  <Loader2 size={28} className="animate-spin text-white" />
+                ) : (
+                  <span className="text-lg pt-1">CONFIRMAR ENTRADA</span>
+                )}
+              </button>
+
+              <div className="text-center pt-4 pb-2 space-y-4">
+                <button
+                  type="button"
+                  className="text-base font-bold text-gray-400 hover:text-theme-text underline underline-offset-4 decoration-2 decoration-[var(--border-master)] transition-colors"
+                  disabled={resendCountdown > 0}
+                  onClick={(e) => {
+                    if (resendCountdown === 0) handleRegister(e);
+                  }}
+                >
+                  {resendCountdown > 0
+                    ? `Reenviar en ${resendCountdown}s`
+                    : "No reps cap missatge? Reenviar codi."}
+                </button>
+                <div>
+                  <button type="button" onClick={() => setStep("connection")} className="text-sm font-black text-gray-400 hover:text-[var(--theme-accent-primary)] uppercase tracking-widest transition-colors bg-theme-panel border border-[var(--border-master)] px-4 py-2 rounded-full">
+                      Canviar Telèfon
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        )}
+
+        {/* STEP 5: WELCOME SUCCESS */}
+        {step === "welcome" && (
+          <div className="text-center py-12 space-y-6 animate-in-up flex-1 flex flex-col items-center justify-center">
+            <div className="w-32 h-32 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner animate-pulse-soft">
+              <CheckCircle2 size={64} className="text-green-500" strokeWidth={3} />
+            </div>
+            <h2 className="text-4xl font-black uppercase text-theme-text italic tracking-tight relative -left-1">
+              CONNEXIÓ
+              <br />ESTABLERTA
+            </h2>
+            <p className="font-bold text-gray-400 text-xl text-center px-4">"Ja eres un dels nostres. Cor de poble, bategat digital. Ens veiem a la plaça!" <br/><span className="text-sm mt-2 block">- L'IAIA 👵✨</span></p>
+          </div>
+        )}
+
+        <div className="mt-8">
+          <div className="text-center text-xs text-gray-400 mb-6 font-medium leading-relaxed px-4">
+            En bategar, acceptes que Sóc de Poble és un experiment de sobirania digital.
+            <br />
+            <Link to="/legal" className="underline hover:text-theme-text transition-colors mt-1 inline-block">Avisos Legals</Link>
+          </div>
+          
+          <div className="text-center text-lg bg-theme-panel rounded-2xl p-4 border border-[var(--border-master)]">
+            <span className="text-gray-400 font-medium">Ja tens compte?</span>{" "}
+            <Link to="/login" className="text-[var(--theme-accent-primary)] font-black hover:underline tracking-wide ml-1">
+              Entra ara
+            </Link>
+          </div>
+
+          <div className="text-center mt-6 text-gray-300 font-bold text-[10px] uppercase tracking-widest">
+            {APP_VERSION}
+          </div>
+        </div>
+
+        <TownSelectorModal
+          isOpen={showTownPicker}
+          onClose={() => setShowTownPicker(false)}
+          onSelect={(town) => {
+             setSelectedTown(town);
+             sessionStorage.setItem('register_selected_town', JSON.stringify(town));
+             setShowTownPicker(false);
+          }}
+        />
+
+      </div>
+    </div>
+  );
+};
+
+export default Register;
+
+
+==================================================
+FILE: src/pages/ProfileView.jsx
+==================================================
+
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { 
+    Settings, Loader2, AlertCircle, 
+    Sparkles, Grid, Share2, ArrowLeft, Camera, UserCheck, MessageCircle, MapPin,
+    ShieldCheck, HeartHandshake
+} from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+import { useDesign } from '../context/DesignContext';
+import { useModal } from '../context/ModalContext';
+import { supabaseService, isValidUUID } from '../services/supabaseService';
+import SEO from '../components/SEO';
+import Feed from '../components/Feed';
+import ShareHub from '../components/ShareHub';
+import ProfileStudioModal from '../components/ProfileStudioModal';
+import ProfileSettingsModal from '../components/ProfileSettingsModal';
+import ContextualHeader from '../components/ContextualHeader';
+import './ProfileView.css';
+
+const ProfileView = () => {
+    const { theme } = useDesign();
+    const isDayMode = theme === 'light';
+    
+    // Theme Colors
+    const bgColor = isDayMode ? 'bg-white' : 'bg-black';
+    const textColor = isDayMode ? 'text-black' : 'text-white';
+    const textMuted = isDayMode ? 'text-black/60' : 'text-white/60';
+    const cardBg = isDayMode ? 'bg-black/[0.03]' : 'bg-white/[0.03]';
+    const cardBorder = isDayMode ? 'border-black/10' : 'border-white/10';
+
+    const { id, username } = useParams();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const { user: currentUser, profile: myProfile } = useAuth();
+    const { openConnectionModal } = useModal();
+
+    const [profile, setProfile] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [activeTab, setActiveTab] = useState('mur');
+    const [isConnected, setIsConnected] = useState(false);
+    const [stats, setStats] = useState({ followers: 0, following: 0, posts: 0 });
+    const [userPosts, setUserPosts] = useState([]);
+    
+    // Modals
+    const [isStudioOpen, setIsStudioOpen] = useState(false);
+    const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+
+    const isOwnProfile = React.useMemo(() => {
+        return (!id && !username) || (currentUser && id === currentUser.id);
+    }, [id, username, currentUser]);
+
+    // Redirection effect separated from data fetching
+    useEffect(() => {
+        if (isOwnProfile && !id && myProfile?.id) {
+            navigate(`/perfil/${myProfile.id}`, { replace: true });
+        }
+    }, [isOwnProfile, id, myProfile, navigate]);
+
+    useEffect(() => {
+        if (isOwnProfile && !id && myProfile?.id) return; // Block fetch if we are about to redirect
+
+        const fetchProfileData = async () => {
+            setLoading(true);
+            try {
+                let targetProfile = null;
+                
+                if (isOwnProfile && myProfile) {
+                    targetProfile = myProfile;
+                } else if (username) {
+                    targetProfile = await supabaseService.getUserByUsername(username);
+                } else if (id) {
+                    targetProfile = await supabaseService.getPublicProfile(id) || await supabaseService.getPublicEntity(id);
+                }
+
+                if (!targetProfile) {
+                    if (isOwnProfile && currentUser) targetProfile = myProfile || currentUser;
+                    else throw new Error('Perfil no trobat');
+                }
+
+                // Final sanity check for identity
+                let effectiveName = targetProfile.full_name || targetProfile.username || targetProfile.email?.split('@')[0] || 'Veí del Poble';
+                let effectiveUsername = targetProfile.username || targetProfile.email?.split('@')[0] || `node_${targetProfile.id?.substring(0,6) || 'bategant'}`;
+                
+                if (isOwnProfile && currentUser) {
+                    effectiveName = targetProfile.full_name || currentUser.user_metadata?.full_name || currentUser.email?.split('@')[0] || (currentUser.phone ? 'El Teu Perfil' : 'Veí del Poble');
+                    const phoneSuffix = currentUser.phone ? currentUser.phone.replace('+', '').slice(-4) : '';
+                    effectiveUsername = targetProfile.username || currentUser.email?.split('@')[0] || (phoneSuffix ? `vei_${phoneSuffix}` : `node_${currentUser.id?.substring(0,6)}`);
+                }
+
+                const effectiveAvatar = targetProfile.avatar_url || '/default-avatar.png';
+
+                const finalProfile = {
+                    ...targetProfile,
+                    full_name: effectiveName,
+                    username: effectiveUsername,
+                    avatar_url: effectiveAvatar
+                };
+
+                setProfile(finalProfile);
+
+                if (isValidUUID(finalProfile.id) || finalProfile.id) {
+                    // React 18 batches these state updates automatically
+                    const [followers, following, posts, postsData] = await Promise.all([
+                        supabaseService.getFollowers(finalProfile.id),
+                        supabaseService.getFollowing(finalProfile.id),
+                        supabaseService.getUserPostsCount(finalProfile.id),
+                        supabaseService.getUserPosts(finalProfile.id)
+                    ]);
+
+                    setStats({
+                        followers: followers?.length || 0,
+                        following: following?.length || 0,
+                        posts: posts || 0
+                    });
+                    
+                    if (postsData && Array.isArray(postsData)) {
+                        setUserPosts(postsData);
+                    }
+
+                    if (currentUser && finalProfile.id !== currentUser.id) {
+                        const followingStatus = await supabaseService.isFollowing(currentUser.id, finalProfile.id);
+                        setIsConnected(followingStatus);
+                    }
+                }
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchProfileData();
+    }, [id, username, isOwnProfile, currentUser, myProfile]);
+
+    const isSuperAdmin = currentUser?.role === 'super_admin';
+
+    if (loading) return (
+        <div className={`flex flex-col items-center justify-center min-h-screen ${bgColor} ${textColor}`}>
+            <Loader2 className="animate-spin text-orange-500 mb-4" size={48} />
+            <span className="font-black uppercase tracking-[0.3em] text-[10px]">Cercant les dades al Mas...</span>
+        </div>
+    );
+
+    if (error) return (
+        <div className={`flex flex-col items-center justify-center min-h-screen ${bgColor} ${textColor} p-6`}>
+            <AlertCircle className="text-red-500 mb-6" size={64} />
+            <h2 className="font-black text-2xl lg:text-3xl mb-4 text-center">EL RHIZOME NO TROBA AQUEST NODE</h2>
+            <p className={`${textMuted} mb-8 uppercase text-xs tracking-widest text-center max-w-md`}>{error}</p>
+            <button className={`${isDayMode ? 'bg-black text-white' : 'bg-white text-black'} px-10 py-4 rounded-[28px] font-black uppercase tracking-widest hover:scale-105 transition-transform`} onClick={() => navigate('/mur')}>
+                Tornar al Mur
+            </button>
+        </div>
+    );
+
+    return (
+        <div className={`min-h-[100dvh] w-full ${bgColor} flex flex-col items-center ${textColor} font-sans overflow-x-hidden overflow-y-auto transition-colors duration-500 custom-scrollbar`}>
+            <SEO title={profile?.full_name} description={profile?.bio} />
+            
+            {/* 1. IMMERSIVE COVER IMAGE WITH FADE TO BASE */}
+            <div className="relative w-full h-[40vh] md:h-[50vh] min-h-[300px] overflow-hidden shrink-0">
+                <div 
+                    className="absolute inset-0 bg-cover bg-center transition-all duration-1000 origin-bottom" 
+                    style={{ 
+                        backgroundImage: `url('${profile?.cover_url || "/assets/patterns/hero_pattern.png"}')`,
+                        transform: 'scale(1.02)',
+                        filter: isDayMode ? 'brightness(1.1) saturate(1.2)' : 'brightness(0.8) saturate(1.2)'
+                    }}
+                />
+                {/* Stunning bottom fade matching ambient background color perfectly */}
+                <div className={`absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t ${isDayMode ? 'from-white' : 'from-theme-base'} to-transparent z-10`} />
+                <div className={`absolute inset-0 bg-gradient-to-b ${isDayMode ? 'from-white/10 via-white/40' : 'from-black/10 via-black/40'} to-transparent z-0`} />
+                
+                {/* Top TopBar */}
+                <div className="absolute top-6 left-6 right-6 flex justify-between z-20">
+                    <button 
+                        onClick={() => navigate(-1)} 
+                        className={`w-12 h-12 flex items-center justify-center rounded-full backdrop-blur-2xl border transition-all shadow-xl hover:scale-110 active:scale-95 ${isDayMode ? 'bg-white/80 border-black/10 text-black hover:bg-white' : 'bg-black/60 border-white/10 text-white hover:bg-black/80'}`}
+                    >
+                        <ArrowLeft size={24} />
+                    </button>
+                    <div className="flex gap-3">
+                        <ShareHub 
+                            title={profile?.full_name}
+                            text={profile?.bio}
+                            url={location.pathname}
+                            customTrigger={
+                                <button className={`w-12 h-12 flex items-center justify-center rounded-full backdrop-blur-2xl border transition-all shadow-xl hover:scale-110 active:scale-95 ${isDayMode ? 'bg-white/80 border-black/10 text-black hover:bg-white' : 'bg-black/60 border-white/10 text-white hover:bg-black/80'}`}>
+                                    <Share2 size={20} className="-ml-0.5" />
+                                </button>
+                            }
+                        />
+                        {isOwnProfile && (
+                            <button 
+                                onClick={() => setIsSettingsOpen(true)}
+                                className={`w-12 h-12 flex items-center justify-center rounded-full backdrop-blur-2xl border transition-all shadow-xl hover:scale-110 active:scale-95 ${isDayMode ? 'bg-white/80 border-black/10 text-black hover:bg-white' : 'bg-black/60 border-white/10 text-white hover:bg-black/80'}`}
+                            >
+                                <Settings size={20} />
+                            </button>
+                        )}
+                    </div>
+                </div>
+            </div>
+
+            {/* 2. PROFILE CONTENT (Overlapping Hero) */}
+            <main className="w-full max-w-4xl px-4 md:px-8 relative z-30 -mt-24 sm:-mt-32 pb-40 flex flex-col items-center">
+                
+                {/* Hero Group */}
+                <div className="flex flex-col items-center text-center mb-10 w-full animate-in fade-in slide-in-from-bottom-8 duration-700 ease-out-expo">
+
+                    {/* Glowing Avatar Sphere */}
+                    <div
+                        className={`relative rounded-full p-2 mb-6 group ${isOwnProfile ? 'cursor-pointer' : ''}`}
+                        onClick={() => isOwnProfile && setIsStudioOpen(true)}
+                    >
+                        {/* Glow Behind */}
+                        <div className={`absolute inset-0 rounded-full bg-[var(--theme-accent-primary)] ${isDayMode ? 'opacity-30 blur-2xl' : 'opacity-40 blur-[40px]'} group-hover:opacity-60 transition-opacity duration-700`}></div>
+
+                        <div className={`relative w-40 h-40 sm:w-48 sm:h-48 rounded-full overflow-hidden border-[10px] ${isDayMode ? 'border-white' : 'border-theme-base'} shadow-[0_30px_60px_rgba(0,0,0,0.3)] bg-theme-panel`}>
+                            <img
+                                src={profile?.avatar_url}
+                                alt={profile?.full_name}
+                                className="w-full h-full object-cover transition-transform duration-1000 ease-out-expo group-hover:scale-110"
+                            />
+                            {isOwnProfile && (
+                                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center transition-all duration-300 backdrop-blur-sm">
+                                    <Camera size={36} className="text-white mb-2" />
+                                    <span className="text-white text-[10px] font-black uppercase tracking-widest drop-shadow-md">Fotografia</span>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* VIP Node Badge */}
+                        {(profile?.role === 'super_admin' || profile?.role === 'admin' || profile?.is_master) && (
+                            <div className={`absolute bottom-6 right-6 p-4 rounded-full bg-[var(--theme-accent-primary)] text-white shadow-[0_0_20px_var(--theme-accent-primary)] border-4 ${isDayMode ? 'border-white' : 'border-[#0a0a0a]'} animate-bounce-slow`}>
+                                <Sparkles size={24} className="fill-white" />
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Typography: Massive Full Name & Subtitle */}
+                    <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tighter leading-[0.9] mb-4 text-theme-text drop-shadow-sm">
+                        {profile?.full_name}
+                    </h1>
+                    <p className={`text-lg sm:text-xl font-bold uppercase tracking-[0.2em] text-[var(--theme-accent-primary)] mb-6`}>
+                        @{profile?.username}
+                    </p>
+
+                    {/* Bio text */}
+                    <p className={`text-xl sm:text-2xl leading-relaxed max-w-2xl text-[var(--text-muted)] font-medium mb-10`}>
+                        {profile?.bio || 'Bategant al Rhizome. Connectant amb el territori.'}
+                    </p>
+
+                    {/* Metadata Tags (Town & Role) */}
+                    <div className="flex flex-wrap justify-center gap-3 w-full">
+                        {profile?.town_name && (
+                            <div className={`flex items-center gap-2 px-6 py-4 rounded-full ${cardBg} border ${cardBorder} shadow-sm backdrop-blur-md hover:scale-105 transition-transform`}>
+                                <MapPin size={20} className="text-[var(--theme-accent-primary)]" />
+                                <span className={`text-xs font-black uppercase tracking-widest ${textMuted}`}>{profile.town_name}</span>
+                            </div>
+                        )}
+                        <div className={`flex items-center gap-2 px-6 py-4 rounded-full ${cardBg} border ${cardBorder} shadow-sm backdrop-blur-md hover:scale-105 transition-transform`}>
+                            <UserCheck size={20} className="text-[var(--theme-accent-primary)]" />
+                            <span className={`text-xs font-black uppercase tracking-widest ${textMuted}`}>
+                                {profile?.role === 'vei' ? 'SÓC DE POBLE' : (profile?.role?.replace('_', ' ') || 'NODE')}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                {/* 3. PRIMARY FOCAL ACTION: THE CONNECTION BUTTON */}
+                <div className="w-full max-w-3xl flex flex-col items-center justify-center mt-4 mb-8 animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-150 ease-out-expo">
+                    {!currentUser || currentUser.isAnonymous ? (
+                        <button
+                            onClick={() => navigate('/registre')}
+                            className={`w-full max-w-md h-20 rounded-[36px] bg-[var(--theme-accent-primary)] text-white font-black text-xl uppercase tracking-[0.2em] shadow-[0_0_50px_rgba(255,107,0,0.5)] hover:scale-105 transition-transform active:scale-95 flex items-center justify-center gap-4`}
+                        >
+                            CONNECTAR AMB EL NODE
+                        </button>
+                    ) : !isOwnProfile ? (
+                        <div className="w-full flex justify-center w-full max-w-[500px] flex-col gap-6">
+                            {/* Massive Connect Button */}
+                            <button
+                                onClick={() => openConnectionModal({ targetId: profile?.id })}
+                                className={`w-full h-24 sm:h-28 rounded-[40px] overflow-hidden relative group shadow-[0_15px_40px_rgba(255,107,0,0.4)] hover:shadow-[0_20px_60px_rgba(255,107,0,0.6)] hover:-translate-y-2 active:scale-95 transition-all duration-500 ease-out`}
+                            >
+                                <div className="absolute inset-0 bg-gradient-to-br from-orange-400 via-[var(--theme-accent-primary)] to-orange-700 opacity-100 group-hover:scale-110 transition-transform duration-1000 ease-out"></div>
+                                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite]"></div>
+
+                                <div className="absolute inset-0 flex items-center justify-center gap-4 text-white hover:text-white mix-blend-overlay drop-shadow-xl z-10 w-full h-full">
+                                    {isConnected ? <MessageCircle size={40} strokeWidth={3} className="fill-white/20" /> : <HeartHandshake size={48} strokeWidth={2.5} className="fill-white/10" />}
+                                    <span className="font-black text-2xl sm:text-[28px] uppercase tracking-widest mt-1">
+                                        {isConnected ? 'MISSATGE DIRECTE' : 'BATEGAR CONNEXIÓ'}
+                                    </span>
+                                </div>
+                            </button>
+
+                            {/* Secondary Action placed nicely below */}
+                            <button
+                                className={`self-center inline-flex items-center gap-2 px-10 py-5 rounded-full ${cardBg} border ${cardBorder} font-black text-xs uppercase tracking-[0.2em] ${textMuted} hover:text-[var(--text-main)] hover:bg-[var(--theme-accent-primary)]/10 hover:border-[var(--theme-accent-primary)]/30 transition-all`}
+                            >
+                                <ShieldCheck size={20} />
+                                CEDIR CONFIANÇA TOTAL
+                            </button>
+                        </div>
+                    ) : (
+                        <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <button
+                                onClick={() => setIsStudioOpen(true)}
+                                className={`h-20 rounded-full ${isDayMode ? 'bg-[#111] text-white' : 'bg-white text-black'} font-black text-[15px] uppercase tracking-widest shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3`}
+                            >
+                                <Camera size={22} />
+                                EDITAR APARIÈNCIA
+                            </button>
+                            {isSuperAdmin && (
+                                <button
+                                    onClick={() => navigate('/admin')}
+                                    className={`h-20 px-8 rounded-full bg-emerald-950 text-emerald-400 font-black text-[15px] uppercase tracking-widest shadow-2xl hover:scale-105 active:scale-95 transition-all border border-emerald-500/30 flex items-center justify-between gap-3`}
+                                >
+                                    <span className="text-sm font-black uppercase tracking-tight">RHIZOME SYNC ADMIN</span>
+                                    <span className="text-xs font-black uppercase tracking-widest bg-emerald-500/20 text-emerald-500 px-4 py-2 rounded-full border border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.3)] animate-pulse">ACTIU</span>
+                                </button>
+                            )}
+                        </div>
+                    )}
+                </div>
+
+                {/* 4. STATS BOARD (Premium Glassmorphism) */}
+                <div className="w-full max-w-3xl relative mb-12 animate-in fade-in slide-in-from-bottom-16 duration-1000 delay-300 ease-out-expo">
+                    {/* Glowing Aura underneath the stats panel */}
+                    <div className={`absolute -inset-4 rounded-[60px] bg-[var(--theme-accent-primary)] opacity-10 blur-3xl z-0 pointer-events-none`}></div>
+
+                    <div className={`relative z-10 grid grid-cols-3 p-6 md:p-8 rounded-[48px] ${cardBg} backdrop-blur-3xl border ${cardBorder} shadow-2xl overflow-hidden`}>
+                        {/* Shimmer reflection inner */}
+                        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+
+                        <div className="flex flex-col items-center justify-center text-center py-4 relative group cursor-default">
+                            <span className="text-5xl md:text-6xl font-black mb-2 tracking-tighter group-hover:scale-110 transition-transform duration-500 ease-out-back text-theme-text">{stats.followers}</span>
+                            <span className={`text-[11px] md:text-xs font-black uppercase tracking-[0.25em] ${textMuted}`}>Connectats</span>
+                        </div>
+                        <div className={`flex flex-col items-center justify-center text-center py-4 border-x ${cardBorder} relative group cursor-default`}>
+                            <span className="text-5xl md:text-6xl font-black mb-2 tracking-tighter text-[var(--theme-accent-primary)] group-hover:scale-110 transition-transform duration-500 ease-out-back drop-shadow-sm">{stats.posts}</span>
+                            <span className={`text-[11px] md:text-xs font-black uppercase tracking-[0.25em] ${textMuted}`}>Publicacions</span>
+                        </div>
+                        <div className="flex flex-col items-center justify-center text-center py-4 relative group cursor-default">
+                            <span className="text-5xl md:text-6xl font-black mb-2 tracking-tighter group-hover:scale-110 transition-transform duration-500 ease-out-back text-theme-text">{stats.following}</span>
+                            <span className={`text-[11px] md:text-xs font-black uppercase tracking-[0.25em] ${textMuted}`}>Malla</span>
+                        </div>
+                    </div>
+                </div>
+
+                {/* 5. TABS & CONTENT SYSTEM */}
+                <div className="w-full max-w-4xl border-t border-[var(--border-master)] pt-12">
+                    {/* Premium Oversized Tab Switcher */}
+                    <div className="flex flex-wrap justify-center gap-4 mb-8">
+                        <button
+                            onClick={() => setActiveTab('mur')}
+                            className={`px-8 py-3 rounded-2xl font-black text-sm tracking-[0.2em] transition-all duration-500 uppercase ${activeTab === 'mur' ? 'bg-[var(--theme-accent-primary)] text-white shadow-[0_0_20px_rgba(255,107,0,0.3)] scale-105' : 'bg-[var(--surface-master)] text-[var(--text-muted)] hover:bg-[var(--border-master)] hover:text-white'}`}
+                        >
+                            EL MEU MUR
+                        </button>
+                        <button
+                            onClick={() => setActiveTab('connexions')}
+                            className={`px-8 py-3 rounded-2xl font-black text-sm tracking-[0.2em] transition-all duration-500 uppercase ${activeTab === 'connexions' ? 'bg-[var(--theme-accent-primary)] text-white shadow-[0_0_20px_rgba(255,107,0,0.3)] scale-105' : 'bg-[var(--surface-master)] text-[var(--text-muted)] hover:bg-[var(--border-master)] hover:text-white'}`}
+                        >
+                            MALLA DE XARXA
+                        </button>
+                    </div>
+
+                    <div className="min-h-[40vh] w-full max-w-3xl mx-auto pb-32">
+                        {activeTab === 'mur' ? (
+                            <div className="w-full flex flex-col gap-6">
+                                <ContextualHeader
+                                    searchTerm=""
+                                    onSearchChange={() => {}}
+                                    viewMode="single"
+                                    onViewModeChange={() => {}}
+                                    placeholder="Cerca publicacions..."
+                                />
+                                {userPosts.length > 0 ? (
+                                    <Feed hideHeader={true} customPosts={userPosts} />
+                                ) : (
+                                    <StatusLoader type="empty" message={isOwnProfile ? "Encara no has compartit res." : "Cap novetat."} />
+                                )}
+                            </div>
+                        ) : activeTab === 'connexions' ? (
+                            <div className="space-y-8 animate-in fade-in slide-in-from-bottom-8">
+                                <div className={`p-12 rounded-[56px] ${cardBg} border ${cardBorder} shadow-lg backdrop-blur-2xl relative overflow-hidden`}>
+                                    {/* Subtly animated glow */}
+                                    <div className="absolute -inset-10 bg-gradient-to-r from-[var(--theme-accent-primary)]/[0.05] via-transparent to-transparent opacity-50 animate-[shimmer_3s_infinite] pointer-events-none"></div>
+                                    
+                                    <h3 className="relative z-10 text-3xl font-black uppercase tracking-tight mb-4 flex items-center gap-6 text-[var(--theme-accent-primary)]">
+                                        <div className="p-4 rounded-full bg-[var(--theme-accent-primary)]/10 border border-[var(--theme-accent-primary)]/20 shadow-inner">
+                                            <UserCheck size={32} strokeWidth={2.5} />
+                                        </div>
+                                        Malla de Confiança
+                                    </h3>
+                                    <p className={`relative z-10 text-xl ${textMuted} font-medium leading-relaxed max-w-xl pl-20`}>Llista topològica de nodes connectats a aquesta identitat sobirana mitjançant el protocol Rhizome.</p>
+                                </div>
+                                {/* Placeholder visual per al futur feed de malla */}
+                                <div className={`py-32 flex flex-col items-center justify-center text-center border-4 border-dashed ${cardBorder} rounded-[56px] bg-theme-panel/30`}>
+                                    <Grid size={56} className={`mb-8 ${textMuted} opacity-20`} strokeWidth={1.5} />
+                                    <p className={`text-base font-black uppercase tracking-[0.2em] ${textMuted}`}>Navegador de Malla (Desenvolupament actiu)</p>
+                                </div>
+                            </div>
+                        ) : null}
+                    </div>
+                </div>
+            </main>
+
+            {/* Modals remain the exact same functionally */}
+            <ProfileStudioModal 
+                isOpen={isStudioOpen}
+                onClose={() => setIsStudioOpen(false)}
+                profile={profile}
+                onFileSelect={() => {}}
+            />
+            {isOwnProfile && profile && (
+                <ProfileSettingsModal
+                    isOpen={isSettingsOpen}
+                    onClose={() => setIsSettingsOpen(false)}
+                    profile={profile}
+                    onProfileUpdate={(updates) => setProfile(prev => ({ ...prev, ...updates }))}
+                />
+            )}
+        </div>
+    );
+};
+
+export default ProfileView;
+
+
+==================================================
+FILE: src/supabaseClient.js
+==================================================
+
+import { createClient } from '@supabase/supabase-js';
+
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+const supabaseInstance = createClient(supabaseUrl, supabaseAnonKey);
+
+export const supabase = supabaseInstance;

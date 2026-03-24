@@ -210,7 +210,7 @@ const AppLayout = () => {
 
       {/* 0. HEADER SOBIRÀ (FULL WIDTH - PROTOCOL v4.0) */}
       {!isMinimal && (
-        <div className="w-full z-[var(--z-sticky)]">
+        <div className="w-full relative z-[9999]">
           <Suspense fallback={<NanoLoader message="Preparant la barra..." />}>
             <BlueprintOverlay
               label="HEADER_CANONIC"
@@ -296,7 +296,7 @@ const AppLayout = () => {
                       element={<Navigate to="/chats" replace />}
                     />
                     <Route path="/pobles" element={<Towns />} />
-                    <Route path="/pobles/:id" element={<TownDetail />} />
+                    <Route path="/pobles/:id" element={<ProfileView />} />
 
                     <Route path="/chats/*" element={<ChatLayout />}>
                       <Route index element={<ChatEmptyState />} />
@@ -318,11 +318,11 @@ const AppLayout = () => {
                     />
                     <Route
                       path="/perfil/:id"
-                      element={
-                        <ProtectedRoute>
-                          <ProfileView />
-                        </ProtectedRoute>
-                      }
+                      element={<ProfileView />}
+                    />
+                    <Route
+                      path="/entitat/:id"
+                      element={<ProfileView />}
                     />
                     <Route path="/login" element={<Register />} />
                     <Route path="/registre" element={<Register />} />
@@ -372,11 +372,7 @@ const AppLayout = () => {
                     />
                     <Route
                       path="/gestio/xats/:id?"
-                      element={
-                        <ProtectedRoute>
-                          <ChatManager />
-                        </ProtectedRoute>
-                      }
+                      element={<ChatManager />}
                     />
                     <Route
                       path="/gestio-menu"
@@ -398,33 +394,15 @@ const AppLayout = () => {
                       path="/accessibilitat"
                       element={<AccessibilitatUniversal />}
                     />
-                    <Route
-                      path="/notes"
-                      element={
-                        <ProtectedRoute>
-                          <Notes />
-                        </ProtectedRoute>
-                      }
-                    />
+                    <Route path="/notes" element={<Notes />} />
                     <Route path="/legal" element={<LegalNotice />} />
                     <Route path="/projecte" element={<ProjectPresentation />} />
                     <Route path="/chrome-145" element={<Chrome145Report />} />
                     <Route
                       path="/hub"
-                      element={
-                        <ProtectedRoute>
-                          <HubView />
-                        </ProtectedRoute>
-                      }
+                      element={<HubView />}
                     />
-                    <Route
-                      path="/financament"
-                      element={
-                        <ProtectedRoute>
-                          <Financament />
-                        </ProtectedRoute>
-                      }
-                    />
+                    <Route path="/financament" element={<Financament />} />
                     {/* Fallback 404 Catch-All Route */}
                     <Route path="*" element={<Navigate to="/mur" replace />} />
                   </Routes>
@@ -497,4 +475,4 @@ const AppLayout = () => {
   );
 };
 
-export default AppLayout;
+export default React.memo(AppLayout);

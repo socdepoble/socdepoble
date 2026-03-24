@@ -56,9 +56,6 @@ const WelcomePresentation = () => {
             <div className="text-center mb-24 md:mb-40 px-2">
                 <h1 className="text-5xl md:text-[90px] lg:text-[120px] font-black italic tracking-tighter uppercase text-gray-900 dark:text-white leading-[0.85] mb-6 drop-shadow-xl md:drop-shadow-[0_10px_30px_rgba(255,255,255,0.1)] relative inline-block">
                     SÓC DE POBLE
-                    <div className="absolute -right-2 -bottom-4 md:-right-8 md:-bottom-2 bg-gray-900 dark:bg-white text-white dark:text-black px-3 py-1 font-black text-[10px] md:text-xs skew-x-[-12deg] shadow-lg">
-                        VERSIÓ BATEGA 2026
-                    </div>
                 </h1>
                 
                 <h2 className="text-2xl md:text-5xl text-blue-600 dark:text-primary font-black italic mb-8 md:mb-12 tracking-tight">
@@ -246,7 +243,7 @@ const WelcomePresentation = () => {
                         <div className="w-8 h-1.5 bg-secondary rounded-full" />
                         <h3 className="text-3xl md:text-5xl font-black italic tracking-tighter text-gray-900 dark:text-white uppercase">2. Sobirania de l'Usuari</h3>
                     </div>
-                    <p className="text-lg md:text-xl font-medium">Sols recollim el necessari per al bategat del node: perfil, localització voluntària i memòria social KM 0. Pots descarregar tota la teua memòria digital o fulminar el teu node de forma autònoma enviant un missatge al Mestre.</p>
+                    <p className="text-lg md:text-xl font-medium">Sols recollim el necessari per al bategat del node: perfil, localització voluntària i memòria social KM 0. Pots descarregar tota la teua memòria digital o fulminar el teu node de forma autònoma enviant un missatge al Mestre. Especialment per als Forasters (Guest Mode), l'experiència és completament efímera: les teues dades desapareixen en eixir del navegador, garantint l'exploració anònima sense raca cap.</p>
                 </section>
                 <section id="cookies" className="p-8 md:p-12 bg-gray-50 dark:bg-gradient-to-br from-[#080808] to-black rounded-[40px] border border-gray-200 dark:border-white/5 shadow-xl">
                     <h3 className="text-2xl md:text-4xl font-black italic tracking-tighter text-gray-900 dark:text-white uppercase mb-4">3. Política de Cookies</h3>

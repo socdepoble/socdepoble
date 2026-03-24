@@ -343,5 +343,18 @@
   "chat": {
     "guest_warning_text": "Estás a falar como Forasteiro e este chat temporal borrarase.",
     "guest_warning_link": "Rexístrate para gardar as conversas."
+  },
+  "emoji": {
+    "search": "Buscar con texto ou emojis",
+    "suggested": "Recentes",
+    "smileys_people": "Caras e persoas",
+    "animals_nature": "Animais e natureza",
+    "food_drink": "Comida e bebida",
+    "travel_places": "Viaxes e lugares",
+    "activities": "Actividades",
+    "objects": "Obxectos",
+    "symbols": "Símbolos",
+    "flags": "Bandeiras",
+    "custom": "Personalizados"
   }
 }

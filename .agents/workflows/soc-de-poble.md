@@ -5,6 +5,7 @@ description: Habilidad (Skill) de inicialización suprema. Cuando el usuario dic
 # Sóc de Poble! (Protocolo de Activación)
 
 **🚨 TRIGGER ESTRICTO:** Este workflow SÓLO se activa si el usuario dice **exactamente** la frase `Sóc de Poble!` (con tilde en la 'o' y exclamación final). Si no lleva exclamación o la tilde falla, NO se activa obligatoriamente (aunque como IA deberías sugerirlo si es el primer mensaje).
+*(Importante: Recuerda la diferencia entre la marca "Sóc de Poble" con tilde y mayúsculas, y la oración gramatical "soc de poble" sin tilde).*
 
 ## Pasos del Protocolo de Activación:
 

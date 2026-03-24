@@ -185,6 +185,11 @@ const ChatList = () => {
       }
     };
     fetchChats();
+    
+    window.addEventListener('chat_updated', fetchChats);
+    return () => {
+        window.removeEventListener('chat_updated', fetchChats);
+    };
   }, [
     user?.id,
     user?.email,

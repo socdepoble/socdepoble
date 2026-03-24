@@ -72,16 +72,16 @@ const MasterEditor = ({ note, onChange, onAIA, placeholder }) => {
     };
 
     const execCommand = (command, value = null) => {
+        editorRef.current.focus();
         document.execCommand(command, false, value);
         handleInput();
-        editorRef.current.focus();
     };
 
     const insertBlock = (tag) => {
         // Simple block level insertion
+        editorRef.current.focus();
         document.execCommand('formatBlock', false, tag);
         handleInput();
-        editorRef.current.focus();
     };
 
     const insertChecklist = () => {
@@ -99,6 +99,7 @@ const MasterEditor = ({ note, onChange, onAIA, placeholder }) => {
             <p><br></p>
         `;
         // We insert a block so it doesn't merge with existing text line
+        editorRef.current.focus();
         document.execCommand('insertHTML', false, `<div>${html}</div>`);
         handleInput();
     };
@@ -186,6 +187,7 @@ const MasterEditor = ({ note, onChange, onAIA, placeholder }) => {
             </div>
             <p><br></p>
         `;
+        editorRef.current.focus();
         document.execCommand('insertHTML', false, html);
         handleInput();
     };
@@ -204,6 +206,7 @@ const MasterEditor = ({ note, onChange, onAIA, placeholder }) => {
         }
 
         if (html) {
+            editorRef.current.focus();
             document.execCommand('insertHTML', false, html);
             handleInput();
         }
@@ -287,7 +290,16 @@ const MasterEditor = ({ note, onChange, onAIA, placeholder }) => {
 
     return (
         <div className="master-editor-container">
-            <div className="master-editor-toolbar">
+            <div 
+                className="master-editor-toolbar" 
+                onMouseDown={(e) => {
+                    // Prevent toolbar buttons from stealing focus 
+                    // from the contenteditable to preserve selection
+                    if (e.target.tagName !== 'INPUT') {
+                        e.preventDefault();
+                    }
+                }}
+            >
                 <button
                     type="button"
                     className="editor-tool primary"
@@ -297,9 +309,9 @@ const MasterEditor = ({ note, onChange, onAIA, placeholder }) => {
                     <Sparkles size={18} />
                 </button>
 
-                <div className="flex items-center gap-1.5 px-4 h-full border-l border-white/5 relative">
+                <div className="flex items-center gap-1.5 px-4 h-full border-l border-orange-200/50 dark:border-indigo-900/40 relative">
                     <button 
-                        className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${showExportMenu ? 'bg-orange-500 text-white' : 'text-gray-400 hover:bg-white/5'}`}
+                        className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${showExportMenu ? 'bg-orange-500 text-white' : 'text-orange-900/50 hover:bg-orange-100/50 hover:text-orange-950 dark:text-indigo-300/50 dark:hover:bg-indigo-900/30 dark:hover:text-indigo-100'}`}
                         title="Exportar Nota"
                         onClick={() => setShowExportMenu(!showExportMenu)}
                     >
@@ -307,12 +319,12 @@ const MasterEditor = ({ note, onChange, onAIA, placeholder }) => {
                     </button>
                     
                     {showExportMenu && (
-                        <div className="absolute left-0 top-full mt-2 bg-[#1a1a1a] border border-white/10 rounded-[28px] shadow-2xl z-[100] overflow-hidden min-w-[220px] origin-top-left animate-in fade-in zoom-in duration-200">
-                            <div className="px-4 py-2 border-bottom border-white/5 bg-white/5">
+                        <div className="absolute left-0 top-full mt-2 bg-white/90 border-orange-200/60 dark:bg-[#050B14]/90 dark:border-indigo-900/50 backdrop-blur-xl border rounded-[28px] shadow-[0_8px_30px_rgb(249,115,22,0.12)] dark:shadow-[0_8px_30px_rgba(6,182,212,0.1)] z-[100] overflow-hidden min-w-[220px] origin-top-left animate-in fade-in zoom-in duration-200">
+                            <div className="px-4 py-2 border-b border-orange-100 bg-orange-50/50 dark:border-indigo-900/30 dark:bg-indigo-950/20">
                                 <span className="text-[10px] uppercase font-black text-orange-500/80 tracking-widest">Format d'Exportació</span>
                             </div>
                             <button 
-                                className="w-full px-4 py-3 text-left text-xs font-bold hover:bg-orange-500/10 text-gray-300 hover:text-orange-400 flex items-center gap-3 transition-colors"
+                                className="w-full px-4 py-3 text-left text-xs font-bold hover:bg-orange-500/10 text-orange-950/70 hover:text-orange-600 dark:text-indigo-200/70 dark:hover:text-orange-400 flex items-center gap-3 transition-colors"
                                 onClick={() => {
                                     try {
                                         exportService.downloadNoteAsPDF(note);
@@ -327,7 +339,7 @@ const MasterEditor = ({ note, onChange, onAIA, placeholder }) => {
                                 <FileIcon size={14} /> PDF Imprimible
                             </button>
                             <button 
-                                className="w-full px-4 py-3 text-left text-xs font-bold hover:bg-orange-500/10 text-gray-300 hover:text-orange-400 flex items-center gap-3 transition-colors"
+                                className="w-full px-4 py-3 text-left text-xs font-bold hover:bg-orange-500/10 text-orange-950/70 hover:text-orange-600 dark:text-indigo-200/70 dark:hover:text-orange-400 flex items-center gap-3 transition-colors"
                                 onClick={() => {
                                     try {
                                         exportService.downloadNoteAsTXT(note);

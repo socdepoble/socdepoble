@@ -141,4 +141,4 @@ const GlobalModals = () => {
     );
 };
 
-export default GlobalModals;
+export default React.memo(GlobalModals);

@@ -1,6 +1,5 @@
-import React, { useState, useCallback, useEffect, useMemo, useRef, useDeferredValue, useTransition } from 'react';
+import React, { useState, useCallback, useEffect, useRef, useDeferredValue, useTransition } from 'react';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import DOMPurify from 'dompurify';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { Loader2, Sparkles } from 'lucide-react';
@@ -32,7 +31,7 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
         () => localStorage.getItem('isIAIAFiltering') === 'true'
     );
     const [internalViewMode, setInternalViewMode] = useState(() => {
-        return localStorage.getItem('feed_view_mode') || 'single';
+        return localStorage.getItem('feed_view_mode') || 'grid';
     });
     const viewMode = externalViewMode || internalViewMode;
 
@@ -42,7 +41,7 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
         if (e.key === 'isIAIAFiltering') {
             setIsIAIAFiltering(e.newValue === 'true');
         }
-    }, [setIsIAIAFiltering]);
+    }, []);
 
     useEffect(() => {
         window.addEventListener('storage', handleStorageChange);
@@ -85,56 +84,74 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
         userConnections
     });
 
-    const [columnCount, setColumnCount] = useState(2);
+    const [columnCount, setColumnCount] = useState(() => {
+        if (typeof window !== 'undefined') {
+            const estimatedContainerWidth = Math.min(window.innerWidth - (window.innerWidth > 1024 ? 300 : 0), 1600);
+            if (viewMode === 'list' || viewMode === 'single') return 1;
+            if (estimatedContainerWidth < 800) return 1;
+            if (estimatedContainerWidth < 1200) return 2;
+            if (estimatedContainerWidth < 1600) return 3;
+            return 4;
+        }
+        return 1;
+    });
     const containerRef = useRef(null);
     const parentRef = useRef(null);
 
     useEffect(() => {
         if (!containerRef.current) return;
+        let rafId;
         const observer = new ResizeObserver(entries => {
             for (let entry of entries) {
                 const width = entry.contentRect.width;
-                if (width < 500) setColumnCount(viewMode === 'list' || viewMode === 'single' ? 1 : 2);
-                else if (width < 850) setColumnCount(viewMode === 'list' || viewMode === 'single' ? 1 : 2);
-                else setColumnCount(viewMode === 'list' || viewMode === 'single' ? 1 : 3);
+                if (rafId) cancelAnimationFrame(rafId);
+                rafId = requestAnimationFrame(() => {
+                    if (viewMode === 'single' || viewMode === 'list') {
+                        setColumnCount(1);
+                    } else {
+                        if (width < 800) setColumnCount(1);
+                        else if (width < 1200) setColumnCount(2);
+                        else if (width < 1600) setColumnCount(3);
+                        else setColumnCount(4);
+                    }
+                });
             }
         });
         observer.observe(containerRef.current);
-        return () => observer.disconnect();
+        return () => {
+             observer.disconnect();
+             if (rafId) cancelAnimationFrame(rafId);
+        };
     }, [viewMode]);
 
     const [, startTransition] = useTransition();
     const deferredPosts = useDeferredValue(filteredPosts);
 
     const rowCount = Math.ceil(deferredPosts.length / columnCount);
+    const effectiveViewMode = (viewMode === 'grid' && columnCount === 1) ? 'single' : viewMode;
+
+    const getScrollElement = useCallback(() => parentRef.current, []);
+    const estimateSize = useCallback(() => effectiveViewMode === 'list' ? 120 : (effectiveViewMode === 'single' ? 600 : 900), [effectiveViewMode]);
 
     const rowVirtualizer = useVirtualizer({
         count: rowCount,
-        getScrollElement: () => parentRef.current,
-        estimateSize: () => viewMode === 'list' ? 120 : (viewMode === 'single' ? 600 : 380),
+        getScrollElement,
+        estimateSize,
         overscan: 5,
-        measureElement: (element) => {
-            if (!element) return;
-            const ro = new ResizeObserver(() => {
-                rowVirtualizer.measure();
-            });
-            ro.observe(element);
-            return () => ro.disconnect();
+        onChange: (instance) => {
+            const lastIndex = instance.getVirtualItems().at(-1)?.index ?? 0;
+            if (lastIndex > rowCount - 10 && hasMore && !loadingMore) {
+                startTransition(() => {
+                    fetchPosts(true);
+                });
+            }
         }
     });
 
     useEffect(() => {
         rowVirtualizer.measure();
-    }, [viewMode, deferredPosts.length]);
-
-    useEffect(() => {
-        const lastIndex = rowVirtualizer.getVirtualItems().at(-1)?.index ?? 0;
-        if (lastIndex > rowCount - 10 && hasMore) {
-            startTransition(() => {
-                fetchPosts(true);
-            });
-        }
-    }, [rowVirtualizer, rowCount, hasMore, fetchPosts, deferredPosts.length]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [viewMode, deferredPosts.length, columnCount]);
 
     const handleHeaderClick = useCallback((post) => {
         const targetId = post.author_entity_id || post.author_user_id || post.author_id;
@@ -163,7 +180,7 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
     }, [navigate]);
 
     const renderPost = useCallback((post) => {
-        const pid = post.uuid || post.id;
+        const pid = post.uuid || post.id || `post-fallback-${Math.random().toString(36).substring(2, 9)}`;
         const isOptimistic = post.metadata?.isOptimistic;
         const isDissolving = post.metadata?.isDissolving;
 
@@ -181,30 +198,35 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
             : (post.author?.name || post.author);
 
         const rawTown = post.towns?.name || post.town_name || post.location?.town || 'La Torre de les Maçanes';
-        const headerSubtitle = rawTown.includes('La Torre') ? 'Gent de La Torre' : `Gent de ${rawTown}`;
+        const headerSubtitle = rawTown;
 
         const postImage = Array.isArray(post.image_url) ? post.image_url[0] : (post.image_url || post.coverImage);
         const hasNoImage = !postImage;
         const cinematicPlaceholder = "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=1000";
 
+        // Logic to resolve the correct Title for the post avoiding generic fallback or author name repetition
+        const extractedTitle = post.title || 
+                               (post.content ? post.content.split('\n')[0].replace(/^[#*\s]+/, '').trim() : null) || 
+                               'Actualitat del Poble';
+        const displayTitle = extractedTitle.length > 80 ? extractedTitle.substring(0, 80) + '...' : extractedTitle;
+
         return (
-            <div key={pid} className={`card-rizoma-wrapper animate-in ${isDissolving ? 'dissolve' : ''} w-full`}>
+            <div key={pid} className={`card-rizoma-wrapper animate-in ${isDissolving ? 'dissolve' : ''} w-full h-full`}>
                 <UniversalCard
                     item={post}
-                    title={headerTitle}
+                    avatarName={headerTitle}
+                    title={displayTitle}
                     subtitle={headerSubtitle}
-                    excerpt={post.type === 'book' ? '' : (post.content || post.excerpt)}
                     image={hasNoImage ? cinematicPlaceholder : postImage}
                     onHeaderClick={() => handleHeaderClick(post)}
                     mode="mur"
-                    viewMode={viewMode}
+                    viewMode={effectiveViewMode}
                     className={`universal-card-virtual ${isOptimistic ? 'optimistic' : ''} ${post.is_iaia_inspired ? 'animate-bategat' : ''} ${gloveMode ? 'mode-guants' : ''}`}
-                    variant={post.type === 'bando' ? 'ajuntament' : (post.type === 'tramit' ? 'mur' : 'post')}
+                    variant={post.type === 'bando' ? 'ajuntament' : (post.type === 'tramit' ? 'mur' : (post.type === 'mercat' ? 'mercat' : 'post'))}
                 >
-                    <PostContent content={post.content || post.excerpt || ''} postId={pid} />
                     {post.is_iaia_inspired && (
-                        <div className="iaia-transparency-genesis mt-4">
-                            <div className="flex items-center gap-1 font-black text-[10px] text-cyan-400">
+                        <div className="iaia-transparency-genesis mt-2 mb-1">
+                            <div className="flex items-center gap-1 font-black text-[12px] text-cyan-400">
                                 <Sparkles size={12} /> IAIA + VEÍ [MASTER]
                             </div>
                         </div>
@@ -212,7 +234,7 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
                 </UniversalCard>
             </div>
         );
-    }, [gloveMode, handleHeaderClick, viewMode]);
+    }, [gloveMode, handleHeaderClick, effectiveViewMode]);
 
     if (loading && posts.length === 0) {
         return (
@@ -243,20 +265,22 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
             <h1 className="sr-only">Mur d'Activitat i Notícies de Sóc de Poble</h1>
 
             {!hideHeader && (
-                <ContextualHeader
-                    searchTerm={contextualSearchTerm}
-                    onSearchChange={setContextualSearchTerm}
-                    viewMode={viewMode}
-                    onViewModeChange={(mode) => {
-                        setInternalViewMode(mode);
-                        localStorage.setItem('feed_view_mode', mode);
-                    }}
-                    placeholder="Cerca al mur..."
-                />
+                <div className="sticky top-0 w-full z-[100] shadow-md">
+                    <ContextualHeader
+                        searchTerm={contextualSearchTerm}
+                        onSearchChange={setContextualSearchTerm}
+                        viewMode={viewMode}
+                        onViewModeChange={(mode) => {
+                            setInternalViewMode(mode);
+                            localStorage.setItem('feed_view_mode', mode);
+                        }}
+                        placeholder="Cerca al mur..."
+                    />
+                </div>
             )}
 
             {customPosts ? (
-                <div className={`feed-list max-w-3xl mx-auto w-full pb-20`}>
+                <div ref={containerRef} className={`feed-list mx-auto w-full pb-20 transition-all duration-300 ${viewMode === 'grid' ? 'max-w-[1600px] px-2 sm:px-6' : 'max-w-3xl'}`}>
                     {deferredPosts.length === 0 ? (
                         <StatusLoader
                             type="empty"
@@ -276,13 +300,13 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
                 <div
                     ref={parentRef}
                     className="flex-1 overflow-auto custom-scrollbar h-[100dvh]"
-                    style={{ contain: 'strict', overflowAnchor: 'none' }}
+                    style={{ contain: 'content', overflowAnchor: 'none' }}
                 >
                     <div
                         ref={containerRef}
-                        className={`feed-list max-w-3xl mx-auto w-full`}
+                        className={`feed-list mx-auto w-full transition-all duration-300 ${viewMode === 'grid' ? 'max-w-[1600px]' : 'max-w-3xl'}`}
                         style={{
-                            height: `${rowVirtualizer.getTotalSize()}px`,
+                            height: `${rowVirtualizer.getTotalSize() + 36}px`,
                             position: 'relative',
                         }}
                     >
@@ -311,11 +335,12 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
                                             top: 0,
                                             left: 0,
                                             width: '100%',
-                                            transform: `translateY(${virtualRow.start}px)`,
+                                            transform: `translateY(${virtualRow.start + 36}px)`,
                                             display: 'grid',
                                             gridTemplateColumns: `repeat(${columnCount}, minmax(0, 1fr))`,
-                                            gap: '16px',
+                                            gap: '24px',
                                             padding: '0 16px',
+                                            paddingBottom: '24px', // Critical: this forces the virtualizer to measure height including a gap
                                             boxSizing: 'border-box'
                                         }}
                                     >
@@ -327,7 +352,7 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
                     </div>
 
                     {hasMore && posts.length > 0 && !selectedTag && (
-                        <div className="load-more-container mt-12 mb-12" style={{ position: 'relative', top: `${rowVirtualizer.getTotalSize()}px` }}>
+                        <div className="load-more-container mt-12 mb-12 flex justify-center w-full">
                             <button
                                 className="btn-load-more"
                                 onClick={() => fetchPosts(true)}
@@ -343,77 +368,5 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
     );
 };
 
-const SANITIZE_CACHE = new Map();
-const SANITIZE_CACHE_LIMIT = 800;
-let SANITIZE_CACHE_BYTES = 0;
-const SANITIZE_CACHE_BYTES_LIMIT = 4 * 1024 * 1024; // 4MB approx
-
-function approxSizeOfString(s) {
-  return s ? s.length * 2 : 0; // aproximació UTF-16
-}
-
-function stableHash(str) {
-  if (!str) return '0';
-  let h = 2166136261 >>> 0;
-  for (let i = 0; i < str.length; i++) {
-    h ^= str.charCodeAt(i);
-    h = Math.imul(h, 16777619) >>> 0;
-  }
-  return h.toString(36);
-}
-
-function sanitizeWithCache(key, html, opts) {
-  if (!html) return '';
-  const htmlHash = stableHash(html);
-  const k = `${key}::${htmlHash}`;
-  if (SANITIZE_CACHE.has(k)) return SANITIZE_CACHE.get(k);
-  const sanitized = DOMPurify.sanitize(html, opts);
-  
-  SANITIZE_CACHE.set(k, sanitized);
-  SANITIZE_CACHE_BYTES += approxSizeOfString(sanitized);
-
-  // Evicció per nombre i per mida (v5)
-  while ((SANITIZE_CACHE.size > SANITIZE_CACHE_LIMIT) || (SANITIZE_CACHE_BYTES > SANITIZE_CACHE_BYTES_LIMIT)) {
-    const firstKey = SANITIZE_CACHE.keys().next().value;
-    const val = SANITIZE_CACHE.get(firstKey);
-    SANITIZE_CACHE_BYTES -= approxSizeOfString(val);
-    SANITIZE_CACHE.delete(firstKey);
-  }
-  return sanitized;
-}
-
-const PostContent = React.memo(({ content, postId }) => {
-    const [expanded, setExpanded] = useState(false);
-    const CHAR_LIMIT = 500;
-    const safeRaw = typeof content === 'string' ? content : '';
-    const isTooLong = safeRaw.length > CHAR_LIMIT;
-    const rawContent = expanded ? safeRaw : (isTooLong ? safeRaw.substring(0, CHAR_LIMIT) + '...' : safeRaw);
-    
-    // BLINDATGE ANTIGRAVITY: Memoització agressiva + LRU Cache de la purificació
-    const safeContent = useMemo(() => {
-        const key = postId || stableHash(rawContent.slice(0, 64));
-        return sanitizeWithCache(key, rawContent, {
-            ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'a', 'br', 'p', 'span'],
-            ALLOWED_ATTR: ['href', 'target', 'rel'],
-        });
-    }, [rawContent, postId]);
-
-    return (
-        <div className="post-text-area-wrapper">
-            <div className={`post-text-rich ${isTooLong && !expanded ? 'truncated' : ''}`} dangerouslySetInnerHTML={{ __html: String(safeContent) }} />
-            {isTooLong && (
-                <button
-                    className="read-more-btn font-bold text-emerald-600 dark:text-emerald-400 hover:underline mt-2 text-sm select-none cursor-pointer"
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        setExpanded(p => !p);
-                    }}
-                >
-                    {expanded ? 'Llegir menys ↑' : 'Llegir més 🏺📖'}
-                </button>
-            )}
-        </div>
-    );
-});
 
 export default Feed;

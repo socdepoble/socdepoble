@@ -78,7 +78,7 @@
     "change_language": "Canviar idioma",
     "support_short": "Suport",
     "add_town": "AFEGIR POBLE",
-    "add": "AFEGIR",
+    "add": "CONNECTAR",
     "save_btn": "Guardar",
     "cancel": "Cancel·lar",
     "share_soc": "Compartir Sóc de Poble"
@@ -398,12 +398,15 @@
     "frequently_used": "Utilitzats recentment",
     "smileys_people": "Cares i persones",
     "animals_nature": "Animals i natura",
-    "food_drink": "Menjar i beguda",
+    "food_drink": "Menjar i beure",
     "travel_places": "Viatges i llocs",
     "activities": "Activitats",
     "objects": "Objectes",
     "symbols": "Símbols",
-    "flags": "Banderes"
+    "flags": "Banderes",
+    "search": "Cerca amb text o emojis",
+    "suggested": "Recents",
+    "custom": "Personalitzats"
   },
   "chat": {
     "guest_warning_text": "Estàs parlant com a Foraster i aquest xat temporal s'esborrarà.",

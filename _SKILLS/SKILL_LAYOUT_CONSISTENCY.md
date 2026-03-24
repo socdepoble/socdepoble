@@ -40,3 +40,9 @@ Per a assegurar que el Mas bategue amb harmonia, s'han de seguir aquestes regles
 
 - **Posició**: Estrictament a la part **inferior dreta** de la targeta (body), a sobre de la barra d'accions.
 - **Estil**: Pastilla robusta (Pill) amb color de la Boina bategant, font Roboto Condensed Bold, i ombra profunda per a destacar l'oferta.
+
+## 7. Arquitectura de 3 Nivells del Perfil (Progressive Disclosure) 🏛️
+
+- **Nivell 1 (L'Aparador - Vista Pública):** El perfil base de la persona o entitat (`ProfileView`). Ha de ser net. Si l'usuari veu el seu propi perfil, **ESTÀ PROHIBIT** embrutar l'Aparador amb botons massius d'Edició o d'Administrador Giga. Tota configuració es deriva exclusivament de la icona d'engranatge de navegació (TopBar).
+- **Nivell 2 (La Rerabotiga - Ajustaments):** Obert pel botó d'Ajustaments. Format llista i estètica neta (identitat visual, idioma, territorialitat).
+- **Nivell 3 (El Llavador / Laboratori):** Exclusivament per a Super Admins. És una secció al fons de La Rerabotiga amb estètica d'alerta (verd/roig foscs) on s'allotgen els botons perillosos (Sincronització de Rhino, Mode Forense, etc). D'aquesta manera, el xarampió administratiu no contamina l'Aparador.

@@ -22,6 +22,7 @@ import {
 import { useDesign } from '../context/DesignContext';
 import { rhizomeDb } from '../rhizome/db-core';
 import { egWalker } from '../rhizome/crdt/eg-walker';
+import SEO from '../components/SEO';
 import './SolatgeConsole.css';
 
 import Haptics from '../utils/HapticFeedback';
@@ -96,6 +97,7 @@ const SolatgeConsole = () => {
 
     return (
         <div className="solatge-container bg-black min-h-screen text-white animate-bategat">
+            <SEO title="Solatge Console | Sóc de Poble" description="Consola de Comandament Solatge v1.0. El HUD sobirà per a la gestió de la Village Cell." />
             {/* HEADER M3 SURFACE - BLINDAT v9.4.0 */}
             <header className="solatge-header h-20 flex items-center gap-4 px-6 bg-black border-b border-gray-900 sticky top-0 z-30">
                 <button 

@@ -6,6 +6,7 @@ import NotebookList from '../components/NotebookList';
 import MasterEditor from '../components/MasterEditor';
 import AccessibilitatUniversal from '../components/AccessibilitatUniversal';
 import { useNavigation } from '../context/NavigationContext';
+import { useAuth } from '../context/AuthContext';
 import { hapticService } from '../services/hapticService';
 import { Sparkles, Trash2, Share, Folder, Tag, MessageSquare, Info } from 'lucide-react';
 import './Notebook.css';
@@ -84,6 +85,7 @@ const INITIAL_NOTES = [
 
 const Notes = () => {
     const { isAccessibilitatOpen, setIsAccessibilitatOpen } = useNavigation();
+    const { isGuest } = useAuth();
     const { t } = useTranslation();
     const { openIAIASidebar } = useNavigation();
     const [searchParams, setSearchParams] = useSearchParams();
@@ -102,6 +104,19 @@ const Notes = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [activeCategory, setActiveCategory] = useState(null);
     const [showInfo, setShowInfo] = useState(false);
+
+    const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(window.innerWidth < 768);
+    const [isListCollapsed, setIsListCollapsed] = useState(window.innerWidth < 768);
+
+    useEffect(() => {
+        const handleResize = () => {
+            const isMobile = window.innerWidth < 768;
+            setIsSidebarCollapsed(isMobile);
+            setIsListCollapsed(isMobile);
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     // Persistence Effect
     useEffect(() => {
@@ -251,16 +266,18 @@ const Notes = () => {
     };
 
     return (
-        <div className="notebook-app flex-1 flex h-full bg-black overflow-hidden animate-in fade-in duration-500">
+        <div className="notebook-app flex-1 flex h-full bg-gradient-to-br from-orange-50 via-[#fff8f0] to-orange-100/50 dark:from-[#050B14] dark:via-[#090B10] dark:to-indigo-950/20 overflow-hidden animate-in fade-in duration-500">
             <NotebookSidebar 
                 folders={folders}
                 activeFolder={activeFolderId}
-                onSelectFolder={(id) => { setActiveFolderId(id); setActiveCategory(null); }}
+                onSelectFolder={(id) => { setActiveFolderId(id); setActiveCategory(null); if(window.innerWidth < 768) setIsSidebarCollapsed(true); }}
                 onAddFolder={handleAddFolder}
                 onDeleteFolder={handleDeleteFolder}
                 categories={['Trellat', 'Patrimoni', 'Dades', 'Social']}
                 activeCategory={activeCategory}
-                onSelectCategory={(cat) => { setActiveCategory(cat); setActiveFolderId(null); }}
+                onSelectCategory={(cat) => { setActiveCategory(cat); setActiveFolderId(null); if(window.innerWidth < 768) setIsSidebarCollapsed(true); }}
+                isCollapsed={isSidebarCollapsed}
+                onToggleCollapse={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
             />
 
             <NotebookList 
@@ -271,35 +288,44 @@ const Notes = () => {
                     setNotes(prev => prev.map(n => 
                         n.id === id ? { ...n, lastOpenedAt: new Date().toISOString() } : n
                     ));
+                    if(window.innerWidth < 768) setIsListCollapsed(true);
                 }}
                 onAddNote={() => handleAddNote('rich-text')}
                 onReorderNotes={(newNotes) => setNotes(newNotes)}
                 searchQuery={searchQuery}
                 onSearchChange={setSearchQuery}
+                isCollapsed={isListCollapsed}
+                onToggleCollapse={() => setIsListCollapsed(!isListCollapsed)}
             />
 
-            <div className="flex-1 flex flex-col bg-black min-w-0">
+            <div className="flex-1 flex flex-col min-w-0 bg-transparent">
+                {isGuest && (
+                    <div className="bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-200 text-[14px] px-4 py-2 border-b border-orange-200 dark:border-orange-800/50 text-center shadow-sm z-10 shrink-0 select-none">
+                        <span className="font-bold tracking-tight">{t('common.warning', 'Avis per a Forasters')}:</span> Aquest és un Bloc de Notes temporal. Tota la teua escriptura s'esborrarà en eixir! {' '}
+                        <a href="/registre" className="font-bold underline cursor-pointer hover:text-orange-900 dark:hover:text-orange-100">{t('chat.guest_warning_link', "Registra't per a guardar les notes.")}</a>
+                    </div>
+                )}
                 {activeNote ? (
                     <>
-                        <header className="h-16 border-b border-white/5 flex items-center justify-between px-8 bg-black/50 backdrop-blur-xl shrink-0">
+                        <header className="h-16 border-b border-orange-200/50 dark:border-indigo-900/40 bg-white/40 dark:bg-[#050B14]/40 flex items-center justify-between px-8 backdrop-blur-3xl shrink-0 z-10 shadow-[0_4px_30px_rgba(249,115,22,0.03)] dark:shadow-[0_4px_30px_rgba(6,182,212,0.03)]">
                             <div className="flex items-center gap-4 flex-1 min-w-0">
                                 <input 
                                     type="text" 
                                     value={activeNote.title}
                                     onChange={(e) => handleUpdateNote(activeNote.id, { title: e.target.value })}
-                                    className="bg-transparent border-none outline-none text-xl font-black uppercase tracking-tighter text-white w-full placeholder:opacity-20"
+                                    className="bg-transparent border-none outline-none text-xl font-black uppercase tracking-tighter w-full placeholder:opacity-30 text-orange-950 dark:text-indigo-50"
                                     placeholder="Títol de la nota..."
                                 />
                             </div>
                             <div className="flex items-center gap-2">
                                 <button 
                                     onClick={() => openIAIASidebar({ context: `Editing ${activeNote.type}: ${activeNote.title}` })}
-                                    className="flex items-center gap-2 px-4 py-2 bg-fuchsia-600/10 text-fuchsia-400 rounded-[28px] font-black text-[10px] uppercase tracking-widest hover:bg-fuchsia-600/20 transition-all"
+                                    className="flex items-center gap-2 px-4 py-2 bg-fuchsia-600/10 text-fuchsia-400 rounded-[28px] font-black text-xs uppercase tracking-widest hover:bg-fuchsia-600/20 transition-all"
                                 >
                                     <MessageSquare size={14} /> Assistent
                                 </button>
                                 <button 
-                                    className="p-2 hover:bg-red-500/10 text-gray-500 hover:text-red-400 rounded-[28px] transition-all"
+                                    className="p-2 rounded-[28px] transition-all text-orange-900/40 hover:text-red-600 hover:bg-red-100 dark:text-indigo-300/40 dark:hover:text-red-400 dark:hover:bg-red-900/30"
                                     onClick={() => activeNote.status === 'trash' ? handlePermanentlyDeleteNote(activeNote.id) : handleDeleteNote(activeNote.id)}
                                     title={activeNote.status === 'trash' ? t('notebook.trash.permanent_delete') : t('notebook.trash.send_to_trash')}
                                 >
@@ -307,21 +333,21 @@ const Notes = () => {
                                 </button>
                                 {activeNote.status === 'trash' && (
                                     <button 
-                                        className="px-4 py-2 bg-emerald-600/10 text-emerald-500 border border-emerald-500/20 rounded-[28px] text-xs font-black uppercase tracking-widest hover:bg-emerald-600/20 transition-all"
+                                        className="px-4 py-2 bg-emerald-100 text-emerald-700 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-500/30 border rounded-[28px] text-xs font-black uppercase tracking-widest hover:bg-emerald-200 dark:hover:bg-emerald-900/50 transition-all shadow-sm"
                                         onClick={() => handleRestoreNote(activeNote.id)}
                                     >
                                         {t('notebook.trash.restore')}
                                     </button>
                                 )}
                                 <button 
-                                    className="p-2.5 text-gray-500 hover:text-white hover:bg-white/5 rounded-[28px] transition-all"
+                                    className="p-2.5 rounded-[28px] transition-all text-orange-900/50 hover:text-orange-950 hover:bg-orange-100/50 dark:text-indigo-300/50 dark:hover:text-indigo-100 dark:hover:bg-indigo-900/40"
                                     onClick={() => setShowInfo(!showInfo)}
                                     title="Informació de la nota"
                                 >
                                     <Info size={18} />
                                 </button>
                                 <button 
-                                    className="p-2.5 text-gray-500 hover:text-white hover:bg-white/5 rounded-[28px] transition-all"
+                                    className="p-2.5 rounded-[28px] transition-all text-orange-900/50 hover:text-orange-950 hover:bg-orange-100/50 dark:text-indigo-300/50 dark:hover:text-indigo-100 dark:hover:bg-indigo-900/40"
                                     onClick={() => alert('Funció de compartició bategant próximament!')}
                                 >
                                     <Share size={18} />
@@ -330,30 +356,30 @@ const Notes = () => {
                         </header>
 
                         {showInfo && (
-                            <div className="bg-white/5 border-b border-white/5 px-8 py-4 animate-in fade-in slide-in-from-top-2">
+                            <div className="bg-orange-50/80 border-b border-orange-200/50 dark:bg-indigo-950/40 dark:border-indigo-900/40 px-8 py-4 animate-in fade-in slide-in-from-top-2">
                                 <div className="flex items-center justify-between mb-2">
-                                    <h3 className="text-[10px] font-black uppercase text-gray-500 tracking-widest">{t('notebook.info')}</h3>
-                                    <button onClick={() => setShowInfo(false)} className="text-[10px] text-gray-500 hover:text-white uppercase font-bold">{t('common.back')}</button>
+                                    <h3 className="text-xs font-black uppercase text-orange-800/60 dark:text-indigo-400/60 tracking-widest">{t('notebook.info')}</h3>
+                                    <button onClick={() => setShowInfo(false)} className="text-xs text-orange-600 hover:text-orange-800 dark:text-orange-400 dark:hover:text-orange-300 uppercase font-bold">{t('common.back')}</button>
                                 </div>
                                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
                                     <div className="space-y-1">
-                                        <div className="text-[9px] font-bold text-gray-600 uppercase">{t('notebook.creation')}</div>
-                                        <div className="text-xs text-gray-400 font-medium">{new Date(activeNote.createdAt || activeNote.updatedAt).toLocaleString('ca-ES')}</div>
+                                        <div className="text-[10px] font-bold text-gray-600 uppercase">{t('notebook.creation')}</div>
+                                        <div className="text-sm text-gray-400 font-medium">{new Date(activeNote.createdAt || activeNote.updatedAt).toLocaleString('ca-ES')}</div>
                                     </div>
                                     <div className="space-y-1">
-                                        <div className="text-[9px] font-bold text-gray-600 uppercase">{t('notebook.modification')}</div>
-                                        <div className="text-xs text-gray-400 font-medium">{new Date(activeNote.updatedAt).toLocaleString('ca-ES')}</div>
+                                        <div className="text-[10px] font-bold text-gray-600 uppercase">{t('notebook.modification')}</div>
+                                        <div className="text-sm text-gray-400 font-medium">{new Date(activeNote.updatedAt).toLocaleString('ca-ES')}</div>
                                     </div>
                                     <div className="space-y-1">
-                                        <div className="text-[9px] font-bold text-gray-600 uppercase">{t('notebook.last_opened')}</div>
-                                        <div className="text-xs text-gray-400 font-medium">{new Date(activeNote.lastOpenedAt || activeNote.updatedAt).toLocaleString('ca-ES')}</div>
+                                        <div className="text-[10px] font-bold text-gray-600 uppercase">{t('notebook.last_opened')}</div>
+                                        <div className="text-sm text-gray-400 font-medium">{new Date(activeNote.lastOpenedAt || activeNote.updatedAt).toLocaleString('ca-ES')}</div>
                                     </div>
                                     <div className="space-y-1">
-                                        <div className="text-[9px] font-bold text-gray-600 uppercase">{t('notebook.content_creation')}</div>
-                                        <div className="text-xs text-gray-400 font-medium">{new Date(activeNote.contentCreatedAt || activeNote.createdAt || activeNote.updatedAt).toLocaleString('ca-ES')}</div>
+                                        <div className="text-[10px] font-bold text-gray-600 uppercase">{t('notebook.content_creation')}</div>
+                                        <div className="text-sm text-gray-400 font-medium">{new Date(activeNote.contentCreatedAt || activeNote.createdAt || activeNote.updatedAt).toLocaleString('ca-ES')}</div>
                                     </div>
                                     <div className="space-y-1">
-                                        <div className="text-[9px] font-bold text-gray-600 uppercase">{t('notebook.planned_date')}</div>
+                                        <div className="text-[10px] font-bold text-gray-600 uppercase">{t('notebook.planned_date')}</div>
                                         <input 
                                             type="datetime-local" 
                                             value={activeNote.plannedAt ? activeNote.plannedAt.substring(0, 16) : ''}
@@ -365,17 +391,17 @@ const Notes = () => {
                             </div>
                         )}
 
-                        <div className="p-8 pb-4 flex items-center gap-6 overflow-x-auto shrink-0 border-b border-white/5">
-                            <div className="flex items-center gap-2 px-3 py-1.5 bg-white/5 rounded-[20px] border border-white/5">
+                        <div className="p-8 pb-4 flex items-center gap-6 overflow-x-auto shrink-0 border-b border-orange-200/50 dark:border-indigo-900/40 z-10">
+                            <div className="flex items-center gap-2 px-3 py-1.5 rounded-[20px] border bg-white/60 border-orange-200 shadow-sm dark:bg-indigo-900/30 dark:border-indigo-500/20">
                                 <Folder size={12} className="text-orange-500" />
-                                <span className="text-[10px] font-bold text-gray-400">
+                                <span className="text-xs font-bold text-orange-950/70 dark:text-indigo-200/80">
                                     {folders.find(f => f.id === activeNote.folderId)?.name || 'General'}
                                 </span>
                             </div>
-                            <div className="flex items-center gap-2 px-3 py-1.5 bg-white/5 rounded-[20px] border border-white/5">
-                                <Tag size={12} className="text-fuchsia-500" />
+                            <div className="flex items-center gap-2 px-3 py-1.5 rounded-[20px] border bg-white/60 border-orange-200 shadow-sm dark:bg-indigo-900/30 dark:border-indigo-500/20">
+                                <Tag size={12} className="text-fuchsia-500 dark:text-fuchsia-400" />
                                 <select 
-                                    className="bg-transparent border-none outline-none text-[10px] font-bold text-gray-400 cursor-pointer"
+                                    className="bg-transparent border-none outline-none text-xs font-bold text-orange-950/70 dark:text-indigo-200/80 cursor-pointer"
                                     value={activeNote.category}
                                     onChange={(e) => handleUpdateNote(activeNote.id, { category: e.target.value })}
                                 >
@@ -386,8 +412,8 @@ const Notes = () => {
                             </div>
                         </div>
 
-                        <div className="flex-1 overflow-hidden p-8 flex flex-col">
-                            <div className="flex-1 bg-[#050505] border border-white/5 rounded-[40px] overflow-hidden shadow-2xl relative">
+                        <div className="flex-1 overflow-hidden p-8 flex flex-col pt-4">
+                            <div className="flex-1 bg-white/80 dark:bg-[#03060D]/80 backdrop-blur-3xl border border-orange-200/60 dark:border-indigo-500/20 rounded-[40px] overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.2)] relative flex flex-col">
                                 {isAccessibilitatOpen ? (
                                     <AccessibilitatUniversal embedded={true} />
                                 ) : (

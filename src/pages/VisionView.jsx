@@ -4,6 +4,7 @@ import { Shield, Brain, Sparkles, ArrowLeft, Check, User, Zap, MessageSquare } f
 import { useDesign } from '../context/DesignContext';
 import { useNavigation } from '../context/NavigationContext';
 import { AGENTS } from '../constants/agents';
+import SEO from '../components/SEO';
 
 const IAIA_MARIA_ID = '11111111-1a1a-0000-0000-000000000000';
 import './VisionView.css';
@@ -54,6 +55,7 @@ const VisionView = () => {
 
     return (
         <div className="vision-page-container">
+            <SEO title="Selector de Realitat | Sóc de Poble" description="Com vols bategar avui al poble?" />
             <header className="vision-page-header">
                 <button className="back-button" onClick={() => navigate(-1)}>
                     <ArrowLeft size={32} />

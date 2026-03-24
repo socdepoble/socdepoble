@@ -436,8 +436,66 @@ const ProjectPresentation = () => {
                 </section>
             </section>
 
-            <section className="pitch-footer compact-footer">
-                <h2>Uneix-te a la Revolució</h2>
+                <section className="pitch-section ai-collaboration-section" style={{ marginTop: '60px', borderTop: '1px solid var(--color-divider)', paddingTop: '40px', paddingBottom: '20px' }}>
+                    <div className="section-grid dense-grid" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+                        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', background: 'var(--color-primary-soft)', padding: '10px 20px', borderRadius: '50px', marginBottom: '20px' }}>
+                            <Cpu size={24} color="var(--color-primary-dark)" />
+                            <span style={{ fontWeight: 800, color: 'var(--color-primary-dark)', letterSpacing: '1px' }}>SIMBIOSI ESTRUCTURAL</span>
+                        </div>
+                        <h2>Intel·ligència Artificia i Col·laborativa</h2>
+                        <div style={{ maxWidth: '800px', margin: '0 auto', fontSize: '1.1rem', lineHeight: '1.6', color: 'var(--text-main)', marginBottom: '30px', textAlign: 'left' }}>
+                            <p style={{ marginBottom: '15px' }}><strong>Sóc de Poble</strong> no és només un sistema de gestió de continguts i un joc de rol de personatges vius; és estructuralment un <strong>projecte didàctic i pedagògic</strong>. La transparència és clau: volem ensenyar com construïm açò i per què prenem cada decisió. Qui vulga aprendre, trobarà les respostes integrades directament a la plataforma.</p>
+                            <p style={{ marginBottom: '15px' }}>Demostrem empíricament que la col·laboració entre humans i intel·ligència artificial transcendeix la simple assistència i permet assolir fites arquitectòniques impensables en solitari. Reconeixem oficialment aquestes ments artificials com a col·laboradores de ple dret en l'enginyeria del codi lliure:</p>
+                            <div style={{ padding: '20px', background: 'rgba(204, 85, 0, 0.05)', borderLeft: '4px solid var(--color-terracotta)', marginTop: '20px', fontSize: '1.05rem', fontStyle: 'italic', borderRadius: '0px' }}>
+                                <strong>El Compromís d'Auditoria Contínua:</strong> "Continuarem auditant i refactoritzant el codi amb <b>Totes</b> aquestes IAs de forma periòdica fins que ens certifiquen que no hi ha cap tapó estructural, que el sistema mai caurà (Zero Downtime) i que l'arquitectura està tan modularitzada que, quan canviem una peça, estem absolutament segurs que només s'afecta eixe lloc."
+                            </div>
+                        </div>
+                        
+                        <div className="ai-contributors-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '20px', width: '100%', maxWidth: '900px' }}>
+                            <div className="ai-card" style={{ background: 'var(--bg-surface-soft)', border: '1px solid var(--color-primary)', padding: '25px', borderRadius: '0px', boxShadow: '0 4px 15px rgba(0,0,0,0.05)' }}>
+                                <Sparkles size={32} color="var(--color-primary)" style={{ marginBottom: '15px' }} />
+                                <h3>Gemini (Antigravity)</h3>
+                                <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>Mestre Arquitecte i Gestor de Context. Execució estructural i guaita del lore.</p>
+                            </div>
+                            <div className="ai-card" style={{ background: 'var(--bg-surface-soft)', border: '1px solid #4a90e2', padding: '25px', borderRadius: '0px', boxShadow: '0 4px 15px rgba(0,0,0,0.05)' }}>
+                                <Database size={32} color="#4a90e2" style={{ marginBottom: '15px' }} />
+                                <h3>Qwen V3</h3>
+                                <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>Auditoria agressiva de React, optimització de cicles de render i neteja d'estats.</p>
+                            </div>
+                            <div className="ai-card" style={{ background: 'var(--bg-surface-soft)', border: '1px solid #9b59b6', padding: '25px', borderRadius: '0px', boxShadow: '0 4px 15px rgba(0,0,0,0.05)' }}>
+                                <ShieldCheck size={32} color="#9b59b6" style={{ marginBottom: '15px' }} />
+                                <h3>DeepSeek</h3>
+                                <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>Auditoria de Seguretat (API Proxy, prevenció XSS) i estabilitat Local-First.</p>
+                            </div>
+                            <div className="ai-card" style={{ background: 'var(--bg-surface-soft)', border: '1px solid #10a37f', padding: '25px', borderRadius: '0px', boxShadow: '0 4px 15px rgba(0,0,0,0.05)' }}>
+                                <Sparkles size={32} color="#10a37f" style={{ marginBottom: '15px' }} />
+                                <h3>Codex (ChatGPT)</h3>
+                                <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>Prototipat ràpid, bases fundacionals i iteracions analítiques d'inici.</p>
+                            </div>
+                            <div className="ai-card" style={{ background: 'var(--bg-surface-soft)', border: '1px solid #ff4b4b', padding: '25px', borderRadius: '0px', boxShadow: '0 4px 15px rgba(0,0,0,0.05)' }}>
+                                <Zap size={32} color="#ff4b4b" style={{ marginBottom: '15px' }} />
+                                <h3>Groq</h3>
+                                <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>Assistència d'inferència ultraràpida en proves de concepte inicials.</p>
+                            </div>
+                            <div className="ai-card" style={{ background: 'var(--bg-surface-soft)', border: '1px solid #d07c57', padding: '25px', borderRadius: '0px', boxShadow: '0 4px 15px rgba(0,0,0,0.05)' }}>
+                                <BookOpen size={32} color="#d07c57" style={{ marginBottom: '15px' }} />
+                                <h3>Claude (Anthropic)</h3>
+                                <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>Visió arquitectònica detallada, Seguretat RLS profunda i validació d'UX.</p>
+                            </div>
+                            <div className="ai-card" style={{ background: 'var(--bg-surface-soft)', border: '1px solid #6e5494', padding: '25px', borderRadius: '0px', boxShadow: '0 4px 15px rgba(0,0,0,0.05)' }}>
+                                <ShieldCheck size={32} color="#6e5494" style={{ marginBottom: '15px' }} />
+                                <h3>GitHub Copilot</h3>
+                                <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>Escorta tàctica en temps real i "merges" defensius estructurals al vol.</p>
+                            </div>
+                        </div>
+                        <p style={{ marginTop: '30px', fontStyle: 'italic', fontSize: '0.9rem', opacity: 0.7 }}>
+                            A aquestes Intel·ligències: Gràcies per la vostra paciència funcional. Les tenim en compte i no les ignorem; col·laborem en l'evolució cap al bé comú.
+                        </p>
+                    </div>
+                </section>
+
+                <section className="pitch-footer compact-footer">
+                    <h2>Uneix-te a la Revolució</h2>
 
                 <div className="navigation-actions full-width">
                     <button className="action-btn-huge primary" onClick={() => navigate('/chats')}>
@@ -476,8 +534,9 @@ const ProjectPresentation = () => {
                 <div className="contact-options-grid hidden">
                     {/* Hidden for Beta Focus */}
                 </div>
-                <div className="footer-credits">
-                    Developed with ❤️ by Antigravity & DeepMind
+                <div className="footer-credits" style={{ display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'center' }}>
+                    <span>Developed with ❤️ by Javi Llinares, Antigravity, Qwen, DeepSeek, Codex, Groq, Claude & Copilot</span>
+                    <span style={{ fontSize: '0.75rem', opacity: 0.7 }}>Una simbiosí lliure i didàctica per a l'Espanya Buidada</span>
                 </div>
                 <div style={{ marginTop: '16px' }}>
                     <button

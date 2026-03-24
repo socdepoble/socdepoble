@@ -43,6 +43,9 @@ const Register = () => {
   const [mode] = useState(isLoginRoute ? "login" : "register");
   const [step, setStep] = useState(isLoginRoute ? "connection" : "identity"); // 'identity' | 'verify'
 
+  // [FEATURE FLAG] Activar/Desactivar registre manual (SMS) fins que s'aprove a les botigues d'Apps
+  const ENABLE_MANUAL_REGISTRATION = false;
+
   // Form states
   const [fullName, setFullName] = useState(() => localStorage.getItem("sp_draft_name") || "");
   const [phone, setPhone] = useState(() => localStorage.getItem("sp_draft_phone") || "");
@@ -269,48 +272,52 @@ const Register = () => {
                 <span className="font-black uppercase tracking-widest text-theme-text opacity-90 text-base">Connectar amb Google</span>
             </button>
 
-            <div className="relative flex items-center justify-center py-2">
-                <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-[var(--border-master)]"></div>
+            {ENABLE_MANUAL_REGISTRATION && (
+              <>
+                <div className="relative flex items-center justify-center py-2">
+                    <div className="absolute inset-0 flex items-center">
+                      <div className="w-full border-t border-[var(--border-master)]"></div>
+                    </div>
+                    <span className="relative px-4 text-xs font-black uppercase tracking-widest bg-theme-base text-gray-400">O REGISTRE MANUAL</span>
                 </div>
-                <span className="relative px-4 text-xs font-black uppercase tracking-widest bg-theme-base text-gray-400">O REGISTRE MANUAL</span>
-            </div>
 
-            <div className="space-y-3">
-              <label htmlFor="reg-name" className="text-sm font-black uppercase tracking-widest text-gray-500 ml-1">Com et diuen?</label>
-              <input
-                id="reg-name"
-                name="full_name"
-                type="text"
-                placeholder="El teu nom i cognoms..."
-                value={fullName}
-                onChange={(e) => {
-                  setFullName(e.target.value);
-                  if (e.target.value.length === 3) hapticService.batec();
-                }}
-                autoComplete="name"
-                required
-                className={`w-full h-16 bg-theme-panel border-2 rounded-[20px] px-5 text-theme-text font-bold text-xl outline-none transition-all placeholder:text-gray-500 placeholder:font-normal
-                    ${fullName && !isNameValid ? "border-red-400 focus:border-red-500 bg-red-400/10" : 
-                      isNameValid ? "border-green-500 focus:border-green-600 bg-green-500/10" : 
-                      "border-[var(--border-master)] focus:border-[var(--theme-accent-primary)] focus:bg-[var(--theme-accent-primary-faint)]"}`}
-              />
-            </div>
+                <div className="space-y-3">
+                  <label htmlFor="reg-name" className="text-sm font-black uppercase tracking-widest text-gray-500 ml-1">Com et diuen?</label>
+                  <input
+                    id="reg-name"
+                    name="full_name"
+                    type="text"
+                    placeholder="El teu nom i cognoms..."
+                    value={fullName}
+                    onChange={(e) => {
+                      setFullName(e.target.value);
+                      if (e.target.value.length === 3) hapticService.batec();
+                    }}
+                    autoComplete="name"
+                    required
+                    className={`w-full h-16 bg-theme-panel border-2 rounded-[20px] px-5 text-theme-text font-bold text-xl outline-none transition-all placeholder:text-gray-500 placeholder:font-normal
+                        ${fullName && !isNameValid ? "border-red-400 focus:border-red-500 bg-red-400/10" : 
+                          isNameValid ? "border-green-500 focus:border-green-600 bg-green-500/10" : 
+                          "border-[var(--border-master)] focus:border-[var(--theme-accent-primary)] focus:bg-[var(--theme-accent-primary-faint)]"}`}
+                  />
+                </div>
 
-            <div className="pt-2">
-              <button
-                className={`w-full h-16 rounded-[20px] flex items-center justify-center text-white font-black uppercase tracking-widest transition-all active:scale-[0.98] ${
-                  !isNameValid ? "bg-gray-300 opacity-50 cursor-not-allowed" : "bg-[var(--theme-accent-primary)] hover:opacity-90 shadow-[0_0_15px_rgba(255,107,0,0.3)]"
-                }`}
-                disabled={!isNameValid}
-                onClick={() => {
-                  hapticService.batec();
-                  setStep("town");
-                }}
-              >
-                <span className="text-lg pt-1">Connectar Identitat</span>
-              </button>
-            </div>
+                <div className="pt-2">
+                  <button
+                    className={`w-full h-16 rounded-[20px] flex items-center justify-center text-white font-black uppercase tracking-widest transition-all active:scale-[0.98] ${
+                      !isNameValid ? "bg-gray-300 opacity-50 cursor-not-allowed" : "bg-[var(--theme-accent-primary)] hover:opacity-90 shadow-[0_0_15px_rgba(255,107,0,0.3)]"
+                    }`}
+                    disabled={!isNameValid}
+                    onClick={() => {
+                      hapticService.batec();
+                      setStep("town");
+                    }}
+                  >
+                    <span className="text-lg pt-1">Connectar Identitat</span>
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         )}
 

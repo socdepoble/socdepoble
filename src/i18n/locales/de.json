@@ -80,14 +80,17 @@
   },
   "emoji": {
     "frequently_used": "Zuletzt verwendet",
-    "smileys_people": "Smileys & Personen",
-    "animals_nature": "Tiere & Natur",
-    "food_drink": "Essen & Trinken",
-    "travel_places": "Reisen & Orte",
-    "activities": "Aktivitäten",
-    "objects": "Objekte",
-    "symbols": "Symbole",
-    "flags": "Flaggen"
+    "smileys_people": "Smileys & People",
+    "animals_nature": "Animals & Nature",
+    "food_drink": "Food & Drink",
+    "travel_places": "Travel & Places",
+    "activities": "Activities",
+    "objects": "Objects",
+    "symbols": "Symbols",
+    "flags": "Flags",
+    "search": "Search with text or emojis",
+    "suggested": "Recents",
+    "custom": "Custom"
   },
   "chat": {}
 }

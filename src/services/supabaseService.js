@@ -351,7 +351,8 @@ const activeChecks = {
 const SYSTEM_ENTITIES = [
     {
         id: 'sdp-oficial-1',
-        full_name: 'Sóc de Poble (Oficial)',
+        full_name: 'Sóc de Poble',
+        username: 'socdepoble',
         type: 'empresa',
         town_name: 'Global',
         description: 'La plataforma de connexió rural definitiva. Gent, terra i xarxa. Connectem pobles, persones i territori a través de la tecnologia i la identitat.',
@@ -364,6 +365,7 @@ const SYSTEM_ENTITIES = [
     {
         id: 'el-rentonar',
         full_name: 'Associació Cultural El Rentonar',
+        username: 'rentonar',
         type: 'empresa',
         town_name: 'La Torre de les Maçanes',
         description: 'Entitat gestora de Sóc de Poble i custòdia de la tradició i identitat de La Torre de les Maçanes. Treballem per la memòria viva i la sobirania tecnològica rural. CIF G-03967668.',
@@ -387,6 +389,7 @@ const SYSTEM_ENTITIES = [
     {
         id: 'fa82eb62-4a83-4ff7-b2d6-8849673fc3b0',
         full_name: 'Damià Llorens (Perit)',
+        username: 'damianllorens',
         type: 'persona',
         town_name: 'Global',
         description: 'Fundador de Sóc de Poble. Dissenyant el futur de la connexió rural viva.',
@@ -394,6 +397,7 @@ const SYSTEM_ENTITIES = [
         cover_url: '/images/campaign/night_party.png',
         category: 'Tecnologia',
         is_active: true,
+        is_admin: true,
         created_at: '2025-01-01T00:00:00Z'
     },
     {
@@ -485,8 +489,19 @@ const TOWNS_MAP = {
 const normalizeContentItem = (item, type = 'post') => {
     if (!item) return null;
 
-    const authorName = item.author || item.author_name || item.seller || item.seller_name || (type === 'market' ? 'Productor Local' : 'Veí del Poble');
-    const avatarUrl = item.avatar_url || item.author_avatar || item.author_avatar_url || '/assets/avatars/comic/avatar_man_1.png';
+    const isJaviMaster = (
+        item.author_id === 'd6325f44-7277-4d20-b020-166c010995ab' || 
+        item.author_user_id === 'd6325f44-7277-4d20-b020-166c010995ab' || 
+        item.author === 'Javi Llinares' || 
+        item.author_name === 'Javi Llinares' ||
+        item.author === 'socdepoblecom' || 
+        item.author_name === 'socdepoblecom' || 
+        item.username === 'socdepoblecom' ||
+        item.author_email?.includes('socdepoblecom')
+    );
+
+    const authorName = isJaviMaster ? 'Javi Llinares' : (item.author || item.author_name || item.seller || item.seller_name || (type === 'market' ? 'Productor Local' : 'Veí del Poble'));
+    const avatarUrl = isJaviMaster ? '/assets/master/javi_avatar_cinematic.png' : (item.avatar_url || item.author_avatar || item.author_avatar_url || '/assets/avatars/comic/avatar_man_1.png');
 
     // [MASTER HEALER] Fallback d'imatges intel·ligent per al Mercat
     let imageUrl = item.image_url || item.image;
@@ -502,13 +517,15 @@ const normalizeContentItem = (item, type = 'post') => {
     }
 
     // Resolución de pueblos con validación
-    let townName = 'Al teu poble';
-    if (item.towns?.name) {
-        townName = item.towns.name;
-    } else if (item.town_id && TOWNS_MAP[item.town_id]) {
-        townName = TOWNS_MAP[item.town_id];
-    } else if (item.town_name) {
-        townName = item.town_name;
+    let townName = isJaviMaster ? 'La Torre de les Maçanes' : 'Al teu poble';
+    if (!isJaviMaster) {
+        if (item.towns?.name) {
+            townName = item.towns.name;
+        } else if (item.town_id && TOWNS_MAP[item.town_id]) {
+            townName = TOWNS_MAP[item.town_id];
+        } else if (item.town_name) {
+            townName = item.town_name;
+        }
     }
 
     return {
@@ -518,9 +535,9 @@ const normalizeContentItem = (item, type = 'post') => {
         author: authorName,
         seller: type === 'market' ? authorName : undefined,
         author_avatar: avatarUrl,
+        author_role: isJaviMaster ? 'official' : (type === 'market' ? 'freelance' : (item.author_role || 'vei')),
         avatar_url: avatarUrl,
-        author_role: item.author_role || (type === 'market' ? 'business' : 'user'),
-        author_user_id: item.author_user_id || (item.author_role === 'user' ? item.author_id : (item.author_user_id || null)),
+        author_user_id: isJaviMaster ? 'd6325f44-7277-4d20-b020-166c010995ab' : (item.author_user_id || (item.author_role === 'user' ? item.author_id : (item.author_user_id || null))),
         author_entity_id: item.author_entity_id || (item.author_role !== 'user' ? (item.entity_id || item.author_id) : (item.author_entity_id || null)),
         towns: { name: townName },
         image_url: imageUrl,
@@ -1009,6 +1026,9 @@ export const supabaseService = {
     },
 
     async sendSecureMessage(messageData, abortSignal = null) {
+        if (messageData.senderId && !messageData.isGuest) {
+            await checkThrottling(messageData.senderId, 'send_message', 1000).catch(e => logger.warn('Throttling warn', e));
+        }
         // [FAILSAFE GLOBAL]: Si el conversationId és un Mock, un Local-Conv de Playground, o no s'ha arribat a canviar mai (1111... que és la IA)
         if (messageData.conversationId?.startsWith('mock-') || 
             messageData.conversationId?.startsWith('local-conv-') || 
@@ -1418,7 +1438,16 @@ export const supabaseService = {
 
     unsubscribe(channel) {
         if (channel) {
-            supabase.removeChannel(channel);
+            // [MASTER FIX] Prevenir 'WebSocket closed before the connection is established'
+            // Retardem l'ordre de desconnexió per donar oxigen al handshake de Connexió
+            setTimeout(() => {
+                try {
+                    supabase.removeChannel(channel).catch(() => {});
+                } catch (e) {
+                    logger.debug('[SupabaseService] Silent remove error', e);
+                }
+            }, 800);
+
             if (this._activeChannels) {
                 this._activeChannels.forEach((val, key) => {
                     if (val === channel) this._activeChannels.delete(key);
@@ -2702,6 +2731,39 @@ export const supabaseService = {
         return data;
     },
 
+    /**
+     * Cachea de forma segura la presencia de columnas, evitando bucles de error 42703.
+     */
+    async checkColumn(tableName, columnName) {
+        const cacheKey = `${tableName}_has_${columnName}`;
+        if (columnCache[cacheKey] !== null) return columnCache[cacheKey];
+
+        if (!activeChecks[cacheKey]) {
+            activeChecks[cacheKey] = (async () => {
+                try {
+                    const { data, error } = await supabase.from(tableName).select('*').limit(1);
+                    if (data && data.length > 0) {
+                        const exists = columnName in data[0];
+                        setColumnCache(cacheKey, exists);
+                        return exists;
+                    }
+                    if (error) {
+                        setColumnCache(cacheKey, false);
+                        return false;
+                    }
+                    setColumnCache(cacheKey, true); // Optimistic true si la taula està buida
+                    return true;
+                } catch (e) {
+                    setColumnCache(cacheKey, false);
+                    return false;
+                } finally {
+                    activeChecks[cacheKey] = null;
+                }
+            })();
+        }
+        return await activeChecks[cacheKey];
+    },
+
     async getProfile(id) {
         if (!id || !isRealDBUUID(id)) {
             // Check in Lore Personas first
@@ -2724,10 +2786,11 @@ export const supabaseService = {
                 .maybeSingle();
 
             if (error) {
-                if (hasPremium && (error.code === 'PGRST116' || error.code === '42703' || error.message?.includes('ofici'))) {
+                if (hasPremium && (error.code === '42703' || error.message?.includes('ofici'))) {
                     setColumnCache('profiles_has_premium', false);
-                    return this.getProfile(id); // Silent retry with base
+                    return this.getProfile(id); // Silent retry with base solo por falta de columnas
                 }
+                if (error.code === 'PGRST116') return null; // Stop crash loop on 404
                 throw error;
             }
 
@@ -2873,7 +2936,30 @@ export const supabaseService = {
         return true;
     },
 
+    async upsertProfile(userId, data) {
+        if (!userId) return null;
+        try {
+            const payload = { id: userId, ...data };
+            const { data: result, error } = await supabase
+                .from('profiles')
+                .upsert(payload, { onConflict: 'id' })
+                .select();
+
+            if (error) {
+                logger.warn('[SupabaseService] Error upserting profile:', error);
+                throw error;
+            }
+            return result && result.length > 0 ? result[0] : null;
+        } catch (error) {
+            logger.error('[SupabaseService] Critical error in upsertProfile:', error);
+            throw error;
+        }
+    },
+
     async updateProfile(userId, updates) {
+        if (userId && !updates.is_playground) {
+            await checkThrottling(userId, 'update_profile', 3000).catch(e => logger.warn('Throttling warn', e));
+        }
         const isLoreCharacter = userId && userId.startsWith('11111111');
 
         if (isLoreCharacter) {
@@ -2974,28 +3060,40 @@ export const supabaseService = {
             }
 
             // SANEJAMENT DE LLINATGE: Transformar Sóc de Poble a Empresa i netejar duplicats
-            const entities = (data || []).map(item => ({
+            let processedEntities = (data || []).map(item => ({
                 ...item.entities,
                 member_role: item.role
             }));
 
             // If it's Javi, enforce "Sóc de Poble" as Empresa and hide Association duplicate
-            const isJavi = userId === 'd6325f44-7277-4d20-b020-166c010995ab';
+            const isJavi = userId === 'd6325f44-7277-4d20-b020-166c010995ab' || userId === 'javillinares' || userId === 'mock_javi-llinares';
             if (isJavi) {
-                const socDePobleEmpresa = entities.find(e => e.name?.toLowerCase().includes('sóc de poble') && e.type === 'empresa');
-                if (socDePobleEmpresa) {
-                    return entities.filter(e => !(e.name?.toLowerCase().includes('sóc de poble') && e.type === 'associacio'));
+                const sdpExists = processedEntities.some(e => e.id === 'sdp-oficial-1');
+                const rentonarExists = processedEntities.some(e => e.id === 'el-rentonar');
+
+                if (!sdpExists) {
+                    const sdp = SYSTEM_ENTITIES.find(e => e.id === 'sdp-oficial-1');
+                    if(sdp) processedEntities.push({ ...sdp, name: sdp.full_name, member_role: 'admin' });
                 }
-                // Fallback: Si no trobem l'empresa encara a la DB, transformem l'associació on-the-fly (Sanejament preventiu)
-                return entities.map(e => {
-                    if (e.name?.toLowerCase().includes('sóc de poble') && e.type === 'associacio') {
-                        return { ...e, type: 'empresa' };
-                    }
-                    return e;
-                });
+                if (!rentonarExists) {
+                    const rento = SYSTEM_ENTITIES.find(e => e.id === 'el-rentonar');
+                    if(rento) processedEntities.push({ ...rento, name: rento.full_name, member_role: 'admin' });
+                }
+
+                const socDePobleEmpresa = processedEntities.find(e => e.name?.toLowerCase().includes('sóc de poble') && e.type === 'empresa');
+                if (socDePobleEmpresa) {
+                    processedEntities = processedEntities.filter(e => !(e.name?.toLowerCase().includes('sóc de poble') && e.type === 'associacio'));
+                } else {
+                    processedEntities = processedEntities.map(e => {
+                        if (e.name?.toLowerCase().includes('sóc de poble') && e.type === 'associacio') {
+                            return { ...e, type: 'empresa' };
+                        }
+                        return e;
+                    });
+                }
             }
 
-            return entities;
+            return processedEntities;
         } catch (err) {
             logger.error('[SupabaseService] Critical error in getUserEntities:', err);
             return []; // Fail safe to avoid white screen
@@ -3024,7 +3122,25 @@ export const supabaseService = {
             .single();
         
         if (error) {
-            if (error.code === 'PGRST116') return null;
+            if (error.code === 'PGRST116') {
+                if (userId === 'd6325f44-7277-4d20-b020-166c010995ab') {
+                    return {
+                        id: 'd6325f44-7277-4d20-b020-166c010995ab',
+                        full_name: 'Javi Llinares',
+                        username: 'javillinares',
+                        type: 'persona',
+                        town_name: 'La Torre de les Maçanes',
+                        bio: 'Desenvolupador principal d\'Antigravity i arquitecte de Sóc de Poble. Programant el futur rural.',
+                        avatar_url: '/assets/master/javi_avatar_cinematic.png',
+                        cover_url: '/assets/patterns/hero_pattern.png',
+                        category: 'Tecnologia',
+                        is_active: true,
+                        is_admin: true,
+                        created_at: '2025-01-01T00:00:00Z'
+                    };
+                }
+                return null;
+            }
             throw error;
         }
         return this.normalizeProfile(data);
@@ -3114,6 +3230,9 @@ export const supabaseService = {
             if (error.code === 'PGRST116') return null;
             throw error;
         }
+        
+        if (!data) return null;
+
         const entity = data;
         return {
             ...entity,
@@ -3149,6 +3268,18 @@ export const supabaseService = {
     async getUserPosts(userId, isPlayground = false) {
         if (!isRealDBUUID(userId)) return [];
         try {
+            // [MOCK HEALER] Support for virtual entities / agents in the feed
+            let virtualPosts = [];
+            const JAVI_REAL_ID = 'd6325f44-7277-4d20-b020-166c010995ab';
+            if (userId.startsWith('11111111-') || userId === JAVI_REAL_ID || typeof ENABLE_MOCKS !== 'undefined') {
+                try {
+                    const { MOCK_FEED } = await import('../data.js');
+                    virtualPosts = MOCK_FEED.filter(p => p.author_entity_id === userId || p.author_id === userId || p.author_user_id === userId);
+                } catch(e) {
+                     logger.warn("Could not import MOCK_FEED for user posts");
+                }
+            }
+
             if (!isRealDBUUID(userId)) {
                 // Si és un ID sobirà o malformat, mirem si té posts de Lore, si no, retornem buit sense cridar a DB
                 const lorePosts = (MOCK_LORE_POSTS[userId] || []).map(p => {
@@ -3161,7 +3292,7 @@ export const supabaseService = {
                         town_name: persona?.primary_town
                     }, 'post');
                 });
-                return lorePosts;
+                return [...lorePosts, ...virtualPosts];
             }
             // const isUcc = localStorage.getItem('active_ucc_view') === 'true';
             if (isPlayground && !userId?.startsWith('11111111-')) {
@@ -3174,7 +3305,6 @@ export const supabaseService = {
                 .select('id, uuid:id, content, created_at, author_id, author:author_name, author_avatar:author_avatar_url, image_url, author_role, is_playground, entity_id, towns(name)');
 
             // LLINATGE DE L'ARQUITECTE: Si és en Javi, mostrem els seus posts naturals I els de l'Empresa Sóc de Poble
-            const JAVI_REAL_ID = 'd6325f44-7277-4d20-b020-166c010995ab';
             if (userId === JAVI_REAL_ID) {
                 // Busquem l'ID de l'empresa Sóc de Poble (es pot optimitzar amb un cache o constant)
                 query = query.or(`author_id.eq.${userId},author_name.ilike.%Sóc de Poble%`);
@@ -3201,7 +3331,7 @@ export const supabaseService = {
             });
 
             const dbData = (data || []).map(p => normalizeContentItem(p, 'post'));
-            return [...lorePosts, ...dbData];
+            return [...lorePosts, ...virtualPosts.map(p => normalizeContentItem(p, 'post')), ...dbData];
         } catch (error) {
             logger.error('[SupabaseService] Error in getUserPosts:', error);
             return [];
@@ -3226,6 +3356,17 @@ export const supabaseService = {
     async getUserPostsCount(userId) {
         if (!isRealDBUUID(userId)) return 0;
         try {
+            let virtualCount = 0;
+            if (userId.startsWith('11111111-')) {
+                 try {
+                     const { MOCK_FEED } = await import('../data.js');
+                     virtualCount = MOCK_FEED.filter(p => p.author_entity_id === userId || p.author_id === userId).length;
+                 } catch(err) {
+                     logger.warn("Could not import MOCK_FEED for user posts count");
+                 }
+                 return virtualCount; // Fast path for agents
+            }
+
             const { count, error } = await supabase
                 .from('posts')
                 .select('*', { count: 'exact', head: true })

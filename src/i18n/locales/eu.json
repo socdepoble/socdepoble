@@ -342,5 +342,18 @@
   "chat": {
     "guest_warning_text": "Gonbidatu gisa ari zara hizketan eta aldi baterako txat hau ezabatuko da.",
     "guest_warning_link": "Erregistratu zure elkarrizketak gordetzeko."
+  },
+  "emoji": {
+    "search": "Bilatu testu edo emojiekin",
+    "suggested": "Azkenak",
+    "smileys_people": "Aurpegiak eta pertsonak",
+    "animals_nature": "Animaliak eta natura",
+    "food_drink": "Janaria eta edaria",
+    "travel_places": "Bidaiak eta lekuak",
+    "activities": "Jarduerak",
+    "objects": "Objektuak",
+    "symbols": "Sinboloak",
+    "flags": "Banderak",
+    "custom": "Pertsonalizatuak"
   }
 }

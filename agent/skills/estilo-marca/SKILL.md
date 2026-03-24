@@ -11,6 +11,13 @@ description: Estàndard de marca visual i to de veu de Sóc de Poble. Usa-ho sem
 - Si vas a integrar un esbós visual de la Gem al codi.
 - Si vas a escriure textos: titulars, CTAs, missatges del mur, bàndols o descripcions.
 - Cada vegada que hages d'aplicar CSS (Tailwind) a un component.
+- Si utilizas `lucide-react`, usa `strokeWidth={1.5}` o {2}.
+
+### Capçalera Contextual Invariable
+- El componente genérico `<ContextualHeader />` y la ventana de búsqueda superior de navegación DEBEN respetar SIEMPRE la regla de colorimetría central:
+- **Modo Día**: Fondo Naranja (`bg-[#F97316]`).
+- **Modo Noche**: Fondo Azul Corporativo Oscuro (`bg-[var(--sdp-blue)]` o `#002f5a`).
+- NO se deben envolver en `bg-theme-base` ni clases transparentes que mimetizan el fondo global y diluyan esta personalidad. La pieza debe destacar sobre el scroll en sus dos variantes.
 
 ## Regla número 1
 
@@ -18,16 +25,15 @@ No improvises l'estil ni els colors. Si falta una dada, usa els valors definits 
 
 ## Dónde mirar según el tipo de tarea
 
-- Estil visual (colors, tipografies, geometria i "Llei de la Boina Taronja"): `recursos/estilo-visual.json`.
-- Forma d'escriure (to de la IAIA MarIA, lèxic rural): `recursos/guia-de-textos.md`.
+- Estil visual, regles de codi, usabilitat i Lèxic Oficial: Consulta sempre i exclusivament el \`NOTEBOOK_LM_MASTER_SYNC.md\` situat a l'arrel del projecte. És la **Veritat Absoluta**.
 
 ## Checklist antes de entregar
 
-1. ¿S'ha respectat la Llei de la Boina Taronja (capçalera de targeta en Terracotta #F97316)?
-2. ¿Les targetes i contenidors tenen el radi orgànic de 28px?
-3. ¿El fons és Crema (#FDF5E6) i no blanc pur?
+1. ¿S'ha respectat la Llei de la Boina Taronja (geometria de \`28px\` exacta o cercle perfecte)?
+2. ¿S'ha aplicat el Lèxic Oficial rigorós (P.e: "CONNECTAR", "MISSATGE DIRECTE", "MALLA") evitant anglicismes?
+3. ¿L'estructura visual ha abandonat configuracions clares per acomplir l'estètica Premium Rústic (fons foscos \`bg-[#111]\` o \`bg-[#0a0a0a]\` amb \`backdrop-blur\` on escaiga)?
 4. ¿El text sona rural, pràctic i proper (sense argot corporatiu o tecnològic)?
-5. **(Llei del Títol Taronja / Orange Label Law):** ¿Els noms dels agents, títols principals de llistes i identificadors clau estan en color Taronja (`text-[var(--theme-accent-primary)]` o `#FF6D00`) i MAI en negre o gris? Aquest color es reserva exclusivament per a destacar identitats d'agents/persones.
+5. **(Llei del Títol Taronja / Orange Label Law):** ¿Els noms dels agents, títols principals de llistes i identificadors clau estan en color Taronja (\`text-[var(--theme-accent-primary)]\` o \`#F97316\`) i MAI en negre o gris? Aquest color es reserva exclusivament per a destacar identitats d'agents/persones.
 
 ## Cómo mejorar este Skill
 

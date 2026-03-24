@@ -65,7 +65,7 @@
     "role_poble": "Pueblos",
     "role_mercat": "Mercado",
     "add_town": "AÑADIR PUEBLO",
-    "add": "AÑADIR",
+    "add": "CONECTAR",
     "save_btn": "Guardar",
     "cancel": "Cancelar",
     "province": "Provincia",
@@ -400,7 +400,10 @@
     "activities": "Actividades",
     "objects": "Objetos",
     "symbols": "Símbolos",
-    "flags": "Banderas"
+    "flags": "Banderas",
+    "search": "Busca con texto o emojis",
+    "suggested": "Recientes",
+    "custom": "Personalizados"
   },
   "chat": {
     "guest_warning_text": "Estás hablando como Forastero y este chat temporal se borrará.",

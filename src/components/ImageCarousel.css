@@ -8,6 +8,22 @@
     z-index: 1;
 }
 
+@supports not (aspect-ratio: 1/1) {
+    .image-carousel-container::before {
+        content: "";
+        display: block;
+        width: 100%;
+        padding-bottom: 100%;
+    }
+    .carousel-track {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+}
+
 .carousel-track {
     display: flex;
     height: 100%;

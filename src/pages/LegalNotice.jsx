@@ -4,6 +4,7 @@ import { ArrowLeft, Scale, ChevronRight, Sun, Moon, Menu } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { useNavigation } from '../context/NavigationContext';
 import WelcomePresentation from '../components/WelcomePresentation';
+import IaiaManifesto from '../components/IaiaManifesto';
 
 const LegalNotice = () => {
     const navigate = useNavigate();
@@ -68,6 +69,7 @@ const LegalNotice = () => {
 
             <main className="relative z-10 pt-20 md:pt-24 flex flex-col items-center w-full min-h-screen">
                 <WelcomePresentation />
+                <IaiaManifesto />
             </main>
 
             {/* CINEMATIC FOOTER */}

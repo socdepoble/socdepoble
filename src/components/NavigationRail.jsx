@@ -14,11 +14,9 @@ import {
   CreditCard,
 } from "lucide-react";
 import { useNavigation } from '../context/NavigationContext';
-import { useAuth } from "../context/AuthContext";
 
 const NavigationRail = () => {
   const { t } = useTranslation();
-  const { user } = useAuth();
   const navigate = useNavigate();
   const { closeDrawer } = useNavigation();
 
@@ -69,18 +67,11 @@ const NavigationRail = () => {
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            if (user?.isAnonymous) {
-              navigate(
-                "/registre?returnTo=" +
-                  encodeURIComponent(window.location.pathname),
-              );
+            if (window.innerWidth < 768) {
+              closeDrawer();
+              setTimeout(() => navigate("/hub"), 150);
             } else {
-              if (window.innerWidth < 768) {
-                closeDrawer();
-                setTimeout(() => navigate("/hub"), 150);
-              } else {
-                navigate("/hub");
-              }
+              navigate("/hub");
             }
           }}
           className="w-full h-12 shrink-0 bg-[#4F46E5] hover:bg-[#4338ca] text-white font-black flex items-center justify-start px-8 space-x-3 transition-colors active:bg-[#3730a3] group relative overflow-hidden rounded-none shadow-[0_4px_10px_rgba(0,0,0,0.5)] z-10"
@@ -89,7 +80,7 @@ const NavigationRail = () => {
             <Plus size={20} strokeWidth={3} />
           </div>
           <span className="tracking-[0.2em] text-[15px] uppercase whitespace-nowrap pt-0.5">
-            {t("common.add") || "AFEGIR"}
+            {t("common.add") || "CONNECTAR"}
           </span>
         </button>
 

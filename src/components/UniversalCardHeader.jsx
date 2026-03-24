@@ -40,11 +40,15 @@ const UniversalCardHeader = ({
         // 2. Default Profile Routing
         const authorId = item?.author_user_id || item?.author_id || item?.user_id;
         const entityId = item?.author_entity_id;
+        const authorName = item?.author_name || item?.author || displayAuthor;
 
         if (entityId) {
             navigate(`/entitat/${entityId}`);
         } else if (authorId) {
             navigate(`/perfil/${authorId}`);
+        } else if (authorName) {
+            const slug = authorName.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, '-').replace(/[^\w-]/g, '');
+            navigate(`/perfil/${slug}`);
         }
     };
 
@@ -53,33 +57,29 @@ const UniversalCardHeader = ({
             className={`card-header-boina h-16 ${isOfficial ? 'variant-official' : 'variant-standard'}`} 
             onClick={handleAuthorClick}
         >
-            <div className="header-left flex items-center gap-3">
+            <div className="header-left flex items-center gap-3 flex-1 min-w-0 pr-2">
                 <Avatar
                     src={avatarSrc || item?.author_avatar || item?.logo_url || item?.author?.avatar_url}
                     name={displayAuthor}
                     role={avatarRole || item?.author_role}
                     size="md"
-                    className="genesis-avatar"
+                    className="genesis-avatar shrink-0"
                 />
-                <div className="header-text flex flex-col justify-center">
-                    <h3 className="master-author-name leading-tight text-on-accent">
+                <div className="header-text flex flex-col justify-center flex-1 min-w-0">
+                    <h3 className="master-author-name leading-tight text-on-accent mb-1 truncate w-full" title={cardVariant === 'pobles' ? getGentDePage(displayTown) : displayAuthor}>
                         {cardVariant === 'pobles' ? getGentDePage(displayTown) : displayAuthor}
                     </h3>
                     
                     {cardVariant === 'pobles' ? (
-                        <div className="location-text text-on-accent-muted mt-0.5">
+                        <div className="location-text mt-0.5 truncate w-full" title={`De part de: ${displayAuthor}`}>
                             De part de: {displayAuthor}
                         </div>
                     ) : (
-                        !isOfficial && displayTown && displayTown !== displayAuthor && (
-                            <div className="location-text text-on-accent-muted">
+                        displayTown && displayTown !== displayAuthor && (
+                            <div className="location-text mt-0.5 truncate w-full" title={displayTown.replace("Poble Principal:", "").trim()}>
                                 {displayTown.replace("Poble Principal:", "").trim()}
                             </div>
                         )
-                    )}
-                    
-                    {isOfficial && (
-                         <div className="location-text text-on-accent-muted">SÓC DE POBLE OFICIAL</div>
                     )}
                 </div>
             </div>
@@ -87,13 +87,10 @@ const UniversalCardHeader = ({
             <div className="header-right-meta flex items-center gap-2">
                 <div className="header-meta-details flex flex-col items-end justify-center leading-none">
                     {cardVariant !== 'pobles' && (
-                        <div className="flex flex-col items-end">
+                        <div className="flex flex-col items-start mr-1">
+                            <span className="header-time text-[11px] font-black text-on-accent-muted tracking-tighter mb-0.5">{displayTime}</span>
                             <span className="header-date text-on-accent text-[12px] font-black">{displayDate}</span>
-                            <span className="header-time text-[11px] font-black uppercase text-on-accent-muted tracking-tighter">{displayTime}</span>
                         </div>
-                    )}
-                    {(item?.is_pinned || item?.metadata?.is_pinned) && (
-                        <Zap size={14} fill="currentColor" className="text-white mt-1 zap-celestial" />
                     )}
                 </div>
             </div>

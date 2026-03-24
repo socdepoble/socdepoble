@@ -8,6 +8,7 @@ import { PROVERBS } from '../data/proverbs';
 import { getPersonaKeyByUUID } from '../config/agentsMap';
 import * as Comlink from 'comlink';
 import DOMPurify from 'dompurify';
+import { APP_VERSION } from '../constants';
 
 let iaiaWorkerProxy = null;
 let visionWorkerProxy = null;
@@ -660,7 +661,7 @@ class IAIAService {
     /**
      * Genera una resposta de la MArIA basada en el context del NotebookService [MASTER - TRUTH PROTOCOL].
      */
-    async generateAIAResponse(conversationId, userQuery = '', receiverId = null) {
+    async generateAIAResponse(conversationId, userQuery = '', receiverId = null, options = {}) {
         try {
             logger.debug(`[MArIA] Generant resposta bategant per a ${conversationId} [Receiver: ${receiverId}]`);
 
@@ -708,7 +709,7 @@ class IAIAService {
                              ALLOWED_ATTR: ['href', 'target', 'rel']
                         });
 
-                        await supabaseService.sendSecureMessage({
+                        const savedMessage = await supabaseService.sendSecureMessage({
                             conversationId: conversationId,
                             senderId: receiverId || '11111111-1111-4111-a111-000000000010', 
                             content: cleanResponse,
@@ -721,9 +722,14 @@ class IAIAService {
                                 is_mock: aiResponse.is_mock
                             }
                         });
+                        
+                        if (options && typeof options.onFinish === 'function') {
+                            if (options?.signal?.aborted) return;
+                            options.onFinish(savedMessage);
+                        }
                     } catch (err) {
                         logger.error('[MArIA] Error processant fons Gemini:', err);
-                        await supabaseService.sendSecureMessage({
+                        const savedMessage = await supabaseService.sendSecureMessage({
                             conversationId: conversationId,
                             senderId: receiverId || '11111111-1111-4111-a111-000000000010', 
                             content: "Uf, m'he despistat un moment amb una altra cosa... Què m'estaves dient, fill?",
@@ -736,6 +742,9 @@ class IAIAService {
                                 is_error_fallback: true
                             }
                         });
+                        if (options && typeof options.onFinish === 'function') {
+                            options.onFinish(savedMessage);
+                        }
                     }
                 })();
 
@@ -817,7 +826,6 @@ class IAIAService {
                 results.cachePurged = true;
             }
 
-            const { APP_VERSION } = await import('../constants');
             const current = localStorage.getItem('sp_app_version');
             if (current !== APP_VERSION) {
                 logger.warn(`[IAIA] Desincronització detectada: ${current} -> ${APP_VERSION}`);
@@ -830,6 +838,7 @@ class IAIAService {
             return results;
         }
     }
+
 }
 
 const iaiaService = new IAIAService();

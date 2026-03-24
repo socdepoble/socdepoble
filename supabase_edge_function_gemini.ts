@@ -2,7 +2,8 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 
 const corsHeaders = {
     'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+    'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-supabase-client, x-gemini-api-key',
+    'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT, DELETE',
 }
 
 serve(async (req) => {
@@ -17,10 +18,10 @@ serve(async (req) => {
         // Define Model
         const model = payload.model || "gemini-1.5-flash";
 
-        // Validate Gemini API Key
-        const apiKey = Deno.env.get('GEMINI_API_KEY');
+        // Validate Gemini API Key (Fallback to client-provided key if server secret is missing)
+        const apiKey = Deno.env.get('GEMINI_API_KEY') || req.headers.get('x-gemini-api-key');
         if (!apiKey) {
-            console.error('GEMINI_API_KEY not configured in Edge Function environment variables');
+            console.error('GEMINI_API_KEY not configured in Edge Function or Client Headers');
             return new Response(
                 JSON.stringify({ error: 'System configuration error: AI provider not configured.' }),
                 { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 500 }
@@ -66,8 +67,9 @@ serve(async (req) => {
 
     } catch (error) {
         console.error('Unexpected Edge Function error:', error);
+        const errorMessage = error instanceof Error ? error.message : String(error);
         return new Response(
-            JSON.stringify({ error: error.message }),
+            JSON.stringify({ error: errorMessage }),
             { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 500 }
         );
     }

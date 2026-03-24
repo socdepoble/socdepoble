@@ -56,10 +56,30 @@ const UniversalCard = ({
     const isMaster = isAdmin || user?.app_metadata?.role === 'master';
 
     // MULTIMEDIA RESOLUTION
-    const mediaList = React.useMemo(() => images || item?.images || (Array.isArray(item?.image_url) ? item.image_url : null) || (Array.isArray(image) ? image : null), [images, item?.images, item?.image_url, image]);
-    const displayImage = image || item?.image_url || item?.image || (mediaList ? mediaList[0] : null);
+    const FALLBACK_NANO_IMAGES = [
+        "/assets/brain/generations/nano_llibre_memoria.png",
+        "/assets/brain/generations/nano_fibra_espart.png",
+        "/assets/brain/generations/nano_dron_agricola.png",
+        "/assets/brain/generations/nano_mercat_llavors.png",
+        "/assets/brain/generations/nano_palau_comtal_1774195484197.png",
+        "/assets/brain/generations/nano_porta_masia_1774197069297.png",
+        "/assets/brain/generations/nano_rentonar_arquitectura_1774196001924.png",
+        "/assets/brain/generations/nano_socis_tecnologics_1774235328704.png"
+    ];
 
-    const displayTitle = title || item?.title || "Sóc de Poble";
+    const mediaList = React.useMemo(() => images || item?.images || (Array.isArray(item?.image_url) ? item.image_url : null) || (Array.isArray(image) ? image : null), [images, item?.images, item?.image_url, image]);
+    let displayImage = image || item?.image_url || item?.image || (mediaList ? mediaList[0] : null);
+
+    if (!displayImage) {
+        const strId = String(item?.id || item?.uuid || title || item?.name || '1');
+        let hash = 0;
+        for (let i = 0; i < strId.length; i++) {
+            hash = strId.charCodeAt(i) + ((hash << 5) - hash);
+        }
+        displayImage = FALLBACK_NANO_IMAGES[Math.abs(hash) % FALLBACK_NANO_IMAGES.length];
+    }
+
+    const displayTitle = title || item?.title || item?.name || "Sóc de Poble";
     const displayPrice = item?.price || (cardVariant === 'mercat' || cardVariant === 'market' ? (item?.price || "15.00€") : "");
     const displayAuthor = avatarName || item?.author_name || item?.author || item?.seller || "Sóc de Poble";
     const displayExcerpt = excerpt || item?.description || item?.content || "";
@@ -68,7 +88,7 @@ const UniversalCard = ({
     const displayDate = createdAtDate ? createdAtDate.toLocaleDateString() : "Data desconeguda";
     const displayTime = createdAtDate ? createdAtDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : (item?.metadata?.bategat_time || "");
 
-    const isOfficial = React.useMemo(() => forcedOfficial || item?.author_role === 'official' || item?.author_role === 'oficial' || item?.type === 'oficial' || item?.type === 'system' || item?.type === 'bando' || item?.type === 'tramit' || item?.official || cardVariant === 'ajuntament' || cardVariant === 'pobles', [forcedOfficial, item?.author_role, item?.type, item?.official, cardVariant]);
+    const isOfficial = forcedOfficial || item?.author_role === 'official' || item?.author_role === 'oficial' || item?.type === 'oficial' || item?.type === 'system' || item?.type === 'bando' || item?.type === 'tramit' || item?.official || cardVariant === 'ajuntament' || cardVariant === 'pobles';
     const isAlert = React.useMemo(() => item?.category === 'Alert' || item?.type === 'alert' || item?.is_alert || item?.category === 'Danger', [item?.category, item?.type, item?.is_alert]);
     const isSostenible = React.useMemo(() => item?.category === 'Sostenible' || item?.tags?.includes('#Sostenible'), [item?.category, item?.tags]);
 
@@ -109,58 +129,51 @@ const UniversalCard = ({
         <article
             className={`universal-card card-variant-${cardVariant} view-mode-${viewMode} ${className} relative w-full rounded-[28px] overflow-hidden bg-theme-panel shadow-2xl border border-white/5 flex flex-col transition-all duration-500 hover:shadow-black/50 ${isBating ? 'animate-bategat' : ''} ${gloveMode ? 'mode-guants' : ''} ${isOfficial ? 'role-official' : ''} ${isAlert ? 'category-danger alert-active' : ''} ${isSostenible ? 'category-sostenible' : ''} ${isForensic ? 'mode-forense-active' : ''}`}
             onClick={handleCardClick}
-            style={{ cursor: (cardVariant === 'pobles' || cardVariant === 'event' || cardVariant === 'mapa') ? 'pointer' : 'default' }}
+            style={{ cursor: 'pointer' }}
         >
             {viewMode === 'list' ? (
-                <div className="card-list-layout h-20 flex items-center px-4 gap-3">
-                    <Avatar
-                        src={avatarSrc || item?.author_avatar || item?.logo_url || item?.author?.avatar_url}
-                        name={displayAuthor}
-                        role={avatarRole || item?.author_role}
-                        size="sm"
-                        className="flex-shrink-0"
-                    />
-                    
-                    <div className="card-list-thumbnail flex-shrink-0 w-12 h-12 rounded-[28px] overflow-hidden bg-white/10 border border-white/5">
+                <div className="card-list-layout h-24 flex items-center px-4 md:px-6 gap-4 hover:bg-white/[0.02] transition-colors relative isolate">
+                    <div className="card-list-thumbnail flex-shrink-0 w-16 h-16 rounded-[20px] shadow-inner overflow-hidden border border-white/10 relative z-10">
                         {displayImage ? (
                             <img 
                                 src={displayImage} 
                                 alt={displayTitle} 
-                                className="w-full h-full object-cover"
+                                className="w-full h-full object-cover rounded-[20px] hover:scale-110 transition-transform duration-500"
                             />
                         ) : (
-                            <div className="w-full h-full flex items-center justify-center text-white/20">
-                                <ImageIcon size={16} />
+                            <div className="w-full h-full flex items-center justify-center bg-black/20 text-white/20">
+                                <ImageIcon size={20} />
                             </div>
                         )}
                     </div>
 
-                    <div className="flex-1 min-w-0">
-                        <button 
-                            className="btn-connect-canonic"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                handleConnectClick(e);
-                            }}
-                        >
-                            <Calendar size={18} className="opacity-80"/> CONNECTAR
-                        </button>
-                        <div className="flex items-center gap-2 text-[14px] font-bold text-gray-600 uppercase tracking-widest truncate mt-1">
-                            <span>{displayAuthor}</span>
+                    <div className="flex-1 min-w-0 pr-4 z-10">
+                        <h4 className="text-[14px] md:text-[16px] font-black text-theme-text truncate leading-tight tracking-wide">{displayTitle}</h4>
+                        <div className="flex items-center gap-2 text-[12px] md:text-[13px] font-bold text-gray-400 tracking-wide truncate mt-1">
+                            <span className="text-[var(--theme-accent-primary)]">{displayAuthor}</span>
                             <span>•</span>
-                            <span>{displayTown.replace("Poble Principal:", "").trim()}</span>
+                            <span className="opacity-70">{displayTown.replace("Poble Principal:", "").trim()}</span>
                         </div>
                     </div>
+                    
                     {displayPrice && (
-                        <div className="text-xs font-black text-primary px-3 py-1 bg-primary/10 rounded-[28px] flex-shrink-0">
+                        <div className="text-[13px] font-black text-[#F97316] px-4 py-1.5 bg-[#F97316]/10 border border-[#F97316]/20 rounded-[28px] flex-shrink-0 z-10">
                             {displayPrice}
                         </div>
                     )}
-                    <div className="flex items-center gap-1 flex-shrink-0">
-                         <button className="p-2 text-white/40 hover:text-white" onClick={handleConnectClick}>
-                            <Plus size={18} />
-                         </button>
-                    </div>
+                    
+                    <button 
+                        className="btn-connect-canonic shrink-0 ml-2 flex h-10 px-6 bg-white/5 hover:bg-[#F97316] hover:border-[#F97316] border border-white/10 rounded-full items-center justify-center gap-2 font-black text-[12px] text-slate-900 bg-[#F97316] tracking-wide transition-all z-10"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            handleConnectClick(e);
+                        }}
+                    >
+                        CONNECTAR
+                    </button>
+                    
+                    {/* Ghost hit area to ensure the background takes the hover safely */}
+                    <div className="absolute inset-0 z-0"></div>
                 </div>
             ) : (
                 <>
@@ -227,12 +240,20 @@ const UniversalCard = ({
     ) : FinalCard;
 };
 
+const normalizeClass = (cls) => (cls || '').split(' ').filter(Boolean).sort().join(' ');
+
 const propsAreEqual = (prevProps, nextProps) => {
     return (
         prevProps.item?.uuid === nextProps.item?.uuid &&
         prevProps.item?.updated_at === nextProps.item?.updated_at &&
         prevProps.viewMode === nextProps.viewMode &&
-        prevProps.isBating === nextProps.isBating
+        prevProps.isBating === nextProps.isBating &&
+        normalizeClass(prevProps.className) === normalizeClass(nextProps.className) &&
+        prevProps.variant === nextProps.variant &&
+        prevProps.mode === nextProps.mode &&
+        prevProps.title === nextProps.title &&
+        prevProps.image === nextProps.image &&
+        prevProps.excerpt === nextProps.excerpt
     );
 };
 

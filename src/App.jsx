@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import AppLayout from './components/AppLayout';
+import { iaiaService } from './services/iaiaService';
 import GlobalModals from './components/GlobalModals';
 import './index.css';
+import { errorTrackingService } from './services/errorTrackingService';
+import { healthCheckService } from './services/healthCheckService';
+import { logger } from './utils/logger';
 
 // [Noves Portes / Cimentació Mestre]
 import ErrorBoundary from './components/ErrorBoundary';
@@ -15,6 +19,72 @@ import OfflineGate from './components/gates/OfflineGate';
  * FORÇAT: Fons Negre, Arquitectura de Ferro, Local First, Zero Fantasmes.
  */
 const App = () => {
+    // [MONITORING] Inicialitzar error tracking
+    useEffect(() => {
+        const initializeMonitoring = async () => {
+            try {
+                await errorTrackingService.initialize();
+                logger.log('[App] Error tracking initialized');
+            } catch (error) {
+                logger.error('[App] Failed to initialize error tracking:', error);
+            }
+        };
+
+        initializeMonitoring();
+    }, []);
+
+    // [MONITORING] Iniciar health checks
+    useEffect(() => {
+        healthCheckService.startMonitoring();
+        
+        const unsubscribe = healthCheckService.subscribe((health) => {
+            if (health.overall !== 'healthy') {
+                logger.warn('[App] Health check warning:', health);
+                errorTrackingService.captureException(
+                    new Error(`Health check: ${health.overall}`),
+                    { health }
+                );
+            }
+        });
+
+        return () => {
+            healthCheckService.stopMonitoring();
+            unsubscribe();
+        };
+    }, []);
+
+    // [ERROR] Global error handler
+    useEffect(() => {
+        const handleError = (event) => {
+            errorTrackingService.captureException(event.error || event.message, {
+                type: 'global',
+                filename: event.filename,
+                lineno: event.lineno,
+                colno: event.colno
+            });
+        };
+
+        const handleUnhandledRejection = (event) => {
+            errorTrackingService.captureException(event.reason, {
+                type: 'unhandledrejection'
+            });
+        };
+
+        window.addEventListener('error', handleError);
+        window.addEventListener('unhandledrejection', handleUnhandledRejection);
+
+        return () => {
+            window.removeEventListener('error', handleError);
+            window.removeEventListener('unhandledrejection', handleUnhandledRejection);
+        };
+    }, []);
+
+    useEffect(() => {
+        return () => {
+            iaiaService.dispose();
+        };
+    }, []);
+
     return (
         <ErrorBoundary fallbackMessage="Excepció Nuclear Detectada al Mas.">
             <OfflineGate>

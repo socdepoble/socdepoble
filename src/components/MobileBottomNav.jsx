@@ -1,21 +1,16 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { MessageSquare, LayoutGrid, Store, MapPin, Plus } from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
+
 import './MobileBottomNav.css';
 
 const MobileBottomNav = () => {
-    const { user } = useAuth();
     const navigate = useNavigate();
 
     const handlePlusClick = (e) => {
         e.preventDefault();
         e.stopPropagation();
-        if (user?.isAnonymous) {
-            navigate('/registre?returnTo=' + encodeURIComponent(window.location.pathname));
-        } else {
-            navigate('/hub');
-        }
+        navigate('/hub');
     };
 
     return (
@@ -33,7 +28,7 @@ const MobileBottomNav = () => {
 
                 <button className="nav-item plus-item" onClick={handlePlusClick}>
                     <Plus size={28} strokeWidth={3} />
-                    <span>Afegir</span>
+                    <span>Connectar</span>
                 </button>
 
                 <NavLink to="/mercat" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>

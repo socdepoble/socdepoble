@@ -49,10 +49,10 @@ const ChatLayout = () => {
             
             {/* 1. LLISTA DE VEÏNS (DINÀMICA EN DESKTOP) */}
             <div 
-                style={{ width: window.innerWidth >= 1024 ? `${leftWidth}px` : '100%' }}
+                style={{ '--left-width': `${leftWidth}px` }}
                 className={`
                     flex-shrink-0 bg-theme-base
-                    ${id ? 'hidden lg:flex' : 'flex w-full'}
+                    ${id ? 'hidden lg:flex lg:w-[var(--left-width)]' : 'flex w-full lg:w-[var(--left-width)]'}
                     flex-col relative transition-all duration-75
                 `}
             >
@@ -70,12 +70,12 @@ const ChatLayout = () => {
                     className="hidden lg:flex absolute -right-3 top-0 bottom-0 w-6 cursor-col-resize z-50 items-center justify-center group"
                 >
                     <div className={`
-                        w-1 h-20 rounded-full transition-all duration-300
-                        ${isResizing ? 'bg-[var(--theme-accent-primary)] scale-x-150 shadow-[0_0_15px_rgba(255,107,0,0.5)]' : 'bg-white/10 group-hover:bg-white/30'}
+                        w-[1px] h-full transition-all duration-300
+                        ${isResizing ? 'bg-[var(--theme-accent-primary)] w-[2px] shadow-[0_0_15px_rgba(255,107,0,0.5)]' : 'bg-blue-500/30 group-hover:bg-blue-400/60'}
                         relative flex items-center justify-center
                     `}>
                         <div className={`
-                            absolute flex items-center justify-center bg-theme-base border border-white/10 rounded-lg p-1 transition-all
+                            absolute flex items-center justify-center bg-theme-base border border-blue-500/30 rounded-lg p-0.5 transition-all
                             ${isResizing ? 'scale-110 border-[var(--theme-accent-primary)]/50' : 'opacity-0 group-hover:opacity-100'}
                         `}>
                             <ChevronLeft size={10} className="text-[var(--theme-accent-primary)] -mr-0.5" />

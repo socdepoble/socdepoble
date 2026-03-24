@@ -54,7 +54,7 @@ class HistoricalRecoveryService {
                 // Determine the correct Author/Source. Preference: "socdepoble.net" > "El Rentonar"
                 let source = 'WordPress (Històric)';
                 if (link.includes('socdepoble.net')) {
-                    source = 'Sóc de Poble (Oficial)';
+                    source = 'Sóc de Poble';
                 } else if (link.includes('rentonar')) {
                     source = 'El Rentonar';
                 }
@@ -84,7 +84,7 @@ class HistoricalRecoveryService {
                     recoveredMap.set(newPost.title, newPost);
                 } else {
                     // Overwrite if new post is Sóc de Poble and existing is not
-                    if (newPost.source === 'Sóc de Poble (Oficial)' && existingPost.source !== 'Sóc de Poble (Oficial)') {
+                    if (newPost.source === 'Sóc de Poble' && existingPost.source !== 'Sóc de Poble') {
                         recoveredMap.set(newPost.title, newPost);
                         logger.info(`[HistoricalRecovery] Deduplicat: Reemplaçat '${existingPost.source}' per '${newPost.source}' per a l'article: ${newPost.title}`);
                     }
