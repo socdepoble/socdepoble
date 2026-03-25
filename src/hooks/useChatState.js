@@ -157,15 +157,20 @@ export const useChatState = ({ id, currentUserId, userIsAnonymous, state, readRe
     // EXTREME AUDIT V4.1 FIX: Efecte de visibilitat aïllat! Es lliga EXACTAMENT 1 vegada al document.
     // Lliguem amb els Refs mutables per no tancar mai valors obsolets sense re-renderitzar.
     useEffect(() => {
+        let visibilityController = null; // QWEN V10.33 AUDIT FIX
+
         const onVisibilityChange = () => {
             if (document.visibilityState === 'visible') {
                 const activeId = realChatIdRef.current;
                 if (!activeId) return;
 
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 5000);
+                if (visibilityController) visibilityController.abort(); // Neteja la petició anterior si s'encavalquen
+                visibilityController = new AbortController();
+                const timeoutId = setTimeout(() => {
+                    if (visibilityController) visibilityController.abort();
+                }, 5000);
                 
-                supabaseService.getConversationMessages(activeId, controller.signal)
+                supabaseService.getConversationMessages(activeId, visibilityController.signal)
                     .then(msgs => {
                         clearTimeout(timeoutId);
                         if (!msgs || !msgs.length) return;
@@ -184,7 +189,10 @@ export const useChatState = ({ id, currentUserId, userIsAnonymous, state, readRe
         };
 
         document.addEventListener('visibilitychange', onVisibilityChange);
-        return () => document.removeEventListener('visibilitychange', onVisibilityChange);
+        return () => {
+            if (visibilityController) visibilityController.abort(); // QWEN V10.33 CLEANUP OBLIGATORI
+            document.removeEventListener('visibilitychange', onVisibilityChange);
+        };
     }, []);
 
     // Persistència de memòria a curt termini per a Forasters (Guest Session)
