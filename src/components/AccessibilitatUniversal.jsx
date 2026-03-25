@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { X, Layers, ShieldCheck, Briefcase, Eye, Handshake, AlertTriangle, Mic, Square } from 'lucide-react';
 import { useNavigation } from '../context/NavigationContext';
+import { useDesign } from '../context/DesignContext';
 import CopyButton from './CopyButton';
 
 /**
@@ -12,6 +13,7 @@ import CopyButton from './CopyButton';
  */
 const AccessibilitatUniversal = () => {
   const { isAccessibilitatOpen: isOpen, setIsAccessibilitatOpen: setIsOpen } = useNavigation();
+  const { seniorMode, setSeniorMode, reduceMotion, setReduceMotion } = useDesign();
   const navigate = useNavigate();
   
   const [activeSection, setActiveSection] = useState('global');
@@ -195,32 +197,57 @@ const AccessibilitatUniversal = () => {
                   <Eye className="text-secondary" size={24} />
                   <h3 className="font-bold text-theme-text">Modes de Visió</h3>
                 </div>
-                <div className="space-y-3">
-                  <label className="flex items-center justify-between p-3 rounded-lg bg-theme-surface cursor-pointer hover:bg-theme-surface/80 transition-colors">
-                    <span className="text-sm text-theme-text">Alt Contrast</span>
-                    <input 
-                      type="checkbox" 
-                      className="toggle-accessibility"
-                      aria-label="Activar mode d'alt contrast"
-                    />
-                  </label>
-                  <label className="flex items-center justify-between p-3 rounded-lg bg-theme-surface cursor-pointer hover:bg-theme-surface/80 transition-colors">
-                    <span className="text-sm text-theme-text">Text Gran</span>
-                    <input 
-                      type="checkbox" 
-                      className="toggle-accessibility"
-                      aria-label="Activar text de mida gran"
-                    />
-                  </label>
-                  <label className="flex items-center justify-between p-3 rounded-lg bg-theme-surface cursor-pointer hover:bg-theme-surface/80 transition-colors">
-                    <span className="text-sm text-theme-text">Reduir Animacions</span>
-                    <input 
-                      type="checkbox" 
-                      className="toggle-accessibility"
-                      aria-label="Reduir animacions i moviments"
-                    />
-                  </label>
-                </div>
+                
+                {/* MODE SENIOR AMB EXPLICACIÓ */}
+                <label className="flex items-center justify-between p-4 rounded-xl bg-theme-surface cursor-pointer mb-2 hover:bg-theme-surface/80 transition-colors">
+                  <div className="flex-1">
+                    <span className="text-sm font-bold text-theme-text">Mode Mans de Camp</span>
+                    <p className="text-xs text-theme-text-muted mt-1">
+                      Botons més grans, text més clar. Ideal per a gent gran.
+                    </p>
+                  </div>
+                  <input
+                    type="checkbox"
+                    checked={seniorMode}
+                    onChange={(e) => {
+                      setSeniorMode(e.target.checked);
+                      // [10/10] Anunciar canvi a lectors de pantalla
+                      const announcement = document.getElementById('aria-live-region');
+                      if (announcement) {
+                        announcement.textContent = e.target.checked 
+                          ? 'Mode mans de camp activat. Elements més grans.' 
+                          : 'Mode estàndard restaurat.';
+                      }
+                    }}
+                    aria-label="Activar mode mans de camp"
+                    className="toggle-accessibility"
+                  />
+                </label>
+
+                {/* [10/10] REDUCCIÓ DE MOVIMENT */}
+                <label className="flex items-center justify-between p-4 rounded-xl bg-theme-surface cursor-pointer mb-2 hover:bg-theme-surface/80 transition-colors">
+                  <div className="flex-1">
+                    <span className="text-sm font-bold text-theme-text">Reduir Animacions</span>
+                    <p className="text-xs text-theme-text-muted mt-1">
+                      Per a persones amb sensibilitat al moviment.
+                    </p>
+                  </div>
+                  <input
+                    type="checkbox"
+                    checked={reduceMotion}
+                    onChange={(e) => {
+                      setReduceMotion(e.target.checked);
+                      const announcement = document.getElementById('aria-live-region');
+                      if (announcement) {
+                        announcement.textContent = e.target.checked 
+                          ? 'Animacions reduïdes per a major comoditat.' 
+                          : 'Animacions d\'interfície restaurades.';
+                      }
+                    }}
+                    aria-label="Reduir animacions"
+                    className="toggle-accessibility"
+                  />
+                </label>
               </div>
             </section>
 

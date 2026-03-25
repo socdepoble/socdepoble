@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { X, Camera, Send, Loader2, Tag, Globe, Lock, Users, Video, Image as ImageIcon } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import { supabaseService } from '../services/supabaseService';
 import { logger } from '../utils/logger';
 import { ROLES } from '../constants';
 import CaptureStudio from './CaptureStudio';
@@ -10,6 +9,7 @@ import './CreatePostModal.css'; // Use unified modal styles
 
 import EntitySelector from './EntitySelector';
 import MasterEditor from './MasterEditor';
+import { marketService } from '../services/marketService';
 
 const AddItemModal = ({ isOpen, onClose, onItemCreated, isPrivateInitial = false, isPlayground = false }) => {
     const { t } = useTranslation();
@@ -94,7 +94,7 @@ const AddItemModal = ({ isOpen, onClose, onItemCreated, isPrivateInitial = false
                 author_role: selectedIdentity.type === 'user' ? ROLES.PEOPLE : selectedIdentity.type
             };
 
-            await supabaseService.createMarketItem(newItem, isPlayground);
+            await marketService.createMarketItem(newItem, isPlayground);
             onItemCreated();
             onClose();
         } catch (error) {
@@ -177,19 +177,27 @@ const AddItemModal = ({ isOpen, onClose, onItemCreated, isPrivateInitial = false
                             </div>
                             <div className="flex-1">
                                 <label htmlFor="market-item-tag" className="sr-only">Categoria</label>
-                                <select
+                                <input
                                     id="market-item-tag"
+                                    list="market-tags-list"
                                     name="market_tag"
-                                    className="w-full bg-white/5 border border-white/10 rounded-[28px] p-4 text-white focus:outline-none focus:border-white/30 appearance-none"
+                                    className="w-full bg-white/5 border border-white/10 rounded-[28px] p-4 text-white placeholder-white/40 focus:outline-none focus:border-white/30"
+                                    placeholder={t('common.tag') || 'Etiqueta (ex: Alimentació)'}
                                     value={formData.tag}
                                     onChange={(e) => setFormData({ ...formData, tag: e.target.value })}
-                                >
-                                    <option value="Producte">{t('common.product') || 'Producte'}</option>
-                                    <option value="Verdura">Verdura</option>
-                                    <option value="Fruita">Fruita</option>
-                                    <option value="Artesania">Artesania</option>
-                                    <option value="Segona mà">Segona mà</option>
-                                </select>
+                                />
+                                <datalist id="market-tags-list">
+                                    <option value="Producte" />
+                                    <option value="Verdura" />
+                                    <option value="Fruita" />
+                                    <option value="Alimentació" />
+                                    <option value="Frescos" />
+                                    <option value="Turisme" />
+                                    <option value="Souvenirs" />
+                                    <option value="Artesania" />
+                                    <option value="Llar" />
+                                    <option value="Segona mà" />
+                                </datalist>
                             </div>
                         </div>
                     </div>

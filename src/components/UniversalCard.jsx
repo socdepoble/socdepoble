@@ -48,7 +48,7 @@ const UniversalCard = ({
     const { openViewer } = useModal();
     const { forensicMode: contextForensic } = useNavigation();
 
-    const { gloveMode } = useDesign();
+    const { gloveMode, seniorMode, hapticService } = useDesign();
     const isForensic = forcedForensic || contextForensic;
     const { isAdmin, user } = useAuth();
     const navigate = useNavigate();
@@ -93,6 +93,9 @@ const UniversalCard = ({
     const isSostenible = React.useMemo(() => item?.category === 'Sostenible' || item?.tags?.includes('#Sostenible'), [item?.category, item?.tags]);
 
     const handleCardClick = React.useCallback(() => {
+        if (seniorMode && hapticService?.trigger) {
+            hapticService.trigger('medium');
+        }
         const id = item?.uuid || item?.id;
         if (cardVariant === 'pobles') {
             navigate(`/pobles/${id}`);
@@ -103,7 +106,7 @@ const UniversalCard = ({
         } else if (id) {
             navigate(`/post/${id}`);
         }
-    }, [item?.uuid, item?.id, cardVariant, navigate]);
+    }, [item?.uuid, item?.id, cardVariant, navigate, seniorMode, hapticService]);
 
     const handleConnectClick = React.useCallback(async (e) => {
         e.stopPropagation();
@@ -127,7 +130,7 @@ const UniversalCard = ({
 
     const CardContent = (
         <article
-            className={`universal-card card-variant-${cardVariant} view-mode-${viewMode} ${className} relative w-full rounded-[28px] overflow-hidden bg-theme-panel shadow-2xl border border-white/5 flex flex-col transition-all duration-500 hover:shadow-black/50 ${isBating ? 'animate-bategat' : ''} ${gloveMode ? 'mode-guants' : ''} ${isOfficial ? 'role-official' : ''} ${isAlert ? 'category-danger alert-active' : ''} ${isSostenible ? 'category-sostenible' : ''} ${isForensic ? 'mode-forense-active' : ''}`}
+            className={`universal-card card-variant-${cardVariant} view-mode-${viewMode} ${className} relative w-full rounded-[28px] overflow-hidden bg-theme-panel shadow-2xl border border-white/5 flex flex-col transition-all duration-500 hover:shadow-black/50 ${isBating ? 'animate-bategat' : ''} ${gloveMode ? 'mode-guants' : ''} ${seniorMode ? 'senior-mode' : ''} ${isOfficial ? 'role-official' : ''} ${isAlert ? 'category-danger alert-active' : ''} ${isSostenible ? 'category-sostenible' : ''} ${isForensic ? 'mode-forense-active' : ''}`}
             onClick={handleCardClick}
             style={{ cursor: 'pointer' }}
         >
@@ -199,26 +202,30 @@ const UniversalCard = ({
                         navigate={navigate}
                     />
 
-                    <UniversalCardBody 
-                        displayTitle={displayTitle}
-                        displayExcerpt={displayExcerpt}
-                        item={item}
-                        isOfficial={isOfficial}
-                        children={children}
-                        navigate={navigate}
-                        cardVariant={cardVariant}
-                        displayPrice={displayPrice}
-                    />
+                    <Suspense fallback={<div className="h-16 mt-2 rounded bg-surface-var/30 animate-pulse w-full max-w-sm"></div>}>
+                        <UniversalCardBody 
+                            displayTitle={displayTitle}
+                            displayExcerpt={displayExcerpt}
+                            item={item}
+                            isOfficial={isOfficial}
+                            children={children}
+                            navigate={navigate}
+                            cardVariant={cardVariant}
+                            displayPrice={displayPrice}
+                        />
+                    </Suspense>
 
-                    <UniversalCardFooter 
-                        item={item}
-                        cardVariant={cardVariant}
-                        displayTitle={displayTitle}
-                        displayExcerpt={displayExcerpt}
-                        isMaster={isMaster}
-                        navigate={navigate}
-                        handleConnectClick={handleConnectClick}
-                    />
+                    <Suspense fallback={<div className="h-10 mt-4 rounded bg-surface-var/30 animate-pulse w-[80%]"></div>}>
+                        <UniversalCardFooter 
+                            item={item}
+                            cardVariant={cardVariant}
+                            displayTitle={displayTitle}
+                            displayExcerpt={displayExcerpt}
+                            isMaster={isMaster}
+                            navigate={navigate}
+                            handleConnectClick={handleConnectClick}
+                        />
+                    </Suspense>
                 </>
             )}
         </article>

@@ -1,6 +1,7 @@
 import { IAIA_RURAL_KNOWLEDGE, RESIDENT_LORE } from '../data/iaia_knowledge';
 import { supabaseService } from '../services/supabaseService';
 import { logger } from './logger';
+import { marketService } from '../services/marketService';
 
 /**
  * Town Content Generator [PHASE 4]
@@ -95,7 +96,7 @@ export const townContentGenerator = {
                 is_iaia_inspired: true
             };
 
-            await supabaseService.createMarketItem(payload);
+            await marketService.createMarketItem(payload);
         } catch (e) {
             logger.error(`[TerritorialExpansion] Market seed error:`, e);
         }

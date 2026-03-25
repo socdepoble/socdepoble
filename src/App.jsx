@@ -97,6 +97,7 @@ const App = () => {
                     </AuthGate>
                 </LocalFirstGate>
             </OfflineGate>
+            <div id="aria-live-region" aria-live="polite" className="sr-only" />
         </ErrorBoundary>
     );
 };

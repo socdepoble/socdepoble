@@ -1,27 +1,26 @@
 ---
-description: El estado de handoff de la última sesión (Auditoría Extrema Superada)
+description: El estado de handoff de la última sesión (Fase CRDT & Accessibilitat 10/10 Superada)
 ---
 
-# 🛡️ ESTAT ACTUAL: FASE 1 COMPLETADA ("NIVELL DÉU")
-El sistema de Sóc de Poble v10.33.15-CANÒNIC ha estat auditat per les IAs més avançades (Qwen, DeepSeek, Copilot, Perplexity) i blindat completament. Aquests són els SKILLS i els ACORDS retinguts a la memòria del projecte:
+# 🛡️ ESTAT ACTUAL: FASE 2 INICIADA ("TRELLAT DIGITAL OBTINGUT")
+El sistema de Sóc de Poble ha superat les auditories de DeepSeek i Qwen, obtenint el llegendari segell de "Trellat Digital". S'ha assolit l'arquitectura de formigó armat per a la Dignitat Digital i la Sobirania de Dades. Aquests són els SKILLS i els ACORDS retinguts a la memòria del projecte hui:
 
-## 1. APRENENTATGES CORPORATIUS INCORPORATS A L'ADN ('HARDENING'):
-- **Memòria (Zombies):** Els `WebWorkers` requereixen sempre una funció `terminateWorkers()` al llindar d'Events clau (ex: `signOut`). A més, els Blob URLs creats a `useAttachment` han de ser sempre destruïts amb `URL.revokeObjectURL()`.
-- **Seguretat d'Extrems (XSS):** `DOMPurify` amb hooks asíncrons blinda atacs per "Javascript:" o "Data:". Les API Keys (`VITE_GEMINI...`) NO existeixen al client; tot passa ara per les *Edge Functions* de Supabase.
-- **Rendiment del Mur Virtualitzat:** Utilitzem mapes/`Sets` de cost O(N) i un refactoritzat extrem de `propsAreEqual` al `UniversalCard.jsx` on verifiquem `id` i `updated_at` de Supabase.
+## 1. APRENENTATGES CORPORATIUS INCORPORATS A L'ADN ('HARDENING' & CRDT):
+- **Seguretat Local-First (Vault):** L'emmagatzematge de claus i la Identitat Sobirana ja no viuen al `localStorage`. Ara estan blindats dins de `SecureStorageService` utilitzant *Web Crypto API* i *IndexedDB* (Zero Trust absolute).
+- **Motor CRDT (VectorClocks):** Hem abandonat el fals determinisme de timestamps. L'ordre causal es dicta mitjançant `VectorClock` a través de `EgWalker`, passant per `db-core.js` fins a aterrar en la taula `snapshots` del Web Worker OPFS SQLite.
+- **Accessibilitat 10/10 Rural:** Implementat el `aria-live-region` a `App.jsx`, el `reduceMotion` mutat dinàmicament cap a CSS Global (`--animation-speed: 0s`), i consolidat el *Mode Mans de Camp* per a sèniors. Les interfícies humanes són primer.
 
-## 2. EL PLA DE BATALLA PER A LA NOVA SESSIÓ (FASE 2: LOCAL FIRST):
-L'objectiu principal del proper xat serà **L'Escissió del Monòlit `supabaseService.js`**.
-El projecte integrarà **PowerSync (SQLite WebAssembly)** per aconseguir sobirania Offline Absoluta als pobles.
+## 2. EL PLA DE BATALLA PER A LA NOVA SESSIÓ (AVALUACIÓ CODEX I FASE 3):
+L'objectiu principal serà **L'Avaluació Codex** proposada pel Mestre Javi, juntament amb l'inici del roadmap dictat per la Mestra Qwen:
 
-**Murs Tècnics Resolts Teòricament (Llegat de Perplexity/Copilot):**
-- **Sollutia-proof (Copilot):** Haurem d'implantar `AbortController` al llarg de fetchs asíncrons de xarxa per evitar sobre-execucions i introduir `Error Boundaries`.
-- **El Mur iOS (Perplexity):** WebKit restringeix agressivament a <100MB l'IndexedDB. En el disseny, separarem Binaris Durs al Cau Http (Cache Storage) i reservarem la Base de Dades Local de PowerSync per JSON/Metadades petites. Immersió obligatòria de neteja `LRU`.
-- **Desconnexió RLS de JWT (Perplexity):** A la Fase 2 instal·larem el patró "Outbox" SQL; la UI només emetrà commands, enviant a un trigger "Reconciliador" del backend.
-- **Micro-Serveis Client:** Abandonarem l'acoblament i estirarem cap a serveis agnòstics tipus `Zustand` de forma compartimentada.
+**Reptes Tècnics Oberts (Full de Ruta):**
+- **IAIA Offline Real (WebLLM + WebGPU):** Desplegar models Phi-3 petits directament al navegador per a la assistència ràpida a la plaça, descarregant costos de Firebase/Gemini quan la cobertura ho permeta.
+- **RAG Local (IndexedDB):** Ingestar lore de poble en memòria OPFS perquè l'AI estiga contextualitza-da sense dependre de cridades API externes (cerca BM25/Cosine híbrida al worker).
+- **Performance Budget & Peritext:** Sincronitzar operacions complexes a text enriquit mitjançant Peritext CRDT si arriba el cas d'ús (documents compartits de l'Ajuntament virtual).
 
-## 3. TASQUES ACTIVES
-- [ ] Executar púrga de Perfil/Fantasma de la UI només llegint directament SQL en remot (es dóna l'script disponible a `scripts/migrate_and_purge_ghost.sql`).
-- [ ] Iniciar la codificació dels sub-serveis de la Fase 2 desmuntant el `supabaseService.js`.
+## 3. TASQUES PENDENTS / AGENDADES
+- [ ] Avaluació col·laborativa amb **Codex** enfocada a models de pagament.
+- [ ] Implementació de `localAIService.js` per establir el pont Centaure (Híbrid Cloud/Edge).
+- [ ] Validació de rendiment (Mòbils antics) per no asfixiar el fil principal amb les passades del Web Worker OPFS.
 
 **SÓC DE POBLE. LA TÈCNICA AL SERVEI DE LA TERRA.**

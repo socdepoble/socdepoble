@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import { hapticService } from '../services/hapticService';
 import { logger } from '../utils/logger';
 import './AdminPinnedManager.css';
+import { marketService } from '../services/marketService';
 
 const AdminPinnedManager = ({ type = 'post', onClose }) => {
     const { isSuperAdmin } = useAuth();
@@ -19,7 +20,7 @@ const AdminPinnedManager = ({ type = 'post', onClose }) => {
         try {
             const result = type === 'post'
                 ? await supabaseService.getPosts('tot', null, 0, 50)
-                : await supabaseService.getMarketItems('tot', null, 0, 50);
+                : await marketService.getMarketItems('tot', null, 0, 50);
 
             const items = result.data || [];
             const pins = [null, null, null];
@@ -55,7 +56,7 @@ const AdminPinnedManager = ({ type = 'post', onClose }) => {
         try {
             const result = type === 'post'
                 ? await supabaseService.getPosts('tot', null, 0, 20)
-                : await supabaseService.getMarketItems('tot', null, 0, 20);
+                : await marketService.getMarketItems('tot', null, 0, 20);
 
             const filtered = (result.data || []).filter(item =>
                 (item.content || item.title || '').toLowerCase().includes(query.toLowerCase())

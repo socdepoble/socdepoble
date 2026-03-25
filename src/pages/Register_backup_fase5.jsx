@@ -21,6 +21,7 @@ import { logger } from "../utils/logger";
 import { hapticService } from "../services/hapticService";
 import { APP_VERSION } from "../constants";
 import "./Auth.css";
+import { authService } from '../services/authService';
 
 /**
  * [FLASH MASTERPIECE] Register.jsx v2.0
@@ -72,7 +73,7 @@ const Register = () => {
 
       try {
         const formattedPhone = phone.startsWith("+") ? phone : `+34${phone}`;
-        const { user: verifiedUser } = await supabaseService.verifyOtp(
+        const { user: verifiedUser } = await authService.verifyOtp(
           formattedPhone,
           code,
         );
@@ -164,7 +165,7 @@ const Register = () => {
         throw new Error("Introdueix un número de mòbil vàlid.");
       }
       const formattedPhone = phone.startsWith("+") ? phone : `+34${phone}`;
-      await supabaseService.signInWithOtp(formattedPhone);
+      await authService.signInWithOtp(formattedPhone);
       setStep("verify");
       setResendCountdown(60);
       hapticService.notifyThinking();
@@ -179,7 +180,7 @@ const Register = () => {
   const signInWithGoogle = async () => {
     try {
       setLoading(true);
-      await supabaseService.signInWithGoogle();
+      await authService.signInWithGoogle();
       hapticService.batec();
     } catch (err) {
       setError(err.message);

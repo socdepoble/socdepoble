@@ -9,6 +9,7 @@ import SEO from '../components/SEO';
 import ShareHub from '../components/ShareHub';
 import NanoLoader from '../components/NanoLoader';
 import './Archive.css'; // Reusing base styles but adding local ones
+import { marketService } from '../services/marketService';
 
 const ResourceDetail = () => {
     const { id } = useParams();
@@ -45,7 +46,7 @@ const ResourceDetail = () => {
                         });
                     } else {
                         // Check Market Items too
-                        const items = await supabaseService.getMarketItems('tot');
+                        const items = await marketService.getMarketItems('tot');
                         const item = items?.data?.find(i => i.uuid === id || i.id === id);
                         if (item) {
                             setResource({

@@ -3,7 +3,6 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Loader2 } from 'lucide-react';
-import { supabaseService } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
 import { logger } from '../utils/logger';
 import Avatar from './Avatar';
@@ -23,6 +22,7 @@ import UniversalCard from './UniversalCard';
 import ContextualHeader from './ContextualHeader';
 import { MOCK_MARKET_ITEMS } from '../data';
 import './Marketplace.css';
+import { marketService } from '../services/marketService';
 
 const Market = ({ searchTerm = '' }) => {
     const { t } = useTranslation();
@@ -46,7 +46,7 @@ const Market = ({ searchTerm = '' }) => {
         else setLoading(true);
 
         try {
-            const { data } = await supabaseService.getMarketItems({
+            const { data } = await marketService.getMarketItems({
                 page: currentPage,
                 limit: PAGE_SIZE,
                 categorySlug: 'tot', // Default to all as tab is removed
@@ -84,7 +84,7 @@ const Market = ({ searchTerm = '' }) => {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const cats = await supabaseService.getMarketCategories();
+                const cats = await marketService.getMarketCategories();
                 setCategories(cats);
             } catch (err) {
                 logger.error('[Market] Error fetching categories:', err);
@@ -134,7 +134,7 @@ const Market = ({ searchTerm = '' }) => {
             // 1. Vision Mode Filter (Protocol de Visió Humana: Purga Radical de IA)
             if (visionMode === 'humana') {
                 const idToCheckMarket = item.author_id || item.seller_id || item.creator_entity_id || '';
-                const isSDPOfficial = item.seller_entity_id === 'sdp-oficial-1' || 
+                const isSDPOfficial = item.seller_entity_id === 'socdepoble' || 
                                      item.seller?.includes('Sóc de Poble') || 
                                      item.title?.includes('Camiseta');
 
@@ -256,8 +256,8 @@ const Market = ({ searchTerm = '' }) => {
         if (item.seller?.toLowerCase().includes('sóc de poble') ||
             targetId === 'sdp-core' ||
             String(targetId).startsWith('mock-business-sdp') ||
-            targetId === 'sdp-oficial-1') {
-            navigate('/entitat/sdp-oficial-1');
+            targetId === 'socdepoble') {
+            navigate('/entitat/socdepoble');
             return;
         }
 

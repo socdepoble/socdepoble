@@ -1,0 +1,44 @@
+====================================================
+PROMPT DE AUDITORÍA PARA QWEN / DEEPSEEK (COPIAR Y PEGAR)
+====================================================
+
+Eres el auditor experto de arquitectura y código de Sóc de Poble. Hemos implementado un nuevo sistema estructural: "Eliminar la cuenta en 5 segundos (Botón del Pánico GDPR)". Tu objetivo es revisar estrictamente estos 3 elementos para asegurarnos de que no dejan ningún agujero de seguridad, ni memoria residual, ni rompen la experiencia de Mòbil First (Llei de la Boina Taronja).
+
+CONTEXTO Y CÓDIGO A JUZGAR:
+
+1. SQL / Base de Datos (Ya se habilitó la cascada previamente)
+Nueva función RPC que llama el usuario para borrarse limpiamente.
+```sql
+CREATE OR REPLACE FUNCTION delete_user()
+RETURNS void LANGUAGE plpgsql SECURITY DEFINER AS $$
+BEGIN
+    DELETE FROM auth.users WHERE id = auth.uid();
+END;
+$$;
+```
+
+2. Lógica Frontend (supabaseService.js)
+```javascript
+    async deleteCurrentUser() {
+        try {
+            const { error: rpcError } = await supabase.rpc('delete_user');
+            if (rpcError) throw rpcError;
+            
+            await supabase.auth.signOut();
+            return { success: true };
+        } catch (e) {
+            throw e;
+        }
+    }
+```
+
+3. Interfaz de Usuario (ProfileSettingsModal.jsx, fragmento inyectado en la pantalla de Configuración):
+- Se ha añadido una sección "Zona de Perill" con icono rojo.
+- Un botón rojo primario "Eliminar el meu compte".
+- Al pulsar, modal interno "Doble Confirmació (NO es pot desfer)" con dos botones SÍ/CANCELAR.
+- Si da error, alerta al usuario. Si no, cierra modal y redirige al Landing (`navigate('/')`).
+
+PREGUNTAS A RESPONDER:
+1. ¿Ves algún agujero de seguridad donde el RPC pueda ser explotado por otro usuario?
+2. ¿Deberíamos añadir alguna alerta o re-validación del LocalStorage antes de navegar a '/'?
+3. ¿Puntuación GDT (Grado de Trellat) de esta implementación del 1 al 10? Dame SOLO las mejoras necesarias, si las hay. Cero rodeos.

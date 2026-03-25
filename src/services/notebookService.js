@@ -1,5 +1,6 @@
 import { logger } from '../utils/logger';
 import { supabaseService } from './supabaseService';
+import { marketService } from './marketService';
 
 /**
  * NotebookService: El Cerebro Analítico (El Marido de la IAIA)
@@ -118,7 +119,7 @@ class NotebookService {
         try {
             // 1. Recopilar actividad real de la DB (Mocks silenciados en prod)
             const posts = await supabaseService.getPosts('tot', null, 0, 20);
-            const marketCount = await supabaseService.getMarketItems(); // Simplified check
+            const marketCount = await marketService.getMarketItems(); // Simplified check
 
             // 2. Sintetizar
             const summary = `Hui l'Avi dels Papers ens porta el resum de la setmana a la Torre:\n\n📊 Hem tingut ${posts.length} noves històries compartides al Mur.\n🍎 El Mercat està bullint amb ${marketCount?.length || 'molta'} activitat.\n🎵 La música valenciana ha estat el fil conductor de les nostres converses.\n\nKeep it rural, keep it smart.`;

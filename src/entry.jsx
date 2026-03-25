@@ -8,8 +8,11 @@ import "./index.css";
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.getRegistrations().then(function(registrations) {
     for(let registration of registrations) {
-      registration.unregister();
-      console.warn("Failsafe: ServiceWorker eliminat forçosament per trencar el cicle de memòria cau.");
+      const scriptURL = registration.active?.scriptURL || registration.installing?.scriptURL || registration.waiting?.scriptURL || '';
+      if (!scriptURL.includes('coi-serviceworker')) {
+        registration.unregister();
+        console.warn("Failsafe: PWA ServiceWorker eliminat forçosament per trencar el cicle de memòria cau.");
+      }
     }
   });
 }

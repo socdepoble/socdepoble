@@ -99,12 +99,12 @@ export const MOCK_LORE_POSTS = {
         }
     ],
     // Sóc de Poble (Oficial)
-    'sdp-oficial-1': [
+    'socdepoble': [
         {
             id: 'lp-sdp-1',
             content: "<h1>PRESENTACIÓ DEL PROJECTE</h1>\n<h2>La memòria viva de la nostra terra bategant en digital.</h2>\n<p>Tenim el plaer de presentar el vídeo oficial de Sóc de Poble. Una obra bategada des de l'arrel per l'equip master.</p>\n<p>Creativitat i Art: <strong>Anna Calvo</strong> (Artista Oficial)\nDirecció i Visió: <strong>Javi Llinares</strong> (Project Lead)</p>",
             created_at: new Date().toISOString(),
-            author_id: 'sdp-oficial-1',
+            author_id: 'socdepoble',
             author_name: 'Sóc de Poble',
             author_role: 'official',
             town_name: 'La Torre de les Maçanes',

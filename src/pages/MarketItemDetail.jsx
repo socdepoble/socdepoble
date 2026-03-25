@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, MessageCircle, Zap, MapPin, User, Sparkles, Share2 } from 'lucide-react';
-import { supabaseService } from '../services/supabaseService';
 import { useAuth } from '../context/AuthContext';
 import { logger } from '../utils/logger';
 import SEO from '../components/SEO';
@@ -10,6 +9,7 @@ import NanoLoader from '../components/NanoLoader';
 import ImageCarousel from '../components/ImageCarousel';
 import { MOCK_MARKET_ITEMS } from '../data';
 import '../components/ItemDetailModal.css';
+import { marketService } from '../services/marketService';
 
 const MarketItemDetail = () => {
     const { id } = useParams();
@@ -29,7 +29,7 @@ const MarketItemDetail = () => {
                 }
 
                 // If not mock, fetch from Supabase
-                const { data } = await supabaseService.getMarketItems({ id, limit: 1 });
+                const { data } = await marketService.getMarketItems({ id, limit: 1 });
                 if (data && data.length > 0) {
                     setItem(data[0]);
                 }

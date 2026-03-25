@@ -209,9 +209,9 @@ const WelcomePresentation = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
                     {[
-                        { title: "SÓC DE POBLE", entity: "PROJECTE SOCIAL", desc: "Plataforma bategant per a la memòria viva i la governança d'un territori sobirà.", path: "/perfil/sdp-oficial-1", logo: true },
-                        { title: "EL RENTONAR", entity: "AGRUPACIÓ ECOLOGISTA", desc: "Entitat que promou i empara aquest projecte des de la resistència cultural.", path: "/perfil/rentonar-1", icon: <Scale size={40} className="dark:text-white/40" /> },
-                        { title: "JAVI LLINARES", entity: "DIRECCIÓ I DISSENY", desc: "Responsable de la realització, disseny i coordinació. Mestre darrere del Mas Digital.", path: "/perfil/javi-sa-1", img: "/assets/master/Javi_Llinares-Foto_perfil-1.jpg" }
+                        { title: "SÓC DE POBLE", entity: "PROJECTE SOCIAL", desc: "Plataforma bategant per a la memòria viva i la governança d'un territori sobirà.", path: "/perfil/socdepoble", logo: true },
+                        { title: "EL RENTONAR", entity: "AGRUPACIÓ ECOLOGISTA", desc: "Entitat que promou i empara aquest projecte des de la resistència cultural.", path: "/perfil/rentonar", icon: <Scale size={40} className="dark:text-white/40" /> },
+                        { title: "JAVI LLINARES", entity: "DIRECCIÓ I DISSENY", desc: "Responsable de la realització, disseny i coordinació. Mestre darrere del Mas Digital.", path: "/perfil/d6325f44-7277-4d20-b020-166c010995ab", img: "/assets/master/Javi_Llinares-Foto_perfil-1.jpg" }
                     ].map((card, i) => (
                         <NavLink key={i} to={card.path} className="group flex flex-col items-center justify-between p-8 md:p-12 bg-white dark:bg-black border-2 border-gray-100 dark:border-white/5 rounded-[40px] shadow-lg hover:-translate-y-2 transition-all">
                             <div className="w-24 h-24 md:w-28 md:h-28 mb-8 bg-gray-50 dark:bg-white/5 rounded-[32px] flex items-center justify-center border border-gray-200 dark:border-white/10 overflow-hidden group-hover:scale-110 transition-transform">

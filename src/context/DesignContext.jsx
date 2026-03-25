@@ -10,6 +10,8 @@ export const DesignProvider = ({ children }) => {
     const [visionMode, setVisionModeState] = useState(prefs.visionMode || 'immersiva');
     const [vibe, setVibe] = useState(prefs.vibe);
     const [gloveMode, setGloveMode] = useState(prefs.gloveMode);
+    const [seniorMode, setSeniorMode] = useState(prefs.seniorMode || false);
+    const [reduceMotion, setReduceMotion] = useState(prefs.reduceMotion || false);
     const [visualDemocracy, setVisualDemocracy] = useState(prefs.visualDemocracy || 'pedra-seca');
     const [globalDesign, setGlobalDesign] = useState(prefs.globalDesign || 'batega');
     const [iaiaLevel, setIaiaLevelState] = useState(prefs.iaiaLevel !== undefined ? prefs.iaiaLevel : 2);
@@ -52,9 +54,23 @@ export const DesignProvider = ({ children }) => {
             document.body.classList.remove('mode-guants');
         }
 
+        if (seniorMode) {
+            document.body.classList.add('senior-mode');
+        } else {
+            document.body.classList.remove('senior-mode');
+        }
+
+        if (reduceMotion) {
+            document.documentElement.style.setProperty('--animation-speed', '0s');
+            document.body.classList.add('reduce-motion');
+        } else {
+            document.documentElement.style.setProperty('--animation-speed', '0.3s');
+            document.body.classList.remove('reduce-motion');
+        }
+
         const prefsToSave = {
-            theme, vibe, visionMode, gloveMode, visualDemocracy, globalDesign,
-            blueprintMode, iaiaLevel, accessibilityMode
+            theme, vibe, visionMode, gloveMode, seniorMode, visualDemocracy, globalDesign,
+            blueprintMode, iaiaLevel, accessibilityMode, reduceMotion
         };
 
         const timeoutId = setTimeout(() => {
@@ -62,10 +78,12 @@ export const DesignProvider = ({ children }) => {
         }, 500);
 
         return () => clearTimeout(timeoutId);
-    }, [theme, vibe, visionMode, gloveMode, visualDemocracy, globalDesign, blueprintMode, iaiaLevel, accessibilityMode]);
+    }, [theme, vibe, visionMode, gloveMode, seniorMode, visualDemocracy, globalDesign, blueprintMode, iaiaLevel, accessibilityMode, reduceMotion]);
 
     const toggleTheme = useCallback(() => setTheme(prev => prev === 'light' ? 'dark' : 'light'), []);
     const toggleGloveMode = useCallback(() => setGloveMode(prev => !prev), []);
+    const toggleSeniorMode = useCallback(() => setSeniorMode(prev => !prev), []);
+    const toggleReduceMotion = useCallback(() => setReduceMotion(prev => !prev), []);
     const toggleAccessibilityMode = useCallback(() => setAccessibilityMode(p => !p), []);
     const resetToNaturalOrder = useCallback(() => preferenceService.resetToNaturalOrder(), []);
     const setVisionMode = useCallback((mode) => {
@@ -79,6 +97,8 @@ export const DesignProvider = ({ children }) => {
         visionMode, setVisionMode,
         vibe, setVibe,
         gloveMode, setGloveMode, toggleGloveMode,
+        seniorMode, setSeniorMode, toggleSeniorMode,
+        reduceMotion, setReduceMotion, toggleReduceMotion,
         visualDemocracy, setVisualDemocracy,
         globalDesign, setGlobalDesign,
         iaiaLevel, setIaiaLevelState,
@@ -87,9 +107,9 @@ export const DesignProvider = ({ children }) => {
         resetToNaturalOrder,
         isDark, darkMode, architectMode, asoMode, toggleAsoMode, hapticService
     }), [
-        theme, visionMode, vibe, gloveMode, visualDemocracy, globalDesign,
+        theme, visionMode, vibe, gloveMode, seniorMode, reduceMotion, visualDemocracy, globalDesign,
         iaiaLevel, blueprintMode, accessibilityMode,
-        toggleTheme, setVisionMode, toggleGloveMode, toggleAccessibilityMode, resetToNaturalOrder,
+        toggleTheme, setVisionMode, toggleGloveMode, toggleSeniorMode, toggleReduceMotion, toggleAccessibilityMode, resetToNaturalOrder,
         toggleAsoMode, hapticService,
         isDark, darkMode, architectMode, asoMode
     ]);

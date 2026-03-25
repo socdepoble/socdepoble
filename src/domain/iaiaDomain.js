@@ -1,8 +1,8 @@
 import { USER_ROLES } from '../constants';
 
 export const isIAIAOfficial = (post) => {
-    return post.author_entity_id === 'sdp-oficial-1' || 
-           post.creator_entity_id === 'sdp-oficial-1' ||
+    return post.author_entity_id === 'socdepoble' || 
+           post.creator_entity_id === 'socdepoble' ||
            post.author_name?.includes('Sóc de Poble');
 };
 

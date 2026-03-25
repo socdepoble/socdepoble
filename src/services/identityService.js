@@ -1,19 +1,6 @@
 import { logger } from '../utils/logger';
 import { supabaseService } from './supabaseService';
-
-const PERSISTENCE = {
-    get: (key) => {
-        try {
-            const local = localStorage.getItem(key);
-            if (local) return local;
-        } catch { /* silent */ }
-        try { return sessionStorage.getItem(key); } catch { return null; }
-    },
-    set: (key, val) => {
-        try { localStorage.setItem(key, val); } catch { /* silent */ }
-        try { sessionStorage.setItem(key, val); } catch { /* silent */ }
-    }
-};
+import { secureStorage } from './secureStorage';
 
 /**
  * IdentityService: Gestió d'Identitat Sobirana i Contracte Social.
@@ -24,7 +11,7 @@ export const identityService = {
      * [CRYPTO GENESIS] Genera una identitat Ed25519 local i sobirana.
      * Complix el mandat de 0ms d'entrada. No demana permís, bategua.
      */
-    generateSovereignIdentity() {
+    async generateSovereignIdentity() {
         logger.log('[Identity] Executant Gènesi Criptogràfica (Local-First Ancestral)...');
 
         // Simulem generació Ed25519 (32 bytes per clau)
@@ -47,15 +34,30 @@ export const identityService = {
             version: 'v35-ANCESTRAL'
         };
 
-        PERSISTENCE.set('sp_sovereign_identity', JSON.stringify(identity));
-        logger.log('[Identity] Identitat Ancestral segellada al dispositiu. ID: ' + identity.id);
+        await secureStorage.set('sp_sovereign_identity', identity);
+        logger.log('[Identity] Identitat Ancestral segellada de forma segura al dispositiu. ID: ' + identity.id);
 
         return identity;
     },
 
-    getStoredIdentity() {
-        const stored = PERSISTENCE.get('sp_sovereign_identity');
-        return stored ? JSON.parse(stored) : null;
+    async getStoredIdentity() {
+        try {
+            const stored = await secureStorage.get('sp_sovereign_identity');
+            if (!stored) {
+                // Try to migrate legacy plaintext localStorage identity
+                const legacy = localStorage.getItem('sp_sovereign_identity');
+                if (legacy) {
+                    const parsed = JSON.parse(legacy);
+                    await secureStorage.set('sp_sovereign_identity', parsed);
+                    localStorage.removeItem('sp_sovereign_identity');
+                    return parsed;
+                }
+            }
+            return stored || null;
+        } catch (e) {
+            console.error('[Identity] Error loading encrypted identity:', e);
+            return null;
+        }
     },
 
     /**
@@ -100,12 +102,20 @@ export const identityService = {
     /**
      * Un Padrí signa la validació d'identitat (Proof-of-Personhood).
      */
-    async signRecoveryRequest(padrinId, requestId) {
+    async signRecoveryRequest(padrinId, requestId, signature) {
         logger.log(`[Identity] Padrí ${padrinId} signant petició ${requestId}...`);
         try {
-            const request = JSON.parse(localStorage.getItem('sp_recovery_request'));
-            if (!request) throw new Error('No hi ha cap petició de recuperació activa.');
+            if (!signature || signature.length < 32) throw new Error("Acció denegada: Falta la signatura criptogràfica del Padrí.");
+            
+            const request = JSON.parse(localStorage.getItem('sp_recovery_active'));
+            if (!request || request.user_id !== requestId) throw new Error('No hi ha cap petició de recuperació activa o el ID no coincideix.');
 
+            request.signed_by = request.signed_by || [];
+            if (request.signed_by.includes(padrinId)) {
+                throw new Error("Acció denegada: Aquest padrí ja ha signat la petició prèviament.");
+            }
+
+            request.signed_by.push(padrinId);
             request.current_signatures += 1;
 
             if (request.current_signatures >= request.required_signatures) {
@@ -113,7 +123,7 @@ export const identityService = {
                 await this._completeRecovery(request);
             }
 
-            localStorage.setItem('sp_recovery_request', JSON.stringify(request));
+            localStorage.setItem('sp_recovery_active', JSON.stringify(request));
             return { success: true, current: request.current_signatures };
         } catch (err) {
             logger.error('[Identity] Error signant recuperació:', err);

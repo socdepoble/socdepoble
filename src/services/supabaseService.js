@@ -4,9 +4,6 @@ import { DEMO_USER_ID, ROLES, USER_ROLES, ENABLE_MOCKS, CREATOR_EMAILS } from '.
 import { PostSchema, MarketItemSchema, MessageSchema, ProfileSchema, ConversationSchema } from './schemas';
 import { MOCK_LORE_POSTS, MOCK_LORE_ITEMS } from '../data/mockLoreData';
 import { pushNotifications } from './pushNotifications';
-import { authService } from './authService';
-import { marketService } from './marketService';
-import { chatService } from './chatService';
 
 /**
  * Helper for time-aware greetings
@@ -353,7 +350,7 @@ const activeChecks = {
  */
 const SYSTEM_ENTITIES = [
     {
-        id: 'sdp-oficial-1',
+        id: 'socdepoble',
         full_name: 'Sóc de Poble',
         username: 'socdepoble',
         type: 'empresa',
@@ -626,7 +623,6 @@ export const supabaseService = {
      * Account Deletion System (5s Fast Track)
      * Calls the secure RPC 'delete_user' which invokes PostgreSQL ON DELETE CASCADE.
      */
-    deleteCurrentUser: authService.deleteCurrentUser,
     // New Feature: Persistent Notifications
     async createNotification(payload) {
         try {
@@ -2602,16 +2598,7 @@ export const supabaseService = {
         });
     },
 
-    // Autenticació (Delegada a authService)
-    getRedirectUrl: authService.getRedirectUrl,
-    signUp: authService.signUp,
-    signIn: authService.signIn,
-    resetPasswordForEmail: authService.resetPasswordForEmail,
-    signOut: authService.signOut,
-    signInWithGoogle: authService.signInWithGoogle,
-    signInWithOtp: authService.signInWithOtp,
-    resendOtp: authService.resendOtp,
-    verifyOtp: authService.verifyOtp,
+    // Autenticació s'importa directament d'authService arreu de l'aplicació
 
     /**
      * Cachea de forma segura la presencia de columnas, evitando bucles de error 42703.
@@ -2956,11 +2943,11 @@ export const supabaseService = {
             // If it's Javi, enforce "Sóc de Poble" as Empresa and hide Association duplicate
             const isJavi = userId === 'd6325f44-7277-4d20-b020-166c010995ab' || userId === 'javillinares' || userId === 'mock_javi-llinares';
             if (isJavi) {
-                const sdpExists = processedEntities.some(e => e.id === 'sdp-oficial-1');
+                const sdpExists = processedEntities.some(e => e.id === 'socdepoble');
                 const rentonarExists = processedEntities.some(e => e.id === 'el-rentonar');
 
                 if (!sdpExists) {
-                    const sdp = SYSTEM_ENTITIES.find(e => e.id === 'sdp-oficial-1');
+                    const sdp = SYSTEM_ENTITIES.find(e => e.id === 'socdepoble');
                     if(sdp) processedEntities.push({ ...sdp, name: sdp.full_name, member_role: 'admin' });
                 }
                 if (!rentonarExists) {
@@ -3144,7 +3131,7 @@ export const supabaseService = {
 
     async getEntityMembers(entityId) {
         // Blindatge OMNISCIENT per a entitats de sistema
-        if (entityId === 'sdp-oficial-1') {
+        if (entityId === 'socdepoble') {
             return [{
                 user_id: 'd6325f44-7277-4d20-b020-166c010995ab', // Javi Real
                 role: 'Fundador',
@@ -4029,6 +4016,4 @@ export const supabaseService = {
         }
     }
 };
-
-Object.assign(supabaseService, marketService, chatService);
 

@@ -73,6 +73,7 @@ function setupTables() {
             depends_on TEXT,
             timestamp INTEGER NOT NULL,
             author TEXT NOT NULL,
+            vector_clock TEXT,
             signature TEXT
         );
         CREATE INDEX IF NOT EXISTS idx_ops_doc ON operations(doc_id);
@@ -81,6 +82,7 @@ function setupTables() {
             doc_id TEXT PRIMARY KEY,
             data TEXT NOT NULL,
             last_op_id TEXT,
+            vector_clock TEXT,
             updated_at INTEGER NOT NULL
         );
 
@@ -89,6 +91,10 @@ function setupTables() {
             value TEXT
         );
     `);
+
+    // Schema Migrations (Fail-safe for existing databases)
+    try { db.exec(`ALTER TABLE operations ADD COLUMN vector_clock TEXT;`); } catch { /* ignore */ }
+    try { db.exec(`ALTER TABLE snapshots ADD COLUMN vector_clock TEXT;`); } catch { /* ignore */ }
 }
 
 onmessage = async (e) => {
@@ -106,7 +112,7 @@ onmessage = async (e) => {
 
             case 'SAVE_OP': {
                 db.exec({
-                    sql: 'INSERT OR IGNORE INTO operations (id, doc_id, type, value, depends_on, timestamp, author) VALUES (?, ?, ?, ?, ?, ?, ?)',
+                    sql: 'INSERT OR IGNORE INTO operations (id, doc_id, type, value, depends_on, timestamp, author, vector_clock) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
                     bind: [
                         payload.id,
                         payload.docId,
@@ -114,10 +120,38 @@ onmessage = async (e) => {
                         JSON.stringify(payload.value),
                         JSON.stringify(payload.dependsOn || []),
                         payload.timestamp,
-                        payload.author
+                        payload.author,
+                        JSON.stringify(payload.vectorClock || {})
                     ]
                 });
                 postMessage({ id, type: 'SAVE_OP_OK' });
+                break;
+            }
+
+            case 'SAVE_OPS_BATCH': {
+                db.exec('BEGIN TRANSACTION;');
+                try {
+                    for (const op of payload.ops) {
+                        db.exec({
+                            sql: 'INSERT OR IGNORE INTO operations (id, doc_id, type, value, depends_on, timestamp, author, vector_clock) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+                            bind: [
+                                op.id,
+                                op.docId,
+                                op.type,
+                                JSON.stringify(op.value),
+                                JSON.stringify(op.dependsOn || []),
+                                op.timestamp,
+                                op.author,
+                                JSON.stringify(op.vectorClock || {})
+                            ]
+                        });
+                    }
+                    db.exec('COMMIT;');
+                    postMessage({ id, type: 'SAVE_OPS_BATCH_OK' });
+                } catch (batchErr) {
+                    db.exec('ROLLBACK;');
+                    throw batchErr;
+                }
                 break;
             }
 
@@ -129,7 +163,8 @@ onmessage = async (e) => {
                     row: (row) => ops.push({
                         ...row,
                         value: JSON.parse(row.value),
-                        dependsOn: JSON.parse(row.depends_on)
+                        dependsOn: JSON.parse(row.depends_on),
+                        vectorClock: row.vector_clock ? JSON.parse(row.vector_clock) : null
                     })
                 });
                 postMessage({ id, type: 'GET_OPS_OK', payload: ops });
@@ -138,8 +173,14 @@ onmessage = async (e) => {
 
             case 'SAVE_SNAPSHOT': {
                 db.exec({
-                    sql: 'INSERT OR REPLACE INTO snapshots (doc_id, data, last_op_id, updated_at) VALUES (?, ?, ?, ?)',
-                    bind: [payload.docId, JSON.stringify(payload.data), payload.lastOpId, Date.now()]
+                    sql: 'INSERT OR REPLACE INTO snapshots (doc_id, data, last_op_id, vector_clock, updated_at) VALUES (?, ?, ?, ?, ?)',
+                    bind: [
+                        payload.docId, 
+                        JSON.stringify(payload.data), 
+                        payload.lastOpId, 
+                        JSON.stringify(payload.vectorClock || {}),
+                        Date.now()
+                    ]
                 });
                 postMessage({ id, type: 'SAVE_SNAPSHOT_OK' });
                 break;
@@ -153,7 +194,8 @@ onmessage = async (e) => {
                     row: (row) => {
                         snapshot = {
                             data: JSON.parse(row.data),
-                            lastOpId: row.last_op_id
+                            lastOpId: row.last_op_id,
+                            vectorClock: row.vector_clock ? JSON.parse(row.vector_clock) : null
                         };
                     }
                 });

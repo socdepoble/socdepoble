@@ -60,17 +60,17 @@ class RhizomeManager {
     /**
      * [PILLAR 2: Fusió Semàntica] - Eg-walker integration
      */
-    semanticMerge(local, remote, docId = 'global') {
+    async semanticMerge(local, remote, docId = 'global') {
         if (!local && !remote) return "";
         if (local === remote) return local;
 
         logger.log(`[Rhizome] Detectat conflicte en ${docId}. Aplicant Eg-walker...`);
 
         if (Array.isArray(remote)) {
-            return this.walker.merge(docId, remote);
+            return await this.walker.merge(docId, remote);
         }
 
-        this.walker.applyLocal(docId, 'edit', remote);
+        await this.walker.applyLocal(docId, 'edit', remote);
         return remote;
     }
 

@@ -1,5 +1,7 @@
 import { supabaseService } from './supabaseService';
 import { logger } from '../utils/logger';
+import { marketService } from './marketService';
+import { chatService } from './chatService';
 
 export const exportService = {
     /**
@@ -13,10 +15,10 @@ export const exportService = {
             const posts = await supabaseService.getPosts({ authorId: userId });
 
             // 2. Market Items
-            const marketItems = await supabaseService.getMarketItems({ authorId: userId });
+            const marketItems = await marketService.getMarketItems({ authorId: userId });
 
             // 3. Conversations and Messages
-            const conversations = await supabaseService.getConversations(userId);
+            const conversations = await chatService.getConversations(userId);
             const messagesByConversation = {};
 
             for (const conv of conversations) {

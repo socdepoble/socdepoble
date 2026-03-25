@@ -108,10 +108,11 @@ if (typeof window === 'undefined') {
                     if (registration.active && !n.serviceWorker.controller) {
                         if (!sessionStorage.getItem('coiReloaded')) {
                             sessionStorage.setItem('coiReloaded', '1');
-                            !coi.quiet && console.log("Service worker applied. First-time register detected, waiting for next organic refresh.");
-                            // [CRITICAL FIX V10.33.16] - Supressed coi.doReload() to prevent the infinite PWA loops
-                            // coi.doReload();
+                            !coi.quiet && console.log("Service worker applied. First-time register detected, auto-reloading to apply COEP boundaries.");
+                            // Restored doReload() because PowerSync hangs without COEP on first load.
+                            coi.doReload();
                         } else {
+                            // Clear it after a while or leave it to prevent loops in the same session.
                             !coi.quiet && console.error("COOP/COEP failed to control page after reload. Stopping infinite loop.");
                         }
                     }

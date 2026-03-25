@@ -6,6 +6,7 @@ import { supabaseService } from '../services/supabaseService';
 import TownSelectorModal from '../components/TownSelectorModal';
 import LanguageSelector from '../components/LanguageSelector';
 import '../pages/Auth.css'; // Reusing some base styles
+import { authService } from '../services/authService';
 
 const ProfileSettingsModal = ({ isOpen, onClose, profile, onProfileUpdate }) => {
     const { user: currentUser } = useAuth();
@@ -114,7 +115,7 @@ const ProfileSettingsModal = ({ isOpen, onClose, profile, onProfileUpdate }) => 
     const handleDeleteAccount = async () => {
         setIsDeletingAccount(true);
         try {
-            await supabaseService.deleteCurrentUser();
+            await authService.deleteCurrentUser();
             onClose();
             // Redirigir a l'inici / login
             navigate('/', { replace: true });

@@ -99,7 +99,10 @@ export const AuthProvider = ({ children }) => {
             try {
                 const registrations = await navigator.serviceWorker.getRegistrations();
                 for (let registration of registrations) {
-                    await registration.unregister();
+                    const scriptURL = registration.active?.scriptURL || registration.installing?.scriptURL || registration.waiting?.scriptURL || '';
+                    if (!scriptURL.includes('coi-serviceworker')) {
+                        await registration.unregister();
+                    }
                 }
             } catch (swError) {
                 logger.error('[AuthContext] SW Unregister error:', swError);
@@ -255,7 +258,10 @@ export const AuthProvider = ({ children }) => {
             setProfile(guestUser);
         } else {
             // [GUEST/FORASTER MODE] 
-            const genesis = identityService.getStoredIdentity() || identityService.generateSovereignIdentity();
+            let genesis = await identityService.getStoredIdentity();
+            if (!genesis) {
+                genesis = await identityService.generateSovereignIdentity();
+            }
             // [MIGRACIÓ TERMINOLÒGICA] Si la identitat guardada diu "Foraster" o "Sóc de Poble" genèric, la bateguem com a "Foraster"
             if (genesis.full_name === 'Foraster de Poble' || genesis.full_name === 'Sóc de Poble' || genesis.full_name === 'Sóc de Poble!') {
                 genesis.full_name = 'Foraster';

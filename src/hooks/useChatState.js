@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { supabaseService } from '../services/supabaseService';
 import { logger } from '../utils/logger';
 import { AGENTS } from '../constants/agents';
+import { chatService } from '../services/chatService';
 
 // GROK V3 EXTREME AUDIT FIX:
 // - Eliminat isMounted flag en favor d'AbortController.
@@ -35,7 +36,7 @@ export const useChatState = ({ id, currentUserId, userIsAnonymous, state, readRe
         
         const fetchChatData = async () => {
             try {
-                const chats = await supabaseService.getConversations(currentUserId);
+                const chats = await chatService.getConversations(currentUserId);
                 if (controller.signal.aborted) return;
                 
                 let currentChat = chats.find(c => c.id === id);
@@ -63,7 +64,7 @@ export const useChatState = ({ id, currentUserId, userIsAnonymous, state, readRe
                         });
                     }
                     if (readReceiptsRef.current) {
-                        await supabaseService.markMessagesAsRead(currentChat.id, currentUserId);
+                        await chatService.markMessagesAsRead(currentChat.id, currentUserId);
                     }
                 } else if (id.startsWith('11111111-')) {
                     const agent = AGENTS.find(a => a.id === id);
@@ -140,7 +141,7 @@ export const useChatState = ({ id, currentUserId, userIsAnonymous, state, readRe
                      });
                      if (payload.new.sender_id !== currentUserId && readReceiptsRef.current) {
                          if (realChatIdRef.current === capturedId) {
-                             supabaseService.markMessagesAsRead(capturedId, currentUserId).catch(() => {});
+                             chatService.markMessagesAsRead(capturedId, currentUserId).catch(() => {});
                          }
                      }
                  }

@@ -1150,3 +1150,38 @@
     border-radius: 12px;
   }
 }
+
+/* --- MODO SENIOR (UX Extrema y Rural Modern) --- */
+.universal-card.senior-mode {
+  min-height: 200px;
+  border-width: 2px;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.theme-light .universal-card.senior-mode {
+  border-color: rgba(0, 0, 0, 0.4);
+}
+
+.universal-card.senior-mode .master-author-name {
+  font-size: 20px;
+  font-weight: 950;
+}
+
+.universal-card.senior-mode .card-header-boina {
+  height: 80px;
+  padding: 0 24px;
+}
+
+.universal-card.senior-mode .location-text {
+  font-size: 16px;
+}
+
+.universal-card.senior-mode .master-action-btn {
+  height: 60px;
+  font-size: 18px;
+}
+
+.universal-card.senior-mode .btn-touch {
+  width: 60px;
+  height: 60px;
+}

@@ -9,6 +9,7 @@ import { getPersonaKeyByUUID } from '../config/agentsMap';
 import * as Comlink from 'comlink';
 import DOMPurify from 'dompurify';
 import { APP_VERSION } from '../constants';
+import { marketService } from './marketService';
 
 let iaiaWorkerProxy = null;
 let visionWorkerProxy = null;
@@ -259,7 +260,7 @@ class IAIAService {
                 time_saved_minutes: 15
             };
 
-            const savedItem = await supabaseService.createMarketItem(marketPayload);
+            const savedItem = await marketService.createMarketItem(marketPayload);
             if (savedItem) {
                 // logger.info(`[IAIA] ${chosenOne} ha posat a la venda amb el bategat Master: ${item.title}`);
             }

@@ -1,6 +1,7 @@
 import { logger } from '../../utils/logger';
 import { rhizomeDb } from '../db-core';
 import { peritext } from './peritext';
+import { VectorClock } from './vectorClock';
 
 /**
  * EgWalker: Event Graph Walker Synchronization Engine v3.0 [MASTER/FLASH]
@@ -47,6 +48,8 @@ class EgWalker {
         return this._runWithDocLock(docId, async () => {
             const snapshot = await rhizomeDb.getSnapshot(docId);
             const lastOpId = snapshot ? snapshot.lastOpId : null;
+            let lastClock = snapshot?.vectorClock ? VectorClock.fromJSON(snapshot.vectorClock) : new VectorClock();
+            const newClock = lastClock.increment(this.nodeId);
 
             const op = {
                 id: `${this.nodeId}-${Date.now()}-${this.opCounter++}`,
@@ -55,7 +58,8 @@ class EgWalker {
                 value,
                 dependsOn: lastOpId ? [lastOpId] : [],
                 timestamp: Date.now(),
-                author: this.nodeId
+                author: this.nodeId,
+                vectorClock: newClock.toJSON()
             };
 
             await rhizomeDb.saveOperation(op);
@@ -63,7 +67,7 @@ class EgWalker {
             const ops = await rhizomeDb.getOperations(docId);
             const newState = this._calculateState(ops);
 
-            await rhizomeDb.saveSnapshot(docId, newState, op.id);
+            await rhizomeDb.saveSnapshot(docId, newState.data, op.id, newState.vectorClock);
             return op;
         });
     }
@@ -82,20 +86,18 @@ class EgWalker {
             const newOps = remoteOps.filter(op => !localIds.has(op.id));
             if (newOps.length === 0) return (await this.getState(docId))?.data;
 
-            for (const op of newOps) {
-                await rhizomeDb.saveOperation(op);
-            }
+            await rhizomeDb.saveOperationsBatch(newOps);
 
             const allOps = await rhizomeDb.getOperations(docId);
             const newState = this._calculateState(allOps);
 
             const lastOpId = allOps.length > 0 ? allOps[allOps.length - 1].id : null;
-            await rhizomeDb.saveSnapshot(docId, newState, lastOpId);
+            await rhizomeDb.saveSnapshot(docId, newState.data, lastOpId, newState.vectorClock);
 
             const end = performance.now();
             logger.log(`[EgWalker] Rhizome Sync completat en ${(end - start).toFixed(2)}ms.`);
 
-            return newState;
+            return newState.data;
         });
     }
 
@@ -113,7 +115,7 @@ class EgWalker {
             const currentState = this._calculateState(allOps);
             const lastOpId = allOps.length > 0 ? allOps[allOps.length - 1].id : null;
 
-            await rhizomeDb.saveSnapshot(docId, currentState, lastOpId);
+            await rhizomeDb.saveSnapshot(docId, currentState.data, lastOpId, currentState.vectorClock);
             await rhizomeDb.purgeOperations(docId, 20);
 
             logger.log(`[EgWalker] Poda atòmica completada per a ${docId}.`);
@@ -128,28 +130,29 @@ class EgWalker {
      * Lògica de càlcul d'estat DETERMINISTA (Lamport Tie-break).
      */
     _calculateState(graph) {
-        if (graph.length === 0) return { content: '', spans: [] };
+        if (graph.length === 0) return { data: { content: '', spans: [] }, vectorClock: new VectorClock() };
 
         let state = {};
         let spans = [];
         let deletedIds = new Set();
+        let finalClock = new VectorClock();
 
-        // Ordenem per causalitat i determinisme absolut (Lamport)
+        // Ordenem per Vector Clocks i determinisme (Lamport)
         const sortedGraph = [...graph].sort((a, b) => {
-            // 1. Causalitat (DependsOn)
-            if (a.dependsOn.includes(b.id)) return 1;
-            if (b.dependsOn.includes(a.id)) return -1;
+            const aClock = a.vectorClock ? VectorClock.fromJSON(a.vectorClock) : new VectorClock();
+            const bClock = b.vectorClock ? VectorClock.fromJSON(b.vectorClock) : new VectorClock();
+            const cmp = aClock.compare(bClock);
+            if (cmp !== null && cmp !== 0) return cmp;
 
-            // 2. Determinisme: Timestamp -> NodeId -> OpId
+            // 2. Determinisme causal: Identitat -> Timestamp -> ID
             if (a.timestamp !== b.timestamp) return a.timestamp - b.timestamp;
-            
-            const authorCmp = (a.author || '').localeCompare(b.author || '');
-            if (authorCmp !== 0) return authorCmp;
-
             return a.id.localeCompare(b.id);
         });
 
         sortedGraph.forEach(op => {
+            const opClock = op.vectorClock ? VectorClock.fromJSON(op.vectorClock) : new VectorClock();
+            finalClock = finalClock.merge(opClock);
+
             if (op.type === 'edit') {
                 if (typeof op.value === 'object') {
                     if (op.value.id && deletedIds.has(op.value.id)) return;
@@ -172,11 +175,14 @@ class EgWalker {
             }
         });
 
+        let dataFinal;
         if (typeof state === 'object' && state.description) {
-            return { ...state, spans, _deleted: Array.from(deletedIds) };
+            dataFinal = { ...state, spans, _deleted: Array.from(deletedIds) };
+        } else {
+            dataFinal = typeof state === 'string' ? { content: state, spans } : state;
         }
 
-        return typeof state === 'string' ? { content: state, spans } : state;
+        return { data: dataFinal, vectorClock: finalClock };
     }
 }
 

@@ -41,13 +41,25 @@ export const syncService = {
     },
 
     /**
-     * Sistema de respaldo de "emergencia" para el chat
+     * Sistema de respaldo de "emergencia" para el chat amb Garbage Collection
      */
     backupChatInput: (convId, text) => {
         if (!text) return;
-        const backups = JSON.parse(localStorage.getItem('sp_chat_backups') || '{}');
-        backups[convId] = { text, at: Date.now() };
-        localStorage.setItem('sp_chat_backups', JSON.stringify(backups));
+        try {
+            const backups = JSON.parse(localStorage.getItem('sp_chat_backups') || '{}');
+            backups[convId] = { text, at: Date.now() };
+
+            const entries = Object.entries(backups);
+            if (entries.length > 20) {
+                entries.sort((a, b) => b[1].at - a[1].at);
+                const pruned = Object.fromEntries(entries.slice(0, 20));
+                localStorage.setItem('sp_chat_backups', JSON.stringify(pruned));
+            } else {
+                localStorage.setItem('sp_chat_backups', JSON.stringify(backups));
+            }
+        } catch (err) {
+            logger.error('[SyncService] Error fent backup de xat:', err);
+        }
     },
 
     /**

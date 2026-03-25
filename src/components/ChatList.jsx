@@ -13,13 +13,13 @@ import {
   MessageSquare,
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
-import { supabaseService } from "../services/supabaseService";
 import Avatar from "./Avatar";
 import TownSelectorModal from "./TownSelectorModal";
 import { useDesign } from '../context/DesignContext';
 import { useNavigation } from '../context/NavigationContext';
 import { AGENTS } from "../constants/agents";
 import "./ChatList.css";
+import { chatService } from '../services/chatService';
 
 // SOCIAL GRAPH MOCK DATA
 const STATIC_AVATARS = {
@@ -72,7 +72,7 @@ const ChatList = () => {
     const fetchChats = async () => {
       if (!user?.id) return;
       try {
-        const dbConvs = await supabaseService.getConversations(user.id);
+        const dbConvs = await chatService.getConversations(user.id);
         
         // [HEALING PROTOCOL] Reparem converses de BD antigues que han perdut l'avatar o l'ID de l'agent
         let hybridChats = (dbConvs || []).map(chat => {

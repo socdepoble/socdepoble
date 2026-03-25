@@ -7,8 +7,8 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useDesign } from '../context/DesignContext';
-import { supabaseService } from '../services/supabaseService';
 import Avatar from '../components/Avatar';
+import { chatService } from '../services/chatService';
 
 // Components
 const ActionButton = ({ icon: Icon, label, onClick, disabled, isDayMode }) => (
@@ -80,7 +80,7 @@ const ChatManager = () => {
 
             try {
                 // Fetch de la conversa real
-                const chats = await supabaseService.getConversations(currentUserId);
+                const chats = await chatService.getConversations(currentUserId);
                 const currentChat = chats.find(c => c.id === id);
                 
                 if (currentChat) {

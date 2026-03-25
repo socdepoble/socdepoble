@@ -1,8 +1,8 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useFeedData } from './useFeedData';
-import { supabaseService } from '../services/supabaseService';
 import { MOCK_EVENTS, MOCK_MARKET_ITEMS } from '../data';
 import { logger } from '../utils/logger';
+import { marketService } from '../services/marketService';
 
 const safeIsoString = (dateStr) => {
     if (!dateStr) return new Date().toISOString();
@@ -26,7 +26,7 @@ export const useUnifiedFeedData = ({ activeTown, townName, isPlayground, user, i
     useEffect(() => {
         const fetchMarket = async () => {
             try {
-                const { data } = await supabaseService.getMarketItems({
+                const { data } = await marketService.getMarketItems({
                     page: 0,
                     limit: 100, // Load a broad spectrum for the unified dashboard
                     categorySlug: 'tot'

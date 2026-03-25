@@ -8,6 +8,8 @@ const DEFAULT_CONFIG = {
     visionMode: 'hibrida',   // Mode de visió per defecte
     vibe: 'genius',          // Ambientació
     gloveMode: false,        // Mode guants desactivat
+    seniorMode: false,       // Mode Sèniors (Tàctil gegant)
+    reduceMotion: false,     // [10/10] Mode Sèniors avançat
     globalDesign: 'batega',  // Disseny global per defecte
     preferredAgentId: 'iaia', // Agente preferido por defecto
     chatSettings: {

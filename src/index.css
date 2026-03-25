@@ -131,7 +131,7 @@
   --theme-accent-secondary-faint: rgba(9, 132, 227, 0.1);
 
   --bg-theme-base: var(--bg-app);
-  --bg-theme-sidebar: #ffffff; /* CORREGIT: Barra lateral clara en Mode Clar */
+  --bg-theme-sidebar: #000000; /* CORREGIT: Barra lateral NEGRA en Mode Clar per decisió de disseny */
   --bg-theme-panel: var(--bg-panel);
   --text-theme-text: #000000;
   --bg-theme-header: #ffffff; /* CORREGIT: Header clar en Mode Clar */

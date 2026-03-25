@@ -161,8 +161,8 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
             post.author_name?.toLowerCase().includes('sóc de poble') ||
             targetId === 'sdp-core' ||
             targetId === 'mock-business-sdp-1' ||
-            targetId === 'sdp-oficial-1') {
-            navigate('/entitat/sdp-oficial-1');
+            targetId === 'socdepoble') {
+            navigate('/entitat/socdepoble');
             return;
         }
 

@@ -11,6 +11,7 @@ import { logger } from '../utils/logger';
 import { MOCK_FEED, MOCK_MARKET_ITEMS } from '../data';
 import { supabaseService } from '../services/supabaseService';
 import './Archive.css';
+import { marketService } from '../services/marketService';
  
  const ArxiuOr = () => {
      const navigate = useNavigate();
@@ -38,7 +39,7 @@ import './Archive.css';
                  // 1. Fetch from Supabase
                  const [postsResponse, itemsResponse] = await Promise.all([
                      supabaseService.getPosts('tot', null, 0, 100),
-                     supabaseService.getMarketItems('tot', null, 0, 100)
+                     marketService.getMarketItems('tot', null, 0, 100)
                  ]);
  
                  const dbPosts = postsResponse?.data || [];

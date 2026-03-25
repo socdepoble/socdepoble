@@ -70,21 +70,35 @@ class RhizomeDB {
         }
     }
 
-    sendToWorker(type, payload, callback) {
+    sendToWorker(type, payload, callback, timeoutMs = 15000) {
         if (!this.pendingRequests) {
             this.pendingRequests = new Map();
         }
         
-        const id = Math.random().toString(36).substring(2, 10) + Date.now().toString(36);
+        const id = (typeof crypto !== 'undefined' && crypto.randomUUID) 
+            ? crypto.randomUUID() 
+            : (Date.now().toString(36) + Math.random().toString(36).substring(2));
         
         if (callback) {
-            this.pendingRequests.set(id, callback);
+            const timeoutId = setTimeout(() => {
+                if (this.pendingRequests.has(id)) {
+                    this.pendingRequests.delete(id);
+                    logger.warn(`[RhizomeDB] Timeout (${timeoutMs}ms) esperant resposta del worker per a: ${type}`);
+                    callback({ type: 'ERROR', payload: `Worker timeout (${timeoutMs}ms) per a l'operació ${type}` });
+                }
+            }, timeoutMs);
+
+            this.pendingRequests.set(id, (res) => {
+                clearTimeout(timeoutId);
+                callback(res);
+            });
         }
         
         if (this.worker) {
             this.worker.postMessage({ id, type, payload });
         } else {
             logger.error('❌ Rhizome Worker no inicialitzat al intentar enviar:', type);
+            if (callback) callback({ type: 'ERROR', payload: 'Worker no inicialitzat' });
         }
     }
 
@@ -92,6 +106,17 @@ class RhizomeDB {
         await this.init();
         return new Promise((resolve, reject) => {
             this.sendToWorker('SAVE_OP', op, (res) => {
+                if (res.type === 'ERROR') reject(new Error(res.payload));
+                else resolve();
+            });
+        });
+    }
+
+    async saveOperationsBatch(ops) {
+        await this.init();
+        if (!ops || ops.length === 0) return Promise.resolve();
+        return new Promise((resolve, reject) => {
+            this.sendToWorker('SAVE_OPS_BATCH', { ops }, (res) => {
                 if (res.type === 'ERROR') reject(new Error(res.payload));
                 else resolve();
             });
@@ -108,10 +133,10 @@ class RhizomeDB {
         });
     }
 
-    async saveSnapshot(docId, data, lastOpId) {
+    async saveSnapshot(docId, data, lastOpId, vectorClock) {
         await this.init();
         return new Promise((resolve, reject) => {
-            this.sendToWorker('SAVE_SNAPSHOT', { docId, data, lastOpId }, (res) => {
+            this.sendToWorker('SAVE_SNAPSHOT', { docId, data, lastOpId, vectorClock }, (res) => {
                 if (res.type === 'ERROR') reject(new Error(res.payload));
                 else resolve();
             });
