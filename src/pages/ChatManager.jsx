@@ -6,30 +6,41 @@ import {
     Users, Plus, LogOut, Download, AlertTriangle, Shield
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useDesign } from '../context/DesignContext';
 import { supabaseService } from '../services/supabaseService';
 import Avatar from '../components/Avatar';
 
 // Components
-const ActionButton = ({ icon: Icon, label, onClick, disabled }) => (
+const ActionButton = ({ icon: Icon, label, onClick, disabled, isDayMode }) => (
     <button 
         onClick={onClick}
         disabled={disabled}
-        className="flex flex-col items-center justify-center gap-2 p-4 rounded-[20px] bg-[#1F2937] hover:bg-[#374151] transition-all text-white disabled:opacity-50 border border-white/5 w-24 h-24"
+        className={`flex flex-col items-center justify-center gap-2 p-4 rounded-[28px] transition-all disabled:opacity-50 border shadow-sm w-[110px] h-[110px]
+        ${isDayMode 
+            ? 'bg-white text-gray-800 border-gray-100 hover:bg-gray-50 shadow-[0_4px_20px_rgba(0,0,0,0.03)]' 
+            : 'bg-[#1F2937] text-white border-white/5 hover:bg-[#374151]'
+        }`}
     >
-        {Icon && <Icon size={28} className={disabled ? 'text-gray-500' : 'text-[#FF6D00]'} />}
-        <span className="text-[10px] font-black uppercase tracking-wider text-center leading-tight">{label}</span>
+        {Icon && <Icon size={28} className={disabled ? 'text-gray-400 dark:text-gray-500' : 'text-[#FF6D00]'} />}
+        <span className="text-[10px] font-black uppercase tracking-wider text-center leading-tight mt-1">{label}</span>
     </button>
 );
 
-const SettingRow = ({ icon: Icon, title, description, rightElement, onClick, isRed }) => (
+const SettingRow = ({ icon: Icon, title, description, rightElement, onClick, isRed, isDayMode }) => (
     <div 
         onClick={onClick}
-        className={`flex items-center gap-4 p-4 hover:bg-white/5 transition-colors cursor-pointer ${isRed ? 'text-red-500' : 'text-white'}`}
+        className={`flex items-center gap-4 p-4 hover:bg-black/5 dark:hover:bg-white/5 transition-transform active:scale-[0.98] cursor-pointer rounded-[24px] mx-4 mb-3 
+        ${isDayMode ? 'bg-white border border-gray-100 shadow-[0_4px_15px_rgba(0,0,0,0.03)]' : 'bg-theme-panel border border-white/5 shadow-sm'}
+        ${isRed ? 'text-red-500' : (isDayMode ? 'text-gray-800' : 'text-white')}`}
     >
-        {Icon && <Icon size={24} className="shrink-0 opacity-80" />}
+        {Icon && (
+            <div className={`p-2.5 rounded-full ${isRed ? 'bg-red-500/10 text-red-500' : (isDayMode ? 'bg-[#FF6D00]/10 text-[#FF6D00]' : 'bg-[#FF6D00]/20 text-[#FF6D00]')}`}>
+                <Icon size={22} className="shrink-0" />
+            </div>
+        )}
         <div className="flex-1">
             <h3 className="font-bold text-[15px]">{title}</h3>
-            {description && <p className="text-[13px] text-gray-400 leading-tight block mt-0.5">{description}</p>}
+            {description && <p className={`text-[12px] font-medium leading-tight block mt-0.5 ${isDayMode ? 'text-gray-500' : 'text-gray-400'}`}>{description}</p>}
         </div>
         {rightElement && <div>{rightElement}</div>}
     </div>
@@ -39,6 +50,8 @@ const ChatManager = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const { user, impersonatedProfile, activeEntityId } = useAuth();
+    const { theme } = useDesign();
+    const isDayMode = theme === 'light';
     
     // Check if the user is a forester/guest
     const isGuestUser = user?.isAnonymous;
@@ -97,11 +110,11 @@ const ChatManager = () => {
     }, [id, currentUserId]);
 
     if (loading) {
-        return <div className="flex-1 bg-theme-base flex items-center justify-center">Carregant informació...</div>;
+        return <div className={`flex-1 flex items-center justify-center ${isDayMode ? 'bg-[#FDF5E6] text-gray-400' : 'bg-theme-base text-gray-500'}`}>Carregant informació...</div>;
     }
 
     return (
-        <div className="flex-1 flex flex-col bg-[#0B0F19] max-h-screen overflow-hidden relative">
+        <div className={`flex-1 flex flex-col max-h-screen overflow-hidden relative ${isDayMode ? 'bg-[#FDF5E6]' : 'bg-[#0a0a0a]'}`}>
             {/* Header */}
             <header className="h-[60px] pl-2 pr-4 flex flex-shrink-0 items-center justify-between border-b border-white/5 bg-[#FF6D00] shadow-md z-10 sticky top-0">
                 <div className="flex items-center gap-2">
@@ -111,7 +124,7 @@ const ChatManager = () => {
                     >
                         <ChevronLeft size={26} />
                     </button>
-                    <span className="font-black text-[18px] text-white tracking-wide uppercase">Configuració del Xat</span>
+                    <span className="font-black text-[18px] text-white tracking-wide uppercase">Detalls del Xat</span>
                 </div>
                 <div className="flex gap-2"></div>
             </header>
@@ -128,9 +141,9 @@ const ChatManager = () => {
                     </div>
                 )}
                 
-                {/* secció 1: Perfil Gigante i Botons principals */}
-                <div className="flex flex-col items-center pt-8 pb-6 px-6 bg-[#111827] border-b border-white/5">
-                    <div className="w-28 h-28 rounded-full bg-gradient-to-br from-[#FF6D00]/20 to-[#FF6D00]/5 text-[#FF6D00] flex items-center justify-center border-2 border-[#FF6D00]/30 shadow-[0_0_30px_rgba(255,107,0,0.15)] mb-4 overflow-hidden relative group">
+                {/* Secció 1: Perfil Centralitzat AMB MARGES i RADIUS */}
+                <div className={`flex flex-col items-center pt-10 pb-8 mx-4 mt-6 mb-8 rounded-[40px] shadow-sm border ${isDayMode ? 'bg-white border-gray-100 shadow-[0_10px_30px_rgba(0,0,0,0.05)]' : 'bg-theme-panel border-white/5'}`}>
+                    <div className="w-32 h-32 rounded-full bg-gradient-to-br from-[#FF6D00]/20 to-[#FF6D00]/5 text-[#FF6D00] flex items-center justify-center border-[3px] border-[#FF6D00]/30 shadow-[0_0_40px_rgba(255,107,0,0.15)] mb-5 overflow-hidden relative group">
                         {chatData?.avatar_url ? (
                              <img src={chatData.avatar_url} alt="Avatar" className="w-full h-full object-cover" />
                         ) : (
@@ -140,62 +153,68 @@ const ChatManager = () => {
                         )}
                     </div>
 
-                    <h1 className="text-2xl font-black text-white text-center tracking-tight">{chatData?.name}</h1>
+                    <h1 className={`text-3xl font-black text-center tracking-tight mb-2 ${isDayMode ? 'text-gray-900' : 'text-white'}`}>{chatData?.name}</h1>
                     
-                    <div className="flex items-center gap-1.5 mt-2 justify-center bg-black/40 px-3 py-1 rounded-full border border-white/10">
+                    <div className="flex items-center gap-1.5 justify-center bg-green-500/10 px-3 py-1 rounded-full border border-green-500/20 mb-6">
                         <div className="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_8px_#22c55e]"></div>
-                        <p className="text-gray-300 font-bold text-[10px] tracking-[0.2em] uppercase">
-                            ESTEM PROTEGITS
+                        <p className="text-green-600 dark:text-green-400 font-bold text-[10px] tracking-[0.2em] uppercase">
+                            Connexió Xifrada
                         </p>
                     </div>
 
-                    <div className="flex justify-center w-full max-w-xs gap-4 mt-6">
-                        <ActionButton icon={Search} label="Cercar Fons" onClick={() => navigate(-1)} />
-                        <ActionButton icon={Phone} label="Telefonar" disabled={true} />
+                    <div className="flex justify-center w-full gap-4 mt-2 px-4">
+                        <ActionButton isDayMode={isDayMode} icon={Search} label="Cercar Fons" onClick={() => navigate(-1)} />
+                        <ActionButton isDayMode={isDayMode} icon={Phone} label="Telefonar" disabled={true} />
                     </div>
                 </div>
 
+                {/* Seccions amb Marges (Targetes) */}
+                
                 {/* Secció 2: Descripció */}
-                <div className="mt-2 bg-[#111827] py-1 border-y border-white/5">
-                    <SettingRow 
-                        title="Informació del Grup"
-                        description={`Creat per tu, ${chatData?.creationDate}`}
-                        icon={null}
-                    />
-                </div>
+                <SettingRow 
+                    isDayMode={isDayMode}
+                    title="Informació del Grup"
+                    description={`Creat per tu, ${chatData?.creationDate}`}
+                    icon={null}
+                />
 
                 {/* Secció 3: Media */}
-                <div className="mt-2 bg-[#111827] border-y border-white/5">
-                    <div className="flex items-center justify-between p-4 cursor-pointer hover:bg-white/5 transition-colors">
-                        <h3 className="text-[12px] font-black text-[#FF6D00] tracking-widest uppercase">Arxius, enllaços i docs</h3>
-                        <div className="flex items-center gap-1 text-gray-500">
-                            <span className="text-xs font-black text-white bg-white/10 px-2 py-0.5 rounded-lg">{mediaFiles.length} elements</span>
+                <div className={`mx-4 mb-3 overflow-hidden rounded-[24px] border shadow-sm ${isDayMode ? 'bg-white border-gray-100 shadow-[0_4px_15px_rgba(0,0,0,0.03)]' : 'bg-theme-panel border-white/5'}`}>
+                    <div className="flex items-center justify-between p-5 cursor-pointer hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
+                        <h3 className={`text-[12px] font-black tracking-widest uppercase ${isDayMode ? 'text-[#FF6D00]' : 'text-[#FF6D00]'}`}>Arxius i documents</h3>
+                        <div className="flex items-center gap-1 text-gray-400">
+                            <span className={`text-xs font-black px-2 py-0.5 rounded-lg ${isDayMode ? 'bg-orange-100 text-orange-600' : 'bg-white/10 text-white'}`}>{mediaFiles.length} elements</span>
                             <ChevronLeft size={16} className="rotate-180" />
                         </div>
                     </div>
                     {/* Media Grid Horizontal Scroll */}
-                    <div className="px-4 pb-4 flex gap-2 overflow-x-auto custom-scrollbar">
-                        <div className="w-[100px] h-[100px] flex-shrink-0 bg-[#1F2937] rounded-xl border border-white/10 flex items-center justify-center text-gray-400 gap-2 flex-col">
+                    <div className="px-5 pb-5 flex gap-3 overflow-x-auto custom-scrollbar">
+                        <div className={`w-[100px] h-[100px] flex-shrink-0 rounded-2xl border flex items-center justify-center gap-2 flex-col
+                        ${isDayMode ? 'bg-gray-50 border-gray-200 text-gray-500' : 'bg-[#1F2937] border-white/10 text-gray-400'}`}>
                              <ImageIcon size={24}/>
                              <span className="text-[10px] uppercase font-black tracking-wider">Imatge 1</span>
                         </div>
-                         <div className="w-[100px] h-[100px] flex-shrink-0 bg-orange-500/10 rounded-xl border border-[#FF6D00]/30 flex items-center justify-center text-[#FF6D00] gap-2 flex-col">
+                         <div className={`w-[100px] h-[100px] flex-shrink-0 rounded-2xl border flex items-center justify-center gap-2 flex-col
+                         ${isDayMode ? 'bg-orange-50 border-orange-200 text-orange-500' : 'bg-orange-500/10 border-[#FF6D00]/30 text-[#FF6D00]'}`}>
                              <ImagePlay size={24}/>
                              <span className="text-[10px] uppercase font-black tracking-wider">Vídeo 1</span>
                         </div>
-                         <div className="w-[100px] h-[100px] flex-shrink-0 bg-[#1F2937] rounded-xl border border-white/10 flex items-center justify-center text-gray-400 gap-2 flex-col">
+                         <div className={`w-[100px] h-[100px] flex-shrink-0 rounded-2xl border flex items-center justify-center gap-2 flex-col
+                        ${isDayMode ? 'bg-gray-50 border-gray-200 text-gray-500' : 'bg-[#1F2937] border-white/10 text-gray-400'}`}>
                              <ImageIcon size={24}/>
                              <span className="text-[10px] uppercase font-black tracking-wider">Imatge 2</span>
                         </div>
-                         <div className="w-[100px] h-[100px] flex-shrink-0 bg-transparent rounded-xl border border-white/10 border-dashed flex flex-col items-center justify-center text-white/50 gap-2 cursor-pointer hover:bg-white/5 transition-colors">
+                         <div className={`w-[100px] h-[100px] flex-shrink-0 bg-transparent rounded-2xl border border-dashed flex flex-col items-center justify-center gap-2 cursor-pointer transition-colors
+                         ${isDayMode ? 'border-gray-300 text-gray-400 hover:bg-gray-50' : 'border-white/20 text-white/50 hover:bg-white/5'}`}>
                              <ChevronLeft className="rotate-180" size={24}/>
                              <span className="text-[10px] uppercase font-bold tracking-wider">Veure tot</span>
                         </div>
                     </div>
                 </div>
 
-                <div className="bg-[#111827] mt-2 border-y border-white/5">
+                <div className="mb-8">
                      <SettingRow 
+                        isDayMode={isDayMode}
                         icon={Download}
                         title="Administra l'emmagatzematge"
                         description="67,0 MB consumits locals al dispositiu."
@@ -203,53 +222,55 @@ const ChatManager = () => {
                 </div>
 
                 {/* Secció 4: Privacitat i Configuració */}
-                <div className="mt-2 bg-[#111827] border-y border-white/5">
-                    <SettingRow 
-                        icon={Bell}
-                        title="Silenciar notificacions"
-                        rightElement={
-                            <div className="w-11 h-6 bg-[#1F2937] rounded-full p-1 cursor-pointer flex items-center shadow-inner border border-white/5">
-                                <div className="w-4 h-4 rounded-full bg-gray-400 shadow-sm"></div>
-                            </div>
-                        }
-                    />
-                    <SettingRow 
-                        icon={Clock}
-                        title="Missatges temporals"
-                        description="Desactivat per defecte. Les espurnes romanen."
-                    />
-                    <SettingRow 
-                        icon={Lock}
-                        title="Privacitat Segura"
-                        description="Els teus missatges i dades són privats i xifrats extrem a extrem. Estàs 100% segur al Mas."
-                    />
-                </div>
+                <h2 className={`mx-6 mb-3 text-[11px] font-black tracking-widest uppercase ${isDayMode ? 'text-gray-400' : 'text-gray-500'}`}>Privacitat i Seguretat</h2>
+                <SettingRow 
+                    isDayMode={isDayMode}
+                    icon={Bell}
+                    title="Silenciar notificacions"
+                    rightElement={
+                        <div className={`w-11 h-6 rounded-full p-1 cursor-pointer flex items-center shadow-inner border ${isDayMode ? 'bg-gray-200 border-gray-300' : 'bg-[#1F2937] border-white/5'}`}>
+                            <div className={`w-4 h-4 rounded-full shadow-sm ${isDayMode ? 'bg-white' : 'bg-gray-400'}`}></div>
+                        </div>
+                    }
+                />
+                <SettingRow 
+                    isDayMode={isDayMode}
+                    icon={Clock}
+                    title="Missatges temporals"
+                    description="Desactivat per defecte. Les espurnes romanen."
+                />
+                <SettingRow 
+                    isDayMode={isDayMode}
+                    icon={Lock}
+                    title="Privacitat Segura"
+                    description="Els teus missatges i dades són privats i xifrats extrem a extrem. Estàs 100% segur al Mas."
+                />
 
                  {/* Secció 5: Opcions de Xat Individual / Grup */}
-                <div className="mt-2 bg-[#111827] border-y border-white/5">
-                     <div className="px-4 pt-5 pb-2 text-[#FF6D00] text-[11px] font-black tracking-widest uppercase">
-                         Membres del Xat
-                     </div>
-                     <SettingRow 
-                        icon={Plus}
-                        title="Afegeix un participant"
-                        description="Crea un grup amb aquesta persona o agents IA."
-                    />
-                     <SettingRow 
-                        icon={Users}
-                        title="Visualitza Membres"
-                        description={`Hi ha ${chatData?.membersCount || 1} participant/s connectats.`}
-                    />
-                </div>
+                 <h2 className={`mx-6 mt-8 mb-3 text-[11px] font-black tracking-widest uppercase ${isDayMode ? 'text-gray-400' : 'text-gray-500'}`}>Membres del Xat</h2>
+                 <SettingRow
+                    isDayMode={isDayMode} 
+                    icon={Plus}
+                    title="Afegeix un participant"
+                    description="Crea un grup amb aquesta persona o agents IA."
+                />
+                 <SettingRow 
+                    isDayMode={isDayMode}
+                    icon={Users}
+                    title="Visualitza Membres"
+                    description={`Hi ha ${chatData?.membersCount || 1} participant/s connectats.`}
+                />
 
                  {/* Secció 6: Accions perilloses */}
-                 <div className={`mt-2 bg-[#111827] border-y border-white/5 mb-10 ${isGuestUser ? 'opacity-50 pointer-events-none' : ''}`}>
+                 <div className={`mt-8 mb-10 ${isGuestUser ? 'opacity-50 pointer-events-none' : ''}`}>
                     <SettingRow 
+                        isDayMode={isDayMode}
                         icon={AlertTriangle}
                         title="Bloquejar participant"
                         isRed
                     />
                     <SettingRow 
+                        isDayMode={isDayMode}
                         icon={LogOut}
                         title="Buidar tota la conversa"
                         isRed
@@ -261,7 +282,7 @@ const ChatManager = () => {
              <style>{`
                 .custom-scrollbar::-webkit-scrollbar { width: 5px; height: 5px; }
                 .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-                .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #374151; border-radius: 99px; }
+                .custom-scrollbar::-webkit-scrollbar-thumb { background-color: ${isDayMode ? '#e5e7eb' : '#374151'}; border-radius: 99px; }
                 .custom-scrollbar::-webkit-scrollbar-thumb:hover { background-color: #FF6D00; }
             `}</style>
         </div>

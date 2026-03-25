@@ -52,10 +52,16 @@ export const DesignProvider = ({ children }) => {
             document.body.classList.remove('mode-guants');
         }
 
-        preferenceService.setPrefs({
+        const prefsToSave = {
             theme, vibe, visionMode, gloveMode, visualDemocracy, globalDesign,
             blueprintMode, iaiaLevel, accessibilityMode
-        });
+        };
+
+        const timeoutId = setTimeout(() => {
+            preferenceService.setPrefs(prefsToSave);
+        }, 500);
+
+        return () => clearTimeout(timeoutId);
     }, [theme, vibe, visionMode, gloveMode, visualDemocracy, globalDesign, blueprintMode, iaiaLevel, accessibilityMode]);
 
     const toggleTheme = useCallback(() => setTheme(prev => prev === 'light' ? 'dark' : 'light'), []);
@@ -84,7 +90,8 @@ export const DesignProvider = ({ children }) => {
         theme, visionMode, vibe, gloveMode, visualDemocracy, globalDesign,
         iaiaLevel, blueprintMode, accessibilityMode,
         toggleTheme, setVisionMode, toggleGloveMode, toggleAccessibilityMode, resetToNaturalOrder,
-        toggleAsoMode, hapticService
+        toggleAsoMode, hapticService,
+        isDark, darkMode, architectMode, asoMode
     ]);
 
     return (

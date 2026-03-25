@@ -131,10 +131,10 @@
   --theme-accent-secondary-faint: rgba(9, 132, 227, 0.1);
 
   --bg-theme-base: var(--bg-app);
-  --bg-theme-sidebar: #000000; /* PERMANENT BLACK (NIGHT MODE) */
+  --bg-theme-sidebar: #ffffff; /* CORREGIT: Barra lateral clara en Mode Clar */
   --bg-theme-panel: var(--bg-panel);
   --text-theme-text: #000000;
-  --bg-theme-header: #000000; /* HEADER ES MANTÉ EN NEGRE SEMPRE */
+  --bg-theme-header: #ffffff; /* CORREGIT: Header clar en Mode Clar */
 
   /* [FASE 2: GLASSMORPHISM] Day Mode Tokens */
   --glass-bg-light: rgba(255, 255, 255, 0.7);
@@ -153,14 +153,8 @@
   opacity: 0.85;
 }
 
-.bg-theme-base {
-  background-color: var(--bg-theme-base);
-  transition: background-color 0.3s ease;
-}
-.bg-theme-sidebar {
-  background-color: var(--bg-theme-sidebar);
-  transition: background-color 0.3s ease;
-}
+/* Redundant custom theme utility classes removed as per Audit 2.1 (Tailwind handles them via @theme) */
+
 .card,
 .universal-card,
 .bg-panel {
@@ -183,20 +177,6 @@
 .modal-content,
 .dialog-panel {
   border-radius: var(--radius-genesis) !important;
-}
-
-.bg-theme-panel {
-  background-color: var(--bg-theme-panel);
-  transition: background-color 0.3s ease;
-  border-radius: var(--radius-genesis);
-}
-.bg-theme-header {
-  background-color: var(--bg-theme-header);
-  transition: background-color 0.3s ease;
-}
-.text-theme-text {
-  color: var(--text-theme-text);
-  transition: color 0.3s ease;
 }
 
 /* 📱 COMPORTAMENT TÀCTIL NATIU (v10.30.0 BLUEPRINT) */

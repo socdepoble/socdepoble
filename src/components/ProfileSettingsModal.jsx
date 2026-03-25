@@ -14,6 +14,8 @@ const ProfileSettingsModal = ({ isOpen, onClose, profile, onProfileUpdate }) => 
     
     const [isSaving, setIsSaving] = useState(false);
     const [townSelector, setTownSelector] = useState({ isOpen: false, type: null });
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+    const [isDeletingAccount, setIsDeletingAccount] = useState(false);
 
     // Local state for optimistic UI updates before saving
     const [localProfile, setLocalProfile] = useState({
@@ -106,6 +108,22 @@ const ProfileSettingsModal = ({ isOpen, onClose, profile, onProfileUpdate }) => 
             alert("Error al desar la configuració.");
         } finally {
             setIsSaving(false);
+        }
+    };
+
+    const handleDeleteAccount = async () => {
+        setIsDeletingAccount(true);
+        try {
+            await supabaseService.deleteCurrentUser();
+            onClose();
+            // Redirigir a l'inici / login
+            navigate('/', { replace: true });
+        } catch (error) {
+            console.error('[ProfileSettings] Error deleting account:', error);
+            alert("S'ha produït un error al intentar eliminar el compte base. Contacta amb suport si el problema persistix.");
+            setShowDeleteConfirm(false);
+        } finally {
+            setIsDeletingAccount(false);
         }
     };
 
@@ -301,6 +319,47 @@ const ProfileSettingsModal = ({ isOpen, onClose, profile, onProfileUpdate }) => 
                                     </button>
                                 )}
                             </div>
+                        </div>
+                    </div>
+
+                    {/* Zona de Perill */}
+                    <div className="space-y-4 pt-6 border-t border-[var(--border-master)]">
+                        <div className="flex items-center gap-2 mb-2">
+                            <ShieldAlert size={18} className="text-red-500" />
+                            <h3 className="font-bold uppercase tracking-wider text-sm text-red-500">Zona de Perill</h3>
+                        </div>
+                        <div className="bg-red-500/10 border border-red-500/20 rounded-2xl p-4">
+                            <p className="text-[11px] font-medium text-gray-300 mb-4 leading-relaxed">
+                                En virtut de la normativa de sobiranía digital (GDPR), pots eliminar el teu compte i totes les teues dades de forma completament permanent. <strong className="text-red-400">Aquesta acció NO es pot desfer ni recuperar.</strong>
+                            </p>
+                            {!showDeleteConfirm ? (
+                                <button 
+                                    onClick={() => setShowDeleteConfirm(true)}
+                                    className="w-full py-3 bg-black/60 border border-red-500/30 text-red-500 font-bold uppercase tracking-wider rounded-xl hover:bg-red-500/20 transition-all text-sm"
+                                >
+                                    Eliminar el meu compte
+                                </button>
+                            ) : (
+                                <div className="space-y-3 bg-red-950/40 p-3 rounded-xl border border-red-500/30 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                                    <p className="text-sm font-black text-red-400 uppercase tracking-widest text-center mb-1">Doble Confirmació</p>
+                                    <div className="flex gap-2">
+                                        <button 
+                                            onClick={handleDeleteAccount}
+                                            disabled={isDeletingAccount}
+                                            className="flex-1 py-3 bg-red-600 hover:bg-red-700 text-white font-bold uppercase tracking-wider rounded-lg transition-all flex items-center justify-center gap-2 text-xs h-12"
+                                        >
+                                            {isDeletingAccount ? <Loader2 size={16} className="animate-spin" /> : 'SÍ, ESBORRAR'}
+                                        </button>
+                                        <button 
+                                            onClick={() => setShowDeleteConfirm(false)}
+                                            disabled={isDeletingAccount}
+                                            className="flex-1 py-3 bg-white/10 hover:bg-white/20 text-white font-bold uppercase tracking-wider rounded-lg transition-all text-xs h-12"
+                                        >
+                                            CANCEL·LAR
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
 

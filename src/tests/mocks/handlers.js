@@ -73,7 +73,7 @@ export const handlers = [
   }),
 
   // [PROFILE] Get Profile mock
-  http.get(`${API_BASE}/rest/v1/profiles`, ({ request }) => {
+  http.get(`${API_BASE}/rest/v1/profiles`, () => {
     return HttpResponse.json([{
       id: 'test-user-id',
       full_name: 'Usuari Test',

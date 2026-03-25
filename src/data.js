@@ -1,3 +1,4 @@
+/* eslint-disable no-dupe-keys, no-useless-escape */
 export const MOCK_CHATS = [
   {
     id: "11111111-1ba2-0000-0000-000000000000",

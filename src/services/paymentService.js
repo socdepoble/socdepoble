@@ -13,9 +13,24 @@ export const paymentService = {
   async sendEconomicBeat(paymentData) {
     logger.log("[Astro] Iniciant Bategat Econòmic (Tele-Oli)...");
     try {
-      // 1. Validació bàsica
-      if (!paymentData.amount || !paymentData.receiver_id) {
-        throw new Error("Dades de pagament incompletes.");
+      // 1. Validació Estricta (Anti-Object Injection i Parsing Segur)
+      if (typeof paymentData.receiver_id !== 'string' || !/^[0-9a-fA-F-]{36}$/.test(paymentData.receiver_id)) {
+        // En Sóc de Poble treballem amb UUIDv4 de 36 caràcters
+        throw new Error("Receiver ID invàlid (requereix UUID valid)");
+      }
+      
+      if (typeof paymentData.amount !== 'number' && typeof paymentData.amount !== 'string') {
+        throw new Error("Format d'import invàlid");
+      }
+
+      const amountStr = String(paymentData.amount);
+      if (!/^\\d+(\\.\\d{1,2})?$/.test(amountStr)) {
+        throw new Error("Màxim 2 decimals permesos (format invàlid)");
+      }
+
+      const amount = parseFloat(amountStr);
+      if (isNaN(amount) || amount <= 0 || amount > 10000) {
+        throw new Error("Import invàlid (0 < amount ≤ 10000)");
       }
 
       // 2. Registre al xlog (Exclusive Log) via RhizomeManager

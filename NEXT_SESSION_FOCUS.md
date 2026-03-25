@@ -1,14 +1,16 @@
-# 🏺 HANDOFF: OBJECTIUS PRÒXIMA SESSIÓ
+# NEXT SESSION FOCUS (Handoff)
 
-**Data de registre:** Març 2026 (Finalització Auditories V10.33.16)
+## Estat Actual
+### Fites Aconseguides:
+1. **Estabilitat de Producció i CI**:
+   - Reparació crítica del bucle infinit del Service Worker a `vite.config.js` excloent `coi-serviceworker.js`.
+   - Neteja de Lint completada: s'han purgat els errors residuals a `scripts/wikipedia_town_enrichment.js`.
+   - L'auditoria local (`npm run lint`) ara passa amb **0 errors**, assegurant la integració contínua sense fallades.
 
-## 1. DEUTE VISUAL: Configuració del Xat (`ChatManager.jsx`)
-S'ha fixat el contenidor fosc, però **la pàgina segueix patint d'una UX freda i desconnectada** ("cada cosa a un lado"). 
-- **Acció requerida:** Replantejar els marges, targetes flotants i centratge d'elements per crear calidesa de disseny.
-- **Mode Clar:** L'usuari ha reportat que no té el mode clar ben activat/detectat a eixa pàgina, la qual cosa xoca amb l'experiència general. Tocarà fer que s'adapte perfectament a la classe `.dark` com la resta del projecte, o revisar la variable Tailwind.
+2. **Inici de la Integració NotebookLM**:
+   - S'ha desplegat Chrome en mode depurador cap a `notebooklm.google.com` amb el port 9222 obert mitjançant MCP.
+   - S'ha implementat l'argument `--disable-blink-features=AutomationControlled` per a eludir el mode de prova automatitzat tàcit de Chrome.
 
-## 2. LÈXIC I TERMINOLOGIA
-- **Regla estricta:** NO dir "Batec" per a referir-se als paràmetres del Xat o d'Usuari. Mantenir "Xat", "Configuració" o termes estàndards per no confondre el personal.
-
-## 3. ASSETS EXTERNS PENDENTS
-- S'espera la recepció d'**Infografies i diapositives** generades externament abans del tall, les quals formaran part del material oficial de presentació de l'aplicació per a l'onboarding visual dels usuaris de proves (Beta Testers). Quan es reben, incloure-les a `/public/assets/` i indexar-les on corresponga.
+### Següent Prioritat (Sessió Següent):
+- **Superar el Login de Google (NotebookLM)**:
+  L'accés a NotebookLM actualment demana login. A la propera sessió, l'usuari haurà d'iniciar sessió presencialment en la instància depuradora (o en el seu Chrome habitual prèviament a enganxar el cable MCP) per a deixar el DOM del quadern preparat per a l'anàlisi automatitzada profunda.

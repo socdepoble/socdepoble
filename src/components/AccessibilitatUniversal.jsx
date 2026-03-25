@@ -1,9 +1,8 @@
 // ✅ VERSIÓ FINAL - ACCESSIBILITAT UNIVERSAL AMB ARIA
 import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { X, Layers, ShieldCheck, Briefcase, Eye, Handshake, AlertTriangle, Mic, Square } from 'lucide-react';
 import { useNavigation } from '../context/NavigationContext';
-import { useTheme } from '../context/ThemeContext';
 import CopyButton from './CopyButton';
 
 /**
@@ -11,10 +10,8 @@ import CopyButton from './CopyButton';
  * Inclou la Directiva Primària per a Flash.
  * COMPLIANCE: WCAG 2.1 AA
  */
-const AccessibilitatUniversal = ({ embedded = false }) => {
+const AccessibilitatUniversal = () => {
   const { isAccessibilitatOpen: isOpen, setIsAccessibilitatOpen: setIsOpen } = useNavigation();
-  const { theme } = useTheme();
-  const location = useLocation();
   const navigate = useNavigate();
   
   const [activeSection, setActiveSection] = useState('global');

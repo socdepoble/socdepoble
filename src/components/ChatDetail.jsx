@@ -54,7 +54,10 @@ const ChatDetail = () => {
     
     useEffect(() => {
         isComponentMounted.current = true;
-        return () => { isComponentMounted.current = false; };
+        return () => { 
+            isComponentMounted.current = false; 
+            iaiaService.dispose();
+        };
     }, []);
 
     useEffect(() => {

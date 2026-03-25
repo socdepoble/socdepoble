@@ -102,6 +102,8 @@ const ProfileView = () => {
     useEffect(() => {
         if (isOwnProfile && !id && myProfile?.id) return; // Block fetch if we are about to redirect
 
+        const controller = new AbortController();
+
         const fetchProfileData = async () => {
             setLoading(true);
             try {
@@ -230,6 +232,7 @@ const ProfileView = () => {
                     avatar_url: effectiveAvatar
                 };
 
+                if (controller.signal.aborted) return;
                 setProfile(finalProfile);
 
                 if (isValidUUID(finalProfile.id) || finalProfile.id) {
@@ -241,6 +244,8 @@ const ProfileView = () => {
                         finalProfile.is_town ? Promise.resolve([]) : supabaseService.getUserPosts(finalProfile.id),
                         supabaseService.getUserEntities(finalProfile.id)
                     ]);
+
+                    if (controller.signal.aborted) return;
 
                     setStats({
                         followers: followers?.length || 0,
@@ -280,14 +285,15 @@ const ProfileView = () => {
                     }
                 }
             } catch (err) {
-                setError(err.message);
+                if (err.name !== 'AbortError') setError(err.message);
             } finally {
-                setLoading(false);
+                if (!controller.signal.aborted) setLoading(false);
             }
         };
 
         fetchProfileData();
-    }, [id, username, isOwnProfile, currentUser?.id, myProfile?.id]);
+        return () => controller.abort();
+    }, [id, username, isOwnProfile, currentUser, myProfile]);
 
     // LÒGICA D'APUJADA VERTICAL "ESTUDI DE PERFIL"
     const handleStudioFileSelect = async (e, type) => {

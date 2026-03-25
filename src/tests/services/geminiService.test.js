@@ -1,7 +1,6 @@
 // ✅ src/tests/services/geminiService.test.js - TESTS DEL SERVEI GEMINI
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
 import { geminiService } from '../../services/geminiService';
-import { logger } from '../../utils/logger';
 
 // [MOCK] Fetch global
 const mockFetch = vi.fn();

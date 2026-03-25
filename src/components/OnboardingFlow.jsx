@@ -2,7 +2,6 @@ import React, { useState, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Sparkles, Check, ArrowRight, ArrowLeft, Heart, Shield, Users, Zap } from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
 import { logger } from '../utils/logger';
 import './OnboardingFlow.css';
 
@@ -13,7 +12,6 @@ import './OnboardingFlow.css';
 const OnboardingFlow = ({ onComplete }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { user } = useAuth();
   
   const [currentStep, setCurrentStep] = useState(0);
   const [preferences, setPreferences] = useState({
@@ -66,22 +64,6 @@ const OnboardingFlow = ({ onComplete }) => {
     }
   ], [t]);
 
-  // [NAV] Anar al següent pas
-  const handleNext = useCallback(() => {
-    if (currentStep < steps.length - 1) {
-      setCurrentStep(prev => prev + 1);
-    } else {
-      handleComplete();
-    }
-  }, [currentStep, steps.length]);
-
-  // [NAV] Tornar al pas anterior
-  const handleBack = useCallback(() => {
-    if (currentStep > 0) {
-      setCurrentStep(prev => prev - 1);
-    }
-  }, [currentStep]);
-
   // [COMPLETE] Finalitzar onboarding
   const handleComplete = useCallback(async () => {
     try {
@@ -102,6 +84,22 @@ const OnboardingFlow = ({ onComplete }) => {
       logger.error('[Onboarding] Error completant:', error);
     }
   }, [preferences, onComplete, navigate]);
+
+  // [NAV] Anar al següent pas
+  const handleNext = useCallback(() => {
+    if (currentStep < steps.length - 1) {
+      setCurrentStep(prev => prev + 1);
+    } else {
+      handleComplete();
+    }
+  }, [currentStep, steps.length, handleComplete]);
+
+  // [NAV] Tornar al pas anterior
+  const handleBack = useCallback(() => {
+    if (currentStep > 0) {
+      setCurrentStep(prev => prev - 1);
+    }
+  }, [currentStep]);
 
   // [INPUT] Actualitzar preferències
   const handlePreferenceChange = useCallback((key, value) => {

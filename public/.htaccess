@@ -1,7 +1,5 @@
 <IfModule mod_headers.c>
-  # 1. Headers crìtics per a l'App i Seguretat (Evitar error COEP/COOP a consola)
-  Header set Cross-Origin-Opener-Policy "same-origin"
-  Header set Cross-Origin-Embedder-Policy "credentialless"
+  # 1. Headers COOP/COEP han estat delegats exclusivament a coi-serviceworker.js per evitar bloquejos de .js on NGINX bypassa l'.htaccess.
 
   # 2. Desactivar COMPLETAMENT la caché per a l'HTML i el Service Worker
   <FilesMatch "^(index\.html|sw\.js)$">
@@ -27,4 +25,9 @@
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteRule . /index.html [L]
+</IfModule>
+
+# 5. Fix WebAssembly MIME Type per a PowerSync (SQLite)
+<IfModule mod_mime.c>
+  AddType application/wasm .wasm
 </IfModule>

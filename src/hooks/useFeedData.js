@@ -3,7 +3,7 @@ import { useQuery } from '@powersync/react';
 import { logger } from '../utils/logger';
 import { MOCK_FEED } from '../data';
 
-export const useFeedData = ({ activeTown, townName, customPosts, isPlayground, user, iaiaLevel, selectedRole }) => {
+export const useFeedData = ({ activeTown, customPosts }) => {
     // If customPosts are provided (like from Profile or Town specific views), prioritize them.
     const [postsState, setPostsState] = useState(customPosts || []);
 
@@ -25,16 +25,17 @@ export const useFeedData = ({ activeTown, townName, customPosts, isPlayground, u
             
             const mixedPosts = [...MOCK_FEED, ...dbPosts];
             
-            // Remove duplicates by ID (just in case)
-            const uniquePosts = mixedPosts.reduce((acc, current) => {
-                const x = acc.find(item => (item.uuid || item.id) === (current.uuid || current.id));
-                if (!x) {
-                    return acc.concat([current]);
-                } else {
-                    return acc;
-                }
-            }, []);
+            // Remove duplicates by ID (just in case) using O(N) Set
+            const seen = new Set();
+            const uniquePosts = mixedPosts.filter(current => {
+                const id = current.uuid || current.id;
+                if (!id) return true;
+                if (seen.has(id)) return false;
+                seen.add(id);
+                return true;
+            });
 
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setPostsState(uniquePosts);
         }
     }, [psPosts, customPosts]);

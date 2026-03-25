@@ -5,12 +5,10 @@ import Watermark from './Watermark';
 
 const UniversalCardMedia = ({ 
     item, 
-    cardVariant, 
     mediaList, 
     displayImage, 
     displayTitle, 
-    openViewer, 
-    navigate 
+    openViewer 
 }) => {
     // useTranslation not needed for fallback anymore
     const [hasImageError, setHasImageError] = useState(false);

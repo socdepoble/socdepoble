@@ -38,6 +38,14 @@ window.onerror = (msg, src, lineno, colno, err) => {
   if (import.meta.env.DEV) console.error(`[FATAL] ${msg} at ${src}:${lineno}`);
 };
 
+// [FAILSAFE PROTOCOL] Capturar i silenciar l'error de Supabase JS "Refresh Token Not Found"
+window.addEventListener('unhandledrejection', (event) => {
+  if (event.reason && event.reason.name === 'AuthApiError' && event.reason.message && event.reason.message.includes('Refresh Token')) {
+    console.warn('[BATEGAT SAFETY] Sessió caducada silenciosament (Refresh Token). Supabase gestionarà la sortida.');
+    event.preventDefault(); // Evita que l'error trenque la consola en roig
+  }
+});
+
 // Console Noise Suppression
 const originalWarn = console.warn;
 const originalError = console.error;

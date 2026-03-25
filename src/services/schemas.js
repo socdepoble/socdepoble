@@ -36,7 +36,6 @@ export const MarketItemSchema = z.object({
     price: z.number().min(0),
     category_slug: z.string().default('tot'),
     author_user_id: z.string().regex(uuidRegex, "ID d'autor invàlid"),
-    seller: z.string().min(1),
     avatar_url: z.string().nullable().optional(),
     town_uuid: z.string().regex(uuidRegex).nullable().optional(),
     image_url: z.string().nullable().optional(),

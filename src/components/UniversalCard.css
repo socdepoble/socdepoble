@@ -79,9 +79,6 @@
 .theme-light .universal-card {
   background: #ffffff;
   border: 1px solid rgba(0, 0, 0, 0.08);
-  /* Enables CSS Container Queries */
-  container-type: inline-size;
-  container-name: card;
   color: var(--theme-text);
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
   backdrop-filter: none;
@@ -393,7 +390,8 @@
 
 /* ESTÀNDARD VISUAL SÓC DE POBLE: 824px GOLDEN HEIGHT */
 .universal-card.view-mode-grid {
-  height: 864px;
+  min-height: 864px;
+  height: auto;
   max-width: 480px;
   margin: 0 auto;
   display: flex;
@@ -453,23 +451,25 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   -webkit-line-clamp: 4;
+  line-clamp: 4;
 }
-@container card (min-width: 414px) { .smart-clamp-tags { -webkit-line-clamp: 3; } }
-@container card (min-width: 442px) { .smart-clamp-tags { -webkit-line-clamp: 2; } }
-@container card (min-width: 470px) { .smart-clamp-tags { -webkit-line-clamp: 1; } }
-@container card (min-width: 498px) { .smart-clamp-tags { display: none; } }
+@media (min-width: 414px) { .smart-clamp-tags { -webkit-line-clamp: 3; line-clamp: 3; } }
+@media (min-width: 442px) { .smart-clamp-tags { -webkit-line-clamp: 2; line-clamp: 2; } }
+@media (min-width: 470px) { .smart-clamp-tags { -webkit-line-clamp: 1; line-clamp: 1; } }
+@media (min-width: 498px) { .smart-clamp-tags { display: none; } }
 
 .smart-clamp-notags {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
   -webkit-line-clamp: 5;
+  line-clamp: 5;
 }
-@container card (min-width: 426px) { .smart-clamp-notags { -webkit-line-clamp: 4; } }
-@container card (min-width: 454px) { .smart-clamp-notags { -webkit-line-clamp: 3; } }
-@container card (min-width: 482px) { .smart-clamp-notags { -webkit-line-clamp: 2; } }
-@container card (min-width: 510px) { .smart-clamp-notags { -webkit-line-clamp: 1; } }
-@container card (min-width: 538px) { .smart-clamp-notags { display: none; } }
+@media (min-width: 426px) { .smart-clamp-notags { -webkit-line-clamp: 4; line-clamp: 4; } }
+@media (min-width: 454px) { .smart-clamp-notags { -webkit-line-clamp: 3; line-clamp: 3; } }
+@media (min-width: 482px) { .smart-clamp-notags { -webkit-line-clamp: 2; line-clamp: 2; } }
+@media (min-width: 510px) { .smart-clamp-notags { -webkit-line-clamp: 1; line-clamp: 1; } }
+@media (min-width: 538px) { .smart-clamp-notags { display: none; } }
 
 .card-ai-tools-inline {
   display: flex;

@@ -16,8 +16,27 @@ let _iaiaWorkerInstance = null;
 let _visionWorkerInstance = null;
 let _workersInitialized = false;
 
+// [NOU] Funció per terminar workers explícitament
+export const terminateWorkers = () => {
+    if (_iaiaWorkerInstance) {
+        _iaiaWorkerInstance.terminate();
+        _iaiaWorkerInstance = null;
+    }
+    if (_visionWorkerInstance) {
+        _visionWorkerInstance.terminate();
+        _visionWorkerInstance = null;
+    }
+    _workersInitialized = false;
+    logger.info('[IAIA Service] Workers terminats correctament.');
+};
+
 const initializeWorkers = () => {
     if (_workersInitialized || typeof window === 'undefined') return;
+    
+    // [SEGURETAT] Terminar instàncies prèvies si existeixen abans de crear noves
+    if (_iaiaWorkerInstance) _iaiaWorkerInstance.terminate();
+    if (_visionWorkerInstance) _visionWorkerInstance.terminate();
+
     try {
         _iaiaWorkerInstance = new Worker(new URL('./iaiaWorker.js', import.meta.url), { type: 'module' });
         iaiaWorkerProxy = Comlink.wrap(_iaiaWorkerInstance);
@@ -43,22 +62,38 @@ const getVisionWorkerProxy = () => {
     return visionWorkerProxy;
 };
 
-// Escut Estricte XSS: Rebutjar pseudo-protocols javascript i assegurar atributos relacionals.
+// [SEGURETAT MAXIMA] Hooks per bloquejar pseudo-protocols perillosos
 DOMPurify.addHook('beforeSanitizeAttributes', function(node) {
     if (node.tagName.toLowerCase() === 'a') {
         const href = node.getAttribute('href');
-        if (href && (href.startsWith('javascript:') || href.startsWith('data:'))) {
-            node.removeAttribute('href');
-            node.setAttribute('href', '#bloquejat_per_seguretat');
+        if (href) {
+            const normalizedHref = href.trim().toLowerCase();
+            // Bloquejar javascript:, data:, vbscript: i protocols relatius perillosos
+            if (normalizedHref.startsWith('javascript:') || 
+                normalizedHref.startsWith('data:') || 
+                normalizedHref.startsWith('vbscript:')) {
+                node.removeAttribute('href');
+                node.setAttribute('href', '#bloquejat_per_seguretat');
+                node.setAttribute('title', 'Enllaç bloquejat per seguretat');
+            }
         }
     }
 });
 
+// Escut Estricte XSS: Rebutjar pseudo-protocols javascript i assegurar atributos relacionals via Whitelist.
 DOMPurify.addHook('afterSanitizeAttributes', function(node) {
     if (node.tagName.toLowerCase() === 'a') {
-        node.setAttribute('target', '_blank');
-        node.setAttribute('rel', 'noopener noreferrer nofollow');
-        node.classList.add('sdp-external-link');
+        const href = node.getAttribute('href');
+        // Validació addicional post-sanitizat
+        if (href && !href.startsWith('http') && !href.startsWith('mailto:') && !href.startsWith('tel:') && href !== '#bloquejat_per_seguretat') {
+            node.removeAttribute('href');
+        }
+        // Forçar seguretat en enllaços externs
+        if (node.hasAttribute('href') && node.getAttribute('href')?.startsWith('http')) {
+            node.setAttribute('target', '_blank');
+            node.setAttribute('rel', 'noopener noreferrer nofollow');
+            node.classList.add('sdp-external-link');
+        }
     }
 });
 
@@ -123,16 +158,19 @@ class IAIAService {
         if (_iaiaWorkerInstance) {
             _iaiaWorkerInstance.terminate();
             _iaiaWorkerInstance = null;
+            iaiaWorkerProxy = null;
         }
         if (_visionWorkerInstance) {
             _visionWorkerInstance.terminate();
             _visionWorkerInstance = null;
+            visionWorkerProxy = null;
         }
+        _workersInitialized = false;
         if (this._activeTimers) {
             this._activeTimers.forEach(clearTimeout);
             this._activeTimers.clear();
         }
-        logger.info('[IAIA] Workers i Timeouts decapitats. Cicle tancat amb netedat.');
+        logger.info('[IAIA] Workers i Timeouts decapitats. Cicle tancat amb netedat per alliberar RAM.');
     }
 
     /**

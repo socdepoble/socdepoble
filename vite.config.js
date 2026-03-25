@@ -18,8 +18,10 @@ export default defineConfig({
       registerType: 'autoUpdate',
       injectRegister: 'auto',
       workbox: {
+        inlineWorkboxRuntime: true,
+        sourcemap: false,
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2,webp}'],
-        globIgnores: ['**/node_modules/**/*', 'sw.js', 'workbox-*.js'],
+        globIgnores: ['**/node_modules/**/*', 'sw.js', 'workbox-*.js', 'coi-serviceworker.js'],
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,

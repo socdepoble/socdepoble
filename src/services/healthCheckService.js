@@ -24,6 +24,9 @@ class HealthCheckService {
    * Inicia el monitoratge continu
    */
   startMonitoring() {
+    if (this.intervalId) {
+        this.stopMonitoring();
+    }
     logger.log('[HealthCheck] Starting monitoring...');
     
     // Check inicial
@@ -120,7 +123,7 @@ class HealthCheckService {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 5000);
 
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from('profiles')
         .select('id')
         .limit(1)

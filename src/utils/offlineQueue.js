@@ -15,7 +15,7 @@ export const savePendingBategatToQueue = (postId, userId, tags) => {
 export const getPendingBategats = () => {
   try {
     return JSON.parse(localStorage.getItem(PENDING_BATEGATS_KEY) || '[]');
-  } catch (_e) {
+  } catch {
     return [];
   }
 };

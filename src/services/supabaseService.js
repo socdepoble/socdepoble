@@ -4,6 +4,9 @@ import { DEMO_USER_ID, ROLES, USER_ROLES, ENABLE_MOCKS, CREATOR_EMAILS } from '.
 import { PostSchema, MarketItemSchema, MessageSchema, ProfileSchema, ConversationSchema } from './schemas';
 import { MOCK_LORE_POSTS, MOCK_LORE_ITEMS } from '../data/mockLoreData';
 import { pushNotifications } from './pushNotifications';
+import { authService } from './authService';
+import { marketService } from './marketService';
+import { chatService } from './chatService';
 
 /**
  * Helper for time-aware greetings
@@ -39,7 +42,7 @@ const sanitizeInput = (text) => {
 const normalizeWikipediaUrl = (url) => {
     if (!url) return url;
 
-    let normalized = String(url).trim();
+    let normalized = decodeURIComponent(String(url).trim());
 
     // 1. Handle protocol-relative URLs
     if (normalized.startsWith('//')) {
@@ -454,22 +457,35 @@ const LORE_PERSONAS = [
 ];
 
 
-const LAST_ACTION_TIMES = {};
+const _throttleLocks = new Map();
 
 /**
- * Verifica si una acción es demasiado frecuente (Throttling)
+ * Verifica si una acción es demasiado frecuente (Throttling) con locks de concurrencia
  * @param {string} userId
  * @param {string} actionType
  * @param {number} limitMs
  */
-const checkThrottling = (userId, actionType, limitMs = 3000) => {
+const checkThrottling = async (userId, actionType, limitMs = 3000) => {
     const now = Date.now();
     const key = `${userId}_${actionType}`;
-    const lastTime = LAST_ACTION_TIMES[key] || 0;
-    if (now - lastTime < limitMs) {
-        throw new Error(`Acció massa ràpida. Espera ${Math.ceil((limitMs - (now - lastTime)) / 1000)} segons.`);
+    const lock = _throttleLocks.get(key) || { lastTime: 0, pending: 0 };
+
+    if (lock.pending > 5) {
+        throw new Error('Massa peticions simultànies. Espera un poc.');
     }
-    LAST_ACTION_TIMES[key] = now;
+
+    lock.pending++;
+    _throttleLocks.set(key, lock);
+
+    try {
+        if (now - lock.lastTime < limitMs) {
+            throw new Error(`Acció massa ràpida. Espera ${Math.ceil((limitMs - (now - lock.lastTime)) / 1000)} segons.`);
+        }
+        lock.lastTime = now;
+    } finally {
+        lock.pending--;
+        _throttleLocks.set(key, lock);
+    }
 };
 
 const TOWNS_MAP = {
@@ -490,8 +506,8 @@ const normalizeContentItem = (item, type = 'post') => {
     if (!item) return null;
 
     const isJaviMaster = (
-        item.author_id === 'd6325f44-7277-4d20-b020-166c010995ab' || 
-        item.author_user_id === 'd6325f44-7277-4d20-b020-166c010995ab' || 
+        item.author_id === '25218ea4-5d7d-4db4-bdc5-7ae035629242' || 
+        item.author_user_id === '25218ea4-5d7d-4db4-bdc5-7ae035629242' || 
         item.author === 'Javi Llinares' || 
         item.author_name === 'Javi Llinares' ||
         item.author === 'socdepoblecom' || 
@@ -537,7 +553,7 @@ const normalizeContentItem = (item, type = 'post') => {
         author_avatar: avatarUrl,
         author_role: isJaviMaster ? 'official' : (type === 'market' ? 'freelance' : (item.author_role || 'vei')),
         avatar_url: avatarUrl,
-        author_user_id: isJaviMaster ? 'd6325f44-7277-4d20-b020-166c010995ab' : (item.author_user_id || (item.author_role === 'user' ? item.author_id : (item.author_user_id || null))),
+        author_user_id: isJaviMaster ? '25218ea4-5d7d-4db4-bdc5-7ae035629242' : (item.author_user_id || (item.author_role === 'user' ? item.author_id : (item.author_user_id || null))),
         author_entity_id: item.author_entity_id || (item.author_role !== 'user' ? (item.entity_id || item.author_id) : (item.author_entity_id || null)),
         towns: { name: townName },
         image_url: imageUrl,
@@ -555,6 +571,8 @@ const BROKEN_STORAGE_URLS = [
     'profiles/javi_avatar.png',
     'avatars/javi_avatar.png'
 ];
+
+export { columnCache, setColumnCache, _ensureColumnCache, LocalCache, isRealDBUUID, normalizeContentItem, checkThrottling, activeChecks, getTimeAwareGreeting, adjustGender, LORE_PERSONAS, ENABLE_MOCKS, DEMO_USER_ID };
 
 export const supabaseService = {
     /**
@@ -602,6 +620,13 @@ export const supabaseService = {
             cover_url: this.normalizeStorageUrl(profile.cover_url)
         };
     },
+
+    /**
+    /**
+     * Account Deletion System (5s Fast Track)
+     * Calls the secure RPC 'delete_user' which invokes PostgreSQL ON DELETE CASCADE.
+     */
+    deleteCurrentUser: authService.deleteCurrentUser,
     // New Feature: Persistent Notifications
     async createNotification(payload) {
         try {
@@ -2067,15 +2092,6 @@ export const supabaseService = {
         }
     },
 
-    async getChatMessagesLegacy(chatId) {
-        const { data, error } = await supabase
-            .from('legacy_messages')
-            .select('*')
-            .eq('chat_id', chatId)
-            .order('created_at', { ascending: true });
-        if (error) throw error;
-        return data;
-    },
 
     // Feed / Muro
     // Feed / Muro
@@ -2586,150 +2602,16 @@ export const supabaseService = {
         });
     },
 
-    // Autenticación
-    async signUp(email, password, metadata, redirectTo) {
-        const options = { data: metadata };
-        if (redirectTo) {
-            options.emailRedirectTo = this.getRedirectUrl(redirectTo);
-        }
-
-        const { data, error } = await supabase.auth.signUp({
-            email,
-            password,
-            options
-        });
-        if (error) throw error;
-        return data;
-    },
-
-    /**
-     * [MASTER REDIRECT] Get robust redirect URL
-     * Ensures we don't end up in localhost:3000 or other local environments when in production/mobile
-     */
-    getRedirectUrl(path = '/chats') {
-        const hostname = window.location.hostname;
-        const origin = window.location.origin;
-
-        // [MASTER PRODUCTION DOMAIN]
-        const productionUrl = 'https://socdepoble.org';
-
-        // 1. Si estem a producció (SiteGround), SEMPRE URL de producció oficial
-        if (hostname.includes('socdepoble.org')) {
-            return `${productionUrl}${path}`;
-        }
-
-        // 2. Si estem en localhost (qualsevol port), usem l'origin actual
-        if (hostname === 'localhost' || hostname === '127.0.0.1') {
-            return `${origin}${path}`;
-        }
-
-        // 3. Fallback total al domini mestre per a PWA, Capacitor, etc.
-        return `${productionUrl}${path}`;
-    },
-
-    async signIn(email, password) {
-        const { data, error } = await supabase.auth.signInWithPassword({
-            email,
-            password
-        });
-        if (error) throw error;
-        return data;
-    },
-
-    async resetPasswordForEmail(email) {
-        const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-            redirectTo: this.getRedirectUrl('/reset-password'),
-        });
-        if (error) throw error;
-        return data;
-    },
-
-    async signOut() {
-        const { error } = await supabase.auth.signOut();
-        if (error) throw error;
-    },
-
-    async signInWithGoogle() {
-        const redirectTo = this.getRedirectUrl('/chats');
-        logger.log('[Auth] Iniciant Google Login amb redirect a:', redirectTo);
-        const { data, error } = await supabase.auth.signInWithOAuth({
-            provider: 'google',
-            options: {
-                redirectTo
-            }
-        });
-        if (error) throw error;
-        return data;
-    },
-
-    async signInWithOtp(phoneInput) {
-        const phone = phoneInput.replace(/[\s-]/g, '');
-        logger.log('[Auth] Bategant intent d\'SMS per a:', phone);
-
-        // SIMULATION MODE: Numbers starting with 600 or specific rescue numbers
-        if (phone.startsWith('+34600') || phone.includes('600000000')) {
-            logger.log('[Simulation Mode] Pre-emptive success for demo number:', phone);
-            // We simulate a 1-second delay for realism
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            return { data: { message: 'SMS Simulated' }, error: null };
-        }
-        const { data, error } = await supabase.auth.signInWithOtp({
-            phone: phone,
-            options: {
-                shouldCreateUser: true
-            }
-        });
-        if (error) {
-            logger.error('[Auth] Error real d\'SMS:', error.message);
-            throw error;
-        }
-        logger.log('[Auth] SMS enviat amb èxit a Supabase:', data);
-        return data;
-    },
-
-    async resendOtp(phone) {
-        const { data, error } = await supabase.auth.signInWithOtp({
-            phone: phone,
-        });
-        if (error) throw error;
-        return data;
-    },
-
-    async verifyOtp(phoneInput, tokenInput) {
-        const phone = phoneInput.replace(/[\s-]/g, '');
-        const token = tokenInput.trim();
-
-        // SIMULATION MODE OTP: Default code 123456 for demo numbers
-        if ((phone.startsWith('+34600') || phone.includes('600000000')) && token === '123456') {
-            logger.log('[Simulation Mode] Bypassing auth verification with master token');
-            localStorage.setItem('sb-simulation-mode', 'true');
-
-            // Return a mock user object for the AuthContext to consume
-            const mockUser = {
-                id: 'd6325f44-7277-4d20-b020-166c010995ab', // Javi's ID as default demo admin
-                email: 'demo@socdepoble.com',
-                phone: phone,
-                isDemo: true,
-                user_metadata: { full_name: 'Foraster de Prova', role: 'convidat' }
-            };
-
-            return {
-                data: {
-                    session: { access_token: 'mock-token', user: mockUser },
-                    user: mockUser
-                },
-                error: null
-            };
-        }
-
-        const { data, error } = await supabase.auth.verifyOtp({
-            phone: phone,
-            token: token,
-            type: 'sms',
-        });
-        if (error) throw error;
-        return data;
-    },
+    // Autenticació (Delegada a authService)
+    getRedirectUrl: authService.getRedirectUrl,
+    signUp: authService.signUp,
+    signIn: authService.signIn,
+    resetPasswordForEmail: authService.resetPasswordForEmail,
+    signOut: authService.signOut,
+    signInWithGoogle: authService.signInWithGoogle,
+    signInWithOtp: authService.signInWithOtp,
+    resendOtp: authService.resendOtp,
+    verifyOtp: authService.verifyOtp,
 
     /**
      * Cachea de forma segura la presencia de columnas, evitando bucles de error 42703.
@@ -2753,7 +2635,7 @@ export const supabaseService = {
                     }
                     setColumnCache(cacheKey, true); // Optimistic true si la taula està buida
                     return true;
-                } catch (e) {
+                } catch {
                     setColumnCache(cacheKey, false);
                     return false;
                 } finally {
@@ -2770,6 +2652,10 @@ export const supabaseService = {
             const lore = LORE_PERSONAS.find(p => p.id === id);
             if (lore) return lore;
             return null;
+        }
+
+        if (this._profileCache.has(id)) {
+            return this._profileCache.get(id);
         }
 
         try {
@@ -2798,7 +2684,9 @@ export const supabaseService = {
                 setColumnCache('profiles_has_premium', true);
             }
 
-            return this.normalizeProfile(data);
+            const normalized = this.normalizeProfile(data);
+            this._profileCache.set(id, normalized);
+            return normalized;
         } catch (err) {
             logger.error('[SupabaseService] Critical error in getProfile:', err);
             return null;
@@ -3101,6 +2989,9 @@ export const supabaseService = {
     },
 
     // Fase 6: Páginas Públicas y Gestión de Entidades
+    // [EMERGENCY FIX] Cache for profiles to prevent infinite network loops
+    _profileCache: new Map(),
+
     async getPublicProfile(userId) {
         // [OMNISCIENT] Universal Resolver for System Entities and Lore Personas
         const personas = await this.getAllPersonas();
@@ -3115,6 +3006,11 @@ export const supabaseService = {
             return null; // Silent fail for malformed or sovereign IDs
         }
 
+        // Return from cache if available to prevent generic infinite loops
+        if (this._profileCache.has(userId)) {
+            return this._profileCache.get(userId);
+        }
+
         const { data, error } = await supabase
             .from('profiles')
             .select('*')
@@ -3124,7 +3020,7 @@ export const supabaseService = {
         if (error) {
             if (error.code === 'PGRST116') {
                 if (userId === 'd6325f44-7277-4d20-b020-166c010995ab') {
-                    return {
+                    const masterProfile = {
                         id: 'd6325f44-7277-4d20-b020-166c010995ab',
                         full_name: 'Javi Llinares',
                         username: 'javillinares',
@@ -3138,12 +3034,17 @@ export const supabaseService = {
                         is_admin: true,
                         created_at: '2025-01-01T00:00:00Z'
                     };
+                    this._profileCache.set(userId, masterProfile);
+                    return masterProfile;
                 }
                 return null;
             }
             throw error;
         }
-        return this.normalizeProfile(data);
+        
+        const normalized = this.normalizeProfile(data);
+        this._profileCache.set(userId, normalized);
+        return normalized;
     },
 
     async getUserByUsername(username) {
@@ -3275,7 +3176,7 @@ export const supabaseService = {
                 try {
                     const { MOCK_FEED } = await import('../data.js');
                     virtualPosts = MOCK_FEED.filter(p => p.author_entity_id === userId || p.author_id === userId || p.author_user_id === userId);
-                } catch(e) {
+                } catch {
                      logger.warn("Could not import MOCK_FEED for user posts");
                 }
             }
@@ -3361,7 +3262,7 @@ export const supabaseService = {
                  try {
                      const { MOCK_FEED } = await import('../data.js');
                      virtualCount = MOCK_FEED.filter(p => p.author_entity_id === userId || p.author_id === userId).length;
-                 } catch(err) {
+                 } catch {
                      logger.warn("Could not import MOCK_FEED for user posts count");
                  }
                  return virtualCount; // Fast path for agents
@@ -4128,3 +4029,6 @@ export const supabaseService = {
         }
     }
 };
+
+Object.assign(supabaseService, marketService, chatService);
+

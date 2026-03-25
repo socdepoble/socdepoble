@@ -39,7 +39,7 @@ export const ThemeProvider = ({ children }) => {
     };
 
     const resetTheme = () => {
-        setThemeState('dark');
+        setThemeState('light');
     };
 
     return (

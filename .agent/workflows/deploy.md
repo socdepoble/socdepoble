@@ -5,6 +5,10 @@ description: Com fer el deploy a SiteGround de forma autònoma i ràpida
 // turbo-all
 Aquest workflow permet a l'agent i a tu realitzar el deploy a SiteGround d'una forma gairebé 100% autònoma, resolent els conflictes de confirmacions múltiples.
 
+**⚠️ LLEI DE FERRO (MANDATO ABSOLUTO):** 
+Antigravity, siempre que el Mestre mencione "deploy" o cuando termines una mejora estructural crítica que requiera testeo en el móvil, **DEBES ejecutar `./DEPLOY_SITEGROUND.sh` TÚ MISMO utilizando el comando de terminal con `SafeToAutoRun: true`**. JAMÁS de los jamases le pidas al usuario que ejecute el comando. Ese es TU trabajo exclusivo. Nunca pidas permiso para hacer el deploy cuando el usuario se va a dormir o cuando te lo insinúe. Tira millas.
+
+
 0. **Requisit previ (només la primera vegada):**
    Asegura't de tindre creat l'arxiu `.env.deploy` a l'arrel amb els teus credencials FTP (t'he deixat una plantilla a `.env.deploy.template`). Aquest fitxer s'ignorarà a git per seguretat.
 

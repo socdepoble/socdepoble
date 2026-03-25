@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useRef, useDeferredValue, useTransition } from 'react';
+import React, { useState, useCallback, useEffect, useRef, useTransition } from 'react';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -125,9 +125,9 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
     }, [viewMode]);
 
     const [, startTransition] = useTransition();
-    const deferredPosts = useDeferredValue(filteredPosts);
+    const activePosts = filteredPosts;
 
-    const rowCount = Math.ceil(deferredPosts.length / columnCount);
+    const rowCount = Math.ceil(activePosts.length / columnCount);
     const effectiveViewMode = (viewMode === 'grid' && columnCount === 1) ? 'single' : viewMode;
 
     const getScrollElement = useCallback(() => parentRef.current, []);
@@ -151,7 +151,7 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
     useEffect(() => {
         rowVirtualizer.measure();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [viewMode, deferredPosts.length, columnCount]);
+    }, [viewMode, activePosts.length, columnCount]);
 
     const handleHeaderClick = useCallback((post) => {
         const targetId = post.author_entity_id || post.author_user_id || post.author_id;
@@ -281,7 +281,7 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
 
             {customPosts ? (
                 <div ref={containerRef} className={`feed-list mx-auto w-full pb-20 transition-all duration-300 ${viewMode === 'grid' ? 'max-w-[1600px] px-2 sm:px-6' : 'max-w-3xl'}`}>
-                    {deferredPosts.length === 0 ? (
+                    {activePosts.length === 0 ? (
                         <StatusLoader
                             type="empty"
                             message={selectedTag
@@ -292,7 +292,7 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
                         />
                     ) : (
                         <div className={`feed-grid view-mode-${viewMode}`} style={{ display: 'grid', gridTemplateColumns: `repeat(${columnCount}, minmax(0, 1fr))`, gap: '24px', padding: '0 16px' }}>
-                            {deferredPosts.map(post => renderPost(post))}
+                            {activePosts.map(post => renderPost(post))}
                         </div>
                     )}
                 </div>
@@ -310,7 +310,7 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
                             position: 'relative',
                         }}
                     >
-                        {deferredPosts.length === 0 ? (
+                        {activePosts.length === 0 ? (
                             <StatusLoader
                                 type="empty"
                                 message={selectedTag
@@ -322,7 +322,7 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
                         ) : (
                             rowVirtualizer.getVirtualItems().map((virtualRow) => {
                                 const startIndex = virtualRow.index * columnCount;
-                                const rowItems = deferredPosts.slice(startIndex, startIndex + columnCount);
+                                const rowItems = activePosts.slice(startIndex, startIndex + columnCount);
 
                                 return (
                                     <div

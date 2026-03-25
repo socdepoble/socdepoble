@@ -18,15 +18,15 @@ Este flujo de trabajo debe seguirse estrictamente cada vez que se inicie o se co
    - Cuando la IA auditora entrega sus resultados (errores, mejoras arquitectónicas, refactorización), las recomendaciones deben leerse y aplicarse paso a paso mediante Antigravity.
    - Es importante priorizar la *robustez* (que no se rompa el sistema) sobre las "mejoras cosméticas genéricas". Las reglas de Sóc de Poble (usabilidad y estado) dominan el diseño.
 
-3. **Limpieza y Archivo Histórico (CRÍTICO):**
-   - Queda totalmente prohibido acumular archivos `.txt`, reportes sueltos, o "dumps" de código en el directorio raíz de `Sóc de Poble`.
-   - Cualquier archivo de contexto antiguo o reporte histórico de auditoría debe ser movido a la carpeta `auditorias/antiguas/`.
-   - **Estructura final requerida:**
-     ```
+3. **Limpieza y Archivo Histórico Automático (CRÍTICO):**
+   - Como flujo de trabajo automático: Sólo debe existir **UNA** única auditoría activa (la más reciente) en la raíz de la carpeta `auditorias/`.
+   - TODAS las auditorías anteriores, propuestas, reportes sueltos o archivos `.md` / `.txt` sobrantes deben moverse inmediatamente a la subcarpeta `auditorias/antiguas/` para mantener el espacio de trabajo prístino.
+   - **Estructura final requerida siempre:**
+     ```text
      /Sóc de Poble/
         ├── auditorias/
-        │   ├── ultimo_contexto_fuente.txt  <-- (Archivo para entregar a la IA)
-        │   └── antiguas/                   <-- (Histórico de .txt y reportes viejos)
+        │   ├── AUDITORIA_ACTIVA_QWEN_TABULA_RASA.md  <-- (ÚNICA auditoría activa o reporte en curso)
+        │   └── antiguas/                   <-- (TODAS las demás auditorías pasadas archivadas aquí de forma automática)
      ```
 
 4. **Iteración Rápida:**

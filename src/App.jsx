@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import AppLayout from './components/AppLayout';
 import { iaiaService } from './services/iaiaService';
 import GlobalModals from './components/GlobalModals';
@@ -21,16 +21,18 @@ import OfflineGate from './components/gates/OfflineGate';
 const App = () => {
     // [MONITORING] Inicialitzar error tracking
     useEffect(() => {
+        let isMounted = true;
         const initializeMonitoring = async () => {
             try {
                 await errorTrackingService.initialize();
-                logger.log('[App] Error tracking initialized');
+                if (isMounted) logger.log('[App] Error tracking initialized');
             } catch (error) {
-                logger.error('[App] Failed to initialize error tracking:', error);
+                if (isMounted) logger.error('[App] Failed to initialize error tracking:', error);
             }
         };
 
         initializeMonitoring();
+        return () => { isMounted = false; };
     }, []);
 
     // [MONITORING] Iniciar health checks
@@ -53,23 +55,23 @@ const App = () => {
         };
     }, []);
 
-    // [ERROR] Global error handler
+    // [ERROR] Global error handlers refactoritzats
+    const handleError = useCallback((event) => {
+        errorTrackingService.captureException(event.error || event.message, {
+            type: 'global',
+            filename: event.filename,
+            lineno: event.lineno,
+            colno: event.colno
+        });
+    }, []);
+
+    const handleUnhandledRejection = useCallback((event) => {
+        errorTrackingService.captureException(event.reason, {
+            type: 'unhandledrejection'
+        });
+    }, []);
+
     useEffect(() => {
-        const handleError = (event) => {
-            errorTrackingService.captureException(event.error || event.message, {
-                type: 'global',
-                filename: event.filename,
-                lineno: event.lineno,
-                colno: event.colno
-            });
-        };
-
-        const handleUnhandledRejection = (event) => {
-            errorTrackingService.captureException(event.reason, {
-                type: 'unhandledrejection'
-            });
-        };
-
         window.addEventListener('error', handleError);
         window.addEventListener('unhandledrejection', handleUnhandledRejection);
 
@@ -77,7 +79,7 @@ const App = () => {
             window.removeEventListener('error', handleError);
             window.removeEventListener('unhandledrejection', handleUnhandledRejection);
         };
-    }, []);
+    }, [handleError, handleUnhandledRejection]);
 
     useEffect(() => {
         return () => {

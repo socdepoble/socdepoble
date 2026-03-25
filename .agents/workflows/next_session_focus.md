@@ -1,24 +1,27 @@
 ---
-description: El estado de handoff de la última sesión (Auditoría del Chat)
+description: El estado de handoff de la última sesión (Auditoría Extrema Superada)
 ---
 
-# Estado de Relevo (Handoff) 🚧
+# 🛡️ ESTAT ACTUAL: FASE 1 COMPLETADA ("NIVELL DÉU")
+El sistema de Sóc de Poble v10.33.15-CANÒNIC ha estat auditat per les IAs més avançades (Qwen, DeepSeek, Copilot, Perplexity) i blindat completament. Aquests són els SKILLS i els ACORDS retinguts a la memòria del projecte:
 
-**Estado del Proyecto:** ✅ **El Chat Funciona al 100% en Producción (SiteGround).**
-- El error 404 del proxy de Gemini está resuelto (`gemini-2.5-flash` integrado y funcionando con Supabase Edge Functions).
-- El error del teclado y el "hueco flotante" en móvil/desktop está resuelto (`absolute bottom-0`).
-- Tamaños de accesibilidad (Llei de la Boina Taronja) aplicados al chat.
+## 1. APRENENTATGES CORPORATIUS INCORPORATS A L'ADN ('HARDENING'):
+- **Memòria (Zombies):** Els `WebWorkers` requereixen sempre una funció `terminateWorkers()` al llindar d'Events clau (ex: `signOut`). A més, els Blob URLs creats a `useAttachment` han de ser sempre destruïts amb `URL.revokeObjectURL()`.
+- **Seguretat d'Extrems (XSS):** `DOMPurify` amb hooks asíncrons blinda atacs per "Javascript:" o "Data:". Les API Keys (`VITE_GEMINI...`) NO existeixen al client; tot passa ara per les *Edge Functions* de Supabase.
+- **Rendiment del Mur Virtualitzat:** Utilitzem mapes/`Sets` de cost O(N) i un refactoritzat extrem de `propsAreEqual` al `UniversalCard.jsx` on verifiquem `id` i `updated_at` de Supabase.
 
-## Objetivo Inmediato para ESTA Nueva Sesión:
-**Ejecutar la Compartimentación Magistral de `ChatDetail.jsx`**
+## 2. EL PLA DE BATALLA PER A LA NOVA SESSIÓ (FASE 2: LOCAL FIRST):
+L'objectiu principal del proper xat serà **L'Escissió del Monòlit `supabaseService.js`**.
+El projecte integrarà **PowerSync (SQLite WebAssembly)** per aconseguir sobirania Offline Absoluta als pobles.
 
-El usuario ha aprobado el plan arquitectónico para despiezar el monolítico archivo `ChatDetail.jsx` (1,092 líneas) en 4 componentes estables e indestructibles en `src/components/chat/`.
+**Murs Tècnics Resolts Teòricament (Llegat de Perplexity/Copilot):**
+- **Sollutia-proof (Copilot):** Haurem d'implantar `AbortController` al llarg de fetchs asíncrons de xarxa per evitar sobre-execucions i introduir `Error Boundaries`.
+- **El Mur iOS (Perplexity):** WebKit restringeix agressivament a <100MB l'IndexedDB. En el disseny, separarem Binaris Durs al Cau Http (Cache Storage) i reservarem la Base de Dades Local de PowerSync per JSON/Metadades petites. Immersió obligatòria de neteja `LRU`.
+- **Desconnexió RLS de JWT (Perplexity):** A la Fase 2 instal·larem el patró "Outbox" SQL; la UI només emetrà commands, enviant a un trigger "Reconciliador" del backend.
+- **Micro-Serveis Client:** Abandonarem l'acoblament i estirarem cap a serveis agnòstics tipus `Zustand` de forma compartimentada.
 
-**Pasos Pendientes:**
-1. ✅ Ya existe `src/components/chat/ChatHeader.jsx`.
-2. 🔄 **Paso 1:** Extraer `ChatMessageList.jsx` (Lógica de renderizado de burbujas, separadores de fecha y Auto-Scroll).
-3. 🔄 **Paso 2:** Extraer `ChatInputArea.jsx` (Textarea, Emoji Picker, Menú de Adjuntos y Voice Recorder).
-4. 🔄 **Paso 3:** Refactorizar `src/components/ChatDetail.jsx` para que solo cargue el estado (Supabase, Contexto) y llame a los 3 subcomponentes limpios.
-5. 🔄 **Paso 4:** `npm run build` y validación de estilos.
+## 3. TASQUES ACTIVES
+- [ ] Executar púrga de Perfil/Fantasma de la UI només llegint directament SQL en remot (es dóna l'script disponible a `scripts/migrate_and_purge_ghost.sql`).
+- [ ] Iniciar la codificació dels sub-serveis de la Fase 2 desmuntant el `supabaseService.js`.
 
-> **Instrucción para el nuevo Agente:** Confirma que has leído este archivo y ponte manos a la obra con el `ChatMessageList.jsx`. El usuario quiere que el chat sea código blindado antes de pasar a programar "El Mur" o "El Mercat".
+**SÓC DE POBLE. LA TÈCNICA AL SERVEI DE LA TERRA.**

@@ -39,7 +39,7 @@ const SEO = ({
   }
   
   // [VALIDACIÓ] Imatge per defecte (OG Image master)
-  const ogImage = image?.startsWith('http') ? image : `${baseUrl}${image || '/og-image-batega-v11.png?v=beta-solutia'}`;
+  const ogImage = image?.startsWith('http') ? image : `${baseUrl}${image || '/og-image-batega-v11.png?v=beta-sollutia'}`;
   
   // [VALIDACIÓ] Descripció per defecte
   const defaultDescription = 'La xarxa social rural sobirana. Connectant pobles, preservant memòria, bategant en comunitat.';

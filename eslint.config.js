@@ -7,10 +7,18 @@ import { defineConfig, globalIgnores } from "eslint/config";
 export default defineConfig([
   globalIgnores([
     "dist/**",
+    "dev-dist/**",
     "android/**",
     "ios/**",
     "node_modules/**",
     "public/assets/**",
+    "public/sw.js",
+    "test_*.js",
+    "patch_*.js",
+    "purge_*.js",
+    "restore_*.js",
+    "refactor_*.js",
+    "check_data.cjs",
     "**/.DS_Store",
   ]),
   {

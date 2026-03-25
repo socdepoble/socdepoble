@@ -1,8 +1,9 @@
-import { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { supabase } from '../supabaseClient';
 import { supabaseService } from '../services/supabaseService';
 import { identityService } from '../services/identityService';
 import { profileHealingService } from '../services/profileHealingService';
+import { terminateWorkers } from '../services/iaiaService';
 import { logger } from '../utils/logger';
 import i18n from '../i18n/config';
 import { IAIA_ID, AUTH_EVENTS, USER_ROLES, CREATOR_EMAILS } from '../constants';
@@ -15,6 +16,7 @@ export const AuthProvider = ({ children }) => {
     const [realUser, setRealUser] = useState(null);
     const [realProfile, setRealProfile] = useState(null);
     const [loading, setLoading] = useState(true);
+    const realUserRef = useRef(null);
     const [isPlayground, setIsPlaygroundState] = useState(localStorage.getItem('isPlaygroundMode') === 'true');
     const [impersonatedProfile, setImpersonatedProfile] = useState(null);
     const [activeEntityId, setActiveEntityId] = useState(null);
@@ -22,7 +24,7 @@ export const AuthProvider = ({ children }) => {
     const [language, setLanguageState] = useState(localStorage.getItem('i18nextLng') || 'va');
 
     const setIsPlayground = useCallback((val) => {
-        if (val && realUser) {
+        if (val && realUserRef.current) {
             logger.warn('[AuthContext] DIRECTIVA 1: Els usuaris registrats han de tancar la sessió per a jugar.');
             return;
         }
@@ -32,7 +34,7 @@ export const AuthProvider = ({ children }) => {
             localStorage.removeItem('isPlaygroundMode');
             localStorage.removeItem('sb-simulation-mode');
         }
-    }, [realUser]);
+    }, []);
 
     const setSimulatedRole = useCallback((role) => {
         setSimulatedRoleState(role);
@@ -170,6 +172,8 @@ export const AuthProvider = ({ children }) => {
             localStorage.removeItem('nuke_in_progress');
             localStorage.removeItem('sp_sovereign_identity');
 
+            terminateWorkers();
+
             setIsPlaygroundState(false);
             setUser(null);
             setProfile(null);
@@ -260,36 +264,56 @@ export const AuthProvider = ({ children }) => {
             setProfile(genesis);
             logger.log('[AuthContext] 🏹 FORASTER DETECTAT: Identitat sobirana bategant.');
         }
-
+        realUserRef.current = session?.user || null;
         setLoading(false);
     }, [loginAsGuest]);
 
     useEffect(() => {
         let isMounted = true;
+        let authSubscription = null;
         
-        supabase.auth.getSession().then(({ data: { session } }) => {
-            if (!isMounted) return;
-            const isNuked = localStorage.getItem('nuke_in_progress') === 'true';
-            if (isNuked) {
-                localStorage.removeItem('nuke_in_progress');
-                handleAuth(AUTH_EVENTS.INITIAL_SESSION, null);
-            } else {
-                handleAuth(AUTH_EVENTS.INITIAL_SESSION, session);
-            }
-        }).catch(err => {
-            if (!isMounted) return;
-            logger.error('[AuthContext] Crash in getSession:', err);
-            setLoading(false);
-        });
+        const initSession = async () => {
+            try {
+                const { data: { session }, error } = await supabase.auth.getSession();
+                if (error) throw error;
+                if (!isMounted) return;
 
-        const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-            if (!isMounted) return;
-            handleAuth(event, session);
-        });
+                const isNuked = localStorage.getItem('nuke_in_progress') === 'true';
+                if (isNuked) {
+                    localStorage.removeItem('nuke_in_progress');
+                    await handleAuth(AUTH_EVENTS.INITIAL_SESSION, null);
+                } else {
+                    await handleAuth(AUTH_EVENTS.INITIAL_SESSION, session);
+                }
+            } catch (err) {
+                if (isMounted) {
+                    console.error('[AuthContext] Error on getSession:', err);
+                    setUser(null);
+                    setLoading(false);
+                }
+            }
+        };
+
+        const setupSubscription = () => {
+             const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
+                if (!isMounted) return;
+                if (_event === 'SIGNED_OUT') {
+                    console.log('[AuthContext] Signed out detected. Removing cache.');
+                    localStorage.removeItem('sp_user_cache');
+                }
+                await handleAuth(_event, session);
+            });
+            authSubscription = subscription;
+        };
+
+        initSession();
+        setupSubscription();
 
         return () => {
             isMounted = false;
-            if (subscription) subscription.unsubscribe();
+            if (authSubscription && typeof authSubscription.unsubscribe === 'function') {
+                authSubscription.unsubscribe();
+            }
         };
     }, [handleAuth]);
 

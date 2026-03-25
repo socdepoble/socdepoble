@@ -16,12 +16,16 @@ class ErrorTrackingService {
     this.userContext = null;
     this.breadcrumbs = [];
     this.maxBreadcrumbs = 50;
+    this._initialized = false;
   }
 
   /**
    * Inicialitza el servei de tracking
    */
   async initialize() {
+    if (this._initialized) return;
+    this._initialized = true;
+
     if (!this.enabled) {
       logger.log('[ErrorTracking] Disabled in development');
       return;
@@ -167,13 +171,6 @@ class ErrorTrackingService {
   capturePerformance(metrics) {
     if (!this.enabled) return;
 
-    const performanceData = {
-      type: 'performance',
-      metrics,
-      timestamp: new Date().toISOString(),
-      url: window.location.href
-    };
-
     // [SEND] Enviar a analytics
     if (window.gtag) {
       window.gtag('event', 'performance', {
@@ -244,7 +241,7 @@ class ErrorTrackingService {
   getLocalErrors() {
     try {
       return JSON.parse(localStorage.getItem('sp_error_logs') || '[]');
-    } catch (e) {
+    } catch {
       return [];
     }
   }

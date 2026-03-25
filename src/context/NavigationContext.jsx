@@ -36,28 +36,22 @@ export const NavigationProvider = ({ children }) => {
     const [chatSettings, setChatSettings] = useState(prefs.chatSettings || { readReceipts: true });
     const [forensicMode, setForensicMode] = useState(false);
 
-    const usePreferencePersistence = (prefs) => {
-        const prefsRef = useRef(prefs);
-        
-        useEffect(() => {
-            prefsRef.current = prefs;
-        }, [prefs]);
-        
-        useEffect(() => {
-            const timeoutId = setTimeout(() => {
-                const current = preferenceService.getPrefs();
-                if (JSON.stringify(current) !== JSON.stringify(prefsRef.current)) {
-                    preferenceService.setPrefs(prefsRef.current);
-                }
-            }, 1000); // 1s cooldown to prevent multiple writes
-            return () => clearTimeout(timeoutId);
-        }, [prefs]);
-    };
-
-    usePreferencePersistence({
-        landingPage, preferredAgentId, enabledAgentIds, iaiaLoreEnabled,
-        selectedTown, chatSettings
+    const prefsRef = useRef({
+        landingPage, preferredAgentId, enabledAgentIds, iaiaLoreEnabled, selectedTown, chatSettings
     });
+
+    useEffect(() => {
+        const currentPrefs = {
+            landingPage, preferredAgentId, enabledAgentIds, iaiaLoreEnabled, selectedTown, chatSettings
+        };
+        if (JSON.stringify(currentPrefs) !== JSON.stringify(prefsRef.current)) {
+            prefsRef.current = currentPrefs;
+            const timeoutId = setTimeout(() => {
+                preferenceService.setPrefs(currentPrefs);
+            }, 1000);
+            return () => clearTimeout(timeoutId);
+        }
+    }, [landingPage, preferredAgentId, enabledAgentIds, iaiaLoreEnabled, selectedTown, chatSettings]);
 
     const toggleDrawer = useCallback(() => setIsDrawerOpen(p => !p), []);
     const closeDrawer = useCallback(() => {

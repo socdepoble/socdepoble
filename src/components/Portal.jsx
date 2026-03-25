@@ -12,7 +12,7 @@ export default function Portal({ children }) {
   useEffect(() => {
     container.setAttribute('data-portal', 'true');
     container.setAttribute('aria-hidden', 'false');
-    container.className = 'app-portal';
+    container.setAttribute('class', 'app-portal');
     document.body.appendChild(container);
     return () => {
       if (container.parentNode) {

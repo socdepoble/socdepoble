@@ -15,3 +15,8 @@ description: Habilidad (Skill) para forzar los estilos de marca (Llei de la Boin
 
 3. **Menú Contextual**
    - El `ContextualMenu` (XAT, GENT, GRUPS) debe mostrarse en los listados generales, pero no dentro de un contexto de tarea específica profunda (como notas o el detalle de un chat) para no ocupar un valioso espacio vertical.
+
+4. **Modo Dual (Oscuro/Claro Canónico):** La aplicación debe arrancar por defecto en **Modo Claro** para maximizar la adopción de usuarios. **REGLA DE ORO:** En el Modo Claro, las barras laterales y cabeceras DEBEN ser claras/blancas, jamás se deben forzar a negro (`#000`). El estilo oscuro premium y espejado (glassmorphism `bg-[#111]`, `backdrop-blur`) se reserva EXCLUSIVAMENTE para cuando el usuario active el Modo Oscuro.
+
+5. **Logos Vectoriales (El Estándar SVG):** Utiliza SIEMPRE archivos `.svg` para logotipos e iconografía corporativa en lugar de PNGs pesados o borrosos si están disponibles en `public/assets/master/`. El SVG es inmensamente superior (escalado perfecto, menor peso y manipulación mágica de colores vía CSS con `fill="currentColor"`).
+   - **NOTA ESTRATÉGICA DEL USUARIO:** Todo archivo `.svg` proporcionado por el usuario (Javi) **es 100% vectorial**. El usuario JAMÁS incrustará imágenes rasterizadas (PNG/JPG) dentro de un archivo SVG. Puedes operar bajo la garantía rotunda de que todos los SVGs del proyecto son matemáticamente puros.

@@ -243,17 +243,18 @@ const UniversalCard = ({
 const normalizeClass = (cls) => (cls || '').split(' ').filter(Boolean).sort().join(' ');
 
 const propsAreEqual = (prevProps, nextProps) => {
+    const prevId = prevProps.item?.uuid || prevProps.item?.id;
+    const nextId = nextProps.item?.uuid || nextProps.item?.id;
     return (
-        prevProps.item?.uuid === nextProps.item?.uuid &&
+        prevId === nextId &&
         prevProps.item?.updated_at === nextProps.item?.updated_at &&
+        prevProps.item?.connections_count === nextProps.item?.connections_count &&
+        prevProps.item?.comments_count === nextProps.item?.comments_count &&
         prevProps.viewMode === nextProps.viewMode &&
         prevProps.isBating === nextProps.isBating &&
         normalizeClass(prevProps.className) === normalizeClass(nextProps.className) &&
         prevProps.variant === nextProps.variant &&
-        prevProps.mode === nextProps.mode &&
-        prevProps.title === nextProps.title &&
-        prevProps.image === nextProps.image &&
-        prevProps.excerpt === nextProps.excerpt
+        prevProps.mode === nextProps.mode
     );
 };
 

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { 
   X, Sparkles, MessageSquare, Scroll, RefreshCw, Wand2, Copy 
 } from 'lucide-react';
+import { supabase } from '../supabaseClient';
 
 /**
  * 🏺 EL PREGONER MÀGIC - IAIA CORE v1.21
@@ -14,8 +15,6 @@ const MagicPregoner = ({ onContentGenerated, onClose }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   
-  const apiKey = import.meta.env.VITE_GEMINI_API_KEY || ""; 
-
   const generateContent = async () => {
     if (!inputText.trim()) return;
     setIsLoading(true); 
@@ -25,18 +24,20 @@ const MagicPregoner = ({ onContentGenerated, onClose }) => {
         ? "Ets la IAIA MarIA. Parles valencià col·loquial, amb carinyo i saviesa. 'fill meu', 'trellat', 'xé va'. Missió: fer el text bonic i emotiu per al poble. Emojis rurals."
         : "Ets el Pregoner Oficial. Valencià normatiu, formal, informatiu i clar per a un Bando. Estructura la informació.";
       
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${apiKey}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-            contents: [{ parts: [{ text: `Reescriu aquest text amb el teu estil: "${inputText}"` }] }], 
-            systemInstruction: { parts: [{ text: systemPrompt }] } 
-        })
+      const { data, error: proxyError } = await supabase.functions.invoke('gemini-proxy', {
+        body: {
+          model: "gemini-2.0-flash-exp",
+          geminiPayload: {
+            contents: [{ role: 'user', parts: [{ text: `Reescriu aquest text amb el teu estil: "${inputText}"` }] }], 
+            system_instruction: { parts: [{ text: systemPrompt }] } 
+          }
+        }
       });
       
-      if (!response.ok) throw new Error('La IAIA s\'ha quedat sense cobertura. Revisa la clau API.');
-      const data = await response.json();
-      const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+      if (proxyError) throw new Error('La IAIA s\'ha quedat sense cobertura. Fallida del servidor proxy.');
+      if (data?.error) throw new Error(data.error.message || 'Error remot a Gemini via proxy.');
+
+      const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
       
       if (text) {
           setGeneratedText(text.trim());
