@@ -90,7 +90,7 @@ const ProfileStudioModal = ({
 
                                 {/* Hover Adjust Hint per a la Portada */}
                                 {displayProfile.cover_url && typeof onReposition === 'function' && (
-                                    <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover/cover:opacity-100 transition-opacity pointer-events-none z-[100] bg-black/60">
+                                    <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover/cover:opacity-100 transition-opacity pointer-events-none z-dropdown bg-black/60">
                                         <span className="bg-black/90 px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest text-[#F97316] shadow-xl backdrop-blur-sm border border-[#F97316]/50 mb-3">Ajusta l'Alt de Portada</span>
                                         <input 
                                             type="range" 

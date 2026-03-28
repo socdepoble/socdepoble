@@ -1,5 +1,5 @@
 .map-page-container {
     background-color: var(--bg-main);
-    min-height: 100vh;
+    min-height: 100dvh;
     padding-bottom: calc(var(--nav-height) + 20px);
 }

@@ -62,7 +62,7 @@ const ContextualMenu = () => {
     const items = isChat ? menuConfigs['/chats'] : (isTowns ? menuConfigs['/pobles'] : (isProfile ? profileMenu : standardMenu));
 
     return (
-        <div className="h-12 w-full bg-[#1a1a1a] shadow-[inset_0_4px_10px_rgba(0,0,0,0.6)] flex items-center sticky top-0 z-[900] select-none">
+        <div className="h-12 w-full bg-[#1a1a1a] shadow-[inset_0_4px_10px_rgba(0,0,0,0.6)] flex items-center sticky top-0 z-sticky select-none">
             {/* ÀREA D'ÍTEMS AMB SCROLL HORITZONTAL */}
             <div className="flex-1 h-full overflow-x-auto no-scrollbar pl-10 pr-4 lg:pl-12 lg:pr-6">
                 <div className="flex items-center gap-8 lg:gap-14 h-full min-w-max">

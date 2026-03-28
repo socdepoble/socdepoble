@@ -309,11 +309,25 @@ const Market = ({ searchTerm = '' }) => {
 
     const rowCount = Math.ceil(filteredItems.length / columnCount);
 
+    // Estimació dinàmica segons mode de vista
+    const estimateItemSize = React.useCallback(() => {
+        return viewMode === 'list' ? 80 : 900;
+    }, [viewMode]);
+
     const virtualizer = useWindowVirtualizer({
         count: rowCount,
-        estimateSize: () => viewMode === 'list' ? 80 : 900, // Estimació d'alçada: List (80px), Grid (900px)
-        overscan: 3, 
+        estimateSize: estimateItemSize,
+        overscan: viewMode === 'list' ? 5 : 3, // Menys overscan en grid
     });
+
+    // Cleanup del virtualizer
+    useEffect(() => {
+        return () => {
+            if (virtualizer?.cleanup) {
+                virtualizer.cleanup();
+            }
+        };
+    }, [virtualizer]);
 
     if (loading && items.length === 0) {
         return (
@@ -364,7 +378,7 @@ const Market = ({ searchTerm = '' }) => {
             <h1 className="sr-only">Mercat de Proximitat de Sóc de Poble</h1>
 
 
-            <div className="sticky top-0 w-full z-[100] shadow-md">
+            <div className="sticky top-0 w-full z-dropdown shadow-md">
                 <ContextualHeader
                     searchTerm={internalSearchTerm}
                     onSearchChange={setInternalSearchTerm}
@@ -387,7 +401,7 @@ const Market = ({ searchTerm = '' }) => {
                 />
             ) : (
                 <div 
-                    className={`market-list mx-auto w-full transition-all duration-300 ${viewMode === 'grid' ? 'max-w-[1600px] px-2 sm:px-6' : 'max-w-3xl'}`}
+                    className={`market-list mx-auto w-full transition-all duration-300 ${viewMode === 'grid' ? 'max-w-none px-2 sm:px-6 lg:px-8' : 'max-w-5xl px-4'}`}
                     style={{
                         height: `${virtualizer.getTotalSize() + 36}px`,
                         width: '100%',

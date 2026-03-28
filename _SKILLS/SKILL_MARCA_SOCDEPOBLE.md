@@ -14,7 +14,7 @@ Aquest protocol blinda el disseny per a evitar improvisacions genèriques.
 
 ### B. Tipografia i Geometria (Pedra Seca & Oli Suau)
 
-- **Font Principal:** **Roboto Condensed**. Pesada, robusta i llegible. Substitueix qualsevol altra font (Inter/Outfit).
+- **Font Principal:** **Noto Sans SemiCondensed**. Pesada, robusta i llegible. Substitueix qualsevol altra font (Inter/Outfit).
 - **Mida Base:** 19px (per a lectura en articles i dossiers). La UI de control manté herències rem estàndard.
 - **Radis (Border Radius):**
   - Targetes Pures i Contenidors Universals: **28px** (Geometria Sagrada Institucional).
@@ -39,7 +39,7 @@ Totes les targetes de l'aplicació han de seguir l'estructura unificada de "La T
 2.  **El Cos (Media & Content):** S'adapta al format del contingut sense deformar-se. Radi arrodonit que fa de màscara.
     - Imatges: Poden ser apaisades, quadrades o allargades segons la font.
     - Carrusel: Obligatori si hi ha múltiples imatges en Targeta Single.
-    - Títol i Descripció: Roboto Condensed.
+    - Títol i Descripció: Noto Sans SemiCondensed.
 3.  **El Peu (Actions):** Canvia contextualment (Mur: Connectar, Mercat: Interessat, Pobles: Visitar).
 
 ## 3. ADN MÒBIL (NEXUS) 📱
@@ -68,7 +68,7 @@ Com parla el sistema (Personalitat de la Tia Maria).
 Per mantenir l'ànima del projecte, **prohibim** l'ús de plantilles o llibreries visuals genèriques massives (com Material UI estàndard, Ant Design, Bootstrap, etc.) que pogueren reescriure el nostre CSS monolític.
 
 - GEM MODERN v2.0 és autònom.
-- Les ombres, radis de 28px i tipografia (Roboto Condensed) són identitat de marca irrenunciable. Implementar una llibreria UI externa mataria la presència visual i tàctil rústega del Mas.
+- Les ombres, radis de 28px i tipografia (Noto Sans SemiCondensed) són identitat de marca irrenunciable. Implementar una llibreria UI externa mataria la presència visual i tàctil rústega del Mas.
 
 ## 10. L'ÀNIMA DE LA IAIA (CHAT-FIRST) 👵💬
 
@@ -98,6 +98,7 @@ Elevació del disseny tàctil cap a la claredat professional de Notion.
 Aquest manament blinda la identitat visual en tot el material exportat o generat pel Mas.
 
 - **La Llei de l'Orgull Rural (Mai amagar-se):** La identitat és reivindicativa. Està **ESTRICTAMENT PROHIBIT** pensar que el disseny net ("clean design") implica esborrar la nostra marca. L'escut i el nom de Sóc de Poble han d'estar sempre presents a la capçalera de TOTES les pàgines d'un PDF corporatiu. No ens amaguem, som poble.
+- **Splash Screens i Loading States (Prohibició d'Emojis Genèrics):** Qualsevol pantalla de càrrega global, "tallafocs" o gatekeeper (ex: VersionGatekeeper, AppLayout initializing) ha de mostrar el **logotip oficial de Sóc de Poble** (logo_sdp_white.png o logo_sdp_black.png segons fons), polsant o fix. Està prohibidíssim utilitzar emojis gènerics (com 🏺) per suplantar el logo. L'usuari ha de saber en tot moment que "està a Sóc de Poble".
 
 ## 15. ORTOGRAFIA I NOMENCLATURA DE LA MARCA (MANAMENT ESTRICTE) ✒️
 
@@ -132,4 +133,4 @@ _"En l'aplicació **Sóc de Poble**, el principal requisit per registrar-se és 
 - [x] ¿L'usuari no registrat és tractat com a "Foraster"?
 - [x] ¿Les icones segueixen l'estètica Notion (Grans i Minimalistes)?
 - [x] ¿S'ha purgat qualsevol fallback de "Veí" per a usuaris no identificats?
-- [x] ¿La tipografia és exclusivament Roboto Condensed?
+- [x] ¿La tipografia és exclusivament Noto Sans SemiCondensed?

@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import * as pdfjsLib from 'pdfjs-dist';
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import { FileText, Download, CheckCircle, ArrowLeft, ShieldCheck, Sparkles, Upload, FileUp, X, Globe, Lock, Users } from 'lucide-react';
+import { logger } from '../utils/logger';
 import './PDFBategatManager.css';
 
 // Configurar Worker de PDF.js
@@ -97,7 +98,7 @@ const PDFBategatManager = ({ onBack }) => {
         if (file && file.type === 'application/pdf') {
             setUploadedFile(file);
             uploadedFileRef.current = file;
-            console.log("IAIA: Adoptant PDF Orfe a memòria viva...");
+            logger.info("IAIA: Adoptant PDF Orfe a memòria viva...");
             
             const newHistory = [
                 { name: file.name, date: new Date().toISOString(), visibility: 'private' }, 
@@ -115,7 +116,7 @@ const PDFBategatManager = ({ onBack }) => {
      */
     const analyzePDFStructure = async (fileBytes) => {
         try {
-            console.log("IAIA: Iniciant Protocol d'Identificació de Camps Legals...");
+            logger.info("IAIA: Iniciant Protocol d'Identificació de Camps Legals...");
             const loadingTask = pdfjsLib.getDocument({ 
                 data: fileBytes,
                 stopAtErrors: false, // Protocol de càrrega resilient per a XRefs corruptes
@@ -128,7 +129,7 @@ const PDFBategatManager = ({ onBack }) => {
             const content = await page.getTextContent();
             const viewport = page.getViewport({ scale: 1.0 });
 
-            console.log(`IAIA: Pàgina analitzada. Detectats ${content.items.length} elements de text.`);
+            logger.debug(`IAIA: Pàgina analitzada. Detectats ${content.items.length} elements de text.`);
 
             const anchors = {
                 name: null,
@@ -192,10 +193,10 @@ const PDFBategatManager = ({ onBack }) => {
             if (anchors.event && anchors.event.context.toLowerCase().includes("enlace")) anchors.event = null;
             if (anchors.activity && anchors.activity.context.toLowerCase().includes("enlace")) anchors.activity = null;
 
-            console.log("IAIA: Mapa de bategat intel·ligent generat:", anchors);
+            logger.debug("IAIA: Mapa de bategat intel·ligent generat:", anchors);
             return { anchors, viewport };
         } catch (error) {
-            console.warn("IAIA: L'anàlisi de bategat ha fallat (XRef Error), usant mapeig canònic per defecte.", error);
+            logger.warn("IAIA: L'anàlisi de bategat ha fallat (XRef Error), usant mapeig canònic per defecte.", error);
             return null;
         }
     };
@@ -210,11 +211,11 @@ const PDFBategatManager = ({ onBack }) => {
             const fileToWork = uploadedFile || uploadedFileRef.current;
             
             if (fileToWork) {
-                console.log("IAIA: Bategant sobre matriu original adoptada...");
+                logger.info("IAIA: Bategant sobre matriu original adoptada...");
                 fileBytes = await fileToWork.arrayBuffer();
                 pdfDoc = await PDFDocument.load(fileBytes);
             } else {
-                console.log("IAIA: Generant document genèric (No s'ha adoptat cap original).");
+                logger.info("IAIA: Generant document genèric (No s'ha adoptat cap original).");
                 pdfDoc = await PDFDocument.create();
                 const page = pdfDoc.addPage([595.28, 841.89]);
                 const { height } = page.getSize();
@@ -237,7 +238,7 @@ const PDFBategatManager = ({ onBack }) => {
 
             // ANÀLISI INTEL·LIGENT
             let mapping = null;
-            if (fileToWork) {
+            if (fileToWork && fileBytes) {
                 mapping = await analyzePDFStructure(fileBytes);
             }
 
@@ -273,7 +274,7 @@ const PDFBategatManager = ({ onBack }) => {
                         width = 300; 
                     }
 
-                    console.log(`IAIA: Bategant camp [${id}] amb Invisibilitat a {x:${Math.round(x)}, y:${Math.round(y)}}`);
+                    logger.debug(`IAIA: Bategant camp [${id}] amb Invisibilitat a {x:${Math.round(x)}, y:${Math.round(y)}}`);
                 }
 
                 field.addToPage(firstPage, { 
@@ -294,7 +295,7 @@ const PDFBategatManager = ({ onBack }) => {
                         field.setBackgroundColor(rgb(0.98, 0.98, 1)); 
                     }
                 } catch (e) {
-                    console.warn("IAIA: Mimetisme visual omès per compatibilitat:", e);
+                    logger.warn("IAIA: Mimetisme visual omès per compatibilitat:", e);
                 }
             };
 
@@ -339,12 +340,12 @@ const PDFBategatManager = ({ onBack }) => {
             
             // Neteja del DOM (el blob segueix actiu a generatedBlobUrl)
             setTimeout(() => {
-                document.body.removeChild(link);
+                link.remove();
             }, 100);
 
             setIsDone(true);
         } catch (error) {
-            console.error('Error bategant PDF intel·ligent:', error);
+            logger.error('Error bategant PDF intel·ligent:', error);
             alert("IAIA: El bategat ha fallat. Assegura't d'haver pujat el fitxer original correctament.");
         } finally {
             setIsGenerating(false);

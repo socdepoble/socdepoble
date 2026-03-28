@@ -394,7 +394,7 @@
 /* Responsive */
 @media (max-width: 768px) {
   .document-viewer-container {
-    height: 100vh;
+    height: 100dvh;
     border-radius: 0;
   }
 

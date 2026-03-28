@@ -50,7 +50,7 @@
     /* Matching brand heading standard */
     font-weight: 800;
     font-family: var(--font-heading);
-    color: var(--text-main) !important;
+    color: var(--text-main) ;
 }
 
 .sm-close {
@@ -93,13 +93,13 @@
     margin: 0 0 4px 0;
     font-size: 19px;
     font-weight: 800;
-    color: var(--text-main) !important;
+    color: var(--text-main) ;
 }
 
 .sm-section-text p {
     margin: 0;
     font-size: var(--font-size-base);
-    color: var(--text-muted) !important;
+    color: var(--text-muted) ;
     line-height: 1.5;
 }
 
@@ -121,13 +121,13 @@
     cursor: pointer;
     transition: all 0.2s;
     position: relative;
-    color: var(--text-secondary) !important;
+    color: var(--text-secondary) ;
 }
 
 .sm-category-card.active {
     background: var(--color-primary-soft);
     border-color: var(--color-primary);
-    color: var(--color-primary) !important;
+    color: var(--color-primary) ;
 }
 
 .sm-cat-icon-wrapper {
@@ -169,7 +169,7 @@
     padding: 10px 18px;
     font-size: var(--font-size-base);
     font-weight: 700;
-    color: var(--text-secondary) !important;
+    color: var(--text-secondary) ;
     cursor: pointer;
     transition: all 0.2s;
     display: flex;
@@ -179,7 +179,7 @@
 
 .sm-tag-pill.followed {
     background: var(--color-primary);
-    color: white !important;
+    color: white ;
     border-color: var(--color-primary);
     box-shadow: var(--shadow-hard);
 }
@@ -195,7 +195,7 @@
 .sm-done-btn {
     width: 100%;
     background-color: var(--color-primary);
-    color: white !important;
+    color: white ;
     border: none;
     padding: 18px;
     border-radius: 0px;

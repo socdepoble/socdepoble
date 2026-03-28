@@ -1,6 +1,6 @@
 .admin-pinned-manager {
     background: var(--m3-surface);
-    border-radius: 0px !important;
+    border-radius: 0px ;
     display: flex;
     flex-direction: column;
     max-height: 90vh;

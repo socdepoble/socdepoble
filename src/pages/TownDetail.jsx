@@ -104,7 +104,7 @@ const TownDetail = () => {
                 title={gentTitle}
                 subtitle={`${(town.comarca && town.comarca !== 'null') ? town.comarca : 'Comunitat'} • ${(town.province && town.province !== 'null') ? town.province : 'Alacant'}`}
                 bio={town.description}
-                avatarUrl={town.logo_url}
+                avatarUrl={town.image_url}
                 coverUrl={town.image_url}
                 badges={['Activa']}
                 stats={[
@@ -199,13 +199,15 @@ const TownDetail = () => {
                 <section className="town-utilities-row">
                     <div
                         className="utility-card institution-glass"
-                        onClick={() => handleActionClick('oficial', () => officialEntity ? navigate(`/entitat/${officialEntity.uuid || officialEntity.id}`) : navigate(`/search?q=Ajuntament ${town.name}`))}
+                        onClick={() => handleActionClick('oficial', () => officialEntity ? navigate(`/entitat/${officialEntity.uuid || officialEntity.id}`) : navigate(`/socis?town=${town.name}`))}
                         style={{ border: '1px solid var(--color-primary)', background: 'rgba(0, 122, 255, 0.05)' }}
                     >
-                        <div className="utility-icon">🏛️</div>
+                        <div className="utility-icon">
+                            {town.logo_url ? <img src={town.logo_url} alt={`Escut oficial de ${town.name}`} style={{width: 32, height: 32, objectFit: 'contain'}} /> : '🏛️'}
+                        </div>
                         <div className="utility-info">
-                            <span className="utility-label" style={{ color: 'var(--color-primary)' }}>Ajuntament</span>
-                            <span className="utility-value">Seu Electrònica</span>
+                            <span className="utility-label" style={{ color: 'var(--color-primary)' }}>{officialEntity ? 'Ajuntament' : 'Crear Ajuntament'}</span>
+                            <span className="utility-value">{officialEntity ? 'Seu Electrònica (Oficial)' : 'Fes-te Partner Ara'}</span>
                         </div>
                     </div>
                     <div className="utility-card weather-glass" onClick={() => triggerHaptic('light')}>

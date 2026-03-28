@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { ChevronLeft, Search, MoreVertical } from 'lucide-react';
 import Avatar from '../Avatar';
 
@@ -13,9 +14,10 @@ const ChatHeader = ({
     setIsSettingsMenuOpen
 }) => {
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     const handleNotReady = () => {
-        alert("Funció en desenvolupament (Auditoria V3)");
+        alert(t('chat.dev_feature'));
     };
 
     const isIAIA = otherInfo?.id?.startsWith('11111111-');
@@ -41,7 +43,7 @@ const ChatHeader = ({
                     <input
                         autoFocus
                         type="text"
-                        placeholder="Cerca fragments..."
+                        placeholder={t('chat.search_fragments')}
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         onClick={(e) => e.stopPropagation()}
@@ -55,12 +57,12 @@ const ChatHeader = ({
                         
                         <div className="flex flex-col min-w-0 pr-1 md:pr-2 flex-1">
                             <h2 className={`text-base md:text-lg font-bold truncate leading-none transition-colors ${isIAIA ? 'text-white' : 'text-white group-hover:text-[var(--theme-accent-primary)]'}`}>
-                                {otherInfo?.name || 'Foraster'}
+                                {otherInfo?.name || t('chat.guest')}
                             </h2>
                             <div className="flex items-center gap-2 mt-1">
                                 <span className={`w-2 h-2 rounded-full ${isIAIA ? 'bg-white shadow-[0_0_6px_rgba(255,255,255,0.8)]' : 'bg-green-500'}`} />
                                 <span className={`text-[10px] font-black uppercase tracking-widest opacity-80 ${isIAIA ? 'text-[var(--sdp-white)]' : 'text-gray-400'}`}>
-                                    {isIAIA ? 'IAIA Bategant' : 'En línia ara'}
+                                    {isIAIA ? t('chat.iaia_beating') : t('chat.online_now')}
                                 </span>
                             </div>
                         </div>
@@ -72,7 +74,7 @@ const ChatHeader = ({
                 <button 
                     onClick={() => setIsHeaderSearchOpen(!isHeaderSearchOpen)}
                     className={`hidden md:block transition-all hover:bg-white/10 rounded-full p-2 md:mr-2 filter drop-shadow-md ${isIAIA ? 'text-white' : 'text-gray-300 hover:text-white'} ${isHeaderSearchOpen ? 'opacity-100 drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]' : 'opacity-80'}`}
-                    title="Cercar en la conversa"
+                    title={t('chat.search_conversation')}
                 >
                     <Search size={22} strokeWidth={2.5} />
                 </button>
@@ -81,7 +83,7 @@ const ChatHeader = ({
                     <button 
                         onClick={() => setIsSettingsMenuOpen(!isSettingsMenuOpen)}
                         className={`transition-all hover:bg-white/10 rounded-full p-1.5 md:p-2 filter drop-shadow-md ${isIAIA ? 'text-white' : 'text-gray-300 hover:text-white'} ${isSettingsMenuOpen ? 'opacity-100 bg-white/10' : 'opacity-80'}`}
-                        title="Opcions del Xat"
+                        title={t('chat.chat_options')}
                     >
                         <MoreVertical size={22} strokeWidth={2.5} />
                     </button>
@@ -90,14 +92,14 @@ const ChatHeader = ({
                         <>
                             <div className="fixed inset-0 z-40" onClick={() => setIsSettingsMenuOpen(false)}></div>
                             <div className="absolute top-12 right-0 w-64 bg-[#111827] text-white border border-white/10 rounded-[28px] shadow-[0_8px_30px_rgb(0,0,0,0.2)] py-2 z-50 text-[15px] animate-in fade-in zoom-in-95 duration-200 origin-top-right">
-                                <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full text-left px-5 py-3 text-white/80 hover:bg-white/10 hover:text-white transition-colors">Afegeix membres</button>
-                                <button onClick={() => { setIsSettingsMenuOpen(false); navigate(`/gestio/xats/${realChatId}`); }} className="w-full text-left px-5 py-3 text-white/80 hover:bg-white/10 hover:text-white transition-colors">Informació del grup</button>
-                                <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full text-left px-5 py-3 text-white/80 hover:bg-white/10 hover:text-white transition-colors">Fitxers multimèdia del grup</button>
-                                <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full text-left px-5 py-3 text-white/80 hover:bg-white/10 hover:text-white transition-colors">Cerca</button>
-                                <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full text-left px-5 py-3 text-white/80 hover:bg-white/10 hover:text-white transition-colors">Silenciar notificacions</button>
-                                <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full text-left px-5 py-3 text-white/80 hover:bg-white/10 hover:text-white transition-colors">Missatges temporals</button>
-                                <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full text-left px-5 py-3 text-white/80 hover:bg-white/10 hover:text-white transition-colors">Fons de pantalla</button>
-                                <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full text-left px-5 py-3 text-white/80 hover:bg-white/10 hover:text-white transition-colors">Més</button>
+                                <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full text-left px-5 py-3 text-white/80 hover:bg-white/10 hover:text-white transition-colors">{t('chat.add_members')}</button>
+                                <button onClick={() => { setIsSettingsMenuOpen(false); navigate(`/gestio/xats/${realChatId}`); }} className="w-full text-left px-5 py-3 text-white/80 hover:bg-white/10 hover:text-white transition-colors">{t('chat.group_info')}</button>
+                                <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full text-left px-5 py-3 text-white/80 hover:bg-white/10 hover:text-white transition-colors">{t('chat.group_media')}</button>
+                                <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full text-left px-5 py-3 text-white/80 hover:bg-white/10 hover:text-white transition-colors">{t('chat.search')}</button>
+                                <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full text-left px-5 py-3 text-white/80 hover:bg-white/10 hover:text-white transition-colors">{t('chat.mute_notifications')}</button>
+                                <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full text-left px-5 py-3 text-white/80 hover:bg-white/10 hover:text-white transition-colors">{t('chat.temporary_messages')}</button>
+                                <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full text-left px-5 py-3 text-white/80 hover:bg-white/10 hover:text-white transition-colors">{t('chat.wallpaper')}</button>
+                                <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full text-left px-5 py-3 text-white/80 hover:bg-white/10 hover:text-white transition-colors">{t('chat.more')}</button>
                             </div>
                         </>
                     )}

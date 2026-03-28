@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { X, Image as ImageIcon, Send, Loader2, MessageSquare, Sparkles, Camera, Plus, Shield, BookOpen, ArrowLeft } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { supabaseService } from '../services/supabaseService';
@@ -12,6 +13,7 @@ import './CreatePostModal.css';
 const PREDEFINED_TAGS = ['Esdeveniment', 'Avís', 'Consulta', 'Proposta'];
 
 const CreatePostModal = ({ isOpen, onClose, initialPobles = [], editMode = false, postData = null, initialFile = null }) => {
+    const { t } = useTranslation();
     const { user, profile } = useAuth();
     const [content, setContent] = useState(editMode && postData ? postData.content : '');
     const [selectedTowns, setSelectedTowns] = useState(editMode && postData ? postData.town_ids || [postData.town_id] : initialPobles);
@@ -23,6 +25,16 @@ const CreatePostModal = ({ isOpen, onClose, initialPobles = [], editMode = false
     const [multimediaFile, setMultimediaFile] = useState(null);
     const [iaiaAnalyzing, setIaiaAnalyzing] = useState(false);
     const [isCaptureOpen, setIsCaptureOpen] = useState(false);
+    const fileReaderRef = useRef(null);
+
+    useEffect(() => {
+        return () => {
+            if (fileReaderRef.current) {
+                fileReaderRef.current.abort();
+            }
+        };
+    }, []);
+
     useEffect(() => {
         if (isOpen && user) {
             hapticService.bategat();
@@ -39,14 +51,21 @@ const CreatePostModal = ({ isOpen, onClose, initialPobles = [], editMode = false
             }
             if (!editMode && initialFile && !multimediaFile) {
                 setMultimediaFile(initialFile);
+                if (fileReaderRef.current) fileReaderRef.current.abort();
                 const reader = new FileReader();
-                reader.onloadend = () => setMultimediaPreview(reader.result);
+                fileReaderRef.current = reader;
+                reader.onloadend = () => {
+                    if (reader.readyState === FileReader.DONE) {
+                        setMultimediaPreview(reader.result);
+                    }
+                };
                 reader.readAsDataURL(initialFile);
             }
         }
     }, [isOpen, user, profile, editMode, postData, selectedTowns.length, initialFile, multimediaFile]);
     const handleSubmit = async () => {
-        if (!content.trim() || loading) return;
+        const hasContent = content.trim() || bookTitle.trim() || multimediaPreview;
+        if (!hasContent || loading) return;
         setLoading(true);
         try {
             hapticService.notifySuccess();
@@ -96,8 +115,14 @@ const CreatePostModal = ({ isOpen, onClose, initialPobles = [], editMode = false
         const file = e.target.files[0];
         if (file) {
             setMultimediaFile(file);
+            if (fileReaderRef.current) fileReaderRef.current.abort();
             const reader = new FileReader();
-            reader.onloadend = () => setMultimediaPreview(reader.result);
+            fileReaderRef.current = reader;
+            reader.onloadend = () => {
+                if (reader.readyState === FileReader.DONE) {
+                    setMultimediaPreview(reader.result);
+                }
+            };
             reader.readAsDataURL(file);
         }
     };
@@ -119,7 +144,7 @@ const CreatePostModal = ({ isOpen, onClose, initialPobles = [], editMode = false
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-modal flex items-center justify-center p-4">
             <div 
                 className="absolute inset-0 bg-black/60 backdrop-blur-md" 
                 onClick={onClose}
@@ -132,7 +157,7 @@ const CreatePostModal = ({ isOpen, onClose, initialPobles = [], editMode = false
                     <button onClick={onClose} className="p-2 -ml-2 hover:bg-white/10 rounded-full transition-colors text-white/70 hover:text-white">
                         <ArrowLeft size={24} />
                     </button>
-                    <h2 className="text-[20px] font-bold tracking-tight text-white">Publicar</h2>
+                    <h2 className="text-[20px] font-bold tracking-tight text-white">{t('common.publish')}</h2>
                     <div className="flex items-center gap-4">
                         <button className="text-white/70 hover:text-white transition-colors">
                             {/* Dummy icon for Globe matching screenshot */}
@@ -150,10 +175,10 @@ const CreatePostModal = ({ isOpen, onClose, initialPobles = [], editMode = false
                     
                     {/* Títol */}
                     <div className="space-y-1.5">
-                        <label className="text-[14px] font-medium text-white/80">Títol</label>
+                        <label className="text-[14px] font-medium text-white/80">{t('market.item_title')}</label>
                         <input 
                             type="text" 
-                            placeholder="Ex: Bicicleta de muntanya"
+                            placeholder={t('market.title_placeholder')}
                             className="w-full bg-[#3B332A] border-none text-white placeholder-white/40 rounded-xl px-4 py-3.5 focus:ring-2 focus:ring-orange-500/50 outline-none transition-all"
                             value={bookTitle}
                             onChange={(e) => setBookTitle(e.target.value)}
@@ -162,9 +187,9 @@ const CreatePostModal = ({ isOpen, onClose, initialPobles = [], editMode = false
 
                     {/* Descripció */}
                     <div className="space-y-1.5">
-                        <label className="text-[14px] font-medium text-white/80">Descripció</label>
+                        <label className="text-[14px] font-medium text-white/80">{t('groups.group_description')}</label>
                         <textarea 
-                            placeholder="Descriu el teu article amb detall..."
+                            placeholder={t('market.description_placeholder')}
                             className="w-full h-32 bg-[#3B332A] border-none text-white placeholder-white/40 rounded-xl px-4 py-3.5 focus:ring-2 focus:ring-orange-500/50 outline-none transition-all resize-none"
                             value={content}
                             onChange={(e) => setContent(e.target.value)}
@@ -174,7 +199,7 @@ const CreatePostModal = ({ isOpen, onClose, initialPobles = [], editMode = false
                     {/* Grid: Preu & Categoria */}
                     <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-1.5">
-                            <label className="text-[14px] font-medium text-white/80">Preu (opcional)</label>
+                            <label className="text-[14px] font-medium text-white/80">{t('market.price_optional')}</label>
                             <div className="relative">
                                 <input 
                                     type="text" 
@@ -185,11 +210,11 @@ const CreatePostModal = ({ isOpen, onClose, initialPobles = [], editMode = false
                             </div>
                         </div>
                         <div className="space-y-1.5">
-                            <label className="text-[14px] font-medium text-white/80">Categoria</label>
+                            <label className="text-[14px] font-medium text-white/80">{t('market.category')}</label>
                             <select className="w-full bg-[#3B332A] border-none text-white/80 rounded-xl px-4 py-3.5 appearance-none focus:ring-2 focus:ring-orange-500/50 outline-none transition-all cursor-pointer">
-                                <option>Seleccionar</option>
-                                <option>Productes de l'Horta</option>
-                                <option>Serveis</option>
+                                <option>{t('market.select')}</option>
+                                <option>{t('market.farm_products')}</option>
+                                <option>{t('market.services')}</option>
                             </select>
                             {/* Custom caret */}
                             <div className="absolute right-9 top-[372px] md:top-[388px] pointer-events-none text-white/50">
@@ -200,7 +225,7 @@ const CreatePostModal = ({ isOpen, onClose, initialPobles = [], editMode = false
 
                     {/* Afegeix imatges */}
                     <div className="space-y-3 pt-2">
-                        <label className="text-[16px] font-bold text-white">Afegeix imatges o vídeos</label>
+                        <label className="text-[16px] font-bold text-white">{t('market.add_media')}</label>
                         
                         {multimediaPreview ? (
                             <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-black/50 border border-white/10 group">
@@ -213,7 +238,7 @@ const CreatePostModal = ({ isOpen, onClose, initialPobles = [], editMode = false
                                 </button>
                                 <button className="absolute bottom-3 right-3 px-3 py-1.5 bg-[#4F46E5] text-white text-xs font-bold rounded-lg flex items-center gap-1.5 shadow-lg shadow-indigo-500/20" onClick={analyzeWithIAIA} disabled={iaiaAnalyzing}>
                                     <Sparkles size={14} />
-                                    {iaiaAnalyzing ? 'Estudiant...' : 'IAIA'}
+                                    {iaiaAnalyzing ? t('common.analyzing') : t('common.iaia')}
                                 </button>
                             </div>
                         ) : (
@@ -242,10 +267,10 @@ const CreatePostModal = ({ isOpen, onClose, initialPobles = [], editMode = false
                                         <path d="M9 15h6" />
                                     </svg>
                                 </div>
-                                <span className="text-[15px] font-bold text-white mb-1">Arrossega o selecciona els arxius</span>
-                                <span className="text-[12px] text-white/50 mb-4">Fins a 5 imatges o vídeos</span>
+                                <span className="text-[15px] font-bold text-white mb-1">{t('market.drag_files')}</span>
+                                <span className="text-[12px] text-white/50 mb-4">{t('market.max_files')}</span>
                                 <div className="px-5 py-2.5 bg-orange-500/20 text-orange-400 font-bold rounded-full text-sm group-hover:bg-orange-500 group-hover:text-white transition-colors">
-                                    Seleccionar arxius
+                                    {t('market.select_files')}
                                 </div>
                                 <input type="file" className="hidden" accept="image/*,video/*" onChange={handleFileChange} />
                             </label>
@@ -258,7 +283,7 @@ const CreatePostModal = ({ isOpen, onClose, initialPobles = [], editMode = false
                         onClick={handleSubmit}
                         disabled={loading || (!content.trim() && !bookTitle.trim() && !multimediaPreview)}
                     >
-                        {loading ? <Loader2 className="animate-spin w-6 h-6" /> : 'Publicar'}
+                        {loading ? <Loader2 className="animate-spin w-6 h-6" /> : t('common.publish')}
                     </button>
                 </div>
             </div>

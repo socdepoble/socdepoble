@@ -40,22 +40,21 @@ const DirectoriComunitat = lazy(() => import("../pages/CommunityDirectory"));
 const Header = lazy(() => import("./Header"));
 const CreationHub = lazy(() => import("./CreationHub"));
 const AccessibilitatUniversal = lazy(() => import("./AccessibilitatUniversal"));
+
 const ArchitecteView = lazy(() => import("./ArchitecteView"));
-const DossierSocis = lazy(() => import("../pages/DossierSocis"));
 const ResourceDetail = lazy(() => import("../pages/ResourceDetail"));
 const InfografiaGallery = lazy(() => import("./Infoteca/InfografiaGallery"));
 const ContextualMenu = lazy(() => import("./ContextualMenu"));
 const CategoryManager = lazy(() => import("./CategoryManager"));
 const ChatManager = lazy(() => import("../pages/ChatManager"));
 const Notes = lazy(() => import("../pages/Notes"));
-const LegalNotice = lazy(() => import("../pages/LegalNotice.jsx"));
 const IAIAChatSidebar = lazy(() => import("./IAIAChatSidebar"));
 const ProfilePowerMenu = lazy(() => import("./ProfilePowerMenu"));
 const MenuManagementView = lazy(() => import("../pages/MenuManagementView"));
 const Utilitats = lazy(() => import("../pages/Utilitats"));
 const Chrome145Report = lazy(() => import("../pages/Chrome145Report"));
 const HubView = lazy(() => import("../pages/HubView"));
-const Financament = lazy(() => import("../pages/Financament"));
+
 const VisionView = lazy(() => import("../pages/VisionView"));
 
 const ProtectedRoute = ({ children }) => {
@@ -88,7 +87,7 @@ const AppLayout = () => {
     e.preventDefault();
     e.stopPropagation();
     globalDragCounter.current += 1;
-    if (e.dataTransfer.items && e.dataTransfer.items.length > 0) {
+    if (globalDragCounter.current === 1) { // Grok Fix: Set true only on initial enter to prevent render loop
       setIsGlobalDragging(true);
     }
   }, []);
@@ -130,7 +129,7 @@ const AppLayout = () => {
 
   React.useEffect(() => {
     trackPageView(location.pathname + location.search);
-  }, [location]);
+  }, [location.pathname, location.search]);
 
   // Bisturí 5: Destrueix l'eclipsi automàticament quan canvies de vista
   React.useEffect(() => {
@@ -139,8 +138,15 @@ const AppLayout = () => {
   }, [location.pathname, closeDrawer]); // ELIMINAT: isDrawerOpen per evitar tancament immediat en obrir
 
   // Detect minimal mode (for Mac-style window breakaway)
-  const isMinimal =
-    new URLSearchParams(location.search).get("window") === "true";
+  const isMinimal = React.useMemo(() => 
+    new URLSearchParams(location.search).get("window") === "true",
+  [location.search]);
+
+  const isOverflowHidden = React.useMemo(() => 
+    location.pathname.startsWith("/chats") ||
+    location.pathname.startsWith("/gestio-menu") ||
+    location.pathname.startsWith("/notes"),
+  [location.pathname]);
 
   // [PROTOCOL v10.24.0-MOBILE-FIX] Injecció forçada de Viewport per a evitar escalat d'escriptori
   React.useEffect(() => {
@@ -195,7 +201,7 @@ const AppLayout = () => {
       onDropCapture={handleGlobalDrop}
     >
       {isGlobalDragging && (
-        <div className="absolute inset-0 z-[var(--z-max)] bg-[var(--theme-accent-primary)]/90 backdrop-blur-md flex flex-col items-center justify-center text-white pointer-events-none transition-all duration-300 animate-in fade-in zoom-in-95">
+        <div className="absolute inset-0 z-overlay bg-[var(--theme-accent-primary)]/90 backdrop-blur-md flex flex-col items-center justify-center text-white pointer-events-none transition-all duration-300 animate-in fade-in zoom-in-95">
           <div className="w-32 h-32 rounded-full bg-white/20 flex items-center justify-center mb-6 animate-pulse">
             <UploadCloud size={64} className="text-white drop-shadow-xl" />
           </div>
@@ -210,7 +216,7 @@ const AppLayout = () => {
 
       {/* 0. HEADER SOBIRÀ (FULL WIDTH - PROTOCOL v4.0) */}
       {!isMinimal && (
-        <div className="w-full relative z-[9999]">
+        <div className="w-full relative z-base">
           <Suspense fallback={<NanoLoader message="Preparant la barra..." />}>
             <BlueprintOverlay
               label="HEADER_CANONIC"
@@ -238,13 +244,13 @@ const AppLayout = () => {
           <div
             className={`
               flex-shrink-0 transition-transform duration-300 ease-in-out overflow-hidden
-              fixed z-[var(--z-sidebar)] top-0 left-0 h-[100dvh] w-[300px] max-w-[85vw] bg-theme-sidebar border-r border-[var(--border-master)]
+              fixed z-sidebar top-0 left-0 h-[100dvh] w-[300px] max-w-[85vw] bg-theme-sidebar border-r border-[var(--border-master)]
               ${
                 isDrawerOpen
                   ? "translate-x-0 shadow-[4px_0_24px_rgba(0,0,0,0.5)]"
                   : "-translate-x-full"
               }
-              md:relative md:z-[var(--z-sidebar)] md:translate-x-0 md:h-full md:w-[280px] md:shadow-none
+              md:relative md:z-[var(--z-sidebar)] md:translate-x-0 md:h-full md:w-[280px] md:shadow-none md:border-r-0
             `}
           >
             <BlueprintOverlay
@@ -262,9 +268,7 @@ const AppLayout = () => {
         {/* 2. MAIN VIEWPORT (EL ESCENARIO) - HABILITEM SCROLL (TABULA RASA) */}
         <main
           className={`flex-1 flex flex-col min-w-0 min-h-0 relative bg-theme-base custom-scrollbar ${
-            location.pathname.startsWith("/chats") ||
-            location.pathname.startsWith("/gestio-menu") ||
-            location.pathname.startsWith("/notes")
+            isOverflowHidden
               ? "overflow-hidden"
               : ""
           }`}
@@ -277,15 +281,13 @@ const AppLayout = () => {
             label={currentLabel}
             dimensions="FLEX_GROW"
             color="emerald"
-            className="flex-1 flex flex-col min-h-0 relative -mt-[1px] z-10"
+            className="flex-1 flex flex-col min-h-0 relative z-10"
           >
             <Suspense fallback={<NanoLoader message="Bategant..." />}>
               <ErrorBoundary>
                 <div
                   className={`flex-1 flex flex-col relative min-w-0 main-viewport custom-scrollbar !m-0 ${
-                    location.pathname.startsWith("/chats") ||
-                    location.pathname.startsWith("/gestio-menu") ||
-                    location.pathname.startsWith("/notes")
+                    isOverflowHidden
                       ? "h-full overflow-hidden"
                       : "min-h-full overflow-y-auto"
                   }`}
@@ -361,7 +363,6 @@ const AppLayout = () => {
                     <Route path="/arxiu/:id" element={<ResourceDetail />} />
                     <Route path="/calendari" element={<CalendariMaster />} />
                     <Route path="/fotos/global" element={<AlbumGlobal />} />
-                    <Route path="/dossier" element={<DossierSocis />} />
                     <Route
                       path="/gestio/categories"
                       element={
@@ -395,14 +396,14 @@ const AppLayout = () => {
                       element={<AccessibilitatUniversal />}
                     />
                     <Route path="/notes" element={<Notes />} />
-                    <Route path="/legal" element={<LegalNotice />} />
+                    {/* PÀGINES DE PROJECTE I LEGALITAT */}
                     <Route path="/projecte" element={<ProjectPresentation />} />
                     <Route path="/chrome-145" element={<Chrome145Report />} />
                     <Route
                       path="/hub"
                       element={<HubView />}
                     />
-                    <Route path="/financament" element={<Financament />} />
+
                     {/* Fallback 404 Catch-All Route */}
                     <Route path="*" element={<Navigate to="/mur" replace />} />
                   </Routes>
@@ -442,7 +443,7 @@ const AppLayout = () => {
 
       {/* BARRA DE NAVEGACIÓ MÒBIL (BATEGAT v11.3) - AMAGADA DINS DEL XAT PER EVITAR COL·LISIÓ AMB TECLAT VIRTUAL */}
       {!isChatDetailMobileView && (
-        <div className="relative z-[var(--z-sidebar)] md:hidden">
+        <div className="relative z-base md:hidden bg-[#000000]">
           <MobileBottomNav />
         </div>
       )}
@@ -463,7 +464,7 @@ const AppLayout = () => {
 
       {/* MODALE D'EXPLICACIÓ (ARQUITECTE) - REPOSITIONAT PELS FRAMES UNIFICATS */}
       {architectMode && (
-        <div className="fixed inset-0 z-[var(--z-max)] bg-black/40 backdrop-blur-xl md:pl-[280px]">
+        <div className="fixed inset-0 z-overlay bg-black/40 backdrop-blur-xl md:pl-[280px]">
           <div className="h-full flex flex-col relative animate-slide-up">
             <Suspense fallback={<NanoLoader message="Obrint el Mapa..." />}>
               <ArchitecteView />

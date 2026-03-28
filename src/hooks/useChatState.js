@@ -160,39 +160,12 @@ export const useChatState = ({ id, currentUserId, userIsAnonymous, state, readRe
     useEffect(() => {
         let visibilityController = null; // QWEN V10.33 AUDIT FIX
 
-        const onVisibilityChange = () => {
-            if (document.visibilityState === 'visible') {
-                const activeId = realChatIdRef.current;
-                if (!activeId) return;
-
-                if (visibilityController) visibilityController.abort(); // Neteja la petició anterior si s'encavalquen
-                visibilityController = new AbortController();
-                const timeoutId = setTimeout(() => {
-                    if (visibilityController) visibilityController.abort();
-                }, 5000);
-                
-                supabaseService.getConversationMessages(activeId, visibilityController.signal)
-                    .then(msgs => {
-                        clearTimeout(timeoutId);
-                        if (!msgs || !msgs.length) return;
-                        
-                        // DEEPSEEK V5 FIX: Avortar injecció si l'usuari ha cambiat de xat mentrestant
-                        if (realChatIdRef.current !== activeId) return;
-
-                        setMessages(prev => {
-                            const mapIds = new Set(prev.map(m => m.id));
-                            const missing = msgs.filter(m => !mapIds.has(m.id));
-                            return missing.length ? [...prev, ...missing] : prev;
-                        });
-                    })
-                    .catch(() => {});
-            }
-        };
-
-        document.addEventListener('visibilitychange', onVisibilityChange);
+        // [CRITICAL FIX] Bandwidth Leak (5.5GB Egress): 
+        // We completely disable the visibilitychange HTTP fetch loop. PowerSync/Realtime will handle sync.
+        // document.addEventListener('visibilitychange', onVisibilityChange);
         return () => {
-            if (visibilityController) visibilityController.abort(); // QWEN V10.33 CLEANUP OBLIGATORI
-            document.removeEventListener('visibilitychange', onVisibilityChange);
+            if (visibilityController) visibilityController.abort();
+            // document.removeEventListener('visibilitychange', onVisibilityChange);
         };
     }, []);
 

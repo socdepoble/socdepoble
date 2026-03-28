@@ -1,5 +1,5 @@
 .entity-mgmt-page {
-    min-height: 100vh;
+    min-height: 100dvh;
     background: var(--bg-main);
     padding-bottom: 80px;
 }

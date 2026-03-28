@@ -1,10 +1,10 @@
 .chat-detail-container {
-  position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important;
-  display: flex !important;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -18,37 +18,37 @@
 /* El main-viewport general per al chat ja no fa scroll global,
    el delegarem a .messages-list per poder tenir el input fix baix. */
 .chat-main-viewport {
-  overflow-y: hidden !important;
+  overflow-y: hidden;
 }
 
 .chat-split-view-container {
-  flex: 1 1 auto !important;
-  display: flex !important;
-  flex-direction: row !important; /* El bloc de notes va al costat */
-  min-height: 0 !important;
-  width: 100% !important;
-  overflow: hidden !important;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: row; /* El bloc de notes va al costat */
+  min-height: 0;
+  width: 100%;
+  overflow: hidden;
   position: relative;
 }
 
 .chat-messages-panel {
-  flex: 1 1 auto !important;
-  display: flex !important;
-  flex-direction: column !important;
-  min-width: 0 !important;
-  min-height: 0 !important;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
   background: rgba(0, 0, 0, 0.1);
-  overflow: hidden !important;
+  overflow: hidden;
   position: relative;
-  height: 100% !important; /* Add this to force internal expansion */
+  height: 100%; /* Add this to force internal expansion */
 }
 
 .messages-container {
-  flex: 1 !important;
-  overflow-y: auto !important;
-  min-height: 0 !important;
-  display: flex !important;
-  flex-direction: column-reverse !important;
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column-reverse;
   padding: 1rem;
 }
 
@@ -59,20 +59,20 @@
 }
 
 .chat-nav-bar {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  padding: 0 16px !important;
-  background: var(--bg-theme-header) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
-  height: 64px !important;
-  flex-shrink: 0 !important;
-  z-index: 100 !important;
-  color: var(--text-theme-text) !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  background: var(--bg-theme-header);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  height: 64px;
+  flex-shrink: 0;
+  z-index: 100;
+  color: var(--text-theme-text);
 }
 
 .back-button {
-  color: #fff !important;
+  color: #fff;
   opacity: 0.8;
   transition: opacity 0.2s;
 }
@@ -385,15 +385,15 @@
 }
 
 .identity-badge.ai {
-  background: #ff6d23 !important;
-  color: #000 !important;
-  font-size: 10px !important;
-  padding: 2px 8px !important;
-  border-radius: 6px !important;
-  font-weight: 950 !important;
-  letter-spacing: 0.5px !important;
-  box-shadow: 0 0 15px rgba(255, 109, 35, 0.4) !important;
-  border: none !important;
+  background: #ff6d23;
+  color: #000;
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-weight: 950;
+  letter-spacing: 0.5px;
+  box-shadow: 0 0 15px rgba(255, 109, 35, 0.4);
+  border: none;
 }
 
 .bubble-tag {
@@ -423,14 +423,14 @@
   object-fit: cover;
   display: block;
   cursor: pointer;
-  border-radius: 0px !important;
+  border-radius: 0px;
   /* Llei del Zero Radius */
 }
 
 .chat-video {
   max-width: 100%;
   max-height: 300px;
-  border-radius: 0px !important;
+  border-radius: 0px;
 }
 
 .attachment-link {
@@ -454,14 +454,14 @@
   position: relative;
   width: 100%;
   padding: 16px 20px calc(16px + env(safe-area-inset-bottom, 20px));
-  background: var(--bg-theme-base) !important;
+  background: var(--bg-theme-base);
   border-top: 1px solid var(--border-master);
-  display: flex !important;
+  display: flex;
   flex-direction: column;
   gap: 8px;
   z-index: 1000;
   box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
-  flex-shrink: 0 !important;
+  flex-shrink: 0;
 }
 
 @media (max-width: 768px) {
@@ -714,13 +714,13 @@
 }
 
 .mas-chat-input-wrapper input {
-  flex: 1 !important;
-  border: none !important;
-  background: transparent !important;
-  padding: 10px 8px !important;
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 10px 8px;
   font-size: 1rem;
   color: var(--text-main);
-  outline: none !important;
+  outline: none;
 }
 
 .mas-chat-input-wrapper input::placeholder {
@@ -1133,9 +1133,9 @@
 
 /* Thinking Dots Animation */
 .thinking-bubble {
-  background-color: var(--bg-surface) !important;
+  background-color: var(--bg-surface);
   border: 1px solid #e2e8f0;
-  padding: 0.8rem 1rem !important;
+  padding: 0.8rem 1rem;
   min-width: 60px;
 }
 
@@ -1210,13 +1210,13 @@
 }
 
 .emoji-picker-wrapper .EmojiPickerReact {
-  border: none !important;
-  font-family: var(--font-body) !important;
+  border: none;
+  font-family: var(--font-body);
 }
 
 .emoji-picker-wrapper .epr-emoji-category-label {
-  font-family: var(--font-heading) !important;
-  font-weight: 700 !important;
+  font-family: var(--font-heading);
+  font-weight: 700;
 }
 
 .attachment-trigger.active {
@@ -1243,14 +1243,14 @@
 }
 
 .copy-bubble-btn:hover {
-  opacity: 1 !important;
+  opacity: 1;
   transform: scale(1.2);
   color: var(--color-teal);
 }
 
 /* [NEW] IAIA Magic Button in Chat Input */
 .iaia-magic-btn {
-  color: var(--color-teal) !important;
+  color: var(--color-teal);
   opacity: 0.7;
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
@@ -1262,7 +1262,7 @@
 
 .iaia-magic-btn.thinking {
   animation: iaia-pulse 1.5s infinite;
-  color: var(--color-primary) !important;
+  color: var(--color-primary);
 }
 
 @keyframes iaia-pulse {

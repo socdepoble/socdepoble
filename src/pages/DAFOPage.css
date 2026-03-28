@@ -1,5 +1,5 @@
 .dafo-page-container {
-    min-height: 100vh;
+    min-height: 100dvh;
     background: var(--bg-main);
     padding: 20px;
     padding-top: calc(env(safe-area-inset-top) + 20px);

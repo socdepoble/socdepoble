@@ -6,8 +6,8 @@
 
 /* "Solid, Simple, Large" aesthetic modifiers */
 .dynamic-icon-large {
-    width: 64px !important;
-    height: 64px !important;
+    width: 64px ;
+    height: 64px ;
 }
 
 .dynamic-icon-solid {

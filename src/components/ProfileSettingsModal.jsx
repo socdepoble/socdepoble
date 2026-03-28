@@ -7,6 +7,7 @@ import TownSelectorModal from '../components/TownSelectorModal';
 import LanguageSelector from '../components/LanguageSelector';
 import '../pages/Auth.css'; // Reusing some base styles
 import { authService } from '../services/authService';
+import { useModalFocusTrap } from '../hooks/useModalFocusTrap';
 
 const ProfileSettingsModal = ({ isOpen, onClose, profile, onProfileUpdate }) => {
     const { user: currentUser } = useAuth();
@@ -36,7 +37,30 @@ const ProfileSettingsModal = ({ isOpen, onClose, profile, onProfileUpdate }) => 
     const [coverPreview, setCoverPreview] = useState(profile?.cover_url || '');
     const [coverPositionY, setCoverPositionY] = useState(profile?.cover_position_y || 50);
 
+    const modalRef = React.useRef(null);
+    useModalFocusTrap(isOpen, onClose, modalRef);
+
     // Ensure state updates completely when modal opens or profile changes
+    const townNamesCacheRef = React.useRef({});
+    const saveRef = React.useRef(false);
+    const [townNamesCache, setTownNamesCache] = useState({});
+    
+    // Cleanup of object URLs
+    useEffect(() => {
+        return () => {
+            if (avatarPreview?.startsWith('blob:')) {
+                URL.revokeObjectURL(avatarPreview);
+            }
+            if (coverPreview?.startsWith('blob:')) {
+                URL.revokeObjectURL(coverPreview);
+            }
+        };
+    }, [avatarPreview, coverPreview]);
+
+    // Body scroll lock is now handled natively by the hook. We can remove the redundant manual lock.
+
+    // Body scroll lock is now handled natively by the hook. We can remove the redundant manual lock.
+
     useEffect(() => {
         if (isOpen && profile) {
             setLocalProfile({
@@ -47,7 +71,6 @@ const ProfileSettingsModal = ({ isOpen, onClose, profile, onProfileUpdate }) => 
                 town_uuid: profile.town_uuid || null,
                 town_name: profile.town_name || null,
                 secondary_towns: profile.secondary_towns || [],
-                secondary_towns_names: profile.secondary_towns_names || [],
                 cover_position_y: profile.cover_position_y || 50
             });
             setAvatarPreview(profile.avatar_url || '');
@@ -55,12 +78,33 @@ const ProfileSettingsModal = ({ isOpen, onClose, profile, onProfileUpdate }) => 
             setCoverPositionY(profile.cover_position_y || 50);
             setAvatarFile(null);
             setCoverFile(null);
+
+            // Fetch town names for secondary towns if needed
+            if (Object.keys(townNamesCacheRef.current).length === 0) {
+                const loadTownNames = async () => {
+                    try {
+                        const allTowns = await supabaseService.getTowns();
+                        const cache = {};
+                        allTowns.forEach(t => {
+                            cache[t.uuid || t.id] = t.name;
+                        });
+                        townNamesCacheRef.current = cache;
+                        setTownNamesCache(cache);
+                    } catch (e) {
+                        console.error("Failed loading towns cache for names:", e);
+                    }
+                };
+                loadTownNames();
+            }
         }
     }, [isOpen, profile]);
 
     const handleAvatarChange = (e) => {
         const file = e.target.files[0];
         if (file) {
+            if (avatarPreview && avatarPreview.startsWith('blob:')) {
+                URL.revokeObjectURL(avatarPreview);
+            }
             setAvatarFile(file);
             setAvatarPreview(URL.createObjectURL(file));
         }
@@ -69,6 +113,9 @@ const ProfileSettingsModal = ({ isOpen, onClose, profile, onProfileUpdate }) => 
     const handleCoverChange = (e) => {
         const file = e.target.files[0];
         if (file) {
+            if (coverPreview && coverPreview.startsWith('blob:')) {
+                URL.revokeObjectURL(coverPreview);
+            }
             setCoverFile(file);
             setCoverPreview(URL.createObjectURL(file));
         }
@@ -77,6 +124,8 @@ const ProfileSettingsModal = ({ isOpen, onClose, profile, onProfileUpdate }) => 
     if (!isOpen) return null;
 
     const handleSave = async () => {
+        if (isSaving || saveRef.current) return;
+        saveRef.current = true;
         setIsSaving(true);
         try {
             const updates = {
@@ -109,6 +158,7 @@ const ProfileSettingsModal = ({ isOpen, onClose, profile, onProfileUpdate }) => 
             alert("Error al desar la configuració.");
         } finally {
             setIsSaving(false);
+            saveRef.current = false;
         }
     };
 
@@ -165,7 +215,11 @@ const ProfileSettingsModal = ({ isOpen, onClose, profile, onProfileUpdate }) => 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
             <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
-            <div className="bg-theme-panel border border-[var(--border-master)] rounded-[28px] w-full max-w-md relative z-10 overflow-hidden flex flex-col max-h-[90vh]">
+            <div 
+                ref={modalRef}
+                tabIndex="-1"
+                className="bg-theme-panel border border-[var(--border-master)] rounded-[28px] w-full max-w-md relative z-10 overflow-hidden flex flex-col max-h-[90vh] outline-none"
+            >
                 <header className="flex items-center justify-between p-6 border-b border-[var(--border-master)]">
                     <h2 className="text-xl font-black uppercase tracking-widest text-[var(--theme-accent-primary)]">Configuració (BETA)</h2>
                     <button onClick={onClose} className="p-2 bg-white/5 rounded-full hover:bg-white/10 transition-colors">
@@ -295,28 +349,37 @@ const ProfileSettingsModal = ({ isOpen, onClose, profile, onProfileUpdate }) => 
                                 Pobles Secundaris / Vinculats (Max. 2)
                             </p>
                             <div className="space-y-2">
-                                {(localProfile.secondary_towns || []).map((tUUID, idx) => (
-                                    <div key={idx} className="flex justify-between items-center bg-black/40 p-3 rounded-xl">
-                                        <span className="text-sm font-medium">{tUUID}</span>
-                                        <button 
-                                            onClick={() => {
-                                                const newSec = [...localProfile.secondary_towns];
-                                                newSec.splice(idx, 1);
-                                                setLocalProfile(prev => ({...prev, secondary_towns: newSec}));
-                                            }}
-                                            className="text-red-400 hover:bg-red-500/10 p-1.5 rounded-lg transition-colors"
-                                        >
-                                            <X size={14} />
-                                        </button>
-                                    </div>
-                                ))}
+                                {(localProfile.secondary_towns || []).map((tUUID, idx) => {
+                                    const townName = townNamesCache[tUUID] || `Poble ${idx + 2}`;
+                                    return (
+                                        <div key={idx} className="flex justify-between items-center bg-black/40 p-3 rounded-xl border border-white/5 shadow-inner">
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-8 h-8 rounded-full bg-[var(--theme-accent-primary)]/10 text-[var(--theme-accent-primary)] flex items-center justify-center font-black text-xs">
+                                                    {idx + 2}
+                                                </div>
+                                                <span className="text-sm font-bold text-theme-text">{townName}</span>
+                                            </div>
+                                            <button 
+                                                onClick={() => {
+                                                    const newSec = [...localProfile.secondary_towns];
+                                                    newSec.splice(idx, 1);
+                                                    setLocalProfile(prev => ({...prev, secondary_towns: newSec}));
+                                                }}
+                                                className="text-red-400 hover:bg-red-500/10 p-2 rounded-lg transition-colors"
+                                                title="Desempatxar"
+                                            >
+                                                <X size={16} />
+                                            </button>
+                                        </div>
+                                    );
+                                })}
                                 {(localProfile.secondary_towns || []).length < 2 && (
                                     <button 
                                         onClick={() => openTownSelector('secondary')}
-                                        className="w-full flex items-center justify-center gap-2 py-3 border border-dashed border-white/20 rounded-xl text-gray-400 hover:text-white hover:border-white/40 transition-all text-sm font-medium"
+                                        className="w-full flex items-center justify-center gap-2 py-3 border border-dashed border-white/20 rounded-xl text-gray-400 hover:text-white hover:border-white/40 transition-all text-sm font-bold hover:bg-white/5 mt-2"
                                     >
-                                        <Plus size={16} />
-                                        Afegir poble secundari
+                                        <Plus size={18} />
+                                        Vincular nou Poble
                                     </button>
                                 )}
                             </div>

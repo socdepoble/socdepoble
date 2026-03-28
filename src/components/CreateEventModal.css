@@ -49,7 +49,7 @@
 
 #event-content-input {
     /* Reset padding as button is now outside */
-    padding-bottom: 16px !important;
+    padding-bottom: 16px ;
     border-top-right-radius: 4px;
     /* Adjust if needed */
 }

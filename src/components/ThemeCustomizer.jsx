@@ -4,13 +4,13 @@ import { Sun, Moon, Scroll, RotateCcw, Check } from 'lucide-react';
 import './ThemeCustomizer.css';
 
 const ThemeCustomizer = ({ onClose }) => {
-    const { theme, setTheme, resetTheme, availableThemes } = useTheme();
+    const { visualDemocracy, setVisualDemocracy, resetTheme, availableThemes } = useTheme();
 
     const getIcon = (id) => {
         switch (id) {
-            case 'bancal': return <Sun size={20} />;
-            case 'fadrins': return <Moon size={20} />;
-            case 'solemne': return <Scroll size={20} />;
+            case 'pedra-seca': return <Scroll size={20} />;
+            case 'oli-suau': return <Sun size={20} />;
+            case 'gem-modern': return <Moon size={20} />;
             default: return <Scroll size={20} />;
         }
     };
@@ -26,13 +26,13 @@ const ThemeCustomizer = ({ onClose }) => {
                 {availableThemes.map((t) => (
                     <button
                         key={t.id}
-                        className={`theme-card ${theme === t.id ? 'active' : ''} theme-${t.id}`}
-                        onClick={() => setTheme(t.id)}
+                        className={`theme-card ${visualDemocracy === t.id ? 'active' : ''} theme-${t.id}`}
+                        onClick={() => setVisualDemocracy(t.id)}
                     >
                         <div className="theme-icon">{getIcon(t.id)}</div>
                         <div className="theme-info">
                             <span className="theme-name">{t.name}</span>
-                            {theme === t.id && <Check size={16} className="active-check" />}
+                            {visualDemocracy === t.id && <Check size={16} className="active-check" />}
                         </div>
                     </button>
                 ))}

@@ -107,21 +107,57 @@ const adjustGender = (text, gender) => {
 };
 
 /**
- * columnCache implementation using a Proxy to read/write dynamically from localStorage.
- * This ensures that if localStorage changes (e.g., in another tab), the service always uses fresh values.
+/**
+ * [OMEGA-3 FIXED] columnCache implementation using a Proxy and L1 RAM mirror.
+ * Zero-Jank policy: synchronous gets hit RAM, synchronous sets hit RAM.
+ * Disk writes are batched and debounced async.
  */
+const _ramColumnCache = {};
+let _columnCacheWriteTimer = null;
+const _columnCachePendingWrites = new Set();
+
 const columnCache = new Proxy({}, {
     get: (target, prop) => {
         // [MASTER BLINDATGE] Evitem consultes amb IDs malformats
         if (prop === 'sp_node_befd9c41142744f6') return null;
         if (prop.includes('_punt')) return null; // [GHOST-SHIELD] Blocking dynamic project_ref prefixes
+
+        // 1. Resposta instantània des de RAM (L1)
+        if (prop in _ramColumnCache) return _ramColumnCache[prop];
+
+        // 2. Fallback síncron: Només 1 vegada per propietat en tota la sessió
         const val = localStorage.getItem(`cp_${prop}`);
-        if (val === 'true') return true;
-        if (val === 'false') return false;
+        if (val === 'true') {
+            _ramColumnCache[prop] = true;
+            return true;
+        }
+        if (val === 'false') {
+            _ramColumnCache[prop] = false;
+            return false;
+        }
+
+        _ramColumnCache[prop] = null;
         return null;
     },
     set: (target, prop, value) => {
-        localStorage.setItem(`cp_${prop}`, String(value));
+        // 1. L1 RAM Hit
+        _ramColumnCache[prop] = value;
+        
+        // 2. Asynchronous Batched Debounced Write L2 (Zero Main-Thread Jank)
+        _columnCachePendingWrites.add(prop);
+        if (!_columnCacheWriteTimer) {
+            _columnCacheWriteTimer = setTimeout(() => {
+                _columnCachePendingWrites.forEach(p => {
+                    try {
+                        localStorage.setItem(`cp_${p}`, String(_ramColumnCache[p]));
+                    } catch {
+                         // Silently swallow quota errors to keep the application responsive locally
+                    }
+                });
+                _columnCachePendingWrites.clear();
+                _columnCacheWriteTimer = null;
+            }, 1000); // 1000ms flush
+        }
         return true;
     }
 });
@@ -223,6 +259,7 @@ const LocalCache = {
     get: (key) => {
         const item = LocalCache._storage[key] || JSON.parse(localStorage.getItem(`lc_${key}`) || 'null');
         if (item && Date.now() < item.expires) {
+            LocalCache._storage[key] = item; // Repopulate L1 if missing
             return item.data;
         }
         return null;
@@ -230,7 +267,13 @@ const LocalCache = {
     set: (key, data, ttl = 300000) => { // Default 5 min
         const item = { data, expires: Date.now() + ttl };
         LocalCache._storage[key] = item;
-        localStorage.setItem(`lc_${key}`, JSON.stringify(item));
+        try {
+            localStorage.setItem(`lc_${key}`, JSON.stringify(item));
+        } catch {
+            // [CRÍTIC OMEGA-3] Fallback QuotaExceededError - Continuem només en RAM pura.
+            // Ajudant als telèfons amb limitació dràstica d'espai al navegador
+            console.warn('[LocalCache] Evitant crash de QuotaExceededError. Caiguda cap L1 RAM.');
+        }
     },
     invalidate: (key) => {
         delete LocalCache._storage[key];
@@ -481,7 +524,18 @@ const checkThrottling = async (userId, actionType, limitMs = 3000) => {
         lock.lastTime = now;
     } finally {
         lock.pending--;
+        // Mantenim el lock actualitzat
         _throttleLocks.set(key, lock);
+        
+        // [GC OMEGA-3] Garbage Collection del lock per no saturar memòria en sessions llargues
+        if (lock.pending === 0) {
+            setTimeout(() => {
+                const currentLock = _throttleLocks.get(key);
+                if (currentLock && currentLock.pending === 0 && Date.now() - currentLock.lastTime >= limitMs) {
+                    _throttleLocks.delete(key);
+                }
+            }, limitMs + 50);
+        }
     }
 };
 
@@ -513,8 +567,11 @@ const normalizeContentItem = (item, type = 'post') => {
         item.author_email?.includes('socdepoblecom')
     );
 
-    const authorName = isJaviMaster ? 'Javi Llinares' : (item.author || item.author_name || item.seller || item.seller_name || (type === 'market' ? 'Productor Local' : 'Veí del Poble'));
-    const avatarUrl = isJaviMaster ? '/assets/master/javi_avatar_cinematic.png' : (item.avatar_url || item.author_avatar || item.author_avatar_url || '/assets/avatars/comic/avatar_man_1.png');
+    const joinedAvatar = item.profiles?.avatar_url || item.entities?.avatar_url;
+    const joinedName = item.profiles?.full_name || item.entities?.name;
+
+    const authorName = isJaviMaster ? 'Javi Llinares' : (joinedName || item.author || item.author_name || item.seller || item.seller_name || (type === 'market' ? 'Productor Local' : 'Veí del Poble'));
+    const avatarUrl = isJaviMaster ? '/assets/master/javi_avatar_cinematic.png' : (joinedAvatar || item.avatar_url || item.author_avatar || item.author_avatar_url || '/assets/avatars/comic/avatar_man_1.png');
 
     // [MASTER HEALER] Fallback d'imatges intel·ligent per al Mercat
     let imageUrl = item.image_url || item.image;
@@ -695,8 +752,8 @@ export const supabaseService = {
             const [stats, seo, { data: recentPosts }, { data: recentMarket }, { data: recentProfiles }] = await Promise.all([
                 this.getAdminStats(),
                 this.getSEOStats(),
-                supabase.from('posts').select('id, content, created_at, author:author_name, author_avatar:author_avatar_url').order('created_at', { ascending: false }).limit(10),
-                supabase.from('market_items').select('id, title, price, created_at, seller:author_name, avatar_url:author_avatar_url').order('created_at', { ascending: false }).limit(10),
+                supabase.from('posts').select('id, content, created_at, author, author_role').order('created_at', { ascending: false }).limit(10),
+                supabase.from('market_items').select('uuid, title, price, created_at, seller:author_role, avatar_url').order('created_at', { ascending: false }).limit(10),
                 supabase.from('profiles').select('id, full_name, created_at').eq('is_demo', false).order('created_at', { ascending: false }).limit(10)
             ]);
 
@@ -897,18 +954,21 @@ export const supabaseService = {
             .select('*')
             .order('name', { ascending: true });
 
-        if (error) throw error;
-        if (!data) return [];
+        if (error) {
+            logger.warn(`[SupabaseService] getAdminEntities error ignorat (probablement falta la taula entities):`, error);
+        }
+        
+        const safeData = data || [];
 
         // En producció filtrem les entitats fictícies (demo o Lore-based)
         // I per petició legal, ocultem qualsevol entitat que no sigui del sistema si no estem en mode Playground
         if (!isPlayground) {
             // Mostrem entitats de sistema o del llinatge oficial
-            const dbSystem = data.filter(e => e.type === 'system' || e.type === 'oficial' || e.owner_id === 'd6325f44-7277-4d20-b020-166c010995ab');
+            const dbSystem = safeData.filter(e => e.type === 'system' || e.type === 'oficial' || e.owner_id === 'd6325f44-7277-4d20-b020-166c010995ab');
             return [...SYSTEM_ENTITIES, ...dbSystem];
         }
 
-        return [...SYSTEM_ENTITIES, ...data];
+        return [...SYSTEM_ENTITIES, ...safeData];
     },
 
     // Chats (Secure Messaging - Phase 4)
@@ -1046,7 +1106,12 @@ export const supabaseService = {
             .order('created_at', { ascending: false });
     },
 
-    async sendSecureMessage(messageData, abortSignal = null) {
+    async sendSecureMessage(messageData, abortSignal = null, retryCount = 0) {
+        if (retryCount > 2) {
+            logger.error('[SupabaseService] Recursió infinita aturada en sendSecureMessage');
+            throw new Error("Recursió infinita detectada a l'enviar missatge");
+        }
+        
         if (messageData.senderId && !messageData.isGuest) {
             await checkThrottling(messageData.senderId, 'send_message', 1000).catch(e => logger.warn('Throttling warn', e));
         }
@@ -1165,21 +1230,15 @@ export const supabaseService = {
 
             if (isMissingPlayground) {
                 setColumnCache('messages_is_playground', false);
-                return this.sendSecureMessage(messageData, abortSignal);
+                return this.sendSecureMessage(messageData, abortSignal, retryCount + 1);
             }
             if (isMissingPostUuid) {
                 setColumnCache('messages_post_uuid', false);
-                return this.sendSecureMessage(messageData, abortSignal);
+                return this.sendSecureMessage(messageData, abortSignal, retryCount + 1);
             }
             if (error.code === '42501') {
-                logger.error('[SupabaseService] RLS Permission Denied on messages table. Please run migration 20260208_nexus_permissions_fix.sql');
-                // Return a mock success to avoid UI hang, let it simulate the message
-                return { 
-                    ...msgPayload, 
-                    id: `failed-rls-${Date.now()}`, 
-                    status: 'simulated', 
-                    created_at: new Date().toISOString() 
-                };
+                logger.error('[SupabaseService] RLS Permission Denied on messages table.');
+                throw { success: false, error: 'Accés denegat (RLS)', code: '42501' }; // Fals èxit suprimit per seguretat (C5)
             }
             throw error;
         }
@@ -1317,7 +1376,7 @@ export const supabaseService = {
         }
     },
 
-    async getOrCreateConversation(p1Id, p1Type, p2Id, p2Type) {
+    async getOrCreateConversation(p1Id, p1Type, p2Id, p2Type, retryCount = 0) {
         // Buscar si ya existe la combinación (en cualquier orden)
         const { data: existing } = await supabase
             .from('conversations')
@@ -1375,8 +1434,9 @@ export const supabaseService = {
 
             // Auditoria V4 (DeepSeek): Resolució Condició de Cursa Optimística
             if (error.code === '23505') {
+                if (retryCount > 2) throw new Error('Recursió aturada en getOrCreateConversation');
                 logger.warn('[SupabaseService] 💥 Condició de cursa detectada creant conversació (23505 Unique Violation). Aplicant lectura recursiva salvadora (Optimistic Lock).');
-                return await this.getOrCreateConversation(p1Id, p1Type, p2Id, p2Type);
+                return await this.getOrCreateConversation(p1Id, p1Type, p2Id, p2Type, retryCount + 1);
             }
 
             // [RLS / FK / CHECK BYPASS] EN MODE PLAYGROUND O SENSE PERFILS, L'ERROR 401, 403, 23503 (FK) O 23514 (CHECK) ÉS ESPERAT
@@ -1578,6 +1638,39 @@ export const supabaseService = {
         } catch (e) {
             logger.warn(`No s'ha pogut trobar imatge de batec recent per a ${townId}:`, e);
             return null;
+        }
+    },
+
+    async createPioneerTown({ name, province, comarca }) {
+        try {
+            // [ESCALA NACIONAL] Si un usuario de Extremadura o fuera busca su pueblo y no existe, 
+            // este método lo crea dinámicamente usando Wikipedia para el resumen y shield.
+            
+            // 1. Obtener información básica de la Wikipedia española o catalana
+            const { wikipediaService } = await import('./wikipediaService');
+            const summary = await wikipediaService.getTownSummary(name, 'es'); // Preferimos español para expansión nacional, fallará seguro la 'ca' para Extremadura.
+            const shield = await wikipediaService.getTownShield(name);
+
+            const newTownData = {
+                name: name.trim(),
+                province: province.trim(),
+                comarca: comarca ? comarca.trim() : 'Poble Pioner',
+                description: summary?.extract || `Municipi pioner de ${province.trim()} recentment fundat a la xarxa Sóc de Poble.`,
+                logo_url: shield || null,
+                population: summary?.population || null
+            };
+
+            const { data, error } = await supabase
+                .from('towns')
+                .insert(newTownData)
+                .select()
+                .single();
+
+            if (error) throw error;
+            return data;
+        } catch (error) {
+            logger.error(`[Towns] Error creating pioneer town ${name}:`, error);
+            throw error;
         }
     },
 
@@ -2102,7 +2195,7 @@ export const supabaseService = {
                 return { data: [], count: 0, error: 'Retry limit reached' };
             }
 
-            let selectStr = 'id, uuid, content, created_at, author, author_avatar, image_url, author_role, is_playground, author_user_id, author_entity_id, towns(name), profiles:author_user_id(town_uuid)';
+            let selectStr = 'id, uuid, content, created_at, author, image_url, image_alt, author_role, author_type, is_playground, author_user_id, author_entity_id, towns(name), profiles!fk_posts_author_profile(avatar_url, full_name, town_uuid), entities!fk_posts_author_entity(avatar_url, name)';
             if (columnCache.posts_pinned_position !== false) {
                 selectStr += ', pinned_position';
             }
@@ -2261,8 +2354,10 @@ export const supabaseService = {
         // Remove old field names to avoid PGRST204
         delete mappedData.author_id;
         delete mappedData.author_name;
+        delete mappedData.author_avatar;
         delete mappedData.author_avatar_url;
         delete mappedData.entity_id;
+        delete mappedData.town_id;
 
         // Validació estructural amb Zod
         const validated = PostSchema.parse(mappedData);
@@ -2372,7 +2467,7 @@ export const supabaseService = {
         return data || [];
     },
 
-    async getMarketItems(categoryFilter = 'tot', townId = null, page = 0, pageSize = 12, isPlayground = false) {
+    async getMarketItems(categoryFilter = 'tot', townId = null, page = 0, pageSize = 12, isPlayground = false, _retryCount = 0) {
         try {
             await _ensureColumnCache();
 
@@ -2380,7 +2475,7 @@ export const supabaseService = {
             const cachedData = LocalCache.get(cacheKey);
 
             let townJoin = columnCache.market_fk_town_uuid !== false ? 'towns!fk_market_town_uuid(name)' : 'towns(name)';
-            let selectStr = `id, uuid, title, description, price, category_slug, created_at, author_user_id, seller, avatar_url, image_url, ${townJoin}`;
+            let selectStr = `uuid, title, description, price, category_slug, created_at, author_user_id, avatar_url, image_url, ${townJoin}`;
 
             if (columnCache.market_is_playground !== false) selectStr += ', is_playground';
             if (columnCache.market_is_pinned !== false) selectStr += ', is_pinned';
@@ -2424,15 +2519,26 @@ export const supabaseService = {
                 const isColumnError = error.code === '42703' || error.code === 'PGRST204' || (error.code === '400' && error.message?.includes('column'));
 
                 if (isColumnError) {
-                    logger.warn(`[SupabaseService] Market column error (${error.code}), invalidating cache...`);
+                    logger.warn(`[SupabaseService] Market column error (${error.code}), invalidating cache... retry ${_retryCount}`);
+                    
+                    // PREVENT INFINITE LOOP (Hard limit super estricto 1)
+                    if (_retryCount >= 1) { // ❌ ANTES ERA >= 2 (peligroso en arrays de fallos)
+                        logger.error('[SupabaseService] Breaking infinite retry loop HARD.');
+                        if (cachedData) return { data: cachedData, count: cachedData.length, fromCache: true };
+                        return { data: [], count: 0 };
+                    }
+
                     // Invalidate specific column cache items found in error message or just reset
                     if (error.message?.includes('pinned_position')) setColumnCache('market_pinned_position', false);
                     if (error.message?.includes('is_pinned')) setColumnCache('market_is_pinned', false);
                     if (error.message?.includes('is_playground')) setColumnCache('market_is_playground', false);
                     if (error.message?.includes('fk_market_town_uuid')) setColumnCache('market_fk_town_uuid', false);
 
-                    // Retry once immediately
-                    return this.getMarketItems(categoryFilter, townId, page, pageSize, isPlayground);
+                    // Esperar para no bloquear el stack (backoff)
+                    await new Promise(resolve => setTimeout(resolve, 300 * (_retryCount + 1)));
+
+                    // Retry with incremented counter
+                    return this.getMarketItems(categoryFilter, townId, page, pageSize, isPlayground, _retryCount + 1);
                 }
                 if (cachedData) {
                     logger.warn('[Market] Network failed, serving from cache.');
@@ -2634,6 +2740,7 @@ export const supabaseService = {
     },
 
     async getProfile(id) {
+        console.log('[getProfile] Called with id:', id);
         if (!id || !isRealDBUUID(id)) {
             // Check in Lore Personas first
             const lore = LORE_PERSONAS.find(p => p.id === id);
@@ -2642,6 +2749,7 @@ export const supabaseService = {
         }
 
         if (this._profileCache.has(id)) {
+            console.log('[getProfile] Returning from cache');
             return this._profileCache.get(id);
         }
 
@@ -2652,11 +2760,13 @@ export const supabaseService = {
 
             const select = hasPremium ? fullSelect : baseSelect;
 
+            console.log(`[getProfile] Fetching from supabase with select: ${select}...`);
             let { data, error } = await supabase
                 .from('profiles')
                 .select(select)
                 .eq('id', id)
                 .maybeSingle();
+            console.log(`[getProfile] Supabase response received. Error:`, error);
 
             if (error) {
                 if (hasPremium && (error.code === '42703' || error.message?.includes('ofici'))) {
@@ -2876,7 +2986,7 @@ export const supabaseService = {
                     type: payload.type || 'empresa',
                     avatar_url: payload.avatar_url || null,
                     description: payload.description || null,
-                    town_id: payload.town_id || null,
+
                     created_at: new Date().toISOString()
                 }])
                 .select()
@@ -3115,8 +3225,9 @@ export const supabaseService = {
             .maybeSingle();
         
         if (error) {
-            if (error.code === 'PGRST116') return null;
-            throw error;
+            if (error.code === 'PGRST116' || error.code === '42P01' || String(error.message).includes('404')) return null;
+            logger.warn(`[SupabaseService] getPublicEntity error ignorat transversalment:`, error);
+            return null;
         }
         
         if (!data) return null;
@@ -3190,14 +3301,14 @@ export const supabaseService = {
 
             let query = supabase
                 .from('posts')
-                .select('id, uuid:id, content, created_at, author_id, author:author_name, author_avatar:author_avatar_url, image_url, author_role, is_playground, entity_id, towns(name)');
+                .select('id, uuid:id, content, created_at, image_url, image_alt, author, author_role, author_type, author_user_id, author_entity_id, is_playground, categories, tags, towns!fk_posts_town_uuid(name)');
 
             // LLINATGE DE L'ARQUITECTE: Si és en Javi, mostrem els seus posts naturals I els de l'Empresa Sóc de Poble
             if (userId === JAVI_REAL_ID) {
                 // Busquem l'ID de l'empresa Sóc de Poble (es pot optimitzar amb un cache o constant)
-                query = query.or(`author_id.eq.${userId},author_name.ilike.%Sóc de Poble%`);
+                query = query.or(`author_user_id.eq.${userId},author.ilike.%Sóc de Poble%`);
             } else {
-                query = query.eq('author_id', userId);
+                query = query.eq('author_user_id', userId);
             }
 
             if (isPlayground) query = query.eq('is_playground', true);
@@ -3232,7 +3343,7 @@ export const supabaseService = {
             return await supabase
                 .from('posts')
                 .select('*')
-                .eq('author_id', userId)
+                .eq('author_user_id', userId)
                 .eq('type', 'imported_story')
                 .order('created_at', { ascending: false });
         } catch (error) {
@@ -3258,7 +3369,7 @@ export const supabaseService = {
             const { count, error } = await supabase
                 .from('posts')
                 .select('*', { count: 'exact', head: true })
-                .eq('author_id', userId);
+                .eq('author_user_id', userId);
             if (error) throw error;
             return count || 0;
         } catch (err) {
@@ -3275,8 +3386,8 @@ export const supabaseService = {
 
             let query = supabase
                 .from('posts')
-                .select('id, uuid:id, content, created_at, author_id, author:author_name, author_avatar:author_avatar_url, author_role, image_url, is_playground, entity_id, towns!fk_posts_town_uuid(name)')
-                .eq('entity_id', entityId);
+                .select('id, uuid:id, content, created_at, image_url, image_alt, author, author_role, author_type, author_user_id, author_entity_id, is_playground, categories, tags, towns!fk_posts_town_uuid(name)')
+                .eq('author_entity_id', entityId);
 
             if (isPlayground) query = query.eq('is_playground', true);
             else query = query.or('is_playground.is.null,is_playground.eq.false');
@@ -3312,8 +3423,8 @@ export const supabaseService = {
             }
             let query = supabase
                 .from('market_items')
-                .select('id, uuid:id, title, description, price, category_slug, created_at, author_id, avatar_url:author_avatar_url, seller:author_name, author_role, image_url, is_playground, is_active, entity_id, towns!fk_market_town_uuid(name)')
-                .eq('author_id', userId);
+                .select('id, uuid:id, title, description, price, category_slug, created_at, image_url, seller, author_role, author_type, author_user_id, author_entity_id, is_playground, is_active, towns!fk_market_town_uuid(name)')
+                .eq('author_user_id', userId);
 
             if (isPlayground) query = query.eq('is_playground', true);
             else query = query.or('is_playground.is.null,is_playground.eq.false');
@@ -3346,8 +3457,8 @@ export const supabaseService = {
 
             let query = supabase
                 .from('market_items')
-                .select('id, uuid:id, title, description, price, category_slug, created_at, author_id, avatar_url:author_avatar_url, seller:author_name, author_role, image_url, is_playground, is_active, entity_id, towns!fk_market_town_uuid(name)')
-                .eq('entity_id', entityId);
+                .select('id, uuid:id, title, description, price, category_slug, created_at, image_url, seller, author_role, author_type, author_user_id, author_entity_id, is_playground, is_active, towns!fk_market_town_uuid(name)')
+                .eq('author_entity_id', entityId);
 
             if (isPlayground) query = query.eq('is_playground', true);
             else query = query.or('is_playground.is.null,is_playground.eq.false');
@@ -3444,12 +3555,18 @@ export const supabaseService = {
         let processedFile = file;
 
         // 0. Compress image if it's an image and too large (>500KB)
-        if (file.type.startsWith('image/') && file.size > 500 * 1024) {
+        if (file.type.startsWith('image/') && file.size > 100 * 1024) {
             try {
                 const imageCompression = (await import('browser-image-compression')).default;
+                
+                // [CRITICAL FIX] BANDWIDTH LEAK
+                const isAvatar = context === 'avatar';
+                const configuredMaxMB = isAvatar ? 0.08 : 1; 
+                const configuredMaxWidth = isAvatar ? 400 : 1920;
+
                 processedFile = await imageCompression(file, {
-                    maxSizeMB: 1,
-                    maxWidthOrHeight: 1920,
+                    maxSizeMB: configuredMaxMB,
+                    maxWidthOrHeight: configuredMaxWidth,
                     useWebWorker: true,
                     fileType: file.type
                 });

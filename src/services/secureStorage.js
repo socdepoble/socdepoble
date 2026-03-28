@@ -15,88 +15,17 @@ class SecureStorageService {
       this.initPromise = null;
     }
   
-    /**
-     * Inicialitza la base de dades i deriva la clau mestra.
-     */
-    async init(masterPassword = null) {
-      if (this.masterKey && this.db) return;
-      if (this.initPromise) return this.initPromise;
-      
-      this.initPromise = (async () => {
-          // 1. Obtenir o generar el salt persistent
-          let salt = localStorage.getItem('sdp_crypto_salt');
-          if (!salt) {
-            salt = crypto.getRandomValues(new Uint8Array(16));
-            localStorage.setItem('sdp_crypto_salt', JSON.stringify(Array.from(salt)));
-          } else {
-            salt = new Uint8Array(JSON.parse(salt));
-          }
-      
-          // 2. Derivar la clau mestra (PBKDF2)
-          let keyMaterial;
-          if (masterPassword) {
-            const enc = new TextEncoder();
-            keyMaterial = await crypto.subtle.importKey(
-              'raw',
-              enc.encode(masterPassword),
-              'PBKDF2',
-              false,
-              ['deriveKey']
-            );
-          } else {
-            // Sense contrasenya: utilitzem un secret derivat del dispositiu
-            const deviceId = await this.getDeviceId();
-            const enc = new TextEncoder();
-            keyMaterial = await crypto.subtle.importKey(
-              'raw',
-              enc.encode(deviceId),
-              'PBKDF2',
-              false,
-              ['deriveKey']
-            );
-          }
-      
-          this.masterKey = await crypto.subtle.deriveKey(
-            {
-              name: 'PBKDF2',
-              salt,
-              iterations: 100000,
-              hash: 'SHA-256'
-            },
-            keyMaterial,
-            { name: 'AES-GCM', length: 256 },
-            false,
-            ['encrypt', 'decrypt']
-          );
-      
-          // 3. Obrir IndexedDB
-          await this.openDB();
-      })();
-      
-      return this.initPromise;
-    }
-  
-    async getDeviceId() {
-      const data = [
-        navigator.userAgent,
-        navigator.language,
-        screen.colorDepth,
-        screen.width + 'x' + screen.height,
-        new Date().getTimezoneOffset(),
-        (navigator.hardwareConcurrency || '')
-      ].join('|');
-      const hash = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(data));
-      return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
-    }
-  
     openDB() {
       return new Promise((resolve, reject) => {
-        const request = indexedDB.open(this.dbName, 1);
+        const request = indexedDB.open(this.dbName, 2); // Bumpejem versió per afegir meta
         request.onerror = () => reject(request.error);
         request.onupgradeneeded = (event) => {
           const db = event.target.result;
           if (!db.objectStoreNames.contains(this.storeName)) {
             db.createObjectStore(this.storeName);
+          }
+          if (!db.objectStoreNames.contains('crypto_meta')) {
+            db.createObjectStore('crypto_meta');
           }
         };
         request.onsuccess = (event) => {
@@ -104,6 +33,90 @@ class SecureStorageService {
           resolve();
         };
       });
+    }
+
+    _getMeta(key) {
+        return new Promise((resolve, reject) => {
+            const tx = this.db.transaction(['crypto_meta'], 'readonly');
+            const req = tx.objectStore('crypto_meta').get(key);
+            req.onsuccess = () => resolve(req.result);
+            req.onerror = () => reject(req.error);
+        });
+    }
+
+    _setMeta(key, value) {
+        return new Promise((resolve, reject) => {
+            const tx = this.db.transaction(['crypto_meta'], 'readwrite');
+            const req = tx.objectStore('crypto_meta').put(value, key);
+            req.onsuccess = () => resolve();
+            req.onerror = () => reject(req.error);
+        });
+    }
+
+    /**
+     * Inicialitza la base de dades i obté la clau mestra (AES-GCM inexportable).
+     */
+    async init(masterPassword = null) {
+      if (this.masterKey && this.db) return;
+      if (this.initPromise) return this.initPromise;
+      
+      this.initPromise = (async () => {
+          await this.openDB();
+
+          if (masterPassword) {
+            // [PBKDF2 Mod] Si hi ha password, necessitem salt a IndexedDB, no localStorage
+            let salt = await this._getMeta('salt');
+            if (!salt) {
+                // Migració d'emergència si hi ha salt vell
+                const lsSalt = localStorage.getItem('sdp_crypto_salt');
+                if (lsSalt) {
+                    salt = new Uint8Array(JSON.parse(lsSalt));
+                    localStorage.removeItem('sdp_crypto_salt');
+                } else {
+                    salt = crypto.getRandomValues(new Uint8Array(16));
+                }
+                await this._setMeta('salt', salt);
+            }
+
+            const enc = new TextEncoder();
+            const keyMaterial = await crypto.subtle.importKey(
+              'raw', enc.encode(masterPassword), 'PBKDF2', false, ['deriveKey']
+            );
+            this.masterKey = await crypto.subtle.deriveKey(
+              { name: 'PBKDF2', salt, iterations: 100000, hash: 'SHA-256' },
+              keyMaterial, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']
+            );
+
+          } else {
+              // [FIX OMEGA] Sense password, no derivem del device_id!
+              // Generem i guardem una CryptoKey nativa inexportable.
+              let storedKey = await this._getMeta('native_master_key');
+              if (storedKey) {
+                  this.masterKey = storedKey;
+              } else {
+                  this.masterKey = await crypto.subtle.generateKey(
+                      { name: 'AES-GCM', length: 256 },
+                      false, // [CRÍTIC]: extractable = false
+                      ['encrypt', 'decrypt']
+                  );
+                  await this._setMeta('native_master_key', this.masterKey);
+                  // Buidem la brossa opaca prèvia
+                  localStorage.removeItem('sdp_crypto_salt');
+              }
+          }
+      })();
+      
+      return this.initPromise;
+    }
+  
+    async getDeviceId() {
+      // Ara el Device ID només s'usa per analítiques/padrins, no per criptografia local.
+      let id = localStorage.getItem('sdp_device_id');
+      if (!id) {
+        id = crypto.randomUUID();
+        localStorage.setItem('sdp_device_id', id);
+      }
+      return id;
     }
   
     async set(key, value) {
@@ -116,8 +129,12 @@ class SecureStorageService {
         this.masterKey,
         encoded
       );
-      const store = this.db.transaction([this.storeName], 'readwrite').objectStore(this.storeName);
-      store.put({ iv: Array.from(iv), data: Array.from(new Uint8Array(encrypted)) }, key);
+      return new Promise((resolve, reject) => {
+        const store = this.db.transaction([this.storeName], 'readwrite').objectStore(this.storeName);
+        const request = store.put({ iv: Array.from(iv), data: Array.from(new Uint8Array(encrypted)) }, key);
+        request.onsuccess = () => resolve();
+        request.onerror = () => reject(request.error);
+      });
     }
   
     async get(key) {
@@ -150,8 +167,12 @@ class SecureStorageService {
   
     async remove(key) {
       await this.init();
-      const store = this.db.transaction([this.storeName], 'readwrite').objectStore(this.storeName);
-      store.delete(key);
+      return new Promise((resolve, reject) => {
+        const store = this.db.transaction([this.storeName], 'readwrite').objectStore(this.storeName);
+        const request = store.delete(key);
+        request.onsuccess = () => resolve();
+        request.onerror = () => reject(request.error);
+      });
     }
   }
   

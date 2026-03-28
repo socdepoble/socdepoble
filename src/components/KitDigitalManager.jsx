@@ -135,7 +135,7 @@ Atum! El sistema bategua amb el certificat segellat per a Sollutia.`;
       </header>
 
       {showSollutiaGenerator && (
-        <div className="fixed inset-0 z-[2000] bg-black/90 backdrop-blur-2xl flex items-center justify-center p-6">
+        <div className="fixed inset-0 z-modal bg-black/90 backdrop-blur-2xl flex items-center justify-center p-6">
           <div className="bg-[#111] border border-white/10 rounded-[40px] max-w-4xl w-full max-h-[90vh] overflow-y-auto animate-in zoom-in relative">
             <header className="flex justify-between items-center p-8 border-b border-white/5 sticky top-0 bg-[#111] z-10">
               <h2 className="text-xl font-black uppercase text-orange-500 flex items-center gap-3">

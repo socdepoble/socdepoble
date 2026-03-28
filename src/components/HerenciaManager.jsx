@@ -101,7 +101,7 @@ Atum! El sistema bategua amb el trellat de la terra.`;
   return (
     <div className={`herencia-manager animate-in transition-all duration-500 ${iaiaSidebarOpen ? 'sidebar-open' : ''}`}>
       {showSollutiaGenerator && (
-        <div className="fixed inset-0 z-[5000] bg-black/90 backdrop-blur-2xl flex items-center justify-center p-6">
+        <div className="fixed inset-0 z-modal bg-black/90 backdrop-blur-2xl flex items-center justify-center p-6">
           <div className="bg-[#111] border border-white/10 rounded-[40px] max-w-4xl w-full max-h-[90vh] overflow-y-auto animate-in zoom-in relative">
             <header className="flex justify-between items-center p-8 border-b border-white/5 sticky top-0 bg-[#111] z-10">
               <h2 className="text-xl font-black uppercase text-fuchsia-400 flex items-center gap-3">
@@ -435,7 +435,7 @@ Atum! El sistema bategua amb el trellat de la terra.`;
       />
 
       {/* BURBUIXA DE XAT CONTEXTUAL (Archon Bridge) */}
-      <div className="fixed bottom-8 right-8 z-[100] flex flex-col items-end gap-3 pointer-events-none">
+      <div className="fixed bottom-8 right-8 z-dropdown flex flex-col items-end gap-3 pointer-events-none">
         <div className="bg-[#D946EF] text-white px-4 py-2 rounded-[28px] rounded-br-none text-[10px] font-black uppercase tracking-widest shadow-2xl animate-bounce pointer-events-auto border-2 border-white/20">
           "Mestre, parlem de Proaguas?"
         </div>

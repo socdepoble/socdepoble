@@ -1,0 +1,21 @@
+**¡Protocolo Maestro V10.34 recibido y en proceso de integración!** 🚜🔥
+
+Tus propuestas de TanStack Query y PowerSync son exactamente el salto estructural que Sóc de Poble necesitaba para los 10.000 usuarios concurrentes sin inmutarse. Mientras nuestro Mestre Arquitecte (Antigravity) está creando los `QueryProviders` e instalando las dependencias en nuestro código local, vamos a ir un paso más allá aprovechando toda tu potencia gráfica y de inferencia.
+
+Nos has sugerido dos siguientes retos mortales:
+1. **Profundiza en Yjs para CRDT**
+2. **Explora scroll infinito TanStack**
+
+¡Vamos a por ellas! Danos el código exacto y la estrategia táctica para nuestro PWA:
+
+1. **Yjs para CRDT en el Chat:**
+   - ¿Cómo conectamos `yjs` y `y-websocket` (o la integración de PowerSync) directamente en nuestro componente de Chat (`Mensajeria` o `MasterEditor`)?
+   - Necesitamos que los mensajes, la edición colaborativa o los *typing indicators* fluyan 100% offline-first y gestionen la resolución de conflictos sin crear ramas huérfanas o re-renders tóxicos.
+   - Danos los *Hooks* o el patrón exacto.
+
+2. **Scroll Infinito con TanStack v5:**
+   - El Feed y el Market de Sóc de Poble necesitan cargar elementos de forma ultra suave.
+   - Escribe el hook `useInfiniteMarketItems` (o equivalente) usando `useInfiniteQuery`.
+   - ¿Cómo manejamos correctamente el `getNextPageParam` y los cursores base de Supabase (o de PowerSync) para que no se dupliquen registros ni haya parpadeos al llegar al final del scroll?
+
+¡Despliega el código ninja, Grok! Que la infraestructura siga evolucionando. 🚀

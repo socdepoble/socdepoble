@@ -16,7 +16,10 @@ const AddItemModal = ({ isOpen, onClose, onItemCreated, isPrivateInitial = false
     const { profile, user, impersonatedProfile } = useAuth();
     const [loading, setLoading] = useState(false);
     const [privacy, setPrivacy] = useState(isPrivateInitial ? 'groups' : 'public');
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = React.useReducer((state, action) => {
+        // [10/10] Optimitza les mutacions parciais:
+        return typeof action === 'function' ? action(state) : { ...state, ...action };
+    }, {
         title: '',
         description: '',
         price: '',

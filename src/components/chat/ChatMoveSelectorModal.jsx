@@ -29,7 +29,7 @@ const ChatMoveSelectorModal = ({ msg, onClose, onSelect }) => {
     const availableAgents = AGENTS.filter(a => a.id !== msg?.sender_id);
 
     return (
-        <div className="fixed inset-0 z-[150] flex flex-col justify-end sm:items-center sm:justify-center bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+        <div className="fixed inset-0 z-dropdown flex flex-col justify-end sm:items-center sm:justify-center bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
             <div className="w-full sm:w-[400px] bg-theme-panel sm:rounded-[20px] rounded-t-[20px] flex flex-col max-h-[85vh] shadow-[0_-8px_30px_rgba(0,0,0,0.12)]">
                 
                 {/* Header Dibuixat a Mà (Estil Sóc de Poble) */}

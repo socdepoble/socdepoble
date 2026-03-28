@@ -17,7 +17,7 @@
     background: var(--surface-glass-heavy);
     backdrop-filter: blur(var(--blur-master));
     border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-m) !important;
+    border-radius: var(--radius-m) ;
     /* 24px */
     z-index: 10002;
     color: var(--text-main);
@@ -36,7 +36,7 @@
         right: 0;
         top: 0;
         bottom: 0;
-        height: 100vh;
+        height: 100dvh;
         width: 380px;
         border-right: none;
         border-top: none;
@@ -51,7 +51,7 @@
     bottom: 20px;
     right: 20px;
     top: auto;
-    border-radius: var(--radius-xl) !important;
+    border-radius: var(--radius-xl) ;
     padding: 0;
 }
 
@@ -59,7 +59,7 @@
 .diagnostic-hud.mode-user .hud-tabs-selector,
 .diagnostic-hud.mode-user .terminal-container,
 .diagnostic-hud.mode-user .hud-footer {
-    display: none !important;
+    display: none ;
 }
 
 /* SCANLINE EFFECT PURGED */
@@ -98,7 +98,7 @@
     font-size: var(--font-size-base);
     font-weight: 800;
     transition: all 0.3s ease;
-    border-radius: 0 !important;
+    border-radius: 0 ;
 }
 
 .btn-hud-lang:hover {
@@ -307,10 +307,10 @@
 }
 
 .btn-report-live {
-    background: linear-gradient(135deg, #00f2ff22 0%, #00f2ff44 100%) !important;
-    border: 1px solid #00f2ff88 !important;
-    color: #00f2ff !important;
-    font-weight: 900 !important;
+    background: linear-gradient(135deg, #00f2ff22 0%, #00f2ff44 100%) ;
+    border: 1px solid #00f2ff88 ;
+    color: #00f2ff ;
+    font-weight: 900 ;
     text-shadow: 0 0 8px #00f2ff88;
     margin-left: 8px;
     animation: breathing-glow 3s infinite ease-in-out;
@@ -514,7 +514,7 @@
 }
 
 .status-ok {
-    color: #00ffaa !important;
+    color: #00ffaa ;
     text-shadow: 0 0 10px rgba(0, 255, 170, 0.3);
 }
 
@@ -651,21 +651,21 @@
 /* Level Hierarchy [MASTER] */
 .btn-hud-primary.level-1 {
     background: var(--color-primary);
-    color: #000 !important;
+    color: #000 ;
     border: var(--border-master);
     box-shadow: var(--shadow-hard);
 }
 
 .btn-hud-primary.level-2 {
     background: var(--color-accent);
-    color: #000 !important;
+    color: #000 ;
     border: var(--border-master);
     box-shadow: var(--shadow-hard);
 }
 
 .btn-hud-primary.level-3 {
     background: #FF0000;
-    color: #FFF !important;
+    color: #FFF ;
     border: var(--border-master);
     box-shadow: var(--shadow-hard);
 }
@@ -788,7 +788,7 @@
         width: 100%;
         height: auto;
         max-height: 90vh;
-        border-radius: var(--radius-xl) !important;
+        border-radius: var(--radius-xl) ;
         transform: translateY(0);
     }
 
@@ -908,7 +908,7 @@
 
 /* Master Heal Button [MASTER] */
 .btn-hud-primary.master-heal {
-    color: white !important;
+    color: white ;
     background: linear-gradient(90deg, #d400ff 0%, #9d00ff 100%);
     box-shadow: var(--shadow-hard);
 }

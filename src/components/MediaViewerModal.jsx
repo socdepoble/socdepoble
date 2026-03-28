@@ -8,13 +8,39 @@ import './MediaViewerModal.css';
  */
 const MediaViewerModal = ({ isOpen, onClose, src, title, type = 'image' }) => {
     useEffect(() => {
-        if (isOpen) {
-            document.body.style.overflow = 'hidden';
-        } else {
+        if (!isOpen) {
             document.body.style.overflow = 'unset';
+            return;
         }
-        return () => { document.body.style.overflow = 'unset'; };
+        
+        // Guardem l'estat original del scroll
+        const originalOverflow = document.body.style.overflow;
+        const originalPadding = document.body.style.paddingRight;
+        
+        // Calculem l'ample de la scrollbar per compensar
+        const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+        
+        document.body.style.overflow = 'hidden';
+        document.body.style.paddingRight = `${scrollbarWidth}px`;
+        
+        // Cleanup complet al desmuntar o tancar
+        return () => {
+            document.body.style.overflow = originalOverflow || 'unset';
+            document.body.style.paddingRight = originalPadding || '';
+        };
     }, [isOpen]);
+
+    // Netegem event listeners de teclat
+    useEffect(() => {
+        if (!isOpen) return;
+        
+        const handleEscape = (e) => {
+            if (e.key === 'Escape') onClose();
+        };
+        
+        document.addEventListener('keydown', handleEscape);
+        return () => document.removeEventListener('keydown', handleEscape);
+    }, [isOpen, onClose]);
 
     if (!isOpen) return null;
 

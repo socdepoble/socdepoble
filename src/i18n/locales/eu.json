@@ -76,7 +76,13 @@
     "product": "Produktua",
     "publish": "Argitaratu",
     "change_language": "Hizkuntza aldatu",
-    "support_short": "Laguntza"
+    "support_short": "Laguntza",
+    "role_poble": "Herriak",
+    "add_town": "Gehitu herria",
+    "add": "KONEKTATU",
+    "save_btn": "Gorde",
+    "cancel": "Utzi",
+    "share_soc": "Partekatu Sóc de Poble"
   },
   "nav": {
     "chats": "Txata",
@@ -107,7 +113,10 @@
     "stats_posts": "Argitalpenak",
     "stats_sales": "Salgai",
     "stats_connections": "Konexioak",
-    "my_album": "Nire Albuma"
+    "my_album": "Nire Albuma",
+    "system_op_part_1": "SISTEMA",
+    "system_op_part_2": "ERAGILEA",
+    "legal_info": "LEGE INFORMAZIOA"
   },
   "notebook": {
     "title": "Ohar-Blokea",
@@ -120,7 +129,27 @@
     "trellat_title": "TRELLAT (KATEGORIAK)",
     "trash": {
       "bucket": "Zaborrontzia",
-      "send_to_trash": "Zaborrontzira Bidali"
+      "send_to_trash": "Zaborrontzira Bidali",
+      "confirm_delete": "Inoizko erlikia hau behin betiko ezabatu nahi duzu? Ekintza hau ezin da desegin.",
+      "restore": "Berreskuratu",
+      "permanent_delete": "Behin betiko ezabatu"
+    },
+    "placeholder": "Hasi datuak argitaratzen hemen...",
+    "info": "Informazioa",
+    "creation": "Sorrera",
+    "modification": "Aldaketa",
+    "last_opened": "Azken irekiera",
+    "planned_date": "Aurreikusitako data",
+    "categories": {
+      "trellat": "Zentzua",
+      "patrimoni": "Ondarea",
+      "dades": "Datuak",
+      "social": "Soziala"
+    },
+    "corrector": {
+      "title": "Amonaren Zuzenketak",
+      "lang_variants": "Aldaera guztiak (Erdialdekoa, Valentziarra, Balearra)",
+      "correct_btn": "Zuzendu"
     }
   },
   "chats": {
@@ -235,7 +264,8 @@
     "change_number": "Zenbakia aldatu",
     "welcome_home_prefix": "Ongi etorri etxera, ",
     "iaia_final_speech": "«Dagoeneko gureetako bat zara. Herri bihotza, taupada digitala. Plazan elkar ikusiko dugu!»",
-    "iaia_signature": "- IAIA 👵✨"
+    "iaia_signature": "- IAIA 👵✨",
+    "no_account": "Ez duzu konturik?"
   },
   "notifications": {
     "title": "Jakinarazpenak",
@@ -337,11 +367,45 @@
     "integrity_error": "{{count}} gorabehera detektatu dira. Konpontzen saiatzen...",
     "nuke_start": "Ekosistema osoa berreskuratzen...",
     "nuke_sw_removed": "Sare kontrolatzaileak berrabiarazi dira.",
-    "nuke_cache_purged": "Aldi baterako memoria hustu da."
+    "nuke_cache_purged": "Aldi baterako memoria hustu da.",
+    "avi_watching": "Sóc de Poble aktibatua"
   },
   "chat": {
-    "guest_warning_text": "Gonbidatu gisa ari zara hizketan eta aldi baterako txat hau ezabatuko da.",
-    "guest_warning_link": "Erregistratu zure elkarrizketak gordetzeko."
+    "guest_warning_text": "You are chatting as a Guest and this temporary chat will be deleted.",
+    "guest_warning_link": "Register to save your conversations.",
+    "iaia_forwarding_toast": "🤖 Forwarding your request to MArIA...",
+    "remote_beat_debate": "⚙️ Remote beat: Starting debate between AIs...",
+    "voice_message": "🎤 Voice message",
+    "attachment_sent": "[The user just sent you a document or photo]",
+    "moved_to_local_expert": "📁 Moved to the local expert.",
+    "undo": "UNDO",
+    "npc_delegate_title": "Delegated Profile:",
+    "npc_delegate_desc": "This entity does not have an active AI engine. Messages will be automatically routed to ",
+    "npc_delegate_desc_2": " to be answered.",
+    "search_placeholder": "SEARCH A CHAT...",
+    "search_aria": "Search a chat",
+    "silence_total": "Total silence.",
+    "start_conversation_wall": "Start a conversation on the wall",
+    "beating_with_socdepoble": "Beating with Sóc de Poble...",
+    "today": "TODAY",
+    "yesterday": "YESTERDAY",
+    "now": "NOW",
+    "dev_feature": "Feature in development (V3 Audit)",
+    "search_fragments": "Search fragments...",
+    "guest": "Guest",
+    "iaia_beating": "AI Beating",
+    "online_now": "Online now",
+    "search_conversation": "Search in conversation",
+    "chat_options": "Chat Options",
+    "add_members": "Add members",
+    "group_info": "Group info",
+    "group_media": "Group media",
+    "search": "Search",
+    "mute_notifications": "Mute notifications",
+    "temporary_messages": "Temporary messages",
+    "wallpaper": "Wallpaper",
+    "more": "More",
+    "talk_with": "Talk with {{name}}..."
   },
   "emoji": {
     "search": "Bilatu testu edo emojiekin",
@@ -354,6 +418,36 @@
     "objects": "Objektuak",
     "symbols": "Sinboloak",
     "flags": "Banderak",
-    "custom": "Pertsonalizatuak"
+    "custom": "Pertsonalizatuak",
+    "frequently_used": "Askotan erabilitakoak"
+  },
+  "admin": {
+    "zero_day_setup": "Zero-Day Konfigurazioa",
+    "polymorphic_engine": "Motor Polimorfikoa",
+    "control_center": "Kontrol Zentroa",
+    "citizen_management": "Hiritarren Kudeaketa",
+    "identity_roleplay": "Nortasun Motorra (Roleplay)",
+    "radio_pati": "Radio Pati Katalogoa",
+    "super_mouse": "Super Sagua (Baimen Osoak)",
+    "broadcast": "Komunikatuak eta Hedapena",
+    "entity_management": "Entitateen Kudeaketa",
+    "heal_system": "Sendatze Sistema",
+    "tech_support": "Laguntza Teknikoa",
+    "lexicon": "Hiztegi Lexikoa",
+    "iaia_memex": "IAIA Memex",
+    "stores": "Denden Kudeaketa",
+    "social_utility": "Erabilera Soziala",
+    "memory_archive": "Memoria Artxiboa",
+    "marketing": "Marketin Unibertsala",
+    "editorial_gov": "Gobernantza Editoriala",
+    "permissions_gov": "Baimenak eta Rolak"
+  },
+  "sim": {
+    "perspective": "Perspektiba Simulazioa",
+    "role_user": "Erregistratutako Erabiltzaile Ikuspegia",
+    "role_admin": "Administratzaile Ikuspegia",
+    "role_editor": "Editore Ikuspegia",
+    "active": "Simulazio Modua Aktibatua",
+    "stop": "Itzuli nire Benetako Rolera"
   }
 }

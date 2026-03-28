@@ -14,11 +14,17 @@ export const wikipediaService = {
     async getTownSummary(townName, lang = 'ca') {
         try {
             // Wikipedia REST API (Summary endpoint)
-            const endpoint = `https://${lang}.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(townName)}`;
-            const response = await fetch(endpoint).catch(err => {
+            let endpoint = `https://${lang}.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(townName)}`;
+            let response = await fetch(endpoint).catch(err => {
                 logger.warn(`[Wikipedia] Network error for ${townName}:`, err);
                 return null;
             });
+
+            // [ESPAÑA SCALE FALLBACK] Si no existe en la viquipèdia (ca), probamos en la wikipedia española (es)
+            if ((!response || response.status === 404) && lang === 'ca') {
+                endpoint = `https://es.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(townName)}`;
+                response = await fetch(endpoint).catch(() => null);
+            }
 
             if (!response || !response.ok) return null;
 
@@ -28,6 +34,24 @@ export const wikipediaService = {
             });
             if (!data) return null;
 
+            let population = null;
+            // Retrieve exact population from Wikidata if wikibase_item exists
+            if (data.wikibase_item) {
+                try {
+                    const wdRes = await fetch(`https://www.wikidata.org/w/api.php?action=wbgetentities&ids=${data.wikibase_item}&props=claims&format=json&origin=*`);
+                    if (wdRes.ok) {
+                        const wdData = await wdRes.json();
+                        const claims = wdData.entities[data.wikibase_item]?.claims;
+                        if (claims && claims.P1082) { // P1082 = Population
+                            const amount = claims.P1082[0].mainsnak.datavalue.value.amount;
+                            population = parseInt(amount.replace('+', ''), 10);
+                        }
+                    }
+                } catch (e) {
+                    logger.warn(`[Wikipedia] Error fetching population from Wikidata for ${townName}:`, e);
+                }
+            }
+
             return {
                 title: data.title,
                 extract: data.extract,
@@ -36,7 +60,8 @@ export const wikipediaService = {
                 original_image: data.originalimage?.source,
                 page_url: data.content_urls?.mobile?.page,
                 coordinates: data.coordinates,
-                description: data.description
+                description: data.description,
+                population: population
             };
         } catch (error) {
             logger.error(`[Wikipedia] Error fetching summary for ${townName}:`, error);
@@ -51,9 +76,16 @@ export const wikipediaService = {
      */
     async getTownImages(townName, lang = 'ca') {
         try {
-            const endpoint = `https://${lang}.wikipedia.org/api/rest_v1/page/media-list/${encodeURIComponent(townName)}`;
-            const response = await fetch(endpoint);
-            if (!response.ok) return [];
+            let endpoint = `https://${lang}.wikipedia.org/api/rest_v1/page/media-list/${encodeURIComponent(townName)}`;
+            let response = await fetch(endpoint).catch(() => null);
+            
+            // [ESPAÑA SCALE FALLBACK]
+            if ((!response || !response.ok) && lang === 'ca') {
+                endpoint = `https://es.wikipedia.org/api/rest_v1/page/media-list/${encodeURIComponent(townName)}`;
+                response = await fetch(endpoint).catch(() => null);
+            }
+
+            if (!response || !response.ok) return [];
 
             const data = await response.json();
             const items = data.items || [];
@@ -78,23 +110,28 @@ export const wikipediaService = {
     },
 
     /**
-     * Cerca l'escut oficial del poble a Wikimedia Commons (Prioritzant SVG)
+     * Cerca l'escut oficial del poble a Wikimedia Commons (Prioritzant SVG i soportando España)
      * @param {string} townName 
      */
     async getTownShield(townName) {
         try {
-            // Cerca més flexible: Primer intentem el format estàndard
+            // Cerca més flexible: Variant valenciana, espanyola i internacional
             const queries = [
                 `File:Escut de ${townName}.svg`,
+                `File:Escudo de ${townName}.svg`,
                 `File:Escut de ${townName}.png`,
+                `File:Escudo de ${townName}.png`,
                 `File:Shield of ${townName}.svg`,
                 `File:Coats of arms of ${townName}.svg`
             ];
 
             for (const query of queries) {
                 const endpoint = `https://commons.wikimedia.org/w/api.php?action=query&titles=${encodeURIComponent(query)}&prop=imageinfo&iiprop=url&format=json&origin=*`;
-                const response = await fetch(endpoint);
-                const data = await response.json();
+                const response = await fetch(endpoint).catch(() => null);
+                if (!response) continue;
+                
+                const data = await response.json().catch(() => null);
+                if (!data) continue;
 
                 const pages = data.query?.pages;
                 if (pages) {
@@ -106,20 +143,29 @@ export const wikipediaService = {
                 }
             }
 
-            // Si tot falla, provem una cerca general a Commons
-            const searchEndpoint = `https://commons.wikimedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent('Escut ' + townName)}&format=json&origin=*`;
-            const searchRes = await fetch(searchEndpoint);
-            const searchData = await searchRes.json();
-
-            if (searchData.query?.search?.[0]) {
-                const firstResult = searchData.query.search[0].title;
-                const infoEndpoint = `https://commons.wikimedia.org/w/api.php?action=query&titles=${encodeURIComponent(firstResult)}&prop=imageinfo&iiprop=url&format=json&origin=*`;
-                const infoRes = await fetch(infoEndpoint);
-                const infoData = await infoRes.json();
-                const pages = infoData.query?.pages;
-                if (pages) {
-                    const pageId = Object.keys(pages)[0];
-                    return pages[pageId].imageinfo?.[0]?.url;
+            // Si tot falla, provem una cerca general a Commons (Dual: Escut y Escudo)
+            const searchTerms = [`Escut ${townName}`, `Escudo ${townName}`];
+            
+            for (const term of searchTerms) {
+                const searchEndpoint = `https://commons.wikimedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(term)}&format=json&origin=*`;
+                const searchRes = await fetch(searchEndpoint).catch(() => null);
+                if (!searchRes) continue;
+                
+                const searchData = await searchRes.json().catch(() => null);
+                
+                if (searchData?.query?.search?.[0]) {
+                    const firstResult = searchData.query.search[0].title;
+                    const infoEndpoint = `https://commons.wikimedia.org/w/api.php?action=query&titles=${encodeURIComponent(firstResult)}&prop=imageinfo&iiprop=url&format=json&origin=*`;
+                    const infoRes = await fetch(infoEndpoint).catch(() => null);
+                    if (!infoRes) continue;
+                    
+                    const infoData = await infoRes.json().catch(() => null);
+                    const pages = infoData?.query?.pages;
+                    if (pages) {
+                        const pageId = Object.keys(pages)[0];
+                        const url = pages[pageId].imageinfo?.[0]?.url;
+                        if (url) return url;
+                    }
                 }
             }
 

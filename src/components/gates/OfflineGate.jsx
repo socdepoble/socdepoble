@@ -27,7 +27,7 @@ export default function OfflineGate({ children }) {
   return (
     <>
       {isOffline && (
-        <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 w-max max-w-[90%] bg-red-600 text-white font-bold text-center text-[15px] py-3 px-6 rounded-[28px] shadow-lg z-[100] animate-[bounce_2s_infinite]">
+        <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 w-max max-w-[90%] bg-red-600 text-white font-bold text-center text-[15px] py-3 px-6 rounded-[28px] shadow-lg z-dropdown animate-[bounce_2s_infinite]">
           Estàs fora de cobertura (Mode Offline actiu).
         </div>
       )}

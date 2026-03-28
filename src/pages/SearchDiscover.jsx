@@ -265,7 +265,7 @@ const SearchDiscover = () => {
                                                             <div className="card-header clickable">
                                                                  <div className="header-left">
                                                                     <Avatar
-                                                                        src={town.logo_url}
+                                                                        src={town.image_url}
                                                                         role="oficial"
                                                                         name={town.name}
                                                                         size={44}

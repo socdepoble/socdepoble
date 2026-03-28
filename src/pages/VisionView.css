@@ -1,5 +1,5 @@
 .vision-page-container {
-  height: 100vh;
+  height: 100dvh;
   width: 100%;
   background: radial-gradient(circle at 50% 0%, #1a1a1a 0%, #000 70%);
   color: #fff;

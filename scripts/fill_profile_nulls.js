@@ -1,6 +1,5 @@
 import 'dotenv/config';
 import { createClient } from '@supabase/supabase-js';
-import fs from 'fs';
 
 // If no VITE_SUPABASE_SERVICE_ROLE_KEY is in .env, try to read from other files or just use ANON
 const supabaseUrl = process.env.VITE_SUPABASE_URL;

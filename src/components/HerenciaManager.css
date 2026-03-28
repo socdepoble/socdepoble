@@ -1,6 +1,6 @@
 .herencia-manager {
     background: var(--bg-app);
-    min-height: 100vh;
+    min-height: 100dvh;
     padding: 24px;
     padding-top: var(--header-h);
     color: #fff;

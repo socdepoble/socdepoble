@@ -1,45 +1,20 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { THEMES } from '../constants';
+import React, { createContext, useContext } from 'react';
+import { useDesign } from './DesignContext';
 
 const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-    // Recuperar preferència o defecte a 'dark' (Nit Digital)
-    const [theme, setThemeState] = useState(() => {
-        const savedTheme = localStorage.getItem('nexus_theme');
-        return savedTheme || 'light';
-    });
+    const { theme, setTheme, toggleTheme, visualDemocracy, setVisualDemocracy } = useDesign();
 
     const availableThemes = [
-        { id: 'light', name: 'Llum de Dia' },
-        { id: 'dark', name: 'Nit Digital' },
-        { id: 'solemne', name: 'Perfil Solemne' }
+        { id: 'pedra-seca', name: 'Pedra Seca (Bàsic)' },
+        { id: 'oli-suau', name: 'Oli Suau (Terrenal)' },
+        { id: 'gem-modern', name: 'GEM Modern (Net)' }
     ];
 
-    useEffect(() => {
-        // Aplicar la classe al body per a les variables CSS
-        const root = window.document.documentElement;
-        root.classList.remove('light', 'dark', 'solemne', 'theme-light', 'theme-dark', 'theme-solemne');
-        
-        // Apliquem la classe nua per a compatibilitat amb Tailwind/CSS Master
-        root.classList.add(theme);
-        
-        // També mantenim la prefixada per compatibilitat amb components antics
-        root.classList.add(`theme-${theme}`);
-        
-        localStorage.setItem('nexus_theme', theme);
-    }, [theme]);
-
-    const toggleTheme = () => {
-        setThemeState(prev => (prev === 'dark' ? 'light' : 'dark'));
-    };
-
-    const setTheme = (newTheme) => {
-        setThemeState(newTheme);
-    };
-
     const resetTheme = () => {
-        setThemeState('light');
+        setTheme('light');
+        setVisualDemocracy('pedra-seca');
     };
 
     return (
@@ -48,7 +23,9 @@ export const ThemeProvider = ({ children }) => {
             toggleTheme, 
             setTheme, 
             resetTheme, 
-            availableThemes 
+            availableThemes,
+            visualDemocracy,
+            setVisualDemocracy
         }}>
             {children}
         </ThemeContext.Provider>

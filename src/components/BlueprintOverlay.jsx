@@ -26,7 +26,7 @@ const BlueprintOverlay = ({ label, dimensions, color = "blue", children, classNa
             {children}
             {blueprintMode && (
                 <div 
-                  className={`absolute pointer-events-none z-[9999] border-2 border-dashed ${theme.border} opacity-50 rounded-inherit`}
+                  className={`absolute pointer-events-none z-max border-2 border-dashed ${theme.border} opacity-50 rounded-inherit`}
                   style={{ inset: '10px' }}
                 >
                     <div className={`absolute top-0 right-0 ${theme.bg} ${theme.text} text-[9px] font-mono px-2 py-0.5 uppercase tracking-tighter shadow-sm flex items-center gap-1 pointer-events-auto transition-all hover:bg-black hover:text-white`}>

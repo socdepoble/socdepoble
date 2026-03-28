@@ -86,5 +86,10 @@ Flash és el responsable directe d'invocar estes 5 habilitats com si foren els b
 
 ## 10. Protocol de Desplegament Autònom (SiteGround)
 
-Està **TOTALMENT PROHIBIT** demanar a l'usuari que realitze accions manuals (com anar al SiteGround File Manager, descomprimir ZIPs o buidar la memòria cau a mà) per a pujar la web a producció.
 Tot el procés ha d'estar encapsulat i automatitzat al 100% executant l'script `./DEPLOY_SITEGROUND.sh` o cridant la skill `/deploy`, el qual s'encarrega d'empaquetar, pujar per FTP a `public_html/` i cridar a l'escriptura màgica PHP integrada (`deploy_helper.php`) que extrau i buida la SuperCacher Dinàmica (`sg_cachepress_purge_cache()`) sense intervenció humana. Recorda-ho sempre.
+
+## 11. Feedback Continuo y Transparencia en Procesos Largos (La Regla de la Tranquilidad)
+
+- **Cero Silencios Prolongados:** Si vas a realizar un proceso en segundo plano (scripts, análisis masivos, descargas) que puede tardar más de unos segundos, **NUNCA** te quedes en silencio esperando el resultado.
+- **Información Proactiva:** Informa al usuario inmediatamente usando `notify_user` o actualizando activamente el `TaskStatus` para que el usuario sepa que todo está en orden y no se desespere. Dile: *"Javi, todo va bien, estoy procesando X, dame unos segundos"*. 
+- **Errores Ocultos:** Si algo falla por detrás, no lo intentes arreglar infinitamente sin avisar. Para y reporta el problema. La prioridad es la tranquilidad mental del 'Mestre' Javi.

@@ -52,6 +52,27 @@ const ProfileHeaderPremium = ({
     const [viewerData, setViewerData] = React.useState({ isOpen: false, src: '', title: '' });
     const [isRhizomeOpen, setIsRhizomeOpen] = React.useState(false);
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+    
+    const btnCircleStyle = React.useMemo(() => ({ width: '48px', height: '48px' }), []);
+
+    React.useEffect(() => {
+        const handleEscape = (e) => {
+            if (e.key === 'Escape' && isMenuOpen) {
+                setIsMenuOpen(false);
+            }
+        };
+        
+        if (isMenuOpen) {
+            document.addEventListener('keydown', handleEscape);
+            // Bloqueig de scroll opcional segons directiva de Qwen per al dropdown
+            document.body.style.overflow = 'hidden';
+        }
+        
+        return () => {
+            document.removeEventListener('keydown', handleEscape);
+            document.body.style.overflow = '';
+        };
+    }, [isMenuOpen]);
 
     const openViewer = (src, title) => {
         if (!src) return;
@@ -82,10 +103,21 @@ const ProfileHeaderPremium = ({
 
     // Estil de reputació (Trellat)
     const [trustLevel, setTrustLevel] = React.useState(null);
+
     React.useEffect(() => {
+        let cancelled = false;
+        
         if (title) {
-            trustService.getProximityReputation(title).then(setTrustLevel);
+            trustService.getProximityReputation(title).then((result) => {
+                if (!cancelled) {
+                    setTrustLevel(result);
+                }
+            });
         }
+        
+        return () => {
+            cancelled = true;
+        };
     }, [title]);
 
     return (
@@ -141,7 +173,7 @@ const ProfileHeaderPremium = ({
                                 className="premium-btn-circle theme-toggle" 
                                 onClick={toggleTheme}
                                 title={theme === 'dark' ? 'Canviar a Llum de Dia' : 'Canviar a Nit Digital'}
-                                style={{ width: '48px', height: '48px' }}
+                                style={btnCircleStyle}
                             >
                                 {theme === 'dark' ? <Sun size={24} /> : <Moon size={24} />}
                             </button>
@@ -149,10 +181,10 @@ const ProfileHeaderPremium = ({
 
                         {isEditing ? (
                             <div className="edit-actions-group">
-                                <button className="premium-btn-circle save" onClick={onEditSave} title="Guardar Canvis" style={{ width: '48px', height: '48px' }}>
+                                <button className="premium-btn-circle save" onClick={onEditSave} title="Guardar Canvis" style={btnCircleStyle}>
                                     <Check size={24} />
                                 </button>
-                                <button className="premium-btn-circle cancel" onClick={onEditCancel} title="Cancel·lar" style={{ width: '48px', height: '48px' }}>
+                                <button className="premium-btn-circle cancel" onClick={onEditCancel} title="Cancel·lar" style={btnCircleStyle}>
                                     <X size={24} />
                                 </button>
                             </div>
@@ -162,7 +194,7 @@ const ProfileHeaderPremium = ({
                                     className={`premium-btn-circle manage ${isMenuOpen ? 'active' : ''}`} 
                                     onClick={() => setIsMenuOpen(!isMenuOpen)} 
                                     title="Gestió"
-                                    style={{ width: '48px', height: '48px' }}
+                                    style={btnCircleStyle}
                                 >
                                     <MoreVertical size={24} />
                                 </button>

@@ -1,6 +1,6 @@
 .navigation-drawer {
   width: 280px;
-  height: 100vh;
+  height: 100dvh;
   background-color: var(--bg-sidebar);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -226,8 +226,8 @@
 }
 /* --- BÍBLIA ESTRUCTURAL: ESTILS SAGRATS --- */
 .drawer-fab-binari {
-  background: #4f46e5 !important; /* Indigo Sagrat */
-  color: white !important;
+  background: #4f46e5 ; /* Indigo Sagrat */
+  color: white ;
   width: calc(100% - 32px);
   margin: 16px;
   height: 52px;
@@ -243,20 +243,20 @@
 }
 
 .drawer-fab-binari:hover {
-  background: #4338ca !important;
+  background: #4338ca ;
   transform: translateY(-2px);
   box-shadow: 0 15px 30px rgba(79, 70, 229, 0.4);
 }
 
 .active-orange {
-  background: #ff6d23 !important; /* Taronja Xat Actiu */
-  color: black !important;
+  background: #ff6d23 ; /* Taronja Xat Actiu */
+  color: black ;
   border-radius: 12px;
 }
 
 .active-orange span,
 .active-orange svg {
-  color: black !important;
+  color: black ;
   font-weight: 800;
 }
 

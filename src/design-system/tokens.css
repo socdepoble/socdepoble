@@ -112,8 +112,6 @@
 }
 
 body {
-  background-color: var(--sdp-bg-dark);
-  color: var(--sdp-text-high);
   font-family: var(--sdp-font-sans);
   margin: 0;
   -webkit-font-smoothing: antialiased;

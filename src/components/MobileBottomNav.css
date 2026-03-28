@@ -65,6 +65,6 @@
 /* Redundancy Purge: Hide on Desktop (Sidebar takes over) */
 @media (min-width: 1024px) {
   .mobile-bottom-nav {
-    display: none !important;
+    display: none ;
   }
 }

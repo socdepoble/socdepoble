@@ -10,6 +10,7 @@ const VersionGatekeeper = ({ children }) => {
     // [INITIALIZATION] Check version directly in render state to avoid cascading effects
     const [purging] = useState(() => {
         const localVersion = localStorage.getItem('sp_app_version');
+        console.log('[VersionGatekeeper] Debugging variables:', { localVersion, APP_VERSION });
         return localVersion && localVersion !== APP_VERSION;
     });
 
@@ -41,7 +42,7 @@ const VersionGatekeeper = ({ children }) => {
     if (purging) {
         return (
             <div className="gatekeeper-purge-overlay">
-                <div className="purge-spinner">🏺</div>
+                <img src="/icon-192x192.png" alt="Sóc de Poble" className="purge-logo" />
                 <h2 className="purge-title">FENT DISSABTE</h2>
                 <p className="purge-subtitle">ACTUALITZANT EL MAS...</p>
                 <div className="purge-version">{APP_VERSION}</div>

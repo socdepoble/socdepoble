@@ -19,14 +19,15 @@ Este flujo de trabajo debe seguirse estrictamente cada vez que se inicie o se co
    - Es importante priorizar la *robustez* (que no se rompa el sistema) sobre las "mejoras cosméticas genéricas". Las reglas de Sóc de Poble (usabilidad y estado) dominan el diseño.
 
 3. **Limpieza y Archivo Histórico Automático (CRÍTICO):**
-   - Como flujo de trabajo automático: Sólo debe existir **UNA** única auditoría activa (la más reciente) en la raíz de la carpeta `auditorias/`.
-   - TODAS las auditorías anteriores, propuestas, reportes sueltos o archivos `.md` / `.txt` sobrantes deben moverse inmediatamente a la subcarpeta `auditorias/antiguas/` para mantener el espacio de trabajo prístino.
+   - Como flujo de trabajo automático: deben existir las auditorías "activas" (pueden ser varias si se está auditando con Gemini, O3, etc simultáneamente) en la raíz de la carpeta `auditorias/`.
+   - Sólo se deben mover a `auditorias/antiguas/` aquellas auditorías que el usuario ya haya dado por concluidas o que pertenezcan a rondas de un día anterior. No las muevas precipitadamente mientras forman parte del contexto actual de trabajo.
    - **Estructura final requerida siempre:**
      ```text
      /Sóc de Poble/
         ├── auditorias/
-        │   ├── AUDITORIA_ACTIVA_QWEN_TABULA_RASA.md  <-- (ÚNICA auditoría activa o reporte en curso)
-        │   └── antiguas/                   <-- (TODAS las demás auditorías pasadas archivadas aquí de forma automática)
+        │   ├── AUDITORIA_ACTIVA_GEMINI.md  <-- (Auditorías activas o en curso)
+        │   ├── AUDITORIA_ACTIVA_O3.md      <-- (Auditorías activas o en curso)
+        │   └── antiguas/                   <-- (Todas las auditorías pasadas concluidas archivadas aquí)
      ```
 
 4. **Iteración Rápida:**

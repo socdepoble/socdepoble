@@ -128,7 +128,7 @@ const DocumentViewer = ({ document: doc, onClose, onSave }) => {
 
     return (
         <div className="document-viewer-overlay animate-in" onClick={onClose}>
-            <div className="document-viewer-container glass-master" onClick={e => e.stopPropagation()}>
+            <div className="document-viewer-container glass-panel" onClick={e => e.stopPropagation()}>
                 {/* Header d'Accions Navitals */}
                 <header className="viewer-header">
                     <button className="btn-viewer-close tactile-target" onClick={onClose}>

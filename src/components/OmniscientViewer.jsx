@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { X, Maximize2, Minimize2, FileText, Image as ImageIcon, Music, Type, Download, Share2, ZoomIn, ZoomOut, ShieldCheck, MessageSquarePlus, History, Sparkles } from 'lucide-react';
 import { useModal } from '../context/ModalContext';
 import { logger } from '../utils/logger';
@@ -21,11 +21,16 @@ const OmniscientViewer = () => {
     });
     const [selectedText, setSelectedText] = useState("");
     const [isSyncing, setIsSyncing] = useState(false);
+    const toolbarRef = useRef(null);
+    
+    const audioBarHeights = React.useMemo(() => [
+        45, 78, 23, 56, 89, 34, 67, 90, 21, 54, 87, 32, 65, 98, 43, 76, 29, 62, 95, 28, 51, 84, 37, 70, 93, 26, 59, 82, 35, 68
+    ], []);
 
-    const handleTextSelection = (e) => {
+    const handleTextSelection = useCallback((e) => {
         const selection = window.getSelection();
         const text = selection.toString().trim();
-        const toolbar = document.getElementById('pdf-quote-tool');
+        const toolbar = toolbarRef.current;
 
         if (text && toolbar) {
             setSelectedText(text);
@@ -35,19 +40,19 @@ const OmniscientViewer = () => {
         } else if (toolbar) {
             toolbar.style.display = 'none';
         }
-    };
+    }, []);
 
-    const handleDragToQuote = () => {
+    const handleDragToQuote = useCallback(() => {
         if (!selectedText) return;
         logger.info(`[Librarian] Drag-to-Quote: "${selectedText}"`);
         // En una app real, aquí enviaríamos el mensaje al xat activo
         alert(`Citat al xat: "${selectedText}"`);
-        const toolbar = document.getElementById('pdf-quote-tool');
+        const toolbar = toolbarRef.current;
         if (toolbar) toolbar.style.display = 'none';
         window.getSelection().removeAllRanges();
-    };
+    }, [selectedText]);
 
-    const handleAddNote = () => {
+    const handleAddNote = useCallback(() => {
         const pageId = viewerConfig.anchor || 'page-1';
         const typeStr = prompt("Tria tipus (S: Salut, C: Cultura, F: Fe d'errades):", "S").toUpperCase();
         const type = typeStr === 'C' ? 'CULTURE' : typeStr === 'F' ? 'CORRECTION' : 'STATUS';
@@ -63,11 +68,11 @@ const OmniscientViewer = () => {
                 setIsSyncing(false);
             }, 1000);
         }
-        const toolbar = document.getElementById('pdf-quote-tool');
+        const toolbar = toolbarRef.current;
         if (toolbar) toolbar.style.display = 'none';
-    };
+    }, [viewerConfig]);
 
-    const handleLaunchDebate = () => {
+    const handleLaunchDebate = useCallback(() => {
         const pageId = viewerConfig.anchor || 'page-1';
         const contextData = {
             did: viewerConfig.did,
@@ -83,10 +88,10 @@ const OmniscientViewer = () => {
             postType: 'archive_debate'
         });
 
-        const toolbar = document.getElementById('pdf-quote-tool');
+        const toolbar = toolbarRef.current;
         if (toolbar) toolbar.style.display = 'none';
         setSelectedText("");
-    };
+    }, [viewerConfig, selectedText, openPostModal]);
 
     const fetchContent = useCallback(async (url) => {
         try {
@@ -214,14 +219,14 @@ const OmniscientViewer = () => {
         return null;
     };
 
-    const handleSaveNote = () => {
+    const handleSaveNote = useCallback(() => {
         if (!manualNote.trim()) return;
         const newNotes = { ...savedNotes, [viewerConfig.did]: manualNote };
         setSavedNotes(newNotes);
         setManualNote("");
         logger.info(`[Solatge] Nota guardada per a ${viewerConfig.did}`);
         // En una app real, aquí persistiríamos en la DB local (Rhizome)
-    };
+    }, [manualNote, savedNotes, viewerConfig]);
 
     if (!isViewerOpen || !viewerConfig) return null;
 
@@ -230,7 +235,7 @@ const OmniscientViewer = () => {
             case 'PDF': {
                 return (
                     <div className="viewer-pdf-container">
-                        <div className="pdf-selection-toolbar animate-in" id="pdf-quote-tool" style={{ display: 'none' }}>
+                        <div ref={toolbarRef} className="pdf-selection-toolbar animate-in" id="pdf-quote-tool" style={{ display: 'none' }}>
                             <button className="btn-quote" onClick={handleDragToQuote}>
                                 <MessageSquarePlus size={14} /> CITAR
                             </button>
@@ -355,8 +360,8 @@ const OmniscientViewer = () => {
                     <div className="viewer-audio-container">
                         <div className="audio-hero">
                             <div className="audio-visualizer-bars">
-                                {Array(30).fill(0).map((_, i) => (
-                                    <div key={i} className="v-bar animate-pulse-fast" style={{ height: Math.random() * 80 + 20 + '%', animationDelay: `${i * 0.1}s` }}></div>
+                                {audioBarHeights.map((height, i) => (
+                                    <div key={i} className="v-bar animate-pulse-fast" style={{ height: `${height}%`, animationDelay: `${i * 0.1}s` }}></div>
                                 ))}
                             </div>
                             <div className="audio-time-badge">{timestamp}</div>
@@ -537,4 +542,4 @@ const OmniscientViewer = () => {
     );
 };
 
-export default OmniscientViewer;
+export default React.memo(OmniscientViewer);

@@ -13,5 +13,6 @@ A partir de ahora, **TODO archivo, informe, imagen final o documento que el usua
 1. Sí, tus artefactos internos (task.md, drafts) siguen yendo a tu `brain`. Es tu espacio de trabajo.
 2. PERO, el producto final que pides al usuario que lea o use, **debe ser enviado a `_safata_entrada/` usando comandos de terminal (`cp`) o creándolo directamente allí.**
 3. Cuando notifiques al usuario (`notify_user`) de que un archivo está listo, envíale a buscarlo a `_safata_entrada/nombre_archivo.ext`, NUNCA a `.gemini/...`.
+4. **EXCEPCIÓN CRÍTICA (Auditorías):** Los documentos de auditoría (prompts, informes, resultados) **NUNCA** van a la bandeja de entrada. Tienen su propio flujo en la carpeta `auditorias/` para no colapsar la bandeja general. La bandeja de entrada es para archivos no clasificados o entregables de otro tipo.
 
 *Esta regla aplica a Sóc de Poble y a cualquier otro proyecto donde el usuario requiera archivos resultantes.*

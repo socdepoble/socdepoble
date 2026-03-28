@@ -88,7 +88,7 @@ const ResourceDetail = () => {
             />
 
             {/* HEADER STICKY GEM MODERN */}
-            <header className="h-16 flex items-center justify-between px-6 border-b border-white/5 bg-black/90 backdrop-blur sticky top-0 z-[100] w-full">
+            <header className="h-16 flex items-center justify-between px-6 border-b border-white/5 bg-black/90 backdrop-blur sticky top-0 z-dropdown w-full">
                 <div className="flex items-center gap-4">
                     <button 
                         onClick={() => navigate(-1)}

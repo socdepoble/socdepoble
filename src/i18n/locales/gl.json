@@ -78,7 +78,13 @@
     "product": "Produto",
     "publish": "Publicar",
     "change_language": "Cambiar idioma",
-    "support_short": "Soporte"
+    "support_short": "Soporte",
+    "role_poble": "Vilas",
+    "add_town": "Engadir vila",
+    "add": "CONECTAR",
+    "save_btn": "Gardar",
+    "cancel": "Cancelar",
+    "share_soc": "Compartir Sóc de Poble"
   },
   "nav": {
     "chats": "Chat",
@@ -109,7 +115,10 @@
     "stats_posts": "Publicacións",
     "stats_sales": "En venda",
     "stats_connections": "Conexións",
-    "my_album": "O meu Álbum"
+    "my_album": "O meu Álbum",
+    "system_op_part_1": "SISTEMA",
+    "system_op_part_2": "OPERATIVO",
+    "legal_info": "INFO LEGAL"
   },
   "notebook": {
     "title": "Bloc de Notas",
@@ -122,7 +131,27 @@
     "trellat_title": "TRELLAT (CATEGORÍAS)",
     "trash": {
       "bucket": "Papeleira",
-      "send_to_trash": "Enviar á Papeleira"
+      "send_to_trash": "Enviar á Papeleira",
+      "confirm_delete": "Queres eliminar definitivamente esta reliquia? Esta acción non se pode desfacer.",
+      "restore": "Restaurar",
+      "permanent_delete": "Eliminar Definitivamente"
+    },
+    "placeholder": "Comeza a publicar datos aquí...",
+    "info": "Información",
+    "creation": "Creación",
+    "modification": "Modificación",
+    "last_opened": "Última apertura",
+    "planned_date": "Data prevista",
+    "categories": {
+      "trellat": "Sentidiño",
+      "patrimoni": "Patrimonio",
+      "dades": "Datos",
+      "social": "Social"
+    },
+    "corrector": {
+      "title": "Correccións da Avoa",
+      "lang_variants": "Todas as variantes (Central, Valenciano, Balear)",
+      "correct_btn": "Corrixir"
     }
   },
   "chats": {
@@ -237,7 +266,8 @@
     "change_number": "Cambiar número",
     "welcome_home_prefix": "Benvido á casa, ",
     "iaia_final_speech": "«Xa es un dos nosos. Corazón de vila, latexo dixital. Vémonos na praza!»",
-    "iaia_signature": "- A IAIA 👵✨"
+    "iaia_signature": "- A IAIA 👵✨",
+    "no_account": "¿Non tes conta?"
   },
   "notifications": {
     "title": "Notificacións",
@@ -341,8 +371,41 @@
     "nuke_cache_purged": "Memoria temporal baleirada."
   },
   "chat": {
-    "guest_warning_text": "Estás a falar como Forasteiro e este chat temporal borrarase.",
-    "guest_warning_link": "Rexístrate para gardar as conversas."
+    "guest_warning_text": "You are chatting as a Guest and this temporary chat will be deleted.",
+    "guest_warning_link": "Register to save your conversations.",
+    "iaia_forwarding_toast": "🤖 Forwarding your request to MArIA...",
+    "remote_beat_debate": "⚙️ Remote beat: Starting debate between AIs...",
+    "voice_message": "🎤 Voice message",
+    "attachment_sent": "[The user just sent you a document or photo]",
+    "moved_to_local_expert": "📁 Moved to the local expert.",
+    "undo": "UNDO",
+    "npc_delegate_title": "Delegated Profile:",
+    "npc_delegate_desc": "This entity does not have an active AI engine. Messages will be automatically routed to ",
+    "npc_delegate_desc_2": " to be answered.",
+    "search_placeholder": "SEARCH A CHAT...",
+    "search_aria": "Search a chat",
+    "silence_total": "Total silence.",
+    "start_conversation_wall": "Start a conversation on the wall",
+    "beating_with_socdepoble": "Beating with Sóc de Poble...",
+    "today": "TODAY",
+    "yesterday": "YESTERDAY",
+    "now": "NOW",
+    "dev_feature": "Feature in development (V3 Audit)",
+    "search_fragments": "Search fragments...",
+    "guest": "Guest",
+    "iaia_beating": "AI Beating",
+    "online_now": "Online now",
+    "search_conversation": "Search in conversation",
+    "chat_options": "Chat Options",
+    "add_members": "Add members",
+    "group_info": "Group info",
+    "group_media": "Group media",
+    "search": "Search",
+    "mute_notifications": "Mute notifications",
+    "temporary_messages": "Temporary messages",
+    "wallpaper": "Wallpaper",
+    "more": "More",
+    "talk_with": "Talk with {{name}}..."
   },
   "emoji": {
     "search": "Buscar con texto ou emojis",
@@ -355,6 +418,36 @@
     "objects": "Obxectos",
     "symbols": "Símbolos",
     "flags": "Bandeiras",
-    "custom": "Personalizados"
+    "custom": "Personalizados",
+    "frequently_used": "Frecuentemente empregados"
+  },
+  "admin": {
+    "zero_day_setup": "Setup Zero-Day",
+    "polymorphic_engine": "Motor Polimórfico",
+    "control_center": "Centro de Control",
+    "citizen_management": "Xestión Cidadá",
+    "identity_roleplay": "Motor de Identidades (Roleplay)",
+    "radio_pati": "Catálogo Radio Patio",
+    "super_mouse": "Súper Rato (Permisos Totais)",
+    "broadcast": "Comunicados e Difusión",
+    "entity_management": "Xestión de Entidades",
+    "heal_system": "Sistema Cura",
+    "tech_support": "Soporte Técnico",
+    "lexicon": "Dicionario Léxico",
+    "iaia_memex": "IAIA Memex",
+    "stores": "Xestión de Tendas",
+    "social_utility": "Utilidade Social",
+    "memory_archive": "Arquivo de Memoria",
+    "marketing": "Márketing Universal",
+    "editorial_gov": "Gobernanza Editorial",
+    "permissions_gov": "Permisos e Roles"
+  },
+  "sim": {
+    "perspective": "Simulación de Perspectiva",
+    "role_user": "Vista Usuario Rexistrado",
+    "role_admin": "Vista Administrador",
+    "role_editor": "Vista Editor",
+    "active": "Modo Simulación Activo",
+    "stop": "Volver ao meu Rol Real"
   }
 }

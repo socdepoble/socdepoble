@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useEffect, useRef, useTransition } from 'react';
+// CACHE BUST SW: Evasió profunda de la catxé del ServiceWorker per forçar re-render del Mur
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -25,7 +26,7 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
     const { user, isPlayground, loading: authLoading, isSuperAdmin } = useAuth();
     
     const activeTown = townId || selectedTown;
-    const [selectedRole] = useState('tot');
+
     const [selectedTag, setSelectedTag] = useState(null);
     const [isIAIAFiltering, setIsIAIAFiltering] = useState(
         () => localStorage.getItem('isIAIAFiltering') === 'true'
@@ -57,7 +58,7 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
         hasMore,
         loadingMore,
         fetchPosts
-    } = useFeedData({ activeTown, townName, customPosts, isPlayground, user, iaiaLevel, selectedRole });
+    } = useFeedData({ activeTown, townName, customPosts, isPlayground, user, iaiaLevel, selectedRole: 'tot' });
 
     useEffect(() => {
         if (authLoading || customPosts) return;
@@ -88,9 +89,9 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
         if (typeof window !== 'undefined') {
             const estimatedContainerWidth = Math.min(window.innerWidth - (window.innerWidth > 1024 ? 300 : 0), 1600);
             if (viewMode === 'list' || viewMode === 'single') return 1;
-            if (estimatedContainerWidth < 800) return 1;
-            if (estimatedContainerWidth < 1200) return 2;
-            if (estimatedContainerWidth < 1600) return 3;
+            if (estimatedContainerWidth < 900) return 1;
+            if (estimatedContainerWidth < 1400) return 2;
+            if (estimatedContainerWidth < 1800) return 3;
             return 4;
         }
         return 1;
@@ -109,9 +110,9 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
                     if (viewMode === 'single' || viewMode === 'list') {
                         setColumnCount(1);
                     } else {
-                        if (width < 800) setColumnCount(1);
-                        else if (width < 1200) setColumnCount(2);
-                        else if (width < 1600) setColumnCount(3);
+                        if (width < 900) setColumnCount(1);
+                        else if (width < 1400) setColumnCount(2);
+                        else if (width < 1800) setColumnCount(3);
                         else setColumnCount(4);
                     }
                 });
@@ -265,7 +266,7 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
             <h1 className="sr-only">Mur d'Activitat i Notícies de Sóc de Poble</h1>
 
             {!hideHeader && (
-                <div className="sticky top-0 w-full z-[100] shadow-md">
+                <div className="sticky top-0 w-full z-dropdown shadow-md">
                     <ContextualHeader
                         searchTerm={contextualSearchTerm}
                         onSearchChange={setContextualSearchTerm}

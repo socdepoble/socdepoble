@@ -21,7 +21,7 @@ export const marketService = {
             const cachedData = LocalCache.get(cacheKey);
 
             let townJoin = columnCache.market_fk_town_uuid !== false ? 'towns!fk_market_town_uuid(name)' : 'towns(name)';
-            let selectStr = `id, uuid, title, description, price, category_slug, created_at, author_user_id, avatar_url, image_url, ${townJoin}`;
+            let selectStr = `uuid, title, description, price, category_slug, created_at, author_user_id, avatar_url, image_url, ${townJoin}`;
 
             if (columnCache.market_is_playground !== false) selectStr += ', is_playground';
             if (columnCache.market_is_pinned !== false) selectStr += ', is_pinned';
@@ -120,8 +120,7 @@ export const marketService = {
         const mappedData = {
             ...payload,
             author_user_id: payload.author_id || payload.author_user_id || payload.user_id,
-            avatar_url: payload.author_avatar_url || payload.avatar_url,
-            author_entity_id: payload.entity_id || payload.author_entity_id
+            avatar_url: payload.author_avatar_url || payload.avatar_url
         };
 
         // Fallback crític per a la IAIA si no ve de sessió d'usuari
@@ -136,6 +135,8 @@ export const marketService = {
         delete mappedData.seller_name;
         delete mappedData.author_avatar_url;
         delete mappedData.entity_id;
+        delete mappedData.author_entity_id;
+        delete mappedData.author_role;
 
         // Validació estructural amb Zod
         const validated = MarketItemSchema.parse(mappedData);

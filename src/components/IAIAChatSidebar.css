@@ -3,7 +3,7 @@
     top: var(--spacing-header, 56px);
     right: 0;
     width: var(--iaia-sidebar-width, 380px);
-    height: calc(100vh - var(--spacing-header, 56px));
+    height: calc(100dvh - var(--spacing-header, 56px));
     background: #121212;
     backdrop-filter: blur(40px);
     z-index: 4000;
@@ -118,8 +118,8 @@
 }
 
 .chat-bubble.emoji-only {
-    background: transparent !important;
-    border: none !important;
+    background: transparent ;
+    border: none ;
     font-size: 40px;
     padding: 0;
     line-height: 1;
@@ -241,8 +241,8 @@
 
 @media (max-width: 768px) {
     .iaia-chat-sidebar {
-        width: 100% !important;
-        height: calc(100vh - var(--spacing-header, 56px));
+        width: 100% ;
+        height: calc(100dvh - var(--spacing-header, 56px));
         top: var(--spacing-header, 56px);
         bottom: auto;
         right: 0;
@@ -272,8 +272,8 @@
 
 @media (max-width: 480px) {
     .iaia-chat-sidebar {
-        width: 100% !important;
-        height: calc(100vh - var(--spacing-header, 56px));
+        width: 100% ;
+        height: calc(100dvh - var(--spacing-header, 56px));
         border-radius: 0;
         top: var(--spacing-header, 56px);
         bottom: auto;

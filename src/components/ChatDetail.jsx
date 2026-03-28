@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { Loader2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
@@ -9,6 +9,7 @@ import { iaiaService } from '../services/iaiaService';
 import { supabaseService } from '../services/supabaseService';
 import { supabase } from '../supabaseClient';
 import { logger } from '../utils/logger';
+import toast from '../utils/toast';
 
 import ChatMessageList from './chat/ChatMessageList';
 import ChatInputArea from './chat/ChatInputArea';
@@ -22,7 +23,7 @@ const ChatDetail = () => {
     const { t } = useTranslation();
     const { user, impersonatedProfile, activeEntityId, isSuperAdmin, isGuest } = useAuth();
     const { setIsGuestInteractionModalOpen } = useModal();
-    // [Removed useLocation state to prevent unneeded re-renders]
+    const location = useLocation();
     const navigate = useNavigate();
 
     // 1. Correcció de l'ID Aleatori Zombie (Grok Audit)
@@ -67,9 +68,12 @@ const ChatDetail = () => {
     const isP1Current = chat?.participant_1_id === currentUserId;
     const otherInfo = useMemo(() => chat?.other_info || (isP1Current ? chat?.p2_info : chat?.p1_info), [chat, isP1Current]);
 
+    // [PROTOCOL HANDOFF] Detecció de perfils estàtics sense motor IA (NPCs)
+    const isIAIA = id.startsWith('11111111-') || otherInfo?.id?.startsWith('11111111-');
+    const isNPC = !isIAIA && id && id.length < 32; // inst-1, grup-2, empresa-1, etc.
+
     // EXTREME AUDIT V4 FIX: handleSendMessage sense includes d'isSending per no rebentar ChatInputArea React.memo
     const handleSendMessage = useCallback(async ({ text, attachedFile, voiceData, onSuccess, onError }) => {
-        const isIAIA = id.startsWith('11111111-') || otherInfo?.id?.startsWith('11111111-');
         if (user?.isAnonymous && !isIAIA) {
             setIsGuestInteractionModalOpen(true);
             return;
@@ -84,11 +88,35 @@ const ChatDetail = () => {
         isSendingRef.current = true;
         setIsSending(true);
 
+        // [PROTOCOL HANDOFF] Interceptació per a perfils estàtics (NPCs)
+        if (isNPC) {
+            toast.custom(() => (
+                <div className="bg-theme-panel text-theme-text px-4 py-3 flex gap-4 items-center w-full max-w-sm border border-[var(--border-master)] shadow-xl pointer-events-auto rounded z-toast">
+                    <span className="text-sm font-medium opacity-90">{t('chat.iaia_forwarding_toast')}</span>
+                </div>
+            ), { duration: 3000 });
+
+            setTimeout(() => {
+                if (isComponentMounted.current) {
+                    navigate('/chats/11111111-1a1a-0000-0000-000000000000', { 
+                        state: { 
+                            autoForwardParams: {
+                                text: `[Consulta sobre l'ens ${otherInfo?.name || 'Local'}]: ${finalContent}`,
+                                attachedFile: attachedFile,
+                                voiceData: voiceData
+                            }
+                        }
+                    });
+                }
+            }, 1000);
+            return;
+        }
+
         // Els commands del solatge no processen imatges ni veu de moment.
         if (finalContent === '/solatge interact' && !isVoiceMessage) {
             iaiaService.simulateAgentDebate().catch(err => logger.error('[Solatge Interact]', err));
             addMessage({ id: `cmd-req-${Date.now()}`, sender_id: humanId, content: finalContent, created_at: new Date().toISOString() });
-            addMessage({ id: `cmd-res-${Date.now()}`, sender_id: 'system', content: '⚙️ Bategat remot: Iniciant debat entre IAIAs...', created_at: new Date().toISOString() });
+            addMessage({ id: `cmd-res-${Date.now()}`, sender_id: 'system', content: t('chat.remote_beat_debate'), created_at: new Date().toISOString() });
             setIsSending(false);
             isSendingRef.current = false;
             if (onSuccess) onSuccess();
@@ -122,7 +150,7 @@ const ChatDetail = () => {
                 conversationId: realChatId,
                 senderId: humanId,
                 senderEntityId: activeEntityId,
-                content: finalContent || (isVoiceMessage ? '🎤 Missatge de veu' : ''),
+                content: finalContent || (isVoiceMessage ? t('chat.voice_message') : ''),
                 isGuest: user?.isAnonymous,
                 attachmentUrl: fileUrl,
                 attachmentType: isVoiceMessage ? 'voice' : (attachedFile ? (attachedFile.type.startsWith('image/') ? 'image' : 'file') : null),
@@ -141,7 +169,7 @@ const ChatDetail = () => {
             if (onSuccess) onSuccess(); // Netegem estat volatile del fill.
 
             if (isIAIA) {
-                const textFinal = finalContent || (attachedFile ? '[L\'usuari t\' acaba d\'enviar un document o fotografia]' : '');
+                const textFinal = finalContent || (attachedFile ? t('chat.attachment_sent') : '');
                 const capturedChatId = realChatId; // EXTREM AUDIT V4: Race Condition Shield
                 iaiaService.generateAIAResponse(realChatId, textFinal, otherInfo?.id || id, {
                     attachmentUrl: fileUrl,
@@ -177,7 +205,25 @@ const ChatDetail = () => {
             }
             isSendingRef.current = false;
         }
-    }, [id, otherInfo?.id, user?.isAnonymous, realChatId, humanId, activeEntityId, addMessage, setIsGuestInteractionModalOpen, setMessages]);
+    }, [id, otherInfo?.id, otherInfo?.name, isIAIA, isNPC, navigate, user?.isAnonymous, realChatId, humanId, activeEntityId, addMessage, setIsGuestInteractionModalOpen, setMessages, t]);
+
+    // [PROTOCOL HANDOFF] Actuador: Execució automàtica del missatge des de la IAIA
+    useEffect(() => {
+        if (location.state?.autoForwardParams && id === '11111111-1a1a-0000-0000-000000000000') {
+            const params = location.state.autoForwardParams;
+            window.history.replaceState({}, document.title); // Netegem l'estat ràpidament
+            
+            setTimeout(() => {
+                if (isComponentMounted.current && !isSendingRef.current) {
+                    handleSendMessage({
+                        text: params.text,
+                        attachedFile: params.attachedFile,
+                        voiceData: params.voiceData
+                    });
+                }
+            }, 800);
+        }
+    }, [location.state, id, handleSendMessage]);
 
     const handleMoveMessageToAgent = useCallback(async (targetAgentId, messageId) => {
         const msgIndex = messages.findIndex(m => m.id === messageId);
@@ -243,25 +289,23 @@ const ChatDetail = () => {
             navigate(`/chats/${otherInfo?.id || id}`, { replace: true });
         };
 
-        import('../utils/toast').then(({ default: toastModule }) => {
-            toastModule.custom((t) => (
-                <div className="bg-theme-panel text-theme-text px-4 py-3 flex gap-4 items-center w-full max-w-sm border border-[var(--border-master)] shadow-xl pointer-events-auto rounded z-[999]">
-                    <span className="text-sm font-medium opacity-90">📁 Mogut a l'expert local.</span>
-                    <button 
-                        onClick={() => { undoAction(); toastModule.dismiss(t.id); }} 
-                        className="text-orange-500 text-sm font-black hover:underline px-2 py-1 bg-black/5 dark:bg-white/5 rounded transition-transform active:scale-95"
-                    >
-                        DESFER
-                    </button>
-                </div>
-            ), { duration: 4000 });
-        });
+        toast.custom((toastData) => (
+            <div className="bg-theme-panel text-theme-text px-4 py-3 flex gap-4 items-center w-full max-w-sm border border-[var(--border-master)] shadow-xl pointer-events-auto rounded z-toast">
+                <span className="text-sm font-medium opacity-90">{t('chat.moved_to_local_expert')}</span>
+                <button 
+                    onClick={() => { undoAction(); toast.dismiss(toastData.id); }} 
+                    className="text-orange-500 text-sm font-black hover:underline px-2 py-1 bg-black/5 dark:bg-white/5 rounded transition-transform active:scale-95"
+                >
+                    {t('chat.undo')}
+                </button>
+            </div>
+        ), { duration: 4000 });
 
         undoTimeout = setTimeout(() => { performMove(); }, 4000);
         
         // Immediate visual relocation WOW effect
         navigate(`/chats/${targetAgentId}`, { state: { optimisticMessages: msgsToMove } });
-    }, [messages, setMessages, user, id, otherInfo, currentUserId, navigate]);
+    }, [messages, setMessages, user, id, otherInfo, currentUserId, navigate, t]);
 
     if (loading) return <div className="flex-1 bg-theme-base flex items-center justify-center"><Loader2 className="animate-spin text-[var(--theme-accent-primary)]" size={40} /></div>;
 
@@ -285,6 +329,13 @@ const ChatDetail = () => {
             <div className="chat-split-view-container flex-1 flex min-h-0 bg-theme-base">
                 <div className="chat-messages-panel flex-1 flex flex-col min-h-0 bg-theme-base relative">
                     
+                    {/* BÀNNER TRANSPARÈNCIA NPC */}
+                    {isNPC && (
+                        <div className="bg-blue-100 dark:bg-blue-900/10 text-blue-800 dark:text-blue-300 text-[13px] px-4 py-2 border-b border-blue-200 dark:border-blue-800/30 text-center shadow-sm z-10 shrink-0">
+                            <span className="font-bold">{t('chat.npc_delegate_title')}</span> {t('chat.npc_delegate_desc')}<strong className="underline">IAIA MarIA</strong>{t('chat.npc_delegate_desc_2')}
+                        </div>
+                    )}
+
                     {/* BÀNNER PER FORASTERS */}
                     {isGuest && otherInfo?.id?.startsWith('11111111-') && (
                         <div className="bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-200 text-[15px] px-4 py-2.5 border-b border-orange-200 dark:border-orange-800/50 text-center shadow-sm z-10 shrink-0">

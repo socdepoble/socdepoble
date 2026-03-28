@@ -100,18 +100,18 @@
 }
 
 .iaia-btn {
-    color: var(--color-teal) !important;
-    background: rgba(0, 242, 255, 0.05) !important;
+    color: var(--color-teal) ;
+    background: rgba(0, 242, 255, 0.05) ;
 }
 
 .iaia-btn:hover {
-    background: rgba(0, 242, 255, 0.15) !important;
+    background: rgba(0, 242, 255, 0.15) ;
     transform: scale(1.1);
 }
 
 .iaia-btn.thinking {
-    background: var(--color-teal) !important;
-    color: black !important;
+    background: var(--color-teal) ;
+    color: black ;
 }
 
 .spinner {
@@ -130,16 +130,16 @@
 
 /* Master Checklist Block */
 .checklist-block {
-    list-style: none !important;
-    padding-left: 0 !important;
-    margin: 1.5rem 0 !important;
+    list-style: none ;
+    padding-left: 0 ;
+    margin: 1.5rem 0 ;
 }
 
 .checklist-block li {
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-bottom: 12px !important;
+    margin-bottom: 12px ;
     padding: 10px 16px;
     background: var(--bg-surface);
     border-radius: 12px;
@@ -174,12 +174,12 @@
 
 .dragging-li {
     opacity: 0.4;
-    border: 1px dashed var(--color-primary) !important;
-    background: rgba(249, 115, 22, 0.05) !important;
+    border: 1px dashed var(--color-primary) ;
+    background: rgba(249, 115, 22, 0.05) ;
 }
 
 .drag-over-li {
-    border-top: 2px solid var(--color-primary) !important;
+    border-top: 2px solid var(--color-primary) ;
     transform: translateY(2px);
 }
 

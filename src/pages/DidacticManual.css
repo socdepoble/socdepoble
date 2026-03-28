@@ -1,7 +1,7 @@
 .manual-container {
     padding: var(--space-md);
     background-color: var(--md-sys-color-surface);
-    min-height: 100vh;
+    min-height: 100dvh;
     padding-top: calc(var(--header-height) + 20px);
 }
 
@@ -17,8 +17,8 @@
 .manual-header h1 {
     margin: 0;
     color: var(--md-sys-color-primary);
-    font-size: 32px !important;
-    text-transform: none !important;
+    font-size: 32px ;
+    text-transform: none ;
 }
 
 .manual-header .subtitle {
@@ -48,8 +48,8 @@
 
 .note-header h3 {
     margin: 0;
-    font-size: 18px !important;
-    color: var(--md-sys-color-tertiary) !important;
+    font-size: 18px ;
+    color: var(--md-sys-color-tertiary) ;
 }
 
 .iaia-note p {
@@ -83,7 +83,7 @@
 
 .section-title h2 {
     margin: 0;
-    font-size: 22px !important;
+    font-size: 22px ;
 }
 
 .section-desc {

@@ -13,6 +13,7 @@ export const postsTable = new Table(
     type: column.text,
     author_name: column.text,
     bategats_count: column.integer,
+    language: column.text,
     // Add other matching columns from Supabase 'posts' table required by UniversalCard
   },
   { indexes: { town: ["town_uuid"] } },

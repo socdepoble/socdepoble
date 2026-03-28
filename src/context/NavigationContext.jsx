@@ -11,22 +11,30 @@ export const NavigationProvider = ({ children }) => {
     const [preferredAgentId, setPreferredAgentId] = useState(prefs.preferredAgentId || 'iaia');
     const [enabledAgentIds, setEnabledAgentIdsState] = useState(prefs.enabledAgentIds || AGENTS.map(a => a.id));
     const [iaiaLoreEnabled, setIaiaLoreEnabledState] = useState(prefs.iaiaLoreEnabled !== undefined ? prefs.iaiaLoreEnabled : true);
-    const [isDrawerOpen, setIsDrawerOpen] = useState(() =>
-        typeof window !== 'undefined' ? window.innerWidth >= 768 : false
-    );
+    const [isDrawerOpen, setIsDrawerOpen] = useState(() => {
+        if (typeof window === 'undefined') return false;
+        return window.innerWidth >= 768;
+    });
 
     useEffect(() => {
+        let rafId = null;
         const handleResize = () => {
-            const isDesktop = window.innerWidth >= 768;
-            setIsDrawerOpen(prev => {
-                if (isDesktop && !prev) return true;
-                if (!isDesktop && prev) return false;
-                return prev;
+            if (rafId) return;
+            rafId = requestAnimationFrame(() => {
+                const isDesktop = window.innerWidth >= 768;
+                setIsDrawerOpen(prev => {
+                    if (isDesktop && !prev) return true;
+                    if (!isDesktop && prev) return false;
+                    return prev;
+                });
+                rafId = null;
             });
         };
-
         window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
+        return () => {
+            if (rafId) cancelAnimationFrame(rafId);
+            window.removeEventListener('resize', handleResize);
+        };
     }, []);
     const [iaiaSidebarOpen, setIaiaSidebarOpen] = useState(false);
     const [iaiaSidebarContext, setIaiaSidebarContext] = useState('general');
@@ -65,26 +73,18 @@ export const NavigationProvider = ({ children }) => {
     const closeProfileMenu = useCallback(() => setIsProfileMenuOpen(false), []);
 
     const value = useMemo(() => ({
-        landingPage, setLandingPage,
-        preferredAgentId, setPreferredAgentId,
-        enabledAgentIds, setEnabledAgentIdsState,
-        iaiaLoreEnabled, setIaiaLoreEnabledState,
-        isDrawerOpen, setIsDrawerOpen,
-        toggleDrawer,
-        closeDrawer,
-        iaiaSidebarOpen, setIaiaSidebarOpen,
-        openIAIASidebar,
-        closeIAIASidebar,
-        iaiaSidebarContext, setIaiaSidebarContext,
-        isProfileMenuOpen, setIsProfileMenuOpen,
-        closeProfileMenu,
-        isAccessibilitatOpen, setIsAccessibilitatOpen,
-        selectedTown, setSelectedTown,
-        chatSettings, setChatSettings,
+        landingPage, setLandingPage, preferredAgentId, setPreferredAgentId,
+        enabledAgentIds, setEnabledAgentIdsState, iaiaLoreEnabled, setIaiaLoreEnabledState,
+        isDrawerOpen, toggleDrawer, closeDrawer,
+        iaiaSidebarOpen, iaiaSidebarContext, openIAIASidebar, closeIAIASidebar,
+        isProfileMenuOpen, closeProfileMenu, isAccessibilitatOpen, setIsAccessibilitatOpen,
+        selectedTown, setSelectedTown, chatSettings, setChatSettings,
         forensicMode, setForensicMode
     }), [
-        landingPage, preferredAgentId, enabledAgentIds, iaiaLoreEnabled, isDrawerOpen, iaiaSidebarOpen, iaiaSidebarContext, isProfileMenuOpen, isAccessibilitatOpen, selectedTown, chatSettings, forensicMode,
-        toggleDrawer, closeDrawer, openIAIASidebar, closeIAIASidebar, closeProfileMenu
+        landingPage, preferredAgentId, enabledAgentIds, iaiaLoreEnabled,
+        isDrawerOpen, iaiaSidebarOpen, iaiaSidebarContext, isProfileMenuOpen,
+        isAccessibilitatOpen, selectedTown, chatSettings, forensicMode,
+        closeDrawer, closeIAIASidebar, closeProfileMenu, openIAIASidebar, toggleDrawer
     ]);
 
     return (

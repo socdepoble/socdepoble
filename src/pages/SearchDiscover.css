@@ -7,10 +7,10 @@
 }
 
 .search-nav-bar {
-    background: rgba(0, 0, 0, 0.9) !important;
-    backdrop-filter: blur(30px) !important;
-    -webkit-backdrop-filter: blur(30px) !important;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.1) !important;
+    background: rgba(0, 0, 0, 0.9) ;
+    backdrop-filter: blur(30px) ;
+    -webkit-backdrop-filter: blur(30px) ;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1) ;
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -23,7 +23,7 @@
 }
 
 .main-search-input::placeholder {
-    color: rgba(255, 255, 255, 0.2) !important;
+    color: rgba(255, 255, 255, 0.2) ;
     font-weight: 900;
 }
 
@@ -38,8 +38,8 @@
 }
 
 .filter-chip {
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
-    border: 2px solid rgba(255, 255, 255, 0.08) !important;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) ;
+    border: 2px solid rgba(255, 255, 255, 0.08) ;
 }
 
 .filter-chip:active {
@@ -47,11 +47,11 @@
 }
 
 .filter-chip.active {
-    background: var(--color-primary) !important;
-    color: #000000 !important;
-    border-color: var(--color-primary) !important;
-    font-weight: 1000 !important;
-    box-shadow: 0 0 30px rgba(249, 115, 22, 0.3) !important;
+    background: var(--color-primary) ;
+    color: #000000 ;
+    border-color: var(--color-primary) ;
+    font-weight: 1000 ;
+    box-shadow: 0 0 30px rgba(249, 115, 22, 0.3) ;
 }
 
 .search-loading {
@@ -185,10 +185,10 @@
 .no-results-top-vibrant,
 .big-community-btn-xl,
 .intent-router-suggestion {
-    max-width: 800px !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    width: 100% !important;
+    max-width: 800px ;
+    margin-left: auto ;
+    margin-right: auto ;
+    width: 100% ;
 }
 
 .results-list {
@@ -436,13 +436,13 @@
     border-color: var(--color-primary);
     background: rgba(0, 242, 255, 0.05);
     cursor: pointer;
-    justify-content: flex-start !important;
+    justify-content: flex-start ;
 }
 
 .result-item-card.external .card-header {
     width: 100%;
     display: flex;
-    justify-content: flex-start !important;
+    justify-content: flex-start ;
 }
 
 .post-avatar.external {
@@ -451,7 +451,7 @@
     align-items: center;
     justify-content: center;
     padding: 10px;
-    margin-left: 0 !important;
+    margin-left: 0 ;
 }
 
 .badge-iaia {
@@ -548,24 +548,24 @@
 }
 
 .light .search-nav-bar {
-    background: rgba(255, 255, 255, 0.9) !important;
-    border-bottom-color: rgba(0, 0, 0, 0.1) !important;
+    background: rgba(255, 255, 255, 0.9) ;
+    border-bottom-color: rgba(0, 0, 0, 0.1) ;
 }
 
 .light .main-search-input::placeholder {
-    color: rgba(0, 0, 0, 0.4) !important;
+    color: rgba(0, 0, 0, 0.4) ;
 }
 
 .light .filter-chip {
-    border-color: rgba(0, 0, 0, 0.15) !important;
-    background: #ffffff !important;
-    color: #000000 !important;
+    border-color: rgba(0, 0, 0, 0.15) ;
+    background: #ffffff ;
+    color: #000000 ;
 }
 
 .light .filter-chip.active {
-    background: var(--color-primary) !important;
-    border-color: var(--color-primary) !important;
-    color: #ffffff !important;
+    background: var(--color-primary) ;
+    border-color: var(--color-primary) ;
+    color: #ffffff ;
 }
 
 .light .recent-item {

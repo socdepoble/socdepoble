@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
-import { X, Sparkles, Send, Bot, ScrollText, UtensilsCrossed, ChevronRight, Languages, Eye, Camera, Image as ImageIcon, Scale, History, Sprout, Music } from 'lucide-react';
-import aiService from '../services/aiService';
+import { X, Sparkles, Send, Bot, ScrollText, UtensilsCrossed, ChevronRight, Languages, Eye, Camera, Image as ImageIcon, Scale, History, Sprout, Music, Heart, BookOpen } from 'lucide-react';
+import { geminiService } from '../services/geminiService';
 import hapticService from '../services/hapticService';
 import './TallerTrellat.css';
 
@@ -35,10 +35,31 @@ const TallerTrellat = ({ isOpen, onClose }) => {
         hapticService.batec();
 
         try {
-            const personality = mode === 'iaia' ? 'iaia_maria' : mode;
+            const personaMap = {
+                'iaia': 'IAIA',
+                'secretari': 'ARXIVER',
+                'traductor': 'TRADUCTOR',
+                'ull_del_mestre': 'ULL_IAIA',
+                'jutge_de_pau': 'JUTGE_PAU',
+                'cronista': 'CRONISTA',
+                'hortola': 'AGRONOM',
+                'versador': 'VERSADOR',
+                'remeis': 'CARLA',
+                'oracle': 'TRELLAT',
+                'diccionari': 'ARXIVER'
+            };
+            const personaKey = personaMap[mode] || 'IAIA';
             const prompt = mode === 'oracle' ? "Dona'm un consell de vida basat en la saviesa popular valenciana. Una frase curta i amb caràcter d'IAIA." : input;
-            const result = await aiService.generateContent(prompt, personality, image);
-            setResponse(result);
+            
+            let imageData = null;
+            if (image) {
+                const [prefix, data] = image.split(',');
+                const mimeType = prefix.match(/:(.*?);/)[1];
+                imageData = { mimeType, data };
+            }
+
+            const result = await geminiService.ask(personaKey, prompt, imageData);
+            setResponse(result.text);
             hapticService.notifySuccess();
         } catch (error) {
             if (import.meta.env.DEV) {

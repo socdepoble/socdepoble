@@ -3,7 +3,7 @@
 .pdf-manager-container {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100dvh;
   background: var(--bg-app);
   color: var(--text-main);
   font-family: var(--font-sans);
@@ -354,11 +354,11 @@
 }
 
 .success-card .mode-btn.autofill {
-  width: 100% !important;
+  width: 100% ;
   max-width: 400px;
-  height: 60px !important;
-  border-radius: 30px !important;
-  font-size: 1rem !important;
+  height: 60px ;
+  border-radius: 30px ;
+  font-size: 1rem ;
   box-shadow: 0 10px 30px rgba(14, 165, 233, 0.3);
   margin-top: 1rem;
 }

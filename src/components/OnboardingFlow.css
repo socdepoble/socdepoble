@@ -118,7 +118,7 @@
 /* Responsive */
 @media (max-width: 640px) {
   .onboarding-container {
-    max-height: 100vh;
+    max-height: 100dvh;
     border-radius: 0;
   }
   

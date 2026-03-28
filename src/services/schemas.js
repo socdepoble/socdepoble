@@ -9,6 +9,14 @@ const sanitize = (val) => typeof val === 'string' ? DOMPurify.sanitize(val, {
     ALLOWED_ATTR: []
 }) : val;
 
+const SafeUrl = z.string().refine((val) => {
+    if (!val) return true;
+    try {
+        const u = new URL(val);
+        return ['https:', 'http:', 'blob:', 'data:'].includes(u.protocol);
+    } catch { return true; /* Deixem passar paths relatius com /assets/ */ }
+}, 'URL protocol no permès').nullable().optional();
+
 export const PostSchema = z.object({
     id: z.string().regex(uuidRegex).optional(),
     content: z.string().min(1, "El contingut no pot estar buit").transform(sanitize),
@@ -17,7 +25,7 @@ export const PostSchema = z.object({
     author_avatar: z.string().nullable().optional(),
     author_role: z.string().optional(),
     town_uuid: z.string().regex(uuidRegex).nullable().optional(),
-    image_url: z.string().nullable().optional(),
+    image_url: SafeUrl,
     is_playground: z.boolean().optional(),
     author_entity_id: z.string().regex(uuidRegex).nullable().optional(),
     type: z.enum(['post', 'book', 'event_announcement', 'internal_report', 'food_recommendation']).default('post'),
@@ -39,7 +47,7 @@ export const MarketItemSchema = z.object({
     author_user_id: z.string().regex(uuidRegex, "ID d'autor invàlid"),
     avatar_url: z.string().nullable().optional(),
     town_uuid: z.string().regex(uuidRegex).nullable().optional(),
-    image_url: z.string().nullable().optional(),
+    image_url: SafeUrl,
     is_playground: z.boolean().optional(),
     author_entity_id: z.string().regex(uuidRegex).nullable().optional(),
     is_active: z.boolean().default(true),
@@ -53,9 +61,9 @@ export const MessageSchema = z.object({
     id: z.string().regex(uuidRegex).optional(),
     conversation_id: z.string().regex(uuidRegex),
     sender_id: z.string().regex(uuidRegex),
-    sender_entity_id: z.string().regex(uuidRegex).nullable().optional(),
+
     content: z.string().nullable().optional().transform(sanitize),
-    attachment_url: z.string().nullable().optional(),
+    attachment_url: SafeUrl,
     attachment_type: z.string().nullable().optional(),
     attachment_name: z.string().nullable().optional(),
     is_ai: z.boolean().optional(),
@@ -81,12 +89,12 @@ export const ProfileSchema = z.object({
     id: z.string().regex(uuidRegex),
     full_name: z.string().min(1).nullable().optional().transform(sanitize),
     username: z.string().min(3).nullable().optional().transform(sanitize),
-    avatar_url: z.string().nullable().optional(),
-    cover_url: z.string().nullable().optional(),
+    avatar_url: SafeUrl,
+    cover_url: SafeUrl,
     bio: z.string().nullable().optional().transform(sanitize),
     primary_town: z.string().nullable().optional().transform(sanitize),
     town_uuid: z.union([z.string(), z.number()]).nullable().optional(),
-    town_id: z.union([z.string(), z.number()]).nullable().optional(),
+
     town_name: z.string().nullable().optional(),
     secondary_towns: z.array(z.union([z.string(), z.number()])).optional(),
     role: z.string().optional(),

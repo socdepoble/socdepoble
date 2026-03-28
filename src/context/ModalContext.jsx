@@ -23,6 +23,18 @@ export const ModalProvider = ({ children }) => {
     const [editConfig, setEditConfig] = useState(null); // { postData, onUpdate }
     const [isMagicPregonerOpen, setIsMagicPregonerOpen] = useState(false);
     const [isGuestInteractionModalOpen, setIsGuestInteractionModalOpen] = useState(false);
+    const [isTranslationModalOpen, setIsTranslationModalOpen] = useState(false);
+    const [translationConfig, setTranslationConfig] = useState(null); // { postId, title }
+
+    const openTranslationModal = useCallback((config) => {
+        setTranslationConfig(config);
+        setIsTranslationModalOpen(true);
+    }, []);
+
+    const closeTranslationModal = useCallback(() => {
+        setIsTranslationModalOpen(false);
+        setTranslationConfig(null);
+    }, []);
 
     const openPostModal = useCallback((config = { isPrivate: false }) => {
         setPostModalConfig(config);
@@ -103,15 +115,17 @@ export const ModalProvider = ({ children }) => {
         editConfig,
         openEditModal, closeEditModal,
         isMagicPregonerOpen, setIsMagicPregonerOpen,
-        isGuestInteractionModalOpen, setIsGuestInteractionModalOpen
+        isGuestInteractionModalOpen, setIsGuestInteractionModalOpen,
+        isTranslationModalOpen, setIsTranslationModalOpen,
+        translationConfig, openTranslationModal, closeTranslationModal
     }), [
         isNotePadOpen, isCreateModalOpen, isPostModalOpen, isEventModalOpen, isMarketModalOpen,
         isSocialManagerOpen, socialManagerContext, postModalConfig, isViewerOpen, viewerConfig,
         isConnectionModalOpen, connectionConfig, isAgentSelectorOpen, agentSelectorConfig,
         isLegalModalOpen, legalConfig, isEditModalOpen, editConfig, isMagicPregonerOpen,
-        isGuestInteractionModalOpen,
-        closeAgentSelector, closeConnectionModal, closeEditModal, closeLegalModal, closeViewer,
-        openAgentSelector, openConnectionModal, openEditModal, openLegalModal, openPostModal, openViewer
+        isGuestInteractionModalOpen, isTranslationModalOpen, translationConfig,
+        closeAgentSelector, closeConnectionModal, closeEditModal, closeLegalModal, closeViewer, closeTranslationModal,
+        openAgentSelector, openConnectionModal, openEditModal, openLegalModal, openPostModal, openViewer, openTranslationModal
     ]);
 
     return (

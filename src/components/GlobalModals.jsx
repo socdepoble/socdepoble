@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useRef } from 'react';
+// ... (imports are kept untouched from line 1 of actual file since we replace from 22)
 import { useModal } from '../context/ModalContext';
 import { useAuth } from '../context/AuthContext';
+import Portal from './Portal';
 import CreatePostModal from './CreatePostModal';
 import AddItemModal from './AddItemModal';
 import CreateEventModal from './CreateEventModal';
@@ -14,6 +16,7 @@ import IAIARoleSelectorModal from './IAIARoleSelectorModal';
 import MagicPregoner from './MagicPregoner';
 import CreationHub from './CreationHub';
 import GuestInteractionModal from './GuestInteractionModal';
+import { useModalFocusTrap } from '../hooks/useModalFocusTrap';
 
 const GlobalModals = () => {
     const { isCreateModalOpen, isPostModalOpen, setIsPostModalOpen, isEventModalOpen, setIsEventModalOpen, isMarketModalOpen, setIsMarketModalOpen, isSocialManagerOpen, setIsSocialManagerOpen, postModalConfig, isConnectionModalOpen, connectionConfig, closeConnectionModal, isAgentSelectorOpen, closeAgentSelector, agentSelectorConfig, isViewerOpen, closeViewer, viewerConfig, isLegalModalOpen, closeLegalModal, legalConfig, editConfig, isEditModalOpen, closeEditModal, isMagicPregonerOpen, setIsMagicPregonerOpen } = useModal();
@@ -39,8 +42,29 @@ const GlobalModals = () => {
         window.dispatchEvent(new CustomEvent('data-refresh', { detail: { type: 'market' } }));
     };
 
+    const isAnyModalOpen = isPostModalOpen || isEventModalOpen || isMarketModalOpen || isSocialManagerOpen || isConnectionModalOpen || isAgentSelectorOpen || isViewerOpen || isLegalModalOpen || isEditModalOpen || isMagicPregonerOpen || isCreateModalOpen;
+
+    const closeAnyModal = () => {
+        if (isPostModalOpen) setIsPostModalOpen(false);
+        else if (isEventModalOpen) setIsEventModalOpen(false);
+        else if (isMarketModalOpen) setIsMarketModalOpen(false);
+        else if (isSocialManagerOpen) setIsSocialManagerOpen(false);
+        else if (isConnectionModalOpen) closeConnectionModal();
+        else if (isAgentSelectorOpen) closeAgentSelector();
+        else if (isViewerOpen) closeViewer();
+        else if (isLegalModalOpen) closeLegalModal();
+        else if (isEditModalOpen) closeEditModal();
+        else if (isMagicPregonerOpen) setIsMagicPregonerOpen(false);
+        // isCreateModalOpen naturally bubbles context or we let it live.
+    };
+
+    const portalRef = useRef(null);
+
+    useModalFocusTrap(isAnyModalOpen, closeAnyModal, portalRef);
+
     return (
-        <>
+        <Portal>
+            <div ref={portalRef} tabIndex="-1" className="outline-none contents">
             {isPostModalOpen && (
                 <CreatePostModal
                     isOpen={isPostModalOpen}
@@ -137,7 +161,8 @@ const GlobalModals = () => {
                 />
             )}
             {isCreateModalOpen && <CreationHub />}
-        </>
+            </div>
+        </Portal>
     );
 };
 

@@ -22,7 +22,47 @@ import StatusLoader from "../components/StatusLoader";
 import SEO from "../components/SEO";
 import ContextualHeader from "../components/ContextualHeader";
 import { MOCK_EVENTS } from "../data";
+import { wikipediaService } from "../services/wikipediaService";
 import "./Towns.css";
+
+// ----------------------------------------------------------------------
+// TownWikipediaEnricher: Carga perezosa de Wikipedia con caché local estricto
+// ----------------------------------------------------------------------
+const TownWikipediaEnricher = ({ town, children }) => {
+  const [wikiData, setWikiData] = useState(() => {
+    const cached = localStorage.getItem(`wiki_enrich_${town.name}`);
+    return cached ? JSON.parse(cached) : null;
+  });
+
+  useEffect(() => {
+    let isMounted = true;
+    if (!wikiData) {
+      wikipediaService.getTownSummary(town.name).then((data) => {
+        if (data && isMounted) {
+          const info = {
+            image: data.original_image || data.thumbnail,
+            summary: data.extract,
+            page_url: data.page_url,
+          };
+          setWikiData(info);
+          localStorage.setItem(`wiki_enrich_${town.name}`, JSON.stringify(info));
+        }
+      });
+    }
+    return () => { isMounted = false; };
+  }, [town.name, wikiData]);
+
+  // Mezclamos los datos nativos con los enriquecidos, dando prioridad a Wikipedia para pobles huérfanos
+  const enrichedTown = {
+    ...town,
+    image_url: wikiData?.image || town.image_url,
+    description: wikiData?.summary || town.description,
+    wiki_url: wikiData?.page_url,
+  };
+
+  return children(enrichedTown);
+};
+// ----------------------------------------------------------------------
 
 const TownLogo = ({ url, name }) => {
   const [error, setError] = useState(false);
@@ -163,13 +203,12 @@ const Towns = () => {
   }, [towns, townSearch]);
 
   const filteredEvents = useMemo(() => {
+    if (!townSearch) return MOCK_EVENTS;
+    const normalizedSearch = townSearch.toLowerCase();
     return MOCK_EVENTS.filter((event) => {
-      const matchesSearch =
-        !townSearch ||
-        event.title.toLowerCase().includes(townSearch.toLowerCase()) ||
-        event.description.toLowerCase().includes(townSearch.toLowerCase()) ||
-        event.location.toLowerCase().includes(townSearch.toLowerCase());
-      return matchesSearch;
+      return event.title.toLowerCase().includes(normalizedSearch) ||
+        event.description.toLowerCase().includes(normalizedSearch) ||
+        event.location.toLowerCase().includes(normalizedSearch);
     });
   }, [townSearch]);
 
@@ -220,7 +259,7 @@ const Towns = () => {
 
 
 
-      <div className="sticky top-0 w-full z-[100] shadow-md">
+      <div className="sticky top-0 w-full z-dropdown shadow-md">
           <ContextualHeader
             ref={searchRef}
             searchTerm={townSearch}
@@ -241,8 +280,9 @@ const Towns = () => {
                   onClick={() => navigate('/mapa')}
                   className="flex items-center justify-center w-10 h-10 bg-[#FF6D23] text-white rounded-[28px] hover:scale-110 transition-transform shadow-lg"
                   title="Obrir Mapa Local"
+                  aria-label="Obrir Mapa Local"
                 >
-                  <MapIcon size={20} />
+                  <MapIcon size={20} aria-hidden="true" />
                 </button>
               </div>
             }
@@ -251,8 +291,26 @@ const Towns = () => {
 
       <div className="towns-content-area" ref={containerRef}>
         {currentTab === "pobles" && (
-          <div className={`mx-auto w-full transition-all duration-300 ${viewMode === 'grid' ? 'max-w-[1600px] px-2 sm:px-6' : 'max-w-3xl'}`}>
+          <div className={`mx-auto w-full transition-all duration-300 ${viewMode === 'grid' ? 'max-w-none px-2 sm:px-6 lg:px-8' : 'max-w-5xl px-4'}`}>
             <div className={`view-mode-${viewMode}`} style={{ display: 'grid', gridTemplateColumns: `repeat(${viewMode === 'list' || viewMode === 'single' ? 1 : columnCount}, minmax(0, 1fr))`, gap: '24px', padding: '24px 16px', paddingBottom: '32px' }}>
+              
+              {/* ATRIBUCIÓ OBLIGATÒRIA I AGRAÏMENT A WIKIPEDIA (IMPERATIU LEGAL) */}
+              <div className="col-span-full mb-2 lg:mb-4 p-4 lg:p-6 bg-gradient-to-r from-black/40 via-black/20 to-transparent dark:from-white/10 dark:via-white/5 border-l-4 border-l-[var(--theme-accent-primary)] rounded-r-xl backdrop-blur-sm animate-in-up">
+                <div className="flex gap-4 items-start">
+                    <Info size={24} className="text-[var(--theme-accent-primary)] shrink-0 mt-1" />
+                    <div>
+                        <h4 className="text-sm md:text-md font-bold text-white tracking-widest uppercase mb-1 drop-shadow-md">
+                            🏛️ Patrimoni Obert Connectat
+                        </h4>
+                        <p className="text-xs md:text-sm text-white/80 leading-relaxed max-w-4xl">
+                            Les imatges històriques principals i els textos descriptius fonamentals exposats en aquest directori de pobles reben la injecció en temps real del coneixement estructurat per la comunitat global a <a href="https://ca.wikipedia.org" target="_blank" rel="noopener noreferrer" className="text-[var(--theme-accent-primary)] hover:underline font-bold">Wikipedia</a> i <a href="https://commons.wikimedia.org" target="_blank" rel="noopener noreferrer" className="text-[var(--theme-accent-primary)] hover:underline font-bold">Wikimedia Commons</a>, d'acord amb la llicència <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer" className="opacity-70 hover:opacity-100 hover:underline">CC BY-SA 3.0 / 4.0</a>. 
+                            <br/><br/>
+                            Des de l'equip de *Sóc de Poble*, volem expressar el nostre etern agraïment a l'esforç col·lectiu i desinteressat per preservar el llegat antropològic d'Alacant. La memòria no es destrueix, es comparteix.
+                        </p>
+                    </div>
+                </div>
+              </div>
+
               {filteredTowns.length > 0 ? (
                 filteredTowns.map((town) => {
                   const isUserTown =
@@ -267,33 +325,58 @@ const Towns = () => {
                     String(town.id) === lastActiveId;
 
                   return (
-                    <Link
-                      key={town.uuid || town.id}
-                      to={`/pobles/${town.uuid || town.id}`}
-                      className={`town-card-link card-rizoma-wrapper animate-in w-full h-full ${
-                        isUserTown ? "is-user-town" : ""
-                      }`}
-                    >
-                      <UniversalCard
-                        item={town}
-                        subtitle={town.name}
-                        avatarSrc={town.logo_url}
-                        avatarName={town.name}
-                        className="town-card"
-                        image={town.image_url}
-                        mode="pobles"
-                        isBating={isBating}
-                        viewMode={viewMode}
-                      >
+                    <TownWikipediaEnricher key={town.uuid || town.id} town={town}>
+                      {(enrichedTown) => (
                         <div
-                          className="town-description-mini text-sm italic opacity-80 line-clamp-2"
-                          style={{ padding: "10px 0" }}
+                          onClick={() => navigate(`/pobles/${enrichedTown.uuid || enrichedTown.id}`)}
+                          role="button"
+                          tabIndex={0}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                              e.preventDefault();
+                              navigate(`/pobles/${enrichedTown.uuid || enrichedTown.id}`);
+                            }
+                          }}
+                          className={`town-card-link cursor-pointer card-rizoma-wrapper animate-in w-full h-full ${
+                            isUserTown ? "is-user-town" : ""
+                          }`}
                         >
-                          {town.description ||
-                            "Explora la saviesa i el batec d'aquest poble."}
+                          <UniversalCard
+                            item={enrichedTown}
+                            subtitle={enrichedTown.name}
+                            avatarSrc={enrichedTown.image_url}
+                            avatarName={enrichedTown.name}
+                            className="town-card"
+                            image={enrichedTown.image_url}
+                            mode="pobles"
+                            isBating={isBating}
+                            viewMode={viewMode}
+                          >
+                            <div
+                              className="town-description-mini text-sm italic opacity-80"
+                              style={{ padding: "10px 0" }}
+                              title={enrichedTown.description}
+                            >
+                              <span className="line-clamp-3">
+                                {enrichedTown.description ||
+                                  "Explora la saviesa i el batec d'aquest poble."}
+                              </span>
+                              {enrichedTown.wiki_url && (
+                                <a 
+                                  href={enrichedTown.wiki_url} 
+                                  target="_blank" 
+                                  rel="noopener noreferrer" 
+                                  className="not-italic block mt-2 text-xs font-bold text-[var(--theme-accent-primary)] hover:underline opacity-100 transition-opacity"
+                                  onClick={(e) => e.stopPropagation()}
+                                >
+                                  Llegir l'article sencer a Wikipedia ↗
+                                </a>
+                              )}
+                            </div>
+                          </UniversalCard>
                         </div>
-                      </UniversalCard>
-                    </Link>
+                      )}
+                    </TownWikipediaEnricher>
                   );
                 })
               ) : (
@@ -358,7 +441,7 @@ const Towns = () => {
                 <p>Prova amb altres paraules o etiquetes.</p>
               </div>
             ) : (
-              <div className={`mx-auto w-full transition-all duration-300 ${viewMode === 'grid' ? 'max-w-[1600px] px-2 sm:px-6' : 'max-w-3xl'}`}>
+              <div className={`mx-auto w-full transition-all duration-300 ${viewMode === 'grid' ? 'max-w-none px-2 sm:px-6 lg:px-8' : 'max-w-5xl px-4'}`}>
                 <div className={`view-mode-${viewMode}`} style={{ display: 'grid', gridTemplateColumns: `repeat(${viewMode === 'list' || viewMode === 'single' ? 1 : columnCount}, minmax(0, 1fr))`, gap: '24px', padding: '24px 16px', paddingBottom: '32px' }}>
                   {filteredEvents.map((event) => (
                     <div key={event.id} className="card-rizoma-wrapper animate-in w-full flex">
@@ -512,8 +595,9 @@ const Towns = () => {
         className="towns-search-fab"
         onClick={handleFABClick}
         title="Cercar Pobles"
+        aria-label="Cercar Pobles"
       >
-        <Search size={28} />
+        <Search size={28} aria-hidden="true" />
       </button>
     </div>
   );

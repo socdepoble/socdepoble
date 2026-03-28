@@ -10,7 +10,10 @@ const NotePad = () => {
     const [isMinimized, setIsMinimized] = useState(false);
 
     useEffect(() => {
-        localStorage.setItem('sdp_master_note', note);
+        const handler = setTimeout(() => {
+            localStorage.setItem('sdp_master_note', note);
+        }, 300);
+        return () => clearTimeout(handler);
     }, [note]);
 
     const handleCopy = () => {

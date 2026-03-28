@@ -1,6 +1,6 @@
 .subsidies-page {
   padding: 2rem;
-  min-height: 100vh;
+  min-height: 100dvh;
   background: radial-gradient(
     circle at top left,
     rgba(255, 109, 35, 0.05),

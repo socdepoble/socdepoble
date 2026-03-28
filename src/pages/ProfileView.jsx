@@ -168,7 +168,7 @@ const ProfileView = () => {
                                 raw_town_id: foundTown.uuid || foundTown.id,
                                 full_name: `Gent de ${foundTown.name.replace("La Torre de les Maçanes", "La Torre")}`,
                                 username: sluggify(foundTown.name),
-                                avatar_url: foundTown.logo_url || '/default-avatar.png',
+                                avatar_url: foundTown.image_url || '/default-avatar.png',
                                 header_image_url: foundTown.image_url,
                                 role: 'poble',
                                 bio: bio,
@@ -393,7 +393,7 @@ const ProfileView = () => {
             <SEO title={profile?.full_name} description={profile?.bio} />
             
             {/* Contextual Header Sticky */}
-            <div className="sticky top-0 w-full z-[100] shadow-sm">
+            <div className="sticky top-0 w-full z-dropdown shadow-sm">
                 <ContextualHeader
                     searchTerm=""
                     onSearchChange={() => {}}
@@ -618,7 +618,7 @@ const ProfileView = () => {
                         
                         {/* LANGUAGE SELECTOR FOR PROFILE OWNER (MOBILE ACCESSIBILITY) */}
                         {isOwnProfile && (
-                            <div className="w-full mt-2 animate-in fade-in slide-in-from-top-4 duration-500 ease-out z-[100] relative">
+                            <div className="w-full mt-2 animate-in fade-in slide-in-from-top-4 duration-500 ease-out z-dropdown relative">
                                 <LanguageSelector variant="profile" />
                             </div>
                         )}
@@ -627,7 +627,7 @@ const ProfileView = () => {
 
                 {/* 4.5. PÀGINES I ENTITATS DEL NODE (Javi's creations) */}
                 {userEntities && userEntities.length > 0 && (
-                    <div className="w-full max-w-3xl relative mb-12 animate-in fade-in slide-in-from-bottom-16 duration-1000 delay-300 ease-out-expo z-[80]">
+                    <div className="w-full max-w-3xl relative mb-12 animate-in fade-in slide-in-from-bottom-16 duration-1000 delay-300 ease-out-expo z-80">
                         <h3 className={`text-sm font-black uppercase tracking-widest ${textMuted} mb-4 ml-6 sm:ml-8`}>
                             {isOwnProfile ? 'Pàgines Administrades' : 'Entitats Gestades'}
                         </h3>
@@ -687,7 +687,7 @@ const ProfileView = () => {
                 {/* 5. TABS & CONTENT SYSTEM */}
                 <div className={`w-full pt-12 relative min-h-[50vh] ${viewMode === 'grid' ? 'max-w-[1600px]' : 'max-w-4xl'} mx-auto transition-all duration-500`}>
                     {/* Premium Oversized Tab Switcher (STICKY & GLASSMORPHISM) */}
-                    <div className="sticky top-[60px] md:top-[80px] z-[90] flex flex-wrap justify-center gap-2 sm:gap-4 mb-12 py-4 px-2 rounded-[28px] backdrop-blur-3xl bg-white/10 border border-white/5 shadow-2xl mx-auto w-[calc(100%-1rem)] sm:w-max">
+                    <div className="sticky top-[60px] md:top-[80px] z-90 flex flex-wrap justify-center gap-2 sm:gap-4 mb-12 py-4 px-2 rounded-[28px] backdrop-blur-3xl bg-white/10 border border-white/5 shadow-2xl mx-auto w-[calc(100%-1rem)] sm:w-max">
                         <button
                             onClick={() => setActiveTab('mur')}
                             className={`px-6 sm:px-8 py-3 rounded-[28px] font-black text-sm tracking-[0.2em] transition-all duration-500 uppercase backdrop-blur-md ${activeTab === 'mur' ? 'bg-[#F97316] text-white shadow-[0_0_20px_rgba(255,107,0,0.3)] scale-105' : `bg-transparent ${isDayMode ? 'text-black/40 hover:bg-black/5 hover:text-black' : 'text-white/50 hover:bg-white/10 hover:text-white'}`}`}
@@ -873,7 +873,7 @@ const ProfileView = () => {
             {showTopBtn && (
                 <button 
                     onClick={scrollToTop} 
-                    className="fixed bottom-24 right-6 md:bottom-10 md:right-10 w-12 h-12 md:w-14 md:h-14 bg-[var(--theme-accent-primary)] hover:bg-[var(--theme-accent-primary-hover)] text-white rounded-full flex items-center justify-center shadow-[0_10px_30px_rgba(255,107,0,0.5)] transition-all animate-in fade-in zoom-in z-[300]"
+                    className="fixed bottom-24 right-6 md:bottom-10 md:right-10 w-12 h-12 md:w-14 md:h-14 bg-[var(--theme-accent-primary)] hover:bg-[var(--theme-accent-primary-hover)] text-white rounded-full flex items-center justify-center shadow-[0_10px_30px_rgba(255,107,0,0.5)] transition-all animate-in fade-in zoom-in z-overlay"
                     title="Torna a dalt ràpidament"
                 >
                     <ArrowUp size={24} strokeWidth={3} />

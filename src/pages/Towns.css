@@ -1,7 +1,7 @@
 .towns-container {
     padding-bottom: calc(var(--nav-height) + 40px);
     background: transparent;
-    min-height: 100vh;
+    min-height: 100dvh;
 }
 
 /* Page header styles are now global in index.css */
@@ -13,7 +13,7 @@
 /* === TOWN DETAIL PAGE === */
 .town-detail-page {
     background-color: var(--bg-main);
-    min-height: 100vh;
+    min-height: 100dvh;
 }
 
 .town-detail-hero {
@@ -563,7 +563,7 @@
 .town-detail-page {
     padding-bottom: calc(var(--nav-height) + 40px);
     background-color: var(--bg-main);
-    min-height: 100vh;
+    min-height: 100dvh;
 }
 
 .town-detail-hero {

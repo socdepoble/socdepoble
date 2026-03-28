@@ -78,6 +78,9 @@ const IAIAChatSidebar = ({ isOpen, onClose, context = "general" }) => {
     }
   }, [width, isOpen]);
 
+  const MIN_SIDEBAR_WIDTH = 300;
+  const MAX_SIDEBAR_WIDTH = 800;
+  
   const startResizing = (e) => {
     e.preventDefault();
     setIsResizing(true);
@@ -85,25 +88,52 @@ const IAIAChatSidebar = ({ isOpen, onClose, context = "general" }) => {
 
   const stopResizing = useCallback(() => {
     setIsResizing(false);
+    document.body.style.cursor = 'default';
+    document.body.style.userSelect = 'auto';
   }, []);
 
   const resize = useCallback((e) => {
-    if (isResizing) {
-      const newWidth = window.innerWidth - e.clientX;
-      if (newWidth > 300 && newWidth < 800) {
-        setWidth(newWidth);
-      }
-    }
+    if (!isResizing) return;
+    const newWidth = window.innerWidth - e.clientX;
+    
+    // Calculem la nova amplada amb límits precisos
+    const clampedWidth = Math.min(Math.max(newWidth, MIN_SIDEBAR_WIDTH), MAX_SIDEBAR_WIDTH);
+    setWidth(clampedWidth);
   }, [isResizing]);
 
   useEffect(() => {
+    if (!isResizing) return;
+    
+    document.body.style.cursor = 'col-resize';
+    document.body.style.userSelect = 'none';
+    
     window.addEventListener('mousemove', resize);
     window.addEventListener('mouseup', stopResizing);
+    
     return () => {
       window.removeEventListener('mousemove', resize);
       window.removeEventListener('mouseup', stopResizing);
+      document.body.style.cursor = 'default';
+      document.body.style.userSelect = 'auto';
     };
   }, [isResizing, resize, stopResizing]);
+
+  // Persistim l'amplada en localStorage
+  useEffect(() => {
+    const saved = localStorage.getItem('sidebarWidth');
+    if (saved) {
+        const parsed = parseInt(saved, 10);
+        if (parsed >= MIN_SIDEBAR_WIDTH && parsed <= MAX_SIDEBAR_WIDTH) {
+            setWidth(parsed);
+        }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!isResizing) { // Guardar nomes en parar
+        localStorage.setItem('sidebarWidth', width.toString());
+    }
+  }, [width, isResizing]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -345,12 +375,12 @@ const IAIAChatSidebar = ({ isOpen, onClose, context = "general" }) => {
     <Portal>
       {/* Overlay for background dimming and closing on click */}
       <div 
-        className={`fixed inset-0 bg-black/50 z-[9998] touch-none overscroll-none transition-opacity duration-300 ${isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`} 
+        className={`fixed inset-0 bg-black/50 z-overlay touch-none overscroll-none transition-opacity duration-300 ${isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`} 
         onClick={onClose} 
       />
       <div 
           ref={sidebarRef}
-          className={`iaia-chat-sidebar relative z-[9999] bg-theme-sidebar border-l border-white/5 ${isOpen ? 'open' : ''} ${isResizing ? 'resizing' : ''}`}
+          className={`iaia-chat-sidebar relative z-sidebar bg-theme-sidebar border-l border-white/5 ${isOpen ? 'open' : ''} ${isResizing ? 'resizing' : ''}`}
         style={{ 
           width: (isOpen && typeof window !== 'undefined' && window.innerWidth > 768) 
             ? `${width}px` 
@@ -369,33 +399,6 @@ const IAIAChatSidebar = ({ isOpen, onClose, context = "general" }) => {
       >
         <div className="handle-line" />
       </div>
-
-      <header className="chat-sidebar-header bg-theme-header border-b border-white/5">
-        <div className="flex items-center gap-3">
-            <div className="archon-avatar genesis-radius">
-                <Brain size={20} />
-            </div>
-            <div>
-                <h3 className="text-xs font-black text-theme-text uppercase tracking-[0.2em] leading-none">IAIA ARCHON</h3>
-                <span className="text-[9px] text-orange-500 font-bold uppercase tracking-widest">Sollutia</span>
-            </div>
-        </div>
-        <div className="flex items-center gap-2">
-            <button className="p-2 hover:bg-white/5 rounded-[28px] transition-colors opacity-60 hover:opacity-100">
-                <VideoIcon size={18} />
-            </button>
-            <button className="p-2 hover:bg-white/5 rounded-[28px] transition-colors opacity-60 hover:opacity-100">
-                <Phone size={18} />
-            </button>
-            <div className="w-[1px] h-4 bg-white/10 mx-1" />
-            <button className="p-2 hover:bg-white/5 rounded-[28px] transition-colors opacity-60 hover:opacity-100">
-                <Search size={18} />
-            </button>
-            <button onClick={onClose} className="p-2 hover:bg-white/5 rounded-[28px] transition-colors">
-                <X size={18} />
-            </button>
-        </div>
-      </header>
 
       <div className="chat-messages-container" ref={scrollRef}>
         {renderedMessages}

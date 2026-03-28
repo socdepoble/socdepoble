@@ -1,5 +1,5 @@
 .design-canon-page {
-    min-height: 100vh;
+    min-height: 100dvh;
     background-color: var(--bg-canvas);
     padding: 100px 20px 60px;
     max-width: 1200px;

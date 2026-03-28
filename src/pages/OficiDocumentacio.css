@@ -1,7 +1,7 @@
 .ofici-page {
     /* Most styles are migrated to Tailwind utility classes in V15/Premium.
        Reserving for highly specific animations or overrides. */
-    min-height: 100vh;
+    min-height: 100dvh;
 }
 
 @keyframes floatElement {

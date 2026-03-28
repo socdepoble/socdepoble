@@ -21,7 +21,26 @@
     "province": "Province",
     "comarca": "Comarca",
     "unknown": "Unknown",
-    "share_soc": "Share Sóc de Poble"
+    "share_soc": "Share Sóc de Poble",
+    "offline": "Offline",
+    "typing": "Typing...",
+    "event": "Event",
+    "role_xat": "Chat",
+    "role_treball": "Work",
+    "role_poble": "Towns",
+    "role_mercat": "Market",
+    "create_new": "Create new",
+    "public": "Public",
+    "private": "Private",
+    "groups": "Groups",
+    "privacy": "Privacy",
+    "load_more": "Load more",
+    "product": "Product",
+    "publish": "Publish",
+    "change_language": "Change language",
+    "support_short": "Support",
+    "save_btn": "Save",
+    "cancel": "Cancel"
   },
   "nav": {
     "chats": "Chats",
@@ -36,7 +55,26 @@
     "theme_night": "Night Mode",
     "system_op_part_1": "SYSTEM",
     "system_op_part_2": "OPERATING",
-    "legal_info": "LEGAL INFO"
+    "legal_info": "LEGAL INFO",
+    "events": "Events",
+    "map_tab": "Map",
+    "my_entities": "My Entities",
+    "work_groups": "Work Groups",
+    "empty_entities": "No entities yet",
+    "my_posts": "My Posts",
+    "my_products": "My Products",
+    "saved": "Saved",
+    "my_towns": "My Towns",
+    "privacy": "Privacy",
+    "support": "Support",
+    "about": "About",
+    "profile_notifications": "Notifications",
+    "notifications": "Notifications",
+    "add_town": "Add Town",
+    "stats_posts": "Posts",
+    "stats_sales": "On Sale",
+    "stats_connections": "Connections",
+    "my_album": "My Album"
   },
   "notebook": {
     "title": "Notebook",
@@ -49,19 +87,38 @@
     "trellat_title": "TRELLAT (CATEGORIES)",
     "trash": {
       "bucket": "Trash",
-      "send_to_trash": "Send to Trash"
+      "send_to_trash": "Send to Trash",
+      "restore": "Restore"
+    },
+    "placeholder": "Write notes...",
+    "info": "Info",
+    "categories": {
+      "trellat": "Common Sense"
     }
   },
   "chats": {
     "title": "Chats",
     "empty": "No active chats.",
-    "loading_chats": "Loading chats..."
+    "loading_chats": "Loading chats...",
+    "iaia_notice_title": "Talking to MArIA",
+    "iaia_notice_subtitle": "(Artificial Memory and Action)",
+    "iaia_notice_text": "MArIA: Artificial Memory and Action. Your assistant to pulse with the town.",
+    "start_iaia": "Start chat",
+    "storage_limit_warning": "Warning: 10MB limit during beta.",
+    "storage_banner_title": "Storage Warning",
+    "storage_banner_text": "Do not upload sensitive data. Used for demo purposes."
   },
   "feed": {
     "title": "Feed",
     "placeholder": "What's happening in town?",
     "empty": "No updates on the feed.",
-    "loading_feed": "Loading feed..."
+    "loading_feed": "Loading feed...",
+    "personal_tags": "Personal tags",
+    "new_tag": "New tag...",
+    "connect": "Connect",
+    "comments": "Comments",
+    "share": "Share",
+    "simbiosi_footer": "Symbiosis: {{human}}% Human | {{ai}}% AI"
   },
   "market": {
     "title": "Market",
@@ -81,7 +138,13 @@
     "category": "Category",
     "add_photo": "Add a photo",
     "publish": "Publish Item",
-    "interested": "Interested"
+    "interested": "Interested",
+    "tabs": {
+      "all": "All",
+      "local": "Local",
+      "crafts": "Crafts",
+      "secondhand": "Second-hand"
+    }
   },
   "auth": {
     "login": "Login",
@@ -138,7 +201,12 @@
     "change_number": "Change number",
     "welcome_home_prefix": "Welcome home, ",
     "iaia_final_speech": "«You are already one of us. Town's heart, digital beat. See you in the square!»",
-    "iaia_signature": "- THE IAIA 👵✨"
+    "iaia_signature": "- THE IAIA 👵✨",
+    "username": "Username",
+    "no_account": "No account?",
+    "register_now": "Register now",
+    "otp_sent": "Code sent!",
+    "verify_code": "Verify code"
   },
   "towns": {
     "select_town": "Select Town",
@@ -146,7 +214,10 @@
     "all_towns": "All towns",
     "main_town": "Main Town",
     "no_results_search": "No results found for your search.",
-    "no_results_list": "No elements available."
+    "no_results_list": "No elements available.",
+    "title": "The Towns",
+    "description": "Explore connected towns.",
+    "select_town_short": "Town"
   },
   "emoji": {
     "frequently_used": "Frequently used",
@@ -164,6 +235,143 @@
   },
   "chat": {
     "guest_warning_text": "You are chatting as a Guest and this temporary chat will be deleted.",
-    "guest_warning_link": "Register to save your conversations."
+    "guest_warning_link": "Register to save your conversations.",
+    "iaia_forwarding_toast": "🤖 Forwarding your request to MArIA...",
+    "remote_beat_debate": "⚙️ Remote beat: Starting debate between AIs...",
+    "voice_message": "🎤 Voice message",
+    "attachment_sent": "[The user just sent you a document or photo]",
+    "moved_to_local_expert": "📁 Moved to the local expert.",
+    "undo": "UNDO",
+    "npc_delegate_title": "Delegated Profile:",
+    "npc_delegate_desc": "This entity does not have an active AI engine. Messages will be automatically routed to ",
+    "npc_delegate_desc_2": " to be answered.",
+    "search_placeholder": "SEARCH A CHAT...",
+    "search_aria": "Search a chat",
+    "silence_total": "Total silence.",
+    "start_conversation_wall": "Start a conversation on the wall",
+    "beating_with_socdepoble": "Beating with Sóc de Poble...",
+    "today": "TODAY",
+    "yesterday": "YESTERDAY",
+    "now": "NOW",
+    "dev_feature": "Feature in development (V3 Audit)",
+    "search_fragments": "Search fragments...",
+    "guest": "Guest",
+    "iaia_beating": "AI Beating",
+    "online_now": "Online now",
+    "search_conversation": "Search in conversation",
+    "chat_options": "Chat Options",
+    "add_members": "Add members",
+    "group_info": "Group info",
+    "group_media": "Group media",
+    "search": "Search",
+    "mute_notifications": "Mute notifications",
+    "temporary_messages": "Temporary messages",
+    "wallpaper": "Wallpaper",
+    "more": "More",
+    "talk_with": "Talk with {{name}}..."
+  },
+  "admin": {
+    "zero_day_setup": "Zero-Day Setup",
+    "polymorphic_engine": "Polymorphic Engine",
+    "control_center": "Control Center",
+    "citizen_management": "Citizen Management",
+    "identity_roleplay": "Identity Engine (Roleplay)",
+    "radio_pati": "Gossip Radio Catalog",
+    "super_mouse": "Super Mouse (God Mode)",
+    "broadcast": "Broadcasts",
+    "entity_management": "Entity Management",
+    "heal_system": "Healing System",
+    "tech_support": "Tech Support",
+    "lexicon": "Lexicon Dictionary",
+    "iaia_memex": "IAIA Memex",
+    "stores": "Stores Management",
+    "social_utility": "Social Utility",
+    "memory_archive": "Memory Archive",
+    "marketing": "Universal Marketing",
+    "editorial_gov": "Editorial Governance",
+    "permissions_gov": "Permissions & Roles"
+  },
+  "share": {
+    "title": "Share",
+    "copy_link": "Copy link",
+    "link_copied": "Link copied!",
+    "whatsapp": "WhatsApp",
+    "telegram": "Telegram",
+    "facebook": "Facebook",
+    "twitter": "X (Twitter)",
+    "email": "Email"
+  },
+  "groups": {
+    "create_group": "Create Group",
+    "group_name": "Group Name",
+    "group_description": "Description",
+    "add_members": "Add Members",
+    "search_members": "Search people...",
+    "selected_count": "{{count}} member selected",
+    "selected_count_plural": "{{count}} members selected",
+    "no_selection": "Select at least one member",
+    "create": "Create",
+    "creating": "Creating...",
+    "next": "Next",
+    "back": "Back",
+    "cancel": "Cancel",
+    "group_info": "Group Info",
+    "members": "Members",
+    "admin": "Admin",
+    "member": "Member",
+    "leave_group": "Leave Group",
+    "delete_group": "Delete Group",
+    "add_member": "Add Member",
+    "remove_member": "Remove Member"
+  },
+  "push": {
+    "enable_notifications": "Enable Notifications",
+    "notifications_enabled": "Notifications enabled",
+    "notifications_blocked": "Notifications blocked",
+    "new_message": "New message",
+    "new_comment": "New comment",
+    "group_message": "Group message"
+  },
+  "mur": {
+    "title": "Wall"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "empty": "No notifications.",
+    "loading": "Loading..."
+  },
+  "map": {
+    "title": "Connected Map",
+    "info_title": "Map Info",
+    "info_desc": "Map shows active geolocated nodes."
+  },
+  "events": {
+    "title": "Upcoming Events",
+    "empty": "No events scheduled.",
+    "create_title": "Create Event",
+    "placeholder": "What is the event about?"
+  },
+  "profile": {
+    "publications": "Wall",
+    "market": "Market",
+    "connections": "Connections",
+    "no_publications": "No posts",
+    "no_items": "No items",
+    "iaia_inspired": "Inspired by MArIA"
+  },
+  "iaia_page": {
+    "title": "MArIA",
+    "subtitle": "Memory AI",
+    "cta_button": "Ask me anything"
+  },
+  "diag": {
+    "title": "Support"
+  },
+  "sim": {
+    "active": "Simulation Active",
+    "stop": "Stop"
+  },
+  "media": {
+    "type_file": "File"
   }
 }

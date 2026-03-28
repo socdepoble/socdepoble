@@ -130,6 +130,6 @@ select option {
 }
 
 .capture-card:hover {
-    border-color: #f97316 !important;
+    border-color: #f97316 ;
     transform: translateY(-2px);
 }

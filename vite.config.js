@@ -104,8 +104,10 @@ export default defineConfig({
       "@sqlite.org/sqlite-wasm",
       "onnxruntime-web",
       "@journeyapps/wa-sqlite",
-      "@powersync/web",
+      "@powersync/web"
     ],
+    // Explicit runtime dependencies to speed up HMR
+    include: ["react-router-dom", "lucide-react", "axios"]
   },
   server: {
     host: true,

@@ -140,7 +140,7 @@ const TownPickerModal = ({
                                     >
                                         <div className="town-info" onClick={() => togglePrimary(town)}>
                                             <div className="town-avatar">
-                                                {town.logo_url ? <img src={town.logo_url} alt="" /> : <Map size={20} />}
+                                                {town.image_url ? <img src={town.image_url} alt="" /> : <Map size={20} />}
                                             </div>
                                             <div className="town-details">
                                                 <span className="town-name">{town.name}</span>

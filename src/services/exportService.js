@@ -316,7 +316,7 @@ export const exportService = {
                 <meta charset="UTF-8">
                 <title>${title}</title>
                 <style>
-                    @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700;900&display=swap');
+                    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wdth,wght@75,400;75,700;75,900&display=swap');
                     
                     @page {
                         size: A4;

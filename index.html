@@ -5,8 +5,16 @@
     <title>Sóc de Poble | El Sistema Operatiu Rural</title>
     <meta
       name="description"
-      content="Connecta amb la teua comunitat i recupera el trellat del territori. Mercat rural, memòria viva i sobirania digital."
+      content="Connecta amb la teua comunitat i recupera el trellat del territori. Mercat rural, memòria viva i sobirania digital en la xarxa social KM 0."
     />
+    <meta name="keywords" content="xarxa social rural, pobles connectats, IAIA, memòria històrica, comerç local, sobirania digital, valencià" />
+    <meta name="theme-color" content="#f97316" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Sóc de Poble" />
+    <link rel="author" href="https://socdepoble.org" />
 
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://socdepoble.org/" />
@@ -33,13 +41,15 @@
     <meta property="og:locale" content="ca_ES" />
 
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@socdepoble" />
+    <meta name="twitter:creator" content="@socdepoble" />
     <meta
       name="twitter:title"
       content="Sóc de Poble | El Sistema Operatiu Rural"
     />
     <meta
       name="twitter:description"
-      content="Connecta amb la teua comunitat i recupera el trellat del territori. Mercat rural, memòria viva i sobirania digital."
+      content="Connecta amb la teua comunitat i recupera el trellat. Mercat rural, memòria viva i sobirania digital."
     />
     <meta
       name="twitter:image"
@@ -56,7 +66,10 @@
           var root = document.documentElement;
           root.classList.add(savedTheme);
           root.classList.add('theme-' + savedTheme);
-        } catch (e) {}
+        } catch (e) {
+          document.documentElement.classList.add('light');
+          document.documentElement.classList.add('theme-light');
+        }
       })();
     </script>
     
@@ -241,36 +254,7 @@
     </h1>
     <div id="root"></div>
 
-    <!-- COI Service Worker: Necessari per injectar regles COEP/COOP a SiteGround cap als Web Workers purs -->
-    <!-- [BATEGAT DEV FIX] Només en producció per no rebentar Vite HMR -->
-    <script>
-      if (
-        window.location.hostname !== "localhost" &&
-        window.location.hostname !== "127.0.0.1"
-      ) {
-        const script = document.createElement("script");
-        script.src = "/coi-serviceworker.js";
-        document.head.appendChild(script);
-      } else if ("serviceWorker" in navigator) {
-        // [BATEGAT DEV PURGE] Destrucció activa de qualsevol SW zombi en localhost per salvar HMR
-        navigator.serviceWorker
-          .getRegistrations()
-          .then(function (registrations) {
-            for (let registration of registrations) {
-              registration.unregister().then(() => {
-                console.log(
-                  "[DEV PURGE] Service Worker zombi aniquilat amb èxit en localhost.",
-                );
-                // Forcem recàrrega neta un cop purgat (evitant bucles)
-                if (!sessionStorage.getItem("sw_purged")) {
-                  sessionStorage.setItem("sw_purged", "true");
-                  window.location.reload();
-                }
-              });
-            }
-          });
-      }
-    </script>
+    <!-- COI Service Worker eliminado (Provocaba TypeError: Failed to convert value to 'Response' bloqueando fetches en Prod) -->
 
     <!-- Google Identity Services per a One-Tap Login -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>

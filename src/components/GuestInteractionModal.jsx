@@ -28,7 +28,7 @@ const GuestInteractionModal = () => {
     ];
 
     return (
-        <div className="fixed inset-0 z-[20000] flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-in fade-in zoom-in duration-300">
+        <div className="fixed inset-0 z-modal flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-in fade-in zoom-in duration-300">
             <div className="max-w-md w-full bg-[#111] border border-white/10 rounded-[32px] p-8 shadow-2xl relative overflow-hidden">
                 {/* Decoració de fons */}
                 <div className="absolute top-0 right-0 w-32 h-32 bg-orange-500/10 blur-[60px] rounded-[28px] -mr-10 -mt-10"></div>

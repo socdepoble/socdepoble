@@ -117,7 +117,7 @@ const InfografiaGallery = () => {
 
             <div className="infoteca-grid">
                 {filtered.map(inf => (
-                    <div key={inf.id} className="infografia-card glass-master">
+                    <div key={inf.id} className="infografia-card glass-panel">
                         <div className="infografia-media group">
                             <img src={inf.img} alt={inf.titol} loading="lazy" />
                             <div className="infografia-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -140,7 +140,7 @@ const InfografiaGallery = () => {
             {/* LIGHTBOX [MODAL] */}
             {selectedImg && (
                 <div 
-                    className="fixed inset-0 z-[999] bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 md:p-10 animate-in fade-in duration-300"
+                    className="fixed inset-0 z-modal bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 md:p-10 animate-in fade-in duration-300"
                     onClick={() => setSelectedImg(null)}
                 >
                     <button 

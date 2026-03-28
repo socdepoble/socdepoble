@@ -76,7 +76,7 @@ const LanguageSelector = ({ variant = 'header' }) => {
       </button>
 
       {isOpen && (
-        <div className="absolute top-full right-0 mt-2 w-56 bg-[#111827]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden z-[9999] animate-in fade-in slide-in-from-top-2">
+        <div className="absolute top-full right-0 mt-2 w-56 bg-[#111827]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden z-dropdown animate-in fade-in slide-in-from-top-2">
           {LANGUAGES.map(lang => (
             <button
               key={lang.code}

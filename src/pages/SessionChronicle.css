@@ -1,7 +1,7 @@
 .session-chronicle-container {
     padding-bottom: 50px;
     background: var(--bg-surface);
-    min-height: 100vh;
+    min-height: 100dvh;
 }
 
 .session-header {

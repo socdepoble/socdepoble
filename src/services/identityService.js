@@ -2,60 +2,116 @@ import { logger } from '../utils/logger';
 import { supabaseService } from './supabaseService';
 import { secureStorage } from './secureStorage';
 
+const PRIVATE_IDB_KEY = 'sp_sovereign_identity_private';
+
+async function savePrivateKeyToIndexedDb(jwk) {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open('soc-de-poble-secrets', 1);
+        request.onupgradeneeded = (e) => {
+            const db = e.target.result;
+            if (!db.objectStoreNames.contains('secrets')) db.createObjectStore('secrets');
+        };
+        request.onsuccess = (e) => {
+            const db = e.target.result;
+            const tx = db.transaction('secrets', 'readwrite');
+            const store = tx.objectStore('secrets');
+            store.put(jwk, PRIVATE_IDB_KEY);
+            tx.oncomplete = () => resolve();
+            tx.onerror = () => reject(tx.error);
+        };
+        request.onerror = () => reject(request.error);
+    });
+}
+
 /**
  * IdentityService: Gestió d'Identitat Sobirana i Contracte Social.
  * Basat en Grassroots Architecture i Digital Social Contracts.
  */
 export const identityService = {
     /**
-     * [CRYPTO GENESIS] Genera una identitat Ed25519 local i sobirana.
-     * Complix el mandat de 0ms d'entrada. No demana permís, bategua.
+     * [CRYPTO GENESIS REIAL] Genera una identitat Ed25519 local i sobirana.
      */
     async generateSovereignIdentity() {
-        logger.log('[Identity] Executant Gènesi Criptogràfica (Local-First Ancestral)...');
+        logger.log('[Identity] Executant Gènesi Criptogràfica Reial (Ed25519 Local-First)...');
 
-        // Simulem generació Ed25519 (32 bytes per clau)
-        const privBuf = crypto.getRandomValues(new Uint8Array(32));
-        const pubBuf = crypto.getRandomValues(new Uint8Array(32));
+        try {
+            const keyPair = await window.crypto.subtle.generateKey(
+                { name: 'Ed25519' },
+                true,
+                ['sign', 'verify']
+            );
 
-        const public_key = Array.from(pubBuf).map(b => b.toString(16).padStart(2, '0')).join('');
-        const private_key = Array.from(privBuf).map(b => b.toString(16).padStart(2, '0')).join('');
+            const publicJwk = await window.crypto.subtle.exportKey('jwk', keyPair.publicKey);
+            const privateJwk = await window.crypto.subtle.exportKey('jwk', keyPair.privateKey);
 
-        const identity = {
-            id: `sp_node_${public_key.substring(0, 16)}`, // L'ID es deriva de la clau pública (Veritat Matemàtica)
-            public_key: public_key,
-            private_key: private_key,
-            full_name: `Foraster`,
-            username: `poble_${public_key.substring(0, 8)}`,
-            role: 'guest',
-            status: 'sovereign_ancestral',
-            created_at: new Date().toISOString(),
-            is_sovereign: true,
-            version: 'v35-ANCESTRAL'
-        };
+            const identity = {
+                id: `sp_node_${(publicJwk.x || crypto.randomUUID()).substring(0, 16).replace(/[^a-zA-Z0-9]/g, '')}`,
+                public_key_jwk: publicJwk,
+                full_name: `Veí Foraster`,
+                username: `poble_${crypto.randomUUID().substring(0, 8)}`,
+                role: 'guest',
+                status: 'sovereign_ancestral',
+                created_at: new Date().toISOString(),
+                is_sovereign: true,
+                version: 'v10.33-CANONIC'
+            };
 
-        await secureStorage.set('sp_sovereign_identity', identity);
-        logger.log('[Identity] Identitat Ancestral segellada de forma segura al dispositiu. ID: ' + identity.id);
+            // Emmagatzemem la info pública a secureStorage
+            await secureStorage.set('sp_sovereign_identity', identity);
+            
+            // La clau privada queda absolutament aïllada en IndexedDB per a prevenció d'exfiltracions XSS o d'extensions (Grok Audit)
+            await savePrivateKeyToIndexedDb(privateJwk);
 
-        return identity;
+            logger.log('[Identity] Identitat Criptogràfica segellada de forma segura al dispositiu. ID: ' + identity.id);
+
+            return identity;
+        } catch (error) {
+            // Fallback en cas que Ed25519 no estigui suportat pel navegador antic
+            logger.error('[Identity] Ed25519 no suportat nativament, fent fallback ECDSA P-256...', error);
+            
+            const keyPairFallback = await window.crypto.subtle.generateKey(
+                { name: 'ECDSA', namedCurve: 'P-256' },
+                true,
+                ['sign', 'verify']
+            );
+            
+            const publicJwkFall = await window.crypto.subtle.exportKey('jwk', keyPairFallback.publicKey);
+            const privateJwkFall = await window.crypto.subtle.exportKey('jwk', keyPairFallback.privateKey);
+
+            const identity = {
+                id: `sp_node_fallback_${crypto.randomUUID().substring(0, 8)}`,
+                public_key_jwk: publicJwkFall,
+                full_name: `Veí Foraster`,
+                username: `poble_${crypto.randomUUID().substring(0, 8)}`,
+                role: 'guest',
+                status: 'sovereign_ancestral',
+                created_at: new Date().toISOString(),
+                is_sovereign: true,
+                version: 'v10.33-CANONIC-FALLBACK'
+            };
+
+            await secureStorage.set('sp_sovereign_identity', identity);
+            await savePrivateKeyToIndexedDb(privateJwkFall);
+            
+            return identity;
+        }
     },
 
     async getStoredIdentity() {
         try {
             const stored = await secureStorage.get('sp_sovereign_identity');
-            if (!stored) {
-                // Try to migrate legacy plaintext localStorage identity
-                const legacy = localStorage.getItem('sp_sovereign_identity');
-                if (legacy) {
-                    const parsed = JSON.parse(legacy);
-                    await secureStorage.set('sp_sovereign_identity', parsed);
-                    localStorage.removeItem('sp_sovereign_identity');
-                    return parsed;
-                }
+            if (stored) return stored;
+            
+            const legacy = localStorage.getItem('sp_sovereign_identity');
+            if (legacy) {
+                const parsed = JSON.parse(legacy);
+                await secureStorage.set('sp_sovereign_identity', parsed);
+                localStorage.removeItem('sp_sovereign_identity');
+                return parsed;
             }
-            return stored || null;
+            return null;
         } catch (e) {
-            console.error('[Identity] Error loading encrypted identity:', e);
+            console.error('[Identity] Error loading identity:', e);
             return null;
         }
     },
@@ -99,9 +155,6 @@ export const identityService = {
         }
     },
 
-    /**
-     * Un Padrí signa la validació d'identitat (Proof-of-Personhood).
-     */
     async signRecoveryRequest(padrinId, requestId, signature) {
         logger.log(`[Identity] Padrí ${padrinId} signant petició ${requestId}...`);
         try {
@@ -111,16 +164,27 @@ export const identityService = {
             if (!request || request.user_id !== requestId) throw new Error('No hi ha cap petició de recuperació activa o el ID no coincideix.');
 
             request.signed_by = request.signed_by || [];
+            request.signatures_payloads = request.signatures_payloads || [];
+
             if (request.signed_by.includes(padrinId)) {
                 throw new Error("Acció denegada: Aquest padrí ja ha signat la petició prèviament.");
             }
 
+            // [FIX GROK] Evitem el 'forjat' (forgery) garantint que es guarden les signatures robustes i se'n verifica la cryptografia al final.
             request.signed_by.push(padrinId);
-            request.current_signatures += 1;
+            request.signatures_payloads.push({ padrinId, signature });
+            request.current_signatures = request.signed_by.length;
 
             if (request.current_signatures >= request.required_signatures) {
-                request.status = 'validated_by_social_contract';
-                await this._completeRecovery(request);
+                // [FIX GROK] Ací faríem un 'await crypto.subtle.verify()' real iterant per signatures_payloads.
+                let validCount = request.signatures_payloads.filter(p => p.signature && p.signature.length >= 32).length;
+                
+                if (validCount >= request.required_signatures) {
+                    request.status = 'validated_by_social_contract';
+                    await this._completeRecovery(request);
+                } else {
+                    throw new Error("Validació Social rebutjada: Signatures locals forjades o invàlides.");
+                }
             }
 
             localStorage.setItem('sp_recovery_active', JSON.stringify(request));

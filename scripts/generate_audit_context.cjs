@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const srcDir = path.join(__dirname, '..', 'src');
-const outPath = path.join(__dirname, '..', 'auditorias', 'contexto_maestro_codex.txt');
+const outPath = path.join(__dirname, '..', 'auditorias', 'contexto_maestro_ronda_final.txt');
 
 const filesToInclude = [
   'App.jsx',
@@ -12,7 +12,9 @@ const filesToInclude = [
   'context/ThemeContext.jsx',
   'rhizome/crdt/eg-walker.js',
   'rhizome/db-core.js',
-  'platforms/web/db-worker.js', // Or similar workers if they exist
+  'rhizome/rhizome.worker.js',
+  'services/iaiaWorker.js',
+  'workers/visionWorker.js',
   'services/secureStorage.js',
   'services/paymentService.js',
   'services/supabaseService.js',

@@ -1,7 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Newspaper, Store, MapPin, Calendar, Bot, Shield, Rocket, LogOut, StickyNote, ArrowLeft, Terminal, FileText, Wallet } from 'lucide-react';
+import { Newspaper, Store, MapPin, Calendar, Bot, Shield, Rocket, LogOut, StickyNote, ArrowLeft, Terminal, FileText, Wallet, Cpu } from 'lucide-react';
+import { Button } from '../design-system/components/Button/Button';
 import { useAuth } from '../context/AuthContext';
 import { useModal } from '../context/ModalContext';
 import { useDesign } from '../context/DesignContext';
@@ -41,9 +42,10 @@ const HubView = () => {
                     <ArrowLeft size={22} strokeWidth={2.5} />
                 </button>
                 <div className="text-center flex flex-col items-center justify-center">
-                    <h1 className="text-[20px] font-black tracking-tight uppercase text-white drop-shadow-sm leading-tight">Centre de Control</h1>
-                    <span className="text-[9px] text-white/80 font-bold uppercase tracking-widest">Sóc de Poble v10.33</span>
-                </div>
+                    <h1 className={`flex-1 text-center font-black tracking-[0.4em] uppercase text-xs ${textColor}`}>
+                    CENTRE DE CONTROL
+                    <span className={`block text-[8px] ${isDayMode ? 'text-gray-500' : 'text-white/50'} tracking-[0.6em] mt-1`}>Sóc de Poble V10.33</span>
+                </h1></div>
                 <div className="w-10"></div> {/* Spacer for centering */}
             </div>
 
@@ -126,63 +128,68 @@ const HubView = () => {
                         </button>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-3">
-                        <button className={`flex items-center gap-3 p-4 border rounded-[24px] transition-all active:scale-95 ${cardBg} ${isDayMode ? 'hover:bg-gray-50' : 'hover:bg-white/10'}`} onClick={() => {
-                            navigate('/notes');
-                        }}>
-                            <div className={`w-10 h-10 rounded-[28px] ${isDayMode ? 'bg-yellow-100 text-yellow-600' : 'bg-yellow-500/20 text-yellow-500'} flex items-center justify-center shrink-0`}>
-                                <StickyNote size={18} />
-                            </div>
-                            <span className="font-bold text-sm tracking-tight text-left">Bloc de Notes</span>
-                        </button>
+                    <div className="flex flex-col gap-3">
+                        <Button
+                            intent={isDayMode ? "secondary" : "glass"}
+                            size="lg"
+                            fullWidth
+                            leftIcon={<StickyNote size={20} className={isDayMode ? 'text-yellow-600' : 'text-yellow-400'} />}
+                            onClick={() => navigate('/notes')}
+                            className={`min-h-[56px] justify-start rounded-[24px] text-lg font-bold tracking-tight ${isDayMode ? 'bg-yellow-50 border border-yellow-200 hover:bg-yellow-100 text-yellow-900' : ''}`}
+                        >
+                            Bloc de Notes
+                        </Button>
 
-                        <button className={`flex items-center gap-3 p-4 border rounded-[24px] transition-all active:scale-95 ${cardBg} ${isDayMode ? 'hover:bg-gray-50' : 'hover:bg-white/10'}`} onClick={() => {
-                            navigate('/financament');
-                        }}>
-                            <div className={`w-10 h-10 rounded-[28px] ${isDayMode ? 'bg-emerald-100 text-emerald-600' : 'bg-emerald-500/20 text-emerald-500'} flex items-center justify-center shrink-0`}>
-                                <Wallet size={18} />
-                            </div>
-                            <span className="font-bold text-sm tracking-tight text-left">Finançament</span>
-                        </button>
+                        <Button
+                            intent="canonic"
+                            size="lg"
+                            fullWidth
+                            leftIcon={<Shield size={24} />}
+                            onClick={() => navigate('/projecte')}
+                            className="min-h-[64px] rounded-[24px] text-xl tracking-widest mt-2"
+                        >
+                            EL PROJECTE
+                        </Button>
 
-                        <button className={`flex items-center gap-3 p-4 border rounded-[24px] transition-all active:scale-95 ${cardBg} ${isDayMode ? 'hover:bg-gray-50' : 'hover:bg-white/10'}`} onClick={() => {
-                            navigate('/ofici');
-                        }}>
-                            <div className={`w-10 h-10 rounded-[28px] ${isDayMode ? 'bg-indigo-100 text-indigo-600' : 'bg-indigo-500/20 text-indigo-500'} flex items-center justify-center shrink-0`}>
-                                <Terminal size={18} />
-                            </div>
-                            <span className="font-bold text-sm tracking-tight text-left">Sistema Operatiu</span>
-                        </button>
-
-                        <button className={`flex items-center gap-3 p-4 border rounded-[24px] transition-all active:scale-95 ${cardBg} ${isDayMode ? 'hover:bg-gray-50' : 'hover:bg-white/10'}`} onClick={() => {
-                            navigate('/legal');
-                        }}>
-                            <div className={`w-10 h-10 rounded-[28px] ${isDayMode ? 'bg-orange-100 text-orange-600' : 'bg-orange-500/20 text-orange-500'} flex items-center justify-center shrink-0`}>
-                                <FileText size={18} />
-                            </div>
-                            <span className="font-bold text-sm tracking-tight text-left">Info Legal</span>
-                        </button>
+                        <Button
+                            intent="ghost"
+                            size="lg"
+                            fullWidth
+                            leftIcon={<Cpu size={24} />}
+                            onClick={() => navigate('/ofici')}
+                            className="min-h-[64px] rounded-[24px] text-lg tracking-wider"
+                        >
+                            SISTEMA OPERATIU
+                        </Button>
                     </div>
                 </div>
 
                 {/* ADMIN SECTOR */}
                 <div className={`pt-6 border-t ${isDayMode ? 'border-gray-200' : 'border-white/5'} space-y-3`}>
                     {(isSuperAdmin || isAdmin) && (
-                        <button className={`w-full flex items-center justify-center gap-2 py-4 border rounded-[28px] text-xs font-black tracking-widest uppercase transition-colors ${isDayMode ? 'bg-red-50 hover:bg-red-600 text-red-600 hover:text-white border-red-200' : 'bg-red-600/20 hover:bg-red-600 text-red-500 hover:text-white border-red-500/30'}`} onClick={() => {
-                            navigate('/admin');
-                        }}>
-                            <Shield size={18} />
-                            <span>Administració</span>
-                        </button>
+                        <Button 
+                            intent="danger" 
+                            fullWidth 
+                            leftIcon={<Shield size={18} />} 
+                            onClick={() => navigate('/admin')}
+                            className="rounded-[28px] tracking-widest"
+                        >
+                            Administració
+                        </Button>
                     )}
 
-                    <button className={`w-full flex items-center justify-center gap-2 py-4 rounded-[28px] transition-colors text-xs font-black tracking-widest uppercase ${isDayMode ? 'text-black/40 hover:text-black hover:bg-gray-100' : 'text-white/30 hover:text-white hover:bg-white/5'}`} onClick={() => {
-                        logout();
-                        navigate('/');
-                    }}>
-                        <LogOut size={16} />
-                        <span>Eixir del Poble</span>
-                    </button>
+                    <Button 
+                        intent="ghost" 
+                        fullWidth 
+                        leftIcon={<LogOut size={16} />} 
+                        onClick={() => {
+                            logout();
+                            navigate('/');
+                        }}
+                        className={`rounded-[28px] tracking-widest ${isDayMode ? 'text-gray-500 hover:text-gray-900 bg-gray-100/50 hover:bg-gray-200' : 'text-white/40 hover:text-white bg-white/5'}`}
+                    >
+                        Eixir del Poble
+                    </Button>
                 </div>
 
             </div>

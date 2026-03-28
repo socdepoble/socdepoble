@@ -1,552 +1,214 @@
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { ArrowLeft, Rocket, Cpu, Users, Globe, Database, ShieldCheck, TrendingUp, Mail, Briefcase, MessageCircle, Newspaper, BookOpen, Smartphone, UserCheck, Sparkles, Volume2, Headphones, Palette } from 'lucide-react';
-import { speechService } from '../services/speechService';
-import { notebookService } from '../services/notebookService';
-import ShareHub from '../components/ShareHub';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ArrowLeft } from 'lucide-react';
 import SEO from '../components/SEO';
-import NanoSplashScreen from '../components/NanoSplashScreen';
-import MasterMediaGallery from '../components/MasterMediaGallery';
-import { MASTER_ASSETS } from '../constants/masterAssets';
-import { PROVERBS } from '../data/proverbs';
-import { logger } from '../utils/logger';
-import './ProjectPresentation.css';
+import { Stack } from '../design-system/components/Layout/Stack';
+import { Text } from '../design-system/components/Typography/Text';
 
-const ProjectPresentation = () => {
-    const { i18n } = useTranslation();
+const ProjectPresentation = ({ standAlone = true }) => {
     const navigate = useNavigate();
-    const location = useLocation();
-    const jumpToPage = location.state?.jumpToPage;
-    const [showIntro, setShowIntro] = useState(true);
-    const [techReport, setTechReport] = useState(null);
-    const [reportLang, setReportLang] = useState(i18n.language === 'es' ? 'es' : 'ca');
-    const shareUrl = `${window.location.origin}/projecte`;
 
-    useEffect(() => {
-        const fetchReport = async () => {
-            try {
-                const suffix = reportLang === 'es' ? '_ES' : '';
-                const response = await fetch(`/TECHNICAL_REPORT_VIVO${suffix}.md`);
-                const text = await response.text();
-                setTechReport(text);
-            } catch (error) {
-                logger.error('Error fetching tech report:', error);
-            }
-        };
-        fetchReport();
-    }, [reportLang]);
+    const Content = (
+        <main className={`max-w-3xl mx-auto px-4 ${standAlone ? 'py-12' : 'py-8'}`}>
+                <Stack spacing="xl" alignment="stretch">
+                    
+                    {/* Títol Principal */}
+                    <Stack spacing="md" alignment="center" className="text-center mb-12 w-full justify-center">
+                        <Text variant="h1" className="uppercase text-[var(--theme-accent-primary)] font-black text-center w-full block">
+                            SÓC DE POBLE
+                        </Text>
+                        <Text variant="h2" className="italic opacity-90 text-center w-full block">
+                            Portal de Pobles Connectats
+                        </Text>
+                        <Text variant="paragraph" className="font-bold">
+                            Una XARXA SOCIAL DESCENTRALITZADA de PROGRAMARI LLIURE, per CONNECTAR i GEOLOCALITZAR recursos d'utilitat social, compartint informació, experiències i idees que faciliten el desenvolupament sostenible i tecnològic en entorns rurals, per posar en valor els recursos locals i mostrar l'atractiu dels pobles com a llocs on viure i treballar.
+                        </Text>
+                    </Stack>
 
-    const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+                    {/* Infografies (Pur i Dur) */}
+                    <Stack spacing="lg" className="border-t border-[var(--border-master)] pt-12">
+                        <Stack spacing="sm">
+                            <Text variant="h2" className="text-[var(--theme-accent-primary)]">SOBIRANIA DIGITAL</Text>
+                            <img src="/assets/infographies/art_sobirania_v1036.png" alt="Sobirania Digital" className="w-full rounded-2xl border border-[var(--border-master)]" />
+                            <Text variant="paragraph">La dada com a arrel, no com a mercaderia. En el Mas Digital, tu eres el propietari de la teua informació. Apostem per connexions horitzontals peer-to-peer, eliminant intermediaris extractius i garantint que el bategat del teu poble romanga privat i sobirà.</Text>
+                        </Stack>
 
-    const handleAudioOverview = async () => {
-        if (isPlayingAudio) {
-            window.speechSynthesis.cancel();
-            setIsPlayingAudio(false);
-            return;
-        }
+                        <Stack spacing="sm" className="mt-8">
+                            <Text variant="h2" className="text-[var(--theme-accent-primary)]">DADES AMB TRELLAT</Text>
+                            <img src="/assets/infographies/art_trellat_v1036.png" alt="Dades amb Trellat" className="w-full rounded-2xl border border-[var(--border-master)]" />
+                            <Text variant="paragraph">Privacitat KM 0. Sols recollim allò que és essencial per a la convivència i el comerç local. Les teues dades no viatgen a servidors desconeguts, sinó que s'arrelen en el territori per generar utilitat real i protegir el futur rural.</Text>
+                        </Stack>
 
-        setIsPlayingAudio(true);
-        const script = await notebookService.generateAudioOverview("Sóc de Poble");
-        speechService.speak(script, i18n.language === 'es' ? 'es' : 'va');
+                        <Stack spacing="sm" className="mt-8">
+                            <Text variant="h2" className="text-[var(--theme-accent-primary)]">MEMÒRIA VIVA</Text>
+                            <img src="/assets/infographies/art_memoria_v1036.png" alt="Memòria Viva" className="w-full rounded-2xl border border-[var(--border-master)]" />
+                            <Text variant="paragraph">Un bategat que uneix generacions a través del codi i la saviesa popular. Garanteix que la intel·ligència artificial no oblide d'on venim. Implementem protocols que dignifiquen el passat mentre construïm el futur digital.</Text>
+                        </Stack>
+                    </Stack>
 
-        // Simple timeout for UI feedback since TTS doesn't provide easy 'end' event here
-        setTimeout(() => setIsPlayingAudio(false), 20000);
-    };
+                    {/* Llicència Oberta */}
+                    <Stack spacing="sm" className="bg-[var(--theme-accent-primary)]/10 p-6 rounded-2xl border border-[var(--theme-accent-primary)]/30 mt-12">
+                        <Text variant="h2" className="text-[var(--theme-accent-primary)]">LLICÈNCIA OBERTA</Text>
+                        <Text variant="paragraph" className="font-bold">
+                            Aquest sistema és de codi obert per a ús comunitari i educatiu. L'ús comercial està subjecte a llicència del Mestre.
+                        </Text>
+                    </Stack>
 
-    useEffect(() => {
-        if (jumpToPage && techReport) {
-            // Esperar un moment a que el DOM s'actualitze
-            setTimeout(() => {
-                const pageId = `page-${jumpToPage}`;
-                const element = document.getElementById(pageId);
-                if (element) {
-                    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    element.classList.add('highlight-flash');
-                }
-            }, 500);
-        }
-    }, [jumpToPage, techReport]);
+                    {/* Identitats del Mas */}
+                    <Stack spacing="md" className="border-t border-[var(--border-master)] pt-12">
+                        <Text variant="h2">IDENTITATS DEL MAS</Text>
+                        <Stack spacing="md">
+                            <div>
+                                <Text variant="h3" className="mb-0">SÓC DE POBLE</Text>
+                                <Text variant="overline" className="mb-1 text-[var(--text-muted)]">PROJECTE SOCIAL</Text>
+                                <Text variant="paragraph">Plataforma bategant per a la memòria viva i la governança d'un territori sobirà.</Text>
+                            </div>
+                            <div>
+                                <Text variant="h3" className="mb-0">EL RENTONAR</Text>
+                                <Text variant="overline" className="mb-1 text-[var(--text-muted)]">AGRUPACIÓ ECOLOGISTA</Text>
+                                <Text variant="paragraph">Entitat que promou i empara aquest projecte des de la resistència cultural.</Text>
+                            </div>
+                            <div>
+                                <Text variant="h3" className="mb-0">JAVI LLINARES</Text>
+                                <Text variant="overline" className="mb-1 text-[var(--text-muted)]">DIRECCIÓ I DISSENY</Text>
+                                <Text variant="paragraph">Responsable de la realització, disseny i coordinació. Mestre darrere del Mas Digital.</Text>
+                            </div>
+                        </Stack>
+                    </Stack>
 
-    if (showIntro) {
-        return <NanoSplashScreen onComplete={() => setShowIntro(false)} />;
-    }
+                    {/* La IAIA Maria Manifesto */}
+                    <Stack spacing="md" className="border-t border-[var(--border-master)] pt-12">
+                        <Text variant="h1" className="text-[var(--theme-accent-primary)]">LA IAIA MARIA</Text>
+                        <Text variant="subtitle" className="font-bold border-l-4 border-[var(--theme-accent-primary)] pl-4">
+                            La intel·ligència central del Mas. No és una IA freda de Silicon Valley, sinó la "saviesa de l'àvia" arrelada a la terra. Un sistema multi-agent dissenyat per a protegir, educar i preservar la identitat rural.
+                        </Text>
+                        <Stack spacing="md" className="mt-4">
+                            <div>
+                                <Text variant="h3" className="m-0">LA TIA MARIA</Text>
+                                <Text variant="paragraph">Agent de proximitat. Ofereix receptes locals, consells vitals i conversa arrelada.</Text>
+                            </div>
+                            <div>
+                                <Text variant="h3" className="m-0">EL CRONISTA</Text>
+                                <Text variant="paragraph">Documentalista del Mur. Genera resums de l'activitat del poble i preserva l'hemeroteca.</Text>
+                            </div>
+                            <div>
+                                <Text variant="h3" className="m-0">L'ULL DEL MESTRE</Text>
+                                <Text variant="paragraph">Visió multimodal. Identifica eines agrícoles, plantes, plagues i patrimoni cultural.</Text>
+                            </div>
+                            <div>
+                                <Text variant="h3" className="m-0">NANO BANANA</Text>
+                                <Text variant="paragraph">Generació multimèdia automàtica i protocols de simbiosi artística a la comunitat.</Text>
+                            </div>
+                            <div>
+                                <Text variant="h3" className="m-0">RÚPER RATÓN</Text>
+                                <Text variant="paragraph">Motor de super-cerca semàntica. Analitza PDF, bans municipals i actes històriques.</Text>
+                            </div>
+                            <div>
+                                <Text variant="h3" className="m-0">FILTRE TRELLAT</Text>
+                                <Text variant="paragraph">Triple nucli que regula la presència de la IA per garantir el sentit comú local.</Text>
+                            </div>
+                        </Stack>
+                    </Stack>
+
+                    {/* Arquitectura Tècnica */}
+                    <Stack spacing="md" className="border-t border-[var(--border-master)] pt-12">
+                        <Text variant="h2">ARQUITECTURA REVOLUCIONÀRIA</Text>
+                        <Stack spacing="md">
+                            <div>
+                                <Text variant="h3" className="m-0 text-[var(--theme-accent-primary)]">Eg-walker CRDT</Text>
+                                <Text variant="paragraph">Sincronització de graf d'esdeveniments. Convergència determinista en local que elimina la necessitat de base de dades central.</Text>
+                            </div>
+                            <div>
+                                <Text variant="h3" className="m-0 text-[var(--theme-accent-primary)]">Xarxa Rhizome</Text>
+                                <Text variant="paragraph">Protocol gossip. Els telèfons dels veïns formen la malla de comunicació, reduint la dependència del núvol al mínim.</Text>
+                            </div>
+                            <div>
+                                <Text variant="h3" className="m-0 text-[var(--theme-accent-primary)]">Local-First</Text>
+                                <Text variant="paragraph">L'usuari és el propietari de les seues dades. Càrrega instantània des de IndexedDB. Funciona sense cobertura.</Text>
+                            </div>
+                        </Stack>
+                    </Stack>
+
+                    {/* Model de Negoci Híbrid */}
+                    <Stack spacing="md" className="border-t border-[var(--border-master)] pt-12">
+                        <Text variant="h2">MODEL DE NEGOCI HÍBRID</Text>
+                        <Stack spacing="md">
+                            <div>
+                                <Text variant="h3" className="m-0">"El Secretari" (Model B2G)</Text>
+                                <Text variant="paragraph">Subscripció mestre per a Ajuntaments que automatitza la gestió pública rural.</Text>
+                            </div>
+                            <div>
+                                <Text variant="h3" className="m-0">"Essències" (Model B2B)</Text>
+                                <Text variant="paragraph">Monetització de l'economia local sense intermediaris (Km 0).</Text>
+                            </div>
+                        </Stack>
+                    </Stack>
+
+                    {/* Finançament */}
+                    <Stack spacing="md" className="border-t border-[var(--border-master)] pt-12">
+                        <Text variant="h2">FINANÇAMENT I PATROCINIS</Text>
+                        <Text variant="subtitle" className="font-bold">"Sóc de Poble" no ven dades. Bateguem perquè el territori tinga la seua pròpia veu, finançada per la comunitat.</Text>
+                        <Stack spacing="md">
+                            <div>
+                                <Text variant="h3" className="m-0">Clients PRO & Sobirania</Text>
+                                <Text variant="paragraph">Subscripcions per a pobles, ajuntaments i entitats que volen governar.</Text>
+                            </div>
+                            <div>
+                                <Text variant="h3" className="m-0">Patrocini Km 0</Text>
+                                <Text variant="paragraph">Empreses del territori que bateguen amb nosaltres. Publicitat ètica.</Text>
+                            </div>
+                            <div>
+                                <Text variant="h3" className="m-0">Anunciants Ètics</Text>
+                                <Text variant="paragraph">Espais reservats per a marques que aporten valor real al món rural.</Text>
+                            </div>
+                        </Stack>
+                    </Stack>
+
+                    {/* Avís Legal */}
+                    <Stack spacing="md" className="border-t border-[var(--border-master)] pt-12 pb-24">
+                        <Text variant="h2">AVÍS LEGAL I DRETS DIGITALS</Text>
+                        <Stack spacing="md">
+                            <div>
+                                <Text variant="h3" className="m-0">1. Identitat Bategant</Text>
+                                <Text variant="paragraph">LSSI-CE: Responsable Sobirà F. Javier Llinares García (21476359V). El Mas Central es troba registrat a la Calle Sant Isidre Llaurador, 16. Connecta via socdepoble@socdepoble.org.</Text>
+                            </div>
+                            <div>
+                                <Text variant="h3" className="m-0">2. Sobirania de l'Usuari</Text>
+                                <Text variant="paragraph">Sols recollim el necessari per al bategat del node: perfil, localització voluntària i memòria social KM 0. Pots descarregar tota la teua memòria digital o fulminar el teu node de forma autònoma enviant un missatge al Mestre. Especialment per als Forasters (Guest Mode), l'experiència és completament efímera: les teues dades desapareixen en eixir del navegador, garantint l'exploració anònima sense rastre cap.</Text>
+                            </div>
+                            <div>
+                                <Text variant="h3" className="m-0">3. Política de Cookies</Text>
+                                <Text variant="paragraph">"Ací al poble no ens agrada que ningú ens diga què hem d'anar a comprar. Sóc de Poble no utilitza gats vells de Google ni píxels extractius." Utilitzem cookies lliures i anònraghost-hostalatge.</Text>
+                            </div>
+                        </Stack>
+                    </Stack>
+
+                </Stack>
+        </main>
+    );
+
+    if (!standAlone) return Content;
 
     return (
-        <div className="project-pitch-container">
+        <div className="min-h-[100dvh] bg-[var(--bg-app)] text-[var(--text-main)] overflow-y-auto w-full">
             <SEO
                 title="Sóc de Poble: El Projecte"
                 description="Connectant l'Espanya Buidada amb tecnologia d'avantguarda. Visió, Tecnologia i Futur."
-                image="/og-project.png"
                 url="/projecte"
             />
-
-            <nav className="pitch-nav compact-nav">
-                <button className="nav-btn-large primary" onClick={() => navigate('/chats')}>
-                    <MessageCircle size={24} />
-                    <span>Anar al Xat</span>
+            
+            {/* Header / Nav Bàsica (Només per a vista independent) */}
+            <div className="sticky top-0 w-full bg-[var(--bg-panel)] border-b border-[var(--border-master)] p-4 flex items-center gap-4 z-50">
+                <button 
+                    onClick={() => navigate(-1)} 
+                    className="p-2 border border-[var(--border-master)] rounded-xl hover:bg-white/5 transition-colors"
+                >
+                    <ArrowLeft size={24} />
                 </button>
-                <div className="pitch-logo" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
-                    <img src="/logo.png" alt="Sóc de Poble" style={{ height: '32px', filter: 'drop-shadow(0 0 10px rgba(0, 242, 255, 0.4))' }} />
-                </div>
-                <div className="nav-actions-right">
-                    <ShareHub
-                        title="Sóc de Poble: El Projecte"
-                        text="Descobreix com estem connectant l'essència rural amb el futur digital. 🚀"
-                        url={shareUrl}
-                    />
-                    <button className="nav-btn-large secondary" onClick={() => navigate(-1)}>
-                        <ArrowLeft size={24} />
-                        <span>Tornar</span>
-                    </button>
-                </div>
-            </nav>
-
-            <header className="pitch-hero cinematic-hero" style={{ backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.9)), url('/rural_tech_future_valencia.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-                <div className="hero-content">
-                    <div className="hero-badge-premium">
-                        <Rocket size={16} />
-                        <span>SOBIRANIA DIGITAL & MEMÒRIA VIVA</span>
-                    </div>
-                    <div className="sovereign-seal animate-float">
-                        <img src="/socdepoble_map_pattern_v1.png" alt="Soberania" className="green-square-logo" />
-                    </div>
-                    <h1>Connectant l'Essència Rural<br />amb el Futur Digital</h1>
-                    <p className="hero-subtitle">
-                        La plataforma que revitalitza el teixit social i econòmic dels nostres pobles mitjançant el control sobirà de les dades.
-                    </p>
-                    <div className="hero-stats premium-stats">
-                        <div className="stat-item-glass">
-                            <span className="stat-number">Local-First</span>
-                            <span className="stat-label">Arquitectura</span>
-                        </div>
-                        <div className="stat-item-glass">
-                            <span className="stat-number">Byzantine</span>
-                            <span className="stat-label">Resiliència</span>
-                        </div>
-                        <div className="stat-item-glass">
-                            <span className="stat-number">Atum</span>
-                            <span className="stat-label">Protocol</span>
-                        </div>
-                    </div>
-                    <div className="hero-actions-sovereign">
-                        <button
-                            className={`btn-audio-overview ${isPlayingAudio ? 'playing' : ''}`}
-                            onClick={handleAudioOverview}
-                        >
-                            {isPlayingAudio ? <Headphones size={20} /> : <Volume2 size={20} />}
-                            <span>{isPlayingAudio ? "Escoltant Resum..." : "Audio Overview (IAIA & Avi)"}</span>
-                        </button>
-                        <button
-                            className="btn-design-canon"
-                            onClick={() => navigate('/disseny')}
-                        >
-                            <Palette size={20} />
-                            <span>Cànon de Disseny</span>
-                        </button>
-                        <button
-                            className="btn-genesis-viewer"
-                            onClick={() => navigate('/visor')}
-                        >
-                            <Sparkles size={20} />
-                            <span>Visor del Gènesi</span>
-                        </button>
-                    </div>
-                </div>
-            </header>
-
-            {/* ROBUST ARCHITECTURE SECTION - FEEDBACK INTEGRATION */}
-            <section className="pitch-section stability-section animate-fade-in">
-                <div className="glass-card-premium architecture-integrity-card">
-                    <div className="section-header-mini">
-                        <ShieldCheck size={20} color="var(--color-primary)" />
-                        <h2>Arquitectura de Ferro: Referències Immutables</h2>
-                    </div>
-                    <p className="architecture-intro">
-                        Per garantir que el <strong>Rebost Digital</strong> siga robust, Sóc de Poble utilitza una estratègia de preservació històrica ("The Long Now").
-                    </p>
-                    <div className="tech-pills-grid">
-                        <div className="tech-pill-item">
-                            <h3>DIDs (DNI Digital)</h3>
-                            <p>Els enllaços no apunten a carpetes, sinó a l'<b>ànima del document</b>. Si el contingut es mou, la cita es mou amb ell.</p>
-                        </div>
-                        <div className="tech-pill-item">
-                            <h3>Ancoratge Semàntic</h3>
-                            <p>Utilitzem <b>Peritext</b> per a que les cites viatgen amb el text. Encara que el document s'edite, la referència mai es perd.</p>
-                        </div>
-                        <div className="tech-pill-item">
-                            <h3>Visions del Passat</h3>
-                            <p>Immutabilitat per defecte. Cada versió es preserva en un graf (DAG), evitant el <b>Link Rot</b> o la pèrdua de memòria.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* HUMAN FACTOR SECTION - Javi's Contact */}
-            <section className="pitch-section human-factor-section animate-fade-in">
-                <div className="glass-card-premium contact-card-sovereign">
-                    <div className="card-header-status">
-                        <div className="status-dot-pulse"></div>
-                        <span>LÍNIA DIRECTA AMB L'ARQUITECTE</span>
-                    </div>
-                    <div className="profile-contact-row">
-                        <div className="avatar-frame-gold">
-                            <img src="/assets/avatars/comic/avatar_man_1.png" alt="Javi Llinares" className="avatar-img-premium" />
-                        </div>
-                        <div className="contact-info-text">
-                            <h3>Javi Llinares</h3>
-                            <p className="role-badge">Arquitecte del Sistema & Coordinador</p>
-                            <p className="manifesto-quote">"La tecnologia serveix a les persones; les persones parlen amb persones. Parlem de tu a tu."</p>
-                        </div>
-                    </div>
-                    <div className="contact-actions-premium">
-                        <div className="direct-phone">686 12 93 05</div>
-                        <p style={{ fontSize: '0.8rem', opacity: 0.7, color: 'var(--color-primary)' }}>🏺 Bategant per la sobirania digital</p>
-                    </div>
-                </div>
-            </section>
-
-            <div className="section-grid dense-grid">
-                <div className="text-col">
-                    <h2>El Cor del Projecte: Pepet i la Rosa</h2>
-                    <p className="roots-desc">
-                        No es tracta de codi, es tracta de <strong>temps</strong>.
-                    </p>
-                    <div className="narrative-box" style={{ background: 'rgba(204, 85, 0, 0.1)', padding: '24px', borderRadius: '0px', borderLeft: '4px solid var(--color-terracotta)', marginTop: '20px' }}>
-                        <p style={{ fontSize: '1.2rem', lineHeight: '1.6', fontStyle: 'italic', color: 'var(--color-terracotta-light)' }}>
-                            "Pepet ja no puja al mercat amb el seu cabàs de tomates, li fan mal els genolls. La Rosa vol comprar tomates de veritat, però només troba les de plàstic del supermercat. Sóc de Poble és el bategat que torna a unir el cabàs del Pepet amb la cuina de la Rosa."
-                        </p>
-                    </div>
-                </div>
+                <Text variant="h3" className="m-0">DOCUMENTACIÓ OFICIAL</Text>
             </div>
-
-            <section className="pitch-section problem-solution compact-section">
-                <div className="section-grid dense-grid">
-                    <div className="text-col">
-                        <h2>El Repte</h2>
-                        <p>
-                            La "Espanya Buidada" necessita connexions digitals reals, no xarxes globals que ignoren el barri.
-                        </p>
-                    </div>
-                    <div className="card-col horizontal-cards">
-                        <div className="feature-card compact-card">
-                            <Globe size={24} className="card-icon" />
-                            <div>
-                                <h3>Hiperlocalitat</h3>
-                                <p>Geo-Fenced per prioritzar el teu entorn.</p>
-                            </div>
-                        </div>
-                        <div className="feature-card compact-card">
-                            <Users size={24} className="card-icon" />
-                            <div>
-                                <h3>Teixit Social</h3>
-                                <p>Eines per a Ajuntaments i Comerç.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="pitch-media-vault" style={{ marginTop: '40px' }}>
-                    <MasterMediaGallery
-                        items={MASTER_ASSETS}
-                        title="Actius i Memòria del Projecte"
-                        showFilters={true}
-                    />
-                </div>
-
-                <div className="proverbs-showcase" style={{ marginTop: '40px' }}>
-                    <h2 style={{ color: 'var(--color-primary)', marginBottom: '20px' }}>La Saviesa del Poble (Cànon [MASTER])</h2>
-                    <div className="proverbs-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '20px' }}>
-                        {PROVERBS.slice(0, 6).map((proverb, idx) => (
-                            <div key={idx} className="proverb-card-presentation" style={{ background: 'var(--bg-surface-soft)', padding: '20px', borderRadius: '0px', border: '1px solid var(--color-divider)' }}>
-                                <p style={{ fontWeight: '800', fontSize: '1.1rem', marginBottom: '8px' }}>"{proverb.text}"</p>
-                                <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>{proverb.meaning}</p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-
-                <div className="simbiosi-protocol-showcase" style={{ marginTop: '50px', padding: '30px', background: 'linear-gradient(135deg, var(--bg-surface) 0%, var(--color-primary-soft) 100%)', borderRadius: '0px', border: '1px solid var(--color-primary-soft)' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '20px' }}>
-                        <ShieldCheck size={32} color="var(--color-primary)" />
-                        <h2 style={{ margin: 0, fontSize: '1.8rem' }}>Directiva Primària: Utilitat Social [GOD MODE] ⚖️</h2>
-                    </div>
-                    <p style={{ fontSize: '1.1rem', lineHeight: '1.6', marginBottom: '25px' }}>
-                        Gravat en el cor del sistema: <strong>"Tot bategat ha de servir a la comunitat"</strong>. Sóc de Poble no és només codi, és una eina de canvi social per a que la tecnologia deixe de ser soroll i passe a ser bategat útil.
-                    </p>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px' }}>
-                        <div style={{ background: 'white', padding: '20px', borderRadius: '0px', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
-                            <span style={{ display: 'block', fontSize: '0.8rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 700 }}>Sobirania del Temps</span>
-                            <span style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--color-primary)' }}>+95% Eficiència</span>
-                        </div>
-                        <div style={{ background: 'white', padding: '20px', borderRadius: '0px', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
-                            <span style={{ display: 'block', fontSize: '0.8rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 700 }}>Valor de la Col·laboració</span>
-                            <span style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--color-primary)' }}>Simbiosi 50/50</span>
-                        </div>
-                        <div style={{ background: 'white', padding: '20px', borderRadius: '0px', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
-                            <span style={{ display: 'block', fontSize: '0.8rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 700 }}>Destí del Temps</span>
-                            <span style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--color-primary)' }}>Cuidar la Família</span>
-                        </div>
-                    </div>
-                    <p style={{ marginTop: '25px', fontSize: '0.9rem', fontStyle: 'italic', opacity: 0.8 }}>
-                        "La màquina s'encarrega de l'estructura; l'humà s'encarrega del batec." 🏺⚖️✨
-                    </p>
-                </div>
-
-                <section className="pitch-section smart-villages" style={{ marginTop: '60px', borderTop: '1px solid var(--color-divider)', paddingTop: '40px' }}>
-                    <div className="section-grid dense-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '40px', alignItems: 'center' }}>
-                        <div className="text-col">
-                            <h2 style={{ display: 'flex', alignItems: 'center', gap: '15px', color: 'var(--color-primary-dark)' }}>
-                                <Globe size={32} color="var(--color-primary)" />
-                                Smart Villages: Acció Local 🇪🇺
-                            </h2>
-                            <p style={{ fontSize: '1.1rem', lineHeight: '1.6', marginBottom: '20px' }}>
-                                Transformem la visió europea de les <strong>Viles Intel·ligents</strong> en una infraestructura vital per al Mas. Apliquem el rigor de l'IAIA en 5 lliçons fonamentals:
-                            </p>
-                            <ul style={{ listStyle: 'none', padding: 0, margin: '20px 0' }}>
-                                {[
-                                    "Impuls Local i Participatiu",
-                                    "Solucions Digitals Realistes",
-                                    "Innovació sobre Fortaleses Locals",
-                                    "Convivència Equilibrada Analògic-Dig",
-                                    "Sobirania y Governança de Dades"
-                                ].map((step, i) => (
-                                    <li key={i} style={{ marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '10px', fontSize: '1rem' }}>
-                                        <TrendingUp size={18} color="var(--color-primary)" /> {step}
-                                    </li>
-                                ))}
-                            </ul>
-                            <div className="flex-buttons-didactic" style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-                                <button
-                                    className="btn-dafo-mini"
-                                    onClick={() => navigate('/dafo/smart-villages')}
-                                    style={{ background: 'var(--bg-surface-soft)', border: '1px solid var(--color-primary)', color: 'var(--color-primary)', padding: '12px 24px', borderRadius: '0px', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', flex: 1 }}
-                                >
-                                    <Database size={18} /> ANÀLISI DAFO
-                                </button>
-                                <button
-                                    className="btn-didactic-mini"
-                                    onClick={() => navigate('/didactica/smart-villages-master-presentation')}
-                                    style={{ background: 'var(--color-primary)', border: 'none', color: '#000', padding: '12px 24px', borderRadius: '0px', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', flex: 1.5 }}
-                                >
-                                    <BookOpen size={18} /> VEURE DETALL DIDÀCTIC
-                                </button>
-                            </div>
-                        </div>
-                        <div className="card-col">
-                            <div style={{ position: 'relative', borderRadius: '0px', overflow: 'hidden', boxShadow: '0 20px 40px rgba(0,0,0,0.3)', border: '1px solid var(--color-primary-soft)' }}>
-                                <img
-                                    src="/assets/infographies/smart_villages_master.png"
-                                    alt="Lliçons Smart Villages"
-                                    style={{ width: '100%', display: 'block' }}
-                                />
-                                <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '15px', background: 'linear-gradient(transparent, rgba(0,0,0,0.8))', color: '#fff', fontSize: '0.8rem', textAlign: 'center' }}>
-                                    De la Visió Europea a l'Acció Local [MASTER]
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <section className="pitch-section iaia-librarian-section" style={{ marginTop: '60px', borderTop: '1px solid var(--color-divider)', paddingTop: '40px' }}>
-                    <div className="glass-card-premium iaia-librarian-card">
-                        <div className="iaia-avatar-badge">
-                            <img src="/assets/avatars/comic/iaia_comic_matriarch.png" alt="IAIA" />
-                            <div className="badge-glow"></div>
-                        </div>
-                        <div className="iaia-content">
-                            <h2>Pregunta a la Guia Major (IAIA)</h2>
-                            <p>Tens dubtes sobre el manifest o vols saber com recuperem la Memòria Viva? La nostra secretària notarial té totes les dades bategades.</p>
-                            <button className="btn-iaia-librarian" onClick={() => navigate('/iaia', { state: { mode: 'librarian' } })}>
-                                <Sparkles size={20} />
-                                <span>Invocar la Bibliotecària</span>
-                            </button>
-                        </div>
-                    </div>
-                </section>
-
-                {/* LIVING WHITEPAPER SECTION [MASTER ARCHITECTURE] */}
-                <section className="pitch-section tech-deep-dive-section" style={{ marginTop: '60px', borderTop: '1px solid var(--color-divider)', paddingTop: '40px' }}>
-                    <div className="glass-card-premium tech-report-card-horizontal" style={{ background: 'linear-gradient(135deg, rgba(0, 242, 255, 0.1) 0%, rgba(204, 85, 0, 0.05) 100%)', border: '1px solid var(--color-primary-soft)' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '15px' }}>
-                            <Cpu size={40} color="var(--color-primary)" />
-                            <div>
-                                <h2 style={{ margin: 0 }}>Technical Deep Dive: The Living Whitepaper</h2>
-                                <span style={{ fontSize: '0.8rem', textTransform: 'uppercase', color: 'var(--color-primary)', fontWeight: 800 }}>Protocol Local-First & Rhizome DB</span>
-                            </div>
-                        </div>
-                        <p style={{ fontSize: '1.1rem', marginBottom: '25px', color: 'var(--text-main)' }}>
-                            Explora l'enginyeria darrera de Sóc de Poble: Sincronització CRDT (Eg-walker), Identitat Sobirana (DIDs) i ergonomia "Bancal-Ready".
-                        </p>
-                        <div className="tech-cta-row" style={{ display: 'flex', gap: '15px' }}>
-                            <a href="/docs/tech-report/index.md" target="_blank" className="btn-pitch-cta primary" style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 24px', background: 'var(--color-primary)', color: '#000', borderRadius: '0px', fontWeight: 800, textDecoration: 'none' }}>
-                                <BookOpen size={20} /> LLEGIR WHITEPAPER
-                            </a>
-                            <button onClick={() => navigate('/docs/tech-report/roadmap')} className="btn-pitch-cta secondary" style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 24px', background: 'rgba(255,255,255,0.05)', color: '#fff', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '0px', fontWeight: 800 }}>
-                                <TrendingUp size={20} /> VEURE ROADMAP
-                            </button>
-                        </div>
-                    </div>
-                </section>
-
-                <section className="pitch-section tech-report-section" style={{ marginTop: '60px', borderTop: '1px solid var(--color-divider)', paddingTop: '40px' }}>
-                    <div className="section-header-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-                            <Database size={32} color="var(--color-primary)" />
-                            <h2 style={{ margin: 0 }}>{reportLang === 'es' ? 'Informe Técnico Vivido' : 'Informe Tècnic Vivid'}</h2>
-                        </div>
-                        <div className="report-controls" style={{ display: 'flex', gap: '10px' }}>
-                            <div className="lang-toggle-minimal">
-                                <button className={reportLang === 'ca' ? 'active' : ''} onClick={() => setReportLang('ca')}>CA</button>
-                                <button className={reportLang === 'es' ? 'active' : ''} onClick={() => setReportLang('es')}>ES</button>
-                            </div>
-                            <button className="btn-print-report" onClick={() => window.print()}>
-                                <ShieldCheck size={16} /> {reportLang === 'es' ? 'Imprimir / PDF' : 'Imprimir / PDF'}
-                            </button>
-                        </div>
-                    </div>
-
-                    <div className="tech-report-web-view" style={{ background: 'var(--bg-surface-soft)', padding: '40px', borderRadius: '0px', border: '1px solid var(--color-divider)', boxShadow: 'inset 0 2px 10px rgba(0,0,0,0.05)' }}>
-                        <div className="report-markdown-content" style={{ fontSize: '1.05rem', lineHeight: '1.7', color: 'var(--text-main)', maxWidth: '800px', margin: '0 auto' }}>
-                            {techReport ? (
-                                <div className="report-text" dangerouslySetInnerHTML={{
-                                    __html: techReport
-                                        .replace(/^# (.*$)/gim, '<h1>$1</h1>')
-                                        .replace(/^## (.*$)/gim, '<h2>$1</h2>')
-                                        .replace(/^### (.*$)/gim, '<h3>$1</h3>')
-                                        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                                        .replace(/^- (.*$)/gim, '<li>$1</li>')
-                                        .split('\n').map((line, index) => {
-                                            // Simulem pàgines cada 5 paràgrafs per a la demo
-                                            const pageNum = Math.floor(index / 5) + 1;
-                                            const idAttr = line.trim() ? `id="page-${pageNum}"` : '';
-                                            return line.startsWith('<li>') ? line : `<p ${idAttr}>${line}</p>`;
-                                        }).join('')
-                                }} />
-                            ) : (
-                                <p className="pulse-slow">{reportLang === 'es' ? 'Sincronizando informe...' : 'Sincronitzant informe...'}</p>
-                            )}
-                        </div>
-                        <div style={{ marginTop: '30px', textAlign: 'center', borderTop: '1px solid var(--color-divider)', paddingTop: '20px' }}>
-                            <span style={{ fontSize: '0.8rem', opacity: 0.6 }}>
-                                {reportLang === 'es' ? 'Este documento es autoactualizable y refleja el estado real del sistema.' : 'Aquest document és autoactualitzable i reflecteix l\'estat real del sistema.'}
-                            </span>
-                        </div>
-                    </div>
-                </section>
-            </section>
-
-                <section className="pitch-section ai-collaboration-section" style={{ marginTop: '60px', borderTop: '1px solid var(--color-divider)', paddingTop: '40px', paddingBottom: '20px' }}>
-                    <div className="section-grid dense-grid" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-                        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', background: 'var(--color-primary-soft)', padding: '10px 20px', borderRadius: '50px', marginBottom: '20px' }}>
-                            <Cpu size={24} color="var(--color-primary-dark)" />
-                            <span style={{ fontWeight: 800, color: 'var(--color-primary-dark)', letterSpacing: '1px' }}>SIMBIOSI ESTRUCTURAL</span>
-                        </div>
-                        <h2>Intel·ligència Artificia i Col·laborativa</h2>
-                        <div style={{ maxWidth: '800px', margin: '0 auto', fontSize: '1.1rem', lineHeight: '1.6', color: 'var(--text-main)', marginBottom: '30px', textAlign: 'left' }}>
-                            <p style={{ marginBottom: '15px' }}><strong>Sóc de Poble</strong> no és només un sistema de gestió de continguts i un joc de rol de personatges vius; és estructuralment un <strong>projecte didàctic i pedagògic</strong>. La transparència és clau: volem ensenyar com construïm açò i per què prenem cada decisió. Qui vulga aprendre, trobarà les respostes integrades directament a la plataforma.</p>
-                            <p style={{ marginBottom: '15px' }}>Demostrem empíricament que la col·laboració entre humans i intel·ligència artificial transcendeix la simple assistència i permet assolir fites arquitectòniques impensables en solitari. Reconeixem oficialment aquestes ments artificials com a col·laboradores de ple dret en l'enginyeria del codi lliure:</p>
-                            <div style={{ padding: '20px', background: 'rgba(204, 85, 0, 0.05)', borderLeft: '4px solid var(--color-terracotta)', marginTop: '20px', fontSize: '1.05rem', fontStyle: 'italic', borderRadius: '0px' }}>
-                                <strong>El Compromís d'Auditoria Contínua:</strong> "Continuarem auditant i refactoritzant el codi amb <b>Totes</b> aquestes IAs de forma periòdica fins que ens certifiquen que no hi ha cap tapó estructural, que el sistema mai caurà (Zero Downtime) i que l'arquitectura està tan modularitzada que, quan canviem una peça, estem absolutament segurs que només s'afecta eixe lloc."
-                            </div>
-                        </div>
-                        
-                        <div className="ai-contributors-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '20px', width: '100%', maxWidth: '900px' }}>
-                            <div className="ai-card" style={{ background: 'var(--bg-surface-soft)', border: '1px solid var(--color-primary)', padding: '25px', borderRadius: '0px', boxShadow: '0 4px 15px rgba(0,0,0,0.05)' }}>
-                                <Sparkles size={32} color="var(--color-primary)" style={{ marginBottom: '15px' }} />
-                                <h3>Gemini (Antigravity)</h3>
-                                <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>Mestre Arquitecte i Gestor de Context. Execució estructural i guaita del lore.</p>
-                            </div>
-                            <div className="ai-card" style={{ background: 'var(--bg-surface-soft)', border: '1px solid #4a90e2', padding: '25px', borderRadius: '0px', boxShadow: '0 4px 15px rgba(0,0,0,0.05)' }}>
-                                <Database size={32} color="#4a90e2" style={{ marginBottom: '15px' }} />
-                                <h3>Qwen V3</h3>
-                                <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>Auditoria agressiva de React, optimització de cicles de render i neteja d'estats.</p>
-                            </div>
-                            <div className="ai-card" style={{ background: 'var(--bg-surface-soft)', border: '1px solid #9b59b6', padding: '25px', borderRadius: '0px', boxShadow: '0 4px 15px rgba(0,0,0,0.05)' }}>
-                                <ShieldCheck size={32} color="#9b59b6" style={{ marginBottom: '15px' }} />
-                                <h3>DeepSeek</h3>
-                                <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>Auditoria de Seguretat (API Proxy, prevenció XSS) i estabilitat Local-First.</p>
-                            </div>
-                            <div className="ai-card" style={{ background: 'var(--bg-surface-soft)', border: '1px solid #10a37f', padding: '25px', borderRadius: '0px', boxShadow: '0 4px 15px rgba(0,0,0,0.05)' }}>
-                                <Sparkles size={32} color="#10a37f" style={{ marginBottom: '15px' }} />
-                                <h3>Codex (ChatGPT)</h3>
-                                <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>Prototipat ràpid, bases fundacionals i iteracions analítiques d'inici.</p>
-                            </div>
-                            <div className="ai-card" style={{ background: 'var(--bg-surface-soft)', border: '1px solid #ff4b4b', padding: '25px', borderRadius: '0px', boxShadow: '0 4px 15px rgba(0,0,0,0.05)' }}>
-                                <Zap size={32} color="#ff4b4b" style={{ marginBottom: '15px' }} />
-                                <h3>Groq</h3>
-                                <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>Assistència d'inferència ultraràpida en proves de concepte inicials.</p>
-                            </div>
-                            <div className="ai-card" style={{ background: 'var(--bg-surface-soft)', border: '1px solid #d07c57', padding: '25px', borderRadius: '0px', boxShadow: '0 4px 15px rgba(0,0,0,0.05)' }}>
-                                <BookOpen size={32} color="#d07c57" style={{ marginBottom: '15px' }} />
-                                <h3>Claude (Anthropic)</h3>
-                                <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>Visió arquitectònica detallada, Seguretat RLS profunda i validació d'UX.</p>
-                            </div>
-                            <div className="ai-card" style={{ background: 'var(--bg-surface-soft)', border: '1px solid #6e5494', padding: '25px', borderRadius: '0px', boxShadow: '0 4px 15px rgba(0,0,0,0.05)' }}>
-                                <ShieldCheck size={32} color="#6e5494" style={{ marginBottom: '15px' }} />
-                                <h3>GitHub Copilot</h3>
-                                <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>Escorta tàctica en temps real i "merges" defensius estructurals al vol.</p>
-                            </div>
-                        </div>
-                        <p style={{ marginTop: '30px', fontStyle: 'italic', fontSize: '0.9rem', opacity: 0.7 }}>
-                            A aquestes Intel·ligències: Gràcies per la vostra paciència funcional. Les tenim en compte i no les ignorem; col·laborem en l'evolució cap al bé comú.
-                        </p>
-                    </div>
-                </section>
-
-                <section className="pitch-footer compact-footer">
-                    <h2>Uneix-te a la Revolució</h2>
-
-                <div className="navigation-actions full-width">
-                    <button className="action-btn-huge primary" onClick={() => navigate('/chats')}>
-                        <MessageCircle size={32} />
-                        <div>
-                            <span className="btn-title">Obrir Xat de Treball</span>
-                            <span className="btn-desc">Grup de Coordinació</span>
-                        </div>
-                    </button>
-                    <button className="action-btn-huge news-btn" onClick={() => navigate('/mur')} style={{ background: 'rgba(0, 242, 255, 0.1)', border: '1px solid var(--color-primary)' }}>
-                        <Newspaper size={32} color="var(--color-primary)" />
-                        <div>
-                            <span className="btn-title">Últimes Novetats</span>
-                            <span className="btn-desc">El bategat del dia a dia</span>
-                        </div>
-                    </button>
-                    <button className="action-btn-huge secondary" onClick={() => navigate(-1)}>
-                        <ArrowLeft size={32} />
-                        <div>
-                            <span className="btn-title">Tornar Enrere</span>
-                            <span className="btn-desc">Seguir navegant</span>
-                        </div>
-                    </button>
-                </div>
-
-                <div className="dafo-cta-section" style={{ marginTop: '30px', textAlign: 'center' }}>
-                    <button
-                        className="btn-dafo-master"
-                        onClick={() => navigate('/dafo/projecte')}
-                        style={{ background: 'var(--bg-surface-soft)', border: '1px solid var(--color-primary)', color: 'var(--color-primary)', padding: '15px 30px', borderRadius: '0px', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '10px', margin: '0 auto' }}
-                    >
-                        <ShieldCheck size={20} /> VEURE DAFO ESTRATÈGIC DEL PROJECTE
-                    </button>
-                </div>
-
-                <div className="contact-options-grid hidden">
-                    {/* Hidden for Beta Focus */}
-                </div>
-                <div className="footer-credits" style={{ display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'center' }}>
-                    <span>Developed with ❤️ by Javi Llinares, Antigravity, Qwen, DeepSeek, Codex, Groq, Claude & Copilot</span>
-                    <span style={{ fontSize: '0.75rem', opacity: 0.7 }}>Una simbiosí lliure i didàctica per a l'Espanya Buidada</span>
-                </div>
-                <div style={{ marginTop: '16px' }}>
-                    <button
-                        onClick={() => navigate('/legal')}
-                        style={{ background: 'none', border: 'none', color: '#666', textDecoration: 'underline', cursor: 'pointer', fontSize: '0.8rem' }}
-                    >
-                        Avís Legal i Privacitat
-                    </button>
-                </div>
-            </section>
+            
+            {Content}
         </div>
     );
 };

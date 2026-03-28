@@ -80,7 +80,7 @@
 }
 
 .doc-item-card {
-    border-radius: 0 !important;
+    border-radius: 0 ;
     /* FORCED ZERO RADIUS */
 }
 

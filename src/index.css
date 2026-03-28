@@ -44,10 +44,8 @@
     #ff6b00 0%,
     #0ea5e9 100%
   ); /* Orange to Sky Blue */
-}
 
-:root {
-  /* [SISTEMA DE CAPES Z-INDEX - CANÒNIC v15] */
+  /* [SISTEMA DE CAPES Z-INDEX - TAILWIND V4] */
   --z-base: 1;
   --z-dropdown: 100;
   --z-sticky: 200;
@@ -56,6 +54,15 @@
   --z-modal: 500;
   --z-toast: 600;
   --z-max: 999;
+
+  /* SÓC DE POBLE UNIVERSAL CARD TOKENS (No Magic Numbers) */
+  --card-max-width: 480px;
+  --card-grid-height: 864px;
+  --card-list-height: 80px;
+  --card-radius: 28px;
+}
+
+:root {
 
   /* [PROTOCOL GÈNESI v10.26.0 - CANÒNIC] */
   --bg-app: #000000;
@@ -134,7 +141,7 @@
   --bg-theme-sidebar: #000000; /* CORREGIT: Barra lateral NEGRA en Mode Clar per decisió de disseny */
   --bg-theme-panel: var(--bg-panel);
   --text-theme-text: #000000;
-  --bg-theme-header: #ffffff; /* CORREGIT: Header clar en Mode Clar */
+  --bg-theme-header: #000000; /* CORREGIT: Header SEMPRE clar encara que estiguem en Mode Clar */
 
   /* [FASE 2: GLASSMORPHISM] Day Mode Tokens */
   --glass-bg-light: rgba(255, 255, 255, 0.7);
@@ -145,11 +152,11 @@
 }
 
 .text-on-accent {
-  color: var(--on-theme-accent-primary) !important;
+  color: var(--on-theme-accent-primary) ;
 }
 
 .text-on-accent-muted {
-  color: var(--on-theme-accent-primary) !important;
+  color: var(--on-theme-accent-primary) ;
   opacity: 0.85;
 }
 
@@ -158,16 +165,16 @@
 .card,
 .universal-card,
 .bg-panel {
-  border-radius: var(--radius-genesis) !important;
+  border-radius: var(--radius-genesis) ;
   overflow: hidden;
 }
 
 /* [FASE 2: GLASSMORPHISM] Universal Class */
 .glass-panel {
-  background: var(--glass-theme-bg) !important;
-  backdrop-filter: var(--glass-blur) !important;
-  -webkit-backdrop-filter: var(--glass-blur) !important;
-  border: 1px solid var(--glass-border) !important;
+  background: var(--glass-theme-bg) ;
+  backdrop-filter: var(--glass-blur) ;
+  -webkit-backdrop-filter: var(--glass-blur) ;
+  border: 1px solid var(--glass-border) ;
   box-shadow: var(--glass-shadow);
   border-radius: var(--radius-genesis);
   overflow: hidden;
@@ -176,7 +183,7 @@
 
 .modal-content,
 .dialog-panel {
-  border-radius: var(--radius-genesis) !important;
+  border-radius: var(--radius-genesis) ;
 }
 
 /* 📱 COMPORTAMENT TÀCTIL NATIU (v10.30.0 BLUEPRINT) */
@@ -209,7 +216,6 @@ p {
   font-size: 1.15rem;
   line-height: 1.6;
   margin-bottom: 1.5rem;
-  color: inherit;
 }
 
 /* 🧬 ESTRUCTURA SUPREMA (PROTOCOL TABULA RASA v10.30.0) */
@@ -234,7 +240,7 @@ p {
     top: var(--spacing-header, 56px);
     z-index: 1000;
     width: var(--spacing-sidebar);
-    height: calc(100vh - var(--spacing-header, 56px));
+    height: calc(100dvh - var(--spacing-header, 56px));
     transform: translateX(-100%);
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     background: #000000;
@@ -361,34 +367,28 @@ p {
 }
 
 .genesis-radius {
-  border-radius: 28px !important;
+  border-radius: 28px ;
 }
 
 .card-radius {
-  border-radius: var(--radius-genesis) !important;
+  border-radius: var(--radius-genesis) ;
 }
 
-/* Unified Glassmorphism */
-.glass-master {
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
+
 
 .safe-area-bottom {
-  padding-bottom: env(safe-area-inset-bottom, 20px) !important;
+  padding-bottom: env(safe-area-inset-bottom, 20px) ;
 }
 
 .safe-area-top {
-  padding-top: env(safe-area-inset-top, 0) !important;
+  padding-top: env(safe-area-inset-top, 0) ;
 }
 
 /* [MASTER CANONIC BUTTONS] Design System GEM MODERN v1.0 */
 /* Botó Connectar Canònic (UniversalCard) */
 .btn-connect-canonic {
-  font-weight: 900 !important;
-  text-transform: uppercase !important;
+  font-weight: 900 ;
+  text-transform: uppercase ;
   font-size: 14px;
   height: 40px;
   padding: 0 16px;
@@ -409,16 +409,16 @@ p {
 }
 
 .master-button-canonic {
-  height: 44px !important;
-  border-radius: 22px !important;
-  font-weight: 900 !important;
-  letter-spacing: 0.05em !important;
-  text-transform: uppercase !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  padding: 0 24px !important;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  height: 44px ;
+  border-radius: 22px ;
+  font-weight: 900 ;
+  letter-spacing: 0.05em ;
+  text-transform: uppercase ;
+  display: flex ;
+  align-items: center ;
+  justify-content: center ;
+  padding: 0 24px ;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) ;
 }
 
 .master-button-canonic:active {
@@ -472,9 +472,5 @@ p {
 }
 
 
-/* --- UNIVERSAL SCROLLBAR --- */
-.custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
-.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-.custom-scrollbar::-webkit-scrollbar-thumb { background-color: rgba(150, 150, 150, 0.4); border-radius: 10px; }
-.custom-scrollbar::-webkit-scrollbar-thumb:hover { background-color: var(--theme-accent-primary, #f97316); }
+
 

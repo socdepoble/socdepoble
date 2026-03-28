@@ -1,7 +1,7 @@
 .market-container {
     padding-bottom: calc(var(--nav-height) + 40px);
     background-color: var(--bg-page);
-    min-height: 100vh;
+    min-height: 100dvh;
 }
 
 .market-item {
@@ -23,8 +23,8 @@
 }
 
 .item-price-vibrant {
-    background: linear-gradient(135deg, var(--color-accent), #ea580c) !important;
-    color: white !important;
+    background: linear-gradient(135deg, var(--color-accent), #ea580c) ;
+    color: white ;
     font-weight: 800;
     box-shadow: 0 4px 10px rgba(249, 115, 22, 0.3);
 }

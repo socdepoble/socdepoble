@@ -21,7 +21,7 @@ const MagicPregoner = ({ onContentGenerated, onClose }) => {
     setError(null);
     try {
       let systemPrompt = tone === 'iaia' 
-        ? "Ets la IAIA MarIA. Parles valencià col·loquial, amb carinyo i saviesa. 'fill meu', 'trellat', 'xé va'. Missió: fer el text bonic i emotiu per al poble. Emojis rurals."
+        ? "Ets la IAIA MarIA. Parles valencià natural de La Torre de les Maçanes (L'Alacantí), amb forta arrel de les comarques de muntanya (El Comtat, L'Alcoià). Usa termes carinyosos, saviesa, 'fill meu', 'trellat', 'xé va'. Missió: fer el text bonic i emotiu per al poble. Emojis rurals."
         : "Ets el Pregoner Oficial. Valencià normatiu, formal, informatiu i clar per a un Bando. Estructura la informació.";
       
       const { data, error: proxyError } = await supabase.functions.invoke('gemini-proxy', {
@@ -59,7 +59,7 @@ const MagicPregoner = ({ onContentGenerated, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-300">
+    <div className="fixed inset-0 z-modal flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-300">
       <div className="bg-[#1a1a1c] border border-orange-500/30 rounded-[32px] w-full max-w-xl overflow-hidden shadow-[0_0_50px_rgba(249,115,22,0.15)] relative text-white">
         <div className="bg-gradient-to-r from-[#F97316] to-[#EA580C] p-6 flex justify-between items-center relative overflow-hidden">
           <div className="flex items-center gap-3 text-white font-black text-2xl tracking-tight z-10">

@@ -87,7 +87,7 @@ const KnowledgeHub = () => {
 
             {/* Viewer Overlay */}
             {activeSource && (
-                <div className="fixed inset-0 z-[20000] bg-black/90 backdrop-blur-xl flex flex-col p-4 md:p-8 animate-fadeIn">
+                <div className="fixed inset-0 z-modal bg-black/90 backdrop-blur-xl flex flex-col p-4 md:p-8 animate-fadeIn">
                     <header className="flex justify-between items-center mb-6">
                         <div>
                             <h2 className="text-2xl font-bold text-white uppercase">{activeSource.title}</h2>

@@ -10,7 +10,26 @@ import './MasterEditor.css';
 const MasterEditor = ({ note, onChange, onAIA, placeholder }) => {
     const { t } = useTranslation();
     const editorRef = useRef(null);
+    const savedSelectionRef = useRef(null);
+    const draggedLiRef = useRef(null);
     const [isThinking, setIsThinking] = useState(false);
+
+    const saveSelection = React.useCallback(() => {
+        const selection = window.getSelection();
+        if (selection.rangeCount > 0) {
+            savedSelectionRef.current = selection.getRangeAt(0);
+        }
+    }, []);
+
+    const restoreSelection = React.useCallback(() => {
+        if (savedSelectionRef.current && editorRef.current) {
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(savedSelectionRef.current);
+            editorRef.current.focus();
+        }
+    }, []);
+
     const [isCorrecting, setIsCorrecting] = useState(false);
     const [showExportMenu, setShowExportMenu] = useState(false);
     const [corrections, setCorrections] = useState([]);
@@ -64,22 +83,29 @@ const MasterEditor = ({ note, onChange, onAIA, placeholder }) => {
             };
 
             const cleanHTML = sanitize(temp).innerHTML;
+            editorRef.current.focus();
             document.execCommand('insertHTML', false, cleanHTML || text);
         } else {
+            editorRef.current.focus();
             document.execCommand('insertText', false, text);
         }
         handleInput();
     };
 
     const execCommand = (command, value = null) => {
+        if (!editorRef.current) return;
+        saveSelection();
         editorRef.current.focus();
+        restoreSelection();
         document.execCommand(command, false, value);
         handleInput();
     };
 
     const insertBlock = (tag) => {
-        // Simple block level insertion
+        if (!editorRef.current) return;
+        saveSelection();
         editorRef.current.focus();
+        restoreSelection();
         document.execCommand('formatBlock', false, tag);
         handleInput();
     };
@@ -106,14 +132,12 @@ const MasterEditor = ({ note, onChange, onAIA, placeholder }) => {
 
     const handleDragStart = (e) => {
         const li = e.target.closest('li');
-        if (!li || !li.classList.contains('checklist-block li')) { // This selector check is loose, using parent check
-            if (e.target.closest('.checklist-block')) {
-                e.dataTransfer.effectAllowed = 'move';
-                e.dataTransfer.setData('text/html', li.outerHTML);
-                li.classList.add('dragging-li');
-                window._draggedLi = li;
-            }
-        }
+        if (!li || !li.closest('.checklist-block')) return;
+        
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/html', li.outerHTML);
+        li.classList.add('dragging-li');
+        draggedLiRef.current = li;
     };
 
     const handleDragOver = (e) => {
@@ -125,6 +149,17 @@ const MasterEditor = ({ note, onChange, onAIA, placeholder }) => {
         }
     };
 
+    const clearDragClasses = React.useCallback(() => {
+        document.querySelectorAll('.dragging-li, .drag-over-li').forEach(el => {
+            el.classList.remove('dragging-li', 'drag-over-li');
+        });
+        draggedLiRef.current = null;
+    }, []);
+
+    useEffect(() => {
+        return () => clearDragClasses();
+    }, [clearDragClasses]);
+
     const handleDragLeave = (e) => {
         const li = e.target.closest('li');
         if (li) li.classList.remove('drag-over-li');
@@ -132,7 +167,7 @@ const MasterEditor = ({ note, onChange, onAIA, placeholder }) => {
 
     const handleDrop = (e) => {
         const targetLi = e.target.closest('li');
-        const draggedLi = window._draggedLi;
+        const draggedLi = draggedLiRef.current;
         
         if (targetLi && draggedLi && targetLi !== draggedLi && targetLi.closest('.checklist-block')) {
             e.preventDefault();
@@ -151,11 +186,7 @@ const MasterEditor = ({ note, onChange, onAIA, placeholder }) => {
             handleInput();
         }
         
-        // Cleanup all visual states
-        document.querySelectorAll('.dragging-li, .drag-over-li').forEach(el => {
-            el.classList.remove('dragging-li', 'drag-over-li');
-        });
-        window._draggedLi = null;
+        clearDragClasses();
     };
 
     const handleRemoveItem = (e) => {
@@ -174,10 +205,11 @@ const MasterEditor = ({ note, onChange, onAIA, placeholder }) => {
 
     const insertPoll = () => {
         const pollId = `poll-${Date.now()}`;
+        const barChartSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>`;
         const html = `
             <div class="poll-block" contenteditable="false" data-poll-id="${pollId}">
                 <div class="poll-header">
-                    <div class="poll-icon"><BarChart3 size={14} /></div>
+                    <div class="poll-icon">${barChartSVG}</div>
                     <span contenteditable="true" class="poll-question" data-placeholder="Pregunta de l'enquesta..."></span>
                 </div>
                 <div class="poll-options">
@@ -188,7 +220,7 @@ const MasterEditor = ({ note, onChange, onAIA, placeholder }) => {
             <p><br></p>
         `;
         editorRef.current.focus();
-        document.execCommand('insertHTML', false, html);
+        document.execCommand('insertHTML', false, `<div>${html}</div>`);
         handleInput();
     };
 
@@ -254,10 +286,51 @@ const MasterEditor = ({ note, onChange, onAIA, placeholder }) => {
 
     const applyCorrection = (corr) => {
         const { original, suggeriment } = corr;
-        const html = editorRef.current.innerHTML;
-        // This is a simple replacement, might need refinement for complex cases
-        const newHtml = html.replace(original, `<strong>${suggeriment}</strong>`);
-        editorRef.current.innerHTML = newHtml;
+        const editor = editorRef.current;
+        if (!editor) return;
+
+        // Guardem la selecció actual
+        const selection = window.getSelection();
+        const savedRange = selection.rangeCount > 0 ? selection.getRangeAt(0).cloneRange() : null;
+
+        // Substituïm al primer TextNode que contingui el text original
+        const walker = document.createTreeWalker(editor, NodeFilter.SHOW_TEXT);
+        let node;
+        let replaced = false;
+        while ((node = walker.nextNode())) {
+            if (node.textContent.includes(original)) {
+                const parent = node.parentNode;
+                const idx = node.textContent.indexOf(original);
+
+                // Dividim el TextNode en 3 parts: before | reemplaç | after
+                const before = document.createTextNode(node.textContent.slice(0, idx));
+                const replacement = document.createElement('strong');
+                replacement.textContent = suggeriment;
+                const after = document.createTextNode(node.textContent.slice(idx + original.length));
+
+                parent.insertBefore(before, node);
+                parent.insertBefore(replacement, node);
+                parent.insertBefore(after, node);
+                parent.removeChild(node);
+                replaced = true;
+                break;
+            }
+        }
+
+        if (!replaced) {
+            // Fallback si no troba text exacte al Node
+            const html = editor.innerHTML;
+            editor.innerHTML = html.replace(original, `<strong>${suggeriment}</strong>`);
+        } else if (savedRange) {
+            // Restaurem el cursor a la posició anterior si era vàlida
+            try {
+                selection.removeAllRanges();
+                selection.addRange(savedRange);
+            } catch {
+                // Range invàlid post-mutació DOM
+            }
+        }
+
         setCorrections(prev => prev.filter(c => c.original !== original));
         handleInput();
         hapticService.notifySuccess();
@@ -319,7 +392,7 @@ const MasterEditor = ({ note, onChange, onAIA, placeholder }) => {
                     </button>
                     
                     {showExportMenu && (
-                        <div className="absolute left-0 top-full mt-2 bg-white/90 border-orange-200/60 dark:bg-[#050B14]/90 dark:border-indigo-900/50 backdrop-blur-xl border rounded-[28px] shadow-[0_8px_30px_rgb(249,115,22,0.12)] dark:shadow-[0_8px_30px_rgba(6,182,212,0.1)] z-[100] overflow-hidden min-w-[220px] origin-top-left animate-in fade-in zoom-in duration-200">
+                        <div className="absolute left-0 top-full mt-2 bg-white/90 border-orange-200/60 dark:bg-[#050B14]/90 dark:border-indigo-900/50 backdrop-blur-xl border rounded-[28px] shadow-[0_8px_30px_rgb(249,115,22,0.12)] dark:shadow-[0_8px_30px_rgba(6,182,212,0.1)] z-dropdown overflow-hidden min-w-[220px] origin-top-left animate-in fade-in zoom-in duration-200">
                             <div className="px-4 py-2 border-b border-orange-100 bg-orange-50/50 dark:border-indigo-900/30 dark:bg-indigo-950/20">
                                 <span className="text-[10px] uppercase font-black text-orange-500/80 tracking-widest">Format d'Exportació</span>
                             </div>
@@ -478,11 +551,14 @@ const MasterEditor = ({ note, onChange, onAIA, placeholder }) => {
                 spellCheck="false"
                 onInput={handleInput}
                 onBlur={handleInput}
+                onMouseUp={saveSelection}
+                onKeyUp={saveSelection}
                 onPaste={handlePaste}
                 onDragStart={handleDragStart}
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
                 onDrop={handleDrop}
+                onDragEnd={clearDragClasses}
                 onClick={(e) => {
                     const removeBtn = e.target.closest('.checklist-item-remove');
                     if (removeBtn) {

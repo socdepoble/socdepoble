@@ -45,27 +45,37 @@ const AdminPinnedManager = ({ type = 'post', onClose }) => {
         }
     }, [isSuperAdmin, loadPinnedItems]);
 
-    const handleSearch = async (e) => {
-        const query = e.target.value;
-        setSearchQuery(query);
-        if (query.length < 3) {
-            setSearchResults([]);
-            return;
-        }
-
-        try {
-            const result = type === 'post'
-                ? await supabaseService.getPosts('tot', null, 0, 20)
-                : await marketService.getMarketItems('tot', null, 0, 20);
-
-            const filtered = (result.data || []).filter(item =>
-                (item.content || item.title || '').toLowerCase().includes(query.toLowerCase())
-            );
-            setSearchResults(filtered);
-        } catch (error) {
-            logger.error('[AdminPinnedManager] Search error:', error);
-        }
+    const handleSearch = (e) => {
+        setSearchQuery(e.target.value);
     };
+
+    useEffect(() => {
+        const executeSearch = async () => {
+            if (searchQuery.length < 3) {
+                setSearchResults([]);
+                return;
+            }
+
+            try {
+                const result = type === 'post'
+                    ? await supabaseService.getPosts('tot', null, 0, 20)
+                    : await marketService.getMarketItems('tot', null, 0, 20);
+
+                const filtered = (result.data || []).filter(item =>
+                    (item.content || item.title || '').toLowerCase().includes(searchQuery.toLowerCase())
+                );
+                setSearchResults(filtered);
+            } catch (error) {
+                logger.error('[AdminPinnedManager] Search error:', error);
+            }
+        };
+
+        const timer = setTimeout(() => {
+            executeSearch();
+        }, 300);
+
+        return () => clearTimeout(timer);
+    }, [searchQuery, type]);
 
     const assignPin = (item, position) => {
         const newPins = [...pinnedItems];

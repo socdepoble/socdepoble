@@ -17,6 +17,8 @@ export const AuthProvider = ({ children }) => {
     const [realProfile, setRealProfile] = useState(null);
     const [loading, setLoading] = useState(true);
     const realUserRef = useRef(null);
+    // [FIX OMEGA] - Seqüenciador per avortar resolucions asíncrones caducades
+    const authSeqRef = useRef(0);
     const [isPlayground, setIsPlaygroundState] = useState(localStorage.getItem('isPlaygroundMode') === 'true');
     const [impersonatedProfile, setImpersonatedProfile] = useState(null);
     const [activeEntityId, setActiveEntityId] = useState(null);
@@ -34,7 +36,7 @@ export const AuthProvider = ({ children }) => {
             localStorage.removeItem('isPlaygroundMode');
             localStorage.removeItem('sb-simulation-mode');
         }
-    }, []);
+    }, [setIsPlaygroundState]);
 
     const setSimulatedRole = useCallback((role) => {
         setSimulatedRoleState(role);
@@ -92,8 +94,19 @@ export const AuthProvider = ({ children }) => {
 
     const forceNukeSimulation = useCallback(async () => {
         logger.log('[AuthContext] NUCLEAR RESET TRIGGERED - PURGING SIMULATION');
+        
+        try {
+            await supabase.auth.signOut();
+        } catch (e) {
+            logger.error('[AuthContext] Supabase signOut error during nuke:', e);
+        }
+
+        const deviceId = localStorage.getItem('sdp_device_id');
+
         localStorage.clear();
         sessionStorage.clear();
+
+        if (deviceId) localStorage.setItem('sdp_device_id', deviceId);
 
         if ('serviceWorker' in navigator) {
             try {
@@ -114,12 +127,6 @@ export const AuthProvider = ({ children }) => {
         setProfile(null);
         setRealUser(null);
         setRealProfile(null);
-
-        try {
-            await supabase.auth.signOut();
-        } catch (e) {
-            logger.error('[AuthContext] Supabase signOut error during nuke:', e);
-        }
 
         localStorage.setItem('nuke_in_progress', 'true');
         window.location.href = '/login?nuked=true&v=' + Date.now();
@@ -174,6 +181,8 @@ export const AuthProvider = ({ children }) => {
             localStorage.removeItem('sb-simulation-mode');
             localStorage.removeItem('nuke_in_progress');
             localStorage.removeItem('sp_sovereign_identity');
+            // [FIX OMEGA] - Mode Convidat Zombi erradicat.
+            localStorage.removeItem('isGuestMode');
 
             terminateWorkers();
 
@@ -211,7 +220,9 @@ export const AuthProvider = ({ children }) => {
     }, [isPlayground, forceNukeSimulation]);
 
     const handleAuth = useCallback(async (event, session) => {
-        logger.log('[AuthContext] Auth Event:', event, session?.user?.id);
+        // [FIX OMEGA] Incrementem el seqüenciador abans de qualsevol pas
+        const currentSeq = ++authSeqRef.current;
+        logger.log(`[AuthContext] Auth Event: ${event} [SeqID: ${currentSeq}]`, session?.user?.id);
 
         const isSimulation = localStorage.getItem('isPlaygroundMode') === 'true' ||
             localStorage.getItem('sb-simulation-mode') === 'true' ||
@@ -231,13 +242,17 @@ export const AuthProvider = ({ children }) => {
 
             try {
                 let profileData = await supabaseService.getProfile(session.user.id);
+                // [FIX OMEGA] Condició de cursa destrossada.
+                if (currentSeq !== authSeqRef.current) return;
 
                 profileData = await profileHealingService.healGhostProfile(session, profileData, isSimulation);
+                if (currentSeq !== authSeqRef.current) return;
+
                 const { effectiveProfile, isOfficialCreator } = profileHealingService.protectMasterIdentity(session, profileData);
 
                 setRealProfile(effectiveProfile);
                 setProfile(effectiveProfile);
-                logger.log('[AuthContext] 🏺 IDENTITY CONSOLIDATED:', isOfficialCreator ? 'MESTRE JAVI' : effectiveProfile.full_name);
+                logger.log(`[AuthContext] 🏺 IDENTITY CONSOLIDATED [SeqID: ${currentSeq}]:`, isOfficialCreator ? 'MESTRE JAVI' : effectiveProfile.full_name);
             } catch (error) {
                 logger.error('[AuthContext] Error loading profile:', error);
                 const fallback = {
@@ -259,8 +274,11 @@ export const AuthProvider = ({ children }) => {
         } else {
             // [GUEST/FORASTER MODE] 
             let genesis = await identityService.getStoredIdentity();
+            if (currentSeq !== authSeqRef.current) return;
+
             if (!genesis) {
                 genesis = await identityService.generateSovereignIdentity();
+                if (currentSeq !== authSeqRef.current) return;
             }
             // [MIGRACIÓ TERMINOLÒGICA] Si la identitat guardada diu "Foraster" o "Sóc de Poble" genèric, la bateguem com a "Foraster"
             if (genesis.full_name === 'Foraster de Poble' || genesis.full_name === 'Sóc de Poble' || genesis.full_name === 'Sóc de Poble!') {
@@ -268,7 +286,7 @@ export const AuthProvider = ({ children }) => {
             }
             setUser({ ...genesis, is_sovereign: true, isAnonymous: true, role: USER_ROLES.GUEST });
             setProfile(genesis);
-            logger.log('[AuthContext] 🏹 FORASTER DETECTAT: Identitat sobirana bategant.');
+            logger.log(`[AuthContext] 🏹 FORASTER DETECTAT [SeqID: ${currentSeq}]: Identitat sobirana bategant.`);
         }
         realUserRef.current = session?.user || null;
         setLoading(false);
@@ -323,44 +341,28 @@ export const AuthProvider = ({ children }) => {
         };
     }, [handleAuth]);
 
-    const isAuthenticated = !!realUser && !isPlayground;
-    const isGuest = !!user && !!user.isAnonymous;
-
-    const value = useMemo(() => ({
-        user,
-        profile,
-        realUser,
-        realProfile,
-        loading,
-        setProfile,
-        adoptPersona,
-        loginAsGuest,
-        exitPlayground,
-        logout,
-        forceNukeSimulation,
-        isPlayground,
-        setIsPlayground,
-        setImpersonatedProfile,
-        impersonatedProfile,
-        activeEntityId,
-        setActiveEntityId,
-        switchContext,
-        simulatedRole,
-        setSimulatedRole,
-        currentRole: simulatedRole || profile?.role || USER_ROLES.GUEST,
-        isSuperAdmin: (profile?.is_super_admin || profile?.is_master || (simulatedRole ? simulatedRole === USER_ROLES.SUPER_ADMIN : profile?.role === USER_ROLES.SUPER_ADMIN)),
-        isAdmin: [USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN].includes(simulatedRole || profile?.role) || profile?.is_master,
-        isEditor: [USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN, USER_ROLES.EDITOR].includes(simulatedRole || profile?.role) || profile?.is_master,
-        language,
-        setLanguage,
-        loginAsGuestAnonymous,
-        isAuthenticated,
-        isGuest
-    }), [
-        user, profile, realUser, realProfile, loading, adoptPersona, loginAsGuest, 
-        exitPlayground, logout, forceNukeSimulation, isPlayground, setIsPlayground, 
-        impersonatedProfile, activeEntityId, switchContext, simulatedRole, setSimulatedRole, 
-        language, setLanguage, loginAsGuestAnonymous, isAuthenticated, isGuest
+    const value = useMemo(() => {
+        const isAuthenticated = !!realUser && !isPlayground;
+        const isGuest = !!user && !!user.isAnonymous;
+        
+        return {
+            user, profile, realUser, realProfile, loading,
+            setProfile, adoptPersona, loginAsGuest, exitPlayground, logout,
+            forceNukeSimulation, isPlayground, setIsPlayground, setImpersonatedProfile,
+            impersonatedProfile, activeEntityId, setActiveEntityId, switchContext,
+            simulatedRole, setSimulatedRole,
+            currentRole: simulatedRole || profile?.role || USER_ROLES.GUEST,
+            isSuperAdmin: (profile?.is_super_admin || profile?.is_master || (simulatedRole ? simulatedRole === USER_ROLES.SUPER_ADMIN : profile?.role === USER_ROLES.SUPER_ADMIN)),
+            isAdmin: [USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN].includes(simulatedRole || profile?.role) || profile?.is_master,
+            isEditor: [USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN, USER_ROLES.EDITOR].includes(simulatedRole || profile?.role) || profile?.is_master,
+            language, setLanguage, loginAsGuestAnonymous, isAuthenticated, isGuest
+        };
+    }, [
+        user, profile, realUser, realProfile, loading, isPlayground,
+        impersonatedProfile, activeEntityId, simulatedRole, language,
+        adoptPersona, loginAsGuest, exitPlayground,
+        logout, forceNukeSimulation, setIsPlayground, switchContext,
+        setSimulatedRole, setLanguage, loginAsGuestAnonymous
     ]);
 
     return (

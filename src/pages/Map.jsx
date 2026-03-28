@@ -70,7 +70,7 @@ const InteractiveMapControls = ({ isPlacingPost, setIsPlacingPost }) => {
     };
 
     return (
-        <div className="absolute bottom-6 right-6 flex flex-col gap-2 z-[1000]">
+        <div className="absolute bottom-6 right-6 flex flex-col gap-2 z-max">
             <button 
                 onClick={(e) => { e.preventDefault(); e.stopPropagation(); setIsPlacingPost(!isPlacingPost); }}
                 className={`p-3 text-white border border-white/10 rounded-[28px] shadow-lg transition-colors ${isPlacingPost ? 'bg-orange-500' : 'bg-[#111827] hover:bg-slate-800'}`}
@@ -103,9 +103,13 @@ const Map = () => {
         user 
     });
 
+    const activeMarkers = React.useMemo(() => {
+        return unifiedPosts.filter(p => p.lat && p.lng);
+    }, [unifiedPosts]);
+
     return (
         <div className="map-page-container">
-            <div className="sticky top-0 w-full z-[100] shadow-md">
+            <div className="sticky top-0 w-full z-dropdown shadow-md">
                 <ContextualHeader
                     searchTerm={mapSearch}
                     onSearchChange={setMapSearch}
@@ -157,7 +161,7 @@ const Map = () => {
                             <Marker position={[38.5306, -0.5761]} icon={tibiIcon} eventHandlers={{ click: () => navigate('/pobles/gent-de-tibi') }} />
 
                             {/* Dynamic Post Markers */}
-                            {unifiedPosts.filter(p => p.lat && p.lng).map((post, index) => {
+                            {activeMarkers.map((post, index) => {
                                 const imgUrl = Array.isArray(post.image_url) ? post.image_url[0] : (post.image_url || post.image);
                                 return (
                                     <Marker 
@@ -190,7 +194,7 @@ const Map = () => {
 
                     {/* Placing Post Overlay Notification */}
                     {isPlacingPost && (
-                        <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-theme-panel text-theme-text font-bold px-4 py-2 rounded-full shadow-xl border border-orange-500/50 z-[1000] animate-pulse">
+                        <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-theme-panel text-theme-text font-bold px-4 py-2 rounded-full shadow-xl border border-orange-500/50 z-toast animate-pulse">
                             Clica en qualsevol punt del mapa per afegir una publicació
                         </div>
                     )}

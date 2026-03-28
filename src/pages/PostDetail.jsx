@@ -6,8 +6,7 @@ import { logger } from '../utils/logger';
 import SEO from '../components/SEO';
 import ShareHub from '../components/ShareHub';
 import NanoLoader from '../components/NanoLoader';
-import UniversalCardHeader from '../components/UniversalCardHeader';
-import UniversalCardMedia from '../components/UniversalCardMedia';
+import UniversalCard from '../components/UniversalCard';
 import { MOCK_FEED, MOCK_MARKET_ITEMS } from '../data';
 import { parseSimpleMarkdown } from '../utils/markdownParser';
 
@@ -67,7 +66,7 @@ const PostDetail = () => {
             />
 
             {/* STICKY NAV BAR */}
-            <div className="sticky top-0 z-[100] flex items-center justify-between p-4 bg-theme-base/80 backdrop-blur-3xl border-b border-theme-border">
+            <div className="sticky top-0 z-dropdown flex items-center justify-between p-4 bg-theme-base/80 backdrop-blur-3xl border-b border-theme-border">
                 <button 
                     className="w-12 h-12 flex items-center justify-center bg-theme-panel rounded-full hover:bg-white/10 transition-all border border-theme-border shadow-sm active:scale-95" 
                     onClick={() => navigate(-1)}
@@ -90,7 +89,7 @@ const PostDetail = () => {
                 {/* 1. HEADER + MEDIA UNIFICAT (CAPUCHA) */}
                 <div className="px-4 mb-6">
                     <div className="bg-theme-panel border border-theme-border rounded-[28px] overflow-hidden shadow-xl">
-                        <UniversalCardHeader 
+                        <UniversalCard.Header 
                             item={post} 
                             cardVariant={post.type || 'mur'} 
                             displayTown={displayTown}
@@ -102,7 +101,7 @@ const PostDetail = () => {
                             displayTime={displayTime}
                         />
                         {mediaList.length > 0 && (
-                            <UniversalCardMedia 
+                            <UniversalCard.Media 
                                 item={post}
                                 cardVariant={post.type || 'mur'}
                                 mediaList={mediaList}

@@ -19,7 +19,7 @@ Quan tinguem informació en un PDF, text o notes de l'Ajuntament (ex: normatives
 
 - NO retornes només text al xat. Has de crear arxius i una vista prèvia.
 - No sobrescrigues res: cada execució crea una carpeta nova.
-- Aplica **SEMPRE** l'SKILL `estilo-marca` de Sóc de Poble (Llei de la Boina Taronja, radis 28px, font Roboto Condensed).
+- Aplica **SEMPRE** l'SKILL `estilo-marca` de Sóc de Poble (Llei de la Boina Taronja, radis 28px, font Noto Sans SemiCondensed).
 - Tots els textos de la interfície s'han de traduir al to de la "IAIA MarIA" (clar, pràctic, sense argot tecnològic ni burocràtic).
 - L'app ha de funcionar perfectament en mòbil (Protocol Botiga de Diumenge).
 

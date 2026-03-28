@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './LazyImage.css';
 
 /**
@@ -8,12 +8,42 @@ import './LazyImage.css';
 const LazyImage = ({ src, alt, className, style, ...props }) => {
     const [loaded, setLoaded] = useState(false);
     const [error, setError] = useState(false);
+    const imgRef = useRef(null);
+    const [prevSrc, setPrevSrc] = useState(src);
+    if (src !== prevSrc) {
+        setPrevSrc(src);
+        setLoaded(false);
+        setError(false);
+    }
 
     useEffect(() => {
+        let isMounted = true;
         const img = new Image();
+        imgRef.current = img;
+        
+        img.onload = () => {
+            if (isMounted) setLoaded(true);
+            img.onload = null;
+            img.onerror = null;
+        };
+        
+        img.onerror = () => {
+            if (isMounted) setError(true);
+            img.onload = null;
+            img.onerror = null;
+        };
+        
         img.src = src;
-        img.onload = () => setLoaded(true);
-        img.onerror = () => setError(true);
+        
+        return () => {
+            isMounted = false;
+            if (imgRef.current) {
+                imgRef.current.onload = null;
+                imgRef.current.onerror = null;
+                imgRef.current.src = "";
+                imgRef.current = null;
+            }
+        };
     }, [src]);
 
     if (error) {

@@ -1,5 +1,5 @@
 .global-album-page {
-    min-height: 100vh;
+    min-height: 100dvh;
     padding: 0 0 100px 0;
     background: var(--bg-surface);
 }

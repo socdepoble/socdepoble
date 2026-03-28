@@ -45,7 +45,7 @@
 /* ADAPTACIÓ MÒBIL */
 @media (max-width: 767px) {
     .chat-list-wrapper-biblia {
-        width: 100% !important;
+        width: 100% ;
     }
     
     .chat-list-wrapper-biblia.hidden-mobile {

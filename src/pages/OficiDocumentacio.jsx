@@ -480,7 +480,7 @@ const OficiDocumentacio = () => {
 
       {/* NanoBanana Image Lightbox Overlay */}
       {lightboxImage && (
-          <div className="fixed inset-0 z-[100] bg-theme-base/95 backdrop-blur-xl flex flex-col items-center justify-center p-4 sm:p-12 animate-in fade-in duration-300">
+          <div className="fixed inset-0 z-dropdown bg-theme-base/95 backdrop-blur-xl flex flex-col items-center justify-center p-4 sm:p-12 animate-in fade-in duration-300">
               <button 
                   onClick={() => setLightboxImage(null)}
                   className="absolute top-6 right-6 p-4 rounded-full transition-colors border z-10 glass-panel hover:brightness-110 text-theme-text"

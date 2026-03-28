@@ -34,7 +34,7 @@ const PollManager = ({ onClose }) => {
   };
 
   return (
-    <div className="poll-manager-overlay glass-premium animate-in flex items-center justify-center p-6 z-[6000]">
+    <div className="poll-manager-overlay glass-premium animate-in flex items-center justify-center p-6 z-modal">
       <div className="poll-card bg-[#111] border border-white/10 rounded-[32px] w-full max-w-md p-8 shadow-2xl overflow-hidden relative">
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-500 to-fuchsia-600" />
         

@@ -49,7 +49,7 @@ const ChatInputArea = React.memo(({
     const showGuestBanner = user?.isAnonymous && !id?.startsWith('11111111-');
 
     return (
-        <div className={`chat-input-master-wrapper relative w-full px-2 sm:px-4 md:px-6 py-[8px] md:py-[12px] bg-[var(--theme-accent-primary)] dark:bg-[var(--theme-accent-secondary)] border-t border-transparent z-[50] flex-shrink-0 transition-colors shadow-[0_-10px_20px_rgba(0,0,0,0.05)] md:pb-[12px]`}>
+        <div className={`chat-input-master-wrapper relative w-full px-2 sm:px-4 md:px-6 py-[8px] md:py-[12px] bg-[var(--theme-accent-primary)] dark:bg-[var(--theme-accent-secondary)] border-t border-transparent z-50 flex-shrink-0 transition-colors shadow-[0_-10px_20px_rgba(0,0,0,0.05)] md:pb-[12px]`}>
             <div className="max-w-5xl mx-auto relative">
                 
                 {isRecording ? (
@@ -72,7 +72,7 @@ const ChatInputArea = React.memo(({
                     <div className="w-full relative">
                         <button onClick={(e) => { e.preventDefault(); setIsGuestInteractionModalOpen(true); }} className="w-full h-[48px] genesis-radius bg-theme-panel border border-orange-500/50 hover:bg-orange-500/10 text-orange-400 font-bold text-sm tracking-wide shadow-lg flex items-center justify-center gap-2">
                             <ShieldCheck size={18} />
-                            <span>Atenció: Conversació Efímera. Toca per Registrar-te.</span>
+                            <span>{t('chat.attachments.ephemeral_warning')}</span>
                         </button>
                     </div>
                 ) : (
@@ -100,7 +100,7 @@ const ChatInputArea = React.memo(({
                                     ref={inputRef} rows={1} spellCheck="true" value={newMessage} 
                                     onChange={(e) => { setNewMessage(e.target.value); e.target.style.height = 'auto'; e.target.style.height = `${Math.min(e.target.scrollHeight, 120)}px`; }}
                                     onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); onInternalSubmit(e); } }}
-                                    placeholder={otherInfo?.name ? `Parla amb ${otherInfo.name}...` : t('common.write_message')}
+                                    placeholder={otherInfo?.name ? t('chat.talk_with', { name: otherInfo.name }) : t('common.write_message')}
                                     className="flex-1 min-h-[40px] md:min-h-[48px] max-h-[130px] bg-transparent border-none py-[10px] md:py-[12px] px-1 text-black dark:text-white focus:outline-none font-medium text-[17px] md:text-[18px] align-middle box-border m-0 min-w-0 resize-none overflow-y-auto custom-scrollbar leading-relaxed"
                                     style={{ height: 'auto' }}
                                     onPaste={(e) => {
@@ -108,13 +108,20 @@ const ChatInputArea = React.memo(({
                                         if (!items) return;
                                         // EXTREME AUDIT V4 FIX: Prevé Mobile UI Freeze si es peguen múltiples Imatges d'alta qualitat evitant el Main Thread Lock. Ús de rAF per evitar delay hardcoded.
                                         requestAnimationFrame(() => {
-                                            for (let i = 0; i < items.length; i++) {
-                                                if (items[i].type.indexOf('image') !== -1) {
-                                                    const file = items[i].getAsFile();
-                                                    handleFileSelect({ target: { files: [file] } });
-                                                    break;
-                                                }
-                                            }
+                                            const imageItems = Array.from(items).filter(item => item.type.indexOf('image') !== -1);
+                                            if (imageItems.length === 0) return;
+                                            
+                                            // Process in batches via rAF to prevent locking
+                                            const processNext = (index = 0) => {
+                                                if (index >= imageItems.length || index >= 3) return; // Max 3 per no ofegar DOM
+                                                
+                                                requestAnimationFrame(() => {
+                                                    const file = imageItems[index].getAsFile();
+                                                    if (file) handleFileSelect({ target: { files: [file] } });
+                                                    processNext(index + 1);
+                                                });
+                                            };
+                                            processNext();
                                         });
                                     }}
                                 />
@@ -134,8 +141,8 @@ const ChatInputArea = React.memo(({
                                 {/* POPUPS */}
                                 {isEmojiPickerOpen && (
                                     <>
-                                        <div className="fixed inset-0 z-[100]" onClick={(e) => {e.stopPropagation(); setIsEmojiPickerOpen(false);}}></div>
-                                        <div className="absolute left-1/2 -translate-x-1/2 md:-translate-x-0 md:left-auto md:right-0 bottom-[60px] z-[110] animate-in slide-in-from-bottom-2 zoom-in-95 origin-bottom md:origin-bottom-right drop-shadow-2xl flex justify-center w-[calc(100vw-32px)] md:w-auto overflow-hidden rounded-2xl bg-theme-panel">
+                                        <div className="fixed inset-0 z-dropdown" onClick={(e) => {e.stopPropagation(); setIsEmojiPickerOpen(false);}}></div>
+                                        <div className="absolute left-1/2 -translate-x-1/2 md:-translate-x-0 md:left-auto md:right-0 bottom-[60px] z-dropdown animate-in slide-in-from-bottom-2 zoom-in-95 origin-bottom md:origin-bottom-right drop-shadow-2xl flex justify-center w-[calc(100vw-32px)] md:w-auto overflow-hidden rounded-2xl bg-theme-panel">
                                             <Suspense fallback={<FallbackLoader />}>
                                                 <EmojiPicker 
                                                     theme="auto" 
@@ -164,8 +171,8 @@ const ChatInputArea = React.memo(({
 
                                 {isAttachmentMenuOpen && (
                                     <>
-                                        <div className="fixed inset-0 z-[100]" onClick={(e) => {e.stopPropagation(); setIsAttachmentMenuOpen(false);}}></div>
-                                        <div className="absolute bottom-[60px] left-2 right-2 sm:left-auto sm:w-[350px] md:right-8 md:w-[360px] bg-theme-panel text-[var(--text-main)] border border-[var(--border-master)] rounded-[28px] shadow-[0_8px_40px_rgba(0,0,0,0.15)] p-6 z-[110] animate-in slide-in-from-bottom-2 zoom-in-95 origin-bottom sm:origin-bottom-right">
+                                        <div className="fixed inset-0 z-dropdown" onClick={(e) => {e.stopPropagation(); setIsAttachmentMenuOpen(false);}}></div>
+                                        <div className="absolute bottom-[60px] left-2 right-2 sm:left-auto sm:w-[350px] md:right-8 md:w-[360px] bg-theme-panel text-[var(--text-main)] border border-[var(--border-master)] rounded-[28px] shadow-[0_8px_40px_rgba(0,0,0,0.15)] p-6 z-dropdown animate-in slide-in-from-bottom-2 zoom-in-95 origin-bottom sm:origin-bottom-right">
                                             <div className="grid grid-cols-4 gap-y-7 gap-x-2">
                                                 <input type="file" id="attach-gallery" hidden accept="image/*" onChange={(e) => { setIsAttachmentMenuOpen(false); handleFileSelect(e); }} />
                                                 <input type="file" id="attach-camera" hidden accept="image/*" capture="environment" onChange={(e) => { setIsAttachmentMenuOpen(false); handleFileSelect(e); }} />
@@ -174,49 +181,49 @@ const ChatInputArea = React.memo(({
                                                 {/* 1. Galeria */}
                                                 <label htmlFor="attach-gallery" className="flex flex-col items-center gap-[6px] group cursor-pointer">
                                                     <div className="w-[52px] h-[52px] rounded-full bg-purple-500 text-white flex items-center justify-center shadow-sm active:scale-95 transition-transform"><Image size={24} strokeWidth={2} /></div>
-                                                    <span className="text-[12px] opacity-80 font-medium tracking-tight">Galeria</span>
+                                                    <span className="text-[12px] opacity-80 font-medium tracking-tight">{t('chat.attachments.gallery')}</span>
                                                 </label>
                                                 
                                                 {/* 2. Càmera */}
                                                 <label htmlFor="attach-camera" className="flex flex-col items-center gap-[6px] group cursor-pointer">
                                                     <div className="w-[52px] h-[52px] rounded-full bg-pink-500 text-white flex items-center justify-center shadow-sm active:scale-95 transition-transform"><Camera size={24} strokeWidth={2} /></div>
-                                                    <span className="text-[12px] opacity-80 font-medium tracking-tight">Càmera</span>
+                                                    <span className="text-[12px] opacity-80 font-medium tracking-tight">{t('chat.attachments.camera')}</span>
                                                 </label>
 
                                                 {/* 3. Ubicació */}
-                                                <button type="button" onClick={() => { setIsAttachmentMenuOpen(false); import('../../utils/toast').then(m => m.default.success("🗺️ Ubicació pròximament")); }} className="flex flex-col items-center gap-[6px] group cursor-pointer">
+                                                <button type="button" onClick={() => { setIsAttachmentMenuOpen(false); import('../../utils/toast').then(m => m.default.success(t('chat.attachments.location_soon'))); }} className="flex flex-col items-center gap-[6px] group cursor-pointer">
                                                     <div className="w-[52px] h-[52px] rounded-full bg-green-500 text-white flex items-center justify-center shadow-sm active:scale-95 transition-transform"><MapPin size={24} strokeWidth={2} /></div>
-                                                    <span className="text-[12px] opacity-80 font-medium tracking-tight">Ubicació</span>
+                                                    <span className="text-[12px] opacity-80 font-medium tracking-tight">{t('chat.attachments.location')}</span>
                                                 </button>
 
                                                 {/* 4. Contacte */}
-                                                <button type="button" onClick={() => { setIsAttachmentMenuOpen(false); import('../../utils/toast').then(m => m.default.success("👤 Contacte pròximament")); }} className="flex flex-col items-center gap-[6px] group cursor-pointer">
+                                                <button type="button" onClick={() => { setIsAttachmentMenuOpen(false); import('../../utils/toast').then(m => m.default.success(t('chat.attachments.contact_soon'))); }} className="flex flex-col items-center gap-[6px] group cursor-pointer">
                                                     <div className="w-[52px] h-[52px] rounded-full bg-blue-400 text-white flex items-center justify-center shadow-sm active:scale-95 transition-transform"><User size={24} strokeWidth={2} /></div>
-                                                    <span className="text-[12px] opacity-80 font-medium tracking-tight">Contacte</span>
+                                                    <span className="text-[12px] opacity-80 font-medium tracking-tight">{t('chat.attachments.contact')}</span>
                                                 </button>
                                                 
                                                 {/* 5. Document */}
                                                 <label htmlFor="attach-document" className="flex flex-col items-center gap-[6px] group cursor-pointer">
                                                     <div className="w-[52px] h-[52px] rounded-full bg-indigo-500 text-white flex items-center justify-center shadow-sm active:scale-95 transition-transform"><FileText size={24} strokeWidth={2} /></div>
-                                                    <span className="text-[12px] opacity-80 font-medium tracking-tight">Document</span>
+                                                    <span className="text-[12px] opacity-80 font-medium tracking-tight">{t('chat.attachments.document')}</span>
                                                 </label>
 
                                                 {/* 6. Àudio */}
                                                 <button type="button" onClick={() => { setIsAttachmentMenuOpen(false); setIsRecording(true); }} className="flex flex-col items-center gap-[6px] group cursor-pointer">
                                                     <div className="w-[52px] h-[52px] rounded-full bg-orange-500 text-white flex items-center justify-center shadow-sm active:scale-95 transition-transform"><Mic size={24} strokeWidth={2} /></div>
-                                                    <span className="text-[12px] opacity-80 font-medium tracking-tight">Àudio</span>
+                                                    <span className="text-[12px] opacity-80 font-medium tracking-tight">{t('chat.attachments.audio')}</span>
                                                 </button>
 
                                                 {/* 7. Enquesta */}
-                                                <button type="button" onClick={() => { setIsAttachmentMenuOpen(false); import('../../utils/toast').then(m => m.default.success("📊 Enquesta pròximament")); }} className="flex flex-col items-center gap-[6px] group cursor-pointer">
+                                                <button type="button" onClick={() => { setIsAttachmentMenuOpen(false); import('../../utils/toast').then(m => m.default.success(t('chat.attachments.poll_soon'))); }} className="flex flex-col items-center gap-[6px] group cursor-pointer">
                                                     <div className="w-[52px] h-[52px] rounded-full bg-yellow-500 text-white flex items-center justify-center shadow-sm active:scale-95 transition-transform"><BarChart2 size={24} strokeWidth={2} /></div>
-                                                    <span className="text-[12px] opacity-80 font-medium tracking-tight">Enquesta</span>
+                                                    <span className="text-[12px] opacity-80 font-medium tracking-tight">{t('chat.attachments.poll')}</span>
                                                 </button>
 
                                                 {/* 8. Esdeveniment */}
-                                                <button type="button" onClick={() => { setIsAttachmentMenuOpen(false); import('../../utils/toast').then(m => m.default.success("📅 Esdeveniment pròximament")); }} className="flex flex-col items-center gap-[6px] group cursor-pointer">
+                                                <button type="button" onClick={() => { setIsAttachmentMenuOpen(false); import('../../utils/toast').then(m => m.default.success(t('chat.attachments.event_soon'))); }} className="flex flex-col items-center gap-[6px] group cursor-pointer">
                                                     <div className="w-[52px] h-[52px] rounded-full bg-teal-500 text-white flex items-center justify-center shadow-sm active:scale-95 transition-transform"><CalendarDays size={24} strokeWidth={2} /></div>
-                                                    <span className="text-[12px] opacity-80 font-medium tracking-tight">Esdeveniment</span>
+                                                    <span className="text-[12px] opacity-80 font-medium tracking-tight">{t('chat.attachments.event')}</span>
                                                 </button>
                                             </div>
                                         </div>

@@ -109,10 +109,9 @@ class RhizomeManager {
         logger.log('[Rhizome] Processant bategat econòmic en xlog...');
         const xlogEntry = {
             id: crypto.randomUUID(),
-            type: 'payment_astro',
-            amount: transaction.amount,
             padrins_verify: false,
-            timestamp: new Date().toISOString()
+            timestamp: new Date().toISOString(),
+            ...transaction
         };
 
         const currentLogs = JSON.parse(localStorage.getItem('sp_xlogs') || '[]');

@@ -5,12 +5,14 @@ import { useAuth } from '../context/AuthContext';
 import { supabaseService } from '../services/supabaseService';
 import {
     Users, Shield, ArrowLeft, Loader2, Store, Activity,
-    Bell, Cpu, Terminal, Zap, CheckCircle, AlertTriangle, Brain, MessageSquare, Pin, Edit, ShieldCheck
+    Bell, Cpu, Terminal, Zap, CheckCircle, AlertTriangle, Brain, MessageSquare, Pin, Edit, ShieldCheck, Building
 } from 'lucide-react';
 import { logger } from '../utils/logger';
 import MemexModule from '../components/admin/MemexModule';
 import IdentitiesModule from '../components/admin/IdentitiesModule';
 import CitizensModule from '../components/admin/CitizensModule';
+import ZeroDaySetupModule from '../components/admin/ZeroDaySetupModule';
+import FutureFeaturesModule from '../components/admin/FutureFeaturesModule';
 import StoreManagementModule from '../components/admin/StoreManagementModule';
 import SuperRatonControl from '../components/admin/SuperRatonControl';
 import GlobalOverview from '../components/admin/GlobalOverview';
@@ -199,9 +201,17 @@ const AdminPanel = () => {
                             {/* MODULE 4: FUTURE */}
                             <div className="module-card purple" onClick={() => setActiveModule('lexicon')}>
                                 <div className="module-icon-wrapper">
-                                    <Activity size={18} />
+                                    <MessageSquare size={18} />
                                 </div>
                                 <h3>Diccionari Lèxic</h3>
+                            </div>
+
+                            {/* MODULE: ROADMAP & FUTURE FEATURES (NEW) */}
+                            <div className="module-card gold" onClick={() => setActiveModule('roadmap')} style={{ borderColor: 'var(--color-primary)', boxShadow: '0 0 15px rgba(255, 0, 255, 0.2)' }}>
+                                <div className="module-icon-wrapper" style={{ background: 'var(--color-primary)', color: '#fff' }}>
+                                    <Activity size={18} />
+                                </div>
+                                <h3>Roadmap i Futur</h3>
                             </div>
 
                             {/* MODULE 5: IAIA MEMEX (New) */}
@@ -227,6 +237,16 @@ const AdminPanel = () => {
                                         <Zap size={18} />
                                     </div>
                                     <h3>Super Ratón</h3>
+                                </div>
+                            )}
+
+                            {/* MODULE: ZERO-DAY SETUP (GOD MODE ONLY) */}
+                            {isSuperAdmin && (
+                                <div className="module-card status-active" onClick={() => setActiveModule('zeroday')} style={{ borderColor: 'var(--color-primary)', boxShadow: '0 0 15px rgba(0, 122, 255, 0.2)' }}>
+                                    <div className="module-icon-wrapper" style={{ background: 'var(--color-primary)', color: '#fff' }}>
+                                        <Building size={18} />
+                                    </div>
+                                    <h3>Zero-Day Setup</h3>
                                 </div>
                             )}
 
@@ -289,8 +309,10 @@ const AdminPanel = () => {
                         {activeModule === 'identities' && <IdentitiesModule />}
                         {activeModule === 'citizens' && <CitizensModule />}
                         {activeModule === 'memex' && <MemexModule addLog={addLog} />}
+                        {activeModule === 'roadmap' && <FutureFeaturesModule />}
                         {activeModule === 'stores' && <StoreManagementModule addLog={addLog} />}
                         {activeModule === 'super-raton' && <SuperRatonControl addLog={addLog} />}
+                        {activeModule === 'zeroday' && <ZeroDaySetupModule />}
                         {activeModule === 'utilitat-social' && <UtilitatSocialModule addLog={addLog} />}
                         {activeModule === 'memory-governance' && <MemoryGovernanceModule addLog={addLog} />}
                         {activeModule === 'marketing' && <MarketingModule addLog={addLog} />}

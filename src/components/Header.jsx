@@ -25,24 +25,24 @@ const Header = () => {
   const isOnVisionPage = location.pathname === "/visio";
 
   return (
-    <header className="h-14 lg:h-16 w-full flex items-center justify-between px-3 lg:px-6 z-50 transition-colors bg-[#111827] border-b border-white/10 shrink-0">
+    <header className="h-14 lg:h-16 w-full flex items-center justify-between px-3 lg:px-6 z-50 transition-colors bg-[var(--bg-theme-header)] border-b border-[var(--border-master)] shrink-0">
       <div className="flex items-center gap-1 overflow-hidden shrink-0">
         <button
           onClick={toggleDrawer}
-          className="w-10 h-10 lg:w-12 lg:h-12 flex items-center justify-center text-slate-400 hover:text-[var(--theme-accent-primary)] transition-colors active:scale-90"
+          className="w-10 h-10 lg:w-12 lg:h-12 flex items-center justify-center text-white/70 hover:text-white transition-colors active:scale-90"
           aria-label={t("nav.menu")}
         >
           <Menu size={30} strokeWidth={2} />
         </button>
 
         <NavLink
-          to="/"
+          to="/chats"
           className="flex items-center active:scale-95 transition-transform pb-1"
         >
           <img
-            src="/assets/master/logo_socdepoble_white_clean.png"
+            src="/assets/master/logo-socdepoble-rect.svg"
             alt="Sóc de Poble"
-            className="w-[130px] lg:w-[160px] h-auto object-contain brightness-110"
+            className="w-[130px] lg:w-[160px] h-auto object-contain"
             fetchPriority="high"
           />
         </NavLink>
@@ -59,7 +59,7 @@ const Header = () => {
         <button
           className={`w-10 h-10 lg:w-12 lg:h-12 flex items-center justify-center transition-all scale-90 lg:scale-100 ${
             activeLevel0
-              ? "text-slate-400"
+              ? "text-[var(--text-muted)]"
               : "text-[var(--theme-accent-primary)] bg-[var(--theme-accent-primary)]/10 rounded-full"
           } ${isOnVisionPage ? "ring-2 ring-[var(--theme-accent-primary)]" : ""}`}
           onClick={() => {
@@ -77,7 +77,7 @@ const Header = () => {
 
         {/* 2. LUPA DE CERCA (Global) */}
         <button
-          className="w-10 h-10 lg:w-12 lg:h-12 flex items-center justify-center text-slate-400 hover:text-white transition-colors"
+          className="w-10 h-10 lg:w-12 lg:h-12 flex items-center justify-center text-white/70 hover:text-white transition-colors"
           onClick={() => navigate("/search")}
           title={t("nav.search_global")}
         >
@@ -86,7 +86,7 @@ const Header = () => {
 
         {/* 3. CANVI DE TEMA (NIT/DIA) */}
         <button
-          className="w-10 h-10 lg:w-12 lg:h-12 flex items-center justify-center text-slate-400 hover:text-white transition-colors"
+          className="w-10 h-10 lg:w-12 lg:h-12 flex items-center justify-center text-white/70 hover:text-white transition-colors"
           onClick={toggleTheme}
           title={theme === "dark" ? t("nav.theme_day") : t("nav.theme_night")}
         >
@@ -99,7 +99,7 @@ const Header = () => {
             className="w-10 h-10 lg:w-12 lg:h-12 flex items-center justify-center cursor-pointer hover:scale-110 transition-transform"
             onClick={() => navigate("/perfil")}
           >
-            <div className="w-8 h-8 lg:w-9 lg:h-9 rounded-[28px] bg-slate-800 flex items-center justify-center text-xs font-black text-white border border-white/20 overflow-hidden relative">
+            <div className="w-8 h-8 lg:w-9 lg:h-9 rounded-[28px] bg-[var(--bg-panel)] flex items-center justify-center text-xs font-black text-[var(--text-main)] border border-[var(--border-master)] overflow-hidden relative">
               {profile?.avatar_url ? (
                 <img
                   src={profile.avatar_url}
@@ -127,7 +127,7 @@ const Header = () => {
           </div>
         ) : (
           <button
-            className="w-10 h-10 lg:w-12 lg:h-12 flex items-center justify-center text-slate-400 hover:text-[var(--theme-accent-primary)] transition-colors"
+            className="w-10 h-10 lg:w-12 lg:h-12 flex items-center justify-center text-white/70 hover:text-white transition-colors"
             onClick={() => navigate("/registre")}
             title={t("nav.register")}
           >

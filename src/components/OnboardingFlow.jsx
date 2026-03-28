@@ -110,7 +110,7 @@ const OnboardingFlow = ({ onComplete }) => {
   const progress = ((currentStep + 1) / steps.length) * 100;
 
   return (
-    <div className="onboarding-overlay fixed inset-0 bg-black/90 backdrop-blur-md z-[10000] flex items-center justify-center p-4">
+    <div className="onboarding-overlay fixed inset-0 bg-black/90 backdrop-blur-md z-modal flex items-center justify-center p-4">
       <div 
         className="onboarding-container w-full max-w-lg bg-white dark:bg-[#0a0a0a] rounded-2xl border border-gray-200 dark:border-white/10 shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-300"
         role="dialog"

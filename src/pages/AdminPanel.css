@@ -1,6 +1,6 @@
 /* ANTIGRAVITY ADMIN CORE - HARMONY EDITION */
 .admin-container {
-    min-height: 100vh;
+    min-height: 100dvh;
     padding: 0;
     font-family: var(--sdp-font-sans);
     transition: all 0.5s ease;
@@ -30,10 +30,10 @@
 }
 
 .title-area h1 {
-    font-size: 21px !important;
+    font-size: 21px ;
     letter-spacing: 2px;
     text-transform: uppercase;
-    color: var(--color-primary) !important;
+    color: var(--color-primary) ;
     display: flex;
     align-items: center;
     gap: 12px;
@@ -270,9 +270,9 @@
 }
 
 .module-card h3 {
-    font-size: var(--font-size-base) !important;
+    font-size: var(--font-size-base) ;
     margin: 0;
-    font-weight: 800 !important;
+    font-weight: 800 ;
     white-space: nowrap;
 }
 
@@ -286,7 +286,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    height: 100dvh;
 }
 
 .spin {
@@ -362,7 +362,7 @@
 .admin-container {
     padding: var(--space-md);
     background-color: var(--bg-main);
-    min-height: 100vh;
+    min-height: 100dvh;
     color: var(--text-main);
 }
 
@@ -532,7 +532,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    height: 100dvh;
 }
 
 /* Lexicon Admin Styles */

@@ -105,12 +105,10 @@ const RebostVault = ({ onClose }) => {
 
             const result = await migrationService.importToRebost(items, user.id);
             
-            // Sensació de processament intel·ligent (Refinament MArIA)
-            setTimeout(() => {
-                setImportStats(result);
-                setIsImporting(false);
-                fetchResources();
-            }, 1200);
+            // Dades importades; actualització immediata de la UI
+            setImportStats(result);
+            setIsImporting(false);
+            fetchResources();
 
         } catch (err) {
             logger.error('[Rebost] Error importació:', err);

@@ -19,6 +19,7 @@ import { useDesign } from '../context/DesignContext';
 import { useNavigation } from '../context/NavigationContext';
 import { AGENTS } from "../constants/agents";
 import "./ChatList.css";
+import { useTranslation } from "react-i18next";
 import { chatService } from '../services/chatService';
 
 // SOCIAL GRAPH MOCK DATA
@@ -49,9 +50,9 @@ const EMPRESES_DATA = [
   { id: 'emp-4', name: 'Bar del Poble', role: 'Restauració', avatar_url: '/assets/avatars/comic/avatar_marc_comic.png', desc: 'L\'esmorzar de sempre', tag: 'EMPRESA' }
 ];
 const INSTITUCIONS_DATA = [
-  { id: 'inst-1', name: 'Ajuntament', role: 'Administració Local', avatar_url: '/assets/avatars/comic/joan_batiste_comic.png', desc: 'Tràmits i avisos', tag: 'ADMIN' },
-  { id: 'inst-2', name: 'Escola Pública', role: 'Educació', avatar_url: '/assets/avatars/comic/beatriz_ortega_comic.png', desc: 'CEIP El Mas', tag: 'ADMIN' },
-  { id: 'inst-3', name: 'Centre de Salut', role: 'Sanitat', avatar_url: '/assets/avatars/comic/carla_soriano_comic.png', desc: 'Atenció primària', tag: 'ADMIN' }
+  { id: 'inst-1', name: "Simulació de l'Ajuntament", role: 'Administració Local', avatar_url: '/assets/avatars/comic/nano_ajuntament_comic.png', desc: 'Tràmits i avisos', tag: 'ADMIN' },
+  { id: 'inst-2', name: "Simulació de l'Escola", role: 'Educació', avatar_url: '/assets/avatars/comic/nano_escola_comic.png', desc: 'CEIP El Mas', tag: 'ADMIN' },
+  { id: 'inst-3', name: 'Simulació Centre de Salut', role: 'Sanitat', avatar_url: '/assets/avatars/comic/nano_salut_comic.png', desc: 'Atenció primària', tag: 'ADMIN' }
 ];
 
 const ChatList = () => {
@@ -61,6 +62,7 @@ const ChatList = () => {
   const { visionMode } = useDesign();
   const location = useLocation();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const [chats, setChats] = useState([]);
   const [isTownModalOpen, setIsTownModalOpen] = useState(false);
@@ -213,14 +215,24 @@ const ChatList = () => {
     } else if (currentTab === 'institucions') {
         sourceData = INSTITUCIONS_DATA.map(a => ({ id: a.id, other_info: { name: a.name, role: a.role, avatar_url: a.avatar_url }, last_message_content: a.desc, tag: a.tag }));
     } else {
-        // [PROTOCOL JERARQUIA] IAIA MarIA sempre al cim de la llista (Llei Canònica v10)
+        // [PROTOCOL JERARQUIA] IAIA MarIA al cim, seguida de TOTS ELS NATIUS IA, i per últim els NPCs estàtics.
         sourceData = [...chats].sort((a, b) => {
             const IAIA_ID = '11111111-1a1a-0000-0000-000000000000';
-            const isIAIA_A = a.id === IAIA_ID || a.other_info?.id === IAIA_ID;
-            const isIAIA_B = b.id === IAIA_ID || b.other_info?.id === IAIA_ID;
+            const idA = a.id || a.other_info?.id;
+            const idB = b.id || b.other_info?.id;
+            
+            const isIAIA_A = idA === IAIA_ID;
+            const isIAIA_B = idB === IAIA_ID;
             
             if (isIAIA_A && !isIAIA_B) return -1;
             if (!isIAIA_A && isIAIA_B) return 1;
+
+            const isNativeA = idA?.startsWith('11111111-');
+            const isNativeB = idB?.startsWith('11111111-');
+
+            if (isNativeA && !isNativeB) return -1;
+            if (!isNativeA && isNativeB) return 1;
+
             return 0; // Conservar ordre relatiu original per a la resta
         });
     }
@@ -240,7 +252,7 @@ const ChatList = () => {
   };
 
   const formatBategatDate = (date) => {
-    if (!date) return { day: "ARA", time: "" };
+    if (!date) return { day: t("chat.now"), time: "" };
     const d = new Date(date);
     const now = new Date();
     const isToday = d.toDateString() === now.toDateString();
@@ -254,8 +266,8 @@ const ChatList = () => {
       minute: "2-digit",
     });
 
-    if (isToday) return { day: "HUI", time: timeStr };
-    if (isYesterday) return { day: "AHIR", time: timeStr };
+    if (isToday) return { day: t("chat.today"), time: timeStr };
+    if (isYesterday) return { day: t("chat.yesterday"), time: timeStr };
 
     return {
       day: d.toLocaleDateString([], { day: "2-digit", month: "2-digit" }),
@@ -275,12 +287,12 @@ const ChatList = () => {
             size={22}
             className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--text-main)] opacity-60 group-focus-within:opacity-100 transition-opacity"
           />
-          <label htmlFor="chat-search-input" className="sr-only">Cerca un xat</label>
+          <label htmlFor="chat-search-input" className="sr-only">{t("chat.search_aria")}</label>
           <input
             id="chat-search-input"
             name="chat_search"
             type="text"
-            placeholder="CERCA UN XAT..."
+            placeholder={t("chat.search_placeholder")}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full h-10 bg-[var(--bg-master)] border border-[var(--border-master)] rounded-[28px] pl-12 pr-4 text-sm font-black text-[var(--text-main)] focus:outline-none focus:border-[var(--text-main)]/30 focus:bg-[var(--bg-master)] transition-all placeholder:text-[var(--text-muted)] uppercase tracking-widest shadow-inner shadow-black/5"
@@ -326,7 +338,7 @@ const ChatList = () => {
                 <div className="flex justify-between items-center gap-2">
                   <div className="text-[16px] text-theme-text truncate leading-none flex-1 opacity-80 font-medium">
                     {chat.last_message_content ||
-                      "Bategant amb Sóc de Poble..."}
+                      t("chat.beating_with_socdepoble")}
                   </div>
                   <div className="flex flex-col items-end shrink-0 leading-none">
                     {currentTab === 'xat' && (() => {
@@ -350,11 +362,11 @@ const ChatList = () => {
               size={56}
               className="mb-6 text-[var(--theme-accent-primary)] mx-auto opacity-50"
             />
-            <p className="text-white text-sm font-black uppercase tracking-[0.2em]">
-              Silence total.
+            <p className="text-[var(--text-main)] text-sm font-black uppercase tracking-[0.2em]">
+              {t("chat.silence_total")}
             </p>
             <p className="text-gray-500 text-xs mt-2 uppercase tracking-widest">
-              Inicia la conversa al mur
+              {t("chat.start_conversation_wall")}
             </p>
           </div>
         )}

@@ -4,18 +4,8 @@ import App from "./App.jsx";
 import "./index.css";
 // import "./service-worker-manager"; // DESACTIVAT - Sóc de Poble PWA Failsafe
 
-// --- [FAILSAFE PROTOCOL v3] FORÇAR DES-REGISTRE DE SERVICE WORKERS ANTICS ---
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.getRegistrations().then(function(registrations) {
-    for(let registration of registrations) {
-      const scriptURL = registration.active?.scriptURL || registration.installing?.scriptURL || registration.waiting?.scriptURL || '';
-      if (!scriptURL.includes('coi-serviceworker')) {
-        registration.unregister();
-        console.warn("Failsafe: PWA ServiceWorker eliminat forçosament per trencar el cicle de memòria cau.");
-      }
-    }
-  });
-}
+// --- [FAILSAFE PROTOCOL v3] DESACTIVAT ---
+// El Service Worker està gestionat ara nativament per Vite PWA sense bucles.
 // -----------------------------------------------------------------------------
 import "./design-system/tokens.css";
 import "./i18n/config";
@@ -26,6 +16,7 @@ import { NavigationProvider } from "./context/NavigationContext";
 import { SocialProvider } from "./context/SocialContext";
 import { BrowserRouter } from "react-router-dom";
 import { HelmetProvider } from 'react-helmet-async';
+import { QueryProvider } from "./providers/QueryProvider";
 
 import UnifiedStatus from "./components/UnifiedStatus";
 import SafeShell from "./components/SafeShell";
@@ -62,6 +53,7 @@ console.error = (...args) => { if (!isNoise(args)) originalError.apply(console, 
 import { I18nProvider } from "./context/I18nContext";
 import { ToastProvider } from "./components/ToastProvider";
 import { ThemeProvider } from "./context/ThemeContext";
+import { RealmProvider } from "./contexts/RealmContext";
 
 const CURRENT_MASTER_VERSION = APP_VERSION;
 
@@ -72,17 +64,17 @@ const lastReload = parseInt(localStorage.getItem("sp_last_version_reload") || "0
 const now = Date.now();
 
 if (savedVersion && savedVersion !== CURRENT_MASTER_VERSION) {
-    // [RESILIENT UPDATE] Si hem intentat recarregar en els últims 30 segons i seguim igual, STOP.
-    // Augmentem el llindar perquè en algunes xarxes el reload triga més.
-    if (now - lastReload < 60000) { 
-        // Silenciat per a desenvolupament per petició de l'usuari
-        // if (import.meta.env.DEV) console.warn('[BATEGAT SAFETY] Bucle de redirecció detectat. Aturant actualització forçada.');
+    if (now - lastReload < 120000) { 
+        // Resolució del decalatge de versions silenciada per no embrutar la consola amb fantasmes
+        // Forçar l'actualització perquè el Gatekeeper pugui avançar i no es quedi encallat 2 minuts.
         localStorage.setItem("sp_app_version", CURRENT_MASTER_VERSION);
     } else {
-        // if (import.meta.env.DEV) console.log('[BATEGAT UPDATE] Versió desfasada detectada. Sincronitzant el Mas...');
-        localStorage.setItem("sp_last_version_reload", now.toString());
         localStorage.setItem("sp_app_version", CURRENT_MASTER_VERSION);
-        window.location.reload();
+        localStorage.setItem("sp_last_version_reload", now.toString());
+        if ('caches' in window) {
+            caches.keys().then(keys => keys.forEach(k => caches.delete(k)));
+        }
+        window.location.reload(true);
     }
 } else if (!savedVersion) {
     localStorage.setItem("sp_app_version", CURRENT_MASTER_VERSION);
@@ -93,31 +85,35 @@ if (!window.__SDP_ROOT__) window.__SDP_ROOT__ = ReactDOM.createRoot(container);
 
 window.__SDP_ROOT__.render(
   <React.StrictMode>
-    <HelmetProvider>
-      <BrowserRouter>
-      <I18nProvider>
-        <ThemeProvider>
+    <QueryProvider>
+      <HelmetProvider>
+        <BrowserRouter>
+        <I18nProvider>
           <AuthProvider>
-            <SocialProvider>
-              <DesignProvider>
-                <NavigationProvider>
-                  <ModalProvider>
-                    <ToastProvider>
-                      <VersionGatekeeper>
-                        <SafeShell>
-                          <App />
-                        </SafeShell>
-                      </VersionGatekeeper>
-                    </ToastProvider>
-                  </ModalProvider>
-                </NavigationProvider>
-              </DesignProvider>
-            </SocialProvider>
+            <RealmProvider>
+              <SocialProvider>
+                <DesignProvider>
+                  <ThemeProvider>
+                    <NavigationProvider>
+                      <ModalProvider>
+                        <ToastProvider>
+                          <VersionGatekeeper>
+                            <SafeShell>
+                              <App />
+                            </SafeShell>
+                          </VersionGatekeeper>
+                        </ToastProvider>
+                      </ModalProvider>
+                    </NavigationProvider>
+                  </ThemeProvider>
+                </DesignProvider>
+              </SocialProvider>
+            </RealmProvider>
           </AuthProvider>
-        </ThemeProvider>
-      </I18nProvider>
-      </BrowserRouter>
-    </HelmetProvider>
+        </I18nProvider>
+        </BrowserRouter>
+      </HelmetProvider>
+    </QueryProvider>
   </React.StrictMode>
 );
 

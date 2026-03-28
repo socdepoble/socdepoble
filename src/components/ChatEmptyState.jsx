@@ -1,17 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  Settings,
-  BookOpen,
-  ShieldCheck,
-  ArrowRight,
-  UserPlus,
-  Share2,
-  Search,
-  NotebookPen
-} from "lucide-react";
+import { Search, NotebookPen, Settings, ShieldCheck, BookOpen } from "lucide-react";
 import { useDesign } from '../context/DesignContext';
-import WelcomePresentation from "./WelcomePresentation";
+import ProjectPresentation from '../pages/ProjectPresentation';
 
 const ChatEmptyState = () => {
   const { architectMode } = useDesign();
@@ -126,19 +117,21 @@ const ChatEmptyState = () => {
             </div>
       </header>
 
-      <div className="flex-1 flex flex-col items-center justify-start relative overflow-y-auto scrollbar-hide">
+      <div className="flex-1 flex flex-col items-center justify-start relative overflow-y-auto custom-scrollbar bg-[var(--bg-master)] z-0 w-full h-full">
           {/* Grid de fons subtil (Protocol v9.1.0) */}
           <div
-            className="absolute inset-0 opacity-5"
+            className="absolute inset-0 opacity-[0.03] z-1 min-h-[150vh]"
             style={{
-              backgroundImage: "radial-gradient(circle, #888 1px, transparent 1px)",
+              backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)",
               backgroundSize: "30px 30px",
             }}
           ></div>
 
-          <WelcomePresentation />
+          <div className="w-full relative z-10 flex flex-col justify-start items-center h-full">
+               <ProjectPresentation standAlone={false} />
+          </div>
 
-          <div className="flex items-center justify-center gap-2 text-[10px] uppercase tracking-[0.2em] opacity-40 font-black text-gray-500 pb-12 w-full">
+          <div className="flex items-center justify-center gap-2 text-[10px] uppercase tracking-[0.2em] opacity-40 font-black text-[var(--text-main)] pb-12 w-full z-20">
             <Settings size={12} />
             <span>Privacitat Segura i Protegida | v10.33.16-CANÒNIC</span>
           </div>

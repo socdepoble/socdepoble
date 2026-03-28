@@ -88,7 +88,6 @@ const Register = () => {
           if (mode === "register") {
              await supabaseService.updateProfile(verifiedUser.id, {
                 full_name: fullName,
-                town_id: selectedTown?.id,
                 town_uuid: selectedTown?.uuid,
                 primary_town: selectedTown?.name,
              });
@@ -144,7 +143,7 @@ const Register = () => {
 
       return () => ac.abort();
     }
-  }, [otp, handleVerifyOtp, step]);
+  }, [step]); // Only re-run if the step changes, not when otp or handleVerifyOtp reference changes
 
   // Resend countdown timer
   useEffect(() => {
@@ -211,16 +210,44 @@ const Register = () => {
   ];
 
   return (
-    <div className="flex flex-col w-full bg-theme-base relative overflow-x-hidden font-sans pb-12">
-      <div className="w-full flex-1 flex flex-col px-6 pt-4 pb-8 animate-in-up md:max-w-md md:mx-auto">
+    <div className="flex flex-col md:flex-row w-full min-h-[100dvh] bg-theme-base relative overflow-hidden font-sans">
+      
+      {/* --- SECCIÓ ESQUERRA (ESCRIPTORI): Identitat Visual i Missatge IAIA --- */}
+      <div className="hidden md:flex md:w-1/2 lg:w-[55%] bg-[var(--theme-accent-primary-faint)] relative flex-col items-center justify-center p-8 lg:p-12 border-r border-[var(--border-master)] overflow-hidden">
+        {/* Fons i Logo decoratius */}
+        <div className="absolute inset-0 z-0 opacity-10 pointer-events-none mix-blend-multiply dark:mix-blend-screen" style={{ backgroundImage: "url('/assets/brand/pattern_soc.png')", backgroundSize: 'cover' }}></div>
+        <div className="relative z-10 w-full max-w-xl mb-12">
+          <BrandLogo className="w-full h-auto object-contain drop-shadow-2xl text-[var(--theme-accent-primary)]" />
+        </div>
+        
+        {/* IAIA Guide per a escriptori (Més gran i premium) */}
+        <div className="relative z-10 w-full max-w-xl bg-theme-base/80 backdrop-blur-xl border border-[var(--theme-accent-primary-muted)] rounded-[32px] p-8 flex gap-8 items-start shadow-2xl hover:-translate-y-1 transition-transform">
+          <div className="w-24 h-24 shrink-0 rounded-full bg-[var(--theme-accent-primary-faint)] flex items-center justify-center shadow-inner overflow-hidden border-4 border-white dark:border-gray-800">
+             <img src="/assets/avatars/comic/iaia_comic_matriarch.png" alt="IAIA" className="w-[110%] h-[110%] object-cover object-top" />
+          </div>
+          <div className="flex-1 pt-2">
+             <h3 className="font-black text-[var(--theme-accent-primary)] text-xl mb-3 uppercase tracking-tight">IAIA Guia</h3>
+             <p className="text-theme-text text-xl leading-relaxed font-medium">
+               {step === "identity" ? t('auth.iaia_guide_identity') : 
+                step === "town" ? t('auth.iaia_guide_town') :
+                step === "connection" ? t('auth.iaia_guide_connection') :
+                step === "verify" ? t('auth.iaia_guide_verify') :
+                t('auth.iaia_guide_welcome')}
+             </p>
+          </div>
+        </div>
+      </div>
 
-        {/* Decorative Top Accent */}
-        <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-[var(--theme-accent-secondary)] to-[var(--theme-accent-primary)] opacity-80"></div>
+      {/* --- SECCIÓ DRETA: Formulari Interactiu --- */}
+      <div className="w-full md:w-1/2 lg:w-[45%] flex-1 flex flex-col relative overflow-y-auto custom-scrollbar pb-12 md:pb-0">
+        
+        {/* Decorative Top Accent (Mòbil) */}
+        <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-[var(--theme-accent-secondary)] to-[var(--theme-accent-primary)] opacity-80 md:hidden"></div>
 
-        <header className="flex flex-col items-center pt-2 pb-6">
-          <BrandLogo className="w-[280px] max-w-[80vw] h-auto object-contain mb-8 transition-all text-[var(--theme-text)]" />
+        <div className="w-full flex-1 flex flex-col px-6 md:px-12 lg:px-20 pt-6 md:pt-12 pb-8 animate-in-up max-w-md md:max-w-2xl mx-auto md:justify-center relative">
 
-          <div className="flex justify-center gap-1.5 mb-8 bg-theme-panel border border-[var(--border-master)] p-1.5 rounded-full">
+          {/* Selector d'idiomes: Dalt a la dreta en escriptori o centrat en mòbil */}
+          <div className="flex justify-center md:absolute md:top-8 md:right-8 gap-1.5 mb-8 md:mb-0 bg-theme-panel md:bg-transparent border border-[var(--border-master)] md:border-none p-1.5 md:p-0 rounded-full z-20">
               {languages.map((lang) => (
                 <button
                   key={lang.code}
@@ -235,22 +262,26 @@ const Register = () => {
               ))}
           </div>
 
-          <div className="w-full bg-[var(--theme-accent-primary-faint)] border border-[var(--theme-accent-primary-muted)] rounded-2xl p-5 flex gap-5 items-start shadow-sm mt-4">
-             <div className="w-16 h-16 shrink-0 rounded-full bg-[var(--theme-accent-primary-faint)] flex items-center justify-center shadow-inner overflow-hidden border border-[var(--theme-accent-primary-muted)]" onClick={() => hapticService.batec()}>
-                 <img src="/assets/avatars/comic/iaia_comic_matriarch.png" alt="IAIA" className="w-[110%] h-[110%] object-cover object-top" />
-             </div>
-             <div className="flex-1 pt-1">
-                 <h3 className="font-black text-[var(--theme-accent-primary)] text-base mb-1.5 uppercase tracking-tight">IAIA Guia</h3>
-                 <p className="text-theme-text text-[15px] leading-snug font-medium">
-                   {step === "identity" ? t('auth.iaia_guide_identity') : 
-                    step === "town" ? t('auth.iaia_guide_town') :
-                    step === "connection" ? t('auth.iaia_guide_connection') :
-                    step === "verify" ? t('auth.iaia_guide_verify') :
-                    t('auth.iaia_guide_welcome')}
-                 </p>
-             </div>
-          </div>
-        </header>
+          <header className="flex flex-col items-center pt-2 pb-6 md:pb-12 md:hidden">
+            <BrandLogo className="w-[280px] max-w-[80vw] h-auto object-contain mb-8 transition-all text-[var(--theme-text)]" />
+
+            {/* IAIA Guide Mobile */}
+            <div className="w-full bg-[var(--theme-accent-primary-faint)] border border-[var(--theme-accent-primary-muted)] rounded-2xl p-5 flex gap-5 items-start shadow-sm mt-4">
+               <div className="w-16 h-16 shrink-0 rounded-full bg-[var(--theme-accent-primary-faint)] flex items-center justify-center shadow-inner overflow-hidden border border-[var(--theme-accent-primary-muted)]" onClick={() => hapticService.batec()}>
+                   <img src="/assets/avatars/comic/iaia_comic_matriarch.png" alt="IAIA" className="w-[110%] h-[110%] object-cover object-top" />
+               </div>
+               <div className="flex-1 pt-1">
+                   <h3 className="font-black text-[var(--theme-accent-primary)] text-base mb-1.5 uppercase tracking-tight">IAIA Guia</h3>
+                   <p className="text-theme-text text-[15px] leading-snug font-medium">
+                     {step === "identity" ? t('auth.iaia_guide_identity') : 
+                      step === "town" ? t('auth.iaia_guide_town') :
+                      step === "connection" ? t('auth.iaia_guide_connection') :
+                      step === "verify" ? t('auth.iaia_guide_verify') :
+                      t('auth.iaia_guide_welcome')}
+                   </p>
+               </div>
+            </div>
+          </header>
 
         {error && <div className="auth-error shake">{error}</div>}
 
@@ -543,6 +574,7 @@ const Register = () => {
           }}
         />
 
+        </div>
       </div>
     </div>
   );

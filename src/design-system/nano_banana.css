@@ -23,7 +23,7 @@
     background-color: var(--color-surface, #FDFCF5);
 
     /* ESTÈTICA NANO BANANA [Source 123] */
-    border-radius: 0px !important;
+    border-radius: 0px ;
     /* ZERO RADIUS ABSOLUT */
     overflow: hidden;
     cursor: pointer;
@@ -39,7 +39,7 @@
     height: auto;
     /* Manté la proporció original [Source 265] */
     display: block;
-    border-radius: 0px !important;
+    border-radius: 0px ;
     /* Confirmació de duresa */
 }
 

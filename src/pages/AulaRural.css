@@ -1,5 +1,5 @@
 .aula-rural-container {
-    min-height: 100vh;
+    min-height: 100dvh;
     background: var(--bg-canvas);
     color: var(--text-main);
     padding: 40px 20px;

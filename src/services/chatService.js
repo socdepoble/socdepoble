@@ -202,7 +202,7 @@ export const chatService = {
             id: crypto.randomUUID(),
             conversation_id: messageData.conversationId,
             sender_id: messageData.senderId,
-            sender_entity_id: messageData.senderEntityId || null,
+
             content: messageData.content || null,
             attachment_url: messageData.attachmentUrl || null,
             attachment_type: messageData.attachmentType || null,
@@ -268,7 +268,7 @@ export const chatService = {
 
     async triggerSimulatedReply(originalMessage) {
         try {
-            const { conversationId, responderId, responderType, persona } = originalMessage;
+            const { conversationId, responderId, persona } = originalMessage;
             if (!responderId) return;
 
             let reply = "";
@@ -300,7 +300,7 @@ export const chatService = {
                 id: crypto.randomUUID(),
                 conversation_id: conversationId,
                 sender_id: responderId,
-                sender_entity_id: responderType === 'entity' ? responderId : null,
+
                 content: reply
             };
 

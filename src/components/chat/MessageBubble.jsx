@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { FolderInput, Mic, Check, CheckCheck, Pause, Play, Download, Settings, Trash2, Reply, Smile, Star, Pin, Forward, Copy, Info, Eye, DownloadCloud, CheckCircle2, Paperclip } from 'lucide-react';
 import { logger } from '../../utils/logger';
 
@@ -14,6 +15,7 @@ const MessageBubble = React.memo(({
     onMoveMessageToAgent,
     onRequestMove
 }) => {
+    const { t } = useTranslation();
     
     const marginClass = isSameSenderAsNext ? 'mb-[3px]' : 'mb-2';
     
@@ -84,7 +86,7 @@ const MessageBubble = React.memo(({
     };
 
     return (
-        <div className={`flex ${isMe ? 'justify-end' : 'justify-start'} ${marginClass} animate-in fade-in slide-in-from-bottom-2 duration-300 ${isActiveMenu ? 'z-[60] relative' : ''} px-4 md:px-6`}>
+        <div className={`flex ${isMe ? 'justify-end' : 'justify-start'} ${marginClass} animate-in fade-in slide-in-from-bottom-2 duration-300 ${isActiveMenu ? 'z-60 relative' : ''} px-4 md:px-6`}>
             <div className={`group max-w-[85%] md:max-w-[65%] !rounded-[8px] px-2.5 pt-1.5 pb-[3px] md:px-3 md:pt-2 md:pb-1 relative shadow-sm
                 ${isMe ? 'bg-[#d9fdd3] text-[#000] dark:bg-[#005c4b] dark:text-[#e9edef] !rounded-tr-[2px]' : 'bg-theme-panel text-theme-text !rounded-tl-[2px] border border-[var(--border-master)]'}`}>
 
@@ -179,17 +181,17 @@ const MessageBubble = React.memo(({
                             {msg.created_at ? new Date(msg.created_at).toLocaleDateString([], { day: '2-digit', month: '2-digit', year: '2-digit' }) : ''}
                         </span>
                         <span className="text-[12px] font-medium text-current opacity-90 pt-[1px] relative top-[1px] leading-none">
-                            {msg.created_at ? new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Ara'}
+                            {msg.created_at ? new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : t('chat.now')}
                         </span>
                     </div>
                     {isMe && (
                         <div className="flex items-center -ml-[2px]">
                             {msg.read_at ? (
-                                <CheckCheck size={14} className="text-[#53bdeb] animate-in zoom-in duration-300" title="Llegit" />
+                                <CheckCheck size={14} className="text-[#53bdeb] animate-in zoom-in duration-300" title={t('chat.read')} />
                             ) : msg.status === 'delivered' ? (
-                                <CheckCheck size={14} className="text-current opacity-60" title="Entregat" />
+                                <CheckCheck size={14} className="text-current opacity-60" title={t('chat.delivered')} />
                             ) : (
-                                <Check size={14} className="text-current opacity-60" title="Enviat" />
+                                <Check size={14} className="text-current opacity-60" title={t('chat.sent')} />
                             )}
                         </div>
                     )}
@@ -215,28 +217,28 @@ const MessageBubble = React.memo(({
 
                 {/* WhatsApp Context Menu Dropdown */}
                 {isActiveMenu && (
-                    <div className={`absolute right-2 w-64 bg-white dark:bg-[#233138] border border-gray-200 dark:border-[#111b21]/10 shadow-[0_4px_12px_rgba(0,0,0,0.15)] dark:shadow-[0_4px_12px_rgba(0,0,0,0.5)] rounded-lg py-1.5 z-[100] animate-in fade-in zoom-in-95 duration-150 text-gray-800 dark:text-[#d1d7db]
+                    <div className={`absolute right-2 w-64 bg-white dark:bg-[#233138] border border-gray-200 dark:border-[#111b21]/10 shadow-[0_4px_12px_rgba(0,0,0,0.15)] dark:shadow-[0_4px_12px_rgba(0,0,0,0.5)] rounded-lg py-1.5 z-dropdown animate-in fade-in zoom-in-95 duration-150 text-gray-800 dark:text-[#d1d7db]
                         ${contextMenuPosition === 'up' ? 'bottom-6 origin-bottom-right' : 'top-full -mt-2 origin-top-right'}
                     `}>
-                        <button className="w-full flex items-center justify-between px-5 py-2.5 text-[15px] hover:bg-gray-100 dark:hover:bg-[#182229] transition-colors" onClick={() => setContextMenuId(null)}>Responder <Reply size={16} className="opacity-70" /></button>
-                        <button className="w-full flex items-center justify-between px-5 py-2.5 text-[15px] hover:bg-gray-100 dark:hover:bg-[#182229] transition-colors" onClick={() => setContextMenuId(null)}>Reaccionar <Smile size={16} className="opacity-70" /></button>
-                        <button className="w-full flex items-center justify-between px-5 py-2.5 text-[15px] hover:bg-gray-100 dark:hover:bg-[#182229] transition-colors" onClick={() => setContextMenuId(null)}>Destacar <Star size={16} className="opacity-70" /></button>
-                        <button className="w-full flex items-center justify-between px-5 py-2.5 text-[15px] hover:bg-gray-100 dark:hover:bg-[#182229] transition-colors" onClick={() => setContextMenuId(null)}>Fijar <Pin size={16} className="opacity-70" /></button>
-                        <button className="w-full flex items-center justify-between px-5 py-2.5 text-[15px] hover:bg-gray-100 dark:hover:bg-[#182229] transition-colors" onClick={() => setContextMenuId(null)}>Reenviar <Forward size={16} className="opacity-70" /></button>
-                        <button className="w-full flex items-center justify-between px-5 py-2.5 text-[15px] hover:bg-[var(--theme-accent-primary)]/10 dark:hover:bg-[var(--theme-accent-primary)]/20 text-[var(--theme-accent-primary)] font-bold transition-colors" onClick={() => { setContextMenuId(null); if (onRequestMove) onRequestMove(msg); }}>Moure a un expert... <FolderInput size={16} className="opacity-90" /></button>
-                        <button className="w-full flex items-center justify-between px-5 py-2.5 text-[15px] hover:bg-gray-100 dark:hover:bg-[#182229] transition-colors" onClick={() => { if(msg.content) navigator.clipboard.writeText(msg.content); setContextMenuId(null); }}>Copiar <Copy size={16} className="opacity-70" /></button>
-                        <button className="w-full flex items-center justify-between px-5 py-[10px] text-[15px] hover:bg-gray-100 dark:hover:bg-[#182229] transition-colors border-b border-gray-100 dark:border-[#304049]" onClick={() => setContextMenuId(null)}>Info. <Info size={16} className="opacity-70" /></button>
+                        <button className="w-full flex items-center justify-between px-5 py-2.5 text-[15px] hover:bg-gray-100 dark:hover:bg-[#182229] transition-colors" onClick={() => setContextMenuId(null)}>{t('chat.reply')} <Reply size={16} className="opacity-70" /></button>
+                        <button className="w-full flex items-center justify-between px-5 py-2.5 text-[15px] hover:bg-gray-100 dark:hover:bg-[#182229] transition-colors" onClick={() => setContextMenuId(null)}>{t('chat.react')} <Smile size={16} className="opacity-70" /></button>
+                        <button className="w-full flex items-center justify-between px-5 py-2.5 text-[15px] hover:bg-gray-100 dark:hover:bg-[#182229] transition-colors" onClick={() => setContextMenuId(null)}>{t('chat.star')} <Star size={16} className="opacity-70" /></button>
+                        <button className="w-full flex items-center justify-between px-5 py-2.5 text-[15px] hover:bg-gray-100 dark:hover:bg-[#182229] transition-colors" onClick={() => setContextMenuId(null)}>{t('chat.pin')} <Pin size={16} className="opacity-70" /></button>
+                        <button className="w-full flex items-center justify-between px-5 py-2.5 text-[15px] hover:bg-gray-100 dark:hover:bg-[#182229] transition-colors" onClick={() => setContextMenuId(null)}>{t('chat.forward')} <Forward size={16} className="opacity-70" /></button>
+                        <button className="w-full flex items-center justify-between px-5 py-2.5 text-[15px] hover:bg-[var(--theme-accent-primary)]/10 dark:hover:bg-[var(--theme-accent-primary)]/20 text-[var(--theme-accent-primary)] font-bold transition-colors" onClick={() => { setContextMenuId(null); if (onRequestMove) onRequestMove(msg); }}>{t('chat.move_to_expert')} <FolderInput size={16} className="opacity-90" /></button>
+                        <button className="w-full flex items-center justify-between px-5 py-2.5 text-[15px] hover:bg-gray-100 dark:hover:bg-[#182229] transition-colors" onClick={() => { if(msg.content) navigator.clipboard.writeText(msg.content); setContextMenuId(null); }}>{t('chat.copy')} <Copy size={16} className="opacity-70" /></button>
+                        <button className="w-full flex items-center justify-between px-5 py-[10px] text-[15px] hover:bg-gray-100 dark:hover:bg-[#182229] transition-colors border-b border-gray-100 dark:border-[#304049]" onClick={() => setContextMenuId(null)}>{t('chat.info')} <Info size={16} className="opacity-70" /></button>
                         
                         {msg.attachment_url && (
                             <>
-                                <button className="w-full flex items-center justify-between px-5 py-2.5 text-[15px] hover:bg-gray-100 dark:hover:bg-[#182229] transition-colors mt-1" onClick={() => setContextMenuId(null)}>Ver <Eye size={16} className="opacity-70" /></button>
-                                <button className="w-full flex items-center justify-between px-5 py-2.5 text-[15px] hover:bg-gray-100 dark:hover:bg-[#182229] transition-colors" onClick={() => setContextMenuId(null)}>Guardar en Descargas <Download size={16} className="opacity-70" /></button>
-                                <button className="w-full flex items-center justify-between px-5 py-[10px] text-[15px] hover:bg-gray-100 dark:hover:bg-[#182229] transition-colors border-b border-gray-100 dark:border-[#304049]" onClick={() => setContextMenuId(null)}>Guardar como... <DownloadCloud size={16} className="opacity-70" /></button>
+                                <button className="w-full flex items-center justify-between px-5 py-2.5 text-[15px] hover:bg-gray-100 dark:hover:bg-[#182229] transition-colors mt-1" onClick={() => setContextMenuId(null)}>{t('chat.view')} <Eye size={16} className="opacity-70" /></button>
+                                <button className="w-full flex items-center justify-between px-5 py-2.5 text-[15px] hover:bg-gray-100 dark:hover:bg-[#182229] transition-colors" onClick={() => setContextMenuId(null)}>{t('chat.save_downloads')} <Download size={16} className="opacity-70" /></button>
+                                <button className="w-full flex items-center justify-between px-5 py-[10px] text-[15px] hover:bg-gray-100 dark:hover:bg-[#182229] transition-colors border-b border-gray-100 dark:border-[#304049]" onClick={() => setContextMenuId(null)}>{t('chat.save_as')} <DownloadCloud size={16} className="opacity-70" /></button>
                             </>
                         )}
                         
-                        <button className="w-full flex items-center justify-between px-5 py-[10px] text-[15px] hover:bg-gray-100 dark:hover:bg-[#182229] transition-colors border-b border-gray-100 dark:border-[#304049] mt-1 text-red-500" onClick={() => setContextMenuId(null)}>Eliminar <Trash2 size={16} className="opacity-70" /></button>
-                        <button className="w-full flex items-center justify-between px-5 py-[10px] text-[15px] hover:bg-gray-100 dark:hover:bg-[#182229] transition-colors mt-1" onClick={() => setContextMenuId(null)}>Seleccionar mensajes <CheckCircle2 size={16} className="opacity-70" /></button>
+                        <button className="w-full flex items-center justify-between px-5 py-[10px] text-[15px] hover:bg-gray-100 dark:hover:bg-[#182229] transition-colors border-b border-gray-100 dark:border-[#304049] mt-1 text-red-500" onClick={() => setContextMenuId(null)}>{t('common.delete')} <Trash2 size={16} className="opacity-70" /></button>
+                        <button className="w-full flex items-center justify-between px-5 py-[10px] text-[15px] hover:bg-gray-100 dark:hover:bg-[#182229] transition-colors mt-1" onClick={() => setContextMenuId(null)}>{t('chat.select_messages')} <CheckCircle2 size={16} className="opacity-70" /></button>
                     </div>
                 )}
             </div>

@@ -66,14 +66,21 @@ export const syncService = {
      * [Protocol OMEGA: Dumb Pipe]
      * Empaqueta el graf d'operacions com un blob binari opac per al transport.
      */
-    packForTransport: (ops) => {
+    packForTransport: async (ops) => {
         logger.log('[SyncService] Empaquetant graf operacional (Dumb Pipe)...');
-        // En una versió futura, açò usaria LZ4 o Protobuf.
-        // Ara mateix generem un Base64 opac per al relay.
-        const blob = btoa(unescape(encodeURIComponent(JSON.stringify(ops))));
+        // Usar FileReader (C++ engine) per convertir grans arrays a base64 sense bloquejar UI
+        const encoder = new TextEncoder();
+        const bytes = encoder.encode(JSON.stringify(ops));
+        
+        const base64 = await new Promise(resolve => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result.split(',')[1]);
+            reader.readAsDataURL(new Blob([bytes]));
+        });
+
         return {
             v: '1.0.0-OMEGA',
-            payload: blob,
+            payload: base64,
             checksum: ops.length // Verificació prima de quantitat d'ops
         };
     },
@@ -82,13 +89,16 @@ export const syncService = {
      * [Protocol OMEGA: Dumb Pipe]
      * Desempaqueta un blob binari opac provinent d'un transport (Supabase/P2P).
      */
-    unpackFromTransport: (packageData) => {
+    unpackFromTransport: async (packageData) => {
         if (!packageData || packageData.v !== '1.0.0-OMEGA') {
             throw new Error('[SyncService] Versió de paquet incompatible');
         }
         try {
-            const raw = decodeURIComponent(escape(atob(packageData.payload)));
-            return JSON.parse(raw);
+            // Unpack asíncron, evitant `atob` síncron massiu que bloqueja Main Thread
+            // S'usa el motor Fetch C++ per desencriptar el blob Base64 directament
+            const res = await fetch(`data:application/octet-stream;base64,${packageData.payload}`);
+            const buf = await res.arrayBuffer();
+            return JSON.parse(new TextDecoder().decode(buf));
         } catch (err) {
             logger.error('[SyncService] Error desenroscant paquet opac:', err);
             return [];

@@ -5,7 +5,7 @@ import {
     Palette, Activity, Terminal, ArrowLeft, Send,
     Layout, Cpu, Database, Eye, CheckCircle2
 } from 'lucide-react';
-import { aiService } from '../services/aiService';
+import { geminiService } from '../services/geminiService';
 import SEO from '../components/SEO';
 import './NexusFlash.css';
 
@@ -23,8 +23,8 @@ const NexusFlash = () => {
     const handleIaia = async () => {
         if (!iaiaInput.trim()) return;
         setIsIaiaThinking(true);
-        const response = await aiService.generateContent(iaiaInput, 'iaia_maria');
-        setIaiaResponse(response);
+        const result = await geminiService.ask('IAIA', iaiaInput);
+        setIaiaResponse(result.text);
         setIsIaiaThinking(false);
         setIaiaInput('');
     };
@@ -32,8 +32,8 @@ const NexusFlash = () => {
     const handlePregoner = async () => {
         if (!pregonerInput) return;
         setIsPregonerThinking(true);
-        const response = await aiService.generateContent(pregonerInput, 'secretari');
-        setPregonerResult(response);
+        const result = await geminiService.ask('CRONISTA', pregonerInput);
+        setPregonerResult(result.text);
         setIsPregonerThinking(false);
     };
 

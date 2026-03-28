@@ -747,11 +747,18 @@ class IAIAService {
                              ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'a', 'p', 'br', 'ul', 'li', 'ol'],
                              ALLOWED_ATTR: ['href', 'target', 'rel']
                         });
+                        const doc = new DOMParser().parseFromString(cleanResponse, 'text/html');
+                        doc.querySelectorAll('a[target="_blank"]').forEach(a => {
+                            if (!a.getAttribute('rel')?.includes('noopener')) {
+                                a.setAttribute('rel', 'noopener noreferrer');
+                            }
+                        });
+                        const finalCleanResponse = doc.body.innerHTML;
 
                         const savedMessage = await supabaseService.sendSecureMessage({
                             conversationId: conversationId,
                             senderId: receiverId || '11111111-1111-4111-a111-000000000010', 
-                            content: cleanResponse,
+                            content: finalCleanResponse,
                             is_ai: true,
                             author_name: persona.name,
                             author_avatar_url: persona.avatar_url,
@@ -792,10 +799,17 @@ class IAIAService {
 
             // Fallback per a preview (sense ID de conversa real)
             const aiResponse = await geminiService.ask(finalPersonaKey, userQuery);
-            return DOMPurify.sanitize(aiResponse.text, {
+            const cleanPreview = DOMPurify.sanitize(aiResponse.text, {
                  ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'a', 'p', 'br', 'ul', 'li', 'ol'],
                  ALLOWED_ATTR: ['href', 'target', 'rel']
             });
+            const doc2 = new DOMParser().parseFromString(cleanPreview, 'text/html');
+            doc2.querySelectorAll('a[target="_blank"]').forEach(a => {
+                if (!a.getAttribute('rel')?.includes('noopener')) {
+                    a.setAttribute('rel', 'noopener noreferrer');
+                }
+            });
+            return doc2.body.innerHTML;
         } catch (e) {
             logger.error('[MArIA] Error generant resposta AI:', e);
             return null;

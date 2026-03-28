@@ -18,16 +18,12 @@ export const DesignProvider = ({ children }) => {
     const [blueprintMode, setBlueprintMode] = useState(prefs.blueprintMode || false);
     const [accessibilityMode, setAccessibilityMode] = useState(prefs.accessibilityMode || false);
 
-    // Aliases to prevent breaking older hooks during script parse
-    const isDark = theme === 'dark';
-    const darkMode = theme === 'dark';
-    const architectMode = blueprintMode;
-    const asoMode = false;
-    const toggleAsoMode = useCallback(() => {}, []);
-    const hapticService = useMemo(() => ({ trigger: () => {} }), []);
 
     useEffect(() => {
         document.documentElement.setAttribute('data-theme', theme);
+        document.documentElement.classList.remove('light', 'dark', 'solemne', 'theme-light', 'theme-dark', 'theme-solemne');
+        document.documentElement.classList.add(theme);
+        document.documentElement.classList.add(`theme-${theme}`);
         document.documentElement.setAttribute('data-vibe', vibe);
         document.documentElement.setAttribute('data-visual-democracy', visualDemocracy);
         document.documentElement.setAttribute('data-design', globalDesign);
@@ -94,8 +90,7 @@ export const DesignProvider = ({ children }) => {
 
     const value = useMemo(() => ({
         theme, setTheme, toggleTheme,
-        visionMode, setVisionMode,
-        vibe, setVibe,
+        visionMode, setVisionMode, vibe, setVibe,
         gloveMode, setGloveMode, toggleGloveMode,
         seniorMode, setSeniorMode, toggleSeniorMode,
         reduceMotion, setReduceMotion, toggleReduceMotion,
@@ -105,13 +100,17 @@ export const DesignProvider = ({ children }) => {
         blueprintMode, setBlueprintMode,
         accessibilityMode, setAccessibilityMode, toggleAccessibilityMode,
         resetToNaturalOrder,
-        isDark, darkMode, architectMode, asoMode, toggleAsoMode, hapticService
+        isDark: theme === 'dark',
+        darkMode: theme === 'dark',
+        architectMode: blueprintMode,
+        asoMode: false,
+        toggleAsoMode: () => {},
+        hapticService: { trigger: () => {} }
     }), [
-        theme, visionMode, vibe, gloveMode, seniorMode, reduceMotion, visualDemocracy, globalDesign,
-        iaiaLevel, blueprintMode, accessibilityMode,
-        toggleTheme, setVisionMode, toggleGloveMode, toggleSeniorMode, toggleReduceMotion, toggleAccessibilityMode, resetToNaturalOrder,
-        toggleAsoMode, hapticService,
-        isDark, darkMode, architectMode, asoMode
+        theme, visionMode, vibe, gloveMode, seniorMode, reduceMotion,
+        visualDemocracy, globalDesign, iaiaLevel, blueprintMode, accessibilityMode,
+        resetToNaturalOrder, setVisionMode, toggleAccessibilityMode, toggleGloveMode, 
+        toggleReduceMotion, toggleSeniorMode, toggleTheme
     ]);
 
     return (
