@@ -38,7 +38,7 @@ export const profileHealingService = {
       userEmail.includes('mestre@');
 
     const MASTER_IDS = [
-      'd6325f44-7277-4d20-b020-166c010995ab',
+      '25218ea4-5d7d-4db4-bdc5-7ae035629242',
       '56557878-3a83-4710-8588-44ade442a8b3',
     ];
     const isOfficialCreator = isMastersEmail || MASTER_IDS.includes(session.user.id);

@@ -1,85 +1,192 @@
+
+import React, { useState, useEffect, useRef } from "react";
+import { PowerSyncContext } from "@powersync/react";
+import { PowerSyncDatabase } from "@powersync/web";
+import { AppSchema } from "../../powersync/schema";
+import { SupabaseConnector } from "../../powersync/connector";
 import BrandLogo from "../BrandLogo";
+import { useWorkerOrchestrator } from "../../hooks/useWorkerOrchestrator";
+import { SyncIndicator } from "../SyncIndicator";
+import { WaitingForBackend } from "../boundaries/WaitingForBackend";
 
-import React, { useState, useEffect } from "react";
-import { PowerSyncContext } from '@powersync/react';
-import { PowerSyncDatabase } from '@powersync/web';
-import { AppSchema } from '../../powersync/schema';
-import { SupabaseConnector } from '../../powersync/connector';
+// ─── Tipus d'Estat Honests ──────────────────────────────────────────────────
+const STATUS = {
+  IDLE: "idle",
+  READY: "ready",
+  DEGRADED: "degraded",
+  ERROR: "error",
+};
 
-const db = new PowerSyncDatabase({
-  schema: AppSchema,
-  database: {
-    dbFilename: 'socdepoble.db',
-    vfs: 'OPFSCoopSyncVFS', 
-  },
-  flags: { enableMultiTabs: false }
-});
-
-const connector = new SupabaseConnector();
+const OPFS_TIMEOUT_MS = 3500;
+const INITIAL_BACKOFF_MS = 1000;
+const MAX_BACKOFF_MS = 30000;
 
 export default function LocalFirstGate({ children }) {
-  const [isDbReady, setIsDbReady] = useState(false);
-  const [error, setError] = useState(null);
+  const { syncState, pendingCount } = useWorkerOrchestrator();
+  const [status, setStatusState] = useState(STATUS.IDLE);
+  const [errorMsg, setErrorMsg] = useState(null);
+  const [dbInstance, setDbInstance] = useState(null);
+
+  const statusRef = useRef(STATUS.IDLE);
+  const dbRef = useRef(null);
+  const connectorRef = useRef(null);
+  const isInitializedRef = useRef(false);
+  const reconnectTimerRef = useRef(null);
+  const reconnectAttemptRef = useRef(0);
+
+  const setStatus = (newStatus) => {
+    statusRef.current = newStatus;
+    setStatusState(newStatus);
+  };
 
   useEffect(() => {
-    let isMounted = true;
 
-    const initWithTimeout = async () => {
+    const initDb = async () => {
+      if (isInitializedRef.current) return;
+      isInitializedRef.current = true;
+
+      // 1. Purga de versió morta (Esquema Migrations)
+      // Detectem si l'esquema canvia respecte l'últim conegut
+      const currentSchemaVersion = AppSchema.version || "1.0"; // Per defecte o llegit de l'esquema
+      const lastSchema = localStorage.getItem("sp_schema_version");
+      
+      if (lastSchema && lastSchema !== currentSchemaVersion) {
+        console.warn(`[Migrations] Esquema canviat de ${lastSchema} a ${currentSchemaVersion}. Purgant OPFS antic.`);
+        // No podem esborrar la BD sense instanciar-la o directament usem indexedDB
+        // El més segur és esborrar per OPFS manual si podem, però PowerSync esborra si falla.
+        try {
+            const root = await navigator.storage.getDirectory();
+            await root.removeEntry("socdepoble.db", { recursive: true }).catch(() => null);
+        } catch(err) {
+            console.debug("[Migrations] Cleanup error (safe to ignore):", err);
+        }
+        localStorage.setItem("sp_schema_version", currentSchemaVersion);
+      } else if (!lastSchema) {
+        localStorage.setItem("sp_schema_version", currentSchemaVersion);
+      }
+
+      if (!dbRef.current) {
+        dbRef.current = new PowerSyncDatabase({
+          schema: AppSchema,
+          database: {
+            dbFilename: "socdepoble.db",
+            vfs: "OPFSCoopSyncVFS",
+          },
+          flags: { enableMultiTabs: true },
+        });
+      }
+
+      if (!connectorRef.current) {
+        connectorRef.current = new SupabaseConnector();
+      }
+
+      const db = dbRef.current;
+      const connector = connectorRef.current;
+
       try {
-        // En localhost OPFS es pot bloquejar si hi ha més d'una pestanya o RhizomeDB té el WriteLock
-        const initPromise = db.init();
-        const timeoutPromise = new Promise((_, reject) => 
-            setTimeout(() => reject(new Error('TIMEOUT_OPFS')), 3500)
+        const timeoutPromise = new Promise((_, reject) =>
+          setTimeout(() => reject(new Error("TIMEOUT_OPFS")), OPFS_TIMEOUT_MS)
         );
-        
-        await Promise.race([initPromise, timeoutPromise]);
+
+        await Promise.race([db.init(), timeoutPromise]);
         await db.connect(connector);
-        
-        if (isMounted) setIsDbReady(true);
+
+        setDbInstance(db);
+        setStatus(STATUS.READY);
       } catch (err) {
-        // Fallback resilient: si dóna timeout OPFS en dev, obrim portes igual per no bloquejar l'UI
-        if (err.message === 'TIMEOUT_OPFS' || String(err).includes('OPFS')) {
-             console.warn("⚠️ Bypass d'Emergència: OPFS bloquejat. Obrint portes sense persistència rica.");
-             // No posem l'error per a que isDbReady tire cap avant
-             if (isMounted) setIsDbReady(true);
+        const isOpfsError = err.message === "TIMEOUT_OPFS" || String(err).toLowerCase().includes("opfs") || String(err).toLowerCase().includes("lock");
+
+        if (isOpfsError) {
+          console.warn("[LocalFirstGate] Bypass d'Emergència: Mode degradat actiu (OPFS WriteLock)");
+          setDbInstance(dbRef.current);
+          setStatus(STATUS.DEGRADED);
         } else {
-             console.error("Failed to initialize PowerSync:", err);
-             if (isMounted) setError(err.message);
+          console.error("[LocalFirstGate] Error crític PowerSync:", err);
+          setErrorMsg(err.message || "Error desconegut d'emmagatzematge.");
+          setStatus(STATUS.ERROR);
         }
       }
     };
 
-    initWithTimeout();
+    initDb();
 
-    const handleOnline = () => {
-      console.log('🧢 Tornem a tindre cobertura al Mas! Forçant sincronització PowerSync...');
-      if (isMounted && db) {
-        // Retry connection to ensure everything gets flushed immediately when online
-        db.connect(connector).catch(console.error);
-      }
+    // ─── Exponential Backoff per connexió pèrdua de senyal rural ──────────────
+    const triggerReconnect = () => {
+      if (reconnectTimerRef.current) clearTimeout(reconnectTimerRef.current);
+      
+      const db = dbRef.current;
+      const connector = connectorRef.current;
+      if (!db || !connector || statusRef.current === STATUS.ERROR || statusRef.current === STATUS.IDLE) return;
+
+      const delay = Math.min(INITIAL_BACKOFF_MS * Math.pow(2, reconnectAttemptRef.current), MAX_BACKOFF_MS);
+      console.log(`[LocalFirstGate] Preparant reconnexió en ${delay}ms... (Intent ${reconnectAttemptRef.current + 1})`);
+
+      reconnectTimerRef.current = setTimeout(async () => {
+        try {
+          await db.connect(connector);
+          console.log("[LocalFirstGate] Reconnexió reeixida al backend.");
+          reconnectAttemptRef.current = 0; // reset on success
+        } catch (err) {
+          console.warn("[LocalFirstGate] Reconnexió fallida. Backoff...", err);
+          reconnectAttemptRef.current += 1;
+          triggerReconnect(); // Try again with longer delay
+        }
+      }, delay);
     };
 
-    window.addEventListener('online', handleOnline);
+    const handleOnline = () => {
+      console.log("[LocalFirstGate] 🧢 Cobertura de xarxa recuperada visualment.");
+      reconnectAttemptRef.current = 0; // Forcem inici ràpid
+      triggerReconnect();
+    };
+
+    const handleOffline = () => {
+      console.log("[LocalFirstGate] 📶 Cobertura de xarxa perduda visualment.");
+      if (reconnectTimerRef.current) clearTimeout(reconnectTimerRef.current);
+    };
+
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
+
+    // ─── BeforeUnload OPFS Lock Release ─────────────────────────────────────
+    const handleBeforeUnload = () => {
+      const db = dbRef.current;
+      if (db) {
+        console.log("[LocalFirstGate] Alliberant bloqueig OPFS d'emergència.");
+        try {
+          db.disconnect();
+          db.close();
+        } catch(err) {
+          console.debug("[LocalFirstGate] Cleanup silent error:", err);
+        }
+      }
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
 
     return () => {
-      isMounted = false;
-      window.removeEventListener('online', handleOnline);
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      if (reconnectTimerRef.current) clearTimeout(reconnectTimerRef.current);
     };
   }, []);
 
-  if (error) {
+  if (status === STATUS.ERROR) {
     return (
       <div className="bg-[#111827] text-white min-h-screen flex items-center justify-center flex-col p-6 text-center">
-        <h2 className="text-[#F97316] font-black text-2xl mb-4">
-          Error Crític d'Emmagatzematge (PowerSync)
-        </h2>
-        <p className="mb-4">No hem pogut Muntar l'Arxiu Local.</p>
-        <code className="text-sm bg-black p-3 rounded-[20px] mb-6">
-          {error}
-        </code>
+        <h2 className="text-[#F97316] font-black text-2xl mb-4">Error Crític d'Emmagatzematge</h2>
+        <p className="mb-2 text-gray-300">No s'ha pogut inicialitzar la base de dades local.</p>
+        <code className="text-sm bg-black p-3 rounded-[20px] mb-6 text-red-400">{errorMsg}</code>
         <button
           onClick={async () => {
-            await db.disconnectAndClear();
+            const db = dbRef.current;
+            if (db) { 
+                try { await db.disconnectAndClear(); } catch (err) { console.debug(err); } 
+            }
+            const root = await navigator.storage.getDirectory();
+            try { 
+                await root.removeEntry("socdepoble.db", { recursive: true }); 
+            } catch(err) { console.debug(err); }
             window.location.reload();
           }}
           className="bg-[#F97316] text-white font-bold py-3 px-6 rounded-[28px]"
@@ -90,47 +197,32 @@ export default function LocalFirstGate({ children }) {
     );
   }
 
-  if (!isDbReady) {
+  if (status === STATUS.IDLE) {
     return (
-      <div
-        className="min-h-screen flex items-center justify-center flex-col relative overflow-hidden"
-        style={{ background: "#0b0b0b" }}
-      >
-        {/* Fons subtil abstracte */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#00f2ff]/5 to-transparent pointer-events-none"></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-[#00f2ff] opacity-[0.03] blur-[60px] rounded-full pointer-events-none"></div>
-
-        <img
-          src="/assets/master/logo-socdepoble-rect.svg"
-          alt="Sóc de Poble"
-          className="h-10 w-auto mb-8 opacity-80 animate-pulse"
-          style={{ filter: "drop-shadow(0 0 10px rgba(0,242,255,0.3))" }}
-        />
-
+      <div className="min-h-screen flex items-center justify-center flex-col relative overflow-hidden" style={{ background: "#0b0b0b" }}>
+        <div className="absolute inset-0 bg-gradient-to-br from-[#00f2ff]/5 to-transparent pointer-events-none" />
+        <img src="/assets/master/logo-socdepoble-rect.svg" alt="Sóc de Poble" className="h-10 w-auto mb-8 opacity-80 animate-pulse" style={{ filter: "drop-shadow(0 0 10px rgba(0,242,255,0.3))" }} />
         <div className="flex justify-center gap-2 mb-6">
-          <div className="w-1.5 h-1.5 rounded-full bg-[#00f2ff] animate-pulse opacity-80"></div>
-          <div
-            className="w-1.5 h-1.5 rounded-full bg-[#00f2ff] animate-pulse opacity-80"
-            style={{ animationDelay: "150ms" }}
-          ></div>
-          <div
-            className="w-1.5 h-1.5 rounded-full bg-[#00f2ff] animate-pulse opacity-80"
-            style={{ animationDelay: "300ms" }}
-          ></div>
+          {[0, 150, 300].map((delay) => (
+            <div key={delay} className="w-1.5 h-1.5 rounded-full bg-[#00f2ff] animate-pulse opacity-80" style={{ animationDelay: `${delay}ms` }} />
+          ))}
         </div>
-
-        <p className="font-['Inter_Tight',sans-serif] text-[#00f2ff] text-[12px] font-black uppercase tracking-[0.2em] opacity-70">
-          Connectant...
-        </p>
+        <p className="text-[#00f2ff] text-[12px] font-black uppercase tracking-[0.2em] opacity-70">Connectant...</p>
       </div>
     );
   }
 
-  // Si no passem la DB, qualsevol component que cride a `usePowerSync()` petarà i llançarà
-  // una pantalla negra a l'usuari. Sempre passem l'objecte, estiga actiu o siga un "dummy".
   return (
-    <PowerSyncContext.Provider value={db}>
-      {children}
+    <PowerSyncContext.Provider value={dbInstance}>
+      {status === STATUS.DEGRADED && (
+        <div role="alert" style={{ position: "fixed", top: "env(safe-area-inset-top, 0px)", left: 0, right: 0, zIndex: 9999, background: "rgba(249,115,22,0.92)", color: "#fff", textAlign: "center", fontSize: "13px", fontWeight: 700, padding: "6px 12px", backdropFilter: "blur(8px)" }}>
+          Mode Sense Connexió · Tanca les pestanyes duplicades per activar la sincronització completa.
+        </div>
+      )}
+      <WaitingForBackend>
+        {children}
+      </WaitingForBackend>
+      <SyncIndicator status={syncState} pendingCount={pendingCount} />
     </PowerSyncContext.Provider>
   );
 }

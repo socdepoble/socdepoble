@@ -12,6 +12,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Search,
+  X,
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 
@@ -23,29 +24,51 @@ import SEO from "../components/SEO";
 import ContextualHeader from "../components/ContextualHeader";
 import { MOCK_EVENTS } from "../data";
 import { wikipediaService } from "../services/wikipediaService";
+import { useViewMode } from "../hooks/useViewMode";
+import { UniversalGridWrapper, UniversalGridRow } from "../components/UniversalGrid";
 import "./Towns.css";
 
 // ----------------------------------------------------------------------
 // TownWikipediaEnricher: Carga perezosa de Wikipedia con caché local estricto
 // ----------------------------------------------------------------------
+const isShieldOrMap = (url) => {
+  if (!url) return true;
+  const lurl = url.toLowerCase();
+  return lurl.includes('.svg') || lurl.includes('escut') || lurl.includes('escudo') || lurl.includes('mapa') || lurl.includes('map') || lurl.includes('bandera') || lurl.includes('flag') || lurl.includes('locator');
+};
+
 const TownWikipediaEnricher = ({ town, children }) => {
   const [wikiData, setWikiData] = useState(() => {
-    const cached = localStorage.getItem(`wiki_enrich_${town.name}`);
+    const cached = localStorage.getItem(`wiki_enrich_v2_${town.name}`);
     return cached ? JSON.parse(cached) : null;
   });
 
   useEffect(() => {
     let isMounted = true;
     if (!wikiData) {
-      wikipediaService.getTownSummary(town.name).then((data) => {
+      wikipediaService.getTownSummary(town.name).then(async (data) => {
         if (data && isMounted) {
+          let bestImage = data.original_image || data.thumbnail;
+          if (isShieldOrMap(bestImage)) {
+             try {
+               const gallery = await wikipediaService.getTownImages(town.name);
+               const validPhotos = gallery.filter(img => !isShieldOrMap(img.url));
+               if (validPhotos.length > 0) {
+                 bestImage = validPhotos[0].url;
+               }
+             } catch (e) {
+               console.warn("Error fetching alternate images for", town.name, e);
+             }
+          }
           const info = {
-            image: data.original_image || data.thumbnail,
+            image: bestImage,
             summary: data.extract,
             page_url: data.page_url,
           };
-          setWikiData(info);
-          localStorage.setItem(`wiki_enrich_${town.name}`, JSON.stringify(info));
+          if (isMounted) {
+            setWikiData(info);
+            localStorage.setItem(`wiki_enrich_v2_${town.name}`, JSON.stringify(info));
+          }
         }
       });
     }
@@ -107,42 +130,25 @@ const Towns = () => {
   const searchParams = new URLSearchParams(location.search);
   const currentTab = searchParams.get('tab') || 'pobles';
   const [townSearch, setTownSearch] = useState("");
-  const [viewMode, setViewMode] = useState(
-    localStorage.getItem("towns_view_mode") || "grid",
-  );
+  const { viewMode, setViewMode, columnCount, containerRef } = useViewMode("towns_view_mode", "grid");
   
-  const searchRef = useRef(null);
-  const containerRef = useRef(null);
-  const [columnCount, setColumnCount] = useState(() => {
-    if (typeof window !== 'undefined') {
-        const width = window.innerWidth;
-        if (viewMode === 'list' || viewMode === 'single') return 1;
-        if (width < 768) return 1;
-        if (width < 1024) return 2;
-        if (width < 1536) return 3;
-        return 4;
+  const [showWikiBanner, setShowWikiBanner] = useState(() => {
+    if (typeof window !== "undefined") {
+       return localStorage.getItem("hide_wiki_banner") !== "true" && sessionStorage.getItem("hide_wiki_banner_session") !== "true";
     }
-    return 1;
+    return true;
   });
 
-  useEffect(() => {
-      if (!containerRef.current) return;
-      const observer = new ResizeObserver(entries => {
-          for (let entry of entries) {
-              const width = entry.contentRect.width;
-              if (viewMode === 'single' || viewMode === 'list') {
-                  setColumnCount(1);
-              } else {
-                  if (width < 768) setColumnCount(1);
-                  else if (width < 1024) setColumnCount(2);
-                  else if (width < 1536) setColumnCount(3);
-                  else setColumnCount(4);
-              }
-          }
-      });
-      observer.observe(containerRef.current);
-      return () => observer.disconnect();
-  }, [viewMode]);
+  const handleDismissWikiBanner = () => {
+    setShowWikiBanner(false);
+    if (profile) {
+       localStorage.setItem("hide_wiki_banner", "true");
+    } else {
+       sessionStorage.setItem("hide_wiki_banner_session", "true");
+    }
+  };
+
+  const searchRef = useRef(null);
 
   const handleFABClick = () => {
     if (searchRef.current) {
@@ -259,7 +265,7 @@ const Towns = () => {
 
 
 
-      <div className="sticky top-0 w-full z-dropdown shadow-md">
+      <div className="sticky top-0 w-full z-50 shadow-md">
           <ContextualHeader
             ref={searchRef}
             searchTerm={townSearch}
@@ -267,7 +273,6 @@ const Towns = () => {
             viewMode={viewMode}
             onViewModeChange={(mode) => {
               setViewMode(mode);
-              localStorage.setItem("towns_view_mode", mode);
             }}
             placeholder={
               currentTab === "esdeveniments"
@@ -291,25 +296,35 @@ const Towns = () => {
 
       <div className="towns-content-area" ref={containerRef}>
         {currentTab === "pobles" && (
-          <div className={`mx-auto w-full transition-all duration-300 ${viewMode === 'grid' ? 'max-w-none px-2 sm:px-6 lg:px-8' : 'max-w-5xl px-4'}`}>
-            <div className={`view-mode-${viewMode}`} style={{ display: 'grid', gridTemplateColumns: `repeat(${viewMode === 'list' || viewMode === 'single' ? 1 : columnCount}, minmax(0, 1fr))`, gap: '24px', padding: '24px 16px', paddingBottom: '32px' }}>
-              
+          <UniversalGridWrapper viewMode={viewMode}>
+            <UniversalGridRow viewMode={viewMode} columnCount={columnCount} className="pt-6 pb-8">
               {/* ATRIBUCIÓ OBLIGATÒRIA I AGRAÏMENT A WIKIPEDIA (IMPERATIU LEGAL) */}
-              <div className="col-span-full mb-2 lg:mb-4 p-4 lg:p-6 bg-gradient-to-r from-black/40 via-black/20 to-transparent dark:from-white/10 dark:via-white/5 border-l-4 border-l-[var(--theme-accent-primary)] rounded-r-xl backdrop-blur-sm animate-in-up">
-                <div className="flex gap-4 items-start">
-                    <Info size={24} className="text-[var(--theme-accent-primary)] shrink-0 mt-1" />
-                    <div>
-                        <h4 className="text-sm md:text-md font-bold text-white tracking-widest uppercase mb-1 drop-shadow-md">
-                            🏛️ Patrimoni Obert Connectat
-                        </h4>
-                        <p className="text-xs md:text-sm text-white/80 leading-relaxed max-w-4xl">
-                            Les imatges històriques principals i els textos descriptius fonamentals exposats en aquest directori de pobles reben la injecció en temps real del coneixement estructurat per la comunitat global a <a href="https://ca.wikipedia.org" target="_blank" rel="noopener noreferrer" className="text-[var(--theme-accent-primary)] hover:underline font-bold">Wikipedia</a> i <a href="https://commons.wikimedia.org" target="_blank" rel="noopener noreferrer" className="text-[var(--theme-accent-primary)] hover:underline font-bold">Wikimedia Commons</a>, d'acord amb la llicència <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer" className="opacity-70 hover:opacity-100 hover:underline">CC BY-SA 3.0 / 4.0</a>. 
-                            <br/><br/>
-                            Des de l'equip de *Sóc de Poble*, volem expressar el nostre etern agraïment a l'esforç col·lectiu i desinteressat per preservar el llegat antropològic d'Alacant. La memòria no es destrueix, es comparteix.
-                        </p>
+              {showWikiBanner && (
+                <div className="col-span-full mb-6 relative p-6 rounded-2xl bg-[#FF6D23]/5 dark:bg-[#FF6D23]/10 border border-[#FF6D23]/20 dark:border-[#FF6D23]/10">
+                  <button 
+                    onClick={handleDismissWikiBanner}
+                    className="absolute top-4 right-4 text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors p-1"
+                    aria-label="Tancar avís"
+                  >
+                    <X size={20} />
+                  </button>
+                  <div className="flex flex-col md:flex-row gap-4 items-start md:items-center">
+                    <div className="flex-shrink-0 p-3 bg-[#FF6D23]/10 rounded-xl text-[#FF6D23]">
+                      <Info size={24} />
                     </div>
+                    <div className="flex-1 pr-8">
+                      <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
+                        🏛️ Patrimoni Obert Connectat
+                      </h4>
+                      <p className="text-sm text-gray-800 dark:text-gray-200 leading-relaxed">
+                        Les imatges històriques principals i els textos descriptius fonamentals s’enriqueixen en temps real gràcies al coneixement col·lectiu actiu de <a href="https://ca.wikipedia.org" target="_blank" rel="noopener noreferrer" className="text-[#FF6D23] hover:underline font-semibold">Wikipedia</a> i <a href="https://commons.wikimedia.org" target="_blank" rel="noopener noreferrer" className="text-[#FF6D23] hover:underline font-semibold">Wikimedia Commons</a>, d'acord amb la llicència <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer" className="underline">CC BY-SA 4.0</a>.
+                        <br/>
+                        <span className="mt-2 block font-medium">La memòria no es destrueix, es comparteix.</span>
+                      </p>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              )}
 
               {filteredTowns.length > 0 ? (
                 filteredTowns.map((town) => {
@@ -390,8 +405,8 @@ const Towns = () => {
                   </button>
                 </div>
               )}
-            </div>
-          </div>
+            </UniversalGridRow>
+          </UniversalGridWrapper>
         )}
 
         {currentTab === "esdeveniments" && (
@@ -441,8 +456,8 @@ const Towns = () => {
                 <p>Prova amb altres paraules o etiquetes.</p>
               </div>
             ) : (
-              <div className={`mx-auto w-full transition-all duration-300 ${viewMode === 'grid' ? 'max-w-none px-2 sm:px-6 lg:px-8' : 'max-w-5xl px-4'}`}>
-                <div className={`view-mode-${viewMode}`} style={{ display: 'grid', gridTemplateColumns: `repeat(${viewMode === 'list' || viewMode === 'single' ? 1 : columnCount}, minmax(0, 1fr))`, gap: '24px', padding: '24px 16px', paddingBottom: '32px' }}>
+              <UniversalGridWrapper viewMode={viewMode}>
+                <UniversalGridRow viewMode={viewMode} columnCount={columnCount} className="pt-6 pb-8">
                   {filteredEvents.map((event) => (
                     <div key={event.id} className="card-rizoma-wrapper animate-in w-full flex">
                         <UniversalCard
@@ -486,8 +501,8 @@ const Towns = () => {
                         </UniversalCard>
                     </div>
                   ))}
-                </div>
-              </div>
+                </UniversalGridRow>
+              </UniversalGridWrapper>
             )}
           </div>
         )}
@@ -502,8 +517,8 @@ const Towns = () => {
               </p>
             </section>
 
-            <div className={`mx-auto w-full transition-all duration-300 ${viewMode === 'grid' ? 'max-w-[1600px] px-2 sm:px-6' : 'max-w-3xl'}`}>
-                <div className="essences-grid view-mode-grid" style={{ display: 'grid', gridTemplateColumns: `repeat(${columnCount}, minmax(0, 1fr))`, gap: '24px', padding: '0 16px', paddingBottom: '24px' }}>
+            <UniversalGridWrapper viewMode={viewMode}>
+                <UniversalGridRow viewMode={viewMode} columnCount={columnCount} className="pb-6">
                   {/* OLI DE LA TORRE */}
                   <UniversalCard
                     title="Oli de La Torre (Verge Extra)"
@@ -584,8 +599,8 @@ const Towns = () => {
                       )}
                     </div>
                   </UniversalCard>
-                </div>
-            </div>
+                </UniversalGridRow>
+            </UniversalGridWrapper>
           </div>
         )}
       </div>

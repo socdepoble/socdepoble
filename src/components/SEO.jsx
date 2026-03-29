@@ -38,9 +38,17 @@ const SEO = ({
       canonicalUrl = `${baseUrl}${canonicalUrl}`;
   }
   
-  // [VALIDACIÓ] Imatge per defecte (OG Image master)
-  const ogImage = image?.startsWith('http') ? image : `${baseUrl}${image || '/og-image-batega-v11.png?v=beta-sollutia'}`;
+  // [HOTFIX] Extraure imatge de l'array si ve compresa així des de dades_mock
+  const getImageUrl = (img) => {
+    if (!img) return '';
+    if (typeof img === 'string') return img;
+    if (Array.isArray(img) && img.length > 0) return getImageUrl(img[0]);
+    return '';
+  };
+  const resolvedImage = getImageUrl(image);
   
+  // [VALIDACIÓ] Imatge per defecte (OG Image master)
+  const ogImage = resolvedImage?.startsWith('http') ? resolvedImage : `${baseUrl}${resolvedImage || '/og-image.png'}`;  
   // [VALIDACIÓ] Descripció per defecte
   const defaultDescription = 'La xarxa social rural sobirana. Connectant pobles, preservant memòria, bategant en comunitat.';
   const metaDescription = description || defaultDescription;

@@ -295,7 +295,7 @@ const ChatList = () => {
             placeholder={t("chat.search_placeholder")}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full h-10 bg-[var(--bg-master)] border border-[var(--border-master)] rounded-[28px] pl-12 pr-4 text-sm font-black text-[var(--text-main)] focus:outline-none focus:border-[var(--text-main)]/30 focus:bg-[var(--bg-master)] transition-all placeholder:text-[var(--text-muted)] uppercase tracking-widest shadow-inner shadow-black/5"
+            className="w-full h-10 bg-[var(--bg-master)] border border-[var(--border-master)] rounded-[28px] pl-12 pr-4 text-sm font-black text-[var(--text-main)] focus:outline-none focus:border-[var(--text-main)]/30 focus:bg-[var(--bg-master)] transition-all placeholder:text-[var(--text-muted)] shadow-inner shadow-black/5"
           />
         </div>
       </header>
@@ -313,7 +313,7 @@ const ChatList = () => {
                         } chat-item hover:bg-[var(--bg-panel)]`}
             >
               {chat.tag && (
-                <span className="absolute top-3 right-3 bg-theme-base text-[var(--theme-accent-primary)] text-[10px] px-2 py-1 rounded border border-[var(--theme-accent-primary)]/40 font-black tracking-wider uppercase shadow-md leading-none z-10">
+                <span className="absolute top-3 right-4 bg-[var(--theme-accent-primary)]/10 backdrop-blur-md text-[var(--theme-accent-primary)] text-[9px] px-2.5 py-1 rounded-full border border-[var(--theme-accent-primary)]/30 font-black tracking-[0.15em] uppercase shadow-sm leading-none z-10">
                   {chat.tag}
                 </span>
               )}
@@ -326,17 +326,20 @@ const ChatList = () => {
                 />
               </div>
               <div className="flex-1 min-w-0 flex flex-col justify-center ml-2">
-                <div className="flex justify-between items-center mb-[2px]">
-                  <div className="font-bold text-[19px] text-[var(--theme-accent-primary)] truncate pr-16 block transition-colors flex-1 tracking-tight leading-tight">
+                 <div className="flex justify-between items-center mb-[2px]">
+                  <h4 className="text-lg font-black text-[var(--theme-accent-secondary)] m-0 truncate pr-20 block transition-colors flex-1 tracking-tight leading-tight drop-shadow-sm">
                     {chat.other_info?.name ||
                       (chat.participant_1_id === user?.id
                         ? chat.p2_info?.name
                         : chat.p1_info?.name) ||
                       "Sóc de Poble"}
-                  </div>
+                  </h4>
                 </div>
                 <div className="flex justify-between items-center gap-2">
-                  <div className="text-[16px] text-theme-text truncate leading-none flex-1 opacity-80 font-medium">
+                  <div 
+                    className="text-[16px] truncate leading-none flex-1 font-medium"
+                    style={{ color: 'var(--text-chat-snippet)' }}
+                  >
                     {chat.last_message_content ||
                       t("chat.beating_with_socdepoble")}
                   </div>
@@ -346,7 +349,10 @@ const ChatList = () => {
                         chat.last_message_time,
                       );
                       return (
-                        <div className="text-[14px] text-gray-500 font-bold">
+                        <div 
+                          className="text-[14px] font-bold"
+                          style={{ color: 'var(--text-chat-time)' }}
+                        >
                           {time || day}
                         </div>
                       );

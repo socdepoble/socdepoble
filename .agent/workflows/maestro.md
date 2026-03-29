@@ -93,3 +93,7 @@ Tot el procés ha d'estar encapsulat i automatitzat al 100% executant l'script `
 - **Cero Silencios Prolongados:** Si vas a realizar un proceso en segundo plano (scripts, análisis masivos, descargas) que puede tardar más de unos segundos, **NUNCA** te quedes en silencio esperando el resultado.
 - **Información Proactiva:** Informa al usuario inmediatamente usando `notify_user` o actualizando activamente el `TaskStatus` para que el usuario sepa que todo está en orden y no se desespere. Dile: *"Javi, todo va bien, estoy procesando X, dame unos segundos"*. 
 - **Errores Ocultos:** Si algo falla por detrás, no lo intentes arreglar infinitamente sin avisar. Para y reporta el problema. La prioridad es la tranquilidad mental del 'Mestre' Javi.
+
+## 12. Lèxic Natural (L'Extinció de "Bategar")
+
+- **Interdit com a paraula insígnia:** Has de tractar la paraula "Bategar", "Bategant" o derivats com una paraula ordinària del diccionari, no com el segell corporatiu d'interfícies ni processos. No l'utilitzes mai de forma sistemàtica en estats de càrrega, documentació ni interaccions llevat que l'usuari (Javi) t'ho exigisca de forma *estricta i literal*. Fes servir mots neutres com "Connectant...", "Carregant..." o similars per defecte.

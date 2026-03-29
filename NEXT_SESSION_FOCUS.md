@@ -6,6 +6,9 @@
 3. **Desplegament**: Codi pujat a SiteGround automatitzat, purgat de `CSS ghosts` i preparat per al públic ("Color Clar per defecte, competint d'igual a igual amb WhatsApp").
 4. **Sistema de Disseny CMS-Ready**: `<Stack>` i `<Text>` estan al cor de Sóc de Poble. Les bases arquitectòniques proposades per Qwen i DeepSeek estan establides al 100%.
 
+## 🚨 PRIORITAT ZERO (PRÒXIMA SESSIÓ)
+**Exterminar Bucle 400 Bad Request**: S'ha detectat un bucle de peticions `market_items` a la consola que inunda de roig l'apartat Network (`Failed to load resource: 400`). S'ha de depurar com a ABSOLUTA PRIORITAT abans d'iniciar cap treball de la Fase 15 i netejar la consola completament.
+
 ## 🧱 Protocol Aprovat: Enderroc i Reconstrucció (Zero Fantasmes)
 S'ha establert com a metodologia oficial per a la purga de codi antic (CSS ghosts, components desfasats) la tècnica de **"Tombar l'habitació"**:
 1. Crear un arxiu Nou i pur (ex: `Presentacio.jsx`).

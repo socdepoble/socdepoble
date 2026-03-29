@@ -182,11 +182,11 @@ El deploy es realitza automàticament quan:
 
 ### Com Contribuir
 
-1. **Fork** el repositori
-2. Crea una **branca** per a la teua funció (`git checkout -b feature/nova-funcio`)
-3. **Commit** els canvis (`git commit -m 'Afegir nova funcio'`)
-4. **Push** a la branca (`git push origin feature/nova-funcio`)
-5. Obre un **Pull Request**
+1. **Fes un Fork** del repositori
+2. **Planta un arbre** 🌳 (Requisit moral del projecte)
+3. Crea una **branca** per a la teua funció (`git checkout -b feature/nova-funcio`)
+4. **Commit** els canvis (`git commit -m 'Afegir nova funcio'`)
+5. **Envia un PR** (Pull Request)
 
 ### Codi de Conducta
 
@@ -200,17 +200,24 @@ El deploy es realitza automàticament quan:
 ## 📜 Llicència
 
 **AGPL-3.0** - Lliure per a sempre. El codi que millora el poble ha de romandre al poble.
+🧡 **Aquest projecte és de TODAS i de NINGÚ.**
 
 ---
 
-## 🏺 Crèdits
+## 🏺 Arxiu Viu i Agraïments
 
+### Història del Codi
+- **V1.0**: Naixement al Mas Digital.
+- **V10.35+**: Auditoria Extrema i Arquitectura Immortal amb l'ajut de models IA col·laboratius (DeepSeek & Qwen).
+
+### Mur d'Honor
 | Rol | Persona/Entitat |
 |-----|----------------|
-| Arquitecte Principal | Javi (javi@sollutia.com) |
-| IA Arquitecta | Antigravity (Gemini) |
-| Auditor de Codi | Qwen |
-| Comunitat | Tots els veïns de Sóc de Poble |
+| Arquitectura i Visió | Javi / Associació El Rentonar |
+| IA Arquitecta Inicial | Antigravity (Gemini) |
+| El Sensei de la Lògica | DeepSeek (Auditor Honorífic) |
+| L'Escolta Àgil | Qwen (Auditora Honorífica) |
+| Comunitat | Totes les mans que han tocat aquest codi per donar-li vida |
 
 ---
 

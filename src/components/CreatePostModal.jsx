@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { X, Image as ImageIcon, Send, Loader2, MessageSquare, Sparkles, Camera, Plus, Shield, BookOpen, ArrowLeft } from 'lucide-react';
+import { X, Image as ImageIcon, Send, Loader2, MessageSquare, Sparkles, Camera, Plus, Shield, BookOpen, ArrowLeft, Maximize2, Minimize2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { supabaseService } from '../services/supabaseService';
 import { hapticService } from '../services/hapticService';
@@ -8,13 +8,14 @@ import { iaiaService } from '../services/iaiaService';
 import { logger } from '../utils/logger';
 import MagicPregoner from './MagicPregoner';
 import CaptureStudio from './CaptureStudio';
+import RichTextEditor from './RichTextEditor';
 import './CreatePostModal.css';
 
 const PREDEFINED_TAGS = ['Esdeveniment', 'Avís', 'Consulta', 'Proposta'];
 
 const CreatePostModal = ({ isOpen, onClose, initialPobles = [], editMode = false, postData = null, initialFile = null }) => {
     const { t } = useTranslation();
-    const { user, profile } = useAuth();
+    const { user, profile, isAdmin } = useAuth();
     const [content, setContent] = useState(editMode && postData ? postData.content : '');
     const [selectedTowns, setSelectedTowns] = useState(editMode && postData ? postData.town_ids || [postData.town_id] : initialPobles);
     const [loading, setLoading] = useState(false);
@@ -26,6 +27,9 @@ const CreatePostModal = ({ isOpen, onClose, initialPobles = [], editMode = false
     const [iaiaAnalyzing, setIaiaAnalyzing] = useState(false);
     const [isCaptureOpen, setIsCaptureOpen] = useState(false);
     const fileReaderRef = useRef(null);
+
+    // Page Genesis logic
+    const isArticleMode = postType === 'page';
 
     useEffect(() => {
         return () => {
@@ -84,7 +88,7 @@ const CreatePostModal = ({ isOpen, onClose, initialPobles = [], editMode = false
                 ai_percentage: editMode && postData ? postData.ai_percentage : 0,
                 human_percentage: editMode && postData ? postData.human_percentage : 100,
                 is_playground: false,
-                book_title: postType === 'book' ? bookTitle : null,
+                book_title: (postType === 'book' || postType === 'page') ? bookTitle : null,
                 chapter_number: postType === 'book' ? parseInt(chapterNumber) || null : null
             };
 
@@ -150,78 +154,101 @@ const CreatePostModal = ({ isOpen, onClose, initialPobles = [], editMode = false
                 onClick={onClose}
             ></div>
             
-            <div className="relative z-50 w-full max-w-[420px] h-[85vh] md:h-[90vh] flex flex-col rounded-[24px] shadow-2xl bg-[#2A241D] text-white overflow-hidden border border-white/5">
+            <div className={`relative z-50 w-full transition-all duration-300 ${isArticleMode ? 'max-w-4xl h-[95vh]' : 'max-w-[420px] h-[85vh] md:h-[90vh]'} flex flex-col rounded-[24px] shadow-2xl bg-[#2A241D] text-white overflow-hidden border border-[var(--theme-accent-primary)]/20`}>
                 
                 {/* Header */}
-                <div className="flex items-center justify-between p-5 border-b border-white/5">
-                    <button onClick={onClose} className="p-2 -ml-2 hover:bg-white/10 rounded-full transition-colors text-white/70 hover:text-white">
-                        <ArrowLeft size={24} />
-                    </button>
-                    <h2 className="text-[20px] font-bold tracking-tight text-white">{t('common.publish')}</h2>
-                    <div className="flex items-center gap-4">
-                        <button className="text-white/70 hover:text-white transition-colors">
-                            {/* Dummy icon for Globe matching screenshot */}
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                <div className="flex items-center justify-between p-5 border-b border-[var(--border-master)] bg-[var(--bg-panel-elevated)]">
+                    <div className="flex items-center gap-3">
+                        <button onClick={onClose} className="p-2 -ml-2 text-[var(--text-muted)] hover:bg-[var(--bg-panel)] rounded-full transition-colors hover:text-[var(--text-main)]">
+                            <ArrowLeft size={24} />
                         </button>
-                        <button className="text-white/70 hover:text-white transition-colors">
-                            {/* Dummy icon for Moon matching screenshot */}
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-                        </button>
+                        <h2 className="text-[20px] font-bold tracking-tight text-[var(--text-main)] flex items-center gap-2">
+                            {isArticleMode ? <BookOpen size={20} className="text-[var(--theme-accent-primary)]" /> : null}
+                            {isArticleMode ? 'Article Genesis' : t('common.publish')}
+                        </h2>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        {isAdmin && (
+                            <button 
+                                onClick={() => {
+                                    hapticService.bategat();
+                                    setPostType(isArticleMode ? 'post' : 'page');
+                                }}
+                                className={`px-3 py-1.5 rounded-xl font-bold flex items-center gap-2 transition-all ${isArticleMode ? 'bg-[var(--theme-accent-primary)] text-white shadow-md' : 'bg-[var(--bg-panel)] text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-[var(--border-master)] border border-[var(--border-master)]'}`}
+                                title="Lògica d'expansió: Convertir a Article"
+                            >
+                                {isArticleMode ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
+                                <span className="text-sm hidden sm:inline">{isArticleMode ? 'Mode Mur' : 'Mode Article (Page Genesis)'}</span>
+                            </button>
+                        )}
                     </div>
                 </div>
 
                 {/* Form Body */}
                 <div className="flex-1 overflow-y-auto p-5 space-y-5 custom-scrollbar pb-24">
                     
-                    {/* Títol */}
-                    <div className="space-y-1.5">
-                        <label className="text-[14px] font-medium text-white/80">{t('market.item_title')}</label>
-                        <input 
-                            type="text" 
-                            placeholder={t('market.title_placeholder')}
-                            className="w-full bg-[#3B332A] border-none text-white placeholder-white/40 rounded-xl px-4 py-3.5 focus:ring-2 focus:ring-orange-500/50 outline-none transition-all"
-                            value={bookTitle}
-                            onChange={(e) => setBookTitle(e.target.value)}
-                        />
-                    </div>
-
-                    {/* Descripció */}
-                    <div className="space-y-1.5">
-                        <label className="text-[14px] font-medium text-white/80">{t('groups.group_description')}</label>
-                        <textarea 
-                            placeholder={t('market.description_placeholder')}
-                            className="w-full h-32 bg-[#3B332A] border-none text-white placeholder-white/40 rounded-xl px-4 py-3.5 focus:ring-2 focus:ring-orange-500/50 outline-none transition-all resize-none"
-                            value={content}
-                            onChange={(e) => setContent(e.target.value)}
-                        />
-                    </div>
-
-                    {/* Grid: Preu & Categoria */}
-                    <div className="grid grid-cols-2 gap-4">
-                        <div className="space-y-1.5">
-                            <label className="text-[14px] font-medium text-white/80">{t('market.price_optional')}</label>
-                            <div className="relative">
-                                <input 
-                                    type="text" 
-                                    placeholder="250"
-                                    className="w-full bg-[#3B332A] border-none text-white placeholder-white/40 rounded-xl pl-4 pr-10 py-3.5 focus:ring-2 focus:ring-orange-500/50 outline-none transition-all"
-                                />
-                                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-white/60 font-medium">€</span>
-                            </div>
+                    {/* Títol (always visible for article mode) */}
+                    {(isArticleMode || bookTitle) && (
+                        <div className="space-y-1.5 opacity-in">
+                            <label className="text-[14px] font-medium text-white/80">Títol {isArticleMode && '*'}</label>
+                            <input 
+                                type="text" 
+                                placeholder={isArticleMode ? "Títol de l'article o projecte..." : t('market.title_placeholder')}
+                                className="w-full bg-[#3B332A] border-none text-white placeholder-white/40 rounded-xl px-4 py-3.5 focus:ring-2 focus:ring-orange-500/50 outline-none transition-all font-bold text-lg"
+                                value={bookTitle}
+                                onChange={(e) => setBookTitle(e.target.value)}
+                            />
                         </div>
-                        <div className="space-y-1.5">
-                            <label className="text-[14px] font-medium text-white/80">{t('market.category')}</label>
-                            <select className="w-full bg-[#3B332A] border-none text-white/80 rounded-xl px-4 py-3.5 appearance-none focus:ring-2 focus:ring-orange-500/50 outline-none transition-all cursor-pointer">
-                                <option>{t('market.select')}</option>
-                                <option>{t('market.farm_products')}</option>
-                                <option>{t('market.services')}</option>
-                            </select>
-                            {/* Custom caret */}
-                            <div className="absolute right-9 top-[372px] md:top-[388px] pointer-events-none text-white/50">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                            </div>
+                    )}
+
+                    {/* Descripció / Editor */}
+                    <div className="space-y-1.5">
+                        <div className="flex justify-between items-center mb-1">
+                            <label className="text-[14px] font-medium text-white/80">{isArticleMode ? 'Contingut Ric' : t('groups.group_description')}</label>
+                            {!isArticleMode && !bookTitle && (
+                                <button className="text-[11px] font-bold text-[var(--theme-accent-primary)] hover:underline" onClick={() => setBookTitle('Títol Opcional')}>
+                                    + Afegir Títol
+                                </button>
+                            )}
+                        </div>
+                        <div className={`transition-all ${isArticleMode ? '-mx-2 sm:mx-0' : ''}`}>
+                            <RichTextEditor 
+                                content={content} 
+                                onChange={setContent} 
+                                minimal={!isArticleMode} 
+                                editable={true}
+                            />
                         </div>
                     </div>
+
+                    {/* Grid: Preu & Categoria (Only in minimal mode) */}
+                    {!isArticleMode && (
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="space-y-1.5">
+                                <label className="text-[14px] font-medium text-white/80">{t('market.price_optional')}</label>
+                                <div className="relative">
+                                    <input 
+                                        type="text" 
+                                        placeholder="250"
+                                        className="w-full bg-[#3B332A] border-none text-white placeholder-white/40 rounded-xl pl-4 pr-10 py-3.5 focus:ring-2 focus:ring-orange-500/50 outline-none transition-all"
+                                    />
+                                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-white/60 font-medium">€</span>
+                                </div>
+                            </div>
+                            <div className="space-y-1.5">
+                                <label className="text-[14px] font-medium text-white/80">{t('market.category')}</label>
+                                <select className="w-full bg-[#3B332A] border-none text-white/80 rounded-xl px-4 py-3.5 appearance-none focus:ring-2 focus:ring-orange-500/50 outline-none transition-all cursor-pointer">
+                                    <option>{t('market.select')}</option>
+                                    <option>{t('market.farm_products')}</option>
+                                    <option>{t('market.services')}</option>
+                                </select>
+                                {/* Custom caret */}
+                                <div className="absolute right-9 top-[372px] md:top-[388px] pointer-events-none text-white/50">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                </div>
+                            </div>
+                        </div>
+                    )}
 
                     {/* Afegeix imatges */}
                     <div className="space-y-3 pt-2">

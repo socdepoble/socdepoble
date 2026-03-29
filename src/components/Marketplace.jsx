@@ -23,6 +23,8 @@ import ContextualHeader from './ContextualHeader';
 import { MOCK_MARKET_ITEMS } from '../data';
 import './Marketplace.css';
 import { marketService } from '../services/marketService';
+import { useViewMode } from '../hooks/useViewMode';
+import { UniversalGridWrapper, UniversalGridRow } from './UniversalGrid';
 
 const Market = ({ searchTerm = '' }) => {
     const { t } = useTranslation();
@@ -36,7 +38,7 @@ const Market = ({ searchTerm = '' }) => {
     const [hasMore, setHasMore] = useState(true);
     const [page, setPage] = useState(0);
     const [isIAIAFiltering] = useState(localStorage.getItem('isIAIAFiltering') === 'true');
-    const [viewMode, setViewMode] = useState(localStorage.getItem('market_view_mode') || 'grid');
+    const { viewMode, setViewMode, columnCount, containerRef, effectiveViewMode } = useViewMode('market_view_mode', 'grid');
     const [internalSearchTerm, setInternalSearchTerm] = useState('');
     const PAGE_SIZE = 100;
 
@@ -187,7 +189,7 @@ const Market = ({ searchTerm = '' }) => {
     const [selectedItemForDetail, setSelectedItemForDetail] = useState(null);
 
     const handleAstroPayment = async (item) => {
-        const confirm = window.confirm(`Vols activar un Bategat Econòmic (Astro) de ${item.price} per ${item.title}? L'IAIA segellarà la transacció immediatament al teu mòbil.`);
+        const confirm = window.confirm(t('market.payment_confirm', { price: item.price, title: item.title }));
         if (!confirm) return;
 
         const itemId = item.uuid || item.id;
@@ -220,7 +222,7 @@ const Market = ({ searchTerm = '' }) => {
                     }, 3000);
                 }, 500);
             } else {
-                alert(`Error en el bategat: ${result.error}`);
+                alert(t('market.payment_error', { error: result.error }));
                 setPayingItemId(null);
             }
         } catch (err) {
@@ -231,7 +233,7 @@ const Market = ({ searchTerm = '' }) => {
 
     const handleRecipeClick = async (item) => {
         hapticService.batec();
-        const loadingMsg = `👵 La Tia Maria està pensant una idea per a: ${item.title}...`;
+        const loadingMsg = t('market.tia_thinking', { title: item.title });
 
         // Simple optimistic UI / Toast if available, but let's use a themed alert for now
         // to match the user's requested behavior.
@@ -240,9 +242,9 @@ const Market = ({ searchTerm = '' }) => {
         try {
             const result = await geminiService.getMarketRecipe(item.title, item.description);
             if (result.error) {
-                alert("Ay fill, no m'escolte bé ara mateix.");
+                alert(t('market.tia_error'));
             } else {
-                alert(`👵 LA TIA MARIA DIU:\n\n"${result.text}"`);
+                alert(t('market.tia_says', { text: result.text }));
             }
         } catch (err) {
             logger.error('[Market] Recipe error:', err);
@@ -273,51 +275,17 @@ const Market = ({ searchTerm = '' }) => {
         navigate(`/${type}/${targetId}`);
     };
 
-    const [columnCount, setColumnCount] = useState(() => {
-        if (typeof window !== 'undefined') {
-            const width = window.innerWidth;
-            if (viewMode === 'list' || viewMode === 'single') return 1;
-            if (width < 850) return 1;
-            if (width < 1300) return 2;
-            if (width < 1800) return 3;
-            return 4;
-        }
-        return 1;
-    });
-    const containerRef = React.useRef(null);
-
-    useEffect(() => {
-        if (!containerRef.current) return;
-        
-        const observer = new ResizeObserver(entries => {
-            for (let entry of entries) {
-                const width = entry.contentRect.width;
-                if (viewMode === 'single' || viewMode === 'list') {
-                    setColumnCount(1);
-                } else {
-                    if (width < 850) setColumnCount(1);
-                    else if (width < 1300) setColumnCount(2);
-                    else if (width < 1800) setColumnCount(3);
-                    else setColumnCount(4);
-                }
-            }
-        });
-        
-        observer.observe(containerRef.current);
-        return () => observer.disconnect();
-    }, [viewMode]);
-
     const rowCount = Math.ceil(filteredItems.length / columnCount);
 
     // Estimació dinàmica segons mode de vista
     const estimateItemSize = React.useCallback(() => {
-        return viewMode === 'list' ? 80 : 900;
-    }, [viewMode]);
+        return effectiveViewMode === 'list' ? 80 : 900;
+    }, [effectiveViewMode]);
 
     const virtualizer = useWindowVirtualizer({
         count: rowCount,
         estimateSize: estimateItemSize,
-        overscan: viewMode === 'list' ? 5 : 3, // Menys overscan en grid
+        overscan: effectiveViewMode === 'list' ? 5 : 3, // Menys overscan en grid
     });
 
     // Cleanup del virtualizer
@@ -385,9 +353,8 @@ const Market = ({ searchTerm = '' }) => {
                     viewMode={viewMode}
                     onViewModeChange={(mode) => {
                         setViewMode(mode);
-                        localStorage.setItem('market_view_mode', mode);
                     }}
-                    placeholder="Cerca al mercat..."
+                    placeholder={t('market.search_placeholder')}
                 />
             </div>
 
@@ -396,66 +363,62 @@ const Market = ({ searchTerm = '' }) => {
             {filteredItems.length === 0 ? (
                 <StatusLoader
                     type="empty"
-                    message={searchTerm ? `No s'ha trobat cap article per a "${searchTerm}"` : t('market.no_items')}
+                    message={searchTerm ? t('market.no_items_search', { term: searchTerm }) : t('market.no_items')}
                     onRetry={null}
                 />
             ) : (
-                <div 
-                    className={`market-list mx-auto w-full transition-all duration-300 ${viewMode === 'grid' ? 'max-w-none px-2 sm:px-6 lg:px-8' : 'max-w-5xl px-4'}`}
-                    style={{
-                        height: `${virtualizer.getTotalSize() + 36}px`,
-                        width: '100%',
-                        position: 'relative',
-                    }}
-                >
-                    {virtualizer.getVirtualItems().map((virtualRow) => {
-                        const startIndex = virtualRow.index * columnCount;
-                        const rowItems = filteredItems.slice(startIndex, startIndex + columnCount);
-                        
-                        return (
-                            <div
-                                key={virtualRow.key}
-                                data-index={virtualRow.index}
-                                ref={virtualizer.measureElement}
-                                className={`market-grid view-mode-${viewMode}`}
-                                style={{
-                                    position: 'absolute',
-                                    top: 0,
-                                    left: 0,
-                                    width: '100%',
-                                    transform: `translateY(${virtualRow.start + 36}px)`,
-                                    display: 'grid',
-                                    gridTemplateColumns: `repeat(${columnCount}, minmax(0, 1fr))`,
-                                    gap: '24px',
-                                    padding: '0 16px',
-                                    paddingBottom: '24px',
-                                    boxSizing: 'border-box'
-                                }}
-                            >
-                                {rowItems.map(item => {
-                                    const imageSources = item.image_url || item.images || item.image || '/images/assets/generic_market.png';
-                                    return (
-                                        <div key={item.uuid || item.id} className="card-rizoma-wrapper animate-in w-full h-full" style={{ height: '100%' }}>
-                                            <UniversalCard
-                                                item={item}
-                                                title={item.title}
-                                                excerpt={item.description}
-                                                subtitle={item.seller_name || item.seller || 'Sóc de Poble'}
-                                                image={imageSources}
-                                                onHeaderClick={() => handleHeaderClick(item)}
-                                                onRecipeClick={() => handleRecipeClick(item)}
-                                                mode="mercat"
-                                                className="market-item-standard"
-                                                variant="mercat"
-                                                viewMode={viewMode}
-                                            />
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        );
-                    })}
-                </div>
+                <UniversalGridWrapper viewMode={viewMode}>
+                    <div 
+                        className="market-list mx-auto w-full relative"
+                        style={{
+                            height: `${virtualizer.getTotalSize() + 36}px`
+                        }}
+                    >
+                        {virtualizer.getVirtualItems().map((virtualRow) => {
+                            const startIndex = virtualRow.index * columnCount;
+                            const rowItems = filteredItems.slice(startIndex, startIndex + columnCount);
+                            
+                            return (
+                                <UniversalGridRow
+                                    key={virtualRow.key}
+                                    viewMode={viewMode}
+                                    columnCount={columnCount}
+                                    className="market-grid"
+                                    {...{ "data-index": virtualRow.index }}
+                                    ref={virtualizer.measureElement}
+                                    style={{
+                                        position: 'absolute',
+                                        top: 0,
+                                        left: 0,
+                                        width: '100%',
+                                        transform: `translateY(${virtualRow.start + 36}px)`,
+                                    }}
+                                >
+                                    {rowItems.map(item => {
+                                        const imageSources = item.image_url || item.images || item.image || '/images/assets/generic_market.png';
+                                        return (
+                                            <div key={item.uuid || item.id} className="card-rizoma-wrapper animate-in w-full h-full" style={{ height: '100%' }}>
+                                                <UniversalCard
+                                                    item={item}
+                                                    title={item.title}
+                                                    excerpt={item.description}
+                                                    subtitle={item.seller_name || item.seller || 'Sóc de Poble'}
+                                                    image={imageSources}
+                                                    onHeaderClick={() => handleHeaderClick(item)}
+                                                    onRecipeClick={() => handleRecipeClick(item)}
+                                                    mode="mercat"
+                                                    className="market-item-standard"
+                                                    variant="mercat"
+                                                    viewMode={viewMode}
+                                                />
+                                            </div>
+                                        );
+                                    })}
+                                </UniversalGridRow>
+                            );
+                        })}
+                    </div>
+                </UniversalGridWrapper>
             )}
 
             {

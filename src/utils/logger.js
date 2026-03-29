@@ -27,13 +27,25 @@ export const SILENCE_PATTERNS = [
     'INITIAL_SESSION',
     'Violation',
     "Bypass d'Emergència",
-    "TIMEOUT_OPFS"
+    "TIMEOUT_OPFS",
+    "Update on reload",
+    "ServiceWorker registration",
+    "workbox",
+    "Precaching",
+    "PWA"
 ];
 
 export const checkSilence = (msg) => {
     if (!msg) return false;
-    const strMatch = SILENCE_PATTERNS.some(p => String(msg).includes(p));
-    return strMatch;
+    let text = typeof msg === 'string' ? msg : '';
+    if (!text) {
+        try {
+            text = JSON.stringify(msg);
+        } catch {
+            text = String(msg);
+        }
+    }
+    return SILENCE_PATTERNS.some(p => text.includes(p));
 };
 
 export const logger = {

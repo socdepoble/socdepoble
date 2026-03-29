@@ -12,11 +12,13 @@ import { MOCK_FEED, MOCK_MARKET_ITEMS } from '../data';
 import { supabaseService } from '../services/supabaseService';
 import './Archive.css';
 import { marketService } from '../services/marketService';
+import { useViewMode } from '../hooks/useViewMode';
+import { UniversalGridWrapper, UniversalGridRow } from '../components/UniversalGrid';
  
  const ArxiuOr = () => {
      const navigate = useNavigate();
      const { theme } = useTheme();
-     const [viewMode, setViewMode] = useState('masonry');
+     const { viewMode, setViewMode, columnCount, containerRef } = useViewMode('archive_view_mode', 'masonry');
      const [objects, setObjects] = useState([]);
      const [loading, setLoading] = useState(true);
      const [activeCollection, setActiveCollection] = useState('tots');
@@ -230,8 +232,10 @@ import { marketService } from '../services/marketService';
                      </div>
                  </header>
  
-                 <div className={`p-6 md:p-8 flex-1 overflow-y-auto ${viewMode === 'masonry' ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6' : 'space-y-4'}`}>
-                     {filteredObjects.length > 0 ? (
+                 <div ref={containerRef} className="flex-1 overflow-y-auto">
+                    <UniversalGridWrapper viewMode={viewMode}>
+                        <UniversalGridRow viewMode={viewMode} columnCount={columnCount} className="pt-6">
+                             {filteredObjects.length > 0 ? (
                          filteredObjects.map(obj => (
                              <article 
                                  key={obj.id} 
@@ -296,6 +300,8 @@ import { marketService } from '../services/marketService';
                              <p className="text-xs font-black uppercase tracking-widest opacity-40">No hi ha solatge en aquesta col·lecció</p>
                          </div>
                      )}
+                        </UniversalGridRow>
+                    </UniversalGridWrapper>
                  </div>
              </main>
          </div>

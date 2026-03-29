@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ArrowLeft, Edit2, ShieldAlert } from 'lucide-react';
+import { ArrowLeft, Edit2, ShieldAlert, Share2 } from 'lucide-react';
 import SEO from '../components/SEO';
 import GlobalFooter from '../components/GlobalFooter';
 import RichTextEditor from '../components/RichTextEditor';
@@ -8,61 +8,22 @@ import { useAuth } from '../context/AuthContext';
 import { supabase } from '../supabaseClient';
 import MediaViewerModal from '../components/MediaViewerModal';
 
-// El contingut per defecte per a la presentació del projecte
-const DefaultBookContent = `
-    <h1 class="uppercase text-[var(--theme-accent-primary)] font-black text-center w-full block">SÓC DE POBLE</h1>
-    <h2 class="italic opacity-90 text-center w-full block mt-0" style="margin-top:0">Portal de Pobles Connectats</h2>
-    <p class="font-bold text-center">Una XARXA SOCIAL DESCENTRALITZADA de PROGRAMARI LLIURE, per CONNECTAR i GEOLOCALITZAR recursos d'utilitat social, compartint informació, experiències i idees que faciliten el desenvolupament sostenible i tecnològic en entorns rurals, per posar en valor els recursos locals i mostrar l'atractiu dels pobles com a llocs on viure i treballar.</p>
-    
-    <h2 class="text-[var(--theme-accent-primary)] mt-12">SOBIRANIA DIGITAL</h2>
-    <img src="/assets/infographies/art_sobirania_v2.png" alt="Sobirania Digital" class="w-full rounded-2xl border border-[var(--border-master)] my-6" />
-    <p>La dada com a arrel, no com a mercaderia. En el Mas Digital, tu eres el propietari de la teua informació. Apostem per connexions horitzontals peer-to-peer, eliminant intermediaris extractius i garantint que el bategat del teu poble romanga privat i sobirà.</p>
-    
-    <h2 class="text-[var(--theme-accent-primary)] mt-12">DADES AMB TRELLAT</h2>
-    <img src="/assets/infographies/art_trellat_v3.png" alt="Dades amb Trellat" class="w-full rounded-2xl border border-[var(--border-master)] my-6" />
-    <p>Privacitat KM 0. Sols recollim allò que és essencial per a la convivència i el comerç local. Les teues dades no viatgen a servidors desconeguts, sinó que s'arrelen en el territori per generar utilitat real i protegir el futur rural.</p>
+// Es carregarà de forma dinàmica per externalitzar pes de l'arrel
+let CachedBookContent = null;
 
-    <h2 class="text-[var(--theme-accent-primary)] mt-12">MEMÒRIA VIVA</h2>
-    <img src="/assets/infographies/art_codig_v3.png" alt="Memòria Viva" class="w-full rounded-2xl border border-[var(--border-master)] my-6" />
-    <p>Un bategat que uneix generacions a través del codi i la saviesa popular. Garanteix que la intel·ligència artificial no oblide d'on venim. Implementem protocols que dignifiquen el passat mentre construïm el futur digital.</p>
-    
-    <h2 class="text-[var(--theme-accent-primary)] mt-12">LLICÈNCIA OBERTA</h2>
-    <blockquote>
-        <p>Aquest sistema és de codi obert per a ús comunitari i educatiu. L'ús comercial està subjecte a llicència del Mestre.</p>
-    </blockquote>
-
-    <h2 class="text-[var(--theme-accent-primary)] mt-12">IDENTITATS DEL MAS</h2>
-    <h3>SÓC DE POBLE</h3>
-    <p>Plataforma bategant per a la memòria viva i la governança d'un territori sobirà.</p>
-    <h3>EL RENTONAR</h3>
-    <p>Entitat que promou i empara aquest projecte des de la resistència cultural.</p>
-    <h3>JAVI LLINARES</h3>
-    <p>Responsable de la realització, disseny i coordinació. Mestre darrere del Mas Digital.</p>
-
-    <h1 class="text-[var(--theme-accent-primary)] mt-12">LA IAIA MARIA</h1>
-    <img src="/assets/infographies/art_iaia_v4.png" alt="La Iaia Maria" class="w-full rounded-2xl border border-[var(--border-master)] my-6" />
-    <blockquote>
-        <p>La intel·ligència central del Mas. No és una IA freda de Silicon Valley, sinó la "saviesa de l'àvia" arrelada a la terra. Un sistema multi-agent dissenyat per a protegir, educar i preservar la identitat rural.</p>
-    </blockquote>
-    <h3>LA TIA MARIA</h3>
-    <p>Agent de proximitat. Ofereix receptes locals, consells vitals i conversa arrelada.</p>
-    <h3>EL CRONISTA</h3>
-    <p>Documentalista del Mur. Genera resums de l'activitat del poble i preserva l'hemeroteca.</p>
-    <h3>L'ULL DEL MESTRE</h3>
-    <p>Visió multimodal. Identifica eines agrícoles, plantes, plagues i patrimoni cultural.</p>
-    <h3>NANO BANANA</h3>
-    <p>Generació multimèdia automàtica i protocols de simbiosi artística a la comunitat.</p>
-
-    <h2 class="text-[var(--theme-accent-primary)] mt-12">ARQUITECTURA REVOLUCIONÀRIA</h2>
-    <h3>Eg-walker CRDT</h3>
-    <p>Sincronització de graf d'esdeveniments. Convergència determinista en local que elimina la necessitat de base de dades central.</p>
-    <h3>Xarxa Rhizome</h3>
-    <p>Protocol gossip. Els telèfons dels veïns formen la malla de comunicació.</p>
-
-    <h2 class="text-[var(--theme-accent-primary)] mt-12">AVÍS LEGAL I DRETS DIGITALS</h2>
-    <p><strong>1. Identitat Bategant</strong><br>LSSI-CE: Responsable Sobirà F. Javier Llinares García (21476359V). El Mas Central es troba registrat a la Calle Sant Isidre Llaurador, 16. Connecta via socdepoble@socdepoble.org.</p>
-    <p><strong>2. Sobirania de l'Usuari</strong><br>Sols recollim el necessari per al bategat del node. Pots descarregar tota la teua memòria digital o fulminar el teu node de forma autònoma enviant un missatge al Mestre.</p>
-`;
+const fetchDefaultBookContent = async () => {
+    if (CachedBookContent) return CachedBookContent;
+    try {
+        const res = await fetch('/assets/llibre-sencer.html');
+        if (res.ok) {
+            CachedBookContent = await res.text();
+            return CachedBookContent;
+        }
+    } catch (e) {
+        console.error("Error fetching default book:", e);
+    }
+    return "<h1>SÓC DE POBLE (Versió Reduïda)</h1><p>No s'ha pogut carregar el llibre sencer.</p>";
+};
 
 const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
     const navigate = useNavigate();
@@ -82,6 +43,12 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
     const [mediaViewerSrc, setMediaViewerSrc] = useState(null);
     const [mediaViewerImages, setMediaViewerImages] = useState([]);
 
+    const loadFallbackContent = async (fallbackTitle) => {
+        const content = await fetchDefaultBookContent();
+        setHtmlContent(content);
+        setTitle(fallbackTitle);
+    };
+
     const fetchPageContent = useCallback(async (slug) => {
         setIsLoadingPage(true);
         try {
@@ -92,28 +59,20 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                 .single();
 
             if (error) {
-                // PostgREST 116 error (No rows returned) or general 406
                 if (error.code === 'PGRST116' || error.message?.includes('JSON object requested')) {
-                    // Not found
                     if (!isSuperAdmin) {
                         if (slug !== '/projecte') {
                             navigate('/mur', { replace: true });
                             return;
                         } else {
-                            // Fallback al DefaultBookContent public per sempre a /projecte
-                            setHtmlContent(DefaultBookContent);
-                            setTitle("Sóc de Poble: El Projecte");
+                            await loadFallbackContent("Sóc de Poble: El Projecte");
                         }
                     } else {
-                        // Super Admin
-                        setHtmlContent(DefaultBookContent);
-                        setTitle("Nova Pàgina");
+                        await loadFallbackContent("Nova Pàgina");
                     }
                 } else {
                     console.error('Error fetching page (Not 116):', error);
-                    // Fallback to default in case of weird errors
-                    setHtmlContent(DefaultBookContent);
-                    setTitle("Sóc de Poble: El Projecte");
+                    await loadFallbackContent("Sóc de Poble: El Projecte");
                 }
             } else if (data) {
                 setPageId(data.id);
@@ -123,12 +82,11 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
             }
         } catch (error) {
             console.error('Critical error fetching page:', error);
-            setHtmlContent(DefaultBookContent);
+            await loadFallbackContent("Sóc de Poble: El Projecte");
         } finally {
             setIsLoadingPage(false);
         }
     }, [navigate, isSuperAdmin]);
-
     useEffect(() => {
         let currentSlug = forcedSlug || location.pathname;
         if (!standAlone && !forcedSlug) {
@@ -169,11 +127,21 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
     };
 
     const HeroBanner = (
-        <div className="relative w-full aspect-video z-0 bg-black min-h-[300px] border-b-4 border-[var(--theme-accent-primary)] shadow-[0_10px_30px_rgba(255,107,0,0.1)] group">
+        <div className="relative w-full aspect-video z-0 bg-black min-h-[300px] border-b-4 border-[var(--theme-accent-primary)] shadow-[0_10px_30px_rgba(255,107,0,0.1)] group flex flex-col items-center justify-center">
+            <style dangerouslySetInnerHTML={{__html: `
+                @keyframes bategant {
+                    0%, 100% { color: #f97316; text-shadow: 0 0 15px rgba(249,115,22,0.6); opacity: 1; transform: scale(1); }
+                    50% { color: #ffffff; text-shadow: 0 0 5px rgba(255,255,255,0.2); opacity: 0.7; transform: scale(0.98); }
+                }
+                .animate-bategant {
+                    animation: bategant 1.5s ease-in-out infinite;
+                }
+            `}} />
+            
             <img 
                 src="/assets/banners/hero_nano_final.png" 
                 alt="Sóc de Poble Banner" 
-                className="w-full h-full object-cover opacity-80"
+                className="absolute inset-0 w-full h-full object-cover opacity-60"
                 onClick={() => {
                     const bannerSrc = "/assets/banners/hero_nano_final.png";
                     const allImagesArray = Array.from(document.querySelectorAll('.app-cms-content img')).map(img => img.src);
@@ -181,7 +149,7 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                     setMediaViewerSrc(bannerSrc);
                 }}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent pointer-events-none" />
             
             <div className="absolute top-4 right-4 flex gap-2 z-50">
                 {isSuperAdmin && (
@@ -195,15 +163,41 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                 )}
             </div>
 
-            <div className="absolute bottom-0 inset-x-0 p-8 flex flex-col items-center justify-end z-10">
-                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white text-center tracking-tight leading-none mb-4 drop-shadow-2xl">
+            <div className="relative z-10 flex flex-col items-center justify-center pt-10">
+                <img 
+                    src="/assets/master/logo_socdepoble_white_clean.png" 
+                    alt="Logo Sóc de Poble" 
+                    className="h-16 sm:h-20 w-auto mb-6 opacity-90 drop-shadow-[0_0_15px_rgba(249,115,22,0.5)] object-contain" 
+                />
+                
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-black text-white text-center tracking-tight leading-none mb-3 drop-shadow-2xl">
                     {title || "SÓC DE POBLE"}
                 </h1>
-                {(subtitle || routeSlug === '/projecte') && (
-                    <p className="text-xl sm:text-2xl text-[var(--theme-accent-primary)] font-bold italic text-center drop-shadow-lg">
-                        {subtitle || "Portal de Pobles Connectats"}
-                    </p>
-                )}
+                
+                <p className="text-lg sm:text-xl text-gray-300 font-medium tracking-wide mb-8 drop-shadow-md pb-4">
+                    {subtitle || "Portal de Pobles Connectats"}
+                </p>
+
+                <div className="flex flex-col items-center gap-6">
+                    <button 
+                        onClick={() => navigate('/chats')}
+                        className="font-['Inter_Tight',sans-serif] text-[13px] font-black uppercase tracking-[0.2em] animate-bategant select-none hover:scale-105 active:scale-95 transition-transform"
+                    >
+                        CONNECTAR
+                    </button>
+                    
+                    <button 
+                        className="flex items-center gap-2 text-xs font-bold text-gray-400 hover:text-white uppercase tracking-widest transition-colors opacity-70 hover:opacity-100"
+                        title="Compartir aquesta pàgina"
+                        onClick={() => {
+                            if (navigator.share) {
+                                navigator.share({ title: 'Sóc de Poble', text: 'Descobreix la Xarxa Rural de Pobles Connectats', url: window.location.href });
+                            }
+                        }}
+                    >
+                        Compartir <Share2 size={14} />
+                    </button>
+                </div>
             </div>
         </div>
     );

@@ -72,6 +72,11 @@
   --text-main: #ffffff;
   --text-secondary: #9ca3af;
   --text-muted: #6b7280;
+  
+  /* [CMS CONFIGURABLE TOKENS - CHAT LIST] */
+  --text-chat-snippet: var(--text-main);
+  --text-chat-time: var(--text-main);
+
   --border-master: rgba(255, 255, 255, 0.08);
 
   /* Hover & Active states */
@@ -116,6 +121,11 @@
   --text-main: #000000;
   --text-secondary: #000000;
   --text-muted: #4b5563;
+  
+  /* [CMS CONFIGURABLE TOKENS - CHAT LIST] */
+  --text-chat-snippet: var(--text-main);
+  --text-chat-time: var(--text-main);
+
   --border-master: rgba(0, 0, 0, 0.1);
 
   /* Hover & Active states */
@@ -212,11 +222,18 @@ body {
 }
 
 /* [ACCESSIBILITAT MESTRA] Regla global per a paràgrafs bategats */
-p {
-  font-size: 1.15rem;
-  line-height: 1.6;
-  margin-bottom: 1.5rem;
+@layer base {
+  p {
+    font-size: 1.15rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
 }
+
+/* 📜 PROTOCOL TIPOGRÀFIC DOCS - SÓC DE POBLE v1 */
+/* Mapeig estricte per a contingut Ric tipus Google Docs */
+
+
 
 /* 🧬 ESTRUCTURA SUPREMA (PROTOCOL TABULA RASA v10.30.0) */
 .main-viewport {
@@ -471,6 +488,43 @@ p {
   gap: 28px;
 }
 
+/* UNIFICACIÓ COLOR DE PÀRRAFS: SEMPRE NEGRE (LIGHT) O BLANC (DARK) */
+p {
+  color: var(--text-main);
+}
 
+/* [CMS GHOST BUTTON FIX] Recuperació tipogràfica per a la purge de Tailwind */
+.app-cms-content ul,
+.app-cms-content ol {
+  list-style: none !important;
+  padding-left: 0 !important;
+  display: flex !important;
+  flex-direction: column;
+  gap: 12px;
+}
 
+.app-cms-content li {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 16px 20px !important;
+  background-color: var(--bg-panel) !important;
+  border-left: 6px solid var(--theme-accent-primary) !important;
+  border-radius: var(--radius-m3-small);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease;
+  cursor: pointer;
+  margin-bottom: 2px !important;
+  font-weight: 700;
+  color: var(--text-main);
+}
 
+.app-cms-content li:hover {
+  transform: translateX(4px);
+  background-color: var(--theme-accent-primary-faint) !important;
+  color: var(--theme-accent-primary);
+}
+
+.app-cms-content li:active {
+  transform: scale(0.97);
+}

@@ -739,7 +739,8 @@ class IAIAService {
                 // Processem la resposta real de fons sense bloquejar l'UI
                 (async () => {
                     try {
-                        const aiResponse = await geminiService.ask(finalPersonaKey, userQuery);
+                        // [MODIFICACIÓ WALKIE-TALKIE] Transmetem les dades d'àudio si existeixen a l'API
+                        const aiResponse = await geminiService.ask(finalPersonaKey, userQuery, null, options.audioData);
                         const rawResponse = aiResponse.text;
                         
                         // DOMPurify Sanitization as requested to mitigate XSS risks from generated text

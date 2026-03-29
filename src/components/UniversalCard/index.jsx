@@ -73,7 +73,7 @@ const UniversalCard = ({
     viewMode = "grid",
     onNavigate // DeepSeek Audit: Allow decoupled routing
 }) => {
-    const cardVariant = variant || mode;
+    const cardVariant = (variant === "post" && mode && mode !== "post") ? mode : (variant || mode);
     const { openViewer } = useModal();
     const { forensicMode: contextForensic } = useNavigation();
     const { gloveMode, seniorMode, hapticService } = useDesign();
@@ -167,7 +167,9 @@ const UniversalCard = ({
         }
 
         const id = item?.uuid || item?.id;
-        if (cardVariant === 'pobles') {
+        if (item?.type === 'page' && item?.slug) {
+            navigate(`/${item.slug}`);
+        } else if (cardVariant === 'pobles') {
             navigate(`/pobles/${id}`);
         } else if (cardVariant === 'mapa') {
             navigate('/mapa');

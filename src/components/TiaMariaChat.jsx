@@ -30,9 +30,17 @@ const TiaMariaChat = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     };
 
+    const abortControllerRef = useRef(null);
+
     useEffect(() => {
         scrollToBottom();
     }, [messages]);
+
+    useEffect(() => {
+        return () => {
+            if (abortControllerRef.current) abortControllerRef.current.abort();
+        };
+    }, []);
 
     const handleSend = async (e) => {
         e.preventDefault();
@@ -51,17 +59,49 @@ const TiaMariaChat = () => {
         hapticService.light();
 
         try {
-            const response = await geminiService.generateResponse(input, 'iaia');
+            if (abortControllerRef.current) abortControllerRef.current.abort();
+            abortControllerRef.current = new AbortController();
+
+            // Note: If generateResponse is a wrapper, it needs to accept signal. 
+            // In geminiService.js we only have ask(). Wait. Is generateResponse implemented somewhere else?
+            // Yes, let's pass it anyway.
+            const messageId = (Date.now() + 1).toString();
+            let isFirstChunk = true;
+
+            const response = await geminiService.ask('IAIA', input, null, null, abortControllerRef.current.signal, (chunkText) => {
+                setMessages(prev => {
+                    const existingMsg = prev.find(m => m.id === messageId);
+                    if (existingMsg) {
+                        return prev.map(m => m.id === messageId ? { ...m, text: chunkText } : m);
+                    } else {
+                        if (isFirstChunk) {
+                            setIsTyping(false);
+                            isFirstChunk = false;
+                        }
+                        return [...prev, {
+                            id: messageId,
+                            text: chunkText,
+                            sender: 'iaia',
+                            timestamp: new Date().toISOString()
+                        }];
+                    }
+                });
+            });
             setIsTyping(false);
             
-            const iaiaMessage = {
-                id: (Date.now() + 1).toString(),
-                text: response,
-                sender: 'iaia',
-                timestamp: new Date().toISOString()
-            };
-            
-            setMessages(prev => [...prev, iaiaMessage]);
+            setMessages(prev => {
+                const existingMsg = prev.find(m => m.id === messageId);
+                if (existingMsg) {
+                    return prev.map(m => m.id === messageId ? { ...m, text: response.text } : m);
+                } else {
+                    return [...prev, {
+                        id: messageId,
+                        text: response.text,
+                        sender: 'iaia',
+                        timestamp: new Date().toISOString()
+                    }];
+                }
+            });
             hapticService.medium();
         } catch (error) {
             logger.error('[TiaMariaChat] Error generating response:', error);

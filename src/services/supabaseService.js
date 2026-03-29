@@ -629,6 +629,7 @@ const BROKEN_STORAGE_URLS = [
 export { columnCache, setColumnCache, _ensureColumnCache, LocalCache, isRealDBUUID, normalizeContentItem, checkThrottling, activeChecks, getTimeAwareGreeting, adjustGender, LORE_PERSONAS, ENABLE_MOCKS, DEMO_USER_ID };
 
 export const supabaseService = {
+    supabase,
     /**
      * [STORAGE HEALING]
      * Detects and fixes legacy or broken storage URLs.
@@ -964,7 +965,7 @@ export const supabaseService = {
         // I per petició legal, ocultem qualsevol entitat que no sigui del sistema si no estem en mode Playground
         if (!isPlayground) {
             // Mostrem entitats de sistema o del llinatge oficial
-            const dbSystem = safeData.filter(e => e.type === 'system' || e.type === 'oficial' || e.owner_id === 'd6325f44-7277-4d20-b020-166c010995ab');
+            const dbSystem = safeData.filter(e => e.type === 'system' || e.type === 'oficial' || e.owner_id === '25218ea4-5d7d-4db4-bdc5-7ae035629242');
             return [...SYSTEM_ENTITIES, ...dbSystem];
         }
 
@@ -2761,11 +2762,20 @@ export const supabaseService = {
             const select = hasPremium ? fullSelect : baseSelect;
 
             console.log(`[getProfile] Fetching from supabase with select: ${select}...`);
-            let { data, error } = await supabase
+            
+            // [BATEGAT FAILSAFE] Timeout de 6s per previndre deadlock del mutex de Supabase
+            const timeoutPromise = new Promise((_, reject) => {
+                setTimeout(() => reject(new Error('Supabase getProfile FETCH TIMEOUT')), 6000);
+            });
+
+            const queryPromise = supabase
                 .from('profiles')
                 .select(select)
                 .eq('id', id)
                 .maybeSingle();
+
+            let { data, error } = await Promise.race([queryPromise, timeoutPromise]);
+            
             console.log(`[getProfile] Supabase response received. Error:`, error);
 
             if (error) {
@@ -2925,10 +2935,18 @@ export const supabaseService = {
         if (!userId) return null;
         try {
             const payload = { id: userId, ...data };
-            const { data: result, error } = await supabase
+            
+            // [BATEGAT FAILSAFE] Timeout de 6s
+            const timeoutPromise = new Promise((_, reject) => {
+                setTimeout(() => reject(new Error('Supabase upsertProfile FETCH TIMEOUT')), 6000);
+            });
+
+            const queryPromise = supabase
                 .from('profiles')
                 .upsert(payload, { onConflict: 'id' })
                 .select();
+                
+            const { data: result, error } = await Promise.race([queryPromise, timeoutPromise]);
 
             if (error) {
                 logger.warn('[SupabaseService] Error upserting profile:', error);
@@ -3051,7 +3069,7 @@ export const supabaseService = {
             }));
 
             // If it's Javi, enforce "Sóc de Poble" as Empresa and hide Association duplicate
-            const isJavi = userId === 'd6325f44-7277-4d20-b020-166c010995ab' || userId === 'javillinares' || userId === 'mock_javi-llinares';
+            const isJavi = userId === '25218ea4-5d7d-4db4-bdc5-7ae035629242' || userId === 'javillinares' || userId === 'mock_javi-llinares';
             if (isJavi) {
                 const sdpExists = processedEntities.some(e => e.id === 'socdepoble');
                 const rentonarExists = processedEntities.some(e => e.id === 'el-rentonar');
@@ -3116,9 +3134,9 @@ export const supabaseService = {
         
         if (error) {
             if (error.code === 'PGRST116') {
-                if (userId === 'd6325f44-7277-4d20-b020-166c010995ab') {
+                if (userId === '25218ea4-5d7d-4db4-bdc5-7ae035629242') {
                     const masterProfile = {
-                        id: 'd6325f44-7277-4d20-b020-166c010995ab',
+                        id: '25218ea4-5d7d-4db4-bdc5-7ae035629242',
                         full_name: 'Javi Llinares',
                         username: 'javillinares',
                         type: 'persona',
@@ -3244,7 +3262,7 @@ export const supabaseService = {
         // Blindatge OMNISCIENT per a entitats de sistema
         if (entityId === 'socdepoble') {
             return [{
-                user_id: 'd6325f44-7277-4d20-b020-166c010995ab', // Javi Real
+                user_id: '25218ea4-5d7d-4db4-bdc5-7ae035629242', // Javi Real
                 role: 'Fundador',
                 profiles: {
                     full_name: 'Javi Linares',
@@ -3269,7 +3287,7 @@ export const supabaseService = {
         try {
             // [MOCK HEALER] Support for virtual entities / agents in the feed
             let virtualPosts = [];
-            const JAVI_REAL_ID = 'd6325f44-7277-4d20-b020-166c010995ab';
+            const JAVI_REAL_ID = '25218ea4-5d7d-4db4-bdc5-7ae035629242';
             if (userId.startsWith('11111111-') || userId === JAVI_REAL_ID || typeof ENABLE_MOCKS !== 'undefined') {
                 try {
                     const { MOCK_FEED } = await import('../data.js');

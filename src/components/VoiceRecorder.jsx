@@ -15,7 +15,8 @@ const VoiceRecorder = ({ onSend, onCancel, lang = 'va' }) => {
     const analyserRef = useRef(null);
     const sourceRef = useRef(null);
 
-    const [transcript, setTranscript] = useState('');
+    const transcriptRef = useRef('');
+    const speechPromiseRef = useRef(null);
 
     const startRecording = async () => {
         try {
@@ -24,10 +25,14 @@ const VoiceRecorder = ({ onSend, onCancel, lang = 'va' }) => {
             try {
                 const { speechService } = await import('../services/speechService');
                 if (speechService.isSupported && !speechService.isStarted) {
-                    speechService.listen(lang).then(text => {
-                        setTranscript(text);
+                    speechPromiseRef.current = speechService.listen(lang);
+                    speechPromiseRef.current.then(text => {
+                        transcriptRef.current = text;
                         logger.log('[VoiceRecorder] Transcripció JARVIS:', text);
-                    }).catch(err => logger.error('[VoiceRecorder] Speech error:', err));
+                    }).catch(err => {
+                        // Només un log, no trenquem l'execució.
+                        logger.info('[VoiceRecorder] Speech result:', err);
+                    });
                 }
             } catch {
                 logger.error('[VoiceRecorder] Speech service import error');
@@ -54,7 +59,8 @@ const VoiceRecorder = ({ onSend, onCancel, lang = 'va' }) => {
             };
 
             mediaRecorder.onstop = async () => {
-                const audioBlob = new Blob(chunksRef.current, { type: 'audio/webm' });
+                const mimeType = chunksRef.current[0] ? chunksRef.current[0].type : 'audio/webm';
+                const audioBlob = new Blob(chunksRef.current, { type: mimeType });
                 const recordedDuration = duration;
                 chunksRef.current = [];
                 stopVisualizer();
@@ -66,7 +72,20 @@ const VoiceRecorder = ({ onSend, onCancel, lang = 'va' }) => {
                     // Fail silent
                 }
 
-                onSend(audioBlob, recordedDuration, transcript);
+                // Esperem un text si està disponible
+                let finalTranscript = transcriptRef.current;
+                if (speechPromiseRef.current) {
+                     try {
+                          const text = await speechPromiseRef.current;
+                          if (text) {
+                               finalTranscript = text;
+                          }
+                     } catch {
+                          // Ignorar cancel·lacions buides
+                     }
+                }
+
+                onSend(audioBlob, recordedDuration, finalTranscript);
             };
 
             mediaRecorderRef.current = mediaRecorder;
@@ -107,6 +126,12 @@ const VoiceRecorder = ({ onSend, onCancel, lang = 'va' }) => {
         stopVisualizer();
         chunksRef.current = [];
         setDuration(0);
+        transcriptRef.current = '';
+        try {
+            import('../services/speechService').then(({ speechService }) => speechService.stop());
+        } catch {
+            // ignore
+        }
         onCancel();
     };
 

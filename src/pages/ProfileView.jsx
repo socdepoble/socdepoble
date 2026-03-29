@@ -3,7 +3,8 @@ import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { 
     Settings, Loader2, AlertCircle, 
     Sparkles, Grid, Share2, ArrowLeft, Camera, UserCheck, MessageCircle, MapPin,
-    ShieldCheck, HeartHandshake, ArrowUp, Maximize
+    ShieldCheck, HeartHandshake, ArrowUp, Maximize,
+    Linkedin, Facebook, Instagram
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useDesign } from '../context/DesignContext';
@@ -17,6 +18,8 @@ import ProfileSettingsModal from '../components/ProfileSettingsModal';
 import ContextualHeader from '../components/ContextualHeader';
 import StatusLoader from '../components/StatusLoader'; // FIX: Evita el Crash en perfils sense publicacions
 import LanguageSelector from '../components/LanguageSelector';
+import { useViewMode } from '../hooks/useViewMode';
+import ChatDetail from '../components/ChatDetail';
 import './ProfileView.css';
 
 const ProfileView = () => {
@@ -48,7 +51,7 @@ const ProfileView = () => {
     
     // Modals
     const [isChatOpen, setIsChatOpen] = useState(false);
-    const [viewMode, setViewMode] = useState(() => localStorage.getItem('feed_view_mode') || 'grid');
+    const { viewMode, setViewMode } = useViewMode('feed_view_mode', 'grid');
 
     const scrollRef = React.useRef(null);
     const [showTopBtn, setShowTopBtn] = useState(false);
@@ -219,7 +222,7 @@ const ProfileView = () => {
                 }
 
                 // Fix explícit d'identitat sobirana Javi Llinares
-                if (effectiveName.includes('Javi Llinares') || targetProfile.id === 'd6325f44-7277-4d20-b020-166c010995ab') {
+                if (effectiveName.includes('Javi Llinares') || targetProfile.id === '25218ea4-5d7d-4db4-bdc5-7ae035629242') {
                     effectiveUsername = 'JaviLlinares';
                 }
 
@@ -398,10 +401,7 @@ const ProfileView = () => {
                     searchTerm=""
                     onSearchChange={() => {}}
                     viewMode={viewMode}
-                    onViewModeChange={(m) => {
-                        setViewMode(m);
-                        localStorage.setItem('feed_view_mode', m);
-                    }}
+                    onViewModeChange={setViewMode}
                     placeholder="Cerca publicacions al perfil..."
                 />
             </div>
@@ -615,6 +615,51 @@ const ProfileView = () => {
                                 </span>
                             </div>
                         </div>
+
+                        {/* SOCIAL MEDIA LINKS */}
+                        <div className="flex flex-wrap gap-3 mt-6 w-full animate-in fade-in slide-in-from-bottom-4 duration-500 delay-150">
+                            {/* LinkedIn */}
+                            {(profile?.social_linkedin || profile?.username === 'JaviLlinares') && (
+                                <a 
+                                    href={profile?.social_linkedin || (profile?.username === 'JaviLlinares' ? 'https://www.linkedin.com/in/javi-llinares/' : '#')} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl ${cardBgColor} border ${borderColor} shadow-sm backdrop-blur-md hover:scale-105 transition-transform hover:border-[var(--theme-accent-primary)] group`}
+                                    onClick={(e) => e.stopPropagation()}
+                                >
+                                    <Linkedin size={18} className="text-[#0e76a8] group-hover:scale-110 transition-transform" />
+                                    <span className={`text-[10px] sm:text-[11px] font-black uppercase tracking-widest ${textMuted} group-hover:text-black dark:group-hover:text-white transition-colors`}>LinkedIn</span>
+                                </a>
+                            )}
+                            
+                            {/* Facebook */}
+                            {profile?.social_facebook && (
+                                <a 
+                                    href={profile.social_facebook} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl ${cardBgColor} border ${borderColor} shadow-sm backdrop-blur-md hover:scale-105 transition-transform hover:border-[var(--theme-accent-primary)] group`}
+                                    onClick={(e) => e.stopPropagation()}
+                                >
+                                    <Facebook size={18} className="text-[#1877F2] group-hover:scale-110 transition-transform" />
+                                    <span className={`text-[10px] sm:text-[11px] font-black uppercase tracking-widest ${textMuted} group-hover:text-black dark:group-hover:text-white transition-colors`}>Facebook</span>
+                                </a>
+                            )}
+                            
+                            {/* Instagram */}
+                            {profile?.social_instagram && (
+                                <a 
+                                    href={profile.social_instagram} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl ${cardBgColor} border ${borderColor} shadow-sm backdrop-blur-md hover:scale-105 transition-transform hover:border-[var(--theme-accent-primary)] group`}
+                                    onClick={(e) => e.stopPropagation()}
+                                >
+                                    <Instagram size={18} className="text-[var(--theme-accent-primary)] group-hover:scale-110 transition-transform" />
+                                    <span className={`text-[10px] sm:text-[11px] font-black uppercase tracking-widest ${textMuted} group-hover:text-black dark:group-hover:text-white transition-colors`}>Instagram</span>
+                                </a>
+                            )}
+                        </div>
                         
                         {/* LANGUAGE SELECTOR FOR PROFILE OWNER (MOBILE ACCESSIBILITY) */}
                         {isOwnProfile && (
@@ -788,7 +833,7 @@ const ProfileView = () => {
                                         { id: "fa82eb62-4a83-4ff7-b2d6-8849673fc3b0", name: "Damià Llorens", role: "perit", bio: "Fundador. La connexió de tota la xarxa.", avatar_url: "/assets/avatars/comic/damia_agutzil_comic.png"}
                                     ];
 
-                                    if (profile?.id === 'd6325f44-7277-4d20-b020-166c010995ab' || isOwnProfile) {
+                                    if (profile?.id === '25218ea4-5d7d-4db4-bdc5-7ae035629242' || isOwnProfile) {
                                         return (
                                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                                 {MOCK_FRIENDS.map((agent) => (

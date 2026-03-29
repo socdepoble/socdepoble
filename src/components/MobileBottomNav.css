@@ -3,7 +3,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: 70px;
+  height: 90px;
   background: #000000;
   border-top: none;
   z-index: 1000;
@@ -11,6 +11,7 @@
   display: flex;
   align-items: center;
   box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
+  border-radius: 0; /* Ensures it's glued to bottom */
 }
 
 .mobile-bottom-nav .nav-container {
@@ -43,7 +44,7 @@
 }
 
 .mobile-bottom-nav .nav-item.active {
-  color: #ff6b00;
+  color: var(--theme-accent-primary, #ff6b00);
 }
 
 .mobile-bottom-nav .nav-item.active svg {
@@ -52,19 +53,37 @@
 
 .mobile-bottom-nav .nav-item.plus-item {
   color: white;
-  background: #4f46e5;
-  border-radius: 16px;
-  margin: 4px;
-  height: calc(100% - 12px);
+  background: var(--theme-accent-primary, #ff6b00);
+  border-radius: 20px;
+  margin: 8px;
+  height: calc(100% - 16px);
+  width: auto;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: none;
+  animation: none;
+}
+
+/* Make sure plus item acts like a flex item and not floating */
+.mobile-bottom-nav .nav-item.plus-item span {
+  display: block;
+}
+
+.mobile-bottom-nav .nav-item.plus-item:active {
+  transform: scale(0.92);
+  opacity: 0.8;
 }
 
 .mobile-bottom-nav .nav-item.plus-item svg {
-  filter: drop-shadow(0 0 12px rgba(79, 70, 229, 0.6));
+  filter: drop-shadow(0 0 12px rgba(255, 107, 0, 0.6));
 }
 
 /* Redundancy Purge: Hide on Desktop (Sidebar takes over) */
 @media (min-width: 1024px) {
   .mobile-bottom-nav {
-    display: none ;
+    display: none !important;
   }
 }

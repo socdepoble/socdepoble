@@ -42,7 +42,7 @@ const NavigationRail = () => {
   };
 
   return (
-    <nav className="w-[80px] md:w-[100px] xl:w-[280px] shrink-0 h-full flex flex-col bg-black z-30 transition-all duration-300 shadow-2xl overflow-hidden relative">
+    <nav className="w-[80px] md:w-[260px] xl:w-[280px] shrink-0 h-full flex flex-col bg-black z-30 transition-all duration-300 shadow-2xl overflow-hidden relative">
       {/* RealmSwitcher mogut a l'Admin Panel */}
       <div className="flex-1 overflow-y-auto custom-scrollbar bg-black">
         {/* 1. BOTÓ D'ACCIÓ RÀPIDA (TOP FRAME) - EXACTAMENT h-12 COM EL CONTEXTUAL MENU */}

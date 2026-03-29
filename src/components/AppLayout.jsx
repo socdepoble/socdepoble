@@ -1,5 +1,6 @@
 import React, { lazy, Suspense } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { Plus } from "lucide-react";
 import NavigationRail from "./NavigationRail";
 import { useDesign } from "../context/DesignContext";
@@ -35,6 +36,7 @@ const NexusFlash = lazy(() => import("../pages/NexusFlash"));
 const SolatgeConsole = lazy(() => import("../pages/SolatgeConsole"));
 const ProjectPresentation = lazy(() => import("../pages/ProjectPresentation"));
 const GenesisViewer = lazy(() => import("../pages/GenesisViewer"));
+const Versions = lazy(() => import("../pages/Versions"));
 const BuscadorAjudes = lazy(() => import("../pages/BuscadorAjudes"));
 const DirectoriComunitat = lazy(() => import("../pages/CommunityDirectory"));
 const Header = lazy(() => import("./Header"));
@@ -60,7 +62,8 @@ const VisionView = lazy(() => import("../pages/VisionView"));
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
   const location = useLocation();
-  if (loading) return <NanoLoader message="Bategant..." />;
+  const { t } = useTranslation();
+  if (loading) return <NanoLoader message={t('common.connecting', 'Connectant...')} />;
   // CRITICAL FIX: Redirect anonymous users to register
   if (!user || user.isAnonymous)
     return <Navigate to="/registre" state={{ from: location }} replace />;
@@ -68,6 +71,7 @@ const ProtectedRoute = ({ children }) => {
 };
 
 const AppLayout = () => {
+  const { t } = useTranslation();
   const { architectMode, accessibilityMode } = useDesign();
   const {
     isDrawerOpen,
@@ -206,10 +210,10 @@ const AppLayout = () => {
             <UploadCloud size={64} className="text-white drop-shadow-xl" />
           </div>
           <h2 className="text-4xl font-black uppercase tracking-widest drop-shadow-md">
-            Deixa Anar
+            {t('common.drop_anar', 'Deixa Anar')}
           </h2>
           <p className="text-xl opacity-90 font-bold mt-2">
-            per a publicar ràpidament
+            {t('common.drop_publish', 'per a publicar ràpidament')}
           </p>
         </div>
       )}
@@ -217,7 +221,7 @@ const AppLayout = () => {
       {/* 0. HEADER SOBIRÀ (FULL WIDTH - PROTOCOL v4.0) */}
       {!isMinimal && (
         <div className="w-full relative z-base">
-          <Suspense fallback={<NanoLoader message="Preparant la barra..." />}>
+          <Suspense fallback={<NanoLoader message={t('common.loading', 'Carregant...')} />}>
             <BlueprintOverlay
               label="HEADER_CANONIC"
               dimensions="MATCH"
@@ -283,7 +287,7 @@ const AppLayout = () => {
             color="emerald"
             className="flex-1 flex flex-col min-h-0 relative z-10"
           >
-            <Suspense fallback={<NanoLoader message="Bategant..." />}>
+            <Suspense fallback={<NanoLoader message={t('common.connecting', 'Connectant...')} />}>
               <ErrorBoundary>
                 <div
                   className={`flex-1 flex flex-col relative min-w-0 main-viewport custom-scrollbar !m-0 ${
@@ -299,6 +303,7 @@ const AppLayout = () => {
                     />
                     <Route path="/pobles" element={<Towns />} />
                     <Route path="/pobles/:id" element={<ProfileView />} />
+                    <Route path="/versions" element={<Versions />} />
 
                     <Route path="/chats/*" element={<ChatLayout />}>
                       <Route index element={<ChatEmptyState />} />
@@ -398,6 +403,7 @@ const AppLayout = () => {
                     <Route path="/notes" element={<Notes />} />
                     {/* PÀGINES DE PROJECTE I LEGALITAT */}
                     <Route path="/projecte" element={<ProjectPresentation />} />
+                    <Route path="/page/:slug" element={<ProjectPresentation />} />
                     <Route path="/chrome-145" element={<Chrome145Report />} />
                     <Route
                       path="/hub"
@@ -416,7 +422,7 @@ const AppLayout = () => {
               <div className="absolute inset-0 !m-0 !p-0 z-[var(--z-overlay)] bg-black/50 backdrop-blur-sm animate-in fade-in duration-300">
                 <Suspense
                   fallback={
-                    <NanoLoader message="Carregant accessibilitat..." />
+                    <NanoLoader message={t('common.loading', 'Carregant...')} />
                   }
                 >
                   <AccessibilitatUniversal />
@@ -437,9 +443,6 @@ const AppLayout = () => {
           </BlueprintOverlay>
         </main>
       </div>
-
-      {/* FOOTER CANÒNIC (AVÍS LEGAL, AUTORIA, ETC.) - BLINDATGE v1.0 */}
-      <GlobalFooter />
 
       {/* BARRA DE NAVEGACIÓ MÒBIL (BATEGAT v11.3) - AMAGADA DINS DEL XAT PER EVITAR COL·LISIÓ AMB TECLAT VIRTUAL */}
       {!isChatDetailMobileView && (
@@ -466,7 +469,7 @@ const AppLayout = () => {
       {architectMode && (
         <div className="fixed inset-0 z-overlay bg-black/40 backdrop-blur-xl md:pl-[280px]">
           <div className="h-full flex flex-col relative animate-slide-up">
-            <Suspense fallback={<NanoLoader message="Obrint el Mapa..." />}>
+            <Suspense fallback={<NanoLoader message={t('common.loading', 'Carregant...')} />}>
               <ArchitecteView />
             </Suspense>
           </div>

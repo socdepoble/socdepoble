@@ -17,6 +17,8 @@ import ContextualHeader from './ContextualHeader';
 import { useFeedData } from '../hooks/useFeedData';
 import { useFeedFilters } from '../hooks/useFeedFilters';
 import { useIAIAAutonomousInteractions } from '../hooks/useIAIAAutonomousInteractions';
+import { useViewMode } from '../hooks/useViewMode';
+import { UniversalGridWrapper, UniversalGridRow } from './UniversalGrid';
 
 const Feed = ({ townId = null, townName = null, customPosts = null, contentMode = 'batec', hideHeader = false, externalViewMode = null }) => {
     const { iaiaLevel, gloveMode } = useDesign();
@@ -31,11 +33,8 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
     const [isIAIAFiltering, setIsIAIAFiltering] = useState(
         () => localStorage.getItem('isIAIAFiltering') === 'true'
     );
-    const [internalViewMode, setInternalViewMode] = useState(() => {
-        return localStorage.getItem('feed_view_mode') || 'grid';
-    });
-    const viewMode = externalViewMode || internalViewMode;
-
+    const { viewMode, setViewMode, columnCount, containerRef, effectiveViewMode } = useViewMode('feed_view_mode', 'grid', externalViewMode);
+    
     const [contextualSearchTerm, setContextualSearchTerm] = useState('');
 
     const handleStorageChange = useCallback((e) => {
@@ -85,52 +84,13 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
         userConnections
     });
 
-    const [columnCount, setColumnCount] = useState(() => {
-        if (typeof window !== 'undefined') {
-            const estimatedContainerWidth = Math.min(window.innerWidth - (window.innerWidth > 1024 ? 300 : 0), 1600);
-            if (viewMode === 'list' || viewMode === 'single') return 1;
-            if (estimatedContainerWidth < 900) return 1;
-            if (estimatedContainerWidth < 1400) return 2;
-            if (estimatedContainerWidth < 1800) return 3;
-            return 4;
-        }
-        return 1;
-    });
-    const containerRef = useRef(null);
-    const parentRef = useRef(null);
-
-    useEffect(() => {
-        if (!containerRef.current) return;
-        let rafId;
-        const observer = new ResizeObserver(entries => {
-            for (let entry of entries) {
-                const width = entry.contentRect.width;
-                if (rafId) cancelAnimationFrame(rafId);
-                rafId = requestAnimationFrame(() => {
-                    if (viewMode === 'single' || viewMode === 'list') {
-                        setColumnCount(1);
-                    } else {
-                        if (width < 900) setColumnCount(1);
-                        else if (width < 1400) setColumnCount(2);
-                        else if (width < 1800) setColumnCount(3);
-                        else setColumnCount(4);
-                    }
-                });
-            }
-        });
-        observer.observe(containerRef.current);
-        return () => {
-             observer.disconnect();
-             if (rafId) cancelAnimationFrame(rafId);
-        };
-    }, [viewMode]);
-
     const [, startTransition] = useTransition();
     const activePosts = filteredPosts;
 
     const rowCount = Math.ceil(activePosts.length / columnCount);
-    const effectiveViewMode = (viewMode === 'grid' && columnCount === 1) ? 'single' : viewMode;
 
+
+    const parentRef = useRef(null);
     const getScrollElement = useCallback(() => parentRef.current, []);
     const estimateSize = useCallback(() => effectiveViewMode === 'list' ? 120 : (effectiveViewMode === 'single' ? 600 : 900), [effectiveViewMode]);
 
@@ -187,7 +147,7 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
 
         const headerTitle = (post.author === 'Algú del poble' || !post.author)
             ? (((typeof CREATOR_EMAILS !== 'undefined' ? CREATOR_EMAILS : []).includes(post.author_email)) ||
-                ['d6325f44-7277-4d20-b020-166c010995ab', '333bd9f1-21ab-41fe-b856-2340ce6dc96c', 'a11ac111-eec1-4111-b111-000000000013', 'fa82eb62-4a83-4ff7-b2d6-8849673fc3b0', '031adc10-ce8c-4ec9-8672-330473033a91', '11111111-0000-0000-0000-000000000001'].includes(post.author_user_id)
+                ['25218ea4-5d7d-4db4-bdc5-7ae035629242', '333bd9f1-21ab-41fe-b856-2340ce6dc96c', 'a11ac111-eec1-4111-b111-000000000013', 'fa82eb62-4a83-4ff7-b2d6-8849673fc3b0', '031adc10-ce8c-4ec9-8672-330473033a91', '11111111-0000-0000-0000-000000000001'].includes(post.author_user_id)
                 ? post.author_name || (
                     post.author_user_id === '333bd9f1-21ab-41fe-b856-2340ce6dc96c' ? 'Lidia Espí' :
                         post.author_user_id === 'a11ac111-eec1-4111-b111-000000000013' ? 'Anna Climent' :
@@ -272,8 +232,7 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
                         onSearchChange={setContextualSearchTerm}
                         viewMode={viewMode}
                         onViewModeChange={(mode) => {
-                            setInternalViewMode(mode);
-                            localStorage.setItem('feed_view_mode', mode);
+                            setViewMode(mode);
                         }}
                         placeholder="Cerca al mur..."
                     />
@@ -281,36 +240,8 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
             )}
 
             {customPosts ? (
-                <div ref={containerRef} className={`feed-list mx-auto w-full pb-20 transition-all duration-300 ${viewMode === 'grid' ? 'max-w-[1600px] px-2 sm:px-6' : 'max-w-3xl'}`}>
-                    {activePosts.length === 0 ? (
-                        <StatusLoader
-                            type="empty"
-                            message={selectedTag
-                                ? `${t('feed.no_posts_tag') || 'No hi ha publicacions amb # '}${selectedTag}`
-                                : (t('feed.empty') || 'No hi ha novetats al mur.')
-                            }
-                            onRetry={selectedTag ? () => setSelectedTag(null) : null}
-                        />
-                    ) : (
-                        <div className={`feed-grid view-mode-${viewMode}`} style={{ display: 'grid', gridTemplateColumns: `repeat(${columnCount}, minmax(0, 1fr))`, gap: '24px', padding: '0 16px' }}>
-                            {activePosts.map(post => renderPost(post))}
-                        </div>
-                    )}
-                </div>
-            ) : (
-                <div
-                    ref={parentRef}
-                    className="flex-1 overflow-auto custom-scrollbar h-[100dvh]"
-                    style={{ contain: 'content', overflowAnchor: 'none' }}
-                >
-                    <div
-                        ref={containerRef}
-                        className={`feed-list mx-auto w-full transition-all duration-300 ${viewMode === 'grid' ? 'max-w-[1600px]' : 'max-w-3xl'}`}
-                        style={{
-                            height: `${rowVirtualizer.getTotalSize() + 36}px`,
-                            position: 'relative',
-                        }}
-                    >
+                <UniversalGridWrapper viewMode={viewMode} className="pb-20">
+                    <div ref={containerRef} className="feed-list mx-auto w-full">
                         {activePosts.length === 0 ? (
                             <StatusLoader
                                 type="empty"
@@ -321,36 +252,63 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
                                 onRetry={selectedTag ? () => setSelectedTag(null) : null}
                             />
                         ) : (
-                            rowVirtualizer.getVirtualItems().map((virtualRow) => {
-                                const startIndex = virtualRow.index * columnCount;
-                                const rowItems = activePosts.slice(startIndex, startIndex + columnCount);
-
-                                return (
-                                    <div
-                                        key={virtualRow.key}
-                                        data-index={virtualRow.index}
-                                        ref={rowVirtualizer.measureElement}
-                                        className={`feed-grid view-mode-${viewMode}`}
-                                        style={{
-                                            position: 'absolute',
-                                            top: 0,
-                                            left: 0,
-                                            width: '100%',
-                                            transform: `translateY(${virtualRow.start + 36}px)`,
-                                            display: 'grid',
-                                            gridTemplateColumns: `repeat(${columnCount}, minmax(0, 1fr))`,
-                                            gap: '24px',
-                                            padding: '0 16px',
-                                            paddingBottom: '24px', // Critical: this forces the virtualizer to measure height including a gap
-                                            boxSizing: 'border-box'
-                                        }}
-                                    >
-                                        {rowItems.map(post => renderPost(post))}
-                                    </div>
-                                );
-                            })
+                            <UniversalGridRow viewMode={viewMode} columnCount={columnCount} className="feed-grid">
+                                {activePosts.map(post => renderPost(post))}
+                            </UniversalGridRow>
                         )}
                     </div>
+                </UniversalGridWrapper>
+            ) : (
+                <div
+                    ref={parentRef}
+                    className="flex-1 overflow-auto custom-scrollbar h-[100dvh]"
+                    style={{ contain: 'content', overflowAnchor: 'none' }}
+                >
+                    <UniversalGridWrapper viewMode={viewMode}>
+                        <div
+                            ref={containerRef}
+                            className="feed-list mx-auto w-full relative"
+                            style={{
+                                height: `${rowVirtualizer.getTotalSize() + 36}px`,
+                            }}
+                        >
+                            {activePosts.length === 0 ? (
+                                <StatusLoader
+                                    type="empty"
+                                    message={selectedTag
+                                        ? `${t('feed.no_posts_tag') || 'No hi ha publicacions amb # '}${selectedTag}`
+                                        : (t('feed.empty') || 'No hi ha novetats al mur.')
+                                    }
+                                    onRetry={selectedTag ? () => setSelectedTag(null) : null}
+                                />
+                            ) : (
+                                rowVirtualizer.getVirtualItems().map((virtualRow) => {
+                                    const startIndex = virtualRow.index * columnCount;
+                                    const rowItems = activePosts.slice(startIndex, startIndex + columnCount);
+
+                                    return (
+                                        <UniversalGridRow
+                                            key={virtualRow.key}
+                                            viewMode={viewMode}
+                                            columnCount={columnCount}
+                                            className="feed-grid"
+                                            {...{ "data-index": virtualRow.index }}
+                                            ref={rowVirtualizer.measureElement}
+                                            style={{
+                                                position: 'absolute',
+                                                top: 0,
+                                                left: 0,
+                                                width: '100%',
+                                                transform: `translateY(${virtualRow.start + 36}px)`,
+                                            }}
+                                        >
+                                            {rowItems.map(post => renderPost(post))}
+                                        </UniversalGridRow>
+                                    );
+                                })
+                            )}
+                        </div>
+                    </UniversalGridWrapper>
 
                     {hasMore && posts.length > 0 && !selectedTag && (
                         <div className="load-more-container mt-12 mb-12 flex justify-center w-full">

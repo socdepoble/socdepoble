@@ -147,7 +147,7 @@ const NexusFlash = () => {
                         <section className="ia-sim-section">
                             <h3>👵 IAIA MarIA SIM</h3>
                             <div className={`iaia-chat-bubble glass-card ${isIaiaThinking ? 'bategant' : ''}`}>
-                                {isIaiaThinking ? "L'IAIA està bategant trellat..." : iaiaResponse}
+                                {isIaiaThinking ? "L'IAIA està connectant mil detalls..." : iaiaResponse}
                                 {isIaiaThinking && <div className="bategat-indicator">🏺</div>}
                             </div>
                             <div className="iaia-input-group">
@@ -196,7 +196,7 @@ const NexusFlash = () => {
                             </div>
                             <div className="console-body">
                                 <div className="line">[SISTEMA] Iniciant protocol de visió...</div>
-                                <div className="line">[OK] Base de dades Rhizome bategant.</div>
+                                <div className="line">[OK] Base de dades Rhizome en línia i estable.</div>
                                 <div className="line">[ERROR] Brutalisme detectat a la frontera de l'index.css</div>
                                 <div className="line">[ACCIONS] Purga de 0px en marxa...</div>
                                 <div className="line cursor">{">"} _</div>

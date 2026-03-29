@@ -39,7 +39,7 @@ Per a assegurar que el Mas bategue amb harmonia, s'han de seguir aquestes regles
 ## 6. Ubicació del Preu (Mercat) 💰🏷️
 
 - **Posició**: Estrictament a la part **inferior dreta** de la targeta (body), a sobre de la barra d'accions.
-- **Estil**: Pastilla robusta (Pill) amb color de la Boina bategant, font Roboto Condensed Bold, i ombra profunda per a destacar l'oferta.
+- **Estil**: Pastilla robusta (Pill) amb color de la Boina bategant, font Noto Sans Bold, i ombra profunda per a destacar l'oferta.
 
 ## 7. Arquitectura de 3 Nivells del Perfil (Progressive Disclosure) 🏛️
 

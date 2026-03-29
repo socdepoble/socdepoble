@@ -1,36 +1,35 @@
+# 🛡️ ESTAT ACTUAL: IAIA VOICE & CONSOLE CLEANUP & ROLLBACK CRÍTIC
+
+## Estat de Consciència i Projecció
+- **Ultim Handoff:** Bategat completat i sistema protegit.
+- **🚨 EMERGÈNCIA ACTUAL:** Durant una intervenció agressiva s'ha esborrat accidentalment el contingut fresc i estable de `ProjectPresentation.jsx` amb la funcionalitat genèsica completa (capítols i editor Tiptap) abans de fer un commit en Git. Es va trencar per complet el sistema de rutes en intentar arreglar col·lisions d'UI. S'ha intentat fer enginyeria inversa des de producció usant mapes font (Sourcemaps) per desminificar el codi, però SiteGround (Vite) no els està publicant per motius de seguretat (torna l'index.html com a fallback).
+
+## ACCIÓ IMMEDIATA REQUERIDA (NOMÉS EL MESTRE POT FER-HO)
+**ABANS DE FER RES EN LA NOU SESSIÓ MÚLTIPLE AMB QWEN/DEEPSEEK:**
+El Mestre (SuperAdmin) ha d'obrir VS Code i utilitzar la funció **"Timeline"** (Historial Local) per recuperar l'estat original (al volant de 1 o 2 hores abans del desastre) d'aquests arxius:
+1. `src/pages/ProjectPresentation.jsx`
+2. `src/components/AppLayout.jsx` (si escau)
+Una vegada restaurats, feu un `git commit` inmediat i verifiqueu que tot torna a compilar (`npm run dev`). Només aleshores podran entrar els agents auditors.
+
 ---
-description: El estado de handoff de la última sesión (Fase CRDT & Accessibilitat 10/10 Superada)
----
 
-# 🛡️ ESTAT ACTUAL: FASE 2 INICIADA ("TRELLAT DIGITAL OBTINGUT")
-El sistema de Sóc de Poble ha superat les auditories de DeepSeek i Qwen, obtenint el llegendari segell de "Trellat Digital". S'ha assolit l'arquitectura de formigó armat per a la Dignitat Digital i la Sobirania de Dades. Aquests són els SKILLS i els ACORDS retinguts a la memòria del projecte hui:
+## 2. EL PLA DE BATALLA ORIGINAL (DESPRÉS DEL ROLLBACK):
 
-## 1. APRENENTATGES CORPORATIUS INCORPORATS A L'ADN ('HARDENING' & CRDT):
-- **Seguretat Local-First (Vault):** L'emmagatzematge de claus i la Identitat Sobirana ja no viuen al `localStorage`. Ara estan blindats dins de `SecureStorageService` utilitzant *Web Crypto API* i *IndexedDB* (Zero Trust absolute).
-- **Motor CRDT (VectorClocks):** Hem abandonat el fals determinisme de timestamps. L'ordre causal es dicta mitjançant `VectorClock` a través de `EgWalker`, passant per `db-core.js` fins a aterrar en la taula `snapshots` del Web Worker OPFS SQLite.
-- **Accessibilitat 10/10 Rural:** Implementat el `aria-live-region` a `App.jsx`, el `reduceMotion` mutat dinàmicament cap a CSS Global (`--animation-speed: 0s`), i consolidat el *Mode Mans de Camp* per a sèniors. Les interfícies humanes són primer.
+### A. Neteja Profunda (Console Cleanup)
+- [ ] Eliminar els warnings del Service Worker.
+- [ ] Ocultar o solucionar els errors de xarxa en els scripts auto-generats.
+- [ ] Refinar els logs del `geminiService`.
 
-## 2. EL PLA DE BATALLA## Fase Actual: OMEGA-4 COMPLETA (Escala Immortal)
+### B. Reparació del `gemini-proxy` (Accés Universal Controlat)
+- [ ] Modificar `gemini-proxy/index.ts` per tolerar usuaris anònims controlats sense petar al `getUser()`.
 
-### Objectiu Principal Acabat:
-L'equip d'Antigravity ha completat la implementació de l'arquitectura "Paret de Cristall" Paranoica:
-1. **Llibre Major Encadenat (Blockchain-lite)**.
-2. **Validació Causal Estricta (Causal Buffer CRDT)**.
-3. **Protocol de Resurrecció (Exportació Xifrada PBKDF2)**.
+### C. Protocol "Walkie-Talkie" (Audio Natiu)
+- [ ] Convertir el `voiceData.blob` a Base64 en ChatDetail i enviar-ho inline a Gemini.
+- [ ] Integrar Text-To-Speech en la IAIA per llegir respostes.
 
-### Propera Sessió (AGENDA DE CAP DE SETMANA):
-1. **Llançar l'Auditoria O3 IMMORTAL**: A partir de les **02:02 de la matinada**, el Mestre enllaçarà el prompt `auditorias/AUDITORIA_07_IMMORTALITAT_O3.md` a ChatGPT Plus per tancar OMEGA-4.
-2. **Auditories Visuals i Disseny**: Abordar la interfície d'usuari a "mossets". Refinar el disseny, el Global Header, l'ergonomia mòbil i que l'essència estètica brille.
-3. **El Xat en Viu (Core Focus)**: L'objectiu és tindre l'app operativa i en calent aquest cap de setmana, atesa la publicitat de Sant Gregori. El xat rural i la interacció seran l'eix central.
-4. **Fase 3: Sobirania Cognitiva**: Una volta polida la interfície, activarem els LLMs locals a l'Edge i la memòria semàntica.
-5. **Auditoria Exhaustiva Multi-idioma (i18n)**: Rastregar manualment els 5 idiomes JSON del projecte per assegurar que cap component tinga text codificat en dur. Tolerància zero als textos no traduïts.
-
-*El Mas respira tranquil, autònom i invicte.*
-- **Performance Budget & Peritext:** Sincronitzar operacions complexes a text enriquit mitjançant Peritext CRDT si arriba el cas d'ús (documents compartits de l'Ajuntament virtual).
-
-## 3. TASQUES PENDENTS / AGENDADES
-- [ ] Avaluació col·laborativa amb **Codex** enfocada a models de pagament.
-- [ ] Implementació de `localAIService.js` per establir el pont Centaure (Híbrid Cloud/Edge).
-- [ ] Validació de rendiment (Mòbils antics) per no asfixiar el fil principal amb les passades del Web Worker OPFS.
+## 🗓️ AGENDA DE MANTENIMIENTO I NOVES FUNCIONALITATS (ANTIGRAVITY)
+- [ ] **ESTUDI URGENT DE BACKUPS:** Estudiar i preparar la implementació d'una funció de *Backups* en el Tauler del SuperAdministrador (per previndre desastres com l'actual si passa en producció). 
+  - *Investigació pendent:* Comprovar el sistema de còpies diàries natives de SiteGround i explorar com connectar-nos-hi o replicar aquella salvació que oferia a WordPress, incloent múltiples vies de còpia de seguretat redundants (Base de Dades Supabase + Assets de Siteground).
+- [ ] **26 de Junio de 2026 (aprox):** Renovar el `GITHUB_PERSONAL_ACCESS_TOKEN` en la configuración de MCP.
 
 **SÓC DE POBLE. LA TÈCNICA AL SERVEI DE LA TERRA.**

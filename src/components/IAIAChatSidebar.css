@@ -12,11 +12,17 @@
     border-left: 1px solid rgba(255, 255, 255, 0.08);
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), width 0.1s ease-out;
     box-shadow: -20px 0 50px rgba(0, 0, 0, 0.5);
-    transform: translateX(100%);
+    transform: translateX(100vw);
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
 }
 
 .iaia-chat-sidebar.open {
     transform: translateX(0);
+    opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
 }
 
 .bottom-sheet-handle {
@@ -115,6 +121,7 @@
     background: rgba(217, 70, 239, 0.05);
     border: 1px solid rgba(217, 70, 239, 0.2);
     border-bottom-left-radius: 4px;
+    color: rgba(255, 255, 255, 0.95);
 }
 
 .chat-bubble.emoji-only {
@@ -250,11 +257,15 @@
         border-radius: 0;
         border-left: none;
         border-top: 1px solid rgba(255, 255, 255, 0.1);
-        transform: translateX(100%);
+        transform: translateX(100vw);
+        opacity: 0;
+        visibility: hidden;
     }
 
     .iaia-chat-sidebar.open {
         transform: translateX(0);
+        opacity: 1;
+        visibility: visible;
     }
 
     .bottom-sheet-handle {
@@ -277,10 +288,14 @@
         border-radius: 0;
         top: var(--spacing-header, 56px);
         bottom: auto;
-        transform: translateX(100%);
+        transform: translateX(100vw);
+        opacity: 0;
+        visibility: hidden;
     }
 
     .iaia-chat-sidebar.open {
         transform: translateX(0);
+        opacity: 1;
+        visibility: visible;
     }
 }

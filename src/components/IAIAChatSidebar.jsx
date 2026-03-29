@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef, useCallback, useLayoutEffect, useMemo } from 'react';
-import { Send, X, Terminal, Sparkles, Brain, Shield, ChevronLeft, ChevronRight, Plus, Camera, Video, Image as ImageIcon, FileText, Calendar, Download, Phone, Video as VideoIcon, Search, MoreVertical, Bold, Italic, Type, Link2 } from 'lucide-react';
+import React, { useState, useEffect, useRef, useCallback, useLayoutEffect, useMemo, lazy, Suspense } from 'react';
+import { Send, X, Terminal, Sparkles, Brain, Shield, ChevronLeft, ChevronRight, Plus, Camera, Video, Image as ImageIcon, FileText, Calendar, Download, Phone, Video as VideoIcon, Search, MoreVertical, Bold, Italic, Type, Link2, Mic, Loader2 } from 'lucide-react';
 import { geminiService } from '../services/geminiService';
 import { pushService } from '../services/pushService';
 import { toast } from '../utils/toast';
@@ -8,6 +8,14 @@ import Portal from './Portal';
 import PollManager from './PollManager';
 import ListManager from './ListManager';
 import './IAIAChatSidebar.css';
+
+const VoiceRecorder = lazy(() => import('./VoiceRecorder'));
+
+const FallbackLoader = () => (
+    <div className="h-12 flex items-center justify-center">
+        <Loader2 className="animate-spin text-[var(--theme-accent-primary)] w-6 h-6" />
+    </div>
+);
 
 const IAIAChatSidebar = ({ isOpen, onClose, context = "general" }) => {
   const [messages, setMessages] = useState([
@@ -18,6 +26,7 @@ const IAIAChatSidebar = ({ isOpen, onClose, context = "general" }) => {
       type: 'archon'
     }
   ]);
+  const [isRecording, setIsRecording] = useState(false);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [width, setWidth] = useState(380);
@@ -34,12 +43,14 @@ const IAIAChatSidebar = ({ isOpen, onClose, context = "general" }) => {
   const lastArchonQuestion = useRef(null);
   const isMounted = useRef(true);
   const archonTimeoutRef = useRef(null);
+  const abortControllerRef = useRef(null);
 
   useEffect(() => {
     isMounted.current = true;
     return () => {
         isMounted.current = false;
         if (archonTimeoutRef.current) clearTimeout(archonTimeoutRef.current);
+        if (abortControllerRef.current) abortControllerRef.current.abort();
     };
   }, []);
 
@@ -200,6 +211,103 @@ const IAIAChatSidebar = ({ isOpen, onClose, context = "general" }) => {
     { id: 'event', label: 'Evento', icon: <Calendar size={20} />, color: '#FF2D55' },
   ];
 
+  const handleVoiceSend = async (blob, duration, transcript) => {
+    setIsRecording(false);
+    if (!blob) return;
+
+    const userMsg = { 
+        id: Date.now(), 
+        role: 'user', 
+        text: transcript || "🎙️ [Nota de Veu Nadiua]",
+        isEmojiOnly: false,
+        media: null
+    };
+
+    setMessages(prev => [...prev, userMsg]);
+
+    try {
+        const audioData = await new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                const b = reader.result;
+                const [meta, data] = b.split(',');
+                resolve({ mimeType: meta.split(':')[1].split(';')[0], data });
+            };
+            reader.readAsDataURL(blob);
+        });
+
+        const promptMsg = {
+           id: Date.now() + 1,
+           role: 'assistant',
+           text: "He rebut el teu bategat sonor, mestre. Com vols que l'Archon et responga per mantindre l'Accessibilitat Universal?",
+           type: 'audio_preference_prompt',
+           pendingAudioData: audioData,
+           pendingTranscript: transcript
+        };
+        
+        setMessages(prev => [...prev, promptMsg]);
+    } catch (err) {
+        console.error(err);
+        setMessages(prev => [...prev, { id: Date.now(), role: 'assistant', text: "Ai, el sistema d'àudio fallat al carregar en memòria... Torna-ho a provar." }]);
+    }
+  };
+
+  const triggerAudioResponse = useCallback(async (promptMsg, preference) => {
+      // 1. Transform prompt to processing mode
+      setMessages(prev => prev.map(m => m.id === promptMsg.id ? { 
+          ...m, 
+          type: 'archon', 
+          text: "Processant el bategat sonor en la matriu de l'Archon...",
+          steps: ["Pujant àudio nadiu a Gemini 1.5 Flash..."] 
+      } : m));
+
+      setIsTyping(true);
+
+      try {
+          const formatRequirement = preference === 'voice' 
+              ? "Has de respondre de forma curta, directa i súper conversacional per a ser sintetitzada per veu (TTS). Actua de forma col·loquial com un assistent personal amic i simpàtic però molt pro."
+              : "La resposta ha de ser estructurada, usant llistes Markdown (bullet points) i de forma ordenada per a ser llegida fàcilment.";
+
+          const query = `Context: ${context}. Nota de veu de l'usuari transcrita: ${promptMsg.pendingTranscript}. Instruccions de format: ${formatRequirement}. (Si no n'hi ha transcripció, analitza el Inline Audio).`;
+          
+          let geminiTimerId;
+          const geminiTimeout = new Promise((_, reject) => {
+              geminiTimerId = setTimeout(() => reject(new Error('GEMINI_TIMEOUT')), 25000); 
+          });
+          
+          if (abortControllerRef.current) abortControllerRef.current.abort();
+          abortControllerRef.current = new AbortController();
+
+          let response = await Promise.race([
+              geminiService.ask('ARCHON', query, null, promptMsg.pendingAudioData, abortControllerRef.current.signal),
+              geminiTimeout
+          ]);
+          clearTimeout(geminiTimerId);
+          
+          setMessages(prev => prev.map(m => m.id === promptMsg.id ? { 
+            ...m, 
+            text: response.text,
+            type: 'archon',
+            steps: [
+                "Àudio natiu processat correctament.",
+                `Format escollit per Mestre: ${preference === 'voice' ? 'Sintetització de Veu Nadiua' : 'Text Estructurat'}`
+            ]
+          } : m));
+
+          // En cas de voler resposta per veu nativa, ací vindria l'enllaç amb el TTS (Text-to-Speech)
+          if (preference === 'voice') {
+              hapticService.notifySuccess(); // A l'espera de TTS implementació profunda
+          }
+
+      } catch (err) {
+          console.error(err);
+          setMessages(prev => prev.map(m => m.id === promptMsg.id ? { ...m, type: 'archon', text: "Ai, m'he travat processant la nota de veu. La pols digital es massa grossa." } : m));
+      } finally {
+          setIsTyping(false);
+          setInputHeight('44px');
+      }
+  }, [context]);
+
   const handleSend = async () => {
     if ((!input.trim() && !selectedFile) || isTyping) return;
 
@@ -222,9 +330,36 @@ const IAIAChatSidebar = ({ isOpen, onClose, context = "general" }) => {
         const geminiTimeout = new Promise((_, reject) => {
             geminiTimerId = setTimeout(() => reject(new Error('GEMINI_TIMEOUT')), 15000); // 15 segons
         });
+
+        if (abortControllerRef.current) abortControllerRef.current.abort();
+        abortControllerRef.current = new AbortController();
         
+        const messageId = Date.now() + 1;
+        let isFirstChunk = true;
+
         let response = await Promise.race([
-            geminiService.ask('ARCHON', query),
+            geminiService.ask('ARCHON', query, null, null, abortControllerRef.current.signal, (chunkText) => {
+                setMessages(prev => {
+                    const existingMsg = prev.find(m => m.id === messageId);
+                    if (existingMsg) {
+                        return prev.map(m => m.id === messageId ? { ...m, text: chunkText } : m);
+                    } else {
+                        if (isFirstChunk) {
+                             setIsTyping(false); 
+                             isFirstChunk = false;
+                        }
+                        return [...prev, {
+                            id: messageId,
+                            role: 'assistant',
+                            text: chunkText,
+                            type: 'archon',
+                            steps: [
+                                "Processant riu de dades..."
+                            ]
+                        }];
+                    }
+                });
+            }),
             geminiTimeout
         ]);
         clearTimeout(geminiTimerId);
@@ -287,20 +422,27 @@ const IAIAChatSidebar = ({ isOpen, onClose, context = "general" }) => {
             }
         }
         
-        const archonMsg = { 
-          id: Date.now() + 1, 
-          role: 'assistant', 
-          text: response.text,
-          type: 'archon',
-          steps: [
-              "Analitzant context del tràmit...",
-              "Verificant permisos de l'usuari...",
-              "Executant bategat de dades...",
-              "Generant veredicte d'execució."
-          ]
-        };
+        const finalSteps = [
+            "Analitzant context del tràmit...",
+            "Verificant permisos de l'usuari...",
+            "Executant bategat de dades...",
+            "Generant veredicte d'execució."
+        ];
         
-        setMessages(prev => [...prev, archonMsg]);
+        setMessages(prev => {
+            const existingMsg = prev.find(m => m.id === messageId);
+            if (existingMsg) {
+                return prev.map(m => m.id === messageId ? { ...m, text: response.text, steps: finalSteps } : m);
+            } else {
+                return [...prev, { 
+                    id: messageId, 
+                    role: 'assistant', 
+                    text: response.text,
+                    type: 'archon',
+                    steps: finalSteps
+                }];
+            }
+        });
     } catch {
       setMessages(prev => [...prev, { id: Date.now(), role: 'assistant', text: "Ai, m'he travat una mica... Torna-m'ho a dir!" }]);
     } finally {
@@ -366,10 +508,27 @@ const IAIAChatSidebar = ({ isOpen, onClose, context = "general" }) => {
             </div>
           )}
           <p className="text-sm leading-relaxed">{msg.text}</p>
+          
+          {msg.type === 'audio_preference_prompt' && (
+            <div className="audio-preference-actions mt-4 flex gap-2">
+                <button 
+                  onClick={() => triggerAudioResponse(msg, 'voice')} 
+                  className="flex-1 bg-white/10 hover:bg-white/20 py-2.5 rounded-[28px] text-[11px] font-black uppercase tracking-wider text-center transition-colors flex items-center justify-center gap-2"
+                >
+                    <Mic size={14} className="text-[var(--theme-accent-primary)]"/> Diga-ho
+                </button>
+                <button 
+                  onClick={() => triggerAudioResponse(msg, 'text')} 
+                  className="flex-1 bg-white/10 hover:bg-white/20 py-2.5 rounded-[28px] text-[11px] font-black uppercase tracking-wider text-center transition-colors flex items-center justify-center gap-2"
+                >
+                    <Type size={14} className="text-[var(--theme-accent-secondary)]"/> Escriu-ho
+                </button>
+            </div>
+          )}
         </div>
       </div>
     ));
-  }, [messages]);
+  }, [messages, triggerAudioResponse]);
 
   return (
     <Portal>
@@ -481,48 +640,72 @@ const IAIAChatSidebar = ({ isOpen, onClose, context = "general" }) => {
           </div>
           
           <div className="flex-1 relative">
-            {selectedFile && (
-              <div className="absolute bottom-full left-0 mb-4 p-3 bg-[#1a1a1a] border border-white/10 genesis-radius flex items-center gap-4 animate-in fade-in slide-in-from-bottom-2 shadow-2xl z-40">
-                <div className="w-12 h-12 bg-white/5 card-radius flex items-center justify-center overflow-hidden">
-                    {selectedFile.type === 'image' || selectedFile.type === 'video' ? (
-                        <img src={selectedFile.preview} className="w-full h-full object-cover" alt="" />
-                    ) : (
-                        <FileText size={20} className="text-blue-400" />
+            {isRecording ? (
+                <div className="voice-recorder-overlay animate-in slide-in-from-bottom-5 duration-300 w-full bg-[#1a1a1a] shadow-2xl relative z-40 rounded-[28px] overflow-hidden">
+                    <Suspense fallback={<FallbackLoader />}>
+                        <VoiceRecorder 
+                            onSend={handleVoiceSend}
+                            onCancel={() => setIsRecording(false)}
+                        />
+                    </Suspense>
+                </div>
+            ) : (
+                <>
+                    {selectedFile && (
+                    <div className="absolute bottom-full left-0 mb-4 p-3 bg-[#1a1a1a] border border-white/10 genesis-radius flex items-center gap-4 animate-in fade-in slide-in-from-bottom-2 shadow-2xl z-40">
+                        <div className="w-12 h-12 bg-white/5 card-radius flex items-center justify-center overflow-hidden">
+                            {selectedFile.type === 'image' || selectedFile.type === 'video' ? (
+                                <img src={selectedFile.preview} className="w-full h-full object-cover" alt="" />
+                            ) : (
+                                <FileText size={20} className="text-blue-400" />
+                            )}
+                        </div>
+                        <div className="flex-1 min-w-0 pr-4">
+                            <p className="text-[10px] font-black truncate">{selectedFile.name}</p>
+                            <p className="text-[8px] opacity-40 uppercase">{selectedFile.size}</p>
+                        </div>
+                        <button onClick={() => setSelectedFile(null)} className="p-1.5 hover:bg-white/10 rounded-[28px]">
+                        <X size={14} />
+                        </button>
+                    </div>
                     )}
-                </div>
-                <div className="flex-1 min-w-0 pr-4">
-                    <p className="text-[10px] font-black truncate">{selectedFile.name}</p>
-                    <p className="text-[8px] opacity-40 uppercase">{selectedFile.size}</p>
-                </div>
-                <button onClick={() => setSelectedFile(null)} className="p-1.5 hover:bg-white/10 rounded-[28px]">
-                  <X size={14} />
-                </button>
-              </div>
-            )}
 
-            <textarea 
-              id="sidebar-chat-input"
-              name="sidebar-chat-input"
-              ref={textareaRef}
-              placeholder="Enviament bategat..."
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                  e.preventDefault();
-                  handleSend();
-                }
-              }}
-              className="w-full resize-none py-3 pr-12 pl-4 scroll-smooth"
-              style={{ height: inputHeight }}
-            />
-            <button 
-              className="send-btn"
-              disabled={!input.trim() && !selectedFile}
-              onClick={handleSend}
-            >
-              <Send size={18} />
-            </button>
+                    <textarea 
+                    id="sidebar-chat-input"
+                    name="sidebar-chat-input"
+                    ref={textareaRef}
+                    placeholder="Enviament bategat..."
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        handleSend();
+                        }
+                    }}
+                    className="w-full resize-none py-3 pr-12 pl-4 scroll-smooth"
+                    style={{ height: inputHeight }}
+                    />
+                    
+                    {!input.trim() && !selectedFile ? (
+                        <button 
+                            className="send-btn bg-transparent hover:bg-white/5 text-gray-400 hover:text-[var(--theme-accent-primary)] transition-colors !pr-[6px]"
+                            onClick={() => setIsRecording(true)}
+                            title="Nota de Veu"
+                        >
+                            <Mic size={18} />
+                        </button>
+                    ) : (
+                        <button 
+                        className="send-btn"
+                        disabled={!input.trim() && !selectedFile}
+                        onClick={handleSend}
+                        >
+                        <Send size={18} />
+                        </button>
+                    )}
+                </>
+            )}
           </div>
         </div>
         <div className="footer-status mt-3 flex items-center justify-center gap-2 opacity-30">

@@ -19,8 +19,8 @@ Recursos mestre per a forçar la consistència en tot el contingut generat (diss
     "text": "#111827"
   },
   "typography": {
-    "headings": "Roboto Condensed",
-    "body": "Roboto Condensed",
+    "headings": "Noto Sans",
+    "body": "Noto Sans",
     "base_size": "19px"
   },
   "geometry": {

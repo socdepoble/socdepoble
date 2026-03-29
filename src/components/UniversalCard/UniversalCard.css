@@ -754,6 +754,16 @@
   flex-shrink: 0; /* Alzina: Prohibida la deformació */
 }
 
+@media (max-width: 380px) {
+  .footer-touch-group {
+    gap: 2px;
+  }
+  .btn-touch {
+    width: 38px;
+    height: 38px;
+  }
+}
+
 .btn-touch:hover {
   background: rgba(255, 255, 255, 0.1);
   transform: translateY(-1px) scale(1.05);

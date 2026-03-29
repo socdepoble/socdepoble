@@ -62,6 +62,7 @@ const PostDetail = () => {
             <SEO
                 title={post.title || displayAuthor}
                 description={(post.content || '').substring(0, 160)}
+                image={mediaList[0]}
                 url={`/post/${id}`}
             />
 

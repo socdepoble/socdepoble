@@ -59,7 +59,7 @@
     "role_oficial": "Erakundeak",
     "role_xat": "Txata",
     "role_treball": "Lana",
-    "role_pobo": "Herriak",
+    "role_poble": "Herriak",
     "role_mercat": "Merkatua",
     "save": "Gorde",
     "save_selection": "HERRIA GORDE",
@@ -77,12 +77,12 @@
     "publish": "Argitaratu",
     "change_language": "Hizkuntza aldatu",
     "support_short": "Laguntza",
-    "role_poble": "Herriak",
     "add_town": "Gehitu herria",
     "add": "KONEKTATU",
     "save_btn": "Gorde",
     "cancel": "Utzi",
-    "share_soc": "Partekatu Sóc de Poble"
+    "share_soc": "Partekatu Sóc de Poble",
+    "role_pobo": "Herriak"
   },
   "nav": {
     "chats": "Txata",
@@ -105,52 +105,18 @@
     "profile_notifications": "Jakinarazpenak",
     "notifications": "Jakinarazpenak",
     "add_town": "Herria gehitu",
+    "stats_posts": "Argitalpenak",
+    "stats_sales": "Salgai",
+    "stats_connections": "Konexioak",
+    "my_album": "Nire Albuma",
     "menu": "Menua",
     "vision_protocol": "Ikusmen Protokoloa",
     "archon_console": "Archon Kontsola",
     "theme_day": "Eguneko Modua",
     "theme_night": "Gaueko Modua",
-    "stats_posts": "Argitalpenak",
-    "stats_sales": "Salgai",
-    "stats_connections": "Konexioak",
-    "my_album": "Nire Albuma",
     "system_op_part_1": "SISTEMA",
     "system_op_part_2": "ERAGILEA",
     "legal_info": "LEGE INFORMAZIOA"
-  },
-  "notebook": {
-    "title": "Ohar-Blokea",
-    "welcome": "Ongi etorri zure Ohar-Blokera 📓🏺",
-    "new_note": "Ohar Berria",
-    "new_list": "Zerrenda Berria",
-    "library": "LIBURUTEGIA",
-    "new_folder": "Karpeta Berria",
-    "empty_folders": "Ez dago karpetarik sortuta...",
-    "trellat_title": "TRELLAT (KATEGORIAK)",
-    "trash": {
-      "bucket": "Zaborrontzia",
-      "send_to_trash": "Zaborrontzira Bidali",
-      "confirm_delete": "Inoizko erlikia hau behin betiko ezabatu nahi duzu? Ekintza hau ezin da desegin.",
-      "restore": "Berreskuratu",
-      "permanent_delete": "Behin betiko ezabatu"
-    },
-    "placeholder": "Hasi datuak argitaratzen hemen...",
-    "info": "Informazioa",
-    "creation": "Sorrera",
-    "modification": "Aldaketa",
-    "last_opened": "Azken irekiera",
-    "planned_date": "Aurreikusitako data",
-    "categories": {
-      "trellat": "Zentzua",
-      "patrimoni": "Ondarea",
-      "dades": "Datuak",
-      "social": "Soziala"
-    },
-    "corrector": {
-      "title": "Amonaren Zuzenketak",
-      "lang_variants": "Aldaera guztiak (Erdialdekoa, Valentziarra, Balearra)",
-      "correct_btn": "Zuzendu"
-    }
   },
   "chats": {
     "title": "Txatak",
@@ -194,6 +160,7 @@
     "search_placeholder": "Bilatu merkatuan...",
     "empty": "Ez dago produkturik merkatuan.",
     "no_items": "Oraindik ez dago ezer merkatuan.",
+    "no_items_search": "No s'ha trobat cap article per a \"{{term}}\"",
     "loading": "Merkatua kargatzen...",
     "loading_market": "Merkatua kargatzen...",
     "no_description": "Deskribapenik gabe.",
@@ -203,7 +170,12 @@
     "category": "Kategoria",
     "add_photo": "Argazki bat gehitu",
     "publish": "Artikulua Publikatu",
-    "interested": "Interesatua"
+    "interested": "Interesatua",
+    "payment_confirm": "Vols activar un Bategat Econòmic (Astro) de {{price}} per {{title}}? L'IAIA segellarà la transacció immediatament al teu mòbil.",
+    "payment_error": "Error en el bategat: {{error}}",
+    "tia_thinking": "👵 La Tia Maria està pensant una idea per a: {{title}}...",
+    "tia_error": "Ay fill, no m'escolte bé ara mateix.",
+    "tia_says": "👵 LA TIA MARIA DIU:\n\n\"{{text}}\""
   },
   "auth": {
     "login": "Saioa hasi",
@@ -215,9 +187,10 @@
     "signIn": "Sartu",
     "signUp": "Erregistratu",
     "noAccount": "Ez duzu konturik?",
-    "register_now": "erregistratu orain",
+    "no_account": "Ez duzu konturik?",
     "haveAccount": "Baduzu kontua?",
     "checkEmail": "Erregistroa ondo egin da. Mesedez, egiaztatu zure posta elektronikoa berresteko.",
+    "register_now": "erregistratu orain",
     "logout": "Irten",
     "demo_access": "Sartu auzokide gisa (Demo)",
     "demo_hint": "Erregistratu gabeko berrikusketarako sarbide azkarra",
@@ -264,8 +237,7 @@
     "change_number": "Zenbakia aldatu",
     "welcome_home_prefix": "Ongi etorri etxera, ",
     "iaia_final_speech": "«Dagoeneko gureetako bat zara. Herri bihotza, taupada digitala. Plazan elkar ikusiko dugu!»",
-    "iaia_signature": "- IAIA 👵✨",
-    "no_account": "Ez duzu konturik?"
+    "iaia_signature": "- IAIA 👵✨"
   },
   "notifications": {
     "title": "Jakinarazpenak",
@@ -347,8 +319,7 @@
     "cognitive": "Gida Adimentsua",
     "memory_sources": "Informazio iturriak",
     "avi_status": "Laguntzailearen egoera",
-    "active": "Simulazio Modua Aktibo",
-    "stop": "Itzuli nire Benetako Rolera",
+    "avi_watching": "Sóc de Poble aktibatua",
     "logs": "Azken jarduera",
     "copy_report": "ERRORE TXOSTENA KOPIATU",
     "clear": "Jarduera garbitu",
@@ -368,7 +339,99 @@
     "nuke_start": "Ekosistema osoa berreskuratzen...",
     "nuke_sw_removed": "Sare kontrolatzaileak berrabiarazi dira.",
     "nuke_cache_purged": "Aldi baterako memoria hustu da.",
-    "avi_watching": "Sóc de Poble aktibatua"
+    "active": "Simulazio Modua Aktibo",
+    "stop": "Itzuli nire Benetako Rolera"
+  },
+  "sim": {
+    "perspective": "Perspektiba Simulazioa",
+    "role_user": "Erregistratutako Erabiltzaile Ikuspegia",
+    "role_admin": "Administratzaile Ikuspegia",
+    "role_editor": "Editore Ikuspegia",
+    "active": "Simulazio Modua Aktibatua",
+    "stop": "Itzuli nire Benetako Rolera"
+  },
+  "notebook": {
+    "title": "Ohar-Blokea",
+    "welcome": "Ongi etorri zure Ohar-Blokera 📓🏺",
+    "new_note": "Ohar Berria",
+    "new_list": "Zerrenda Berria",
+    "library": "LIBURUTEGIA",
+    "new_folder": "Karpeta Berria",
+    "empty_folders": "Ez dago karpetarik sortuta...",
+    "trellat_title": "TRELLAT (KATEGORIAK)",
+    "placeholder": "Hasi datuak argitaratzen hemen...",
+    "info": "Informazioa",
+    "creation": "Sorrera",
+    "modification": "Aldaketa",
+    "last_opened": "Azken irekiera",
+    "planned_date": "Aurreikusitako data",
+    "categories": {
+      "trellat": "Zentzua",
+      "patrimoni": "Ondarea",
+      "dades": "Datuak",
+      "social": "Soziala"
+    },
+    "trash": {
+      "bucket": "Zaborrontzia",
+      "confirm_delete": "Inoizko erlikia hau behin betiko ezabatu nahi duzu? Ekintza hau ezin da desegin.",
+      "restore": "Berreskuratu",
+      "permanent_delete": "Behin betiko ezabatu",
+      "send_to_trash": "Zaborrontzira Bidali"
+    },
+    "corrector": {
+      "title": "Amonaren Zuzenketak",
+      "lang_variants": "Aldaera guztiak (Erdialdekoa, Valentziarra, Balearra)",
+      "correct_btn": "Zuzendu"
+    }
+  },
+  "legal": {
+    "rhizome_slides": [
+      {
+        "title": "SOBIRANIA DIGITAL",
+        "desc": "La dada com a arrel, no com a mercaderia. En el Mas Digital, tu eres el propietari de la teua informació. Apostem per connexions horitzontals peer-to-peer, eliminant intermediaris extractius i garantint que el bategat del teu poble romanga privat i sobirà. No més algoritmes que decideixen per tu, sinó una infraestructura al servei de la comunitat rural.",
+        "image": "/assets/infographies/art_sobirania_v1036.png"
+      },
+      {
+        "title": "DADES AMB TRELLAT",
+        "desc": "Privacitat KM 0. Apliquem el sentit comú a la gestió digital. Protecció suprema de la identitat rural sota el bategat del Mas. Sols recollim allò que és essencial per a la convivència i el comerç local. Les teues dades no viatgen a servidors desconocuts, sinó que s'arrelen en el territori per generar utilitat real i protegir el futur dels nostres pobles.",
+        "image": "/assets/infographies/art_trellat_v1036.png"
+      },
+      {
+        "title": "LA IAIA I EL GRUP DE TREBALL",
+        "desc": "Memòria Viva i Tecnologia Ancestral. Un bategat que uneix generacions a través del codi i la saviesa popular. El Grup de Treball de la IAIA garanteix que la intel·ligència artificial no oblide d'on venim. Implementem protocols que dignifiquen el passat mentre construïm el futur digital més humà i connectat de les nostres comarques.",
+        "image": "/assets/infographies/art_memoria_v1036.png"
+      }
+    ]
+  },
+  "emoji": {
+    "frequently_used": "Askotan erabilitakoak",
+    "smileys_people": "Aurpegiak eta pertsonak",
+    "animals_nature": "Animaliak eta natura",
+    "food_drink": "Janaria eta edaria",
+    "travel_places": "Bidaiak eta lekuak",
+    "activities": "Jarduerak",
+    "objects": "Objektuak",
+    "symbols": "Sinboloak",
+    "flags": "Banderak",
+    "search": "Bilatu testu edo emojiekin",
+    "suggested": "Azkenak",
+    "custom": "Pertsonalizatuak"
+  },
+  "chatEmpty": {
+    "architectTitle": "🏗️ ARQUITECTURA GENERAL",
+    "architectMirror": "MIRALL DIDÀCTIC: ESTRUCTURA MESTRA",
+    "architectRock": "LA ROCA (Sidebar)",
+    "architectRockDesc": "Bloc immovible a l'esquerra (280px). Conté l'accés universal (AFEGIR), el botó de Xat taronja i tota la navegació per \"Bategats\". El Header de la sidebar és SEMPRE NEGRE per jerarquia visual.",
+    "architectMarket": "EL MERCAT (Panell Central)",
+    "architectMarketDesc": "Espai de trànsit de 400px. Aquí és on \"passes llista\": veus qui parla, quines notícies hi ha o quins productes es venen. La capçalera central és el quadre de comandament (Eines).",
+    "architectStage": "L'ESCENARI (Panell de Detall)",
+    "architectStageDesc": "On passa l'acció. Ocupa tot l'espai restant. En \"Mode Producció\" veus el contingut; en \"Mode Arquitecte\", veus aquesta mateixa explicació tècnica.",
+    "architectProtocol": "Protocol 1er Mandament v10.33.15-CANÒNIC",
+    "globalConfigTitle": "Configuració Global del Xat",
+    "protectedState": "ESTEM PROTEGITS",
+    "btnBlockpad": "Bloc de Notes (Desactivat ací)",
+    "btnSearch": "Cercar (Desactivat ací)",
+    "privacySafe": "Privacitat Segura i Protegida | v10.33.16-CANÒNIC"
   },
   "chat": {
     "guest_warning_text": "You are chatting as a Guest and this temporary chat will be deleted.",
@@ -376,6 +439,10 @@
     "iaia_forwarding_toast": "🤖 Forwarding your request to MArIA...",
     "remote_beat_debate": "⚙️ Remote beat: Starting debate between AIs...",
     "voice_message": "🎤 Voice message",
+    "voice_message_received": "Nova nota de veu rebuda.",
+    "voice_note": "Nota de veu",
+    "network_timeout": "Fallada forçada per xarxa o timeout",
+    "forward_entity_query": "[Consulta sobre l'ens {{name}}]: {{content}}",
     "attachment_sent": "[The user just sent you a document or photo]",
     "moved_to_local_expert": "📁 Moved to the local expert.",
     "undo": "UNDO",
@@ -407,19 +474,70 @@
     "more": "More",
     "talk_with": "Talk with {{name}}..."
   },
-  "emoji": {
-    "search": "Bilatu testu edo emojiekin",
-    "suggested": "Azkenak",
-    "smileys_people": "Aurpegiak eta pertsonak",
-    "animals_nature": "Animaliak eta natura",
-    "food_drink": "Janaria eta edaria",
-    "travel_places": "Bidaiak eta lekuak",
-    "activities": "Jarduerak",
-    "objects": "Objektuak",
-    "symbols": "Sinboloak",
-    "flags": "Banderak",
-    "custom": "Pertsonalizatuak",
-    "frequently_used": "Askotan erabilitakoak"
+  "presentation": {
+    "docOfficial": "DOCUMENTACIÓ OFICIAL",
+    "titleMain": "SÓC DE POBLE",
+    "titleSub": "Portal de Pobles Connectats",
+    "titleDesc": "Una XARXA SOCIAL DESCENTRALITZADA de PROGRAMARI LLIURE, per CONNECTAR i GEOLOCALITZAR recursos d'utilitat social, compartint informació, experiències i idees que faciliten el desenvolupament sostenible i tecnològic en entorns rurals, per posar en valor els recursos locals i mostrar l'atractiu dels pobles com a llocs on viure i treballar.",
+    "sobiraniaTitle": "SOBIRANIA DIGITAL",
+    "sobiraniaDesc": "La dada com a arrel, no com a mercaderia. En el Mas Digital, tu eres el propietari de la teua informació. Apostem per connexions horitzontals peer-to-peer, eliminant intermediaris extractius i garantint que el bategat del teu poble romanga privat i sobirà.",
+    "trellatTitle": "DADES AMB TRELLAT",
+    "trellatDesc": "Privacitat KM 0. Sols recollim allò que és essencial per a la convivència i el comerç local. Les teues dades no viatgen a servidors desconeguts, sinó que s'arrelen en el territori per generar utilitat real i protegir el futur rural.",
+    "memoriaTitle": "MEMÒRIA VIVA",
+    "memoriaDesc": "Un bategat que uneix generacions a través del codi i la saviesa popular. Garanteix que la intel·ligència artificial no oblide d'on venim. Implementem protocols que dignifiquen el passat mentre construïm el futur digital.",
+    "llicenciaTitle": "LLICÈNCIA OBERTA",
+    "llicenciaDesc": "Aquest sistema és de codi obert per a ús comunitari i educatiu. L'ús comercial està subjecte a llicència del Mestre.",
+    "identitatsTitle": "IDENTITATS DEL MAS",
+    "identSdpTitle": "SÓC DE POBLE",
+    "identSdpOver": "PROJECTE SOCIAL",
+    "identSdpDesc": "Plataforma bategant per a la memòria viva i la governança d'un territori sobirà.",
+    "identRentonarTitle": "EL RENTONAR",
+    "identRentonarOver": "AGRUPACIÓ ECOLOGISTA",
+    "identRentonarDesc": "Entitat que promou i empara aquest projecte des de la resistència cultural.",
+    "identJaviTitle": "JAVI LLINARES",
+    "identJaviOver": "DIRECCIÓ I DISSENY",
+    "identJaviDesc": "Responsable de la realització, disseny i coordinació. Mestre darrere del Mas Digital.",
+    "iaiaTitle": "LA IAIA MARIA",
+    "iaiaSubtitle": "La intel·ligència central del Mas. No és una IA freda de Silicon Valley, sinó la \"saviesa de l'àvia\" arrelada a la terra. Un sistema multi-agent dissenyat per a protegir, educar i preservar la identitat rural.",
+    "tiaTitle": "LA TIA MARIA",
+    "tiaDesc": "Agent de proximitat. Ofereix receptes locals, consells vitals i conversa arrelada.",
+    "cronistaTitle": "EL CRONISTA",
+    "cronistaDesc": "Documentalista del Mur. Genera resums de l'activitat del poble i preserva l'hemeroteca.",
+    "ullTitle": "L'ULL DEL MESTRE",
+    "ullDesc": "Visió multimodal. Identifica eines agrícoles, plantes, plagues i patrimoni cultural.",
+    "nanoTitle": "NANO BANANA",
+    "nanoDesc": "Generació multimèdia automàtica i protocols de simbiosi artística a la comunitat.",
+    "ruperTitle": "RÚPER RATÓN",
+    "ruperDesc": "Motor de super-cerca semàntica. Analitza PDF, bans municipals i actes històriques.",
+    "filtreTitle": "FILTRE TRELLAT",
+    "filtreDesc": "Triple nucli que regula la presència de la IA per garantir el sentit comú local.",
+    "arquitecturaTitle": "ARQUITECTURA REVOLUCIONÀRIA",
+    "arqCrdtTitle": "Eg-walker CRDT",
+    "arqCrdtDesc": "Sincronització de graf d'esdeveniments. Convergència determinista en local que elimina la necessitat de base de dades central.",
+    "arqRhizomeTitle": "Xarxa Rhizome",
+    "arqRhizomeDesc": "Protocol gossip. Els telèfons dels veïns formen la malla de comunicació, reduint la dependència del núvol al mínim.",
+    "arqLocalTitle": "Local-First",
+    "arqLocalDesc": "L'usuari és el propietari de les seues dades. Càrrega instantània des de IndexedDB. Funciona sense cobertura.",
+    "modelTitle": "MODEL DE NEGOCI HÍBRID",
+    "modelSecretariTitle": "\"El Secretari\" (Model B2G)",
+    "modelSecretariDesc": "Subscripció mestre per a Ajuntaments que automatitza la gestió pública rural.",
+    "modelEssenciesTitle": "\"Essències\" (Model B2B)",
+    "modelEssenciesDesc": "Monetització de l'economia local sense intermediaris (Km 0).",
+    "finançamentTitle": "FINANÇAMENT I PATROCINIS",
+    "finançamentDesc": "\"Sóc de Poble\" no ven dades. Bateguem perquè el territori tinga la seua pròpia veu, finançada per la comunitat.",
+    "finProTitle": "Clients PRO & Sobirania",
+    "finProDesc": "Subscripcions per a pobles, ajuntaments i entitats que volen governar.",
+    "finKm0Title": "Patrocini Km 0",
+    "finKm0Desc": "Empreses del territori que bateguen amb nosaltres. Publicitat ètica.",
+    "finAnuncTitle": "Anunciants Ètics",
+    "finAnuncDesc": "Espais reservats per a marques que aporten valor real al món rural.",
+    "legalTitle": "AVÍS LEGAL I DRETS DIGITALS",
+    "legal1Title": "1. Identitat Bategant",
+    "legal1Desc": "LSSI-CE: Responsable Sobirà F. Javier Llinares García (21476359V). El Mas Central es troba registrat a la Calle Sant Isidre Llaurador, 16. Connecta via socdepoble@socdepoble.org.",
+    "legal2Title": "2. Sobirania de l'Usuari",
+    "legal2Desc": "Sols recollim el necessari per al bategat del node: perfil, localització voluntària i memòria social KM 0. Pots descarregar tota la teua memòria digital o fulminar el teu node de forma autònoma enviant un missatge al Mestre. Especialment per als Forasters (Guest Mode), l'experiència és completament efímera, les teues dades desapareixen en eixir del navegador, garantint l'exploració anònima sense rastre cap.",
+    "legal3Title": "3. Política de Cookies",
+    "legal3Desc": "\"Ací al poble no ens agrada que ningú ens diga què hem d'anar a comprar. Sóc de Poble no utilitza gats vells de Google ni píxels extractius.\" Utilitzem cookies lliures i anònimes i el servei està en auto-hostalatge."
   },
   "admin": {
     "zero_day_setup": "Zero-Day Konfigurazioa",
@@ -442,12 +560,15 @@
     "editorial_gov": "Gobernantza Editoriala",
     "permissions_gov": "Baimenak eta Rolak"
   },
-  "sim": {
-    "perspective": "Perspektiba Simulazioa",
-    "role_user": "Erregistratutako Erabiltzaile Ikuspegia",
-    "role_admin": "Administratzaile Ikuspegia",
-    "role_editor": "Editore Ikuspegia",
-    "active": "Simulazio Modua Aktibatua",
-    "stop": "Itzuli nire Benetako Rolera"
+  "card": {
+    "connect": "CONNECTAR",
+    "visit": "VISITAR POBLE",
+    "tramitar": "TRAMITAR",
+    "translate": "Traduir Article",
+    "translateAlert": "🌐 Motor de Traducció A Demanda (Vertex AI) prompte disponible.",
+    "comment": "Comentar",
+    "share": "Compartir",
+    "options": "Opcions",
+    "shareText": "Fes un cop d'ull a això en Sóc de Poble!"
   }
 }

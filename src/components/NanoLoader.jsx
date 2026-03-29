@@ -3,7 +3,7 @@ import { Loader2 } from 'lucide-react';
 import { Stack } from '../design-system/components/Layout/Stack';
 import { Text } from '../design-system/components/Typography/Text';
 
-const NanoLoader = ({ message = "Carregant Sóc de Poble..." }) => {
+const NanoLoader = ({ message = "Connectant..." }) => {
     return (
         <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-[var(--bg-app)] text-[var(--text-main)] transition-opacity duration-300">
             <Stack spacing="md" alignment="center">

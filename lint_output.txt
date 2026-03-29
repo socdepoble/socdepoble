@@ -1,0 +1,37 @@
+
+> soc-de-poble@10.33.16-BATEGA lint
+> eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0
+
+
+/Users/javillinares/Documents/Antigravity/Sóc de Poble/audit2.js
+  8:26  error  'error' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/javillinares/Documents/Antigravity/Sóc de Poble/check_entities.js
+  8:29  error  'error' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/javillinares/Documents/Antigravity/Sóc de Poble/cloudflare-workers/signaling-worker.js
+   4:29  error  'ENV' is not defined                                                                    no-undef
+  10:12  error  'e' is defined but never used                                                           no-unused-vars
+  15:16  error  'canJoinRoom' is defined but never used. Allowed unused vars must match /^[A-Z_]/u      no-unused-vars
+  17:35  error  'SUPABASE_URL' is not defined                                                           no-undef
+  20:34  error  'SUPABASE_SERVICE_ROLE_KEY' is not defined                                              no-undef
+  53:11  error  'userId' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+  54:11  error  'roomId' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+  59:22  error  'WebSocketPair' is not defined                                                          no-undef
+
+/Users/javillinares/Documents/Antigravity/Sóc de Poble/combine_presentation.mjs
+  17:21  error  Parsing error: Unterminated template
+
+/Users/javillinares/Documents/Antigravity/Sóc de Poble/count_posts.js
+  8:26  error  'error' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/javillinares/Documents/Antigravity/Sóc de Poble/force_fix_3_towns.js
+  10:11  error  'p1' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+  17:11  error  'p2' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+  23:11  error  'p3' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/javillinares/Documents/Antigravity/Sóc de Poble/generate_towns_update.js
+  75:11  error  'toUpdate' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+✖ 16 problems (16 errors, 0 warnings)
+

@@ -43,10 +43,15 @@ window.addEventListener('unhandledrejection', (event) => {
 // Console Noise Suppression
 const originalWarn = console.warn;
 const originalError = console.error;
+const originalLog = console.log;
+const originalInfo = console.info;
+
 const isNoise = (args) => args.some((arg) => checkSilence(arg));
 
 console.warn = (...args) => { if (!isNoise(args)) originalWarn.apply(console, args); };
 console.error = (...args) => { if (!isNoise(args)) originalError.apply(console, args); };
+console.log = (...args) => { if (!isNoise(args)) originalLog.apply(console, args); };
+console.info = (...args) => { if (!isNoise(args)) originalInfo.apply(console, args); };
 
 
 
@@ -88,12 +93,12 @@ window.__SDP_ROOT__.render(
     <QueryProvider>
       <HelmetProvider>
         <BrowserRouter>
-        <I18nProvider>
-          <AuthProvider>
-            <RealmProvider>
-              <SocialProvider>
-                <DesignProvider>
-                  <ThemeProvider>
+        <DesignProvider>
+          <ThemeProvider>
+            <I18nProvider>
+              <RealmProvider>
+                <AuthProvider>
+                  <SocialProvider>
                     <NavigationProvider>
                       <ModalProvider>
                         <ToastProvider>
@@ -105,12 +110,12 @@ window.__SDP_ROOT__.render(
                         </ToastProvider>
                       </ModalProvider>
                     </NavigationProvider>
-                  </ThemeProvider>
-                </DesignProvider>
-              </SocialProvider>
-            </RealmProvider>
-          </AuthProvider>
-        </I18nProvider>
+                  </SocialProvider>
+                </AuthProvider>
+              </RealmProvider>
+            </I18nProvider>
+          </ThemeProvider>
+        </DesignProvider>
         </BrowserRouter>
       </HelmetProvider>
     </QueryProvider>

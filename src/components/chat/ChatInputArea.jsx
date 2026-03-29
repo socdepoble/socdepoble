@@ -53,7 +53,7 @@ const ChatInputArea = React.memo(({
             <div className="max-w-5xl mx-auto relative">
                 
                 {isRecording ? (
-                    <div className="voice-recorder-overlay animate-in slide-in-from-bottom-5 duration-300">
+                    <div className="voice-recorder-overlay absolute z-[100] inset-x-0 bottom-0 bg-[#121212] overflow-hidden rounded-[24px] shadow-2xl flex items-center min-h-[48px] animate-in slide-in-from-bottom-5 duration-300 pointer-events-auto">
                         <Suspense fallback={<FallbackLoader />}>
                             <VoiceRecorder 
                                 onSend={async (blob, duration, transcript) => {
@@ -97,6 +97,7 @@ const ChatInputArea = React.memo(({
                                 
                                 {/* CAMP DE TEXT */}
                                 <textarea 
+                                    id="chat-message-input" name="chat_message" // [OMEGA-5 FIX] Console warnings
                                     ref={inputRef} rows={1} spellCheck="true" value={newMessage} 
                                     onChange={(e) => { setNewMessage(e.target.value); e.target.style.height = 'auto'; e.target.style.height = `${Math.min(e.target.scrollHeight, 120)}px`; }}
                                     onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); onInternalSubmit(e); } }}
@@ -231,7 +232,7 @@ const ChatInputArea = React.memo(({
                                 )}
                             </div>
 
-                            <div className="flex items-end pb-[0px] md:pb-[2px]">
+                            <div className="flex items-end flex-none shrink-0 pb-[0px] md:pb-[2px]">
                                 {newMessage.trim() || attachedFile ? (
                                     <button type="submit" disabled={isSending} onPointerDown={(e) => { e.preventDefault(); if (!isSending) onInternalSubmit(e); }} className="w-[42px] h-[42px] md:w-[48px] md:h-[48px] shrink-0 bg-[#00a884] hover:bg-[#008f6f] text-white disabled:opacity-50 rounded-full shadow-md flex items-center justify-center transition-transform active:scale-95 z-10">
                                         <Send strokeWidth={2.5} className="w-[18px] h-[18px] ml-1" />

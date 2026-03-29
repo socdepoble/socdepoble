@@ -106,9 +106,9 @@ class GeminiService {
   }
 
   /**
-   * Crida al model Gemini amb una personalitat específica i suport per a imatges.
+   * Crida al model Gemini amb una personalitat específica i suport per a imatges/àudio.
    */
-  async ask(personaKey, query, imageData = null) {
+  async ask(personaKey, query, imageData = null, audioData = null, signal = null, onProgress = null) {
     const persona = this.PERSONAS[personaKey];
     if (!persona) throw new Error(`Persona ${personaKey} no trobada.`);
 
@@ -116,15 +116,17 @@ class GeminiService {
     const isSimulation = localStorage.getItem("isPlaygroundMode") === "true" || localStorage.getItem("sb-simulation-mode") === "true";
 
     if (isSimulation) {
-      logger.log(`[Gemini] Mode Simulació activat per a ${persona.name}. Retornant *mock*.`);
+      // logger.debug(`[Gemini] Mode Simulació activat per a ${persona.name}. Retornant *mock*.`);
       await new Promise((r) => setTimeout(r, 1000));
       return this.getMockResponse(personaKey, query, imageData);
     }
 
-    logger.log(`[Gemini] Consultant a ${persona.name} via Proxy...`);
+    // logger.debug(`[Gemini] Consultant a ${persona.name}...`);
 
     try {
-      const parts = [{ text: query }];
+      // Si enviem àudio, la query textual podria ser buida o servir de context
+      const textQuery = query.trim() || (audioData ? "Atent a l'àudio adjunt." : "Hola.");
+      const parts = [{ text: textQuery }];
 
       if (imageData) {
         parts.push({
@@ -135,28 +137,151 @@ class GeminiService {
         });
       }
 
-      // [CRITICAL O2 FIX] Cridem a la Edge Function "gemini-proxy" de Supabase de manera 100% segura.
-      // La capçalera amb la key local s'ha eliminat per evitar exposicions XSS.
-      const { data, error } = await supabase.functions.invoke('gemini-proxy', {
-        body: {
-          model: this.model,
-          geminiPayload: {
-            contents: [{ role: 'user', parts: parts }],
-            system_instruction: { parts: [{ text: persona.systemPrompt + "\n\nDIRECTIVA MASTER OBLIGATÒRIA: Retalla la xerrameca. Si l'usuari et diu simplement 'Bon dia' o fa un comentari molt curt, respon de forma igualment breu, amb una sola frase natural. La longitud de la teua resposta ha de ser estrictament proporcional a la longitud i complexitat de l'usuari. Actua de forma conversacional i directa." }] }
+      // [INTEGRACIÓ WALKIE-TALKIE] Audio direct a Gemini API
+      if (audioData) {
+        parts.push({
+          inline_data: {
+            mime_type: audioData.mimeType || 'audio/webm',
+            data: audioData.data,
+          },
+        });
+      }
+
+      const geminiPayload = {
+        contents: [{ role: 'user', parts: parts }],
+        system_instruction: { parts: [{ text: persona.systemPrompt + "\n\nDIRECTIVA MASTER OBLIGATÒRIA: Retalla la xerrameca. Si l'usuari et diu simplement 'Bon dia' o fa un comentari molt curt, respon de forma igualment breu, amb una sola frase natural. La longitud de la teua resposta ha de ser estrictament proporcional a la longitud i complexitat de l'usuari. Actua de forma conversacional i directa." }] }
+      };
+
+      // Funcio auxiliar d'errors no-reintentables
+      class NonRetryableError extends Error {
+        constructor(message) { super(message); this.name = "NonRetryableError"; }
+      }
+
+      // [RESILIÈNCIA AL MAS] Validem pes client-side per protegir d'esgotar dades innecessàriament
+      const payloadString = JSON.stringify(geminiPayload);
+      if (payloadString.length > 5 * 1024 * 1024) {
+        throw new NonRetryableError("L'arxiu multimèdia és massa pesat i col·lapsarà la xarxa (limitat a ~4.5MB).");
+      }
+
+      // [RESISTÈNCIA DE XARXA] Reintents exponencials per a fallades mòbils rurals
+      const executeWithRetry = async (task, maxRetries = 2) => {
+        for (let attempt = 0; attempt <= maxRetries; attempt++) {
+          try {
+            if (signal?.aborted) throw new NonRetryableError("AbortError: Peticio cancel·lada");
+            return await task();
+          } catch (err) {
+            if (err.name === "NonRetryableError" || err.name === "AbortError" || signal?.aborted) throw err;
+            if (attempt === maxRetries) throw err;
+            const delay = Math.pow(2, attempt) * 1000 + Math.random() * 500;
+            // logger.warn(`[Resiliència] Connectivitat perduda. Reintentant en ${delay.toFixed(0)}ms...`);
+            await new Promise(r => {
+                const timer = setTimeout(r, delay);
+                if (signal) {
+                    signal.addEventListener("abort", () => {
+                        clearTimeout(timer);
+                        r();
+                    }, { once: true });
+                }
+            });
           }
         }
+      };
+
+      let rawText = "No hi ha resposta.";
+
+      // [PONT LLUM DIRECTA] Si tenim clau API local, prioritzem el funcionament autònom
+      const localApiKey = import.meta.env.VITE_GEMINI_API_KEY;
+      const shouldUseLocalKey = localApiKey && localApiKey !== 'your_new_gemini_api_key_here';
+
+      rawText = await executeWithRetry(async () => {
+        if (shouldUseLocalKey) {
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/${this.model}:generateContent?key=${localApiKey}`;
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: payloadString,
+                signal
+            });
+            
+            if (!response.ok) {
+                const errData = await response.json().catch(() => ({}));
+                if (response.status === 400 || response.status === 413 || response.status === 429) {
+                  throw new NonRetryableError(errData.error?.message || `Error d'API irreversible: ${response.status}`);
+                }
+                throw new Error("Error en crida directa Gemini"); // Reintentable
+            }
+            
+            const data = await response.json();
+            return data.candidates?.[0]?.content?.parts?.[0]?.text || "No hi ha resposta.";
+        } else {
+            // [V11.0 STREAMING O2 FIX] Bypassing Supabase functions.invoke per llegir el stream directament
+            const edgeFnUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/gemini-proxy`;
+            const { data: session } = await supabase.auth.getSession();
+            const token = session?.session?.access_token || import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+            const response = await fetch(edgeFnUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    model: this.model,
+                    geminiPayload: geminiPayload,
+                    personaKey: personaKey
+                }),
+                signal
+            });
+
+            if (!response.ok) {
+                // Gestionar errors HTTP retornats per la funció
+                const errData = await response.json().catch(() => ({}));
+                if (response.status === 400 || response.status === 413 || response.status === 429) {
+                    throw new NonRetryableError(errData.error?.message || `Error Edge Function: ${response.status}`);
+                }
+                throw new Error(`Fallada de xarxa amb el Proxy (${response.status}): ` + response.statusText);
+            }
+
+            // [LLEGIR CORRENT (STREAM) SSE]
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder("utf-8");
+            let accumulatedText = "";
+            let partialChunk = "";
+
+            while (true) {
+                const { value, done } = await reader.read();
+                if (done) break;
+                
+                partialChunk += decoder.decode(value, { stream: true });
+                const lines = partialChunk.split('\n');
+                
+                // Guardem l'última línia per si està tallada completament (típic de streams TCP)
+                partialChunk = lines.pop() || "";
+
+                for (const line of lines) {
+                    if (line.trim() === "") continue;
+                    if (line.startsWith('data: ')) {
+                        const dataStr = line.substring(6).trim();
+                        if (dataStr === "[DONE]") continue;
+
+                        try {
+                            const parsed = JSON.parse(dataStr);
+                            const textChunk = parsed?.candidates?.[0]?.content?.parts?.[0]?.text;
+                            if (textChunk) {
+                                accumulatedText += textChunk;
+                                if (onProgress) onProgress(accumulatedText);
+                            }
+                        } catch {
+                            // Petits errors de parsing (sovinteja amb comes de JSONs tallats) 
+                        }
+                    }
+                }
+            }
+
+            if (!accumulatedText) throw new NonRetryableError("L'IAIA s'ha tallat en la meitat del bategat i no ha emès resposta.");
+            return accumulatedText;
+        }
       });
-
-      if (error) {
-        logger.error("[Gemini] Fallida del servidor proxy:", error);
-        return this.getMockResponse(personaKey, query, imageData);
-      }
-
-      if (data.error) {
-         throw new Error(data.error.message || "Error a l'API de Gemini arrel proxy.");
-      }
-
-      const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text || "No hi ha resposta.";
       
       const cleanResponse = DOMPurify.sanitize(rawText, {
         ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'a', 'p', 'br', 'ul', 'li', 'ol', 'h1', 'h2', 'h3', 'blockquote', 'code'],

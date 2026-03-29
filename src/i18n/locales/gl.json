@@ -61,7 +61,7 @@
     "role_oficial": "Entidades",
     "role_xat": "Chat",
     "role_treball": "Traballo",
-    "role_pobo": "Pobos",
+    "role_poble": "Vilas",
     "role_mercat": "Mercado",
     "save": "Gardar",
     "save_selection": "GARDAR POBO",
@@ -79,12 +79,12 @@
     "publish": "Publicar",
     "change_language": "Cambiar idioma",
     "support_short": "Soporte",
-    "role_poble": "Vilas",
     "add_town": "Engadir vila",
     "add": "CONECTAR",
     "save_btn": "Gardar",
     "cancel": "Cancelar",
-    "share_soc": "Compartir Sóc de Poble"
+    "share_soc": "Compartir Sóc de Poble",
+    "role_pobo": "Pobos"
   },
   "nav": {
     "chats": "Chat",
@@ -107,52 +107,18 @@
     "profile_notifications": "Notificacións",
     "notifications": "Notificacións",
     "add_town": "Engadir pobo",
+    "stats_posts": "Publicacións",
+    "stats_sales": "En venda",
+    "stats_connections": "Conexións",
+    "my_album": "O meu Álbum",
     "menu": "Menú",
     "vision_protocol": "Protocolo de Visión",
     "archon_console": "Consola Archon",
     "theme_day": "Modo Día",
     "theme_night": "Modo Noite",
-    "stats_posts": "Publicacións",
-    "stats_sales": "En venda",
-    "stats_connections": "Conexións",
-    "my_album": "O meu Álbum",
     "system_op_part_1": "SISTEMA",
     "system_op_part_2": "OPERATIVO",
     "legal_info": "INFO LEGAL"
-  },
-  "notebook": {
-    "title": "Bloc de Notas",
-    "welcome": "Benvida ao teu Bloc de Notas 📓🏺",
-    "new_note": "Nova Nota",
-    "new_list": "Nova Lista",
-    "library": "BIBLIOTECA",
-    "new_folder": "Nova Carpeta",
-    "empty_folders": "Sen carpetas creadas...",
-    "trellat_title": "TRELLAT (CATEGORÍAS)",
-    "trash": {
-      "bucket": "Papeleira",
-      "send_to_trash": "Enviar á Papeleira",
-      "confirm_delete": "Queres eliminar definitivamente esta reliquia? Esta acción non se pode desfacer.",
-      "restore": "Restaurar",
-      "permanent_delete": "Eliminar Definitivamente"
-    },
-    "placeholder": "Comeza a publicar datos aquí...",
-    "info": "Información",
-    "creation": "Creación",
-    "modification": "Modificación",
-    "last_opened": "Última apertura",
-    "planned_date": "Data prevista",
-    "categories": {
-      "trellat": "Sentidiño",
-      "patrimoni": "Patrimonio",
-      "dades": "Datos",
-      "social": "Social"
-    },
-    "corrector": {
-      "title": "Correccións da Avoa",
-      "lang_variants": "Todas as variantes (Central, Valenciano, Balear)",
-      "correct_btn": "Corrixir"
-    }
   },
   "chats": {
     "title": "Chats",
@@ -196,6 +162,7 @@
     "search_placeholder": "Buscar no mercado...",
     "empty": "Non hai produtos no mercado.",
     "no_items": "Aínda non hai nada no mercado.",
+    "no_items_search": "No s'ha trobat cap article per a \"{{term}}\"",
     "loading": "Cargando o mercado...",
     "loading_market": "Cargando o mercado...",
     "no_description": "Sen descrición.",
@@ -205,7 +172,12 @@
     "category": "Categoría",
     "add_photo": "Engadir unha foto",
     "publish": "Publicar Artigo",
-    "interested": "Interesado"
+    "interested": "Interesado",
+    "payment_confirm": "Vols activar un Bategat Econòmic (Astro) de {{price}} per {{title}}? L'IAIA segellarà la transacció immediatament al teu mòbil.",
+    "payment_error": "Error en el bategat: {{error}}",
+    "tia_thinking": "👵 La Tia Maria està pensant una idea per a: {{title}}...",
+    "tia_error": "Ay fill, no m'escolte bé ara mateix.",
+    "tia_says": "👵 LA TIA MARIA DIU:\n\n\"{{text}}\""
   },
   "auth": {
     "login": "Inicia sesión",
@@ -217,9 +189,10 @@
     "signIn": "Entrar",
     "signUp": "Rexístrate",
     "noAccount": "Non tes conta?",
-    "register_now": "rexístrate agora",
+    "no_account": "¿Non tes conta?",
     "haveAccount": "Xa tes conta?",
     "checkEmail": "Rexistro con éxito. Por favor, revisa o teu correo para confirmar.",
+    "register_now": "rexístrate agora",
     "logout": "Saír",
     "demo_access": "Entrar como veciño (Demo)",
     "demo_hint": "Acceso rápido para revisión sen rexistro",
@@ -266,8 +239,7 @@
     "change_number": "Cambiar número",
     "welcome_home_prefix": "Benvido á casa, ",
     "iaia_final_speech": "«Xa es un dos nosos. Corazón de vila, latexo dixital. Vémonos na praza!»",
-    "iaia_signature": "- A IAIA 👵✨",
-    "no_account": "¿Non tes conta?"
+    "iaia_signature": "- A IAIA 👵✨"
   },
   "notifications": {
     "title": "Notificacións",
@@ -370,12 +342,107 @@
     "nuke_sw_removed": "Controladores de rede reiniciados.",
     "nuke_cache_purged": "Memoria temporal baleirada."
   },
+  "sim": {
+    "perspective": "Simulación de Perspectiva",
+    "role_user": "Vista Usuario Rexistrado",
+    "role_admin": "Vista Administrador",
+    "role_editor": "Vista Editor",
+    "active": "Modo Simulación Activo",
+    "stop": "Volver ao meu Rol Real"
+  },
+  "notebook": {
+    "title": "Bloc de Notas",
+    "welcome": "Benvida ao teu Bloc de Notas 📓🏺",
+    "new_note": "Nova Nota",
+    "new_list": "Nova Lista",
+    "library": "BIBLIOTECA",
+    "new_folder": "Nova Carpeta",
+    "empty_folders": "Sen carpetas creadas...",
+    "trellat_title": "TRELLAT (CATEGORÍAS)",
+    "placeholder": "Comeza a publicar datos aquí...",
+    "info": "Información",
+    "creation": "Creación",
+    "modification": "Modificación",
+    "last_opened": "Última apertura",
+    "planned_date": "Data prevista",
+    "categories": {
+      "trellat": "Sentidiño",
+      "patrimoni": "Patrimonio",
+      "dades": "Datos",
+      "social": "Social"
+    },
+    "trash": {
+      "bucket": "Papeleira",
+      "confirm_delete": "Queres eliminar definitivamente esta reliquia? Esta acción non se pode desfacer.",
+      "restore": "Restaurar",
+      "permanent_delete": "Eliminar Definitivamente",
+      "send_to_trash": "Enviar á Papeleira"
+    },
+    "corrector": {
+      "title": "Correccións da Avoa",
+      "lang_variants": "Todas as variantes (Central, Valenciano, Balear)",
+      "correct_btn": "Corrixir"
+    }
+  },
+  "legal": {
+    "rhizome_slides": [
+      {
+        "title": "SOBIRANIA DIGITAL",
+        "desc": "La dada com a arrel, no com a mercaderia. En el Mas Digital, tu eres el propietari de la teua informació. Apostem per connexions horitzontals peer-to-peer, eliminant intermediaris extractius i garantint que el bategat del teu poble romanga privat i sobirà. No més algoritmes que decideixen per tu, sinó una infraestructura al servei de la comunitat rural.",
+        "image": "/assets/infographies/art_sobirania_v1036.png"
+      },
+      {
+        "title": "DADES AMB TRELLAT",
+        "desc": "Privacitat KM 0. Apliquem el sentit comú a la gestió digital. Protecció suprema de la identitat rural sota el bategat del Mas. Sols recollim allò que és essencial per a la convivència i el comerç local. Les teues dades no viatgen a servidors desconocuts, sinó que s'arrelen en el territori per generar utilitat real i protegir el futur dels nostres pobles.",
+        "image": "/assets/infographies/art_trellat_v1036.png"
+      },
+      {
+        "title": "LA IAIA I EL GRUP DE TREBALL",
+        "desc": "Memòria Viva i Tecnologia Ancestral. Un bategat que uneix generacions a través del codi i la saviesa popular. El Grup de Treball de la IAIA garanteix que la intel·ligència artificial no oblide d'on venim. Implementem protocols que dignifiquen el passat mentre construïm el futur digital més humà i connectat de les nostres comarques.",
+        "image": "/assets/infographies/art_memoria_v1036.png"
+      }
+    ]
+  },
+  "emoji": {
+    "frequently_used": "Frecuentemente empregados",
+    "smileys_people": "Caras e persoas",
+    "animals_nature": "Animais e natureza",
+    "food_drink": "Comida e bebida",
+    "travel_places": "Viaxes e lugares",
+    "activities": "Actividades",
+    "objects": "Obxectos",
+    "symbols": "Símbolos",
+    "flags": "Bandeiras",
+    "search": "Buscar con texto ou emojis",
+    "suggested": "Recentes",
+    "custom": "Personalizados"
+  },
+  "chatEmpty": {
+    "architectTitle": "🏗️ ARQUITECTURA GENERAL",
+    "architectMirror": "MIRALL DIDÀCTIC: ESTRUCTURA MESTRA",
+    "architectRock": "LA ROCA (Sidebar)",
+    "architectRockDesc": "Bloc immovible a l'esquerra (280px). Conté l'accés universal (AFEGIR), el botó de Xat taronja i tota la navegació per \"Bategats\". El Header de la sidebar és SEMPRE NEGRE per jerarquia visual.",
+    "architectMarket": "EL MERCAT (Panell Central)",
+    "architectMarketDesc": "Espai de trànsit de 400px. Aquí és on \"passes llista\": veus qui parla, quines notícies hi ha o quins productes es venen. La capçalera central és el quadre de comandament (Eines).",
+    "architectStage": "L'ESCENARI (Panell de Detall)",
+    "architectStageDesc": "On passa l'acció. Ocupa tot l'espai restant. En \"Mode Producció\" veus el contingut; en \"Mode Arquitecte\", veus aquesta mateixa explicació tècnica.",
+    "architectProtocol": "Protocol 1er Mandament v10.33.15-CANÒNIC",
+    "globalConfigTitle": "Configuració Global del Xat",
+    "protectedState": "ESTEM PROTEGITS",
+    "btnBlockpad": "Bloc de Notes (Desactivat ací)",
+    "btnSearch": "Cercar (Desactivat ací)",
+    "privacySafe": "Privacitat Segura i Protegida | v10.33.16-CANÒNIC"
+  },
   "chat": {
     "guest_warning_text": "You are chatting as a Guest and this temporary chat will be deleted.",
     "guest_warning_link": "Register to save your conversations.",
     "iaia_forwarding_toast": "🤖 Forwarding your request to MArIA...",
     "remote_beat_debate": "⚙️ Remote beat: Starting debate between AIs...",
     "voice_message": "🎤 Voice message",
+    "voice_message_received": "Nova nota de veu rebuda.",
+    "voice_note": "Nota de veu",
+    "network_timeout": "Fallada forçada per xarxa o timeout",
+    "forward_entity_query": "[Consulta sobre l'ens {{name}}]: {{content}}",
     "attachment_sent": "[The user just sent you a document or photo]",
     "moved_to_local_expert": "📁 Moved to the local expert.",
     "undo": "UNDO",
@@ -407,19 +474,70 @@
     "more": "More",
     "talk_with": "Talk with {{name}}..."
   },
-  "emoji": {
-    "search": "Buscar con texto ou emojis",
-    "suggested": "Recentes",
-    "smileys_people": "Caras e persoas",
-    "animals_nature": "Animais e natureza",
-    "food_drink": "Comida e bebida",
-    "travel_places": "Viaxes e lugares",
-    "activities": "Actividades",
-    "objects": "Obxectos",
-    "symbols": "Símbolos",
-    "flags": "Bandeiras",
-    "custom": "Personalizados",
-    "frequently_used": "Frecuentemente empregados"
+  "presentation": {
+    "docOfficial": "DOCUMENTACIÓ OFICIAL",
+    "titleMain": "SÓC DE POBLE",
+    "titleSub": "Portal de Pobles Connectats",
+    "titleDesc": "Una XARXA SOCIAL DESCENTRALITZADA de PROGRAMARI LLIURE, per CONNECTAR i GEOLOCALITZAR recursos d'utilitat social, compartint informació, experiències i idees que faciliten el desenvolupament sostenible i tecnològic en entorns rurals, per posar en valor els recursos locals i mostrar l'atractiu dels pobles com a llocs on viure i treballar.",
+    "sobiraniaTitle": "SOBIRANIA DIGITAL",
+    "sobiraniaDesc": "La dada com a arrel, no com a mercaderia. En el Mas Digital, tu eres el propietari de la teua informació. Apostem per connexions horitzontals peer-to-peer, eliminant intermediaris extractius i garantint que el bategat del teu poble romanga privat i sobirà.",
+    "trellatTitle": "DADES AMB TRELLAT",
+    "trellatDesc": "Privacitat KM 0. Sols recollim allò que és essencial per a la convivència i el comerç local. Les teues dades no viatgen a servidors desconeguts, sinó que s'arrelen en el territori per generar utilitat real i protegir el futur rural.",
+    "memoriaTitle": "MEMÒRIA VIVA",
+    "memoriaDesc": "Un bategat que uneix generacions a través del codi i la saviesa popular. Garanteix que la intel·ligència artificial no oblide d'on venim. Implementem protocols que dignifiquen el passat mentre construïm el futur digital.",
+    "llicenciaTitle": "LLICÈNCIA OBERTA",
+    "llicenciaDesc": "Aquest sistema és de codi obert per a ús comunitari i educatiu. L'ús comercial està subjecte a llicència del Mestre.",
+    "identitatsTitle": "IDENTITATS DEL MAS",
+    "identSdpTitle": "SÓC DE POBLE",
+    "identSdpOver": "PROJECTE SOCIAL",
+    "identSdpDesc": "Plataforma bategant per a la memòria viva i la governança d'un territori sobirà.",
+    "identRentonarTitle": "EL RENTONAR",
+    "identRentonarOver": "AGRUPACIÓ ECOLOGISTA",
+    "identRentonarDesc": "Entitat que promou i empara aquest projecte des de la resistència cultural.",
+    "identJaviTitle": "JAVI LLINARES",
+    "identJaviOver": "DIRECCIÓ I DISSENY",
+    "identJaviDesc": "Responsable de la realització, disseny i coordinació. Mestre darrere del Mas Digital.",
+    "iaiaTitle": "LA IAIA MARIA",
+    "iaiaSubtitle": "La intel·ligència central del Mas. No és una IA freda de Silicon Valley, sinó la \"saviesa de l'àvia\" arrelada a la terra. Un sistema multi-agent dissenyat per a protegir, educar i preservar la identitat rural.",
+    "tiaTitle": "LA TIA MARIA",
+    "tiaDesc": "Agent de proximitat. Ofereix receptes locals, consells vitals i conversa arrelada.",
+    "cronistaTitle": "EL CRONISTA",
+    "cronistaDesc": "Documentalista del Mur. Genera resums de l'activitat del poble i preserva l'hemeroteca.",
+    "ullTitle": "L'ULL DEL MESTRE",
+    "ullDesc": "Visió multimodal. Identifica eines agrícoles, plantes, plagues i patrimoni cultural.",
+    "nanoTitle": "NANO BANANA",
+    "nanoDesc": "Generació multimèdia automàtica i protocols de simbiosi artística a la comunitat.",
+    "ruperTitle": "RÚPER RATÓN",
+    "ruperDesc": "Motor de super-cerca semàntica. Analitza PDF, bans municipals i actes històriques.",
+    "filtreTitle": "FILTRE TRELLAT",
+    "filtreDesc": "Triple nucli que regula la presència de la IA per garantir el sentit comú local.",
+    "arquitecturaTitle": "ARQUITECTURA REVOLUCIONÀRIA",
+    "arqCrdtTitle": "Eg-walker CRDT",
+    "arqCrdtDesc": "Sincronització de graf d'esdeveniments. Convergència determinista en local que elimina la necessitat de base de dades central.",
+    "arqRhizomeTitle": "Xarxa Rhizome",
+    "arqRhizomeDesc": "Protocol gossip. Els telèfons dels veïns formen la malla de comunicació, reduint la dependència del núvol al mínim.",
+    "arqLocalTitle": "Local-First",
+    "arqLocalDesc": "L'usuari és el propietari de les seues dades. Càrrega instantània des de IndexedDB. Funciona sense cobertura.",
+    "modelTitle": "MODEL DE NEGOCI HÍBRID",
+    "modelSecretariTitle": "\"El Secretari\" (Model B2G)",
+    "modelSecretariDesc": "Subscripció mestre per a Ajuntaments que automatitza la gestió pública rural.",
+    "modelEssenciesTitle": "\"Essències\" (Model B2B)",
+    "modelEssenciesDesc": "Monetització de l'economia local sense intermediaris (Km 0).",
+    "finançamentTitle": "FINANÇAMENT I PATROCINIS",
+    "finançamentDesc": "\"Sóc de Poble\" no ven dades. Bateguem perquè el territori tinga la seua pròpia veu, finançada per la comunitat.",
+    "finProTitle": "Clients PRO & Sobirania",
+    "finProDesc": "Subscripcions per a pobles, ajuntaments i entitats que volen governar.",
+    "finKm0Title": "Patrocini Km 0",
+    "finKm0Desc": "Empreses del territori que bateguen amb nosaltres. Publicitat ètica.",
+    "finAnuncTitle": "Anunciants Ètics",
+    "finAnuncDesc": "Espais reservats per a marques que aporten valor real al món rural.",
+    "legalTitle": "AVÍS LEGAL I DRETS DIGITALS",
+    "legal1Title": "1. Identitat Bategant",
+    "legal1Desc": "LSSI-CE: Responsable Sobirà F. Javier Llinares García (21476359V). El Mas Central es troba registrat a la Calle Sant Isidre Llaurador, 16. Connecta via socdepoble@socdepoble.org.",
+    "legal2Title": "2. Sobirania de l'Usuari",
+    "legal2Desc": "Sols recollim el necessari per al bategat del node: perfil, localització voluntària i memòria social KM 0. Pots descarregar tota la teua memòria digital o fulminar el teu node de forma autònoma enviant un missatge al Mestre. Especialment per als Forasters (Guest Mode), l'experiència és completament efímera, les teues dades desapareixen en eixir del navegador, garantint l'exploració anònima sense rastre cap.",
+    "legal3Title": "3. Política de Cookies",
+    "legal3Desc": "\"Ací al poble no ens agrada que ningú ens diga què hem d'anar a comprar. Sóc de Poble no utilitza gats vells de Google ni píxels extractius.\" Utilitzem cookies lliures i anònimes i el servei està en auto-hostalatge."
   },
   "admin": {
     "zero_day_setup": "Setup Zero-Day",
@@ -442,12 +560,15 @@
     "editorial_gov": "Gobernanza Editorial",
     "permissions_gov": "Permisos e Roles"
   },
-  "sim": {
-    "perspective": "Simulación de Perspectiva",
-    "role_user": "Vista Usuario Rexistrado",
-    "role_admin": "Vista Administrador",
-    "role_editor": "Vista Editor",
-    "active": "Modo Simulación Activo",
-    "stop": "Volver ao meu Rol Real"
+  "card": {
+    "connect": "CONNECTAR",
+    "visit": "VISITAR POBLE",
+    "tramitar": "TRAMITAR",
+    "translate": "Traduir Article",
+    "translateAlert": "🌐 Motor de Traducció A Demanda (Vertex AI) prompte disponible.",
+    "comment": "Comentar",
+    "share": "Compartir",
+    "options": "Opcions",
+    "shareText": "Fes un cop d'ull a això en Sóc de Poble!"
   }
 }

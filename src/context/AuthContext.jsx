@@ -8,7 +8,8 @@ import { logger } from '../utils/logger';
 import i18n from '../i18n/config';
 import { IAIA_ID, AUTH_EVENTS, USER_ROLES, CREATOR_EMAILS } from '../constants';
 
-const AuthContext = createContext();
+const AuthStateContext = createContext();
+const AuthActionsContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
@@ -224,72 +225,84 @@ export const AuthProvider = ({ children }) => {
         const currentSeq = ++authSeqRef.current;
         logger.log(`[AuthContext] Auth Event: ${event} [SeqID: ${currentSeq}]`, session?.user?.id);
 
-        const isSimulation = localStorage.getItem('isPlaygroundMode') === 'true' ||
-            localStorage.getItem('sb-simulation-mode') === 'true' ||
-            (session?.user?.id === IAIA_ID);
+        try {
+            const isSimulation = localStorage.getItem('isPlaygroundMode') === 'true' ||
+                localStorage.getItem('sb-simulation-mode') === 'true' ||
+                (session?.user?.id === IAIA_ID);
 
-        if (session?.user) {
-            if (isSimulation) {
-                setIsPlaygroundState(false);
-                localStorage.removeItem('isPlaygroundMode');
-                localStorage.removeItem('sb-simulation-mode');
-            }
+            if (session?.user) {
+                if (isSimulation) {
+                    setIsPlaygroundState(false);
+                    localStorage.removeItem('isPlaygroundMode');
+                    localStorage.removeItem('sb-simulation-mode');
+                }
 
-            setRealUser(session.user);
-            setUser(session.user);
-            setImpersonatedProfile(null);
-            setActiveEntityId(null);
+                setRealUser(session.user);
+                setUser(session.user);
+                setImpersonatedProfile(null);
+                setActiveEntityId(null);
 
-            try {
-                let profileData = await supabaseService.getProfile(session.user.id);
-                // [FIX OMEGA] Condició de cursa destrossada.
+                try {
+                    let profileData = await supabaseService.getProfile(session.user.id);
+                    // [FIX OMEGA] Condició de cursa destrossada.
+                    if (currentSeq !== authSeqRef.current) return;
+
+                    profileData = await profileHealingService.healGhostProfile(session, profileData, isSimulation);
+                    if (currentSeq !== authSeqRef.current) return;
+
+                    const { effectiveProfile, isOfficialCreator } = profileHealingService.protectMasterIdentity(session, profileData);
+
+                    setRealProfile(effectiveProfile);
+                    setProfile(effectiveProfile);
+                    logger.log(`[AuthContext] 🏺 IDENTITY CONSOLIDATED [SeqID: ${currentSeq}]:`, isOfficialCreator ? 'MESTRE JAVI' : effectiveProfile.full_name);
+                } catch (error) {
+                    logger.error('[AuthContext] Error loading profile:', error);
+                    const fallback = {
+                        id: session.user.id,
+                        full_name: session.user.email?.split('@')[0] || 'Sóc de Poble',
+                        role: USER_ROLES.NEIGHBOR
+                    };
+                    setRealProfile(fallback);
+                    setProfile(fallback);
+                }
+            } else if (isSimulation) {
+                loginAsGuest();
+                setRealUser(null);
+                setRealProfile(null);
+            } else if (localStorage.getItem('isGuestMode') === 'true') {
+                const guestUser = { id: 'guest_restored', full_name: 'Visitant Gentil', role: 'guest', isAnonymous: true };
+                setUser(guestUser);
+                setProfile(guestUser);
+            } else {
+                // [GUEST/FORASTER MODE] 
+                let genesis = await identityService.getStoredIdentity();
                 if (currentSeq !== authSeqRef.current) return;
 
-                profileData = await profileHealingService.healGhostProfile(session, profileData, isSimulation);
-                if (currentSeq !== authSeqRef.current) return;
-
-                const { effectiveProfile, isOfficialCreator } = profileHealingService.protectMasterIdentity(session, profileData);
-
-                setRealProfile(effectiveProfile);
-                setProfile(effectiveProfile);
-                logger.log(`[AuthContext] 🏺 IDENTITY CONSOLIDATED [SeqID: ${currentSeq}]:`, isOfficialCreator ? 'MESTRE JAVI' : effectiveProfile.full_name);
-            } catch (error) {
-                logger.error('[AuthContext] Error loading profile:', error);
-                const fallback = {
-                    id: session.user.id,
-                    full_name: session.user.email?.split('@')[0] || 'Sóc de Poble',
-                    role: USER_ROLES.NEIGHBOR
-                };
-                setRealProfile(fallback);
-                setProfile(fallback);
+                if (!genesis) {
+                    genesis = await identityService.generateSovereignIdentity();
+                    if (currentSeq !== authSeqRef.current) return;
+                }
+                // [MIGRACIÓ TERMINOLÒGICA] Si la identitat guardada diu "Foraster" o "Sóc de Poble" genèric, la bateguem com a "Foraster"
+                if (genesis.full_name === 'Foraster de Poble' || genesis.full_name === 'Sóc de Poble' || genesis.full_name === 'Sóc de Poble!') {
+                    genesis.full_name = 'Foraster';
+                }
+                setUser({ ...genesis, is_sovereign: true, isAnonymous: true, role: USER_ROLES.GUEST });
+                setProfile(genesis);
+                logger.log(`[AuthContext] 🏹 FORASTER DETECTAT [SeqID: ${currentSeq}]: Identitat sobirana bategant.`);
             }
-        } else if (isSimulation) {
-            loginAsGuest();
-            setRealUser(null);
-            setRealProfile(null);
-        } else if (localStorage.getItem('isGuestMode') === 'true') {
-            const guestUser = { id: 'guest_restored', full_name: 'Visitant Gentil', role: 'guest', isAnonymous: true };
-            setUser(guestUser);
-            setProfile(guestUser);
-        } else {
-            // [GUEST/FORASTER MODE] 
-            let genesis = await identityService.getStoredIdentity();
-            if (currentSeq !== authSeqRef.current) return;
 
-            if (!genesis) {
-                genesis = await identityService.generateSovereignIdentity();
-                if (currentSeq !== authSeqRef.current) return;
+            if (currentSeq === authSeqRef.current) {
+                realUserRef.current = session?.user || null;
             }
-            // [MIGRACIÓ TERMINOLÒGICA] Si la identitat guardada diu "Foraster" o "Sóc de Poble" genèric, la bateguem com a "Foraster"
-            if (genesis.full_name === 'Foraster de Poble' || genesis.full_name === 'Sóc de Poble' || genesis.full_name === 'Sóc de Poble!') {
-                genesis.full_name = 'Foraster';
+        } catch (error) {
+            logger.error('[AuthContext] Auth handle failed:', error);
+        } finally {
+            // [FIX OMEGA] Alliberar el loader NOMÉS si aquesta seqüència és l'activa.
+            // Si hi ha hagut un return prematur per una nova sessió, NO alliberem el loading.
+            if (currentSeq === authSeqRef.current) {
+                setLoading(false);
             }
-            setUser({ ...genesis, is_sovereign: true, isAnonymous: true, role: USER_ROLES.GUEST });
-            setProfile(genesis);
-            logger.log(`[AuthContext] 🏹 FORASTER DETECTAT [SeqID: ${currentSeq}]: Identitat sobirana bategant.`);
         }
-        realUserRef.current = session?.user || null;
-        setLoading(false);
     }, [loginAsGuest]);
 
     useEffect(() => {
@@ -341,40 +354,54 @@ export const AuthProvider = ({ children }) => {
         };
     }, [handleAuth]);
 
-    const value = useMemo(() => {
-        const isAuthenticated = !!realUser && !isPlayground;
-        const isGuest = !!user && !!user.isAnonymous;
-        
-        return {
-            user, profile, realUser, realProfile, loading,
-            setProfile, adoptPersona, loginAsGuest, exitPlayground, logout,
-            forceNukeSimulation, isPlayground, setIsPlayground, setImpersonatedProfile,
-            impersonatedProfile, activeEntityId, setActiveEntityId, switchContext,
-            simulatedRole, setSimulatedRole,
-            currentRole: simulatedRole || profile?.role || USER_ROLES.GUEST,
-            isSuperAdmin: (profile?.is_super_admin || profile?.is_master || (simulatedRole ? simulatedRole === USER_ROLES.SUPER_ADMIN : profile?.role === USER_ROLES.SUPER_ADMIN)),
-            isAdmin: [USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN].includes(simulatedRole || profile?.role) || profile?.is_master,
-            isEditor: [USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN, USER_ROLES.EDITOR].includes(simulatedRole || profile?.role) || profile?.is_master,
-            language, setLanguage, loginAsGuestAnonymous, isAuthenticated, isGuest
-        };
-    }, [
+    const isAuthenticated = !!realUser && !isPlayground;
+    const isGuest = !!user && !!user.isAnonymous;
+
+    const stateValue = useMemo(() => ({
+        user, profile, realUser, realProfile, loading, isPlayground, impersonatedProfile, activeEntityId, simulatedRole,
+        currentRole: simulatedRole || profile?.role || USER_ROLES.GUEST,
+        isSuperAdmin: (profile?.is_super_admin || profile?.is_master || (simulatedRole ? simulatedRole === USER_ROLES.SUPER_ADMIN : profile?.role === USER_ROLES.SUPER_ADMIN)),
+        isAdmin: [USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN].includes(simulatedRole || profile?.role) || profile?.is_master,
+        isEditor: [USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN, USER_ROLES.EDITOR].includes(simulatedRole || profile?.role) || profile?.is_master,
+        language, isAuthenticated, isGuest
+    }), [
         user, profile, realUser, realProfile, loading, isPlayground,
         impersonatedProfile, activeEntityId, simulatedRole, language,
-        adoptPersona, loginAsGuest, exitPlayground,
-        logout, forceNukeSimulation, setIsPlayground, switchContext,
+        isAuthenticated, isGuest
+    ]);
+
+    const actionsValue = useMemo(() => ({
+        setProfile, adoptPersona, loginAsGuest, exitPlayground, logout,
+        forceNukeSimulation, setIsPlayground, setImpersonatedProfile,
+        setActiveEntityId, switchContext, setSimulatedRole, setLanguage,
+        loginAsGuestAnonymous
+    }), [
+        adoptPersona, loginAsGuest, exitPlayground, logout,
+        forceNukeSimulation, setIsPlayground, switchContext,
         setSimulatedRole, setLanguage, loginAsGuestAnonymous
     ]);
 
     return (
-        <AuthContext.Provider value={value}>
-            {children}
-        </AuthContext.Provider>
+        <AuthStateContext.Provider value={stateValue}>
+            <AuthActionsContext.Provider value={actionsValue}>
+                {children}
+            </AuthActionsContext.Provider>
+        </AuthStateContext.Provider>
     );
 };
 
 // eslint-disable-next-line react-refresh/only-export-components
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => {
-    const context = useContext(AuthContext);
-    if (!context) throw new Error('useAuth must be used within an AuthProvider');
-    return context;
+    const state = useContext(AuthStateContext);
+    const actions = useContext(AuthActionsContext);
+    if (!state || !actions) throw new Error('useAuth must be used within an AuthProvider');
+    return { ...state, ...actions };
+};
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const useAuthActions = () => {
+    const actions = useContext(AuthActionsContext);
+    if (!actions) throw new Error('useAuthActions must be used within an AuthProvider');
+    return actions;
 };

@@ -28,11 +28,11 @@
     />
     <meta
       property="og:image"
-      content="https://socdepoble.org/og-image-batega-v11.png?v=beta-sollutia"
+      content="https://socdepoble.org/og-image.png"
     />
     <meta
       property="og:image:secure_url"
-      content="https://socdepoble.org/og-image-batega-v11.png?v=beta-sollutia"
+      content="https://socdepoble.org/og-image.png"
     />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -53,7 +53,7 @@
     />
     <meta
       name="twitter:image"
-      content="https://socdepoble.org/og-image-batega-v11.png?v=beta-sollutia"
+      content="https://socdepoble.org/og-image.png"
     />
 
     <meta charset="UTF-8" />
@@ -74,10 +74,7 @@
     </script>
     
     <link rel="icon" type="image/png" href="/favicon.png" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover">
 
     <script>
       // [BATEGAT RESCUE v10.33.2] Guardem la versió
@@ -112,46 +109,7 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
 
-    <script>
-      // --- MASTER NOISE REDUCTION PROTOCOL (v10.26.0-CANÒNIC) ---
-      // Silence library warnings and ghost extension errors for a pristine console.
-      (function () {
-        const silencePatterns = [
-          "tailwind",
-          "Babel",
-          "production",
-          "shadow host",
-          "VM",
-          "extension",
-          "Violation",
-        ];
 
-        const shouldSilence = (args) => {
-          const msg = String(args[0] || "");
-          return silencePatterns.some((pattern) => msg.includes(pattern));
-        };
-
-        const _warn = console.warn;
-        console.warn = function (...args) {
-          if (shouldSilence(args)) return;
-          _warn.apply(console, args);
-        };
-
-        const _error = console.error;
-        console.error = function (...args) {
-          if (shouldSilence(args)) return;
-
-          // Removed legacy PREGONER BATEGAT fetch to localhost:9001
-          _error.apply(console, args);
-        };
-
-        window.addEventListener("unhandledrejection", (event) => {
-          if (shouldSilence([event.reason?.message])) {
-            event.preventDefault();
-          }
-        });
-      })();
-    </script>
     <!-- Google Fonts: Noto Sans (L'Ànima de Sóc de Poble) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -254,7 +212,21 @@
     </h1>
     <div id="root"></div>
 
-    <!-- COI Service Worker eliminado (Provocaba TypeError: Failed to convert value to 'Response' bloqueando fetches en Prod) -->
+    <!-- Groq Turbo Rural Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js');
+          
+          navigator.serviceWorker.addEventListener('message', (event) => {
+            if (event.data && event.data.type === 'SW_UPDATED') {
+              console.log('🌾 [Poble SW] Nova versió detectada. Reiniciant pestanya...');
+              window.location.reload();
+            }
+          });
+        });
+      }
+    </script>
 
     <!-- Google Identity Services per a One-Tap Login -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>

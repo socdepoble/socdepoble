@@ -15,7 +15,7 @@ import { useAuth } from "../context/AuthContext";
 
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
-  if (loading) return <div>Bategant...</div>; // Substituir per NanoLoader
+  if (loading) return <div>Connectant...</div>; // Substituir per NanoLoader
   if (!user || user.isAnonymous) return <Navigate to="/registre" replace />;
   return children;
 };

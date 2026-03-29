@@ -7,6 +7,7 @@ import { useNavigation } from '../context/NavigationContext';
 import { useModal } from '../context/ModalContext';
 import { iaiaService } from '../services/iaiaService';
 import { supabaseService } from '../services/supabaseService';
+import { speechService } from '../services/speechService';
 import { supabase } from '../supabaseClient';
 import { logger } from '../utils/logger';
 import toast from '../utils/toast';
@@ -80,8 +81,13 @@ const ChatDetail = () => {
         }
 
         const isVoiceMessage = !!voiceData;
-        const finalContent = text?.trim() || '';
+        let finalContent = text?.trim() || '';
         
+        // Assegurem que s'usa el text transcrit si està actiu.
+        if (!finalContent && isVoiceMessage && voiceData?.transcript) {
+             finalContent = voiceData.transcript.trim();
+        }
+
         if (isSendingRef.current || (!finalContent && !attachedFile && !isVoiceMessage)) return;
         
         // Optimistic UI lock
@@ -101,7 +107,7 @@ const ChatDetail = () => {
                     navigate('/chats/11111111-1a1a-0000-0000-000000000000', { 
                         state: { 
                             autoForwardParams: {
-                                text: `[Consulta sobre l'ens ${otherInfo?.name || 'Local'}]: ${finalContent}`,
+                                text: t('chat.forward_entity_query', { name: otherInfo?.name || 'Local', content: finalContent }),
                                 attachedFile: attachedFile,
                                 voiceData: voiceData
                             }
@@ -127,11 +133,26 @@ const ChatDetail = () => {
         try {
             let fileUrl = null;
             if (isVoiceMessage && voiceData.blob) {
-                const fileName = `voice-${Date.now()}-${humanId}.webm`;
-                const { error: uploadError } = await supabase.storage.from('voice-messages').upload(fileName, voiceData.blob, { contentType: 'audio/webm' });
-                if (uploadError) throw uploadError;
-                const { data } = supabase.storage.from('voice-messages').getPublicUrl(fileName);
-                fileUrl = data.publicUrl;
+                const MimeType = voiceData.blob.type || 'audio/webm';
+                const extension = MimeType.includes('mp4') ? 'mp4' : (MimeType.includes('ogg') ? 'ogg' : 'webm');
+                const fileName = `voice-${Date.now()}-${humanId}.${extension}`;
+                
+                // Fallback a documents en cas que voice-messages falli (ex: 400 bad request)
+                let uploadResult = await supabase.storage.from('voice-messages').upload(fileName, voiceData.blob, { contentType: MimeType });
+                
+                if (uploadResult.error && (uploadResult.error.statusCode === '400' || uploadResult.error.statusCode === '404')) {
+                    logger.warn('[ChatDetail] voice-messages storage failed, fallback to documents', uploadResult.error);
+                    uploadResult = await supabase.storage.from('documents').upload(fileName, voiceData.blob, { contentType: MimeType });
+                    if (!uploadResult.error) {
+                        const { data } = supabase.storage.from('documents').getPublicUrl(fileName);
+                        fileUrl = data.publicUrl;
+                    }
+                } else if (!uploadResult.error) {
+                    const { data } = supabase.storage.from('voice-messages').getPublicUrl(fileName);
+                    fileUrl = data.publicUrl;
+                }
+                
+                if (!fileUrl) throw uploadResult.error || new Error('Failed to upload audio');
             } else if (attachedFile) {
                 const extension = attachedFile.name.split('.').pop() || 'unknown';
                 const fileName = `attach-${Date.now()}-${humanId}.${extension}`;
@@ -154,14 +175,14 @@ const ChatDetail = () => {
                 isGuest: user?.isAnonymous,
                 attachmentUrl: fileUrl,
                 attachmentType: isVoiceMessage ? 'voice' : (attachedFile ? (attachedFile.type.startsWith('image/') ? 'image' : 'file') : null),
-                attachment_name: isVoiceMessage ? 'Nota de veu' : (attachedFile ? attachedFile.name : null),
+                attachment_name: isVoiceMessage ? t('chat.voice_note') : (attachedFile ? attachedFile.name : null),
                 voice_meta: isVoiceMessage && voiceData.duration ? { duration: voiceData.duration } : null
             };
 
             const result = await supabaseService.sendSecureMessage(payload, controller.signal);
             
             if (timerId) clearTimeout(timerId);
-            if (!result?.id) throw new Error('Fallada forçada per xarxa o timeout');
+            if (!result?.id) throw new Error(t('chat.network_timeout'));
 
             if (!isComponentMounted.current) return; // DEEPSEEK V5.1 FINAL FIX
 
@@ -169,11 +190,24 @@ const ChatDetail = () => {
             if (onSuccess) onSuccess(); // Netegem estat volatile del fill.
 
             if (isIAIA) {
-                const textFinal = finalContent || (attachedFile ? t('chat.attachment_sent') : '');
+                let audioData = null;
+                if (isVoiceMessage && voiceData?.blob) {
+                    audioData = await new Promise((resolve) => {
+                        const reader = new FileReader();
+                        reader.onloadend = () => {
+                           const b = reader.result;
+                           const [meta, data] = b.split(',');
+                           resolve({ mimeType: meta.split(':')[1].split(';')[0], data });
+                        };
+                        reader.readAsDataURL(voiceData.blob);
+                    });
+                }
+                const textFinal = finalContent || (attachedFile ? t('chat.attachment_sent') : (isVoiceMessage ? t('chat.voice_message_received') : ''));
                 const capturedChatId = realChatId; // EXTREM AUDIT V4: Race Condition Shield
                 iaiaService.generateAIAResponse(realChatId, textFinal, otherInfo?.id || id, {
                     attachmentUrl: fileUrl,
                     attachmentType: isVoiceMessage ? 'voice' : (attachedFile ? (attachedFile.type.startsWith('image/') ? 'image' : 'file') : null),
+                    audioData: audioData,
                     onFinish: (finalMsg) => {
                         if (!isComponentMounted.current || activeChatRef.current !== capturedChatId) return;
                         if (finalMsg && typeof finalMsg === 'object') {
@@ -186,6 +220,10 @@ const ChatDetail = () => {
                                     created_at: finalMsg.created_at || new Date().toISOString()
                                 }];
                             });
+                            // [MODIFICACIÓ WALKIE-TALKIE TTS] Parla si l'usuari ha usat l'àudio
+                            if (isVoiceMessage && finalMsg.content) {
+                                speechService.speak(finalMsg.content, 'va');
+                            }
                         }
                     }
                 }).then(filler => {

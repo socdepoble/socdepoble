@@ -5,6 +5,7 @@ import Watermark from '../Watermark';
 
 const UniversalCardMedia = ({ 
     item, 
+    cardVariant,
     mediaList, 
     displayImage, 
     displayTitle, 
@@ -24,6 +25,15 @@ const UniversalCardMedia = ({
         }
     };
 
+    const isWikipedia = cardVariant === 'pobles';
+    const watermarkText = isWikipedia 
+        ? "© WIKIPEDIA / WIKIMEDIA COMMONS (CC BY-SA)"
+        : "© SÓC DE POBLE / FET PER LA IAIA I NANO BANANA";
+
+    const fallbackWatermarkText = isWikipedia 
+        ? "© WIKIPEDIA / WIKIMEDIA COMMONS (FALLBACK)"
+        : "© SÓC DE POBLE / FET PER LA IAIA I NANO BANANA (FALLBACK)";
+
     return (
         <div className="card-media-wrapper relative" onClick={handleMediaClick}>
             {(item?.is_pinned || item?.metadata?.is_pinned) && (
@@ -38,13 +48,13 @@ const UniversalCardMedia = ({
                         className="image-overlay-credits absolute right-2 z-10 pointer-events-none drop-shadow-md pb-1" 
                         style={{ fontSize: '11px', bottom: '4px', color: '#ffffff', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}
                     >
-                        © SÓC DE POBLE / FET PER LA IAIA I NANO BANANA
+                        {watermarkText}
                     </div>
                 </div>
             ) : (
                 <div className="w-full h-full relative group bg-var(--bg-edge)">
                     {(!displayImage || hasImageError) ? (
-                        <Watermark variant="white" opacity={0.5}>
+                        <Watermark variant="white" opacity={0.5} hideLogo={isWikipedia}>
                             <img 
                                 src="/assets/brain/generations/nano_relleu_notext_1774284617988.png"
                                 alt="Paisatge Solarpunk genèric"
@@ -52,11 +62,11 @@ const UniversalCardMedia = ({
                                 loading="lazy"
                             />
                             <div className="image-overlay-credits" style={{ fontSize: '11px' }}>
-                                © SÓC DE POBLE / FET PER LA IAIA I NANO BANANA (FALLBACK)
+                                {fallbackWatermarkText}
                             </div>
                         </Watermark>
                     ) : (
-                        <Watermark variant="white" opacity={0.7}>
+                        <Watermark variant="white" opacity={0.7} hideLogo={isWikipedia}>
                             <img 
                                 src={displayImage} 
                                 alt={displayTitle} 
@@ -70,7 +80,7 @@ const UniversalCardMedia = ({
                                 onError={() => setHasImageError(true)}
                             />
                             <div className="image-overlay-credits" style={{ fontSize: '11px' }}>
-                                © SÓC DE POBLE / FET PER LA IAIA I NANO BANANA
+                                {watermarkText}
                             </div>
                         </Watermark>
                     )}
