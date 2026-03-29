@@ -64,7 +64,7 @@ const DefaultBookContent = `
     <p><strong>2. Sobirania de l'Usuari</strong><br>Sols recollim el necessari per al bategat del node. Pots descarregar tota la teua memòria digital o fulminar el teu node de forma autònoma enviant un missatge al Mestre.</p>
 `;
 
-const ProjectPresentation = ({ standAlone = true }) => {
+const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
     const navigate = useNavigate();
     const location = useLocation();
     const { isSuperAdmin } = useAuth();
@@ -92,7 +92,8 @@ const ProjectPresentation = ({ standAlone = true }) => {
                 .single();
 
             if (error) {
-                if (error.code === 'PGRST116') {
+                // PostgREST 116 error (No rows returned) or general 406
+                if (error.code === 'PGRST116' || error.message?.includes('JSON object requested')) {
                     // Not found
                     if (!isSuperAdmin) {
                         if (slug !== '/projecte') {
@@ -109,7 +110,10 @@ const ProjectPresentation = ({ standAlone = true }) => {
                         setTitle("Nova Pàgina");
                     }
                 } else {
-                    console.error('Error fetching page:', error);
+                    console.error('Error fetching page (Not 116):', error);
+                    // Fallback to default in case of weird errors
+                    setHtmlContent(DefaultBookContent);
+                    setTitle("Sóc de Poble: El Projecte");
                 }
             } else if (data) {
                 setPageId(data.id);
@@ -119,19 +123,22 @@ const ProjectPresentation = ({ standAlone = true }) => {
             }
         } catch (error) {
             console.error('Critical error fetching page:', error);
+            setHtmlContent(DefaultBookContent);
         } finally {
             setIsLoadingPage(false);
         }
     }, [navigate, isSuperAdmin]);
 
     useEffect(() => {
-        let currentSlug = location.pathname;
-        if (currentSlug === '/projecte' || currentSlug === '/manifest') {
+        let currentSlug = forcedSlug || location.pathname;
+        if (!standAlone && !forcedSlug) {
+            currentSlug = '/projecte';
+        } else if (currentSlug === '/projecte' || currentSlug === '/manifest') {
             currentSlug = '/projecte';
         }
         setRouteSlug(currentSlug);
         fetchPageContent(currentSlug);
-    }, [location.pathname, fetchPageContent]);
+    }, [location.pathname, standAlone, forcedSlug, fetchPageContent]);
 
     const handleSave = async (updatedHtml) => {
         if (!isSuperAdmin) return;
