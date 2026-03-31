@@ -140,7 +140,7 @@ export const chatService = {
 
     async sendSecureMessage(messageData, abortSignal = null) {
         if (messageData.senderId && !messageData.isGuest) {
-            await checkThrottling(messageData.senderId, 'send_message', 1000).catch(e => logger.warn('Throttling warn', e));
+            await checkThrottling(messageData.senderId, 'send_message', 3000).catch(e => logger.warn('Throttling warn', e));
         }
         if (messageData.conversationId?.startsWith('mock-') || 
             messageData.conversationId?.startsWith('local-conv-') || 

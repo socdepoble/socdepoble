@@ -1,8 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Avatar from '../Avatar';
-import { Zap } from 'lucide-react';
-import { Text } from '../../design-system/components/Typography/Text';
+import { Zap, MapPin, MoreHorizontal, Sparkles } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const UniversalCardHeader = ({ 
     item, 
@@ -16,6 +16,9 @@ const UniversalCardHeader = ({
     displayTime 
 }) => {
     const navigate = useNavigate();
+    const { t } = useTranslation();
+
+    const isEventOrAgenda = cardVariant === 'event' || item?.type === 'agenda';
 
     const getGentDePage = (townName) => {
         if (!townName) return "Gent de Poble";
@@ -53,47 +56,87 @@ const UniversalCardHeader = ({
         }
     };
 
+    const finalAvatarSrc = avatarSrc || item?.author_avatar || item?.logo_url || item?.author?.avatar_url;
+    const finalAvatarRole = avatarRole || item?.author_role;
+
     return (
         <header 
-            className={`card-header-boina h-16 ${isOfficial ? 'variant-official' : 'variant-standard'}`} 
+            className="flex items-center justify-between px-4 py-2 h-[64px] bg-[#F97316] text-[#111111] dark:bg-[#4F46E5] dark:text-white relative z-10 w-full font-sans transition-colors" 
             onClick={handleAuthorClick}
+            role="button"
+            tabIndex={0}
+            aria-label={`Obrir perfil de ${displayAuthor}`}
         >
-            <div className="header-left flex items-center gap-3 flex-1 min-w-0 pr-2">
-                <Avatar
-                    src={avatarSrc || item?.author_avatar || item?.logo_url || item?.author?.avatar_url}
-                    name={displayAuthor}
-                    role={avatarRole || item?.author_role}
-                    size="md"
-                    className="genesis-avatar shrink-0"
-                />
-                <div className="header-text flex flex-col justify-center flex-1 min-w-0 [&>*:last-child]:!mb-0 [&>*:first-child]:!mt-0">
-                    <Text variant="secondary" as="h3" className="master-author-name leading-tight !text-on-accent !mb-1 truncate w-full" title={cardVariant === 'pobles' ? getGentDePage(displayTown) : displayAuthor}>
-                        {cardVariant === 'pobles' ? getGentDePage(displayTown) : displayAuthor}
-                    </Text>
+            <div className="flex items-center gap-3 overflow-hidden min-w-0">
+                <div 
+                    className="flex-shrink-0 w-10 h-10 rounded-full border border-border-master overflow-hidden bg-theme-panel cursor-pointer active:scale-95 transition-all duration-300 ease-out flex items-center justify-center"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        if (finalAvatarRole === 'master') {
+                            navigate('/iaia');
+                        }
+                    }}
+                >
+                    <Avatar 
+                        name={displayAuthor} 
+                        src={finalAvatarSrc} 
+                        role={finalAvatarRole}
+                        size="md"
+                    />
+                </div>
+                
+                <div className="flex flex-col min-w-0">
+                    <h3 className="text-[#111111] dark:text-white font-sans text-[18px] font-black m-0 tracking-wide whitespace-nowrap overflow-hidden text-ellipsis leading-tight flex items-center gap-1.5 cursor-pointer active:opacity-70 transition-opacity">
+                        <span className="truncate lowercase first-letter:uppercase">{cardVariant === 'pobles' ? getGentDePage(displayTown) : displayAuthor}</span>
+                        {item?.is_iaia_inspired && (
+                            <Sparkles size={14} className="text-[#111111] dark:text-[#F97316] shrink-0" fill="currentColor" />
+                        )}
+                        {isOfficial && (
+                            <Zap size={14} className="text-[#111111] dark:text-[#38BDF8] drop-shadow-[0_0_4px_rgba(255,255,255,0.2)] dark:drop-shadow-[0_0_4px_#38BDF8] shrink-0" fill="currentColor" />
+                        )}
+                    </h3>
                     
-                    {cardVariant === 'pobles' ? (
-                        <Text variant="caption" className="location-text !font-normal !normal-case !tracking-normal !mt-0.5 truncate w-full" title={`De part de: ${displayAuthor}`}>
-                            De part de: {displayAuthor}
-                        </Text>
-                    ) : (
-                        displayTown && displayTown !== displayAuthor && (
-                            <Text variant="caption" className="location-text !font-normal !normal-case !tracking-normal !mt-0.5 truncate w-full" title={displayTown.replace("Poble Principal:", "").trim()}>
-                                {displayTown.replace("Poble Principal:", "").trim()}
-                            </Text>
-                        )
-                    )}
+                    <div className="flex items-center gap-2 mt-0.5 whitespace-nowrap overflow-hidden text-ellipsis">
+                        {cardVariant !== 'pobles' && (
+                            <span className="text-[14px] text-black/80 dark:text-white/80 font-bold">
+                                {displayTime} - {displayDate}
+                            </span>
+                        )}
+                        {(displayTown && displayTown !== displayAuthor && cardVariant !== 'pobles') && (
+                            <>
+                                <span className="text-black/80 dark:text-white/80">•</span>
+                                <div className="flex items-center gap-1 text-[14px] text-black/80 dark:text-white/80 truncate font-bold w-full" title={displayTown.replace("Poble Principal:", "").trim()}>
+                                    <MapPin size={12} className="shrink-0" />
+                                    <span className="truncate">{displayTown.replace("Poble Principal:", "").trim()}</span>
+                                </div>
+                            </>
+                        )}
+                        {cardVariant === 'pobles' && (
+                            <div className="flex items-center gap-1 text-[14px] text-black/80 dark:text-white/80 truncate font-bold w-full" title={`De part de: ${displayAuthor}`}>
+                                <MapPin size={12} className="shrink-0" />
+                                <span className="truncate lowercase first-letter:uppercase">De part de: {displayAuthor}</span>
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
 
-            <div className="header-right-meta flex items-center gap-2">
-                <div className="header-meta-details flex flex-col items-end justify-center leading-none">
-                    {cardVariant !== 'pobles' && (
-                        <div className="flex flex-col items-start mr-1">
-                            <Text variant="caption" className="header-time !text-[11px] font-black !text-on-accent-muted tracking-tighter !mb-0.5">{displayTime}</Text>
-                            <Text variant="caption" className="header-date !text-on-accent !text-[12px] font-black uppercase tracking-widest">{displayDate}</Text>
-                        </div>
-                    )}
-                </div>
+            <div className="flex items-center gap-3 shrink-0 ml-2">
+                {isEventOrAgenda && (
+                    <div className="bg-theme-panel px-2.5 py-1 rounded-[8px] border border-[#F97316]/50 shadow-[0_0_10px_rgba(249,115,22,0.15)] flex flex-col items-center justify-center">
+                         <span className="text-[11px] font-black text-[#F97316] uppercase tracking-wider">
+                             {t('card.agenda_tag') || 'Agenda'}
+                         </span>
+                    </div>
+                )}
+                
+                <button 
+                    onClick={(e) => e.stopPropagation()}
+                    className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-black/10 dark:hover:bg-white/10 transition-all active:scale-95 duration-300 ease-out shrink-0"
+                    aria-label="Més opcions"
+                >
+                    <MoreHorizontal size={20} className="text-[#111111] dark:text-white/80" />
+                </button>
             </div>
         </header>
     );

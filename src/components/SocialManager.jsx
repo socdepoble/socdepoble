@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
 import { X, Check, Eye, EyeOff, Hash, Layers, Settings2, Sparkles, Loader2, RotateCcw } from 'lucide-react';
 import { useSocial } from '../context/SocialContext';
-import { useModal } from '../context/ModalContext';
+import { useModalState } from '../context/ModalContext';
 import { supabaseService } from '../services/supabaseService';
 import './SocialManager.css';
 
@@ -11,7 +11,7 @@ const SocialManager = ({ isOpen, onClose }) => {
     const { t } = useTranslation();
     const { user } = useAuth();
     const { activeCategories, toggleCategory, followedTags, savePreferences, resetToDefaults } = useSocial();
-    const { socialManagerContext } = useModal();
+    const { socialManagerContext } = useModalState();
     const [privateTags, setPrivateTags] = useState([]);
     const [isSaving, setIsSaving] = useState(false);
 

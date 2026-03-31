@@ -14,6 +14,14 @@ const logger = {
     debug: (msg) => postMessage({ type: 'DEBUG', payload: msg })
 };
 
+const safeJsonParse = (input, fallback) => {
+    try {
+        return JSON.parse(input);
+    } catch {
+        return fallback;
+    }
+};
+
 async function init(initId, originStr) {
     if (originStr) {
         globalOrigin = originStr;
@@ -83,6 +91,7 @@ function setupTables() {
             data TEXT NOT NULL,
             last_op_id TEXT,
             vector_clock TEXT,
+            checksum TEXT,
             updated_at INTEGER NOT NULL
         );
 
@@ -95,6 +104,7 @@ function setupTables() {
     // Schema Migrations (Fail-safe for existing databases)
     try { db.exec(`ALTER TABLE operations ADD COLUMN vector_clock TEXT;`); } catch { /* ignore */ }
     try { db.exec(`ALTER TABLE snapshots ADD COLUMN vector_clock TEXT;`); } catch { /* ignore */ }
+    try { db.exec(`ALTER TABLE snapshots ADD COLUMN checksum TEXT;`); } catch { /* ignore */ }
 }
 
 onmessage = async (e) => {
@@ -162,9 +172,9 @@ onmessage = async (e) => {
                     bind: [payload.docId],
                     row: (row) => ops.push({
                         ...row,
-                        value: JSON.parse(row.value),
-                        dependsOn: JSON.parse(row.depends_on),
-                        vectorClock: row.vector_clock ? JSON.parse(row.vector_clock) : null
+                        value: safeJsonParse(row.value, null),
+                        dependsOn: safeJsonParse(row.depends_on, []),
+                        vectorClock: row.vector_clock ? safeJsonParse(row.vector_clock, {}) : null
                     })
                 });
                 postMessage({ id, type: 'GET_OPS_OK', payload: ops });
@@ -173,12 +183,13 @@ onmessage = async (e) => {
 
             case 'SAVE_SNAPSHOT': {
                 db.exec({
-                    sql: 'INSERT OR REPLACE INTO snapshots (doc_id, data, last_op_id, vector_clock, updated_at) VALUES (?, ?, ?, ?, ?)',
+                    sql: 'INSERT OR REPLACE INTO snapshots (doc_id, data, last_op_id, vector_clock, checksum, updated_at) VALUES (?, ?, ?, ?, ?, ?)',
                     bind: [
                         payload.docId, 
                         JSON.stringify(payload.data), 
                         payload.lastOpId, 
                         JSON.stringify(payload.vectorClock || {}),
+                        payload.checksum || null,
                         Date.now()
                     ]
                 });
@@ -193,9 +204,10 @@ onmessage = async (e) => {
                     bind: [payload.docId],
                     row: (row) => {
                         snapshot = {
-                            data: JSON.parse(row.data),
+                            data: safeJsonParse(row.data, null),
                             lastOpId: row.last_op_id,
-                            vectorClock: row.vector_clock ? JSON.parse(row.vector_clock) : null
+                            vectorClock: row.vector_clock ? safeJsonParse(row.vector_clock, {}) : null,
+                            checksum: row.checksum
                         };
                     }
                 });
@@ -203,7 +215,10 @@ onmessage = async (e) => {
                 break;
             }
 
-            case 'PURGE_OPS':
+            case 'PURGE_OPS': {
+                const keepLimit = Number.isFinite(payload.keepLimit)
+                    ? Math.max(1, Math.floor(payload.keepLimit))
+                    : 50;
                 db.exec({
                     sql: `DELETE FROM operations 
                           WHERE doc_id = ? 
@@ -213,10 +228,11 @@ onmessage = async (e) => {
                               ORDER BY timestamp DESC 
                               LIMIT ?
                           )`,
-                    bind: [payload.docId, payload.docId, payload.keepLimit || 50]
+                    bind: [payload.docId, payload.docId, keepLimit]
                 });
                 postMessage({ id, type: 'PURGE_OPS_OK' });
                 break;
+            }
 
             case 'GET_TRUST_SCORE': {
                 let score = 0;
@@ -246,6 +262,7 @@ onmessage = async (e) => {
 
             default:
                 logger.error('Unknown action type: ' + type);
+                postMessage({ id, type: 'ERROR', payload: `Unknown action type: ${type}` });
         }
     } catch (err) {
         postMessage({ id, type: 'ERROR', payload: err.message });

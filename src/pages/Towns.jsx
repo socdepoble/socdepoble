@@ -150,12 +150,7 @@ const Towns = () => {
 
   const searchRef = useRef(null);
 
-  const handleFABClick = () => {
-    if (searchRef.current) {
-      searchRef.current.focus();
-      searchRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
-    }
-  };
+
 
   useEffect(() => {
     const fetchTowns = async () => {
@@ -234,8 +229,8 @@ const Towns = () => {
     );
   }
 
-  return (
-    <div className="towns-page-container">
+    return (
+        <div className="flex-1 flex flex-col w-full min-h-0 towns-page-container">
       <SEO
         title={t("towns.title") || "Els Pobles"}
         description={
@@ -265,7 +260,7 @@ const Towns = () => {
 
 
 
-      <div className="sticky top-0 w-full z-50 shadow-md">
+      <div className="flex-none w-full z-50 shadow-md bg-theme-base">
           <ContextualHeader
             ref={searchRef}
             searchTerm={townSearch}
@@ -279,22 +274,10 @@ const Towns = () => {
                 ? "Cerca esdeveniments..."
                 : "Cerca pobles..."
             }
-            extraActions={
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => navigate('/mapa')}
-                  className="flex items-center justify-center w-10 h-10 bg-[#FF6D23] text-white rounded-[28px] hover:scale-110 transition-transform shadow-lg"
-                  title="Obrir Mapa Local"
-                  aria-label="Obrir Mapa Local"
-                >
-                  <MapIcon size={20} aria-hidden="true" />
-                </button>
-              </div>
-            }
           />
       </div>
 
-      <div className="towns-content-area" ref={containerRef}>
+      <div className="flex-1 overflow-y-auto custom-scrollbar towns-content-area" ref={containerRef}>
         {currentTab === "pobles" && (
           <UniversalGridWrapper viewMode={viewMode}>
             <UniversalGridRow viewMode={viewMode} columnCount={columnCount} className="pt-6 pb-8">
@@ -342,30 +325,19 @@ const Towns = () => {
                   return (
                     <TownWikipediaEnricher key={town.uuid || town.id} town={town}>
                       {(enrichedTown) => (
-                        <div
-                          onClick={() => navigate(`/pobles/${enrichedTown.uuid || enrichedTown.id}`)}
-                          role="button"
-                          tabIndex={0}
-                          onKeyDown={(e) => {
-                            if (e.key === 'Enter' || e.key === ' ') {
-                              e.preventDefault();
-                              navigate(`/pobles/${enrichedTown.uuid || enrichedTown.id}`);
-                            }
-                          }}
-                          className={`town-card-link cursor-pointer card-rizoma-wrapper animate-in w-full h-full ${
-                            isUserTown ? "is-user-town" : ""
-                          }`}
-                        >
                           <UniversalCard
                             item={enrichedTown}
                             subtitle={enrichedTown.name}
                             avatarSrc={enrichedTown.image_url}
                             avatarName={enrichedTown.name}
-                            className="town-card"
+                            className={`town-card animate-in w-full ${
+                              isUserTown ? "ring-2 ring-[var(--theme-accent-primary)] shadow-[0_0_20px_rgba(249,115,22,0.3)]" : ""
+                            }`}
                             image={enrichedTown.image_url}
                             mode="pobles"
                             isBating={isBating}
                             viewMode={viewMode}
+                            onNavigate={() => navigate(`/pobles/${enrichedTown.uuid || enrichedTown.id}`)}
                           >
                             <div
                               className="town-description-mini text-sm italic opacity-80"
@@ -389,7 +361,6 @@ const Towns = () => {
                               )}
                             </div>
                           </UniversalCard>
-                        </div>
                       )}
                     </TownWikipediaEnricher>
                   );
@@ -459,8 +430,8 @@ const Towns = () => {
               <UniversalGridWrapper viewMode={viewMode}>
                 <UniversalGridRow viewMode={viewMode} columnCount={columnCount} className="pt-6 pb-8">
                   {filteredEvents.map((event) => (
-                    <div key={event.id} className="card-rizoma-wrapper animate-in w-full flex">
                         <UniversalCard
+                          key={event.id}
                           item={event}
                           title={event.title}
                           subtitle={`${event.location} • ${event.start_time} - ${event.end_time}`}
@@ -499,7 +470,6 @@ const Towns = () => {
                             ))}
                           </div>
                         </UniversalCard>
-                    </div>
                   ))}
                 </UniversalGridRow>
               </UniversalGridWrapper>
@@ -604,16 +574,6 @@ const Towns = () => {
           </div>
         )}
       </div>
-
-      {/* [PRO] FAB Cerca de Pobles v10.33.6 */}
-      <button
-        className="towns-search-fab"
-        onClick={handleFABClick}
-        title="Cercar Pobles"
-        aria-label="Cercar Pobles"
-      >
-        <Search size={28} aria-hidden="true" />
-      </button>
     </div>
   );
 };

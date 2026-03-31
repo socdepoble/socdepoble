@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
+import { Node } from '@tiptap/core';
 import TextAlign from '@tiptap/extension-text-align';
 import Image from '@tiptap/extension-image';
 import Link from '@tiptap/extension-link';
@@ -8,8 +8,66 @@ import Underline from '@tiptap/extension-underline';
 import { TextStyle } from '@tiptap/extension-text-style';
 import Color from '@tiptap/extension-color';
 import ListItem from '@tiptap/extension-list-item';
-import { Bold, Italic, Underline as UnderlineIcon, Strikethrough, Heading1, Heading2, Heading3, Heading4, List, ListOrdered, Quote, AlignLeft, AlignCenter, AlignRight, Undo, Redo, Image as ImageIcon, Link as LinkIcon, Save, MousePointerClick } from 'lucide-react';
+import { Bold, Italic, Underline as UnderlineIcon, Strikethrough, Heading1, Heading2, Heading3, Heading4, List, ListOrdered, Quote, AlignLeft, AlignCenter, AlignRight, Undo, Redo, Image as ImageIcon, Link as LinkIcon, Save, MousePointerClick, CodeXml, X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import StarterKit from '@tiptap/starter-kit';
+
+const RawHTMLNode = Node.create({
+  name: 'rawHtml',
+  group: 'block',
+  atom: true,
+
+  addAttributes() {
+    return {
+      html: {
+        default: '',
+        parseHTML: element => element.getAttribute('data-raw-html') || element.innerHTML,
+      },
+    }
+  },
+
+  parseHTML() {
+    return [
+      {
+        tag: 'div.custom-raw-html',
+      },
+    ]
+  },
+
+  renderHTML({ node }) {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'custom-raw-html my-6';
+    wrapper.setAttribute('data-raw-html', node.attrs.html);
+    wrapper.innerHTML = node.attrs.html;
+    return { dom: wrapper };
+  },
+
+  addNodeView() {
+    return ({ node }) => {
+      const container = document.createElement('div');
+      container.className = 'custom-raw-html-editor my-6 bg-[var(--bg-panel-elevated)] border-2 border-dashed border-[var(--theme-accent-primary)] rounded-xl relative overflow-hidden group';
+      
+      const header = document.createElement('div');
+      header.className = 'bg-[var(--bg-panel)] border-b border-dashed border-[var(--theme-accent-primary)] px-3 py-1 flex items-center justify-between opacity-50 group-hover:opacity-100 transition-opacity';
+      
+      const badge = document.createElement('span');
+      badge.className = 'text-[var(--theme-accent-primary)] text-xs font-bold uppercase tracking-wider';
+      badge.innerText = 'HTML Incrustat / Widget';
+      header.appendChild(badge);
+      
+      container.appendChild(header);
+
+      const content = document.createElement('div');
+      content.className = 'p-4 overflow-x-auto';
+      content.innerHTML = node.attrs.html;
+      container.appendChild(content);
+
+      return {
+        dom: container,
+      }
+    }
+  }
+});
 
 const CustomListItem = ListItem.extend({
   addAttributes() {
@@ -47,7 +105,7 @@ const ToolbarButton = ({ onClick, isActive, disabled, children, ariaLabel }) => 
     </button>
 );
 
-const MenuBar = ({ editor, onSave, isSaving, minimal = false }) => {
+const MenuBar = ({ editor, onSave, isSaving, minimal = false, onOpenHtmlDialog }) => {
   const { t } = useTranslation();
 
   if (!editor) {
@@ -183,6 +241,16 @@ const MenuBar = ({ editor, onSave, isSaving, minimal = false }) => {
       >
         <Quote size={minimal ? 16 : 18} />
       </ToolbarButton>
+
+      {onOpenHtmlDialog && (
+          <ToolbarButton
+            onClick={onOpenHtmlDialog}
+            ariaLabel="Incrustar HTML"
+          >
+            <CodeXml size={minimal ? 16 : 18} />
+          </ToolbarButton>
+      )}
+
       {!minimal && (
           <ToolbarButton
             onClick={() => {
@@ -246,6 +314,8 @@ const MenuBar = ({ editor, onSave, isSaving, minimal = false }) => {
 
 const RichTextEditor = ({ content, onChange, onSave, isSaving, editable = true, minimal = false }) => {
   const { t } = useTranslation();
+  const [isHtmlDialogOpen, setIsHtmlDialogOpen] = useState(false);
+  const [htmlInput, setHtmlInput] = useState('');
 
   const editor = useEditor({
     editable,
@@ -260,6 +330,7 @@ const RichTextEditor = ({ content, onChange, onSave, isSaving, editable = true, 
       Underline,
       TextStyle,
       Color,
+      RawHTMLNode,
     ],
     content: content || `<p>${t('editor.placeholder', 'Comença a escriure aquí...')}</p>`,
     onUpdate: ({ editor }) => {
@@ -285,12 +356,56 @@ const RichTextEditor = ({ content, onChange, onSave, isSaving, editable = true, 
     <div className={`w-full flex flex-col bg-[var(--bg-app)] ${editable && !minimal ? 'border-t border-[var(--theme-accent-primary)]/20 shadow-2xl relative z-20' : minimal && editable ? 'rounded-xl border border-[var(--border-master)] focus-within:ring-2 focus-within:ring-[var(--theme-accent-primary)] transition-all' : ''} overflow-hidden`} style={editable && !minimal ? { 
         boxShadow: '0 -15px 40px -10px rgba(0,0,0,0.1)' 
     } : {}}>
-      {editable && <MenuBar editor={editor} onSave={onSave} isSaving={isSaving} minimal={minimal} />}
+      {editable && <MenuBar editor={editor} onSave={onSave} isSaving={isSaving} minimal={minimal} onOpenHtmlDialog={() => setIsHtmlDialogOpen(true)} />}
       <div className={`flex-1 overflow-y-auto ${editable && !minimal ? 'bg-[var(--bg-panel)]' : ''} custom-scrollbar`}>
         <div className={`max-w-4xl mx-auto bg-transparent ${editable && !minimal ? 'shadow-sm min-h-screen my-0 sm:my-8 sm:rounded-2xl sm:border border-[var(--border-master)] dark:bg-[#0f0f0f] bg-white' : ''}`}>
             <EditorContent editor={editor} />
         </div>
       </div>
+      
+      {isHtmlDialogOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-in">
+          <div className="bg-[var(--bg-app)] rounded-2xl w-full max-w-2xl shadow-2xl border border-[var(--border-master)] overflow-hidden flex flex-col scale-100 animate-up">
+            <div className="flex items-center justify-between p-4 border-b border-[var(--border-master)] bg-[var(--bg-panel)]">
+              <h3 className="font-bold text-lg text-[var(--text-main)] flex items-center gap-2">
+                <CodeXml className="text-[var(--theme-accent-primary)]" size={20} />
+                Incrustar HTML / Codi Extern
+              </h3>
+              <button onClick={() => setIsHtmlDialogOpen(false)} className="p-2 hover:bg-[var(--bg-panel-elevated)] rounded-full text-[var(--text-muted)] hover:text-[var(--text-main)] transition-colors">
+                <X size={20} />
+              </button>
+            </div>
+            <div className="p-4 flex-1">
+              <p className="text-sm text-[var(--text-muted)] mb-3">
+                Enganxa aquí el codi <code>&lt;iframe&gt;</code>, un script de dades, o qualsevol component HTML que vulgues incrustar. Es mostrarà directament a la pàgina.
+              </p>
+              <textarea
+                value={htmlInput}
+                onChange={(e) => setHtmlInput(e.target.value)}
+                placeholder="<iframe src='...'></iframe>"
+                className="w-full h-48 bg-[var(--bg-panel)] text-[var(--text-main)] border border-[var(--border-master)] rounded-xl p-3 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-[var(--theme-accent-primary)] custom-scrollbar resize-none"
+              />
+            </div>
+            <div className="p-4 border-t border-[var(--border-master)] bg-[var(--bg-panel)] flex justify-end gap-2">
+              <button onClick={() => setIsHtmlDialogOpen(false)} className="px-4 py-2 font-bold text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-[var(--bg-panel-elevated)] rounded-xl transition-all">
+                Cancel·lar
+              </button>
+              <button 
+                onClick={() => {
+                  if (htmlInput.trim()) {
+                    editor.chain().focus().insertContent({ type: 'rawHtml', attrs: { html: htmlInput } }).run();
+                  }
+                  setIsHtmlDialogOpen(false);
+                  setHtmlInput('');
+                }}
+                className="px-6 py-2 font-bold bg-[var(--theme-accent-primary)] text-white rounded-xl shadow-md hover:bg-orange-600 transition-all active:scale-95"
+              >
+                Inserir Codi
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

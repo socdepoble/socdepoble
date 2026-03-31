@@ -32,7 +32,6 @@ const TranslationModal = ({ isOpen, onClose, config }) => {
         }));
         
         onClose();
-        alert(`🌐 S'ha sol·licitat la traducció automàtica a ${langCode.toUpperCase()}. Funcionalitat OMEGA-39 pendent de connexió clau.`);
     };
 
     // Obtener idioma base
@@ -98,7 +97,7 @@ const TranslationModal = ({ isOpen, onClose, config }) => {
                         <button 
                             onClick={() => {
                                 // Aquí se abriría el modal nativo o input para elegir entre los 100+ idiomas de Google
-                                alert("Obrint el selector global d'idiomes (Google Translate API)...");
+                                console.log("Obrint el selector global d'idiomes (Google Translate API)...");
                             }}
                             className="flex items-center justify-center w-full p-3 mt-1 rounded-xl border border-white/10 text-white/50 hover:text-white/90 hover:border-white/30 transition-all text-sm font-bold bg-transparent"
                         >

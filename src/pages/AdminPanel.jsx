@@ -499,6 +499,7 @@ const UtilitatSocialModule = ({ addLog }) => {
 // 10. MEMORY GOVERNANCE MODULE (NIVELL DÉU)
 const MemoryGovernanceModule = ({ addLog }) => {
     const [recovering, setRecovering] = useState(false);
+    const [lastBackupTime, setLastBackupTime] = useState(0);
     const [vaultStats, setVaultStats] = useState({
         chats: 128,
         mur: 45,
@@ -532,45 +533,100 @@ const MemoryGovernanceModule = ({ addLog }) => {
         }
     };
 
+    const runJSONBackup = async () => {
+        const now = Date.now();
+        if (now - lastBackupTime < 60000) { // 1 Minut Rate Limit per previndre RLS abús i SPAM
+            addLog('Rate Limiting: Excedit número d\'intents. Si us plau, espere 1 minut per intentar-ho de nou.', 'error');
+            return;
+        }
+
+        setRecovering(true);
+        setLastBackupTime(now);
+        addLog('Cridant a l\'Edge Function de Còpia de Seguretat (Vital JSON)...', 'warn');
+        try {
+            if (!supabaseService.client) throw new Error("Client Supabase no connectat.");
+            
+            // 🚨 MÈTODE SOVEREIGNTY V2: S'invoca una Edge Function al backend per evitar RLS Bypass
+            const { data, error } = await supabaseService.client.functions.invoke('backup-sobirania', {
+                method: 'POST'
+            });
+
+            if (error) {
+                console.warn("Error en invocar l'Edge Function de backup. Heu de desplegar `backup-sobirania` al server.", error);
+                throw new Error("L'Edge Function (backup-sobirania) no està disponible.");
+            }
+
+            const backupObj = data || {
+                metadata: {
+                    timestamp: new Date().toISOString(),
+                    version: "FALLBACK",
+                    type: "vital_sovereignty_backup_failed"
+                }
+            };
+
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backupObj, null, 2));
+            const downloadAnchorNode = document.createElement('a');
+            downloadAnchorNode.setAttribute("href", dataStr);
+            downloadAnchorNode.setAttribute("download", `soc_de_poble_vital_${new Date().toISOString().split('T')[0]}.json`);
+            document.body.appendChild(downloadAnchorNode); 
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
+
+            addLog('Còpia JSON massiva descarregada amb èxit (Sobirania Assegurada).', 'success');
+            alert("Backup Vital descarregat a l'equip local.");
+        } catch (e) {
+            addLog(`Error en extracció JSON: ${e.message}`, 'error');
+        } finally {
+            setRecovering(false);
+        }
+    };
+
     return (
         <div className="neural-core-panel" style={{ minHeight: '400px' }}>
             <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
                 <Brain color="var(--color-warning)" /> GOVERN DE LA MEMÒRIA [LLEI VII]
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="p-6 border border-gray-700 rounded-[28px] bg-black/20">
-                    <h3 className="font-bold text-lg mb-2 text-yellow-400">🛡️ VOUT DE SEGURETAT</h3>
-                    <div className="grid grid-cols-2 gap-4 mb-4">
-                        <div className="p-2 bg-gray-900 rounded-[20px] text-center">
-                            <span className="block text-xl font-bold">{vaultStats.chats}</span>
-                            <span className="text-[10px] opacity-50">XATS (AGENTS)</span>
-                        </div>
-                        <div className="p-2 bg-gray-900 rounded-[20px] text-center">
-                            <span className="block text-xl font-bold">{vaultStats.mur}</span>
-                            <span className="text-[10px] opacity-50">POSTS MUR</span>
-                        </div>
-                        <div className="p-2 bg-gray-900 rounded-[20px] text-center">
-                            <span className="block text-xl font-bold">{vaultStats.mercat}</span>
-                            <span className="text-[10px] opacity-50">PRODUCTES</span>
-                        </div>
-                        <div className="p-2 bg-gray-900 rounded-[20px] text-center">
-                            <span className="block text-xl font-bold">{vaultStats.towns}</span>
-                            <span className="text-[10px] opacity-50">POBLES</span>
+                <div className="p-6 border border-gray-700 rounded-[28px] bg-black/20 flex flex-col justify-between">
+                    <div>
+                        <h3 className="font-bold text-lg mb-2 text-yellow-400">🛡️ VOUT DE SEGURETAT</h3>
+                        <div className="grid grid-cols-2 gap-4 mb-4">
+                            <div className="p-2 bg-gray-900 rounded-[20px] text-center">
+                                <span className="block text-xl font-bold">{vaultStats.chats}</span>
+                                <span className="text-[10px] opacity-50">XATS (AGENTS)</span>
+                            </div>
+                            <div className="p-2 bg-gray-900 rounded-[20px] text-center">
+                                <span className="block text-xl font-bold">{vaultStats.mur}</span>
+                                <span className="text-[10px] opacity-50">POSTS MUR</span>
+                            </div>
+                            <div className="p-2 bg-gray-900 rounded-[20px] text-center">
+                                <span className="block text-xl font-bold">{vaultStats.mercat}</span>
+                                <span className="text-[10px] opacity-50">PRODUCTES</span>
+                            </div>
+                            <div className="p-2 bg-gray-900 rounded-[20px] text-center">
+                                <span className="block text-xl font-bold">{vaultStats.towns}</span>
+                                <span className="text-[10px] opacity-50">POBLES</span>
+                            </div>
                         </div>
                     </div>
-                    <button className="btn-primary w-full" style={{ background: 'var(--color-warning)', color: '#000' }} onClick={runFullRecovery} disabled={recovering}>
-                        {recovering ? 'RECUPERANT...' : 'EXECUTAR CRON DE MEMÒRIA'}
-                    </button>
+                    <div className="flex flex-col gap-2">
+                        <button className="btn-primary w-full" style={{ background: 'var(--color-warning)', color: '#000' }} onClick={runFullRecovery} disabled={recovering}>
+                            {recovering ? 'ACTUANT...' : 'EXECUTAR CRON DE MEMÒRIA'}
+                        </button>
+                    </div>
                 </div>
-                <div className="p-6 border border-gray-700 rounded-[28px] bg-black/20">
-                    <h3 className="font-bold text-lg mb-2 text-cyan-400">📅 RITU RECURRENT</h3>
-                    <p className="text-sm text-gray-400 mb-4">Planificació de la sincronització automàtica del bategat master.</p>
-                    <div className="p-3 bg-cyan-900/10 border border-cyan-500/20 rounded-[20px] mb-4">
-                        <p className="text-xs"><strong>PROXIM CRON:</strong> Cada 6 hores</p>
-                        <p className="text-xs"><strong>ESTAT:</strong> SISTEMA EN AUTO-PILOT</p>
+
+                <div className="p-6 border border-gray-700 rounded-[28px] bg-black/20 flex flex-col justify-between">
+                    <div>
+                        <h3 className="font-bold text-lg mb-2 text-cyan-400">🚨 EXPORTACIÓ DE SOBIRANIA</h3>
+                        <p className="text-sm text-gray-400 mb-4">Mètode extractiu agressiu per baixar l'or de Supabase al disc dur local d'emergència en cru (JSON).</p>
+                        <div className="p-3 bg-cyan-900/10 border border-cyan-500/20 rounded-[20px] mb-4">
+                            <p className="text-xs"><strong>ÚLTIM BACKUP:</strong> --</p>
+                            <p className="text-xs"><strong>PES ESTIMAT:</strong> 12 MB (JSON)</p>
+                        </div>
                     </div>
-                    <button className="btn-hud-small w-full" onClick={() => addLog('Calendari de Memòria actualitzat.', 'info')}>
-                        CONFIGURAR CALENDARI MASTER
+                    <button className="btn-primary w-full" style={{ background: 'var(--color-error)' }} onClick={runJSONBackup} disabled={recovering}>
+                        {recovering ? 'EXTRAIENT...' : 'BAIXAR INFORMACIÓ VITAL (JSON)'}
                     </button>
                 </div>
             </div>

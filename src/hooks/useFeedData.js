@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useQuery } from '@powersync/react';
-import { logger } from '../utils/logger';
 import { MOCK_FEED } from '../data';
 
 export const useFeedData = ({ activeTown, customPosts }) => {
@@ -43,7 +42,7 @@ export const useFeedData = ({ activeTown, customPosts }) => {
     const fetchPosts = useCallback(async () => {
        // Fetch logic is moot with PowerSync reactive queries but kept for interface compatibility
        // if there are manual reload triggers.
-       logger.info('Manual fetch request ignored. PowerSync streams changes automatically.');
+       // logger.info('Manual fetch request ignored. PowerSync streams changes automatically.');
     }, []);
 
     return {

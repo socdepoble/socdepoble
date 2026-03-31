@@ -1,6 +1,7 @@
 import { logger } from '../utils/logger';
 import { supabaseService } from './supabaseService';
 import { egWalker } from '../rhizome/crdt/eg-walker';
+import { chaosMonkey } from '../utils/chaosMonkey';
 
 /**
  * RhizomeManager: El motor d'Escala Infinita [MASTER]
@@ -22,16 +23,25 @@ class RhizomeManager {
     async syncXLogsToFederation(userId) {
         logger.log('[Rhizome] Sincronitzant xlogs amb el Node de la Federació (La Torre Pilot)...');
         try {
+            if (await chaosMonkey.intercept()) {
+                throw new Error('[ChaosMonkey] Sincronització avortada per paquet perdut.');
+            }
             const localLogs = JSON.parse(localStorage.getItem('sp_xlogs') || '[]');
-            if (localLogs.length === 0) return;
+            if (localLogs.length === 0) return { success: true, count: 0 };
 
             // En un sistema federat, açò enviaria les dades al node corresponent
             const { error } = await supabaseService.upsertXLogs(userId, localLogs);
             if (error) throw error;
 
             logger.log('[Rhizome] Sincronització amb la Federació completada.');
+            return { success: true, count: localLogs.length };
         } catch (err) {
             logger.error('[Rhizome] Error en la sincronització federada:', err);
+            return { 
+                success: false, 
+                retryable: err.message?.includes('fetch') || err.message?.includes('Network') || err.status === 503, 
+                code: err.code || 'UNKNOWN_SYNC_ERROR' 
+            };
         }
     }
 
@@ -65,6 +75,11 @@ class RhizomeManager {
         if (local === remote) return local;
 
         logger.log(`[Rhizome] Detectat conflicte en ${docId}. Aplicant Eg-walker...`);
+
+        if (await chaosMonkey.intercept()) {
+             logger.error(`🐒 [ChaosMonkey] Error artificial en Merge Semàntic per a ${docId}. Corrupció simulada.`);
+             // El Fallback per defecte en Eg-Walker si falla és el remote.
+        }
 
         if (Array.isArray(remote)) {
             return await this.walker.merge(docId, remote);
@@ -141,7 +156,11 @@ class RhizomeManager {
             const a = document.createElement('a');
             a.href = url;
             a.download = `capsula_del_temps_${new Date().toISOString().split('T')[0]}.json`;
+            a.style.display = 'none';
+            document.body.appendChild(a);
             a.click();
+            a.remove();
+            URL.revokeObjectURL(url);
 
             logger.log('[Rhizome] Càpsula del Temps bategada amb èxit.');
             return true;

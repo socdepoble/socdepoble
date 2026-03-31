@@ -1,7 +1,8 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
-import { BookOpen, Info, ShieldCheck, Zap } from "lucide-react";
+import { BookOpen, Info, ShieldCheck, Zap, Ghost, Skull } from "lucide-react";
 import { useDesign } from '../context/DesignContext';
+import { chaosMonkey } from '../utils/chaosMonkey';
 
 const ARCHITECTURE_DOCS = {
   'chats': {
@@ -52,6 +53,17 @@ const ArchitecteView = () => {
   const location = useLocation();
   const path = location.pathname.split("/")[1] || "chats";
   const doc = ARCHITECTURE_DOCS[path] || ARCHITECTURE_DOCS.chats;
+  const [chaosActive, setChaosActive] = React.useState(chaosMonkey.enabled);
+
+  const toggleChaosMode = () => {
+    const isNowActive = chaosMonkey.toggle();
+    setChaosActive(isNowActive);
+    
+    // Si lo activamos, hacemos un Circuit Breaker manual inmediato de demostración (2 segundos)
+    if (isNowActive) {
+      chaosMonkey.tripBreaker(2000);
+    }
+  };
 
   if (!architectMode) return null;
 
@@ -134,10 +146,42 @@ const ArchitecteView = () => {
           </div>
         )}
 
-        <div className="flex items-center gap-2 p-6 bg-orange-600/10 border border-orange-600/20 genesis-radius text-orange-500 text-[10px] font-black uppercase tracking-widest">
+        <div className="flex items-center gap-2 p-6 bg-orange-600/10 border border-orange-600/20 genesis-radius text-orange-500 text-[10px] font-black uppercase tracking-widest mb-8">
           <Zap size={14} className="animate-pulse" />
           AQUESTA DEFINICIÓ ÉS L'ORDRE INMUTABLE DEL MESTRE JAVI
         </div>
+
+        {/* --- PANEL DE CONTROL: CHAOS MONKEY --- */}
+        <div className={`p-8 genesis-radius border ${chaosActive ? 'bg-red-950/40 border-red-500/50' : 'bg-black/40 border-white/5'}`}>
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              {chaosActive ? (
+                <Skull size={24} className="text-red-500 animate-pulse" />
+              ) : (
+                <Ghost size={24} className="text-gray-500" />
+              )}
+              <h3 className={`text-sm font-black uppercase tracking-[0.2em] ${chaosActive ? 'text-red-500' : 'text-gray-400'}`}>
+                Chaos Monkey (Fuego Cruzado)
+              </h3>
+            </div>
+            
+            <button
+              onClick={toggleChaosMode}
+              className={`px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest transition-all duration-300 ${
+                chaosActive 
+                ? 'bg-red-500 text-black shadow-[0_0_15px_rgba(239,68,68,0.5)]' 
+                : 'bg-white/10 text-white hover:bg-white/20'
+              }`}
+            >
+              {chaosActive ? 'APAGAR FUEGO' : 'SIMULAR SOMBRA RURAL'}
+            </button>
+          </div>
+          
+          <p className="text-gray-400 text-sm leading-relaxed">
+            Activar el Chaos Monkey inyecta un <strong>30% de Packet Loss</strong> y <strong>500ms de Jitter</strong> en los sincronizadores WebRTC y Rhizome P2P. Evalúa cómo sobrevive la UI cuando la capa de red colapsa temporalmente.
+          </p>
+        </div>
+
       </div>
     </div>
   );

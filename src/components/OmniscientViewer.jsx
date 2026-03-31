@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { X, Maximize2, Minimize2, FileText, Image as ImageIcon, Music, Type, Download, Share2, ZoomIn, ZoomOut, ShieldCheck, MessageSquarePlus, History, Sparkles } from 'lucide-react';
-import { useModal } from '../context/ModalContext';
+import { useModalState, useModalDispatch } from '../context/ModalContext';
 import { logger } from '../utils/logger';
 import './OmniscientViewer.css';
 
@@ -9,7 +9,8 @@ import './OmniscientViewer.css';
  * Ahora con Capa de Solatge (Memoria Viva) para metadatos manuales.
  */
 const OmniscientViewer = () => {
-    const { isViewerOpen, viewerConfig, closeViewer, openViewer, openPostModal } = useModal();
+    const { isViewerOpen, viewerConfig } = useModalState();
+    const { closeViewer, openViewer, openPostModal } = useModalDispatch();
     const [isExpanded, setIsExpanded] = useState(false);
     const [zoom, setZoom] = useState(1);
     const [content, setContent] = useState(null);

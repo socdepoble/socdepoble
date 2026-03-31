@@ -1,13 +1,13 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSocial } from '../context/SocialContext';
-import { useModal } from '../context/ModalContext';
+import { useModalDispatch } from '../context/ModalContext';
 import { Plus } from 'lucide-react';
 import './CategoryTabs.css';
 
 const CategoryTabs = ({ selectedRole, onSelectRole, exclude = [], tabs }) => {
     const { t } = useTranslation();
-    const { setIsSocialManagerOpen } = useModal();
+    const { setIsSocialManagerOpen } = useModalDispatch();
     const { activeCategories } = useSocial();
 
     const defaultRoles = [

@@ -1,5 +1,4 @@
 .calendar-master-page {
-    padding: 40px;
     background: var(--bg-main);
     min-height: calc(100dvh - var(--header-height));
     color: var(--text-main);
@@ -28,189 +27,177 @@
     margin: 0;
 }
 
-.calendar-controls {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    background: rgba(255, 255, 255, 0.05);
-    padding: 8px 20px;
-    border-radius: 0px;
-    border: 1px solid var(--color-border);
+/* FullCalendar Tech-Huerta V12 Simbiosi Overrides */
+
+/* Base container edge-to-edge */
+.fc {
+    flex-grow: 1;
+    font-family: 'Noto Sans', sans-serif !important;
+    --fc-border-color: rgba(0, 0, 0, 0.08); /* Suave lineas grid (Light Mode) */
+    --fc-button-bg-color: rgba(0, 0, 0, 0.05); /* Botones transparentes (Light Mode) */
+    --fc-button-border-color: var(--color-border);
+    --fc-button-hover-bg-color: rgba(249, 115, 22, 0.1);
+    --fc-button-hover-border-color: var(--hud-accent);
+    --fc-button-active-bg-color: var(--hud-accent);
+    --fc-button-active-border-color: var(--hud-accent);
+    --fc-event-bg-color: transparent; /* Se renderiza desde JSX custom eventContent */
+    --fc-event-border-color: transparent;
+    --fc-today-bg-color: rgba(249, 115, 22, 0.05); /* Hoy con tono naranja suave */
 }
 
-.btn-calendar-nav {
-    background: none;
-    border: none;
-    color: var(--text-muted);
-    cursor: pointer;
-    transition: color 0.2s;
+/* Modo oscuro FullCalendar overrides */
+.dark .fc {
+    --fc-border-color: rgba(255, 255, 255, 0.08);
+    --fc-button-bg-color: rgba(255, 255, 255, 0.05);
 }
 
-.btn-calendar-nav:hover {
-    color: var(--hud-accent);
+/* Header Toolbar styling */
+.fc-header-toolbar {
+    margin-bottom: 24px !important;
+    padding: 0 24px;
 }
 
-.current-month {
-    font-weight: 800;
-    font-size: var(--font-size-base);
+.fc-toolbar-title {
+    font-weight: 900 !important;
+    letter-spacing: 2px;
+    font-size: 20px !important;
+    text-transform: uppercase;
+}
+
+/* CTA "Nou Esdeveniment" Button Style */
+.fc .fc-button.fc-create-button {
+    background: #4F46E5 !important;
+    color: white !important;
+    border: none !important;
+    font-weight: 800 !important;
+    padding: 8px 24px !important;
+    margin-left: 12px !important;
+    border-radius: 4px !important;
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s;
+    text-transform: uppercase;
     letter-spacing: 1px;
 }
-
-.calendar-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 10px;
-    margin-bottom: 60px;
+.fc .fc-button.fc-create-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+    background: #4338ca !important;
 }
 
-.day-name {
-    text-align: center;
-    font-size: var(--font-size-base);
+.dark .fc .fc-button.fc-create-button {
+    background: #F97316 !important;
+}
+.dark .fc .fc-button.fc-create-button:hover {
+    box-shadow: 0 4px 12px rgba(249, 115, 22, 0.4);
+    background: #ea580c !important;
+}
+
+/* Day Headers (Mon, Tue...) */
+.fc-col-header-cell {
+    background: rgba(0, 0, 0, 0.05); /* Gris al 15% aprox visual visualmente */
+    border-bottom: 2px solid var(--color-border) !important;
+}
+
+.dark .fc-col-header-cell {
+    background: rgba(0, 0, 0, 0.90); /* Negro al 90% aprox visualmente */
+}
+
+.fc-col-header-cell-cushion {
     font-weight: 800;
-    color: var(--text-muted);
-    padding: 10px;
     letter-spacing: 1px;
+    color: var(--text-muted);
+    padding: 16px 12px !important;
+    text-transform: uppercase;
+    font-size: 0.85rem;
 }
 
-.calendar-day {
-    aspect-ratio: 1;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid var(--color-border);
-    border-radius: 0px;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    transition: all 0.3s;
+/* Grid Cell overrides */
+.fc-daygrid-day-frame {
+    transition: background 0.2s;
+}
+.fc-daygrid-day-frame:hover {
+    background: rgba(0, 0, 0, 0.02);
+}
+.dark .fc-daygrid-day-frame:hover {
+    background: rgba(255, 255, 255, 0.02);
 }
 
-.calendar-day.empty {
-    background: transparent;
-    border: none;
-}
-
-.calendar-day.today {
-    border-color: var(--hud-accent);
-    background: rgba(0, 242, 255, 0.05);
-    box-shadow: var(--shadow-hard);
-}
-
-.day-number {
-    font-size: var(--font-size-base);
-    font-weight: 700;
+.fc-daygrid-day-number {
+    font-weight: 800;
     opacity: 0.6;
+    padding: 8px 12px !important;
+    color: var(--text-main);
+    text-decoration: none !important;
 }
-
-.calendar-day.today .day-number {
+.fc-day-today .fc-daygrid-day-number {
     color: var(--hud-accent);
     opacity: 1;
 }
 
-.day-events {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.event-tag {
-    font-size: 9px;
-    font-weight: 800;
-    padding: 4px 8px;
-    border-radius: 0px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
+/* Event Capsule (Rendered via React component, but FullCalendar wrapper overriding) */
+.fc-event {
     cursor: pointer;
-    transition: transform 0.2s;
-    text-transform: uppercase;
+    background: transparent !important;
+    border: none !important;
+    margin: 1px 4px !important; /* Spacing between events */
 }
 
-.event-tag:hover {
-    transform: scale(1.05);
+/* Fix FullCalendar button text colors for Light Mode */
+.fc-button {
+    color: var(--text-main) !important;
+}
+.dark .fc-button {
+    color: #ffffff !important;
 }
 
-.event-tag.session {
-    background: var(--hud-accent);
-    color: var(--bg-canvas);
+/* Mismo override para .fc-create-button para asegurar que siempre tenga texto blanco dado que su fondo es naranja */
+.fc-create-button {
+    color: #ffffff !important;
 }
 
-/* Anchors List */
-.section-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 24px;
+.fc-daygrid-event-harness {
+    margin-bottom: 2px;
 }
 
-.section-header h2 {
-    font-size: 18px;
-    font-weight: 800;
-    letter-spacing: 1px;
+/* Fer que els emojis/icones dins del calendari es vegen 3 vegades més grans! (Visibilitat Nivel Dios) */
+.fc-event-capsule > img {
+    width: 28px !important;
+    height: 28px !important;
+}
+.fc-event-capsule > svg,
+.fc-event-capsule > span.emoji {
+    width: 28px !important;
+    height: 28px !important;
+    font-size: 24px !important;
 }
 
-.anchors-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 20px;
+/* Remove default scrollbar styles if desired to use webkit */
+.fc-scroller::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
 }
-
-.anchor-card {
-    background: var(--bg-card);
-    border: 1px solid var(--color-border);
-    border-radius: 0px;
-    padding: 24px;
-    cursor: pointer;
-    transition: all 0.3s;
-    position: relative;
-    overflow: hidden;
+.fc-scroller::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
 }
-
-.anchor-card:hover {
-    transform: translateY(-5px);
-    border-color: var(--hud-accent);
-    box-shadow: var(--shadow-hard);
-}
-
-.anchor-date {
-    font-size: var(--font-size-base);
-    color: var(--hud-accent);
-    font-weight: 800;
-    margin-bottom: 8px;
-}
-
-.anchor-card h3 {
-    font-size: 18px;
-    font-weight: 800;
-    margin: 0 0 10px 0;
-}
-
-.anchor-card p {
-    font-size: var(--font-size-base);
-    color: var(--text-muted);
-    line-height: 1.5;
-    margin-bottom: 20px;
-}
-
-.anchor-id {
-    font-size: var(--font-size-base);
-    font-family: monospace;
-    opacity: 0.5;
+.dark .fc-scroller::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
 @media (max-width: 768px) {
-    .calendar-master-page {
-        padding: 20px;
+    .fc-header-toolbar {
+        flex-direction: column;
+        gap: 16px;
+        padding: 0 16px;
     }
-
-    .calendar-grid {
-        gap: 5px;
+    .fc-toolbar-chunk {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
     }
-
-    .day-number {
-        font-size: var(--font-size-base);
-    }
-
-    .event-tag span {
-        display: none;
+    .fc-create-button {
+        width: 100%;
+        margin-left: 0 !important;
+        margin-top: 8px;
     }
 }

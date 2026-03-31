@@ -14,6 +14,7 @@ const VoiceRecorder = ({ onSend, onCancel, lang = 'va' }) => {
     const audioContextRef = useRef(null);
     const analyserRef = useRef(null);
     const sourceRef = useRef(null);
+    const isCancelledRef = useRef(false);
 
     const transcriptRef = useRef('');
     const speechPromiseRef = useRef(null);
@@ -21,6 +22,12 @@ const VoiceRecorder = ({ onSend, onCancel, lang = 'va' }) => {
     const startRecording = async () => {
         try {
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+            if (isCancelledRef.current) {
+                logger.warn('[VoiceRecorder] Cancelled before stream initialization. Stopping tracks.');
+                stream.getTracks().forEach(track => track.stop());
+                return;
+            }
 
             try {
                 const { speechService } = await import('../services/speechService');
@@ -59,6 +66,11 @@ const VoiceRecorder = ({ onSend, onCancel, lang = 'va' }) => {
             };
 
             mediaRecorder.onstop = async () => {
+                if (isCancelledRef.current) {
+                    chunksRef.current = [];
+                    return; // Prevent orphaned onSend triggers if cancelled
+                }
+                
                 const mimeType = chunksRef.current[0] ? chunksRef.current[0].type : 'audio/webm';
                 const audioBlob = new Blob(chunksRef.current, { type: mimeType });
                 const recordedDuration = duration;
@@ -117,9 +129,12 @@ const VoiceRecorder = ({ onSend, onCancel, lang = 'va' }) => {
         }
     };
 
-    const cancelRecording = () => {
-        if (mediaRecorderRef.current) {
+    const cancelRecording = (triggerParentState = true) => {
+        isCancelledRef.current = true;
+        if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
             mediaRecorderRef.current.stop();
+        }
+        if (mediaRecorderRef.current?.stream) {
             mediaRecorderRef.current.stream.getTracks().forEach(track => track.stop());
         }
         clearInterval(timerRef.current);
@@ -132,7 +147,9 @@ const VoiceRecorder = ({ onSend, onCancel, lang = 'va' }) => {
         } catch {
             // ignore
         }
-        onCancel();
+        if (triggerParentState) {
+            onCancel();
+        }
     };
 
     const drawVisualizer = () => {
@@ -182,7 +199,9 @@ const VoiceRecorder = ({ onSend, onCancel, lang = 'va' }) => {
     useEffect(() => {
         startRecording();
         return () => {
-            cancelRecording();
+            // Prevent triggering the parent's generic cancel logic on unmount, 
+            // otherwise React 18 StrictMode wipes it out.
+            cancelRecording(false);
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);

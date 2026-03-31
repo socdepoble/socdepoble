@@ -1,11 +1,11 @@
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { PowerSyncContext } from "@powersync/react";
 import { PowerSyncDatabase } from "@powersync/web";
 import { AppSchema } from "../../powersync/schema";
 import { SupabaseConnector } from "../../powersync/connector";
+import { LocalFirstStatusContext } from "../../context/LocalFirstStatusContext";
 import BrandLogo from "../BrandLogo";
-import { useWorkerOrchestrator } from "../../hooks/useWorkerOrchestrator";
 import { SyncIndicator } from "../SyncIndicator";
 import { WaitingForBackend } from "../boundaries/WaitingForBackend";
 
@@ -22,7 +22,6 @@ const INITIAL_BACKOFF_MS = 1000;
 const MAX_BACKOFF_MS = 30000;
 
 export default function LocalFirstGate({ children }) {
-  const { syncState, pendingCount } = useWorkerOrchestrator();
   const [status, setStatusState] = useState(STATUS.IDLE);
   const [errorMsg, setErrorMsg] = useState(null);
   const [dbInstance, setDbInstance] = useState(null);
@@ -33,6 +32,16 @@ export default function LocalFirstGate({ children }) {
   const isInitializedRef = useRef(false);
   const reconnectTimerRef = useRef(null);
   const reconnectAttemptRef = useRef(0);
+
+  // === FIX PWA (Efecte Túnel) ===
+  // Si tornem a estar online (o idle/ready), netejem la memòria de tancament del banner
+  useEffect(() => {
+    if (status !== STATUS.DEGRADED && sessionStorage.getItem("sp_degraded_dismissed_until_recovery")) {
+      sessionStorage.removeItem("sp_degraded_dismissed_until_recovery");
+    }
+  }, [status]);
+
+  const contextValue = useMemo(() => ({ status }), [status]);
 
   const setStatus = (newStatus) => {
     statusRef.current = newStatus;
@@ -152,7 +161,7 @@ export default function LocalFirstGate({ children }) {
     const handleBeforeUnload = () => {
       const db = dbRef.current;
       if (db) {
-        console.log("[LocalFirstGate] Alliberant bloqueig OPFS d'emergència.");
+        // console.debug("[LocalFirstGate] Alliberant bloqueig OPFS d'emergència.");
         try {
           db.disconnect();
           db.close();
@@ -213,16 +222,13 @@ export default function LocalFirstGate({ children }) {
   }
 
   return (
-    <PowerSyncContext.Provider value={dbInstance}>
-      {status === STATUS.DEGRADED && (
-        <div role="alert" style={{ position: "fixed", top: "env(safe-area-inset-top, 0px)", left: 0, right: 0, zIndex: 9999, background: "rgba(249,115,22,0.92)", color: "#fff", textAlign: "center", fontSize: "13px", fontWeight: 700, padding: "6px 12px", backdropFilter: "blur(8px)" }}>
-          Mode Sense Connexió · Tanca les pestanyes duplicades per activar la sincronització completa.
-        </div>
-      )}
-      <WaitingForBackend>
-        {children}
-      </WaitingForBackend>
-      <SyncIndicator status={syncState} pendingCount={pendingCount} />
-    </PowerSyncContext.Provider>
+    <LocalFirstStatusContext.Provider value={contextValue}>
+      <PowerSyncContext.Provider value={dbInstance}>
+        <WaitingForBackend>
+          {children}
+        </WaitingForBackend>
+        <SyncIndicator />
+      </PowerSyncContext.Provider>
+    </LocalFirstStatusContext.Provider>
   );
 }

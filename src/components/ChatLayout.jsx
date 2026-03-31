@@ -45,15 +45,23 @@ const ChatLayout = () => {
     }, [isResizing, resize, stopResizing]);
 
     return (
-        <div ref={containerRef} className="flex-1 flex overflow-hidden w-full bg-theme-base relative flex-grow min-h-0 h-full">
+        /* 
+          🎯 NIVEL DIOS: Grid Estricto de 2 Columnas.
+          Nunca más las caras de flex se empujarán la una a la otra.
+          Sella la propagación en todo su Universo con "isolate".
+        */
+        <div 
+            ref={containerRef} 
+            style={{ '--left-width': `${leftWidth}px` }}
+            className="absolute inset-0 w-full h-full bg-theme-base isolate grid grid-cols-1 lg:grid-cols-[var(--left-width)_minmax(0,1fr)]"
+        >
             
-            {/* 1. LLISTA DE VEÏNS (DINÀMICA EN DESKTOP) */}
+            {/* 1. LLISTA DE VEÏNS (COLUMNA EXTERNA DEL GRID) */}
             <div 
-                style={{ '--left-width': `${leftWidth}px` }}
                 className={`
-                    flex-shrink-0 bg-theme-base
-                    ${id ? 'hidden lg:flex lg:w-[var(--left-width)]' : 'flex w-full lg:w-[var(--left-width)]'}
-                    flex-col relative transition-all duration-75
+                    bg-theme-base border-ghost-r relative min-h-0 min-w-0
+                    ${id ? 'hidden lg:flex lg:col-start-1' : 'flex col-start-1 h-full w-full'}
+                    flex-col transition-all duration-75
                 `}
             >
                 {blueprintMode ? (
@@ -85,10 +93,10 @@ const ChatLayout = () => {
                 </div>
             </div>
 
-            {/* 2. FINESTRA DE CONVERSA (FLEX 1) */}
+            {/* 2. FINESTRA DE CONVERSA (LA PARED DE CRISTAL: minmax(0,1fr)) */}
             <div className={`
-                flex-1 flex flex-col min-w-0 bg-theme-base relative min-h-0 h-full
-                ${!id ? 'hidden lg:flex' : 'flex lg:static lg:z-auto chat-detail-mobile-transition h-full'}
+                flex flex-col min-w-0 min-h-0 h-full relative bg-theme-base isolate
+                ${!id ? 'hidden lg:flex lg:col-start-2' : 'flex col-start-1 lg:col-start-2 chat-detail-mobile-transition'}
             `}>
                 {blueprintMode ? (
                     <BlueprintOverlay label="RIGHT_PANEL" dimensions="FLEX_GROW" color="green" className="flex-1 flex flex-col min-h-0 h-full">

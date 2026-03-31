@@ -21,14 +21,24 @@ export function useViewMode(storageKey, defaultMode = 'grid', externalMode = nul
         }
     }, [storageKey]);
 
+    const calculateColumns = useCallback((width, mode) => {
+        if (mode === 'list' || mode === 'single' || mode === 'masonry') return 1;
+        
+        // Matemàtica de sistema de disseny: 
+        // --card-min-width: 340px, --gap: 24px
+        // Restem aprox 64px de padding combinat dels wrappers
+        const CARD_MIN_WIDTH = 340;
+        const GAP = 24;
+        const availableWidth = Math.max(0, width - 64); 
+        
+        let cols = Math.floor((availableWidth + GAP) / (CARD_MIN_WIDTH + GAP));
+        return Math.max(1, Math.min(cols, 4));
+    }, []);
+
     const [columnCount, setColumnCount] = useState(() => {
         if (typeof window !== 'undefined') {
             const estimatedContainerWidth = Math.min(window.innerWidth - (window.innerWidth > 1024 ? 300 : 0), 1600);
-            if (viewMode === 'list' || viewMode === 'single' || viewMode === 'masonry') return 1;
-            if (estimatedContainerWidth < 900) return 1;
-            if (estimatedContainerWidth < 1400) return 2;
-            if (estimatedContainerWidth < 1800) return 3;
-            return 4;
+            return calculateColumns(estimatedContainerWidth, viewMode);
         }
         return 1;
     });
@@ -45,16 +55,7 @@ export function useViewMode(storageKey, defaultMode = 'grid', externalMode = nul
                 if (rafId) cancelAnimationFrame(rafId);
                 
                 rafId = requestAnimationFrame(() => {
-                    if (viewMode === 'single' || viewMode === 'list' || viewMode === 'masonry') {
-                        setColumnCount(1);
-                    } else {
-                        // grid, timeline, globals...
-                        // Adapta les pantalles segons els punts de tall del disseny
-                        if (width < 900) setColumnCount(1);
-                        else if (width < 1400) setColumnCount(2);
-                        else if (width < 1800) setColumnCount(3);
-                        else setColumnCount(4);
-                    }
+                    setColumnCount(calculateColumns(width, viewMode));
                 });
             }
         });
@@ -65,7 +66,7 @@ export function useViewMode(storageKey, defaultMode = 'grid', externalMode = nul
              observer.disconnect();
              if (rafId) cancelAnimationFrame(rafId);
         };
-    }, [viewMode]);
+    }, [viewMode, calculateColumns]);
 
     // effectiveViewMode prevé que si el grid cau a 1 columna naturalment,
     // es mostre visualment com un "single" si utilitzem UniversalCard

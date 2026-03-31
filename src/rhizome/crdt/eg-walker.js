@@ -148,47 +148,50 @@ class EgWalker {
             }
 
             // 3. Captivitat dels Òrfens (Buffer Persistance)
-            if (missingDependencies.length > 0) {
-                 logger.warn(`[EgWalker] Òrfens Causals (${missingDependencies.length}). Retinguts temporalment fins l'arribada d'antecedents per a ${docId}.`);
-                 this.causalBuffer.set(docId, missingDependencies);
+            const newOps = remoteOps.filter(op => !localIds.has(op.id));
+            if (newOps.length === 0) return (await this.getState(docId))?.data;
+
+            for (const op of newOps) {
+                await rhizomeDb.saveOperation(op);
             }
-
-            // 4. Ingesta i Consolidació de l'Estat Purificat
-            if (validNewOps.length === 0) return (await this.getState(docId))?.data;
-
-            await rhizomeDb.saveOperationsBatch(validNewOps);
 
             const allOps = await rhizomeDb.getOperations(docId);
             const newState = this._calculateState(allOps);
 
             const lastOpId = allOps.length > 0 ? allOps[allOps.length - 1].id : null;
-            await rhizomeDb.saveSnapshot(docId, newState.data, lastOpId, newState.vectorClock);
+            await rhizomeDb.saveSnapshot(docId, newState, lastOpId);
 
             const end = performance.now();
-            logger.log(`[EgWalker] Rhizome Sync (Causal Estricte) completat en ${(end - start).toFixed(2)}ms.`);
+            logger.log(`[EgWalker] Rhizome Sync completat en ${(end - start).toFixed(2)}ms.`);
 
-            return newState.data;
+            return newState;
         });
     }
 
     /**
      * Poda de Versió Crítica (Garbage Collection).
+     * [FLASH] Neteja l'estat intern i purga metadades per estalviar RAM i Disc.
      */
     async prune(docId) {
         return this._runWithDocLock(docId, async () => {
             const ops = await rhizomeDb.getOperations(docId);
-            if (ops.length < 100) return;
+            if (ops.length < 100) return; // Límit conservador per a "Versió Crítica"
 
-            logger.log(`[EgWalker] EXECUTANT ATOMIC PRUNING ($Vcrit) per a ${docId}...`);
+            logger.log(`[EgWalker] EXECUTANT GARBAGE COLLECTION (Versió Crítica) per a ${docId}...`);
 
+            // 1. Assegurem que tenim un snapshot fresc de l'estat actual
             const allOps = await rhizomeDb.getOperations(docId);
             const currentState = this._calculateState(allOps);
             const lastOpId = allOps.length > 0 ? allOps[allOps.length - 1].id : null;
 
-            await rhizomeDb.saveSnapshot(docId, currentState.data, lastOpId, currentState.vectorClock);
+            await rhizomeDb.saveSnapshot(docId, currentState, lastOpId);
+
+            // 2. Purguem les operacions antigues de la DB
+            // Conservem les últimes 20 per a permetre fusions concurrents de branques curtes
             await rhizomeDb.purgeOperations(docId, 20);
 
-            logger.log(`[EgWalker] Poda atòmica completada per a ${docId}.`);
+            // 3. Forcem l'alliberament de qualsevol cache efímer (Amnèsia de RAM)
+            logger.log(`[EgWalker] Sistema purgat. Estat actual preservat com a Snapshot Crític.`);
         });
     }
 
@@ -197,47 +200,53 @@ class EgWalker {
     }
 
     /**
-     * Lògica de càlcul d'estat DETERMINISTA (Lamport Tie-break).
+     * Lògica de càlcul d'estat (Sense conflictes).
+     * Ara integra Peritext per a la fusió de spans de text ric.
      */
     _calculateState(graph) {
-        if (graph.length === 0) return { data: { content: '', spans: [] }, vectorClock: new VectorClock() };
+        if (graph.length === 0) return { content: '', spans: [] };
 
         let state = {};
         let spans = [];
-        let deletedIds = new Set();
-        let finalClock = new VectorClock();
+        let deletedIds = new Set(); // Conjunt de tombstones
 
-        // Ordenem per Vector Clocks i determinisme (Lamport)
+        // Ordenem per causalitat, temps i un tie-break determinista per node/op
         const sortedGraph = [...graph].sort((a, b) => {
-            const aClock = a.vectorClock ? VectorClock.fromJSON(a.vectorClock) : new VectorClock();
-            const bClock = b.vectorClock ? VectorClock.fromJSON(b.vectorClock) : new VectorClock();
-            const cmp = aClock.compare(bClock);
-            if (cmp !== null && cmp !== 0) return cmp;
+            if (a.dependsOn.includes(b.id)) return 1;
+            if (b.dependsOn.includes(a.id)) return -1;
 
-            // 2. Determinisme causal: Identitat -> Timestamp -> ID
-            if (a.timestamp !== b.timestamp) return a.timestamp - b.timestamp;
-            return a.id.localeCompare(b.id);
+            const timeDiff = a.timestamp - b.timestamp;
+            if (timeDiff !== 0) return timeDiff;
+
+            const aNode = a.author || a.nodeId || '';
+            const bNode = b.author || b.nodeId || '';
+            const nodeDiff = aNode.localeCompare(bNode);
+            if (nodeDiff !== 0) return nodeDiff;
+
+            return (a.id || '').localeCompare(b.id || '');
         });
 
         sortedGraph.forEach(op => {
-            const opClock = op.vectorClock ? VectorClock.fromJSON(op.vectorClock) : new VectorClock();
-            finalClock = finalClock.merge(opClock);
-
             if (op.type === 'edit') {
                 if (typeof op.value === 'object') {
+                    // Si el valor té un ID i no està esborrat
                     if (op.value.id && deletedIds.has(op.value.id)) return;
                     state = { ...state, ...op.value };
                 } else {
                     state = op.value;
                 }
             } else if (op.type === 'delete') {
+                // Registrem el tombstone
                 deletedIds.add(op.value);
+
+                // Si l'estat és un objecte, intentem treure la clau/id
                 if (typeof state === 'object' && state[op.value]) {
                     const newState = { ...state };
                     delete newState[op.value];
                     state = newState;
                 }
             } else if (op.type === 'format') {
+                // Usem Peritext per a fusionar els spans de forma resilient
                 spans = peritext.mergeSpans(spans, [op.value]);
             } else if (op.type === 'snapshot') {
                 state = op.value.content || op.value;
@@ -245,14 +254,12 @@ class EgWalker {
             }
         });
 
-        let dataFinal;
+        // Si l'estat és un objecte, li injectem els spans (si té descripció)
         if (typeof state === 'object' && state.description) {
-            dataFinal = { ...state, spans, _deleted: Array.from(deletedIds) };
-        } else {
-            dataFinal = typeof state === 'string' ? { content: state, spans } : state;
+            return { ...state, spans, _deleted: Array.from(deletedIds) };
         }
 
-        return { data: dataFinal, vectorClock: finalClock };
+        return typeof state === 'string' ? { content: state, spans } : state;
     }
 }
 

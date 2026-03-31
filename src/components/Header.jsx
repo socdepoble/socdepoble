@@ -24,8 +24,8 @@ const Header = () => {
   const activeLevel0 = iaiaLevel === 0;
   const isOnVisionPage = location.pathname === "/visio";
 
-  return (
-    <header className="h-14 lg:h-16 w-full flex items-center justify-between px-3 lg:px-6 z-50 transition-all duration-300 bg-[var(--bg-theme-header)]/85 backdrop-blur-xl border-b border-[var(--border-master)]/50 shrink-0 shadow-sm">
+    return (
+    <header className="h-[64px] min-h-[64px] max-h-[64px] w-full flex items-center justify-between px-3 lg:px-6 z-50 transition-all duration-300 bg-[#1a1a1a] border-b border-[var(--border-master)]/50 shrink-0 shadow-sm">
       <div className="flex items-center gap-1 overflow-hidden shrink-0">
         <button
           onClick={toggleDrawer}
@@ -59,9 +59,9 @@ const Header = () => {
         <button
           className={`w-10 h-10 lg:w-12 lg:h-12 flex items-center justify-center transition-all scale-90 lg:scale-100 ${
             activeLevel0
-              ? "text-[var(--text-muted)]"
-              : "text-[var(--theme-accent-primary)] bg-[var(--theme-accent-primary)]/10 rounded-full"
-          } ${isOnVisionPage ? "ring-2 ring-[var(--theme-accent-primary)]" : ""}`}
+              ? "text-white/70"
+              : "text-[#F97316] bg-[#F97316]/10 rounded-full"
+          } ${isOnVisionPage ? "ring-2 ring-[#F97316]" : ""}`}
           onClick={() => {
             if (isOnVisionPage) navigate(-1);
             else navigate("/visio");
@@ -70,7 +70,7 @@ const Header = () => {
         >
           <IAIAIcon
             size={24}
-            color={activeLevel0 ? "currentColor" : "var(--theme-accent-primary)"}
+            color={activeLevel0 ? "currentColor" : "#F97316"}
             className={activeLevel0 ? "opacity-60" : "animate-pulse"}
           />
         </button>
@@ -99,7 +99,7 @@ const Header = () => {
             className="w-10 h-10 lg:w-12 lg:h-12 flex items-center justify-center cursor-pointer hover:scale-110 transition-transform"
             onClick={() => navigate("/perfil")}
           >
-            <div className="w-8 h-8 lg:w-9 lg:h-9 rounded-[28px] bg-[var(--bg-panel)] flex items-center justify-center text-xs font-black text-[var(--text-main)] border border-[var(--border-master)] overflow-hidden relative">
+            <div className="w-8 h-8 lg:w-9 lg:h-9 rounded-[28px] bg-[#1A1A1A] flex items-center justify-center text-xs font-black text-white border border-[#333] overflow-hidden relative">
               {profile?.avatar_url ? (
                 <img
                   src={profile.avatar_url}

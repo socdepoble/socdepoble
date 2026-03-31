@@ -14,6 +14,7 @@ import './Archive.css';
 import { marketService } from '../services/marketService';
 import { useViewMode } from '../hooks/useViewMode';
 import { UniversalGridWrapper, UniversalGridRow } from '../components/UniversalGrid';
+import UniversalCard from '../components/UniversalCard';
  
  const ArxiuOr = () => {
      const navigate = useNavigate();
@@ -236,64 +237,20 @@ import { UniversalGridWrapper, UniversalGridRow } from '../components/UniversalG
                     <UniversalGridWrapper viewMode={viewMode}>
                         <UniversalGridRow viewMode={viewMode} columnCount={columnCount} className="pt-6">
                              {filteredObjects.length > 0 ? (
-                         filteredObjects.map(obj => (
-                             <article 
-                                 key={obj.id} 
-                                 className={`resource-card bg-gray-900 border border-gray-800 group hover:border-gray-500 transition-all duration-300 relative
-                                     ${viewMode === 'list' ? 'flex items-center gap-6 p-4' : 'flex flex-col'}`}
-                                  onClick={() => {
-                                      navigate(`/arxiu/${obj.id}`);
-                                  }}
-                             >
-                                 <div className={`relative overflow-hidden bg-black card-image
-                                     ${viewMode === 'list' ? 'w-24 h-24 shrink-0' : 'aspect-square w-full'}`}>
-                                     <img 
-                                         src={obj.image} 
-                                         alt={obj.title} 
-                                         className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
-                                         loading="lazy" 
+                             filteredObjects.map(obj => (
+                                 <div key={obj.id} className="flex-isolated w-full h-full min-w-0 min-h-0">
+                                     <UniversalCard 
+                                         item={obj}
+                                         viewMode={viewMode}
+                                         variant={obj.collection === 'mercat' ? 'mercat' : 'post'}
+                                         title={obj.title}
+                                         subtitle={obj.author}
+                                         image={obj.image}
+                                         excerpt={viewMode === 'list' ? obj.description : undefined}
+                                         onNavigate={() => navigate(`/arxiu/${obj.id}`)}
                                      />
-                                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-60"></div>
-                                     <div className="absolute top-2 left-2 px-1.5 py-0.5 bg-black/60 backdrop-blur text-[8px] font-black uppercase tracking-tighter text-white border border-white/20">
-                                         {obj.type}
-                                     </div>
                                  </div>
-                                 
-                                 <div className={`flex-1 ${viewMode === 'list' ? '' : 'p-5'}`}>
-                                     <div className="flex items-center justify-between mb-2">
-                                         <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-500">
-                                             {obj.icon}
-                                             <span className="truncate max-w-[120px]">{obj.author}</span>
-                                         </div>
-                                         <div className="text-[9px] font-bold text-gray-600 tracking-tighter">
-                                             {new Date(obj.date).toLocaleDateString()}
-                                         </div>
-                                     </div>
-                                     
-                                     <h4 className="text-sm font-black uppercase tracking-tight text-white mb-2 leading-snug group-hover:text-primary transition-colors">
-                                         {obj.title}
-                                     </h4>
-                                     
-                                     {viewMode === 'list' && (
-                                         <p className="text-xs text-gray-400 line-clamp-2 mb-3 font-medium">
-                                             {obj.description}
-                                         </p>
-                                     )}
-                                     
-                                     <div className="flex flex-wrap gap-1.5 mt-auto">
-                                         {obj.tags.slice(0, 3).map(t => (
-                                             <span key={t} className="text-[9px] font-bold bg-black text-gray-500 px-1.5 py-0.5 border border-gray-800">
-                                                 {t}
-                                             </span>
-                                         ))}
-                                     </div>
-                                 </div>
- 
-                                 <button className="absolute top-4 right-4 p-1.5 bg-black/40 text-gray-500 opacity-0 group-hover:opacity-100 transition-all hover:text-white">
-                                     <MoreVertical size={16} />
-                                 </button>
-                             </article>
-                         ))
+                             ))
                      ) : (
                          <div className="col-span-full h-96 flex flex-col items-center justify-center text-gray-700 bg-gray-900/20 border-2 border-dashed border-gray-900">
                              <Box size={48} strokeWidth={1} className="mb-4 opacity-20" />

@@ -10,12 +10,13 @@ import StatusLoader from './StatusLoader';
 import MarketSkeleton from './Skeletons/MarketSkeleton';
 import SEO from './SEO';
 
-import { useWindowVirtualizer } from '@tanstack/react-virtual';
+import { useVirtualizer } from '@tanstack/react-virtual';
 import { geminiService } from '../services/geminiService';
 import { rhizomeManager } from '../services/rhizomeManager';
 import { paymentService } from '../services/paymentService';
 import { hapticService } from '../services/hapticService';
 import { IAIA_ID, USER_ROLES } from '../constants';
+import { isSdPOficial, isLegacyMock } from '../utils/identityUtils';
 
 import ItemDetailModal from './ItemDetailModal';
 import UniversalCard from './UniversalCard';
@@ -37,9 +38,16 @@ const Market = ({ searchTerm = '' }) => {
     const [loadingMore, setLoadingMore] = useState(false);
     const [hasMore, setHasMore] = useState(true);
     const [page, setPage] = useState(0);
-    const [isIAIAFiltering] = useState(localStorage.getItem('isIAIAFiltering') === 'true');
+    const [isIAIAFiltering] = useState(() => {
+        try {
+            return localStorage.getItem('isIAIAFiltering') === 'true';
+        } catch {
+            return false;
+        }
+    });
     const { viewMode, setViewMode, columnCount, containerRef, effectiveViewMode } = useViewMode('market_view_mode', 'grid');
     const [internalSearchTerm, setInternalSearchTerm] = useState('');
+    const scrollRef = React.useRef(null);
     const PAGE_SIZE = 100;
 
     const loadMarketData = React.useCallback(async (append = false) => {
@@ -255,10 +263,7 @@ const Market = ({ searchTerm = '' }) => {
         const targetId = item.author_entity_id || item.author_user_id || item.id;
         const type = item.author_entity_id ? 'entitat' : 'perfil';
 
-        if (item.seller?.toLowerCase().includes('sóc de poble') ||
-            targetId === 'sdp-core' ||
-            String(targetId).startsWith('mock-business-sdp') ||
-            targetId === 'socdepoble') {
+        if (isSdPOficial(targetId, item.seller)) {
             navigate('/entitat/socdepoble');
             return;
         }
@@ -268,7 +273,7 @@ const Market = ({ searchTerm = '' }) => {
             return;
         }
 
-        if (!targetId || (typeof targetId === 'string' && targetId.startsWith('mock-'))) {
+        if (!targetId || isLegacyMock(targetId)) {
             logger.warn('Navegació a perfil fictici no disponible:', targetId);
             return;
         }
@@ -282,8 +287,9 @@ const Market = ({ searchTerm = '' }) => {
         return effectiveViewMode === 'list' ? 80 : 900;
     }, [effectiveViewMode]);
 
-    const virtualizer = useWindowVirtualizer({
+    const virtualizer = useVirtualizer({
         count: rowCount,
+        getScrollElement: () => scrollRef.current,
         estimateSize: estimateItemSize,
         overscan: effectiveViewMode === 'list' ? 5 : 3, // Menys overscan en grid
     });
@@ -310,7 +316,7 @@ const Market = ({ searchTerm = '' }) => {
 
 
     return (
-        <div className="market-container" ref={containerRef}>
+        <div className="flex-1 flex flex-col w-full min-h-0" ref={containerRef}>
             <SEO
                 title={t('market.title') || 'El Mercat'}
                 description={t('market.description') || 'Productes de proximitat, artesania i segona mà directament dels teus veïns.'}
@@ -346,7 +352,7 @@ const Market = ({ searchTerm = '' }) => {
             <h1 className="sr-only">Mercat de Proximitat de Sóc de Poble</h1>
 
 
-            <div className="sticky top-0 w-full z-dropdown shadow-md">
+            <div className="flex-none w-full z-dropdown shadow-md bg-theme-base">
                 <ContextualHeader
                     searchTerm={internalSearchTerm}
                     onSearchChange={setInternalSearchTerm}
@@ -357,6 +363,11 @@ const Market = ({ searchTerm = '' }) => {
                     placeholder={t('market.search_placeholder')}
                 />
             </div>
+
+            <div 
+                ref={scrollRef} 
+                className="flex-1 overflow-y-auto custom-scrollbar pb-24 w-full relative"
+            >
 
 
 
@@ -396,21 +407,39 @@ const Market = ({ searchTerm = '' }) => {
                                 >
                                     {rowItems.map(item => {
                                         const imageSources = item.image_url || item.images || item.image || '/images/assets/generic_market.png';
+                                        const headerTitle = item.seller_name || item.seller || 'Sóc de Poble';
+                                        
                                         return (
                                             <div key={item.uuid || item.id} className="card-rizoma-wrapper animate-in w-full h-full" style={{ height: '100%' }}>
                                                 <UniversalCard
                                                     item={item}
+                                                    avatarName={headerTitle}
                                                     title={item.title}
                                                     excerpt={item.description}
-                                                    subtitle={item.seller_name || item.seller || 'Sóc de Poble'}
                                                     image={imageSources}
-                                                    onHeaderClick={() => handleHeaderClick(item)}
-                                                    onRecipeClick={() => handleRecipeClick(item)}
-                                                    mode="mercat"
-                                                    className="market-item-standard"
-                                                    variant="mercat"
+                                                    onHeaderClick={(e) => { e.stopPropagation(); handleHeaderClick(item); }}
+                                                    onNavigate={() => setSelectedItemForDetail(item)}
+                                                    mode="mur"
                                                     viewMode={viewMode}
-                                                />
+                                                    variant="mercat"
+                                                >
+                                                    <div className="flex justify-between items-center mt-2 w-full z-20 relative">
+                                                        <div className="flex gap-4">
+                                                            <button 
+                                                                onClick={(e) => { e.stopPropagation(); handleRecipeClick(item); }} 
+                                                                className="text-[11px] uppercase tracking-wider font-black text-[#169CF9] hover:text-[#F97316] transition-colors bg-[#169CF9]/10 hover:bg-[#F97316]/10 px-3 py-1.5 rounded-[8px]"
+                                                            >
+                                                                Recepta IAIA
+                                                            </button>
+                                                            <button 
+                                                                onClick={(e) => { e.stopPropagation(); handleHeaderClick(item); }}
+                                                                className="text-[11px] uppercase tracking-wider font-black text-theme-text hover:text-[#F97316] transition-colors bg-theme-base hover:bg-theme-surface border border-border-master px-3 py-1.5 rounded-[8px]"
+                                                            >
+                                                                Veure Perfil
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </UniversalCard>
                                             </div>
                                         );
                                     })}
@@ -442,6 +471,7 @@ const Market = ({ searchTerm = '' }) => {
                     onAstroPayment={handleAstroPayment}
                 />
             )}
+            </div>
         </div>
     );
 };

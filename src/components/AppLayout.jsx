@@ -57,7 +57,14 @@ const Utilitats = lazy(() => import("../pages/Utilitats"));
 const Chrome145Report = lazy(() => import("../pages/Chrome145Report"));
 const HubView = lazy(() => import("../pages/HubView"));
 
+const EpubViewer = lazy(() => import("./EpubViewer"));
 const VisionView = lazy(() => import("../pages/VisionView"));
+
+const SuspenseFallback = () => {
+  const { t } = useTranslation();
+  return <NanoLoader message={t('common.loading', 'Carregant...')} />;
+};
+const FALLBACK_ELEMENT = <SuspenseFallback />;
 
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
@@ -220,13 +227,13 @@ const AppLayout = () => {
 
       {/* 0. HEADER SOBIRÀ (FULL WIDTH - PROTOCOL v4.0) */}
       {!isMinimal && (
-        <div className="w-full relative z-base">
-          <Suspense fallback={<NanoLoader message={t('common.loading', 'Carregant...')} />}>
+        <div className="w-full relative z-base bg-[#0e0e10]">
+          <Suspense fallback={FALLBACK_ELEMENT}>
             <BlueprintOverlay
               label="HEADER_CANONIC"
               dimensions="MATCH"
               color="orange"
-              className="h-14 lg:h-16 flex-shrink-0"
+              className="h-[64px] min-h-[64px] max-h-[64px] flex-shrink-0"
             >
               <Header />
             </BlueprintOverlay>
@@ -248,7 +255,7 @@ const AppLayout = () => {
           <div
             className={`
               flex-shrink-0 transition-transform duration-300 ease-in-out overflow-hidden
-              fixed z-sidebar top-0 left-0 h-[100dvh] w-[300px] max-w-[85vw] bg-theme-sidebar border-r border-[var(--border-master)]
+              fixed z-[var(--z-sidebar)] top-0 left-0 h-[100dvh] w-[300px] max-w-[85vw] bg-[#0e0e10] border-r border-[#ffffff14]
               ${
                 isDrawerOpen
                   ? "translate-x-0 shadow-[4px_0_24px_rgba(0,0,0,0.5)]"
@@ -292,8 +299,8 @@ const AppLayout = () => {
                 <div
                   className={`flex-1 flex flex-col relative min-w-0 main-viewport custom-scrollbar !m-0 ${
                     isOverflowHidden
-                      ? "h-full overflow-hidden"
-                      : "min-h-full overflow-y-auto"
+                      ? "h-full overflow-hidden touch-none"
+                      : "min-h-full overflow-y-auto touch-pan-y overscroll-contain"
                   }`}
                 >
                   <Routes>
@@ -402,8 +409,9 @@ const AppLayout = () => {
                     />
                     <Route path="/notes" element={<Notes />} />
                     {/* PÀGINES DE PROJECTE I LEGALITAT */}
-                    <Route path="/projecte" element={<ProjectPresentation />} />
+                    <Route path="/el-projecte" element={<ProjectPresentation forcedSlug="el-projecte" />} />
                     <Route path="/page/:slug" element={<ProjectPresentation />} />
+                    <Route path="/reader" element={<EpubViewer url="/assets/books/el-projecte.epub" title={"Sóc de Poble: El Projecte"} onClose={() => window.history.back()} />} />
                     <Route path="/chrome-145" element={<Chrome145Report />} />
                     <Route
                       path="/hub"
@@ -419,11 +427,9 @@ const AppLayout = () => {
 
             {/* [ENCAPSULAMENT v10.33.1] Accessibilitat i Onboarding DINS del main */}
             {isAccessibilitatOpen && (
-              <div className="absolute inset-0 !m-0 !p-0 z-[var(--z-overlay)] bg-black/50 backdrop-blur-sm animate-in fade-in duration-300">
+              <div className="absolute inset-0 z-[var(--z-overlay)] glass-overlay bg-black/50 backdrop-blur-sm animate-in fade-in duration-300">
                 <Suspense
-                  fallback={
-                    <NanoLoader message={t('common.loading', 'Carregant...')} />
-                  }
+                  fallback={FALLBACK_ELEMENT}
                 >
                   <AccessibilitatUniversal />
                 </Suspense>
@@ -434,7 +440,7 @@ const AppLayout = () => {
             {accessibilityMode && !isAccessibilitatOpen && (
               <button
                 onClick={() => setIsAccessibilitatOpen(true)}
-                className="absolute bottom-[5.5rem] md:bottom-24 right-4 md:right-8 w-14 h-14 bg-[#0ea5e9] text-white rounded-[28px] shadow-[0_0_20px_rgba(14,165,233,0.5)] flex items-center justify-center z-[var(--z-dropdown)] hover:scale-110 transition-transform cursor-pointer border-2 border-white/20"
+                className="absolute bottom-[5.5rem] md:bottom-24 right-4 md:right-8 w-14 h-14 bg-sky-500 text-white rounded-[var(--radius-genesis)] shadow-xl shadow-sky-500/50 flex items-center justify-center z-[var(--z-dropdown)] hover:scale-110 transition-transform cursor-pointer border-2 border-white/20"
                 aria-label="Obrir Matriu IAIA d'Accessibilitat"
               >
                 <Handshake size={28} />
@@ -446,13 +452,13 @@ const AppLayout = () => {
 
       {/* BARRA DE NAVEGACIÓ MÒBIL (BATEGAT v11.3) - AMAGADA DINS DEL XAT PER EVITAR COL·LISIÓ AMB TECLAT VIRTUAL */}
       {!isChatDetailMobileView && (
-        <div className="relative z-base md:hidden bg-[#000000]">
+        <div className="relative z-[var(--z-nav)] md:hidden bg-black">
           <MobileBottomNav />
         </div>
       )}
 
       {/* IAIA CHAT SIDEBAR (DRETA) - GLOBAL & BATEGAT */}
-      <Suspense fallback={null}>
+      <Suspense fallback={<div className="w-[300px] md:w-[320px] h-full" aria-hidden="true" />}>
         <IAIAChatSidebar
           isOpen={iaiaSidebarOpen}
           onClose={closeIAIASidebar}
@@ -466,15 +472,21 @@ const AppLayout = () => {
       </Suspense>
 
       {/* MODALE D'EXPLICACIÓ (ARQUITECTE) - REPOSITIONAT PELS FRAMES UNIFICATS */}
-      {architectMode && (
-        <div className="fixed inset-0 z-overlay bg-black/40 backdrop-blur-xl md:pl-[280px]">
-          <div className="h-full flex flex-col relative animate-slide-up">
-            <Suspense fallback={<NanoLoader message={t('common.loading', 'Carregant...')} />}>
-              <ArchitecteView />
-            </Suspense>
-          </div>
+      <div 
+        className="fixed inset-0 z-overlay glass-overlay bg-black/40 backdrop-blur-xl md:pl-[280px]"
+        style={{
+          visibility: architectMode ? 'visible' : 'hidden',
+          pointerEvents: architectMode ? 'auto' : 'none',
+        }}
+        aria-hidden={!architectMode}
+        inert={!architectMode ? true : undefined}
+      >
+        <div className="h-full flex flex-col relative animate-slide-up">
+          <Suspense fallback={FALLBACK_ELEMENT}>
+            <ArchitecteView />
+          </Suspense>
         </div>
-      )}
+      </div>
     </div>
   );
 };

@@ -8,7 +8,8 @@ import AccessibilitatUniversal from '../components/AccessibilitatUniversal';
 import { useNavigation } from '../context/NavigationContext';
 import { useAuth } from '../context/AuthContext';
 import { hapticService } from '../services/hapticService';
-import { Sparkles, Trash2, Share, Folder, Tag, MessageSquare, Info } from 'lucide-react';
+import { Sparkles, Trash2, Share, Folder, Tag, MessageSquare, Info, Download, Globe } from 'lucide-react';
+import { supabase } from '../supabaseClient';
 import './Notebook.css';
 
 const INITIAL_FOLDERS = [
@@ -265,6 +266,64 @@ const Notes = () => {
         }
     };
 
+    const handleExportEpub = async () => {
+        hapticService.notifySuccess();
+        try {
+            const { generateEpub } = await import('../utils/epubGenerator');
+            
+            const chapter = {
+                title: activeNote.title || 'Sense Títol',
+                html: activeNote.content || '<p></p>'
+            };
+
+            await generateEpub({
+                title: activeNote.title || 'Llibre de Sóc de Poble',
+                author: 'Archon',
+                language: 'ca',
+                chapters: [chapter],
+                filename: `${(activeNote.title || 'Llibre').replace(/\s+/g, '_')}_Amazon_KDP.epub`
+            });
+            alert('EPUB generat correctament. Descarregant...');
+        } catch (error) {
+            console.error(error);
+            alert("Error al generar l'EPUB: " + error.message);
+        }
+    };
+
+    const handlePublishCMS = async () => {
+        const slugInput = prompt('Entra el SLUG de la pàgina on vols publicar (ex: /la-meva-ruta o /el-projecte):', '/p/' + activeNote.id.substring(2));
+        if (!slugInput) return;
+        
+        let targetSlug = slugInput;
+        if (!targetSlug.startsWith('/')) targetSlug = '/' + targetSlug;
+
+        const isSuperAdmin = localStorage.getItem('isSuperAdmin') === 'true';
+        if (!isSuperAdmin) {
+            alert('Error: Necessites permisos de SuperAdmin per publicar al CMS!');
+            return;
+        }
+
+        try {
+            const { error } = await supabase
+                .from('cms_pages')
+                .upsert({
+                    slug: targetSlug,
+                    title: activeNote.title,
+                    subtitle: 'Publicat des del Quadern',
+                    html_content: activeNote.content,
+                    status: 'published',
+                    updated_at: new Date().toISOString()
+                }, { onConflict: 'slug' });
+
+            if (error) throw error;
+            
+            hapticService.notifySuccess();
+            alert(`Pàgina publicada correctament a ${targetSlug}!`);
+        } catch(e) {
+            alert('Error publicant: ' + e.message);
+        }
+    };
+
     return (
         <div className="notebook-app flex-1 flex h-full bg-gradient-to-br from-orange-50 via-[#fff8f0] to-orange-100/50 dark:from-[#050B14] dark:via-[#090B10] dark:to-indigo-950/20 overflow-hidden animate-in fade-in duration-500">
             <NotebookSidebar 
@@ -318,6 +377,21 @@ const Notes = () => {
                                 />
                             </div>
                             <div className="flex items-center gap-2">
+                                <button 
+                                    onClick={handleExportEpub}
+                                    title="Descarregar com EPUB (KDP)"
+                                    className="p-2.5 rounded-[28px] transition-all bg-emerald-100 text-emerald-700 hover:bg-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-400 dark:hover:bg-emerald-900/50"
+                                >
+                                    <Download size={18} />
+                                </button>
+                                <button 
+                                    onClick={handlePublishCMS}
+                                    title="Publicar com Pàgina CMS (WordPress-killer)"
+                                    className="p-2.5 rounded-[28px] transition-all bg-blue-100 text-blue-700 hover:bg-blue-200 dark:bg-blue-900/30 dark:text-blue-400 dark:hover:bg-blue-900/50"
+                                >
+                                    <Globe size={18} />
+                                </button>
+
                                 <button 
                                     onClick={() => openIAIASidebar({ context: `Editing ${activeNote.type}: ${activeNote.title}` })}
                                     className="flex items-center gap-2 px-4 py-2 bg-fuchsia-600/10 text-fuchsia-400 rounded-[28px] font-black text-xs uppercase tracking-widest hover:bg-fuchsia-600/20 transition-all"

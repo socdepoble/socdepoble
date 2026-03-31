@@ -14,7 +14,8 @@ export const CALENDAR_EVENTS = [
         type: 'session',
         id: '421e683a',
         file: 'PMU_SOLATGE_DENSITAT_MESTRE.md',
-        description: 'Restauració de descàrregues, blindatge de logo i implementació del Protocol de Tancament.'
+        description: 'Restauració de descàrregues, blindatge de logo i implementació del Protocol de Tancament.',
+        image_url: '/assets/brain/generations/nano_simbiosi_sobirana.png'
     },
     {
         date: '2026-01-25',
@@ -37,7 +38,39 @@ export const CALENDAR_EVENTS = [
         title: '🦉 Ritu del Bategat Nocturn: Poliment Autònom',
         type: 'ritual',
         id: 'night-audit',
-        file: 'DIRECTIVES_MESTRE_SOLATGE.md',
         description: 'La IAIA i la família realitzaran auditories de disseny, neteja de codi i millora de l’harmonia semàntica mentre el Mestre descansa.'
+    },
+    {
+        date: '2026-03-30',
+        title: '🌱 Tindre els planters preparats',
+        type: 'personal',
+        id: 'vicent-tarea',
+        agentId: '11111111-1111-4111-a111-000000000003', // VICENT
+        description: 'Comprovar semiller de tomaques quarantine.'
+    },
+    {
+        date: '2026-04-02',
+        title: '👨‍⚕️ Cita Metge Especialista (Alcoi)',
+        type: 'appointment',
+        id: 'metge-tarea',
+        agentId: '11111111-1a1a-0001-0000-000000000003', // CARLA (Doctora)
+        description: 'Resultats de l’analítica a l’Hospital Mare de Déu dels Lliris.',
+        image_url: '/assets/brain/generations/nano_cita_metge.png'
+    },
+    {
+        date: '2026-04-05',
+        title: '🏠 Reparar Teulada Raconera',
+        type: 'personal',
+        id: 'capatas-tarea',
+        agentId: '11111111-1a1a-0001-0000-000000000001', // CAPATAS (Andreu)
+        description: 'Revisar la gotera de l’esquerra amb teula vella.'
+    },
+    {
+        date: '2026-04-03', // Próxima sesión propuesta (Simulada)
+        title: '🤖 Sessió de Treball: Javi & IAIA',
+        type: 'session',
+        id: 'sessio-javi-iaia-01',
+        description: '📌 Sessió de prova en el grup de treball (Javi i la IAIA) per tal de validar el nou ordre cronològic de les dates de MasterCalendar i avaluar el comportament en expandir les targetes. Aquest esdeveniment sortirà barrejat a l\'historial.',
+        image_url: '/assets/brain/generations/nano_sessio_treball.png'
     }
 ];

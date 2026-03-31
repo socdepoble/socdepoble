@@ -1,15 +1,13 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import { Newspaper, Store, MapPin, Calendar, Bot, Shield, Rocket, LogOut, StickyNote, ArrowLeft, Terminal, FileText, Wallet, Cpu } from 'lucide-react';
 import { Button } from '../design-system/components/Button/Button';
 import { useAuth } from '../context/AuthContext';
-import { useModal } from '../context/ModalContext';
+import { useModalDispatch } from '../context/ModalContext';
 import { useDesign } from '../context/DesignContext';
 
 const HubView = () => {
-    const { openPostModal, setIsEventModalOpen, setIsMarketModalOpen } = useModal();
-    useTranslation();
+    const { openPostModal, setIsEventModalOpen, setIsMarketModalOpen } = useModalDispatch();
     const { isSuperAdmin, isAdmin, logout, user } = useAuth();
     const navigate = useNavigate();
     const { isDark } = useDesign();

@@ -9,12 +9,11 @@ const sanitize = (val) => typeof val === 'string' ? DOMPurify.sanitize(val, {
     ALLOWED_ATTR: []
 }) : val;
 
-const SafeUrl = z.string().refine((val) => {
-    if (!val) return true;
+const SafeUrl = z.string().url().refine((val) => {
     try {
         const u = new URL(val);
-        return ['https:', 'http:', 'blob:', 'data:'].includes(u.protocol);
-    } catch { return true; /* Deixem passar paths relatius com /assets/ */ }
+        return ['https:', 'http:'].includes(u.protocol);
+    } catch { return false; }
 }, 'URL protocol no permès').nullable().optional();
 
 export const PostSchema = z.object({

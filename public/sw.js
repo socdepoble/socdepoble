@@ -10,7 +10,7 @@ const PRECACHE_URLS = [
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log('[SW Groq] Precaching rural...');
+      // Silenciat: console.log('[SW Groq] Precaching rural...');
       return cache.addAll(PRECACHE_URLS);
     })
   );
@@ -62,7 +62,7 @@ self.addEventListener('fetch', (event) => {
                 { headers: { 'Content-Type': 'text/html' } }
               );
             }
-            return new Response('🌾 Sense connexió. Torna quan tinguis 4G.', { status: 503 });
+            return new Response('🌾 Sense connexió al proxy.', { status: 503, statusText: 'Offline' });
           });
         })
     );
@@ -80,8 +80,12 @@ self.addEventListener('fetch', (event) => {
       caches.open(CACHE_NAME).then((cache) => {
         return cache.match(event.request).then((cachedResponse) => {
           const fetchPromise = fetch(event.request).then((networkResponse) => {
-            cache.put(event.request, networkResponse.clone());
+            if (event.request.url.startsWith('http')) {
+              cache.put(event.request, networkResponse.clone());
+            }
             return networkResponse;
+          }).catch(() => {
+            return new Response('', { status: 503, statusText: 'Offline' });
           });
           return cachedResponse || fetchPromise;
         });
@@ -93,6 +97,8 @@ self.addEventListener('fetch', (event) => {
   // 3. TODO LO DEMÁS → Network-First con fallback cache
   event.respondWith(
     fetch(event.request)
-      .catch(() => caches.match(event.request))
+      .catch(() => caches.match(event.request).then(res => {
+        return res || new Response('', { status: 503, statusText: 'Offline' });
+      }))
   );
 });

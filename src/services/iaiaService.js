@@ -171,7 +171,7 @@ class IAIAService {
             this._activeTimers.forEach(clearTimeout);
             this._activeTimers.clear();
         }
-        logger.info('[IAIA] Workers i Timeouts decapitats. Cicle tancat amb netedat per alliberar RAM.');
+        // logger.info('[IAIA] Workers i Timeouts decapitats. Cicle tancat amb netedat per alliberar RAM.');
     }
 
     /**

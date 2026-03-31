@@ -16,16 +16,16 @@ Una vegada restaurats, feu un `git commit` inmediat i verifiqueu que tot torna a
 ## 2. EL PLA DE BATALLA ORIGINAL (DESPRÉS DEL ROLLBACK):
 
 ### A. Neteja Profunda (Console Cleanup)
-- [ ] Eliminar els warnings del Service Worker.
-- [ ] Ocultar o solucionar els errors de xarxa en els scripts auto-generats.
-- [ ] Refinar els logs del `geminiService`.
+- [x] Eliminar els warnings del Service Worker.
+- [x] Ocultar o solucionar els errors de xarxa en els scripts auto-generats.
+- [x] Refinar els logs del `geminiService`.
 
 ### B. Reparació del `gemini-proxy` (Accés Universal Controlat)
-- [ ] Modificar `gemini-proxy/index.ts` per tolerar usuaris anònims controlats sense petar al `getUser()`.
+- [x] Modificar `gemini-proxy/index.ts` per tolerar usuaris anònims controlats sense petar al `getUser()`.
 
 ### C. Protocol "Walkie-Talkie" (Audio Natiu)
-- [ ] Convertir el `voiceData.blob` a Base64 en ChatDetail i enviar-ho inline a Gemini.
-- [ ] Integrar Text-To-Speech en la IAIA per llegir respostes.
+- [x] Convertir el `voiceData.blob` a Base64 en ChatDetail i enviar-ho inline a Gemini.
+- [x] Integrar Text-To-Speech en la IAIA per llegir respostes.
 
 ## 🗓️ AGENDA DE MANTENIMIENTO I NOVES FUNCIONALITATS (ANTIGRAVITY)
 - [ ] **ESTUDI URGENT DE BACKUPS:** Estudiar i preparar la implementació d'una funció de *Backups* en el Tauler del SuperAdministrador (per previndre desastres com l'actual si passa en producció). 

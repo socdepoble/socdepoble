@@ -24,6 +24,45 @@
 
 ---
 
+## 📜 MANIFIESTO DEL MAS DIGITAL: EL FUTURO DE SÓC DE POBLE
+
+*«Si el servidor cae, el pueblo sigue hablando. Si el cable se corta, la tierra sigue recordando.»*
+
+Hemos cruzado la frontera del Local-First para adentrarnos en el territorio del **Network-Last**. Tras consolidar el transporte en segundo plano mediante un demonio nativo de extrema eficiencia energética (DTN), la infraestructura de "Sóc de Poble" se prepara para su próxima metamorfosis evolutiva. Esta es la hoja de ruta arquitectónica y filosófica para la próxima década.
+
+### 🌲 I. LA EXPANSIÓN ESTÁTICA: EL BOSQUE DE SILICIO (NODOS ÁRBOL)
+Hasta ahora, la red Rhizome dependía exclusivamente de las "mulas de datos": humanos caminando o conduciendo tractores con sus móviles en el bolsillo para cruzar fragmentos de información de una punta a otra del valle. El siguiente paso es sembrar la infraestructura física.
+
+Desplegaremos **Nodos Árbol (Tree Nodes)**: microcontroladores de ultra-bajo coste (ESP32-C3 / nRF52 con soporte BLE y LoRa) encapsulados en resina biodegradable y resistente a los rayos UV (PETG/ASA) impresa en 3D. Estarán alimentados por minúsculos paneles solares y baterías 18650 recuperadas, atados a algarrobos centenarios, señales de tráfico en cruces de caminos o en el tejado de las cooperativas.
+
+*   **La Función:** Actuarán como *Buffers* de retención perpetua (Blind Relays). Un ESP32 no renderiza UI; ejecuta código C/Rust desnudo. Su única misión es despertar con el sol, escuchar nuestro UUID soberano, almacenar los *blobs* binarios opacos en su memoria flash SPIFFS, y escupirlos al próximo móvil que pase cerca.
+*   **El Impacto:** Crearemos un "caché físico" en el mundo real. Un senderista deja un aviso de desprendimiento en un camino forestal sin cobertura; el Nodo Árbol lo absorbe. Dos horas después, un ciclista pasa a 50 metros, su móvil se sincroniza de forma transparente en *background*, y el aviso llega a la plaza del pueblo. Hemos convertido la propia orografía y la naturaleza en un enrutador gigante.
+
+### 🧠 II. COGNICIÓN DISTRIBUIDA: EL ENJAMBRE DE LA "IAIA"
+La Inteligencia Artificial actual es un modelo de latifundio digital: enviamos nuestros datos íntimos a los servidores de *Big Tech* para que una caja negra que consume gigavatios nos devuelva una respuesta computada a miles de kilómetros. Sóc de Poble destruirá este paradigma implementando **Cognición Distribuida en el Edge**.
+
+Las futuras versiones de la "IAIA MarIA" y sus agentes no vivirán en la nube, sino en la NPU (Neural Processing Unit) de los teléfonos de los agricultores. Utilizaremos LLMs ultra-cuantificados (modelos de 1B a 3B parámetros en 4-bit, vía WebGPU o Llama.cpp nativo en Capacitor) que caben perfectamente en 1GB de RAM.
+
+*   **Inteligencia de Enjambre (Swarm Intelligence):** Cuando el móvil de un vecino detecte (vía cámara offline) un brote de *Xylella fastidiosa* en un almendro, su LLM local generará un diagnóstico de emergencia. Este diagnóstico se empaquetará en un delta CRDT y viajará por la malla BLE.
+*   **Acción Descentralizada:** Al llegar al teléfono del Capataz o del Agrónomo del pueblo, sus propias IAs locales (despiertas por el demonio nativo) analizarán el *payload*, lo cruzarán con el viento y la humedad de sus propios sensores, y emitirán alertas hápticas urgentes, sin que un solo byte haya tocado los servidores de Google o Amazon. La IAIA dejará de ser un chatbot aislado para convertirse en el **sistema nervioso compartido del territorio**.
+
+### 🏛️ III. EL LEGADO "ZERO NETWORK & ZERO PATCH": LA PIEDRA SECA DIGITAL
+Vivimos en la era del tecno-feudalismo. Las corporaciones diseñan software que nos convierte en rehenes: si no pagas la suscripción mensual de la nube, si el cable transoceánico se corta, o si deciden apagar su API porque tu pueblo "no es rentable", tu comunidad desaparece digitalmente. Sus aplicaciones son terminales tontos que asumen 5G infinito.
+
+La doctrina **"Zero Network & Zero Patch"** es nuestra declaración de independencia. Hemos diseñado "Sóc de Poble" con la misma filosofía que los muros de **Pedra Seca** (Piedra Seca) de nuestros bancales:
+*   **Sin mortero (Sin servidores centrales):** Los muros se sostienen por el peso, la fricción y el equilibrio matemático de las propias rocas (los móviles de los vecinos comunicándose vía P2P). Si quitas una, la estructura se reajusta (CRDT).
+*   **Materiales locales (Local-First):** La red se construye con la energía y los dispositivos que ya están en el territorio.
+*   **Hecho para durar siglos (Zero-Patch):** Si mañana el equipo de desarrollo desaparece, la aplicación seguirá funcionando intacta dentro de 10 años, permitiendo que un pueblo siga comerciando, organizando sus fiestas y preservando su memoria.
+
+**¿Qué le estamos devolviendo realmente al mundo rural?** 
+No les estamos dando una "app bonita". Les estamos devolviendo su **Dignidad, su Propiedad y su Soberanía**. Les damos el equivalente digital de poseer su propia tierra y sus propias semillas. Un archivo (el *solatge*) que sobrevive en los discos duros locales de cien vecinos, replicado e inmutable, a prueba de censura.
+
+Si mañana las antenas de telecomunicaciones colapsan tras una DANA, un incendio devastador o un fallo crítico nacional, **Sóc de Poble seguirá funcionando**. Los vecinos seguirán comerciando, los bandos del ayuntamiento seguirán propagándose de bolsillo a bolsillo, y la memoria de los viejos seguirá latiendo.
+
+La tecnología moderna nos prometió el mundo a cambio de nuestra soberanía. Nosotros hemos usado su misma tecnología para recuperar nuestra tierra.
+
+---
+
 ## 🚀 Inici Ràpid
 
 ### Prerequisits

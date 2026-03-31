@@ -3,17 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { X, Newspaper, Store, MapPin, Users, Shield, Calendar, Bot, Share2, Rocket, LogOut, BookOpen, StickyNote, FileText, Plus } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import { useModal } from '../context/ModalContext';
+import { useModalDispatch } from '../context/ModalContext';
 import './CreationHub.css';
 
 const CreationHub = () => {
-    const { setIsCreateModalOpen, openPostModal, setIsEventModalOpen, setIsMarketModalOpen } = useModal();
+    const { setIsCreateModalOpen, openPostModal, setIsEventModalOpen, setIsMarketModalOpen, setIsNotePadOpen } = useModalDispatch();
     const { t } = useTranslation();
-    const { isCreateModalOpen, setIsNotePadOpen } = useModal();
     const { isSuperAdmin, isAdmin, logout } = useAuth();
     const navigate = useNavigate();
-
-    if (!isCreateModalOpen) return null;
 
     return (
         <div className="fixed inset-0 z-modal flex items-center justify-center p-4">

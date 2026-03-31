@@ -27,7 +27,7 @@ class HealthCheckService {
     if (this.intervalId) {
         this.stopMonitoring();
     }
-    logger.log('[HealthCheck] Starting monitoring...');
+    // logger.log('[HealthCheck] Starting monitoring...');
     
     // Check inicial
     this.runHealthCheck();
@@ -46,7 +46,7 @@ class HealthCheckService {
       clearInterval(this.intervalId);
       this.intervalId = null;
     }
-    logger.log('[HealthCheck] Monitoring stopped');
+    // logger.log('[HealthCheck] Monitoring stopped');
   }
 
   /**

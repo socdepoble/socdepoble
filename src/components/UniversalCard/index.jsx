@@ -74,7 +74,7 @@ const UniversalCard = ({
     onNavigate // DeepSeek Audit: Allow decoupled routing
 }) => {
     const cardVariant = (variant === "post" && mode && mode !== "post") ? mode : (variant || mode);
-    const { openViewer } = useModal();
+    const { openViewer, openConnectionModal } = useModal();
     const { forensicMode: contextForensic } = useNavigation();
     const { gloveMode, seniorMode, hapticService } = useDesign();
     const isForensic = forcedForensic || contextForensic;
@@ -188,14 +188,11 @@ const UniversalCard = ({
             return;
         }
 
-        if (cardVariant === 'pobles') {
-            navigate(`/pobles/${postId}?action=connect`);
-        } else if (cardVariant === 'mercat' || cardVariant === 'market') {
-            navigate(`/mercat/${postId}?action=connect`);
-        } else {
-            navigate(`/post/${postId}?action=connect`);
-        }
-    }, [item?.uuid, item?.id, cardVariant, navigate]);
+        openConnectionModal({ 
+            postId, 
+            currentTags: item?.tags || [] 
+        });
+    }, [item?.uuid, item?.id, item?.tags, openConnectionModal]);
 
     const cardClasses = useMemo(() => {
         let activeVariant = 'post';

@@ -288,7 +288,7 @@ export const AuthProvider = ({ children }) => {
                 }
                 setUser({ ...genesis, is_sovereign: true, isAnonymous: true, role: USER_ROLES.GUEST });
                 setProfile(genesis);
-                logger.log(`[AuthContext] 🏹 FORASTER DETECTAT [SeqID: ${currentSeq}]: Identitat sobirana bategant.`);
+                // logger.log(`[AuthContext] 🏹 FORASTER DETECTAT [SeqID: ${currentSeq}]: Identitat sobirana bategant.`);
             }
 
             if (currentSeq === authSeqRef.current) {

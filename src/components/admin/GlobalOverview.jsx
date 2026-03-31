@@ -7,13 +7,19 @@ import {
     Terminal, RefreshCcw, Shield
 } from 'lucide-react';
 import { logger } from '../../utils/logger';
+import ForestAlertsPanel from './ForestAlertsPanel';
+import RhizomeMonitor from '../RhizomeMonitor';
 
 const GlobalOverview = ({ addLog }) => {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        let isFetching = false;
+        
         const fetchOverview = async () => {
+            if (document.visibilityState !== 'visible' || isFetching) return;
+            isFetching = true;
             try {
                 const overview = await supabaseService.getGlobalOverview();
                 setData(overview);
@@ -22,14 +28,42 @@ const GlobalOverview = ({ addLog }) => {
                 if (addLog) addLog('Error al carregar la Visió Global.', 'error');
             } finally {
                 setLoading(false);
+                isFetching = false;
             }
         };
 
-        fetchOverview();
+        let interval = null;
 
-        // Polling for "Real-Time" feel (every 30s)
-        const interval = setInterval(fetchOverview, 30000);
-        return () => clearInterval(interval);
+        const startPolling = () => {
+            if (!interval && document.visibilityState === 'visible') {
+                fetchOverview();
+                interval = setInterval(fetchOverview, 300000); // Polling relajado (every 5m) para respetar batería rural
+            }
+        };
+
+        const stopPolling = () => {
+            if (interval) {
+                clearInterval(interval);
+                interval = null;
+            }
+        };
+
+        const handleVisibilityChange = () => {
+            if (document.visibilityState === 'visible') {
+                startPolling();
+            } else {
+                stopPolling();
+            }
+        };
+
+        startPolling();
+
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+
+        return () => {
+            stopPolling();
+            document.removeEventListener('visibilitychange', handleVisibilityChange);
+        };
     }, [addLog]);
 
     if (loading) {
@@ -176,6 +210,19 @@ const GlobalOverview = ({ addLog }) => {
                             </button>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            {/* SECCIÓN MESH P2P FÍSICA */}
+            <div className="mt-8 border-t border-white/10 pt-8 mt-12">
+                <div className="flex items-center gap-3 mb-6">
+                    <Zap className="text-orange-500" size={24} />
+                    <h2 className="text-2xl font-black uppercase tracking-tighter">Estació Zero-Network</h2>
+                </div>
+                
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+                    <RhizomeMonitor />
+                    <ForestAlertsPanel />
                 </div>
             </div>
 

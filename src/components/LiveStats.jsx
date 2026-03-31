@@ -9,7 +9,11 @@ const LiveStats = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        let isFetching = false;
+        
         const fetchStats = async () => {
+            if (document.visibilityState !== 'visible' || isFetching) return;
+            isFetching = true;
             try {
                 const data = await supabaseService.getPublicStats();
                 setStats(data);
@@ -17,13 +21,42 @@ const LiveStats = () => {
                 logger.error('Failed to load stats', error);
             } finally {
                 setLoading(false);
+                isFetching = false;
             }
         };
 
-        fetchStats();
-        // Refresh every 30s to feel "live"
-        const interval = setInterval(fetchStats, 30000);
-        return () => clearInterval(interval);
+        let interval = null;
+        
+        const startPolling = () => {
+            if (!interval && document.visibilityState === 'visible') {
+                fetchStats();
+                interval = setInterval(fetchStats, 30000);
+            }
+        };
+        
+        const stopPolling = () => {
+            if (interval) {
+                clearInterval(interval);
+                interval = null;
+            }
+        };
+
+        const handleVisibilityChange = () => {
+            if (document.visibilityState === 'visible') {
+                startPolling();
+            } else {
+                stopPolling();
+            }
+        };
+
+        startPolling();
+        
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+
+        return () => {
+            stopPolling();
+            document.removeEventListener('visibilitychange', handleVisibilityChange);
+        };
     }, []);
 
     if (loading) return <div className="live-stats-loading"><RefreshCw className="animate-spin" size={24} /></div>;

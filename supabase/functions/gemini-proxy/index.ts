@@ -23,10 +23,19 @@ serve(async (req) => {
     );
 
     let userId = 'anonymous-guest-user';
+    let isActuallyAnon = isAnon;
+
     if (!isAnon) {
-      const { data: user } = await supabase.auth.getUser();
-      if (user?.user) userId = user.user.id;
-    } else {
+      const { data, error } = await supabase.auth.getUser();
+      if (error || !data?.user) {
+        // Tolerem usuaris amb token expirat o invàlid com a anònims
+        isActuallyAnon = true;
+      } else {
+        userId = data.user.id;
+      }
+    }
+    
+    if (isActuallyAnon) {
       const ip = (req.headers.get('x-forwarded-for') || '').split(',')[0] || 'unknown';
       userId = `guest-${ip}`;
     }

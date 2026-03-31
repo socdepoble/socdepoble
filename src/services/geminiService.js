@@ -302,7 +302,7 @@ class GeminiService {
         avatarName: persona.avatarName,
         type: persona.type,
       };
-    } catch (err) {
+    } catch {
       // Fallback final per a l'Arxiver per evitar frustració de l'usuari
       if (personaKey === "ARXIVER") {
         return {
@@ -315,7 +315,8 @@ class GeminiService {
         };
       }
 
-      logger.error(`[Gemini] Error consultant a ${persona.name}:`, err);
+      // Logging refinat i silenciós (sense embrutar consola amb traçats vermells agressius)
+      logger.debug(`[Gemini] Interrupció o error consultant a ${persona.name}. Cau a fallback.`);
 
       return {
         error: true,

@@ -46,20 +46,104 @@ export const syncService = {
     backupChatInput: (convId, text) => {
         if (!text) return;
         try {
-            const backups = JSON.parse(localStorage.getItem('sp_chat_backups') || '{}');
-            backups[convId] = { text, at: Date.now() };
+            const raw = localStorage.getItem('sp_chat_backups');
+            const backups = raw ? JSON.parse(raw) : {};
+            const now = Date.now();
+            const MAX_CONVERSATIONS = 50;
+            const MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000;
 
-            const entries = Object.entries(backups);
-            if (entries.length > 20) {
-                entries.sort((a, b) => b[1].at - a[1].at);
-                const pruned = Object.fromEntries(entries.slice(0, 20));
-                localStorage.setItem('sp_chat_backups', JSON.stringify(pruned));
-            } else {
-                localStorage.setItem('sp_chat_backups', JSON.stringify(backups));
+            for (const [id, backup] of Object.entries(backups)) {
+                const ts = Number(backup?.at || 0);
+                if (!ts || (now - ts) > MAX_AGE_MS) {
+                    delete backups[id];
+                }
             }
-        } catch (err) {
-            logger.error('[SyncService] Error fent backup de xat:', err);
+
+            backups[convId] = { text, at: now };
+
+            const ordered = Object.entries(backups)
+                .sort((a, b) => (b[1]?.at || 0) - (a[1]?.at || 0))
+                .slice(0, MAX_CONVERSATIONS);
+
+            localStorage.setItem('sp_chat_backups', JSON.stringify(Object.fromEntries(ordered)));
+        } catch (e) {
+            logger.error('[SyncService] Error guardant backup de xat:', e);
         }
+    },
+
+    /**
+     * Auditoria i neteja d'imatges fantasma en cache local.
+     */
+    purgeGhostMediaCache: ({ dryRun = true } = {}) => {
+        const GHOST_PROTOCOLS = ['blob:', 'data:'];
+        const GHOST_HINTS = ['placeholder', 'mock', 'seed', 'demo', 'tmp'];
+        const report = {
+            scannedKeys: 0,
+            affectedKeys: [],
+            urlsFlagged: [],
+            removedKeys: []
+        };
+
+        const looksGhostUrl = (value) => {
+            if (typeof value !== 'string') return false;
+            const lower = value.trim().toLowerCase();
+            if (!lower) return false;
+            if (GHOST_PROTOCOLS.some(protocol => lower.startsWith(protocol))) return true;
+            return GHOST_HINTS.some(hint => lower.includes(hint));
+        };
+
+        const walk = (node, keyPath = '') => {
+            if (Array.isArray(node)) {
+                node.forEach((item, idx) => walk(item, `${keyPath}[${idx}]`));
+                return;
+            }
+            if (!node || typeof node !== 'object') return;
+
+            Object.entries(node).forEach(([key, value]) => {
+                const nextPath = keyPath ? `${keyPath}.${key}` : key;
+                if (typeof value === 'string' && /avatar|cover|image|photo|attachment/i.test(key) && looksGhostUrl(value)) {
+                    report.urlsFlagged.push({ path: nextPath, value });
+                }
+                walk(value, nextPath);
+            });
+        };
+
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (!key || !key.startsWith('sp_')) continue;
+            report.scannedKeys += 1;
+
+            const raw = localStorage.getItem(key);
+            if (!raw) continue;
+
+            let parsed = null;
+            try {
+                parsed = JSON.parse(raw);
+            } catch {
+                if (looksGhostUrl(raw)) {
+                    report.affectedKeys.push(key);
+                    report.urlsFlagged.push({ path: key, value: raw });
+                    if (!dryRun) {
+                        localStorage.removeItem(key);
+                        report.removedKeys.push(key);
+                    }
+                }
+                continue;
+            }
+
+            const urlsBefore = report.urlsFlagged.length;
+            walk(parsed, key);
+            if (report.urlsFlagged.length > urlsBefore) {
+                report.affectedKeys.push(key);
+                if (!dryRun) {
+                    localStorage.removeItem(key);
+                    report.removedKeys.push(key);
+                }
+            }
+        }
+
+        // logger.log(`[SyncService] Ghost media audit (${dryRun ? 'dry-run' : 'cleanup'}):`, report);
+        return report;
     },
 
     /**

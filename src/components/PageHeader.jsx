@@ -16,7 +16,7 @@ const PageHeader = ({ title, subtitle, onBack, rightAction, onEditClick }) => {
     };
 
     return (
-        <header className="sticky top-0 w-full bg-[var(--theme-accent-primary)] text-white border-b border-white/10 px-4 flex items-center justify-between z-50 h-14 md:h-16 flex-shrink-0 transition-colors">
+        <header className="sticky top-0 w-full bg-[var(--theme-accent-primary)] text-white border-b border-white/10 px-4 flex items-center justify-between z-50 h-[64px] min-h-[64px] max-h-[64px] flex-shrink-0 transition-colors">
             
             {/* Esquerra: Tornar arrere (Width fixat per centrar el titol) */}
             <div className="w-12 flex items-center justify-start">

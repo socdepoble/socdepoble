@@ -27,7 +27,7 @@ class ErrorTrackingService {
     this._initialized = true;
 
     if (!this.enabled) {
-      logger.log('[ErrorTracking] Disabled in development');
+      // logger.log('[ErrorTracking] Disabled in development');
       return;
     }
 

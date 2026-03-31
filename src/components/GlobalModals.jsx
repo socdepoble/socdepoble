@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 // ... (imports are kept untouched from line 1 of actual file since we replace from 22)
-import { useModal } from '../context/ModalContext';
+import { useModalState, useModalDispatch } from '../context/ModalContext';
 import { useAuth } from '../context/AuthContext';
 import Portal from './Portal';
 import CreatePostModal from './CreatePostModal';
@@ -19,7 +19,9 @@ import GuestInteractionModal from './GuestInteractionModal';
 import { useModalFocusTrap } from '../hooks/useModalFocusTrap';
 
 const GlobalModals = () => {
-    const { isCreateModalOpen, isPostModalOpen, setIsPostModalOpen, isEventModalOpen, setIsEventModalOpen, isMarketModalOpen, setIsMarketModalOpen, isSocialManagerOpen, setIsSocialManagerOpen, postModalConfig, isConnectionModalOpen, connectionConfig, closeConnectionModal, isAgentSelectorOpen, closeAgentSelector, agentSelectorConfig, isViewerOpen, closeViewer, viewerConfig, isLegalModalOpen, closeLegalModal, legalConfig, editConfig, isEditModalOpen, closeEditModal, isMagicPregonerOpen, setIsMagicPregonerOpen } = useModal();
+    const { isCreateModalOpen, isPostModalOpen, isEventModalOpen, isMarketModalOpen, isSocialManagerOpen, postModalConfig, isConnectionModalOpen, connectionConfig, isAgentSelectorOpen, agentSelectorConfig, isViewerOpen, viewerConfig, isLegalModalOpen, legalConfig, editConfig, isEditModalOpen, isMagicPregonerOpen } = useModalState();
+    
+    const { setIsPostModalOpen, setIsEventModalOpen, setIsMarketModalOpen, setIsSocialManagerOpen, closeConnectionModal, closeAgentSelector, closeViewer, closeLegalModal, closeEditModal, setIsMagicPregonerOpen } = useModalDispatch();
     const { isPlayground } = useAuth();
 
     // Import ConnectionSelectorModal inside if needed or at top
@@ -65,16 +67,14 @@ const GlobalModals = () => {
     return (
         <Portal>
             <div ref={portalRef} tabIndex="-1" className="outline-none contents">
-            {isPostModalOpen && (
-                <CreatePostModal
-                    isOpen={isPostModalOpen}
-                    onClose={() => setIsPostModalOpen(false)}
-                    onPostCreated={handlePostCreated}
-                    isPrivateInitial={postModalConfig?.isPrivate}
-                    initialFile={postModalConfig?.initialFile}
-                    isPlayground={isPlayground}
-                />
-            )}
+            <CreatePostModal
+                isOpen={isPostModalOpen}
+                onClose={() => setIsPostModalOpen(false)}
+                onPostCreated={handlePostCreated}
+                isPrivateInitial={postModalConfig?.isPrivate}
+                initialFile={postModalConfig?.initialFile}
+                isPlayground={isPlayground}
+            />
 
             {isEventModalOpen && (
                 <CreateEventModal
@@ -140,16 +140,14 @@ const GlobalModals = () => {
                     type={legalConfig.type}
                 />
             )}
-            {isEditModalOpen && editConfig && (
-                <CreatePostModal
-                    isOpen={isEditModalOpen}
-                    onClose={closeEditModal}
-                    editMode={true}
-                    postData={editConfig.postData}
-                    onPostCreated={handlePostCreated}
-                    isPlayground={isPlayground}
-                />
-            )}
+            <CreatePostModal
+                isOpen={isEditModalOpen}
+                onClose={closeEditModal}
+                editMode={true}
+                postData={editConfig?.postData}
+                onPostCreated={handlePostCreated}
+                isPlayground={isPlayground}
+            />
 
             {isMagicPregonerOpen && (
                 <MagicPregoner 

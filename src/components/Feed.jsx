@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useEffect, useRef, useTransition } from 'react';
+import ConflictBanner from './ConflictBanner';
 // CACHE BUST SW: Evasió profunda de la catxé del ServiceWorker per forçar re-render del Mur
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useTranslation } from 'react-i18next';
@@ -8,6 +9,7 @@ import { useDesign } from '../context/DesignContext';
 import { useNavigation } from '../context/NavigationContext';
 import { useAuth } from '../context/AuthContext';
 import { USER_ROLES, IAIA_ID, CREATOR_EMAILS } from '../constants';
+import { isSdPOficial, isLegacyMock } from '../utils/identityUtils';
 import { logger } from '../utils/logger';
 import PostSkeleton from './Skeletons/PostSkeleton';
 import StatusLoader from './StatusLoader';
@@ -20,6 +22,36 @@ import { useIAIAAutonomousInteractions } from '../hooks/useIAIAAutonomousInterac
 import { useViewMode } from '../hooks/useViewMode';
 import { UniversalGridWrapper, UniversalGridRow } from './UniversalGrid';
 
+class CardErrorBoundary extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { hasError: false };
+    }
+
+    static getDerivedStateFromError() {
+        return { hasError: true };
+    }
+
+    componentDidCatch(error, errorInfo) {
+        logger.error('[CardErrorBoundary] Card fail:', error, errorInfo);
+    }
+
+    render() {
+        if (this.state.hasError) {
+            return this.props.fallback;
+        }
+        return this.props.children;
+    }
+}
+
+const CorruptedCardPlaceholder = () => (
+    <div className="w-full h-full min-h-[300px] flex flex-col items-center justify-center bg-[#1A1A1A]/80 backdrop-blur-md rounded-[20px] border border-red-500/20 p-6 text-center">
+        <Sparkles className="text-red-500/40 mb-3 opacity-50" size={32} />
+        <span className="text-zinc-500 font-semibold font-['Epilogue'] tracking-tight">Post no disponible</span>
+        <span className="text-zinc-600 text-[12px] mt-1">S'ha detectat una divergència CRDT local.</span>
+    </div>
+);
+
 const Feed = ({ townId = null, townName = null, customPosts = null, contentMode = 'batec', hideHeader = false, externalViewMode = null }) => {
     const { iaiaLevel, gloveMode } = useDesign();
     const { selectedTown, enabledAgentIds } = useNavigation();
@@ -30,9 +62,13 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
     const activeTown = townId || selectedTown;
 
     const [selectedTag, setSelectedTag] = useState(null);
-    const [isIAIAFiltering, setIsIAIAFiltering] = useState(
-        () => localStorage.getItem('isIAIAFiltering') === 'true'
-    );
+    const [isIAIAFiltering, setIsIAIAFiltering] = useState(() => {
+        try {
+            return localStorage.getItem('isIAIAFiltering') === 'true';
+        } catch {
+            return false;
+        }
+    });
     const { viewMode, setViewMode, columnCount, containerRef, effectiveViewMode } = useViewMode('feed_view_mode', 'grid', externalViewMode);
     
     const [contextualSearchTerm, setContextualSearchTerm] = useState('');
@@ -91,14 +127,20 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
 
 
     const parentRef = useRef(null);
-    const getScrollElement = useCallback(() => parentRef.current, []);
+    const getScrollElement = useCallback(() => {
+        if (!hideHeader) return parentRef.current;
+        if (typeof window === 'undefined' || !parentRef.current) return null;
+        // Quan està incrustat (hideHeader=true), busca el contenidor de scroll pare més proper
+        const scroller = parentRef.current.closest('.profile-scroll-container, .main-viewport');
+        return scroller || parentRef.current;
+    }, [hideHeader]);
     const estimateSize = useCallback(() => effectiveViewMode === 'list' ? 120 : (effectiveViewMode === 'single' ? 600 : 900), [effectiveViewMode]);
 
     const rowVirtualizer = useVirtualizer({
         count: rowCount,
         getScrollElement,
         estimateSize,
-        overscan: 5,
+        overscan: columnCount > 1 ? 2 : 5,
         onChange: (instance) => {
             const lastIndex = instance.getVirtualItems().at(-1)?.index ?? 0;
             if (lastIndex > rowCount - 10 && hasMore && !loadingMore) {
@@ -118,11 +160,7 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
         const targetId = post.author_entity_id || post.author_user_id || post.author_id;
         const type = post.author_entity_id ? 'entitat' : 'perfil';
 
-        if (post.author?.toLowerCase().includes('sóc de poble') ||
-            post.author_name?.toLowerCase().includes('sóc de poble') ||
-            targetId === 'sdp-core' ||
-            targetId === 'mock-business-sdp-1' ||
-            targetId === 'socdepoble') {
+        if (isSdPOficial(targetId, post.author_name || post.author)) {
             navigate('/entitat/socdepoble');
             return;
         }
@@ -132,7 +170,7 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
             return;
         }
 
-        if (!targetId || (typeof targetId === 'string' && targetId.startsWith('mock-'))) {
+        if (!targetId || isLegacyMock(targetId)) {
             logger.warn('Navegació a perfil fictici no disponible:', targetId);
             return;
         }
@@ -140,23 +178,30 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
         navigate(`/${type}/${targetId}`);
     }, [navigate]);
 
+    /*
+     * F-4: Estabilización de handlers por post ID.
+     * Un Map persiste entre renders (via ref) y devuelve la misma referencia.
+     */
+    const headerClickCache = useRef(new Map());
+
+    const getHeaderClickHandler = useCallback((post) => {
+        const key = post.uuid || post.id;
+        if (!headerClickCache.current.has(key)) {
+            headerClickCache.current.set(key, () => handleHeaderClick(post));
+        }
+        return headerClickCache.current.get(key);
+    }, [handleHeaderClick]);
+
     const renderPost = useCallback((post) => {
-        const pid = post.uuid || post.id || `post-fallback-${Math.random().toString(36).substring(2, 9)}`;
+        // FIX: Clave estrictamente determinista y estable. JAMÁS Math.random()
+        const pid = post.uuid || post.id || `temp-${post.author_user_id || 'anon'}-${post.created_at || (post.content ? post.content.substring(0, 15) : 'unknown')}`;
         const isOptimistic = post.metadata?.isOptimistic;
         const isDissolving = post.metadata?.isDissolving;
 
-        const headerTitle = (post.author === 'Algú del poble' || !post.author)
-            ? (((typeof CREATOR_EMAILS !== 'undefined' ? CREATOR_EMAILS : []).includes(post.author_email)) ||
-                ['25218ea4-5d7d-4db4-bdc5-7ae035629242', '333bd9f1-21ab-41fe-b856-2340ce6dc96c', 'a11ac111-eec1-4111-b111-000000000013', 'fa82eb62-4a83-4ff7-b2d6-8849673fc3b0', '031adc10-ce8c-4ec9-8672-330473033a91', '11111111-0000-0000-0000-000000000001'].includes(post.author_user_id)
-                ? post.author_name || (
-                    post.author_user_id === '333bd9f1-21ab-41fe-b856-2340ce6dc96c' ? 'Lidia Espí' :
-                        post.author_user_id === 'a11ac111-eec1-4111-b111-000000000013' ? 'Anna Climent' :
-                            post.author_user_id === 'fa82eb62-4a83-4ff7-b2d6-8849673fc3b0' ? 'Damià Llorens' :
-                                post.author_user_id === '031adc10-ce8c-4ec9-8672-330473033a91' ? 'Nando Llinares' :
-                    'Javi Llinares'
-                )
-                : 'Gent de la Torre')
-            : (post.author?.name || post.author);
+        // FIX: Evitar hardcodear Identificadores Únicos y Lógica de Negocio de roles en el VDOM.
+        const headerTitle = post.metadata?.is_verified
+            ? post.metadata.display_name
+            : (post.author?.name || post.author || 'Gent del Poble');
 
         const rawTown = post.towns?.name || post.town_name || post.location?.town || 'La Torre de les Maçanes';
         const headerSubtitle = rawTown;
@@ -179,7 +224,7 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
                     title={displayTitle}
                     subtitle={headerSubtitle}
                     image={hasNoImage ? cinematicPlaceholder : postImage}
-                    onHeaderClick={() => handleHeaderClick(post)}
+                    onHeaderClick={getHeaderClickHandler(post)}
                     mode="mur"
                     viewMode={effectiveViewMode}
                     className={`universal-card-virtual ${isOptimistic ? 'optimistic' : ''} ${post.is_iaia_inspired ? 'animate-bategat' : ''} ${gloveMode ? 'mode-guants' : ''}`}
@@ -195,28 +240,33 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
                 </UniversalCard>
             </div>
         );
-    }, [gloveMode, handleHeaderClick, effectiveViewMode]);
+    }, [gloveMode, getHeaderClickHandler, effectiveViewMode]);
 
     if (loading && posts.length === 0) {
         return (
-            <div className="feed-container">
-                <div className="feed-list">
-                    {[1, 2, 3].map(i => <PostSkeleton key={i} />)}
-                </div>
+            <div className="flex-1 flex flex-col h-full bg-theme-base relative overflow-hidden items-center justify-center p-8">
+                <Loader2 className="animate-spin text-[#F97316]" size={48} strokeWidth={2.5} />
             </div>
         );
     }
 
     if (error) {
         return (
-            <div className="feed-container">
+            <div className="flex-1 flex flex-col h-full bg-theme-base relative overflow-hidden items-center justify-center p-8">
+                <p className="font-['Plus_Jakarta_Sans'] text-[#EF4444] text-center font-bold mb-4">{t('feed.error_loading') || 'Error de càrrega'}</p>
                 <StatusLoader type="error" message={error} onRetry={() => fetchPosts()} />
             </div>
         );
     }
 
     return (
-        <div className="feed-container">
+        <div className="flex-1 flex flex-col h-full bg-theme-base relative overflow-hidden font-['Plus_Jakarta_Sans'] w-full">
+            <div id="feed-live-region" className="sr-only" role="status" aria-live="polite" aria-atomic="true">
+                {loading && posts.length === 0 && 'Carregant publicacions...'}
+                {loadingMore && 'Carregant més publicacions...'}
+                {!loading && posts.length > 0 && `${posts.length} publicacions carregades`}
+                {error && `Error: ${error}`}
+            </div>
             <SEO
                 title={t('mur.title') || 'El Mur'}
                 description={t('mur.description') || 'Connecta amb la teua comunitat i descobreix les darreres novetats del teu poble.'}
@@ -226,7 +276,7 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
             <h1 className="sr-only">Mur d'Activitat i Notícies de Sóc de Poble</h1>
 
             {!hideHeader && (
-                <div className="sticky top-0 w-full z-dropdown shadow-md">
+                <div className="flex-none w-full z-dropdown">
                     <ContextualHeader
                         searchTerm={contextualSearchTerm}
                         onSearchChange={setContextualSearchTerm}
@@ -239,9 +289,25 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
                 </div>
             )}
 
-            {customPosts ? (
-                <UniversalGridWrapper viewMode={viewMode} className="pb-20">
-                    <div ref={containerRef} className="feed-list mx-auto w-full">
+            <div
+                ref={parentRef}
+                className="flex-1 overflow-y-auto custom-scrollbar pb-20 w-full scroll-container-y"
+                style={{ contain: 'content', overflowAnchor: 'none' }}
+                role="region"
+                aria-label="Llista de publicacions"
+            >
+                <ConflictBanner />
+                <UniversalGridWrapper viewMode={viewMode}>
+                    <div
+                        ref={containerRef}
+                        className="feed-list mx-auto w-full relative"
+                        role="feed"
+                        aria-busy={loading || loadingMore}
+                        aria-label="Publicacions del Mur"
+                        style={{
+                            height: `${rowVirtualizer.getTotalSize() + 36}px`,
+                        }}
+                    >
                         {activePosts.length === 0 ? (
                             <StatusLoader
                                 type="empty"
@@ -252,77 +318,57 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
                                 onRetry={selectedTag ? () => setSelectedTag(null) : null}
                             />
                         ) : (
-                            <UniversalGridRow viewMode={viewMode} columnCount={columnCount} className="feed-grid">
-                                {activePosts.map(post => renderPost(post))}
-                            </UniversalGridRow>
+                            rowVirtualizer.getVirtualItems().map((virtualRow) => {
+                                const startIndex = virtualRow.index * columnCount;
+                                const rowItems = activePosts.slice(startIndex, startIndex + columnCount);
+
+                                return (
+                                    <UniversalGridRow
+                                        key={virtualRow.key}
+                                        viewMode={viewMode}
+                                        columnCount={columnCount}
+                                        className="feed-grid"
+                                        {...{ "data-index": virtualRow.index }}
+                                        ref={rowVirtualizer.measureElement}
+                                        style={{
+                                            position: 'absolute',
+                                            top: 0,
+                                            left: 0,
+                                            width: '100%',
+                                            transform: `translateY(${virtualRow.start + 36}px)`,
+                                        }}
+                                    >
+                                        {rowItems.map((post, idx) => (
+                                            <article 
+                                                key={post.uuid || post.id || idx}
+                                                aria-posinset={virtualRow.index * columnCount + idx + 1}
+                                                aria-setsize={hasMore ? -1 : activePosts.length}
+                                                style={{ contain: 'layout paint style', contentVisibility: 'auto', containIntrinsicSize: '0 600px' }}
+                                            >
+                                                <CardErrorBoundary fallback={<CorruptedCardPlaceholder />}>
+                                                    {renderPost(post)}
+                                                </CardErrorBoundary>
+                                            </article>
+                                        ))}
+                                    </UniversalGridRow>
+                                );
+                            })
                         )}
                     </div>
                 </UniversalGridWrapper>
-            ) : (
-                <div
-                    ref={parentRef}
-                    className="flex-1 overflow-auto custom-scrollbar h-[100dvh]"
-                    style={{ contain: 'content', overflowAnchor: 'none' }}
-                >
-                    <UniversalGridWrapper viewMode={viewMode}>
-                        <div
-                            ref={containerRef}
-                            className="feed-list mx-auto w-full relative"
-                            style={{
-                                height: `${rowVirtualizer.getTotalSize() + 36}px`,
-                            }}
+
+                {!customPosts && hasMore && posts.length > 0 && !selectedTag && (
+                    <div className="load-more-container mt-12 mb-12 flex justify-center w-full">
+                        <button
+                            className="btn-load-more"
+                            onClick={() => fetchPosts(true)}
+                            disabled={loadingMore}
                         >
-                            {activePosts.length === 0 ? (
-                                <StatusLoader
-                                    type="empty"
-                                    message={selectedTag
-                                        ? `${t('feed.no_posts_tag') || 'No hi ha publicacions amb # '}${selectedTag}`
-                                        : (t('feed.empty') || 'No hi ha novetats al mur.')
-                                    }
-                                    onRetry={selectedTag ? () => setSelectedTag(null) : null}
-                                />
-                            ) : (
-                                rowVirtualizer.getVirtualItems().map((virtualRow) => {
-                                    const startIndex = virtualRow.index * columnCount;
-                                    const rowItems = activePosts.slice(startIndex, startIndex + columnCount);
-
-                                    return (
-                                        <UniversalGridRow
-                                            key={virtualRow.key}
-                                            viewMode={viewMode}
-                                            columnCount={columnCount}
-                                            className="feed-grid"
-                                            {...{ "data-index": virtualRow.index }}
-                                            ref={rowVirtualizer.measureElement}
-                                            style={{
-                                                position: 'absolute',
-                                                top: 0,
-                                                left: 0,
-                                                width: '100%',
-                                                transform: `translateY(${virtualRow.start + 36}px)`,
-                                            }}
-                                        >
-                                            {rowItems.map(post => renderPost(post))}
-                                        </UniversalGridRow>
-                                    );
-                                })
-                            )}
-                        </div>
-                    </UniversalGridWrapper>
-
-                    {hasMore && posts.length > 0 && !selectedTag && (
-                        <div className="load-more-container mt-12 mb-12 flex justify-center w-full">
-                            <button
-                                className="btn-load-more"
-                                onClick={() => fetchPosts(true)}
-                                disabled={loadingMore}
-                            >
-                                {loadingMore ? <Loader2 className="spinner" /> : t('common.load_more') || 'Carregar més'}
-                            </button>
-                        </div>
-                    )}
-                </div>
-            )}
+                            {loadingMore ? <Loader2 className="spinner" /> : t('common.load_more') || 'Carregar més'}
+                        </button>
+                    </div>
+                )}
+            </div>
         </div >
     );
 };

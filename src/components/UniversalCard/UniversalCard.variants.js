@@ -2,34 +2,34 @@ import { cva } from 'class-variance-authority';
 
 export const cardVariants = cva(
   `
-    relative w-full overflow-hidden 
-    bg-theme-panel shadow-2xl border border-white/5 
-    flex flex-col transition-all duration-500 
-    hover:shadow-black/50 hover:-translate-y-1 hover:scale-[1.01]
+    group flex flex-col w-full min-w-0 h-full relative
+    rounded-[28px] overflow-hidden
+    bg-[#000000] border-[1px] border-[#169CF9] text-[#FFFFFF]
+    transition-colors duration-300 ease-in-out
+    [.theme-light_&]:bg-[#FFFFFF] [.theme-light_&]:border-[#0e0e0e] [.theme-light_&]:text-[#0e0e0e]
   `,
   {
     variants: {
-      variant: {
-        post: 'rounded-[var(--card-radius)]',
-        mercat: 'rounded-[var(--card-radius)] border-primary/20',
-        market: 'rounded-[var(--card-radius)] border-primary/20',
-        pobles: 'rounded-[var(--card-radius)]',
-        ajuntament: 'rounded-[var(--card-radius)]',
-        official: 'rounded-[var(--card-radius)] border-2 border-primary',
-        alert: 'rounded-[var(--card-radius)] border-2 border-feedback-error',
-        sostenible: 'rounded-[var(--card-radius)] border-2 border-feedback-success',
-      },
       viewMode: {
-        grid: 'h-auto mx-auto max-w-[var(--card-max-width)] min-h-[var(--card-grid-height)]',
-        list: 'min-h-[var(--card-list-height)] bg-white/5 hover:bg-white/10 border-white/10 hover:border-primary !shadow-none !h-auto flex-row',
-        single: 'h-auto max-w-[var(--card-max-width)] mx-auto',
+        grid: 'max-w-[480px] mx-auto md:mx-0 min-h-[500px]',
+        list: 'max-w-full !rounded-[16px] border-b border-white/5 bg-transparent shadow-none hover:bg-white/5',
+        masonry: 'inline-block w-full mb-6 break-inside-avoid',
+        single: 'max-w-3xl border-none',
+        compact: 'w-[140px] md:w-[180px] shrink-0',
+      },
+      variant: {
+        post: '',
+        mercat: 'border-[2px] border-[#F97316]',
+        alert: 'border-red-500',
+        official: 'border-[#169CF9]',
+        sostenible: 'border-emerald-500'
       },
       interactive: {
-        true: 'cursor-pointer hover:border-primary',
-        false: 'cursor-default',
+        true: 'cursor-pointer',
+        false: 'select-text',
       },
       seniorMode: {
-        true: 'border-2 text-lg',
+        true: 'border-[3px] text-lg',
         false: '',
       },
       forensicMode: {
@@ -37,7 +37,7 @@ export const cardVariants = cva(
         false: '',
       },
       gloveMode: {
-        true: 'scale-105',
+        true: '',
         false: '',
       },
       isBating: {

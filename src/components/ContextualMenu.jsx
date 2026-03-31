@@ -36,6 +36,13 @@ const ContextualMenu = () => {
             { id: 'pobles', label: 'POBLES', path: '/pobles' },
             { id: 'esdeveniments', label: 'EVENTS', path: '/pobles?tab=esdeveniments' },
             { id: 'mapa', label: 'MAPA', path: '/mapa' }
+        ],
+        '/calendar': [
+            { id: 'events', label: 'TOTS', path: '/calendar' },
+            { id: 'personal', label: 'PERSONAL', path: '/calendar?role=personal' },
+            { id: 'empresa', label: 'EMPRESA', path: '/calendar?role=empresa' },
+            { id: 'treball', label: 'TREBALL', path: '/calendar?role=treball' },
+            { id: 'estudis', label: 'ESTUDIS', path: '/calendar?role=estudis' }
         ]
     };
 
@@ -43,6 +50,7 @@ const ContextualMenu = () => {
     const isChat = location.pathname.startsWith('/chats');
     const isNotes = location.pathname.startsWith('/notes');
     const isTowns = location.pathname.startsWith('/pobles') || location.pathname.startsWith('/mapa');
+    const isCalendar = location.pathname.startsWith('/calendar');
     // NOU: Detectar si estem DINS d'un xat específic per amagar la barra "XAT GENT GRUPS" i lliurar espai
     const isChatDetail = location.pathname.match(/^\/chats\/[^/]+/);
     const isProfile = location.pathname.startsWith('/perfil');
@@ -59,12 +67,12 @@ const ContextualMenu = () => {
         { id: 'entitat', label: 'ENTITAT', path: `${location.pathname}?role=entitat` }
     ];
 
-    const items = isChat ? menuConfigs['/chats'] : (isTowns ? menuConfigs['/pobles'] : (isProfile ? profileMenu : standardMenu));
+    const items = isChat ? menuConfigs['/chats'] : (isCalendar ? menuConfigs['/calendar'] : (isTowns ? menuConfigs['/pobles'] : (isProfile ? profileMenu : standardMenu)));
 
     return (
-        <div className="h-12 w-full bg-[#1a1a1a] shadow-[inset_0_4px_10px_rgba(0,0,0,0.6)] flex items-center sticky top-0 z-sticky select-none">
+        <div className="h-[48px] min-h-[48px] max-h-[48px] w-full bg-[#1a1a1a] shadow-[inset_0_4px_10px_rgba(0,0,0,0.6)] flex items-center sticky top-0 z-sticky select-none overflow-hidden shrink-0">
             {/* ÀREA D'ÍTEMS AMB SCROLL HORITZONTAL */}
-            <div className="flex-1 h-full overflow-x-auto no-scrollbar pl-10 pr-4 lg:pl-12 lg:pr-6">
+            <div className="flex-1 h-full overflow-x-auto no-scrollbar pl-4 pr-4 lg:pl-6 lg:pr-6">
                 <div className="flex items-center gap-8 lg:gap-14 h-full min-w-max">
                     {items.map((item) => (
                         <button
@@ -74,8 +82,8 @@ const ContextualMenu = () => {
                             }}
                             className={`
                                 relative h-full flex items-center text-[13px] lg:text-[15px] font-black tracking-[0.25em] transition-all whitespace-nowrap
-                                ${isProfile 
-                                    ? (item.id === (new URLSearchParams(location.search).get('role') || 'tot') ? 'text-[var(--theme-accent-primary)] border-b-2 border-[var(--theme-accent-primary)] pt-[2px]' : 'text-white opacity-80 hover:opacity-100')
+                                ${(isProfile || isCalendar)
+                                    ? (item.id === (new URLSearchParams(location.search).get('role') || (isCalendar ? 'events' : 'tot')) ? 'text-[var(--theme-accent-primary)] border-b-2 border-[var(--theme-accent-primary)] pt-[2px]' : 'text-white opacity-80 hover:opacity-100')
                                     : (((location.pathname + location.search) === item.path) || (location.pathname === item.path && location.search === '' && item.id === 'xat') 
                                         ? 'text-[var(--theme-accent-primary)] border-b-2 border-[var(--theme-accent-primary)] pt-[2px]' 
                                         : 'text-white opacity-80 hover:opacity-100')}

@@ -12,6 +12,8 @@ import ErrorBoundary from './components/ErrorBoundary';
 import LocalFirstGate from './components/gates/LocalFirstGate';
 import AuthGate from './components/gates/AuthGate';
 import OfflineGate from './components/gates/OfflineGate';
+import { useLowEndDevice } from './hooks/useLowEndDevice';
+import { useTabReconciliation } from './hooks/useTabReconciliation';
 
 /**
  * 🏺 LA BÍBLIA ESTRUCTURAL (App.jsx) - BLINDATGE v2.0
@@ -19,7 +21,10 @@ import OfflineGate from './components/gates/OfflineGate';
  * FORÇAT: Fons Negre, Arquitectura de Ferro, Local First, Zero Fantasmes.
  */
 const App = () => {
-    // [MONITORING] Inicialitzar error tracking
+    // Sanea "Amnesia BFCache"
+    useTabReconciliation();
+
+    // [MONITORING AND CLEANUP] Inicialitzar error tracking y purga fantasma
     useEffect(() => {
         let isMounted = true;
         const initializeMonitoring = async () => {
@@ -30,6 +35,17 @@ const App = () => {
                 if (isMounted) logger.error('[App] Failed to initialize error tracking:', error);
             }
         };
+
+        // Purificación final de imatges fantasma al Mestre
+        import('./services/syncService')
+            .then(({ syncService }) => {
+                if (!isMounted) return; // [OMEGA-FIX: Guardia contra Zombie Effect]
+                const report = syncService.purgeGhostMediaCache({ dryRun: false });
+                logger.debug('[App] Purga fantasma completada en el arranque:', report);
+            })
+            .catch(e => {
+                if (isMounted) logger.error('[App] Error purging ghost media:', e); // [OMEGA-FIX: Catch explícito]
+            });
 
         initializeMonitoring();
         return () => { isMounted = false; };
@@ -87,18 +103,37 @@ const App = () => {
         };
     }, []);
 
+    const isLowEnd = useLowEndDevice();
+
+    useEffect(() => {
+        if (isLowEnd) {
+            document.body.classList.add('low-end-device');
+        } else {
+            document.body.classList.remove('low-end-device');
+        }
+    }, [isLowEnd]);
+
     return (
-        <ErrorBoundary fallbackMessage="Excepció Nuclear Detectada al Mas.">
-            <OfflineGate>
-                <LocalFirstGate>
-                    <AuthGate>
-                        <AppLayout />
-                        <GlobalModals />
-                    </AuthGate>
-                </LocalFirstGate>
-            </OfflineGate>
-            <div id="aria-live-region" aria-live="polite" className="sr-only" />
-        </ErrorBoundary>
+        <>
+            <ErrorBoundary fallbackMessage="Excepció Nuclear Detectada al Mas.">
+                <OfflineGate>
+                    <LocalFirstGate>
+                        <AuthGate>
+                            <AppLayout />
+                            <GlobalModals />
+                        </AuthGate>
+                    </LocalFirstGate>
+                </OfflineGate>
+            </ErrorBoundary>
+            {/* [OMEGA-FIX: Fuera del ErrorBoundary con atributos y roles explícitos completos] */}
+            <div
+                id="aria-live-region"
+                role="status"
+                aria-live="polite"
+                aria-atomic="true"
+                className="sr-only"
+            />
+        </>
     );
 };
 

@@ -1,15 +1,7 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
   Search,
-  Globe,
-  Moon,
-  Sun,
-  Bell,
-  MoreVertical,
-  MapPin,
-  Menu,
-  Plus,
   MessageSquare,
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
@@ -20,7 +12,9 @@ import { useNavigation } from '../context/NavigationContext';
 import { AGENTS } from "../constants/agents";
 import "./ChatList.css";
 import { useTranslation } from "react-i18next";
+import { LocalFirstStatusContext } from '../context/LocalFirstStatusContext';
 import { chatService } from '../services/chatService';
+import DegradedBanner from "./DegradedBanner";
 
 // SOCIAL GRAPH MOCK DATA
 const STATIC_AVATARS = {
@@ -57,8 +51,8 @@ const INSTITUCIONS_DATA = [
 
 const ChatList = () => {
   const { iaiaLevel } = useDesign();
-    const { enabledAgentIds } = useNavigation();
-    const { user, isSuperAdmin } = useAuth();
+  const { enabledAgentIds } = useNavigation();
+  const { user, isSuperAdmin } = useAuth();
   const { visionMode } = useDesign();
   const location = useLocation();
   const navigate = useNavigate();
@@ -67,6 +61,10 @@ const ChatList = () => {
   const [chats, setChats] = useState([]);
   const [isTownModalOpen, setIsTownModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  
+  // Consumimos el contexto para saber si el scroll necesita ajustarse al banner
+  const { status } = useContext(LocalFirstStatusContext);
+  const isDegraded = status === 'degraded' && sessionStorage.getItem("sp_degraded_dismissed_until_recovery") !== "true";
   
   const currentTab = new URLSearchParams(location.search).get('tab') || 'xat';
 
@@ -115,11 +113,6 @@ const ChatList = () => {
         });
 
         // [XAT/GENT] Protocol de Visió Granular (v10.33.20)
-        // 0: Humana (Sense agents, cap ni un)
-        // 1: IAIA (Només la IAIA MarIA bategant)
-        // 2: Immersiva (O2) (IAIA + Els escollits manualment a l'espai granular)
-        // 3: Creativa (Tots els 15 especialistes visibles, Mode Treball)
-
         AGENTS.forEach((agent) => {
           let isVisible = false;
 
@@ -162,7 +155,6 @@ const ChatList = () => {
           console.error("[ChatList] Error fetching chats:", err);
         }
 
-        // Fallback a tots els 15 agents de manera blindada
         // Fallback als agents permesos per la visió actual (Blindat contra errors de xarxa)
         const fallbackAgents = AGENTS.filter(agent => {
             if (iaiaLevel === 0) return false;
@@ -276,48 +268,57 @@ const ChatList = () => {
   };
 
   return (
-    <div className="flex-1 flex flex-col min-w-0 bg-theme-base relative overflow-hidden h-full chat-list-container">
-      {/* SCANLINES RETRO-FUTURISTES */}
-      <div className="chat-list-scanlines" />
-
-      {/* HEADER CANÒNIC (RESTAURAT I REFINAT) */}
-      <header className="h-16 min-h-[64px] flex flex-col justify-center px-4 bg-[var(--theme-accent-primary)] border-b border-[var(--border-master)] relative z-10 shrink-0">
-        <div className="relative group w-full">
-          <Search
-            size={22}
-            className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--text-main)] opacity-60 group-focus-within:opacity-100 transition-opacity"
-          />
-          <label htmlFor="chat-search-input" className="sr-only">{t("chat.search_aria")}</label>
+    <div className="flex-1 flex flex-col min-w-0 bg-white dark:bg-[#0e0e0e] relative overflow-hidden h-full chat-list-container font-['Noto_Sans',sans-serif] transition-colors border-r border-[#0000000a] dark:border-transparent">
+      {/* HEADER CANÒNIC (Tech-Huerta V12) */}
+      <header className="h-[64px] min-h-[64px] max-h-[64px] shrink-0 flex flex-col justify-center px-4 bg-[#F97316] relative z-20 transition-colors">
+        <div className="flex items-center w-full h-[36px] bg-white rounded-[24px] overflow-hidden focus-within:ring-2 focus-within:ring-[#169CF9] transition-all group">
+          <div className="flex items-center justify-center pl-4 pr-2 h-full">
+            <Search
+              size={18}
+              strokeWidth={3}
+              className="text-gray-400 group-focus-within:text-[#F97316] transition-colors"
+            />
+          </div>
           <input
             id="chat-search-input"
             name="chat_search"
             type="text"
+            aria-label={t("chat.search_aria")}
             placeholder={t("chat.search_placeholder")}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full h-10 bg-[var(--bg-master)] border border-[var(--border-master)] rounded-[28px] pl-12 pr-4 text-sm font-black text-[var(--text-main)] focus:outline-none focus:border-[var(--text-main)]/30 focus:bg-[var(--bg-master)] transition-all placeholder:text-[var(--text-muted)] shadow-inner shadow-black/5"
+            className="flex-1 w-full h-full bg-transparent text-gray-900 pr-4 py-0 m-0 text-[14px] leading-none font-bold outline-none placeholder:text-gray-800 placeholder:font-bold"
           />
         </div>
       </header>
+      
+      {/* AVIS DE MODO DEGRADAT (NO TAPA LOGO NI HEADERS) */}
+      <DegradedBanner />
 
-      {/* LLISTA D'AGENTS */}
-      <div className="flex-1 overflow-y-auto custom-scrollbar bg-theme-base min-h-0">
+      {/* LLISTA D'AGENTS (M3) */}
+      <div 
+        className="flex-1 overflow-y-auto bg-white dark:bg-[#0e0e0e] min-h-0 pb-20 custom-scrollbar overscroll-contain transition-colors"
+        style={{ scrollPaddingTop: isDegraded ? '56px' : '0px' }}
+      >
         {filteredChats.length > 0 ? (
           filteredChats.map((chat) => (
             <div
               key={chat.id}
               onClick={() => handleChatClick(chat)}
-              className={`flex items-center space-x-3 h-[80px] px-4 border-b border-[var(--border-master)] cursor-pointer transition-all relative
+              className={`flex items-center space-x-4 h-[84px] px-4 cursor-pointer transition-all relative chat-item group
                         ${
-                          location.pathname.includes(chat.id) ? "active bg-white/5" : ""
-                        } chat-item hover:bg-[var(--bg-panel)]`}
+                          location.pathname.includes(chat.id) ? "bg-[#169CF9]/10 dark:bg-[#169CF9]/5" : ""
+                        } hover:bg-gray-50 dark:hover:bg-[#1a1919]`}
             >
+              {/* Etiqueta de Tipo de Chat con lógica de Ancla Naranja para los Roles */}
               {chat.tag && (
-                <span className="absolute top-3 right-4 bg-[var(--theme-accent-primary)]/10 backdrop-blur-md text-[var(--theme-accent-primary)] text-[9px] px-2.5 py-1 rounded-full border border-[var(--theme-accent-primary)]/30 font-black tracking-[0.15em] uppercase shadow-sm leading-none z-10">
+                <span className="absolute top-2 right-4 text-[#F97316] bg-[#F97316]/10 text-[10px] px-2.5 py-1 rounded-[12px] font-bold tracking-[0.05em] uppercase leading-none z-10 transition-colors">
                   {chat.tag}
                 </span>
               )}
-              <div className="flex-shrink-0">
+              
+              {/* Avatar Táctil con tamaño correcto M3 */}
+              <div className="flex-shrink-0 relative">
                 <Avatar
                   src={chat.other_info?.avatar_url}
                   name={chat.other_info?.name}
@@ -325,9 +326,11 @@ const ChatList = () => {
                   size={56}
                 />
               </div>
-              <div className="flex-1 min-w-0 flex flex-col justify-center ml-2">
-                 <div className="flex justify-between items-center mb-[2px]">
-                  <h4 className="text-lg font-black text-[var(--theme-accent-secondary)] m-0 truncate pr-20 block transition-colors flex-1 tracking-tight leading-tight drop-shadow-sm">
+
+              {/* Contenido Core del Chat (Blanco sobre Negro) */}
+              <div className="flex-1 min-w-0 flex flex-col justify-center gap-1">
+                 <div className="flex justify-between items-center">
+                  <h4 className="text-[18px] font-bold text-[#169CF9] dark:text-white m-0 truncate pr-16 block transition-colors flex-1 tracking-tight">
                     {chat.other_info?.name ||
                       (chat.participant_1_id === user?.id
                         ? chat.p2_info?.name
@@ -335,24 +338,20 @@ const ChatList = () => {
                       "Sóc de Poble"}
                   </h4>
                 </div>
-                <div className="flex justify-between items-center gap-2">
+                
+                <div className="flex justify-between items-center gap-3">
                   <div 
-                    className="text-[16px] truncate leading-none flex-1 font-medium"
-                    style={{ color: 'var(--text-chat-snippet)' }}
+                    className="text-[16px] truncate flex-1 font-medium text-gray-700 dark:text-white/70 group-hover:text-gray-900 dark:group-hover:text-white/90 transition-colors"
                   >
-                    {chat.last_message_content ||
-                      t("chat.beating_with_socdepoble")}
+                    {chat.last_message_content || t("chat.beating_with_socdepoble")}
                   </div>
-                  <div className="flex flex-col items-end shrink-0 leading-none">
+                  
+                  {/* Hora o Fecha */}
+                  <div className="flex flex-col items-end shrink-0">
                     {currentTab === 'xat' && (() => {
-                      const { day, time } = formatBategatDate(
-                        chat.last_message_time,
-                      );
+                      const { day, time } = formatBategatDate(chat.last_message_time);
                       return (
-                        <div 
-                          className="text-[14px] font-bold"
-                          style={{ color: 'var(--text-chat-time)' }}
-                        >
+                        <div className="text-[13px] font-medium text-[#169CF9]">
                           {time || day}
                         </div>
                       );
@@ -363,15 +362,15 @@ const ChatList = () => {
             </div>
           ))
         ) : (
-          <div className="h-full flex flex-col items-center justify-center opacity-20 p-12 text-center">
+          <div className="h-full flex flex-col items-center justify-center p-12 text-center opacity-80">
             <MessageSquare
-              size={56}
-              className="mb-6 text-[var(--theme-accent-primary)] mx-auto opacity-50"
+              size={64}
+              className="mb-6 text-[#169CF9] mx-auto opacity-70"
             />
-            <p className="text-[var(--text-main)] text-sm font-black uppercase tracking-[0.2em]">
+            <p className="text-gray-900 dark:text-white text-[16px] font-bold tracking-wide">
               {t("chat.silence_total")}
             </p>
-            <p className="text-gray-500 text-xs mt-2 uppercase tracking-widest">
+            <p className="text-gray-500 dark:text-white/50 text-[14px] mt-2">
               {t("chat.start_conversation_wall")}
             </p>
           </div>
@@ -385,13 +384,6 @@ const ChatList = () => {
           navigate(`/pobles/${townId}`);
         }}
       />
-
-      <style>{`
-                .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-                .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-                .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #333; border-radius: 99px; }
-                .custom-scrollbar::-webkit-scrollbar-thumb:hover { background-color: var(--theme-accent-primary); }
-            `}</style>
     </div>
   );
 };

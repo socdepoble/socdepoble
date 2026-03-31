@@ -80,6 +80,10 @@ export const useUnifiedFeedData = ({ activeTown, townName, isPlayground, user, i
         const uniqueItems = Array.from(new Map(allItems.map(item => [item.uuid || item.id, item])).values());
 
         return uniqueItems.sort((a, b) => {
+            // Pineado siempre sale delante
+            if (a.is_pinned && !b.is_pinned) return -1;
+            if (!a.is_pinned && b.is_pinned) return 1;
+
             const dateA = new Date(a.created_at || 0).getTime();
             const dateB = new Date(b.created_at || 0).getTime();
             return dateB - dateA; // Descending (newest first)

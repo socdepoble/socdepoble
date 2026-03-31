@@ -14,6 +14,9 @@ const UniversalCardMedia = ({
     // useTranslation not needed for fallback anymore
     const [hasImageError, setHasImageError] = useState(false);
 
+    // [ANTI-CLS SKELETON] State para fade in al cargar
+    const [isImageLoaded, setIsImageLoaded] = useState(false);
+
     const handleMediaClick = (e) => {
         e.stopPropagation();
         
@@ -35,33 +38,43 @@ const UniversalCardMedia = ({
         : "© SÓC DE POBLE / FET PER LA IAIA I NANO BANANA (FALLBACK)";
 
     return (
-        <div className="card-media-wrapper relative" onClick={handleMediaClick}>
+        <div className="relative w-full overflow-hidden cursor-pointer" onClick={handleMediaClick}>
+            
+            {/* SKELETON LAYER (Manejado por isImageLoaded) */}
+            <div className={`absolute inset-0 z-0 bg-theme-base animate-pulse transition-opacity duration-700 ease-in-out ${isImageLoaded ? 'opacity-0' : 'opacity-100'}`}>
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-theme-muted/10 to-transparent skew-x-12 animate-pulse" />
+            </div>
+
             {(item?.is_pinned || item?.metadata?.is_pinned) && (
-                <div className="absolute top-4 right-4 z-20 bg-black/40 backdrop-blur-md rounded-full p-2 text-[var(--theme-accent-primary)] shadow-xl border border-white/20 select-none pointer-events-none">
-                    <Zap size={16} fill="currentColor" className="zap-celestial" />
+                <div className="absolute top-4 right-4 z-20 bg-theme-panel/70 backdrop-blur-xl rounded-full p-2 text-[#F97316] shadow-xl border border-border-master select-none pointer-events-none">
+                    <Zap size={16} fill="currentColor" className="drop-shadow-[0_0_8px_rgba(249,115,22,0.5)]" />
                 </div>
             )}
             {mediaList && mediaList.length > 1 ? (
-                <div className="w-full h-full relative group bg-var(--bg-edge)">
+                <div className="w-full h-full relative group bg-transparent z-10 transition-opacity duration-700 ease-in-out will-change-opacity opacity-100 active:scale-[0.98]">
                     <ImageCarousel images={mediaList} onImageClick={(index) => openViewer(mediaList, index)} />
                     <div 
-                        className="image-overlay-credits absolute right-2 z-10 pointer-events-none drop-shadow-md pb-1" 
-                        style={{ fontSize: '11px', bottom: '4px', color: '#ffffff', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}
+                        className="absolute right-3 z-10 pointer-events-none drop-shadow-md pb-1 font-sans font-medium" 
+                        style={{ fontSize: '11px', bottom: '8px', color: '#ffffff', textShadow: '0 1px 4px rgba(0,0,0,0.9)' }}
                     >
                         {watermarkText}
                     </div>
                 </div>
             ) : (
-                <div className="w-full h-full relative group bg-var(--bg-edge)">
+                <div className="w-full h-full relative group bg-transparent z-10">
                     {(!displayImage || hasImageError) ? (
                         <Watermark variant="white" opacity={0.5} hideLogo={isWikipedia}>
                             <img 
                                 src="/assets/brain/generations/nano_relleu_notext_1774284617988.png"
                                 alt="Paisatge Solarpunk genèric"
-                                className="universal-card-media filter brightness-75 contrast-125 saturate-50"
+                                className={`w-full h-auto max-h-[500px] object-cover filter brightness-75 contrast-125 saturate-50 transition-all duration-700 ease-in-out will-change-transform ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`}
                                 loading="lazy"
+                                fetchPriority="low"
+                                decoding="async"
+                                onLoad={() => setIsImageLoaded(true)}
                             />
-                            <div className="image-overlay-credits" style={{ fontSize: '11px' }}>
+                            <div className={`absolute inset-0 z-20 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 pointer-events-none transition-opacity duration-700 ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`} />
+                            <div className="absolute bottom-3 right-3 font-sans font-medium" style={{ fontSize: '11px', color: '#ffffff', textShadow: '0 1px 4px rgba(0,0,0,0.9)' }}>
                                 {fallbackWatermarkText}
                             </div>
                         </Watermark>
@@ -70,16 +83,20 @@ const UniversalCardMedia = ({
                             <img 
                                 src={displayImage} 
                                 alt={displayTitle} 
-                                className="universal-card-media" 
+                                className={`w-full h-auto max-h-[500px] object-cover transition-all duration-700 ease-in-out will-change-transform active:scale-[0.98] ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`}
                                 loading="lazy" 
+                                fetchPriority="low"
+                                decoding="async"
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     openViewer({ src: displayImage, title: displayTitle, type: 'image' });
                                 }}
                                 style={{ cursor: 'zoom-in' }}
+                                onLoad={() => setIsImageLoaded(true)}
                                 onError={() => setHasImageError(true)}
                             />
-                            <div className="image-overlay-credits" style={{ fontSize: '11px' }}>
+                            <div className={`absolute inset-0 z-20 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 pointer-events-none transition-opacity duration-700 ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`} />
+                            <div className="absolute bottom-3 right-3 font-sans font-medium" style={{ fontSize: '11px', color: '#ffffff', textShadow: '0 1px 4px rgba(0,0,0,0.9)' }}>
                                 {watermarkText}
                             </div>
                         </Watermark>

@@ -110,6 +110,15 @@ async function sendEmail(auth, to, subject, htmlBody) {
 
 // --- MAIN FUNCTION ---
 functions.http('marketingBrain', async (req, res) => {
+    // CORS headers for pre-flight and normal requests
+    res.set('Access-Control-Allow-Origin', '*');
+    if (req.method === 'OPTIONS') {
+        res.set('Access-Control-Allow-Methods', 'GET, POST');
+        res.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+        res.status(204).send('');
+        return;
+    }
+
     try {
         initClients();
 
@@ -119,6 +128,34 @@ functions.http('marketingBrain', async (req, res) => {
         }
 
         const { campaignType } = req.body;
+
+        if (campaignType === 'omega_translate_ondemand') {
+            const { htmlContent, targetLang } = req.body;
+            if (!htmlContent || !targetLang) return res.status(400).send('Missing content or language');
+
+            const prompt = `
+            Actúa como un traductor profesional experto en localización.
+            El siguiente texto es HTML de un artículo para la red social rural "Sóc de Poble".
+            Por favor, TRADUCE TODO el texto del HTML al idioma con código ISO "${targetLang}".
+            
+            REGLAS ESTRICTAS:
+            1. Devuelve ÚNICAMENTE el HTML traducido, sin añadir comillas "markdown" ni comentarios.
+            2. Respeta absolutamente cada etiqueta HTML, estructura y clases (no las traduzcas).
+            3. Si el idioma target es Valencià o Català ('va' o 'ca'), usa un tono cercano y normativo.
+            
+            HTML a traducir:
+            ${htmlContent}
+            `;
+
+            const result = await model.generateContent(prompt);
+            const response = await result.response;
+            let translatedHtml = response.candidates[0].content.parts[0].text;
+            
+            // Clean up Markdown backticks if Gemini includes them
+            translatedHtml = translatedHtml.replace(/^```html\s*/i, '').replace(/\s*```$/i, '');
+
+            return res.status(200).json({ status: 'success', translatedHtml });
+        }
 
         if (campaignType === 'event_description') {
             const { draft } = req.body;

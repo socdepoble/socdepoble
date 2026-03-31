@@ -1,17 +1,12 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import { Search, NotebookPen, Settings, ShieldCheck, BookOpen, ArrowLeft } from "lucide-react";
 import { useTranslation } from 'react-i18next';
 import { useDesign } from '../context/DesignContext';
 import ProjectPresentation from '../pages/ProjectPresentation';
-import PageHeader from './PageHeader';
-import GlobalFooter from './GlobalFooter';
 
 const ChatEmptyState = () => {
   const { t } = useTranslation();
   const { architectMode } = useDesign();
-  const navigate = useNavigate();
-  const [isEditing, setIsEditing] = React.useState(false);
 
   if (architectMode) {
     return (
@@ -70,32 +65,20 @@ const ChatEmptyState = () => {
     );
   }
 
-  return (
+    return (
     <div className="flex-1 flex flex-col min-h-0 bg-theme-base relative overflow-hidden">
-        
-      {/* HEADER DEL XAT - El Projecte Frame */}
-      <PageHeader 
-        title={t('presentation.navTitle', 'El Projecte')} 
-        onBack={() => navigate(-1)} 
-        onEditClick={() => setIsEditing(!isEditing)}
-      />
+        {/* Grid de fons subtil (Protocol v9.1.0) */}
+        <div
+          className="absolute inset-0 opacity-[0.03] z-1 pointer-events-none"
+          style={{
+            backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)",
+            backgroundSize: "30px 30px",
+          }}
+        ></div>
 
-      <div className="flex-1 flex flex-col items-center justify-start relative overflow-y-auto custom-scrollbar bg-[var(--bg-master)] z-0 w-full h-full">
-          {/* Grid de fons subtil (Protocol v9.1.0) */}
-          <div
-            className="absolute inset-0 opacity-[0.03] z-1 min-h-[150vh]"
-            style={{
-              backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)",
-              backgroundSize: "30px 30px",
-            }}
-          ></div>
-
-          <div className="w-full relative z-10 flex flex-col justify-start items-center">
-               <ProjectPresentation standAlone={false} />
-          </div>
-
-          <GlobalFooter />
-      </div>
+        <div className="w-full h-full relative z-10 flex flex-col">
+             <ProjectPresentation />
+        </div>
     </div>
   );
 };

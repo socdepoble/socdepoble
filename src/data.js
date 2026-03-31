@@ -1461,7 +1461,7 @@ export const MOCK_EVENTS = [
     location: "Plaça Major",
     linkTo: "Grup de Danses",
     tags: ["Cultura", "Danses", "Tradició"],
-        image_url: ["/assets/brain/generations/nano_mixa_socis.png"],
+        image_url: ["/assets/brain/generations/nano_aplec_danses.png"],
     lat: 38.5985,
     lng: -0.3863,
     created_at: "2026-02-10T10:00:00.000Z",

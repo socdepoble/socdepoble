@@ -1,12 +1,10 @@
 import React, { forwardRef } from 'react';
 import { Search, LayoutGrid, List, Square, X } from 'lucide-react';
 import { useDesign } from '../context/DesignContext';
-import { toast } from '../utils/toast';
 import './ContextualHeader.css';
 
 const ContextualHeader = forwardRef(({ searchTerm, onSearchChange, viewMode, onViewModeChange, placeholder = "Cerca...", extraActions = null, backButton = null }, ref) => {
-    const { hapticService, theme } = useDesign();
-    const isDayMode = theme === 'light';
+    const { hapticService } = useDesign();
 
     const handleSearchClear = () => {
         onSearchChange('');
@@ -14,71 +12,80 @@ const ContextualHeader = forwardRef(({ searchTerm, onSearchChange, viewMode, onV
     };
 
     return (
-        <div className={`contextual-header-container transition-colors duration-500 ${isDayMode ? '!bg-[#F97316]' : '!bg-[var(--sdp-blue)]'}`}>
-            <div className="search-bar-wrapper h-14 flex items-center">
-                {backButton}
-                <Search size={22} className="search-icon" />
+        <div className="sticky top-0 z-[2000] bg-[#F97316] dark:bg-[#4F46E5] w-full h-[64px] min-h-[64px] max-h-[64px] flex items-center justify-between px-3 transition-colors duration-500 shadow-md">
+            
+            {/* BACK BUTTON */}
+            {backButton && (
+                <div className="shrink-0 mr-3 text-white/90 hover:text-white transition-colors flex items-center justify-center">
+                    {backButton}
+                </div>
+            )}
+
+            {/* SEARCH BAR (TECH-HUERTA V12 CANÒNICA) */}
+            <div className="flex items-center flex-1 h-[36px] bg-white rounded-[24px] overflow-hidden focus-within:ring-2 focus-within:ring-[#169CF9] transition-all group">
+                <div className="flex items-center justify-center pl-4 pr-2 h-full">
+                    <Search
+                        size={18}
+                        strokeWidth={3}
+                        className="text-gray-400 group-focus-within:text-[#F97316] dark:group-focus-within:text-[#4F46E5] transition-colors"
+                    />
+                </div>
                 <input
                     ref={ref}
                     type="text"
                     value={searchTerm}
                     onChange={(e) => onSearchChange(e.target.value)}
                     placeholder={placeholder.toUpperCase()}
-                    className="search-input text-lg font-black tracking-widest uppercase"
+                    className="font-sans flex-1 w-full h-full bg-transparent text-gray-900 pr-2 py-0 m-0 text-[14px] leading-none font-bold outline-none placeholder:text-gray-800 placeholder:font-bold"
                 />
-                {searchTerm && (
-                    <button onClick={handleSearchClear} className="clear-search-btn">
-                        <X size={16} />
-                    </button>
-                )}
+                
+                {/* EXTRA ACTIONS */}
                 {extraActions && (
-                    <div className="extra-actions-wrapper ml-2 flex gap-2">
+                    <div className="flex items-center pr-2 gap-2 shrink-0">
                         {extraActions}
                     </div>
                 )}
+
+                {/* CLEAR SEARCH BUTTON */}
+                {searchTerm && (
+                    <button 
+                        onClick={handleSearchClear} 
+                        className="w-10 h-full flex items-center justify-center text-gray-400 hover:text-[#F97316] transition-colors shrink-0"
+                    >
+                        <X size={18} strokeWidth={3} />
+                    </button>
+                )}
             </div>
 
-            <div className="flex items-center bg-black/10 dark:bg-black/30 p-1.5 rounded-2xl gap-1.5 ml-2 mr-1 sm:mr-4 backdrop-blur-md shadow-inner border border-black/5 dark:border-white/10 shrink-0">
+            {/* VIEW MODE SWITCH */}
+            {onViewModeChange && (
+            <div className="hidden sm:flex items-center bg-black/20 dark:bg-white/10 p-1 rounded-full gap-1 ml-3 shrink-0">
                 <button
                     onClick={() => { onViewModeChange('single'); hapticService?.trigger(); }}
-                    className={`flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-xl transition-all duration-300 ${viewMode === 'single' ? 'bg-white text-[var(--theme-accent-primary)] shadow-md scale-105' : 'text-white/90 hover:bg-black/10 hover:text-white'}`}
+                    className={`flex items-center justify-center w-8 h-8 rounded-full transition-all duration-300 ease-out active:scale-95 ${viewMode === 'single' ? 'bg-white text-[#F97316] shadow-md' : 'text-white/70 hover:bg-white/20 hover:text-white'}`}
                     title="Vista Completa (1 Columna)"
                 >
-                    <Square size={18} strokeWidth={viewMode === 'single' ? 2.5 : 2} />
+                    <Square size={16} strokeWidth={viewMode === 'single' ? 3 : 2} />
                 </button>
                 <button
                     onClick={() => { 
-                        if (window.innerWidth < 850) {
-                            hapticService?.trigger();
-                            toast.custom('L\'espai és massa estret (min. 850px) per no aixafar les targetes.', {
-                                icon: '📏',
-                                style: {
-                                    borderRadius: '16px',
-                                    background: '#111',
-                                    color: '#fff',
-                                    border: '1px solid #FF6D23',
-                                    fontWeight: '900',
-                                    fontSize: '14px'
-                                },
-                            });
-                            return;
-                        }
                         onViewModeChange('grid'); 
-                        hapticService?.trigger(); 
+                        if (hapticService) hapticService.trigger(); 
                     }}
-                    className={`flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-xl transition-all duration-300 ${viewMode === 'grid' ? 'bg-white text-[var(--theme-accent-primary)] shadow-md scale-105' : 'text-white/90 hover:bg-black/10 hover:text-white'}`}
+                    className={`flex items-center justify-center w-8 h-8 rounded-full transition-all duration-300 ease-out active:scale-95 ${viewMode === 'grid' ? 'bg-white text-[#F97316] shadow-md' : 'text-white/70 hover:bg-white/20 hover:text-white'}`}
                     title="Vista Quadrícula"
                 >
-                    <LayoutGrid size={18} strokeWidth={viewMode === 'grid' ? 2.5 : 2} />
+                    <LayoutGrid size={16} strokeWidth={viewMode === 'grid' ? 3 : 2} />
                 </button>
                 <button
                     onClick={() => { onViewModeChange('list'); hapticService?.trigger(); }}
-                    className={`flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-xl transition-all duration-300 ${viewMode === 'list' ? 'bg-white text-[var(--theme-accent-primary)] shadow-md scale-105' : 'text-white/90 hover:bg-black/10 hover:text-white'}`}
+                    className={`flex items-center justify-center w-8 h-8 rounded-full transition-all duration-300 ease-out active:scale-95 ${viewMode === 'list' ? 'bg-white text-[#F97316] shadow-md' : 'text-white/70 hover:bg-white/20 hover:text-white'}`}
                     title="Vista Llistat Compacte"
                 >
-                    <List size={18} strokeWidth={viewMode === 'list' ? 2.5 : 2} />
+                    <List size={16} strokeWidth={viewMode === 'list' ? 3 : 2} />
                 </button>
             </div>
+            )}
         </div>
     );
 });

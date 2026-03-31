@@ -1,12 +1,13 @@
 import React from 'react';
-import { useModal } from '../context/ModalContext';
+import { useModalState, useModalDispatch } from '../context/ModalContext';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { UserPlus, LogIn, X, Info, Globe } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 const GuestInteractionModal = () => {
-    const { isGuestInteractionModalOpen, setIsGuestInteractionModalOpen } = useModal();
+    const { isGuestInteractionModalOpen } = useModalState();
+    const { setIsGuestInteractionModalOpen } = useModalDispatch();
     const { setLanguage } = useAuth();
     const { i18n } = useTranslation();
     const navigate = useNavigate();

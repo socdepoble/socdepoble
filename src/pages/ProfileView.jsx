@@ -8,7 +8,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useDesign } from '../context/DesignContext';
-import { useModal } from '../context/ModalContext';
+import { useModalDispatch } from '../context/ModalContext';
 import { supabaseService, isValidUUID } from '../services/supabaseService';
 import SEO from '../components/SEO';
 import Feed from '../components/Feed';
@@ -38,7 +38,7 @@ const ProfileView = () => {
     const { id, username } = useParams();
     const navigate = useNavigate();
     const { user: currentUser, profile: myProfile } = useAuth();
-    const { openConnectionModal } = useModal();
+    const { openConnectionModal } = useModalDispatch();
 
     const [profile, setProfile] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -388,15 +388,11 @@ const ProfileView = () => {
     );
 
     return (
-        <div 
-            ref={scrollRef}
-            onScroll={handleScroll}
-            className={`min-h-[100dvh] w-full ${bgColor} flex flex-col items-center ${textColor} font-sans overflow-x-hidden overflow-y-auto transition-colors duration-500 custom-scrollbar relative pb-24`}
-        >
+        <div className="flex flex-col w-full h-[100dvh] overflow-hidden">
             <SEO title={profile?.full_name} description={profile?.bio} />
             
-            {/* Contextual Header Sticky */}
-            <div className="sticky top-0 w-full z-dropdown shadow-sm">
+            {/* Contextual Header Fixed Top */}
+            <div className="flex-none w-full z-dropdown shadow-sm bg-theme-base">
                 <ContextualHeader
                     searchTerm=""
                     onSearchChange={() => {}}
@@ -406,7 +402,11 @@ const ProfileView = () => {
                 />
             </div>
 
-            {/* 1. IMMERSIVE COVER IMAGE WITH FADE TO BASE */}
+            <div 
+                ref={scrollRef}
+                onScroll={handleScroll}
+                className={`flex-1 profile-scroll-container w-full ${bgColor} flex flex-col items-center ${textColor} font-sans overflow-x-hidden overflow-y-auto transition-colors duration-500 custom-scrollbar relative pb-24`}
+            >            {/* 1. IMMERSIVE COVER IMAGE WITH FADE TO BASE */}
             <div className="relative w-full h-[40vh] md:h-[50vh] min-h-[300px] overflow-hidden shrink-0">
                 <div 
                     className="absolute inset-0 bg-cover transition-all duration-1000 origin-bottom" 
@@ -945,6 +945,7 @@ const ProfileView = () => {
                     onProfileUpdate={(updates) => setProfile(prev => ({ ...prev, ...updates }))}
                 />
             )}
+        </div>
         </div>
     );
 };

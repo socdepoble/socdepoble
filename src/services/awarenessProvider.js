@@ -16,8 +16,13 @@ const provider = new WebrtcProvider('room-awareness', awarenessDoc, {
 
 export const awareness = provider.awareness;
 
-// Funció helper per fixar el typing indicator localment a la malla:
-export const setLocalTypingState = (currentUser, isTyping) => {
+import { chaosMonkey } from '../utils/chaosMonkey';
+
+export const setLocalTypingState = async (currentUser, isTyping) => {
+  if (await chaosMonkey.intercept()) {
+      return; // El paquete de Awareness se tira al vacío (Packet Loss)
+  }
+
   awareness.setLocalState({
     user: {
       id: currentUser.id,

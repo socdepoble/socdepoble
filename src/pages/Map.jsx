@@ -16,14 +16,25 @@ const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || '';
 
 const TownPin = ({ colorClass, label }) => (
     <div className="flex flex-row items-center animate-bounce-slow hover:scale-110 transition-transform cursor-pointer relative -top-[40px] -left-[20px] pointer-events-auto w-max">
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`${colorClass} drop-shadow-xl`}><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3" fill="#111827"/></svg>
-        <span className="bg-[#111827]/95 backdrop-blur-md text-white text-base lg:text-lg font-black tracking-wide px-3 py-1.5 rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.8)] ml-1 border border-white/20 whitespace-nowrap">{label}</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`${colorClass} drop-shadow-[0_4px_12px_rgba(249,115,22,0.4)]`}><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3" fill="currentColor"/></svg>
+        <span className="bg-theme-panel text-theme-text text-base lg:text-lg font-black tracking-wide px-4 py-2 rounded-[16px] shadow-[0_8px_32px_rgba(0,0,0,0.8)] ml-1 border-none whitespace-nowrap">{label}</span>
     </div>
 );
 
 const PostPin = ({ imageUrl }) => (
-    <div className="w-10 h-10 rounded-full border-[3px] border-white shadow-xl overflow-hidden bg-slate-800 hover:scale-125 transition-transform cursor-pointer relative z-40 flex items-center justify-center pointer-events-auto">
-        {imageUrl ? <img src={imageUrl} className="w-full h-full object-cover" /> : <div className="w-full h-full bg-[var(--theme-accent-primary)]"></div>}
+    <div className="w-12 h-12 rounded-[20px] border-none shadow-[0_8px_32px_rgba(0,0,0,0.6)] overflow-hidden bg-theme-panel hover:scale-125 transition-transform cursor-pointer relative z-40 flex items-center justify-center pointer-events-auto ring-1 ring-[#F97316]/30">
+        {imageUrl ? (
+            <img 
+                src={imageUrl} 
+                className="w-full h-full object-cover bg-theme-base text-[10px]" 
+                alt="Pin" 
+                onError={(e) => { e.target.onerror = null; e.target.src = '/assets/brain/generations/nano_llibre_memoria.png'; }}
+            />
+        ) : (
+            <div className="w-full h-full bg-[#F97316] flex items-center justify-center">
+                <MapPin className="text-white w-5 h-5" />
+            </div>
+        )}
     </div>
 );
 
@@ -50,17 +61,17 @@ const InteractiveControls = ({ isPlacingPost, setIsPlacingPost }) => {
     };
 
     return (
-        <div className="absolute bottom-6 right-6 flex flex-col gap-2 z-[999]">
+        <div className="absolute bottom-6 right-6 flex flex-col gap-3 z-[999]">
             <button 
                 onClick={(e) => { e.preventDefault(); e.stopPropagation(); setIsPlacingPost(!isPlacingPost); }}
-                className={`p-3 text-white border border-white/10 rounded-[28px] shadow-lg transition-colors ${isPlacingPost ? 'bg-orange-500' : 'bg-[#111827] hover:bg-slate-800'}`}
+                className={`flex items-center justify-center w-14 h-14 rounded-[24px] shadow-[0_10px_40px_rgba(0,0,0,0.6)] transition-transform active:scale-95 ${isPlacingPost ? 'bg-[#F97316] text-white' : 'bg-theme-panel text-theme-text/90 hover:brightness-110'}`}
                 title="Geolocalitzar un nou post"
             >
-                <Plus className="w-6 h-6" />
+                <Plus className="w-7 h-7" />
             </button>
             <button 
                 onClick={handleLocation}
-                className="p-3 bg-[#111827] text-white border border-white/10 rounded-[28px] shadow-lg hover:bg-slate-800 transition-colors"
+                className="flex items-center justify-center w-14 h-14 bg-theme-panel text-theme-text/90 rounded-[24px] shadow-[0_10px_40px_rgba(0,0,0,0.6)] hover:brightness-110 transition-transform active:scale-95"
                 title="Troba la meua ubicació"
             >
                 <Navigation className="w-6 h-6" />
@@ -98,8 +109,8 @@ const Map = () => {
     };
 
     return (
-        <div className="map-page-container flex flex-col items-center w-full">
-            <div className="sticky top-0 w-full z-dropdown shadow-md">
+        <div className="flex flex-col w-full min-h-full map-page-container">
+            <div className="flex-none w-full sticky top-0 z-[2000] shadow-md bg-theme-base">
                 <ContextualHeader
                     searchTerm={mapSearch}
                     onSearchChange={setMapSearch}
@@ -109,8 +120,9 @@ const Map = () => {
                 />
             </div>
 
-            <div className="map-content-area w-full max-w-[1600px] mx-auto p-4 md:p-8">
-                <div className={`relative w-full h-[50vh] min-h-[400px] max-h-[700px] rounded-[32px] overflow-hidden bg-blue-50 dark:bg-slate-900 border-2 border-slate-800 shadow-inner group`}>
+            <div className="flex-1 w-full bg-theme-base">
+                <div className="map-content-area w-full max-w-[1600px] mx-auto p-0 md:p-8">
+                <div className={`relative w-full h-[60vh] min-h-[500px] max-h-[850px] md:rounded-[40px] overflow-hidden bg-theme-panel border-none group shadow-2xl`}>
                     {blueprintMode && <BlueprintOverlay label="MAP_VIEW" info="Interactive Placeholder" color="green" />}
                     
                     {/* Native Google Maps Engine */}
@@ -140,10 +152,15 @@ const Map = () => {
                                     {/* Dynamic Post Markers */}
                                     {activeMarkers.map((post, index) => {
                                         const imgUrl = Array.isArray(post.image_url) ? post.image_url[0] : (post.image_url || post.image);
+                                        const lat = parseFloat(post.lat);
+                                        const lng = parseFloat(post.lng);
+                                        
+                                        if (isNaN(lat) || isNaN(lng)) return null;
+
                                         return (
                                             <AdvancedMarker 
                                                 key={`post-${post.id || post.uuid || index}`}
-                                                position={{ lat: post.lat, lng: post.lng }}
+                                                position={{ lat, lng }}
                                                 onClick={() => setSelectedPost(post)}
                                             >
                                                 <PostPin imageUrl={imgUrl} />
@@ -154,18 +171,18 @@ const Map = () => {
                                     {/* InfoWindow for selected post */}
                                     {selectedPost && selectedPost.lat && selectedPost.lng && (
                                         <InfoWindow
-                                            position={{ lat: selectedPost.lat, lng: selectedPost.lng }}
+                                            position={{ lat: parseFloat(selectedPost.lat), lng: parseFloat(selectedPost.lng) }}
                                             onCloseClick={() => setSelectedPost(null)}
                                         >
-                                            <div 
-                                                className="text-center min-w-[120px] p-2 cursor-pointer hover:bg-slate-100 rounded-lg transition-colors" 
-                                                onClick={() => navigate(selectedPost.type === 'mercat' ? `/mercat/${selectedPost.id || selectedPost.uuid}` : `/post/${selectedPost.id || selectedPost.uuid}`)}
-                                            >
-                                                <h4 className="text-sm font-bold block text-slate-800 line-clamp-2 leading-tight m-0">
-                                                    {selectedPost.title || selectedPost.content?.substring(0, 30) + '...'}
-                                                </h4>
-                                                <span className="text-[10px] text-gray-500 mt-1 block">Pel {selectedPost.author}</span>
-                                            </div>
+                                             <div 
+                                                 className="text-center min-w-[140px] p-3 cursor-pointer bg-theme-panel rounded-[20px] transition-transform active:scale-95 shadow-xl border border-border-master" 
+                                                 onClick={() => navigate(selectedPost.type === 'mercat' ? `/mercat/${selectedPost.id || selectedPost.uuid}` : `/post/${selectedPost.id || selectedPost.uuid}`)}
+                                             >
+                                                 <h4 className="text-base font-black block text-theme-text line-clamp-2 leading-tight m-0 tracking-wide">
+                                                     {selectedPost.title || selectedPost.content?.substring(0, 30) + '...'}
+                                                 </h4>
+                                                 <span className="text-[11px] text-[#F97316] mt-2 block font-bold uppercase tracking-wider">PEL {selectedPost.author}</span>
+                                             </div>
                                         </InfoWindow>
                                     )}
 
@@ -173,44 +190,56 @@ const Map = () => {
                                 </GoogleMap>
                             </APIProvider>
                         ) : (
-                            <div className="w-full h-full flex flex-col items-center justify-center bg-slate-900 border-2 border-dashed border-orange-500/50 p-6 text-center text-white/50">
-                                <MapIcon className="w-12 h-12 mb-4 opacity-50 text-orange-500" />
-                                <h3 className="text-xl font-bold text-white mb-2">Google Maps No Configurat</h3>
-                                <p className="max-w-md">Per favor, afig la teua <code className="bg-black/30 px-2 py-1 rounded text-orange-400">VITE_GOOGLE_MAPS_API_KEY</code> a l'arxiu .env.local per a activar el radar de territori natiu.</p>
+                            <div className="w-full h-full flex flex-col items-center justify-center bg-theme-panel p-8 text-center decoration-none relative overflow-hidden">
+                                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(249,115,22,0.05)_0%,transparent_70%)]"></div>
+                                <MapIcon className="w-16 h-16 mb-6 text-[#F97316] drop-shadow-[0_0_15px_rgba(249,115,22,0.5)] z-10" />
+                                <h3 className="text-3xl font-black text-theme-text mb-3 tracking-tight z-10">Radar Desconnectat</h3>
+                                <p className="max-w-md text-theme-text/60 text-sm leading-relaxed mb-8 z-10 font-medium">
+                                    Per activar l'experiència immersiva de la cartografia V12 de Sóc de Poble, es requereix una <strong className="text-theme-text">API Key de Google Maps</strong>.
+                                </p>
+                                <div className="bg-theme-base p-5 rounded-[24px] shadow-[0_10px_40px_rgba(0,0,0,0.8)] border border-border-master w-full max-w-sm z-10 group transition-all">
+                                    <p className="text-[11px] text-theme-text/50 font-mono text-left mb-2 uppercase font-bold tracking-widest">.env.local</p>
+                                    <code className="block w-full text-left text-[#F97316] bg-theme-panel p-3 rounded-[16px] text-sm overflow-x-auto whitespace-nowrap shadow-inner font-mono font-medium">
+                                        VITE_GOOGLE_MAPS_API_KEY=AIzA...
+                                    </code>
+                                </div>
                             </div>
                         )}
                     </div>
 
-                    {/* Placing Post Overlay Notification */}
                     {isPlacingPost && (
-                        <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-theme-panel text-theme-text font-bold px-4 py-2 rounded-full shadow-xl border border-orange-500/50 z-[1000] animate-pulse">
-                            Clica en qualsevol punt del mapa per afegir una publicació
+                        <div className="absolute top-6 left-1/2 transform -translate-x-1/2 bg-[#F97316] text-white font-black px-6 py-3 rounded-[20px] shadow-[0_10px_40px_rgba(249,115,22,0.4)] z-[1000] animate-pulse tracking-wide text-sm whitespace-nowrap border-none">
+                            Clica en qualsevol punt del mapa per afegir
                         </div>
                     )}
 
                     {/* Filters */}
-                    <div className="absolute top-6 left-6 flex gap-2 overflow-x-auto max-w-full pr-6 no-scrollbar z-[1000]">
-                        <button className="px-4 py-2 bg-theme-panel/80 backdrop-blur-sm rounded-full text-xs font-bold shadow-sm hover:bg-white/10 text-theme-text border border-white/10 transition-colors"><Store className="w-3 h-3 inline mr-1" /> Comerç</button>
-                        <button className="px-4 py-2 bg-theme-panel/80 backdrop-blur-sm rounded-full text-xs font-bold shadow-sm hover:bg-white/10 text-theme-text border border-white/10 transition-colors"><Landmark className="w-3 h-3 inline mr-1" /> Patrimoni</button>
-                        <button className="px-4 py-2 bg-theme-panel/80 backdrop-blur-sm rounded-full text-xs font-bold shadow-sm hover:bg-white/10 text-theme-text border border-white/10 transition-colors"><Ticket className="w-3 h-3 inline mr-1" /> Events</button>
+                    <div className="absolute top-6 left-6 flex gap-2 overflow-x-auto max-w-full pr-6 no-scrollbar z-[1000] p-1">
+                        <button className="flex items-center h-10 px-5 bg-white dark:bg-[#1C1C1E] rounded-full text-[14px] font-black tracking-wide text-gray-900 dark:text-gray-100 shadow-[0_4px_12px_rgba(0,0,0,0.1)] dark:shadow-[0_4px_12px_rgba(0,0,0,0.7)] border border-gray-200 dark:border-[#2C2C2E] hover:scale-105 active:scale-95 transition-all whitespace-nowrap"><Store className="w-[18px] h-[18px] mr-2 text-[#F97316]" /> Comerç</button>
+                        <button className="flex items-center h-10 px-5 bg-white dark:bg-[#1C1C1E] rounded-full text-[14px] font-black tracking-wide text-gray-900 dark:text-gray-100 shadow-[0_4px_12px_rgba(0,0,0,0.1)] dark:shadow-[0_4px_12px_rgba(0,0,0,0.7)] border border-gray-200 dark:border-[#2C2C2E] hover:scale-105 active:scale-95 transition-all whitespace-nowrap"><Landmark className="w-[18px] h-[18px] mr-2 text-[#F97316]" /> Patrimoni</button>
+                        <button className="flex items-center h-10 px-5 bg-white dark:bg-[#1C1C1E] rounded-full text-[14px] font-black tracking-wide text-gray-900 dark:text-gray-100 shadow-[0_4px_12px_rgba(0,0,0,0.1)] dark:shadow-[0_4px_12px_rgba(0,0,0,0.7)] border border-gray-200 dark:border-[#2C2C2E] hover:scale-105 active:scale-95 transition-all whitespace-nowrap"><Ticket className="w-[18px] h-[18px] mr-2 text-[#F97316]" /> Events</button>
                     </div>
                 </div>
             </div>
 
             {/* Mur Unificat Inferior */}
-            <div className="unified-feed-container w-full max-w-[1600px] mx-auto">
-                <div className="px-4 md:px-8 py-2 flex items-center justify-between opacity-80 mb-2">
-                    <h2 className="text-xl font-bold flex items-center gap-2 text-theme-text">
-                        <Activity size={20} className="text-orange-500" />
+            <div className="unified-feed-container w-full max-w-[1600px] mx-auto mt-6 px-4 md:px-8 bg-transparent">
+                <div className="py-4 flex items-center justify-between mb-2">
+                    <h2 className="text-2xl font-black flex items-center gap-3 text-theme-text tracking-tight">
+                        <Activity size={24} className="text-[#F97316]" />
                         Pols del Territori
                     </h2>
-                    <span className="text-xs text-theme-text opacity-50">{unifiedPosts.length} registres</span>
+                    <span className="px-4 py-1.5 bg-theme-panel rounded-[12px] text-xs font-black text-theme-muted tracking-wider uppercase border border-border-master shadow-sm">
+                        {unifiedPosts.length} registres
+                    </span>
                 </div>
             
                 {loading ? (
-                    <div className="flex justify-center p-8"><span className="animate-pulse text-theme-text">Sincronitzant radar territorial...</span></div>
+                    <div className="flex justify-center p-12">
+                        <span className="animate-pulse text-[#F97316] font-bold tracking-widest text-sm uppercase">Sincronitzant Radar...</span>
+                    </div>
                 ) : (
-                    <div className="bg-transparent">
+                    <div className="bg-transparent pb-24">
                         <Feed 
                             hideHeader={true} 
                             customPosts={unifiedPosts} 
@@ -218,6 +247,7 @@ const Map = () => {
                         />
                     </div>
                 )}
+            </div>
             </div>
         </div>
     );

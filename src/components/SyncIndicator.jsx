@@ -1,7 +1,10 @@
 import React from 'react';
+import { useWorkerOrchestrator } from '../hooks/useWorkerOrchestrator';
 
 // Estats possibles: 'online' (invisible/verd), 'offline' (groc), 'syncing' (blau animat), 'error' (vermell)
-export const SyncIndicator = ({ status, pendingCount = 0 }) => {
+export const SyncIndicator = () => {
+  const { syncState: status, pendingCount = 0 } = useWorkerOrchestrator();
+
   // Silenci absolut si tot va bé i no hi ha feina pendent
   if (status === 'online' && pendingCount === 0) return null;
 

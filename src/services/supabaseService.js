@@ -4,6 +4,7 @@ import { DEMO_USER_ID, ROLES, USER_ROLES, ENABLE_MOCKS, CREATOR_EMAILS } from '.
 import { PostSchema, MarketItemSchema, MessageSchema, ProfileSchema, ConversationSchema } from './schemas';
 import { MOCK_LORE_POSTS, MOCK_LORE_ITEMS } from '../data/mockLoreData';
 import { pushNotifications } from './pushNotifications';
+import { isRealDBUUID } from '../utils/identityUtils';
 
 /**
  * Helper for time-aware greetings
@@ -34,46 +35,27 @@ const sanitizeInput = (text) => {
 
 /**
  * Normalizes Wikimedia URLs to standardized thumbnails (500px).
- * Handles raw SVGs and existing thumbs correctly.
+ * Purged aggressive thumb.php guessing to prevent 404 network spam.
  */
 const normalizeWikipediaUrl = (url) => {
-    if (!url) return url;
+    if (!url) return null;
 
     let normalized = decodeURIComponent(String(url).trim());
 
-    // 1. Handle protocol-relative URLs
+    // Strict validation: must be a full URL
+    if (!normalized.startsWith('http') && !normalized.startsWith('//')) {
+        return null; // Return null so components naturally fallback to CSS initials
+    }
+
+    // Protocol-relative handling
     if (normalized.startsWith('//')) {
         normalized = 'https:' + normalized;
     }
 
-    // 2. [MASTER RECOVERY] If it's just a filename or a File: reference
-    // Pattern: "File:Escut_de_la_Torre.svg" or "Escut_de_la_Torre.svg"
-    const isFilenameOnly = !normalized.includes('http') && (
-        normalized.includes('File:') || 
-        normalized.endsWith('.svg') || 
-        normalized.endsWith('.png') || 
-        normalized.endsWith('.jpg') ||
-        normalized.includes('Escut') || 
-        normalized.includes('Shield')
-    );
-
-    if (isFilenameOnly) {
-        const filename = normalized.replace('File:', '').trim().replace(/ /g, '_');
-        return `https://commons.wikimedia.org/w/thumb.php?f=${encodeURIComponent(filename)}&w=500`;
-    }
-
-    // 3. If it's already a full Wikimedia URL, ensure it's a 500px thumbnail
+    // Standardize Wikimedia existing thumbs to 500px if possible
     if (normalized.includes('wikimedia.org') || normalized.includes('wikipedia.org')) {
-        // If it's already a direct thumb path, we can keep it but force 500px
         if (normalized.includes('/thumb/')) {
             return normalized.replace(/\/\d+px-/g, '/500px-');
-        }
-        
-        // If it's a link to a file page or raw file, convert to thumb.php
-        const filenameMatch = normalized.match(/File:(.+)$/) || normalized.match(/\/([^/]+)$/);
-        if (filenameMatch) {
-            const filename = filenameMatch[1].split('?')[0];
-            return `https://commons.wikimedia.org/w/thumb.php?f=${encodeURIComponent(filename)}&w=500`;
         }
     }
 
@@ -375,10 +357,7 @@ export const isValidUUID = (id) => {
     return isStandardUUID || isSovereignID;
 };
 
-// Guardià per a crides que NÉCESSITEN un UUID de base de dades real (Supabase)
-const isRealDBUUID = (id) => {
-    return typeof id === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
-};
+
 
 // Promesas activas para evitar ráfagas de errores 400 en paralelo
 const activeChecks = {
@@ -1486,6 +1465,7 @@ export const supabaseService = {
         if (!conversationId) return null;
         
         if (!this._activeChannels) this._activeChannels = new Map();
+        if (!this._zombieChannels) this._zombieChannels = new Map();
         const MAX_ACTIVE_CHANNELS = 50; // Supabase Free tier permet màx 100 de forma segura
         
         // LRU Eviction: Tancar canal si estem al límit
@@ -1498,6 +1478,19 @@ export const supabaseService = {
         }
         
         const channelKey = `chat:${conversationId}`;
+        
+        // [MASTER FIX] Purge Ghost Timeouts & Zombie Channels
+        if (this._zombieChannels.has(channelKey)) {
+            const zombie = this._zombieChannels.get(channelKey);
+            clearTimeout(zombie.timeoutId);
+            try {
+                supabase.removeChannel(zombie.channel).catch(() => {});
+            } catch (e) {
+                logger.debug('[SupabaseService] Silent zombie remove error', e);
+            }
+            this._zombieChannels.delete(channelKey);
+            logger.info(`[SupabaseService] Ghost timeout i canal zombie purgats per ${channelKey} abans de reconnectar.`);
+        }
         
         if (this._activeChannels.has(channelKey)) {
             supabase.removeChannel(this._activeChannels.get(channelKey));
@@ -1520,22 +1513,34 @@ export const supabaseService = {
 
     unsubscribe(channel) {
         if (channel) {
+            const channelKey = channel.topic || channel.name || 'unknown-channel';
+            
+            if (!this._zombieChannels) this._zombieChannels = new Map();
+
+            // Evitar duplicitat de timeouts si s'invoca repetidament sobre el mateix canal
+            if (this._zombieChannels.has(channelKey)) {
+                clearTimeout(this._zombieChannels.get(channelKey).timeoutId);
+            }
+
             // [MASTER FIX] Prevenir 'WebSocket closed before the connection is established'
             // Retardem l'ordre de desconnexió per donar oxigen al handshake de Connexió
-            setTimeout(() => {
+            const timeoutId = setTimeout(() => {
                 try {
                     supabase.removeChannel(channel).catch(() => {});
                 } catch (e) {
                     logger.debug('[SupabaseService] Silent remove error', e);
                 }
+                this._zombieChannels.delete(channelKey);
             }, 800);
+
+            this._zombieChannels.set(channelKey, { channel, timeoutId });
 
             if (this._activeChannels) {
                 this._activeChannels.forEach((val, key) => {
                     if (val === channel) this._activeChannels.delete(key);
                 });
             }
-            logger.info('[SupabaseService] Canal realtime desconnectat netament sense bloquejos orfes.');
+            logger.info(`[SupabaseService] Canal realtime ${channelKey} desconnectat netament sense bloquejos orfes.`);
         }
     },
 

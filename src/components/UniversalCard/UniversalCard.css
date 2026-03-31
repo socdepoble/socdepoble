@@ -1,232 +1,20 @@
-/* UNIVERSAL CARD NEXUS v10.25.0-BATEGAT-GOLDEN: PURIFICACIÓ NUCLEAR EXTREMA */
+/* UNIVERSAL CARD NEXUS v12 - TECH HUERTA M3 PURE */
 
-@media (hover: none) and (pointer: coarse) {
-  .universal-card-virtual.glass,
-  .universal-card-virtual {
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    will-change: transform;
-  }
-}
-.universal-card.view-mode-list {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 18px;
-  overflow: hidden;
-  transition: all 0.3s ease;
-  margin-bottom: 8px;
-  height: auto;
-  box-shadow: none;
-  min-height: 80px;
-}
-
-.universal-card.view-mode-list:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: var(--theme-accent-primary);
-}
-
-.card-list-layout {
-  display: flex;
-  align-items: center;
-  padding: 0 10px;
-  gap: 10px;
-  min-height: 80px;
-}
-
-.card-list-thumbnail {
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-
-.universal-card.view-mode-list:hover .card-list-thumbnail {
-  transform: scale(1.05);
-  border-color: var(--theme-accent-primary);
-}
-
-@media (max-width: 400px) {
-  .card-list-layout {
-    gap: 8px;
-    padding: 0 8px;
-  }
-  .card-list-thumbnail {
-    width: 40px;
-    height: 40px;
-  }
-}
-
-.universal-card {
-  background: var(--color-bg-canonic);
-  border: 1px solid var(--border-master);
-  border-radius: 28px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
-  position: relative;
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-}
-
-.universal-card:hover {
-  transform: translateY(-6px) scale(1.01);
-  box-shadow: var(--shadow-deep), var(--shadow-glow-violet);
-  border-color: var(--theme-accent-primary);
-}
-
-/* Light Mode Specific Overrides (Protocol Llum de Dia) */
-.theme-light .universal-card {
-  background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  color: var(--theme-text);
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-}
-
-.theme-light .universal-card:hover {
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-  border-color: var(--theme-accent-primary);
-  transform: translateY(-4px);
-}
-
-.theme-light .universal-card .genesis-title {
-  color: #1e293b;
-  /* Slate-800 */
-}
-
-.theme-light .universal-card .card-excerpt {
-  color: #1e293b;
-  /* Slate-800 - Contrast Audit Fixed */
-}
-
-.theme-light .universal-card .card-header-boina,
-.theme-light .universal-card .card-header-boina .master-author-name,
-.theme-light .universal-card .card-header-boina .location-text,
-.theme-light .universal-card .card-header-boina .zap-celestial {
-  color: #000000;
-}
-
+/* TALLA I ESTRUCTURA BÀSICA */
 .card-header-boina {
-  background: var(--theme-accent-primary);
-  color: var(--on-theme-accent-primary);
-  padding: 0 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 64px;
-  border-radius: 0;
+  padding: 12px 16px;
+  min-height: 64px;
   position: relative;
   z-index: 10;
-  backdrop-filter: blur(20px);
-  overflow: hidden; /* Added to clip any ghosting content */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: transparent;
 }
 
-/* [PRO] Auditoria de Reixa: Boina compacta però suficient per a evitar "trepitjats" */
-.universal-card.view-mode-grid .card-header-boina {
-  padding: 0 12px;
-  height: 64px; /* Fixat a 64px exactes segons directrius d'armonia */
-}
-
-.universal-card.view-mode-grid .master-author-name {
-  font-size: 16px; /* Increased from 13px */
-  letter-spacing: normal;
-  -webkit-font-smoothing: antialiased;
-}
-
-.variant-official .card-header-boina,
-.card-header-boina.variant-official {
-  background: var(--theme-accent-primary);
-  color: var(--on-theme-accent-primary);
-}
-
-.universal-card.category-sostenible:hover {
-  border-color: #10b981;
-  box-shadow: var(--shadow-deep), 0 0 20px rgba(16, 185, 129, 0.3);
-}
-
-.universal-card.category-danger:hover {
-  border-color: #ef4444;
-  box-shadow: var(--shadow-deep), 0 0 20px rgba(239, 68, 68, 0.3);
-}
-
-.card-header-boina .master-author-name {
-  color: var(--on-theme-accent-primary);
-  font-weight: 950;
-  font-size: 16px; /* Standard Text increased */
-  letter-spacing: normal; /* Fixed ghosting spacing */
-  -webkit-font-smoothing: antialiased;
-}
-
-.card-header-boina .location-text {
-  color: var(--on-theme-accent-primary);
-  font-weight: 800;
-  font-size: 14px; /* Increased */
-  opacity: 1; /* Removed transparency ghosting */
-  -webkit-font-smoothing: antialiased;
-}
-
-/* TAGS & BADGES v11.1.0 */
-.card-tags-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 4px;
-}
-
-.genesis-tag-pill {
-  font-size: 12px;
-  font-weight: 900;
-  padding: 4px 10px;
-  border-radius: 8px;
-  letter-spacing: 0.5px;
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--text-muted);
-  border: 1px solid var(--border-subtle);
-}
-
-.genesis-tag-pill.badge-km0 {
-  background: #ecfdf5;
-  color: #059669;
-  border-color: #a7f3d0;
-}
-.genesis-tag-pill.badge-sostenible {
-  background: #f0fdf4;
-  color: #16a34a;
-  border-color: #bbf7d0;
-}
-.genesis-tag-pill.badge-artesania {
-  background: #fff7ed;
-  color: #ea580c;
-  border-color: #ffedd5;
-}
-.genesis-tag-pill.badge-oferta {
-  background: #fef2f2;
-  color: #dc2626;
-  border-color: #fee2e2;
-}
-.genesis-tag-pill.badge-oficial {
-  background: #eff6ff;
-  color: #2563eb;
-  border-color: #dbeafe;
-}
-
-.theme-dark .badge-km0 {
-  background: rgba(5, 150, 105, 0.1);
-  border-color: rgba(5, 150, 105, 0.2);
-}
-.theme-dark .badge-sostenible {
-  background: rgba(22, 163, 74, 0.1);
-  border-color: rgba(22, 163, 74, 0.2);
-}
-.theme-dark .badge-artesania {
-  background: rgba(234, 88, 12, 0.1);
-  border-color: rgba(234, 88, 12, 0.2);
-}
-.theme-dark .badge-oferta {
-  background: rgba(220, 38, 38, 0.1);
-  border-color: rgba(220, 38, 38, 0.2);
+.theme-light .card-header-boina {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .header-left {
@@ -237,16 +25,15 @@
   min-width: 0;
 }
 
-.universal-card.view-mode-grid .header-left {
-  gap: 8px; /* [PRO] Reducció de gap per a mode reixa */
+.genesis-avatar {
+  flex-shrink: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.genesis-avatar {
-  border: 1px solid var(--border-master);
-  flex-shrink: 0;
-  border-radius: 50%; /* FORÇAT: RITU D'IDENTITAT v10.33 */
-  background: var(--bg-edge);
-  overflow: hidden;
+.theme-light .genesis-avatar {
+  border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .header-text {
@@ -256,30 +43,22 @@
 }
 
 .master-author-name {
-  color: var(--text-main);
+  font-family: var(--font-primary), monospace;
   font-size: 16px;
   font-weight: 950;
   margin: 0;
-  letter-spacing: 0.2px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  line-height: 1.1;
   display: flex;
   align-items: center;
   gap: 6px;
 }
 
-.official-blue-shield {
-  color: var(--accent-cyan);
-  filter: drop-shadow(0 0 4px var(--accent-cyan));
-}
-
 .location-text {
-  color: #ffffff;
-  font-size: 12px;
-  font-weight: 950;
-  letter-spacing: normal;
+  font-family: var(--font-primary), monospace;
+  font-size: 14px;
+  font-weight: 800;
   opacity: 0.9;
 }
 
@@ -287,140 +66,43 @@
   text-align: right;
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  transition: all 0.3s ease;
   flex-shrink: 0;
-}
-
-.header-right-meta.agenda-highlight {
-  background: #000;
-  padding: 4px 10px;
-  border-radius: 8px;
-  border: 1px solid var(--theme-accent-primary);
-  box-shadow: 0 0 10px rgba(255, 109, 35, 0.2);
-}
-
-.header-right-meta.agenda-highlight .header-date {
-  color: var(--theme-accent-primary);
-  font-size: 12px;
-  font-weight: 950;
-}
-
-.header-meta-details {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  text-align: right;
-  gap: 0px;
 }
 
 .header-date {
   font-size: 12px;
   font-weight: 700;
-  color: rgba(255, 255, 255, 0.6);
-  letter-spacing: 0.5px;
-  line-height: 1;
+  opacity: 0.7;
 }
 
 .header-time {
   font-size: 12px;
   font-weight: 950;
-  color: #ffffff;
-  letter-spacing: 1px;
-  line-height: 1.2;
 }
 
-.btn-master-rectify {
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--color-bg-canonic);
-  border: 2px solid var(--theme-accent-primary);
-  border-radius: 28px;
-  font-size: 18px;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  padding: 0;
-  margin-left: 8px;
-  box-shadow: 0 4px 15px rgba(255, 109, 35, 0.2);
+/* MEDIA CONTENT */
+.card-media-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1/1;
+  overflow: hidden;
+  display: block;
+  background: #000;
 }
 
-.btn-master-rectify:hover {
-  transform: scale(1.15) rotate(12deg);
-  background: var(--theme-accent-primary);
-  box-shadow: 0 0 25px var(--theme-accent-primary);
+.theme-light .card-media-wrapper {
+  background: #f0f0f0;
 }
 
-/* Dynamic Media Protocol */
 .universal-card-media {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-  border-radius: 0;
+  transition: transform 0.5s ease;
 }
 
-.card-media-wrapper {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 1/1; /* CRITICAL FIX: Forces strict 1:1 Square visual identity */
-  background: var(--bg-edge);
-  overflow: hidden;
-  padding: 0;
-  border-radius: 0;
-  display: block;
-}
-@supports not (aspect-ratio: 1/1) {
-  .card-media-wrapper::before {
-    content: "";
-    display: block;
-    width: 100%;
-    padding-bottom: 100%;
-  }
-  .card-media-wrapper > * {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
-}
-
-/* ESTÀNDARD VISUAL SÓC DE POBLE: 824px GOLDEN HEIGHT */
-.universal-card.view-mode-grid {
-  min-height: 864px;
-  height: auto;
-  max-width: 480px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-}
-
-.universal-card.view-mode-single {
-  height: auto;
-}
-
-/* ANTI-MIMETISME: Blindatge Absolut de la Caputxa d'Avatar en Single Mode */
-.universal-card.view-mode-single .card-header-boina,
-.universal-card.view-mode-single .card-header-boina.variant-official {
-  background: var(--theme-accent-primary);
-  color: #fff;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-}
-
-.universal-card.view-mode-single .card-header-boina .master-author-name,
-.universal-card.view-mode-single .card-header-boina .location-text,
-.universal-card.view-mode-single .card-header-boina .zap-celestial {
-  color: #fff;
-}
-
-.theme-light .universal-card.view-mode-single .card-header-boina .master-author-name,
-.theme-light .universal-card.view-mode-single .card-header-boina .location-text,
-.theme-light .universal-card.view-mode-single .card-header-boina .zap-celestial {
-  color: #000000;
+.card-media-wrapper:hover .universal-card-media {
+  transform: scale(1.02);
 }
 
 .image-overlay-credits {
@@ -433,43 +115,73 @@
   font-size: 12px;
   color: #ffffff;
   font-weight: 950;
-  text-transform: uppercase;
-  letter-spacing: 1px;
   text-align: right;
+  text-transform: uppercase;
 }
 
-/* AI TOOLS INLINE */
-.card-excerpt-wrapper {
+/* BODY */
+.card-body {
+  padding: 16px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
   position: relative;
-  display: block;
 }
 
-/* SMART CLAMP SYSTEM FOR 864PX FIXED CARDS */
-/* Math accounts for exactly 864px height, full width 1:1 image, and 20px pad */
-.smart-clamp-tags {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  -webkit-line-clamp: 4;
-  line-clamp: 4;
+.genesis-title {
+  font-family: var(--font-display), sans-serif;
+  font-size: 20px;
+  font-weight: 950;
+  margin: 0;
+  line-height: 1.2;
+  word-break: break-word;
 }
-@media (min-width: 414px) { .smart-clamp-tags { -webkit-line-clamp: 3; line-clamp: 3; } }
-@media (min-width: 442px) { .smart-clamp-tags { -webkit-line-clamp: 2; line-clamp: 2; } }
-@media (min-width: 470px) { .smart-clamp-tags { -webkit-line-clamp: 1; line-clamp: 1; } }
-@media (min-width: 498px) { .smart-clamp-tags { display: none; } }
 
-.smart-clamp-notags {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  -webkit-line-clamp: 5;
-  line-clamp: 5;
+.card-excerpt {
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 0;
+  opacity: 0.85;
 }
-@media (min-width: 426px) { .smart-clamp-notags { -webkit-line-clamp: 4; line-clamp: 4; } }
-@media (min-width: 454px) { .smart-clamp-notags { -webkit-line-clamp: 3; line-clamp: 3; } }
-@media (min-width: 482px) { .smart-clamp-notags { -webkit-line-clamp: 2; line-clamp: 2; } }
-@media (min-width: 510px) { .smart-clamp-notags { -webkit-line-clamp: 1; line-clamp: 1; } }
-@media (min-width: 538px) { .smart-clamp-notags { display: none; } }
+
+.card-price-bottom {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  z-index: 20;
+}
+
+.card-price {
+  background: #F97316;
+  color: #000;
+  padding: 8px 18px;
+  border-radius: 99px;
+  font-size: 16px;
+  font-weight: 950;
+  display: inline-flex;
+}
+
+/* BADGES & TAGS */
+.card-tags-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.genesis-tag-pill {
+  font-size: 12px;
+  font-weight: 900;
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.theme-light .genesis-tag-pill {
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
 
 .card-ai-tools-inline {
   display: flex;
@@ -480,283 +192,157 @@
 
 .btn-ai-poeta,
 .btn-ai-taxador {
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  border: 1px solid var(--border-subtle);
-  background: var(--surface-glass);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  font-size: 16px;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.btn-ai-poeta:hover,
-.btn-ai-taxador:hover {
-  transform: scale(1.2) rotate(8deg);
-  background: var(--theme-accent-primary);
-  border-color: #000;
+.theme-light .btn-ai-poeta,
+.theme-light .btn-ai-taxador {
+  border-color: rgba(0, 0, 0, 0.2);
 }
 
-/* BODY */
-.card-body {
-  padding: 0;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 16px; /* Increased gap */
-  position: relative;
-  overflow: hidden; /* CRITICAL: Prevent long text from pushing footer out of fixed height cards */
+/* SMART CLAMP (Trims long text to fit design without fixed height) */
+.smart-clamp-tags {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
 }
 
-.genesis-title {
-  color: var(--text-main);
-  font-family: var(--font-display);
-  font-size: 20px; /* Standard Title */
-  font-weight: 950;
-  margin: 0;
-  line-height: 1.1;
-  letter-spacing: -1px;
-  word-break: break-word;
-  /* Robustesa Prova d'Estrès / Alemany */
-  overflow-wrap: break-word;
+.smart-clamp-notags {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
 }
 
-.card-price {
-  background: var(--theme-accent-primary);
-  color: #ffffff;
-  padding: 8px 18px;
-  border-radius: 100px;
-  font-size: 18px;
-  font-weight: 900;
-  letter-spacing: -0.02em;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.card-price-bottom {
-  position: absolute;
-  bottom: 16px;
-  right: 16px;
-  z-index: 20;
-}
-
-.card-price-forense {
-  font-family: var(--font-display);
-  color: var(--theme-accent-primary);
-  font-size: 24px;
-  font-weight: 950;
-  letter-spacing: -1px;
-}
-
-.card-excerpt {
-  color: var(--text-secondary);
-  font-size: 16px;
-  line-height: 1.7; /* Better legibility */
-  margin: 0;
-  font-weight: 500;
-  padding: 8px 0; /* Breathing room */
-}
-
-.read-more-btn {
-  background: none;
-  border: none;
-  color: var(--accent-violet);
-  font-size: 12px;
-  font-weight: 950;
-  text-transform: uppercase;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 0;
-  cursor: pointer;
-  letter-spacing: 1px;
-}
-
-/* FOOTER MASTER CMS v3.1 (EL PENTATLÓ) */
+/* FOOTER MASTER */
 .card-footer-master {
-  border-top: none;
-  background: var(--theme-accent-secondary);
-  height: 64px; /* Fixat a 64px exactes segons directrius d'armonia */
-  min-height: 64px;
   display: flex;
   flex-direction: column;
-  flex-wrap: nowrap; /* Alzina: Blindat contra apilament horizontal */
-  justify-content: center;
-}
-
-/* 1. CARDINAL MUR */
-.footer-actions-mur {
-  display: flex;
-  align-items: center;
+  padding: 16px;
   gap: 12px;
-  padding: 0 24px;
-  height: 100%;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: transparent;
 }
 
-/* 2. CARDINAL MERCAT */
-.footer-mercat-master {
-  display: flex;
-  flex-direction: column;
-  padding: 12px 24px;
-  gap: 12px;
+.theme-light .card-footer-master {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.mercat-actions-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-}
-
-.btn-mercat-buy {
-  width: 100%;
-  height: 48px;
-  background: var(--color-bg-canonic);
-  color: var(--theme-accent-secondary);
-  border: 1px solid var(--theme-accent-secondary);
-  border-radius: var(--sdp-radius-tactile);
-  font-weight: 950;
-  text-transform: uppercase;
-  font-size: 14px;
-  letter-spacing: 1px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.btn-mercat-buy:hover {
-  background: var(--theme-accent-secondary);
-  color: var(--color-bg-canonic);
-  box-shadow: 0 0 20px var(--theme-accent-secondary);
-}
-
-/* 3. CARDINAL AGENDA */
-.footer-event-master {
-  padding: 12px 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-/* 4. CARDINAL POBLES */
-.footer-pobles-master {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 24px;
-}
-
-/* 5. CARDINAL AJUNTAMENT */
-.footer-ajuntament-master {
-  padding: 12px 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-/* 6. CARDINAL RUTES / MAPA */
-.footer-mapa-master {
-  padding: 12px 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-/* BUTTONS & TARGETS */
-.master-action-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--border-subtle);
-  color: var(--text-secondary);
-  font-size: 16px; /* Standard Text */
-  font-weight: 900;
-  cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  height: 40px; /* STANDARD TARGET ALIGNMENT */
-  padding: 0 16px;
-  border-radius: var(--radius-m);
-}
-
-.master-action-btn.connect-btn {
-  flex-grow: 1; /* Thumb Optimization */
-  background: var(--color-bg-canonic);
-  border-color: var(--theme-accent-secondary);
-  color: var(--theme-accent-secondary);
-  font-weight: 950;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.master-action-btn.connect-btn:hover {
-  background: var(--theme-accent-secondary);
-  color: var(--color-bg-canonic);
-  box-shadow: 0 0 20px var(--theme-accent-secondary);
-}
-
-/* Connect Btn Variant for Official/Sostenible */
-/* Removed official hover overrides to keep orange priority */
-/* Removed sostenible overrides */
-
-/* Blindatge Alzina v5.2 */
 .footer-actions-mur,
 .footer-mercat-master,
 .footer-event-master,
 .footer-pobles-master,
-.footer-ajuntament-master,
 .footer-mapa-master,
-.event-actions-row,
 .mercat-actions-row {
-  flex-wrap: nowrap;
-}
-
-.footer-touch-group,
-.card-ai-tools-inline,
-.header-right-meta {
-  flex-shrink: 0;
-}
-
-.master-action-btn.connect-btn {
-  flex: 1;
-  min-width: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
 }
 
 .footer-touch-group {
   display: flex;
   align-items: center;
-  gap: 8px; /* Anti-ghost-click gap */
-  flex-wrap: nowrap; /* Alzina: Prohibit apilar-se */
+  gap: 8px;
+  flex-shrink: 0;
 }
 
 .btn-touch {
-  width: 44px; /* ALIGNED TO HEADER BTN AND FAT-THUMB */
+  width: 44px;
   height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: transparent;
   border: none;
-  border-radius: var(--radius-full);
-  color: #ffffff;
+  border-radius: 50%;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  padding: 0;
-  flex-shrink: 0; /* Alzina: Prohibida la deformació */
+  flex-shrink: 0;
 }
 
-@media (max-width: 380px) {
-  .footer-touch-group {
-    gap: 2px;
+.btn-touch:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.theme-light .btn-touch:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.master-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  height: 44px;
+  padding: 0 16px;
+  border-radius: 22px;
+  font-weight: 900;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.theme-light .master-action-btn {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.master-action-btn.connect-btn {
+  flex: 1;
+  background: var(--theme-accent-secondary, #F97316);
+  color: #000;
+  border: none;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.theme-light .master-action-btn.connect-btn {
+  color: #FFF;
+}
+
+/* ESPECÍFICO MERCAT */
+.btn-mercat-buy {
+  background: var(--theme-accent-secondary, #F97316);
+  color: #000;
+  height: 44px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 950;
+  border-radius: 22px;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+}
+
+.theme-light .btn-mercat-buy {
+  color: #FFF;
+}
+
+/* RESPONSIVITY MOBILE */
+@media (max-width: 400px) {
+  .card-header-boina {
+    padding: 10px 12px;
+  }
+  .card-body {
+    padding: 12px;
+  }
+  .card-footer-master {
+    padding: 12px;
   }
   .btn-touch {
     width: 38px;
@@ -764,434 +350,8 @@
   }
 }
 
-.btn-touch:hover {
-  background: rgba(255, 255, 255, 0.1);
-  transform: translateY(-1px) scale(1.05);
-}
-
-/* [MASTER DYNAMIC HEADER] Price & Date badges */
-.header-dynamic-data {
-  background: rgba(255, 255, 255, 0.2);
-  padding: 2px 10px;
-  border-radius: 12px;
-  font-size: 0.8rem;
-  font-weight: 950;
-  color: white;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  white-space: nowrap;
-  backdrop-filter: blur(4px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.price-badge {
-  background: #000;
-  color: #ff6b00;
-  border: 1px solid rgba(255, 107, 0, 0.5);
-}
-
-.date-badge {
-  background: rgba(255, 255, 255, 0.15);
-}
-
-/* MODO FORENSE UI (ANTIOBLITS) */
-.forensic-label {
-  position: absolute;
-  top: -10px;
-  right: 10px;
-  background: #00ffff;
-  color: #000;
-  font-size: 10px;
-  font-weight: 950;
-  padding: 2px 8px;
-  border-radius: 4px;
-  z-index: 100;
-  text-transform: uppercase;
-  box-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
-  pointer-events: none;
-  letter-spacing: 1px;
-  font-family: "Courier New", monospace;
-  animation: flash-forensic 2s infinite ease-in-out;
-}
-
-@keyframes flash-forensic {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.7;
-  }
-}
-
+/* FORENSIC MODO */
 .universal-card.mode-forense-active {
   outline: 2px dashed #00ffff;
   outline-offset: 4px;
-}
-
-.btn-touch:hover {
-  background: var(--surface-glass);
-  color: var(--theme-accent-secondary);
-  transform: scale(1.1) rotate(5deg);
-  border-color: var(--theme-accent-secondary);
-}
-
-.btn-touch.iaia-chat {
-  background: rgba(168, 85, 247, 0.15); /* Purple-500 tint */
-  border-color: rgba(168, 85, 247, 0.4);
-  color: var(--accent-violet);
-  box-shadow: 0 0 15px rgba(168, 85, 247, 0.2);
-}
-
-.btn-touch.iaia-chat:hover {
-  background: var(--accent-violet);
-  color: #000;
-  box-shadow: 0 0 25px var(--accent-violet);
-  transform: scale(1.15) rotate(-8deg);
-}
-
-.btn-event-action {
-  background: var(--theme-accent-secondary);
-  color: #000;
-  height: 44px;
-  padding: 0 16px;
-  border-radius: var(--radius-m);
-  font-weight: 950;
-  font-size: 12px;
-  text-transform: uppercase;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  flex-grow: 1; /* Match thumb ease */
-  transition: all 0.3s ease;
-}
-
-.btn-event-action:hover {
-  filter: brightness(1.1);
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(255, 109, 35, 0.4);
-}
-
-.btn-event-action.visit-town {
-  background: var(--theme-accent-secondary);
-}
-
-.btn-event-action.map-nav {
-  background: var(--accent-green);
-}
-
-.event-info-notice,
-.map-dist-notice {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--text-muted);
-  font-size: 12px;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  background: rgba(0, 0, 0, 0.3);
-  padding: 6px 12px;
-  border-radius: 8px;
-  width: fit-content;
-}
-
-.map-dist-notice {
-  border: 1px solid rgba(0, 186, 136, 0.2);
-  color: var(--accent-green);
-}
-
-.event-actions-row,
-.footer-actions-mur,
-.footer-mercat-master,
-.footer-pobles-master,
-.footer-ajuntament-master,
-.footer-mapa-master {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: nowrap; /* Blindatge Alzina: Prohibida la verticalitat */
-}
-
-.footer-touch-group {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-shrink: 0; /* Inencogible */
-}
-
-.master-action-btn.connect-btn {
-  flex: 1;
-  min-width: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  flex-shrink: 1;
-}
-
-.mercat-actions-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-grow: 1;
-}
-
-.btn-mercat-buy {
-  background: var(--theme-accent-secondary);
-  color: #000;
-  height: 44px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  font-weight: 950;
-  border-radius: var(--radius-m);
-  text-transform: uppercase;
-}
-
-.event-info-notice {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--text-muted);
-  font-size: 12px;
-  font-weight: 800;
-  text-transform: uppercase;
-}
-
-.flash-icon {
-  color: var(--theme-accent-primary);
-}
-
-.btn-event-action,
-.btn-mercat-buy {
-  background: var(--theme-accent-secondary);
-  color: #000;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 12px;
-  font-weight: 950;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  font-size: 12px;
-}
-
-/* CMS FOOTER ACTIONS */
-.footer-actions-mur {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 16px;
-  border-top: 1px solid var(--border-subtle);
-}
-
-.footer-mercat-master,
-.footer-event-master {
-  border-top: 1px solid var(--border-subtle);
-}
-
-.master-action-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: none;
-  border: none;
-  color: var(--text-secondary);
-  font-size: 13px;
-  font-weight: 800;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  padding: 8px;
-  border-radius: 12px;
-}
-
-.master-action-btn:hover {
-  background: var(--surface-glass);
-  color: var(--theme-accent-secondary);
-}
-
-.master-action-btn.connect-btn {
-  color: var(--theme-accent-secondary);
-  background: var(--theme-accent-secondary-faint);
-  border: 1px solid var(--theme-accent-secondary-muted);
-}
-
-.master-action-btn.connect-btn:hover {
-  background: var(--theme-accent-secondary);
-  color: #fff;
-}
-
-/* 5. CARDINAL AJUNTAMENT */
-.footer-ajuntament-master {
-  padding: 12px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.official-notice-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--accent-cyan);
-  font-size: 12px;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  background: rgba(6, 182, 212, 0.1);
-  padding: 6px 12px;
-  border-radius: 8px;
-  width: fit-content;
-  border: 1px solid rgba(6, 182, 212, 0.2);
-}
-
-.blue-badge-icon {
-  color: var(--accent-cyan);
-  filter: drop-shadow(0 0 5px var(--accent-cyan));
-}
-
-.btn-event-action.official-nav {
-  background: var(--accent-cyan);
-  color: #000;
-}
-
-.connection-counter {
-  margin-left: auto;
-  font-size: 12px;
-  font-weight: 950;
-  color: var(--text-muted);
-  background: rgba(255, 255, 255, 0.05);
-  padding: 6px 12px;
-  border-radius: 99px;
-  border: 1px solid var(--border-subtle);
-}
-
-/* RESPONSIVITY (Mobile First - Single Column Strict) */
-@media (max-width: 600px) {
-  .universal-card {
-    border-radius: var(--radius-m);
-    margin: 8px 0;
-    display: flex;
-    flex-direction: column;
-    /* Removed the side-by-side grid */
-  }
-
-  .universal-card .card-media-wrapper {
-    width: 100%;
-    height: auto;
-    min-height: auto;
-    border-bottom-left-radius: 0; /* Clear previous side-radius */
-  }
-
-  .universal-card .universal-card-media {
-    height: 100%;
-    object-position: center;
-  }
-
-  .universal-card .card-body {
-    padding: 16px;
-  }
-
-  .universal-card .genesis-title {
-    font-size: 18px;
-    line-height: 1.25;
-    margin-bottom: 6px;
-  }
-
-  .universal-card .card-excerpt {
-    font-size: 14px;
-    line-height: 1.5;
-    -webkit-line-clamp: 3;
-    line-clamp: 3;
-  }
-}
-
-@media (max-width: 400px) {
-  .universal-card {
-    margin: 4px 0;
-  }
-  .card-header-boina {
-    padding: 8px;
-    height: auto;
-    min-height: 56px;
-  }
-  .master-author-name {
-    font-size: 12px;
-    white-space: normal;
-    word-break: break-word;
-  }
-  .header-date,
-  .header-time {
-    font-size: 12px;
-  }
-  .card-body {
-    padding: 8px;
-  }
-  .genesis-title {
-    font-size: 15px;
-  }
-  .card-price {
-    font-size: 14px;
-    padding: 6px 12px;
-  }
-  .master-action-btn {
-    padding: 0 12px;
-    font-size: 12px;
-  }
-  .footer-actions-mur,
-  .footer-event-master,
-  .footer-pobles-master,
-  .footer-ajuntament-master,
-  .footer-mapa-master {
-    padding: 8px;
-  }
-}
-
-@media (max-width: 350px) {
-  .card-tags-row {
-    display: none;
-  }
-  .universal-card {
-    border-radius: 12px;
-  }
-}
-
-/* --- MODO SENIOR (UX Extrema y Rural Modern) --- */
-.universal-card.senior-mode {
-  min-height: 200px;
-  border-width: 2px;
-  border-color: rgba(255, 255, 255, 0.2);
-}
-
-.theme-light .universal-card.senior-mode {
-  border-color: rgba(0, 0, 0, 0.4);
-}
-
-.universal-card.senior-mode .master-author-name {
-  font-size: 20px;
-  font-weight: 950;
-}
-
-.universal-card.senior-mode .card-header-boina {
-  height: 80px;
-  padding: 0 24px;
-}
-
-.universal-card.senior-mode .location-text {
-  font-size: 16px;
-}
-
-.universal-card.senior-mode .master-action-btn {
-  height: 60px;
-  font-size: 18px;
-}
-
-.universal-card.senior-mode .btn-touch {
-  width: 60px;
-  height: 60px;
 }

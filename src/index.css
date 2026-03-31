@@ -1,52 +1,41 @@
 @import "tailwindcss";
 
-/* 🏺 SÓC DE POBLE: LA BÍBLIA VISUAL v10.33.2-CANÒNIC [PROTOCOL NOTO]
-   Aquest fitxer és el ciment únic. 
-*/
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-sans: "Noto Sans", ui-sans-serif, system-ui, sans-serif,
-    "Noto Color Emoji", "Noto Emoji";
-  --font-serif: "Noto Sans", serif, "Noto Color Emoji", "Noto Emoji";
-  --font-mono: "Noto Sans", monospace, "Noto Color Emoji", "Noto Emoji";
-  --font-condensed: "Noto Sans", sans-serif, "Noto Color Emoji", "Noto Emoji";
+  --font-sans: "Noto Sans", ui-sans-serif, system-ui, sans-serif, "Noto Color Emoji", "Noto Emoji";
+  --font-mono: "Noto Sans Mono", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace, "Noto Color Emoji", "Noto Emoji";
+  --font-serif: "Noto Serif", serif, "Noto Color Emoji", "Noto Emoji";
 
-  /* M3 ADAPTIVE TOKENS - SÓC DE POBLE OFFICIAL */
-  --color-primary: #f97316; /* Terracotta (Primary) */
-  --color-on-primary: #ffffff;
-  --color-primary-container: rgba(249, 115, 22, 0.15);
+  --color-primary: var(--sdp-orange);
+  --color-secondary: var(--sdp-blue);
+  --color-theme-base: var(--bg-app);
+  --color-theme-sidebar: var(--bg-sidebar);
+  --color-theme-panel: var(--bg-panel);
+  --color-theme-text: var(--text-main);
+  --color-border-master: var(--border-master);
 
-  --color-secondary: #06b6d4; /* Cyan (Secondary) */
-  --color-on-secondary: #000000;
-  --color-secondary-container: rgba(6, 182, 212, 0.15);
-
-  --color-surface: #000000;
-  --color-on-surface: #ffffff;
-  --color-surface-container: rgba(0, 0, 0, 0.7); /* Standard Glass */
-  --color-outline: rgba(255, 255, 255, 0.08);
-
-  --radius-m3-large: 28px;
-  --radius-m3-medium: 100px; /* Full Rounded / Pill */
-  --radius-m3-small: 16px;
-
-  --radius-genesis: var(--radius-m3-large);
-  --radius-tactile: var(--radius-m3-small);
+  --radius-genesis: 28px;
+  --radius-tactile: 16px;
+  --radius-pill: 100px;
 
   --spacing-header: 56px;
   --spacing-sidebar: 280px;
+  --spacing-unit: 1.5rem;
 
-  --touch-target: 44px;
+  /* CMS TYPOGRAPHY TOKENS (Vertical Rhythm & Legibility) */
+  /* Optims per lectura llegó de llibre: Line Height base 1.6 */
+  --cms-lh-base: 1.6;
+  --cms-lh-heading: 1.25;
+  --cms-gap-paragraph: 1.6rem;         /* Space AFTER paragraph = 1 line height approx */
+  --cms-gap-h2-top: 2.8rem;            /* Space BEFORE H2 */
+  --cms-gap-h2-bottom: 0.8rem;         /* Space AFTER H2 */
+  --cms-gap-h3-top: 2rem;              /* Space BEFORE H3 */
+  --cms-gap-h3-bottom: 0.5rem;         /* Space AFTER H3 */
+  --cms-gap-subtitle-h3: 80px;         /* Specific spacing between Subtitle (H2) and next element as requested */
 
-  /* Gradients Canònics v15 */
-  --gradient-bategat: linear-gradient(
-    135deg,
-    #ff6b00 0%,
-    #0ea5e9 100%
-  ); /* Orange to Sky Blue */
-
-  /* [SISTEMA DE CAPES Z-INDEX - TAILWIND V4] */
   --z-base: 1;
+  --z-nav: 50;
   --z-dropdown: 100;
   --z-sticky: 200;
   --z-overlay: 300;
@@ -55,476 +44,516 @@
   --z-toast: 600;
   --z-max: 999;
 
-  /* SÓC DE POBLE UNIVERSAL CARD TOKENS (No Magic Numbers) */
-  --card-max-width: 480px;
-  --card-grid-height: 864px;
-  --card-list-height: 80px;
-  --card-radius: 28px;
-}
-
-:root {
-
-  /* [PROTOCOL GÈNESI v10.26.0 - CANÒNIC] */
-  --bg-app: #000000;
-  --bg-master: #000000;
-  --bg-panel: #000000;
-  --bg-sidebar: #000000;
-  --text-main: #ffffff;
-  --text-secondary: #9ca3af;
-  --text-muted: #6b7280;
-  
-  /* [CMS CONFIGURABLE TOKENS - CHAT LIST] */
-  --text-chat-snippet: var(--text-main);
-  --text-chat-time: var(--text-main);
-
-  --border-master: rgba(255, 255, 255, 0.08);
-
-  /* Hover & Active states */
-  --hover-overlay: rgba(255, 255, 255, 0.08);
-  --active-overlay: rgba(255, 255, 255, 0.12);
-
-  /* [MAESTRO RULE] Night/Dark Colors */
-  --sdp-black: #000000;
-  --sdp-white: #ffffff;
-  --sdp-orange: #ff6b00;
-  --sdp-blue: #0984e3;
-
-  --theme-accent-primary: #0984e3; /* Blau a Nit */
-  --on-theme-accent-primary: #ffffff; /* Contrast blanc per llegibilitat al fosc */
-  --theme-accent-primary-muted: rgba(9, 132, 227, 0.4);
-  --theme-accent-primary-faint: rgba(9, 132, 227, 0.1);
-
-  --theme-accent-secondary: #ff6b00; /* Taronja a Nit */
-  --theme-accent-secondary-muted: rgba(255, 107, 0, 0.4);
-  --theme-accent-secondary-faint: rgba(255, 107, 0, 0.1);
-
-  --bg-theme-base: var(--bg-app);
-  --bg-theme-sidebar: #000000;
-  --bg-theme-panel: #000000;
-  --text-theme-text: #ffffff;
-  --bg-theme-header: #000000;
-
-  /* [FASE 2: GLASSMORPHISM] Night Mode Tokens */
-  --glass-bg-dark: rgba(28, 28, 30, 0.65);
+  --glass-bg: rgba(28, 28, 30, 0.65);
   --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-blur: blur(16px);
   --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  --glass-blur: blur(16px);
-  --glass-theme-bg: var(--glass-bg-dark);
-}
-
-:root.light {
-  /* [PALETA CANÒNICA INVERSA - LLEI 4 COLORS] */
-  --bg-app: #f8fafc; /* Blanc/Llum */
-  --bg-master: #ffffff;
-  --bg-panel: #ffffff;
-  --bg-sidebar: #ffffff; /* SENSE TERRACOTTA */
-  --text-main: #000000;
-  --text-secondary: #000000;
-  --text-muted: #4b5563;
   
-  /* [CMS CONFIGURABLE TOKENS - CHAT LIST] */
-  --text-chat-snippet: var(--text-main);
-  --text-chat-time: var(--text-main);
-
-  --border-master: rgba(0, 0, 0, 0.1);
-
-  /* Hover & Active states */
-  --hover-overlay: rgba(0, 0, 0, 0.05);
-  --active-overlay: rgba(0, 0, 0, 0.08);
-
-  /* Inversió de Variables Directes */
-  --sdp-black: #ffffff;
-  --sdp-white: #000000;
-  --sdp-orange: #0984e3; /* Taronja => Blau */
-  --sdp-blue: #ff6b00; /* Blau => Taronja */
-
-  --theme-accent-primary: #ff6b00; /* Taronja de Dia */
-  --on-theme-accent-primary: #111827; /* Negre profund per màxim contrast Taronja */
-  --theme-accent-primary-muted: rgba(255, 107, 0, 0.4);
-  --theme-accent-primary-faint: rgba(255, 107, 0, 0.1);
-
-  --theme-accent-secondary: #0984e3; /* Blau de Dia */
-  --theme-accent-secondary-muted: rgba(9, 132, 227, 0.4);
-  --theme-accent-secondary-faint: rgba(9, 132, 227, 0.1);
-
-  --bg-theme-base: var(--bg-app);
-  --bg-theme-sidebar: #000000; /* CORREGIT: Barra lateral NEGRA en Mode Clar per decisió de disseny */
-  --bg-theme-panel: var(--bg-panel);
-  --text-theme-text: #000000;
-  --bg-theme-header: #000000; /* CORREGIT: Header SEMPRE clar encara que estiguem en Mode Clar */
-
-  /* [FASE 2: GLASSMORPHISM] Day Mode Tokens */
+  /* Fallbacks needed by legacy code, though handled by CSS variables below */
   --glass-bg-light: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(0, 0, 0, 0.1);
-  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
-  --glass-blur: blur(16px);
-  --glass-theme-bg: var(--glass-bg-light);
+  --glass-border-light: rgba(0, 0, 0, 0.1);
+  --glass-shadow-light: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
 }
 
-.text-on-accent {
-  color: var(--on-theme-accent-primary) ;
-}
-
-.text-on-accent-muted {
-  color: var(--on-theme-accent-primary) ;
-  opacity: 0.85;
-}
-
-/* Redundant custom theme utility classes removed as per Audit 2.1 (Tailwind handles them via @theme) */
-
-.card,
-.universal-card,
-.bg-panel {
-  border-radius: var(--radius-genesis) ;
-  overflow: hidden;
-}
-
-/* [FASE 2: GLASSMORPHISM] Universal Class */
-.glass-panel {
-  background: var(--glass-theme-bg) ;
-  backdrop-filter: var(--glass-blur) ;
-  -webkit-backdrop-filter: var(--glass-blur) ;
-  border: 1px solid var(--glass-border) ;
-  box-shadow: var(--glass-shadow);
-  border-radius: var(--radius-genesis);
-  overflow: hidden;
-  transition: background 0.3s ease, border-color 0.3s ease;
-}
-
-.modal-content,
-.dialog-panel {
-  border-radius: var(--radius-genesis) ;
-}
-
-/* 📱 COMPORTAMENT TÀCTIL NATIU (v10.30.0 BLUEPRINT) */
-html,
-body,
-#root {
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  background-color: var(--bg-app);
-  overflow: hidden;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-}
-
-body {
-  touch-action: pan-x pan-y;
-  -webkit-tap-highlight-color: transparent;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-family: var(--font-sans);
-  font-stretch: 75%; /* Equivalent exacte al disseny "Condensed" (62.5% = Extra Condensed, 100% = Normal) */
-  font-size: 1.25rem; /* [ACCESSIBILITAT SUPREMA v15] Augmentat per a llegibilitat imponent */
-  font-display: swap;
-}
-
-/* [ACCESSIBILITAT MESTRA] Regla global per a paràgrafs bategats */
 @layer base {
+  :root {
+    --bg-app: #0e0e10;
+    --bg-panel: #141417;
+    --bg-sidebar: #0e0e10;
+    --text-main: #f3f4f6; /* Tailwind gray-100 */
+    --text-muted: #9ca3af; /* Tailwind gray-400 */
+    --border-master: rgba(255, 255, 255, 0.08);
+
+    /* Tech-Huerta Dark Palette */
+    --sdp-orange: #f97316; /* Terracotta / Naranja tierra seca */
+    --sdp-olive: #65a30d; /* Verde Oliva */
+    --sdp-gold: #eab308; /* Dorado Atardecer */
+    --sdp-blue: #544CF6; /* Azul Corporativo para Acciones / Connectar */
+    --theme-accent-primary: var(--sdp-orange);
+    --theme-accent-secondary: var(--sdp-olive);
+
+    /* Motion System Tokens (iOS feel) */
+    --motion-quick: 120ms;
+    --motion-normal: 220ms;
+    --motion-expressive: 360ms;
+    --spring-bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    --ease-apple: cubic-bezier(0.22, 1, 0.36, 1);
+
+    --glass-theme-bg: rgba(20, 20, 23, 0.65);
+    --glass-theme-border: rgba(255, 255, 255, 0.08);
+    --glass-theme-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
+  }
+
+  :root.light {
+    --bg-app: #FAFAFA; /* Papel reciclado / Cal blanca */
+    --bg-panel: #ffffff;
+    --bg-sidebar: #FAFAFA;
+    --text-main: #1f2937; /* Tailwind gray-800 */
+    --text-muted: #6b7280; /* Tailwind gray-500 */
+    --border-master: rgba(0, 0, 0, 0.08);
+
+    /* Tech-Huerta Light Palette */
+    --sdp-orange: #ea580c; /* Terracotta intenso */
+    --sdp-olive: #4d7c0f; /* Verde Oliva profundo */
+    --sdp-gold: #ca8a04; /* Dorado fuerte */
+    --theme-accent-primary: var(--sdp-orange);
+    --theme-accent-secondary: var(--sdp-olive);
+
+    --glass-theme-bg: rgba(255, 255, 255, 0.75);
+    --glass-theme-border: rgba(0, 0, 0, 0.06);
+    --glass-theme-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.08);
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html, body, #root {
+    @apply h-full w-full m-0 p-0 overflow-hidden bg-theme-base text-theme-text;
+    position: fixed; /* Antigravity Jitter Fix */
+    inset: 0;
+    font-family: var(--font-sans);
+    font-stretch: 75%;
+    font-size: 1.25rem;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-font-smoothing: antialiased;
+    overscroll-behavior: none; /* iOS rubber-banding fix */
+    touch-action: pan-x pan-y;
+  }
+
   p {
-    font-size: 1.15rem;
-    line-height: 1.6;
-    margin-bottom: 1.5rem;
+    @apply text-[1.15rem] leading-[1.6] mb-6 text-theme-text;
   }
 }
 
-/* 📜 PROTOCOL TIPOGRÀFIC DOCS - SÓC DE POBLE v1 */
-/* Mapeig estricte per a contingut Ric tipus Google Docs */
-
-
-
-/* 🧬 ESTRUCTURA SUPREMA (PROTOCOL TABULA RASA v10.30.0) */
-.main-viewport {
-  flex: 1;
-  display: flex;
-  position: relative;
-  min-width: 0;
-}
-
-.flex-container-safe {
-  display: flex;
-  min-width: 0;
-  flex: 1;
-}
-
-/* 📱 RESPONSIVE CANÒNIC (Strict Monocolumn < 1024px) */
-@media (max-width: 1023px) {
-  .sidebar-desktop {
-    position: fixed;
-    left: 0;
-    top: var(--spacing-header, 56px);
-    z-index: 1000;
-    width: var(--spacing-sidebar);
-    height: calc(100dvh - var(--spacing-header, 56px));
-    transform: translateX(-100%);
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    background: #000000;
+@layer components {
+  /* GLASSMORPHISM PROTOCOL */
+  .glass-panel {
+    background: var(--glass-theme-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-theme-border);
+    box-shadow: var(--glass-theme-shadow);
+    border-radius: var(--radius-genesis);
+    transition: background 0.3s ease, border-color 0.3s ease;
   }
 
-  .sidebar-desktop.drawer-open {
-    transform: translateX(0);
-    box-shadow: 20px 0 60px rgba(0, 0, 0, 0.8);
+  /* GPU Compositing for Animated Blur Overlays */
+  .glass-overlay {
+    will-change: opacity, backdrop-filter;
+    transform: translateZ(0);
+    isolation: isolate;
   }
 
-  /* Backdrop Master */
-  .drawer-backdrop {
-    position: fixed;
-    top: 56px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.4);
+  /* TECH-HUERTA PREMIUM COMPONENTS */
+  .glass-rural {
+    /* Fondo con filtro translúcido oscuro/cálido */
+    background: color-mix(in srgb, var(--bg-panel) 65%, transparent);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    border: 1px solid var(--border-master);
+    box-shadow: 0 8px 32px -4px rgba(0, 0, 0, 0.15);
+    border-radius: var(--radius-pill);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* Textura de Arcilla Digital (Noise SVG sutil) */
+  .glass-rural::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0.03; /* 3% noise */
+    pointer-events: none;
+    z-index: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    mix-blend-mode: overlay;
+  }
+
+  .btn-tactile {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-tactile);
+    transition: box-shadow var(--motion-quick) var(--ease-apple), transform var(--motion-quick) var(--ease-apple), background-color var(--motion-quick) var(--ease-apple);
+    outline: none;
+    cursor: pointer;
+    font-weight: 600;
+    text-align: center;
+    white-space: nowrap;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  
+  .btn-tactile:focus-visible {
+    box-shadow: 0 0 0 2px var(--theme-accent-primary);
+  }
+
+  /* CMS CORE (Vertical Rhythm & Clean Elements) */
+  .app-cms-content {
+    background: transparent;
+    color: var(--text-main);
+    line-height: var(--cms-lh-base);
+    text-align: justify;
+  }
+  
+  /* Selectors text content */
+  .app-cms-content h1 {
+    font-size: clamp(1.875rem, 4vw, 2.25rem); /* text-3xl to text-4xl */
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.025em;
+    text-align: center;
+    margin-bottom: var(--cms-gap-paragraph);
+    line-height: var(--cms-lh-heading);
+  }
+  
+  .app-cms-content h2 {
+    font-size: clamp(1.25rem, 3vw, 1.5rem); /* text-xl to text-2xl */
+    font-weight: 700;
+    color: var(--theme-accent-secondary);
+    text-transform: uppercase;
+    margin-top: var(--cms-gap-h2-top);
+    margin-bottom: var(--cms-gap-h2-bottom);
+    line-height: var(--cms-lh-heading);
+  }
+  
+  .app-cms-content h3 {
+    font-size: 1.125rem; /* text-lg */
+    font-weight: 700;
+    margin-top: var(--cms-gap-h3-top);
+    margin-bottom: var(--cms-gap-h3-bottom);
+    line-height: var(--cms-lh-heading);
+  }
+
+  /* Spacing fix for specifically H3 coming immediately after a section start / subtitle */
+  .app-cms-content > h3:first-child,
+  .app-cms-content > *:first-child {
+    /* Si és el primer element després del subtítol general (que ja compta amb marge),
+       apliquem l'espai rígid demanat: "unos 80 pixeles" del subtítol (h2 extern) al h3 (intern CMS).
+       Com .app-cms-content té el padding pb-10 i px-10 (hi traiem pt-10!), usarem 80px com margin-top d'aquest primer fill
+    */
+    margin-top: var(--cms-gap-subtitle-h3);
+  }
+
+  .app-cms-content h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-top: var(--spacing-unit);
+    margin-bottom: 0.5rem;
+  }
+  
+  .app-cms-content p {
+    font-size: clamp(1.125rem, 2vw, 1.25rem); /* text-lg to text-xl */
+    line-height: var(--cms-lh-base);
+    margin-bottom: var(--cms-gap-paragraph);
+  }
+
+  /* Llistes */
+  .app-cms-content :where(ul, ol) {
+    font-size: clamp(1.125rem, 2vw, 1.25rem);
+    margin-bottom: var(--cms-gap-paragraph);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  /* Llistes numèriques netes (el disseny tàctil base no val ací per lectura llarga,
+     només les apliquem a les de viñetas, mantindrem estil per totes per defecte per ara si no es concreta,
+     però la instrucció deia només estils clean) */
+  .app-cms-content ul, .app-cms-content ol {
+    padding-left: 1.5rem;
+    display: block; /* revertims a block per la legibilitat purista */
+  }
+  
+  .app-cms-content ol {
+    list-style: decimal;
+  }
+  .app-cms-content ul {
+    list-style: disc;
+  }
+
+  .app-cms-content li {
+    /* Reset táctil antic: en llibres V12 CMS només apliquem un marge senzill excepte si són llistats interactius, però seguim amb el padding lleuger per ara. */
+    margin-bottom: 0.25rem;
+  }
+  .app-cms-content li > p {
+    margin: 0;
+  }
+
+  /* Blockquotes i Media */
+  .app-cms-content blockquote {
+    border-left: 4px solid var(--theme-accent-primary);
+    padding: 1rem 1rem 1rem 1.5rem;
+    margin: 2rem 0;
+    background-color: var(--bg-panel);
+    border-radius: 0 16px 16px 0;
+  }
+  .app-cms-content blockquote p {
+    font-size: clamp(1.25rem, 2vw, 1.5rem); /* xl to 2xl */
+    font-style: italic;
+    font-weight: 500;
+    color: var(--text-main);
+    margin-bottom: 0;
+  }
+
+  .app-cms-content img {
+    border-radius: 16px;
+    border: 1px solid var(--border-master);
+    margin: 1.5rem 0;
+    width: 100%;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  }
+  
+  .app-cms-content a {
+    color: var(--theme-accent-primary);
+    text-decoration: underline;
+  }
+  .app-cms-content a:hover {
+    color: var(--theme-accent-secondary);
+  }
+  
+  .app-cms-content code {
+    background-color: var(--bg-panel);
+    padding: 0.2rem 0.4rem;
+    border-radius: 6px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size: 0.875em;
+    color: var(--theme-accent-secondary);
+    border: 1px solid var(--border-master);
+  }
+  
+  .app-cms-content pre code {
+    background-color: transparent;
+    padding: 0;
+    border: none;
+    color: inherit;
+    font-size: inherit;
+  }
+  
+  /* Taules (Tables) */
+  .app-cms-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: var(--cms-gap-paragraph) 0;
+    text-align: left; /* Sobreescriu el text-align: justify del contenidor principal */
+    font-size: clamp(1rem, 1.8vw, 1.125rem); /* Mida més compacta per cabre millor */
+    border: 1px solid var(--border-master);
+    border-radius: 12px; /* Radius global */
+    overflow: hidden; /* Per mantenir el radius als cantons */
+    display: block; /* Habilita l'scroll horitzontal en mòbils */
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .app-cms-content th,
+  .app-cms-content td {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border-master);
+    vertical-align: top; /* Millor lectura si el text és llarg */
+  }
+  
+  .app-cms-content th {
+    font-weight: 700;
+    color: var(--text-main);
+    background-color: var(--bg-surface);
+    text-transform: uppercase;
+    font-size: 0.85em;
+    letter-spacing: 0.05em;
+  }
+  
+  .app-cms-content tbody tr {
+    transition: background-color var(--motion-quick) var(--ease-apple);
+  }
+  
+  .app-cms-content tbody tr:last-child td {
+    border-bottom: none; /* Elimina la línia de l'última fila per neteja visual */
+  }
+  
+  .app-cms-content tbody tr:hover {
+    background-color: color-mix(in srgb, var(--bg-surface) 50%, transparent);
+  }
+  
+  .app-cms-content tbody td {
+    color: var(--text-muted); /* Dades lleugerament més clares per jerarquia */
+  }
+  
+  .app-cms-content tbody td:first-child {
+    font-weight: 600; /* La primera columna fa d'índex visual (Color, Nom, etc.) */
+    color: var(--text-main);
+  }
+
+  .app-cms-content ::selection {
+    background-color: var(--theme-accent-primary);
+    color: white;
+  }
+
+  /* LOW END FALLBACKS */
+  body.low-end-device {
+    --glass-blur: none;
+    --glass-shadow: none;
+    --glass-theme-bg: var(--bg-panel);
+    --glass-theme-border: var(--border-master);
+  }
+  body.low-end-device .glass-panel,
+  body.low-end-device * {
     backdrop-filter: none;
-    z-index: 1000;
-    animation: fade-in 0.3s ease-out;
+    -webkit-backdrop-filter: none;
   }
 
-  .safe-area-padding {
-    padding-top: env(safe-area-inset-top, 0px);
-    padding-bottom: env(safe-area-inset-bottom, 0px);
-    padding-left: max(20px, env(safe-area-inset-left));
-    padding-right: max(20px, env(safe-area-inset-right));
+  /* ATOMIC MACRO-CONTAINERS */
+  .atomic-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .atomic-grid {
+    display: grid;
+    gap: var(--spacing-unit, 1.5rem);
+    width: 100%;
   }
 
-  /* Toxic mobile override deleted and Ghost exorcised */
+  /* CODEX ATOM SYSTEM */
+  .atom-root {
+    @apply relative min-h-0 min-w-0 w-full;
+    contain: layout paint style;
+    isolation: isolate;
+  }
+  .atom-fill {
+    @apply h-full w-full min-h-0 min-w-0;
+  }
+  .atom-stack {
+    @apply h-full w-full min-h-0 min-w-0 flex flex-col;
+    gap: clamp(0.75rem, 1.2vw, 1rem);
+  }
+  .atom-row {
+    @apply flex min-w-0 items-center;
+    gap: clamp(0.5rem, 0.8vw, 0.75rem);
+  }
+  .atom-card {
+    @apply h-full w-full min-h-0 min-w-0 flex flex-col rounded-genesis border border-border-master bg-theme-panel p-4;
+    gap: clamp(0.75rem, 1.2vw, 1rem);
+  }
 }
 
-/* 🧬 ANIMACIONS CANÒNIQUES (BATEGAT UNIVERSAL) */
+@layer utilities {
+  /* GHOST BORDERS */
+  .border-ghost-r { box-shadow: inset -1px 0 0 0 var(--border-master); }
+  .border-ghost-b { box-shadow: inset 0 -1px 0 0 var(--border-master); }
+  .border-ghost-t { box-shadow: inset 0 1px 0 0 var(--border-master); }
+
+  /* SCROLLBAR V4 */
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in oklab, currentColor 20%, transparent) transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: color-mix(in oklab, currentColor 18%, transparent);
+    border-radius: 999px;
+    background-clip: padding-box;
+    border: 2px solid transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in oklab, currentColor 30%, transparent);
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* STABLE SCROLL CODEX */
+  .stable-scroll {
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-gutter: stable both-edges;
+    overscroll-behavior: contain;
+    transform: translateZ(0); 
+  }
+  @media (pointer: fine) {
+    .stable-scroll { scrollbar-gutter: auto; } /* Let's keep Codex gutter but avoid floating mouse offset in fine pointer if needed, or stick to both-edges? Standard is both-edges from codex */
+  }
+
+  /* Z-INDEX TOKENS */
+  .z-token-base { z-index: var(--z-base); }
+  .z-token-sticky { z-index: var(--z-sticky); }
+  .z-token-overlay { z-index: var(--z-overlay); }
+  .z-token-sidebar { z-index: var(--z-sidebar); }
+  .z-token-modal { z-index: var(--z-modal); }
+
+  /* CONTAINMENT */
+  .contain-strict { contain: layout style paint; }
+  .contain-layout { contain: layout style; }
+  .gpu-accelerate {
+    transform: translateZ(0);
+    will-change: transform;
+    backface-visibility: hidden;
+  }
+  .content-visibility-auto {
+    content-visibility: auto;
+    contain-intrinsic-size: 88px;
+  }
+  .paint-contain {
+    contain: paint;
+  }
+
+  /* VARIOUS */
+  .flex-safe {
+    display: flex;
+    min-width: 0;
+    min-height: 0;
+    flex: 1;
+  }
+  .text-clamp-2 {
+    display: -webkit-box;
+    line-clamp: 2;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .safe-area-top { padding-top: env(safe-area-inset-top, 0px); }
+  .safe-area-bottom { padding-bottom: env(safe-area-inset-bottom, 0px); }
+}
+
+/* HOSTILE CONTENT */
+.app-content-rich {
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+}
+
+/* ANIMATIONS */
 @keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
-
 @keyframes slide-up {
-  from {
-    transform: translateY(20px);
-    opacity: 0;
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.animate-in.fade-in { animation: fade-in 0.3s ease-out forwards; }
+.animate-slide-up { animation: slide-up 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms;
+    animation-iteration-count: 1;
+    transition-duration: 0.01ms;
+    scroll-behavior: auto;
   }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-@keyframes pulse-soft {
-  0%,
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.8;
-    transform: scale(0.98);
-  }
-}
-
-.animate-in.fade-in {
-  animation: fade-in 0.5s ease-out forwards;
-}
-
-.animate-slide-up {
-  animation: slide-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.bategant {
-  animation: pulse-soft 2s infinite ease-in-out;
-}
-
-/* 📜 THE ANTIGRAVITY SCROLL v1.0 (SILK SCROLL) */
-/* [MODERN SCROLLBARS v10.33.7] */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.05) transparent;
-}
-
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  border: 2px solid transparent;
-  background-clip: padding-box;
-  transition: all 0.3s ease;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 107, 0, 0.4);
-  background-clip: padding-box;
-}
-
-/* Utility to hide scrollbar but keep functionality */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-/* 📜 BÍBLIA: TACTILE GEOMETRY (GEOMETRIA DEL TACTE v10.33.2-CANÒNIC) */
-.tactile-target {
-  min-height: var(--touch-target);
-  min-width: var(--touch-target);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.genesis-radius {
-  border-radius: 28px ;
-}
-
-.card-radius {
-  border-radius: var(--radius-genesis) ;
-}
-
-
-
-.safe-area-bottom {
-  padding-bottom: env(safe-area-inset-bottom, 20px) ;
-}
-
-.safe-area-top {
-  padding-top: env(safe-area-inset-top, 0) ;
-}
-
-/* [MASTER CANONIC BUTTONS] Design System GEM MODERN v1.0 */
-/* Botó Connectar Canònic (UniversalCard) */
-.btn-connect-canonic {
-  font-weight: 900 ;
-  text-transform: uppercase ;
-  font-size: 14px;
-  height: 40px;
-  padding: 0 16px;
-  border-radius: 28px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background-color: var(--theme-accent-secondary);
-  color: #111827;
-  transition: background-color 0.3s ease, transform 0.1s;
-}
-.btn-connect-canonic:hover {
-  background-color: #ea580c;
-  cursor: pointer;
-}
-.btn-connect-canonic:active {
-  transform: scale(0.95);
-}
-
-.master-button-canonic {
-  height: 44px ;
-  border-radius: 22px ;
-  font-weight: 900 ;
-  letter-spacing: 0.05em ;
-  text-transform: uppercase ;
-  display: flex ;
-  align-items: center ;
-  justify-content: center ;
-  padding: 0 24px ;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) ;
-}
-
-.master-button-canonic:active {
-  transform: scale(0.95);
-}
-
-/* [NOTION-DYNAMICS] Folder styling for high-accessibility organization */
-.notion-folder {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 24px;
-  background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  border-radius: 16px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
-}
-
-.notion-folder:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
-  border-color: rgba(255, 107, 0, 0.2);
-}
-
-.notion-folder .folder-icon {
-  font-size: 32px;
-  color: #ff6b00;
-  margin-bottom: 4px;
-}
-
-.notion-folder .folder-title {
-  font-size: 18px;
-  font-weight: 800;
-  color: #0f172a;
-  letter-spacing: -0.02em;
-}
-
-.notion-folder .folder-description {
-  font-size: 1.1rem;
-  color: #64748b;
-  line-height: 1.5;
-}
-
-/* [NOTION-GRID] 28px geometry inspired grid */
-.notion-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 28px;
-}
-
-/* UNIFICACIÓ COLOR DE PÀRRAFS: SEMPRE NEGRE (LIGHT) O BLANC (DARK) */
-p {
-  color: var(--text-main);
-}
-
-/* [CMS GHOST BUTTON FIX] Recuperació tipogràfica per a la purge de Tailwind */
-.app-cms-content ul,
-.app-cms-content ol {
-  list-style: none !important;
-  padding-left: 0 !important;
-  display: flex !important;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.app-cms-content li {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  padding: 16px 20px !important;
-  background-color: var(--bg-panel) !important;
-  border-left: 6px solid var(--theme-accent-primary) !important;
-  border-radius: var(--radius-m3-small);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease;
-  cursor: pointer;
-  margin-bottom: 2px !important;
-  font-weight: 700;
-  color: var(--text-main);
-}
-
-.app-cms-content li:hover {
-  transform: translateX(4px);
-  background-color: var(--theme-accent-primary-faint) !important;
-  color: var(--theme-accent-primary);
-}
-
-.app-cms-content li:active {
-  transform: scale(0.97);
 }

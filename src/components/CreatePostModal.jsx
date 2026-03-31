@@ -9,6 +9,7 @@ import { logger } from '../utils/logger';
 import MagicPregoner from './MagicPregoner';
 import CaptureStudio from './CaptureStudio';
 import RichTextEditor from './RichTextEditor';
+import { useMountTransition } from '../hooks/useMountTransition';
 import './CreatePostModal.css';
 
 const PREDEFINED_TAGS = ['Esdeveniment', 'Avís', 'Consulta', 'Proposta'];
@@ -145,16 +146,21 @@ const CreatePostModal = ({ isOpen, onClose, initialPobles = [], editMode = false
         }
     };
 
-    if (!isOpen) return null;
+    const { shouldRender, hasTransitionedIn } = useMountTransition(isOpen, 300);
+
+    if (!shouldRender) return null;
 
     return (
-        <div className="fixed inset-0 z-modal flex items-center justify-center p-4">
+        <div className={`fixed inset-0 z-modal flex items-center justify-center p-4 transition-opacity duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${hasTransitionedIn ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
             <div 
                 className="absolute inset-0 bg-black/60 backdrop-blur-md" 
                 onClick={onClose}
             ></div>
             
-            <div className={`relative z-50 w-full transition-all duration-300 ${isArticleMode ? 'max-w-4xl h-[95vh]' : 'max-w-[420px] h-[85vh] md:h-[90vh]'} flex flex-col rounded-[24px] shadow-2xl bg-[#2A241D] text-white overflow-hidden border border-[var(--theme-accent-primary)]/20`}>
+            <div className={`relative isolate z-50 w-full flex flex-col rounded-[24px] shadow-2xl bg-[#2A241D] text-white overflow-hidden border border-[var(--theme-accent-primary)]/20 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]
+                ${isArticleMode ? 'max-w-4xl h-[95vh]' : 'max-w-[420px] h-[85vh] md:h-[90vh]'} 
+                ${hasTransitionedIn ? 'scale-100 translate-y-0' : 'scale-[0.97] translate-y-4'}
+            `}>
                 
                 {/* Header */}
                 <div className="flex items-center justify-between p-5 border-b border-[var(--border-master)] bg-[var(--bg-panel-elevated)]">

@@ -1,21 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Users, Building2, ArrowLeft, Loader2, UserPlus, ChevronRight, User } from 'lucide-react';
+
+import ContextualHeader from '../components/ContextualHeader';
+import Avatar from '../components/Avatar';
+import { useViewMode } from '../hooks/useViewMode';
+import UniversalCard from '../components/UniversalCard';
+import { UniversalGridWrapper, UniversalGridRow } from '../components/UniversalGrid';
 import { supabaseService } from '../services/supabaseService';
 import StatusLoader from '../components/StatusLoader';
-import Avatar from '../components/Avatar';
 import { logger } from '../utils/logger';
-import './CommunityDirectory.css';
-import { useModal } from '../context/ModalContext';
 import { useDesign } from '../context/DesignContext';
 import { useAuth } from '../context/AuthContext';
 import { USER_ROLES } from '../constants';
 
 const CommunityDirectory = () => {
     const navigate = useNavigate();
-    const { openConnectionModal, setIsGuestInteractionModalOpen } = useModal();
-    const { user, isSuperAdmin } = useAuth();
+    const { isSuperAdmin } = useAuth();
     const { visionMode } = useDesign();
+    const { viewMode, columnCount, containerRef } = useViewMode('directory_view_mode', 'grid');
     const [directory, setDirectory] = useState({ people: [], entities: [] });
     const [isLoading, setIsLoading] = useState(true);
     const [activeTab, setActiveTab] = useState('gent'); // gent, entitats
@@ -93,57 +96,33 @@ const CommunityDirectory = () => {
                 </div>
             </div>
 
-            <div className="directory-content">
-                <div className="directory-grid">
+            <div ref={containerRef} className="flex-1 w-full pt-6">
+                <UniversalGridWrapper viewMode={viewMode}>
                     {filteredItems.length === 0 ? (
-                        <div className="empty-directory">
-                            <Users size={48} opacity={0.3} />
-                            <p>No s'han trobat resultats en aquesta categoria.</p>
+                        <div className="flex flex-col items-center justify-center p-12 opacity-50 bg-theme-panel/30 rounded-2xl border border-white/5 mx-auto max-w-sm mt-8">
+                            <Users size={48} className="mb-4 text-theme-text opacity-30" />
+                            <p className="font-sans text-xs font-bold tracking-[0.2em] uppercase text-center text-theme-text opacity-60">No s'han trobat resultats en aquesta categoria.</p>
                         </div>
                     ) : (
-                        filteredItems.map(item => (
-                            <div
-                                key={item.id}
-                                className="directory-card"
-                                onClick={() => navigate(activeTab === 'gent' ? `/perfil/${item.id}` : `/entitat/${item.id}`)}
-                            >
-                                <Avatar
-                                    src={item.avatar_url}
-                                    role={activeTab === 'gent' ? (item.role || 'user') : item.type}
-                                    name={item.full_name || item.name}
-                                    size={60}
+                        <UniversalGridRow viewMode={viewMode} columnCount={columnCount}>
+                            {filteredItems.map(item => (
+                                <UniversalCard
+                                    key={item.id}
+                                    item={item}
+                                    title={item.full_name || item.name}
+                                    subtitle={`${item.role || item.type} • ${item.town_name || item.primary_town}`}
+                                    avatarSrc={item.avatar_url}
+                                    avatarName={item.full_name || item.name}
+                                    avatarRole={activeTab === 'gent' ? (item.role || 'user') : item.type}
+                                    excerpt={item.bio || item.description || 'Sense descripció'}
+                                    viewMode={viewMode}
+                                    variant={activeTab === 'gent' ? 'post' : 'official'}
+                                    onClick={() => navigate(activeTab === 'gent' ? `/perfil/${item.id}` : `/entitat/${item.id}`)}
                                 />
-                                <div className="card-info">
-                                    <h3>{item.full_name || item.name}</h3>
-                                    <p>{item.role || item.type} • {item.town_name || item.primary_town}</p>
-                                    <span className="bio-mini">{item.bio || item.description || 'Sense descripció'}</span>
-                                </div>
-                                <div className="card-action">
-                                    <button 
-                                        className="master-button-canonic bg-white text-black text-[10px]" 
-                                        style={{ height: '36px', padding: '0 16px' }}
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            if (user?.isAnonymous) {
-                                                setIsGuestInteractionModalOpen(true);
-                                                return;
-                                            }
-                                            openConnectionModal({
-                                                postId: item.id,
-                                                onUpdate: async (tags) => {
-                                                    await supabaseService.connectWithProfile(user.id, item.id, tags);
-                                                    loadDirectory();
-                                                }
-                                            });
-                                        }}
-                                    >
-                                        CONNECTAR
-                                    </button>
-                                </div>
-                            </div>
-                        ))
+                            ))}
+                        </UniversalGridRow>
                     )}
-                </div>
+                </UniversalGridWrapper>
             </div>
         </div>
     );
