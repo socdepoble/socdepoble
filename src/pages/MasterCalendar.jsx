@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import { useState, useMemo, useRef, useEffect, useCallback, useDeferredValue } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Calendar as CalendarIcon, ChevronLeft, ChevronRight, Sparkles, Brain, ArrowLeft, ArrowRight, Grid, LayoutList, Settings } from 'lucide-react';

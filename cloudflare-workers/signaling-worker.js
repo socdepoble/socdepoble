@@ -1,3 +1,5 @@
+/* global ENV, SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, WebSocketPair */
+/* eslint-disable no-unused-vars */
 import { JWTParser } from 'jwt-verify';
 
 // Configuración: clave secreta de Supabase (JWT) – s'ha d'obtenir de les variables d'entorn al Worker

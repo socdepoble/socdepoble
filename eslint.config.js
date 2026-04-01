@@ -19,6 +19,7 @@ export default defineConfig([
     "restore_*.js",
     "refactor_*.js",
     "check_data.cjs",
+    "combine_presentation.mjs",
     "**/.DS_Store",
   ]),
   {

@@ -1,4 +1,5 @@
 import React from 'react';
+// eslint-disable-next-line no-unused-vars
 import { motion } from 'framer-motion';
 import { Haptics, ImpactStyle } from '@capacitor/haptics';
 
@@ -15,7 +16,7 @@ const TactileButton = ({
     try {
       // Trigger native haptic feedback
       await Haptics.impact({ style: impactStyle });
-    } catch (err) {
+    } catch {
       // Silently fail on web or unsupported platforms
     }
   };

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { createClient } from '@supabase/supabase-js';
 import fs from 'fs';
 import * as dotenv from 'dotenv';

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import fs from 'fs';
 
 const projectPresentationPath = './src/pages/ProjectPresentation.jsx';

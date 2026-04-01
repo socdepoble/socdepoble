@@ -11,19 +11,6 @@ export const useThrottledScroll = (callback, delay = 100) => {
     }, [callback]);
 
     useEffect(() => {
-        const throttledCallback = (...args) => {
-            const now = Date.now();
-            if (now - lastCallRef.current >= delay) {
-                lastCallRef.current = now;
-                callbackRef.current(...args);
-            } else {
-                if (rafRef.current) cancelAnimationFrame(rafRef.current);
-                rafRef.current = requestAnimationFrame(() => {
-                    callbackRef.current(...args);
-                });
-            }
-        };
-
         return () => {
             if (rafRef.current) cancelAnimationFrame(rafRef.current);
         };
