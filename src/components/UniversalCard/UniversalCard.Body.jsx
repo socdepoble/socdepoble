@@ -89,7 +89,7 @@ const UniversalCardBody = React.memo(({
                     <Button
                         intent="ghost"
                         fullWidth
-                        className="py-2.5 font-bold uppercase tracking-widest text-[#F97316] hover:bg-[#F97316]/10 active:scale-100 rounded-none border-t border-border-master"
+                        className="py-2.5 font-bold uppercase tracking-widest text-[#F97316] hover:bg-[#F97316]/10 active:scale-100 rounded-none"
                         aria-label={`Llegir més sobre ${item.title || "aquest post"}`}
                         onClick={handleReadMoreClick}
                         rightIcon={<ChevronRight size={18} className="mt-[1px]" />}
@@ -104,7 +104,7 @@ const UniversalCardBody = React.memo(({
                              // Clean the tag text to remove # if it already has one, preventing ## duplicate
                              const cleanTagStr = tag.replace(/^#+/, '');
                              return (
-                                 <div key={cleanTagStr} className="text-[12px] font-black uppercase tracking-wider text-theme-muted bg-theme-base px-2.5 py-1 rounded-[6px] border border-border-master">
+                                 <div key={cleanTagStr} className="text-[12px] font-black uppercase tracking-wider text-theme-muted bg-theme-base px-2.5 py-1 rounded-[6px]">
                                      <span>#{cleanTagStr}</span>
                                  </div>
                              )

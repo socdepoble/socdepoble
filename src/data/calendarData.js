@@ -6,7 +6,9 @@ export const CALENDAR_EVENTS = [
         type: 'session',
         id: '7738b474',
         file: 'CRONICA_SESSIO_HUD_DIDACTIC.md',
-        description: 'Renom de la consola a Solatge i jerarquia didàctica cromàtica.'
+        description: 'Renom de la consola a Solatge i jerarquia didàctica cromàtica.',
+        author_name: 'IAIA MarIA',
+        author_avatar: '/assets/avatars/comic/iaia_comic_matriarch.png'
     },
     {
         date: '2026-01-30',
@@ -15,7 +17,9 @@ export const CALENDAR_EVENTS = [
         id: '421e683a',
         file: 'PMU_SOLATGE_DENSITAT_MESTRE.md',
         description: 'Restauració de descàrregues, blindatge de logo i implementació del Protocol de Tancament.',
-        image_url: '/assets/brain/generations/nano_simbiosi_sobirana.png'
+        image_url: '/assets/brain/generations/nano_simbiosi_sobirana.png',
+        author_name: 'Andreu Soler',
+        author_avatar: '/assets/avatars/comic/andreu_soler_comic.png'
     },
     {
         date: '2026-01-25',
@@ -23,7 +27,9 @@ export const CALENDAR_EVENTS = [
         type: 'docs',
         id: 'amazon-book',
         file: 'ABSTRACCIONS_LLIBRE_AMAZON.md',
-        description: 'Conceptualització de la Masia Digital i el llibre per a Amazon.'
+        description: 'Conceptualització de la Masia Digital i el llibre per a Amazon.',
+        author_name: 'Carla Soriano',
+        author_avatar: '/assets/avatars/comic/carla_soriano_comic.png'
     },
     {
         date: 'Recurrent (Cada nit de lluna vella)',
@@ -31,14 +37,18 @@ export const CALENDAR_EVENTS = [
         type: 'ritual',
         id: 'nano-ritual',
         file: 'LLEI_IMATGE_SOBIRANA.md',
-        description: 'Nano Banana bategarà noves imatges cinemàtiques fins a completar tota la memòria visual del poble a nivell DÉU.'
+        description: 'Nano Banana bategarà noves imatges cinemàtiques fins a completar tota la memòria visual del poble a nivell DÉU.',
+        author_name: 'Nano Banana',
+        author_avatar: '/assets/master/logo_socdepoble_green_square.png'
     },
     {
         date: 'Recurrent (Cada nit a les 03:33)',
         title: '🦉 Ritu del Bategat Nocturn: Poliment Autònom',
         type: 'ritual',
         id: 'night-audit',
-        description: 'La IAIA i la família realitzaran auditories de disseny, neteja de codi i millora de l’harmonia semàntica mentre el Mestre descansa.'
+        description: 'La IAIA i la família realitzaran auditories de disseny, neteja de codi i millora de l’harmonia semàntica mentre el Mestre descansa.',
+        author_name: 'Mixa',
+        author_avatar: '/assets/avatars/comic/mixa_comic.png'
     },
     {
         date: '2026-03-30',
@@ -46,7 +56,9 @@ export const CALENDAR_EVENTS = [
         type: 'personal',
         id: 'vicent-tarea',
         agentId: '11111111-1111-4111-a111-000000000003', // VICENT
-        description: 'Comprovar semiller de tomaques quarantine.'
+        description: 'Comprovar semiller de tomaques quarantine.',
+        author_name: 'Vicent Ferris',
+        author_avatar: '/assets/avatars/comic/andreu_soler_comic.png' // using proxy comic avatar
     },
     {
         date: '2026-04-02',
@@ -55,7 +67,9 @@ export const CALENDAR_EVENTS = [
         id: 'metge-tarea',
         agentId: '11111111-1a1a-0001-0000-000000000003', // CARLA (Doctora)
         description: 'Resultats de l’analítica a l’Hospital Mare de Déu dels Lliris.',
-        image_url: '/assets/brain/generations/nano_cita_metge.png'
+        image_url: '/assets/brain/generations/nano_cita_metge.png',
+        author_name: 'Carla Soriano',
+        author_avatar: '/assets/avatars/comic/carla_soriano_comic.png'
     },
     {
         date: '2026-04-05',
@@ -63,7 +77,9 @@ export const CALENDAR_EVENTS = [
         type: 'personal',
         id: 'capatas-tarea',
         agentId: '11111111-1a1a-0001-0000-000000000001', // CAPATAS (Andreu)
-        description: 'Revisar la gotera de l’esquerra amb teula vella.'
+        description: 'Revisar la gotera de l’esquerra amb teula vella.',
+        author_name: 'Andreu Soler',
+        author_avatar: '/assets/avatars/comic/andreu_soler_comic.png'
     },
     {
         date: '2026-04-03', // Próxima sesión propuesta (Simulada)
@@ -71,6 +87,8 @@ export const CALENDAR_EVENTS = [
         type: 'session',
         id: 'sessio-javi-iaia-01',
         description: '📌 Sessió de prova en el grup de treball (Javi i la IAIA) per tal de validar el nou ordre cronològic de les dates de MasterCalendar i avaluar el comportament en expandir les targetes. Aquest esdeveniment sortirà barrejat a l\'historial.',
-        image_url: '/assets/brain/generations/nano_sessio_treball.png'
+        image_url: '/assets/brain/generations/nano_sessio_treball.png',
+        author_name: 'Javi Llinares',
+        author_avatar: '/Javi_Llinares-Foto_perfil-1.jpg'
     }
 ];

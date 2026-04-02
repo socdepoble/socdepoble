@@ -88,7 +88,7 @@
     "feed": "Mur",
     "market": "Mercat",
     "towns": "Pobles",
-    "events": "Events",
+    "events": "Calendari",
     "map_tab": "Mapa",
     "profile": "Perfil",
     "my_entities": "Les meues Entitats",
@@ -479,19 +479,15 @@
     "titleDesc": "Una XARXA SOCIAL DESCENTRALITZADA de PROGRAMARI LLIURE, per CONNECTAR i GEOLOCALITZAR recursos d'utilitat social, compartint informació, experiències i idees que faciliten el desenvolupament sostenible i tecnològic en entorns rurals, per posar en valor els recursos locals i mostrar l'atractiu dels pobles com a llocs on viure i treballar.",
     "llicenciaTitle": "LLICÈNCIA OBERTA",
     "llicenciaDesc": "Aquest sistema és de codi obert per a ús comunitari i educatiu. L'ús comercial està subjecte a llicència del Mestre.",
-    
     "sobiraniaTitle": "SOBIRANIA DIGITAL",
     "sobiraniaSubtitle": "La dada com a arrel, no com a mercaderia",
     "sobiraniaDesc": "En el Mas Digital, tu eres el propietari de la teua informació. Apostem per connexions horitzontals peer-to-peer, eliminant intermediaris extractius i garantint que el bategat del teu poble romanga privat i sobirà.",
-    
     "trellatTitle": "DADES AMB TRELLAT",
     "trellatSubtitle": "Privacitat KM 0",
     "trellatDesc": "Sols recollim allò que és essencial per a la convivència i el comerç local. Les teues dades no viatgen a servidors desconeguts, sinó que s'arrelen en el territori per generar utilitat real i protegir el futur rural.",
-    
     "memoriaTitle": "MEMÒRIA VIVA",
     "memoriaSubtitle": "Un bategat que uneix generacions a través del codi i la saviesa popular",
     "memoriaDesc": "Garanteix que la intel·ligència artificial no oblide d'on venim. Implementem protocols que dignifiquen el passat mentre construïm el futur digital.",
-    
     "identitatsTitle": "IDENTITATS DEL MAS",
     "identSdpTitle": "SÓC DE POBLE",
     "identSdpOver": "PROJECTE SOCIAL",
@@ -502,7 +498,6 @@
     "identJaviTitle": "JAVI LLINARES",
     "identJaviOver": "DIRECCIÓ I DISSENY",
     "identJaviDesc": "Responsable de la realització, disseny i coordinació. Mestre darrere del Mas Digital.",
-    
     "iaiaTitle": "LA IAIA MARIA",
     "iaiaSubtitle": "La intel·ligència central del Mas. No és una IA freda de Silicon Valley, sinó la \"saviesa de l'àvia\" arrelada a la terra. Un sistema multi-agent dissenyat per a protegir, educar i preservar la identitat rural.",
     "tiaTitle": "LA TIA MARIA",
@@ -517,7 +512,6 @@
     "ruperDesc": "Motor de super-cerca semàntica. Analitza PDF, bans municipals i actes històriques.",
     "filtreTitle": "FILTRE TRELLAT",
     "filtreDesc": "Triple nucli que regula la presència de la IA per garantir el sentit comú local.",
-    
     "arquitecturaTitle": "ARQUITECTURA REVOLUCIONÀRIA",
     "arqCrdtTitle": "Eg-walker CRDT",
     "arqCrdtDesc": "Sincronització de graf d'esdeveniments. Convergència determinista en local que elimina la necessitat de base de dades central.",
@@ -525,13 +519,11 @@
     "arqRhizomeDesc": "Protocol gossip. Els telèfons dels veïns formen la malla de comunicació, reduint la dependència del núvol al mínim.",
     "arqLocalTitle": "Local-First",
     "arqLocalDesc": "L'usuari és el propietari de les seues dades. Càrrega instantània des de IndexedDB. Funciona sense cobertura.",
-    
     "modelTitle": "MODEL DE NEGOCI HÍBRID",
     "modelSecretariTitle": "\"El Secretari\" (Model B2G)",
     "modelSecretariDesc": "Subscripció mestre per a Ajuntaments que automatitza la gestió pública rural.",
     "modelEssenciesTitle": "\"Essències\" (Model B2B)",
     "modelEssenciesDesc": "Monetització de l'economia local sense intermediaris (Km 0).",
-    
     "finançamentTitle": "FINANÇAMENT I PATROCINIS",
     "finançamentDesc": "\"Sóc de Poble\" no ven dades. Bateguem perquè el territori tinga la seua pròpia veu, finançada per la comunitat.",
     "finProTitle": "Clients PRO & Sobirania",
@@ -540,7 +532,6 @@
     "finKm0Desc": "Empreses del territori que bateguen amb nosaltres. Publicitat ètica.",
     "finAnuncTitle": "Anunciants Ètics",
     "finAnuncDesc": "Espais reservats per a marques que aporten valor real al món rural.",
-    
     "legalTitle": "AVÍS LEGAL I DRETS DIGITALS",
     "legal1Title": "1. Identitat Bategant",
     "legal1Desc": "LSSI-CE: Responsable Sobirà F. Javier Llinares García (21476359V). El Mas Central es troba registrat a la Calle Sant Isidre Llaurador, 16. Connecta via socdepoble@socdepoble.org.",
@@ -574,7 +565,7 @@
     "connect": "CONNECTAR",
     "visit": "VISITAR POBLE",
     "tramitar": "TRAMITAR",
-    "translate": "Traduir Article",
+    "translate": "Traduir",
     "translateAlert": "🌐 Motor de Traducció A Demanda (Vertex AI) prompte disponible.",
     "comment": "Comentar",
     "share": "Compartir",

@@ -1,18 +1,35 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useState, useEffect } from 'react';
 import { Search, LayoutGrid, List, Square, X } from 'lucide-react';
 import { useDesign } from '../context/DesignContext';
 import './ContextualHeader.css';
 
 const ContextualHeader = forwardRef(({ searchTerm, onSearchChange, viewMode, onViewModeChange, placeholder = "Cerca...", extraActions = null, backButton = null }, ref) => {
     const { hapticService } = useDesign();
+    const [localSearch, setLocalSearch] = useState(searchTerm);
+
+    // Sync from parent if needed
+    useEffect(() => {
+        setLocalSearch(searchTerm);
+    }, [searchTerm]);
+
+    // Debounce to parent
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            if (localSearch !== searchTerm) {
+                onSearchChange(localSearch);
+            }
+        }, 300);
+        return () => clearTimeout(handler);
+    }, [localSearch, searchTerm, onSearchChange]);
 
     const handleSearchClear = () => {
+        setLocalSearch('');
         onSearchChange('');
         if (hapticService) hapticService.trigger();
     };
 
     return (
-        <div className="sticky top-0 z-[2000] bg-[#F97316] dark:bg-[#4F46E5] w-full h-[64px] min-h-[64px] max-h-[64px] flex items-center justify-between px-3 transition-colors duration-500 shadow-md">
+        <div className="relative z-10 bg-[#F97316] dark:bg-[#4F46E5] w-full h-[64px] min-h-[64px] max-h-[64px] flex items-center justify-between px-3 transition-colors duration-500 shadow-md">
             
             {/* BACK BUTTON */}
             {backButton && (
@@ -33,8 +50,8 @@ const ContextualHeader = forwardRef(({ searchTerm, onSearchChange, viewMode, onV
                 <input
                     ref={ref}
                     type="text"
-                    value={searchTerm}
-                    onChange={(e) => onSearchChange(e.target.value)}
+                    value={localSearch}
+                    onChange={(e) => setLocalSearch(e.target.value)}
                     placeholder={placeholder.toUpperCase()}
                     className="font-sans flex-1 w-full h-full bg-transparent text-gray-900 pr-2 py-0 m-0 text-[14px] leading-none font-bold outline-none placeholder:text-gray-800 placeholder:font-bold"
                 />
@@ -47,7 +64,7 @@ const ContextualHeader = forwardRef(({ searchTerm, onSearchChange, viewMode, onV
                 )}
 
                 {/* CLEAR SEARCH BUTTON */}
-                {searchTerm && (
+                {localSearch && (
                     <button 
                         onClick={handleSearchClear} 
                         className="w-10 h-full flex items-center justify-center text-gray-400 hover:text-[#F97316] transition-colors shrink-0"

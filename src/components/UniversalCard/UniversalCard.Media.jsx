@@ -46,7 +46,7 @@ const UniversalCardMedia = ({
             </div>
 
             {(item?.is_pinned || item?.metadata?.is_pinned) && (
-                <div className="absolute top-4 right-4 z-20 bg-theme-panel/70 backdrop-blur-xl rounded-full p-2 text-[#F97316] shadow-xl border border-border-master select-none pointer-events-none">
+                <div className="absolute top-4 right-4 z-20 bg-theme-panel/70 backdrop-blur-xl rounded-full p-2 text-[#F97316] shadow-xl select-none pointer-events-none">
                     <Zap size={16} fill="currentColor" className="drop-shadow-[0_0_8px_rgba(249,115,22,0.5)]" />
                 </div>
             )}

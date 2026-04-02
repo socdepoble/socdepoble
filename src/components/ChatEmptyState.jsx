@@ -65,21 +65,8 @@ const ChatEmptyState = () => {
     );
   }
 
-    return (
-    <div className="flex-1 flex flex-col min-h-0 bg-theme-base relative overflow-hidden">
-        {/* Grid de fons subtil (Protocol v9.1.0) */}
-        <div
-          className="absolute inset-0 opacity-[0.03] z-1 pointer-events-none"
-          style={{
-            backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)",
-            backgroundSize: "30px 30px",
-          }}
-        ></div>
-
-        <div className="flex-1 w-full relative z-10 flex flex-col min-h-0">
-             <ProjectPresentation standAlone={false} forcedSlug="/el-projecte" />
-        </div>
-    </div>
+  return (
+    <ProjectPresentation forcedSlug="/el-projecte" />
   );
 };
 

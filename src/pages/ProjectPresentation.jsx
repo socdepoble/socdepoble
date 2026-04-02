@@ -96,7 +96,12 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                 await loadFallbackContent("El Projecte");
             } else {
                 setPageId(data.id);
-                setHtmlContent(data.html_content || '');
+                if (!data.html_content || data.html_content.includes('Aquest text és provisional')) {
+                    const fallbackHtml = await fetchDefaultBookContent();
+                    setHtmlContent(fallbackHtml);
+                } else {
+                    setHtmlContent(data.html_content);
+                }
                 setTitle(data.title || '');
                 setSubtitle(data.subtitle || '');
                 setCollaborators(data.collaborators || []);

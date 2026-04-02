@@ -44,8 +44,7 @@ export const UniversalGridRow = React.memo(React.forwardRef(({
         display: 'grid',
         gridTemplateColumns: `repeat(${actualColumns}, minmax(min(100%, 340px), 1fr))`,
         gap: '24px',
-        padding: '0 16px',
-        paddingBottom: '24px',
+        padding: '0 16px 24px 16px', // Top padding removed to prevent double gap with SystemPageLayout
         boxSizing: 'border-box',
     }), [actualColumns]);
 

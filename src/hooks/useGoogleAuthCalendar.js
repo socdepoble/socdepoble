@@ -175,7 +175,7 @@ export const useGoogleAuthCalendar = (currentDate) => {
         return newData;
     }
 
-    const fetchGoogleEventsRange = async (startStr, endStr) => {
+    const fetchGoogleEventsRange = useCallback(async (startStr, endStr) => {
         if (!token || selectedCalIds.length === 0) return [];
         
         const fetchCalendarEvents = async (calId) => {
@@ -230,7 +230,7 @@ export const useGoogleAuthCalendar = (currentDate) => {
 
         const results = await Promise.all(selectedCalIds.map(fetchCalendarEvents));
         return results.flat();
-    };
+    }, [token, selectedCalIds]);
     // Action 4: CREAR UN CALENDARI EN GOOGLE DIRECTAMENT (Simbiosi Absoluta)
     const createCalendarAsUser = async (name) => {
         if (!token) throw new Error("Has de connectar amb Google primer.");

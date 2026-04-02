@@ -21,6 +21,8 @@ const BlueprintOverlay = ({ label, dimensions, color = "blue", children, classNa
     
     const theme = colors[color] || colors.blue;
 
+    if (!blueprintMode) return children;
+
     return (
         <div className={`relative w-full group/blueprint ${className}`}>
             {children}

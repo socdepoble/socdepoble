@@ -3,6 +3,9 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { CheckCircle, Clock } from 'lucide-react';
 // import { medicationService } from '../services/medicationService';
 // import { useTranslation } from 'react-i18next';
+const MedicationConfirm = () => {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [status, setStatus] = useState('pending'); // pending, confirmed, snoozed
   const [countdown, setCountdown] = useState(60); // 60 seconds to auto-remind or alert
 
@@ -18,7 +21,9 @@ import { CheckCircle, Clock } from 'lucide-react';
   useEffect(() => {
     const action = searchParams.get('action');
     if (action === 'confirm') {
-      handleConfirm();
+      setTimeout(() => {
+        handleConfirm();
+      }, 0);
     }
   }, [searchParams]); // eslint-disable-line react-hooks/exhaustive-deps
 

@@ -564,7 +564,7 @@
     "connect": "CONNECTAR",
     "visit": "VISITAR POBLE",
     "tramitar": "TRAMITAR",
-    "translate": "Traduir Article",
+    "translate": "Traducir",
     "translateAlert": "🌐 Motor de Traducció A Demanda (Vertex AI) prompte disponible.",
     "comment": "Comentar",
     "share": "Compartir",

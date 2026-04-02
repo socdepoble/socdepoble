@@ -10,8 +10,8 @@
 
   # 3. Caché agressiu per als assets compilats amb hash (imatges, js, css, woff)
   <FilesMatch "\.(css|js|woff2?|png|jpe?g|gif|webp|ico|svg)$">
-    # Si és un manifest PWA, no ho trastejar:
-    <If "%{REQUEST_URI} !~ m#/site\.webmanifest$#">
+    # Si és un manifest PWA o service worker, no ho trastejar:
+    <If "%{REQUEST_URI} !~ m#/(site\.webmanifest|sw\.js|coi-serviceworker\.js)$#">
       Header set Cache-Control "public, max-age=31536000, immutable"
     </If>
   </FilesMatch>

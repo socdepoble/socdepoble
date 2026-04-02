@@ -83,10 +83,10 @@ export const useInternalCalendar = (currentDate) => {
         return () => unsub();
     }, [selectedInternalCalIds, currentDate]);
 
-    const fetchInternalEventsRange = async (startStr, endStr) => {
+    const fetchInternalEventsRange = useCallback(async (startStr, endStr) => {
         if (selectedInternalCalIds.length === 0) return [];
         return await calendarService.fetchInternalEvents(selectedInternalCalIds, startStr, endStr);
-    };
+    }, [selectedInternalCalIds]);
 
     return {
         internalCalendars,

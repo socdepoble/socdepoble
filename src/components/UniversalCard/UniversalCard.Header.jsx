@@ -69,7 +69,7 @@ const UniversalCardHeader = ({
         >
             <div className="flex items-center gap-3 overflow-hidden min-w-0">
                 <div 
-                    className="flex-shrink-0 w-10 h-10 rounded-full border border-border-master overflow-hidden bg-theme-panel cursor-pointer active:scale-95 transition-all duration-300 ease-out flex items-center justify-center"
+                    className="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden bg-theme-panel cursor-pointer active:scale-95 transition-all duration-300 ease-out flex items-center justify-center"
                     onClick={(e) => {
                         e.stopPropagation();
                         if (finalAvatarRole === 'master') {
@@ -123,7 +123,7 @@ const UniversalCardHeader = ({
 
             <div className="flex items-center gap-3 shrink-0 ml-2">
                 {isEventOrAgenda && (
-                    <div className="bg-theme-panel px-2.5 py-1 rounded-[8px] border border-[#F97316]/50 shadow-[0_0_10px_rgba(249,115,22,0.15)] flex flex-col items-center justify-center">
+                    <div className="bg-theme-panel px-2.5 py-1 rounded-[8px] shadow-[0_0_10px_rgba(249,115,22,0.15)] flex flex-col items-center justify-center">
                          <div className="text-[11px] font-black text-[#F97316] uppercase tracking-wider">
                              <span>{t('card.agenda_tag') || 'Agenda'}</span>
                          </div>

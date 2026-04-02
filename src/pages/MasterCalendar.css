@@ -1,203 +1,67 @@
-.calendar-master-page {
-    background: var(--bg-main);
-    min-height: calc(100dvh - var(--header-height));
-    color: var(--text-main);
+/* src/pages/MasterCalendar.css */
+
+/* FullCalendar: dejarlo respirar */
+.calendar-master-page .fc {
+    contain: none;
+    will-change: auto;
 }
 
-.calendar-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 40px;
-    border-bottom: 1px solid var(--color-border);
-    padding-bottom: 20px;
+/* Aseguramos que el calendario respete el flujo flex sin desbordarse */
+.calendar-master-page .fc .fc-view-harness {
+    content-visibility: visible;
+    contain: none;
+    contain-intrinsic-size: auto;
+    min-height: 0; /* Permite encogerse en flex si es necesario */
 }
 
-.title-group {
-    display: flex;
-    align-items: center;
-    gap: 15px;
+/* ANTI-COLISIÓN REVISADA: 
+   Ya no necesitamos padding-top agresivo aquí porque el main lo empuja.
+   Usamos esto solo para pulir la estética interna del toolbar. */
+.calendar-master-page .fc-header-toolbar {
+    padding-top: 0.5rem !important; /* Reducido: el espaciado ahora lo da el Layout */
+    padding-bottom: 0.5rem !important;
+    padding-inline: 1rem !important;
+    position: relative;
+    z-index: 10;
 }
 
-.title-group h1 {
-    font-size: 24px;
-    font-weight: 900;
-    letter-spacing: 2px;
-    color: var(--hud-accent);
-    margin: 0;
+.calendar-master-page .fc-theme-standard th {
+    border: none;
+    padding: 12px 0;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-family: var(--font-m3);
 }
 
-/* FullCalendar Tech-Huerta V12 Simbiosi Overrides */
-
-/* Base container edge-to-edge */
-.fc {
-    flex-grow: 1;
-    font-family: 'Noto Sans', sans-serif !important;
-    --fc-border-color: rgba(0, 0, 0, 0.08); /* Suave lineas grid (Light Mode) */
-    --fc-button-bg-color: rgba(0, 0, 0, 0.05); /* Botones transparentes (Light Mode) */
-    --fc-button-border-color: var(--color-border);
-    --fc-button-hover-bg-color: rgba(249, 115, 22, 0.1);
-    --fc-button-hover-border-color: var(--hud-accent);
-    --fc-button-active-bg-color: var(--hud-accent);
-    --fc-button-active-border-color: var(--hud-accent);
-    --fc-event-bg-color: transparent; /* Se renderiza desde JSX custom eventContent */
-    --fc-event-border-color: transparent;
-    --fc-today-bg-color: rgba(249, 115, 22, 0.05); /* Hoy con tono naranja suave */
-}
-
-/* Modo oscuro FullCalendar overrides */
-.dark .fc {
-    --fc-border-color: rgba(255, 255, 255, 0.08);
-    --fc-button-bg-color: rgba(255, 255, 255, 0.05);
-}
-
-/* Header Toolbar styling */
-.fc-header-toolbar {
-    margin-bottom: 24px !important;
-    padding: 0 24px;
-}
-
-.fc-toolbar-title {
+.calendar-master-page .fc-toolbar-title {
+    font-size: 1.25rem !important;
     font-weight: 900 !important;
-    letter-spacing: 2px;
-    font-size: 20px !important;
     text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-family: var(--font-m3);
 }
 
-/* CTA "Nou Esdeveniment" Button Style */
-.fc .fc-button.fc-create-button {
-    background: #4F46E5 !important;
-    color: white !important;
-    border: none !important;
+.calendar-master-page .fc-button-primary {
+    background-color: var(--hud-accent) !important;
+    border-color: var(--hud-accent) !important;
+    border-radius: 9999px !important; /* Full pill shape */
     font-weight: 800 !important;
-    padding: 8px 24px !important;
-    margin-left: 12px !important;
-    border-radius: 4px !important;
-    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s;
     text-transform: uppercase;
-    letter-spacing: 1px;
-}
-.fc .fc-button.fc-create-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
-    background: #4338ca !important;
+    letter-spacing: 0.05em;
+    padding: 0.5rem 1rem !important;
 }
 
-.dark .fc .fc-button.fc-create-button {
-    background: #F97316 !important;
-}
-.dark .fc .fc-button.fc-create-button:hover {
-    box-shadow: 0 4px 12px rgba(249, 115, 22, 0.4);
-    background: #ea580c !important;
+.calendar-master-page .fc-button-primary:not(:disabled):active,
+.calendar-master-page .fc-button-primary:not(:disabled).fc-button-active {
+    background-color: var(--theme-button-hover) !important;
+    border-color: var(--theme-button-hover) !important;
 }
 
-/* Day Headers (Mon, Tue...) */
-.fc-col-header-cell {
-    background: rgba(0, 0, 0, 0.05); /* Gris al 15% aprox visual visualmente */
-    border-bottom: 2px solid var(--color-border) !important;
+.calendar-master-page .fc-daygrid-day-number {
+    font-weight: 700;
+    font-family: var(--font-m3);
 }
 
-.dark .fc-col-header-cell {
-    background: rgba(0, 0, 0, 0.90); /* Negro al 90% aprox visualmente */
-}
-
-.fc-col-header-cell-cushion {
-    font-weight: 800;
-    letter-spacing: 1px;
-    color: var(--text-muted);
-    padding: 16px 12px !important;
-    text-transform: uppercase;
-    font-size: 0.85rem;
-}
-
-/* Grid Cell overrides */
-.fc-daygrid-day-frame {
-    transition: background 0.2s;
-}
-.fc-daygrid-day-frame:hover {
-    background: rgba(0, 0, 0, 0.02);
-}
-.dark .fc-daygrid-day-frame:hover {
-    background: rgba(255, 255, 255, 0.02);
-}
-
-.fc-daygrid-day-number {
-    font-weight: 800;
-    opacity: 0.6;
-    padding: 8px 12px !important;
-    color: var(--text-main);
-    text-decoration: none !important;
-}
-.fc-day-today .fc-daygrid-day-number {
-    color: var(--hud-accent);
-    opacity: 1;
-}
-
-/* Event Capsule (Rendered via React component, but FullCalendar wrapper overriding) */
-.fc-event {
-    cursor: pointer;
-    background: transparent !important;
-    border: none !important;
-    margin: 1px 4px !important; /* Spacing between events */
-}
-
-/* Fix FullCalendar button text colors for Light Mode */
-.fc-button {
-    color: var(--text-main) !important;
-}
-.dark .fc-button {
-    color: #ffffff !important;
-}
-
-/* Mismo override para .fc-create-button para asegurar que siempre tenga texto blanco dado que su fondo es naranja */
-.fc-create-button {
-    color: #ffffff !important;
-}
-
-.fc-daygrid-event-harness {
-    margin-bottom: 2px;
-}
-
-/* Fer que els emojis/icones dins del calendari es vegen 3 vegades més grans! (Visibilitat Nivel Dios) */
-.fc-event-capsule > img {
-    width: 28px !important;
-    height: 28px !important;
-}
-.fc-event-capsule > svg,
-.fc-event-capsule > span.emoji {
-    width: 28px !important;
-    height: 28px !important;
-    font-size: 24px !important;
-}
-
-/* Remove default scrollbar styles if desired to use webkit */
-.fc-scroller::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-}
-.fc-scroller::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.2);
-    border-radius: 3px;
-}
-.dark .fc-scroller::-webkit-scrollbar-thumb {
-    background-color: rgba(255, 255, 255, 0.2);
-}
-
-@media (max-width: 768px) {
-    .fc-header-toolbar {
-        flex-direction: column;
-        gap: 16px;
-        padding: 0 16px;
-    }
-    .fc-toolbar-chunk {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 8px;
-    }
-    .fc-create-button {
-        width: 100%;
-        margin-left: 0 !important;
-        margin-top: 8px;
-    }
+.calendar-master-page .fc-theme-standard td, .calendar-master-page .fc-theme-standard th {
+    border-color: rgba(128, 128, 128, 0.1);
 }

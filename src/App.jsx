@@ -16,6 +16,34 @@ import { useLowEndDevice } from './hooks/useLowEndDevice';
 import { useTabReconciliation } from './hooks/useTabReconciliation';
 import ReloadPrompt from './components/ReloadPrompt';
 import { useBlindatgeOPFS } from './hooks/useBlindatgeOPFS';
+import { useLocation } from 'react-router-dom';
+import SystemRoutes from './components/SystemRoutes';
+
+const LayoutBoundary = () => {
+    const location = useLocation();
+    const isSystemRoute = 
+        location.pathname.startsWith('/admin') ||
+        location.pathname.startsWith('/solatge') ||
+        location.pathname.startsWith('/hub') ||
+        location.pathname.startsWith('/gestio-menu') ||
+        location.pathname.startsWith('/gestio/categories') ||
+        location.pathname.startsWith('/gestio/xats') ||
+        location.pathname.startsWith('/utilitats') ||
+        location.pathname.startsWith('/visio') ||
+        location.pathname.startsWith('/tools/trellat');
+
+    if (isSystemRoute) {
+        return <SystemRoutes />;
+    }
+
+    return (
+        <>
+            <AppLayout />
+            <GlobalModals />
+        </>
+    );
+};
+
 /**
  * 🏺 LA BÍBLIA ESTRUCTURAL (App.jsx) - BLINDATGE v2.0
  * Aquest fitxer conté la cimentació mestre orquestrant l'estat i les portes d'entrada.
@@ -124,8 +152,7 @@ const App = () => {
                     <LocalFirstGate>
                         <AuthGate>
                             <ReloadPrompt />
-                            <AppLayout />
-                            <GlobalModals />
+                            <LayoutBoundary />
                         </AuthGate>
                     </LocalFirstGate>
                 </OfflineGate>

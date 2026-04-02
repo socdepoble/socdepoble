@@ -226,46 +226,59 @@ const UniversalCard = ({
             aria-label={displayTitle}
         >
             {viewMode === 'list' ? (
-                <div className="flex items-center gap-4 p-4 w-full">
-                    {displayImage ? (
-                        <img
-                            src={displayImage}
-                            alt={displayTitle}
-                            className="w-24 h-24 object-cover rounded-[28px] hover:scale-110 transition-transform duration-500 flex-shrink-0"
-                            loading="lazy"
-                        />
-                    ) : (
-                        <div className="w-24 h-24 flex items-center justify-center rounded-[28px] bg-white/5 flex-shrink-0">
-                            <ImageIcon size={20} className="text-gray-500" />
+                <div className="flex flex-col w-full h-full">
+                    <UniversalCardHeader 
+                        item={item}
+                        cardVariant={cardVariant}
+                        displayTown={displayTown}
+                        displayAuthor={displayAuthor}
+                        avatarSrc={avatarSrc}
+                        avatarRole={avatarRole}
+                        isOfficial={isOfficial}
+                        displayDate={displayDate}
+                        displayTime={displayTime}
+                    />
+                    <div className="flex items-center gap-4 p-4 w-full flex-grow">
+                        {displayImage ? (
+                            <img
+                                src={displayImage}
+                                alt={displayTitle}
+                                className="w-24 h-24 object-cover rounded-[28px] hover:scale-110 transition-transform duration-500 flex-shrink-0"
+                                loading="lazy"
+                            />
+                        ) : (
+                            <div className="w-24 h-24 flex items-center justify-center rounded-[28px] bg-white/5 flex-shrink-0">
+                                <ImageIcon size={20} className="text-gray-500" />
+                            </div>
+                        )}
+                        <div className="flex-1 min-w-0 pr-4 z-10">
+                            <div className="text-[14px] md:text-[16px] font-black text-theme-text truncate leading-tight tracking-wide"><h4>{displayTitle}</h4></div>
+                            <div className="flex items-center gap-2 text-[12px] md:text-[13px] font-bold text-gray-400 tracking-wide min-w-0 mt-1">
+                                <div className="text-[var(--theme-accent-primary)] truncate"><span>{displayAuthor}</span></div>
+                                <span className="shrink-0">•</span>
+                                <div className="opacity-70 truncate"><span>{displayTown.replace("Poble Principal: ", "").trim()}</span></div>
+                            </div>
                         </div>
-                    )}
-                    <div className="flex-1 min-w-0 pr-4 z-10">
-                        <div className="text-[14px] md:text-[16px] font-black text-theme-text truncate leading-tight tracking-wide"><h4>{displayTitle}</h4></div>
-                        <div className="flex items-center gap-2 text-[12px] md:text-[13px] font-bold text-gray-400 tracking-wide min-w-0 mt-1">
-                            <div className="text-[var(--theme-accent-primary)] truncate"><span>{displayAuthor}</span></div>
-                            <span className="shrink-0">•</span>
-                            <div className="opacity-70 truncate"><span>{displayTown.replace("Poble Principal: ", "").trim()}</span></div>
-                        </div>
+                        {displayPrice && (
+                            <div className="text-[13px] font-black text-[#F97316] px-4 py-1.5 bg-[#F97316]/10 rounded-[28px] flex-shrink-0 z-10">
+                                <span>{displayPrice}</span>
+                            </div>
+                        )}
+                        <div className="absolute inset-0 z-0" aria-hidden="true"></div>
                     </div>
-                    {displayPrice && (
-                        <div className="text-[13px] font-black text-[#F97316] px-4 py-1.5 bg-[#F97316]/10 border border-[#F97316]/20 rounded-[28px] flex-shrink-0 z-10">
-                            <span>{displayPrice}</span>
-                        </div>
-                    )}
-                    <Button 
-                        intent="canonic"
-                        shape="pill"
-                        size="sm"
-                        className="shrink-0 ml-2 z-10"
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            handleConnectClick(e);
-                        }}
-                        aria-label="Connectar"
-                    >
-                        CONNECTAR
-                    </Button>
-                    <div className="absolute inset-0 z-0" aria-hidden="true"></div>
+                    <div className="mt-auto">
+                        <Suspense fallback={<div className="h-10 rounded bg-surface-var/30 animate-pulse w-full" role="status"><div className="sr-only"><span>Carregant peu...</span></div></div>}>
+                            <UniversalCardFooter 
+                                item={item}
+                                cardVariant={cardVariant}
+                                displayTitle={displayTitle}
+                                isMaster={isMaster}
+                                navigate={navigate}
+                                handleConnectClick={handleConnectClick}
+                                viewMode={viewMode}
+                            />
+                        </Suspense>
+                    </div>
                 </div>
             ) : (
                 <>
@@ -310,6 +323,7 @@ const UniversalCard = ({
                             isMaster={isMaster}
                             navigate={navigate}
                             handleConnectClick={handleConnectClick}
+                            viewMode={viewMode}
                         />
                     </Suspense>
                 </>
@@ -337,6 +351,7 @@ const propsAreEqual = (prevProps, nextProps) => {
         prevProps.item?.updated_at === nextProps.item?.updated_at &&
         prevProps.item?.connections_count === nextProps.item?.connections_count &&
         prevProps.item?.comments_count === nextProps.item?.comments_count &&
+        prevProps.onNavigate === nextProps.onNavigate &&
         prevProps.viewMode === nextProps.viewMode &&
         prevProps.isBating === nextProps.isBating &&
         prevProps.className === nextProps.className &&

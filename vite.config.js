@@ -57,7 +57,8 @@ export default defineConfig({
       "@sqlite.org/sqlite-wasm",
       "onnxruntime-web",
       "@journeyapps/wa-sqlite",
-      "@powersync/web"
+      "@powersync/web",
+      "@dashlane/pqc-kem-kyber768-wasm"
     ],
     // Explicit runtime dependencies to speed up HMR
     include: ["react-router-dom", "lucide-react", "axios"]
@@ -78,6 +79,7 @@ export default defineConfig({
   worker: {
     format: "es",
   },
+  assetsInclude: ['**/*.wasm'],
   build: {
     chunkSizeWarningLimit: 1000,
     rollupOptions: {

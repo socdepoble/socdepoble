@@ -1,15 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Map as MapIcon, MapPin, Navigation, Layers, Plus, Store, Landmark, Ticket, Activity } from 'lucide-react';
+import { Map as MapIcon, MapPin, Navigation, Layers, Plus, Store, Landmark, Ticket, Activity, Globe, MessageCircle, Share2 } from 'lucide-react';
 import CategoryTabs from '../components/CategoryTabs';
 import BlueprintOverlay from '../components/BlueprintOverlay';
 import ContextualHeader from '../components/ContextualHeader';
+import TranslationModal from '../components/TranslationModal';
 import Feed from '../components/Feed';
 import { useUnifiedFeedData } from '../hooks/useUnifiedFeedData';
 import { useAuth } from '../context/AuthContext';
 import { useDesign } from '../context/DesignContext';
 import { APIProvider, Map as GoogleMap, AdvancedMarker, useMap, InfoWindow } from '@vis.gl/react-google-maps';
 import { useViewMode } from '../hooks/useViewMode';
+import SystemPageLayout from '../components/SystemPageLayout';
+import SystemActionBar from '../components/SystemActionBar';
 import './Map.css';
 
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || '';
@@ -88,6 +91,7 @@ const Map = () => {
     const { viewMode, setViewMode } = useViewMode('map_view_mode', 'grid');
     const [isPlacingPost, setIsPlacingPost] = useState(false);
     const [selectedPost, setSelectedPost] = useState(null);
+    const [isTranslationOpen, setIsTranslationOpen] = useState(false);
 
     const { posts: unifiedPosts, loading } = useUnifiedFeedData({ 
         activeTown: 'global', 
@@ -108,9 +112,15 @@ const Map = () => {
         }
     };
 
+    // DeepSeek R1 Optimization: Memoize the actionBar to prevent O(n) diffing down the React tree on every Map re-render
+    const systemActionBar = useMemo(() => <SystemActionBar />, []);
+
     return (
-        <div className="flex flex-col w-full min-h-full map-page-container">
-            <div className="flex-none w-full sticky top-0 z-[2000] shadow-md bg-theme-base">
+        <>
+        <SystemPageLayout
+            className="map-page-container"
+            containerClassName="flex flex-col relative"
+            header={
                 <ContextualHeader
                     searchTerm={mapSearch}
                     onSearchChange={setMapSearch}
@@ -118,10 +128,10 @@ const Map = () => {
                     onViewModeChange={setViewMode}
                     placeholder="Cerca al mapa..."
                 />
-            </div>
+            }
+        >
 
-            <div className="flex-1 w-full bg-theme-base">
-                <div className="map-content-area w-full max-w-[1600px] mx-auto p-0 md:p-8">
+            <div className="map-content-area w-full max-w-[1600px] mx-auto p-0 md:p-8">
                 <div className={`relative w-full h-[60vh] min-h-[500px] max-h-[850px] md:rounded-[40px] overflow-hidden bg-theme-panel border-none group shadow-2xl`}>
                     {blueprintMode && <BlueprintOverlay label="MAP_VIEW" info="Interactive Placeholder" color="green" />}
                     
@@ -217,10 +227,15 @@ const Map = () => {
                     <div className="absolute top-6 left-6 flex gap-2 overflow-x-auto max-w-full pr-6 no-scrollbar z-[1000] p-1">
                         <button className="flex items-center h-10 px-5 bg-white dark:bg-[#1C1C1E] rounded-full text-[14px] font-black tracking-wide text-gray-900 dark:text-gray-100 shadow-[0_4px_12px_rgba(0,0,0,0.1)] dark:shadow-[0_4px_12px_rgba(0,0,0,0.7)] border border-gray-200 dark:border-[#2C2C2E] hover:scale-105 active:scale-95 transition-all whitespace-nowrap"><Store className="w-[18px] h-[18px] mr-2 text-[#F97316]" /> Comerç</button>
                         <button className="flex items-center h-10 px-5 bg-white dark:bg-[#1C1C1E] rounded-full text-[14px] font-black tracking-wide text-gray-900 dark:text-gray-100 shadow-[0_4px_12px_rgba(0,0,0,0.1)] dark:shadow-[0_4px_12px_rgba(0,0,0,0.7)] border border-gray-200 dark:border-[#2C2C2E] hover:scale-105 active:scale-95 transition-all whitespace-nowrap"><Landmark className="w-[18px] h-[18px] mr-2 text-[#F97316]" /> Patrimoni</button>
-                        <button className="flex items-center h-10 px-5 bg-white dark:bg-[#1C1C1E] rounded-full text-[14px] font-black tracking-wide text-gray-900 dark:text-gray-100 shadow-[0_4px_12px_rgba(0,0,0,0.1)] dark:shadow-[0_4px_12px_rgba(0,0,0,0.7)] border border-gray-200 dark:border-[#2C2C2E] hover:scale-105 active:scale-95 transition-all whitespace-nowrap"><Ticket className="w-[18px] h-[18px] mr-2 text-[#F97316]" /> Events</button>
+                        <button className="flex items-center h-10 px-5 bg-white dark:bg-[#1C1C1E] rounded-full text-[14px] font-black tracking-wide text-gray-900 dark:text-gray-100 shadow-[0_4px_12px_rgba(0,0,0,0.1)] dark:shadow-[0_4px_12px_rgba(0,0,0,0.7)] border border-gray-200 dark:border-[#2C2C2E] hover:scale-105 active:scale-95 transition-all whitespace-nowrap"><Ticket className="w-[18px] h-[18px] mr-2 text-[#F97316]" /> Calendari</button>
                     </div>
                 </div>
             </div>
+
+            <div className="w-full overflow-hidden border-y border-[rgba(0,0,0,0.1)] dark:border-[rgba(255,255,255,0.05)] shadow-md sticky top-16 z-40 bg-theme-base">
+                {systemActionBar}
+            </div>
+
 
             {/* Mur Unificat Inferior */}
             <div className="unified-feed-container w-full max-w-[1600px] mx-auto mt-6 px-4 md:px-8 bg-transparent">
@@ -248,8 +263,14 @@ const Map = () => {
                     </div>
                 )}
             </div>
-            </div>
-        </div>
+        </SystemPageLayout>
+
+        <TranslationModal 
+            isOpen={isTranslationOpen} 
+            onClose={() => setIsTranslationOpen(false)} 
+            config={{ postId: 'mapa', title: 'Radar Sóc de Poble' }} 
+        />
+        </>
     );
 };
 

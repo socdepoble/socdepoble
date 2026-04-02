@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Plus, Share2, MoreHorizontal, MessageCircle, Globe, BookOpen } from 'lucide-react';
+import { Plus, Share2, MoreHorizontal, MessageCircle, Globe } from 'lucide-react';
 
 const UniversalCardFooter = ({
     item,
@@ -10,7 +10,8 @@ const UniversalCardFooter = ({
     navigate,
     handleConnectClick,
     itemCount,
-    itemCountLabel
+    itemCountLabel,
+    viewMode
 }) => {
     const { t } = useTranslation();
 
@@ -21,7 +22,7 @@ const UniversalCardFooter = ({
     if (cardVariant === 'mercat' || cardVariant === 'market') {
         buttonText = t('card.connect', "CONNECTAR");
     } else if (cardVariant === 'pobles') {
-        buttonText = t('card.visit', "VISITAR");
+        buttonText = t('card.connect', "CONNECTAR");
     } else if (item?.type === 'tramit') {
         buttonText = t('card.tramitar', "TRAMITAR");
     }
@@ -54,11 +55,6 @@ const UniversalCardFooter = ({
         alert(t('card.translateAlert', "🌐 Motor de Traducció A Demanda (Vertex AI) prompte disponible."));
     };
 
-    const handleEbookClick = (e) => {
-        if (e) e.stopPropagation();
-        alert(t('card.ebookAlert', "📘 Generació d'E-Book properament."));
-    };
-
     const isCalendar = cardVariant === 'calendar' || item?.type === 'calendar';
 
     return (
@@ -82,46 +78,35 @@ const UniversalCardFooter = ({
             )}
 
             {/* ACTION BUTTONS (EDGE-TO-EDGE COMPACT) */}
-            <div className="flex items-center justify-center gap-2 sm:gap-4 text-xs font-extrabold uppercase tracking-widest shrink-0">
+            <div className="flex items-center justify-center gap-1 sm:gap-2 text-[11px] font-extrabold uppercase tracking-widest shrink-0">
                 {!isCalendar && (
                     <button 
-                        className="flex items-center gap-1.5 px-2 py-2 hover:bg-white/20 dark:hover:bg-black/10 rounded transition-colors active:scale-95 whitespace-nowrap shrink-0" 
+                        className="flex items-center gap-1 px-1.5 py-1.5 hover:bg-white/20 dark:hover:bg-black/10 rounded transition-colors active:scale-95 whitespace-nowrap shrink-0" 
                         onClick={handleTranslateClick} 
                         aria-label={t('card.translate', "Traduir")}
                     >
                         <Globe size={16} strokeWidth={2.5} />
-                        <div className="hidden sm:block"><span>{t('card.translate', "TRADUIR")}</span></div>
+                        {viewMode !== 'grid' && <div className="hidden md:block"><span>{t('card.translate', "TRADUIR")}</span></div>}
                     </button>
                 )}
 
                 <button 
-                    className="flex items-center gap-1.5 px-2 py-2 hover:bg-white/20 dark:hover:bg-black/10 rounded transition-colors active:scale-95 whitespace-nowrap shrink-0" 
+                    className="flex items-center gap-1 px-1.5 py-1.5 hover:bg-white/20 dark:hover:bg-black/10 rounded transition-colors active:scale-95 whitespace-nowrap shrink-0" 
                     onClick={handleCommentClick} 
                     aria-label={t('card.comment', "Comentar")}
                 >
                     <MessageCircle size={16} strokeWidth={2.5} />
-                    <div className="hidden sm:block"><span>{t('card.comment', "COMENTAR")}</span></div>
+                    {viewMode !== 'grid' && <div className="hidden sm:block"><span>{t('card.comment', "COMENTAR")}</span></div>}
                 </button>
 
                 <button 
-                    className="flex items-center gap-1.5 px-2 py-2 hover:bg-white/20 dark:hover:bg-black/10 rounded transition-colors active:scale-95 whitespace-nowrap shrink-0"
+                    className="flex items-center gap-1 px-1.5 py-1.5 hover:bg-white/20 dark:hover:bg-black/10 rounded transition-colors active:scale-95 whitespace-nowrap shrink-0"
                     onClick={handleShareClick} 
                     aria-label={t('card.share', "Compartir")}
                 >
                     <Share2 size={16} strokeWidth={2.5} />
-                    <div className="hidden sm:block"><span>{t('card.share', "COMPARTIR")}</span></div>
+                    {viewMode !== 'grid' && <div className="hidden sm:block"><span>{t('card.share', "COMPARTIR")}</span></div>}
                 </button>
-
-                {!isCalendar && (
-                    <button 
-                        className="flex items-center gap-1.5 px-2 py-2 hover:bg-white/20 dark:hover:bg-black/10 rounded transition-colors active:scale-95 whitespace-nowrap shrink-0"
-                        onClick={handleEbookClick} 
-                        aria-label={t('card.ebook', "E-Book")}
-                    >
-                        <BookOpen size={16} strokeWidth={2.5} />
-                        <div className="hidden sm:block"><span>{t('card.ebook', "E-BOOK")}</span></div>
-                    </button>
-                )}
 
                 {isMaster && (
                     <button 

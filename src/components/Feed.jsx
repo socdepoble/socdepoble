@@ -130,9 +130,14 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
     const getScrollElement = useCallback(() => {
         if (!hideHeader) return parentRef.current;
         if (typeof window === 'undefined' || !parentRef.current) return null;
-        // Quan està incrustat (hideHeader=true), busca el contenidor de scroll pare més proper
-        const scroller = parentRef.current.closest('.profile-scroll-container, .main-viewport');
-        return scroller || parentRef.current;
+        // Cerca el primer ancestre que tingui capacitat de scroll real (overflowY: 'auto' o 'scroll')
+        let el = parentRef.current.parentElement;
+        while (el && el !== document.body && el !== document.documentElement) {
+            const style = window.getComputedStyle(el);
+            if (style.overflowY === 'auto' || style.overflowY === 'scroll') return el;
+            el = el.parentElement;
+        }
+        return parentRef.current;
     }, [hideHeader]);
     const estimateSize = useCallback(() => effectiveViewMode === 'list' ? 120 : (effectiveViewMode === 'single' ? 600 : 900), [effectiveViewMode]);
 
@@ -179,18 +184,9 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
     }, [navigate]);
 
     /*
-     * F-4: Estabilización de handlers por post ID.
-     * Un Map persiste entre renders (via ref) y devuelve la misma referencia.
+     * F-4: S'elimina headerClickCache (BOMBA 3) per evitar stale closures i fugues de memòria.
+     * Es passa directament via onNavigate al UniversalCard.
      */
-    const headerClickCache = useRef(new Map());
-
-    const getHeaderClickHandler = useCallback((post) => {
-        const key = post.uuid || post.id;
-        if (!headerClickCache.current.has(key)) {
-            headerClickCache.current.set(key, () => handleHeaderClick(post));
-        }
-        return headerClickCache.current.get(key);
-    }, [handleHeaderClick]);
 
     const renderPost = useCallback((post) => {
         // FIX: Clave estrictamente determinista y estable. JAMÁS Math.random()
@@ -224,7 +220,7 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
                     title={displayTitle}
                     subtitle={headerSubtitle}
                     image={hasNoImage ? cinematicPlaceholder : postImage}
-                    onHeaderClick={getHeaderClickHandler(post)}
+                    onNavigate={() => handleHeaderClick(post)}
                     mode="mur"
                     viewMode={effectiveViewMode}
                     className={`universal-card-virtual ${isOptimistic ? 'optimistic' : ''} ${post.is_iaia_inspired ? 'animate-bategat' : ''} ${gloveMode ? 'mode-guants' : ''}`}
@@ -240,7 +236,7 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
                 </UniversalCard>
             </div>
         );
-    }, [gloveMode, getHeaderClickHandler, effectiveViewMode]);
+    }, [gloveMode, handleHeaderClick, effectiveViewMode]);
 
     if (loading && posts.length === 0) {
         return (
@@ -253,14 +249,14 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
     if (error) {
         return (
             <div className="flex-1 flex flex-col h-full bg-theme-base relative overflow-hidden items-center justify-center p-8">
-                <p className="font-['Plus_Jakarta_Sans'] text-[#EF4444] text-center font-bold mb-4">{t('feed.error_loading') || 'Error de càrrega'}</p>
+                <p className="text-[#EF4444] text-center font-bold mb-4">{t('feed.error_loading') || 'Error de càrrega'}</p>
                 <StatusLoader type="error" message={error} onRetry={() => fetchPosts()} />
             </div>
         );
     }
 
     return (
-        <div className="flex-1 flex flex-col min-h-0 h-full bg-theme-base relative overflow-hidden font-['Plus_Jakarta_Sans'] w-full">
+        <div className="flex-1 flex flex-col min-h-0 h-full bg-theme-base relative overflow-hidden w-full">
             <div id="feed-live-region" className="sr-only" role="status" aria-live="polite" aria-atomic="true">
                 {loading && posts.length === 0 && 'Carregant publicacions...'}
                 {loadingMore && 'Carregant més publicacions...'}
@@ -343,7 +339,7 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
                                                 key={post.uuid || post.id || idx}
                                                 aria-posinset={virtualRow.index * columnCount + idx + 1}
                                                 aria-setsize={hasMore ? -1 : activePosts.length}
-                                                style={{ contain: 'layout paint style', contentVisibility: 'auto', containIntrinsicSize: '0 600px' }}
+                                                style={{ contain: 'layout paint style' }}
                                             >
                                                 <CardErrorBoundary fallback={<CorruptedCardPlaceholder />}>
                                                     {renderPost(post)}

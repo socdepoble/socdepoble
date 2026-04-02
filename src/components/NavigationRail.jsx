@@ -11,7 +11,7 @@ const menuItems = [
   { path: "/mur", key: "nav.feed", fallback: "Mur", icon: LayoutGrid },
   { path: "/mercat", key: "nav.market", fallback: "Mercat", icon: Store },
   { path: "/pobles", key: "nav.towns", fallback: "Pobles", icon: MapPin },
-  { path: "/calendari", key: "nav.events", fallback: "Events", icon: Calendar },
+  { path: "/calendari", key: "nav.events", fallback: "Calendari", icon: Calendar },
   { path: "/mapa", key: "nav.map", fallback: "Mapa", icon: Map },
   { path: "/el-projecte", key: "nav.project", fallback: "El Projecte", icon: BookOpen },
   { path: "/notes", key: "nav.notes", fallback: "Bloc de Notes", icon: FileText },
@@ -28,12 +28,12 @@ const NavigationRail = () => {
   };
 
   return (
-    <nav className="w-full h-full flex flex-col bg-[var(--sdp-bg)] border-r border-[#333] relative overflow-hidden">
+    <nav className="w-full h-full flex flex-col bg-transparent relative overflow-hidden">
       
       {/* 1. BOTÓ D'ACCIÓ RÀPIDA (TOP - PROTOCOL HUB) - FIT 48PX */}
-      <div className="h-[48px] min-h-[48px] max-h-[48px] shrink-0 border-b border-[#333] relative z-20">
+      <div className="h-[48px] min-h-[48px] max-h-[48px] shrink-0 border-b border-[#ffffff14] relative z-20 bg-[#0984E3] overflow-hidden -ml-px w-[calc(100%+1px)]">
         <button
-          className="w-full h-full bg-[var(--sdp-blue)] text-white flex items-center justify-center space-x-2 transition-colors hover:brightness-110 focus:outline-none shadow-sm"
+          className="absolute inset-0 w-full h-full text-white flex items-center justify-center space-x-2 transition-colors hover:brightness-110 outline-none"
           onClick={() => navigate("/hub")}
         >
           <div className="flex items-center justify-center w-8 h-8 rounded shrink-0">

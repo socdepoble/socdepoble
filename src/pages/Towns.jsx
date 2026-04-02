@@ -132,12 +132,22 @@ const Towns = () => {
   const [townSearch, setTownSearch] = useState("");
   const { viewMode, setViewMode, columnCount, containerRef } = useViewMode("towns_view_mode", "grid");
   
-  const [showWikiBanner, setShowWikiBanner] = useState(() => {
+  const [showWikiBanner, setShowWikiBanner] = useState(true);
+
+  useEffect(() => {
     if (typeof window !== "undefined") {
-       return localStorage.getItem("hide_wiki_banner") !== "true" && sessionStorage.getItem("hide_wiki_banner_session") !== "true";
+       const hiddenLocal = localStorage.getItem("hide_wiki_banner") === "true";
+       const hiddenSession = sessionStorage.getItem("hide_wiki_banner_session") === "true";
+       
+       if (profile && hiddenLocal) {
+           setShowWikiBanner(false);
+       } else if (!profile && hiddenSession) {
+           setShowWikiBanner(false);
+       } else {
+           setShowWikiBanner(true);
+       }
     }
-    return true;
-  });
+  }, [profile]);
 
   const handleDismissWikiBanner = () => {
     setShowWikiBanner(false);
@@ -277,37 +287,32 @@ const Towns = () => {
           />
       </div>
 
+      {/* ATRIBUCIÓ OBLIGATÒRIA I AGRAÏMENT A WIKIPEDIA (IMPERATIU LEGAL) - AVISO COMPACTO PEGADO A LA BARRA */}
+      {showWikiBanner && currentTab === "pobles" && (
+        <div className="flex-none w-full bg-[#FF6D23]/10 dark:bg-[#FF6D23]/15 border-b border-[#FF6D23]/20 px-3 py-2 flex items-center justify-between gap-3 shadow-inner z-40">
+          <div className="flex items-center gap-2 flex-1 min-w-0 md:max-w-4xl mx-auto">
+             <Info size={18} className="text-[#FF6D23] flex-shrink-0" />
+             <p className="text-[11px] sm:text-xs text-gray-800 dark:text-gray-200 leading-tight md:whitespace-normal mb-0">
+               <span className="font-black mr-1 hidden sm:inline">Patrimoni Obert Connectat:</span> 
+               Dades i imatges enriquides gràcies a <a href="https://ca.wikipedia.org" target="_blank" rel="noopener noreferrer" className="text-[#FF6D23] hover:underline font-bold">Wikipedia</a> i <a href="https://commons.wikimedia.org" target="_blank" rel="noopener noreferrer" className="text-[#FF6D23] hover:underline font-bold">Wikimedia Commons</a> (<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer" className="underline">CC BY-SA 4.0</a>). La memòria no es destrueix, es comparteix.
+             </p>
+          </div>
+          <button 
+            onClick={handleDismissWikiBanner}
+            className="flex-shrink-0 text-gray-500 hover:text-[#FF6D23] transition-colors bg-white/50 dark:bg-black/20 rounded-lg p-1 animate-pulse hover:animate-none border border-black/5 dark:border-white/5"
+            aria-label="Tancar avís"
+            title="Tancar i no tornar a mostrar"
+          >
+            <X size={36} strokeWidth={2.5} />
+          </button>
+        </div>
+      )}
+
       <div className="flex-1 overflow-y-auto custom-scrollbar towns-content-area" ref={containerRef}>
         {currentTab === "pobles" && (
-          <UniversalGridWrapper viewMode={viewMode}>
-            <UniversalGridRow viewMode={viewMode} columnCount={columnCount} className="pt-6 pb-8">
-              {/* ATRIBUCIÓ OBLIGATÒRIA I AGRAÏMENT A WIKIPEDIA (IMPERATIU LEGAL) */}
-              {showWikiBanner && (
-                <div className="col-span-full mb-6 relative p-6 rounded-2xl bg-[#FF6D23]/5 dark:bg-[#FF6D23]/10 border border-[#FF6D23]/20 dark:border-[#FF6D23]/10">
-                  <button 
-                    onClick={handleDismissWikiBanner}
-                    className="absolute top-4 right-4 text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors p-1"
-                    aria-label="Tancar avís"
-                  >
-                    <X size={20} />
-                  </button>
-                  <div className="flex flex-col md:flex-row gap-4 items-start md:items-center">
-                    <div className="flex-shrink-0 p-3 bg-[#FF6D23]/10 rounded-xl text-[#FF6D23]">
-                      <Info size={24} />
-                    </div>
-                    <div className="flex-1 pr-8">
-                      <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
-                        🏛️ Patrimoni Obert Connectat
-                      </h4>
-                      <p className="text-sm text-gray-800 dark:text-gray-200 leading-relaxed">
-                        Les imatges històriques principals i els textos descriptius fonamentals s’enriqueixen en temps real gràcies al coneixement col·lectiu actiu de <a href="https://ca.wikipedia.org" target="_blank" rel="noopener noreferrer" className="text-[#FF6D23] hover:underline font-semibold">Wikipedia</a> i <a href="https://commons.wikimedia.org" target="_blank" rel="noopener noreferrer" className="text-[#FF6D23] hover:underline font-semibold">Wikimedia Commons</a>, d'acord amb la llicència <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer" className="underline">CC BY-SA 4.0</a>.
-                        <br/>
-                        <span className="mt-2 block font-medium">La memòria no es destrueix, es comparteix.</span>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              )}
+          <UniversalGridWrapper viewMode={viewMode} className="pt-6">
+            <UniversalGridRow viewMode={viewMode} columnCount={columnCount} className="pb-8">
+
 
               {filteredTowns.length > 0 ? (
                 filteredTowns.map((town) => {
@@ -427,8 +432,8 @@ const Towns = () => {
                 <p>Prova amb altres paraules o etiquetes.</p>
               </div>
             ) : (
-              <UniversalGridWrapper viewMode={viewMode}>
-                <UniversalGridRow viewMode={viewMode} columnCount={columnCount} className="pt-6 pb-8">
+              <UniversalGridWrapper viewMode={viewMode} className="pt-6">
+                <UniversalGridRow viewMode={viewMode} columnCount={columnCount} className="pb-8">
                   {filteredEvents.map((event) => (
                         <UniversalCard
                           key={event.id}

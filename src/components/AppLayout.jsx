@@ -27,18 +27,17 @@ const ProfileView = lazy(() => import("../pages/ProfileView"));
 const AdminPanel = lazy(() => import("../pages/AdminPanel"));
 const TownDetail = lazy(() => import("../pages/TownDetail"));
 const ArxiuOr = lazy(() => import("../pages/Archive"));
-const CalendariMaster = lazy(() => import("../pages/MasterCalendar"));
 const AlbumGlobal = lazy(() => import("../pages/GlobalAssetAlbum"));
-const MapaActius = lazy(() => import("../pages/Map"));
 const SearchDiscover = lazy(() => import("../pages/SearchDiscover"));
 const OficiDocumentacio = lazy(() => import("../pages/OficiDocumentacio"));
 const NexusFlash = lazy(() => import("../pages/NexusFlash"));
-const SolatgeConsole = lazy(() => import("../pages/SolatgeConsole"));
 const ProjectPresentation = lazy(() => import("../pages/ProjectPresentation"));
 const GenesisViewer = lazy(() => import("../pages/GenesisViewer"));
 const Versions = lazy(() => import("../pages/Versions"));
 const BuscadorAjudes = lazy(() => import("../pages/BuscadorAjudes"));
 const DirectoriComunitat = lazy(() => import("../pages/CommunityDirectory"));
+const MapaActius = lazy(() => import('../pages/Map'));
+const CalendariMaster = lazy(() => import('../pages/MasterCalendar'));
 const Header = lazy(() => import("./Header"));
 const CreationHub = lazy(() => import("./CreationHub"));
 const AccessibilitatUniversal = lazy(() => import("./AccessibilitatUniversal"));
@@ -47,18 +46,12 @@ const ArchitecteView = lazy(() => import("./ArchitecteView"));
 const ResourceDetail = lazy(() => import("../pages/ResourceDetail"));
 const InfografiaGallery = lazy(() => import("./Infoteca/InfografiaGallery"));
 const ContextualMenu = lazy(() => import("./ContextualMenu"));
-const CategoryManager = lazy(() => import("./CategoryManager"));
-const ChatManager = lazy(() => import("../pages/ChatManager"));
 const Notes = lazy(() => import("../pages/Notes"));
 const IAIAChatSidebar = lazy(() => import("./IAIAChatSidebar"));
 const ProfilePowerMenu = lazy(() => import("./ProfilePowerMenu"));
-const MenuManagementView = lazy(() => import("../pages/MenuManagementView"));
-const Utilitats = lazy(() => import("../pages/Utilitats"));
 const Chrome145Report = lazy(() => import("../pages/Chrome145Report"));
-const HubView = lazy(() => import("../pages/HubView"));
 
 const EpubViewer = lazy(() => import("./EpubViewer"));
-const VisionView = lazy(() => import("../pages/VisionView"));
 const MedicationConfirm = lazy(() => import("../pages/MedicationConfirm"));
 const VitalSecurity = lazy(() => import("../pages/VitalSecurity"));
 
@@ -158,22 +151,12 @@ const AppLayout = () => {
   const isOverflowHidden = React.useMemo(() => 
     location.pathname.startsWith("/chats") ||
     location.pathname.startsWith("/gestio/xats") ||
-    location.pathname.startsWith("/gestio-menu") ||
-    location.pathname.startsWith("/notes") ||
-    location.pathname.startsWith("/el-projecte") ||
-    location.pathname.startsWith("/mur") ||
-    location.pathname.startsWith("/calendari") ||
-    location.pathname.startsWith("/mapa") ||
-    location.pathname.startsWith("/perfil") ||
-    location.pathname.startsWith("/arxiu") ||
-    location.pathname.startsWith("/utilitats") ||
-    location.pathname.startsWith("/pobles") ||
-    location.pathname.startsWith("/versions") ||
-    location.pathname.startsWith("/register"),
+    location.pathname.startsWith("/gestio-menu"),
   [location.pathname]);
 
   // [PROTOCOL v10.24.0-MOBILE-FIX] Injecció forçada de Viewport per a evitar escalat d'escriptori
   React.useEffect(() => {
+    // [PROTOCOL v10.24.0-MOBILE-FIX] Injecció forçada de Viewport per a evitar escalat d'escriptori
     const viewport = document.querySelector('meta[name="viewport"]');
     if (viewport) {
       viewport.setAttribute(
@@ -187,9 +170,6 @@ const AppLayout = () => {
         "width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover";
       document.getElementsByTagName("head")[0].appendChild(meta);
     }
-
-    // [SCROLL PERSISTENCE] Ensure root body is not jumpy
-    document.body.style.overscrollBehaviorY = "none";
   }, []);
 
   const path = location.pathname.split("/")[1] || "chats";
@@ -292,10 +272,10 @@ const AppLayout = () => {
 
         {/* 2. MAIN VIEWPORT (EL ESCENARIO) - HABILITEM SCROLL (TABULA RASA) */}
         <main
-          className={`min-w-0 min-h-0 relative bg-theme-base ${
+          className={`min-w-0 min-h-0 relative bg-theme-base flex flex-col h-full ${
             isOverflowHidden
               ? "overflow-hidden"
-              : "overflow-y-auto overscroll-contain custom-scrollbar"
+              : "overflow-y-auto overscroll-contain custom-scrollbar main-viewport"
           }`}
         >
           <Suspense fallback={null}>
@@ -306,11 +286,11 @@ const AppLayout = () => {
             label={currentLabel}
             dimensions="MATCH"
             color="emerald"
-            className="h-full relative z-10"
+            className="flex-1 min-h-0 relative z-10 flex flex-col"
           >
             <Suspense fallback={<NanoLoader message={t('common.connecting', 'Connectant...')} />}>
               <ErrorBoundary>
-                <div className="h-full relative min-w-0 min-h-0 m-0">
+                <div className="flex-1 min-h-0 relative min-w-0 m-0 flex flex-col">
                   <Routes>
                     <Route
                       path="/"
@@ -321,6 +301,8 @@ const AppLayout = () => {
                     <Route path="/pobles" element={<Towns />} />
                     <Route path="/pobles/:id" element={<ProfileView />} />
                     <Route path="/versions" element={<Versions />} />
+                    <Route path="/mapa" element={<MapaActius />} />
+                    <Route path="/calendari" element={<CalendariMaster />} />
 
                     <Route path="/chats/*" element={<ChatLayout />}>
                       <Route index element={<ChatEmptyState />} />
@@ -351,68 +333,21 @@ const AppLayout = () => {
                     <Route path="/login" element={<Register />} />
                     <Route path="/registre" element={<Register />} />
                     <Route path="/register" element={<Register />} />
-                    <Route path="/mapa" element={<MapaActius />} />
                     <Route path="/search" element={<SearchDiscover />} />
                     <Route path="/ofici" element={<OficiDocumentacio />} />
                     <Route path="/ofici/:id" element={<OficiDocumentacio />} />
-                    <Route path="/visio" element={<VisionView />} />
                     <Route
                       path="/buscador-ajudes"
                       element={<BuscadorAjudes />}
                     />
                     <Route path="/nexus" element={<NexusFlash />} />
-                    <Route
-                      path="/solatge"
-                      element={
-                        <ProtectedRoute>
-                          <SolatgeConsole />
-                        </ProtectedRoute>
-                      }
-                    />
                     <Route path="/genesis" element={<GenesisViewer />} />
                     <Route path="/directori" element={<DirectoriComunitat />} />
-                    <Route path="/tools/trellat" element={<SolatgeConsole />} />
+                    <Route path="/tools/trellat" element={<Navigate to="/solatge" replace />} />
                     <Route path="/infoteca" element={<InfografiaGallery />} />
-                    <Route
-                      path="/admin"
-                      element={
-                        <ProtectedRoute>
-                          <AdminPanel />
-                        </ProtectedRoute>
-                      }
-                    />
                     <Route path="/arxiu" element={<ArxiuOr />} />
                     <Route path="/arxiu/:id" element={<ResourceDetail />} />
-                    <Route path="/calendari" element={<CalendariMaster />} />
                     <Route path="/fotos/global" element={<AlbumGlobal />} />
-                    <Route
-                      path="/gestio/categories"
-                      element={
-                        <ProtectedRoute>
-                          <CategoryManager />
-                        </ProtectedRoute>
-                      }
-                    />
-                    <Route
-                      path="/gestio/xats/:id?"
-                      element={<ChatManager />}
-                    />
-                    <Route
-                      path="/gestio-menu"
-                      element={
-                        <ProtectedRoute>
-                          <MenuManagementView />
-                        </ProtectedRoute>
-                      }
-                    />
-                    <Route
-                      path="/utilitats"
-                      element={
-                        <ProtectedRoute>
-                          <Utilitats />
-                        </ProtectedRoute>
-                      }
-                    />
                     <Route
                       path="/accessibilitat"
                       element={<AccessibilitatUniversal />}
@@ -423,10 +358,6 @@ const AppLayout = () => {
                     <Route path="/page/:slug" element={<ProjectPresentation />} />
                     <Route path="/reader" element={<EpubViewer url="/assets/books/el-projecte.epub" title={"Sóc de Poble: El Projecte"} onClose={() => window.history.back()} />} />
                     <Route path="/chrome-145" element={<Chrome145Report />} />
-                    <Route
-                      path="/hub"
-                      element={<HubView />}
-                    />
 
                     {/* Fallback 404 Catch-All Route */}
                     <Route path="*" element={<Navigate to="/mur" replace />} />
@@ -501,4 +432,4 @@ const AppLayout = () => {
   );
 };
 
-export default React.memo(AppLayout);
+export default AppLayout;

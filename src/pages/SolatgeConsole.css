@@ -4,7 +4,6 @@
   flex-direction: column;
   gap: 32px;
   background-color: var(--bg-master);
-  min-height: calc(100dvh - 112px);
   font-family: var(--font-sans);
   color: var(--text-main);
   transition: all 0.3s ease;

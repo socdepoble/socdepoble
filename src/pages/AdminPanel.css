@@ -1,6 +1,5 @@
 /* ANTIGRAVITY ADMIN CORE - HARMONY EDITION */
 .admin-container {
-    min-height: 100dvh;
     padding: 0;
     font-family: var(--sdp-font-sans);
     transition: all 0.5s ease;
@@ -286,7 +285,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100dvh;
+    height: 100%;
 }
 
 .spin {
@@ -362,7 +361,6 @@
 .admin-container {
     padding: var(--space-md);
     background-color: var(--bg-main);
-    min-height: 100dvh;
     color: var(--text-main);
 }
 
@@ -532,7 +530,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100dvh;
+    height: 100%;
 }
 
 /* Lexicon Admin Styles */

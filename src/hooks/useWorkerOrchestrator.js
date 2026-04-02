@@ -3,7 +3,7 @@ import { supabaseService } from '../services/supabaseService';
 
 export function useWorkerOrchestrator() {
   const workerRef = useRef(null);
-  const [syncState, setSyncState] = useState('offline');
+  const [syncState, setSyncState] = useState(navigator.onLine ? 'online' : 'offline');
   const [pendingCount, setPendingCount] = useState(0);
 
   // Inicialitzar el Web Worker dedicat a PowerSync

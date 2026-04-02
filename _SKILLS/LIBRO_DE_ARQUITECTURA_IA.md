@@ -11,6 +11,24 @@ Sirve como manual organizativo, modelo de invocación para el equipo fundador, y
 
 ---
 
+> **📊 METADATOS DE EDICIÓN & ESTADÍSTICAS**
+> **Palabras totales:** ~1.850 palabras
+> **Maquetación Amazon (6"x9" / 15.24 x 22.86 cm):** ~7 páginas (Ideal estándar KDP, formato idéntico sugerido para los Lèxics)
+> **Maquetación A4 (Para impresión casera / Lectura Senior):** ~4 páginas
+
+---
+
+## 📢 ÚLTIMAS NOVEDADES (Registro Interplanetario y Auditorías Finales)
+
+- **02 de Abril 2026 (Fase Final de Auditoría y Malla):** 
+  - Aprobación técnica de la **V13 "Trellat Mesh"**.
+  - Finalización del motor DTN (Store & Forward) para mulas de datos 100% offline.
+  - Generación de *Thought Experiments* de DeepSpace (DTN interplanetario para Marte).
+  - Integración del Búnker Crypto atómico e inexpugnable (AES-GCM + Post-Cuántica ML-KEM).
+  - Revisión Final aprobada por Claude, Qwen y DeepSeek antes de su latencia de descanso.
+
+---
+
 ## PARTE I: EL ROL DEL CREADOR HUMANO (TÚ)
 
 ### ¿Qué estás haciendo si no sabes de informática?

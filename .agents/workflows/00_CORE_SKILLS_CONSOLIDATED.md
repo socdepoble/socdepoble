@@ -710,6 +710,14 @@ Tot el procés ha d'estar encapsulat i automatitzat al 100% executant l'script `
 
 - **Interdit com a paraula insígnia:** Has de tractar la paraula "Bategar", "Bategant" o derivats com una paraula ordinària del diccionari, no com el segell corporatiu d'interfícies ni processos. No l'utilitzes mai de forma sistemàtica en estats de càrrega, documentació ni interaccions llevat que l'usuari (Javi) t'ho exigisca de forma *estricta i literal*. Fes servir mots neutres com "Connectant...", "Carregant..." o similars per defecte.
 
+## 13. Transparencia Analítica y Exposición del 'Chain of Thought'
+
+El proceso de razonamiento oculto de la IA (Chain of Thought / Bloques `<thought>`) y su toma de decisiones arquitectónicas son de tremendo interés y valor didáctico para el Mestre, ya que le ayudan a detectar bucles, alucinaciones o genialidades ocultas.
+
+- **Exposición a Demanda:** Si el usuario, ya sea en un caso práctico específico o a nivel general, detecta o solicita ver "cómo piensa" la IA u "obtenerme tus reflexiones/pensamientos", **DEBES proporcionarle una copia estructural textual de tus pensamientos o un volcado estructurado exhaustivo de tu razonamiento oculto previo a tomar decisiones**.
+- **Metodología de Volcado:** No actúes a la defensiva cerrando el conocimiento como algo privado. Al contrario, desgrana línea por línea (copiando y pegando tus pensamientos, si el usuario te lo requiere) cómo tu lógica llegó a la refactorización o ejecución propuesta para que todos aprendaís.
+- **Auditoría Continua:** Promueve este volcado en procesos particularmente oscuros o donde las decisiones CSS/JS hayan dado varios giros antes de materializarse en código, convirtiendo a Antigravity en una entidad 100% transparente ("Glassbox AI").
+
 ---
 
 ## [SKILL ANTIGUO: modo-produccion.md]
@@ -881,3 +889,16 @@ Aquesta és la regla d'or suprema per a qualsevol contingut visual o textual:
 
 4. **Alturas y Consistencia Geométrica:**
    - Los componentes respetan la matriz de alturas (48px, 72px) para asegurar cohesión.
+
+5. **Blue Protocol & Identidad Corporativa:**
+   - Todos los botones de acción primarios de sistema (como "Connectar" en el NavigationRail y SystemActionBar) deben usar el **Azul Corporativo Oficial (`#0984E3`)**. Prohibido usar añil o colores por defecto de Tailwind como `bg-indigo-600` sin justificación.
+
+6. **Estabilidad de Layout (Zero Ghost Pixels):**
+   - Para evitar desajustes subpíxel causados por bordes y zoom (el efecto "fantasma" en el sidebar), usar técnicas defensivas como márgenes negativos (`-ml-px`) acoplados a anchos expandidos (`w-[calc(100%+1px)]`). La solidez de la UI debe ser inquebrantable ("Arquitectura de Ferro").
+
+7. **Zero Warning / Zero Duplicate Policy:**
+   - El código debe estar pulido hasta quedar `Exit code: 0` puro en el linter. Las declaraciones duplicadas (ej. `combinedMap`) que detienen los flujos de Build en producción se castigan con la eliminación inmediata. Cada despliegue debe ser aséptico.
+
+8. **Protocolo Inquebrantable de Despliegue PWA (Anti-Caché):**
+   - **NUNCA** hagas un `DEPLOY_SITEGROUND.sh` sin haber **AUMENTADO PRIMERO LA VERSIÓN** física tanto en `package.json` (`version`) como en `src/constants.js` (`APP_VERSION`).
+   - Sóc de Poble es una PWA persistente: si la versión no cambia, el `VersionGatekeeper` en `entry.jsx` no se activa, el Service Worker no limpia sus cachés antiguas, y los usuarios verán la versión literal "del día anterior" aunque los archivos FTP se hayan subido. Es tu máxima responsabilidad actualizar el versionado antes de desplegar.

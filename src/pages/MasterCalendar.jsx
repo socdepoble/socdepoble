@@ -1,6 +1,6 @@
 import { useState, useMemo, useRef, useEffect, useCallback, useDeferredValue } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Calendar as CalendarIcon, ChevronLeft, ChevronRight, Sparkles, Brain, ArrowLeft, ArrowRight, Grid, LayoutList, Settings } from 'lucide-react';
+import { Calendar as CalendarIcon, ChevronLeft, ChevronRight, Sparkles, Brain, ArrowLeft, ArrowRight, Grid, LayoutList, Settings, Plus, Globe, MessageCircle, Share2 } from 'lucide-react';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -9,7 +9,8 @@ import interactionPlugin from '@fullcalendar/interaction';
 import listPlugin from '@fullcalendar/list';
 
 import ContextualHeader from '../components/ContextualHeader';
-import { UniversalGridWrapper, UniversalGridRow } from '../components/UniversalGrid';
+import SystemPageLayout from '../components/SystemPageLayout';
+import SystemActionBar from '../components/SystemActionBar';
 import { useViewMode } from '../hooks/useViewMode';
 import { useTranslation } from 'react-i18next';
 import esLocale from '@fullcalendar/core/locales/es';
@@ -18,7 +19,6 @@ import enLocale from '@fullcalendar/core/locales/en-gb';
 import frLocale from '@fullcalendar/core/locales/fr';
 import deLocale from '@fullcalendar/core/locales/de';
 import { useDesign } from '../context/DesignContext';
-import UniversalCard from '../components/UniversalCard';
 import SEO from '../components/SEO';
 import { CALENDAR_EVENTS } from '../data/calendarData';
 import { MOCK_EVENTS } from '../data';
@@ -26,10 +26,12 @@ import { AGENTS } from '../config/agentsMap';
 import { useGoogleAuthCalendar } from '../hooks/useGoogleAuthCalendar';
 import { useInternalCalendar } from '../hooks/useInternalCalendar';
 import CalendarManagerModal from '../components/CalendarManagerModal';
-import UniversalCardFooter from '../components/UniversalCard/UniversalCard.Footer';
 import GlobalErrorBoundary from '../components/GlobalErrorBoundary';
 import VirtualizedEventFeed from '../components/VirtualizedEventFeed';
+import TranslationModal from '../components/TranslationModal';
 import { useRhizomeEvents } from '../hooks/useRhizomeEvents';
+import { useUnifiedFeedData } from '../hooks/useUnifiedFeedData';
+import { useAuth } from '../context/AuthContext';
 import './MasterCalendar.css';
 
 const MasterCalendarContent = () => {
@@ -38,6 +40,14 @@ const MasterCalendarContent = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [currentDate, setCurrentDate] = useState(new Date());
     const [isManagerOpen, setIsManagerOpen] = useState(false);
+    const [isTranslationOpen, setIsTranslationOpen] = useState(false);
+
+    const { user, isPlayground } = useAuth();
+    const { posts: unifiedPosts } = useUnifiedFeedData({ 
+        activeTown: 'global', 
+        isPlayground, 
+        user 
+    });
 
     const { i18n } = useTranslation();
     const { visionMode } = useDesign();
@@ -54,7 +64,7 @@ const MasterCalendarContent = () => {
     const queryParams = new URLSearchParams(location.search);
     const currentRole = queryParams.get('role');
 
-    const { viewMode, setViewMode, columnCount, effectiveViewMode } = useViewMode('calendar_view_mode', 'grid');
+    const { viewMode, setViewMode, columnCount, effectiveViewMode, containerRef } = useViewMode('calendar_view_mode', 'grid');
 
     const { 
         calendars, selectedCalIds, toggleCalendar, hostCalId, toggleHost, 
@@ -109,7 +119,29 @@ const MasterCalendarContent = () => {
             return d >= startR && d <= endR;
         });
 
-        let combined = [...rawEvents, ...mEvents, ...rhizomeEvents];
+        // Adapta los unifiedPosts para que el calendário visual no se vuelva loco
+        // pero que sí aparezcan en el timeline del VirtualizedEventFeed
+        const uEvents = (unifiedPosts || []).map(p => ({
+            ...p,
+            start: p.created_at || p.date,
+            date: p.created_at || p.date,
+            // Forzamos que los posts no abarroten el calendario (se muestran como dots si acaso)
+            // pero que estén íntegros para el feed
+            isPost: true
+        }));
+
+        // Deduplicar eventos combinados basándose en ID explícito (evitando clashing de React Keys y duplicidad visual)
+        const combinedMap = new Map();
+        [...rawEvents, ...mEvents, ...rhizomeEvents, ...uEvents].forEach((evt, idx) => {
+            const key = String(evt.uuid || evt.id || `temp-${idx}`);
+            // Preferir la primera aparición (mEvents/Calendar) antes que el fallback de uEvents
+            if (!combinedMap.has(key)) {
+                combinedMap.set(key, evt);
+            }
+        });
+        
+
+        let combined = Array.from(combinedMap.values());
 
         if (currentRole && currentRole !== 'events') {
             combined = combined.filter(e => (e.type || 'personal').toLowerCase() === currentRole.toLowerCase());
@@ -118,10 +150,12 @@ const MasterCalendarContent = () => {
             const searchLower = searchTerm.toLowerCase();
             combined = combined.filter(e => 
                 e.title?.toLowerCase().includes(searchLower) || 
-                e.description?.toLowerCase().includes(searchLower)
+                e.description?.toLowerCase().includes(searchLower) ||
+                e.content?.toLowerCase().includes(searchLower)
             );
         }
 
+        // Ordenar cronològicament garantint newest first en el timeline
         combined.sort((a, b) => {
             const dateA = new Date(a.date || a.start || a.created_at || 0).getTime();
             const dateB = new Date(b.date || b.start || b.created_at || 0).getTime();
@@ -129,10 +163,11 @@ const MasterCalendarContent = () => {
                    (isNaN(dateA) ? Number.MAX_SAFE_INTEGER : dateA);
         });
 
-        const calEvents = combined.map(ev => ({
-            id: ev.id,
+        // Generar calendarEvents exclusivament per al calendari visual (FullCalendar)
+        const calEvents = combined.filter(e => !e.isPost).map(ev => ({
+            id: String(ev.id || ev.uuid),
             title: ev.title,
-            start: ev.timeStart || ev.date || ev.start,
+            start: ev.timeStart || ev.date || ev.start || ev.created_at, // Incluir created_at para posts
             allDay: !ev.timeStart,
             extendedProps: {
                 description: ev.description,
@@ -140,13 +175,13 @@ const MasterCalendarContent = () => {
                 type: ev.type,
                 sourceCalendarId: ev.sourceCalendarId,
                 emoji: ev.emoji,
-                rawDate: ev.date || ev.start
+                rawDate: ev.date || ev.start || ev.created_at
             },
             backgroundColor: ev.colorId ? 'var(--hud-accent)' : undefined
         }));
 
         return { combinedEvents: combined, calendarEvents: calEvents };
-    }, [rawEvents, visionMode, currentRole, searchTerm, currentRangeStr, rhizomeEvents]);
+    }, [rawEvents, visionMode, currentRole, searchTerm, currentRangeStr, rhizomeEvents, unifiedPosts]);
 
     const deferredEvents = useDeferredValue(calendarEvents);
     const deferredCombined = useDeferredValue(combinedEvents);
@@ -159,32 +194,37 @@ const MasterCalendarContent = () => {
     }, [deferredEvents.length]);
 
     return (
-        <div className="calendar-master-page animate-in flex flex-col min-h-full">
+        <SystemPageLayout
+            className="calendar-master-page animate-in"
+            containerClassName=""
+            mainClassName="flex flex-col relative"
+            header={
+                <ContextualHeader 
+                    searchTerm={searchTerm}
+                    onSearchChange={setSearchTerm}
+                    viewMode={viewMode}
+                    onViewModeChange={setViewMode}
+                    placeholder="Cerca a l'agenda..."
+                    backButton={
+                        <button 
+                            onClick={() => navigate(-1)}
+                            aria-label="Torna enrere"
+                            className="flex items-center gap-1 hover:text-white active:scale-95 transition-transform"
+                        >
+                            <ArrowLeft size={20} />
+                        </button>
+                    }
+                />
+            }
+        >
             <SEO 
                 title="Calendari Master [Simbiosi]" 
                 description="L'agenda i carpeta visual d'esdeveniments més innovadora del teu municipi. Connecta la teua vida a la comunitat."
                 image="/seo-calendar-m3.png"
-                url="/calendar"
-            />
-            
-            <ContextualHeader 
-                searchTerm={searchTerm}
-                onSearchChange={setSearchTerm}
-                viewMode={viewMode}
-                onViewModeChange={setViewMode}
-                placeholder="Cerca a l'agenda..."
-                backButton={
-                    <button 
-                        onClick={() => navigate(-1)}
-                        aria-label="Torna enrere"
-                        className="flex items-center gap-1 hover:text-white active:scale-95 transition-transform"
-                    >
-                        <ArrowLeft size={20} />
-                    </button>
-                }
+                url="/calendari"
             />
 
-            <div className="flex-1 flex flex-col w-full h-full">
+            <div className="flex-1 flex flex-col w-full h-full min-h-0">
                 <CalendarManagerModal 
                     isOpen={isManagerOpen}
                     onClose={() => setIsManagerOpen(false)}
@@ -201,7 +241,7 @@ const MasterCalendarContent = () => {
                     toggleInternalCalendar={toggleInternalCalendar}
                 />
 
-                <div className="flex-1 min-h-[600px] mb-8 relative px-4">
+                <div className="flex-1 min-h-[600px] relative w-full mb-8 pt-2 max-w-[1500px] mx-auto px-0 md:px-8">
                     <FullCalendar
                         ref={calendarRef}
                         locale={fcLocale}
@@ -260,25 +300,21 @@ const MasterCalendarContent = () => {
                     />
                 </div>
 
-                <div className="sticky top-[64px] z-[55] w-full shadow-xl shadow-black/20 mb-8 overflow-hidden">
-                    <UniversalCardFooter
-                        item={{ id: 'master-calendar', type: 'calendar' }}
-                        cardVariant="calendar"
-                        displayTitle="Calendari de la Comunitat"
-                        isMaster={true}
-                        navigate={navigate}
-                        handleConnectClick={() => setIsManagerOpen(true)}
-                        itemCount={deferredEvents.length}
-                        itemCountLabel="PUBLICACIONS"
-                    />
+                <div className="w-full overflow-hidden border-y border-[rgba(0,0,0,0.1)] dark:border-[rgba(255,255,255,0.05)] shadow-md sticky top-16 z-40 mb-4 bg-theme-base">
+                   <SystemActionBar hideEbook={true} />
                 </div>
+                <TranslationModal 
+                    isOpen={isTranslationOpen} 
+                    onClose={() => setIsTranslationOpen(false)} 
+                />
 
-                <section className="pb-12">
+
+                <section ref={containerRef} className="pb-12 border-t border-[rgba(0,0,0,0.1)] dark:border-[rgba(255,255,255,0.05)] pt-8 w-full relative max-w-[1500px] mx-auto px-0 md:px-8">
                     <div className="flex items-center gap-3 mb-6 px-4">
                         <Brain size={20} className="text-[#F97316]" />
                         <h2 className="text-xl font-black tracking-wider text-theme-text uppercase flex items-center gap-3">
                             ÀNCORES DE MEMÒRIA RECENT
-                            <span className="text-sm font-bold bg-white/10 px-3 py-1 rounded-full text-white/70">
+                            <span className="text-sm font-bold bg-theme-accent-primary/10 px-3 py-1 rounded-full text-theme-text/70">
                                 {deferredEvents.length} PUBLICACIONS
                             </span>
                         </h2>
@@ -291,19 +327,16 @@ const MasterCalendarContent = () => {
                     />
                 </section>
             </div>
-        </div>
+        </SystemPageLayout>
     );
 };
 
-const MasterCalendar = () => {
-    const clientId = import.meta.env.VITE_GOOGLE_OAUTH_CLIENT_ID || 'dummy-client-id-to-prevent-crash.apps.googleusercontent.com';
+export default function MasterCalendar() {
     return (
-        <GoogleOAuthProvider clientId={clientId}>
-            <GlobalErrorBoundary>
+        <GlobalErrorBoundary>
+            <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID || 'dummy_client_id'}>
                 <MasterCalendarContent />
-            </GlobalErrorBoundary>
-        </GoogleOAuthProvider>
+            </GoogleOAuthProvider>
+        </GlobalErrorBoundary>
     );
-};
-
-export default MasterCalendar;
+}

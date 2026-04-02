@@ -97,6 +97,28 @@
     --glass-theme-bg: rgba(20, 20, 23, 0.65);
     --glass-theme-border: rgba(255, 255, 255, 0.08);
     --glass-theme-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
+
+    /* FullCalendar Dynamic Theme Overrides */
+    --fc-page-bg-color: transparent;
+    --fc-neutral-bg-color: var(--bg-panel);
+    --fc-neutral-text-color: var(--text-muted);
+    --fc-border-color: var(--border-master);
+    --fc-button-text-color: var(--text-main);
+    --fc-button-bg-color: transparent;
+    --fc-button-border-color: var(--border-master);
+    --fc-button-hover-bg-color: color-mix(in srgb, var(--text-main) 10%, transparent);
+    --fc-button-hover-border-color: var(--border-master);
+    --fc-button-active-bg-color: color-mix(in srgb, var(--text-main) 20%, transparent);
+    --fc-button-active-border-color: var(--border-master);
+    --fc-event-bg-color: var(--theme-accent-secondary);
+    --fc-event-border-color: var(--theme-accent-secondary);
+    --fc-event-text-color: #ffffff;
+    --fc-non-business-color: color-mix(in srgb, var(--text-main) 5%, transparent);
+    --fc-highlight-color: color-mix(in srgb, var(--text-main) 10%, transparent);
+    --fc-today-bg-color: color-mix(in srgb, var(--theme-accent-primary) 15%, transparent);
+    --fc-now-indicator-color: var(--theme-accent-primary);
+    --fc-daygrid-event-dot-width: 8px;
+    --fc-list-event-hover-bg-color: color-mix(in srgb, var(--text-main) 5%, transparent);
   }
 
   :root.light {
@@ -129,7 +151,13 @@
     font-size: 1.25rem;
     -webkit-tap-highlight-color: transparent;
     -webkit-font-smoothing: antialiased;
-    overscroll-behavior: none; /* iOS rubber-banding fix */
+    overscroll-behavior-y: contain; /* Permite inercia, evita rebote global */
+  }
+
+  /* Aísla el scroll principal del layout */
+  .main-viewport, .system-scroll-container, .profile-scroll-container {
+    overscroll-behavior-y: auto; 
+    -webkit-overflow-scrolling: touch; /* Fuerza scroll suave en iOS viejo */
   }
 
   #root {
