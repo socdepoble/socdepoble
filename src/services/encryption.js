@@ -28,8 +28,9 @@ function getWorker() {
 function sendCommand(type, payload, transfer = []) {
   return new Promise((resolve, reject) => {
     const id = ++commandId;
+    const nonce = crypto.randomUUID(); // Claude's strict anti-replay nonce
     pending.set(id, { resolve, reject });
-    getWorker().postMessage({ id, type, payload }, transfer);
+    getWorker().postMessage({ id, type, payload, nonce }, transfer);
   });
 }
 

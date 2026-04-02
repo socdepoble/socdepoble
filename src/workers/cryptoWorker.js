@@ -86,9 +86,25 @@ async function decryptData(encryptedBuffer) {
   return plaintext; // Return ArrayBuffer
 }
 
+const usedNonces = new Set();
+const ALLOWED_OPS = ['GENERATE_KEY', 'HAS_KEY', 'ENCRYPT', 'DECRYPT'];
+
 // Listen for commands
 self.addEventListener('message', async (e) => {
-  const { id, type, payload } = e.data;
+  const { id, type, payload, nonce } = e.data;
+  
+  // Validació estricta (Claude Audit V12) - Rebutjar operacions no esperades
+  if (!ALLOWED_OPS.includes(type)) {
+    self.postMessage({ id, type: 'ERROR', error: 'OP_NOT_ALLOWED', nonce });
+    return;
+  }
+  
+  // Validació Anti-Replay: Verificar que el nonce és fresc
+  if (!nonce || usedNonces.has(nonce)) {
+    self.postMessage({ id, type: 'ERROR', error: 'REPLAY_DETECTED', nonce });
+    return;
+  }
+  usedNonces.add(nonce);
   
   try {
     let result;
