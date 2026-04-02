@@ -65,7 +65,7 @@ const getVisionWorkerProxy = () => {
 
 // [SEGURETAT MAXIMA] Hooks per bloquejar pseudo-protocols perillosos
 DOMPurify.addHook('beforeSanitizeAttributes', function(node) {
-    if (node.tagName.toLowerCase() === 'a') {
+    if (node.tagName && node.tagName.toLowerCase() === 'a') {
         const href = node.getAttribute('href');
         if (href) {
             const normalizedHref = href.trim().toLowerCase();
@@ -83,7 +83,7 @@ DOMPurify.addHook('beforeSanitizeAttributes', function(node) {
 
 // Escut Estricte XSS: Rebutjar pseudo-protocols javascript i assegurar atributos relacionals via Whitelist.
 DOMPurify.addHook('afterSanitizeAttributes', function(node) {
-    if (node.tagName.toLowerCase() === 'a') {
+    if (node.tagName && node.tagName.toLowerCase() === 'a') {
         const href = node.getAttribute('href');
         // Validació addicional post-sanitizat
         if (href && !href.startsWith('http') && !href.startsWith('mailto:') && !href.startsWith('tel:') && href !== '#bloquejat_per_seguretat') {

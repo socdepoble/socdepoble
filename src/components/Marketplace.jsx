@@ -291,7 +291,7 @@ const Market = ({ searchTerm = '' }) => {
         count: rowCount,
         getScrollElement: () => scrollRef.current,
         estimateSize: estimateItemSize,
-        overscan: effectiveViewMode === 'list' ? 5 : 3, // Menys overscan en grid
+        overscan: effectiveViewMode === 'list' ? 2 : 1, // Minimal overscan for perf
     });
 
     // Cleanup del virtualizer
@@ -410,7 +410,7 @@ const Market = ({ searchTerm = '' }) => {
                                         const headerTitle = item.seller_name || item.seller || 'Sóc de Poble';
                                         
                                         return (
-                                            <div key={item.uuid || item.id} className="card-rizoma-wrapper animate-in w-full h-full" style={{ height: '100%' }}>
+                                            <div key={item.uuid || item.id} className="card-rizoma-wrapper animate-in w-full h-full" style={{ height: '100%', contain: 'layout paint style', contentVisibility: 'auto' }}>
                                                 <UniversalCard
                                                     item={item}
                                                     avatarName={headerTitle}

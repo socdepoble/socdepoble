@@ -21,12 +21,17 @@ const ChatLayout = () => {
         setIsResizing(false);
     }, []);
 
+    const rafId = useRef(null);
+
     const resize = React.useCallback((e) => {
         if (isResizing && containerRef.current) {
-            const newWidth = e.clientX - containerRef.current.getBoundingClientRect().left;
-            if (newWidth > 280 && newWidth < 800) {
-                setLeftWidth(newWidth);
-            }
+            if (rafId.current) cancelAnimationFrame(rafId.current);
+            rafId.current = requestAnimationFrame(() => {
+                const newWidth = e.clientX - containerRef.current.getBoundingClientRect().left;
+                if (newWidth > 280 && newWidth < 800) {
+                    setLeftWidth(newWidth);
+                }
+            });
         }
     }, [isResizing]);
 

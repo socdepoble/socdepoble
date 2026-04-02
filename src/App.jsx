@@ -14,13 +14,17 @@ import AuthGate from './components/gates/AuthGate';
 import OfflineGate from './components/gates/OfflineGate';
 import { useLowEndDevice } from './hooks/useLowEndDevice';
 import { useTabReconciliation } from './hooks/useTabReconciliation';
-
+import ReloadPrompt from './components/ReloadPrompt';
+import { useBlindatgeOPFS } from './hooks/useBlindatgeOPFS';
 /**
  * 🏺 LA BÍBLIA ESTRUCTURAL (App.jsx) - BLINDATGE v2.0
  * Aquest fitxer conté la cimentació mestre orquestrant l'estat i les portes d'entrada.
  * FORÇAT: Fons Negre, Arquitectura de Ferro, Local First, Zero Fantasmes.
  */
 const App = () => {
+    // [BÚNKER]: Persistència i Control de Service Worker
+    useBlindatgeOPFS();
+
     // Sanea "Amnesia BFCache"
     useTabReconciliation();
 
@@ -119,6 +123,7 @@ const App = () => {
                 <OfflineGate>
                     <LocalFirstGate>
                         <AuthGate>
+                            <ReloadPrompt />
                             <AppLayout />
                             <GlobalModals />
                         </AuthGate>

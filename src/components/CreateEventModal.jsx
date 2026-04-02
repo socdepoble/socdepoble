@@ -1,185 +1,158 @@
-import React, { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { X, Image as ImageIcon, Send, Loader2, Globe, Lock, Users, Calendar, Sparkles } from 'lucide-react';
-import { supabaseService } from '../services/supabaseService';
+/* eslint-disable no-unused-vars */
+import { useState, useCallback } from 'react';
+import { motion } from 'framer-motion';
+import { Calendar, MapPin, Sparkles, X, Check } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import { ROLES } from '../constants';
-import { iaiaService } from '../services/iaiaService';
-import './CreatePostModal.css'; // Reusing post modal styles for consistency
-import './CreateEventModal.css'; // New dedicated styles
+import { rhizomeManager } from '../services/rhizomeManager';
+import { ipfsManager } from '../services/ipfsManager';
+import { logger } from '../utils/logger';
+import TactileButton from './design/TactileButton';
 
-import EntitySelector from './EntitySelector';
-import MasterEditor from './MasterEditor';
-
-const CreateEventModal = ({ isOpen, onClose, onEventCreated, isPlayground = false }) => {
-    const { t } = useTranslation();
-    const { profile, user, impersonatedProfile } = useAuth();
-    const [content, setContent] = useState('');
-    const [loading, setLoading] = useState(false);
-    const [selectedTags] = useState(['Esdeveniment']);
-    const [privacy, setPrivacy] = useState('public');
-    const [generating, setGenerating] = useState(false);
-
-    const [selectedIdentity, setSelectedIdentity] = useState({
-        id: impersonatedProfile ? impersonatedProfile.id : 'user',
-        name: impersonatedProfile ? impersonatedProfile.full_name : (profile?.full_name || 'Jo'),
-        type: impersonatedProfile ? impersonatedProfile.role : 'user',
-        avatar_url: impersonatedProfile ? impersonatedProfile.avatar_url : profile?.avatar_url
+const CreateEventModal = ({ isOpen, onClose }) => {
+    const { profile } = useAuth();
+    const [form, setForm] = useState({
+        title: '',
+        description: '',
+        date: '',
+        timeStart: '',
+        type: 'festa', // festa | recollida | assemblea | mercat
+        location: '',
+        emoji: '🌾'
     });
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const handleAIGenerate = async () => {
-        if (!content.trim() || generating) return;
-        setGenerating(true);
+    const handleSubmit = useCallback(async (e) => {
+        e.preventDefault();
+        if (!form.title || !form.date) return;
+
+        setIsSubmitting(true);
+        const abortController = new AbortController();
+
         try {
-            const improvedContent = await iaiaService.generateEventDescription(content);
-            setContent(improvedContent);
-        } finally {
-            setGenerating(false);
-        }
-    };
+            const newEvent = {
+                id: `event-${crypto.randomUUID()}`,
+                title: form.title,
+                description: form.description,
+                date: form.date,
+                timeStart: form.timeStart || null,
+                type: form.type,
+                location: form.location || 'La Torre de les Maçanes',
+                emoji: form.emoji,
+                authorId: profile?.id,
+                createdAt: Date.now()
+            };
 
-    useEffect(() => {
-        if (isOpen) {
-            if (impersonatedProfile) {
-                setSelectedIdentity({
-                    id: impersonatedProfile.id,
-                    name: impersonatedProfile.full_name,
-                    type: impersonatedProfile.role,
-                    avatar_url: impersonatedProfile.avatar_url
-                });
-            } else if (profile) {
-                setSelectedIdentity({
-                    id: 'user',
-                    name: profile.full_name || 'Jo',
-                    type: 'user',
-                    avatar_url: profile.avatar_url
-                });
-            }
+            // 1. Afegim al CRDT (Yjs) – instantani i offline
+            rhizomeManager.yDoc.getArray('events').push([newEvent]);
+
+            // 2. Publiquem a IPFS (Helia + signatura Ed25519)
+            const update = rhizomeManager.yDoc.getArray('events').toJSON();
+            await ipfsManager.publishCRDTUpdate(update, abortController.signal);
+
+            logger.info(`[Event] Nou esdeveniment creat i eternitzat a IPFS: ${newEvent.id}`);
+
+            onClose();
+            // Dispatch per actualitzar calendar (ja tens l'event a MasterCalendar)
+            window.dispatchEvent(new CustomEvent('event-created', { detail: newEvent }));
+        } catch (err) {
+            if (err.name !== 'AbortError') logger.error('[Event] Error creant esdeveniment:', err);
+        } finally {
+            setIsSubmitting(false);
         }
-    }, [isOpen, profile, impersonatedProfile]);
+    }, [form, profile, onClose]);
 
     if (!isOpen) return null;
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (!content.trim() || loading) return;
-
-        setLoading(true);
-        try {
-            const newEvent = {
-                content: content,
-                likes: 0,
-                comments_count: 0,
-                created_at: new Date().toISOString(),
-                tags: selectedTags,
-                privacy: privacy,
-                is_private: privacy !== 'public',
-
-                // Schema compatibility
-                author_id: user.id,
-                author_name: selectedIdentity.type === 'user'
-                    ? profile.full_name
-                    : `${selectedIdentity.name} | ${profile.full_name}`,
-                author_avatar_url: selectedIdentity.avatar_url,
-
-                author_entity_id: selectedIdentity.type !== 'user' ? selectedIdentity.id : null,
-                author_role: selectedIdentity.type === 'user' ? ROLES.PEOPLE : selectedIdentity.type,
-                image_url: null
-            };
-
-            await supabaseService.createPost(newEvent, isPlayground);
-            onEventCreated();
-            setContent('');
-            onClose();
-        } finally {
-            setLoading(false);
-        }
-    };
-
     return (
-        <div className="modal-overlay" onClick={onClose}>
-            <div className="modal-content" onClick={e => e.stopPropagation()}>
-                <header className="modal-header">
-                    <div className="title-with-icon">
-                        <Calendar size={20} className="accent-icon" style={{ color: 'var(--color-primary)', marginRight: '8px' }} />
-                        <h2>{t('events.create_title') || 'Crear Esdeveniment'}</h2>
-                    </div>
-                    <button className="close-btn" onClick={onClose}>
-                        <X size={24} />
-                    </button>
-                </header>
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/80 backdrop-blur-xl z-[9999] flex items-end md:items-center justify-center"
+        >
+            <motion.div
+                initial={{ y: 100 }}
+                animate={{ y: 0 }}
+                className="bg-white dark:bg-theme-panel w-full max-w-xl mx-4 mb-4 md:mb-0 rounded-[32px] shadow-2xl overflow-hidden"
+            >
+                <div className="px-6 pt-6 pb-4 flex items-center justify-between border-b border-theme-border">
+                    <h2 className="text-2xl font-black tracking-tighter flex items-center gap-3">
+                        <Sparkles className="text-[#F97316]" /> Crear esdeveniment
+                    </h2>
+                    <TactileButton onClick={onClose} aria-label="Tancar">
+                        <X size={28} />
+                    </TactileButton>
+                </div>
 
-                <form onSubmit={handleSubmit} className="post-form-compact">
-                    <div className="post-identity-bar">
-                        <EntitySelector
-                            currentIdentity={selectedIdentity}
-                            onSelectIdentity={setSelectedIdentity}
-                            mini={true}
-                        />
-                        <div className="post-privacy-mini">
-                            <button
-                                type="button"
-                                className={`privacy-toggle ${privacy}`}
-                                onClick={() => {
-                                    const flow = ['public', 'groups', 'private'];
-                                    const next = flow[(flow.indexOf(privacy) + 1) % 3];
-                                    setPrivacy(next);
-                                }}
-                                title={t(`common.${privacy}`)}
-                            >
-                                {privacy === 'public' ? <Globe size={18} /> :
-                                    privacy === 'groups' ? <Users size={18} /> : <Lock size={18} />}
-                            </button>
-                        </div>
-                    </div>
-
-                    <div className="ai-suggestion-bar">
-                        <button
-                            type="button"
-                            className={`ai-magic-pill ${generating ? 'generating' : ''}`}
-                            onClick={handleAIGenerate}
-                            disabled={!content.trim() || loading || generating}
-                        >
-                            {generating ? <Loader2 className="spinner" size={16} /> : <Sparkles size={16} />}
-                            <span>{generating ? 'Pensant...' : '✨ Millorar amb la IAIA'}</span>
-                        </button>
-                    </div>
-
-                    <div className="post-content-area">
-                        <MasterEditor
-                            value={content}
-                            onChange={setContent}
-                            placeholder={t('events.placeholder') || 'Explica de què tracta l\'esdeveniment...'}
+                <form onSubmit={handleSubmit} className="p-6 space-y-8">
+                    {/* Títol */}
+                    <div>
+                        <label className="block text-sm font-bold mb-2">Què passa al poble?</label>
+                        <input
+                            type="text"
+                            value={form.title}
+                            onChange={e => setForm({ ...form, title: e.target.value })}
+                            placeholder="Festa major de taronges"
+                            className="w-full px-5 py-5 text-2xl rounded-2xl border-2 border-transparent focus:border-[#F97316] outline-none bg-black/10 dark:bg-black/30"
+                            required
+                            aria-required="true"
                         />
                     </div>
 
-                    <div className="post-footer-tools">
-                        <div className="tools-left">
-                            <button type="button" className="tool-btn">
-                                <ImageIcon size={20} />
-                            </button>
-                            <div className="tag-scroller">
-                                <button
-                                    type="button"
-                                    className="tag-pill-mini active"
-                                    disabled
-                                >
-                                    {t('common.event') || 'Esdeveniment'}
-                                </button>
-                            </div>
+                    {/* Data i hora */}
+                    <div className="grid grid-cols-2 gap-4">
+                        <div>
+                            <label className="block text-sm font-bold mb-2 flex items-center gap-2"><Calendar size={18} /> Dia</label>
+                            <input type="date" value={form.date} onChange={e => setForm({ ...form, date: e.target.value })} className="w-full px-5 py-5 rounded-2xl bg-black/10 dark:bg-black/30 outline-none focus:ring-2 ring-[#F97316]" required />
                         </div>
-
-                        <button
-                            type="submit"
-                            className="btn-send-round"
-                            disabled={!content.trim() || loading}
-                        >
-                            {loading ? <Loader2 className="spinner" size={20} /> : <Send size={20} />}
-                        </button>
+                        <div>
+                            <label className="block text-sm font-bold mb-2">Hora (opcional)</label>
+                            <input type="time" value={form.timeStart} onChange={e => setForm({ ...form, timeStart: e.target.value })} className="w-full px-5 py-5 rounded-2xl bg-black/10 dark:bg-black/30 outline-none focus:ring-2 ring-[#F97316]" />
+                        </div>
                     </div>
+
+                    {/* Tipus i emoji */}
+                    <div className="flex gap-4">
+                        <select value={form.type} onChange={e => setForm({ ...form, type: e.target.value })} className="flex-1 px-5 py-5 rounded-2xl bg-black/10 dark:bg-black/30 outline-none focus:ring-2 ring-[#F97316]">
+                            <option value="festa">🌾 Festa</option>
+                            <option value="recollida">🍊 Recollida</option>
+                            <option value="assemblea">🗣️ Assemblea</option>
+                            <option value="mercat">🛒 Mercat</option>
+                        </select>
+                        <input
+                            type="text"
+                            maxLength={2}
+                            value={form.emoji}
+                            onChange={e => setForm({ ...form, emoji: e.target.value })}
+                            className="w-20 text-center text-4xl rounded-2xl bg-black/10 dark:bg-black/30 outline-none focus:ring-2 ring-[#F97316]"
+                        />
+                    </div>
+
+                    {/* Descripció i ubicació */}
+                    <div>
+                        <textarea
+                            value={form.description}
+                            onChange={e => setForm({ ...form, description: e.target.value })}
+                            placeholder="Explica’ns una mica més..."
+                            className="w-full h-32 px-5 py-5 rounded-3xl resize-none bg-black/10 dark:bg-black/30 outline-none focus:ring-2 ring-[#F97316]"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-bold mb-2 flex items-center gap-2"><MapPin size={18} /> On?</label>
+                        <input type="text" value={form.location} onChange={e => setForm({ ...form, location: e.target.value })} placeholder="Plaça del Poble" className="w-full px-5 py-5 rounded-2xl bg-black/10 dark:bg-black/30 outline-none focus:ring-2 ring-[#F97316]" />
+                    </div>
+
+                    <TactileButton
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="w-full py-7 text-2xl font-black bg-[#F97316] text-white rounded-3xl flex items-center justify-center gap-3 active:scale-95 disabled:opacity-50"
+                    >
+                        {isSubmitting ? 'Publicant a l’eternitat…' : 'Publicar a la plaça'}
+                        <Check size={28} />
+                    </TactileButton>
                 </form>
-            </div>
-        </div>
+            </motion.div>
+        </motion.div>
     );
 };
 

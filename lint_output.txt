@@ -3,100 +3,43 @@
 > eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0
 
 
-/Users/javillinares/Documents/Antigravity/Sóc de Poble/audit2.js
-  8:26  error  'error' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+/Users/javillinares/Documents/Antigravity/Sóc de Poble/src/pages/MedicationConfirm.jsx
+   4:10  error    'medicationService' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                no-unused-vars
+  10:11  error    't' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       no-unused-vars
+  17:7   error    Error: Cannot access variable before it is declared
 
-/Users/javillinares/Documents/Antigravity/Sóc de Poble/check_entities.js
-  8:29  error  'error' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+`handleConfirm` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
 
-/Users/javillinares/Documents/Antigravity/Sóc de Poble/cloudflare-workers/signaling-worker.js
-   4:29  error  'ENV' is not defined                                                                    no-undef
-  10:12  error  'e' is defined but never used                                                           no-unused-vars
-  15:16  error  'canJoinRoom' is defined but never used. Allowed unused vars must match /^[A-Z_]/u      no-unused-vars
-  17:35  error  'SUPABASE_URL' is not defined                                                           no-undef
-  20:34  error  'SUPABASE_SERVICE_ROLE_KEY' is not defined                                              no-undef
-  53:11  error  'userId' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
-  54:11  error  'roomId' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
-  59:22  error  'WebSocketPair' is not defined                                                          no-undef
+  15 |     const action = searchParams.get('action');
+  16 |     if (action === 'confirm') {
+> 17 |       handleConfirm();
+     |       ^^^^^^^^^^^^^ `handleConfirm` accessed before it is declared
+  18 |     }
+  19 |   }, [searchParams]);
+  20 |
 
-/Users/javillinares/Documents/Antigravity/Sóc de Poble/combine_presentation.mjs
-  17:21  error  Parsing error: Unterminated template
+  35 |   }, [status]);
+  36 |
+> 37 |   const handleConfirm = async () => {
+     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 38 |     setStatus('confirmed');
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 39 |     // Implement ID extraction if passed in URL, for now just mocking update
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 40 |     // await medicationService.confirmMedication(id);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 41 |     setTimeout(() => {
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 42 |       navigate('/seguretat');
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 43 |     }, 3000);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 44 |   };
+     | ^^^^^ `handleConfirm` is declared here
+  45 |
+  46 |   const handleSnooze = async () => {
+  47 |     setStatus('snoozed');  react-hooks/immutability
+  19:6   warning  React Hook useEffect has a missing dependency: 'handleConfirm'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        react-hooks/exhaustive-deps
 
-/Users/javillinares/Documents/Antigravity/Sóc de Poble/count_posts.js
-  8:26  error  'error' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
-
-/Users/javillinares/Documents/Antigravity/Sóc de Poble/force_fix_3_towns.js
-  10:11  error  'p1' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
-  17:11  error  'p2' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
-  23:11  error  'p3' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
-
-/Users/javillinares/Documents/Antigravity/Sóc de Poble/generate_towns_update.js
-  75:11  error  'toUpdate' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
-
-/Users/javillinares/Documents/Antigravity/Sóc de Poble/scripts/update_book.js
-  14:44  error  'errFetch' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
-
-/Users/javillinares/Documents/Antigravity/Sóc de Poble/src/components/design/TactileButton.jsx
-   2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
-  18:14  error  'err' is defined but never used                                                no-unused-vars
-
-/Users/javillinares/Documents/Antigravity/Sóc de Poble/src/context/AuthContext.jsx
-  393:1  error  Unused eslint-disable directive (no problems were reported from 'react-refresh/only-export-components')
-
-/Users/javillinares/Documents/Antigravity/Sóc de Poble/src/hooks/useMountTransition.js
-  34:7  error  Error: Calling setState synchronously within an effect can trigger cascading renders
-
-Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
-* Update external systems with the latest state from React.
-* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
-
-Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
-
-  32 |     } else if (!isMounted && hasTransitionedIn) {
-  33 |       // 3. El usuario cierra el modal. Quitamos la clase CSS activa instantáneamente
-> 34 |       setHasTransitionedIn(false);
-     |       ^^^^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
-  35 |     } else if (!isMounted && shouldRender && !hasTransitionedIn) {
-  36 |       // 4. Esperamos el retardo (unmountDelay) y fulminamos el componente
-  37 |       timeoutId = setTimeout(() => {  react-hooks/set-state-in-effect
-
-/Users/javillinares/Documents/Antigravity/Sóc de Poble/src/hooks/useRhizomeHydration.js
-  65:13  error  Error: Calling setState synchronously within an effect can trigger cascading renders
-
-Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
-* Update external systems with the latest state from React.
-* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
-
-Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
-
-  63 |     useEffect(() => {
-  64 |         if (userId) {
-> 65 |             hydrateFromBackground();
-     |             ^^^^^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
-  66 |         }
-  67 |
-  68 |         // Escoltem l'esdeveniment de l'aplicació tornant al primer pla (AppState change en Capacitor)  react-hooks/set-state-in-effect
-
-/Users/javillinares/Documents/Antigravity/Sóc de Poble/src/hooks/useThrottledScroll.js
-  14:15  error  'throttledCallback' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
-
-/Users/javillinares/Documents/Antigravity/Sóc de Poble/src/pages/MasterCalendar.jsx
-  95:9  error  Error: Calling setState synchronously within an effect can trigger cascading renders
-
-Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
-* Update external systems with the latest state from React.
-* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
-
-Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
-
-  93 |     // Refetch ONLY when calendar connection state changes, NOT text search
-  94 |     useEffect(() => {
-> 95 |         fetchAllEventsRange(currentRange);
-     |         ^^^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
-  96 |     }, [selectedCalIds, selectedInternalCalIds, fetchAllEventsRange, currentRange]);
-  97 |
-  98 |     const filteredCalendarEvents = useMemo(() => {  react-hooks/set-state-in-effect
-
-✖ 24 problems (24 errors, 0 warnings)
-  1 error and 0 warnings potentially fixable with the `--fix` option.
+✖ 4 problems (3 errors, 1 warning)
 

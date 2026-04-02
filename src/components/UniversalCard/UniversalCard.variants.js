@@ -12,7 +12,7 @@ export const cardVariants = cva(
     variants: {
       viewMode: {
         grid: 'max-w-[480px] mx-auto md:mx-0 min-h-[500px]',
-        list: 'max-w-full !rounded-[16px] border-b border-white/5 bg-transparent shadow-none hover:bg-white/5',
+        list: 'max-w-full !rounded-[28px] border-b border-white/5 bg-transparent shadow-none hover:bg-white/5',
         masonry: 'inline-block w-full mb-6 break-inside-avoid',
         single: 'max-w-3xl border-none',
         compact: 'w-[140px] md:w-[180px] shrink-0',

@@ -4,8 +4,8 @@ const PREFS_KEY = 'socdepoble_prefs';
 
 const DEFAULT_CONFIG = {
     landingPage: 'mur',       // Pàgina d'inici per defecte
-    theme: 'dark',            // Estètica mestra
-    visionMode: 'hibrida',   // Mode de visió per defecte
+    theme: 'light',           // Estètica mestra (ara 'light' per apropar-se a WhatsApp)
+    visionMode: 'creativa',   // Mode de visió per defecte (Nivell 3 Creatiu - tots els agents)
     vibe: 'genius',          // Ambientació
     gloveMode: false,        // Mode guants desactivat
     seniorMode: false,       // Mode Sèniors (Tàctil gegant)

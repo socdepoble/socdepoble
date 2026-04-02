@@ -56,6 +56,23 @@
 }
 
 @layer base {
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { -webkit-font-smoothing: antialiased; }
+
+  body {
+    font-family: 'Noto Sans', system-ui, -apple-system, sans-serif;
+  }
+
+  blockquote, q, cite, dfn, var {
+    font-style: normal;
+    font-family: inherit;
+  }
+
+  code, pre, kbd {
+    font-family: var(--font-mono);
+  }
+
   :root {
     --bg-app: #0e0e10;
     --bg-panel: #141417;
@@ -64,13 +81,11 @@
     --text-muted: #9ca3af; /* Tailwind gray-400 */
     --border-master: rgba(255, 255, 255, 0.08);
 
-    /* Tech-Huerta Dark Palette */
-    --sdp-orange: #f97316; /* Terracotta / Naranja tierra seca */
-    --sdp-olive: #65a30d; /* Verde Oliva */
-    --sdp-gold: #eab308; /* Dorado Atardecer */
-    --sdp-blue: #544CF6; /* Azul Corporativo para Acciones / Connectar */
+    /* Tech-Huerta GEM Modern Palette (4 Colors) */
+    --sdp-orange: #f97316;
+    --sdp-blue: #0984E3;
     --theme-accent-primary: var(--sdp-orange);
-    --theme-accent-secondary: var(--sdp-olive);
+    --theme-accent-secondary: var(--sdp-blue);
 
     /* Motion System Tokens (iOS feel) */
     --motion-quick: 120ms;
@@ -92,12 +107,11 @@
     --text-muted: #6b7280; /* Tailwind gray-500 */
     --border-master: rgba(0, 0, 0, 0.08);
 
-    /* Tech-Huerta Light Palette */
-    --sdp-orange: #ea580c; /* Terracotta intenso */
-    --sdp-olive: #4d7c0f; /* Verde Oliva profundo */
-    --sdp-gold: #ca8a04; /* Dorado fuerte */
+    /* Tech-Huerta GEM Modern Palette (4 Colors) */
+    --sdp-orange: #f97316;
+    --sdp-blue: #0984E3;
     --theme-accent-primary: var(--sdp-orange);
-    --theme-accent-secondary: var(--sdp-olive);
+    --theme-accent-secondary: var(--sdp-blue);
 
     --glass-theme-bg: rgba(255, 255, 255, 0.75);
     --glass-theme-border: rgba(0, 0, 0, 0.06);
@@ -108,17 +122,20 @@
     box-sizing: border-box;
   }
 
-  html, body, #root {
-    @apply h-full w-full m-0 p-0 overflow-hidden bg-theme-base text-theme-text;
-    position: fixed; /* Antigravity Jitter Fix */
-    inset: 0;
+  html, body {
+    @apply h-[100dvh] w-[100dvw] m-0 p-0 overflow-hidden bg-theme-base text-theme-text;
     font-family: var(--font-sans);
     font-stretch: 75%;
     font-size: 1.25rem;
     -webkit-tap-highlight-color: transparent;
     -webkit-font-smoothing: antialiased;
     overscroll-behavior: none; /* iOS rubber-banding fix */
-    touch-action: pan-x pan-y;
+  }
+
+  #root {
+    @apply h-[100dvh] w-full m-0 p-0 overflow-hidden flex flex-col;
+    position: fixed; /* Antigravity Jitter Fix */
+    inset: 0;
   }
 
   p {
@@ -244,6 +261,24 @@
     color: var(--text-muted);
     margin-top: var(--spacing-unit);
     margin-bottom: 0.5rem;
+  }
+  
+  .app-cms-content h5 {
+    font-size: 0.875rem; /* text-sm */
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .app-cms-content h6 {
+    font-size: 0.75rem; /* text-xs, accessible minimum limit */
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+    margin-bottom: 0.25rem;
   }
   
   .app-cms-content p {
@@ -510,6 +545,11 @@
   }
   .paint-contain {
     contain: paint;
+  }
+
+  /* MODAL & SIDEBAR RENDER ISOLATION */
+  .modal-root, .portal-overlay, .iaia-chat-sidebar {
+    isolation: isolate;
   }
 
   /* VARIOUS */

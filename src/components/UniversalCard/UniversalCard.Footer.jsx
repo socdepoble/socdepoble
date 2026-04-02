@@ -65,19 +65,19 @@ const UniversalCardFooter = ({
         <div className="flex items-center justify-center gap-3 sm:gap-6 w-full min-h-[48px] bg-[#4F46E5] text-white dark:bg-[#F97316] dark:text-[#111111] px-4 shadow-sm overflow-x-auto no-scrollbar transition-colors">
             {/* COMPACT CONNECT BUTTON */}
             <button 
-                className="flex items-center justify-center gap-1.5 rounded-full bg-[#F97316] text-white dark:bg-[#4F46E5] dark:text-white px-4 py-1.5 font-sans text-xs font-bold tracking-wide transition-opacity active:scale-95 touch-manipulation whitespace-nowrap shrink-0 shadow-md"
+                className="flex items-center justify-center gap-1.5 rounded-full bg-[#F97316] text-white dark:bg-[#4F46E5] dark:text-white px-4 py-1.5 text-xs font-bold tracking-wide transition-opacity active:scale-95 touch-manipulation whitespace-nowrap shrink-0 shadow-md"
                 onClick={handleConnectClick}
             >
                 {icon}
-                <span className="truncate">{buttonText}</span>
+                <div className="truncate"><span>{buttonText}</span></div>
             </button>
 
             {/* OPTIONAL ITEM COUNTER BADGE */}
             {itemCount !== undefined && (
                 <div className="flex items-center justify-center bg-black/20 rounded-full px-3 py-1.5 shrink-0">
-                    <span className="text-[11px] font-black tracking-widest text-white dark:text-[#111111] leading-none">
-                        {itemCount} <span className="text-white/70 dark:text-black/80 font-bold ml-1">{itemCountLabel || 'ITEMS'}</span>
-                    </span>
+                    <div className="text-[11px] font-black tracking-widest text-white dark:text-[#111111] leading-none flex items-center">
+                        <span>{itemCount}</span> <div className="text-white/70 dark:text-black/80 font-bold ml-1"><span>{itemCountLabel || 'ITEMS'}</span></div>
+                    </div>
                 </div>
             )}
 
@@ -90,7 +90,7 @@ const UniversalCardFooter = ({
                         aria-label={t('card.translate', "Traduir")}
                     >
                         <Globe size={16} strokeWidth={2.5} />
-                        <span className="hidden sm:inline">{t('card.translate', "TRADUIR")}</span>
+                        <div className="hidden sm:block"><span>{t('card.translate', "TRADUIR")}</span></div>
                     </button>
                 )}
 
@@ -100,7 +100,7 @@ const UniversalCardFooter = ({
                     aria-label={t('card.comment', "Comentar")}
                 >
                     <MessageCircle size={16} strokeWidth={2.5} />
-                    <span className="hidden sm:inline">{t('card.comment', "COMENTAR")}</span>
+                    <div className="hidden sm:block"><span>{t('card.comment', "COMENTAR")}</span></div>
                 </button>
 
                 <button 
@@ -109,7 +109,7 @@ const UniversalCardFooter = ({
                     aria-label={t('card.share', "Compartir")}
                 >
                     <Share2 size={16} strokeWidth={2.5} />
-                    <span className="hidden sm:inline">{t('card.share', "COMPARTIR")}</span>
+                    <div className="hidden sm:block"><span>{t('card.share', "COMPARTIR")}</span></div>
                 </button>
 
                 {!isCalendar && (
@@ -119,7 +119,7 @@ const UniversalCardFooter = ({
                         aria-label={t('card.ebook', "E-Book")}
                     >
                         <BookOpen size={16} strokeWidth={2.5} />
-                        <span className="hidden sm:inline">{t('card.ebook', "E-BOOK")}</span>
+                        <div className="hidden sm:block"><span>{t('card.ebook', "E-BOOK")}</span></div>
                     </button>
                 )}
 

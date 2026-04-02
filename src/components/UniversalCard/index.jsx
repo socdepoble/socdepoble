@@ -220,9 +220,8 @@ const UniversalCard = ({
 
     const CardContent = (
         <article
-            className={cardClasses}
+            className={`${cardClasses} cursor-pointer`}
             onClick={handleCardClick}
-            style={{ cursor: 'pointer' }}
             role="article"
             aria-label={displayTitle}
         >
@@ -232,25 +231,25 @@ const UniversalCard = ({
                         <img
                             src={displayImage}
                             alt={displayTitle}
-                            className="w-24 h-24 object-cover rounded-[20px] hover:scale-110 transition-transform duration-500 flex-shrink-0"
+                            className="w-24 h-24 object-cover rounded-[28px] hover:scale-110 transition-transform duration-500 flex-shrink-0"
                             loading="lazy"
                         />
                     ) : (
-                        <div className="w-24 h-24 flex items-center justify-center rounded-[20px] bg-white/5 flex-shrink-0">
+                        <div className="w-24 h-24 flex items-center justify-center rounded-[28px] bg-white/5 flex-shrink-0">
                             <ImageIcon size={20} className="text-gray-500" />
                         </div>
                     )}
                     <div className="flex-1 min-w-0 pr-4 z-10">
-                        <h4 className="text-[14px] md:text-[16px] font-black text-theme-text truncate leading-tight tracking-wide">{displayTitle}</h4>
-                        <div className="flex items-center gap-2 text-[12px] md:text-[13px] font-bold text-gray-400 tracking-wide truncate mt-1">
-                            <span className="text-[var(--theme-accent-primary)]">{displayAuthor}</span>
-                            <span>•</span>
-                            <span className="opacity-70">{displayTown.replace("Poble Principal: ", "").trim()}</span>
+                        <div className="text-[14px] md:text-[16px] font-black text-theme-text truncate leading-tight tracking-wide"><h4>{displayTitle}</h4></div>
+                        <div className="flex items-center gap-2 text-[12px] md:text-[13px] font-bold text-gray-400 tracking-wide min-w-0 mt-1">
+                            <div className="text-[var(--theme-accent-primary)] truncate"><span>{displayAuthor}</span></div>
+                            <span className="shrink-0">•</span>
+                            <div className="opacity-70 truncate"><span>{displayTown.replace("Poble Principal: ", "").trim()}</span></div>
                         </div>
                     </div>
                     {displayPrice && (
                         <div className="text-[13px] font-black text-[#F97316] px-4 py-1.5 bg-[#F97316]/10 border border-[#F97316]/20 rounded-[28px] flex-shrink-0 z-10">
-                            {displayPrice}
+                            <span>{displayPrice}</span>
                         </div>
                     )}
                     <Button 
@@ -290,7 +289,7 @@ const UniversalCard = ({
                         openViewer={openViewer}
                         navigate={navigate}
                     />
-                    <Suspense fallback={<div className="h-16 mt-2 rounded bg-surface-var/30 animate-pulse w-full max-w-sm" role="status"><span className="sr-only">Carregant contingut...</span></div>}>
+                    <Suspense fallback={<div className="h-16 mt-2 rounded bg-surface-var/30 animate-pulse w-full max-w-sm" role="status"><div className="sr-only"><span>Carregant contingut...</span></div></div>}>
                         <UniversalCardBody 
                             displayTitle={displayTitle}
                             displayExcerpt={displayExcerpt}
@@ -302,7 +301,7 @@ const UniversalCard = ({
                             displayPrice={displayPrice}
                         />
                     </Suspense>
-                    <Suspense fallback={<div className="h-10 mt-4 rounded bg-surface-var/30 animate-pulse w-[80%]" role="status"><span className="sr-only">Carregant peu...</span></div>}>
+                    <Suspense fallback={<div className="h-10 mt-4 rounded bg-surface-var/30 animate-pulse w-[80%]" role="status"><div className="sr-only"><span>Carregant peu...</span></div></div>}>
                         <UniversalCardFooter 
                             item={item}
                             cardVariant={cardVariant}

@@ -4,6 +4,7 @@ export default {
   content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      fontFamily: { sans: ['"Noto Sans"', 'sans-serif'] },
       colors: {
         "theme-base": "var(--bg-app)",
         "theme-panel": "var(--bg-panel)",
@@ -38,4 +39,7 @@ export default {
     },
   },
   plugins: [],
+  corePlugins: {
+    preflight: true
+  }
 };

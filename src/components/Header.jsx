@@ -25,7 +25,7 @@ const Header = () => {
   const isOnVisionPage = location.pathname === "/visio";
 
     return (
-    <header className="h-[64px] min-h-[64px] max-h-[64px] w-full flex items-center justify-between px-3 lg:px-6 z-50 transition-all duration-300 bg-[#1a1a1a] border-b border-[var(--border-master)]/50 shrink-0 shadow-sm">
+    <header className="h-[64px] min-h-[64px] max-h-[64px] w-full flex items-center justify-between px-3 lg:px-6 z-50 transition-all duration-300 bg-[#000000] border-b border-[var(--border-master)]/50 shrink-0 shadow-sm">
       <div className="flex items-center gap-1 overflow-hidden shrink-0">
         <button
           onClick={toggleDrawer}

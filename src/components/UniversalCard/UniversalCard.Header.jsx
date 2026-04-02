@@ -61,7 +61,7 @@ const UniversalCardHeader = ({
 
     return (
         <header 
-            className="flex items-center justify-between px-4 py-2 h-[64px] bg-[#F97316] text-[#111111] dark:bg-[#4F46E5] dark:text-white relative z-10 w-full font-sans transition-colors" 
+            className="flex items-center justify-between px-4 py-2 h-[64px] bg-[#F97316] text-[#111111] dark:bg-[#4F46E5] dark:text-white relative z-10 w-full transition-colors" 
             onClick={handleAuthorClick}
             role="button"
             tabIndex={0}
@@ -86,35 +86,35 @@ const UniversalCardHeader = ({
                 </div>
                 
                 <div className="flex flex-col min-w-0">
-                    <h3 className="text-[#111111] dark:text-white font-sans text-[18px] font-black m-0 tracking-wide whitespace-nowrap overflow-hidden text-ellipsis leading-tight flex items-center gap-1.5 cursor-pointer active:opacity-70 transition-opacity">
-                        <span className="truncate lowercase first-letter:uppercase">{cardVariant === 'pobles' ? getGentDePage(displayTown) : displayAuthor}</span>
+                    <div className="text-[#111111] dark:text-white text-[18px] font-black tracking-wide leading-tight flex items-center gap-1.5 cursor-pointer active:opacity-70 transition-opacity">
+                        <div className="truncate lowercase first-letter:uppercase"><span>{cardVariant === 'pobles' ? getGentDePage(displayTown) : displayAuthor}</span></div>
                         {item?.is_iaia_inspired && (
                             <Sparkles size={14} className="text-[#111111] dark:text-[#F97316] shrink-0" fill="currentColor" />
                         )}
                         {isOfficial && (
                             <Zap size={14} className="text-[#111111] dark:text-[#38BDF8] drop-shadow-[0_0_4px_rgba(255,255,255,0.2)] dark:drop-shadow-[0_0_4px_#38BDF8] shrink-0" fill="currentColor" />
                         )}
-                    </h3>
+                    </div>
                     
-                    <div className="flex items-center gap-2 mt-0.5 whitespace-nowrap overflow-hidden text-ellipsis">
+                    <div className="flex items-center gap-2 mt-0.5 min-w-0">
                         {cardVariant !== 'pobles' && (
-                            <span className="text-[14px] text-black/80 dark:text-white/80 font-bold">
-                                {displayTime} - {displayDate}
-                            </span>
+                            <div className="text-[14px] text-black/80 dark:text-white/80 font-bold">
+                                <span>{displayTime} - {displayDate}</span>
+                            </div>
                         )}
                         {(displayTown && displayTown !== displayAuthor && cardVariant !== 'pobles') && (
                             <>
-                                <span className="text-black/80 dark:text-white/80">•</span>
-                                <div className="flex items-center gap-1 text-[14px] text-black/80 dark:text-white/80 truncate font-bold w-full" title={displayTown.replace("Poble Principal:", "").trim()}>
+                                <div className="text-black/80 dark:text-white/80 shrink-0"><span>•</span></div>
+                                <div className="flex items-center gap-1 text-[14px] text-black/80 dark:text-white/80 min-w-0 font-bold" title={displayTown.replace("Poble Principal:", "").trim()}>
                                     <MapPin size={12} className="shrink-0" />
-                                    <span className="truncate">{displayTown.replace("Poble Principal:", "").trim()}</span>
+                                    <div className="truncate"><span>{displayTown.replace("Poble Principal:", "").trim()}</span></div>
                                 </div>
                             </>
                         )}
                         {cardVariant === 'pobles' && (
-                            <div className="flex items-center gap-1 text-[14px] text-black/80 dark:text-white/80 truncate font-bold w-full" title={`De part de: ${displayAuthor}`}>
+                            <div className="flex items-center gap-1 text-[14px] text-black/80 dark:text-white/80 min-w-0 font-bold" title={`De part de: ${displayAuthor}`}>
                                 <MapPin size={12} className="shrink-0" />
-                                <span className="truncate lowercase first-letter:uppercase">De part de: {displayAuthor}</span>
+                                <div className="truncate lowercase first-letter:uppercase"><span>De part de: {displayAuthor}</span></div>
                             </div>
                         )}
                     </div>
@@ -124,9 +124,9 @@ const UniversalCardHeader = ({
             <div className="flex items-center gap-3 shrink-0 ml-2">
                 {isEventOrAgenda && (
                     <div className="bg-theme-panel px-2.5 py-1 rounded-[8px] border border-[#F97316]/50 shadow-[0_0_10px_rgba(249,115,22,0.15)] flex flex-col items-center justify-center">
-                         <span className="text-[11px] font-black text-[#F97316] uppercase tracking-wider">
-                             {t('card.agenda_tag') || 'Agenda'}
-                         </span>
+                         <div className="text-[11px] font-black text-[#F97316] uppercase tracking-wider">
+                             <span>{t('card.agenda_tag') || 'Agenda'}</span>
+                         </div>
                     </div>
                 )}
                 

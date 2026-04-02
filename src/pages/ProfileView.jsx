@@ -4,7 +4,7 @@ import {
     Settings, Loader2, AlertCircle, 
     Sparkles, Grid, Share2, ArrowLeft, Camera, UserCheck, MessageCircle, MapPin,
     ShieldCheck, HeartHandshake, ArrowUp, Maximize,
-    Linkedin, Facebook, Instagram
+    Linkedin, Facebook, Instagram, ShieldAlert
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useDesign } from '../context/DesignContext';
@@ -380,7 +380,7 @@ const ProfileView = () => {
         <div className={`flex flex-col items-center justify-center min-h-screen ${bgColor} ${textColor} p-6`}>
             <AlertCircle className="text-red-500 mb-6" size={64} />
             <h2 className="font-black text-2xl lg:text-3xl mb-4 text-center">EL RHIZOME NO TROBA AQUEST NODE</h2>
-            <p className={`${textMuted} mb-8 uppercase text-xs tracking-widest text-center max-w-md`}>{error}</p>
+            <div className={`${textMuted} mb-8 uppercase text-xs tracking-widest text-center max-w-md`}><p>{error}</p></div>
             <button className={`${isDayMode ? 'bg-black text-white' : 'bg-white text-black'} px-10 py-4 rounded-[28px] font-black uppercase tracking-widest hover:scale-105 transition-transform`} onClick={() => navigate('/mur')}>
                 Tornar al Mur
             </button>
@@ -504,7 +504,6 @@ const ProfileView = () => {
                                     src={profile?.avatar_url}
                                     alt={profile?.full_name}
                                     className="w-full h-full object-cover rounded-[50%] transition-transform duration-1000 ease-out-expo group-hover:scale-110 aspect-square block"
-                                    style={{ borderRadius: '50%' }}
                                 />
                                 {isOwnProfile && (
                                     <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center transition-all duration-300 backdrop-blur-sm rounded-[50%]">
@@ -526,6 +525,17 @@ const ProfileView = () => {
                         <div className="flex flex-col items-end gap-2 mb-2 sm:mb-4">
                             {/* Top row actions */}
                             <div className="flex items-center gap-2 sm:gap-3">
+                            {/* Seguretat Vital (Visible only to owner) */}
+                            {isOwnProfile && (
+                                <button
+                                    onClick={() => navigate('/seguretat')}
+                                    className={`w-12 h-12 flex items-center justify-center rounded-full backdrop-blur-xl ${isDayMode ? 'bg-red-500/10 border-red-500/20 text-red-600 hover:bg-red-500/20' : 'bg-red-500/20 border-red-500/30 text-red-400 hover:bg-red-500/30'} shadow-xl hover:scale-110 active:scale-95 transition-all`}
+                                    title="Seguretat Vital (Àngels de la Guarda)"
+                                >
+                                    <ShieldAlert size={22} className="animate-pulse" />
+                                </button>
+                            )}
+                            
                             {/* Settings / Gear Button (Visible to admins or owners) */}
                             {(isOwnProfile || isSuperAdmin) && (
                                 <button 
@@ -596,9 +606,11 @@ const ProfileView = () => {
                             {profile?.username}
                         </div>
 
-                        <p className={`text-[1.1rem] sm:text-[1.15rem] leading-[1.6] max-w-2xl ${textMuted} font-medium mb-8`}>
-                            {profile?.bio || 'Connectant amb el territori a través d\'Antigravity.'}
-                        </p>
+                        <div className={`text-[1.1rem] sm:text-[1.15rem] leading-[1.6] max-w-2xl ${textMuted} font-medium mb-8`}>
+                            <p>
+                                {profile?.bio || 'Connectant amb el territori a través d\'Antigravity.'}
+                            </p>
+                        </div>
 
                         {/* Metadata Tags (Town & Role) */}
                         <div className="flex flex-wrap justify-start gap-3 w-full">
@@ -696,7 +708,7 @@ const ProfileView = () => {
                                     )}
                                     <div className="flex-1 min-w-0">
                                         <h4 className="font-bold text-lg leading-tight truncate text-theme-text">{entity.name || entity.full_name}</h4>
-                                        <p className="text-[10px] uppercase font-bold tracking-[0.2em] text-[var(--theme-accent-primary)] mt-1 drop-shadow-sm">{entity.type}</p>
+                                        <div className="text-[10px] uppercase font-bold tracking-[0.2em] text-[var(--theme-accent-primary)] mt-1 drop-shadow-sm"><p>{entity.type}</p></div>
                                     </div>
                                 </div>
                             ))}

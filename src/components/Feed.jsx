@@ -260,7 +260,7 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
     }
 
     return (
-        <div className="flex-1 flex flex-col h-full bg-theme-base relative overflow-hidden font-['Plus_Jakarta_Sans'] w-full">
+        <div className="flex-1 flex flex-col min-h-0 h-full bg-theme-base relative overflow-hidden font-['Plus_Jakarta_Sans'] w-full">
             <div id="feed-live-region" className="sr-only" role="status" aria-live="polite" aria-atomic="true">
                 {loading && posts.length === 0 && 'Carregant publicacions...'}
                 {loadingMore && 'Carregant més publicacions...'}
@@ -291,7 +291,7 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
 
             <div
                 ref={parentRef}
-                className="flex-1 overflow-y-auto custom-scrollbar pb-20 w-full scroll-container-y"
+                className="flex-1 overflow-y-auto custom-scrollbar pb-20 w-full scroll-container-y min-h-0"
                 style={{ contain: 'content', overflowAnchor: 'none' }}
                 role="region"
                 aria-label="Llista de publicacions"

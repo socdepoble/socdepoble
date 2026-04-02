@@ -123,13 +123,16 @@ const MessageBubble = React.memo(
       >
         <article className={`${bubbleBase} ${bubbleTone}`}>
           {!isMe && (msg.author_name || otherInfo?.name) && (
-            <div className="mb-1 truncate font-['Epilogue'] text-[12px] font-bold italic uppercase tracking-[0.12em] text-[#F97316]">
-              {msg.author_name || otherInfo?.name}
+            <div className="font-['Epilogue'] text-[12px] font-bold italic uppercase tracking-[0.12em] text-[#F97316]">
+              <p className="mb-1 truncate">
+                {msg.author_name || otherInfo?.name}
+              </p>
             </div>
           )}
 
-          <div className="whitespace-pre-wrap break-words font-['Plus_Jakarta_Sans'] text-[15px] font-medium leading-[1.55]">
-            {msg.attachment_type === 'voice' ? (
+          <div className="font-['Plus_Jakarta_Sans'] text-[15px] font-medium leading-[1.55]">
+            <div className="whitespace-pre-wrap break-words">
+              {msg.attachment_type === 'voice' ? (
               <div className="flex min-w-[208px] items-center gap-3 py-1">
                 <button
                   onClick={() => {
@@ -165,9 +168,11 @@ const MessageBubble = React.memo(
                   </div>
                   <div className="flex justify-between text-[11px] font-semibold opacity-75">
                     <span>{msg.voice_meta?.duration ? `${msg.voice_meta.duration}s` : '—'}</span>
-                    <span className="font-['Epilogue'] text-[10px] font-bold italic uppercase tracking-[0.2em]">
-                      {t('chat.beaten', 'Bategat')}
-                    </span>
+                    <div className="font-['Epilogue'] text-[10px] font-bold italic uppercase tracking-[0.2em]">
+                      <span>
+                        {t('chat.beaten', 'Bategat')}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -193,6 +198,7 @@ const MessageBubble = React.memo(
               <div className="pr-9">{renderContent(msg.content)}</div>
             )}
             <span className="inline-block h-4 w-20" />
+            </div>
           </div>
 
           <button
@@ -202,7 +208,7 @@ const MessageBubble = React.memo(
             <span>{msg.created_at ? new Date(msg.created_at).toLocaleDateString([], { day: '2-digit', month: '2-digit' }) : ''}</span>
             <span>{msg.created_at ? new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : t('chat.now', 'Ara')}</span>
             {isMe && (
-              <span className="-ml-0.5">
+              <div>
                 {msg.read_at ? (
                   <CheckCheck size={14} strokeWidth={2.5} className="text-[#169CF9]" title={t('chat.read')} />
                 ) : msg.status === 'delivered' ? (
@@ -210,7 +216,7 @@ const MessageBubble = React.memo(
                 ) : (
                   <Check size={14} strokeWidth={2.2} className="opacity-60" title={t('chat.sent')} />
                 )}
-              </span>
+              </div>
             )}
           </button>
 

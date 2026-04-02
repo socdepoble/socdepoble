@@ -16,16 +16,15 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       strategies: 'injectManifest',
-      srcDir: 'src/workers',
-      filename: 'service-worker.ts',
-      registerType: 'autoUpdate',
+      srcDir: 'src',
+      filename: 'sw.js',
+      registerType: 'prompt',
       injectRegister: 'auto',
+      devOptions: { enabled: false, type: 'module' },
       injectManifest: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2,webp}'],
-        globIgnores: ['**/node_modules/**/*', 'coi-serviceworker.js'],
-        maximumFileSizeToCacheInBytes: 5 * 1024 * 1024 // 5 MiB
+        maximumFileSizeToCacheInBytes: 100 * 1024 * 1024,
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,wasm,onnx}']
       },
-
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
       manifest: {
         name: 'Sóc de Poble',
@@ -48,10 +47,6 @@ export default defineConfig({
             purpose: 'any maskable'
           }
         ]
-      },
-      devOptions: {
-        enabled: false,
-        type: 'module'
       }
     }),
   ],

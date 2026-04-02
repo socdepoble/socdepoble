@@ -329,8 +329,8 @@ const ChatList = () => {
 
               {/* Contenido Core del Chat (Blanco sobre Negro) */}
               <div className="flex-1 min-w-0 flex flex-col justify-center gap-1">
-                 <div className="flex justify-between items-center">
-                  <h4 className="text-[18px] font-bold text-[#169CF9] dark:text-white m-0 truncate pr-16 block transition-colors flex-1 tracking-tight">
+                 <div className="flex justify-between items-center text-[18px] font-bold text-[#169CF9] dark:text-white transition-colors tracking-tight">
+                  <h4 className="m-0 truncate pr-16 block flex-1">
                     {chat.other_info?.name ||
                       (chat.participant_1_id === user?.id
                         ? chat.p2_info?.name
@@ -339,19 +339,17 @@ const ChatList = () => {
                   </h4>
                 </div>
                 
-                <div className="flex justify-between items-center gap-3">
-                  <div 
-                    className="text-[16px] truncate flex-1 font-medium text-gray-700 dark:text-white/70 group-hover:text-gray-900 dark:group-hover:text-white/90 transition-colors"
-                  >
+                <div className="flex justify-between items-center gap-3 text-[16px] font-medium transition-colors">
+                  <p className="truncate flex-1 text-gray-700 dark:text-white/70 group-hover:text-gray-900 dark:group-hover:text-white/90">
                     {chat.last_message_content || t("chat.beating_with_socdepoble")}
-                  </div>
+                  </p>
                   
                   {/* Hora o Fecha */}
-                  <div className="flex flex-col items-end shrink-0">
+                  <div className="flex flex-col items-end shrink-0 text-[13px] text-[#169CF9]">
                     {currentTab === 'xat' && (() => {
                       const { day, time } = formatBategatDate(chat.last_message_time);
                       return (
-                        <div className="text-[13px] font-medium text-[#169CF9]">
+                        <div>
                           {time || day}
                         </div>
                       );

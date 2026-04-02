@@ -10,9 +10,11 @@ const TactileButton = ({
   impactStyle = ImpactStyle.Light,
   scaleDown = 0.95,
   type = "button",
+  disabled = false,
   ...props
 }) => {
   const handleTapStart = async () => {
+    if (disabled) return;
     try {
       // Trigger native haptic feedback
       await Haptics.impact({ style: impactStyle });
@@ -24,11 +26,12 @@ const TactileButton = ({
   return (
     <motion.button
       type={type}
-      whileTap={{ scale: scaleDown }}
+      disabled={disabled}
+      whileTap={disabled ? undefined : { scale: scaleDown }}
       transition={{ type: 'spring', stiffness: 500, damping: 30 }}
       onTapStart={handleTapStart}
       onClick={onClick}
-      className={`btn-tactile outline-none transition-colors duration-200 ${className}`}
+      className={`btn-tactile outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-black/50 transition-colors duration-200 ${className}`}
       {...props}
     >
       {children}

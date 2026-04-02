@@ -132,7 +132,7 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                         return {
                             id,
                             text: heading.innerText,
-                            level: heading.tagName.toLowerCase()
+                            level: heading.tagName ? heading.tagName.toLowerCase() : 'h2'
                         };
                     });
                     setTocElements(toc);
@@ -536,7 +536,7 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
     }
 
     return (
-        <div className="flex-1 h-full bg-[var(--bg-app)] text-[var(--text-main)] flex flex-col w-full overflow-hidden">
+        <div className="flex-1 h-full min-h-0 bg-[var(--bg-app)] text-[var(--text-main)] flex flex-col w-full overflow-hidden">
             <TranslationModal 
                 isOpen={isTranslationOpen} 
                 onClose={() => setIsTranslationOpen(false)} 
@@ -568,7 +568,7 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
             
             <div 
                 ref={scrollContainerRef}
-                className="flex-1 overflow-y-auto custom-scrollbar relative"
+                className="flex-1 overflow-y-auto custom-scrollbar relative min-h-0"
             >
                 {/* 2. MEDIA (Hero / Banner) */}
                 {HeroBanner}
@@ -686,7 +686,7 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                                 <h3 className="font-black text-xl uppercase tracking-wider text-[var(--theme-accent-primary)] m-0">ÍNDEX</h3>
                                 <p className="text-xs text-[var(--text-muted)] font-bold uppercase tracking-widest mt-1">Navegació Ràpida (E-Pub)</p>
                             </div>
-                            <div className="flex-1 overflow-y-auto px-4">
+                            <div className="flex-1 overflow-y-auto px-4 min-h-0">
                                 {tocElements.map((item) => (
                                     <button
                                         key={item.id}

@@ -1,57 +1,66 @@
-// El Worker usa WebCrypto, no cal importar l'antic node:crypto
-// Aquest fitxer és per utilitzar amb la webcrypto en local/PWA client!
+// El Worker usa WebCrypto, estem aïllant la clau privada d'IndexedDB en un Proxy Dedicated Worker.
+// Aquest fitxer només és un client (proxy) i no toca la CryptoKey directament en el fil principal.
+
+let worker = null;
+let commandId = 0;
+const pending = new Map();
+
+function getWorker() {
+  if (!worker) {
+    // Inicialitzem el worker només quan se'l necessita
+    worker = new Worker(new URL('../workers/cryptoWorker.js', import.meta.url), { type: 'module' });
+    worker.addEventListener('message', (e) => {
+      const { id, type, result, error } = e.data;
+      if (pending.has(id)) {
+        const { resolve, reject } = pending.get(id);
+        pending.delete(id);
+        if (type === 'SUCCESS') {
+          resolve(result);
+        } else {
+          reject(new Error(error));
+        }
+      }
+    });
+  }
+  return worker;
+}
+
+function sendCommand(type, payload, transfer = []) {
+  return new Promise((resolve, reject) => {
+    const id = ++commandId;
+    pending.set(id, { resolve, reject });
+    getWorker().postMessage({ id, type, payload }, transfer);
+  });
+}
 
 export async function generateUserKey() {
-  const key = await window.crypto.subtle.generateKey(
-    { name: 'AES-GCM', length: 256 },
-    true, // extractable
-    ['encrypt', 'decrypt']
-  );
-  
-  const rawKey = await window.crypto.subtle.exportKey('raw', key);
-  const keyBase64 = btoa(String.fromCharCode(...new Uint8Array(rawKey)));
-  
-  // Guardem a localStorage (podria moure's a sessionStorage/TrustZone depenent de rígiditat)
-  localStorage.setItem('user_crypto_key_AESGCM', keyBase64);
-  return key;
+  await sendCommand('GENERATE_KEY');
+  return true; // No retornem la clau per blindar l'XSS al fil principal
 }
 
+export async function hasUserKey() {
+  return await sendCommand('HAS_KEY');
+}
+
+// Mantenim l'antiga signatura temporalment per seguretat (encara que key ja no s'usa)
 export async function getUserKey() {
-  const keyBase64 = localStorage.getItem('user_crypto_key_AESGCM');
-  if (!keyBase64) return null;
-  const rawKey = Uint8Array.from(atob(keyBase64), c => c.charCodeAt(0));
-  return await window.crypto.subtle.importKey(
-    'raw',
-    rawKey,
-    { name: 'AES-GCM' },
-    true,
-    ['encrypt', 'decrypt']
-  );
+  // Retorna un dummy si el codi antic expectava una clau, 
+  // però actualment s'assumeix que només importa saber si existeix
+  const hasKey = await hasUserKey();
+  return hasKey ? "HIDDEN_IN_WORKER" : null;
 }
 
-export async function encryptBlob(blob, key) {
-  const iv = window.crypto.getRandomValues(new Uint8Array(12));
-  const plaintext = await blob.arrayBuffer();
-  const ciphertext = await window.crypto.subtle.encrypt(
-    { name: 'AES-GCM', iv },
-    key,
-    plaintext
-  );
-  
-  const encrypted = new Uint8Array(iv.length + ciphertext.byteLength);
-  encrypted.set(iv);
-  encrypted.set(new Uint8Array(ciphertext), iv.length);
-  return new Blob([encrypted], { type: 'application/octet-stream' });
+export async function encryptBlob(blob) {
+  const plainBuffer = await blob.arrayBuffer();
+  // Transferim l'ArrayBuffer directament al worker (zero-copy overhead)
+  const encryptedBuffer = await sendCommand('ENCRYPT', plainBuffer, [plainBuffer]);
+  return new Blob([encryptedBuffer], { type: 'application/octet-stream' });
 }
 
-export async function decryptBlob(encryptedBlob, key) {
-  const data = await encryptedBlob.arrayBuffer();
-  const iv = new Uint8Array(data.slice(0, 12));
-  const ciphertext = data.slice(12);
-  const plaintext = await window.crypto.subtle.decrypt(
-    { name: 'AES-GCM', iv },
-    key,
-    ciphertext
-  );
-  return new Blob([plaintext], { type: 'image/jpeg' });
+export async function decryptBlob(encryptedBlob) {
+  const encryptedBuffer = await encryptedBlob.arrayBuffer();
+  // Transferim l'ArrayBuffer (zero-copy overheadd)
+  const decryptedBuffer = await sendCommand('DECRYPT', encryptedBuffer, [encryptedBuffer]);
+  // Per defecte assumim image/jpeg en Sóc de Poble (així s'havia prefixat)
+  return new Blob([decryptedBuffer], { type: 'image/jpeg' });
 }

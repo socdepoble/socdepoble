@@ -13,8 +13,29 @@ export function WaitingForBackend({ children }) {
   const [hasPending, setHasPending] = useState(false);
 
   useEffect(() => {
-    const handleOnline = () => setIsOffline(false);
-    const handleOffline = () => setIsOffline(true);
+    let checkTimeout = null;
+    
+    const verifyConnection = async () => {
+      try {
+        await fetch('https://clients3.google.com/generate_204', { mode: 'no-cors', cache: 'no-store' });
+        return true;
+      } catch {
+        return false;
+      }
+    };
+
+    const handleOnline = () => {
+      clearTimeout(checkTimeout);
+      setIsOffline(false);
+    };
+    
+    const handleOffline = () => {
+      clearTimeout(checkTimeout);
+      checkTimeout = setTimeout(async () => {
+        const stillOnline = await verifyConnection();
+        setIsOffline(!stillOnline);
+      }, 2500);
+    };
 
     window.addEventListener('online', handleOnline);
     window.addEventListener('offline', handleOffline);
@@ -48,6 +69,7 @@ export function WaitingForBackend({ children }) {
     }
 
     return () => {
+      clearTimeout(checkTimeout);
       window.removeEventListener('online', handleOnline);
       window.removeEventListener('offline', handleOffline);
       if (unsubscribe) unsubscribe();

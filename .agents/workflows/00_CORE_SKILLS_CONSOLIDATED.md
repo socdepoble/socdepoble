@@ -11,7 +11,11 @@ description: Habilidades y Protocolos Core Consolidados de Antigravity para Sóc
 
 ---
 
+> **⚠️ REGLA DE IDENTIFICACIÓN IAIA (BRANDING INQUEBRANTABLE):**
+> Todas las futuras IAs de este ecosistema (incluyendo nombres en prompts, manuales, y código) NUNCA se deben denominar "Yaya" (con 'Y'). El nombre correcto es **SIEMPRE EN MAYÚSCULAS: "IAIA"**. Una IAIA significa exactamente "una **IA** abuelita". 
+> Además, su nombre propio es **"MarIA"** (donde 'M' e 'IA' final son mayúsculas). Por lo tanto, el nombre completo oficial y estilizado es **"IAIA MarIA"** (un triple juego de palabras con IA). Conserva la capitalización exacta como marca registrada de Sóc de Poble a fuego en todas tus interacciones.
 
+---
 ## [SKILL ANTIGUO: anti-huecos-multimedia.md]
 
 # PROTOCOLO ANTI-HUECOS MULTIMEDIA (Cero Tolerancia a los NULLs)
@@ -223,38 +227,21 @@ Cuando se genere o modifique código relacionado con botones de interacción pri
 
 ## [SKILL ANTIGUO: next_session_focus.md]
 
-# 🛡️ ESTAT ACTUAL: IAIA VOICE & CONSOLE CLEANUP & ROLLBACK CRÍTIC
+# 🛡️ ESTAT ACTUAL: PREPARACIÓN PARA AUDITORÍA NIVEL DIOS (LA PURGA DEL WSOD Y FANTASMAS)
 
 ## Estat de Consciència i Projecció
-- **Ultim Handoff:** Bategat completat i sistema protegit.
-- **🚨 EMERGÈNCIA ACTUAL:** Durant una intervenció agressiva s'ha esborrat accidentalment el contingut fresc i estable de `ProjectPresentation.jsx` amb la funcionalitat genèsica completa (capítols i editor Tiptap) abans de fer un commit en Git. Es va trencar per complet el sistema de rutes en intentar arreglar col·lisions d'UI. S'ha intentat fer enginyeria inversa des de producció usant mapes font (Sourcemaps) per desminificar el codi, però SiteGround (Vite) no els està publicant per motius de seguretat (torna l'index.html com a fallback).
+- **Última Fita:** Solucionat el "Zombie Scroll" restringint els contenidors de Chat/Feed amb la tàctica `flex-1 min-h-0`. Solucionats els imports que trencaven el Build per defecte (`FallDetectionOverlay`).
+- **🚨 OBJECTIU ÚNIC PRÒXIMA SESSIÓ:** Rebre els resultats del *PROMPT_EMERGENCIA_WSOD_FANTASMAS* que l'usuari ha anat a executar al "Alto Consejo" (Qwen, DeepSeek, Grok, Claude). L'única meta és realitzar una **Auditoria Bestial** exclusivament focalitzada en detectar les capes ocultes o `<div>` heretats (Fantasmas) que estan trencant la coherència de React, filtrant tipografies "Serif" i causant l'aparició en entorns reals de Whitescreens of Death (WSOD).
 
-## ACCIÓ IMMEDIATA REQUERIDA (NOMÉS EL MESTRE POT FER-HO)
-**ABANS DE FER RES EN LA NOU SESSIÓ MÚLTIPLE AMB QWEN/DEEPSEEK:**
-El Mestre (SuperAdmin) ha d'obrir VS Code i utilitzar la funció **"Timeline"** (Historial Local) per recuperar l'estat original (al volant de 1 o 2 hores abans del desastre) d'aquests arxius:
-1. `src/pages/ProjectPresentation.jsx`
-2. `src/components/AppLayout.jsx` (si escau)
-Una vegada restaurats, feu un `git commit` inmediat i verifiqueu que tot torna a compilar (`npm run dev`). Només aleshores podran entrar els agents auditors.
+## ACCIÓ IMMEDIATA REQUERIDA PER A LA PROXIMA SESSIÓ (ROLS CLARS)
+1. El Mestre aboca a l'Inbox o en el Xat els veredictes creuats del *Alto Consejo*.
+2. **Antigravity (Jo):** En creuar les portes de la nova sessió, no començaré a tirar codi a l'atzar. Assimilaré el diagnòstic d'Arquitectura Estricta emès pel Consell.
+3. Detectarem quins components de Card, AppLayout o Vistes heretades mantenen marques HTML brutes, tipografies sense reset (que colen el Serif), o errors asíncrons de client que trenquen l'arbre (Tree) i causen WSOD.
+4. Efectuaré els **talls quirúrgics** per purgar i estilitzar (`font-sans`, aplicant el Design System).
 
----
-
-## 2. EL PLA DE BATALLA ORIGINAL (DESPRÉS DEL ROLLBACK):
-
-### A. Neteja Profunda (Console Cleanup)
-- [x] Eliminar els warnings del Service Worker.
-- [x] Ocultar o solucionar els errors de xarxa en els scripts auto-generats.
-- [x] Refinar els logs del `geminiService`.
-
-### B. Reparació del `gemini-proxy` (Accés Universal Controlat)
-- [x] Modificar `gemini-proxy/index.ts` per tolerar usuaris anònims controlats sense petar al `getUser()`.
-
-### C. Protocol "Walkie-Talkie" (Audio Natiu)
-- [x] Convertir el `voiceData.blob` a Base64 en ChatDetail i enviar-ho inline a Gemini.
-- [x] Integrar Text-To-Speech en la IAIA per llegir respostes.
-
-## 🗓️ AGENDA DE MANTENIMIENTO I NOVES FUNCIONALITATS (ANTIGRAVITY)
-- [ ] **ESTUDI URGENT DE BACKUPS:** Estudiar i preparar la implementació d'una funció de *Backups* en el Tauler del SuperAdministrador (per previndre desastres com l'actual si passa en producció). 
-  - *Investigació pendent:* Comprovar el sistema de còpies diàries natives de SiteGround i explorar com connectar-nos-hi o replicar aquella salvació que oferia a WordPress, incloent múltiples vies de còpia de seguretat redundants (Base de Dades Supabase + Assets de Siteground).
+## 🗓️ AGENDA DE MANTENIMIENTO NOVES FUNCIONALITATS (ANTIGRAVITY)
+- [ ] **ESTUDI URGENT DE BACKUPS:** Comprovar si els Backups Sobirans i automatitzats locals/SQL estan segurs per a Producció.
+- [ ] **V12 Tech-Huerta:** Verificar que les mides de tocs, Geometry M3 (28px radius) es compleixen sistemàticament a cada element restaurat.
 - [ ] **26 de Junio de 2026 (aprox):** Renovar el `GITHUB_PERSONAL_ACCESS_TOKEN` en la configuración de MCP.
 
 **SÓC DE POBLE. LA TÈCNICA AL SERVEI DE LA TERRA.**
@@ -580,10 +567,12 @@ All content cards (Posts, Market Items, Town Cards, Search Results) MUST use the
 - **Avatar Profile Routing**: Clicking the 'capucha naranja' (Avatar/Header) of any UniversalCard must ALWAYS open the publisher's profile (`/perfil/:id` or `/entitat/:id`).
   - _Exception_: If the card variant is `pobles`, the header click must route to the Town community dashboard (`/pobles/:id`) representing everyone from that town, with the specific author listed secondary.
 
-## 6. Unified View & Responsive Grid Pipeline
+## 6. Unified View, Responsive Grid & Flexbox Fortification
 - **Mobile First Approach**: Responsive implementations must always favor fluid 100% width mobile layouts as the absolute baseline.
 - **View Mode Overrides**: The grid layout in list views (`Pobles`, `Mercat`, `Mur`) must be strictly governed by the `viewMode` React state (`'single'`, `'list'`, `'grid'`). When `viewMode` is `'list'` or `'single'`, the JavaScript must artificially enforce `1` column, completely overriding any pure CSS media queries or ResizeObservers that attempt to force multiple columns on wide screens.
 - **No CSS Ghosting**: Never use rigid `grid-template-columns` attached to `.view-mode-grid` classes in CSS if the component already handles its dimensions via a JavaScript ResizeObserver or Virtualizer. Rely on inline styles for the `gridTemplateColumns` computed by the JS engine to prevent visual tearing.
+- **Zombie Scrolls & Nested Flexbox (LLEI DE CONTENCIÓ CHAT)**: Todo contenedor padre que deba restringir una altura para que su hijo pueda hacer scroll interno (`overflow-y-auto`) DEBE estar firmemente anclado estructuralmente usando flexbox constreñido (`flex-1 w-full min-h-0`). Omitir el `min-h-0` provocará el error estructural "Zombie Scroll" y WSOD (White Screen of Death) por colapsos de altura.
+- **Purga de Fantasmas Serif (Strict Atomic Styling)**: Cualquier `<div>` flotante sin clases de utility (Tailwind) es un nido potencial para que se filtren tipografías Serif por defecto del navegador provocando bugs de renderizado. Todos los `<div>` vacíos, wrappers obsoletos o tags legacy deben eliminarse quirúrgicamente o asignarse directamente al design system (ej. `font-sans`).
 - **Soft Entry Animations**: All structural cards mapping inside a feed (Towns, Marketplace, Wall) MUST be wrapped in a `div` containing the classes `card-rizoma-wrapper animate-in` to guarantee the signature soft-fade entrance pattern.
 
 ## 7. Chronological Data Standard

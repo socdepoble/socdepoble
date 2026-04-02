@@ -82,37 +82,36 @@ define(['./workbox-21a80088'], (function (workbox) { 'use strict';
     "revision": "3ca0b8505b4bec776b69afdba2768812"
   }, {
     "url": "index.html",
-    "revision": "0.rdndsgctkfs"
+    "revision": "0.msrhtdbv8v8"
   }], {});
   workbox.cleanupOutdatedCaches();
   workbox.registerRoute(new workbox.NavigationRoute(workbox.createHandlerBoundToURL("index.html"), {
     allowlist: [/^\/$/]
   }));
-  workbox.registerRoute(/^https:\/\/fonts\.googleapis\.com\/.*/i, new workbox.CacheFirst({
-    "cacheName": "google-fonts-cache",
+  workbox.registerRoute(/^https?:\/\/.*\.(tile|tiles|osm|mapbox|googleapis|openstreetmap)\.(com|org|net)\/.*/i, new workbox.CacheFirst({
+    "cacheName": "soc-de-poble-maps-tiles",
     plugins: [new workbox.ExpirationPlugin({
-      maxEntries: 10,
-      maxAgeSeconds: 31536000
-    }), new workbox.CacheableResponsePlugin({
-      statuses: [0, 200]
-    })]
-  }), 'GET');
-  workbox.registerRoute(/^https:\/\/api\.socdepoble\.org\/.*/i, new workbox.NetworkFirst({
-    "cacheName": "api-cache",
-    "networkTimeoutSeconds": 10,
-    plugins: [new workbox.ExpirationPlugin({
-      maxEntries: 100,
-      maxAgeSeconds: 86400
-    }), new workbox.CacheableResponsePlugin({
-      statuses: [0, 200]
-    })]
-  }), 'GET');
-  workbox.registerRoute(/\.(?:png|jpg|jpeg|svg|gif|webp|ico)$/, new workbox.CacheFirst({
-    "cacheName": "images-cache",
-    plugins: [new workbox.ExpirationPlugin({
-      maxEntries: 200,
+      maxEntries: 1200,
       maxAgeSeconds: 2592000
+    }), new workbox.CacheableResponsePlugin({
+      statuses: [0, 200]
     })]
+  }), 'GET');
+  workbox.registerRoute(/^https:\/\/fonts\.(gstatic|googleapis)\.com\/.*/i, new workbox.CacheFirst({
+    "cacheName": "soc-de-poble-fonts",
+    plugins: []
+  }), 'GET');
+  workbox.registerRoute(/\.(png|jpg|jpeg|webp|svg|gif)$/i, new workbox.CacheFirst({
+    "cacheName": "soc-de-poble-images",
+    plugins: [new workbox.ExpirationPlugin({
+      maxEntries: 300,
+      maxAgeSeconds: 7776000
+    })]
+  }), 'GET');
+  workbox.registerRoute(/^https?:\/\/.*\.(supabase|googleapis|calendar)\.(com|co)/i, new workbox.NetworkFirst({
+    "cacheName": "soc-de-poble-api-fallback",
+    "networkTimeoutSeconds": 5,
+    plugins: []
   }), 'GET');
 
 }));

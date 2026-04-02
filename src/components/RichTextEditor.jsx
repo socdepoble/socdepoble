@@ -8,7 +8,7 @@ import Underline from '@tiptap/extension-underline';
 import { TextStyle } from '@tiptap/extension-text-style';
 import Color from '@tiptap/extension-color';
 import ListItem from '@tiptap/extension-list-item';
-import { Bold, Italic, Underline as UnderlineIcon, Strikethrough, Heading1, Heading2, Heading3, Heading4, List, ListOrdered, Quote, AlignLeft, AlignCenter, AlignRight, Undo, Redo, Image as ImageIcon, Link as LinkIcon, Save, MousePointerClick, CodeXml, X } from 'lucide-react';
+import { Bold, Italic, Underline as UnderlineIcon, Strikethrough, Heading1, Heading2, Heading3, Heading4, Heading5, Heading6, List, ListOrdered, Quote, AlignLeft, AlignCenter, AlignRight, Undo, Redo, Image as ImageIcon, Link as LinkIcon, Save, MousePointerClick, CodeXml, X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import StarterKit from '@tiptap/starter-kit';
 
@@ -215,6 +215,20 @@ const MenuBar = ({ editor, onSave, isSaving, minimal = false, onOpenHtmlDialog }
             >
                 <Heading4 size={18} />
             </ToolbarButton>
+            <ToolbarButton
+                onClick={() => editor.chain().focus().toggleHeading({ level: 5 }).run()}
+                isActive={editor.isActive('heading', { level: 5 })}
+                ariaLabel="Títol 5"
+            >
+                <Heading5 size={18} />
+            </ToolbarButton>
+            <ToolbarButton
+                onClick={() => editor.chain().focus().toggleHeading({ level: 6 }).run()}
+                isActive={editor.isActive('heading', { level: 6 })}
+                ariaLabel="Títol 6"
+            >
+                <Heading6 size={18} />
+            </ToolbarButton>
           </>
       )}
       
@@ -341,7 +355,7 @@ const RichTextEditor = ({ content, onChange, onSave, isSaving, editable = true, 
         attributes: {
             'aria-label': t('editor.accessibilityLabel', 'Editor de contingut ric'),
             role: 'textbox',
-            class: `focus:outline-none w-full text-[var(--text-main)] ${minimal ? 'min-h-[120px] p-3 text-base [&>h1]:text-2xl [&>h1]:font-black [&>h1]:mb-3 [&>h2]:text-lg [&>h2]:font-bold [&>h2]:mb-2 [&>p]:mb-3 [&>ul]:list-disc [&>ul]:pl-5 [&>ol]:list-decimal [&>ol]:pl-5' : 'min-h-[60vh] p-6 lg:p-10 [&>h1]:text-3xl [&>h1]:md:text-4xl [&>h1]:font-black [&>h1]:uppercase [&>h1]:tracking-tight [&>h1]:text-center [&>h1]:mb-6 [&>h2]:text-xl [&>h2]:md:text-2xl [&>h2]:font-bold [&>h2]:text-[var(--theme-accent-secondary)] [&>h2]:uppercase [&>h2]:mb-4 [&>h2]:mt-8 [&>h3]:text-lg [&>h3]:font-bold [&>h3]:mb-2 [&>h3]:mt-6 [&>h4]:text-base [&>h4]:font-bold [&>h4]:uppercase [&>h4]:mb-2 [&>h4]:mt-4 [&>h4]:text-[var(--text-muted)] [&>p]:text-lg [&>p]:md:text-xl [&>p]:leading-relaxed [&>p]:mb-6 [&>ul]:list-disc [&>ul]:pl-6 [&>ul]:mb-6 [&>ul]:text-lg [&>ul]:md:text-xl [&>ol]:list-decimal [&>ol]:pl-6 [&>ol]:mb-6 [&>ol]:text-lg [&>ol]:md:text-xl [&_li]:mb-1 [&_li>p]:m-0 [&_li.bullet-button]:!list-none [&_li.bullet-button]:!pl-0 [&_li.bullet-button]:my-4 [&_li.bullet-button]:w-full [&_li.bullet-button]:flex [&_li.bullet-button]:justify-center [&_li.bullet-button>p]:inline-flex [&_li.bullet-button>p]:items-center [&_li.bullet-button>p]:justify-center [&_li.bullet-button>p]:m-0 [&_li.bullet-button>p]:bg-[var(--bg-panel-elevated)] [&_li.bullet-button>p]:text-[var(--text-main)] [&_li.bullet-button>p]:font-bold [&_li.bullet-button>p]:px-8 [&_li.bullet-button>p]:py-3 [&_li.bullet-button>p]:rounded-full [&_li.bullet-button>p]:border-2 [&_li.bullet-button>p]:border-[var(--theme-accent-primary)] [&_li.bullet-button>p]:shadow-md [&_li.bullet-button>p]:text-center [&_li.bullet-button>p]:transition-all [&_li.bullet-button>p]:active:scale-95 hover:[&_li.bullet-button>p]:bg-[var(--theme-accent-primary)] [&_li.bullet-button:hover>p]:!text-white [&_li.bullet-button_a]:!text-inherit [&_li.bullet-button_a]:!no-underline [&_blockquote]:border-l-4 [&_blockquote]:border-[var(--theme-accent-primary)] [&_blockquote]:pl-6 [&_blockquote]:py-4 [&_blockquote]:pr-4 [&_blockquote]:my-8 [&_blockquote]:mx-0 [&_blockquote]:bg-[var(--bg-panel)] [&_blockquote]:rounded-r-2xl [&_blockquote_p]:text-xl [&_blockquote_p]:md:text-2xl [&_blockquote_p]:italic [&_blockquote_p]:font-medium [&_blockquote_p]:text-[var(--text-main)] [&_blockquote_p]:mb-0 [&_img]:rounded-2xl [&_img]:border [&_img]:border-[var(--border-master)] [&_img]:my-6 [&_img]:w-full [&_a]:text-[var(--theme-accent-primary)] [&_a]:underline'}`,
+            class: `focus:outline-none w-full text-[var(--text-main)] ${minimal ? 'min-h-[120px] p-3 text-base [&>h1]:text-2xl [&>h1]:font-black [&>h1]:mb-3 [&>h2]:text-lg [&>h2]:font-bold [&>h2]:mb-2 [&>p]:mb-3 [&>ul]:list-disc [&>ul]:pl-5 [&>ol]:list-decimal [&>ol]:pl-5' : 'min-h-[60vh] p-6 lg:p-10 [&>h1]:text-3xl [&>h1]:md:text-4xl [&>h1]:font-black [&>h1]:uppercase [&>h1]:tracking-tight [&>h1]:text-center [&>h1]:mb-6 [&>h2]:text-xl [&>h2]:md:text-2xl [&>h2]:font-bold [&>h2]:text-[var(--theme-accent-secondary)] [&>h2]:uppercase [&>h2]:mb-4 [&>h2]:mt-8 [&>h3]:text-lg [&>h3]:font-bold [&>h3]:mb-2 [&>h3]:mt-6 [&>h4]:text-base [&>h4]:font-bold [&>h4]:uppercase [&>h4]:mb-2 [&>h4]:mt-4 [&>h4]:text-[var(--text-muted)] [&>h5]:text-sm [&>h5]:font-semibold [&>h5]:text-[var(--text-muted)] [&>h5]:mb-2 [&>h5]:mt-4 [&>h6]:text-xs [&>h6]:font-medium [&>h6]:uppercase [&>h6]:tracking-widest [&>h6]:text-[var(--text-muted)] [&>h6]:mb-1 [&>h6]:mt-2 [&>p]:text-lg [&>p]:md:text-xl [&>p]:leading-relaxed [&>p]:mb-6 [&>ul]:list-disc [&>ul]:pl-6 [&>ul]:mb-6 [&>ul]:text-lg [&>ul]:md:text-xl [&>ol]:list-decimal [&>ol]:pl-6 [&>ol]:mb-6 [&>ol]:text-lg [&>ol]:md:text-xl [&_li]:mb-1 [&_li>p]:m-0 [&_li.bullet-button]:!list-none [&_li.bullet-button]:!pl-0 [&_li.bullet-button]:my-4 [&_li.bullet-button]:w-full [&_li.bullet-button]:flex [&_li.bullet-button]:justify-center [&_li.bullet-button>p]:inline-flex [&_li.bullet-button>p]:items-center [&_li.bullet-button>p]:justify-center [&_li.bullet-button>p]:m-0 [&_li.bullet-button>p]:bg-[var(--bg-panel-elevated)] [&_li.bullet-button>p]:text-[var(--text-main)] [&_li.bullet-button>p]:font-bold [&_li.bullet-button>p]:px-8 [&_li.bullet-button>p]:py-3 [&_li.bullet-button>p]:rounded-full [&_li.bullet-button>p]:border-2 [&_li.bullet-button>p]:border-[var(--theme-accent-primary)] [&_li.bullet-button>p]:shadow-md [&_li.bullet-button>p]:text-center [&_li.bullet-button>p]:transition-all [&_li.bullet-button>p]:active:scale-95 hover:[&_li.bullet-button>p]:bg-[var(--theme-accent-primary)] [&_li.bullet-button:hover>p]:!text-white [&_li.bullet-button_a]:!text-inherit [&_li.bullet-button_a]:!no-underline [&_blockquote]:border-l-4 [&_blockquote]:border-[var(--theme-accent-primary)] [&_blockquote]:pl-6 [&_blockquote]:py-4 [&_blockquote]:pr-4 [&_blockquote]:my-8 [&_blockquote]:mx-0 [&_blockquote]:bg-[var(--bg-panel)] [&_blockquote]:rounded-r-2xl [&_blockquote_p]:text-xl [&_blockquote_p]:md:text-2xl [&_blockquote_p]:italic [&_blockquote_p]:font-medium [&_blockquote_p]:text-[var(--text-main)] [&_blockquote_p]:mb-0 [&_img]:rounded-2xl [&_img]:border [&_img]:border-[var(--border-master)] [&_img]:my-6 [&_img]:w-full [&_a]:text-[var(--theme-accent-primary)] [&_a]:underline'}`,
         },
     },
   }, []);

@@ -59,6 +59,8 @@ const HubView = lazy(() => import("../pages/HubView"));
 
 const EpubViewer = lazy(() => import("./EpubViewer"));
 const VisionView = lazy(() => import("../pages/VisionView"));
+const MedicationConfirm = lazy(() => import("../pages/MedicationConfirm"));
+const VitalSecurity = lazy(() => import("../pages/VitalSecurity"));
 
 const SuspenseFallback = () => {
   const { t } = useTranslation();
@@ -155,8 +157,19 @@ const AppLayout = () => {
 
   const isOverflowHidden = React.useMemo(() => 
     location.pathname.startsWith("/chats") ||
+    location.pathname.startsWith("/gestio/xats") ||
     location.pathname.startsWith("/gestio-menu") ||
-    location.pathname.startsWith("/notes"),
+    location.pathname.startsWith("/notes") ||
+    location.pathname.startsWith("/el-projecte") ||
+    location.pathname.startsWith("/mur") ||
+    location.pathname.startsWith("/calendari") ||
+    location.pathname.startsWith("/mapa") ||
+    location.pathname.startsWith("/perfil") ||
+    location.pathname.startsWith("/arxiu") ||
+    location.pathname.startsWith("/utilitats") ||
+    location.pathname.startsWith("/pobles") ||
+    location.pathname.startsWith("/versions") ||
+    location.pathname.startsWith("/register"),
   [location.pathname]);
 
   // [PROTOCOL v10.24.0-MOBILE-FIX] Injecció forçada de Viewport per a evitar escalat d'escriptori
@@ -205,7 +218,8 @@ const AppLayout = () => {
 
   return (
     <div
-      className="h-[100dvh] w-full flex flex-col overflow-hidden font-sans bg-theme-base text-theme-text relative max-h-[100dvh]"
+      className="grid grid-rows-[auto_1fr_auto] h-screen support-dvh:h-[100dvh] w-full overflow-hidden font-sans bg-theme-base text-theme-text relative"
+      style={{ height: '100dvh' /* Modern browsers will use this, older will fallback to h-screen class */ }}
       onDragEnterCapture={handleGlobalDragEnter}
       onDragLeaveCapture={handleGlobalDragLeave}
       onDragOverCapture={handleGlobalDragOver}
@@ -227,7 +241,7 @@ const AppLayout = () => {
 
       {/* 0. HEADER SOBIRÀ (FULL WIDTH - PROTOCOL v4.0) */}
       {!isMinimal && (
-        <div className="w-full relative z-base bg-[#0e0e10]">
+        <div className="w-full relative z-base bg-[#000000]">
           <Suspense fallback={FALLBACK_ELEMENT}>
             <BlueprintOverlay
               label="HEADER_CANONIC"
@@ -242,7 +256,7 @@ const AppLayout = () => {
       )}
 
       {/* CONTENIDOR PRINCIPAL (SIDEBAR + ESCENARI) */}
-      <div className="flex-1 flex overflow-hidden relative">
+      <div className="grid md:grid-cols-[auto_1fr] overflow-hidden relative min-h-0">
         {/* 0. OVERLAY MÒBIL (Sombra de fondo purificada) */}
         {isDrawerOpen && (
           <div
@@ -278,10 +292,10 @@ const AppLayout = () => {
 
         {/* 2. MAIN VIEWPORT (EL ESCENARIO) - HABILITEM SCROLL (TABULA RASA) */}
         <main
-          className={`flex-1 flex flex-col min-w-0 min-h-0 relative bg-theme-base custom-scrollbar ${
+          className={`min-w-0 min-h-0 relative bg-theme-base ${
             isOverflowHidden
               ? "overflow-hidden"
-              : ""
+              : "overflow-y-auto overscroll-contain custom-scrollbar"
           }`}
         >
           <Suspense fallback={null}>
@@ -290,24 +304,20 @@ const AppLayout = () => {
 
           <BlueprintOverlay
             label={currentLabel}
-            dimensions="FLEX_GROW"
+            dimensions="MATCH"
             color="emerald"
-            className="flex-1 flex flex-col min-h-0 relative z-10"
+            className="h-full relative z-10"
           >
             <Suspense fallback={<NanoLoader message={t('common.connecting', 'Connectant...')} />}>
               <ErrorBoundary>
-                <div
-                  className={`flex-1 flex flex-col relative min-w-0 main-viewport custom-scrollbar !m-0 ${
-                    isOverflowHidden
-                      ? "h-full overflow-hidden touch-none"
-                      : "min-h-full overflow-y-auto touch-pan-y overscroll-contain"
-                  }`}
-                >
+                <div className="h-full relative min-w-0 min-h-0 m-0">
                   <Routes>
                     <Route
                       path="/"
                       element={<Navigate to="/chats" replace />}
                     />
+                    <Route path="/medication-confirm" element={<MedicationConfirm />} />
+                    <Route path="/seguretat" element={<VitalSecurity />} />
                     <Route path="/pobles" element={<Towns />} />
                     <Route path="/pobles/:id" element={<ProfileView />} />
                     <Route path="/versions" element={<Versions />} />

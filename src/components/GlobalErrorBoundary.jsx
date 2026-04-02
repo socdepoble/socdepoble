@@ -1,47 +1,96 @@
-import React from 'react';
+import { Component } from 'react';
+import { openDB } from 'idb';
+import { logger } from '../utils/logger';
+import TactileButton from './design/TactileButton';
 
-class GlobalErrorBoundary extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { hasError: false, error: null };
-  }
-
-  static getDerivedStateFromError(error) {
-    // Update state so the next render will show the fallback UI.
-    return { hasError: true, error };
-  }
-
-  componentDidCatch(error, errorInfo) {
-    // You can also log the error to an error reporting service like Sentry here
-    console.error("GlobalErrorBoundary catched an error:", error, errorInfo);
-  }
-
-  render() {
-    if (this.state.hasError) {
-      // You can render any custom fallback UI
-      return (
-        <div className="flex flex-col items-center justify-center p-8 m-4 rounded-[28px] border border-red-900 bg-red-900/20 text-center glass-panel">
-          <h2 className="text-2xl font-black text-red-500 mb-4">⚠️ Errida Crítica al Sistema</h2>
-          <p className="text-gray-300 mb-6">
-            S'ha produït un error de renderitzat o en el processament de dades d'aquesta secció.<br />
-            Això succeeix quan un connector extern (ex: Google) cau o hi ha una corrupció al memòria local.
-          </p>
-          <button 
-            className="btn-primary" 
-            style={{background: 'var(--color-error)'}}
-            onClick={() => {
-              this.setState({ hasError: false, error: null });
-              window.location.reload();
-            }}
-          >
-            REINICIAR VISTA
-          </button>
-        </div>
-      );
+class GlobalErrorBoundary extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { hasError: false, error: null, isHealing: false };
     }
 
-    return this.props.children; 
-  }
+    static getDerivedStateFromError(error) {
+        return { hasError: true, error };
+    }
+
+    componentDidCatch(error, errorInfo) {
+        logger.error('[ErrorBoundary] Error capturat:', error, errorInfo);
+
+        // === AUTOSANACIÓ QUIRÚRGICA ===
+        const criticalErrors = [
+            'QuotaExceededError',
+            'DataCloneError',
+            'IndexedDB',
+            'IDB',
+            'Yjs',
+            'rhizome'
+        ];
+
+        const isCritical = criticalErrors.some(msg => 
+            error.name?.includes(msg) || error.message?.includes(msg)
+        );
+
+        if (isCritical) {
+            this.setState({ isHealing: true });
+            this.healDatabase().then(() => {
+                // Reset noble després de purgar
+                window.location.href = '/?healed=true&v=' + Date.now();
+            });
+        }
+    }
+
+    async healDatabase() {
+        try {
+            logger.warn('[AUTOSANACIÓ] Detectada corrupció crítica – iniciant purga quirúrgica...');
+
+            // Purga totes les taules del Rhizome
+            const db = await openDB('rhizome-v1', 1);
+            const tx = db.transaction('rhizome', 'readwrite');
+            await tx.store.clear(); // esborra tot el CRDT + identitats xifrades
+
+            // Purga també el store sobirà si existeix
+            try {
+                await db.delete('sovereign-identity');
+            } catch {
+                // Ignore errors if the store doesn't exist
+            }
+
+            await tx.done;
+            logger.info('[AUTOSANACIÓ] Base de dades purgada i restaurada amb èxit');
+        } catch (e) {
+            logger.error('[AUTOSANACIÓ] Error durant la purga:', e);
+            // Últim recurs: neteja completa
+            localStorage.clear();
+            sessionStorage.clear();
+        }
+    }
+
+    render() {
+        if (this.state.hasError) {
+            return (
+                <div className="min-h-screen bg-black flex items-center justify-center p-8 text-white">
+                    <div className="max-w-md text-center">
+                        <h1 className="text-4xl font-black mb-6">🌾 La plaça està curant-se...</h1>
+                        {this.state.isHealing ? (
+                            <p className="text-xl mb-8">S’està purgant la corrupció i reiniciant el Búnker. Un moment, si us plau.</p>
+                        ) : (
+                            <>
+                                <p className="mb-8">S’ha produït un error crític. El sistema s’està auto-reparant.</p>
+                                <TactileButton
+                                    onClick={() => window.location.reload()}
+                                    className="px-10 py-6 text-2xl bg-[#F97316] rounded-3xl"
+                                >
+                                    Reiniciar la plaça
+                                </TactileButton>
+                            </>
+                        )}
+                    </div>
+                </div>
+            );
+        }
+
+        return this.props.children;
+    }
 }
 
 export default GlobalErrorBoundary;

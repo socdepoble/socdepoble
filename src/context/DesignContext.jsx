@@ -14,7 +14,7 @@ export const DesignProvider = ({ children }) => {
     const [reduceMotion, setReduceMotion] = useState(prefs.reduceMotion || false);
     const [visualDemocracy, setVisualDemocracy] = useState(prefs.visualDemocracy || 'pedra-seca');
     const [globalDesign, setGlobalDesign] = useState(prefs.globalDesign || 'batega');
-    const [iaiaLevel, setIaiaLevelState] = useState(prefs.iaiaLevel !== undefined ? prefs.iaiaLevel : 2);
+    const [iaiaLevel, setIaiaLevelState] = useState(prefs.iaiaLevel !== undefined ? prefs.iaiaLevel : 3);
     const [blueprintMode, setBlueprintMode] = useState(prefs.blueprintMode || false);
     const [accessibilityMode, setAccessibilityMode] = useState(prefs.accessibilityMode || false);
 

@@ -213,21 +213,6 @@
     </h1>
     <div id="root"></div>
 
-    <!-- Groq Turbo Rural Service Worker Registration -->
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js');
-          
-          navigator.serviceWorker.addEventListener('message', (event) => {
-            if (event.data && event.data.type === 'SW_UPDATED') {
-              console.log('🌾 [Poble SW] Nova versió detectada. Reiniciant pestanya...');
-              window.location.reload();
-            }
-          });
-        });
-      }
-    </script>
 
     <!-- Google Identity Services per a One-Tap Login -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>

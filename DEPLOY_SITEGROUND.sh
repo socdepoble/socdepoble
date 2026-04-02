@@ -56,7 +56,20 @@ $archive = $targetDir . '/dist.tar.gz';
 
 echo ">> Iniciant extracció (exec de sistema)...<br>";
 
-// 1. Extraure
+// 1. Purga Brutal d'Assets Vells (Evitar Zombis)
+echo ">> Purgant assets vells...<br>";
+$assetsDir = $targetDir . '/assets';
+if (is_dir($assetsDir)) {
+    $rit = new RecursiveDirectoryIterator($assetsDir, RecursiveDirectoryIterator::SKIP_DOTS);
+    $rii = new RecursiveIteratorIterator($rit, RecursiveIteratorIterator::CHILD_FIRST);
+    foreach ($rii as $file) {
+        if ($file->isDir()) @rmdir($file->getRealPath());
+        else @unlink($file->getRealPath());
+    }
+    @rmdir($assetsDir);
+}
+
+// 2. Extraure
 if (file_exists($archive)) {
     exec("tar -xzf dist.tar.gz 2>&1", $out, $ret);
     if ($ret === 0) {

@@ -12,6 +12,7 @@ import "./i18n/config";
 import { AuthProvider } from "./context/AuthContext";
 import { ModalProvider } from "./context/ModalContext";
 import { DesignProvider } from "./context/DesignContext";
+import ErrorBoundary from "./components/ErrorBoundary";
 import { NavigationProvider } from "./context/NavigationContext";
 import { SocialProvider } from "./context/SocialContext";
 import { BrowserRouter } from "react-router-dom";
@@ -90,35 +91,37 @@ if (!window.__SDP_ROOT__) window.__SDP_ROOT__ = ReactDOM.createRoot(container);
 
 window.__SDP_ROOT__.render(
   <React.StrictMode>
-    <QueryProvider>
-      <HelmetProvider>
-        <BrowserRouter>
-        <DesignProvider>
-          <ThemeProvider>
-            <I18nProvider>
-              <RealmProvider>
-                <AuthProvider>
-                  <SocialProvider>
-                    <NavigationProvider>
-                      <ModalProvider>
-                        <ToastProvider>
-                          <VersionGatekeeper>
-                            <SafeShell>
-                              <App />
-                            </SafeShell>
-                          </VersionGatekeeper>
-                        </ToastProvider>
-                      </ModalProvider>
-                    </NavigationProvider>
-                  </SocialProvider>
-                </AuthProvider>
-              </RealmProvider>
-            </I18nProvider>
-          </ThemeProvider>
-        </DesignProvider>
-        </BrowserRouter>
-      </HelmetProvider>
-    </QueryProvider>
+    <ErrorBoundary fallbackMessage="💀 ROOT CRASH: Fallada Crítica en el Render Inicial">
+      <QueryProvider>
+        <HelmetProvider>
+          <BrowserRouter>
+          <DesignProvider>
+            <ThemeProvider>
+              <I18nProvider>
+                <RealmProvider>
+                  <AuthProvider>
+                    <SocialProvider>
+                      <NavigationProvider>
+                        <ModalProvider>
+                          <ToastProvider>
+                            <VersionGatekeeper>
+                              <SafeShell>
+                                <App />
+                              </SafeShell>
+                            </VersionGatekeeper>
+                          </ToastProvider>
+                        </ModalProvider>
+                      </NavigationProvider>
+                    </SocialProvider>
+                  </AuthProvider>
+                </RealmProvider>
+              </I18nProvider>
+            </ThemeProvider>
+          </DesignProvider>
+          </BrowserRouter>
+        </HelmetProvider>
+      </QueryProvider>
+    </ErrorBoundary>
   </React.StrictMode>
 );
 

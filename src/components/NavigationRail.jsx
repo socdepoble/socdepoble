@@ -28,18 +28,24 @@ const NavigationRail = () => {
   };
 
   return (
-    <nav className="w-full h-full flex flex-col bg-transparent relative overflow-hidden">
-      {/* CONNECTAR BOTÓ - ATOMIC SQUARE COHESION */}
-      <button
-        className="w-full h-[48px] shrink-0 bg-[var(--sdp-blue)] text-white flex items-center justify-center space-x-2 transition-colors hover:brightness-110 focus:outline-none"
-        onClick={() => navigate("/hub")}
-      >
-        <Plus size={20} strokeWidth={3} />
-        <span className="uppercase font-bold tracking-widest">{t("common.add", "Connectar")}</span>
-      </button>
+    <nav className="w-full h-full flex flex-col bg-[var(--sdp-bg)] border-r border-[#333] relative overflow-hidden">
+      
+      {/* 1. BOTÓ D'ACCIÓ RÀPIDA (TOP - PROTOCOL HUB) - FIT 48PX */}
+      <div className="h-[48px] min-h-[48px] max-h-[48px] shrink-0 border-b border-[#333] relative z-20">
+        <button
+          className="w-full h-full bg-[var(--sdp-blue)] text-white flex items-center justify-center space-x-2 transition-colors hover:brightness-110 focus:outline-none shadow-sm"
+          onClick={() => navigate("/hub")}
+        >
+          <div className="flex items-center justify-center w-8 h-8 rounded shrink-0">
+            <Plus size={20} strokeWidth={3} />
+          </div>
+          <span className="uppercase font-bold tracking-[0.2em]">{t("common.add", "Connectar")}</span>
+        </button>
+      </div>
 
-      <div className="flex-1 mt-6 px-3 overflow-y-auto stable-scroll custom-scrollbar flex flex-col">
-          <ul className="space-y-2 relative">
+      <div className="flex-1 overflow-y-auto stable-scroll custom-scrollbar flex flex-col pt-4 px-3 pb-6">
+
+        <ul className="space-y-2 relative">
             {menuItems.map((item) => {
               const Icon = item.icon;
               const isActive = location.pathname.startsWith(item.path);
@@ -70,6 +76,12 @@ const NavigationRail = () => {
             })}
           </ul>
         </div>
+        
+      <div className="p-4 mt-auto border-t border-[#333] bg-[var(--sdp-bg)] shrink-0 space-y-3 relative z-20">
+        <div className="mt-2 text-[8px] text-center opacity-30 font-black uppercase tracking-[0.3em] text-white">
+          v10.33.4-CANÒNIC
+        </div>
+      </div>
     </nav>
   );
 };

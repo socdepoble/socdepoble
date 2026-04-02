@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import { createContext, useContext, useReducer, useEffect, useCallback, useMemo, useRef } from 'react';
 import { supabase } from '../supabaseClient';
 import { supabaseService } from '../services/supabaseService';
 import { identityService } from '../services/identityService';
@@ -6,50 +6,95 @@ import { profileHealingService } from '../services/profileHealingService';
 import { terminateWorkers } from '../services/iaiaService';
 import { logger } from '../utils/logger';
 import i18n from '../i18n/config';
-import { IAIA_ID, AUTH_EVENTS, USER_ROLES, CREATOR_EMAILS } from '../constants';
+import { IAIA_ID, AUTH_EVENTS, USER_ROLES } from '../constants';
+import { webCryptoService } from '../services/webCryptoService';
+import { rhizomeManager } from '../services/rhizomeManager';
 
 const AuthStateContext = createContext();
 const AuthActionsContext = createContext();
 
+const authReducer = (state, action) => {
+    switch (action.type) {
+        case 'SET_USER': return { ...state, user: action.payload };
+        case 'SET_PROFILE': return { ...state, profile: action.payload };
+        case 'SET_REAL_USER': return { ...state, realUser: action.payload };
+        case 'SET_REAL_PROFILE': return { ...state, realProfile: action.payload };
+        case 'SET_LOADING': return { ...state, loading: action.payload };
+        case 'SET_IS_PLAYGROUND': return { ...state, isPlayground: action.payload };
+        case 'SET_IMPERSONATED_PROFILE': return { ...state, impersonatedProfile: action.payload };
+        case 'SET_ACTIVE_ENTITY_ID': return { ...state, activeEntityId: action.payload };
+        case 'SET_SIMULATED_ROLE': return { ...state, simulatedRole: action.payload };
+        case 'SET_LANGUAGE': return { ...state, language: action.payload };
+        case 'NUKE_STATE':
+            return {
+                ...state,
+                user: null,
+                profile: null,
+                realUser: null,
+                realProfile: null,
+                isPlayground: false,
+                impersonatedProfile: null,
+                activeEntityId: null,
+                loading: false
+            };
+        default:
+            return state;
+    }
+};
+
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
-    const [profile, setProfile] = useState(null);
-    const [realUser, setRealUser] = useState(null);
-    const [realProfile, setRealProfile] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [state, dispatch] = useReducer(authReducer, {
+        user: null,
+        profile: null,
+        realUser: null,
+        realProfile: null,
+        loading: true,
+        isPlayground: localStorage.getItem('isPlaygroundMode') === 'true',
+        impersonatedProfile: null,
+        activeEntityId: null,
+        simulatedRole: localStorage.getItem('simulatedRole') || null,
+        language: localStorage.getItem('i18nextLng') || 'va'
+    });
+
     const realUserRef = useRef(null);
-    // [FIX OMEGA] - Seqüenciador per avortar resolucions asíncrones caducades
     const authSeqRef = useRef(0);
-    const [isPlayground, setIsPlaygroundState] = useState(localStorage.getItem('isPlaygroundMode') === 'true');
-    const [impersonatedProfile, setImpersonatedProfile] = useState(null);
-    const [activeEntityId, setActiveEntityId] = useState(null);
-    const [simulatedRole, setSimulatedRoleState] = useState(localStorage.getItem('simulatedRole') || null);
-    const [language, setLanguageState] = useState(localStorage.getItem('i18nextLng') || 'va');
+    const mountedRef = useRef(true);
+
+    const generateSovereignIdentity = useCallback(async () => {
+        const keyPair = await webCryptoService.generateEd25519KeyPair();
+        const deviceId = crypto.randomUUID();
+        const sovereignIdentity = {
+            id: deviceId,
+            publicKey: keyPair.publicKey,
+            createdAt: Date.now(),
+            isSovereign: true,
+            role: USER_ROLES.GUEST
+        };
+        await rhizomeManager.storeSovereignIdentity(sovereignIdentity, keyPair.privateKey);
+        return sovereignIdentity;
+    }, []);
 
     const setIsPlayground = useCallback((val) => {
         if (val && realUserRef.current) {
             logger.warn('[AuthContext] DIRECTIVA 1: Els usuaris registrats han de tancar la sessió per a jugar.');
             return;
         }
-        setIsPlaygroundState(val);
+        dispatch({ type: 'SET_IS_PLAYGROUND', payload: val });
         localStorage.setItem('isPlaygroundMode', String(val));
         if (!val) {
             localStorage.removeItem('isPlaygroundMode');
             localStorage.removeItem('sb-simulation-mode');
         }
-    }, [setIsPlaygroundState]);
+    }, []);
 
     const setSimulatedRole = useCallback((role) => {
-        setSimulatedRoleState(role);
-        if (role) {
-            localStorage.setItem('simulatedRole', role);
-        } else {
-            localStorage.removeItem('simulatedRole');
-        }
+        dispatch({ type: 'SET_SIMULATED_ROLE', payload: role });
+        if (role) localStorage.setItem('simulatedRole', role);
+        else localStorage.removeItem('simulatedRole');
     }, []);
 
     const setLanguage = useCallback((lang) => {
-        setLanguageState(lang);
+        dispatch({ type: 'SET_LANGUAGE', payload: lang });
         localStorage.setItem('i18nextLng', lang);
         i18n.changeLanguage(lang);
     }, []);
@@ -57,12 +102,10 @@ export const AuthProvider = ({ children }) => {
     const adoptPersona = useCallback((personaProfile) => {
         setIsPlayground(true);
         localStorage.setItem('isPlaygroundMode', 'true');
-
         const newUser = { id: personaProfile.id, email: `${personaProfile.username}@playground.local`, isDemo: true };
-        setUser(newUser);
-
-        setProfile({ ...personaProfile, is_playground_session: true });
-        setLoading(false);
+        dispatch({ type: 'SET_USER', payload: newUser });
+        dispatch({ type: 'SET_PROFILE', payload: { ...personaProfile, is_playground_session: true } });
+        dispatch({ type: 'SET_LOADING', payload: false });
     }, [setIsPlayground]);
 
     const loginAsGuest = useCallback(() => {
@@ -87,26 +130,21 @@ export const AuthProvider = ({ children }) => {
             isAnonymous: true,
             avatar_url: '/assets/avatars/guest_avatar.png'
         };
-        setUser(guestUser);
-        setProfile(guestUser);
+        dispatch({ type: 'SET_USER', payload: guestUser });
+        dispatch({ type: 'SET_PROFILE', payload: guestUser });
         localStorage.setItem('isGuestMode', 'true');
-        setLoading(false);
+        dispatch({ type: 'SET_LOADING', payload: false });
     }, []);
 
     const forceNukeSimulation = useCallback(async () => {
         logger.log('[AuthContext] NUCLEAR RESET TRIGGERED - PURGING SIMULATION');
-        
-        try {
-            await supabase.auth.signOut();
-        } catch (e) {
+        try { await supabase.auth.signOut(); } catch (e) {
             logger.error('[AuthContext] Supabase signOut error during nuke:', e);
         }
-
+        
         const deviceId = localStorage.getItem('sdp_device_id');
-
         localStorage.clear();
         sessionStorage.clear();
-
         if (deviceId) localStorage.setItem('sdp_device_id', deviceId);
 
         if ('serviceWorker' in navigator) {
@@ -123,35 +161,30 @@ export const AuthProvider = ({ children }) => {
             }
         }
 
-        setIsPlayground(false);
-        setUser(null);
-        setProfile(null);
-        setRealUser(null);
-        setRealProfile(null);
-
+        dispatch({ type: 'NUKE_STATE' });
         localStorage.setItem('nuke_in_progress', 'true');
         window.location.href = '/login?nuked=true&v=' + Date.now();
-    }, [setIsPlayground]);
+    }, []);
 
     const exitPlayground = useCallback(async () => {
         logger.log('[AuthContext] Exiting Playground mode...');
-        if (realUser) {
+        if (state.realUser) {
             setIsPlayground(false);
-            setUser(realUser);
-            setProfile(realProfile);
+            dispatch({ type: 'SET_USER', payload: state.realUser });
+            dispatch({ type: 'SET_PROFILE', payload: state.realProfile });
             window.location.href = '/';
         } else {
             await forceNukeSimulation();
         }
-    }, [realUser, realProfile, setIsPlayground, forceNukeSimulation]);
+    }, [state.realUser, state.realProfile, setIsPlayground, forceNukeSimulation]);
 
     const switchContext = useCallback(async (entityId = null) => {
         logger.log('[AuthContext] Switching context to:', entityId || 'Personal Profile');
-        setActiveEntityId(entityId);
+        dispatch({ type: 'SET_ACTIVE_ENTITY_ID', payload: entityId });
 
         if (!entityId) {
-            setProfile(realProfile);
-            setImpersonatedProfile(null);
+            dispatch({ type: 'SET_PROFILE', payload: state.realProfile });
+            dispatch({ type: 'SET_IMPERSONATED_PROFILE', payload: null });
             return;
         }
 
@@ -165,48 +198,43 @@ export const AuthProvider = ({ children }) => {
                     role: entityData.type === 'oficial' ? 'official' : (entityData.type === 'negoci' ? 'business' : 'group'),
                     is_impersonated: true
                 };
-                setImpersonatedProfile(impersonated);
-                setProfile(impersonated);
+                dispatch({ type: 'SET_IMPERSONATED_PROFILE', payload: impersonated });
+                dispatch({ type: 'SET_PROFILE', payload: impersonated });
             }
         } catch (err) {
             logger.error('[AuthContext] Error switching context:', err);
         }
-    }, [realProfile]);
+    }, [state.realProfile]);
 
     const logout = useCallback(async () => {
         logger.log('[AuthContext] !!! COMENÇANT SEQÜÈNCIA DE SORTIDA RESILIENT !!!');
-        logger.log('[AuthContext] Executing resilient logout sequence...');
 
         const clearLocalState = () => {
             localStorage.removeItem('isPlaygroundMode');
             localStorage.removeItem('sb-simulation-mode');
             localStorage.removeItem('nuke_in_progress');
             localStorage.removeItem('sp_sovereign_identity');
-            // [FIX OMEGA] - Mode Convidat Zombi erradicat.
             localStorage.removeItem('isGuestMode');
+            localStorage.removeItem('sp_user_cache');
 
             terminateWorkers();
-
-            setIsPlaygroundState(false);
-            setUser(null);
-            setProfile(null);
-            setRealUser(null);
-            setRealProfile(null);
-            setImpersonatedProfile(null);
-            setActiveEntityId(null);
-            setLoading(false);
+            dispatch({ type: 'NUKE_STATE' });
         };
 
-        if (isPlayground) {
+        if (state.isPlayground) {
             await forceNukeSimulation();
             return;
         }
 
         try {
+            const ac = new AbortController();
             const logoutPromise = supabase.auth.signOut();
             let timerId;
             const timeoutPromise = new Promise((_, reject) => {
-                timerId = setTimeout(() => reject(new Error('Logout Timeout')), 3000);
+                timerId = setTimeout(() => {
+                    ac.abort();
+                    reject(new Error('Logout Timeout'));
+                }, 3000);
             });
             await Promise.race([logoutPromise, timeoutPromise]).catch(err => {
                 logger.warn('[AuthContext] Supabase signOut failed or timed out, but proceeding with local logout:', err);
@@ -218,42 +246,42 @@ export const AuthProvider = ({ children }) => {
             clearLocalState();
             logger.log('[AuthContext] Local state cleared. User is now out of the network.');
         }
-    }, [isPlayground, forceNukeSimulation]);
+    }, [state.isPlayground, forceNukeSimulation]);
 
     const handleAuth = useCallback(async (event, session) => {
-        // [FIX OMEGA] Incrementem el seqüenciador abans de qualsevol pas
         const currentSeq = ++authSeqRef.current;
         logger.log(`[AuthContext] Auth Event: ${event} [SeqID: ${currentSeq}]`, session?.user?.id);
 
+        if (!mountedRef.current) return;
+
         try {
-            const isSimulation = localStorage.getItem('isPlaygroundMode') === 'true' ||
+            const isSimulation = state.isPlayground ||
                 localStorage.getItem('sb-simulation-mode') === 'true' ||
                 (session?.user?.id === IAIA_ID);
 
             if (session?.user) {
                 if (isSimulation) {
-                    setIsPlaygroundState(false);
+                    dispatch({ type: 'SET_IS_PLAYGROUND', payload: false });
                     localStorage.removeItem('isPlaygroundMode');
                     localStorage.removeItem('sb-simulation-mode');
                 }
 
-                setRealUser(session.user);
-                setUser(session.user);
-                setImpersonatedProfile(null);
-                setActiveEntityId(null);
+                dispatch({ type: 'SET_REAL_USER', payload: session.user });
+                dispatch({ type: 'SET_USER', payload: session.user });
+                dispatch({ type: 'SET_IMPERSONATED_PROFILE', payload: null });
+                dispatch({ type: 'SET_ACTIVE_ENTITY_ID', payload: null });
 
                 try {
                     let profileData = await supabaseService.getProfile(session.user.id);
-                    // [FIX OMEGA] Condició de cursa destrossada.
-                    if (currentSeq !== authSeqRef.current) return;
+                    if (currentSeq !== authSeqRef.current || !mountedRef.current) return;
 
                     profileData = await profileHealingService.healGhostProfile(session, profileData, isSimulation);
-                    if (currentSeq !== authSeqRef.current) return;
+                    if (currentSeq !== authSeqRef.current || !mountedRef.current) return;
 
                     const { effectiveProfile, isOfficialCreator } = profileHealingService.protectMasterIdentity(session, profileData);
 
-                    setRealProfile(effectiveProfile);
-                    setProfile(effectiveProfile);
+                    dispatch({ type: 'SET_REAL_PROFILE', payload: effectiveProfile });
+                    dispatch({ type: 'SET_PROFILE', payload: effectiveProfile });
                     logger.log(`[AuthContext] 🏺 IDENTITY CONSOLIDATED [SeqID: ${currentSeq}]:`, isOfficialCreator ? 'MESTRE JAVI' : effectiveProfile.full_name);
                 } catch (error) {
                     logger.error('[AuthContext] Error loading profile:', error);
@@ -262,33 +290,33 @@ export const AuthProvider = ({ children }) => {
                         full_name: session.user.email?.split('@')[0] || 'Sóc de Poble',
                         role: USER_ROLES.NEIGHBOR
                     };
-                    setRealProfile(fallback);
-                    setProfile(fallback);
+                    dispatch({ type: 'SET_REAL_PROFILE', payload: fallback });
+                    dispatch({ type: 'SET_PROFILE', payload: fallback });
                 }
             } else if (isSimulation) {
                 loginAsGuest();
-                setRealUser(null);
-                setRealProfile(null);
+                dispatch({ type: 'SET_REAL_USER', payload: null });
+                dispatch({ type: 'SET_REAL_PROFILE', payload: null });
             } else if (localStorage.getItem('isGuestMode') === 'true') {
                 const guestUser = { id: 'guest_restored', full_name: 'Visitant Gentil', role: 'guest', isAnonymous: true };
-                setUser(guestUser);
-                setProfile(guestUser);
+                dispatch({ type: 'SET_USER', payload: guestUser });
+                dispatch({ type: 'SET_PROFILE', payload: guestUser });
             } else {
-                // [GUEST/FORASTER MODE] 
                 let genesis = await identityService.getStoredIdentity();
-                if (currentSeq !== authSeqRef.current) return;
+                if (currentSeq !== authSeqRef.current || !mountedRef.current) return;
 
                 if (!genesis) {
-                    genesis = await identityService.generateSovereignIdentity();
-                    if (currentSeq !== authSeqRef.current) return;
+                    genesis = await generateSovereignIdentity();
+                    if (currentSeq !== authSeqRef.current || !mountedRef.current) return;
                 }
-                // [MIGRACIÓ TERMINOLÒGICA] Si la identitat guardada diu "Foraster" o "Sóc de Poble" genèric, la bateguem com a "Foraster"
+                
                 if (genesis.full_name === 'Foraster de Poble' || genesis.full_name === 'Sóc de Poble' || genesis.full_name === 'Sóc de Poble!') {
                     genesis.full_name = 'Foraster';
                 }
-                setUser({ ...genesis, is_sovereign: true, isAnonymous: true, role: USER_ROLES.GUEST });
-                setProfile(genesis);
-                // logger.log(`[AuthContext] 🏹 FORASTER DETECTAT [SeqID: ${currentSeq}]: Identitat sobirana bategant.`);
+                
+                const sovereignUser = { ...genesis, is_sovereign: true, isAnonymous: true, role: USER_ROLES.GUEST };
+                dispatch({ type: 'SET_USER', payload: sovereignUser });
+                dispatch({ type: 'SET_PROFILE', payload: genesis });
             }
 
             if (currentSeq === authSeqRef.current) {
@@ -297,23 +325,21 @@ export const AuthProvider = ({ children }) => {
         } catch (error) {
             logger.error('[AuthContext] Auth handle failed:', error);
         } finally {
-            // [FIX OMEGA] Alliberar el loader NOMÉS si aquesta seqüència és l'activa.
-            // Si hi ha hagut un return prematur per una nova sessió, NO alliberem el loading.
-            if (currentSeq === authSeqRef.current) {
-                setLoading(false);
+            if (currentSeq === authSeqRef.current && mountedRef.current) {
+                dispatch({ type: 'SET_LOADING', payload: false });
             }
         }
-    }, [loginAsGuest]);
+    }, [state.isPlayground, loginAsGuest, generateSovereignIdentity]);
 
     useEffect(() => {
-        let isMounted = true;
+        mountedRef.current = true;
         let authSubscription = null;
         
         const initSession = async () => {
             try {
                 const { data: { session }, error } = await supabase.auth.getSession();
                 if (error) throw error;
-                if (!isMounted) return;
+                if (!mountedRef.current) return;
 
                 const isNuked = localStorage.getItem('nuke_in_progress') === 'true';
                 if (isNuked) {
@@ -323,17 +349,17 @@ export const AuthProvider = ({ children }) => {
                     await handleAuth(AUTH_EVENTS.INITIAL_SESSION, session);
                 }
             } catch (err) {
-                if (isMounted) {
+                if (mountedRef.current) {
                     console.error('[AuthContext] Error on getSession:', err);
-                    setUser(null);
-                    setLoading(false);
+                    dispatch({ type: 'SET_USER', payload: null });
+                    dispatch({ type: 'SET_LOADING', payload: false });
                 }
             }
         };
 
         const setupSubscription = () => {
              const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
-                if (!isMounted) return;
+                if (!mountedRef.current) return;
                 if (_event === 'SIGNED_OUT') {
                     console.log('[AuthContext] Signed out detected. Removing cache.');
                     localStorage.removeItem('sp_user_cache');
@@ -347,39 +373,39 @@ export const AuthProvider = ({ children }) => {
         setupSubscription();
 
         return () => {
-            isMounted = false;
+            mountedRef.current = false;
             if (authSubscription && typeof authSubscription.unsubscribe === 'function') {
                 authSubscription.unsubscribe();
             }
         };
     }, [handleAuth]);
 
-    const isAuthenticated = !!realUser && !isPlayground;
-    const isGuest = !!user && !!user.isAnonymous;
-
     const stateValue = useMemo(() => ({
-        user, profile, realUser, realProfile, loading, isPlayground, impersonatedProfile, activeEntityId, simulatedRole,
-        currentRole: simulatedRole || profile?.role || USER_ROLES.GUEST,
-        isSuperAdmin: (profile?.is_super_admin || profile?.is_master || (simulatedRole ? simulatedRole === USER_ROLES.SUPER_ADMIN : profile?.role === USER_ROLES.SUPER_ADMIN)),
-        isAdmin: [USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN].includes(simulatedRole || profile?.role) || profile?.is_master,
-        isEditor: [USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN, USER_ROLES.EDITOR].includes(simulatedRole || profile?.role) || profile?.is_master,
-        language, isAuthenticated, isGuest
-    }), [
-        user, profile, realUser, realProfile, loading, isPlayground,
-        impersonatedProfile, activeEntityId, simulatedRole, language,
-        isAuthenticated, isGuest
-    ]);
+        ...state,
+        currentRole: state.simulatedRole || state.profile?.role || USER_ROLES.GUEST,
+        isSuperAdmin: (state.profile?.is_super_admin || state.profile?.is_master || (state.simulatedRole ? state.simulatedRole === USER_ROLES.SUPER_ADMIN : state.profile?.role === USER_ROLES.SUPER_ADMIN)),
+        isAdmin: [USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN].includes(state.simulatedRole || state.profile?.role) || state.profile?.is_master,
+        isEditor: [USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN, USER_ROLES.EDITOR].includes(state.simulatedRole || state.profile?.role) || state.profile?.is_master,
+        isAuthenticated: !!state.realUser && !state.isPlayground,
+        isGuest: !!state.user && !!state.user.isAnonymous
+    }), [state]);
 
     const actionsValue = useMemo(() => ({
-        setProfile, adoptPersona, loginAsGuest, exitPlayground, logout,
-        forceNukeSimulation, setIsPlayground, setImpersonatedProfile,
-        setActiveEntityId, switchContext, setSimulatedRole, setLanguage,
-        loginAsGuestAnonymous
-    }), [
-        adoptPersona, loginAsGuest, exitPlayground, logout,
-        forceNukeSimulation, setIsPlayground, switchContext,
-        setSimulatedRole, setLanguage, loginAsGuestAnonymous
-    ]);
+        setProfile: (p) => dispatch({ type: 'SET_PROFILE', payload: p }),
+        adoptPersona,
+        loginAsGuest,
+        exitPlayground,
+        logout,
+        forceNukeSimulation,
+        setIsPlayground,
+        setImpersonatedProfile: (p) => dispatch({ type: 'SET_IMPERSONATED_PROFILE', payload: p }),
+        setActiveEntityId: (id) => dispatch({ type: 'SET_ACTIVE_ENTITY_ID', payload: id }),
+        switchContext,
+        setSimulatedRole,
+        setLanguage,
+        loginAsGuestAnonymous,
+        generateSovereignIdentity
+    }), [adoptPersona, loginAsGuest, exitPlayground, logout, forceNukeSimulation, setIsPlayground, switchContext, setSimulatedRole, setLanguage, loginAsGuestAnonymous, generateSovereignIdentity]);
 
     return (
         <AuthStateContext.Provider value={stateValue}>
@@ -390,7 +416,7 @@ export const AuthProvider = ({ children }) => {
     );
 };
 
-// eslint-disable-next-line react-refresh/only-export-components
+/* eslint-disable react-refresh/only-export-components */
 export const useAuth = () => {
     const state = useContext(AuthStateContext);
     const actions = useContext(AuthActionsContext);
@@ -398,9 +424,10 @@ export const useAuth = () => {
     return { ...state, ...actions };
 };
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const useAuthActions = () => {
     const actions = useContext(AuthActionsContext);
     if (!actions) throw new Error('useAuthActions must be used within an AuthProvider');
     return actions;
 };
+/* eslint-enable react-refresh/only-export-components */
+

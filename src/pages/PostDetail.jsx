@@ -58,7 +58,7 @@ const PostDetail = () => {
     const displayTime = postDate.toLocaleTimeString('ca-ES', { hour: '2-digit', minute: '2-digit' });
 
     return (
-        <div className="flex-1 flex flex-col min-h-[100dvh] w-full bg-theme-base relative overflow-x-hidden font-sans pb-24 animate-in fade-in duration-500">
+        <div className="flex-1 flex flex-col min-h-0 w-full bg-theme-base relative overflow-x-hidden font-sans pb-24 animate-in fade-in duration-500">
             <SEO
                 title={post.title || displayAuthor}
                 description={(post.content || '').substring(0, 160)}

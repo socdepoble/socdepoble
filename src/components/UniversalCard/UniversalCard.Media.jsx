@@ -53,11 +53,8 @@ const UniversalCardMedia = ({
             {mediaList && mediaList.length > 1 ? (
                 <div className="w-full h-full relative group bg-transparent z-10 transition-opacity duration-700 ease-in-out will-change-opacity opacity-100 active:scale-[0.98]">
                     <ImageCarousel images={mediaList} onImageClick={(index) => openViewer(mediaList, index)} />
-                    <div 
-                        className="absolute right-3 z-10 pointer-events-none drop-shadow-md pb-1 font-sans font-medium" 
-                        style={{ fontSize: '11px', bottom: '8px', color: '#ffffff', textShadow: '0 1px 4px rgba(0,0,0,0.9)' }}
-                    >
-                        {watermarkText}
+                    <div className="absolute right-3 bottom-2 z-10 pointer-events-none drop-shadow-md pb-1 font-medium text-[11px] text-white">
+                        <span>{watermarkText}</span>
                     </div>
                 </div>
             ) : (
@@ -74,8 +71,8 @@ const UniversalCardMedia = ({
                                 onLoad={() => setIsImageLoaded(true)}
                             />
                             <div className={`absolute inset-0 z-20 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 pointer-events-none transition-opacity duration-700 ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`} />
-                            <div className="absolute bottom-3 right-3 font-sans font-medium" style={{ fontSize: '11px', color: '#ffffff', textShadow: '0 1px 4px rgba(0,0,0,0.9)' }}>
-                                {fallbackWatermarkText}
+                            <div className="absolute bottom-3 right-3 font-medium text-[11px] text-white drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]">
+                                <span>{fallbackWatermarkText}</span>
                             </div>
                         </Watermark>
                     ) : (
@@ -83,21 +80,13 @@ const UniversalCardMedia = ({
                             <img 
                                 src={displayImage} 
                                 alt={displayTitle} 
-                                className={`w-full h-auto max-h-[500px] object-cover transition-all duration-700 ease-in-out will-change-transform active:scale-[0.98] ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`}
-                                loading="lazy" 
-                                fetchPriority="low"
-                                decoding="async"
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    openViewer({ src: displayImage, title: displayTitle, type: 'image' });
-                                }}
-                                style={{ cursor: 'zoom-in' }}
+                                className={`w-full h-auto max-h-[500px] object-cover transition-all duration-700 ease-in-out will-change-transform active:scale-[0.98] cursor-zoom-in ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`}
                                 onLoad={() => setIsImageLoaded(true)}
                                 onError={() => setHasImageError(true)}
                             />
                             <div className={`absolute inset-0 z-20 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 pointer-events-none transition-opacity duration-700 ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`} />
-                            <div className="absolute bottom-3 right-3 font-sans font-medium" style={{ fontSize: '11px', color: '#ffffff', textShadow: '0 1px 4px rgba(0,0,0,0.9)' }}>
-                                {watermarkText}
+                            <div className="absolute bottom-3 right-3 font-medium text-[11px] text-white drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]">
+                                <span>{watermarkText}</span>
                             </div>
                         </Watermark>
                     )}
