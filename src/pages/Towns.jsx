@@ -39,7 +39,7 @@ const isShieldOrMap = (url) => {
 
 const TownWikipediaEnricher = ({ town, children }) => {
   const [wikiData, setWikiData] = useState(() => {
-    const cached = localStorage.getItem(`wiki_enrich_v2_${town.name}`);
+    const cached = localStorage.getItem(`wiki_enrich_v4_${town.name}`);
     return cached ? JSON.parse(cached) : null;
   });
 
@@ -67,7 +67,7 @@ const TownWikipediaEnricher = ({ town, children }) => {
           };
           if (isMounted) {
             setWikiData(info);
-            localStorage.setItem(`wiki_enrich_v2_${town.name}`, JSON.stringify(info));
+            localStorage.setItem(`wiki_enrich_v4_${town.name}`, JSON.stringify(info));
           }
         }
       });
@@ -132,29 +132,17 @@ const Towns = () => {
   const [townSearch, setTownSearch] = useState("");
   const { viewMode, setViewMode, columnCount, containerRef } = useViewMode("towns_view_mode", "grid");
   
-  const [showWikiBanner, setShowWikiBanner] = useState(true);
-
-  useEffect(() => {
+  const [showWikiBanner, setShowWikiBanner] = useState(() => {
     if (typeof window !== "undefined") {
-       const hiddenLocal = localStorage.getItem("hide_wiki_banner") === "true";
-       const hiddenSession = sessionStorage.getItem("hide_wiki_banner_session") === "true";
-       
-       if (profile && hiddenLocal) {
-           setShowWikiBanner(false);
-       } else if (!profile && hiddenSession) {
-           setShowWikiBanner(false);
-       } else {
-           setShowWikiBanner(true);
-       }
+      return localStorage.getItem("hide_wiki_banner") !== "true";
     }
-  }, [profile]);
+    return true;
+  });
 
   const handleDismissWikiBanner = () => {
     setShowWikiBanner(false);
-    if (profile) {
-       localStorage.setItem("hide_wiki_banner", "true");
-    } else {
-       sessionStorage.setItem("hide_wiki_banner_session", "true");
+    if (typeof window !== "undefined") {
+      localStorage.setItem("hide_wiki_banner", "true");
     }
   };
 

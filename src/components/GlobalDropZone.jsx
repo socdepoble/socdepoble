@@ -12,6 +12,16 @@ const GlobalDropZone = () => {
   const [isGlobalDragging, setIsGlobalDragging] = useState(false);
   const globalDragCounter = useRef(0);
 
+  const dragTimeoutRef = useRef(null);
+
+  const resetDragTimeout = useCallback(() => {
+    if (dragTimeoutRef.current) clearTimeout(dragTimeoutRef.current);
+    dragTimeoutRef.current = setTimeout(() => {
+      setIsGlobalDragging(false);
+      globalDragCounter.current = 0;
+    }, 2500); // Timeout per tancar si l'usuari cancel·la el drag natiu
+  }, []);
+
   const handleDragEnter = useCallback((e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -19,7 +29,8 @@ const GlobalDropZone = () => {
     if (globalDragCounter.current === 1) {
       setIsGlobalDragging(true);
     }
-  }, []);
+    resetDragTimeout();
+  }, [resetDragTimeout]);
 
   const handleDragLeave = useCallback((e) => {
     e.preventDefault();
@@ -34,12 +45,14 @@ const GlobalDropZone = () => {
   const handleDragOver = useCallback((e) => {
     e.preventDefault();
     e.stopPropagation();
-  }, []);
+    resetDragTimeout();
+  }, [resetDragTimeout]);
 
   const handleDrop = useCallback(
     (e) => {
       e.preventDefault();
       e.stopPropagation();
+      if (dragTimeoutRef.current) clearTimeout(dragTimeoutRef.current);
       setIsGlobalDragging(false);
       globalDragCounter.current = 0;
 

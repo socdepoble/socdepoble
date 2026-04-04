@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html lang="ca" prefix="og: http://ogp.me/ns#">
+<html lang="ca">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover">
     <!-- [BATEGAT SEO GOD] Previsualitzacions d'alt impacte per a WhatsApp/Social -->
     <title>Sóc de Poble | El Sistema Operatiu Rural</title>
     <meta
@@ -56,9 +58,6 @@
       name="twitter:image"
       content="https://socdepoble.org/og-image.png"
     />
-
-    <meta charset="UTF-8" />
-    
     <!-- [Mestre: Bloqueig de FOUC] Erradicació del llamp visual de tema (FOUC) -->
     <script>
       (function() {
@@ -73,25 +72,29 @@
         }
       })();
     </script>
-    
-    <link rel="icon" type="image/png" href="/favicon.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover">
+    <link rel="icon" type="image/png" href="/icon-192x192.png" />
 
     <script>
-      // [BATEGAT RESCUE v10.33.2] Guardem la versió
+      // [PWA HARD GUARD v14] Defensa extrema contra Service Worker Serving Ghost Apps
       (function () {
-        const CURRENT_V = "v10.33.15-CANÒNIC";
+        // En prod, Vite transformará mágicamente __APP_HASH__ por el string hash real (si se procesa el html)
+        let EXPECTED_HASH = "dev";
+        try { EXPECTED_HASH = __APP_HASH__; } catch (e) {}
 
-        localStorage.setItem("sp_app_version", CURRENT_V);
+        // Chequeo duro del state de memoria
+        if (window.__CURRENT_ACTIVE_APP_HASH__ && window.__CURRENT_ACTIVE_APP_HASH__ !== EXPECTED_HASH) {
+          console.error("[PWA GUARD] Versión Zombie de assets detectada. Forzando Purga Nuclear de Ghost State...");
+          if (!sessionStorage.getItem("sw_purged_ghost")) {
+            sessionStorage.setItem("sw_purged_ghost", "true");
+            window.location.reload(true);
+          }
+        }
+        window.__CURRENT_ACTIVE_APP_HASH__ = EXPECTED_HASH;
 
         window.addEventListener(
           "error",
           function (e) {
             if (e.target.tagName === "LINK" || e.target.tagName === "SCRIPT") {
-              console.error(
-                "[PURGA] Error d'asset detectat. PWA desfasada. Forçant recàrrega neta:",
-                e.target.src || e.target.href,
-              );
               if (!sessionStorage.getItem("sw_purged_asset")) {
                 sessionStorage.setItem("sw_purged_asset", "true");
                 window.location.reload(true);
@@ -217,6 +220,66 @@
     <!-- Google Identity Services per a One-Tap Login -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 
+    <!-- [PWA GHOST LOCK] Pre-Boot Failsafe -->
+    <script>
+      (async function() {
+        const APP_CODE_VERSION = 14;
+        function getIDBVersion() {
+          return new Promise((resolve) => {
+            try {
+              const req = indexedDB.open('rhizome-v1');
+              req.onupgradeneeded = (e) => {
+                // If it doesn't exist, we don't have a newer version
+                e.target.transaction.abort();
+                resolve(0);
+              };
+              req.onsuccess = (e) => {
+                const db = e.target.result;
+                if (!db.objectStoreNames.contains('keyval')) {
+                  resolve(0);
+                  return;
+                }
+                const tx = db.transaction('keyval', 'readonly');
+                const store = tx.objectStore('keyval');
+                const getReq = store.get('_sdp_schema_version');
+                getReq.onsuccess = () => resolve(getReq.result || 0);
+                getReq.onerror = () => resolve(0);
+              };
+              req.onerror = () => resolve(0);
+            } catch { resolve(0); }
+          });
+        }
+        
+        try {
+          const idbVersion = await getIDBVersion();
+          if (idbVersion > APP_CODE_VERSION) {
+            // ⚠️ PWA GHOST DETECTADO. Cortafuegos activado.
+            document.body.innerHTML = `
+              <div style="background: var(--blau-socdepoble, #06b6d4); color: var(--taronja-socdepoble, #ea580c); font-size: 28px; height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 28px; line-height: 1.4; font-family: 'Noto Sans', sans-serif;">
+                El Mas Digital s'ha reformat.<br><span style="font-size: 22px; color: white;">Netejant la memòria...</span>
+              </div>`;
+            
+            // Purga atómica: Obligamos al SW a matarse
+            if ('serviceWorker' in navigator) {
+              const regs = await navigator.serviceWorker.getRegistrations();
+              regs.forEach(reg => {
+                if (reg.waiting) reg.waiting.postMessage({ type: 'SKIP_WAITING' });
+              });
+            }
+            
+            // Recarga implacable saltándose la caché tras 1.5s
+            setTimeout(() => window.location.reload(true), 1500);
+            throw new Error("[TRELLAT] Boot abortat per prevenir corrupció d'UI fantasma.");
+          }
+        } catch (e) {
+          if (e.message.includes("[TRELLAT]")) throw e;
+        }
+      })();
+    </script>
+
+    <!-- Polyfill para librerías de Node (ej. simple-peer) -->
+    <script>if (typeof global === 'undefined') { window.global = window; }</script>
+    
     <!-- Modern App Entry -->
     <script type="module" src="/src/entry.jsx"></script>
 

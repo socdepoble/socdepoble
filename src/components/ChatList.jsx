@@ -14,7 +14,6 @@ import "./ChatList.css";
 import { useTranslation } from "react-i18next";
 import { LocalFirstStatusContext } from '../context/LocalFirstStatusContext';
 import { chatService } from '../services/chatService';
-import DegradedBanner from "./DegradedBanner";
 
 // SOCIAL GRAPH MOCK DATA
 const STATIC_AVATARS = {
@@ -269,9 +268,9 @@ const ChatList = () => {
 
   return (
     <div className="flex-1 flex flex-col min-w-0 bg-white dark:bg-[#0e0e0e] relative overflow-hidden h-full chat-list-container font-['Noto_Sans',sans-serif] transition-colors border-r border-[#0000000a] dark:border-transparent">
-      {/* HEADER CANÒNIC (Tech-Huerta V12) */}
-      <header className="h-[64px] min-h-[64px] max-h-[64px] shrink-0 flex flex-col justify-center px-4 bg-[#F97316] relative z-20 transition-colors">
-        <div className="flex items-center w-full h-[36px] bg-white rounded-[24px] overflow-hidden focus-within:ring-2 focus-within:ring-[#169CF9] transition-all group">
+      {/* HEADER CANÒNIC (Tech-Huerta V12) - OBSIDIAN MODE */}
+      <header className="h-[64px] min-h-[64px] max-h-[64px] shrink-0 flex flex-col justify-center px-4 bg-[#0a0a0a] sticky top-0 z-20 transition-colors">
+        <div className="flex items-center w-full h-[36px] bg-white rounded-[28px] overflow-hidden focus-within:ring-2 focus-within:ring-[#169CF9] transition-all group">
           <div className="flex items-center justify-center pl-4 pr-2 h-full">
             <Search
               size={18}
@@ -291,10 +290,6 @@ const ChatList = () => {
           />
         </div>
       </header>
-      
-      {/* AVIS DE MODO DEGRADAT (NO TAPA LOGO NI HEADERS) */}
-      <DegradedBanner />
-
       {/* LLISTA D'AGENTS (M3) */}
       <div 
         className="flex-1 overflow-y-auto bg-white dark:bg-[#0e0e0e] min-h-0 pb-20 custom-scrollbar overscroll-contain transition-colors"
@@ -310,14 +305,9 @@ const ChatList = () => {
                           location.pathname.includes(chat.id) ? "bg-[#169CF9]/10 dark:bg-[#169CF9]/5" : ""
                         } hover:bg-gray-50 dark:hover:bg-[#1a1919]`}
             >
-              {/* Etiqueta de Tipo de Chat con lógica de Ancla Naranja para los Roles */}
-              {chat.tag && (
-                <span className="absolute top-2 right-4 text-[#F97316] bg-[#F97316]/10 text-[10px] px-2.5 py-1 rounded-[12px] font-bold tracking-[0.05em] uppercase leading-none z-10 transition-colors">
-                  {chat.tag}
-                </span>
-              )}
+              {/* Protocol 'Zero Elements Distractors' aplicat: Eliminat el tag de tipus de xat */}
               
-              {/* Avatar Táctil con tamaño correcto M3 */}
+              {/* Avatar Táctil con tamaño correcto M3 i Badge IA */}
               <div className="flex-shrink-0 relative">
                 <Avatar
                   src={chat.other_info?.avatar_url}
@@ -325,6 +315,11 @@ const ChatList = () => {
                   role={chat.other_info?.role}
                   size={56}
                 />
+                {chat.id?.startsWith('11111111') && (
+                  <div className="absolute -bottom-1 -right-1 bg-white dark:bg-[#0e0e0e] rounded-[10px] px-1.5 py-0.5 z-10 shadow-sm border border-gray-200 dark:border-[rgba(255,255,255,0.1)] flex items-center justify-center">
+                    <span className="text-[#FF6D00] text-[9px] font-black tracking-widest uppercase">IA</span>
+                  </div>
+                )}
               </div>
 
               {/* Contenido Core del Chat (Blanco sobre Negro) */}
@@ -340,12 +335,12 @@ const ChatList = () => {
                 </div>
                 
                 <div className="flex justify-between items-center gap-3 text-[16px] font-medium transition-colors">
-                  <p className="truncate flex-1 text-gray-700 dark:text-white/70 group-hover:text-gray-900 dark:group-hover:text-white/90">
+                  <p className="truncate flex-1 text-gray-900 dark:text-white/90">
                     {chat.last_message_content || t("chat.beating_with_socdepoble")}
                   </p>
                   
-                  {/* Hora o Fecha */}
-                  <div className="flex flex-col items-end shrink-0 text-[13px] text-[#169CF9]">
+                  {/* Hora o Fecha - Alt Contrast */}
+                  <div className="flex flex-col items-end shrink-0 text-[13px] text-gray-900 dark:text-white font-bold">
                     {currentTab === 'xat' && (() => {
                       const { day, time } = formatBategatDate(chat.last_message_time);
                       return (

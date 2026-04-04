@@ -32,7 +32,15 @@ export const SILENCE_PATTERNS = [
     "ServiceWorker registration",
     "workbox",
     "Precaching",
-    "PWA"
+    "PWA",
+    "[WebCrypto]",
+    "[IPFS]",
+    "[App]",
+    "Error tracking",
+    "@Current",
+    "Purga fantasma",
+    "[BUNKER]",
+    "NoteBookLM"
 ];
 
 export const checkSilence = (msg) => {

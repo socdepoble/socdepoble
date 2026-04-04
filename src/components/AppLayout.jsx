@@ -14,6 +14,7 @@ import { initGA, trackPageView } from "../services/analyticsService";
 import GlobalFooter from "./GlobalFooter";
 import MobileBottomNav from "./MobileBottomNav";
 import BlueprintOverlay from "./BlueprintOverlay";
+import DegradedBanner from "./DegradedBanner";
 const ChatLayout = lazy(() => import("../components/ChatLayout"));
 const ChatEmptyState = lazy(() => import("../components/ChatEmptyState"));
 const ChatDetail = lazy(() => import("../components/ChatDetail"));
@@ -39,7 +40,7 @@ const DirectoriComunitat = lazy(() => import("../pages/CommunityDirectory"));
 const MapaActius = lazy(() => import('../pages/Map'));
 const CalendariMaster = lazy(() => import('../pages/MasterCalendar'));
 const Header = lazy(() => import("./Header"));
-const CreationHub = lazy(() => import("./CreationHub"));
+const HubView = lazy(() => import("../pages/HubView"));
 const AccessibilitatUniversal = lazy(() => import("./AccessibilitatUniversal"));
 
 const ArchitecteView = lazy(() => import("./ArchitecteView"));
@@ -205,6 +206,13 @@ const AppLayout = () => {
       onDragOverCapture={handleGlobalDragOver}
       onDropCapture={handleGlobalDrop}
     >
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[var(--z-max)] focus:bg-[var(--bg-panel)] focus:text-theme-text focus:px-4 focus:py-2 rounded-[var(--radius-base)] border border-theme-border shadow-xl font-bold"
+      >
+        {t('common.skip_navigation', 'Saltar al contingut principal')}
+      </a>
+
       {isGlobalDragging && (
         <div className="absolute inset-0 z-overlay bg-[var(--theme-accent-primary)]/90 backdrop-blur-md flex flex-col items-center justify-center text-white pointer-events-none transition-all duration-300 animate-in fade-in zoom-in-95">
           <div className="w-32 h-32 rounded-full bg-white/20 flex items-center justify-center mb-6 animate-pulse">
@@ -240,8 +248,12 @@ const AppLayout = () => {
         {/* 0. OVERLAY MÒBIL (Sombra de fondo purificada) */}
         {isDrawerOpen && (
           <div
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[var(--z-overlay)] md:hidden transition-opacity duration-300 animate-in fade-in"
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[var(--z-overlay)] md:hidden transition-opacity duration-300 animate-in fade-in cursor-pointer"
             onClick={closeDrawer}
+            role="button"
+            tabIndex={0}
+            aria-label="Tancar menú lateral"
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === 'Escape' || e.key === ' ') closeDrawer(); }}
           />
         )}
 
@@ -272,14 +284,24 @@ const AppLayout = () => {
 
         {/* 2. MAIN VIEWPORT (EL ESCENARIO) - HABILITEM SCROLL (TABULA RASA) */}
         <main
-          className={`min-w-0 min-h-0 relative bg-theme-base flex flex-col h-full ${
+          id="main-content"
+          tabIndex={-1}
+          className={`min-w-0 min-h-0 relative bg-theme-base flex flex-col flex-1 ${
             isOverflowHidden
               ? "overflow-hidden"
               : "overflow-y-auto overscroll-contain custom-scrollbar main-viewport"
           }`}
+          style={{
+            paddingBottom: !isChatDetailMobileView
+              ? 'calc(72px + env(safe-area-inset-bottom, 0px))'
+              : '0px',
+          }}
         >
           <Suspense fallback={null}>
             <ContextualMenu />
+          </Suspense>
+          <Suspense fallback={null}>
+            <DegradedBanner />
           </Suspense>
 
           <BlueprintOverlay
@@ -343,6 +365,7 @@ const AppLayout = () => {
                     <Route path="/nexus" element={<NexusFlash />} />
                     <Route path="/genesis" element={<GenesisViewer />} />
                     <Route path="/directori" element={<DirectoriComunitat />} />
+                    <Route path="/hub" element={<HubView />} />
                     <Route path="/tools/trellat" element={<Navigate to="/solatge" replace />} />
                     <Route path="/infoteca" element={<InfografiaGallery />} />
                     <Route path="/arxiu" element={<ArxiuOr />} />
@@ -366,36 +389,37 @@ const AppLayout = () => {
               </ErrorBoundary>
             </Suspense>
 
-            {/* [ENCAPSULAMENT v10.33.1] Accessibilitat i Onboarding DINS del main */}
-            {isAccessibilitatOpen && (
-              <div className="absolute inset-0 z-[var(--z-overlay)] glass-overlay bg-black/50 backdrop-blur-sm animate-in fade-in duration-300">
-                <Suspense
-                  fallback={FALLBACK_ELEMENT}
-                >
-                  <AccessibilitatUniversal />
-                </Suspense>
-              </div>
-            )}
-
-            {/* Boto Global d'Accessibilitat IAIA (Només si està activat al perfil) */}
-            {accessibilityMode && !isAccessibilitatOpen && (
-              <button
-                onClick={() => setIsAccessibilitatOpen(true)}
-                className="absolute bottom-[5.5rem] md:bottom-24 right-4 md:right-8 w-14 h-14 bg-sky-500 text-white rounded-[var(--radius-genesis)] shadow-xl shadow-sky-500/50 flex items-center justify-center z-[var(--z-dropdown)] hover:scale-110 transition-transform cursor-pointer border-2 border-white/20"
-                aria-label="Obrir Matriu IAIA d'Accessibilitat"
-              >
-                <Handshake size={28} />
-              </button>
-            )}
           </BlueprintOverlay>
         </main>
       </div>
 
+      {/* Boto Global d'Accessibilitat IAIA (Només si està activat al perfil) */}
+      {accessibilityMode && !isAccessibilitatOpen && (
+        <button
+          onClick={() => setIsAccessibilitatOpen(true)}
+          className="fixed bottom-[5.5rem] md:bottom-24 right-4 md:right-8 w-14 h-14 bg-sky-500 text-white rounded-[var(--radius-genesis)] shadow-xl shadow-sky-500/50 flex items-center justify-center z-[var(--z-dropdown)] hover:scale-110 transition-transform cursor-pointer border-2 border-white/20"
+          aria-label="Obrir Matriu IAIA d'Accessibilitat"
+        >
+          <Handshake size={28} />
+        </button>
+      )}
+
+      {/* 3. ACCESIBILITAT (Extraído del main en v10.34, ahora es inexpugnable) */}
+      {isAccessibilitatOpen && (
+        <div 
+          className="fixed inset-0 z-[var(--z-modal)] glass-overlay bg-black/50 backdrop-blur-sm animate-in fade-in duration-300"
+          role="dialog"
+          aria-modal="true"
+        >
+          <Suspense fallback={FALLBACK_ELEMENT}>
+            <AccessibilitatUniversal />
+          </Suspense>
+        </div>
+      )}
+
       {/* BARRA DE NAVEGACIÓ MÒBIL (BATEGAT v11.3) - AMAGADA DINS DEL XAT PER EVITAR COL·LISIÓ AMB TECLAT VIRTUAL */}
       {!isChatDetailMobileView && (
-        <div className="relative z-[var(--z-nav)] md:hidden bg-black">
-          <MobileBottomNav />
-        </div>
+        <MobileBottomNav />
       )}
 
       {/* IAIA CHAT SIDEBAR (DRETA) - GLOBAL & BATEGAT */}
@@ -413,21 +437,19 @@ const AppLayout = () => {
       </Suspense>
 
       {/* MODALE D'EXPLICACIÓ (ARQUITECTE) - REPOSITIONAT PELS FRAMES UNIFICATS */}
-      <div 
-        className="fixed inset-0 z-overlay glass-overlay bg-black/40 backdrop-blur-xl md:pl-[280px]"
-        style={{
-          visibility: architectMode ? 'visible' : 'hidden',
-          pointerEvents: architectMode ? 'auto' : 'none',
-        }}
-        aria-hidden={!architectMode}
-        inert={!architectMode ? true : undefined}
-      >
-        <div className="h-full flex flex-col relative animate-slide-up">
-          <Suspense fallback={FALLBACK_ELEMENT}>
-            <ArchitecteView />
-          </Suspense>
+      {architectMode && (
+        <div 
+          className="fixed inset-0 z-[var(--z-modal)] glass-overlay bg-black/40 backdrop-blur-xl md:pl-[280px]"
+          role="dialog"
+          aria-modal="true"
+        >
+          <div className="h-full flex flex-col relative animate-slide-up">
+            <Suspense fallback={FALLBACK_ELEMENT}>
+              <ArchitecteView />
+            </Suspense>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

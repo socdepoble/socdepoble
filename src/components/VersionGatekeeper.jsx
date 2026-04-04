@@ -30,6 +30,12 @@ const VersionGatekeeper = ({ children }) => {
                     localStorage.setItem('sp_app_version', APP_VERSION);
                     window.location.reload(); // Un últim intent per si de cas, però el flag ara coincideix
                 } else {
+                    if ('caches' in window) {
+                        caches.keys().then(keys => Promise.all(keys.map(key => caches.delete(key))));
+                    }
+                    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+                        navigator.serviceWorker.controller.postMessage({ type: 'FORCE_UPDATE' });
+                    }
                     localStorage.setItem('sp_app_version', APP_VERSION);
                     localStorage.setItem('sp_last_version_reload', now.toString());
                     window.location.reload(true);

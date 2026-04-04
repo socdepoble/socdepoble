@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Globe, MessageCircle, Share2, BookOpen } from 'lucide-react';
+import { Globe, MessageCircle, Share2, BookOpen } from 'lucide-react';
 import TranslationModal from './TranslationModal';
+import RoundButton from './ui/RoundButton';
 
 const SystemActionBar = () => {
     const navigate = useNavigate();
@@ -11,14 +12,6 @@ const SystemActionBar = () => {
     return (
         <>
             <div className="flex items-center justify-center gap-3 sm:gap-6 w-full min-h-[48px] bg-[#4F46E5] text-white dark:bg-[#F97316] dark:text-[#111111] px-4 shadow-sm overflow-x-auto no-scrollbar transition-colors shrink-0">
-                <button 
-                    onClick={() => navigate('/hub')}
-                    className="flex items-center justify-center gap-1.5 rounded-full bg-[#F97316] text-white dark:bg-[#0984E3] dark:text-white px-4 py-1.5 font-sans text-xs font-bold tracking-wide transition-opacity active:scale-95 touch-manipulation whitespace-nowrap shrink-0 shadow-md"
-                    aria-label="Connectar"
-                >
-                    <Plus size={14} className="drop-shadow-sm" strokeWidth={3} />
-                    <span className="truncate uppercase">CONNECTAR</span>
-                </button>
 
                 <div className="flex items-center justify-center gap-2 sm:gap-4 text-xs font-extrabold uppercase tracking-widest shrink-0">
                     <button 

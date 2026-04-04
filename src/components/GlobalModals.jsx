@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 // ... (imports are kept untouched from line 1 of actual file since we replace from 22)
 import { useModalState, useModalDispatch } from '../context/ModalContext';
 import { useAuth } from '../context/AuthContext';
@@ -45,6 +45,22 @@ const GlobalModals = () => {
     };
 
     const isAnyModalOpen = isPostModalOpen || isEventModalOpen || isMarketModalOpen || isSocialManagerOpen || isConnectionModalOpen || isAgentSelectorOpen || isViewerOpen || isLegalModalOpen || isEditModalOpen || isMagicPregonerOpen || isCreateModalOpen;
+
+    useEffect(() => {
+        if (isAnyModalOpen) {
+            document.body.style.overflow = 'hidden';
+            // Also prevent mobile pull-to-refresh / scroll bounce issues when modal is open
+            document.body.style.touchAction = 'none';
+        } else {
+            document.body.style.overflow = '';
+            document.body.style.touchAction = '';
+        }
+
+        return () => {
+            document.body.style.overflow = '';
+            document.body.style.touchAction = '';
+        };
+    }, [isAnyModalOpen]);
 
     const closeAnyModal = () => {
         if (isPostModalOpen) setIsPostModalOpen(false);

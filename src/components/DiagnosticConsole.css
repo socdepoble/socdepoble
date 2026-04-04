@@ -17,9 +17,8 @@
     background: var(--surface-glass-heavy);
     backdrop-filter: blur(var(--blur-master));
     border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-m) ;
-    /* 24px */
-    z-index: 10002;
+    border-radius: var(--radius-m) /* 24px */;
+    z-index: 9985;
     color: var(--text-main);
     font-family: var(--font-main);
     display: flex;
@@ -767,7 +766,7 @@
     color: var(--hud-accent);
     box-shadow: var(--shadow-hard);
     cursor: pointer;
-    z-index: 10001;
+    z-index: 9984;
     transition: all 0.4s;
     text-transform: uppercase;
     letter-spacing: 2px;

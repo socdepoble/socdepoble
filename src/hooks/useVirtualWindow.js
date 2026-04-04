@@ -9,11 +9,16 @@ export const useVirtualWindow = ({ itemCount, itemHeight, containerRef, overscan
     const node = containerRef.current;
     if (!node) return undefined;
 
+    let rafId = null;
     const onScroll = () => {
-      setViewport((prev) => {
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => {
         const next = { height: node.clientHeight, scrollTop: node.scrollTop };
-        if (prev.height === next.height && prev.scrollTop === next.scrollTop) return prev;
-        return next;
+        setViewport((prev) => {
+          if (prev.height === next.height && prev.scrollTop === next.scrollTop) return prev;
+          return next;
+        });
+        rafId = null;
       });
     };
 
@@ -24,6 +29,7 @@ export const useVirtualWindow = ({ itemCount, itemHeight, containerRef, overscan
     observer.observe(node);
 
     return () => {
+      if (rafId) cancelAnimationFrame(rafId);
       observer.disconnect();
       node.removeEventListener("scroll", onScroll);
     };

@@ -8,7 +8,6 @@ import { useTranslation } from "react-i18next";
 const SystemLayoutMenuItems = [
   { path: "/admin", label: "Panell Admin", icon: Settings },
   { path: "/solatge", label: "Consola Solatge", icon: Code },
-  { path: "/hub", label: "Hub Creació", icon: Server },
   { path: "/gestio-menu", label: "Gestió Menú", icon: Menu },
   { path: "/gestio/categories", label: "Categories", icon: Blocks },
   { path: "/gestio/xats", label: "Auditoria Xats", icon: Activity },

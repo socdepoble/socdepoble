@@ -36,6 +36,20 @@ export default {
       boxShadow: {
         glass: "var(--glass-shadow)",
       },
+      padding: {
+        'safe-top': 'env(safe-area-inset-top)',
+        'safe-bottom': 'env(safe-area-inset-bottom)',
+        'safe-left': 'env(safe-area-inset-left)',
+        'safe-right': 'env(safe-area-inset-right)',
+      },
+      minHeight: {
+        'dvh': '100dvh',
+        'fill-available': '-webkit-fill-available',
+      },
+      height: {
+        'dvh': '100dvh',
+        'fill-available': '-webkit-fill-available',
+      },
     },
   },
   plugins: [],

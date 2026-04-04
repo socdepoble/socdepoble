@@ -31,8 +31,8 @@ Al començar qualsevol feina documental (com el llibre d'AI):
 ## 4. EXEMPLES DE PROMPTS A EXECUTAR
 
 - **Secció 1 (El Trellat Sistèmic):** 
-  *"Nano Banana, dibuixa una infografia on es vegi el concepte 'Trellat' actuant com a nucli (Core) d'un sistema informàtic, protegit per murs de paret seca valenciana. Fes servir iconografia mínima d'escut verd camp."*
+  *"Nano Banana, dibuixa una infografia on es vegi el concepte 'Trellat' actuant com a nucli (Core) d'un sistema informàtic, protegit per murs de paret seca valenciana. Fes servir iconografia mínima d'escut blau i detalls taronja."*
 - **Secció 2 (Els 4 Pilars d'Oligarquia):** 
-  *"Nano Banana, genera un diagrama radial. Al centre 'Sóc de Poble', i 4 branques d'arbres connectades a 4 Nodes: Antigravity (Codi Nivel Dios), IAIA MarIA (Cor), Tia Maria (Seguretat Machete) i El Cronista (Log d'Història). Fes un codi de colors que combini colors terrosos i cian de data."*
+  *"Nano Banana, genera un diagrama radial. Al centre 'Sóc de Poble', i 4 branques d'arbres connectades a 4 Nodes: Antigravity (Codi Nivel Dios), IAIA MarIA (Cor), Tia Maria (Seguretat Machete) i El Cronista (Log d'Història). Fes un codi de colors que combini els nostres colors oficials: Taronja Sóc de Poble i Blau Sóc de Poble."*
 
 *Aquest fitxer és un manual d'execució. Sempre que rebis un "agenda el Nano Banana", saps que has d'injectar aquests paràmetres.*

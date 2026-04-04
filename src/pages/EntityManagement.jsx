@@ -48,9 +48,7 @@ const EntityManagement = () => {
                     <h3>Crea una nova pàgina</h3>
                     <div className="creation-grid">
                         <button className="create-card" onClick={() => navigate('/crear-entitat?type=grup')}>
-                            <div className="create-icon groups">
-                                <Users size={32} />
-                            </div>
+                            <Users size={32} className="create-icon groups" />
                             <div className="create-info">
                                 <strong>Grup Social</strong>
                                 <span>Associacions, penyes...</span>
@@ -59,9 +57,7 @@ const EntityManagement = () => {
                         </button>
 
                         <button className="create-card" onClick={() => navigate('/crear-entitat?type=empresa')}>
-                            <div className="create-icon business">
-                                <Store size={32} />
-                            </div>
+                            <Store size={32} className="create-icon business" />
                             <div className="create-info">
                                 <strong>Empresa o Comerç</strong>
                                 <span>Projectes o botigues...</span>
@@ -70,9 +66,7 @@ const EntityManagement = () => {
                         </button>
 
                         <button className="create-card" onClick={() => navigate('/crear-entitat?type=autonomo')}>
-                            <div className="create-icon autonomous">
-                                <Users size={32} />
-                            </div>
+                            <Users size={32} className="create-icon autonomous" />
                             <div className="create-info">
                                 <strong>Autònom / Freelance</strong>
                                 <span>El teu perfil professional...</span>
@@ -81,9 +75,7 @@ const EntityManagement = () => {
                         </button>
 
                         <button className="create-card" onClick={() => navigate('/crear-entitat?type=estudiant')}>
-                            <div className="create-icon student">
-                                <Users size={32} />
-                            </div>
+                            <Users size={32} className="create-icon student" />
                             <div className="create-info">
                                 <strong>Estudiant / Acadèmic</strong>
                                 <span>Estudis, pràctiques...</span>
@@ -92,9 +84,7 @@ const EntityManagement = () => {
                         </button>
 
                         <button className="create-card" onClick={() => navigate('/crear-entitat?type=institucio')}>
-                            <div className="create-icon official">
-                                <Shield size={32} />
-                            </div>
+                            <Shield size={32} className="create-icon official" />
                             <div className="create-info">
                                 <strong>Entitat Oficial</strong>
                                 <span>Ajuntaments, fundacions...</span>

@@ -1,5 +1,11 @@
 /* global clients */
-import { precacheAndRoute } from 'workbox-precaching';
+import { precacheAndRoute, cleanupOutdatedCaches } from 'workbox-precaching';
+import { clientsClaim } from 'workbox-core';
+
+// [ANTI-GHOST PROTOCOL] Forcem el control immediat i netegem brossa
+self.skipWaiting();
+clientsClaim();
+cleanupOutdatedCaches();
 
 // Precaché automatically injected by VitePWA builder
 precacheAndRoute(self.__WB_MANIFEST || []);
@@ -7,6 +13,13 @@ precacheAndRoute(self.__WB_MANIFEST || []);
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
+  }
+  if (event.data && event.data.type === 'FORCE_UPDATE') {
+    caches.keys().then(keys => Promise.all(keys.map(key => caches.delete(key))))
+      .then(() => {
+        self.registration.update();
+        self.clients.claim();
+      });
   }
 
   // Handle scheduling medication alarms via message
@@ -16,7 +29,7 @@ self.addEventListener('message', (event) => {
     const delay = timestamp - now;
 
     if (delay > 0) {
-      setTimeout(() => {
+      if ('TimestampTrigger' in self) {
         self.registration.showNotification(title, {
           body,
           icon: '/android-chrome-192x192.png',
@@ -24,6 +37,7 @@ self.addEventListener('message', (event) => {
           vibrate: [200, 100, 200, 100, 200, 100, 200],
           requireInteraction: true,
           data: { url: '/medication-confirm', meds },
+          showTrigger: new self.TimestampTrigger(timestamp),
           actions: [
             {
               action: 'confirm',
@@ -35,7 +49,9 @@ self.addEventListener('message', (event) => {
             }
           ]
         });
-      }, delay);
+      } else {
+        console.warn("[SW] Background Offline Alarms (TimestampTrigger) no suportat pel sistema operatiu. Avortant timeout suïcida.");
+      }
     }
   }
 });

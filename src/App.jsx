@@ -12,9 +12,9 @@ import ErrorBoundary from './components/ErrorBoundary';
 import LocalFirstGate from './components/gates/LocalFirstGate';
 import AuthGate from './components/gates/AuthGate';
 import OfflineGate from './components/gates/OfflineGate';
+import SEO from './components/SEO';
 import { useLowEndDevice } from './hooks/useLowEndDevice';
 import { useTabReconciliation } from './hooks/useTabReconciliation';
-import ReloadPrompt from './components/ReloadPrompt';
 import { useBlindatgeOPFS } from './hooks/useBlindatgeOPFS';
 import { useLocation } from 'react-router-dom';
 import SystemRoutes from './components/SystemRoutes';
@@ -24,13 +24,14 @@ const LayoutBoundary = () => {
     const isSystemRoute = 
         location.pathname.startsWith('/admin') ||
         location.pathname.startsWith('/solatge') ||
-        location.pathname.startsWith('/hub') ||
+//     location.pathname.startsWith('/hub') ||
         location.pathname.startsWith('/gestio-menu') ||
         location.pathname.startsWith('/gestio/categories') ||
         location.pathname.startsWith('/gestio/xats') ||
         location.pathname.startsWith('/utilitats') ||
         location.pathname.startsWith('/visio') ||
-        location.pathname.startsWith('/tools/trellat');
+        location.pathname.startsWith('/tools/trellat') ||
+        location.pathname.startsWith('/iaia-sandbox');
 
     if (isSystemRoute) {
         return <SystemRoutes />;
@@ -147,11 +148,11 @@ const App = () => {
 
     return (
         <>
+            <SEO />
             <ErrorBoundary fallbackMessage="Excepció Nuclear Detectada al Mas.">
                 <OfflineGate>
                     <LocalFirstGate>
                         <AuthGate>
-                            <ReloadPrompt />
                             <LayoutBoundary />
                         </AuthGate>
                     </LocalFirstGate>

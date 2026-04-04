@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocation, useNavigate, NavLink } from 'react-router-dom';
-import { Plus } from 'lucide-react';
-
+import { Plus, Menu } from 'lucide-react';
+import RoundButton from './ui/RoundButton';
 /**
  * [CONTEXTUAL MENU v12.0 - PROTOCOL BATEGAT]
  * Barra de navegació horitzontal que s'adapta al contingut de cada pàgina.
@@ -73,7 +73,7 @@ const ContextualMenu = () => {
         <div className="h-[48px] min-h-[48px] max-h-[48px] w-full bg-[#1a1a1a] shadow-[inset_0_4px_10px_rgba(0,0,0,0.6)] flex items-center sticky top-0 z-sticky select-none overflow-hidden shrink-0">
             {/* ÀREA D'ÍTEMS AMB SCROLL HORITZONTAL */}
             <div className="flex-1 h-full overflow-x-auto no-scrollbar pl-4 pr-4 lg:pl-6 lg:pr-6">
-                <div className="flex items-center gap-8 lg:gap-14 h-full min-w-max">
+                <div className="flex justify-center items-center gap-8 lg:gap-14 h-full min-w-max mx-auto">
                     {items.map((item) => (
                         <button
                             key={item.id}
@@ -95,14 +95,14 @@ const ContextualMenu = () => {
                 </div>
             </div>
 
-            {/* BOTÓ "+" FIX A LA DRETA (CENTRE DE CONTROL) */}
+            {/* BOTÓ HAMBURGUESA FIX A LA DRETA (CENTRE DE CONTROL) */}
             <div className="flex items-center h-full px-4 bg-[#1a1a1a]/90 backdrop-blur-md border-l border-white/5 shadow-[-10px_0_15px_rgba(0,0,0,0.5)]">
                 <button 
                     onClick={() => navigate('/gestio/categories')}
                     className="w-8 h-8 flex items-center justify-center rounded-[28px] bg-white/5 text-slate-400 hover:bg-[var(--theme-accent-primary)] hover:text-white transition-all active:scale-95 shadow-inner"
-                    title="Gestionar Categories"
+                    title="Més accions"
                 >
-                    <Plus size={16} strokeWidth={4} />
+                    <Menu size={16} strokeWidth={3} />
                 </button>
             </div>
             

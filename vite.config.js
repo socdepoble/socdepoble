@@ -18,7 +18,7 @@ export default defineConfig({
       strategies: 'injectManifest',
       srcDir: 'src',
       filename: 'sw.js',
-      registerType: 'prompt',
+      registerType: 'autoUpdate',
       injectRegister: 'auto',
       devOptions: { enabled: false, type: 'module' },
       injectManifest: {
@@ -50,6 +50,9 @@ export default defineConfig({
       }
     }),
   ],
+  define: {
+    '__APP_HASH__': JSON.stringify(process.env.VITE_APP_HASH || Date.now().toString(36))
+  },
   optimizeDeps: {
     // Exclude PowerSync and its WebAssembly SQLite engine from Vite's pre-bundling optimizer
     // to prevent the internal `WASQLiteDB.worker.js` from throwing a 404 and timing out OPFS.

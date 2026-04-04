@@ -2,8 +2,8 @@
  * Constants globals per a l'aplicació Sóc de Poble
  */
 
-export const APP_VERSION = "v10.35.0";
-export const CRITICAL_THRESHOLD = "v1.6.0";
+export const APP_VERSION = "v10.38.0-CANÒNIC";
+export const CRITICAL_THRESHOLD = "v10.37.0";
 
 export const DEMO_USER_ID = "11111111-0000-0000-0000-000000000001";
 export const IAIA_ID = "11111111-1a1a-0000-0000-000000000000";

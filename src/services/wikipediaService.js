@@ -5,6 +5,10 @@
 
 import { logger } from '../utils/logger';
 
+const TOWN_DISAMBIGUATIONS = {
+    "Agost": "Agost (l'Alacantí)"
+};
+
 export const wikipediaService = {
     /**
      * Obté un resum i imatges d'un poble des de la Wikipedia
@@ -12,9 +16,10 @@ export const wikipediaService = {
      * @param {string} lang - Idioma de la cerca (ca, es, en)
      */
     async getTownSummary(townName, lang = 'ca') {
+        const queryName = TOWN_DISAMBIGUATIONS[townName] || townName;
         try {
             // Wikipedia REST API (Summary endpoint)
-            let endpoint = `https://${lang}.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(townName)}`;
+            let endpoint = `https://${lang}.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(queryName)}`;
             let response = await fetch(endpoint).catch(err => {
                 logger.warn(`[Wikipedia] Network error for ${townName}:`, err);
                 return null;
@@ -75,8 +80,9 @@ export const wikipediaService = {
      * @param {string} lang 
      */
     async getTownImages(townName, lang = 'ca') {
+        const queryName = TOWN_DISAMBIGUATIONS[townName] || townName;
         try {
-            let endpoint = `https://${lang}.wikipedia.org/api/rest_v1/page/media-list/${encodeURIComponent(townName)}`;
+            let endpoint = `https://${lang}.wikipedia.org/api/rest_v1/page/media-list/${encodeURIComponent(queryName)}`;
             let response = await fetch(endpoint).catch(() => null);
             
             // [ESPAÑA SCALE FALLBACK]

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ArrowLeft, Edit2, ShieldAlert, Share2, Book, Plus, MessageCircle, Globe, MapPin, Calendar, Sparkles, List, X, ChevronRight, History } from 'lucide-react';
+import { ArrowLeft, Edit2, ShieldAlert, Share2, Book, Plus, MessageCircle, Globe, MapPin, Search, Calendar, Sparkles, List, X, ChevronRight, History, Info, Menu } from 'lucide-react';
 import SEO from '../components/SEO';
 import GlobalFooter from '../components/GlobalFooter';
 import PageHeader from '../components/PageHeader';
@@ -12,6 +12,8 @@ import MediaViewerModal from '../components/MediaViewerModal';
 import TranslationModal from '../components/TranslationModal';
 import HistoryModal from '../components/HistoryModal';
 import { sanitizeHtml } from '../utils/sanitizeHtml';
+import useAccessibleSearch from '../hooks/useAccessibleSearch';
+import RoundButton from '../components/ui/RoundButton';
 
 // Es carregarà de forma dinàmica per externalitzar pes de l'arrel
 let CachedBookContent = null;
@@ -62,9 +64,17 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
     // HISTORY STATE
     const [isHistoryOpen, setIsHistoryOpen] = useState(false);
 
+    // SEARCH STATE
+    const [isSearchOpen, setIsSearchOpen] = useState(false);
+    const [searchText, setSearchText] = useState('');
+    const [isActionMenuOpen, setIsActionMenuOpen] = useState(false);
+
     // FAST SCRUBBER STATE
     const scrollContainerRef = useRef(null);
+    const searchEngine = useAccessibleSearch(scrollContainerRef);
     const scrubberRef = useRef(null);
+    const scrubberBoundsRef = useRef(null);
+    const scrubberRafRef = useRef(null);
     const [scrubberDragging, setScrubberDragging] = useState(false);
     const [scrubberActiveHeading, setScrubberActiveHeading] = useState('');
     const [scrubberPos, setScrubberPos] = useState(0);
@@ -124,15 +134,23 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
         fetchPageContent(currentSlug);
     }, [location.pathname, standAlone, forcedSlug, fetchPageContent]);
 
+    const activeHtmlContent = translatedContent || htmlContent;
+
     useEffect(() => {
         let cleanupFunctions = [];
-        if (htmlContent && !isLoadingPage && !isEditing) {
+        if (activeHtmlContent && !isLoadingPage && !isEditing) {
             const timeoutId = setTimeout(() => {
                 const contentDiv = document.querySelector('.app-cms-content');
-                if (contentDiv) {
+                const container = scrollContainerRef.current;
+                
+                if (contentDiv && container) {
+                    // 1. Process Headings for TOC and Anchors
                     const headings = Array.from(contentDiv.querySelectorAll('h2, h3'));
                     const toc = headings.map((heading, index) => {
-                        const id = heading.id || `heading-${index}`;
+                        // Creem un slug net ('Capítulo 5 UX!' -> 'capitulo-5-ux')
+                        const slug = heading.innerText.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+                        
+                        const id = heading.id || slug || `heading-${index}`;
                         heading.id = id;
                         return {
                             id,
@@ -142,17 +160,48 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                     });
                     setTocElements(toc);
 
-                    // 2. Enhance code blocks (Collapsible + Copy Button)
+                    // 2. Intercept local Anchor Links (#algo) per a evitar el refresc y forçar el smooth scroll intern
+                    const anchorLinks = Array.from(contentDiv.querySelectorAll('a[href^="#"]'));
+                    anchorLinks.forEach(a => {
+                        const handler = (e) => {
+                            e.preventDefault();
+                            let targetId = a.getAttribute('href').substring(1);
+                            try { 
+                                targetId = decodeURIComponent(targetId); 
+                            } catch {
+                                // Ignore decode error
+                            }
+                            
+                            let targetEl = document.getElementById(targetId);
+                            // Fallback per a localitzar l'ancora si l'ID generat és un slug parcial (p.e. navbars-de-obsidiana afegit extra pel innerText sencer)
+                            if (!targetEl) {
+                                const fallbackSlug = targetId.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+                                targetEl = document.getElementById(fallbackSlug) || document.querySelector(`[id^="${fallbackSlug}-"]`) || document.querySelector(`[id^="${targetId}-"]`);
+                            }
+                            
+                            if (targetEl) {
+                                const headerOffset = window.innerWidth >= 640 ? 140 : 180;
+                                const containerTop = container.getBoundingClientRect().top;
+                                const elementPosition = targetEl.getBoundingClientRect().top - containerTop;
+                                
+                                container.scrollTo({
+                                    top: container.scrollTop + elementPosition - headerOffset,
+                                    behavior: "smooth"
+                                });
+                            }
+                        };
+                        a.addEventListener('click', handler);
+                        cleanupFunctions.push(() => a.removeEventListener('click', handler));
+                    });
+
+                    // 3. Enhance code blocks (Collapsible + Copy Button)
                     const preElements = Array.from(contentDiv.querySelectorAll('pre'));
                     preElements.forEach((pre) => {
-                        // Prevent double wrapping if re-rendered
                         if (pre.parentNode.classList.contains('cms-code-wrapper')) return;
 
-                        // Create details container
                         const details = document.createElement('details');
                         details.className = 'cms-code-block bg-black/5 dark:bg-white/5 border border-[var(--border-master)] rounded-xl my-6 overflow-hidden';
                         
-                        // Create summary (the clickable header)
                         const summary = document.createElement('summary');
                         summary.className = 'cursor-pointer p-4 font-bold text-sm uppercase flex items-center justify-between select-none hover:bg-black/5 dark:hover:bg-white/5 transition-colors';
                         
@@ -183,11 +232,9 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                         summary.appendChild(copyBtn);
                         details.appendChild(summary);
                         
-                        // Container for the pre code
                         const preContainer = document.createElement('div');
                         preContainer.className = 'cms-code-wrapper p-4 overflow-x-auto text-sm border-t border-[var(--border-master)] bg-black/80 text-green-400';
                         
-                        // Insert standard before pre
                         pre.parentNode.insertBefore(details, pre);
                         preContainer.appendChild(pre);
                         details.appendChild(preContainer);
@@ -199,7 +246,7 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                 cleanupFunctions.forEach(fn => fn());
             };
         }
-    }, [htmlContent, isLoadingPage, isEditing]);
+    }, [activeHtmlContent, isLoadingPage, isEditing]);
 
     const handleSave = async (updatedHtml) => {
         if (!canEdit) return;
@@ -317,9 +364,6 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
         </div>
     );
 
-    // Strip redundant H1 if it matches the title or simply strip the first H1 if it's the exact same text
-    const activeHtmlContent = translatedContent || htmlContent;
-
     const cleanHtmlContent = useMemo(() => {
         if (!activeHtmlContent) return '';
         // If the first tag is an H1 that contains "SÓC DE POBLE", we can assume it's the redundant one
@@ -369,35 +413,45 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
     }, [tocElements, scrubberDragging, isEditing]);
 
     const handleScrubberPointerMove = useCallback((e) => {
-        if (!scrubberRef.current || !scrollContainerRef.current) return;
+        if (!scrollContainerRef.current || !scrubberBoundsRef.current) return;
         
-        const trackBounds = scrubberRef.current.getBoundingClientRect();
-        let percentage = (e.clientY - trackBounds.top) / trackBounds.height;
-        percentage = Math.max(0, Math.min(1, percentage));
-        
-        setScrubberPos(percentage);
-        
-        const container = scrollContainerRef.current;
-        container.scrollTop = percentage * (container.scrollHeight - container.clientHeight);
+        if (scrubberRafRef.current) cancelAnimationFrame(scrubberRafRef.current);
+        scrubberRafRef.current = requestAnimationFrame(() => {
+            const { top, height } = scrubberBoundsRef.current;
+            let percentage = (e.clientY - top) / height;
+            percentage = Math.max(0, Math.min(1, percentage));
+            
+            setScrubberPos(percentage);
+            
+            const container = scrollContainerRef.current;
+            container.scrollTop = percentage * (container.scrollHeight - container.clientHeight);
 
-        if (tocElements.length > 0) {
-            const index = Math.min(
-                Math.floor(percentage * tocElements.length),
-                Math.max(0, tocElements.length - 1)
-            );
-            setScrubberActiveHeading(tocElements[index].text);
-        }
+            if (tocElements.length > 0) {
+                const index = Math.min(
+                    Math.floor(percentage * tocElements.length),
+                    Math.max(0, tocElements.length - 1)
+                );
+                setScrubberActiveHeading(tocElements[index].text);
+            }
+            scrubberRafRef.current = null;
+        });
     }, [tocElements]);
 
     const handleScrubberPointerUp = useCallback(() => {
         setScrubberDragging(false);
         window.removeEventListener('pointermove', handleScrubberPointerMove);
         window.removeEventListener('pointerup', handleScrubberPointerUp);
+        if (scrubberRafRef.current) cancelAnimationFrame(scrubberRafRef.current);
     }, [handleScrubberPointerMove]);
 
     const handleScrubberPointerDown = (e) => {
         e.preventDefault();
         setScrubberDragging(true);
+        
+        if (scrubberRef.current) {
+            scrubberBoundsRef.current = scrubberRef.current.getBoundingClientRect();
+        }
+        
         handleScrubberPointerMove(e);
         window.addEventListener('pointermove', handleScrubberPointerMove);
         window.addEventListener('pointerup', handleScrubberPointerUp);
@@ -410,57 +464,52 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
         };
     }, [handleScrubberPointerMove, handleScrubberPointerUp]);
 
-    // OMEGA TRANSLATE EFFECT
+    // OMEGA TRANSLATE EFFECT (V12 Proxy Seguritzat)
     useEffect(() => {
         const controller = new AbortController();
+        let isMounted = true;
 
         const handleTranslateRequest = async (e) => {
             const { postId, targetLang } = e.detail;
             if (postId !== routeSlug && postId !== 'projecte') return;
 
-            setTranslating(true);
+            if (isMounted) setTranslating(true);
             try {
-                const actualUrl = window.location.hostname === 'localhost' 
-                    ? 'http://localhost:8080/marketingBrain' 
-                    : 'https://europe-west1-socdepoble.cloudfunctions.net/marketingBrain';
-
-                const response = await fetch(actualUrl, {
-                    method: 'POST',
-                    signal: controller.signal,
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + (import.meta.env.VITE_API_SECRET || 'socdepoble_secret_placeholder') 
-                    },
-                    body: JSON.stringify({
+                // V12 Secure Proxy: Call Supabase Edge Function to avoid leaking API_SECRET payload in client
+                const { data, error } = await supabase.functions.invoke('translation-proxy', {
+                    body: {
                         campaignType: 'omega_translate_ondemand',
                         htmlContent: htmlContent, // Siempre traducimos desde la fuente original
                         targetLang: targetLang
-                    })
+                    }
                 });
 
-                if (response.ok) {
-                    const data = await response.json();
-                    if (data.status === 'success') {
-                        setTranslatedContent(data.translatedHtml);
-                    }
+                if (!isMounted) return;
+
+                if (error) {
+                    console.error("Translation proxy error:", error);
+                } else if (data && data.status === 'success') {
+                    setTranslatedContent(data.translatedHtml);
                 } else {
-                    console.error("Translation failed:", await response.text());
+                    console.error("Translation failed:", data);
                 }
             } catch (error) {
                 if (error.name !== 'AbortError') {
                     console.error("Error connecting to Omega Translation engine:", error);
                 }
             } finally {
-                setTranslating(false);
+                if (isMounted) setTranslating(false);
             }
         };
 
         window.addEventListener('omega-translate-request', handleTranslateRequest);
+
         return () => {
-            window.removeEventListener('omega-translate-request', handleTranslateRequest);
+            isMounted = false;
             controller.abort();
+            window.removeEventListener('omega-translate-request', handleTranslateRequest);
         };
-    }, [htmlContent, routeSlug]);
+    }, [routeSlug, htmlContent]);
 
     let ActualContent;
     if (isLoadingPage) {
@@ -478,8 +527,113 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
         );
     } else {
         ActualContent = (
-            <div className="w-full flex-1 flex flex-col items-center z-10 -mt-2 sm:mt-0 sm:px-4 pb-10">
+            <div className="w-full flex-1 flex flex-col items-center z-10 -mt-2 sm:mt-0 sm:px-4 pb-4">
                 {PagePresentationHeader}
+
+                <div className="w-full max-w-4xl mx-auto px-6 lg:px-10 mt-2 mb-8">
+                    <details className="cms-code-block bg-black/5 dark:bg-white/5 border border-[var(--border-master)] rounded-xl overflow-hidden group">
+                        <summary className="cursor-pointer p-4 font-bold text-sm uppercase flex items-center justify-between select-none hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
+                            <span className="flex items-center gap-2 text-[var(--theme-accent-primary)]">
+                                <Book size={16} /> Crèdits, Avís Legal i Metadades
+                            </span>
+                            <ChevronRight size={16} className="group-open:rotate-90 transition-transform text-[var(--text-muted)]" />
+                        </summary>
+                        
+                        {/* Secció 1: Crèdits i Avís Legal */}
+                        <div className="p-5 border-t border-[var(--border-master)] bg-[var(--bg-panel)] text-sm space-y-4 text-[var(--text-main)]">
+                            <div className="space-y-1">
+                                <p className="font-bold text-base m-0">Títol original: Sóc de Poble. El Projecte.</p>
+                                <p className="italic text-[var(--text-muted)] m-0">Arxiu Etnogràfic i Dades Vives locals.</p>
+                            </div>
+                            
+                            <div className="space-y-1">
+                                <p className="font-bold m-0 text-sm">Autor: Equip Sóc de Poble (La Torre de les Maçanes).</p>
+                                <p className="italic text-xs text-[var(--text-muted)] m-0">Desenvolupament autogestionat sota la filosofia Trellat Mesh i Local-First. Preservació digital del patrimoni rural.</p>
+                            </div>
+                            
+                            <div className="space-y-1 text-sm pt-2 border-t border-[var(--border-master)]/30">
+                                <p className="m-0">Edita: <strong>Associació El Rentonar</strong> de La Torre de les Maçanes,<br />Projecte Sóc de Poble.</p>
+                                <p className="m-0 mt-2">Tecnologia i Maquetació: <strong>Javi Llinares</strong>.</p>
+                            </div>
+                            
+                            <div className="space-y-1 text-sm pt-2 border-t border-[var(--border-master)]/30">
+                                <p className="m-0">Imatges: <strong>Respectius Arxius / Col·leccions Privades / Sóc de Poble</strong></p>
+                                <p className="m-0">Art Generatiu: <strong>Sistema IAIA i Nano Banana (Sóc de Poble)</strong></p>
+                                <p className="m-0">Imatge de portada: <strong>IAIA Maria</strong></p>
+                                <p className="m-0 mt-2">Edició Digital Contínua, <strong>{new Date().getFullYear()}</strong>.</p>
+                                <p className="m-0 font-mono mt-1 pt-1 border-t border-[var(--border-master)]/30">ISBN: PENDENT (Print on Demand / Amazon KDP)</p>
+                            </div>
+                            
+                            <div className="pt-4 border-t border-[var(--border-master)]">
+                                <div className="flex flex-col sm:flex-row gap-4 items-start pb-4">
+                                    <div className="bg-white p-1 rounded inline-block shrink-0">
+                                        <img src="https://mirrors.creativecommons.org/presskit/buttons/88x31/png/by-nc-sa.png" alt="CC BY-NC-SA 4.0" className="w-[100px] h-auto object-contain" />
+                                    </div>
+                                    <div>
+                                        <p className="font-bold m-0 text-sm">Reconeixement-NoComercial-CompartirIgual</p>
+                                        <p className="font-bold text-[var(--theme-accent-primary)] m-0 text-sm">4.0 Internacional (CC BY-NC-SA 4.0)</p>
+                                    </div>
+                                </div>
+                                <div className="space-y-2 text-xs text-[var(--text-muted)]">
+                                    <p className="m-0"><strong>Amb aquesta llicència, sou lliure de:</strong> Compartir (copiar i redistribuir) i Adaptar (remesclar, transformar i crear a partir del material).</p>
+                                    <p className="m-0"><strong>Amb els termes següents:</strong> Reconeixement obligatori, NoComercial, i CompartirIgual (amb la mateixa llicència).</p>
+                                    <p className="m-0 pt-2 break-words">
+                                        L'obra "Sóc de Poble. El Projecte", editada per <strong>Associació El Rentonar</strong>, està autoritzada amb CC BY-NC-SA 4.0. Còpia de la llicència disponible a: <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca" target="_blank" rel="noopener noreferrer" className="text-[var(--theme-accent-secondary)] hover:underline">https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca</a>
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div className="flex flex-col sm:flex-row gap-2 pt-4 border-t border-[var(--border-master)]/30">
+                                <a href="https://javillinares.com" target="_blank" rel="noopener noreferrer" className="flex-1 bg-[var(--bg-panel)] border border-[var(--border-master)] text-center py-2 px-3 rounded-lg font-bold text-[10px] uppercase tracking-wider hover:bg-black/5 dark:hover:bg-white/5 transition-colors flex items-center justify-center">
+                                    Javi Llinares
+                                </a>
+                                <a href="https://elrentonar.org" target="_blank" rel="noopener noreferrer" className="flex-1 bg-[var(--bg-panel)] border border-[var(--border-master)] text-center py-2 px-3 rounded-lg font-bold text-[10px] uppercase tracking-wider hover:bg-black/5 dark:hover:bg-white/5 transition-colors flex items-center justify-center">
+                                    Assoc. El Rentonar
+                                </a>
+                                <a href="https://socdepoble.net" target="_blank" rel="noopener noreferrer" className="flex-1 bg-[var(--theme-accent-primary)] text-white text-[var(--bg-panel)] text-center py-2 px-3 rounded-lg font-bold text-[10px] uppercase tracking-wider hover:brightness-110 transition-colors flex items-center justify-center">
+                                    Sóc de Poble
+                                </a>
+                            </div>
+                        </div>
+
+                        {/* Secció 2: Metadades Acadèmiques i Indexació */}
+                        <div className="p-5 border-t border-[var(--border-master)] bg-black/5 dark:bg-black/20 text-sm grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
+                            <div className="sm:col-span-2 pb-2">
+                                <h3 className="font-bold text-[10px] uppercase tracking-widest text-[var(--theme-accent-secondary)] mb-0">Indexació Acadèmica (Metadades Vives)</h3>
+                            </div>
+                            <div>
+                                <h4 className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)] mb-1">Editor / Repositori Institucional</h4>
+                                <p className="font-bold text-xs text-[var(--text-main)] mb-0">Sóc de Poble (Auto-publicació descentralitzada)</p>
+                            </div>
+                            <div>
+                                <h4 className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)] mb-1">Estat de Revisió (Peer Review)</h4>
+                                <p className="font-bold text-xs text-[var(--text-main)] mb-0">Comunitat-Revisat (Decentralized Community Peer-Reviewed)</p>
+                            </div>
+                            <div>
+                                <h4 className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)] mb-1">Idioma Principal</h4>
+                                <p className="font-bold text-xs text-[var(--text-main)] mb-0">Valencià (Amb sub-traduccions dinàmiques IA)</p>
+                            </div>
+                            <div>
+                                <h4 className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)] mb-1">Departament / Matèria</h4>
+                                <p className="font-bold text-xs text-[var(--text-main)] mb-0">Etnografia Digital, Sociologia Rural, Indústria Digital</p>
+                            </div>
+                            <div className="sm:col-span-2">
+                                <h4 className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)] mb-1">Citació Recomanada (Format APA 7)</h4>
+                                <div className="bg-white/50 dark:bg-black/40 p-3 rounded-lg text-[11px] font-mono leading-relaxed text-[var(--text-main)] select-all break-words border border-[var(--border-master)] shadow-inner">
+                                    Sóc de Poble & IAIA Maria. ({new Date().getFullYear()}). "{title || "El Projecte"}". Edició Contínua Local-First. La Torre de les Maçanes: Xarxa Sóc de Poble. Recuperat des de: {typeof window !== 'undefined' ? window.location.href : 'https://socdepoble.cat'}
+                                </div>
+                            </div>
+                            <div className="sm:col-span-2">
+                                <h4 className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)] mb-1">Paraules Clau (Keywords)</h4>
+                                <div className="flex flex-wrap gap-2 mt-1">
+                                    {['Etnografia', 'Identitat Rural', 'Intel·ligència Artificial', 'Local-First', 'Descentralització', 'Sóc de Poble', 'Digitalització Rural'].map(kw => (
+                                        <span key={kw} className="bg-white/60 dark:bg-black/40 border border-[var(--border-master)] px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider text-[var(--text-main)]">{kw}</span>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </details>
+                </div>
                 
                 <div className="w-full max-w-4xl mx-auto px-6 lg:px-10 mb-0">
                     {canEdit && isEditing ? (
@@ -499,6 +653,36 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                     )}
                 </div>
 
+                {/* 7. VISIÓN V15 - PLAZA INFINITA (Simulador Interactivo) - Reubicat a dalt a petició de l'usuari */}
+                {(!isEditing && (routeSlug === '/el-projecte' || routeSlug === 'el-projecte' || routeSlug === '/manifest' || routeSlug === 'manifest' || routeSlug === '/codex' || routeSlug === 'codex')) && (
+                    <div className="w-full max-w-4xl mx-auto px-6 lg:px-10 mb-8 mt-2">
+                        <details className="cms-code-block bg-black/5 dark:bg-[#111111] border-2 border-[var(--theme-accent-primary)] rounded-[1.5rem] overflow-hidden group shadow-[0_4px_30px_rgba(249,115,22,0.15)] transition-all">
+                            <summary className="cursor-pointer p-5 font-black text-[15px] uppercase flex items-center justify-between select-none hover:bg-black/5 dark:hover:bg-white/5 transition-colors touch-manipulation outline-none focus-visible:ring-4 focus-visible:ring-[var(--theme-accent-primary)]">
+                                <span className="flex items-center gap-3 text-[var(--theme-accent-primary)]">
+                                    <div className="w-8 h-8 rounded-full bg-[var(--theme-accent-primary)]/10 flex items-center justify-center">
+                                        <Globe size={18} className="animate-pulse" /> 
+                                    </div>
+                                    <span className="truncate">Visión V15: La Plaza Infinita</span>
+                                </span>
+                                <ChevronRight size={20} strokeWidth={3} className="group-open:rotate-90 transition-transform text-[var(--theme-accent-primary)] shrink-0" />
+                            </summary>
+                            
+                            <div className="border-t border-[var(--theme-accent-primary)]/30 bg-[#0e0e0e] w-full min-h-[600px] sm:min-h-[700px] relative">
+                                <div className="absolute top-4 left-0 w-full text-center text-xs font-black text-[var(--theme-accent-primary)] uppercase tracking-widest pointer-events-none z-10 flex flex-col items-center gap-1 opacity-60">
+                                    <Sparkles size={14} />
+                                    <span>Topologia: Kademlia + DHT</span>
+                                </div>
+                                <iframe 
+                                    src="/assets/simulators/v15-plaza-infinita.html" 
+                                    className="w-full h-full min-h-[600px] sm:min-h-[700px] border-none z-20 relative pointer-events-auto"
+                                    title="Simulador Arquitectura V15"
+                                    loading="lazy"
+                                />
+                            </div>
+                        </details>
+                    </div>
+                )}
+
                 {(canEdit && isEditing) ? (
                     <div className="w-full max-w-5xl mx-auto custom-scrollbar px-4">
                         <RichTextEditor 
@@ -512,7 +696,7 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                 ) : (
                     <div className="flex-1 w-full max-w-4xl mx-auto custom-scrollbar">
                         <div 
-                            className="app-cms-content focus:outline-none min-h-[60vh] px-6 lg:px-10 pb-6 lg:pb-10 w-full"
+                            className="app-cms-content focus:outline-none min-h-[50vh] px-6 lg:px-10 pb-4 w-full"
                             dangerouslySetInnerHTML={{ __html: cleanHtmlContent }}
                             onClick={(e) => {
                                 if (e.target.tagName === 'IMG') {
@@ -533,58 +717,64 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
 
     if (!standAlone) {
         return (
-            <>
+            <div className="flex flex-col w-full min-h-0 isolate">
                 {HeroBanner}
                 {ActualContent}
-            </>
+            </div>
         );
     }
 
     return (
-        <div className="flex-1 h-full min-h-0 bg-[var(--bg-app)] text-[var(--text-main)] flex flex-col w-full overflow-hidden">
-            <TranslationModal 
-                isOpen={isTranslationOpen} 
-                onClose={() => setIsTranslationOpen(false)} 
-                config={{ postId: routeSlug || 'projecte', title: title }} 
-            />
+        // 1. RAÍZ INDESTRUCTIBLE: 100dvh para iOS, overscroll bloqueado (El inert va en los Main/PageHeader, NO aquí, para no bloquear modals)
+        <div 
+            className="flex-1 h-[100dvh] bg-[var(--bg-app)] text-[var(--text-main)] flex flex-col w-full overflow-hidden isolate overscroll-none"
+        >
+            {/* 2. MUERTE AL DOM ZOMBI (Desmontaje Estricto de Modales) */}
+            {isTranslationOpen && (
+                <TranslationModal isOpen={true} onClose={() => setIsTranslationOpen(false)} config={{ postId: routeSlug || 'projecte', title: title }} />
+            )}
 
-            <HistoryModal 
-                isOpen={isHistoryOpen}
-                onClose={() => setIsHistoryOpen(false)}
-                pageId={pageId}
-                onRestore={(restoredHtml, restoredTitle, restoredSubtitle) => {
-                    setHtmlContent(restoredHtml);
-                    setTranslatedContent(null); // Clear translation on restore
-                    setTitle(restoredTitle);
-                    setSubtitle(restoredSubtitle);
-                    setIsEditing(true); // Force edit mode so they see what they restored and must click "Save"
-                }}
-            />
+            {isHistoryOpen && (
+                <HistoryModal 
+                    isOpen={true} 
+                    onClose={() => setIsHistoryOpen(false)} 
+                    pageId={pageId} 
+                    onRestore={(restoredHtml, restoredTitle, restoredSubtitle) => {
+                        setHtmlContent(restoredHtml);
+                        setTranslatedContent(null);
+                        setTitle(restoredTitle);
+                        setSubtitle(restoredSubtitle);
+                        setIsEditing(true);
+                    }} 
+                />
+            )}
             
-            <SEO
-                title={title || "El Projecte"}
-                description="Connectant l'Espanya Buidada amb tecnologia d'avantguarda."
-                url={routeSlug}
-            />
-            <PageHeader 
-                title={title || "EL PROJECTE"} 
-                onBack={() => navigate(-1)} 
-            />
+            <SEO title={title || "El Projecte"} description="Connectant l'Espanya Buidada..." url={routeSlug} />
             
+            {/* 3. PROTECCIÓN SUPERIOR (NOTCH) */}
             <div 
-                ref={scrollContainerRef}
-                className="flex-1 overflow-y-auto custom-scrollbar relative min-h-0"
+                className="pt-[max(env(safe-area-inset-top),0px)] shrink-0 z-[var(--z-nav,40)] bg-[var(--bg-app)]"
+                inert={isTocOpen || isActionMenuOpen || isTranslationOpen || isHistoryOpen || !!mediaViewerSrc ? "true" : undefined}
             >
-                {/* 2. MEDIA (Hero / Banner) */}
+                <PageHeader title={title || "EL PROJECTE"} onBack={() => navigate(-1)} />
+            </div>
+            
+            {/* 4. SCROLL CONTAINER (Rubber-band neutralizado, Bottom Safe-Area asegurado) */}
+            <main 
+                ref={scrollContainerRef}
+                className="flex-1 overflow-y-auto overscroll-y-contain custom-scrollbar relative min-h-0 pb-[max(env(safe-area-inset-bottom),1.5rem)]"
+                inert={isTocOpen || isActionMenuOpen || isTranslationOpen || isHistoryOpen || !!mediaViewerSrc ? "true" : undefined}
+            >
                 {HeroBanner}
 
-                {/* 1. UNIVERSAL CARD META (Autor i Dades) */}
+                {/* UNIVERSAL CARD META (Táctil protegido, Focus habilitado) */}
                 <div 
                     onClick={() => navigate('/el-projecte')} 
-                    className="w-full bg-[#F97316] text-[#111111] dark:bg-[#4F46E5] dark:text-white px-4 py-2 min-h-[64px] flex flex-col sm:flex-row sm:items-center justify-between shadow-md relative z-10 gap-3 border-b border-black/10 dark:border-white/10 transition-colors cursor-pointer hover:opacity-[0.98] active:scale-[0.99]"
+                    onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && navigate('/el-projecte')}
+                    className="w-full bg-[#F97316] text-[#111111] dark:bg-[#4F46E5] dark:text-white px-4 py-3 min-h-[72px] flex flex-col sm:flex-row sm:items-center justify-between shadow-md relative z-[var(--z-base,0)] gap-3 border-b border-black/10 transition-colors cursor-pointer touch-manipulation hover:opacity-[0.98] active:scale-[0.99] focus-visible:ring-4 focus-visible:ring-black outline-none"
                     role="button"
                     tabIndex={0}
-                    title="Obrir presentació de l'autor"
+                    aria-label="Obrir presentació de l'autor Sóc de Poble"
                 >
                     <div className="flex items-center gap-3">
                         <div className="flex items-center -space-x-3 shrink-0">
@@ -609,176 +799,245 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                     </div>
                 </div>
 
-                {/* BARRA D'INTERACCIONS (Sticky action bar M3 Nivel Dios) */}
-                <div className="sticky top-0 z-[2000] flex items-center justify-center gap-3 sm:gap-6 w-full min-h-[48px] bg-[#4F46E5] text-white dark:bg-[#F97316] dark:text-[#111111] px-4 shadow-sm overflow-x-auto no-scrollbar transition-colors">
-                    <button 
-                        onClick={() => navigate('/hub')}
-                        className="flex items-center justify-center gap-1.5 rounded-full bg-[#F97316] text-white dark:bg-[#4F46E5] dark:text-white px-4 py-1.5 font-sans text-xs font-bold tracking-wide transition-opacity active:scale-95 touch-manipulation whitespace-nowrap shrink-0 shadow-md"
-                        aria-label="Connectar"
-                    >
-                        <Plus size={14} className="drop-shadow-sm" strokeWidth={3} />
-                        <span className="truncate uppercase">CONNECTAR</span>
-                    </button>
-
-                    <div className="flex items-center justify-center gap-2 sm:gap-4 text-xs font-extrabold uppercase tracking-widest shrink-0">
-                        <button 
-                            className={`flex items-center gap-1.5 px-2 py-2 hover:bg-white/20 dark:hover:bg-black/10 rounded transition-colors active:scale-95 whitespace-nowrap shrink-0 ${translating ? "text-[#ff6d23] dark:text-white animate-pulse" : ""}`}
-                            title="Traduir Pàgina"
-                            onClick={() => setIsTranslationOpen(true)}
-                            disabled={translating}
-                        >
-                            <Globe size={16} strokeWidth={2.5} className={translating ? "animate-spin" : ""} />
-                            <span className="hidden sm:inline">{translating ? "TRADUINT..." : "TRADUIR"}</span>
-                        </button>
-
-                        <button 
-                            className="flex items-center gap-1.5 px-2 py-2 hover:bg-white/20 dark:hover:bg-black/10 rounded transition-colors active:scale-95 whitespace-nowrap shrink-0"
-                            title="Comentar al Xat"
-                            onClick={() => navigate('/chats/socdepoble')}
-                        >
-                            <MessageCircle size={16} strokeWidth={2.5} />
-                            <span className="hidden sm:inline">COMENTAR</span>
-                        </button>
+                {/* 5. ACTION BAR: PATRÓN PRIORITY+ (Erradicado el Scroll Horizontal) */}
+                <div className="sticky top-0 z-[var(--z-sticky,200)] w-full shadow-md bg-[#4F46E5]/95 dark:bg-[#F97316]/95 backdrop-blur-md transition-colors border-b border-white/10 shrink-0 touch-manipulation">
+                    <div className="flex items-center justify-between min-h-[56px] px-2 sm:px-4">
                         
-                        <button 
-                            className="flex items-center gap-1.5 px-2 py-2 hover:bg-white/20 dark:hover:bg-black/10 rounded transition-colors active:scale-95 whitespace-nowrap shrink-0"
-                            title="Compartir aquesta pàgina"
-                            onClick={() => {
-                                if (navigator.share) {
-                                    navigator.share({ title: 'Sóc de Poble', text: 'Descobreix la Xarxa Rural de Pobles Connectats', url: window.location.href });
-                                }
-                            }}
-                        >
-                            <Share2 size={16} strokeWidth={2.5} />
-                            <span className="hidden sm:inline">COMPARTIR</span>
-                        </button>
+                        {/* Secundarias: Adaptativas (Ara a l'Esquerra) */}
+                        <div className="flex items-center gap-1 shrink-0 text-white dark:text-[#111111]">
+                            <button 
+                                className={`flex items-center justify-center gap-2 min-h-[44px] px-3 rounded-xl hover:bg-white/20 dark:hover:bg-black/10 active:scale-95 transition-colors touch-manipulation font-bold uppercase text-sm ${isSearchOpen ? 'bg-white/20 dark:bg-black/20' : ''}`}
+                                aria-label="Cercar al document"
+                                onClick={() => {
+                                    if(isSearchOpen) { searchEngine.clear(); }
+                                    setIsSearchOpen(!isSearchOpen);
+                                }}
+                            >
+                                <Search size={20} strokeWidth={2.5} />
+                                <span className="hidden sm:inline">Cercar</span>
+                            </button>
 
-                        <button 
-                            className="flex items-center gap-1.5 px-2 py-2 hover:bg-white/20 dark:hover:bg-black/10 rounded transition-colors active:scale-95 whitespace-nowrap shrink-0 hidden sm:flex"
-                            title="Descarregar E-Book per Imprimir en PDF"
-                            onClick={() => {
-                                exportService.downloadNoteAsPDF({
-                                    title: title || "Documents Sóc de Poble",
-                                    content: cleanHtmlContent,
-                                    updatedAt: new Date().toISOString()
-                                });
-                            }}
-                        >
-                            <Book  size={16} strokeWidth={2.5} />
-                            <span className="hidden sm:inline">E-BOOK</span>
-                        </button>
+                            <button 
+                                className={`flex items-center justify-center gap-2 min-h-[44px] px-3 rounded-xl hover:bg-white/20 dark:hover:bg-black/10 active:scale-95 transition-colors touch-manipulation font-bold uppercase text-sm ${translating ? "text-amber-300 dark:text-white animate-pulse" : ""}`}
+                                aria-label="Traduir Pàgina"
+                                onClick={() => setIsTranslationOpen(true)}
+                                disabled={translating}
+                            >
+                                <Globe size={20} strokeWidth={2.5} className={translating ? "animate-spin" : ""} />
+                                <span className="hidden sm:inline">Traduir</span>
+                            </button>
+
+                            <button 
+                                className="hidden sm:flex items-center justify-center gap-2 min-h-[44px] px-3 hover:bg-white/20 dark:hover:bg-black/10 rounded-xl active:scale-95 touch-manipulation font-bold uppercase text-sm" 
+                                onClick={() => navigate('/chats/socdepoble')}
+                            >
+                                <MessageCircle size={20} /><span className="hidden lg:inline">Comentar</span>
+                            </button>
+                            <button 
+                                className="hidden sm:flex items-center justify-center gap-2 min-h-[44px] px-3 hover:bg-white/20 dark:hover:bg-black/10 rounded-xl active:scale-95 touch-manipulation font-bold uppercase text-sm" 
+                                onClick={() => { if(navigator.share) navigator.share({ title: 'Sóc de Poble', url: window.location.href }) }}
+                            >
+                                <Share2 size={20} /><span className="hidden lg:inline">Compartir</span>
+                            </button>
+
+                            {/* EL EMBUDO KEBAB (Absorbe botones que no caben en móvil) */}
+
+                        </div>
+
+                        {/* Primaria: Conectar (Sobrevive a la compresión, UBICADA A LA DRETA COM EN EL CONTEXTUAL MENU) */}
+                        <div className="flex items-center ml-2">
+                            <RoundButton 
+                                icon={Menu}
+                                onClick={() => navigate('/hub')}
+                                title="Menú Hub"
+                                colorClass="bg-[#F97316] text-white hover:bg-white hover:text-[#F97316] border border-transparent hover:border-[#F97316]"
+                            />
+                        </div>
                     </div>
+
+                    {/* Buscador Desplegable con 44x44px Targets */}
+                    {isSearchOpen && (
+                        <div className="w-full bg-[var(--bg-panel)] border-b border-[var(--border-master)] p-2 z-[var(--z-nav,40)] shadow-inner animate-in slide-in-from-top-2">
+                            <div className="flex max-w-xl w-full mx-auto bg-black/5 dark:bg-white/5 rounded-xl border border-[var(--border-master)] overflow-hidden items-center p-1 gap-1">
+                                <Search size={20} className="text-theme-muted ml-2 shrink-0" />
+                                <input 
+                                    type="text" value={searchText} onChange={(e) => setSearchText(e.target.value)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                            searchEngine.search(searchText);
+                                        }
+                                    }}
+                                    placeholder="Cerca al document..."
+                                    className="flex-1 bg-transparent px-2 min-h-[40px] outline-none text-[var(--text-main)]" autoFocus
+                                />
+                                <button
+                                    onClick={() => searchEngine.search(searchText)} 
+                                    className="min-w-[44px] min-h-[44px] px-3 font-bold text-[var(--theme-accent-primary)] hover:bg-black/5 dark:hover:bg-white/5 rounded-lg touch-manipulation active:scale-95"
+                                >
+                                    Cercar
+                                </button>
+                                <button 
+                                    onClick={() => { searchEngine.clear(); setIsSearchOpen(false); }} 
+                                    className="min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-black/5 dark:hover:bg-white/5 rounded-lg touch-manipulation active:scale-95"
+                                >
+                                    <X className="size-5 text-theme-text"/>
+                                </button>
+                            </div>
+                        </div>
+                    )}
                 </div>
                 
-                {/* 3. CONTINGUT (Títols i Text de la Pàgina) */}
+                {/* 6. CONTENIDO */}
                 {ActualContent}
                 
                 {standAlone && <GlobalFooter />}
-            </div>
-            
+            </main>
+
+            {/* 7. KEBAB MENU BOTTOM SHEET (Exclusivo Móvil) */}
+            {isActionMenuOpen && (
+                <div className="fixed inset-0 z-[var(--z-modal,60)] flex flex-col justify-end touch-none lg:hidden" role="dialog" aria-modal="true">
+                    <div className="absolute inset-0 bg-black/60 backdrop-blur-sm animate-in fade-in" onClick={() => setIsActionMenuOpen(false)} aria-hidden="true" />
+                    <div className="relative w-full bg-[var(--bg-panel)] border-t border-[var(--border-master)] rounded-t-[2.5rem] shadow-2xl p-4 pt-3 pb-[max(env(safe-area-inset-bottom),1.5rem)] animate-in slide-in-from-bottom isolate">
+                        {/* Píldora de arrastre UI */}
+                        <div className="w-12 h-1.5 bg-black/10 dark:bg-white/10 rounded-full mx-auto mb-6" />
+                        
+                        <menu className="flex flex-col gap-2 p-0 m-0">
+                            <button onClick={() => { navigate('/chats/socdepoble'); setIsActionMenuOpen(false); }} className="flex items-center gap-4 w-full px-4 py-3 min-h-[48px] rounded-2xl hover:bg-black/5 dark:hover:bg-white/5 active:scale-95 text-[var(--text-main)] transition-all touch-manipulation font-bold">
+                                <div className="w-10 h-10 rounded-full bg-[#F97316]/10 dark:bg-[#4F46E5]/10 flex items-center justify-center text-[#F97316] dark:text-[#4F46E5]">
+                                    <MessageCircle className="size-5 shrink-0" /> 
+                                </div>
+                                Comentar al Xat
+                            </button>
+                            <button onClick={() => { if (navigator.share) navigator.share({ title: 'Sóc de Poble', url: window.location.href }); setIsActionMenuOpen(false); }} className="flex items-center gap-4 w-full px-4 py-3 min-h-[48px] rounded-2xl hover:bg-black/5 dark:hover:bg-white/5 active:scale-95 text-[var(--text-main)] transition-all touch-manipulation font-bold">
+                                <div className="w-10 h-10 rounded-full bg-[#F97316]/10 dark:bg-[#4F46E5]/10 flex items-center justify-center text-[#F97316] dark:text-[#4F46E5]">
+                                    <Share2 className="size-5 shrink-0" />
+                                </div>
+                                Compartir Pàgina
+                            </button>
+                            <button onClick={() => { exportService.downloadNoteAsPDF({ title: title || "Projecte", content: cleanHtmlContent }); setIsActionMenuOpen(false); }} className="flex items-center gap-4 w-full px-4 py-3 min-h-[48px] rounded-2xl hover:bg-black/5 dark:hover:bg-white/5 active:scale-95 text-[var(--text-main)] transition-all touch-manipulation font-bold">
+                                <div className="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+                                    <Book className="size-5 shrink-0 text-emerald-500" />
+                                </div>
+                                Descarregar E-Book
+                            </button>
+                        </menu>
+                    </div>
+                </div>
+            )}
+
+            {/* 8. ÍNDICE TOC & FAST SCRUBBER */}
             {tocElements.length > 0 && !isEditing && (
                 <>
+                    {/* Botón flotante blindado sobre safe-areas nav */}
                     <button 
                         onClick={() => setIsTocOpen(!isTocOpen)} 
-                        className="fixed bottom-[100px] right-4 sm:right-6 lg:right-10 z-[3000] w-14 h-14 bg-[var(--theme-accent-primary)] text-white rounded-full shadow-[0_4px_20px_rgba(249,115,22,0.4)] flex items-center justify-center hover:scale-105 active:scale-95 transition-transform"
+                        className="fixed right-4 sm:right-6 lg:right-10 z-[var(--z-modal,60)] w-14 h-14 bg-[var(--theme-accent-primary)] text-white rounded-full shadow-[0_4px_20px_rgba(249,115,22,0.4)] flex items-center justify-center hover:scale-105 active:scale-95 transition-transform touch-manipulation"
+                        style={{ bottom: 'max(calc(env(safe-area-inset-bottom) + 80px), 80px)' }}
+                        aria-label={isTocOpen ? "Tancar índex" : "Obrir Índex"}
                     >
-                        {isTocOpen ? <X size={24} /> : <List size={24} />}
+                        {isTocOpen ? <X className="size-6" /> : <List className="size-6" />}
                     </button>
 
+                    {/* Panel TOC purificado */}
                     {isTocOpen && (
-                        <div className="fixed inset-y-0 right-0 w-80 max-w-[85vw] bg-[var(--bg-panel)] z-[2900] shadow-[-10px_0_40px_rgba(0,0,0,0.8)] flex flex-col pt-[80px] pb-4 border-l border-[var(--border-master)] animate-in slide-in-from-right duration-300 custom-scrollbar overflow-y-auto">
-                            <div className="px-6 pb-4 border-b border-[var(--border-master)] mb-4">
-                                <h3 className="font-black text-xl uppercase tracking-wider text-[var(--theme-accent-primary)] m-0">ÍNDEX</h3>
-                                <p className="text-xs text-[var(--text-muted)] font-bold uppercase tracking-widest mt-1">Navegació Ràpida (E-Pub)</p>
+                        <div 
+                            role="dialog" aria-modal="true"
+                            className="fixed inset-y-0 right-0 w-80 max-w-[85vw] bg-[var(--bg-panel)] z-[var(--z-modal,60)] shadow-2xl flex flex-col pt-[max(env(safe-area-inset-top),1rem)] pb-[max(env(safe-area-inset-bottom),1rem)] border-l border-[var(--border-master)] animate-in slide-in-from-right duration-300 isolate"
+                        >
+                            <div className="px-6 py-4 border-b border-[var(--border-master)] flex justify-between items-center shrink-0">
+                                <div>
+                                    <h3 className="font-black text-xl uppercase tracking-wider text-[var(--theme-accent-primary)] m-0 flex items-center gap-2"><List size={20}/> ÍNDEX</h3>
+                                    <p className="text-[10px] text-[var(--text-muted)] font-bold uppercase tracking-widest mt-1">Navegació Ràpida</p>
+                                </div>
+                                <button onClick={() => setIsTocOpen(false)} className="w-10 h-10 flex items-center justify-center rounded-xl bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 active:scale-95 touch-manipulation transition-colors text-theme-text">
+                                    <X size={20} />
+                                </button>
                             </div>
-                            <div className="flex-1 overflow-y-auto px-4 min-h-0">
+                            <div className="flex-1 overflow-y-auto px-3 py-2 overscroll-contain custom-scrollbar">
                                 {tocElements.map((item) => (
                                     <button
                                         key={item.id}
                                         onClick={() => {
                                             const el = document.getElementById(item.id);
-                                            if (el) {
-                                                const scrollParent = document.querySelector('.custom-scrollbar');
-                                                if (scrollParent) {
-                                                    const headerOffset = 150;
-                                                    const elementPosition = el.getBoundingClientRect().top;
-                                                    const offsetPosition = elementPosition + scrollParent.scrollTop - headerOffset;
-                                                    scrollParent.scrollTo({
-                                                        top: offsetPosition,
-                                                        behavior: "smooth"
-                                                    });
-                                                } else {
-                                                    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                                                }
-                                                setIsTocOpen(false);
+                                            const container = scrollContainerRef.current;
+                                            if (el && container) {
+                                                const headerOffset = window.innerWidth >= 640 ? 140 : 180;
+                                                const containerTop = container.getBoundingClientRect().top;
+                                                const elementPosition = el.getBoundingClientRect().top - containerTop;
+                                                
+                                                container.scrollTo({
+                                                    top: container.scrollTop + elementPosition - headerOffset,
+                                                    behavior: "smooth"
+                                                });
+                                                setTimeout(() => setIsTocOpen(false), 300);
                                             }
                                         }}
-                                        className={`w-full text-left py-3 px-3 rounded-[12px] hover:bg-white/5 transition-colors flex items-center gap-2 group focus:outline-none focus:ring-2 focus:ring-[var(--theme-accent-primary)] ${item.level === 'h3' ? 'pl-8 text-[13px] opacity-80' : 'font-black text-[14px]'}`}
+                                        className={`w-full text-left py-3.5 px-3 rounded-[12px] hover:bg-black/5 dark:hover:bg-white/5 transition-colors flex items-center gap-2 group focus:outline-none focus:ring-2 focus:ring-[var(--theme-accent-primary)] touch-manipulation ${item.level === 'h3' ? 'pl-8 text-[13px] opacity-80' : 'font-black text-[15px]'}`}
                                     >
-                                        <ChevronRight size={14} className="text-[var(--theme-accent-primary)] opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
-                                        <span className="truncate leading-tight">{item.text}</span>
+                                        <ChevronRight size={14} strokeWidth={3} className="text-[var(--theme-accent-primary)] opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
+                                        <span className="truncate leading-tight text-theme-text">{item.text}</span>
                                     </button>
                                 ))}
                             </div>
                         </div>
                     )}
                     
+                    {/* Backdrop del TOC */}
                     {isTocOpen && (
-                        <div 
-                            className="fixed inset-0 bg-black/60 z-[2800] backdrop-blur-sm animate-in fade-in duration-300"
-                            onClick={() => setIsTocOpen(false)}
-                        />
+                        <div className="fixed inset-0 bg-black/60 z-[var(--z-overlay,50)] backdrop-blur-sm animate-in fade-in duration-300 touch-none" onClick={() => setIsTocOpen(false)} aria-hidden="true" />
                     )}
+                    
+                    {/* Fast Scrubber: Separado del borde (right-2) para esquivar el Swipe-Back de iOS */}
+                    <div 
+                        ref={scrubberRef}
+                        className="fixed right-1 sm:right-2 top-[20%] bottom-[20%] w-12 sm:w-16 z-[var(--z-nav,40)] cursor-ns-resize touch-none flex justify-end p-2 isolate"
+                        onPointerDown={handleScrubberPointerDown}
+                        style={{ userSelect: 'none', touchAction: 'none' }}
+                        aria-hidden="true" 
+                    >
+                        <div className="h-full w-2 bg-black/10 dark:bg-white/5 rounded-full relative shadow-inner ml-auto pointer-events-none">
+                            {/* Punter Escalable */}
+                            <div 
+                                className="absolute right-0 w-2 bg-[var(--theme-accent-primary)] rounded-full transition-all duration-75 origin-center shadow-[0_0_10px_rgba(249,115,22,0.8)]" 
+                                style={{ 
+                                    height: '24px', 
+                                    top: `calc(${scrubberPos * 100}% - 12px)`,
+                                    transform: scrubberDragging ? 'scaleX(2.5) scaleY(1.5)' : 'scaleX(1)'
+                                }}
+                            />
+
+                            {/* Bafarada amb el Títol */}
+                            <div 
+                                className={`absolute right-5 whitespace-nowrap bg-[var(--theme-accent-primary)] text-white font-black uppercase tracking-wider text-xs sm:text-sm py-2 px-4 rounded-xl shadow-2xl pointer-events-none transition-all duration-100 flex items-center ${scrubberDragging ? 'opacity-100' : 'opacity-0'}`}
+                                style={{ 
+                                    top: `calc(${scrubberPos * 100}%)`,
+                                    transform: `translateY(-50%) ${scrubberDragging ? 'translateX(0)' : 'translateX(10px)'}`
+                                }}
+                            >
+                                {scrubberActiveHeading || "Inici"}
+                                <div className="absolute top-1/2 -right-1 -translate-y-1/2 w-3 h-3 bg-[var(--theme-accent-primary)] rotate-45"></div>
+                            </div>
+                        </div>
+                    </div>
                 </>
             )}
 
-            {/* FAST SCRUBBER NADIU (Google Photos Timeline Style) */}
-            {tocElements.length > 0 && !isEditing && (
-                <div 
-                    ref={scrubberRef}
-                    className="fixed right-0 top-[25%] bottom-[25%] w-8 sm:w-16 z-[2500] cursor-ns-resize touch-none justify-end p-2 flex"
-                    onPointerDown={handleScrubberPointerDown}
-                    style={{ userSelect: 'none' }}
-                >
-                    <div className="h-full w-2 bg-black/5 dark:bg-white/5 rounded-full relative shadow-inner ml-auto">
-                        {/* Punter Escalable */}
-                        <div 
-                            className="absolute right-0 w-2 bg-[var(--theme-accent-primary)] rounded-full transition-all duration-75 origin-center shadow-[0_0_10px_rgba(249,115,22,0.8)]" 
-                            style={{ 
-                                height: '24px', 
-                                top: `calc(${scrubberPos * 100}% - 12px)`,
-                                transform: scrubberDragging ? 'scaleX(2.5) scaleY(1.5)' : 'scaleX(1)'
-                            }}
-                        ></div>
-
-                        {/* Bafarada amb el Títol (Desvinculada de l'escala del punter) */}
-                        <div 
-                            className={`absolute right-5 whitespace-nowrap bg-[var(--theme-accent-primary)] text-white font-black uppercase tracking-wider text-xs sm:text-sm py-2 px-4 rounded-xl shadow-2xl pointer-events-none transition-all duration-100 ${scrubberDragging ? 'opacity-100' : 'opacity-0'}`}
-                            style={{ 
-                                top: `calc(${scrubberPos * 100}%)`,
-                                transform: `translateY(-50%) ${scrubberDragging ? 'translateX(0)' : 'translateX(10px)'}`
-                            }}
-                        >
-                            {scrubberActiveHeading || "Inici"}
-                            <div className="absolute top-1/2 -right-1 -translate-y-1/2 w-3 h-3 bg-[var(--theme-accent-primary)] rotate-45"></div>
-                        </div>
-                    </div>
-                </div>
+            {/* 9. MEDIA VIEWER (Desmontable) */}
+            {!!mediaViewerSrc && (
+                <MediaViewerModal 
+                    isOpen={true} 
+                    onClose={() => {
+                        setMediaViewerSrc(null);
+                        setMediaViewerImages([]);
+                    }} 
+                    src={mediaViewerSrc} 
+                    images={mediaViewerImages}
+                    onNavigate={(newSrc) => setMediaViewerSrc(newSrc)}
+                    title={title || "Sóc de Poble Visuals"} 
+                />
             )}
-
-            <MediaViewerModal 
-                isOpen={!!mediaViewerSrc} 
-                onClose={() => {
-                    setMediaViewerSrc(null);
-                    setMediaViewerImages([]);
-                }} 
-                src={mediaViewerSrc} 
-                images={mediaViewerImages}
-                onNavigate={(newSrc) => setMediaViewerSrc(newSrc)}
-                title={title || "Sóc de Poble Visuals"} 
-            />
         </div>
     );
-};
+};;
 
 export default ProjectPresentation;

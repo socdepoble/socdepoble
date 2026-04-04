@@ -16,6 +16,7 @@ import { SyncEngine, DataSifter, BufferHopper, RhizomeIntegrity } from './Solatg
 import { checkSilence } from '../utils/logger';
 import forensicService from '../services/forensicService';
 import { iaiaAuditor } from '../services/iaiaAuditor';
+import { DiagnosticFAQTab, DiagnosticReportsTab, DiagnosticForensicTab, DiagnosticTerminalTab, DiagnosticStyleTab, DiagnosticSystemTab } from './diagnostic/DiagnosticTabs';
 import './DiagnosticConsole.css';
 
 const DiagnosticConsole = () => {
@@ -511,14 +512,14 @@ const DiagnosticConsole = () => {
                             <span className="peace-text">SILENCI</span>
                         </div>
                         {forensicService.getLatestReports().length > 0 && (
-                            <div className="crash-alert-tag pulse-fast" onClick={() => setCurrentHudTab('forensic')}>
+                            <button className="crash-alert-tag pulse-fast" onClick={() => setCurrentHudTab('forensic')} aria-label="Veure crasheos">
                                 <Shield size={10} color="#ff0055" />
                                 <span>CRASH DETECTAT</span>
-                            </div>
+                            </button>
                         )}
                     </div>
                     <div className="hud-header-actions">
-                        <button className={`btn - hud - tool ${currentHudTab === 'audit' ? 'active' : ''} `} onClick={runSystemAudit} title="Audit Ara">
+                        <button className={`btn-hud-tool ${currentHudTab === 'audit' ? 'active' : ''}`} onClick={runSystemAudit} title="Audit Ara">
                             <Shield size={20} />
                         </button>
                         <button className="btn-hud-tool" onClick={() => setShowHelp(!showHelp)}>
@@ -600,270 +601,141 @@ const DiagnosticConsole = () => {
                         </div>
                     ) : (
                         <div className="hud-sections-grid">
-                            <div className="hud-tabs-selector compact-scroll">
-                                <button className={currentHudTab === 'logs' ? 'active terminal' : 'terminal'} onClick={() => setCurrentHudTab('logs')}>TERMINAL</button>
-                                <button className={currentHudTab === 'sync' ? 'active sync' : 'sync'} onClick={() => setCurrentHudTab('sync')}>SINCRONITZACIÓ</button>
-                                <button className={currentHudTab === 'rendiment' ? 'active rendi' : 'rendi'} onClick={() => setCurrentHudTab('rendiment')}>RENDIMENT</button>
-                                <button className={currentHudTab === 'errors' ? 'active error' : 'error'} onClick={() => setCurrentHudTab('errors')}>ERRORS</button>
-                                <button className={currentHudTab === 'reports' ? 'active reports' : 'reports'} onClick={() => {
-                                    setCurrentHudTab('reports');
-                                    const reportLang = i18n.language === 'es' ? '_ES' : '';
-                                    fetch(`/TECHNICAL_REPORT_VIVO${reportLang}.md`)
-                                        .then(res => res.text())
-                                        .then(setTechReport)
-                                        .catch(err => console.error('Error carregant l\'informe:', err));
-                                }}>INFORME TÈCNIC</button>
-                                <button className={currentHudTab === 'forensic' ? 'active reports' : 'reports'} onClick={() => setCurrentHudTab('forensic')}>INFORMES FORENSES</button>
-                                <button className={currentHudTab === 'style' ? 'active' : ''} onClick={() => setCurrentHudTab('style')}>ESTIL [MASTER]</button>
-                                <button className={currentHudTab === 'faq' ? 'active' : ''} onClick={() => {
-                                    setCurrentHudTab('faq');
-                                    setDidacticAlert(didacticData.master_faq);
-                                }}>AGÈNDA FAQ</button>
-                                <button className={currentHudTab === 'system' ? 'active' : ''} onClick={() => setCurrentHudTab('system')}>SISTEMA</button>
+                            <div 
+                                className="hud-tabs-selector compact-scroll"
+                                role="tablist"
+                                aria-label="Pestanyes de la Consola de Comandament"
+                            >
+                                <button 
+                                    className={currentHudTab === 'logs' ? 'active terminal' : 'terminal'} 
+                                    onClick={() => setCurrentHudTab('logs')}
+                                    role="tab"
+                                    aria-selected={currentHudTab === 'logs'}
+                                    aria-controls="tabpanel-logs"
+                                    id="tab-logs"
+                                >TERMINAL</button>
+                                <button 
+                                    className={currentHudTab === 'sync' ? 'active sync' : 'sync'} 
+                                    onClick={() => setCurrentHudTab('sync')}
+                                    role="tab"
+                                    aria-selected={currentHudTab === 'sync'}
+                                    aria-controls="tabpanel-sync"
+                                    id="tab-sync"
+                                >SINCRONITZACIÓ</button>
+                                <button 
+                                    className={currentHudTab === 'rendiment' ? 'active rendi' : 'rendi'} 
+                                    onClick={() => setCurrentHudTab('rendiment')}
+                                    role="tab"
+                                    aria-selected={currentHudTab === 'rendiment'}
+                                    aria-controls="tabpanel-rendiment"
+                                    id="tab-rendiment"
+                                >RENDIMENT</button>
+                                <button 
+                                    className={currentHudTab === 'errors' ? 'active error' : 'error'} 
+                                    onClick={() => setCurrentHudTab('errors')}
+                                    role="tab"
+                                    aria-selected={currentHudTab === 'errors'}
+                                    aria-controls="tabpanel-errors"
+                                    id="tab-errors"
+                                >ERRORS</button>
+                                <button 
+                                    className={currentHudTab === 'reports' ? 'active reports' : 'reports'} 
+                                    onClick={() => {
+                                        setCurrentHudTab('reports');
+                                        const reportLang = i18n.language === 'es' ? '_ES' : '';
+                                        fetch(`/TECHNICAL_REPORT_VIVO${reportLang}.md`)
+                                            .then(res => res.text())
+                                            .then(setTechReport)
+                                            .catch(err => console.error('Error carregant l\'informe:', err));
+                                    }}
+                                    role="tab"
+                                    aria-selected={currentHudTab === 'reports'}
+                                    aria-controls="tabpanel-reports"
+                                    id="tab-reports"
+                                >INFORME TÈCNIC</button>
+                                <button 
+                                    className={currentHudTab === 'forensic' ? 'active reports' : 'reports'} 
+                                    onClick={() => setCurrentHudTab('forensic')}
+                                    role="tab"
+                                    aria-selected={currentHudTab === 'forensic'}
+                                    aria-controls="tabpanel-forensic"
+                                    id="tab-forensic"
+                                >INFORMES FORENSES</button>
+                                <button 
+                                    className={currentHudTab === 'style' ? 'active' : ''} 
+                                    onClick={() => setCurrentHudTab('style')}
+                                    role="tab"
+                                    aria-selected={currentHudTab === 'style'}
+                                    aria-controls="tabpanel-style"
+                                    id="tab-style"
+                                >ESTIL [MASTER]</button>
+                                <button 
+                                    className={currentHudTab === 'faq' ? 'active' : ''} 
+                                    onClick={() => {
+                                        setCurrentHudTab('faq');
+                                        setDidacticAlert(didacticData.master_faq);
+                                    }}
+                                    role="tab"
+                                    aria-selected={currentHudTab === 'faq'}
+                                    aria-controls="tabpanel-faq"
+                                    id="tab-faq"
+                                >AGÈNDA FAQ</button>
+                                <button 
+                                    className={currentHudTab === 'system' ? 'active' : ''} 
+                                    onClick={() => setCurrentHudTab('system')}
+                                    role="tab"
+                                    aria-selected={currentHudTab === 'system'}
+                                    aria-controls="tabpanel-system"
+                                    id="tab-system"
+                                >SISTEMA</button>
                                 <button className="btn-report-live" onClick={() => window.open('/soc_de_poble_report.html', '_blank')}>CENTRE INTERPRETACIÓ</button>
                             </div>
 
-                            {currentHudTab === 'faq' && (
-                                <section className="hud-panel full-width">
-                                    <div className="panel-header">
-                                        <Brain size={16} color="var(--hud-accent)" />
-                                        <h3>AGÈNDA DE DUBTES (IAIA)</h3>
-                                    </div>
-                                    <div className="panel-content" style={{ padding: '20px' }}>
-                                        <p style={{ fontStyle: 'italic', marginBottom: '20px', opacity: 0.8 }}>{didacticData.master_faq.explanation}</p>
-                                        <div className="faq-list" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                                            {didacticData.master_faq.details.map((item, i) => {
-                                                const [q, a] = item.split('\n');
-                                                return (
-                                                    <div key={i} className="faq-item" style={{ background: 'rgba(255,255,255,0.03)', padding: '15px', borderRadius: '0px', border: '1px solid rgba(255,255,255,0.05)' }}>
-                                                        <strong style={{ color: 'var(--hud-accent)', fontSize: '13px', display: 'block', marginBottom: '8px' }}>
-                                                            {q.replace(/\*\*/g, '')}
-                                                        </strong>
-                                                        <p style={{ fontSize: '13px', lineHeight: '1.5', opacity: 0.9 }}>{a}</p>
-                                                    </div>
-                                                );
-                                            })}
-                                        </div>
-                                    </div>
-                                </section>
-                            )}
-
-                            {currentHudTab === 'reports' && (
-                                <section className="hud-panel full-width">
-                                    <div className="panel-header">
-                                        <Shield size={16} />
-                                        <h3>INFORME TÈCNIC VIVID</h3>
-                                        <div style={{ marginLeft: 'auto', display: 'flex', gap: '8px' }}>
-                                            <a href={`/TECHNICAL_REPORT_VIVO${i18n.language === 'es' ? '_ES' : ''}.md`} download className="btn-hud-outline small">MD</a>
-                                            <button className="btn-hud-outline small" onClick={() => window.print()}>PDF / IMPRIMIR</button>
-                                        </div>
-                                    </div>
-                                    <div className="tech-report-content" style={{ padding: '20px', fontSize: '14px', lineHeight: '1.6', maxHeight: '500px', overflowY: 'auto' }}>
-                                        {techReport ? (
-                                            <pre style={{ whiteSpace: 'pre-wrap', fontFamily: 'monospace', opacity: 0.9 }}>
-                                                {techReport}
-                                            </pre>
-                                        ) : (
-                                            <div className="pulse-slow">Sichronitzant amb el Rebost de l'IAIA...</div>
-                                        )}
-                                    </div>
-                                </section>
-                            )}
-
-                            {currentHudTab === 'forensic' && (
-                                <section className="hud-panel full-width">
-                                    <div className="panel-header">
-                                        <Shield size={16} color="#ff0055" />
-                                        <h3>REPORTS FORENSES [CRITICAL]</h3>
-                                        <button className="btn-hud-outline small ml-auto" onClick={() => {
-                                            forensicService.clearReports();
-                                            setLogs(prev => prev); // Force refresh
-                                        }}>NETEJAR</button>
-                                    </div>
-                                    <div className="forensic-reports-container">
-                                        {forensicService.getLatestReports().length === 0 ? (
-                                            <div className="p-4 text-center opacity-40">No hi ha reports actius. El bategat és pur.</div>
-                                        ) : (
-                                            forensicService.getLatestReports().reverse().map(report => (
-                                                <div key={report.id} className="forensic-card status-critical">
-                                                    <div className="forensic-card-header">
-                                                        <div className="forensic-card-title">
-                                                            <Activity size={14} color="#ff0055" />
-                                                            <h4 style={{ color: '#ff0055' }}>{report.type}</h4>
-                                                        </div>
-                                                        <span className="forensic-timestamp">{new Date(report.timestamp).toLocaleTimeString()}</span>
-                                                    </div>
-                                                    <p className="forensic-summary" style={{ fontWeight: 'bold' }}>{report.error}</p>
-                                                    <div className="forensic-details" style={{ fontSize: '11px', background: 'rgba(0,0,0,0.3)', padding: '8px', borderRadius: '4px', marginTop: '8px', overflowX: 'auto' }}>
-                                                        <pre>{report.stack?.substring(0, 300)}...</pre>
-                                                    </div>
-                                                </div>
-                                            ))
-                                        )}
-                                        {/* Original static reports if needed, but we focus on live crashes */}
-                                    </div>
-                                </section>
-                            )}
-
-                            {['logs', 'sync', 'rendiment', 'errors'].includes(currentHudTab) && (
-                                <section className="hud-panel full-width">
-                                    <div className="panel-header"><Terminal size={16} /> <h3>{currentHudTab.toUpperCase()}</h3></div>
-                                    <div className="hud-terminal-container">
-                                        <div className="hud-terminal" ref={terminalRef}>
-                                            {logs.filter(log => {
-                                                if (currentHudTab === 'sync') return log.msg.includes('SYNC') || log.msg.includes('Rhizome') || log.type === 'system';
-                                                if (currentHudTab === 'rendiment') return log.type === 'info' && !log.msg.includes('SYNC') && !log.msg.includes('Rhizome');
-                                                if (currentHudTab === 'errors') return log.type === 'error' || log.type === 'warn';
-                                                return true; // logs tab shows everything
-                                            }).map((log, idx) => (
-                                                <div key={`${log.id}-${idx}`} className={`log-line ${log.type}`}>
-                                                    <span className="log-time">[{log.time}]</span>
-                                                    <span className="log-origin">[{log.origin}]</span>
-                                                    <span className="log-msg flex-1 break-all">{log.msg}</span>
-                                                    {(log.type === 'error' || log.type === 'critical') && (
-                                                        <button 
-                                                            className="ml-2 bg-[#ff0055]/20 hover:bg-[#ff0055]/40 text-[#ff0055] rounded-[28px] p-1 transition-colors"
-                                                            title="Analitzar amb IAIA (Chrome DevTools Alternative)"
-                                                            onClick={() => analyzeErrorWithIAIA(log.msg)}
-                                                        >
-                                                            <Brain size={12} />
-                                                        </button>
-                                                    )}
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </section>
-                            )}
-
-                            {currentHudTab === 'style' && (
-                                <section className="hud-panel full-width style-tuner-panel">
-                                    <div className="panel-header"><Zap size={16} /> <h3>TUNER D'ESTIL SOBIRÀ</h3></div>
-                                    <div className="panel-content tuner-grid">
-                                        {/* 1. Tipografia Fluida */}
-                                        <div className="tuner-item">
-                                            <label>Escala de Batec (Font Size)</label>
-                                            <div className="flex items-center gap-4">
-                                                <input
-                                                    type="range"
-                                                    min="0.8"
-                                                    max="1.5"
-                                                    step="0.1"
-                                                    value={themeConfig.fontScale}
-                                                    onChange={(e) => updateConfig({ fontScale: parseFloat(e.target.value) })}
-                                                />
-                                                <span className="badge-value">{themeConfig.fontScale}x</span>
-                                            </div>
-                                        </div>
-
-                                        {/* 2. Selector Semàntic de Color */}
-                                        <div className="tuner-item">
-                                            <label>Color d'Accent: <strong style={{ color: 'var(--hud-accent)' }}>{ruralInfo.label}</strong></label>
-                                            <div className="rural-swatches">
-                                                {RURAL_PALETTE.map(color => (
-                                                    <button
-                                                        key={color.hex}
-                                                        className={`swatch ${ruralInfo.hex === color.hex ? 'active' : ''} `}
-                                                        style={{ backgroundColor: color.hex }}
-                                                        title={color.name}
-                                                        onClick={() => updateConfig({ primaryColor: color.hex })}
-                                                        aria-label={color.name}
-                                                    />
-                                                ))}
-                                            </div>
-                                            <p className="tuner-hint">{ruralInfo.desc}</p>
-                                        </div>
-
-                                        {/* 4. Desktop & Geo Triggers */}
-                                        <div className="tuner-item">
-                                            <label>Maquinària i Geolocalització</label>
-                                            <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
-                                                <button className="btn-hud-outline" onClick={requestGeolocation} style={{ flex: 1 }}>
-                                                    <Locate size={14} /> LOCALITZAR MAC
-                                                </button>
-                                                <button className={`btn - hud - outline ${themeConfig.isDesktopOptimized ? 'active' : ''} `} onClick={toggleDesktopMode} style={{ flex: 1 }}>
-                                                    {themeConfig.isDesktopOptimized ? <Monitor size={14} /> : <Smartphone size={14} />}
-                                                    {themeConfig.isDesktopOptimized ? 'MODE DESKTOP' : 'MODE MÒBIL'}
-                                                </button>
-                                            </div>
-                                        </div>
-
-                                        {/* 5. Aesthetics Guard Status */}
-                                        <div className="tuner-item status">
-                                            <div className="flex justify-between items-center">
-                                                <span className="flex items-center gap-2">
-                                                    <ShieldCheck size={14} color={validateContrast(themeConfig.primaryColor) ? "#00f2ff" : "#ff4444"} />
-                                                    Aesthetics Guard: {validateContrast(themeConfig.primaryColor) ? 'Optimum' : 'Alerta de Lectura'}
-                                                </span>
-                                                <button className="btn-restore-masia" onClick={resetToMasia}>RESTAURAR MASIA</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </section>
-                            )}
-
-                            {currentHudTab === 'system' && (
-                                <div className="system-grid">
-                                    <section className="hud-panel full-width">
-                                        <div className="panel-header"><RefreshCw size={16} /> <h3>IDIOMA (PROTOCOL THORSTEN)</h3></div>
-                                        <div className="panel-content">
-                                            <div className="language-selector-grid">
-                                                {['ca', 'es', 'en', 'eu', 'gl'].map(lang => (
-                                                    <button
-                                                        key={lang}
-                                                        className={`btn-hud-lang ${i18n.language === lang ? 'active' : ''}`}
-                                                        onClick={() => i18n.changeLanguage(lang)}
-                                                    >
-                                                        {lang.toUpperCase()}
-                                                    </button>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    </section>
-
-                                    <section className="hud-panel widgets-panel full-width">
-                                        <div className="panel-header"><Zap size={16} /> <h3>ESTAT DE LA MAQUINÀRIA [SOLATGE]</h3></div>
-                                        <div className="hud-widgets-row">
-                                            <SyncEngine active={hudActivity.syncing || isHealing} />
-                                            <DataSifter vibrating={hudActivity.sifting} />
-                                            <BufferHopper level={hudActivity.bufferLevel} />
-                                            <RhizomeIntegrity amnesic={true} version={VERSION} />
-                                        </div>
-                                    </section>
-                                    <section className="hud-panel" onClick={() => showHelp && setDidacticAlert(didacticData.identity)}>
-                                        <div className="panel-header"><User size={16} /> <h3>SESSIÓ</h3></div>
-                                        <div className="panel-content">
-                                            <div className="session-info-grid">
-                                                <div className="session-item">
-                                                    <label>ID</label>
-                                                    <code>{user?.id?.substring(0, 8) || 'GUEST'}</code>
-                                                </div>
-                                                <div className="session-item">
-                                                    <label>ROL</label>
-                                                    <span className="badge-role">{profile?.role || 'convidat'}</span>
-                                                </div>
-                                                <div className="session-item">
-                                                    <label>Vcrit</label>
-                                                    <code>{VERSION}</code>
-                                                </div>
-                                                <div className="session-item">
-                                                    <label>Hibrid</label>
-                                                    <code>{visionMode}</code>
-                                                </div>
-                                            </div>
-                                            {isAdmin && (
-                                                <button className="btn-nuke-sim" onClick={() => forceNukeSimulation()}>SIMULAR NUKE</button>
-                                            )}
-                                        </div>
-                                    </section>
-                                    <section className="hud-panel" onClick={() => showHelp && setDidacticAlert(didacticData.pulse)}>
-                                        <div className="panel-header"><Activity size={16} /> <h3>XARXA</h3></div>
-                                        <div className="panel-content">
-                                            <div className="data-row"><span>Estat:</span> <strong className="status-ok">ESTABLE</strong></div>
-                                        </div>
-                                    </section>
-                                </div>
-                            )}
+                            <div 
+                                role="tabpanel" 
+                                id={`tabpanel-${currentHudTab}`} 
+                                aria-labelledby={`tab-${currentHudTab}`}
+                                className="hud-tab-content-wrapper"
+                            >
+                                {currentHudTab === 'faq' && <DiagnosticFAQTab didacticData={didacticData} />}
+                                {currentHudTab === 'reports' && <DiagnosticReportsTab techReport={techReport} i18n={i18n} />}
+                                {currentHudTab === 'forensic' && <DiagnosticForensicTab forensicService={forensicService} setLogs={setLogs} />}
+                                {['logs', 'sync', 'rendiment', 'errors'].includes(currentHudTab) && (
+                                    <DiagnosticTerminalTab 
+                                        currentHudTab={currentHudTab} 
+                                        logs={logs} 
+                                        terminalRef={terminalRef} 
+                                        analyzeErrorWithIAIA={analyzeErrorWithIAIA} 
+                                    />
+                                )}
+                                {currentHudTab === 'style' && (
+                                    <DiagnosticStyleTab 
+                                        themeConfig={themeConfig} 
+                                        updateConfig={updateConfig} 
+                                        ruralInfo={ruralInfo} 
+                                        requestGeolocation={requestGeolocation} 
+                                        toggleDesktopMode={toggleDesktopMode} 
+                                        validateContrast={validateContrast} 
+                                        resetToMasia={resetToMasia} 
+                                    />
+                                )}
+                                {currentHudTab === 'system' && (
+                                    <DiagnosticSystemTab 
+                                        i18n={i18n} 
+                                        hudActivity={hudActivity} 
+                                        isHealing={isHealing} 
+                                        VERSION={APP_VERSION} 
+                                        setDidacticAlert={setDidacticAlert} 
+                                        didacticData={didacticData} 
+                                        user={user} 
+                                        profile={profile} 
+                                        visionMode={visionMode} 
+                                        isAdmin={isAdmin} 
+                                        forceNukeSimulation={forceNukeSimulation} 
+                                        showHelp={showHelp} 
+                                    />
+                                )}
+                            </div>
                         </div>
                     )}
                 </div>
@@ -879,7 +751,7 @@ const DiagnosticConsole = () => {
                         </div>
                         <div style={{ flex: 1, position: 'relative' }}>
                             <button
-                                className={`btn - hud - primary level - 2 master - heal ${isHealing ? 'healing' : ''} `}
+                                className={`btn-hud-primary level-2 master-heal ${isHealing ? 'healing' : ''}`}
                                 onClick={runSelfHealing}
                                 disabled={isHealing}
                                 style={{ width: '100%' }}

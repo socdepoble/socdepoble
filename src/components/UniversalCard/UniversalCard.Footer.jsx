@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Plus, Share2, MoreHorizontal, MessageCircle, Globe } from 'lucide-react';
+import { Share2, MoreHorizontal, MessageCircle, Globe, Plus } from 'lucide-react';
+import RoundButton from '../ui/RoundButton';
 
 const UniversalCardFooter = ({
     item,
@@ -15,16 +16,14 @@ const UniversalCardFooter = ({
 }) => {
     const { t } = useTranslation();
 
-    // Determine the main button text
-    let buttonText = t('card.connect', "CONNECTAR");
-    let icon = <Plus size={14} className="drop-shadow-sm" strokeWidth={3}/>;
+    let titleText = t('card.connect', "Connectar");
     
     if (cardVariant === 'mercat' || cardVariant === 'market') {
-        buttonText = t('card.connect', "CONNECTAR");
+        titleText = t('card.connect', "Connectar");
     } else if (cardVariant === 'pobles') {
-        buttonText = t('card.connect', "CONNECTAR");
+        titleText = t('card.connect', "Connectar");
     } else if (item?.type === 'tramit') {
-        buttonText = t('card.tramitar', "TRAMITAR");
+        titleText = t('card.tramitar', "Tramitar");
     }
 
     const handleShareClick = (e) => {
@@ -59,14 +58,6 @@ const UniversalCardFooter = ({
 
     return (
         <div className="flex items-center justify-center gap-3 sm:gap-6 w-full min-h-[48px] bg-[#4F46E5] text-white dark:bg-[#F97316] dark:text-[#111111] px-4 shadow-sm overflow-x-auto no-scrollbar transition-colors">
-            {/* COMPACT CONNECT BUTTON */}
-            <button 
-                className="flex items-center justify-center gap-1.5 rounded-full bg-[#F97316] text-white dark:bg-[#4F46E5] dark:text-white px-4 py-1.5 text-xs font-bold tracking-wide transition-opacity active:scale-95 touch-manipulation whitespace-nowrap shrink-0 shadow-md"
-                onClick={handleConnectClick}
-            >
-                {icon}
-                <div className="truncate"><span>{buttonText}</span></div>
-            </button>
 
             {/* OPTIONAL ITEM COUNTER BADGE */}
             {itemCount !== undefined && (
@@ -119,6 +110,13 @@ const UniversalCardFooter = ({
                         <MoreHorizontal size={20} />
                     </button>
                 )}
+                
+                <RoundButton 
+                    icon={Plus}
+                    onClick={handleConnectClick}
+                    title={titleText}
+                    colorClass="bg-white/20 text-white hover:bg-white hover:text-[var(--theme-accent-primary)] border border-white/30"
+                />
             </div>
         </div>
     );

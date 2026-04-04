@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { geminiService } from '../services/geminiService';
 import SEO from '../components/SEO';
+import GlassCard from '../components/ui/GlassCard';
 import './NexusFlash.css';
 
 const NexusFlash = () => {
@@ -73,7 +74,7 @@ const NexusFlash = () => {
             <main className="nexus-main-content">
                 {activeTab === 'dashboard' && (
                     <div className="nexus-dashboard fade-in">
-                        <div className="nexus-welcome-card glass-card">
+                        <GlassCard className="nexus-welcome-card">
                             <h2>👋 Benvingut al Nexes, Flash!</h2>
                             <p>Aquest és el teu entorn segur per a provar la transició a la <b>Nit Digital (V2)</b>.</p>
                             <div className="nexus-stats-grid">
@@ -90,24 +91,24 @@ const NexusFlash = () => {
                                     <span className="stat-label">Brutalisme Purga</span>
                                 </div>
                             </div>
-                        </div>
+                        </GlassCard>
 
                         <div className="nexus-directives-grid">
-                            <div className="directive-card glass-card">
+                            <GlassCard className="directive-card">
                                 <Shield className="icon-gold" />
                                 <h3>Offline-First</h3>
                                 <p>La dada ha de romandre al dispositiu del veí. La SQLite és sobirana.</p>
-                            </div>
-                            <div className="directive-card glass-card">
+                            </GlassCard>
+                            <GlassCard className="directive-card">
                                 <Eye className="icon-cyan" />
                                 <h3>Trellat Visual</h3>
                                 <p>L'estètica ha d'evolucionar cap al futur sense perdre l'ànima rural.</p>
-                            </div>
-                            <div className="directive-card glass-card">
+                            </GlassCard>
+                            <GlassCard className="directive-card">
                                 <Zap className="icon-orange" />
                                 <h3>Batec Atòmic</h3>
                                 <p>Cada acció té haptic feedback i una transició orgànica.</p>
-                            </div>
+                            </GlassCard>
                         </div>
                     </div>
                 )}
@@ -130,14 +131,14 @@ const NexusFlash = () => {
                                 <button className="preview-btn">ACCIÓ MASTER</button>
                             </div>
 
-                            <div className="lab-notes glass-card">
+                            <GlassCard className="lab-notes">
                                 <h4>Tokens de la Prova:</h4>
                                 <ul>
                                     <li><b>Radius:</b> {isV2 ? '24px - 32px' : '0px - 4px'}</li>
                                     <li><b>Background:</b> {isV2 ? 'Glassmorphism Fosc' : 'Sòlid / Taronja Boina'}</li>
                                     <li><b>Border:</b> {isV2 ? 'Subtil (rgba)' : '2px solid #000'}</li>
                                 </ul>
-                            </div>
+                            </GlassCard>
                         </div>
                     </div>
                 )}
@@ -146,10 +147,10 @@ const NexusFlash = () => {
                     <div className="nexus-ia fade-in">
                         <section className="ia-sim-section">
                             <h3>👵 IAIA MarIA SIM</h3>
-                            <div className={`iaia-chat-bubble glass-card ${isIaiaThinking ? 'bategant' : ''}`}>
+                            <GlassCard className={`iaia-chat-bubble ${isIaiaThinking ? 'bategant' : ''}`}>
                                 {isIaiaThinking ? "L'IAIA està connectant mil detalls..." : iaiaResponse}
                                 {isIaiaThinking && <div className="bategat-indicator">🏺</div>}
-                            </div>
+                            </GlassCard>
                             <div className="iaia-input-group">
                                 <input
                                     type="text"
@@ -167,7 +168,7 @@ const NexusFlash = () => {
 
                         <section className="ia-sim-section">
                             <h3>📢 EL PREGONER MÀGIC</h3>
-                            <div className="pregoner-box glass-card">
+                            <GlassCard className="pregoner-box">
                                 <textarea
                                     placeholder="Escriu el que vols anunciar..."
                                     value={pregonerInput}
@@ -182,14 +183,14 @@ const NexusFlash = () => {
                                         {pregonerResult}
                                     </div>
                                 )}
-                            </div>
+                            </GlassCard>
                         </section>
                     </div>
                 )}
 
                 {activeTab === 'solatge' && (
                     <div className="nexus-solatge fade-in">
-                        <div className="solatge-console glass-card">
+                        <GlassCard className="solatge-console">
                             <div className="console-header">
                                 <Terminal size={14} />
                                 <span>SOLATGE_CONSOLE_v2.0</span>
@@ -201,18 +202,18 @@ const NexusFlash = () => {
                                 <div className="line">[ACCIONS] Purga de 0px en marxa...</div>
                                 <div className="line cursor">{">"} _</div>
                             </div>
-                        </div>
+                        </GlassCard>
 
                         <div className="solatge-widgets mt-6">
                             <div className="widget-row">
-                                <div className="widget glass-card">
+                                <GlassCard className="widget">
                                     <span className="label">SYNC_ENGINE</span>
                                     <span className="value">98.2%</span>
-                                </div>
-                                <div className="widget glass-card">
+                                </GlassCard>
+                                <GlassCard className="widget">
                                     <span className="label">DATA_SIFTER</span>
                                     <span className="value">ACTIU</span>
-                                </div>
+                                </GlassCard>
                             </div>
                         </div>
                     </div>

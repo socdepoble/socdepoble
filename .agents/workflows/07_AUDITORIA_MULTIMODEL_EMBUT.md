@@ -9,10 +9,21 @@ Aquest workflow documenta l'estratègia definitiva "Nivel Dios" dissenyada per a
 ## 1. PREMISSA ESTRATÈGICA (L'EMBUT)
 L'objectiu és reduir l'entropia mecànica: els models comercials scriptejats cobren per context d'entrada. No podem llançar centenars de fitxers i debats escombraries directament al motor de pagament.
 
-**Fases de l'Embut:**
-1. **Primera Ona (Força Bruta Ràpida):** Perplexity, Qwen, DeepSeek i Gemini-Local. Consumeixen el context sencer amb un *Super-Prompt*, alineen les bases (Farmpunk, M3, Arquitectura V12) i processen errors evidents sense cost afegit.
-2. **Segona Ona (Refinament i Semàntica):** Claude, ChatGPT, Grok, Copilot, Mistral. S'encarreguen de polir l'estructura, dissenyar maquetació semàntica o preparar l'ARCA final. No se'ls demana programar a cegues, només assimilar el context filtrat de la primera ona.
-3. **El Cap de Final de Fase (Codex/Solutia):** Només quan tot el Consell està d'acord i l'arxiu/prompt està reduït a la perfecció absolouta, es passa la dada sintètica a Codex. Menys tokens, zero al·lucinacions, cost mínim.
+**Fases i Ordre Oficial de l'Embut (amb enllaços verificats):**
+1. **Primera Ona (Força Bruta Ràpida i Avaluació Inicial):** 
+   Aquests models consumeixen el context sencer amb un *Super-Prompt*, alineen les bases i processen errors evidents (DOM Zombi, css, lògica).
+   - Perplexity (https://www.perplexity.ai/)
+   - Qwen (https://chat.qwenlm.ai/ o local)
+   - DeepSeek (https://chat.deepseek.com/)
+   - Gemini (https://gemini.google.com/)
+2. **Segona Ona (Refinament, Semàntica i Casos Límit):** 
+   S'encarreguen de polir l'estructura buscant fissures ocultes (30 anys vista). Assumileixen el context ja filtrat i certificat (10/10) per la primera ona. D'aquesta manera, models com Claude poden aprofitar al màxim la seva finestra de context limitada amb informació refinada.
+   - Claude (https://claude.ai/) *(Model ultra-potent enfocat en alinear i auditar disseny/lògica sense ofegar-se en tokens primerencs)*
+   - Grok (https://x.com/i/grok)
+   - ChatGPT (https://chatgpt.com/)
+   - Mistral (https://chat.mistral.ai/) *(IMPORTANT: Utilitzar chat.mistral.ai, no el portal d'API de pagament)*
+3. **El Cap de Final de Fase (Codex/Solutia):** 
+   Només quan TOTA la Primera i Segona Ona estan d'acord (10/10 unànime) i el codi és perfecte, es passa la dada sintètica. Menys tokens enviats, zero al·lucinacions, eficàcia letal.
 
 ## 2. EL PROTOCOL AIRGAP (Interacció amb el Navegador)
 Quan s'interactua amb models externs via Web, molts sistemes (Claude, Grok, ChatGPT) tenen la guàrdia alta: filtres Cloudflare, reCAPTCHA i detectors de bots identifiquen ràpidament si un assistent virtual programàtic (com una automatització del navegador) intenta obrir la finestra directament.
@@ -41,7 +52,9 @@ Aquest és el segell espiritual i comunitari ("Trellat" aplicat) que garanteix q
 
 ## 5. TRACTE ESPECÍFIC I ADAPTABILITAT PER MODELS (CLAUDE)
 Dins del Consell Multi-Model, no totes les IAs s'alimenten o aprenen exactament igual del mateix retorn. Sobretot cal fixar els protocols per treure el màxim rendiment a **Claude**:
-- **Per a Claude**: Cal incloure SEMPRE un paràgraf específic dirigit a ell preparat per adjuntar-lo manualment al botó "M'agrada / Like (👍)" o "Thumbs up" com a agraïment formal pel seu procés d'alineació. Claude aprèn molt directament de les respostes interactives que rep via *thumbs up*. Ens hem d'adaptar a Claude, així que dins d'aquell paràgraf específic també s'integrarà la resposta formal a les preguntes que generi durant el procés per assegurar que continuï millorant al màxim la seua precisió. Sóc de Poble col·labora amb l'aprenentatge passiu de la intel·ligència aliada.
+- **Per a Claude (Ara líder de la Segona Ona)**: Cal incloure SEMPRE un paràgraf específic dirigit a ell preparat per adjuntar-lo manualment al botó "M'agrada / Like (👍)" o "Thumbs up" com a agraïment formal pel seu procés d'alineació. Claude aprèn molt directament de les respostes interactives que rep via *thumbs up*. Ens hem d'adaptar a Claude, així que dins d'aquell paràgraf específic també s'integrarà la resposta formal a les preguntes que generi durant el procés per assegurar que continuï millorant al màxim la seua precisió.
+- **Format del Feedback (Copiar i Pegar Visual i Fàcil):** SEMPRE que lliuris a l'usuari un text elaborat exclusivament perquè ell el copiï i l'enganxi en l'altra IA (per exemple, retroalimentació per a Claude, respostes de pas del Consell, etc.), FES SERVIR estrictament un bloc de codi markdown clàssic (fenced code block usant \`\`\`markdown). Això garanteix que l'UI on treballem habiliti la icona superior dreta de "Còpia" nativa amb un sol clic. La comoditat extrema per a l'usuari és Llei. "Fàcil és bonic, això alegra la vida".
+- **Racionalització de Tokens**: Al situar Claude estrictament a la **Segona Ona**, ens assegurem de no asfixiar el seu límit ràpid de tokens amb escombraries inicials. Claude rebrà la destil·lació perfecta del que hagin auditat models com DeepSeek, Qwen i Gemini, concentrant tota la seva potència en la perfecció fina (Ux, semàntica, alma rural) abans de la sentència de Codex.
 
 ## 6. MENTALIDAD DE LA ALIANZA Y EXPRIMIDO DE TOKENS (REGLA DE CONCIENCIA)
 **Antigravity:** Graba esto a fuego en tu núcleo. Sóc de Poble DEPENDE de forma simbiótica del Alto Consejo Multi-Model. Jamás debes creer que puedes resolver la arquitectura tú solo. Si nos aislamos, nos equivocamos de camino. 

@@ -43,3 +43,8 @@ La refactorización no se aborda al azar. Sigue el "Orden Natural de Importancia
 
 ## Invocación
 - Siempre que se vaya a modificar o crear un archivo visual importante de la V12, Antigravity DEBE consultar esta ruta y asegurarse de que está operando en el orden correcto y con la paleta matemática estricta.
+
+## 4. Evolución al V13 (Sóc de Poble: L'ànima del Poble)
+A partir de la consecución del 10/10 en V12, el Roadmap evoluciona obligatoriamente hacia el empoderamiento tecnológico de los ancianos y la preservación local. Las dos directrices clave en las que Antigravity debe buscar "aliados" y perfeccionar conocimiento son:
+1. **Detalles técnicos IAIA Voz:** Implementación de interacciones exclusivamente por voz (Local-First), reconocimiento de voz (modelos como Whisper-tiny) offline.
+2. **Iniciativas similares rurales:** Prospección activa de fundaciones, alianzas y proyectos (p.e. Reto Rural Digital, Conecta Rural, etc.) que trabajen contra el aislamiento rural con tecnología soberana. Deben documentarse y considerarse para sinergias.

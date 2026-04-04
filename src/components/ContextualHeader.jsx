@@ -29,7 +29,7 @@ const ContextualHeader = forwardRef(({ searchTerm, onSearchChange, viewMode, onV
     };
 
     return (
-        <div className="relative z-10 bg-[#F97316] dark:bg-[#4F46E5] w-full h-[64px] min-h-[64px] max-h-[64px] flex items-center justify-between px-3 transition-colors duration-500 shadow-md">
+        <div className="relative z-10 bg-[var(--theme-accent-primary)] w-full h-[64px] min-h-[64px] max-h-[64px] flex items-center justify-between px-3 transition-colors duration-500 shadow-md">
             
             {/* BACK BUTTON */}
             {backButton && (
@@ -39,12 +39,12 @@ const ContextualHeader = forwardRef(({ searchTerm, onSearchChange, viewMode, onV
             )}
 
             {/* SEARCH BAR (TECH-HUERTA V12 CANÒNICA) */}
-            <div className="flex items-center flex-1 h-[36px] bg-white rounded-[24px] overflow-hidden focus-within:ring-2 focus-within:ring-[#169CF9] transition-all group">
+            <div className="flex items-center flex-1 h-[36px] bg-white rounded-[24px] overflow-hidden focus-within:ring-2 focus-within:ring-[var(--theme-accent-primary)] transition-all group">
                 <div className="flex items-center justify-center pl-4 pr-2 h-full">
                     <Search
                         size={18}
                         strokeWidth={3}
-                        className="text-gray-400 group-focus-within:text-[#F97316] dark:group-focus-within:text-[#4F46E5] transition-colors"
+                        className="text-gray-400 group-focus-within:text-[var(--theme-accent-primary)] transition-colors"
                     />
                 </div>
                 <input
@@ -67,7 +67,7 @@ const ContextualHeader = forwardRef(({ searchTerm, onSearchChange, viewMode, onV
                 {localSearch && (
                     <button 
                         onClick={handleSearchClear} 
-                        className="w-10 h-full flex items-center justify-center text-gray-400 hover:text-[#F97316] transition-colors shrink-0"
+                        className="w-10 h-full flex items-center justify-center text-gray-400 hover:text-[var(--theme-accent-primary)] transition-colors shrink-0"
                     >
                         <X size={18} strokeWidth={3} />
                     </button>
@@ -79,7 +79,7 @@ const ContextualHeader = forwardRef(({ searchTerm, onSearchChange, viewMode, onV
             <div className="hidden sm:flex items-center bg-black/20 dark:bg-white/10 p-1 rounded-full gap-1 ml-3 shrink-0">
                 <button
                     onClick={() => { onViewModeChange('single'); hapticService?.trigger(); }}
-                    className={`flex items-center justify-center w-8 h-8 rounded-full transition-all duration-300 ease-out active:scale-95 ${viewMode === 'single' ? 'bg-white text-[#F97316] shadow-md' : 'text-white/70 hover:bg-white/20 hover:text-white'}`}
+                    className={`flex items-center justify-center w-8 h-8 rounded-full transition-all duration-300 ease-out active:scale-95 ${viewMode === 'single' ? 'bg-white text-[var(--theme-accent-primary)] shadow-md' : 'text-white/70 hover:bg-white/20 hover:text-white'}`}
                     title="Vista Completa (1 Columna)"
                 >
                     <Square size={16} strokeWidth={viewMode === 'single' ? 3 : 2} />
@@ -89,14 +89,14 @@ const ContextualHeader = forwardRef(({ searchTerm, onSearchChange, viewMode, onV
                         onViewModeChange('grid'); 
                         if (hapticService) hapticService.trigger(); 
                     }}
-                    className={`flex items-center justify-center w-8 h-8 rounded-full transition-all duration-300 ease-out active:scale-95 ${viewMode === 'grid' ? 'bg-white text-[#F97316] shadow-md' : 'text-white/70 hover:bg-white/20 hover:text-white'}`}
+                    className={`flex items-center justify-center w-8 h-8 rounded-full transition-all duration-300 ease-out active:scale-95 ${viewMode === 'grid' ? 'bg-white text-[var(--theme-accent-primary)] shadow-md' : 'text-white/70 hover:bg-white/20 hover:text-white'}`}
                     title="Vista Quadrícula"
                 >
                     <LayoutGrid size={16} strokeWidth={viewMode === 'grid' ? 3 : 2} />
                 </button>
                 <button
                     onClick={() => { onViewModeChange('list'); hapticService?.trigger(); }}
-                    className={`flex items-center justify-center w-8 h-8 rounded-full transition-all duration-300 ease-out active:scale-95 ${viewMode === 'list' ? 'bg-white text-[#F97316] shadow-md' : 'text-white/70 hover:bg-white/20 hover:text-white'}`}
+                    className={`flex items-center justify-center w-8 h-8 rounded-full transition-all duration-300 ease-out active:scale-95 ${viewMode === 'list' ? 'bg-white text-[var(--theme-accent-primary)] shadow-md' : 'text-white/70 hover:bg-white/20 hover:text-white'}`}
                     title="Vista Llistat Compacte"
                 >
                     <List size={16} strokeWidth={viewMode === 'list' ? 3 : 2} />

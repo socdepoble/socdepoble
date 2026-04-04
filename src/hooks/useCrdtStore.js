@@ -1,7 +1,4 @@
-import { useSyncExternalStore } from 'react';
-
-// Si no uses Zustand, pots usar la pròpia implementació o instal·lar-lo
-// import { shallow } from 'zustand/shallow';
+import { useSyncExternalStore, useRef, startTransition } from 'react';
 
 export function shallowEqual(objA, objB) {
   if (Object.is(objA, objB)) return true;
@@ -19,33 +16,101 @@ export function shallowEqual(objA, objB) {
   return true;
 }
 
-/**
- * Hook blindat per a CRDTs (Yjs/Automerge) per evitar cascades de renders.
- * @param {Object} doc - El document CRDT (Y.Doc o AutomergeDoc)
- * @param {Function} selector - Funció que extreu només les dades necessàries
- * @param {Function} compare - Funció d'igualtat (per defecte shallow equal)
- */
-export function useCrdtStore(doc, selector) {
-  const getSnapshot = () => {
-    if (!doc) return undefined;
-    const state = doc.toJSON ? doc.toJSON() : doc; 
-    return selector(state);
-  };
+// CRDTStore: Double Buffer + Versioning (Anti-storm)
+class CRDTStore {
+  constructor(ydoc) {
+    this.ydoc = ydoc;
+    this.listeners = new Set();
+    this.version = 0;
+    this.snapshot = this.computeSnapshot();
+    this.pending = false;
 
-  const subscribe = (callback) => {
-    if (!doc) return () => {};
-    // Per a Yjs
-    if (typeof doc.on === 'function') {
-        const unsub = doc.on('update', callback);
-        return () => unsub(); // Si dóna un mètode no compatible amb retornar directament, usem arrow funct
+    if (this.ydoc && typeof this.ydoc.on === 'function') {
+      this.ydoc.on('update', this.onUpdate);
     }
-    // Per a Automerge
-    // if (Automerge && typeof Automerge.subscribe === 'function') {
-    //    const unsub = Automerge.subscribe(doc, callback);
-    //    return () => unsub();
-    // }
-    return () => {};
-  };
+  }
 
-  return useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
+  onUpdate = () => {
+    if (this.pending) return;
+    this.pending = true;
+
+    // requestAnimationFrame or microtask ensures batching
+    queueMicrotask(() => {
+      this.flush();
+    });
+  }
+
+  flush() {
+    this.pending = false;
+    const nextSnapshot = this.computeSnapshot();
+
+    // SOLO SI CAMBIA
+    if (!shallowEqual(this.snapshot, nextSnapshot)) {
+      this.snapshot = nextSnapshot;
+      this.version++;
+      
+      startTransition(() => {
+        this.listeners.forEach(l => l());
+      });
+    }
+  }
+
+  computeSnapshot() {
+    if (!this.ydoc) return undefined;
+    return this.ydoc.toJSON ? this.ydoc.toJSON() : this.ydoc;
+  }
+
+  getSnapshot = () => ({
+    version: this.version,
+    data: this.snapshot
+  })
+
+  subscribe = (cb) => {
+    this.listeners.add(cb);
+    return () => this.listeners.delete(cb);
+  }
+
+  destroy() {
+    if (this.ydoc && typeof this.ydoc.off === 'function') {
+      this.ydoc.off('update', this.onUpdate);
+    }
+    this.listeners.clear();
+  }
+}
+
+const storeCache = new WeakMap();
+
+function getOrCreateCRDTStore(doc) {
+  if (!doc) return { subscribe: () => () => {}, getSnapshot: () => ({version: 0, data: undefined}) };
+  
+  if (!storeCache.has(doc)) {
+     storeCache.set(doc, new CRDTStore(doc));
+  }
+  return storeCache.get(doc);
+}
+
+export function useCrdtStore(doc, selector = (s) => s.data) {
+  const store = getOrCreateCRDTStore(doc);
+  const sliceRef = useRef();
+
+  return useSyncExternalStore(
+    store.subscribe,
+    () => {
+      const globalSnapshot = store.getSnapshot();
+      if (globalSnapshot.data === undefined) return undefined;
+      
+      const newSlice = selector(globalSnapshot);
+      
+      if (sliceRef.current !== undefined && shallowEqual(newSlice, sliceRef.current)) {
+         return sliceRef.current;
+      }
+      
+      sliceRef.current = newSlice;
+      return newSlice;
+    },
+    () => {
+      const snap = store.getSnapshot();
+      return snap.data ? selector(snap) : undefined;
+    }
+  );
 }

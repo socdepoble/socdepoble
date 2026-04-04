@@ -1,7 +1,7 @@
 {
-  "name": "soc-de-poble",
+  "name": "soc-de-poble-app",
   "private": true,
-  "version": "10.35.0",
+  "version": "10.38.0",
   "type": "module",
   "scripts": {
     "dev": "npm run pull:codex && vite",
@@ -20,6 +20,7 @@
     "deploy:siteground": "bash DEPLOY_SITEGROUND.sh",
     "deploy:brain": "cd google-cloud-backend && gcloud functions deploy marketingBrain --runtime nodejs20 --trigger-http --allow-unauthenticated --region europe-west1",
     "generate:pdf": "node scripts/generate-pdf.js",
+    "build:amazon": "node scripts/build_amazon_kdp.js",
     "sync:locales": "node scripts/sync_translations.js",
     "build:codex": "node scripts/build_codex.js",
     "pull:codex": "node scripts/pull_codex.js",
@@ -91,6 +92,7 @@
     "onnxruntime-web": "^1.24.2",
     "pdf-lib": "^1.17.1",
     "pdfjs-dist": "^4.10.38",
+    "qrcode": "^1.5.4",
     "react": "^19.2.0",
     "react-chartjs-2": "^5.3.1",
     "react-dom": "^19.2.0",

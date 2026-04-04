@@ -167,7 +167,7 @@
   }
 
   p {
-    @apply text-[1.15rem] leading-[1.6] mb-6 text-theme-text;
+    @apply text-[1.05rem] leading-[1.6] mb-6 text-theme-text;
   }
 }
 
@@ -240,7 +240,10 @@
     background: transparent;
     color: var(--text-main);
     line-height: var(--cms-lh-base);
-    text-align: justify;
+    text-align: left;
+    overflow-x: hidden !important; /* Mata scroll horizontal fantasma provocado por marked/pre */
+    contain: layout paint; /* Aísla GPU layers */
+    will-change: scroll-position; /* Optimización de scroll */
   }
   
   /* Selectors text content */
@@ -249,7 +252,7 @@
     font-weight: 900;
     text-transform: uppercase;
     letter-spacing: -0.025em;
-    text-align: center;
+    text-align: left;
     margin-bottom: var(--cms-gap-paragraph);
     line-height: var(--cms-lh-heading);
   }
@@ -310,14 +313,14 @@
   }
   
   .app-cms-content p {
-    font-size: clamp(1.125rem, 2vw, 1.25rem); /* text-lg to text-xl */
+    font-size: clamp(1.05rem, 1.8vw, 1.15rem); 
     line-height: var(--cms-lh-base);
     margin-bottom: var(--cms-gap-paragraph);
   }
 
   /* Llistes */
   .app-cms-content :where(ul, ol) {
-    font-size: clamp(1.125rem, 2vw, 1.25rem);
+    font-size: clamp(1.05rem, 1.8vw, 1.15rem);
     margin-bottom: var(--cms-gap-paragraph);
     display: flex;
     flex-direction: column;
@@ -332,6 +335,12 @@
     display: block; /* revertims a block per la legibilitat purista */
   }
   
+  /* Llistes anidades: llevem l'enorme gap del margin-bottom perquè no trenqui l'harmonia visual entre viñetas */
+  .app-cms-content li :where(ul, ol) {
+    margin-bottom: 0;
+    margin-top: 0.25rem;
+  }
+
   .app-cms-content ol {
     list-style: decimal;
   }
@@ -500,7 +509,37 @@
   }
   .atom-card {
     @apply h-full w-full min-h-0 min-w-0 flex flex-col rounded-genesis border border-border-master bg-theme-panel p-4;
-    gap: clamp(0.75rem, 1.2vw, 1rem);
+  }
+  
+  /* 🎨 DOLA UX/UI MICRO-INTERACTIONS (V14 AUDIT) */
+  /* This block globally patches the interaction friction detected by Dola across the 40+ components */
+  .create-card, .action-btn, .layer-btn, .filter-toggle-btn, .setting-row, .primary-action-btn, 
+  .secondary-action-btn, .action-btn-mini, .persona-list-item, .vision-mode-card, .town-card {
+    transition: transform var(--motion-quick) var(--spring-bounce), box-shadow var(--motion-quick) ease, background-color var(--motion-quick) ease;
+  }
+
+  .create-card:active, .action-btn:active, .layer-btn:active, .filter-toggle-btn:active,
+  .primary-action-btn:active, .secondary-action-btn:active, .action-btn-mini:active,
+  .persona-list-item:active, .vision-mode-card:active, .town-card:active {
+    transform: scale(0.96);
+  }
+
+  .create-card:hover, .town-card:hover, .vision-mode-card:hover, .persona-list-item:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 20px -5px rgba(0,0,0,0.3);
+  }
+
+  .managed-entity-item, .module-card, .log-entry, .universal-card {
+    transition: box-shadow var(--motion-quick) ease, transform var(--motion-quick) ease;
+  }
+  
+  .managed-entity-item:hover, .module-card:hover, .universal-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--glass-theme-shadow);
+  }
+
+  .managed-entity-item:active, .universal-card:active {
+    transform: scale(0.98);
   }
 }
 
@@ -596,6 +635,10 @@
   }
   .safe-area-top { padding-top: env(safe-area-inset-top, 0px); }
   .safe-area-bottom { padding-bottom: env(safe-area-inset-bottom, 0px); }
+
+  .app-cms-content h2, .app-cms-content h3 {
+    scroll-margin-top: calc(70px + env(safe-area-inset-top));
+  }
 }
 
 /* HOSTILE CONTENT */
@@ -619,9 +662,39 @@
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
-    animation-duration: 0.01ms;
-    animation-iteration-count: 1;
-    transition-duration: 0.01ms;
-    scroll-behavior: auto;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* HIGH CONTRAST ACCESSIBILITY MODES */
+@media screen and (prefers-contrast: more) {
+  :root {
+    --theme-text: #000000;
+    --theme-text-secondary: #000000;
+    --theme-text-muted: #111111;
+    --theme-bg: #FFFFFF;
+    --theme-bg-panel: #FFFFFF;
+    --theme-border: #000000;
+    --theme-accent-primary: #000000;
+    --theme-danger: #D32F2F;
+  }
+  
+  .dark-mode, [data-theme="dark"] {
+    --theme-text: #FFFFFF;
+    --theme-text-secondary: #FFFFFF;
+    --theme-text-muted: #EEEEEE;
+    --theme-bg: #000000;
+    --theme-bg-panel: #000000;
+    --theme-border: #FFFFFF;
+    --theme-accent-primary: #FFFFFF;
+  }
+}
+
+@media screen and (forced-colors: active) {
+  button, a, input, select, textarea, .btn-primary, .btn-secondary {
+    border: 1px solid CanvasText !important;
   }
 }

@@ -44,6 +44,7 @@ const IAIAChatSidebar = ({ isOpen, onClose, context = "general" }) => {
   const isMounted = useRef(true);
   const archonTimeoutRef = useRef(null);
   const abortControllerRef = useRef(null);
+  const resizeRaf = useRef(null);
 
   useEffect(() => {
     isMounted.current = true;
@@ -99,17 +100,28 @@ const IAIAChatSidebar = ({ isOpen, onClose, context = "general" }) => {
 
   const stopResizing = useCallback(() => {
     setIsResizing(false);
+    if (resizeRaf.current) {
+        cancelAnimationFrame(resizeRaf.current);
+        resizeRaf.current = null;
+    }
     document.body.style.cursor = 'default';
     document.body.style.userSelect = 'auto';
   }, []);
 
   const resize = useCallback((e) => {
     if (!isResizing) return;
-    const newWidth = window.innerWidth - e.clientX;
     
-    // Calculem la nova amplada amb límits precisos
-    const clampedWidth = Math.min(Math.max(newWidth, MIN_SIDEBAR_WIDTH), MAX_SIDEBAR_WIDTH);
-    setWidth(clampedWidth);
+    const clientX = e.clientX;
+    const innerWidth = window.innerWidth;
+    
+    if (resizeRaf.current) return;
+    resizeRaf.current = requestAnimationFrame(() => {
+        const newWidth = innerWidth - clientX;
+        // Calculem la nova amplada amb límits precisos
+        const clampedWidth = Math.min(Math.max(newWidth, MIN_SIDEBAR_WIDTH), MAX_SIDEBAR_WIDTH);
+        setWidth(clampedWidth);
+        resizeRaf.current = null;
+    });
   }, [isResizing]);
 
   useEffect(() => {
@@ -158,7 +170,11 @@ const IAIAChatSidebar = ({ isOpen, onClose, context = "general" }) => {
 
   useEffect(() => {
     if (scrollRef.current) {
-        scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+        requestAnimationFrame(() => {
+            if (scrollRef.current) {
+                scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+            }
+        });
     }
   }, [messages]);
 
@@ -532,11 +548,12 @@ const IAIAChatSidebar = ({ isOpen, onClose, context = "general" }) => {
 
   return (
     <Portal>
-      {/* Overlay for background dimming and closing on click */}
-      <div 
-        className={`fixed inset-0 bg-black/50 z-overlay touch-none overscroll-none transition-opacity duration-300 ${isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`} 
-        onClick={onClose} 
-      />
+      {isOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-[var(--z-overlay,9998)] touch-none overscroll-none animate-in fade-in duration-300 pointer-events-auto" 
+          onClick={onClose} 
+        />
+      )}
       <div 
           ref={sidebarRef}
           className={`iaia-chat-sidebar relative z-sidebar bg-theme-sidebar border-l border-white/5 ${isOpen ? 'open' : ''} ${isResizing ? 'resizing' : ''}`}
@@ -554,12 +571,26 @@ const IAIAChatSidebar = ({ isOpen, onClose, context = "general" }) => {
       {/* DRAG HANDLE: L'Ansa de l'Arxiu */}
       <div 
         className="resize-handle" 
+        role="separator"
+        aria-orientation="vertical"
+        aria-valuenow={width}
+        aria-valuemin={MIN_SIDEBAR_WIDTH}
+        aria-valuemax={MAX_SIDEBAR_WIDTH}
+        tabIndex={0}
         onMouseDown={startResizing}
+        onTouchStart={startResizing}
+        onKeyDown={(e) => {
+          if(e.key === 'ArrowLeft') setWidth(w => Math.max(w - 20, MIN_SIDEBAR_WIDTH));
+          if(e.key === 'ArrowRight') setWidth(w => Math.min(w + 20, MAX_SIDEBAR_WIDTH));
+        }}
       >
         <div className="handle-line" />
       </div>
 
-      <div className="chat-messages-container" ref={scrollRef}>
+      <div 
+        className="chat-messages-container flex-1 min-h-0 overflow-y-auto overscroll-contain custom-scrollbar" 
+        ref={scrollRef}
+      >
         {renderedMessages}
         {isTyping && (
             <div className="typing-indicator flex items-center gap-2 p-4 opacity-50">

@@ -39,13 +39,19 @@ const ChatLayout = () => {
         if (isResizing) {
             window.addEventListener('mousemove', resize);
             window.addEventListener('mouseup', stopResizing);
+            document.body.style.cursor = 'col-resize';
+            document.body.style.userSelect = 'none';
         } else {
             window.removeEventListener('mousemove', resize);
             window.removeEventListener('mouseup', stopResizing);
+            document.body.style.cursor = '';
+            document.body.style.userSelect = '';
         }
         return () => {
             window.removeEventListener('mousemove', resize);
             window.removeEventListener('mouseup', stopResizing);
+            document.body.style.cursor = '';
+            document.body.style.userSelect = '';
         };
     }, [isResizing, resize, stopResizing]);
 
@@ -64,7 +70,7 @@ const ChatLayout = () => {
             {/* 1. LLISTA DE VEÏNS (COLUMNA EXTERNA DEL GRID) */}
             <div 
                 className={`
-                    bg-theme-base border-ghost-r relative min-h-0 min-w-0
+                    bg-theme-base border-ghost-r relative min-h-0 min-w-0 flex-1
                     ${id ? 'hidden lg:flex lg:col-start-1' : 'flex col-start-1 h-full w-full'}
                     flex-col transition-all duration-75
                 `}

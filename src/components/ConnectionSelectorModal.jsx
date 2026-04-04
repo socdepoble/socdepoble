@@ -14,8 +14,8 @@ const ConnectionSelectorModal = ({ isOpen, onClose, currentTags = [], onUpdate }
     if (!isOpen) return null;
 
     return (
-        <div className="modal-overlay animate-in" onClick={onClose}>
-            <div className="connection-modal-content glass-morphism" onClick={e => e.stopPropagation()}>
+        <div className="fixed inset-0 z-[var(--z-modal)] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-200" onClick={onClose}>
+            <div className="connection-modal-content glass-morphism w-full max-w-md w-[85%] sm:w-full" onClick={e => e.stopPropagation()}>
                 <header className="connection-modal-header">
                     <div className="header-icon">
                         <Sparkles size={18} />

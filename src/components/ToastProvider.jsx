@@ -33,9 +33,8 @@ export const ToastProvider = ({ children }) => {
                             onClick={() => {
                                 if (registration && registration.waiting) {
                                     registration.waiting.postMessage({ type: 'SKIP_WAITING' });
-                                } else {
-                                    window.location.reload();
                                 }
+                                setTimeout(() => window.location.reload(), 300);
                                 toast.dismiss(t.id);
                             }}
                             className="sw-update-btn refresh"

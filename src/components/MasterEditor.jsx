@@ -546,7 +546,7 @@ const MasterEditor = ({ note, onChange, onAIA, placeholder }) => {
 
             <div
                 ref={editorRef}
-                className="master-editor-content"
+                className="master-editor-content flex-1 min-h-0 font-sans outline-none overflow-y-auto"
                 contentEditable
                 spellCheck="false"
                 onInput={handleInput}

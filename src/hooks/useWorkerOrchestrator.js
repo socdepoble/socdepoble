@@ -41,7 +41,7 @@ export function useWorkerOrchestrator() {
   // Monitoritzar la xarxa (Crua veritat rural)
   useEffect(() => {
     const handleOnline = () => {
-      setSyncState('connecting');
+      setSyncState('online');
       workerRef.current?.postMessage({
         type: 'HEARTBEAT_NETWORK',
         payload: { isOnline: true },
