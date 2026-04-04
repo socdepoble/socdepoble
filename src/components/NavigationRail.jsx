@@ -6,6 +6,7 @@ import { LayoutGrid, MapPin, MessageSquare, Plus, Store, Calendar, Map, BookOpen
 import { motion } from "framer-motion";
 import { useNavigation } from "../context/NavigationContext";
 import { useAuth } from "../context/AuthContext";
+import { APP_VERSION } from "../constants";
 
 const menuItems = [
   { path: "/chats", key: "nav.chats", fallback: "Xat", icon: MessageSquare },
@@ -33,7 +34,7 @@ const NavigationRail = () => {
     <nav className="w-full h-full flex flex-col bg-transparent relative overflow-hidden">
       
       {/* 1. BOTÓ D'ACCIÓ RÀPIDA (TOP - PROTOCOL HUB) - FIT 48PX */}
-      <div className="h-[48px] min-h-[48px] max-h-[48px] shrink-0 border-b border-[#ffffff14] relative z-20 bg-[var(--theme-accent-primary)] overflow-hidden -ml-px w-[calc(100%+1px)]">
+      <div className="h-[48px] min-h-[48px] max-h-[48px] shrink-0 border-b border-[#ffffff14] relative z-20 bg-[#544CF6] overflow-hidden -ml-px w-[calc(100%+1px)]">
         <button
           className="absolute inset-0 w-full h-full text-white flex items-center justify-center space-x-2 transition-colors hover:brightness-110 outline-none"
           onClick={() => navigate("/hub")}
@@ -106,7 +107,7 @@ const NavigationRail = () => {
         
       <div className="p-4 mt-auto border-t border-[#ffffff14] bg-transparent shrink-0 space-y-3 relative z-20">
         <div className="mt-2 text-[10px] text-center opacity-50 hover:opacity-100 transition-opacity font-black uppercase tracking-[0.2em] text-white">
-          v10.33.16-CANÒNIC
+          {APP_VERSION}
         </div>
       </div>
     </nav>

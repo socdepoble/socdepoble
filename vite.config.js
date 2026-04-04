@@ -50,6 +50,11 @@ export default defineConfig({
       }
     }),
   ],
+  resolve: {
+    alias: {
+      util: 'util'
+    }
+  },
   define: {
     '__APP_HASH__': JSON.stringify(process.env.VITE_APP_HASH || Date.now().toString(36))
   },

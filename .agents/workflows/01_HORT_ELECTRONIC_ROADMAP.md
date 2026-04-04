@@ -1,10 +1,10 @@
 ---
-description: Ruta Crítica Tech-Huerta V12 (Orden Natural de Importancia y Diseño M3)
+description: Ruta Crítica Hort Electrònic V12 (Orden Natural de Importancia y Diseño M3)
 ---
 
-# TECH-HUERTA V12 - ROADMAP Y RUTA CRÍTICA
+# HORT ELECTRÒNIC V12 - ROADMAP Y RUTA CRÍTICA
 
-Esta skill documenta el orden estricto, innegociable y lógico en el que se debe ejecutar la refactorización arquitectónica visual de "Sóc de Poble" hacia la versión V12 (Tech-Huerta). 
+Esta skill documenta el orden estricto, innegociable y lógico en el que se debe ejecutar la refactorización arquitectónica visual de "Sóc de Poble" hacia la versión V12 (Hort Electrònic). 
 
 ## 1. El Paradigma de Diseño (Stitch vs Figma)
 

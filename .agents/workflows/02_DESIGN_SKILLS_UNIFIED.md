@@ -1,12 +1,12 @@
 ---
-description: Unified Design Skills (Tech-Huerta V12, GEM MODERN y Filosofía)
+description: Unified Design Skills (Hort Electrònic V12, GEM MODERN y Filosofía)
 ---
 
 # SÓC DE POBLE - UNIFIED DESIGN SKILLS
 
-Este documento centraliza todas las directrices, reglas matemáticas y principios psicológicos de diseño del universo **Sóc de Poble**. Sustituye y consolida las reglas dispersas (estilo-marca, estilo-visual-nano, tech-huerta, protocolo-conexiones, etc.).
+Este documento centraliza todas las directrices, reglas matemáticas y principios psicológicos de diseño del universo **Sóc de Poble**. Sustituye y consolida las reglas dispersas (estilo-marca, estilo-visual-nano, hort-electronic, protocolo-conexiones, etc.).
 
-## 1. EL PARADIGMA TECH-HUERTA V12
+## 1. EL PARADIGMA HORT ELECTRÒNIC V12
 La interfaz de Sóc de Poble no es un lienzo web clásico, es un **panel de mandos digital de alto contraste** diseñado para un uso rural, muchas veces al sol y por personas de todas las edades.
 
 - **M3 Geometry (Material 3):** No creamos layouts ad-hoc desde la nada; la arquitectura hereda matemáticamente las bases sólidas de Google adaptadas con nuestro ADN Atómico.

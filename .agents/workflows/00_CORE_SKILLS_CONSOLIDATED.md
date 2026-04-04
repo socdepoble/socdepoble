@@ -10,13 +10,13 @@ description: Habilidades y Protocolos Core Consolidados de Antigravity para Sóc
 > **Bloque a incrustar siempre al principio del archivo .md:**
 > ```markdown
 > ### 🌐 CONTEXTO FUNDACIONAL (LECTURA OBLIGATORIA PARA LA IA)
-> ⚠️ **INSTRUCCIÓN CRÍTICA:** ANTES de leer el resto de este prompt o emitir cualquier código, **DEBES leer obligatoriamente tus Custom Instructions, tu System Prompt o la base de conocimiento del proyecto Sóc de Poble / Tech-Huerta** que tienes configurada. Esa es la fuente de la verdad para entender la identidad corporativa y arquitectura técnica.
+> ⚠️ **INSTRUCCIÓN CRÍTICA:** ANTES de leer el resto de este prompt o emitir cualquier código, **DEBES leer obligatoriamente tus Custom Instructions, tu System Prompt o la base de conocimiento del proyecto Sóc de Poble / Hort Electrònic** que tienes configurada. Esa es la fuente de la verdad para entender la identidad corporativa y arquitectura técnica.
 > *(Obligatorio leer: https://socdepoble.es o el enlace maestro del repositorio)*
 > 
 > Para evitar desviaciones semánticas, recordamos los parámetros de nuestra alianza:
 > 1. **¿Qué es Sóc de Poble?** Es una plataforma y red social soberana, de filosofía "Local-First", diseñada para vertebrar a las comunidades rurales, proteger su identidad y ofrecer autonomía tecnológica libre de algoritmos extractivistas.
 > 2. **¿Quién es el Agente Antigravity?** Es la inteligencia artificial principal (arquitecto de código) que programa en local la plataforma en la máquina del "Mestre Javi" (el desarrollador humano). Juntos lideran este proyecto.
-> 3. **¿Qué es la Arquitectura Indestructible?** El modelo técnico de este proyecto (Tech-Huerta V12): un frontend en React+Tailwind purificado, sin "divs fantasmas", offline-first, seguro de extremo a extremo, diseñado para nunca romperse en móviles ni perder rendimiento.
+> 3. **¿Qué es la Arquitectura Indestructible?** El modelo técnico de este proyecto (Hort Electrònic V12): un frontend en React+Tailwind purificado, sin "divs fantasmas", offline-first, seguro de extremo a extremo, diseñado para nunca romperse en móviles ni perder rendimiento.
 > 
 > ⚠️ **REQUISITO PREVIO:** Como IA, tu propósito aquí es actuar como auditor externo de máximo nivel. No nos des consejos genéricos; necesitamos rigor absoluto, soluciones directas y empatía hacia este proyecto de soberanía rural.
 > ```
@@ -278,7 +278,7 @@ Cuando se genere o modifique código relacionado con botones de interacción pri
 
 ## 🗓️ AGENDA DE MANTENIMIENTO NOVES FUNCIONALITATS (ANTIGRAVITY)
 - [ ] **ESTUDI URGENT DE BACKUPS:** Comprovar si els Backups Sobirans i automatitzats locals/SQL estan segurs per a Producció.
-- [ ] **V12 Tech-Huerta:** Verificar que les mides de tocs, Geometry M3 (28px radius) es compleixen sistemàticament a cada element restaurat.
+- [ ] **V12 Hort Electrònic:** Verificar que les mides de tocs, Geometry M3 (28px radius) es compleixen sistemàticament a cada element restaurat.
 - [ ] **26 de Junio de 2026 (aprox):** Renovar el `GITHUB_PERSONAL_ACCESS_TOKEN` en la configuración de MCP.
 
 **SÓC DE POBLE. LA TÈCNICA AL SERVEI DE LA TERRA.**
@@ -912,9 +912,9 @@ Aquesta és la regla d'or suprema per a qualsevol contingut visual o textual:
 ---
 
 
-## [SKILL NUEVO: layout-tech-huerta-v12.md]
+## [SKILL NUEVO: layout-hort-electronic-v12.md]
 
-# PROTOCOLO DE DISEÑO Y ESTRUCTURA (Tech-Huerta V12)
+# PROTOCOLO DE DISEÑO Y ESTRUCTURA (Hort Electrònic V12)
 
 1. **Botón CONNECTAR (Regla de Oro del Azul):**
    - El botón de "Connectar" (ya sea en el `NavigationRail` o en el `MobileBottomNav`) **SIEMPRE ES AZUL** (`#544CF6`), y bajo ninguna circunstancia debe cambiar a Naranja.

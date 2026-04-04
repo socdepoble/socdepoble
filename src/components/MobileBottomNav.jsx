@@ -47,7 +47,7 @@ const MobileBottomNav = () => {
                 key={tab.id}
                 onClick={(e) => handleActionClick(e, tab.id)}
                 aria-label={tab.label}
-                className="flex-1 max-w-[100px] h-[56px] bg-[var(--theme-accent-primary)] text-white rounded-[16px] flex flex-col items-center justify-center space-y-0.5 mx-1 transition-colors active:brightness-90 outline-none"
+                className="flex-1 max-w-[100px] h-[56px] bg-[#544CF6] text-white rounded-[16px] flex flex-col items-center justify-center space-y-0.5 mx-1 transition-colors active:brightness-90 outline-none"
               >
                 <Icon size={22} strokeWidth={3} />
                 <span className="text-[10px] font-bold uppercase tracking-widest hidden min-[360px]:block">{tab.label}</span>
