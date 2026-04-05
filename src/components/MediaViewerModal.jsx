@@ -9,7 +9,10 @@ import './MediaViewerModal.css';
  */
 const MediaViewerModal = ({ isOpen, onClose, src, title, type = 'image', images = [], onNavigate }) => {
     const hasCarousel = images && images.length > 1 && type === 'image';
-    const [currentIndex, setCurrentIndex] = useState(0);
+    
+    // Initialize currentIndex correctly based on the incoming src
+    const initialIndex = hasCarousel ? Math.max(0, images.findIndex(img => img === src)) : 0;
+    const [currentIndex, setCurrentIndex] = useState(initialIndex);
     const [prevSrc, setPrevSrc] = useState(src);
 
     // Derived state pattern per a sincronitzar l'índex quan s'obri amb un src nou

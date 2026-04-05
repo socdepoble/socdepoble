@@ -1,0 +1,22 @@
+=== TRELLAT SURVIVAL MANUAL v15.3 ===
+
+📱 IPAD A10 EMERGENCY CHECKLIST:
+
+1. RAM >1.5GB? → Cierra Safari → Reabre
+2. Battery <20% → PAUSE ALL SYNC
+3. 500+ pactes? → WIPE LOCAL DB
+4. App freeze? → Force quit → Reinstala SW
+
+🔧 MANUAL SYNC:
+adb logcat | grep "trellat"
+navigator.storage.estimate()
+
+💾 EMERGENCY DB WIPE:
+indexedDB.deleteDatabase('trellat-pobles')
+
+🌾 SI TODO FALLA:
+1. Copia manual pactes a Notes.app
+2. Reinicia iPad
+3. Reconnecta WiFi lentament
+
+=== EL POBLE SOBREVIVIX ===

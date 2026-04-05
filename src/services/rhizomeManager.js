@@ -65,6 +65,16 @@ class RhizomeManager {
             // WebRTC mesh (P2P)
             await this.setupWebRTCMesh();
             await ipfsManager.init();
+            
+            // [Paranoia Local-First] Purga LRU en segundo plano (Fase 3 Auditoría)
+            setTimeout(() => {
+                this.db.enforceLRUMediaPolicy(100).then(deletedCount => {
+                    if (deletedCount > 0) {
+                        logger.info(`[RhizomeManager] Paranoia LRU: purgados ${deletedCount} fragmentos media antiguos del almacén`);
+                    }
+                });
+            }, 5000); // Diferido para no penalizar el TTI
+
         } catch (e) {
             logger.error('[RhizomeManager] Fallida crítica en iniciar l\'estat CRDT', e);
         }
@@ -145,7 +155,7 @@ class RhizomeManager {
             if (criticalKey) await this.db.put('sovereign-private-key', criticalKey);
         } catch (e) {
             // 🚨 FALLBACK EXTREMO
-            logger.error('[Rhizome] FALLBACK EXTREMO: Impossible to store state. Triggering emergency.');
+            logger.error('[Rhizome] FALLBACK EXTREMO: Impossible to store state. Triggering emergency.', e);
         }
 
         // 🎨 4. NOTIFICAR UI

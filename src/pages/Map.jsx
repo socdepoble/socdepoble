@@ -64,7 +64,7 @@ const InteractiveControls = ({ isPlacingPost, setIsPlacingPost }) => {
     };
 
     return (
-        <div className="absolute bottom-6 right-6 flex flex-col gap-3 z-[999]">
+        <div className="absolute bottom-6 right-6 flex flex-col gap-3 z-[10]">
             <button 
                 onClick={(e) => { e.preventDefault(); e.stopPropagation(); setIsPlacingPost(!isPlacingPost); }}
                 className={`flex items-center justify-center w-14 h-14 rounded-[24px] shadow-[0_10px_40px_rgba(0,0,0,0.6)] transition-transform active:scale-95 ${isPlacingPost ? 'bg-[#F97316] text-white' : 'bg-theme-panel text-theme-text/90 hover:brightness-110'}`}
@@ -121,13 +121,16 @@ const Map = () => {
             className="map-page-container"
             containerClassName="flex flex-col relative"
             header={
-                <ContextualHeader
-                    searchTerm={mapSearch}
-                    onSearchChange={setMapSearch}
-                    viewMode={viewMode}
-                    onViewModeChange={setViewMode}
-                    placeholder="Cerca al mapa..."
-                />
+                <div className="flex flex-col w-full">
+                    <ContextualHeader
+                        searchTerm={mapSearch}
+                        onSearchChange={setMapSearch}
+                        viewMode={viewMode}
+                        onViewModeChange={setViewMode}
+                        placeholder="Cerca al mapa..."
+                    />
+                    {systemActionBar}
+                </div>
             }
         >
 
@@ -218,24 +221,19 @@ const Map = () => {
                     </div>
 
                     {isPlacingPost && (
-                        <div className="absolute top-6 left-1/2 transform -translate-x-1/2 bg-[#F97316] text-white font-black px-6 py-3 rounded-[20px] shadow-[0_10px_40px_rgba(249,115,22,0.4)] z-[1000] animate-pulse tracking-wide text-sm whitespace-nowrap border-none">
+                        <div className="absolute top-6 left-1/2 transform -translate-x-1/2 bg-[#F97316] text-white font-black px-6 py-3 rounded-[20px] shadow-[0_10px_40px_rgba(249,115,22,0.4)] z-[20] animate-pulse tracking-wide text-sm whitespace-nowrap border-none">
                             Clica en qualsevol punt del mapa per afegir
                         </div>
                     )}
 
                     {/* Filters */}
-                    <div className="absolute top-6 left-6 flex gap-2 overflow-x-auto max-w-full pr-6 no-scrollbar z-[1000] p-1">
+                    <div className="absolute top-6 left-6 flex gap-2 overflow-x-auto max-w-full pr-6 no-scrollbar z-[10] p-1">
                         <button className="flex items-center h-10 px-5 bg-white dark:bg-[#1C1C1E] rounded-full text-[14px] font-black tracking-wide text-gray-900 dark:text-gray-100 shadow-[0_4px_12px_rgba(0,0,0,0.1)] dark:shadow-[0_4px_12px_rgba(0,0,0,0.7)] border border-gray-200 dark:border-[#2C2C2E] hover:scale-105 active:scale-95 transition-all whitespace-nowrap"><Store className="w-[18px] h-[18px] mr-2 text-[#F97316]" /> Comerç</button>
                         <button className="flex items-center h-10 px-5 bg-white dark:bg-[#1C1C1E] rounded-full text-[14px] font-black tracking-wide text-gray-900 dark:text-gray-100 shadow-[0_4px_12px_rgba(0,0,0,0.1)] dark:shadow-[0_4px_12px_rgba(0,0,0,0.7)] border border-gray-200 dark:border-[#2C2C2E] hover:scale-105 active:scale-95 transition-all whitespace-nowrap"><Landmark className="w-[18px] h-[18px] mr-2 text-[#F97316]" /> Patrimoni</button>
                         <button className="flex items-center h-10 px-5 bg-white dark:bg-[#1C1C1E] rounded-full text-[14px] font-black tracking-wide text-gray-900 dark:text-gray-100 shadow-[0_4px_12px_rgba(0,0,0,0.1)] dark:shadow-[0_4px_12px_rgba(0,0,0,0.7)] border border-gray-200 dark:border-[#2C2C2E] hover:scale-105 active:scale-95 transition-all whitespace-nowrap"><Ticket className="w-[18px] h-[18px] mr-2 text-[#F97316]" /> Calendari</button>
                     </div>
                 </div>
             </div>
-
-            <div className="w-full overflow-hidden border-y border-[rgba(0,0,0,0.1)] dark:border-[rgba(255,255,255,0.05)] shadow-md sticky top-16 z-40 bg-theme-base">
-                {systemActionBar}
-            </div>
-
 
             {/* Mur Unificat Inferior */}
             <div className="unified-feed-container w-full max-w-[1600px] mx-auto mt-6 px-4 md:px-8 bg-transparent">

@@ -62,17 +62,17 @@ export const logger = {
             console.log(`%c[INFO] ${message}`, 'color: #94a3b8', ...args);
         }
     },
-    error: (...args) => {
-        if (isDev) console.error(...args);
+    error: (message, ...args) => {
+        if (isDev && !checkSilence(message)) console.error(message, ...args);
     },
-    warn: (...args) => {
-        if (isDev) console.warn(...args);
+    warn: (message, ...args) => {
+        if (isDev && !checkSilence(message)) console.warn(message, ...args);
     },
-    info: (...args) => {
-        if (isDev) console.info(...args);
+    info: (message, ...args) => {
+        if (isDev && !checkSilence(message)) console.info(message, ...args);
     },
-    debug: (...args) => {
-        if (isDev) console.debug(...args);
+    debug: (message, ...args) => {
+        if (isDev && !checkSilence(message)) console.debug(message, ...args);
     }
 };
 

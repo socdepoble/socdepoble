@@ -1,6 +1,6 @@
 import QRCode from 'qrcode';
 
-export async function generateBackupCard(backupJson, userName, avatarUrl) {
+export async function generateBackupCard(backupJson, userName) {
   const canvas = document.createElement('canvas');
   canvas.width  = 600;
   canvas.height = 380;
@@ -37,7 +37,7 @@ export async function generateBackupCard(backupJson, userName, avatarUrl) {
     '',
     '📌 INSTRUCCIONS:',
     '1. Guarda aquesta imatge a la galeria.',
-    '2. Si perds l\\'accés, obre l\\'app,',
+    "2. Si perds l'accés, obre l'app,",
     '   prem "Recuperar amb QR" i',
     '   escaneja aquesta targeta.',
     '3. Necessitaràs el teu PIN.',

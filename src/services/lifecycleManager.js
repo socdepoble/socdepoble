@@ -27,7 +27,7 @@ function enterBackground() {
 
   // cerrar peers limpiamente para que no corrompan estado al suspenderse
   for (const peer of connectedPeers.values()) {
-    try { peer.destroy(); } catch (e) {}
+    try { peer.destroy(); } catch { continue; }
   }
   connectedPeers.clear();
 
@@ -73,8 +73,8 @@ export function startSoftKeepAlive() {
     gain.gain.value = 0.0001; // inaudible
     osc.connect(gain).connect(audioCtx.destination);
     osc.start();
-  } catch (e) {
-    // Unsupported or blocked
+  } catch {
+    return; // Unsupported or blocked
   }
 }
 
@@ -84,7 +84,7 @@ export function stopSoftKeepAlive() {
           audioCtx.close();
           audioCtx = null;
       }
-  } catch (e) {}
+  } catch { return; }
 }
 
 function startHeartbeat() {

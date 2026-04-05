@@ -18,13 +18,14 @@ import { useTabReconciliation } from './hooks/useTabReconciliation';
 import { useBlindatgeOPFS } from './hooks/useBlindatgeOPFS';
 import { useLocation } from 'react-router-dom';
 import SystemRoutes from './components/SystemRoutes';
+import AntiTsunamiSync from './components/AntiTsunamiSync';
+import useTrellatPersist from './hooks/useTrellatPersist';
 
 const LayoutBoundary = () => {
     const location = useLocation();
     const isSystemRoute = 
         location.pathname.startsWith('/admin') ||
         location.pathname.startsWith('/solatge') ||
-//     location.pathname.startsWith('/hub') ||
         location.pathname.startsWith('/gestio-menu') ||
         location.pathname.startsWith('/gestio/categories') ||
         location.pathname.startsWith('/gestio/xats') ||
@@ -60,28 +61,36 @@ const App = () => {
     // [MONITORING AND CLEANUP] Inicialitzar error tracking y purga fantasma
     useEffect(() => {
         let isMounted = true;
+        const abortController = new AbortController();
         const initializeMonitoring = async () => {
             try {
                 await errorTrackingService.initialize();
-                if (isMounted) logger.log('[App] Error tracking initialized');
+                if (isMounted && !abortController.signal.aborted) logger.log('[App] Error tracking initialized');
             } catch (error) {
-                if (isMounted) logger.error('[App] Failed to initialize error tracking:', error);
+                if (isMounted && !abortController.signal.aborted) logger.error('[App] Failed to initialize error tracking:', error);
             }
         };
 
-        // Purificación final de imatges fantasma al Mestre
-        import('./services/syncService')
-            .then(({ syncService }) => {
-                if (!isMounted) return; // [OMEGA-FIX: Guardia contra Zombie Effect]
+        const purgeGhosts = async () => {
+            try {
+                const { syncService } = await import('./services/syncService');
+                if (!isMounted || abortController.signal.aborted) return;
                 const report = syncService.purgeGhostMediaCache({ dryRun: false });
-                logger.debug('[App] Purga fantasma completada en el arranque:', report);
-            })
-            .catch(e => {
-                if (isMounted) logger.error('[App] Error purging ghost media:', e); // [OMEGA-FIX: Catch explícito]
-            });
+                logger.debug('[App] Purga fantasma completada:', report);
+            } catch (e) {
+                if (isMounted && !abortController.signal.aborted) {
+                    logger.error('[App] Error purging ghost media:', e);
+                }
+            }
+        };
 
         initializeMonitoring();
-        return () => { isMounted = false; };
+        purgeGhosts();
+
+        return () => { 
+            isMounted = false; 
+            abortController.abort();
+        };
     }, []);
 
     // [MONITORING] Iniciar health checks
@@ -146,9 +155,24 @@ const App = () => {
         }
     }, [isLowEnd]);
 
+    const { requestPersist, checkBattery } = useTrellatPersist();
+
+    // [SW] Service Worker Registration & Trellat Persist
+    useEffect(() => {
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').then(() => {
+                logger.log('[ServiceWorker] Trellat Shield Activado');
+            }).catch(e => logger.error('[ServiceWorker] Failed', e));
+        }
+        requestPersist();
+        checkBattery();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     return (
         <>
             <SEO />
+            <AntiTsunamiSync />
             <ErrorBoundary fallbackMessage="Excepció Nuclear Detectada al Mas.">
                 <OfflineGate>
                     <LocalFirstGate>

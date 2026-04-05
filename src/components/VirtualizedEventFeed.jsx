@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 
 import UniversalCard from './UniversalCard';
+import VisibilityWrapper from './lazy/VisibilityWrapper';
 
 /**
  * Renderització fluida i natural per al feed històric.
@@ -43,23 +44,24 @@ export default function VirtualizedEventFeed({ effectiveViewMode, events }) {
                         author_name: event.author_name || 'Poble'
                     };
                     return (
-                        <UniversalCard
-                            key={mappedItem.id}
-                            item={mappedItem}
-                            id={mappedItem.id}
-                            type={mappedItem.type || 'village'}
-                            title={mappedItem.title}
-                            excerpt={mappedItem.content}
-                            image={mappedItem.image_url}
-                            metadata={{
-                                tag: mappedItem.created_at,
-                                avatar: mappedItem.author_avatar,
-                                subTag: `ID: ${String(mappedItem.id).slice(0, 8)}`,
-                                author: mappedItem.author_name
-                            }}
-                            viewMode={effectiveViewMode}
-                            url={!String(mappedItem.id).startsWith('MOCK') ? `/sessio/${String(mappedItem.id).replace('gcal-', '')}` : '#'}
-                        />
+                        <VisibilityWrapper key={mappedItem.id}>
+                            <UniversalCard
+                                item={mappedItem}
+                                id={mappedItem.id}
+                                type={mappedItem.type || 'village'}
+                                title={mappedItem.title}
+                                excerpt={mappedItem.content}
+                                image={mappedItem.image_url}
+                                metadata={{
+                                    tag: mappedItem.created_at,
+                                    avatar: mappedItem.author_avatar,
+                                    subTag: `ID: ${String(mappedItem.id).slice(0, 8)}`,
+                                    author: mappedItem.author_name
+                                }}
+                                viewMode={effectiveViewMode}
+                                url={!String(mappedItem.id).startsWith('MOCK') ? `/sessio/${String(mappedItem.id).replace('gcal-', '')}` : '#'}
+                            />
+                        </VisibilityWrapper>
                     );
                 })}
             </div>

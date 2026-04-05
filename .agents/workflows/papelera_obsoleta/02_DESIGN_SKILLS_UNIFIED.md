@@ -25,6 +25,7 @@ El sistema se nutre ÚNICA Y EXCLUSIVAMENTE de 4 axiomas de color. Introducir to
 
 ## 3. ARQUITECTURA DE FERRO Y NAVBARS OBSIDIAN
 - **Directiva Obsidian Navbars:** El *Global Header* y la *Sidebar* actúan como anclas irrompibles. **SIEMPRE son de color Negro (`#0e0e0e`)**, incluso cuando el usuario activa el Modo Día (Claro).
+- **Color de Enlaces Activos:** El test/enlace activo de la Sidebar (NavigationRail), Menú Principal (ContextualMenu) y Barra Inferior (MobileBottomNav) siempre debe ser del mismo color y NUNCA cambia con el tema de la ruta. Se usa Azul Sóc de Poble (`#544CF6` en clases Tailwind como `text-[#544CF6]`). **Prohibido** usar `var(--theme-accent-primary)` para los textos activos de estas barras principales, ya que se corre el riesgo de desaparecer contra el fondo negro.
 - **Alturas Sagradas (Prevención de Contradicciones y Fantasmas):** 
     - **Menú Principal (Global Header/Navbars):** Exactamente **64px** (`h-[64px] min-h-[64px] max-h-[64px] overflow-hidden`).
     - **Barra de Búsqueda (Search Bars):** Exactamente **64px** (`h-[64px] min-h-[64px] max-h-[64px] overflow-hidden`).

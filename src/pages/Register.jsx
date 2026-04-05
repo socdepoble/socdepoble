@@ -246,8 +246,8 @@ const Register = () => {
 
         <div className="w-full flex-1 flex flex-col px-6 md:px-12 lg:px-20 pt-6 md:pt-12 pb-8 animate-in-up max-w-md md:max-w-2xl mx-auto md:justify-center relative">
 
-          {/* Selector d'idiomes: Dalt a la dreta en escriptori o centrat en mòbil */}
-          <div className="flex justify-center md:absolute md:top-8 md:right-8 gap-1.5 mb-8 md:mb-0 bg-theme-panel md:bg-transparent border border-[var(--border-master)] md:border-none p-1.5 md:p-0 rounded-full z-20">
+          {/* Selector d'idiomes: Centrat */}
+          <div className="flex justify-center gap-1.5 mb-8 bg-theme-panel md:bg-transparent border border-[var(--border-master)] md:border-none p-1.5 md:p-0 rounded-full z-20 mx-auto">
               {languages.map((lang) => (
                 <button
                   key={lang.code}
@@ -284,6 +284,27 @@ const Register = () => {
           </header>
 
         {error && <div className="auth-error shake">{error}</div>}
+
+        {/* BETA TEST BANNER / MODO FORASTERO */}
+        {step !== "welcome" && (
+            <div className="mb-6 bg-blue-500/10 border border-blue-500/20 rounded-2xl p-4 flex gap-4 items-start shadow-sm mx-1 animate-in-up" style={{ animationDelay: '200ms', animationFillMode: 'both' }}>
+              <div className="w-10 h-10 shrink-0 bg-blue-500/20 rounded-full flex items-center justify-center text-blue-500">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3a9 9 0 0 0 -9 9v7h18v-7a9 9 0 0 0 -9 -9z" /><path d="M12 3v18" /><path d="M9 14h6" /><path d="M9 10h6" /><path d="M14 21v-4" /><path d="M10 21v-4" /></svg>
+              </div>
+              <div className="flex-1 pt-0.5">
+                <h4 className="font-black text-blue-600 dark:text-blue-400 text-[13px] uppercase tracking-widest mb-1">Mode Foraster en construcció</h4>
+                <p className="text-blue-700/80 dark:text-blue-400/80 text-[13px] font-medium leading-relaxed">
+                  Et trobes en una versió de proves. Estem preparant el <strong>Mode Foraster</strong>, així que <strong>no cal registrar-se encara</strong>.
+                  <br />Mentrestant, ja pots llegir la història i la cultura que estem recopilant per al llibre:
+                </p>
+                <div className="mt-3">
+                  <Link to="/el-projecte" className="inline-flex items-center gap-1.5 bg-[var(--theme-accent-primary)] text-white px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest hover:brightness-110 transition-all shadow-sm active:scale-95 text-[10px]">
+                    Llegir "El Projecte" <ChevronRight size={14} />
+                  </Link>
+                </div>
+              </div>
+            </div>
+        )}
 
         {/* STEP 1: IDENTITY */}
         {step === "identity" && (

@@ -52,7 +52,7 @@ class GuaiteBeacon {
 
     async connectAndSync(device) {
         try {
-            const server = await device.gatt.connect();
+            await device.gatt.connect();
             console.log(`🔌 [GUAITE] Handshake confirmed with ${device.name}. Offloading Tsunami...`);
             
             // In a real implementation:

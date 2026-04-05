@@ -13,7 +13,7 @@ wss.on('connection', (ws) => {
       if (type === 'SIGNAL' && to && plaza.has(to)) {
         plaza.get(to).send(JSON.stringify({ type: 'SIGNAL', from: peerId, data }));
       }
-    } catch (err) { /* Ignorar basura de escáneres web, proteger el hilo */ }
+    } catch { return; /* Ignorar basura de escáneres web, proteger el hilo */ }
   });
 
   ws.on('close', () => plaza.delete(peerId));

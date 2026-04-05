@@ -44,28 +44,17 @@
   --z-toast: 600;
   --z-max: 999;
 
-  --glass-bg: rgba(28, 28, 30, 0.65);
+  --glass-bg: rgba(28, 28, 30, 0.95);
   --glass-border: rgba(255, 255, 255, 0.1);
-  --glass-blur: blur(16px);
-  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  
-  /* Fallbacks needed by legacy code, though handled by CSS variables below */
-  --glass-bg-light: rgba(255, 255, 255, 0.7);
-  --glass-border-light: rgba(0, 0, 0, 0.1);
-  --glass-shadow-light: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+  --glass-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Unified soft shadow */
 }
 
 @layer base {
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  * { margin: 0; padding: 0; box-sizing: border-box; font-style: normal !important; }
   html { scroll-behavior: smooth; }
   body { -webkit-font-smoothing: antialiased; }
 
-  body {
-    font-family: 'Noto Sans', system-ui, -apple-system, sans-serif;
-  }
-
   blockquote, q, cite, dfn, var {
-    font-style: normal;
     font-family: inherit;
   }
 
@@ -74,7 +63,8 @@
   }
 
   :root {
-    --bg-app: #0e0e10;
+    --bg-main: #0e0e10;
+    --bg-app: var(--bg-main);
     --bg-panel: #141417;
     --bg-sidebar: #0e0e10;
     --text-main: #f3f4f6; /* Tailwind gray-100 */
@@ -122,7 +112,8 @@
   }
 
   :root.light {
-    --bg-app: #FAFAFA; /* Papel reciclado / Cal blanca */
+    --bg-main: #FDFBF7;
+    --bg-app: var(--bg-main); /* Papel reciclado / Cal blanca */
     --bg-panel: #ffffff;
     --bg-sidebar: #FAFAFA;
     --text-main: #1f2937; /* Tailwind gray-800 */
@@ -172,35 +163,51 @@
 }
 
 @layer components {
-  /* GLASSMORPHISM PROTOCOL */
+  /* RURAL PLACEHOLDER SKELETON (0% FOUC) */
+  .image-placeholder {
+    background: linear-gradient(90deg, var(--bg-panel) 25%, color-mix(in srgb, var(--border-master) 30%, transparent) 37%, var(--bg-panel) 63%);
+    background-size: 400% 100%;
+    animation: shimmer 1.4s infinite linear;
+    border-radius: 12px;
+  }
+  
+  @keyframes shimmer {
+    0% { background-position: 100% 0; }
+    100% { background-position: -100% 0; }
+  }
+
+  /* GLASSMORPHISM PROTOCOL -> CONVERTED TO SOLID GLASS-RURAL FOR PERFORMANCE */
   .glass-panel {
-    background: var(--glass-theme-bg);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--glass-theme-border);
-    box-shadow: var(--glass-theme-shadow);
+    background: var(--bg-panel);
+    border: 1px solid var(--border-master);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     border-radius: var(--radius-genesis);
     transition: background 0.3s ease, border-color 0.3s ease;
   }
 
-  /* GPU Compositing for Animated Blur Overlays */
+  /* GPU Compositing for Overlays */
   .glass-overlay {
-    will-change: opacity, backdrop-filter;
+    will-change: opacity;
     transform: translateZ(0);
     isolation: isolate;
   }
 
   /* TECH-HUERTA PREMIUM COMPONENTS */
   .glass-rural {
-    /* Fondo con filtro translúcido oscuro/cálido */
-    background: color-mix(in srgb, var(--bg-panel) 65%, transparent);
-    backdrop-filter: blur(12px) saturate(180%);
-    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    /* Fondo opaco de reemplazo para evitar render lag costoso en hardware limitado */
+    background: var(--bg-panel);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
     border: 1px solid var(--border-master);
-    box-shadow: 0 8px 32px -4px rgba(0, 0, 0, 0.15);
-    border-radius: var(--radius-pill);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border-radius: var(--radius-genesis);
     position: relative;
     overflow: hidden;
+  }
+  
+  .glass-rural:active {
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.12);
+    transform: scale(0.98);
   }
   
   /* Textura de Arcilla Digital (Noise SVG sutil) */
@@ -241,8 +248,8 @@
     color: var(--text-main);
     line-height: var(--cms-lh-base);
     text-align: left;
-    overflow-x: hidden !important; /* Mata scroll horizontal fantasma provocado por marked/pre */
-    contain: layout paint; /* Aísla GPU layers */
+    overflow-x: hidden; /* Mata scroll horizontal fantasma provocado por marked/pre */
+    contain: layout style; /* Aísla GPU layers suavemente vs strict 'paint' antiguo */
     will-change: scroll-position; /* Optimización de scroll */
   }
   
@@ -544,6 +551,21 @@
 }
 
 @layer utilities {
+  /* Aislamiento de renderizado para secciones fuera de viewport (Tanda 5) */
+  .app-cms-content {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 500px;
+    contain: layout style paint;
+  }
+  .app-cms-content > * {
+    content-visibility: auto;
+  }
+  @media print {
+    .app-cms-content, .app-cms-content > * {
+      content-visibility: visible !important;
+    }
+  }
+
   /* GHOST BORDERS */
   .border-ghost-r { box-shadow: inset -1px 0 0 0 var(--border-master); }
   .border-ghost-b { box-shadow: inset 0 -1px 0 0 var(--border-master); }
@@ -637,7 +659,12 @@
   .safe-area-bottom { padding-bottom: env(safe-area-inset-bottom, 0px); }
 
   .app-cms-content h2, .app-cms-content h3 {
-    scroll-margin-top: calc(70px + env(safe-area-inset-top));
+    scroll-margin-top: calc(var(--spacing-header) + 120px);
+  }
+  @media (min-width: 640px) {
+    .app-cms-content h2, .app-cms-content h3 {
+      scroll-margin-top: calc(var(--spacing-header) + 80px);
+    }
   }
 }
 

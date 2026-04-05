@@ -52,7 +52,7 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      util: 'util'
+      util: 'util/util.js'
     }
   },
   define: {

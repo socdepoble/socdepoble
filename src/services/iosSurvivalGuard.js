@@ -9,7 +9,7 @@ export const acquireTrellatWakeLock = async () => {
     try {
       trellatWakeLock = await navigator.wakeLock.request('screen');
       console.log("🛡️ [TRELLAT] Llum al Mas: WakeLock actiu. Retenint pantalla per processar dades.");
-    } catch (err) { /* Batería baja o SO restrictivo, ignoramos elegantemente */ }
+    } catch { return; /* Batería baja o SO restrictivo, ignoramos elegantemente */ }
   }
 };
 

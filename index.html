@@ -30,15 +30,15 @@
     />
     <meta
       property="og:image"
-      content="https://socdepoble.org/og-image.png"
+      content="https://socdepoble.org/assets/infographies/presentacio.jpg"
     />
     <meta
       property="og:image:secure_url"
-      content="https://socdepoble.org/og-image.png"
+      content="https://socdepoble.org/assets/infographies/presentacio.jpg"
     />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:site_name" content="Sóc de Poble" />
     <meta property="og:locale" content="ca_ES" />
     <link rel="canonical" href="https://socdepoble.org/" />
@@ -56,7 +56,7 @@
     />
     <meta
       name="twitter:image"
-      content="https://socdepoble.org/og-image.png"
+      content="https://socdepoble.org/assets/infographies/presentacio.jpg"
     />
     <!-- [Mestre: Bloqueig de FOUC] Erradicació del llamp visual de tema (FOUC) -->
     <script>
@@ -278,7 +278,10 @@
     </script>
 
     <!-- Polyfill para librerías de Node (ej. simple-peer) -->
-    <script>if (typeof global === 'undefined') { window.global = window; }</script>
+    <script>
+      if (typeof global === 'undefined') { window.global = window; }
+      if (typeof process === 'undefined') { window.process = { env: {} }; }
+    </script>
     
     <!-- Modern App Entry -->
     <script type="module" src="/src/entry.jsx"></script>

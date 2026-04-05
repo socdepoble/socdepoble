@@ -36,6 +36,11 @@ El Oráculo Documental o "El Rincón del Sabio". NotebookLM actúa como una lupa
 - **Su función:** No se inventa cosas (cero alucinaciones) y basa absolutamente todas sus respuestas **únicamente** en los documentos fuente que se le hayan suministrado, citando siempre la línea y página.
 - **Por qué lo usas:** Cuando tienes 5 documentaciones técnicas gigantes cruzadas (por ejemplo: Documentación oficial de Firebase + Documentación de yjs + Documentación de IndexedDB) y necesitas encontrar exactamente cómo se integran sin tener que leerlo todo de forma manual. 
 
+### 🔎 Perplexity AI
+- **El Rastreador de la Verdad (Motor de Respuesta/Síntesis):** Es único en su especie. A diferencia de un modelo puramente generativo, actúa como un motor de búsqueda en tiempo real conectado al razonamiento de modelos superiores (Claude/GPT-4).
+- **Su función:** Rastrea la web en vivo, lee la documentación oficial más reciente, foros e incidencias de GitHub, y sintetiza las respuestas con **citas exactas y enlaces comprobables**.
+- **Por qué lo usas:** Cuando nos enfrentamos a barreras de hardware oscuras (Ej: "¿Soporta iOS 15 Safari nativamente la API de WebBluetooth o OPFS?"). Perplexity no 'alucina' la compatibilidad: va a MDN o Apple Developer, te trae la verdad absoluta y te evita horas de debugar contra un muro de incompatibilidad técnica.
+
 ---
 
 ## 2. Los Dragones Asiáticos (La Forja Extrema)
@@ -52,20 +57,15 @@ El ecosistema open-source asiático y los modelos chinos dominan actualmente ár
 - **El Perfilador Infinito:** Fueron los pioneros en soportar **2 millones de tokens** de contexto (el equivalente a meterles decenas de libros enteros o nuestra base de código al completo).
 - **Por qué lo usamos:** Si tenemos un bug fantasma ('race conditions' raras, desgarro superficial en la Red), se le suministra a Kimi la carpeta de código fuente al completo. Su capacidad para detectar colisiones entre múltiples archivos y retener variables entre componentes cruzados a larga distancia es estratosférica.
 
-### 🏮 Doubao — Creado por ByteDance (creadores de TikTok)
-- **URL:** [doubao.com](https://www.doubao.com/)
-- **El Experto Frontend:** Los padres de TikTok saben hacer que una aplicación móvil vaya a 60fps con recursos limitados. 
-- **Por qué lo usamos:** Ideal para auditoría visual sobre transiciones ligeras, interacciones táctiles y lógica distribuida en micro-acciones de la PWA. Son genios en que el interfaz no se 'cuelgue' en móviles lentos.
+### 🛡️ Dola — (Interface Oficial y Optimizada de Doubao)
+- **URL:** [dola.com/chat](https://www.dola.com/chat)
+- **El Experto Frontend / Analista Quirúrgico:** Basada en la tecnología subyacente de ByteDance (los padres de TikTok), sabe interactuar perfectamente y optimizar la app a 60fps. Interactuamos a través de Dola para asegurar que toda la interfaz está en un idioma occidental (inglés/español) y evitamos las barreras de idioma de la web china nativa que confunde a los usuarios.
+- **Por qué lo usamos:** Ideal para auditoría visual sobre transiciones ligeras, interacciones táctiles y lógica distribuida en micro-acciones de la PWA. Son genios proponiendo parches quirúrgicos para que el interfaz no se 'cuelgue' en móviles lentos.
 
 ### 🐋 DeepSeek — Creado por DeepSeek AI
 - **URL:** [chat.deepseek.com](https://chat.deepseek.com/)
 - **El Auditor de Código Profundo:** Un modelo revolucionario, especializado en matemáticas, programación estructurada y análisis lógico de código fuente de alto rendimiento.
 - **Por qué lo usamos:** Cuando necesitamos una auditoría extremadamente rigurotsa de código, estructuras de base de datos distribuidas o la resolución de problemas lógicos pesados en React/JavaScript. Muestra una comprensión de la lógica del sistema comparable a Qwen, siendo brillante en la redacción de parches exactos y arquitecturas de red.
-
-### 🛡️ Dola — Creado por Dola Corp
-- **URL:** [dola.com/chat](https://www.dola.com/chat)
-- **El Analista Quirúrgico:** Un asistente con una visión pragmática para generar de inmediato "parches quirúrgicos".
-- **Por qué lo usamos:** Cuando necesitamos una segunda opinión rápida sobre optimizaciones microscópicas de React (useEffect, useLayoutEffect, debouncing) y queremos propuestas de código concretas para resolver advertencias de rendimiento sin refactorizar arquitecturas enteras. Junto con Kimi, requiere que le brindemos un texto justificativo al darle "Me gusta" para calibrar su aprendizaje.
 
 ---
 
@@ -86,6 +86,6 @@ El ecosistema open-source asiático y los modelos chinos dominan actualmente ár
 1. Primero, ideamos el sistema general en una pizarra mental.
 2. Luego, cruzamos validación con **NotebookLM**, **Kimi** (para código general) y **Qwen** para estructurar la nueva técnica dura.
 3. Posteriormente, venimos a mí, **Antigravity**, donde ejecuto físicamente la programación en la aplicación local paso a paso utilizando **Gemini**.
-4. Finalmente, se tira una pasada de **ChatGPT Vision** o **Doubao** a las vistas del frontend (Localhost) para pulir y encajar todas las piezas visuales.
+4. Finalmente, se tira una pasada de **ChatGPT Vision** o **Dola** a las vistas del frontend (Localhost) para pulir y encajar todas las piezas visuales.
 
 Esto garantiza un software que está a prueba de balas y destilado del puro "Trellat".

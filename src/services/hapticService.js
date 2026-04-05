@@ -7,6 +7,10 @@ import { Haptics, ImpactStyle, NotificationType } from '@capacitor/haptics';
  * Uses Capacitor Haptics for native precision.
  */
 class HapticService {
+    constructor() {
+        this.audioCtx = null;
+    }
+
     /**
      * Triggers a vibration pattern or native impact.
      */
@@ -120,6 +124,59 @@ class HapticService {
      */
     bategat() {
         this.batec();
+    }
+
+    /**
+     * Web Audio API: playAtomicFeedback
+     * Zero-GPU / Zero-Red feedback acústico de muy bajo peso para interacciones.
+     */
+    playAtomicFeedback(type = 'action') {
+        try {
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            if (!AudioCtx) return;
+            
+            // Solo creamos el contexto de audio cuando hace falta si no esta cacheado
+            if (!this.audioCtx) {
+                this.audioCtx = new AudioCtx();
+            }
+            if (this.audioCtx.state === 'suspended') {
+                this.audioCtx.resume();
+            }
+
+            const osc = this.audioCtx.createOscillator();
+            const gainNode = this.audioCtx.createGain();
+
+            osc.connect(gainNode);
+            gainNode.connect(this.audioCtx.destination);
+
+            if (type === 'action') {
+                // "Bloop" rápido, suave y en frecuencia amable para oídos cansados
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(300, this.audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(500, this.audioCtx.currentTime + 0.1);
+                
+                gainNode.gain.setValueAtTime(0.08, this.audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioCtx.currentTime + 0.1);
+                
+                osc.start(this.audioCtx.currentTime);
+                osc.stop(this.audioCtx.currentTime + 0.1);
+                this.vibrate('light');
+            } else if (type === 'success') {
+                // Campanilla rural reconfortable y corta
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(400, this.audioCtx.currentTime);
+                osc.frequency.setValueAtTime(600, this.audioCtx.currentTime + 0.1);
+                
+                gainNode.gain.setValueAtTime(0.08, this.audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioCtx.currentTime + 0.2);
+                
+                osc.start(this.audioCtx.currentTime);
+                osc.stop(this.audioCtx.currentTime + 0.2);
+                this.vibrate('medium');
+            }
+        } catch (e) {
+            // Failsafe rural: si el áudio falla, seguimos
+        }
     }
 }
 

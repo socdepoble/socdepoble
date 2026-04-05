@@ -83,8 +83,8 @@ export class KademliaNode {
         
         // Sort by XOR distance * Geo Penalty
         allPeers.sort((a, b) => {
-            const distA = (this.numericId ^ a.numericId) * this.geoDistancePenalty(a.coords);
-            const distB = (this.numericId ^ b.numericId) * this.geoDistancePenalty(b.coords);
+            const distA = (targetId ^ a.numericId) * this.geoDistancePenalty(a.coords);
+            const distB = (targetId ^ b.numericId) * this.geoDistancePenalty(b.coords);
             return distA - distB;
         });
 

@@ -15,10 +15,10 @@ import GlobalFooter from "./GlobalFooter";
 import MobileBottomNav from "./MobileBottomNav";
 import BlueprintOverlay from "./BlueprintOverlay";
 import DegradedBanner from "./DegradedBanner";
-const ChatLayout = lazy(() => import("../components/ChatLayout"));
-const ChatEmptyState = lazy(() => import("../components/ChatEmptyState"));
-const ChatDetail = lazy(() => import("../components/ChatDetail"));
-const Feed = lazy(() => import("./Feed"));
+import ChatLayout from "../components/ChatLayout";
+import ChatEmptyState from "../components/ChatEmptyState";
+import ChatDetail from "../components/ChatDetail";
+import Feed from "./Feed";
 const Register = lazy(() => import("../pages/Register"));
 const Towns = lazy(() => import("../pages/Towns"));
 const Marketplace = lazy(() => import("./Marketplace"));
@@ -39,14 +39,14 @@ const BuscadorAjudes = lazy(() => import("../pages/BuscadorAjudes"));
 const DirectoriComunitat = lazy(() => import("../pages/CommunityDirectory"));
 const MapaActius = lazy(() => import('../pages/Map'));
 const CalendariMaster = lazy(() => import('../pages/MasterCalendar'));
-const Header = lazy(() => import("./Header"));
+import Header from "./Header";
 const HubView = lazy(() => import("../pages/HubView"));
 const AccessibilitatUniversal = lazy(() => import("./AccessibilitatUniversal"));
 
 const ArchitecteView = lazy(() => import("./ArchitecteView"));
 const ResourceDetail = lazy(() => import("../pages/ResourceDetail"));
 const InfografiaGallery = lazy(() => import("./Infoteca/InfografiaGallery"));
-const ContextualMenu = lazy(() => import("./ContextualMenu"));
+import ContextualMenu from "./ContextualMenu";
 const Notes = lazy(() => import("../pages/Notes"));
 const IAIAChatSidebar = lazy(() => import("./IAIAChatSidebar"));
 const ProfilePowerMenu = lazy(() => import("./ProfilePowerMenu"));
@@ -214,7 +214,7 @@ const AppLayout = () => {
       </a>
 
       {isGlobalDragging && (
-        <div className="absolute inset-0 z-overlay bg-[var(--theme-accent-primary)]/90 backdrop-blur-md flex flex-col items-center justify-center text-white pointer-events-none transition-all duration-300 animate-in fade-in zoom-in-95">
+        <div className="absolute inset-0 z-[var(--z-overlay)] bg-[var(--theme-accent-primary)]/95 flex flex-col items-center justify-center text-white pointer-events-none transition-all duration-300 animate-in fade-in zoom-in-95">
           <div className="w-32 h-32 rounded-full bg-white/20 flex items-center justify-center mb-6 animate-pulse">
             <UploadCloud size={64} className="text-white drop-shadow-xl" />
           </div>
@@ -248,7 +248,7 @@ const AppLayout = () => {
         {/* 0. OVERLAY MÒBIL (Sombra de fondo purificada) */}
         {isDrawerOpen && (
           <div
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[var(--z-overlay)] md:hidden transition-opacity duration-300 animate-in fade-in cursor-pointer"
+            className="fixed inset-0 bg-black/80 z-[var(--z-overlay)] md:hidden transition-opacity duration-300 animate-in fade-in cursor-pointer"
             onClick={closeDrawer}
             role="button"
             tabIndex={0}
@@ -407,7 +407,7 @@ const AppLayout = () => {
       {/* 3. ACCESIBILITAT (Extraído del main en v10.34, ahora es inexpugnable) */}
       {isAccessibilitatOpen && (
         <div 
-          className="fixed inset-0 z-[var(--z-modal)] glass-overlay bg-black/50 backdrop-blur-sm animate-in fade-in duration-300"
+          className="fixed inset-0 z-[var(--z-modal)] glass-overlay bg-black/80 animate-in fade-in duration-300"
           role="dialog"
           aria-modal="true"
         >
@@ -439,7 +439,7 @@ const AppLayout = () => {
       {/* MODALE D'EXPLICACIÓ (ARQUITECTE) - REPOSITIONAT PELS FRAMES UNIFICATS */}
       {architectMode && (
         <div 
-          className="fixed inset-0 z-[var(--z-modal)] glass-overlay bg-black/40 backdrop-blur-xl md:pl-[280px]"
+          className="fixed inset-0 z-[var(--z-modal)] glass-overlay bg-black/90 md:pl-[280px]"
           role="dialog"
           aria-modal="true"
         >

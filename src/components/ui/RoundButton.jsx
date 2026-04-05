@@ -25,7 +25,7 @@ const RoundButton = ({
         <button 
             onClick={onClick}
             title={title}
-            className={`flex items-center justify-center transition-all active:scale-95 shadow-inner ${sizeClasses} ${isActive ? activeColorClass : colorClass} ${className}`}
+            className={`relative before:content-[''] before:absolute before:-inset-3 flex items-center justify-center transition-all active:scale-95 shadow-inner ${sizeClasses} ${isActive ? activeColorClass : colorClass} ${className}`}
             {...props}
         >
             <IconComponent 

@@ -61,7 +61,7 @@ const MobileBottomNav = () => {
               onClick={(e) => handleActionClick(e, tab.id)}
               aria-label={tab.label}
               className={`flex-1 flex flex-col items-center justify-center h-full space-y-1 transition-colors outline-none
-                ${isActive ? 'text-[var(--theme-accent-primary)]' : 'text-white/60 hover:text-white/90'}`}
+                ${isActive ? 'text-[#544CF6]' : 'text-white/60 hover:text-white/90'}`}
             >
               <Icon size={24} strokeWidth={isActive ? 3 : 2.5} />
               <span className="text-[10px] font-bold uppercase tracking-widest hidden min-[400px]:block">{tab.label}</span>

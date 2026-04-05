@@ -2,6 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Share2, MoreHorizontal, MessageCircle, Globe, Plus } from 'lucide-react';
 import RoundButton from '../ui/RoundButton';
+import { hapticService } from '../../services/hapticService';
 
 const UniversalCardFooter = ({
     item,
@@ -28,6 +29,7 @@ const UniversalCardFooter = ({
 
     const handleShareClick = (e) => {
         if (e) e.stopPropagation();
+        hapticService.playAtomicFeedback('action');
         if (navigator.share) {
             navigator.share({
                 title: displayTitle || 'Sóc de Poble',
@@ -39,6 +41,7 @@ const UniversalCardFooter = ({
 
     const handleCommentClick = (e) => {
         if (e) e.stopPropagation();
+        hapticService.playAtomicFeedback('action');
         const id = item?.uuid || item?.id;
         if (cardVariant === 'mercat' || cardVariant === 'market') {
             navigate(`/mercat/${id}?action=comment`);
@@ -49,15 +52,21 @@ const UniversalCardFooter = ({
 
     const handleTranslateClick = (e) => {
         if (e) e.stopPropagation();
+        hapticService.playAtomicFeedback('action');
         const id = item?.uuid || item?.id;
         window.dispatchEvent(new CustomEvent('omega-translate-request', { detail: { postId: id, title: displayTitle } }));
         alert(t('card.translateAlert', "🌐 Motor de Traducció A Demanda (Vertex AI) prompte disponible."));
+    };
+    
+    const handleConnectClickWithHaptic = (e) => {
+        hapticService.playAtomicFeedback('success'); 
+        if (handleConnectClick) handleConnectClick(e);
     };
 
     const isCalendar = cardVariant === 'calendar' || item?.type === 'calendar';
 
     return (
-        <div className="flex items-center justify-center gap-3 sm:gap-6 w-full min-h-[48px] bg-[#4F46E5] text-white dark:bg-[#F97316] dark:text-[#111111] px-4 shadow-sm overflow-x-auto no-scrollbar transition-colors">
+        <div className="flex items-center justify-center gap-3 sm:gap-6 w-full min-h-[48px] bg-[#4F46E5] text-white dark:bg-[#F97316] dark:text-[#111111] px-4 overflow-x-auto no-scrollbar transition-colors">
 
             {/* OPTIONAL ITEM COUNTER BADGE */}
             {itemCount !== undefined && (
@@ -113,7 +122,7 @@ const UniversalCardFooter = ({
                 
                 <RoundButton 
                     icon={Plus}
-                    onClick={handleConnectClick}
+                    onClick={handleConnectClickWithHaptic}
                     title={titleText}
                     colorClass="bg-white/20 text-white hover:bg-white hover:text-[var(--theme-accent-primary)] border border-white/30"
                 />

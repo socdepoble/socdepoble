@@ -83,9 +83,9 @@ const ContextualMenu = () => {
                             className={`
                                 relative h-full flex items-center text-[13px] lg:text-[15px] font-black tracking-[0.25em] transition-all whitespace-nowrap
                                 ${(isProfile || isCalendar)
-                                    ? (item.id === (new URLSearchParams(location.search).get('role') || (isCalendar ? 'events' : 'tot')) ? 'text-[var(--theme-accent-primary)] border-b-2 border-[var(--theme-accent-primary)] pt-[2px]' : 'text-white opacity-80 hover:opacity-100')
+                                    ? (item.id === (new URLSearchParams(location.search).get('role') || (isCalendar ? 'events' : 'tot')) ? 'text-[#544CF6] border-b-2 border-[#544CF6] pt-[2px]' : 'text-white opacity-80 hover:opacity-100')
                                     : (((location.pathname + location.search) === item.path) || (location.pathname === item.path && location.search === '' && item.id === 'xat') 
-                                        ? 'text-[var(--theme-accent-primary)] border-b-2 border-[var(--theme-accent-primary)] pt-[2px]' 
+                                        ? 'text-[#544CF6] border-b-2 border-[#544CF6] pt-[2px]' 
                                         : 'text-white opacity-80 hover:opacity-100')}
                             `}
                         >

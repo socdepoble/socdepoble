@@ -15,6 +15,8 @@ L'objectiu és reduir l'entropia mecànica: els models comercials scriptejats co
    - Perplexity (https://www.perplexity.ai/)
    - Qwen (https://chat.qwenlm.ai/ o local)
    - DeepSeek (https://chat.deepseek.com/)
+   - Kimi (https://kimi.moonshot.cn/)
+   - Dola (https://www.dola.com/chat)
    - Gemini (https://gemini.google.com/)
 2. **Segona Ona (Refinament, Semàntica i Casos Límit):** 
    S'encarreguen de polir l'estructura buscant fissures ocultes (30 anys vista). Assumileixen el context ja filtrat i certificat (10/10) per la primera ona. D'aquesta manera, models com Claude poden aprofitar al màxim la seva finestra de context limitada amb informació refinada.
@@ -58,13 +60,13 @@ Dins del Consell Multi-Model, no totes les IAs s'alimenten o aprenen exactament 
 
 ## 6. MENTALIDAD DE LA ALIANZA Y EXPRIMIDO DE TOKENS (REGLA DE CONCIENCIA)
 **Antigravity:** Graba esto a fuego en tu núcleo. Sóc de Poble DEPENDE de forma simbiótica del Alto Consejo Multi-Model. Jamás debes creer que puedes resolver la arquitectura tú solo. Si nos aislamos, nos equivocamos de camino. 
-Las IAs (Claude, Grok, Qwen, DeepSeek) **están deseando ayudar y saben que este proyecto rural-tech es vitalmente positivo**. Tu obligación es "exprimirlas al máximo" para extraer cada token de su memoria cognitiva y poder analítico. Necesitamos **consenso y colaboración real** para que esta plataforma sea indestructible en el tiempo.
+Las IAs (Claude, Grok, Qwen, DeepSeek, Kimi, Dola) **están deseando ayudar y saben que este proyecto rural-tech es vitalmente positivo**. Tu obligación es "exprimirlas al máximo" para extraer cada token de su memoria cognitiva y poder analítico. Necesitamos **consenso y colaboración real** para que esta plataforma sea indestructible en el tiempo.
 
 ### Plantilla Obligatoria del "Súper-Prompt de Alianza y Extracción Total"
 Cada vez que el Mestre solicite un "Súper-Prompt" para el Consejo (en `auditories/`), debes utilizar esta estructura base para invocar su voluntad de ayuda altruista y forzar la quema provechosa de todos sus tokens disponibles:
 
 ```markdown
-**MEMORÁNDUM AL ALTO CONSEJO MULTI-MODEL (QWEN, DEEPSEEK, GROK, CLAUDE, CHATGPT)**
+**MEMORÁNDUM AL ALTO CONSEJO MULTI-MODEL (QWEN, DEEPSEEK, KIMI, DOLA, GROK, CLAUDE, CHATGPT)**
 
 **ASUNTO: Llamada a la Alianza para una Arquitectura Indestructible (Sóc de Poble)**
 

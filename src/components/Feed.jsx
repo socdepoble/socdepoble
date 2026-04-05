@@ -21,6 +21,7 @@ import { useFeedFilters } from '../hooks/useFeedFilters';
 import { useIAIAAutonomousInteractions } from '../hooks/useIAIAAutonomousInteractions';
 import { useViewMode } from '../hooks/useViewMode';
 import { UniversalGridWrapper, UniversalGridRow } from './UniversalGrid';
+import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 
 class CardErrorBoundary extends React.Component {
     constructor(props) {
@@ -160,6 +161,17 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
         rowVirtualizer.measure();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [viewMode, activePosts.length, columnCount]);
+
+    const bottomRef = useRef(null);
+    const entry = useIntersectionObserver(bottomRef, { threshold: 0.1, rootMargin: '400px' });
+    
+    useEffect(() => {
+        if (entry?.isIntersecting && hasMore && !loadingMore && !customPosts && !selectedTag) {
+            startTransition(() => {
+                fetchPosts(true);
+            });
+        }
+    }, [entry?.isIntersecting, hasMore, loadingMore, customPosts, selectedTag, fetchPosts]);
 
     const handleHeaderClick = useCallback((post) => {
         const targetId = post.author_entity_id || post.author_user_id || post.author_id;
@@ -354,14 +366,13 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
                 </UniversalGridWrapper>
 
                 {!customPosts && hasMore && posts.length > 0 && !selectedTag && (
-                    <div className="load-more-container mt-12 mb-12 flex justify-center w-full">
-                        <button
-                            className="btn-load-more"
-                            onClick={() => fetchPosts(true)}
-                            disabled={loadingMore}
-                        >
-                            {loadingMore ? <Loader2 className="spinner" /> : t('common.load_more') || 'Carregar més'}
-                        </button>
+                    <div ref={bottomRef} className="load-more-container mt-12 mb-12 flex justify-center w-full">
+                        {loadingMore && (
+                            <div className="flex items-center gap-2 text-[#F97316]/50">
+                                <Loader2 className="spinner" size={16} /> 
+                                <span className="text-sm font-semibold tracking-widest uppercase">Estirant la xàrcia...</span>
+                            </div>
+                        )}
                     </div>
                 )}
             </div>

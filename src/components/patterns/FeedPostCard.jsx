@@ -14,6 +14,17 @@ const FeedPostCard = ({
   onRepost,
   onShare,
 }) => {
+  const triggerHaptic = () => {
+    if (typeof navigator !== 'undefined' && navigator.vibrate) {
+      navigator.vibrate([20]);
+    }
+  };
+
+  const handleAction = (callback) => (e) => {
+    triggerHaptic();
+    if (callback) callback(e);
+  };
+
   return (
     <article className="atom-card atom-root" data-component="feed-post-card">
       <header className="atom-row">
@@ -41,16 +52,16 @@ const FeedPostCard = ({
         </div>
         <div className="atom-divider" />
         <div className="grid grid-cols-4 gap-2">
-          <UiButton variant="secondary" size="sm" className="w-full" onClick={onLike}>
+          <UiButton variant="secondary" size="sm" className="w-full" onClick={handleAction(onLike)}>
             <Heart size={16} />
           </UiButton>
-          <UiButton variant="secondary" size="sm" className="w-full" onClick={onComment}>
+          <UiButton variant="secondary" size="sm" className="w-full" onClick={handleAction(onComment)}>
             <MessageCircle size={16} />
           </UiButton>
-          <UiButton variant="secondary" size="sm" className="w-full" onClick={onRepost}>
+          <UiButton variant="secondary" size="sm" className="w-full" onClick={handleAction(onRepost)}>
             <Repeat2 size={16} />
           </UiButton>
-          <UiButton variant="secondary" size="sm" className="w-full" onClick={onShare}>
+          <UiButton variant="secondary" size="sm" className="w-full" onClick={handleAction(onShare)}>
             <Share2 size={16} />
           </UiButton>
         </div>

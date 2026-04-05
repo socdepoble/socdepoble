@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-
+import { logger } from '../utils/logger';
 export function useBlindatgeOPFS() {
   const [estatBlindatge, setEstatBlindatge] = useState('comprovant'); // comprovant, blindat, vulnerable
 
@@ -21,14 +21,14 @@ export function useBlindatgeOPFS() {
         }
         
         if (isPersisted) {
-          console.log("🛡️ [BÚNKER] OPFS i IndexedDB BLINDATS. L'emmagatzematge és 'Persistent'.");
+          logger.log("🛡️ [BUNKER] OPFS i IndexedDB BLINDATS. L'emmagatzematge és 'Persistent'.");
           setEstatBlindatge('blindat');
         } else {
-          console.info("❌ [BÚNKER] Blindatge denegat per l'OS. (Requereix instal·lar l'App a Inici).");
+          logger.info("❌ [BUNKER] Blindatge denegat per l'OS. (Requereix instal·lar l'App a Inici).");
           setEstatBlindatge('vulnerable');
         }
       } catch (error) {
-        console.error("🔥 [OPFS] Error tècnic forçant la persistència:", error);
+        logger.error("🔥 [OPFS] Error tècnic forçant la persistència:", error);
         setEstatBlindatge('error');
       }
     }

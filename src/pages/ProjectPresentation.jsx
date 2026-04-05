@@ -1,35 +1,58 @@
-import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useRef, lazy, Suspense } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { ArrowLeft, Edit2, ShieldAlert, Share2, Book, Plus, MessageCircle, Globe, MapPin, Search, Calendar, Sparkles, List, X, ChevronRight, History, Info, Menu } from 'lucide-react';
 import SEO from '../components/SEO';
 import GlobalFooter from '../components/GlobalFooter';
 import PageHeader from '../components/PageHeader';
-import RichTextEditor from '../components/RichTextEditor';
+const RichTextEditor = lazy(() => import('../components/RichTextEditor'));
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '../supabaseClient';
 import { exportService } from '../services/exportService';
 import MediaViewerModal from '../components/MediaViewerModal';
-import TranslationModal from '../components/TranslationModal';
-import HistoryModal from '../components/HistoryModal';
+const TranslationModal = lazy(() => import('../components/TranslationModal'));
+const HistoryModal = lazy(() => import('../components/HistoryModal'));
 import { sanitizeHtml } from '../utils/sanitizeHtml';
+import { processContentForToc } from '../utils/tocParser';
 import useAccessibleSearch from '../hooks/useAccessibleSearch';
 import RoundButton from '../components/ui/RoundButton';
+import { useTranslation } from 'react-i18next';
 
 // Es carregarà de forma dinàmica per externalitzar pes de l'arrel
-let CachedBookContent = null;
+import { get, set } from 'idb-keyval';
+import { useAtomicGuard } from '../hooks/useAtomicGuard';
+
+// CACHE KEY estático para el libro base
+const BOOK_CACHE_KEY = 'trellat_book_fallback_v4';
 
 const fetchDefaultBookContent = async () => {
-    if (CachedBookContent) return CachedBookContent;
+    // 1. Intentar IndexedDB primero (Trellat: Local-First)
+    const cached = await get(BOOK_CACHE_KEY);
+    if (cached) return cached;
+
+    // 2. Fetch de red con timeout agresivo (rural 2G/3G)
     try {
-        const res = await fetch('/assets/llibre-sencer.html');
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 5000); // 5s máx en pueblo
+        
+        // Anti-caché HTTP (busting parameter) para forzar lectura fresca
+        const res = await fetch(`/assets/llibre-sencer.html?t=${Date.now()}`, { 
+            signal: controller.signal,
+            headers: { 'Accept': 'text/html', 'Cache-Control': 'no-cache' }
+        });
+        clearTimeout(timeout);
+        
         if (res.ok) {
-            CachedBookContent = await res.text();
-            return CachedBookContent;
+            const text = await res.text();
+            // Guardar en IndexedDB para offline perpetuo (sin límite LRU, es crítico)
+            await set(BOOK_CACHE_KEY, text);
+            return text;
         }
     } catch (e) {
-        console.error("Error fetching default book:", e);
+        console.warn('[Trellat] Fallo carga libro, modo offline sin caché previa:', e);
     }
-    return "<h1>SÓC DE POBLE (Versió Reduïda)</h1><p>No s'ha pogut carregar el llibre sencer.</p>";
+    
+    // 3. Fallback último recurso (nunca debería pasar si ya usaron la app antes)
+    return "<h1>SÓC DE POBLE</h1><p>Mode offline. No hi ha còpia local del llibre encara.</p>";
 };
 
 const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
@@ -43,18 +66,23 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
     const [title, setTitle] = useState('');
     const [subtitle, setSubtitle] = useState('');
     const [collaborators, setCollaborators] = useState([]);
+    const { t } = useTranslation();
 
     const [isLoadingPage, setIsLoadingPage] = useState(true);
     const [isEditing, setIsEditing] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
+    
+    // Trellat: Guardas atómicas
+    const { atomicYSave, startCritical } = useAtomicGuard();
+    const yDocRef = useRef(null);
 
     const canEdit = isSuperAdmin || (user && collaborators.includes(user.id));
 
     const [mediaViewerSrc, setMediaViewerSrc] = useState(null);
     const [mediaViewerImages, setMediaViewerImages] = useState([]);
 
-    const [tocElements, setTocElements] = useState([]);
     const [isTocOpen, setIsTocOpen] = useState(false);
+    const [activeHeadingId, setActiveHeadingId] = useState(null);
 
     // OMEGA TRANSLATE STATE
     const [isTranslationOpen, setIsTranslationOpen] = useState(false);
@@ -75,52 +103,125 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
     const scrubberRef = useRef(null);
     const scrubberBoundsRef = useRef(null);
     const scrubberRafRef = useRef(null);
+    const scrubberThumbRef = useRef(null);
+    const scrubberPosRef = useRef(0);
     const [scrubberDragging, setScrubberDragging] = useState(false);
     const [scrubberActiveHeading, setScrubberActiveHeading] = useState('');
-    const [scrubberPos, setScrubberPos] = useState(0);
 
-    const loadFallbackContent = async (fallbackTitle) => {
-        const content = await fetchDefaultBookContent();
-        setHtmlContent(content);
-        setTitle(fallbackTitle);
-        // Special case for the main fallback
-        if (fallbackTitle === "El Projecte") {
-            setSubtitle("Pròleg: La Veu del Poble");
-        }
-    };
+    // BOOK PAGE METRICS (ZERO RE-RENDER SCROLLING)
+    const pageNumberRef = useRef(null);
+    const totalPages = useMemo(() => {
+        if (!htmlContent) return 1;
+        const textOnly = htmlContent.replace(/<[^>]*>?/gm, ' ');
+        const words = textOnly.match(/\S+/g) || [];
+        return Math.max(1, Math.ceil(words.length / 250)); // Amazon format (250 items/page)
+    }, [htmlContent]);
 
     const fetchPageContent = useCallback(async (_slug) => {
         setIsLoadingPage(true);
+        
+        // Variable acumuladora para estados (evita setState parciales)
+        const updates = {
+            htmlContent: null,
+            title: null,
+            subtitle: null,
+            pageId: null,
+            collaborators: [],
+            error: null
+        };
+        let localCache = null;
+
         try {
+            // CACHEO AGRESIVO: Supabase con fallback local inmediato
+            const cacheKey = `cms_page_${_slug}`;
+            localCache = await get(cacheKey);
+            
+            if (localCache) {
+                // Hidratar INMEDIATAMENTE desde IndexedDB (sin esperar red)
+                updates.htmlContent = localCache.html;
+                updates.title = localCache.title;
+                updates.subtitle = localCache.subtitle;
+                updates.pageId = localCache.pageId;
+                updates.collaborators = localCache.collaborators || [];
+                
+                // Aplicar inmediatamente para lectura instantánea (Trellat: cero espera)
+                setHtmlContent(updates.htmlContent);
+                setTitle(updates.title);
+                setSubtitle(updates.subtitle);
+                setPageId(updates.pageId);
+                setCollaborators(updates.collaborators);
+                setIsLoadingPage(false); // Liberar UI inmediatamente
+            }
+
+            // FETCH SILENCIOSO (background revalidation)
             const { data, error } = await supabase
                 .from('cms_pages')
                 .select('*')
                 .eq('slug', _slug)
                 .maybeSingle();
 
-            if (error) {
-                // Silenced for production console cleanliness
-                await loadFallbackContent("El Projecte");
-            } else if (!data) {
-                // If there's no data in Supabase yet, use fallback
-                await loadFallbackContent("El Projecte");
-            } else {
-                setPageId(data.id);
-                if (!data.html_content || data.html_content.includes('Aquest text és provisional')) {
-                    const fallbackHtml = await fetchDefaultBookContent();
-                    setHtmlContent(fallbackHtml);
-                } else {
-                    setHtmlContent(data.html_content);
+            if (error) throw error;
+
+            if (data) {
+                let content = data.html_content;
+                const fallback = await fetchDefaultBookContent();
+                if (!content || content.includes('Aquest text és provisional') || fallback.length > (content.length + 500)) {
+                    content = fallback;
+                    console.log('[Trellat] Local asset is larger than DB content. Proceeding with local asset as primary.');
                 }
-                setTitle(data.title || '');
-                setSubtitle(data.subtitle || '');
-                setCollaborators(data.collaborators || []);
+                
+                updates.htmlContent = content;
+                updates.title = data.title || '';
+                updates.subtitle = data.subtitle || '';
+                updates.pageId = data.id;
+                updates.collaborators = data.collaborators || [];
+                
+                // Solo actualizar estado si hay cambios reales (evita re-render idéntico)
+                if (JSON.stringify(localCache?.html) !== JSON.stringify(content)) {
+                    await set(cacheKey, {
+                        html: content,
+                        title: updates.title,
+                        subtitle: updates.subtitle,
+                        pageId: updates.pageId,
+                        collaborators: updates.collaborators,
+                        timestamp: Date.now()
+                    });
+                    
+                    // Actualizar estado solo si diferente al cacheado
+                    setHtmlContent(updates.htmlContent);
+                    setTitle(updates.title);
+                    setSubtitle(updates.subtitle);
+                    setPageId(updates.pageId);
+                    setCollaborators(updates.collaborators);
+                }
+            } else {
+                // No existe en Supabase, usar libro local como fallback legítimo
+                const fallback = await fetchDefaultBookContent();
+                updates.htmlContent = fallback;
+                updates.title = "El Projecte";
+                updates.subtitle = "Pròleg: La Veu del Poble";
+                
+                setHtmlContent(updates.htmlContent);
+                setTitle(updates.title);
+                setSubtitle(updates.subtitle);
             }
-        } catch (error) {
-            console.error('Critical error fetching page:', error);
-            await loadFallbackContent("El Projecte");
+        } catch (err) {
+            console.error('[Trellat] Error fetch:', err);
+            updates.error = err;
+            
+            // Si no hay cacheo previo (primer visita offline), mostrar libro base
+            if (!localCache) {
+                const emergency = await fetchDefaultBookContent();
+                setHtmlContent(emergency);
+                setTitle("El Projecte (Offline)");
+            }
         } finally {
-            setIsLoadingPage(false);
+            // Garantía de estado limpio: solo si no se hidrató antes del try
+            if (!localCache) {
+                setIsLoadingPage(false);
+            }
+            // Limpiamos referencias pesadas
+            updates.htmlContent = null; 
         }
     }, []);
     useEffect(() => {
@@ -136,122 +237,108 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
 
     const activeHtmlContent = translatedContent || htmlContent;
 
+    const baseHtmlContent = useMemo(() => {
+        if (!activeHtmlContent) return '';
+        // If the first tag is an H1 that contains "SÓC DE POBLE", we can assume it's the redundant one
+        const stripped = activeHtmlContent.replace(/^\s*<h1[^>]*>.*?<\/h1>\s*/is, '');
+        // HOT-FIX: Clean absolute URLs and prevent 403 GET errors from old IndexedDB/supabase drafts
+        const cleanedPaths = stripped.replace(
+            /(?:https?:\/\/(?:www\.)?socdepoble\.(?:org|net))?\/Users\/javillinares\/[\w/.-]+\/(media_\d+(_\d+)?\.(jpg|png|jpeg|webp|gif))/gi, 
+            '/assets/avatars/comic/iaia_comic_matriarch.png'
+        );
+        return sanitizeHtml(cleanedPaths);
+    }, [activeHtmlContent]);
+
+    const { processedHtml, tocElements } = useMemo(() => {
+        return processContentForToc(baseHtmlContent);
+    }, [baseHtmlContent]);
+
     useEffect(() => {
-        let cleanupFunctions = [];
-        if (activeHtmlContent && !isLoadingPage && !isEditing) {
-            const timeoutId = setTimeout(() => {
-                const contentDiv = document.querySelector('.app-cms-content');
-                const container = scrollContainerRef.current;
+        if (!processedHtml || isLoadingPage || isEditing) return;
+        
+        const controller = new AbortController();
+        const contentDiv = document.querySelector('.app-cms-content');
+        if (!contentDiv) return;
+
+        // Delegación única en el contenedor padre, NO en cada botón
+        const handleCopyClick = (e) => {
+            const btn = e.target.closest('.cms-copy-btn');
+            if (!btn) return;
+            
+            e.preventDefault();
+            e.stopPropagation();
+            const codeBlock = btn.closest('details')?.querySelector('pre');
+            if (codeBlock) {
+                const codeObj = codeBlock.querySelector('code');
+                const codeText = codeObj ? codeObj.innerText : codeBlock.innerText;
+                navigator.clipboard.writeText(codeText).then(() => {
+                    const original = btn.innerHTML;
+                    btn.innerHTML = '✅ Copiat!';
+                    setTimeout(() => btn.innerHTML = original, 2000);
+                });
+            }
+        };
+
+        contentDiv.addEventListener('click', handleCopyClick, { signal: controller.signal });
+
+        // Mutación DOM batcheada (reforzada con cleanup)
+        const timeoutId = setTimeout(() => {
+            const preElements = Array.from(contentDiv.querySelectorAll('pre:not([data-processed])'));
+            if (preElements.length === 0) return;
+            
+            preElements.forEach((pre) => {
+                if (pre.parentNode.classList.contains('cms-code-wrapper')) return;
+
+                pre.setAttribute('data-processed', 'true');
                 
-                if (contentDiv && container) {
-                    // 1. Process Headings for TOC and Anchors
-                    const headings = Array.from(contentDiv.querySelectorAll('h2, h3'));
-                    const toc = headings.map((heading, index) => {
-                        // Creem un slug net ('Capítulo 5 UX!' -> 'capitulo-5-ux')
-                        const slug = heading.innerText.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-                        
-                        const id = heading.id || slug || `heading-${index}`;
-                        heading.id = id;
-                        return {
-                            id,
-                            text: heading.innerText,
-                            level: heading.tagName ? heading.tagName.toLowerCase() : 'h2'
-                        };
-                    });
-                    setTocElements(toc);
+                const details = document.createElement('details');
+                details.className = 'cms-code-block bg-black/5 dark:bg-white/5 border border-[var(--border-master)] rounded-xl my-6 overflow-hidden';
+                
+                const summary = document.createElement('summary');
+                summary.className = 'cursor-pointer p-4 font-bold text-sm uppercase flex items-center justify-between select-none hover:bg-black/5 dark:hover:bg-white/5 transition-colors';
+                
+                const titleSpan = document.createElement('span');
+                titleSpan.innerHTML = '<span class="mr-2">💻</span> Codi / Format Tècnic';
+                
+                const copyBtn = document.createElement('button');
+                copyBtn.className = 'cms-copy-btn flex items-center gap-1 px-3 py-1.5 rounded-lg bg-[var(--theme-accent-primary)]/10 text-[var(--theme-accent-primary)] text-xs font-bold uppercase transition-colors hover:bg-[var(--theme-accent-primary)] hover:text-white';
+                copyBtn.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                    Copiar
+                `;
 
-                    // 2. Intercept local Anchor Links (#algo) per a evitar el refresc y forçar el smooth scroll intern
-                    const anchorLinks = Array.from(contentDiv.querySelectorAll('a[href^="#"]'));
-                    anchorLinks.forEach(a => {
-                        const handler = (e) => {
-                            e.preventDefault();
-                            let targetId = a.getAttribute('href').substring(1);
-                            try { 
-                                targetId = decodeURIComponent(targetId); 
-                            } catch {
-                                // Ignore decode error
-                            }
-                            
-                            let targetEl = document.getElementById(targetId);
-                            // Fallback per a localitzar l'ancora si l'ID generat és un slug parcial (p.e. navbars-de-obsidiana afegit extra pel innerText sencer)
-                            if (!targetEl) {
-                                const fallbackSlug = targetId.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-                                targetEl = document.getElementById(fallbackSlug) || document.querySelector(`[id^="${fallbackSlug}-"]`) || document.querySelector(`[id^="${targetId}-"]`);
-                            }
-                            
-                            if (targetEl) {
-                                const headerOffset = window.innerWidth >= 640 ? 140 : 180;
-                                const containerTop = container.getBoundingClientRect().top;
-                                const elementPosition = targetEl.getBoundingClientRect().top - containerTop;
-                                
-                                container.scrollTo({
-                                    top: container.scrollTop + elementPosition - headerOffset,
-                                    behavior: "smooth"
-                                });
-                            }
-                        };
-                        a.addEventListener('click', handler);
-                        cleanupFunctions.push(() => a.removeEventListener('click', handler));
-                    });
+                summary.appendChild(titleSpan);
+                summary.appendChild(copyBtn);
+                details.appendChild(summary);
+                
+                const preContainer = document.createElement('div');
+                preContainer.className = 'cms-code-wrapper p-4 overflow-x-auto text-sm border-t border-[var(--border-master)] bg-black/80 text-green-400';
+                
+                pre.parentNode.insertBefore(details, pre);
+                preContainer.appendChild(pre);
+                details.appendChild(preContainer);
+            });
+        }, 100); 
 
-                    // 3. Enhance code blocks (Collapsible + Copy Button)
-                    const preElements = Array.from(contentDiv.querySelectorAll('pre'));
-                    preElements.forEach((pre) => {
-                        if (pre.parentNode.classList.contains('cms-code-wrapper')) return;
-
-                        const details = document.createElement('details');
-                        details.className = 'cms-code-block bg-black/5 dark:bg-white/5 border border-[var(--border-master)] rounded-xl my-6 overflow-hidden';
-                        
-                        const summary = document.createElement('summary');
-                        summary.className = 'cursor-pointer p-4 font-bold text-sm uppercase flex items-center justify-between select-none hover:bg-black/5 dark:hover:bg-white/5 transition-colors';
-                        
-                        const titleSpan = document.createElement('span');
-                        titleSpan.innerHTML = '<span class="mr-2">💻</span> Codi / Format Tècnic';
-                        
-                        const copyBtn = document.createElement('button');
-                        copyBtn.className = 'flex items-center gap-1 px-3 py-1.5 rounded-lg bg-[var(--theme-accent-primary)]/10 text-[var(--theme-accent-primary)] text-xs font-bold uppercase transition-colors hover:bg-[var(--theme-accent-primary)] hover:text-white';
-                        copyBtn.innerHTML = `
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
-                            Copiar
-                        `;
-                        const handleCopy = (e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            const codeObj = pre.querySelector('code');
-                            const codeText = codeObj ? codeObj.innerText : pre.innerText;
-                            window.navigator.clipboard.writeText(codeText);
-                            const originalHTML = copyBtn.innerHTML;
-                            copyBtn.innerHTML = '✅ Copiat!';
-                            setTimeout(() => { copyBtn.innerHTML = originalHTML; }, 2000);
-                        };
-                        
-                        copyBtn.addEventListener('click', handleCopy);
-                        cleanupFunctions.push(() => copyBtn.removeEventListener('click', handleCopy));
-
-                        summary.appendChild(titleSpan);
-                        summary.appendChild(copyBtn);
-                        details.appendChild(summary);
-                        
-                        const preContainer = document.createElement('div');
-                        preContainer.className = 'cms-code-wrapper p-4 overflow-x-auto text-sm border-t border-[var(--border-master)] bg-black/80 text-green-400';
-                        
-                        pre.parentNode.insertBefore(details, pre);
-                        preContainer.appendChild(pre);
-                        details.appendChild(preContainer);
-                    });
-                }
-            }, 500);
-            return () => {
-                clearTimeout(timeoutId);
-                cleanupFunctions.forEach(fn => fn());
-            };
-        }
-    }, [activeHtmlContent, isLoadingPage, isEditing]);
+        return () => {
+            clearTimeout(timeoutId);
+            controller.abort(); 
+        };
+    }, [processedHtml, isLoadingPage, isEditing]);
 
     const handleSave = async (updatedHtml) => {
         if (!canEdit) return;
+        
+        // Trellat: Iniciar protección contra cierre de pestaña
+        const endCritical = startCritical('save-document');
+        
         setIsSaving(true);
         try {
+            // 1. Guardar en Y.js (CRDT local) atómicamente si existe provider
+            if (yDocRef.current && window.indexedDBProvider) {
+                await atomicYSave(yDocRef.current, window.indexedDBProvider);
+            }
+
             const payload = {
                 slug: routeSlug,
                 title: title || 'Pàgina Sense Títol',
@@ -260,13 +347,30 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                 published_at: new Date().toISOString()
             };
 
-            if (pageId) {
-                await supabase.from('cms_pages').update(payload).eq('id', pageId);
-            } else {
-                const { data } = await supabase.from('cms_pages').insert([payload]).select().single();
-                if (data) setPageId(data.id);
-            }
-            // Mantenim l'html sense l'H1 redundant, perquè el cleanHtmlContent s'ha desat.
+            // 2. Intentar sync con servidor (con timeout 5s offline-first)
+            const syncPromise = pageId 
+                ? supabase.from('cms_pages').update(payload).eq('id', pageId)
+                : supabase.from('cms_pages').insert([payload]).select().single();
+
+            const timeoutPromise = new Promise((_, reject) => 
+                setTimeout(() => reject(new Error('Network timeout (Local-First Fallback)')), 5000)
+            );
+
+            await Promise.race([syncPromise, timeoutPromise])
+                .then(res => {
+                    if (res && res.data && !pageId) setPageId(res.data.id);
+                })
+                .catch(err => {
+                    console.warn('[Trellat] Guardado local OK, sync remoto pendiente:', err);
+                    if ('serviceWorker' in navigator && navigator.serviceWorker.ready) {
+                        navigator.serviceWorker.ready.then(reg => {
+                            if ('sync' in reg) {
+                                reg.sync.register('trellat-sync-pending');
+                            }
+                        });
+                    }
+                });
+
             setHtmlContent(updatedHtml);
             setIsEditing(false);
         } catch (err) {
@@ -274,12 +378,12 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
             alert("Error al guardar: " + err.message);
         } finally {
             setIsSaving(false);
+            endCritical();
         }
     };
 
-    const HeroBanner = (
+    const HeroBanner = useMemo(() => (
         <div className="relative w-full aspect-video z-0 bg-[#0e0e0e] min-h-[300px] border-b border-[var(--border-master)] group flex flex-col items-center justify-center overflow-hidden">
-            {/* Preparat per a suportar qualsevol media (Imatge o Vídeo) en el futur */}
             <img 
                 src="/assets/banners/hero_nano_final.png" 
                 alt="Sóc de Poble Banner" 
@@ -299,7 +403,7 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                             <button 
                                 onClick={() => setIsHistoryOpen(true)}
                                 className="bg-black/50 backdrop-blur-md text-white p-3 rounded-xl border border-white/10 shadow-lg hover:bg-[var(--theme-accent-primary)] hover:border-transparent transition-all hover:text-black group"
-                                title="Ver Historial de Cambios / Conformidad"
+                                title="Ver Historial"
                             >
                                 <History size={20} className="group-hover:animate-pulse" />
                             </button>
@@ -307,7 +411,6 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                         <button 
                             onClick={() => setIsEditing(!isEditing)} 
                             className="bg-black/50 backdrop-blur-md text-white p-3 rounded-xl border border-white/10 shadow-lg hover:bg-[var(--theme-accent-primary)] hover:border-transparent transition-all hover:text-black"
-                            title={isEditing ? "Tancar edició" : "Editar Pàgina (Génesis)"}
                         >
                             {isEditing ? <ArrowLeft size={20} /> : <Edit2 size={20} />}
                         </button>
@@ -315,14 +418,14 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                 )}
             </div>
         </div>
-    );
+    ), [canEdit, isEditing, pageId]);
 
-    const PagePresentationHeader = (
+    const PagePresentationHeader = useMemo(() => (
         <div className="w-full flex flex-col items-center justify-center py-12 px-6 border-b border-[var(--border-master)] bg-[var(--bg-panel)] rounded-b-3xl shadow-sm mb-8 relative group">
             <img 
                 src="/assets/master/logo_socdepoble_white_clean.png" 
                 alt="Logo Sóc de Poble" 
-                className="h-24 sm:h-32 w-auto mb-6 drop-shadow-md object-contain dark:brightness-100 brightness-0 opacity-90" 
+                className="h-24 sm:h-32 w-auto mb-6 drop-shadow-md object-contain brightness-0 opacity-90" 
             />
             
             {(routeSlug === 'codex' || collaborators.length > 0) && (
@@ -330,7 +433,6 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                     <div className="w-10 h-10 rounded-full border-2 border-[var(--bg-panel)] shadow-md z-20 bg-black flex items-center justify-center overflow-hidden" title="Mestre">
                         <img src="/pwa-192x192.png" alt="Mestre" className="w-full h-full object-cover" />
                     </div>
-                    {/* Simulamos la Co-Autoría constante en los manifiestos, o dinámicamente si los colaboradores superan 1*/}
                     {(routeSlug === 'codex' || routeSlug === 'manifest' || collaborators.length > 1) && (
                         <div className="w-10 h-10 rounded-full border-2 border-[var(--theme-accent-primary)] shadow-md z-10 bg-black flex items-center justify-center overflow-hidden" title="Antigravity IAIA">
                             <span className="text-[var(--theme-accent-primary)] text-xs font-black tracking-tighter">IA</span>
@@ -349,10 +451,9 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                         type="text" 
                         value={title} 
                         onChange={(e) => setTitle(e.target.value)} 
-                        className="text-3xl sm:text-4xl md:text-5xl font-black text-[var(--theme-accent-primary)] text-center tracking-tight leading-none uppercase bg-transparent border-b-2 border-dashed border-[var(--theme-accent-primary)] outline-none w-full focus:bg-[var(--theme-accent-primary)]/10 transition-colors pb-2"
+                        className="text-3xl sm:text-4xl md:text-5xl font-black text-[var(--theme-accent-primary)] text-center tracking-tight leading-none uppercase border-b-2 border-dashed border-[var(--theme-accent-primary)] outline-none w-full focus:bg-[var(--theme-accent-primary)]/10 transition-colors pb-2 bg-transparent"
                         placeholder="INTRODUEIX EL TÍTOL (H1)"
                     />
-                    <p className="text-xs text-[var(--text-muted)] mt-2 mb-0 font-bold uppercase tracking-wider text-center">Títol Principal Metadades.</p>
                 </div>
             ) : (
                 <div className="flex flex-col items-center">
@@ -362,14 +463,9 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                 </div>
             )}
         </div>
-    );
+    ), [routeSlug, collaborators.length, canEdit, isEditing, title]);
 
-    const cleanHtmlContent = useMemo(() => {
-        if (!activeHtmlContent) return '';
-        // If the first tag is an H1 that contains "SÓC DE POBLE", we can assume it's the redundant one
-        const stripped = activeHtmlContent.replace(/^\s*<h1[^>]*>.*?<\/h1>\s*/is, '');
-        return sanitizeHtml(stripped);
-    }, [activeHtmlContent]);
+    // cleanHtmlContent was moved up and merged with TOC pre-processor
 
     // FAST SCRUBBER HANDLING
     useEffect(() => {
@@ -377,12 +473,17 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
 
         // L'ULL DE DÉU: Delega el càlcul a l'API nativa asíncrona
         const observer = new IntersectionObserver((entries) => {
-            const visible = entries.find(e => e.isIntersecting);
+            const visible = entries
+                .filter(e => e.isIntersecting)
+                .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
             if (visible) {
                 const activeItem = tocElements.find(el => el.id === visible.target.id);
-                if (activeItem) setScrubberActiveHeading(activeItem.text);
+                if (activeItem) {
+                    setScrubberActiveHeading(activeItem.text);
+                    setActiveHeadingId(visible.target.id);
+                }
             }
-        }, { rootMargin: "-10% 0px -80% 0px" });
+        }, { rootMargin: "-12% 0px -85% 0px", threshold: 0 });
 
         tocElements.forEach(item => {
             const el = document.getElementById(item.id);
@@ -396,7 +497,15 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
             if (!ticking && !scrubberDragging && container) {
                 window.requestAnimationFrame(() => {
                     const scrollHeight = container.scrollHeight - container.clientHeight;
-                    setScrubberPos(scrollHeight > 0 ? (container.scrollTop / scrollHeight) : 0);
+                    const percent = scrollHeight > 0 ? (container.scrollTop / scrollHeight) : 0;
+                    scrubberPosRef.current = percent;
+                    if (scrubberThumbRef.current) {
+                        scrubberThumbRef.current.style.top = `calc(${percent * 100}% - 12px)`;
+                    }
+                    if (pageNumberRef.current) {
+                        // Math.max guarantees page 1 min, Math.ceil gives the current page slice
+                        pageNumberRef.current.textContent = Math.max(1, Math.ceil(percent * totalPages));
+                    }
                     ticking = false;
                 });
                 ticking = true;
@@ -410,7 +519,7 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
             observer.disconnect(); 
             if (container) container.removeEventListener('scroll', updateScrubberBar); 
         };
-    }, [tocElements, scrubberDragging, isEditing]);
+    }, [tocElements, scrubberDragging, isEditing, totalPages]);
 
     const handleScrubberPointerMove = useCallback((e) => {
         if (!scrollContainerRef.current || !scrubberBoundsRef.current) return;
@@ -421,7 +530,14 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
             let percentage = (e.clientY - top) / height;
             percentage = Math.max(0, Math.min(1, percentage));
             
-            setScrubberPos(percentage);
+            
+            scrubberPosRef.current = percentage;
+            if (scrubberThumbRef.current) {
+                scrubberThumbRef.current.style.top = `calc(${percentage * 100}% - 12px)`;
+            }
+            if (pageNumberRef.current) {
+                pageNumberRef.current.textContent = Math.max(1, Math.ceil(percentage * totalPages));
+            }
             
             const container = scrollContainerRef.current;
             container.scrollTop = percentage * (container.scrollHeight - container.clientHeight);
@@ -431,18 +547,23 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                     Math.floor(percentage * tocElements.length),
                     Math.max(0, tocElements.length - 1)
                 );
-                setScrubberActiveHeading(tocElements[index].text);
+                const newHeading = tocElements[index].text;
+                setScrubberActiveHeading(prev => prev !== newHeading ? newHeading : prev);
             }
             scrubberRafRef.current = null;
         });
-    }, [tocElements]);
+    }, [tocElements, totalPages]);
 
     const handleScrubberPointerUp = useCallback(() => {
         setScrubberDragging(false);
         window.removeEventListener('pointermove', handleScrubberPointerMove);
         window.removeEventListener('pointerup', handleScrubberPointerUp);
         if (scrubberRafRef.current) cancelAnimationFrame(scrubberRafRef.current);
-    }, [handleScrubberPointerMove]);
+        // Restaurar transición suave al soltar
+        if (scrubberThumbRef.current) {
+            scrubberThumbRef.current.style.transition = 'transform 0.2s cubic-bezier(0.22, 1, 0.36, 1)';
+        }
+    }, [handleScrubberPointerMove, setScrubberDragging]);
 
     const handleScrubberPointerDown = (e) => {
         e.preventDefault();
@@ -463,6 +584,19 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
             window.removeEventListener('pointerup', handleScrubberPointerUp);
         };
     }, [handleScrubberPointerMove, handleScrubberPointerUp]);
+
+    // Auto-scroll TOC to active item
+    useEffect(() => {
+        if (isTocOpen && activeHeadingId) {
+            const timer = setTimeout(() => {
+                const activeEl = document.getElementById(`btn-toc-${activeHeadingId}`);
+                if (activeEl) {
+                    activeEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }, 100);
+            return () => clearTimeout(timer);
+        }
+    }, [isTocOpen, activeHeadingId]);
 
     // OMEGA TRANSLATE EFFECT (V12 Proxy Seguritzat)
     useEffect(() => {
@@ -530,109 +664,8 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
             <div className="w-full flex-1 flex flex-col items-center z-10 -mt-2 sm:mt-0 sm:px-4 pb-4">
                 {PagePresentationHeader}
 
-                <div className="w-full max-w-4xl mx-auto px-6 lg:px-10 mt-2 mb-8">
-                    <details className="cms-code-block bg-black/5 dark:bg-white/5 border border-[var(--border-master)] rounded-xl overflow-hidden group">
-                        <summary className="cursor-pointer p-4 font-bold text-sm uppercase flex items-center justify-between select-none hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
-                            <span className="flex items-center gap-2 text-[var(--theme-accent-primary)]">
-                                <Book size={16} /> Crèdits, Avís Legal i Metadades
-                            </span>
-                            <ChevronRight size={16} className="group-open:rotate-90 transition-transform text-[var(--text-muted)]" />
-                        </summary>
-                        
-                        {/* Secció 1: Crèdits i Avís Legal */}
-                        <div className="p-5 border-t border-[var(--border-master)] bg-[var(--bg-panel)] text-sm space-y-4 text-[var(--text-main)]">
-                            <div className="space-y-1">
-                                <p className="font-bold text-base m-0">Títol original: Sóc de Poble. El Projecte.</p>
-                                <p className="italic text-[var(--text-muted)] m-0">Arxiu Etnogràfic i Dades Vives locals.</p>
-                            </div>
-                            
-                            <div className="space-y-1">
-                                <p className="font-bold m-0 text-sm">Autor: Equip Sóc de Poble (La Torre de les Maçanes).</p>
-                                <p className="italic text-xs text-[var(--text-muted)] m-0">Desenvolupament autogestionat sota la filosofia Trellat Mesh i Local-First. Preservació digital del patrimoni rural.</p>
-                            </div>
-                            
-                            <div className="space-y-1 text-sm pt-2 border-t border-[var(--border-master)]/30">
-                                <p className="m-0">Edita: <strong>Associació El Rentonar</strong> de La Torre de les Maçanes,<br />Projecte Sóc de Poble.</p>
-                                <p className="m-0 mt-2">Tecnologia i Maquetació: <strong>Javi Llinares</strong>.</p>
-                            </div>
-                            
-                            <div className="space-y-1 text-sm pt-2 border-t border-[var(--border-master)]/30">
-                                <p className="m-0">Imatges: <strong>Respectius Arxius / Col·leccions Privades / Sóc de Poble</strong></p>
-                                <p className="m-0">Art Generatiu: <strong>Sistema IAIA i Nano Banana (Sóc de Poble)</strong></p>
-                                <p className="m-0">Imatge de portada: <strong>IAIA Maria</strong></p>
-                                <p className="m-0 mt-2">Edició Digital Contínua, <strong>{new Date().getFullYear()}</strong>.</p>
-                                <p className="m-0 font-mono mt-1 pt-1 border-t border-[var(--border-master)]/30">ISBN: PENDENT (Print on Demand / Amazon KDP)</p>
-                            </div>
-                            
-                            <div className="pt-4 border-t border-[var(--border-master)]">
-                                <div className="flex flex-col sm:flex-row gap-4 items-start pb-4">
-                                    <div className="bg-white p-1 rounded inline-block shrink-0">
-                                        <img src="https://mirrors.creativecommons.org/presskit/buttons/88x31/png/by-nc-sa.png" alt="CC BY-NC-SA 4.0" className="w-[100px] h-auto object-contain" />
-                                    </div>
-                                    <div>
-                                        <p className="font-bold m-0 text-sm">Reconeixement-NoComercial-CompartirIgual</p>
-                                        <p className="font-bold text-[var(--theme-accent-primary)] m-0 text-sm">4.0 Internacional (CC BY-NC-SA 4.0)</p>
-                                    </div>
-                                </div>
-                                <div className="space-y-2 text-xs text-[var(--text-muted)]">
-                                    <p className="m-0"><strong>Amb aquesta llicència, sou lliure de:</strong> Compartir (copiar i redistribuir) i Adaptar (remesclar, transformar i crear a partir del material).</p>
-                                    <p className="m-0"><strong>Amb els termes següents:</strong> Reconeixement obligatori, NoComercial, i CompartirIgual (amb la mateixa llicència).</p>
-                                    <p className="m-0 pt-2 break-words">
-                                        L'obra "Sóc de Poble. El Projecte", editada per <strong>Associació El Rentonar</strong>, està autoritzada amb CC BY-NC-SA 4.0. Còpia de la llicència disponible a: <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca" target="_blank" rel="noopener noreferrer" className="text-[var(--theme-accent-secondary)] hover:underline">https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca</a>
-                                    </p>
-                                </div>
-                            </div>
-                            
-                            <div className="flex flex-col sm:flex-row gap-2 pt-4 border-t border-[var(--border-master)]/30">
-                                <a href="https://javillinares.com" target="_blank" rel="noopener noreferrer" className="flex-1 bg-[var(--bg-panel)] border border-[var(--border-master)] text-center py-2 px-3 rounded-lg font-bold text-[10px] uppercase tracking-wider hover:bg-black/5 dark:hover:bg-white/5 transition-colors flex items-center justify-center">
-                                    Javi Llinares
-                                </a>
-                                <a href="https://elrentonar.org" target="_blank" rel="noopener noreferrer" className="flex-1 bg-[var(--bg-panel)] border border-[var(--border-master)] text-center py-2 px-3 rounded-lg font-bold text-[10px] uppercase tracking-wider hover:bg-black/5 dark:hover:bg-white/5 transition-colors flex items-center justify-center">
-                                    Assoc. El Rentonar
-                                </a>
-                                <a href="https://socdepoble.net" target="_blank" rel="noopener noreferrer" className="flex-1 bg-[var(--theme-accent-primary)] text-white text-[var(--bg-panel)] text-center py-2 px-3 rounded-lg font-bold text-[10px] uppercase tracking-wider hover:brightness-110 transition-colors flex items-center justify-center">
-                                    Sóc de Poble
-                                </a>
-                            </div>
-                        </div>
-
-                        {/* Secció 2: Metadades Acadèmiques i Indexació */}
-                        <div className="p-5 border-t border-[var(--border-master)] bg-black/5 dark:bg-black/20 text-sm grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
-                            <div className="sm:col-span-2 pb-2">
-                                <h3 className="font-bold text-[10px] uppercase tracking-widest text-[var(--theme-accent-secondary)] mb-0">Indexació Acadèmica (Metadades Vives)</h3>
-                            </div>
-                            <div>
-                                <h4 className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)] mb-1">Editor / Repositori Institucional</h4>
-                                <p className="font-bold text-xs text-[var(--text-main)] mb-0">Sóc de Poble (Auto-publicació descentralitzada)</p>
-                            </div>
-                            <div>
-                                <h4 className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)] mb-1">Estat de Revisió (Peer Review)</h4>
-                                <p className="font-bold text-xs text-[var(--text-main)] mb-0">Comunitat-Revisat (Decentralized Community Peer-Reviewed)</p>
-                            </div>
-                            <div>
-                                <h4 className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)] mb-1">Idioma Principal</h4>
-                                <p className="font-bold text-xs text-[var(--text-main)] mb-0">Valencià (Amb sub-traduccions dinàmiques IA)</p>
-                            </div>
-                            <div>
-                                <h4 className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)] mb-1">Departament / Matèria</h4>
-                                <p className="font-bold text-xs text-[var(--text-main)] mb-0">Etnografia Digital, Sociologia Rural, Indústria Digital</p>
-                            </div>
-                            <div className="sm:col-span-2">
-                                <h4 className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)] mb-1">Citació Recomanada (Format APA 7)</h4>
-                                <div className="bg-white/50 dark:bg-black/40 p-3 rounded-lg text-[11px] font-mono leading-relaxed text-[var(--text-main)] select-all break-words border border-[var(--border-master)] shadow-inner">
-                                    Sóc de Poble & IAIA Maria. ({new Date().getFullYear()}). "{title || "El Projecte"}". Edició Contínua Local-First. La Torre de les Maçanes: Xarxa Sóc de Poble. Recuperat des de: {typeof window !== 'undefined' ? window.location.href : 'https://socdepoble.cat'}
-                                </div>
-                            </div>
-                            <div className="sm:col-span-2">
-                                <h4 className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)] mb-1">Paraules Clau (Keywords)</h4>
-                                <div className="flex flex-wrap gap-2 mt-1">
-                                    {['Etnografia', 'Identitat Rural', 'Intel·ligència Artificial', 'Local-First', 'Descentralització', 'Sóc de Poble', 'Digitalització Rural'].map(kw => (
-                                        <span key={kw} className="bg-white/60 dark:bg-black/40 border border-[var(--border-master)] px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider text-[var(--text-main)]">{kw}</span>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    </details>
+                <div className="w-full max-w-4xl mx-auto px-6 lg:px-10 mt-2 mb-2">
+                    {/* Crèdits i metadades extrets per a reduir l'espai i col·locat a la sidebar com va sol·licitar l'usuari */}
                 </div>
                 
                 <div className="w-full max-w-4xl mx-auto px-6 lg:px-10 mb-0">
@@ -646,7 +679,7 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                         />
                     ) : (
                         subtitle && (
-                            <h2 className="text-2xl md:text-3xl font-bold text-[var(--theme-accent-secondary)] uppercase mb-0 mt-8 text-center px-4 w-full">
+                            <h2 className="text-2xl md:text-3xl font-bold text-[var(--theme-accent-secondary)] uppercase mb-0 mt-4 text-center px-4 w-full">
                                 {subtitle}
                             </h2>
                         )
@@ -655,7 +688,7 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
 
                 {/* 7. VISIÓN V15 - PLAZA INFINITA (Simulador Interactivo) - Reubicat a dalt a petició de l'usuari */}
                 {(!isEditing && (routeSlug === '/el-projecte' || routeSlug === 'el-projecte' || routeSlug === '/manifest' || routeSlug === 'manifest' || routeSlug === '/codex' || routeSlug === 'codex')) && (
-                    <div className="w-full max-w-4xl mx-auto px-6 lg:px-10 mb-8 mt-2">
+                    <div className="w-full max-w-4xl mx-auto px-6 lg:px-10 mb-0 mt-2">
                         <details className="cms-code-block bg-black/5 dark:bg-[#111111] border-2 border-[var(--theme-accent-primary)] rounded-[1.5rem] overflow-hidden group shadow-[0_4px_30px_rgba(249,115,22,0.15)] transition-all">
                             <summary className="cursor-pointer p-5 font-black text-[15px] uppercase flex items-center justify-between select-none hover:bg-black/5 dark:hover:bg-white/5 transition-colors touch-manipulation outline-none focus-visible:ring-4 focus-visible:ring-[var(--theme-accent-primary)]">
                                 <span className="flex items-center gap-3 text-[var(--theme-accent-primary)]">
@@ -673,11 +706,126 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                                     <span>Topologia: Kademlia + DHT</span>
                                 </div>
                                 <iframe 
-                                    src="/assets/simulators/v15-plaza-infinita.html" 
+                                    src="/assets/simulators/v15-plaza-infinita.html?v=1.0.1" 
                                     className="w-full h-full min-h-[600px] sm:min-h-[700px] border-none z-20 relative pointer-events-auto"
                                     title="Simulador Arquitectura V15"
                                     loading="lazy"
                                 />
+                                
+                                {/* LEYENDA Y EXPLICACIÓN MULTILINGÜE */}
+                                <div className="p-4 sm:p-6 bg-gray-100 dark:bg-black/40 border-t border-[var(--theme-accent-primary)]/20 text-sm transition-colors">
+                                    <h4 className="font-bold text-[var(--theme-accent-primary)] flex items-center gap-2 mb-3">
+                                        <Info size={16} /> 
+                                        {t('simulators.legend_title', 'Llegenda del Simulador / Simulator Legend')}
+                                    </h4>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-700 dark:text-gray-400">
+                                        <div className="space-y-4">
+                                            <div>
+                                                <strong className="text-gray-900 dark:text-white block mb-1">{t('simulators.v14_gossip', 'Global Gossip (V14)')}</strong>
+                                                <p className="text-xs">{t('simulators.v14_desc', 'L\'arquitectura V14 (Gossip) intentava connectar a cada usuari amb la resta de la comarca, provocant una saturació exponencial (Caos) que bloquejava telèfons antics i esgotava la memòria IndexedDB.')}</p>
+                                            </div>
+                                            <div>
+                                                <strong className="text-gray-900 dark:text-white block mb-1">{t('simulators.v15_kademlia', 'Kademlia Fractal (V15)')}</strong>
+                                                <p className="text-xs">{t('simulators.v15_desc', 'L\'arquitectura V15 (Kademlia Fractal) agrupa els usuaris en «placetes» de poble petites i utilitza uns pocs nodes «guaites» per connectar amb altres pobles, mantenint la pantalla totalment fluida.')}</p>
+                                            </div>
+                                        </div>
+                                        <div className="space-y-2 bg-gray-200/50 dark:bg-black/20 p-3 rounded-lg border border-gray-300 dark:border-white/5 transition-colors">
+                                            <div className="flex items-start gap-2">
+                                                <div className="w-3 h-3 rounded-full bg-emerald-500 shrink-0 mt-0.5"></div>
+                                                <span className="text-xs"><strong className="text-emerald-600 dark:text-emerald-400">{t('simulators.green_nodes', 'Punts Verds')}</strong>: {t('simulators.green_nodes_desc', 'Guaites (Nodos permanents, estables i invulnerables a iOS constraints)')}</span>
+                                            </div>
+                                            <div className="flex items-start gap-2">
+                                                <div className="w-3 h-3 rounded-full bg-indigo-500 shrink-0 mt-0.5"></div>
+                                                <span className="text-xs"><strong className="text-indigo-600 dark:text-indigo-400">{t('simulators.blue_nodes', 'Punts Blaus')}</strong>: {t('simulators.blue_nodes_desc', 'Usuaris estàndard interactuant només a la seua placeta')}</span>
+                                            </div>
+                                            <div className="flex items-start gap-2">
+                                                <div className="w-3 h-[2px] bg-red-500 shrink-0 mt-1.5 opacity-50"></div>
+                                                <span className="text-xs"><strong className="text-red-500 dark:text-red-400">{t('simulators.red_lines', 'Línies Roges')}</strong>: {t('simulators.red_lines_desc', 'Connexions de xafardeig innecessàries i redundants')}</span>
+                                            </div>
+                                            <div className="flex items-start gap-2">
+                                                <div className="w-3 h-[2px] bg-orange-500 border-dashed border-t border-orange-500 shrink-0 mt-1.5"></div>
+                                                <span className="text-xs"><strong className="text-orange-600 dark:text-orange-400">{t('simulators.orange_lines', 'Línies Taronges')}</strong>: {t('simulators.orange_lines_desc', 'Enrutament estructurat Kademlia eficient (pocs salts)')}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="mt-4 pt-4 border-t border-gray-300 dark:border-white/10 text-xs text-gray-600 dark:text-gray-500 transition-colors">
+                                        <p><strong>{t('simulators.main_thread_load', 'Main Thread Load')}:</strong> {t('simulators.main_thread_load_desc', 'Mesura el nivell de càrrega del navegador. Si marca "OVERLOAD", significa que Chrome/Safari s\'acabaria penjant.')}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </details>
+
+                        {/* 8. DAFO & VISIÓN 2056 (Testamento del Trellat) */}
+                        <details className="cms-code-block bg-black/5 dark:bg-[#111111] border-2 border-[var(--theme-accent-primary)] rounded-[1.5rem] overflow-hidden group shadow-[0_4px_30px_rgba(249,115,22,0.15)] transition-all">
+                            <summary className="cursor-pointer p-5 font-black text-[15px] uppercase flex items-center justify-between select-none hover:bg-black/5 dark:hover:bg-white/5 transition-colors touch-manipulation outline-none focus-visible:ring-4 focus-visible:ring-[var(--theme-accent-primary)]">
+                                <span className="flex items-center gap-3 text-[var(--theme-accent-primary)]">
+                                    <div className="w-8 h-8 rounded-full bg-[var(--theme-accent-primary)]/10 flex items-center justify-center">
+                                        <ShieldAlert size={18} className="animate-pulse" /> 
+                                    </div>
+                                    <span className="truncate">Visión 2056: DAFO Socio-Técnico</span>
+                                </span>
+                                <ChevronRight size={20} strokeWidth={3} className="group-open:rotate-90 transition-transform text-[var(--theme-accent-primary)] shrink-0" />
+                            </summary>
+                            
+                            <div className="border-t border-[var(--theme-accent-primary)]/30 bg-gray-100 dark:bg-[#0e0e0e] p-6 sm:p-8 text-sm text-[var(--text-main)] space-y-8">
+                                <div className="space-y-3">
+                                    <h4 className="font-black text-lg text-emerald-600 dark:text-emerald-400 uppercase tracking-wider flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-emerald-500"></div> Fortaleses</h4>
+                                    <ul className="list-disc pl-5 space-y-2 text-gray-700 dark:text-gray-300">
+                                        <li><strong>Indestructibilitat Atòmica (Local-First):</strong> La font de veritat és al dispositiu. La caiguda de servidors no afecta l'operativitat.</li>
+                                        <li><strong>Sobirania de Dades:</strong> IndexedDB i CRDT (Y.js) blinden el coneixement a interferències externes.</li>
+                                        <li><strong>Austeritat Tècnica:</strong> Rendiment òptim en xarxes 2G/3G de Riu Sec i La Torre de les Maçanes gràcies a CompressionStream natiu i sense dependències extres.</li>
+                                    </ul>
+                                </div>
+                                
+                                <div className="space-y-3">
+                                    <h4 className="font-black text-lg text-red-600 dark:text-red-400 uppercase tracking-wider flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-red-500"></div> Debilitats</h4>
+                                    <ul className="list-disc pl-5 space-y-2 text-gray-700 dark:text-gray-300">
+                                        <li><strong>Onboarding Complex:</strong> Dependència dels Guaites per introduir a la gent gran (baixinglading d’usuaris nous).</li>
+                                        <li><strong>Quotes d’Emmagatzematge:</strong> IOS Safari pot fer purgues silencioses. Requereix manteniment constant de la sincronització.</li>
+                                    </ul>
+                                </div>
+                                
+                                <div className="space-y-3">
+                                    <h4 className="font-black text-lg text-blue-600 dark:text-blue-400 uppercase tracking-wider flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-blue-500"></div> Oportunitats</h4>
+                                    <ul className="list-disc pl-5 space-y-2 text-gray-700 dark:text-gray-300">
+                                        <li><strong>El Gen Universal:</strong> Possibilitat de desplegar una instància autònoma a qualsevol comunitat, exportant el "Trellat".</li>
+                                        <li><strong>Xarxes en Malla (Kademlia):</strong> Substitució del cloud de pagament per dispositius interconnectats (cost marginal 0).</li>
+                                    </ul>
+                                </div>
+                                
+                                <div className="space-y-3">
+                                    <h4 className="font-black text-lg text-orange-600 dark:text-orange-400 uppercase tracking-wider flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-orange-500"></div> Amenaces</h4>
+                                    <ul className="list-disc pl-5 space-y-2 text-gray-700 dark:text-gray-300">
+                                        <li><strong>Assimilació Corporativa:</strong> Ecosistemes tancats intentant asfixiar l'operativitat PWA de la comarca.</li>
+                                        <li><strong>Obsolescència d'API Web:</strong> Navegadors retirant APIs essencials (previngut pel 'Runtime Abstraction').</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </details>
+
+                        <details className="cms-code-block bg-black/5 dark:bg-[#111111] border-2 border-[var(--theme-accent-primary)] rounded-[1.5rem] overflow-hidden group shadow-[0_4px_30px_rgba(249,115,22,0.15)] transition-all">
+                            <summary className="cursor-pointer p-5 font-black text-[15px] uppercase flex items-center justify-between select-none hover:bg-black/5 dark:hover:bg-white/5 transition-colors touch-manipulation outline-none focus-visible:ring-4 focus-visible:ring-[var(--theme-accent-primary)]">
+                                <span className="flex items-center gap-3 text-indigo-600 dark:text-indigo-400">
+                                    <div className="w-8 h-8 rounded-full bg-indigo-500/10 flex items-center justify-center">
+                                        <History size={18} /> 
+                                    </div>
+                                    <span className="truncate">El Testament del Trellat (2056)</span>
+                                </span>
+                                <ChevronRight size={20} strokeWidth={3} className="group-open:rotate-90 transition-transform text-indigo-600 dark:text-indigo-400 shrink-0" />
+                            </summary>
+                            
+                            <div className="border-t border-[var(--theme-accent-primary)]/30 bg-gray-100 dark:bg-[#0e0e0e] p-6 sm:p-8 space-y-6 text-sm text-[var(--text-main)] italic">
+                                <p className="font-bold border-l-4 border-indigo-500 pl-4 py-1 text-gray-900 dark:text-white">"No hi haurà més codi. No hi haurà més pedaços. Només la mirada retrospectiva des de l'any 2056, tres dècades després de la sembra del Gen Universal."</p>
+                                
+                                <div className="space-y-4 pt-4 text-gray-700 dark:text-gray-300">
+                                    <p><strong className="text-gray-900 dark:text-white">1. L'Algoritme Fòssil:</strong> L'esquema trellat.schema.json va esdevenir metadades santes mentre React i els vells frameworks morien. Els CRDT van sobreviure com a manuscrits als dispositius mòbils rurals.</p>
+                                    <p><strong className="text-gray-900 dark:text-white">2. Cultura Descentralitzada:</strong> Centenars de pobles es van independitzar digitalment. Xarxes Kademlia en onades verdes van mantindre viu Sóc de Poble a cost 0. Els mòbils de les iaies són ara nodes fonamentals.</p>
+                                    <p><strong className="text-gray-900 dark:text-white">3. Resiliència Absoluta:</strong> Quan el món depenia de servidors centralitzats, els nostres masos seguien vius. Compressió al vol sense dependències va ser la salvació en les èpoques menys connectades.</p>
+                                </div>
+                                
+                                <p className="font-bold text-center mt-8 pt-8 border-t border-[var(--border-master)] text-xl text-[var(--theme-accent-primary)] tracking-widest uppercase">
+                                    SÓC DE POBLE ÉS ARA UN VERB.
+                                </p>
                             </div>
                         </details>
                     </div>
@@ -685,19 +833,21 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
 
                 {(canEdit && isEditing) ? (
                     <div className="w-full max-w-5xl mx-auto custom-scrollbar px-4">
-                        <RichTextEditor 
-                            content={cleanHtmlContent} 
-                            onChange={setHtmlContent} 
-                            onSave={handleSave} 
-                            isSaving={isSaving}
-                            editable={true}
-                        />
+                        <Suspense fallback={<div className="p-8 text-center text-[var(--text-muted)] animate-pulse">Carregant editor...</div>}>
+                            <RichTextEditor 
+                                content={baseHtmlContent} 
+                                onChange={setHtmlContent} 
+                                onSave={handleSave} 
+                                isSaving={isSaving}
+                                editable={true}
+                            />
+                        </Suspense>
                     </div>
                 ) : (
                     <div className="flex-1 w-full max-w-4xl mx-auto custom-scrollbar">
                         <div 
                             className="app-cms-content focus:outline-none min-h-[50vh] px-6 lg:px-10 pb-4 w-full"
-                            dangerouslySetInnerHTML={{ __html: cleanHtmlContent }}
+                            dangerouslySetInnerHTML={{ __html: processedHtml }}
                             onClick={(e) => {
                                 if (e.target.tagName === 'IMG') {
                                     const bannerSrc = "/assets/banners/hero_nano_final.png";
@@ -706,6 +856,24 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                                     
                                     setMediaViewerImages(combinedImages);
                                     setMediaViewerSrc(e.target.src);
+                                }
+                                
+                                // Intercept anchor links locally (Event Delegation)
+                                const anchor = e.target.closest('a[href^="#"]');
+                                if (anchor) {
+                                    e.preventDefault();
+                                    let targetId = anchor.getAttribute('href').substring(1);
+                                    try { targetId = decodeURIComponent(targetId); } catch (e) { console.warn(e); }
+                                    
+                                    let targetEl = document.getElementById(targetId);
+                                    if (!targetEl) {
+                                        const fallbackSlug = targetId.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+                                        targetEl = document.getElementById(fallbackSlug) || document.querySelector(`[id^="${fallbackSlug}-"]`) || document.querySelector(`[id^="${targetId}-"]`);
+                                    }
+                                    
+                                    if (targetEl) {
+                                        targetEl.scrollIntoView({ behavior: 'smooth' });
+                                    }
                                 }
                             }}
                         />
@@ -731,22 +899,26 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
         >
             {/* 2. MUERTE AL DOM ZOMBI (Desmontaje Estricto de Modales) */}
             {isTranslationOpen && (
-                <TranslationModal isOpen={true} onClose={() => setIsTranslationOpen(false)} config={{ postId: routeSlug || 'projecte', title: title }} />
+                <Suspense fallback={<div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[var(--z-modal,500)]"><div className="w-8 h-8 rounded-full border-4 border-white/20 border-[var(--theme-accent-primary)] animate-spin"></div></div>}>
+                    <TranslationModal isOpen={true} onClose={() => setIsTranslationOpen(false)} config={{ postId: routeSlug || 'projecte', title: title }} />
+                </Suspense>
             )}
 
             {isHistoryOpen && (
-                <HistoryModal 
-                    isOpen={true} 
-                    onClose={() => setIsHistoryOpen(false)} 
-                    pageId={pageId} 
-                    onRestore={(restoredHtml, restoredTitle, restoredSubtitle) => {
-                        setHtmlContent(restoredHtml);
-                        setTranslatedContent(null);
-                        setTitle(restoredTitle);
-                        setSubtitle(restoredSubtitle);
-                        setIsEditing(true);
-                    }} 
-                />
+                <Suspense fallback={<div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[var(--z-modal,500)]"><div className="w-8 h-8 rounded-full border-4 border-white/20 border-[var(--theme-accent-primary)] animate-spin"></div></div>}>
+                    <HistoryModal 
+                        isOpen={true} 
+                        onClose={() => setIsHistoryOpen(false)} 
+                        pageId={pageId} 
+                        onRestore={(restoredHtml, restoredTitle, restoredSubtitle) => {
+                            setHtmlContent(restoredHtml);
+                            setTranslatedContent(null);
+                            setTitle(restoredTitle);
+                            setSubtitle(restoredSubtitle);
+                            setIsEditing(true);
+                        }} 
+                    />
+                </Suspense>
             )}
             
             <SEO title={title || "El Projecte"} description="Connectant l'Espanya Buidada..." url={routeSlug} />
@@ -754,7 +926,7 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
             {/* 3. PROTECCIÓN SUPERIOR (NOTCH) */}
             <div 
                 className="pt-[max(env(safe-area-inset-top),0px)] shrink-0 z-[var(--z-nav,40)] bg-[var(--bg-app)]"
-                inert={isTocOpen || isActionMenuOpen || isTranslationOpen || isHistoryOpen || !!mediaViewerSrc ? "true" : undefined}
+                inert={isTocOpen || isActionMenuOpen || isTranslationOpen || isHistoryOpen || !!mediaViewerSrc ? true : undefined}
             >
                 <PageHeader title={title || "EL PROJECTE"} onBack={() => navigate(-1)} />
             </div>
@@ -763,7 +935,7 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
             <main 
                 ref={scrollContainerRef}
                 className="flex-1 overflow-y-auto overscroll-y-contain custom-scrollbar relative min-h-0 pb-[max(env(safe-area-inset-bottom),1.5rem)]"
-                inert={isTocOpen || isActionMenuOpen || isTranslationOpen || isHistoryOpen || !!mediaViewerSrc ? "true" : undefined}
+                inert={isTocOpen || isActionMenuOpen || isTranslationOpen || isHistoryOpen || !!mediaViewerSrc ? true : undefined}
             >
                 {HeroBanner}
 
@@ -800,11 +972,11 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                 </div>
 
                 {/* 5. ACTION BAR: PATRÓN PRIORITY+ (Erradicado el Scroll Horizontal) */}
-                <div className="sticky top-0 z-[var(--z-sticky,200)] w-full shadow-md bg-[#4F46E5]/95 dark:bg-[#F97316]/95 backdrop-blur-md transition-colors border-b border-white/10 shrink-0 touch-manipulation">
-                    <div className="flex items-center justify-between min-h-[56px] px-2 sm:px-4">
+                <div className="sticky top-0 z-[var(--z-sticky,200)] w-full shadow-md bg-[#4F46E5]/95 dark:bg-[#F97316]/95 backdrop-blur-md transition-colors shrink-0 touch-manipulation">
+                    <div className="flex items-center justify-center min-h-[56px] px-2 sm:px-4">
                         
-                        {/* Secundarias: Adaptativas (Ara a l'Esquerra) */}
-                        <div className="flex items-center gap-1 shrink-0 text-white dark:text-[#111111]">
+                        {/* Secundarias: Adaptativas */}
+                        <div className="flex items-center justify-center gap-1 shrink-0 text-white dark:text-[#111111]">
                             <button 
                                 className={`flex items-center justify-center gap-2 min-h-[44px] px-3 rounded-xl hover:bg-white/20 dark:hover:bg-black/10 active:scale-95 transition-colors touch-manipulation font-bold uppercase text-sm ${isSearchOpen ? 'bg-white/20 dark:bg-black/20' : ''}`}
                                 aria-label="Cercar al document"
@@ -817,6 +989,21 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                                 <span className="hidden sm:inline">Cercar</span>
                             </button>
 
+                            {/* LLIBRE / ÍNDEX WITH PAGE NUMBER */}
+                            <button 
+                                className={`flex items-center justify-center gap-1.5 min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 dark:hover:bg-black/10 active:scale-95 transition-colors touch-manipulation font-bold uppercase text-sm ${isTocOpen ? 'bg-white/20 dark:bg-black/20 text-[var(--theme-accent-primary)]' : ''}`}
+                                aria-label="Obrir Índex i Pàgines"
+                                onClick={() => setIsTocOpen(!isTocOpen)}
+                            >
+                                <Book size={20} strokeWidth={2.5} />
+                                <span className="hidden sm:inline">Llibre{htmlContent ? ',' : ''}</span>
+                                {htmlContent && (
+                                    <span className="tabular-nums font-bold tracking-widest whitespace-nowrap">
+                                        <span ref={pageNumberRef}>1</span>/{totalPages}
+                                    </span>
+                                )}
+                            </button>
+
                             <button 
                                 className={`flex items-center justify-center gap-2 min-h-[44px] px-3 rounded-xl hover:bg-white/20 dark:hover:bg-black/10 active:scale-95 transition-colors touch-manipulation font-bold uppercase text-sm ${translating ? "text-amber-300 dark:text-white animate-pulse" : ""}`}
                                 aria-label="Traduir Pàgina"
@@ -824,7 +1011,7 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                                 disabled={translating}
                             >
                                 <Globe size={20} strokeWidth={2.5} className={translating ? "animate-spin" : ""} />
-                                <span className="hidden sm:inline">Traduir</span>
+                                <span className="hidden lg:inline">Traduir</span>
                             </button>
 
                             <button 
@@ -840,19 +1027,8 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                                 <Share2 size={20} /><span className="hidden lg:inline">Compartir</span>
                             </button>
 
-                            {/* EL EMBUDO KEBAB (Absorbe botones que no caben en móvil) */}
-
                         </div>
 
-                        {/* Primaria: Conectar (Sobrevive a la compresión, UBICADA A LA DRETA COM EN EL CONTEXTUAL MENU) */}
-                        <div className="flex items-center ml-2">
-                            <RoundButton 
-                                icon={Menu}
-                                onClick={() => navigate('/hub')}
-                                title="Menú Hub"
-                                colorClass="bg-[#F97316] text-white hover:bg-white hover:text-[#F97316] border border-transparent hover:border-[#F97316]"
-                            />
-                        </div>
                     </div>
 
                     {/* Buscador Desplegable con 44x44px Targets */}
@@ -914,7 +1090,7 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                                 </div>
                                 Compartir Pàgina
                             </button>
-                            <button onClick={() => { exportService.downloadNoteAsPDF({ title: title || "Projecte", content: cleanHtmlContent }); setIsActionMenuOpen(false); }} className="flex items-center gap-4 w-full px-4 py-3 min-h-[48px] rounded-2xl hover:bg-black/5 dark:hover:bg-white/5 active:scale-95 text-[var(--text-main)] transition-all touch-manipulation font-bold">
+                            <button onClick={() => { exportService.downloadNoteAsPDF({ title: title || "Projecte", content: baseHtmlContent }); setIsActionMenuOpen(false); }} className="flex items-center gap-4 w-full px-4 py-3 min-h-[48px] rounded-2xl hover:bg-black/5 dark:hover:bg-white/5 active:scale-95 text-[var(--text-main)] transition-all touch-manipulation font-bold">
                                 <div className="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
                                     <Book className="size-5 shrink-0 text-emerald-500" />
                                 </div>
@@ -953,28 +1129,42 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                                     <X size={20} />
                                 </button>
                             </div>
-                            <div className="flex-1 overflow-y-auto px-3 py-2 overscroll-contain custom-scrollbar">
+                            <div className="flex-1 overflow-y-auto px-3 py-2 overscroll-contain custom-scrollbar leading-none">
+                                
+                                <div className="mx-3 mt-3 mb-5 p-4 rounded-[14px] bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 flex flex-col gap-2 shrink-0">
+                                    <h4 className="font-black text-[13px] text-theme-text flex items-center gap-1.5 uppercase mb-1">
+                                        <Book size={14} className="text-[var(--theme-accent-primary)]" />
+                                        Mida del Llibre Físic
+                                    </h4>
+                                    <div className="flex justify-between items-center text-[12px] font-bold">
+                                        <span className="text-[var(--text-muted)] uppercase tracking-wider">Format A4</span>
+                                        <span className="text-theme-text px-2 py-0.5 bg-black/5 dark:bg-white/10 rounded-full">{Math.max(1, Math.ceil(totalPages / 2))} pàgines</span>
+                                    </div>
+                                    <div className="flex justify-between items-center text-[12px] font-bold">
+                                        <span className="text-[var(--text-muted)] uppercase tracking-wider">Llibre 6x9 (Amazon)</span>
+                                        <span className="text-[var(--theme-accent-primary)] px-2 py-0.5 bg-[var(--theme-accent-primary)]/10 rounded-full">{totalPages} pàgines</span>
+                                    </div>
+                                </div>
+
                                 {tocElements.map((item) => (
                                     <button
                                         key={item.id}
+                                        id={`btn-toc-${item.id}`}
                                         onClick={() => {
                                             const el = document.getElementById(item.id);
-                                            const container = scrollContainerRef.current;
-                                            if (el && container) {
+                                            const scrollContainer = document.getElementById('main-content') || scrollContainerRef.current;
+                                            if (el && scrollContainer) {
                                                 const headerOffset = window.innerWidth >= 640 ? 140 : 180;
-                                                const containerTop = container.getBoundingClientRect().top;
-                                                const elementPosition = el.getBoundingClientRect().top - containerTop;
-                                                
-                                                container.scrollTo({
-                                                    top: container.scrollTop + elementPosition - headerOffset,
-                                                    behavior: "smooth"
-                                                });
+                                                const topDiff = el.getBoundingClientRect().top - headerOffset;
+                                                scrollContainer.scrollBy({ top: topDiff, behavior: 'smooth' });
                                                 setTimeout(() => setIsTocOpen(false), 300);
                                             }
                                         }}
-                                        className={`w-full text-left py-3.5 px-3 rounded-[12px] hover:bg-black/5 dark:hover:bg-white/5 transition-colors flex items-center gap-2 group focus:outline-none focus:ring-2 focus:ring-[var(--theme-accent-primary)] touch-manipulation ${item.level === 'h3' ? 'pl-8 text-[13px] opacity-80' : 'font-black text-[15px]'}`}
+                                        className={`w-full text-left py-3.5 px-3 rounded-[12px] hover:bg-black/5 dark:hover:bg-white/5 transition-colors flex items-center gap-2 group touch-manipulation focus:outline-none focus:ring-2 focus:ring-[var(--theme-accent-primary)] ${
+                                            activeHeadingId === item.id ? 'bg-[var(--theme-accent-primary)]/20 shadow-[inset_4px_0_0_var(--theme-accent-primary)] text-[var(--theme-accent-primary)] font-bold' : ''
+                                        } ${item.level === 'h3' ? 'pl-8 text-[13px] opacity-80' : 'font-black text-[15px] pt-4 first:pt-3.5'}`}
                                     >
-                                        <ChevronRight size={14} strokeWidth={3} className="text-[var(--theme-accent-primary)] opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
+                                        <ChevronRight size={14} strokeWidth={4} className={`transition-opacity shrink-0 ${activeHeadingId === item.id ? 'opacity-100 text-[var(--theme-accent-primary)]' : 'opacity-0 text-[var(--theme-accent-primary)] group-hover:opacity-100'}`} />
                                         <span className="truncate leading-tight text-theme-text">{item.text}</span>
                                     </button>
                                 ))}
@@ -998,10 +1188,11 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                         <div className="h-full w-2 bg-black/10 dark:bg-white/5 rounded-full relative shadow-inner ml-auto pointer-events-none">
                             {/* Punter Escalable */}
                             <div 
+                                ref={scrubberThumbRef}
                                 className="absolute right-0 w-2 bg-[var(--theme-accent-primary)] rounded-full transition-all duration-75 origin-center shadow-[0_0_10px_rgba(249,115,22,0.8)]" 
                                 style={{ 
                                     height: '24px', 
-                                    top: `calc(${scrubberPos * 100}% - 12px)`,
+                                    top: `calc(${scrubberPosRef.current * 100}% - 12px)`,
                                     transform: scrubberDragging ? 'scaleX(2.5) scaleY(1.5)' : 'scaleX(1)'
                                 }}
                             />
@@ -1010,7 +1201,7 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                             <div 
                                 className={`absolute right-5 whitespace-nowrap bg-[var(--theme-accent-primary)] text-white font-black uppercase tracking-wider text-xs sm:text-sm py-2 px-4 rounded-xl shadow-2xl pointer-events-none transition-all duration-100 flex items-center ${scrubberDragging ? 'opacity-100' : 'opacity-0'}`}
                                 style={{ 
-                                    top: `calc(${scrubberPos * 100}%)`,
+                                    top: `calc(${scrubberPosRef.current * 100}%)`,
                                     transform: `translateY(-50%) ${scrubberDragging ? 'translateX(0)' : 'translateX(10px)'}`
                                 }}
                             >
