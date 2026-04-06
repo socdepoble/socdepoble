@@ -73,7 +73,7 @@ class TrellatDB {
     
     // Limpieza de transacciones huérfanas (navegación abrupta)
     flushPendingTransactions() {
-        this.pendingTransactions.forEach((tx, id) => {
+        this.pendingTransactions.forEach((tx) => {
             tx.reject(new Error('Navigation abort - transaction rolled back'));
         });
         this.pendingTransactions.clear();

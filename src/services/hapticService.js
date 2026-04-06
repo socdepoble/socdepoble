@@ -174,7 +174,7 @@ class HapticService {
                 osc.stop(this.audioCtx.currentTime + 0.2);
                 this.vibrate('medium');
             }
-        } catch (e) {
+        } catch {
             // Failsafe rural: si el áudio falla, seguimos
         }
     }

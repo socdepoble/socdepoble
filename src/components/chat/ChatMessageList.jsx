@@ -54,12 +54,12 @@ const ChatMessageList = React.memo(
 
     if (messages.length === 0) {
       return (
-        <div className="flex h-full min-h-0 flex-1 items-center justify-center bg-[#0e0e0e] px-6">
-          <div className="glass-rural flex max-w-sm flex-col items-center rounded-[24px] px-6 py-8 text-center shadow-2xl">
-            <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-[#1A1A1A] text-[#F97316]">
+        <div className="flex h-full min-h-0 flex-1 items-center justify-center bg-theme-bg px-6">
+          <div className="flex max-w-sm flex-col items-center rounded-[24px] bg-theme-surface px-6 py-8 text-center shadow-md">
+            <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-theme-bg text-theme-accent-primary">
               <MessageSquare size={28} />
             </div>
-            <p className="font-['Epilogue'] text-xs font-bold italic uppercase tracking-[0.22em] text-[#E5E2E1]/70">
+            <p className="font-['Noto_Sans'] text-[13px] font-bold uppercase tracking-widest text-theme-text/80">
               {otherInfo?.name ? `Parla amb ${otherInfo.name}` : t('common.write_message')}
             </p>
           </div>
@@ -68,7 +68,7 @@ const ChatMessageList = React.memo(
     }
 
     return (
-      <div className="flex min-h-0 flex-1 flex-col bg-[#0e0e0e]">
+      <div className="flex min-h-0 flex-1 flex-col bg-theme-bg">
         <Virtuoso
           ref={virtuosoRef}
           className="custom-scrollbar gpu-accelerate"
@@ -88,8 +88,8 @@ const ChatMessageList = React.memo(
                   messages.length > 0 &&
                   messages[messages.length - 1].sender_id === humanId && (
                     <div className="px-4">
-                      <div className="inline-flex items-center rounded-full bg-[#1A1A1A] px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-[#F97316] animate-pulse">
-                        Bategant...
+                      <div className="inline-flex items-center rounded-full bg-theme-surface px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-theme-accent-primary animate-pulse shadow-sm">
+                        Activa...
                       </div>
                     </div>
                   )}

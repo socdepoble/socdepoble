@@ -300,7 +300,7 @@ const MasterCalendarContent = () => {
                     />
                 </div>
 
-                <div className="w-full overflow-hidden sticky top-16 z-40 bg-theme-base">
+                <div className="w-full overflow-hidden sticky top-[56px] z-40 bg-theme-base">
                    <SystemActionBar hideEbook={true} />
                 </div>
                 <TranslationModal 

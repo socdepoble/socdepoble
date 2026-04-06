@@ -34,7 +34,15 @@ import "./Towns.css";
 const isShieldOrMap = (url) => {
   if (!url) return true;
   const lurl = url.toLowerCase();
-  return lurl.includes('.svg') || lurl.includes('escut') || lurl.includes('escudo') || lurl.includes('mapa') || lurl.includes('map') || lurl.includes('bandera') || lurl.includes('flag') || lurl.includes('locator');
+  return lurl.includes('.svg') || lurl.includes('escut') || lurl.includes('escudo') || 
+         lurl.includes('mapa') || lurl.includes('map') || lurl.includes('bandera') || 
+         lurl.includes('flag') || lurl.includes('locator') || lurl.includes('location') ||
+         lurl.includes('situaci') || lurl.includes('localitzaci') || lurl.includes('localizaci') ||
+         lurl.includes('grafic') || lurl.includes('gràfic') || lurl.includes('gráfic') ||
+         lurl.includes('grafica') || lurl.includes('gráfica') || lurl.includes('graph') ||
+         lurl.includes('chart') || lurl.includes('diagram') || lurl.includes('climogram') ||
+         lurl.includes('demografia') || lurl.includes('poblacio') || lurl.includes('population') ||
+         lurl.includes('plano') || lurl.includes('plan');
 };
 
 const TownWikipediaEnricher = ({ town, children }) => {

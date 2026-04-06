@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Settings } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
-const PageHeader = ({ title, subtitle, onBack, rightAction, onEditClick }) => {
+const PageHeader = ({ title, subtitle, onBack, rightAction, onEditClick, sticky = true }) => {
     const navigate = useNavigate();
     const { isEditor } = useAuth(); // Editor, Admin or SuperAdmin
 
@@ -16,17 +16,29 @@ const PageHeader = ({ title, subtitle, onBack, rightAction, onEditClick }) => {
     };
 
     return (
-        <header className="sticky top-0 w-full bg-[var(--theme-accent-primary)] text-white border-b border-white/10 px-4 flex items-center justify-between z-50 h-[64px] min-h-[64px] max-h-[64px] flex-shrink-0 transition-colors">
+        <header className={`${sticky ? 'sticky top-0' : 'relative'} w-full bg-[var(--theme-accent-primary)] text-white border-b border-white/10 px-4 flex items-center justify-between z-50 h-[56px] min-h-[56px] max-h-[56px] flex-shrink-0 transition-colors`}>
             
             {/* Esquerra: Tornar arrere (Width fixat per centrar el titol) */}
             <div className="w-12 flex items-center justify-start">
-                <button 
-                    onClick={handleBack} 
-                    className="p-2 -ml-2 rounded-xl hover:bg-white/10 active:scale-95 transition-all text-white"
-                    aria-label="Tornar arrere"
-                >
-                    <ArrowLeft size={20} />
-                </button>
+                {!sticky ? (
+                    <div className="fixed top-[max(env(safe-area-inset-top),0.5rem)] left-2 sm:left-4 z-[9999] isolate">
+                        <button 
+                            onClick={handleBack} 
+                            className="p-2.5 rounded-full bg-black/60 dark:bg-black/80 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.5)] border border-white/20 hover:bg-black/90 hover:scale-105 active:scale-95 transition-all duration-300 text-white flex items-center justify-center group"
+                            aria-label="Tornar arrere"
+                        >
+                            <ArrowLeft size={20} className="group-hover:-translate-x-0.5 transition-transform duration-200" />
+                        </button>
+                    </div>
+                ) : (
+                    <button 
+                        onClick={handleBack} 
+                        className="p-2 -ml-2 rounded-xl hover:bg-white/10 active:scale-95 transition-all text-white"
+                        aria-label="Tornar arrere"
+                    >
+                        <ArrowLeft size={20} />
+                    </button>
+                )}
             </div>
 
             {/* Centre: Títol */}

@@ -5,7 +5,7 @@
     Estem acabant de preparar el <strong>Mode Foraster</strong> (accés de lectura sense necessitat de registre previ). Mentrestant, si premeu l'enllaç següent podeu <a href="/" style="color: var(--theme-accent-primary); font-weight: 800; text-decoration: underline;">donar una volta per la Plaça del Poble ací</a> per veure com està quedant la plataforma (tot i que encara no s'hi pot interactuar de ple dret).
 </div>
 
-<img src="./infographies/presentacio.jpg" alt="Presentació de Sóc de Poble" class="seo-image" style="width: 100%; height: auto; border-radius: 20px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); margin-bottom: 3rem;" />
+<img src="/assets/infographies/presentacio.jpg" alt="Presentació de Sóc de Poble" class="seo-image" style="width: 100%; height: auto; border-radius: 20px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); margin-bottom: 3rem;" />
 
 <section class="codex-chapter" style="margin-top: 4rem;"><h2 style="color: #4338ca; border-bottom: 2px solid #e2e8f0; padding-bottom: 1rem;">Pròleg: La Veu del Poble (Avís sobre el Valencià)</h2>
 <p><strong>Aquest Llibre (El Còdex del Projecte "Sóc de Poble") s'ha engendrat temporalment en castellà per les màquines.</strong></p>
@@ -3335,7 +3335,7 @@ La mayor amenaza es la <strong>Asimilación Corporativa</strong>. Si una empresa
 <hr />
 <h2>description: Manifiesto Visionario 2029 - L'Horitzó del Trellat y la Ronda 8 de Defensa (Hardware, Sharding Geográfico y Shamir's Secret Sharing)</h2>
 <h1>L'HORITZÓ DEL TRELLAT: VISIÓ 2029</h1>
-<p><img src="./brain/media__1775288802790.jpg" alt="Esquema Visual de la Plaza Infinita (V15)" width="350" align="right" style="margin-left: 20px; margin-bottom: 20px; border-radius: 12px; border: 2px solid #f97316;" /></p>
+<p><img src="/assets/brain/media__1775288802790.jpg" alt="Esquema Visual de la Plaza Infinita (V15)" width="350" align="right" style="margin-left: 20px; margin-bottom: 20px; border-radius: 12px; border: 2px solid #f97316;" /></p>
 <p>Este flujo de trabajo documenta la evolución a tres años vista de la arquitectura descentralizada de Sóc de Poble, establecida como el "Nivel Dios" post-V14. Define las tres grandes mutaciones necesarias para contrarrestar el asedio de los ecosistemas cerrados y el éxito masivo de la plataforma.</p>
 <h2>1. L'Àncora Física (Zero-Trust Storage)</h2>
 <p>Ante la "Amputación de Memoria" silente de los navegadores (iOS/Safari eliminando IndexedDB), la persistencia abandona los teléfonos móviles.
@@ -3350,5 +3350,28 @@ La mayor amenaza es la <strong>Asimilación Corporativa</strong>. Si una empresa
 - <strong>Implementación Futura:</strong> División matemática de la clave privada Ed25519 en 5 "Trossos" usando Multiparty Computation. Estos fragmentos son custodiados automáticamente por <em>Els Padrins de Confiança</em>.
 - <strong>Flujo:</strong> En caso de pérdida, el vecino abre la app en un móvil nuevo ("He perdut el Mas"). Tres de sus custodios escanean el QR geométrico en la plaza con sus propios móviles. Los túneles locales efímeros reconstruyen offline la interpolación polinómica de Shamir, resucitando la identidad criptográfica sin nubes ni servidores.</p>
 <p><em>Esta visión es canónica. Cualquier esfuerzo de arquitectura y diseño a largo plazo debe alinear sus cimientos técnicos y de UI/UX con "L'Àncora Física", los "Traginers", y "El Ritual de la Plaça".</em></p>
+    </div>
+</section>
+
+<section class="codex-chapter" style="margin-top: 4rem;">
+    <h2 style="color: #4338ca; border-bottom: 2px solid #e2e8f0; padding-bottom: 1rem;">Capítulo 10: Asentamiento V15 - Hardening UI y Ecosistema AI (Local-First Realities)</h2>
+    <p>A medida que la V15 fue desplegada, el tejido entre la UI y el motor de IA sufrió un desgaste por sobrecarga (Throttling) y asimetría de pantallas iOS.</p>
+
+    <h3>1. Throttling de IAIA y Escudo Anti-Logs (Supabase Bypass)</h3>
+    <p>La IAIA funciona a tal velocidad inyectando respuestas y heartbeats que nuestro sistema de protección Anti-Spam en el Service <code>supabaseService.js</code>, diseñado para banear a los actores maliciosos que insertaran a velocidad de ametralladora, detenía a la propia inteligencia artificial. Se configuró un bypass sagrado: <code>is_ai: true</code> dentro de la función <code>checkThrottling</code>. Las IAs no sufren fatiga, por lo que su flujo de escritura es ahora ilimitado y la consola recobra la nobleza del silencio, sin errores falsos 400 o spam de Logs.</p>
+
+    <h3>2. Física iOS: La Variable Visual Viewport (El colapso de 100dvh)</h3>
+    <p>En el mundo real de iOS Safari y Chrome Mobile, las barras de búsqueda y teclados oscuros estiran y comprimen el "viewport" de manera caótica. Nuestro clásico <code>100dvh</code> fracasó, hundiendo el marco inferior bajo el teclado y ocultando la cabecera. La Arquitectura de Sóc de Poble ha instaurado la métrica <strong><code>--vv-height</code></strong>.</p>
+    <p>El componente principal captura el <code>window.visualViewport.height</code> bajo un <code>useEffect</code> global que actualiza en milisegundos la altura real visible. Ahora, el <code>AppLayout.jsx</code> abraza estrictamente el bloque que la pantalla de Apple regala, logrando una estanqueidad completa sin superposiciones erráticas.</p>
+
+    <h3>3. Visión de Crecimiento: Integración Directa al Mercado (Function Calling & IA)</h3>
+    <p>La abstracción técnica de Sóc de Poble busca erradicar la forma convencional de publicar (Rellenar formularios infinitos). El Códice establece el siguiente comportamiento esperado para el mercado del Poble:</p>
+    <ul>
+        <li><strong>Drag & Drop Conversacional:</strong> El usuario simplemente debe arrastrar una imagen ("tomates de la huerta") al chat de la IA e instruir textualmente: <em>"Hazme saber que esto está disponible en el mercado"</em>.</li>
+        <li><strong>Gemini Function Calling:</strong> Nuestro <code>geminiService</code> es dotado de un conjunto estricto de <code>tools</code>. Gemini actúa como clasificador deductivo: deduce la intención (vender/regalar), describe el producto extraído de la visión fotográfica y devuelve un objeto de ejecución.</li>
+        <li><strong>El Coordinador Oculto:</strong> <code>iaiaService.js</code> lo intercepta, sube la foto a Supabase, inyecta los metadatos generados por Gemini en la tabla respectiva (<code>marketService.createMarketItem</code>) adjudicando el DNI del vecino o "Nando", y devuelve texto afirmativo empático a la UI ("Ja tens el producte penjat a la plaça!").</li>
+        <li><strong>Puente de WhatsApp:</strong> Este salto de UI elimina la barrera de internet digital nativo. Conectamos a los agentes como Vicent a las APIs de WhatsApp (Meta/Twilio) junto a una Edge Function que, verificando la firma (teléfono del agricultor), invoca a Gemini para inyectar productos en el Mercado directamente desde un SMS rural. Un flujo revolucionario pero extremadamente alineado al alma de Sóc de Poble.</li>
+    </ul>
+</section>
     </div>
 </section>

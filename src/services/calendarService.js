@@ -94,7 +94,11 @@ export const calendarService = {
             .subscribe();
 
         return () => {
-            supabase.removeChannel(channel);
+            try { 
+                supabase.removeChannel(channel).catch(() => {}); 
+            } catch {
+                // Silenciamos posibles errores de desconexión prematura
+            }
         };
     }
 };

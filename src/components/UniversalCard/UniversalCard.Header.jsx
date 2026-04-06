@@ -22,8 +22,22 @@ const UniversalCardHeader = ({
 
     const getGentDePage = (townName) => {
         if (!townName) return "Gent de Poble";
-        const cleanTown = townName.replace("Poble Principal:", "").trim();
+        let cleanTown = townName.replace("Poble Principal:", "").trim();
+        // Capitalize the first letter if it isn't already, so "ontinyent" becomes "Ontinyent"
+        if (cleanTown) {
+            cleanTown = cleanTown.charAt(0).toUpperCase() + cleanTown.slice(1);
+        }
+        
         if (cleanTown.includes("La Torre")) return "Gent de La Torre";
+        
+        // Catalan/Valencian apostrophe rules
+        const startsWithVowelOrH = /^[aeiouhàèéíïòóúü]/i.test(cleanTown);
+        if (startsWithVowelOrH) {
+            // Check for semi-consonant 'i' or 'u' (e.g., Iàtova is sometimes de Iàtova, but typically d'Iàtova is accepted. 
+            // We will use standard d' for simplicity and coverage)
+            return `Gent d'${cleanTown}`;
+        }
+        
         return `Gent de ${cleanTown}`;
     };
 

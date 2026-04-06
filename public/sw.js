@@ -1,10 +1,11 @@
-// public/sw.js - Escut Trellat iPad A10
-const CACHE_TRELAT = 'trellat-v15.3';
+// public/sw.js - Escut Trellat iPad A10 (Netejat V15.4)
+const CACHE_TRELAT = 'trellat-v15.5'; // Bump version just in case
 const POBLE_ASSETS = [
-  '/', '/index.css', '/app.js', '/p2p-worker.js'
+  '/', '/index.css'
 ];
 
 self.addEventListener('install', (e) => {
+  self.skipWaiting();
   e.waitUntil(
     caches.open(CACHE_TRELAT).then(cache => 
       cache.addAll(POBLE_ASSETS)
@@ -14,6 +15,20 @@ self.addEventListener('install', (e) => {
   if (navigator.storage && navigator.storage.persist) {
     navigator.storage.persist();
   }
+});
+
+self.addEventListener('activate', (e) => {
+  e.waitUntil(
+    caches.keys().then(cacheNames => {
+      return Promise.all(
+        cacheNames.map(cache => {
+          if (cache !== CACHE_TRELAT) {
+            return caches.delete(cache);
+          }
+        })
+      );
+    })
+  );
 });
 
 // Cache-first + P2P fallback
@@ -27,28 +42,11 @@ self.addEventListener('fetch', (e) => {
       return fetch(e.request).catch(async () => {
         // Offline fallback
         const offlinePage = await caches.match('/offline-poble.html');
-        return offlinePage || new Response("<div style='padding:2rem;font-family:sans-serif;'><h2>Sóc de Poble (Offline)</h2><p>Estàs sense connexió. Torna a intentar-ho panxa amunt.</p></div>", { 
+        return offlinePage || new Response("<!DOCTYPE html><html><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><title>Sóc de Poble (Offline)</title></head><body style='padding:2rem;font-family:sans-serif;'><h2>Sóc de Poble (Offline)</h2><p>Estàs sense connexió. Torna a intentar-ho panxa amunt.</p></body></html>", { 
           status: 200,
-          headers: { 'Content-Type': 'text/html' }
+          headers: { 'Content-Type': 'text/html; charset=utf-8' }
         });
       });
     })
   );
 });
-
-// Background P2P sync
-self.addEventListener('sync', (e) => {
-  if (e.tag === 'p2p-sync') {
-    e.waitUntil(syncP2PBancal());
-  }
-});
-
-async function syncP2PBancal() {
-  // Circuit breaker: max 50 pactes
-  const pending = await getPendingPactes();
-  if (pending.length > 50) return;
-  
-  requestIdleCallback(async () => {
-    await postMessageToMain({ type: 'sync-batch', data: pending.slice(0, 32) });
-  }, { timeout: 5000 });
-}

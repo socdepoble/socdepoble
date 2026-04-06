@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
 import { X, Image as ImageIcon, Send, Loader2, MessageSquare, Sparkles, Camera, Plus, Shield, BookOpen, ArrowLeft, Maximize2, Minimize2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
@@ -8,7 +8,7 @@ import { iaiaService } from '../services/iaiaService';
 import { logger } from '../utils/logger';
 import MagicPregoner from './MagicPregoner';
 import CaptureStudio from './CaptureStudio';
-import RichTextEditor from './RichTextEditor';
+const RichTextEditor = lazy(() => import('./RichTextEditor'));
 import { useMountTransition } from '../hooks/useMountTransition';
 import './CreatePostModal.css';
 
@@ -218,12 +218,14 @@ const CreatePostModal = ({ isOpen, onClose, initialPobles = [], editMode = false
                             )}
                         </div>
                         <div className={`transition-all ${isArticleMode ? '-mx-2 sm:mx-0' : ''}`}>
-                            <RichTextEditor 
-                                content={content} 
-                                onChange={setContent} 
-                                minimal={!isArticleMode} 
-                                editable={true}
-                            />
+                            <Suspense fallback={<div className="h-40 w-full animate-pulse bg-[#3B332A] rounded-xl flex items-center justify-center text-white/40 font-mono text-xs">Carregant l'editor màgic...</div>}>
+                                <RichTextEditor 
+                                    content={content} 
+                                    onChange={setContent} 
+                                    minimal={!isArticleMode} 
+                                    editable={true}
+                                />
+                            </Suspense>
                         </div>
                     </div>
 

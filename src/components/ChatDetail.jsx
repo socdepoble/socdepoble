@@ -236,14 +236,23 @@ const ChatDetail = () => {
         if (isIAIA) {
           let audioData = null;
           if (isVoiceMessage && voiceData?.blob) {
-            audioData = await new Promise((resolve) => {
-              const reader = new FileReader();
-              reader.onloadend = () => {
-                const [meta, data] = reader.result.split(',');
-                resolve({ mimeType: meta.split(':')[1].split(';')[0], data });
-              };
-              reader.readAsDataURL(voiceData.blob);
-            });
+            try {
+              audioData = await new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                  try {
+                    const [meta, data] = reader.result.split(',');
+                    resolve({ mimeType: meta.split(':')[1].split(';')[0], data });
+                  } catch (e) {
+                    reject(e);
+                  }
+                };
+                reader.onerror = () => reject(reader.error);
+                reader.readAsDataURL(voiceData.blob);
+              });
+            } catch (err) {
+              console.error("[ChatDetail] Error parsing voiceData.blob to Base64:", err);
+            }
           }
 
           const textFinal =
@@ -400,7 +409,7 @@ const ChatDetail = () => {
 
   return (
     <section
-      className="relative isolate flex min-h-0 min-w-0 flex-1 flex-col bg-[#0e0e0e] text-[#E5E2E1]"
+      className="relative isolate flex min-h-0 min-w-0 flex-1 flex-col bg-theme-bg text-theme-text"
       onClick={() => setContextMenuId(null)}
     >
       <ChatHeader
@@ -414,9 +423,9 @@ const ChatDetail = () => {
         setIsSettingsMenuOpen={setIsSettingsMenuOpen}
       />
 
-      <main className="flex min-h-0 flex-1 flex-col bg-[#0e0e0e]">
+      <main className="flex min-h-0 flex-1 flex-col bg-theme-bg">
         {isNPC && (
-          <div className="mx-3 mt-2 rounded-3xl bg-[#1C1B1B] px-4 py-3 text-center text-[13px] text-[#F97316] shadow-lg">
+          <div className="mx-3 mt-2 rounded-3xl bg-theme-surface px-4 py-3 text-center text-[13px] text-theme-accent-primary shadow-lg">
             <span className="font-bold">{t('chat.npc_delegate_title')}</span> {t('chat.npc_delegate_desc')}
             <strong className="underline">IAIA MarIA</strong>
             {t('chat.npc_delegate_desc_2')}
@@ -424,7 +433,7 @@ const ChatDetail = () => {
         )}
 
         {isGuest && otherInfo?.id?.startsWith('11111111-') && (
-          <div className="glass-rural mx-3 mt-2 rounded-3xl px-4 py-3 text-center text-[15px] text-[#F97316] shadow-xl">
+          <div className="mx-3 mt-2 rounded-3xl bg-theme-accent-primary/10 px-4 py-3 text-center text-[15px] text-theme-accent-primary shadow-xl">
             <span className="font-bold">{t('common.warning', 'Avís')}:</span> {t('chat.guest_warning_text')}{' '}
             <a href="/registre" className="font-bold underline">
               {t('chat.guest_warning_link', "Registra't per a guardar las converses.")}
@@ -450,7 +459,7 @@ const ChatDetail = () => {
             />
           </div>
 
-          <div className="pb-4 pt-2">
+          <div className="shrink-0">
             <ChatInputArea
               humanId={humanId}
               id={id}

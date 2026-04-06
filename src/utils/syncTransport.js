@@ -3,7 +3,7 @@ import * as Y from 'yjs';
 import { Observable } from 'lib0/observable';
 
 export class TrellatWebTransport extends Observable {
-    constructor(url, doc, options = {}) {
+    constructor(url, doc) {
         super();
         this.url = url;
         this.doc = doc;
@@ -119,7 +119,7 @@ export class TrellatWebTransport extends Observable {
         
         try {
             await this.writer.write(merged);
-        } catch (e) {
+        } catch {
             // Fallo de red: devolver a cola y reconectar
             this.sendQueue.unshift(...batch);
             this.isConnected = false;

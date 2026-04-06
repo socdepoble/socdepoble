@@ -1,11 +1,13 @@
 import React, { forwardRef, useState, useEffect } from 'react';
-import { Search, LayoutGrid, List, Square, X } from 'lucide-react';
+import { Search, LayoutGrid, List, Square, X, ArrowLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useDesign } from '../context/DesignContext';
 import './ContextualHeader.css';
 
-const ContextualHeader = forwardRef(({ searchTerm, onSearchChange, viewMode, onViewModeChange, placeholder = "Cerca...", extraActions = null, backButton = null }, ref) => {
+const ContextualHeader = forwardRef(({ searchTerm, onSearchChange, viewMode, onViewModeChange, placeholder = "Cerca...", extraActions = null, backButton = null, hideBackButton = false }, ref) => {
     const { hapticService } = useDesign();
     const [localSearch, setLocalSearch] = useState(searchTerm);
+    const navigate = useNavigate();
 
     // Sync from parent if needed
     useEffect(() => {
@@ -29,13 +31,22 @@ const ContextualHeader = forwardRef(({ searchTerm, onSearchChange, viewMode, onV
     };
 
     return (
-        <div className="relative z-10 bg-[var(--theme-accent-primary)] w-full h-[64px] min-h-[64px] max-h-[64px] flex items-center justify-between px-3 transition-colors duration-500 shadow-md">
+        <div className="relative z-10 bg-[var(--theme-accent-primary)] w-full h-[56px] min-h-[56px] max-h-[56px] flex items-center justify-between px-3 transition-colors duration-500 shadow-md">
             
             {/* BACK BUTTON */}
-            {backButton && (
+            {!hideBackButton && (backButton || (
                 <div className="shrink-0 mr-3 text-white/90 hover:text-white transition-colors flex items-center justify-center">
-                    {backButton}
+                    <button 
+                        onClick={() => navigate(-1)}
+                        aria-label="Torna enrere"
+                        className="flex items-center gap-1 hover:text-white active:scale-95 transition-transform p-1 rounded-full hover:bg-white/20"
+                    >
+                        <ArrowLeft size={20} strokeWidth={2.5} />
+                    </button>
                 </div>
+            ))}
+            {hideBackButton && !backButton && (
+                <div className="shrink-0 w-12 mr-2" aria-hidden="true" />
             )}
 
             {/* SEARCH BAR (TECH-HUERTA V12 CANÒNICA) */}

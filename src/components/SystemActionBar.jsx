@@ -41,7 +41,7 @@ const SystemActionBar = () => {
     }, []);
 
     const handlePageCountClick = () => {
-        toast((t) => (
+        toast(() => (
             <div className="flex flex-col gap-2">
                 <div className="font-bold border-b pb-1 dark:border-gray-700">Audit de Pàgines</div>
                 <div className="text-sm">Format <b>A4</b>: {bookStats.a4} pàgines</div>
@@ -54,7 +54,7 @@ const SystemActionBar = () => {
 
     return (
         <>
-            <div className="flex items-center justify-center gap-3 sm:gap-6 w-full min-h-[48px] bg-[#4F46E5] text-white dark:bg-[#F97316] dark:text-[#111111] px-4 overflow-x-auto no-scrollbar transition-colors shrink-0">
+            <div className="flex items-center justify-center gap-3 sm:gap-6 w-full h-[56px] min-h-[56px] max-h-[56px] bg-[#4F46E5] text-white dark:bg-[#F97316] dark:text-[#111111] px-4 overflow-x-auto no-scrollbar transition-colors shrink-0">
 
                 <div className="flex items-center justify-center gap-2 sm:gap-4 text-xs font-extrabold uppercase tracking-widest shrink-0">
                     <button 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef, lazy, Suspense } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ArrowLeft, Edit2, ShieldAlert, Share2, Book, Plus, MessageCircle, Globe, MapPin, Search, Calendar, Sparkles, List, X, ChevronRight, History, Info, Menu } from 'lucide-react';
+import { ArrowLeft, Edit2, ShieldAlert, Share2, Book, Plus, MessageCircle, Globe, MapPin, Search, Calendar, Sparkles, List, X, ChevronRight, History, Info, Menu, ChevronUp, ChevronDown } from 'lucide-react';
 import SEO from '../components/SEO';
 import GlobalFooter from '../components/GlobalFooter';
 import PageHeader from '../components/PageHeader';
@@ -75,6 +75,8 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
     // Trellat: Guardas atómicas
     const { atomicYSave, startCritical } = useAtomicGuard();
     const yDocRef = useRef(null);
+
+    const [simulatorHtml, setSimulatorHtml] = useState(null);
 
     const canEdit = isSuperAdmin || (user && collaborators.includes(user.id));
 
@@ -167,7 +169,7 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                 const fallback = await fetchDefaultBookContent();
                 if (!content || content.includes('Aquest text és provisional') || fallback.length > (content.length + 500)) {
                     content = fallback;
-                    console.log('[Trellat] Local asset is larger than DB content. Proceeding with local asset as primary.');
+                    // console.log('[Trellat] Local asset is larger than DB content. Proceeding with local asset as primary.');
                 }
                 
                 updates.htmlContent = content;
@@ -234,6 +236,14 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
         setRouteSlug(currentSlug);
         fetchPageContent(currentSlug);
     }, [location.pathname, standAlone, forcedSlug, fetchPageContent]);
+    useEffect(() => {
+        if (!isEditing && (routeSlug === '/el-projecte' || routeSlug === 'el-projecte' || routeSlug === '/manifest' || routeSlug === 'manifest' || routeSlug === '/codex' || routeSlug === 'codex')) {
+            fetch('/assets/simulators/v15-plaza-infinita.html?v=1.0.1')
+                .then(res => res.text())
+                .then(html => setSimulatorHtml(html))
+                .catch(console.error);
+        }
+    }, [routeSlug, isEditing]);
 
     const activeHtmlContent = translatedContent || htmlContent;
 
@@ -425,7 +435,7 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
             <img 
                 src="/assets/master/logo_socdepoble_white_clean.png" 
                 alt="Logo Sóc de Poble" 
-                className="h-24 sm:h-32 w-auto mb-6 drop-shadow-md object-contain brightness-0 opacity-90" 
+                className="h-24 sm:h-32 w-auto mb-6 drop-shadow-md object-contain brightness-0 dark:brightness-100 opacity-90 transition-all" 
             />
             
             {(routeSlug === 'codex' || collaborators.length > 0) && (
@@ -705,12 +715,18 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                                     <Sparkles size={14} />
                                     <span>Topologia: Kademlia + DHT</span>
                                 </div>
-                                <iframe 
-                                    src="/assets/simulators/v15-plaza-infinita.html?v=1.0.1" 
-                                    className="w-full h-full min-h-[600px] sm:min-h-[700px] border-none z-20 relative pointer-events-auto"
-                                    title="Simulador Arquitectura V15"
-                                    loading="lazy"
-                                />
+                                {simulatorHtml ? (
+                                    <iframe 
+                                        srcDoc={simulatorHtml}
+                                        className="w-full h-full min-h-[600px] sm:min-h-[700px] border-none z-20 relative pointer-events-auto"
+                                        title="Simulador Arquitectura V15"
+                                        loading="lazy"
+                                    />
+                                ) : (
+                                    <div className="w-full h-full min-h-[600px] sm:min-h-[700px] flex items-center justify-center font-mono text-sm text-[var(--theme-accent-primary)] border-none z-20 relative bg-black/50">
+                                        Carregant simulador interactiu...
+                                    </div>
+                                )}
                                 
                                 {/* LEYENDA Y EXPLICACIÓN MULTILINGÜE */}
                                 <div className="p-4 sm:p-6 bg-gray-100 dark:bg-black/40 border-t border-[var(--theme-accent-primary)]/20 text-sm transition-colors">
@@ -895,7 +911,7 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
     return (
         // 1. RAÍZ INDESTRUCTIBLE: 100dvh para iOS, overscroll bloqueado (El inert va en los Main/PageHeader, NO aquí, para no bloquear modals)
         <div 
-            className="flex-1 h-[100dvh] bg-[var(--bg-app)] text-[var(--text-main)] flex flex-col w-full overflow-hidden isolate overscroll-none"
+            className="flex-1 h-[100dvh] bg-[var(--bg-app)] text-[var(--text-main)] flex flex-col w-full overflow-hidden isolate overscroll-none relative"
         >
             {/* 2. MUERTE AL DOM ZOMBI (Desmontaje Estricto de Modales) */}
             {isTranslationOpen && (
@@ -927,10 +943,10 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
             <div 
                 className="pt-[max(env(safe-area-inset-top),0px)] shrink-0 z-[var(--z-nav,40)] bg-[var(--bg-app)]"
                 inert={isTocOpen || isActionMenuOpen || isTranslationOpen || isHistoryOpen || !!mediaViewerSrc ? true : undefined}
-            >
-                <PageHeader title={title || "EL PROJECTE"} onBack={() => navigate(-1)} />
-            </div>
+            />
             
+
+
             {/* 4. SCROLL CONTAINER (Rubber-band neutralizado, Bottom Safe-Area asegurado) */}
             <main 
                 ref={scrollContainerRef}
@@ -971,14 +987,21 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                     </div>
                 </div>
 
-                {/* 5. ACTION BAR: PATRÓN PRIORITY+ (Erradicado el Scroll Horizontal) */}
-                <div className="sticky top-0 z-[var(--z-sticky,200)] w-full shadow-md bg-[#4F46E5]/95 dark:bg-[#F97316]/95 backdrop-blur-md transition-colors shrink-0 touch-manipulation">
-                    <div className="flex items-center justify-center min-h-[56px] px-2 sm:px-4">
+                                {/* 5. ACTION BAR: PATRÓN PRIORITY+ (Format Barra Total) */}
+                <div className="sticky top-0 z-[var(--z-sticky,200)] w-full shadow-[0_4px_20px_rgba(0,0,0,0.1)] bg-[#4F46E5] text-white dark:bg-[#F97316] dark:text-[#111111] transition-all shrink-0 touch-manipulation border-b border-black/10 dark:border-white/10">
+                    <div className="flex items-center justify-between min-h-[56px] px-2 sm:px-4 w-full max-w-7xl mx-auto">
                         
-                        {/* Secundarias: Adaptativas */}
-                        <div className="flex items-center justify-center gap-1 shrink-0 text-white dark:text-[#111111]">
+                        {/* Esquerra: Tornar i Cercar */}
+                        <div className="flex items-center justify-start gap-1 flex-1 min-w-0">
                             <button 
-                                className={`flex items-center justify-center gap-2 min-h-[44px] px-3 rounded-xl hover:bg-white/20 dark:hover:bg-black/10 active:scale-95 transition-colors touch-manipulation font-bold uppercase text-sm ${isSearchOpen ? 'bg-white/20 dark:bg-black/20' : ''}`}
+                                onClick={() => navigate(-1)} 
+                                className="flex items-center justify-center min-h-[44px] w-[44px] rounded-xl hover:bg-white/20 dark:hover:bg-black/10 active:scale-95 transition-colors touch-manipulation shrink-0"
+                                aria-label="Tornar arrere"
+                            >
+                                <ArrowLeft size={20} strokeWidth={2.5} />
+                            </button>
+                            <button 
+                                className={`flex items-center justify-center gap-2 min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 dark:hover:bg-black/10 active:scale-95 transition-colors touch-manipulation font-bold uppercase text-sm ${isSearchOpen ? 'bg-white/20 dark:bg-black/20' : ''}`}
                                 aria-label="Cercar al document"
                                 onClick={() => {
                                     if(isSearchOpen) { searchEngine.clear(); }
@@ -988,53 +1011,60 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                                 <Search size={20} strokeWidth={2.5} />
                                 <span className="hidden sm:inline">Cercar</span>
                             </button>
+                        </div>
 
-                            {/* LLIBRE / ÍNDEX WITH PAGE NUMBER */}
+                        {/* Centre: LLIBRE Més Espaiós */}
+                        <div className="flex items-center justify-center shrink-0 mx-2">
                             <button 
-                                className={`flex items-center justify-center gap-1.5 min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 dark:hover:bg-black/10 active:scale-95 transition-colors touch-manipulation font-bold uppercase text-sm ${isTocOpen ? 'bg-white/20 dark:bg-black/20 text-[var(--theme-accent-primary)]' : ''}`}
+                                className={`flex items-center justify-center gap-1.5 min-h-[44px] px-3 sm:px-4 rounded-xl hover:bg-white/20 dark:hover:bg-black/10 active:scale-95 transition-colors touch-manipulation font-bold uppercase text-sm ${isTocOpen ? 'bg-white/20 dark:bg-black/20 opacity-100 shadow-inner' : ''}`}
                                 aria-label="Obrir Índex i Pàgines"
                                 onClick={() => setIsTocOpen(!isTocOpen)}
                             >
                                 <Book size={20} strokeWidth={2.5} />
-                                <span className="hidden sm:inline">Llibre{htmlContent ? ',' : ''}</span>
+                                <span className="font-extrabold tracking-wide hidden sm:inline">Llibre{htmlContent ? ',' : ''}</span>
                                 {htmlContent && (
-                                    <span className="tabular-nums font-bold tracking-widest whitespace-nowrap">
+                                    <span className="tabular-nums font-black tracking-widest whitespace-nowrap ml-1 opacity-90">
                                         <span ref={pageNumberRef}>1</span>/{totalPages}
                                     </span>
                                 )}
                             </button>
+                        </div>
 
+                        {/* Dreta: Traduir, Comentar, etc. */}
+                        <div className="flex items-center justify-end gap-0.5 sm:gap-1 flex-1 min-w-0">
                             <button 
-                                className={`flex items-center justify-center gap-2 min-h-[44px] px-3 rounded-xl hover:bg-white/20 dark:hover:bg-black/10 active:scale-95 transition-colors touch-manipulation font-bold uppercase text-sm ${translating ? "text-amber-300 dark:text-white animate-pulse" : ""}`}
+                                className={`flex items-center justify-center gap-1.5 min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 dark:hover:bg-black/10 active:scale-95 transition-colors touch-manipulation font-bold uppercase text-sm ${translating ? "text-amber-300 dark:text-white animate-pulse" : ""}`}
                                 aria-label="Traduir Pàgina"
                                 onClick={() => setIsTranslationOpen(true)}
                                 disabled={translating}
                             >
-                                <Globe size={20} strokeWidth={2.5} className={translating ? "animate-spin" : ""} />
+                                {translating ? (
+                                    <Globe size={20} strokeWidth={2.5} className="animate-spin" />
+                                ) : (
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d7/Google_Translate_logo.svg" alt="Google Translate" className="w-[20px] h-[20px] object-contain drop-shadow-sm brightness-110" />
+                                )}
                                 <span className="hidden lg:inline">Traduir</span>
                             </button>
 
                             <button 
-                                className="hidden sm:flex items-center justify-center gap-2 min-h-[44px] px-3 hover:bg-white/20 dark:hover:bg-black/10 rounded-xl active:scale-95 touch-manipulation font-bold uppercase text-sm" 
+                                className="hidden sm:flex items-center justify-center gap-2 min-h-[44px] px-2 hover:bg-white/20 dark:hover:bg-black/10 rounded-xl active:scale-95 touch-manipulation font-bold uppercase text-sm" 
                                 onClick={() => navigate('/chats/socdepoble')}
                             >
                                 <MessageCircle size={20} /><span className="hidden lg:inline">Comentar</span>
                             </button>
                             <button 
-                                className="hidden sm:flex items-center justify-center gap-2 min-h-[44px] px-3 hover:bg-white/20 dark:hover:bg-black/10 rounded-xl active:scale-95 touch-manipulation font-bold uppercase text-sm" 
+                                className="hidden sm:flex items-center justify-center gap-2 min-h-[44px] px-2 hover:bg-white/20 dark:hover:bg-black/10 rounded-xl active:scale-95 touch-manipulation font-bold uppercase text-sm" 
                                 onClick={() => { if(navigator.share) navigator.share({ title: 'Sóc de Poble', url: window.location.href }) }}
                             >
                                 <Share2 size={20} /><span className="hidden lg:inline">Compartir</span>
                             </button>
-
                         </div>
 
                     </div>
-
                     {/* Buscador Desplegable con 44x44px Targets */}
                     {isSearchOpen && (
                         <div className="w-full bg-[var(--bg-panel)] border-b border-[var(--border-master)] p-2 z-[var(--z-nav,40)] shadow-inner animate-in slide-in-from-top-2">
-                            <div className="flex max-w-xl w-full mx-auto bg-black/5 dark:bg-white/5 rounded-xl border border-[var(--border-master)] overflow-hidden items-center p-1 gap-1">
+                            <div className="flex max-w-2xl w-full mx-auto bg-black/5 dark:bg-white/5 rounded-xl border border-[var(--border-master)] overflow-hidden items-center p-1 gap-1">
                                 <Search size={20} className="text-theme-muted ml-2 shrink-0" />
                                 <input 
                                     type="text" value={searchText} onChange={(e) => setSearchText(e.target.value)}
@@ -1044,17 +1074,35 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                                         }
                                     }}
                                     placeholder="Cerca al document..."
-                                    className="flex-1 bg-transparent px-2 min-h-[40px] outline-none text-[var(--text-main)]" autoFocus
+                                    className="flex-1 bg-transparent px-2 min-h-[40px] outline-none text-[var(--text-main)] w-[100px] sm:w-auto" autoFocus
                                 />
+                                
+                                {searchEngine.matchCount > 0 && (
+                                    <div className="flex items-center gap-1.5 mr-1 bg-black/5 dark:bg-white/5 pr-1 py-1 pl-3 rounded-lg border border-black/5 dark:border-white/5 shrink-0">
+                                        <span className="text-[13px] font-bold text-theme-muted tabular-nums whitespace-nowrap min-w-[36px] text-center">
+                                            {searchEngine.currentMatchIndex + 1} / {searchEngine.matchCount}
+                                        </span>
+                                        <div className="flex items-center ml-1">
+                                            <button onClick={() => searchEngine.prev()} className="p-1.5 min-w-[32px] min-h-[32px] hover:bg-black/10 dark:hover:bg-white/10 active:bg-black/20 rounded-md transition-colors text-theme-text flex items-center justify-center touch-manipulation" aria-label="Resultat anterior">
+                                                <ChevronUp size={18} strokeWidth={2.5} />
+                                            </button>
+                                            <div className="w-px h-4 bg-black/10 dark:bg-white/10 mx-0.5"></div>
+                                            <button onClick={() => searchEngine.next()} className="p-1.5 min-w-[32px] min-h-[32px] hover:bg-black/10 dark:hover:bg-white/10 active:bg-black/20 rounded-md transition-colors text-theme-text flex items-center justify-center touch-manipulation" aria-label="Resultat següent">
+                                                <ChevronDown size={18} strokeWidth={2.5} />
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
+
                                 <button
                                     onClick={() => searchEngine.search(searchText)} 
-                                    className="min-w-[44px] min-h-[44px] px-3 font-bold text-[var(--theme-accent-primary)] hover:bg-black/5 dark:hover:bg-white/5 rounded-lg touch-manipulation active:scale-95"
+                                    className="min-w-[44px] min-h-[44px] px-3 font-bold text-[var(--theme-accent-primary)] hover:bg-black/5 dark:hover:bg-white/5 rounded-lg touch-manipulation active:scale-95 shrink-0 hidden sm:block"
                                 >
                                     Cercar
                                 </button>
                                 <button 
                                     onClick={() => { searchEngine.clear(); setIsSearchOpen(false); }} 
-                                    className="min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-black/5 dark:hover:bg-white/5 rounded-lg touch-manipulation active:scale-95"
+                                    className="min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-black/5 dark:hover:bg-white/5 rounded-lg touch-manipulation active:scale-95 shrink-0"
                                 >
                                     <X className="size-5 text-theme-text"/>
                                 </button>
@@ -1177,19 +1225,19 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                         <div className="fixed inset-0 bg-black/60 z-[var(--z-overlay,50)] backdrop-blur-sm animate-in fade-in duration-300 touch-none" onClick={() => setIsTocOpen(false)} aria-hidden="true" />
                     )}
                     
-                    {/* Fast Scrubber: Separado del borde (right-2) para esquivar el Swipe-Back de iOS */}
+                    {/* Fast Scrubber: Bound rigidly to the page template (absolute overlay) */}
                     <div 
                         ref={scrubberRef}
-                        className="fixed right-1 sm:right-2 top-[20%] bottom-[20%] w-12 sm:w-16 z-[var(--z-nav,40)] cursor-ns-resize touch-none flex justify-end p-2 isolate"
+                        className="absolute left-1 sm:left-2 top-[20%] bottom-[20%] w-12 sm:w-16 z-[var(--z-nav,40)] cursor-ns-resize touch-none flex justify-start p-2 isolate"
                         onPointerDown={handleScrubberPointerDown}
                         style={{ userSelect: 'none', touchAction: 'none' }}
                         aria-hidden="true" 
                     >
-                        <div className="h-full w-2 bg-black/10 dark:bg-white/5 rounded-full relative shadow-inner ml-auto pointer-events-none">
+                        <div className="h-full w-2 bg-black/10 dark:bg-white/5 rounded-full relative shadow-inner mr-auto pointer-events-none">
                             {/* Punter Escalable */}
                             <div 
                                 ref={scrubberThumbRef}
-                                className="absolute right-0 w-2 bg-[var(--theme-accent-primary)] rounded-full transition-all duration-75 origin-center shadow-[0_0_10px_rgba(249,115,22,0.8)]" 
+                                className="absolute left-0 w-2 bg-[var(--theme-accent-primary)] rounded-full transition-all duration-75 origin-center shadow-[0_0_10px_rgba(249,115,22,0.8)]" 
                                 style={{ 
                                     height: '24px', 
                                     top: `calc(${scrubberPosRef.current * 100}% - 12px)`,
@@ -1199,14 +1247,14 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
 
                             {/* Bafarada amb el Títol */}
                             <div 
-                                className={`absolute right-5 whitespace-nowrap bg-[var(--theme-accent-primary)] text-white font-black uppercase tracking-wider text-xs sm:text-sm py-2 px-4 rounded-xl shadow-2xl pointer-events-none transition-all duration-100 flex items-center ${scrubberDragging ? 'opacity-100' : 'opacity-0'}`}
+                                className={`absolute left-5 whitespace-nowrap bg-[var(--theme-accent-primary)] text-white font-black uppercase tracking-wider text-xs sm:text-sm py-2 px-4 rounded-xl shadow-2xl pointer-events-none transition-all duration-100 flex items-center ${scrubberDragging ? 'opacity-100' : 'opacity-0'}`}
                                 style={{ 
                                     top: `calc(${scrubberPosRef.current * 100}%)`,
-                                    transform: `translateY(-50%) ${scrubberDragging ? 'translateX(0)' : 'translateX(10px)'}`
+                                    transform: `translateY(-50%) ${scrubberDragging ? 'translateX(0)' : 'translateX(-10px)'}`
                                 }}
                             >
+                                <div className="absolute top-1/2 -left-1 -translate-y-1/2 w-3 h-3 bg-[var(--theme-accent-primary)] rotate-45"></div>
                                 {scrubberActiveHeading || "Inici"}
-                                <div className="absolute top-1/2 -right-1 -translate-y-1/2 w-3 h-3 bg-[var(--theme-accent-primary)] rotate-45"></div>
                             </div>
                         </div>
                     </div>

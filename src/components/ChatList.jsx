@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import {
   Search,
   MessageSquare,
+  Settings,
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import Avatar from "./Avatar";
@@ -60,6 +61,11 @@ const ChatList = () => {
   const [chats, setChats] = useState([]);
   const [isTownModalOpen, setIsTownModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [isSettingsMenuOpen, setIsSettingsMenuOpen] = useState(false);
+  
+  const handleNotReady = () => {
+      alert(t('chat.dev_feature'));
+  };
   
   // Consumimos el contexto para saber si el scroll necesita ajustarse al banner
   const { status } = useContext(LocalFirstStatusContext);
@@ -269,8 +275,8 @@ const ChatList = () => {
   return (
     <div className="flex-1 flex flex-col min-w-0 bg-white dark:bg-[#0e0e0e] relative overflow-hidden h-full chat-list-container font-['Noto_Sans',sans-serif] transition-colors border-r border-[#0000000a] dark:border-transparent">
       {/* HEADER CANÒNIC (Tech-Huerta V12) - OBSIDIAN MODE */}
-      <header className="h-[64px] min-h-[64px] max-h-[64px] shrink-0 flex flex-col justify-center px-4 bg-[#0a0a0a] sticky top-0 z-20 transition-colors">
-        <div className="flex items-center w-full h-[36px] bg-white rounded-[28px] overflow-hidden focus-within:ring-2 focus-within:ring-[#169CF9] transition-all group">
+      <header className="shrink-0 flex items-center justify-between px-4 h-[56px] min-h-[56px] bg-[#F97316] dark:bg-[#4F46E5] sticky top-0 z-20 transition-colors gap-2">
+        <div className="flex items-center flex-1 h-[36px] bg-white rounded-[28px] overflow-hidden focus-within:ring-2 focus-within:ring-[#169CF9] transition-all group">
           <div className="flex items-center justify-center pl-4 pr-2 h-full">
             <Search
               size={18}
@@ -289,10 +295,47 @@ const ChatList = () => {
             className="flex-1 w-full h-full bg-transparent text-gray-900 pr-4 py-0 m-0 text-[14px] leading-none font-bold outline-none placeholder:text-gray-800 placeholder:font-bold"
           />
         </div>
+        
+        <div className="relative flex-shrink-0">
+            <button 
+                onClick={() => setIsSettingsMenuOpen(!isSettingsMenuOpen)}
+                className="w-[36px] h-[36px] flex items-center justify-center rounded-full text-white hover:bg-white/20 transition-colors"
+                title={t('chat.chat_options', 'Opcions de xat')}
+            >
+                <Settings size={22} strokeWidth={2.5} />
+            </button>
+
+            {isSettingsMenuOpen && (
+                <>
+                    <div className="fixed inset-0 z-40" onClick={() => setIsSettingsMenuOpen(false)}></div>
+                    <div className="absolute right-0 top-14 z-50 w-72 origin-top-right animate-in fade-in zoom-in-95 rounded-[28px] bg-white dark:bg-[#1a1a1a] py-3 text-[16px] text-theme-text shadow-[0_8px_32px_rgba(0,0,0,0.25)] border border-gray-100 dark:border-gray-800 duration-200">
+                        {/* Header del menú */}
+                        <div className="px-5 pb-3 mb-2 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between">
+                            <span className="font-['Noto_Sans'] font-bold text-[18px] text-gray-900 dark:text-white capitalize">{t('chat.chat_control', 'Control general')}</span>
+                        </div>
+                        {/* Opcions Mestre */}
+                        <button onClick={() => { setIsSettingsMenuOpen(false); navigate('/control-general'); }} className="w-full px-5 py-3 text-left font-['Noto_Sans'] font-bold text-theme-accent-primary hover:bg-theme-accent-primary/10 transition-colors uppercase tracking-wider text-[14px]">
+                            {t('chat.open_general_control', '⚙️ Entrar al Control General')}
+                        </button>
+                        <div className="mx-5 my-1 border-b border-gray-100 dark:border-gray-800"></div>
+                        
+                        {/* Opcions Ràpides */}
+                        <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full px-5 py-3 text-left font-['Noto_Sans'] font-medium transition-colors hover:bg-theme-accent-primary/10 hover:text-theme-accent-primary">{t('chat.add_members', 'Afegir membres')}</button>
+                        <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full px-5 py-3 text-left font-['Noto_Sans'] font-medium transition-colors hover:bg-theme-accent-primary/10 hover:text-theme-accent-primary">{t('chat.group_info', 'Informació del grup')}</button>
+                        <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full px-5 py-3 text-left font-['Noto_Sans'] font-medium transition-colors hover:bg-theme-accent-primary/10 hover:text-theme-accent-primary">{t('chat.group_media', 'Multimèdia del grup')}</button>
+                        <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full px-5 py-3 text-left font-['Noto_Sans'] font-medium transition-colors hover:bg-theme-accent-primary/10 hover:text-theme-accent-primary">{t('chat.search', 'Cercar')}</button>
+                        <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full px-5 py-3 text-left font-['Noto_Sans'] font-medium transition-colors hover:bg-theme-accent-primary/10 hover:text-theme-accent-primary">{t('chat.mute_notifications', 'Silenciar')}</button>
+                        <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full px-5 py-3 text-left font-['Noto_Sans'] font-medium transition-colors hover:bg-theme-accent-primary/10 hover:text-theme-accent-primary">{t('chat.temporary_messages', 'Missatges temporals')}</button>
+                        <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full px-5 py-3 text-left font-['Noto_Sans'] font-medium transition-colors hover:bg-theme-accent-primary/10 hover:text-theme-accent-primary">{t('chat.wallpaper', 'Fons de pantalla')}</button>
+                        <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full px-5 py-3 text-left font-['Noto_Sans'] font-medium transition-colors hover:bg-theme-accent-primary/10 hover:text-theme-accent-primary text-gray-500">{t('chat.more', 'Més opcions...')}</button>
+                    </div>
+                </>
+            )}
+        </div>
       </header>
       {/* LLISTA D'AGENTS (M3) */}
       <div 
-        className="flex-1 overflow-y-auto bg-white dark:bg-[#0e0e0e] min-h-0 pb-20 custom-scrollbar overscroll-contain transition-colors"
+        className="flex-1 overflow-y-auto bg-white dark:bg-[#0e0e0e] min-h-0 custom-scrollbar overscroll-contain transition-colors"
         style={{ scrollPaddingTop: isDegraded ? '56px' : '0px' }}
       >
         {filteredChats.length > 0 ? (

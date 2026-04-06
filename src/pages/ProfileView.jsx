@@ -587,7 +587,7 @@ const ProfileView = () => {
                     {/* Metadata Row: Left Aligned */}
                     <div className="flex flex-col items-start text-left mb-10 w-full px-2 sm:px-4">
                         <div className="flex items-center gap-3 mb-2 flex-wrap">
-                            <h1 className={`text-4xl sm:text-5xl lg:text-6xl font-black tracking-tighter leading-[0.9] ${textColor} drop-shadow-sm`}>
+                            <h1 className={`text-4xl sm:text-5xl lg:text-6xl font-black leading-[0.9] ${textColor} drop-shadow-sm`}>
                                 {profile?.full_name}
                             </h1>
                             {profile?.role === 'vei' && (
@@ -727,15 +727,15 @@ const ProfileView = () => {
                         <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
 
                         <div className="flex flex-col items-center justify-center text-center py-4 relative group cursor-default">
-                            <span className="text-5xl md:text-6xl font-black mb-2 tracking-tighter group-hover:scale-110 transition-transform duration-500 ease-out-back text-theme-text">{stats.followers}</span>
+                            <span className="text-5xl md:text-6xl font-black mb-2 group-hover:scale-110 transition-transform duration-500 ease-out-back text-theme-text">{stats.followers}</span>
                             <span className={`text-[11px] md:text-xs font-black uppercase tracking-[0.25em] ${textMuted}`}>Connectats</span>
                         </div>
                         <div className={`flex flex-col items-center justify-center text-center py-4 border-x ${borderColor} relative group cursor-default`}>
-                            <span className="text-5xl md:text-6xl font-black mb-2 tracking-tighter text-[var(--theme-accent-primary)] group-hover:scale-110 transition-transform duration-500 ease-out-back drop-shadow-sm">{stats.posts}</span>
+                            <span className="text-5xl md:text-6xl font-black mb-2 text-[var(--theme-accent-primary)] group-hover:scale-110 transition-transform duration-500 ease-out-back drop-shadow-sm">{stats.posts}</span>
                             <span className={`text-[11px] md:text-xs font-black uppercase tracking-[0.25em] ${textMuted}`}>Publicacions</span>
                         </div>
                         <div className="flex flex-col items-center justify-center text-center py-4 relative group cursor-default">
-                            <span className="text-5xl md:text-6xl font-black mb-2 tracking-tighter group-hover:scale-110 transition-transform duration-500 ease-out-back text-theme-text">{stats.following}</span>
+                            <span className="text-5xl md:text-6xl font-black mb-2 group-hover:scale-110 transition-transform duration-500 ease-out-back text-theme-text">{stats.following}</span>
                             <span className={`text-[11px] md:text-xs font-black uppercase tracking-[0.25em] ${textMuted}`}>Contactes</span>
                         </div>
                     </div>

@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Mic, X, Send, Square } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { logger } from '../utils/logger';
 import './VoiceRecorder.css';
 
@@ -15,6 +16,7 @@ const VoiceRecorder = ({ onSend, onCancel, lang = 'va' }) => {
     const analyserRef = useRef(null);
     const sourceRef = useRef(null);
     const isCancelledRef = useRef(false);
+    const durationRef = useRef(0);
 
     const transcriptRef = useRef('');
     const speechPromiseRef = useRef(null);
@@ -73,7 +75,8 @@ const VoiceRecorder = ({ onSend, onCancel, lang = 'va' }) => {
                 
                 const mimeType = chunksRef.current[0] ? chunksRef.current[0].type : 'audio/webm';
                 const audioBlob = new Blob(chunksRef.current, { type: mimeType });
-                const recordedDuration = duration;
+                
+                // Obtenim resultats segurs sense bloquejos infinits
                 chunksRef.current = [];
                 stopVisualizer();
 
@@ -84,20 +87,24 @@ const VoiceRecorder = ({ onSend, onCancel, lang = 'va' }) => {
                     // Fail silent
                 }
 
-                // Esperem un text si està disponible
+                // Timeout de seguretat de 500ms per a la promesa de veu, per evitar bloquejos infinits
                 let finalTranscript = transcriptRef.current;
                 if (speechPromiseRef.current) {
                      try {
-                          const text = await speechPromiseRef.current;
-                          if (text) {
+                          const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout")), 500));
+                          const text = await Promise.race([speechPromiseRef.current, timeoutPromise]);
+                          if (text && typeof text === 'string') {
                                finalTranscript = text;
                           }
-                     } catch {
-                          // Ignorar cancel·lacions buides
+                     } catch (err) {
+                          logger.warn('[VoiceRecorder] Resolta transcripció amb fallback o timeout.', err);
                      }
                 }
 
-                onSend(audioBlob, recordedDuration, finalTranscript);
+                // Cridem externalment, la durada ja s'ha guardat a l'estat, però onstop agafava el closure inicial (0).
+                // Per tant usarem transcriptRef.current per a la transcripció segura.
+                // Usarem durationRef.current per la durada de la gravació
+                onSend(audioBlob, durationRef.current || 1, finalTranscript);
             };
 
             mediaRecorderRef.current = mediaRecorder;
@@ -105,8 +112,10 @@ const VoiceRecorder = ({ onSend, onCancel, lang = 'va' }) => {
             setIsRecording(true);
 
             let seconds = 0;
+            durationRef.current = 0;
             timerRef.current = setInterval(() => {
                 seconds++;
+                durationRef.current = seconds;
                 setDuration(seconds);
                 if (seconds >= 120) {
                     stopRecording();
@@ -196,30 +205,33 @@ const VoiceRecorder = ({ onSend, onCancel, lang = 'va' }) => {
         return `${mins}:${s.toString().padStart(2, '0')}`;
     };
 
+    const { t } = useTranslation();
+
     useEffect(() => {
         startRecording();
         return () => {
-            // Prevent triggering the parent's generic cancel logic on unmount, 
-            // otherwise React 18 StrictMode wipes it out.
             cancelRecording(false);
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
-        <div className="voice-recorder-container" style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '100%', padding: '0 10px' }}>
-            <button onClick={cancelRecording} className="btn-cancel-voice" style={{ color: '#ef4444', background: 'none', border: 'none', padding: '8px' }}>
-                <X size={24} />
+        <div className="flex items-center gap-2 w-full py-1">
+            <button onClick={cancelRecording} className="p-3 text-red-500 hover:bg-red-500/10 rounded-full transition-colors btn-tactile shrink-0">
+                <X size={28} strokeWidth={2.5} />
             </button>
 
-            <div className="recording-visualizer" style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <div className="recording-dot" style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#ef4444', animation: 'pulse 1s infinite' }}></div>
-                <span style={{ fontFamily: 'monospace', fontSize: '14px' }}>{formatDuration(duration)}</span>
-                <canvas ref={canvasRef} width={100} height={30} style={{ height: '30px', width: '100px' }}></canvas>
+            <div className="flex-1 flex items-center justify-center bg-red-50 dark:bg-red-900/20 rounded-[28px] h-[52px] px-4 animate-pulse relative overflow-hidden border border-red-200 dark:border-red-900/50">
+                <div className="flex items-center gap-3 z-10">
+                    <div className="w-3 h-3 rounded-full bg-red-500 animate-ping"></div>
+                    <span className="font-['Noto_Sans'] font-bold text-red-600 dark:text-red-400 text-[15px] sm:text-[16px] uppercase tracking-wider">
+                        {t('chat.recording_msg', 'Gravant...')} <span className="font-mono ml-1">{formatDuration(duration)}</span>
+                    </span>
+                </div>
             </div>
 
-            <button onClick={stopRecording} className="btn-send-voice" style={{ backgroundColor: '#25D366', color: 'white', borderRadius: '50%', width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: 'none' }}>
-                <Send size={20} />
+            <button onClick={stopRecording} className="w-[52px] h-[52px] shrink-0 bg-[#25D366] hover:bg-[#1DA851] text-white rounded-full shadow-[0_4px_12px_rgba(37,211,102,0.3)] flex items-center justify-center btn-tactile transition-transform active:scale-95 ml-1">
+                <Send size={24} strokeWidth={2.5} className="ml-1" />
             </button>
         </div>
     );

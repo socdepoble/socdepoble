@@ -31,8 +31,8 @@ const NavigationRail = () => {
   return (
     <nav className="w-full h-full flex flex-col bg-transparent relative overflow-hidden">
       
-      {/* 1. BOTÓ D'ACCIÓ RÀPIDA (TOP - PROTOCOL HUB) - FIT 48PX */}
-      <div className="h-[48px] min-h-[48px] max-h-[48px] shrink-0 border-b border-[#ffffff14] relative z-20 bg-[#544CF6]">
+      {/* 1. BOTÓ D'ACCIÓ RÀPIDA (TOP - PROTOCOL HUB) - FIT 56PX */}
+      <div className="h-[56px] min-h-[56px] max-h-[56px] shrink-0 border-b border-[#ffffff14] relative z-20 bg-[#544CF6]">
         <button
           className="absolute inset-0 text-white flex items-center justify-center space-x-2 transition-colors hover:brightness-110 outline-none"
           onClick={() => navigate("/hub")}

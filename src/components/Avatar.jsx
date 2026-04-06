@@ -59,7 +59,12 @@ const Avatar = ({ src, role, name, size = 44, className = "" }) => {
     };
 
     const fallbackImage = getAvatarFallbackImage(role);
-    const normalizedSrc = (src && !src.startsWith('http') && !src.startsWith('/')) ? `/${src}` : src;
+    let normalizedSrc = (src && !src.startsWith('http') && !src.startsWith('/')) ? `/${src}` : src;
+
+    // [HEALING PROTOCOL] Intercept legacy broken supabase avatars (400 Bad Request prevention)
+    if (normalizedSrc && normalizedSrc.includes('avatar_agent_iaia')) {
+        normalizedSrc = '/assets/avatars/comic/iaia_comic_matriarch.png';
+    }
 
     // We attempt to load the image in the background first to avoid noisy 400/404 errors 
     // from triggering before we have a chance to show the fallback.

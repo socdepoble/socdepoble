@@ -34,6 +34,8 @@ No improvises l'estil ni els colors. Si falta una dada, usa els valors definits 
 3. ¿L'estructura visual ha abandonat configuracions clares per acomplir l'estètica Premium Rústic (fons foscos \`bg-[#111]\` o \`bg-[#0a0a0a]\` amb \`backdrop-blur\` on escaiga)?
 4. ¿El text sona rural, pràctic i proper (sense argot corporatiu o tecnològic)?
 5. **(Llei del Títol Taronja / Orange Label Law):** ¿Els noms dels agents, títols principals de llistes i identificadors clau estan en color Taronja (\`text-[var(--theme-accent-primary)]\` o \`#F97316\`) i MAI en negre o gris? Aquest color es reserva exclusivament per a destacar identitats d'agents/persones.
+6. **(Ortografia Valenciana / Regla de l'Apòstrof):** T'has assegurat que la composició gramatical dels pobles siga ortogràficament impecable? Si el poble comença amb vocal o "H" seguida de vocal (ex. Ontinyent, Alcoi, Iàtova), s'apostrofa la "de" convertint-la en "d'" (P.e. "Gent d'Ontinyent"). Mai "Gent de Ontinyent". Recorda revisar sempre la correcció ortogràfica estricta per al valencià.
+7. **(Accessibilitat i SEO / Alt Text):** Totes les imatges han de portar el seu atribut `alt=""` descriptiu i meticulós. Assegura't de respectar sempre les bones pràctiques de SEO a qualsevol document que edites (etiquetes adients, atributs descriptius), afavorint la indexació i accessibilitat web.
 
 ## Cómo mejorar este Skill
 

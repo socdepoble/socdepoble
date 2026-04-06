@@ -2,7 +2,6 @@ import * as Y from 'yjs';
 import { WebrtcProvider } from 'y-webrtc';
 import { IndexeddbPersistence } from 'y-indexeddb';
 import { TrellatWebTransport } from '../utils/syncTransport';
-import { supabase } from '../supabaseClient';
 import { Auth } from '@supabase/auth-ui-react'; // Example, shouldn't be strictly needed.
 
 /**

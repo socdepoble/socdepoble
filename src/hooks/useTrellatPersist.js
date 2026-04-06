@@ -6,8 +6,7 @@ const useTrellatPersist = () => {
     if (navigator.storage?.persist) {
       const persisted = await navigator.storage.persisted();
       if (!persisted) {
-        const granted = await navigator.storage.persist();
-        console.log('Persistència concedida:', granted);
+        await navigator.storage.persist();
       }
     }
   };

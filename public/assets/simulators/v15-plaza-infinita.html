@@ -134,15 +134,42 @@
         };
 
         const svg = d3.select("#viz");
-        let width = window.innerWidth - 320;
-        let height = window.innerHeight;
+        let width = window.innerWidth > 320 ? window.innerWidth - 320 : window.innerWidth || 800;
+        let height = window.innerHeight || 600;
 
-        window.addEventListener('resize', () => {
-            width = window.innerWidth - 320;
-            height = window.innerHeight;
-            svg.attr("width", width).attr("height", height);
-            simulation.alpha(0.3).restart();
+        const resizeObserver = new ResizeObserver(entries => {
+            for (let entry of entries) {
+                if (entry.contentRect.width > 0 && entry.contentRect.height > 0) {
+                    width = entry.contentRect.width;
+                    height = entry.contentRect.height;
+                    svg.attr("width", width).attr("height", height);
+                    
+                    if (typeof simulation !== 'undefined' && typeof nodes !== 'undefined' && nodes.length > 0) {
+                        const numTowns = config.towns;
+                        const townCenters = Array.from({length: numTowns}, (_, i) => {
+                            const angle = (i / numTowns) * 2 * Math.PI;
+                            const r = Math.min(width, height) * 0.35 + (numTowns > 20 ? Math.random()*100 : 0);
+                            return {
+                                x: width/2 + r * Math.cos(angle),
+                                y: height/2 + r * Math.sin(angle)
+                            };
+                        });
+                        
+                        simulation
+                            .force("center", d3.forceCenter(width / 2, height / 2).strength(0.05))
+                            .force("x", d3.forceX(d => config.mode === 'V15' ? (townCenters[d.town]?.x || width/2) : width/2).strength(config.mode==='V15' ? 0.3 : 0.01))
+                            .force("y", d3.forceY(d => config.mode === 'V15' ? (townCenters[d.town]?.y || height/2) : height/2).strength(config.mode==='V15' ? 0.3 : 0.01));
+                        
+                        simulation.alpha(0.5).restart();
+                    }
+                }
+            }
         });
+
+        setTimeout(() => {
+            const container = document.querySelector('.flex-1.bg-black');
+            if (container) resizeObserver.observe(container);
+        }, 0);
 
         const g = svg.append("g");
         

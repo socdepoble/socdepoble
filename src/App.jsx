@@ -161,7 +161,7 @@ const App = () => {
     useEffect(() => {
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/sw.js').then(() => {
-                logger.log('[ServiceWorker] Trellat Shield Activado');
+                // logger.log('[ServiceWorker] Trellat Shield Activado');
             }).catch(e => logger.error('[ServiceWorker] Failed', e));
         }
         requestPersist();

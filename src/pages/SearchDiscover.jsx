@@ -11,6 +11,25 @@ import Avatar from '../components/Avatar';
 import { logger } from '../utils/logger';
 import './SearchDiscover.css';
 
+const HighlightText = ({ text, highlight }) => {
+    if (!highlight || !text) return <>{text}</>;
+    
+    // Normalize safely to string and avoid regex injection by escaping
+    const safeText = String(text);
+    const safeHighlight = String(highlight).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const parts = safeText.split(new RegExp(`(${safeHighlight})`, 'gi'));
+    
+    return (
+        <span>
+            {parts.map((part, i) => 
+                part.toLowerCase() === highlight.toLowerCase() ? 
+                <span key={i} className="bg-[#ff6d23] text-white dark:bg-yellow-500 dark:text-black font-bold px-0.5 rounded-sm">{part}</span> : 
+                <span key={i}>{part}</span>
+            )}
+        </span>
+    );
+};
+
 const SearchDiscover = () => {
     const navigate = useNavigate();
     const [query, setQuery] = useState('');
@@ -109,12 +128,12 @@ const SearchDiscover = () => {
                 description={query ? `Resultats de cerca per a ${query} a Sóc de Poble.Troba gent, entitats i pobles de la Comunitat Valenciana.` : 'Descobreix la gent, els pobles i les entitats de la teua comunitat.'}
                 keywords={query ? `${query}, cerca, pobles, comunitat valenciana` : 'pobles, comunitat valenciana, xarxa social, proximitat'}
             />
-            <div className="search-nav-bar glass-premium h-20 px-4 flex items-center gap-4">
-                <button className="back-circle w-14 h-14 rounded-[28px] border border-white/10 bg-white/5 active:scale-95 hover:bg-white/10 transition-all flex items-center justify-center shrink-0" onClick={() => { hapticService.notifySuccess(); navigate(-1); }}>
-                    <ArrowLeft size={28} className="text-white" />
+            <div className="search-nav-bar glass-premium h-[56px] px-4 flex items-center gap-3 border-b border-[var(--theme-border)]">
+                <button className="back-circle w-10 h-10 rounded-full bg-theme-panel active:scale-95 hover:bg-black/5 dark:hover:bg-white/5 transition-all flex items-center justify-center shrink-0 shadow-sm" onClick={() => { hapticService.notifySuccess(); navigate(-1); }}>
+                    <ArrowLeft size={22} className="text-theme-text" />
                 </button>
-                <div className="search-input-wrapper flex-1 relative flex items-center h-14 bg-white/10 rounded-[28px] border-2 border-white/10 focus-within:border-primary/50 transition-all">
-                    <Search className="search-icon-fixed ml-5 text-primary" size={24} />
+                <div className="search-input-wrapper flex-1 relative flex items-center h-10 bg-theme-panel rounded-full shadow-sm focus-within:shadow-md transition-all">
+                    <Search className="search-icon-fixed ml-4 text-primary" size={20} />
                     <input
                         id="global-search-input"
                         name="global-search-input"
@@ -123,35 +142,34 @@ const SearchDiscover = () => {
                         placeholder="BUSCA PEL NOM, OFICI, POBLE..."
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
-                        className="main-search-input bg-transparent border-none outline-none w-full h-full pl-14 pr-12 text-xl font-black uppercase tracking-tight text-white placeholder:text-white/20"
+                        className="main-search-input bg-transparent border-none outline-none w-full h-full pl-12 pr-10 text-lg font-black uppercase text-theme-text placeholder:text-theme-muted"
                     />
                     {query && (
-                        <button className="clear-search-btn absolute right-4 w-8 h-8 rounded-[28px] bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all" onClick={clearSearch}>
-                            <X size={18} className="text-white" />
+                        <button className="clear-search-btn absolute right-2 w-7 h-7 rounded-full bg-[var(--theme-border)] flex items-center justify-center hover:bg-theme-text/10 transition-all" onClick={clearSearch}>
+                            <X size={18} className="text-theme-text" />
                         </button>
                     )}
                 </div>
-                <button 
-                    className={`filter-toggle-btn w-14 h-14 rounded-full border border-white/10 bg-white/5 active:scale-95 transition-all flex items-center justify-center shrink-0 ${activeFilter !== 'tots' ? 'text-primary border-primary/50' : 'text-white'}`}
-                    onClick={() => {
-                        hapticService.bategat();
-                        const nextFilter = activeFilter === 'tots' ? 'gent' : 
-                                         activeFilter === 'gent' ? 'pobles' :
-                                         activeFilter === 'pobles' ? 'esdeveniments' : 'tots';
-                        setActiveFilter(nextFilter);
-                    }}
-                >
-                    <SlidersHorizontal size={24} />
-                </button>
             </div>
 
-            <div className="search-content">
-                {activeFilter !== 'tots' && (
-                    <div className="active-filter-indicator px-6 py-2 bg-primary/10 border-b border-primary/20 flex items-center justify-between">
-                        <span className="text-[10px] font-black uppercase tracking-widest text-primary">Filtre actiu: {filters.find(f => f.id === activeFilter)?.label}</span>
-                        <button onClick={() => setActiveFilter('tots')} className="text-[10px] font-black uppercase text-white/50">Netejar</button>
-                    </div>
-                )}
+            <div className="filter-chips-container w-full overflow-x-auto no-scrollbar border-b border-[var(--theme-border)] bg-theme-bg">
+                <div className="flex px-4 py-3 gap-2 min-w-full justify-start sm:justify-center w-max mx-auto">
+                    {filters.map((filter, index) => (
+                        <React.Fragment key={filter.id}>
+                            <button
+                                onClick={() => { hapticService.bategat(); setActiveFilter(filter.id); }}
+                                className={`flex items-center gap-2 rounded-full font-bold transition-all shadow-sm ${filter.id === 'tots' ? 'text-base px-6 py-2' : 'text-sm px-4 py-1.5 self-center'} ${activeFilter === filter.id ? 'bg-[#ff6d23] text-white' : 'bg-theme-panel text-theme-text hover:bg-black/5 dark:hover:bg-white/5'}`}
+                            >
+                                {filter.icon}
+                                {filter.label}
+                            </button>
+                            {index === 0 && <div className="w-[2px] h-6 bg-[var(--theme-border)] mx-1 self-center opacity-50 shrink-0" />}
+                        </React.Fragment>
+                    ))}
+                </div>
+            </div>
+
+            <div className="search-content pt-4">
 
                 {/* 1. Primary Feedback/Results Area (Pushed to the top when searching) */}
                 {isSearching ? (
@@ -224,24 +242,20 @@ const SearchDiscover = () => {
                                                 </div>
                                                 <div className="results-list">
                                                     {results.gent.map(person => (
-                                                        <div key={person.id} className="universal-card result-item-card" onClick={() => navigate(`/perfil/${person.id}`)}>
-                                                            <div className="card-header clickable">
-                                                                 <div className="header-left">
-                                                                    <Avatar
-                                                                        src={person.avatar_url}
-                                                                        role="user"
-                                                                        name={person.full_name}
-                                                                        size={44}
-                                                                    />
-                                                                    <div className="post-meta">
-                                                                        <div className="post-author-row">
-                                                                            <span className="post-author">{person.full_name}</span>
-                                                                        </div>
-                                                                        <div className="post-town">
-                                                                            {person.role || 'Foraster'} {person.primary_town ? `• ${person.primary_town} ` : ''}
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
+                                                        <div key={person.id} className="bg-theme-card rounded-3xl p-3 mb-2 flex items-center gap-3 active:scale-[0.98] transition-transform select-none cursor-pointer shadow-sm hover:shadow-md" onClick={() => navigate(`/perfil/${person.id}`)}>
+                                                            <Avatar
+                                                                src={person.avatar_url}
+                                                                role="user"
+                                                                name={person.full_name}
+                                                                size={44}
+                                                            />
+                                                            <div className="flex flex-col flex-1 min-w-0">
+                                                                <span className="text-[17px] font-bold text-[var(--text-main)] truncate leading-tight">
+                                                                    <HighlightText text={person.full_name} highlight={query} />
+                                                                </span>
+                                                                <span className="text-[14px] text-theme-muted font-medium truncate">
+                                                                    <HighlightText text={person.role || 'Foraster'} highlight={query} /> {person.primary_town ? <span>• <HighlightText text={person.primary_town} highlight={query} /></span> : ''}
+                                                                </span>
                                                             </div>
                                                         </div>
                                                     ))}
@@ -261,24 +275,20 @@ const SearchDiscover = () => {
                                                 </div>
                                                 <div className="results-list">
                                                     {results.pobles.map(town => (
-                                                        <div key={town.id} className="universal-card result-item-card town" onClick={() => navigate(`/pobles/${town.uuid || town.id}`)}>
-                                                            <div className="card-header clickable">
-                                                                 <div className="header-left">
-                                                                    <Avatar
-                                                                        src={town.image_url}
-                                                                        role="oficial"
-                                                                        name={town.name}
-                                                                        size={44}
-                                                                    />
-                                                                    <div className="post-meta">
-                                                                        <div className="post-author-row">
-                                                                            <span className="post-author">{town.name}</span>
-                                                                        </div>
-                                                                        <div className="post-town">
-                                                                            {town.comarca} {town.province ? `• ${town.province} ` : ''}
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
+                                                        <div key={town.id} className="bg-theme-card rounded-3xl p-3 mb-2 flex items-center gap-3 active:scale-[0.98] transition-transform select-none cursor-pointer shadow-sm hover:shadow-md" onClick={() => navigate(`/pobles/${town.uuid || town.id}`)}>
+                                                            <Avatar
+                                                                src={town.image_url}
+                                                                role="oficial"
+                                                                name={town.name}
+                                                                size={44}
+                                                            />
+                                                            <div className="flex flex-col flex-1 min-w-0">
+                                                                <span className="text-[17px] font-bold text-[var(--text-main)] truncate leading-tight">
+                                                                    <HighlightText text={town.name} highlight={query} />
+                                                                </span>
+                                                                <span className="text-[14px] text-theme-muted font-medium truncate">
+                                                                    <HighlightText text={town.comarca} highlight={query} /> {town.province ? <span>• <HighlightText text={town.province} highlight={query} /></span> : ''}
+                                                                </span>
                                                             </div>
                                                         </div>
                                                     ))}
@@ -298,21 +308,17 @@ const SearchDiscover = () => {
                                                 </div>
                                                 <div className="results-list">
                                                     {results.esdeveniments.map(event => (
-                                                        <div key={event.id} className="universal-card result-item-card event" onClick={() => navigate('/pobles', { state: { initialTab: 'esdeveniments' } })}>
-                                                            <div className="card-header clickable" style={{ background: 'var(--color-terracotta)' }}>
-                                                                 <div className="header-left">
-                                                                    <div className="post-avatar event" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', backgroundColor: 'rgba(255,255,255,0.2)', width: '44px', height: '44px' }}>
-                                                                        <Sparkles size={20} color="#fff" />
-                                                                    </div>
-                                                                    <div className="post-meta">
-                                                                        <div className="post-author-row">
-                                                                            <span className="post-author" style={{ color: '#fff' }}>{event.title}</span>
-                                                                        </div>
-                                                                        <div className="post-town" style={{ color: 'rgba(255,255,255,0.8)' }}>
-                                                                            {event.location} • {new Date(event.date).toLocaleDateString('ca-ES', { day: 'numeric', month: 'long' })}
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
+                                                        <div key={event.id} className="bg-[var(--color-terracotta)] text-white rounded-3xl p-3 mb-2 flex items-center gap-3 active:scale-[0.98] transition-transform select-none cursor-pointer shadow-sm hover:shadow-md hover:brightness-110" onClick={() => navigate('/pobles', { state: { initialTab: 'esdeveniments' } })}>
+                                                            <div className="w-[44px] h-[44px] rounded-full bg-white/20 flex items-center justify-center shrink-0">
+                                                                <Sparkles size={20} className="text-white" />
+                                                            </div>
+                                                            <div className="flex flex-col flex-1 min-w-0">
+                                                                <span className="text-[17px] font-bold text-white truncate leading-tight">
+                                                                    <HighlightText text={event.title} highlight={query} />
+                                                                </span>
+                                                                <span className="text-[14px] text-white/80 font-medium truncate">
+                                                                    <HighlightText text={event.location} highlight={query} /> • {new Date(event.date).toLocaleDateString('ca-ES', { day: 'numeric', month: 'long' })}
+                                                                </span>
                                                             </div>
                                                         </div>
                                                     ))}
@@ -444,23 +450,10 @@ const SearchDiscover = () => {
                     </>
                 )}
 
-                {/* 2. Standard Action Block (Displaced downward when searching) */}
-                <div className="search-bottom-actions py-12 flex justify-center">
-                    <button className="big-community-btn-xl max-w-[640px] w-full" onClick={() => navigate('/comunitat')}>
-                        <div className="btn-icon-xl">
-                            <Users size={32} />
-                        </div>
-                        <div className="btn-text-xl">
-                            <strong>Explora el teu territori</strong>
-                            <span>Descobreix tota la gent i entitats del poble</span>
-                        </div>
-                    </button>
-                </div>
-
                 {/* 3. Empty State Content (Popular Searches) */}
                 {
                     isEmpty && (
-                        <div className="search-welcome">
+                        <div className="search-welcome mt-12 pb-12">
                             <div className="recent-searches">
                                 <h4>Cerques populars</h4>
                                 <div className="recent-list">
@@ -471,6 +464,30 @@ const SearchDiscover = () => {
                                         </button>
                                     ))}
                                 </div>
+                            </div>
+                            
+                            {/* Agents Directory Button */}
+                            <div className="w-full max-w-[800px] mx-auto px-4 mt-8 animate-in fade-in slide-in-from-bottom-8 duration-700">
+                                <button 
+                                    onClick={() => navigate('/agents')}
+                                    className="w-full relative group overflow-hidden rounded-[32px] bg-theme-panel transition-all shadow-xl hover:shadow-[0_0_30px_rgba(249,115,22,0.3)] flex items-center p-6 sm:p-8"
+                                >
+                                    <div className="absolute inset-0 translate-x-[-100%] group-hover:animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-[var(--theme-text)]/5 to-transparent skew-x-12"></div>
+                                    <div className="absolute -inset-4 rounded-full bg-[var(--theme-accent-primary)] opacity-10 group-hover:opacity-20 blur-2xl transition-opacity duration-700"></div>
+
+                                    <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex-shrink-0 relative mr-4 sm:mr-6 shadow-inner group-hover:scale-105 transition-transform duration-500">
+                                        <img src="/assets/avatars/comic/iaia_comic_matriarch.png" alt="IAIA" className="w-full h-full object-cover" />
+                                    </div>
+                                    <div className="flex-1 min-w-0 text-left">
+                                        <h3 className="font-black text-xl sm:text-3xl text-theme-text mb-1 drop-shadow-sm group-hover:text-[var(--theme-accent-primary)] transition-colors">
+                                            IAIA i els seus agents intel·ligents
+                                        </h3>
+                                        <p className="text-theme-muted font-bold text-xs sm:text-sm uppercase tracking-widest truncate max-w-md">L'Equip Sintètic del Mas</p>
+                                    </div>
+                                    <div className="hidden sm:flex w-12 h-12 rounded-full bg-theme-bg shadow-sm items-center justify-center shrink-0 ml-4 group-hover:bg-[var(--theme-accent-primary)] transition-all">
+                                        <ChevronRight size={24} className="text-theme-muted group-hover:text-white transition-colors" />
+                                    </div>
+                                </button>
                             </div>
                         </div>
                     )

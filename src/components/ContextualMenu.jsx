@@ -55,8 +55,13 @@ const ContextualMenu = () => {
     const isChatDetail = location.pathname.match(/^\/chats\/[^/]+/);
     const isProfile = location.pathname.startsWith('/perfil');
     
-    // Sortida primerenca (no renderitzar res) si estem en Notes o en Detall de Xat
-    if (isNotes || isChatDetail) return null;
+    // --- FLAG FUNCIONALITAT BATEGAT ---
+    // [Peticio Audio] Mantindre la barra desactivada per defecte per guanyar espai.
+    // Es crea el flag para activar-la quan siga necessari.
+    const isContextualMenuEnabled = false; 
+    
+    // Sortida primerenca (no renderitzar res) si està desactivat, o si estem en Notes/Detall de Xat
+    if (!isContextualMenuEnabled || isNotes || isChatDetail) return null;
 
     const profileMenu = [
         { id: 'tot', label: 'TOTS', path: location.pathname },

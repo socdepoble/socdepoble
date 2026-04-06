@@ -76,6 +76,8 @@
     --sdp-blue: #0984E3;
     --theme-accent-primary: var(--sdp-orange);
     --theme-accent-secondary: var(--sdp-blue);
+    --theme-iaia-brand: var(--sdp-blue);
+    --theme-iaia-shadow: rgba(9, 132, 227, 0.3);
 
     /* Motion System Tokens (iOS feel) */
     --motion-quick: 120ms;
@@ -125,6 +127,8 @@
     --sdp-blue: #0984E3;
     --theme-accent-primary: var(--sdp-orange);
     --theme-accent-secondary: var(--sdp-blue);
+    --theme-iaia-brand: var(--sdp-orange);
+    --theme-iaia-shadow: rgba(249, 115, 22, 0.3);
 
     --glass-theme-bg: rgba(255, 255, 255, 0.75);
     --glass-theme-border: rgba(0, 0, 0, 0.06);

@@ -42,6 +42,8 @@ const CalendariMaster = lazy(() => import('../pages/MasterCalendar'));
 import Header from "./Header";
 const HubView = lazy(() => import("../pages/HubView"));
 const AccessibilitatUniversal = lazy(() => import("./AccessibilitatUniversal"));
+const AgentDirectory = lazy(() => import("../pages/AgentDirectory"));
+const ControlGeneral = lazy(() => import("../pages/ControlGeneral"));
 
 const ArchitecteView = lazy(() => import("./ArchitecteView"));
 const ResourceDetail = lazy(() => import("../pages/ResourceDetail"));
@@ -200,7 +202,7 @@ const AppLayout = () => {
   return (
     <div
       className="grid grid-rows-[auto_1fr_auto] h-screen support-dvh:h-[100dvh] w-full overflow-hidden font-sans bg-theme-base text-theme-text relative"
-      style={{ height: '100dvh' /* Modern browsers will use this, older will fallback to h-screen class */ }}
+      style={{ height: 'var(--vv-height, 100dvh)' /* Modern browsers will use this, older will fallback to h-screen class */ }}
       onDragEnterCapture={handleGlobalDragEnter}
       onDragLeaveCapture={handleGlobalDragLeave}
       onDragOverCapture={handleGlobalDragOver}
@@ -267,12 +269,12 @@ const AppLayout = () => {
                   ? "translate-x-0 shadow-[4px_0_24px_rgba(0,0,0,0.5)]"
                   : "-translate-x-full"
               }
-              md:relative md:z-[var(--z-sidebar)] md:translate-x-0 md:h-full md:w-[280px] md:shadow-none md:border-r-0
+              md:relative md:z-[var(--z-sidebar)] md:translate-x-0 md:h-full md:w-[240px] md:shadow-none md:border-r-0
             `}
           >
             <BlueprintOverlay
               label="SIDEBAR"
-              dimensions="280px"
+              dimensions="240px"
               color="blue"
               showBackupLink={true}
               className="h-full flex flex-col"
@@ -291,11 +293,6 @@ const AppLayout = () => {
               ? "overflow-hidden"
               : "overflow-y-auto overscroll-contain custom-scrollbar main-viewport"
           }`}
-          style={{
-            paddingBottom: !isChatDetailMobileView
-              ? 'calc(72px + env(safe-area-inset-bottom, 0px))'
-              : '0px',
-          }}
         >
           <Suspense fallback={null}>
             <ContextualMenu />
@@ -356,6 +353,7 @@ const AppLayout = () => {
                     <Route path="/registre" element={<Register />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/search" element={<SearchDiscover />} />
+                    <Route path="/control-general" element={<ControlGeneral />} />
                     <Route path="/ofici" element={<OficiDocumentacio />} />
                     <Route path="/ofici/:id" element={<OficiDocumentacio />} />
                     <Route
@@ -365,6 +363,7 @@ const AppLayout = () => {
                     <Route path="/nexus" element={<NexusFlash />} />
                     <Route path="/genesis" element={<GenesisViewer />} />
                     <Route path="/directori" element={<DirectoriComunitat />} />
+                    <Route path="/agents" element={<AgentDirectory />} />
                     <Route path="/hub" element={<HubView />} />
                     <Route path="/tools/trellat" element={<Navigate to="/solatge" replace />} />
                     <Route path="/infoteca" element={<InfografiaGallery />} />
@@ -439,7 +438,7 @@ const AppLayout = () => {
       {/* MODALE D'EXPLICACIÓ (ARQUITECTE) - REPOSITIONAT PELS FRAMES UNIFICATS */}
       {architectMode && (
         <div 
-          className="fixed inset-0 z-[var(--z-modal)] glass-overlay bg-black/90 md:pl-[280px]"
+          className="fixed inset-0 z-[var(--z-modal)] glass-overlay bg-black/90 md:pl-[240px]"
           role="dialog"
           aria-modal="true"
         >

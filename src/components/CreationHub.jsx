@@ -85,9 +85,9 @@ const CreationHub = () => {
                 {/* TOOLS SECTION */}
                 <div className="space-y-3 pt-4 border-t border-white/5 relative z-10">
                     <div className="grid grid-cols-3 gap-3">
-                         <button className="tool-btn-alzina tool-btn-primary outline-none" onClick={() => dispatchAction(() => navigate('/iaia'))}>
+                         <button className="tool-btn-alzina tool-btn-primary outline-none" onClick={() => dispatchAction(() => navigate('/agents'))}>
                             <Bot size={18} strokeWidth={2.5} />
-                            <span>IAIA</span>
+                            <span>L'Equip</span>
                         </button>
 
                          <button className="tool-btn-alzina outline-none" onClick={() => dispatchAction(() => setIsNotePadOpen(true))}>

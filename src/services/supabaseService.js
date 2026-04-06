@@ -1092,7 +1092,7 @@ export const supabaseService = {
             throw new Error("Recursió infinita detectada a l'enviar missatge");
         }
         
-        if (messageData.senderId && !messageData.isGuest) {
+        if (messageData.senderId && !messageData.isGuest && !messageData.is_ai) {
             await checkThrottling(messageData.senderId, 'send_message', 1000).catch(e => logger.warn('Throttling warn', e));
         }
         // [FAILSAFE GLOBAL]: Si el conversationId és un Mock, un Local-Conv de Playground, o no s'ha arribat a canviar mai (1111... que és la IA)
@@ -1755,10 +1755,11 @@ export const supabaseService = {
             const filterTerms = new Set();
             [cleanQuery, normalizedName].forEach(q => {
                 if (!q) return;
-                // [FIX] Robusteza en PostgREST: Wrap value in double quotes for spaces
-                filterTerms.add(`full_name.ilike."%${q}%"`);
-                filterTerms.add(`username.ilike."%${q}%"`);
-                filterTerms.add(`primary_town.ilike."%${q}%"`);
+                // [FIX] Robusteza en PostgREST: Remove commas and quotes instead of wrapping in quotes
+                const safeQ = q.replace(/[,"]/g, '');
+                filterTerms.add(`full_name.ilike.%${safeQ}%`);
+                filterTerms.add(`username.ilike.%${safeQ}%`);
+                filterTerms.add(`primary_town.ilike.%${safeQ}%`);
             });
 
             // Afegim els altres camps que no depenen de la normalització de noms de poble/persona
@@ -1853,33 +1854,39 @@ export const supabaseService = {
 
         let dbResults = [];
         try {
-            // Deduplicació estricta de filtres per evitar error 400
-            // Nota: entities té id, name, type, description, avatar_url, owner_id segons setup
             const filterTerms = new Set();
             const termsToTry = [cleanQuery, normalizedCanonical].filter(Boolean);
 
             termsToTry.forEach(q => {
-                const term = q.trim().toLowerCase();
-                // [FIX] Robusteza en PostgREST: Wrap value in double quotes for spaces
-                filterTerms.add(`name.ilike."%${term}%"`);
+                const term = q.trim().toLowerCase().replace(/[,"]/g, '');
+                filterTerms.add(`full_name.ilike.%${term}%`);
+                filterTerms.add(`username.ilike.%${term}%`);
             });
 
             // Camps extra
-            filterTerms.add(`type.ilike."%${cleanQuery}%"`);
-            filterTerms.add(`description.ilike."%${cleanQuery}%"`);
+            filterTerms.add(`role.ilike."%${cleanQuery}%"`);
+            filterTerms.add(`bio.ilike."%${cleanQuery}%"`);
 
             const orClause = Array.from(filterTerms).join(',');
-            logger.debug('[SupabaseService] entities orClause:', orClause);
+            logger.debug('[SupabaseService] entities properly querying profiles with orClause:', orClause);
 
-            // BUSCADOR NIVELL DIOS: Entitats, Comerços i Projectes
+            // BUSCADOR NIVELL DIOS: Entitats, Comerços i Projectes mapped to profiles
             const { data, error } = await supabase
-                .from('entities')
-                .select('id, name, type, avatar_url, description')
+                .from('profiles')
+                .select('id, full_name, username, avatar_url, role, bio')
+                .eq('role', 'entitat')
                 .or(orClause)
                 .limit(50);
 
             if (error) throw error;
-            dbResults = data || [];
+            // Map the profile fields to match entity expected fields (name, type, description)
+            dbResults = (data || []).map(p => ({
+                id: p.id,
+                name: p.full_name || p.username,
+                type: p.role,
+                avatar_url: p.avatar_url,
+                description: p.bio
+            }));
         } catch (error) {
             logger.error('[SupabaseService] Error in searchEntities (DB):', error);
             // Seguim endavant amb filteredSystem encara que la DB falle

@@ -64,7 +64,7 @@ const UniversalCardMedia = ({
                             <img 
                                 src="/assets/brain/generations/nano_relleu_notext_1774284617988.png"
                                 alt="Paisatge Solarpunk genèric"
-                                className={`w-full h-auto max-h-[500px] object-cover filter brightness-75 contrast-125 saturate-50 transition-all duration-700 ease-in-out will-change-transform ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`}
+                                className={`w-full aspect-square object-cover filter brightness-75 contrast-125 saturate-50 transition-all duration-700 ease-in-out will-change-transform ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`}
                                 loading="lazy"
                                 fetchPriority="low"
                                 decoding="async"
@@ -80,7 +80,7 @@ const UniversalCardMedia = ({
                             <img 
                                 src={displayImage} 
                                 alt={displayTitle} 
-                                className={`w-full h-auto max-h-[500px] object-cover transition-all duration-700 ease-in-out will-change-transform active:scale-[0.98] cursor-zoom-in ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`}
+                                className={`w-full aspect-square object-cover transition-all duration-700 ease-in-out will-change-transform active:scale-[0.98] cursor-zoom-in ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`}
                                 onLoad={() => setIsImageLoaded(true)}
                                 onError={() => setHasImageError(true)}
                             />

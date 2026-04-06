@@ -44,8 +44,8 @@ const TranslationModal = ({ isOpen, onClose, config }) => {
     const availableMainLangs = MAIN_LANGS.filter(l => l.code !== currentAppLang && l.code !== lastLangCode);
 
     return (
-        <div className="modal-overlay" style={{ zIndex: 10000 }} onClick={onClose}>
-            <div className="modal-content glass-modal w-full max-w-sm mx-4 shadow-2xl" onClick={e => e.stopPropagation()}>
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4" style={{ zIndex: 10000 }} onClick={onClose}>
+            <div className="modal-content w-full max-w-sm mx-4 shadow-2xl bg-white dark:bg-[#141417] rounded-3xl border border-black/10 dark:border-white/10" onClick={e => e.stopPropagation()}>
                 <button className="modal-close z-10" onClick={onClose} aria-label="Tancar">
                     <X size={24} />
                 </button>
@@ -55,12 +55,12 @@ const TranslationModal = ({ isOpen, onClose, config }) => {
                         <div className="w-10 h-10 rounded-full bg-[#ff6d23]/20 flex items-center justify-center text-[#ff6d23] flex-shrink-0">
                             <Globe size={24} strokeWidth={2.5} />
                         </div>
-                        <h2 className="text-xl font-black text-white tracking-tight leading-tight">
+                        <h2 className="text-xl font-black text-[var(--theme-accent-primary)] tracking-tight leading-tight">
                             Traduir Article
                         </h2>
                     </div>
                     
-                    <p className="text-white/80 text-sm mb-6 font-medium leading-relaxed">
+                    <p className="text-gray-700 dark:text-gray-300 text-sm mb-6 font-medium leading-relaxed">
                         Tria un idioma per traduir aquest contingut al moment mitjançant la malla neural OMEGA-39.
                     </p>
 
@@ -85,9 +85,9 @@ const TranslationModal = ({ isOpen, onClose, config }) => {
                             <button 
                                 key={lang.code}
                                 onClick={() => handleTranslate(lang.code)}
-                                className="flex items-center justify-between w-full p-3.5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/15 hover:border-[#ff6d23]/50 hover:shadow-[0_0_15px_rgba(255,109,35,0.2)] transition-all text-left group"
+                                className="flex items-center justify-between w-full p-3.5 rounded-xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 hover:bg-black/10 dark:hover:bg-white/15 hover:border-[#ff6d23]/50 hover:shadow-[0_0_15px_rgba(255,109,35,0.2)] transition-all text-left group"
                             >
-                                <span className="font-bold text-white group-hover:text-[#ff6d23] transition-colors">
+                                <span className="font-bold text-[var(--text-main)] group-hover:text-[#ff6d23] transition-colors">
                                     {lang.label}
                                 </span>
                             </button>
@@ -99,9 +99,9 @@ const TranslationModal = ({ isOpen, onClose, config }) => {
                                 // Aquí se abriría el modal nativo o input para elegir entre los 100+ idiomas de Google
                                 console.log("Obrint el selector global d'idiomes (Google Translate API)...");
                             }}
-                            className="flex items-center justify-center w-full p-3 mt-1 rounded-xl border border-white/10 text-white/50 hover:text-white/90 hover:border-white/30 transition-all text-sm font-bold bg-transparent"
+                            className="flex items-center justify-center gap-2 w-full p-3 mt-1 rounded-xl border border-black/10 dark:border-white/10 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:border-black/30 dark:hover:border-white/30 transition-all text-sm font-bold bg-transparent"
                         >
-                            🌍 Més de 100 idiomas...
+                            <Globe size={16} /> Google Translate / Més idiomes...
                         </button>
                     </div>
                 </div>
