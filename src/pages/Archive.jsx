@@ -105,7 +105,7 @@ import UniversalCard from '../components/UniversalCard';
                          author: i.seller || 'Sóc de Poble',
                          date: i.created_at || '2023-01-01',
                          tags: ['#llegat', '#memoria'],
-                         image: (Array.isArray(i.images) ? i.images[0] : (i.cover || i.image_url)) || '/assets/master/logo_socdepoble_green_square.png',
+                         image: (Array.isArray(i.images) ? i.images[0] : (i.cover || i.image_url)) || '/assets/brand/logo_socdepoble_green_square.png',
                          collection: 'master'
                      }))
                  ].sort((a, b) => new Date(b.date) - new Date(a.date));

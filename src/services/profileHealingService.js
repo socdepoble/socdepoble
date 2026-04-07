@@ -53,7 +53,7 @@ export const profileHealingService = {
       username: isOfficialCreator ? 'javillinares' : profileData?.username,
       role: isOfficialCreator ? USER_ROLES.SUPER_ADMIN : (profileData?.role || USER_ROLES.NEIGHBOR),
       avatar_url: isOfficialCreator ? '/Javi_Llinares-Foto_perfil-1.jpg' : (supabaseService.normalizeStorageUrl(profileData?.avatar_url) || null),
-      header_image_url: isOfficialCreator ? '/assets/javi_cover.jpg' : profileData?.header_image_url,
+      header_image_url: isOfficialCreator ? '/assets/avatars/javi_cover.jpg' : profileData?.header_image_url,
       is_master: isOfficialCreator,
       is_super_admin: isOfficialCreator
     };

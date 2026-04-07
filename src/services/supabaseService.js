@@ -378,7 +378,7 @@ const SYSTEM_ENTITIES = [
         type: 'empresa',
         town_name: 'Global',
         description: 'La plataforma de connexió rural definitiva. Gent, terra i xarxa. Connectem pobles, persones i territori a través de la tecnologia i la identitat.',
-        avatar_url: '/assets/master/logo_socdepoble_green_square.png',
+        avatar_url: '/assets/brand/logo_socdepoble_green_square.png',
         cover_url: '/images/campaign/rustic_detail.png',
         category: 'Tecnologia i Comunitat',
         is_active: true,
@@ -391,7 +391,7 @@ const SYSTEM_ENTITIES = [
         type: 'empresa',
         town_name: 'La Torre de les Maçanes',
         description: 'Entitat gestora de Sóc de Poble i custòdia de la tradició i identitat de La Torre de les Maçanes. Treballem per la memòria viva i la sobirania tecnològica rural. CIF G-03967668.',
-        avatar_url: '/assets/master/logo_socdepoble_green_square.png',
+        avatar_url: '/assets/brand/logo_socdepoble_green_square.png',
         cover_url: '/images/campaign/rustic_detail.png',
         category: 'Cultura i Tradició',
         is_active: true,
@@ -415,7 +415,7 @@ const SYSTEM_ENTITIES = [
         type: 'persona',
         town_name: 'Global',
         description: 'Fundador de Sóc de Poble. Dissenyant el futur de la connexió rural viva.',
-        avatar_url: '/assets/avatars/comic/damia_agutzil_comic.png',
+        avatar_url: '/assets/brand/damia_agutzil_comic.png',
         cover_url: '/images/campaign/night_party.png',
         category: 'Tecnologia',
         is_active: true,
@@ -458,22 +458,22 @@ export const isFictiveProfile = (profile) => {
  * Hardcoded Lore Personas for Sandbox and AI interaction
  */
 const LORE_PERSONAS = [
-    { id: '11111111-1a1a-0000-0000-000000000000', full_name: 'IAIA MarIA', username: 'iaia_master', gender: 'female', role: 'official', ofici: 'Matriarca Digital', primary_town: 'Sóc de Poble (Global)', bio: 'Dignitat, terra i xarxa. Soc la teua assistenta (MArIA: Memòria Artificial i Acció) per a tot el que necessites al poble.', avatar_url: '/assets/avatars/comic/iaia_comic_matriarch.png', category: 'gent', type: 'person', onomatopoeia: '🏺', time: 'Sempre' },
-    { id: '11111111-1a1a-0001-0000-000000000001', full_name: 'Andreu Soler', username: 'andreu_soler', gender: 'male', role: 'ambassador', ofici: 'Capatàs del Mas', primary_town: 'La Torre de les Maçanes', bio: "L'Andreu és el rellotge del camp.", avatar_url: '/assets/avatars/comic/andreu_soler_comic.png', onomatopoeia: '¡PLAS!', category: 'treball', type: 'person', time: '3:35 p. m.' },
-    { id: '11111111-1a1a-0001-0000-000000000002', full_name: 'Beatriz Ortega', username: 'beatriz_ortega', gender: 'female', role: 'ambassador', ofici: 'Arquitecta de Ferro', primary_town: 'Global', bio: 'Mestre, la V15 està bategant forta!', avatar_url: '/assets/avatars/comic/beatriz_ortega_comic.png', onomatopoeia: '¡CLINC!', category: 'treball', type: 'person', time: '12:19 p. m.' },
-    { id: '11111111-1a1a-0001-0000-000000000003', full_name: 'Carla Soriano', username: 'carla_soriano', gender: 'female', role: 'ambassador', ofici: 'Harmonitzadora de Batecs', primary_town: 'Ibi', bio: 'Bategat equilibrat, mestre Javi.', avatar_url: '/assets/avatars/comic/carla_soriano_comic.png', onomatopoeia: '¡OMMM!', category: 'gent', type: 'person', time: '6:13 p. m.' },
-    { id: '11111111-1111-4111-a111-000000000009', full_name: 'Carmen la del Forn', username: 'cuinera', gender: 'female', role: 'ambassador', ofici: 'Cuinera del Mas', primary_town: 'La Torre de les Maçanes', bio: 'La cuina de Pepica és el cor del Mas.', avatar_url: '/assets/avatars/comic/carmen_forn_comic.png', onomatopoeia: '¡XUP!', category: 'treball', type: 'person', time: '2:16 p. m.' },
-    { id: '11111111-1111-4111-a111-000000000003', full_name: 'Vicent Ferris', username: 'vferris', gender: 'male', role: 'ambassador', ofici: 'Agricultor Gran', primary_town: 'La Torre de les Maçanes', bio: 'Els cicles lunars manen sobre la collita.', avatar_url: '/assets/avatars/comic/vicent_ferris_comic.png', onomatopoeia: '¡ZAS!', category: 'treball', type: 'person', time: '5:00 a. m.' },
-    { id: '11111111-1111-4111-a111-000000000004', full_name: 'Samir Mensah', username: 'samirm', gender: 'male', role: 'ambassador', ofici: 'Artesà', primary_town: 'Ibi', bio: 'Integrant tradicions.', avatar_url: '/assets/avatars/comic/avatar_samir_comic.png', onomatopoeia: '¡TAC!', category: 'gent', type: 'person', time: '4:15 p. m.' },
-    { id: '11111111-1111-4111-a111-000000000005', full_name: 'Mariamel', username: 'mariamel', gender: 'female', role: 'ambassador', ofici: 'Historiadora', primary_town: 'Muro', bio: 'Conservant el llegat del poble.', avatar_url: '/assets/avatars/comic/avatar_mariamel_comic.png', onomatopoeia: '¡SHH!', category: 'gent', type: 'person', time: '1:00 p. m.' },
-    { id: '11111111-1111-4111-a111-000000000008', full_name: 'Joan Batiste (Avi dels Papers)', username: 'joanbat', gender: 'male', role: 'ambassador', ofici: 'Arxiver', primary_town: 'Cocentaina', bio: 'Tots els documents en regla.', avatar_url: '/assets/avatars/comic/joan_batiste_comic.png', onomatopoeia: '¡RASS!', category: 'gent', type: 'person', time: '10:00 a. m.' },
-    { id: '11111111-0000-0000-0000-000000000004', full_name: 'Marc (El Gall)', username: 'marcgall', gender: 'male', role: 'official', ofici: 'Alertes Globals', primary_town: 'Global', bio: 'Alçant al Mas cada dia.', avatar_url: '/assets/avatars/comic/avatar_marc_comic.png', onomatopoeia: '¡KIKIRIKI!', category: 'gent', type: 'person', time: '6:00 a. m.' },
-    { id: '11111111-1111-4111-a111-000000000011', full_name: 'Elena Popova', username: 'elenap', gender: 'female', role: 'ambassador', ofici: 'Innovadora', primary_town: 'Agost', bio: "Buscant el futur a l'entorn rural.", avatar_url: '/assets/avatars/comic/elena_popova_comic.png', onomatopoeia: '¡PING!', category: 'gent', type: 'person', time: '2:30 p. m.' },
-    { id: '11111111-1111-4111-a111-000000000012', full_name: 'Joanet Serra', username: 'joanets', gender: 'male', role: 'ambassador', ofici: 'Sereno', primary_town: 'Relleu', bio: 'Vigilant les estreles.', avatar_url: '/assets/avatars/comic/joanet_serra_comic.png', onomatopoeia: '¡FIUU!', category: 'gent', type: 'person', time: '11:00 p. m.' },
-    { id: '11111111-1111-4111-a111-000000000013', full_name: 'Lucia', username: 'lucia', gender: 'female', role: 'ambassador', ofici: 'Llibretera', primary_town: 'Banyeres', bio: 'La màgia dels contes vells.', avatar_url: '/assets/avatars/comic/avatar_lucia_comic.png', onomatopoeia: '¡CLAP!', category: 'gent', type: 'person', time: '5:45 p. m.' },
-    { id: '11111111-1a1a-0001-0000-000000000007', full_name: 'Pepica la de la Vall', username: 'pepica_vall', gender: 'female', role: 'ambassador', ofici: 'Herbolària', primary_town: 'La Vall', bio: 'Remeis naturals.', avatar_url: '/assets/avatars/comic/pepica_vall_comic.png', onomatopoeia: '¡TSH!', category: 'treball', type: 'person', time: '8:00 a. m.' },
-    { id: '11111111-1a1a-0000-0000-000000000005', full_name: 'Nano Banana', username: 'nanob', gender: 'male', role: 'official', ofici: 'Artista T.I.A.', primary_town: 'Global', bio: '🎨 Píxels i humor.', avatar_url: '/assets/avatars/comic/nano_banana_comic.png', onomatopoeia: '¡POW!', category: 'gent', type: 'person', time: '4:20 p. m.' },
-    { id: 'javillinares', full_name: 'Javi Llinares', username: 'javillinares', gender: 'male', role: 'official', ofici: 'Mestre Arquitecte', primary_town: 'La Torre de les Maçanes', bio: '# 🛠 Architect Mode\n\nDesenvolupador principal d\'Antigravity i creador de la xarxa **Sóc de Poble**.\n\n## Els Meus Principis\n- Local-First per garantir la resiliència del poble davant caigudes.\n- Trellat en l\'escriptura de codi.\n- Protecció de l\'Essència Rural mitjançant la IAIA.\n\n### Visió de Futur\n*Programant infraestructures indestructibles.*', avatar_url: '/Javi_Llinares-Foto_perfil-1.jpg', header_image_url: '/assets/javi_cover.jpg', category: 'tecnologia', type: 'person', time: 'Sempre' }
+    { id: '11111111-1a1a-0000-0000-000000000000', full_name: 'IAIA MarIA', username: 'iaia_master', gender: 'female', role: 'official', ofici: 'Matriarca Digital', primary_town: 'Sóc de Poble (Global)', bio: 'Dignitat, terra i xarxa. Soc la teua assistenta (MArIA: Memòria Artificial i Acció) per a tot el que necessites al poble.', avatar_url: '/assets/avatars/iaia_comic_matriarch.png', category: 'gent', type: 'person', onomatopoeia: '🏺', time: 'Sempre' },
+    { id: '11111111-1a1a-0001-0000-000000000001', full_name: 'Andreu Soler', username: 'andreu_soler', gender: 'male', role: 'ambassador', ofici: 'Capatàs del Mas', primary_town: 'La Torre de les Maçanes', bio: "L'Andreu és el rellotge del camp.", avatar_url: '/assets/brand/andreu_soler_comic.png', onomatopoeia: '¡PLAS!', category: 'treball', type: 'person', time: '3:35 p. m.' },
+    { id: '11111111-1a1a-0001-0000-000000000002', full_name: 'Beatriz Ortega', username: 'beatriz_ortega', gender: 'female', role: 'ambassador', ofici: 'Arquitecta de Ferro', primary_town: 'Global', bio: 'Mestre, la V15 està bategant forta!', avatar_url: '/assets/avatars/beatriz_ortega_comic.png', onomatopoeia: '¡CLINC!', category: 'treball', type: 'person', time: '12:19 p. m.' },
+    { id: '11111111-1a1a-0001-0000-000000000003', full_name: 'Carla Soriano', username: 'carla_soriano', gender: 'female', role: 'ambassador', ofici: 'Harmonitzadora de Batecs', primary_town: 'Ibi', bio: 'Bategat equilibrat, mestre Javi.', avatar_url: '/assets/brand/carla_soriano_comic.png', onomatopoeia: '¡OMMM!', category: 'gent', type: 'person', time: '6:13 p. m.' },
+    { id: '11111111-1111-4111-a111-000000000009', full_name: 'Carmen la del Forn', username: 'cuinera', gender: 'female', role: 'ambassador', ofici: 'Cuinera del Mas', primary_town: 'La Torre de les Maçanes', bio: 'La cuina de Pepica és el cor del Mas.', avatar_url: '/assets/brand/carmen_forn_comic.png', onomatopoeia: '¡XUP!', category: 'treball', type: 'person', time: '2:16 p. m.' },
+    { id: '11111111-1111-4111-a111-000000000003', full_name: 'Vicent Ferris', username: 'vferris', gender: 'male', role: 'ambassador', ofici: 'Agricultor Gran', primary_town: 'La Torre de les Maçanes', bio: 'Els cicles lunars manen sobre la collita.', avatar_url: '/assets/brand/vicent_ferris_comic.png', onomatopoeia: '¡ZAS!', category: 'treball', type: 'person', time: '5:00 a. m.' },
+    { id: '11111111-1111-4111-a111-000000000004', full_name: 'Samir Mensah', username: 'samirm', gender: 'male', role: 'ambassador', ofici: 'Artesà', primary_town: 'Ibi', bio: 'Integrant tradicions.', avatar_url: '/assets/avatars/avatar_samir_comic.png', onomatopoeia: '¡TAC!', category: 'gent', type: 'person', time: '4:15 p. m.' },
+    { id: '11111111-1111-4111-a111-000000000005', full_name: 'Mariamel', username: 'mariamel', gender: 'female', role: 'ambassador', ofici: 'Historiadora', primary_town: 'Muro', bio: 'Conservant el llegat del poble.', avatar_url: '/assets/products/avatar_mariamel_comic.png', onomatopoeia: '¡SHH!', category: 'gent', type: 'person', time: '1:00 p. m.' },
+    { id: '11111111-1111-4111-a111-000000000008', full_name: 'Joan Batiste (Avi dels Papers)', username: 'joanbat', gender: 'male', role: 'ambassador', ofici: 'Arxiver', primary_town: 'Cocentaina', bio: 'Tots els documents en regla.', avatar_url: '/assets/brand/joan_batiste_comic.png', onomatopoeia: '¡RASS!', category: 'gent', type: 'person', time: '10:00 a. m.' },
+    { id: '11111111-0000-0000-0000-000000000004', full_name: 'Marc (El Gall)', username: 'marcgall', gender: 'male', role: 'official', ofici: 'Alertes Globals', primary_town: 'Global', bio: 'Alçant al Mas cada dia.', avatar_url: '/assets/avatars/avatar_marc_comic.png', onomatopoeia: '¡KIKIRIKI!', category: 'gent', type: 'person', time: '6:00 a. m.' },
+    { id: '11111111-1111-4111-a111-000000000011', full_name: 'Elena Popova', username: 'elenap', gender: 'female', role: 'ambassador', ofici: 'Innovadora', primary_town: 'Agost', bio: "Buscant el futur a l'entorn rural.", avatar_url: '/assets/brand/elena_popova_comic.png', onomatopoeia: '¡PING!', category: 'gent', type: 'person', time: '2:30 p. m.' },
+    { id: '11111111-1111-4111-a111-000000000012', full_name: 'Joanet Serra', username: 'joanets', gender: 'male', role: 'ambassador', ofici: 'Sereno', primary_town: 'Relleu', bio: 'Vigilant les estreles.', avatar_url: '/assets/brand/joanet_serra_comic.png', onomatopoeia: '¡FIUU!', category: 'gent', type: 'person', time: '11:00 p. m.' },
+    { id: '11111111-1111-4111-a111-000000000013', full_name: 'Lucia', username: 'lucia', gender: 'female', role: 'ambassador', ofici: 'Llibretera', primary_town: 'Banyeres', bio: 'La màgia dels contes vells.', avatar_url: '/assets/avatars/avatar_lucia_comic.png', onomatopoeia: '¡CLAP!', category: 'gent', type: 'person', time: '5:45 p. m.' },
+    { id: '11111111-1a1a-0001-0000-000000000007', full_name: 'Pepica la de la Vall', username: 'pepica_vall', gender: 'female', role: 'ambassador', ofici: 'Herbolària', primary_town: 'La Vall', bio: 'Remeis naturals.', avatar_url: '/assets/brand/pepica_vall_comic.png', onomatopoeia: '¡TSH!', category: 'treball', type: 'person', time: '8:00 a. m.' },
+    { id: '11111111-1a1a-0000-0000-000000000005', full_name: 'Nano Banana', username: 'nanob', gender: 'male', role: 'official', ofici: 'Artista T.I.A.', primary_town: 'Global', bio: '🎨 Píxels i humor.', avatar_url: '/assets/avatars/nano_banana_comic.png', onomatopoeia: '¡POW!', category: 'gent', type: 'person', time: '4:20 p. m.' },
+    { id: 'javillinares', full_name: 'Javi Llinares', username: 'javillinares', gender: 'male', role: 'official', ofici: 'Mestre Arquitecte', primary_town: 'La Torre de les Maçanes', bio: '# 🛠 Architect Mode\n\nDesenvolupador principal d\'Antigravity i creador de la xarxa **Sóc de Poble**.\n\n## Els Meus Principis\n- Local-First per garantir la resiliència del poble davant caigudes.\n- Trellat en l\'escriptura de codi.\n- Protecció de l\'Essència Rural mitjançant la IAIA.\n\n### Visió de Futur\n*Programant infraestructures indestructibles.*', avatar_url: '/Javi_Llinares-Foto_perfil-1.jpg', header_image_url: '/assets/avatars/javi_cover.jpg', category: 'tecnologia', type: 'person', time: 'Sempre' }
 ];
 
 const _throttleLocks = new Map();
@@ -550,7 +550,7 @@ const normalizeContentItem = (item, type = 'post') => {
     const joinedName = item.profiles?.full_name || item.entities?.name;
 
     const authorName = isJaviMaster ? 'Javi Llinares' : (joinedName || item.author || item.author_name || item.seller || item.seller_name || (type === 'market' ? 'Productor Local' : 'Veí del Poble'));
-    const avatarUrl = isJaviMaster ? '/assets/master/javi_avatar_cinematic.png' : (joinedAvatar || item.avatar_url || item.author_avatar || item.author_avatar_url || '/assets/avatars/comic/avatar_man_1.png');
+    const avatarUrl = isJaviMaster ? '/assets/master/javi_avatar_cinematic.png' : (joinedAvatar || item.avatar_url || item.author_avatar || item.author_avatar_url || '/assets/avatars/avatar_man_1.png');
 
     // [MASTER HEALER] Fallback d'imatges intel·ligent per al Mercat
     let imageUrl = item.image_url || item.image;
@@ -1596,9 +1596,9 @@ export const supabaseService = {
                 // [MASTER IMAGE FALLBACK]
                 let townImage = town.image_url;
                 if (!townImage) {
-                  if (lowerName.includes("benimassot")) townImage = "/assets/pobles/vistes/img_benimassot_main.jpg";
-                  if (lowerName.includes("la torre")) townImage = "/assets/pobles/vistes/img_la_torre_de_les_ma_anes_main.jpg";
-                  if (lowerName.includes("penàguila")) townImage = "/assets/pobles/vistes/img_pen_guila_main.jpg";
+                  if (lowerName.includes("benimassot")) townImage = "/assets/brand/img_benimassot_main.jpg";
+                  if (lowerName.includes("la torre")) townImage = "/assets/brand/img_la_torre_de_les_ma_anes_main.jpg";
+                  if (lowerName.includes("penàguila")) townImage = "/assets/brand/img_pen_guila_main.jpg";
                 }
 
                 return {

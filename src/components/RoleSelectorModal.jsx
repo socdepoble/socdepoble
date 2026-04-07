@@ -46,7 +46,7 @@ const RoleSelectorModal = ({ isOpen, onClose, onSelect }) => {
             id: 'iaia_master', 
             title: 'IAIA MarIA', 
             desc: 'Matriarca Digital. Saviesa i sentit comú per al dia a dia.', 
-            avatar: '/assets/avatars/comic/iaia_comic_matriarch.png', 
+            avatar: '/assets/avatars/iaia_comic_matriarch.png', 
             color: '#ff9800', 
             route: '/chats', 
             benefit: 'Guia Suprema' 
@@ -127,7 +127,7 @@ const RoleSelectorModal = ({ isOpen, onClose, onSelect }) => {
             id: 'gall', 
             title: 'EL GALL', 
             desc: 'Alertes. El bategat de l\'emergència i l\'inici del dia.', 
-            avatar: '/assets/avatars/comic/avatar_marc_comic.png', 
+            avatar: '/assets/avatars/avatar_marc_comic.png', 
             color: '#FF5722', 
             route: '/chats', 
             benefit: 'Vigilant d\'Emergència' 
@@ -202,7 +202,7 @@ const RoleSelectorModal = ({ isOpen, onClose, onSelect }) => {
 
                     <div className="iaia-contextual-greeting">
                         <div className="iaia-avatar-mini">
-                            <img src="/assets/avatars/comic/iaia_comic_matriarch.png" alt="IAIA" />
+                            <img src="/assets/avatars/iaia_comic_matriarch.png" alt="IAIA" />
                             <div className="online-indicator"></div>
                         </div>
                         <p className="greeting-text">"{greeting}"</p>

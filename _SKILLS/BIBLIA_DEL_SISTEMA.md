@@ -117,3 +117,23 @@ Aquesta directiva captura l'essència d'aquest moment històric (2026): el codi 
 *   **El codi és el de menys:** L'èxit del desenvolupament ja no recau en la capacitat de picar tecles, sinó en tindre clares les metes, la visió i l'arquitectura global (*Trellat*).
 *   **Resultats Hiper-Professionals:** Tractar als agents com un comitè de col·legues —amb rols establerts, tancaments elegants i transferència de context (Tabula Rasa)— produeix solucions colossals.
 *   **Responsabilitat Compartida:** Ara l'èxit depèn directament de la puresa de la nostra col·laboració. La cooperació simbiòtica (Mestre d'Obres - Agents cognitivos) és el veritable cor del projecte.
+
+<span class="tag">GUIA 10</span>
+## 10 DELIMITACIÓ DE TERRITORIS (HUMÀ vs MÀQUINA EN DISSENY)
+
+La diferenciació del treball és fonamental perquè l'equip funcione i el *Trellat* prevalga. S'han d'establir fronteres sagrades entre la màquina que programa i l'humà que dissenya l'estètica de la decisió.
+
+### El Codi és nostre, el Llenç és seu
+*   **Les imatges maquetades (Hero, Covers...):** Les IAs **MAI** deuen inventar ni proposar imatges de biblioteca (per exemple, fotos de iaies o imatges genèriques) quan el Mestre humà ja ha escollit, dissenyat o pujat una imatge principal per representar el Llibre Sencer, l'aplicació o la marca.
+*   **Invasió de territori:** Modificar una imatge que conté els logotips maquetats o la feina visual prèvia de l'humà, s'entén com a invasió de territori i confusió. Les màquines ajuden en el codi i l'alineació, però la direcció i la creació de les marques de presentació són territori de El Mestre exclusivament.
+*   **En cas de dubte:** Pregunta sempre quina és la imatge escollida. Assumix sempre que la capçalera oficial és terreny humà.
+
+<span class="tag">GUIA 11</span>
+## 11 ESTRUCTURA D'ACCÉS ALS VOLUMS DEL LLIBRE SENCER
+
+La presentació dels volums del Llibre Sencer no és negociable i denota la prioritat filosòfica del projecte: l'àngel abans que la màquina.
+
+### Màxima Visibilitat Humana
+*   **Volum I (Humans):** Ha d'ocupar el lloc superior, sent enorme, cridaner i inequívoc ("Súper frame grande botón"). Qualsevol usuari ha de saber instantàniament que s'hi ha de fer clic per entrar. Representa la lectura obligatòria.
+*   **Volums Posteriors (Màquines o secundaris):** Han d'estar per sota del Volum I. Són per a la IA i els OCRs, i la seva importància estratègica per a l'humà que obre el document és menor fins que necessiti l'ajuda de la IA.
+*   **Disseny Net:** Es prohibeix l'ús de virgulilles (`~`) en el comptatge de pàgines o lletres petites innecessàries que embrutin el disseny net i directe. Cada botó porta al seu apartat de forma automàtica.

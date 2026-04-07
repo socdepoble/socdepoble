@@ -116,7 +116,7 @@ export const AuthProvider = ({ children }) => {
             role: USER_ROLES.ADMIN,
             is_demo: true,
             is_admin: true,
-            avatar_url: '/assets/avatars/comic/iaia_comic_matriarch.png'
+            avatar_url: '/assets/avatars/iaia_comic_matriarch.png'
         });
     }, [adoptPersona]);
 

@@ -15,7 +15,7 @@ import { sanitizeHtml } from '../utils/sanitizeHtml';
 import { processContentForToc } from '../utils/tocParser';
 import useAccessibleSearch from '../hooks/useAccessibleSearch';
 import RoundButton from '../components/ui/RoundButton';
-import { useTranslation } from 'react-i18next';
+
 
 // Es carregarà de forma dinàmica per externalitzar pes de l'arrel
 import { get, set, keys, del } from 'idb-keyval';
@@ -87,7 +87,6 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
     const [title, setTitle] = useState('');
     const [subtitle, setSubtitle] = useState('');
     const [collaborators, setCollaborators] = useState([]);
-    const { t } = useTranslation();
 
     const [isLoadingPage, setIsLoadingPage] = useState(true);
     const [isEditing, setIsEditing] = useState(false);
@@ -97,7 +96,6 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
     const { atomicYSave, startCritical } = useAtomicGuard();
     const yDocRef = useRef(null);
 
-    const [simulatorHtml, setSimulatorHtml] = useState(null);
 
     const canEdit = isSuperAdmin || (user && collaborators.includes(user.id));
 
@@ -263,14 +261,7 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
         setRouteSlug(currentSlug);
         fetchPageContent(currentSlug);
     }, [location.pathname, standAlone, forcedSlug, fetchPageContent]);
-    useEffect(() => {
-        if (!isEditing && (routeSlug === '/el-projecte' || routeSlug === 'el-projecte' || routeSlug === '/manifest' || routeSlug === 'manifest' || routeSlug === '/codex' || routeSlug === 'codex')) {
-            fetch('/assets/simulators/v15-plaza-infinita.html?v=1.0.1')
-                .then(res => res.text())
-                .then(html => setSimulatorHtml(html))
-                .catch(console.error);
-        }
-    }, [routeSlug, isEditing]);
+
 
     const activeHtmlContent = translatedContent || htmlContent;
 
@@ -281,7 +272,7 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
         // HOT-FIX: Clean absolute URLs and prevent 403 GET errors from old IndexedDB/supabase drafts
         const cleanedPaths = stripped.replace(
             /(?:https?:\/\/(?:www\.)?socdepoble\.(?:org|net))?\/Users\/javillinares\/[\w/.-]+\/(media_\d+(_\d+)?\.(jpg|png|jpeg|webp|gif))/gi, 
-            '/assets/avatars/comic/iaia_comic_matriarch.png'
+            '/assets/avatars/iaia_comic_matriarch.png'
         );
         return sanitizeHtml(cleanedPaths);
     }, [activeHtmlContent]);
@@ -421,13 +412,13 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
 
     const HeroBanner = useMemo(() => (
         <div className="relative w-full aspect-video z-0 bg-[#0e0e0e] min-h-[300px] border-b border-[var(--border-master)] group flex flex-col items-center justify-center overflow-hidden">
-            <img 
-                src="/assets/banners/hero_nano_final.png" 
-                alt="Sóc de Poble Banner" 
+            <video 
+                src="/assets/banners/hero_nano_final.webm" 
+                autoPlay loop muted playsInline
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 hover:scale-105 cursor-pointer"
                 onClick={() => {
-                    const bannerSrc = "/assets/banners/hero_nano_final.png";
-                    const allImagesArray = Array.from(document.querySelectorAll('.app-cms-content img')).map(img => img.src);
+                    const bannerSrc = "/assets/banners/hero_nano_final.webm";
+                    const allImagesArray = Array.from(document.querySelectorAll('.app-cms-content img, .app-cms-content video')).map(media => media.src);
                     setMediaViewerImages([bannerSrc, ...allImagesArray]);
                     setMediaViewerSrc(bannerSrc);
                 }}
@@ -460,7 +451,7 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
     const PagePresentationHeader = useMemo(() => (
         <div className="w-full flex flex-col items-center justify-center py-12 px-6 border-b border-[var(--border-master)] bg-[var(--bg-panel)] rounded-b-3xl shadow-sm mb-8 relative group">
             <img 
-                src="/assets/master/logo_socdepoble_white_clean.png" 
+                src="/assets/brand/logo_socdepoble_white_clean.png" 
                 alt="Logo Sóc de Poble" 
                 className="h-24 sm:h-32 w-auto mb-6 drop-shadow-md object-contain brightness-0 dark:brightness-100 opacity-90 transition-all" 
             />
@@ -723,6 +714,19 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                     )}
                 </div>
 
+                <div className="w-full max-w-4xl mx-auto px-6 lg:px-10 mb-6 flex justify-center">
+                     <a 
+                         href="/llibre-sencer.html" 
+                         target="_blank" 
+                         rel="noopener noreferrer"
+                         className="flex items-center justify-center gap-3 bg-[var(--theme-accent-primary)] text-white dark:text-white px-8 py-4 rounded-[1.5rem] font-black text-lg sm:text-xl uppercase tracking-wider hover:scale-105 active:scale-95 transition-all shadow-[0_4px_20px_rgba(0,0,0,0.2)] group w-full"
+                         aria-label="Llegir el Llibre Complet per a Humans"
+                     >
+                         <BookText size={28} className="group-hover:animate-bounce" />
+                         Llegir Genotip Complet (Per a Humans)
+                     </a>
+                </div>
+
                 {/* 7. DAFO & VISIÓN 2056 */}
                 {(!isEditing && (routeSlug === '/el-projecte' || routeSlug === 'el-projecte' || routeSlug === '/manifest' || routeSlug === 'manifest' || routeSlug === '/codex' || routeSlug === 'codex')) && (
                     <div className="w-full max-w-4xl mx-auto px-6 lg:px-10 mb-0 mt-2 space-y-6">
@@ -814,132 +818,6 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                                     </div>
                                 </div>
 
-                                {/* DAFO Section */}
-                                <div className="p-6 sm:p-8 text-sm text-[var(--text-main)] space-y-6">
-                                    <h3 className="font-black text-xl text-[var(--theme-accent-primary)] uppercase flex items-center gap-2 mb-6 border-b border-[var(--theme-accent-primary)]/20 pb-3">
-                                        <ShieldAlert size={22} /> DAFO Socio-Técnico
-                                    </h3>
-                                    
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                        <div className="space-y-3">
-                                            <h4 className="font-black text-lg text-emerald-600 dark:text-emerald-400 uppercase tracking-wider flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-emerald-500"></div> Fortaleses</h4>
-                                            <ul className="list-disc pl-5 space-y-2 text-gray-700 dark:text-gray-300">
-                                                <li><strong>Indestructibilitat Atòmica (Local-First):</strong> La font de veritat és al dispositiu. La caiguda de servidors no afecta l'operativitat.</li>
-                                                <li><strong>Sobirania de Dades:</strong> IndexedDB i CRDT (Y.js) blinden el coneixement a interferències externes.</li>
-                                                <li><strong>Austeritat Tècnica:</strong> Rendiment òptim en xarxes 2G/3G gràcies a CompressionStream natiu.</li>
-                                            </ul>
-                                        </div>
-                                        
-                                        <div className="space-y-3">
-                                            <h4 className="font-black text-lg text-red-600 dark:text-red-400 uppercase tracking-wider flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-red-500"></div> Debilitats</h4>
-                                            <ul className="list-disc pl-5 space-y-2 text-gray-700 dark:text-gray-300">
-                                                <li><strong>Onboarding Complex:</strong> Dependència dels Guaites per donar d'alta gent gran.</li>
-                                                <li><strong>Quotes d’Emmagatzematge:</strong> IOS Safari pot fer purgues silencioses. Requereix manteniment constant.</li>
-                                            </ul>
-                                        </div>
-                                        
-                                        <div className="space-y-3">
-                                            <h4 className="font-black text-lg text-blue-600 dark:text-blue-400 uppercase tracking-wider flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-blue-500"></div> Oportunitats</h4>
-                                            <ul className="list-disc pl-5 space-y-2 text-gray-700 dark:text-gray-300">
-                                                <li><strong>El Gen Universal:</strong> Possibilitat de desplegar una instància autònoma a qualsevol comunitat.</li>
-                                                <li><strong>Xarxes en Malla (Kademlia):</strong> Substitució del cloud de pagament per dispositius mòbils connectats (cost 0).</li>
-                                            </ul>
-                                        </div>
-                                        
-                                        <div className="space-y-3">
-                                            <h4 className="font-black text-lg text-orange-600 dark:text-orange-400 uppercase tracking-wider flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-orange-500"></div> Amenaces</h4>
-                                            <ul className="list-disc pl-5 space-y-2 text-gray-700 dark:text-gray-300">
-                                                <li><strong>Assimilació Corporativa:</strong> Ecosistemes tancats intentant asfixiar l'operativitat PWA.</li>
-                                                <li><strong>Obsolescència d'API Web:</strong> Navegadors retirant APIs essencials (previngut pel 'Runtime Abstraction').</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Testament Section */}
-                                <div className="p-6 sm:p-8 border-t border-[var(--theme-accent-primary)]/20 space-y-6 text-sm text-[var(--text-main)] italic bg-indigo-50/50 dark:bg-indigo-900/10">
-                                    <h3 className="font-black text-xl text-indigo-600 dark:text-indigo-400 uppercase flex items-center gap-2 mb-4 border-b border-indigo-500/20 pb-3">
-                                        <History size={22} /> El Testament del Trellat (2056)
-                                    </h3>
-                                    
-                                    <p className="font-bold border-l-4 border-indigo-500 pl-4 py-1 text-gray-900 dark:text-white">"No hi haurà més codi. No hi haurà més pedaços. Només la mirada retrospectiva des de l'any 2056, tres dècades després de la sembra del Gen Universal."</p>
-                                    
-                                    <div className="space-y-4 pt-2 text-gray-700 dark:text-gray-300">
-                                        <p><strong className="text-gray-900 dark:text-white">1. L'Algoritme Fòssil:</strong> L'esquema trellat.schema.json va esdevenir metadades santes mentre React i els vells frameworks morien. Els CRDT van sobreviure com a manuscrits als dispositius mòbils rurals.</p>
-                                        <p><strong className="text-gray-900 dark:text-white">2. Cultura Descentralitzada:</strong> Centenars de pobles es van independitzar digitalment. Xarxes Kademlia en onades verdes van mantindre viu Sóc de Poble a cost 0. Els mòbils de les iaies són ara nodes fonamentals.</p>
-                                        <p><strong className="text-gray-900 dark:text-white">3. Resiliència Absoluta:</strong> Quan el món depenia de servidors centralitzats, els nostres masos seguien vius. Compressió al vol sense dependències va ser la salvació en les èpoques menys connectades.</p>
-                                    </div>
-                                    
-                                    <p className="font-bold text-center mt-6 pt-6 border-t border-indigo-500/20 text-lg text-indigo-600 dark:text-indigo-400 tracking-widest uppercase">
-                                        SÓC DE POBLE ÉS ARA UN VERB.
-                                    </p>
-                                </div>
-
-                                {/* Simulator Section */}
-                                <div className="border-t border-[var(--theme-accent-primary)]/20">
-                                    <div className="p-6 sm:p-8 pb-4">
-                                        <h3 className="font-black text-xl text-[var(--theme-accent-primary)] uppercase flex items-center gap-2 mb-2 border-b border-[var(--theme-accent-primary)]/20 pb-3">
-                                            <Sparkles size={22} /> Visión V15: La Plaza Infinita
-                                        </h3>
-                                        <p className="text-xs font-bold text-[var(--theme-accent-primary)] uppercase tracking-wider opacity-80 mt-2">Simulador Interactiu - Topologia Kademlia + DHT</p>
-                                    </div>
-
-                                    <div className="w-full min-h-[600px] sm:min-h-[700px] relative bg-[#0e0e0e] border-y border-[var(--theme-accent-primary)]/20">
-                                        {simulatorHtml ? (
-                                            <iframe 
-                                                srcDoc={simulatorHtml}
-                                                className="w-full h-full min-h-[600px] sm:min-h-[700px] border-none z-20 relative pointer-events-auto"
-                                                title="Simulador Arquitectura V15"
-                                                loading="lazy"
-                                            />
-                                        ) : (
-                                            <div className="w-full h-full min-h-[600px] sm:min-h-[700px] flex items-center justify-center font-mono text-sm text-[var(--theme-accent-primary)] border-none z-20 relative bg-black/50">
-                                                Carregant simulador interactiu...
-                                            </div>
-                                        )}
-                                    </div>
-                                    
-                                    {/* LEYENDA Y EXPLICACIÓN MULTILINGÜE */}
-                                    <div className="p-4 sm:p-6 bg-gray-100 dark:bg-black/40 text-sm transition-colors">
-                                        <h4 className="font-bold text-[var(--theme-accent-primary)] flex items-center gap-2 mb-3">
-                                            <Info size={16} /> 
-                                            {t('simulators.legend_title', 'Llegenda del Simulador / Simulator Legend')}
-                                        </h4>
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-700 dark:text-gray-400">
-                                            <div className="space-y-4">
-                                                <div>
-                                                    <strong className="text-gray-900 dark:text-white block mb-1">{t('simulators.v14_gossip', 'Global Gossip (V14)')}</strong>
-                                                    <p className="text-xs">{t('simulators.v14_desc', 'L\'arquitectura V14 (Gossip) intentava connectar a cada usuari amb la resta de la comarca, provocant una saturació exponencial (Caos) que bloquejava telèfons antics i esgotava la memòria IndexedDB.')}</p>
-                                                </div>
-                                                <div>
-                                                    <strong className="text-gray-900 dark:text-white block mb-1">{t('simulators.v15_kademlia', 'Kademlia Fractal (V15)')}</strong>
-                                                    <p className="text-xs">{t('simulators.v15_desc', 'L\'arquitectura V15 (Kademlia Fractal) agrupa els usuaris en «placetes» de poble petites i utilitza uns pocs nodes «guaites» per connectar amb altres pobles, mantenint la pantalla totalment fluida.')}</p>
-                                                </div>
-                                            </div>
-                                            <div className="space-y-2 bg-gray-200/50 dark:bg-black/20 p-3 rounded-lg border border-gray-300 dark:border-white/5 transition-colors">
-                                                <div className="flex items-start gap-2">
-                                                    <div className="w-3 h-3 rounded-full bg-emerald-500 shrink-0 mt-0.5"></div>
-                                                    <span className="text-xs"><strong className="text-emerald-600 dark:text-emerald-400">{t('simulators.green_nodes', 'Punts Verds')}</strong>: {t('simulators.green_nodes_desc', 'Guaites (Nodos permanents, estables i invulnerables a iOS constraints)')}</span>
-                                                </div>
-                                                <div className="flex items-start gap-2">
-                                                    <div className="w-3 h-3 rounded-full bg-indigo-500 shrink-0 mt-0.5"></div>
-                                                    <span className="text-xs"><strong className="text-indigo-600 dark:text-indigo-400">{t('simulators.blue_nodes', 'Punts Blaus')}</strong>: {t('simulators.blue_nodes_desc', 'Usuaris estàndard interactuant només a la seua placeta')}</span>
-                                                </div>
-                                                <div className="flex items-start gap-2">
-                                                    <div className="w-3 h-[2px] bg-red-500 shrink-0 mt-1.5 opacity-50"></div>
-                                                    <span className="text-xs"><strong className="text-red-500 dark:text-red-400">{t('simulators.red_lines', 'Línies Roges')}</strong>: {t('simulators.red_lines_desc', 'Connexions de xafardeig innecessàries i redundants')}</span>
-                                                </div>
-                                                <div className="flex items-start gap-2">
-                                                    <div className="w-3 h-[2px] bg-orange-500 border-dashed border-t border-orange-500 shrink-0 mt-1.5"></div>
-                                                    <span className="text-xs"><strong className="text-orange-600 dark:text-orange-400">{t('simulators.orange_lines', 'Línies Taronges')}</strong>: {t('simulators.orange_lines_desc', 'Enrutament estructurat Kademlia eficient (pocs salts)')}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="mt-4 pt-4 border-t border-gray-300 dark:border-white/10 text-xs text-gray-600 dark:text-gray-500 transition-colors">
-                                            <p><strong>{t('simulators.main_thread_load', 'Main Thread Load')}:</strong> {t('simulators.main_thread_load_desc', 'Mesura el nivell de càrrega del navegador. Si marca "OVERLOAD", significa que Chrome/Safari s\'acabaria penjant.')}</p>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </details>
                     </div>
@@ -964,7 +842,7 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                             dangerouslySetInnerHTML={{ __html: processedHtml }}
                             onClick={(e) => {
                                 if (e.target.tagName === 'IMG') {
-                                    const bannerSrc = "/assets/banners/hero_nano_final.png";
+                                    const bannerSrc = "/assets/avatars/hero_nano_final.png";
                                     const allImagesArray = Array.from(document.querySelectorAll('.app-cms-content img')).map(img => img.src);
                                     const combinedImages = [bannerSrc, ...allImagesArray];
                                     
@@ -1065,10 +943,10 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                     <div className="flex items-center gap-3">
                         <div className="flex items-center -space-x-3 shrink-0">
                             <div className="w-10 h-10 rounded-full overflow-hidden bg-[#111111] border-2 border-[#F97316] dark:border-[#4F46E5] flex items-center justify-center shadow-inner relative z-20">
-                                <img src="/assets/master/logo_socdepoble_green_square.png" alt="Sóc de Poble" className="w-full h-full object-cover" onError={(e) => { e.target.onerror = null; e.target.src = "https://ui-avatars.com/api/?name=SP&background=0e0e0e&color=F97316"; }} />
+                                <img src="/assets/brand/logo_socdepoble_green_square.png" alt="Sóc de Poble" className="w-full h-full object-cover" onError={(e) => { e.target.onerror = null; e.target.src = "https://ui-avatars.com/api/?name=SP&background=0e0e0e&color=F97316"; }} />
                             </div>
                             <div className="w-10 h-10 rounded-full overflow-hidden bg-[#111111] border-2 border-[#F97316] dark:border-[#4F46E5] flex items-center justify-center shadow-inner relative z-10">
-                                <img src="/assets/avatars/comic/iaia_comic_matriarch.png" alt="IAIA Maria" className="w-full h-full object-cover" />
+                                <img src="/assets/avatars/iaia_comic_matriarch.png" alt="IAIA Maria" className="w-full h-full object-cover" />
                             </div>
                         </div>
                         <div className="flex flex-col min-w-0">

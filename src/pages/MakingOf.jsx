@@ -19,7 +19,7 @@ const MakingOf = () => {
             <div className="making-of-content">
                 <section className="hero-section">
                     <div className="badge-container">
-                        <img src="/assets/antigravity_badge.png" alt="Powered by Antigravity" className="antigravity-badge-large" />
+                        <img src="/assets/brand/antigravity_badge.png" alt="Powered by Antigravity" className="antigravity-badge-large" />
                     </div>
                     <h2>El "Miracle" Tecnològic</h2>
                     <p className="intro-text">

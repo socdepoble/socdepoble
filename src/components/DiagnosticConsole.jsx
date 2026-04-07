@@ -411,7 +411,7 @@ const DiagnosticConsole = () => {
     const verifyIntegrity = async () => {
         setVerifyingIntegrity(true);
         addHudLog('action', [t('diag.integrity_start')]);
-        const resources = ['/favicon.png', '/assets/avatars/comic/iaia_comic_matriarch.png'];
+        const resources = ['/favicon.png', '/assets/avatars/iaia_comic_matriarch.png'];
         let errors = 0;
         for (const res of resources) {
             try {

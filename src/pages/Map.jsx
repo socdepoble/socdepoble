@@ -31,7 +31,7 @@ const PostPin = ({ imageUrl }) => (
                 src={imageUrl} 
                 className="w-full h-full object-cover bg-theme-base text-[10px]" 
                 alt="Pin" 
-                onError={(e) => { e.target.onerror = null; e.target.src = '/assets/brain/generations/nano_llibre_memoria.png'; }}
+                onError={(e) => { e.target.onerror = null; e.target.src = '/assets/avatars/nano_llibre_memoria.png'; }}
             />
         ) : (
             <div className="w-full h-full bg-[#F97316] flex items-center justify-center">

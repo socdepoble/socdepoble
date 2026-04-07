@@ -13,7 +13,7 @@ export const MOCK_LORE_POSTS = {
             author_id: '11111111-1111-4111-a111-000000000001',
             author_name: 'Vicent Ferris',
             author_role: 'ambassador',
-            image_url: '/assets/master/vicent_workshop.png'
+            image_url: '/assets/events/vicent_workshop.png'
         },
         {
             id: 'lp-v2',
@@ -33,7 +33,7 @@ export const MOCK_LORE_POSTS = {
             author_id: '11111111-1111-4111-a111-000000000004',
             author_name: 'Maria "Mèl"',
             author_role: 'user',
-            image_url: '/assets/master/maria_mel.png'
+            image_url: '/assets/brand/maria_mel.png'
         },
         {
             id: 'lp-m2',
@@ -87,7 +87,7 @@ export const MOCK_LORE_POSTS = {
             author_id: 'damia-arq-1',
             author_name: 'Damià',
             author_role: 'official',
-            image_url: '/assets/master/damia_architect.png'
+            image_url: '/assets/brand/damia_architect.png'
         },
         {
             id: 'lp-d2',

@@ -24,14 +24,14 @@ import './UniversalCard.css';
 
 
 const FALLBACK_NANO_IMAGES = [
-    "/assets/brain/generations/nano_llibre_memoria.png",
-    "/assets/brain/generations/nano_fibra_espart.png",
-    "/assets/brain/generations/nano_dron_agricola.png",
-    "/assets/brain/generations/nano_mercat_llavors.png",
-    "/assets/brain/generations/nano_palau_comtal_1774195484197.png",
-    "/assets/brain/generations/nano_porta_masia_1774197069297.png",
+    "/assets/avatars/nano_llibre_memoria.png",
+    "/assets/avatars/nano_fibra_espart.png",
+    "/assets/avatars/nano_dron_agricola.png",
+    "/assets/events/nano_mercat_llavors.png",
+    "/assets/places/nano_palau_comtal_1774195484197.png",
+    "/assets/places/nano_porta_masia_1774197069297.png",
     "/assets/brain/generations/nano_rentonar_arquitectura_1774196001928.png",
-    "/assets/brain/generations/nano_socis_tecnologics_1774235328704.png"
+    "/assets/events/nano_socis_tecnologics_1774235328704.png"
 ];
 
 // Hook reactiu i net per a detectar ruta de xat

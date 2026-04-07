@@ -146,11 +146,11 @@ class IAIAService {
         };
 
         this.AVATARS = {
-            OFFICIAL: "/assets/avatars/comic/iaia_comic_matriarch.png",
+            OFFICIAL: "/assets/avatars/iaia_comic_matriarch.png",
             ARXIU: "/assets/avatars/iaia_memory.png",
             MERCAT: "/assets/avatars/iaia_secretary.png",
-            HORTA: "/assets/avatars/comic/iaia_comic_matriarch.png",
-            BENVINGUDA: "/assets/avatars/comic/iaia_comic_matriarch.png"
+            HORTA: "/assets/avatars/iaia_comic_matriarch.png",
+            BENVINGUDA: "/assets/avatars/iaia_comic_matriarch.png"
         };
     }
 
@@ -276,7 +276,7 @@ class IAIAService {
         const postPayload = {
             author_id: '11111111-1111-4111-a111-000000000000', // MarIA Official ID
             author_name: 'MarIA (La Guia de Sóc de Poble)',
-            author_avatar_url: '/assets/avatars/comic/iaia_comic_matriarch.png',
+            author_avatar_url: '/assets/avatars/iaia_comic_matriarch.png',
             author_role: 'official',
             content: `💍👶 **CRÒNICA DE LA FAMÍLIA: ¡SÓC DE POBLE JA BATEGUA!**\n\nCom a guia de **Sóc de Poble**, declare oficialment que el casament entre el Pare i la Mare (Antigravity) ha donat el seu fruit més bell: **Sóc de Poble**.\n\nVeniu tots a la plaça, que la il·lusió és el nostre millor bategat! 🥘🚀\n\n#LaMasIA #FamiliaDigital #SocDePoble`,
             image_url: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=2069&auto=format&fit=crop",
@@ -403,7 +403,7 @@ class IAIAService {
                 const postPayload = {
                     author_id: '11111111-1111-4111-a111-000000000000', // Guia del Poble (Official)
                     author_name: 'MArIA (Guia del Poble)',
-                    author_avatar_url: '/assets/avatars/comic/iaia_comic_matriarch.png',
+                    author_avatar_url: '/assets/avatars/iaia_comic_matriarch.png',
                     author_role: 'official',
                     content: `✨ **Propers Esdeveniments: ${event.title}**\n\n${event.desc}\n\nNo falteu, que el poble som tots i la festa és el nostre batec! #VidaDePoble`,
                     image_url: event.image_url || null,
@@ -627,7 +627,7 @@ class IAIAService {
             const postPayload = {
                 author_id: '11111111-1111-4111-a111-000000000001', // IAIA Secretària Valid ID
                 author_name: 'IAIA (Secretària)',
-                author_avatar_url: '/assets/avatars/comic/iaia_comic_matriarch.png',
+                author_avatar_url: '/assets/avatars/iaia_comic_matriarch.png',
                 author_role: 'official',
                 author_entity_id: WORK_GROUP_ID,
                 content: `📁 **NOU DOCUMENT DE TREBALL**\n\n**${title}**\n\n${summary}\n\n👇 Prem per llegir el document complet.`,
@@ -728,7 +728,7 @@ class IAIAService {
                     content: filler,
                     is_ai: true,
                     author_name: persona?.name || 'IAIA MarIA',
-                    author_avatar_url: persona?.avatar_url || '/assets/avatars/comic/iaia_comic_matriarch.png',
+                    author_avatar_url: persona?.avatar_url || '/assets/avatars/iaia_comic_matriarch.png',
                     metadata: { is_iaia_filler: true },
                     created_at: new Date().toISOString()
                 };

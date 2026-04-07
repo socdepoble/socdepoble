@@ -117,7 +117,7 @@ const TiaMariaChat = () => {
                         <ArrowLeft size={20} />
                     </button>
                     <div className="flex items-center gap-3">
-                        <Avatar name="Tia Maria" size={40} src="/assets/avatars/comic/iaia_comic_matriarch.png" />
+                        <Avatar name="Tia Maria" size={40} src="/assets/avatars/iaia_comic_matriarch.png" />
                         <div>
                             <div className="flex items-center gap-1.5">
                                 <h2 className="text-lg font-black tracking-tight">Tia Maria</h2>

@@ -180,7 +180,7 @@ const AgentSelectorModal = ({ isOpen, onClose, authorId, context }) => {
                     other_info: {
                         id: targetId,
                         name: agent.name,
-                        avatar_url: agent.avatar_url || (agent.id === 'iaia-directa' ? '/assets/avatars/comic/iaia_comic_matriarch.png' : ''),
+                        avatar_url: agent.avatar_url || (agent.id === 'iaia-directa' ? '/assets/avatars/iaia_comic_matriarch.png' : ''),
                         role: agent.role,
                         scope: agent.scope
                     }

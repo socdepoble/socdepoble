@@ -17,7 +17,7 @@ export const MASTER_ASSETS = [
         permissions: 'public',
         created_at: '2026-01-30T05:46:00Z',
         asset: {
-            url: '/assets/master/logo_el_carrero.png',
+            url: '/assets/brand/logo_el_carrero.png',
             mime_type: 'image/png'
         }
     },
@@ -28,7 +28,7 @@ export const MASTER_ASSETS = [
         permissions: 'workgroup',
         created_at: '2026-01-30T05:46:00Z',
         asset: {
-            url: '/assets/master/personatge_excursionista.jpg',
+            url: '/assets/avatars/personatge_excursionista.jpg',
             mime_type: 'image/jpeg'
         }
     },
@@ -39,7 +39,7 @@ export const MASTER_ASSETS = [
         permissions: 'public',
         created_at: '2026-01-30T05:46:00Z',
         asset: {
-            url: '/assets/master/infografia_master_amazon_flash.png',
+            url: '/assets/infographics/infografia_master_amazon_flash.png',
             mime_type: 'image/png'
         }
     }

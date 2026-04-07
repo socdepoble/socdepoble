@@ -21,14 +21,7 @@ const UniversalCardFooter = ({
     let titleText = t('card.connect', "Connectar");
     let ActionIcon = Plus;
     
-    if (cardVariant === 'agent') {
-        titleText = t('card.view_profile', "VEURE PERFIL");
-        ActionIcon = ArrowRight;
-    } else if (cardVariant === 'mercat' || cardVariant === 'market') {
-        titleText = t('card.connect', "Connectar");
-    } else if (cardVariant === 'pobles') {
-        titleText = t('card.connect', "Connectar");
-    } else if (item?.type === 'tramit') {
+    if (item?.type === 'tramit') {
         titleText = t('card.tramitar', "Tramitar");
     }
 
@@ -66,10 +59,10 @@ const UniversalCardFooter = ({
     const handleMainActionClick = (e) => {
         if (e) e.stopPropagation();
         hapticService.playAtomicFeedback('success'); 
-        if (cardVariant === 'agent' && handleCardClick) {
-            handleCardClick(e);
-        } else if (handleConnectClick) {
+        if (handleConnectClick) {
             handleConnectClick(e);
+        } else if (handleCardClick) {
+            handleCardClick(e);
         }
     };
 

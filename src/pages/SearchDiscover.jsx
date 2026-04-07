@@ -461,7 +461,7 @@ const SearchDiscover = () => {
                                     <div className="absolute -inset-4 rounded-full bg-[var(--theme-accent-primary)] opacity-10 group-hover:opacity-20 blur-2xl transition-opacity duration-700"></div>
 
                                     <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex-shrink-0 relative mr-4 sm:mr-6 shadow-inner group-hover:scale-105 transition-transform duration-500 overflow-hidden">
-                                        <img src="/assets/avatars/comic/iaia_comic_matriarch.png" alt="IAIA" className="w-full h-full object-cover" />
+                                        <img src="/assets/avatars/iaia_comic_matriarch.png" alt="IAIA" className="w-full h-full object-cover" />
                                     </div>
                                     <div className="flex-1 min-w-0 text-left">
                                         <h3 className="font-black text-[22px] leading-6 sm:text-3xl text-[var(--theme-text)] mb-1 drop-shadow-sm group-hover:text-[var(--theme-accent-primary)] transition-colors">

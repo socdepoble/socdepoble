@@ -6,11 +6,11 @@ export const sanitizeHtml = (html) => {
     return DOMPurify.sanitize(html, {
         ALLOWED_TAGS: [
             'h1','h2','h3','h4','h5','p','b','i','strong','em','u',
-            'ul','ol','li','br','hr','a','span','div','img','blockquote','section','article','main'
+            'ul','ol','li','br','hr','a','span','div','img','blockquote','section','article','main','button','pre','code','video','source'
         ],
-        ALLOWED_ATTR: ['href','title','target','src','alt','class','id','style','width','height','loading'],
+        ALLOWED_ATTR: ['href','title','target','src','alt','class','id','style','width','height','loading','onclick','autoplay','loop','muted','playsinline','controls'],
         KEEP_CONTENT: true,
-        ALLOW_DATA_ATTR: false,
+        ALLOW_DATA_ATTR: true,
         RETURN_DOM: false,
         RETURN_DOM_FRAGMENT: false,
         // Evita que el parser natiu del navegador talli per nesting invàlid

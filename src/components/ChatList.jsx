@@ -18,35 +18,35 @@ import { chatService } from '../services/chatService';
 
 // SOCIAL GRAPH MOCK DATA
 const STATIC_AVATARS = {
-  'Joanet Serra': '/assets/avatars/comic/joanet_serra_comic.png',
-  'Carmen la del Forn': '/assets/avatars/comic/carmen_forn_comic.png',
-  'Andreu Soler': '/assets/avatars/comic/andreu_soler_comic.png',
-  'Carla Soriano': '/assets/avatars/comic/carla_soriano_comic.png',
-  'Elena Popova': '/assets/avatars/comic/elena_popova_comic.png',
-  'Beatriz Ortega': '/assets/avatars/comic/beatriz_ortega_comic.png',
-  'Joan Batiste': '/assets/avatars/comic/joan_batiste_comic.png',
-  'Vicent Ferris': '/assets/avatars/comic/vicent_ferris_comic.png',
-  'El Viatjant': '/assets/avatars/comic/avatar_samir_comic.png',
-  'Mixa': '/assets/avatars/comic/mixa_comic.png'
+  'Joanet Serra': '/assets/brand/joanet_serra_comic.png',
+  'Carmen la del Forn': '/assets/brand/carmen_forn_comic.png',
+  'Andreu Soler': '/assets/brand/andreu_soler_comic.png',
+  'Carla Soriano': '/assets/brand/carla_soriano_comic.png',
+  'Elena Popova': '/assets/brand/elena_popova_comic.png',
+  'Beatriz Ortega': '/assets/avatars/beatriz_ortega_comic.png',
+  'Joan Batiste': '/assets/brand/joan_batiste_comic.png',
+  'Vicent Ferris': '/assets/brand/vicent_ferris_comic.png',
+  'El Viatjant': '/assets/avatars/avatar_samir_comic.png',
+  'Mixa': '/assets/brand/mixa_comic.png'
 };
 
 const GENT_DATA = AGENTS.filter(a => a.tag === 'GENT');
 const GRUPS_DATA = [
-  { id: 'grup-1', name: 'Comissió de Festes 2024', role: 'Grup Local', avatar_url: '/assets/avatars/comic/avatar_mariamel_comic.png', members: '142 membres', tag: 'COL·LECTIU' },
-  { id: 'grup-2', name: 'Sindicat de Regants', role: 'Gestió Aigua', avatar_url: '/assets/avatars/comic/vicent_ferris_comic.png', members: '86 membres', tag: 'COL·LECTIU' },
-  { id: 'grup-3', name: 'Grup de Muntanya', role: 'Esports', avatar_url: '/assets/avatars/comic/avatar_samir_comic.png', members: '34 membres', tag: 'COL·LECTIU' },
-  { id: 'grup-4', name: 'Banda de Música', role: 'Cultura', avatar_url: '/assets/avatars/comic/avatar_mariamel_comic.png', members: '60 membres', tag: 'COL·LECTIU' }
+  { id: 'grup-1', name: 'Comissió de Festes 2024', role: 'Grup Local', avatar_url: '/assets/products/avatar_mariamel_comic.png', members: '142 membres', tag: 'COL·LECTIU' },
+  { id: 'grup-2', name: 'Sindicat de Regants', role: 'Gestió Aigua', avatar_url: '/assets/brand/vicent_ferris_comic.png', members: '86 membres', tag: 'COL·LECTIU' },
+  { id: 'grup-3', name: 'Grup de Muntanya', role: 'Esports', avatar_url: '/assets/avatars/avatar_samir_comic.png', members: '34 membres', tag: 'COL·LECTIU' },
+  { id: 'grup-4', name: 'Banda de Música', role: 'Cultura', avatar_url: '/assets/products/avatar_mariamel_comic.png', members: '60 membres', tag: 'COL·LECTIU' }
 ];
 const EMPRESES_DATA = [
-  { id: 'emp-1', name: 'El Rentonar Cooperativa', role: 'Agricultura Sostenible', avatar_url: '/assets/avatars/comic/vicent_ferris_comic.png', desc: 'Productes KM0', tag: 'EMPRESA' },
-  { id: 'emp-2', name: 'Forn de Dalt', role: 'Forn i Pastisseria', avatar_url: '/assets/avatars/comic/carmen_forn_comic.png', desc: 'Obert des del 1940', tag: 'EMPRESA' },
-  { id: 'emp-3', name: 'Cooperativa Agrícola', role: 'Sector Primari', avatar_url: '/assets/avatars/comic/andreu_soler_comic.png', desc: 'Venda a l\'engròs', tag: 'EMPRESA' },
-  { id: 'emp-4', name: 'Bar del Poble', role: 'Restauració', avatar_url: '/assets/avatars/comic/avatar_marc_comic.png', desc: 'L\'esmorzar de sempre', tag: 'EMPRESA' }
+  { id: 'emp-1', name: 'El Rentonar Cooperativa', role: 'Agricultura Sostenible', avatar_url: '/assets/brand/vicent_ferris_comic.png', desc: 'Productes KM0', tag: 'EMPRESA' },
+  { id: 'emp-2', name: 'Forn de Dalt', role: 'Forn i Pastisseria', avatar_url: '/assets/brand/carmen_forn_comic.png', desc: 'Obert des del 1940', tag: 'EMPRESA' },
+  { id: 'emp-3', name: 'Cooperativa Agrícola', role: 'Sector Primari', avatar_url: '/assets/brand/andreu_soler_comic.png', desc: 'Venda a l\'engròs', tag: 'EMPRESA' },
+  { id: 'emp-4', name: 'Bar del Poble', role: 'Restauració', avatar_url: '/assets/avatars/avatar_marc_comic.png', desc: 'L\'esmorzar de sempre', tag: 'EMPRESA' }
 ];
 const INSTITUCIONS_DATA = [
-  { id: 'inst-1', name: "Simulació de l'Ajuntament", role: 'Administració Local', avatar_url: '/assets/avatars/comic/nano_ajuntament_comic.png', desc: 'Tràmits i avisos', tag: 'ADMIN' },
-  { id: 'inst-2', name: "Simulació de l'Escola", role: 'Educació', avatar_url: '/assets/avatars/comic/nano_escola_comic.png', desc: 'CEIP El Mas', tag: 'ADMIN' },
-  { id: 'inst-3', name: 'Simulació Centre de Salut', role: 'Sanitat', avatar_url: '/assets/avatars/comic/nano_salut_comic.png', desc: 'Atenció primària', tag: 'ADMIN' }
+  { id: 'inst-1', name: "Simulació de l'Ajuntament", role: 'Administració Local', avatar_url: '/assets/places/nano_ajuntament_comic.png', desc: 'Tràmits i avisos', tag: 'ADMIN' },
+  { id: 'inst-2', name: "Simulació de l'Escola", role: 'Educació', avatar_url: '/assets/avatars/nano_escola_comic.png', desc: 'CEIP El Mas', tag: 'ADMIN' },
+  { id: 'inst-3', name: 'Simulació Centre de Salut', role: 'Sanitat', avatar_url: '/assets/avatars/nano_salut_comic.png', desc: 'Atenció primària', tag: 'ADMIN' }
 ];
 
 const ChatList = () => {

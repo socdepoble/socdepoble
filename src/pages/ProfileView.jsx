@@ -262,8 +262,8 @@ const ProfileView = () => {
                     effectiveUsername = 'JaviLlinares';
                     if (targetProfile) {
                         targetProfile.avatar_url = '/assets/avatars/javi_avatar.jpg';
-                        targetProfile.cover_url = '/assets/javi_cover.jpg';
-                        targetProfile.header_image_url = '/assets/javi_cover.jpg';
+                        targetProfile.cover_url = '/assets/avatars/javi_cover.jpg';
+                        targetProfile.header_image_url = '/assets/avatars/javi_cover.jpg';
                     }
                 }
 

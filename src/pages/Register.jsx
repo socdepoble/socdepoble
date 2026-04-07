@@ -223,7 +223,7 @@ const Register = () => {
         {/* IAIA Guide per a escriptori (Més gran i premium) */}
         <div className="relative z-10 w-full max-w-xl bg-theme-base/80 backdrop-blur-xl border border-[var(--theme-accent-primary-muted)] rounded-[32px] p-8 flex gap-8 items-start shadow-2xl hover:-translate-y-1 transition-transform">
           <div className="w-24 h-24 shrink-0 rounded-full bg-[var(--theme-accent-primary-faint)] flex items-center justify-center shadow-inner overflow-hidden border-4 border-white dark:border-gray-800">
-             <img src="/assets/avatars/comic/iaia_comic_matriarch.png" alt="IAIA" className="w-[110%] h-[110%] object-cover object-top" />
+             <img src="/assets/avatars/iaia_comic_matriarch.png" alt="IAIA" className="w-[110%] h-[110%] object-cover object-top" />
           </div>
           <div className="flex-1 pt-2">
              <h3 className="font-black text-[var(--theme-accent-primary)] text-xl mb-3 uppercase tracking-tight">IAIA Guia</h3>
@@ -268,7 +268,7 @@ const Register = () => {
             {/* IAIA Guide Mobile */}
             <div className="w-full bg-[var(--theme-accent-primary-faint)] border border-[var(--theme-accent-primary-muted)] rounded-2xl p-5 flex gap-5 items-start shadow-sm mt-4">
                <div className="w-16 h-16 shrink-0 rounded-full bg-[var(--theme-accent-primary-faint)] flex items-center justify-center shadow-inner overflow-hidden border border-[var(--theme-accent-primary-muted)]" onClick={() => hapticService.batec()}>
-                   <img src="/assets/avatars/comic/iaia_comic_matriarch.png" alt="IAIA" className="w-[110%] h-[110%] object-cover object-top" />
+                   <img src="/assets/avatars/iaia_comic_matriarch.png" alt="IAIA" className="w-[110%] h-[110%] object-cover object-top" />
                </div>
                <div className="flex-1 pt-1">
                    <h3 className="font-black text-[var(--theme-accent-primary)] text-base mb-1.5 uppercase tracking-tight">IAIA Guia</h3>

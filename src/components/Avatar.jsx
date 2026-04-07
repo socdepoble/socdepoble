@@ -22,11 +22,11 @@ const getAvatarColor = (role) => {
 
 const getAvatarFallbackImage = (role) => {
     switch (role) {
-        case ROLES.OFFICIAL: return '/assets/avatars/comic/iaia_comic_matriarch.png';
-        case ROLES.BUSINESS: return '/assets/avatars/comic/avatar_lucia_comic.png';
-        case ROLES.GROUPS: return '/assets/avatars/comic/avatar_man_1.png';
-        case 'ambassador': return '/assets/avatars/comic/iaia_comic_matriarch.png';
-        case 'iaia': return '/assets/avatars/comic/iaia_comic_matriarch.png';
+        case ROLES.OFFICIAL: return '/assets/avatars/iaia_comic_matriarch.png';
+        case ROLES.BUSINESS: return '/assets/avatars/avatar_lucia_comic.png';
+        case ROLES.GROUPS: return '/assets/avatars/avatar_man_1.png';
+        case 'ambassador': return '/assets/avatars/iaia_comic_matriarch.png';
+        case 'iaia': return '/assets/avatars/iaia_comic_matriarch.png';
         default: return null; // Let initials/icon handle it for neighbors
     }
 };
@@ -63,7 +63,7 @@ const Avatar = ({ src, role, name, size = 44, className = "" }) => {
 
     // [HEALING PROTOCOL] Intercept legacy broken supabase avatars (400 Bad Request prevention)
     if (normalizedSrc && normalizedSrc.includes('avatar_agent_iaia')) {
-        normalizedSrc = '/assets/avatars/comic/iaia_comic_matriarch.png';
+        normalizedSrc = '/assets/avatars/iaia_comic_matriarch.png';
     }
 
     // We attempt to load the image in the background first to avoid noisy 400/404 errors 
