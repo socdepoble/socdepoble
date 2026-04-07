@@ -4,7 +4,6 @@ import ImageCarousel from '../ImageCarousel';
 import Watermark from '../Watermark';
 
 const UniversalCardMedia = ({ 
-    item, 
     cardVariant,
     mediaList, 
     displayImage, 
@@ -45,15 +44,11 @@ const UniversalCardMedia = ({
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-theme-muted/10 to-transparent skew-x-12 animate-pulse" />
             </div>
 
-            {(item?.is_pinned || item?.metadata?.is_pinned) && (
-                <div className="absolute top-4 right-4 z-20 bg-theme-panel/70 backdrop-blur-xl rounded-full p-2 text-[#F97316] shadow-xl select-none pointer-events-none">
-                    <Zap size={16} fill="currentColor" className="drop-shadow-[0_0_8px_rgba(249,115,22,0.5)]" />
-                </div>
-            )}
+
             {mediaList && mediaList.length > 1 ? (
                 <div className="w-full h-full relative group bg-transparent z-10 transition-opacity duration-700 ease-in-out will-change-opacity opacity-100 active:scale-[0.98]">
                     <ImageCarousel images={mediaList} onImageClick={(index) => openViewer(mediaList, index)} />
-                    <div className="absolute right-3 bottom-2 z-10 pointer-events-none drop-shadow-md pb-1 font-medium text-[11px] text-white">
+                    <div className="absolute left-0 right-0 bottom-1 text-center z-10 pointer-events-none pb-1 font-bold text-[12px] text-black tracking-wide [text-shadow:-2px_-2px_0_rgba(255,255,255,1),2px_-2px_0_rgba(255,255,255,1),-2px_2px_0_rgba(255,255,255,1),2px_2px_0_rgba(255,255,255,1),-1px_-1px_0_rgba(255,255,255,1),1px_-1px_0_rgba(255,255,255,1),-1px_1px_0_rgba(255,255,255,1),1px_1px_0_rgba(255,255,255,1)]">
                         <span>{watermarkText}</span>
                     </div>
                 </div>
@@ -70,8 +65,7 @@ const UniversalCardMedia = ({
                                 decoding="async"
                                 onLoad={() => setIsImageLoaded(true)}
                             />
-                            <div className={`absolute inset-0 z-20 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 pointer-events-none transition-opacity duration-700 ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`} />
-                            <div className="absolute bottom-3 right-3 font-medium text-[11px] text-white drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]">
+                            <div className="absolute left-0 right-0 bottom-1 text-center z-10 pointer-events-none pb-1 font-bold text-[12px] text-black tracking-wide [text-shadow:-2px_-2px_0_rgba(255,255,255,1),2px_-2px_0_rgba(255,255,255,1),-2px_2px_0_rgba(255,255,255,1),2px_2px_0_rgba(255,255,255,1),-1px_-1px_0_rgba(255,255,255,1),1px_-1px_0_rgba(255,255,255,1),-1px_1px_0_rgba(255,255,255,1),1px_1px_0_rgba(255,255,255,1)]">
                                 <span>{fallbackWatermarkText}</span>
                             </div>
                         </Watermark>
@@ -84,8 +78,7 @@ const UniversalCardMedia = ({
                                 onLoad={() => setIsImageLoaded(true)}
                                 onError={() => setHasImageError(true)}
                             />
-                            <div className={`absolute inset-0 z-20 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 pointer-events-none transition-opacity duration-700 ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`} />
-                            <div className="absolute bottom-3 right-3 font-medium text-[11px] text-white drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]">
+                            <div className="absolute left-0 right-0 bottom-1 text-center z-10 pointer-events-none pb-1 font-bold text-[12px] text-black tracking-wide [text-shadow:-2px_-2px_0_rgba(255,255,255,1),2px_-2px_0_rgba(255,255,255,1),-2px_2px_0_rgba(255,255,255,1),2px_2px_0_rgba(255,255,255,1),-1px_-1px_0_rgba(255,255,255,1),1px_-1px_0_rgba(255,255,255,1),-1px_1px_0_rgba(255,255,255,1),1px_1px_0_rgba(255,255,255,1)]">
                                 <span>{watermarkText}</span>
                             </div>
                         </Watermark>

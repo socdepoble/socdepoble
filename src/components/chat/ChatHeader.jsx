@@ -11,7 +11,8 @@ const ChatHeader = ({
     searchQuery,
     setSearchQuery,
     isSettingsMenuOpen,
-    setIsSettingsMenuOpen
+    setIsSettingsMenuOpen,
+    isEmbedded
 }) => {
     const navigate = useNavigate();
     const { t } = useTranslation();
@@ -29,18 +30,21 @@ const ChatHeader = ({
         >
             {/* ZONA CLICABLE GLOBAL: Tot el costat esquerre porta al perfil */}
             <div 
-                className="group flex flex-1 cursor-pointer items-center gap-2 transition-all md:gap-3"
+                className={`group flex flex-1 ${isEmbedded ? '' : 'cursor-pointer'} items-center gap-2 transition-all md:gap-3`}
                 onClick={() => {
-                     // Dirigim SEMPRE a l'UUID real perquè ProfileView i Supabase ho reconeguen correctament
-                     navigate(`/perfil/${otherInfo?.id}`);
+                     if (!isEmbedded) {
+                         navigate(`/perfil/${otherInfo?.id}`);
+                     }
                 }}
             >
-                <button 
-                    onClick={(e) => { e.stopPropagation(); navigate('/chats'); }} 
-                    className={`btn-tactile -ml-1 flex h-12 w-12 items-center justify-center rounded-full transition-colors md:hidden ${isIAIA ? 'text-gray-900 dark:text-white' : 'text-theme-text'}`}
-                >
-                    <ChevronLeft size={28} strokeWidth={2.5} />
-                </button>
+                {!isEmbedded && (
+                    <button 
+                        onClick={(e) => { e.stopPropagation(); navigate('/chats'); }} 
+                        className={`btn-tactile -ml-1 flex h-12 w-12 items-center justify-center rounded-full transition-colors md:hidden ${isIAIA ? 'text-gray-900 dark:text-white' : 'text-theme-text'}`}
+                    >
+                        <ChevronLeft size={28} strokeWidth={2.5} />
+                    </button>
+                )}
                 
                 {isHeaderSearchOpen ? (
                     <input

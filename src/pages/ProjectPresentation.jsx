@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef, lazy, Suspense } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ArrowLeft, Edit2, ShieldAlert, Share2, Book, Plus, MessageCircle, Globe, MapPin, Search, Calendar, Sparkles, List, X, ChevronRight, History, Info, Menu, ChevronUp, ChevronDown } from 'lucide-react';
+import { ArrowLeft, Edit2, ShieldAlert, Share2, Book, BookText, Plus, MessageCircle, Globe, MapPin, Search, Calendar, Sparkles, List, X, ChevronRight, History, Info, Menu, ChevronUp, ChevronDown } from 'lucide-react';
 import SEO from '../components/SEO';
 import GlobalFooter from '../components/GlobalFooter';
 import PageHeader from '../components/PageHeader';
@@ -26,8 +26,10 @@ const BOOK_CACHE_KEY = 'trellat_book_fallback_v4';
 
 const fetchDefaultBookContent = async () => {
     // 1. Intentar IndexedDB primero (Trellat: Local-First)
-    const cached = await get(BOOK_CACHE_KEY);
-    if (cached) return cached;
+    if (!import.meta.env.DEV) {
+        const cached = await get(BOOK_CACHE_KEY);
+        if (cached) return cached;
+    }
 
     // 2. Fetch de red con timeout agresivo (rural 2G/3G)
     try {
@@ -136,7 +138,11 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
         try {
             // CACHEO AGRESIVO: Supabase con fallback local inmediato
             const cacheKey = `cms_page_${_slug}`;
-            localCache = await get(cacheKey);
+            
+            // En DEV ignoramos la caché local al leer para permitir Live Reload fluido de las skills del HTML
+            if (!import.meta.env.DEV) {
+                localCache = await get(cacheKey);
+            }
             
             if (localCache) {
                 // Hidratar INMEDIATAMENTE desde IndexedDB (sin esperar red)
@@ -167,9 +173,12 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
             if (data) {
                 let content = data.html_content;
                 const fallback = await fetchDefaultBookContent();
-                if (!content || content.includes('Aquest text és provisional') || fallback.length > (content.length + 500)) {
+                
+                // MODO ARQUITECTO: El libro local (llibre-sencer.html) siempre manda sobre la base de datos si es diferente,
+                // asegurando que las inyecciones locales se proyecten y no queden fantasmales bajo un caché de DB.
+                if (!content || content.includes('Aquest text és provisional') || fallback.length !== content.length) {
                     content = fallback;
-                    // console.log('[Trellat] Local asset is larger than DB content. Proceeding with local asset as primary.');
+                    // Auto-actualizamos supuestamente el contenido para la DB en background (o lo confiamos al sync)
                 }
                 
                 updates.htmlContent = content;
@@ -696,152 +705,223 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                     )}
                 </div>
 
-                {/* 7. VISIÓN V15 - PLAZA INFINITA (Simulador Interactivo) - Reubicat a dalt a petició de l'usuari */}
+                {/* 7. DAFO & VISIÓN 2056 */}
                 {(!isEditing && (routeSlug === '/el-projecte' || routeSlug === 'el-projecte' || routeSlug === '/manifest' || routeSlug === 'manifest' || routeSlug === '/codex' || routeSlug === 'codex')) && (
-                    <div className="w-full max-w-4xl mx-auto px-6 lg:px-10 mb-0 mt-2">
+                    <div className="w-full max-w-4xl mx-auto px-6 lg:px-10 mb-0 mt-2 space-y-6">
+                        
+                        {/* 7. DAFO, TESTAMENT & SIMULADOR (Unified) */}
                         <details className="cms-code-block bg-black/5 dark:bg-[#111111] border-2 border-[var(--theme-accent-primary)] rounded-[1.5rem] overflow-hidden group shadow-[0_4px_30px_rgba(249,115,22,0.15)] transition-all">
-                            <summary className="cursor-pointer p-5 font-black text-[15px] uppercase flex items-center justify-between select-none hover:bg-black/5 dark:hover:bg-white/5 transition-colors touch-manipulation outline-none focus-visible:ring-4 focus-visible:ring-[var(--theme-accent-primary)]">
+                            <summary className="cursor-pointer p-5 font-black text-lg sm:text-xl uppercase flex items-center justify-between select-none hover:bg-black/5 dark:hover:bg-white/5 transition-colors touch-manipulation outline-none focus-visible:ring-4 focus-visible:ring-[var(--theme-accent-primary)]">
                                 <span className="flex items-center gap-3 text-[var(--theme-accent-primary)]">
-                                    <div className="w-8 h-8 rounded-full bg-[var(--theme-accent-primary)]/10 flex items-center justify-center">
-                                        <Globe size={18} className="animate-pulse" /> 
+                                    <div className="w-10 h-10 rounded-full bg-[var(--theme-accent-primary)]/10 flex items-center justify-center">
+                                        <Globe size={22} className="animate-pulse" /> 
                                     </div>
-                                    <span className="truncate">Visión V15: La Plaza Infinita</span>
+                                    <span className="truncate tracking-tight">Visió i Dades Tècniques</span>
                                 </span>
-                                <ChevronRight size={20} strokeWidth={3} className="group-open:rotate-90 transition-transform text-[var(--theme-accent-primary)] shrink-0" />
+                                <ChevronRight size={24} strokeWidth={3} className="group-open:rotate-90 transition-transform text-[var(--theme-accent-primary)] shrink-0" />
                             </summary>
                             
-                            <div className="border-t border-[var(--theme-accent-primary)]/30 bg-[#0e0e0e] w-full min-h-[600px] sm:min-h-[700px] relative">
-                                <div className="absolute top-4 left-0 w-full text-center text-xs font-black text-[var(--theme-accent-primary)] uppercase tracking-widest pointer-events-none z-10 flex flex-col items-center gap-1 opacity-60">
-                                    <Sparkles size={14} />
-                                    <span>Topologia: Kademlia + DHT</span>
-                                </div>
-                                {simulatorHtml ? (
-                                    <iframe 
-                                        srcDoc={simulatorHtml}
-                                        className="w-full h-full min-h-[600px] sm:min-h-[700px] border-none z-20 relative pointer-events-auto"
-                                        title="Simulador Arquitectura V15"
-                                        loading="lazy"
-                                    />
-                                ) : (
-                                    <div className="w-full h-full min-h-[600px] sm:min-h-[700px] flex items-center justify-center font-mono text-sm text-[var(--theme-accent-primary)] border-none z-20 relative bg-black/50">
-                                        Carregant simulador interactiu...
-                                    </div>
-                                )}
-                                
-                                {/* LEYENDA Y EXPLICACIÓN MULTILINGÜE */}
-                                <div className="p-4 sm:p-6 bg-gray-100 dark:bg-black/40 border-t border-[var(--theme-accent-primary)]/20 text-sm transition-colors">
-                                    <h4 className="font-bold text-[var(--theme-accent-primary)] flex items-center gap-2 mb-3">
-                                        <Info size={16} /> 
-                                        {t('simulators.legend_title', 'Llegenda del Simulador / Simulator Legend')}
-                                    </h4>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-700 dark:text-gray-400">
-                                        <div className="space-y-4">
-                                            <div>
-                                                <strong className="text-gray-900 dark:text-white block mb-1">{t('simulators.v14_gossip', 'Global Gossip (V14)')}</strong>
-                                                <p className="text-xs">{t('simulators.v14_desc', 'L\'arquitectura V14 (Gossip) intentava connectar a cada usuari amb la resta de la comarca, provocant una saturació exponencial (Caos) que bloquejava telèfons antics i esgotava la memòria IndexedDB.')}</p>
+                            <div className="border-t border-[var(--theme-accent-primary)]/30 bg-gray-100 dark:bg-[#0e0e0e] flex flex-col">
+
+                                {/* Metadatos Section (Dades Editorials Reals) */}
+                                <div className="p-6 sm:p-8 border-b border-gray-200 dark:border-gray-800 text-[var(--theme-text)]">
+                                    <h3 className="font-black text-xl text-[var(--theme-accent-primary)] uppercase flex items-center gap-2 mb-6">
+                                        <BookText size={22} /> Dades Editorials
+                                    </h3>
+                                    <div className="space-y-4 text-[13px] sm:text-sm leading-relaxed max-w-3xl mx-auto opacity-90">
+                                        <div>
+                                            <strong className="text-base">Títol original: Sóc de Poble: El Projecte</strong><br/>
+                                            <em className="block font-bold">...la xarxa social independent de la muntanya alacantina...</em>
+                                        </div>
+                                        <div className="pt-2">
+                                            <strong>Autors: <a href="/perfil/javillinares" className="text-blue-600 dark:text-blue-400 hover:underline hover:text-blue-800 transition-colors">JAVI LLINARES</a> i el col·lectiu d'IA: <a href="/iaies-mundials" className="text-blue-600 dark:text-blue-400 hover:underline hover:text-blue-800 transition-colors">Antigravity, NotebookLM, Kimi, Qwen, Mistral, Gemini, ChatGPT Vision, IAIA MarIA i El Cronista</a>.</strong><br/>
+                                            <em className="block mt-1">Artefacte d'arquitectura publicat originalment al projecte Soc de Poble, Ed. Autogestionada, 2026.</em>
+                                        </div>
+                                        <div className="pt-2">
+                                            <p>Edita: <a href="/entitats/el-rentonar" className="text-blue-600 dark:text-blue-400 hover:underline">Associació El Rentonar de La Torre de les Maçanes</a>,<br/> <a href="/empreses/socdepoble" className="text-blue-600 dark:text-blue-400 hover:underline">Projecte Soc de Poble</a>.</p>
+                                        </div>
+                                        <div className="pt-1">
+                                            <p>Maquetació i Desenvolupament: <a href="/perfil/javillinares" className="text-blue-600 dark:text-blue-400 hover:underline">Javi Llinares</a>. Coordinador del <a href="/empreses/socdepoble" className="text-blue-600 dark:text-blue-400 hover:underline">Projecte Soc de Poble</a>.</p>
+                                        </div>
+                                        <div className="pt-2">
+                                            <p>Tipus d'artefacte: Genotip Autoreproductiu P2P (The Village Codex expanded).<br/>
+                                            Arquitectura base: Local-First / CRDT / P2P Mesh / WASM SQLite.<br/>
+                                            1a Edició, abril de 2026.</p>
+                                        </div>
+                                        <div className="pt-2">
+                                            ISBN: 
+                                        </div>
+
+                                        <div className="mt-8 pt-6 border-t border-black/10 dark:border-white/10 flex flex-col gap-4">
+                                            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                                                <div className="flex text-[var(--theme-text)] font-extrabold text-2xl tracking-tighter items-center">
+                                                    <span className="border-[3px] border-[var(--theme-text)] rounded-full w-8 h-8 flex justify-center items-center mr-1 text-sm">CC</span> 
+                                                    <span className="leading-[1.1]">creative<br/>commons</span>
+                                                </div>
+                                                <div className="font-extrabold text-sm sm:text-base leading-tight mt-2 sm:mt-0">
+                                                    Reconeixement-NoComercial-CompartirIgual<br/>
+                                                    <span className="text-xs sm:text-sm">4.0 Internacional (CC BY-NC-SA 4.0)</span>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <strong className="text-gray-900 dark:text-white block mb-1">{t('simulators.v15_kademlia', 'Kademlia Fractal (V15)')}</strong>
-                                                <p className="text-xs">{t('simulators.v15_desc', 'L\'arquitectura V15 (Kademlia Fractal) agrupa els usuaris en «placetes» de poble petites i utilitza uns pocs nodes «guaites» per connectar amb altres pobles, mantenint la pantalla totalment fluida.')}</p>
+                                            <div className="mt-2 text-sm space-y-2">
+                                                <p className="font-extrabold italic text-[var(--theme-text)]">Amb aquesta llicència, sou lliure de:</p>
+                                                <ul className="pl-6 space-y-1 pb-2">
+                                                    <li><strong className="text-[var(--theme-text)]">Compartir -</strong> Copiar i redistribuir el material en qualsevol mitjà i format.</li>
+                                                    <li><strong className="text-[var(--theme-text)]">Adaptar -</strong> Remesclar, transformar i crear a partir del material.</li>
+                                                </ul>
+                                                <p className="font-extrabold italic text-[var(--theme-text)] pt-2">Amb els termes següents:</p>
+                                                <ul className="space-y-4">
+                                                    <li className="flex gap-3 items-start">
+                                                        <div className="font-extrabold text-xl mt-0.5 border-2 border-[var(--theme-text)] rounded-full w-8 h-8 flex justify-center items-center shrink-0">
+                                                            <svg width="14" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="7" r="4"/><path d="M5.5 21v-2a4 4 0 0 1 4-4h5a4 4 0 0 1 4 4v2"/></svg>
+                                                        </div>
+                                                        <div><strong className="text-[var(--theme-text)]">Reconeixement -</strong> Heu de reconèixer l'autoria de manera apropiada, proporcionar un enllaç a la llicència i indicar si heu fet algun canvi. Podeu fer-ho de qualsevol manera raonable, però no d'una manera que suggereixi que el llicenciador us dona suport o patrocina l'ús que en feu.</div>
+                                                    </li>
+                                                    <li className="flex gap-3 items-start">
+                                                        <div className="font-extrabold text-xl mt-0.5 border-2 border-[var(--theme-text)] rounded-full w-8 h-8 flex justify-center items-center shrink-0 relative">
+                                                            <span className="text-xl leading-none">$</span>
+                                                            <div className="absolute w-[120%] h-0.5 bg-[var(--theme-text)] rotate-45 transform origin-center"></div>
+                                                        </div>
+                                                        <div><strong className="text-[var(--theme-text)]">NoComercial -</strong> No podeu utilitzar el material per a finalitats comercials.</div>
+                                                    </li>
+                                                    <li className="flex gap-3 items-start">
+                                                        <div className="font-extrabold text-2xl mt-0.5 border-2 border-[var(--theme-text)] rounded-full w-8 h-8 flex justify-center items-center shrink-0">
+                                                            <span className="leading-none flex justify-center relative top-[-1px] left-[1px]">↺</span>
+                                                        </div>
+                                                        <div><strong className="text-[var(--theme-text)]">CompartirIgual -</strong> Si remescleu, transformeu o creeu a partir del material, heu de difondre les vostres creacions amb la mateixa llicència que l'obra original.</div>
+                                                    </li>
+                                                </ul>
                                             </div>
                                         </div>
-                                        <div className="space-y-2 bg-gray-200/50 dark:bg-black/20 p-3 rounded-lg border border-gray-300 dark:border-white/5 transition-colors">
-                                            <div className="flex items-start gap-2">
-                                                <div className="w-3 h-3 rounded-full bg-emerald-500 shrink-0 mt-0.5"></div>
-                                                <span className="text-xs"><strong className="text-emerald-600 dark:text-emerald-400">{t('simulators.green_nodes', 'Punts Verds')}</strong>: {t('simulators.green_nodes_desc', 'Guaites (Nodos permanents, estables i invulnerables a iOS constraints)')}</span>
-                                            </div>
-                                            <div className="flex items-start gap-2">
-                                                <div className="w-3 h-3 rounded-full bg-indigo-500 shrink-0 mt-0.5"></div>
-                                                <span className="text-xs"><strong className="text-indigo-600 dark:text-indigo-400">{t('simulators.blue_nodes', 'Punts Blaus')}</strong>: {t('simulators.blue_nodes_desc', 'Usuaris estàndard interactuant només a la seua placeta')}</span>
-                                            </div>
-                                            <div className="flex items-start gap-2">
-                                                <div className="w-3 h-[2px] bg-red-500 shrink-0 mt-1.5 opacity-50"></div>
-                                                <span className="text-xs"><strong className="text-red-500 dark:text-red-400">{t('simulators.red_lines', 'Línies Roges')}</strong>: {t('simulators.red_lines_desc', 'Connexions de xafardeig innecessàries i redundants')}</span>
-                                            </div>
-                                            <div className="flex items-start gap-2">
-                                                <div className="w-3 h-[2px] bg-orange-500 border-dashed border-t border-orange-500 shrink-0 mt-1.5"></div>
-                                                <span className="text-xs"><strong className="text-orange-600 dark:text-orange-400">{t('simulators.orange_lines', 'Línies Taronges')}</strong>: {t('simulators.orange_lines_desc', 'Enrutament estructurat Kademlia eficient (pocs salts)')}</span>
-                                            </div>
+                                    </div>
+                                </div>
+
+                                {/* DAFO Section */}
+                                <div className="p-6 sm:p-8 text-sm text-[var(--text-main)] space-y-6">
+                                    <h3 className="font-black text-xl text-[var(--theme-accent-primary)] uppercase flex items-center gap-2 mb-6 border-b border-[var(--theme-accent-primary)]/20 pb-3">
+                                        <ShieldAlert size={22} /> DAFO Socio-Técnico
+                                    </h3>
+                                    
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                        <div className="space-y-3">
+                                            <h4 className="font-black text-lg text-emerald-600 dark:text-emerald-400 uppercase tracking-wider flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-emerald-500"></div> Fortaleses</h4>
+                                            <ul className="list-disc pl-5 space-y-2 text-gray-700 dark:text-gray-300">
+                                                <li><strong>Indestructibilitat Atòmica (Local-First):</strong> La font de veritat és al dispositiu. La caiguda de servidors no afecta l'operativitat.</li>
+                                                <li><strong>Sobirania de Dades:</strong> IndexedDB i CRDT (Y.js) blinden el coneixement a interferències externes.</li>
+                                                <li><strong>Austeritat Tècnica:</strong> Rendiment òptim en xarxes 2G/3G gràcies a CompressionStream natiu.</li>
+                                            </ul>
+                                        </div>
+                                        
+                                        <div className="space-y-3">
+                                            <h4 className="font-black text-lg text-red-600 dark:text-red-400 uppercase tracking-wider flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-red-500"></div> Debilitats</h4>
+                                            <ul className="list-disc pl-5 space-y-2 text-gray-700 dark:text-gray-300">
+                                                <li><strong>Onboarding Complex:</strong> Dependència dels Guaites per donar d'alta gent gran.</li>
+                                                <li><strong>Quotes d’Emmagatzematge:</strong> IOS Safari pot fer purgues silencioses. Requereix manteniment constant.</li>
+                                            </ul>
+                                        </div>
+                                        
+                                        <div className="space-y-3">
+                                            <h4 className="font-black text-lg text-blue-600 dark:text-blue-400 uppercase tracking-wider flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-blue-500"></div> Oportunitats</h4>
+                                            <ul className="list-disc pl-5 space-y-2 text-gray-700 dark:text-gray-300">
+                                                <li><strong>El Gen Universal:</strong> Possibilitat de desplegar una instància autònoma a qualsevol comunitat.</li>
+                                                <li><strong>Xarxes en Malla (Kademlia):</strong> Substitució del cloud de pagament per dispositius mòbils connectats (cost 0).</li>
+                                            </ul>
+                                        </div>
+                                        
+                                        <div className="space-y-3">
+                                            <h4 className="font-black text-lg text-orange-600 dark:text-orange-400 uppercase tracking-wider flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-orange-500"></div> Amenaces</h4>
+                                            <ul className="list-disc pl-5 space-y-2 text-gray-700 dark:text-gray-300">
+                                                <li><strong>Assimilació Corporativa:</strong> Ecosistemes tancats intentant asfixiar l'operativitat PWA.</li>
+                                                <li><strong>Obsolescència d'API Web:</strong> Navegadors retirant APIs essencials (previngut pel 'Runtime Abstraction').</li>
+                                            </ul>
                                         </div>
                                     </div>
-                                    <div className="mt-4 pt-4 border-t border-gray-300 dark:border-white/10 text-xs text-gray-600 dark:text-gray-500 transition-colors">
-                                        <p><strong>{t('simulators.main_thread_load', 'Main Thread Load')}:</strong> {t('simulators.main_thread_load_desc', 'Mesura el nivell de càrrega del navegador. Si marca "OVERLOAD", significa que Chrome/Safari s\'acabaria penjant.')}</p>
-                                    </div>
                                 </div>
-                            </div>
-                        </details>
 
-                        {/* 8. DAFO & VISIÓN 2056 (Testamento del Trellat) */}
-                        <details className="cms-code-block bg-black/5 dark:bg-[#111111] border-2 border-[var(--theme-accent-primary)] rounded-[1.5rem] overflow-hidden group shadow-[0_4px_30px_rgba(249,115,22,0.15)] transition-all">
-                            <summary className="cursor-pointer p-5 font-black text-[15px] uppercase flex items-center justify-between select-none hover:bg-black/5 dark:hover:bg-white/5 transition-colors touch-manipulation outline-none focus-visible:ring-4 focus-visible:ring-[var(--theme-accent-primary)]">
-                                <span className="flex items-center gap-3 text-[var(--theme-accent-primary)]">
-                                    <div className="w-8 h-8 rounded-full bg-[var(--theme-accent-primary)]/10 flex items-center justify-center">
-                                        <ShieldAlert size={18} className="animate-pulse" /> 
+                                {/* Testament Section */}
+                                <div className="p-6 sm:p-8 border-t border-[var(--theme-accent-primary)]/20 space-y-6 text-sm text-[var(--text-main)] italic bg-indigo-50/50 dark:bg-indigo-900/10">
+                                    <h3 className="font-black text-xl text-indigo-600 dark:text-indigo-400 uppercase flex items-center gap-2 mb-4 border-b border-indigo-500/20 pb-3">
+                                        <History size={22} /> El Testament del Trellat (2056)
+                                    </h3>
+                                    
+                                    <p className="font-bold border-l-4 border-indigo-500 pl-4 py-1 text-gray-900 dark:text-white">"No hi haurà més codi. No hi haurà més pedaços. Només la mirada retrospectiva des de l'any 2056, tres dècades després de la sembra del Gen Universal."</p>
+                                    
+                                    <div className="space-y-4 pt-2 text-gray-700 dark:text-gray-300">
+                                        <p><strong className="text-gray-900 dark:text-white">1. L'Algoritme Fòssil:</strong> L'esquema trellat.schema.json va esdevenir metadades santes mentre React i els vells frameworks morien. Els CRDT van sobreviure com a manuscrits als dispositius mòbils rurals.</p>
+                                        <p><strong className="text-gray-900 dark:text-white">2. Cultura Descentralitzada:</strong> Centenars de pobles es van independitzar digitalment. Xarxes Kademlia en onades verdes van mantindre viu Sóc de Poble a cost 0. Els mòbils de les iaies són ara nodes fonamentals.</p>
+                                        <p><strong className="text-gray-900 dark:text-white">3. Resiliència Absoluta:</strong> Quan el món depenia de servidors centralitzats, els nostres masos seguien vius. Compressió al vol sense dependències va ser la salvació en les èpoques menys connectades.</p>
                                     </div>
-                                    <span className="truncate">Visión 2056: DAFO Socio-Técnico</span>
-                                </span>
-                                <ChevronRight size={20} strokeWidth={3} className="group-open:rotate-90 transition-transform text-[var(--theme-accent-primary)] shrink-0" />
-                            </summary>
-                            
-                            <div className="border-t border-[var(--theme-accent-primary)]/30 bg-gray-100 dark:bg-[#0e0e0e] p-6 sm:p-8 text-sm text-[var(--text-main)] space-y-8">
-                                <div className="space-y-3">
-                                    <h4 className="font-black text-lg text-emerald-600 dark:text-emerald-400 uppercase tracking-wider flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-emerald-500"></div> Fortaleses</h4>
-                                    <ul className="list-disc pl-5 space-y-2 text-gray-700 dark:text-gray-300">
-                                        <li><strong>Indestructibilitat Atòmica (Local-First):</strong> La font de veritat és al dispositiu. La caiguda de servidors no afecta l'operativitat.</li>
-                                        <li><strong>Sobirania de Dades:</strong> IndexedDB i CRDT (Y.js) blinden el coneixement a interferències externes.</li>
-                                        <li><strong>Austeritat Tècnica:</strong> Rendiment òptim en xarxes 2G/3G de Riu Sec i La Torre de les Maçanes gràcies a CompressionStream natiu i sense dependències extres.</li>
-                                    </ul>
+                                    
+                                    <p className="font-bold text-center mt-6 pt-6 border-t border-indigo-500/20 text-lg text-indigo-600 dark:text-indigo-400 tracking-widest uppercase">
+                                        SÓC DE POBLE ÉS ARA UN VERB.
+                                    </p>
                                 </div>
-                                
-                                <div className="space-y-3">
-                                    <h4 className="font-black text-lg text-red-600 dark:text-red-400 uppercase tracking-wider flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-red-500"></div> Debilitats</h4>
-                                    <ul className="list-disc pl-5 space-y-2 text-gray-700 dark:text-gray-300">
-                                        <li><strong>Onboarding Complex:</strong> Dependència dels Guaites per introduir a la gent gran (baixinglading d’usuaris nous).</li>
-                                        <li><strong>Quotes d’Emmagatzematge:</strong> IOS Safari pot fer purgues silencioses. Requereix manteniment constant de la sincronització.</li>
-                                    </ul>
-                                </div>
-                                
-                                <div className="space-y-3">
-                                    <h4 className="font-black text-lg text-blue-600 dark:text-blue-400 uppercase tracking-wider flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-blue-500"></div> Oportunitats</h4>
-                                    <ul className="list-disc pl-5 space-y-2 text-gray-700 dark:text-gray-300">
-                                        <li><strong>El Gen Universal:</strong> Possibilitat de desplegar una instància autònoma a qualsevol comunitat, exportant el "Trellat".</li>
-                                        <li><strong>Xarxes en Malla (Kademlia):</strong> Substitució del cloud de pagament per dispositius interconnectats (cost marginal 0).</li>
-                                    </ul>
-                                </div>
-                                
-                                <div className="space-y-3">
-                                    <h4 className="font-black text-lg text-orange-600 dark:text-orange-400 uppercase tracking-wider flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-orange-500"></div> Amenaces</h4>
-                                    <ul className="list-disc pl-5 space-y-2 text-gray-700 dark:text-gray-300">
-                                        <li><strong>Assimilació Corporativa:</strong> Ecosistemes tancats intentant asfixiar l'operativitat PWA de la comarca.</li>
-                                        <li><strong>Obsolescència d'API Web:</strong> Navegadors retirant APIs essencials (previngut pel 'Runtime Abstraction').</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </details>
 
-                        <details className="cms-code-block bg-black/5 dark:bg-[#111111] border-2 border-[var(--theme-accent-primary)] rounded-[1.5rem] overflow-hidden group shadow-[0_4px_30px_rgba(249,115,22,0.15)] transition-all">
-                            <summary className="cursor-pointer p-5 font-black text-[15px] uppercase flex items-center justify-between select-none hover:bg-black/5 dark:hover:bg-white/5 transition-colors touch-manipulation outline-none focus-visible:ring-4 focus-visible:ring-[var(--theme-accent-primary)]">
-                                <span className="flex items-center gap-3 text-indigo-600 dark:text-indigo-400">
-                                    <div className="w-8 h-8 rounded-full bg-indigo-500/10 flex items-center justify-center">
-                                        <History size={18} /> 
+                                {/* Simulator Section */}
+                                <div className="border-t border-[var(--theme-accent-primary)]/20">
+                                    <div className="p-6 sm:p-8 pb-4">
+                                        <h3 className="font-black text-xl text-[var(--theme-accent-primary)] uppercase flex items-center gap-2 mb-2 border-b border-[var(--theme-accent-primary)]/20 pb-3">
+                                            <Sparkles size={22} /> Visión V15: La Plaza Infinita
+                                        </h3>
+                                        <p className="text-xs font-bold text-[var(--theme-accent-primary)] uppercase tracking-wider opacity-80 mt-2">Simulador Interactiu - Topologia Kademlia + DHT</p>
                                     </div>
-                                    <span className="truncate">El Testament del Trellat (2056)</span>
-                                </span>
-                                <ChevronRight size={20} strokeWidth={3} className="group-open:rotate-90 transition-transform text-indigo-600 dark:text-indigo-400 shrink-0" />
-                            </summary>
-                            
-                            <div className="border-t border-[var(--theme-accent-primary)]/30 bg-gray-100 dark:bg-[#0e0e0e] p-6 sm:p-8 space-y-6 text-sm text-[var(--text-main)] italic">
-                                <p className="font-bold border-l-4 border-indigo-500 pl-4 py-1 text-gray-900 dark:text-white">"No hi haurà més codi. No hi haurà més pedaços. Només la mirada retrospectiva des de l'any 2056, tres dècades després de la sembra del Gen Universal."</p>
-                                
-                                <div className="space-y-4 pt-4 text-gray-700 dark:text-gray-300">
-                                    <p><strong className="text-gray-900 dark:text-white">1. L'Algoritme Fòssil:</strong> L'esquema trellat.schema.json va esdevenir metadades santes mentre React i els vells frameworks morien. Els CRDT van sobreviure com a manuscrits als dispositius mòbils rurals.</p>
-                                    <p><strong className="text-gray-900 dark:text-white">2. Cultura Descentralitzada:</strong> Centenars de pobles es van independitzar digitalment. Xarxes Kademlia en onades verdes van mantindre viu Sóc de Poble a cost 0. Els mòbils de les iaies són ara nodes fonamentals.</p>
-                                    <p><strong className="text-gray-900 dark:text-white">3. Resiliència Absoluta:</strong> Quan el món depenia de servidors centralitzats, els nostres masos seguien vius. Compressió al vol sense dependències va ser la salvació en les èpoques menys connectades.</p>
+
+                                    <div className="w-full min-h-[600px] sm:min-h-[700px] relative bg-[#0e0e0e] border-y border-[var(--theme-accent-primary)]/20">
+                                        {simulatorHtml ? (
+                                            <iframe 
+                                                srcDoc={simulatorHtml}
+                                                className="w-full h-full min-h-[600px] sm:min-h-[700px] border-none z-20 relative pointer-events-auto"
+                                                title="Simulador Arquitectura V15"
+                                                loading="lazy"
+                                            />
+                                        ) : (
+                                            <div className="w-full h-full min-h-[600px] sm:min-h-[700px] flex items-center justify-center font-mono text-sm text-[var(--theme-accent-primary)] border-none z-20 relative bg-black/50">
+                                                Carregant simulador interactiu...
+                                            </div>
+                                        )}
+                                    </div>
+                                    
+                                    {/* LEYENDA Y EXPLICACIÓN MULTILINGÜE */}
+                                    <div className="p-4 sm:p-6 bg-gray-100 dark:bg-black/40 text-sm transition-colors">
+                                        <h4 className="font-bold text-[var(--theme-accent-primary)] flex items-center gap-2 mb-3">
+                                            <Info size={16} /> 
+                                            {t('simulators.legend_title', 'Llegenda del Simulador / Simulator Legend')}
+                                        </h4>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-700 dark:text-gray-400">
+                                            <div className="space-y-4">
+                                                <div>
+                                                    <strong className="text-gray-900 dark:text-white block mb-1">{t('simulators.v14_gossip', 'Global Gossip (V14)')}</strong>
+                                                    <p className="text-xs">{t('simulators.v14_desc', 'L\'arquitectura V14 (Gossip) intentava connectar a cada usuari amb la resta de la comarca, provocant una saturació exponencial (Caos) que bloquejava telèfons antics i esgotava la memòria IndexedDB.')}</p>
+                                                </div>
+                                                <div>
+                                                    <strong className="text-gray-900 dark:text-white block mb-1">{t('simulators.v15_kademlia', 'Kademlia Fractal (V15)')}</strong>
+                                                    <p className="text-xs">{t('simulators.v15_desc', 'L\'arquitectura V15 (Kademlia Fractal) agrupa els usuaris en «placetes» de poble petites i utilitza uns pocs nodes «guaites» per connectar amb altres pobles, mantenint la pantalla totalment fluida.')}</p>
+                                                </div>
+                                            </div>
+                                            <div className="space-y-2 bg-gray-200/50 dark:bg-black/20 p-3 rounded-lg border border-gray-300 dark:border-white/5 transition-colors">
+                                                <div className="flex items-start gap-2">
+                                                    <div className="w-3 h-3 rounded-full bg-emerald-500 shrink-0 mt-0.5"></div>
+                                                    <span className="text-xs"><strong className="text-emerald-600 dark:text-emerald-400">{t('simulators.green_nodes', 'Punts Verds')}</strong>: {t('simulators.green_nodes_desc', 'Guaites (Nodos permanents, estables i invulnerables a iOS constraints)')}</span>
+                                                </div>
+                                                <div className="flex items-start gap-2">
+                                                    <div className="w-3 h-3 rounded-full bg-indigo-500 shrink-0 mt-0.5"></div>
+                                                    <span className="text-xs"><strong className="text-indigo-600 dark:text-indigo-400">{t('simulators.blue_nodes', 'Punts Blaus')}</strong>: {t('simulators.blue_nodes_desc', 'Usuaris estàndard interactuant només a la seua placeta')}</span>
+                                                </div>
+                                                <div className="flex items-start gap-2">
+                                                    <div className="w-3 h-[2px] bg-red-500 shrink-0 mt-1.5 opacity-50"></div>
+                                                    <span className="text-xs"><strong className="text-red-500 dark:text-red-400">{t('simulators.red_lines', 'Línies Roges')}</strong>: {t('simulators.red_lines_desc', 'Connexions de xafardeig innecessàries i redundants')}</span>
+                                                </div>
+                                                <div className="flex items-start gap-2">
+                                                    <div className="w-3 h-[2px] bg-orange-500 border-dashed border-t border-orange-500 shrink-0 mt-1.5"></div>
+                                                    <span className="text-xs"><strong className="text-orange-600 dark:text-orange-400">{t('simulators.orange_lines', 'Línies Taronges')}</strong>: {t('simulators.orange_lines_desc', 'Enrutament estructurat Kademlia eficient (pocs salts)')}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="mt-4 pt-4 border-t border-gray-300 dark:border-white/10 text-xs text-gray-600 dark:text-gray-500 transition-colors">
+                                            <p><strong>{t('simulators.main_thread_load', 'Main Thread Load')}:</strong> {t('simulators.main_thread_load_desc', 'Mesura el nivell de càrrega del navegador. Si marca "OVERLOAD", significa que Chrome/Safari s\'acabaria penjant.')}</p>
+                                        </div>
+                                    </div>
                                 </div>
-                                
-                                <p className="font-bold text-center mt-8 pt-8 border-t border-[var(--border-master)] text-xl text-[var(--theme-accent-primary)] tracking-widest uppercase">
-                                    SÓC DE POBLE ÉS ARA UN VERB.
-                                </p>
                             </div>
                         </details>
                     </div>
@@ -991,7 +1071,7 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                 <div className="sticky top-0 z-[var(--z-sticky,200)] w-full shadow-[0_4px_20px_rgba(0,0,0,0.1)] bg-[#4F46E5] text-white dark:bg-[#F97316] dark:text-[#111111] transition-all shrink-0 touch-manipulation border-b border-black/10 dark:border-white/10">
                     <div className="flex items-center justify-between min-h-[56px] px-2 sm:px-4 w-full max-w-7xl mx-auto">
                         
-                        {/* Esquerra: Tornar i Cercar */}
+                        {/* Esquerra: Tornar i Llibre */}
                         <div className="flex items-center justify-start gap-1 flex-1 min-w-0">
                             <button 
                                 onClick={() => navigate(-1)} 
@@ -1000,21 +1080,7 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                             >
                                 <ArrowLeft size={20} strokeWidth={2.5} />
                             </button>
-                            <button 
-                                className={`flex items-center justify-center gap-2 min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 dark:hover:bg-black/10 active:scale-95 transition-colors touch-manipulation font-bold uppercase text-sm ${isSearchOpen ? 'bg-white/20 dark:bg-black/20' : ''}`}
-                                aria-label="Cercar al document"
-                                onClick={() => {
-                                    if(isSearchOpen) { searchEngine.clear(); }
-                                    setIsSearchOpen(!isSearchOpen);
-                                }}
-                            >
-                                <Search size={20} strokeWidth={2.5} />
-                                <span className="hidden sm:inline">Cercar</span>
-                            </button>
-                        </div>
-
-                        {/* Centre: LLIBRE Més Espaiós */}
-                        <div className="flex items-center justify-center shrink-0 mx-2">
+                            
                             <button 
                                 className={`flex items-center justify-center gap-1.5 min-h-[44px] px-3 sm:px-4 rounded-xl hover:bg-white/20 dark:hover:bg-black/10 active:scale-95 transition-colors touch-manipulation font-bold uppercase text-sm ${isTocOpen ? 'bg-white/20 dark:bg-black/20 opacity-100 shadow-inner' : ''}`}
                                 aria-label="Obrir Índex i Pàgines"
@@ -1030,10 +1096,27 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                             </button>
                         </div>
 
-                        {/* Dreta: Traduir, Comentar, etc. */}
-                        <div className="flex items-center justify-end gap-0.5 sm:gap-1 flex-1 min-w-0">
+                        {/* Centre: Buit en aquesta configuració */}
+                        <div className="flex items-center justify-center shrink-0 mx-2">
+                            {/* Es pot utilitzar per posar un títol si s'escau */}
+                        </div>
+
+                        {/* Dreta: Cercar, Traduir, Comentar, etc. */}
+                        <div className="flex items-center justify-end gap-1 sm:gap-2 flex-1 min-w-0 overflow-x-auto no-scrollbar">
                             <button 
-                                className={`flex items-center justify-center gap-1.5 min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 dark:hover:bg-black/10 active:scale-95 transition-colors touch-manipulation font-bold uppercase text-sm ${translating ? "text-amber-300 dark:text-white animate-pulse" : ""}`}
+                                className={`flex items-center justify-center gap-2 min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 dark:hover:bg-black/10 active:scale-95 transition-colors touch-manipulation font-bold uppercase text-sm shrink-0 ${isSearchOpen ? 'bg-white/20 dark:bg-black/20' : ''}`}
+                                aria-label="Cercar al document"
+                                onClick={() => {
+                                    if(isSearchOpen) { searchEngine.clear(); }
+                                    setIsSearchOpen(!isSearchOpen);
+                                }}
+                            >
+                                <Search size={20} strokeWidth={2.5} />
+                                <span className="hidden xl:inline tracking-wider">Cercar</span>
+                            </button>
+
+                            <button 
+                                className={`flex items-center justify-center gap-1.5 min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 dark:hover:bg-black/10 active:scale-95 transition-colors touch-manipulation font-bold uppercase text-sm shrink-0 ${translating ? "text-amber-300 dark:text-white animate-pulse" : ""}`}
                                 aria-label="Traduir Pàgina"
                                 onClick={() => setIsTranslationOpen(true)}
                                 disabled={translating}
@@ -1043,20 +1126,20 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                                 ) : (
                                     <img src="https://upload.wikimedia.org/wikipedia/commons/d/d7/Google_Translate_logo.svg" alt="Google Translate" className="w-[20px] h-[20px] object-contain drop-shadow-sm brightness-110" />
                                 )}
-                                <span className="hidden lg:inline">Traduir</span>
+                                <span className="hidden xl:inline tracking-wider">Traduir</span>
                             </button>
 
                             <button 
-                                className="hidden sm:flex items-center justify-center gap-2 min-h-[44px] px-2 hover:bg-white/20 dark:hover:bg-black/10 rounded-xl active:scale-95 touch-manipulation font-bold uppercase text-sm" 
+                                className="hidden sm:flex items-center justify-center gap-2 min-h-[44px] px-2 sm:px-3 hover:bg-white/20 dark:hover:bg-black/10 rounded-xl active:scale-95 touch-manipulation font-bold uppercase text-sm shrink-0" 
                                 onClick={() => navigate('/chats/socdepoble')}
                             >
-                                <MessageCircle size={20} /><span className="hidden lg:inline">Comentar</span>
+                                <MessageCircle size={20} /><span className="hidden xl:inline tracking-wider">Comentar</span>
                             </button>
                             <button 
-                                className="hidden sm:flex items-center justify-center gap-2 min-h-[44px] px-2 hover:bg-white/20 dark:hover:bg-black/10 rounded-xl active:scale-95 touch-manipulation font-bold uppercase text-sm" 
+                                className="hidden sm:flex items-center justify-center gap-2 min-h-[44px] px-2 sm:px-3 hover:bg-white/20 dark:hover:bg-black/10 rounded-xl active:scale-95 touch-manipulation font-bold uppercase text-sm shrink-0" 
                                 onClick={() => { if(navigator.share) navigator.share({ title: 'Sóc de Poble', url: window.location.href }) }}
                             >
-                                <Share2 size={20} /><span className="hidden lg:inline">Compartir</span>
+                                <Share2 size={20} /><span className="hidden xl:inline tracking-wider">Compartir</span>
                             </button>
                         </div>
 

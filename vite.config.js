@@ -6,11 +6,24 @@ import { VitePWA } from "vite-plugin-pwa";
 import wasm from "vite-plugin-wasm";
 import topLevelAwait from "vite-plugin-top-level-await";
 
+function staticAssetsReload() {
+  return {
+    name: 'static-assets-reload',
+    handleHotUpdate({ file, server }) {
+      if (file.endsWith('.html') || file.endsWith('.md')) {
+        server.ws.send({ type: 'full-reload' });
+        return [];
+      }
+    }
+  }
+}
+
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
     wasm(),
     topLevelAwait(),
+    staticAssetsReload(),
     comlink(),
     react(),
     tailwindcss(),
@@ -88,6 +101,9 @@ export default defineConfig({
     format: "es",
   },
   assetsInclude: ['**/*.wasm'],
+  esbuild: {
+    drop: ['console', 'debugger'],
+  },
   build: {
     chunkSizeWarningLimit: 1000,
     rollupOptions: {

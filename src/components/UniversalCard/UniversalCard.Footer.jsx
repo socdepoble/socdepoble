@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Share2, MoreHorizontal, MessageCircle, Globe, Plus } from 'lucide-react';
+import { Share2, MoreHorizontal, MessageCircle, Globe, Plus, ArrowRight } from 'lucide-react';
 import RoundButton from '../ui/RoundButton';
 import { hapticService } from '../../services/hapticService';
 
@@ -11,6 +11,7 @@ const UniversalCardFooter = ({
     isMaster,
     navigate,
     handleConnectClick,
+    handleCardClick,
     itemCount,
     itemCountLabel,
     viewMode
@@ -18,8 +19,12 @@ const UniversalCardFooter = ({
     const { t } = useTranslation();
 
     let titleText = t('card.connect', "Connectar");
+    let ActionIcon = Plus;
     
-    if (cardVariant === 'mercat' || cardVariant === 'market') {
+    if (cardVariant === 'agent') {
+        titleText = t('card.view_profile', "VEURE PERFIL");
+        ActionIcon = ArrowRight;
+    } else if (cardVariant === 'mercat' || cardVariant === 'market') {
         titleText = t('card.connect', "Connectar");
     } else if (cardVariant === 'pobles') {
         titleText = t('card.connect', "Connectar");
@@ -58,9 +63,14 @@ const UniversalCardFooter = ({
         alert(t('card.translateAlert', "🌐 Motor de Traducció A Demanda (Vertex AI) prompte disponible."));
     };
     
-    const handleConnectClickWithHaptic = (e) => {
+    const handleMainActionClick = (e) => {
+        if (e) e.stopPropagation();
         hapticService.playAtomicFeedback('success'); 
-        if (handleConnectClick) handleConnectClick(e);
+        if (cardVariant === 'agent' && handleCardClick) {
+            handleCardClick(e);
+        } else if (handleConnectClick) {
+            handleConnectClick(e);
+        }
     };
 
     const isCalendar = cardVariant === 'calendar' || item?.type === 'calendar';
@@ -85,7 +95,7 @@ const UniversalCardFooter = ({
                         onClick={handleTranslateClick} 
                         aria-label={t('card.translate', "Traduir")}
                     >
-                        <Globe size={16} strokeWidth={2.5} />
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/d/d7/Google_Translate_logo.svg" alt="Google Translate" className="w-[16px] h-[16px] object-contain drop-shadow-sm brightness-110" />
                         {viewMode !== 'grid' && <div className="hidden md:block"><span>{t('card.translate', "TRADUIR")}</span></div>}
                     </button>
                 )}
@@ -120,12 +130,15 @@ const UniversalCardFooter = ({
                     </button>
                 )}
                 
-                <RoundButton 
-                    icon={Plus}
-                    onClick={handleConnectClickWithHaptic}
+                <button 
+                    className="flex items-center gap-1.5 px-3 py-1.5 bg-white/20 text-white hover:bg-white hover:text-[var(--theme-accent-primary)] border border-white/30 rounded-[28px] transition-colors active:scale-95 whitespace-nowrap shrink-0"
+                    onClick={handleMainActionClick}
                     title={titleText}
-                    colorClass="bg-white/20 text-white hover:bg-white hover:text-[var(--theme-accent-primary)] border border-white/30"
-                />
+                    aria-label={titleText}
+                >
+                    <span className="text-[11px] font-black uppercase tracking-widest hidden sm:block">{titleText}</span>
+                    <ActionIcon size={16} strokeWidth={2.5} className="sm:ml-0.5" />
+                </button>
             </div>
         </div>
     );

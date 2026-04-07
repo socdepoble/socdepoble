@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from "react";
-import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Plus } from "lucide-react";
 import NavigationRail from "./NavigationRail";
@@ -43,7 +43,11 @@ import Header from "./Header";
 const HubView = lazy(() => import("../pages/HubView"));
 const AccessibilitatUniversal = lazy(() => import("./AccessibilitatUniversal"));
 const AgentDirectory = lazy(() => import("../pages/AgentDirectory"));
+const IaiesMundialsDirectory = lazy(() => import("../pages/IaiesMundialsDirectory"));
+
 const ControlGeneral = lazy(() => import("../pages/ControlGeneral"));
+const VisionView = lazy(() => import("../pages/VisionView"));
+const ConnectarPage = lazy(() => import("../pages/ConnectarPage"));
 
 const ArchitecteView = lazy(() => import("./ArchitecteView"));
 const ResourceDetail = lazy(() => import("../pages/ResourceDetail"));
@@ -86,8 +90,11 @@ const AppLayout = () => {
     iaiaSidebarContext,
     isAccessibilitatOpen,
     setIsAccessibilitatOpen,
+    setGlobalDroppedFile,
+    preferredAgentId,
   } = useNavigation();
   const location = useLocation();
+  const navigate = useNavigate();
   const { openPostModal } = useModal();
   const [isGlobalDragging, setIsGlobalDragging] = React.useState(false);
   const globalDragCounter = React.useRef(0);
@@ -125,10 +132,15 @@ const AppLayout = () => {
       const files = Array.from(e.dataTransfer.files);
       if (files && files.length > 0) {
         const file = files[0];
-        openPostModal({ isPrivate: false, initialFile: file });
+        if (file.type.startsWith('image/')) {
+           setGlobalDroppedFile(file);
+           navigate(`/chats/${preferredAgentId || '11111111-1a1a-0000-0000-000000000000'}`);
+        } else {
+           openPostModal({ isPrivate: false, initialFile: file });
+        }
       }
     },
-    [openPostModal],
+    [openPostModal, navigate, setGlobalDroppedFile, preferredAgentId],
   );
 
   // [ANALYTICS BATEGAT] Inicialització i seguiment de rutes
@@ -185,6 +197,7 @@ const AppLayout = () => {
       mur: "PROMISCUOUS_FEED [VERTICAL]",
       mercat: "MERCH_SHEET [GRID_28px]",
       pobles: "COMMUNITY_MESH",
+      veins: "USER_DIRECTORY",
       perfil: "IDENTITY_TOTEM [V10.26]",
       entitat: "OFFICIAL_ENTITY_FRAME",
       mapa: "TACTICAL_RADAR_VIEW",
@@ -329,6 +342,7 @@ const AppLayout = () => {
                     </Route>
 
                     <Route path="/post/:id" element={<PostDetail />} />
+                    <Route path="/connectar" element={<ConnectarPage />} />
                     <Route path="/mur" element={<Feed />} />
                     <Route path="/mercat" element={<Marketplace />} />
                     <Route path="/mercat/:id" element={<MarketItemDetail />} />
@@ -341,14 +355,15 @@ const AppLayout = () => {
                         </ProtectedRoute>
                       }
                     />
-                    <Route
-                      path="/perfil/:id"
-                      element={<ProfileView />}
-                    />
-                    <Route
-                      path="/entitat/:id"
-                      element={<ProfileView />}
-                    />
+                    <Route path="/perfil/:id" element={<ProfileView />} />
+                    <Route path="/entitat/:id" element={<ProfileView />} />
+                    <Route path="/entitats/:id" element={<ProfileView />} />
+                    <Route path="/groups/:id" element={<ProfileView />} />
+                    <Route path="/grups/:id" element={<ProfileView />} />
+                    <Route path="/empreses/:id" element={<ProfileView />} />
+                    <Route path="/empresas/:id" element={<ProfileView />} />
+                    <Route path="/ajuntaments/:id" element={<ProfileView />} />
+                    <Route path="/avatars/:id" element={<ProfileView />} />
                     <Route path="/login" element={<Register />} />
                     <Route path="/registre" element={<Register />} />
                     <Route path="/register" element={<Register />} />
@@ -364,7 +379,10 @@ const AppLayout = () => {
                     <Route path="/genesis" element={<GenesisViewer />} />
                     <Route path="/directori" element={<DirectoriComunitat />} />
                     <Route path="/agents" element={<AgentDirectory />} />
+                    <Route path="/iaies-mundials" element={<IaiesMundialsDirectory />} />
+                    <Route path="/iaies-mundials/:id" element={<ProfileView />} />
                     <Route path="/hub" element={<HubView />} />
+                    <Route path="/visio" element={<VisionView />} />
                     <Route path="/tools/trellat" element={<Navigate to="/solatge" replace />} />
                     <Route path="/infoteca" element={<InfografiaGallery />} />
                     <Route path="/arxiu" element={<ArxiuOr />} />

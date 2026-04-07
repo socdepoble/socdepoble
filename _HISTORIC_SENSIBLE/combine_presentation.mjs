@@ -53,17 +53,17 @@ const ProjectPresentation = () => {
         {
             title: "SOBIRANIA DIGITAL",
             desc: "La dada com a arrel, no com a mercaderia. En el Mas Digital, tu eres el propietari de la teua informació. Apostem per connexions horitzontals peer-to-peer, eliminant intermediaris extractius i garantint que el bategat del teu poble romanga privat i sobirà.",
-            image: "/assets/infographies/art_sobirania_v1036.png"
+            image: "/assets/infografies/art_sobirania_v1036.png"
         },
         {
             title: "DADES AMB TRELLAT",
             desc: "Privacitat KM 0. Sols recollim allò que és essencial per a la convivència i el comerç local. Les teues dades no viatgen a servidors desconeguts, sinó que s'arrelen en el territori per generar utilitat real i protegir el futur rural.",
-            image: "/assets/infographies/art_trellat_v1036.png"
+            image: "/assets/infografies/art_trellat_v1036.png"
         },
         {
             title: "MEMÒRIA VIVA",
             desc: "Un bategat que uneix generacions a través del codi i la saviesa popular. Garanteix que la intel·ligència artificial no oblide d'on venim. Implementem protocols que dignifiquen el passat mentre construïm el futur digital.",
-            image: "/assets/infographies/art_memoria_v1036.png"
+            image: "/assets/infografies/art_memoria_v1036.png"
         }
     ];
 

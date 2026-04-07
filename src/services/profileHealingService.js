@@ -50,8 +50,10 @@ export const profileHealingService = {
       ...(profileData || {}),
       id: profileData?.id || session.user.id,
       full_name: effectiveName,
+      username: isOfficialCreator ? 'javillinares' : profileData?.username,
       role: isOfficialCreator ? USER_ROLES.SUPER_ADMIN : (profileData?.role || USER_ROLES.NEIGHBOR),
       avatar_url: isOfficialCreator ? '/Javi_Llinares-Foto_perfil-1.jpg' : (supabaseService.normalizeStorageUrl(profileData?.avatar_url) || null),
+      header_image_url: isOfficialCreator ? '/assets/javi_cover.jpg' : profileData?.header_image_url,
       is_master: isOfficialCreator,
       is_super_admin: isOfficialCreator
     };

@@ -25,9 +25,9 @@ export function useViewMode(storageKey, defaultMode = 'grid', externalMode = nul
         if (mode === 'list' || mode === 'single' || mode === 'masonry') return 1;
         
         // Matemàtica de sistema de disseny: 
-        // --card-min-width: 340px, --gap: 24px
+        // --card-min-width: 380px, --gap: 24px
         // Restem aprox 64px de padding combinat dels wrappers
-        const CARD_MIN_WIDTH = 340;
+        const CARD_MIN_WIDTH = 380;
         const GAP = 24;
         const availableWidth = Math.max(0, width - 64); 
         

@@ -120,7 +120,8 @@ export const marketService = {
         const mappedData = {
             ...payload,
             author_user_id: payload.author_id || payload.author_user_id || payload.user_id,
-            avatar_url: payload.author_avatar_url || payload.avatar_url
+            avatar_url: payload.author_avatar_url || payload.avatar_url,
+            author_entity_id: payload.author_entity_id || payload.entity_id
         };
 
         // Fallback crític per a la IAIA si no ve de sessió d'usuari
@@ -135,7 +136,6 @@ export const marketService = {
         delete mappedData.seller_name;
         delete mappedData.author_avatar_url;
         delete mappedData.entity_id;
-        delete mappedData.author_entity_id;
         delete mappedData.author_role;
 
         // Validació estructural amb Zod

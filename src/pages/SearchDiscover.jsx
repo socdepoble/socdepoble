@@ -8,6 +8,7 @@ import { MOCK_EVENTS } from '../data';
 import { hapticService } from '../services/hapticService';
 import SEO from '../components/SEO';
 import Avatar from '../components/Avatar';
+import SearchNavBar from '../components/patterns/SearchNavBar';
 import { logger } from '../utils/logger';
 import './SearchDiscover.css';
 
@@ -128,29 +129,13 @@ const SearchDiscover = () => {
                 description={query ? `Resultats de cerca per a ${query} a Sóc de Poble.Troba gent, entitats i pobles de la Comunitat Valenciana.` : 'Descobreix la gent, els pobles i les entitats de la teua comunitat.'}
                 keywords={query ? `${query}, cerca, pobles, comunitat valenciana` : 'pobles, comunitat valenciana, xarxa social, proximitat'}
             />
-            <div className="search-nav-bar glass-premium h-[56px] px-4 flex items-center gap-3 border-b border-[var(--theme-border)]">
-                <button className="back-circle w-10 h-10 rounded-full bg-theme-panel active:scale-95 hover:bg-black/5 dark:hover:bg-white/5 transition-all flex items-center justify-center shrink-0 shadow-sm" onClick={() => { hapticService.notifySuccess(); navigate(-1); }}>
-                    <ArrowLeft size={22} className="text-theme-text" />
-                </button>
-                <div className="search-input-wrapper flex-1 relative flex items-center h-10 bg-theme-panel rounded-full shadow-sm focus-within:shadow-md transition-all">
-                    <Search className="search-icon-fixed ml-4 text-primary" size={20} />
-                    <input
-                        id="global-search-input"
-                        name="global-search-input"
-                        ref={inputRef}
-                        type="text"
-                        placeholder="BUSCA PEL NOM, OFICI, POBLE..."
-                        value={query}
-                        onChange={(e) => setQuery(e.target.value)}
-                        className="main-search-input bg-transparent border-none outline-none w-full h-full pl-12 pr-10 text-lg font-black uppercase text-theme-text placeholder:text-theme-muted"
-                    />
-                    {query && (
-                        <button className="clear-search-btn absolute right-2 w-7 h-7 rounded-full bg-[var(--theme-border)] flex items-center justify-center hover:bg-theme-text/10 transition-all" onClick={clearSearch}>
-                            <X size={18} className="text-theme-text" />
-                        </button>
-                    )}
-                </div>
-            </div>
+            <SearchNavBar
+                query={query}
+                setQuery={setQuery}
+                placeholder="BUSCA PEL NOM, OFICI, POBLE..."
+                onClear={clearSearch}
+                customIcon={<Search className="text-[var(--theme-accent-primary)]" size={20} />}
+            />
 
             <div className="filter-chips-container w-full overflow-x-auto no-scrollbar border-b border-[var(--theme-border)] bg-theme-bg">
                 <div className="flex px-4 py-3 gap-2 min-w-full justify-start sm:justify-center w-max mx-auto">
@@ -467,7 +452,7 @@ const SearchDiscover = () => {
                             </div>
                             
                             {/* Agents Directory Button */}
-                            <div className="w-full max-w-[800px] mx-auto px-4 mt-8 animate-in fade-in slide-in-from-bottom-8 duration-700">
+                            <div className="w-full max-w-[800px] mx-auto px-4 mt-8 flex flex-col gap-4 animate-in fade-in slide-in-from-bottom-8 duration-700">
                                 <button 
                                     onClick={() => navigate('/agents')}
                                     className="w-full relative group overflow-hidden rounded-[32px] bg-theme-panel transition-all shadow-xl hover:shadow-[0_0_30px_rgba(249,115,22,0.3)] flex items-center p-6 sm:p-8"
@@ -475,16 +460,37 @@ const SearchDiscover = () => {
                                     <div className="absolute inset-0 translate-x-[-100%] group-hover:animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-[var(--theme-text)]/5 to-transparent skew-x-12"></div>
                                     <div className="absolute -inset-4 rounded-full bg-[var(--theme-accent-primary)] opacity-10 group-hover:opacity-20 blur-2xl transition-opacity duration-700"></div>
 
-                                    <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex-shrink-0 relative mr-4 sm:mr-6 shadow-inner group-hover:scale-105 transition-transform duration-500">
+                                    <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex-shrink-0 relative mr-4 sm:mr-6 shadow-inner group-hover:scale-105 transition-transform duration-500 overflow-hidden">
                                         <img src="/assets/avatars/comic/iaia_comic_matriarch.png" alt="IAIA" className="w-full h-full object-cover" />
                                     </div>
                                     <div className="flex-1 min-w-0 text-left">
-                                        <h3 className="font-black text-xl sm:text-3xl text-theme-text mb-1 drop-shadow-sm group-hover:text-[var(--theme-accent-primary)] transition-colors">
+                                        <h3 className="font-black text-[22px] leading-6 sm:text-3xl text-[var(--theme-text)] mb-1 drop-shadow-sm group-hover:text-[var(--theme-accent-primary)] transition-colors">
                                             IAIA i els seus agents intel·ligents
                                         </h3>
-                                        <p className="text-theme-muted font-bold text-xs sm:text-sm uppercase tracking-widest truncate max-w-md">L'Equip Sintètic del Mas</p>
+                                        <p className="text-theme-muted font-bold text-xs sm:text-sm uppercase tracking-widest truncate max-w-md mt-1">L'Equip Sintètic del Mas</p>
                                     </div>
-                                    <div className="hidden sm:flex w-12 h-12 rounded-full bg-theme-bg shadow-sm items-center justify-center shrink-0 ml-4 group-hover:bg-[var(--theme-accent-primary)] transition-all">
+                                    <div className="flex w-12 h-12 rounded-full bg-theme-bg shadow-sm items-center justify-center shrink-0 ml-4 group-hover:bg-[var(--theme-accent-primary)] transition-all">
+                                        <ChevronRight size={24} className="text-theme-muted group-hover:text-white transition-colors" />
+                                    </div>
+                                </button>
+
+                                <button 
+                                    onClick={() => navigate('/iaies-mundials')}
+                                    className="w-full relative group overflow-hidden rounded-[32px] bg-theme-panel transition-all shadow-xl hover:shadow-[0_0_30px_rgba(59,130,246,0.3)] flex items-center p-6 sm:p-8"
+                                >
+                                    <div className="absolute inset-0 translate-x-[-100%] group-hover:animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-[var(--theme-text)]/5 to-transparent skew-x-12"></div>
+                                    <div className="absolute -inset-4 rounded-full bg-blue-500 opacity-10 group-hover:opacity-20 blur-2xl transition-opacity duration-700"></div>
+
+                                    <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex-shrink-0 relative mr-4 sm:mr-6 shadow-inner bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white group-hover:scale-105 transition-transform duration-500 overflow-hidden">
+                                        <Sparkles size={32} />
+                                    </div>
+                                    <div className="flex-1 min-w-0 text-left">
+                                        <h3 className="font-black text-[22px] leading-6 sm:text-3xl text-[var(--theme-text)] mb-1 drop-shadow-sm group-hover:text-blue-500 transition-colors">
+                                            IAIES Mundials col·laborant amb el projecte
+                                        </h3>
+                                        <p className="text-theme-muted font-bold text-xs sm:text-sm uppercase tracking-widest truncate mt-1">L'Ecosistema Global</p>
+                                    </div>
+                                    <div className="flex w-12 h-12 rounded-full bg-theme-bg shadow-sm items-center justify-center shrink-0 ml-4 group-hover:bg-blue-500 transition-all">
                                         <ChevronRight size={24} className="text-theme-muted group-hover:text-white transition-colors" />
                                     </div>
                                 </button>

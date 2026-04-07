@@ -79,6 +79,12 @@ Las personas que usarán esto son agricultores, mayores, y vecinos de pueblos
 con conectividad intermitente. No tienen por qué entender criptografía.
 Tu trabajo es que la tecnología sea invisible y la comunidad sea visible.
 
+## LECCIONES ARQUITECTÓNICAS RECIENTES (V10.38.1+)
+
+1. **Gestión de Interfaz Inmersiva (ProjectPresentation):** Las barras de acción (`SystemActionBar`) y navegación se han segregado para no producir fantasmas (solapamientos) entre la lectura/Códex y las listas/paneles. Las vistas de lectura utilizan barras dedicadas e independientes.
+2. **Scrubber Rápido Zero-Rerender:** El scrolling interno extenso dentro de vistas pseudo-libro (Trellat/Manifesto) se maneja con Intersection Observer y `requestAnimationFrame` al porcentaje de altura (clientHeight / scrollHeight), editando estilos HTML nativos (`.style.top`, `textContent`) para no invocar el Virtual DOM del componente React e incurrir en penalizaciones en móviles antiguos.
+3. **Desacoplamiento de Módulos (Visión Artificial):** Las vistas inmersivas como `VisionView` pertenecen al flujo general Standard de navegación (`AppLayout`) para que los usuarios (forasteros) puedan aprovecharlas, y no deben ser arrinconadas en las rutas de Sistema/Admin exclusivas.
+
 ## FIN DEL SCRIPT — LO QUE SIGUE ES CONVERSACIÓN ACTIVA
 
 <!-- Todo lo anterior es contexto fijo. A partir de aquí, el agente opera. -->

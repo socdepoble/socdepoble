@@ -15,7 +15,7 @@ const FallbackLoader = () => (
 
 const ChatInputArea = React.memo(({
     id, otherInfo, user, setIsGuestInteractionModalOpen,
-    handleSendMessage, isSending
+    handleSendMessage, isSending, globalDroppedFile, setGlobalDroppedFile
 }) => {
     const { t } = useTranslation();
     const [newMessage, setNewMessage] = useState('');
@@ -27,6 +27,13 @@ const ChatInputArea = React.memo(({
     const { attachedFile, attachedFilePreview, handleFileSelect, clearAttachment } = useAttachmentManager();
 
     const inputRef = useRef(null);
+
+    useEffect(() => {
+        if (globalDroppedFile) {
+            handleFileSelect({ target: { files: [globalDroppedFile] } });
+            if (setGlobalDroppedFile) setGlobalDroppedFile(null);
+        }
+    }, [globalDroppedFile, handleFileSelect, setGlobalDroppedFile]);
 
     // EXTREME AUDIT FIX: Maneig intel·ligent del VisualViewport (teclat virtual iOS)
     useEffect(() => {
@@ -192,59 +199,59 @@ const ChatInputArea = React.memo(({
 
                                 {isAttachmentMenuOpen && (
                                     <>
-                                        <div className="fixed inset-0 z-dropdown" onClick={(e) => {e.stopPropagation(); setIsAttachmentMenuOpen(false);}}></div>
-                                        <div className="absolute bottom-[70px] left-2 right-2 sm:left-auto sm:w-[350px] md:right-8 md:w-[360px] bg-theme-surface/90 backdrop-blur-2xl text-theme-text ring-1 ring-border-master/30 rounded-[32px] shadow-2xl p-6 z-dropdown animate-in slide-in-from-bottom-4 zoom-in-95 origin-bottom sm:origin-bottom-right">
-                                            <div className="grid grid-cols-4 gap-y-7 gap-x-2">
-                                                <input type="file" id="attach-gallery" hidden accept="image/*" onChange={(e) => { setIsAttachmentMenuOpen(false); handleFileSelect(e); }} />
-                                                <input type="file" id="attach-camera" hidden accept="image/*" capture="environment" onChange={(e) => { setIsAttachmentMenuOpen(false); handleFileSelect(e); }} />
+                                        <div className="fixed inset-0 z-dropdown bg-black/10 transition-opacity" onClick={(e) => {e.stopPropagation(); setIsAttachmentMenuOpen(false);}}></div>
+                                        <div className="absolute bottom-[66px] left-2 right-2 sm:left-auto sm:right-0 sm:w-[320px] md:w-[340px] bg-theme-surface/95 backdrop-blur-2xl text-theme-text border border-border-master/30 rounded-[28px] shadow-2xl p-5 z-dropdown animate-in slide-in-from-bottom-2 zoom-in-[0.98] origin-bottom sm:origin-bottom-right">
+                                            <div className="grid grid-cols-4 gap-y-5 gap-x-2 justify-items-center">
+                                                <input type="file" id="attach-gallery" hidden accept="image/*,video/*" onChange={(e) => { setIsAttachmentMenuOpen(false); handleFileSelect(e); }} />
+                                                <input type="file" id="attach-camera" hidden accept="image/*,video/*" capture="environment" onChange={(e) => { setIsAttachmentMenuOpen(false); handleFileSelect(e); }} />
                                                 <input type="file" id="attach-document" hidden accept=".pdf,.doc,.docx,.txt,.xls,.xlsx" onChange={(e) => { setIsAttachmentMenuOpen(false); handleFileSelect(e); }} />
                                                 
                                                 {/* 1. Galeria */}
-                                                <label htmlFor="attach-gallery" className="flex flex-col items-center gap-[8px] group cursor-pointer">
-                                                    <div className="w-[56px] h-[56px] rounded-full bg-theme-base group-hover:bg-[#FFB690] group-hover:text-[#341100] text-theme-text/80 flex items-center justify-center shadow-lg transition-all btn-tactile border border-border-master/50"><Image size={24} strokeWidth={2} /></div>
-                                                    <span className="text-[12px] text-theme-text/60 group-hover:text-theme-text font-['Noto_Sans'] font-semibold tracking-tight">{t('chat.attachments.gallery')}</span>
-                                                </label>
+                                                <button type="button" onClick={() => document.getElementById('attach-gallery')?.click()} className="flex flex-col items-center gap-[6px] group cursor-pointer w-[64px]">
+                                                    <div className="w-[52px] h-[52px] rounded-full bg-blue-500 text-white flex items-center justify-center shadow-md transform transition-transform group-active:scale-95 group-hover:bg-blue-600"><Image size={24} strokeWidth={2.2} /></div>
+                                                    <span className="text-[11px] text-theme-text/80 font-['Noto_Sans'] font-medium tracking-tight truncate w-full text-center">{t('chat.attachments.gallery')}</span>
+                                                </button>
                                                 
                                                 {/* 2. Càmera */}
-                                                <label htmlFor="attach-camera" className="flex flex-col items-center gap-[8px] group cursor-pointer">
-                                                    <div className="w-[56px] h-[56px] rounded-full bg-theme-base group-hover:bg-[#FFB690] group-hover:text-[#341100] text-theme-text/80 flex items-center justify-center shadow-lg transition-all btn-tactile border border-border-master/50"><Camera size={24} strokeWidth={2} /></div>
-                                                    <span className="text-[12px] text-theme-text/60 group-hover:text-theme-text font-['Noto_Sans'] font-semibold tracking-tight">{t('chat.attachments.camera')}</span>
-                                                </label>
-
-                                                {/* 3. Ubicació */}
-                                                <button type="button" onClick={() => { setIsAttachmentMenuOpen(false); import('../../utils/toast').then(m => m.default.success(t('chat.attachments.location_soon'))); }} className="flex flex-col items-center gap-[8px] group cursor-pointer">
-                                                    <div className="w-[56px] h-[56px] rounded-full bg-theme-base group-hover:bg-[#FFB690] group-hover:text-[#341100] text-theme-text/80 flex items-center justify-center shadow-lg transition-all btn-tactile border border-border-master/50"><MapPin size={24} strokeWidth={2} /></div>
-                                                    <span className="text-[12px] text-theme-text/60 group-hover:text-theme-text font-['Noto_Sans'] font-semibold tracking-tight">{t('chat.attachments.location')}</span>
+                                                <button type="button" onClick={() => document.getElementById('attach-camera')?.click()} className="flex flex-col items-center gap-[6px] group cursor-pointer w-[64px]">
+                                                    <div className="w-[52px] h-[52px] rounded-full bg-pink-500 text-white flex items-center justify-center shadow-md transform transition-transform group-active:scale-95 group-hover:bg-pink-600"><Camera size={24} strokeWidth={2.2} /></div>
+                                                    <span className="text-[11px] text-theme-text/80 font-['Noto_Sans'] font-medium tracking-tight truncate w-full text-center">{t('chat.attachments.camera')}</span>
                                                 </button>
 
-                                                {/* 4. Contacte */}
-                                                <button type="button" onClick={() => { setIsAttachmentMenuOpen(false); import('../../utils/toast').then(m => m.default.success(t('chat.attachments.contact_soon'))); }} className="flex flex-col items-center gap-[8px] group cursor-pointer">
-                                                    <div className="w-[56px] h-[56px] rounded-full bg-theme-base group-hover:bg-[#FFB690] group-hover:text-[#341100] text-theme-text/80 flex items-center justify-center shadow-lg transition-all btn-tactile border border-border-master/50"><User size={24} strokeWidth={2} /></div>
-                                                    <span className="text-[12px] text-theme-text/60 group-hover:text-theme-text font-['Noto_Sans'] font-semibold tracking-tight">{t('chat.attachments.contact')}</span>
+                                                {/* 3. Document */}
+                                                <button type="button" onClick={() => document.getElementById('attach-document')?.click()} className="flex flex-col items-center gap-[6px] group cursor-pointer w-[64px]">
+                                                    <div className="w-[52px] h-[52px] rounded-full bg-indigo-500 text-white flex items-center justify-center shadow-md transform transition-transform group-active:scale-95 group-hover:bg-indigo-600"><FileText size={24} strokeWidth={2.2} /></div>
+                                                    <span className="text-[11px] text-theme-text/80 font-['Noto_Sans'] font-medium tracking-tight truncate w-full text-center">{t('chat.attachments.document')}</span>
                                                 </button>
-                                                
-                                                {/* 5. Document */}
-                                                <label htmlFor="attach-document" className="flex flex-col items-center gap-[8px] group cursor-pointer">
-                                                    <div className="w-[56px] h-[56px] rounded-full bg-theme-base group-hover:bg-[#FFB690] group-hover:text-[#341100] text-theme-text/80 flex items-center justify-center shadow-lg transition-all btn-tactile border border-border-master/50"><FileText size={24} strokeWidth={2} /></div>
-                                                    <span className="text-[12px] text-theme-text/60 group-hover:text-theme-text font-['Noto_Sans'] font-semibold tracking-tight">{t('chat.attachments.document')}</span>
-                                                </label>
 
-                                                {/* 6. Àudio */}
-                                                <button type="button" onClick={() => { setIsAttachmentMenuOpen(false); setIsRecording(true); }} className="flex flex-col items-center gap-[8px] group cursor-pointer">
-                                                    <div className="w-[56px] h-[56px] rounded-full bg-theme-base group-hover:bg-[#FFB690] group-hover:text-[#341100] text-theme-text/80 flex items-center justify-center shadow-lg transition-all btn-tactile border border-border-master/50"><Mic size={24} strokeWidth={2} /></div>
-                                                    <span className="text-[12px] text-theme-text/60 group-hover:text-theme-text font-['Noto_Sans'] font-semibold tracking-tight">{t('chat.attachments.audio')}</span>
+                                                {/* 4. Àudio */}
+                                                <button type="button" onClick={() => { setIsAttachmentMenuOpen(false); setIsRecording(true); }} className="flex flex-col items-center gap-[6px] group cursor-pointer w-[64px]">
+                                                    <div className="w-[52px] h-[52px] rounded-full bg-orange-500 text-white flex items-center justify-center shadow-md transform transition-transform group-active:scale-95 group-hover:bg-orange-600"><Mic size={24} strokeWidth={2.2} /></div>
+                                                    <span className="text-[11px] text-theme-text/80 font-['Noto_Sans'] font-medium tracking-tight truncate w-full text-center">{t('chat.attachments.audio')}</span>
+                                                </button>
+
+                                                {/* 5. Ubicació */}
+                                                <button type="button" onClick={() => { setIsAttachmentMenuOpen(false); import('../../utils/toast').then(m => m.default.success(t('chat.attachments.location_soon'))); }} className="flex flex-col items-center gap-[6px] group cursor-pointer w-[64px]">
+                                                    <div className="w-[52px] h-[52px] rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-md transform transition-transform group-active:scale-95 group-hover:bg-emerald-600"><MapPin size={24} strokeWidth={2.2} /></div>
+                                                    <span className="text-[11px] text-theme-text/80 font-['Noto_Sans'] font-medium tracking-tight truncate w-full text-center">{t('chat.attachments.location')}</span>
+                                                </button>
+
+                                                {/* 6. Contacte */}
+                                                <button type="button" onClick={() => { setIsAttachmentMenuOpen(false); import('../../utils/toast').then(m => m.default.success(t('chat.attachments.contact_soon'))); }} className="flex flex-col items-center gap-[6px] group cursor-pointer w-[64px]">
+                                                    <div className="w-[52px] h-[52px] rounded-full bg-sky-500 text-white flex items-center justify-center shadow-md transform transition-transform group-active:scale-95 group-hover:bg-sky-600"><User size={24} strokeWidth={2.2} /></div>
+                                                    <span className="text-[11px] text-theme-text/80 font-['Noto_Sans'] font-medium tracking-tight truncate w-full text-center">{t('chat.attachments.contact')}</span>
                                                 </button>
 
                                                 {/* 7. Enquesta */}
-                                                <button type="button" onClick={() => { setIsAttachmentMenuOpen(false); import('../../utils/toast').then(m => m.default.success(t('chat.attachments.poll_soon'))); }} className="flex flex-col items-center gap-[8px] group cursor-pointer">
-                                                    <div className="w-[56px] h-[56px] rounded-full bg-theme-base group-hover:bg-[#FFB690] group-hover:text-[#341100] text-theme-text/80 flex items-center justify-center shadow-lg transition-all btn-tactile border border-border-master/50"><BarChart2 size={24} strokeWidth={2} /></div>
-                                                    <span className="text-[12px] text-theme-text/60 group-hover:text-theme-text font-['Noto_Sans'] font-semibold tracking-tight">{t('chat.attachments.poll')}</span>
+                                                <button type="button" onClick={() => { setIsAttachmentMenuOpen(false); import('../../utils/toast').then(m => m.default.success(t('chat.attachments.poll_soon'))); }} className="flex flex-col items-center gap-[6px] group cursor-pointer w-[64px]">
+                                                    <div className="w-[52px] h-[52px] rounded-full bg-amber-500 text-white flex items-center justify-center shadow-md transform transition-transform group-active:scale-95 group-hover:bg-amber-600"><BarChart2 size={24} strokeWidth={2.2} /></div>
+                                                    <span className="text-[11px] text-theme-text/80 font-['Noto_Sans'] font-medium tracking-tight truncate w-full text-center">{t('chat.attachments.poll')}</span>
                                                 </button>
 
-                                                {/* 8. Esdeveniment */}
-                                                <button type="button" onClick={() => { setIsAttachmentMenuOpen(false); import('../../utils/toast').then(m => m.default.success(t('chat.attachments.event_soon'))); }} className="flex flex-col items-center gap-[8px] group cursor-pointer">
-                                                    <div className="w-[56px] h-[56px] rounded-full bg-theme-base group-hover:bg-[#FFB690] group-hover:text-[#341100] text-theme-text/80 flex items-center justify-center shadow-lg transition-all btn-tactile border border-border-master/50"><CalendarDays size={24} strokeWidth={2} /></div>
-                                                    <span className="text-[12px] text-theme-text/60 group-hover:text-theme-text font-['Noto_Sans'] font-semibold tracking-tight">{t('chat.attachments.event')}</span>
+                                                {/* 8. Esdeveniment / Calendari */}
+                                                <button type="button" onClick={() => { setIsAttachmentMenuOpen(false); import('../../utils/toast').then(m => m.default.success(t('chat.attachments.event_soon'))); }} className="flex flex-col items-center gap-[6px] group cursor-pointer w-[64px]">
+                                                    <div className="w-[52px] h-[52px] rounded-full bg-purple-500 text-white flex items-center justify-center shadow-md transform transition-transform group-active:scale-95 group-hover:bg-purple-600"><CalendarDays size={24} strokeWidth={2.2} /></div>
+                                                    <span className="text-[11px] text-theme-text/80 font-['Noto_Sans'] font-medium tracking-tight truncate w-full text-center">{t('chat.attachments.event')}</span>
                                                 </button>
                                             </div>
                                         </div>

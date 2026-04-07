@@ -31,21 +31,27 @@ self.addEventListener('activate', (e) => {
   );
 });
 
-// Cache-first + P2P fallback
+// Stale-while-revalidate + P2P fallback
 self.addEventListener('fetch', (e) => {
   if (e.request.method !== 'GET') return;
 
   e.respondWith(
-    caches.match(e.request).then(response => {
-      if (response) return response;
-      
-      return fetch(e.request).catch(async () => {
-        // Offline fallback
-        const offlinePage = await caches.match('/offline-poble.html');
-        return offlinePage || new Response("<!DOCTYPE html><html><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><title>Sóc de Poble (Offline)</title></head><body style='padding:2rem;font-family:sans-serif;'><h2>Sóc de Poble (Offline)</h2><p>Estàs sense connexió. Torna a intentar-ho panxa amunt.</p></body></html>", { 
-          status: 200,
-          headers: { 'Content-Type': 'text/html; charset=utf-8' }
+    caches.open(CACHE_TRELAT).then(cache => {
+      return cache.match(e.request).then(cachedResponse => {
+        const fetchPromise = fetch(e.request).then(networkResponse => {
+          cache.put(e.request, networkResponse.clone());
+          return networkResponse;
+        }).catch(async () => {
+          // Offline fallback
+          const offlinePage = await caches.match('/offline-poble.html');
+          return offlinePage || new Response("<!DOCTYPE html><html><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><title>Sóc de Poble (Offline)</title></head><body style='padding:2rem;font-family:sans-serif;'><h2>Sóc de Poble (Offline)</h2><p>Estàs sense connexió. Torna a intentar-ho panxa amunt.</p></body></html>", { 
+            status: 200,
+            headers: { 'Content-Type': 'text/html; charset=utf-8' }
+          });
         });
+        
+        // Devolvemos el caché si existe, pero el fetch sigue en segundo plano actualizando el caché
+        return cachedResponse || fetchPromise;
       });
     })
   );

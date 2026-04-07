@@ -185,7 +185,7 @@ const TownDetail = () => {
                             <h3>Memòria Universal (Wikipedia)</h3>
                         </div>
                         <div className="wiki-card-glass">
-                            <p className="wiki-extract">{wikiData.extract}</p>
+                            <h3 className="wiki-extract font-normal">{wikiData.extract}</h3>
                             <div className="wiki-footer">
                                 <a href={wikiData.page_url} target="_blank" rel="noopener noreferrer" className="wiki-link">
                                     Llegir més a la Wikipedia

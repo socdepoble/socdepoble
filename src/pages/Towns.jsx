@@ -331,6 +331,7 @@ const Towns = () => {
                             subtitle={enrichedTown.name}
                             avatarSrc={enrichedTown.image_url}
                             avatarName={enrichedTown.name}
+                            excerpt={enrichedTown.description || "Explora la saviesa i el batec d'aquest poble."}
                             className={`town-card animate-in w-full ${
                               isUserTown ? "ring-2 ring-[var(--theme-accent-primary)] shadow-[0_0_20px_rgba(249,115,22,0.3)]" : ""
                             }`}
@@ -340,27 +341,19 @@ const Towns = () => {
                             viewMode={viewMode}
                             onNavigate={() => navigate(`/pobles/${enrichedTown.uuid || enrichedTown.id}`)}
                           >
-                            <div
-                              className="town-description-mini text-sm italic opacity-80"
-                              style={{ padding: "10px 0" }}
-                              title={enrichedTown.description}
-                            >
-                              <span className="line-clamp-3">
-                                {enrichedTown.description ||
-                                  "Explora la saviesa i el batec d'aquest poble."}
-                              </span>
-                              {enrichedTown.wiki_url && (
-                                <a 
-                                  href={enrichedTown.wiki_url} 
-                                  target="_blank" 
-                                  rel="noopener noreferrer" 
-                                  className="not-italic block mt-2 text-xs font-bold text-[var(--theme-accent-primary)] hover:underline opacity-100 transition-opacity"
-                                  onClick={(e) => e.stopPropagation()}
-                                >
-                                  Llegir l'article sencer a Wikipedia ↗
-                                </a>
-                              )}
-                            </div>
+                            {enrichedTown.wiki_url && (
+                                <div className="mt-1">
+                                    <a 
+                                      href={enrichedTown.wiki_url} 
+                                      target="_blank" 
+                                      rel="noopener noreferrer" 
+                                      className="text-xs font-bold text-[var(--theme-accent-primary)] hover:underline transition-opacity"
+                                      onClick={(e) => e.stopPropagation()}
+                                    >
+                                      Llegir l'article sencer a Wikipedia ↗
+                                    </a>
+                                </div>
+                            )}
                           </UniversalCard>
                       )}
                     </TownWikipediaEnricher>

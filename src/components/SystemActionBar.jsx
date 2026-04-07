@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Globe, MessageCircle, Share2, BookOpen, FileText } from 'lucide-react';
+import { Globe, MessageCircle, Share2, BookOpen, FileText, ChevronLeft, Search } from 'lucide-react';
 import TranslationModal from './TranslationModal';
 import { toast } from 'react-hot-toast';
 
@@ -54,9 +54,45 @@ const SystemActionBar = () => {
 
     return (
         <>
-            <div className="flex items-center justify-center gap-3 sm:gap-6 w-full h-[56px] min-h-[56px] max-h-[56px] bg-[#4F46E5] text-white dark:bg-[#F97316] dark:text-[#111111] px-4 overflow-x-auto no-scrollbar transition-colors shrink-0">
+            <div className="relative flex items-center justify-between w-full h-[56px] min-h-[56px] max-h-[56px] bg-[#4F46E5] text-white dark:bg-[#F97316] dark:text-[#111111] transition-colors shrink-0 px-2 sm:px-4">
+                
+                {/* GRUP ESQUERRA: Retorn i LLIBRE (Fixed Priority) */}
+                <div className="flex items-center gap-0 sm:gap-2 h-full shrink-0">
+                    <button 
+                        className="flex items-center justify-center w-10 h-10 hover:bg-white/20 dark:hover:bg-black/10 rounded-full transition-colors active:scale-95 shrink-0"
+                        title="Enrere"
+                        onClick={() => navigate(-1)}
+                    >
+                        <ChevronLeft size={24} strokeWidth={3} />
+                    </button>
 
-                <div className="flex items-center justify-center gap-2 sm:gap-4 text-xs font-extrabold uppercase tracking-widest shrink-0">
+                    <button 
+                        className="flex items-center gap-1.5 px-2 py-2 hover:bg-white/20 dark:hover:bg-black/10 rounded transition-colors active:scale-95 whitespace-nowrap shrink-0"
+                        title="Llegir Llibre / Dades"
+                        onClick={bookStats.isBook ? handlePageCountClick : () => navigate('/llibre')}
+                    >
+                        <BookOpen size={16} strokeWidth={2.5} />
+                        <span className="hidden sm:inline text-xs font-extrabold uppercase tracking-widest">
+                            LLIBRE{bookStats.isBook ? `, ${bookStats.amazon}` : ''}
+                        </span>
+                        {/* En móvil muy pequeño mostramos solo el número si es un libro */}
+                        {bookStats.isBook && (
+                            <span className="sm:hidden text-xs font-extrabold uppercase tracking-widest">{bookStats.amazon}</span>
+                        )}
+                    </button>
+                </div>
+
+                {/* GRUP DRETA: Accions Secundàries */}
+                <div className="flex items-center justify-end gap-1 sm:gap-2 text-xs font-extrabold uppercase tracking-widest shrink-0 overflow-x-auto no-scrollbar">
+                    <button 
+                        className="flex items-center gap-1.5 px-2 py-2 hover:bg-white/20 dark:hover:bg-black/10 rounded transition-colors active:scale-95 whitespace-nowrap shrink-0"
+                        title="Cercar"
+                        onClick={() => navigate('/search')}
+                    >
+                        <Search size={16} strokeWidth={2.5} />
+                        <span className="hidden md:inline">CERCAR</span>
+                    </button>
+
                     <button 
                         className={`flex items-center gap-1.5 px-2 py-2 hover:bg-white/20 dark:hover:bg-black/10 rounded transition-colors active:scale-95 whitespace-nowrap shrink-0 ${translating ? "text-[#ff6d23] dark:text-white animate-pulse" : ""}`}
                         title="Traduir Pàgina"
@@ -64,7 +100,7 @@ const SystemActionBar = () => {
                         disabled={translating}
                     >
                         <Globe size={16} strokeWidth={2.5} className={translating ? "animate-spin" : ""} />
-                        <span className="hidden sm:inline">{translating ? "TRADUINT..." : "TRADUIR"}</span>
+                        <span className="hidden md:inline">{translating ? "TRADUINT..." : "TRADUIR"}</span>
                     </button>
 
                     <button 
@@ -73,7 +109,7 @@ const SystemActionBar = () => {
                         onClick={() => navigate('/chats/socdepoble')}
                     >
                         <MessageCircle size={16} strokeWidth={2.5} />
-                        <span className="hidden sm:inline">COMENTAR</span>
+                        <span className="hidden md:inline">COMENTAR</span>
                     </button>
                     
                     <button 
@@ -86,31 +122,8 @@ const SystemActionBar = () => {
                         }}
                     >
                         <Share2 size={16} strokeWidth={2.5} />
-                        <span className="hidden sm:inline">COMPARTIR</span>
+                        <span className="hidden md:inline">COMPARTIR</span>
                     </button>
-
-                    <button 
-                        className="flex items-center gap-1.5 px-2 py-2 hover:bg-white/20 dark:hover:bg-black/10 rounded transition-colors active:scale-95 whitespace-nowrap shrink-0"
-                        title="Llegir Llibre"
-                        onClick={() => navigate('/llibre')}
-                    >
-                        <BookOpen size={16} strokeWidth={2.5} />
-                        <span className="hidden sm:inline">E-BOOK</span>
-                    </button>
-
-                    {bookStats.isBook && (
-                        <button 
-                            className="flex items-center gap-1.5 px-2 py-2 bg-black/20 dark:bg-white/20 hover:bg-black/30 dark:hover:bg-white/30 rounded transition-colors active:scale-95 whitespace-nowrap shrink-0"
-                            title="Auditar Pàgines"
-                            onClick={handlePageCountClick}
-                        >
-                            <FileText size={16} strokeWidth={2.5} />
-                            <span className="hidden sm:inline">PÀGINES</span>
-                            <span className="bg-[#ff6d23] dark:bg-black text-white dark:text-[#ff6d23] px-1.5 py-0.5 rounded-full text-[10px] ml-1">
-                                {bookStats.amazon}
-                            </span>
-                        </button>
-                    )}
                 </div>
             </div>
 

@@ -28,6 +28,10 @@ Per a assegurar que el Mas bategue amb harmonia, s'han de seguir aquestes regles
 - **La Respiració Universal (Equivalència PDF vs Pantalla):** Tant en paper (margin de 10mm-20mm) com a la web (paddings de `p-6`, `p-8`, `gap-y` generosos), els elements (sobretot els de les Targetes o Cards) han de poder respirar. En el desenvolupament web, s'han d'estudiar sempre els píxels exactes per garantir aquesta distància sense apinyament. Cal mesurar perfectament espais buits (negatius) i plens. L'apretament constant d'elements contra els marges queda prohibit. L'ull necessita calma on aterrar.
 - **Mides de Logo i Marges d'Aire**: El logo a les capçaleres ha de mantenir una proporció racional (ex. menys de 30px d'alt) i sempre incloure caixes d'aire/respiració (marges equivalents a mínim 10mm o 3-4 rems lliures al seu voltant) per no eclipsar la funcionalitat ni amuntegar-se.
 - **Reflexió en la Col·locació**: No es tracta d'eixir del pas ni moure píxels al vol; tota decisió gràfica (com presentar la informació contextual d'un NFT, o el final d'un Document amb capçaleres en Blau i peu justificat) ha d'estar sostinguda per raons d'usabilitat netes, aconseguint que la vista es clave exactament on cal.
+- **Responsivitat i Ocultació Progressiva (Progressive Disclosure)**: Els menús llargs i barres de funcions apliquen una adaptació estricta basada en l'espai:
+  1. *Escriptori o espai suficient*: Es veu la pastilla o botó complet amb **[Icona] + [Text Explicatiu]**.
+  2. *Tauleta o finestra comprimida*: Desapareix el text, deixant visible únicament la **[Icona]** interactiva.
+  3. *Mòbil o col·lapse*: Les funcions desapareixen de la via principal i s'allotgen a dins d'un únic botó tipus **[Menú Hamburger / Entrepà]**. Mai s'apinyen i mai s'amunteguen.
 
 ## 5. El Protocol de la Boina (Header) 🏺🧢
 

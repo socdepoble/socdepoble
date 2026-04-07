@@ -108,7 +108,7 @@ class GeminiService {
   /**
    * Crida al model Gemini amb una personalitat específica i suport per a imatges/àudio.
    */
-  async ask(personaKey, query, imageData = null, audioData = null, signal = null, onProgress = null) {
+  async ask(personaKey, query, imageData = null, audioData = null, signal = null, onProgress = null, options = {}) {
     const persona = this.PERSONAS[personaKey];
     if (!persona) throw new Error(`Persona ${personaKey} no trobada.`);
 
@@ -151,6 +151,10 @@ class GeminiService {
         contents: [{ role: 'user', parts: parts }],
         system_instruction: { parts: [{ text: persona.systemPrompt + "\n\nDIRECTIVA MASTER OBLIGATÒRIA: Retalla la xerrameca. Si l'usuari et diu simplement 'Bon dia' o fa un comentari molt curt, respon de forma igualment breu, amb una sola frase natural. La longitud de la teua resposta ha de ser estrictament proporcional a la longitud i complexitat de l'usuari. Actua de forma conversacional i directa." }] }
       };
+
+      if (options.tools) {
+        geminiPayload.tools = options.tools;
+      }
 
       // Funcio auxiliar d'errors no-reintentables
       class NonRetryableError extends Error {
@@ -212,7 +216,11 @@ class GeminiService {
             }
             
             const data = await response.json();
-            return data.candidates?.[0]?.content?.parts?.[0]?.text || "No hi ha resposta.";
+            const part = data.candidates?.[0]?.content?.parts?.[0];
+            if (part?.functionCall) {
+              return { text: null, functionCall: part.functionCall };
+            }
+            return part?.text || "No hi ha resposta.";
         } else {
             // [V11.0 STREAMING O2 FIX] Bypassing Supabase functions.invoke per llegir el stream directament
             const edgeFnUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/gemini-proxy`;
@@ -247,6 +255,7 @@ class GeminiService {
             const decoder = new TextDecoder("utf-8");
             let accumulatedText = "";
             let partialChunk = "";
+            let accumulatedFunctionCall = null;
 
             while (true) {
                 const { value, done } = await reader.read();
@@ -266,7 +275,14 @@ class GeminiService {
 
                         try {
                             const parsed = JSON.parse(dataStr);
-                            const textChunk = parsed?.candidates?.[0]?.content?.parts?.[0]?.text;
+                            const part = parsed?.candidates?.[0]?.content?.parts?.[0];
+                            
+                            if (part?.functionCall) {
+                                // Per simplificar el functionCalling a través de Stream: agafem l'últim complet que arriba.
+                                accumulatedFunctionCall = part.functionCall;
+                            }
+                            
+                            const textChunk = part?.text;
                             if (textChunk) {
                                 accumulatedText += textChunk;
                                 if (onProgress) onProgress(accumulatedText);
@@ -276,6 +292,10 @@ class GeminiService {
                         }
                     }
                 }
+            }
+
+            if (accumulatedFunctionCall) {
+               return { text: null, functionCall: accumulatedFunctionCall };
             }
 
             if (!accumulatedText) throw new NonRetryableError("L'IAIA s'ha tallat en la meitat del bategat i no ha emès resposta.");

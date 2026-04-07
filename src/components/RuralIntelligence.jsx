@@ -43,13 +43,7 @@ const RuralIntelligence = ({ defaultMode = 'faena' }) => {
         { key: 'NANOBANANA', icon: <Palette size={20} />, label: "L'Artista", avatar: "Nano Banana", type: "SYSTEM" },
         { key: 'FLASH', icon: <Zap size={20} />, label: "Executor", avatar: "Flash", type: "SYSTEM" },
         { key: 'VIATJANT', icon: <Globe size={20} />, label: "Exterior", avatar: "El Viatjant", type: "PERSON" },
-        { key: 'TRADUCTOR', icon: <Languages size={20} />, label: "Traductor", avatar: "IAIA MarIA", type: "SYSTEM" },
-        { key: 'IAIA_MARIA', icon: <Heart size={20} />, label: "Remeis", avatar: "IAIA MarIA", type: "SYSTEM" },
-        { key: 'ORACLE', icon: <Sparkles size={20} />, label: "Oracle", avatar: "IAIA MarIA", type: "SYSTEM" },
-        { key: 'DICCIONARI', icon: <BookOpen size={20} />, label: "Diccionari", avatar: "IAIA MarIA", type: "SYSTEM" },
-        { key: 'REBOST', icon: <Store size={20} />, label: "El Rebost", avatar: "IAIA MarIA", type: "SYSTEM" },
-        { key: 'TRELLAT', icon: <Landmark size={20} />, label: "Jutjat", avatar: "IAIA MarIA", type: "SYSTEM" },
-        { key: 'ULL_IAIA', icon: <Camera size={20} />, label: "L'Ull", avatar: "IAIA MarIA", type: "SYSTEM" }
+        { key: 'IAIA', icon: <Heart size={20} />, label: "IAIA MarIA", avatar: "La Matriarca", type: "SYSTEM" }
     ];
 
     const handleImageSelect = (e) => {

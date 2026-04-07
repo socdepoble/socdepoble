@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Avatar from '../Avatar';
-import { Zap, MapPin, MoreHorizontal, Sparkles } from 'lucide-react';
+import { Zap, MapPin, MoreHorizontal, Sparkles, BadgeCheck, Info } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 const UniversalCardHeader = ({ 
@@ -19,27 +19,8 @@ const UniversalCardHeader = ({
     const { t } = useTranslation();
 
     const isEventOrAgenda = cardVariant === 'event' || item?.type === 'agenda';
-
-    const getGentDePage = (townName) => {
-        if (!townName) return "Gent de Poble";
-        let cleanTown = townName.replace("Poble Principal:", "").trim();
-        // Capitalize the first letter if it isn't already, so "ontinyent" becomes "Ontinyent"
-        if (cleanTown) {
-            cleanTown = cleanTown.charAt(0).toUpperCase() + cleanTown.slice(1);
-        }
-        
-        if (cleanTown.includes("La Torre")) return "Gent de La Torre";
-        
-        // Catalan/Valencian apostrophe rules
-        const startsWithVowelOrH = /^[aeiouhàèéíïòóúü]/i.test(cleanTown);
-        if (startsWithVowelOrH) {
-            // Check for semi-consonant 'i' or 'u' (e.g., Iàtova is sometimes de Iàtova, but typically d'Iàtova is accepted. 
-            // We will use standard d' for simplicity and coverage)
-            return `Gent d'${cleanTown}`;
-        }
-        
-        return `Gent de ${cleanTown}`;
-    };
+    const isPinned = item?.is_pinned || item?.pinned || item?.metadata?.is_pinned;
+    const hasNotice = isEventOrAgenda || isPinned;
 
     const handleAuthorClick = (e) => {
         e.stopPropagation();
@@ -81,7 +62,7 @@ const UniversalCardHeader = ({
             tabIndex={0}
             aria-label={`Obrir perfil de ${displayAuthor}`}
         >
-            <div className="flex items-center gap-3 overflow-hidden min-w-0">
+            <div className="flex items-center gap-3 overflow-hidden min-w-0 pr-[72px]">
                 <div 
                     className="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden bg-theme-panel cursor-pointer active:scale-95 transition-all duration-300 ease-out flex items-center justify-center"
                     onClick={(e) => {
@@ -100,57 +81,48 @@ const UniversalCardHeader = ({
                 </div>
                 
                 <div className="flex flex-col min-w-0">
-                    <div className="text-[#111111] dark:text-white text-[18px] font-black tracking-wide leading-tight flex items-center gap-1.5 cursor-pointer active:opacity-70 transition-opacity">
-                        <div className="truncate lowercase first-letter:uppercase"><span>{cardVariant === 'pobles' ? getGentDePage(displayTown) : displayAuthor}</span></div>
+                    <div className="text-[#111111] dark:text-white text-[18px] font-black tracking-wide leading-tight flex items-center gap-1.5 min-w-0 cursor-pointer active:opacity-70 transition-opacity">
+                        <div className={`truncate ${cardVariant === 'pobles' ? 'lowercase first-letter:uppercase' : ''}`}><span>{cardVariant === 'pobles' ? displayTown : displayAuthor}</span></div>
                         {item?.is_iaia_inspired && (
                             <Sparkles size={14} className="text-[#111111] dark:text-[#F97316] shrink-0" fill="currentColor" />
                         )}
                         {isOfficial && (
-                            <Zap size={14} className="text-[#111111] dark:text-[#38BDF8] drop-shadow-[0_0_4px_rgba(255,255,255,0.2)] dark:drop-shadow-[0_0_4px_#38BDF8] shrink-0" fill="currentColor" />
+                            <BadgeCheck size={16} className="text-[#111111] dark:text-[#38BDF8] drop-shadow-[0_0_4px_rgba(255,255,255,0.2)] dark:drop-shadow-[0_0_4px_#38BDF8] shrink-0" fill="currentColor" />
                         )}
                     </div>
                     
                     <div className="flex items-center gap-2 mt-0.5 min-w-0">
-                        {cardVariant !== 'pobles' && (
-                            <div className="text-[14px] text-black/80 dark:text-white/80 font-bold">
-                                <span>{displayTime} - {displayDate}</span>
+                        {((cardVariant === 'agent' ? item?.town_name : displayTown) && (cardVariant === 'agent' ? item?.town_name : displayTown) !== displayAuthor && cardVariant !== 'pobles') && (
+                            <div className="flex items-center gap-1 text-[14px] text-black/80 dark:text-white/80 min-w-0 font-bold" title={((cardVariant === 'agent' ? item?.town_name : displayTown) || '').replace("Poble Principal:", "").trim()}>
+                                <MapPin size={12} className="shrink-0" />
+                                <div className="truncate"><span>{((cardVariant === 'agent' ? item?.town_name : displayTown) || '').replace("Poble Principal:", "").trim()}</span></div>
                             </div>
                         )}
-                        {(displayTown && displayTown !== displayAuthor && cardVariant !== 'pobles') && (
-                            <>
-                                <div className="text-black/80 dark:text-white/80 shrink-0"><span>•</span></div>
-                                <div className="flex items-center gap-1 text-[14px] text-black/80 dark:text-white/80 min-w-0 font-bold" title={displayTown.replace("Poble Principal:", "").trim()}>
-                                    <MapPin size={12} className="shrink-0" />
-                                    <div className="truncate"><span>{displayTown.replace("Poble Principal:", "").trim()}</span></div>
-                                </div>
-                            </>
-                        )}
-                        {cardVariant === 'pobles' && (
-                            <div className="flex items-center gap-1 text-[14px] text-black/80 dark:text-white/80 min-w-0 font-bold" title={`De part de: ${displayAuthor}`}>
-                                <MapPin size={12} className="shrink-0" />
-                                <div className="truncate lowercase first-letter:uppercase"><span>De part de: {displayAuthor}</span></div>
+                        {cardVariant === 'pobles' && displayAuthor && (
+                            <div className="flex items-center gap-1 text-[14px] text-black/80 dark:text-white/80 min-w-0 font-bold" title={displayAuthor}>
+                                <div className="truncate lowercase first-letter:uppercase"><span>{displayAuthor}</span></div>
                             </div>
                         )}
                     </div>
                 </div>
             </div>
 
-            <div className="flex items-center gap-3 shrink-0 ml-2">
-                {isEventOrAgenda && (
-                    <div className="bg-theme-panel px-2.5 py-1 rounded-[8px] shadow-[0_0_10px_rgba(249,115,22,0.15)] flex flex-col items-center justify-center">
-                         <div className="text-[11px] font-black text-[#F97316] uppercase tracking-wider">
-                             <span>{t('card.agenda_tag') || 'Agenda'}</span>
-                         </div>
+            <div className={`absolute right-4 top-2 bottom-1.5 flex flex-col ${hasNotice ? 'justify-between' : 'justify-center'} items-end shrink-0 pointer-events-none`}>
+                {hasNotice && (
+                    <div className="pointer-events-auto flex items-center justify-end gap-1 w-full text-[11px] font-black text-[#F97316] uppercase tracking-wider leading-none mt-0.5">
+                        {isPinned ? (
+                            <Zap size={11} fill="currentColor" />
+                        ) : isEventOrAgenda ? (
+                            <Info size={11} fill="currentColor" />
+                        ) : null}
+                        <span>{isPinned ? 'DESTACAT' : (t('card.agenda_tag') || 'AGENDA')}</span>
                     </div>
                 )}
                 
-                <button 
-                    onClick={(e) => e.stopPropagation()}
-                    className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-black/10 dark:hover:bg-white/10 transition-all active:scale-95 duration-300 ease-out shrink-0"
-                    aria-label="Més opcions"
-                >
-                    <MoreHorizontal size={20} className="text-[#111111] dark:text-white/80" />
-                </button>
+                <div className={`flex flex-col items-end text-right font-bold pointer-events-auto ${hasNotice ? 'mt-auto justify-end' : ''}`}>
+                    <div className="text-[13px] text-black dark:text-white leading-none mb-0.5"><span>{displayTime}</span></div>
+                    <div className="text-[11px] text-black/70 dark:text-white/70 leading-none"><span>{displayDate}</span></div>
+                </div>
             </div>
         </header>
     );

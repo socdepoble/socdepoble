@@ -182,17 +182,13 @@ const UniversalCard = ({
 
     const handleConnectClick = useCallback(async (e) => {
         e.stopPropagation();
-        const postId = item?.uuid || item?.id;
-        if (!postId) {
-            logger.error("[UniversalCard] No es pot connectar: La targeta no té un ID vàlid.");
-            return;
+        const id = item?.uuid || item?.id;
+        if (id) {
+            navigate(`/connectar?item_id=${id}&variant=${cardVariant}`);
+        } else {
+            handleCardClick(e);
         }
-
-        openConnectionModal({ 
-            postId, 
-            currentTags: item?.tags || [] 
-        });
-    }, [item?.uuid, item?.id, item?.tags, openConnectionModal]);
+    }, [item, cardVariant, navigate, handleCardClick]);
 
     const cardClasses = useMemo(() => {
         let activeVariant = 'post';
@@ -275,6 +271,7 @@ const UniversalCard = ({
                                 isMaster={isMaster}
                                 navigate={navigate}
                                 handleConnectClick={handleConnectClick}
+                                handleCardClick={handleCardClick}
                                 viewMode={viewMode}
                             />
                         </Suspense>
@@ -310,6 +307,7 @@ const UniversalCard = ({
                             isOfficial={isOfficial}
                             children={children}
                             navigate={navigate}
+                            handleCardClick={handleCardClick}
                             cardVariant={cardVariant}
                             displayPrice={displayPrice}
                         />
@@ -323,6 +321,7 @@ const UniversalCard = ({
                             isMaster={isMaster}
                             navigate={navigate}
                             handleConnectClick={handleConnectClick}
+                            handleCardClick={handleCardClick}
                             viewMode={viewMode}
                         />
                     </Suspense>

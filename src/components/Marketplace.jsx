@@ -414,11 +414,11 @@ const Market = ({ searchTerm = '' }) => {
                                                 <UniversalCard
                                                     item={item}
                                                     avatarName={headerTitle}
+                                                    avatarSrc={item.avatar_url || item.logo_url}
                                                     title={item.title}
                                                     excerpt={item.description}
                                                     image={imageSources}
                                                     onHeaderClick={(e) => { e.stopPropagation(); handleHeaderClick(item); }}
-                                                    onNavigate={() => setSelectedItemForDetail(item)}
                                                     mode="mur"
                                                     viewMode={viewMode}
                                                     variant="mercat"
@@ -463,14 +463,6 @@ const Market = ({ searchTerm = '' }) => {
                     </div>
                 )
             }
-
-            {selectedItemForDetail && (
-                <ItemDetailModal
-                    item={selectedItemForDetail}
-                    onClose={() => setSelectedItemForDetail(null)}
-                    onAstroPayment={handleAstroPayment}
-                />
-            )}
             </div>
         </div>
     );

@@ -30,7 +30,6 @@ const LayoutBoundary = () => {
         location.pathname.startsWith('/gestio/categories') ||
         location.pathname.startsWith('/gestio/xats') ||
         location.pathname.startsWith('/utilitats') ||
-        location.pathname.startsWith('/visio') ||
         location.pathname.startsWith('/tools/trellat') ||
         location.pathname.startsWith('/iaia-sandbox');
 

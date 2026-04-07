@@ -53,7 +53,8 @@ export const MarketItemSchema = z.object({
     ai_percentage: z.number().min(0).max(100).default(0).optional(),
     human_percentage: z.number().min(0).max(100).default(100).optional(),
     time_saved_minutes: z.number().min(0).default(0).optional(),
-    is_iaia_inspired: z.boolean().default(false).optional()
+    is_iaia_inspired: z.boolean().default(false).optional(),
+    commerce_metadata: z.record(z.any()).nullable().optional()
 });
 
 export const MessageSchema = z.object({

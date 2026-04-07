@@ -1214,10 +1214,10 @@ export const MOCK_MARKET_ITEMS = [
     description:
       "Primera premsada en fred de les olives de secà de la Torre. Garrafa de 5 litres.",
     price: "45.00€",
-    seller: "Sabors del Comtat",
+    seller: "Cooperativa de la Torre",
     avatar_url: "/assets/master/logo_socdepoble_green_square.png",
     author_role: "business",
-    author_id: "sabors-comtat-1",
+    author_id: "cooperativa-torre-1",
     official: true,
     images: [
       "/assets/brain/generations/oli_nano_v2.png",
@@ -1230,9 +1230,9 @@ export const MOCK_MARKET_ITEMS = [
   {
     id: 9991, // Maroon ID
     town_id: 1,
-    title: "Camiseta Sóc de Poble - Edició Granate",
+    title: "Camiseta Sóc de Poble - Edició Gris",
     description:
-      "L'edició definitiva amb el Logotip Complet (Mapa del Tresor). Cotó Roly Granate 57 de màxima qualitat. #MapaDelTresor #SócDePoble",
+      "L'edició definitiva amb el Logotip Complet (Mapa del Tresor). Cotó Roly Gris de màxima qualitat. #MapaDelTresor #SócDePoble",
     price: "15.00€",
     seller: "Sóc de Poble",
     avatar_url: "/assets/master/logo_socdepoble_green_square.png",

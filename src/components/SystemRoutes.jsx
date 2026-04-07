@@ -11,7 +11,6 @@ const MenuManagementView = lazy(() => import('../pages/MenuManagementView'));
 const CategoryManager = lazy(() => import('./CategoryManager'));
 const ChatManager = lazy(() => import('../pages/ChatManager'));
 const Utilitats = lazy(() => import('../pages/Utilitats'));
-const VisionView = lazy(() => import('../pages/VisionView'));
 const IAIASandbox = lazy(() => import('../pages/IAIASandbox'));
 const ProtectedSystemRoute = ({ children }) => {
   const { user, loading } = useAuth();
@@ -33,7 +32,6 @@ const SystemRoutes = () => {
                     <Route path="/gestio/categories" element={<ProtectedSystemRoute><CategoryManager /></ProtectedSystemRoute>} />
                     <Route path="/gestio/xats/*" element={<ChatManager />} />
                     <Route path="/utilitats" element={<ProtectedSystemRoute><Utilitats /></ProtectedSystemRoute>} />
-                    <Route path="/visio" element={<VisionView />} />
                     <Route path="/iaia-sandbox" element={<ProtectedSystemRoute><IAIASandbox /></ProtectedSystemRoute>} />
                 </Routes>
             </Suspense>

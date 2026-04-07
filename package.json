@@ -24,7 +24,8 @@
     "sync:locales": "node scripts/sync_translations.js",
     "build:codex": "node scripts/build_codex.js",
     "pull:codex": "node scripts/pull_codex.js",
-    "push:codex": "node scripts/push_codex.js"
+    "push:codex": "node scripts/push_codex.js",
+    "asiatic-audit": "node scripts/asiatic_auditor.mjs"
   },
   "dependencies": {
     "@capacitor-community/bluetooth-le": "^8.1.3",

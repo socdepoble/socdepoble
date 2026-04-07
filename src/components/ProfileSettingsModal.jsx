@@ -71,7 +71,8 @@ const ProfileSettingsModal = ({ isOpen, onClose, profile, onProfileUpdate }) => 
                 town_uuid: profile.town_uuid || null,
                 town_name: profile.town_name || null,
                 secondary_towns: profile.secondary_towns || [],
-                cover_position_y: profile.cover_position_y || 50
+                cover_position_y: profile.cover_position_y || 50,
+                iaia_settings: profile.iaia_settings || {}
             });
             setAvatarPreview(profile.avatar_url || '');
             setCoverPreview(profile.cover_url || '');
@@ -134,7 +135,8 @@ const ProfileSettingsModal = ({ isOpen, onClose, profile, onProfileUpdate }) => 
                 town_uuid: localProfile.town_uuid,
                 town_name: localProfile.town_name,
                 secondary_towns: localProfile.secondary_towns || [],
-                cover_position_y: coverPositionY // Add cover position to updates
+                cover_position_y: coverPositionY, // Add cover position to updates
+                iaia_settings: localProfile.iaia_settings
             };
 
             if (avatarFile) {
@@ -382,6 +384,30 @@ const ProfileSettingsModal = ({ isOpen, onClose, profile, onProfileUpdate }) => 
                                         Vincular nou Poble
                                     </button>
                                 )}
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Privacy Section */}
+                    <div className="space-y-4 pt-6 border-t border-[var(--border-master)]">
+                        <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
+                            <div className="flex justify-between items-center mb-2">
+                                <div>
+                                    <h4 className="text-sm font-bold uppercase tracking-wider text-[var(--theme-accent-primary)] mb-1">Visibilitat del Perfil</h4>
+                                    <p className="text-xs text-gray-400">Si està ocult, no apareixeràs al Directori de Veïns, però podràs seguir publicant i escrivint. Els administradors sempre et podran vore.</p>
+                                </div>
+                                <label className="relative inline-flex items-center cursor-pointer flex-shrink-0">
+                                    <input 
+                                        type="checkbox" 
+                                        className="sr-only peer" 
+                                        checked={localProfile.iaia_settings?.is_public !== false}
+                                        onChange={(e) => setLocalProfile(prev => ({
+                                            ...prev, 
+                                            iaia_settings: { ...(prev.iaia_settings || {}), is_public: e.target.checked }
+                                        }))}
+                                    />
+                                    <div className="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[var(--theme-accent-primary)]"></div>
+                                </label>
                             </div>
                         </div>
                     </div>

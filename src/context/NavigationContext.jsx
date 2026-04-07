@@ -16,6 +16,9 @@ export const NavigationProvider = ({ children }) => {
         return window.innerWidth >= 768;
     });
 
+    // Estat per a guardar arxius arrossegats globalment a Sóc de Poble
+    const [globalDroppedFile, setGlobalDroppedFile] = useState(null);
+
     useEffect(() => {
         let rafId = null;
         const handleResize = () => {
@@ -79,12 +82,14 @@ export const NavigationProvider = ({ children }) => {
         iaiaSidebarOpen, iaiaSidebarContext, openIAIASidebar, closeIAIASidebar,
         isProfileMenuOpen, closeProfileMenu, isAccessibilitatOpen, setIsAccessibilitatOpen,
         selectedTown, setSelectedTown, chatSettings, setChatSettings,
-        forensicMode, setForensicMode
+        forensicMode, setForensicMode,
+        globalDroppedFile, setGlobalDroppedFile
     }), [
         landingPage, preferredAgentId, enabledAgentIds, iaiaLoreEnabled,
         isDrawerOpen, iaiaSidebarOpen, iaiaSidebarContext, isProfileMenuOpen,
         isAccessibilitatOpen, selectedTown, chatSettings, forensicMode,
-        closeDrawer, closeIAIASidebar, closeProfileMenu, openIAIASidebar, toggleDrawer
+        closeDrawer, closeIAIASidebar, closeProfileMenu, openIAIASidebar, toggleDrawer,
+        globalDroppedFile
     ]);
 
     return (

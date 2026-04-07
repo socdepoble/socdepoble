@@ -44,6 +44,25 @@ export class IndexedDBService {
     return new Promise((resolve, reject) => {
       const transaction = this.db.transaction([STORE_NAME], 'readwrite');
       const store = transaction.objectStore(STORE_NAME);
+      
+      // Control de tamaño (Max 2000 operaciones para proteger cuota webkit)
+      const countReq = store.count();
+      countReq.onsuccess = () => {
+        if (countReq.result >= 2000) {
+          // Si pasamos el limite, borramos los más antiguos primero (los de menor timestamp)
+          const cursorReq = store.openCursor();
+          let deleted = 0;
+          cursorReq.onsuccess = (e) => {
+            const cursor = e.target.result;
+            if (cursor && deleted < 500) { // Liberamos un lote de 500
+              cursor.delete();
+              deleted++;
+              cursor.continue();
+            }
+          };
+        }
+      };
+
       const request = store.add({ ...operation, id: crypto.randomUUID() || Date.now().toString(), timestamp: Date.now() });
 
       request.onsuccess = () => resolve(request.result);

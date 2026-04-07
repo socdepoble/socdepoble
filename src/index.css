@@ -68,7 +68,7 @@
     --bg-panel: #141417;
     --bg-sidebar: #0e0e10;
     --text-main: #f3f4f6; /* Tailwind gray-100 */
-    --text-muted: #9ca3af; /* Tailwind gray-400 */
+    --text-muted: #a1a1aa; /* Tailwind zinc-400 (WCAG AA+) */
     --border-master: rgba(255, 255, 255, 0.08);
 
     /* Tech-Huerta GEM Modern Palette (4 Colors) */
@@ -119,7 +119,7 @@
     --bg-panel: #ffffff;
     --bg-sidebar: #FAFAFA;
     --text-main: #1f2937; /* Tailwind gray-800 */
-    --text-muted: #6b7280; /* Tailwind gray-500 */
+    --text-muted: #52525b; /* Tailwind zinc-600 (WCAG AA+) */
     --border-master: rgba(0, 0, 0, 0.08);
 
     /* Tech-Huerta GEM Modern Palette (4 Colors) */

@@ -71,6 +71,9 @@ const Avatar = ({ src, role, name, size = 44, className = "" }) => {
     const [isPreloading, setIsPreloading] = React.useState(!!normalizedSrc);
 
     React.useEffect(() => {
+        setHasError(false);
+        setIsPreloading(!!normalizedSrc);
+        
         if (!normalizedSrc) {
             setIsPreloading(false);
             return;

@@ -739,9 +739,134 @@ class IAIAService {
                 // Processem la resposta real de fons sense bloquejar l'UI
                 (async () => {
                     try {
-                        // [MODIFICACIÓ WALKIE-TALKIE] Transmetem les dades d'àudio si existeixen a l'API
-                        const aiResponse = await geminiService.ask(finalPersonaKey, userQuery, null, options.audioData);
-                        const rawResponse = aiResponse.text;
+                        const publishTool = {
+                            function_declarations: [
+                                {
+                                    name: "publicar_contingut",
+                                    description: "Publica un determinat text, imatge o producte. Fes-ho només quan l'usuari expressi **clarament** la intenció de publicar, anunciar o vendre alguna cosa al Poble o a un Grup. No ho faces per comentaris normals.",
+                                    parameters: {
+                                        type: "OBJECT",
+                                        properties: {
+                                            type: {
+                                                type: "STRING",
+                                                description: "El tipus de publicació: 'post' (un missatge general al mur o a un grup), 'market' (un producte per al mercat / venda / donació), o 'event_announcement' (un avís d'esdeveniment).",
+                                                enum: ["post", "market", "event_announcement"]
+                                            },
+                                            audience: {
+                                                type: "STRING",
+                                                description: "A qui va dirigit: 'public' (es veurà a tot el poble), o el nom exacte del grup o filiació rural (ex: 'El Rentonar', 'La Torre', 'Els Llenyaters'). Retorna la paraula clau exacta si l'usuari la menciona.",
+                                            },
+                                            content: {
+                                                 type: "STRING",
+                                                 description: "Text final que es publicarà. Elimina el soroll, netege'l i deixa el missatge atractiu i ben preparat per ser publicat. Afegeix hashtags naturals si cal."
+                                            },
+                                            title: {
+                                                 type: "STRING",
+                                                 description: "Títol atractiu si és 'market' o 'event_announcement'."
+                                            },
+                                            price: {
+                                                 type: "NUMBER",
+                                                 description: "Si el tipus és 'market', indica el preu numerat (en euros). Opcional, 0 si és donació/regal."
+                                            },
+                                            author_entity_id: {
+                                                 type: "STRING",
+                                                 description: "L'UUID (identificador) de l'Entitat Comercial (botiga, bar, negoci), si és aplicable."
+                                            },
+                                            commerce_metadata: {
+                                                 type: "OBJECT",
+                                                 properties: {
+                                                     type: { type: "STRING", description: "Tipus d'oferta: 'menu', 'inventory', o 'service'" },
+                                                     validity: { type: "STRING", description: "Període de validesa, ex: 'Del 10 al 15 de març'" },
+                                                     items_summary: { type: "STRING", description: "Sub-llista resumida o estructurada de plats/productes i preus." }
+                                                 },
+                                                 description: "Dades estructurades avançades si l'usuari està pujant un menú d'un bar, una vitrina de botiga, etc."
+                                            }
+                                        },
+                                        required: ["type", "audience", "content"]
+                                    }
+                                }
+                            ]
+                        };
+
+                        // [MODIFICACIÓ WALKIE-TALKIE + VISION] Transmetem dades d'àudio i/o imatge a l'API
+                        const aiResponse = await geminiService.ask(
+                            finalPersonaKey, 
+                            userQuery, 
+                            options.imageData || null, 
+                            options.audioData || null, 
+                            null, 
+                            null, 
+                            { tools: [publishTool] }
+                        );
+
+                        if (aiResponse.functionCall) {
+                            const funcName = aiResponse.functionCall.name;
+                            const args = aiResponse.functionCall.args;
+                            
+                            if (funcName === 'publicar_contingut') {
+                                logger.info('[IAIA] Executant Function Call publicar_contingut:', args);
+                                
+                                // Determinar town_uuid per grups (fallback a null si és public)
+                                let targetTown = null;
+                                if (args.audience && args.audience.toLowerCase() !== 'public' && args.audience.toLowerCase() !== 'públic') {
+                                    const audLower = args.audience.toLowerCase();
+                                    // Comprovem si coincideix amb noms genèrics del Poble
+                                    if (audLower.includes('rentonar')) targetTown = 'rentonar';
+                                    else if (audLower.includes('torre')) targetTown = 'la-torre';
+                                    else if (audLower.includes('fuster') || audLower.includes('llenya') || audLower.includes('fusters')) targetTown = 'fusters';
+                                    else targetTown = audLower.replace(/[^a-z0-9]/g, '-');
+                                }
+
+                                const currentUser = supabaseService.user;
+                                if (args.type === 'market') {
+                                    const { marketService } = await import('./marketService.js');
+                                    await marketService.createMarketItem({
+                                        title: args.title || 'Producte local',
+                                        description: args.content,
+                                        price: args.price || 0,
+                                        image_url: options.attachmentUrl || null,
+                                        town_uuid: targetTown,
+                                        author_user_id: currentUser ? currentUser.id : '11111111-2222-3333-4444-000000000000',
+                                        author_entity_id: args.author_entity_id || null,
+                                        commerce_metadata: args.commerce_metadata || null,
+                                        is_iaia_inspired: true
+                                    });
+                                } else {
+                                    await supabaseService.createPost({
+                                        content: args.title ? `**${args.title}**\n\n${args.content}` : args.content,
+                                        image_url: options.attachmentUrl || null,
+                                        type: args.type === 'event_announcement' ? 'event_announcement' : 'post',
+                                        town_uuid: targetTown,
+                                        author_user_id: currentUser ? currentUser.id : '11111111-2222-3333-4444-000000000000',
+                                        is_iaia_inspired: true
+                                    });
+                                }
+
+                                const contextResponseMsg = `Ja està fet fill! He publicat ${args.type === 'market' ? 'el teu producte al mercat' : 'la teua notícia'} com a ${args.audience === 'public' ? 'públic per a tot el Poble' : 'privat al grup '+args.audience}. Pots revisar-ho quan vullgues. Què et sembla?`;
+                                
+                                const chatMessage = await supabaseService.sendSecureMessage({
+                                    conversationId: conversationId,
+                                    senderId: receiverId || '11111111-1111-4111-a111-000000000010', 
+                                    content: contextResponseMsg,
+                                    is_ai: true,
+                                    author_name: persona.name,
+                                    author_avatar_url: persona.avatar_url,
+                                    metadata: {
+                                        is_iaia: true,
+                                        persona_key: finalPersonaKey,
+                                        function_executed: 'publicar_contingut'
+                                    }
+                                });
+
+                                if (options && typeof options.onFinish === 'function') {
+                                    if (options?.signal?.aborted) return;
+                                    options.onFinish(chatMessage);
+                                }
+                                return;
+                            }
+                        }
+
+                        const rawResponse = aiResponse.text || "Sembla que hi ha hagut algun silenci màgic...";
                         
                         // DOMPurify Sanitization as requested to mitigate XSS risks from generated text
                         const cleanResponse = DOMPurify.sanitize(rawResponse, {
@@ -766,7 +891,7 @@ class IAIAService {
                             metadata: {
                                 is_iaia: true,
                                 persona_key: finalPersonaKey,
-                                is_mock: aiResponse.is_mock
+                                is_mock: aiResponse?.is_mock
                             }
                         });
                         

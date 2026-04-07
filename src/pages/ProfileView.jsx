@@ -4,11 +4,11 @@ import {
     Settings, Loader2, AlertCircle, 
     Sparkles, Grid, Share2, ArrowLeft, Camera, UserCheck, MessageCircle, MapPin,
     ShieldCheck, HeartHandshake, ArrowUp, Maximize,
-    Linkedin, Facebook, Instagram, ShieldAlert
+    Linkedin, Facebook, Instagram, ShieldAlert, Image as ImageIcon, Lock
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useDesign } from '../context/DesignContext';
-import { useModalDispatch } from '../context/ModalContext';
+import { useModal, useModalDispatch } from '../context/ModalContext';
 import { supabaseService, isValidUUID } from '../services/supabaseService';
 import SEO from '../components/SEO';
 import Feed from '../components/Feed';
@@ -20,7 +20,20 @@ import StatusLoader from '../components/StatusLoader'; // FIX: Evita el Crash en
 import LanguageSelector from '../components/LanguageSelector';
 import { useViewMode } from '../hooks/useViewMode';
 import ChatDetail from '../components/ChatDetail';
+import GestoriaPanel from '../components/GestoriaPanel';
+import UniversalCard from '../components/UniversalCard';
+import { UniversalGridWrapper, UniversalGridRow } from '../components/UniversalGrid';
+import EntityProfile from '../components/profile/EntityProfile';
 import './ProfileView.css';
+
+// Helper per generar username a partir d'un nom real (ex: "Nando Llinares" → "nandollinares")
+const generateUsernameFromName = (name) => {
+    if (!name || typeof name !== 'string') return null;
+    return name
+        .toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // elimina accents
+        .replace(/[^a-z0-9]/g, '');                       // només lletres i números
+};
 
 const ProfileView = () => {
     const { theme } = useDesign();
@@ -39,6 +52,7 @@ const ProfileView = () => {
     const navigate = useNavigate();
     const { user: currentUser, profile: myProfile } = useAuth();
     const { openConnectionModal } = useModalDispatch();
+    const { openViewer } = useModal();
 
     const [profile, setProfile] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -98,7 +112,7 @@ const ProfileView = () => {
     // Redirection effect separated from data fetching
     useEffect(() => {
         if (isOwnProfile && !id && myProfile?.id) {
-            navigate(`/perfil/${myProfile.id}`, { replace: true });
+            navigate(`/perfil/${myProfile?.username || myProfile.id}`, { replace: true });
         }
     }, [isOwnProfile, id, myProfile, navigate]);
 
@@ -128,7 +142,10 @@ const ProfileView = () => {
                                 username: localAgent.personaKey.toLowerCase(),
                                 avatar_url: localAgent.avatar_url,
                                 role: localAgent.role,
-                                bio: `Especialitat local: ${localAgent.specialization || localAgent.tag}\n\n*Directiva Bategant*: \n${localAgent.systemPrompt}`,
+                                town_name: localAgent.town_name,
+                                subtitle: localAgent.town_name,
+                                lema: localAgent.lema,
+                                bio: (localAgent.short_bio || `Especialitat local: ${localAgent.specialization || localAgent.tag}\n\n*Directiva Bategant*: \n${localAgent.systemPrompt}`),
                                 tag: localAgent.tag,
                                 is_entity: false,
                                 header_image_url: localAgent.cover_url || localAgent.avatar_url,
@@ -211,28 +228,60 @@ const ProfileView = () => {
                     }
                 }
 
-                // Final sanity check for identity
-                let effectiveName = targetProfile.full_name || targetProfile.username || targetProfile.email?.split('@')[0] || 'Veí del Poble';
-                let effectiveUsername = targetProfile.username || targetProfile.email?.split('@')[0] || `node_${targetProfile.id?.substring(0,6) || 'bategant'}`;
-                
+                let effectiveName, effectiveUsername;
+
                 if (isOwnProfile && currentUser) {
-                    effectiveName = targetProfile.full_name || currentUser.user_metadata?.full_name || currentUser.email?.split('@')[0] || (currentUser.phone ? 'El Teu Perfil' : 'Veí del Poble');
-                    const phoneSuffix = currentUser.phone ? currentUser.phone.replace('+', '').slice(-4) : '';
-                    effectiveUsername = targetProfile.username || currentUser.email?.split('@')[0] || (phoneSuffix ? `vei_${phoneSuffix}` : `node_${currentUser.id?.substring(0,6)}`);
+                    // ---------- PERFIL PROPI ----------
+                    const metaName = currentUser.user_metadata?.full_name || targetProfile.full_name;
+                    effectiveName = metaName || currentUser.email?.split('@')[0] || (currentUser.phone ? 'El Teu Perfil' : 'Veí del Poble');
+
+                    // Prioritat: username existent -> nom real generat -> email -> telèfon -> node_UUID
+                    const generatedFromName = metaName ? generateUsernameFromName(metaName) : null;
+                    effectiveUsername = targetProfile.username 
+                        || generatedFromName 
+                        || currentUser.email?.split('@')[0] 
+                        || (currentUser.phone ? `vei_${currentUser.phone.replace('+', '').slice(-4)}` : null)
+                        || `node_${currentUser.id?.substring(0,6) || 'bategant'}`;
+                } else {
+                    // ---------- PERFIL D'ALTRES USUARIS ----------
+                    effectiveName = targetProfile.full_name || targetProfile.username || targetProfile.email?.split('@')[0] || 'Veí del Poble';
+
+                    const generatedFromName = targetProfile.full_name ? generateUsernameFromName(targetProfile.full_name) : null;
+                    effectiveUsername = targetProfile.username 
+                        || generatedFromName 
+                        || targetProfile.email?.split('@')[0] 
+                        || `node_${targetProfile.id?.substring(0,6) || 'bategant'}`;
                 }
 
-                // Fix explícit d'identitat sobirana Javi Llinares
-                if (effectiveName.includes('Javi Llinares') || targetProfile.id === '25218ea4-5d7d-4db4-bdc5-7ae035629242') {
+                // ---------- EXCEPCIÓ SOBIRANA: Javi Llinares (hardcoded) ----------
+                if (
+                    String(effectiveName).toLowerCase().includes('javi llinares') || 
+                    targetProfile?.username === 'javillinares' || 
+                    targetProfile?.id === '25218ea4-5d7d-4db4-bdc5-7ae035629242'
+                ) {
                     effectiveUsername = 'JaviLlinares';
+                    if (targetProfile) {
+                        targetProfile.avatar_url = '/assets/avatars/javi_avatar.jpg';
+                        targetProfile.cover_url = '/assets/javi_cover.jpg';
+                        targetProfile.header_image_url = '/assets/javi_cover.jpg';
+                    }
                 }
 
                 const effectiveAvatar = targetProfile.avatar_url || '/default-avatar.png';
+                let effectiveCover = targetProfile.cover_url || targetProfile.header_image_url;
+                
+                // Si el cover es buit o és el patró per defecte, repetim la foto d'avatar per que soles en tens una!
+                if (!effectiveCover || effectiveCover.includes('hero_pattern.png') || effectiveCover === '/default-avatar.png') {
+                    effectiveCover = effectiveAvatar;
+                }
 
                 const finalProfile = {
                     ...targetProfile,
                     full_name: effectiveName,
                     username: effectiveUsername,
-                    avatar_url: effectiveAvatar
+                    avatar_url: effectiveAvatar,
+                    cover_url: effectiveCover,
+                    header_image_url: effectiveCover
                 };
 
                 if (controller.signal.aborted) return;
@@ -387,533 +436,41 @@ const ProfileView = () => {
         </div>
     );
 
+    const mappedEntity = profile ? {
+        profile: {
+            displayName: profile.nom_comerç || profile.full_name || profile.name || username,
+            avatarUrl: profile.avatar_url,
+            bannerUrl: profile.cover_url || profile.header_image_url || profile.portada_url,
+            bio: profile.bio || profile.descripcio || '',
+            roleTitle: profile.role ? profile.role.toUpperCase() : 'VEÍ',
+            badges: profile.is_verified ? ['verified'] : []
+        },
+        state: {
+            connectionsCount: agentsList?.length || 0,
+            lastActive: profile.last_seen || Date.now()
+        },
+        traits: {
+            location: {
+                address: typeof profile.address === 'string' ? profile.address : 'Sóc de Poble'
+            },
+            skills: profile.skills || []
+        },
+        type: profile.role === 'business' ? 'empresa' : profile.role === 'official' ? 'institucio' : 'persona'
+    } : null;
+
     return (
-        <div className="flex flex-col w-full h-[100dvh] overflow-hidden">
+        <div className="flex flex-col w-full h-[100dvh] overflow-hidden bg-theme-base">
             <SEO title={profile?.full_name} description={profile?.bio} />
             
-            {/* Contextual Header Fixed Top */}
-            <div className="flex-none w-full z-dropdown shadow-sm bg-theme-base">
-                <ContextualHeader
-                    searchTerm=""
-                    onSearchChange={() => {}}
-                    viewMode={viewMode}
-                    onViewModeChange={setViewMode}
-                    placeholder="Cerca publicacions al perfil..."
-                />
-            </div>
-
-            <div 
-                ref={scrollRef}
-                onScroll={handleScroll}
-                className={`flex-1 profile-scroll-container w-full ${bgColor} flex flex-col items-center ${textColor} font-sans overflow-x-hidden overflow-y-auto transition-colors duration-500 custom-scrollbar relative pb-24`}
-            >            {/* 1. IMMERSIVE COVER IMAGE WITH FADE TO BASE */}
-            <div className="relative w-full h-[40vh] md:h-[50vh] min-h-[300px] overflow-hidden shrink-0">
-                <div 
-                    className="absolute inset-0 bg-cover transition-all duration-1000 origin-bottom" 
-                    style={{ 
-                        backgroundImage: `url('${profile?.cover_url || profile?.header_image_url || profile?.avatar_url || "/assets/patterns/hero_pattern.png"}')`,
-                        backgroundPosition: `50% ${profile?.cover_position_y ?? 50}%`,
-                        transform: 'scale(1.02)'
-                    }}
-                />
-                {/* Stunning bottom fade matching ambient background color perfectly */}
-                <div className={`absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[${bgColor.match(/bg-\[([^\]]+)\]/)?.[1] || '#111'}] to-transparent z-10`} />
-                {/* Top TopBar */}
-                <div className="absolute top-6 left-6 right-6 flex justify-between z-20">
-                    <button 
-                        onClick={() => navigate(-1)} 
-                        className="w-12 h-12 flex items-center justify-center rounded-full backdrop-blur-md bg-black/30 text-white hover:bg-black/50 border border-white/10 transition-all shadow-xl hover:scale-110 active:scale-95"
-                    >
-                        <ArrowLeft size={24} />
-                    </button>
-                    <div className="flex gap-3">
-                        {canAdminHero && !isRepositioning && (
-                            <button 
-                                onClick={() => setIsRepositioning(true)}
-                                className="w-12 h-12 rounded-full bg-[#F97316]/80 backdrop-blur-md flex items-center justify-center text-white border border-[#F97316]/50 hover:bg-[#F97316] shadow-xl transition-all hover:scale-110 active:scale-95"
-                                title="Ajustar Enquadrament de Portada"
-                            >
-                                <Maximize size={20} />
-                            </button>
-                        )}
-                        <ShareHub 
-                            title={profile?.full_name}
-                            text={profile?.bio}
-                            url={window.location.href}
-                            customTrigger={
-                                <button className="w-12 h-12 flex items-center justify-center rounded-full backdrop-blur-md bg-black/30 text-white hover:bg-black/50 border border-white/10 transition-all shadow-xl hover:scale-110 active:scale-95">
-                                    <Share2 size={20} className="-ml-0.5" />
-                                </button>
-                            }
-                        />
-                        {/* {isOwnProfile && (
-                            <button 
-                                onClick={() => setIsSettingsOpen(true)}
-                                className="w-12 h-12 flex items-center justify-center rounded-full backdrop-blur-md bg-black/30 text-white hover:bg-black/50 border border-white/10 transition-all shadow-xl hover:scale-110 active:scale-95"
-                            >
-                                <Settings size={20} />
-                            </button>
-                        )} */}
-                    </div>
-                </div>
-
-                {isRepositioning && (
-                    <div className="absolute inset-x-0 bottom-12 z-50 flex justify-center animate-in fade-in zoom-in duration-300">
-                        <div className="bg-black/80 backdrop-blur-xl px-6 py-4 rounded-[28px] border border-white/20 flex flex-col items-center gap-3 shadow-[0_10px_40px_rgba(0,0,0,0.5)] pointer-events-auto">
-                            <span className="text-[10px] font-black tracking-[0.25em] text-[#F97316] uppercase">Enquadrament Càmera</span>
-                            <div className="flex items-center gap-3">
-                                <span className="text-white/50 text-xs font-bold uppercase">Cap</span>
-                                <input 
-                                    type="range" 
-                                    min="0" max="100" 
-                                    value={profile?.cover_position_y ?? 50} 
-                                    onChange={(e) => handleStudioReposition(e.target.value)}
-                                    className="w-48 h-2 rounded-xl accent-[#F97316]"
-                                />
-                                <span className="text-white/50 text-xs font-bold uppercase">Peus</span>
-                            </div>
-                            <button 
-                                onClick={() => setIsRepositioning(false)} 
-                                className="mt-2 text-xs text-white bg-white/10 px-6 py-2 rounded-full hover:bg-white/20 uppercase font-black tracking-widest transition-colors"
-                            >
-                                Guardar {(!isOwnProfile && !(isSuperAdmin && profile?.role !== 'user')) && "(Visitant)"}
-                            </button>
-                        </div>
-                    </div>
+            <div className="flex-1 overflow-x-hidden overflow-y-auto w-full relative z-10 p-0 m-0 custom-scrollbar" onScroll={handleScroll}>
+                {mappedEntity && (
+                    <EntityProfile 
+                        entity={mappedEntity} 
+                        isOwner={isOwnProfile} 
+                        onSettingsClick={() => setIsSettingsOpen(true)}
+                    />
                 )}
             </div>
-
-            {/* 2. PROFILE CONTENT (Asymmetrical Hero Layout) */}
-            <main className="w-full max-w-4xl px-4 md:px-8 relative z-30 -mt-20 sm:-mt-28 pb-40">
-                
-                {/* Hero Group - Avatar Left, Actions Right */}
-                <div className="w-full animate-in fade-in slide-in-from-bottom-8 duration-700 ease-out-expo">
-                    
-                    {/* Top Row: Avatar & Actions */}
-                    <div className="flex justify-between items-end mb-6 w-full px-2">
-                        {/* LEFT: Glowing Avatar Sphere */}
-                        <div
-                            className={`relative rounded-full p-1 group ${isOwnProfile ? 'cursor-pointer' : ''}`}
-                            onClick={() => isOwnProfile && setIsStudioOpen(true)}
-                        >
-                            {/* Glow Behind */}
-                            <div className={`absolute inset-0 rounded-full bg-[#0ea5e9] opacity-40 blur-[20px] group-hover:opacity-70 transition-opacity duration-700`}></div>
-
-                            <div className={`relative w-32 h-32 sm:w-40 sm:h-40 rounded-[50%] overflow-hidden border-[4px] border-[#0ea5e9]/50 shadow-[0_30px_60px_rgba(0,0,0,0.5)] bg-[var(--sdp-blue)] isolate aspect-square flex items-center justify-center`}>
-                                <img
-                                    src={profile?.avatar_url}
-                                    alt={profile?.full_name}
-                                    className="w-full h-full object-cover rounded-[50%] transition-transform duration-1000 ease-out-expo group-hover:scale-110 aspect-square block"
-                                />
-                                {isOwnProfile && (
-                                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center transition-all duration-300 backdrop-blur-sm rounded-[50%]">
-                                        <Camera size={32} className="text-white mb-2" />
-                                        <span className="text-white text-[10px] font-black uppercase tracking-widest drop-shadow-md">Imatge</span>
-                                    </div>
-                                )}
-                            </div>
-                            
-                            {/* VIP Node Badge */}
-                            {(profile?.role === 'super_admin' || profile?.role === 'admin' || profile?.is_master) && (
-                                <div className={`absolute bottom-1 right-1 p-2 sm:p-3 rounded-full bg-[var(--theme-accent-primary)] text-white shadow-[0_0_15px_var(--theme-accent-primary)] border-[3px] ${isDayMode ? 'border-white' : 'border-[#0a0a0a]'} animate-bounce-slow`}>
-                                    <Sparkles size={16} className="fill-white" />
-                                </div>
-                            )}
-                        </div>
-
-                        {/* RIGHT: Action Buttons Stack */}
-                        <div className="flex flex-col items-end gap-2 mb-2 sm:mb-4">
-                            {/* Top row actions */}
-                            <div className="flex items-center gap-2 sm:gap-3">
-                            {/* Seguretat Vital (Visible only to owner) */}
-                            {isOwnProfile && (
-                                <button
-                                    onClick={() => navigate('/seguretat')}
-                                    className={`w-12 h-12 flex items-center justify-center rounded-full backdrop-blur-xl ${isDayMode ? 'bg-red-500/10 border-red-500/20 text-red-600 hover:bg-red-500/20' : 'bg-red-500/20 border-red-500/30 text-red-400 hover:bg-red-500/30'} shadow-xl hover:scale-110 active:scale-95 transition-all`}
-                                    title="Seguretat Vital (Àngels de la Guarda)"
-                                >
-                                    <ShieldAlert size={22} className="animate-pulse" />
-                                </button>
-                            )}
-                            
-                            {/* Settings / Gear Button (Visible to admins or owners) */}
-                            {(isOwnProfile || isSuperAdmin) && (
-                                <button 
-                                    onClick={() => isOwnProfile ? setIsSettingsOpen(true) : setIsStudioOpen(true)}
-                                    className={`w-12 h-12 flex items-center justify-center rounded-full backdrop-blur-xl ${isDayMode ? 'bg-black/5 border-black/10 text-black hover:bg-black/10' : 'bg-white/10 border-white/20 text-white hover:bg-white/20 hover:text-[var(--theme-accent-primary)]'} shadow-xl hover:scale-110 active:scale-95 transition-all`}
-                                    title={isOwnProfile ? 'Configuració del Perfil' : 'Administrar Engranatge'}
-                                >
-                                    <Settings size={22} className={isOwnProfile ? '' : 'animate-spin-slow text-[var(--theme-accent-primary)]'} />
-                                </button>
-                            )}
-
-                            {/* Connect Button */}
-                            {!isOwnProfile && (
-                                <div className="flex">
-                                    {!currentUser || currentUser.isAnonymous ? (
-                                        <button
-                                            onClick={() => navigate('/registre')}
-                                            className="h-12 px-6 sm:px-8 bg-[#F97316] text-white rounded-full flex items-center justify-center gap-2 font-black text-[11px] sm:text-sm tracking-[0.2em] shadow-[0_0_20px_rgba(249,115,22,0.4)] hover:scale-105 active:scale-95 transition-all"
-                                        >
-                                            <HeartHandshake size={20} />
-                                            <span className="hidden sm:inline">CONNECTAR</span>
-                                        </button>
-                                    ) : (
-                                        <button
-                                            onClick={() => openConnectionModal({ targetId: profile?.id })}
-                                            className="h-12 px-6 sm:px-8 bg-[#F97316] text-white rounded-full flex items-center justify-center gap-2 font-black text-[11px] sm:text-sm tracking-[0.2em] shadow-[0_0_20px_rgba(249,115,22,0.4)] hover:bg-[#ff8533] hover:scale-105 active:scale-95 transition-all"
-                                        >
-                                            {isConnected ? <MessageCircle size={20} /> : <HeartHandshake size={20} />}
-                                            <span className="hidden sm:inline">{isConnected ? 'MISSATGE' : 'CONNECTAR'}</span>
-                                        </button>
-                                    )}
-                                </div>
-                            )}
-                            </div>
-                            
-                            {/* Secondary Action: Direct Chat Open */}
-                            {!isOwnProfile && (
-                                <button
-                                    onClick={() => setIsChatOpen(true)}
-                                    className="h-10 px-5 bg-white/10 hover:bg-white/20 border border-white/10 text-white rounded-full flex items-center justify-center gap-2 font-bold text-[10px] tracking-widest backdrop-blur-md transition-all shadow-xl hover:scale-105 active:scale-95"
-                                >
-                                    <MessageCircle size={14} className="opacity-80" />
-                                    OBRIR XAT
-                                </button>
-                            )}
-                        </div>
-                    </div>
-
-                    {/* Metadata Row: Left Aligned */}
-                    <div className="flex flex-col items-start text-left mb-10 w-full px-2 sm:px-4">
-                        <div className="flex items-center gap-3 mb-2 flex-wrap">
-                            <h1 className={`text-4xl sm:text-5xl lg:text-6xl font-black leading-[0.9] ${textColor} drop-shadow-sm`}>
-                                {profile?.full_name}
-                            </h1>
-                            {profile?.role === 'vei' && (
-                                <div className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${isDayMode ? 'bg-[#F97316]/10 text-[#F97316] border border-[#F97316]/20' : 'bg-white/10 text-[#F97316] border border-white/5'}`}>
-                                    Sóc de Poble
-                                </div>
-                            )}
-                        </div>
-                        
-                        <div 
-                            onClick={() => !isOwnProfile ? setIsChatOpen(true) : null}
-                            className={`flex block items-center gap-1 text-base sm:text-lg font-bold uppercase tracking-[0.2em] text-[var(--theme-accent-primary)] mb-6 opacity-90 ${!isOwnProfile ? 'cursor-pointer hover:opacity-100 hover:text-white transition-colors' : ''}`}
-                            title="Obrir Xat Privat"
-                        >
-                            <span className="text-[var(--theme-accent-primary)] opacity-50">@</span>
-                            {profile?.username}
-                        </div>
-
-                        <div className={`text-[1.1rem] sm:text-[1.15rem] leading-[1.6] max-w-2xl ${textMuted} font-medium mb-8`}>
-                            <p>
-                                {profile?.bio || 'Connectant amb el territori a través d\'Antigravity.'}
-                            </p>
-                        </div>
-
-                        {/* Metadata Tags (Town & Role) */}
-                        <div className="flex flex-wrap justify-start gap-3 w-full">
-                            {profile?.town_name && (
-                                <div className={`flex items-center gap-2 px-5 py-3 rounded-full ${cardBgColor} border ${borderColor} shadow-sm backdrop-blur-md`}>
-                                    <MapPin size={18} className="text-[var(--theme-accent-primary)]" />
-                                    <span className={`text-[10px] sm:text-xs font-black uppercase tracking-widest ${textMuted}`}>{profile.town_name}</span>
-                                </div>
-                            )}
-                            <div className={`flex items-center gap-2 px-5 py-3 rounded-full ${cardBgColor} border ${borderColor} shadow-sm backdrop-blur-md`}>
-                                <UserCheck size={18} className="text-[var(--theme-accent-primary)]" />
-                                <span className={`text-[10px] sm:text-xs font-black uppercase tracking-widest ${textMuted}`}>
-                                    {profile?.role === 'vei' ? 'SÓC DE POBLE' : (profile?.role?.replace('_', ' ') || 'NODE')}
-                                </span>
-                            </div>
-                        </div>
-
-                        {/* SOCIAL MEDIA LINKS */}
-                        <div className="flex flex-wrap gap-3 mt-6 w-full animate-in fade-in slide-in-from-bottom-4 duration-500 delay-150">
-                            {/* LinkedIn */}
-                            {(profile?.social_linkedin || profile?.username === 'JaviLlinares') && (
-                                <a 
-                                    href={profile?.social_linkedin || (profile?.username === 'JaviLlinares' ? 'https://www.linkedin.com/in/javi-llinares/' : '#')} 
-                                    target="_blank" 
-                                    rel="noopener noreferrer"
-                                    className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl ${cardBgColor} border ${borderColor} shadow-sm backdrop-blur-md hover:scale-105 transition-transform hover:border-[var(--theme-accent-primary)] group`}
-                                    onClick={(e) => e.stopPropagation()}
-                                >
-                                    <Linkedin size={18} className="text-[#0e76a8] group-hover:scale-110 transition-transform" />
-                                    <span className={`text-[10px] sm:text-[11px] font-black uppercase tracking-widest ${textMuted} group-hover:text-black dark:group-hover:text-white transition-colors`}>LinkedIn</span>
-                                </a>
-                            )}
-                            
-                            {/* Facebook */}
-                            {profile?.social_facebook && (
-                                <a 
-                                    href={profile.social_facebook} 
-                                    target="_blank" 
-                                    rel="noopener noreferrer"
-                                    className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl ${cardBgColor} border ${borderColor} shadow-sm backdrop-blur-md hover:scale-105 transition-transform hover:border-[var(--theme-accent-primary)] group`}
-                                    onClick={(e) => e.stopPropagation()}
-                                >
-                                    <Facebook size={18} className="text-[#1877F2] group-hover:scale-110 transition-transform" />
-                                    <span className={`text-[10px] sm:text-[11px] font-black uppercase tracking-widest ${textMuted} group-hover:text-black dark:group-hover:text-white transition-colors`}>Facebook</span>
-                                </a>
-                            )}
-                            
-                            {/* Instagram */}
-                            {profile?.social_instagram && (
-                                <a 
-                                    href={profile.social_instagram} 
-                                    target="_blank" 
-                                    rel="noopener noreferrer"
-                                    className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl ${cardBgColor} border ${borderColor} shadow-sm backdrop-blur-md hover:scale-105 transition-transform hover:border-[var(--theme-accent-primary)] group`}
-                                    onClick={(e) => e.stopPropagation()}
-                                >
-                                    <Instagram size={18} className="text-[var(--theme-accent-primary)] group-hover:scale-110 transition-transform" />
-                                    <span className={`text-[10px] sm:text-[11px] font-black uppercase tracking-widest ${textMuted} group-hover:text-black dark:group-hover:text-white transition-colors`}>Instagram</span>
-                                </a>
-                            )}
-                        </div>
-                        
-                        {/* LANGUAGE SELECTOR FOR PROFILE OWNER (MOBILE ACCESSIBILITY) */}
-                        {isOwnProfile && (
-                            <div className="w-full mt-2 animate-in fade-in slide-in-from-top-4 duration-500 ease-out z-dropdown relative">
-                                <LanguageSelector variant="profile" />
-                            </div>
-                        )}
-                    </div>
-                </div>
-
-                {/* 4.5. PÀGINES I ENTITATS DEL NODE (Javi's creations) */}
-                {userEntities && userEntities.length > 0 && (
-                    <div className="w-full max-w-3xl relative mb-12 animate-in fade-in slide-in-from-bottom-16 duration-1000 delay-300 ease-out-expo z-80">
-                        <h3 className={`text-sm font-black uppercase tracking-widest ${textMuted} mb-4 ml-6 sm:ml-8`}>
-                            {isOwnProfile ? 'Pàgines Administrades' : 'Entitats Gestades'}
-                        </h3>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 px-2 sm:px-4">
-                            {userEntities.map(entity => (
-                                <div 
-                                    key={entity.id} 
-                                    onClick={() => navigate(`/entitat/${entity.id}`)}
-                                    className={`flex items-center gap-4 p-4 rounded-3xl ${cardBgColor} border ${borderColor} shadow-lg cursor-pointer hover:scale-[1.02] active:scale-95 transition-all w-full`}
-                                >
-                                    {entity.avatar_url ? (
-                                        <img 
-                                            src={entity.avatar_url} 
-                                            alt={entity.name || entity.full_name} 
-                                            className="w-14 h-14 rounded-full object-cover bg-black/5 flex-shrink-0 border border-white/5 shadow-sm"
-                                        />
-                                    ) : (
-                                        <div className="w-14 h-14 rounded-full flex items-center justify-center bg-[#F97316]/20 text-[#F97316] flex-shrink-0 border border-[#F97316]/30">
-                                            <Share2 size={24} />
-                                        </div>
-                                    )}
-                                    <div className="flex-1 min-w-0">
-                                        <h4 className="font-bold text-lg leading-tight truncate text-theme-text">{entity.name || entity.full_name}</h4>
-                                        <div className="text-[10px] uppercase font-bold tracking-[0.2em] text-[var(--theme-accent-primary)] mt-1 drop-shadow-sm"><p>{entity.type}</p></div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                )}
-
-
-                {/* 4. STATS BOARD (Premium Glassmorphism) */}
-                <div className="w-full max-w-3xl relative mb-12 animate-in fade-in slide-in-from-bottom-16 duration-1000 delay-300 ease-out-expo">
-                    {/* Glowing Aura underneath the stats panel */}
-                    <div className={`absolute -inset-4 rounded-[60px] bg-[var(--theme-accent-primary)] opacity-10 blur-3xl z-0 pointer-events-none`}></div>
-
-                    <div className={`relative z-10 grid grid-cols-3 p-6 md:p-8 rounded-[48px] ${cardBgColor} backdrop-blur-3xl border ${borderColor} shadow-2xl overflow-hidden`}>
-                        {/* Shimmer reflection inner */}
-                        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
-
-                        <div className="flex flex-col items-center justify-center text-center py-4 relative group cursor-default">
-                            <span className="text-5xl md:text-6xl font-black mb-2 group-hover:scale-110 transition-transform duration-500 ease-out-back text-theme-text">{stats.followers}</span>
-                            <span className={`text-[11px] md:text-xs font-black uppercase tracking-[0.25em] ${textMuted}`}>Connectats</span>
-                        </div>
-                        <div className={`flex flex-col items-center justify-center text-center py-4 border-x ${borderColor} relative group cursor-default`}>
-                            <span className="text-5xl md:text-6xl font-black mb-2 text-[var(--theme-accent-primary)] group-hover:scale-110 transition-transform duration-500 ease-out-back drop-shadow-sm">{stats.posts}</span>
-                            <span className={`text-[11px] md:text-xs font-black uppercase tracking-[0.25em] ${textMuted}`}>Publicacions</span>
-                        </div>
-                        <div className="flex flex-col items-center justify-center text-center py-4 relative group cursor-default">
-                            <span className="text-5xl md:text-6xl font-black mb-2 group-hover:scale-110 transition-transform duration-500 ease-out-back text-theme-text">{stats.following}</span>
-                            <span className={`text-[11px] md:text-xs font-black uppercase tracking-[0.25em] ${textMuted}`}>Contactes</span>
-                        </div>
-                    </div>
-                </div>
-
-                {/* 5. TABS & CONTENT SYSTEM */}
-                <div className={`w-full pt-12 relative min-h-[50vh] ${viewMode === 'grid' ? 'max-w-[1600px]' : 'max-w-4xl'} mx-auto transition-all duration-500`}>
-                    {/* Premium Oversized Tab Switcher (STICKY & GLASSMORPHISM) */}
-                    <div className="sticky top-[60px] md:top-[80px] z-90 flex flex-wrap justify-center gap-2 sm:gap-4 mb-12 py-4 px-2 rounded-[28px] backdrop-blur-3xl bg-white/10 border border-white/5 shadow-2xl mx-auto w-[calc(100%-1rem)] sm:w-max">
-                        <button
-                            onClick={() => setActiveTab('mur')}
-                            className={`px-6 sm:px-8 py-3 rounded-[28px] font-black text-sm tracking-[0.2em] transition-all duration-500 uppercase backdrop-blur-md ${activeTab === 'mur' ? 'bg-[#F97316] text-white shadow-[0_0_20px_rgba(255,107,0,0.3)] scale-105' : `bg-transparent ${isDayMode ? 'text-black/40 hover:bg-black/5 hover:text-black' : 'text-white/50 hover:bg-white/10 hover:text-white'}`}`}
-                        >
-                            EL MEU MUR
-                        </button>
-                        <button 
-                            onClick={() => setActiveTab('network')} 
-                            className={`px-6 sm:px-8 py-3 rounded-[28px] font-black text-sm tracking-[0.2em] transition-all duration-500 uppercase backdrop-blur-md ${activeTab === 'network' ? 'bg-[#F97316] text-white shadow-[0_0_20px_rgba(255,107,0,0.3)] scale-105' : `bg-transparent ${isDayMode ? 'text-black/40 hover:bg-black/5 hover:text-black' : 'text-white/50 hover:bg-white/10 hover:text-white'}`}`}
-                        >
-                            CONTACTES
-                        </button>
-                        {/* THE THIRD TAB PROPOSED BY NOTEBOOK LM: BOTIGA (Only visible if business/entity) */}
-                        {(profile?.role === 'freelance' || profile?.role === 'business' || profile?.role === 'company' || profile?.role === 'official') && (
-                            <button
-                                onClick={() => setActiveTab('botiga')}
-                                className={`px-6 sm:px-8 py-3 rounded-[28px] font-black text-sm tracking-[0.2em] transition-all duration-500 uppercase backdrop-blur-md ${activeTab === 'botiga' ? 'bg-[#F97316] text-white shadow-[0_0_20px_rgba(255,107,0,0.3)] scale-105' : `bg-transparent ${isDayMode ? 'text-black/40 hover:bg-black/5 hover:text-black' : 'text-white/50 hover:bg-white/10 hover:text-white'}`}`}
-                            >
-                                MERCAT LOCAL
-                            </button>
-                        )}
-                    </div>
-
-                    <div className={`min-h-[40vh] w-full mx-auto pb-32 transition-all duration-500 ${viewMode === 'grid' ? 'max-w-[1600px]' : 'max-w-3xl'}`}>
-                        {activeTab === 'mur' ? (
-                            <div className="w-full flex flex-col gap-6">
-                                {(()=>{
-                                    // React computation inner block for extreme performance
-                                    const processedPosts = (() => {
-                                        const deduped = [];
-                                        const seen = new Set();
-                                        for (const p of userPosts) {
-                                            const key = (p.title || p.content || '').substring(0, 100).trim();
-                                            if (key && seen.has(key)) continue;
-                                            if (key) seen.add(key);
-                                            deduped.push(p);
-                                        }
-
-                                        if (activeRoleFilter === 'tot') return deduped;
-                                        
-                                        return deduped.filter(post => {
-                                            const r = post.author_role || 'user';
-                                            const type = post.type;
-                                            switch (activeRoleFilter) {
-                                                case 'personal': return r === 'user';
-                                                case 'autonom': return r === 'freelance' || r === 'student' || r === 'business';
-                                                case 'empresa': return r === 'company' || type === 'mercat' || r === 'business';
-                                                case 'grup': return r === 'group' || r === 'ambassador';
-                                                case 'entitat': return r === 'official' || type === 'ajuntament';
-                                                default: return true;
-                                            }
-                                        });
-                                    })();
-
-                                    if (profile?.is_town) {
-                                        return <Feed hideHeader={true} townId={profile.raw_town_id} externalViewMode={viewMode} />;
-                                    }
-
-                                    return processedPosts.length > 0 ? (
-                                        <Feed hideHeader={true} customPosts={processedPosts} externalViewMode={viewMode} />
-                                    ) : (
-                                        <StatusLoader type="empty" message={isOwnProfile ? "Encara no has compartit res amb esta identitat." : "Cap novetat sota este rol."} />
-                                    );
-                                })()}
-                            </div>
-                        ) : activeTab === 'network' ? (
-                            <div className="space-y-8 animate-in fade-in slide-in-from-bottom-8">
-                                <div className={`p-12 rounded-[56px] ${cardBgColor} border ${borderColor} shadow-lg backdrop-blur-2xl relative overflow-hidden`}>
-                                    {/* Subtly animated glow */}
-                                    <div className="absolute -inset-10 bg-gradient-to-r from-[var(--theme-accent-primary)]/[0.05] via-transparent to-transparent opacity-50 animate-[shimmer_3s_infinite] pointer-events-none"></div>
-                                    
-                                    <div className="relative z-10 flex items-center">
-                                        <div className="p-4 rounded-full bg-[var(--theme-accent-primary)]/10 border border-[var(--theme-accent-primary)]/20 shadow-inner">
-                                            <UserCheck size={32} strokeWidth={2.5} className="text-[var(--theme-accent-primary)]" />
-                                        </div>
-                                        <div className="ml-4 flex-1">
-                                            <h3 className={`text-base font-black uppercase tracking-widest ${textColor} mb-1 flex items-center gap-2`}>
-                                                <HeartHandshake className="text-[#0ea5e9]" size={18} />
-                                                Xarxa de Confiança
-                                            </h3>
-                                            <p className={`text-xs ${textMuted} leading-relaxed font-medium`}>
-                                                Llista de nodes i contactes verificats amb aquest perfil al llarg del xat.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                
-                                {(()=>{
-                                    const MOCK_FRIENDS = [
-                                        { id: "afa145cd-2df7-4977-bc67-ab1e4c278fb9", name: "Marc (El Gall)", role: "vei", bio: "Hortolà 2.0. Si el gall canta clar, aigua al bancal.", avatar_url: "/assets/avatars/comic/avatar_marc_comic.png" },
-                                        { id: "11111111-0000-0000-0000-000000000109", name: "Elena Popova", role: "vei", bio: "Nouvinguda feliç. Tinc un hortet xicotet prop del riu i vull aprendre.", avatar_url: "/assets/avatars/comic/elena_popova_comic.png" },
-                                        { id: "11111111-0000-0000-0000-000000000110", name: "Rafa \"El Fuster\"", role: "vei", bio: "Fuster de mans dures i cor gran. Restauro al poble.", avatar_url: "/images/demo/avatar_man_old.png" },
-                                        { id: "11111111-0000-0000-0000-000000000111", name: "Teresa \"La de les Flors\"", role: "vei", bio: "Guardiana dels jardins del poble.", avatar_url: "/images/demo/avatar_woman_old.png" },
-                                        { id: "11111111-0000-0000-0000-000000000112", name: "Ximo Carbonell", role: "vei", bio: "Emprenedor rural. Innovació al respecte de la terra.", avatar_url: "/images/demo/avatar_man_1.png" },
-                                        { id: "11111111-0000-0000-0000-000000000113", name: "Beatriz Ortega", role: "vei", bio: "Guia turística. Històries que amaguen les pedres.", avatar_url: "/images/demo/avatar_woman_1.png" },
-                                        { id: "11111111-0000-0000-0000-000000000114", name: "Salva Jordà", role: "vei", bio: "Expert en herbes medicinals i remeis tradicionals.", avatar_url: "/images/demo/avatar_man_old.png" },
-                                        { id: "fa82eb62-4a83-4ff7-b2d6-8849673fc3b0", name: "Damià Llorens", role: "perit", bio: "Fundador. La connexió de tota la xarxa.", avatar_url: "/assets/avatars/comic/damia_agutzil_comic.png"}
-                                    ];
-
-                                    if (profile?.id === '25218ea4-5d7d-4db4-bdc5-7ae035629242' || isOwnProfile) {
-                                        return (
-                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                                {MOCK_FRIENDS.map((agent) => (
-                                                    <div 
-                                                        key={agent.id}
-                                                        onClick={() => navigate(`/perfil/${agent.id}`)}
-                                                        className={`flex items-center gap-4 p-4 rounded-3xl ${cardBgColor} border ${borderColor} shadow-md backdrop-blur-md cursor-pointer hover:scale-[1.02] active:scale-95 transition-all group`}
-                                                    >
-                                                        <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-white/10 bg-black isolate">
-                                                            <img src={agent.avatar_url} alt={agent.name} className="w-full h-full object-cover rounded-full" />
-                                                        </div>
-                                                        <div className="flex-1 text-left min-w-0">
-                                                            <h4 className={`text-sm font-black uppercase tracking-widest ${textColor} mb-1 truncate`}>{agent.name}</h4>
-                                                            <p className={`text-[10px] font-bold uppercase tracking-widest text-[#0ea5e9]`}>{agent.role}</p>
-                                                            <p className={`text-xs ${textMuted} mt-1 line-clamp-1`}>{agent.bio}</p>
-                                                        </div>
-                                                        <div className="p-3 rounded-full bg-white/5 text-white/40 group-hover:bg-[#0ea5e9]/20 group-hover:text-[#0ea5e9] transition-colors">
-                                                            <MessageCircle size={18} />
-                                                        </div>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        );
-                                    } else if (agentsList.some(a => a.id === profile?.id)) {
-                                        return (
-                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                                {agentsList.filter(a => a.id !== profile?.id).map((agent) => (
-                                                    <div 
-                                                        key={agent.id}
-                                                        onClick={() => navigate(`/perfil/${agent.id}`)}
-                                                        className={`flex items-center gap-4 p-4 rounded-3xl ${cardBgColor} border ${borderColor} shadow-md backdrop-blur-md cursor-pointer hover:scale-[1.02] active:scale-95 transition-all group`}
-                                                    >
-                                                        <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-white/10 bg-black isolate">
-                                                            <img src={agent.avatar_url} alt={agent.name} className="w-full h-full object-cover rounded-full" />
-                                                        </div>
-                                                        <div className="flex-1 text-left min-w-0">
-                                                            <h4 className={`text-sm font-black uppercase tracking-widest ${textColor} mb-1 truncate`}>{agent.name}</h4>
-                                                            <p className={`text-[10px] font-bold uppercase tracking-widest text-[#0ea5e9]`}>{agent.role}</p>
-                                                            <p className={`text-xs ${textMuted} mt-1 line-clamp-1`}>{agent.specialization}</p>
-                                                        </div>
-                                                        <div className="p-3 rounded-full bg-white/5 text-white/40 group-hover:bg-[#0ea5e9]/20 group-hover:text-[#0ea5e9] transition-colors">
-                                                            <MessageCircle size={18} />
-                                                        </div>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        );
-                                    } else {
-                                        return (
-                                            <div className={`py-32 flex flex-col items-center justify-center text-center border-4 border-dashed ${borderColor} rounded-[56px] bg-theme-panel/30`}>
-                                                <Grid size={32} className={`${textMuted} mb-4`} />
-                                                <p className={`text-base font-black uppercase tracking-[0.2em] ${textMuted}`}>Directori de Contactes (Privat)</p>
-                                            </div>
-                                        );
-                                    }
-                                })()}
-                            </div>
-                        ) : activeTab === 'botiga' ? (
-                            <div className="space-y-8 animate-in fade-in slide-in-from-bottom-8">
-                                <div className={`py-32 flex flex-col items-center justify-center text-center border-4 border-dashed border-white/10 rounded-[28px] bg-white/5 backdrop-blur-md`}>
-                                    <h3 className="text-2xl font-black uppercase text-[var(--theme-accent-primary)] mb-4 tracking-widest">Aparador Comercial</h3>
-                                    <p className={`${textMuted} font-medium max-w-sm`}>Aquest node encara no ha pujat productes al mercat local.</p>
-                                </div>
-                            </div>
-                        ) : null}
-                    </div>
-                </div>
-            </main>
 
             {isChatOpen && (
                 <ChatDetail
@@ -957,7 +514,6 @@ const ProfileView = () => {
                     onProfileUpdate={(updates) => setProfile(prev => ({ ...prev, ...updates }))}
                 />
             )}
-        </div>
         </div>
     );
 };

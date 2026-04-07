@@ -38,14 +38,14 @@ const TallerTrellat = ({ isOpen, onClose }) => {
             const personaMap = {
                 'iaia': 'IAIA',
                 'secretari': 'ARXIVER',
-                'traductor': 'TRADUCTOR',
-                'ull_del_mestre': 'ULL_IAIA',
-                'jutge_de_pau': 'JUTGE_PAU',
-                'cronista': 'CRONISTA',
+                'traductor': 'ARXIVER',
+                'ull_del_mestre': 'IAIA',
+                'jutge_de_pau': 'CAPATAS',
+                'cronista': 'ARXIVER',
                 'hortola': 'AGRONOM',
-                'versador': 'VERSADOR',
+                'versador': 'ELENA',
                 'remeis': 'CARLA',
-                'oracle': 'TRELLAT',
+                'oracle': 'IAIA',
                 'diccionari': 'ARXIVER'
             };
             const personaKey = personaMap[mode] || 'IAIA';

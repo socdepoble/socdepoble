@@ -23,9 +23,11 @@ import { useChatState } from '../hooks/useChatState';
  * ChatDetail — Tech-Huerta reset (estructura limpia + visual premium rural)
  * Rebuild visual/estructural manteniendo lógica funcional original.
  */
-const ChatDetail = () => {
-  const { chatSettings } = useNavigation();
-  const { id } = useParams();
+const ChatDetail = ({ embeddedId }) => {
+  const isEmbedded = !!embeddedId;
+  const { chatSettings, globalDroppedFile, setGlobalDroppedFile } = useNavigation();
+  const params = useParams();
+  const id = embeddedId || params.id;
   const { t } = useTranslation();
   const { user, impersonatedProfile, activeEntityId, isSuperAdmin, isGuest } = useAuth();
   const { setIsGuestInteractionModalOpen } = useModalDispatch();
@@ -235,6 +237,8 @@ const ChatDetail = () => {
 
         if (isIAIA) {
           let audioData = null;
+          let imageData = null;
+
           if (isVoiceMessage && voiceData?.blob) {
             try {
               audioData = await new Promise((resolve, reject) => {
@@ -255,6 +259,26 @@ const ChatDetail = () => {
             }
           }
 
+          if (attachedFile && attachedFile.type.startsWith('image/')) {
+            try {
+              imageData = await new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                  try {
+                    const [meta, data] = reader.result.split(',');
+                    resolve({ mimeType: meta.split(':')[1].split(';')[0], data });
+                  } catch (e) {
+                    reject(e);
+                  }
+                };
+                reader.onerror = () => reject(reader.error);
+                reader.readAsDataURL(attachedFile);
+              });
+            } catch (err) {
+              console.error("[ChatDetail] Error parsing attachedFile to Base64:", err);
+            }
+          }
+
           const textFinal =
             finalContent ||
             (attachedFile ? t('chat.attachment_sent') : isVoiceMessage ? t('chat.voice_message_received') : '');
@@ -271,8 +295,14 @@ const ChatDetail = () => {
                     : 'file'
                   : null,
               audioData,
+              imageData,
               onFinish: (finalMsg) => {
                 if (!isComponentMounted.current || activeChatRef.current !== capturedChatId) return;
+
+                if (imageData) {
+                  showToast(t('chat.vision_success') || "L'IAIA ha acabat de processar la teva imatge! 👁️✨");
+                }
+
                 if (finalMsg && typeof finalMsg === 'object') {
                   setMessages((prev) => {
                     const withoutFiller = prev.filter((m) => !m.metadata?.is_iaia_filler);
@@ -421,6 +451,7 @@ const ChatDetail = () => {
         setSearchQuery={setSearchQuery}
         isSettingsMenuOpen={isSettingsMenuOpen}
         setIsSettingsMenuOpen={setIsSettingsMenuOpen}
+        isEmbedded={isEmbedded}
       />
 
       <main className="flex min-h-0 flex-1 flex-col bg-theme-bg">
@@ -470,6 +501,8 @@ const ChatDetail = () => {
               setIsGuestInteractionModalOpen={setIsGuestInteractionModalOpen}
               handleSendMessage={handleSendMessage}
               isSending={isSending}
+              globalDroppedFile={globalDroppedFile}
+              setGlobalDroppedFile={setGlobalDroppedFile}
             />
           </div>
         </div>

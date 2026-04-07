@@ -9,6 +9,7 @@ const UniversalCardBody = React.memo(({
     item,
     children,
     navigate,
+    handleCardClick,
     cardVariant,
     displayPrice
 }) => {
@@ -20,6 +21,11 @@ const UniversalCardBody = React.memo(({
 
     const handleReadMoreClick = React.useCallback((e) => {
         if (e && e.stopPropagation) e.stopPropagation();
+        
+        if (handleCardClick) {
+            return handleCardClick(e);
+        }
+        
         const id = item?.uuid || item?.id;
         if (!id) return;
         
@@ -30,7 +36,7 @@ const UniversalCardBody = React.memo(({
         } else {
             navigate(`/post/${id}`);
         }
-    }, [item?.uuid, item?.id, cardVariant, navigate]);
+    }, [item?.uuid, item?.id, cardVariant, navigate, handleCardClick]);
 
     return (
         <div className="flex flex-col flex-1 min-h-0 relative z-10 p-0">
@@ -50,7 +56,7 @@ const UniversalCardBody = React.memo(({
                 <div className="flex flex-col items-start gap-1 pb-1 shrink-0 group-hover:opacity-80 transition-opacity">
                     <div className="flex justify-between items-start gap-4 w-full">
                         <div className="flex-1 min-w-0">
-                            <div className="text-xl md:text-[22px] leading-tight font-black tracking-tight line-clamp-2 text-theme-text">
+                            <div className="text-[24px] md:text-[28px] leading-[1.1] font-black tracking-tight line-clamp-2 text-theme-text">
                                 <span>{displayTitle}</span>
                             </div>
                         </div>
@@ -66,8 +72,16 @@ const UniversalCardBody = React.memo(({
                         if (!subtitleText) return null;
                         
                         return (
-                            <div className="font-semibold text-[#F97316] text-[14px] leading-snug truncate w-full">
-                                <span>{subtitleText}</span>
+                            <div className="flex flex-col gap-1.5 w-full">
+                                {cardVariant === 'agent' ? (
+                                    <h3 className="font-black text-[#F97316] text-[18px] md:text-[20px] leading-[1.3] w-full">
+                                        <span>{subtitleText}</span>
+                                    </h3>
+                                ) : (
+                                    <div className="font-semibold text-[#F97316] text-[14px] leading-snug truncate w-full">
+                                        <span>{subtitleText}</span>
+                                    </div>
+                                )}
                             </div>
                         );
                     })()}
@@ -75,9 +89,15 @@ const UniversalCardBody = React.memo(({
 
                 <div className="flex-shrink-0 relative overflow-hidden group-hover:opacity-80 transition-opacity mt-2">
                     {displayExcerpt && (
-                        <div className={`text-[15px] font-normal leading-[1.6] text-theme-muted ${smartClampClass}`}>
-                            <p>{displayExcerpt}</p>
-                        </div>
+                        cardVariant === 'pobles' ? (
+                            <h3 className={`text-[17px] md:text-[19px] font-bold leading-[1.4] text-theme-text opacity-90 ${smartClampClass} whitespace-pre-line`}>
+                                {displayExcerpt}
+                            </h3>
+                        ) : (
+                            <div className={`text-[15px] font-normal leading-[1.6] text-theme-muted ${smartClampClass}`}>
+                                <p className="whitespace-pre-line">{displayExcerpt}</p>
+                            </div>
+                        )
                     )}
                 </div>
 

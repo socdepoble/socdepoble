@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { LayoutGrid, MapPin, MessageSquare, Plus, Store, Calendar, Map, BookOpen, FileText, Activity } from "lucide-react";
+import { LayoutGrid, MapPin, MessageSquare, Plus, Store, Calendar, Map, BookOpen, FileText, Activity, Users } from "lucide-react";
 import { useNavigation } from "../context/NavigationContext";
 import { useAuth } from "../context/AuthContext";
 import { APP_VERSION } from "../constants";
@@ -11,6 +11,7 @@ const menuItems = [
   { path: "/mur", key: "nav.feed", fallback: "Mur", icon: LayoutGrid },
   { path: "/mercat", key: "nav.market", fallback: "Mercat", icon: Store },
   { path: "/pobles", key: "nav.towns", fallback: "Pobles", icon: MapPin },
+  { path: "/veins", key: "nav.users", fallback: "Veïns", icon: Users },
   { path: "/calendari", key: "nav.events", fallback: "Calendari", icon: Calendar },
   { path: "/mapa", key: "nav.map", fallback: "Mapa", icon: Map },
   { path: "/el-projecte", key: "nav.project", fallback: "El Projecte", icon: BookOpen },
@@ -32,7 +33,7 @@ const NavigationRail = () => {
     <nav className="w-full h-full flex flex-col bg-transparent relative overflow-hidden">
       
       {/* 1. BOTÓ D'ACCIÓ RÀPIDA (TOP - PROTOCOL HUB) - FIT 56PX */}
-      <div className="h-[56px] min-h-[56px] max-h-[56px] shrink-0 border-b border-[#ffffff14] relative z-20 bg-[#544CF6]">
+      <div className="h-[56px] min-h-[56px] max-h-[56px] shrink-0 border-b border-[#ffffff14] relative z-20 bg-[#4F46E5]">
         <button
           className="absolute inset-0 text-white flex items-center justify-center space-x-2 transition-colors hover:brightness-110 outline-none"
           onClick={() => navigate("/hub")}
