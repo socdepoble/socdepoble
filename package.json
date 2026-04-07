@@ -3,7 +3,10 @@
   "private": true,
   "version": "10.38.1",
   "type": "module",
+  "main": "electron/main.js",
   "scripts": {
+    "electron:dev": "NODE_ENV=development electron .",
+    "electron:build": "npm run build && electron-builder",
     "dev": "npm run build:codex && vite & npm run watch:codex",
     "build": "vite build && npm run copy-wasm",
     "copy-wasm": "mkdir -p dist/assets && cp node_modules/@sqlite.org/sqlite-wasm/dist/sqlite3.wasm dist/assets/sqlite3.wasm || copy node_modules\\@sqlite.org\\sqlite-wasm\\dist\\sqlite3.wasm dist\\assets\\sqlite3.wasm",
@@ -165,5 +168,33 @@
     "vitest": "^4.1.0",
     "workbox-core": "^7.4.0",
     "workbox-precaching": "^7.4.0"
+  },
+  "build": {
+    "appId": "org.socdepoble.app",
+    "productName": "Sóc de Poble",
+    "directories": {
+      "output": "dist-desktop"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "package.json"
+    ],
+    "mac": {
+      "category": "public.app-category.productivity",
+      "target": [
+        "dmg"
+      ]
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ]
+    }
   }
 }

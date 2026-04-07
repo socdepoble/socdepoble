@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef, lazy, Suspense } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ArrowLeft, Edit2, ShieldAlert, Share2, Book, BookText, Plus, MessageCircle, Globe, MapPin, Search, Calendar, Sparkles, List, X, ChevronRight, History, Info, Menu, ChevronUp, ChevronDown } from 'lucide-react';
+import { ArrowLeft, Edit2, ShieldAlert, Share2, Book, BookText, Plus, MessageCircle, Globe, MapPin, Search, Calendar, Sparkles, List, X, ChevronRight, History, Info, Menu, ChevronUp, ChevronDown, Database } from 'lucide-react';
 import SEO from '../components/SEO';
 import GlobalFooter from '../components/GlobalFooter';
 import PageHeader from '../components/PageHeader';
@@ -15,6 +15,7 @@ import { sanitizeHtml } from '../utils/sanitizeHtml';
 import { processContentForToc } from '../utils/tocParser';
 import useAccessibleSearch from '../hooks/useAccessibleSearch';
 import RoundButton from '../components/ui/RoundButton';
+import Carousel from '../components/Carousel';
 
 
 // Es carregarà de forma dinàmica per externalitzar pes de l'arrel
@@ -190,11 +191,25 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                 let content = data.html_content;
                 const fallback = await fetchDefaultBookContent();
                 
-                // MODO ARQUITECTO: El libro local (llibre-sencer.html) siempre manda sobre la base de datos si es diferente,
-                // asegurando que las inyecciones locales se proyecten y no queden fantasmales bajo un caché de DB.
-                if (!content || content.includes('Aquest text és provisional') || fallback.length !== content.length) {
-                    content = fallback;
-                    // Auto-actualizamos supuestamente el contenido para la DB en background (o lo confiamos al sync)
+                // FIX CRÍTICO: llibre-sencer.html es ahora el Genotip de 5MB. NO debe sobrescribir el contenido de DB si este es válido y no vacío.
+                if (!content || content.includes('Aquest text és provisional')) {
+                    // Extraemos solo la parte humana si tenemos que recurrir al fallback (Genotip).
+                    // Para evitar parsear 5MB enteros en el cliente con DOMParser si es enorme, hacemos un split rápido:
+                    if (fallback.includes('id="prefaci-humano"')) {
+                        const humanPartSplit = fallback.split('<article id="prefaci-humano"')[1];
+                        if (humanPartSplit) {
+                            const endOfArticle = humanPartSplit.indexOf('</article>');
+                            if (endOfArticle !== -1) {
+                                content = '<article id="prefaci-humano"' + humanPartSplit.substring(0, endOfArticle + 10);
+                            } else {
+                                content = fallback;
+                            }
+                        } else {
+                            content = fallback;
+                        }
+                    } else {
+                        content = fallback;
+                    }
                 }
                 
                 updates.htmlContent = content;
@@ -410,19 +425,16 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
         }
     };
 
-    const HeroBanner = useMemo(() => (
-        <div className="relative w-full aspect-video z-0 bg-[#0e0e0e] min-h-[300px] border-b border-[var(--border-master)] group flex flex-col items-center justify-center overflow-hidden">
-            <video 
-                src="/assets/banners/hero_nano_final.webm" 
-                autoPlay loop muted playsInline
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 hover:scale-105 cursor-pointer"
-                onClick={() => {
-                    const bannerSrc = "/assets/banners/hero_nano_final.webm";
-                    const allImagesArray = Array.from(document.querySelectorAll('.app-cms-content img, .app-cms-content video')).map(media => media.src);
-                    setMediaViewerImages([bannerSrc, ...allImagesArray]);
-                    setMediaViewerSrc(bannerSrc);
-                }}
-            />
+    const HeroBanner = useMemo(() => {
+        const carouselImages = [
+            "/assets/infographics/presentacion_nano.jpg",
+            "/assets/infographics/chica_jersey.jpg",
+            "/assets/infographics/pizarra_nano.jpg"
+        ];
+
+        return (
+        <div className="relative w-full aspect-video z-0 bg-transparent min-h-[300px] border-b border-[var(--border-master)] group flex flex-col items-center justify-center overflow-visible">
+            <Carousel images={carouselImages} height="100%" />
             
             <div className="absolute top-4 right-4 flex gap-2 z-50">
                 {canEdit && (
@@ -446,7 +458,8 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                 )}
             </div>
         </div>
-    ), [canEdit, isEditing, pageId]);
+        );
+    }, [canEdit, isEditing, pageId]);
 
     const PagePresentationHeader = useMemo(() => (
         <div className="w-full flex flex-col items-center justify-center py-12 px-6 border-b border-[var(--border-master)] bg-[var(--bg-panel)] rounded-b-3xl shadow-sm mb-8 relative group">
@@ -732,7 +745,7 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                     <div className="w-full max-w-4xl mx-auto px-6 lg:px-10 mb-0 mt-2 space-y-6">
                         
                         {/* 7. DAFO, TESTAMENT & SIMULADOR (Unified) */}
-                        <details className="cms-code-block bg-black/5 dark:bg-[#111111] border-2 border-[var(--theme-accent-primary)] rounded-[1.5rem] overflow-hidden group shadow-[0_4px_30px_rgba(249,115,22,0.15)] transition-all">
+                        <details className="cms-code-block bg-black/5 dark:bg-[#111111] rounded-[1.5rem] overflow-hidden group shadow-[0_4px_30px_rgba(249,115,22,0.15)] transition-all">
                             <summary className="cursor-pointer p-5 font-black text-lg sm:text-xl uppercase flex items-center justify-between select-none hover:bg-black/5 dark:hover:bg-white/5 transition-colors touch-manipulation outline-none focus-visible:ring-4 focus-visible:ring-[var(--theme-accent-primary)]">
                                 <span className="flex items-center gap-3 text-[var(--theme-accent-primary)]">
                                     <div className="w-10 h-10 rounded-full bg-[var(--theme-accent-primary)]/10 flex items-center justify-center">
@@ -1032,6 +1045,13 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                                 <MessageCircle size={20} /><span className="hidden xl:inline tracking-wider">Comentar</span>
                             </button>
                             <button 
+                                className="hidden sm:flex items-center justify-center gap-2 min-h-[44px] px-2 sm:px-3 hover:bg-white/20 dark:hover:bg-black/10 rounded-xl active:scale-95 touch-manipulation font-bold uppercase text-sm shrink-0 text-emerald-300 dark:text-emerald-700 hover:text-emerald-400" 
+                                title="Genotip Sintètic: Llegir Codi Font com a Llibre"
+                                onClick={() => window.location.href = '/llibre-sencer.html'}
+                            >
+                                <Database size={20} /><span className="hidden xl:inline tracking-wider">Genotip</span>
+                            </button>
+                            <button 
                                 className="hidden sm:flex items-center justify-center gap-2 min-h-[44px] px-2 sm:px-3 hover:bg-white/20 dark:hover:bg-black/10 rounded-xl active:scale-95 touch-manipulation font-bold uppercase text-sm shrink-0" 
                                 onClick={() => { if(navigator.share) navigator.share({ title: 'Sóc de Poble', url: window.location.href }) }}
                             >
@@ -1122,6 +1142,15 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                                     <Book className="size-5 shrink-0 text-emerald-500" />
                                 </div>
                                 Descarregar E-Book
+                            </button>
+                            <button onClick={() => window.location.href = '/llibre-sencer.html'} className="flex items-center gap-4 w-full px-4 py-3 min-h-[48px] rounded-2xl hover:bg-black/5 dark:hover:bg-white/5 active:scale-95 text-[var(--text-main)] transition-all touch-manipulation font-bold">
+                                <div className="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+                                    <Database className="size-5 shrink-0 text-emerald-500 animate-pulse" />
+                                </div>
+                                <div className="flex flex-col text-left">
+                                    <span className="leading-tight">Llegir Genotip</span>
+                                    <span className="text-[10px] text-emerald-600 dark:text-emerald-400 uppercase tracking-widest font-black">Codi Font & Auditories</span>
+                                </div>
                             </button>
                         </menu>
                     </div>
