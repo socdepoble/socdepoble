@@ -33,6 +33,7 @@ const SearchDiscover = lazy(() => import("../pages/SearchDiscover"));
 const OficiDocumentacio = lazy(() => import("../pages/OficiDocumentacio"));
 const NexusFlash = lazy(() => import("../pages/NexusFlash"));
 const ProjectPresentation = lazy(() => import("../pages/ProjectPresentation"));
+const MediaManager = lazy(() => import("../pages/MediaManager"));
 const GenesisViewer = lazy(() => import("../pages/GenesisViewer"));
 const Versions = lazy(() => import("../pages/Versions"));
 const BuscadorAjudes = lazy(() => import("../pages/BuscadorAjudes"));
@@ -395,6 +396,7 @@ const AppLayout = () => {
                     <Route path="/notes" element={<Notes />} />
                     {/* PÀGINES DE PROJECTE I LEGALITAT */}
                     <Route path="/el-projecte" element={<ProjectPresentation forcedSlug="el-projecte" />} />
+                    <Route path="/media" element={<MediaManager />} />
                     <Route path="/page/:slug" element={<ProjectPresentation />} />
                     <Route path="/reader" element={<EpubViewer url="/assets/books/el-projecte.epub" title={"Sóc de Poble: El Projecte"} onClose={() => window.history.back()} />} />
                     <Route path="/chrome-145" element={<Chrome145Report />} />

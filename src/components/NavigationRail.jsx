@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { LayoutGrid, MapPin, MessageSquare, Plus, Store, Calendar, Map, BookOpen, FileText, Activity, Users } from "lucide-react";
+import { LayoutGrid, MapPin, MessageSquare, Plus, Store, Calendar, Map, BookOpen, FileText, Activity, Users, Image } from "lucide-react";
 import { useNavigation } from "../context/NavigationContext";
 import { useAuth } from "../context/AuthContext";
 import { APP_VERSION } from "../constants";
@@ -14,6 +14,7 @@ const menuItems = [
   { path: "/calendari", key: "nav.events", fallback: "Calendari", icon: Calendar },
   { path: "/mapa", key: "nav.map", fallback: "Mapa", icon: Map },
   { path: "/el-projecte", key: "nav.project", fallback: "El Projecte", icon: BookOpen },
+  { path: "/media", key: "nav.media", fallback: "Multimèdia", icon: Image },
   { path: "/notes", key: "nav.notes", fallback: "Bloc de Notes", icon: FileText },
 ];
 
