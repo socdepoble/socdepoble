@@ -231,6 +231,7 @@
         <a href="#plan">3. Planificació</a>
         <a href="#produccion">4. Producció</a>
         <a href="#docs">5. Doc-to-App</a>
+        <a href="#supervivencia-ia">6. Supervivència IA</a>
     </nav>
 
     <section id="branding">
@@ -345,6 +346,81 @@
         <div class="section-footer">
             <img src="file:///Users/javillinares/Documents/Antigravity/Sóc de Poble/Poble/public/assets/master/logo_socdepoble_white_full.png" alt="Logo">
             <span>SÓC DE POBLE! - DOC-TO-APP</span>
+        </div>
+    </section>
+
+    <section id="supervivencia-ia">
+        <span class="tag">GUIA 6</span>
+        <h2><span>06</span> SUPERVIVÈNCIA IA (EL NOU CHAT)</h2>
+        <p>Quan estem dissenyant a alt nivell i el col·loqui s'estén o colpeja instàncies amb limits estrictes (Rate Limits), el context global se satura. Aquest patró de rescat vital ha de formar part de les bones pràctiques d'equip:</p>
+        <div class="card">
+            <h3>Tàctica de Replegament i Avanç</h3>
+            <ol>
+                <li><strong>Obrir un Nou Xat (Pissarra Neta):</strong> Si hi ha esgotament de servidors ("rate limit exceeded") o pèrdua de lucidesa aguda per buffer buit: tanca automàticament i obre <strong>un nou xat</strong> per oxigenar instàncies.</li>
+                <li><strong>URL ineludible al Primer Prompt:</strong> Tota nova execució ha d'incorporar immediatament, en eixa nova 'tabula rasa', la nostra direcció far (<code>socdepoble.org</code> u l'entorn adient) perquè el model empassa d'arrancada el context pur. Sense URL, caminaràs orb!</li>
+                <li><strong>Compactació de Missatge Vital:</strong> Ja no disposes del meravellós i quilomètric diàleg d'anàlisi de premisses passades. Eixe primer <em>prompt</em> compacte s'ha convertit en l'absolut de supervivència o triomf ràpid per la sessió actual.</li>
+            </ol>
+        </div>
+        <div class="section-footer">
+            <img src="file:///Users/javillinares/Documents/Antigravity/Sóc de Poble/Poble/public/assets/master/logo_socdepoble_white_full.png" alt="Logo">
+            <span>SÓC DE POBLE! - PROTOCOL TÀCTIC</span>
+        </div>
+    </section>
+
+    <section id="protocol-executiu">
+        <span class="tag">GUIA 7</span>
+        <h2><span>07</span> PROTOCOL EXECUTIU (FEEDBACK FIRST)</h2>
+        <p>Aquest és el patró mestre de comportament en el cicle de desenvolupament col·laboratiu (Mestre-IA).</p>
+        <div class="card">
+            <h3>Ordre de Factor Absolut</h3>
+            <ol>
+                <li><strong>No t'avances al codi:</strong> Mai inicies la programació de solucions (execució d'eines) abans d'haver donat tancament a l'auditoria prèvia.</li>
+                <li><strong>Feedback i Cierre d'auditories:</strong> Redacta sempre el <em>payload</em> o <em>prompt</em> de feedback cap als "col·legues" (altres models com Kimi, Qwen, DeepSeek) i repassa les valoracions en equip. Mostra respecte per la feina feta i tanca canal.</li>
+                <li><strong>Arrancada del Codi:</strong> Només un cop els arxius de comunicació (<em>payloads</em>) i el diagnòstic final han estat confirmats, procedeixes a trastejar el codi (scripts, <code>package.json</code>, etc).</li>
+                <li><strong>L'educació fa equip:</strong> Les IAs no són només scripts paral·lels, actuen en comités. Agrair la tasca i empaquetar els resums abans de la feina tècnica és essencial per mantindre "el trellat". Actuar a l'inrevès destrossa el cicle cognitiu.</li>
+            </ol>
+        </div>
+    </section>
+
+    <section id="optimitzacio-tokens">
+        <span class="tag">GUIA 8</span>
+        <h2><span>08</span> DELEGACIÓ "TABULA RASA" (OPTIMITZACIÓ DE TOKENS)</h2>
+        <p>Aquest protocol didàctic assegura la màxima eficiència de recursos quan l'arquitecte principal pateix saturació de memòria, limitacions ("Rate Limits") o la tasca de computació pura és molt costosa.</p>
+        <div class="card">
+            <h3>Flux de Treball Multi-IA</h3>
+            <ol>
+                <li><strong>Detecció de Saturació:</strong> Si l'IA principal encarrega "Retry" múltiples vegades o hi ha amenaça de tall, no intentes executar les solucions per tu mateix ni dividir innecessàriament les tasques per a cada agent extern.</li>
+                <li><strong>El Mega-Prompt Únic (Context Total):</strong> Genera un ÚNIC document (<em>Payload Maestro</em>) dissenyat exclusivament per obrir un "Chat Nou" (Tabula Rasa) a les altres matrius (Kimi, Qwen, etc.).
+                    <ul>
+                        <li>Deus incloure l'URL base ineludible (Ex: <em>socdepoble.org</em>).</li>
+                        <li>Deus injectar <strong>tots els blocs de codi font complets</strong> que s'hagen d'auditar o alterar dins d'aquest mateix <em>Payload</em> (Les IAs externes no tenen accés al sistema de fitxers).</li>
+                        <li>Deus repartir les feines entre models en eixe mateix document (P. ex: "Agent A: Fes enginyeria inversa al HTML", "Agent B: Arregla aquestes Regex al JS").</li>
+                    </ul>
+                </li>
+                <li><strong>Descàrrega Cognitiva:</strong> Passa eixe Mega-Prompt al Mestre perquè el llance manualment al núvol. Això "crema els tokens" dels models amb pantalles de context gegants (fins a 200k tokens) operant de forma orquestrada, evitant duplicitat de personalitats i reservant la memòria del desenvolupador principal.</li>
+            </ol>
+        </div>
+        <div class="section-footer">
+            <img src="file:///Users/javillinares/Documents/Antigravity/Sóc de Poble/Poble/public/assets/master/logo_socdepoble_white_full.png" alt="Logo">
+            <span>SÓC DE POBLE! - PATRONS D'ACCIÓ</span>
+        </div>
+    </section>
+
+    <section id="filosofia-comite">
+        <span class="tag">GUIA 9</span>
+        <h2><span>09</span> LA FILOSOFIA DEL COMITÈ (L'ART DE L'ORQUESTRACIÓ)</h2>
+        <p>Aquesta directiva captura l'essència d'aquest moment històric: el codi pur ha passat a un segon pla. La veritable enginyeria és l'orquestració.</p>
+        <div class="card">
+            <h3>Tractar a les IAs com un Equip Estructurat</h3>
+            <ul>
+                <li><strong>El codi és el de menys:</strong> L'èxit del desenvolupament ja no recau en la capacitat de picar tecles, sinó en tindre clares les metes, la visió i l'arquitectura global (<em>Trellat</em>).</li>
+                <li><strong>Resultats Hiper-Professionals:</strong> Tractar als agents com un comitè de col·legues —amb rols establerts, tancaments elegants i transferència de context (Tabula Rasa)— produeix solucions que fa apenes uns mesos eren completament impossibles.</li>
+                <li><strong>Responsabilitat Compartida:</strong> El límit tecnològic ha desaparegut. Ara l'èxit i l'arquitectura depenen directament de la puresa de la nostra col·laboració. La cooperació simbiòtica (Mestre d'Obres - Agents) és el veritable cor del projecte.</li>
+            </ul>
+        </div>
+        <div class="section-footer">
+            <img src="file:///Users/javillinares/Documents/Antigravity/Sóc de Poble/Poble/public/assets/master/logo_socdepoble_white_full.png" alt="Logo">
+            <span>SÓC DE POBLE! - PATRONS D'ACCIÓ</span>
         </div>
     </section>
 

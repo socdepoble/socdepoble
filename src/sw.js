@@ -14,6 +14,9 @@ self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
   }
+  if (event.data && event.data.type === 'KILL_YOURSELF') {
+    self.registration.unregister();
+  }
   if (event.data && event.data.type === 'FORCE_UPDATE') {
     caches.keys().then(keys => Promise.all(keys.map(key => caches.delete(key))))
       .then(() => {

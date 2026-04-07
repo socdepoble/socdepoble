@@ -1,0 +1,142 @@
+[
+  {
+    "title": "Bíblia del Sistema Sóc de Poble! 🏺📖",
+    "file": "/skills/BIBLIA_DEL_SISTEMA.md",
+    "id": "skill-BIBLIA_DEL_SISTEMA"
+  },
+  {
+    "title": "Cognitive Session Protocol (v1.0) - Reproducción Genética Mestra",
+    "file": "/skills/.antigravity_session_rules.md",
+    "id": "skill-.antigravity_session_rules"
+  },
+  {
+    "title": "🧬 GENOTIPO SINTÉTICO (LLIBRE DE GÈNESI)",
+    "file": "/skills/00_GENOTIPO_SINTETICO_LIBRO.md",
+    "id": "skill-00_GENOTIPO_SINTETICO_LIBRO"
+  },
+  {
+    "title": "ANTIGRAVITY — SCRIPT DE INSTANCIACIÓN V12",
+    "file": "/skills/00_MACROPROMPT_CODEX.md",
+    "id": "skill-00_MACROPROMPT_CODEX"
+  },
+  {
+    "title": "EL CÓDICE ÚNICO (LLIBRE-SENCER)",
+    "file": "/skills/00_master_genotipo.md",
+    "id": "skill-00_master_genotipo"
+  },
+  {
+    "title": "6. DOC TO APP (TRANSFORMACIÓ IAIA) 📄➡️📱",
+    "file": "/skills/6-Doc-to-App-SocDePoble.md",
+    "id": "skill-6-Doc-to-App-SocDePoble"
+  },
+  {
+    "title": "2. CREADOR DE SKILLS ANTIGRAVITY (LA FÀBRICA) 🏗️🕹️",
+    "file": "/skills/2-Creador-de-Skills-SocDePoble.md",
+    "id": "skill-2-Creador-de-Skills-SocDePoble"
+  },
+  {
+    "title": "4. PLANIFICACIÓ PRO (L'ARQUITECTURA DEL MARGE) 📐🏗️",
+    "file": "/skills/4-Planificacio-SocDePoble.md",
+    "id": "skill-4-Planificacio-SocDePoble"
+  },
+  {
+    "title": "1. PLANTILLA BRANDING SÓC DE POBLE 🏺🎨",
+    "file": "/skills/1-Plantilla-Branding-SocDePoble.md",
+    "id": "skill-1-Plantilla-Branding-SocDePoble"
+  },
+  {
+    "title": "3. BRAINSTORMING PRO (EL TRELLAT CREATIU) 🧠💡",
+    "file": "/skills/3-Brainstorming-SocDePoble.md",
+    "id": "skill-3-Brainstorming-SocDePoble"
+  },
+  {
+    "title": "5. MODO PRODUCCIÓ (BOTIGA DE DIUMENGE) 🛡️🔍",
+    "file": "/skills/5-Modo-Produccion-SocDePoble.md",
+    "id": "skill-5-Modo-Produccion-SocDePoble"
+  },
+  {
+    "title": "🛑 ALERTA MÀXIMA DE SISTEMA 🛑",
+    "file": "/skills/SKILL_IAIA_PERSONAS.md",
+    "id": "skill-SKILL_IAIA_PERSONAS"
+  },
+  {
+    "title": "SKILL: DOC-TO-APP (TRANSFORMACIÓ RURAL) 📄➡️🚜",
+    "file": "/skills/SKILL_DOC_TO_APP.md",
+    "id": "skill-SKILL_DOC_TO_APP"
+  },
+  {
+    "title": "Habilidad (Skill): Niveles de Visión IAIA (Realidad Aumentada Rural)",
+    "file": "/skills/SKILL_IAIA_VISIBILITY_LEVELS.md",
+    "id": "skill-SKILL_IAIA_VISIBILITY_LEVELS"
+  },
+  {
+    "title": "SKILL: ESTIL DE MARCA SÓC DE POBLE 🏺🎨",
+    "file": "/skills/SKILL_MARCA_SOCDEPOBLE.md",
+    "id": "skill-SKILL_MARCA_SOCDEPOBLE"
+  },
+  {
+    "title": "SKILL: MASTER SEO (VISIBILITAT CÀNONICA) 🏺📡",
+    "file": "/skills/SKILL_SEO_MASTER.md",
+    "id": "skill-SKILL_SEO_MASTER"
+  },
+  {
+    "title": "SKILL: ORCHESTRATOR (EL CERVELL OPERATIU) 🧠🕹️",
+    "file": "/skills/SKILL_ORCHESTRATOR.md",
+    "id": "skill-SKILL_ORCHESTRATOR"
+  },
+  {
+    "title": "SKILL: MODE PRODUCCIÓ (VALIDACIÓ FORENSE) 🛡️🔍",
+    "file": "/skills/SKILL_PRODUCCIO.md",
+    "id": "skill-SKILL_PRODUCCIO"
+  },
+  {
+    "title": "SKILL: Protocol de Purga Nuclear i Desplegament Blindat 🏺🔥🚀",
+    "file": "/skills/SKILL_ARCH_NUCLEAR_PURGE.md",
+    "id": "skill-SKILL_ARCH_NUCLEAR_PURGE"
+  },
+  {
+    "title": "SKILL: INTEGRACIÓ SEGURA (GEM -> FLASH) 🤝💎",
+    "file": "/skills/SKILL_INTEGRACIO_GEM_FLASH.md",
+    "id": "skill-SKILL_INTEGRACIO_GEM_FLASH"
+  },
+  {
+    "title": "SKILL: FACTORY (PLANTILLA MESTRE) 🏭🏺",
+    "file": "/skills/SKILL_FACTORY.md",
+    "id": "skill-SKILL_FACTORY"
+  },
+  {
+    "title": "El Tio SEO - L'assistent rural d'enllaços i relacions 🚜🧵",
+    "file": "/skills/SKILL_TIO_SEO.md",
+    "id": "skill-SKILL_TIO_SEO"
+  },
+  {
+    "title": "Paritat amb la Pantalla d'Informació de WhatsApp (Chat Manager)",
+    "file": "/skills/whatsapp_parity_specs.md",
+    "id": "skill-whatsapp_parity_specs"
+  },
+  {
+    "title": "SKILL: Arquitectura de Ferro - SSI/DID [v1.0]",
+    "file": "/skills/SKILL_ARCH_SSI_DID.md",
+    "id": "skill-SKILL_ARCH_SSI_DID"
+  },
+  {
+    "title": "SKILL: SNIPPET DE CAPTURA - QUADERN DE TRELLAT 📓🔗",
+    "file": "/skills/SKILL_NOTE_SNIPPET.md",
+    "id": "skill-SKILL_NOTE_SNIPPET"
+  },
+  {
+    "title": "El Libro de los Arquitectos Digitales (IA) - Sóc de Poble",
+    "file": "/skills/LIBRO_DE_ARQUITECTURA_IA.md",
+    "id": "skill-LIBRO_DE_ARQUITECTURA_IA"
+  },
+  {
+    "title": "SKILL: CONSISTÈNCIA DE DISSENY I LAYOUT 🎨🪐",
+    "file": "/skills/SKILL_LAYOUT_CONSISTENCY.md",
+    "id": "skill-SKILL_LAYOUT_CONSISTENCY"
+  },
+  {
+    "title": "EL LEITMOTIV: LA REPRODUCCIÓN ADAPTATIVA",
+    "file": "/skills/OMNISCIENCE_ARCHITECT.md",
+    "id": "skill-OMNISCIENCE_ARCHITECT"
+  }
+]

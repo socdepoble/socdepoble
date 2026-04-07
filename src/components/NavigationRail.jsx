@@ -11,7 +11,6 @@ const menuItems = [
   { path: "/mur", key: "nav.feed", fallback: "Mur", icon: LayoutGrid },
   { path: "/mercat", key: "nav.market", fallback: "Mercat", icon: Store },
   { path: "/pobles", key: "nav.towns", fallback: "Pobles", icon: MapPin },
-  { path: "/veins", key: "nav.users", fallback: "Veïns", icon: Users },
   { path: "/calendari", key: "nav.events", fallback: "Calendari", icon: Calendar },
   { path: "/mapa", key: "nav.map", fallback: "Mapa", icon: Map },
   { path: "/el-projecte", key: "nav.project", fallback: "El Projecte", icon: BookOpen },

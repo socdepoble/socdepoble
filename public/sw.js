@@ -35,6 +35,15 @@ self.addEventListener('activate', (e) => {
 self.addEventListener('fetch', (e) => {
   if (e.request.method !== 'GET') return;
 
+  const url = new URL(e.request.url);
+  
+  // EXCEPCIÓN LETAL AL FANTASMA: No interponerse en la carga del libro maestro.
+  // Dejamos que IndexedDB controle el Offline-First.
+  if (url.pathname.includes('/assets/llibre-sencer.html')) {
+    e.respondWith(fetch(e.request));
+    return;
+  }
+
   e.respondWith(
     caches.open(CACHE_TRELAT).then(cache => {
       return cache.match(e.request).then(cachedResponse => {

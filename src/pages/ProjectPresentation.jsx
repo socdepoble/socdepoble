@@ -18,43 +18,62 @@ import RoundButton from '../components/ui/RoundButton';
 import { useTranslation } from 'react-i18next';
 
 // Es carregarà de forma dinàmica per externalitzar pes de l'arrel
-import { get, set } from 'idb-keyval';
+import { get, set, keys, del } from 'idb-keyval';
 import { useAtomicGuard } from '../hooks/useAtomicGuard';
 
-// CACHE KEY estático para el libro base
-const BOOK_CACHE_KEY = 'trellat_book_fallback_v4';
+const BOOK_CACHE_KEY = 'trellat_book_fallback_v5';
 
 const fetchDefaultBookContent = async () => {
-    // 1. Intentar IndexedDB primero (Trellat: Local-First)
-    if (!import.meta.env.DEV) {
-        const cached = await get(BOOK_CACHE_KEY);
-        if (cached) return cached;
-    }
-
-    // 2. Fetch de red con timeout agresivo (rural 2G/3G)
+    // 1. Network-First con timeout agresivo (Trellat)
     try {
         const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 5000); // 5s máx en pueblo
+        const timeout = setTimeout(() => controller.abort(), 6000); // 6s máx en pueblo
         
-        // Anti-caché HTTP (busting parameter) para forzar lectura fresca
-        const res = await fetch(`/assets/llibre-sencer.html?t=${Date.now()}`, { 
+        // Anti-caché HTTP (busting parameter) para forzar lectura fresca SIEMPRE
+        const res = await fetch(`/llibre-sencer.html?t=${Date.now()}`, { 
             signal: controller.signal,
-            headers: { 'Accept': 'text/html', 'Cache-Control': 'no-cache' }
+            headers: { 'Accept': 'text/html', 'Cache-Control': 'no-cache, no-store, must-revalidate' }
         });
         clearTimeout(timeout);
         
-        if (res.ok) {
-            const text = await res.text();
-            // Guardar en IndexedDB para offline perpetuo (sin límite LRU, es crítico)
-            await set(BOOK_CACHE_KEY, text);
-            return text;
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const text = await res.text();
+        
+        // --- INICI PURGA ZOMBI PWA (Tabula Rasa en cambios) ---
+        try {
+            const cachedGenotipo = await get(BOOK_CACHE_KEY);
+            if (cachedGenotipo !== text) {
+                console.info('[Trellat] Cambios detectados en el Genotipo. Aplicando Tabula Rasa a cachés antiguas...');
+                const allKeys = await keys();
+                const keysToDelete = allKeys.filter(k => 
+                    (typeof k === 'string') && 
+                    ((k.startsWith('trellat_book_fallback_') && k !== BOOK_CACHE_KEY) || k.startsWith('page_'))
+                );
+                await Promise.all(keysToDelete.map(k => del(k)));
+            }
+        } catch(err) {
+            console.warn('[Trellat] Error purgando cachés zombies:', err);
         }
+        // --- FINAL PURGA ---
+
+        // Guardar la versión más fresca en IndexedDB para el modo offline perpetuo
+        await set(BOOK_CACHE_KEY, text);
+        return text;
     } catch (e) {
-        console.warn('[Trellat] Fallo carga libro, modo offline sin caché previa:', e);
+        console.warn('[Trellat] Falló carga fresca desde red, intentando caché offline:', e);
+        
+        // 2. Fallback a IndexedDB (Offline-first de emergencia)
+        if (!import.meta.env.DEV) {
+            const cached = await get(BOOK_CACHE_KEY);
+            if (cached) {
+                console.info('[Trellat] Sirviendo libro desde IndexedDB por fallo de red.');
+                return cached;
+            }
+        }
+        
+        // 3. Modos extremos sin red ni caché
+        return "<h1>SÓC DE POBLE</h1><p>Mode offline extrem. No hi ha connexió ni còpia local del llibre.</p>";
     }
-    
-    // 3. Fallback último recurso (nunca debería pasar si ya usaron la app antes)
-    return "<h1>SÓC DE POBLE</h1><p>Mode offline. No hi ha còpia local del llibre encara.</p>";
 };
 
 const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
@@ -137,9 +156,8 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
 
         try {
             // CACHEO AGRESIVO: Supabase con fallback local inmediato
-            const cacheKey = `cms_page_${_slug}`;
-            
-            // En DEV ignoramos la caché local al leer para permitir Live Reload fluido de las skills del HTML
+            let cacheKey = `page_${_slug}_v2`;
+            localCache = await get(cacheKey);         // En DEV ignoramos la caché local al leer para permitir Live Reload fluido de las skills del HTML
             if (!import.meta.env.DEV) {
                 localCache = await get(cacheKey);
             }

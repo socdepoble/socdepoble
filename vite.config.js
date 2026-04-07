@@ -32,11 +32,12 @@ export default defineConfig({
       srcDir: 'src',
       filename: 'sw.js',
       registerType: 'autoUpdate',
-      injectRegister: 'auto',
+      injectRegister: 'inline',
       devOptions: { enabled: false, type: 'module' },
       injectManifest: {
         maximumFileSizeToCacheInBytes: 100 * 1024 * 1024,
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,wasm,onnx}']
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,wasm,onnx}'],
+        globIgnores: ['llibre-sencer.html', 'skills/**', 'assets/books/**']
       },
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
       manifest: {
