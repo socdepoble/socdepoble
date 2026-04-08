@@ -407,4 +407,22 @@
     height: auto;
     padding-top: 12px;
   }
+
+  .viewer-content-wrapper {
+    padding: 0;
+    gap: 0;
+  }
+
+  .document-sheet {
+    width: 100%;
+    min-height: auto;
+    padding: 15px;
+    box-shadow: none;
+    border: none;
+    margin-bottom: 0;
+  }
+
+  .content-raw {
+    font-size: 13pt;
+  }
 }

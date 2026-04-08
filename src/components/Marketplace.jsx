@@ -13,12 +13,10 @@ import SEO from './SEO';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { geminiService } from '../services/geminiService';
 import { rhizomeManager } from '../services/rhizomeManager';
-import { paymentService } from '../services/paymentService';
 import { hapticService } from '../services/hapticService';
 import { IAIA_ID, USER_ROLES } from '../constants';
 import { isSdPOficial, isLegacyMock } from '../utils/identityUtils';
 
-import ItemDetailModal from './ItemDetailModal';
 import UniversalCard from './UniversalCard';
 import ContextualHeader from './ContextualHeader';
 import { MOCK_MARKET_ITEMS } from '../data';
@@ -192,52 +190,7 @@ const Market = ({ searchTerm = '' }) => {
         });
     }, [items, searchTerm, internalSearchTerm, visionMode, isIAIAFiltering, isSuperAdmin]);
 
-    const [, setPayingItemId] = useState(null);
-    const [, setPaidItems] = useState(new Set());
-    const [selectedItemForDetail, setSelectedItemForDetail] = useState(null);
 
-    const handleAstroPayment = async (item) => {
-        const confirm = window.confirm(t('market.payment_confirm', { price: item.price, title: item.title }));
-        if (!confirm) return;
-
-        const itemId = item.uuid || item.id;
-        setPayingItemId(itemId);
-
-        // [SUPREME USABILITY] Confiança Optimista: Bateguem ràpid!
-        try {
-            const result = await paymentService.sendEconomicBeat({
-                amount: parseFloat(item.price.replace('€', '').replace(',', '.').trim()) || 0,
-                receiver_id: item.seller_entity_id || item.author_id,
-                reference: `Tele-Oli: ${item.title}`
-            });
-
-            if (result.success) {
-                // Vibració de confirmació segons el nou mandament [MASTER]
-                hapticService.notifySuccess();
-
-                setPaidItems(prev => new Set([...prev, itemId]));
-
-                // Mostrem l'èxit bategat per un moment abans de netejar el loader si n'hi hagués
-                setTimeout(() => {
-                    setPayingItemId(null);
-                    // Mantenim el check verd un moment més per a satisfacció de l'usuari
-                    setTimeout(() => {
-                        setPaidItems(prev => {
-                            const next = new Set(prev);
-                            next.delete(itemId);
-                            return next;
-                        });
-                    }, 3000);
-                }, 500);
-            } else {
-                alert(t('market.payment_error', { error: result.error }));
-                setPayingItemId(null);
-            }
-        } catch (err) {
-            logger.error('[Market] Payment error:', err);
-            setPayingItemId(null);
-        }
-    };
 
     const handleRecipeClick = async (item) => {
         hapticService.batec();

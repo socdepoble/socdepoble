@@ -114,7 +114,7 @@ const MEMORY_CONFIG = {
  * Hook React: useInsectMemory
  * Virtualización extrema + LRU + Gestión de presión de memoria
  */
-export function useInsectMemory(containerRef, items, itemHeight, renderItem) {
+export function useInsectMemory(containerRef, items, itemHeight) {
   // Estado mínimo indispensable (no guardar items completos aquí)
   const [visibleRange, setVisibleRange] = React.useState({ start: 0, end: 0 });
   const [pressure, setPressure] = React.useState('normal'); // normal | warning | critical
@@ -260,7 +260,9 @@ export function useInsectMemory(containerRef, items, itemHeight, renderItem) {
   // FASE 4: RENDERIZADO CON RECICLAJE DE POOL
   // ============================================================
   
-  const getVisibleItems = React.useCallback(() => {
+  const [visibleItems, setVisibleItems] = React.useState([]);
+
+  React.useEffect(() => {
     const { start, end } = visibleRange;
     const visible = [];
     
@@ -296,15 +298,6 @@ export function useInsectMemory(containerRef, items, itemHeight, renderItem) {
         element.style.width = '100%';
         element.dataset.index = i;
         
-        // Inyectar contenido React via portal o render directo
-        const content = renderItem(items[i], i);
-        if (typeof content === 'string') {
-          element.innerHTML = content;
-        } else {
-          // Para React elements, usar un contenedor y render
-          // OJO: React.Portal requiere renderizar React nodes
-        }
-        
         poolRef.current.set(i, element);
         lruRef.current.set(i, element);
       }
@@ -312,11 +305,11 @@ export function useInsectMemory(containerRef, items, itemHeight, renderItem) {
       visible.push({ index: i, element });
     }
     
-    return visible;
-  }, [visibleRange, items, itemHeight, renderItem]);
+    setVisibleItems(visible);
+  }, [visibleRange, items.length, itemHeight]);
 
   return {
-    visibleItems: getVisibleItems(),
+    visibleItems,
     pressure
   };
 }
@@ -331,8 +324,7 @@ export function InfiniteFeed({ items, renderItem, itemHeight = 200 }) {
   const { visibleItems, pressure } = useInsectMemory(
     containerRef,
     items,
-    itemHeight,
-    renderItem
+    itemHeight
   );
 
   const containerClass = `insect-feed ${pressure === 'critical' ? 'emergency-mode' : ''}`;

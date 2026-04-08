@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { 
     Settings, Loader2, AlertCircle, 
     Sparkles, Grid, Share2, ArrowLeft, Camera, UserCheck, MessageCircle, MapPin,
@@ -8,7 +8,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useDesign } from '../context/DesignContext';
-import { useModal, useModalDispatch } from '../context/ModalContext';
+
 import { supabaseService, isValidUUID } from '../services/supabaseService';
 import SEO from '../components/SEO';
 import Feed from '../components/Feed';
@@ -18,7 +18,7 @@ import ProfileSettingsModal from '../components/ProfileSettingsModal';
 import ContextualHeader from '../components/ContextualHeader';
 import StatusLoader from '../components/StatusLoader'; // FIX: Evita el Crash en perfils sense publicacions
 import LanguageSelector from '../components/LanguageSelector';
-import { useViewMode } from '../hooks/useViewMode';
+
 import ChatDetail from '../components/ChatDetail';
 import GestoriaPanel from '../components/GestoriaPanel';
 import UniversalCard from '../components/UniversalCard';
@@ -38,34 +38,24 @@ const generateUsernameFromName = (name) => {
 const ProfileView = () => {
     const { theme } = useDesign();
     const isDayMode = theme === 'light';
-    const [searchParams] = useSearchParams();
-    const activeRoleFilter = searchParams.get('role') || 'tot';
+
     
     // Theme Colors - Reactive to isDayMode as requested
     const bgColor = isDayMode ? 'bg-[#FDF5E6]' : 'bg-[#0a0a0a] md:bg-[#111]';
     const textColor = isDayMode ? 'text-black' : 'text-white';
     const textMuted = isDayMode ? 'text-black/60' : 'text-white/60';
-    const cardBgColor = isDayMode ? 'bg-white' : 'bg-[#141414] border border-white/5';
-    const borderColor = isDayMode ? 'border-orange-500/20' : 'border-white/10';
 
     const { id, username } = useParams();
     const navigate = useNavigate();
     const { user: currentUser, profile: myProfile } = useAuth();
-    const { openConnectionModal } = useModalDispatch();
-    const { openViewer } = useModal();
 
     const [profile, setProfile] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [activeTab, setActiveTab] = useState('mur');
-    const [isConnected, setIsConnected] = useState(false);
-    const [stats, setStats] = useState({ followers: 0, following: 0, posts: 0 });
-    const [userPosts, setUserPosts] = useState([]);
-    const [userEntities, setUserEntities] = useState([]);
     
     // Modals
     const [isChatOpen, setIsChatOpen] = useState(false);
-    const { viewMode, setViewMode } = useViewMode('feed_view_mode', 'grid');
+
 
     const scrollRef = React.useRef(null);
     const [showTopBtn, setShowTopBtn] = useState(false);
@@ -102,7 +92,6 @@ const ProfileView = () => {
             setAgentsList(Object.values(AGENTS_MAP));
         }).catch(err => console.error("Failed to load agents map", err));
     }, []);
-    const [isRepositioning, setIsRepositioning] = useState(false);
 
     const isOwnProfile = React.useMemo(() => {
         return (!id && !username) || (currentUser && id === currentUser.id);
@@ -287,55 +276,6 @@ const ProfileView = () => {
                 if (controller.signal.aborted) return;
                 setProfile(finalProfile);
 
-                if (isValidUUID(finalProfile.id) || finalProfile.id) {
-                    // React 18 batches these state updates automatically
-                    const [followers, following, posts, postsData, entitiesData] = await Promise.all([
-                        supabaseService.getFollowers(finalProfile.id),
-                        supabaseService.getFollowing(finalProfile.id),
-                        finalProfile.is_town ? Promise.resolve(0) : supabaseService.getUserPostsCount(finalProfile.id),
-                        finalProfile.is_town ? Promise.resolve([]) : supabaseService.getUserPosts(finalProfile.id),
-                        supabaseService.getUserEntities(finalProfile.id)
-                    ]);
-
-                    if (controller.signal.aborted) return;
-
-                    setStats({
-                        followers: followers?.length || 0,
-                        following: following?.length || 0,
-                        posts: posts || 0
-                    });
-                    
-                    if (postsData && Array.isArray(postsData)) {
-                        setUserPosts(postsData);
-                    }
-                    if (entitiesData && Array.isArray(entitiesData)) {
-                        setUserEntities(entitiesData);
-                    }
-
-                    if (currentUser && finalProfile.id !== currentUser.id) {
-                        const followingStatus = await supabaseService.isFollowing(currentUser.id, finalProfile.id);
-                        setIsConnected(followingStatus);
-                    }
-                } else if (finalProfile.id.startsWith('mock_')) {
-                    // Càrrega de publicacions globals de dades mock per als visitants
-                    try {
-                        const { MOCK_FEED, MOCK_TOWNS, MOCK_MARKET_ITEMS } = await import('../data.js');
-                        const allMocks = [...(MOCK_FEED||[]), ...(MOCK_TOWNS||[]), ...(MOCK_MARKET_ITEMS||[])];
-                        const cleanMatch = finalProfile.full_name.toLowerCase();
-                        
-                        const myMocks = allMocks.filter(p => 
-                            (p.author_name && p.author_name.toLowerCase().includes(cleanMatch)) ||
-                            (p.author && p.author.toLowerCase().includes(cleanMatch))
-                        );
-                        
-                        if (myMocks.length > 0) {
-                            setUserPosts(myMocks);
-                            setStats(s => ({ ...s, posts: myMocks.length }));
-                        }
-                    } catch(e) {
-                        console.warn('Silent fail loading mock posts for synthesized profile', e);
-                    }
-                }
             } catch (err) {
                 if (err.name !== 'AbortError') setError(err.message);
             } finally {
@@ -415,9 +355,6 @@ const ProfileView = () => {
         }
     };
     
-    // Oberta per defecte a tot el món (demostrativa en guests)
-    const canAdminHero = true;
-
     if (loading) return (
         <div className={`flex flex-col items-center justify-center min-h-screen ${bgColor} ${textColor}`}>
             <Loader2 className="animate-spin text-orange-500 mb-4" size={48} />

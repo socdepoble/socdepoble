@@ -1,0 +1,78 @@
+
+> soc-de-poble-app@10.38.1 lint
+> eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0
+
+
+/Users/javillinares/Documents/Antigravity/Sóc de Poble/_HISTORIC_SENSIBLE/check_data.cjs
+  1:1  error  Parsing error: 'import' and 'export' may appear only with 'sourceType: module'
+
+/Users/javillinares/Documents/Antigravity/Sóc de Poble/_HISTORIC_SENSIBLE/combine_presentation.mjs
+  18:21  error  Parsing error: Unterminated template
+
+/Users/javillinares/Documents/Antigravity/Sóc de Poble/_HISTORIC_SENSIBLE/patch_feed.js
+  17:5  error  'counter' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/javillinares/Documents/Antigravity/Sóc de Poble/_HISTORIC_SENSIBLE/update_agents.js
+  63:11  error  'regexStr' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+  64:11  error  'regex' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u     no-unused-vars
+
+/Users/javillinares/Documents/Antigravity/Sóc de Poble/_PAPERERA_OBSOLETA/test_curl.js
+  2:8  error  'fs' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/javillinares/Documents/Antigravity/Sóc de Poble/_PAPERERA_OBSOLETA/test_db.js
+  3:8  error  'fs' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/javillinares/Documents/Antigravity/Sóc de Poble/_PAPERERA_OBSOLETA/test_supabase.js
+  14:7  error  'supabase' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/javillinares/Documents/Antigravity/Sóc de Poble/_PAPERERA_OBSOLETA/test_supabase_fetch.js
+  4:7  error  'originalFetch' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/javillinares/Documents/Antigravity/Sóc de Poble/src/components/Marketplace.jsx
+  197:12  error  'selectedItemForDetail' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u     no-unused-vars
+  197:35  error  'setSelectedItemForDetail' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+  199:11  error  'handleAstroPayment' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u        no-unused-vars
+
+/Users/javillinares/Documents/Antigravity/Sóc de Poble/src/components/UniversalCard/index.jsx
+  16:10  error  'logger' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                        no-unused-vars
+  77:25  error  'openConnectionModal' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+/Users/javillinares/Documents/Antigravity/Sóc de Poble/src/config/iaiesMundialsMap.jsx
+  10:14  error  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/Users/javillinares/Documents/Antigravity/Sóc de Poble/src/hooks/useInsectMemory.js
+  319:19  error  Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+  317 |
+  318 |   return {
+> 319 |     visibleItems: getVisibleItems(),
+      |                   ^^^^^^^^^^^^^^^ This function accesses a ref value
+  320 |     pressure
+  321 |   };
+  322 | }  react-hooks/refs
+
+/Users/javillinares/Documents/Antigravity/Sóc de Poble/src/hooks/useIntersectionObserver.js
+  24:6  warning  React Hook useEffect has missing dependencies: 'options' and 'ref'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/javillinares/Documents/Antigravity/Sóc de Poble/src/pages/ProfileView.jsx
+   42:11  error  'activeRoleFilter' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u     no-unused-vars
+   48:11  error  'cardBgColor' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u          no-unused-vars
+   49:11  error  'borderColor' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u          no-unused-vars
+   54:13  error  'openConnectionModal' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+   55:13  error  'openViewer' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u           no-unused-vars
+   60:12  error  'activeTab' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u            no-unused-vars
+   60:23  error  'setActiveTab' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u         no-unused-vars
+   61:12  error  'isConnected' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u          no-unused-vars
+   62:12  error  'stats' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u                no-unused-vars
+   63:12  error  'userPosts' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u            no-unused-vars
+   64:12  error  'userEntities' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u         no-unused-vars
+   68:13  error  'viewMode' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u             no-unused-vars
+   68:23  error  'setViewMode' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u          no-unused-vars
+  105:12  error  'isRepositioning' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u      no-unused-vars
+  105:29  error  'setIsRepositioning' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u   no-unused-vars
+  419:11  error  'canAdminHero' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u         no-unused-vars
+
+✖ 33 problems (32 errors, 1 warning)
+

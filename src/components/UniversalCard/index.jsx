@@ -13,7 +13,6 @@ import UniversalCardMedia from './UniversalCard.Media';
 import UniversalCardBody from './UniversalCard.Body';
 import UniversalCardFooter from './UniversalCard.Footer';
 import BlueprintOverlay from '../BlueprintOverlay';
-import { logger } from '../../utils/logger';
 
 import { normalizePostData } from '../../normalizers/post.normalizer';
 import { clsx } from 'clsx';
@@ -74,7 +73,7 @@ const UniversalCard = ({
     onNavigate // DeepSeek Audit: Allow decoupled routing
 }) => {
     const cardVariant = (variant === "post" && mode && mode !== "post") ? mode : (variant || mode);
-    const { openViewer, openConnectionModal } = useModal();
+    const { openViewer } = useModal();
     const { forensicMode: contextForensic } = useNavigation();
     const { gloveMode, seniorMode, hapticService } = useDesign();
     const isForensic = forcedForensic || contextForensic;

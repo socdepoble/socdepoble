@@ -58,7 +58,7 @@ const PostDetail = () => {
     const displayTime = postDate.toLocaleTimeString('ca-ES', { hour: '2-digit', minute: '2-digit' });
 
     return (
-        <div className="flex-1 flex flex-col min-h-0 w-full bg-theme-base relative overflow-x-hidden font-sans pb-24 animate-in fade-in duration-500">
+        <div className="flex-1 flex flex-col min-h-0 w-full bg-theme-base relative overflow-x-hidden pt-safe pb-24">
             <SEO
                 title={post.title || displayAuthor}
                 description={(post.content || '').substring(0, 160)}
@@ -66,7 +66,7 @@ const PostDetail = () => {
                 url={`/post/${id}`}
             />
 
-            {/* STICKY NAV BAR */}
+            {/* STICKY NAV BAR - Transparent Glassmorphism */}
             <div className="sticky top-0 z-dropdown flex items-center justify-between p-4 bg-theme-base/80 backdrop-blur-3xl border-b border-theme-border">
                 <button 
                     className="w-12 h-12 flex items-center justify-center bg-theme-panel rounded-full hover:bg-white/10 transition-all border border-theme-border shadow-sm active:scale-95" 
@@ -74,6 +74,12 @@ const PostDetail = () => {
                 >
                     <ArrowLeft size={24} className="text-theme-text" />
                 </button>
+                <div className="flex items-center gap-3 bg-[var(--theme-accent-primary)]/10 px-4 py-2 rounded-full border border-[var(--theme-accent-primary)]/30">
+                     {post.type === 'bancal' ? '🌱' : post.type === 'ajuntament' ? '🏢' : '📜'}
+                     <span className="font-black text-[var(--theme-accent-primary)] uppercase tracking-wider text-xs sm:text-sm">
+                         Publicació de {displayTown}
+                     </span>
+                </div>
                 <ShareHub
                     title={post.title || displayAuthor}
                     text={(post.content || '').substring(0, 100)}
@@ -86,10 +92,14 @@ const PostDetail = () => {
                 />
             </div>
 
-            <article className="max-w-xl mx-auto w-full flex flex-col pt-4">
-                {/* 1. HEADER + MEDIA UNIFICAT (CAPUCHA) */}
-                <div className="px-4 mb-6">
-                    <div className="bg-theme-panel border border-theme-border rounded-[28px] overflow-hidden shadow-xl">
+            <main className="max-w-4xl mx-auto w-full flex flex-col pt-8 pb-32 px-4 sm:px-8 relative z-10 selection:bg-[var(--theme-accent-primary)] selection:text-white">
+                
+                {/* 1. PORTADA DEL LLIBRE / HERO */}
+                <div className="relative mb-12 sm:mb-16 group">
+                    <div className="absolute inset-0 bg-gradient-to-tr from-[var(--theme-accent-primary)] to-transparent opacity-10 rounded-[2rem] blur-3xl transition-opacity duration-700 group-hover:opacity-20" />
+                    
+                    <div className="bg-theme-panel border border-theme-border rounded-[2rem] overflow-hidden shadow-2xl relative z-10 transition-transform duration-500 hover:-translate-y-2">
+                        {/* Protocol Capucha Integrat */}
                         <UniversalCard.Header 
                             item={post} 
                             cardVariant={post.type || 'mur'} 
@@ -101,7 +111,8 @@ const PostDetail = () => {
                             displayDate={displayDate}
                             displayTime={displayTime}
                         />
-                        {mediaList.length > 0 && (
+                        
+                        {mediaList.length > 0 ? (
                             <UniversalCard.Media 
                                 item={post}
                                 cardVariant={post.type || 'mur'}
@@ -111,57 +122,73 @@ const PostDetail = () => {
                                 openViewer={() => {}}
                                 navigate={navigate}
                             />
+                        ) : (
+                            <div className="w-full h-48 sm:h-64 bg-theme-base/50 flex flex-col items-center justify-center border-t border-[var(--border-master)]">
+                                <span className="text-[var(--sdp-terracotta)]/40 font-black tracking-widest text-lg md:text-xl uppercase flex flex-col items-center gap-2">
+                                     <Tag size={32} />
+                                     Sense Contingut Visual
+                                </span>
+                            </div>
                         )}
+                        
                     </div>
                 </div>
 
-                {/* 3. TÍTOL, SUBTÍTOL i TEXT AMB FORMAT MARCKDOWN (Mini bloc de notes) */}
-                <div className="px-5 sm:px-6 flex flex-col gap-2">
+                {/* 2. CONTINGUT DOCTRINAL / ARTICLE */}
+                <article className="prose prose-lg dark:prose-invert max-w-none prose-headings:font-black prose-headings:tracking-tighter prose-p:font-medium prose-p:leading-relaxed prose-a:text-[var(--theme-accent-primary)] prose-a:no-underline hover:prose-a:underline prose-li:marker:text-[var(--theme-accent-primary)] html-article-prose bg-theme-panel p-6 sm:p-12 rounded-[2rem] border border-[var(--border-master)] shadow-xl relative z-10">
+                    <div className="absolute -top-6 -right-6 text-[10rem] opacity-5 select-none pointer-events-none font-black text-[var(--theme-accent-primary)]">
+                        ”
+                    </div>
+                    
                     {post.title && !post.content?.includes(`# ${post.title}`) && (
-                        <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-theme-text leading-none mb-2">{post.title}</h1>
+                        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tighter text-theme-text mb-4 lg:mb-6 uppercase leading-[0.95] drop-shadow-sm w-full">
+                            {post.title}
+                        </h1>
                     )}
                     
                     {post.subtitle && (
-                        <h2 className="text-xl sm:text-2xl font-bold text-[var(--theme-accent-primary)] mb-4 leading-tight">{post.subtitle}</h2>
-                    )}
-                    
-                    {post.content && (
-                        <div className="html-article-prose" dangerouslySetInnerHTML={{ __html: parseSimpleMarkdown(post.content) }} />
-                    )}
-                </div>
-                
-                {/* ETIQUETAR (Tagging System) */}
-                <div className="mt-4 mx-4 p-6 bg-theme-panel border border-theme-border shadow-lg rounded-[32px] overflow-hidden relative">
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--sdp-terracotta)]/10 blur-3xl -mr-16 -mt-16 pointer-events-none" />
-                    <div className="flex items-center gap-3 mb-6 relative z-10">
-                        <div className="w-10 h-10 rounded-full bg-[var(--sdp-terracotta)]/20 flex items-center justify-center">
-                            <Tag className="text-[var(--sdp-terracotta)]" size={20} />
+                        <div className="flex items-center gap-4 mb-8 sm:mb-10 w-full pl-6 border-l-4 border-[var(--theme-accent-primary)] opacity-90 hover:opacity-100 transition-opacity">
+                            <h2 className="text-xl sm:text-2xl font-bold text-theme-text opacity-80 leading-snug tracking-tight m-0">
+                                {post.subtitle}
+                            </h2>
                         </div>
-                        <span className="font-black uppercase tracking-widest text-sm text-theme-text">Classificació del Poble</span>
-                    </div>
+                    )}
                     
-                    <div className="flex flex-wrap gap-2 mb-8 relative z-10">
-                        {post.tags && post.tags.length > 0 ? (
-                            post.tags.map(tag => (
-                                <span key={tag} className="px-4 py-2 bg-theme-base border border-theme-border rounded-full text-xs font-black uppercase tracking-wider text-theme-text shadow-sm">{tag}</span>
-                            ))
-                        ) : (
-                            <span className="text-sm font-bold text-theme-text/40 italic">La comunitat encara no ha afegit etiquetes a este arxiu.</span>
-                        )}
-                    </div>
-                    
-                    <button 
-                        className="w-full h-16 bg-theme-base border border-theme-border hover:border-[var(--sdp-terracotta)]/50 hover:bg-white/5 shadow-sm rounded-[24px] font-black tracking-widest uppercase transition-all flex items-center justify-center gap-2 text-theme-text active:scale-[0.98] relative z-10" 
-                        onClick={() => {
-                            // Offline Queue Hook or LocalFirst DB will catch this action
-                            alert('Funció "Etiquetar" activada per a propers Bategats!');
-                        }}
-                    >
-                        <Tag size={20} />
-                        Afegir Etiqueta
-                    </button>
+                    {post.content ? (
+                        <div className="relative z-10 editor-content-display font-medium text-lg lg:text-xl text-theme-text animate-in fade-in duration-700 delay-200" dangerouslySetInnerHTML={{ __html: parseSimpleMarkdown(post.content) }} />
+                    ) : (
+                        <div className="text-theme-text/50 font-bold italic py-10 text-center animate-pulse">
+                            Aquest document només conte memòria visual.
+                        </div>
+                    )}
+                </article>
+
+                {/* 3. SISTEMA D'ETIQUETES - Estil Documental */}
+                <div className="mt-12 bg-theme-panel border border-[var(--border-master)] rounded-[2rem] p-8 sm:p-12 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] relative overflow-hidden group">
+                     {/* Decorative background flare */}
+                     <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-[var(--theme-accent-primary)]/5 blur-[100px] rounded-full pointer-events-none transition-transform duration-[2s] group-hover:scale-150" />
+                     
+                     <div className="flex items-center gap-4 mb-8 relative z-10 pl-6 border-l-4 border-theme-border">
+                         <div className="w-12 h-12 rounded-2xl bg-theme-base flex items-center justify-center shadow-inner border border-theme-border/50">
+                             <Tag className="text-[var(--theme-accent-primary)]" size={24} />
+                         </div>
+                         <h3 className="font-black text-2xl tracking-tighter text-theme-text m-0 uppercase">Arxiu de Coneixement</h3>
+                     </div>
+                     
+                     <div className="flex flex-wrap gap-3 mb-10 relative z-10 pl-6">
+                         {post.tags && post.tags.length > 0 ? (
+                             post.tags.map((tag, idx) => (
+                                 <span key={`${tag}-${idx}`} className="px-5 py-2.5 bg-theme-base border border-theme-border hover:border-[var(--theme-accent-primary)]/50 rounded-xl text-sm font-black uppercase tracking-wider text-theme-text shadow-sm transition-colors cursor-default">
+                                     {tag}
+                                 </span>
+                             ))
+                         ) : (
+                             <span className="text-base font-bold text-theme-text/40 italic">Document pendent de classificació a l'Arxiu.</span>
+                         )}
+                     </div>
                 </div>
-            </article>
+
+            </main>
         </div>
     );
 };

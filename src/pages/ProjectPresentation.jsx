@@ -676,16 +676,25 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                     )}
                 </div>
 
-                <div className="w-full max-w-4xl mx-auto px-6 lg:px-10 mb-6 flex justify-center">
+                <div className="w-full max-w-4xl mx-auto px-6 lg:px-10 mb-6 flex flex-col sm:flex-row gap-4 justify-center">
                      <a 
                          href="/llibre-sencer.html" 
                          target="_blank" 
                          rel="noopener noreferrer"
-                         className="flex items-center justify-center gap-3 bg-[var(--theme-accent-primary)] text-white dark:text-white px-8 py-4 rounded-[1.5rem] font-black text-lg sm:text-xl uppercase tracking-wider hover:scale-105 active:scale-95 transition-all shadow-[0_4px_20px_rgba(0,0,0,0.2)] group w-full"
+                         className="flex items-center justify-center gap-3 bg-[var(--theme-accent-primary)] text-white dark:text-white px-8 py-4 rounded-[1.5rem] font-black text-lg sm:text-xl uppercase tracking-wider hover:scale-105 active:scale-95 transition-all shadow-[0_4px_20px_rgba(0,0,0,0.2)] group flex-1 w-full"
                          aria-label="Llegir el Llibre Complet per a Humans"
                      >
                          <BookText size={28} className="group-hover:animate-bounce" />
-                         Llegir Genotip Complet (Per a Humans)
+                         Llegir Genotip Complet
+                     </a>
+                     <a 
+                         href="/llibre-sencer.html" 
+                         download="SocDePoble_OS.html"
+                         className="flex items-center justify-center gap-3 bg-theme-panel text-theme-text border-2 border-[var(--theme-accent-primary)] px-8 py-4 rounded-[1.5rem] font-black text-lg sm:text-xl uppercase tracking-wider hover:scale-105 active:scale-95 transition-all shadow-lg group flex-1 w-full"
+                         aria-label="Descarregar Sistema Operatiu Sóc de Poble"
+                     >
+                         <Download size={28} className="group-hover:-translate-y-1 transition-transform" />
+                         <span className="hidden sm:inline">Descarregar</span> OS
                      </a>
                 </div>
 

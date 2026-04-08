@@ -21,6 +21,8 @@ export default defineConfig([
     "check_data.cjs",
     "combine_presentation.mjs",
     "**/.DS_Store",
+    "_HISTORIC_SENSIBLE/**",
+    "_PAPERERA_OBSOLETA/**",
   ]),
   {
     files: ["**/*.{js,jsx}"],

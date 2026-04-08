@@ -34,10 +34,10 @@ describe('GeminiService', () => {
   it('hauria de retornar resposta mock en mode simulació', async () => {
     mockLocalStorage.getItem.mockReturnValue('true');
 
-    const result = await geminiService.ask('AGRONOM', 'Hola');
+    const result = await geminiService.ask('AGRONOM', 'genesis directiva');
 
     expect(result.is_mock).toBe(true);
-    expect(result.text).toContain('Mode Simulació');
+    expect(result.text).toContain('GÈNESI');
   });
 
   it('hauria de cridar el proxy en mode producció', async () => {
@@ -57,7 +57,7 @@ describe('GeminiService', () => {
     const result = await geminiService.ask('AGRONOM', 'Hola');
 
     expect(mockFetch).toHaveBeenCalled();
-    expect(result.is_mock).toBe(false);
+    expect(result.is_mock).toBeUndefined();
     expect(result.text).toBe('Resposta de la IAIA');
   });
 

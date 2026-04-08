@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 /**
  * CONFIGURACIÓ DE LES IA COLLABORADORES (IAIES MUNDIALS I LOCALS)
  * Defineix les entitats d'Intel·ligència Artificial que han ajudat i ajuden

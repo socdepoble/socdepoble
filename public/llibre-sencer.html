@@ -20367,12 +20367,10 @@ import SEO from './SEO';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { geminiService } from '../services/geminiService';
 import { rhizomeManager } from '../services/rhizomeManager';
-import { paymentService } from '../services/paymentService';
 import { hapticService } from '../services/hapticService';
 import { IAIA_ID, USER_ROLES } from '../constants';
 import { isSdPOficial, isLegacyMock } from '../utils/identityUtils';
 
-import ItemDetailModal from './ItemDetailModal';
 import UniversalCard from './UniversalCard';
 import ContextualHeader from './ContextualHeader';
 import { MOCK_MARKET_ITEMS } from '../data';
@@ -20546,52 +20544,7 @@ const Market = ({ searchTerm = '' }) =&gt; {
     });
   }, [items, searchTerm, internalSearchTerm, visionMode, isIAIAFiltering, isSuperAdmin]);
 
-  const [, setPayingItemId] = useState(null);
-  const [, setPaidItems] = useState(new Set());
-  const [selectedItemForDetail, setSelectedItemForDetail] = useState(null);
 
-  const handleAstroPayment = async (item) =&gt; {
-    const confirm = window.confirm(t('market.payment_confirm', { price: item.price, title: item.title }));
-    if (!confirm) return;
-
-    const itemId = item.uuid || item.id;
-    setPayingItemId(itemId);
-
-    // [SUPREME USABILITY] Confiança Optimista: Bateguem ràpid!
-    try {
-      const result = await paymentService.sendEconomicBeat({
-        amount: parseFloat(item.price.replace('€', '').replace(',', '.').trim()) || 0,
-        receiver_id: item.seller_entity_id || item.author_id,
-        reference: `Tele-Oli: ${item.title}`
-      });
-
-      if (result.success) {
-        // Vibració de confirmació segons el nou mandament [MASTER]
-        hapticService.notifySuccess();
-
-        setPaidItems(prev =&gt; new Set([...prev, itemId]));
-
-        // Mostrem l'èxit bategat per un moment abans de netejar el loader si n'hi hagués
-        setTimeout(() =&gt; {
-          setPayingItemId(null);
-          // Mantenim el check verd un moment més per a satisfacció de l'usuari
-          setTimeout(() =&gt; {
-            setPaidItems(prev =&gt; {
-              const next = new Set(prev);
-              next.delete(itemId);
-              return next;
-            });
-          }, 3000);
-        }, 500);
-      } else {
-        alert(t('market.payment_error', { error: result.error }));
-        setPayingItemId(null);
-      }
-    } catch (err) {
-      logger.error('[Market] Payment error:', err);
-      setPayingItemId(null);
-    }
-  };
 
   const handleRecipeClick = async (item) =&gt; {
     hapticService.batec();
@@ -20825,7 +20778,7 @@ const Market = ({ searchTerm = '' }) =&gt; {
 export default Market;
 
 
-// FINAL DEL MÒDUL - Aprox 472 línies
+// FINAL DEL MÒDUL - Aprox 425 línies
 </code></pre>
     </div>
   </details>
@@ -37696,7 +37649,6 @@ import UniversalCardMedia from './UniversalCard.Media';
 import UniversalCardBody from './UniversalCard.Body';
 import UniversalCardFooter from './UniversalCard.Footer';
 import BlueprintOverlay from '../BlueprintOverlay';
-import { logger } from '../../utils/logger';
 
 import { normalizePostData } from '../../normalizers/post.normalizer';
 import { clsx } from 'clsx';
@@ -37757,7 +37709,7 @@ const UniversalCard = ({
   onNavigate // DeepSeek Audit: Allow decoupled routing
 }) =&gt; {
   const cardVariant = (variant === &quot;post&quot; &amp;&amp; mode &amp;&amp; mode !== &quot;post&quot;) ? mode : (variant || mode);
-  const { openViewer, openConnectionModal } = useModal();
+  const { openViewer } = useModal();
   const { forensicMode: contextForensic } = useNavigation();
   const { gloveMode, seniorMode, hapticService } = useDesign();
   const isForensic = forcedForensic || contextForensic;
@@ -38058,7 +38010,7 @@ MemoizedCard.Footer = UniversalCardFooter;
 export default MemoizedCard;
 
 
-// FINAL DEL MÒDUL - Aprox 376 línies
+// FINAL DEL MÒDUL - Aprox 375 línies
 </code></pre>
     </div>
   </details>
@@ -39295,6 +39247,7 @@ export const getPersonaKeyByUUID = (uuid) =&gt; {
     <div class="p-6 text-xs sm:text-sm leading-relaxed overflow-x-auto print:overflow-hidden bg-[#161616] border-t border-[#333]">
       <pre class="m-0 p-0 no-auto-process"><code class="language-jsx text-[#d4d4d4] font-mono whitespace-pre-wrap break-all print:text-black print:whitespace-pre-wrap print:break-all font-medium" style="tab-size: 2;">/// === INICI DE BLOC: [REF: SDP-SRC-CONFIG-IAIESMUNDIALSMAP-JSX] | src/config/iaiesMundialsMap.jsx === ///
 
+/* eslint-disable react-refresh/only-export-components */
 /**
  * CONFIGURACIÓ DE LES IA COLLABORADORES (IAIES MUNDIALS I LOCALS)
  * Defineix les entitats d'Intel·ligència Artificial que han ajudat i ajuden
@@ -39437,7 +39390,7 @@ Garanteix que res es perda, prenent atenció a cada actualització crítica de l
 export const IAIES_MUNDIALS_ARRAY = Object.values(IAIES_MUNDIALS);
 
 
-// FINAL DEL MÒDUL - Aprox 141 línies
+// FINAL DEL MÒDUL - Aprox 142 línies
 </code></pre>
     </div>
   </details>
@@ -49156,7 +49109,7 @@ const MEMORY_CONFIG = {
  * Hook React: useInsectMemory
  * Virtualización extrema + LRU + Gestión de presión de memoria
  */
-export function useInsectMemory(containerRef, items, itemHeight, renderItem) {
+export function useInsectMemory(containerRef, items, itemHeight) {
   // Estado mínimo indispensable (no guardar items completos aquí)
   const [visibleRange, setVisibleRange] = React.useState({ start: 0, end: 0 });
   const [pressure, setPressure] = React.useState('normal'); // normal | warning | critical
@@ -49302,7 +49255,9 @@ export function useInsectMemory(containerRef, items, itemHeight, renderItem) {
   // FASE 4: RENDERIZADO CON RECICLAJE DE POOL
   // ============================================================
   
-  const getVisibleItems = React.useCallback(() =&gt; {
+  const [visibleItems, setVisibleItems] = React.useState([]);
+
+  React.useEffect(() =&gt; {
   const { start, end } = visibleRange;
   const visible = [];
   
@@ -49338,15 +49293,6 @@ export function useInsectMemory(containerRef, items, itemHeight, renderItem) {
     element.style.width = '100%';
     element.dataset.index = i;
     
-    // Inyectar contenido React via portal o render directo
-    const content = renderItem(items[i], i);
-    if (typeof content === 'string') {
-      element.innerHTML = content;
-    } else {
-      // Para React elements, usar un contenedor y render
-      // OJO: React.Portal requiere renderizar React nodes
-    }
-    
     poolRef.current.set(i, element);
     lruRef.current.set(i, element);
     }
@@ -49354,11 +49300,11 @@ export function useInsectMemory(containerRef, items, itemHeight, renderItem) {
     visible.push({ index: i, element });
   }
   
-  return visible;
-  }, [visibleRange, items, itemHeight, renderItem]);
+  setVisibleItems(visible);
+  }, [visibleRange, items.length, itemHeight]);
 
   return {
-  visibleItems: getVisibleItems(),
+  visibleItems,
   pressure
   };
 }
@@ -49373,8 +49319,7 @@ export function InfiniteFeed({ items, renderItem, itemHeight = 200 }) {
   const { visibleItems, pressure } = useInsectMemory(
   containerRef,
   items,
-  itemHeight,
-  renderItem
+  itemHeight
   );
 
   const containerClass = `insect-feed ${pressure === 'critical' ? 'emergency-mode' : ''}`;
@@ -49436,7 +49381,7 @@ if (typeof document !== 'undefined') {
 }
 
 
-// FINAL DEL MÒDUL - Aprox 395 línies
+// FINAL DEL MÒDUL - Aprox 387 línies
 </code></pre>
     </div>
   </details>
@@ -49606,11 +49551,12 @@ export const useIntersectionObserver = (ref, callback, options = {}) =&gt; {
   }
 
   return () =&gt; observer.disconnect();
-  }, [options.rootMargin, options.threshold]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [options.rootMargin, options.threshold, ref]);
 };
 
 
-// FINAL DEL MÒDUL - Aprox 26 línies
+// FINAL DEL MÒDUL - Aprox 27 línies
 </code></pre>
     </div>
   </details>
@@ -62464,7 +62410,7 @@ const PostDetail = () =&gt; {
   const displayTime = postDate.toLocaleTimeString('ca-ES', { hour: '2-digit', minute: '2-digit' });
 
   return (
-    &lt;div className=&quot;flex-1 flex flex-col min-h-0 w-full bg-theme-base relative overflow-x-hidden font-sans pb-24 animate-in fade-in duration-500&quot;&gt;
+    &lt;div className=&quot;flex-1 flex flex-col min-h-0 w-full bg-theme-base relative overflow-x-hidden pt-safe pb-24&quot;&gt;
       &lt;SEO
         title={post.title || displayAuthor}
         description={(post.content || '').substring(0, 160)}
@@ -62472,7 +62418,7 @@ const PostDetail = () =&gt; {
         url={`/post/${id}`}
       /&gt;
 
-      {/* STICKY NAV BAR */}
+      {/* STICKY NAV BAR - Transparent Glassmorphism */}
       &lt;div className=&quot;sticky top-0 z-dropdown flex items-center justify-between p-4 bg-theme-base/80 backdrop-blur-3xl border-b border-theme-border&quot;&gt;
         &lt;button 
           className=&quot;w-12 h-12 flex items-center justify-center bg-theme-panel rounded-full hover:bg-white/10 transition-all border border-theme-border shadow-sm active:scale-95&quot; 
@@ -62480,6 +62426,12 @@ const PostDetail = () =&gt; {
         &gt;
           &lt;ArrowLeft size={24} className=&quot;text-theme-text&quot; /&gt;
         &lt;/button&gt;
+        &lt;div className=&quot;flex items-center gap-3 bg-[var(--theme-accent-primary)]/10 px-4 py-2 rounded-full border border-[var(--theme-accent-primary)]/30&quot;&gt;
+           {post.type === 'bancal' ? '🌱' : post.type === 'ajuntament' ? '🏢' : '📜'}
+           &lt;span className=&quot;font-black text-[var(--theme-accent-primary)] uppercase tracking-wider text-xs sm:text-sm&quot;&gt;
+             Publicació de {displayTown}
+           &lt;/span&gt;
+        &lt;/div&gt;
         &lt;ShareHub
           title={post.title || displayAuthor}
           text={(post.content || '').substring(0, 100)}
@@ -62492,10 +62444,14 @@ const PostDetail = () =&gt; {
         /&gt;
       &lt;/div&gt;
 
-      &lt;article className=&quot;max-w-xl mx-auto w-full flex flex-col pt-4&quot;&gt;
-        {/* 1. HEADER + MEDIA UNIFICAT (CAPUCHA) */}
-        &lt;div className=&quot;px-4 mb-6&quot;&gt;
-          &lt;div className=&quot;bg-theme-panel border border-theme-border rounded-[28px] overflow-hidden shadow-xl&quot;&gt;
+      &lt;main className=&quot;max-w-4xl mx-auto w-full flex flex-col pt-8 pb-32 px-4 sm:px-8 relative z-10 selection:bg-[var(--theme-accent-primary)] selection:text-white&quot;&gt;
+        
+        {/* 1. PORTADA DEL LLIBRE / HERO */}
+        &lt;div className=&quot;relative mb-12 sm:mb-16 group&quot;&gt;
+          &lt;div className=&quot;absolute inset-0 bg-gradient-to-tr from-[var(--theme-accent-primary)] to-transparent opacity-10 rounded-[2rem] blur-3xl transition-opacity duration-700 group-hover:opacity-20&quot; /&gt;
+          
+          &lt;div className=&quot;bg-theme-panel border border-theme-border rounded-[2rem] overflow-hidden shadow-2xl relative z-10 transition-transform duration-500 hover:-translate-y-2&quot;&gt;
+            {/* Protocol Capucha Integrat */}
             &lt;UniversalCard.Header 
               item={post} 
               cardVariant={post.type || 'mur'} 
@@ -62507,7 +62463,8 @@ const PostDetail = () =&gt; {
               displayDate={displayDate}
               displayTime={displayTime}
             /&gt;
-            {mediaList.length &gt; 0 &amp;&amp; (
+            
+            {mediaList.length &gt; 0 ? (
               &lt;UniversalCard.Media 
                 item={post}
                 cardVariant={post.type || 'mur'}
@@ -62517,57 +62474,73 @@ const PostDetail = () =&gt; {
                 openViewer={() =&gt; {}}
                 navigate={navigate}
               /&gt;
+            ) : (
+              &lt;div className=&quot;w-full h-48 sm:h-64 bg-theme-base/50 flex flex-col items-center justify-center border-t border-[var(--border-master)]&quot;&gt;
+                &lt;span className=&quot;text-[var(--sdp-terracotta)]/40 font-black tracking-widest text-lg md:text-xl uppercase flex flex-col items-center gap-2&quot;&gt;
+                   &lt;Tag size={32} /&gt;
+                   Sense Contingut Visual
+                &lt;/span&gt;
+              &lt;/div&gt;
             )}
+            
           &lt;/div&gt;
         &lt;/div&gt;
 
-        {/* 3. TÍTOL, SUBTÍTOL i TEXT AMB FORMAT MARCKDOWN (Mini bloc de notes) */}
-        &lt;div className=&quot;px-5 sm:px-6 flex flex-col gap-2&quot;&gt;
+        {/* 2. CONTINGUT DOCTRINAL / ARTICLE */}
+        &lt;article className=&quot;prose prose-lg dark:prose-invert max-w-none prose-headings:font-black prose-headings:tracking-tighter prose-p:font-medium prose-p:leading-relaxed prose-a:text-[var(--theme-accent-primary)] prose-a:no-underline hover:prose-a:underline prose-li:marker:text-[var(--theme-accent-primary)] html-article-prose bg-theme-panel p-6 sm:p-12 rounded-[2rem] border border-[var(--border-master)] shadow-xl relative z-10&quot;&gt;
+          &lt;div className=&quot;absolute -top-6 -right-6 text-[10rem] opacity-5 select-none pointer-events-none font-black text-[var(--theme-accent-primary)]&quot;&gt;
+            ”
+          &lt;/div&gt;
+          
           {post.title &amp;&amp; !post.content?.includes(`# ${post.title}`) &amp;&amp; (
-            &lt;h1 className=&quot;text-3xl sm:text-4xl font-black tracking-tight text-theme-text leading-none mb-2&quot;&gt;{post.title}&lt;/h1&gt;
+            &lt;h1 className=&quot;text-4xl sm:text-5xl lg:text-6xl font-black tracking-tighter text-theme-text mb-4 lg:mb-6 uppercase leading-[0.95] drop-shadow-sm w-full&quot;&gt;
+              {post.title}
+            &lt;/h1&gt;
           )}
           
           {post.subtitle &amp;&amp; (
-            &lt;h2 className=&quot;text-xl sm:text-2xl font-bold text-[var(--theme-accent-primary)] mb-4 leading-tight&quot;&gt;{post.subtitle}&lt;/h2&gt;
-          )}
-          
-          {post.content &amp;&amp; (
-            &lt;div className=&quot;html-article-prose&quot; dangerouslySetInnerHTML={{ __html: parseSimpleMarkdown(post.content) }} /&gt;
-          )}
-        &lt;/div&gt;
-        
-        {/* ETIQUETAR (Tagging System) */}
-        &lt;div className=&quot;mt-4 mx-4 p-6 bg-theme-panel border border-theme-border shadow-lg rounded-[32px] overflow-hidden relative&quot;&gt;
-          &lt;div className=&quot;absolute top-0 right-0 w-32 h-32 bg-[var(--sdp-terracotta)]/10 blur-3xl -mr-16 -mt-16 pointer-events-none&quot; /&gt;
-          &lt;div className=&quot;flex items-center gap-3 mb-6 relative z-10&quot;&gt;
-            &lt;div className=&quot;w-10 h-10 rounded-full bg-[var(--sdp-terracotta)]/20 flex items-center justify-center&quot;&gt;
-              &lt;Tag className=&quot;text-[var(--sdp-terracotta)]&quot; size={20} /&gt;
+            &lt;div className=&quot;flex items-center gap-4 mb-8 sm:mb-10 w-full pl-6 border-l-4 border-[var(--theme-accent-primary)] opacity-90 hover:opacity-100 transition-opacity&quot;&gt;
+              &lt;h2 className=&quot;text-xl sm:text-2xl font-bold text-theme-text opacity-80 leading-snug tracking-tight m-0&quot;&gt;
+                {post.subtitle}
+              &lt;/h2&gt;
             &lt;/div&gt;
-            &lt;span className=&quot;font-black uppercase tracking-widest text-sm text-theme-text&quot;&gt;Classificació del Poble&lt;/span&gt;
-          &lt;/div&gt;
+          )}
           
-          &lt;div className=&quot;flex flex-wrap gap-2 mb-8 relative z-10&quot;&gt;
-            {post.tags &amp;&amp; post.tags.length &gt; 0 ? (
-              post.tags.map(tag =&gt; (
-                &lt;span key={tag} className=&quot;px-4 py-2 bg-theme-base border border-theme-border rounded-full text-xs font-black uppercase tracking-wider text-theme-text shadow-sm&quot;&gt;{tag}&lt;/span&gt;
-              ))
-            ) : (
-              &lt;span className=&quot;text-sm font-bold text-theme-text/40 italic&quot;&gt;La comunitat encara no ha afegit etiquetes a este arxiu.&lt;/span&gt;
-            )}
-          &lt;/div&gt;
-          
-          &lt;button 
-            className=&quot;w-full h-16 bg-theme-base border border-theme-border hover:border-[var(--sdp-terracotta)]/50 hover:bg-white/5 shadow-sm rounded-[24px] font-black tracking-widest uppercase transition-all flex items-center justify-center gap-2 text-theme-text active:scale-[0.98] relative z-10&quot; 
-            onClick={() =&gt; {
-              // Offline Queue Hook or LocalFirst DB will catch this action
-              alert('Funció &quot;Etiquetar&quot; activada per a propers Bategats!');
-            }}
-          &gt;
-            &lt;Tag size={20} /&gt;
-            Afegir Etiqueta
-          &lt;/button&gt;
+          {post.content ? (
+            &lt;div className=&quot;relative z-10 editor-content-display font-medium text-lg lg:text-xl text-theme-text animate-in fade-in duration-700 delay-200&quot; dangerouslySetInnerHTML={{ __html: parseSimpleMarkdown(post.content) }} /&gt;
+          ) : (
+            &lt;div className=&quot;text-theme-text/50 font-bold italic py-10 text-center animate-pulse&quot;&gt;
+              Aquest document només conte memòria visual.
+            &lt;/div&gt;
+          )}
+        &lt;/article&gt;
+
+        {/* 3. SISTEMA D'ETIQUETES - Estil Documental */}
+        &lt;div className=&quot;mt-12 bg-theme-panel border border-[var(--border-master)] rounded-[2rem] p-8 sm:p-12 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] relative overflow-hidden group&quot;&gt;
+           {/* Decorative background flare */}
+           &lt;div className=&quot;absolute right-0 top-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-[var(--theme-accent-primary)]/5 blur-[100px] rounded-full pointer-events-none transition-transform duration-[2s] group-hover:scale-150&quot; /&gt;
+           
+           &lt;div className=&quot;flex items-center gap-4 mb-8 relative z-10 pl-6 border-l-4 border-theme-border&quot;&gt;
+             &lt;div className=&quot;w-12 h-12 rounded-2xl bg-theme-base flex items-center justify-center shadow-inner border border-theme-border/50&quot;&gt;
+               &lt;Tag className=&quot;text-[var(--theme-accent-primary)]&quot; size={24} /&gt;
+             &lt;/div&gt;
+             &lt;h3 className=&quot;font-black text-2xl tracking-tighter text-theme-text m-0 uppercase&quot;&gt;Arxiu de Coneixement&lt;/h3&gt;
+           &lt;/div&gt;
+           
+           &lt;div className=&quot;flex flex-wrap gap-3 mb-10 relative z-10 pl-6&quot;&gt;
+             {post.tags &amp;&amp; post.tags.length &gt; 0 ? (
+               post.tags.map((tag, idx) =&gt; (
+                 &lt;span key={`${tag}-${idx}`} className=&quot;px-5 py-2.5 bg-theme-base border border-theme-border hover:border-[var(--theme-accent-primary)]/50 rounded-xl text-sm font-black uppercase tracking-wider text-theme-text shadow-sm transition-colors cursor-default&quot;&gt;
+                   {tag}
+                 &lt;/span&gt;
+               ))
+             ) : (
+               &lt;span className=&quot;text-base font-bold text-theme-text/40 italic&quot;&gt;Document pendent de classificació a l'Arxiu.&lt;/span&gt;
+             )}
+           &lt;/div&gt;
         &lt;/div&gt;
-      &lt;/article&gt;
+
+      &lt;/main&gt;
     &lt;/div&gt;
   );
 };
@@ -62575,7 +62548,7 @@ const PostDetail = () =&gt; {
 export default PostDetail;
 
 
-// FINAL DEL MÒDUL - Aprox 170 línies
+// FINAL DEL MÒDUL - Aprox 197 línies
 </code></pre>
     </div>
   </details>
@@ -62599,7 +62572,7 @@ export default PostDetail;
       <pre class="m-0 p-0 no-auto-process"><code class="language-jsx text-[#d4d4d4] font-mono whitespace-pre-wrap break-all print:text-black print:whitespace-pre-wrap print:break-all font-medium" style="tab-size: 2;">/// === INICI DE BLOC: [REF: SDP-SRC-PAGES-PROFILEVIEW-JSX] | src/pages/ProfileView.jsx === ///
 
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { 
   Settings, Loader2, AlertCircle, 
   Sparkles, Grid, Share2, ArrowLeft, Camera, UserCheck, MessageCircle, MapPin,
@@ -62608,7 +62581,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useDesign } from '../context/DesignContext';
-import { useModal, useModalDispatch } from '../context/ModalContext';
+
 import { supabaseService, isValidUUID } from '../services/supabaseService';
 import SEO from '../components/SEO';
 import Feed from '../components/Feed';
@@ -62618,7 +62591,7 @@ import ProfileSettingsModal from '../components/ProfileSettingsModal';
 import ContextualHeader from '../components/ContextualHeader';
 import StatusLoader from '../components/StatusLoader'; // FIX: Evita el Crash en perfils sense publicacions
 import LanguageSelector from '../components/LanguageSelector';
-import { useViewMode } from '../hooks/useViewMode';
+
 import ChatDetail from '../components/ChatDetail';
 import GestoriaPanel from '../components/GestoriaPanel';
 import UniversalCard from '../components/UniversalCard';
@@ -62638,34 +62611,24 @@ const generateUsernameFromName = (name) =&gt; {
 const ProfileView = () =&gt; {
   const { theme } = useDesign();
   const isDayMode = theme === 'light';
-  const [searchParams] = useSearchParams();
-  const activeRoleFilter = searchParams.get('role') || 'tot';
+
   
   // Theme Colors - Reactive to isDayMode as requested
   const bgColor = isDayMode ? 'bg-[#FDF5E6]' : 'bg-[#0a0a0a] md:bg-[#111]';
   const textColor = isDayMode ? 'text-black' : 'text-white';
   const textMuted = isDayMode ? 'text-black/60' : 'text-white/60';
-  const cardBgColor = isDayMode ? 'bg-white' : 'bg-[#141414] border border-white/5';
-  const borderColor = isDayMode ? 'border-orange-500/20' : 'border-white/10';
 
   const { id, username } = useParams();
   const navigate = useNavigate();
   const { user: currentUser, profile: myProfile } = useAuth();
-  const { openConnectionModal } = useModalDispatch();
-  const { openViewer } = useModal();
 
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [activeTab, setActiveTab] = useState('mur');
-  const [isConnected, setIsConnected] = useState(false);
-  const [stats, setStats] = useState({ followers: 0, following: 0, posts: 0 });
-  const [userPosts, setUserPosts] = useState([]);
-  const [userEntities, setUserEntities] = useState([]);
   
   // Modals
   const [isChatOpen, setIsChatOpen] = useState(false);
-  const { viewMode, setViewMode } = useViewMode('feed_view_mode', 'grid');
+
 
   const scrollRef = React.useRef(null);
   const [showTopBtn, setShowTopBtn] = useState(false);
@@ -62702,7 +62665,6 @@ const ProfileView = () =&gt; {
       setAgentsList(Object.values(AGENTS_MAP));
     }).catch(err =&gt; console.error(&quot;Failed to load agents map&quot;, err));
   }, []);
-  const [isRepositioning, setIsRepositioning] = useState(false);
 
   const isOwnProfile = React.useMemo(() =&gt; {
     return (!id &amp;&amp; !username) || (currentUser &amp;&amp; id === currentUser.id);
@@ -62887,55 +62849,6 @@ const ProfileView = () =&gt; {
         if (controller.signal.aborted) return;
         setProfile(finalProfile);
 
-        if (isValidUUID(finalProfile.id) || finalProfile.id) {
-          // React 18 batches these state updates automatically
-          const [followers, following, posts, postsData, entitiesData] = await Promise.all([
-            supabaseService.getFollowers(finalProfile.id),
-            supabaseService.getFollowing(finalProfile.id),
-            finalProfile.is_town ? Promise.resolve(0) : supabaseService.getUserPostsCount(finalProfile.id),
-            finalProfile.is_town ? Promise.resolve([]) : supabaseService.getUserPosts(finalProfile.id),
-            supabaseService.getUserEntities(finalProfile.id)
-          ]);
-
-          if (controller.signal.aborted) return;
-
-          setStats({
-            followers: followers?.length || 0,
-            following: following?.length || 0,
-            posts: posts || 0
-          });
-          
-          if (postsData &amp;&amp; Array.isArray(postsData)) {
-            setUserPosts(postsData);
-          }
-          if (entitiesData &amp;&amp; Array.isArray(entitiesData)) {
-            setUserEntities(entitiesData);
-          }
-
-          if (currentUser &amp;&amp; finalProfile.id !== currentUser.id) {
-            const followingStatus = await supabaseService.isFollowing(currentUser.id, finalProfile.id);
-            setIsConnected(followingStatus);
-          }
-        } else if (finalProfile.id.startsWith('mock_')) {
-          // Càrrega de publicacions globals de dades mock per als visitants
-          try {
-            const { MOCK_FEED, MOCK_TOWNS, MOCK_MARKET_ITEMS } = await import('../data.js');
-            const allMocks = [...(MOCK_FEED||[]), ...(MOCK_TOWNS||[]), ...(MOCK_MARKET_ITEMS||[])];
-            const cleanMatch = finalProfile.full_name.toLowerCase();
-            
-            const myMocks = allMocks.filter(p =&gt; 
-              (p.author_name &amp;&amp; p.author_name.toLowerCase().includes(cleanMatch)) ||
-              (p.author &amp;&amp; p.author.toLowerCase().includes(cleanMatch))
-            );
-            
-            if (myMocks.length &gt; 0) {
-              setUserPosts(myMocks);
-              setStats(s =&gt; ({ ...s, posts: myMocks.length }));
-            }
-          } catch(e) {
-            console.warn('Silent fail loading mock posts for synthesized profile', e);
-          }
-        }
       } catch (err) {
         if (err.name !== 'AbortError') setError(err.message);
       } finally {
@@ -63015,9 +62928,6 @@ const ProfileView = () =&gt; {
     }
   };
   
-  // Oberta per defecte a tot el món (demostrativa en guests)
-  const canAdminHero = true;
-
   if (loading) return (
     &lt;div className={`flex flex-col items-center justify-center min-h-screen ${bgColor} ${textColor}`}&gt;
       &lt;Loader2 className=&quot;animate-spin text-orange-500 mb-4&quot; size={48} /&gt;
@@ -63121,7 +63031,7 @@ const ProfileView = () =&gt; {
 export default ProfileView;
 
 
-// FINAL DEL MÒDUL - Aprox 522 línies
+// FINAL DEL MÒDUL - Aprox 459 línies
 </code></pre>
     </div>
   </details>
@@ -63275,16 +63185,9 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) =&gt; {
   const [searchText, setSearchText] = useState('');
   const [isActionMenuOpen, setIsActionMenuOpen] = useState(false);
 
-  // FAST SCRUBBER STATE
+  // FAST SCRUBBER STATE (DEPRECATED)
   const scrollContainerRef = useRef(null);
   const searchEngine = useAccessibleSearch(scrollContainerRef);
-  const scrubberRef = useRef(null);
-  const scrubberBoundsRef = useRef(null);
-  const scrubberRafRef = useRef(null);
-  const scrubberThumbRef = useRef(null);
-  const scrubberPosRef = useRef(0);
-  const [scrubberDragging, setScrubberDragging] = useState(false);
-  const [scrubberActiveHeading, setScrubberActiveHeading] = useState('');
 
   // BOOK PAGE METRICS (ZERO RE-RENDER SCROLLING)
   const pageNumberRef = useRef(null);
@@ -63727,14 +63630,7 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) =&gt; {
       observer.disconnect(); 
     };
   }, [tocElements, isEditing]);
-  
-  useEffect(() =&gt; {
-    return () =&gt; {
-      window.removeEventListener('pointermove', handleScrubberPointerMove);
-      window.removeEventListener('pointerup', handleScrubberPointerUp);
-    };
-  }, [handleScrubberPointerMove, handleScrubberPointerUp]);
-
+  // Removed unused event listeners cleanup
   // Auto-scroll TOC to active item
   useEffect(() =&gt; {
     if (isTocOpen &amp;&amp; activeHeadingId) {
@@ -63836,16 +63732,25 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) =&gt; {
           )}
         &lt;/div&gt;
 
-        &lt;div className=&quot;w-full max-w-4xl mx-auto px-6 lg:px-10 mb-6 flex justify-center&quot;&gt;
+        &lt;div className=&quot;w-full max-w-4xl mx-auto px-6 lg:px-10 mb-6 flex flex-col sm:flex-row gap-4 justify-center&quot;&gt;
            &lt;a 
              href=&quot;/llibre-sencer.html&quot; 
              target=&quot;_blank&quot; 
              rel=&quot;noopener noreferrer&quot;
-             className=&quot;flex items-center justify-center gap-3 bg-[var(--theme-accent-primary)] text-white dark:text-white px-8 py-4 rounded-[1.5rem] font-black text-lg sm:text-xl uppercase tracking-wider hover:scale-105 active:scale-95 transition-all shadow-[0_4px_20px_rgba(0,0,0,0.2)] group w-full&quot;
+             className=&quot;flex items-center justify-center gap-3 bg-[var(--theme-accent-primary)] text-white dark:text-white px-8 py-4 rounded-[1.5rem] font-black text-lg sm:text-xl uppercase tracking-wider hover:scale-105 active:scale-95 transition-all shadow-[0_4px_20px_rgba(0,0,0,0.2)] group flex-1 w-full&quot;
              aria-label=&quot;Llegir el Llibre Complet per a Humans&quot;
            &gt;
              &lt;BookText size={28} className=&quot;group-hover:animate-bounce&quot; /&gt;
-             Llegir Genotip Complet (Per a Humans)
+             Llegir Genotip Complet
+           &lt;/a&gt;
+           &lt;a 
+             href=&quot;/llibre-sencer.html&quot; 
+             download=&quot;SocDePoble_OS.html&quot;
+             className=&quot;flex items-center justify-center gap-3 bg-theme-panel text-theme-text border-2 border-[var(--theme-accent-primary)] px-8 py-4 rounded-[1.5rem] font-black text-lg sm:text-xl uppercase tracking-wider hover:scale-105 active:scale-95 transition-all shadow-lg group flex-1 w-full&quot;
+             aria-label=&quot;Descarregar Sistema Operatiu Sóc de Poble&quot;
+           &gt;
+             &lt;Download size={28} className=&quot;group-hover:-translate-y-1 transition-transform&quot; /&gt;
+             &lt;span className=&quot;hidden sm:inline&quot;&gt;Descarregar&lt;/span&gt; OS
            &lt;/a&gt;
         &lt;/div&gt;
 
@@ -64391,7 +64296,7 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) =&gt; {
 export default ProjectPresentation;
 
 
-// FINAL DEL MÒDUL - Aprox 1246 línies
+// FINAL DEL MÒDUL - Aprox 1241 línies
 </code></pre>
     </div>
   </details>
