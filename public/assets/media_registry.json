@@ -1,6 +1,6 @@
 {
   "meta": {
-    "lastUpdated": "2026-04-07T23:22:58.847Z"
+    "lastUpdated": "2026-04-07T23:29:42.209Z"
   },
   "media": [
     {
@@ -8,6 +8,7 @@
       "path": "/assets/avatars/avatar_lucia_comic.png",
       "filename": "avatar_lucia_comic.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -17,6 +18,7 @@
       "path": "/assets/avatars/avatar_man_1.png",
       "filename": "avatar_man_1.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -26,6 +28,7 @@
       "path": "/assets/avatars/avatar_man_old.png",
       "filename": "avatar_man_old.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -35,6 +38,7 @@
       "path": "/assets/avatars/avatar_marc_comic.png",
       "filename": "avatar_marc_comic.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -44,6 +48,7 @@
       "path": "/assets/avatars/avatar_samir_comic.png",
       "filename": "avatar_samir_comic.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -53,6 +58,7 @@
       "path": "/assets/avatars/avatar_woman_1.png",
       "filename": "avatar_woman_1.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -62,6 +68,7 @@
       "path": "/assets/avatars/bando_nano_v2.png",
       "filename": "bando_nano_v2.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -71,6 +78,7 @@
       "path": "/assets/avatars/beatriz_escola_1774192995479.png",
       "filename": "beatriz_escola_1774192995479.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -80,6 +88,7 @@
       "path": "/assets/avatars/beatriz_ortega_comic.png",
       "filename": "beatriz_ortega_comic.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -89,6 +98,7 @@
       "path": "/assets/avatars/beatriz_somriure_1774195114538.png",
       "filename": "beatriz_somriure_1774195114538.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -98,6 +108,7 @@
       "path": "/assets/avatars/beatriz_xiquets_1774195132098.png",
       "filename": "beatriz_xiquets_1774195132098.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -107,6 +118,7 @@
       "path": "/assets/avatars/hero_nano_final.png",
       "filename": "hero_nano_final.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -116,6 +128,7 @@
       "path": "/assets/avatars/hiker.png",
       "filename": "hiker.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -125,6 +138,7 @@
       "path": "/assets/avatars/iaia_comic_archon.png",
       "filename": "iaia_comic_archon.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -134,6 +148,7 @@
       "path": "/assets/avatars/iaia_comic_matriarch.png",
       "filename": "iaia_comic_matriarch.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -143,6 +158,7 @@
       "path": "/assets/avatars/iaia_comic_rebost.png",
       "filename": "iaia_comic_rebost.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -152,6 +168,7 @@
       "path": "/assets/avatars/iaia_comic_ull.png",
       "filename": "iaia_comic_ull.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -161,6 +178,7 @@
       "path": "/assets/avatars/iaia_guiding_family_mobile.png",
       "filename": "iaia_guiding_family_mobile.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -170,6 +188,7 @@
       "path": "/assets/avatars/iaia_memory.png",
       "filename": "iaia_memory.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -179,6 +198,7 @@
       "path": "/assets/avatars/iaia_secretary.png",
       "filename": "iaia_secretary.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -188,6 +208,7 @@
       "path": "/assets/avatars/iaia_silhouette_official.png",
       "filename": "iaia_silhouette_official.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -197,6 +218,7 @@
       "path": "/assets/avatars/javi_avatar.jpg",
       "filename": "javi_avatar.jpg",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -206,6 +228,7 @@
       "path": "/assets/avatars/nano_arxiver_arrels.png",
       "filename": "nano_arxiver_arrels.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -215,6 +238,7 @@
       "path": "/assets/avatars/nano_banana.png",
       "filename": "nano_banana.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -224,6 +248,7 @@
       "path": "/assets/avatars/nano_banana_3d.png",
       "filename": "nano_banana_3d.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -233,6 +258,7 @@
       "path": "/assets/avatars/nano_banana_comic.png",
       "filename": "nano_banana_comic.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -242,6 +268,7 @@
       "path": "/assets/avatars/nano_banana_vidre_1774195043000.png",
       "filename": "nano_banana_vidre_1774195043000.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -251,6 +278,7 @@
       "path": "/assets/avatars/nano_botiguer_smart.png",
       "filename": "nano_botiguer_smart.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -260,6 +288,7 @@
       "path": "/assets/avatars/nano_cita_metge.png",
       "filename": "nano_cita_metge.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -269,6 +298,7 @@
       "path": "/assets/avatars/nano_cooperativa_signada_1774195556874.png",
       "filename": "nano_cooperativa_signada_1774195556874.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -278,6 +308,7 @@
       "path": "/assets/avatars/nano_cooperativa_xilella_1774195451171.png",
       "filename": "nano_cooperativa_xilella_1774195451171.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -287,6 +318,7 @@
       "path": "/assets/avatars/nano_cor_comarca.png",
       "filename": "nano_cor_comarca.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -296,6 +328,7 @@
       "path": "/assets/avatars/nano_curs_pell_1774197033405.png",
       "filename": "nano_curs_pell_1774197033405.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -305,6 +338,7 @@
       "path": "/assets/avatars/nano_dron_agricola.png",
       "filename": "nano_dron_agricola.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -314,6 +348,7 @@
       "path": "/assets/avatars/nano_escola_comic.png",
       "filename": "nano_escola_comic.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -323,6 +358,7 @@
       "path": "/assets/avatars/nano_fibra_espart.png",
       "filename": "nano_fibra_espart.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -332,6 +368,7 @@
       "path": "/assets/avatars/nano_flash_fibra.png",
       "filename": "nano_flash_fibra.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -341,6 +378,7 @@
       "path": "/assets/avatars/nano_herbero_mariola.png",
       "filename": "nano_herbero_mariola.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -350,6 +388,7 @@
       "path": "/assets/avatars/nano_llibre_memoria.png",
       "filename": "nano_llibre_memoria.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -359,6 +398,7 @@
       "path": "/assets/avatars/nano_mixa_qa.png",
       "filename": "nano_mixa_qa.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -368,6 +408,7 @@
       "path": "/assets/avatars/nano_rato_calendari.png",
       "filename": "nano_rato_calendari.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -377,6 +418,7 @@
       "path": "/assets/avatars/nano_rhizome_sobirana_1774235342885.png",
       "filename": "nano_rhizome_sobirana_1774235342885.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -386,6 +428,7 @@
       "path": "/assets/avatars/nano_rosa_horta_1774196037465.png",
       "filename": "nano_rosa_horta_1774196037465.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -395,6 +438,7 @@
       "path": "/assets/avatars/nano_salut_comic.png",
       "filename": "nano_salut_comic.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -404,6 +448,7 @@
       "path": "/assets/avatars/nano_simbiosi_sobirana.png",
       "filename": "nano_simbiosi_sobirana.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -413,6 +458,7 @@
       "path": "/assets/avatars/nano_sonambulo.png",
       "filename": "nano_sonambulo.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -422,6 +468,7 @@
       "path": "/assets/avatars/nano_sultan_lleis.png",
       "filename": "nano_sultan_lleis.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -431,6 +478,7 @@
       "path": "/assets/avatars/nano_viatjant_presentacio.png",
       "filename": "nano_viatjant_presentacio.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -440,6 +488,7 @@
       "path": "/assets/avatars/personatge_excursionista.jpg",
       "filename": "personatge_excursionista.jpg",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -449,6 +498,7 @@
       "path": "/assets/avatars/soc_de_poble_book_comic_nano_1770526279743.png",
       "filename": "soc_de_poble_book_comic_nano_1770526279743.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -458,6 +508,7 @@
       "path": "/assets/avatars/stone_wall_memoria_viva_nano_1770526249617.png",
       "filename": "stone_wall_memoria_viva_nano_1770526249617.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -467,6 +518,7 @@
       "path": "/assets/avatars/tramit_nano_v2.png",
       "filename": "tramit_nano_v2.png",
       "folder": "avatars",
+      "type": "image",
       "tags": [
         "avatars"
       ]
@@ -476,6 +528,7 @@
       "path": "/assets/brand/Javi_Llinares-Foto_perfil-1.jpg",
       "filename": "Javi_Llinares-Foto_perfil-1.jpg",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -485,6 +538,7 @@
       "path": "/assets/brand/andreu_soler_comic.png",
       "filename": "andreu_soler_comic.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -494,6 +548,7 @@
       "path": "/assets/brand/antigravity_badge.png",
       "filename": "antigravity_badge.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -503,6 +558,7 @@
       "path": "/assets/brand/audit_zod_master.png",
       "filename": "audit_zod_master.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -512,6 +568,7 @@
       "path": "/assets/brand/brand_cinematic.png",
       "filename": "brand_cinematic.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -521,6 +578,7 @@
       "path": "/assets/brand/carla_soriano_comic.png",
       "filename": "carla_soriano_comic.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -530,6 +588,7 @@
       "path": "/assets/brand/carmen_forn_comic.png",
       "filename": "carmen_forn_comic.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -539,6 +598,7 @@
       "path": "/assets/brand/chat_preview_guest.png",
       "filename": "chat_preview_guest.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -548,6 +608,7 @@
       "path": "/assets/brand/damia_agutzil_comic.png",
       "filename": "damia_agutzil_comic.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -557,6 +618,7 @@
       "path": "/assets/brand/damia_architect.png",
       "filename": "damia_architect.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -566,6 +628,7 @@
       "path": "/assets/brand/elena_popova_comic.png",
       "filename": "elena_popova_comic.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -575,6 +638,7 @@
       "path": "/assets/brand/flash_comic.png",
       "filename": "flash_comic.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -584,6 +648,7 @@
       "path": "/assets/brand/hero_banner_sdp.png",
       "filename": "hero_banner_sdp.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -593,6 +658,7 @@
       "path": "/assets/brand/hero_panoramic.png",
       "filename": "hero_panoramic.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -602,6 +668,7 @@
       "path": "/assets/brand/hero_square.png",
       "filename": "hero_square.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -611,6 +678,7 @@
       "path": "/assets/brand/img_benimassot_main.jpg",
       "filename": "img_benimassot_main.jpg",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -620,6 +688,7 @@
       "path": "/assets/brand/img_la_torre_de_les_ma_anes_main.jpg",
       "filename": "img_la_torre_de_les_ma_anes_main.jpg",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -629,6 +698,7 @@
       "path": "/assets/brand/img_pen_guila_main.jpg",
       "filename": "img_pen_guila_main.jpg",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -638,6 +708,7 @@
       "path": "/assets/brand/javi_design_studio_cinematic.png",
       "filename": "javi_design_studio_cinematic.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -647,6 +718,7 @@
       "path": "/assets/brand/joan_batiste_comic.png",
       "filename": "joan_batiste_comic.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -656,6 +728,7 @@
       "path": "/assets/brand/joanet_serra_comic.png",
       "filename": "joanet_serra_comic.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -665,6 +738,7 @@
       "path": "/assets/brand/logo-genius.png",
       "filename": "logo-genius.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -674,6 +748,7 @@
       "path": "/assets/brand/logo.png",
       "filename": "logo.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -683,6 +758,7 @@
       "path": "/assets/brand/logo_el_carrero.png",
       "filename": "logo_el_carrero.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -692,6 +768,7 @@
       "path": "/assets/brand/logo_sdp_white.png",
       "filename": "logo_sdp_white.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -701,6 +778,7 @@
       "path": "/assets/brand/logo_socdepoble_green_square.png",
       "filename": "logo_socdepoble_green_square.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -710,6 +788,7 @@
       "path": "/assets/brand/logo_socdepoble_white_clean.png",
       "filename": "logo_socdepoble_white_clean.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -719,6 +798,7 @@
       "path": "/assets/brand/maria_mel.png",
       "filename": "maria_mel.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -728,6 +808,7 @@
       "path": "/assets/brand/master_notebooklm_nexus.png",
       "filename": "master_notebooklm_nexus.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -737,6 +818,7 @@
       "path": "/assets/brand/media__1770526425766.png",
       "filename": "media__1770526425766.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -746,6 +828,7 @@
       "path": "/assets/brand/media__1770911715741.png",
       "filename": "media__1770911715741.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -755,6 +838,7 @@
       "path": "/assets/brand/media__1770913827006.jpg",
       "filename": "media__1770913827006.jpg",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -764,6 +848,7 @@
       "path": "/assets/brand/media__1771574113162.png",
       "filename": "media__1771574113162.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -773,6 +858,7 @@
       "path": "/assets/brand/media__1771574290947.png",
       "filename": "media__1771574290947.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -782,6 +868,7 @@
       "path": "/assets/brand/media__1771574303026.png",
       "filename": "media__1771574303026.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -791,6 +878,7 @@
       "path": "/assets/brand/media__1775288802790.jpg",
       "filename": "media__1775288802790.jpg",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -800,6 +888,7 @@
       "path": "/assets/brand/mixa_comic.png",
       "filename": "mixa_comic.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -809,6 +898,7 @@
       "path": "/assets/brand/nanobanana_agro_camp_1772350140809.png",
       "filename": "nanobanana_agro_camp_1772350140809.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -818,6 +908,7 @@
       "path": "/assets/brand/nanobanana_asso_identity_1772350128114.png",
       "filename": "nanobanana_asso_identity_1772350128114.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -827,6 +918,7 @@
       "path": "/assets/brand/nanobanana_banc_hisenda_1772350168169.png",
       "filename": "nanobanana_banc_hisenda_1772350168169.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -836,6 +928,7 @@
       "path": "/assets/brand/nanobanana_herencia_1772350195319.png",
       "filename": "nanobanana_herencia_1772350195319.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -845,6 +938,7 @@
       "path": "/assets/brand/nanobanana_kit_digital_1772350182419.png",
       "filename": "nanobanana_kit_digital_1772350182419.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -854,6 +948,7 @@
       "path": "/assets/brand/nanobanana_urban_venda_1772350155362.png",
       "filename": "nanobanana_urban_venda_1772350155362.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -863,6 +958,7 @@
       "path": "/assets/brand/night_party.png",
       "filename": "night_party.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -872,6 +968,7 @@
       "path": "/assets/brand/pepica_vall_comic.png",
       "filename": "pepica_vall_comic.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -881,6 +978,7 @@
       "path": "/assets/brand/post_carla_salut.png",
       "filename": "post_carla_salut.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -890,6 +988,7 @@
       "path": "/assets/brand/post_gall_meteo.png",
       "filename": "post_gall_meteo.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -899,6 +998,7 @@
       "path": "/assets/brand/post_pepica_cuina.png",
       "filename": "post_pepica_cuina.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -908,6 +1008,7 @@
       "path": "/assets/brand/rural_tech_future_valencia.png",
       "filename": "rural_tech_future_valencia.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -917,6 +1018,7 @@
       "path": "/assets/brand/rustic_detail.png",
       "filename": "rustic_detail.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -926,6 +1028,7 @@
       "path": "/assets/brand/smart-city-hero.png",
       "filename": "smart-city-hero.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -935,6 +1038,7 @@
       "path": "/assets/brand/sultan_comic.png",
       "filename": "sultan_comic.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -944,6 +1048,7 @@
       "path": "/assets/brand/tio_colau_comic.png",
       "filename": "tio_colau_comic.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -953,6 +1058,7 @@
       "path": "/assets/brand/torre_macanes_cover.png",
       "filename": "torre_macanes_cover.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -962,6 +1068,7 @@
       "path": "/assets/brand/vicent_ferris_comic.png",
       "filename": "vicent_ferris_comic.png",
       "folder": "brand",
+      "type": "image",
       "tags": [
         "brand"
       ]
@@ -971,6 +1078,7 @@
       "path": "/assets/events/nano_aplec_danses.png",
       "filename": "nano_aplec_danses.png",
       "folder": "events",
+      "type": "image",
       "tags": [
         "events"
       ]
@@ -980,6 +1088,7 @@
       "path": "/assets/events/nano_crema_agricola_1774195433973.png",
       "filename": "nano_crema_agricola_1774195433973.png",
       "folder": "events",
+      "type": "image",
       "tags": [
         "events"
       ]
@@ -989,6 +1098,7 @@
       "path": "/assets/events/nano_crema_signada_1774195540836.png",
       "filename": "nano_crema_signada_1774195540836.png",
       "folder": "events",
+      "type": "image",
       "tags": [
         "events"
       ]
@@ -998,6 +1108,7 @@
       "path": "/assets/events/nano_forja_ferro.png",
       "filename": "nano_forja_ferro.png",
       "folder": "events",
+      "type": "image",
       "tags": [
         "events"
       ]
@@ -1007,6 +1118,7 @@
       "path": "/assets/events/nano_mercat_llaurador_1774197050578.png",
       "filename": "nano_mercat_llaurador_1774197050578.png",
       "folder": "events",
+      "type": "image",
       "tags": [
         "events"
       ]
@@ -1016,6 +1128,7 @@
       "path": "/assets/events/nano_mercat_llavors.png",
       "filename": "nano_mercat_llavors.png",
       "folder": "events",
+      "type": "image",
       "tags": [
         "events"
       ]
@@ -1025,6 +1138,7 @@
       "path": "/assets/events/nano_mixa_socis.png",
       "filename": "nano_mixa_socis.png",
       "folder": "events",
+      "type": "image",
       "tags": [
         "events"
       ]
@@ -1034,6 +1148,7 @@
       "path": "/assets/events/nano_olleta_alcoi_1774235360622.png",
       "filename": "nano_olleta_alcoi_1774235360622.png",
       "folder": "events",
+      "type": "image",
       "tags": [
         "events"
       ]
@@ -1043,6 +1158,7 @@
       "path": "/assets/events/nano_sessio_treball.png",
       "filename": "nano_sessio_treball.png",
       "folder": "events",
+      "type": "image",
       "tags": [
         "events"
       ]
@@ -1052,6 +1168,7 @@
       "path": "/assets/events/nano_socis_tecnologics_1774235328704.png",
       "filename": "nano_socis_tecnologics_1774235328704.png",
       "folder": "events",
+      "type": "image",
       "tags": [
         "events"
       ]
@@ -1061,6 +1178,7 @@
       "path": "/assets/events/vicent_workshop.png",
       "filename": "vicent_workshop.png",
       "folder": "events",
+      "type": "image",
       "tags": [
         "events"
       ]
@@ -1070,6 +1188,7 @@
       "path": "/assets/icons/icon-128.webp",
       "filename": "icon-128.webp",
       "folder": "icons",
+      "type": "image",
       "tags": [
         "icons"
       ]
@@ -1079,6 +1198,7 @@
       "path": "/assets/icons/icon-192.webp",
       "filename": "icon-192.webp",
       "folder": "icons",
+      "type": "image",
       "tags": [
         "icons"
       ]
@@ -1088,6 +1208,7 @@
       "path": "/assets/icons/icon-256.webp",
       "filename": "icon-256.webp",
       "folder": "icons",
+      "type": "image",
       "tags": [
         "icons"
       ]
@@ -1097,6 +1218,7 @@
       "path": "/assets/icons/icon-48.webp",
       "filename": "icon-48.webp",
       "folder": "icons",
+      "type": "image",
       "tags": [
         "icons"
       ]
@@ -1106,6 +1228,7 @@
       "path": "/assets/icons/icon-512.webp",
       "filename": "icon-512.webp",
       "folder": "icons",
+      "type": "image",
       "tags": [
         "icons"
       ]
@@ -1115,6 +1238,7 @@
       "path": "/assets/icons/icon-72.webp",
       "filename": "icon-72.webp",
       "folder": "icons",
+      "type": "image",
       "tags": [
         "icons"
       ]
@@ -1124,6 +1248,7 @@
       "path": "/assets/icons/icon-96.webp",
       "filename": "icon-96.webp",
       "folder": "icons",
+      "type": "image",
       "tags": [
         "icons"
       ]
@@ -1133,6 +1258,7 @@
       "path": "/assets/icons/notification_bg.png",
       "filename": "notification_bg.png",
       "folder": "icons",
+      "type": "image",
       "tags": [
         "icons"
       ]
@@ -1142,6 +1268,7 @@
       "path": "/assets/infographics/art_codig_v2.png",
       "filename": "art_codig_v2.png",
       "folder": "infographics",
+      "type": "image",
       "tags": [
         "infographics"
       ]
@@ -1151,6 +1278,7 @@
       "path": "/assets/infographics/art_codig_v3.png",
       "filename": "art_codig_v3.png",
       "folder": "infographics",
+      "type": "image",
       "tags": [
         "infographics"
       ]
@@ -1160,6 +1288,7 @@
       "path": "/assets/infographics/art_iaia_v3.png",
       "filename": "art_iaia_v3.png",
       "folder": "infographics",
+      "type": "image",
       "tags": [
         "infographics"
       ]
@@ -1169,6 +1298,7 @@
       "path": "/assets/infographics/art_iaia_v4.png",
       "filename": "art_iaia_v4.png",
       "folder": "infographics",
+      "type": "image",
       "tags": [
         "infographics"
       ]
@@ -1178,6 +1308,7 @@
       "path": "/assets/infographics/art_memoria_v1036.png",
       "filename": "art_memoria_v1036.png",
       "folder": "infographics",
+      "type": "image",
       "tags": [
         "infographics"
       ]
@@ -1187,6 +1318,7 @@
       "path": "/assets/infographics/art_sobirania_v1036.png",
       "filename": "art_sobirania_v1036.png",
       "folder": "infographics",
+      "type": "image",
       "tags": [
         "infographics"
       ]
@@ -1196,6 +1328,7 @@
       "path": "/assets/infographics/art_sobirania_v1038.png",
       "filename": "art_sobirania_v1038.png",
       "folder": "infographics",
+      "type": "image",
       "tags": [
         "infographics"
       ]
@@ -1205,6 +1338,7 @@
       "path": "/assets/infographics/art_sobirania_v2.png",
       "filename": "art_sobirania_v2.png",
       "folder": "infographics",
+      "type": "image",
       "tags": [
         "infographics"
       ]
@@ -1214,6 +1348,7 @@
       "path": "/assets/infographics/art_trellat_v1036.png",
       "filename": "art_trellat_v1036.png",
       "folder": "infographics",
+      "type": "image",
       "tags": [
         "infographics"
       ]
@@ -1223,6 +1358,7 @@
       "path": "/assets/infographics/art_trellat_v1038.png",
       "filename": "art_trellat_v1038.png",
       "folder": "infographics",
+      "type": "image",
       "tags": [
         "infographics"
       ]
@@ -1232,6 +1368,7 @@
       "path": "/assets/infographics/art_trellat_v2.png",
       "filename": "art_trellat_v2.png",
       "folder": "infographics",
+      "type": "image",
       "tags": [
         "infographics"
       ]
@@ -1241,6 +1378,7 @@
       "path": "/assets/infographics/art_trellat_v3.png",
       "filename": "art_trellat_v3.png",
       "folder": "infographics",
+      "type": "image",
       "tags": [
         "infographics"
       ]
@@ -1250,6 +1388,7 @@
       "path": "/assets/infographics/chica_jersey.jpg",
       "filename": "chica_jersey.jpg",
       "folder": "infographics",
+      "type": "image",
       "tags": [
         "infographics"
       ]
@@ -1259,6 +1398,7 @@
       "path": "/assets/infographics/infografia_master_amazon_flash.png",
       "filename": "infografia_master_amazon_flash.png",
       "folder": "infographics",
+      "type": "image",
       "tags": [
         "infographics"
       ]
@@ -1268,6 +1408,7 @@
       "path": "/assets/infographics/infografia_placeholder.jpg",
       "filename": "infografia_placeholder.jpg",
       "folder": "infographics",
+      "type": "image",
       "tags": [
         "infographics"
       ]
@@ -1277,6 +1418,7 @@
       "path": "/assets/infographics/infografia_solutia_final.jpg",
       "filename": "infografia_solutia_final.jpg",
       "folder": "infographics",
+      "type": "image",
       "tags": [
         "infographics"
       ]
@@ -1286,6 +1428,7 @@
       "path": "/assets/infographics/memoria_v1035_sq.png",
       "filename": "memoria_v1035_sq.png",
       "folder": "infographics",
+      "type": "image",
       "tags": [
         "infographics"
       ]
@@ -1295,6 +1438,7 @@
       "path": "/assets/infographics/pizarra_nano.jpg",
       "filename": "pizarra_nano.jpg",
       "folder": "infographics",
+      "type": "image",
       "tags": [
         "infographics"
       ]
@@ -1304,6 +1448,7 @@
       "path": "/assets/infographics/plaza-infinita.webp",
       "filename": "plaza-infinita.webp",
       "folder": "infographics",
+      "type": "image",
       "tags": [
         "infographics"
       ]
@@ -1313,6 +1458,7 @@
       "path": "/assets/infographics/presentacio.jpg",
       "filename": "presentacio.jpg",
       "folder": "infographics",
+      "type": "image",
       "tags": [
         "infographics"
       ]
@@ -1322,6 +1468,7 @@
       "path": "/assets/infographics/presentacion_nano.jpg",
       "filename": "presentacion_nano.jpg",
       "folder": "infographics",
+      "type": "image",
       "tags": [
         "infographics"
       ]
@@ -1331,6 +1478,7 @@
       "path": "/assets/infographics/sobirania_v1035_sq.png",
       "filename": "sobirania_v1035_sq.png",
       "folder": "infographics",
+      "type": "image",
       "tags": [
         "infographics"
       ]
@@ -1340,8 +1488,19 @@
       "path": "/assets/infographics/trellat_v1035_sq.png",
       "filename": "trellat_v1035_sq.png",
       "folder": "infographics",
+      "type": "image",
       "tags": [
         "infographics"
+      ]
+    },
+    {
+      "id": "23c65e455055",
+      "path": "/assets/master/hero_presentacion_user.webm",
+      "filename": "hero_presentacion_user.webm",
+      "folder": "master",
+      "type": "video",
+      "tags": [
+        "master"
       ]
     },
     {
@@ -1349,6 +1508,7 @@
       "path": "/assets/master/logo-socdepoble-rect-negre.svg",
       "filename": "logo-socdepoble-rect-negre.svg",
       "folder": "master",
+      "type": "image",
       "tags": [
         "master"
       ]
@@ -1358,6 +1518,7 @@
       "path": "/assets/master/logo-socdepoble-rect.svg",
       "filename": "logo-socdepoble-rect.svg",
       "folder": "master",
+      "type": "image",
       "tags": [
         "master"
       ]
@@ -1367,6 +1528,7 @@
       "path": "/assets/master/vite_motor.svg",
       "filename": "vite_motor.svg",
       "folder": "master",
+      "type": "image",
       "tags": [
         "master"
       ]
@@ -1376,6 +1538,7 @@
       "path": "/assets/places/iaia_comic_jutjat.png",
       "filename": "iaia_comic_jutjat.png",
       "folder": "places",
+      "type": "image",
       "tags": [
         "places"
       ]
@@ -1385,6 +1548,7 @@
       "path": "/assets/places/nano_ajuntament_comic.png",
       "filename": "nano_ajuntament_comic.png",
       "folder": "places",
+      "type": "image",
       "tags": [
         "places"
       ]
@@ -1394,6 +1558,7 @@
       "path": "/assets/places/nano_alcoleja.png",
       "filename": "nano_alcoleja.png",
       "folder": "places",
+      "type": "image",
       "tags": [
         "places"
       ]
@@ -1403,6 +1568,7 @@
       "path": "/assets/places/nano_benifallim.png",
       "filename": "nano_benifallim.png",
       "folder": "places",
+      "type": "image",
       "tags": [
         "places"
       ]
@@ -1412,6 +1578,7 @@
       "path": "/assets/places/nano_biblioteca_muro_1774195499415.png",
       "filename": "nano_biblioteca_muro_1774195499415.png",
       "folder": "places",
+      "type": "image",
       "tags": [
         "places"
       ]
@@ -1421,6 +1588,7 @@
       "path": "/assets/places/nano_biblioteca_signada_1774195608514.png",
       "filename": "nano_biblioteca_signada_1774195608514.png",
       "folder": "places",
+      "type": "image",
       "tags": [
         "places"
       ]
@@ -1430,6 +1598,7 @@
       "path": "/assets/places/nano_elena_rentonar.png",
       "filename": "nano_elena_rentonar.png",
       "folder": "places",
+      "type": "image",
       "tags": [
         "places"
       ]
@@ -1439,6 +1608,7 @@
       "path": "/assets/places/nano_palau_comtal_1774195484197.png",
       "filename": "nano_palau_comtal_1774195484197.png",
       "folder": "places",
+      "type": "image",
       "tags": [
         "places"
       ]
@@ -1448,6 +1618,7 @@
       "path": "/assets/places/nano_palau_signat_1774195592870.png",
       "filename": "nano_palau_signat_1774195592870.png",
       "folder": "places",
+      "type": "image",
       "tags": [
         "places"
       ]
@@ -1457,6 +1628,7 @@
       "path": "/assets/places/nano_pedra_seca.png",
       "filename": "nano_pedra_seca.png",
       "folder": "places",
+      "type": "image",
       "tags": [
         "places"
       ]
@@ -1466,6 +1638,7 @@
       "path": "/assets/places/nano_porta_masia_1774197069297.png",
       "filename": "nano_porta_masia_1774197069297.png",
       "folder": "places",
+      "type": "image",
       "tags": [
         "places"
       ]
@@ -1475,6 +1648,7 @@
       "path": "/assets/places/nano_porta_masia_roure_1774195469079.png",
       "filename": "nano_porta_masia_roure_1774195469079.png",
       "folder": "places",
+      "type": "image",
       "tags": [
         "places"
       ]
@@ -1484,6 +1658,7 @@
       "path": "/assets/places/nano_porta_signada_1774195575764.png",
       "filename": "nano_porta_signada_1774195575764.png",
       "folder": "places",
+      "type": "image",
       "tags": [
         "places"
       ]
@@ -1493,6 +1668,7 @@
       "path": "/assets/places/nano_relleu.png",
       "filename": "nano_relleu.png",
       "folder": "places",
+      "type": "image",
       "tags": [
         "places"
       ]
@@ -1502,6 +1678,7 @@
       "path": "/assets/places/nano_rentonar_arquitectura_1774196001924.png",
       "filename": "nano_rentonar_arquitectura_1774196001924.png",
       "folder": "places",
+      "type": "image",
       "tags": [
         "places"
       ]
@@ -1511,6 +1688,7 @@
       "path": "/assets/places/nano_rentonar_sega_1774196023321.png",
       "filename": "nano_rentonar_sega_1774196023321.png",
       "folder": "places",
+      "type": "image",
       "tags": [
         "places"
       ]
@@ -1520,6 +1698,7 @@
       "path": "/assets/places/nano_sella.png",
       "filename": "nano_sella.png",
       "folder": "places",
+      "type": "image",
       "tags": [
         "places"
       ]
@@ -1529,6 +1708,7 @@
       "path": "/assets/places/nano_tibi.png",
       "filename": "nano_tibi.png",
       "folder": "places",
+      "type": "image",
       "tags": [
         "places"
       ]
@@ -1538,6 +1718,7 @@
       "path": "/assets/places/nano_xixona.png",
       "filename": "nano_xixona.png",
       "folder": "places",
+      "type": "image",
       "tags": [
         "places"
       ]
@@ -1547,6 +1728,7 @@
       "path": "/assets/products/avatar_mariamel_comic.png",
       "filename": "avatar_mariamel_comic.png",
       "folder": "products",
+      "type": "image",
       "tags": [
         "products"
       ]
@@ -1556,6 +1738,7 @@
       "path": "/assets/products/avatar_ratoli_comic.png",
       "filename": "avatar_ratoli_comic.png",
       "folder": "products",
+      "type": "image",
       "tags": [
         "products"
       ]
@@ -1565,6 +1748,7 @@
       "path": "/assets/products/camiseta_nano_detall.png",
       "filename": "camiseta_nano_detall.png",
       "folder": "products",
+      "type": "image",
       "tags": [
         "products"
       ]
@@ -1574,6 +1758,7 @@
       "path": "/assets/products/camiseta_nano_oficial.jpg",
       "filename": "camiseta_nano_oficial.jpg",
       "folder": "products",
+      "type": "image",
       "tags": [
         "products"
       ]
@@ -1583,6 +1768,7 @@
       "path": "/assets/products/group_tshirt.png",
       "filename": "group_tshirt.png",
       "folder": "products",
+      "type": "image",
       "tags": [
         "products"
       ]
@@ -1592,6 +1778,7 @@
       "path": "/assets/products/iaia_tshirt.png",
       "filename": "iaia_tshirt.png",
       "folder": "products",
+      "type": "image",
       "tags": [
         "products"
       ]
@@ -1601,6 +1788,7 @@
       "path": "/assets/products/mel_nano_v2.png",
       "filename": "mel_nano_v2.png",
       "folder": "products",
+      "type": "image",
       "tags": [
         "products"
       ]
@@ -1610,6 +1798,7 @@
       "path": "/assets/products/nano_figuera_frut_1774197087933.png",
       "filename": "nano_figuera_frut_1774197087933.png",
       "folder": "products",
+      "type": "image",
       "tags": [
         "products"
       ]
@@ -1619,6 +1808,7 @@
       "path": "/assets/products/nano_ratoli_dades.png",
       "filename": "nano_ratoli_dades.png",
       "folder": "products",
+      "type": "image",
       "tags": [
         "products"
       ]
@@ -1628,6 +1818,7 @@
       "path": "/assets/products/oli_nano_v2.png",
       "filename": "oli_nano_v2.png",
       "folder": "products",
+      "type": "image",
       "tags": [
         "products"
       ]
@@ -1637,6 +1828,7 @@
       "path": "/assets/products/samarreta-soc-de-poble.png",
       "filename": "samarreta-soc-de-poble.png",
       "folder": "products",
+      "type": "image",
       "tags": [
         "products"
       ]
@@ -1646,6 +1838,7 @@
       "path": "/assets/products/young_man_tshirt.png",
       "filename": "young_man_tshirt.png",
       "folder": "products",
+      "type": "image",
       "tags": [
         "products"
       ]

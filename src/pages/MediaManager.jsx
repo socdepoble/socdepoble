@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Image, Folder, HelpCircle, HardDrive, Filter, X, Cloud, Info } from 'lucide-react';
+import { Image, Folder, HelpCircle, HardDrive, Filter, X, Cloud, Info, FileText, Film } from 'lucide-react';
 import SEO from '../components/SEO';
 import { MEDIA_REGISTRY } from '../data/media_registry';
 
@@ -30,7 +30,7 @@ const MediaManager = () => {
                     <div>
                         <h1 className="text-xl md:text-2xl font-black uppercase tracking-widest text-white">Multimèdia</h1>
                         <p className="text-xs text-white/50 tracking-widen flex items-center gap-2">
-                            < हार्ड /> Base Local {MEDIA_REGISTRY.media.length} items
+                            <HardDrive size={14} /> Base Local {MEDIA_REGISTRY.media.length} items
                         </p>
                     </div>
                 </div>
@@ -78,12 +78,23 @@ const MediaManager = () => {
                             onClick={() => setSelectedImage(item)}
                             className="aspect-square bg-[#111] border border-[#222] rounded-xl overflow-hidden group cursor-pointer relative hover:border-red-500/50 transition-all hover:shadow-[0_0_20px_rgba(220,38,38,0.2)] hover:-translate-y-1"
                         >
-                            <img 
-                                src={item.path} 
-                                alt={item.filename} 
-                                className="w-full h-full object-cover transition-opacity" 
-                                loading="lazy"
-                            />
+                            {item.type === 'image' || !item.type ? (
+                                <img 
+                                    src={item.path} 
+                                    alt={item.filename} 
+                                    className="w-full h-full object-cover transition-opacity" 
+                                    loading="lazy"
+                                />
+                            ) : item.type === 'video' ? (
+                                <div className="w-full h-full flex flex-col items-center justify-center text-white/50 bg-[#1a1a1a]">
+                                    <Film size={48} className="opacity-50" />
+                                </div>
+                            ) : (
+                                <div className="w-full h-full flex flex-col items-center justify-center text-white/50 bg-[#1a1a1a]">
+                                    <FileText size={48} className="opacity-50" />
+                                </div>
+                            )}
+
                             <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center gap-2 transition-all p-4 text-center">
                                 <span className="text-[10px] uppercase tracking-widest text-[#888] bg-black px-2 py-1 rounded border border-[#333]">{item.folder}</span>
                                 <span className="text-xs font-bold text-white max-w-full truncate">{item.filename}</span>

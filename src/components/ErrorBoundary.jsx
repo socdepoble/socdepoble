@@ -60,6 +60,7 @@ class ErrorBoundary extends React.Component {
                     <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', marginTop: '16px' }}>
                         <button
                             onClick={() => {
+                                localStorage.clear();
                                 sessionStorage.clear();
                                 window.location.href = '/';
                             }}

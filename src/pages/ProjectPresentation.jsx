@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef, lazy, Suspense } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ArrowLeft, Edit2, ShieldAlert, Share2, Book, BookText, Plus, MessageCircle, Globe, MapPin, Search, Calendar, Sparkles, List, X, ChevronRight, History, Info, Menu, ChevronUp, ChevronDown, Database } from 'lucide-react';
+import { ArrowLeft, Edit2, ShieldAlert, Share2, Book, BookText, Plus, MessageCircle, Globe, MapPin, Search, Calendar, Sparkles, List, X, ChevronRight, History, Info, Menu, ChevronUp, ChevronDown, Database, Download } from 'lucide-react';
 import SEO from '../components/SEO';
 import GlobalFooter from '../components/GlobalFooter';
 import PageHeader from '../components/PageHeader';
@@ -21,6 +21,16 @@ import Carousel from '../components/Carousel';
 // Es carregarà de forma dinàmica per externalitzar pes de l'arrel
 import { get, set, keys, del } from 'idb-keyval';
 import { useAtomicGuard } from '../hooks/useAtomicGuard';
+import { MEDIA_REGISTRY } from '../data/media_registry';
+
+const resolveMedia = (originalPath) => {
+    if (!originalPath || originalPath.startsWith('http')) return originalPath;
+    
+    // Si viene del registry, buscar por nombre base. Esto arregla los links rotos por cambios de carpeta
+    const filename = originalPath.split('/').pop().split('?')[0];
+    const found = MEDIA_REGISTRY.media.find(m => m.filename === filename);
+    return found ? found.path : originalPath;
+};
 
 const BOOK_CACHE_KEY = 'trellat_book_fallback_v5';
 
@@ -326,6 +336,9 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
 
         // Mutación DOM batcheada (reforzada con cleanup)
         const timeoutId = setTimeout(() => {
+            const existingDetails = Array.from(contentDiv.querySelectorAll('details.cms-code-block'));
+            existingDetails.forEach((d) => d.removeAttribute('open'));
+
             const preElements = Array.from(contentDiv.querySelectorAll('pre:not([data-processed])'));
             if (preElements.length === 0) return;
             
@@ -335,27 +348,43 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                 pre.setAttribute('data-processed', 'true');
                 
                 const details = document.createElement('details');
-                details.className = 'cms-code-block bg-black/5 dark:bg-white/5 border border-[var(--border-master)] rounded-xl my-6 overflow-hidden';
+                details.className = 'cms-code-block bg-black/5 dark:bg-[#111111] group border border-[var(--border-master)] rounded-[1.5rem] my-6 overflow-hidden shadow-[0_4px_30px_rgba(249,115,22,0.15)] transition-all';
                 
                 const summary = document.createElement('summary');
-                summary.className = 'cursor-pointer p-4 font-bold text-sm uppercase flex items-center justify-between select-none hover:bg-black/5 dark:hover:bg-white/5 transition-colors';
+                summary.className = 'cursor-pointer p-4 font-bold text-sm uppercase flex items-center justify-between select-none hover:bg-black/5 dark:hover:bg-white/5 transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--theme-accent-primary)]';
                 
                 const titleSpan = document.createElement('span');
-                titleSpan.innerHTML = '<span class="mr-2">💻</span> Codi / Format Tècnic';
+                titleSpan.className = 'flex items-center gap-2 text-theme-text';
+                titleSpan.innerHTML = '<span class="text-lg">💻</span> Format Tècnic';
                 
+                const actionsContainer = document.createElement('div');
+                actionsContainer.className = 'flex items-center gap-2';
+
+                const toggleSpanDesplegar = document.createElement('span');
+                toggleSpanDesplegar.className = 'text-[0.65rem] uppercase tracking-wider font-bold font-mono bg-black/10 dark:bg-white/10 text-theme-text px-3 py-1.5 rounded-full group-open:hidden transition-transform active:scale-95';
+                toggleSpanDesplegar.innerText = 'Desplegar';
+
+                const toggleSpanPlegar = document.createElement('span');
+                toggleSpanPlegar.className = 'text-[0.65rem] uppercase tracking-wider font-bold font-mono bg-[var(--theme-accent-primary)] text-white px-3 py-1.5 rounded-full hidden group-open:block transition-transform active:scale-95 shadow-[0_0_15px_rgba(249,115,22,0.4)]';
+                toggleSpanPlegar.innerText = 'Plegar';
+
                 const copyBtn = document.createElement('button');
-                copyBtn.className = 'cms-copy-btn flex items-center gap-1 px-3 py-1.5 rounded-lg bg-[var(--theme-accent-primary)]/10 text-[var(--theme-accent-primary)] text-xs font-bold uppercase transition-colors hover:bg-[var(--theme-accent-primary)] hover:text-white';
+                copyBtn.className = 'cms-copy-btn flex items-center gap-1 px-3 py-1.5 rounded-full bg-black/5 dark:bg-white/5 text-theme-text text-[0.65rem] font-bold uppercase transition-colors hover:bg-black/10 dark:hover:bg-white/10 active:scale-95';
                 copyBtn.innerHTML = `
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
                     Copiar
                 `;
 
+                actionsContainer.appendChild(toggleSpanDesplegar);
+                actionsContainer.appendChild(toggleSpanPlegar);
+                actionsContainer.appendChild(copyBtn);
+
                 summary.appendChild(titleSpan);
-                summary.appendChild(copyBtn);
+                summary.appendChild(actionsContainer);
                 details.appendChild(summary);
                 
                 const preContainer = document.createElement('div');
-                preContainer.className = 'cms-code-wrapper p-4 overflow-x-auto text-sm border-t border-[var(--border-master)] bg-black/80 text-green-400';
+                preContainer.className = 'cms-code-wrapper p-4 overflow-x-auto text-sm border-t border-[var(--border-master)] bg-[#050505] text-green-400';
                 
                 pre.parentNode.insertBefore(details, pre);
                 preContainer.appendChild(pre);
@@ -427,9 +456,9 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
 
     const HeroBanner = useMemo(() => {
         const carouselImages = [
-            "/assets/infographics/presentacion_nano.jpg",
-            "/assets/infographics/chica_jersey.jpg",
-            "/assets/infographics/pizarra_nano.jpg"
+            resolveMedia("presentacion_nano.jpg"),
+            resolveMedia("chica_jersey.jpg"),
+            resolveMedia("pizarra_nano.jpg")
         ];
 
         return (
@@ -501,6 +530,17 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                     <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-[var(--theme-accent-primary)] text-center tracking-tight leading-none uppercase mb-2">
                         {title || "SENSE TÍTOL"}
                     </h1>
+                    
+                    {routeSlug === 'codex' && (
+                        <a 
+                            href="/llibre-sencer.html" 
+                            download="Soc_de_Poble_Genotip.html"
+                            className="mt-6 flex items-center gap-2 bg-[var(--theme-accent-primary)] text-black font-bold uppercase tracking-widest px-6 py-3 rounded-xl shadow-[0_0_20px_rgba(255,215,0,0.4)] hover:scale-105 transition-all outline outline-1 outline-offset-4 outline-[var(--theme-accent-primary)]"
+                        >
+                            <Download size={20} />
+                            Descarregar Codi Autoinstal·lable (Genotip)
+                        </a>
+                    )}
                 </div>
             )}
         </div>
@@ -508,11 +548,14 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
 
     // cleanHtmlContent was moved up and merged with TOC pre-processor
 
-    // FAST SCRUBBER HANDLING
+    // FAST SCRUBBER HANDLING AND TOC OBSERVER
     useEffect(() => {
-        if (tocElements.length === 0 || scrubberDragging || isEditing) return;
+        if (tocElements.length === 0 || isEditing) return;
 
-        // L'ULL DE DÉU: Delega el càlcul a l'API nativa asíncrona
+        // IntersectionObserver realment fixat i lligat al contenidor adequat:
+        const scrollContainer = document.getElementById('main-content');
+        if (!scrollContainer) return;
+
         const observer = new IntersectionObserver((entries) => {
             const visible = entries
                 .filter(e => e.isIntersecting)
@@ -520,104 +563,24 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
             if (visible) {
                 const activeItem = tocElements.find(el => el.id === visible.target.id);
                 if (activeItem) {
-                    setScrubberActiveHeading(activeItem.text);
                     setActiveHeadingId(visible.target.id);
                 }
             }
-        }, { rootMargin: "-12% 0px -85% 0px", threshold: 0 });
+        }, { 
+            root: scrollContainer,
+            rootMargin: "-20px 0px -70% 0px", 
+            threshold: 0 
+        });
 
         tocElements.forEach(item => {
             const el = document.getElementById(item.id);
             if (el) observer.observe(el);
         });
 
-        // Actualització passiva de la posició de la barra, sincronitzada amb els fotogrames
-        const container = scrollContainerRef.current;
-        let ticking = false;
-        const updateScrubberBar = () => {
-            if (!ticking && !scrubberDragging && container) {
-                window.requestAnimationFrame(() => {
-                    const scrollHeight = container.scrollHeight - container.clientHeight;
-                    const percent = scrollHeight > 0 ? (container.scrollTop / scrollHeight) : 0;
-                    scrubberPosRef.current = percent;
-                    if (scrubberThumbRef.current) {
-                        scrubberThumbRef.current.style.top = `calc(${percent * 100}% - 12px)`;
-                    }
-                    if (pageNumberRef.current) {
-                        // Math.max guarantees page 1 min, Math.ceil gives the current page slice
-                        pageNumberRef.current.textContent = Math.max(1, Math.ceil(percent * totalPages));
-                    }
-                    ticking = false;
-                });
-                ticking = true;
-            }
-        };
-
-        if (container) {
-            container.addEventListener('scroll', updateScrubberBar, { passive: true });
-        }
         return () => { 
             observer.disconnect(); 
-            if (container) container.removeEventListener('scroll', updateScrubberBar); 
         };
-    }, [tocElements, scrubberDragging, isEditing, totalPages]);
-
-    const handleScrubberPointerMove = useCallback((e) => {
-        if (!scrollContainerRef.current || !scrubberBoundsRef.current) return;
-        
-        if (scrubberRafRef.current) cancelAnimationFrame(scrubberRafRef.current);
-        scrubberRafRef.current = requestAnimationFrame(() => {
-            const { top, height } = scrubberBoundsRef.current;
-            let percentage = (e.clientY - top) / height;
-            percentage = Math.max(0, Math.min(1, percentage));
-            
-            
-            scrubberPosRef.current = percentage;
-            if (scrubberThumbRef.current) {
-                scrubberThumbRef.current.style.top = `calc(${percentage * 100}% - 12px)`;
-            }
-            if (pageNumberRef.current) {
-                pageNumberRef.current.textContent = Math.max(1, Math.ceil(percentage * totalPages));
-            }
-            
-            const container = scrollContainerRef.current;
-            container.scrollTop = percentage * (container.scrollHeight - container.clientHeight);
-
-            if (tocElements.length > 0) {
-                const index = Math.min(
-                    Math.floor(percentage * tocElements.length),
-                    Math.max(0, tocElements.length - 1)
-                );
-                const newHeading = tocElements[index].text;
-                setScrubberActiveHeading(prev => prev !== newHeading ? newHeading : prev);
-            }
-            scrubberRafRef.current = null;
-        });
-    }, [tocElements, totalPages]);
-
-    const handleScrubberPointerUp = useCallback(() => {
-        setScrubberDragging(false);
-        window.removeEventListener('pointermove', handleScrubberPointerMove);
-        window.removeEventListener('pointerup', handleScrubberPointerUp);
-        if (scrubberRafRef.current) cancelAnimationFrame(scrubberRafRef.current);
-        // Restaurar transición suave al soltar
-        if (scrubberThumbRef.current) {
-            scrubberThumbRef.current.style.transition = 'transform 0.2s cubic-bezier(0.22, 1, 0.36, 1)';
-        }
-    }, [handleScrubberPointerMove, setScrubberDragging]);
-
-    const handleScrubberPointerDown = (e) => {
-        e.preventDefault();
-        setScrubberDragging(true);
-        
-        if (scrubberRef.current) {
-            scrubberBoundsRef.current = scrubberRef.current.getBoundingClientRect();
-        }
-        
-        handleScrubberPointerMove(e);
-        window.addEventListener('pointermove', handleScrubberPointerMove);
-        window.addEventListener('pointerup', handleScrubberPointerUp);
-    };
+    }, [tocElements, isEditing]);
     
     useEffect(() => {
         return () => {
@@ -882,6 +845,32 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                                 }
                             }}
                         />
+
+                        {/* Caixa Addicional per descarregar Sistema Operatiu - Requeriment de l'Usuari */}
+                        {(!isEditing && (routeSlug === '/el-projecte' || routeSlug === 'el-projecte' || routeSlug === '/manifest' || routeSlug === 'manifest' || routeSlug === '/codex' || routeSlug === 'codex')) && (
+                            <div className="w-full mx-auto pb-12 pt-6">
+                                <div className="bg-[#111111] border-2 border-emerald-500/40 rounded-3xl p-6 sm:p-10 shadow-[0_0_40px_rgba(16,185,129,0.15)] text-center relative overflow-hidden group">
+                                    <div className="absolute inset-0 bg-emerald-500/5 group-hover:bg-emerald-500/10 transition-colors pointer-events-none"></div>
+                                    <div className="w-16 h-16 rounded-2xl bg-emerald-500/10 flex items-center justify-center mx-auto mb-6 transform group-hover:-rotate-12 transition-transform duration-500">
+                                        <Database className="text-emerald-500 size-8 animate-pulse" />
+                                    </div>
+                                    <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black text-emerald-500 uppercase tracking-tight mb-4 drop-shadow-md">
+                                        Descargar Sistema Operativo
+                                    </h3>
+                                    <p className="text-white/80 text-lg sm:text-xl mb-8 max-w-2xl mx-auto font-medium leading-relaxed">
+                                        Si en lugar de leer el Volumen 1 deseas la persistencia pura, descarga ahora mismo el archivo auto-ejecutable (Genotipo) para tu ordenador local. Próximamente también lo meteremos en la <strong>App Store</strong> y <strong>Google Play</strong>.
+                                    </p>
+                                    <a 
+                                        href="/llibre-sencer.html" 
+                                        download="Soc_de_Poble_Sistema_Operatiu.html"
+                                        className="inline-flex items-center justify-center gap-3 bg-emerald-500 hover:bg-emerald-400 text-black px-8 py-5 rounded-[1.5rem] font-black text-lg sm:text-xl uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-[0_4px_25px_rgba(16,185,129,0.5)] border-2 border-emerald-300/50"
+                                    >
+                                        <Download size={28} className="animate-bounce" /> 
+                                        Descargar Archivo
+                                    </a>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 )}
             </div>
@@ -1143,15 +1132,15 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                                 </div>
                                 Descarregar E-Book
                             </button>
-                            <button onClick={() => window.location.href = '/llibre-sencer.html'} className="flex items-center gap-4 w-full px-4 py-3 min-h-[48px] rounded-2xl hover:bg-black/5 dark:hover:bg-white/5 active:scale-95 text-[var(--text-main)] transition-all touch-manipulation font-bold">
+                            <a href="/llibre-sencer.html" download="Soc_de_Poble_Sistema_Operatiu.html" onClick={() => setIsActionMenuOpen(false)} className="flex items-center gap-4 w-full px-4 py-3 min-h-[48px] rounded-2xl hover:bg-black/5 dark:hover:bg-white/5 active:scale-95 text-[var(--text-main)] transition-all touch-manipulation font-bold cursor-pointer">
                                 <div className="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
                                     <Database className="size-5 shrink-0 text-emerald-500 animate-pulse" />
                                 </div>
                                 <div className="flex flex-col text-left">
-                                    <span className="leading-tight">Llegir Genotip</span>
-                                    <span className="text-[10px] text-emerald-600 dark:text-emerald-400 uppercase tracking-widest font-black">Codi Font & Auditories</span>
+                                    <span className="leading-tight">Descarregar OS</span>
+                                    <span className="text-[10px] text-emerald-600 dark:text-emerald-400 uppercase tracking-widest font-black">Sistema Operatiu Autoexecutable</span>
                                 </div>
-                            </button>
+                            </a>
                         </menu>
                     </div>
                 </div>
@@ -1232,40 +1221,6 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                     {isTocOpen && (
                         <div className="fixed inset-0 bg-black/60 z-[var(--z-overlay,50)] backdrop-blur-sm animate-in fade-in duration-300 touch-none" onClick={() => setIsTocOpen(false)} aria-hidden="true" />
                     )}
-                    
-                    {/* Fast Scrubber: Bound rigidly to the page template (absolute overlay) */}
-                    <div 
-                        ref={scrubberRef}
-                        className="absolute left-1 sm:left-2 top-[20%] bottom-[20%] w-12 sm:w-16 z-[var(--z-nav,40)] cursor-ns-resize touch-none flex justify-start p-2 isolate"
-                        onPointerDown={handleScrubberPointerDown}
-                        style={{ userSelect: 'none', touchAction: 'none' }}
-                        aria-hidden="true" 
-                    >
-                        <div className="h-full w-2 bg-black/10 dark:bg-white/5 rounded-full relative shadow-inner mr-auto pointer-events-none">
-                            {/* Punter Escalable */}
-                            <div 
-                                ref={scrubberThumbRef}
-                                className="absolute left-0 w-2 bg-[var(--theme-accent-primary)] rounded-full transition-all duration-75 origin-center shadow-[0_0_10px_rgba(249,115,22,0.8)]" 
-                                style={{ 
-                                    height: '24px', 
-                                    top: `calc(${scrubberPosRef.current * 100}% - 12px)`,
-                                    transform: scrubberDragging ? 'scaleX(2.5) scaleY(1.5)' : 'scaleX(1)'
-                                }}
-                            />
-
-                            {/* Bafarada amb el Títol */}
-                            <div 
-                                className={`absolute left-5 whitespace-nowrap bg-[var(--theme-accent-primary)] text-white font-black uppercase tracking-wider text-xs sm:text-sm py-2 px-4 rounded-xl shadow-2xl pointer-events-none transition-all duration-100 flex items-center ${scrubberDragging ? 'opacity-100' : 'opacity-0'}`}
-                                style={{ 
-                                    top: `calc(${scrubberPosRef.current * 100}%)`,
-                                    transform: `translateY(-50%) ${scrubberDragging ? 'translateX(0)' : 'translateX(-10px)'}`
-                                }}
-                            >
-                                <div className="absolute top-1/2 -left-1 -translate-y-1/2 w-3 h-3 bg-[var(--theme-accent-primary)] rotate-45"></div>
-                                {scrubberActiveHeading || "Inici"}
-                            </div>
-                        </div>
-                    </div>
                 </>
             )}
 

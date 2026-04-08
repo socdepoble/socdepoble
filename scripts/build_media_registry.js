@@ -24,7 +24,7 @@ const walkSync = (dir, filelist = []) => {
       filelist = walkSync(filePath, filelist);
     } else {
       const ext = path.extname(file).toLowerCase();
-      if (['.jpg', '.jpeg', '.png', '.webp', '.svg', '.gif'].includes(ext)) {
+      if (['.jpg', '.jpeg', '.png', '.webp', '.svg', '.gif', '.mp4', '.webm', '.pdf', '.pptx', '.md'].includes(ext)) {
          filelist.push(filePath);
       }
     }
@@ -38,7 +38,7 @@ const buildRegistry = () => {
         return;
     }
 
-    const allImages = walkSync(ASSETS_DIR);
+    const allMedia = walkSync(ASSETS_DIR);
     const registry = {
         meta: { lastUpdated: new Date().toISOString() },
         media: [],
@@ -47,7 +47,7 @@ const buildRegistry = () => {
 
     const hashMap = {};
 
-    allImages.forEach(filePath => {
+    allMedia.forEach(filePath => {
         const relativePath = '/assets/' + path.relative(ASSETS_DIR, filePath);
         const folder = path.dirname(path.relative(ASSETS_DIR, filePath));
         const filename = path.basename(filePath);
@@ -63,11 +63,18 @@ const buildRegistry = () => {
             });
             console.log(`[DUPLICADO] ${relativePath} es igual a ${hashMap[hash].path}`);
         } else {
+            // Inferir el tipo bruto para facilitar la vida al MediaManager
+            const ext = path.extname(filePath).toLowerCase();
+            let type = 'image';
+            if (['.mp4', '.webm'].includes(ext)) type = 'video';
+            if (['.pdf', '.pptx', '.md'].includes(ext)) type = 'document';
+
             const entry = {
                 id: hash.substring(0, 12),
                 path: relativePath,
                 filename: filename,
                 folder: folder === '.' ? 'general' : folder,
+                type: type,
                 tags: [folder !== '.' ? folder : 'general']
             };
             hashMap[hash] = entry;
@@ -86,7 +93,7 @@ const buildRegistry = () => {
         console.log(`✅ Media Registry JS export construído en: ${dataFilePath}`);
     }
 
-    console.log(`✅ Media Registry construido con éxito: ${registry.media.length} imágenes únicas, ${registry.duplicates.length} duplicadas enviadas al index.`);
+    console.log(`✅ Media Registry construido con éxito: ${registry.media.length} elementos únicos, ${registry.duplicates.length} duplicados enviados al index.`);
 };
 
 buildRegistry();
