@@ -129,16 +129,9 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
     const [searchText, setSearchText] = useState('');
     const [isActionMenuOpen, setIsActionMenuOpen] = useState(false);
 
-    // FAST SCRUBBER STATE
+    // FAST SCRUBBER STATE (DEPRECATED)
     const scrollContainerRef = useRef(null);
     const searchEngine = useAccessibleSearch(scrollContainerRef);
-    const scrubberRef = useRef(null);
-    const scrubberBoundsRef = useRef(null);
-    const scrubberRafRef = useRef(null);
-    const scrubberThumbRef = useRef(null);
-    const scrubberPosRef = useRef(0);
-    const [scrubberDragging, setScrubberDragging] = useState(false);
-    const [scrubberActiveHeading, setScrubberActiveHeading] = useState('');
 
     // BOOK PAGE METRICS (ZERO RE-RENDER SCROLLING)
     const pageNumberRef = useRef(null);
@@ -581,14 +574,7 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
             observer.disconnect(); 
         };
     }, [tocElements, isEditing]);
-    
-    useEffect(() => {
-        return () => {
-            window.removeEventListener('pointermove', handleScrubberPointerMove);
-            window.removeEventListener('pointerup', handleScrubberPointerUp);
-        };
-    }, [handleScrubberPointerMove, handleScrubberPointerUp]);
-
+    // Removed unused event listeners cleanup
     // Auto-scroll TOC to active item
     useEffect(() => {
         if (isTocOpen && activeHeadingId) {
