@@ -416,12 +416,7 @@ function transformToHTML(source) {
     id,
     html: `
 <article id="${id}" data-type="${type}" data-source="${source.file}" class="mb-12 w-full max-w-[800px] mx-auto text-left">
-  <header class="mb-4">
-    <h2 class="text-2xl font-bold text-stone-900 uppercase" style="word-break: break-word; overflow-wrap: break-word; hyphens: auto;">${escapeHtml(source.title)}</h2>
-    <div class="font-mono text-xs text-stone-500 mt-1">
-      ${source.category} | ${source.ext}
-    </div>
-  </header>
+
   <div class="content prose prose-stone max-w-none text-stone-800 prose-img:rounded-md">
     ${htmlContent}
   </div>
@@ -444,7 +439,7 @@ function buildCodex() {
 
   const pages = sources.map(transformToHTML);
 
-  const htmlContent = pages.map(p => p.html).join('\\n\\n');
+  const htmlContent = pages.map(p => p.html).join('\\n');
 
   const activationPrompt = `
 <article id="activation-prompt" data-type="machine" class="bg-stone-900 text-left p-6 md:p-8 mb-12 relative overflow-hidden">
