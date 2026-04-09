@@ -758,18 +758,10 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
             
             <SEO title={title || "El Projecte"} description="Connectant l'Espanya Buidada..." url={routeSlug} />
             
-            {/* 3. PROTECCIÓN SUPERIOR (NOTCH) */}
-            <div 
-                className="pt-[max(env(safe-area-inset-top),0px)] shrink-0 z-[var(--z-nav,40)] bg-[var(--bg-app)]"
-                inert={isTocOpen || isActionMenuOpen || isTranslationOpen || isHistoryOpen || !!mediaViewerSrc ? true : undefined}
-            />
-            
-
-
-            {/* 4. SCROLL CONTAINER (Rubber-band neutralizado, Bottom Safe-Area asegurado) */}
+            {/* 4. SCROLL CONTAINER NADIU (Delegat a AppLayout sense fantasmes locals) */}
             <main 
                 ref={scrollContainerRef}
-                className="flex-1 overflow-y-auto overscroll-y-contain custom-scrollbar relative min-h-0 pb-[max(env(safe-area-inset-bottom),1.5rem)] bg-white dark:bg-[#121212]"
+                className="flex-1 w-full relative bg-white dark:bg-[#121212] pb-[max(env(safe-area-inset-bottom),1.5rem)] flex flex-col"
                 inert={isTocOpen || isActionMenuOpen || isTranslationOpen || isHistoryOpen || !!mediaViewerSrc ? true : undefined}
             >
 

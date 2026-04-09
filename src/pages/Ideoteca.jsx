@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import SystemPageLayout from '../components/SystemPageLayout';
 import { 
     Lightbulb, 
     ArrowLeft, 
@@ -81,13 +82,13 @@ const Ideoteca = () => {
     const navigate = useNavigate();
 
     return (
-        <div className="w-full h-full flex flex-col p-4 md:p-8 overflow-y-auto">
+        <SystemPageLayout>
             <header className="flex items-center gap-4 mb-8">
                 <div className="w-12 h-12 bg-[#222] rounded-xl flex items-center justify-center border border-[#333] shadow-md">
                     <Archive size={24} className="text-gray-400" />
                 </div>
                 <div>
-                    <h1 className="text-xl font-black text-white uppercase tracking-widest">Auditoria d'Idees</h1>
+                    <h1 className="text-xl font-black text-white tracking-widest uppercase">Auditoria d'Idees</h1>
                     <p className="text-sm text-gray-500 font-semibold tracking-wide">MAGATZEM DE FUNCIONALITATS EN QUARANTENA</p>
                 </div>
             </header>
@@ -131,7 +132,7 @@ const Ideoteca = () => {
                 <h4 className="text-white font-bold tracking-widest text-sm uppercase mb-1">El calaix de sastre</h4>
                 <p className="text-xs text-gray-500 max-w-md mx-auto">Aquestes eines foren ideades als albors del sistema operatiu M3 i actualment no es mostren als usuaris finals per falta de definició estructural o legal.</p>
             </div>
-        </div>
+        </SystemPageLayout>
     );
 };
 

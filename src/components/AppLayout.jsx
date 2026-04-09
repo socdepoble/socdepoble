@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from "react";
-import { Routes, Route, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation, useNavigate, Outlet } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Plus } from "lucide-react";
 import NavigationRail from "./NavigationRail";
@@ -91,6 +91,15 @@ const ProtectedRoute = ({ children }) => {
   if (!user || user.isAnonymous)
     return <Navigate to="/registre" state={{ from: location }} replace />;
   return children;
+};
+
+const SuperAdminRoute = () => {
+  const { isSuperAdmin, loading } = useAuth();
+  const { t } = useTranslation();
+  if (loading) return <NanoLoader message={t('common.connecting', 'Connectant...')} />;
+  // Restricció severa basada en el Genotip de Privacitat: Sóc de Poble Privado
+  if (!isSuperAdmin) return <Navigate to="/ruta" replace />;
+  return <Outlet />;
 };
 
 const AppLayout = () => {
@@ -346,7 +355,6 @@ const AppLayout = () => {
                     <Route path="/seguretat" element={<VitalSecurity />} />
                     <Route path="/pobles" element={<Towns />} />
                     <Route path="/pobles/:id" element={<ProfileView />} />
-                    <Route path="/versions" element={<Versions />} />
                     <Route path="/mapa" element={<MapaActius />} />
                     <Route path="/calendari" element={<CalendariMaster />} />
 
@@ -382,7 +390,24 @@ const AppLayout = () => {
                     <Route path="/registre" element={<Register />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/search" element={<SearchDiscover />} />
-                    <Route path="/control-general" element={<ControlGeneral />} />
+                    
+                    {/* ENTORNS PROTEGITS (NOMÉS ADMIN/PROPIETARI) */}
+                    <Route element={<SuperAdminRoute />}>
+                      <Route path="/control-general" element={<ControlGeneral />} />
+                      <Route path="/media" element={<MediaManager />} />
+                      <Route path="/versions" element={<Versions />} />
+                      
+                      {/* CONEXIONES HUÉRFANAS */}
+                      <Route path="/ideoteca" element={<Ideoteca />} />
+                      <Route path="/aula-rural" element={<AulaRural />} />
+                      <Route path="/dafo" element={<DAFOPage />} />
+                      <Route path="/canon" element={<DesignCanon />} />
+                      <Route path="/didactica" element={<DidacticPage />} />
+                      <Route path="/fantasmes" element={<GhostMemorial />} />
+                      <Route path="/manual" element={<ManualPage />} />
+                      <Route path="/playground" element={<PlaygroundPortal />} />
+                      <Route path="/cronica" element={<SessionChronicle />} />
+                    </Route>
                     <Route path="/ofici" element={<OficiDocumentacio />} />
                     <Route path="/ofici/:id" element={<OficiDocumentacio />} />
                     <Route
@@ -410,23 +435,9 @@ const AppLayout = () => {
                     <Route path="/notes" element={<Notes />} />
                     {/* PÀGINES DE PROJECTE I LEGALITAT */}
                     <Route path="/el-projecte" element={<ProjectPresentation forcedSlug="el-projecte" />} />
-                    <Route path="/media" element={<MediaManager />} />
                     <Route path="/page/:slug" element={<ProjectPresentation />} />
                     <Route path="/reader" element={<EpubViewer url="/assets/books/el-projecte.epub" title={"Sóc de Poble: El Projecte"} onClose={() => window.history.back()} />} />
                     <Route path="/chrome-145" element={<Chrome145Report />} />
-
-                    {/* CONEXIONES HUÉRFANAS */}
-                    <Route path="/ideoteca" element={<Ideoteca />} />
-                    <Route path="/aula-rural" element={<AulaRural />} />
-                    <Route path="/dafo" element={<DAFOPage />} />
-                    <Route path="/canon" element={<DesignCanon />} />
-                    <Route path="/didactica" element={<DidacticPage />} />
-                    <Route path="/fantasmes" element={<GhostMemorial />} />
-                    <Route path="/manual" element={<ManualPage />} />
-                    <Route path="/playground" element={<PlaygroundPortal />} />
-                    <Route path="/cronica" element={<SessionChronicle />} />
-
-
                     {/* Fallback 404 Catch-All Route */}
                     <Route path="*" element={<Navigate to="/mur" replace />} />
                   </Routes>

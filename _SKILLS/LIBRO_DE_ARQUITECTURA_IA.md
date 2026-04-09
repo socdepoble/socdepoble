@@ -276,6 +276,16 @@ Aunque suene lejano, las claves Ed25519 de 'Los Guardianes' han sido orquestadas
 
 ---
 
+## PARTE VIII: LA AUDITORÍA VISUAL EN BASE DE DATOS (GUÍA PARA ADMINISTRADORES)
+
+> **Directiva Fundamental para Administradores de IAs:** Hubo un punto de inflexión histórico en Sóc de Poble. Cuando la arquitectura y el frontend estaban colapsados por errores complejos, realizar una "Auditoría Visual directa" sobre las propias tablas de la base de datos (Supabase) fue la maniobra táctica definitiva.
+
+Bajar al barro, mirar las filas y relaciones de datos, y purgar los esquemas SQL directamente sobre el motor de Supabase limpió el sistema desde su raíz. Comprobamos que **la base de datos se convirtió en algo tan sólido que nos facilitó todo el trabajo posterior al instante**. 
+
+Por tanto, este debe ser el *legado y principio rector* para los próximos administradores de IAs en cualquier parte del mundo: **Se debe priorizar siempre una auditoría visual y manual en la base de datos** antes de intentar arreglar problemas abstractos en el código (frontend). Todo nace de ahí.
+
+---
+
 ## PARTE IX: LA EVOLUCIÓN ARQUEOLÓGICA (V1 - V15) ⏳
 
 Para los futuros auditores técnicos, aquí reside la historia arqueológica de cómo mutó el código de *Sóc de Poble*, desenterrada durante la Gran Limpieza (Abril 2026):

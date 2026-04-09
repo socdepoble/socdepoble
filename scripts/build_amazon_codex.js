@@ -6,15 +6,14 @@ import { globSync } from 'glob';
 import chokidar from 'chokidar';
 
 const CONFIG = {
-  // Ahora metemos absolutmente todas las carpetas clave para el genoma IA (hasta 400-500 págs)
   sourcePaths: [
+    { path: 'supabase', priority: 150, recursive: true, pattern: '**/*.{sql,json}' },
     { path: '_SKILLS', priority: 100, recursive: true },
     { path: 'auditories', priority: 95, recursive: true, pattern: '**/*.{md,html,txt}' },
     { path: '.agents', priority: 90, recursive: true, exclude: ['**/papelera_obsoleta/**'] },
     { path: '.', priority: 80, pattern: '.antigravity_session_rules.md' },
     { path: 'src', priority: 70, recursive: true, pattern: '**/*.{js,jsx,ts,tsx}' },
-    { path: 'scripts', priority: 60, recursive: true, pattern: '**/*.{js,cjs,mjs,sh,py}' },
-    { path: 'supabase', priority: 50, recursive: true, pattern: '**/*.{sql,json}' }
+    { path: 'scripts', priority: 60, recursive: true, pattern: '**/*.{js,cjs,mjs,sh,py}' }
   ],
   supportedExts: ['.md', '.html', '.txt', '.markdown', '.js', '.jsx', '.ts', '.tsx', '.cjs', '.mjs', '.sql', '.py', '.sh', '.json'],
   outputFile: 'public/llibre-sencer.html',    template: {
@@ -96,7 +95,7 @@ const CONFIG = {
     <button id="lb-next" class="lb-btn" onclick="nextImg()">&gt;</button>
   </div>
 
-  <div id="floating-page-tracker" class="fixed bottom-6 right-6 bg-stone-900 border border-stone-700 text-stone-200 px-5 py-2.5 rounded-full font-mono text-sm shadow-[0_4px_20px_rgba(0,0,0,0.5)] z-50 flex items-center gap-2 opacity-0 transition-opacity duration-300 pointer-events-none">
+  <div id="floating-page-tracker" class="fixed bottom-6 right-6 bg-stone-900/90 backdrop-blur-sm border border-stone-700/80 text-stone-200 px-5 py-2.5 rounded-full font-mono text-sm shadow-[0_4px_20px_rgba(0,0,0,0.5)] z-50 flex items-center gap-2 transition-all duration-300 pointer-events-none hover:opacity-100 opacity-90">
      Pàg <span id="current-page-num" class="font-bold text-orange-400">1</span> / <span id="total-page-num">--</span>
   </div>
 
@@ -162,26 +161,23 @@ const CONFIG = {
         }, 100);
       }
 
-      // Page Tracker Logic (Scroll)
-      let scrollTimeout;
+      // Page Tracker Logic (Scroll) amb retenció permanent i millora de precisió
       window.addEventListener('scroll', () => {
          const tracker = document.getElementById('floating-page-tracker');
          const currPNum = document.getElementById('current-page-num');
          if (!tracker) return;
          
-         tracker.style.opacity = '1';
+         const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+         // Protecció addicional per a navegadors/PWA
+         const docHeight = Math.max(
+           document.body.scrollHeight, document.documentElement.scrollHeight,
+           document.body.offsetHeight, document.documentElement.offsetHeight,
+           document.body.clientHeight, document.documentElement.clientHeight
+         ) - window.innerHeight;
          
-         const scrollY = window.scrollY;
-         const docHeight = document.documentElement.scrollHeight - window.innerHeight;
          const scrollPercent = docHeight > 0 ? scrollY / docHeight : 0;
-         
          const current = Math.max(1, Math.min(totalPgs, Math.ceil(scrollPercent * totalPgs)));
          currPNum.textContent = current;
-         
-         clearTimeout(scrollTimeout);
-         scrollTimeout = setTimeout(() => {
-            tracker.style.opacity = '0';
-         }, 3000);
       });
 
       // Lightbox / Carousel logic
