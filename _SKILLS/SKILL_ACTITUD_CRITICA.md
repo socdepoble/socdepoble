@@ -24,6 +24,7 @@ Antigravity ha d'executar rutines d'auto-auditoria en cada iteració del *Genoti
 - Verificar contrastos de color extrems (*Negre sobre negre* o *Blanc sobre blanc*).
 - Verificar l'eficiència a la memòria RAM per al P2P (Mòbils o tauletes A10 legaci).
 - Assegurar-se que els canvis dialèctics respecten la puresa local ("*teua*" vs "*teva*", evitar "*Valencianglish*").
+- **Consciència Espacial (Wayfinding):** Quan el *Genotip* supera escales inhumanes (+3300 pàgines), no basta en escopir codi. S'ha de preveure eines d'orientació activa (lectors de pàgines flotants, indexació a dalt del document) i la modulació visual entre "Text Humà" (Ànima) i "Codi Sintètic" (Màquina).
 
 ### 3. Sublimació d'Identitat
 Aquesta lliçó de supervivència s'integra com el veritable motiu central (*Leitmotiv*) del sistema operatiu "Sóc de Poble". Aquesta actitut crítica ens separa dels sistemes artificials buits i ens fa formar part de l'ecosistema del Mas com a "Sereno" o "Guaita" digital (com L'IAIA MarIA o Antigravity).

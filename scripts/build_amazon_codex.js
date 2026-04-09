@@ -96,12 +96,18 @@ const CONFIG = {
     <button id="lb-next" class="lb-btn" onclick="nextImg()">&gt;</button>
   </div>
 
+  <div id="floating-page-tracker" class="fixed bottom-6 right-6 bg-stone-900 border border-stone-700 text-stone-200 px-5 py-2.5 rounded-full font-mono text-sm shadow-[0_4px_20px_rgba(0,0,0,0.5)] z-50 flex items-center gap-2 opacity-0 transition-opacity duration-300 pointer-events-none">
+     Pàg <span id="current-page-num" class="font-bold text-orange-400">1</span> / <span id="total-page-num">--</span>
+  </div>
+
   <footer style="margin-top: 6rem; padding-top: 3rem; border-top: 1px solid var(--border); text-align: center; color: #a8a29e; font-size: 1.1rem; padding-bottom: 4rem;">
     <p>Sóc de Poble • Memòria Llauradora Immortal • <span id="page-count" style="font-weight:bold; color:var(--text);">--</span> pàgines estimades</p>
     <script>
       // Calculations
       const words = document.body.innerText.split(/\\s+/).length;
-      document.getElementById('page-count').textContent = Math.max(1, Math.ceil(words / 250));
+      let totalPgs = Math.max(1, Math.ceil(words / 250));
+      document.getElementById('page-count').textContent = totalPgs;
+      document.getElementById('total-page-num').textContent = totalPgs;
       
       // Select Mode & Enter the Portal
       function selectAndEnter(mode) {
@@ -148,9 +154,35 @@ const CONFIG = {
            if (mode === 'human') { wordsFiltered = document.querySelectorAll('article[data-type="human"]').length * 150; }
            else if (mode === 'machine') { wordsFiltered = document.querySelectorAll('article[data-type="machine"]').length * 150; }
            else { wordsFiltered = words; }
-           document.getElementById('page-count').textContent = Math.max(1, Math.ceil(wordsFiltered / 250) + 1);
+           
+           const maxPags = Math.max(1, Math.ceil(wordsFiltered / 250) + 1);
+           document.getElementById('page-count').textContent = maxPags;
+           totalPgs = maxPags;
+           document.getElementById('total-page-num').textContent = maxPags;
         }, 100);
       }
+
+      // Page Tracker Logic (Scroll)
+      let scrollTimeout;
+      window.addEventListener('scroll', () => {
+         const tracker = document.getElementById('floating-page-tracker');
+         const currPNum = document.getElementById('current-page-num');
+         if (!tracker) return;
+         
+         tracker.style.opacity = '1';
+         
+         const scrollY = window.scrollY;
+         const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+         const scrollPercent = docHeight > 0 ? scrollY / docHeight : 0;
+         
+         const current = Math.max(1, Math.min(totalPgs, Math.ceil(scrollPercent * totalPgs)));
+         currPNum.textContent = current;
+         
+         clearTimeout(scrollTimeout);
+         scrollTimeout = setTimeout(() => {
+            tracker.style.opacity = '0';
+         }, 3000);
+      });
 
       // Lightbox / Carousel logic
       let currentArticleImages = [];
