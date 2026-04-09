@@ -8,7 +8,7 @@ Per a garantir que cada enllaç compartit a WhatsApp, Telegram o Twitter siga ir
 
 ### La Regla de l'Or d'Open Graph
 
-- **Imatge Premium:** Tota imatge de previsualització ha de ser de **1200x630px**.
+- **Imatge Premium:** Tota imatge de previsualització ha de ser **Sempre Cuadrada / 1:1** (preferiblement **1080x1080px**). Es prohibeix usar formats allargats (com 1200x630px) ja que xoquen amb el nostre format WhatsApp-First de xarxa en malla.
 - **Rutes Absolutes:** WhatsApp NO entén rutes relatives. Sempre usar `https://socdepoble.org/...`.
 - **Cache-Busters:** Si canvies una imatge, afegeix sempre un paràmetre de versió (`?v=batega-2`) per a forçar l'actualització dels servidors de previsualització.
 
