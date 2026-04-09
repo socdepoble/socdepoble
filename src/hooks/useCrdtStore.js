@@ -1,4 +1,4 @@
-import { useSyncExternalStore, useRef, startTransition } from 'react';
+import { useSyncExternalStore, useRef, startTransition, useEffect } from 'react';
 
 export function shallowEqual(objA, objB) {
   if (Object.is(objA, objB)) return true;
@@ -78,20 +78,33 @@ class CRDTStore {
   }
 }
 
-const storeCache = new WeakMap();
+const storeCache = new Map();
 
 function getOrCreateCRDTStore(doc) {
-  if (!doc) return { subscribe: () => () => {}, getSnapshot: () => ({version: 0, data: undefined}) };
+  if (!doc) return { subscribe: () => () => {}, getSnapshot: () => ({version: 0, data: undefined}), destroy: () => {} };
   
   if (!storeCache.has(doc)) {
-     storeCache.set(doc, new CRDTStore(doc));
+     storeCache.set(doc, { store: new CRDTStore(doc), refCount: 0 });
   }
   return storeCache.get(doc);
 }
 
 export function useCrdtStore(doc, selector = (s) => s.data) {
-  const store = getOrCreateCRDTStore(doc);
+  const cacheEntry = getOrCreateCRDTStore(doc);
+  const store = cacheEntry.store || cacheEntry;
   const sliceRef = useRef();
+
+  useEffect(() => {
+      if (!doc) return;
+      cacheEntry.refCount += 1;
+      return () => {
+          cacheEntry.refCount -= 1;
+          if (cacheEntry.refCount <= 0) {
+              cacheEntry.store.destroy();
+              storeCache.delete(doc);
+          }
+      };
+  }, [doc, cacheEntry]);
 
   return useSyncExternalStore(
     store.subscribe,

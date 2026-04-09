@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/ABSTRACCIONS_LLIBRE_AMAZON.md`
+
 # Abstraccions de la Simbiosi: Per al Llibre d'Amazon 📖✂️🏛️
 
 Aquesta és una col·lecció de "píndoles de saviesa" i arquitectures conceptuals destinades a ser compartides al món a través de la publicació a Amazon.

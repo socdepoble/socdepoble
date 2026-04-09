@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/VISION_ORIGINAL.md`
+
 # Sóc de Poble: Visión Original vs Prototipo Actual
 
 > **Documento de Análisis** - Mapeo entre la visión de 2013 y la implementación de 2026

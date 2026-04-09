@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_PAPERERA_OBSOLETA/SUPER_PROMPT_CERTIFICACION_30_ANYS.md`
+
 **MEMORÁNDUM AL ALTO CONSEJO MULTI-MODEL**
 
 **ASUNTO:** Certificación de Arquitectura Indestructible V12 (Visión 30 Años)

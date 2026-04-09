@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./public/skills/SKILL_IAIA_VISIBILITY_LEVELS.md`
+
 # Habilidad (Skill): Niveles de Visión IAIA (Realidad Aumentada Rural)
 
 Esta habilidad documenta y fuerza la estructura del **Selector de Realidad** (niveles de integración IA) que se configura en `VisionView.jsx` y se consume en toda la app a través del `DesignContext.iaiaLevel`.

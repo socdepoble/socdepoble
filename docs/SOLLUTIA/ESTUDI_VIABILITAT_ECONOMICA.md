@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/SOLLUTIA/ESTUDI_VIABILITAT_ECONOMICA.md`
+
 # 💰 ESTUDI DE VIABILITAT ECONÒMICA: Projecte Sóc de Poble
 
 **Versió: 1.0 (Pre-Sollutia) | v11.0.0-GOLDEN-DEAL**

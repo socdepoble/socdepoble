@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/README.md`
+
 # 📚 Sòc de Poble: Centre de Documentació MASTER 📂🏘️🛡️⚖️
 
 Benvingut al cor de la gestió del projecte. Aquí tens accés directe a tota la visió, estratègia i estat de la simbiosi.

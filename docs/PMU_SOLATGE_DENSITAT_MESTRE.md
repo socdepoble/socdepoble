@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/PMU_SOLATGE_DENSITAT_MESTRE.md`
+
 # 🎻 PMU MASTER: L'Acta del Secretari de l'Aliança [Sessió Solatge] 🎷📜🎼✨
 
 Aquest és un **Objecte de Context Universal (OCU)** o **Prompt Multiús (PMU)**. Està dissenyat per a ser interpretat per qualsevol IA d'última generació (NotebookLM, Gemini, Claude, etc.) per a generar actius de comunicació (infografies, presentacions, notícies) o per a oferir un context profund de l'arquitectura de Sóc de Poble.

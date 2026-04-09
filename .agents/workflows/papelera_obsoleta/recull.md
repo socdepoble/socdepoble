@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./.agents/workflows/papelera_obsoleta/recull.md`
+
 ---
 description: Automatitza la recollida de relíquies documentals des de la carpeta de Descàrregues de l'OS cap al Dipòsit de Descàrregues del projecte.
 ---

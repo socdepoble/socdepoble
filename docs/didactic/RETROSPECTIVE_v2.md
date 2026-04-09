@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/didactic/RETROSPECTIVE_v2.md`
+
 ---
 
 ## 🔮 Sessió II: El "Dream Prompt" i l'Arquitectura Previsora

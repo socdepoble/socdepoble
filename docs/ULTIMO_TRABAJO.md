@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/ULTIMO_TRABAJO.md`
+
 # Resumen de Trabajo - Restauración y Estabilización
 
 He restaurado y estabilizado con éxito la aplicación **Sóc de Poble**. El código ahora cumple con las "Reglas de Oro" de la arquitectura, está totalmente internacionalizado y libre de errores de linting (análisis estático de código).

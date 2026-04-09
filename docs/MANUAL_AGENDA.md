@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/MANUAL_AGENDA.md`
+
 # 📅 MANUAL D'AGENDA I MEMÒRIA IMPLEMENTADA 🏺
 
 Aquest document detalla les funcionalitats bategants que ja hem implementat des de la primera setmana, per a que el Mestre puga auditar el que recordem i el que cal re-activar.

@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_PAPERERA_OBSOLETA/prompt_catorceava_tanda_cap17.md`
+
 # 🌪️ PROMPT COLABORATIVO (FASE 13) - EL CAOS PROFUNDO Y EL CAPÍTULO 17
 
 **Copia este prompt y envíaselo a Claude, Gemini, DeepSeek, Qwen y Perplexity:**

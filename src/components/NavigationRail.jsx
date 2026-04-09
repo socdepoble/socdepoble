@@ -1,21 +1,22 @@
 import React, { useCallback } from "react";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { LayoutGrid, MapPin, MessageSquare, Plus, Store, Calendar, Map, BookOpen, FileText, Activity, Users, Image } from "lucide-react";
+import { LayoutGrid, MapPin, MessageSquare, Plus, Store, Calendar, Map, BookOpen, FileText, Activity, Users, Image, Compass } from "lucide-react";
 import { useNavigation } from "../context/NavigationContext";
 import { useAuth } from "../context/AuthContext";
 import { APP_VERSION } from "../constants";
 
 const menuItems = [
-  { path: "/chats", key: "nav.chats", fallback: "Xat", icon: MessageSquare },
-  { path: "/mur", key: "nav.feed", fallback: "Mur", icon: LayoutGrid },
-  { path: "/mercat", key: "nav.market", fallback: "Mercat", icon: Store },
-  { path: "/pobles", key: "nav.towns", fallback: "Pobles", icon: MapPin },
-  { path: "/calendari", key: "nav.events", fallback: "Calendari", icon: Calendar },
-  { path: "/mapa", key: "nav.map", fallback: "Mapa", icon: Map },
-  { path: "/el-projecte", key: "nav.project", fallback: "El Projecte", icon: BookOpen },
-  { path: "/media", key: "nav.media", fallback: "Multimèdia", icon: Image },
-  { path: "/notes", key: "nav.notes", fallback: "Bloc de Notes", icon: FileText },
+  { path: "/chats", key: "nav.chats", fallback: "Xat", icon: (p) => <MessageSquare {...p} /> },
+  { path: "/mur", key: "nav.feed", fallback: "Mur", icon: (p) => <LayoutGrid {...p} /> },
+  { path: "/mercat", key: "nav.market", fallback: "Mercat", icon: (p) => <Store {...p} /> },
+  { path: "/pobles", key: "nav.towns", fallback: "Pobles", icon: (p) => <MapPin {...p} /> },
+  { path: "/calendari", key: "nav.events", fallback: "Calendari", icon: (p) => <Calendar {...p} /> },
+  { path: "/mapa", key: "nav.map", fallback: "Mapa", icon: (p) => <Map {...p} /> },
+  { path: "/el-projecte", key: "nav.project", fallback: "El Projecte", icon: (p) => <BookOpen {...p} /> },
+  { path: "/media", key: "nav.media", fallback: "Multimèdia", icon: (p) => <Image {...p} /> },
+  { path: "/notes", key: "nav.notes", fallback: "Bloc de Notes", icon: (p) => <FileText {...p} /> },
+  { path: "/ruta", key: "nav.roadmap", fallback: "Full de Ruta", icon: (p) => <Compass {...p} /> },
 ];
 
 const NavigationRail = () => {
@@ -35,13 +36,13 @@ const NavigationRail = () => {
       {/* 1. BOTÓ D'ACCIÓ RÀPIDA (TOP - PROTOCOL HUB) - FIT 56PX */}
       <div className="h-[56px] min-h-[56px] max-h-[56px] shrink-0 border-b border-[#ffffff14] relative z-20 bg-[#4F46E5]">
         <button
-          className="absolute inset-0 text-white flex items-center justify-center space-x-2 transition-colors hover:brightness-110 outline-none"
+          className="absolute inset-0 text-white flex items-center justify-start px-4 gap-4 transition-colors hover:brightness-110 outline-none w-full"
           onClick={() => navigate("/hub")}
         >
-          <div className="flex items-center justify-center w-8 h-8 rounded shrink-0">
-            <Plus size={20} strokeWidth={3} />
+          <div className="flex items-center justify-center w-[22px] h-[22px] rounded shrink-0">
+            <Plus size={22} strokeWidth={3} />
           </div>
-          <span className="uppercase font-bold">{t("common.add", "Connectar")}</span>
+          <span className="uppercase font-bold tracking-wide">{t("common.add", "Connectar")}</span>
         </button>
       </div>
 
@@ -60,13 +61,13 @@ const NavigationRail = () => {
                   <NavLink
                     to={item.path}
                     onClick={handleNavigate}
-                    className={`relative flex h-[48px] w-full items-center gap-4 rounded-tactile px-4 font-semibold transition-colors duration-200 outline-none ${
+                    className={`relative flex h-[48px] w-full items-center justify-start text-left gap-4 rounded-tactile px-4 font-semibold transition-colors duration-200 outline-none ${
                         isActive
                           ? "text-black"
                           : "text-white/70 hover:bg-white/5 hover:text-white"
                     }`}
                   >
-                    <Icon size={22} className={isActive ? "drop-shadow-md" : ""} strokeWidth={isActive ? 2.5 : 2} />
+                    {item.icon({ size: 22, className: isActive ? "drop-shadow-md" : "", strokeWidth: isActive ? 2.5 : 2 })}
                     <span className="truncate">{t(item.key, item.fallback)}</span>
                   </NavLink>
                 </li>
@@ -97,11 +98,11 @@ const NavigationRail = () => {
         </div>
         
       <div className="p-4 mt-auto border-t border-[#ffffff14] bg-transparent shrink-0 relative z-20">
-        <div className="mt-2 text-[10px] text-center font-black uppercase text-white opacity-60">
-          <div className="flex flex-col items-center gap-1.5">
-            <span className="opacity-80">{APP_VERSION}</span>
-            <div className="w-4 h-[1px] bg-white/20"></div>
-            <a href="#/privacitat" onClick={(e) => { e.preventDefault(); alert("Avís Legal i Privacitat: Sóc de Poble és una xarxa local descentralitzada (Local-First). Les teues dades, memòria cau i credencials (CRDTs) es desen prioritàriament al teu dispositiu sota criptografia. En usar l'aplicació acceptes aquest model d'emmagatzematge local."); }} className="text-[#F97316] hover:text-white transition-colors cursor-pointer w-full py-1">
+        <div className="mt-2 text-[10px] text-left font-black uppercase text-white opacity-60 px-1">
+          <div className="flex flex-col items-start gap-1.5">
+            <span className="opacity-80 tracking-wider">{APP_VERSION}</span>
+            <div className="w-12 h-[1px] bg-white/20"></div>
+            <a href="#/privacitat" onClick={(e) => { e.preventDefault(); alert("Avís Legal i Privacitat: Sóc de Poble és una xarxa local descentralitzada (Local-First). Les teues dades, memòria cau i credencials (CRDTs) es desen prioritàriament al teu dispositiu sota criptografia. En usar l'aplicació acceptes aquest model d'emmagatzematge local."); }} className="text-[#F97316] hover:text-white transition-colors cursor-pointer w-full py-1 tracking-wider text-left block">
               PRIVACITAT
             </a>
           </div>

@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_SKILLS/genotip_sintetic/01_L_Anima.md`
+
 # Volum I: L'Ànima i el Propòsit
 
 ## El Gènesi

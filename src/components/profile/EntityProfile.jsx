@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { MapPin, BadgeCheck, Settings, Users, Grid, Store, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useUnifiedFeedData } from '../../hooks/useUnifiedFeedData';
+import Feed from '../Feed';
 
 export default function EntityProfile({ entity, isOwner, onSettingsClick }) {
   const navigate = useNavigate();
@@ -12,6 +14,18 @@ export default function EntityProfile({ entity, isOwner, onSettingsClick }) {
   const state = entity?.state || {};
   const traits = entity?.traits || {};
   const type = entity?.type || 'persona';
+
+  // Fetch unified posts to extract this entity's specific feed
+  const { posts: allPosts } = useUnifiedFeedData({ activeTown: 'global' });
+  const userPosts = useMemo(() => {
+    if (!allPosts || !entity?.id) return [];
+    return allPosts.filter(p => 
+      String(p.author_id) === String(entity.id) || 
+      String(p.author_user_id) === String(entity.id) || 
+      String(p.author_entity_id) === String(entity.id) ||
+      (p.author?.id && String(p.author.id) === String(entity.id))
+    );
+  }, [allPosts, entity?.id]);
 
   return (
     <div className="atom-root bg-theme-base min-h-screen pb-20">
@@ -81,8 +95,16 @@ export default function EntityProfile({ entity, isOwner, onSettingsClick }) {
         {/* VIEWPORT CONTENIDO (Condicional según tab) */}
         <main className="stable-scroll min-h-[40vh] pb-10">
            {activeTab === 'feed' && (
-             <div className="text-[var(--text-muted)] text-sm text-center py-10 glass-rural rounded-2xl mx-2">
-               Sesión P2P: Sense activitat recent a la malla local.
+             <div className="w-full">
+               {userPosts.length > 0 ? (
+                 <div className="min-h-[500px]">
+                   <Feed hideHeader={true} customPosts={userPosts} externalViewMode="list" />
+                 </div>
+               ) : (
+                 <div className="text-[var(--text-muted)] text-sm text-center py-10 glass-rural rounded-2xl mx-2 mt-4">
+                   Sesión P2P: Sense activitat recent a la malla local per a esta identitat.
+                 </div>
+               )}
              </div>
            )}
            {activeTab === 'info' && <TraitsViewer traits={traits} type={type} />}

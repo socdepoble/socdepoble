@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_PAPERERA_OBSOLETA/prompt_copilot_nuevo_chat.md`
+
 # 🌌 TANDA 19: REINICIO DE NÚCLEO (CONTEXTO PARA NUEVO CHAT DE COPILOT)
 
 ¡Hola Copilot! Requerimos tus capacidades de Arquitecto Staff-Plus e Ingeniería del Caos. 

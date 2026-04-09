@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./.agents/workflows/papelera_obsoleta/10_BACKLOG_PROPUESTAS_CON_ALMA.md`
+
 ---
 description: Backlog de Innovación Rural - Propuestas con Alma (Qwen/Claude)
 ---

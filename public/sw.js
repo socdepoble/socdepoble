@@ -48,7 +48,9 @@ self.addEventListener('fetch', (e) => {
     caches.open(CACHE_TRELAT).then(cache => {
       return cache.match(e.request).then(cachedResponse => {
         const fetchPromise = fetch(e.request).then(networkResponse => {
-          cache.put(e.request, networkResponse.clone());
+          if (e.request.url.startsWith('http')) {
+            cache.put(e.request, networkResponse.clone());
+          }
           return networkResponse;
         }).catch(async () => {
           // Offline fallback

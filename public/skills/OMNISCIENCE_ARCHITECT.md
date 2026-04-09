@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./public/skills/OMNISCIENCE_ARCHITECT.md`
+
 ---
 name: Omniscience Architect
 description: El mapa absoluto e inquebrantable de la base de código. Diseñado para inteligencias artificiales futuras que deban operar en Sóc de Poble o replicarlo en nuevos territorios (Ej: Comunidades Chinas) usando NotebookLM.

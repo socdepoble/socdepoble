@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_SKILLS/DRIVE_CLONE/1-Plantilla-Branding-SocDePoble.md`
+
 # 1. PLANTILLA BRANDING SÓC DE POBLE 🏺🎨
 
 ![Logo Sóc de Poble](file:///Users/javillinares/Documents/Antigravity/Sóc de Poble/public/assets/master/logo_socdepoble_white_full.png)

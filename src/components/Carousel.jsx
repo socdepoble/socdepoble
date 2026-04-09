@@ -12,38 +12,58 @@ const Carousel = ({ images, height = '300px', interval = 5000, autoPlay = false 
 
     const timerRef = useRef(null);
 
-    // Filter valid images
-    const validImages = images.filter(img => img);
+    const [workingImages, setWorkingImages] = useState(() => images.filter(img => img));
+    const [loadedImages, setLoadedImages] = useState({});
+
+    // Reset when images prop changes
+    useEffect(() => {
+        setWorkingImages(images.filter(img => img));
+        setLoadedImages({});
+        setCurrentIndex(0);
+    }, [images]);
+
+    const handleImageError = (imgSrc) => {
+        setWorkingImages(prev => {
+            const next = prev.filter(img => img !== imgSrc);
+            // Adjust current index if it becomes out of bounds
+            setCurrentIndex(curr => (curr >= next.length ? Math.max(0, next.length - 1) : curr));
+            return next;
+        });
+    };
+
+    const handleImageLoad = (imgSrc) => {
+        setLoadedImages(prev => ({ ...prev, [imgSrc]: true }));
+    };
 
     // Reset timer on interaction
     const resetTimer = useCallback(() => {
         if (timerRef.current) clearInterval(timerRef.current);
-        if (autoPlay && validImages.length > 1 && !isLightboxOpen) {
+        if (autoPlay && workingImages.length > 1 && !isLightboxOpen) {
             timerRef.current = setInterval(() => {
-                setCurrentIndex(prev => (prev === validImages.length - 1 ? 0 : prev + 1));
+                setCurrentIndex(prev => (prev === workingImages.length - 1 ? 0 : prev + 1));
             }, interval);
         }
-    }, [autoPlay, validImages.length, isLightboxOpen, interval]);
+    }, [autoPlay, workingImages.length, isLightboxOpen, interval]);
 
     useEffect(() => {
         resetTimer();
         return () => {
             if (timerRef.current) clearInterval(timerRef.current);
         };
-    }, [currentIndex, autoPlay, validImages.length, isLightboxOpen, resetTimer]);
+    }, [currentIndex, autoPlay, workingImages.length, isLightboxOpen, resetTimer]);
 
     // Navigation
     const nextSlide = useCallback((e) => {
         if (e) e.stopPropagation();
-        setCurrentIndex(prev => (prev === validImages.length - 1 ? 0 : prev + 1));
+        setCurrentIndex(prev => (prev === workingImages.length - 1 ? 0 : prev + 1));
         resetTimer();
-    }, [validImages.length, resetTimer]);
+    }, [workingImages.length, resetTimer]);
 
     const prevSlide = useCallback((e) => {
         if (e) e.stopPropagation();
-        setCurrentIndex(prev => (prev === 0 ? validImages.length - 1 : prev - 1));
+        setCurrentIndex(prev => (prev === 0 ? workingImages.length - 1 : prev - 1));
         resetTimer();
-    }, [validImages.length, resetTimer]);
+    }, [workingImages.length, resetTimer]);
 
     // Keyboard navigation for lightbox
     useEffect(() => {
@@ -92,19 +112,27 @@ const Carousel = ({ images, height = '300px', interval = 5000, autoPlay = false 
         if (timerRef.current) clearInterval(timerRef.current);
     };
 
-    if (validImages.length === 0) return null;
+    if (workingImages.length === 0) return null;
 
-    if (validImages.length === 1) {
+    if (workingImages.length === 1) {
         return (
             <>
                 <div className="carousel-container single-slide" style={{ height }}>
                     <div className="carousel-track">
                         <div className="carousel-slide" onClick={openLightbox}>
-                            <img
-                                src={validImages[0]}
-                                alt="Slide"
-                                className="carousel-image zoomable"
-                            />
+                            <div className="carousel-image-wrapper relative w-full h-full bg-black/10">
+                                {!loadedImages[workingImages[0]] && (
+                                    <div className="absolute inset-0 flex items-center justify-center bg-gray-200/20 backdrop-blur-md animate-pulse z-10" />
+                                )}
+                                <img
+                                    src={workingImages[0]}
+                                    alt="Slide"
+                                    className="carousel-image zoomable transition-opacity duration-300"
+                                    style={{ opacity: loadedImages[workingImages[0]] ? 1 : 0 }}
+                                    onLoad={() => handleImageLoad(workingImages[0])}
+                                    onError={() => handleImageError(workingImages[0])}
+                                />
+                            </div>
 
                             <div className="carousel-overlay-hint">
                                 <Maximize2 size={16} />
@@ -124,7 +152,7 @@ const Carousel = ({ images, height = '300px', interval = 5000, autoPlay = false 
                             <X size={24} />
                         </button>
                         <div className="lightbox-content" onClick={e => e.stopPropagation()}>
-                            <img src={validImages[0]} alt="Full size" className="lightbox-image" />
+                            <img src={workingImages[0]} alt="Full size" className="lightbox-image" />
                         </div>
                     </div>,
                     document.body
@@ -146,16 +174,24 @@ const Carousel = ({ images, height = '300px', interval = 5000, autoPlay = false 
                     className="carousel-track"
                     style={{ transform: `translateX(-${currentIndex * 100}%)` }}
                 >
-                    {validImages.map((img, index) => {
+                    {workingImages.map((img, index) => {
                         const isRealHuman = img.includes('javi_head') || img.includes('avatars/') || !img.includes('campaign/') && !img.includes('iaia');
                         return (
-                            <div className={`carousel-slide ${isRealHuman ? 'is-human' : ''}`} key={index} onClick={openLightbox}>
-                                <img
-                                    src={img}
-                                    alt={`Slide ${index + 1}`}
-                                    draggable="false"
-                                    className="carousel-image zoomable"
-                                />
+                            <div className={`carousel-slide ${isRealHuman ? 'is-human' : ''}`} key={img} onClick={openLightbox}>
+                                <div className="relative w-full h-full bg-black/10 flex items-center justify-center">
+                                    {!loadedImages[img] && (
+                                        <div className="absolute inset-0 bg-gray-200/20 animate-pulse backdrop-blur-md z-10" />
+                                    )}
+                                    <img
+                                        src={img}
+                                        alt={`Slide ${index + 1}`}
+                                        draggable="false"
+                                        className="carousel-image zoomable transition-opacity duration-500 ease-out"
+                                        style={{ opacity: loadedImages[img] ? 1 : 0 }}
+                                        onLoad={() => handleImageLoad(img)}
+                                        onError={() => handleImageError(img)}
+                                    />
+                                </div>
                                 {!isRealHuman && (
                                     <div className="attribution-badge">
                                         <span>© Sóc de Poble (Fet per la IAIA)</span>
@@ -193,7 +229,7 @@ const Carousel = ({ images, height = '300px', interval = 5000, autoPlay = false 
                 </button>
 
                 <div className="carousel-indicators">
-                    {validImages.map((_, index) => (
+                    {workingImages.map((_, index) => (
                         <button
                             key={index}
                             className={`indicator ${index === currentIndex ? 'active' : ''}`}
@@ -218,14 +254,14 @@ const Carousel = ({ images, height = '300px', interval = 5000, autoPlay = false 
                     <div className="lightbox-content" onClick={e => e.stopPropagation()}>
                         <div className="lightbox-carousel-track">
                             <img
-                                src={validImages[currentIndex]}
+                                src={workingImages[currentIndex]}
                                 alt={`Full size ${currentIndex + 1}`}
                                 className="lightbox-image scale-up-center"
                             />
                         </div>
 
                         <div className="lightbox-counter">
-                            {currentIndex + 1} / {validImages.length}
+                            {currentIndex + 1} / {workingImages.length}
                         </div>
                     </div>
 

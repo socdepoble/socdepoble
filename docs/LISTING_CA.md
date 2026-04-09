@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/LISTING_CA.md`
+
 # Sóc de Poble! 🏺🚀 - Fitxa de la Tenda
 
 ## Títol (App Store / Google Play)

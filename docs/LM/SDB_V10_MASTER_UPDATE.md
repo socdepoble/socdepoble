@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/LM/SDB_V10_MASTER_UPDATE.md`
+
 # 🏺 Sóc de Poble v10.33.16 - MASTER UPDATE FOR NOTEBOOK LM
 
 ## RESUM DE L'ESTAT DE L'ART

@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_PAPERERA_OBSOLETA/prompt_quinceava_tanda_auditoria_claude.md`
+
 # 🔍 TANDA 15 (FASE 14): EL OJO DE SAURON (AUDITORÍA EXTREMA DE CLAUDE)
 
 Este es el prompt definitivo diseñado específicamente para **Claude** (preferiblemente 3.5 Sonnet o 3 Opus, que tienen una asombrosa capacidad de contexto y atención al detalle). 

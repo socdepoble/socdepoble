@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/LM/historico/INFORME_TECNICO.md`
+
 # Informe Técnico: Recursos y Tecnologías de Sóc de Poble
 
 Este documento sirve como un manual didáctico y visión global de la infraestructura técnica del proyecto "Sóc de Poble". Aquí se detallan las herramientas utilizadas, para qué sirven y cómo se integran para crear la aplicación funcional.

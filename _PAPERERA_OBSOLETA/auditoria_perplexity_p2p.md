@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_PAPERERA_OBSOLETA/auditoria_perplexity_p2p.md`
+
 # Resolución Fase 6: La Singularidad Offline (por Perplexity)
 
 ## 1. Solución CSP (Worker Estático)

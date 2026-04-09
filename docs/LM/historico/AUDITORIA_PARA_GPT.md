@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/LM/historico/AUDITORIA_PARA_GPT.md`
+
 # 🤖 Auditoria de Seguretat i Arquitectura per a GPT-4
 
 Aquest document ha estat preparat específicament per a una revisió externa per part de GPT-4. Reflecteix l'estat del sistema després de les dues primeres fases d'enduriment (incloent la migració a UUID i el reforç de RLS per a identitats delegades).

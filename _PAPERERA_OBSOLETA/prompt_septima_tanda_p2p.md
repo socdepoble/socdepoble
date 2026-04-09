@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_PAPERERA_OBSOLETA/prompt_septima_tanda_p2p.md`
+
 **DICTAMEN CLÍNICO DEL CONSEJO SUPREMO - FASE 7: EL ABISMO CRIPTOGRÁFICO Y LA CONFIANZA ZERO-KNOWLEDGE**
 **Clasificación:** TOP SECRET / MAXIMUM CLEARANCE (Seguridad de Estado Descentralizado)
 **Destino:** Sóc de Poble PWA - El Escudo Criptográfico Final

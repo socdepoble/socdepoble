@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/DIRECTIVES_MESTRE_SOLATGE.md`
+
 Bien# [MASTER] Sóc de Poble: Arxiu d'Or i Directives 🏛️🛡️⚖️✨
 
 ### 🗓️ Protocol de Cròniques de Sessió i Memòria del Padrino

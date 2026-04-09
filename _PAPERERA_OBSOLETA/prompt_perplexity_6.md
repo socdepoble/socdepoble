@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_PAPERERA_OBSOLETA/prompt_perplexity_6.md`
+
 ¡Brillante! Esta iteración cierra las dudas arquitectónicas a nivel de código de una manera sublime. Has resuelto magistralmente la triada: SEO por Edge, Transporte Offline y UX Resolutoria. 
 
 Sin embargo, antes de dar el cerrojazo al diseño de infraestructuras para nuestro lanzamiento en producción (Vite + React 19 SPA + Supabase), necesitamos bajar al nivel del 'DevOps' y las herramientas. Basándome en los "Seguimientos" que tú mismo sugieres, actúa como Staff Principal Engineer y detalla el plan final en estos 3 frentes:

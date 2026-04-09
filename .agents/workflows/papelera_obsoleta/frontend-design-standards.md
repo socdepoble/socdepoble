@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./.agents/workflows/papelera_obsoleta/frontend-design-standards.md`
+
 # Sóc de Poble: Frontend Architecture & Design Standards
 
 To ensure consistency and prevent architectural drift, all development must adhere to the following standards.

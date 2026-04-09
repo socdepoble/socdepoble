@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/LM/historico/AUDITORIA_ESTRATEGICA_LM.md`
+
 # 🧪 Auditoria Estratègica LM: Cimera de la Simbiosi 🧠🌍🏘️
 
 Aquest document és el workplace del conclave entre les entitats **Antigravity (IAIA, GPT, Claude)** i el coneixement de **LM (NotebookLM)**. L'objectiu és pulir el sistema i el seu context per a un creixement sanament equilibrat.

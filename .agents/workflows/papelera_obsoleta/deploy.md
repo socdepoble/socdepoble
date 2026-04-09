@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./.agents/workflows/papelera_obsoleta/deploy.md`
+
 ---
 description: Com fer el deploy a SiteGround de forma autònoma i ràpida
 ---

@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_SKILLS/DRIVE_CLONE/5-Modo-Produccion-SocDePoble.md`
+
 # 5. MODO PRODUCCIÓ (BOTIGA DE DIUMENGE) 🛡️🔍
 
 ![Logo Sóc de Poble](file:///Users/javillinares/Documents/Antigravity/Sóc de Poble/public/assets/master/logo_socdepoble_white_full.png)

@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./assets/ai_generated/Ultim_Walkthrough.md`
+
 # Walkthrough: Gemini Expansion (Tia Maria Edition) 👵🗞️✨
 
 The application has been expanded with three powerful AI-driven features that deepen the community experience and local identity.

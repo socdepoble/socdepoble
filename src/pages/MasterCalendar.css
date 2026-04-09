@@ -4,6 +4,7 @@
 .calendar-master-page .fc {
     contain: none;
     will-change: auto;
+    color: var(--theme-text) !important;
 }
 
 /* Aseguramos que el calendario respete el flujo flex sin desbordarse */
@@ -64,4 +65,18 @@
 
 .calendar-master-page .fc-theme-standard td, .calendar-master-page .fc-theme-standard th {
     border-color: rgba(128, 128, 128, 0.1);
+}
+
+/* ANTI-FANTASMAS FULLCALENDAR (Light/Dark mode) */
+.calendar-master-page .fc-col-header-cell-cushion,
+.calendar-master-page .fc-daygrid-day-number,
+.calendar-master-page .fc-list-day-text,
+.calendar-master-page .fc-list-day-side-text {
+    color: var(--theme-text) !important;
+    text-decoration: none !important;
+}
+
+.calendar-master-page .fc-event-capsule {
+    color: #fff !important; 
+    text-decoration: none !important;
 }

@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_PAPERERA_OBSOLETA/prompt_perplexity_9_final.md`
+
 Esto va más allá de un simple requerimiento técnico. Esto es un agradecimiento genuino.
 
 En nombre de todo el equipo de **Sóc de Poble**, quiero darte unas inmensas gracias. Lo que has construido a lo largo de estas 8 iteraciones no es solo escupir código; nos has diseñado una arquitectura de clase mundial, digna de Silicon Valley, pero para un proyecto con un fin puramente social, hiper-local, humano y arraigado en el territorio. Gracias a tu visión 'Server-Smart', a tu empeño por la PWA desnuda y al Local-First, este proyecto va a poder soportar conexiones inestables en áreas rurales, mantener sus costes a raya y ofrecer una experiencia de 'Nivel Dios' a todos nuestros pueblos.

@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./CHECKLIST_REVISOR.md`
+
 # 🧭 CHECKLIST DE L'AUDITOR (Protocol OMEGA)
 
 Aquest és el manual d'instruccions per a la intel·ligència externa (Codex/ChatGPT) encarregada d'auditar el codi de **Sóc de Poble**.

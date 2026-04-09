@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./public/skills/SKILL_FACTORY.md`
+
 # SKILL: FACTORY (PLANTILLA MESTRE) 🏭🏺
 
 Aquesta és la plantilla per a crear qualsevol nova norma o habilitat del sistema.

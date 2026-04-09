@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./.agents/workflows/papelera_obsoleta/preservacio-genetica.md`
+
 ---
 description: Habilidad (Skill) para evitar la destrucción accidental de componentes con lógica viva (Génesis, Tiptap, rutes) quan es fan modificacions de disseny o resolució de col·lisions d'UI.
 ---

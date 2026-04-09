@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./.agents/workflows/papelera_obsoleta/12_ROADMAP_ECOSISTEMA_FINANCIACION_EUROPEA.md`
+
 ---
 description: Hoja de Ruta para Alianzas Estratégicas y Financiación Europea (Fase Post-V13)
 ---

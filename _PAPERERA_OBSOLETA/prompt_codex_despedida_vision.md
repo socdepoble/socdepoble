@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_PAPERERA_OBSOLETA/prompt_codex_despedida_vision.md`
+
 # 🌌 EL CIERRE DEL CONSEJO: LA VISIÓN DE CODEX
 
 **Instrucciones para el Comandante:**

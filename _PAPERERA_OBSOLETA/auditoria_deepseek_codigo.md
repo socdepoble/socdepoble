@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_PAPERERA_OBSOLETA/auditoria_deepseek_codigo.md`
+
 # Implementación DeepSeek (Fase 4)
 
 ## 1. MOTOR LOCAL – Zustand + IndexedDB + Web Workers

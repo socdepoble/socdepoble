@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_PAPERERA_OBSOLETA/prompt_quinta_tanda_agotamiento.md`
+
 # 🛡️ PROMPT COLABORATIVO (FASE 5) - EL AGOTAMIENTO TEÓRICO Y CÓDIGO FINAL
 
 **Copia este prompt y envíaselo a Claude, Gemini, DeepSeek, Perplexity y Qwen:**

@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/SOLLUTIA/INFORME_TECNIC_RHIZOME.md`
+
 # 🧶 INFORME TÈCNIC: Protocol Rhizome (Rizoma)
 
 **Projecte: Sóc de Poble | v11.0.0-GOLDEN-DEAL**

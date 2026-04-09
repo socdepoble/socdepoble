@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./scripts/templates/amazon_credits_template.md`
+
 <div style="page-break-after: always; padding-top: 40px;">
   <p><strong>Títol original: {{BOOK_TITLE}}</strong></p>
   <p><em>{{BOOK_SUBTITLE}}</em></p>

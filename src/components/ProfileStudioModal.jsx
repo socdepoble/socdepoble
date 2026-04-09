@@ -98,7 +98,7 @@ const ProfileStudioModal = ({
                                             value={displayProfile.cover_position_y ?? 50} 
                                             onChange={(e) => onReposition(e.target.value)}
                                             className="w-48 h-2 rounded-xl accent-[#F97316] pointer-events-auto"
-                                            title="Llisca per centrar la teva foto"
+                                            title="Llisca per centrar la teua foto"
                                         />
                                     </div>
                                 )}

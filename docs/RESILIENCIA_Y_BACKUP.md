@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/RESILIENCIA_Y_BACKUP.md`
+
 # 📜 BIBLIA: Protocol de Resiliència i Ancora de Seguretat ⚓️⚡️
 
 Aquest document estableix les lleis per a la protecció absoluta de l'integritat del Mas Digital. En cas d'error inesperat o fallida catastròfica, aquests protocols garanteixen el retorn immediat al punt d'estabilitat mestre.

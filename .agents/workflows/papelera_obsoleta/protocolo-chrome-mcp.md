@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./.agents/workflows/papelera_obsoleta/protocolo-chrome-mcp.md`
+
 ---
 description: Habilidad (Skill) para conectar a la IA con las entrañas del navegador mediante Chrome DevTools MCP.
 ---

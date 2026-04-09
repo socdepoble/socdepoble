@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/PHASE6_GOD_TIER_PROTOCOL.md`
+
 # FASE 6 — PROTOCOLO NIVEL DIOS (60 FPS + 10K NODOS)
 
 ## 1) Virtualización nativa para Feed/Chat

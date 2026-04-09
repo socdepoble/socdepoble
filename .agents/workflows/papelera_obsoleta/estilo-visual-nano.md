@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./.agents/workflows/papelera_obsoleta/estilo-visual-nano.md`
+
 ---
 description: Habilidad (Skill) para forzar las reglas visuales estrictas de generación de imágenes "Nano Banana" para Sóc de Poble.
 ---

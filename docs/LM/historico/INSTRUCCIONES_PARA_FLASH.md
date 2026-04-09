@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/LM/historico/INSTRUCCIONES_PARA_FLASH.md`
+
 # 📋 INSTRUCCIONES PARA FLASH: Reparación Post-Auditoría
 ## Auditoría realizada por Claude Opus - 22 Enero 2026
 

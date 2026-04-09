@@ -200,13 +200,10 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
      * Es passa directament via onNavigate al UniversalCard.
      */
 
-    const renderPost = useCallback((post) => {
-        // FIX: Clave estrictamente determinista y estable. JAMÁS Math.random()
-        const pid = post.uuid || post.id || `temp-${post.author_user_id || 'anon'}-${post.created_at || (post.content ? post.content.substring(0, 15) : 'unknown')}`;
+    const FeedPostCard = React.memo(({ post, effectiveViewMode, handleHeaderClick, gloveMode }) => {
         const isOptimistic = post.metadata?.isOptimistic;
         const isDissolving = post.metadata?.isDissolving;
 
-        // FIX: Evitar hardcodear Identificadores Únicos y Lógica de Negocio de roles en el VDOM.
         const headerTitle = post.metadata?.is_verified
             ? post.metadata.display_name
             : (post.author?.name || post.author || 'Gent del Poble');
@@ -218,21 +215,20 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
         const hasNoImage = !postImage;
         const cinematicPlaceholder = "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80&w=1000";
 
-        // Logic to resolve the correct Title for the post avoiding generic fallback or author name repetition
         const extractedTitle = post.title || 
                                (post.content ? post.content.split('\n')[0].replace(/^[#*\s]+/, '').trim() : null) || 
                                'Actualitat del Poble';
         const displayTitle = extractedTitle.length > 80 ? extractedTitle.substring(0, 80) + '...' : extractedTitle;
 
         return (
-            <div key={pid} className={`card-rizoma-wrapper animate-in ${isDissolving ? 'dissolve' : ''} w-full h-full`}>
+            <div className={`card-rizoma-wrapper animate-in ${isDissolving ? 'dissolve' : ''} w-full h-full`}>
                 <UniversalCard
                     item={post}
                     avatarName={headerTitle}
                     title={displayTitle}
                     subtitle={headerSubtitle}
                     image={hasNoImage ? cinematicPlaceholder : postImage}
-                    onNavigate={() => handleHeaderClick(post)}
+                    onNavigate={handleHeaderClick}
                     mode="mur"
                     viewMode={effectiveViewMode}
                     className={`universal-card-virtual ${isOptimistic ? 'optimistic' : ''} ${post.is_iaia_inspired ? 'animate-bategat' : ''} ${gloveMode ? 'mode-guants' : ''}`}
@@ -248,7 +244,12 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
                 </UniversalCard>
             </div>
         );
-    }, [gloveMode, handleHeaderClick, effectiveViewMode]);
+    });
+
+    const renderPost = useCallback((post) => {
+        const pid = post.uuid || post.id || `temp-${post.author_user_id || 'anon'}-${post.created_at || (post.content ? post.content.substring(0, 15) : 'unknown')}`;
+        return <FeedPostCard key={pid} post={post} effectiveViewMode={effectiveViewMode} handleHeaderClick={handleHeaderClick} gloveMode={gloveMode} />;
+    }, [handleHeaderClick, effectiveViewMode, gloveMode]);
 
     if (loading && posts.length === 0) {
         return (

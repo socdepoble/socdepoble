@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./.agents/workflows/papelera_obsoleta/08_AUDITORIA_PWA_GHOSTS.md`
+
 ---
 description: Auditoría Crítica de Versiones Fantasma (PWA Caching & Service Workers)
 ---

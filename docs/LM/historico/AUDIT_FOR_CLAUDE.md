@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/LM/historico/AUDIT_FOR_CLAUDE.md`
+
 # Auditoria Tècnica i Estratègica - Projecte "Sóc de Poble"
 
 Hola! Necessite que realitzes una auditoria profunda i crítica del meu projecte actual: **Sóc de Poble**, una xarxa social de proximitat dissenyada per a revitalitzar comunitats locals. Estic en converses amb un soci tecnològic estratègic (Sollutia) i vull assegurar-me que el sistema és robust, escalable i professional.

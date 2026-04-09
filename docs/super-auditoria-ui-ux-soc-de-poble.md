@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/super-auditoria-ui-ux-soc-de-poble.md`
+
 # 🍊 TECH-HUERTA V11/V12: MANIFIESTO Y PROMPT UNIFICADO PARA IAs
 
 Documento maestro para enviar a Codex, Qwen o DeepSeek cuando se solicite reconstruir un componente.

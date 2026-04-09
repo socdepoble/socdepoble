@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./[LOG] BATEGAT_ERRORS.md`
+
 # 🏺 [LOG] BATEGAT D'ERRORS CRÍTICS
 
 Aquest fitxer recull els crits del sistema perquè l'Antigravity puga sanar el Mas sense captures de pantalla.

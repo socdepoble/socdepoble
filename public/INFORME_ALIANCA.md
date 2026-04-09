@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./public/INFORME_ALIANCA.md`
+
 # Informe de Sobirania i Aliança Tecnològica 🛡️🚀
 
 **Projecte:** Sóc de Poble | El Sistema Operatiu Rural  

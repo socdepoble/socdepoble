@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./.agents/workflows/papelera_obsoleta/interaccion-agentes.md`
+
 ---
 description: Habilidad (Skill) para diseñar e implementar la interacción pública y el role-play comarcal entre los Agentes de la IAIA en Sóc de Poble.
 ---

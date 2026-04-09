@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/LM/historico/INFORME_GEMINI_FLASH.md`
+
 # Informe para Gemini Flash
 
 ## Cambios realizados (Phase 2)

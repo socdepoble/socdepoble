@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./.agents/workflows/papelera_obsoleta/12_MAPA_ENLACES_INICIATIVAS_V13.md`
+
 # Mapa de Alianzas e Iniciativas (Sóc de Poble V13)
 
 Este documento centraliza los enlaces auténticos a las iniciativas clave detectadas durante la Auditoría Multi-Model (Olas 4 y 5), estructuradas geográficamente y técnicamente para facilitar su consulta. Ha sido poblado usando el escáner web real de Antigravity.

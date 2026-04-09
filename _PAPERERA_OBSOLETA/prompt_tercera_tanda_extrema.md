@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_PAPERERA_OBSOLETA/prompt_tercera_tanda_extrema.md`
+
 # 🛡️ PROMPT EXTREMO (TERCERA TANDA) - CHAOS ENGINEERING Y BLINDAJE ABSOLUTO
 
 **Copia y pega este prompt en Claude, Gemini, DeepSeek y Perplexity:**

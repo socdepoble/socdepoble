@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./.agents/workflows/papelera_obsoleta/modo-produccion.md`
+
 ---
 description: Habilidad (Skill) para auditar y unificar elementos comunes (navegación) en código importado
 ---

@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./.agents/workflows/papelera_obsoleta/auditoria-extrema.md`
+
 ---
 description: Habilidad (Skill) de sistema para que Antigravity, secundado por inteligencias delegadas (Qwen, DeepSeek, Codex), ejecute auditorías profundas, erradique fantasmas y sincronice diccionarios sin romper la UX.
 ---

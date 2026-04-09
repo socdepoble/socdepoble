@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_PAPERERA_OBSOLETA/auditoria_gemini_codigo.md`
+
 # Implementación Gemini (Consenso Fase 4)
 
 ## 1. MOTOR LOCAL

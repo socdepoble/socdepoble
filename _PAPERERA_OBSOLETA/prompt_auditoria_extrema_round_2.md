@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_PAPERERA_OBSOLETA/prompt_auditoria_extrema_round_2.md`
+
 # Prompt Nivel 2: Red Team "Destrucción Total & SEO"
 
 **Contexto Inmersivo (El Alma de Sóc de Poble):**

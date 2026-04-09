@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/ADR-001-trellat-sync-federation.md`
+
 # ADR-001: Trellat Sync – Federació CRDT + P2P per a Memòria Oral Rural
 
 **Data:** 04/04/2026  

@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/task.md`
+
 # Tasques de Consolidació (Nivell Déu)
 
 ## Arquitectura de la Masia i Autoreparació 🏡🛡️

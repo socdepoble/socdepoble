@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/LM/historico/CONTEXTO_AUDITORIA_GPT4.md`
+
 # Contexto para Auditoría Arquitectónica - Sóc de Poble (GPT-4)
 
 Este documento está optimizado para auditoría con **GPT-4o**, enfocándose en arquitectura de sistemas, patrones de diseño, y escalabilidad.

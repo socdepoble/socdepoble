@@ -25,8 +25,8 @@ const Header = () => {
   const isOnVisionPage = location.pathname === "/visio";
 
     return (
-    <header className="h-[64px] min-h-[64px] max-h-[64px] w-full flex items-center justify-between px-3 lg:px-6 z-50 transition-all duration-300 bg-[#000000] border-b border-[var(--border-master)]/50 shrink-0 shadow-lg drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
-      <div className="flex items-center gap-1 overflow-hidden shrink-0">
+    <header className="h-[64px] min-h-[64px] max-h-[64px] w-full flex items-center justify-between px-3 lg:px-6 z-50 transition-all duration-300 bg-[#000000] border-b border-[var(--border-master)]/50 shrink-0 shadow-lg drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] relative">
+      <div className="flex items-center shrink-0 z-10">
         <button
           onClick={toggleDrawer}
           className="w-10 h-10 lg:w-12 lg:h-12 flex items-center justify-center text-white/70 hover:text-white transition-colors active:scale-90"
@@ -34,22 +34,25 @@ const Header = () => {
         >
           <Menu size={30} strokeWidth={2} />
         </button>
+      </div>
 
+      {/* CENTER: Logo Absolute for perfect visual harmony */}
+      <div className="absolute inset-x-0 h-full flex items-center justify-center pointer-events-none z-0">
         <NavLink
           to="/chats"
-          className="flex items-center active:scale-95 transition-transform pb-1"
+          className="flex items-center active:scale-95 transition-transform pb-1 pointer-events-auto"
         >
           <img
             src="/assets/master/logo-socdepoble-rect.svg"
             alt="Sóc de Poble"
-            className="w-[130px] lg:w-[160px] h-auto object-contain"
+            className="w-[120px] lg:w-[150px] h-auto object-contain filter drop-shadow-md"
             fetchPriority="high"
           />
         </NavLink>
       </div>
 
       {/* RIGHT SIDE: Tools (Always Visible) - TACTILE TARGET 48px */}
-      <div className="flex items-center gap-0.5 lg:gap-3 ml-auto h-full">
+      <div className="flex items-center gap-0.5 lg:gap-3 ml-auto h-full z-10 relative">
         {/* 0. LANGUAGE SWITCHER (Hidden on mobile as per user layout constraints) */}
         <div className="hidden lg:block shrink-0 z-50">
             <LanguageSelector variant="header" />

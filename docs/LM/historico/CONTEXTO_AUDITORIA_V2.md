@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/LM/historico/CONTEXTO_AUDITORIA_V2.md`
+
 # Contexto para Auditoría de Seguridad y Arquitectura - FASE 2
 
 Este documento refleja el estado actual del sistema tras la primera ronda de estabilización y endurecimiento.

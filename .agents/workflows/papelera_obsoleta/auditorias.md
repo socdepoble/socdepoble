@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./.agents/workflows/papelera_obsoleta/auditorias.md`
+
 ---
 description: Habilidad (Skill) para ejecutar auditorías de código seguras manteniendo la raíz del proyecto limpia
 ---

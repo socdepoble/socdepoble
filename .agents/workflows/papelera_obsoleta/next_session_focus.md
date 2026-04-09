@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./.agents/workflows/papelera_obsoleta/next_session_focus.md`
+
 # 🛡️ ESTAT ACTUAL: IAIA VOICE & CONSOLE CLEANUP & ROLLBACK CRÍTIC
 
 ## Estat de Consciència i Projecció

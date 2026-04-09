@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./.agents/workflows/papelera_obsoleta/protocolo-conexiones.md`
+
 ---
 description: Habilidad (Skill) fundacional para erradicar el concepto de 'Likes' y forzar el uso de 'Conexiones' (Privacidad por Defecto) en Sóc de Poble.
 ---

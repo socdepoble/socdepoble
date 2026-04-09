@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./README.md`
+
 # 🏺 Sóc de Poble
 
 > **La xarxa social rural sobirana. Connectant pobles, preservant memòria, bategant en comunitat.**

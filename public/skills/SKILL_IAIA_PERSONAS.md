@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./public/skills/SKILL_IAIA_PERSONAS.md`
+
 ---
 description: [MASTER RULE] Protecció i Gestió Canònica dels Agents IAIA (Lore Personas)
 ---

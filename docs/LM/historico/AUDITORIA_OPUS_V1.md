@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/LM/historico/AUDITORIA_OPUS_V1.md`
+
 # 🔍 Auditoría Profunda: Sóc de Poble
 ## Realizada por Claude Opus - 22 Enero 2026
 

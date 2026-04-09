@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./.agents/workflows/papelera_obsoleta/11_ROADMAP_V13_ANIMA_DEL_POBLE.md`
+
 ---
 description: Roadmap V13 - L'ànima del Poble (Features con Alma y Soberanía Rural)
 ---

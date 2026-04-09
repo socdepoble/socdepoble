@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./.agents/workflows/papelera_obsoleta/maestro.md`
+
 ---
 description: Reglas de oro para la comunicación con el usuario y estilo de pensamiento
 ---

@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/LM/historico/INFORME_AUDITORIA_FASE4.md`
+
 # 🔍 Informe de Auditoría Fase 4 - Para Revisión de Flash
 
 **Proyecto:** Sóc de Poble  

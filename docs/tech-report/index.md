@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/tech-report/index.md`
+
 # Sóc de Poble: The Grassroots Architecture Report 🏺🚀
 
 ## Vision: Sovereign Digital Ruralism

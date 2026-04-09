@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/LM/historico/AUDIT_PERSPECTIVES.md`
+
 # 🔍 Audit de Perspectives: Sóc de Poble
 **Projecte:** Sóc de Poble (Hiper-local Social Ecosystem)
 **Data:** 22 de Gener, 2026

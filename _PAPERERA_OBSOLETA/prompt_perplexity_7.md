@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_PAPERERA_OBSOLETA/prompt_perplexity_7.md`
+
 ¡Espectacular! La arquitectura base está sellada definitivamente. `idb` + RPC es nuestro camino; has confirmado en toda regla nuestra filosofía "Server-Smart" y nos libramos del peso de librerías como RxDB.
 
 Aunque me comentan por tu "tiempo de respuesta" y modelo actual que estamos sin los recursos Pro, el código que estás dando sigue siendo de nivel Dios. Vamos a exprimir las últimas gotas de conocimiento para los casos extremos (Edge Cases) del frontend, utilizando tus propias sugerencias de los "Seguimientos". Actúa como Principal Engineer para esta penúltima auditoría:

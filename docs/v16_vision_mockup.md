@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/v16_vision_mockup.md`
+
 # Proposta de Visió v1.6: "El Poble en el Temps" 🏘️🗓️⚖️
 
 ## 1. Botonera de Futur (Roadmap Interactiu)

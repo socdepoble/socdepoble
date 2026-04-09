@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_PAPERERA_OBSOLETA/prompt_decimosexta_tanda_ejecucion_auditoria.md`
+
 # ⚔️ TANDA 16: EJECUCIÓN QUIRÚRGICA DE LA AUDITORÍA (CLAUDE & COPILOT)
 
 Este prompt está diseñado para que se lo envíes tanto a **Copilot** (archivo por archivo en tu editor) como a **Claude** (junto con el reporte entero). Su objetivo es aplicar con precisión nanométrica las soluciones Nivel Dios que han detectado. 

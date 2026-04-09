@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./.agents/workflows/papelera_obsoleta/estilo-marca.md`
+
 ---
 description: Habilidad (Skill) para forzar los estilos de marca (Llei de la Boina Taronja) en código importado desde Stitch
 ---

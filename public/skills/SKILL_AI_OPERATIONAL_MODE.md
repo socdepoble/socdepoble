@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./public/skills/SKILL_AI_OPERATIONAL_MODE.md`
+
 ---
 title: Mode d'Operació de la IA i Protocol Zombi (Tabula Rasa)
 order: 55

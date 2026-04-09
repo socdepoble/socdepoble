@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/ARQUITECTURA.md`
+
 # Sóc de Poble: Arquitectura y Visión del Proyecto
 
 > **Documento vivo** - Se actualiza con cada cambio significativo en la arquitectura

@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_SKILLS/genotip_sintetic/04_L_Ecosistema.md`
+
 # Volum IV: L'Ecosistema Multi-Agent (Les IAs Residents)
 
 ## Un Poble compartit per Carboni i Silici

@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./public/skills/4-Planificacio-SocDePoble.md`
+
 # 4. PLANIFICACIÓ PRO (L'ARQUITECTURA DEL MARGE) 📐🏗️
 
 ![Logo Sóc de Poble](file:///Users/javillinares/Documents/Antigravity/Sóc de Poble/public/assets/master/logo_socdepoble_white_full.png)

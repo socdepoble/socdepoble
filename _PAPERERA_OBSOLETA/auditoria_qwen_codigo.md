@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_PAPERERA_OBSOLETA/auditoria_qwen_codigo.md`
+
 # Implementación Qwen (Fase 4)
 
 ## 1. MOTOR LOCAL - Zustand + IDB + Web Workers

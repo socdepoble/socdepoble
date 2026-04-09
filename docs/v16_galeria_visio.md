@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/v16_galeria_visio.md`
+
 # 🖼️ Galeria de Visió v1.6 "Simbiosi MASTER" 🏘️🗓️🚀
 
 Javi, ací tens les maquetes a pantalla completa perquè pugues apreciar els detalls de la futura versió 1.6:

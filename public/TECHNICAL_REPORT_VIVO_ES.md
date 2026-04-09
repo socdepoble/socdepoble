@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./public/TECHNICAL_REPORT_VIVO_ES.md`
+
 # 📄 INFORME TÉCNICO VIVO: PLATAFORMA "SÓC DE POBLE"
 **Estado del Documento:** [ACTIVO / v1.5.6-VITAMINADA-STABLE]
 **Fecha del Informe:** 1 de febrero de 2026

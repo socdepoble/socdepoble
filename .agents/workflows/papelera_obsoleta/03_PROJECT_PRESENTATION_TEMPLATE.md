@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./.agents/workflows/papelera_obsoleta/03_PROJECT_PRESENTATION_TEMPLATE.md`
+
 ---
 description: Plantilla Nivel Dios (Template A Fuego) para Páginas de Presentación (ProjectPresentation / UniversalCard)
 ---

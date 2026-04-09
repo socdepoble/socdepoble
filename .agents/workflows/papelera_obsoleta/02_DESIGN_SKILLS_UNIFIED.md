@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./.agents/workflows/papelera_obsoleta/02_DESIGN_SKILLS_UNIFIED.md`
+
 ---
 description: Unified Design Skills (Hort Electrònic V12, GEM MODERN y Filosofía)
 ---

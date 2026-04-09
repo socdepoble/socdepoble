@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./.agents/workflows/papelera_obsoleta/autonomia-terminal.md`
+
 ---
 description: Habilidad (Skill) para ejecutar comandos de terminal de forma autónoma y sin fricción (SafeToAutoRun en true).
 ---

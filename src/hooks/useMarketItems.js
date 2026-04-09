@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '../supabaseClient'; // assuming market details are here or in a service
+import { marketService } from '../services/marketService';
 
 // Aquest arxiu inicialitza els hooks de TanStack per a MarketItems 
 // sota l'estàndard V10.34
@@ -15,73 +15,23 @@ const MARKET_QUERY_KEY = ({ category = 'tot', townId = null, page = 0, pageSize 
   isPlayground
 ];
 
-// Ens assegurem de tindre una crida pura a Supabase per a getMarketItems fora del God Object
-const fetchMarketItems = async ({ category = 'tot', townId = null, page = 0, pageSize = 12, isPlayground = null } = {}) => {
+// Utilitzem el servei oficial que gestiona correctament la caché i les columnes dinàmiques
+// evitant errors 400 Bad Request de relacions que no existeixen.
+const fetchMarketItems = async (filters = {}) => {
   try {
-    const from = page * pageSize;
-    const to = from + pageSize - 1;
-
-    let query = supabase.from('market_items').select(`
-      *,
-      profiles!author_user_id (
-        username, avatar_url, role
-      ),
-      entity_members!left (
-        entity_id,
-        entities (
-          name, avatar_url
-        )
-      )
-    `);
-
-    // Normalització defensiva de booleans (evita "false" string)
-    const normalizedPlayground = 
-      isPlayground === 'true' ? true : 
-      isPlayground === 'false' ? false : 
-      isPlayground;
-
-    if (normalizedPlayground !== null && normalizedPlayground !== undefined) {
-      query = query.eq('is_playground', normalizedPlayground);
-    }
-    
-    if (category && category !== 'tot') {
-        if (category === 'sol·licituds') {
-            query = query.eq('type', 'request');
-        } else if (category === 'ofertats') {
-            query = query.eq('type', 'offer');
-        } else {
-            query = query.eq('category', category);
-        }
-    }
-
-    if (townId) {
-        query = query.eq('town_id', townId);
-    }
-
-    query = query.order('created_at', { ascending: false }).range(from, to);
-
-    const { data, error } = await query;
-    
-    // FIX #3: Maneig explícit de 400 per evitar throw innecessari i el bucle infinit
-    if (error) {
-      if (error.status === 400 || error.code?.startsWith('PGRST') || error.message?.includes('400')) {
-        console.error("🔍 Supabase 400 Error abordat defensivament:", error);
-        return []; 
-      }
-      throw error;
-    }
-    
-    // Normalitzacions bàsiques per a adaptar-ho al sistema antic
-    return data?.map(item => ({
-        ...item,
-        authorParams: item.author_entity_id ? 
-            (item.entity_members && item.entity_members.length > 0 && item.entity_members[0].entities) ? 
-                { name: item.entity_members[0].entities.name, avatar_url: item.entity_members[0].entities.avatar_url, id: item.author_entity_id, isEntity: true } 
-                : { id: item.author_user_id, name: item.profiles?.username, avatar_url: item.profiles?.avatar_url, isEntity: false }
-            : { id: item.author_user_id, name: item.profiles?.username, avatar_url: item.profiles?.avatar_url, isEntity: false }
-    })) || [];
+    const { data } = await marketService.getMarketItems(
+      filters.category,
+      filters.townId,
+      filters.page,
+      filters.pageSize,
+      filters.isPlayground
+    );
+    return data || [];
   } catch (error) {
-    console.error("Error fetching market items:", error);
+    if (error?.status === 400 || error?.message?.includes('400')) {
+      console.error("🔍 Supabase 400 Error abordat des del service:", error);
+      return []; 
+    }
     throw error;
   }
 };
@@ -110,8 +60,7 @@ export const useCreateMarketItem = () => {
     
     return useMutation({
         mutationFn: async (newItem) => {
-            const { data, error } = await supabase.from('market_items').insert([newItem]).select().single();
-            if (error) throw error;
+            const data = await marketService.createMarketItem(newItem, newItem.is_playground || false);
             return data;
         },
         onMutate: async (newItem) => {

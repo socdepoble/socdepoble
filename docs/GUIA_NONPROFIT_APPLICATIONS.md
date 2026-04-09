@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/GUIA_NONPROFIT_APPLICATIONS.md`
+
 # 🎓 GUIA DE SOL·LICITUD: CANVA I GOOGLE FOR NONPROFITS 🏺⚖️
 
 Per a accedir als serveis gratuïts (Canva Pro i Google Workspace/Ad Grants), l'**Associació Cultural El Rentonar** ha de seguir aquests passos. Com que és una entitat sense ànim de lucre, sou totalment elegibles si la documentació està en ordre.

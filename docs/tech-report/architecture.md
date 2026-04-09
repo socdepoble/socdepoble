@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/tech-report/architecture.md`
+
 # Data Architecture: Rhizome DB 🧬
 
 The backbone of Sóc de Poble is the **Rhizome DB**, a data layer designed for extreme resilience and offline independence.

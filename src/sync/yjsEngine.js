@@ -41,8 +41,12 @@ export function pruneDoc(doc) {
   return newDoc;
 }
 
-export function startPruningStrategy(activeDoc) {
-  setInterval(() => {
-    pruneDoc(activeDoc);
+export function startPruningStrategy(activeDocWrapper) {
+  const intervalId = setInterval(() => {
+    if (activeDocWrapper && activeDocWrapper.current) {
+      activeDocWrapper.current = pruneDoc(activeDocWrapper.current);
+    }
   }, 1000 * 60 * 10); // cada 10 min
+
+  return () => clearInterval(intervalId);
 }

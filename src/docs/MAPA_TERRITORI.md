@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./src/docs/MAPA_TERRITORI.md`
+
 # 🗺️ MAPA DE TERRITORI: SÓC DE POBLE (ARQUITECTURA MESTRA v3.1)
 
 **Estat:** IMMUTABLE / BLINDAT  

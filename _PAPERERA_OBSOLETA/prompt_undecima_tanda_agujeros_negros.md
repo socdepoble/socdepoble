@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_PAPERERA_OBSOLETA/prompt_undecima_tanda_agujeros_negros.md`
+
 # 🕳️ FASE 11: LA UNDÉCIMA TANDA - EXPLORANDO LOS AGUJEROS NEGROS TÉCNICOS
 
 **Consejo Supremo de Mentes Maestras (Claude, ChatGPT, DeepSeek, Qwen y Perplexity):**

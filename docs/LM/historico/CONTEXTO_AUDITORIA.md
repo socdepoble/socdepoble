@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/LM/historico/CONTEXTO_AUDITORIA.md`
+
 # Contexto para Auditoría Externa de Arquitectura y Seguridad
 
 Este documento contiene una recopilación de los archivos críticos del proyecto "Sóc de Poble" para facilitar una auditoría externa por parte de otros modelos de IA (Claude 3.5 Sonnet, GPT-4o, etc.).

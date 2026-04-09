@@ -135,7 +135,7 @@ const PostDetail = () => {
                 </div>
 
                 {/* 2. CONTINGUT DOCTRINAL / ARTICLE */}
-                <article className="prose prose-lg dark:prose-invert max-w-none prose-headings:font-black prose-headings:tracking-tighter prose-p:font-medium prose-p:leading-relaxed prose-a:text-[var(--theme-accent-primary)] prose-a:no-underline hover:prose-a:underline prose-li:marker:text-[var(--theme-accent-primary)] html-article-prose bg-theme-panel p-6 sm:p-12 rounded-[2rem] border border-[var(--border-master)] shadow-xl relative z-10">
+                <article className="prose prose-lg dark:prose-invert max-w-none prose-headings:font-black prose-headings:tracking-tighter prose-p:font-medium prose-p:leading-relaxed prose-a:text-[var(--theme-link-color)] prose-a:underline prose-a:decoration-2 prose-a:underline-offset-4 prose-a:decoration-[var(--theme-link-decoration)] hover:prose-a:text-[var(--theme-link-hover)] hover:prose-a:decoration-[var(--theme-link-hover)] transition-all prose-li:marker:text-[var(--theme-accent-primary)] html-article-prose bg-theme-panel p-6 sm:p-12 rounded-[2rem] border border-[var(--border-master)] shadow-xl relative z-10">
                     <div className="absolute -top-6 -right-6 text-[10rem] opacity-5 select-none pointer-events-none font-black text-[var(--theme-accent-primary)]">
                         ”
                     </div>

@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./.agents/workflows/papelera_obsoleta/13_ECOSISTEMA_MODELOS_IA.md`
+
 ---
 description: Ecosistema de Modelos de IA - Explicación didáctica de los Agentes, Modelos y Roles utilizados en el ecosistema "Sóc de Poble".
 ---

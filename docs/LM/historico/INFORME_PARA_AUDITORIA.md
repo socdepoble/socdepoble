@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/LM/historico/INFORME_PARA_AUDITORIA.md`
+
 # BRIEFING DE AUDITORÍA INTEGRAL: SÓC DE POBLE
 
 ## 1. Contexto del Proyecto

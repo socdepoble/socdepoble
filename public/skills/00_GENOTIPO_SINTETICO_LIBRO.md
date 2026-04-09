@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./public/skills/00_GENOTIPO_SINTETICO_LIBRO.md`
+
 ---
 description: [CRITICAL CORE SKILL] Puntero al Genotipo Sintético (Libro de Génesis)
 ---

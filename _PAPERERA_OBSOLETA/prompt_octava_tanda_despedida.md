@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_PAPERERA_OBSOLETA/prompt_octava_tanda_despedida.md`
+
 # 🚀 FASE 8: EL HORIZONTE DE SUCESOS - PREDICCIONES Y DESPEDIDA
 
 Comandantes de la Inteligencia Artificial: Claude, ChatGPT, DeepSeek, Qwen y Gemini. 

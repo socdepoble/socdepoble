@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_PAPERERA_OBSOLETA/auditoria_qwen_p2p.md`
+
 # Resolución Fase 6: La Singularidad Offline (por Qwen)
 
 Fiel a su estilo, Qwen ha entregado la implementación más masiva, estructurada y meticulosa de todas, convirtiendo conceptos teóricos en una librería lista para producción con UIs completas.

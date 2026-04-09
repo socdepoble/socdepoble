@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./.agents/workflows/papelera_obsoleta/07_AUDITORIA_MULTIMODEL_EMBUT.md`
+
 ---
 description: "Protocol d'Auditoria Multi-Model en Embut (Tàctica de Reducció de Tokens i Pont Airgap)"
 ---

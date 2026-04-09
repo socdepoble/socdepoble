@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_PAPERERA_OBSOLETA/prompt_auditoria_extrema_round_3.md`
+
 # 🛡️ Prompt Nivel 3: El Paquete Definitivo y Simulacro Black-Hat
 
 **Contexto Inmersivo (Sóc de Poble):**

@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./.agents/workflows/papelera_obsoleta/depuracion-rapida.md`
+
 ---
 description: Habilidad (Skill) de sistema para que Antigravity asísle errores y los depure en un entorno seguro antes de pasarlos a producción.
 ---

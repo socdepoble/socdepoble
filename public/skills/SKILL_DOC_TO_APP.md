@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./public/skills/SKILL_DOC_TO_APP.md`
+
 # SKILL: DOC-TO-APP (TRANSFORMACIÓ RURAL) 📄➡️🚜
 
 ## 1. MISSIÓ DEL PROTOCOL

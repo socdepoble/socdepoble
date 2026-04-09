@@ -52,7 +52,7 @@ const getFallbackImage = (id) => {
     return FALLBACK_NANO_IMAGES[safeIndex];
 };
 
-const UniversalCard = ({
+const UniversalCardInner = ({
     item,
     title,
     subtitle,
@@ -70,14 +70,18 @@ const UniversalCard = ({
     isOfficial: forcedOfficial = false,
     forensicMode: forcedForensic = false,
     viewMode = "grid",
-    onNavigate // DeepSeek Audit: Allow decoupled routing
+    onNavigate,
+    // Injectat des de Wrapper para evitar Context Cascades
+    gloveMode = false,
+    seniorMode = false,
+    hapticService,
+    contextForensic = false,
+    isAdmin = false,
+    user,
+    openViewer // del ModalContext
 }) => {
     const cardVariant = (variant === "post" && mode && mode !== "post") ? mode : (variant || mode);
-    const { openViewer } = useModal();
-    const { forensicMode: contextForensic } = useNavigation();
-    const { gloveMode, seniorMode, hapticService } = useDesign();
     const isForensic = forcedForensic || contextForensic;
-    const { isAdmin, user } = useAuth();
     const navigate = useNavigate();
     const isMaster = isAdmin || user?.app_metadata?.role === 'master';
     const isChatRoute = useIsChatRoute();
@@ -360,15 +364,38 @@ const propsAreEqual = (prevProps, nextProps) => {
         prevProps.title === nextProps.title &&
         prevProps.subtitle === nextProps.subtitle &&
         prevProps.isOfficial === nextProps.isOfficial &&
-        prevProps.forensicMode === nextProps.forensicMode
+        prevProps.forensicMode === nextProps.forensicMode &&
+        prevProps.gloveMode === nextProps.gloveMode &&
+        prevProps.seniorMode === nextProps.seniorMode &&
+        prevProps.isAdmin === nextProps.isAdmin
     );
 };
 
-const MemoizedCard = React.memo(UniversalCard, propsAreEqual);
+const MemoizedCardInner = React.memo(UniversalCardInner, propsAreEqual);
 
-MemoizedCard.Header = UniversalCardHeader;
-MemoizedCard.Media = UniversalCardMedia;
-MemoizedCard.Body = UniversalCardBody;
-MemoizedCard.Footer = UniversalCardFooter;
+const UniversalCardParamsWrapper = (props) => {
+    const { openViewer } = useModal();
+    const { forensicMode: contextForensic } = useNavigation();
+    const { gloveMode, seniorMode, hapticService } = useDesign();
+    const { isAdmin, user } = useAuth();
 
-export default MemoizedCard;
+    return (
+        <MemoizedCardInner 
+            {...props} 
+            openViewer={openViewer}
+            contextForensic={contextForensic}
+            gloveMode={gloveMode}
+            seniorMode={seniorMode}
+            hapticService={hapticService}
+            isAdmin={isAdmin}
+            user={user}
+        />
+    );
+};
+
+UniversalCardParamsWrapper.Header = UniversalCardHeader;
+UniversalCardParamsWrapper.Media = UniversalCardMedia;
+UniversalCardParamsWrapper.Body = UniversalCardBody;
+UniversalCardParamsWrapper.Footer = UniversalCardFooter;
+
+export default UniversalCardParamsWrapper;

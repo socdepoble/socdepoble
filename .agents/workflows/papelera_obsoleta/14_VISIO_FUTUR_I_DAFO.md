@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./.agents/workflows/papelera_obsoleta/14_VISIO_FUTUR_I_DAFO.md`
+
 ---
 description: Visión de Futuro a 30 años y Análisis DAFO (SWOT) Socio-Técnico de la Arquitectura Offline-First
 ---

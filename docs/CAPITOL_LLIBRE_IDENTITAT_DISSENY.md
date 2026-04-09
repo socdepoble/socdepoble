@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/CAPITOL_LLIBRE_IDENTITAT_DISSENY.md`
+
 # 📖 Capítol: L'Estètica de la Identitat i la Memòria de les Dades 🏛️🎨✨
 
 *Escrit per Javi Llinares amb l'ajuda de la IAIA (Secretari de l'Aliança)*

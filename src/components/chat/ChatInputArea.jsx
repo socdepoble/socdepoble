@@ -15,7 +15,8 @@ const FallbackLoader = () => (
 
 const ChatInputArea = React.memo(({
     id, otherInfo, user, setIsGuestInteractionModalOpen,
-    handleSendMessage, isSending, globalDroppedFile, setGlobalDroppedFile
+    handleSendMessage, isSending, globalDroppedFile, setGlobalDroppedFile,
+    replyingToItem, setReplyingToItem
 }) => {
     const { t } = useTranslation();
     const [newMessage, setNewMessage] = useState('');
@@ -63,6 +64,7 @@ const ChatInputArea = React.memo(({
             onSuccess: () => {
                 setNewMessage('');
                 clearAttachment();
+                if (setReplyingToItem) setReplyingToItem(null);
                 if (inputRef.current) {
                     inputRef.current.style.height = 'auto'; // Reseteja alçada després d'enviar
                 }
@@ -114,6 +116,26 @@ const ChatInputArea = React.memo(({
                                     <button onClick={clearAttachment} className="absolute -top-2 -right-2 w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center z-10 btn-tactile"><X size={16} strokeWidth={3} /></button>
                                     {attachedFilePreview ? <img src={attachedFilePreview} alt="preview" className="w-full h-32 object-cover rounded-[16px]" /> : <div className="w-full h-32 bg-theme-bg rounded-[16px] flex items-center justify-center"><FileText size={48} className="text-theme-text/20" /></div>}
                                     <div className="mt-2 mb-1 text-xs font-['Noto_Sans'] font-semibold text-center truncate px-2 text-theme-text w-full">{attachedFile.name}</div>
+                                </div>
+                            </div>
+                        )}
+
+                        {replyingToItem && (
+                            <div className="flex w-full mb-2 bg-[#000000]/10 dark:bg-white/10 rounded-xl shadow-sm p-3 mx-1 relative border-l-4 border-theme-accent-primary animate-in slide-in-from-bottom-2">
+                                <button
+                                    onClick={() => setReplyingToItem(null)}
+                                    className="absolute top-2 right-2 flex items-center justify-center p-1 text-theme-text/50 hover:text-theme-text bg-theme-bg/50 rounded-full btn-tactile"
+                                    type="button"
+                                >
+                                    <X size={14} strokeWidth={3} />
+                                </button>
+                                <div className="flex flex-col flex-1 min-w-0 pr-8">
+                                    <span className="text-[12px] font-bold text-theme-accent-primary mb-1 tracking-wide uppercase">
+                                        {replyingToItem.sender_id === user?.id ? t('chat.you', 'Tu') : replyingToItem.author_name || otherInfo?.name || t('chat.expert', 'Contacte')}
+                                    </span>
+                                    <span className="text-[14px] font-['Noto_Sans'] text-theme-text/80 line-clamp-1 italic">
+                                        {replyingToItem.attachment_type === 'voice' ? '🎤 ' + t('chat.voice_message') : replyingToItem.attachment_url ? '📎 ' + t('chat.attachment_sent') : replyingToItem.content}
+                                    </span>
                                 </div>
                             </div>
                         )}

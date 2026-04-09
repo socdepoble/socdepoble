@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./public/skills/SKILL_ORCHESTRATOR.md`
+
 # SKILL: ORCHESTRATOR (EL CERVELL OPERATIU) 🧠🕹️
 
 ## 1. MISSIÓ DEL PROTOCOL

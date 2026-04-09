@@ -55,15 +55,28 @@ const ChatDetail = ({ embeddedId }) => {
   const [contextMenuPosition, setContextMenuPosition] = useState('up');
   const [isSending, setIsSending] = useState(false);
   const [msgToMove, setMsgToMove] = useState(null);
+  const [replyingToItem, setReplyingToItem] = useState(null);
 
   const isSendingRef = useRef(false);
   const isComponentMounted = useRef(true);
   const activeChatRef = useRef(realChatId);
+  const timersRef = useRef(new Set());
+
+  const safeSetTimeout = useCallback((callback, delay) => {
+    const timerId = setTimeout(() => {
+      timersRef.current.delete(timerId);
+      if (isComponentMounted.current) callback();
+    }, delay);
+    timersRef.current.add(timerId);
+    return timerId;
+  }, []);
 
   useEffect(() => {
     isComponentMounted.current = true;
     return () => {
       isComponentMounted.current = false;
+      timersRef.current.forEach(timerId => clearTimeout(timerId));
+      timersRef.current.clear();
     };
   }, []);
 
@@ -127,21 +140,19 @@ const ChatDetail = ({ embeddedId }) => {
       if (isNPC) {
         showToast(t('chat.iaia_forwarding_toast'));
 
-        setTimeout(() => {
-          if (isComponentMounted.current) {
-            navigate('/chats/11111111-1a1a-0000-0000-000000000000', {
-              state: {
-                autoForwardParams: {
-                  text: t('chat.forward_entity_query', {
-                    name: otherInfo?.name || 'Local',
-                    content: finalContent,
-                  }),
-                  attachedFile,
-                  voiceData,
-                },
+        safeSetTimeout(() => {
+          navigate('/chats/11111111-1a1a-0000-0000-000000000000', {
+            state: {
+              autoForwardParams: {
+                text: t('chat.forward_entity_query', {
+                  name: otherInfo?.name || 'Local',
+                  content: finalContent,
+                }),
+                attachedFile,
+                voiceData,
               },
-            });
-          }
+            },
+          });
         }, 1000);
         return;
       }
@@ -224,6 +235,7 @@ const ChatDetail = ({ embeddedId }) => {
               : null,
           attachment_name: isVoiceMessage ? t('chat.voice_note') : attachedFile ? attachedFile.name : null,
           voice_meta: isVoiceMessage && voiceData.duration ? { duration: voiceData.duration } : null,
+          reply_to_id: replyingToItem ? replyingToItem.id : null,
         };
 
         const result = await supabaseService.sendSecureMessage(payload, controller.signal);
@@ -300,7 +312,7 @@ const ChatDetail = ({ embeddedId }) => {
                 if (!isComponentMounted.current || activeChatRef.current !== capturedChatId) return;
 
                 if (imageData) {
-                  showToast(t('chat.vision_success') || "L'IAIA ha acabat de processar la teva imatge! 👁️✨");
+                  showToast(t('chat.vision_success') || "L'IAIA ha acabat de processar la teua imatge! 👁️✨");
                 }
 
                 if (finalMsg && typeof finalMsg === 'object') {
@@ -355,12 +367,24 @@ const ChatDetail = ({ embeddedId }) => {
     ]
   );
 
+  const handleDeleteMessage = useCallback(async (messageId) => {
+    try {
+      setMessages((prev) => prev.filter((m) => m.id !== messageId));
+      if (!user?.isAnonymous) {
+        await supabase.from('messages').delete().eq('id', messageId);
+      }
+      showToast(t('common.deleted', 'Missatge esborrat'));
+    } catch (err) {
+      logger.error('Error deleting message:', err);
+    }
+  }, [setMessages, user, t, showToast]);
+
   useEffect(() => {
     if (location.state?.autoForwardParams && id === '11111111-1a1a-0000-0000-000000000000') {
       const params = location.state.autoForwardParams;
       window.history.replaceState({}, document.title);
-      setTimeout(() => {
-        if (isComponentMounted.current && !isSendingRef.current) {
+      safeSetTimeout(() => {
+        if (!isSendingRef.current) {
           handleSendMessage({ text: params.text, attachedFile: params.attachedFile, voiceData: params.voiceData });
         }
       }, 800);
@@ -421,12 +445,12 @@ const ChatDetail = ({ embeddedId }) => {
       };
 
       showToast(t('chat.moved_to_local_expert'), undoAction);
-      undoTimeout = setTimeout(() => {
+      undoTimeout = safeSetTimeout(() => {
         performMove();
       }, 4000);
       navigate(`/chats/${targetAgentId}`, { state: { optimisticMessages: msgsToMove } });
     },
-    [messages, setMessages, user, id, otherInfo, currentUserId, navigate, t, showToast]
+    [messages, setMessages, user, id, otherInfo, currentUserId, navigate, t, showToast, safeSetTimeout]
   );
 
   if (loading) {
@@ -487,6 +511,8 @@ const ChatDetail = ({ embeddedId }) => {
               setContextMenuPosition={setContextMenuPosition}
               onMoveMessageToAgent={handleMoveMessageToAgent}
               onRequestMove={setMsgToMove}
+              onDeleteMessage={handleDeleteMessage}
+              onReply={setReplyingToItem}
             />
           </div>
 
@@ -503,6 +529,8 @@ const ChatDetail = ({ embeddedId }) => {
               isSending={isSending}
               globalDroppedFile={globalDroppedFile}
               setGlobalDroppedFile={setGlobalDroppedFile}
+              replyingToItem={replyingToItem}
+              setReplyingToItem={setReplyingToItem}
             />
           </div>
         </div>

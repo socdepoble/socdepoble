@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./.agents/workflows/papelera_obsoleta/idioma_estricto.md`
+
 ---
 description: Habilidad (Skill) para forzar la comunicación estricta en Castellano o Valenciano según la preferencia del usuario, evitando recaídas al Inglés.
 ---

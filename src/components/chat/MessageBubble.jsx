@@ -28,6 +28,9 @@ const MessageBubble = React.memo(
     setContextMenuId,
     onMoveMessageToAgent,
     onRequestMove,
+    onDeleteMessage,
+    onReply,
+    repliedToMsg,
   }) => {
     const { t } = useTranslation();
     const audioRef = useRef(null);
@@ -117,6 +120,7 @@ const MessageBubble = React.memo(
 
     return (
       <div
+        id={`msg-${msg.id}`}
         className={`px-2 md:px-6 ${marginClass} flex ${isMe ? 'justify-end' : 'justify-start'} ${
           isActiveMenu ? 'relative z-50' : ''
         }`}
@@ -131,6 +135,24 @@ const MessageBubble = React.memo(
           )}
 
           <div className="font-['Plus_Jakarta_Sans'] text-[15px] font-medium leading-[1.55]">
+            {repliedToMsg && (
+              <div 
+                className={`mb-2 pl-2 border-l-4 rounded-r-md py-1 pr-2 ${
+                  isMe ? 'border-black/30 bg-black/10' : 'border-[#169CF9] bg-[#169CF9]/10'
+                }`}
+                onClick={() => {
+                  const el = document.getElementById(`msg-${repliedToMsg.id}`);
+                  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }}
+              >
+                <div className={`text-[11px] font-bold uppercase tracking-wider mb-0.5 ${isMe ? 'text-black/60' : 'text-[#169CF9]'}`}>
+                  {repliedToMsg.sender_id === (isMe ? msg.sender_id : null) ? t('chat.you', 'Tu') : repliedToMsg.author_name || otherInfo?.name || t('chat.expert')}
+                </div>
+                <div className={`text-[13px] line-clamp-2 leading-snug italic opacity-80`}>
+                    {repliedToMsg.attachment_type === 'voice' ? '🎤 ' + t('chat.voice_message') : repliedToMsg.attachment_url ? '📎 ' + t('chat.attachment_sent') : repliedToMsg.content}
+                </div>
+              </div>
+            )}
             <div className="whitespace-pre-wrap break-words">
               {msg.attachment_type === 'voice' ? (
               <div className="flex min-w-[208px] items-center gap-3 py-1">
@@ -236,13 +258,22 @@ const MessageBubble = React.memo(
                 contextMenuPosition === 'up' ? 'bottom-9 origin-bottom-right' : 'top-full mt-2 origin-top-right'
               }`}
             >
-              <button className="flex min-h-12 w-full items-center justify-between px-4 py-2 hover:bg-[#F97316]/10" onClick={() => setContextMenuId(null)}>
+              <button className="flex min-h-12 w-full items-center justify-between px-4 py-2 hover:bg-[#F97316]/10" onClick={() => {
+                setContextMenuId(null);
+                onReply?.(msg);
+              }}>
                 {t('chat.reply', 'Respondre')} <Reply size={16} />
               </button>
               <button className="flex min-h-12 w-full items-center justify-between px-4 py-2 hover:bg-[#F97316]/10" onClick={() => setContextMenuId(null)}>
                 {t('chat.react', 'Reaccionar')} <Smile size={16} />
               </button>
-              <button className="flex min-h-12 w-full items-center justify-between px-4 py-2 hover:bg-[#F97316]/10" onClick={() => setContextMenuId(null)}>
+              <button className="flex min-h-12 w-full items-center justify-between px-4 py-2 hover:bg-[#F97316]/10" onClick={() => {
+                setContextMenuId(null);
+                if (msg.content) {
+                  navigator.clipboard.writeText(msg.content);
+                  import('../../utils/toast').then(m => m.default.success(t('chat.copied', 'Copiado al portapapeles')));
+                }
+              }}>
                 {t('chat.copy', 'Copiar')} <Copy size={16} />
               </button>
               <button
@@ -254,7 +285,10 @@ const MessageBubble = React.memo(
               >
                 {t('chat.move_to_expert', "Moure a l'expert")} <FolderInput size={16} />
               </button>
-              <button className="flex min-h-12 w-full items-center justify-between px-4 py-2 text-[#EF4444] hover:bg-[#EF4444]/10" onClick={() => setContextMenuId(null)}>
+              <button className="flex min-h-12 w-full items-center justify-between px-4 py-2 text-[#EF4444] hover:bg-[#EF4444]/10" onClick={() => {
+                setContextMenuId(null);
+                onDeleteMessage?.(msg.id);
+              }}>
                 {t('common.delete', 'Esborrar')} <Trash2 size={16} />
               </button>
             </div>

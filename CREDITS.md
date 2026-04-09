@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./CREDITS.md`
+
 # 🤝 Crèdits d'Intel·ligència Artificial i Equip Humà
 
 El desenvolupament de **Sóc de Poble**, el projecte que posa en valor la identitat i el territori de l'arrel valenciana, no hauria estat mai possible sense l'agermanament entre l'esforç i direcció humana de l'arquitecte del projecte i les ments artificials més avançades.

@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./.agents/workflows/papelera_obsoleta/depuracion-remota.md`
+
 ---
 description: Habilidad (Skill) para recordar y ejecutar el protocolo de Depuración Remota de Android (A54) a través de Chrome en Mac (USB o Inalámbrico) para cazar bugs de UI/UX persistentes o afectados por cachés PWA.
 ---

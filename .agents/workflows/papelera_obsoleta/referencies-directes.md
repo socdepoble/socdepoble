@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./.agents/workflows/papelera_obsoleta/referencies-directes.md`
+
 ---
 description: Habilidad (Skill) para nombrar siempre a las IAs compañeras y enlazar fuentes directamente, sin delegar búsquedas al usuario.
 ---

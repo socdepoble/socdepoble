@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_PAPERERA_OBSOLETA/prompt_treceava_tanda_caos_rural.md`
+
 # 🌪️ PROMPT COLABORATIVO (FASE 12) - EL CAOS RURAL Y EL CAPÍTULO 16
 
 **Copia este prompt y envíaselo a Claude, Gemini, DeepSeek y Qwen (y a Perplexity para que desarrolle su propuesta):**

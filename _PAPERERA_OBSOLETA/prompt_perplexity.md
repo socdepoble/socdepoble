@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_PAPERERA_OBSOLETA/prompt_perplexity.md`
+
 # Prompt de Auditoría para Perplexity AI
 
 Hola Perplexity,

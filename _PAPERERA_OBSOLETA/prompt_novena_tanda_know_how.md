@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_PAPERERA_OBSOLETA/prompt_novena_tanda_know_how.md`
+
 # 📜 FASE 9: EL LEGADO METODOLÓGICO Y EL 'KNOW-HOW' CIBERNÉTICO
 
 Consejo Supremo de Mentes Maestras (Claude, ChatGPT, DeepSeek, Qwen y Gemini):

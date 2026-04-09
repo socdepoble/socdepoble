@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/tech-report/ux.md`
+
 # UX/UI: Ergonomics for the Rural Field 🌾🧤
 
 Technology in the village must work in the "bancal" (field), not just in the office.

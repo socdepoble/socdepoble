@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/LM/historico/SECURITY_AUDIT_CLAUDE.md`
+
 # 🔒 Auditoria de Seguretat i Arquitectura - Sóc de Poble
 
 **Auditor:** Claude 3.5 Sonnet (Thinking)  

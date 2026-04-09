@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_PAPERERA_OBSOLETA/prompt_auditoria_extrema.md`
+
 # AUDITORÍA EXTREMA DE ARQUITECTURA RED TEAM (Contexto Completo)
 **Instrucciones exclusivas para IAs con inmensa ventana de contexto (Gemini 1.5/2.0 Pro, Qwen Max, Claude 3.5 Sonnet):**
 

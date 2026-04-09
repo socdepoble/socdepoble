@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_PAPERERA_OBSOLETA/prompt_undecima_tanda_consolidado.md`
+
 # 🕳️ FASE 11: LA UNDÉCIMA TANDA - EL NÚCLEO DURO Y LOS AGUJEROS NEGROS
 
 **Consejo Supremo de Mentes Maestras (Claude, ChatGPT, DeepSeek, Qwen y Perplexity):**

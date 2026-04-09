@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/BACKUP_STRATEGY.md`
+
 # Estratègia de Seguretat i Còpies de Reserva 🛡️
 
 Per a garantir que **Sóc de Poble** puga créixer de forma segura i sense pèrdua de dades, hem establit els següents protocols de seguretat.

@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_PAPERERA_OBSOLETA/prompt_decimonovena_tanda_archivos_faltantes.md`
+
 # 🌌 TANDA 19: LA ÚLTIMA FRONTERA (AUDITORÍA DE LOS TRES NÚCLEOS Y VISIÓN DE FUTURO)
 
 **Instrucciones para el Comandante:**

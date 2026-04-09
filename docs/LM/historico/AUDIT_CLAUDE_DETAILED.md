@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/LM/historico/AUDIT_CLAUDE_DETAILED.md`
+
 # 🎨 Auditoria Claude: Arquitectura, DX i Experiència d'Usuari
 
 **Auditor:** Claude 3.5 Sonnet (Thinking)  

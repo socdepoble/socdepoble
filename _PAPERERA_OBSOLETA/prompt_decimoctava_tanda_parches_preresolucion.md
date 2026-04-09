@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_PAPERERA_OBSOLETA/prompt_decimoctava_tanda_parches_preresolucion.md`
+
 # ⚡ PROTOCOLO DE EJECUCIÓN: LOS PARCHES PR-READY (TANDA 18)
 
 Este prompt es la respuesta afirmativa a su ofrecimiento. Les pedimos directamente que saquen la artillería y generen los diffs, haciendo que Claude y Copilot trabajen en simbiosis (uno genera, otro valida).

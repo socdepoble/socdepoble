@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./reconstruction-asiatica.css";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -79,6 +80,12 @@
     --theme-iaia-brand: var(--sdp-blue);
     --theme-iaia-shadow: rgba(9, 132, 227, 0.3);
 
+    /* Link Atomic Protocol (Universal Hyperlink State) */
+    /* Link Atomic Protocol (Universal Hyperlink State) */
+    --theme-link-color: inherit;
+    --theme-link-hover: var(--theme-accent-primary);
+    --theme-link-decoration: color-mix(in srgb, var(--text-main) 30%, transparent);
+
     /* Motion System Tokens (iOS feel) */
     --motion-quick: 120ms;
     --motion-normal: 220ms;
@@ -129,6 +136,12 @@
     --theme-accent-secondary: var(--sdp-blue);
     --theme-iaia-brand: var(--sdp-orange);
     --theme-iaia-shadow: rgba(249, 115, 22, 0.3);
+
+    /* Link Atomic Protocol (Universal Hyperlink State) */
+    /* Link Atomic Protocol (Universal Hyperlink State) */
+    --theme-link-color: inherit;
+    --theme-link-hover: var(--theme-accent-primary);
+    --theme-link-decoration: color-mix(in srgb, var(--text-main) 30%, transparent);
 
     --glass-theme-bg: rgba(255, 255, 255, 0.75);
     --glass-theme-border: rgba(0, 0, 0, 0.06);
@@ -392,11 +405,17 @@
   }
   
   .app-cms-content a {
-    color: var(--theme-accent-primary);
-    text-decoration: underline;
+    color: var(--theme-link-color);
+    text-decoration-line: underline;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 2px;
+    text-decoration-color: var(--theme-link-decoration);
+    transition: all var(--motion-quick) ease;
+    font-weight: 600;
   }
   .app-cms-content a:hover {
-    color: var(--theme-accent-secondary);
+    color: var(--theme-link-hover);
+    text-decoration-color: var(--theme-link-hover);
   }
   
   .app-cms-content code {
@@ -409,12 +428,24 @@
     border: 1px solid var(--border-master);
   }
   
+  .app-cms-content pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    background-color: var(--bg-panel);
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-master);
+    margin: 1.5rem 0;
+  }
+  
   .app-cms-content pre code {
     background-color: transparent;
     padding: 0;
     border: none;
     color: inherit;
     font-size: inherit;
+    white-space: pre-wrap;
   }
   
   /* Taules (Tables) */

@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_PAPERERA_OBSOLETA/prompt_vigesima_tanda_codex_auditoria_final.md`
+
 # 🌌 TANDA 20: EL JUICIO FINAL DEL CONSEJO (AUDITORÍA CODEX / OPENAI)
 
 **Instrucciones para el Comandante:**

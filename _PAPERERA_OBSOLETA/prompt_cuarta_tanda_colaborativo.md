@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_PAPERERA_OBSOLETA/prompt_cuarta_tanda_colaborativo.md`
+
 # 🛡️ PROMPT COLABORATIVO SUPREMO (FASE 4) - DISEÑO DEL BÚNKER DE CÓDIGO
 
 **Copia este prompt y envíaselo a Claude, Gemini, DeepSeek, Perplexity y Qwen:**

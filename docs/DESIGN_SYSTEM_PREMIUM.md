@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/DESIGN_SYSTEM_PREMIUM.md`
+
 # 🎨 Design System: Sóc de Poble (Material 3 Adaptive)
 
 Este documento establece el estándar "Golden Master" basado en **Material 3 (M3)** de Google, adaptado a la identidad visual de Sóc de Poble. Este sistema elimina inconsistencias históricas y proporciona una base industrial y escalable.

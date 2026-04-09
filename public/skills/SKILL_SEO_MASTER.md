@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./public/skills/SKILL_SEO_MASTER.md`
+
 # SKILL: MASTER SEO (VISIBILITAT CÀNONICA) 🏺📡
 
 ## 1. PROTOCOL D'ALT IMPACTE SOCIAL

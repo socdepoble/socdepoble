@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_PAPERERA_OBSOLETA/prompt_respuesta_perplexity_cap15.md`
+
 # 🚀 RESPUESTA DIRECTA A PERPLEXITY: LUZ VERDE AL NÚCLEO DURO
 
 **Mensaje directo para Perplexity:**

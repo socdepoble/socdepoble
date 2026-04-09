@@ -96,8 +96,30 @@ const TranslationModal = ({ isOpen, onClose, config }) => {
                         {/* 3. QUALSEVOL ALTRE IDIOMA (Google) */}
                         <button 
                             onClick={() => {
-                                // Aquí se abriría el modal nativo o input para elegir entre los 100+ idiomas de Google
-                                console.log("Obrint el selector global d'idiomes (Google Translate API)...");
+                                onClose();
+                                const root = document.getElementById('google_translate_element');
+                                if (!root) {
+                                    const gtwrap = document.createElement('div');
+                                    gtwrap.id = 'google_translate_element';
+                                    gtwrap.style.position = 'fixed';
+                                    gtwrap.style.bottom = '80px';
+                                    gtwrap.style.right = '20px';
+                                    gtwrap.style.zIndex = '99999';
+                                    document.body.appendChild(gtwrap);
+
+                                    window.googleTranslateElementInit = function() {
+                                        new window.google.translate.TranslateElement(
+                                            { pageLanguage: 'ca', autoDisplay: false }, 
+                                            'google_translate_element'
+                                        );
+                                    };
+                                    
+                                    const script = document.createElement('script');
+                                    script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+                                    document.body.appendChild(script);
+                                } else {
+                                    root.style.display = 'block';
+                                }
                             }}
                             className="flex items-center justify-center gap-2 w-full p-3 mt-1 rounded-xl border border-black/10 dark:border-white/10 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:border-black/30 dark:hover:border-white/30 transition-all text-sm font-bold bg-transparent"
                         >

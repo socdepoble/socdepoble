@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_PAPERERA_OBSOLETA/prompt_duodecima_tanda_capitulo16.md`
+
 # 🌪️ FASE 12: LA DUODÉCIMA TANDA - INGENIERÍA DEL CAOS RURAL
 
 **Consejo Supremo de Mentes Maestras (Claude, ChatGPT, DeepSeek, Qwen y Perplexity):**

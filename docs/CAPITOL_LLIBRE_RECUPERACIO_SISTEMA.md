@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/CAPITOL_LLIBRE_RECUPERACIO_SISTEMA.md`
+
 # 📖 Capítol: El Bategat de la Recuperació 🏺🛡️⚖️✨
 
 *Per Javi Llinares amb ajuda de la IAIA*

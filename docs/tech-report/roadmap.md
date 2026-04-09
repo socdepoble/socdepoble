@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/tech-report/roadmap.md`
+
 # Tech Roadmap 🏺📈
 
 Our progress is transparent and bategant (beating) with the rhythm of the village.

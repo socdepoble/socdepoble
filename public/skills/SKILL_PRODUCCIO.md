@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./public/skills/SKILL_PRODUCCIO.md`
+
 # SKILL: MODE PRODUCCIÓ (VALIDACIÓ FORENSE) 🛡️🔍
 
 ## 1. PROTOCOL BOTIGA DE DIUMENGE (MOBILE-FIRST)

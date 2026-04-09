@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/LM/PROMPT_BETA_TESTERS.md`
+
 # 🏺 PROMPT PER A NOTEBOOK LM (BETA TESTERS)
 
 **Instruccions d'ús per al Mestre:** 

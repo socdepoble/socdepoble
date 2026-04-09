@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/STORE_MANIFESTO.md`
+
 # Sóc de Poble: Manifest de la Tenda (ASO) 🏺📱
 
 Aquest document conté la informació oficial per a les botigues d'aplicacions (App Store i Google Play Store) al bategat de la versió 10.33.11.

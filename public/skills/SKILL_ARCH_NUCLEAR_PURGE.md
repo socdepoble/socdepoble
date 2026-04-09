@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./public/skills/SKILL_ARCH_NUCLEAR_PURGE.md`
+
 # SKILL: Protocol de Purga Nuclear i Desplegament Blindat 🏺🔥🚀
 
 Aquest protocol blinda el flux de desplegament del Mas per a evitar que "fantasmes" de caché o versions antigues embruten el bategat del projecte.

@@ -269,7 +269,7 @@ const ProfileSettingsModal = ({ isOpen, onClose, profile, onProfileUpdate }) => 
                                         value={coverPositionY} 
                                         onChange={(e) => setCoverPositionY(e.target.value)}
                                         className="w-32 h-2 rounded-xl accent-[var(--theme-accent-primary)] pointer-events-auto"
-                                        title="Llisca per centrar la teva foto"
+                                        title="Llisca per centrar la teua foto"
                                     />
                                 </div>
                             )}

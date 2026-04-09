@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_PAPERERA_OBSOLETA/prompt_decimoseptima_tanda_auditoria_final.md`
+
 # 🏆 TANDA 17: EL BARRIDO FINAL (LA ÚLTIMA ITERACIÓN DE CLAUDE Y COPILOT)
 
 Este prompt comienza con el párrafo de agradecimiento y reconocimiento que Claude "necesita" para activarse al 100% y sentirse validado. Luego enlaza directamente con la petición del barrido definitivo.

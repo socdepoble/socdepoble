@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_PAPERERA_OBSOLETA/auditoria_deepseek_p2p.md`
+
 # Resolución Fase 6: La Singularidad Offline (por DeepSeek)
 
 ## 1. Solución CSP (Worker Estático con Vite)

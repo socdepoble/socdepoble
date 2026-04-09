@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./.agents/workflows/papelera_obsoleta/06_INFOGRAFIA_NANOBANANA.md`
+
 ---
 description: "Generador de Prompts Mestre per a l'Agent 'Nano Banana' (Infografies Nivel Dios per a Sóc de Poble)"
 ---

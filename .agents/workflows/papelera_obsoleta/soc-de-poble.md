@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./.agents/workflows/papelera_obsoleta/soc-de-poble.md`
+
 ---
 description: Habilidad (Skill) de inicialización suprema. Cuando el usuario dice exactamente "Sóc de Poble!" (con exclamación y tilde), el agente debe aplicar este protocolo de lectura profunda antes de continuar.
 ---

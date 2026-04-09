@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_PAPERERA_OBSOLETA/prompt_decima_tanda_manual_100.md`
+
 # 📚 FASE 10: LA ENCICLOPEDIA LOCAL-FIRST (EL MANUAL DE 100 PÁGINAS) Y EL CAOS RURAL
 
 **Consejo Supremo de Mentes Maestras (Claude, ChatGPT, DeepSeek, Qwen y Perplexity):**

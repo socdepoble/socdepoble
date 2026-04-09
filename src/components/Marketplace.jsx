@@ -25,6 +25,45 @@ import { marketService } from '../services/marketService';
 import { useViewMode } from '../hooks/useViewMode';
 import { UniversalGridWrapper, UniversalGridRow } from './UniversalGrid';
 
+const MarketCard = React.memo(({ item, viewMode, handleHeaderClick, handleRecipeClick }) => {
+    const imageSources = item.image_url || item.images || item.image || '/images/assets/generic_market.png';
+    const headerTitle = item.seller_name || item.seller || 'Sóc de Poble';
+    
+    return (
+        <div className="card-rizoma-wrapper animate-in w-full h-full" style={{ height: '100%', contain: 'layout paint style', contentVisibility: 'auto' }}>
+            <UniversalCard
+                item={item}
+                avatarName={headerTitle}
+                avatarSrc={item.avatar_url || item.logo_url}
+                title={item.title}
+                excerpt={item.description}
+                image={imageSources}
+                onNavigate={handleHeaderClick}
+                mode="mur"
+                viewMode={viewMode}
+                variant="mercat"
+            >
+                <div className="flex justify-between items-center mt-2 w-full z-20 relative">
+                    <div className="flex gap-4">
+                        <button 
+                            onClick={(e) => { e.stopPropagation(); handleRecipeClick(item); }} 
+                            className="text-[11px] uppercase tracking-wider font-black text-[#169CF9] hover:text-[#F97316] transition-colors bg-[#169CF9]/10 hover:bg-[#F97316]/10 px-3 py-1.5 rounded-[8px]"
+                        >
+                            Recepta IAIA
+                        </button>
+                        <button 
+                            onClick={(e) => { e.stopPropagation(); handleHeaderClick(item); }}
+                            className="text-[11px] uppercase tracking-wider font-black text-theme-text hover:text-[#F97316] transition-colors bg-theme-base hover:bg-theme-surface border border-border-master px-3 py-1.5 rounded-[8px]"
+                        >
+                            Veure Perfil
+                        </button>
+                    </div>
+                </div>
+            </UniversalCard>
+        </div>
+    );
+});
+
 const Market = ({ searchTerm = '' }) => {
     const { t } = useTranslation();
     const { isSuperAdmin } = useAuth();
@@ -359,41 +398,14 @@ const Market = ({ searchTerm = '' }) => {
                                     }}
                                 >
                                     {rowItems.map(item => {
-                                        const imageSources = item.image_url || item.images || item.image || '/images/assets/generic_market.png';
-                                        const headerTitle = item.seller_name || item.seller || 'Sóc de Poble';
-                                        
                                         return (
-                                            <div key={item.uuid || item.id} className="card-rizoma-wrapper animate-in w-full h-full" style={{ height: '100%', contain: 'layout paint style', contentVisibility: 'auto' }}>
-                                                <UniversalCard
-                                                    item={item}
-                                                    avatarName={headerTitle}
-                                                    avatarSrc={item.avatar_url || item.logo_url}
-                                                    title={item.title}
-                                                    excerpt={item.description}
-                                                    image={imageSources}
-                                                    onHeaderClick={(e) => { e.stopPropagation(); handleHeaderClick(item); }}
-                                                    mode="mur"
-                                                    viewMode={viewMode}
-                                                    variant="mercat"
-                                                >
-                                                    <div className="flex justify-between items-center mt-2 w-full z-20 relative">
-                                                        <div className="flex gap-4">
-                                                            <button 
-                                                                onClick={(e) => { e.stopPropagation(); handleRecipeClick(item); }} 
-                                                                className="text-[11px] uppercase tracking-wider font-black text-[#169CF9] hover:text-[#F97316] transition-colors bg-[#169CF9]/10 hover:bg-[#F97316]/10 px-3 py-1.5 rounded-[8px]"
-                                                            >
-                                                                Recepta IAIA
-                                                            </button>
-                                                            <button 
-                                                                onClick={(e) => { e.stopPropagation(); handleHeaderClick(item); }}
-                                                                className="text-[11px] uppercase tracking-wider font-black text-theme-text hover:text-[#F97316] transition-colors bg-theme-base hover:bg-theme-surface border border-border-master px-3 py-1.5 rounded-[8px]"
-                                                            >
-                                                                Veure Perfil
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </UniversalCard>
-                                            </div>
+                                            <MarketCard 
+                                                key={item.uuid || item.id} 
+                                                item={item} 
+                                                viewMode={viewMode} 
+                                                handleHeaderClick={handleHeaderClick} 
+                                                handleRecipeClick={handleRecipeClick} 
+                                            />
                                         );
                                     })}
                                 </UniversalGridRow>

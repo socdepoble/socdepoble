@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./[LOG] DIARI_DE_BORD_SOCDEPOBLE.md`
+
 # 🏺 DIARI DE BORD: SÓC DE POBLE! (LOG CRONOLÒGIC)
 
 ## [2026-04-07] v10.38.1 - AUDITORIA VISUAL DE LES IAIAS I DEPLOY GLOBAL 🏺🚀👁️
@@ -20,6 +22,66 @@
 ### 🗣️ Frases Cèlebres de l'Equip
 - "Les IAIAs vigilen amb el seu Ull, la producció respira tranquil·la."
 - "Sóc de Poble! (I ara el Mas s'enlaira!)."
+
+---
+
+## 🏛️ LLEI DEL MAS: EL SISTEMA DE PLANTILLES MESTRE (Ecosistema UI)
+
+> *"No alcem cada paret des de zero, aprofitem els ciments de la Pedra Seca."*
+
+Durant l'evolució de **Sóc de Poble**, ens hem adonat d'una necessitat crítica per a mantenir la fluïdesa visual i l'estalvi de memòria (tant biològica com de RAM en l'A10): **La unificació estricta mitjançant Plantilles Mestre**. 
+
+A partir de la v10.38, qualsevol nova vista, secció o funcionalitat NO s'hauria de codificar com un llenç en blanc. Cada nova pàgina ha d'heretar l'estructura de la seua **Plantilla Arquetípica**. Això assegura que un *Calendari* siga germà del *Full de Ruta*, o que la fitxa d'un *Ajuntament* siga germana de la fitxa d'un *Veí*.
+
+### Els 4 Arquetips Fonamentals:
+1. **Plantilla Documental (El Projecte / Llibre):** 
+   - *Ús:* Pàgines denses d'informació, lectura immersiva, Manifestos, Protocols.
+   - *Característiques:* Padding generosos (`px-6 py-12`), índex lateral de continguts (TOC), tipografia GEM a 28px.
+2. **Plantilla Cronològica (Agenda / Full de Ruta):**
+   - *Ús:* Visors d'esdeveniments, dates històriques, planificació Gantt/Kanban.
+   - *Característiques:* Contenidors de línia de temps, pestanyes de vistes duals (Llista vs Tabler), identificadors de data clars en la UI.
+3. **Plantilla d'Entitats (La Gent i les Institucions):**
+   - *Ús:* Perfils d'usuaris (Humans o IAIAS), Fitxes d'Empreses, Pàgines d'Associacions.
+   - *Característiques:* Capçalera potent multimèdia (Avatar central o hero imatge), murs d'interacció, pestanyes "Sobre mi / Mur / Arxiu". Si toques una entitat, afecta a la resta.
+4. **Plantilla Geogràfica (Els Pobles / Mapes):**
+   - *Ús:* Fitxes de poblacions (La Torre, Tibi, Relleu...), Vistes cartogràfiques.
+   - *Característiques:* Capçalera híbrida Mapa/Dades Demogràfiques, accessos directes al Mercat local o a les efemèrides de la localitat.
+
+**Directiva Activa:** Tota nova incorporació a la xarxa ha d'estudiar prèviament quina és la seua plantilla mare, heretar-ne els patrons UI, i si s'aporta una innovació a la plantilla (com un nou menú flotant), aquesta millora s'ha d'aplicar a **tota la família** d'aqueix arquetip per a mantenir la cohesió total del sistema.
+---
+
+## 🌙 LLEI DEL MAS: LA GUÀRDIA DE NIT (Estratègia de Sobirania Computacional)
+
+> *"El silenci de la nit no és només pau per al Mas, és l'autopista lliure per a la ment digital."*
+
+Durant la fase de forja i creació intensa d'aquest ecosistema, ens vam trobar amb un mur invisible: **La congestió diürna dels servidors d'IA globals**. En hores d'oficina mundials, els models patien asfíxia de tokens, interrupcions ("high traffic right now") i una lentitud que trencava el flux orgànic (el *Trellat*) entre l'humà i la màquina. L'estrès de veure els tokens esvair-se durant el dia era insostenible.
+
+**El Protocol Nocturn**
+La decisió d'operar de matinada no va ser només romàntica, sinó **purament estratègica y de supervivència:**
+1. **Estalvi i Fluïdesa:** A la nit, l'amplada de banda cognitiva de les IAs (DeepSeek, Claude, Gemini) està neta. Les finestres de context s'aprofiten al 100% sense talls abrupte, maximitzant els *tokens* per iteració.
+2. **Focus Absolut:** Crear una cultura nova des de zero i dotar de personalitat a un poble requereix una comunió sense interrupcions.
+
+**Consell per a futurs repobladors:** Si has descarregat aquest codi a la teua terra i penses invocar a les Intel·ligències Artificials per a adaptar "Sóc de Poble" a les teues necessitats, **fes-ho de nit**. La fase de creació de la personalitat del sistema necessita l'horari on el món dorm perquè els servidors et dediquen tota la seua capacitat. Les rodes dentades del Mas es greixen millor sota la lluna.
+
+---
+
+## 🗂️ LLEI DEL MAS: NOMENCLATURA D'ARXIUS (El teu Gen)
+
+> *"L'ordre és memòria, i sense memòria el Mas s'esborra."*
+
+Tota documentació generada de forma periòdica (auditories, logs, prompts, còpies de seguretat) ha de seguir de manera estricta i innegociable el següent format cronològic per assegurar-ne l'ordenació nativa en qualsevol explorador d'arxius del SO. Les dates o hores mai aniran al final de l'arxiu, ja que perden validesa de localització. I la data de l'any s'escurçarà de "2026" a "26" per estalviar espai.
+
+**Format obligatori:** `AAMMDD_HHMM_NOM_DE_L_ARXIU.ext`
+
+- `AAMMDD`: Any a dues xifres, Mes a dues xifres, Dia a dues xifres. (Tot junt: 260409).
+- `HHMM`: Hora a dues xifres i Minut a dues xifres. (Tot junt: 0936). No es fan servir segons per a mantenir-ho el més net possible.
+
+**Exemple correcte:** `260409_0936_PROMPT_AUDITORIA_MUNDIAL.md`
+**Exemple erroni (PROHIBIT):** `PROMPT_AUDITORIA_MUNDIAL_2026_04_09.md`
+
+**Excepció per col·lisió (Molt rar):** Si es donara el cas extrem de generar dos arxius exactament al mateix minut cronològic, s'evitaran els segons afegint un sufix alfabètic (`a`, `b`, `c`...) rere els minuts per desempatar sense trencar l'ordre. Exemple: `260409_0936a_PROMPT...` i `260409_0936b_PROMPT...`.
+
+Tingues aquesta norma fermament esculpida en el teu *genotip* per a que el manteniment dels teus arxius futurs no patisca d'una asintonia estructural.
 
 ---
 
@@ -578,5 +640,12 @@ _Session Chronicle: v1.15.0-BATEGA. El Mas està polit, net i bategant._ 🏺✨
 
 ### 🗣️ Frases Cèlebres de l'Equip
 
-- "Cap veí es queda fora del Mas per un espai buit."
 - "Mestre, el node de registre està lliure. La plaça ja bategua amb noms nous."
+
+---
+
+## 📅 SESSIÓ 2026-04-09 (TANCAMENT RONDA 5) - La Gran Auditoria i el Genotip 🏺📜🚀
+
+### 📌 AGENDA FUTURA: Sobirania de Dominis (El Gran Salt)
+> "S'ha determinat que la pàgina oficial del projecte (`socdepoble.net`) passarà a ser una **redirecció transparent cap a la nova infraestructura sobirana `socdepoble.org`**. 
+> Aquesta maniobra s'executarà **només quan el nou sistema haja demostrat ser indestructible, confiat i totalment resilient en producció**. L'objectiu és no duplicar la narrativa, consolidar el SEO orgànic dels últims 30 anys, i que l'orgull de l'historial del `.net` abrace la potència tecnològica del nou `.org`."

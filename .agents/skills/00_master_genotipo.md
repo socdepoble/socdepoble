@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./.agents/skills/00_master_genotipo.md`
+
 ---
 name: "Directiva Genotipo (La Única Verdad)"
 description: "Puntero exclusivo al Libro Maestro. Prohíbe leer otras reglas que no provengan del origin HTML."

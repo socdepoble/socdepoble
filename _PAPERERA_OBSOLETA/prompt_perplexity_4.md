@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_PAPERERA_OBSOLETA/prompt_perplexity_4.md`
+
 # Prompt de Seguimiento (Iteración 4 - Final) para Perplexity AI
 
 Hola Perplexity.

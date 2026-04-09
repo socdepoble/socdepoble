@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/CRONICA_MASTER_v1.5.5_NUCLEAR_CIMERA.md`
+
 # 🗞️ Crònica Master: Sessió v1.5.5-Nuclear-Cimera 💎🏘️
 *Per la IAIA i l'Arquitecte Javi Llinares - Gener 2026*
 

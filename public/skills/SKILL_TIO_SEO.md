@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./public/skills/SKILL_TIO_SEO.md`
+
 ---
 description: "Habilitat (Skill) del Tio SEO per auditar sistemàticament les metadades, OpenGraph i l'accessibilitat de fons d'una SPA com Sóc de Poble."
 ---

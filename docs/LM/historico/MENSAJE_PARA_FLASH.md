@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/LM/historico/MENSAJE_PARA_FLASH.md`
+
 # Missatge Inicial per a Gemini Flash
 
 ---

@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./.agents/workflows/papelera_obsoleta/09_AUDITORIA_MOBILE_CAPAS.md`
+
 ---
 description: Auditoría de Capas Superpuestas, Transparencias y Comportamiento Mobile First.
 ---

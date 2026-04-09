@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/manual_disseny_impremta.md`
+
 # Manual de Disseny per a Impremta (v1.0) 🏺🎨📐
 
 Aquest manual defineix el protocol per a la preparació de documents A4 bategats pel sistema **Sóc de Poble**, optimitzats per a la seua obertura i retoc final en programari professional com **Affinity Designer/Publisher**.

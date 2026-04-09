@@ -20,6 +20,8 @@ const ChatMessageList = React.memo(
     setMessages,
     onMoveMessageToAgent,
     onRequestMove,
+    onDeleteMessage,
+    onReply,
   }) => {
     const { t } = useTranslation();
     const virtuosoRef = useRef(null);
@@ -110,11 +112,14 @@ const ChatMessageList = React.memo(
                 isSameSenderAsNext={isSameSenderAsNext}
                 otherInfo={otherInfo}
                 isActiveMenu={isActiveMenu}
+                repliedToMsg={msg.reply_to_id ? messages.find(m => m.id === msg.reply_to_id) || msg.metadata?.reply_to_id ? messages.find(m => m.id === msg.metadata.reply_to_id) : null : null}
                 contextMenuPosition={contextMenuPosition}
                 setContextMenuId={setContextMenuId}
                 setContextMenuPosition={setContextMenuPosition}
                 onMoveMessageToAgent={onMoveMessageToAgent}
                 onRequestMove={onRequestMove}
+                onDeleteMessage={onDeleteMessage}
+                onReply={onReply}
               />
             );
           }}

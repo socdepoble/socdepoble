@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./.agents/workflows/papelera_obsoleta/05_BACKUPS_SOBIRANS.md`
+
 ---
 description: Protocol d'Auditoria i Execució de Còpies de Seguretat Sobiranes (JSON i SQL) per a garantir el blindatge de Sóc de Poble.
 ---

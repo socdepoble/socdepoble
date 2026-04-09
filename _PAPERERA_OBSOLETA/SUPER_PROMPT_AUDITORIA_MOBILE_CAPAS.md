@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_PAPERERA_OBSOLETA/SUPER_PROMPT_AUDITORIA_MOBILE_CAPAS.md`
+
 **MEMORÁNDUM AL ALTO CONSEJO MULTI-MODEL**
 
 **ASUNTO: Llamada a la Alianza para una Arquitectura Indestructible (Sóc de Poble)**

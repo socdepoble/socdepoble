@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/CRONICA_SESSIO_HUD_DIDACTIC.md`
+
 # 🏺 Àncora de Memòria: Crònica de Sessió HUD Didàctic 🏛️🛡️⚖️✨
 
 **Sessió ID**: `7738b474-9cf0-4466-bb5b-f2a9f11d9c04`  

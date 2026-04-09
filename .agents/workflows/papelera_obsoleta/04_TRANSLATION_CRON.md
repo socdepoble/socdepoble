@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./.agents/workflows/papelera_obsoleta/04_TRANSLATION_CRON.md`
+
 ---
 description: Sincronització Automàtica de Diccionaris (Motor Omega Translate)
 ---

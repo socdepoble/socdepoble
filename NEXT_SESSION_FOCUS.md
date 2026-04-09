@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./NEXT_SESSION_FOCUS.md`
+
 # 🍊🌍 NEXT SESSION FOCUS (Handoff)
 
 ## Estat Actual (Fase 14 Tancada en Or)

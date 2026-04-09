@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_PAPERERA_OBSOLETA/SUPER_PROMPT_AUDITORIA_USABILIDAD_ARQ.md`
+
 **MEMORÁNDUM AL ALTO CONSEJO MULTI-MODEL**
 
 **ASUNTO:** Auditoría de Usabilidad, Adaptabilidad y Diseño de Arquitectura "Indestructible"

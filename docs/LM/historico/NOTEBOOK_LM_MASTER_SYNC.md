@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/LM/historico/NOTEBOOK_LM_MASTER_SYNC.md`
+
 # 🧠 NOTEBOOK LM MASTER SYNC - SÓC DE POBLE
 
 Este es el **Documento Maestro de Sincronización Único (Single Source of Truth)** para alimentar a NotebookLM u otro LLM de análisis profundo (Claude, GPT, DeepSeek). 

@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_SKILLS/whatsapp_parity_specs.md`
+
 ---
 description: Specs and pending features for WhatsApp Info Screen Parity
 ---

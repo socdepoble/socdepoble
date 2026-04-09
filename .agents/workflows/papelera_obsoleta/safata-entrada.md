@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./.agents/workflows/papelera_obsoleta/safata-entrada.md`
+
 ---
 description: Habilidad (Skill) para depositar siempre los archivos y entregables finales en una carpeta visible del usuario, evitando rutas ocultas de sistema.
 ---

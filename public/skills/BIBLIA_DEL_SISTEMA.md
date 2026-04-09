@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./public/skills/BIBLIA_DEL_SISTEMA.md`
+
 ---
 title: "Bíblia del Sistema Sóc de Poble! 🏺📖"
 order: 1

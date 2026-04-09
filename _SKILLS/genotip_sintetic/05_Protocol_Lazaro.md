@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_SKILLS/genotip_sintetic/05_Protocol_Lazaro.md`
+
 # Volum V: El Protocol Lázaro (Reconstrucció de Gènesi)
 
 ## L'hora de la veritat

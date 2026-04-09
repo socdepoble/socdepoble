@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_SKILLS/genotip_sintetic/02_La_Forja.md`
+
 # Volum II: La Forja de la PWA i la Seua Arquitectura
 
 ## Més enllà de la Web Tradicional

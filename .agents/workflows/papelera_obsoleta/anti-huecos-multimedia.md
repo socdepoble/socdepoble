@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./.agents/workflows/papelera_obsoleta/anti-huecos-multimedia.md`
+
 ---
 description: Habilidad (Skill) de sistema para prohibir tajantemente la existencia de campos multimedia vacíos (NULL) en elementos visuales, forzando la generación de recursos por IA como plan de contingencia.
 ---

@@ -51,6 +51,7 @@ const VisionView = lazy(() => import("../pages/VisionView"));
 const ConnectarPage = lazy(() => import("../pages/ConnectarPage"));
 
 const ArchitecteView = lazy(() => import("./ArchitecteView"));
+const RoadmapView = lazy(() => import("../pages/RoadmapView"));
 const ResourceDetail = lazy(() => import("../pages/ResourceDetail"));
 const InfografiaGallery = lazy(() => import("./Infoteca/InfografiaGallery"));
 import ContextualMenu from "./ContextualMenu";
@@ -62,6 +63,18 @@ const Chrome145Report = lazy(() => import("../pages/Chrome145Report"));
 const EpubViewer = lazy(() => import("./EpubViewer"));
 const MedicationConfirm = lazy(() => import("../pages/MedicationConfirm"));
 const VitalSecurity = lazy(() => import("../pages/VitalSecurity"));
+
+// --- ORPHAN PAGES CONNECTED ---
+const Ideoteca = lazy(() => import("../pages/Ideoteca"));
+const AulaRural = lazy(() => import("../pages/AulaRural"));
+const DAFOPage = lazy(() => import("../pages/DAFOPage"));
+const DesignCanon = lazy(() => import("../pages/DesignCanon"));
+const DidacticPage = lazy(() => import("../pages/DidacticPage"));
+const GhostMemorial = lazy(() => import("../pages/GhostMemorial"));
+const ManualPage = lazy(() => import("../pages/ManualPage"));
+const PlaygroundPortal = lazy(() => import("../pages/PlaygroundPortal"));
+const SessionChronicle = lazy(() => import("../pages/SessionChronicle"));
+
 
 const SuspenseFallback = () => {
   const { t } = useTranslation();
@@ -378,6 +391,7 @@ const AppLayout = () => {
                     />
                     <Route path="/nexus" element={<NexusFlash />} />
                     <Route path="/genesis" element={<GenesisViewer />} />
+                    <Route path="/ruta" element={<RoadmapView />} />
                     <Route path="/directori" element={<DirectoriComunitat />} />
                     <Route path="/agents" element={<AgentDirectory />} />
                     <Route path="/iaies-mundials" element={<IaiesMundialsDirectory />} />
@@ -400,6 +414,18 @@ const AppLayout = () => {
                     <Route path="/page/:slug" element={<ProjectPresentation />} />
                     <Route path="/reader" element={<EpubViewer url="/assets/books/el-projecte.epub" title={"Sóc de Poble: El Projecte"} onClose={() => window.history.back()} />} />
                     <Route path="/chrome-145" element={<Chrome145Report />} />
+
+                    {/* CONEXIONES HUÉRFANAS */}
+                    <Route path="/ideoteca" element={<Ideoteca />} />
+                    <Route path="/aula-rural" element={<AulaRural />} />
+                    <Route path="/dafo" element={<DAFOPage />} />
+                    <Route path="/canon" element={<DesignCanon />} />
+                    <Route path="/didactica" element={<DidacticPage />} />
+                    <Route path="/fantasmes" element={<GhostMemorial />} />
+                    <Route path="/manual" element={<ManualPage />} />
+                    <Route path="/playground" element={<PlaygroundPortal />} />
+                    <Route path="/cronica" element={<SessionChronicle />} />
+
 
                     {/* Fallback 404 Catch-All Route */}
                     <Route path="*" element={<Navigate to="/mur" replace />} />

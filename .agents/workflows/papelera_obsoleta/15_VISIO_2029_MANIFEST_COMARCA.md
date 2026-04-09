@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./.agents/workflows/papelera_obsoleta/15_VISIO_2029_MANIFEST_COMARCA.md`
+
 ---
 description: Manifiesto Visionario 2029 - L'Horitzó del Trellat y la Ronda 8 de Defensa (Hardware, Sharding Geográfico y Shamir's Secret Sharing)
 ---

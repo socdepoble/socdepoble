@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./public/skills/00_MACROPROMPT_CODEX.md`
+
 # ANTIGRAVITY — SCRIPT DE INSTANCIACIÓN V12
 <!-- Este documento es el único que necesitas leer. Contiene todo el contexto operativo. -->
 

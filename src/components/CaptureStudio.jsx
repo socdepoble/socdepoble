@@ -77,6 +77,9 @@ const CaptureStudio = ({ isOpen, onClose, onCapture, mode = 'photo' }) => {
     };
 
     const handleRetake = () => {
+        if (capturedMedia?.type === 'video' && capturedMedia.url) {
+            URL.revokeObjectURL(capturedMedia.url);
+        }
         setCapturedMedia(null);
         hapticService.batec();
     };

@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./.agents/workflows/papelera_obsoleta/00_CORE_SKILLS_CONSOLIDATED.md`
+
 ---
 description: Habilidades y Protocolos Core Consolidados de Antigravity para Sóc de Poble (Sustituye a todas las reglas fragmentadas).
 ---

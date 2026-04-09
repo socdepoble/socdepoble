@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./public/skills/SKILL_LAYOUT_CONSISTENCY.md`
+
 # SKILL: CONSISTÈNCIA DE DISSENY I LAYOUT 🎨🪐
 
 Per a assegurar que el Mas bategue amb harmonia, s'han de seguir aquestes regles de layout:

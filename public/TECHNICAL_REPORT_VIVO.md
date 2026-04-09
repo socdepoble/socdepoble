@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./public/TECHNICAL_REPORT_VIVO.md`
+
 # 📄 INFORME TÉCNIC VIVID: PLATAFORMA "SÓC DE POBLE"
 **Estat del Document:** [ACTIU / v1.5.6-VITAMINADA-STABLE]
 **Data de l'Informe:** 1 de febrer del 2026

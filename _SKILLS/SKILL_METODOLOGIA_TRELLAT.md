@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_SKILLS/SKILL_METODOLOGIA_TRELLAT.md`
+
 ---
 description: Guía de comportamiento y metodología psicológica ("El Trellat Artificial") para las IA que operan en Sóc de Poble. Define la alineación entre la máquina y el humano.
 ---

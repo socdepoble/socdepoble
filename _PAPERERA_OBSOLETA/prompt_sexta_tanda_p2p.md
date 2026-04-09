@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_PAPERERA_OBSOLETA/prompt_sexta_tanda_p2p.md`
+
 **DICTAMEN CLÍNICO RED TEAM - FASE 6: MÁS ALLÁ DE LA SINGULARIDAD (EL ABISMO P2P Y FALLOS DE SISTEMA)**
 **Clasificación:** ACCESO RESTRINGIDO (Arquitectura Descentralizada y Core de Bajo Nivel)
 **Destino:** Sóc de Poble PWA

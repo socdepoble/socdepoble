@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./src/data/protocol_branding.md`
+
 # Protocol de Branding Sóc de Poble: NanoBanana Prompts
 
 Aquest document estableix les regles d'or per a la generació d'actius visuals (infografies, art, promocions) mitjançant IA (NanoBanana), garantint la immutabilitat de la marca.

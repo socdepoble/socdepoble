@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/LM/historico/SECURITY_AUDIT_PHASE2.md`
+
 # 🔒 Auditoría de Seguridad FASE 2 - Sóc de Poble
 
 **Auditor:** Claude 3.5 Sonnet (Thinking Mode)  

@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/ATOMIC_INDEPENDENCE.md`
+
 # SISTEMA DE DISEÑO NIVEL DIOS — AUDITORÍA MATEMÁTICA
 
 ## Fallos estructurales detectados (y blindaje aplicado)

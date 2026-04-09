@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_SKILLS/SKILL_ARCH_SSI_DID.md`
+
 # SKILL: Arquitectura de Ferro - SSI/DID [v1.0]
 
 Aquesta skill defineix els estàndards de sobirania d'identitat (SSI) i identificadors descentralitzats (DIDs) per al Mas de Sóc de Poble.

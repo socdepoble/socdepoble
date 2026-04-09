@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./CONTRIBUTING.md`
+
 # 🌾 Guia de Contribució - Sóc de Poble
 
 Gràcies per voler contribuir a **Sóc de Poble**. Aquest document t'ajudarà a entendre com treballar amb nosaltres.

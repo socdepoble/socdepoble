@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./public/skills/LIBRO_DE_ARQUITECTURA_IA.md`
+
 ---
 name: Libro de Arquitectura IA 
 description: Registro maestro filosófico, didáctico y técnico. Contiene los super-prompts ideales y citas históricas de las IAs coautoras (Qwen, Grok, DeepSeek, Gemini). Actúa como un Skill de consulta.

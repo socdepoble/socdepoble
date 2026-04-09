@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/walkthrough.md`
+
 # Walkthrough: Simbiosi Mental & Rescat Atòmic 🧠🚀☢️
 
 Hem tancat una sessió de depuració profunda que s'ha transformat en la consolidació de la nostra identitat de treball.

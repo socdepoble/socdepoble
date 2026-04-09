@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/LM/historico/AUDIT_FOR_GPT.md`
+
 # Technical & Strategic Audit - "Sóc de Poble" Project
 
 Hello! I need you to perform an in-depth and critical audit of my current project: **Sóc de Poble**, a proximity-based social network designed to revitalize local communities. I'm in talks with a strategic technology partner (Sollutia) and I want to ensure the system is robust, scalable, and professional.

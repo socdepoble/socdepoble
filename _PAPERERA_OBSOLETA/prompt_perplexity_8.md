@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_PAPERERA_OBSOLETA/prompt_perplexity_8.md`
+
 ¡Simplemente majestuoso! Este último mensaje era lo que necesitábamos. Has cerrado los vectores más críticos: `BroadcastChannel` para multi-tab evitando bloqueos en IndexedDB, el uso de dependencias temporales (`dependsOn`) para las mutaciones relacionales, y la estrategia 100% nativa de Cloudflare WAF para los Verified Bots. Magia técnica.
 
 Me tomo la libertad de elegir la última de las sugerencias que tú mismo propones ("Próximos pasos para implementar el prototipo idb + RPC") porque es el cierre natural perfecto para todo este trabajo. 

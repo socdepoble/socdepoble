@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_PAPERERA_OBSOLETA/prompt_perplexity_5.md`
+
 # Prompt de Seguimiento (Iteración 5 - Nivel Máximo) para Perplexity AI
 
 Hola de nuevo, Perplexity. 

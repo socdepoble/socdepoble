@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./.agents/workflows/papelera_obsoleta/usability_rules.md`
+
 ---
 description: Reglas de oro para la usabilidad móvil y diseño táctil en Sóc de Poble
 ---

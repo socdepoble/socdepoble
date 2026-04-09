@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./_SKILLS/genotip_sintetic/03_Sistema_Nervios.md`
+
 # Volum III: El Sistema Nerviós (CRDT i Sincronització)
 
 ## El repte de la vida en asincronia

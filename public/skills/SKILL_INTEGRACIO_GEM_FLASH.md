@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./public/skills/SKILL_INTEGRACIO_GEM_FLASH.md`
+
 # SKILL: INTEGRACIÓ SEGURA (GEM -> FLASH) 🤝💎
 
 ## 1. MISSIÓ DEL PROTOCOL

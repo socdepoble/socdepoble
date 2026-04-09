@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/RELIQUIES_HISTORIQUES.md`
+
 # 🏺 ARXIU DE RELÍQUIES HISTÒRIQUES: EL TRULL DELS RECORDS 🏺
 
 Aquest document consolida la memòria viva del projecte **Sóc de Poble**, rescatant converses i elements clau des del primer bategat.

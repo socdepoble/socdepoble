@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/BRAND_UX_MANUAL.md`
+
 # 🏛️ Sóc de Poble: BRAND & UX MANUAL: SÓC DE POBLE (DIOS Level)
 
 ## DIRECTIVA 1: COMUNICACIÓ I GESTIÓ DEL TEMPS (Antigravity Protocol)

@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./public/skills/SKILL_NOTE_SNIPPET.md`
+
 # SKILL: SNIPPET DE CAPTURA - QUADERN DE TRELLAT 📓🔗
 
 Aquest protocol permet capturar qualsevol enllaç web i enviar-lo directament al teu **Bloc de Notes** de Sóc de Poble per a la seva catalogació.

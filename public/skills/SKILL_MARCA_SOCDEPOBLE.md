@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./public/skills/SKILL_MARCA_SOCDEPOBLE.md`
+
 # SKILL: ESTIL DE MARCA SÓC DE POBLE 🏺🎨
 
 ## 1. IDENTITAT VISUAL (SÈQUIA MARE)

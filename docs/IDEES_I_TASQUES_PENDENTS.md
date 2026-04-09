@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/IDEES_I_TASQUES_PENDENTS.md`
+
 # 🏺 Coses per Fer i Idees a Revisar [MASTER BACKLOG] 📝🛡️✨
 
 Aquest és el llistat viu d'idees, millores i tasques pendents bategat durant les sessions de la Simbiosi.

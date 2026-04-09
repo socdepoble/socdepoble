@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/tech-report/security.md`
+
 # Security & Identity: Sovereign Protection 🛡️
 
 In Sóc de Poble, security is not about passwords; it is about **verifiable local trust**.

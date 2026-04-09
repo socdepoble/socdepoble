@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./.agents/workflows/papelera_obsoleta/01_HORT_ELECTRONIC_ROADMAP.md`
+
 ---
 description: Ruta Crítica Hort Electrònic V12 (Orden Natural de Importancia y Diseño M3)
 ---

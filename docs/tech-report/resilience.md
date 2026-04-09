@@ -1,3 +1,5 @@
+> 📂 **Arxiu/Ruta:** `./docs/tech-report/resilience.md`
+
 # Informe de Resiliència Tècnica: Sóc de Poble 🛡️⚡️
 
 ## Resum de l'Auditoria
