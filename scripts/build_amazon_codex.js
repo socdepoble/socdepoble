@@ -439,7 +439,7 @@ function buildCodex() {
 
   const pages = sources.map(transformToHTML);
 
-  const htmlContent = pages.map(p => p.html).join('\\n');
+  const htmlContent = pages.map(p => p.html).join('\n\n');
 
   const activationPrompt = `
 <article id="activation-prompt" data-type="machine" class="bg-stone-900 text-left p-6 md:p-8 mb-12 relative overflow-hidden">
