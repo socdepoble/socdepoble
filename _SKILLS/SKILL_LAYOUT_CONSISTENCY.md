@@ -38,8 +38,8 @@ Per a assegurar que el Mas bategue amb harmonia, s'han de seguir aquestes regles
 ## 5. El Protocol de la Boina (Header) 🏺🧢
 
 - **Identitat Visual**: Les targetes d'autor porten el header (boina) amb color institucional.
-- **Mode Nit (Dark Mode)**: Color **Taronja Institucional** (#F97316). Màxima visibilitat sobre negre.
-- **Mode Dia (Light Mode)**: Color **Blau Sky** (#0EA5E9). Harmonia amb el cel rural.
+- **Mode Dia (Light Mode)**: Color **Taronja Institucional** (#F97316). Màxima visibilitat corporativa i contrast clar.
+- **Mode Nit (Dark Mode)**: Color **Blau Sky** (#0EA5E9). Harmonia lluminosa amable per a descansar la vista sobre el llenç negre.
 - **Contingut**: Nom a l'esquerra, cronologia (data/hora) a la dreta. **PROHIBIT** duplicar el nom del projecte si ja apareix com a autor.
 
 ## 6. Ubicació del Preu (Mercat) 💰🏷️
