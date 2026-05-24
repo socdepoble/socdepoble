@@ -1,8 +1,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Share2, MoreHorizontal, MessageCircle, Globe, Plus, ArrowRight } from 'lucide-react';
-import RoundButton from '../ui/RoundButton';
-import { hapticService } from '../../services/hapticService';
+import { ShoppingBag, MessageCircle, Share2, UserPlus, Edit, Landmark, Zap, Info, Languages, Plus } from 'lucide-react';
+import { hapticService } from '../../core/services/hapticService';
+import { useCart } from '../../app/context/CartContext';
+import UniversalCardActionButton from './UniversalCard.ActionButton';
 
 const UniversalCardFooter = ({
     item,
@@ -17,13 +18,11 @@ const UniversalCardFooter = ({
     viewMode
 }) => {
     const { t } = useTranslation();
+    const { addToCart, setIsCartOpen } = useCart();
 
-    let titleText = t('card.connect', "Connectar");
-    let ActionIcon = Plus;
-    
-    if (item?.type === 'tramit') {
-        titleText = t('card.tramitar', "Tramitar");
-    }
+    const isMarket = cardVariant === 'mercat' || cardVariant === 'market' || item?.type === 'market_item' || item?.type === 'market';
+    const isTramit = item?.type === 'tramit';
+    const isCalendar = cardVariant === 'agenda' || cardVariant === 'event' || cardVariant === 'calendar' || item?.type === 'calendar';
 
     const handleShareClick = (e) => {
         if (e) e.stopPropagation();
@@ -41,97 +40,83 @@ const UniversalCardFooter = ({
         if (e) e.stopPropagation();
         hapticService.playAtomicFeedback('action');
         const id = item?.uuid || item?.id;
-        if (cardVariant === 'mercat' || cardVariant === 'market') {
+        if (isMarket) {
             navigate(`/mercat/${id}?action=comment`);
         } else {
             navigate(`/post/${id}?action=comment`);
         }
     };
 
-    const handleTranslateClick = (e) => {
-        if (e) e.stopPropagation();
-        hapticService.playAtomicFeedback('action');
-        const id = item?.uuid || item?.id;
-        window.dispatchEvent(new CustomEvent('omega-translate-request', { detail: { postId: id, title: displayTitle } }));
-        alert(t('card.translateAlert', "🌐 Motor de Traducció A Demanda (Vertex AI) prompte disponible."));
-    };
-    
     const handleMainActionClick = (e) => {
         if (e) e.stopPropagation();
         hapticService.playAtomicFeedback('success'); 
-        if (handleConnectClick) {
+        
+        if (isMarket) {
+            addToCart(item, 1);
+            setIsCartOpen(true);
+        } else if (handleConnectClick) {
             handleConnectClick(e);
         } else if (handleCardClick) {
             handleCardClick(e);
         }
     };
 
-    const isCalendar = cardVariant === 'calendar' || item?.type === 'calendar';
+    // Determine the main action button text and function based on context
+    let actionText = 'CONNECTAR';
+    let actionFunction = handleMainActionClick; // By default, this checks isMarket but let's override
+
+    // Override the main action click for market items to trigger connect instead of add to cart if requested
+    const executeConnectAction = (e) => {
+        if (e) e.stopPropagation();
+        hapticService.playAtomicFeedback('success'); 
+        if (handleConnectClick) {
+            handleConnectClick(e);
+        } else if (handleCardClick) {
+            handleCardClick(e);
+        } else {
+            // Default connection routing
+            const id = item?.uuid || item?.id;
+            navigate(`/perfil/${item?.author_id || 'socdepoble'}?action=connect`);
+        }
+    };
+
+    if (isTramit) {
+        actionText = item?.actionLabel || 'TRAMITAR';
+        actionFunction = (e) => { e.stopPropagation(); navigate('/ofici'); };
+    } else if (isMaster) {
+        actionText = 'RECTIFICAR';
+        actionFunction = (e) => { e.stopPropagation(); navigate(`/edit/${item?.id}`); };
+    } else {
+        // ALWAYS use CONNECTAR for cards at this level (including Market)
+        actionText = 'CONNECTAR';
+        actionFunction = executeConnectAction;
+    }
 
     return (
-        <div className="flex items-center justify-center gap-3 sm:gap-6 w-full min-h-[48px] bg-[#4F46E5] text-white dark:bg-[#F97316] dark:text-[#111111] px-4 overflow-x-auto no-scrollbar transition-colors">
+        <div className="w-full bg-[#4F46E5] dark:bg-[#F97316] text-white flex justify-between items-center pl-4 pr-[10px] py-0 h-[64px] min-h-[64px] max-h-[64px] shrink-0 rounded-b-[28px] overflow-hidden">
+            {/* Left side: Icons */}
+            <div className="flex items-center gap-5">
+                <button className="hover:opacity-80 transition-opacity flex items-center justify-center p-1" aria-label="Traduir" onClick={(e) => { e.stopPropagation(); hapticService.playAtomicFeedback('action'); }}>
+                    <Languages size={22} color="white" strokeWidth={1.5} />
+                </button>
+                <button className="hover:opacity-80 transition-opacity flex items-center justify-center p-1" onClick={handleCommentClick} aria-label={t('card.comment', 'Comentar')}>
+                    <MessageCircle size={22} color="white" />
+                </button>
+                <button className="hover:opacity-80 transition-opacity flex items-center justify-center p-1" onClick={handleShareClick} aria-label={t('card.share', 'Compartir')}>
+                    <Share2 size={22} color="white" />
+                </button>
+            </div>
 
-            {/* OPTIONAL ITEM COUNTER BADGE */}
-            {itemCount !== undefined && (
-                <div className="flex items-center justify-center bg-black/20 rounded-full px-3 py-1.5 shrink-0">
-                    <div className="text-[11px] font-black tracking-widest text-white dark:text-[#111111] leading-none flex items-center">
-                        <span>{itemCount}</span> <div className="text-white/70 dark:text-black/80 font-bold ml-1"><span>{itemCountLabel || 'ITEMS'}</span></div>
+            <div className="flex-shrink-0 ml-4">
+                <UniversalCardActionButton 
+                    variant="blue"
+                    onClick={actionFunction}
+                    className="font-black tracking-widest text-[13px] uppercase"
+                >
+                    <div className="flex flex-row items-center gap-1.5">
+                        <span>{actionText}</span> <Plus size={16} strokeWidth={3} />
                     </div>
-                </div>
-            )}
-
-            {/* ACTION BUTTONS (EDGE-TO-EDGE COMPACT) */}
-            <div className="flex items-center justify-center gap-1 sm:gap-2 text-[11px] font-extrabold uppercase tracking-widest shrink-0">
-                {!isCalendar && (
-                    <button 
-                        className="flex items-center gap-1 px-1.5 py-1.5 hover:bg-white/20 dark:hover:bg-black/10 rounded transition-colors active:scale-95 whitespace-nowrap shrink-0" 
-                        onClick={handleTranslateClick} 
-                        aria-label={t('card.translate', "Traduir")}
-                    >
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/d/d7/Google_Translate_logo.svg" alt="Google Translate" className="w-[16px] h-[16px] object-contain drop-shadow-sm brightness-110" />
-                        {viewMode !== 'grid' && <div className="hidden md:block"><span>{t('card.translate', "TRADUIR")}</span></div>}
-                    </button>
-                )}
-
-                <button 
-                    className="flex items-center gap-1 px-1.5 py-1.5 hover:bg-white/20 dark:hover:bg-black/10 rounded transition-colors active:scale-95 whitespace-nowrap shrink-0" 
-                    onClick={handleCommentClick} 
-                    aria-label={t('card.comment', "Comentar")}
-                >
-                    <MessageCircle size={16} strokeWidth={2.5} />
-                    {viewMode !== 'grid' && <div className="hidden sm:block"><span>{t('card.comment', "COMENTAR")}</span></div>}
-                </button>
-
-                <button 
-                    className="flex items-center gap-1 px-1.5 py-1.5 hover:bg-white/20 dark:hover:bg-black/10 rounded transition-colors active:scale-95 whitespace-nowrap shrink-0"
-                    onClick={handleShareClick} 
-                    aria-label={t('card.share', "Compartir")}
-                >
-                    <Share2 size={16} strokeWidth={2.5} />
-                    {viewMode !== 'grid' && <div className="hidden sm:block"><span>{t('card.share', "COMPARTIR")}</span></div>}
-                </button>
-
-                {isMaster && (
-                    <button 
-                        className="flex items-center justify-center px-2 py-2 hover:bg-white/20 dark:hover:bg-black/10 rounded transition-colors active:scale-95 shrink-0" 
-                        onClick={(e) => {
-                            if (e) e.stopPropagation();
-                        }} 
-                        aria-label={t('card.options', "Opcions")}
-                    >
-                        <MoreHorizontal size={20} />
-                    </button>
-                )}
-                
-                <button 
-                    className="flex items-center gap-1.5 px-3 py-1.5 bg-white/20 text-white hover:bg-white hover:text-[var(--theme-accent-primary)] border border-white/30 rounded-[28px] transition-colors active:scale-95 whitespace-nowrap shrink-0"
-                    onClick={handleMainActionClick}
-                    title={titleText}
-                    aria-label={titleText}
-                >
-                    <span className="text-[11px] font-black uppercase tracking-widest hidden sm:block">{titleText}</span>
-                    <ActionIcon size={16} strokeWidth={2.5} className="sm:ml-0.5" />
-                </button>
+                </UniversalCardActionButton>
             </div>
         </div>
     );

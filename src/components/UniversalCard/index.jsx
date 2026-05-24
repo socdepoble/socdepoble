@@ -1,20 +1,18 @@
-import React, { Suspense, useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, Suspense } from 'react';
 // CACHE BUST SW: Evasió profunda de la catxé per a targeta indestructible.
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useModal } from '../../context/ModalContext';
-import { useNavigation } from '../../context/NavigationContext';
-import { useDesign } from '../../context/DesignContext';
-import { useAuth } from '../../context/AuthContext';
-import { Calendar, Plus, ImageIcon } from 'lucide-react';
-import Avatar from '../Avatar';
-import { Button } from '../../design-system/components/Button';
+import { useModal } from '../../app/context/ModalContext';
+import { useNavigation } from '../../app/context/NavigationContext';
+import { useDesign } from '../../app/context/DesignContext';
+import { useAuth } from '../../app/context/AuthContext';
 import UniversalCardHeader from './UniversalCard.Header';
 import UniversalCardMedia from './UniversalCard.Media';
 import UniversalCardBody from './UniversalCard.Body';
 import UniversalCardFooter from './UniversalCard.Footer';
-import BlueprintOverlay from '../BlueprintOverlay';
+import BlueprintOverlay from '../ui/BlueprintOverlay';
 
 import { normalizePostData } from '../../normalizers/post.normalizer';
+import { resolveImageUrl } from '../../utils/urlHelper';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { cardVariants } from './UniversalCard.variants';
@@ -23,13 +21,13 @@ import './UniversalCard.css';
 
 
 const FALLBACK_NANO_IMAGES = [
-    "/assets/avatars/nano_llibre_memoria.png",
-    "/assets/avatars/nano_fibra_espart.png",
-    "/assets/avatars/nano_dron_agricola.png",
+    "/uploads/avatars/nano_llibre_memoria.png",
+    "/uploads/avatars/nano_fibra_espart.png",
+    "/uploads/avatars/nano_dron_agricola.png",
     "/assets/events/nano_mercat_llavors.png",
-    "/assets/places/nano_palau_comtal_1774195484197.png",
-    "/assets/places/nano_porta_masia_1774197069297.png",
-    "/assets/brain/generations/nano_rentonar_arquitectura_1774196001928.png",
+    "/uploads/places/nano_palau_comtal_1774195484197.png",
+    "/uploads/places/nano_porta_masia_1774197069297.png",
+    "/uploads/brain/generations/nano_rentonar_arquitectura_1774196001928.png",
     "/assets/events/nano_socis_tecnologics_1774235328704.png"
 ];
 
@@ -78,27 +76,41 @@ const UniversalCardInner = ({
     contextForensic = false,
     isAdmin = false,
     user,
-    openViewer // del ModalContext
+    openViewer, // del ModalContext
+    aspectMode = 'auto' // Default a 'auto' para respetar imágenes horizontales por defecto
 }) => {
     const cardVariant = (variant === "post" && mode && mode !== "post") ? mode : (variant || mode);
     const isForensic = forcedForensic || contextForensic;
     const navigate = useNavigate();
     const isMaster = isAdmin || user?.app_metadata?.role === 'master';
     const isChatRoute = useIsChatRoute();
+    const isMarket = cardVariant === 'market' || cardVariant === 'mercat' || cardVariant === 'product';
+    const computedAspectMode = 'square';
     
     // MEMOITZACIÓ DE DADES DERIVADES
-    const mediaList = useMemo(() => 
-        images || item?.images || 
-        (Array.isArray(item?.image_url) ? item.image_url : null) || 
-        (Array.isArray(image) ? image : null),
-        [images, item?.images, item?.image_url, image]
-    );
+    const mediaList = useMemo(() => {
+        let list = images || item?.images || 
+                   (Array.isArray(item?.image_url) ? item.image_url : null) || 
+                   (Array.isArray(image) ? image : null);
+                   
+        if (!list) {
+            const singleImg = image || item?.image_url || item?.image || item?.seo_image || item?.header_image_url || item?.logo_url || item?.avatar_url;
+            if (typeof singleImg === 'string' && singleImg.trim() !== '') list = [singleImg];
+        }
+
+        if (Array.isArray(list)) {
+            // Eliminar duplicats (Set no manté l'ordre a vegades, pero aci amb strings és segur)
+            const uniqueList = [...new Set(list)];
+            // Resoldre cada url de la llista usant urlHelper
+            return uniqueList.map(img => resolveImageUrl(img));
+        }
+        return null;
+    }, [images, item?.images, item?.image_url, image, item?.image]);
 
     const displayImage = useMemo(() => {
-        return image || item?.image_url || item?.image || 
-               (mediaList ? mediaList[0] : null) ||
-               getFallbackImage(item?.id || item?.uuid || title);
-    }, [image, item?.image_url, item?.image, mediaList, item?.id, item?.uuid, title]);
+        const rawUrl = (mediaList && mediaList.length > 0) ? mediaList[0] : getFallbackImage(item?.id || item?.uuid || title);
+        return resolveImageUrl(rawUrl);
+    }, [mediaList, item?.id, item?.uuid, title]);
 
     const displayTitle = useMemo(() => 
         title || item?.title || item?.name || "Sóc de Poble",
@@ -171,7 +183,11 @@ const UniversalCardInner = ({
 
         const id = item?.uuid || item?.id;
         if (item?.type === 'page' && item?.slug) {
-            navigate(`/${item.slug}`);
+            if (['el-projecte', 'manual', 'arxiu', 'projecte', 'manifest'].includes(item.slug)) {
+                navigate(`/${item.slug}`);
+            } else {
+                navigate(`/page/${item.slug}`);
+            }
         } else if (cardVariant === 'pobles') {
             navigate(`/pobles/${id}`);
         } else if (cardVariant === 'mapa') {
@@ -217,12 +233,30 @@ const UniversalCardInner = ({
         );
     }, [cardVariant, viewMode, className, isBating, gloveMode, seniorMode, isOfficial, isAlert, isSostenible, isForensic]);
 
+    const itemTypeUrl = useMemo(() => {
+        switch (cardVariant) {
+            case 'mercat':
+            case 'market':
+                return 'https://schema.org/Product';
+            case 'agent':
+            case 'user':
+                return 'https://schema.org/Person';
+            case 'pobles':
+                return 'https://schema.org/Place';
+            case 'post':
+            default:
+                return 'https://schema.org/SocialMediaPosting';
+        }
+    }, [cardVariant]);
+
     const CardContent = (
         <article
-            className={`${cardClasses} cursor-pointer`}
+            className={`${cardClasses} cursor-pointer rounded-[28px] overflow-hidden`}
             onClick={handleCardClick}
             role="article"
             aria-label={displayTitle}
+            itemScope
+            itemType={itemTypeUrl}
         >
             {viewMode === 'list' ? (
                 <div className="flex flex-col w-full h-full">
@@ -293,15 +327,18 @@ const UniversalCardInner = ({
                         displayDate={displayDate}
                         displayTime={displayTime}
                     />
-                    <UniversalCardMedia 
-                        item={item}
-                        cardVariant={cardVariant}
-                        mediaList={mediaList}
-                        displayImage={displayImage}
-                        displayTitle={displayTitle}
-                        openViewer={openViewer}
-                        navigate={navigate}
-                    />
+                    <div className="-mt-[1px]">
+                        <UniversalCardMedia 
+                            item={item}
+                            cardVariant={cardVariant}
+                            mediaList={mediaList}
+                            displayImage={displayImage}
+                            displayTitle={displayTitle}
+                            openViewer={openViewer}
+                            navigate={navigate}
+                            aspectMode={computedAspectMode}
+                        />
+                    </div>
                     <Suspense fallback={<div className="h-16 mt-2 rounded bg-surface-var/30 animate-pulse w-full max-w-sm" role="status"><div className="sr-only"><span>Carregant contingut...</span></div></div>}>
                         <UniversalCardBody 
                             displayTitle={displayTitle}
@@ -379,9 +416,19 @@ const UniversalCardParamsWrapper = (props) => {
     const { gloveMode, seniorMode, hapticService } = useDesign();
     const { isAdmin, user } = useAuth();
 
+    const isEcommerceEnabled = localStorage.getItem('GLOBAL_ECOMMERCE_ENABLED') !== 'false';
+    const itemWithEcommerceState = React.useMemo(() => {
+        if (!props.item) return props.item;
+        return {
+            ...props.item,
+            is_store_disabled: props.item.is_store_disabled || !isEcommerceEnabled
+        };
+    }, [props.item, isEcommerceEnabled]);
+
     return (
         <MemoizedCardInner 
             {...props} 
+            item={itemWithEcommerceState}
             openViewer={openViewer}
             contextForensic={contextForensic}
             gloveMode={gloveMode}

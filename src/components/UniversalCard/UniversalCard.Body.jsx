@@ -1,6 +1,6 @@
 import React from 'react';
+import { Button } from '../ui/Button/Button';
 import { ChevronRight } from 'lucide-react';
-import { Button } from '../../design-system/components/Button';
 
 
 const UniversalCardBody = React.memo(({
@@ -18,6 +18,11 @@ const UniversalCardBody = React.memo(({
     
     // Determinar quina estratègia matematica CSS utilitzar
     let smartClampClass = hasTags ? 'line-clamp-2' : 'line-clamp-4';
+
+    const isWikipedia = cardVariant === 'pobles';
+    const watermarkText = isWikipedia 
+        ? "© WIKIPEDIA / WIKIMEDIA COMMONS (CC BY-SA)"
+        : "© SÓC DE POBLE / FET PER LA IAIA I NANO BANANA";
 
     const handleReadMoreClick = React.useCallback((e) => {
         if (e && e.stopPropagation) e.stopPropagation();
@@ -39,9 +44,9 @@ const UniversalCardBody = React.memo(({
     }, [item?.uuid, item?.id, cardVariant, navigate, handleCardClick]);
 
     return (
-        <div className="flex flex-col flex-1 min-h-0 relative z-10 p-0">
+        <div className="flex flex-col flex-1 min-h-0 relative z-10 p-0 overflow-hidden">
             <div 
-                className="flex flex-col flex-1 min-h-0 px-5 pt-3 pb-4 overflow-hidden cursor-pointer group"
+                className="flex flex-col flex-1 min-h-0 px-4 pt-3 pb-4 overflow-hidden cursor-pointer group"
                 onClick={handleReadMoreClick}
                 onKeyDown={(e) => {
                     if (e.key === 'Enter' || e.key === ' ') {
@@ -56,12 +61,19 @@ const UniversalCardBody = React.memo(({
                 <div className="flex flex-col items-start gap-1 pb-1 shrink-0 group-hover:opacity-80 transition-opacity">
                     <div className="flex justify-between items-start gap-4 w-full">
                         <div className="flex-1 min-w-0">
-                            <div className="text-[24px] md:text-[28px] leading-[1.1] font-black tracking-tight line-clamp-2 text-theme-text">
+                            <div className="text-[24px] md:text-[28px] leading-[1.1] font-black tracking-tight line-clamp-2 text-theme-text" itemProp="name headline">
                                 <span>{displayTitle}</span>
                             </div>
                         </div>
-                        {(cardVariant === 'mercat' || cardVariant === 'market') && displayPrice && (
-                            <div className="whitespace-nowrap font-black text-[18px] text-[#F97316] shrink-0"><span>{displayPrice}</span></div>
+                        {(cardVariant === 'mercat' || cardVariant === 'market') && !item?.is_store_disabled && (
+                            <div className="flex flex-col items-end shrink-0 gap-1 mt-1">
+                                {displayPrice && <div className="whitespace-nowrap font-black text-[18px] text-[#F97316] leading-none"><span>{displayPrice}</span></div>}
+                                {item?.stock_status && (
+                                    <div className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-full leading-none ${item.stock_status.toLowerCase() === 'esgotat' || item.stock_status.toLowerCase() === 'outofstock' ? 'bg-red-500/20 text-red-500' : 'bg-green-500/20 text-green-500'}`}>
+                                        <span>{item.stock_status.toLowerCase() === 'outofstock' ? 'Esgotat' : item.stock_status}</span>
+                                    </div>
+                                )}
+                            </div>
                         )}
                     </div>
                     {(() => {
@@ -74,11 +86,11 @@ const UniversalCardBody = React.memo(({
                         return (
                             <div className="flex flex-col gap-1.5 w-full">
                                 {cardVariant === 'agent' ? (
-                                    <h3 className="font-black text-[#F97316] text-[18px] md:text-[20px] leading-[1.3] w-full">
+                                    <h3 className="font-black text-[#F97316] text-[18px] md:text-[20px] leading-[1.3] w-full" itemProp="description">
                                         <span>{subtitleText}</span>
                                     </h3>
                                 ) : (
-                                    <div className="font-semibold text-[#F97316] text-[14px] leading-snug truncate w-full">
+                                    <div className="font-semibold text-[#F97316] text-[14px] leading-snug truncate w-full" itemProp="description">
                                         <span>{subtitleText}</span>
                                     </div>
                                 )}
@@ -105,37 +117,45 @@ const UniversalCardBody = React.memo(({
             </div>
 
             <div className="w-full flex flex-col shrink-0 z-20 mt-auto">
-                {displayExcerpt && (
-                    <Button
-                        intent="ghost"
-                        fullWidth
-                        className="py-2.5 font-bold uppercase tracking-widest text-[#F97316] hover:bg-[#F97316]/10 active:scale-100 rounded-none"
-                        aria-label={`Llegir més sobre ${item.title || "aquest post"}`}
-                        onClick={handleReadMoreClick}
-                        rightIcon={<ChevronRight size={18} className="mt-[1px]" />}
-                    >
-                        Llegir més
-                    </Button>
-                )}
-
                 {hasTags && (
-                    <div className="w-full flex justify-start items-center gap-2 px-5 pb-4 pt-1 flex-wrap">
-                         {item.tags.slice(0, 3).map((tag) => {
-                             // Clean the tag text to remove # if it already has one, preventing ## duplicate
+                    <div className="w-full flex justify-start items-center gap-2 px-4 pb-4 pt-1 flex-wrap">
+                         {item.tags.slice(0, 3).map((tag, index) => {
                              const cleanTagStr = tag.replace(/^#+/, '');
+                             // Use different background colors based on index for a bit of variety if desired
+                             const bgClasses = ['bg-[#169CF9]/10 text-[#169CF9]', 'bg-[#F97316]/10 text-[#F97316]', 'bg-black/5 dark:bg-white/10 text-theme-text'];
+                             const colorClass = bgClasses[index % bgClasses.length];
                              return (
-                                 <div key={cleanTagStr} className="text-[12px] font-black uppercase tracking-wider text-theme-muted bg-theme-base px-2.5 py-1 rounded-[6px]">
-                                     <span>#{cleanTagStr}</span>
+                                 <div key={cleanTagStr} className={`text-[12px] font-black tracking-wide px-3 py-1.5 rounded-full ${colorClass}`}>
+                                     <span>{cleanTagStr}</span>
                                  </div>
                              )
                          })}
                          {item.tags.length > 3 && (
-                             <div title={item.tags.slice(3).join(', ')} className="text-[12px] font-black uppercase tracking-wider text-theme-muted/50 cursor-default">
+                             <div title={item.tags.slice(3).join(', ')} className="text-[12px] font-black tracking-wide bg-black/5 dark:bg-white/10 text-theme-text px-3 py-1.5 rounded-full cursor-default">
                                  <span>+{item.tags.length - 3}</span>
                              </div>
                          )}
                     </div>
                 )}
+
+                {displayExcerpt && (
+                    <div className="w-full flex justify-center py-2 mb-2">
+                        <button
+                            className="flex items-center gap-1 font-black tracking-[0.1em] uppercase text-[#F97316] hover:opacity-80 transition-opacity"
+                            aria-label={`Llegir més sobre ${item.title || "aquest post"}`}
+                            onClick={handleReadMoreClick}
+                        >
+                            <span>Llegir més</span>
+                            <ChevronRight size={16} strokeWidth={3} className="mt-[1px]" />
+                        </button>
+                    </div>
+                )}
+
+                <div className="w-full px-4 pb-1">
+                    <p className="text-[10px] font-black tracking-widest text-theme-muted/50 uppercase select-none">
+                        {watermarkText}
+                    </p>
+                </div>
             </div>
         </div>
     );
