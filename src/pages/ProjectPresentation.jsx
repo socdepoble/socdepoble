@@ -22,7 +22,6 @@ import Carousel from '../components/Carousel';
 import { get, set, keys, del } from 'idb-keyval';
 import { useAtomicGuard } from '../hooks/useAtomicGuard';
 import { MEDIA_REGISTRY } from '../data/media_registry';
-import { IAIES_MUNDIALS_ARRAY } from '../config/iaiesMundialsMap';
 
 const resolveMedia = (originalPath) => {
     if (!originalPath || originalPath.startsWith('http')) return originalPath;
@@ -450,9 +449,9 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
 
     const HeroBanner = useMemo(() => {
         const carouselImages = [
-            resolveMedia("hero_nano_final.png"),
-            resolveMedia("night_party.png"),
-            resolveMedia("nano_sonambulo.png")
+            resolveMedia("presentacion_nano.jpg"),
+            resolveMedia("chica_jersey.jpg"),
+            resolveMedia("pizarra_nano.jpg")
         ];
 
         return (
@@ -575,7 +574,7 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
             observer.disconnect(); 
         };
     }, [tocElements, isEditing]);
-    // Page Number Scroll Listener\n    useEffect(() => {\n        const scrollContainer = document.getElementById('main-content');\n        if (!scrollContainer) return;\n        \n        let ticking = false;\n        const handleScroll = () => {\n            if (!ticking) {\n                window.requestAnimationFrame(() => {\n                    const { scrollTop, scrollHeight, clientHeight } = scrollContainer;\n                    if (scrollHeight > clientHeight) {\n                        const scrollPercentage = scrollTop / (scrollHeight - clientHeight);\n                        const currentPage = Math.max(1, Math.min(totalPages, Math.round(scrollPercentage * (totalPages - 1)) + 1));\n                        if (pageNumberRef.current && pageNumberRef.current.innerText !== currentPage.toString()) {\n                            pageNumberRef.current.innerText = currentPage.toString();\n                        }\n                    }\n                    ticking = false;\n                });\n                ticking = true;\n            }\n        };\n\n        scrollContainer.addEventListener('scroll', handleScroll, { passive: true });\n        setTimeout(handleScroll, 100);\n        \n        return () => scrollContainer.removeEventListener('scroll', handleScroll);\n    }, [totalPages, processedHtml]);
+    // Removed unused event listeners cleanup
     // Auto-scroll TOC to active item
     useEffect(() => {
         if (isTocOpen && activeHeadingId) {
@@ -652,27 +651,151 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
         );
     } else {
         ActualContent = (
-            <div className="w-full flex-1 flex flex-col items-center z-10 sm:px-4 pb-4 bg-white dark:bg-[#121212]">
+            <div className="w-full flex-1 flex flex-col items-center z-10 -mt-2 sm:mt-0 sm:px-4 pb-4">
+                {PagePresentationHeader}
+
+                <div className="w-full max-w-4xl mx-auto px-6 lg:px-10 mt-2 mb-2">
+                    {/* Crèdits i metadades extrets per a reduir l'espai i col·locat a la sidebar com va sol·licitar l'usuari */}
+                </div>
+                
                 <div className="w-full max-w-4xl mx-auto px-6 lg:px-10 mb-0">
                     {canEdit && isEditing ? (
                         <input 
                             type="text" 
                             value={subtitle} 
                             onChange={(e) => setSubtitle(e.target.value)} 
-                            className="text-2xl md:text-3xl font-bold text-[var(--theme-accent-secondary)] uppercase bg-transparent border-b-2 border-dashed border-[var(--theme-accent-secondary)] outline-none w-full focus:bg-[var(--theme-accent-secondary)]/10 transition-colors pb-1 text-center mt-6"
+                            className="text-2xl md:text-3xl font-bold text-[var(--theme-accent-secondary)] uppercase bg-transparent border-b-2 border-dashed border-[var(--theme-accent-secondary)] outline-none w-full focus:bg-[var(--theme-accent-secondary)]/10 transition-colors pb-1 text-center"
                             placeholder="INTRODUEIX EL SUBTÍTOL (Introducció de l'Article)"
                         />
                     ) : (
                         subtitle && (
-                            <h2 className="text-2xl md:text-3xl font-bold text-[var(--theme-accent-secondary)] uppercase mb-0 mt-6 text-center px-4 w-full">
+                            <h2 className="text-2xl md:text-3xl font-bold text-[var(--theme-accent-secondary)] uppercase mb-0 mt-4 text-center px-4 w-full">
                                 {subtitle}
                             </h2>
                         )
                     )}
                 </div>
 
+                <div className="w-full max-w-4xl mx-auto px-6 lg:px-10 mb-6 flex flex-col sm:flex-row gap-4 justify-center">
+                     <a 
+                         href="/llibre-sencer.html" 
+                         target="_blank" 
+                         rel="noopener noreferrer"
+                         className="flex items-center justify-center gap-3 bg-[var(--theme-accent-primary)] text-white dark:text-white px-8 py-4 rounded-[1.5rem] font-black text-lg sm:text-xl uppercase tracking-wider hover:scale-105 active:scale-95 transition-all shadow-[0_4px_20px_rgba(0,0,0,0.2)] group flex-1 w-full"
+                         aria-label="Llegir el Llibre Complet per a Humans"
+                     >
+                         <BookText size={28} className="group-hover:animate-bounce" />
+                         Llegir Genotip Complet
+                     </a>
+                     <a 
+                         href="/llibre-sencer.html" 
+                         download="SocDePoble_OS.html"
+                         className="flex items-center justify-center gap-3 bg-theme-panel text-theme-text border-2 border-[var(--theme-accent-primary)] px-8 py-4 rounded-[1.5rem] font-black text-lg sm:text-xl uppercase tracking-wider hover:scale-105 active:scale-95 transition-all shadow-lg group flex-1 w-full"
+                         aria-label="Descarregar Sistema Operatiu Sóc de Poble"
+                     >
+                         <Download size={28} className="group-hover:-translate-y-1 transition-transform" />
+                         <span className="hidden sm:inline">Descarregar</span> OS
+                     </a>
+                </div>
+
+                {/* 7. DAFO & VISIÓN 2056 */}
+                {(!isEditing && (routeSlug === '/el-projecte' || routeSlug === 'el-projecte' || routeSlug === '/manifest' || routeSlug === 'manifest' || routeSlug === '/codex' || routeSlug === 'codex')) && (
+                    <div className="w-full max-w-4xl mx-auto px-6 lg:px-10 mb-0 mt-2 space-y-6">
+                        
+                        {/* 7. DAFO, TESTAMENT & SIMULADOR (Unified) */}
+                        <details className="cms-code-block bg-black/5 dark:bg-[#111111] rounded-[1.5rem] overflow-hidden group shadow-[0_4px_30px_rgba(249,115,22,0.15)] transition-all">
+                            <summary className="cursor-pointer p-5 font-black text-lg sm:text-xl uppercase flex items-center justify-between select-none hover:bg-black/5 dark:hover:bg-white/5 transition-colors touch-manipulation outline-none focus-visible:ring-4 focus-visible:ring-[var(--theme-accent-primary)]">
+                                <span className="flex items-center gap-3 text-[var(--theme-accent-primary)]">
+                                    <div className="w-10 h-10 rounded-full bg-[var(--theme-accent-primary)]/10 flex items-center justify-center">
+                                        <Globe size={22} className="animate-pulse" /> 
+                                    </div>
+                                    <span className="truncate tracking-tight">Visió i Dades Tècniques</span>
+                                </span>
+                                <ChevronRight size={24} strokeWidth={3} className="group-open:rotate-90 transition-transform text-[var(--theme-accent-primary)] shrink-0" />
+                            </summary>
+                            
+                            <div className="border-t border-[var(--theme-accent-primary)]/30 bg-gray-100 dark:bg-[#0e0e0e] flex flex-col">
+
+                                {/* Metadatos Section (Dades Editorials Reals) */}
+                                <div className="p-6 sm:p-8 border-b border-gray-200 dark:border-gray-800 text-[var(--theme-text)]">
+                                    <h3 className="font-black text-xl text-[var(--theme-accent-primary)] uppercase flex items-center gap-2 mb-6">
+                                        <BookText size={22} /> Dades Editorials
+                                    </h3>
+                                    <div className="space-y-4 text-[13px] sm:text-sm leading-relaxed max-w-3xl mx-auto opacity-90">
+                                        <div>
+                                            <strong className="text-base">Títol original: Sóc de Poble: El Projecte</strong><br/>
+                                            <em className="block font-bold">...la xarxa social independent de la muntanya alacantina...</em>
+                                        </div>
+                                        <div className="pt-2">
+                                            <strong>Autors: <a href="/perfil/javillinares" className="text-blue-600 dark:text-blue-400 hover:underline hover:text-blue-800 transition-colors">JAVI LLINARES</a> i el col·lectiu d'IA: <a href="/iaies-mundials" className="text-blue-600 dark:text-blue-400 hover:underline hover:text-blue-800 transition-colors">Antigravity, NotebookLM, Kimi, Qwen, Mistral, Gemini, ChatGPT Vision, IAIA MarIA i El Cronista</a>.</strong><br/>
+                                            <em className="block mt-1">Artefacte d'arquitectura publicat originalment al projecte Soc de Poble, Ed. Autogestionada, 2026.</em>
+                                        </div>
+                                        <div className="pt-2">
+                                            <p>Edita: <a href="/entitats/el-rentonar" className="text-blue-600 dark:text-blue-400 hover:underline">Associació El Rentonar de La Torre de les Maçanes</a>,<br/> <a href="/empreses/socdepoble" className="text-blue-600 dark:text-blue-400 hover:underline">Projecte Soc de Poble</a>.</p>
+                                        </div>
+                                        <div className="pt-1">
+                                            <p>Maquetació i Desenvolupament: <a href="/perfil/javillinares" className="text-blue-600 dark:text-blue-400 hover:underline">Javi Llinares</a>. Coordinador del <a href="/empreses/socdepoble" className="text-blue-600 dark:text-blue-400 hover:underline">Projecte Soc de Poble</a>.</p>
+                                        </div>
+                                        <div className="pt-2">
+                                            <p>Tipus d'artefacte: Genotip Autoreproductiu P2P (The Village Codex expanded).<br/>
+                                            Arquitectura base: Local-First / CRDT / P2P Mesh / WASM SQLite.<br/>
+                                            1a Edició, abril de 2026.</p>
+                                        </div>
+                                        <div className="pt-2">
+                                            ISBN: 
+                                        </div>
+
+                                        <div className="mt-8 pt-6 border-t border-black/10 dark:border-white/10 flex flex-col gap-4">
+                                            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                                                <div className="flex text-[var(--theme-text)] font-extrabold text-2xl tracking-tighter items-center">
+                                                    <span className="border-[3px] border-[var(--theme-text)] rounded-full w-8 h-8 flex justify-center items-center mr-1 text-sm">CC</span> 
+                                                    <span className="leading-[1.1]">creative<br/>commons</span>
+                                                </div>
+                                                <div className="font-extrabold text-sm sm:text-base leading-tight mt-2 sm:mt-0">
+                                                    Reconeixement-NoComercial-CompartirIgual<br/>
+                                                    <span className="text-xs sm:text-sm">4.0 Internacional (CC BY-NC-SA 4.0)</span>
+                                                </div>
+                                            </div>
+                                            <div className="mt-2 text-sm space-y-2">
+                                                <p className="font-extrabold italic text-[var(--theme-text)]">Amb aquesta llicència, sou lliure de:</p>
+                                                <ul className="pl-6 space-y-1 pb-2">
+                                                    <li><strong className="text-[var(--theme-text)]">Compartir -</strong> Copiar i redistribuir el material en qualsevol mitjà i format.</li>
+                                                    <li><strong className="text-[var(--theme-text)]">Adaptar -</strong> Remesclar, transformar i crear a partir del material.</li>
+                                                </ul>
+                                                <p className="font-extrabold italic text-[var(--theme-text)] pt-2">Amb els termes següents:</p>
+                                                <ul className="space-y-4">
+                                                    <li className="flex gap-3 items-start">
+                                                        <div className="font-extrabold text-xl mt-0.5 border-2 border-[var(--theme-text)] rounded-full w-8 h-8 flex justify-center items-center shrink-0">
+                                                            <svg width="14" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="7" r="4"/><path d="M5.5 21v-2a4 4 0 0 1 4-4h5a4 4 0 0 1 4 4v2"/></svg>
+                                                        </div>
+                                                        <div><strong className="text-[var(--theme-text)]">Reconeixement -</strong> Heu de reconèixer l'autoria de manera apropiada, proporcionar un enllaç a la llicència i indicar si heu fet algun canvi. Podeu fer-ho de qualsevol manera raonable, però no d'una manera que suggereixi que el llicenciador us dona suport o patrocina l'ús que en feu.</div>
+                                                    </li>
+                                                    <li className="flex gap-3 items-start">
+                                                        <div className="font-extrabold text-xl mt-0.5 border-2 border-[var(--theme-text)] rounded-full w-8 h-8 flex justify-center items-center shrink-0 relative">
+                                                            <span className="text-xl leading-none">$</span>
+                                                            <div className="absolute w-[120%] h-0.5 bg-[var(--theme-text)] rotate-45 transform origin-center"></div>
+                                                        </div>
+                                                        <div><strong className="text-[var(--theme-text)]">NoComercial -</strong> No podeu utilitzar el material per a finalitats comercials.</div>
+                                                    </li>
+                                                    <li className="flex gap-3 items-start">
+                                                        <div className="font-extrabold text-2xl mt-0.5 border-2 border-[var(--theme-text)] rounded-full w-8 h-8 flex justify-center items-center shrink-0">
+                                                            <span className="leading-none flex justify-center relative top-[-1px] left-[1px]">↺</span>
+                                                        </div>
+                                                        <div><strong className="text-[var(--theme-text)]">CompartirIgual -</strong> Si remescleu, transformeu o creeu a partir del material, heu de difondre les vostres creacions amb la mateixa llicència que l'obra original.</div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </details>
+                    </div>
+                )}
+
                 {(canEdit && isEditing) ? (
-                    <div className="w-full max-w-5xl mx-auto custom-scrollbar px-4 pt-6">
+                    <div className="w-full max-w-5xl mx-auto custom-scrollbar px-4">
                         <Suspense fallback={<div className="p-8 text-center text-[var(--text-muted)] animate-pulse">Carregant editor...</div>}>
                             <RichTextEditor 
                                 content={baseHtmlContent} 
@@ -684,17 +807,21 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                         </Suspense>
                     </div>
                 ) : (
-                    <div className="flex-1 w-full max-w-4xl mx-auto custom-scrollbar mt-4 mb-16">
+                    <div className="flex-1 w-full max-w-4xl mx-auto custom-scrollbar">
                         <div 
-                            className="app-cms-content focus:outline-none min-h-[50vh] px-6 lg:px-10 pb-4 w-full markdown-body"
+                            className="app-cms-content focus:outline-none min-h-[50vh] px-6 lg:px-10 pb-4 w-full"
                             dangerouslySetInnerHTML={{ __html: processedHtml }}
                             onClick={(e) => {
                                 if (e.target.tagName === 'IMG') {
+                                    const bannerSrc = "/assets/avatars/hero_nano_final.png";
                                     const allImagesArray = Array.from(document.querySelectorAll('.app-cms-content img')).map(img => img.src);
-                                    setMediaViewerImages(allImagesArray);
+                                    const combinedImages = [bannerSrc, ...allImagesArray];
+                                    
+                                    setMediaViewerImages(combinedImages);
                                     setMediaViewerSrc(e.target.src);
                                 }
                                 
+                                // Intercept anchor links locally (Event Delegation)
                                 const anchor = e.target.closest('a[href^="#"]');
                                 if (anchor) {
                                     e.preventDefault();
@@ -713,6 +840,32 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
                                 }
                             }}
                         />
+
+                        {/* Caixa Addicional per descarregar Sistema Operatiu - Requeriment de l'Usuari */}
+                        {(!isEditing && (routeSlug === '/el-projecte' || routeSlug === 'el-projecte' || routeSlug === '/manifest' || routeSlug === 'manifest' || routeSlug === '/codex' || routeSlug === 'codex')) && (
+                            <div className="w-full mx-auto pb-12 pt-6">
+                                <div className="bg-[#111111] border-2 border-emerald-500/40 rounded-3xl p-6 sm:p-10 shadow-[0_0_40px_rgba(16,185,129,0.15)] text-center relative overflow-hidden group">
+                                    <div className="absolute inset-0 bg-emerald-500/5 group-hover:bg-emerald-500/10 transition-colors pointer-events-none"></div>
+                                    <div className="w-16 h-16 rounded-2xl bg-emerald-500/10 flex items-center justify-center mx-auto mb-6 transform group-hover:-rotate-12 transition-transform duration-500">
+                                        <Database className="text-emerald-500 size-8 animate-pulse" />
+                                    </div>
+                                    <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black text-emerald-500 uppercase tracking-tight mb-4 drop-shadow-md">
+                                        Descargar Sistema Operativo
+                                    </h3>
+                                    <p className="text-white/80 text-lg sm:text-xl mb-8 max-w-2xl mx-auto font-medium leading-relaxed">
+                                        Si en lugar de leer el Volumen 1 deseas la persistencia pura, descarga ahora mismo el archivo auto-ejecutable (Genotipo) para tu ordenador local. Próximamente también lo meteremos en la <strong>App Store</strong> y <strong>Google Play</strong>.
+                                    </p>
+                                    <a 
+                                        href="/llibre-sencer.html" 
+                                        download="Soc_de_Poble_Sistema_Operatiu.html"
+                                        className="inline-flex items-center justify-center gap-3 bg-emerald-500 hover:bg-emerald-400 text-black px-8 py-5 rounded-[1.5rem] font-black text-lg sm:text-xl uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-[0_4px_25px_rgba(16,185,129,0.5)] border-2 border-emerald-300/50"
+                                    >
+                                        <Download size={28} className="animate-bounce" /> 
+                                        Descargar Archivo
+                                    </a>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 )}
             </div>
@@ -721,7 +874,8 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
 
     if (!standAlone) {
         return (
-            <div className="flex flex-col w-full min-h-0 isolate bg-theme-base pt-6">
+            <div className="flex flex-col w-full min-h-0 isolate">
+                {HeroBanner}
                 {ActualContent}
             </div>
         );
@@ -758,12 +912,53 @@ const ProjectPresentation = ({ standAlone = true, forcedSlug = null }) => {
             
             <SEO title={title || "El Projecte"} description="Connectant l'Espanya Buidada..." url={routeSlug} />
             
-            {/* 4. SCROLL CONTAINER NADIU (Delegat a AppLayout sense fantasmes locals) */}
+            {/* 3. PROTECCIÓN SUPERIOR (NOTCH) */}
+            <div 
+                className="pt-[max(env(safe-area-inset-top),0px)] shrink-0 z-[var(--z-nav,40)] bg-[var(--bg-app)]"
+                inert={isTocOpen || isActionMenuOpen || isTranslationOpen || isHistoryOpen || !!mediaViewerSrc ? true : undefined}
+            />
+            
+
+
+            {/* 4. SCROLL CONTAINER (Rubber-band neutralizado, Bottom Safe-Area asegurado) */}
             <main 
                 ref={scrollContainerRef}
-                className="flex-1 w-full relative bg-white dark:bg-[#121212] pb-[max(env(safe-area-inset-bottom),1.5rem)] flex flex-col"
+                className="flex-1 overflow-y-auto overscroll-y-contain custom-scrollbar relative min-h-0 pb-[max(env(safe-area-inset-bottom),1.5rem)]"
                 inert={isTocOpen || isActionMenuOpen || isTranslationOpen || isHistoryOpen || !!mediaViewerSrc ? true : undefined}
             >
+                {HeroBanner}
+
+                {/* UNIVERSAL CARD META (Táctil protegido, Focus habilitado) */}
+                <div 
+                    onClick={() => navigate('/el-projecte')} 
+                    onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && navigate('/el-projecte')}
+                    className="w-full bg-[#F97316] text-[#111111] dark:bg-[#4F46E5] dark:text-white px-4 py-3 min-h-[72px] flex flex-col sm:flex-row sm:items-center justify-between shadow-md relative z-[var(--z-base,0)] gap-3 border-b border-black/10 transition-colors cursor-pointer touch-manipulation hover:opacity-[0.98] active:scale-[0.99] focus-visible:ring-4 focus-visible:ring-black outline-none"
+                    role="button"
+                    tabIndex={0}
+                    aria-label="Obrir presentació de l'autor Sóc de Poble"
+                >
+                    <div className="flex items-center gap-3">
+                        <div className="flex items-center -space-x-3 shrink-0">
+                            <div className="w-10 h-10 rounded-full overflow-hidden bg-[#111111] border-2 border-[#F97316] dark:border-[#4F46E5] flex items-center justify-center shadow-inner relative z-20">
+                                <img src="/assets/brand/logo_socdepoble_green_square.png" alt="Sóc de Poble" className="w-full h-full object-cover" onError={(e) => { e.target.onerror = null; e.target.src = "https://ui-avatars.com/api/?name=SP&background=0e0e0e&color=F97316"; }} />
+                            </div>
+                            <div className="w-10 h-10 rounded-full overflow-hidden bg-[#111111] border-2 border-[#F97316] dark:border-[#4F46E5] flex items-center justify-center shadow-inner relative z-10">
+                                <img src="/assets/avatars/iaia_comic_matriarch.png" alt="IAIA Maria" className="w-full h-full object-cover" />
+                            </div>
+                        </div>
+                        <div className="flex flex-col min-w-0">
+                            <h3 className="text-[18px] font-black tracking-wide m-0 flex items-center gap-1.5 truncate">
+                                Sóc de Poble i la IAIA Maria
+                                <Sparkles size={14} className="text-[#111111] dark:text-[#F97316] shrink-0" fill="currentColor"/>
+                            </h3>
+                            <div className="flex items-center flex-wrap gap-2 text-[14px] text-[#111111]/80 dark:text-white/80 font-bold mt-0.5">
+                                <span className="flex items-center gap-1 truncate"><MapPin size={12} className="shrink-0"/> La Torre de les Maçanes</span>
+                                <span className="text-[#111111]/50 dark:text-white/80">•</span>
+                                <span className="flex items-center gap-1 shrink-0"><Calendar size={12} className="shrink-0"/> {new Date().toLocaleDateString('ca-ES', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                                 {/* 5. ACTION BAR: PATRÓN PRIORITY+ (Format Barra Total) */}
                 <div className="sticky top-0 z-[var(--z-sticky,200)] w-full shadow-[0_4px_20px_rgba(0,0,0,0.1)] bg-[#4F46E5] text-white dark:bg-[#F97316] dark:text-[#111111] transition-all shrink-0 touch-manipulation border-b border-black/10 dark:border-white/10">
