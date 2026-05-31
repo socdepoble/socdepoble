@@ -180,14 +180,8 @@ export const RoadmapView = () => {
         standAlone={true}
         forcedTitle="Les 40 Fites"
         forcedSubtitle="La Matriu de Llavors"
-        forcedImages={['/assets/uploads/brain/thermodynamics_ai_hardware_1775882083812.png']}
-        forcedHtml={`
-            <p className="text-base sm:text-lg lg:text-xl font-medium leading-relaxed mt-4 opacity-70 text-[var(--text-main)] text-pretty">
-                L'auditoria històrica més gran del Mas fins avui. Totes les línies, idees y mecàniques burocràtiques o P2P que asseient l'abans i el després de <strong>Sóc de Poble</strong> cap al <span className="text-[var(--theme-accent-primary)] font-bold">Rescat de la Ruralitat</span> i la Sobirania Ciutadana.
-            </p>
-        `}
+        forcedHeroImage="/assets/uploads/brain/thermodynamics_ai_hardware_1775882083812.png"
         defaultViewMode="document"
-        renderDocument={() => <ListView />}
         renderKanban={() => (
            <div className="flex flex-col xl:flex-row gap-6 md:gap-8 items-start w-full relative overflow-x-auto custom-scrollbar pb-6 px-4 h-full">
             <BoardColumn title="En Producció" icon={Flame} items={roadmapData.production} colorClass="border-purple-500/30 text-purple-500 border-b-[3px]" />
@@ -197,7 +191,14 @@ export const RoadmapView = () => {
           </div>
         )}
         renderCalendar={() => <CalendarGanttView />}
-    />
+    >
+        <div className="mb-8">
+            <p className="text-base sm:text-lg lg:text-xl font-medium leading-relaxed mt-4 opacity-70 text-[var(--text-main)] text-pretty">
+                L'auditoria històrica més gran del Mas fins avui. Totes les línies, idees y mecàniques burocràtiques o P2P que asseient l'abans i el després de <strong>Sóc de Poble</strong> cap al <span className="text-[var(--theme-accent-primary)] font-bold">Rescat de la Ruralitat</span> i la Sobirania Ciutadana.
+            </p>
+        </div>
+        <ListView />
+    </UniversalPage>
   );
 };
 

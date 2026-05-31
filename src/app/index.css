@@ -574,6 +574,13 @@
     margin: 1.5rem 0;
     width: 100%;
     box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    cursor: pointer;
+    transition: transform var(--motion-quick) ease, opacity var(--motion-quick) ease;
+  }
+  
+  .app-cms-content img:hover {
+    opacity: 0.9;
+    transform: scale(1.01);
   }
   
   .app-cms-content a {

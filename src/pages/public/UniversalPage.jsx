@@ -954,7 +954,19 @@ const UniversalPage = ({
                 <section className="w-full flex flex-col items-center justify-center bg-black relative z-10">
                     <div className="w-full relative z-0 flex flex-col items-center justify-center overflow-hidden bg-[#222222]">
                         {(forcedHeroImage || heroImage) ? (
-                            <img src={resolveMedia(forcedHeroImage || heroImage)} alt="Portada" className="w-full h-auto block opacity-100" />
+                            <img 
+                                src={resolveMedia(forcedHeroImage || heroImage)} 
+                                alt="Portada" 
+                                className="w-full h-auto block opacity-100 cursor-pointer hover:opacity-95 transition-opacity" 
+                                onClick={(e) => {
+                                    const mainSrc = resolveMedia(forcedHeroImage || heroImage);
+                                    // Gather other images on the page for the scroll gallery
+                                    const contentImages = Array.from(document.querySelectorAll('.app-cms-content img, .universal-content img')).map(img => img.src);
+                                    const allImages = [mainSrc, ...contentImages].filter((v, i, a) => a.indexOf(v) === i); // deduplicate
+                                    setMediaViewerImages(allImages);
+                                    setMediaViewerSrc(mainSrc);
+                                }}
+                            />
                         ) : (
                             <div className="w-full h-12 bg-gradient-to-b from-[#333333] to-[#1a1a1a]"></div>
                         )}
@@ -997,43 +1009,36 @@ const UniversalPage = ({
                         <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-[#F97316] uppercase tracking-tight leading-none max-w-2xl break-words">
                             {title || "Cànon Sóc de Poble"}
                         </h1>
-                        {subtitle && (
-                            <h2 className="text-xl sm:text-2xl font-bold text-gray-500 uppercase mt-4">
-                                {subtitle}
-                            </h2>
+                        {(renderKanban || renderCalendar) && (
+                            <div className="flex justify-center mt-6 w-full">
+                                <div className="inline-flex items-center gap-2 bg-black/5 dark:bg-white/5 p-1.5 rounded-full shadow-inner border border-black/5 dark:border-white/5">
+                                    <button 
+                                        onClick={() => setViewMode('document')}
+                                        className={`px-4 py-2 rounded-full text-sm font-bold uppercase transition-all ${currentViewMode === 'document' ? 'bg-[var(--theme-accent-primary)] text-white shadow-md' : 'text-gray-500 hover:text-[var(--theme-accent-primary)] dark:hover:text-[var(--theme-accent-primary)]'}`}
+                                    >
+                                        Llistat
+                                    </button>
+                                    {renderKanban && (
+                                        <button 
+                                            onClick={() => setViewMode('kanban')}
+                                            className={`px-4 py-2 rounded-full text-sm font-bold uppercase transition-all ${currentViewMode === 'kanban' ? 'bg-[var(--theme-accent-primary)] text-white shadow-md' : 'text-gray-500 hover:text-[var(--theme-accent-primary)] dark:hover:text-[var(--theme-accent-primary)]'}`}
+                                        >
+                                            Tauler
+                                        </button>
+                                    )}
+                                    {renderCalendar && (
+                                        <button 
+                                            onClick={() => setViewMode('calendar')}
+                                            className={`px-4 py-2 rounded-full text-sm font-bold uppercase transition-all ${currentViewMode === 'calendar' ? 'bg-[var(--theme-accent-primary)] text-white shadow-md' : 'text-gray-500 hover:text-[var(--theme-accent-primary)] dark:hover:text-[var(--theme-accent-primary)]'}`}
+                                        >
+                                            Línia de Temps
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
                         )}
                     </div>
                 </section>
-                
-                {/* BARRA DE VISTES (VIEW SELECTOR) */}
-                {(renderKanban || renderCalendar) && (
-                    <div className="w-full flex justify-center mb-6 relative z-20 px-4">
-                        <div className="bg-white dark:bg-[#222] border border-black/10 dark:border-white/10 rounded-full p-1 flex items-center shadow-sm">
-                            <button 
-                                onClick={() => setViewMode('document')}
-                                className={`px-4 py-2 rounded-full text-sm font-bold uppercase transition-all ${currentViewMode === 'document' ? 'bg-[#F97316] text-white shadow-md' : 'text-gray-500 hover:text-black dark:hover:text-white'}`}
-                            >
-                                Llistat
-                            </button>
-                            {renderKanban && (
-                                <button 
-                                    onClick={() => setViewMode('kanban')}
-                                    className={`px-4 py-2 rounded-full text-sm font-bold uppercase transition-all ${currentViewMode === 'kanban' ? 'bg-[#F97316] text-white shadow-md' : 'text-gray-500 hover:text-black dark:hover:text-white'}`}
-                                >
-                                    Tauler
-                                </button>
-                            )}
-                            {renderCalendar && (
-                                <button 
-                                    onClick={() => setViewMode('calendar')}
-                                    className={`px-4 py-2 rounded-full text-sm font-bold uppercase transition-all ${currentViewMode === 'calendar' ? 'bg-[#F97316] text-white shadow-md' : 'text-gray-500 hover:text-black dark:hover:text-white'}`}
-                                >
-                                    Línia de Temps
-                                </button>
-                            )}
-                        </div>
-                    </div>
-                )}
                 
                 {/* 8. CONTENIDO DINÀMIC (RICH TEXT O CHILDREN) */}
                 <section id="dynamic-content-section" className="w-full flex-1 shrink-0 relative flex flex-col items-center">

@@ -20,7 +20,7 @@ import StatusLoader from '../ui/StatusLoader';
 import SEO from '../core/SEO';
 import ContextualHeader from '../layout/ContextualHeader';
 import ConflictBanner from '../ui/ConflictBanner';
-import { UniversalGridRow } from '../ui/UniversalGrid';
+import { UniversalGridRow, UniversalGridWrapper } from '../ui/UniversalGrid';
 import { RootPageContainer } from '../layout/SystemContainers';
 
 class CardErrorBoundary extends React.Component {
@@ -324,17 +324,18 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
                 aria-label="Llista de publicacions"
             >
                 <ConflictBanner />
-                <div
-                    ref={containerRef}
-                    className="feed-list mx-auto w-full max-w-7xl relative"
-                    role="feed"
-                    aria-busy={loading || loadingMore}
-                    aria-label="Publicacions del Mur"
-                    style={{
-                        height: `${rowVirtualizer.getTotalSize()}px`,
-                    }}
-                >
-                    {activePosts.length === 0 ? (
+                <UniversalGridWrapper viewMode={viewMode}>
+                    <div
+                        ref={containerRef}
+                        className="feed-list mx-auto w-full max-w-7xl relative"
+                        role="feed"
+                        aria-busy={loading || loadingMore}
+                        aria-label="Publicacions del Mur"
+                        style={{
+                            height: `${rowVirtualizer.getTotalSize()}px`,
+                        }}
+                    >
+                        {activePosts.length === 0 ? (
                         <StatusLoader
                             type="empty"
                             message={selectedTag
@@ -380,7 +381,8 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
                             );
                         })
                     )}
-                </div>
+                    </div>
+                </UniversalGridWrapper>
 
                 {!customPosts && hasMore && posts.length > 0 && !selectedTag && (
                     <div ref={bottomRef} className="load-more-container mt-12 mb-12 flex justify-center w-full">

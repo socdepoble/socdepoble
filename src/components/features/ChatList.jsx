@@ -340,40 +340,38 @@ const ChatList = () => {
             <div
               key={chat.id}
               onClick={() => handleChatClick(chat)}
-              className={`flex items-center space-x-4 h-[84px] px-4 cursor-pointer transition-all relative chat-item group
+              className={`flex items-center pl-4 cursor-pointer transition-all relative chat-item group
                         ${
-                          location.pathname.includes(chat.id) ? "bg-[#169CF9]/10 dark:bg-[#169CF9]/5" : ""
-                        } hover:bg-gray-50 dark:hover:bg-[#1a1919]`}
+                          location.pathname.includes(chat.id) ? "bg-[#F0F2F5] dark:bg-[#2A3942]" : ""
+                        } hover:bg-[#F5F6F6] dark:hover:bg-[#202C33]`}
             >
-              {/* Protocol 'Zero Elements Distractors' aplicat: Eliminat el tag de tipus de xat */}
-              
               {/* Avatar Táctil con tamaño correcto M3 i Badge IA */}
-              <div className="flex-shrink-0 relative">
+              <div className="flex-shrink-0 relative py-3 pr-4">
                 <Avatar
                   src={chat.other_info?.avatar_url}
                   name={chat.other_info?.name}
                   role={chat.other_info?.role}
-                  size={56}
+                  size={48}
                 />
                 {chat.id?.startsWith('11111111') && (
-                  <div className="absolute -bottom-1 -right-1 bg-white dark:bg-[#0e0e0e] rounded-[10px] px-1.5 py-0.5 z-10 shadow-sm border border-gray-200 dark:border-[rgba(255,255,255,0.1)] flex items-center justify-center">
+                  <div className="absolute bottom-2 right-3 bg-white dark:bg-[#0e0e0e] rounded-[10px] px-1.5 py-0.5 z-10 shadow-sm border border-gray-200 dark:border-[rgba(255,255,255,0.1)] flex items-center justify-center">
                     <span className="text-[#FF6D00] text-[9px] font-black tracking-widest uppercase">IA</span>
                   </div>
                 )}
               </div>
 
-              {/* Contenido Core del Chat (Optimitzat per a Mòbil i Escriptori) */}
-              <div className="flex-1 min-w-0 flex flex-col justify-center gap-0.5">
+              {/* Contenido Core del Chat (WhatsApp Copy) */}
+              <div className="flex-1 min-w-0 flex flex-col justify-center h-[72px] pr-4 border-b border-gray-200 dark:border-white/5 group-last:border-0">
                  {/* Fila Superior: Nom + Temps */}
-                 <div className="flex justify-between items-baseline gap-2">
-                  <h4 className="m-0 truncate text-[16px] md:text-[18px] font-bold text-[#0369A1] dark:text-white transition-colors tracking-tight">
+                 <div className="flex justify-between items-center mb-0.5 gap-2">
+                  <h4 className="m-0 truncate text-[17px] md:text-[19px] font-semibold text-[#111B21] dark:text-[#E9EDEF] transition-colors tracking-normal">
                     {chat.other_info?.name ||
                       (chat.participant_1_id === user?.id
                         ? chat.p2_info?.name
                         : chat.p1_info?.name) ||
                       "Sóc de Poble"}
                   </h4>
-                  <div className="shrink-0 text-[12px] font-bold text-gray-500 dark:text-gray-400">
+                  <div className="shrink-0 text-[12px] md:text-[13px] font-normal text-[#667781] dark:text-[#8696A0] ml-2">
                     {currentTab === 'xat' && (() => {
                       const { day, time } = formatBategatDate(chat.last_message_time);
                       return time || day;
@@ -382,8 +380,8 @@ const ChatList = () => {
                 </div>
                 
                 {/* Fila Inferior: Missatge */}
-                <div className="flex items-center text-[14px] font-medium transition-colors">
-                  <p className="truncate w-full text-gray-600 dark:text-gray-300">
+                <div className="flex items-center text-[15px] font-normal transition-colors">
+                  <p className="m-0 truncate w-full text-[#667781] dark:text-[#8696A0]">
                     {chat.last_message_content || t("chat.beating_with_socdepoble")}
                   </p>
                 </div>

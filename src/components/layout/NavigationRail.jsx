@@ -5,7 +5,6 @@ import { useNavigation } from "../../app/context/NavigationContext";
 import { useAuth } from "../../app/context/AuthContext";
 import { APP_VERSION } from "../../constants";
 import { Plus, MessageSquare, LayoutGrid, Store, MapPin, Calendar, Map, BookOpen, Image, FileText, Compass, Activity, Palette } from "lucide-react";
-import { Button } from "../ui/Button/Button";
 
 const menuItems = [
   { path: "/chats", key: "nav.chats", fallback: "Xat", icon: (p) => <MessageSquare {...p} /> },
@@ -37,23 +36,20 @@ const NavigationRail = () => {
     <nav className="w-full h-full flex flex-col bg-transparent relative overflow-hidden notranslate">
       
       {/* 1. BOTÓ D'ACCIÓ RÀPIDA (TOP - PROTOCOL HUB) - FIT 56PX */}
-      <div className="h-[72px] min-h-[72px] shrink-0 flex items-center px-4 relative z-20">
-        <Button
-          intent="canonic"
-          shape="pill"
-          fullWidth
-          className="justify-center shadow-sm hover:shadow-md"
-          onClick={() => {
-            navigate("/hub");
-            handleNavigate();
-          }}
-          leftIcon={<Plus size={20} strokeWidth={3} />}
-        >
-          {t("common.add", "Connectar")}
-        </Button>
+      <div 
+        className="min-h-[50px] sm:min-h-[56px] w-full shrink-0 flex items-center justify-start px-7 gap-4 bg-[#4F46E5] text-white cursor-pointer hover:opacity-90 transition-opacity z-20 relative"
+        onClick={() => {
+          navigate("/hub");
+          handleNavigate();
+        }}
+      >
+        <Plus size={22} strokeWidth={3} className="shrink-0" />
+        <span className="font-bold tracking-widest uppercase text-[17px] truncate">
+          {t("common.add", "CONNECTAR")}
+        </span>
       </div>
 
-      <div className="flex-1 overflow-y-auto stable-scroll custom-scrollbar flex flex-col pt-4 px-3 pb-6">
+      <div className="flex-1 overflow-y-auto stable-scroll custom-scrollbar flex flex-col pt-1 px-3 pb-6">
 
         <ul className="space-y-2 relative">
             {menuItems.map((item) => {

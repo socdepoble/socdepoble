@@ -21,7 +21,7 @@ export default function DesignSystem() {
       standAlone={false} 
       forcedTitle="Cànon Sóc de Poble"
       forcedHtml=" "
-      forcedHeroImage="/assets/uploads/empresa/soc-de-poble/posts/disseny/5-section-media.jpg"
+      forcedHeroImage="/assets/uploads/brain/ibanez_design_system_1780246898431.png"
     >
       <div className="w-full bg-white pb-24 font-sans text-black">
         

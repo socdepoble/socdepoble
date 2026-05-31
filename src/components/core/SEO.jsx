@@ -47,7 +47,7 @@ const SEO = ({
   const resolvedImage = getImageUrl(image);
   
   // [VALIDACIÓ] Imatge per defecte (OG Image master)
-  const safeImage = resolvedImage ? (resolvedImage.startsWith('/') ? resolvedImage : `/${resolvedImage}`) : '/og-image.png';
+  const safeImage = resolvedImage ? (resolvedImage.startsWith('/') ? resolvedImage : `/${resolvedImage}`) : '/assets/uploads/brain/media__1775601829353.jpg';
   const ogImage = resolvedImage?.startsWith('http') ? resolvedImage : `${baseUrl}${safeImage}`;  
   // [VALIDACIÓ] Descripció per defecte
   const defaultDescription = 'La xarxa social rural sobirana. Connectant pobles, preservant memòria, bategant en comunitat.';

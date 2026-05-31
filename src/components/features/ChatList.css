@@ -31,9 +31,6 @@
 .chat-item {
   display: flex ;
   align-items: center ;
-  padding: 4px 16px ;
-  gap: 12px ;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.03) ;
   cursor: pointer ;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) ;
   position: relative ;
